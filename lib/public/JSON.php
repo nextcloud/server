@@ -42,18 +42,6 @@ namespace OCP;
  */
 class JSON {
 	/**
-	 * Encode and print $data in JSON format
-	 * @param array $data The data to use
-	 * @param bool $setContentType the optional content type
-	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
-	 *
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function encodedPrint( $data, $setContentType=true ) {
-		\OC_JSON::encodedPrint($data, $setContentType);
-	}
-
-	/**
 	 * Check if the user is logged in, send json error msg if not.
 	 *
 	 * This method checks if a user is logged in. If not, a json error
@@ -136,16 +124,6 @@ class JSON {
 	}
 
 	/**
-	 * Set Content-Type header to jsonrequest
-	 * @param string $type The content type header
-	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function setContentTypeHeader( $type='application/json' ) {
-		\OC_JSON::setContentTypeHeader($type);
-	}
-
-	/**
 	 * Check if the App is enabled and send JSON error message instead
 	 *
 	 * This method checks if a specific app is enabled. If not, a json error
@@ -195,15 +173,5 @@ class JSON {
 	 */
 	public static function encode($data) {
 		return \OC_JSON::encode($data);
-	}
-
-	/**
-	 * Check is a given user exists - send json error msg if not
-	 * @param string $user
-	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function checkUserExists($user) {
-		\OC_JSON::checkUserExists($user);
 	}
 }
