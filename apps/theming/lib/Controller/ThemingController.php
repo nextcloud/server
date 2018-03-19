@@ -224,7 +224,7 @@ class ThemingController extends Controller {
 			UPLOAD_ERR_PARTIAL => $this->l10n->t('The file was only partially uploaded'),
 			UPLOAD_ERR_NO_FILE => $this->l10n->t('No file was uploaded'),
 			UPLOAD_ERR_NO_TMP_DIR => $this->l10n->t('Missing a temporary folder'),
-			UPLOAD_ERR_CANT_WRITE => $this->l10n->t('Failed to write file to disk'),
+			UPLOAD_ERR_CANT_WRITE => $this->l10n->t('Could not write file to disk'),
 			UPLOAD_ERR_EXTENSION => $this->l10n->t('A PHP extension stopped the file upload'),
 		];
 		if (empty($newLogo) && empty($newBackgroundLogo)) {
