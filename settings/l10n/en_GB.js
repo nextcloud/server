@@ -160,6 +160,7 @@ OC.L10N.register(
     "Good password" : "Good password",
     "Strong password" : "Strong password",
     "Groups" : "Groups",
+    "Unable to retrieve the group list" : "Unable to retrieve the group list",
     "Unable to delete {objName}" : "Unable to delete {objName}",
     "Error creating group: {message}" : "Error creating group: {message}",
     "A valid group name must be provided" : "A valid group name must be provided",
