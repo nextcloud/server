@@ -484,6 +484,15 @@
 			$shareWithField.autocomplete('close');
 			$shareWithField.autocomplete('disable');
 
+			var restoreUI = function() {
+				$loading.addClass('hidden');
+				$loading.removeClass('inlineblock');
+				$confirm.removeClass('hidden');
+
+				$shareWithField.prop('disabled', false);
+				$shareWithField.focus();
+			};
+
 			var perPage = 200;
 			var onlyExactMatches = true;
 			this._getSuggestions(
@@ -493,12 +502,7 @@
 				onlyExactMatches
 			).done(function(suggestions, exactMatches) {
 				if (suggestions.length === 0) {
-					$loading.addClass('hidden');
-					$loading.removeClass('inlineblock');
-					$confirm.removeClass('hidden');
-
-					$shareWithField.prop('disabled', false);
-					$shareWithField.focus();
+					restoreUI();
 
 					$shareWithField.autocomplete('enable');
 
@@ -511,12 +515,7 @@
 				}
 
 				if (exactMatches.length !== 1) {
-					$loading.addClass('hidden');
-					$loading.removeClass('inlineblock');
-					$confirm.removeClass('hidden');
-
-					$shareWithField.prop('disabled', false);
-					$shareWithField.focus();
+					restoreUI();
 
 					$shareWithField.autocomplete('enable');
 
@@ -524,27 +523,18 @@
 				}
 
 				var actionSuccess = function() {
-					$loading.addClass('hidden');
-					$loading.removeClass('inlineblock');
-					$confirm.removeClass('hidden');
-
 					// Adding a share changes the suggestions.
 					self._lastSuggestions = undefined;
 
 					$shareWithField.val('');
-					$shareWithField.prop('disabled', false);
-					$shareWithField.focus();
+
+					restoreUI();
 
 					$shareWithField.autocomplete('enable');
 				};
 
 				var actionError = function(obj, msg) {
-					$loading.addClass('hidden');
-					$loading.removeClass('inlineblock');
-					$confirm.removeClass('hidden');
-
-					$shareWithField.prop('disabled', false);
-					$shareWithField.focus();
+					restoreUI();
 
 					$shareWithField.autocomplete('enable');
 
@@ -556,12 +546,7 @@
 					error: actionError
 				});
 			}).fail(function(message) {
-				$loading.addClass('hidden');
-				$loading.removeClass('inlineblock');
-				$confirm.removeClass('hidden');
-
-				$shareWithField.prop('disabled', false);
-				$shareWithField.focus();
+				restoreUI();
 
 				$shareWithField.autocomplete('enable');
 
