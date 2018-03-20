@@ -2,6 +2,13 @@
 	<div id="updatenotification" class="followupsection">
 		<div class="update">
 			<template v-if="isNewVersionAvailable">
+				<p v-if="versionIsEol">
+					<span class="warning">
+						<span class="icon icon-error"></span>
+						{{ t('updatenotification', 'The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.') }}
+					</span>
+				</p>
+
 				<p>
 					<span v-html="newVersionAvailableString"></span><br>
 					<span v-if="!isListFetched" class="icon icon-loading-small"></span>
@@ -83,6 +90,7 @@
 				lastCheckedDate: '',
 				isUpdateChecked: false,
 				updaterEnabled: true,
+				versionIsEol: false,
 				downloadLink: '',
 				isNewVersionAvailable: false,
 				updateServerURL: '',

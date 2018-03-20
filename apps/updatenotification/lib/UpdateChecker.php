@@ -49,6 +49,7 @@ class UpdateChecker {
 			$result['updateAvailable'] = true;
 			$result['updateVersion'] = $data['versionstring'];
 			$result['updaterEnabled'] = $data['autoupdater'] === '1';
+			$result['versionIsEol'] = $data['eol'] === '1';
 			if (strpos($data['web'], 'https://') === 0) {
 				$result['updateLink'] = $data['web'];
 			}
