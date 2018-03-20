@@ -36,6 +36,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IUser;
+use OCA\Provisioning_API\Controller\UsersController;
 
 
 class GroupsController extends OCSController {
@@ -49,24 +50,30 @@ class GroupsController extends OCSController {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var UsersController */
+	private $userController;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IGroupManager $groupManager
 	 * @param IUserSession $userSession
 	 * @param ILogger $logger
+	 * @param UsersController $userController
 	 */
 	public function __construct(
 			string $appName,
 			IRequest $request,
 			IGroupManager $groupManager,
 			IUserSession $userSession,
-			ILogger $logger) {
+			ILogger $logger,
+			UsersController $userController) {
 		parent::__construct($appName, $request);
 
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->logger = $logger;
+		$this->userController = $userController;
 	}
 
 	/**
@@ -124,7 +131,20 @@ class GroupsController extends OCSController {
 	}
 
 	/**
-	 * returns an array of users in the group specified
+	 * @NoAdminRequired
+	 *
+	 * @param string $groupId
+	 * @return DataResponse
+	 * @throws OCSException	
+	 *
+	 * @deprecated 14 Use getGroupUsers
+	 */
+	public function getGroup(string $groupId): DataResponse {
+		return $this->getGroup($groupId);
+	}
+
+	/**
+	 * returns an array of users in the specified group
 	 *
 	 * @NoAdminRequired
 	 *
@@ -132,7 +152,7 @@ class GroupsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getGroup(string $groupId): DataResponse {
+	public function getGroupUsers(string $groupId): DataResponse {
 		$user = $this->userSession->getUser();
 
 		// Check the group exists
@@ -143,7 +163,7 @@ class GroupsController extends OCSController {
 		$isSubadminOfGroup = false;
 		$group = $this->groupManager->get($groupId);
 		if ($group !== null) {
-			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminofGroup($user, $group);
+			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminOfGroup($user, $group);
 		}
 
 		// Check subadmin has access to this group
@@ -153,6 +173,44 @@ class GroupsController extends OCSController {
 			$users =  array_map(function($user) {
 				/** @var IUser $user */
 				return $user->getUID();
+			}, $users);
+			$users = array_values($users);
+			return new DataResponse(['users' => $users]);
+		}
+
+		throw new OCSException('User does not have access to specified group', \OCP\API::RESPOND_UNAUTHORISED);
+	}
+
+	/**
+	 * returns an array of users details in the specified group
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $groupId
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function getGroupUsersDetails(string $groupId): DataResponse {
+		$user = $this->userSession->getUser();
+
+		// Check the group exists
+		if(!$this->groupManager->groupExists($groupId)) {
+			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
+		}
+
+		$isSubadminOfGroup = false;
+		$group = $this->groupManager->get($groupId);
+		if ($group !== null) {
+			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminOfGroup($user, $group);
+		}
+
+		// Check subadmin has access to this group
+		if($this->groupManager->isAdmin($user->getUID())
+		   || $isSubadminOfGroup) {
+			$users = $this->groupManager->get($groupId)->getUsers();
+			$users =  array_map(function($user) {
+				/** @var IUser $user */
+				return $this->userController->getUserData($user->getUID());
 			}, $users);
 			$users = array_values($users);
 			return new DataResponse(['users' => $users]);

@@ -2394,7 +2394,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$subAdminManager
 			->expects($this->once())
-			->method('isSubAdminofGroup')
+			->method('isSubAdminOfGroup')
 			->with($loggedInUser, $targetGroup)
 			->will($this->returnValue(true));
 		$this->groupManager
@@ -2445,7 +2445,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$subAdminManager
 			->expects($this->once())
-			->method('isSubAdminofGroup')
+			->method('isSubAdminOfGroup')
 			->with($loggedInUser, $targetGroup)
 			->will($this->returnValue(true));
 		$this->groupManager

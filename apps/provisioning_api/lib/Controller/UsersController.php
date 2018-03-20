@@ -225,7 +225,7 @@ class UsersController extends OCSController {
 				if(!$this->groupManager->groupExists($group)) {
 					throw new OCSException('group '.$group.' does not exist', 104);
 				}
-				if(!$isAdmin && !$subAdminManager->isSubAdminofGroup($user, $this->groupManager->get($group))) {
+				if(!$isAdmin && !$subAdminManager->isSubAdminOfGroup($user, $this->groupManager->get($group))) {
 					throw new OCSException('insufficient privileges for group '. $group, 105);
 				}
 			}
@@ -341,7 +341,7 @@ class UsersController extends OCSController {
 	 * @return array
 	 * @throws OCSException
 	 */
-	protected function getUserData(string $userId): array {
+	public function getUserData(string $userId): array {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
@@ -808,7 +808,7 @@ class UsersController extends OCSController {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 
 		// We cannot be subadmin twice
-		if ($subAdminManager->isSubAdminofGroup($user, $group)) {
+		if ($subAdminManager->isSubAdminOfGroup($user, $group)) {
 			return new DataResponse();
 		}
 		// Go
