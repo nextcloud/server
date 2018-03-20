@@ -2009,6 +2009,56 @@ describe('OC.Share.ShareDialogView', function() {
 
 			addShareStub.restore();
 		});
+
+		it('hides the loading icon when all the pending operations finish', function() {
+			dialog.render();
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+
+			var response = sinon.stub();
+			dialog.autocompleteHandler({term: 'bob'}, response);
+			dialog.autocompleteHandler({term: 'bobby'}, response);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [],
+							'groups': [],
+							'remotes': []
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'lookup': []
+					}
+				}
+			});
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(true);
+
+			fakeServer.requests[1].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+		});
 	});
 	describe('confirm share', function() {
 		var addShareStub;
