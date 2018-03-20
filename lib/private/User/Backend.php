@@ -35,18 +35,6 @@ abstract class Backend implements UserInterface {
 	 */
 	const NOT_IMPLEMENTED = -501;
 
-	/**
-	 * actions that user backends can define
-	 */
-	const CREATE_USER		= 1;			// 1 << 0
-	const SET_PASSWORD		= 16;			// 1 << 4
-	const CHECK_PASSWORD	= 256;			// 1 << 8
-	const GET_HOME			= 4096;			// 1 << 12
-	const GET_DISPLAYNAME	= 65536;		// 1 << 16
-	const SET_DISPLAYNAME	= 1048576;		// 1 << 20
-	const PROVIDE_AVATAR	= 16777216;		// 1 << 24
-	const COUNT_USERS		= 268435456;	// 1 << 28
-
 	protected $possibleActions = array(
 		self::CREATE_USER => 'createUser',
 		self::SET_PASSWORD => 'setPassword',

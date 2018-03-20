@@ -39,6 +39,19 @@ namespace OCP;
  * @since 4.5.0
  */
 interface UserInterface {
+	/**
+	 * actions that user backends can define
+	 *
+	 * @since 14.0.0
+	 */
+	const CREATE_USER		= 1;			// 1 << 0
+	const SET_PASSWORD		= 16;			// 1 << 4
+	const CHECK_PASSWORD	= 256;			// 1 << 8
+	const GET_HOME			= 4096;			// 1 << 12
+	const GET_DISPLAYNAME	= 65536;		// 1 << 16
+	const SET_DISPLAYNAME	= 1048576;		// 1 << 20
+	const PROVIDE_AVATAR	= 16777216;		// 1 << 24
+	const COUNT_USERS		= 268435456;	// 1 << 28
 
 	/**
 	 * Check if backend implements actions
@@ -46,7 +59,7 @@ interface UserInterface {
 	 * @return boolean
 	 *
 	 * Returns the supported actions as int to be
-	 * compared with \OC\User\Backend::CREATE_USER etc.
+	 * compared with self::CREATE_USER etc.
 	 * @since 4.5.0
 	 */
 	public function implementsActions($actions);
