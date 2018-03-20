@@ -15,6 +15,7 @@
     "Couldn't establish a federated share." : "Couldn't establish a federated share.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Couldn't establish a federated share, maybe the password was wrong.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federated Share request sent, you will receive an invitation. Check your notifications.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9).",
     "Sharing %s failed, because this item is already shared with %s" : "Sharing %s failed, because this item is already shared with %s",
     "Not allowed to create a federated share with the same user" : "Not allowed to create a federated share with the same user",
     "File is already shared with %s" : "File is already shared with %s",
