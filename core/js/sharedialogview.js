@@ -415,6 +415,10 @@
 
 		_onSelectRecipient: function(e, s) {
 			e.preventDefault();
+			// Ensure that the keydown handler for the input field is not
+			// called; otherwise it would try to add the recipient again, which
+			// would fail.
+			e.stopImmediatePropagation();
 			$(e.target).attr('disabled', true)
 				.val(s.item.label);
 			var $loading = this.$el.find('.shareWithLoading');
@@ -451,6 +455,15 @@
 
 			$shareWithField.prop('disabled', true);
 
+			// Disabling the autocompletion does not clear its search timeout;
+			// removing the focus from the input field does, but only if the
+			// autocompletion is not disabled when the field loses the focus.
+			// Thus, the field has to be disabled before disabling the
+			// autocompletion to prevent an old pending search result from
+			// appearing once the field is enabled again.
+			$shareWithField.autocomplete('close');
+			$shareWithField.autocomplete('disable');
+
 			var perPage = 200;
 			var onlyExactMatches = true;
 			this._getSuggestions(
@@ -466,6 +479,8 @@
 
 					$shareWithField.prop('disabled', false);
 					$shareWithField.focus();
+
+					$shareWithField.autocomplete('enable');
 
 					// There is no need to show an error message here; it will
 					// be automatically shown when the autocomplete is activated
@@ -483,6 +498,8 @@
 					$shareWithField.prop('disabled', false);
 					$shareWithField.focus();
 
+					$shareWithField.autocomplete('enable');
+
 					return;
 				}
 
@@ -494,6 +511,8 @@
 					$shareWithField.val('');
 					$shareWithField.prop('disabled', false);
 					$shareWithField.focus();
+
+					$shareWithField.autocomplete('enable');
 				};
 
 				var actionError = function(obj, msg) {
@@ -503,6 +522,8 @@
 
 					$shareWithField.prop('disabled', false);
 					$shareWithField.focus();
+
+					$shareWithField.autocomplete('enable');
 
 					OC.Notification.showTemporary(msg);
 				};
@@ -518,6 +539,8 @@
 
 				$shareWithField.prop('disabled', false);
 				$shareWithField.focus();
+
+				$shareWithField.autocomplete('enable');
 
 				// There is no need to show an error message here; it will be
 				// automatically shown when the autocomplete is activated again
@@ -554,6 +577,7 @@
 		},
 
 		render: function() {
+			var self = this;
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
 			this.$el.html(baseTemplate({
@@ -565,6 +589,16 @@
 
 			var $shareField = this.$el.find('.shareWithField');
 			if ($shareField.length) {
+				var shareFieldKeydownHandler = function(event) {
+					if (event.keyCode !== 13) {
+						return true;
+					}
+
+					self._confirmShare();
+
+					return false;
+				};
+
 				$shareField.autocomplete({
 					minLength: 1,
 					delay: 750,
@@ -574,6 +608,8 @@
 					source: this.autocompleteHandler,
 					select: this._onSelectRecipient
 				}).data('ui-autocomplete')._renderItem = this.autocompleteRenderItem;
+
+				$shareField.on('keydown', null, shareFieldKeydownHandler);
 			}
 
 			this.resharerInfoView.$el = this.$el.find('.resharerInfoView');
