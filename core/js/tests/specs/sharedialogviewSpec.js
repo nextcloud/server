@@ -718,6 +718,180 @@ describe('OC.Share.ShareDialogView', function() {
 			}])).toEqual(true);
 			expect(failStub.called).toEqual(false);
 		});
+
+		it('does not send a request to the server again for the same parameters', function() {
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': []
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly([{
+				'label': 'bob',
+				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+			}], [{
+				'label': 'bob',
+				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+			}])).toEqual(true);
+			expect(failStub.called).toEqual(false);
+
+			var done2Stub = sinon.stub();
+			var fail2Stub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(done2Stub).fail(fail2Stub);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(failStub.called).toEqual(false);
+
+			expect(done2Stub.calledOnce).toEqual(true);
+			expect(done2Stub.calledWithExactly([{
+				'label': 'bob',
+				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+			}], [{
+				'label': 'bob',
+				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+			}])).toEqual(true);
+			expect(fail2Stub.called).toEqual(false);
+		});
+
+		it('sends a request to the server again for the same parameters if the calls are not consecutive', function() {
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': []
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly([{
+				'label': 'bob',
+				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+			}], [{
+				'label': 'bob',
+				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+			}])).toEqual(true);
+			expect(failStub.called).toEqual(false);
+
+			var done2Stub = sinon.stub();
+			var fail2Stub = sinon.stub();
+
+			dialog._getSuggestions('bob', 108, shareModel).done(done2Stub).fail(fail2Stub);
+
+			expect(done2Stub.called).toEqual(false);
+			expect(fail2Stub.called).toEqual(false);
+
+			fakeServer.requests[1].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(done2Stub.calledOnce).toEqual(true);
+			expect(fail2Stub.called).toEqual(false);
+
+			var done3Stub = sinon.stub();
+			var fail3Stub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(done3Stub).fail(fail3Stub);
+
+			expect(done3Stub.called).toEqual(false);
+			expect(fail3Stub.called).toEqual(false);
+
+			fakeServer.requests[2].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(failStub.called).toEqual(false);
+			expect(done2Stub.calledOnce).toEqual(true);
+			expect(fail2Stub.called).toEqual(false);
+
+			expect(done3Stub.calledOnce).toEqual(true);
+			expect(done3Stub.calledWithExactly([{
+				'label': 'bob',
+				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+			}], [{
+				'label': 'bob',
+				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+			}])).toEqual(true);
+			expect(fail3Stub.called).toEqual(false);
+		});
 	});
 	describe('autocompletion of users', function() {
 		var showTemporaryNotificationStub;

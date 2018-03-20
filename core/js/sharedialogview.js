@@ -65,6 +65,9 @@
 		/** @type {object} **/
 		shareeListView: undefined,
 
+		/** @type {object} **/
+		_lastSuggestions: undefined,
+
 		events: {
 			'focus .shareWithField': 'onShareWithFieldFocus',
 			'input .shareWithField': 'onShareWithFieldChanged',
@@ -136,6 +139,13 @@
 		},
 
 		_getSuggestions: function(searchTerm, perPage, model) {
+			if (this._lastSuggestions &&
+				this._lastSuggestions.searchTerm === searchTerm &&
+				this._lastSuggestions.perPage === perPage &&
+				this._lastSuggestions.model === model) {
+				return this._lastSuggestions.promise;
+			}
+
 			var deferred = $.Deferred();
 
 			$.get(
@@ -289,7 +299,14 @@
 				deferred.reject();
 			});
 
-			return deferred.promise();
+			this._lastSuggestions = {
+				searchTerm: searchTerm,
+				perPage: perPage,
+				model: model,
+				promise: deferred.promise()
+			};
+
+			return this._lastSuggestions.promise;
 		},
 
 		autocompleteHandler: function (search, response) {
