@@ -2,6 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Je dostupná {version}. Přečtěte si více informací jak aktualizovat.",
+    "Apps missing updates" : "Aplikace s chybějícími aktualizacemi",
+    "Apps with available updates" : "Aplikace s dostupnými aktualizacemi",
     "Open updater" : "Otevřít aktualizátor",
     "Your version is up to date." : "Používáte nejnovější verzi.",
     "A non-default update server is in use to be checked for updates:" : "Pro kontrolu aktualizací se používá jiný než výchozí server:",
@@ -11,6 +13,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupné aktualizace:",
     "Only notification for app updates are available." : "Je možné pouze upozornění na dostupné aktualizace aplikací.",
     "The selected update channel does not support updates of the server." : "Vybraný kanál aktualizací nepodporuje aktualizace serveru.",
+    "A new version is available: <strong>{newVersionString}</strong>" : "K dispozici je nová verze: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Zkontrolováno {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci",
     "Update notifications" : "Aktualizovat upozornění",
