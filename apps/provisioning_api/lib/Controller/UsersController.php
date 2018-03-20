@@ -451,7 +451,7 @@ class UsersController extends OCSController {
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
 				break;
 			case AccountManager::PROPERTY_EMAIL:
-				if(filter_var($value, FILTER_VALIDATE_EMAIL)) {
+				if(filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
 					$targetUser->setEMailAddress($value);
 				} else {
 					throw new OCSException('', 102);
