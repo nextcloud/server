@@ -151,7 +151,7 @@ OC.L10N.register(
     "Shared with others" : "Compartido con otros",
     "Shared by link" : "Compartido por liga",
     "Tags" : "Etiquetas",
-    "Deleted files" : "Archivos borrados",
+    "Deleted files" : "Papelera",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Move" : "Mover",

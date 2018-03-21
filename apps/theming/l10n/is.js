@@ -10,13 +10,10 @@ OC.L10N.register(
     "The given web address is too long" : "Uppgefið veffang er of langt",
     "The given slogan is too long" : "Uppgefið slagorð er of langt",
     "The given color is invalid" : "Uppgefinn litur er ógildur",
-    "There is no error, the file uploaded with success" : "Engin villa, innsending heppnaðist",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Innsend skrá er stærri en upload_max stillingin í php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Innsenda skráin er stærri en MAX_FILE_SIZE sem skilgreint er í HTML sniðinu",
     "No file was uploaded" : "Engin skrá skilaði sér",
     "Missing a temporary folder" : "Vantar bráðabirgðamöppu",
-    "Failed to write file to disk." : "Tókst ekki að skrifa skrá á disk.",
-    "A PHP extension stopped the file upload." : "PHP-viðbót stöðvaði innsendingu skráar.",
     "No file uploaded" : "Engin skrá var send inn",
     "Unsupported image type" : "Óstudd gerð myndar",
     "You are already using a custom theme" : "Þú ert nú þegar að nota sérsniðið þema",
@@ -35,6 +32,9 @@ OC.L10N.register(
     "Remove background image" : "Fjarlægja bakgrunnsmynd",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Settu inn Imagemagick PHP forritsviðaukann með stuðningi við SVG-myndir til að útbúa sjálfvirkt veftáknmyndir byggðar á innsendu táknmerki og lit.",
     "reset to default" : "endurstilla á sjálfgefið",
-    "The uploaded file was only partially uploaded" : "Einungis hluti af innsendri skrá skilaði sér"
+    "There is no error, the file uploaded with success" : "Engin villa, innsending heppnaðist",
+    "The uploaded file was only partially uploaded" : "Einungis hluti af innsendri skrá skilaði sér",
+    "Failed to write file to disk." : "Tókst ekki að skrifa skrá á disk.",
+    "A PHP extension stopped the file upload." : "PHP-viðbót stöðvaði innsendingu skráar."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

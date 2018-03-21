@@ -9,12 +9,9 @@ OC.L10N.register(
     "The given web address is too long" : "Webアドレスが長すぎます",
     "The given slogan is too long" : "スローガンが長すぎます",
     "The given color is invalid" : "無効な色です",
-    "There is no error, the file uploaded with success" : "ファイルはエラーなくアップロードされました",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "アップロードファイルサイズが、php.ini の upload_max_filesize を超過しています",
     "No file was uploaded" : "ファイルはアップロードされませんでした",
     "Missing a temporary folder" : "一時領域フォルダーがありません",
-    "Failed to write file to disk." : "ファイルをディスクに書き込めませんでした",
-    "A PHP extension stopped the file upload." : "PHP拡張でファイルのアップロードが停止されています",
     "No file uploaded" : "ファイルがアップロードされていません",
     "Unsupported image type" : "サポートされていない画像形式です",
     "You are already using a custom theme" : "あなたは既にカスタムテーマを利用しています",
@@ -31,6 +28,9 @@ OC.L10N.register(
     "Login image" : "ログイン画像",
     "Upload new login background" : "新しいログイン背景画像をアップロード",
     "Remove background image" : "背景画像を削除",
-    "reset to default" : "デフォルトに戻す"
+    "reset to default" : "デフォルトに戻す",
+    "There is no error, the file uploaded with success" : "ファイルはエラーなくアップロードされました",
+    "Failed to write file to disk." : "ファイルをディスクに書き込めませんでした",
+    "A PHP extension stopped the file upload." : "PHP拡張でファイルのアップロードが停止されています"
 },
 "nplurals=1; plural=0;");

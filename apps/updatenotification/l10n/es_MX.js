@@ -2,7 +2,6 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} está disponible. Obten más información de cómo actualizar. ",
-    "Apps missing updates" : "Aplicaciones con actualizaciones faltantes",
     "Apps with available updates" : "Aplicaciones con actualizaciones disponibles",
     "Open updater" : "Abrir actualizador",
     "Your version is up to date." : "Tu verisón está actualizada.",
@@ -20,6 +19,9 @@ OC.L10N.register(
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No fue posible conectarse a la appstore o bien la appstore no regresó ninguna actualización. Busca manualmente o asegurate que tu servidor teng acceso a Internet y pueda conectarse a la appstore. ",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Todas</strong> las aplicaciones tienen una actualización disponible para esta versión",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplicación no cuenta con una actualización para esta versión","<strong>%n</strong> aplicaciones no cuentan con una actualización para esta versión"],
+    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>producción</strong> siempre contará el más reciente nivel de parches, pero no actualizará a la siguiente liberación mayor inmediatamente. Esta actualización siempre sucede en la segunda liberación menor (x.0.2)",
+    "<strong>stable</strong> is the most recent stable version. It is suited for production use and will always update to the latest major version." : "<strong>estable</strong> es la version estable más reciente. Es adecuada para su uso en producción y siempre estará actualizada a la versión mayor más reciente.  ",
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> es una versión de pre-liberación sólo para probar nuevas características, no para ambientes de producción. ",
     "Could not start updater, please try the manual update" : "No fue posible iniciar el actualizador, por favor intenta la actualización manual",
     "Update notifications" : "Actualizar notificaciones",
     "Channel updated" : "Canal actualizado",

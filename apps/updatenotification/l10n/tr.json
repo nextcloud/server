@@ -1,6 +1,5 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} sürümü yayınlanmış. Güncelleme hakkında ayrıntılı bilgi alın.",
-    "Apps missing updates" : "Güncellemesi eksik uygulamalar",
     "Apps with available updates" : "Güncellenebilecek uygulamalar",
     "Open updater" : "Güncelleyici aç",
     "Your version is up to date." : "Sürümünüz güncel.",
@@ -18,6 +17,9 @@
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Uygulama mağazasına bağlanılamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet üzerine ve uygulama mağazasına bağlanabildiğinden emin olun.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Tüm</strong> uygulamaların bu sürüm için kullanılabilecek bir güncellemesi var",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"],
+    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>Üretim</strong> her zaman en son yama düzeyini sağlar ancak sonraki büyük sürüme hemen güncellemez. Bu güncelleme genellikle ikinci küçük sürüm kullanılarak yapılır (x.0.2)",
+    "<strong>stable</strong> is the most recent stable version. It is suited for production use and will always update to the latest major version." : "<strong>Kararlı</strong> son kararlı sürümü sağlar. Üretim kullanımına uygundur ve her zaman son büyük sürüme günceller.",
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Beta</strong> yeni özelliklerin denenebileceği yayım öncesi sürümüdür. Üretim ortamlarında kullanılması önerilmez.",
     "Could not start updater, please try the manual update" : "Güncelleyici başlatılamadı lütfen el ile güncellemeyi deneyin",
     "Update notifications" : "Güncelleme bildirimleri",
     "Channel updated" : "Kanal güncellendi",

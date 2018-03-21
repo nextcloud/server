@@ -2,7 +2,6 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о порядке обновления.",
-    "Apps missing updates" : "У приложений отсутствуют обновления",
     "Apps with available updates" : "Приложения с доступными обновлениями",
     "Open updater" : "Открыть окно обновления",
     "Your version is up to date." : "Версия не требует обновления.",

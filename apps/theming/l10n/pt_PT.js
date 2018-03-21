@@ -9,13 +9,10 @@ OC.L10N.register(
     "The given web address is too long" : "O endereço web atribuído é demasiado longo",
     "The given slogan is too long" : "O slogan atribuído é demasiado longo",
     "The given color is invalid" : "A cor atribuída é inválida",
-    "There is no error, the file uploaded with success" : "Não ocorreu nenhum erro, o ficheiro foi carregado com sucesso",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "O ficheiro carregado excede a directiva upload_max_filesize no php.ini ",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "O ficheiro carregado excedo a directiva MAX_FILE_SIZE especificada no formulário HTML",
     "No file was uploaded" : "O ficheiro foi carregado",
     "Missing a temporary folder" : "Falta uma pasta temporária",
-    "Failed to write file to disk." : "Falhou a escrever o ficheiro no disco.",
-    "A PHP extension stopped the file upload." : "Uma extensão PHP parou o carregamento do ficheiro.",
     "No file uploaded" : "Nenhum ficheiro carregado",
     "Unsupported image type" : "Tipo de imagem não suportado",
     "You are already using a custom theme" : "Já está a usar um tema personalizado",
@@ -34,6 +31,9 @@ OC.L10N.register(
     "Remove background image" : "Remover imagem de segundo plano",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado.",
     "reset to default" : "restaurar valor padrão",
-    "The uploaded file was only partially uploaded" : "O ficheiro escolhido foi apenas parcialmente carregado"
+    "There is no error, the file uploaded with success" : "Não ocorreu nenhum erro, o ficheiro foi carregado com sucesso",
+    "The uploaded file was only partially uploaded" : "O ficheiro escolhido foi apenas parcialmente carregado",
+    "Failed to write file to disk." : "Falhou a escrever o ficheiro no disco.",
+    "A PHP extension stopped the file upload." : "Uma extensão PHP parou o carregamento do ficheiro."
 },
 "nplurals=2; plural=(n != 1);");

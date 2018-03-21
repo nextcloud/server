@@ -10,13 +10,10 @@ OC.L10N.register(
     "The given web address is too long" : "A bevitt webcím túl hosszú",
     "The given slogan is too long" : "A bevitt szlogen túl hosszú",
     "The given color is invalid" : "A bevitt szín érvénytelen",
-    "There is no error, the file uploaded with success" : "Nincs hiba, a feltöltés sikeres",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "A feltöltés mérete meghaladja a php.ini upload_max_filesize direktívájában meghatározottat.",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "A HTML-ben megadott MAX_FILE_SIZE méretét meghaladja a feltöltés mérete",
     "No file was uploaded" : "Nincs feltöltött fájl",
     "Missing a temporary folder" : "Átmeneti mappa hiányzik",
-    "Failed to write file to disk." : "Lemezre írás sikertelen.",
-    "A PHP extension stopped the file upload." : "Egy PHP kiterjesztés megakadályozta a feltöltést.",
     "No file uploaded" : "Nincs fájl feltöltve",
     "Unsupported image type" : "Nem támogatott képtípus",
     "You are already using a custom theme" : "Már egyedi témát használ",
@@ -35,6 +32,9 @@ OC.L10N.register(
     "Remove background image" : "Háttérkép eltávolítása",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítsd az Imagemagick PHP kiterjesztést SVG kép támogatással a feltöltött logóból és színből való automatikus favikon generáláshoz.",
     "reset to default" : "Visszaállítás alapértelmezettre",
-    "The uploaded file was only partially uploaded" : "Csak részben került feltöltésre a fájl"
+    "There is no error, the file uploaded with success" : "Nincs hiba, a feltöltés sikeres",
+    "The uploaded file was only partially uploaded" : "Csak részben került feltöltésre a fájl",
+    "Failed to write file to disk." : "Lemezre írás sikertelen.",
+    "A PHP extension stopped the file upload." : "Egy PHP kiterjesztés megakadályozta a feltöltést."
 },
 "nplurals=2; plural=(n != 1);");
