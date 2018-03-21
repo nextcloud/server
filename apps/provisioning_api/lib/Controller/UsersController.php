@@ -873,7 +873,16 @@ class UsersController extends OCSController {
 				'quota' => $storage['quota'],
 			];
 		} catch (NotFoundException $ex) {
-			$data = [];
+			// User fs is not setup yet
+			$user = $this->userManager->get($userId);
+			if ($user === null) {
+				throw new OCSException('User does not exist', 101);
+			}
+			$quota = OC_Helper::computerFileSize($user->getQuota());
+			$data = [
+				'quota' => $quota,
+				'used' => 0
+			];
 		}
 		return $data;
 	}
