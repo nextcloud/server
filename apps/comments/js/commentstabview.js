@@ -240,19 +240,22 @@
 				if(!_.isUndefined(this._autoCompleteRequestCall)) {
 					this._autoCompleteRequestCall.abort();
 				}
-				this._autoCompleteRequestCall = $.get(
-					OC.generateUrl('/autocomplete/get'),
-					{
+				this._autoCompleteRequestCall = $.ajax({
+					url: OC.linkToOCS('core', 2) + 'autocomplete/get',
+					data: {
 						search: query,
 						itemType: 'files',
 						itemId: s.model.get('id'),
 						sorter: 'commenters|share-recipients',
 						limit: OC.appConfig.comments.maxAutoCompleteResults
 					},
-					function (data) {
-						callback(data);
+					beforeSend: function (request) {
+						request.setRequestHeader('Accept', 'application/json');
+					},
+					success: function (result) {
+						callback(result.ocs.data);
 					}
-				);
+				});
 			}, 400);
 		},
 
