@@ -83,20 +83,6 @@ class User {
 	}
 
 	/**
-	 * Get a list of all display names and user ids.
-	 * @param string $search search pattern
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return array an array of all display names (value) and the correspondig uids (key)
-	 * @deprecated 8.1.0 use method searchDisplayName() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 * @since 5.0.0
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function getDisplayNames( $search = '', $limit = null, $offset = null ) {
-		return \OC_User::getDisplayNames( $search, $limit, $offset );
-	}
-
-	/**
 	 * Check if the user is logged in
 	 * @return boolean
 	 * @since 5.0.0
