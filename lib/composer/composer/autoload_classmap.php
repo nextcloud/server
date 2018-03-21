@@ -255,7 +255,6 @@ return array(
     'OCP\\Remote\\IInstance' => $baseDir . '/lib/public/Remote/IInstance.php',
     'OCP\\Remote\\IInstanceFactory' => $baseDir . '/lib/public/Remote/IInstanceFactory.php',
     'OCP\\Remote\\IUser' => $baseDir . '/lib/public/Remote/IUser.php',
-    'OCP\\Response' => $baseDir . '/lib/public/Response.php',
     'OCP\\RichObjectStrings\\Definitions' => $baseDir . '/lib/public/RichObjectStrings/Definitions.php',
     'OCP\\RichObjectStrings\\IValidator' => $baseDir . '/lib/public/RichObjectStrings/IValidator.php',
     'OCP\\RichObjectStrings\\InvalidObjectExeption' => $baseDir . '/lib/public/RichObjectStrings/InvalidObjectExeption.php',
