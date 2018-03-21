@@ -285,7 +285,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Remote\\IInstance' => __DIR__ . '/../../..' . '/lib/public/Remote/IInstance.php',
         'OCP\\Remote\\IInstanceFactory' => __DIR__ . '/../../..' . '/lib/public/Remote/IInstanceFactory.php',
         'OCP\\Remote\\IUser' => __DIR__ . '/../../..' . '/lib/public/Remote/IUser.php',
-        'OCP\\Response' => __DIR__ . '/../../..' . '/lib/public/Response.php',
         'OCP\\RichObjectStrings\\Definitions' => __DIR__ . '/../../..' . '/lib/public/RichObjectStrings/Definitions.php',
         'OCP\\RichObjectStrings\\IValidator' => __DIR__ . '/../../..' . '/lib/public/RichObjectStrings/IValidator.php',
         'OCP\\RichObjectStrings\\InvalidObjectExeption' => __DIR__ . '/../../..' . '/lib/public/RichObjectStrings/InvalidObjectExeption.php',
