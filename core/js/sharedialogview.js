@@ -445,6 +445,9 @@
 			$confirm.addClass('hidden');
 
 			this.model.addShare(s.item.value, {success: function() {
+				// Adding a share changes the suggestions.
+				self._lastSuggestions = undefined;
+
 				$(e.target).val('')
 					.attr('disabled', false);
 				$loading.addClass('hidden')
@@ -524,6 +527,9 @@
 					$loading.addClass('hidden');
 					$loading.removeClass('inlineblock');
 					$confirm.removeClass('hidden');
+
+					// Adding a share changes the suggestions.
+					self._lastSuggestions = undefined;
 
 					$shareWithField.val('');
 					$shareWithField.prop('disabled', false);
