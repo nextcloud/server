@@ -1,6 +1,5 @@
 # the default generated dir + db file
 /data
-/owncloud
 /config/config.php
 /config/*.config.php
 /config/mimetype*.json
