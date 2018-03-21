@@ -46,6 +46,7 @@ class DeprecationCheck extends AbstractCheck {
 			'OCP\User' => '13.0.0',
 			'OCP\BackgroundJob' => '14.0.0',
 			'OCP\App' => '14.0.0',
+			'OCP\Files' => '14.0.0',
 		];
 	}
 
@@ -174,6 +175,13 @@ class DeprecationCheck extends AbstractCheck {
 			'OCP\Util::mb_substr_replace' => '8.2.0',
 			'OCP\Util::sendMail' => '8.1.0',
 			'OCP\Util::writeLog' => '13.0.0',
+
+			'OCP\Files::rmdirr' => '14.0.0',
+			'OCP\Files::getMimeType' => '14.0.0',
+			'OCP\Files::searchByMime' => '14.0.0',
+			'OCP\Files::streamCopy' => '14.0.0',
+			'OCP\Files::buildNotExistingFileName' => '14.0.0',
+			'OCP\Files::getStorage' => '14.0.0',
 		];
 	}
 }
