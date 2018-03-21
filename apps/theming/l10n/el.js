@@ -9,13 +9,10 @@ OC.L10N.register(
     "The given web address is too long" : "Η διεύθυνση ιστοσελίδας που δόθηκε είναι πολύ μεγάλη.",
     "The given slogan is too long" : "Το ρητό που δόθηκε είναι πολύ μεγάλο",
     "The given color is invalid" : "Δόθηκε μη έγκυρο χρώμα",
-    "There is no error, the file uploaded with success" : "Δεν υπάρχει σφάλμα, το αρχείο μεταφορτώθηκε με επιτυχία",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Το μεταφορτωμένο αρχείο υπερβαίνει την οδηγία upload_max_filesize στο php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Το μεταφορτωμένο αρχείο υπερβαίνει την οδηγία MAX_FILE_SIZE που καθορίστηκε στην φόρμα HTML.",
     "No file was uploaded" : "Δεν μεταφορτώθηκε κάποιο αρχείο",
     "Missing a temporary folder" : "Λείπει κάποιος προσωρινός φάκελος",
-    "Failed to write file to disk." : "Αποτυχία εγγραφής αρχείου στο δίσκο.",
-    "A PHP extension stopped the file upload." : "Μία επέκταση PHP διέκοψε τη μεταφόρτωση του αρχείου.",
     "No file uploaded" : "Δεν έχει μεταφορτωθεί αρχείο",
     "Unsupported image type" : "Μη υποστηριζόμενος τύπος εικόνας",
     "You are already using a custom theme" : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα",
@@ -34,6 +31,9 @@ OC.L10N.register(
     "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα.",
     "reset to default" : "επαναφορά στα προεπιλεγμένα",
-    "The uploaded file was only partially uploaded" : "Το μεταφορτωμένο αρχείο μεταφορτώθηκε εν μέρει"
+    "There is no error, the file uploaded with success" : "Δεν υπάρχει σφάλμα, το αρχείο μεταφορτώθηκε με επιτυχία",
+    "The uploaded file was only partially uploaded" : "Το μεταφορτωμένο αρχείο μεταφορτώθηκε εν μέρει",
+    "Failed to write file to disk." : "Αποτυχία εγγραφής αρχείου στο δίσκο.",
+    "A PHP extension stopped the file upload." : "Μία επέκταση PHP διέκοψε τη μεταφόρτωση του αρχείου."
 },
 "nplurals=2; plural=(n != 1);");

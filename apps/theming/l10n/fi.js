@@ -10,12 +10,9 @@ OC.L10N.register(
     "The given web address is too long" : "Verkko-osoite on liian pitkä",
     "The given slogan is too long" : "Slogani on liian pitkä",
     "The given color is invalid" : "Väri on virheellinen",
-    "There is no error, the file uploaded with success" : "Ei virhettä, tiedosto lähetettiin onnistuneesti",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Lähetetty tiedosto ylittää php.ini-tiedoston upload_max_filesize-tietueen arvon",
     "No file was uploaded" : "Tiedostoa ei lähetetty",
     "Missing a temporary folder" : "Väliaikaiskansio puuttuu",
-    "Failed to write file to disk." : "Levylle kirjoittaminen epäonnistui.",
-    "A PHP extension stopped the file upload." : "PHP-laajennus pysäytti tiedoston lähetyksen.",
     "No file uploaded" : "Ei tiedostoa lähetetty",
     "Unsupported image type" : "Ei-tuettu kuvatiedostomuoto",
     "You are already using a custom theme" : "Käytät jo kustomoitua ulkoasua",
@@ -33,6 +30,9 @@ OC.L10N.register(
     "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
     "Remove background image" : "Poista taustakuva",
     "reset to default" : "palauta oletukseksi",
-    "The uploaded file was only partially uploaded" : "Lähetetty tiedosto lähetettiin vain osittain"
+    "There is no error, the file uploaded with success" : "Ei virhettä, tiedosto lähetettiin onnistuneesti",
+    "The uploaded file was only partially uploaded" : "Lähetetty tiedosto lähetettiin vain osittain",
+    "Failed to write file to disk." : "Levylle kirjoittaminen epäonnistui.",
+    "A PHP extension stopped the file upload." : "PHP-laajennus pysäytti tiedoston lähetyksen."
 },
 "nplurals=2; plural=(n != 1);");

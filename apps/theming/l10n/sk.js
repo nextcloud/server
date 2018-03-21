@@ -10,13 +10,10 @@ OC.L10N.register(
     "The given web address is too long" : "Zadaná web adresa je príliš dlhá",
     "The given slogan is too long" : "Zadaný slogan je príliš dlhý",
     "The given color is invalid" : "Zadaná farba nie je platná",
-    "There is no error, the file uploaded with success" : "Nenastala žiadna chyba, súbor bol úspešne nahraný",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Nahraný súbor prekročil limit nastavený v upload_max_filesize v súbore php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Ukladaný súbor prekračuje nastavenie MAX_FILE_SIZE z volieb HTML formulára.",
     "No file was uploaded" : "Nenahral sa žiadny súbor",
     "Missing a temporary folder" : "Chýba priečinok pre dočasné súbory",
-    "Failed to write file to disk." : "Nepodarilo sa zapísať súbor na disk.",
-    "A PHP extension stopped the file upload." : "rozšírenie PHP zastavilo nahrávanie súboru.",
     "No file uploaded" : "Žiadny súbor nebol nahraný",
     "Unsupported image type" : "Typ obrázka nie je podporovaný",
     "You are already using a custom theme" : "Už používate upravený vzhľad",
@@ -35,6 +32,9 @@ OC.L10N.register(
     "Remove background image" : "Odstrániť obrázok pozadia",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky.",
     "reset to default" : "nastaviť predvolené",
-    "The uploaded file was only partially uploaded" : "Ukladaný súbor sa nahral len čiastočne"
+    "There is no error, the file uploaded with success" : "Nenastala žiadna chyba, súbor bol úspešne nahraný",
+    "The uploaded file was only partially uploaded" : "Ukladaný súbor sa nahral len čiastočne",
+    "Failed to write file to disk." : "Nepodarilo sa zapísať súbor na disk.",
+    "A PHP extension stopped the file upload." : "rozšírenie PHP zastavilo nahrávanie súboru."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

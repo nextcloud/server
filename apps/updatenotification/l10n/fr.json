@@ -1,6 +1,5 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d'informations sur comment mettre à jour.",
-    "Apps missing updates" : "Applications avec des mises à jour manquantes",
     "Apps with available updates" : "Applications avec des mises à jour disponibles",
     "Open updater" : "Ouvrir le système de mise à jour",
     "Your version is up to date." : "Votre version est à jour.",

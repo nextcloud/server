@@ -2,7 +2,6 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} rendelkezésre áll. További információ a frissítéshez.",
-    "Apps missing updates" : "Alkalmazások frissítés nélkül",
     "Apps with available updates" : "Alkalmazások frissítéssel",
     "Open updater" : "Frissítő megnyitása",
     "Your version is up to date." : "Verzió frissítve.",

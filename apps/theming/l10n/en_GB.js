@@ -10,14 +10,11 @@ OC.L10N.register(
     "The given web address is too long" : "The given web address is too long",
     "The given slogan is too long" : "The given slogan is too long",
     "The given color is invalid" : "The given colour is invalid",
-    "There is no error, the file uploaded with success" : "There is no error, the file uploaded with success",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "The uploaded file exceeds the upload_max_filesize directive in php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
     "The file was only partially uploaded" : "The file was only partially uploaded",
     "No file was uploaded" : "No file was uploaded",
     "Missing a temporary folder" : "Missing a temporary folder",
-    "Failed to write file to disk." : "Failed to write file to disk.",
-    "A PHP extension stopped the file upload." : "A PHP extension stopped the file upload.",
     "No file uploaded" : "No file uploaded",
     "Unsupported image type" : "Unsupported image type",
     "You are already using a custom theme" : "You are already using a custom theme",
@@ -36,6 +33,9 @@ OC.L10N.register(
     "Remove background image" : "Remove background image",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.",
     "reset to default" : "reset to default",
-    "The uploaded file was only partially uploaded" : "The uploaded file was only partially uploaded"
+    "There is no error, the file uploaded with success" : "There is no error, the file uploaded with success",
+    "The uploaded file was only partially uploaded" : "The uploaded file was only partially uploaded",
+    "Failed to write file to disk." : "Failed to write file to disk.",
+    "A PHP extension stopped the file upload." : "A PHP extension stopped the file upload."
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "No fue posible recuperar la lista del gurpo",
     "Saved" : "Guardado",
     "Saving failed:" : "Falla al guardar:",
     "File MIME type" : "Tipo MIME del archivo",
