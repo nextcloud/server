@@ -61,33 +61,4 @@ class DB {
 		return \OC_DB::prepare($query, $limit, $offset);
 	}
 
-	/**
-	 * Start a transaction
-	 * @deprecated 8.1.0 use beginTransaction() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
-	 * @since 4.5.0
-	 */
-	public static function beginTransaction() {
-		\OC::$server->getDatabaseConnection()->beginTransaction();
-	}
-
-	/**
-	 * Commit the database changes done during a transaction that is in progress
-	 * @deprecated 8.1.0 use commit() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
-	 * @since 4.5.0
-	 */
-	public static function commit() {
-		\OC::$server->getDatabaseConnection()->commit();
-	}
-
-	/**
-	 * returns the error code and message as a string for logging
-	 * works with DoctrineException
-	 * @return string
-	 * @deprecated 8.1.0 use getError() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
-	 * @since 6.0.0
-	 */
-	public static function getErrorMessage() {
-		return \OC::$server->getDatabaseConnection()->getError();
-	}
-
 }

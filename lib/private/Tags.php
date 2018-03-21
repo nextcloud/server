@@ -237,7 +237,7 @@ class Tags implements \OCP\ITags {
 					$entries[$objId][] = $row['category'];
 				}
 				if ($result === null) {
-					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
+					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
 					return false;
 				}
 			}
@@ -291,7 +291,7 @@ class Tags implements \OCP\ITags {
 			$stmt = \OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($tagId));
 			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
 				return false;
 			}
 		} catch(\Exception $e) {
@@ -534,7 +534,7 @@ class Tags implements \OCP\ITags {
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
 			}
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
@@ -572,7 +572,7 @@ class Tags implements \OCP\ITags {
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
 			}
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
@@ -603,7 +603,7 @@ class Tags implements \OCP\ITags {
 			$stmt = \OCP\DB::prepare($query);
 			$result = $stmt->execute($updates);
 			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
 				return false;
 			}
 		} catch(\Exception $e) {
@@ -773,7 +773,7 @@ class Tags implements \OCP\ITags {
 					$result = $stmt->execute(array($id));
 					if ($result === null) {
 						\OCP\Util::writeLog('core',
-							__METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage(),
+							__METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(),
 							\OCP\Util::ERROR);
 						return false;
 					}
