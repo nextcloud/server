@@ -10,13 +10,10 @@ OC.L10N.register(
     "The given web address is too long" : "输入的地址过长",
     "The given slogan is too long" : "输入的标语过长",
     "The given color is invalid" : "提供的颜色无效",
-    "There is no error, the file uploaded with success" : "没有错误，文件已上传成功",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "上传的文件超过了php.ini中指定的upload_max_filesize指令配置",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "上传的文件超过了HTML表单中指定的MAX_FILE_SIZE指令",
     "No file was uploaded" : "没有上传文件",
     "Missing a temporary folder" : "缺少临时文件夹",
-    "Failed to write file to disk." : "文件写入磁盘失败。",
-    "A PHP extension stopped the file upload." : "PHP扩展停止了文件上传。",
     "No file uploaded" : "文件没有上传",
     "Unsupported image type" : "不支持图片格式",
     "You are already using a custom theme" : "你已经在使用自定义主题",
@@ -35,6 +32,9 @@ OC.L10N.register(
     "Remove background image" : "删除背景图片",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持SVG图像的PHP扩展Imagemagick，根据上传的logo和颜色自动生成收藏图标。",
     "reset to default" : "重置默认",
-    "The uploaded file was only partially uploaded" : "上传的文件只有部分已上传"
+    "There is no error, the file uploaded with success" : "没有错误，文件已上传成功",
+    "The uploaded file was only partially uploaded" : "上传的文件只有部分已上传",
+    "Failed to write file to disk." : "文件写入磁盘失败。",
+    "A PHP extension stopped the file upload." : "PHP扩展停止了文件上传。"
 },
 "nplurals=1; plural=0;");

@@ -7,7 +7,6 @@
     "The given web address is too long" : "Die gegewe webadres is te lank",
     "The given slogan is too long" : "Gegewe slagspreuk is te lank",
     "The given color is invalid" : "Die gegewe kleur is ongeldig",
-    "There is no error, the file uploaded with success" : "Geen fout is teëgekom nie, die lêer is met suksesvol opgelaai",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Die opgelaaide lêer oorskry die upload_max_filesize riglyn in php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Die opgelaaide lêer oorskry die MAX_FILE_SIZE riglyn wat in die HTML vorm gespesifiseer is",
     "No file was uploaded" : "Geen lêer is opgelaai",
@@ -27,6 +26,7 @@
     "Upload new login background" : "Laai nuwe aantekenagtergrond op",
     "Remove background image" : "Verwyder agtergrondbeeld",
     "reset to default" : "herstel na verstek",
+    "There is no error, the file uploaded with success" : "Geen fout is teëgekom nie, die lêer is met suksesvol opgelaai",
     "The uploaded file was only partially uploaded" : "Die opgelaaide lêer is slegs gedeeltelik opgelaai"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

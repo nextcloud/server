@@ -2,7 +2,6 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} är tillgänglig. Få mer information om hur du uppdaterar.",
-    "Apps missing updates" : "Appar saknar uppdateringar",
     "Apps with available updates" : "Appar med tillgängliga uppdateringar",
     "Open updater" : "Öppna uppdateraren",
     "Your version is up to date." : "Din version är uppdaterad.",

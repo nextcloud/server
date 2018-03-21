@@ -9,13 +9,10 @@ OC.L10N.register(
     "The given web address is too long" : "Webadressen er for lang",
     "The given slogan is too long" : "Sloganet er for langt",
     "The given color is invalid" : "Farven er ikke gyldig",
-    "There is no error, the file uploaded with success" : "Der skete ingen fejl, filen blev succesfuldt uploadet",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Den uploadede fil overstiger upload_max_filesize direktivet i php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Den uploadede fil overstiger MAX_FILE_SIZE indstilingen, som specificeret i HTML formularen",
     "No file was uploaded" : "Ingen fil uploadet",
     "Missing a temporary folder" : "Manglende midlertidig mappe.",
-    "Failed to write file to disk." : "Fejl ved skrivning af fil til disk.",
-    "A PHP extension stopped the file upload." : "En PHP-udvidelse stoppede file uploaden.",
     "No file uploaded" : "Ingen fil uploadet",
     "Unsupported image type" : "Ikke-understøttet billede format",
     "You are already using a custom theme" : "Du bruger allerede et brugerdefineret tema",
@@ -34,6 +31,9 @@ OC.L10N.register(
     "Remove background image" : "Fjern baggrundsbillede",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer Imagemagick PHP udvidelsen med SVG support for automatisk at genererer favikoner baseret på the uploadede logo og farver.",
     "reset to default" : "nulstil til standardindstillinger ",
-    "The uploaded file was only partially uploaded" : "Filen blev kun delvist uploadet."
+    "There is no error, the file uploaded with success" : "Der skete ingen fejl, filen blev succesfuldt uploadet",
+    "The uploaded file was only partially uploaded" : "Filen blev kun delvist uploadet.",
+    "Failed to write file to disk." : "Fejl ved skrivning af fil til disk.",
+    "A PHP extension stopped the file upload." : "En PHP-udvidelse stoppede file uploaden."
 },
 "nplurals=2; plural=(n != 1);");

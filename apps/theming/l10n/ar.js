@@ -11,7 +11,6 @@ OC.L10N.register(
     "The given color is invalid" : "هناك خطأ في اللون",
     "No file was uploaded" : "لم يتم رفع أي ملف",
     "Missing a temporary folder" : "المجلد المؤقت غير موجود",
-    "Failed to write file to disk." : "خطأ في الكتابة على القرص الصلب.",
     "No file uploaded" : "لم يتم رفع الملف",
     "Unsupported image type" : "صيغة الصورة غير مقبولة",
     "You are already using a custom theme" : "انت تستعمل قالب مخصص",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "Login image" : "صورة الدخول",
     "Upload new login background" : "تحميل خلفية جديدة للدخول",
     "Remove background image" : "إزالة صورة الخلفية",
-    "reset to default" : "إلغاء كل التغييرات"
+    "reset to default" : "إلغاء كل التغييرات",
+    "Failed to write file to disk." : "خطأ في الكتابة على القرص الصلب."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

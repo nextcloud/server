@@ -10,13 +10,10 @@ OC.L10N.register(
     "The given web address is too long" : "მოცემული ვებ-მისამართი ძალიან გრძელია",
     "The given slogan is too long" : "მოცემული ლოზუნგი ძალიან გრძელია",
     "The given color is invalid" : "მოცემული ფერი არასწორია",
-    "There is no error, the file uploaded with success" : "ეს არაა შეცდომა, ფაილი წარმატებით აიტვირთა",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "ატვირთული ფაილი აჭარბებს php.ini-ში დაყენებულ upload_max_filesize დირექტივას",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "ატვირთული ფაილი აჭარბებს HTML ფორამაში მითითებულ MAX_FILE_SIZE დირექტივას",
     "No file was uploaded" : "ფაილი არ აიტვირთა",
     "Missing a temporary folder" : "დროებითი დირექტორია არ არსებობს",
-    "Failed to write file to disk." : "ფაილი დისკზე ვერ ჩაიწერა.",
-    "A PHP extension stopped the file upload." : "PHP გაფართოებამ შეაჩერა ფაილის ატვირთვა.",
     "No file uploaded" : "ფაილი არ იქნა ატვირთული",
     "Unsupported image type" : "ამ სურათის სახეობა არაა მხარდაჭერილი",
     "You are already using a custom theme" : "თქვენ პერზონალიზირებულ ვიზუალურ თემას უკვე იყენებთ",
@@ -35,6 +32,9 @@ OC.L10N.register(
     "Remove background image" : "ფონური სურათის მოშორება",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "SVG სურთების მხარდაჭერის მქონე Imagemagick PHP გაფართოების დაყენება ფავიკონებს  ატვირთული ლოგოსა და ფერის მიხევით დააგენერირებს ავტომატურად.",
     "reset to default" : "დაბრუნება საწყისზე",
-    "The uploaded file was only partially uploaded" : "ფაილი აიტვირთა მხოლოდ ნაწილობრივ"
+    "There is no error, the file uploaded with success" : "ეს არაა შეცდომა, ფაილი წარმატებით აიტვირთა",
+    "The uploaded file was only partially uploaded" : "ფაილი აიტვირთა მხოლოდ ნაწილობრივ",
+    "Failed to write file to disk." : "ფაილი დისკზე ვერ ჩაიწერა.",
+    "A PHP extension stopped the file upload." : "PHP გაფართოებამ შეაჩერა ფაილის ატვირთვა."
 },
 "nplurals=1; plural=0;");

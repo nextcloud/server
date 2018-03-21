@@ -10,14 +10,11 @@ OC.L10N.register(
     "The given web address is too long" : "Адреса је предугачка",
     "The given slogan is too long" : "Слоган је предугачак",
     "The given color is invalid" : "Задата боја није исправна",
-    "There is no error, the file uploaded with success" : "Нема грешке, фајл је отпремљен успешно",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Отпремани фајл превазилази смерницу upload_max_filesize у фајлу php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Отпремани фајл превазилази смерницу MAX_FILE_SIZE која је наведена у HTML обрасцу",
     "The file was only partially uploaded" : "Фајл је само делимично отпремљен",
     "No file was uploaded" : "Ниједан фајл није отпремљен",
     "Missing a temporary folder" : "Недостаје привремена фасцикла",
-    "Failed to write file to disk." : "Не могу да пишем фајл на диск",
-    "A PHP extension stopped the file upload." : "PHP екстензија је зауставила отпремање фајла.",
     "No file uploaded" : "Ниједан фајл није отпремљен",
     "Unsupported image type" : "Неподржани тип слике",
     "You are already using a custom theme" : "Већ користите прилагођену тему",
@@ -36,6 +33,9 @@ OC.L10N.register(
     "Remove background image" : "Уклони позадину",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте Imagemagick PHP екстензију која подржава SVG слике, да аутоматски направи иконе од отпремљеног логоа и боје.",
     "reset to default" : "ресетуј на подразумевано",
-    "The uploaded file was only partially uploaded" : "Отпремани фајл је само делимично отпремљен"
+    "There is no error, the file uploaded with success" : "Нема грешке, фајл је отпремљен успешно",
+    "The uploaded file was only partially uploaded" : "Отпремани фајл је само делимично отпремљен",
+    "Failed to write file to disk." : "Не могу да пишем фајл на диск",
+    "A PHP extension stopped the file upload." : "PHP екстензија је зауставила отпремање фајла."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

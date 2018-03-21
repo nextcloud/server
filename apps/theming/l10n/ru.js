@@ -10,14 +10,11 @@ OC.L10N.register(
     "The given web address is too long" : "Указанный веб адрес слишком длинный",
     "The given slogan is too long" : "Указанный слоган слишком длинный",
     "The given color is invalid" : "Задан неправильный цвет",
-    "There is no error, the file uploaded with success" : "Файл загружен успешно. Ошибок нет.",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Размер загруженного файла превышает установленный предел upload_max_filesize в php.ini:",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Размер загруженного файла превышает установленный предел MAX_FILE_SIZE в HTML-форме",
     "The file was only partially uploaded" : "Файл был получен частично",
     "No file was uploaded" : "Не было загружено ни одного файла",
     "Missing a temporary folder" : "Отсутствует временный каталог",
-    "Failed to write file to disk." : "Ошибка записи на диск.",
-    "A PHP extension stopped the file upload." : "PHP прервало загрузку файла.",
     "No file uploaded" : "Нет загруженных файлов",
     "Unsupported image type" : "Неподдерживаемый тип изображения",
     "You are already using a custom theme" : "Вы уже используете настраиваемую тему",
@@ -36,6 +33,9 @@ OC.L10N.register(
     "Remove background image" : "Убрать фоновое изображение ",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Для автоматической генерации favicon на основе загруженного логотипа и цвета нужно установить PHP расширение Imagemagick  с поддержкой изображений SVG ",
     "reset to default" : "сброс до настроек по-умолчанию",
-    "The uploaded file was only partially uploaded" : "Файл загружен лишь частично"
+    "There is no error, the file uploaded with success" : "Файл загружен успешно. Ошибок нет.",
+    "The uploaded file was only partially uploaded" : "Файл загружен лишь частично",
+    "Failed to write file to disk." : "Ошибка записи на диск.",
+    "A PHP extension stopped the file upload." : "PHP прервало загрузку файла."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

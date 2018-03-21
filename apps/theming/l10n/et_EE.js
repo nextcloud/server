@@ -9,13 +9,10 @@ OC.L10N.register(
     "The given web address is too long" : "Antud veebiaadress on liiga pikk",
     "The given slogan is too long" : "Antud tunnuslause on liiga pikk",
     "The given color is invalid" : "Antud värv ei sobi",
-    "There is no error, the file uploaded with success" : "Vigu pole, fail laetu edukalt üles",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Üleslaetud fail on suurem, kui php.ini failis määratud upload_max_filesize",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Üleslaetud fail on suurem, kui MAX_FILE_SIZE atribuut, mis seadistati HTML vormis",
     "No file was uploaded" : "Ühtegi faili ei latud üles",
     "Missing a temporary folder" : "Ajutine kausta on puudu",
-    "Failed to write file to disk." : "Faili kettale kirjutamine ebaõnnestus.",
-    "A PHP extension stopped the file upload." : "PHP laiendus seiskas faili üleslaadimise.",
     "No file uploaded" : "Faili ei laetud üles",
     "Unsupported image type" : "Pildi tüüp pole toetatud",
     "You are already using a custom theme" : "Kohandatud teema on juba kasutusel",
@@ -34,6 +31,9 @@ OC.L10N.register(
     "Remove background image" : "Eemalda taustapilt",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Paigalda Imagemagick PHP laiendus SVG piltide toega, et üleslaetud logo ja värvi põhjal automaatselt faviconid genereerida. ",
     "reset to default" : "taasta vaikeseaded",
-    "The uploaded file was only partially uploaded" : "Üleslatud fail laeti üles ainult osaliselt"
+    "There is no error, the file uploaded with success" : "Vigu pole, fail laetu edukalt üles",
+    "The uploaded file was only partially uploaded" : "Üleslatud fail laeti üles ainult osaliselt",
+    "Failed to write file to disk." : "Faili kettale kirjutamine ebaõnnestus.",
+    "A PHP extension stopped the file upload." : "PHP laiendus seiskas faili üleslaadimise."
 },
 "nplurals=2; plural=(n != 1);");
