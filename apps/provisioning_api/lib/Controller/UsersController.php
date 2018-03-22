@@ -880,7 +880,7 @@ class UsersController extends OCSController {
 			}
 			$quota = OC_Helper::computerFileSize($user->getQuota());
 			$data = [
-				'quota' => $quota,
+				'quota' => $quota ? $quota : 'none',
 				'used' => 0
 			];
 		}
