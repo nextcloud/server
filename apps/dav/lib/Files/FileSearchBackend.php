@@ -113,7 +113,7 @@ class FileSearchBackend implements ISearchBackend {
 		//todo dynamically load all propfind properties that are supported
 		return [
 			// queryable properties
-			new SearchPropertyDefinition('{DAV:}displayname', true, false, true),
+			new SearchPropertyDefinition('{DAV:}displayname', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getlastmodified', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
