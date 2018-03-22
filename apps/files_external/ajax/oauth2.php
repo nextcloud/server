@@ -22,9 +22,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkAppEnabled('files_external');
-OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
+\OC_JSON::checkAppEnabled('files_external');
+\OC_JSON::checkLoggedIn();
+\OC_JSON::callCheck();
 $l = \OC::$server->getL10N('files_external');
 
 // TODO: implement redirect to which storage backend requested this

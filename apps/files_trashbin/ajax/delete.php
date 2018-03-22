@@ -24,8 +24,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
+\OC_JSON::checkLoggedIn();
+\OC_JSON::callCheck();
 \OC::$server->getSession()->close();
 
 $folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
@@ -83,8 +83,8 @@ if ( $error ) {
 	}
 	$l = \OC::$server->getL10N('files_trashbin');
 	$message = $l->t("Couldn't delete %s permanently", array(rtrim($filelist, ', ')));
-	OCP\JSON::error(array("data" => array("message" => $message,
+	\OC_JSON::error(array("data" => array("message" => $message,
 			                               "success" => $success, "error" => $error)));
 } else {
-	OCP\JSON::success(array("data" => array("success" => $success)));
+	\OC_JSON::success(array("data" => array("success" => $success)));
 }

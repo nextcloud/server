@@ -944,8 +944,8 @@ class OC {
 			&& $request->getMethod() === 'POST'
 			&& ((array)$request->getParam('appid')) !== ''
 		) {
-			\OCP\JSON::callCheck();
-			\OCP\JSON::checkAdminUser();
+			\OC_JSON::callCheck();
+			\OC_JSON::checkAdminUser();
 			$appIds = (array)$request->getParam('appid');
 			foreach($appIds as $appId) {
 				$appId = \OC_App::cleanAppId($appId);

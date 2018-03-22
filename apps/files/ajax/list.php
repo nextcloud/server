@@ -27,7 +27,7 @@
 use OCP\Files\StorageNotAvailableException;
 use OCP\Files\StorageInvalidException;
 
-OCP\JSON::checkLoggedIn();
+\OC_JSON::checkLoggedIn();
 \OC::$server->getSession()->close();
 $l = \OC::$server->getL10N('files');
 
@@ -79,10 +79,10 @@ try {
 	$data['files'] = \OCA\Files\Helper::formatFileInfos($files);
 	$data['permissions'] = $permissions;
 
-	OCP\JSON::success(array('data' => $data));
+	\OC_JSON::success(array('data' => $data));
 } catch (\OCP\Files\StorageNotAvailableException $e) {
 	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
-	OCP\JSON::error([
+	\OC_JSON::error([
 		'data' => [
 			'exception' => StorageNotAvailableException::class,
 			'message' => $l->t('Storage is temporarily not available')
@@ -90,7 +90,7 @@ try {
 	]);
 } catch (\OCP\Files\StorageInvalidException $e) {
 	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
-	OCP\JSON::error(array(
+	\OC_JSON::error(array(
 		'data' => array(
 			'exception' => StorageInvalidException::class,
 			'message' => $l->t('Storage invalid')
@@ -98,7 +98,7 @@ try {
 	));
 } catch (\Exception $e) {
 	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
-	OCP\JSON::error(array(
+	\OC_JSON::error(array(
 		'data' => array(
 			'exception' => \Exception::class,
 			'message' => $l->t('Unknown error')

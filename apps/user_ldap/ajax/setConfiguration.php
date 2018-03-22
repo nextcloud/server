@@ -26,9 +26,9 @@
  */
 
 // Check user and app status
-OCP\JSON::checkAdminUser();
-OCP\JSON::checkAppEnabled('user_ldap');
-OCP\JSON::callCheck();
+\OC_JSON::checkAdminUser();
+\OC_JSON::checkAppEnabled('user_ldap');
+\OC_JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 
@@ -47,4 +47,4 @@ $ldapWrapper = new OCA\User_LDAP\LDAP();
 $connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 $connection->setConfiguration($_POST);
 $connection->saveConfiguration();
-OCP\JSON::success();
+\OC_JSON::success();

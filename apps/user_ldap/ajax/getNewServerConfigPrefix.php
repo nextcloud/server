@@ -24,9 +24,9 @@
  */
 
 // Check user and app status
-OCP\JSON::checkAdminUser();
-OCP\JSON::checkAppEnabled('user_ldap');
-OCP\JSON::callCheck();
+\OC_JSON::checkAdminUser();
+\OC_JSON::checkAppEnabled('user_ldap');
+\OC_JSON::callCheck();
 
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $serverConnections = $helper->getServerConfigurationPrefixes();
@@ -48,4 +48,4 @@ if(isset($_POST['copyConfig'])) {
 }
 $newConfig->saveConfiguration();
 
-OCP\JSON::success($resultData);
+\OC_JSON::success($resultData);

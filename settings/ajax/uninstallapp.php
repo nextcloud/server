@@ -22,8 +22,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkAdminUser();
-OCP\JSON::callCheck();
+\OC_JSON::checkAdminUser();
+\OC_JSON::callCheck();
 
 $lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
 if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay

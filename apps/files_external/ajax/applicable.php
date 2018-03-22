@@ -21,10 +21,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkAppEnabled('files_external');
-OCP\JSON::callCheck();
+\OC_JSON::checkAppEnabled('files_external');
+\OC_JSON::callCheck();
 
-OCP\JSON::checkAdminUser();
+\OC_JSON::checkAdminUser();
 
 $pattern = '';
 $limit = null;
@@ -51,4 +51,4 @@ foreach (\OC::$server->getUserManager()->searchDisplayName($pattern, $limit, $of
 
 $results = array('groups' => $groups, 'users' => $users);
 
-\OCP\JSON::success($results);
+\\OC_JSON::success($results);

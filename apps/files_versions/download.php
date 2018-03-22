@@ -25,8 +25,8 @@
  *
  */
 
-OCP\JSON::checkAppEnabled('files_versions');
-OCP\JSON::checkLoggedIn();
+\OC_JSON::checkAppEnabled('files_versions');
+\OC_JSON::checkLoggedIn();
 
 $file = $_GET['file'];
 $revision=(int)$_GET['revision'];

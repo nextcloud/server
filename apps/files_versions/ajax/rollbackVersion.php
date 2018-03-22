@@ -26,16 +26,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkLoggedIn();
-OCP\JSON::checkAppEnabled('files_versions');
-OCP\JSON::callCheck();
+\OC_JSON::checkLoggedIn();
+\OC_JSON::checkAppEnabled('files_versions');
+\OC_JSON::callCheck();
 
 $file = (string)$_GET['file'];
 $revision=(int)$_GET['revision'];
 
 if(OCA\Files_Versions\Storage::rollback( $file, $revision )) {
-	OCP\JSON::success(array("data" => array( "revision" => $revision, "file" => $file )));
+	\OC_JSON::success(array("data" => array( "revision" => $revision, "file" => $file )));
 }else{
 	$l = \OC::$server->getL10N('files_versions');
-	OCP\JSON::error(array("data" => array( "message" => $l->t("Could not revert: %s", array($file) ))));
+	\OC_JSON::error(array("data" => array( "message" => $l->t("Could not revert: %s", array($file) ))));
 }
