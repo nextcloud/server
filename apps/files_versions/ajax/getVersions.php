@@ -47,10 +47,10 @@ if( $versions ) {
 		unset($version['path']);
 	}
 
-	\\OC_JSON::success(array('data' => array('versions' => $versions, 'endReached' => $endReached)));
+	\OC_JSON::success(array('data' => array('versions' => $versions, 'endReached' => $endReached)));
 
 } else {
 
-	\\OC_JSON::success(array('data' => array('versions' => [], 'endReached' => true)));
+	\OC_JSON::success(array('data' => array('versions' => [], 'endReached' => true)));
 
 }

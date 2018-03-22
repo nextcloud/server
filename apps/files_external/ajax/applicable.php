@@ -51,4 +51,4 @@ foreach (\OC::$server->getUserManager()->searchDisplayName($pattern, $limit, $of
 
 $results = array('groups' => $groups, 'users' => $users);
 
-\\OC_JSON::success($results);
+\OC_JSON::success($results);
