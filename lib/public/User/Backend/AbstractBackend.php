@@ -28,7 +28,14 @@ use OC\User\Backend;
 use OCP\IUserBackend;
 use OCP\UserInterface;
 
+/**
+ * @since 14.0.0
+ */
 abstract class AbstractBackend implements IUserBackend, UserInterface {
+
+	/**
+	 * @deprecated 14.0.0
+	 */
 	public function implementsActions($actions): bool {
 		$implements = 0;
 

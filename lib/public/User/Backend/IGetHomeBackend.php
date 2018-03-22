@@ -24,6 +24,13 @@ declare(strict_types=1);
 
 namespace OCP\User\Backend;
 
+/**
+ * @since 14.0.0
+ */
 interface IGetHomeBackend {
+
+	/**
+	 * @since 14.0.0
+	 */
 	public function getHome(string $uid): string;
 }

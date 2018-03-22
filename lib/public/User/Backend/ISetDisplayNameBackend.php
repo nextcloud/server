@@ -24,6 +24,13 @@ declare(strict_types=1);
 
 namespace OCP\User\Backend;
 
+/**
+ * @since 14.0.0
+ */
 interface ISetDisplayNameBackend {
+
+	/**
+	 * @since 14.0.0
+	 */
 	public function setDisplayName(string $uid, string $displayName): bool;
 }

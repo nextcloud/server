@@ -24,6 +24,13 @@ declare(strict_types=1);
 
 namespace OCP\User\Backend;
 
+/**
+ * @since 14.0.0
+ */
 interface IProvideAvatarBackend {
+
+	/**
+	 * @since 14.0.0
+	 */
 	public function canChangeAvatar(string $uid): bool;
 }
