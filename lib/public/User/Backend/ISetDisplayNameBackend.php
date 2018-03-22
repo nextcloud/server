@@ -31,6 +31,10 @@ interface ISetDisplayNameBackend {
 
 	/**
 	 * @since 14.0.0
+	 *
+	 * @param string $uid The username
+	 * @param string $displayName The new display name
+	 * @return bool
 	 */
 	public function setDisplayName(string $uid, string $displayName): bool;
 }

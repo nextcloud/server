@@ -31,6 +31,10 @@ interface ICreateUserBackend {
 
 	/**
 	 * @since 14.0.0
+	 *
+	 * @param string $uid The username of the user to create
+	 * @param string $password The password of the new user
+	 * @return bool
 	 */
 	public function createUser(string $uid, string $password): bool;
 }

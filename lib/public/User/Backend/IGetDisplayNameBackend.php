@@ -31,6 +31,9 @@ interface IGetDisplayNameBackend {
 
 	/**
 	 * @since 14.0.0
+	 *
+	 * @param string $uid user ID of the user
+	 * @return string display name
 	 */
 	public function getDisplayName($uid): string;
 }

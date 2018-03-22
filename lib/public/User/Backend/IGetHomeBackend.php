@@ -31,6 +31,9 @@ interface IGetHomeBackend {
 
 	/**
 	 * @since 14.0.0
+	 *
+	 * @param string $uid the username
+	 * @return string|bool Datadir on success false on failure
 	 */
 	public function getHome(string $uid);
 }

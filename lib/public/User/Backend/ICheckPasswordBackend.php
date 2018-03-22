@@ -30,6 +30,10 @@ namespace OCP\User\Backend;
 interface ICheckPasswordBackend {
 	/**
 	 * @since 14.0.0
+	 *
+	 * @param string $uid The username
+	 * @param string $password The password
+	 * @return string|bool The uid on success false on failure
 	 */
 	public function checkPassword(string $loginName, string $password);
 }

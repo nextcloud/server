@@ -35,6 +35,9 @@ abstract class ABackend implements IUserBackend, UserInterface {
 
 	/**
 	 * @deprecated 14.0.0
+	 *
+	 * @param int $actions The action to check for
+	 * @return bool
 	 */
 	public function implementsActions($actions): bool {
 		$implements = 0;

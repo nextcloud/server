@@ -31,6 +31,9 @@ interface IProvideAvatarBackend {
 
 	/**
 	 * @since 14.0.0
+	 *
+	 * @param string $uid
+	 * @return bool
 	 */
 	public function canChangeAvatar(string $uid): bool;
 }
