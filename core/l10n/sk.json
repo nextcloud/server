@@ -161,9 +161,6 @@
     "{sharee} (email)" : "{sharee} (pošta)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Sprístupniť",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID alebo e-mailovej adresy.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID.",
-    "Share with other people by entering a user or group or an email address." : "Sprístupniť iným ľuďom zadaním používateľa, skupiny alebo e-mailovej adresy.",
     "Name or email address..." : "Meno alebo e-mailová adresa...",
     "Name or federated cloud ID..." : "Meno alebo federatívny cloud ID...",
     "Name, federated cloud ID or email address..." : "Meno, federatívny cloud ID alebo e-mailová adresa...",
@@ -293,6 +290,9 @@
     "This page will refresh itself when the %s instance is available again." : "Táto stránka sa obnoví sama hneď ako bude %s inštancia znovu dostupná.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane.",
     "Thank you for your patience." : "Ďakujeme za Vašu trpezlivosť.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID alebo e-mailovej adresy.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID.",
+    "Share with other people by entering a user or group or an email address." : "Sprístupniť iným ľuďom zadaním používateľa, skupiny alebo e-mailovej adresy.",
     "Alternative Logins" : "Alternatívne prihlásenie"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

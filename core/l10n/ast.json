@@ -136,9 +136,6 @@
     "{sharee} (email)" : "{sharee} (corréu)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Compartir",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Comparti con otra xente introduciendo un usuariu, grupu, ID de ñube federada o direición de corréu.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Comparti con otra xente introduciendo un usuariu, grupu o ID de ñube federada.",
-    "Share with other people by entering a user or group or an email address." : "Comparti con otra xente introduciendo un usuariu, grupu o direición de corréu.",
     "Name or email address..." : "Nome o direición de corréu...",
     "Name or federated cloud ID..." : "Nome o ID de ñube federada...",
     "Name, federated cloud ID or email address..." : "Nome, ID de ñube federada o direición de corréu...",
@@ -240,6 +237,9 @@
     "This page will refresh itself when the %s instance is available again." : "Esta páxina refrescaráse sola cuando la instancia %s vuelva tar disponible.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
     "Thank you for your patience." : "Gracies pola to paciencia.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Comparti con otra xente introduciendo un usuariu, grupu, ID de ñube federada o direición de corréu.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Comparti con otra xente introduciendo un usuariu, grupu o ID de ñube federada.",
+    "Share with other people by entering a user or group or an email address." : "Comparti con otra xente introduciendo un usuariu, grupu o direición de corréu.",
     "Alternative Logins" : "Anicios de sesión alternativos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

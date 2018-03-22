@@ -156,9 +156,6 @@ OC.L10N.register(
     "{sharee} (email)" : "{sharee} (correo electrónico)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Compartir",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Comparta con otras personas ingresando un usuario, un grupo, un ID de nube federado o una dirección de correo electrónico.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Comparta con otras personas ingresando un usuario, un grupo o un ID de nube federado.",
-    "Share with other people by entering a user or group or an email address." : "Comparta con otras personas ingresando un usuario, un grupo o una dirección de correo electrónico.",
     "Name or email address..." : "Nombre o dirección de correo electrónico",
     "Name or federated cloud ID..." : "Nombre o ID de nube federada...",
     "Name, federated cloud ID or email address..." : "Nombre, ID de nube federada o dirección de correo electrónico...",
@@ -278,6 +275,9 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Esta página se actualizará sola cuando la instancia %s esté disponible de nuevo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
     "Thank you for your patience." : "Gracias por su paciencia.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Comparta con otras personas ingresando un usuario, un grupo, un ID de nube federado o una dirección de correo electrónico.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Comparta con otras personas ingresando un usuario, un grupo o un ID de nube federado.",
+    "Share with other people by entering a user or group or an email address." : "Comparta con otras personas ingresando un usuario, un grupo o una dirección de correo electrónico.",
     "Alternative Logins" : "Accesos Alternativos"
 },
 "nplurals=2; plural=(n != 1);");

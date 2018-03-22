@@ -123,7 +123,6 @@ OC.L10N.register(
     "Error while sharing" : "Almashish paytida xatolik yuz berdi",
     "Share details could not be loaded for this item." : "Ushbu ma'lumot uchun almashish tafsilotlari yuklanmadi.",
     "An error occurred. Please try again" : "Xatolik yuz berdi. Iltimos, yana bir bor urinib ko'ring",
-    "Share with other people by entering a user or group or an email address." : "Biror foydalanuvchi yoki guruh yoki elektron pochta manzilini kiritish orqali boshqa odamlar bilan bo'lishing.",
     "Name or email address..." : "Ism yoki elektron pochta manzili...",
     "Name or federated cloud ID..." : "Nom yoki biriktirilgan bulut identifikatori...",
     "Name, federated cloud ID or email address..." : "Nomi, federation bulut identifikatori yoki elektron pochta manzili...",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Wrong password." : "Noto'g'ri parol.",
     "Stay logged in" : "Kirishni unutmang",
     "Account access" : "Hisobga kirish",
+    "Share with other people by entering a user or group or an email address." : "Biror foydalanuvchi yoki guruh yoki elektron pochta manzilini kiritish orqali boshqa odamlar bilan bo'lishing.",
     "Alternative Logins" : "Shu bilan bir qatorda kirishlar",
     "Back to log in" : "Kirish uchun qaytib boring"
 },

@@ -159,9 +159,6 @@
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Διαμοιρασμός",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα, το ID του federated cloud ή μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα ή το ID του federated cloud.",
-    "Share with other people by entering a user or group or an email address." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα ή μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
     "Name or email address..." : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου...",
     "Name or federated cloud ID..." : "Όνομα ή ID του federated cloud...",
     "Name, federated cloud ID or email address..." : "Όνομα, federated cloud ID ή διεύθυνση ηλεκτροικού ταχυδρομείου...",
@@ -282,6 +279,9 @@
     "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
     "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα, το ID του federated cloud ή μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα ή το ID του federated cloud.",
+    "Share with other people by entering a user or group or an email address." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα ή μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
     "Alternative Logins" : "Εναλλακτικές είσοδοι"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
