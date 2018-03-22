@@ -682,7 +682,7 @@ class FolderTest extends NodeTest {
 
 		$fileInfo = new CacheEntry(['path' => 'foo/qwerty', 'mimetype' => 'text/plain'], null);
 
-		$storage->expects($this->once())
+		$storage->expects($this->exactly(2))
 			->method('getCache')
 			->will($this->returnValue($cache));
 
