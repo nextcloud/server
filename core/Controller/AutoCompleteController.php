@@ -23,7 +23,7 @@
 
 namespace OC\Core\Controller;
 
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\OCSController as Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;

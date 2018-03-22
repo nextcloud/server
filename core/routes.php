@@ -64,7 +64,6 @@ $application->registerRoutes($this, [
 		['name' => 'Js#getJs', 'url' => '/js/{appName}/{fileName}', 'verb' => 'GET'],
 		['name' => 'contactsMenu#index', 'url' => '/contactsmenu/contacts', 'verb' => 'POST'],
 		['name' => 'contactsMenu#findOne', 'url' => '/contactsmenu/findOne', 'verb' => 'POST'],
-		['name' => 'AutoComplete#get', 'url' => 'autocomplete/get', 'verb' => 'GET'],
 		['name' => 'WalledGarden#get', 'url' => '/204', 'verb' => 'GET'],
 		['name' => 'Search#search', 'url' => '/core/search', 'verb' => 'GET'],
 	],
@@ -75,6 +74,7 @@ $application->registerRoutes($this, [
 		['root' => '/identityproof', 'name' => 'OCS#getIdentityProof', 'url' => '/key/{cloudId}', 'verb' => 'GET'],
 		['root' => '/core', 'name' => 'Navigation#getAppsNavigation', 'url' => '/navigation/apps', 'verb' => 'GET'],
 		['root' => '/core', 'name' => 'Navigation#getSettingsNavigation', 'url' => '/navigation/settings', 'verb' => 'GET'],
+		['root' => '/core', 'name' => 'AutoComplete#get', 'url' => '/autocomplete/get', 'verb' => 'GET'],
 	],
 ]);
 
