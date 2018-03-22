@@ -159,9 +159,6 @@ OC.L10N.register(
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Partajează",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup, a unui ID de cloud federalizat sau a unei adrese de email.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup sau a unui ID de cloud federalizat.",
-    "Share with other people by entering a user or group or an email address." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup sau a unei adrese de email.",
     "Name or email address..." : "Nume sau adresă de email...",
     "Name or federated cloud ID..." : "Nume sau ID de cloud federalizat...",
     "Name, federated cloud ID or email address..." : "Nume, ID de cloud federalizat sau adresă de email...",
@@ -285,6 +282,9 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Această pagină se va reîmprospăta atunci când %s instance e disponibil din nou.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
     "Thank you for your patience." : "Îți mulțumim pentru răbdare.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup, a unui ID de cloud federalizat sau a unei adrese de email.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup sau a unui ID de cloud federalizat.",
+    "Share with other people by entering a user or group or an email address." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup sau a unei adrese de email.",
     "Alternative Logins" : "Conectări alternative"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

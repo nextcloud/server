@@ -88,7 +88,7 @@ OC.L10N.register(
     "Email sent" : "Email inviata",
     "Official" : "Ufficiale",
     "All" : "Tutti",
-    "Update to %s" : "Aggiornato a %s",
+    "Update to %s" : "Aggiorna a %s",
     "No apps found for your version" : "Nessuna applicazione trovata per la tua versione",
     "The app will be downloaded from the app store" : "L'applicazione sarà scaricata dallo store delle applicazioni",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Le applicazioni ufficiali sono sviluppate dalla comunità. Esse offrono nuove  funzionalità e sono pronte per l'uso in produzione.",

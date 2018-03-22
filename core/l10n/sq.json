@@ -154,9 +154,6 @@
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Ndaje",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Shpërndaje me persona të tjerë duke vendosur një përdorues ose një grup, një ID reje të federuar ose një adresë emaili",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Ndaj me njerëz të tjerë duke futur një pëdorues ose grup ose një ID reje federale.",
-    "Share with other people by entering a user or group or an email address." : "Shpërndaje me persona të tjerë duke vendosur një perdorues ose një grup ose një adresë emaili",
     "Name or email address..." : "Emri ose adresa e email-it",
     "Name or federated cloud ID..." : "Emri ose ID e resë të fedferuar",
     "Name, federated cloud ID or email address..." : "Emri, ID e resë të federuar ose adresën e email-it...",
@@ -274,6 +271,9 @@
     "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
     "Thank you for your patience." : "Ju faleminderit për durimin.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Shpërndaje me persona të tjerë duke vendosur një përdorues ose një grup, një ID reje të federuar ose një adresë emaili",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Ndaj me njerëz të tjerë duke futur një pëdorues ose grup ose një ID reje federale.",
+    "Share with other people by entering a user or group or an email address." : "Shpërndaje me persona të tjerë duke vendosur një perdorues ose një grup ose një adresë emaili",
     "Alternative Logins" : "Hyrje Alternative"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
