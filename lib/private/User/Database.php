@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -57,8 +58,14 @@
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
-use OC\DB\QueryBuilder\Literal;
-use OCP\IUserBackend;
+use OCP\User\Backend\AbstractBackend;
+use OCP\User\Backend\ICheckPasswordBackend;
+use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\ICreateUserBackend;
+use OCP\User\Backend\IGetDisplayNameBackend;
+use OCP\User\Backend\IGetHomeBackend;
+use OCP\User\Backend\ISetDisplayNameBackend;
+use OCP\User\Backend\ISetPasswordBackend;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -66,7 +73,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends Backend implements IUserBackend {
+class Database extends AbstractBackend
+	implements ICreateUserBackend,
+	           ISetPasswordBackend,
+	           ISetDisplayNameBackend,
+	           IGetDisplayNameBackend,
+	           ICheckPasswordBackend,
+	           IGetHomeBackend,
+	           ICountUsersBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
@@ -93,13 +107,13 @@ class Database extends Backend implements IUserBackend {
 	 * Creates a new user. Basic checking of username is done in OC_User
 	 * itself, not in its subclasses.
 	 */
-	public function createUser($uid, $password) {
+	public function createUser(string $uid, string $password): bool {
 		if (!$this->userExists($uid)) {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
 			try {
-				$result = $query->execute(array($uid, \OC::$server->getHasher()->hash($password)));
+				$result = $query->execute([$uid, \OC::$server->getHasher()->hash($password)]);
 			} catch (\Exception $e) {
 				$result = false;
 			}
@@ -124,7 +138,7 @@ class Database extends Backend implements IUserBackend {
 	public function deleteUser($uid) {
 		// Delete user-group-relation
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*users` WHERE `uid` = ?');
-		$result = $query->execute(array($uid));
+		$result = $query->execute([$uid]);
 
 		if (isset($this->cache[$uid])) {
 			unset($this->cache[$uid]);
@@ -142,12 +156,12 @@ class Database extends Backend implements IUserBackend {
 	 *
 	 * Change the password of a user
 	 */
-	public function setPassword($uid, $password) {
+	public function setPassword(string $uid, string $password): bool {
 		if ($this->userExists($uid)) {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?');
-			$result = $query->execute(array(\OC::$server->getHasher()->hash($password), $uid));
+			$result = $query->execute([\OC::$server->getHasher()->hash($password), $uid]);
 
 			return $result ? true : false;
 		}
@@ -164,10 +178,10 @@ class Database extends Backend implements IUserBackend {
 	 *
 	 * Change the display name of a user
 	 */
-	public function setDisplayName($uid, $displayName) {
+	public function setDisplayName(string $uid, string $displayName): bool {
 		if ($this->userExists($uid)) {
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*users` SET `displayname` = ? WHERE LOWER(`uid`) = LOWER(?)');
-			$query->execute(array($displayName, $uid));
+			$query->execute([$displayName, $uid]);
 			$this->cache[$uid]['displayname'] = $displayName;
 
 			return true;
@@ -182,7 +196,7 @@ class Database extends Backend implements IUserBackend {
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
-	public function getDisplayName($uid) {
+	public function getDisplayName($uid): string {
 		$this->loadUser($uid);
 		return empty($this->cache[$uid]['displayname']) ? $uid : $this->cache[$uid]['displayname'];
 	}
@@ -235,9 +249,9 @@ class Database extends Backend implements IUserBackend {
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
 	 */
-	public function checkPassword($uid, $password) {
+	public function checkPassword(string $uid, string $password) {
 		$query = \OC_DB::prepare('SELECT `uid`, `password` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
-		$result = $query->execute(array($uid));
+		$result = $query->execute([$uid]);
 
 		$row = $result->fetchRow();
 		if ($row) {
@@ -271,7 +285,7 @@ class Database extends Backend implements IUserBackend {
 			}
 
 			$query = \OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
-			$result = $query->execute(array($uid));
+			$result = $query->execute([$uid]);
 
 			if ($result === false) {
 				Util::writeLog('core', \OC_DB::getErrorMessage(), Util::ERROR);
@@ -326,9 +340,9 @@ class Database extends Backend implements IUserBackend {
 	 * @param string $uid the username
 	 * @return string|false
 	 */
-	public function getHome($uid) {
+	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
-			return \OC::$server->getConfig()->getSystemValue("datadirectory", \OC::$SERVERROOT . "/data") . '/' . $uid;
+			return \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 
 		return false;
