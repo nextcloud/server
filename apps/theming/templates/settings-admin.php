@@ -23,7 +23,7 @@
  *
  */
 script('theming', 'settings-admin');
-script('theming', '3rdparty/jscolor/jscolor');
+script('theming', 'vendor/jscolor/jscolor');
 style('theming', 'settings-admin');
 ?>
 <div id="theming" class="section">

@@ -32,12 +32,12 @@ OCA.LDAP = _.extend(OC.LDAP || {}, {
 
 $(document).ready(function() {
 	$('form[name=renewpassword]').submit(OCA.LDAP.onRenewPassword);
-	
+
 	if($('#newPassword').length) {
 		$('#newPassword').showPassword().keyup();
 	}
 	$('#newPassword').strengthify({
-		zxcvbn: OC.linkTo('core','vendor/zxcvbn/dist/zxcvbn.js'),
+		zxcvbn: OC.linkTo('core','js/vendor/zxcvbn/dist/zxcvbn.js'),
 		titles: [
 			t('core', 'Very weak password'),
 			t('core', 'Weak password'),

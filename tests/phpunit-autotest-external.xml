@@ -18,7 +18,7 @@
 			<directory suffix=".php">../apps/files_external</directory>
 			<exclude>
 				<directory suffix=".php">../apps/files_external/l10n</directory>
-				<directory suffix=".php">../apps/files_external/3rdparty</directory>
+				<directory suffix=".php">../apps/files_external/vendor</directory>
 				<directory suffix=".php">../apps/files_external/tests</directory>
 			</exclude>
 		</whitelist>
@@ -32,4 +32,3 @@
 	  </listener>
 	</listeners>-->
 </phpunit>
-

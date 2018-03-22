@@ -1,7 +1,7 @@
 NextCloud Core Dependency Info
 ==============================
 
-JavaScript libs bundled in `core/vendor/`.
+JavaScript libs bundled in `core/js/vendor/`.
 See the `bower.json` file in this directory.
 
 | Library | Version | License           | Comment/Patch Info (if applicable)  |
@@ -36,7 +36,7 @@ JavaScript libs bundled in `apps/comments/js/vendor/`.
 | At.js   | 1.5.5   | MIT               | NOTE: No bower.json file            |
 | Caret.js | 0.2.2  | MIT               | NOTE: No bower.json file            |
 
-External PHP libs bundled in `apps/files_external/3rdparty/`.
+External PHP libs bundled in `apps/files_external/vendor/`.
 See the `composer.json` file in that directory.
 
 | Library | Version | License           | Comment/Patch Info (if applicable)  |
@@ -44,13 +44,13 @@ See the `composer.json` file in that directory.
 | icewind/smb | 2.0.4 | MIT             |                                     |
 | icewind/streams | 0.5.2 | MIT         |                                     |
 
-JavaScript libs bundled in `apps/theming/js/3rdparty/`.
+JavaScript libs bundled in `apps/theming/js/vendor/`.
 
 | Library | Version | License           | Comment/Patch Info (if applicable)  |
 | ---     | ---     | ---               | ---                                 |
 | jscolor | 2.0.4   | GPLv3             | NOTE: No bower.json file            |
 
-JavaScript libs bundled in `apps/user_ldap/vendor/`.
+JavaScript libs bundled in `apps/user_ldap/js/vendor/`.
 
 | Library | Version | License           | Comment/Patch Info (if applicable)  |
 | ---     | ---     | ---               | ---                                 |

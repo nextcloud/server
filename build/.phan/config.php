@@ -57,7 +57,7 @@ return [
 		'apps/federation/tests',
 		'apps/files/composer',
 		'apps/files/tests',
-		'apps/files_external/3rdparty',
+		'apps/files_external/vendor',
 		'apps/files_external/composer',
 		'apps/files_external/tests',
 		'apps/files_sharing/composer',

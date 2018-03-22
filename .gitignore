@@ -39,11 +39,11 @@
 !/apps/theming
 !/apps/twofactor_backupcodes
 !/apps/workflowengine
-/apps/files_external/3rdparty/irodsphp/PHPUnitTest
-/apps/files_external/3rdparty/irodsphp/web
-/apps/files_external/3rdparty/irodsphp/prods/test
-/apps/files_external/3rdparty/irodsphp/prods/tutorials
-/apps/files_external/3rdparty/irodsphp/prods/test*
+/apps/files_external/vendor/irodsphp/PHPUnitTest
+/apps/files_external/vendor/irodsphp/web
+/apps/files_external/vendor/irodsphp/prods/test
+/apps/files_external/vendor/irodsphp/prods/tutorials
+/apps/files_external/vendor/irodsphp/prods/test*
 /apps/files_external/tests/config.*.php
 
 

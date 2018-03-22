@@ -28,9 +28,9 @@
 $data = json_decode(file_get_contents(__DIR__.'/../core/js/core.json'), true);
 $vendors = $data['vendor'];
 
-$vendorjs = fopen(__DIR__.'/../core/vendor/core.js', 'w');
+$vendorjs = fopen(__DIR__.'/../core/js/vendor/core.js', 'w');
 foreach($vendors as $vendor) {
-	fwrite($vendorjs, file_get_contents(__DIR__.'/../core/vendor/'.$vendor));
+	fwrite($vendorjs, file_get_contents(__DIR__.'/../core/js/vendor/'.$vendor));
 	fwrite($vendorjs, PHP_EOL);
 }
 fclose($vendorjs);
