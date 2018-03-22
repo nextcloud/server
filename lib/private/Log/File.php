@@ -72,7 +72,7 @@ class File {
 	/**
 	 * write a message in the log
 	 * @param string $app
-	 * @param string $message
+	 * @param string|array $message
 	 * @param int $level
 	 */
 	public static function write($app, $message, $level) {
