@@ -32,5 +32,5 @@ interface IGetHomeBackend {
 	/**
 	 * @since 14.0.0
 	 */
-	public function getHome(string $uid): string;
+	public function getHome(string $uid);
 }

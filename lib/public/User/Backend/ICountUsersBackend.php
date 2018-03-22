@@ -32,5 +32,5 @@ interface ICountUsersBackend {
 	/**
 	 * @since 14.0.0
 	 */
-	public function countUsers(): int;
+	public function countUsers();
 }

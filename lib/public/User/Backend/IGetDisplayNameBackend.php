@@ -32,5 +32,5 @@ interface IGetDisplayNameBackend {
 	/**
 	 * @since 14.0.0
 	 */
-	public function getDisplayName(string $uid): string;
+	public function getDisplayName($uid): string;
 }

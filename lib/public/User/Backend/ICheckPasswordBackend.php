@@ -31,5 +31,5 @@ interface ICheckPasswordBackend {
 	/**
 	 * @since 14.0.0
 	 */
-	public function checkPassword(string $loginName, string $password): string;
+	public function checkPassword(string $loginName, string $password);
 }
