@@ -253,14 +253,17 @@ body {
 	box-sizing: border-box;
 }
 
-#controls {
+#controls .actions {
 	> div,
 	& {
 		> .button, button {
 			box-sizing: border-box;
 			display: inline-block;
+			display: flex;
 			height: 36px;
-			padding: 7px 10px;
+			width: 36px;
+			align-items: center;
+			justify-content: center;
 		}
 		.button.hidden {
 			display: none;
