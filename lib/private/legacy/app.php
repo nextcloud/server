@@ -383,6 +383,7 @@ class OC_App {
 						   array $groups = []) {
 
 		// Check if app is already downloaded
+		/** @var Installer $installer */
 		$installer = \OC::$server->query(Installer::class);
 		$isDownloaded = $installer->isDownloaded($appId);
 

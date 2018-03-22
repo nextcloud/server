@@ -204,7 +204,9 @@ class AppManager implements IAppManager {
 	}
 
 	/**
-	 * Check if an app is installed in the instance
+	 * Check if an app is enabled in the instance
+	 *
+	 * Notice: This actually checks if the app is enabled and not only if it is installed.
 	 *
 	 * @param string $appId
 	 * @return bool

@@ -103,9 +103,9 @@ class InstallerTest extends TestCase {
 			\OC::$server->getLogger(),
 			\OC::$server->getConfig()
 		);
-		$installer->installApp(self::$appid);
-		$isInstalled = Installer::isInstalled(self::$appid);
-		$this->assertTrue($isInstalled);
+		$this->assertNull(\OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
+		$this->assertSame('testapp', $installer->installApp(self::$appid));
+		$this->assertSame('no', \OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is listed after installation');
 		$this->assertSame('0.9', \OC::$server->getConfig()->getAppValue('testapp', 'installed_version'));
 		$installer->removeApp(self::$appid);
 	}
