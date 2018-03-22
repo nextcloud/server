@@ -159,9 +159,6 @@ OC.L10N.register(
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "اشتراک‌گذاری",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "با وارد کردن یک کاربر یا گروه، شناسه Federated Cloud یا آدرس ایمیل با دیگران به اشتراک بگذارید.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "با وارد کردن یک کاربر یا گروه یا شناسه Federated Cloud با افراد دیگر به اشتراک بگذارید.",
-    "Share with other people by entering a user or group or an email address." : "با وارد کردن یک کاربر یا گروه یا یک آدرس ایمیل با افراد دیگر به اشتراک بگذارید.",
     "Name or email address..." : "نام یا آدرس ایمیل ...",
     "Name or federated cloud ID..." : "نام یا شناسه Federated Cloud ...",
     "Name, federated cloud ID or email address..." : "نام, آدرس ایمیل یا شناسه Federated Cloud ...",
@@ -266,6 +263,9 @@ OC.L10N.register(
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
     "Thank you for your patience." : "از صبر شما متشکریم",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "با وارد کردن یک کاربر یا گروه، شناسه Federated Cloud یا آدرس ایمیل با دیگران به اشتراک بگذارید.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "با وارد کردن یک کاربر یا گروه یا شناسه Federated Cloud با افراد دیگر به اشتراک بگذارید.",
+    "Share with other people by entering a user or group or an email address." : "با وارد کردن یک کاربر یا گروه یا یک آدرس ایمیل با افراد دیگر به اشتراک بگذارید.",
     "Alternative Logins" : "ورود متناوب"
 },
 "nplurals=1; plural=0;");

@@ -147,9 +147,6 @@
     "{sharee} (email)" : "{sharee} (e-pasts)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Koplietot",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu, federated cloud ID vai e-pasta adresi.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu vai federated cloud ID.",
-    "Share with other people by entering a user or group or an email address." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu vai e-pasta adresi.",
     "Name or email address..." : "Vārds vai e-pasta adrese...",
     "Name or federated cloud ID..." : "Vārds vai federated cloud ID",
     "Name, federated cloud ID or email address..." : "Vārds, federated cloud ID vai e-pasta adrese...",
@@ -265,6 +262,9 @@
     "This page will refresh itself when the %s instance is available again." : "Lapa tiks atsvaidzināta kad %s instance atkal ir pieejama.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
     "Thank you for your patience." : "Paldies par jūsu pacietību.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu, federated cloud ID vai e-pasta adresi.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu vai federated cloud ID.",
+    "Share with other people by entering a user or group or an email address." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu vai e-pasta adresi.",
     "Alternative Logins" : "Alternatīvās pieteikšanās"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

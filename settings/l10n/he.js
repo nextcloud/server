@@ -1,6 +1,13 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} changed your password" : "הססמה שלך הוחלפה על ידי {actor}",
+    "You changed your password" : "שינית את הססמה שלך",
+    "Your password was reset by an administrator" : "הססמה שלך אופסה על ידי מנהל",
+    "{actor} changed your email address" : "כתובת הדוא״ל שלך נערכה על ידי {actor}",
+    "You changed your email address" : "שינית את כתובת הדוא״ל שלך",
+    "Your email address was changed by an administrator" : "כתובת הדוא״ל שלך נערכה על ידי המנהל",
+    "Security" : "אבטחה",
     "Wrong password" : "סיסמא שגוייה",
     "Saved" : "נשמר",
     "No user supplied" : "לא סופק שם משתמש",

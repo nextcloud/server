@@ -160,9 +160,6 @@
     "{sharee} (email)" : "{sharee} (e-mail)",
     "{sharee} ({type}, {owner})" : "{share} ({type}, {owner})",
     "Share" : "Del",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Del med andre ved at indtaste et brugernavn, en gruppe, et federated cloud id eller en e-mail adresse.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Del med andre ved at indtaste et brugernavn, en gruppe eller et federated cloud id.",
-    "Share with other people by entering a user or group or an email address." : "Del med andre ved at indtaste et brugernavn, en gruppe eller e-mail adresse.",
     "Name or email address..." : "Navn eller e-mail adresse...",
     "Name or federated cloud ID..." : "Navn eller federated cloud id...",
     "Name, federated cloud ID or email address..." : "Navn, federated cloud id eller e-mail adresse...",
@@ -291,6 +288,9 @@
     "This page will refresh itself when the %s instance is available again." : "Denne side vil genopfriske sig selv, når %s-instancen er tilgængelig igen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
     "Thank you for your patience." : "Tak for din tålmodighed.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Del med andre ved at indtaste et brugernavn, en gruppe, et federated cloud id eller en e-mail adresse.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Del med andre ved at indtaste et brugernavn, en gruppe eller et federated cloud id.",
+    "Share with other people by entering a user or group or an email address." : "Del med andre ved at indtaste et brugernavn, en gruppe eller e-mail adresse.",
     "Alternative Logins" : "Alternative logins",
     "Back to log in" : "Tilbage til log in"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

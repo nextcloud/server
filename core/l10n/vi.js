@@ -159,9 +159,6 @@ OC.L10N.register(
     "{sharee} (email)" : "{sharee} (thư điện tử)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Chia sẻ",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, ID đám mây liên kết hoặc địa chỉ email.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, ID đám mây liên kết.",
-    "Share with other people by entering a user or group or an email address." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, hoặc địa chỉ email.",
     "Name or email address..." : "Tên hoặc địa chỉ email.",
     "Name or federated cloud ID..." : "Tên hoặc ID đám mây liên kết.",
     "Name, federated cloud ID or email address..." : "Tên người dùng, ID đám mây liên kết hoặc địa chỉ email.",
@@ -287,6 +284,9 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Trang này sẽ tự động được làm tươi khi bản cài đặt %s được sẵn sàng.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
     "Thank you for your patience." : "Cảm ơn sự kiên nhẫn của bạn.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, ID đám mây liên kết hoặc địa chỉ email.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, ID đám mây liên kết.",
+    "Share with other people by entering a user or group or an email address." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, hoặc địa chỉ email.",
     "Alternative Logins" : "Đăng nhập khác"
 },
 "nplurals=1; plural=0;");

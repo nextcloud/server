@@ -157,9 +157,6 @@
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {jabea})",
     "Share" : "Partekatu",
-    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Parteka ezazu jendearekin taldeko erabiltzailea, federatutako hodei baten IDa edo e-posta helbide bat sartuta.",
-    "Share with other people by entering a user or group or a federated cloud ID." : "Parteka ezazu jendearekin taldeko erabiltzailea edo federatutako hodei baten IDa sartuta.",
-    "Share with other people by entering a user or group or an email address." : "Parteka ezazu jendearekin taldeko erabiltzailea edo e-posta helbide bat sartuta.",
     "Name or email address..." : "Izena edo e-posta helbidea...",
     "Name or federated cloud ID..." : "Izena edo federatutako hodeiaren IDa...",
     "Name, federated cloud ID or email address..." : "Izena, federatutako hodeiaren IDa edo e-posta helbidea...",
@@ -285,6 +282,9 @@
     "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",
     "Thank you for your patience." : "Milesker zure patzientziagatik.",
+    "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Parteka ezazu jendearekin taldeko erabiltzailea, federatutako hodei baten IDa edo e-posta helbide bat sartuta.",
+    "Share with other people by entering a user or group or a federated cloud ID." : "Parteka ezazu jendearekin taldeko erabiltzailea edo federatutako hodei baten IDa sartuta.",
+    "Share with other people by entering a user or group or an email address." : "Parteka ezazu jendearekin taldeko erabiltzailea edo e-posta helbide bat sartuta.",
     "Alternative Logins" : "Beste erabiltzaile izenak"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
