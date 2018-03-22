@@ -206,11 +206,18 @@ kbd {
 						left: 22px; /* 44px / 2 */
 					}
 
-					> .app-navigation-entry-deleted,
-					> .app-navigation-entry-edit {
+					> .app-navigation-entry-deleted {
 						/* margin to keep active indicator visible */
 						margin-left: 4px;
 						padding-left: 84px;
+					}
+
+					> .app-navigation-entry-edit {
+						/* margin to keep active indicator visible */
+						margin-left: 4px;
+						/* align the input correctly with the link text
+						44px+44px-4px-6px padding for the input */
+						padding-left: 78px !important;
 					}
 				}
 			}
