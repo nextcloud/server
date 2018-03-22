@@ -31,7 +31,7 @@ use OCP\UserInterface;
 /**
  * @since 14.0.0
  */
-abstract class AbstractBackend implements IUserBackend, UserInterface {
+abstract class ABackend implements IUserBackend, UserInterface {
 
 	/**
 	 * @deprecated 14.0.0

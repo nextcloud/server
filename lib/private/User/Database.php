@@ -58,7 +58,7 @@ declare(strict_types=1);
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
-use OCP\User\Backend\AbstractBackend;
+use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\ICreateUserBackend;
@@ -73,7 +73,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends AbstractBackend
+class Database extends ABackend
 	implements ICreateUserBackend,
 	           ISetPasswordBackend,
 	           ISetDisplayNameBackend,
