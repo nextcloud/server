@@ -15,6 +15,7 @@ OC.L10N.register(
     "The file was only partially uploaded" : "Le fichier n'a été que partiellement envoyé",
     "No file was uploaded" : "Aucun fichier téléversé",
     "Missing a temporary folder" : "Absence de dossier temporaire",
+    "A PHP extension stopped the file upload" : "Une extension PHP a arrêté le téléversement du fichier",
     "No file uploaded" : "Aucun fichier téléversé",
     "Unsupported image type" : "Ce type d'image n'est pas pris en charge",
     "You are already using a custom theme" : "Vous utilisez déjà un thème personnalisé",

@@ -10,6 +10,7 @@
     "More comments …" : "Lisää kommentteja…",
     "Save" : "Tallenna",
     "Allowed characters {count} of {max}" : "Sallittujen merkkien määrä {count}/{max}",
+    "Error occurred while retrieving comment with ID {id}" : "Virhe haettaessa kommenttia tunnisteella {id}",
     "Error occurred while updating comment with id {id}" : "Virhe päivittäessä kommenttia tunnisteella {id}",
     "Error occurred while posting comment" : "Virhe kommenttia lähettäessä",
     "_%n unread comment_::_%n unread comments_" : ["%n lukematon kommentti","%n lukematonta kommenttia"],
