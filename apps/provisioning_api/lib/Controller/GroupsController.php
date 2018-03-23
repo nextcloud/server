@@ -97,6 +97,33 @@ class GroupsController extends OCSController {
 	}
 
 	/**
+	 * returns a list of groups details with ids and displaynames
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return DataResponse
+	 */
+	public function getGroupsDetails(string $search = '', $limit = null, $offset = null): DataResponse {
+		if ($limit !== null) {
+			$limit = (int)$limit;
+		}
+		if ($offset !== null) {
+			$offset = (int)$offset;
+		}
+
+		$groups = $this->groupManager->search($search, $limit, $offset);
+		$groups = array_map(function($group) {
+			/** @var IGroup $group */
+			return ['id' => $group->getGID(), 'displayname' => $group->getDisplayName()];
+		}, $groups);
+
+		return new DataResponse(['groups' => $groups]);
+	}
+
+	/**
 	 * returns an array of users in the group specified
 	 *
 	 * @NoAdminRequired

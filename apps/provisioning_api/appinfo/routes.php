@@ -34,6 +34,7 @@ return [
 
 		// Groups
 		['root' => '/cloud', 'name' => 'Groups#getGroups', 'url' => '/groups', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Groups#getGroupsDetails', 'url' => '/groups/details', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Groups#getGroup', 'url' => '/groups/{groupId}', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Groups#addGroup', 'url' => '/groups', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Groups#deleteGroup', 'url' => '/groups/{groupId}', 'verb' => 'DELETE'],
