@@ -86,14 +86,7 @@ class GroupsController extends OCSController {
 	 * @param int $offset
 	 * @return DataResponse
 	 */
-	public function getGroups(string $search = '', $limit = null, $offset = null): DataResponse {
-		if ($limit !== null) {
-			$limit = (int)$limit;
-		}
-		if ($offset !== null) {
-			$offset = (int)$offset;
-		}
-
+	public function getGroups(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groups = array_map(function($group) {
 			/** @var IGroup $group */
@@ -113,14 +106,7 @@ class GroupsController extends OCSController {
 	 * @param int $offset
 	 * @return DataResponse
 	 */
-	public function getGroupsDetails(string $search = '', $limit = null, $offset = null): DataResponse {
-		if ($limit !== null) {
-			$limit = (int)$limit;
-		}
-		if ($offset !== null) {
-			$offset = (int)$offset;
-		}
-
+	public function getGroupsDetails(string $search = '', int $limit = null, int $offset = null): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groups = array_map(function($group) {
 			/** @var IGroup $group */
@@ -154,16 +140,14 @@ class GroupsController extends OCSController {
 	 */
 	public function getGroupUsers(string $groupId): DataResponse {
 		$user = $this->userSession->getUser();
+		$isSubadminOfGroup = false;
 
 		// Check the group exists
-		if(!$this->groupManager->groupExists($groupId)) {
-			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
-		}
-
-		$isSubadminOfGroup = false;
 		$group = $this->groupManager->get($groupId);
 		if ($group !== null) {
 			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminOfGroup($user, $group);
+		} else {
+			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
 		}
 
 		// Check subadmin has access to this group
@@ -192,18 +176,16 @@ class GroupsController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getGroupUsersDetails(string $groupId, $limit = null, $offset = 0): DataResponse {
+	public function getGroupUsersDetails(string $groupId, int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
+		$isSubadminOfGroup = false;
 
 		// Check the group exists
-		if(!$this->groupManager->groupExists($groupId)) {
-			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
-		}
-
-		$isSubadminOfGroup = false;
 		$group = $this->groupManager->get($groupId);
 		if ($group !== null) {
 			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminOfGroup($user, $group);
+		} else {
+			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
 		}
 
 		// Check subadmin has access to this group
