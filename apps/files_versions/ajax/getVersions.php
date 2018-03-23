@@ -24,9 +24,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
-OCP\JSON::checkAppEnabled('files_versions');
+\OC_JSON::checkLoggedIn();
+\OC_JSON::callCheck();
+\OC_JSON::checkAppEnabled('files_versions');
 
 $source = (string)$_GET['source'];
 $start = (int)$_GET['start'];
@@ -47,10 +47,10 @@ if( $versions ) {
 		unset($version['path']);
 	}
 
-	\OCP\JSON::success(array('data' => array('versions' => $versions, 'endReached' => $endReached)));
+	\OC_JSON::success(array('data' => array('versions' => $versions, 'endReached' => $endReached)));
 
 } else {
 
-	\OCP\JSON::success(array('data' => array('versions' => [], 'endReached' => true)));
+	\OC_JSON::success(array('data' => array('versions' => [], 'endReached' => true)));
 
 }

@@ -222,7 +222,6 @@ return array(
     'OCP\\IUserManager' => $baseDir . '/lib/public/IUserManager.php',
     'OCP\\IUserSession' => $baseDir . '/lib/public/IUserSession.php',
     'OCP\\Image' => $baseDir . '/lib/public/Image.php',
-    'OCP\\JSON' => $baseDir . '/lib/public/JSON.php',
     'OCP\\L10N\\IFactory' => $baseDir . '/lib/public/L10N/IFactory.php',
     'OCP\\LDAP\\IDeletionFlagSupport' => $baseDir . '/lib/public/LDAP/IDeletionFlagSupport.php',
     'OCP\\LDAP\\ILDAPProvider' => $baseDir . '/lib/public/LDAP/ILDAPProvider.php',
