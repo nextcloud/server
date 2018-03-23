@@ -187,10 +187,12 @@ class GroupsController extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @param string $groupId
+	 * @param int $limit
+	 * @param int $offset
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getGroupUsersDetails(string $groupId): DataResponse {
+	public function getGroupUsersDetails(string $groupId, $limit = null, $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 
 		// Check the group exists
@@ -208,6 +210,8 @@ class GroupsController extends OCSController {
 		if($this->groupManager->isAdmin($user->getUID())
 		   || $isSubadminOfGroup) {
 			$users = $this->groupManager->get($groupId)->getUsers();
+			// Extract required number
+			$users = array_slice($users, $offset, $limit);
 			$users =  array_map(function($user) {
 				/** @var IUser $user */
 				return $this->userController->getUserData($user->getUID());
