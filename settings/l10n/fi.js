@@ -101,6 +101,7 @@ OC.L10N.register(
     "Error: This app can not be enabled because it makes the server unstable" : "Virhe: tätä sovellusta ei voi ottaa käyttöön, koska se tekee palvelimesta epävakaan",
     "Error while disabling broken app" : "Virhe rikkinäistä sovellusta käytöstä poistaessa",
     "App up to date" : "Sovellus ajan tasalla",
+    "Updating …" : "Päivitetään ...",
     "Updated" : "Päivitetty",
     "Removing …" : "Poistetaan…",
     "Could not remove app" : "Sovellusta ei voitu poistaa",

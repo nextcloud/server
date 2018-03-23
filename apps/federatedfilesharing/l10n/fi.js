@@ -33,7 +33,7 @@ OC.L10N.register(
     "Sharing" : "Jakaminen",
     "Federated file sharing" : "Federoitu tiedostojako",
     "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
-    "Open documentation" : "Avaa dokumentaatio",
+    "Open documentation" : "Avaa ohje",
     "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä.",
     "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta",

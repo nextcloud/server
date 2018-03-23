@@ -173,6 +173,7 @@
     "This list is maybe truncated - please refine your search term to see more results." : "Esta lista puede estar truncada - por favor refina tus términos de búsqueda para poder ver más resultados. ",
     "No users or groups found for {search}" : "No se encontraron usuarios o gurpos para {search}",
     "No users found for {search}" : "No se encontraron usuarios para {search}",
+    "An error occurred (\"{message}\"). Please try again" : "Se presentó un error (\"{message}\"). Por favor vuelve a intentarlo",
     "An error occurred. Please try again" : "Se presentó un error. Por favor vuelve a intentarlo",
     "{sharee} (group)" : "{sharee} (grupo)",
     "{sharee} (remote)" : "{sharee} (remoto)",
