@@ -32,6 +32,7 @@ use OCP\ILogger;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\InvalidSyncToken;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\NotImplemented;
@@ -65,6 +66,9 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// happens when the parent directory is not present (for example when a
 		// move is done to a non-existent directory)
 		Conflict::class => true,
+		// happens when a certain method is not allowed to be called
+		// for example creating a folder that already exists
+		MethodNotAllowed::class => true,
 	];
 
 	/** @var string */
