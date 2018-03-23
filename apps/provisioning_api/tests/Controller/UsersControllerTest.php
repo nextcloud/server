@@ -56,6 +56,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\Security\ISecureRandom;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -85,6 +86,8 @@ class UsersControllerTest extends TestCase {
 	private $newUserMailHelper;
 	/** @var FederatedFileSharingFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $federatedFileSharingFactory;
+	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	private $secureRandom;
 
 	protected function setUp() {
 		parent::setUp();
@@ -100,6 +103,7 @@ class UsersControllerTest extends TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 		$this->federatedFileSharingFactory = $this->createMock(FederatedFileSharingFactory::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
 
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
@@ -114,7 +118,8 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedFileSharingFactory
+				$this->federatedFileSharingFactory,
+				$this->secureRandom
 			])
 			->setMethods(['fillStorageInfo'])
 			->getMock();
@@ -242,7 +247,7 @@ class UsersControllerTest extends TestCase {
 			->with('adminUser')
 			->willReturn(true);
 
-		$this->api->addUser('AlreadyExistingUser', 'password', []);
+		$this->api->addUser('AlreadyExistingUser', 'password', '', []);
 	}
 
 	/**
@@ -278,7 +283,7 @@ class UsersControllerTest extends TestCase {
 			->with('NonExistingGroup')
 			->willReturn(false);
 
-		$this->api->addUser('NewUser', 'pass', ['NonExistingGroup']);
+		$this->api->addUser('NewUser', 'pass', '', ['NonExistingGroup']);
 	}
 
 	/**
@@ -320,7 +325,7 @@ class UsersControllerTest extends TestCase {
 				['NonExistingGroup', false]
 			]));
 
-		$this->api->addUser('NewUser', 'pass', ['ExistingGroup', 'NonExistingGroup']);
+		$this->api->addUser('NewUser', 'pass', '', ['ExistingGroup', 'NonExistingGroup']);
 	}
 
 	public function testAddUserSuccessful() {
@@ -412,7 +417,7 @@ class UsersControllerTest extends TestCase {
 				['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']]
 			);
 
-		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', ['ExistingGroup'])->getData());
+		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', ['ExistingGroup'])->getData());
 	}
 
 	/**
@@ -490,7 +495,7 @@ class UsersControllerTest extends TestCase {
 			->with()
 			->willReturn($subAdminManager);
 
-		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', []);
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', []);
 	}
 
 	/**
@@ -539,7 +544,7 @@ class UsersControllerTest extends TestCase {
 			->with('ExistingGroup')
 			->willReturn(true);
 
-		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', ['ExistingGroup'])->getData();
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', ['ExistingGroup'])->getData();
 	}
 
 	public function testAddUserAsSubAdminExistingGroups() {
@@ -630,7 +635,7 @@ class UsersControllerTest extends TestCase {
 			)
 			->willReturn(true);
 
-		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', ['ExistingGroup1', 'ExistingGroup2'])->getData());
+		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', ['ExistingGroup1', 'ExistingGroup2'])->getData());
 	}
 
 	/**
@@ -2928,7 +2933,8 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedFileSharingFactory
+				$this->federatedFileSharingFactory,
+				$this->secureRandom
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -2990,7 +2996,8 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedFileSharingFactory
+				$this->federatedFileSharingFactory,
+				$this->secureRandom
 			])
 			->setMethods(['getUserData'])
 			->getMock();

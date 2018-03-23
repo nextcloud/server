@@ -50,6 +50,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Security\ISecureRandom;
 
 class UsersController extends OCSController {
 
@@ -73,6 +74,8 @@ class UsersController extends OCSController {
 	private $newUserMailHelper;
 	/** @var FederatedFileSharingFactory */
 	private $federatedFileSharingFactory;
+	/** @var ISecureRandom */
+	private $secureRandom;
 
 	/**
 	 * @param string $appName
@@ -87,6 +90,7 @@ class UsersController extends OCSController {
 	 * @param IFactory $l10nFactory
 	 * @param NewUserMailHelper $newUserMailHelper
 	 * @param FederatedFileSharingFactory $federatedFileSharingFactory
+	 * @param ISecureRandom $secureRandom
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -99,7 +103,8 @@ class UsersController extends OCSController {
 								ILogger $logger,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
-								FederatedFileSharingFactory $federatedFileSharingFactory) {
+								FederatedFileSharingFactory $federatedFileSharingFactory,
+								ISecureRandom $secureRandom) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -112,6 +117,7 @@ class UsersController extends OCSController {
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
 		$this->federatedFileSharingFactory = $federatedFileSharingFactory;
+		$this->secureRandom = $secureRandom;
 	}
 
 	/**
@@ -199,11 +205,12 @@ class UsersController extends OCSController {
 	 *
 	 * @param string $userid
 	 * @param string $password
+	 * @param string $email
 	 * @param array $groups
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function addUser(string $userid, string $password, array $groups = []): DataResponse {
+	public function addUser(string $userid, string $password = '', string $email='', array $groups = []): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
@@ -228,6 +235,18 @@ class UsersController extends OCSController {
 			}
 		}
 
+		$generatePasswordResetToken = false;
+		if ($password === '') {
+			if ($email === '') {
+				throw new OCSException('To send a password link to the user an email address is required.', 108);
+			}
+
+			$password = $this->secureRandom->generate(10);
+			// Make sure we pass the password_policy
+			$password .= $this->secureRandom->generate(2, '$!.,;:-~+*[]{}()');
+			$generatePasswordResetToken = true;
+		}
+
 		try {
 			$newUser = $this->userManager->createUser($userid, $password);
 			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
@@ -237,7 +256,24 @@ class UsersController extends OCSController {
 				$this->logger->info('Added userid ' . $userid . ' to group ' . $group, ['app' => 'ocs_api']);
 			}
 
+			// Send new user mail only if a mail is set
+			if ($email !== '') {
+				$newUser->setEMailAddress($email);
+				try {
+					$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
+					$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
+				} catch (\Exception $e) {
+					$this->logger->logException($e, [
+						'message' => "Can't send new user mail to $email",
+						'level' => \OCP\Util::ERROR,
+						'app' => 'ocs_api',
+					]);
+					throw new OCSException('Unable to send the invitation mail', 109);
+				}
+			}
+
 			return new DataResponse();
+
 		} catch (HintException $e ) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with hint exception.',
