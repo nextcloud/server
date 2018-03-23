@@ -29,6 +29,8 @@ namespace OCA\Provisioning_API\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -106,7 +108,7 @@ class GroupsController extends OCSController {
 	 * @param int $offset
 	 * @return DataResponse
 	 */
-	public function getGroupsDetails(string $search = '', int $limit = null, int $offset = null): DataResponse {
+	public function getGroupsDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groups = array_map(function($group) {
 			/** @var IGroup $group */
@@ -126,7 +128,7 @@ class GroupsController extends OCSController {
 	 * @deprecated 14 Use getGroupUsers
 	 */
 	public function getGroup(string $groupId): DataResponse {
-		return $this->getGroup($groupId);
+		return $this->getGroupUsers($groupId);
 	}
 
 	/**
@@ -147,7 +149,7 @@ class GroupsController extends OCSController {
 		if ($group !== null) {
 			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminOfGroup($user, $group);
 		} else {
-			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
+			throw new OCSNotFoundException('The requested group could not be found');
 		}
 
 		// Check subadmin has access to this group
@@ -162,7 +164,7 @@ class GroupsController extends OCSController {
 			return new DataResponse(['users' => $users]);
 		}
 
-		throw new OCSException('User does not have access to specified group', \OCP\API::RESPOND_UNAUTHORISED);
+		throw new OCSForbiddenException();
 	}
 
 	/**

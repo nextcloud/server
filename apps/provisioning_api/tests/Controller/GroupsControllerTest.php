@@ -40,6 +40,8 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected $userSession;
 	/** @var \OC\SubAdmin|\PHPUnit_Framework_MockObject_MockObject */
 	protected $subAdminManager;
+	/** @var OCA\Provisioning_API\Controller\UsersController|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userController;
 
 	/** @var GroupsController */
 	protected $api;
@@ -67,12 +69,17 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$logger = $this->createMock(ILogger::class);
 
+		$this->userController = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->api = new GroupsController(
 			'provisioning_api',
 			$request,
 			$this->groupManager,
 			$this->userSession,
-			$logger
+			$logger,
+			$this->userController
 		);
 	}
 
@@ -141,10 +148,10 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	public function dataGetGroups() {
 		return [
-			[null, null, null],
-			['foo', null, null],
-			[null, 1, null],
-			[null, null, 2],
+			[null, 0, 0],
+			['foo', 0, 0],
+			[null, 1, 0],
+			[null, 0, 2],
 			['foo', 1, 2],
 		];
 	}
@@ -224,7 +231,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 997
+	 * @expectedExceptionCode 403
 	 */
 	public function testGetGroupAsIrrelevantSubadmin() {
 		$group = $this->createGroup('group');
@@ -269,7 +276,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 998
+	 * @expectedExceptionCode 404
 	 * @expectedExceptionMessage The requested group could not be found
 	 */
 	public function testGetGroupNonExisting() {
