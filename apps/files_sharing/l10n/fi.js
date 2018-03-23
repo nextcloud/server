@@ -77,7 +77,7 @@ OC.L10N.register(
     "Public link sharing is disabled by the administrator" : "Ylläpitäjä on estänyt julkisen linkin jakamisen",
     "Public upload disabled by the administrator" : "Ylläpitäjä on estänyt julkisen lähetyksen",
     "Public upload is only possible for publicly shared folders" : "Julkinen lähettäminen on mahdollista vain julkisesti jaetuille kansioille",
-    "Invalid date, date format must be YYYY-MM-DD" : "Virheellinen päiväys, päivämäärän muodon tulee olla YYYY-MM-DD",
+    "Invalid date, date format must be YYYY-MM-DD" : "Virheellinen päiväys, päivämäärän muodon tulee olla VVVV-KK-PP",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Kohteen %s jakaminen epäonnistui, koska tietovarasto ei salli %s tyyppisiä jakoja",
     "You cannot share to a Circle if the app is not enabled" : "Et voi jakaa piiriin, jos sovellusta ei ole aktivoitu",
     "Please specify a valid circle" : "Määritä kelvollinen piiri",

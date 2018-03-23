@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Није могуће дохватити списак група",
     "Saved" : "Снимљено",
     "Saving failed:" : "Снимање није успело:",
     "File MIME type" : "MIME тип фајла",

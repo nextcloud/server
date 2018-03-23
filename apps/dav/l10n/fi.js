@@ -48,6 +48,7 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "Tapaaminen »%s« henkilön %s kanssa peruttiin.",
     "Invitation updated" : "Kutsu päivitetty",
     "The meeting »%s« with %s was updated." : "Tapaaminen »%s« henkilön %s kanssa päivitettiin.",
+    "%s invited you to »%s«" : "%s kutsui sinut »%s«",
     "When:" : "Milloin:",
     "Where:" : "Missä:",
     "Description:" : "Kuvaus:",
