@@ -252,7 +252,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\IUserManager' => __DIR__ . '/../../..' . '/lib/public/IUserManager.php',
         'OCP\\IUserSession' => __DIR__ . '/../../..' . '/lib/public/IUserSession.php',
         'OCP\\Image' => __DIR__ . '/../../..' . '/lib/public/Image.php',
-        'OCP\\JSON' => __DIR__ . '/../../..' . '/lib/public/JSON.php',
         'OCP\\L10N\\IFactory' => __DIR__ . '/../../..' . '/lib/public/L10N/IFactory.php',
         'OCP\\LDAP\\IDeletionFlagSupport' => __DIR__ . '/../../..' . '/lib/public/LDAP/IDeletionFlagSupport.php',
         'OCP\\LDAP\\ILDAPProvider' => __DIR__ . '/../../..' . '/lib/public/LDAP/ILDAPProvider.php',
