@@ -175,6 +175,7 @@ OC.L10N.register(
     "This list is maybe truncated - please refine your search term to see more results." : "Esta lista puede estar acortada. Por favor, refina los términos de búsqueda para ver más resultados.",
     "No users or groups found for {search}" : "No se han encontrado usuarios ni grupos para {search}",
     "No users found for {search}" : "No se han encontrado usuarios para {search}",
+    "An error occurred (\"{message}\"). Please try again" : "Ha ocurrido un error (\"{message}\"). Por favor inténtelo de nuevo",
     "An error occurred. Please try again" : "Ha ocurrido un error. Por favor inténtelo de nuevo",
     "{sharee} (group)" : "{sharee} (grupo)",
     "{sharee} (remote)" : "{sharee} (remoto)",
