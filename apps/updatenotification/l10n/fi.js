@@ -9,6 +9,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Ilmoita seuraavien ryhmien jäsenille saatavilla olevista päivityksistä:",
     "Only notification for app updates are available." : "Sovelluspäivityksiin on saatavilla vain huomautuksia.",
     "The selected update channel does not support updates of the server." : "Valittu päivityskanava ei tue palvelimen päivityksiä.",
+    "A new version is available: <strong>{newVersionString}</strong>" : "Uusi versio on saatavilla: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Tarkistettu {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Ei voitu aloittaa päivitystä, kokeile päivittämistä manuaalisesti",
     "Update notifications" : "Päivitysilmoitukset",
