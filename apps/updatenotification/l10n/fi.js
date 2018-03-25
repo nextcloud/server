@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
+    "Apps with available updates" : "Sovellukset, joihin saatavilla päivityksiä",
     "Open updater" : "Avaa päivittäjä",
     "Your version is up to date." : "Versiosi on ajan tasalla.",
     "Update channel:" : "Päivityskanava:",
