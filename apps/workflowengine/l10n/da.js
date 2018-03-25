@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Kan ikke hente gruppelisten",
     "Saved" : "Gemt",
     "Saving failed:" : "Kunne ikke gemme:",
     "File MIME type" : "Fil MIME type",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Tjek %s er invalid",
     "Check #%s does not exist" : "Tjek #%s eksisterer",
     "Workflow" : "Workflow",
+    "Files workflow engine" : "Filer workflow motoren",
     "Open documentation" : "Åben dokumentationen",
     "Add rule group" : "Tilføj regelgruppe",
     "Short rule description" : "Kort regelbeskrivelse",
