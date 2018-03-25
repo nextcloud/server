@@ -1238,7 +1238,8 @@ class Share extends Constants {
 			$row['share_with_displayname'] = $row['share_with'];
 			if ( isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === self::SHARE_TYPE_USER) {
-				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
+				$shareWithUser = \OC::$server->getUserManager()->get($row['share_with']);
+				$row['share_with_displayname'] = $shareWithUser === null ? $row['share_with'] : $shareWithUser->getDisplayName();
 			} else if(isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === self::SHARE_TYPE_REMOTE) {
 				$addressBookEntries = \OC::$server->getContactsManager()->search($row['share_with'], ['CLOUD']);
@@ -1251,7 +1252,8 @@ class Share extends Constants {
 				}
 			}
 			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
-				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
+				$ownerUser = \OC::$server->get($row['uid_owner']);
+				$row['displayname_owner'] = $ownerUser === null ? $row['uid_owner'] : $ownerUser->getDisplayName();
 			}
 
 			if ($row['permissions'] > 0) {

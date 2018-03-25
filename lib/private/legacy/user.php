@@ -312,6 +312,8 @@ class OC_User {
 	 *
 	 * @param string $uid
 	 * @return string|bool uid or false
+	 * @deprecated 8.1.0 fetch \OCP\IUser (has getDisplayName()) by using method
+	 *                   get() of \OCP\IUserManager - \OC::$server->getUserManager()
 	 */
 	public static function getDisplayName($uid = null) {
 		if ($uid) {

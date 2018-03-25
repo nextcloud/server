@@ -1094,11 +1094,11 @@ class User_LDAPTest extends TestCase {
 			->willReturnCallback(function($uuid) { return $uuid . '1'; });
 
 		//with displayName
-		$result = \OCP\User::getDisplayName('gunslinger');
+		$result = \OC::$server->getUserManager()->get('gunslinger')->getDisplayName();
 		$this->assertEquals('Roland Deschain', $result);
 
 		//empty displayname retrieved
-		$result = \OCP\User::getDisplayName('newyorker');
+		$result = \OC::$server->getUserManager()->get('newyorker')->getDisplayName();
 		$this->assertEquals('newyorker', $result);
 	}
 

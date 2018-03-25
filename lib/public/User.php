@@ -58,18 +58,6 @@ class User {
 	}
 
 	/**
-	 * Get the user display name of the user currently logged in.
-	 * @param string|null $user user id or null for current user
-	 * @return string display name
-	 * @deprecated 8.1.0 fetch \OCP\IUser (has getDisplayName()) by using method
-	 *                   get() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 * @since 5.0.0
-	 */
-	public static function getDisplayName( $user = null ) {
-		return \OC_User::getDisplayName( $user );
-	}
-
-	/**
 	 * Check if the user is logged in
 	 * @return boolean
 	 * @since 5.0.0
