@@ -271,9 +271,12 @@ class Util {
 	}
 
 	public function getUserWithAccessToMountPoint($users, $groups) {
-		$result = array();
+		$result = [];
 		if (in_array('all', $users)) {
-			$result = \OCP\User::getUsers();
+			$users = $this->userManager->search('', null, null);
+			foreach ($users as $user) {
+				$result[] = $user->getUID();
+			}
 		} else {
 			$result = array_merge($result, $users);
 

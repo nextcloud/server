@@ -489,13 +489,22 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals(0, count($result));
 	}
 
+	private function getUsers($search = '', $limit = null, $offset = null) {
+		$users = \OC::$server->getUserManager()->search($search, $limit, $offset);
+		$uids = [];
+		foreach ($users as $user) {
+			$uids[] = $user->getUID();
+		}
+		return $uids;
+	}
+
 	public function testGetUsersViaAPINoParam() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers();
+		$result = $this->getUsers();
 		$this->assertEquals(3, count($result));
 	}
 
@@ -505,7 +514,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers('', 1, 2);
+		$result = $this->getUsers('', 1, 2);
 		$this->assertEquals(1, count($result));
 	}
 
@@ -515,7 +524,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers('', 2, 1);
+		$result = $this->getUsers('', 2, 1);
 		$this->assertEquals(2, count($result));
 	}
 
@@ -525,7 +534,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers('yo');
+		$result = $this->getUsers('yo');
 		$this->assertEquals(2, count($result));
 	}
 
@@ -535,7 +544,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers('nix');
+		$result = $this->getUsers('nix');
 		$this->assertEquals(0, count($result));
 	}
 

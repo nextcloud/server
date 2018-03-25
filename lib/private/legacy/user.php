@@ -367,25 +367,6 @@ class OC_User {
 	}
 
 	/**
-	 * Get a list of all users
-	 *
-	 * @return array an array of all uids
-	 *
-	 * Get a list of all users.
-	 * @param string $search
-	 * @param integer $limit
-	 * @param integer $offset
-	 */
-	public static function getUsers($search = '', $limit = null, $offset = null) {
-		$users = \OC::$server->getUserManager()->search($search, $limit, $offset);
-		$uids = array();
-		foreach ($users as $user) {
-			$uids[] = $user->getUID();
-		}
-		return $uids;
-	}
-
-	/**
 	 * Get a list of all users display name
 	 *
 	 * @param string $search

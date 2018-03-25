@@ -58,19 +58,6 @@ class User {
 	}
 
 	/**
-	 * Get a list of all users
-	 * @param string $search search pattern
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return array an array of all uids
-	 * @deprecated 8.1.0 use method search() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 * @since 5.0.0
-	 */
-	public static function getUsers( $search = '', $limit = null, $offset = null ) {
-		return \OC_User::getUsers( $search, $limit, $offset );
-	}
-
-	/**
 	 * Get the user display name of the user currently logged in.
 	 * @param string|null $user user id or null for current user
 	 * @return string display name
