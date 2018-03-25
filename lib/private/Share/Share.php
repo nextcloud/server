@@ -1252,7 +1252,7 @@ class Share extends Constants {
 				}
 			}
 			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
-				$ownerUser = \OC::$server->get($row['uid_owner']);
+				$ownerUser = \OC::$server->getUserManager()->get($row['uid_owner']);
 				$row['displayname_owner'] = $ownerUser === null ? $row['uid_owner'] : $ownerUser->getDisplayName();
 			}
 

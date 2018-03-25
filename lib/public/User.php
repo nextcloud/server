@@ -68,18 +68,6 @@ class User {
 	}
 
 	/**
-	 * Check if a user exists
-	 * @param string $uid the username
-	 * @param string $excludingBackend (default none)
-	 * @return boolean
-	 * @deprecated 8.1.0 use method userExists() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 * @since 5.0.0
-	 */
-	public static function userExists($uid, $excludingBackend = null) {
-		return \OC::$server->getUserManager()->userExists($uid);
-	}
-
-	/**
 	 * Check if the user is a admin, redirects to home if not
 	 * @since 5.0.0
 	 * @deprecated 13.0.0 Use annotation based ACLs from the AppFramework instead

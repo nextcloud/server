@@ -491,10 +491,9 @@ class User_LDAPTest extends TestCase {
 
 	private function getUsers($search = '', $limit = null, $offset = null) {
 		$users = \OC::$server->getUserManager()->search($search, $limit, $offset);
-		$uids = [];
-		foreach ($users as $user) {
-			$uids[] = $user->getUID();
-		}
+		$uids = array_map(function(IUser $user) {
+			return $user->getUID();
+		}, $users);
 		return $uids;
 	}
 
@@ -1098,7 +1097,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals('Roland Deschain', $result);
 
 		//empty displayname retrieved
-		$result = \OC::$server->getUserManager()->get('newyorker')->getDisplayName();
+		$result = \OC::$server->getUserManager()->get('newyorker') === null ? 'newyorker' : \OC::$server->getUserManager()->get('newyorker')->getDisplayName();
 		$this->assertEquals('newyorker', $result);
 	}
 

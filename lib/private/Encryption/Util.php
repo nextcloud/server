@@ -35,6 +35,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
+use OCP\IUser;
 
 class Util {
 
@@ -274,9 +275,9 @@ class Util {
 		$result = [];
 		if (in_array('all', $users)) {
 			$users = $this->userManager->search('', null, null);
-			foreach ($users as $user) {
-				$result[] = $user->getUID();
-			}
+			$result = array_map(function(IUser $user) {
+				return $user->getUID();
+			}, $users);
 		} else {
 			$result = array_merge($result, $users);
 
