@@ -98,7 +98,6 @@ return array(
     'OCP\\Contacts\\ContactsMenu\\ILinkAction' => $baseDir . '/lib/public/Contacts/ContactsMenu/ILinkAction.php',
     'OCP\\Contacts\\ContactsMenu\\IProvider' => $baseDir . '/lib/public/Contacts/ContactsMenu/IProvider.php',
     'OCP\\Contacts\\IManager' => $baseDir . '/lib/public/Contacts/IManager.php',
-    'OCP\\DB' => $baseDir . '/lib/public/DB.php',
     'OCP\\DB\\ISchemaWrapper' => $baseDir . '/lib/public/DB/ISchemaWrapper.php',
     'OCP\\DB\\QueryBuilder\\ICompositeExpression' => $baseDir . '/lib/public/DB/QueryBuilder/ICompositeExpression.php',
     'OCP\\DB\\QueryBuilder\\IExpressionBuilder' => $baseDir . '/lib/public/DB/QueryBuilder/IExpressionBuilder.php',
