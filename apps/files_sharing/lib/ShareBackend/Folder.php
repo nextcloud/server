@@ -70,35 +70,62 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	 * @return mixed parent ID or null
 	 */
 	private function getParentId($child) {
-		$query = \OCP\DB::prepare('SELECT `parent` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
-		$result = $query->execute(array($child));
-		$row = $result->fetchRow();
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->select('parent')
+			->from('filecache')
+			->where(
+				$qb->expr()->eq('fileid', $qb->createNamedParameter($child))
+			);
+		$result = $qb->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
 		return $row ? $row['parent'] : null;
 	}
 
 	public function getChildren($itemSource) {
 		$children = array();
 		$parents = array($itemSource);
-		$query = \OCP\DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
-		$result = $query->execute(array('httpd/unix-directory'));
+
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->select('id')
+			->from('mimetypes')
+			->where(
+				$qb->expr()->eq('mimetype', $qb->createNamedParameter('httpd/unix-directory'))
+			);
+		$result = $qb->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
 		if ($row = $result->fetchRow()) {
 			$mimetype = (int) $row['id'];
 		} else {
 			$mimetype = -1;
 		}
 		while (!empty($parents)) {
-			$parents = "'".implode("','", $parents)."'";
-			$query = \OCP\DB::prepare('SELECT `fileid`, `name`, `mimetype` FROM `*PREFIX*filecache`'
-				.' WHERE `parent` IN ('.$parents.')');
-			$result = $query->execute();
+
+			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+
+			$parents = array_map(function($parent) use ($qb) {
+				return $qb->createNamedParameter($parent);
+			}, $parents);
+
+			$qb->select('`fileid', 'name', '`mimetype')
+				->from('filecache')
+				->where(
+					$qb->expr()->in('parent', $parents)
+				);
+
+			$result = $qb->execute();
+
 			$parents = array();
-			while ($file = $result->fetchRow()) {
+			while ($file = $result->fetch()) {
 				$children[] = array('source' => $file['fileid'], 'file_path' => $file['name']);
 				// If a child folder is found look inside it
 				if ((int) $file['mimetype'] === $mimetype) {
 					$parents[] = $file['fileid'];
 				}
 			}
+			$result->closeCursor();
 		}
 		return $children;
 	}

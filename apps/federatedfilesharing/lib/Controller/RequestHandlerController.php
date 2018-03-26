@@ -427,9 +427,19 @@ class RequestHandlerController extends OCSController {
 
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
-		$query->execute(array($id, $token));
-		$share = $query->fetchRow();
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share_external')
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+					$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+				)
+			);
+
+		$result = $qb->execute();
+		$share = $result->fetch();
+		$result->closeCursor();
 
 		if ($token && $id && !empty($share)) {
 
@@ -439,8 +449,17 @@ class RequestHandlerController extends OCSController {
 			$mountpoint = $share['mountpoint'];
 			$user = $share['user'];
 
-			$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
-			$query->execute(array($id, $token));
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('share_external')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+						$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+					)
+				);
+
+			$result = $qb->execute();
+			$result->closeCursor();
 
 			if ($share['accepted']) {
 				$path = trim($mountpoint, '/');

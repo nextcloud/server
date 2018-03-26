@@ -128,7 +128,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Contacts\\ContactsMenu\\ILinkAction' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/ILinkAction.php',
         'OCP\\Contacts\\ContactsMenu\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IProvider.php',
         'OCP\\Contacts\\IManager' => __DIR__ . '/../../..' . '/lib/public/Contacts/IManager.php',
-        'OCP\\DB' => __DIR__ . '/../../..' . '/lib/public/DB.php',
         'OCP\\DB\\ISchemaWrapper' => __DIR__ . '/../../..' . '/lib/public/DB/ISchemaWrapper.php',
         'OCP\\DB\\QueryBuilder\\ICompositeExpression' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/ICompositeExpression.php',
         'OCP\\DB\\QueryBuilder\\IExpressionBuilder' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/IExpressionBuilder.php',

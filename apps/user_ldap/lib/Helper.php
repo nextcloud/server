@@ -155,7 +155,7 @@ class Helper {
 			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
 		}
 
-		$query = \OCP\DB::prepare('
+		$query = \OC_DB::prepare('
 			DELETE
 			FROM `*PREFIX*appconfig`
 			WHERE `configkey` LIKE ?
