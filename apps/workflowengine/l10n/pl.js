@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Nie można pobrać listy grup",
     "Saved" : "Zapisano",
     "Saving failed:" : "Zapis się nie udał:",
     "File MIME type" : "Typy plików MIME",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Sprawdź, czy %s jest nieprawidłowy",
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
     "Workflow" : "Wpływ na pracę",
+    "Files workflow engine" : "Piliki silnika workflow",
     "Open documentation" : "Otwórz dokumentację",
     "Add rule group" : "Dodaj grupę reguł",
     "Short rule description" : "Krótki opis reguły",
