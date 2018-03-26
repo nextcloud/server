@@ -794,7 +794,7 @@ class Filesystem {
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
 		if (is_null(self::$normalizedPathCache)) {
-			self::$normalizedPathCache = new CappedMemoryCache();
+			self::$normalizedPathCache = new CappedMemoryCache(2048);
 		}
 
 		/**
