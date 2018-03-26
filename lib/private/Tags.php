@@ -288,7 +288,7 @@ class Tags implements \OCP\ITags {
 			. '` WHERE `categoryid` = ?';
 
 		try {
-			$stmt = \OCP\DB::prepare($sql);
+			$stmt = \OC_DB::prepare($sql);
 			$result = $stmt->execute(array($tagId));
 			if ($result === null) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
@@ -530,7 +530,7 @@ class Tags implements \OCP\ITags {
 		// Find all objectid/tagId pairs.
 		$result = null;
 		try {
-			$stmt = \OCP\DB::prepare('SELECT `id` FROM `' . self::TAG_TABLE . '` '
+			$stmt = \OC_DB::prepare('SELECT `id` FROM `' . self::TAG_TABLE . '` '
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 			if ($result === null) {
@@ -546,7 +546,7 @@ class Tags implements \OCP\ITags {
 
 		if(!is_null($result)) {
 			try {
-				$stmt = \OCP\DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
+				$stmt = \OC_DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `categoryid` = ?');
 				while( $row = $result->fetchRow()) {
 					try {
@@ -568,7 +568,7 @@ class Tags implements \OCP\ITags {
 			}
 		}
 		try {
-			$stmt = \OCP\DB::prepare('DELETE FROM `' . self::TAG_TABLE . '` '
+			$stmt = \OC_DB::prepare('DELETE FROM `' . self::TAG_TABLE . '` '
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 			if ($result === null) {
@@ -600,7 +600,7 @@ class Tags implements \OCP\ITags {
 			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids)-1) . '?) ';
 			$query .= 'AND `type`= ?';
 			$updates[] = $this->type;
-			$stmt = \OCP\DB::prepare($query);
+			$stmt = \OC_DB::prepare($query);
 			$result = $stmt->execute($updates);
 			if ($result === null) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
@@ -719,7 +719,7 @@ class Tags implements \OCP\ITags {
 		try {
 			$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `objid` = ? AND `categoryid` = ? AND `type` = ?';
-			$stmt = \OCP\DB::prepare($sql);
+			$stmt = \OC_DB::prepare($sql);
 			$stmt->execute(array($objid, $tagId, $this->type));
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
@@ -769,7 +769,7 @@ class Tags implements \OCP\ITags {
 				try {
 					$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 							. 'WHERE `categoryid` = ?';
-					$stmt = \OCP\DB::prepare($sql);
+					$stmt = \OC_DB::prepare($sql);
 					$result = $stmt->execute(array($id));
 					if ($result === null) {
 						\OCP\Util::writeLog('core',
