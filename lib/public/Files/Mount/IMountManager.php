@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -45,7 +46,7 @@ interface IMountManager {
 	 * @param string $mountPoint
 	 * @since 8.2.0
 	 */
-	public function removeMount($mountPoint);
+	public function removeMount(string $mountPoint);
 
 	/**
 	 * Change the location of a mount
@@ -54,7 +55,7 @@ interface IMountManager {
 	 * @param string $target
 	 * @since 8.2.0
 	 */
-	public function moveMount($mountPoint, $target);
+	public function moveMount(string $mountPoint, string $target);
 
 	/**
 	 * Find the mount for $path
@@ -63,7 +64,7 @@ interface IMountManager {
 	 * @return \OCP\Files\Mount\IMountPoint
 	 * @since 8.2.0
 	 */
-	public function find($path);
+	public function find(string $path): IMountPoint;
 
 	/**
 	 * Find all mounts in $path
@@ -72,7 +73,7 @@ interface IMountManager {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 * @since 8.2.0
 	 */
-	public function findIn($path);
+	public function findIn(string $path): array;
 
 	/**
 	 * Remove all registered mounts
@@ -88,13 +89,13 @@ interface IMountManager {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 * @since 8.2.0
 	 */
-	public function findByStorageId($id);
+	public function findByStorageId(string $id): array;
 
 	/**
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 * @since 8.2.0
 	 */
-	public function getAll();
+	public function getAll(): array;
 
 	/**
 	 * Find mounts by numeric storage id
@@ -103,5 +104,5 @@ interface IMountManager {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 * @since 8.2.0
 	 */
-	public function findByNumericId($id);
+	public function findByNumericId(int $id): array;
 }
