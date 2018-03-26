@@ -81,7 +81,7 @@ class Manager implements IMountManager {
 		$mountPoints = array_keys($this->mounts);
 		$foundMountPointLength = 0;
 		foreach ($mountPoints as $mountpoint) {
-			if (strpos($path, $mountpoint) === 0 && \strlen($mountpoint) > $foundMountPointLength) {
+			if (\strlen($mountpoint) > $foundMountPointLength && strpos($path, $mountpoint) === 0) {
 				$foundMountPoint = $mountpoint;
 				$foundMountPointLength = \strlen($foundMountPoint);
 			}
