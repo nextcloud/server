@@ -26,61 +26,67 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\Accounts\AccountManager;
+use OC\Group\Manager;
+use OC\SubAdmin;
 use OCA\Provisioning_API\Controller\GroupsController;
-use OCP\IGroupManager;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 class GroupsControllerTest extends \Test\TestCase {
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
-	protected $groupManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	protected $userSession;
-	/** @var \OC\SubAdmin|\PHPUnit_Framework_MockObject_MockObject */
-	protected $subAdminManager;
-	/** @var OCA\Provisioning_API\Controller\UsersController|\PHPUnit_Framework_MockObject_MockObject */
-	protected $userController;
 
-	/** @var GroupsController */
+	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
+	protected $request;
+	/** @var IUserManager|PHPUnit_Framework_MockObject_MockObject */
+	protected $userManager;
+	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
+	/** @var Manager|PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
+	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+	/** @var AccountManager|PHPUnit_Framework_MockObject_MockObject */
+	protected $accountManager;
+	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
+
+	/** @var GroupsController|PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->groupManager = $this->createMock(Manager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->logger = $this->createMock(ILogger::class);
+		
+		$this->subAdminManager = $this->createMock(SubAdmin::class);
 
-		$this->groupManager = $this->getMockBuilder('OC\Group\Manager')
-			->disableOriginalConstructor()
-			->getMock();
 		$this->groupManager
-			->method('getSubAdmin')
-			->willReturn($this->subAdminManager);
-
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
+				->method('getSubAdmin')
+				->willReturn($this->subAdminManager);
+		
+		$this->api = $this->getMockBuilder(GroupsController::class)
+			->setConstructorArgs([
+				'provisioning_api',
+				$this->request,
+				$this->userManager,
+				$this->config,
+				$this->groupManager,
+				$this->userSession,
+				$this->accountManager,
+				$this->logger
+			])
+			->setMethods(['fillStorageInfo'])
 			->getMock();
-		$request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$logger = $this->createMock(ILogger::class);
-
-		$this->userController = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->api = new GroupsController(
-			'provisioning_api',
-			$request,
-			$this->groupManager,
-			$this->userSession,
-			$logger,
-			$this->userController
-		);
 	}
 
 	/**

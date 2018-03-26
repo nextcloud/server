@@ -76,15 +76,14 @@ class GroupsController extends OCSController {
 	 * @param ILogger $logger
 	 * @param UsersController $userController
 	 */
-	public function __construct(
-			string $appName,
-			IRequest $request,
-			IUserManager $userManager,
-			IConfig $config,
-			IGroupManager $groupManager,
-			IUserSession $userSession,
-			AccountManager $accountManager,
-			ILogger $logger) {
+	public function __construct(string $appName,
+								IRequest $request,
+								IUserManager $userManager,
+								IConfig $config,
+								IGroupManager $groupManager,
+								IUserSession $userSession,
+								AccountManager $accountManager,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 
 		$this->groupManager = $groupManager;
