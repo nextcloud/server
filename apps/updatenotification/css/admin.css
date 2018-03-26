@@ -1,0 +1,12 @@
+#oca_updatenotification_section p {
+	margin: 25px 0;
+}
+
+#updatenotification .warning {
+	color: #ce3702;
+}
+
+#oca_updatenotification_section p.eol .icon {
+	display: inline-block;
+	margin-bottom: -3px;
+}
