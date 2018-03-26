@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -53,6 +54,8 @@ use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 
 class UsersController extends OCSController {
+
+	use UserDataTrait;
 
 	/** @var IUserManager */
 	private $userManager;
@@ -332,62 +335,6 @@ class UsersController extends OCSController {
 		}
 
 		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
-	}
-
-	/**
-	 * creates a array with all user data
-	 *
-	 * @param $userId
-	 * @return array
-	 * @throws OCSException
-	 */
-	public function getUserData(string $userId): array {
-		$currentLoggedInUser = $this->userSession->getUser();
-
-		$data = [];
-
-		// Check if the target user exists
-		$targetUserObject = $this->userManager->get($userId);
-		if($targetUserObject === null) {
-			throw new OCSException('The requested user could not be found', \OCP\API::RESPOND_NOT_FOUND);
-		}
-
-		// Should be at least Admin Or SubAdmin!
-		if( $this->groupManager->isAdmin($currentLoggedInUser->getUID())
-			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
-				$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
-		} else {
-			// Check they are looking up themselves
-			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
-				return $data;
-			}
-		}
-
-		// Get groups data
-		$userAccount = $this->accountManager->getUser($targetUserObject);
-		$groups = $this->groupManager->getUserGroups($targetUserObject);
-		$gids = [];
-		foreach ($groups as $group) {
-			$gids[] = $group->getDisplayName();
-		}
-
-		// Find the data
-		$data['id'] = $targetUserObject->getUID();
-		$data['storageLocation'] = $targetUserObject->getHome();
-		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
-		$data['backend'] = $targetUserObject->getBackendClassName();
-		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
-		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
-		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
-		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
-		$data[AccountManager::PROPERTY_PHONE] = $userAccount[AccountManager::PROPERTY_PHONE]['value'];
-		$data[AccountManager::PROPERTY_ADDRESS] = $userAccount[AccountManager::PROPERTY_ADDRESS]['value'];
-		$data[AccountManager::PROPERTY_WEBSITE] = $userAccount[AccountManager::PROPERTY_WEBSITE]['value'];
-		$data[AccountManager::PROPERTY_TWITTER] = $userAccount[AccountManager::PROPERTY_TWITTER]['value'];
-		$data['groups'] = $gids;
-		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
-
-		return $data;
 	}
 
 	/**
@@ -859,68 +806,12 @@ class UsersController extends OCSController {
 	 * Get the groups a user is a subadmin of
 	 *
 	 * @param string $userId
-	 * @return array
-	 * @throws OCSException
-	 */
-	protected function getUserSubAdminGroupsData(string $userId): array {
-		$user = $this->userManager->get($userId);
-		// Check if the user exists
-		if($user === null) {
-			throw new OCSException('User does not exist', 101);
-		}
-
-		// Get the subadmin groups
-		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($user);
-		$groups = [];
-		foreach ($subAdminGroups as $key => $group) {
-			$groups[] = $group->getGID();
-		}
-
-		return $groups;
-	}
-
-	/**
-	 * Get the groups a user is a subadmin of
-	 *
-	 * @param string $userId
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
 		return new DataResponse($groups);
-	}
-
-	/**
-	 * @param string $userId
-	 * @return array
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	protected function fillStorageInfo(string $userId): array {
-		try {
-			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($userId);
-			$storage = OC_Helper::getStorageInfo('/');
-			$data = [
-				'free' => $storage['free'],
-				'used' => $storage['used'],
-				'total' => $storage['total'],
-				'relative' => $storage['relative'],
-				'quota' => $storage['quota'],
-			];
-		} catch (NotFoundException $ex) {
-			// User fs is not setup yet
-			$user = $this->userManager->get($userId);
-			if ($user === null) {
-				throw new OCSException('User does not exist', 101);
-			}
-			$quota = OC_Helper::computerFileSize($user->getQuota());
-			$data = [
-				'quota' => $quota ? $quota : 'none',
-				'used' => 0
-			];
-		}
-		return $data;
 	}
 
 	/**

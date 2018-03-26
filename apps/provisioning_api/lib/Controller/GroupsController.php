@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -27,21 +28,27 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
+use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\IUser;
-use OCA\Provisioning_API\Controller\UsersController;
-
 
 class GroupsController extends OCSController {
+
+	use UserDataTrait;
+
+	/** @var IUserManager */
+	private $userManager;
 
 	/** @var IGroupManager */
 	private $groupManager;
@@ -49,33 +56,43 @@ class GroupsController extends OCSController {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IConfig */
+	private $config;
+
+	/** @var AccountManager */
+	private $accountManager;
+
 	/** @var ILogger */
 	private $logger;
-
-	/** @var UsersController */
-	private $userController;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
+	 * @param IUserManager $userManager
+	 * @param IConfig $config
 	 * @param IGroupManager $groupManager
 	 * @param IUserSession $userSession
+	 * @param AccountManager $accountManager
 	 * @param ILogger $logger
 	 * @param UsersController $userController
 	 */
 	public function __construct(
 			string $appName,
 			IRequest $request,
+			IUserManager $userManager,
+			IConfig $config,
 			IGroupManager $groupManager,
 			IUserSession $userSession,
-			ILogger $logger,
-			UsersController $userController) {
+			AccountManager $accountManager,
+			ILogger $logger) {
 		parent::__construct($appName, $request);
 
 		$this->groupManager = $groupManager;
+		$this->userManager = $userManager;
+		$this->config = $config;
 		$this->userSession = $userSession;
+		$this->accountManager = $accountManager;
 		$this->logger = $logger;
-		$this->userController = $userController;
 	}
 
 	/**
@@ -196,12 +213,16 @@ class GroupsController extends OCSController {
 			$users = $this->groupManager->get($groupId)->getUsers();
 			// Extract required number
 			$users = array_slice($users, $offset, $limit);
-			$users =  array_map(function($user) {
-				/** @var IUser $user */
-				return $this->userController->getUserData($user->getUID());
-			}, $users);
-			$users = array_values($users);
-			return new DataResponse(['users' => $users]);
+			$users = array_keys($users);
+			$usersDetails = [];
+			foreach ($users as $userId) {
+				$userData = $this->getUserData($userId);
+				// Do not insert empty entry
+				if(!empty($userData)) {
+					$usersDetails[$userId] = $userData;
+				}
+			}
+			return new DataResponse(['users' => $usersDetails]);
 		}
 
 		throw new OCSException('User does not have access to specified group', \OCP\API::RESPOND_UNAUTHORISED);
