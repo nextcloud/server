@@ -120,7 +120,7 @@ class ServerFactory {
 		// we do not provide locking we emulate it using a fake locking plugin.
 		if($this->request->isUserAgent([
 				'/WebDAVFS/',
-				'/Microsoft Office OneNote 2013/',
+				'/OneNote/',
 				'/Microsoft-WebDAV-MiniRedir/',
 		])) {
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
