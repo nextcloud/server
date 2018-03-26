@@ -173,6 +173,7 @@
     "This list is maybe truncated - please refine your search term to see more results." : "Bu liste budanmış olabilir. Lütfen daha fazla sonuç görmek için arama ifadenizi daraltın.",
     "No users or groups found for {search}" : "{search} araması sonucunda uygun bir kullanıcı ya da grup bulunamadı",
     "No users found for {search}" : "{search} araması sonucunda uygun bir kullanıcı bulunamadı",
+    "An error occurred (\"{message}\"). Please try again" : "Bir sorun çıktı (\"{message}\"). Lütfen yeniden deneyin.",
     "An error occurred. Please try again" : "Bir sorun çıktı. Lütfen yeniden deneyin",
     "{sharee} (group)" : "{sharee} (grup)",
     "{sharee} (remote)" : "{sharee} (uzak)",
