@@ -48,7 +48,7 @@ class Manager implements IMountManager {
 	 */
 	public function removeMount(string $mountPoint) {
 		$mountPoint = Filesystem::normalizePath($mountPoint);
-		if (strlen($mountPoint) > 1) {
+		if (\strlen($mountPoint) > 1) {
 			$mountPoint .= '/';
 		}
 		unset($this->mounts[$mountPoint]);
@@ -80,15 +80,16 @@ class Manager implements IMountManager {
 		$foundMountPoint = '';
 		$mountPoints = array_keys($this->mounts);
 		foreach ($mountPoints as $mountpoint) {
-			if (strpos($path, $mountpoint) === 0 and strlen($mountpoint) > strlen($foundMountPoint)) {
+			if (strpos($path, $mountpoint) === 0 && \strlen($mountpoint) > \strlen($foundMountPoint)) {
 				$foundMountPoint = $mountpoint;
 			}
 		}
+
 		if (isset($this->mounts[$foundMountPoint])) {
 			return $this->mounts[$foundMountPoint];
-		} else {
-			return null;
 		}
+
+		return null;
 	}
 
 	/**
@@ -101,10 +102,10 @@ class Manager implements IMountManager {
 		\OC_Util::setupFS();
 		$path = $this->formatPath($path);
 		$result = [];
-		$pathLength = strlen($path);
+		$pathLength = \strlen($path);
 		$mountPoints = array_keys($this->mounts);
 		foreach ($mountPoints as $mountPoint) {
-			if (substr($mountPoint, 0, $pathLength) === $path and strlen($mountPoint) > $pathLength) {
+			if (substr($mountPoint, 0, $pathLength) === $path && \strlen($mountPoint) > $pathLength) {
 				$result[] = $this->mounts[$mountPoint];
 			}
 		}
@@ -123,7 +124,7 @@ class Manager implements IMountManager {
 	 */
 	public function findByStorageId(string $id): array {
 		\OC_Util::setupFS();
-		if (strlen($id) > 64) {
+		if (\strlen($id) > 64) {
 			$id = md5($id);
 		}
 		$result = [];
@@ -159,7 +160,7 @@ class Manager implements IMountManager {
 	 */
 	private function formatPath(string $path): string {
 		$path = Filesystem::normalizePath($path);
-		if (strlen($path) > 1) {
+		if (\strlen($path) > 1) {
 			$path .= '/';
 		}
 		return $path;
