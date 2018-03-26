@@ -93,6 +93,7 @@ module.exports = function(config) {
 					'apps/comments/js/commentmodel.js',
 					'apps/comments/js/commentcollection.js',
 					'apps/comments/js/commentsummarymodel.js',
+					'apps/comments/js/commentsmodifymenu.js',
 					'apps/comments/js/commentstabview.js',
 					'apps/comments/js/filesplugin.js'
 				],
@@ -223,7 +224,7 @@ module.exports = function(config) {
 	// serve images to avoid warnings
 	files.push({pattern: 'core/img/**/*', watched: false, included: false, served: true});
 	files.push({pattern: 'core/css/images/*', watched: false, included: false, served: true});
-	
+
 	// include core CSS
 	files.push({pattern: 'core/css/*.css', watched: true, included: true, served: true});
 	files.push({pattern: 'tests/css/*.css', watched: true, included: true, served: true});

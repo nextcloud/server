@@ -7,12 +7,14 @@
  * See the COPYING-README file.
  *
  */
+
+/* global Handlebars */
 (function() {
 	var TEMPLATE_MENU =
 		'<ul>' +
 		'{{#each items}}' +
 		'<li>' +
-		'<a href="#" class="menuitem action action-{{name}} permanent" data-action="{{name}}">' +
+		'<a href="#" class="menuitem action {{name}} permanent" data-action="{{name}}">' +
 			'{{#if iconClass}}' +
 				'<span class="icon {{iconClass}}"></span>' +
 			'{{else}}' +
@@ -64,7 +66,7 @@
 			}
 
 			OC.hideMenus();
-			
+
 			this.trigger('select:menu-item-clicked', event, $target.data('action'));
 		},
 
@@ -119,4 +121,4 @@
 
 	OCA.Comments = OCA.Comments || {};
 	OCA.Comments.CommentsModifyMenu = CommentsModifyMenu;
-})(OC, OCA);;
+})(OC, OCA);
