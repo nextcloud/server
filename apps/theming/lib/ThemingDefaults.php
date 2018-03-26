@@ -320,7 +320,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private function increaseCacheBuster() {
 		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->setAppValue('theming', 'cachebuster', (int)$cacheBusterKey+1);
-		$this->cacheFactory->createDistributed('theming-')->clear('getScssVariables');
+		$this->cacheFactory->createDistributed('theming-')->clear();
 	}
 
 	/**
