@@ -194,7 +194,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getBackground(): string {
-		$this->imageManager->getImageUrl('background');
+		return $this->imageManager->getImageUrl('background');
 	}
 
 	/**
