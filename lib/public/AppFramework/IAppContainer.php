@@ -27,6 +27,7 @@
 namespace OCP\AppFramework;
 
 use OCP\IContainer;
+use OCP\IServerContainer;
 
 /**
  * Class IAppContainer
@@ -42,20 +43,19 @@ interface IAppContainer extends IContainer {
 	 * @return string the name of your application
 	 * @since 6.0.0
 	 */
-	public function getAppName();
+	public function getAppName(): string;
 
 	/**
 	 * @return \OCP\IServerContainer
 	 * @since 6.0.0
 	 */
-	public function getServer();
+	public function getServer(): IServerContainer;
 
 	/**
 	 * @param string $middleWare
-	 * @return boolean
 	 * @since 6.0.0
 	 */
-	public function registerMiddleWare($middleWare);
+	public function registerMiddleWare(string $middleWare);
 
 	/**
 	 * Register a capability
@@ -63,5 +63,5 @@ interface IAppContainer extends IContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 * @since 8.2.0
 	 */
-	 public function registerCapability($serviceName);
+	 public function registerCapability(string $serviceName);
 }

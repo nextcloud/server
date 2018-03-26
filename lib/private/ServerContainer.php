@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -57,7 +58,7 @@ class ServerContainer extends SimpleContainer {
 	 * @param string $appName
 	 * @param string $appNamespace
 	 */
-	public function registerNamespace($appName, $appNamespace) {
+	public function registerNamespace(string $appName, string $appNamespace) {
 		// Cut of OCA\ and lowercase
 		$appNamespace = strtolower(substr($appNamespace, strrpos($appNamespace, '\\') + 1));
 		$this->namespaces[$appNamespace] = $appName;
@@ -67,7 +68,7 @@ class ServerContainer extends SimpleContainer {
 	 * @param string $appName
 	 * @param DIContainer $container
 	 */
-	public function registerAppContainer($appName, DIContainer $container) {
+	public function registerAppContainer(string $appName, DIContainer $container) {
 		$this->appContainers[strtolower(App::buildAppNamespace($appName, ''))] = $container;
 	}
 
@@ -77,7 +78,7 @@ class ServerContainer extends SimpleContainer {
 	 * @return DIContainer
 	 * @throws QueryException
 	 */
-	protected function getAppContainer($namespace, $sensitiveNamespace) {
+	protected function getAppContainer(string $namespace, string $sensitiveNamespace): DIContainer {
 		if (isset($this->appContainers[$namespace])) {
 			return $this->appContainers[$namespace];
 		}
@@ -104,7 +105,7 @@ class ServerContainer extends SimpleContainer {
 	 * @return mixed registered service for the given $name
 	 * @throws QueryException if the query could not be resolved
 	 */
-	public function query($name) {
+	public function query(string $name) {
 		$name = $this->sanitizeName($name);
 
 		// In case the service starts with OCA\ we try to find the service in

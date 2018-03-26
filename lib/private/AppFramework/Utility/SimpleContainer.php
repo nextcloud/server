@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -90,7 +91,7 @@ class SimpleContainer extends Container implements IContainer {
 	 * @return \stdClass
 	 * @throws QueryException if the class could not be found or instantiated
 	 */
-	public function resolve($name) {
+	public function resolve(string $name): \stdClass {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
 			$class = new ReflectionClass($name);
@@ -111,7 +112,7 @@ class SimpleContainer extends Container implements IContainer {
 	 * @return mixed registered service for the given $name
 	 * @throws QueryException if the query could not be resolved
 	 */
-	public function query($name) {
+	public function query(string $name) {
 		$name = $this->sanitizeName($name);
 		if ($this->offsetExists($name)) {
 			return $this->offsetGet($name);
@@ -128,7 +129,7 @@ class SimpleContainer extends Container implements IContainer {
 	 * @param string $name
 	 * @param mixed $value
 	 */
-	public function registerParameter($name, $value) {
+	public function registerParameter(string $name, $value) {
 		$this[$name] = $value;
 	}
 
@@ -141,7 +142,7 @@ class SimpleContainer extends Container implements IContainer {
 	 * @param Closure $closure the closure to be called on service creation
 	 * @param bool $shared
 	 */
-	public function registerService($name, Closure $closure, $shared = true) {
+	public function registerService(string $name, Closure $closure, bool $shared = true) {
 		$name = $this->sanitizeName($name);
 		if (isset($this[$name]))  {
 			unset($this[$name]);
@@ -160,17 +161,17 @@ class SimpleContainer extends Container implements IContainer {
 	 * @param string $alias the alias that should be registered
 	 * @param string $target the target that should be resolved instead
 	 */
-	public function registerAlias($alias, $target) {
+	public function registerAlias(string $alias, string $target) {
 		$this->registerService($alias, function (IContainer $container) use ($target) {
 			return $container->query($target);
 		}, false);
 	}
 
-	/*
+	/**
 	 * @param string $name
 	 * @return string
 	 */
-	protected function sanitizeName($name) {
+	protected function sanitizeName(string $name): string {
 		if (isset($name[0]) && $name[0] === '\\') {
 			return ltrim($name, '\\');
 		}

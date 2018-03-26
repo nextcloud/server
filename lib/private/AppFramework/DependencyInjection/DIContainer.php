@@ -67,13 +67,14 @@ use OCP\IUserSession;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Encryption\IManager;
 use OCA\WorkflowEngine\Manager;
+use OC\CapabilitiesManager;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
 
 	/**
 	 * @var array
 	 */
-	private $middleWares = array();
+	private $middleWares = [];
 
 	/** @var ServerContainer */
 	private $server;
@@ -84,7 +85,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param array $urlParams
 	 * @param ServerContainer|null $server
 	 */
-	public function __construct($appName, $urlParams = array(), ServerContainer $server = null){
+	public function __construct($appName, $urlParams = [], ServerContainer $server = null){
 		parent::__construct();
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
@@ -104,7 +105,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Core services
 		 */
-		$this->registerService(IOutput::class, function($c){
+		$this->registerService(IOutput::class, function(){
 			return new Output($this->getServer()->getWebRoot());
 		});
 
@@ -138,7 +139,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerAlias(\OC\User\Session::class, \OCP\IUserSession::class);
 
-		$this->registerService(IServerContainer::class, function ($c) {
+		$this->registerService(IServerContainer::class, function () {
 			return $this->getServer();
 		});
 		$this->registerAlias('ServerContainer', IServerContainer::class);
@@ -166,7 +167,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->getServer()->getThemingDefaults();
 		});
 
-		$this->registerService(IManager::class, function ($c) {
+		$this->registerService(IManager::class, function () {
 			return $this->getServer()->getEncryptionManager();
 		});
 
@@ -178,7 +179,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->query(Validator::class);
 		});
 
-		$this->registerService(\OC\Security\IdentityProof\Manager::class, function ($c) {
+		$this->registerService(\OC\Security\IdentityProof\Manager::class, function () {
 			return new \OC\Security\IdentityProof\Manager(
 				$this->getServer()->query(\OC\Files\AppData\Factory::class),
 				$this->getServer()->getCrypto(),
@@ -339,16 +340,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	/**
 	 * @return \OCP\IServerContainer
 	 */
-	public function getServer()
-	{
+	public function getServer(): IServerContainer {
 		return $this->server;
 	}
 
 	/**
 	 * @param string $middleWare
-	 * @return boolean|null
 	 */
-	public function registerMiddleWare($middleWare) {
+	public function registerMiddleWare(string $middleWare) {
 		$this->middleWares[] = $middleWare;
 	}
 
@@ -356,7 +355,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * used to return the appname of the set application
 	 * @return string the name of your application
 	 */
-	public function getAppName() {
+	public function getAppName(): string {
 		return $this->query('AppName');
 	}
 
@@ -364,7 +363,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @deprecated use IUserSession->isLoggedIn()
 	 * @return boolean
 	 */
-	public function isLoggedIn() {
+	public function isLoggedIn(): bool {
 		return \OC::$server->getUserSession()->isLoggedIn();
 	}
 
@@ -372,7 +371,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @deprecated use IGroupManager->isAdmin($userId)
 	 * @return boolean
 	 */
-	public function isAdminUser() {
+	public function isAdminUser(): bool {
 		$uid = $this->getUserId();
 		return \OC_User::isAdminUser($uid);
 	}
@@ -413,8 +412,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 *
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 */
-	public function registerCapability($serviceName) {
-		$this->query('OC\CapabilitiesManager')->registerCapability(function() use ($serviceName) {
+	public function registerCapability(string $serviceName) {
+		$this->query(CapabilitiesManager::class)->registerCapability(function() use ($serviceName) {
 			return $this->query($serviceName);
 		});
 	}
@@ -424,7 +423,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 */
-	public function query($name) {
+	public function query(string $name) {
 		try {
 			return $this->queryNoFallback($name);
 		} catch (QueryException $firstException) {
@@ -444,7 +443,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 */
-	public function queryNoFallback($name) {
+	public function queryNoFallback(string $name) {
 		$name = $this->sanitizeName($name);
 
 		if ($this->offsetExists($name)) {
