@@ -79,9 +79,11 @@ class Manager implements IMountManager {
 		\OC_Hook::emit('OC_Filesystem', 'get_mountpoint', ['path' => $path]);
 		$foundMountPoint = '';
 		$mountPoints = array_keys($this->mounts);
+		$foundMountPointLength = 0;
 		foreach ($mountPoints as $mountpoint) {
-			if (strpos($path, $mountpoint) === 0 && \strlen($mountpoint) > \strlen($foundMountPoint)) {
+			if (strpos($path, $mountpoint) === 0 && \strlen($mountpoint) > $foundMountPointLength) {
 				$foundMountPoint = $mountpoint;
+				$foundMountPointLength = \strlen($foundMountPoint);
 			}
 		}
 
