@@ -118,8 +118,8 @@ class AdminTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->with('You are already using a custom theme')
-			->willReturn('You are already using a custom theme');
+			->with('You are already using a custom theme. Theming app settings might be overwritten by that.')
+			->willReturn('You are already using a custom theme. Theming app settings might be overwritten by that.');
 		$this->themingDefaults
 			->expects($this->once())
 			->method('getEntity')
@@ -143,7 +143,7 @@ class AdminTest extends TestCase {
 			->willReturn('/my/route');
 		$params = [
 			'themable' => false,
-			'errorMessage' => 'You are already using a custom theme',
+			'errorMessage' => 'You are already using a custom theme. Theming app settings might be overwritten by that.',
 			'name' => 'MyEntity',
 			'url' => 'https://example.com',
 			'slogan' => 'MySlogan',

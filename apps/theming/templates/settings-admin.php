@@ -37,7 +37,7 @@ style('theming', 'settings-admin');
 	<p>
 		<?php p($_['errorMessage']) ?>
 	</p>
-	<?php } else { ?>
+	<?php } ?>
 	<div>
 		<label>
 			<span><?php p($l->t('Name')) ?></span>
@@ -99,5 +99,4 @@ style('theming', 'settings-admin');
 			</p>
 		<?php } ?>
 	</div>
-	<?php } ?>
 </div>
