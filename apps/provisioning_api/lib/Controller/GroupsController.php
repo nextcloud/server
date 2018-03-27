@@ -33,7 +33,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
-use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -43,24 +42,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\IUser;
 
-class GroupsController extends OCSController {
-
-	use UserDataTrait;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var AccountManager */
-	private $accountManager;
+class GroupsController extends AUserData {
 
 	/** @var ILogger */
 	private $logger;
@@ -84,13 +66,14 @@ class GroupsController extends OCSController {
 								IUserSession $userSession,
 								AccountManager $accountManager,
 								ILogger $logger) {
-		parent::__construct($appName, $request);
+		parent::__construct($appName,
+			$request,
+			$userManager,
+			$config,
+			$groupManager,
+			$userSession,
+			$accountManager);
 
-		$this->groupManager = $groupManager;
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->accountManager = $accountManager;
 		$this->logger = $logger;
 	}
 

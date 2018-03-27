@@ -35,14 +35,11 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Accounts\AccountManager;
 use OC\HintException;
 use OC\Settings\Mailer\NewUserMailHelper;
-use OC_Helper;
 use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
-use OCP\AppFramework\OCSController;
-use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -53,22 +50,10 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 
-class UsersController extends OCSController {
+class UsersController extends AUserData {
 
-	use UserDataTrait;
-
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IConfig */
-	private $config;
 	/** @var IAppManager */
 	private $appManager;
-	/** @var IGroupManager|\OC\Group\Manager */ // FIXME Requires a method that is not on the interface
-	private $groupManager;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var AccountManager */
-	private $accountManager;
 	/** @var ILogger */
 	private $logger;
 	/** @var IFactory */
@@ -108,14 +93,15 @@ class UsersController extends OCSController {
 								NewUserMailHelper $newUserMailHelper,
 								FederatedFileSharingFactory $federatedFileSharingFactory,
 								ISecureRandom $secureRandom) {
-		parent::__construct($appName, $request);
+		parent::__construct($appName,
+							$request,
+							$userManager,
+							$config,
+							$groupManager,
+							$userSession,
+							$accountManager);
 
-		$this->userManager = $userManager;
-		$this->config = $config;
 		$this->appManager = $appManager;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
-		$this->accountManager = $accountManager;
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;

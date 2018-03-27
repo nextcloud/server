@@ -22,14 +22,54 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
-use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCSController;
 use OCP\Files\NotFoundException;
 use OC_Helper;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IRequest;
+use OCP\IUserManager;
+use OCP\IUserSession;
 
-trait UserDataTrait {
+abstract class AUserData extends OCSController {
+
+	/** @var IUserManager */
+	protected $userManager;
+	/** @var IConfig */
+	protected $config;
+	/** @var IGroupManager|\OC\Group\Manager */ // FIXME Requires a method that is not on the interface
+	protected $groupManager;
+	/** @var IUserSession */
+	protected $userSession;
+	/** @var AccountManager */
+	protected $accountManager;
+
+	/**
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param IUserManager $userManager
+	 * @param IConfig $config
+	 * @param IGroupManager $groupManager
+	 * @param IUserSession $userSession
+	 * @param AccountManager $accountManager
+	 */
+	public function __construct(string $appName,
+								IRequest $request,
+								IUserManager $userManager,
+								IConfig $config,
+								IGroupManager $groupManager,
+								IUserSession $userSession,
+								AccountManager $accountManager) {
+		parent::__construct($appName, $request);
+
+		$this->userManager = $userManager;
+		$this->config = $config;
+		$this->groupManager = $groupManager;
+		$this->userSession = $userSession;
+		$this->accountManager = $accountManager;
+	}
 
 	/**
 	 * creates a array with all user data
@@ -38,7 +78,7 @@ trait UserDataTrait {
 	 * @return array
 	 * @throws OCSException
 	 */
-	public function getUserData(string $userId): array {
+	protected function getUserData(string $userId): array {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
