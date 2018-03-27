@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Nepavyko nuskaityti grupių sąrašo",
     "Saved" : "Įrašyta",
     "Saving failed:" : "Įrašymas nepavyko:",
     "File MIME type" : "Failo MIME tipas",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Neteisingas %s",
     "Check #%s does not exist" : "#%s neegzistuoja",
     "Workflow" : "Darbo eiga",
+    "Files workflow engine" : "Darbo eigos su failais modulis",
     "Open documentation" : "Atverti dokumentaciją",
     "Add rule group" : "Pridėti taisyklių grupę",
     "Short rule description" : "Rodyti taisyklės aprašymą",
