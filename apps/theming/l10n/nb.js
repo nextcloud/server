@@ -10,6 +10,7 @@ OC.L10N.register(
     "The given web address is too long" : "Nettadressen er for lang",
     "The given slogan is too long" : "Slagordet er for langt",
     "The given color is invalid" : "Fargen er ugyldig",
+    "The file was uploaded" : "Filen ble lastet opp",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Filen er større enn grensen satt i upload_max_filesize i php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Filen du prøvde å laste opp er større enn grensen satt i MAX_FILE_SIZE i HTML-skjemaet",
     "No file was uploaded" : "Ingen filer ble lastet opp",
