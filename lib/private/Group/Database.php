@@ -341,8 +341,7 @@ class Database extends Backend {
 		$query = $this->dbConn->getQueryBuilder();
 		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_users')
 			->from('group_user')
-			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
-			->orderBy('uid', 'ASC');
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
 
 		if ($search !== '') {
 			$query->andWhere($query->expr()->like('uid', $query->createNamedParameter(
