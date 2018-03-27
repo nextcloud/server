@@ -35,6 +35,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OC_App;
 
 class SCSSCacherTest extends \Test\TestCase {
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
@@ -58,17 +59,26 @@ class SCSSCacherTest extends \Test\TestCase {
 		parent::setUp();
 		$this->logger = $this->createMock(ILogger::class);
 		$this->appData = $this->createMock(IAppData::class);
+
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);
 		$factory->method('get')->with('css')->willReturn($this->appData);
+
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->urlGenerator->expects($this->any())
+			->method('getBaseUrl')
+			->willReturn('http://localhost/nextcloud');
+
 		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->depsCache = $this->createMock(ICache::class);
 		$this->cacheFactory->expects($this->at(0))
 			->method('createDistributed')
 			->willReturn($this->depsCache);
+
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->themingDefaults->expects($this->any())->method('getScssVariables')->willReturn([]);
+
 		$this->scssCacher = new SCSSCacher(
 			$this->logger,
 			$factory,
@@ -78,11 +88,6 @@ class SCSSCacherTest extends \Test\TestCase {
 			\OC::$SERVERROOT,
 			$this->cacheFactory
 		);
-		$this->themingDefaults->expects($this->any())->method('getScssVariables')->willReturn([]);
-
-		$this->urlGenerator->expects($this->any())
-			->method('getBaseUrl')
-			->willReturn('http://localhost/nextcloud');
 	}
 
 	public function testProcessUncachedFileNoAppDataFolder() {
@@ -96,7 +101,8 @@ class SCSSCacherTest extends \Test\TestCase {
 
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
-		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
+		$filePrefix = substr(md5(\OC_Util::getVersionString('core')), 0, 4) . '-' .
+					  substr(md5('http://localhost/nextcloud'), 0, 4) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $gzfile, $filePrefix) {
@@ -131,7 +137,8 @@ class SCSSCacherTest extends \Test\TestCase {
 		$file->expects($this->any())->method('getSize')->willReturn(1);
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
-		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
+		$filePrefix = substr(md5(\OC_Util::getVersionString('core')), 0, 4) . '-' .
+					  substr(md5('http://localhost/nextcloud'), 0, 4) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $gzfile, $filePrefix) {
@@ -162,7 +169,8 @@ class SCSSCacherTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
 		$gzFile = $this->createMock(ISimpleFile::class);
-		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
+		$filePrefix = substr(md5(\OC_Util::getVersionString('core')), 0, 4) . '-' .
+					  substr(md5('http://localhost/nextcloud'), 0, 4) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($name) use ($file, $fileDeps, $gzFile, $filePrefix) {
@@ -197,6 +205,8 @@ class SCSSCacherTest extends \Test\TestCase {
 
 		$gzFile = $this->createMock(ISimpleFile::class);
 		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
+		$filePrefix = substr(md5(\OC_Util::getVersionString('core')), 0, 4) . '-' .
+					  substr(md5('http://localhost/nextcloud'), 0, 4) . '-';
 		$folder->method('getFile')
 			->will($this->returnCallback(function($name) use ($file, $fileDeps, $gzFile, $filePrefix) {
 				if ($name === $filePrefix.'styles.css') {
@@ -382,8 +392,8 @@ class SCSSCacherTest extends \Test\TestCase {
 
 	public function dataGetCachedSCSS() {
 		return [
-			['core', 'core/css/styles.scss', '/css/core/styles.css'],
-			['files', 'apps/files/css/styles.scss', '/css/files/styles.css']
+			['core', 'core/css/styles.scss', '/css/core/styles.css', \OC_Util::getVersionString()],
+			['files', 'apps/files/css/styles.scss', '/css/files/styles.css', \OC_App::getAppVersion('files')]
 		];
 	}
 
@@ -393,11 +403,12 @@ class SCSSCacherTest extends \Test\TestCase {
 	 * @param $result
 	 * @dataProvider dataGetCachedSCSS
 	 */
-	public function testGetCachedSCSS($appName, $fileName, $result) {
+	public function testGetCachedSCSS($appName, $fileName, $result, $version) {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.Css.getCss', [
-				'fileName' => substr(md5('http://localhost/nextcloud'), 0, 8) . '-styles.css',
+				'fileName' => substr(md5($version), 0, 4) . '-' .
+							  substr(md5('http://localhost/nextcloud'), 0, 4) . '-styles.css',
 				'appName' => $appName
 			])
 			->willReturn(\OC::$WEBROOT . $result);

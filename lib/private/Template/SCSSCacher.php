@@ -112,7 +112,7 @@ class SCSSCacher {
 		$path = explode('/', $root . '/' . $file);
 
 		$fileNameSCSS = array_pop($path);
-		$fileNameCSS = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS));
+		$fileNameCSS = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS)), $app);
 
 		$path = implode('/', $path);
 		$webDir = $this->getWebDir($path, $app, $this->serverRoot, \OC::$WEBROOT);
@@ -138,7 +138,8 @@ class SCSSCacher {
 	 */
 	public function getCachedCSS(string $appName, string $fileName): ISimpleFile {
 		$folder = $this->appData->getFolder($appName);
-		return $folder->getFile($this->prependBaseurlPrefix($fileName));
+		$cachedFileName = $this->prependVersionPrefix($this->prependBaseurlPrefix($fileName), $appName);
+		return $folder->getFile($cachedFileName);
 	}
 
 	/**
@@ -322,19 +323,34 @@ class SCSSCacher {
 	public function getCachedSCSS(string $appName, string $fileName): string {
 		$tmpfileLoc = explode('/', $fileName);
 		$fileName = array_pop($tmpfileLoc);
-		$fileName = $this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName));
+		$fileName = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName)), $appName);
 
 		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', ['fileName' => $fileName, 'appName' => $appName]), strlen(\OC::$WEBROOT) + 1);
 	}
 
 	/**
 	 * Prepend hashed base url to the css file
-	 * @param string$cssFile
+	 * @param string $cssFile
 	 * @return string
 	 */
 	private function prependBaseurlPrefix(string $cssFile): string {
 		$frontendController = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
-		return substr(md5($this->urlGenerator->getBaseUrl() . $frontendController), 0, 8) . '-' . $cssFile;
+		return substr(md5($this->urlGenerator->getBaseUrl() . $frontendController), 0, 4) . '-' . $cssFile;
+	}
+
+	/**
+	 * Prepend hashed app version hash
+	 * @param string $cssFile
+	 * @param string $appId
+	 * @return string
+	 */
+	private function prependVersionPrefix(string $cssFile, string $appId): string {
+		$appVersion = \OC_App::getAppVersion($appId);
+		if ($appVersion !== '0') {
+			return substr(md5($appVersion), 0, 4) . '-' . $cssFile;
+		}
+		$coreVersion = \OC_Util::getVersionString();
+		return substr(md5($coreVersion), 0, 4) . '-' . $cssFile;
 	}
 
 	/**
