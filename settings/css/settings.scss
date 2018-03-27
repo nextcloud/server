@@ -882,6 +882,10 @@ span.version {
 		margin: 8px 0;
 	}
 	margin-bottom: 0;
+	/* use 2nd child since app-navigation-toggle is the first */
+	&:not(:nth-child(2)) {
+		border-top: 1px solid $color-border;
+	}
 }
 
 .personal-settings-setting-box .section {
