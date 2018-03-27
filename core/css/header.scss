@@ -49,7 +49,7 @@
 	left: 0;
 	right: 0;
 	z-index: 2000;
-	height: 45px;
+	height: 50px;
 	background-color: $color-primary;
 	box-sizing: border-box;
 	justify-content: space-between;
@@ -57,10 +57,8 @@
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-	padding: 5px;
-	padding-bottom: 0;
-	height: 45px;
-	/* header height */
+	padding: 8px 5px;
+	height: 100%;
 	box-sizing: border-box;
 	opacity: 1;
 	&:focus {
@@ -82,8 +80,8 @@
 		position: absolute;
 		max-width: 350px;
 		max-height: 280px;
-		right: 0;
-		top: 44px;
+		right: 12px;
+		top: 50px;
 		margin: 0;
 
 		&:not(.popovermenu) {
@@ -167,10 +165,11 @@
 				justify-content: center;
 				align-items: center;
 				width: 44px;
-				height: 44px;
+				height: 100%;
 				cursor: pointer;
 				opacity: 0.6;
 				padding: 0;
+				padding-right: 12px;
 				margin: 0;
 			}
 		}
@@ -340,9 +339,9 @@ nav[role='navigation'] {
 
 #settings {
 	display: inline-block;
+	height: 100%;
 	color: rgba($color-primary-text, 0.7);
 	cursor: pointer;
-	margin-right: 13px;
 	flex: 0 0 auto;
 
 	/* User menu on the right */
@@ -439,8 +438,9 @@ nav[role='navigation'] {
 #appmenu {
 	display: inline-block;
 	width: auto;
-	clear: both;
 	min-width: 88px;
+	height: 100%;
+	clear: both;
 
 	li {
 		float: left;
@@ -454,8 +454,8 @@ nav[role='navigation'] {
 			position: relative;
 			display: inline-block;
 			margin: 0;
-			padding: 12px;
-			height: 21px;
+			padding: 15px 12px;
+			height: 20px;
 			text-align: center;
 			vertical-align: top !important;
 			opacity: .6;
@@ -496,7 +496,7 @@ nav[role='navigation'] {
 		border-radius: $border-radius;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
-		margin-top: 0;
+		margin-top: 5px;
 		color: rgba($color-main-text, .7);
 		width: auto;
 		left: 50%;
