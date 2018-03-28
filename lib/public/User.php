@@ -58,31 +58,6 @@ class User {
 	}
 
 	/**
-	 * Get a list of all users
-	 * @param string $search search pattern
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return array an array of all uids
-	 * @deprecated 8.1.0 use method search() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 * @since 5.0.0
-	 */
-	public static function getUsers( $search = '', $limit = null, $offset = null ) {
-		return \OC_User::getUsers( $search, $limit, $offset );
-	}
-
-	/**
-	 * Get the user display name of the user currently logged in.
-	 * @param string|null $user user id or null for current user
-	 * @return string display name
-	 * @deprecated 8.1.0 fetch \OCP\IUser (has getDisplayName()) by using method
-	 *                   get() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 * @since 5.0.0
-	 */
-	public static function getDisplayName( $user = null ) {
-		return \OC_User::getDisplayName( $user );
-	}
-
-	/**
 	 * Check if the user is logged in
 	 * @return boolean
 	 * @since 5.0.0
@@ -90,18 +65,6 @@ class User {
 	 */
 	public static function isLoggedIn() {
 		return \OC::$server->getUserSession()->isLoggedIn();
-	}
-
-	/**
-	 * Check if a user exists
-	 * @param string $uid the username
-	 * @param string $excludingBackend (default none)
-	 * @return boolean
-	 * @deprecated 8.1.0 use method userExists() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 * @since 5.0.0
-	 */
-	public static function userExists($uid, $excludingBackend = null) {
-		return \OC::$server->getUserManager()->userExists($uid);
 	}
 
 	/**

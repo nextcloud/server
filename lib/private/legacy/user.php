@@ -312,6 +312,8 @@ class OC_User {
 	 *
 	 * @param string $uid
 	 * @return string|bool uid or false
+	 * @deprecated 8.1.0 fetch \OCP\IUser (has getDisplayName()) by using method
+	 *                   get() of \OCP\IUserManager - \OC::$server->getUserManager()
 	 */
 	public static function getDisplayName($uid = null) {
 		if ($uid) {
@@ -364,25 +366,6 @@ class OC_User {
 		} else {
 			return \OC::$server->getSystemConfig()->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
-	}
-
-	/**
-	 * Get a list of all users
-	 *
-	 * @return array an array of all uids
-	 *
-	 * Get a list of all users.
-	 * @param string $search
-	 * @param integer $limit
-	 * @param integer $offset
-	 */
-	public static function getUsers($search = '', $limit = null, $offset = null) {
-		$users = \OC::$server->getUserManager()->search($search, $limit, $offset);
-		$uids = array();
-		foreach ($users as $user) {
-			$uids[] = $user->getUID();
-		}
-		return $uids;
 	}
 
 	/**

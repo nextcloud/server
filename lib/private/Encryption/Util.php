@@ -35,6 +35,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
+use OCP\IUser;
 
 class Util {
 
@@ -271,9 +272,12 @@ class Util {
 	}
 
 	public function getUserWithAccessToMountPoint($users, $groups) {
-		$result = array();
+		$result = [];
 		if (in_array('all', $users)) {
-			$result = \OCP\User::getUsers();
+			$users = $this->userManager->search('', null, null);
+			$result = array_map(function(IUser $user) {
+				return $user->getUID();
+			}, $users);
 		} else {
 			$result = array_merge($result, $users);
 

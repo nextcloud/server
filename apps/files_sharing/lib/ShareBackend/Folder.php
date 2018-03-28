@@ -41,6 +41,9 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	public function getParents($itemSource, $shareWith = null, $owner = null) {
 		$result = array();
 		$parent = $this->getParentId($itemSource);
+
+		$userManager = \OC::$server->getUserManager();
+
 		while ($parent) {
 			$shares = \OCP\Share::getItemSharedWithUser('folder', $parent, $shareWith, $owner);
 			if ($shares) {
@@ -49,8 +52,11 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 					$share['collection']['path'] = $name;
 					$share['collection']['item_type'] = 'folder';
 					$share['file_path'] = $name;
-					$displayNameOwner = \OCP\User::getDisplayName($share['uid_owner']);
-					$displayNameShareWith = \OCP\User::getDisplayName($share['share_with']);
+
+					$ownerUser = $userManager->get($share['uid_owner']);
+					$displayNameOwner = $ownerUser === null ? $share['uid_owner'] : $ownerUser->getDisplayName();
+					$shareWithUser = $userManager->get($share['share_with']);
+					$displayNameShareWith = $shareWithUser === null ? $share['share_with'] : $shareWithUser->getDisplayName();
 					$share['displayname_owner'] = $displayNameOwner ? $displayNameOwner : $share['uid_owner'];
 					$share['share_with_displayname'] = $displayNameShareWith ? $displayNameShareWith : $share['uid_owner'];
 
