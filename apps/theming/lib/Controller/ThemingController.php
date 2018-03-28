@@ -100,6 +100,7 @@ class ThemingController extends Controller {
 	 * @param SCSSCacher $scssCacher
 	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
+	 * @param ImageManager $imageManager
 	 */
 	public function __construct(
 		$appName,
@@ -313,12 +314,7 @@ class ThemingController extends Controller {
 
 		if (strpos($setting, 'Mime') !== -1) {
 			$imageKey = str_replace('Mime', '', $setting);
-			try {
-				$file = $this->appData->getFolder('images')->getFile($imageKey);
-				$file->delete();
-			} catch (NotFoundException $e) {
-			} catch (NotPermittedException $e) {
-			}
+			$this->imageManager->delete($imageKey);
 		}
 
 		return new DataResponse(
@@ -344,8 +340,7 @@ class ThemingController extends Controller {
 	 */
 	public function getImage(string $key) {
 		try {
-			/** @var File $file */
-			$file = $this->appData->getFolder('images')->getFile($key);
+			$file = $this->imageManager->getImage($key);
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
 		}

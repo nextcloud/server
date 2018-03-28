@@ -158,8 +158,20 @@ class ImageManager {
 		return $file;
 	}
 
+	public function delete(string $key) {
+		try {
+			$file = $this->appData->getFolder('images')->getFile($key);
+			$file->delete();
+		} catch (NotFoundException $e) {
+		} catch (NotPermittedException $e) {
+		}
+	}
+
 	/**
 	 * remove cached files that are not required any longer
+	 *
+	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 */
 	public function cleanup() {
 		$currentFolder = $this->getCacheFolder();
