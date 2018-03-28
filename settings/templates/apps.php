@@ -58,7 +58,7 @@ $urlGenerator = $_['urlGenerator'];
 	</div>
 	<div class="app-version">{{version}}</div>
 	<div class="app-level">
-		{{{level}}}{{#unless internal}}<a href="https://apps.nextcloud.com/apps/{{id}}"><?php p($l->t('View in store'));?> ↗</a>{{/unless}}
+		{{{level}}}{{#unless internal}}<a href="https://apps.nextcloud.com/apps/{{id}}" target="_blank"><?php p($l->t('View in store'));?> ↗</a>{{/unless}}
 	</div>
 
 	<div class="app-groups">
