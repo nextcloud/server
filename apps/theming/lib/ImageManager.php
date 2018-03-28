@@ -25,6 +25,7 @@
 namespace OCA\Theming;
 
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -132,7 +133,7 @@ class ImageManager {
 	 * @return \OCP\Files\SimpleFS\ISimpleFile
 	 * @throws NotPermittedException
 	 */
-	public function getCachedImage($filename): ISimpleFile {
+	public function getCachedImage(string $filename): ISimpleFile {
 		$currentFolder = $this->getCacheFolder();
 		return $currentFolder->getFile($filename);
 	}
@@ -146,7 +147,7 @@ class ImageManager {
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
-	public function setCachedImage($filename, $data): ISimpleFile {
+	public function setCachedImage(string $filename, string $data): ISimpleFile {
 		$currentFolder = $this->getCacheFolder();
 		if ($currentFolder->fileExists($filename)) {
 			$file = $currentFolder->getFile($filename);

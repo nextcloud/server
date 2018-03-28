@@ -36,6 +36,7 @@ namespace OCA\Theming;
 
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Files\NotFoundException;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;

@@ -135,7 +135,6 @@ class ThemingController extends Controller {
 	 * @param string $setting
 	 * @param string $value
 	 * @return DataResponse
-	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
 	public function updateStylesheet($setting, $value) {
