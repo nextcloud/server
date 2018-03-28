@@ -391,7 +391,7 @@ class Updater extends BasicEmitter {
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
-			if(!OC_App::isAppCompatible($version, $info)) {
+			if($info === null || !OC_App::isAppCompatible($version, $info)) {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}

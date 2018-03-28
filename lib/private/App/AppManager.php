@@ -358,7 +358,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @param bool $path
 	 * @param null $lang
-	 * @return array app info
+	 * @return array|null app info
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
 		if ($path) {
@@ -411,7 +411,9 @@ class AppManager implements IAppManager {
 		$incompatibleApps = array();
 		foreach ($apps as $appId) {
 			$info = $this->getAppInfo($appId);
-			if (!\OC_App::isAppCompatible($version, $info)) {
+			if ($info === null) {
+				$incompatibleApps[] = ['id' => $appId];
+			} else if (!\OC_App::isAppCompatible($version, $info)) {
 				$incompatibleApps[] = $info;
 			}
 		}
