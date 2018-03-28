@@ -11,7 +11,6 @@ OC.L10N.register(
     "The given color is invalid" : "El color dado es inválido",
     "No file uploaded" : "No hay archivos cargados",
     "Unsupported image type" : "Tipo de imagen no soportado",
-    "You are already using a custom theme" : "Usted ya se encuentra usando un tema personalizado",
     "Theming" : "Tematizar",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "El tematizar hace posible personalizar facilmente la manera en que se ve su instancia y clientes soportados. Esto será visible para todos los usuarios. ",
     "Name" : "Nombre",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Imágen de inicio de sesión",
     "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión",
     "Remove background image" : "Eliminar imagen de fondo",
+    "You are already using a custom theme" : "Usted ya se encuentra usando un tema personalizado",
     "reset to default" : "restaurar a predeterminado"
 },
 "nplurals=2; plural=(n != 1);");

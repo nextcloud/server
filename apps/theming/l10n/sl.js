@@ -11,7 +11,6 @@ OC.L10N.register(
     "The given color is invalid" : "Izbrana barva je neveljavna",
     "No file uploaded" : "Ni naložene datoteke",
     "Unsupported image type" : "Nepodprt tip datoteke",
-    "You are already using a custom theme" : "Ti že uporabljaš lastno temo",
     "Theming" : "Teme",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Teme omogočajo, da enostavno prilagodiš izgled in občutek svojega strežnika in podprtih strank. To bodo videli vsi uporabniki.",
     "Name" : "Ime",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Slika ob prijavi",
     "Upload new login background" : "Naloži novo ozadje za prijavo",
     "Remove background image" : "Odstrani sliko ozadja",
+    "You are already using a custom theme" : "Ti že uporabljaš lastno temo",
     "reset to default" : "ponastavi na privzeto"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

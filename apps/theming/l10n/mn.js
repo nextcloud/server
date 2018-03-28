@@ -11,7 +11,6 @@ OC.L10N.register(
     "The given color is invalid" : "Өнгө буруу байна",
     "No file uploaded" : "Файл илгээгдсэнгүй",
     "Unsupported image type" : "Дэмжигдэхгүй зургийн төрөл байна",
-    "You are already using a custom theme" : "Та тусгай загварчлал ашиглаж байна",
     "Theming" : "Загварчлал",
     "Name" : "Нэр",
     "Reset to default" : "Анхны байдлаар сэргээх",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "Login image" : "Нэвтрэх зураг",
     "Upload new login background" : "Нэвтрэх ханын зураг байршуулах",
     "Remove background image" : "Ханын зургийг хасах",
+    "You are already using a custom theme" : "Та тусгай загварчлал ашиглаж байна",
     "reset to default" : "анхныхаар сэргээх"
 },
 "nplurals=2; plural=(n != 1);");
