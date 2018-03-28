@@ -80,7 +80,7 @@
 		position: absolute;
 		max-width: 350px;
 		max-height: 280px;
-		right: 12px;
+		right: 5px;
 		top: 50px;
 		margin: 0;
 
@@ -98,7 +98,7 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 12px;
+			right: 10px;
 		}
 	}
 	.logo {
@@ -159,17 +159,17 @@
 	.header-right {
 		> div,
 		> form {
+			height: 100%;
 			position: relative;
 			> .menutoggle {
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				width: 44px;
+				width: 50px;
 				height: 100%;
 				cursor: pointer;
 				opacity: 0.6;
 				padding: 0;
-				padding-right: 12px;
 				margin: 0;
 			}
 		}
@@ -224,14 +224,14 @@
 /* NAVIGATION --------------------------------------------------------------- */
 nav[role='navigation'] {
 	display: inline-block;
-	width: 44px;
-	height: 44px;
-	margin-left: -44px;
+	width: 50px;
+	height: 50px;
+	margin-left: -50px;
 }
 
 .header-left #navigation {
 	position: relative;
-	left: 22px; /* half the togglemenu */
+	left: 25px; /* half the togglemenu */
 	transform: translateX(-50%);
 	width: 160px;
 }
@@ -347,6 +347,7 @@ nav[role='navigation'] {
 	/* User menu on the right */
 	#expand {
 		opacity: 1; /* override icon opacity */
+		padding-right: 12px;
 
 		img {
 			opacity: .7;
@@ -438,7 +439,7 @@ nav[role='navigation'] {
 #appmenu {
 	display: inline-block;
 	width: auto;
-	min-width: 88px;
+	min-width: 50px;
 	height: 100%;
 	clear: both;
 
@@ -447,14 +448,14 @@ nav[role='navigation'] {
 		display: inline-block;
 		position: relative;
 		vertical-align: top !important;
-		height: 45px;
+		height: 100%;
 		cursor: pointer;
 
 		a {
 			position: relative;
 			display: inline-block;
 			margin: 0;
-			padding: 15px 12px;
+			padding: 15px 15px;
 			height: 20px;
 			text-align: center;
 			vertical-align: top !important;
@@ -496,7 +497,6 @@ nav[role='navigation'] {
 		border-radius: $border-radius;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
-		margin-top: 5px;
 		color: rgba($color-main-text, .7);
 		width: auto;
 		left: 50%;

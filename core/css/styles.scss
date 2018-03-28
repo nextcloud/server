@@ -184,17 +184,18 @@ body {
 		padding: 3px;
 		padding-left: 25px;
 		padding-right: 20px;
-		background: transparent url('../img/actions/search-white.svg?v=1') no-repeat 6px center;
+		background: transparent url('../img/actions/search-white.svg?v=1') no-repeat center center;
 		color: $color-primary-text;
 		border: 0;
 		border-radius: $border-radius;
-		margin-top: 3px;
+		margin-top: 9px;
 		width: 0;
 		cursor: pointer;
 		-webkit-transition: all 100ms;
 		transition: all 100ms;
 		opacity: .6;
 		&:focus, &:active, &:valid {
+			background-position-x: 6px;
 			color: $color-primary-text;
 			width: 155px;
 			cursor: text;
