@@ -407,6 +407,9 @@ nav[role='navigation'] {
 }
 
 #expanddiv {
+	&.menu {
+		right: 17px;
+	}
 	a {
 		display: inline-flex;
 		align-items: center;
