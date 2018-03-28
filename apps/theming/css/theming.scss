@@ -92,8 +92,8 @@
 
 /* override styles for login screen in guest.css */
 @if variable_exists('theming-logo-mime') and $theming-logo-mime != '' {
-    #theming-preview-logo,
-    #header .logo {
+	#theming-preview-logo,
+	#header .logo {
 		background-image: url(#{$image-logo});
 		background-size: contain;
 	}
@@ -101,9 +101,9 @@
 		margin-bottom: 22px;
 	}
 } @else {
-  #theming-preview-logo {
-    background-image: url(#{$image-logo});
-  }
+	#theming-preview-logo {
+		background-image: url(#{$image-logo});
+	}
 }
 
 @if variable_exists('theming-background-mime') and $theming-background-mime != ''  {
@@ -166,6 +166,10 @@ input.primary,
 			color: $color-primary-text !important;
 		}
 
+	}
+} @else {
+	#body-login {
+		background-color: $color-primary;
 	}
 }
 
