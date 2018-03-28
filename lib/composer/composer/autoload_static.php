@@ -169,6 +169,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files\\FileNameTooLongException' => __DIR__ . '/../../..' . '/lib/public/Files/FileNameTooLongException.php',
         'OCP\\Files\\Folder' => __DIR__ . '/../../..' . '/lib/public/Files/Folder.php',
         'OCP\\Files\\ForbiddenException' => __DIR__ . '/../../..' . '/lib/public/Files/ForbiddenException.php',
+        'OCP\\Files\\GenericFileException' => __DIR__ . '/../../..' . '/lib/public/Files/GenericFileException.php',
         'OCP\\Files\\IAppData' => __DIR__ . '/../../..' . '/lib/public/Files/IAppData.php',
         'OCP\\Files\\IHomeStorage' => __DIR__ . '/../../..' . '/lib/public/Files/IHomeStorage.php',
         'OCP\\Files\\IMimeTypeDetector' => __DIR__ . '/../../..' . '/lib/public/Files/IMimeTypeDetector.php',

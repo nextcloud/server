@@ -26,6 +26,7 @@
 
 namespace OC\Files\Node;
 
+use OCP\Files\GenericFileException;
 use OCP\Files\NotPermittedException;
 
 class File extends Node implements \OCP\Files\File {
@@ -57,11 +58,14 @@ class File extends Node implements \OCP\Files\File {
 	/**
 	 * @param string $data
 	 * @throws \OCP\Files\NotPermittedException
+	 * @throws \OCP\Files\GenericFileException
 	 */
 	public function putContent($data) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(array('preWrite'));
-			$this->view->file_put_contents($this->path, $data);
+			if ($this->view->file_put_contents($this->path, $data) === false) {
+				throw new GenericFileException('file_put_contents failed');
+			}
 			$this->fileInfo = null;
 			$this->sendHooks(array('postWrite'));
 		} else {
