@@ -742,6 +742,11 @@ pipeline:
   acceptance-app-theming:
       image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
+        - ./occ config:system:set redis host --value=cache
+        - ./occ config:system:set redis port --value=6379 --type=integer
+        - ./occ config:system:set redis timeout --value=0 --type=integer
+        - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
+        - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
       when:
         matrix:
@@ -997,6 +1002,7 @@ matrix:
       TESTS-ACCEPTANCE: app-files-tags
     - TESTS: acceptance
       TESTS-ACCEPTANCE: app-theming
+      ENABLE_REDIS: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: header
     - TESTS: acceptance
