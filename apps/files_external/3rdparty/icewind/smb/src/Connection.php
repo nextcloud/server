@@ -34,10 +34,14 @@ class Connection extends RawConnection {
 		parent::write($input . PHP_EOL);
 	}
 
+	/**
+	 * @throws ConnectException
+	 */
 	public function clearTillPrompt() {
 		$this->write('');
 		do {
 			$promptLine = $this->readLine();
+			$this->parser->checkConnectionError($promptLine);
 		} while (!$this->isPrompt($promptLine));
 		$this->write('');
 		$this->readLine();
