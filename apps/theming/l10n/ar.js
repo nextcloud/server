@@ -13,7 +13,6 @@ OC.L10N.register(
     "Missing a temporary folder" : "المجلد المؤقت غير موجود",
     "No file uploaded" : "لم يتم رفع الملف",
     "Unsupported image type" : "صيغة الصورة غير مقبولة",
-    "You are already using a custom theme" : "انت تستعمل قالب مخصص",
     "Theming" : "تخصيص القالب",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "السمات تجعل من الممكن بسهولة تخصيص الشكل والمظهر لنموذجك ودعم العملاء. سيكون هذا مرئيا لجميع المستخدمين.",
     "Name" : "الاسم",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Login image" : "صورة الدخول",
     "Upload new login background" : "تحميل خلفية جديدة للدخول",
     "Remove background image" : "إزالة صورة الخلفية",
+    "You are already using a custom theme" : "انت تستعمل قالب مخصص",
     "reset to default" : "إلغاء كل التغييرات",
     "Failed to write file to disk." : "خطأ في الكتابة على القرص الصلب."
 },

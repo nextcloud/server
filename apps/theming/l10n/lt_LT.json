@@ -9,7 +9,6 @@
     "The given color is invalid" : "Nurodyta spalva yra neteisinga",
     "No file uploaded" : "Neįkeltas joks failas",
     "Unsupported image type" : "Nepalaikomas paveikslo tipas",
-    "You are already using a custom theme" : "Jūs jau naudojate tinkintą temą",
     "Theming" : "Tema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temos leidžia lengvai tinkinti jūsų egzemplioriaus ir palaikomų klientų išvaizdą ir turinį. Tai bus matoma visiems naudotojams. ",
     "Name" : "Pavadinimas",
@@ -23,6 +22,7 @@
     "Login image" : "Prisijungimo paveikslas",
     "Upload new login background" : "Įkelti naują prisijungimo foną",
     "Remove background image" : "Šalinti foninį paveikslą",
+    "You are already using a custom theme" : "Jūs jau naudojate tinkintą temą",
     "reset to default" : "atstatyta į numatytąją"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
