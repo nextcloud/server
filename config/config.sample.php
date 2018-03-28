@@ -782,7 +782,8 @@ $CONFIG = array(
  * Defaults to
  * * Desktop client: ``https://nextcloud.com/install/#install-clients``
  * * Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
- * * iOS client    : ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ * * iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ *  *iOS client app id: ``1125420102``
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
@@ -790,7 +791,8 @@ $CONFIG = array(
 	'https://play.google.com/store/apps/details?id=com.nextcloud.client',
 'customclient_ios' =>
 	'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8',
-
+'customclient_ios_appid' =>
+		'1125420102',
 /**
  * Apps
  *

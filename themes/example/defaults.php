@@ -29,38 +29,6 @@ class OC_Theme {
 	}
 
 	/**
-	 * Returns the URL where the sync clients are listed
-	 * @return string URL
-	 */
-	public function getSyncClientUrl() {
-		return 'https://nextcloud.com/install/#install-clients';
-	}
-
-	/**
-	 * Returns the URL to the App Store for the iOS Client
-	 * @return string URL
-	 */
-	public function getiOSClientUrl() {
-		return 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8';
-	}
-
-	/**
-	 * Returns the AppId for the App Store for the iOS Client
-	 * @return string AppId
-	 */
-	public function getiTunesAppId() {
-		return '1125420102';
-	}
-
-	/**
-	 * Returns the URL to Google Play for the Android Client
-	 * @return string URL
-	 */
-	public function getAndroidClientUrl() {
-		return 'https://play.google.com/store/apps/details?id=com.nextcloud.client';
-	}
-
-	/**
 	 * Returns the documentation URL
 	 * @return string URL
 	 */
