@@ -806,7 +806,7 @@ class EncryptionTest extends Storage {
 			'encrypted' => $expectedEncrypted,
 		];
 		if($expectedEncrypted === true) {
-			$expectedCachePut['encryptedVersion'] = 12345;
+			$expectedCachePut['encryptedVersion'] = 1;
 		}
 
 		$this->arrayCache->expects($this->never())->method('set');
