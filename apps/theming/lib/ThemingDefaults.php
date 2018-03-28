@@ -270,10 +270,16 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 
-		if ($image === 'favicon.ico' && $this->shouldReplaceIcons()) {
+		try {
+			$customFavicon = $this->imageManager->getImage('favicon');
+		} catch (NotFoundException $e) {
+			$customFavicon = null;
+		}
+
+		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->shouldReplaceIcons())) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue;
 		}
-		if ($image === 'favicon-touch.png' && $this->shouldReplaceIcons()) {
+		if ($image === 'favicon-touch.png' && ($customFavicon !== null || $this->shouldReplaceIcons())) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue;
 		}
 		if ($image === 'manifest.json') {
@@ -318,6 +324,8 @@ class ThemingDefaults extends \OC_Defaults {
 		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->setAppValue('theming', 'cachebuster', (int)$cacheBusterKey+1);
 		$this->cacheFactory->createDistributed('theming-')->clear();
+		$this->cacheFactory->createDistributed('imagePath')->clear();
+
 	}
 
 	/**
