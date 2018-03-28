@@ -370,7 +370,8 @@ class Share extends AbstractShare {
 	protected function execute($command) {
 		$this->connect();
 		$this->connection->write($command . PHP_EOL);
-		return $this->connection->read();
+		$output = $this->connection->read();
+		return $output;
 	}
 
 	/**
