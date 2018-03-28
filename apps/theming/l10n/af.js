@@ -15,7 +15,6 @@ OC.L10N.register(
     "Missing a temporary folder" : "Ontbrekende tydelike gids",
     "No file uploaded" : "Geen lêer opgelaai",
     "Unsupported image type" : "Onondersteunde beeldtipe",
-    "You are already using a custom theme" : "U gebruik reeds ’n pasgemaakte tema",
     "Name" : "Naam",
     "Reset to default" : "Herstel na verstek",
     "Web address" : "Webadres",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Login image" : "Aantekenbeeld",
     "Upload new login background" : "Laai nuwe aantekenagtergrond op",
     "Remove background image" : "Verwyder agtergrondbeeld",
+    "You are already using a custom theme" : "U gebruik reeds ’n pasgemaakte tema",
     "reset to default" : "herstel na verstek",
     "There is no error, the file uploaded with success" : "Geen fout is teëgekom nie, die lêer is met suksesvol opgelaai",
     "The uploaded file was only partially uploaded" : "Die opgelaaide lêer is slegs gedeeltelik opgelaai"

@@ -11,7 +11,6 @@ OC.L10N.register(
     "The given color is invalid" : "Norādītā krāsa ir nederīga",
     "No file uploaded" : "Nav augšupielādēta datne",
     "Unsupported image type" : "Neatbalstīts attēla tips",
-    "You are already using a custom theme" : "Tu jau izmanto pielāgotu tēmu",
     "Theming" : "Dizains",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Tēmošana padara iespējamu viegli pielāgot savas instances un atbalstošo klientaplikāciju izskatu un sajūtu. Tas būs redzams visiem lietotājiem.",
     "Name" : "Nosaukums",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Login image" : "Pieslēgšanās fona attēls",
     "Upload new login background" : "Augšupielādēt jaunu pieslēgšanās fona attēlu",
     "Remove background image" : "Noņemt fona attēlu",
+    "You are already using a custom theme" : "Tu jau izmanto pielāgotu tēmu",
     "reset to default" : "Atiestatīt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
