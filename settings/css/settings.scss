@@ -1168,7 +1168,8 @@ table.grid td.date {
 		width: 300px;
 		text-align: right;
 	}
-	select:nth-child(2) {
+	select:nth-child(2),
+	input {
 		width: 143px;
 	}
 }
