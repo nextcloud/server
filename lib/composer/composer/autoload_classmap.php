@@ -894,6 +894,7 @@ return array(
     'OC\\Settings\\Activity\\Setting' => $baseDir . '/settings/Activity/Setting.php',
     'OC\\Settings\\Admin\\Additional' => $baseDir . '/lib/private/Settings/Admin/Additional.php',
     'OC\\Settings\\Admin\\Encryption' => $baseDir . '/lib/private/Settings/Admin/Encryption.php',
+    'OC\\Settings\\Admin\\Overview' => $baseDir . '/lib/private/Settings/Admin/Overview.php',
     'OC\\Settings\\Admin\\Server' => $baseDir . '/lib/private/Settings/Admin/Server.php',
     'OC\\Settings\\Admin\\ServerDevNotice' => $baseDir . '/lib/private/Settings/Admin/ServerDevNotice.php',
     'OC\\Settings\\Admin\\Sharing' => $baseDir . '/lib/private/Settings/Admin/Sharing.php',

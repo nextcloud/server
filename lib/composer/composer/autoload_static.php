@@ -924,6 +924,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Settings\\Activity\\Setting' => __DIR__ . '/../../..' . '/settings/Activity/Setting.php',
         'OC\\Settings\\Admin\\Additional' => __DIR__ . '/../../..' . '/lib/private/Settings/Admin/Additional.php',
         'OC\\Settings\\Admin\\Encryption' => __DIR__ . '/../../..' . '/lib/private/Settings/Admin/Encryption.php',
+        'OC\\Settings\\Admin\\Overview' => __DIR__ . '/../../..' . '/lib/private/Settings/Admin/Overview.php',
         'OC\\Settings\\Admin\\Server' => __DIR__ . '/../../..' . '/lib/private/Settings/Admin/Server.php',
         'OC\\Settings\\Admin\\ServerDevNotice' => __DIR__ . '/../../..' . '/lib/private/Settings/Admin/ServerDevNotice.php',
         'OC\\Settings\\Admin\\Sharing' => __DIR__ . '/../../..' . '/lib/private/Settings/Admin/Sharing.php',
