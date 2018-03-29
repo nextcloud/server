@@ -27,6 +27,7 @@
 namespace OC\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Version\VersionParser;
+use OC\App\CompareVersion;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
@@ -34,17 +35,23 @@ use OCP\IConfig;
 use OCP\ILogger;
 
 class AppFetcher extends Fetcher {
+
+	/** @var CompareVersion */
+	private $compareVersion;
+
 	/**
 	 * @param Factory $appDataFactory
 	 * @param IClientService $clientService
 	 * @param ITimeFactory $timeFactory
 	 * @param IConfig $config
+	 * @param CompareVersion $compareVersion
 	 * @param ILogger $logger
 	 */
 	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config,
+								CompareVersion $compareVersion,
 								ILogger $logger) {
 		parent::__construct(
 			$appDataFactory,
@@ -56,6 +63,7 @@ class AppFetcher extends Fetcher {
 
 		$this->fileName = 'apps.json';
 		$this->setEndpoint();
+		$this->compareVersion = $compareVersion;
 	}
 
 	/**
@@ -70,8 +78,6 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
-		$ncVersion = $this->getVersion();
-		$ncMajorVersion = explode('.', $ncVersion)[0];
 		foreach($response['data'] as $dataKey => $app) {
 			$releases = [];
 
@@ -83,12 +89,13 @@ class AppFetcher extends Fetcher {
 					// Exclude all versions not compatible with the current version
 					$versionParser = new VersionParser();
 					$version = $versionParser->getVersion($release['rawPlatformVersionSpec']);
-					if (
-						// Major version is bigger or equals to the minimum version of the app
-						version_compare($ncMajorVersion, $version->getMinimumVersion(), '>=')
-						// Major version is smaller or equals to the maximum version of the app
-						&& version_compare($ncMajorVersion, $version->getMaximumVersion(), '<=')
-					) {
+					$ncVersion = $this->getVersion();
+					$min = $version->getMinimumVersion();
+					$max = $version->getMaximumVersion();
+					$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $min, '>=');
+					$maxFulfilled = $max !== '' &&
+						$this->compareVersion->isCompatible($ncVersion, $max, '<=');
+					if ($minFulfilled && $maxFulfilled) {
 						$releases[] = $release;
 					}
 				}

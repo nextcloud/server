@@ -22,6 +22,7 @@
 namespace Test\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
+use OC\App\CompareVersion;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
@@ -33,18 +34,21 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\ILogger;
+use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class AppFetcherTest extends TestCase  {
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|PHPUnit_Framework_MockObject_MockObject */
 	protected $appData;
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClientService|PHPUnit_Framework_MockObject_MockObject */
 	protected $clientService;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|PHPUnit_Framework_MockObject_MockObject */
 	protected $timeFactory;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var CompareVersion|PHPUnit_Framework_MockObject_MockObject */
+	protected $compareVersion;
+	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
 	/** @var AppFetcher */
 	protected $fetcher;
@@ -57,7 +61,7 @@ EOD;
 	public function setUp() {
 		parent::setUp();
 
-		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		/** @var Factory|PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$factory->expects($this->once())
@@ -67,6 +71,7 @@ EOD;
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->compareVersion = new CompareVersion();
 		$this->logger = $this->createMock(ILogger::class);
 
 		$this->config
@@ -79,6 +84,7 @@ EOD;
 			$this->clientService,
 			$this->timeFactory,
 			$this->config,
+			$this->compareVersion,
 			$this->logger
 		);
 	}
