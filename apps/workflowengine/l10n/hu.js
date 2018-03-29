@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Csoportlista betöltése sikertelen",
     "Saved" : "Elmentve",
     "Saving failed:" : "Mentés sikertelen:",
     "File MIME type" : "Fájl MIME típus",

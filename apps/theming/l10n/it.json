@@ -18,6 +18,7 @@
     "A PHP extension stopped the file upload" : "Un'estensione PHP ha fermato il caricamento del file",
     "No file uploaded" : "Nessun file caricato",
     "Unsupported image type" : "Tipo di immagine non supportato",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Stai già utilizzando un tema personalizzato. Le impostazioni dell'applicazione dei temi potrebbero essere sovrascritte.",
     "Theming" : "Tema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "La gestione dei temi rende semplice la personalizzazione dell'aspetto della tua istanza e dei client supportati. Ciò sarà visibile a tutti gli utenti.",
     "Name" : "Nome",
