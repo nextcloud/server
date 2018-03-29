@@ -1,6 +1,6 @@
 {
   "name": "Nextcloud",
-  "version": "11 alpha",
+  "version": "14",
   "homepage": "https://www.nextcloud.com",
   "license": "AGPL",
   "private": true,
@@ -8,7 +8,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "core/vendor",
+    "core/js/vendor",
     "test",
     "tests"
   ],

@@ -1,6 +1,6 @@
 {
-	"name": "files_external/3rdparty",
-	"description": "3rdparty components for files_external",
+	"name": "files_external/vendor",
+	"description": "Vendored PHP components for files_external",
 	"license": "MIT",
 	"config": {
 		"vendor-dir": ".",
@@ -12,4 +12,3 @@
 		"icewind/streams": "0.5.2"
 	}
 }
-

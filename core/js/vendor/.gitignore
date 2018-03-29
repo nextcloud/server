@@ -71,6 +71,7 @@ jquery-ui/themes/ui-darkness
 jquery-ui/themes/ui-lightness
 jquery-ui/themes/vader
 jquery-ui/ui/**
+!jquery-ui/ui/minified
 !jquery-ui/ui/minified/jquery-ui.custom.min.js
 jquery-ui/*.json
 !jquery-ui/.bower.json
@@ -157,7 +158,7 @@ autosize/**
 !autosize/dist
 !autosize/dist/autosize.min.js
 !autosize/.bower.json
-!autosize/LICENCE.md
+!autosize/LICENSE.md
 
 #marked
 marked/bin
