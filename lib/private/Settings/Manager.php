@@ -226,7 +226,8 @@ class Manager implements IManager {
 	public function getAdminSections(): array {
 		// built-in sections
 		$sections = [
-			0 => [new Section('server', $this->l->t('Basic settings'), 0, $this->url->imagePath('settings', 'admin.svg'))],
+			0 => [new Section('overview', $this->l->t('Overview'), 0, $this->url->imagePath('settings', 'admin.svg'))],
+			1 => [new Section('server', $this->l->t('Basic settings'), 0, $this->url->imagePath('settings', 'admin.svg'))],
 			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
 			10 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
 			45 => [new Section('encryption', $this->l->t('Encryption'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
@@ -257,11 +258,16 @@ class Manager implements IManager {
 	private function getBuiltInAdminSettings($section): array {
 		$forms = [];
 
+		if ($section === 'overview') {
+			/** @var ISettings $form */
+			$form = new Admin\Overview($this->dbc, $this->request, $this->config, $this->lockingProvider, $this->l);
+			$forms[$form->getPriority()] = [$form];
+			$form = new Admin\ServerDevNotice();
+			$forms[$form->getPriority()] = [$form];
+		}
 		if ($section === 'server') {
 			/** @var ISettings $form */
 			$form = new Admin\Server($this->dbc, $this->request, $this->config, $this->lockingProvider, $this->l);
-			$forms[$form->getPriority()] = [$form];
-			$form = new Admin\ServerDevNotice();
 			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'encryption') {
