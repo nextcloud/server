@@ -31,6 +31,7 @@
     "{nthServer}. Server" : "{nthServer}. Szerver",
     "No object found in the given Base DN. Please revise." : "Nem találhatók objektumok a megadott címtár gyökérben (base DN). Kérlek, ellenőrizd.",
     "More than 1,000 directory entries available." : "Több mint 1000 címtár bejegyzés érhető el.",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} bejegyzés érhető el a megadott Base DN-ben","{objectsFound} bejegyzés érhető el a megadott Base DN-ben"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Hiba törént. Kérlek, ellenőrizd a címtár gyökerét (base DN), a kapcsolat beállításait és az azonosítókat.",
     "Do you really want to delete the current Server Configuration?" : "Tényleg törölni szeretné a szerver beállításait?",
     "Confirm Deletion" : "A törlés megerősítése",
