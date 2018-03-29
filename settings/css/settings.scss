@@ -1101,6 +1101,7 @@ table.grid td.date {
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;
+	list-style-position: inside;
 }
 
 #security-warning-state span {
@@ -1260,13 +1261,16 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		height: 50px;
 		background-position: left center;
 	}
-	.errors, .warnings {
-		color: #ce3702;
+	.errors, .errors a {
+		color: $color-error;
+	}
+	.warnings, .warnings a {
+		color: $color-warning;
 	}
 }
 
 #security-warning > ul {
-	color: #ce3702;
+	color: $color-error;
 }
 
 #admin-tips li {
