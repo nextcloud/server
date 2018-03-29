@@ -269,6 +269,8 @@ class Manager implements IManager {
 			/** @var ISettings $form */
 			$form = new Admin\Server($this->dbc, $this->request, $this->config, $this->lockingProvider, $this->l);
 			$forms[$form->getPriority()] = [$form];
+			$form = new Admin\Mail($this->config);
+			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'encryption') {
 			/** @var ISettings $form */
@@ -278,11 +280,6 @@ class Manager implements IManager {
 		if ($section === 'sharing') {
 			/** @var ISettings $form */
 			$form = new Admin\Sharing($this->config, $this->l);
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'additional') {
-			/** @var ISettings $form */
-			$form = new Admin\Additional($this->config);
 			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'tips-tricks') {
