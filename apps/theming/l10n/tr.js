@@ -20,6 +20,7 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "Bir PHP eklentisi dosyanın yüklenmesini engelledi",
     "No file uploaded" : "Herhangi bir dosya yüklenmemiş",
     "Unsupported image type" : "Görsel türü desteklenmiyor",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Zaten özel bir tema kullanıyorsunuz. Tema uygulaması ayarları bu değer ile değiştirilebilir.",
     "Theming" : "Tema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
