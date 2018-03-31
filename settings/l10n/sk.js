@@ -103,6 +103,7 @@ OC.L10N.register(
     "Error: Could not disable broken app" : "Chyba: nebolo možné zakázať poškodenú aplikáciu",
     "Error while disabling broken app" : "Nastala chyba počas zakazovania poškodenej aplikácie",
     "App up to date" : "Aplikácia je aktuálna",
+    "Updating …" : "Aktualizuje sa...",
     "Updated" : "Aktualizované",
     "Removing …" : "Odstraňujem ...",
     "Could not remove app" : "Aplikáciu nie je možné zmazať",

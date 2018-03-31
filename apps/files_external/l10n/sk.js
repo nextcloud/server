@@ -121,6 +121,7 @@ OC.L10N.register(
     "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská",
     "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox",
+    "Google Drive" : "Google Drive",
     "No external storage configured" : "Žiadne externé úložisko nie je nakonfigurované",
     "You can add external storages in the personal settings" : "Externé úložisko je možné pridať v osobných nastaveniach",
     "Are you sure you want to delete this external storage" : "Naozaj chcete zmazať toto externé úložisko?"

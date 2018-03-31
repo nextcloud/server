@@ -25,6 +25,7 @@ OC.L10N.register(
     "Download" : "Sťahovanie",
     "Rename" : "Premenovať",
     "Move or copy" : "Presunúť alebo kopírovať",
+    "Copy" : "Kopírovať",
     "Target folder" : "Cieľový priečinok",
     "Delete" : "Zmazať",
     "Disconnect storage" : "Odpojiť úložisko",

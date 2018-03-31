@@ -10,6 +10,8 @@ OC.L10N.register(
     "You deleted calendar {calendar}" : "Usunąłęś/ęłaś kalendarz {calendar}",
     "{actor} updated calendar {calendar}" : "{actor} zaktualizował/-a kalendarz {calendar} .",
     "You updated calendar {calendar}" : "Zaktualizowałeś/-aś kalendarz {calendar}",
+    "You shared calendar {calendar} as public link" : "Udostępniłeś kalendarz {calendar} jako publiczny link",
+    "You removed public link for calendar {calendar}" : "Usunąłeś publiczny link do kalendarza {calendar}",
     "{actor} shared calendar {calendar} with you" : "{actor} współdzieli kalendarz {calendar} z Tobą",
     "You shared calendar {calendar} with {user}" : "Współdzielisz kalendarz {calendar} z {user}",
     "{actor} shared calendar {calendar} with {user}" : "{actor} współdzieli kalendarz {calendar} z {user}",
@@ -59,6 +61,7 @@ OC.L10N.register(
     "Request ID: %s" : "ID żądania: %s",
     "CalDAV server" : "Serwer CalDAV",
     "Send invitations to attendees" : "Wyślij uczestnikom zaproszenia",
-    "Please make sure to properly set up the email settings above." : "Upewnij się, że dobrze skonfigurowano powyżej ustawienia poczty e-mail."
+    "Please make sure to properly set up the email settings above." : "Upewnij się, że dobrze skonfigurowano powyżej ustawienia poczty e-mail.",
+    "Automatically generate a birthday calendar" : "Automatycznie generuj kalendarz urodzin"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

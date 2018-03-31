@@ -64,6 +64,8 @@
     "Unknown user" : "Neznámy používateľ",
     "APCu" : "APCu",
     "Redis" : "Redis",
+    "Create" : "Vytvoriť",
+    "Delete" : "Zmazať",
     "Basic settings" : "Základné nastavenia",
     "Sharing" : "Sprístupnenie",
     "Security" : "Zabezpečenie",
@@ -225,6 +227,7 @@
     "Storage incomplete configuration. %s" : "Neplatná konfigurácia úložiska. %s",
     "Storage connection error. %s" : "Chyba pripojenia k úložisku. %s",
     "Storage is temporarily not available" : "Úložisko je dočasne nedostupné",
-    "Storage connection timeout. %s" : "Vypršanie pripojenia k úložisku. %s"
+    "Storage connection timeout. %s" : "Vypršanie pripojenia k úložisku. %s",
+    "Personal" : "Osobné"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

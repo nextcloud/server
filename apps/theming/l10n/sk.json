@@ -8,6 +8,7 @@
     "The given web address is too long" : "Zadaná web adresa je príliš dlhá",
     "The given slogan is too long" : "Zadaný slogan je príliš dlhý",
     "The given color is invalid" : "Zadaná farba nie je platná",
+    "The file was uploaded" : "Súbor bol nahraný",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Nahraný súbor prekročil limit nastavený v upload_max_filesize v súbore php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Ukladaný súbor prekračuje nastavenie MAX_FILE_SIZE z volieb HTML formulára.",
     "No file was uploaded" : "Nenahral sa žiadny súbor",

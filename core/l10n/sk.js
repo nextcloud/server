@@ -306,6 +306,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID alebo e-mailovej adresy.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID.",
     "Share with other people by entering a user or group or an email address." : "Sprístupniť iným ľuďom zadaním používateľa, skupiny alebo e-mailovej adresy.",
+    "Wrong password. Reset it?" : "Chybné heslo. Chcete ho obnoviť?",
     "Alternative Logins" : "Alternatívne prihlásenie"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
