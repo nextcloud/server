@@ -80,9 +80,9 @@
 
 #commentsTabView .comment .avatar,
 .atwho-view-ul * .avatar{
-	width: 32px;
-	height: 32px;
-	line-height: 32px;
+	width: 1.6em;
+	height: 1.6em;
+	line-height: 1.6em;
 	margin-right: 5px;
 }
 

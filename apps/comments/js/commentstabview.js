@@ -56,6 +56,9 @@
 		'{{/if}}' +
 		'</li>';
 
+	var AVATAR_SIZE_TEXT = '16';
+	var AVATAR_SIZE_HEADING = '32';
+
 	/**
 	 * @memberof OCA.Comments
 	 */
@@ -169,7 +172,7 @@
 			this.$el.find('.comments').before(this.editCommentTemplate({}));
 			this.$el.find('.has-tooltip').tooltip();
 			this.$container = this.$el.find('ul.comments');
-			this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 32);
+			this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, AVATAR_SIZE_HEADING);
 			this.delegateEvents();
 			this.$el.find('.message').on('keydown input change', this._onTypeComment);
 
@@ -191,7 +194,7 @@
 						// misuse the highlighter callback to instead of
 						// highlighting loads the avatars.
 						var $li = $(li);
-						$li.find('.avatar').avatar(undefined, 32);
+						$li.find('.avatar').avatar(undefined, AVATAR_SIZE_TEXT);
 						return $li;
 					},
 					sorter: function (q, items) { return items; }
@@ -377,7 +380,7 @@
 					$message
 						.html(self._formatMessage(model.get('message'), model.get('mentions')))
 						.find('.avatar')
-						.each(function () { $(this).avatar(); });
+						.each(function () { $(this).avatar(undefined, AVATAR_SIZE_HEADING); });
 					self._postRenderItem($message);
 				}
 			});
@@ -387,7 +390,11 @@
 			$el.find('.has-tooltip').tooltip();
 			$el.find('.avatar').each(function() {
 				var $this = $(this);
-				$this.avatar($this.attr('data-username'), 32);
+				var size = AVATAR_SIZE_TEXT;
+				if($this.parents('.authorRow').length) {
+					size = AVATAR_SIZE_HEADING;
+				}
+				$this.avatar($this.attr('data-username'), size);
 			});
 
 			var username = $el.find('.avatar').data('username');
@@ -503,7 +510,7 @@
 			$message
 				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions'), true))
 				.find('.avatar')
-				.each(function () { $(this).avatar(); });
+				.each(function () { $(this).avatar(undefined, AVATAR_SIZE_TEXT); });
 			var editionMode = true;
 			this._postRenderItem($message, editionMode);
 
