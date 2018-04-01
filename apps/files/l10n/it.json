@@ -74,7 +74,7 @@
     "_matches '{filter}'_::_match '{filter}'_" : ["corrispondono a '{filter}'","corrisponde a '{filter}'"],
     "View in folder" : "Visualizza nella cartella",
     "Copied!" : "Copiato!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copia link diretto (funziona solo per utenti che hanno accesso a questo file / cartella)",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copia collegamento diretto (funziona solo per utenti che hanno accesso a questo file/cartella)",
     "Path" : "Percorso",
     "_%n byte_::_%n bytes_" : ["%n byte","%n byte"],
     "Favorited" : "Preferiti",
