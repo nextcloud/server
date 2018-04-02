@@ -119,6 +119,8 @@ OC.L10N.register(
     "Delete" : "Zmazať",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
     "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská",
+    "Step 1 failed. Exception: %s" : "Krok 1 zlyhal. Výnimka: %s",
+    "Step 2 failed. Exception: %s" : "Krok 2 zlyhal. Výnimka: %s",
     "OpenStack" : "OpenStack",
     "Dropbox" : "Dropbox",
     "Google Drive" : "Google Drive",

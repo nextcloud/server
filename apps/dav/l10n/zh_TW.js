@@ -37,6 +37,7 @@ OC.L10N.register(
     "Description:" : "描述",
     "Link:" : "連結",
     "Contacts" : "聯絡人",
+    "WebDAV" : "WebDAV",
     "Technical details" : "技術細節",
     "Remote Address: %s" : "遠端位置：%s",
     "Request ID: %s" : "請求編號：%s",
