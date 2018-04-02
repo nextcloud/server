@@ -66,6 +66,7 @@
     "Redis" : "Redis",
     "Create" : "Vytvoriť",
     "Delete" : "Zmazať",
+    "Share" : "Zdieľať",
     "Basic settings" : "Základné nastavenia",
     "Sharing" : "Sprístupnenie",
     "Security" : "Zabezpečenie",
@@ -228,6 +229,7 @@
     "Storage connection error. %s" : "Chyba pripojenia k úložisku. %s",
     "Storage is temporarily not available" : "Úložisko je dočasne nedostupné",
     "Storage connection timeout. %s" : "Vypršanie pripojenia k úložisku. %s",
-    "Personal" : "Osobné"
+    "Personal" : "Osobné",
+    "App '%s' could not be installed!" : "Aplikáciu '%s' nebolo možné nainštalovať!"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }
