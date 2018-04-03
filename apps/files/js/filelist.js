@@ -2047,10 +2047,12 @@
 		 * @param fileNames array of file names to move
 		 * @param targetPath absolute target path
 		 * @param callback function to call when movement is finished
+		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
 		 */
-		move: function(fileNames, targetPath, callback) {
+		move: function(fileNames, targetPath, callback, dir) {
 			var self = this;
-			var dir = this.getCurrentDirectory();
+
+			dir = typeof dir === 'string' ? dir : this.getCurrentDirectory();
 			if (dir.charAt(dir.length - 1) !== '/') {
 				dir += '/';
 			}
@@ -2110,13 +2112,14 @@
 		 * @param fileNames array of file names to copy
 		 * @param targetPath absolute target path
 		 * @param callback to call when copy is finished with success
+		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
 		 */
-		copy: function(fileNames, targetPath, callback) {
+		copy: function(fileNames, targetPath, callback, dir) {
 			var self = this;
 			var filesToNotify = [];
 			var count = 0;
 
-			var dir = this.getCurrentDirectory();
+			dir = typeof dir === 'string' ? dir : this.getCurrentDirectory();
 			if (dir.charAt(dir.length - 1) !== '/') {
 				dir += '/';
 			}
