@@ -173,6 +173,7 @@
     "This list is maybe truncated - please refine your search term to see more results." : "יתכן שזו רשימה מקוצרת - נא למקד את ביטוי החיפוש שלך כדי להציג תוצאות נוספות.",
     "No users or groups found for {search}" : "לא אותרו משתמשים או קבוצות עבור {search}",
     "No users found for {search}" : "לא אותרו משתמשים עבור {search}",
+    "An error occurred (\"{message}\"). Please try again" : "אירעה שגיאה (\"{message}\"). נא לנסות שוב",
     "An error occurred. Please try again" : "אירעה שגיאה. יש לנסות שנית",
     "{sharee} (group)" : "{sharee} (קבוצה)",
     "{sharee} (remote)" : "{sharee} (מרוחק)",

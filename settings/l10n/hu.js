@@ -160,6 +160,7 @@ OC.L10N.register(
     "Good password" : "Jó jelszó",
     "Strong password" : "Erős jelszó",
     "Groups" : "Csoportok",
+    "Unable to retrieve the group list" : "Csoportlista betöltése sikertelen",
     "Unable to delete {objName}" : "Ezt nem sikerült törölni: {objName}",
     "Error creating group: {message}" : "Hiba történt a csoport létrehozásakor: {message}",
     "A valid group name must be provided" : "Érvényes csoportnevet kell megadni",
