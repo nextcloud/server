@@ -652,13 +652,14 @@ class Encryption extends Wrapper {
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @param bool $isRename
+	 * @param bool $keepEncryptionVersion
 	 */
-	private function updateEncryptedVersion(Storage\IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename) {
-		$isEncrypted = $this->encryptionManager->isEnabled() && $this->shouldEncrypt($targetInternalPath) ? 1 : 0;
+	private function updateEncryptedVersion(Storage\IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename, $keepEncryptionVersion) {
+		$isEncrypted = $this->encryptionManager->isEnabled() && $this->shouldEncrypt($targetInternalPath);
 		$cacheInformation = [
-			'encrypted' => (bool)$isEncrypted,
+			'encrypted' => $isEncrypted,
 		];
-		if($isEncrypted === 1) {
+		if($isEncrypted) {
 			$encryptedVersion = $sourceStorage->getCache()->get($sourceInternalPath)['encryptedVersion'];
 
 			// In case of a move operation from an unencrypted to an encrypted
@@ -666,7 +667,7 @@ class Encryption extends Wrapper {
 			// correct value would be "1". Thus we manually set the value to "1"
 			// for those cases.
 			// See also https://github.com/owncloud/core/issues/23078
-			if($encryptedVersion === 0) {
+			if($encryptedVersion === 0 || !$keepEncryptionVersion) {
 				$encryptedVersion = 1;
 			}
 
@@ -714,7 +715,7 @@ class Encryption extends Wrapper {
 						$info['size']
 					);
 				}
-				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename);
+				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename, true);
 			}
 			return $result;
 		}
@@ -757,7 +758,7 @@ class Encryption extends Wrapper {
 				if ($preserveMtime) {
 					$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
 				}
-				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename);
+				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename, false);
 			} else {
 				// delete partially written target file
 				$this->unlink($targetInternalPath);
