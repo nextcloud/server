@@ -276,7 +276,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cache
 			->expects($this->once())
 			->method('clear')
-			->with('getScssVariables');
+			->with('');
 		$this->template->set('MySetting', 'MyValue');
 	}
 
