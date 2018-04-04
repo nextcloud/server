@@ -156,9 +156,14 @@ table.multiselect thead {
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 13px;
+			right: 15px;
 			z-index: 2001;
 			display: none;
+		}
+
+		/* settings need a different offset, since they have a right padding */
+		&#settings::after {
+			right: 27px;
 		}
 	}
 }
