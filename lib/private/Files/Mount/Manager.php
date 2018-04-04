@@ -76,9 +76,9 @@ class Manager implements IMountManager {
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return MountPoint
+	 * @return MountPoint|null
 	 */
-	public function find(string $path): IMountPoint {
+	public function find(string $path) {
 		\OC_Util::setupFS();
 		$path = $this->formatPath($path);
 		if (isset($this->mounts[$path])) {

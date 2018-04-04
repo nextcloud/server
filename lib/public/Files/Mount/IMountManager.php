@@ -61,10 +61,10 @@ interface IMountManager {
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return \OCP\Files\Mount\IMountPoint
+	 * @return \OCP\Files\Mount\IMountPoint|null
 	 * @since 8.2.0
 	 */
-	public function find(string $path): IMountPoint;
+	public function find(string $path);
 
 	/**
 	 * Find all mounts in $path
