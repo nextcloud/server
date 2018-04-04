@@ -1,6 +1,7 @@
 example.php
 icewind/smb/tests
 icewind/smb/install_libsmbclient.sh
+icewind/smb/Makefile
 icewind/smb/.travis.yml
 icewind/smb/.scrutinizer.yml
 icewind/streams/tests
