@@ -66,9 +66,9 @@
 			'<div id="linkPass" class="oneline linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
 			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
 			'    {{#if showPasswordCheckBox}}' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
+			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
 			'    {{else}}' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholderInitial}}" />' +
+			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholderInitial}}" autocomplete="new-password" />' +
 			'    {{/if}}' +
 			'    <span class="icon icon-loading-small hidden"></span>' +
 			'</div>' +
