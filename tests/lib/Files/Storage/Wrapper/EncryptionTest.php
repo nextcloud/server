@@ -730,6 +730,8 @@ class EncryptionTest extends Storage {
 				$temp = \OC::$server->getTempManager();
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
+		$storage2->method('getId')
+			->willReturn('stroage2');
 		$cache = $this->createMock(ICache::class);
 		$cache->expects($this->once())
 			->method('get')
@@ -777,6 +779,8 @@ class EncryptionTest extends Storage {
 				$temp = \OC::$server->getTempManager();
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
+		$storage2->method('getId')
+			->willReturn('stroage2');
 		if($expectedEncrypted) {
 			$cache = $this->createMock(ICache::class);
 			$cache->expects($this->once())
