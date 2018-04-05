@@ -525,6 +525,7 @@ class OC {
 		$incompatibleUserAgents = [
 			// OS X Finder
 			'/^WebDAVFS/',
+			'/^Microsoft-WebDAV-MiniRedir/',
 		];
 		if($request->isUserAgent($incompatibleUserAgents)) {
 			return;
