@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση.",
+    "Apps with available updates" : "Εφαρμογές με διαθέσιμες ενημερώσεις",
     "Open updater" : "Άνοιγμα εφαρμογής ενημέρωσης",
     "Your version is up to date." : "Έχετε την τελευταία έκδοση.",
     "Update channel:" : "Ενημέρωση καναλιού:",
@@ -10,6 +11,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Να ενημερωθούν τα μέλη των παρακάτω ομάδων σχετικά με τις διαθέσιμες ενημερώσεις:",
     "Only notification for app updates are available." : "Είναι μόνο διαθέσιμες οι ενημερώσεις για την εφαρμογή",
     "The selected update channel does not support updates of the server." : "Το συγκεκριμένο κανάλι ενημέρωσης δεν υποστηρίζει ενημερώσεις διακομιστή.",
+    "Checking apps for compatible updates" : "Έλεγχος εφαρμογών για συμβατές ενημερώσεις",
     "Could not start updater, please try the manual update" : "Δεν μπορεί να εκκινήσει η εφαρμογή ενημέρωσης, παρακαλώ δοκιμάστε την χειροκίνητη ενημέρωση",
     "Update notifications" : "Ειδοποιήσεις ενημέρωσης",
     "Channel updated" : "Ενημερωμένο κανάλι",

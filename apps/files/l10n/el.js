@@ -24,6 +24,7 @@ OC.L10N.register(
     "Download" : "Λήψη",
     "Rename" : "Μετονομασία",
     "Move or copy" : "Μετακίνηση ή αντιγραφή",
+    "Copy" : "Αντιγραφή",
     "Target folder" : "Φάκελος προορισμού",
     "Delete" : "Διαγραφή",
     "Disconnect storage" : "Αποσυνδεδεμένος αποθηκευτικός χώρος",
