@@ -175,6 +175,12 @@ class ViewController extends Controller {
 		});
 		$nav->assign('navigationItems', $navItems);
 
+		$webdavurl = $this->urlGenerator->linkTo('', 'remote.php') .
+			'/dav/files/' .
+			$this->userSession->getUser()->getUID() .
+			'/';
+		$webdavurl = $this->urlGenerator->getAbsoluteURL($webdavurl);
+		$nav->assign('webdavurl', $webdavurl);
 
 		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
