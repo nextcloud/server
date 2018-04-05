@@ -30,7 +30,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php endif; ?>
 <input type="hidden" name="maxSizeAnimateGif" value="<?php p($_['maxSizeAnimateGif']); ?>" id="maxSizeAnimateGif">
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
-	<div id="content">
+	<div id="files-public-content">
 		<div id="preview">
 			<?php if (isset($_['folder'])): ?>
 				<?php print_unescaped($_['folder']); ?>
@@ -84,9 +84,3 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			   data-url="<?php p(\OC::$server->getURLGenerator()->linkTo('files', 'ajax/upload.php')); ?>" />
 	</div>
 <?php endif; ?>
-
-<footer>
-	<p class="info">
-		<?php print_unescaped($theme->getLongFooter()); ?>
-	</p>
-</footer>

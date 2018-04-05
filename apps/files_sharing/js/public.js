@@ -423,20 +423,4 @@ $(document).ready(function () {
 		};
 	}
 
-	$('#share-menutoggle').click(function() {
-		$('#share-menu').toggleClass('open');
-	});
-});
-
-
-$(document).mouseup(function(e) {
-	var toggle = $('#share-menutoggle');
-	var container = $('#share-menu');
-
-	// if the target of the click isn't the menu toggle, nor a descendant of the
-	// menu toggle, nor the container nor a descendant of the container
-	if (!toggle.is(e.target) && toggle.has(e.target).length === 0 &&
-			!container.is(e.target) && container.has(e.target).length === 0) {
-		container.removeClass('open');
-	}
 });

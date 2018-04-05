@@ -50,13 +50,13 @@
 		<div class="header-right">
 			<span id="header-primary-action" class="<?php if($template->getActionCount() === 1) {  p($primary->getIcon()); } ?>">
 				<a href="<?php p($primary->getLink()); ?>">
-					<span class="share-menutoggle-text"><?php p($primary->getLabel()) ?></span>
+					<span><?php p($primary->getLabel()) ?></span>
 				</a>
 			</span>
 			<?php if($template->getActionCount()>1) { ?>
 			<div id="header-secondary-action">
 				<span id="header-actions-toggle" class="menutoggle icon-more-white"></span>
-				<div id="share-menu" class="popovermenu menu">
+				<div id="header-actions-menu" class="popovermenu menu">
 					<ul>
 						<?php
 							/** @var \OCP\AppFramework\Http\Template\IMenuAction $action */

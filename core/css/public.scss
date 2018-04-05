@@ -1,7 +1,7 @@
 #body-public {
 	.header-right {
 
-		span:not(.popovermenu) a {
+		#header-primary-action a {
 			color: $color-primary-text;
 		}
 
@@ -16,7 +16,21 @@
 
 		#header-secondary-action {
 			margin-right: 13px;
+
+			input[type='text'] {
+				width: 200px;
+			}
 		}
 
+	}
+
+	#content {
+		height: initial;
+		min-height: calc(100vh - 160px);
+	}
+
+	/* force layout to make sure the content element's height matches its contents' height */
+	.ie #content {
+		display: inline-block;
 	}
 }

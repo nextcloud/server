@@ -64,7 +64,7 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareMenu() {
-		return Locator::forThe()->id("share-menu")->
+		return Locator::forThe()->id("header-actions-menu")->
 				describedAs("Share menu in Shared file page");
 	}
 
