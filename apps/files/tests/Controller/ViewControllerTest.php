@@ -138,6 +138,7 @@ class ViewControllerTest extends TestCase {
 		$nav->assign('usage', '123 B');
 		$nav->assign('quota', 100);
 		$nav->assign('total_space', '100 B');
+		$nav->assign('webdavurl', '');
 		$nav->assign('navigationItems', [
 			[
 				'id' => 'files',
