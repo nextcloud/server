@@ -813,7 +813,7 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function groupBy(...$groupBys) {
 		if (count($groupBys) === 1 && is_array($groupBys[0])) {
-			$$groupBys = $groupBys[0];
+			$groupBys = $groupBys[0];
 		}
 
 		call_user_func_array(
