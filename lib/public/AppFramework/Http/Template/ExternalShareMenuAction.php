@@ -21,37 +21,51 @@
  *
  */
 
-namespace OCA\Files_Sharing\Template;
+namespace OCP\AppFramework\Http\Template;
 
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\Util;
 
-class LinkMenuAction extends SimpleMenuAction {
+class ExternalShareMenuAction extends SimpleMenuAction {
+
+	/** @var string */
+	private $owner;
+
+	/** @var string */
+	private $displayname;
+
+	/** @var string */
+	private $shareName;
 
 	/**
-	 * LinkMenuAction constructor.
+	 * ExternalShareMenuAction constructor.
 	 *
 	 * @param string $label
 	 * @param string $icon
-	 * @param string $link
+	 * @param string $owner
+	 * @param string $displayname
+	 * @param string $shareName
 	 */
-	public function __construct(string $label, string $icon, string $link) {
-		parent::__construct('directLink-container', $label, $icon, $link);
+	public function __construct(string $label, string $icon, string $owner, string $displayname, string $shareName) {
+		parent::__construct('save', $label, $icon);
+		$this->owner = $owner;
+		$this->displayname = $displayname;
+		$this->shareName = $shareName;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function render(): string {
 		return '<li>' .
-			'<a id="directLink-container">' .
+			'<a id="save" data-protected="false" data-owner-display-name="' . Util::sanitizeHTML($this->displayname) . '" data-owner="' . Util::sanitizeHTML($this->owner) . '" data-name="' . Util::sanitizeHTML($this->shareName) . '">' .
 			'<span class="icon ' . Util::sanitizeHTML($this->getIcon()) . '"></span>' .
-			'<label for="directLink">' . Util::sanitizeHTML($this->getLabel()) . '</label>' .
+			'<label for="remote_address">' . Util::sanitizeHTML($this->getLabel()) . '</label>' .
 			'</a>' .
 			'</li>' .
 			'<li>' .
 			'<span class="menuitem">' .
-			'<input id="directLink" type="text" readonly="" value="' . Util::sanitizeHTML($this->getLink()) . '">' .
+			'<form class="save-form" action="#">' .
+			'<input type="text" id="remote_address" placeholder="user@yourNextcloud.org">' .
+			'<input type="submit" value=" " id="save-button-confirm" class="icon-confirm" disabled="disabled"></button>' .
+			'</form>' .
 			'</span>' .
 			'</li>';
 	}
