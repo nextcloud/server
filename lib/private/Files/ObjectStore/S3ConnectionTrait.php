@@ -103,18 +103,20 @@ trait S3ConnectionTrait {
 		}
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
+			$logger = \OC::$server->getLogger();
 			try {
+				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
 				$this->connection->createBucket(array(
 					'Bucket' => $this->bucket
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OC::$server->getLogger()->logException($e, [
+				$logger->logException($e, [
 					'message' => 'Invalid remote storage.',
 					'level' => \OCP\Util::DEBUG,
-					'app' => 'files_external',
+					'app' => 'objectstore',
 				]);
-				throw new \Exception('Creation of bucket failed. ' . $e->getMessage());
+				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
 			}
 		}
 
