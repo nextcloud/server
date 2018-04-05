@@ -17,11 +17,22 @@
 		#header-secondary-action {
 			margin-right: 13px;
 
-			input[type='text'] {
-				width: 200px;
+			ul li {
+				min-width: 270px;
+			}
+			#save-external-share {
+				form {
+					display: flex;
+					margin: 0;
+				}
+				.hidden {
+					display: none;
+				}
+				#save-button-confirm {
+					flex-grow: 0;
+				}
 			}
 		}
-
 	}
 
 	#content {

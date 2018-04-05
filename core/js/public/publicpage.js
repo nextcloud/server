@@ -25,6 +25,13 @@ $(document).ready(function () {
 	$('#body-public').find('.header-right .menutoggle').click(function() {
 		$(this).next('.popovermenu').toggleClass('open');
 	});
+
+	$('#save-external-share').find('label').click(function () {
+		$(this).toggleClass('hidden');
+		$('.save-form').toggleClass('hidden')
+		$('#remote_address').focus();
+	});
+
 });
 
 $(document).mouseup(function(e) {

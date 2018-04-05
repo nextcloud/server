@@ -263,15 +263,15 @@ OCA.Sharing.PublicApp = {
 
 			var remote = $(this).find('#remote_address').val();
 			var token = $('#sharingToken').val();
-			var owner = $('#save').data('owner');
-			var ownerDisplayName = $('#save').data('owner-display-name');
-			var name = $('#save').data('name');
-			var isProtected = $('#save').data('protected') ? 1 : 0;
+			var owner = $('#save-external-share').data('owner');
+			var ownerDisplayName = $('#save-external-share').data('owner-display-name');
+			var name = $('#save-external-share').data('name');
+			var isProtected = $('#save-external-share').data('protected') ? 1 : 0;
 			OCA.Sharing.PublicApp._createFederatedShare(remote, token, owner, ownerDisplayName, name, isProtected);
 		});
 
 		$('#remote_address').on("keyup paste", function() {
-			if ($(this).val() === '' || $('#save > .icon.icon-loading-small').length > 0) {
+			if ($(this).val() === '' || $('#save-external-share > .icon.icon-loading-small').length > 0) {
 				$('#save-button-confirm').prop('disabled', true);
 			} else {
 				$('#save-button-confirm').prop('disabled', false);
@@ -352,18 +352,18 @@ OCA.Sharing.PublicApp = {
 	},
 
 	_toggleLoading: function() {
-		var loading = $('#save > .icon.icon-loading-small').length === 0;
+		var loading = $('#save-external-share > .icon.icon-loading-small').length === 0;
 		if (loading) {
-			$('#save > .icon-external')
+			$('#save-external-share > .icon-external')
 				.removeClass("icon-external")
 				.addClass("icon-loading-small");
-			$('#save #save-button-confirm').prop("disabled", true);
+			$('#save-external-share #save-button-confirm').prop("disabled", true);
 
 		} else {
-			$('#save > .icon-loading-small')
+			$('#save-external-share > .icon-loading-small')
 				.addClass("icon-external")
 				.removeClass("icon-loading-small");
-			$('#save #save-button-confirm').prop("disabled", false);
+			$('#save-external-share #save-button-confirm').prop("disabled", false);
 
 		}
 	},
