@@ -104,13 +104,14 @@ trait S3ConnectionTrait {
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
 			try {
+				\OC::$server->getLogger()->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
 				$this->connection->createBucket(array(
 					'Bucket' => $this->bucket
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
-				throw new \Exception('Creation of bucket failed. ' . $e->getMessage());
+				\OCP\Util::logException('objectstore', $e);
+				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
 			}
 		}
 
