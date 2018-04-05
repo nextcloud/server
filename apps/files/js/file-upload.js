@@ -958,7 +958,6 @@ OC.Uploader.prototype = _.extend({
 						status = upload.getResponseStatus();
 					}
 					self.log('fail', e, upload);
-					self._hideProgressBar();
 
 					if (data.textStatus === 'abort') {
 						self.showUploadCancelMessage();
@@ -1109,14 +1108,11 @@ OC.Uploader.prototype = _.extend({
 					self.log('progress handle fileuploadstop', e, data);
 
 					self.clear();
+					self._hideProgressBar();
 					self.trigger('stop', e, data);
 				});
 				fileupload.on('fileuploadfail', function(e, data) {
 					self.log('progress handle fileuploadfail', e, data);
-					//if user pressed cancel hide upload progress bar and cancel button
-					if (data.errorThrown === 'abort') {
-						self._hideProgressBar();
-					}
 					self.trigger('fail', e, data);
 				});
 				var disableDropState = function() {
@@ -1175,11 +1171,9 @@ OC.Uploader.prototype = _.extend({
 				fileupload.on('fileuploaddone', function(e, data) {
 					var upload = self.getUpload(data);
 					upload.done().then(function() {
-						self._hideProgressBar();
 						self.trigger('done', e, upload);
 					}).fail(function(status, response) {
 						var message = response.message;
-						self._hideProgressBar();
 						if (status === 507) {
 							// not enough space
 							OC.Notification.show(message || t('files', 'Not enough free space'), {type: 'error'});
