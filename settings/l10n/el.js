@@ -12,6 +12,7 @@ OC.L10N.register(
     "A login attempt using two-factor authentication failed (%1$s)" : "Μία προσπάθεια σύνδεσης με τη χρήση ελέγχου ταυτότητας δύο-παραγόντων απέτυχε (%1$s)",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "Ο δικός σας <ισχυρός>κωδικός πρόσβασης</ισχυρός>ή<ισχυρός>αλληλογραφίας</ισχυρός>τροποποιήθηκε",
     "Your apps" : "Οι εφαρμογές σας",
+    "Updates" : "Ενημερώσεις",
     "Enabled apps" : "Ενεργοποιημένες εφαρμογές",
     "Disabled apps" : "Απενεργοποιημένες εφαρμογές",
     "App bundles" : "Πακέτα εφαρμογών",

@@ -54,6 +54,7 @@ OC.L10N.register(
     "Description:" : "Περιγραφή:",
     "Link:" : "Σύνδεσμος:",
     "Contacts" : "Επαφές",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Τεχνικές λεπτομέρειες",
     "Remote Address: %s" : "Απομακρυσμένη Διεύθυνση: %s",
     "Request ID: %s" : "ID Αιτήματος: %s",

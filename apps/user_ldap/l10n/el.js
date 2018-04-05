@@ -15,6 +15,7 @@ OC.L10N.register(
     "Renewing …" : "Ανανέωση ...",
     "Very weak password" : "Πολύ αδύναμος κωδικός πρόσβασης",
     "Weak password" : "Ασθενές συνηματικό",
+    "So-so password" : "Συνθηματικό έτσι και έτσι",
     "Good password" : "Καλό συνθηματικό",
     "Strong password" : "Ισχυρό συνθηματικό",
     "The Base DN appears to be wrong" : "Το Base DN φαίνεται να είναι εσφαλμένο",
