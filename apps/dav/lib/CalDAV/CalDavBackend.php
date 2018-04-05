@@ -2029,7 +2029,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					if (!$this->db->supports4ByteText()) {
 						$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
 					}
-					$value = substr($value, 0, 254);
+					$value = mb_substr($value, 0, 254);
 
 					$query->setParameter('name', $property->name);
 					$query->setParameter('parameter', null);
@@ -2047,7 +2047,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 							if ($this->db->supports4ByteText()) {
 								$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
 							}
-							$value = substr($value, 0, 254);
+							$value = mb_substr($value, 0, 254);
 
 							$query->setParameter('name', $property->name);
 							$query->setParameter('parameter', substr($key, 0, 254));
