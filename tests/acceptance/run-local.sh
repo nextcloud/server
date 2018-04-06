@@ -31,6 +31,18 @@
 # to control a web browser, so this script waits for the Selenium server
 # (which should have been started before executing this script) to be ready
 # before running the tests.
+#
+# By default the acceptance tests run are those for the Nextcloud server;
+# acceptance tests for apps can be run by providing the
+# "--acceptance-tests-dir XXX" option. When this option is used the Behat
+# configuration and the Nextcloud installation script used by the acceptance
+# tests for the Nextcloud server are ignored; they must be provided in the given
+# acceptance tests directory. Note, however, that the context classes for the
+# Nextcloud server and the core acceptance test framework classes are
+# automatically loaded; there is no need to explicitly set them in the Behat
+# configuration. Also, even when that option is used, the packages installed by
+# this script end in the "vendor" subdirectory of the acceptance tests for the
+# Nextcloud server, not in the one given in the option.
 
 # Exit immediately on errors.
 set -o errexit
@@ -39,8 +51,20 @@ set -o errexit
 # Behat through Composer or running Behat) expect that.
 cd "$(dirname $0)"
 
-# "--timeout-multiplier N" option can be provided before any other parameter to
-# set the timeout multiplier to be used in ActorContext.
+# "--acceptance-tests-dir XXX" option can be provided to set the directory
+# (relative to the root directory of the Nextcloud server) used to look for the
+# Behat configuration and the Nextcloud installation script.
+# By default it is "tests/acceptance", that is, the acceptance tests for the
+# Nextcloud server itself.
+ACCEPTANCE_TESTS_DIR="tests/acceptance"
+if [ "$1" = "--acceptance-tests-dir" ]; then
+	ACCEPTANCE_TESTS_DIR=$2
+
+	shift 2
+fi
+
+# "--timeout-multiplier N" option can be provided to set the timeout multiplier
+# to be used in ActorContext.
 TIMEOUT_MULTIPLIER=""
 if [ "$1" = "--timeout-multiplier" ]; then
 	if [[ ! "$2" =~ ^[0-9]+$ ]]; then
@@ -83,6 +107,18 @@ if [ "$1" != "allow-git-repository-modifications" ]; then
 fi
 
 SCENARIO_TO_RUN=$2
+if [ "$ACCEPTANCE_TESTS_DIR" != "tests/acceptance" ]; then
+	if [ "$SCENARIO_TO_RUN" == "" ]; then
+		echo "When an acceptance tests directory is given the scenario to run" \
+			 "should be provided too (paths are relative to the acceptance" \
+			 "tests directory; use the features directory to run all tests)"
+		echo "No scenario was given, so \"features/\" was automatically used"
+
+		SCENARIO_TO_RUN="features/"
+	fi
+
+	SCENARIO_TO_RUN=../../$ACCEPTANCE_TESTS_DIR/$SCENARIO_TO_RUN
+fi
 
 if [ "$TIMEOUT_MULTIPLIER" != "" ]; then
 	# Although Behat documentation states that using the BEHAT_PARAMS
@@ -97,7 +133,7 @@ if [ "$TIMEOUT_MULTIPLIER" != "" ]; then
 	REPLACEMENT="\
         - ActorContext:\n\
             actorTimeoutMultiplier: $TIMEOUT_MULTIPLIER"
-	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" ../../$ACCEPTANCE_TESTS_DIR/config/behat.yml
 fi
 
 if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
@@ -114,7 +150,7 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
         - NextcloudTestServerContext:\n\
             nextcloudTestServerHelperParameters:\n\
               - $NEXTCLOUD_SERVER_DOMAIN"
-	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" ../../$ACCEPTANCE_TESTS_DIR/config/behat.yml
 fi
 
 if [ "$SELENIUM_SERVER" != "$DEFAULT_SELENIUM_SERVER" ]; then
@@ -156,7 +192,7 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 fi
 
 echo "Installing and configuring Nextcloud server"
-tests/acceptance/installAndConfigureServer.sh $INSTALL_AND_CONFIGURE_SERVER_PARAMETERS
+$ACCEPTANCE_TESTS_DIR/installAndConfigureServer.sh $INSTALL_AND_CONFIGURE_SERVER_PARAMETERS
 
 echo "Saving the default state so acceptance tests can reset to it"
 find . -name ".gitignore" -exec rm --force {} \;
@@ -168,4 +204,4 @@ cd tests/acceptance
 echo "Waiting for Selenium"
 timeout 60s bash -c "while ! curl $SELENIUM_SERVER >/dev/null 2>&1; do sleep 1; done"
 
-vendor/bin/behat $SCENARIO_TO_RUN
+vendor/bin/behat --config=../../$ACCEPTANCE_TESTS_DIR/config/behat.yml $SCENARIO_TO_RUN

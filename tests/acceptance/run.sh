@@ -197,6 +197,18 @@ trap cleanUp EXIT
 # the Git working directory to the container) expect that.
 cd "$(dirname $0)"
 
+# "--acceptance-tests-dir XXX" option can be provided to set the directory
+# (relative to the root directory of the Nextcloud server) used to look for the
+# Behat configuration and the Nextcloud installation script.
+# By default it is "tests/acceptance", that is, the acceptance tests for the
+# Nextcloud server itself.
+ACCEPTANCE_TESTS_DIR_OPTION=""
+if [ "$1" = "--acceptance-tests-dir" ]; then
+	ACCEPTANCE_TESTS_DIR_OPTION="--acceptance-tests-dir $2"
+
+	shift 2
+fi
+
 # "--timeout-multiplier N" option can be provided before the specific scenario
 # to run, if any, to set the timeout multiplier to be used in the acceptance
 # tests.
@@ -222,4 +234,4 @@ prepareSelenium
 prepareDocker
 
 echo "Running tests"
-docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && tests/acceptance/run-local.sh $TIMEOUT_MULTIPLIER_OPTION allow-git-repository-modifications $SCENARIO_TO_RUN"
+docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && tests/acceptance/run-local.sh $ACCEPTANCE_TESTS_DIR_OPTION $TIMEOUT_MULTIPLIER_OPTION allow-git-repository-modifications $SCENARIO_TO_RUN"
