@@ -33,6 +33,7 @@
 
 namespace OC\Core\Controller;
 
+use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
@@ -137,11 +138,10 @@ class LoginController extends Controller {
 	 *
 	 * @param string $user
 	 * @param string $redirect_url
-	 * @param string $remember_login
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showLoginForm($user, $redirect_url, $remember_login) {
+	public function showLoginForm($user, $redirect_url) {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}
@@ -184,8 +184,6 @@ class LoginController extends Controller {
 		}
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
-		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
-		$parameters['hideRemeberLoginState'] = !empty($redirect_url) && $this->session->exists('client.flow.state.token');
 
 		if ($user !== null && $user !== '') {
 			$parameters['loginName'] = $user;
@@ -240,7 +238,7 @@ class LoginController extends Controller {
 	 * @param string $timezone_offset
 	 * @return RedirectResponse
 	 */
-	public function tryLogin($user, $password, $redirect_url, $remember_login = false, $timezone = '', $timezone_offset = '') {
+	public function tryLogin($user, $password, $redirect_url, $remember_login = true, $timezone = '', $timezone_offset = '') {
 		if(!is_string($user)) {
 			throw new \InvalidArgumentException('Username must be string');
 		}
@@ -288,7 +286,7 @@ class LoginController extends Controller {
 		// TODO: remove password checks from above and let the user session handle failures
 		// requires https://github.com/owncloud/core/pull/24616
 		$this->userSession->completeLogin($loginResult, ['loginName' => $user, 'password' => $password]);
-		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password, (int)$remember_login);
+		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password, IToken::REMEMBER);
 
 		// User has successfully logged in, now remove the password reset link, when it is available
 		$this->config->deleteUserValue($loginResult->getUID(), 'core', 'lostpassword');
