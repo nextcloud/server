@@ -65,7 +65,7 @@ class Message implements IMessage {
 	 * @return array Converted addresses if `idn_to_ascii` exists
 	 */
 	protected function convertAddresses($addresses) {
-		if (!function_exists('idn_to_ascii')) {
+		if (!function_exists('idn_to_ascii') || !defined('INTL_IDNA_VARIANT_UTS46')) {
 			return $addresses;
 		}
 
