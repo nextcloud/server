@@ -19,6 +19,7 @@ const state = {
     minPasswordLength: 0,
     usersOffset: 0,
     usersLimit: 25,
+    userCount: 0
 };
 
 const mutations = {
@@ -31,9 +32,10 @@ const mutations = {
     setPasswordPolicyMinLength(state, length) {
         state.minPasswordLength = length!=='' ? length : 0;
     },
-    initGroups(state, {groups, orderBy}) {
+    initGroups(state, {groups, orderBy, userCount}) {
         state.groups = groups;
         state.orderBy = orderBy;
+        state.userCount = userCount;
         state.groups = orderGroups(state.groups, state.orderBy);
     },
     addGroup(state, groupid) {
@@ -87,7 +89,10 @@ const mutations = {
     },
     enableDisableUser(state, { userid, enabled }) {
         state.users.find(user => user.id == userid).enabled = enabled;
+        // increment or not
         state.groups.find(group => group.id == '_disabled').usercount += enabled ? -1 : 1;
+        state.userCount += enabled ? 1 : -1;
+        console.log(enabled);
     },
     setUserData(state, { userid, key, value }) {
         if (key === 'quota') {
@@ -97,6 +102,14 @@ const mutations = {
             state.users.find(user => user.id == userid)[key] = value;
         }
     },
+
+    /**
+     * Reset users list
+     */
+    resetUsers(state) {
+        state.users = [];
+        state.usersOffset = 0;
+    }
 };
 
 const getters = {
@@ -114,10 +127,14 @@ const getters = {
     },
     getUsersLimit(state) {
         return state.usersLimit;
+    },
+    getUserCount(state) {
+        return state.userCount;
     }
 };
 
 const actions = {
+
     /**
      * Get all users with full details
      * 
@@ -125,10 +142,25 @@ const actions = {
      * @param {Object} options
      * @param {int} options.offset List offset to request
      * @param {int} options.limit List number to return from offset
+     * @param {string} options.search Search amongst users
+     * @param {string} options.group Get users from group
      * @returns {Promise}
      */
-    getUsers(context, { offset, limit, search }) {
+    getUsers(context, { offset, limit, search, group }) {
         search = typeof search === 'string' ? search : '';
+        group = typeof group === 'string' ? group : '';
+        if (group !== '') {
+            return api.get(OC.linkToOCS(`cloud/groups/${group}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
+            .then((response) => {
+                if (Object.keys(response.data.ocs.data.users).length > 0) {
+                    context.commit('appendUsers', response.data.ocs.data.users);
+                    return true;
+                }
+                return false;
+            })
+            .catch((error) => context.commit('API_FAILURE', error));
+        }
+
         return api.get(OC.linkToOCS(`cloud/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
             .then((response) => {
                 if (Object.keys(response.data.ocs.data.users).length > 0) {
@@ -200,7 +232,7 @@ const actions = {
     },
 
     /**
-     * Add group
+     * Remove group
      * 
      * @param {Object} context
      * @param {string} gid Group id
@@ -289,7 +321,7 @@ const actions = {
      * @param {string} userid User id 
      * @returns {Promise}
      */
-    deleteUser(context, userid) {
+    deleteUser(context, { userid }) {
         return api.requireAdmin().then((response) => {
             return api.delete(OC.linkToOCS(`cloud/users/${userid}`, 2))
                 .then((response) => context.commit('deleteUser', userid))
@@ -305,12 +337,19 @@ const actions = {
      * @param {string} options.userid User id
      * @param {string} options.password User password 
      * @param {string} options.email User email
+     * @param {string} options.groups User groups
+     * @param {string} options.subadmin User subadmin groups
+     * @param {string} options.quota User email
      * @returns {Promise}
      */
-    addUser({context, dispatch}, {userid, password, email, groups}) {
+    addUser({context, dispatch}, { userid, password, email, groups, subadmin, quota }) {
+        console.log(subadmin, quota);
         return api.requireAdmin().then((response) => {
-            return api.post(OC.linkToOCS(`cloud/users`, 2), {userid, password, email, groups})
-                .then((response) => dispatch('addUserData', userid))
+            return api.post(OC.linkToOCS(`cloud/users`, 2), { userid, password, email, groups, subadmin, quota })
+                .then((response) =>  {
+                    //let quotaDis = dispatch('setUserData', { userid, key: 'quota', value:quota });
+                    //let subadminDis = dispatch('addUserSubAdmin', userid);
+                })
                 .catch((error) => context.commit('API_FAILURE', { userid, error }));
         });
     },

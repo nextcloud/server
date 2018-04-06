@@ -1,6 +1,6 @@
 <template>
-	<div class="row">
-		<div class="avatar"><img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)" :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"></div>
+	<div class="row" :class="{'disabled': loading.delete || loading.disable}">
+		<div class="avatar" :class="{'icon-loading': loading.delete || loading.disable}"><img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)" :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"></div>
 		<div class="name">{{user.id}}</div>
 		<form class="displayName" :class="{'icon-loading-small': loading.displayName}" v-on:submit.prevent="updateDisplayName">
 			<input :id="'displayName'+user.id+rand" type="text"
@@ -59,7 +59,7 @@
 			{{user.lastLogin>0 ? OC.Util.relativeModifiedDate(user.lastLogin) : t('settings','Never')}}
 		</div>
 		<div class="userActions">
-			<div class="toggleUserActions" v-if="OC.currentUser !== user.id && user.id !== 'admin'">
+			<div class="toggleUserActions" v-if="OC.currentUser !== user.id && user.id !== 'admin' && !loading.all">
 				<div class="icon-more" v-click-outside="hideMenu" @click="showMenu"></div>
 				<div class="popovermenu" :class="{ 'open': openedMenu }">
 					<popover-menu :menu="userActions" />
@@ -100,7 +100,9 @@ export default {
 				mailAddress: false,
 				groups: false,
 				subadmins: false,
-				quota: false
+				quota: false,
+				delete: false,
+				disable: false
 			}
 		}
 	},
@@ -110,13 +112,11 @@ export default {
 			return [{
 				icon: 'icon-delete',
 				text: t('settings','Delete user'),
-				action: 'deleteUser',
-				data: this.user.id
+				action: this.deleteUser
 			},{
 				'icon': this.user.enabled ? 'icon-close' : 'icon-add',
 				'text': this.user.enabled ? t('settings','Disable user') : t('settings','Enable user'),
-				'action': 'enableDisableUser',
-				data: {userid: this.user.id, enabled: !this.user.enabled}
+				'action': this.enableDisableUser
 			}]
 		},
 
@@ -197,6 +197,29 @@ export default {
 		 */
 		limitGroups(count) {
 			return '+'+count;
+		},
+
+		deleteUser() {
+			this.loading.delete = true;
+			this.loading.all = true;
+			let userid = this.user.id;
+			return this.$store.dispatch('deleteUser', {userid})
+				.then(() => {
+					this.loading.delete = false
+					this.loading.all = false
+				});
+		},
+
+		enableDisableUser() {
+			this.loading.delete = true;
+			this.loading.all = true;
+			let userid = this.user.id;
+			let enabled = !this.user.enabled;
+			return this.$store.dispatch('enableDisableUser', {userid, enabled})
+				.then(() => {
+					this.loading.delete = false
+					this.loading.all = false
+				});
 		},
 
 		/**

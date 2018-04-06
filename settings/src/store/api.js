@@ -33,7 +33,7 @@ export default {
             .catch((error) => Promise.reject(error));
     },
     patch(url, data) {
-        return axios.patch(sanitize(url), { data: data, headers: tokenHeaders.headers })
+        return axios.patch(sanitize(url), data, tokenHeaders)
             .then((response) => Promise.resolve(response))
             .catch((error) => Promise.reject(error));
     },

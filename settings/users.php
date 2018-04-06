@@ -113,15 +113,21 @@ $disabledUsersGroup = [
 $allGroups = array_merge_recursive($adminGroup, $groups);
 
 /* QUOTAS PRESETS */
-$quotaPreset=$config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
-$quotaPreset=explode(',', $quotaPreset);
-foreach($quotaPreset as &$preset) {
-	$preset=trim($preset);
+$quotaPreset = $config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
+$quotaPreset = explode(',', $quotaPreset);
+foreach ($quotaPreset as &$preset) {
+	$preset = trim($preset);
 }
-$quotaPreset=array_diff($quotaPreset, array('default', 'none'));
-$defaultQuota=$config->getAppValue('files', 'default_quota', 'none');
+$quotaPreset = array_diff($quotaPreset, array('default', 'none'));
+$defaultQuota = $config->getAppValue('files', 'default_quota', 'none');
 
 \OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
+
+/* TOTAL USERS COUNT */
+function addition($v, $w) {
+	return $v+$w;
+}
+$userCount = array_reduce($userManager->countUsers(), 'addition', 0);
 
 /* FINAL DATA */
 $serverData = array();
@@ -132,7 +138,7 @@ $serverData['subadmingroups'] = $groups;
 $serverData['subadmins'] = $subAdmins;
 $serverData['sortGroups'] = $sortGroupsBy;
 $serverData['quotaPreset'] = $quotaPreset;
-$serverData['userCount'] = $userManager->countUsers();
+$serverData['userCount'] = $userCount-$disabledUsers;
 // Settings
 $serverData['defaultQuota'] = $defaultQuota;
 $serverData['canChangePassword'] = $canChangePassword;

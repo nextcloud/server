@@ -39,7 +39,8 @@ export default {
 	beforeMount() {
 		this.$store.commit('initGroups', {
 			groups: this.$store.getters.getServerData.groups,
-			orderBy: this.$store.getters.getServerData.sortGroups
+			orderBy: this.$store.getters.getServerData.sortGroups,
+			userCount: this.$store.getters.getServerData.userCount
 		});
 		this.$store.dispatch('getPasswordPolicyMinLength');
 	},
@@ -66,6 +67,9 @@ export default {
 		}
 	},
 	computed: {
+		route() {
+			return this.$store.getters.getRoute;
+		},
 		users() {
 			return this.$store.getters.getUsers;
 		},
@@ -96,6 +100,9 @@ export default {
 				this.setLocalStorage('showStoragePath', status);
 			}
 		},
+		userCount() {
+			return this.$store.getters.getUserCount;
+		},
 		menu() {
 			let self = this;
 			// Data provided php side
@@ -114,23 +121,33 @@ export default {
 			});
 
 			// Adjust data
-			if (groups[0].id === 'admin') {
-				groups[0].text = t('settings', 'Admins');}			// rename admin group
-			if (groups[1].id === '_disabled') {
-				groups[1].text = t('settings', 'Disabled users');	// rename disabled group
-				if (groups[1].utils.counter === 0) {
-					groups.splice(1, 1);							// remove disabled if empty
+			let adminGroup = groups.find(group => group.id == 'admin');
+       		let disabledGroup = groups.find(group => group.id == '_disabled');
+			if (adminGroup.text) {
+				adminGroup.text = t('settings', 'Admins');}			// rename admin group
+			if (disabledGroup.text) {
+				disabledGroup.text = t('settings', 'Disabled users');	// rename disabled group
+				if (disabledGroup.utils.counter === 0) {
+					groups.splice(groups.findIndex(group => group.id == '_disabled'), 1);							// remove disabled if empty
 				}
 			}
 
 			// Add everyone group
 			groups.unshift({
 				id: '_everyone',
-				classes: ['active'],
+				classes: [],
 				href:'#group_everyone',
 				text: t('settings', 'Everyone'),
-				utils: {counter: this.users.length}
+				utils: {counter: this.userCount}
 			});
+
+			// Set current group as active
+			let activeGroup = groups.findIndex(group => group.href === this.route.hash);
+			if (activeGroup >= 0) {
+				groups[activeGroup].classes.push('active');
+			} else {
+				groups[0].classes.push('active');
+			}
 
 			// Return
 			return {

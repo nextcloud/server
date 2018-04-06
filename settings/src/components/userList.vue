@@ -82,11 +82,17 @@
 			</div>
 		</form>
 
-		<user-row v-for="(user, key) in users" :user="user" :key="key" :settings="settings" :showConfig="showConfig"
+		<user-row v-for="(user, key) in filteredUsers" :user="user" :key="key" :settings="settings" :showConfig="showConfig"
 				  :groups="groups" :subAdminsGroups="subAdminsGroups" :quotaOptions="quotaOptions" />
-		<infinite-loading @infinite="infiniteHandler">
-			<span slot="spinner"><div class="users-icon-loading"></div></span>
-			<span slot="no-more"><div class="users-list-end">— {{t('settings', 'no more results')}} —</div></span>
+		<infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
+			<div slot="spinner"><div class="users-icon-loading icon-loading"></div></div>
+			<div slot="no-more"><div class="users-list-end">— {{t('settings', 'no more results')}} —</div></div>
+			<div slot="no-results">
+				<div id="emptycontent">
+					<div class="icon-contacts-dark"></div>
+					<h2>{{t('settings', 'No users in here')}}</h2>
+				</div>
+			</div>
 		</infinite-loading>
 	</div>
 </template>
@@ -132,6 +138,12 @@ export default {
 		settings() {
 			return this.$store.getters.getServerData;
 		},
+		filteredUsers() {
+			if (this.route.hash === '#group_disabled') {
+				return this.users.filter(user => user.enabled !== true);
+			}
+			return this.users.filter(user => user.enabled === true);
+		},
 		groups() {
 			// data provided php side + remove the disabled group
 			return this.$store.getters.getGroups.filter(group => group.id !== '_disabled');
@@ -156,7 +168,30 @@ export default {
 		},
 		usersLimit() {
 			return this.$store.getters.getUsersLimit;
-		}, 
+		},
+		route() {
+			return this.$store.getters.getRoute;
+		},
+		// get selected hash
+		selectedGroup() {
+			let hash = this.route.hash;
+			if (typeof hash === 'string' && hash.length > 0) {
+				// we have a valid hash: groupXXXX
+				// group_XXXX are reserved groups
+				let split = hash.split('group');
+				if (split.length === 2 && split[1].charAt(0) !== '_') {
+					return hash.split('group')[1];
+				}
+			}
+			return '';
+		}
+	},
+	watch: {
+		// watch url change and group select
+		selectedGroup: function (val, old) {
+			this.$store.commit('resetUsers');
+			this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+		}
 	},
 	methods: {
 		onScroll(event) {
@@ -182,7 +217,7 @@ export default {
 		},
 
 		infiniteHandler($state) {
-			this.$store.dispatch('getUsers', {offset:this.usersOffset, limit:this.usersLimit})
+			this.$store.dispatch('getUsers', {offset:this.usersOffset, limit:this.usersLimit, group:this.selectedGroup})
 				.then((response) => {response?$state.loaded():$state.complete()});
 		},
 
@@ -197,8 +232,10 @@ export default {
 				userid: this.newUser.id,
 				password: this.newUser.password,
 				email: this.newUser.mailAddress,
-				groups: this.newUser.groups.map(group => group.id)
-			}).then(() =>this.resetForm());
+				groups: this.newUser.groups.map(group => group.id),
+				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
+				quota: this.newUser.quota.id
+			}).then(() => this.resetForm());
 		}
 	}
 }

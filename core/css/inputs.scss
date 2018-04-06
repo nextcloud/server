@@ -636,8 +636,9 @@ input {
             opacity: 1 !important;
         }
     }
-    &.multiselect--disabled {
-        background-color: nc-darken($color-main-background, 8%);
+    &.multiselect--disabled,
+    &.multiselect--disabled .multiselect__single {
+        background-color: nc-darken($color-main-background, 8%) !important;
     }
     .multiselect__tags {
         display: flex;
@@ -683,7 +684,7 @@ input {
         .multiselect__single {
             padding: 8px 10px;
             flex: 0 0 100%;
-            z-index: 5;
+            z-index: 1; /* above input */
             background-color: $color-main-background;
             cursor: pointer;
         }
