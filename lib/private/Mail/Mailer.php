@@ -205,7 +205,7 @@ class Mailer implements IMailer {
 	 * @return string Converted mail address if `idn_to_ascii` exists
 	 */
 	protected function convertEmail(string $email): string {
-		if (!function_exists('idn_to_ascii') || strpos($email, '@') === false) {
+		if (!function_exists('idn_to_ascii') || !defined('INTL_IDNA_VARIANT_UTS46') || strpos($email, '@') === false) {
 			return $email;
 		}
 
