@@ -640,8 +640,8 @@ class UsersControllerTest extends TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 998
-	 * @expectedExceptionMessage The requested user could not be found
+	 * @expectedExceptionCode 404
+	 * @expectedExceptionMessage User does not exist
 	 */
 	public function testGetUserTargetDoesNotExist() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)
@@ -2394,7 +2394,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$subAdminManager
 			->expects($this->once())
-			->method('isSubAdminofGroup')
+			->method('isSubAdminOfGroup')
 			->with($loggedInUser, $targetGroup)
 			->will($this->returnValue(true));
 		$this->groupManager
@@ -2445,7 +2445,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$subAdminManager
 			->expects($this->once())
-			->method('isSubAdminofGroup')
+			->method('isSubAdminOfGroup')
 			->with($loggedInUser, $targetGroup)
 			->will($this->returnValue(true));
 		$this->groupManager
@@ -2818,7 +2818,7 @@ class UsersControllerTest extends TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 101
+	 * @expectedExceptionCode 404
 	 * @expectedExceptionMessage User does not exist
 	 */
 	public function testGetUserSubAdminGroupsNotExistingTargetUser() {

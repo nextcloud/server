@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -34,14 +35,11 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Accounts\AccountManager;
 use OC\HintException;
 use OC\Settings\Mailer\NewUserMailHelper;
-use OC_Helper;
 use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
-use OCP\AppFramework\OCSController;
-use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -52,20 +50,10 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 
-class UsersController extends OCSController {
+class UsersController extends AUserData {
 
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IConfig */
-	private $config;
 	/** @var IAppManager */
 	private $appManager;
-	/** @var IGroupManager|\OC\Group\Manager */ // FIXME Requires a method that is not on the interface
-	private $groupManager;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var AccountManager */
-	private $accountManager;
 	/** @var ILogger */
 	private $logger;
 	/** @var IFactory */
@@ -105,14 +93,15 @@ class UsersController extends OCSController {
 								NewUserMailHelper $newUserMailHelper,
 								FederatedFileSharingFactory $federatedFileSharingFactory,
 								ISecureRandom $secureRandom) {
-		parent::__construct($appName, $request);
+		parent::__construct($appName,
+							$request,
+							$userManager,
+							$config,
+							$groupManager,
+							$userSession,
+							$accountManager);
 
-		$this->userManager = $userManager;
-		$this->config = $config;
 		$this->appManager = $appManager;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
-		$this->accountManager = $accountManager;
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
@@ -225,7 +214,7 @@ class UsersController extends OCSController {
 				if(!$this->groupManager->groupExists($group)) {
 					throw new OCSException('group '.$group.' does not exist', 104);
 				}
-				if(!$isAdmin && !$subAdminManager->isSubAdminofGroup($user, $this->groupManager->get($group))) {
+				if(!$isAdmin && !$subAdminManager->isSubAdminOfGroup($user, $this->groupManager->get($group))) {
 					throw new OCSException('insufficient privileges for group '. $group, 105);
 				}
 			}
@@ -332,62 +321,6 @@ class UsersController extends OCSController {
 		}
 
 		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
-	}
-
-	/**
-	 * creates a array with all user data
-	 *
-	 * @param $userId
-	 * @return array
-	 * @throws OCSException
-	 */
-	protected function getUserData(string $userId): array {
-		$currentLoggedInUser = $this->userSession->getUser();
-
-		$data = [];
-
-		// Check if the target user exists
-		$targetUserObject = $this->userManager->get($userId);
-		if($targetUserObject === null) {
-			throw new OCSException('The requested user could not be found', \OCP\API::RESPOND_NOT_FOUND);
-		}
-
-		// Should be at least Admin Or SubAdmin!
-		if( $this->groupManager->isAdmin($currentLoggedInUser->getUID())
-			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
-				$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true');
-		} else {
-			// Check they are looking up themselves
-			if($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
-				return $data;
-			}
-		}
-
-		// Get groups data
-		$userAccount = $this->accountManager->getUser($targetUserObject);
-		$groups = $this->groupManager->getUserGroups($targetUserObject);
-		$gids = [];
-		foreach ($groups as $group) {
-			$gids[] = $group->getDisplayName();
-		}
-
-		// Find the data
-		$data['id'] = $targetUserObject->getUID();
-		$data['storageLocation'] = $targetUserObject->getHome();
-		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
-		$data['backend'] = $targetUserObject->getBackendClassName();
-		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
-		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
-		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
-		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
-		$data[AccountManager::PROPERTY_PHONE] = $userAccount[AccountManager::PROPERTY_PHONE]['value'];
-		$data[AccountManager::PROPERTY_ADDRESS] = $userAccount[AccountManager::PROPERTY_ADDRESS]['value'];
-		$data[AccountManager::PROPERTY_WEBSITE] = $userAccount[AccountManager::PROPERTY_WEBSITE]['value'];
-		$data[AccountManager::PROPERTY_TWITTER] = $userAccount[AccountManager::PROPERTY_TWITTER]['value'];
-		$data['groups'] = $gids;
-		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
-
-		return $data;
 	}
 
 	/**
@@ -808,7 +741,7 @@ class UsersController extends OCSController {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 
 		// We cannot be subadmin twice
-		if ($subAdminManager->isSubAdminofGroup($user, $group)) {
+		if ($subAdminManager->isSubAdminOfGroup($user, $group)) {
 			return new DataResponse();
 		}
 		// Go
@@ -859,68 +792,12 @@ class UsersController extends OCSController {
 	 * Get the groups a user is a subadmin of
 	 *
 	 * @param string $userId
-	 * @return array
-	 * @throws OCSException
-	 */
-	protected function getUserSubAdminGroupsData(string $userId): array {
-		$user = $this->userManager->get($userId);
-		// Check if the user exists
-		if($user === null) {
-			throw new OCSException('User does not exist', 101);
-		}
-
-		// Get the subadmin groups
-		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($user);
-		$groups = [];
-		foreach ($subAdminGroups as $key => $group) {
-			$groups[] = $group->getGID();
-		}
-
-		return $groups;
-	}
-
-	/**
-	 * Get the groups a user is a subadmin of
-	 *
-	 * @param string $userId
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
 		return new DataResponse($groups);
-	}
-
-	/**
-	 * @param string $userId
-	 * @return array
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	protected function fillStorageInfo(string $userId): array {
-		try {
-			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($userId);
-			$storage = OC_Helper::getStorageInfo('/');
-			$data = [
-				'free' => $storage['free'],
-				'used' => $storage['used'],
-				'total' => $storage['total'],
-				'relative' => $storage['relative'],
-				'quota' => $storage['quota'],
-			];
-		} catch (NotFoundException $ex) {
-			// User fs is not setup yet
-			$user = $this->userManager->get($userId);
-			if ($user === null) {
-				throw new OCSException('User does not exist', 101);
-			}
-			$quota = OC_Helper::computerFileSize($user->getQuota());
-			$data = [
-				'quota' => $quota ? $quota : 'none',
-				'used' => 0
-			];
-		}
-		return $data;
 	}
 
 	/**
