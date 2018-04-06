@@ -142,7 +142,7 @@ export default {
 			});
 
 			// Set current group as active
-			let activeGroup = groups.findIndex(group => group.href === this.route.hash);
+			let activeGroup = groups.findIndex(group => group.href === this.$route.hash);
 			if (activeGroup >= 0) {
 				groups[activeGroup].classes.push('active');
 			} else {

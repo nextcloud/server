@@ -13,12 +13,6 @@ const mutations = {
 	}
 };
 
-const getters = {
-    getRoute(state) {
-        return state.route;
-	}
-};
-
 export default new Vuex.Store({
 	modules: {
 		users,
@@ -26,6 +20,5 @@ export default new Vuex.Store({
 	},
 	strict: debug,
 
-	mutations,
-	getters
+	mutations
 });

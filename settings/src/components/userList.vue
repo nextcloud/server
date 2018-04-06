@@ -139,8 +139,14 @@ export default {
 			return this.$store.getters.getServerData;
 		},
 		filteredUsers() {
-			if (this.route.hash === '#group_disabled') {
-				return this.users.filter(user => user.enabled !== true);
+			if (this.$route.hash === '#group_disabled') {
+				let disabledUsers = this.users.filter(user => user.enabled !== true);
+				if (disabledUsers.length===0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
+					// disabled group is empty, redirection to all users
+					window.location.hash = '#group_everyone';
+					this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+				}
+				return disabledUsers;
 			}
 			return this.users.filter(user => user.enabled === true);
 		},
@@ -169,12 +175,9 @@ export default {
 		usersLimit() {
 			return this.$store.getters.getUsersLimit;
 		},
-		route() {
-			return this.$store.getters.getRoute;
-		},
 		// get selected hash
 		selectedGroup() {
-			let hash = this.route.hash;
+			let hash = this.$route.hash;
 			if (typeof hash === 'string' && hash.length > 0) {
 				// we have a valid hash: groupXXXX
 				// group_XXXX are reserved groups
