@@ -1,6 +1,4 @@
 default:
-  autoload:
-    '': %paths.base%/../features/bootstrap
   suites:
     default:
       paths:
