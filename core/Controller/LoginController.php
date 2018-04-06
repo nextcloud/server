@@ -184,8 +184,6 @@ class LoginController extends Controller {
 		}
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
-		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
-		$parameters['hideRemeberLoginState'] = !empty($redirect_url) && $this->session->exists('client.flow.state.token');
 
 		if ($user !== null && $user !== '') {
 			$parameters['loginName'] = $user;
@@ -240,7 +238,7 @@ class LoginController extends Controller {
 	 * @param string $timezone_offset
 	 * @return RedirectResponse
 	 */
-	public function tryLogin($user, $password, $redirect_url, $remember_login = false, $timezone = '', $timezone_offset = '') {
+	public function tryLogin($user, $password, $redirect_url, $remember_login = true, $timezone = '', $timezone_offset = '') {
 		if(!is_string($user)) {
 			throw new \InvalidArgumentException('Username must be string');
 		}

@@ -76,16 +76,6 @@ script('core', 'merged-login');
 		<?php } ?>
 
 		<div class="login-additional">
-			<?php if (!$_['hideRemeberLoginState']) { ?>
-			<div class="remember-login-container">
-				<?php if ($_['rememberLoginState'] === 0) { ?>
-				<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white">
-				<?php } else { ?>
-				<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white" checked="checked">
-				<?php } ?>
-				<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
-			</div>
-			<?php } ?>
 			<?php if (!empty($_['canResetPassword'])) { ?>
 			<div class="lost-password-container">
 				<a id="lost-password" href="<?php p($_['resetPasswordLink']); ?>">
