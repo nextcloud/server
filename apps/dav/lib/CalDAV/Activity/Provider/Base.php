@@ -26,6 +26,8 @@ namespace OCA\DAV\CalDAV\Activity\Provider;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -35,14 +37,22 @@ abstract class Base implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
-	/** @var string[] cached displayNames - key is the UID and value the displayname */
-	protected $displayNames = [];
+	/** @var string[]  */
+	protected $userDisplayNames = [];
+
+	/** @var IGroupManager */
+	protected $groupManager;
+
+	/** @var string[] */
+	protected $groupDisplayNames = [];
 
 	/**
 	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IUserManager $userManager) {
+	public function __construct(IUserManager $userManager, IGroupManager $groupManager) {
 		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -113,30 +123,18 @@ abstract class Base implements IProvider {
 	}
 
 	/**
-	 * @param string $id
-	 * @return array
-	 */
-	protected function generateGroupParameter($id) {
-		return [
-			'type' => 'group',
-			'id' => $id,
-			'name' => $id,
-		];
-	}
-
-	/**
 	 * @param string $uid
 	 * @return array
 	 */
 	protected function generateUserParameter($uid) {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
+		if (!isset($this->userDisplayNames[$uid])) {
+			$this->userDisplayNames[$uid] = $this->getUserDisplayName($uid);
 		}
 
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $this->userDisplayNames[$uid],
 		];
 	}
 
@@ -144,12 +142,39 @@ abstract class Base implements IProvider {
 	 * @param string $uid
 	 * @return string
 	 */
-	protected function getDisplayName($uid) {
+	protected function getUserDisplayName($uid) {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
 			return $user->getDisplayName();
-		} else {
-			return $uid;
 		}
+		return $uid;
+	}
+
+	/**
+	 * @param string $gid
+	 * @return array
+	 */
+	protected function generateGroupParameter($gid) {
+		if (!isset($this->groupDisplayNames[$gid])) {
+			$this->groupDisplayNames[$gid] = $this->getGroupDisplayName($gid);
+		}
+
+		return [
+			'type' => 'group',
+			'id' => $gid,
+			'name' => $this->groupDisplayNames[$gid],
+		];
+	}
+
+	/**
+	 * @param string $gid
+	 * @return string
+	 */
+	protected function getGroupDisplayName($gid) {
+		$group = $this->groupManager->get($gid);
+		if ($group instanceof IGroup) {
+			return $group->getDisplayName();
+		}
+		return $gid;
 	}
 }

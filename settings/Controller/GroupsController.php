@@ -28,6 +28,7 @@ use OC\AppFramework\Http;
 use OC\Group\MetaData;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -108,13 +109,9 @@ class GroupsController extends Controller {
 				Http::STATUS_CONFLICT
 			);
 		}
-		if($this->groupManager->createGroup($id)) {
-			return new DataResponse(
-				array(
-					'groupname' => $id
-				),
-				Http::STATUS_CREATED
-			);
+		$group = $this->groupManager->createGroup($id);
+		if($group instanceof IGroup) {
+			return new DataResponse(['groupname' => $group->getDisplayName()], Http::STATUS_CREATED);
 		}
 
 		return new DataResponse(
@@ -140,9 +137,7 @@ class GroupsController extends Controller {
 				return new DataResponse(
 					array(
 						'status' => 'success',
-						'data' => array(
-							'groupname' => $id
-						)
+						'data' => ['groupname' => $group->getDisplayName()]
 					),
 					Http::STATUS_NO_CONTENT
 				);

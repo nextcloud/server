@@ -53,12 +53,19 @@ class MetaDataTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$group->expects($this->exactly(9))
+		$group->expects($this->exactly(6))
 			->method('getGID')
 			->will($this->onConsecutiveCalls(
-				'admin', 'admin', 'admin',
-				'g2', 'g2', 'g2',
-				'g3', 'g3', 'g3'));
+				'admin', 'admin',
+				'g2', 'g2',
+				'g3', 'g3'));
+
+		$group->expects($this->exactly(3))
+			->method('getDisplayName')
+			->will($this->onConsecutiveCalls(
+				'display admin',
+				'display g2',
+				'display g3'));
 
 		$group->expects($this->exactly($countCallCount))
 			->method('count')
@@ -83,7 +90,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->assertSame(1, count($adminGroups));
 		$this->assertSame(2, count($ordinaryGroups));
 
-		$this->assertSame('g2', $ordinaryGroups[0]['name']);
+		$this->assertSame('display g2', $ordinaryGroups[0]['name']);
 		// user count is not loaded
 		$this->assertSame(0, $ordinaryGroups[0]['usercount']);
 	}
@@ -103,7 +110,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->assertSame(1, count($adminGroups));
 		$this->assertSame(2, count($ordinaryGroups));
 
-		$this->assertSame('g3', $ordinaryGroups[0]['name']);
+		$this->assertSame('display g3', $ordinaryGroups[0]['name']);
 		$this->assertSame(5, $ordinaryGroups[0]['usercount']);
 	}
 

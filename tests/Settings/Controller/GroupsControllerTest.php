@@ -16,6 +16,7 @@ use OC\Settings\Controller\GroupsController;
 use OC\User\User;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -67,6 +68,9 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getGID')
 			->will($this->returnValue('firstGroup'));
 		$firstGroup
+			->method('getDisplayName')
+			->will($this->returnValue('1st group'));
+		$firstGroup
 			->method('count')
 			->will($this->returnValue(12));
 		$secondGroup = $this->getMockBuilder(Group::class)
@@ -74,6 +78,9 @@ class GroupsControllerTest extends \Test\TestCase {
 		$secondGroup
 			->method('getGID')
 			->will($this->returnValue('secondGroup'));
+		$secondGroup
+			->method('getDisplayName')
+			->will($this->returnValue('2nd group'));
 		$secondGroup
 			->method('count')
 			->will($this->returnValue(25));
@@ -83,6 +90,9 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getGID')
 			->will($this->returnValue('thirdGroup'));
 		$thirdGroup
+			->method('getDisplayName')
+			->will($this->returnValue('3rd group'));
+		$thirdGroup
 			->method('count')
 			->will($this->returnValue(14));
 		$fourthGroup = $this->getMockBuilder(Group::class)
@@ -90,6 +100,9 @@ class GroupsControllerTest extends \Test\TestCase {
 		$fourthGroup
 			->method('getGID')
 			->will($this->returnValue('admin'));
+		$fourthGroup
+			->method('getDisplayName')
+			->will($this->returnValue('Administrators'));
 		$fourthGroup
 			->method('count')
 			->will($this->returnValue(18));
@@ -119,7 +132,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				'adminGroups' => array(
 					0 => array(
 						'id' => 'admin',
-						'name' => 'admin',
+						'name' => 'Administrators',
 						'usercount' => 0,//User count disabled 18,
 					)
 				),
@@ -127,17 +140,17 @@ class GroupsControllerTest extends \Test\TestCase {
 					array(
 						0 => array(
 							'id' => 'firstGroup',
-							'name' => 'firstGroup',
+							'name' => '1st group',
 							'usercount' => 0,//User count disabled 12,
 						),
 						1 => array(
 							'id' => 'secondGroup',
-							'name' => 'secondGroup',
+							'name' => '2nd group',
 							'usercount' => 0,//User count disabled 25,
 						),
 						2 => array(
 							'id' => 'thirdGroup',
-							'name' => 'thirdGroup',
+							'name' => '3rd group',
 							'usercount' => 0,//User count disabled 14,
 						),
 					)
@@ -159,6 +172,9 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getGID')
 			->will($this->returnValue('firstGroup'));
 		$firstGroup
+			->method('getDisplayName')
+			->will($this->returnValue('1st group'));
+		$firstGroup
 			->method('count')
 			->will($this->returnValue(12));
 		$secondGroup = $this->getMockBuilder(Group::class)
@@ -166,6 +182,9 @@ class GroupsControllerTest extends \Test\TestCase {
 		$secondGroup
 			->method('getGID')
 			->will($this->returnValue('secondGroup'));
+		$secondGroup
+			->method('getDisplayName')
+			->will($this->returnValue('2nd group'));
 		$secondGroup
 			->method('count')
 			->will($this->returnValue(25));
@@ -175,6 +194,9 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getGID')
 			->will($this->returnValue('thirdGroup'));
 		$thirdGroup
+			->method('getDisplayName')
+			->will($this->returnValue('3rd group'));
+		$thirdGroup
 			->method('count')
 			->will($this->returnValue(14));
 		$fourthGroup = $this->getMockBuilder(Group::class)
@@ -182,6 +204,9 @@ class GroupsControllerTest extends \Test\TestCase {
 		$fourthGroup
 			->method('getGID')
 			->will($this->returnValue('admin'));
+		$fourthGroup
+			->method('getDisplayName')
+			->will($this->returnValue('Administrators'));
 		$fourthGroup
 			->method('count')
 			->will($this->returnValue(18));
@@ -212,7 +237,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				'adminGroups' => array(
 					0 => array(
 						'id' => 'admin',
-						'name' => 'admin',
+						'name' => 'Administrators',
 						'usercount' => 18,
 					)
 				),
@@ -220,17 +245,17 @@ class GroupsControllerTest extends \Test\TestCase {
 					array(
 						0 => array(
 							'id' => 'secondGroup',
-							'name' => 'secondGroup',
+							'name' => '2nd group',
 							'usercount' => 25,
 						),
 						1 => array(
 							'id' => 'thirdGroup',
-							'name' => 'thirdGroup',
+							'name' => '3rd group',
 							'usercount' => 14,
 						),
 						2 => array(
 							'id' => 'firstGroup',
-							'name' => 'firstGroup',
+							'name' => '1st group',
 							'usercount' => 12,
 						),
 					)
@@ -264,15 +289,19 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('groupExists')
 			->with('NewGroup')
 			->will($this->returnValue(false));
+
+		$group = $this->createMock(IGroup::class);
+		$group->method('getDisplayName')
+			->willReturn('New group');
 		$this->groupManager
 			->expects($this->once())
 			->method('createGroup')
 			->with('NewGroup')
-			->will($this->returnValue(true));
+			->willReturn($group);
 
 		$expectedResponse = new DataResponse(
 			array(
-				'groupname' => 'NewGroup'
+				'groupname' => 'New group'
 			),
 			Http::STATUS_CREATED
 		);
@@ -304,13 +333,14 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	public function testDestroySuccessful() {
-		$group = $this->getMockBuilder(Group::class)
-			->disableOriginalConstructor()->getMock();
+		$group = $this->createMock(IGroup::class);
 		$this->groupManager
 			->expects($this->once())
 			->method('get')
 			->with('ExistingGroup')
 			->will($this->returnValue($group));
+		$group->method('getDisplayName')
+			->willReturn('Existing group');
 		$group
 			->expects($this->once())
 			->method('delete')
@@ -319,7 +349,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$expectedResponse = new DataResponse(
 			array(
 				'status' => 'success',
-				'data' => array('groupname' => 'ExistingGroup')
+				'data' => array('groupname' => 'Existing group')
 			),
 			Http::STATUS_NO_CONTENT
 		);

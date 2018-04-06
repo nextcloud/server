@@ -174,7 +174,7 @@ class PersonalInfo implements ISettings {
 	private function getGroups(IUser $user) {
 		$groups = array_map(
 			function(IGroup $group) {
-				return $group->getGID();
+				return $group->getDisplayName();
 			},
 			$this->groupManager->getUserGroups($user)
 		);
