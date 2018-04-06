@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Αδύνατη η ανάκτηση λίστας της ομάδας",
     "Saved" : "Αποθηκεύτηκε",
     "Saving failed:" : "Απέτυχε η αποθήκευση:",
     "File MIME type" : "Τύπος αρχείου MIME",

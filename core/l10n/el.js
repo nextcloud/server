@@ -250,6 +250,7 @@ OC.L10N.register(
     "Log in" : "Είσοδος",
     "Wrong password." : "Λάθος συνθηματικό.",
     "Stay logged in" : "Μείνετε συνδεδεμένος",
+    "Back to login" : "Πίσω στην είσοδο",
     "Account access" : "Πρόσβαση λογαριασμού",
     "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\".",
     "Grant access" : "Παροχή άδειας πρόσβασης",
@@ -284,6 +285,9 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα, το ID του federated cloud ή μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα ή το ID του federated cloud.",
     "Share with other people by entering a user or group or an email address." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα ή μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
-    "Alternative Logins" : "Εναλλακτικές είσοδοι"
+    "This action requires you to confirm your password:" : "Αυτή η ενέργεια απαιτεί επιβεβαίωση του συνθηματικού σας:",
+    "Wrong password. Reset it?" : "Εσφαλμένο συνθηματικό. Επαναφορά;",
+    "Alternative Logins" : "Εναλλακτικές είσοδοι",
+    "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα."
 },
 "nplurals=2; plural=(n != 1);");
