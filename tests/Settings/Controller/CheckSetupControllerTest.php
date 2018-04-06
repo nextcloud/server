@@ -150,7 +150,7 @@ class CheckSetupControllerTest extends TestCase {
 			->method('get')
 			->will($this->throwException(new \Exception()));
 
-		$this->clientService->expects($this->exactly(3))
+		$this->clientService->expects($this->exactly(4))
 			->method('newClient')
 			->will($this->returnValue($client));
 
@@ -285,13 +285,17 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->throwException(new \Exception()));
 		$client->expects($this->at(1))
 			->method('get')
-			->with('http://www.google.com/', [])
+			->with('http://www.startpage.com/', [])
 			->will($this->throwException(new \Exception()));
 		$client->expects($this->at(2))
 			->method('get')
-			->with('http://www.github.com/', [])
+			->with('http://www.eff.org/', [])
 			->will($this->throwException(new \Exception()));
-		$this->clientService->expects($this->exactly(3))
+		$client->expects($this->at(3))
+			->method('get')
+			->with('http://www.edri.org/', [])
+			->will($this->throwException(new \Exception()));
+		$this->clientService->expects($this->exactly(4))
 			->method('newClient')
 			->will($this->returnValue($client));
 		$this->urlGenerator->expects($this->at(0))
