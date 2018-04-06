@@ -21,6 +21,7 @@
 
 namespace Tests\Core\Controller;
 
+use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
 use OC\Security\Bruteforce\Throttler;
@@ -193,9 +194,7 @@ class LoginControllerTest extends TestCase {
 				'user_autofocus' => true,
 				'canResetPassword' => true,
 				'alt_login' => [],
-				'rememberLoginState' => 0,
 				'resetPasswordLink' => null,
-				'hideRemeberLoginState' => false,
 				'throttle_delay' => 1000,
 			],
 			'guest'
@@ -208,11 +207,6 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		$this->session
-			->expects($this->once())
-			->method('exists')
-			->with('client.flow.state.token')
-			->willReturn(true);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -224,9 +218,7 @@ class LoginControllerTest extends TestCase {
 				'user_autofocus' => true,
 				'canResetPassword' => true,
 				'alt_login' => [],
-				'rememberLoginState' => 0,
 				'resetPasswordLink' => null,
-				'hideRemeberLoginState' => true,
 				'throttle_delay' => 1000,
 			],
 			'guest'
@@ -284,9 +276,7 @@ class LoginControllerTest extends TestCase {
 				'user_autofocus' => false,
 				'canResetPassword' => $expectedResult,
 				'alt_login' => [],
-				'rememberLoginState' => 0,
 				'resetPasswordLink' => false,
-				'hideRemeberLoginState' => false,
 				'throttle_delay' => 1000,
 			],
 			'guest'
@@ -324,9 +314,7 @@ class LoginControllerTest extends TestCase {
 				'user_autofocus' => false,
 				'canResetPassword' => false,
 				'alt_login' => [],
-				'rememberLoginState' => 0,
 				'resetPasswordLink' => false,
-				'hideRemeberLoginState' => false,
 				'throttle_delay' => 1000,
 			],
 			'guest'
@@ -395,7 +383,7 @@ class LoginControllerTest extends TestCase {
 			->with($user, ['loginName' => $loginName, 'password' => $password]);
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), $loginName, $password, false);
+			->with($this->request, $user->getUID(), $loginName, $password, IToken::REMEMBER);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -535,7 +523,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), 'Jane', $password, false);
+			->with($this->request, $user->getUID(), 'Jane', $password, IToken::REMEMBER);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->with()
@@ -574,7 +562,7 @@ class LoginControllerTest extends TestCase {
 			->with($user, ['loginName' => 'john@doe.com', 'password' => $password]);
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), 'john@doe.com', $password, false);
+			->with($this->request, $user->getUID(), 'john@doe.com', $password, IToken::REMEMBER);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -628,7 +616,7 @@ class LoginControllerTest extends TestCase {
 			->with($user, ['loginName' => 'john@doe.com', 'password' => $password]);
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), 'john@doe.com', $password, false);
+			->with($this->request, $user->getUID(), 'john@doe.com', $password, IToken::REMEMBER);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
