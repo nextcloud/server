@@ -37,6 +37,7 @@ class PublicTemplateResponse extends TemplateResponse {
 	private $headerTitle = '';
 	private $headerDetails = '';
 	private $headerActions = [];
+	private $footerVisible = true;
 
 	/**
 	 * PublicTemplateResponse constructor.
@@ -126,6 +127,20 @@ class PublicTemplateResponse extends TemplateResponse {
 	 */
 	public function getOtherActions(): array {
 		return array_slice($this->headerActions, 1);
+	}
+
+	/**
+	 * @since 14.0.0
+	 */
+	public function setFooterVisible(bool $visible = false) {
+		$this->footerVisible = $visible;
+	}
+
+	/**
+	 * @since 14.0.0
+	 */
+	public function getFooterVisible(): bool {
+		return $this->footerVisible;
 	}
 
 	/**

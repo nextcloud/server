@@ -1,13 +1,3 @@
-#content {
-	height: initial;
-	min-height: calc(100vh - 160px);
-}
-
-/* force layout to make sure the content element's height matches its contents' height */
-.ie #content {
-	display: inline-block;
-}
-
 #preview {
 	background: #fff;
 	text-align: center;
@@ -103,10 +93,6 @@ thead {
 #details .button:hover {
 	/* No  */
 	border-color: rgba(0,0,0,0.3) !important;
-}
-
-#share-menu input[type='text'] {
-	width: 200px;
 }
 
 #public-upload .avatardiv {

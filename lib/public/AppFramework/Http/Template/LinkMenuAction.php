@@ -21,11 +21,17 @@
  *
  */
 
-namespace OCA\Files_Sharing\Template;
+namespace OCP\AppFramework\Http\Template;
 
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\Util;
 
+/**
+ * Class LinkMenuAction
+ *
+ * @package OCP\AppFramework\Http\Template
+ * @since 14.0.0
+ */
 class LinkMenuAction extends SimpleMenuAction {
 
 	/**
@@ -34,6 +40,7 @@ class LinkMenuAction extends SimpleMenuAction {
 	 * @param string $label
 	 * @param string $icon
 	 * @param string $link
+	 * @since 14.0.0
 	 */
 	public function __construct(string $label, string $icon, string $link) {
 		parent::__construct('directLink-container', $label, $icon, $link);
@@ -41,6 +48,7 @@ class LinkMenuAction extends SimpleMenuAction {
 
 	/**
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function render(): string {
 		return '<li>' .
