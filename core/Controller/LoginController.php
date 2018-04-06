@@ -138,11 +138,10 @@ class LoginController extends Controller {
 	 *
 	 * @param string $user
 	 * @param string $redirect_url
-	 * @param string $remember_login
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showLoginForm($user, $redirect_url, $remember_login) {
+	public function showLoginForm($user, $redirect_url) {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}
