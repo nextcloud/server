@@ -58,6 +58,7 @@ declare(strict_types=1);
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
+use OCP\IDBConnection;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
@@ -87,6 +88,9 @@ class Database extends ABackend
 	/** @var EventDispatcher */
 	private $eventDispatcher;
 
+	/** @var IDBConnection */
+	private $dbConn;
+
 	/**
 	 * \OC\User\Database constructor.
 	 *
@@ -95,6 +99,15 @@ class Database extends ABackend
 	public function __construct($eventDispatcher = null) {
 		$this->cache = new CappedMemoryCache();
 		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->getEventDispatcher();
+	}
+
+	/**
+	 * FIXME: This function should not be required!
+	 */
+	private function fixDI() {
+		if ($this->dbConn === null) {
+			$this->dbConn = \OC::$server->getDatabaseConnection();
+		}
 	}
 
 	/**
@@ -108,15 +121,21 @@ class Database extends ABackend
 	 * itself, not in its subclasses.
 	 */
 	public function createUser(string $uid, string $password): bool {
+		$this->fixDI();
+
 		if (!$this->userExists($uid)) {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
-			try {
-				$result = $query->execute([$uid, \OC::$server->getHasher()->hash($password)]);
-			} catch (\Exception $e) {
-				$result = false;
-			}
+
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->insert('users')
+				->values([
+					'uid' => $qb->createNamedParameter($uid),
+					'password' => $qb->createNamedParameter(\OC::$server->getHasher()->hash($password)),
+					'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
+				]);
+
+			$result = $qb->execute();
 
 			// Clear cache
 			unset($this->cache[$uid]);
@@ -136,6 +155,8 @@ class Database extends ABackend
 	 * Deletes a user
 	 */
 	public function deleteUser($uid) {
+		$this->fixDI();
+
 		// Delete user-group-relation
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*users` WHERE `uid` = ?');
 		$result = $query->execute([$uid]);
@@ -157,6 +178,8 @@ class Database extends ABackend
 	 * Change the password of a user
 	 */
 	public function setPassword(string $uid, string $password): bool {
+		$this->fixDI();
+
 		if ($this->userExists($uid)) {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
@@ -179,6 +202,8 @@ class Database extends ABackend
 	 * Change the display name of a user
 	 */
 	public function setDisplayName(string $uid, string $displayName): bool {
+		$this->fixDI();
+
 		if ($this->userExists($uid)) {
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*users` SET `displayname` = ? WHERE LOWER(`uid`) = LOWER(?)');
 			$query->execute([$displayName, $uid]);
@@ -210,9 +235,9 @@ class Database extends ABackend
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
-		$connection = \OC::$server->getDatabaseConnection();
+		$this->fixDI();
 
-		$query = $connection->getQueryBuilder();
+		$query = $this->dbConn->getQueryBuilder();
 
 		$query->select('uid', 'displayname')
 			->from('users', 'u')
@@ -222,9 +247,9 @@ class Database extends ABackend
 				$query->expr()->eq('configkey', $query->expr()->literal('email')))
 			)
 			// sqlite doesn't like re-using a single named parameter here
-			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
-			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
-			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
+			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
+			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
+			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orderBy($query->func()->lower('displayname'), 'ASC')
 			->orderBy($query->func()->lower('uid'), 'ASC')
 			->setMaxResults($limit)
@@ -250,10 +275,20 @@ class Database extends ABackend
 	 * returns the user id or false
 	 */
 	public function checkPassword(string $uid, string $password) {
-		$query = \OC_DB::prepare('SELECT `uid`, `password` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
-		$result = $query->execute([$uid]);
+		$this->fixDI();
 
-		$row = $result->fetchRow();
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('uid', 'password')
+			->from('users')
+			->where(
+				$qb->expr()->eq(
+					'uid_lower', $qb->createNamedParameter(mb_strtolower($uid))
+				)
+			);
+		$result = $qb->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
 		if ($row) {
 			$storedHash = $row['password'];
 			$newHash = '';
@@ -276,6 +311,8 @@ class Database extends ABackend
 	 * @return boolean true if user was found, false otherwise
 	 */
 	private function loadUser($uid) {
+		$this->fixDI();
+
 		$uid = (string)$uid;
 		if (!isset($this->cache[$uid])) {
 			//guests $uid could be NULL or ''
@@ -284,23 +321,25 @@ class Database extends ABackend
 				return true;
 			}
 
-			$query = \OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
-			$result = $query->execute([$uid]);
-
-			if ($result === false) {
-				Util::writeLog('core', \OC_DB::getErrorMessage(), Util::ERROR);
-				return false;
-			}
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->select('uid', 'displayname')
+				->from('users')
+				->where(
+					$qb->expr()->eq(
+						'uid_lower', $qb->createNamedParameter(mb_strtolower($uid))
+					)
+				);
+			$result = $qb->execute();
+			$row = $result->fetch();
+			$result->closeCursor();
 
 			$this->cache[$uid] = false;
 
 			// "uid" is primary key, so there can only be a single result
-			if ($row = $result->fetchRow()) {
+			if ($row !== false) {
 				$this->cache[$uid]['uid'] = $row['uid'];
 				$this->cache[$uid]['displayname'] = $row['displayname'];
-				$result->closeCursor();
 			} else {
-				$result->closeCursor();
 				return false;
 			}
 		}
@@ -361,6 +400,8 @@ class Database extends ABackend
 	 * @return int|bool
 	 */
 	public function countUsers() {
+		$this->fixDI();
+
 		$query = \OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
 		$result = $query->execute();
 		if ($result === false) {
