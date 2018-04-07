@@ -11,6 +11,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Informer medlemmene i følgende grupper om tilgjengelig oppdateringer:",
     "Only notification for app updates are available." : "Kun varsler for app oppdateringer er tilgjengelig.",
     "The selected update channel does not support updates of the server." : "Den valgte oppdateringskanalen tilbyr ikke oppdateringer av tjeneren.",
+    "A new version is available: <strong>{newVersionString}</strong>" : "En ny versjon er tilgjengelig: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Sist sjekket {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, prøv å oppdatere manuelt",
     "Update notifications" : "Oppdateringsvarsel",

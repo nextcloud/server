@@ -249,7 +249,6 @@ OC.L10N.register(
     "Username or email" : "ユーザ名かメールアドレス",
     "Log in" : "ログイン",
     "Wrong password." : "パスワードが間違っています。",
-    "Stay logged in" : "ログインしたままにする",
     "Forgot password?" : "パスワードをお忘れですか?",
     "Account access" : "アカウントによるアクセス許可",
     "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可",
@@ -284,6 +283,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "ユーザー名、グループ、クラウド統合ID、メールアドレスで共有",
     "Share with other people by entering a user or group or a federated cloud ID." : "ユーザー名、グループ、クラウド統合IDで共有",
     "Share with other people by entering a user or group or an email address." : "ユーザー名やグループ名、メールアドレスで共有",
+    "Stay logged in" : "ログインしたままにする",
     "Alternative Logins" : "代替ログイン"
 },
 "nplurals=1; plural=0;");

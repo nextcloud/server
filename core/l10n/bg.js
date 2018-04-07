@@ -229,7 +229,6 @@ OC.L10N.register(
     "Username or email" : "Потребител или имейл",
     "Log in" : "Вписване",
     "Wrong password." : "Грешна парола",
-    "Stay logged in" : "Остани вписан",
     "Forgot password?" : "Забравена парола?",
     "Redirecting …" : "Пренасочване ...",
     "New password" : "Нова парола",
@@ -258,6 +257,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Страницата ще се зареди автоматично, когато %s е отново на линия.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Свържете се със системния администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано.",
     "Thank you for your patience." : "Благодарим за търпението.",
+    "Stay logged in" : "Остани вписан",
     "Alternative Logins" : "Алтернативни методи на вписване"
 },
 "nplurals=2; plural=(n != 1);");

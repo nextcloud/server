@@ -250,7 +250,6 @@ OC.L10N.register(
     "Username or email" : "Erabiltzaile izena edo e-posta",
     "Log in" : "Hasi saioa",
     "Wrong password." : "Pasahitz okerra.",
-    "Stay logged in" : "Ez amaitu saioa",
     "Account access" : "Kontuaren sarbidea",
     "You are about to grant %s access to your %s account." : "%s kontuari %sra sarbidea emango diozu",
     "App token" : "Aplikazio-tokena",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Parteka ezazu jendearekin taldeko erabiltzailea, federatutako hodei baten IDa edo e-posta helbide bat sartuta.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Parteka ezazu jendearekin taldeko erabiltzailea edo federatutako hodei baten IDa sartuta.",
     "Share with other people by entering a user or group or an email address." : "Parteka ezazu jendearekin taldeko erabiltzailea edo e-posta helbide bat sartuta.",
+    "Stay logged in" : "Ez amaitu saioa",
     "Alternative Logins" : "Beste erabiltzaile izenak"
 },
 "nplurals=2; plural=(n != 1);");

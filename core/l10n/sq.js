@@ -244,7 +244,6 @@ OC.L10N.register(
     "Username or email" : "Emër përdoruesi ose email",
     "Log in" : "Hyni",
     "Wrong password." : "Fjalëkalim i gabuar.",
-    "Stay logged in" : "Qëndro i futur",
     "App token" : "Çelës identifikues i API-t",
     "Alternative login using app token" : "Hyrje alternative duke perdorur çelësin identifikues  të API-t",
     "Redirecting …" : "Duke ju lidhur...",
@@ -276,6 +275,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Shpërndaje me persona të tjerë duke vendosur një përdorues ose një grup, një ID reje të federuar ose një adresë emaili",
     "Share with other people by entering a user or group or a federated cloud ID." : "Ndaj me njerëz të tjerë duke futur një pëdorues ose grup ose një ID reje federale.",
     "Share with other people by entering a user or group or an email address." : "Shpërndaje me persona të tjerë duke vendosur një perdorues ose një grup ose një adresë emaili",
+    "Stay logged in" : "Qëndro i futur",
     "Alternative Logins" : "Hyrje Alternative"
 },
 "nplurals=2; plural=(n != 1);");

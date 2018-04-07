@@ -249,7 +249,6 @@ OC.L10N.register(
     "Username or email" : "Όνομα χρήστη ή email",
     "Log in" : "Είσοδος",
     "Wrong password." : "Λάθος συνθηματικό.",
-    "Stay logged in" : "Μείνετε συνδεδεμένος",
     "Back to login" : "Πίσω στην είσοδο",
     "Account access" : "Πρόσβαση λογαριασμού",
     "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\".",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα ή μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
     "This action requires you to confirm your password:" : "Αυτή η ενέργεια απαιτεί επιβεβαίωση του συνθηματικού σας:",
     "Wrong password. Reset it?" : "Εσφαλμένο συνθηματικό. Επαναφορά;",
+    "Stay logged in" : "Μείνετε συνδεδεμένος",
     "Alternative Logins" : "Εναλλακτικές είσοδοι",
     "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα."
 },

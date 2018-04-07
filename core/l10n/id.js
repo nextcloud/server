@@ -207,7 +207,6 @@ OC.L10N.register(
     "Username or email" : "Nama pengguna atau email",
     "Log in" : "Masuk",
     "Wrong password." : "Sandi salah.",
-    "Stay logged in" : "Tetap masuk",
     "New password" : "Kata sandi baru",
     "New Password" : "Kata sandi Baru",
     "Two-factor authentication" : "Otentikasi Two-factor",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
     "Thank you for your patience." : "Terima kasih atas kesabaran anda.",
+    "Stay logged in" : "Tetap masuk",
     "Alternative Logins" : "Cara Alternatif untuk Masuk"
 },
 "nplurals=1; plural=0;");

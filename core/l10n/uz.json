@@ -198,9 +198,9 @@
     "Username or email" : "Foydalanuvchi nomi yoki elektron pochta",
     "Log in" : "Kirish",
     "Wrong password." : "Noto'g'ri parol.",
-    "Stay logged in" : "Kirishni unutmang",
     "Account access" : "Hisobga kirish",
     "Share with other people by entering a user or group or an email address." : "Biror foydalanuvchi yoki guruh yoki elektron pochta manzilini kiritish orqali boshqa odamlar bilan bo'lishing.",
+    "Stay logged in" : "Kirishni unutmang",
     "Alternative Logins" : "Shu bilan bir qatorda kirishlar",
     "Back to log in" : "Kirish uchun qaytib boring"
 },"pluralForm" :"nplurals=1; plural=0;"

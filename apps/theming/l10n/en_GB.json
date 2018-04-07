@@ -18,6 +18,7 @@
     "A PHP extension stopped the file upload" : "A PHP extension stopped the file upload",
     "No file uploaded" : "No file uploaded",
     "Unsupported image type" : "Unsupported image type",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "You are already using a custom theme. Theming app settings might be overwritten by that.",
     "Theming" : "Theming",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Theming makes it possible to easily customise the look and feel of your instance and supported clients. This will be visible for all users.",
     "Name" : "Name",
