@@ -255,7 +255,6 @@ OC.L10N.register(
     "Username or email" : "Användarnamn eller e-post",
     "Log in" : "Logga in",
     "Wrong password." : "Fel lösenord.",
-    "Stay logged in" : "Fortsätt vara inloggad.",
     "Forgot password?" : "Glömt lösenordet?",
     "Account access" : "Kontoåtkomst",
     "You are about to grant %s access to your %s account." : "Du håller på att ge %s tillgång till ditt %s-konto.",
@@ -295,6 +294,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Dela med andra personer genom att ange användarnamn, grupp, ett federerat moln-ID eller en e-postadress.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Dela med andra personer genom att ange användarnamn, grupp eller ett federerat moln-ID.",
     "Share with other people by entering a user or group or an email address." : "Dela med andra personer genom att ange användarnamn, grupp eller en e-postadress.",
+    "Stay logged in" : "Fortsätt vara inloggad.",
     "Alternative Logins" : "Alternativa inloggningar",
     "Back to log in" : "Tillbaks till inloggning"
 },

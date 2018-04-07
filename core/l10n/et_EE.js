@@ -251,7 +251,6 @@ OC.L10N.register(
     "Username or email" : "Kasutajanimi või e-posti aadress",
     "Log in" : "Logi sisse",
     "Wrong password." : "Vale parool.",
-    "Stay logged in" : "Püsi sisselogituna",
     "Forgot password?" : "Unustasid parooli?",
     "Account access" : "Konto ligipääs",
     "You are about to grant %s access to your %s account." : "Sa oled andmas %s ligipääsu oma %s kontole.",
@@ -287,6 +286,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Jaga teiste inimestega sisestades kasutaja või grupi, liitpilve ID või e-posti aadressi.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Jaga teiste inimestega, sisestades kasutaja või grupi või liitpilve ID.",
     "Share with other people by entering a user or group or an email address." : "Jaga teiste inimestega, sisestades kasutaja, grupi või e-posti aadressi.",
+    "Stay logged in" : "Püsi sisselogituna",
     "Alternative Logins" : "Alternatiivsed sisselogimisviisid",
     "Back to log in" : "Tagasi sisselogimise lehele"
 },

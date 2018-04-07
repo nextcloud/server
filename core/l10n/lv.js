@@ -235,7 +235,6 @@ OC.L10N.register(
     "Username or email" : "Lietotājvārds vai e-pasts",
     "Log in" : "Ierakstīties",
     "Wrong password." : "Nepareiza parole.",
-    "Stay logged in" : "Palikt ierakstītam",
     "App token" : "Programmas pilnvara",
     "Alternative login using app token" : "Alternatīvās pieteikšanās izmantojot programmas pilnvaru.",
     "Redirecting …" : "Novirzam ...",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu, federated cloud ID vai e-pasta adresi.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu vai federated cloud ID.",
     "Share with other people by entering a user or group or an email address." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu vai e-pasta adresi.",
+    "Stay logged in" : "Palikt ierakstītam",
     "Alternative Logins" : "Alternatīvās pieteikšanās"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

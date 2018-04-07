@@ -246,7 +246,6 @@
     "Username or email" : "Nume de utilizator sau adresă email",
     "Log in" : "Autentificare",
     "Wrong password." : "Parolă greșită.",
-    "Stay logged in" : "Rămâi autentificat",
     "Account access" : "Acces cont",
     "You are about to grant %s access to your %s account." : "Ești pe cale să permiți %s accesul la %s contul tău.",
     "App token" : "Token aplicație",
@@ -283,6 +282,7 @@
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup, a unui ID de cloud federalizat sau a unei adrese de email.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup sau a unui ID de cloud federalizat.",
     "Share with other people by entering a user or group or an email address." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup sau a unei adrese de email.",
+    "Stay logged in" : "Rămâi autentificat",
     "Alternative Logins" : "Conectări alternative"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

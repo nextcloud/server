@@ -255,7 +255,6 @@ OC.L10N.register(
     "Username or email" : "Naudotojo vardas ar el. paštas",
     "Log in" : "Prisijungti",
     "Wrong password." : "Neteisingas slaptažodis.",
-    "Stay logged in" : "Likti prisijungus",
     "Forgot password?" : "Pamiršote slaptažodį?",
     "Account access" : "Paskyros prieiga",
     "You are about to grant %s access to your %s account." : "Jūs ketinate suteikti %s prieigą prie savo %s paskyros.",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentation</a>." : "Išsamesnei informacijai apie tai kaip tinkamai sukonfigūruoti savo serverį, žiūrėkite <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dokumentaciją</a>.",
     "This action requires you to confirm your password:" : "Šis veiksmas reikalauja, kad patvirtintumėte savo slaptažodį:",
     "Wrong password. Reset it?" : "Neteisingas slaptažodis. Atstatyti jį?",
+    "Stay logged in" : "Likti prisijungus",
     "Alternative Logins" : "Alternatyvūs prisijungimai",
     "You are about to grant \"%s\" access to your %s account." : "Ketinate suteikti \"%s\" prieigą prie savo %s paskyros.",
     "Back to log in" : "Grįžti prie prisijungimo"
