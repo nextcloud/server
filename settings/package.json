@@ -16,7 +16,7 @@
     "vue-click-outside": "^1.0.7",
     "vue-infinite-loading": "^2.2.3",
     "vue-localstorage": "^0.6.2",
-    "vue-multiselect": "^2.1",
+    "vue-multiselect": "^2.1.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"

@@ -43,6 +43,7 @@ $userManager = \OC::$server->getUserManager();
 $groupManager = \OC::$server->getGroupManager();
 $appManager = \OC::$server->getAppManager();
 $config = \OC::$server->getConfig();
+$l10nFactory = \OC::$server->getL10NFactory();
 
 /* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
 $sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
@@ -129,6 +130,9 @@ function addition($v, $w) {
 }
 $userCount = array_reduce($userManager->countUsers(), 'addition', 0);
 
+/* LANGUAGES */
+$languages = $l10nFactory->getLanguages();
+
 /* FINAL DATA */
 $serverData = array();
 // groups
@@ -139,6 +143,7 @@ $serverData['subadmins'] = $subAdmins;
 $serverData['sortGroups'] = $sortGroupsBy;
 $serverData['quotaPreset'] = $quotaPreset;
 $serverData['userCount'] = $userCount-$disabledUsers;
+$serverData['languages'] = $languages;
 // Settings
 $serverData['defaultQuota'] = $defaultQuota;
 $serverData['canChangePassword'] = $canChangePassword;
@@ -147,3 +152,4 @@ $serverData['canChangePassword'] = $canChangePassword;
 $tmpl = new OC_Template('settings', 'settings', 'user');
 $tmpl->assign('serverData', $serverData);
 $tmpl->printPage();
+

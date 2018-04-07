@@ -53,6 +53,15 @@
 			</multiselect>
 			<progress class="quota-user-progress" :class="{'warn':usedQuota>80}" :value="usedQuota" max="100"></progress>
 		</div>
+		<div class="languages" :class="{'icon-loading-small': loading.languages}"
+			 v-if="showConfig.showLanguages">
+			<multiselect :value="userLanguage" :options="languages" :disabled="loading.languages||loading.all"
+						 :placeholder="t('settings', 'No language set')"
+						 label="name" track-by="code" class="multiselect-vue"
+						 :allowEmpty="false" group-values="languages" group-label="label"
+						 @input="setUserLanguage">
+			</multiselect>
+		</div>
 		<div class="storageLocation" v-if="showConfig.showStoragePath">{{user.storageLocation}}</div>
 		<div class="userBackend" v-if="showConfig.showUserBackend">{{user.backend}}</div>
 		<div class="lastLogin" v-if="showConfig.showLastLogin" :title="user.lastLogin>0 ? OC.Util.formatDate(user.lastLogin) : ''">
@@ -73,7 +82,6 @@
 import popoverMenu from '../popoverMenu';
 import ClickOutside from 'vue-click-outside';
 import Multiselect from 'vue-multiselect';
-//import Multiselect from '../../../node_modules/vue-multiselect/src/index';
 
 export default {
 	name: 'userRow',
@@ -86,8 +94,9 @@ export default {
 		ClickOutside
 	},
 	mounted() {
-		// prevent click outside event with popupItem.
-		this.popupItem = this.$el;
+		// required if popup needs to stay opened after menu click
+		// since we only have disable/delete actions, let's close it directly
+		// this.popupItem = this.$el;
 	},
 	data() {
 		return {
@@ -102,7 +111,8 @@ export default {
 				subadmins: false,
 				quota: false,
 				delete: false,
-				disable: false
+				disable: false,
+				languages: false
 			}
 		}
 	},
@@ -159,6 +169,33 @@ export default {
 		/* PASSWORD POLICY? */
 		minPasswordLength() {
 			return this.$store.getters.getPasswordPolicyMinLength;
+		},
+
+		/* LANGUAGES */
+		languages() {
+			return Array(
+				{
+					label: t('settings', 'Common languages'),
+					languages: this.settings.languages.commonlanguages
+				},
+				{
+					label: t('settings', 'All languages'),
+					languages: this.settings.languages.languages
+				}
+			);
+		},
+		userLanguage() {
+			let availableLanguages = this.languages[0].languages.concat(this.languages[1].languages);
+			let userLang = availableLanguages.find(lang => lang.code === this.user.language);
+			if (typeof userLang !== 'object' && this.user.language !== '') {
+				return {
+					code: this.user.language,
+					name: this.user.language
+				}
+			} else if(this.user.language === '') {
+				return false;
+			}
+			return userLang;
 		}
 	},
 	methods: {
@@ -368,6 +405,24 @@ export default {
 				value: quota
 			}).then(() => this.loading.quota = false);
 			return quota;
+		},
+
+
+		/**
+		 * Validate quota string to make sure it's a valid human file size
+		 * 
+		 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @returns {string}
+		 */
+		setUserLanguage(lang) {
+			this.loading.languages = true;
+			// ensure we only send the preset id
+			this.$store.dispatch('setUserData', {
+				userid: this.user.id, 
+				key: 'language',
+				value: lang.code
+			}).then(() => this.loading.languages = false);
+			return lang;
 		},
 
 		/**

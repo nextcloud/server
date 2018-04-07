@@ -10,6 +10,8 @@
 			<div id="headerSubAdmins" class="subadmins"
 				 v-if="subAdminsGroups.length>0">{{ t('settings', 'Group admin for') }}</div>
 			<div id="headerQuota" class="quota">{{ t('settings', 'Quota') }}</div>
+			<div id="headerLanguages" class="languages"
+				 v-if="showConfig.showLanguages">{{ t('settings', 'Languages') }}</div>
 			<div class="headerStorageLocation storageLocation"
 				 v-if="showConfig.showStoragePath">{{ t('settings', 'Storage location') }}</div>
 			<div class="headerUserBackend userBackend"
@@ -71,6 +73,7 @@
 						 	 @tag="validateQuota" >
 				</multiselect>
 			</div>
+			<div class="languages" v-if="showConfig.showLanguages"></div>
 			<div class="storageLocation" v-if="showConfig.showStoragePath"></div>
 			<div class="userBackend" v-if="showConfig.showUserBackend"></div>
 			<div class="lastLogin" v-if="showConfig.showLastLogin"></div>

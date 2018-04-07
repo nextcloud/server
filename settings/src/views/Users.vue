@@ -3,6 +3,11 @@
 		<app-navigation :menu="menu">
 			<template slot="settings-content">
 				<div>
+					<input type="checkbox" id="showLanguages" class="checkbox"
+						   :checked="showLanguages" v-model="showLanguages">
+					<label for="showLanguages">{{t('settings', 'Show Languages')}}</label>
+				</div>
+				<div>
 					<input type="checkbox" id="showLastLogin" class="checkbox"
 						   :checked="showLastLogin" v-model="showLastLogin">
 					<label for="showLastLogin">{{t('settings', 'Show last login')}}</label>
@@ -50,7 +55,8 @@ export default {
 				showStoragePath: false,
 				showUserBackend: false,
 				showLastLogin: false,
-				showNewUserForm: false
+				showNewUserForm: false,
+				showLanguages: false
 			}
 		}
 	},
@@ -82,6 +88,14 @@ export default {
 		usersLimit() {
 			return this.$store.getters.getUsersLimit;
 		},
+
+		// Local settings
+		showLanguages: {
+			get: function() {return this.getLocalstorage('showLanguages')},
+			set: function(status) {
+				this.setLocalStorage('showLanguages', status);
+			}
+		},
 		showLastLogin: {
 			get: function() {return this.getLocalstorage('showLastLogin')},
 			set: function(status) {
@@ -100,6 +114,8 @@ export default {
 				this.setLocalStorage('showStoragePath', status);
 			}
 		},
+
+
 		userCount() {
 			return this.$store.getters.getUserCount;
 		},
@@ -164,6 +180,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-</style>

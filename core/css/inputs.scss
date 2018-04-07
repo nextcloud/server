@@ -718,6 +718,8 @@ input {
         border: 1px solid nc-darken($color-main-background, 14%);
         background: $color-main-background;
         z-index: 50;
+        max-height: 250px;
+        overflow-y: auto;
         .multiselect__content {
             width: 100%;
             padding: 5px 0;
@@ -750,7 +752,7 @@ input {
                 color: nc-lighten($color-main-text, 33%);
                 width: 100%;
                 /* selected checkmark icon */
-                &::before {
+                &:not(.multiselect__option--disabled)::before {
                     content: ' ';
                     background-image: url('../img/actions/checkmark.svg?v=1');
                     background-repeat: no-repeat;
@@ -761,6 +763,9 @@ input {
                     opacity: 0.5;
                     margin-right: 5px;
                     visibility: hidden;
+                }
+                &.multiselect__option--disabled {
+                    background-color: nc-darken($color-main-background, 8%);
                 }
                 /* add the prop tag-placeholder="create" to add the +
 				 * icon on top of an unknown-and-ready-to-be-created entry

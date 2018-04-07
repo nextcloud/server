@@ -397,12 +397,13 @@ const actions = {
      * @returns {Promise}
      */
     setUserData(context, { userid, key, value }) {
-        if (['email', 'quota', 'displayname', 'password'].indexOf(key) !== -1) {
+        let allowedEmpty = ['email', 'displayname'];
+        if (['email', 'language', 'quota', 'displayname', 'password'].indexOf(key) !== -1) {
             // We allow empty email or displayname
             if (typeof value === 'string' &&
                 (
-                    (['quota', 'password'].indexOf(key) !== -1 && value.length > 0) ||
-                    ['email', 'displayname'].indexOf(key) !== -1
+                    (allowedEmpty.indexOf(key) === -1 && value.length > 0) ||
+                    allowedEmpty.indexOf(key) !== -1
                 )
             ) {
                 return api.requireAdmin().then((response) => {

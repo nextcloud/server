@@ -59,6 +59,11 @@ class Factory implements IFactory {
 	 */
 	protected $pluralFunctions = [];
 
+	const COMMON_LANGUAGE_CODES = [
+		'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it',
+		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
+	];
+
 	/** @var IConfig */
 	protected $config;
 
@@ -137,9 +142,9 @@ class Factory implements IFactory {
 		 *
 		 * @link https://github.com/owncloud/core/issues/21955
 		 */
-		if($this->config->getSystemValue('installed', false)) {
+		if ($this->config->getSystemValue('installed', false)) {
 			$userId = !is_null($this->userSession->getUser()) ? $this->userSession->getUser()->getUID() :  null;
-			if(!is_null($userId)) {
+			if (!is_null($userId)) {
 				$userLang = $this->config->getUserValue($userId, 'core', 'lang', null);
 			} else {
 				$userLang = null;
@@ -310,7 +315,7 @@ class Factory implements IFactory {
 	 */
 	private function isSubDirectory($sub, $parent) {
 		// Check whether $sub contains no ".."
-		if(strpos($sub, '..') !== false) {
+		if (strpos($sub, '..') !== false) {
 			return false;
 		}
 
@@ -440,5 +445,75 @@ class Factory implements IFactory {
 			$this->pluralFunctions[$string] = $function;
 			return $function;
 		}
+	}
+
+	/**
+	 * returns the common language and other languages in an
+	 * associative array
+	 *
+	 * @return array
+	 */
+	public function getLanguages() {
+		$forceLanguage = $this->config->getSystemValue('force_language', false);
+		if ($forceLanguage !== false) {
+			return [];
+		}
+
+		$languageCodes = $this->findAvailableLanguages();
+
+		$commonLanguages = [];
+		$languages = [];
+
+		foreach($languageCodes as $lang) {
+			$l = $this->get('lib', $lang);
+			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
+			$potentialName = (string) $l->t('__language_name__');
+			if ($l->getLanguageCode() === $lang && $potentialName[0] !== '_') {//first check if the language name is in the translation file
+				$ln = array(
+					'code' => $lang,
+					'name' => $potentialName
+				);
+			} else if ($lang === 'en') {
+				$ln = array(
+					'code' => $lang,
+					'name' => 'English (US)'
+				);
+			} else {//fallback to language code
+				$ln = array(
+					'code' => $lang,
+					'name' => $lang
+				);
+			}
+
+			// put appropriate languages into appropriate arrays, to print them sorted
+			// common languages -> divider -> other languages
+			if (in_array($lang, self::COMMON_LANGUAGE_CODES)) {
+				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES)] = $ln;
+			} else {
+				$languages[] = $ln;
+			}
+		}
+
+		ksort($commonLanguages);
+
+		// sort now by displayed language not the iso-code
+		usort( $languages, function ($a, $b) {
+			if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
+				// If a doesn't have a name, but b does, list b before a
+				return 1;
+			}
+			if ($a['code'] !== $a['name'] && $b['code'] === $b['name']) {
+				// If a does have a name, but b doesn't, list a before b
+				return -1;
+			}
+			// Otherwise compare the names
+			return strcmp($a['name'], $b['name']);
+		});
+
+		return [
+			// reset indexes
+			'commonlanguages' => array_values($commonLanguages),
+			'languages' => $languages
+		];
 	}
 }
