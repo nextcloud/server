@@ -443,6 +443,10 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
+.icon-video-switch {
+	background-image: url('../img/actions/video-switch.svg?v=1');
+}
+
 .icon-view-close {
 	background-image: url('../img/actions/view-close.svg?v=1');
 }
