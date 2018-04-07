@@ -239,7 +239,6 @@ OC.L10N.register(
     "Username or email" : "Ім’я користувача або електронна пошта",
     "Log in" : "Увійти",
     "Wrong password." : "Невірний пароль.",
-    "Stay logged in" : "Залишатись в системі",
     "Forgot password?" : "Забули пароль?",
     "Account access" : "Доступ до облікового запису",
     "Grant access" : "Дозволити доступ",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Зверніться до вашого системного адміністратора якщо це повідомлення не зникає або з'являється несподівано.",
     "Thank you for your patience." : "Дякуємо за ваше терпіння.",
+    "Stay logged in" : "Залишатись в системі",
     "Alternative Logins" : "Альтернативні імена користувача",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для допомоги, дивіться  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
     "Back to log in" : "Повернутися до сторінки авторизації"

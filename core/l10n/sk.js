@@ -260,7 +260,6 @@ OC.L10N.register(
     "Log in" : "Prihlásiť sa",
     "Wrong password." : "Nesprávne heslo.",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Zaznamenali sme viacnásobné chybné prihlásenie z Vašej IP adresy. Vaše nasledujúce prihlásenie bude pozdržané o 30 sekúnd.",
-    "Stay logged in" : "Zostať prihlásený",
     "Forgot password?" : "Zabudli ste heslo?",
     "Back to login" : "Späť na prihlásenie",
     "Account access" : "Prístup k účtu",
@@ -307,6 +306,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or a federated cloud ID." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID.",
     "Share with other people by entering a user or group or an email address." : "Sprístupniť iným ľuďom zadaním používateľa, skupiny alebo e-mailovej adresy.",
     "Wrong password. Reset it?" : "Chybné heslo. Chcete ho obnoviť?",
+    "Stay logged in" : "Zostať prihlásený",
     "Alternative Logins" : "Alternatívne prihlásenie"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

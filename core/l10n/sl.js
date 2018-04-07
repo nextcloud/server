@@ -232,7 +232,6 @@ OC.L10N.register(
     "Username or email" : "Uporabniško ime ali elektronski naslov",
     "Log in" : "Prijava",
     "Wrong password." : "Napačno geslo!",
-    "Stay logged in" : "Ohrani prijavo",
     "Forgot password?" : "Pozabili geslo?",
     "Grant access" : "Odobri dostop",
     "App token" : "Ključ aplikacije",
@@ -260,6 +259,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
     "Thank you for your patience." : "Hvala za potrpežljivost!",
+    "Stay logged in" : "Ohrani prijavo",
     "Alternative Logins" : "Druge prijavne možnosti",
     "Back to log in" : "Nazaj na prijavo"
 },

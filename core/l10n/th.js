@@ -166,7 +166,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ",
     "Log in" : "เข้าสู่ระบบ",
     "Wrong password." : "รหัสผ่านผิดพลาด",
-    "Stay logged in" : "จดจำฉัน",
     "New password" : "รหัสผ่านใหม่",
     "New Password" : "รหัสผ่านใหม่",
     "Add \"%s\" as trusted domain" : "ได้เพิ่ม \"%s\" เป็นโดเมนที่เชื่อถือ",
@@ -182,6 +181,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "หน้านี้จะรีเฟรชตัวเองเมื่อ %s สามารถใช้ได้อีกครั้ง",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ติดต่อผู้ดูแลระบบของคุณหากข้อความนี้ยังคงมีอยู่หรือปรากฏโดยไม่คาดคิด",
     "Thank you for your patience." : "ขอบคุณสำหรับความอดทนของคุณ เราจะนำความคิดเห็นของท่านมาปรับปรุงระบบให้ดียิ่งขึ้น",
+    "Stay logged in" : "จดจำฉัน",
     "Alternative Logins" : "ทางเลือกการเข้าสู่ระบบ"
 },
 "nplurals=1; plural=0;");

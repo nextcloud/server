@@ -247,7 +247,6 @@ OC.L10N.register(
     "Username or email" : "نام کاربری یا ایمیل",
     "Log in" : "ورود",
     "Wrong password." : "گذرواژه اشتباه.",
-    "Stay logged in" : "در سیستم بمانید",
     "Account access" : "دسترسی به حساب",
     "App token" : "App token",
     "New password" : "گذرواژه جدید",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "با وارد کردن یک کاربر یا گروه، شناسه Federated Cloud یا آدرس ایمیل با دیگران به اشتراک بگذارید.",
     "Share with other people by entering a user or group or a federated cloud ID." : "با وارد کردن یک کاربر یا گروه یا شناسه Federated Cloud با افراد دیگر به اشتراک بگذارید.",
     "Share with other people by entering a user or group or an email address." : "با وارد کردن یک کاربر یا گروه یا یک آدرس ایمیل با افراد دیگر به اشتراک بگذارید.",
+    "Stay logged in" : "در سیستم بمانید",
     "Alternative Logins" : "ورود متناوب"
 },
 "nplurals=1; plural=0;");

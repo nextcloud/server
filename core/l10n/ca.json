@@ -252,7 +252,6 @@
     "Username or email" : "Nom d'usuari o correu electrònic",
     "Log in" : "Inici de sessió",
     "Wrong password." : "Contrasenya incorrecta.",
-    "Stay logged in" : "Mantén la sessió connectada",
     "Forgot password?" : "Has oblidat la contrasenya?",
     "Back to login" : "Torna a accedir",
     "Account access" : "Compte d'accés",
@@ -293,6 +292,7 @@
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Compartir amb altres persones introduint un usuari o grup, un ID de núvol federat o una adreça d’email.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Compartir amb altres persones introduint un usuari o grup o ID de núvol federat.",
     "Share with other people by entering a user or group or an email address." : "Compartir amb altres persones introduint un usuari o grup o una adreça d’email.",
+    "Stay logged in" : "Mantén la sessió connectada",
     "Alternative Logins" : "Acreditacions alternatives",
     "Back to log in" : "Torna a l'accés"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
