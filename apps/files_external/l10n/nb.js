@@ -115,6 +115,7 @@ OC.L10N.register(
     "Authentication" : "Autentisering",
     "Configuration" : "Oppsett",
     "Available for" : "Tilgjengelig for",
+    "Click to recheck the configuration" : "Klikk for å sjekke oppsettet igjen",
     "Add storage" : "Legg til lagringsplass",
     "Advanced settings" : "Avanserte innstillinger",
     "Delete" : "Slett",
