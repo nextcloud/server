@@ -104,4 +104,24 @@ class LDAPContext implements Context {
 		$this->settingTheLDAPConfigurationTo($data);
 		$this->asAn('');
 	}
+
+	/**
+	 * @Given /^looking up details for the first result matches expectations$/
+	 * @param TableNode $expectations
+	 */
+	public function lookingUpDetailsForTheFirstResult(TableNode $expectations) {
+		$userResultElements = simplexml_load_string($this->response->getBody())->data[0]->users[0]->element;
+		$userResults = json_decode(json_encode($userResultElements), 1);
+		$userId = array_shift($userResults);
+
+		$this->sendingTo('GET', '/cloud/users/' . $userId);
+
+		foreach($expectations->getRowsHash() as $k => $v) {
+			$value = (string)simplexml_load_string($this->response->getBody())->data[0]->$k;
+			PHPUnit_Framework_Assert::assertEquals($v, $value);
+		}
+
+		$backend = (string)simplexml_load_string($this->response->getBody())->data[0]->backend;
+		PHPUnit_Framework_Assert::assertEquals('LDAP', $backend);
+	}
 }
