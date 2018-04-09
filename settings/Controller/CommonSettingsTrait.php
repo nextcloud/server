@@ -66,7 +66,7 @@ trait CommonSettingsTrait  {
 				} else if($type === 'personal') {
 					$settings = $this->settingsManager->getPersonalSettings($section->getID());
 				}
-				if (empty($settings)) {
+				if (empty($settings) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {
 					continue;
 				}
 
