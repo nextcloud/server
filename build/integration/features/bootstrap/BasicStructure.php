@@ -39,6 +39,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 trait BasicStructure {
 
 	use Auth;
+	use Download;
 	use Trashbin;
 
 	/** @var string */
@@ -356,8 +357,41 @@ trait BasicStructure {
 	 * @param string $text
 	 */
 	public function modifyTextOfFile($user, $filename, $text) {
-		self::removeFile("../../data/$user/files", "$filename");
-		file_put_contents("../../data/$user/files" . "$filename", "$text");
+		self::removeFile($this->getDataDirectory() . "/$user/files", "$filename");
+		file_put_contents($this->getDataDirectory() . "/$user/files" . "$filename", "$text");
+	}
+
+	private function getDataDirectory() {
+		// Based on "runOcc" from CommandLine trait
+		$args = ['config:system:get', 'datadirectory'];
+		$args = array_map(function($arg) {
+			return escapeshellarg($arg);
+		}, $args);
+		$args[] = '--no-ansi --no-warnings';
+		$args = implode(' ', $args);
+
+		$descriptor = [
+			0 => ['pipe', 'r'],
+			1 => ['pipe', 'w'],
+			2 => ['pipe', 'w'],
+		];
+		$process = proc_open('php console.php ' . $args, $descriptor, $pipes, $ocPath = '../..');
+		$lastStdOut = stream_get_contents($pipes[1]);
+		proc_close($process);
+
+		return trim($lastStdOut);
+	}
+
+	/**
+	 * @Given file :filename is created :times times in :user user data
+	 * @param string $filename
+	 * @param string $times
+	 * @param string $user
+	 */
+	public function fileIsCreatedTimesInUserData($filename, $times, $user) {
+		for ($i = 0; $i < $times; $i++) {
+			file_put_contents($this->getDataDirectory() . "/$user/files" . "$filename-$i", "content-$i");
+		}
 	}
 
 	public function createFileSpecificSize($name, $size) {
