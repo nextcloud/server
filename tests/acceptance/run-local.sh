@@ -192,7 +192,14 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 fi
 
 echo "Installing and configuring Nextcloud server"
-$ACCEPTANCE_TESTS_DIR/installAndConfigureServer.sh $INSTALL_AND_CONFIGURE_SERVER_PARAMETERS
+# The server is installed and configured using the www-data user as it is the
+# user that Apache sub-processes will be run as; the PHP built-in web server is
+# run as the root user, and in that case the permissions of apps, config and
+# data dirs makes no difference, so this is valid for both cases.
+mkdir data
+chown -R www-data:www-data apps config data
+NEXTCLOUD_DIR=`pwd`
+su --shell /bin/bash --login www-data --command "cd $NEXTCLOUD_DIR && $ACCEPTANCE_TESTS_DIR/installAndConfigureServer.sh $INSTALL_AND_CONFIGURE_SERVER_PARAMETERS"
 
 echo "Saving the default state so acceptance tests can reset to it"
 find . -name ".gitignore" -exec rm --force {} \;
