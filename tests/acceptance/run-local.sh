@@ -144,8 +144,12 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 	# https://github.com/Behat/Behat/issues/983). Thus, the default "behat.yml"
 	# configuration file has to be adjusted to provide the appropriate
 	# parameters for NextcloudTestServerContext.
+	#
+	# Note that the substitution below is only valid if no parameters for
+	# the helper are set in behat.yml, although it is valid if a specific
+	# helper is.
 	ORIGINAL="\
-        - NextcloudTestServerContext"
+        - NextcloudTestServerContext:\?"
 	REPLACEMENT="\
         - NextcloudTestServerContext:\n\
             nextcloudTestServerHelperParameters:\n\
