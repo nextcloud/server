@@ -233,7 +233,7 @@ kbd {
 				> a,
 				> .app-navigation-entry-bullet {
 					/* hide icon or bullet if loading state*/
-					background: none !important;
+					background: transparent !important;
 				}
 			}
 			/* Main entry link */
@@ -281,6 +281,12 @@ kbd {
 				border: none;
 				border-radius: 50%;
 				cursor: pointer;
+				transition: background 100ms ease-in-out;
+
+				+ a {
+					/* hide icon if bullet, can't have both */
+					background: transparent !important;
+				}
 			}
 
 			/* popover fix the flex positionning of the li parent */
@@ -337,7 +343,7 @@ kbd {
 			margin: 0;
 			z-index: 110;
 		}
-		&:after {
+		&:before {
 			position: absolute;
 			height: 44px;
 			width: 44px;
@@ -357,13 +363,14 @@ kbd {
 			-webkit-transform: rotate(-90deg);
 			-ms-transform: rotate(-90deg);
 			transform: rotate(-90deg);
+			z-index: 50;
 		}
 
 		/* force padding on link no matter if 'a' has an icon class */
 		> a:first-child {
 			padding-left: 44px;
 		}
-		&:after,
+		&:before,
 		> a {
 			transition: background 100ms ease-in-out,
 						transform 250ms ease-in-out,
@@ -375,12 +382,15 @@ kbd {
 		}
 		&:hover,
 		&:focus {
-			&:after {
+			&:before {
 				opacity: 1;
+			}
+			.app-navigation-entry-bullet {
+				background: transparent !important;
 			}
 		}
 		&.open {
-			&:after {
+			&:before {
 				-webkit-transform: rotate(0);
 				-ms-transform: rotate(0);
 				transform: rotate(0);
@@ -467,7 +477,7 @@ kbd {
 			height: 38px;
 			flex: 0 0 36px;
 			&:not(:last-child) {
-				border-radius: 0;
+				border-radius: 0 !important;
 			}
 			&:not(:first-child) {
 				margin-left: -1px;
