@@ -138,7 +138,7 @@ function prepareDocker() {
 	# Selenium server.
 	# The container exits immediately if no command is given, so a Bash session
 	# is created to prevent that.
-	docker run --detach --name=$NEXTCLOUD_LOCAL_CONTAINER --network=container:$SELENIUM_CONTAINER --interactive --tty nextcloudci/php7.1:php7.1-15 bash
+	docker run --detach --name=$NEXTCLOUD_LOCAL_CONTAINER --network=container:$SELENIUM_CONTAINER --interactive --tty nextcloudci/acceptance-php7.1:acceptance-php7.1-2 bash
 
 	# Use the $TMPDIR or, if not set, fall back to /tmp.
 	NEXTCLOUD_LOCAL_TAR="$($MKTEMP --tmpdir="${TMPDIR:-/tmp}" --suffix=.tar nextcloud-local-XXXXXXXXXX)"
@@ -152,6 +152,10 @@ function prepareDocker() {
 
 	docker exec $NEXTCLOUD_LOCAL_CONTAINER mkdir /nextcloud
 	docker cp - $NEXTCLOUD_LOCAL_CONTAINER:/nextcloud/ < "$NEXTCLOUD_LOCAL_TAR"
+
+	# Link the default Apache directory to the root directory of the Nextcloud
+	# server to make possible to run the Nextcloud server on Apache if needed.
+	docker exec $NEXTCLOUD_LOCAL_CONTAINER ln --symbolic /nextcloud /var/www/html
 
 	# run-local.sh expects a Git repository to be available in the root of the
 	# Nextcloud server, but it was excluded when the Git working directory was

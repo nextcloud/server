@@ -40,12 +40,12 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  *
  * The Nextcloud server is provided by an instance of NextcloudTestServerHelper;
  * its class must be specified when this context is created. By default,
- * "NextcloudTestServerLocalHelper" is used, although that can be customized
- * using the "nextcloudTestServerHelper" parameter in "behat.yml". In the same
- * way, the parameters to be passed to the helper when it is created can be
- * customized using the "nextcloudTestServerHelperParameters" parameter, which
- * is an array (without keys) with the value of the parameters in the same order
- * as in the constructor of the helper class (by default, [ ]).
+ * "NextcloudTestServerLocalBuiltInHelper" is used, although that can be
+ * customized using the "nextcloudTestServerHelper" parameter in "behat.yml". In
+ * the same way, the parameters to be passed to the helper when it is created
+ * can be customized using the "nextcloudTestServerHelperParameters" parameter,
+ * which is an array (without keys) with the value of the parameters in the same
+ * order as in the constructor of the helper class (by default, [ ]).
  *
  * Example of custom parameters in "behat.yml":
  * default:
@@ -73,7 +73,7 @@ class NextcloudTestServerContext implements Context {
 	 * @param array $nextcloudTestServerHelperParameters the parameters for the
 	 *        constructor of the $nextcloudTestServerHelper class.
 	 */
-	public function __construct($nextcloudTestServerHelper = "NextcloudTestServerLocalHelper",
+	public function __construct($nextcloudTestServerHelper = "NextcloudTestServerLocalBuiltInHelper",
 								$nextcloudTestServerHelperParameters = [ ]) {
 		$nextcloudTestServerHelperClass = new ReflectionClass($nextcloudTestServerHelper);
 

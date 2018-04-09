@@ -36,14 +36,14 @@
  * initial state for the Nextcloud server expected by the acceptance tests.
  *
  * The Nextcloud server is available at "$nextcloudServerDomain", which can be
- * optionally specified when the NextcloudTestServerLocalHelper is created; if
- * no value is given "127.0.0.1" is used by default. In any case, the value of
- * "$nextcloudServerDomain" must be seen as a trusted domain by the Nextcloud
- * server (which would be the case for "127.0.0.1" if it was installed by
- * running "occ maintenance:install"). The base URL to access the Nextcloud
+ * optionally specified when the NextcloudTestServerLocalBuiltInHelper is
+ * created; if no value is given "127.0.0.1" is used by default. In any case,
+ * the value of "$nextcloudServerDomain" must be seen as a trusted domain by the
+ * Nextcloud server (which would be the case for "127.0.0.1" if it was installed
+ * by running "occ maintenance:install"). The base URL to access the Nextcloud
  * server can be got from "getBaseUrl".
  */
-class NextcloudTestServerLocalHelper implements NextcloudTestServerHelper {
+class NextcloudTestServerLocalBuiltInHelper implements NextcloudTestServerHelper {
 
 	/**
 	 * @var string
@@ -56,7 +56,7 @@ class NextcloudTestServerLocalHelper implements NextcloudTestServerHelper {
 	private $phpServerPid;
 
 	/**
-	 * Creates a new NextcloudTestServerLocalHelper.
+	 * Creates a new NextcloudTestServerLocalBuiltInHelper.
 	 */
 	public function __construct($nextcloudServerDomain = "127.0.0.1") {
 		$this->nextcloudServerDomain = $nextcloudServerDomain;
