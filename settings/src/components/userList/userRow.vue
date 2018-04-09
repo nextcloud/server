@@ -343,7 +343,7 @@ export default {
 			let userid = this.user.id;
 			let gid = group.id;
 			return this.$store.dispatch('addUserGroup', {userid, gid})
-					.then(() => this.loading.groups = false);
+				.then(() => this.loading.groups = false);
 		},
 
 		/**
@@ -357,7 +357,7 @@ export default {
 			let userid = this.user.id;
 			let gid = group.id;
 			return this.$store.dispatch('removeUserGroup', {userid, gid})
-					.then(() => this.loading.groups = false);
+				.then(() => this.loading.groups = false);
 		},
 
 		/**
@@ -371,7 +371,7 @@ export default {
 			let userid = this.user.id;
 			let gid = group.id;
 			return this.$store.dispatch('addUserSubAdmin', {userid, gid})
-					.then(() => this.loading.subadmins = false);
+				.then(() => this.loading.subadmins = false);
 		},
 
 		/**
@@ -385,12 +385,11 @@ export default {
 			let userid = this.user.id;
 			let gid = group.id;
 			return this.$store.dispatch('removeUserSubAdmin', {userid, gid})
-					.then(() => this.loading.subadmins = false);
+				.then(() => this.loading.subadmins = false);
 		},
 
-
 		/**
-		 * Validate quota string to make sure it's a valid human file size
+		 * Dispatch quota set request
 		 * 
 		 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
 		 * @returns {string}
@@ -405,24 +404,6 @@ export default {
 				value: quota
 			}).then(() => this.loading.quota = false);
 			return quota;
-		},
-
-
-		/**
-		 * Validate quota string to make sure it's a valid human file size
-		 * 
-		 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
-		 * @returns {string}
-		 */
-		setUserLanguage(lang) {
-			this.loading.languages = true;
-			// ensure we only send the preset id
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id, 
-				key: 'language',
-				value: lang.code
-			}).then(() => this.loading.languages = false);
-			return lang;
 		},
 
 		/**
@@ -442,6 +423,23 @@ export default {
 			}
 			// if no valid doo not change
 			return false;
+		},
+
+		/**
+		 * Dispatch language set request
+		 * 
+		 * @param {Object} lang language object {code:'en', name:'English'}
+		 * @returns {Object}
+		 */
+		setUserLanguage(lang) {
+			this.loading.languages = true;
+			// ensure we only send the preset id
+			this.$store.dispatch('setUserData', {
+				userid: this.user.id, 
+				key: 'language',
+				value: lang.code
+			}).then(() => this.loading.languages = false);
+			return lang;
 		}
 	}
 }

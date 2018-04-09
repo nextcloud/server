@@ -14,10 +14,10 @@ Vue.use(Router);
  */
 
 export default new Router({
-    mode: 'history',
-    base: window.location.pathName,
-    routes: [{
-        path: '/settings/users',
-        component: Users
-    }]
+	mode: 'history',
+	base: window.location.pathName,
+	routes: [{
+		path: '/settings/users',
+		component: Users
+	}]
 });

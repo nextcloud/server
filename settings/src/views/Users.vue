@@ -138,7 +138,7 @@ export default {
 
 			// Adjust data
 			let adminGroup = groups.find(group => group.id == 'admin');
-       		let disabledGroup = groups.find(group => group.id == '_disabled');
+	   		let disabledGroup = groups.find(group => group.id == '_disabled');
 			if (adminGroup.text) {
 				adminGroup.text = t('settings', 'Admins');}			// rename admin group
 			if (disabledGroup.text) {

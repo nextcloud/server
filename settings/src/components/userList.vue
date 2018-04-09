@@ -231,7 +231,7 @@ export default {
 			// revert form to original state
 			Object.assign(this.newUser, this.$options.data.call(this).newUser);
 			this.loading = false;
-        },
+		},
 		createUser() {
 			this.loading = true;
 			this.$store.dispatch('addUser', {
