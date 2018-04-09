@@ -1,6 +1,10 @@
 <template>
 	<div class="row" :class="{'disabled': loading.delete || loading.disable}">
-		<div class="avatar" :class="{'icon-loading': loading.delete || loading.disable}"><img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)" :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"></div>
+		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable}">
+			<img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)"
+				 :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
+				 v-if="!loading.delete && !loading.disable">
+		</div>
 		<div class="name">{{user.id}}</div>
 		<form class="displayName" :class="{'icon-loading-small': loading.displayName}" v-on:submit.prevent="updateDisplayName">
 			<input :id="'displayName'+user.id+rand" type="text"
