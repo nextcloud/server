@@ -543,42 +543,42 @@ pipeline:
       matrix:
         TESTS: integration-remote-api
   acceptance-access-levels:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-access-levels --selenium-server selenium:4444 allow-git-repository-modifications features/access-levels.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: access-levels
   acceptance-app-comments:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-comments --selenium-server selenium:4444 allow-git-repository-modifications features/app-comments.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: app-comments
   acceptance-app-files:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files --selenium-server selenium:4444 allow-git-repository-modifications features/app-files.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: app-files
   acceptance-app-theming:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: app-theming
   acceptance-header:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-header --selenium-server selenium:4444 allow-git-repository-modifications features/header.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: header
   acceptance-login:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
       when:
