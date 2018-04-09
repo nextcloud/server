@@ -213,6 +213,44 @@ class ClientFlowLoginController extends Controller {
 	 * @param string $clientIdentifier
 	 * @return TemplateResponse
 	 */
+	public function grantPage($stateToken = '',
+								 $clientIdentifier = '') {
+		if(!$this->isValidToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		$clientName = $this->getClientName();
+		$client = null;
+		if($clientIdentifier !== '') {
+			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
+			$clientName = $client->getName();
+		}
+
+		return new TemplateResponse(
+			$this->appName,
+			'loginflow/grant',
+			[
+				'client' => $clientName,
+				'clientIdentifier' => $clientIdentifier,
+				'instanceName' => $this->defaults->getName(),
+				'urlGenerator' => $this->urlGenerator,
+				'stateToken' => $stateToken,
+				'serverHost' => $this->request->getServerHost(),
+				'oauthState' => $this->session->get('oauth.state'),
+			],
+			'guest'
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @UseSession
+	 *
+	 * @param string $stateToken
+	 * @param string $clientIdentifier
+	 * @return TemplateResponse
+	 */
 	public function redirectPage($stateToken = '',
 								 $clientIdentifier = '') {
 		if(!$this->isValidToken($stateToken)) {
