@@ -133,7 +133,7 @@ class AppFetcher extends Fetcher {
 
 	/**
 	 * @param string $version
-	 * @param string $filename
+	 * @param string $fileName
 	 */
 	public function setVersion(string $version, string $fileName = 'apps.json') {
 		parent::setVersion($version);
