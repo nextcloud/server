@@ -597,10 +597,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	rebuildNavigation: function() {
-		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php')).done(function(response){
-			if(response.status === 'success') {
+		$.getJSON(OC.linkToOCS('core/navigation', 2) + 'apps?format=json').done(function(response){
+			if(response.ocs.meta.status === 'ok') {
 				var addedApps = {};
-				var navEntries = response.nav_entries;
+				var navEntries = response.ocs.data;
 				var container = $('#apps ul');
 
 				// remove disabled apps

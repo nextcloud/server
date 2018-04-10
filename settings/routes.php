@@ -106,8 +106,6 @@ $this->create('settings_ajax_updateapp', '/settings/ajax/updateapp.php')
 	->actionInclude('settings/ajax/updateapp.php');
 $this->create('settings_ajax_uninstallapp', '/settings/ajax/uninstallapp.php')
 	->actionInclude('settings/ajax/uninstallapp.php');
-$this->create('settings_ajax_navigationdetect', '/settings/ajax/navigationdetect.php')
-	->actionInclude('settings/ajax/navigationdetect.php');
 // admin
 $this->create('settings_ajax_excludegroups', '/settings/ajax/excludegroups.php')
 	->actionInclude('settings/ajax/excludegroups.php');
