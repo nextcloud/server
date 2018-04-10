@@ -134,7 +134,7 @@ table.multiselect thead {
 
 @media only screen and (max-width: 480px) {
 	#header .header-right .menu {
-		max-width: calc(100vw - 26px);
+		max-width: calc(100vw - 10px);
 		position: fixed;
 		&::after {
 			display: none !important;
