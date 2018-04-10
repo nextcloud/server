@@ -353,6 +353,27 @@ class Log implements ILogger {
 		return $args;
 	}
 
+	private function serializeException(\Throwable $exception) {
+		$data = [
+			'Exception' => get_class($exception),
+			'Message' => $exception->getMessage(),
+			'Code' => $exception->getCode(),
+			'Trace' => $this->filterTrace($exception->getTrace()),
+			'File' => $exception->getFile(),
+			'Line' => $exception->getLine(),
+		];
+
+		if ($exception instanceof HintException) {
+			$data['Hint'] = $exception->getHint();
+		}
+
+		if ($exception->getPrevious()) {
+			$data['Previous'] = $this->serializeException($exception->getPrevious());
+		}
+
+		return $data;
+	}
+
 	/**
 	 * Logs an exception very detailed
 	 *
@@ -365,18 +386,8 @@ class Log implements ILogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? Util::ERROR;
 
-		$data = [
-			'CustomMessage' => $context['message'] ?? '--',
-			'Exception' => get_class($exception),
-			'Message' => $exception->getMessage(),
-			'Code' => $exception->getCode(),
-			'Trace' => $this->filterTrace($exception->getTrace()),
-			'File' => $exception->getFile(),
-			'Line' => $exception->getLine(),
-		];
-		if ($exception instanceof HintException) {
-			$data['Hint'] = $exception->getHint();
-		}
+		$data = $this->serializeException($exception);
+		$data['CustomMessage'] = $context['message'] ?? '--';
 
 		$minLevel = $this->getLogLevel($context);
 
