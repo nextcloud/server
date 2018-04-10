@@ -33,6 +33,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Util;
 
 class AppFetcher extends Fetcher {
 
@@ -87,16 +88,20 @@ class AppFetcher extends Fetcher {
 				if($release['isNightly'] === false
 					&& strpos($release['version'], '-') === false) {
 					// Exclude all versions not compatible with the current version
-					$versionParser = new VersionParser();
-					$version = $versionParser->getVersion($release['rawPlatformVersionSpec']);
-					$ncVersion = $this->getVersion();
-					$min = $version->getMinimumVersion();
-					$max = $version->getMaximumVersion();
-					$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $min, '>=');
-					$maxFulfilled = $max !== '' &&
-						$this->compareVersion->isCompatible($ncVersion, $max, '<=');
-					if ($minFulfilled && $maxFulfilled) {
-						$releases[] = $release;
+					try {
+						$versionParser = new VersionParser();
+						$version = $versionParser->getVersion($release['rawPlatformVersionSpec']);
+						$ncVersion = $this->getVersion();
+						$min = $version->getMinimumVersion();
+						$max = $version->getMaximumVersion();
+						$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $min, '>=');
+						$maxFulfilled = $max !== '' &&
+							$this->compareVersion->isCompatible($ncVersion, $max, '<=');
+						if ($minFulfilled && $maxFulfilled) {
+							$releases[] = $release;
+						}
+					} catch (\InvalidArgumentException $e) {
+						$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => Util::WARN]);
 					}
 				}
 			}
