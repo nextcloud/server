@@ -764,9 +764,9 @@ $CONFIG = array(
  * old logfile reaches your limit. If a rotated log file is already present, it
  * will be overwritten.
  *
- * Defaults to ``0`` (no rotation)
+ * Defaults to 100 MB
  */
-'log_rotate_size' => false,
+'log_rotate_size' => 100 * 1024 * 1024,
 
 
 /**
