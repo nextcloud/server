@@ -55,6 +55,97 @@ class ImageManagerTest extends TestCase {
 		);
 	}
 
+	public function mockGetImage($key, $file) {
+		/** @var \PHPUnit_Framework_MockObject_MockObject $folder */
+		$folder = $this->createMock(ISimpleFolder::class);
+		if ($file === null) {
+			$folder->expects($this->once())
+				->method('getFile')
+				->with('logo')
+				->willThrowException(new NotFoundException());
+		} else {
+			$folder->expects($this->once())
+				->method('getFile')
+				->with('logo')
+				->willReturn($file);
+			$this->appData->expects($this->once())
+				->method('getFolder')
+				->with('images')
+				->willReturn($folder);
+		}
+	}
+
+	public function testGetImageUrl() {
+		$file = $this->createMock(ISimpleFile::class);
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->withConsecutive(
+				['theming', 'cachebuster', '0'],
+				['theming', 'logoMime', false]
+				)
+			->willReturn(0);
+		$this->mockGetImage('logo', $file);
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->willReturn('url-to-image');
+		$this->assertEquals('url-to-image?v=0', $this->imageManager->getImageUrl('logo'));
+	}
+
+	public function testGetImageUrlDefault() {
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->withConsecutive(
+				['theming', 'cachebuster', '0'],
+				['theming', 'logoMime', false]
+			)
+			->willReturnOnConsecutiveCalls(0, false);
+		$this->urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with('core', 'logo.png')
+			->willReturn('logo.png');
+		$this->assertEquals('logo.png?v=0', $this->imageManager->getImageUrl('logo'));
+	}
+
+	public function testGetImageUrlAbsolute() {
+		$file = $this->createMock(ISimpleFile::class);
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->withConsecutive(
+				['theming', 'cachebuster', '0'],
+				['theming', 'logoMime', false]
+			)
+			->willReturn(0);
+		$this->mockGetImage('logo', $file);
+		$this->urlGenerator->expects($this->at(0))
+			->method('linkToRoute')
+			->willReturn('url-to-image');
+		$this->urlGenerator->expects($this->at(1))
+			->method('getAbsoluteUrl')
+			->with('url-to-image?v=0')
+			->willReturn('url-to-image-absolute?v=0');
+		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo'));
+
+	}
+
+	public function testGetImage() {
+		$this->config->expects($this->once())
+			->method('getAppValue')->with('theming', 'logoMime', false)
+			->willReturn('png');
+		$file = $this->createMock(ISimpleFile::class);
+		$this->mockGetImage('logo', $file);
+		$this->assertEquals($file, $this->imageManager->getImage('logo'));
+	}
+
+	/**
+	 * @expectedException OCP\Files\NotFoundException
+	 */
+	public function testGetImageUnset() {
+		$this->config->expects($this->once())
+			->method('getAppValue')->with('theming', 'logoMime', false)
+			->willReturn(false);
+		$this->imageManager->getImage('logo');
+	}
+
 	public function testGetCacheFolder() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->config->expects($this->once())
