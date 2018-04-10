@@ -98,6 +98,7 @@ class LDAPContext implements Context {
 			['configData[ldapUserFilter]', '(&(objectclass=inetorgperson))'],
 			['configData[ldapLoginFilter]', '(&(objectclass=inetorgperson)(uid=%uid))'],
 			['configData[ldapUserDisplayName]', 'displayname'],
+			['configData[ldapGroupDisplayName]', 'cn'],
 			['configData[ldapEmailAttribute]', 'mail'],
 			['configData[ldapConfigurationActive]', '1'],
 		]);
@@ -123,5 +124,35 @@ class LDAPContext implements Context {
 
 		$backend = (string)simplexml_load_string($this->response->getBody())->data[0]->backend;
 		PHPUnit_Framework_Assert::assertEquals('LDAP', $backend);
+	}
+
+	/**
+	 * @Given /^modify LDAP configuration$/
+	 */
+	public function modifyLDAPConfiguration(TableNode $table) {
+		$originalAsAn = $this->currentUser;
+		$this->asAn('admin');
+		$configData = $table->getRows();
+		foreach($configData as &$row) {
+			$row[0] = 'configData[' . $row[0] . ']';
+		}
+		$this->settingTheLDAPConfigurationTo(new TableNode($configData));
+		$this->asAn($originalAsAn);
+	}
+
+	/**
+	 * @Given /^the group result should$/
+	 */
+	public function theGroupResultShould(TableNode $expectations) {
+		$listReturnedGroups = simplexml_load_string($this->response->getBody())->data[0]->groups[0]->element;
+		$extractedGroupsArray = json_decode(json_encode($listReturnedGroups), 1);
+
+		foreach($expectations->getRows() as $groupExpectation) {
+			if((int)$groupExpectation[1] === 1) {
+				PHPUnit_Framework_Assert::assertContains($groupExpectation[0], $extractedGroupsArray);
+			} else {
+				PHPUnit_Framework_Assert::assertNotContains($groupExpectation[0], $extractedGroupsArray);
+			}
+		}
 	}
 }
