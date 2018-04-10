@@ -44,6 +44,7 @@
 namespace OCA\User_LDAP;
 
 use OC\HintException;
+use OC\Hooks\PublicEmitter;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
@@ -52,6 +53,7 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
 
 use OC\ServerNotAvailableException;
 use OCP\IConfig;
+use OCP\IUserManager;
 use OCP\Util;
 
 /**
@@ -95,13 +97,16 @@ class Access extends LDAPUtility implements IUserTools {
 	private $helper;
 	/** @var IConfig */
 	private $config;
+	/** @var IUserManager */
+	private $ncUserManager;
 
 	public function __construct(
 		Connection $connection,
 		ILDAPWrapper $ldap,
 		Manager $userManager,
 		Helper $helper,
-		IConfig $config
+		IConfig $config,
+		IUserManager $ncUserManager
 	) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
@@ -109,6 +114,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$this->userManager->setLdapAccess($this);
 		$this->helper = $helper;
 		$this->config = $config;
+		$this->ncUserManager = $ncUserManager;
 	}
 
 	/**
@@ -605,10 +611,13 @@ class Access extends LDAPUtility implements IUserTools {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
-		if(($isUser && $intName !== '' && !\OC::$server->getUserManager()->userExists($intName))
+		if(($isUser && $intName !== '' && !$this->ncUserManager->userExists($intName))
 			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
 			if($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
+				if($this->ncUserManager instanceof PublicEmitter) {
+					$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$intName]);
+				}
 				$newlyMapped = true;
 				return $intName;
 			}
@@ -617,6 +626,9 @@ class Access extends LDAPUtility implements IUserTools {
 
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
 		if(is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
+			if($this->ncUserManager instanceof PublicEmitter) {
+				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$intName]);
+			}
 			$newlyMapped = true;
 			return $altName;
 		}
@@ -738,7 +750,7 @@ class Access extends LDAPUtility implements IUserTools {
 		//20 attempts, something else is very wrong. Avoids infinite loop.
 		while($attempts < 20){
 			$altName = $name . '_' . rand(1000,9999);
-			if(!\OC::$server->getUserManager()->userExists($altName)) {
+			if(!$this->ncUserManager->userExists($altName)) {
 				return $altName;
 			}
 			$attempts++;

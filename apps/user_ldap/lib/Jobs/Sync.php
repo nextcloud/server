@@ -376,7 +376,8 @@ class Sync extends TimedJob {
 				$this->ldap,
 				$this->userManager,
 				$this->ldapHelper,
-				$this->config
+				$this->config,
+				$this->ncUserManager
 			);
 		}
 	}
