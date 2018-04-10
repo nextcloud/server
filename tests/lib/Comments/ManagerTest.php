@@ -354,6 +354,48 @@ class ManagerTest extends TestCase {
 		], $amount);
 	}
 
+	/**
+	 * @dataProvider dataGetForObjectSince
+	 * @param $lastKnown
+	 * @param $order
+	 * @param $limit
+	 * @param $resultFrom
+	 * @param $resultTo
+	 */
+	public function testGetForObjectSince($lastKnown, $order, $limit, $resultFrom, $resultTo) {
+		$ids = [];
+		$ids[] = $this->addDatabaseEntry(0, 0);
+		$ids[] = $this->addDatabaseEntry(0, 0);
+		$ids[] = $this->addDatabaseEntry(0, 0);
+		$ids[] = $this->addDatabaseEntry(0, 0);
+		$ids[] = $this->addDatabaseEntry(0, 0);
+
+		$manager = $this->getManager();
+		$comments = $manager->getForObjectSince('files', 'file64', ($lastKnown === null ? 0 : $ids[$lastKnown]), $order, $limit);
+
+		$expected = array_slice($ids, $resultFrom, $resultTo - $resultFrom + 1);
+		if ($order === 'desc') {
+			$expected = array_reverse($expected);
+		}
+
+		$this->assertSame($expected, array_map(function(IComment $c) {
+			return (int) $c->getId();
+		}, $comments));
+	}
+
+	public function dataGetForObjectSince() {
+		return [
+			[null, 'asc', 20, 0, 4],
+			[null, 'asc', 2, 0, 1],
+			[null, 'desc', 20, 0, 4],
+			[null, 'desc', 2, 3, 4],
+			[1, 'asc', 20, 2, 4],
+			[1, 'asc', 2, 2, 3],
+			[3, 'desc', 20, 0, 2],
+			[3, 'desc', 2, 1, 2],
+		];
+	}
+
 	public function invalidCreateArgsProvider() {
 		return [
 			['', 'aId-1', 'oType-1', 'oId-1'],
