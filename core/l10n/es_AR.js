@@ -244,10 +244,9 @@ OC.L10N.register(
     "Username or email" : "Nombre de usuario o contraseña",
     "Log in" : "Ingresar",
     "Wrong password." : "Contraseña inválida. ",
+    "App token" : "Ficha de la aplicación",
     "Account access" : "Acceso a la cuenta",
     "You are about to grant %s access to your %s account." : "Está a punto de concederle a \"%s\" acceso a su cuenta %s.",
-    "App token" : "Ficha de la aplicación",
-    "Alternative login using app token" : "Inicio de sesión alternativo usando la ficha de la aplicación",
     "Redirecting …" : "Redireccionando ... ",
     "New password" : "Nueva contraseña",
     "New Password" : "Nueva Contraseña",
@@ -278,6 +277,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or a federated cloud ID." : "Comparta con otras personas ingresando un usuario, un grupo o un ID de nube federado.",
     "Share with other people by entering a user or group or an email address." : "Comparta con otras personas ingresando un usuario, un grupo o una dirección de correo electrónico.",
     "Stay logged in" : "Mantener la sesión abierta",
-    "Alternative Logins" : "Accesos Alternativos"
+    "Alternative Logins" : "Accesos Alternativos",
+    "Alternative login using app token" : "Inicio de sesión alternativo usando la ficha de la aplicación"
 },
 "nplurals=2; plural=(n != 1);");

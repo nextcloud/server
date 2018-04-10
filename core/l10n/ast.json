@@ -214,9 +214,8 @@
     "Username or email" : "Nome d'usuariu o corréu",
     "Log in" : "Aniciar sesión",
     "Wrong password." : "Contraseña incorreuta",
-    "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s.",
     "App token" : "Pase d'aplicación",
-    "Alternative login using app token" : "Aniciu de sesión alternativu usando pase d'aplicación",
+    "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s.",
     "Redirecting …" : "Redirixendo...",
     "New password" : "Contraseña nueva",
     "New Password" : "Contraseña nueva",
@@ -240,6 +239,7 @@
     "Share with other people by entering a user or group or a federated cloud ID." : "Comparti con otra xente introduciendo un usuariu, grupu o ID de ñube federada.",
     "Share with other people by entering a user or group or an email address." : "Comparti con otra xente introduciendo un usuariu, grupu o direición de corréu.",
     "Stay logged in" : "Caltener sesión",
-    "Alternative Logins" : "Anicios de sesión alternativos"
+    "Alternative Logins" : "Anicios de sesión alternativos",
+    "Alternative login using app token" : "Aniciu de sesión alternativu usando pase d'aplicación"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -256,11 +256,10 @@ OC.L10N.register(
     "Wrong password." : "Contrasenya incorrecta.",
     "Forgot password?" : "Has oblidat la contrasenya?",
     "Back to login" : "Torna a accedir",
+    "App token" : "Testimoni d'aplicació",
+    "Grant access" : "Concedeix accés",
     "Account access" : "Compte d'accés",
     "You are about to grant %s access to your %s account." : "Estàs a punt d'autoritzar a %s a accedir al teu compte %s.",
-    "Grant access" : "Concedeix accés",
-    "App token" : "Testimoni d'aplicació",
-    "Alternative login using app token" : "Acreditació alternativa utilitzat testimoni d'aplicació",
     "Redirecting …" : "Redirigint …",
     "New password" : "Contrasenya nova",
     "New Password" : "Contrasenya nova",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Compartir amb altres persones introduint un usuari o grup o una adreça d’email.",
     "Stay logged in" : "Mantén la sessió connectada",
     "Alternative Logins" : "Acreditacions alternatives",
+    "Alternative login using app token" : "Acreditació alternativa utilitzat testimoni d'aplicació",
     "Back to log in" : "Torna a l'accés"
 },
 "nplurals=2; plural=(n != 1);");
