@@ -73,7 +73,13 @@
 						 	 @tag="validateQuota" >
 				</multiselect>
 			</div>
-			<div class="languages" v-if="showConfig.showLanguages"></div>
+			<div class="languages" v-if="showConfig.showLanguages">
+				<multiselect :options="languages" v-model="newUser.language"
+							 :placeholder="t('settings', 'Default language')"
+							 label="name" track-by="code" class="multiselect-vue"
+							 :allowEmpty="false" group-values="languages" group-label="label">
+				</multiselect>
+			</div>
 			<div class="storageLocation" v-if="showConfig.showStoragePath"></div>
 			<div class="userBackend" v-if="showConfig.showUserBackend"></div>
 			<div class="lastLogin" v-if="showConfig.showLastLogin"></div>
@@ -86,7 +92,7 @@
 		</form>
 
 		<user-row v-for="(user, key) in filteredUsers" :user="user" :key="key" :settings="settings" :showConfig="showConfig"
-				  :groups="groups" :subAdminsGroups="subAdminsGroups" :quotaOptions="quotaOptions" />
+				  :groups="groups" :subAdminsGroups="subAdminsGroups" :quotaOptions="quotaOptions" :languages="languages" />
 		<infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
 			<div slot="spinner"><div class="users-icon-loading icon-loading"></div></div>
 			<div slot="no-more"><div class="users-list-end">— {{t('settings', 'no more results')}} —</div></div>
@@ -104,6 +110,7 @@
 import userRow from './userList/userRow';
 import Multiselect from 'vue-multiselect';
 import InfiniteLoading from 'vue-infinite-loading';
+import Vue from 'vue';
 
 export default {
 	name: 'userList',
@@ -128,14 +135,21 @@ export default {
 				mailAddress:'',
 				groups: [],
 				subAdminsGroups: [],
-				quota: defaultQuota
+				quota: defaultQuota,
+				language: {code: 'en', name: t('settings', 'Default language')}
 			}
 		};
 	},
 	mounted() {
 		if (!this.settings.canChangePassword) {
-			OC.Notification.showTemporary(t('settings','Password change is disabled because the master key is disabled'));
+			OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'));
 		}
+		/** 
+		 * Init default language from server data. The use of this.settings
+		 * requires a computed variable,vwhich break the v-model binding of the form,
+		 * this is a much easier solution than getter and setter
+		 */
+		Vue.set(this.newUser.language, 'code', this.settings.defaultLanguage);
 	},
 	computed: {
 		settings() {
@@ -190,6 +204,20 @@ export default {
 				}
 			}
 			return '';
+		},
+
+		/* LANGUAGES */
+		languages() {
+			return Array(
+				{
+					label: t('settings', 'Common languages'),
+					languages: this.settings.languages.commonlanguages
+				},
+				{
+					label: t('settings', 'All languages'),
+					languages: this.settings.languages.languages
+				}
+			);
 		}
 	},
 	watch: {
@@ -240,7 +268,8 @@ export default {
 				email: this.newUser.mailAddress,
 				groups: this.newUser.groups.map(group => group.id),
 				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
-				quota: this.newUser.quota.id
+				quota: this.newUser.quota.id,
+				language: this.newUser.language.code,
 			}).then(() => this.resetForm());
 		}
 	}

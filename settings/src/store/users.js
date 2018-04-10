@@ -342,14 +342,10 @@ const actions = {
 	 * @param {string} options.quota User email
 	 * @returns {Promise}
 	 */
-	addUser({context, dispatch}, { userid, password, email, groups, subadmin, quota }) {
-		console.log(subadmin, quota);
+	addUser({context, dispatch}, { userid, password, email, groups, subadmin, quota, language }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(OC.linkToOCS(`cloud/users`, 2), { userid, password, email, groups, subadmin, quota })
-				.then((response) =>  {
-					//let quotaDis = dispatch('setUserData', { userid, key: 'quota', value:quota });
-					//let subadminDis = dispatch('addUserSubAdmin', userid);
-				})
+			return api.post(OC.linkToOCS(`cloud/users`, 2), { userid, password, email, groups, subadmin, quota, language })
+				.then((response) => dispatch('addUserData', userid))
 				.catch((error) => {throw error;});
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
 	},

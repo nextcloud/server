@@ -89,7 +89,7 @@ import Multiselect from 'vue-multiselect';
 
 export default {
 	name: 'userRow',
-	props: ['user', 'settings', 'groups', 'subAdminsGroups', 'quotaOptions', 'showConfig'],
+	props: ['user', 'settings', 'groups', 'subAdminsGroups', 'quotaOptions', 'showConfig', 'languages'],
 	components: {
 		popoverMenu,
 		Multiselect
@@ -175,19 +175,7 @@ export default {
 			return this.$store.getters.getPasswordPolicyMinLength;
 		},
 
-		/* LANGUAGES */
-		languages() {
-			return Array(
-				{
-					label: t('settings', 'Common languages'),
-					languages: this.settings.languages.commonlanguages
-				},
-				{
-					label: t('settings', 'All languages'),
-					languages: this.settings.languages.languages
-				}
-			);
-		},
+		/* LANGUAGE */
 		userLanguage() {
 			let availableLanguages = this.languages[0].languages.concat(this.languages[1].languages);
 			let userLang = availableLanguages.find(lang => lang.code === this.user.language);

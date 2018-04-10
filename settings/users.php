@@ -144,6 +144,7 @@ $serverData['sortGroups'] = $sortGroupsBy;
 $serverData['quotaPreset'] = $quotaPreset;
 $serverData['userCount'] = $userCount-$disabledUsers;
 $serverData['languages'] = $languages;
+$serverData['defaultLanguage'] = $config->getSystemValue('default_language', 'en');
 // Settings
 $serverData['defaultQuota'] = $defaultQuota;
 $serverData['canChangePassword'] = $canChangePassword;
