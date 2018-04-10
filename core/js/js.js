@@ -1553,10 +1553,6 @@ function initCore() {
 		if(appList.length-1-appCount >= 1) {
 			appCount--;
 		}
-		// show at least one icon
-		if(appCount < 1) {
-			appCount = 1;
-		}
 
 		$('#more-apps a').removeClass('active');
 		var lastShownApp;

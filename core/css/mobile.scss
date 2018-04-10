@@ -134,10 +134,8 @@ table.multiselect thead {
 
 @media only screen and (max-width: 480px) {
 	#header .header-right .menu {
-		max-width: calc(100vw - 26px);
+		max-width: calc(100vw - 10px);
 		position: fixed;
-		right: 13px;
-		top: 45px;
 		&::after {
 			display: none !important;
 		}
@@ -158,9 +156,14 @@ table.multiselect thead {
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 13px;
+			right: 15px;
 			z-index: 2001;
 			display: none;
+		}
+
+		/* settings need a different offset, since they have a right padding */
+		&#settings::after {
+			right: 27px;
 		}
 	}
 }
