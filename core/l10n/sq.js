@@ -245,7 +245,6 @@ OC.L10N.register(
     "Log in" : "Hyni",
     "Wrong password." : "Fjalëkalim i gabuar.",
     "App token" : "Çelës identifikues i API-t",
-    "Alternative login using app token" : "Hyrje alternative duke perdorur çelësin identifikues  të API-t",
     "Redirecting …" : "Duke ju lidhur...",
     "New password" : "Fjalëkalim i ri",
     "New Password" : "Fjalëkalim i Ri",
@@ -276,6 +275,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or a federated cloud ID." : "Ndaj me njerëz të tjerë duke futur një pëdorues ose grup ose një ID reje federale.",
     "Share with other people by entering a user or group or an email address." : "Shpërndaje me persona të tjerë duke vendosur një perdorues ose një grup ose një adresë emaili",
     "Stay logged in" : "Qëndro i futur",
-    "Alternative Logins" : "Hyrje Alternative"
+    "Alternative Logins" : "Hyrje Alternative",
+    "Alternative login using app token" : "Hyrje alternative duke perdorur çelësin identifikues  të API-t"
 },
 "nplurals=2; plural=(n != 1);");

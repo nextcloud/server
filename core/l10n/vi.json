@@ -248,10 +248,9 @@
     "Username or email" : "Tên truy cập hoặc email",
     "Log in" : "Đăng nhập",
     "Wrong password." : "Sai mật khẩu.",
+    "App token" : "Dấu hiệu ứng dụng",
     "Account access" : "Truy cập tài khoản",
     "You are about to grant %s access to your %s account." : "Bạn sắp được phép %s  truy nhập  tới tài khoản %s của bạn.",
-    "App token" : "Dấu hiệu ứng dụng",
-    "Alternative login using app token" : "Cách thức đăng nhập khác sử dụng app token",
     "Redirecting …" : "Chuyển tiếp ...",
     "New password" : "Mật khẩu mới",
     "New Password" : "Mật khẩu mới",
@@ -285,6 +284,7 @@
     "Share with other people by entering a user or group or a federated cloud ID." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, ID đám mây liên kết.",
     "Share with other people by entering a user or group or an email address." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, hoặc địa chỉ email.",
     "Stay logged in" : "Lưu trạng thái đăng nhập",
-    "Alternative Logins" : "Đăng nhập khác"
+    "Alternative Logins" : "Đăng nhập khác",
+    "Alternative login using app token" : "Cách thức đăng nhập khác sử dụng app token"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

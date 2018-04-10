@@ -256,11 +256,10 @@ OC.L10N.register(
     "Log in" : "Logga in",
     "Wrong password." : "Fel lösenord.",
     "Forgot password?" : "Glömt lösenordet?",
+    "App token" : "App-polett",
+    "Grant access" : "Tillåt åtkomst",
     "Account access" : "Kontoåtkomst",
     "You are about to grant %s access to your %s account." : "Du håller på att ge %s tillgång till ditt %s-konto.",
-    "Grant access" : "Tillåt åtkomst",
-    "App token" : "App-polett",
-    "Alternative login using app token" : "Alternativ inloggning med app-token",
     "Redirecting …" : "Omdirigerar ...",
     "New password" : "Nytt lösenord",
     "New Password" : "Nytt lösenord",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Dela med andra personer genom att ange användarnamn, grupp eller en e-postadress.",
     "Stay logged in" : "Fortsätt vara inloggad.",
     "Alternative Logins" : "Alternativa inloggningar",
+    "Alternative login using app token" : "Alternativ inloggning med app-token",
     "Back to log in" : "Tillbaks till inloggning"
 },
 "nplurals=2; plural=(n != 1);");

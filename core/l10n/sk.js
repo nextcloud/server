@@ -262,11 +262,10 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Zaznamenali sme viacnásobné chybné prihlásenie z Vašej IP adresy. Vaše nasledujúce prihlásenie bude pozdržané o 30 sekúnd.",
     "Forgot password?" : "Zabudli ste heslo?",
     "Back to login" : "Späť na prihlásenie",
+    "App token" : "Token aplikácie",
+    "Grant access" : "Povoliť prístup",
     "Account access" : "Prístup k účtu",
     "You are about to grant %s access to your %s account." : "Chystáte sa udeliť %s prístup k svojmu %s účtu.",
-    "Grant access" : "Povoliť prístup",
-    "App token" : "Token aplikácie",
-    "Alternative login using app token" : "Alternatívne prihlásenie pomocou tokenu aplikácie",
     "Redirecting …" : "Presmerovanie...",
     "New password" : "Nové heslo",
     "New Password" : "Nové heslo",
@@ -307,6 +306,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Sprístupniť iným ľuďom zadaním používateľa, skupiny alebo e-mailovej adresy.",
     "Wrong password. Reset it?" : "Chybné heslo. Chcete ho obnoviť?",
     "Stay logged in" : "Zostať prihlásený",
-    "Alternative Logins" : "Alternatívne prihlásenie"
+    "Alternative Logins" : "Alternatívne prihlásenie",
+    "Alternative login using app token" : "Alternatívne prihlásenie pomocou tokenu aplikácie"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

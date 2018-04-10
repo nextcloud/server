@@ -250,11 +250,10 @@ OC.L10N.register(
     "Log in" : "Είσοδος",
     "Wrong password." : "Λάθος συνθηματικό.",
     "Back to login" : "Πίσω στην είσοδο",
+    "App token" : "Διακριτικό εφαρμογής",
+    "Grant access" : "Παροχή άδειας πρόσβασης",
     "Account access" : "Πρόσβαση λογαριασμού",
     "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\".",
-    "Grant access" : "Παροχή άδειας πρόσβασης",
-    "App token" : "Διακριτικό εφαρμογής",
-    "Alternative login using app token" : "Εναλλακτική είσοδος με την χρήση του διακριτικού της εφαρμογής",
     "Redirecting …" : "Γίνεται ανακατεύθυνση ...",
     "New password" : "Νέο συνθηματικό",
     "New Password" : "Νέο Συνθηματικό",
@@ -288,6 +287,7 @@ OC.L10N.register(
     "Wrong password. Reset it?" : "Εσφαλμένο συνθηματικό. Επαναφορά;",
     "Stay logged in" : "Μείνετε συνδεδεμένος",
     "Alternative Logins" : "Εναλλακτικές είσοδοι",
+    "Alternative login using app token" : "Εναλλακτική είσοδος με την χρήση του διακριτικού της εφαρμογής",
     "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα."
 },
 "nplurals=2; plural=(n != 1);");

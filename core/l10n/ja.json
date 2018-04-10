@@ -248,10 +248,9 @@
     "Log in" : "ログイン",
     "Wrong password." : "パスワードが間違っています。",
     "Forgot password?" : "パスワードをお忘れですか?",
+    "App token" : "アプリのトークン",
     "Account access" : "アカウントによるアクセス許可",
     "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可",
-    "App token" : "アプリのトークン",
-    "Alternative login using app token" : "アプリトークンを使って代替ログイン",
     "Redirecting …" : "転送中...",
     "New password" : "新しいパスワードを入力",
     "New Password" : "新しいパスワード",
@@ -282,6 +281,7 @@
     "Share with other people by entering a user or group or a federated cloud ID." : "ユーザー名、グループ、クラウド統合IDで共有",
     "Share with other people by entering a user or group or an email address." : "ユーザー名やグループ名、メールアドレスで共有",
     "Stay logged in" : "ログインしたままにする",
-    "Alternative Logins" : "代替ログイン"
+    "Alternative Logins" : "代替ログイン",
+    "Alternative login using app token" : "アプリトークンを使って代替ログイン"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
