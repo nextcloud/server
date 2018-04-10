@@ -275,11 +275,10 @@
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "您的 IP 多次嘗試登入無效，下一次登入將會被延時30秒。",
     "Forgot password?" : "忘記密碼？",
     "Back to login" : "回到登入畫面",
+    "App token" : "App token",
+    "Grant access" : "允許存取",
     "Account access" : "帳戶存取",
     "You are about to grant %s access to your %s account." : "您將授予「%s」存取您的 %s 帳戶",
-    "Grant access" : "允許存取",
-    "App token" : "App token",
-    "Alternative login using app token" : "透過應用程式憑證的方式登入",
     "Redirecting …" : "重新導向…",
     "New password" : "新密碼",
     "New Password" : "新密碼",
@@ -333,6 +332,7 @@
     "Stay logged in" : "保持登入狀態",
     "Alternative Logins" : "其他登入方法",
     "You are about to grant \"%s\" access to your %s account." : "您將授予「%s」存取您的 %s 帳戶",
+    "Alternative login using app token" : "透過應用程式憑證的方式登入",
     "You are accessing the server from an untrusted domain." : "你正在從一個未信任的網域存取伺服器",
     "Back to log in" : "回到登入頁面"
 },"pluralForm" :"nplurals=1; plural=0;"

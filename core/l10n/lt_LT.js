@@ -256,11 +256,10 @@ OC.L10N.register(
     "Log in" : "Prisijungti",
     "Wrong password." : "Neteisingas slaptažodis.",
     "Forgot password?" : "Pamiršote slaptažodį?",
+    "App token" : "Išorinės sistemos įskiepio kodas",
+    "Grant access" : "Suteikti prieigą",
     "Account access" : "Paskyros prieiga",
     "You are about to grant %s access to your %s account." : "Jūs ketinate suteikti %s prieigą prie savo %s paskyros.",
-    "Grant access" : "Suteikti prieigą",
-    "App token" : "Išorinės sistemos įskiepio kodas",
-    "Alternative login using app token" : "Alternatyvus prisijungimas naudojant išorinės sistemos kodą",
     "Redirecting …" : "Nukreipiama...",
     "New password" : "Naujas slaptažodis",
     "New Password" : "Naujas slaptažodis",
@@ -299,6 +298,7 @@ OC.L10N.register(
     "Stay logged in" : "Likti prisijungus",
     "Alternative Logins" : "Alternatyvūs prisijungimai",
     "You are about to grant \"%s\" access to your %s account." : "Ketinate suteikti \"%s\" prieigą prie savo %s paskyros.",
+    "Alternative login using app token" : "Alternatyvus prisijungimas naudojant išorinės sistemos kodą",
     "Back to log in" : "Grįžti prie prisijungimo"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");
