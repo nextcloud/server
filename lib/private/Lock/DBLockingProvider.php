@@ -56,6 +56,11 @@ class DBLockingProvider extends AbstractLockingProvider {
 	private $sharedLocks = [];
 
 	/**
+	 * @var bool
+	 */
+	private $cacheSharedLocks;
+
+	/**
 	 * Check if we have an open shared lock for a path
 	 *
 	 * @param string $path
@@ -73,8 +78,10 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 */
 	protected function markAcquire(string $path, int $type) {
 		parent::markAcquire($path, $type);
-		if ($type === self::LOCK_SHARED) {
-			$this->sharedLocks[$path] = true;
+		if ($this->cacheSharedLocks) {
+			if ($type === self::LOCK_SHARED) {
+				$this->sharedLocks[$path] = true;
+			}
 		}
 	}
 
@@ -86,10 +93,12 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 */
 	protected function markChange(string $path, int $targetType) {
 		parent::markChange($path, $targetType);
-		if ($targetType === self::LOCK_SHARED) {
-			$this->sharedLocks[$path] = true;
-		} else if ($targetType === self::LOCK_EXCLUSIVE) {
-			$this->sharedLocks[$path] = false;
+		if ($this->cacheSharedLocks) {
+			if ($targetType === self::LOCK_SHARED) {
+				$this->sharedLocks[$path] = true;
+			} else if ($targetType === self::LOCK_EXCLUSIVE) {
+				$this->sharedLocks[$path] = false;
+			}
 		}
 	}
 
@@ -98,12 +107,20 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @param \OCP\ILogger $logger
 	 * @param \OCP\AppFramework\Utility\ITimeFactory $timeFactory
 	 * @param int $ttl
+	 * @param bool $cacheSharedLocks
 	 */
-	public function __construct(IDBConnection $connection, ILogger $logger, ITimeFactory $timeFactory, int $ttl = 3600) {
+	public function __construct(
+		IDBConnection $connection,
+		ILogger $logger,
+		ITimeFactory $timeFactory,
+		int $ttl = 3600,
+		$cacheSharedLocks = true
+	) {
 		$this->connection = $connection;
 		$this->logger = $logger;
 		$this->timeFactory = $timeFactory;
 		$this->ttl = $ttl;
+		$this->cacheSharedLocks = $cacheSharedLocks;
 	}
 
 	/**
@@ -203,6 +220,13 @@ class DBLockingProvider extends AbstractLockingProvider {
 				'UPDATE `*PREFIX*file_locks` SET `lock` = 0 WHERE `key` = ? AND `lock` = -1',
 				[$path]
 			);
+		} else if (!$this->cacheSharedLocks) {
+			$query = $this->connection->getQueryBuilder();
+			$query->update('file_locks')
+				->set('lock', $query->func()->subtract('lock', $query->createNamedParameter(1)))
+				->where($query->expr()->eq('key', $query->createNamedParameter($path)))
+				->andWhere($query->expr()->gt('lock', $query->createNamedParameter(0)));
+			$query->execute();
 		}
 	}
 
@@ -256,11 +280,15 @@ class DBLockingProvider extends AbstractLockingProvider {
 
 	/**
 	 * release all lock acquired by this instance which were marked using the mark* methods
+	 *
 	 * @suppress SqlInjectionChecker
 	 */
 	public function releaseAll() {
 		parent::releaseAll();
 
+		if (!$this->cacheSharedLocks) {
+			return;
+		}
 		// since we keep shared locks we need to manually clean those
 		$lockedPaths = array_keys($this->sharedLocks);
 		$lockedPaths = array_filter($lockedPaths, function ($path) {
