@@ -732,7 +732,7 @@ class UsersControllerTest extends TestCase {
 			->expects($this->at(0))
 			->method('getUserValue')
 			->with('UID', 'core', 'enabled', 'true')
-			->will($this->returnValue('true'));			
+			->will($this->returnValue('true'));
 		$this->config
 			->expects($this->at(1))
 			->method('getUserValue')
@@ -766,7 +766,7 @@ class UsersControllerTest extends TestCase {
 
 		$expected = [
 			'id' => 'UID',
-			'enabled' => true,
+			'enabled' => 'true',
 			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
@@ -881,7 +881,7 @@ class UsersControllerTest extends TestCase {
 
 		$expected = [
 			'id' => 'UID',
-			'enabled' => true,
+			'enabled' => 'true',
 			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
