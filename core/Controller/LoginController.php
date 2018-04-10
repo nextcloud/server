@@ -141,10 +141,7 @@ class LoginController extends Controller {
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showLoginForm($user, $redirect_url) {
-		if (!is_string($user)) {
-			throw new \InvalidArgumentException('User needs to be string');
-		}
+	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
 
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
