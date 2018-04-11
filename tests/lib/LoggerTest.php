@@ -96,9 +96,12 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('login(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
@@ -115,9 +118,12 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('checkPassword(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
@@ -134,9 +140,12 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('validateUserPass(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
@@ -153,9 +162,12 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('tryLogin(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
@@ -177,13 +189,16 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$log = explode('\n', $logLine);
 			unset($log[1]); // Remove `testDetectclosure(` because we are not testing this here, but the closure on stack trace 0
 			$logLine = implode('\n', $log);
 
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('{closure}(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
