@@ -847,7 +847,7 @@ var OCdialogs = {
 				} else if(a.type !== 'dir' && b.type === 'dir') {
 					return 1;
 				} else {
-					return -(a.mtime - b.mtime);
+					return a.name.localeCompare(b.name, undefined, {numeric: true});
 				}
 			});
 
