@@ -10,7 +10,7 @@ const orderGroups = function(groups, orderBy) {
 	} else {
 		return groups.sort((a, b) => a.name.localeCompare(b.name));
 	}
-}
+};
 
 const state = {
 	users: [],

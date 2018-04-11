@@ -17,14 +17,14 @@
 				<!-- first action if only one action and counter -->
 				<li v-if="item.utils.actions && item.utils.actions.length === 1 && Number.isInteger(item.utils.counter)"
 					class="app-navigation-entry-utils-menu-button">
-					<button :class="item.utils.actions[0].icon"></button>
+					<button @click="item.utils.actions[0].action" :class="item.utils.actions[0].icon" :title="item.utils.actions[0].text"></button>
 				</li>
 
 				<!-- second action only two actions and no counter -->
 				<li v-else-if="item.utils.actions && item.utils.actions.length === 2 && !Number.isInteger(item.utils.counter)"
 					v-for="action in item.utils.actions" :key="action.action"
 					class="app-navigation-entry-utils-menu-button">
-					<button :class="action.icon"></button>
+					<button @click="action.action" :class="action.icon" :title="action.text"></button>
 				</li>
 
 				<!-- menu if only at least one action and counter OR two actions and no counter-->
@@ -77,7 +77,7 @@ export default {
 	directives: {
 		ClickOutside
 	},
-	data () {
+	data() {
 		return {
 			openedMenu: false
 		}
@@ -100,7 +100,7 @@ export default {
 				this.item.classes = this.item.classes.filter(item => item !== 'editing');
 		}
 	},
-	mounted () {
+	mounted() {
 		// prevent click outside event with popupItem.
 		this.popupItem = this.$el;
 	},

@@ -192,10 +192,10 @@ export default {
 	},
 	methods: {
 		/* MENU HANDLING */
-		showMenu () {
+		showMenu() {
 			this.openedMenu = true;
 		},
-		hideMenu () {
+		hideMenu() {
 			this.openedMenu = false;
 		},
 

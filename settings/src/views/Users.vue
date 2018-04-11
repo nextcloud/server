@@ -115,12 +115,11 @@ export default {
 			}
 		},
 
-
 		userCount() {
 			return this.$store.getters.getUserCount;
 		},
+
 		menu() {
-			let self = this;
 			// Data provided php side
 			let groups = this.$store.getters.getGroups;
 			groups = Array.isArray(groups) ? groups : [];
@@ -133,6 +132,15 @@ export default {
 				item.href = '#group'+group.id.replace(' ', '_');
 				item.text = group.name;
 				item.utils = {counter: group.usercount};
+				if (item.id !== 'admin' && item.id !== '_disabled') {
+					// add delete button
+					let self = this;
+					item.utils.actions = [{
+						icon: 'icon-delete',
+						text: t('settings', 'Remove group'),
+						action: function(){}
+					}];
+				};
 				return item;
 			});
 
@@ -140,11 +148,12 @@ export default {
 			let adminGroup = groups.find(group => group.id == 'admin');
 	   		let disabledGroup = groups.find(group => group.id == '_disabled');
 			if (adminGroup.text) {
-				adminGroup.text = t('settings', 'Admins');}			// rename admin group
+				adminGroup.text = t('settings', 'Admins'); // rename admin group
+			}
 			if (disabledGroup.text) {
-				disabledGroup.text = t('settings', 'Disabled users');	// rename disabled group
+				disabledGroup.text = t('settings', 'Disabled users'); // rename disabled group
 				if (disabledGroup.utils.counter === 0) {
-					groups.splice(groups.findIndex(group => group.id == '_disabled'), 1);							// remove disabled if empty
+					groups.splice(groups.findIndex(group => group.id == '_disabled'), 1); // remove disabled if empty
 				}
 			}
 
@@ -172,10 +181,14 @@ export default {
 					id:'new-user-button',
 					text: t('settings','New user'),
 					icon: 'icon-add',
-					action: function(){self.showConfig.showNewUserForm=!self.showConfig.showNewUserForm}
+					action: () => this.showConfig.showNewUserForm=!this.showConfig.showNewUserForm
 				},
 				items: groups
 			}
+		},
+		removeGroup(groupid) {
+			console.trace(this);
+			return this.$store.dispatch('removeGroup', groupid);
 		}
 	}
 }
