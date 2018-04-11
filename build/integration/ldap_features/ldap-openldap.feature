@@ -5,6 +5,7 @@ Feature: LDAP
   Scenario: Test valid configuration by logging in
     Given having a valid LDAP configuration
     When Logging in using web as "alice"
+    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
   Scenario: Look for a known LDAP user
