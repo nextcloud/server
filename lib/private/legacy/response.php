@@ -137,7 +137,7 @@ class OC_Response {
 			. 'object-src \'none\'; '
 			. 'base-uri \'self\'; ';
 		header('Content-Security-Policy:' . $policy);
-		header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
+//		header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 
 		// Send fallback headers for installations that don't have the possibility to send
 		// custom headers on the webserver side
