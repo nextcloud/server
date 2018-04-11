@@ -21,24 +21,22 @@
 		'<div class="loading hidden" style="height: 50px"></div>';
 
 	var EDIT_COMMENT_TEMPLATE =
-		'<div class="newCommentRow comment" data-id="{{id}}">' +
+		'<{{tag}} class="newCommentRow comment" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
 		'        <div class="avatar currentUser" data-username="{{actorId}}"></div>' +
 		'        <div class="author currentUser">{{actorDisplayName}}</div>' +
 		'{{#if isEditMode}}' +
-		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
-		'        <div class="deleteLoading icon-loading-small hidden"></div>'+
+		'        <div class="action-container">' +
+		'            <a href="#" class="action cancel icon icon-close has-tooltip" title="{{cancelText}}"></a>' +
+		'        </div>' +
 		'{{/if}}' +
 		'    </div>' +
 		'    <form class="newCommentForm">' +
 		'        <div contentEditable="true" class="message" data-placeholder="{{newMessagePlaceholder}}">{{message}}</div>' +
-		'        <input class="submit icon-confirm" type="submit" value="" />' +
-		'{{#if isEditMode}}' +
-		'        <input class="cancel pull-right" type="button" value="{{cancelText}}" />' +
-		'{{/if}}' +
+		'        <input class="submit icon-confirm has-tooltip" type="submit" value="" title="{{submitText}}"/>' +
 		'        <div class="submitLoading icon-loading-small hidden"></div>'+
 		'    </form>' +
-		'</div>';
+		'</{{tag}}>';
 
 	var COMMENT_TEMPLATE =
 		'<li class="comment{{#if isUnread}} unread{{/if}}{{#if isLong}} collapsed{{/if}}" data-id="{{id}}">' +
@@ -46,7 +44,8 @@
 		'        <div class="avatar{{#if isUserAuthor}} currentUser{{/if}}" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
 		'        <div class="author{{#if isUserAuthor}} currentUser{{/if}}">{{actorDisplayName}}</div>' +
 		'{{#if isUserAuthor}}' +
-		'        <a href="#" class="action edit icon icon-rename has-tooltip" title="{{editTooltip}}"></a>' +
+		'        <a href="#" class="action more icon icon-more has-tooltip"></a>' +
+		'        <div class="deleteLoading icon-loading-small hidden"></div>' +
 		'{{/if}}' +
 		'        <div class="date has-tooltip live-relative-timestamp" data-timestamp="{{timestamp}}" title="{{altDate}}">{{date}}</div>' +
 		'    </div>' +
@@ -64,12 +63,11 @@
 		id: 'commentsTabView',
 		className: 'tab commentsTabView',
 		_autoCompleteData: undefined,
+		_commentsModifyMenu: undefined,
 
 		events: {
 			'submit .newCommentForm': '_onSubmitComment',
 			'click .showMore': '_onClickShowMore',
-			'click .action.edit': '_onClickEditComment',
-			'click .action.delete': '_onClickDeleteComment',
 			'click .cancel': '_onClickCloseComment',
 			'click .comment': '_onClickComment',
 			'keyup div.message': '_onTextChange',
@@ -114,9 +112,9 @@
 				actorId: currentUser.uid,
 				actorDisplayName: currentUser.displayName,
 				newMessagePlaceholder: t('comments', 'New comment …'),
-				deleteTooltip: t('comments', 'Delete comment'),
 				submitText: t('comments', 'Post'),
-				cancelText: t('comments', 'Cancel')
+				cancelText: t('comments', 'Cancel'),
+				tag: 'li'
 			}, params));
 		},
 
@@ -166,7 +164,7 @@
 				emptyResultLabel: t('comments', 'No comments yet, start the conversation!'),
 				moreLabel: t('comments', 'More comments …')
 			}));
-			this.$el.find('.comments').before(this.editCommentTemplate({}));
+			this.$el.find('.comments').before(this.editCommentTemplate({ tag: 'div'}));
 			this.$el.find('.has-tooltip').tooltip();
 			this.$container = this.$el.find('ul.comments');
 			this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 32);
@@ -401,6 +399,24 @@
 				// it is the case when writing a comment and mentioning a person
 				$message = $el;
 			}
+
+
+			if (!editionMode) {
+				var self = this;
+				// add the dropdown menu to display the edit and delete option
+				var modifyCommentMenu = new OCA.Comments.CommentsModifyMenu();
+				$el.find('.authorRow').append(modifyCommentMenu.$el);
+				$el.find('.more').on('click', _.bind(modifyCommentMenu.show, modifyCommentMenu));
+
+				self.listenTo(modifyCommentMenu, 'select:menu-item-clicked', function(ev, action) {
+					if (action === 'edit') {
+						self._onClickEditComment(ev);
+					} else if (action === 'delete') {
+						self._onClickDeleteComment(ev);
+					}
+				});
+			}
+
 			this._postRenderMessage($message, editionMode);
 		},
 
@@ -567,15 +583,13 @@
 			var $comment = $(ev.target).closest('.comment');
 			var commentId = $comment.data('id');
 			var $loading = $comment.find('.deleteLoading');
-			var $commentField = $comment.find('.message');
-			var $submit = $comment.find('.submit');
-			var $cancel = $comment.find('.cancel');
+			var $moreIcon = $comment.find('.more');
 
-			$commentField.prop('contenteditable', false);
-			$submit.prop('disabled', true);
-			$cancel.prop('disabled', true);
 			$comment.addClass('disabled');
 			$loading.removeClass('hidden');
+			$moreIcon.addClass('hidden');
+
+			$comment.data('commentEl', $comment);
 
 			this.collection.get(commentId).destroy({
 				success: function() {
@@ -584,10 +598,8 @@
 				},
 				error: function() {
 					$loading.addClass('hidden');
+					$moreIcon.removeClass('hidden');
 					$comment.removeClass('disabled');
-					$commentField.prop('contenteditable', true);
-					$submit.prop('disabled', false);
-					$cancel.prop('disabled', false);
 
 					OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with ID {id}', {id: commentId}));
 				}
@@ -668,6 +680,12 @@
 				}, {
 					success: function(model) {
 						self._onSubmitSuccess(model, $form);
+						if(model.get('message').trim() === model.previous('message').trim()) {
+							// model change event doesn't trigger, manually remove the row.
+							var $row = $form.closest('.comment');
+							$row.data('commentEl').removeClass('hidden');
+							$row.remove();
+						}
 					},
 					error: function() {
 						self._onSubmitError($form, commentId);

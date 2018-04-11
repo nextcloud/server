@@ -190,7 +190,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 			expect(fetchStub.notCalled).toEqual(true);
 
-			view.$el.find('.showMore').click();
+			view.$el.find('.showMore').trigger('click');
 
 			expect(fetchStub.calledOnce).toEqual(true);
 		});
@@ -398,10 +398,10 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				$message = $newCommentForm.find('.message');
 				$submitButton = $newCommentForm.find('.submit');
 			});
-			afterEach(function() { 
-				tooltipStub.restore(); 
+			afterEach(function() {
+				tooltipStub.restore();
 			});
-			
+
 			it('does not displays tooltip when limit is far away', function() {
 				$message.val(createMessageWithLength(3));
 				$message.trigger('change');
@@ -490,18 +490,21 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		it('shows edit link for owner comments', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
 			expect($comment.length).toEqual(1);
+			$comment.find('.action.more').trigger('click');
 			expect($comment.find('.action.edit').length).toEqual(1);
 		});
 
 		it('does not show edit link for other user\'s comments', function() {
 			var $comment = view.$el.find('.comment[data-id=2]');
 			expect($comment.length).toEqual(1);
+			$comment.find('.action.more').trigger('click');
 			expect($comment.find('.action.edit').length).toEqual(0);
 		});
 
 		it('shows edit form when clicking edit', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.edit').trigger('click');
 
 			expect($comment.hasClass('hidden')).toEqual(true);
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
@@ -510,7 +513,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 		it('saves message and updates comment item when clicking save', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.edit').trigger('click');
 
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
 			expect($formRow.length).toEqual(1);
@@ -544,7 +548,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 		it('saves message and updates comment item with mentions when clicking save', function() {
 			var $comment = view.$el.find('.comment[data-id=3]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.edit').trigger('click');
 
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=3]');
 			expect($formRow.length).toEqual(1);
@@ -591,13 +596,14 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 		it('restores original comment when cancelling', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.edit').trigger('click');
 
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
 			expect($formRow.length).toEqual(1);
 
 			$formRow.find('textarea').val('modified\nmessage');
-			$formRow.find('.cancel').click();
+			$formRow.find('.cancel').trigger('click');
 
 			expect(saveStub.notCalled).toEqual(true);
 
@@ -614,12 +620,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		it('destroys model when clicking delete', function() {
 			var destroyStub = sinon.stub(OCA.Comments.CommentModel.prototype, 'destroy');
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
-
-			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
-			expect($formRow.length).toEqual(1);
-
-			$formRow.find('.delete').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.delete').trigger('click');
 
 			expect(destroyStub.calledOnce).toEqual(true);
 			expect(destroyStub.thisValues[0].id).toEqual(1);
@@ -630,15 +632,11 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			$comment = view.$el.find('.comment[data-id=1]');
 			expect($comment.length).toEqual(0);
 
-			// form row is gone
-			$formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
-			expect($formRow.length).toEqual(0);
-
 			destroyStub.restore();
 		});
 		it('does not submit comment if the field is empty', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.edit').trigger('click');
 			$comment.find('.message').val('   ');
 			$comment.find('form').submit();
 
@@ -646,7 +644,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		});
 		it('does not submit comment if the field length is too large', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.edit').trigger('click');
 			$comment.find('.message').val(createMessageWithLength(view._commentMaxLength * 2));
 			$comment.find('form').submit();
 
@@ -659,7 +657,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		beforeEach(function() {
 			updateMarkerStub = sinon.stub(OCA.Comments.CommentCollection.prototype, 'updateReadMarker');
 		});
-		afterEach(function() { 
+		afterEach(function() {
 			updateMarkerStub.restore();
 		});
 

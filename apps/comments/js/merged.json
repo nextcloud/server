@@ -4,6 +4,7 @@
   "commentcollection.js",
   "commentsummarymodel.js",
   "commentstabview.js",
+  "commentsmodifymenu.js",
   "filesplugin.js",
   "activitytabviewplugin.js",
   "vendor/Caret.js/dist/jquery.caret.min.js",
