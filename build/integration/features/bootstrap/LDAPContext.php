@@ -155,4 +155,17 @@ class LDAPContext implements Context {
 			}
 		}
 	}
+
+	/**
+	 * @Given /^Expect ServerException on failed web login as "([^"]*)"$/
+	 */
+	public function expectServerExceptionOnFailedWebLoginAs($login) {
+		try {
+			$this->loggingInUsingWebAs($login);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			PHPUnit_Framework_Assert::assertEquals(500, $e->getResponse()->getStatusCode());
+			return;
+		}
+		PHPUnit_Framework_Assert::assertTrue(false, 'expected Exception not received');
+	}
 }
