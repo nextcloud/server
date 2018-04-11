@@ -332,7 +332,11 @@ class File extends Node implements IFile {
 				// do a if the file did not exist
 				throw new NotFound();
 			}
-			$res = $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+			try {
+				$res = $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+			} catch (\Exception $e) {
+				$this->convertToSabreException($e);
+			}
 			if ($res === false) {
 				throw new ServiceUnavailable("Could not open file");
 			}
