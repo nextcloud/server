@@ -411,6 +411,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\App\\CodeChecker\\NodeVisitor' => __DIR__ . '/../../..' . '/lib/private/App/CodeChecker/NodeVisitor.php',
         'OC\\App\\CodeChecker\\PrivateCheck' => __DIR__ . '/../../..' . '/lib/private/App/CodeChecker/PrivateCheck.php',
         'OC\\App\\CodeChecker\\StrongComparisonCheck' => __DIR__ . '/../../..' . '/lib/private/App/CodeChecker/StrongComparisonCheck.php',
+        'OC\\App\\CompareVersion' => __DIR__ . '/../../..' . '/lib/private/App/CompareVersion.php',
         'OC\\App\\DependencyAnalyzer' => __DIR__ . '/../../..' . '/lib/private/App/DependencyAnalyzer.php',
         'OC\\App\\InfoParser' => __DIR__ . '/../../..' . '/lib/private/App/InfoParser.php',
         'OC\\App\\Platform' => __DIR__ . '/../../..' . '/lib/private/App/Platform.php',
