@@ -265,7 +265,7 @@ class Log implements ILogger {
 		$message = strtr($message, $replace);
 
 		if ($level >= $minLevel) {
-			call_user_func([$this->logger, 'write'], $app, $message, $level);
+			$this->writeLog($app, $message, $level);
 		}
 	}
 
@@ -383,18 +383,25 @@ class Log implements ILogger {
 		array_walk($context, [$this->normalizer, 'format']);
 
 		if ($level >= $minLevel) {
-			if ($this->logger === File::class) {
-				call_user_func([$this->logger, 'write'], $app, $data, $level);
-			} else {
-				$entry = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR);
-				call_user_func([$this->logger, 'write'], $app, $entry, $level);
+			if ($this->logger !== File::class) {
+				$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR);
 			}
+			$this->writeLog($app, $data, $level);
 		}
 
 		$context['level'] = $level;
 		if (!is_null($this->crashReporters)) {
 			$this->crashReporters->delegateReport($exception, $context);
 		}
+	}
+
+	/**
+	 * @param string $app
+	 * @param string|array $entry
+	 * @param int $level
+	 */
+	protected function writeLog(string $app, $entry, int $level) {
+		call_user_func([$this->logger, 'write'], $app, $entry, $level);
 	}
 
 	/**
