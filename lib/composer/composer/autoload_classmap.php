@@ -381,6 +381,7 @@ return array(
     'OC\\App\\CodeChecker\\NodeVisitor' => $baseDir . '/lib/private/App/CodeChecker/NodeVisitor.php',
     'OC\\App\\CodeChecker\\PrivateCheck' => $baseDir . '/lib/private/App/CodeChecker/PrivateCheck.php',
     'OC\\App\\CodeChecker\\StrongComparisonCheck' => $baseDir . '/lib/private/App/CodeChecker/StrongComparisonCheck.php',
+    'OC\\App\\CompareVersion' => $baseDir . '/lib/private/App/CompareVersion.php',
     'OC\\App\\DependencyAnalyzer' => $baseDir . '/lib/private/App/DependencyAnalyzer.php',
     'OC\\App\\InfoParser' => $baseDir . '/lib/private/App/InfoParser.php',
     'OC\\App\\Platform' => $baseDir . '/lib/private/App/Platform.php',
