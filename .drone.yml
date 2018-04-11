@@ -772,12 +772,12 @@ matrix:
     - TESTS: carddavtester-old-endpoint
     - TESTS: object-store
       OBJECT_STORE: s3
-    - TESTS: object-store
-      OBJECT_STORE: swift
-      SWIFT-AUTH: v2.0
-    - TESTS: object-store
-      OBJECT_STORE: swift
-      SWIFT-AUTH: v3
+#    - TESTS: object-store
+#      OBJECT_STORE: swift
+#      SWIFT-AUTH: v2.0
+#    - TESTS: object-store
+#      OBJECT_STORE: swift
+#      SWIFT-AUTH: v3
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
