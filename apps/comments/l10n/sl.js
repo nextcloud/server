@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Opombe",
-    "New comment …" : "Nov komentar ...",
+    "Edit comment" : "Uredi opombo",
     "Delete comment" : "Izbriši opombo",
+    "New comment …" : "Nov komentar ...",
     "Post" : "Objavi",
     "Cancel" : "Prekliči",
-    "Edit comment" : "Uredi opombo",
     "[Deleted user]" : "[Izbrisan uporabnik]",
     "No comments yet, start the conversation!" : "Še ni komentarjev, začni debato!",
     "More comments …" : "Več komentarjev ....",

@@ -1,10 +1,10 @@
 { "translations": {
     "Comments" : "Comentarios",
-    "New comment …" : "Comentariu nuevu...",
+    "Edit comment" : "Editar comentariu",
     "Delete comment" : "Desaniciar comentariu",
+    "New comment …" : "Comentariu nuevu...",
     "Post" : "Espublizar",
     "Cancel" : "Encaboxar",
-    "Edit comment" : "Editar comentariu",
     "[Deleted user]" : "[Usuariu desaniciáu]",
     "No comments yet, start the conversation!" : "Entá nun hai comentarios. ¡Entama una conversación!",
     "More comments …" : "Más comentarios...",

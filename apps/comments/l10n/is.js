@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Athugasemdir",
-    "New comment …" : "Ný athugasemd ...",
+    "Edit comment" : "Breyta athugasemd",
     "Delete comment" : "Eyða athugasemd",
+    "New comment …" : "Ný athugasemd ...",
     "Post" : "Senda",
     "Cancel" : "Hætta við",
-    "Edit comment" : "Breyta athugasemd",
     "[Deleted user]" : "[Eyddur notandi]",
     "No comments yet, start the conversation!" : "Engar athugasemdir ennþá, byrjaðu umræðuna!",
     "More comments …" : "Fleiri athugasemdir ...",

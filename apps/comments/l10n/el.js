@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Σχόλια",
-    "New comment …" : "Νέο σχόλιο ...",
+    "Edit comment" : "Επεξεργασία σχολίου",
     "Delete comment" : "Διαγραφή σχολίου",
+    "New comment …" : "Νέο σχόλιο ...",
     "Post" : "Δημοσίευση",
     "Cancel" : "Ακύρωση",
-    "Edit comment" : "Επεξεργασία σχολίου",
     "[Deleted user]" : "[Διαγραμμένος χρήστης]",
     "No comments yet, start the conversation!" : "Δεν υπάρχουν σχόλια, ξεκινήστε την συζήτηση!",
     "More comments …" : "Περισσότερα σχόλια ...",

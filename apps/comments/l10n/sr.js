@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Коментари",
-    "New comment …" : "Нови коментар …",
+    "Edit comment" : "Измени коментар",
     "Delete comment" : "Обриши коментар",
+    "New comment …" : "Нови коментар …",
     "Post" : "Објави",
     "Cancel" : "Откажи",
-    "Edit comment" : "Измени коментар",
     "[Deleted user]" : "[Обрисан корисник]",
     "No comments yet, start the conversation!" : "Тренутно нема коментара. Започните дискусију",
     "More comments …" : "Преостали коментари …",

@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Comentarii",
-    "New comment …" : "Comentariu nou...",
+    "Edit comment" : "Editează comentariul",
     "Delete comment" : "Șterge comentariul",
+    "New comment …" : "Comentariu nou...",
     "Post" : "Postează",
     "Cancel" : "Anulează",
-    "Edit comment" : "Editează comentariul",
     "[Deleted user]" : "[Utilizator șters]",
     "No comments yet, start the conversation!" : "Nici un comentariu încă, începe conversația!",
     "More comments …" : "Mai multe comentarii...",

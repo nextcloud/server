@@ -1,10 +1,10 @@
 { "translations": {
     "Comments" : "Коментарі",
-    "New comment …" : "Новий коментар...",
+    "Edit comment" : "Редагувати коментар",
     "Delete comment" : "Видалити коментар",
+    "New comment …" : "Новий коментар...",
     "Post" : "Відправити",
     "Cancel" : "Скасувати",
-    "Edit comment" : "Редагувати коментар",
     "[Deleted user]" : "[Видалений користувач]",
     "No comments yet, start the conversation!" : "Коментарі відсутні, почніть бесіду!",
     "More comments …" : "Більше коментарів ...",

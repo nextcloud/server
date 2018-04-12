@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "评论",
-    "New comment …" : "新评论 ...",
+    "Edit comment" : "编辑评论",
     "Delete comment" : "删除评论",
+    "New comment …" : "新评论 ...",
     "Post" : "发布",
     "Cancel" : "取消",
-    "Edit comment" : "编辑评论",
     "[Deleted user]" : "[已删除用户]",
     "No comments yet, start the conversation!" : "还没有评论，开始对话吧！",
     "More comments …" : "更多评论 ...",

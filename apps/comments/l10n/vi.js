@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Các bình luận",
-    "New comment …" : "Tạo bình luận mới",
+    "Edit comment" : "Sửa bình luận",
     "Delete comment" : "Xóa bình luận",
+    "New comment …" : "Tạo bình luận mới",
     "Post" : "Đăng",
     "Cancel" : "Hủy",
-    "Edit comment" : "Sửa bình luận",
     "[Deleted user]" : "[Người dùng bị xoá]",
     "No comments yet, start the conversation!" : "Không có bình luận nào, bắt đầu cuộc hội thoại!",
     "More comments …" : "Xem thêm các bình luận...",

@@ -1,10 +1,10 @@
 { "translations": {
     "Comments" : "Comentários",
-    "New comment …" : "Novo comentário",
+    "Edit comment" : "Editar comentário",
     "Delete comment" : "Excluir comentário",
+    "New comment …" : "Novo comentário",
     "Post" : "Postar",
     "Cancel" : "Cancelar",
-    "Edit comment" : "Editar comentário",
     "[Deleted user]" : "[Usuário excluído]",
     "No comments yet, start the conversation!" : "Nenhum comentário ainda, inicie uma conversa!",
     "More comments …" : "Mais comentários...",

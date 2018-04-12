@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Commentaires",
-    "New comment …" : "Nouveau commentaire...",
+    "Edit comment" : "Modifier le commentaire",
     "Delete comment" : "Supprimer le commentaire",
+    "New comment …" : "Nouveau commentaire...",
     "Post" : "Poster",
     "Cancel" : "Annuler",
-    "Edit comment" : "Modifier le commentaire",
     "[Deleted user]" : "[Utilisateur supprimé]",
     "No comments yet, start the conversation!" : "Il n'y a aucun commentaire, démarrez la conversation !",
     "More comments …" : "Plus de commentaires ...",
