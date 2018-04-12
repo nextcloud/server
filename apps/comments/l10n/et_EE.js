@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentaarid",
-    "New comment …" : "Uus kommentaar",
+    "Edit comment" : "Muuda kommentaari",
     "Delete comment" : "Kustuta kommentaar",
+    "New comment …" : "Uus kommentaar",
     "Post" : "Postita",
     "Cancel" : "Loobu",
-    "Edit comment" : "Muuda kommentaari",
     "[Deleted user]" : "[Kustutatud kasutaja]",
     "No comments yet, start the conversation!" : "Kommentaare veel pole, alusta vestlust",
     "More comments …" : "Veel kommentaare ...",

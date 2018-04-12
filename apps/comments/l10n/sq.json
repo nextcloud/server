@@ -1,10 +1,10 @@
 { "translations": {
     "Comments" : "Komente",
-    "New comment …" : "Koment i ri ...",
+    "Edit comment" : "Përpunoni komentin",
     "Delete comment" : "Fshije komentin",
+    "New comment …" : "Koment i ri ...",
     "Post" : "Postoje",
     "Cancel" : "Anuloje",
-    "Edit comment" : "Përpunoni komentin",
     "[Deleted user]" : "[Përdorues i fshirë]",
     "No comments yet, start the conversation!" : "Akoma asnjë koment, fillo një bisedë!",
     "More comments …" : "Më shumë komente ...",

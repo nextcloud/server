@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Не удается получить список групп",
     "Saved" : "Сохранено",
     "Saving failed:" : "Ошибка при сохранении:",
     "File MIME type" : "MIME-тип файла",

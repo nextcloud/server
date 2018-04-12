@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentarer",
-    "New comment …" : "Ny kommentar ...",
+    "Edit comment" : "Redigera kommentar",
     "Delete comment" : "Radera kommentar",
+    "New comment …" : "Ny kommentar ...",
     "Post" : "Skicka",
     "Cancel" : "Avbryt",
-    "Edit comment" : "Redigera kommentar",
     "[Deleted user]" : "[Raderad användare]",
     "No comments yet, start the conversation!" : "Inga kommentarer ännu.",
     "More comments …" : "Fler kommentarer ...",

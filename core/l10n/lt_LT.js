@@ -113,6 +113,8 @@ OC.L10N.register(
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Jūsų svetainės serveris nėra sukonfiguruotas atpažinti \"{url}\". Daugiau informacijos rasite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentacijoje</a>.",
     "Error occurred while checking server setup" : "Tikrinant serverio sąranką, įvyko klaida",
     "Shared" : "Dalinamasi",
+    "Shared with" : "Pasidalinta su",
+    "Shared by" : "Dalinasi",
     "Error setting expiration date" : "Klaida nustatant dalinimosi pabaigos laiką",
     "The public link will expire no later than {days} days after it is created" : "Nuoroda veiks ne mažiau kaip {days} dienas nuo sukūrimo",
     "Set expiration date" : "Nustatykite veikimo pabaigos datą",
@@ -256,6 +258,7 @@ OC.L10N.register(
     "Log in" : "Prisijungti",
     "Wrong password." : "Neteisingas slaptažodis.",
     "Forgot password?" : "Pamiršote slaptažodį?",
+    "Back to login" : "Grįžti prie prisijungimo",
     "App token" : "Išorinės sistemos įskiepio kodas",
     "Grant access" : "Suteikti prieigą",
     "Account access" : "Paskyros prieiga",
@@ -299,6 +302,7 @@ OC.L10N.register(
     "Alternative Logins" : "Alternatyvūs prisijungimai",
     "You are about to grant \"%s\" access to your %s account." : "Ketinate suteikti \"%s\" prieigą prie savo %s paskyros.",
     "Alternative login using app token" : "Alternatyvus prisijungimas naudojant išorinės sistemos kodą",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Detalesnės informacijos ieškokite <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacijoje</a>",
     "Back to log in" : "Grįžti prie prisijungimo"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

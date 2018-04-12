@@ -1,10 +1,10 @@
 { "translations": {
     "Comments" : "Komentarai",
-    "New comment …" : "Naujas komentaras …",
+    "Edit comment" : "Redaguoti komentarą",
     "Delete comment" : "Ištrinti komentarą",
+    "New comment …" : "Naujas komentaras …",
     "Post" : "Įrašas",
     "Cancel" : "Atsisakyti",
-    "Edit comment" : "Redaguoti komentarą",
     "[Deleted user]" : "[Ištrintas naudotojas]",
     "No comments yet, start the conversation!" : "Kol kas komentarų nėra, pradėkite pokalbį!",
     "More comments …" : "Daugiau komentarų …",

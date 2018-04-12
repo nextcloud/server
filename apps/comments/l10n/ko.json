@@ -1,10 +1,10 @@
 { "translations": {
     "Comments" : "댓글",
-    "New comment …" : "새로운 댓글 …",
+    "Edit comment" : "댓글 편집",
     "Delete comment" : "댓글 삭제",
+    "New comment …" : "새로운 댓글 …",
     "Post" : "게시",
     "Cancel" : "취소",
-    "Edit comment" : "댓글 편집",
     "[Deleted user]" : "[삭제된 사용자]",
     "No comments yet, start the conversation!" : "아직 댓글이 없습니다. 대화를 시작하십시오!",
     "More comments …" : "더 많은 댓글 …",

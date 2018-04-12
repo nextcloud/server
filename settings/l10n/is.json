@@ -158,6 +158,7 @@
     "Good password" : "Gott lykilorð",
     "Strong password" : "Sterkt lykilorð",
     "Groups" : "Hópar",
+    "Unable to retrieve the group list" : "Tókst ekki að ná í lista yfir hópinn",
     "Unable to delete {objName}" : "Get ekki eytt {objName}",
     "Error creating group: {message}" : "Villa við að búa til hóp: {message}",
     "A valid group name must be provided" : "Skráðu inn gilt heiti á hópi",
