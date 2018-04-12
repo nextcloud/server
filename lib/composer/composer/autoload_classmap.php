@@ -424,6 +424,7 @@ return array(
     'OC\\Collaboration\\Collaborators\\Search' => $baseDir . '/lib/private/Collaboration/Collaborators/Search.php',
     'OC\\Collaboration\\Collaborators\\SearchResult' => $baseDir . '/lib/private/Collaboration/Collaborators/SearchResult.php',
     'OC\\Collaboration\\Collaborators\\UserPlugin' => $baseDir . '/lib/private/Collaboration/Collaborators/UserPlugin.php',
+    'OC\\Color' => $baseDir . '/lib/private/Color.php',
     'OC\\Command\\AsyncBus' => $baseDir . '/lib/private/Command/AsyncBus.php',
     'OC\\Command\\CallableJob' => $baseDir . '/lib/private/Command/CallableJob.php',
     'OC\\Command\\ClosureJob' => $baseDir . '/lib/private/Command/ClosureJob.php',

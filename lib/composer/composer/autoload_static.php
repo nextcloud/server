@@ -454,6 +454,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Collaboration\\Collaborators\\Search' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/Search.php',
         'OC\\Collaboration\\Collaborators\\SearchResult' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/SearchResult.php',
         'OC\\Collaboration\\Collaborators\\UserPlugin' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/UserPlugin.php',
+        'OC\\Color' => __DIR__ . '/../../..' . '/lib/private/Color.php',
         'OC\\Command\\AsyncBus' => __DIR__ . '/../../..' . '/lib/private/Command/AsyncBus.php',
         'OC\\Command\\CallableJob' => __DIR__ . '/../../..' . '/lib/private/Command/CallableJob.php',
         'OC\\Command\\ClosureJob' => __DIR__ . '/../../..' . '/lib/private/Command/ClosureJob.php',
