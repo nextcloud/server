@@ -387,14 +387,36 @@ class MigrationService {
 	}
 
 	/**
+	 * Get the human readable descriptions for the migration steps to run
+	 *
+	 * @param string $to
+	 * @return string[] [$name => $description]
+	 */
+	public function describeMigrationStep($to = 'latest') {
+		$toBeExecuted = $this->getMigrationsToExecute($to);
+		$description = [];
+		foreach ($toBeExecuted as $version) {
+			$migration = $this->createInstance($version);
+			if ($migration->name()) {
+				$description[$migration->name()] = $migration->description();
+			}
+		}
+		return $description;
+	}
+
+	/**
 	 * @param string $version
-	 * @return mixed
+	 * @return IMigrationStep
 	 * @throws \InvalidArgumentException
 	 */
 	protected function createInstance($version) {
 		$class = $this->getClass($version);
 		try {
 			$s = \OC::$server->query($class);
+
+			if (!$s instanceof IMigrationStep) {
+				throw new \InvalidArgumentException('Not a valid migration');
+			}
 		} catch (QueryException $e) {
 			if (class_exists($class)) {
 				$s = new $class();
@@ -414,9 +436,6 @@ class MigrationService {
 	 */
 	public function executeStep($version) {
 		$instance = $this->createInstance($version);
-		if (!$instance instanceof IMigrationStep) {
-			throw new \InvalidArgumentException('Not a valid migration');
-		}
 
 		$instance->preSchemaChange($this->output, function() {
 			return new SchemaWrapper($this->connection);

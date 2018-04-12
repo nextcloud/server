@@ -29,6 +29,23 @@ use OCP\DB\ISchemaWrapper;
  * @since 13.0.0
  */
 abstract class SimpleMigrationStep implements IMigrationStep {
+	/**
+	 * Human readable name of the migration step
+	 *
+	 * @return string
+	 */
+	public function name(): string {
+		return '';
+	}
+
+	/**
+	 * Human readable description of the migration step
+	 *
+	 * @return string
+	 */
+	public function description(): string {
+		return '';
+	}
 
 	/**
 	 * @param IOutput $output

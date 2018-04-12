@@ -29,6 +29,21 @@ use OCP\DB\ISchemaWrapper;
  * @since 13.0.0
  */
 interface IMigrationStep {
+	/**
+	 * Human readable name of the migration step
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function name(): string;
+
+	/**
+	 * Human readable description of the migration steps
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function description(): string;
 
 	/**
 	 * @param IOutput $output

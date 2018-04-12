@@ -30,6 +30,13 @@ use OCP\Migration\IOutput;
  * Delete the admin|personal sections and settings tables
  */
 class Version14000Date20180129121024 extends SimpleMigrationStep {
+	public function name(): string {
+		return 'Drop obsolete settings tables';
+	}
+
+	public function description(): string {
+		return 'Drops the following obsolete tables: "admin_sections", "admin_settings", "personal_sections" and "personal_settings"';
+	}
 
 	/**
 	 * @param IOutput $output
