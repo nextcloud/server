@@ -1,10 +1,10 @@
 { "translations": {
     "Comments" : "Kommentarar",
-    "New comment …" : "Ny kommentar...",
+    "Edit comment" : "Rediger kommentar",
     "Delete comment" : "Slett kommentar",
+    "New comment …" : "Ny kommentar...",
     "Post" : "Publiser",
     "Cancel" : "Avbryt",
-    "Edit comment" : "Rediger kommentar",
     "No comments yet, start the conversation!" : "Ingen kommetarar enno, start samtala!",
     "More comments …" : "Fleire kommentarar...",
     "Save" : "Lagra",

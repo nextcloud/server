@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentit",
-    "New comment …" : "Uusi kommentti…",
+    "Edit comment" : "Muokkaa kommenttia",
     "Delete comment" : "Poista kommentti",
+    "New comment …" : "Uusi kommentti…",
     "Post" : "Lähetä",
     "Cancel" : "Peruuta",
-    "Edit comment" : "Muokkaa kommenttia",
     "[Deleted user]" : "[Poistettu käyttäjä]",
     "No comments yet, start the conversation!" : "Ei kommentteja vielä. Aloita keskustelu!",
     "More comments …" : "Lisää kommentteja…",

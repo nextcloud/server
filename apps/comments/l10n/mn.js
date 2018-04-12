@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Сэтгэгдэл",
-    "New comment …" : "Шинэ сэтгэгдэл",
+    "Edit comment" : "Сэтгэгдэл засах",
     "Delete comment" : "Сэтгэгдэл устгах",
+    "New comment …" : "Шинэ сэтгэгдэл",
     "Post" : "Нийтлэл",
     "Cancel" : "Цуцлах",
-    "Edit comment" : "Сэтгэгдэл засах",
     "[Deleted user]" : "[Хэрэглэгч устгагдсан]",
     "No comments yet, start the conversation!" : "Сэтгэгдэл байхгүй байна",
     "More comments …" : "Дараагийн сэтгэгдэлүүд",

@@ -1,10 +1,10 @@
 { "translations": {
     "Comments" : "Hozzászólások",
-    "New comment …" : "Új hozzászólás...",
+    "Edit comment" : "Hozzászólás szerkesztése",
     "Delete comment" : "Hozzászólás törlése",
+    "New comment …" : "Új hozzászólás...",
     "Post" : "Küldés",
     "Cancel" : "Mégsem",
-    "Edit comment" : "Hozzászólás szerkesztése",
     "[Deleted user]" : "[Törölt felhasználó]",
     "No comments yet, start the conversation!" : "Még nincsenek hozzászólások, kezdd el a beszélgetést!",
     "More comments …" : "Több hozzászólás...",

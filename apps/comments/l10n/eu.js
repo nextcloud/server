@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Iruzkinak",
-    "New comment …" : "Iruzkin berria...",
+    "Edit comment" : "Iruzkina editatu",
     "Delete comment" : "Ezabatu iruzkina",
+    "New comment …" : "Iruzkin berria...",
     "Post" : "Bidali",
     "Cancel" : "Utzi",
-    "Edit comment" : "Iruzkina editatu",
     "[Deleted user]" : "[Deleted user]",
     "No comments yet, start the conversation!" : "Oraindik ez dago iruzkinik, izan zaitez lehena zerbait esanez!",
     "More comments …" : "Iruzkin gehiago...",

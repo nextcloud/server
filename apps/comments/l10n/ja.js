@@ -2,11 +2,11 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "コメント",
-    "New comment …" : "新しいコメント...",
+    "Edit comment" : "コメントを編集",
     "Delete comment" : "コメントを削除",
+    "New comment …" : "新しいコメント...",
     "Post" : "追加",
     "Cancel" : "キャンセル",
-    "Edit comment" : "コメントを編集",
     "[Deleted user]" : "[削除済みユーザー]",
     "No comments yet, start the conversation!" : "まだコメントはありません、会話を開始してください！",
     "More comments …" : "その他のコメント...",
