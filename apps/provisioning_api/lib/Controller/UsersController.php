@@ -198,6 +198,7 @@ class UsersController extends AUserData {
 	 * @param array $groups
 	 * @param array $subadmins
 	 * @param string $quota
+	 * @param string $language
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
@@ -207,7 +208,7 @@ class UsersController extends AUserData {
 							array $groups = [],
 							array $subadmin = [],
 							string $quota = '',
-							string $language = 'en'): DataResponse {
+							string $language = ''): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
