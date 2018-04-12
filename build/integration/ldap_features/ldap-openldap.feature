@@ -17,6 +17,17 @@ Feature: LDAP
       | email | alice@nextcloud.ci |
       | displayname | Alice |
 
+  Scenario: Look for a expected LDAP users
+    Given having a valid LDAP configuration
+    And modify LDAP configuration
+      | ldapExpertUsernameAttr | uid |
+    And As an "admin"
+    And sending "GET" to "/cloud/users"
+    Then the OCS status code should be "200"
+    And the "users" result should match
+      | alice | 1 |
+      | ghost | 0 |
+
   Scenario: Test group filter with one specific group
     Given having a valid LDAP configuration
     And modify LDAP configuration
@@ -25,7 +36,7 @@ Feature: LDAP
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"
-    And the group result should
+    And the "groups" result should match
       | RedGroup     | 1 |
       | GreenGroup   | 0 |
       | BlueGroup    | 0 |
@@ -39,7 +50,7 @@ Feature: LDAP
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"
-    And the group result should
+    And the "groups" result should match
       | RedGroup     | 1 |
       | GreenGroup   | 1 |
       | BlueGroup    | 0 |
@@ -53,7 +64,7 @@ Feature: LDAP
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"
-    And the group result should
+    And the "groups" result should match
       | RedGroup     | 1 |
       | GreenGroup   | 1 |
       | BlueGroup    | 1 |

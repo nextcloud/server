@@ -141,17 +141,16 @@ class LDAPContext implements Context {
 	}
 
 	/**
-	 * @Given /^the group result should$/
+	 * @Given /^the "([^"]*)" result should match$/
 	 */
-	public function theGroupResultShould(TableNode $expectations) {
-		$listReturnedGroups = simplexml_load_string($this->response->getBody())->data[0]->groups[0]->element;
-		$extractedGroupsArray = json_decode(json_encode($listReturnedGroups), 1);
-
-		foreach($expectations->getRows() as $groupExpectation) {
-			if((int)$groupExpectation[1] === 1) {
-				PHPUnit_Framework_Assert::assertContains($groupExpectation[0], $extractedGroupsArray);
+	public function theGroupResultShouldMatch(string $type, TableNode $expectations) {
+		$listReturnedElements = simplexml_load_string($this->response->getBody())->data[0]->$type[0]->element;
+		$extractedIDsArray = json_decode(json_encode($listReturnedElements), 1);
+		foreach($expectations->getRows() as $expectation) {
+			if((int)$expectation[1] === 1) {
+				PHPUnit_Framework_Assert::assertContains($expectation[0], $extractedIDsArray);
 			} else {
-				PHPUnit_Framework_Assert::assertNotContains($groupExpectation[0], $extractedGroupsArray);
+				PHPUnit_Framework_Assert::assertNotContains($expectation[0], $extractedIDsArray);
 			}
 		}
 	}
