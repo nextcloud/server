@@ -694,7 +694,8 @@ trait Provisioning {
 		];
 
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals("false", simplexml_load_string($this->response->getBody())->data[0]->enabled);
+		// false in xml is empty
+		PHPUnit_Framework_Assert::assertTrue(empty(simplexml_load_string($this->response->getBody())->data[0]->enabled));
 	}
 
 	/**
@@ -713,7 +714,8 @@ trait Provisioning {
 		];
 
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals("true", simplexml_load_string($this->response->getBody())->data[0]->enabled);
+		// boolean to string is integer
+		PHPUnit_Framework_Assert::assertEquals("1", simplexml_load_string($this->response->getBody())->data[0]->enabled);
 	}
 
 	/**
