@@ -206,8 +206,7 @@ class UsersController extends AUserData {
 							string $email = '',
 							array $groups = [],
 							array $subadmin = [],
-							string $quota = '',
-							string $language = 'en'): DataResponse {
+							string $quota = ''): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
@@ -278,10 +277,6 @@ class UsersController extends AUserData {
 
 			if ($quota !== '') {
 				$this->editUser($userid, 'quota', $quota);
-			}
-
-			if ($language !== '') {
-				$this->editUser($userid, 'language', $language);
 			}
 
 			// Send new user mail only if a mail is set
