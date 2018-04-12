@@ -42,15 +42,6 @@ use OCP\IL10N;
 use OC_Image;
 use OCP\ILogger;
 
-class Color {
-	public $r, $g, $b;
-	public function __construct($r, $g, $b) {
-		$this->r = $r;
-		$this->g = $g;
-		$this->b = $b;
-	}
-}
-
 /**
  * This class gets and sets users avatars.
  */
