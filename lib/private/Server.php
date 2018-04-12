@@ -847,7 +847,13 @@ class Server extends ServerContainer implements IServerContainer {
 				if (!($memcache instanceof \OC\Memcache\NullCache)) {
 					return new MemcacheLockingProvider($memcache, $ttl);
 				}
-				return new DBLockingProvider($c->getDatabaseConnection(), $c->getLogger(), new TimeFactory(), $ttl);
+				return new DBLockingProvider(
+					$c->getDatabaseConnection(),
+					$c->getLogger(),
+					new TimeFactory(),
+					$ttl,
+					!\OC::$CLI
+				);
 			}
 			return new NoopLockingProvider();
 		});

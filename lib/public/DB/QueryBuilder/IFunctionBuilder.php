@@ -80,4 +80,20 @@ interface IFunctionBuilder {
 	 * @since 14.0.0
 	 */
 	public function lower($field);
+
+	/**
+	 * @param mixed $x The first input field or number
+	 * @param mixed $y The second input field or number
+	 * @return IQueryFunction
+	 * @since 14.0.0
+	 */
+	public function add($x, $y);
+
+	/**
+	 * @param mixed $x The first input field or number
+	 * @param mixed $y The second input field or number
+	 * @return IQueryFunction
+	 * @since 14.0.0
+	 */
+	public function subtract($x, $y);
 }

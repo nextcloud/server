@@ -21,6 +21,7 @@
 namespace Test\DB\QueryBuilder;
 
 use OC\DB\QueryBuilder\Literal;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use Test\TestCase;
 
 /**
@@ -88,5 +89,25 @@ class FunctionBuilderTest extends TestCase {
 			->setMaxResults(1);
 
 		$this->assertEquals('foobar', $query->execute()->fetchColumn());
+	}
+
+	public function testAdd() {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->add($query->createNamedParameter(2, IQueryBuilder::PARAM_INT), new Literal(1)));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$this->assertEquals(3, $query->execute()->fetchColumn());
+	}
+
+	public function testSubtract() {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->subtract($query->createNamedParameter(2, IQueryBuilder::PARAM_INT), new Literal(1)));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$this->assertEquals(1, $query->execute()->fetchColumn());
 	}
 }
