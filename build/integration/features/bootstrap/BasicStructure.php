@@ -497,4 +497,11 @@ trait BasicStructure {
 			$file->isDir() ? rmdir($file) : unlink($file);
 		}
 	}
+
+	/**
+	 * @Given /^cookies are reset$/
+	 */
+	public function cookiesAreReset() {
+		$this->cookieJar = new CookieJar();
+	}
 }

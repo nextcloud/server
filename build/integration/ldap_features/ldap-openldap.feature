@@ -8,6 +8,30 @@ Feature: LDAP
     And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
+  Scenario: Test valid configuration with port in the hostname by logging in
+    Given modify LDAP configuration
+      | ldapHost | openldap:389 |
+    And cookies are reset
+    And Logging in using web as "alice"
+    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    Then the HTTP status code should be "200"
+
+  Scenario: Test valid configuration with LDAP protocol by logging in
+    Given modify LDAP configuration
+      | ldapHost | ldap://openldap |
+    And cookies are reset
+    And Logging in using web as "alice"
+    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    Then the HTTP status code should be "200"
+
+  Scenario: Test valid configuration with LDAP protoccol and port by logging in
+    Given modify LDAP configuration
+      | ldapHost | ldap://openldap:389 |
+    And cookies are reset
+    And Logging in using web as "alice"
+    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    Then the HTTP status code should be "200"
+
   Scenario: Look for a known LDAP user
     Given As an "admin"
     And sending "GET" to "/cloud/users?search=alice"
