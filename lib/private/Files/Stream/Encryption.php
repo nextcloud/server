@@ -195,9 +195,11 @@ class Encryption extends Wrapper {
 	protected static function wrapSource($source, $context, $protocol, $class, $mode = 'r+') {
 		try {
 			stream_wrapper_register($protocol, $class);
-			if (@rewinddir($source) === false) {
+			$meta=stream_get_meta_data($source);
+			if (!$meta['stream_type']=='dir') {
 				$wrapped = fopen($protocol . '://', $mode, false, $context);
 			} else {
+				rewinddir($source);
 				$wrapped = opendir($protocol . '://', $context);
 			}
 		} catch (\BadMethodCallException $e) {
