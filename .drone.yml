@@ -572,6 +572,16 @@ pipeline:
       when:
         matrix:
           TESTS: integration-ldap-openldap-features
+  integration-ldap-openldap-uid-features:
+        image: nextcloudci/integration-php7.0:integration-php7.0-6
+        commands:
+          - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+          - ./occ app:enable user_ldap
+          - cd build/integration
+          - ./run.sh ldap_features/openldap-uid-username.feature
+        when:
+          matrix:
+            TESTS: integration-ldap-openldap-uid-features
   integration-trashbin:
     image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
@@ -839,6 +849,8 @@ matrix:
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
     - TESTS: integration-ldap-openldap-features
+      ENABLE_OPENLDAP: true
+    - TESTS: integration-ldap-openldap-uid-features
       ENABLE_OPENLDAP: true
     - TESTS: integration-trashbin
     - TESTS: integration-remote-api
