@@ -11,7 +11,7 @@ Vue.prototype.t = t;
 Vue.prototype.OC = OC;
 Vue.prototype.oc_userconfig = oc_userconfig;
 
-const app = new Vue({
+window.app = new Vue({
 	router,
 	store,
 	render: h => h(App)

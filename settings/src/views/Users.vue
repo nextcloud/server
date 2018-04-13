@@ -24,7 +24,7 @@
 				</div>
 			</template>
 		</app-navigation>
-		<user-list :users="users" :showConfig="showConfig" />
+		<user-list :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" />
 	</div>
 </template>
 
@@ -37,6 +37,7 @@ Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Users',
+	props: ['selectedGroup'],
 	components: {
 		appNavigation,
 		userList

@@ -114,7 +114,7 @@ import Vue from 'vue';
 
 export default {
 	name: 'userList',
-	props: ['users', 'showConfig'],
+	props: ['users', 'showConfig', 'selectedGroup'],
 	components: {
 		userRow,
 		Multiselect,
@@ -191,19 +191,6 @@ export default {
 		},
 		usersLimit() {
 			return this.$store.getters.getUsersLimit;
-		},
-		// get selected hash
-		selectedGroup() {
-			let hash = this.$route.hash;
-			if (typeof hash === 'string' && hash.length > 0) {
-				// we have a valid hash: groupXXXX
-				// group_XXXX are reserved groups
-				let split = hash.split('group');
-				if (split.length === 2 && split[1].charAt(0) !== '_') {
-					return hash.split('group')[1];
-				}
-			}
-			return '';
 		},
 
 		/* LANGUAGES */

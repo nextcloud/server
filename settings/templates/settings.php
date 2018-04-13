@@ -21,7 +21,6 @@ style('settings', 'settings');
 
 // Did we have some data to inject ?
 if(is_array($_['serverData'])) {
-	$serverData = json_encode($_['serverData']);
 ?>
-<span id="serverData" data-server="<?php p($serverData);?>"></span>
+<span id="serverData" data-server="<?php p(json_encode($_['serverData']));?>"></span>
 <?php } ?>
