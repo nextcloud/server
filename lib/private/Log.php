@@ -37,6 +37,7 @@ namespace OC;
 
 use InterfaSys\LogNormalizer\Normalizer;
 
+use OC\Log\ExceptionSerializer;
 use OC\Log\File;
 use OCP\ILogger;
 use OCP\Support\CrashReport\IRegistry;
@@ -67,50 +68,6 @@ class Log implements ILogger {
 
 	/** @var IRegistry */
 	private $crashReporters;
-
-	protected $methodsWithSensitiveParameters = [
-		// Session/User
-		'completeLogin',
-		'login',
-		'checkPassword',
-		'checkPasswordNoLogging',
-		'loginWithPassword',
-		'updatePrivateKeyPassword',
-		'validateUserPass',
-		'loginWithToken',
-		'{closure}',
-
-		// TokenProvider
-		'getToken',
-		'isTokenPassword',
-		'getPassword',
-		'decryptPassword',
-		'logClientIn',
-		'generateToken',
-		'validateToken',
-
-		// TwoFactorAuth
-		'solveChallenge',
-		'verifyChallenge',
-
-		// ICrypto
-		'calculateHMAC',
-		'encrypt',
-		'decrypt',
-
-		// LoginController
-		'tryLogin',
-		'confirmPassword',
-
-		// LDAP
-		'bind',
-		'areCredentialsValid',
-		'invokeLDAPMethod',
-
-		// Encryption
-		'storeKeyPair',
-		'setupUser',
-	];
 
 	/**
 	 * @param string $logger The logger that should be used
@@ -324,56 +281,6 @@ class Log implements ILogger {
 		return min($this->config->getValue('loglevel', Util::WARN), Util::FATAL);
 	}
 
-	private function filterTrace(array $trace) {
-		$sensitiveValues = [];
-		$trace = array_map(function (array $traceLine) use (&$sensitiveValues) {
-			foreach ($this->methodsWithSensitiveParameters as $sensitiveMethod) {
-				if (strpos($traceLine['function'], $sensitiveMethod) !== false) {
-					$sensitiveValues = array_merge($sensitiveValues, $traceLine['args']);
-					$traceLine['args'] = ['*** sensitive parameters replaced ***'];
-					return $traceLine;
-				}
-			}
-			return $traceLine;
-		}, $trace);
-		return array_map(function (array $traceLine) use ($sensitiveValues) {
-			$traceLine['args'] = $this->removeValuesFromArgs($traceLine['args'], $sensitiveValues);
-			return $traceLine;
-		}, $trace);
-	}
-
-	private function removeValuesFromArgs($args, $values) {
-		foreach($args as &$arg) {
-			if (in_array($arg, $values, true)) {
-				$arg = '*** sensitive parameter replaced ***';
-			} else if (is_array($arg)) {
-				$arg = $this->removeValuesFromArgs($arg, $values);
-			}
-		}
-		return $args;
-	}
-
-	private function serializeException(\Throwable $exception) {
-		$data = [
-			'Exception' => get_class($exception),
-			'Message' => $exception->getMessage(),
-			'Code' => $exception->getCode(),
-			'Trace' => $this->filterTrace($exception->getTrace()),
-			'File' => $exception->getFile(),
-			'Line' => $exception->getLine(),
-		];
-
-		if ($exception instanceof HintException) {
-			$data['Hint'] = $exception->getHint();
-		}
-
-		if ($exception->getPrevious()) {
-			$data['Previous'] = $this->serializeException($exception->getPrevious());
-		}
-
-		return $data;
-	}
-
 	/**
 	 * Logs an exception very detailed
 	 *
@@ -386,7 +293,8 @@ class Log implements ILogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? Util::ERROR;
 
-		$data = $this->serializeException($exception);
+		$serializer = new ExceptionSerializer();
+		$data = $serializer->serializeException($exception);
 		$data['CustomMessage'] = $context['message'] ?? '--';
 
 		$minLevel = $this->getLogLevel($context);
