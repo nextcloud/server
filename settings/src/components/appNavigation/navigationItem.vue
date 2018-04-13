@@ -5,7 +5,10 @@
 		<div v-if="item.bullet" class="app-navigation-entry-bullet" :style="{ backgroundColor: item.bullet }"></div>
 
 		<!-- Main link -->
-		<a :href="(item.href) ? item.href : '#' " @click="toggleCollapse" :class="item.icon" >{{item.text}}</a>
+		<a :href="(item.href) ? item.href : '#' " @click="toggleCollapse" :class="item.icon" >
+			<img v-if="item.iconUrl" :alt="item.text" :src="item.iconUrl">
+			{{item.text}}
+		</a>
 
 		<!-- Popover, counter and button(s) -->
 		<div v-if="item.utils" class="app-navigation-entry-utils">
