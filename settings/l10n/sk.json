@@ -102,6 +102,7 @@
     "Error while disabling broken app" : "Nastala chyba počas zakazovania poškodenej aplikácie",
     "App up to date" : "Aplikácia je aktuálna",
     "Updating …" : "Aktualizuje sa...",
+    "Could not update app" : "Nemožno aktualizovať aplikáciu.",
     "Updated" : "Aktualizované",
     "Removing …" : "Odstraňujem ...",
     "Could not remove app" : "Aplikáciu nie je možné zmazať",
@@ -372,14 +373,20 @@
     "Personal info" : "Osobné informácie",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Ticks section and the documentation for more information." : "Z hľadiska bezpečnosti a výkonu Vašej inštalácie je dôležité, že všetko je správne nastavené. Robíme automatickú kontrolu, ktorá Vám s tým pomáha. Pre ďalšie informácie nahliadnite do sekcie Tipy a triky a do dokumentácie.",
     "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP nie je správne nastavené pre zobrazovanie systémových premenných. Príkaz getenv(\"PATH\") vracia iba prázdnu odpoveď.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je zaregistrovaná v službe WebCron a zavolá cron.php každých 15 minút cez http.",
+    "Desktop client" : "Desktopový klient",
     "Android app" : "Android aplikácia",
     "iOS app" : "iOS aplikácia",
     "Show First Run Wizard again" : "Znova zobraz Sprievodcu prvým spustením",
     "App passwords" : "Heslá aplikácie",
     "Follow us on Google+!" : "Sledujte nás na Google+!",
+    "Like our facebook page!" : "Sleduj nás na Facebook-u",
     "Follow us on Twitter!" : "Sledujte nás na Twitteri!",
+    "Check out our blog!" : "Pozri si náš blog!",
+    "Subscribe to our newsletter!" : "Prihlás sa na odber noviniek emailom!",
     "Show email address" : "Zobraziť emailovú adresu",
     "Send email to new user" : "Odoslať email novému používateľovi",
-    "Create" : "Vytvoriť"
+    "Create" : "Vytvoriť",
+    "Group name" : "Názov skupiny"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }
