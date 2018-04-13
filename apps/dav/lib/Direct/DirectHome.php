@@ -26,7 +26,6 @@ namespace OCA\DAV\Direct;
 
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;

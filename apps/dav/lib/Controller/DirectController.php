@@ -87,23 +87,28 @@ class DirectController extends OCSController {
 		}
 
 		$file = array_shift($files);
+		$storage = $file->getStorage();
+		$directDownload = $storage->getDirectDownload($file->getInternalPath());
 
-		//TODO: try to get a url from the backend (like S3)
+		if (isset($directDownload['url'])) {
+			$url = $directDownload['url'];
+		} else {
+			// Fallback to our default implemenation
+			$direct = new Direct();
+			$direct->setUserId($this->userId);
+			$direct->setFileId($fileId);
 
+			$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+			$direct->setToken($token);
+			$direct->setExpiration($this->timeFactory->getTime() + 60 * 60 * 8);
 
-		// Fallback to our default implemenation
-		$direct = new Direct();
-		$direct->setUserId($this->userId);
-		$direct->setFileId($fileId);
+			$this->mapper->insert($direct);
 
-		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
-		$direct->setToken($token);
-		$direct->setExpiration($this->timeFactory->getTime() + 60*60*8);
-
-		$this->mapper->insert($direct);
+			$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/'.$token);
+		}
 
 		return new DataResponse([
-			'url' => $this->urlGenerator->getAbsoluteURL('remote.php/direct/'.$token)
+			'url' => $url,
 		]);
 	}
 }
