@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,12 +22,18 @@
  *
  */
 
-return [
-	'routes' => [
-		['name' => 'birthday_calendar#enable', 'url' => '/enableBirthdayCalendar', 'verb' => 'POST'],
-		['name' => 'birthday_calendar#disable', 'url' => '/disableBirthdayCalendar', 'verb' => 'POST'],
-	],
-	'ocs' => [
-		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],
-	],
-];
+// no php execution timeout for webdav
+if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+	@set_time_limit(0);
+}
+ignore_user_abort(true);
+
+// Turn off output buffering to prevent memory problems
+\OC_Util::obEnd();
+
+$requestUri = \OC::$server->getRequest()->getRequestUri();
+
+$serverFactory = new \OCA\DAV\Direct\ServerFactory(\OC::$server->getConfig());
+$server = $serverFactory->createServer($baseuri, $requestUri);
+
+$server->exec();

@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,12 +22,30 @@
  *
  */
 
-return [
-	'routes' => [
-		['name' => 'birthday_calendar#enable', 'url' => '/enableBirthdayCalendar', 'verb' => 'POST'],
-		['name' => 'birthday_calendar#disable', 'url' => '/disableBirthdayCalendar', 'verb' => 'POST'],
-	],
-	'ocs' => [
-		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],
-	],
-];
+namespace OCA\DAV\Direct;
+
+use OCP\IConfig;
+
+class ServerFactory {
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
+
+	public function createServer(string $baseURI,
+								 string $requestURI) {
+		$home = new DirectHome(\OC::$server->getRootFolder());
+		$server = new Server($home);
+
+		$server->httpRequest->setUrl($requestURI);
+		$server->setBaseUri($baseURI);
+
+		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config));
+
+		return $server;
+
+
+	}
+}
