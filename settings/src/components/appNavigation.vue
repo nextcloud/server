@@ -1,5 +1,5 @@
 <template>
-	<div id="app-navigation">
+	<div id="app-navigation" :class="{'icon-loading': menu.loading}">
 		<div class="app-navigation-new" v-if="menu.new">
 			<button type="button" :id="menu.new.id" :class="menu.new.icon" @click="menu.new.action">{{menu.new.text}}</button>
 		</div>
