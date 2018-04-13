@@ -304,9 +304,13 @@ OC.L10N.register(
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID alebo e-mailovej adresy.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Sprístupniť iným ľuďom zadaním používateľa alebo skupiny, federatívneho cloud ID.",
     "Share with other people by entering a user or group or an email address." : "Sprístupniť iným ľuďom zadaním používateľa, skupiny alebo e-mailovej adresy.",
+    "This action requires you to confirm your password:" : "Táto akcia vyžaduje potvrdenie vášho hesla:",
     "Wrong password. Reset it?" : "Chybné heslo. Chcete ho obnoviť?",
     "Stay logged in" : "Zostať prihlásený",
     "Alternative Logins" : "Alternatívne prihlásenie",
-    "Alternative login using app token" : "Alternatívne prihlásenie pomocou tokenu aplikácie"
+    "Alternative login using app token" : "Alternatívne prihlásenie pomocou tokenu aplikácie",
+    "You are accessing the server from an untrusted domain." : "Pristupujete na server v nedôveryhodnej doméne.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pomoc nájdete v <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentácii</a>.",
+    "Back to log in" : "Späť na prihlásenie"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
