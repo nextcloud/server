@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Db;
 
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\IDBConnection;
 
@@ -31,5 +32,25 @@ class DirectMapper extends Mapper {
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'directlink', Direct::class);
+	}
+
+	public function getByToken(string $token): Direct {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from('directlink')
+			->where(
+				$qb->expr()->eq('token', $qb->createNamedParameter($token))
+			);
+
+		$cursor = $qb->execute();
+		$data = $cursor->fetch();
+		$cursor->closeCursor();
+
+		if ($data === false) {
+			throw new DoesNotExistException();
+		}
+
+		return Direct::fromRow($data);
 	}
 }

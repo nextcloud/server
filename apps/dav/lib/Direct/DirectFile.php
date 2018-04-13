@@ -24,16 +24,26 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Direct;
 
+use OCA\DAV\Db\Direct;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
 
 class DirectFile implements IFile {
+	/** @var Direct */
+	private $direct;
+
+	/** @var IRootFolder */
+	private $rootFolder;
+
 	/** @var File */
 	private $file;
 
-	public function __construct(File $file) {
-		$this->file = $file;
+	public function __construct(Direct $direct, IRootFolder $rootFolder) {
+		$this->direct = $direct;
+		$this->rootFolder = $rootFolder;
 	}
 
 	function put($data) {
@@ -41,30 +51,35 @@ class DirectFile implements IFile {
 	}
 
 	function get() {
-		// TODO: Implement get() method.
+		$this->getFile();
+
+		return $this->file->fopen('rb');
 	}
 
 	function getContentType() {
-		// TODO: Implement getContentType() method.
+		$this->getFile();
+
+		return $this->file->getMimeType();
 	}
 
 	function getETag() {
+		$this->getFile();
+
 		return $this->file->getEtag();
-		// TODO: Implement getETag() method.
 	}
 
 	function getSize() {
+		$this->getFile();
+
 		return $this->file->getSize();
-		// TODO: Implement getSize() method.
 	}
 
 	function delete() {
 		throw new Forbidden();
-		// TODO: Implement delete() method.
 	}
 
 	function getName() {
-		return $this->file->getName();
+		return $this->direct->getToken();
 	}
 
 	function setName($name) {
@@ -72,8 +87,26 @@ class DirectFile implements IFile {
 	}
 
 	function getLastModified() {
+		$this->getFile();
+
 		return $this->file->getMTime();
-		// TODO: Implement getLastModified() method.
+	}
+
+	private function getFile() {
+		if ($this->file === null) {
+			$userFolder = $this->rootFolder->getUserFolder($this->direct->getUserId());
+			$files = $userFolder->getById($this->direct->getFileId());
+
+			//TODO check expiration
+
+			if ($files === []) {
+				throw new NotFound();
+			}
+
+			$this->file = array_shift($files);
+		}
+
+		return $this->file;
 	}
 
 }

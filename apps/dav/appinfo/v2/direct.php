@@ -34,6 +34,11 @@ ignore_user_abort(true);
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 
 $serverFactory = new \OCA\DAV\Direct\ServerFactory(\OC::$server->getConfig());
-$server = $serverFactory->createServer($baseuri, $requestUri);
+$server = $serverFactory->createServer(
+	$baseuri,
+	$requestUri,
+	\OC::$server->getRootFolder(),
+	\OC::$server->query(\OCA\DAV\Db\DirectMapper::class)
+);
 
 $server->exec();

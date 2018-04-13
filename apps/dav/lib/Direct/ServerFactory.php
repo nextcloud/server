@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Direct;
 
+use OCA\DAV\Db\DirectMapper;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 
 class ServerFactory {
@@ -35,8 +37,10 @@ class ServerFactory {
 	}
 
 	public function createServer(string $baseURI,
-								 string $requestURI) {
-		$home = new DirectHome(\OC::$server->getRootFolder());
+								 string $requestURI,
+								 IRootFolder $rootFolder,
+								 DirectMapper $mapper) {
+		$home = new DirectHome($rootFolder, $mapper);
 		$server = new Server($home);
 
 		$server->httpRequest->setUrl($requestURI);

@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Direct;
 
+use OCA\DAV\Db\DirectMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use Sabre\DAV\Exception\Forbidden;
@@ -35,8 +37,12 @@ class DirectHome implements ICollection {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(IRootFolder $rootFolder) {
+	/** @var DirectMapper */
+	private $mapper;
+
+	public function __construct(IRootFolder $rootFolder, DirectMapper $mapper) {
 		$this->rootFolder = $rootFolder;
+		$this->mapper = $mapper;
 	}
 
 	function createFile($name, $data = null) {
@@ -47,8 +53,14 @@ class DirectHome implements ICollection {
 		throw new Forbidden();
 	}
 
-	function getChild($name) {
-		throw new NotFound();
+	public function getChild($name) {
+		try {
+			$direct = $this->mapper->getByToken($name);
+
+			return new DirectFile($direct, $this->rootFolder);
+		} catch (DoesNotExistException $e) {
+			throw new NotFound();
+		}
 	}
 
 	function getChildren() {
