@@ -29,6 +29,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
@@ -59,23 +60,14 @@ class DirectHome implements ICollection {
 
 			return new DirectFile($direct, $this->rootFolder);
 		} catch (DoesNotExistException $e) {
+			//TODO: throttle the ip to avoid brute forcing
+
 			throw new NotFound();
 		}
 	}
 
 	function getChildren() {
-		$adminFolder = $this->rootFolder->getUserFolder('admin');
-
-		$listing = $adminFolder->getDirectoryListing();
-
-		$res = [];
-		foreach ($listing as $file) {
-			if ($file instanceof File) {
-				$res[] = new DirectFile($file);
-			}
-		}
-
-		return $res;
+		throw new MethodNotAllowed('Listing members of this collection is disabled');
 	}
 
 	function childExists($name) {
