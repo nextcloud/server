@@ -29,7 +29,7 @@ use OCP\IDBConnection;
 
 class DirectMapper extends Mapper {
 
-	public function __construct(IDBConnection $db, string $tableName, string $entityClass = null) {
+	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'directlink', Direct::class);
 	}
 }

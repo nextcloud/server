@@ -24,12 +24,16 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
+use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IRootFolder;
-use OCP\IDBConnection;
 use OCP\IRequest;
-use OCP\IUserManager;
+use OCP\IURLGenerator;
+use OCP\Security\ISecureRandom;
 
 class DirectController extends OCSController {
 
@@ -42,20 +46,64 @@ class DirectController extends OCSController {
 	/** @var DirectMapper */
 	private $mapper;
 
+	/** @var ISecureRandom */
+	private $random;
+
+	/** @var ITimeFactory */
+	private $timeFactory;
+
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 
 	public function __construct(string $appName,
 								IRequest $request,
 								IRootFolder $rootFolder,
 								string $userId,
-								DirectMapper $mapper) {
+								DirectMapper $mapper,
+								ISecureRandom $random,
+								ITimeFactory $timeFactory,
+								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
 		$this->userId = $userId;
 		$this->mapper = $mapper;
+		$this->random = $random;
+		$this->timeFactory = $timeFactory;
+		$this->urlGenerator = $urlGenerator;
 	}
 
-	public function getUrl(int $fileId) {
+	/**
+	 * @NoAdminRequired
+	 */
+	public function getUrl(int $fileId): DataResponse {
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
+		$files = $userFolder->getById($fileId);
+
+		if ($files === []) {
+			throw new OCSNotFoundException();
+		}
+
+		$file = array_shift($files);
+
+		//TODO: try to get a url from the backend (like S3)
+
+
+		// Fallback to our default implemenation
+		$direct = new Direct();
+		$direct->setUserId($this->userId);
+		$direct->setFileId($fileId);
+
+		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$direct->setToken($token);
+		$direct->setExpiration($this->timeFactory->getTime() + 60*60*8);
+
+		$this->mapper->insert($direct);
+
+		return new DataResponse([
+			'url' => $this->urlGenerator->getAbsoluteURL('remote.php/direct/'.$token)
+		]);
 	}
 }
