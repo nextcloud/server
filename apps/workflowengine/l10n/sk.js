@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Nie je možné načítať zoznam skupín",
     "Saved" : "Uložené",
     "Saving failed:" : "Ukladanie neúspešné:",
     "File MIME type" : "MIME typ súboru",
