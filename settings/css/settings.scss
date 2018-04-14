@@ -1263,13 +1263,13 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		/* Hack to override the javascript orderBy */
 		#usergrouplist > li {
 			order: 4;
-			&#_everyone {
+			&#everyone {
 				order:1;
 			}
 			&#admin {
 				order:2;
 			}
-			&#_disabled {
+			&#disabled {
 				order:3;
 			}
 		}

@@ -37,6 +37,8 @@ export default {
 	 *			.then((response) => {API success})
 	 *			.catch((error) => {throw error;});
 	 *	}).catch((error) => {requireAdmin OR API failure});
+	 * 
+	 * @returns {Promise}
 	 */
 	requireAdmin() {
 		return new Promise(function(resolve, reject) {

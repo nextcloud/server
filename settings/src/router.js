@@ -15,14 +15,14 @@ Vue.use(Router);
 
 export default new Router({
 	mode: 'history',
-	base: window.location.pathname,
-	parseQuery: function(query) {console.log(query);},
 	routes: [{
-		path: '/settings/users',
+		path: '(/index.php)?/settings/users',
 		component: Users,
 		props: true,
+		name: 'users',
 		children: [{
 			  path: ':selectedGroup',
+			  name: 'group',
 			  component: Users
 			},
 		]

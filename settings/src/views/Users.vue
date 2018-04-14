@@ -129,17 +129,21 @@ export default {
 			groups = groups.map(group => {
 				let item = {};
 				item.id = group.id.replace(' ', '_');
-				item.classes = [];
-				item.href = '#group'+group.id.replace(' ', '_');
-				item.text = group.name;
-				item.utils = {counter: group.usercount};
-				if (item.id !== 'admin' && item.id !== '_disabled') {
-					// add delete button
+				item.classes = [];							// empty classes, active will be set later
+				item.router = {								// router link to
+					name: 'group',
+					params: {selectedGroup: group.id}
+				};
+				item.text = group.name;						// group name
+				item.utils = {counter: group.usercount};	// users count
+
+				if (item.id !== 'admin' && item.id !== 'disabled') {
+					// add delete button on real groups
 					let self = this;
 					item.utils.actions = [{
 						icon: 'icon-delete',
 						text: t('settings', 'Remove group'),
-						action: function(){}
+						action: () => {}
 					}];
 				};
 				return item;
@@ -147,28 +151,29 @@ export default {
 
 			// Adjust data
 			let adminGroup = groups.find(group => group.id == 'admin');
-	   		let disabledGroup = groups.find(group => group.id == '_disabled');
+			   let disabledGroupIndex = groups.findIndex(group => group.id == 'disabled');
+			   let disabledGroup = groups[disabledGroupIndex];
 			if (adminGroup.text) {
 				adminGroup.text = t('settings', 'Admins'); // rename admin group
 			}
 			if (disabledGroup.text) {
 				disabledGroup.text = t('settings', 'Disabled users'); // rename disabled group
 				if (disabledGroup.utils.counter === 0) {
-					groups.splice(groups.findIndex(group => group.id == '_disabled'), 1); // remove disabled if empty
+					groups.splice(disabledGroupIndex, 1); // remove disabled if empty
 				}
 			}
 
 			// Add everyone group
 			groups.unshift({
-				id: '_everyone',
+				id: 'everyone',
 				classes: [],
-				href:'#group_everyone',
+				router: {name:'users'},
 				text: t('settings', 'Everyone'),
 				utils: {counter: this.userCount}
 			});
 
 			// Set current group as active
-			let activeGroup = groups.findIndex(group => group.href === this.$route.hash);
+			let activeGroup = groups.findIndex(group => group.id === this.selectedGroup);
 			if (activeGroup >= 0) {
 				groups[activeGroup].classes.push('active');
 			} else {

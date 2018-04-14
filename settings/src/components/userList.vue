@@ -156,11 +156,11 @@ export default {
 			return this.$store.getters.getServerData;
 		},
 		filteredUsers() {
-			if (this.$route.hash === '#group_disabled') {
+			if (this.selectedGroup === 'disabled') {
 				let disabledUsers = this.users.filter(user => user.enabled !== true);
 				if (disabledUsers.length===0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
 					// disabled group is empty, redirection to all users
-					window.location.hash = '#group_everyone';
+					this.$router.push('users');
 					this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
 				}
 				return disabledUsers;
@@ -169,7 +169,7 @@ export default {
 		},
 		groups() {
 			// data provided php side + remove the disabled group
-			return this.$store.getters.getGroups.filter(group => group.id !== '_disabled');
+			return this.$store.getters.getGroups.filter(group => group.id !== 'disabled');
 		},
 		subAdminsGroups() {
 			// data provided php side

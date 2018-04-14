@@ -170,15 +170,16 @@ class UsersController extends Controller {
 	public function usersListByGroup() {
 		return $this->usersList();
 	}
-		/**
-		 * @NoCSRFRequired
-		 * @NoAdminRequired
-		 * 
-		 * Display users list template
-		 * 
-		 * @return TemplateResponse
-		 */
-		public function usersList() {
+
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * 
+	 * Display users list template
+	 * 
+	 * @return TemplateResponse
+	 */
+	public function usersList() {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
 
@@ -243,7 +244,7 @@ class UsersController extends Controller {
 		
 		$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsers();
 		$disabledUsersGroup = [
-			'id' => '_disabled',
+			'id' => 'disabled',
 			'name' => 'Disabled users',
 			'usercount' => $disabledUsers
 		];
@@ -261,10 +262,9 @@ class UsersController extends Controller {
 		\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
 		
 		/* TOTAL USERS COUNT */
-		function addition($v, $w) {
-			return $v+$w;
-		}
-		$userCount = array_reduce($this->userManager->countUsers(), 'addition', 0);
+		$userCount = array_reduce($this->userManager->countUsers(), function($v, $w) {
+			return $v + (int)$w;
+		}, 0);
 		
 		/* LANGUAGES */
 		$languages = $this->l10nFactory->getLanguages();

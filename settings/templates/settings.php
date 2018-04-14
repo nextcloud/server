@@ -10,10 +10,8 @@
  * then serve this file as template and include your data into
  * the $serverData template variable
  *
- * $tmpl = new OC_Template('settings', 'settings', 'user');
- * $tmpl->assign('serverData', $serverData);
- * $tmpl->printPage();
-
+ * return new TemplateResponse('settings', 'settings', ['serverData' => $serverData]);
+ * 
  */
 
 script('settings', 'main');
