@@ -38,16 +38,22 @@ const mutations = {
 		state.userCount = userCount;
 		state.groups = orderGroups(state.groups, state.orderBy);
 	},
-	addGroup(state, groupid) {
+	addGroup(state, gid) {
 		try {
 			state.groups.push({
-				id: groupid,
-				name: groupid,
+				id: gid,
+				name: gid,
 				usercount: 0 // user will be added after the creation
 			});
 			state.groups = orderGroups(state.groups, state.orderBy);
 		} catch (e) {
 			console.log('Can\'t create group', e);
+		}
+	},
+	removeGroup(state, gid) {
+		let groupIndex = state.groups.findIndex(groupSearch => groupSearch.id == gid);
+		if (groupIndex >= 0) {
+			state.groups.splice(groupIndex, 1);
 		}
 	},
 	addUserGroup(state, { userid, gid }) {
@@ -144,7 +150,7 @@ const actions = {
 	 * @param {int} options.limit List number to return from offset
 	 * @param {string} options.search Search amongst users
 	 * @param {string} options.group Get users from group
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	getUsers(context, { offset, limit, search, group }) {
 		search = typeof search === 'string' ? search : '';
@@ -179,7 +185,7 @@ const actions = {
 	 * @param {Object} options
 	 * @param {int} options.offset List offset to request
 	 * @param {int} options.limit List number to return from offset
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	getUsersFromList(context, { offset, limit, search }) {
 		search = typeof search === 'string' ? search : '';
@@ -201,7 +207,7 @@ const actions = {
 	 * @param {Object} options
 	 * @param {int} options.offset List offset to request
 	 * @param {int} options.limit List number to return from offset
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	getUsersFromGroup(context, { groupid, offset, limit }) {
 		return api.get(OC.linkToOCS(`cloud/users/${groupid}/details?offset=${offset}&limit=${limit}`, 2))
@@ -221,7 +227,7 @@ const actions = {
 	 * 
 	 * @param {Object} context
 	 * @param {string} gid Group id
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	addGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
@@ -236,14 +242,14 @@ const actions = {
 	 * 
 	 * @param {Object} context
 	 * @param {string} gid Group id
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	removeGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
-			return api.post(OC.linkToOCS(`cloud/groups`, 2), {groupid: gid})
+			return api.delete(OC.linkToOCS(`cloud/groups/${gid}`, 2))
 				.then((response) => context.commit('removeGroup', gid))
 				.catch((error) => {throw error;});
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
+		}).catch((error) => context.commit('API_FAILURE', { gid, error }));
 	},
 
 	/**
@@ -253,7 +259,7 @@ const actions = {
 	 * @param {Object} options
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	addUserGroup(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
@@ -270,7 +276,7 @@ const actions = {
 	 * @param {Object} options
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	removeUserGroup(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
@@ -287,7 +293,7 @@ const actions = {
 	 * @param {Object} options
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	addUserSubAdmin(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
@@ -304,7 +310,7 @@ const actions = {
 	 * @param {Object} options
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	removeUserSubAdmin(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
@@ -319,7 +325,7 @@ const actions = {
 	 * 
 	 * @param {Object} context
 	 * @param {string} userid User id 
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	deleteUser(context, { userid }) {
 		return api.requireAdmin().then((response) => {
@@ -340,7 +346,7 @@ const actions = {
 	 * @param {string} options.groups User groups
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	addUser({context, dispatch}, { userid, password, email, groups, subadmin, quota, language }) {
 		return api.requireAdmin().then((response) => {
@@ -355,7 +361,7 @@ const actions = {
 	 * 
 	 * @param {Object} context
 	 * @param {string} userid User id 
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	addUserData(context, userid) {
 		return api.requireAdmin().then((response) => {
@@ -371,7 +377,7 @@ const actions = {
 	 * @param {Object} options
 	 * @param {string} options.userid User id
 	 * @param {boolean} options.enabled User enablement status
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	enableDisableUser(context, { userid, enabled = true }) {
 		let userStatus = enabled ? 'enable' : 'disable';
@@ -390,7 +396,7 @@ const actions = {
 	 * @param {string} options.userid User id
 	 * @param {string} options.key User field to edit
 	 * @param {string} options.value Value of the change
-	 * @returns Promise
+	 * @returns {Promise}
 	 */
 	setUserData(context, { userid, key, value }) {
 		let allowedEmpty = ['email', 'displayname'];

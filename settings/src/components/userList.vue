@@ -238,11 +238,14 @@ export default {
 		},
 
 		infiniteHandler($state) {
-			this.$store.dispatch('getUsers', {offset:this.usersOffset, limit:this.usersLimit, group:this.selectedGroup})
+			this.$store.dispatch('getUsers', {
+				offset: this.usersOffset,
+				limit: this.usersLimit,
+				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : ''})
 				.then((response) => {response?$state.loaded():$state.complete()});
 		},
 
-		resetForm () {
+		resetForm() {
 			// revert form to original state
 			Object.assign(this.newUser, this.$options.data.call(this).newUser);
 			this.loading = false;

@@ -3,6 +3,16 @@
 		<app-navigation :menu="menu">
 			<template slot="settings-content">
 				<div>
+					<p>{{t('settings', 'Default quota :')}}</p>
+					<multiselect :value="defaultQuota" :options="quotaOptions"
+								tag-placeholder="create" :placeholder="t('settings', 'Select default quota')"
+								label="label" track-by="id" class="multiselect-vue"
+								:allowEmpty="false" :taggable="true"
+								@tag="validateQuota" @input="setDefaultQuota">
+					</multiselect>
+
+				</div>
+				<div>
 					<input type="checkbox" id="showLanguages" class="checkbox"
 						   :checked="showLanguages" v-model="showLanguages">
 					<label for="showLanguages">{{t('settings', 'Show Languages')}}</label>
@@ -33,6 +43,10 @@ import appNavigation from '../components/appNavigation';
 import userList from '../components/userList';
 import Vue from 'vue';
 import VueLocalStorage from 'vue-localstorage'
+import Multiselect from 'vue-multiselect';
+import api from '../store/api';
+
+Vue.use(VueLocalStorage)
 Vue.use(VueLocalStorage)
 
 export default {
@@ -40,7 +54,8 @@ export default {
 	props: ['selectedGroup'],
 	components: {
 		appNavigation,
-		userList
+		userList,
+		Multiselect
 	},
 	beforeMount() {
 		this.$store.commit('initGroups', {
@@ -52,6 +67,8 @@ export default {
 	},
 	data() {
 		return {
+			// default quota is unlimited
+			unlimitedQuota: {id:'default', label:t('settings', 'Unlimited')},
 			showConfig: {
 				showStoragePath: false,
 				showUserBackend: false,
@@ -71,12 +88,53 @@ export default {
 			this.showConfig[key] = status;
 			this.$localStorage.set(key, status);
 			return status;
-		}
+		},
+		removeGroup(groupid) {
+			let self = this;
+			// TODO migrate to a vue js confirm dialog component 
+			OC.dialogs.confirm(
+				t('settings', 'You are about to remove the group {group}. The users will NOT be deleted.', {group: groupid}),
+				t('settings','Please confirm the group removal '),
+				function (success) {
+					if (success) {
+						self.$store.dispatch('removeGroup', groupid);
+					}
+				}
+			);
+		},
+
+		/**
+		 * Dispatch default quota set request
+		 * 
+		 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @returns {string}
+		 */
+		setDefaultQuota(quota = 'none') {
+			// ensure we only send the preset id
+			quota = quota.id ? quota.id : quota;
+			api.setAppConfig('files', 'default_quota', quota);
+		},
+
+		/**
+		 * Validate quota string to make sure it's a valid human file size
+		 * 
+		 * @param {string} quota Quota in readable format '5 GB'
+		 * @returns {Promise|boolean}
+		 */
+		validateQuota(quota) {
+			// only used for new presets sent through @Tag
+			let validQuota = OC.Util.computerFileSize(quota);
+			if (validQuota === 0) {
+				return this.setDefaultQuota('none');
+			} else if (validQuota !== null) {
+				// unify format output
+				return this.setDefaultQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)));
+			}
+			// if no valid do not change
+			return false;
+		},
 	},
 	computed: {
-		route() {
-			return this.$store.getters.getRoute;
-		},
 		users() {
 			return this.$store.getters.getUsers;
 		},
@@ -119,7 +177,28 @@ export default {
 		userCount() {
 			return this.$store.getters.getUserCount;
 		},
+		settings() {
+			return this.$store.getters.getServerData;
+		},
 
+		// default quota
+		quotaOptions() {
+			// convert the preset array into objects
+			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({id:cur, label:cur}), []);
+			// add default presets
+			quotaPreset.unshift(this.unlimitedQuota);
+			return quotaPreset;
+		},
+		// mapping saved values to objects
+		defaultQuota() {
+			if (OC.Util.computerFileSize(this.settings.defaultQuota) > 0) {
+				// if value is valid, let's map the quotaOptions or return custom quota
+				return {id:this.settings.defaultQuota, label:this.settings.defaultQuota};
+			}
+			return this.unlimitedQuota; // unlimited
+		},
+
+		// BUILD APP NAVIGATION MENU OBJECT
 		menu() {
 			// Data provided php side
 			let groups = this.$store.getters.getGroups;
@@ -143,7 +222,7 @@ export default {
 					item.utils.actions = [{
 						icon: 'icon-delete',
 						text: t('settings', 'Remove group'),
-						action: () => {}
+						action: function() {self.removeGroup(item.id)}
 					}];
 				};
 				return item;
@@ -192,10 +271,6 @@ export default {
 				items: groups
 			}
 		},
-		removeGroup(groupid) {
-			console.trace(this);
-			return this.$store.dispatch('removeGroup', groupid);
-		}
 	}
 }
 </script>

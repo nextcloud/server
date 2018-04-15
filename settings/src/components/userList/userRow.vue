@@ -413,7 +413,7 @@ export default {
 				// unify format output
 				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)));
 			}
-			// if no valid doo not change
+			// if no valid do not change
 			return false;
 		},
 

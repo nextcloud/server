@@ -12,7 +12,7 @@ const getters = {
 	getServerData(state) {
 		return state.serverData;
 	}
-}
-const actions = {}
+};
+const actions = {};
 
 export default {state, mutations, getters, actions};

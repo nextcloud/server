@@ -92,18 +92,18 @@ export default {
 		}
 	},
 	methods: {
-		showMenu () {
+		showMen() {
 			this.openedMenu = true;
 		},
-		hideMenu () {
+		hideMenu() {
 			this.openedMenu = false;
 		},
-		toggleCollapse () {
+		toggleCollapse() {
 			// if item.opened isn't set, Vue won't trigger view updates https://vuejs.org/v2/api/#Vue-set
 			// ternary is here to detect the undefined state of item.opened
 			Vue.set(this.item, 'opened', this.item.opened ? !this.item.opened : true);
 		},
-		cancelEdit () {
+		cancelEdit() {
 			// remove the editing class
 			if (Array.isArray(this.item.classes))
 				this.item.classes = this.item.classes.filter(item => item !== 'editing');

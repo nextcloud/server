@@ -5,7 +5,7 @@
 <script>
 export default {
 	name: 'App',
-	beforeMount: function () {
+	beforeMount: function() {
 		// importing server data into the store
 		const serverDataElmt = document.getElementById('serverData');
 		if (serverDataElmt !== null) {
