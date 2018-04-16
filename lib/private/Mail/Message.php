@@ -39,12 +39,12 @@ use Swift_Message;
 class Message implements IMessage {
 	/** @var Swift_Message */
 	private $swiftMessage;
+	/** @var bool */
+	private $plainTextOnly;
 
-	/**
-	 * @param Swift_Message $swiftMessage
-	 */
-	public function __construct(Swift_Message $swiftMessage) {
+	public function __construct(Swift_Message $swiftMessage, bool $plainTextOnly) {
 		$this->swiftMessage = $swiftMessage;
+		$this->plainTextOnly = $plainTextOnly;
 	}
 
 	/**
@@ -246,7 +246,9 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setHtmlBody($body) {
-		$this->swiftMessage->addPart($body, 'text/html');
+		if (!$this->plainTextOnly) {
+			$this->swiftMessage->addPart($body, 'text/html');
+		}
 		return $this;
 	}
 
@@ -264,7 +266,9 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setBody($body, $contentType) {
-		$this->swiftMessage->setBody($body, $contentType);
+		if (!$this->plainTextOnly || $contentType !== 'text/html') {
+			$this->swiftMessage->setBody($body, $contentType);
+		}
 		return $this;
 	}
 
@@ -275,7 +279,9 @@ class Message implements IMessage {
 	public function useTemplate(IEMailTemplate $emailTemplate): IMessage {
 		$this->setSubject($emailTemplate->renderSubject());
 		$this->setPlainBody($emailTemplate->renderText());
-		$this->setHtmlBody($emailTemplate->renderHtml());
+		if (!$this->plainTextOnly) {
+			$this->setHtmlBody($emailTemplate->renderHtml());
+		}
 		return $this;
 	}
 }
