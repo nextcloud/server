@@ -95,6 +95,11 @@ class MailerTest extends TestCase {
 	}
 
 	public function testCreateMessage() {
+		$this->config
+			->expects($this->any())
+			->method('getSystemValue')
+			->with('mail_send_plaintext_only', false)
+			->will($this->returnValue(false));
 		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
 	}
 
