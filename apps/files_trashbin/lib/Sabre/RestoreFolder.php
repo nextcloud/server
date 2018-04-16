@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -20,50 +21,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
-use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\IFile;
+use Sabre\DAV\ICollection;
+use Sabre\DAV\IMoveTarget;
+use Sabre\DAV\INode;
 
-class TrashFile implements IFile, ITrash {
+
+class RestoreFolder implements ICollection, IMoveTarget {
+
 	/** @var string */
-	private $userId;
+	protected $userId;
 
-	/** @var FileInfo */
-	private $data;
-
-	public function __construct(string $userId, FileInfo $data) {
+	public function __construct(string $userId) {
 		$this->userId = $userId;
-		$this->data = $data;
 	}
 
-	public function put($data) {
+	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
 
-	public function get() {
-		return $this->data->getStorage()->fopen($this->data->getInternalPath().'.d'.$this->getLastModified(), 'rb');
+	public function createDirectory($name) {
+		throw new Forbidden();
 	}
 
-	public function getContentType() {
-		return $this->data->getMimetype();
-	}
-
-	public function getETag() {
-		return $this->data->getEtag();
-	}
-
-	public function getSize() {
-		return $this->data->getSize();
+	public function getChild($name) {
+		return null;
 	}
 
 	public function delete() {
-		\OCA\Files_Trashbin\Trashbin::delete($this->data->getName(), $this->userId, $this->getLastModified());
+		throw new Forbidden();
 	}
 
 	public function getName() {
-		return $this->data->getName() . '.d' . $this->getLastModified();
+		return 'restore';
 	}
 
 	public function setName($name) {
@@ -71,11 +64,23 @@ class TrashFile implements IFile, ITrash {
 	}
 
 	public function getLastModified() {
-		return $this->data->getMtime();
+		return 0;
 	}
 
-	public function restore(): bool {
-		return \OCA\Files_Trashbin\Trashbin::restore($this->getName(), $this->data->getName(), $this->getLastModified());
+	public function getChildren() {
+		return [];
+	}
+
+	public function childExists($name) {
+		return false;
+	}
+
+	function moveInto($targetName, $sourcePath, INode $sourceNode) {
+		if (!($sourceNode instanceof ITrash)) {
+			return false;
+		}
+
+		return $sourceNode->restore();
 	}
 
 }

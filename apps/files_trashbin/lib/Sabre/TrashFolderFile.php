@@ -26,7 +26,7 @@ use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\IFile;
 
-class TrashFolderFile implements IFile {
+class TrashFolderFile implements IFile, ITrash {
 	/** @var string */
 	private $root;
 
@@ -76,6 +76,10 @@ class TrashFolderFile implements IFile {
 
 	public function getLastModified() {
 		return $this->data->getMtime();
+	}
+
+	public function restore(): bool {
+		return \OCA\Files_Trashbin\Trashbin::restore($this->root . '/' . $this->getName(), $this->data->getName(), null);
 	}
 
 }

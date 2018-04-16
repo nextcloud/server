@@ -67,6 +67,10 @@ class TrashHome implements ICollection {
 	public function getChild($name) {
 		list(,$userId) = \Sabre\Uri\split($this->principalInfo['uri']);
 
+		if ($name === 'restore') {
+			return new RestoreFolder($userId);
+		}
+
 		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $userId);
 
 		foreach ($entries as $entry) {
@@ -92,6 +96,8 @@ class TrashHome implements ICollection {
 			}
 			return new TrashFile($userId, $entry);
 		}, $entries);
+
+		$children[] = new RestoreFolder($userId);
 
 		return $children;
 	}
