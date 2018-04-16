@@ -33,10 +33,10 @@ class SqlInjectionCheckerPlugin extends PluginV2  implements AnalyzeNodeCapabili
 
 class SqlInjectionCheckerVisitor extends PluginAwareAnalysisVisitor  {
 
-	private function throwError() {
+	private function throwError(string $hint) {
 		$this->emit(
 			'SqlInjectionChecker',
-			'Potential SQL injection detected',
+			'Potential SQL injection detected - ' . $hint,
 			[],
 			\Phan\Issue::SEVERITY_CRITICAL
 		);
@@ -64,6 +64,8 @@ class SqlInjectionCheckerVisitor extends PluginAwareAnalysisVisitor  {
 			'createNamedParameter',
 			'createPositionalParameter',
 			'createParameter',
+			'createFunction',
+			'func',
 		];
 
 		$functionsToSearch = [
@@ -84,7 +86,7 @@ class SqlInjectionCheckerVisitor extends PluginAwareAnalysisVisitor  {
 							// For set actions
 							if(isset($node->children['method']) && in_array($node->children['method'], $functionsToSearch, true) && !is_string($subChild)) {
 								if(!isset($subChild->children['method']) || !in_array($subChild->children['method'], $safeFunctions, true)) {
-									$this->throwError();
+									$this->throwError('method: ' . ($subChild->children['method'] ?? 'no child method'));
 								}
 							}
 
@@ -115,7 +117,7 @@ class SqlInjectionCheckerVisitor extends PluginAwareAnalysisVisitor  {
 
 								// If it is an IParameter or a pure string no error is thrown
 								if((string)$expandedNode !== '\OCP\DB\QueryBuilder\IParameter' && !is_string($secondParameterNode)) {
-									$this->throwError();
+									$this->throwError('neither a parameter nor a string');
 								}
 							}
 						}
