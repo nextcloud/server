@@ -18,6 +18,12 @@ return array(
     'OCA\\Files_Trashbin\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Trashbin\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files_Trashbin\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Files_Trashbin\\Sabre\\RootCollection' => $baseDir . '/../lib/Sabre/RootCollection.php',
+    'OCA\\Files_Trashbin\\Sabre\\TrashFile' => $baseDir . '/../lib/Sabre/TrashFile.php',
+    'OCA\\Files_Trashbin\\Sabre\\TrashFolder' => $baseDir . '/../lib/Sabre/TrashFolder.php',
+    'OCA\\Files_Trashbin\\Sabre\\TrashFolderFile' => $baseDir . '/../lib/Sabre/TrashFolderFile.php',
+    'OCA\\Files_Trashbin\\Sabre\\TrashFolderFolder' => $baseDir . '/../lib/Sabre/TrashFolderFolder.php',
+    'OCA\\Files_Trashbin\\Sabre\\TrashHome' => $baseDir . '/../lib/Sabre/TrashHome.php',
     'OCA\\Files_Trashbin\\Storage' => $baseDir . '/../lib/Storage.php',
     'OCA\\Files_Trashbin\\Trashbin' => $baseDir . '/../lib/Trashbin.php',
 );
