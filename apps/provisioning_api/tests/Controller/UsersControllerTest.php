@@ -766,7 +766,7 @@ class UsersControllerTest extends TestCase {
 
 		$expected = [
 			'id' => 'UID',
-			'enabled' => 'true',
+			'enabled' => true,
 			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
@@ -881,7 +881,7 @@ class UsersControllerTest extends TestCase {
 
 		$expected = [
 			'id' => 'UID',
-			'enabled' => 'true',
+			'enabled' => true,
 			'storageLocation' => '/var/www/newtcloud/data/UID',
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
