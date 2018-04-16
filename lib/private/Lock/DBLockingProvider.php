@@ -210,6 +210,8 @@ class DBLockingProvider extends AbstractLockingProvider {
 	/**
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
+	 *
+	 * @suppress SqlInjectionChecker
 	 */
 	public function releaseLock(string $path, int $type) {
 		$this->markRelease($path, $type);
