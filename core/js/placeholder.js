@@ -112,7 +112,7 @@
 
 		// Convert a string to an integer evenly
 		function hashToInt(hash, maximum) {
-			var final = 0;
+			var finalInt = 0;
 			var result = Array();
 
 			// Splitting evenly the string
@@ -121,13 +121,13 @@
 				result.push(parseInt(hash.charAt(i), 16) % 16);
 			}
 			// Adds up all results
-			for (var i in result) {
-				final += result[i];
+			for (var j in result) {
+				finalInt += result[j];
 			}
 			// chars in md5 goes up to f, hex:16
-			return parseInt(final % maximum);
+			// make sure we're always using int in our operation
+			return parseInt(parseInt(finalInt) % maximum);
 		}
-
 		return finalPalette[hashToInt(hash, steps * 3 )];
 	};
 
