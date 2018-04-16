@@ -275,12 +275,9 @@ class Avatar implements IAvatar {
 		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
 
 		$fontSize = $size * 0.4;
-		$box = imagettfbbox($fontSize, 0, $font, $text);
 
-		$x = ($size - ($box[2] - $box[0])) / 2;
-		$y = ($size - ($box[1] - $box[7])) / 2;
-		$x += 1;
-		$y -= $box[7];
+		list($x, $y) = $this->imageTTFCenter($im, $text, $font, $fontSize);
+
 		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $text);
 
 		ob_start();
@@ -289,6 +286,35 @@ class Avatar implements IAvatar {
 		ob_end_clean();
 
 		return $data;
+	}
+
+	/**
+	 * Calculate real image ttf center
+	 *
+	 * @param resource $image
+	 * @param string $text text string
+	 * @param string $font font path
+	 * @param int $size font size
+	 * @param int $angle 
+	 * @return Array
+	 */
+	protected function imageTTFCenter($image, string $text, string $font, int $size, $angle = 0): Array {
+		// Image width & height
+		$xi = imagesx($image);
+		$yi = imagesy($image);
+
+		// bounding box
+		$box = imagettfbbox($size, $angle, $font, $text);
+
+		// imagettfbbox can return negative int
+		$xr = abs(max($box[2], $box[4]));
+		$yr = abs(max($box[5], $box[7]));
+
+		// calculate bottom left placement
+		$x = intval(($xi - $xr) / 2);
+		$y = intval(($yi + $yr) / 2);
+
+		return array($x, $y);
 	}
 
 	/**
