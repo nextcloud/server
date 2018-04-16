@@ -57,7 +57,7 @@
     "_%n folder_::_%n folders_" : ["%n Ordner","%n Ordner"],
     "_%n file_::_%n files_" : ["%n Datei","%n Dateien"],
     "{dirs} and {files}" : "{dirs} und {files}",
-    "_including %n hidden_::_including %n hidden_" : ["%n versteckten eingeschlossen","%n versteckten eingeschlossen"],
+    "_including %n hidden_::_including %n hidden_" : ["%n versteckte eingeschlossen","%n versteckte eingeschlossen"],
     "You don’t have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "_Uploading %n file_::_Uploading %n files_" : ["%n Datei wird hochgeladen","%n Dateien werden hochgeladen"],
     "New" : "Neu",
