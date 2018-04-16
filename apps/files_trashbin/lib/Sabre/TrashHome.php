@@ -44,7 +44,7 @@ class TrashHome implements ICollection {
 	}
 
 	public function delete() {
-		throw new Forbidden('Permission denied to delete your trashbin');
+		\OCA\Files_Trashbin\Trashbin::deleteAll();
 	}
 
 	public function getName(): string {
