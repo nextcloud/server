@@ -390,6 +390,18 @@ $CONFIG = array(
  */
 'mail_smtppassword' => '',
 
+/**
+ * Replaces the default mail template layout. This can be utilized if the
+ * options to modify the mail texts with the theming app is not enough.
+ * The class must extend  ``\OC\Mail\EMailTemplate``
+ */
+'mail_template_class' => '\OC\Mail\EMailTemplate',
+
+/**
+ * Email will be send by default with an HTML and a plain text body. This option
+ * allows to only send plain text emails.
+ */
+'mail_send_plaintext_only' => false,
 
 /**
  * Proxy Configurations
@@ -984,13 +996,6 @@ $CONFIG = array(
  * Defaults to ``\OC\SystemTag\ManagerFactory``
  */
 'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
-
-/**
- * Replaces the default mail template layout. This can be utilized if the
- * options to modify the mail texts with the theming app is not enough.
- * The class must extend  ``\OC\Mail\EMailTemplate``
- */
-'mail_template_class' => '\OC\Mail\EMailTemplate',
 
 /**
  * Maintenance

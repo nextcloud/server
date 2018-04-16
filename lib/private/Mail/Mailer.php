@@ -93,7 +93,8 @@ class Mailer implements IMailer {
 	 * @return IMessage
 	 */
 	public function createMessage(): IMessage {
-		return new Message(new \Swift_Message());
+		$plainTextOnly = $this->config->getSystemValue('mail_send_plaintext_only', false);
+		return new Message(new \Swift_Message(), $plainTextOnly);
 	}
 
 	/**
