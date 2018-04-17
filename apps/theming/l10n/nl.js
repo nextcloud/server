@@ -10,6 +10,7 @@ OC.L10N.register(
     "The given web address is too long" : "Het opgegeven internetadres is te lang",
     "The given slogan is too long" : "De opgegeven slagzin is te lang",
     "The given color is invalid" : "De opgegeven kleur is ongeldig",
+    "The file was uploaded" : "Het bestand werd geüpload",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Het geüploade bestand overschrijdt de upload_max_filesize richtlijn in php.ini:",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Het bestand overschrijdt de MAX_FILE_SIZE richtlijn die is opgegeven in het HTML formulier",
     "The file was only partially uploaded" : "Het bestand is slechts gedeeltelijk geüpload",
