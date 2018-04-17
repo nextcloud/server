@@ -877,10 +877,6 @@ span.version {
 }
 
 .section {
-	h2.app-name {
-		display: block;
-		margin: 8px 0;
-	}
 	margin-bottom: 0;
 	/* use 2nd child since app-navigation-toggle is the first */
 	&:not(:nth-child(2)) {
@@ -888,10 +884,13 @@ span.version {
 	}
 
 	/* correctly display help icons next to headings */
-	h2 .icon-info {
-		padding: 6px 20px;
-		vertical-align: text-bottom;
-		display: inline-block;
+	h2  {
+		margin-bottom: 22px;
+		.icon-info {
+			padding: 6px 20px;
+			vertical-align: text-bottom;
+			display: inline-block;
+		}
 	}
 }
 
