@@ -24,11 +24,12 @@
 namespace Test\Settings\Admin;
 
 use OC\Settings\Admin\Additional;
+use OC\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use Test\TestCase;
 
-class AdditionalTest extends TestCase {
+class MailTest extends TestCase {
 	/** @var Additional */
 	private $admin;
 	/** @var IConfig */
@@ -38,7 +39,7 @@ class AdditionalTest extends TestCase {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 
-		$this->admin = new Additional(
+		$this->admin = new Mail(
 			$this->config
 		);
 	}
