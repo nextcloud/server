@@ -153,6 +153,11 @@ input {
 		width: 100%;
 	}
 }
+#personal-settings {
+	.section {
+		border: 0;
+	}
+}
 
 #personal-settings {
 	display: grid;
