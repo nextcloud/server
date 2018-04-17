@@ -119,10 +119,10 @@ class MailTest extends TestCase {
 	}
 
 	public function testGetSection() {
-		$this->assertSame('additional', $this->admin->getSection());
+		$this->assertSame('server', $this->admin->getSection());
 	}
 
 	public function testGetPriority() {
-		$this->assertSame(0, $this->admin->getPriority());
+		$this->assertSame(10, $this->admin->getPriority());
 	}
 }
