@@ -100,6 +100,15 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				<?php } ?>
 			</form>
 		</div>
+		<div class="personal-settings-setting-box personal-settings-group-box">
+			<div id="groups" class="section">
+				<h2><?php p($l->t('Groups')); ?></h2>
+				<p><?php p($l->t('You are member of the following groups:')); ?></p>
+				<p id="groups-groups">
+					<strong><?php p(implode(', ', $_['groups'])); ?></strong>
+				</p>
+			</div>
+		</div>
 	</div>
 
 	<div class="personal-settings-container">
@@ -301,82 +310,71 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<?php } ?>
 	</div>
 
-	<div class="clear"></div>
-
-	<div id="personal-settings-group-container">
-		<div class="personal-settings-setting-box personal-settings-group-box">
-			<div id="groups" class="section">
-				<h2><?php p($l->t('Groups')); ?></h2>
-				<p><?php p($l->t('You are member of the following groups:')); ?></p>
-				<p id="groups-groups">
-				<strong><?php p(implode(', ', $_['groups'])); ?></strong>
-				</p>
-			</div>
-		</div>
-	</div>
-
 	<div class="profile-settings-container">
 		<div class="personal-settings-setting-box personal-settings-language-box">
 			<?php if (isset($_['activelanguage'])) { ?>
-			<form id="language" class="section">
-				<h2>
-					<label for="languageinput"><?php p($l->t('Language'));?></label>
-				</h2>
-				<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
-					<option value="<?php p($_['activelanguage']['code']);?>">
-						<?php p($_['activelanguage']['name']);?>
-					</option>
-					<?php foreach($_['commonlanguages'] as $language):?>
-						<option value="<?php p($language['code']);?>">
-							<?php p($language['name']);?>
+				<form id="language" class="section">
+					<h2>
+						<label for="languageinput"><?php p($l->t('Language'));?></label>
+					</h2>
+					<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
+						<option value="<?php p($_['activelanguage']['code']);?>">
+							<?php p($_['activelanguage']['name']);?>
 						</option>
-					<?php endforeach;?>
-					<optgroup label="––––––––––"></optgroup>
-					<?php foreach($_['languages'] as $language):?>
-						<option value="<?php p($language['code']);?>">
-							<?php p($language['name']);?>
-						</option>
-					<?php endforeach;?>
-				</select>
-				<a href="https://www.transifex.com/nextcloud/nextcloud/"
-					target="_blank" rel="noreferrer noopener">
-					<em><?php p($l->t('Help translate'));?></em>
-				</a>
-			</form>
+						<?php foreach($_['commonlanguages'] as $language):?>
+							<option value="<?php p($language['code']);?>">
+								<?php p($language['name']);?>
+							</option>
+						<?php endforeach;?>
+						<optgroup label="––––––––––"></optgroup>
+						<?php foreach($_['languages'] as $language):?>
+							<option value="<?php p($language['code']);?>">
+								<?php p($language['name']);?>
+							</option>
+						<?php endforeach;?>
+					</select>
+					<a href="https://www.transifex.com/nextcloud/nextcloud/"
+					   target="_blank" rel="noreferrer noopener">
+						<em><?php p($l->t('Help translate'));?></em>
+					</a>
+				</form>
 			<?php } ?>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-password-box">
 			<?php
 			if($_['passwordChangeSupported']) {
 				script('jquery-showpassword');
-			?>
-			<form id="passwordform" class="section">
-				<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-				<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
+				?>
+				<form id="passwordform" class="section">
+					<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
+					<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
 
-				<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
-				<input type="password" id="pass1" name="oldpassword"
-					placeholder="<?php p($l->t('Current password'));?>"
-					autocomplete="off" autocapitalize="none" autocorrect="off" />
+					<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
+					<input type="password" id="pass1" name="oldpassword"
+						   placeholder="<?php p($l->t('Current password'));?>"
+						   autocomplete="off" autocapitalize="none" autocorrect="off" />
 
-				<div class="personal-show-container">
-					<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
-					<input type="password" id="pass2" name="newpassword"
-						placeholder="<?php p($l->t('New password')); ?>"
-						data-typetoggle="#personal-show"
-						autocomplete="off" autocapitalize="none" autocorrect="off" />
-					<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
-				</div>
+					<div class="personal-show-container">
+						<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
+						<input type="password" id="pass2" name="newpassword"
+							   placeholder="<?php p($l->t('New password')); ?>"
+							   data-typetoggle="#personal-show"
+							   autocomplete="off" autocapitalize="none" autocorrect="off" />
+						<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
+					</div>
 
-				<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
+					<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
 
-			</form>
-			<?php
+				</form>
+				<?php
 			}
 			?>
 		</div>
 		<span class="msg"></span>
 	</div>
-</div>
 
-<div class="clear"></div>
+	<div id="personal-settings-group-container">
+
+	</div>
+
+</div>
