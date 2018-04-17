@@ -166,11 +166,11 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				$path = rtrim($parentPath, '/') . '/' . $info['name'];
 			}
 			$freeSpace = $this->getFreeSpace($path);
-			if ($freeSpace !== FileInfo::SPACE_UNKNOWN && $freeSpace !== FileInfo::SPACE_UNLIMITED && $length > $freeSpace) {
+			if ($freeSpace >= 0 && $length > $freeSpace) {
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
 				}
-				throw new InsufficientStorage();
+				throw new InsufficientStorage("Insufficient space in $path, $length required, $freeSpace available");
 			}
 		}
 		return true;
