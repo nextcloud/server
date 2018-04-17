@@ -9,6 +9,7 @@
 
 namespace Test;
 
+use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\IAppConfig;
 
@@ -591,6 +592,19 @@ class AppTest extends \Test\TestCase {
 	 */
 	public function testParseAppInfo(array $data, array $expected) {
 		$this->assertSame($expected, \OC_App::parseAppInfo($data));
+	}
+
+	public function testParseAppInfoL10N() {
+		$parser = new InfoParser();
+		$data = $parser->parse(\OC::$SERVERROOT. "/tests/data/app/description-multi-lang.xml");
+		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
+		$this->assertEquals('German', \OC_App::parseAppInfo($data, 'de')['description']);
+	}
+
+	public function testParseAppInfoL10NSingleLanguage() {
+		$parser = new InfoParser();
+		$data = $parser->parse(\OC::$SERVERROOT. "/tests/data/app/description-single-lang.xml");
+		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 	}
 }
 
