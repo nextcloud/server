@@ -33,7 +33,6 @@ use OC\Settings\Controller\CheckSetupController;
 use OC\Settings\Controller\GroupsController;
 use OC\Settings\Controller\LogSettingsController;
 use OC\Settings\Controller\MailSettingsController;
-use OC\Settings\Controller\SecuritySettingsController;
 use OC\Settings\Controller\UsersController;
 use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
@@ -76,7 +75,6 @@ class ApplicationTest extends TestCase {
 			[GroupsController::class, Controller::class],
 			[LogSettingsController::class, Controller::class],
 			[MailSettingsController::class, Controller::class],
-			[SecuritySettingsController::class, Controller::class],
 			[UsersController::class, Controller::class],
 
 			[SubadminMiddleware::class, Middleware::class],
