@@ -42,7 +42,7 @@ OC.L10N.register(
     "Checking updates of apps" : "Es wird nach Updates für die Apps gesucht",
     "Checking for update of app \"%s\" in appstore" : "Suche nach einer Aktualisierung für die App \"%s\" im App-Store",
     "Update app \"%s\" from appstore" : "Aktualisiere die App \"%s\" aus dem App-Store",
-    "Checked for update of app \"%s\" in appstore" : "App-Store auf Aktualalisierung für die App \"%s\" geprüft",
+    "Checked for update of app \"%s\" in appstore" : "App-Store auf Aktualisierung für die App \"%s\" geprüft",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Prüft, ob das Datenbankschema für %s aktualisiert werden kann (dies kann je nach Datenbankgröße sehr lange dauern)",
     "Checked database schema update for apps" : "Datenbankschema-Aktualisierung für Apps überprüft",
     "Updated \"%s\" to %s" : "„%s“ zu %s aktualisiert",
