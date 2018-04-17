@@ -928,7 +928,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Settings\\Controller\\LogSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/LogSettingsController.php',
         'OC\\Settings\\Controller\\MailSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/MailSettingsController.php',
         'OC\\Settings\\Controller\\PersonalSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/PersonalSettingsController.php',
-        'OC\\Settings\\Controller\\SecuritySettingsController' => __DIR__ . '/../../..' . '/settings/Controller/SecuritySettingsController.php',
         'OC\\Settings\\Controller\\UsersController' => __DIR__ . '/../../..' . '/settings/Controller/UsersController.php',
         'OC\\Settings\\Hooks' => __DIR__ . '/../../..' . '/settings/Hooks.php',
         'OC\\Settings\\Mailer\\NewUserMailHelper' => __DIR__ . '/../../..' . '/settings/Mailer/NewUserMailHelper.php',

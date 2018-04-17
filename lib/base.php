@@ -778,7 +778,7 @@ class OC {
 				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
 				header('Status: 400 Bad Request');
 
-				\OC::$server->getLogger()->warning(
+				\OC::$server->getLogger()->info(
 					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
 					[
 						'app' => 'core',
@@ -788,7 +788,7 @@ class OC {
 				);
 
 				$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
-				$tmpl->assign('domain', $host);
+				$tmpl->assign('docUrl', \OC::$server->getURLGenerator()->linkToDocs('admin-trusted-domains'));
 				$tmpl->printPage();
 
 				exit();
