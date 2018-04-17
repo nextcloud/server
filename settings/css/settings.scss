@@ -1036,6 +1036,10 @@ span.version {
 		&.apps-experimental {
 			flex-basis: 90%;
 		}
+		h2.app-name {
+			display: block;
+			margin: 8px 0;
+		}
 	}
 	.app-description {
 		p {
@@ -1074,6 +1078,7 @@ span.version {
 			position: absolute;
 			padding-left: 6px;
 			padding-top: 15px;
+
 			.enable {
 				position: relative;
 				top: -1px;
