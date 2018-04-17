@@ -886,6 +886,13 @@ span.version {
 	&:not(:nth-child(2)) {
 		border-top: 1px solid $color-border;
 	}
+
+	/* correctly display help icons next to headings */
+	h2 .icon-info {
+		padding: 6px 20px;
+		vertical-align: text-bottom;
+		display: inline-block;
+	}
 }
 
 .personal-settings-setting-box .section {
