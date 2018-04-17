@@ -38,10 +38,17 @@ class TrashFolderFolder implements ICollection, ITrash {
 	/** @var FileInfo */
 	private $data;
 
-	public function __construct(string $root, string $userId, FileInfo $data) {
+	/** @var string */
+	private $location;
+
+	public function __construct(string $root,
+								string $userId,
+								FileInfo $data,
+								string $location) {
 		$this->root = $root;
 		$this->userId = $userId;
 		$this->data = $data;
+		$this->location = $location;
 	}
 
 	public function createFile($name, $data = null) {
@@ -58,9 +65,9 @@ class TrashFolderFolder implements ICollection, ITrash {
 		foreach ($entries as $entry) {
 			if ($entry->getName() === $name) {
 				if ($entry->getMimetype() === 'httpd/unix-directory') {
-					return new TrashFolderFolder($this->root . '/' . $this->getName(), $this->userId, $entry);
+					return new TrashFolderFolder($this->root . '/' . $this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 				}
-				return new TrashFolderFile($this->root . '/' . $this->getName(), $this->userId, $entry);
+				return new TrashFolderFile($this->root . '/' . $this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 			}
 		}
 	}
@@ -70,9 +77,9 @@ class TrashFolderFolder implements ICollection, ITrash {
 
 		$children = array_map(function (FileInfo $entry) {
 			if ($entry->getMimetype() === 'httpd/unix-directory') {
-				return new TrashFolderFolder($this->root.'/'.$this->getName(), $this->userId, $entry);
+				return new TrashFolderFolder($this->root.'/'.$this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 			}
-			return new TrashFolderFile($this->root.'/'.$this->getName(), $this->userId, $entry);
+			return new TrashFolderFile($this->root.'/'.$this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 		}, $entries);
 
 		return $children;
@@ -110,5 +117,14 @@ class TrashFolderFolder implements ICollection, ITrash {
 	public function restore(): bool {
 		return \OCA\Files_Trashbin\Trashbin::restore($this->root . '/' . $this->getName(), $this->data->getName(), null);
 	}
+
+	public function getFilename(): string {
+		return $this->data->getName();
+	}
+
+	public function getOriginalLocation(): string {
+		return $this->location . '/' . $this->getFilename();
+	}
+
 
 }

@@ -20,12 +20,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
-interface ITrash {
-	public function restore(): bool;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
+use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
 
-	public function getFilename(): string;
+class PropfindPlugin extends ServerPlugin {
 
-	public function getOriginalLocation(): string;
+	const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
+	const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
+
+	/** @var Server */
+	private $server;
+
+	public function __construct() {
+	}
+
+	public function initialize(Server $server) {
+		$this->server = $server;
+
+		$this->server->on('propFind', [$this, 'propFind']);
+	}
+
+
+	public function propFind(PropFind $propFind, INode $node) {
+		if (!($node instanceof ITrash)) {
+			return;
+		}
+
+		$propFind->handle(self::TRASHBIN_FILENAME, function() use ($node) {
+			return $node->getFilename();
+		});
+
+		$propFind->handle(self::TRASHBIN_ORIGINAL_LOCATION, function() use ($node) {
+			return $node->getOriginalLocation();
+		});
+	}
+
 }

@@ -52,9 +52,9 @@ class TrashFolder implements ICollection, ITrash {
 		foreach ($entries as $entry) {
 			if ($entry->getName() === $name) {
 				if ($entry->getMimetype() === 'httpd/unix-directory') {
-					return new TrashFolderFolder($this->getName(), $this->userId, $entry);
+					return new TrashFolderFolder($this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 				}
-				return new TrashFolderFile($this->getName(), $this->userId, $entry);
+				return new TrashFolderFile($this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 			}
 		}
 	}
@@ -64,9 +64,9 @@ class TrashFolder implements ICollection, ITrash {
 
 		$children = array_map(function (FileInfo $entry) {
 			if ($entry->getMimetype() === 'httpd/unix-directory') {
-				return new TrashFolderFolder($this->getName(), $this->userId, $entry);
+				return new TrashFolderFolder($this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 			}
-			return new TrashFolderFile($this->getName(), $this->userId, $entry);
+			return new TrashFolderFile($this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 		}, $entries);
 
 		return $children;
@@ -102,6 +102,14 @@ class TrashFolder implements ICollection, ITrash {
 
 	public function restore(): bool {
 		return \OCA\Files_Trashbin\Trashbin::restore($this->getName(), $this->data->getName(), $this->getLastModified());
+	}
+
+	public function getFilename(): string {
+		return $this->data->getName();
+	}
+
+	public function getOriginalLocation(): string {
+		return $this->data['extraData'];
 	}
 
 

@@ -36,10 +36,17 @@ class TrashFolderFile implements IFile, ITrash {
 	/** @var FileInfo */
 	private $data;
 
-	public function __construct(string $root, string $userId, FileInfo $data) {
+	/** @var string */
+	private $location;
+
+	public function __construct(string $root,
+								string $userId,
+								FileInfo $data,
+								string $location) {
 		$this->root = $root;
 		$this->userId = $userId;
 		$this->data = $data;
+		$this->location = $location;
 	}
 
 	public function put($data) {
@@ -81,5 +88,14 @@ class TrashFolderFile implements IFile, ITrash {
 	public function restore(): bool {
 		return \OCA\Files_Trashbin\Trashbin::restore($this->root . '/' . $this->getName(), $this->data->getName(), null);
 	}
+
+	public function getFilename(): string {
+		return $this->data->getName();
+	}
+
+	public function getOriginalLocation(): string {
+		return $this->location . '/' . $this->getFilename();
+	}
+
 
 }

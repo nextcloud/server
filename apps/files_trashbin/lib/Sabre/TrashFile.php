@@ -78,4 +78,13 @@ class TrashFile implements IFile, ITrash {
 		return \OCA\Files_Trashbin\Trashbin::restore($this->getName(), $this->data->getName(), $this->getLastModified());
 	}
 
+	public function getFilename(): string {
+		return $this->data->getName();
+	}
+
+	public function getOriginalLocation(): string {
+		return $this->data['extraData'];
+	}
+
+
 }

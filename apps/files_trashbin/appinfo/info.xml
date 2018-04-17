@@ -40,5 +40,8 @@ To prevent a user from running out of disk space, the Deleted files app will not
 		<collections>
 			<collection>OCA\Files_Trashbin\Sabre\RootCollection</collection>
 		</collections>
+		<plugins>
+			<plugin>OCA\Files_Trashbin\Sabre\PropfindPlugin</plugin>
+		</plugins>
 	</sabre>
 </info>
