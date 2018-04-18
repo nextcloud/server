@@ -59,15 +59,18 @@ class DiscoveryService implements IDiscoveryService {
 	 *
 	 * @param string $remote
 	 * @param string $service the service you want to discover
+	 * @param bool $skipCache We won't check if the data is in the cache. This is usefull if a background job is updating the status
 	 * @return array
 	 */
-	public function discover(string $remote, string $service): array {
+	public function discover(string $remote, string $service, bool $skipCache = false): array {
 		// Check the cache first
-		$cacheData = $this->cache->get($remote . '#' . $service);
-		if($cacheData) {
-			$data = json_decode($cacheData, true);
-			if (\is_array($data)) {
-				return $data;
+		if ($skipCache === false) {
+			$cacheData = $this->cache->get($remote . '#' . $service);
+			if ($cacheData) {
+				$data = json_decode($cacheData, true);
+				if (\is_array($data)) {
+					return $data;
+				}
 			}
 		}
 
