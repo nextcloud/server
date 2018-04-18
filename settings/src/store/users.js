@@ -415,16 +415,17 @@ const actions = {
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
-	 * @param {string} options.password User password 
+	 * @param {string} options.password User password
+	 * @param {string} options.displayName User display name
 	 * @param {string} options.email User email
 	 * @param {string} options.groups User groups
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
 	 * @returns {Promise}
 	 */
-	addUser({commit, dispatch}, { userid, password, email, groups, subadmin, quota, language }) {
+	addUser({commit, dispatch}, { userid, password, displayName, email, groups, subadmin, quota, language }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(OC.linkToOCS(`cloud/users`, 2), { userid, password, email, groups, subadmin, quota, language })
+			return api.post(OC.linkToOCS(`cloud/users`, 2), { userid, password, displayName, email, groups, subadmin, quota, language })
 				.then((response) => dispatch('addUserData', userid))
 				.catch((error) => {throw error;});
 		}).catch((error) => commit('API_FAILURE', { userid, error }));

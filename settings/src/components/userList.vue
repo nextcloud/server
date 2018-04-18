@@ -324,6 +324,7 @@ export default {
 			this.$store.dispatch('addUser', {
 				userid: this.newUser.id,
 				password: this.newUser.password,
+				displayName: this.newUser.displayName,
 				email: this.newUser.mailAddress,
 				groups: this.newUser.groups.map(group => group.id),
 				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
