@@ -290,8 +290,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Villa við að sannreyna seinna þrepið",
     "Access through untrusted domain" : "Tenging frá ótreystu léni",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Hafðu samband við kerfisstjóra. Ef þú ert stjórnandi, stilltu \"trusted_domains\" setninguna í config/config.php. Dæmi um stillingar má sjá í config/config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Það fer eftir stillingunum þínum, þessi hnappur gæti einnig virkað til að treysta þessu léni.",
-    "Add \"%s\" as trusted domain" : "Bæta við \"%s\" sem treystu léni",
     "App update required" : "App þarfnast uppfærslu ",
     "%s will be updated to version %s" : "%s verður uppfært í útgáfu %s.",
     "These apps will be updated:" : "Eftirfarandi öpp verða uppfærð:",
@@ -343,8 +341,10 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "Þú ert að tengjast þjóninum frá ótreystu léni.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Hafðu samband við kerfisstjóra. Ef þú ert stjórnandi á þessu tilviki, stilltu \"trusted_domains\" setninguna í config/config.php. Dæmi um stillingar má sjá í config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Það fer eftir stillingum þínum, sem stjórnandi þá gætir þú einnig notað hnappinn hér fyrir neðan til að treysta þessu léni.",
+    "Add \"%s\" as trusted domain" : "Bæta við \"%s\" sem treystu léni",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Til að fá hjálp er best að skoða fyrst  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">hjálparskjölin</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP-uppsetningin er ekki með stuðning við 'freetype'. Þetta mun valda því að notendamyndir og stillingaviðmót virki ekki.",
-    "Back to log in" : "Til baka í innskráningu"
+    "Back to log in" : "Til baka í innskráningu",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Það fer eftir stillingunum þínum, þessi hnappur gæti einnig virkað til að treysta þessu léni."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

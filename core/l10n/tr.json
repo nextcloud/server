@@ -292,8 +292,6 @@
     "Error while validating your second factor" : "İkinci aşama doğrulanırken sorun çıktı",
     "Access through untrusted domain" : "Güvenilmeyen etki alanı üzerinden erişim",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Lütfen yöneticiniz ile görüşün. Yöneticisi siz iseniz, config/config.php dosyası içerisindeki \"trusted_domain\" ayarını config/config.sample.php dosyasındaki gibi düzenleyin.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Yapılandırmanıza bağlı olarak, bu düğme etki alanına güvenmek için de kullanılabilir:",
-    "Add \"%s\" as trusted domain" : "\"%s\" etki alanını güvenilir olarak ekle",
     "App update required" : "Uygulamanın güncellenmesi gerekli",
     "%s will be updated to version %s" : "%s, %s sürümüne güncellenecek",
     "These apps will be updated:" : "Şu uygulamalar güncellenecek:",
@@ -345,8 +343,10 @@
     "You are accessing the server from an untrusted domain." : "Sunucuya güvenilmeyen bir etki alanından erişiyorsunuz.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Lütfen yöneticiniz ile görüşün. Bu kopyanın yöneticisi iseniz, config/config.php dosyası içerisindeki \"trusted_domain\" ayarını yapın. Örnek yapılandırma config/config.sample.php dosyasında görülebilir.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Yapılandırmanıza bağlı olarak, bir yönetici olarak bu etki alanına güvenmek için aşağıdaki düğmeyi de kullanabilirsiniz.",
+    "Add \"%s\" as trusted domain" : "\"%s\" etki alanını güvenilir olarak ekle",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Yardım almak için, <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">belgelere</a> bakın.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP kurulumunuzda FreeType desteği yok. Bu durum profil görsellerinin ve ayarlar bölümünün bozuk görüntülenmesine neden olur.",
-    "Back to log in" : "Oturum açmaya geri dön"
+    "Back to log in" : "Oturum açmaya geri dön",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Yapılandırmanıza bağlı olarak, bu düğme etki alanına güvenmek için de kullanılabilir:"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

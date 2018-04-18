@@ -294,8 +294,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Ошибка проверки кода",
     "Access through untrusted domain" : "Доступ через недоверенный домен",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Обратитесь к администратору. Если вы являетесь администратором этого сервера, отредактируйте параметр «trusted_domains» в файле «config/config.php». Пример настройки можно найти в файле «config/config.sample.php».",
-    "Depending on your configuration, this button could also work to trust the domain:" : "В зависимости от конфигурации, эта кнопка может сделать доверенным следующий домен:",
-    "Add \"%s\" as trusted domain" : "Добавить «%s» как доверенный домен",
     "App update required" : "Требуется обновление приложения",
     "%s will be updated to version %s" : "%s будет обновлен до версии %s",
     "These apps will be updated:" : "Следующие приложения будут обновлены:",
@@ -347,8 +345,10 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "Вы пытаетесь получить доступ к серверу с недоверенного домена.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Обратитесь к администратору. Если вы являетесь администратором этого сервера, измените значение параметра «trusted_domains» в файле «config/config.php». Пример настройки можно найти в файле «config/config.sample.php».",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "В зависимости от конфигурации, вы, как администратор, можете также добавить домен в список доверенных при помощи кнопки, расположенной ниже.",
+    "Add \"%s\" as trusted domain" : "Добавить «%s» как доверенный домен",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для получения помощи обратитесь к <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документации</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Установленная версия PHP не поддерживает библиотеку FreeType, что приводит к неверному отображению изображений профиля и интерфейса настроек.",
-    "Back to log in" : "Авторизоваться повторно"
+    "Back to log in" : "Авторизоваться повторно",
+    "Depending on your configuration, this button could also work to trust the domain:" : "В зависимости от конфигурации, эта кнопка может сделать доверенным следующий домен:"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

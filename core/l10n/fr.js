@@ -291,8 +291,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Erreur lors de la validation de votre second facteur",
     "Access through untrusted domain" : "Accès à partir d'un domaine non approuvé",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Veuillez contacter votre administrateur. Si vous êtes un administrateur, éditez la variable \"trusted_domains\" dans le fichier config/config.php comme l'exemple dans le fichier config/config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "En fonction de votre configuration, ce bouton peut aussi fonctionner pour approuver ce domaine :",
-    "Add \"%s\" as trusted domain" : "Ajouter \"%s\" à la liste des domaines approuvés",
     "App update required" : "Mise à jour de l'application nécessaire",
     "%s will be updated to version %s" : "%s sera mis à jour vers la version %s",
     "These apps will be updated:" : "Les applications suivantes seront mises à jour :",
@@ -344,8 +342,10 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "Vous accédez au serveur à partir d'un domaine non approuvé.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Veuillez contacter votre administrateur. Si vous êtes un administrateur de cette instance, configurez la variable \"trusted_domains\" dans le fichier config/config.php. Un exemple de configuration est fournit dans le fichier config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "En fonction de votre configuration, en tant qu'administrateur vous pouvez également utiliser le bouton ci-dessous pour approuver ce domaine.",
+    "Add \"%s\" as trusted domain" : "Ajouter \"%s\" à la liste des domaines approuvés",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pour obtenir de l'aide, lisez la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Votre version de PHP n'est pas prise en charge par freetype. Cela se traduira par des images de profil et une interface des paramètres cassées.",
-    "Back to log in" : "Retour à la page de connexion"
+    "Back to log in" : "Retour à la page de connexion",
+    "Depending on your configuration, this button could also work to trust the domain:" : "En fonction de votre configuration, ce bouton peut aussi fonctionner pour approuver ce domaine :"
 },
 "nplurals=2; plural=(n > 1);");

@@ -40,7 +40,7 @@
     "Checking updates of apps" : "Es wird nach Updates für die Apps gesucht",
     "Checking for update of app \"%s\" in appstore" : "Suche nach einer Aktualisierung für die App \"%s\" im App-Store",
     "Update app \"%s\" from appstore" : "Aktualisiere die App \"%s\" aus dem App-Store",
-    "Checked for update of app \"%s\" in appstore" : "App-Store auf Aktualalisierung für die App \"%s\" geprüft",
+    "Checked for update of app \"%s\" in appstore" : "App-Store auf Aktualisierung für die App \"%s\" geprüft",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Prüft, ob das Datenbankschema für %s aktualisiert werden kann (dies kann je nach Datenbankgröße sehr lange dauern)",
     "Checked database schema update for apps" : "Datenbankschema-Aktualisierung für Apps überprüft",
     "Updated \"%s\" to %s" : "„%s“ zu %s aktualisiert",
@@ -292,8 +292,6 @@
     "Error while validating your second factor" : "Fehler beim Bestätigen des zweiten Sicherheitsfaktors",
     "Access through untrusted domain" : "Zugriff über eine nicht vertrauenswürdige Domain",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Bitte kontaktieren Sie Ihren Administrator. Wenn Sie Administrator sind, bearbeiten Sie die „trusted_domains“-Einstellung in config/config.php. Siehe Beispiel in config/config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Abhängig von Ihrer Konfiguration kann diese Schaltfläche verwandt werden, um die Domain als vertrauenswürdig einzustufen:",
-    "Add \"%s\" as trusted domain" : "„%s“ als vertrauenswürdige Domain hinzufügen",
     "App update required" : "App-Aktualisierung notwendig",
     "%s will be updated to version %s" : "%s wird auf Version %s aktualisiert",
     "These apps will be updated:" : "Diese Apps werden aktualisiert:",
@@ -345,8 +343,10 @@
     "You are accessing the server from an untrusted domain." : "Sie greifen von einer nicht vertrauenswürdigen Domain auf den Server zu.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Bitte kontaktieren Sie Ihren Administrator. Wenn Sie Administrator dieser Instanz sind, konfigurieren Sie bitte die „trusted_domain“-Einstellung in config/config.php. Eine Beispielkonfiguration ist in config/config.sample.php verfügbar.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Wenn es Ihre Konfiguration zulässt, können Sie als Administrator gegebenenfalls den Button unten benutzen, um diese Domain als vertrauenswürdig einzustufen.",
+    "Add \"%s\" as trusted domain" : "„%s“ als vertrauenswürdige Domain hinzufügen",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Für weitere Hilfen, schauen Sie bitte in die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Dokumentation</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Ihr PHP unterstützt Freetype nicht. Dies wird defekte Profilbilder und eine defekte Anzeige der Einstellungen verursachen.",
-    "Back to log in" : "Zur Anmeldung wechseln"
+    "Back to log in" : "Zur Anmeldung wechseln",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Abhängig von Ihrer Konfiguration kann diese Schaltfläche verwandt werden, um die Domain als vertrauenswürdig einzustufen:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

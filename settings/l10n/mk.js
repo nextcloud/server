@@ -25,7 +25,6 @@ OC.L10N.register(
     "Your %s account was created" : "Вашата %s сметка е креирана",
     "Couldn't remove app." : "Не можам да ја отстранам апликацијата.",
     "Couldn't update app." : "Не можам да ја надградам апликацијата.",
-    "Add trusted domain" : "Додади доверлив домејн",
     "Migration started …" : "Миграцијата е започнаа ...",
     "Email sent" : "Е-порака пратена",
     "Official" : "Официјален",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Default" : "Предефиниран",
     "A problem occurred, please check your log files (Error: %s)" : "Се случи грешка, ве молам проверете ги вашите датотеки за логови (Грешка: %s)",
     "Migration Completed" : "Миграцијата заврши",
+    "Add trusted domain" : "Додади доверлив домејн",
     "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
     "A valid email must be provided" : "Мора да се обезбеди валидна електронска пошта",
     "Create" : "Создај"

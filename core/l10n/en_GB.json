@@ -289,8 +289,6 @@
     "Error while validating your second factor" : "Error while validating your second factor",
     "Access through untrusted domain" : "Access through untrusted domain",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Depending on your configuration, this button could also work to trust the domain:",
-    "Add \"%s\" as trusted domain" : "Add \"%s\" as a trusted domain",
     "App update required" : "App update required",
     "%s will be updated to version %s" : "%s will be updated to version %s",
     "These apps will be updated:" : "These apps will be updated:",
@@ -342,8 +340,10 @@
     "You are accessing the server from an untrusted domain." : "You are accessing the server from an untrusted domain.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain.",
+    "Add \"%s\" as trusted domain" : "Add \"%s\" as a trusted domain",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface.",
-    "Back to log in" : "Back to log in"
+    "Back to log in" : "Back to log in",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Depending on your configuration, this button could also work to trust the domain:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

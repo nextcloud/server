@@ -287,8 +287,6 @@
     "Error while validating your second factor" : "მეორე ფაქტორის ვალიდაციისას წარმოიშვა შეცდომა",
     "Access through untrusted domain" : "წვდომა არა-სანდო დომენიდან",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს. იმ შემთხვევაში თუ ბრძანდებით ადმინისტრატორი, config/config.php-ში შეცვალეთ \"trusted_domains\" პარამეტრი, ისე როგორც ნაჩვენებია მაგალითში config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "თქვენი კონფიგურაციიდან გამომდინარე, ეს ღილაკი დომენის ნდობისთვის შეიძლება ასევე მუშაობდეს.",
-    "Add \"%s\" as trusted domain" : "დაამატეთ \"%s\" როგორც სანდო დომენი",
     "App update required" : "აპლიკაციას ესაჭიროება განახლება",
     "%s will be updated to version %s" : "%s განახლდება ვერსიაზე %s",
     "These apps will be updated:" : "ეს აპლიკაციები განახლდება:",
@@ -340,8 +338,10 @@
     "You are accessing the server from an untrusted domain." : "სერვერს უკავშირდებით არა-სანდო დომენიდან.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს. იმ შემთხვევაში თუ ბრძანდებით ადმინისტრატორი, config/config.php-ში შეცვალეთ \"trusted_domains\" პარამეტრი. მაგალითი მოყვანილია config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "თქვენი კონფიგურაციიდან გამომდინარე, როგორც ადმინისტრატორმა დომენის ნდობისთვის ასევე შეგიძლიათ ისარგებლოთ ქვემოთ არსებული ღილაკითაც.",
+    "Add \"%s\" as trusted domain" : "დაამატეთ \"%s\" როგორც სანდო დომენი",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "დახმარებისთვის იხილეთ <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">დოკუმენტაცია</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "თქვენს PHP-ს არ აქვს freetype-ის მხარდაჭერა. ეს გამოწვევს დარღვეულ პროფილის სურათებს და მომხმარებლის ინტერფეისს.",
-    "Back to log in" : "უკან ავტორიზაციისკენ"
+    "Back to log in" : "უკან ავტორიზაციისკენ",
+    "Depending on your configuration, this button could also work to trust the domain:" : "თქვენი კონფიგურაციიდან გამომდინარე, ეს ღილაკი დომენის ნდობისთვის შეიძლება ასევე მუშაობდეს."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

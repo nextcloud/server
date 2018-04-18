@@ -242,7 +242,6 @@
     "Cancel log in" : "Atcelt pierakstīšanos",
     "Use backup code" : "Izmantojiet dublēšanas kodu",
     "Error while validating your second factor" : "Kļūda validējot jūsu otru faktoru.",
-    "Add \"%s\" as trusted domain" : "Pievienot \"%s\" kā uzticamu domēnu",
     "App update required" : "Programmai nepieciešama atjaunināšana",
     "%s will be updated to version %s" : "%s tiks atjaunināts uz versiju %s",
     "These apps will be updated:" : "Šīs programmas tiks atjauninātas:",
@@ -265,6 +264,7 @@
     "Share with other people by entering a user or group or an email address." : "Dalīties ar citiem cilvēkiem ievadot lietotāju, grupu vai e-pasta adresi.",
     "Stay logged in" : "Palikt ierakstītam",
     "Alternative Logins" : "Alternatīvās pieteikšanās",
-    "Alternative login using app token" : "Alternatīvās pieteikšanās izmantojot programmas pilnvaru."
+    "Alternative login using app token" : "Alternatīvās pieteikšanās izmantojot programmas pilnvaru.",
+    "Add \"%s\" as trusted domain" : "Pievienot \"%s\" kā uzticamu domēnu"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

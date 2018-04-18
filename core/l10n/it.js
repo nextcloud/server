@@ -294,8 +294,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Errore durante la convalida del tuo secondo fattore",
     "Access through untrusted domain" : "Accedi tramite un dominio non attendibile",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Contatta il tuo amministratore. Se sei un amministratore, modifica l'impostazione \"trusted_domains\" in config/config.php come l'esempio disponibile in config/config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "In base alla tua configurazione, questo pulsante può funzionare anche per rendere attendibile il dominio:",
-    "Add \"%s\" as trusted domain" : "Aggiungi \"%s\" come dominio attendibile",
     "App update required" : "Aggiornamento dell'applicazione richiesto",
     "%s will be updated to version %s" : "%s sarà aggiornato alla versione %s",
     "These apps will be updated:" : "Queste applicazioni saranno aggiornate:",
@@ -347,8 +345,10 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "Stai accedendo al server da un dominio non attendibile.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Contatta il tuo amministratore di sistema. Se sei un amministratore di questa istanza, configura l'impostazione \"trusted_domains\" in config/config.php. Una configurazione di esempio è disponibile in config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "In base alla tua configurazione, come amministratore potrai utilizzare anche il pulsante in basso per rendere attendibile questo dominio.",
+    "Add \"%s\" as trusted domain" : "Aggiungi \"%s\" come dominio attendibile",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Per la guida, vedi la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentazione</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "La tua versione di PHP non ha il supporto freetype. Ciò causera problemi con le immagini dei profili e con l'interfaccia delle impostazioni.",
-    "Back to log in" : "Torna alla schermata di accesso"
+    "Back to log in" : "Torna alla schermata di accesso",
+    "Depending on your configuration, this button could also work to trust the domain:" : "In base alla tua configurazione, questo pulsante può funzionare anche per rendere attendibile il dominio:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -189,7 +189,6 @@ OC.L10N.register(
     "Two-factor authentication" : "المصادقة بخطوتين",
     "Cancel log in" : "إلغاء تسجيل الدخول",
     "Use backup code" : "إستخدم الرمز الإحتياطي",
-    "Add \"%s\" as trusted domain" : "إضافة \"%s\" كنطاق موثوق فيه",
     "App update required" : "تحديث التطبيق مطلوب",
     "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :",
     "Start update" : "تشغيل التحديث",
@@ -202,6 +201,7 @@ OC.L10N.register(
     "This action requires you to confirm your password:" : "يتطلب منك هذا الإجراء تأكيد كلمة المرور :",
     "Wrong password. Reset it?" : "كلمة السر خاطئة. هل تريد إعادة تعيينها ؟",
     "Alternative Logins" : "اسماء دخول بديلة",
+    "Add \"%s\" as trusted domain" : "إضافة \"%s\" كنطاق موثوق فيه",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "للمساعدة يُرجى الإطلاع على <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">الدليل</a>.",
     "Back to log in" : "العودة إلى تسجيل الدخول"
 },

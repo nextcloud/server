@@ -285,8 +285,6 @@
     "Error while validating your second factor" : "Błąd podczas sprawdzania drugiego składnika",
     "Access through untrusted domain" : "Dostęp przez niezaufaną domenę",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Proszę skontaktuj się z administratorem. Jeśli nim jesteś, to zmień ustawienie w zmiennej \"trusted_domains\" w pliku config/config.php tak jak w przykładzie config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "W zależności od Twojej konfiguracji, ten przycisk aby zaufać domenie powinien również zadziałać: ",
-    "Add \"%s\" as trusted domain" : "Dodaj \"%s\" jako domenę zaufaną",
     "App update required" : "Aktualizacja aplikacji wymagana",
     "%s will be updated to version %s" : "%s zostanie zaktualizowane do wersji %s",
     "These apps will be updated:" : "Te aplikacje zostaną zaktualizowane:",
@@ -317,7 +315,9 @@
     "Alternative Logins" : "Alternatywne loginy",
     "Alternative login using app token" : "Zaloguj alternatywnie używając tokenu aplikacji",
     "You are accessing the server from an untrusted domain." : "Uzyskujesz dostęp do serwera z niezaufanej domeny.",
+    "Add \"%s\" as trusted domain" : "Dodaj \"%s\" jako domenę zaufaną",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Aby uzyskać pomoc, zajrzyj do <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacji</a>.",
-    "Back to log in" : "Powrót do logowania"
+    "Back to log in" : "Powrót do logowania",
+    "Depending on your configuration, this button could also work to trust the domain:" : "W zależności od Twojej konfiguracji, ten przycisk aby zaufać domenie powinien również zadziałać: "
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

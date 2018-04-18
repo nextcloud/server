@@ -224,7 +224,6 @@ OC.L10N.register(
     "Two-factor authentication" : "Autenticación en dos pasos",
     "Use backup code" : "Usar códigu de respaldu",
     "Error while validating your second factor" : "Fallu al validar el to pasu segundu",
-    "Add \"%s\" as trusted domain" : "Amestáu \"%s\" como dominiu de confianza",
     "%s will be updated to version %s" : "%s anovaráse a la versión %s",
     "These apps will be updated:" : "Anovaránse estes aplicaciones:",
     "These incompatible apps will be disabled:" : "Deshabilitaránse estes aplicaciones incompletes:",
@@ -242,6 +241,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Comparti con otra xente introduciendo un usuariu, grupu o direición de corréu.",
     "Stay logged in" : "Caltener sesión",
     "Alternative Logins" : "Anicios de sesión alternativos",
-    "Alternative login using app token" : "Aniciu de sesión alternativu usando pase d'aplicación"
+    "Alternative login using app token" : "Aniciu de sesión alternativu usando pase d'aplicación",
+    "Add \"%s\" as trusted domain" : "Amestáu \"%s\" como dominiu de confianza"
 },
 "nplurals=2; plural=(n != 1);");

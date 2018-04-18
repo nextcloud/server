@@ -273,8 +273,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Klaida antrame prisijungimo žingsnyje",
     "Access through untrusted domain" : "Prieiga iš nepatikimo domeno",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Susisiekite su sistemos administratoriumi. Jei jūs esate administratorius, pakeiskite \"trusted_domains\" nustatymą config/config.php byloje, kaip pavyzdyje config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Priklausomai nuo konfigūracijos, šiuo mygtuku taip pat galima patvirtinti domeną kaip patikimą.",
-    "Add \"%s\" as trusted domain" : "Pridėti \"%s\" į patikimų domenų sąrašą",
     "App update required" : "Reikalingas įskiepio atnaujinimas",
     "%s will be updated to version %s" : "%s bus atnaujintas iki %s versijos",
     "These apps will be updated:" : "Šie įskiepiai bus atnaujinti:",
@@ -302,7 +300,9 @@ OC.L10N.register(
     "Alternative Logins" : "Alternatyvūs prisijungimai",
     "You are about to grant \"%s\" access to your %s account." : "Ketinate suteikti \"%s\" prieigą prie savo %s paskyros.",
     "Alternative login using app token" : "Alternatyvus prisijungimas naudojant išorinės sistemos kodą",
+    "Add \"%s\" as trusted domain" : "Pridėti \"%s\" į patikimų domenų sąrašą",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Detalesnės informacijos ieškokite <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacijoje</a>",
-    "Back to log in" : "Grįžti prie prisijungimo"
+    "Back to log in" : "Grįžti prie prisijungimo",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Priklausomai nuo konfigūracijos, šiuo mygtuku taip pat galima patvirtinti domeną kaip patikimą."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

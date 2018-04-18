@@ -289,8 +289,6 @@
     "Error while validating your second factor" : "שגיאה בעת אימות הגורם השני",
     "Access through untrusted domain" : "גישה דרך שם מתחם בלתי מהימן",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "נא ליצור קשר עם מנהל השרת שלך. אם הרשאות ניהול השרת הן בידיך, יש לערוך את ההגדרה „trusted_domains” בתוך config/config.php כמו הדוגמה שבתוך ",
-    "Depending on your configuration, this button could also work to trust the domain:" : "בהתאם לתצורה שלך, הכפתור הזה יכול לעבוד גם כדי לתת אמון בשם המתחם:",
-    "Add \"%s\" as trusted domain" : "הוספת \"%s\" כשם מתחם / דומיין מהימן",
     "App update required" : "נדרש עדכון יישום",
     "%s will be updated to version %s" : "%s יעודכן לגרסה %s",
     "These apps will be updated:" : "יישומים אלו יעודכנו:",
@@ -342,8 +340,10 @@
     "You are accessing the server from an untrusted domain." : "ניגשת לשרת משם מתחם בלתי מהימן.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "נא ליצור קשר עם מנהל השרת שלך. אם הרשאות הניהול לעותק זה הן בידיך, יש להגדיר את „trusted_domains” בתוך config/config.php. מצורפת תצורה לדוגמה תחת config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "בהתאם לתצורה שלך, כמנהל יתאפשר לך להשתמש בכפתור שלהלן כדי להתייחס לאתר זה כמהימן.",
+    "Add \"%s\" as trusted domain" : "הוספת \"%s\" כשם מתחם / דומיין מהימן",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "לקבלת עזרה, יש לעיין ב<a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">תיעוד</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "ל־PHP שלך אין תמיכה ב־freetype. מצב כזה יגרום לתמונות פרופיל משובשות לצד מנשק הגדרות משובש.",
-    "Back to log in" : "חזרה לכניסה"
+    "Back to log in" : "חזרה לכניסה",
+    "Depending on your configuration, this button could also work to trust the domain:" : "בהתאם לתצורה שלך, הכפתור הזה יכול לעבוד גם כדי לתת אמון בשם המתחם:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -255,7 +255,6 @@ OC.L10N.register(
     "Cancel log in" : "Cancelar inicio de sesión",
     "Use backup code" : "Usar código de respaldo",
     "Error while validating your second factor" : "Se presentó un error al validar su segundo factor",
-    "Add \"%s\" as trusted domain" : "Agregar \"%s\" como un dominio de confianza",
     "App update required" : "Se requiere una actualización de la aplicación",
     "%s will be updated to version %s" : "%s será actualizado a la versión %s",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:",
@@ -278,6 +277,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Comparta con otras personas ingresando un usuario, un grupo o una dirección de correo electrónico.",
     "Stay logged in" : "Mantener la sesión abierta",
     "Alternative Logins" : "Accesos Alternativos",
-    "Alternative login using app token" : "Inicio de sesión alternativo usando la ficha de la aplicación"
+    "Alternative login using app token" : "Inicio de sesión alternativo usando la ficha de la aplicación",
+    "Add \"%s\" as trusted domain" : "Agregar \"%s\" como un dominio de confianza"
 },
 "nplurals=2; plural=(n != 1);");
