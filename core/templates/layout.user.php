@@ -63,7 +63,7 @@
 					<?php endforeach; ?>
 					<li id="more-apps" class="menutoggle"
 						aria-haspopup="true" aria-controls="navigation" aria-expanded="false">
-						<a href="#">
+						<a href="#" aria-label="<?php p($l->t('More apps')); ?>">
 							<div class="icon-more-white"></div>
 							<span><?php p($l->t('More apps')); ?></span>
 						</a>
@@ -71,7 +71,7 @@
 				</ul>
 
 				<nav role="navigation">
-					<div id="navigation" style="display: none;">
+					<div id="navigation" style="display: none;"  aria-label="<?php p($l->t('More apps menu')); ?>">
 						<div id="apps">
 							<ul>
 								<?php foreach($_['navigation'] as $entry): ?>
