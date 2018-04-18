@@ -193,13 +193,14 @@ class ConnectionFactory {
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $this->config->getValue('dbhost', '');
-			if (strpos($host, ':')) {
-				// Host variable may carry a port or socket.
-				list($host, $portOrSocket) = explode(':', $host, 2);
-				if (ctype_digit($portOrSocket)) {
-					$connectionParams['port'] = $portOrSocket;
+			$matches = [];
+			if (preg_match('/^(.*):([^\]:]+)$/', $host, $matches)) {
+				// Host variable carries a port or socket.
+				$host = $matches[1];
+				if (is_numeric($matches[2])) {
+					$connectionParams['port'] = (int) $matches[2];
 				} else {
-					$connectionParams['unix_socket'] = $portOrSocket;
+					$connectionParams['unix_socket'] = $matches[2];
 				}
 			}
 			$connectionParams['host'] = $host;
