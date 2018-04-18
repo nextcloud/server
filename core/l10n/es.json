@@ -292,8 +292,6 @@
     "Error while validating your second factor" : "Error al validar su segundo factor",
     "Access through untrusted domain" : "Acceso a través de un dominio en el que no se confía",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Por favor, ponte en contacto con tu administrador. Si eres un administrador, edita la configuración \"trusted_domains\" en config/config.php como el ejemplo que aparece en config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Dependiendo de tu configuración, este botón también podría servir para confiar en el dominio:",
-    "Add \"%s\" as trusted domain" : "Añadir \"%s\" como dominio de confianza",
     "App update required" : "Es necesaria una actualización en la aplicación",
     "%s will be updated to version %s" : "%s se actualizará a la versión %s",
     "These apps will be updated:" : "Estas aplicaciones serán actualizadas:",
@@ -345,8 +343,10 @@
     "You are accessing the server from an untrusted domain." : "Estás accediendo al servidor desde un dominio no confiado.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Por favor, contacta con tu administrador. Si eres un administrador de esta instancia, configura la opción \"trusted_domains\" en config/config.php. Se ofrece una configuración de ejemplo en config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Dependiendo de tu configuración, como administrador puedes tener la posibilidad de usar el botón a continuación para confiar en este dominio.",
+    "Add \"%s\" as trusted domain" : "Añadir \"%s\" como dominio de confianza",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Para más ayuda, ver la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentación</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Tu PHP no tiene sooprte de freetype. Esto dará como resultado imágenes de perfil e interfaz de configuración rotas.",
-    "Back to log in" : "Volver al registro"
+    "Back to log in" : "Volver al registro",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Dependiendo de tu configuración, este botón también podría servir para confiar en el dominio:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

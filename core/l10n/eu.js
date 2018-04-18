@@ -263,8 +263,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Akatsa zure bigarren faktorea balioztatzean",
     "Access through untrusted domain" : "Ziurtasunik gabeko domeinutik sartzen",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Zure administratzailearekin kontaktuan jarri. Administratzailea bazara,  config/config.php fitxategian\"konfidantzazko_domeinuak\" ezarpena editatusample.php konfigurazio fitxategian bezala",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Zure konfigurazioaren arabera, botoi hau domeinua konfidantzazkoa bezala markatzeko balio du",
-    "Add \"%s\" as trusted domain" : "Gehitu \"%s\" domeinu fidagarri gisa",
     "App update required" : "Aplikazio eguneraketa beharrezkoa da",
     "%s will be updated to version %s" : "%s %s bertsiora eguneratuko da",
     "These apps will be updated:" : "Aplikazio hauek eguneratuko dira:",
@@ -287,6 +285,8 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Parteka ezazu jendearekin taldeko erabiltzailea edo e-posta helbide bat sartuta.",
     "Stay logged in" : "Ez amaitu saioa",
     "Alternative Logins" : "Beste erabiltzaile izenak",
-    "Alternative login using app token" : "Ordezko saio-hasiera aplikazio-tokena erabilta"
+    "Alternative login using app token" : "Ordezko saio-hasiera aplikazio-tokena erabilta",
+    "Add \"%s\" as trusted domain" : "Gehitu \"%s\" domeinu fidagarri gisa",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Zure konfigurazioaren arabera, botoi hau domeinua konfidantzazkoa bezala markatzeko balio du"
 },
 "nplurals=2; plural=(n != 1);");

@@ -240,7 +240,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Грешка при валидиране на втория ви фактор",
     "Access through untrusted domain" : "Достъп чрез ненадежден домейн",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Моля, свържете се с администратора. Ако сте администратор на текущата инстанция, конфигурирайте \"trusted_domains\" настройките в config/config.php. Примерна конфигурация е предоставена в config/config.sample.php.",
-    "Add \"%s\" as trusted domain" : "Добави \"%s\" като сигурен домейн",
     "App update required" : "Изисква се обновяване на добавката",
     "%s will be updated to version %s" : "%s ще бъде обновен до версия %s",
     "These apps will be updated:" : "Следните добавки ще бъдат обновени:",
@@ -258,6 +257,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Свържете се със системния администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано.",
     "Thank you for your patience." : "Благодарим за търпението.",
     "Stay logged in" : "Остани вписан",
-    "Alternative Logins" : "Алтернативни методи на вписване"
+    "Alternative Logins" : "Алтернативни методи на вписване",
+    "Add \"%s\" as trusted domain" : "Добави \"%s\" като сигурен домейн"
 },
 "nplurals=2; plural=(n != 1);");

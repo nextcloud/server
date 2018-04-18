@@ -253,7 +253,6 @@ OC.L10N.register(
     "New Password" : "رمزعبور جدید",
     "Cancel log in" : "لغو ورود",
     "Use backup code" : "از کد پشتیبان استفاده شود",
-    "Add \"%s\" as trusted domain" : "افزودن \"%s\" به عنوان دامنه مورد اعتماد",
     "App update required" : "نیاز به بروزرسانی برنامه وجود دارد",
     "%s will be updated to version %s" : "%s به نسخه‌ی %s بروزرسانی خواهد شد",
     "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or a federated cloud ID." : "با وارد کردن یک کاربر یا گروه یا شناسه Federated Cloud با افراد دیگر به اشتراک بگذارید.",
     "Share with other people by entering a user or group or an email address." : "با وارد کردن یک کاربر یا گروه یا یک آدرس ایمیل با افراد دیگر به اشتراک بگذارید.",
     "Stay logged in" : "در سیستم بمانید",
-    "Alternative Logins" : "ورود متناوب"
+    "Alternative Logins" : "ورود متناوب",
+    "Add \"%s\" as trusted domain" : "افزودن \"%s\" به عنوان دامنه مورد اعتماد"
 },
 "nplurals=1; plural=0;");

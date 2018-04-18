@@ -289,8 +289,6 @@
     "Error while validating your second factor" : "驗證二階段因子發生錯誤",
     "Access through untrusted domain" : "經由不可信任的域名存取。",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "請聯絡你的管理員。如果妳就是管理員，請編輯config/config.php內的\"trusted_domains\"設定，該項的範例通常位於config.sample.php。",
-    "Depending on your configuration, this button could also work to trust the domain:" : "根據你的設定值，此按鈕也可用於信任以下網域：",
-    "Add \"%s\" as trusted domain" : "將 %s 加入到信任的網域",
     "App update required" : "需要更新應用程式",
     "%s will be updated to version %s" : "%s 將會更新至版本 %s",
     "These apps will be updated:" : "將會更新這些應用程式",
@@ -334,6 +332,8 @@
     "You are about to grant \"%s\" access to your %s account." : "您將授予「%s」存取您的 %s 帳戶",
     "Alternative login using app token" : "透過應用程式憑證的方式登入",
     "You are accessing the server from an untrusted domain." : "你正在從一個未信任的網域存取伺服器",
-    "Back to log in" : "回到登入頁面"
+    "Add \"%s\" as trusted domain" : "將 %s 加入到信任的網域",
+    "Back to log in" : "回到登入頁面",
+    "Depending on your configuration, this button could also work to trust the domain:" : "根據你的設定值，此按鈕也可用於信任以下網域："
 },"pluralForm" :"nplurals=1; plural=0;"
 }

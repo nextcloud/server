@@ -168,7 +168,6 @@ OC.L10N.register(
     "Wrong password." : "รหัสผ่านผิดพลาด",
     "New password" : "รหัสผ่านใหม่",
     "New Password" : "รหัสผ่านใหม่",
-    "Add \"%s\" as trusted domain" : "ได้เพิ่ม \"%s\" เป็นโดเมนที่เชื่อถือ",
     "App update required" : "จำเป้นต้องอัพเดทแอพฯ",
     "%s will be updated to version %s" : "%s จะถูกอัพเดทเป็นเวอร์ชัน %s",
     "These apps will be updated:" : "แอพพลิเคชันเหล่านี้จะถูกอัพเดท:",
@@ -182,6 +181,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ติดต่อผู้ดูแลระบบของคุณหากข้อความนี้ยังคงมีอยู่หรือปรากฏโดยไม่คาดคิด",
     "Thank you for your patience." : "ขอบคุณสำหรับความอดทนของคุณ เราจะนำความคิดเห็นของท่านมาปรับปรุงระบบให้ดียิ่งขึ้น",
     "Stay logged in" : "จดจำฉัน",
-    "Alternative Logins" : "ทางเลือกการเข้าสู่ระบบ"
+    "Alternative Logins" : "ทางเลือกการเข้าสู่ระบบ",
+    "Add \"%s\" as trusted domain" : "ได้เพิ่ม \"%s\" เป็นโดเมนที่เชื่อถือ"
 },
 "nplurals=1; plural=0;");

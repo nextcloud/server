@@ -259,8 +259,6 @@
     "Error while validating your second factor" : "Eroare la validarea celui de-al doilea factor",
     "Access through untrusted domain" : "Acces printr-un domeniu nesigur",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Vă rugăm contactați administratorul. Dacă sunteți administrator, editați setarea \"trusted_domains\" în config/config.php la fel ca în exemplul din config.sample.php",
-    "Depending on your configuration, this button could also work to trust the domain:" : "În funcție de configurație, acest buton poate fi folosit pentru a te încrede în domeniul:",
-    "Add \"%s\" as trusted domain" : "Adaugă \"%s\" ca domeniu de încredere",
     "App update required" : "E necesară o actualizare a aplicației",
     "%s will be updated to version %s" : "%s va fi actualizat la versiunea %s",
     "These apps will be updated:" : "Aceste aplicații vor fi actualizate:",
@@ -283,6 +281,8 @@
     "Share with other people by entering a user or group or an email address." : "Partajează cu alte persoane prin introducerea unui utilizator sau grup sau a unei adrese de email.",
     "Stay logged in" : "Rămâi autentificat",
     "Alternative Logins" : "Conectări alternative",
-    "Alternative login using app token" : "Conectare alternativă folosind token-ul aplicației"
+    "Alternative login using app token" : "Conectare alternativă folosind token-ul aplicației",
+    "Add \"%s\" as trusted domain" : "Adaugă \"%s\" ca domeniu de încredere",
+    "Depending on your configuration, this button could also work to trust the domain:" : "În funcție de configurație, acest buton poate fi folosit pentru a te încrede în domeniul:"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

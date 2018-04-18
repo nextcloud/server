@@ -292,8 +292,6 @@
     "Error while validating your second factor" : "Chyba počas overovania druhého faktora",
     "Access through untrusted domain" : "Prístup cez nedôveryhodnú doménu",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Kontaktujte svojho správcu. Ak ste administrátorom vy, upravte nastavenie \"trusted_domains\" v config/config.php ako napríklad v config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "V závislosti od vašej konfigurácie by toto tlačidlo mohlo fungovať tak, že dôverujete doméne:",
-    "Add \"%s\" as trusted domain" : "Pridať \"%s\" ako dôveryhodnú doménu",
     "App update required" : "Je nutná aktualizácia aplikácie",
     "%s will be updated to version %s" : "%s bude zaktualizovaný na verziu %s.",
     "These apps will be updated:" : "Tieto aplikácie budú aktualizované:",
@@ -345,8 +343,10 @@
     "You are accessing the server from an untrusted domain." : "Pristupujete na server v nedôveryhodnej doméne.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kontaktujte svojho správcu. Ak ste správcom tejto inštancie vy, nakonfigurujte nastavenie \"trusted_domains\" v config/config.php. Príklad konfigurácie je uvedený v config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "V závislosti na konfigurácii, vám môže byť ako správcovi umožnené použitie tlačidla nižšie pre označenie tejto domény ako dôveryhodnej.",
+    "Add \"%s\" as trusted domain" : "Pridať \"%s\" ako dôveryhodnú doménu",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pomoc nájdete v <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentácii</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Vaše PHP nemá podporu FreeType, čo bude mať za následok poškodenie profilových obrázkov a rozhrania nastavení.",
-    "Back to log in" : "Späť na prihlásenie"
+    "Back to log in" : "Späť na prihlásenie",
+    "Depending on your configuration, this button could also work to trust the domain:" : "V závislosti od vašej konfigurácie by toto tlačidlo mohlo fungovať tak, že dôverujete doméne:"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

@@ -259,7 +259,6 @@
     "Cancel log in" : "ログインをキャンセルする",
     "Use backup code" : "バックアップコードを使用する",
     "Error while validating your second factor" : "第二要素の検証でエラーが発生しました",
-    "Add \"%s\" as trusted domain" : "\"%s\" を信頼するドメイン名に追加",
     "App update required" : "アプリの更新が必要",
     "%s will be updated to version %s" : "%s は バーション %s にアップデートされます",
     "These apps will be updated:" : "次のアプリはアップデートされます：",
@@ -282,6 +281,7 @@
     "Share with other people by entering a user or group or an email address." : "ユーザー名やグループ名、メールアドレスで共有",
     "Stay logged in" : "ログインしたままにする",
     "Alternative Logins" : "代替ログイン",
-    "Alternative login using app token" : "アプリトークンを使って代替ログイン"
+    "Alternative login using app token" : "アプリトークンを使って代替ログイン",
+    "Add \"%s\" as trusted domain" : "\"%s\" を信頼するドメイン名に追加"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

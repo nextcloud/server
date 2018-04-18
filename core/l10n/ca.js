@@ -270,8 +270,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Error al validar el segon factor d'autenticació",
     "Access through untrusted domain" : "Accedeix a través d'un domini que no és de confiança",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Si us plau, contacta amb el teu administrador. Si tu ets l'administrador, edita la configuració de \"trusted_domains\" a config/config.php tal com mostra l'exemple de config.samble.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Depenent de la teva configuració, aquest botó també podria funcionar per confiar en el domini:",
-    "Add \"%s\" as trusted domain" : "Afegeix \"%s\" com a domini de confiança",
     "App update required" : "Cal que actualitzeu la aplicació",
     "%s will be updated to version %s" : "%s s'actualitzarà a la versió %s",
     "These apps will be updated:" : "Aquestes aplicacions s'actualitzaran:",
@@ -296,6 +294,8 @@ OC.L10N.register(
     "Stay logged in" : "Mantén la sessió connectada",
     "Alternative Logins" : "Acreditacions alternatives",
     "Alternative login using app token" : "Acreditació alternativa utilitzat testimoni d'aplicació",
-    "Back to log in" : "Torna a l'accés"
+    "Add \"%s\" as trusted domain" : "Afegeix \"%s\" com a domini de confiança",
+    "Back to log in" : "Torna a l'accés",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Depenent de la teva configuració, aquest botó també podria funcionar per confiar en el domini:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -287,8 +287,6 @@ OC.L10N.register(
     "Use backup code" : "Käytä varakoodia",
     "Error while validating your second factor" : "Tunnistuksen toisen vaiheen tarkistus epäonnistui",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Ota yhteys ylläpitoon, tai jos olet tämän palvelun ylläpitäjä, määritä \"trusted_domains\"-asetus config/config.php-tiedostossa. Esimerkkimääritys on tiedostossa config/config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Asetuksista riippuen, ylläpitäjänä saatat pystyä alla olevalla painikkeella lisäämään tämän verkkotunnuksen luotetuksi.",
-    "Add \"%s\" as trusted domain" : "Lisää \"%s\" luotetuksi verkkotunnukseksi",
     "App update required" : "Sovelluksen päivittäminen vaaditaan",
     "%s will be updated to version %s" : "%s päivitetään versioon %s",
     "These apps will be updated:" : "Nämä sovellukset päivitetään:",
@@ -337,8 +335,10 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "Olet yhteydessä palvelimeen epäluotettavasta verkko-osoitteesta.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Ota yhteys ylläpitoon, tai jos olet tämän palvelun ylläpitäjä, määritä \"trusted_domains\"-asetus config/config.php-tiedostossa. Esimerkkimääritys on tiedostossa config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Asetuksista riippuen, ylläpitäjänä saatat pystyä alla olevalla painikkeella lisäämään tämän verkkotunnuksen luotetuksi.",
+    "Add \"%s\" as trusted domain" : "Lisää \"%s\" luotetuksi verkkotunnukseksi",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Jos tarvitset apua, katso <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">ohjeista</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP:ssäsi ei ole freetype-tukea. Tämä johtaa rikkinäisiin profiilikuviin ja rikkinäiseen asetuskäyttöliittymään.",
-    "Back to log in" : "Palaa kirjautumiseen"
+    "Back to log in" : "Palaa kirjautumiseen",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Asetuksista riippuen, ylläpitäjänä saatat pystyä alla olevalla painikkeella lisäämään tämän verkkotunnuksen luotetuksi."
 },
 "nplurals=2; plural=(n != 1);");

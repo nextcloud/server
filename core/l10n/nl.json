@@ -289,8 +289,6 @@
     "Error while validating your second factor" : "Fout bij het verifiëren van je tweede factor",
     "Access through untrusted domain" : "Toegang via een niet vertrouwd domein",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Neem contact op met je beheerder. Wanneer je een beheerder bent kun je de \"trusted_domains\" instelling bewerken in config/config.php zoals in het voorbeeld config.sample.php. ",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Afhankelijk van je configuratie kan deze knop ook werken om het volgende domein te vertrouwen:",
-    "Add \"%s\" as trusted domain" : "\"%s\" toevoegen als vertrouwd domein",
     "App update required" : "Bijwerken App vereist",
     "%s will be updated to version %s" : "%s wordt geüpdatet naar versie %s",
     "These apps will be updated:" : "Deze apps worden bijgewerkt:",
@@ -342,8 +340,10 @@
     "You are accessing the server from an untrusted domain." : "Je benadert de server van een niet-vertrouwd domein.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Neem contact op met de beheerder. Als je zelf de beheerder bent van deze installatie, zorg dan de \"trusted_domains\" instellingen goed zijn ingesteld in config/config.php. Een voorbeeldconfiguratie vind je in config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Afhankelijk van je instellingen kun je mogelijk als admin ook de onderstaande knop gebruiken om dit domein te vertrouwen.",
+    "Add \"%s\" as trusted domain" : "\"%s\" toevoegen als vertrouwd domein",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Voor hulp, zie de <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentatie</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Je PHP ondersteunt geen freetype. Daardoor kunnen profielfoto's en de instellingen niet goed weergegeven worden.",
-    "Back to log in" : "Terug naar inloggen"
+    "Back to log in" : "Terug naar inloggen",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Afhankelijk van je configuratie kan deze knop ook werken om het volgende domein te vertrouwen:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

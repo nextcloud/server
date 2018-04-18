@@ -275,8 +275,6 @@
     "Error while validating your second factor" : "验证您的第二项时出错",
     "Access through untrusted domain" : "通过不被信任的域名访问",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "请联系你的管理员。如果你就是管理员，请参照 config.sample.php 中的示例编辑 config/config.php 中的  \"trusted_domains\" 设置。",
-    "Depending on your configuration, this button could also work to trust the domain:" : "取决于配置，此按钮也可用作设置信任域名：",
-    "Add \"%s\" as trusted domain" : "添加 \"%s\" 为信任域名",
     "App update required" : "必须的应用更新",
     "%s will be updated to version %s" : "%s 将会更新至版本 %s",
     "These apps will be updated:" : "以下应用将被更新:",
@@ -307,7 +305,9 @@
     "Alternative login using app token" : "使用应用程序令牌替代登录",
     "You are accessing the server from an untrusted domain." : "您正在访问来自不信任域名的服务器.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "请联系您的系统管理员. 如果您是系统管理员, 在 config/config.php 文件中设置 \"trusted_domain\". 可以在 config/config.sample.php 文件中找到例子.",
+    "Add \"%s\" as trusted domain" : "添加 \"%s\" 为信任域名",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "获取更多帮助, 请查看 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">文档</a>.",
-    "Back to log in" : "返回登录"
+    "Back to log in" : "返回登录",
+    "Depending on your configuration, this button could also work to trust the domain:" : "取决于配置，此按钮也可用作设置信任域名："
 },"pluralForm" :"nplurals=1; plural=0;"
 }

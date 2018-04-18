@@ -294,8 +294,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Грешка при провери Вашег другог фактора",
     "Access through untrusted domain" : "Приступ кроз небезбедни домен",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Контактирајте Вашег администратора. Ако сте Ви администратор, измените \"trusted_domains\" подешавање у config/config.php као у примеру config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "У зависности од Ваше конфигурације, овим дугметом може да послужи да почнете да верујете овом домену:",
-    "Add \"%s\" as trusted domain" : "Додај „%s“ као поуздан домен",
     "App update required" : "Потребно ажурирање апликације",
     "%s will be updated to version %s" : "%s ће бити ажурирана на верзију %s",
     "These apps will be updated:" : "Следеће апликације ће бити ажуриране:",
@@ -347,8 +345,10 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "Приступате серверу са непоузданог домена.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Контактирајте Вашег администратора. Ако сте Ви администратор, измените \"trusted_domains\" подешавање у config/config.php. Пример једног подешавања је дат у config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Зависно од ваших подешавања, као администратор можете употребити дугме испод да потврдите поузданост домена.",
+    "Add \"%s\" as trusted domain" : "Додај „%s“ као поуздан домен",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "За помоћ, погледајте <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">документацију</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Ваша PHP инсталација нема подршку за freetype. Ово ће довести до неисправних профилних слика и неисправног интерфејса за подешавања.",
-    "Back to log in" : "Назад на пријаву"
+    "Back to log in" : "Назад на пријаву",
+    "Depending on your configuration, this button could also work to trust the domain:" : "У зависности од Ваше конфигурације, овим дугметом може да послужи да почнете да верујете овом домену:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

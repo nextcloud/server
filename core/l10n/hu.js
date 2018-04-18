@@ -290,8 +290,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Hiba történt a második lépés évényesítésekor",
     "Access through untrusted domain" : "Nem megbízható domain-en keresztüli hozzáférés",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Lépj kapcsolatba az adminisztrátoroddal. Ha te vagy az, szerkeszd a \"trusted_domains\" beállítást a config/config.php-ban a config.sample.php-hoz hasonlóan.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Beállításoktól függően ez a gomb is működhet a domain megbízhatóvá tételében:",
-    "Add \"%s\" as trusted domain" : "Adjuk hozzá „%s”-t a megbízható domain nevekhez!",
     "App update required" : "Alkalmazás frissítése szükséges",
     "%s will be updated to version %s" : "%s frissítve lesz erre a verzióra: %s",
     "These apps will be updated:" : "A következő alkalmazások lesznek frissítve:",
@@ -343,8 +341,10 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "A szervert nem megbízható domain névvel éri el.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kérjük keresse fel a rendszergazdát! Ha ennek a telepítésnek Ön a rendszergazdája, akkor állítsa be a config/config.php fájlban a \"trusted_domain\" paramétert! A config/config.sample.php fájlban talál példát a beállításra.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "A beállításoktól függően, rendszergazdaként lehetséges, hogy az alábbi gombot is használhatja a domain név megbízhatóvá tételéhez.",
+    "Add \"%s\" as trusted domain" : "Adjuk hozzá „%s”-t a megbízható domain nevekhez!",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Segítségért keresse fel a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentációt</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "A PHP-ból hiányzik a freetype támogatás. Ez a beállítási felület és a profilképek hibás megjelenítését okozhatja.",
-    "Back to log in" : "Vissza a bejelentkezéshez"
+    "Back to log in" : "Vissza a bejelentkezéshez",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Beállításoktól függően ez a gomb is működhet a domain megbízhatóvá tételében:"
 },
 "nplurals=2; plural=(n != 1);");
