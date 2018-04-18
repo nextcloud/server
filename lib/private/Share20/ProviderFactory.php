@@ -29,10 +29,10 @@
 namespace OC\Share20;
 
 use OC\CapabilitiesManager;
-use OC\GlobalScale\Config;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
+use OCA\FederatedFileSharing\OCM\CloudFederationProvider;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
@@ -133,7 +133,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getConfig(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getCloudIdManager(),
-				$this->serverContainer->query(Config::class)
+				$this->serverContainer->getGlobalScaleConfig()
 			);
 		}
 

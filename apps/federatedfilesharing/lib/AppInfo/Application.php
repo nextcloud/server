@@ -32,6 +32,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
+use OCA\FederatedFileSharing\OCM\CloudFederationProvider;
 use OCP\AppFramework\App;
 use OCP\GlobalScale\IConfig;
 
@@ -45,6 +46,13 @@ class Application extends App {
 
 		$container = $this->getContainer();
 		$server = $container->getServer();
+
+		$cloudFederationManager = $server->getCloudFederationProviderManager();
+		$cloudFederationManager->addCloudFederationProvider('file',
+			'Federated Files Sharing',
+			function() use ($container) {
+				return new CloudFederationProvider('file');
+			});
 
 		$container->registerService('RequestHandlerController', function(SimpleContainer $c) use ($server) {
 			$addressHandler = new AddressHandler(
