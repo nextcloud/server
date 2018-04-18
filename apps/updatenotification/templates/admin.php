@@ -1,5 +1,6 @@
 <?php
 	script('updatenotification', 'admin');
+	style('updatenotification', 'admin');
 
 	/** @var array $_ */
 	/** @var bool $isNewVersionAvailable */
@@ -16,6 +17,16 @@
 <form id="oca_updatenotification_section" class="followupsection">
 	<?php if($isNewVersionAvailable === true) { ?>
 		<strong><?php p($l->t('A new version is available: %s', [$newVersionString])); ?></strong>
+
+		<?php if (!empty($_['versionIsEol'])) { ?>
+			<p class="eol">
+						<span class="warning">
+							<span class="icon icon-error"></span>
+							<?php p($l->t('The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.')); ?>
+						</span>
+			</p>
+		<?php } ?>
+
 		<?php if ($_['updaterEnabled']) { ?>
 			<input type="button" id="oca_updatenotification_button" value="<?php p($l->t('Open updater')) ?>">
 		<?php } ?>

@@ -96,6 +96,7 @@ class VersionCheck {
 				$tmp['url'] = (string)$data->url;
 				$tmp['web'] = (string)$data->web;
 				$tmp['autoupdater'] = (string)$data->autoupdater;
+				$tmp['eol'] = isset($data->eol) ? (string)$data->eol : '0';
 			} else {
 				libxml_clear_errors();
 			}

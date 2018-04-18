@@ -114,7 +114,7 @@ class AdminController extends Controller implements ISettings {
 			'newVersionString' => (empty($updateState['updateVersion'])) ? '' : $updateState['updateVersion'],
 			'downloadLink' => (empty($updateState['downloadLink'])) ? '' : $updateState['downloadLink'],
 			'updaterEnabled' => (empty($updateState['updaterEnabled'])) ? false : $updateState['updaterEnabled'],
-
+			'versionIsEol' => empty($updateState['versionIsEol']) ? false : $updateState['versionIsEol'],
 			'notify_groups' => implode('|', $notifyGroups),
 		];
 
