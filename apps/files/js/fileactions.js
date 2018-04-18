@@ -633,10 +633,10 @@
 				actionHandler: function (filename, context) {
 					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
 						if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
-							context.fileList.copy(filename, targetPath);
+							context.fileList.copy(filename, targetPath, false, context.dir);
 						}
 						if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
-							context.fileList.move(filename, targetPath);
+							context.fileList.move(filename, targetPath, false, context.dir);
 						}
 					}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
 				}
