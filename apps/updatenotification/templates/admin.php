@@ -30,6 +30,16 @@
 			<?php if (!empty($_['downloadLink'])) { ?>
 				<a href="<?php p($_['downloadLink']); ?>" class="button<?php if ($_['updaterEnabled']) { p(' hidden'); } ?>"><?php p($l->t('Download now')) ?></a>
 			<?php } ?>
+
+			<?php if (!empty($_['versionIsEol'])) { ?>
+				<p>
+					<span class="warning">
+						<span class="icon icon-error"></span>
+						<?php p($l->t('The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.')); ?>
+					</span>
+				</p>
+			<?php } ?>
+
 		<?php } elseif (!$isUpdateChecked) { ?>
 			<?php p($l->t('The update check is not yet finished. Please refresh the page.')); ?>
 		<?php } else { ?>
