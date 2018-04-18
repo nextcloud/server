@@ -100,22 +100,19 @@ input {
 	}
 }
 
-#personal-settings-avatar-container,
-#personal-settings-group-container {
-	display: inline-block;
+#personal-settings-avatar-container {
+	display: inline-grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 2fr 1fr 1fr;
 	vertical-align: top;
-	width: 225px;
 }
 
 .profile-settings-container {
-	display: inline-block;
-	max-width: 600px;
-	margin-bottom: 20px;
-	> div {
-		float: left;
-		width: 300px;
-	}
+	display: inline-grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 2fr 1fr;
 }
+
 
 .icon-federation-menu {
 	padding-left: 16px;
@@ -157,21 +154,84 @@ input {
 	}
 }
 
+#personal-settings {
+	display: grid;
+	padding: 20px;
+	max-width: 1500px;
+	grid-template-columns:1fr 2fr 1fr;
+	.section {
+		padding: 10px 10px;
+	}
+}
+
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		#personal-settings-avatar-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr;
+			grid-column: 2;
+		}
+	}
+}
+
+@media (max-width: 1200px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr;
+		#personal-settings-avatar-container {
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr;
+		}
+	}
+}
+
+@media (max-width: 560px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr;
+		#personal-settings-avatar-container {
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 1fr;
+		}
+	}
+}
+
 .personal-settings-container {
-	display: inline-block;
-	max-width: 600px;
-	margin-bottom: 20px;
+	display: inline-grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 	&:after {
 		clear: both;
-	}
-	&:not(#personal-settings-avatar-container) > div {
-		float: left;
-		width: 300px;
 	}
 	> div {
 		h2 {
 			position: relative;
-			margin-bottom: 5px;
+			margin-bottom: 12px;
 			display: inline-flex;
 			flex-wrap: nowrap;
 			justify-content: space-between;
