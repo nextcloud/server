@@ -1157,6 +1157,11 @@ class OC_App {
 	}
 
 	protected static function findBestL10NOption($options, $lang) {
+		// only a single option
+		if (isset($options['@value'])) {
+			return $options['@value'];
+		}
+
 		$fallback = $similarLangFallback = $englishFallback = false;
 
 		$lang = strtolower($lang);
