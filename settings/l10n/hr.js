@@ -13,7 +13,6 @@ OC.L10N.register(
     "Email saved" : "E-pošta spremljena",
     "Couldn't remove app." : "Nije moguće ukloniti app.",
     "Couldn't update app." : "Ažuriranje aplikacija nije moguće",
-    "Add trusted domain" : "Dodajte pouzdanu domenu",
     "Email sent" : "E-pošta je poslana",
     "All" : "Sve",
     "Error while disabling app" : "Pogreška pri onemogućavanju app",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "change full name" : "promijenite puno ime",
     "set new password" : "postavite novu lozinku",
     "Default" : "Zadano",
+    "Add trusted domain" : "Dodajte pouzdanu domenu",
     "A valid password must be provided" : "Nužno je navesti valjanu lozinku",
     "Create" : "Kreirajte"
 },

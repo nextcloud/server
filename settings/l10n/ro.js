@@ -45,8 +45,6 @@ OC.L10N.register(
     "Password confirmation is required" : "Confirmarea parolei este necesară",
     "Couldn't remove app." : "Nu s-a putut înlătura aplicația.",
     "Couldn't update app." : "Aplicaţia nu s-a putut actualiza.",
-    "Are you really sure you want add {domain} as trusted domain?" : "Ești sigur că vrei sa adaugi {domain} ca domeniu de încredere?",
-    "Add trusted domain" : "Adaugă domeniu de încredere",
     "Migration in progress. Please wait until the migration is finished" : "Migrare în progres. Așteaptă până când migrarea este finalizată",
     "Migration started …" : "Migrarea a început...",
     "Not saved" : "Nu a fost salvat",
@@ -214,6 +212,8 @@ OC.L10N.register(
     "change email address" : "schimbă adresa email",
     "Default" : "Implicită",
     "Migration Completed" : "Migrare încheiată",
+    "Are you really sure you want add {domain} as trusted domain?" : "Ești sigur că vrei sa adaugi {domain} ca domeniu de încredere?",
+    "Add trusted domain" : "Adaugă domeniu de încredere",
     "A valid password must be provided" : "Trebuie să furnizaţi o parolă validă",
     "A valid email must be provided" : "Trebuie furnizată o adresă email validă",
     "Create" : "Crează"

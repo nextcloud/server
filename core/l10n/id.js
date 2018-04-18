@@ -214,7 +214,6 @@ OC.L10N.register(
     "Cancel log in" : "Batalkan masuk log",
     "Use backup code" : "Gunakan kode cadangan",
     "Error while validating your second factor" : "Galat ketika memvalidasi faktor kedua anda",
-    "Add \"%s\" as trusted domain" : "tambahkan \"%s\" sebagai domain terpercaya",
     "App update required" : "Diperlukan perbarui aplikasi",
     "%s will be updated to version %s" : "%s akan diperbaarui ke versi %s",
     "These apps will be updated:" : "Aplikasi berikut akan diperbarui:",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
     "Thank you for your patience." : "Terima kasih atas kesabaran anda.",
     "Stay logged in" : "Tetap masuk",
-    "Alternative Logins" : "Cara Alternatif untuk Masuk"
+    "Alternative Logins" : "Cara Alternatif untuk Masuk",
+    "Add \"%s\" as trusted domain" : "tambahkan \"%s\" sebagai domain terpercaya"
 },
 "nplurals=1; plural=0;");

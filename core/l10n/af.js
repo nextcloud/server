@@ -235,8 +235,6 @@ OC.L10N.register(
     "Cancel log in" : "Kanselleer aanmelding",
     "Use backup code" : "Gebruik rugsteun kode",
     "Error while validating your second factor" : "Fout terwyl u tweede faktor gevalideer word",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Afhangende van u konfigurasie, kan die knoppie ook gebruik word om die domein te vertrou:",
-    "Add \"%s\" as trusted domain" : "Voeg \"%s\" as 'n vertroude domein by",
     "App update required" : "Toep bywerking benodig",
     "%s will be updated to version %s" : "%s sal na %s bygewerk word",
     "These apps will be updated:" : "Die volgende toeps sal bygewerk word:",
@@ -260,7 +258,9 @@ OC.L10N.register(
     "You are about to grant \"%s\" access to your %s account." : "U is op die punt om \"%s\" toegang tot u %s rekening te verleen",
     "Alternative login using app token" : "Alternatiewe aanmelding met die toep-tekseenheid",
     "You are accessing the server from an untrusted domain." : "U besoek die bediener vanaf 'n domein wat nie vertrou word nie.",
+    "Add \"%s\" as trusted domain" : "Voeg \"%s\" as 'n vertroude domein by",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Vir hulp, sien die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentasie</a>.",
-    "Back to log in" : "Terug na aanmelding"
+    "Back to log in" : "Terug na aanmelding",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Afhangende van u konfigurasie, kan die knoppie ook gebruik word om die domein te vertrou:"
 },
 "nplurals=2; plural=(n != 1);");

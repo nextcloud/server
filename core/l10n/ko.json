@@ -287,8 +287,6 @@
     "Error while validating your second factor" : "2단계 인증을 검증하는 중 오류 발생",
     "Access through untrusted domain" : "신뢰하지 않는 도메인으로 접근",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "시스템 관리자에게 연락하십시오. 만약 시스템 관리자라면 config/config.php의 \"trusted_domains\" 설정을 config.sample.php를 참조하여 편집하십시오.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "설정에 따라 아래 단추는 도메인 신뢰를 추가하는 데 사용할 수 있습니다:",
-    "Add \"%s\" as trusted domain" : "\"%s\"을(를) 신뢰할 수 있는 도메인으로 추가",
     "App update required" : "앱 업데이트 필요",
     "%s will be updated to version %s" : "%s 앱을 버전 %s(으)로 업데이트합니다",
     "These apps will be updated:" : "다음 앱을 업데이트합니다:",
@@ -340,8 +338,10 @@
     "You are accessing the server from an untrusted domain." : "신뢰할 수 없는 도메인으로 서버에 접근하고 있습니다.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "시스템 관리자에게 연락하십시오. 만약 이 인스턴스의 관리자라면 config/config.php에서 \"trusted_domains\" 설정을 편집하십시오. config/config.sample.php에 있는 예제 설정을 참고하십시오.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "설정에 따라서 관리자 권한으로 아래 단추를 눌러서 이 도메인을 신뢰하도록 설정할 수 있습니다.",
+    "Add \"%s\" as trusted domain" : "\"%s\"을(를) 신뢰할 수 있는 도메인으로 추가",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "도움이 필요한 경우 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">문서</a>를 참조하십시오.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP에 freetype 지원이 없습니다. 프로필 사진과 설정 인터페이스가 올바르게 표시되지 않을 수도 있습니다.",
-    "Back to log in" : "로그인으로 돌아가기"
+    "Back to log in" : "로그인으로 돌아가기",
+    "Depending on your configuration, this button could also work to trust the domain:" : "설정에 따라 아래 단추는 도메인 신뢰를 추가하는 데 사용할 수 있습니다:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

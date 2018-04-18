@@ -263,7 +263,6 @@
     "Error while validating your second factor" : "Teise faktori valideerimise viga",
     "Access through untrusted domain" : "Ligipääs läbi ebausaldusväärse domeeni",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Palun võtke ühendust oma administraatoriga. Kui olete administraator, muutke konfiguratsioonis config/config.php sätet \"trusted_domains\", nagu näidis config.sample.php failis.",
-    "Add \"%s\" as trusted domain" : "Lisa \"%s\" usaldusväärse domeenina",
     "App update required" : "Rakenduse uuendus on nõutud",
     "%s will be updated to version %s" : "%s uuendatakse versioonile %s",
     "These apps will be updated:" : "Neid rakendusi uuendatakse:",
@@ -286,6 +285,7 @@
     "Share with other people by entering a user or group or an email address." : "Jaga teiste inimestega, sisestades kasutaja, grupi või e-posti aadressi.",
     "Stay logged in" : "Püsi sisselogituna",
     "Alternative Logins" : "Alternatiivsed sisselogimisviisid",
+    "Add \"%s\" as trusted domain" : "Lisa \"%s\" usaldusväärse domeenina",
     "Back to log in" : "Tagasi sisselogimise lehele"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

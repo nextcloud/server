@@ -291,8 +291,6 @@
     "Error while validating your second factor" : "Feil under validering av din andre faktor",
     "Access through untrusted domain" : "Nå gjennom ubetrodd domene",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Kontakt din administrator. Hvis du er en administrator, sett opp innstillingen \"trusted_domains\" i config/config.php som eksemplet i config/config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Avhengig av ditt oppsett, kan denne knappen også betro domenet.",
-    "Add \"%s\" as trusted domain" : "Legg til \"%s\" som et klarert domene",
     "App update required" : "Program-oppdatering kreves",
     "%s will be updated to version %s" : "%s vil bli oppdatert til versjon %s",
     "These apps will be updated:" : "Disse programmene vil bli oppdatert:",
@@ -344,8 +342,10 @@
     "You are accessing the server from an untrusted domain." : "Du besøker tjeneren fra et ikke-klarert domene.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kontakt din administrator. Hvis du er administrator for denne instansen, sett opp innstillingen \"trusted_domains\" i config/config.php. Et eksempel på oppsett er gitt i config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Avhengig av oppsettet kan du, som administrator, kanskje også bruke kanppen nedenfor til å stole på dette domenet.",
+    "Add \"%s\" as trusted domain" : "Legg til \"%s\" som et klarert domene",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "For hjelp, se i  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentasjonen</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Din PHP-installasjon har ikke FreeType-støtte. Dette fører til knekte profilbilder og skadelidende innstillingsgrensesnitt.",
-    "Back to log in" : "Tilbake til innlogging"
+    "Back to log in" : "Tilbake til innlogging",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Avhengig av ditt oppsett, kan denne knappen også betro domenet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

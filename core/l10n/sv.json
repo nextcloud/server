@@ -268,8 +268,6 @@
     "Error while validating your second factor" : "Fel vid verifiering av tvåfaktorsautentisering.",
     "Access through untrusted domain" : "Åtkomst genom obetrodd domän",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Vänligen kontakta din administratör. Om du är en administratör, ändra \"trusted_domains\"-inställningen i config/config.php likt exemplet i config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Beroende på din konfiguration kan denna knappen också fungera föra att lita på domänen:",
-    "Add \"%s\" as trusted domain" : "Lägg till \"%s\" som en pålitlig domän",
     "App update required" : "Appen behöver uppdateras",
     "%s will be updated to version %s" : "%s kommer att uppdateras till version %s",
     "These apps will be updated:" : "Dessa appar kommer att uppdateras:",
@@ -294,6 +292,8 @@
     "Stay logged in" : "Fortsätt vara inloggad.",
     "Alternative Logins" : "Alternativa inloggningar",
     "Alternative login using app token" : "Alternativ inloggning med app-token",
-    "Back to log in" : "Tillbaks till inloggning"
+    "Add \"%s\" as trusted domain" : "Lägg till \"%s\" som en pålitlig domän",
+    "Back to log in" : "Tillbaks till inloggning",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Beroende på din konfiguration kan denna knappen också fungera föra att lita på domänen:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

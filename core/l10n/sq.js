@@ -253,7 +253,6 @@ OC.L10N.register(
     "Cancel log in" : "Anuloni identifikimin",
     "Use backup code" : "Përdorni kodin e kopjes rezervë",
     "Error while validating your second factor" : "Gabim gjatë verifikimit të elementit të dytë",
-    "Add \"%s\" as trusted domain" : "Shtojeni \"%s\" si përkatësi të besuar",
     "App update required" : "Lypset përditësim aplikacioni",
     "%s will be updated to version %s" : "%s do të përditësohet me versionin %s",
     "These apps will be updated:" : "Do të përditësohen këto aplikacione:",
@@ -276,6 +275,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Shpërndaje me persona të tjerë duke vendosur një perdorues ose një grup ose një adresë emaili",
     "Stay logged in" : "Qëndro i futur",
     "Alternative Logins" : "Hyrje Alternative",
-    "Alternative login using app token" : "Hyrje alternative duke perdorur çelësin identifikues  të API-t"
+    "Alternative login using app token" : "Hyrje alternative duke perdorur çelësin identifikues  të API-t",
+    "Add \"%s\" as trusted domain" : "Shtojeni \"%s\" si përkatësi të besuar"
 },
 "nplurals=2; plural=(n != 1);");

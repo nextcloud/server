@@ -249,7 +249,6 @@ OC.L10N.register(
     "Two-factor authentication" : "дво-факторна аутентифікація",
     "Use backup code" : "Використати резервний код",
     "Access through untrusted domain" : "Доступ з не довіреного домену",
-    "Add \"%s\" as trusted domain" : "Додати \"%s\" як довірений домен",
     "App update required" : "Додаток потребує оновлення",
     "%s will be updated to version %s" : "%s буде оновлено до версії %s",
     "These apps will be updated:" : "Ці додатки будуть оновлені:",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "Thank you for your patience." : "Дякуємо за ваше терпіння.",
     "Stay logged in" : "Залишатись в системі",
     "Alternative Logins" : "Альтернативні імена користувача",
+    "Add \"%s\" as trusted domain" : "Додати \"%s\" як довірений домен",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для допомоги, дивіться  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
     "Back to log in" : "Повернутися до сторінки авторизації"
 },

@@ -264,7 +264,6 @@ OC.L10N.register(
     "Cancel log in" : "Ακύρωση εισόδου",
     "Use backup code" : "Χρήση εφεδρικών κωδικών",
     "Error while validating your second factor" : "Σφάλμα κατά την επικύρωση του δεύτερου παράγοντα",
-    "Add \"%s\" as trusted domain" : "Προσθήκη \"%s\" ως αξιόπιστου τομέα",
     "App update required" : "Απαιτείται ενημέρωση εφαρμογής",
     "%s will be updated to version %s" : "%s θα ενημερωθεί σε έκδοση %s",
     "These apps will be updated:" : "Αυτές οι εφαρμογές θα ενημερωθούν:",
@@ -290,6 +289,7 @@ OC.L10N.register(
     "Stay logged in" : "Μείνετε συνδεδεμένος",
     "Alternative Logins" : "Εναλλακτικές είσοδοι",
     "Alternative login using app token" : "Εναλλακτική είσοδος με την χρήση του διακριτικού της εφαρμογής",
-    "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα."
+    "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα.",
+    "Add \"%s\" as trusted domain" : "Προσθήκη \"%s\" ως αξιόπιστου τομέα"
 },
 "nplurals=2; plural=(n != 1);");

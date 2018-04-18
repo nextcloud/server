@@ -263,8 +263,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Lỗi khi xác thực 2 bước",
     "Access through untrusted domain" : "Truy nhập thông qua tên miền không đáng tin",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Xin vui lòng liên hệ với quản trị hệ thống của bạn. Nếu ban là người quản trị hệ thống, sửa phần thiết lập \"trusted_domains\" trong file config/config.php giống như trong ví dụ tại file config.sample.php.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Phụ thuộc vào cấu hình của bạn, nút lệnh này có thể hoạt động để bảo đảm tin tưởng tên miền:",
-    "Add \"%s\" as trusted domain" : "Thêm \"%s\" là tên miền tin cậy",
     "App update required" : "Ứng dụng yêu cầu cập nhật",
     "%s will be updated to version %s" : "%s sẽ được cập nhật lên phiên bản %s",
     "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:",
@@ -287,6 +285,8 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Chia sẻ với người khác bằng cách nhập tên người dùng hoặc tên nhóm, hoặc địa chỉ email.",
     "Stay logged in" : "Lưu trạng thái đăng nhập",
     "Alternative Logins" : "Đăng nhập khác",
-    "Alternative login using app token" : "Cách thức đăng nhập khác sử dụng app token"
+    "Alternative login using app token" : "Cách thức đăng nhập khác sử dụng app token",
+    "Add \"%s\" as trusted domain" : "Thêm \"%s\" là tên miền tin cậy",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Phụ thuộc vào cấu hình của bạn, nút lệnh này có thể hoạt động để bảo đảm tin tưởng tên miền:"
 },
 "nplurals=1; plural=0;");

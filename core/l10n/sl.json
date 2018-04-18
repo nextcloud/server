@@ -241,7 +241,6 @@
     "Cancel log in" : "Prekini prijavo",
     "Use backup code" : "Uporabi rezervno šifro",
     "Error while validating your second factor" : "Napaka med preverjanjem drugega koraka",
-    "Add \"%s\" as trusted domain" : "Dodaj \"%s\" kot varno domeno",
     "App update required" : "Zahtevana je posodobitev programa",
     "%s will be updated to version %s" : "%s bo posodobljen na različico %s.",
     "These apps will be updated:" : "Posodobljeni bodo naslednji vstavki:",
@@ -259,6 +258,7 @@
     "Thank you for your patience." : "Hvala za potrpežljivost!",
     "Stay logged in" : "Ohrani prijavo",
     "Alternative Logins" : "Druge prijavne možnosti",
+    "Add \"%s\" as trusted domain" : "Dodaj \"%s\" kot varno domeno",
     "Back to log in" : "Nazaj na prijavo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
