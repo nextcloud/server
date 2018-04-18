@@ -47,6 +47,14 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function displayNameFieldForNewUser() {
+		return Locator::forThe()->field("newdisplayname")->
+				describedAs("Display name field for new user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function passwordFieldForNewUser() {
 		return Locator::forThe()->field("newuserpassword")->
 				describedAs("Password field for new user in Users Settings");
@@ -94,6 +102,13 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->css("input")->
 				descendantOf(self::classCellForUser($cell, $user))->
 				describedAs("$cell input for user $user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function displayNameCellForUser($user) {
+		return self::inputForUserInCell("displayName", $user);
 	}
 
 	/**
@@ -159,6 +174,34 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iOpenTheActionsMenuOf($user) {
 		$this->actor->find(self::actionsMenuOf($user))->click();
+	}
+
+	/**
+	 * @When I set the user name for the new user to :user
+	 */
+	public function iSetTheUserNameForTheNewUserTo($user) {
+		$this->actor->find(self::userNameFieldForNewUser(), 10)->setValue($user);
+	}
+
+	/**
+	 * @When I set the display name for the new user to :displayName
+	 */
+	public function iSetTheDisplayNameForTheNewUserTo($displayName) {
+		$this->actor->find(self::displayNameFieldForNewUser(), 10)->setValue($displayName);
+	}
+
+	/**
+	 * @When I set the password for the new user to :password
+	 */
+	public function iSetThePasswordForTheNewUserTo($password) {
+		$this->actor->find(self::passwordFieldForNewUser(), 10)->setValue($password);
+	}
+
+	/**
+	 * @When I create the new user
+	 */
+	public function iCreateTheNewUser() {
+		$this->actor->find(self::createNewUserButton(), 10)->click();
 	}
 
 	/**
@@ -240,6 +283,13 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheFieldOfUserIs($field, $user, $value) {
 		PHPUnit_Framework_Assert::assertEquals(
 			$this->actor->find(self::inputForUserInCell($field, $user), 10)->getValue(), $value);
+	}
+
+	/**
+	 * @Then I see that the display name for the user :user is :displayName
+	 */
+	public function iSeeThatTheDisplayNameForTheUserIs($user, $displayName) {
+		PHPUnit_Framework_Assert::assertEquals($displayName, $this->actor->find(self::displayNameCellForUser($user), 10)->getValue());
 	}
 
 	/**
