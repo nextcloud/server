@@ -27,6 +27,8 @@ class UrlGeneratorTest extends \Test\TestCase {
 	private $request;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var string */
+	private $originalWebRoot;
 
 	public function setUp() {
 		parent::setUp();
@@ -38,6 +40,12 @@ class UrlGeneratorTest extends \Test\TestCase {
 			$this->cacheFactory,
 			$this->request
 		);
+		$this->originalWebRoot = \OC::$WEBROOT;
+	}
+
+	public function tearDown() {
+		// Reset webRoot
+		\OC::$WEBROOT = $this->originalWebRoot;
 	}
 
 	private function mockBaseUrl() {
@@ -47,7 +55,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->request->expects($this->once())
 			->method('getServerHost')
 			->willReturn('localhost');
-
 	}
 
 	/**
@@ -156,4 +163,3 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 }
-

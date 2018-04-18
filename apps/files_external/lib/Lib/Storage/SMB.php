@@ -52,6 +52,7 @@ use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Util;
 
 class SMB extends Common implements INotifyStorage {
 	/**
@@ -83,13 +84,9 @@ class SMB extends Common implements INotifyStorage {
 			}
 			$this->share = $this->server->getShare(trim($params['share'], '/'));
 
-			$this->root = isset($params['root']) ? $params['root'] : '/';
-			if (!$this->root || $this->root[0] !== '/') {
-				$this->root = '/' . $this->root;
-			}
-			if (substr($this->root, -1, 1) !== '/') {
-				$this->root .= '/';
-			}
+			$this->root = $params['root'] ?? '/';
+			$this->root = '/' . ltrim($this->root, '/');
+			$this->root = rtrim($this->root, '/') . '/';
 		} else {
 			throw new \Exception('Invalid configuration');
 		}
@@ -155,7 +152,13 @@ class SMB extends Common implements INotifyStorage {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
 			}
 			return array_filter($files, function (IFileInfo $file) {
-				return !$file->isHidden();
+				try {
+					return !$file->isHidden();
+				} catch (ForbiddenException $e) {
+					return false;
+				} catch (NotFoundException $e) {
+					return false;
+				}
 			});
 		} catch (ConnectException $e) {
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
@@ -199,18 +202,21 @@ class SMB extends Common implements INotifyStorage {
 			$this->remove($target);
 			$result = $this->share->rename($absoluteSource, $absoluteTarget);
 		} catch (\Exception $e) {
+			\OC::$server->getLogger()->logException($e, ['level' => Util::WARN]);
 			return false;
 		}
 		unset($this->statCache[$absoluteSource], $this->statCache[$absoluteTarget]);
 		return $result;
 	}
 
-	/**
-	 * @param string $path
-	 * @return array
-	 */
 	public function stat($path) {
-		$result = $this->formatInfo($this->getFileInfo($path));
+		try {
+			$result = $this->formatInfo($this->getFileInfo($path));
+		} catch (ForbiddenException $e) {
+			return false;
+		} catch (NotFoundException $e) {
+			return false;
+		}
 		if ($this->remoteIsShare() && $this->isRootDir($path)) {
 			$result['mtime'] = $this->shareMTime();
 		}
@@ -226,8 +232,12 @@ class SMB extends Common implements INotifyStorage {
 		$highestMTime = 0;
 		$files = $this->share->dir($this->root);
 		foreach ($files as $fileInfo) {
-			if ($fileInfo->getMTime() > $highestMTime) {
-				$highestMTime = $fileInfo->getMTime();
+			try {
+				if ($fileInfo->getMTime() > $highestMTime) {
+					$highestMTime = $fileInfo->getMTime();
+				}
+			} catch (NotFoundException $e) {
+				// Ignore this, can happen on unavailable DFS shares
 			}
 		}
 		return $highestMTime;
@@ -343,7 +353,7 @@ class SMB extends Common implements INotifyStorage {
 						if (!$this->isCreatable(dirname($path))) {
 							return false;
 						}
-						$tmpFile = \OCP\Files::tmpFile($ext);
+						$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 					}
 					$source = fopen($tmpFile, $mode);
 					$share = $this->share;

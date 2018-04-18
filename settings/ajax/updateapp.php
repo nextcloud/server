@@ -25,11 +25,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkAdminUser();
-OCP\JSON::callCheck();
+\OC_JSON::checkAdminUser();
+\OC_JSON::callCheck();
 
 if (!array_key_exists('appid', $_POST)) {
-	OCP\JSON::error(array(
+	\OC_JSON::error(array(
 		'message' => 'No AppId given!'
 	));
 	return;
@@ -41,13 +41,7 @@ $appId = OC_App::cleanAppId($appId);
 $config = \OC::$server->getConfig();
 $config->setSystemValue('maintenance', true);
 try {
-	$installer = new \OC\Installer(
-		\OC::$server->getAppFetcher(),
-		\OC::$server->getHTTPClientService(),
-		\OC::$server->getTempManager(),
-		\OC::$server->getLogger(),
-		\OC::$server->getConfig()
-	);
+	$installer = \OC::$server->query(\OC\Installer::class);
 	$result = $installer->updateAppstoreApp($appId);
 	$config->setSystemValue('maintenance', false);
 } catch(Exception $ex) {

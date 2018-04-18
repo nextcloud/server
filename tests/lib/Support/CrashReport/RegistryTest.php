@@ -47,6 +47,7 @@ class RegistryTest extends TestCase {
 		$exception = new Exception('test');
 
 		$this->registry->delegateReport($exception);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testDelegateToAll() {

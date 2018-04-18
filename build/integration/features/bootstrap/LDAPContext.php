@@ -35,7 +35,7 @@ class LDAPContext implements Context {
 	 * @Given /^the response should contain a tag "([^"]*)"$/
 	 */
 	public function theResponseShouldContainATag($arg1) {
-		$configID = $this->response->xml()->data[0]->$arg1;
+		$configID = simplexml_load_string($this->response->getBody())->data[0]->$arg1;
 		PHPUnit_Framework_Assert::assertInstanceOf(SimpleXMLElement::class, $configID[0]);
 	}
 
@@ -45,7 +45,7 @@ class LDAPContext implements Context {
 	public function creatingAnLDAPConfigurationAt($apiUrl) {
 		$this->apiUrl = $apiUrl;
 		$this->sendingToWith('POST', $this->apiUrl, null);
-		$configElements = $this->response->xml()->data[0]->configID;
+		$configElements = simplexml_load_string($this->response->getBody())->data[0]->configID;
 		$this->configID = $configElements[0];
 	}
 
@@ -60,7 +60,7 @@ class LDAPContext implements Context {
 	 * @Given /^the response should contain a tag "([^"]*)" with value "([^"]*)"$/
 	 */
 	public function theResponseShouldContainATagWithValue($tagName, $expectedValue) {
-		$data = $this->response->xml()->data[0]->$tagName;
+		$data = simplexml_load_string($this->response->getBody())->data[0]->$tagName;
 		PHPUnit_Framework_Assert::assertEquals($expectedValue, $data[0]);
 	}
 

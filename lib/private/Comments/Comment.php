@@ -232,10 +232,6 @@ class Comment implements IComment {
 		$uids = array_unique($mentions[0]);
 		$result = [];
 		foreach ($uids as $uid) {
-			// exclude author, no self-mentioning
-			if($uid === '@' . $this->getActorId()) {
-				continue;
-			}
 			$result[] = ['type' => 'user', 'id' => substr($uid, 1)];
 		}
 		return $result;

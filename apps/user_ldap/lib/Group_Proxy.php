@@ -73,7 +73,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP {
 	 * @return mixed, the result of the method or false
 	 */
 	protected function callOnLastSeenOn($gid, $method, $parameters, $passOnWhen) {
-		$cacheKey = $this->getGroupCacheKey($gid);;
+		$cacheKey = $this->getGroupCacheKey($gid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
 		if(!is_null($prefix)) {

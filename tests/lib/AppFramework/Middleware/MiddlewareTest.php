@@ -75,8 +75,8 @@ class MiddlewareTest extends \Test\TestCase {
 
 
 	public function testAfterExceptionRaiseAgainWhenUnhandled() {
-		$this->setExpectedException('Exception');
-		$afterEx = $this->middleware->afterException($this->controller, null, $this->exception);
+		$this->expectException(\Exception::class);
+		$this->middleware->afterException($this->controller, null, $this->exception);
 	}
 
 

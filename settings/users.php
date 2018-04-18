@@ -62,12 +62,17 @@ if ($config->getSystemValue('sort_groups_by_name', false)) {
 	}
 }
 
-$isAdmin = OC_User::isAdminUser(OC_User::getUser());
+$uid = \OC_User::getUser();
+$isAdmin = OC_User::isAdminUser($uid);
 
-$isDisabled = !OC_User::isEnabled(OC_User::getUser());
+$isDisabled = true;
+$user = $userManager->get($uid);
+if ($user) {
+	$isDisabled = !$user->isEnabled();
+}
 
 $groupsInfo = new \OC\Group\MetaData(
-	OC_User::getUser(),
+	$uid,
 	$isAdmin,
 	$groupManager,
 	\OC::$server->getUserSession()

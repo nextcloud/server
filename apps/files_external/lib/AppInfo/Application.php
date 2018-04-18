@@ -31,10 +31,34 @@ namespace OCA\Files_External\AppInfo;
 
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
-use \OCP\IContainer;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Config\IBackendProvider;
 use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;
+use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
+use OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
+use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV2;
+use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV3;
+use OCA\Files_External\Lib\Auth\PublicKey\RSA;
+use OCA\Files_External\Lib\Auth\OAuth2\OAuth2;
+use OCA\Files_External\Lib\Auth\OAuth1\OAuth1;
+use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\Lib\Auth\Password\UserProvided;
+use OCA\Files_External\Lib\Auth\Password\LoginCredentials;
+use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
+use OCA\Files_External\Lib\Auth\Password\Password;
+use OCA\Files_External\Lib\Auth\Builtin;
+use OCA\Files_External\Lib\Auth\NullMechanism;
+use OCA\Files_External\Lib\Backend\SMB_OC;
+use OCA\Files_External\Lib\Backend\SMB;
+use OCA\Files_External\Lib\Backend\SFTP_Key;
+use OCA\Files_External\Lib\Backend\Swift;
+use OCA\Files_External\Lib\Backend\AmazonS3;
+use OCA\Files_External\Lib\Backend\SFTP;
+use OCA\Files_External\Lib\Backend\OwnCloud;
+use OCA\Files_External\Lib\Backend\DAV;
+use OCA\Files_External\Lib\Backend\FTP;
+use OCA\Files_External\Lib\Backend\Local;
+use OCP\Files\Config\IUserMountCache;
 
 /**
  * @package OCA\Files_External\AppInfo
@@ -46,11 +70,11 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 
 		$container = $this->getContainer();
 
-		$container->registerService('OCP\Files\Config\IUserMountCache', function (IAppContainer $c) {
+		$container->registerService(IUserMountCache::class, function (IAppContainer $c) {
 			return $c->getServer()->query('UserMountCache');
 		});
 
-		$backendService = $container->query('OCA\\Files_External\\Service\\BackendService');
+		$backendService = $container->query(BackendService::class);
 		$backendService->registerBackendProvider($this);
 		$backendService->registerAuthMechanismProvider($this);
 
@@ -71,16 +95,16 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$container = $this->getContainer();
 
 		$backends = [
-			$container->query('OCA\Files_External\Lib\Backend\Local'),
-			$container->query('OCA\Files_External\Lib\Backend\FTP'),
-			$container->query('OCA\Files_External\Lib\Backend\DAV'),
-			$container->query('OCA\Files_External\Lib\Backend\OwnCloud'),
-			$container->query('OCA\Files_External\Lib\Backend\SFTP'),
-			$container->query('OCA\Files_External\Lib\Backend\AmazonS3'),
-			$container->query('OCA\Files_External\Lib\Backend\Swift'),
-			$container->query('OCA\Files_External\Lib\Backend\SFTP_Key'),
-			$container->query('OCA\Files_External\Lib\Backend\SMB'),
-			$container->query('OCA\Files_External\Lib\Backend\SMB_OC'),
+			$container->query(Local::class),
+			$container->query(FTP::class),
+			$container->query(DAV::class),
+			$container->query(OwnCloud::class),
+			$container->query(SFTP::class),
+			$container->query(AmazonS3::class),
+			$container->query(Swift::class),
+			$container->query(SFTP_Key::class),
+			$container->query(SMB::class),
+			$container->query(SMB_OC::class),
 		];
 
 		return $backends;
@@ -94,33 +118,34 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 
 		return [
 			// AuthMechanism::SCHEME_NULL mechanism
-			$container->query('OCA\Files_External\Lib\Auth\NullMechanism'),
+			$container->query(NullMechanism::class),
 
 			// AuthMechanism::SCHEME_BUILTIN mechanism
-			$container->query('OCA\Files_External\Lib\Auth\Builtin'),
+			$container->query(Builtin::class),
 
 			// AuthMechanism::SCHEME_PASSWORD mechanisms
-			$container->query('OCA\Files_External\Lib\Auth\Password\Password'),
-			$container->query('OCA\Files_External\Lib\Auth\Password\SessionCredentials'),
-			$container->query('OCA\Files_External\Lib\Auth\Password\LoginCredentials'),
-			$container->query('OCA\Files_External\Lib\Auth\Password\UserProvided'),
-			$container->query('OCA\Files_External\Lib\Auth\Password\GlobalAuth'),
+			$container->query(Password::class),
+			$container->query(SessionCredentials::class),
+			$container->query(LoginCredentials::class),
+			$container->query(UserProvided::class),
+			$container->query(GlobalAuth::class),
 
 			// AuthMechanism::SCHEME_OAUTH1 mechanisms
-			$container->query('OCA\Files_External\Lib\Auth\OAuth1\OAuth1'),
+			$container->query(OAuth1::class),
 
 			// AuthMechanism::SCHEME_OAUTH2 mechanisms
-			$container->query('OCA\Files_External\Lib\Auth\OAuth2\OAuth2'),
+			$container->query(OAuth2::class),
 
 			// AuthMechanism::SCHEME_PUBLICKEY mechanisms
-			$container->query('OCA\Files_External\Lib\Auth\PublicKey\RSA'),
+			$container->query(RSA::class),
 
 			// AuthMechanism::SCHEME_OPENSTACK mechanisms
-			$container->query('OCA\Files_External\Lib\Auth\OpenStack\OpenStack'),
-			$container->query('OCA\Files_External\Lib\Auth\OpenStack\Rackspace'),
+			$container->query(OpenStackV2::class),
+			$container->query(OpenStackV3::class),
+			$container->query(Rackspace::class),
 
 			// Specialized mechanisms
-			$container->query('OCA\Files_External\Lib\Auth\AmazonS3\AccessKey'),
+			$container->query(AccessKey::class),
 		];
 	}
 

@@ -33,6 +33,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OC_Util;
+use Psr\Http\Message\ResponseInterface;
 use Test\TestCase;
 use OC\IntegrityCheck\Checker;
 
@@ -96,7 +97,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->checker,
 				$this->logger
 				])
-			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup'])->getMock();
+			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup', 'hasFreeTypeSupport'])->getMock();
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -149,7 +150,7 @@ class CheckSetupControllerTest extends TestCase {
 			->method('get')
 			->will($this->throwException(new \Exception()));
 
-		$this->clientService->expects($this->exactly(3))
+		$this->clientService->expects($this->exactly(4))
 			->method('newClient')
 			->will($this->returnValue($client));
 
@@ -284,13 +285,17 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->throwException(new \Exception()));
 		$client->expects($this->at(1))
 			->method('get')
-			->with('http://www.google.com/', [])
+			->with('http://www.startpage.com/', [])
 			->will($this->throwException(new \Exception()));
 		$client->expects($this->at(2))
 			->method('get')
-			->with('http://www.github.com/', [])
+			->with('http://www.eff.org/', [])
 			->will($this->throwException(new \Exception()));
-		$this->clientService->expects($this->exactly(3))
+		$client->expects($this->at(3))
+			->method('get')
+			->with('http://www.edri.org/', [])
+			->will($this->throwException(new \Exception()));
+		$this->clientService->expects($this->exactly(4))
 			->method('newClient')
 			->will($this->returnValue($client));
 		$this->urlGenerator->expects($this->at(0))
@@ -321,6 +326,9 @@ class CheckSetupControllerTest extends TestCase {
 			->method('linkToDocs')
 			->with('admin-php-opcache')
 			->willReturn('http://docs.example.org/server/go.php?to=admin-php-opcache');
+		$this->checkSetupController
+			->method('hasFreeTypeSupport')
+			->willReturn(false);
 
 		$expected = new DataResponse(
 			[
@@ -342,6 +350,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isOpcacheProperlySetup' => false,
 				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
 				'isSettimelimitAvailable' => true,
+				'hasFreeTypeSupport' => false,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -456,7 +465,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder('\GuzzleHttp\Message\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$response->expects($this->once())
 			->method('getStatusCode')
@@ -490,7 +499,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder('\GuzzleHttp\Message\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$response->expects($this->once())
 			->method('getStatusCode')

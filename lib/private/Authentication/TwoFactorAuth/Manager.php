@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -40,6 +41,8 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUser;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager {
 
@@ -70,6 +73,9 @@ class Manager {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+
 	/**
 	 * @param AppManager $appManager
 	 * @param ISession $session
@@ -78,6 +84,7 @@ class Manager {
 	 * @param ILogger $logger
 	 * @param TokenProvider $tokenProvider
 	 * @param ITimeFactory $timeFactory
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
 	public function __construct(AppManager $appManager,
 								ISession $session,
@@ -85,7 +92,8 @@ class Manager {
 								IManager $activityManager,
 								ILogger $logger,
 								TokenProvider $tokenProvider,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								EventDispatcherInterface $eventDispatcher) {
 		$this->appManager = $appManager;
 		$this->session = $session;
 		$this->config = $config;
@@ -93,6 +101,7 @@ class Manager {
 		$this->logger = $logger;
 		$this->tokenProvider = $tokenProvider;
 		$this->timeFactory = $timeFactory;
+		$this->dispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -101,9 +110,9 @@ class Manager {
 	 * @param IUser $user
 	 * @return boolean
 	 */
-	public function isTwoFactorAuthenticated(IUser $user) {
+	public function isTwoFactorAuthenticated(IUser $user): bool {
 		$twoFactorEnabled = ((int) $this->config->getUserValue($user->getUID(), 'core', 'two_factor_auth_disabled', 0)) === 0;
-		return $twoFactorEnabled && count($this->getProviders($user)) > 0;
+		return $twoFactorEnabled && \count($this->getProviders($user)) > 0;
 	}
 
 	/**
@@ -131,9 +140,9 @@ class Manager {
 	 * @param string $challengeProviderId
 	 * @return IProvider|null
 	 */
-	public function getProvider(IUser $user, $challengeProviderId) {
+	public function getProvider(IUser $user, string $challengeProviderId) {
 		$providers = $this->getProviders($user, true);
-		return isset($providers[$challengeProviderId]) ? $providers[$challengeProviderId] : null;
+		return $providers[$challengeProviderId] ?? null;
 	}
 
 	/**
@@ -156,7 +165,7 @@ class Manager {
 	 * @return IProvider[]
 	 * @throws Exception
 	 */
-	public function getProviders(IUser $user, $includeBackupApp = false) {
+	public function getProviders(IUser $user, bool $includeBackupApp = false): array {
 		$allApps = $this->appManager->getEnabledAppsForUser($user);
 		$providers = [];
 
@@ -167,6 +176,7 @@ class Manager {
 
 			$info = $this->appManager->getAppInfo($appId);
 			if (isset($info['two-factor-providers'])) {
+				/** @var string[] $providerClasses */
 				$providerClasses = $info['two-factor-providers'];
 				foreach ($providerClasses as $class) {
 					try {
@@ -192,7 +202,7 @@ class Manager {
 	 *
 	 * @param string $appId
 	 */
-	protected function loadTwoFactorApp($appId) {
+	protected function loadTwoFactorApp(string $appId) {
 		if (!OC_App::isAppLoaded($appId)) {
 			OC_App::loadApp($appId);
 		}
@@ -206,9 +216,9 @@ class Manager {
 	 * @param string $challenge
 	 * @return boolean
 	 */
-	public function verifyChallenge($providerId, IUser $user, $challenge) {
+	public function verifyChallenge(string $providerId, IUser $user, string $challenge): bool {
 		$provider = $this->getProvider($user, $providerId);
-		if (is_null($provider)) {
+		if ($provider === null) {
 			return false;
 		}
 
@@ -228,10 +238,16 @@ class Manager {
 			$tokenId = $token->getId();
 			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $tokenId);
 
+			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
+			$this->dispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
+
 			$this->publishEvent($user, 'twofactor_success', [
 				'provider' => $provider->getDisplayName(),
 			]);
 		} else {
+			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
+			$this->dispatcher->dispatch(IProvider::EVENT_FAILED, $dispatchEvent);
+
 			$this->publishEvent($user, 'twofactor_failed', [
 				'provider' => $provider->getDisplayName(),
 			]);
@@ -244,8 +260,9 @@ class Manager {
 	 *
 	 * @param IUser $user
 	 * @param string $event
+	 * @param array $params
 	 */
-	private function publishEvent(IUser $user, $event, array $params) {
+	private function publishEvent(IUser $user, string $event, array $params) {
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp('core')
 			->setType('security')
@@ -266,7 +283,7 @@ class Manager {
 	 * @param IUser $user the currently logged in user
 	 * @return boolean
 	 */
-	public function needsSecondFactor(IUser $user = null) {
+	public function needsSecondFactor(IUser $user = null): bool {
 		if ($user === null) {
 			return false;
 		}
@@ -295,7 +312,7 @@ class Manager {
 				$tokenId = $token->getId();
 				$tokensNeeding2FA = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
 
-				if (!in_array($tokenId, $tokensNeeding2FA, true)) {
+				if (!\in_array($tokenId, $tokensNeeding2FA, true)) {
 					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
 					return false;
 				}
@@ -326,7 +343,7 @@ class Manager {
 	 * @param IUser $user
 	 * @param boolean $rememberMe
 	 */
-	public function prepareTwoFactorLogin(IUser $user, $rememberMe) {
+	public function prepareTwoFactorLogin(IUser $user, bool $rememberMe) {
 		$this->session->set(self::SESSION_UID_KEY, $user->getUID());
 		$this->session->set(self::REMEMBER_LOGIN, $rememberMe);
 

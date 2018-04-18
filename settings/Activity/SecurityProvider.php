@@ -53,7 +53,7 @@ class SecurityProvider implements IProvider {
 			throw new InvalidArgumentException();
 		}
 
-		$l = $this->l10n->get('core', $language);
+		$l = $this->l10n->get('settings', $language);
 
 		switch ($event->getSubject()) {
 			case 'twofactor_success':

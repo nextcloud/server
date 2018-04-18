@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,6 +34,7 @@ use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Util;
 
 class Notifier implements INotifier {
 
@@ -84,9 +86,9 @@ class Notifier implements INotifier {
 	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
 	 * @since 9.0.0
 	 */
-	public function prepare(INotification $notification, $languageCode) {
+	public function prepare(INotification $notification, $languageCode): INotification {
 		if ($notification->getApp() !== 'updatenotification') {
-			throw new \InvalidArgumentException();
+			throw new \InvalidArgumentException('Unknown app id');
 		}
 
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
@@ -94,7 +96,7 @@ class Notifier implements INotifier {
 			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', 0);
 			if ($errors === 0) {
 				$this->notificationManager->markProcessed($notification);
-				throw new \InvalidArgumentException();
+				throw new \InvalidArgumentException('Update checked worked again');
 			}
 
 			$notification->setParsedSubject($l->t('The update server could not be reached since %d days to check for new updates.', [$errors]))
@@ -126,7 +128,7 @@ class Notifier implements INotifier {
 				]);
 
 			if ($this->isAdmin()) {
-				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps') . '#app-' . $notification->getObjectType());
+				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());
 			}
 		}
 
@@ -145,14 +147,14 @@ class Notifier implements INotifier {
 	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion) {
 		if (version_compare($notification->getObjectId(), $installedVersion, '<=')) {
 			$this->notificationManager->markProcessed($notification);
-			throw new \InvalidArgumentException();
+			throw new \InvalidArgumentException('Update already installed');
 		}
 	}
 
 	/**
 	 * @return bool
 	 */
-	protected function isAdmin() {
+	protected function isAdmin(): bool {
 		$user = $this->userSession->getUser();
 
 		if ($user instanceof IUser) {
@@ -162,11 +164,11 @@ class Notifier implements INotifier {
 		return false;
 	}
 
-	protected function getCoreVersions() {
-		return implode('.', \OCP\Util::getVersion());
+	protected function getCoreVersions(): string {
+		return implode('.', Util::getVersion());
 	}
 
-	protected function getAppVersions() {
+	protected function getAppVersions(): array {
 		return \OC_App::getAppVersions();
 	}
 

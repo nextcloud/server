@@ -9,9 +9,10 @@ OC.L10N.register(
     "The given web address is too long" : "هذا العنوان أطول مما يجب",
     "The given slogan is too long" : "هذا الشعار أطول مما يجب",
     "The given color is invalid" : "هناك خطأ في اللون",
+    "No file was uploaded" : "لم يتم رفع أي ملف",
+    "Missing a temporary folder" : "المجلد المؤقت غير موجود",
     "No file uploaded" : "لم يتم رفع الملف",
     "Unsupported image type" : "صيغة الصورة غير مقبولة",
-    "You are already using a custom theme" : "انت تستعمل قالب مخصص",
     "Theming" : "تخصيص القالب",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "السمات تجعل من الممكن بسهولة تخصيص الشكل والمظهر لنموذجك ودعم العملاء. سيكون هذا مرئيا لجميع المستخدمين.",
     "Name" : "الاسم",
@@ -25,7 +26,8 @@ OC.L10N.register(
     "Login image" : "صورة الدخول",
     "Upload new login background" : "تحميل خلفية جديدة للدخول",
     "Remove background image" : "إزالة صورة الخلفية",
+    "You are already using a custom theme" : "انت تستعمل قالب مخصص",
     "reset to default" : "إلغاء كل التغييرات",
-    "Log in image" : "صورة الدخول"
+    "Failed to write file to disk." : "خطأ في الكتابة على القرص الصلب."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

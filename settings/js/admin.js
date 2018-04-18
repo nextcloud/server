@@ -1,29 +1,4 @@
 $(document).ready(function(){
-	var params = OC.Util.History.parseUrlQuery();
-
-	// Hack to add a trusted domain
-	if (params.trustDomain) {
-		var potentialDomain = params.trustDomain;
-		potentialDomain = encodeURI(escapeHTML(potentialDomain));
-		potentialDomain = '<span class="trusted-domain-warning">' + potentialDomain + '</span>';
-
-		OC.dialogs.confirmHtml(t('settings', 'Are you really sure you want add {domain} as trusted domain?', {
-				domain: potentialDomain
-			}, undefined, {escape: false}),
-			t('settings', 'Add trusted domain'), function(answer) {
-				if(answer) {
-					$.ajax({
-						type: 'POST',
-						url: OC.generateUrl('settings/admin/security/trustedDomains'),
-						data: { newTrustedDomain: params.trustDomain }
-					}).done(function() {
-						window.location.replace(OC.generateUrl('settings/admin'));
-					});
-				}
-			});
-	}
-
-
 	$('#excludedGroups').each(function (index, element) {
 		OC.Settings.setupGroupsSelect($(element));
 		$(element).change(function(ev) {
@@ -119,6 +94,28 @@ $(document).ready(function(){
 		if(!this.checked) {
 			savePublicShareDisclaimerText('');
 		}
+	});
+
+	$('#shareApiDefaultPermissionsSection input').change(function(ev) {
+		var $el = $('#shareApiDefaultPermissions');
+		var $target = $(ev.target);
+
+		var value = $el.val();
+		if ($target.is(':checked')) {
+			value = value | $target.val();
+		} else {
+			value = value & ~$target.val();
+		}
+
+		// always set read permission
+		value |= OC.PERMISSION_READ;
+
+		// this will trigger the field's change event and will save it
+		$el.val(value).change();
+
+		ev.preventDefault();
+
+		return false;
 	});
 
 	var savePublicShareDisclaimerText = _.debounce(function(value) {

@@ -11,7 +11,6 @@ OC.L10N.register(
     "The given color is invalid" : "El color donat no és vàlid",
     "No file uploaded" : "No s'ha carregat cap fitxer",
     "Unsupported image type" : "Tipus d'imatge no compatible",
-    "You are already using a custom theme" : "Ja esteu utilitzant un tema personalitzat",
     "Theming" : "Adaptació de temes",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "L'adaptació de temes permet personalitzar fàcilment l'aspecte de la vostra instància i els clients compatibles. Això serà visible per a tots els usuaris.",
     "Name" : "Nom",
@@ -25,7 +24,7 @@ OC.L10N.register(
     "Login image" : "Login logo",
     "Upload new login background" : "Carregar nou fons d'inici de sessió",
     "Remove background image" : "Elimina la imatge de fons",
-    "reset to default" : "restablir a configuració predeterminada",
-    "Log in image" : "Imatge d'entrada"
+    "You are already using a custom theme" : "Ja esteu utilitzant un tema personalitzat",
+    "reset to default" : "restablir a configuració predeterminada"
 },
 "nplurals=2; plural=(n != 1);");

@@ -40,8 +40,7 @@
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
-$infoParser = new \OC\App\InfoParser();
-$application->add(new OC\Core\Command\App\CheckCode($infoParser));
+$application->add(new OC\Core\Command\App\CheckCode());
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
 		\OC::$server->getIntegrityCodeChecker(),
@@ -90,6 +89,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
 	$application->add(new OC\Core\Command\Db\ConvertMysqlToMB4(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection(), \OC::$server->getURLGenerator(), \OC::$server->getLogger()));
 	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->getDatabaseConnection()));
+	$application->add(new OC\Core\Command\Db\AddMissingIndices(\OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->getDatabaseConnection()));
@@ -137,7 +137,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
 	$application->add(new OC\Core\Command\Maintenance\UpdateTheme(\OC::$server->getMimeTypeDetector(), \OC::$server->getMemCacheFactory()));
 
-	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger()));
+	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
 		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()), \OC::$server->getConfig(),
 		\OC::$server->getEventDispatcher(), \OC::$server->getAppManager()));

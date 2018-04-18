@@ -61,10 +61,7 @@ class OwnCloud extends \OC\Files\Storage\DAV{
 		}
 
 		if (isset($params['root'])){
-			$root = $params['root'];
-			if (substr($root, 0, 1) !== '/'){
-				$root = '/' . $root;
-			}
+			$root = '/' . ltrim($params['root'], '/');
 		}
 		else{
 			$root = '/';

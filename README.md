@@ -15,7 +15,7 @@
 * :package: **Sync your Data** You keep your files, contacts, calendars and more synchronized amongst your devices.
 * :arrows_counterclockwise: **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
 * :rocket: **Expandable with dozens of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail) and all those you can discover in our [App Store](https://apps.nextcloud.com)
-* :lock: **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentification.
+* :lock: **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
 *You want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and at your Enterprise?* [**Learn about all our Features**](https://nextcloud.com/features).
 
@@ -60,7 +60,7 @@ More information how to contribute: [https://nextcloud.com/contribute/](https://
 
 Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
 
-Several apps by default included in regular releases like [firstrunwizard](https://github.com/nextcloud/firstrunwizard) or [gallery](https://github.com/nextcloud/gallery) are missing in `master` and have to be installed manually as required.
+Several apps that are included by default in regular releases such as [firstrunwizard](https://github.com/nextcloud/firstrunwizard) or [gallery](https://github.com/nextcloud/gallery) are missing in `master` and have to be installed manually.
 
 That aside Git checkouts can be handled the same as release archives.
 

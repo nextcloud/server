@@ -94,7 +94,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<input type="checkbox" id="select_all_files" class="select-all checkbox">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span id="selectedActionsList" class="selectedActions hidden">' +
-			'<a href class="copy-move">Move or copy</a>' +
+			'<a href class="copy-move"><span class="label">Move or copy</span></a>' +
 			'<a href class="download"><img src="actions/download.svg">Download</a>' +
 			'<a href class="delete-selected">Delete</a></span>' +
 			'</th>' +
@@ -217,6 +217,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('123456');
+			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 			expect($tr.find('a.name').attr('href'))
 				.toEqual(OC.webroot + '/remote.php/webdav/subdir/testName.txt');
 			expect($tr.find('.nametext').text().trim()).toEqual('testName.txt');
@@ -246,6 +247,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('123456');
+			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 
 			expect($tr.find('.filesize').text()).toEqual('1 KB');
 			expect($tr.find('.date').text()).not.toEqual('?');
@@ -271,6 +273,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toBeUndefined();
 			expect($tr.attr('data-mtime')).toEqual('123456');
+			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 
 			expect($tr.find('.filesize').text()).toEqual('Pending');
 			expect($tr.find('.date').text()).not.toEqual('?');
@@ -293,9 +296,28 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('123456');
+			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 
 			expect($tr.find('.filesize').text()).toEqual('Pending');
 			expect($tr.find('.date').text()).not.toEqual('?');
+		});
+		it('generates dir element with true e2eencrypted attribute when calling add() with minimal data including isEncrypted', function() {
+			var fileData = {
+				type: 'dir',
+				name: 'testFolder',
+				isEncrypted: true
+			};
+			var $tr = fileList.add(fileData);
+			expect($tr.attr('data-e2eencrypted')).toEqual('true');
+		});
+		it('generates file element with no permissions when permissions are explicitly none', function() {
+			var fileData = {
+				type: 'dir',
+				name: 'testFolder',
+				permissions: OC.PERMISSION_NONE
+			};
+			var $tr = fileList.add(fileData);
+			expect($tr.attr('data-permissions')).toEqual('0');
 		});
 		it('generates file element with zero size when size is explicitly zero', function() {
 			var fileData = {
@@ -590,6 +612,12 @@ describe('OCA.Files.FileList tests', function() {
 		beforeEach(function() {
 			deferredRename = $.Deferred();
 			renameStub = sinon.stub(filesClient, 'move').returns(deferredRename.promise());
+
+			for (var i = 0; i < testFiles.length; i++) {
+				var file = testFiles[i];
+				file.path = '/some/subdir';
+				fileList.add(file, {silent: true});
+			}
 		});
 		afterEach(function() {
 			renameStub.restore();
@@ -597,9 +625,6 @@ describe('OCA.Files.FileList tests', function() {
 
 		function doCancelRename() {
 			var $input;
-			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i]);
-			}
 
 			// trigger rename prompt
 			fileList.rename('One.txt');
@@ -613,12 +638,6 @@ describe('OCA.Files.FileList tests', function() {
 		}
 		function doRename() {
 			var $input;
-
-			for (var i = 0; i < testFiles.length; i++) {
-				var file = testFiles[i];
-				file.path = '/some/subdir';
-				fileList.add(file, {silent: true});
-			}
 
 			// trigger rename prompt
 			fileList.rename('One.txt');
@@ -654,6 +673,36 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.findFileEl('Tu_after_three.txt').length).toEqual(0);
 
 			expect(notificationStub.calledOnce).toEqual(true);
+		});
+		it('Shows renamed file details if rename ajax call suceeded', function() {
+			fileList.showDetailsView('One.txt');
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
+
+			doRename();
+
+			deferredRename.resolve(201);
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('Tu_after_three.txt');
+		});
+		it('Shows again file details if rename ajax call failed', function() {
+			fileList.showDetailsView('One.txt');
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
+
+			doRename();
+
+			deferredRename.reject(403);
+
+			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo().get('id')).toEqual(1);
+			expect(fileList._detailsView.getFileInfo().get('name')).toEqual('One.txt');
 		});
 		it('Correctly updates file link after rename', function() {
 			var $tr;
@@ -708,10 +757,6 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('Validates the file name', function() {
 			var $input, $tr;
-
-			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i], {silent: true});
-			}
 
 			$tr = fileList.findFileEl('One.txt');
 			expect($tr.find('a.name').css('display')).not.toEqual('none');
@@ -1433,6 +1478,32 @@ describe('OCA.Files.FileList tests', function() {
 			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
+		it('render encrypted folder icon for encrypted root', function() {
+			var fileData = {
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				name: 'test dir',
+				isEncrypted: true
+			};
+			var $tr = fileList.add(fileData);
+			var $td = $tr.find('td.filename');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect(previewLoadStub.notCalled).toEqual(true);
+		});
+		it('render encrypted folder icon for encrypted subdir', function() {
+			var fileData = {
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				name: 'test dir',
+				isEncrypted: true
+			};
+			var $tr = fileList.add(fileData);
+			var $td = $tr.find('td.filename');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect(previewLoadStub.notCalled).toEqual(true);
+			// default icon override
+			expect($tr.attr('data-icon')).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+		});
 		it('render external storage icon for external storage root', function() {
 			var fileData = {
 				type: 'dir',
@@ -2030,7 +2101,14 @@ describe('OCA.Files.FileList tests', function() {
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
 				$('.select-all').click();
 				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .copy-move .label').text()).toEqual('Move or copy');
 				testFiles[0].permissions = OC.PERMISSION_READ;
+				$('.select-all').click();
+				fileList.setFiles(testFiles);
+				$('.select-all').click();
+				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .copy-move .label').text()).toEqual('Copy');
+				testFiles[0].permissions = OC.PERMISSION_NONE;
 				$('.select-all').click();
 				fileList.setFiles(testFiles);
 				$('.select-all').click();
@@ -2077,7 +2155,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 12,
 					etag: 'abc',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 				expect(files[1]).toEqual({
 					id: 3,
@@ -2088,7 +2167,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 58009,
 					etag: '123',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 				expect(files[2]).toEqual({
 					id: 4,
@@ -2099,7 +2179,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 250,
 					etag: '456',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 				expect(files[0].id).toEqual(1);
 				expect(files[0].name).toEqual('One.txt');
@@ -2121,7 +2202,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 12,
 					etag: 'abc',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 				expect(files[1]).toEqual({
 					id: 4,
@@ -2132,7 +2214,8 @@ describe('OCA.Files.FileList tests', function() {
 					size: 250,
 					etag: '456',
 					permissions: OC.PERMISSION_ALL,
-					hasPreview: true
+					hasPreview: true,
+					isEncrypted: false
 				});
 			});
 			describe('Download', function() {
@@ -2434,6 +2517,30 @@ describe('OCA.Files.FileList tests', function() {
 			expect(context.$file.is($tr)).toEqual(true);
 			expect(context.fileList).toBeDefined();
 			expect(context.fileActions).toBeDefined();
+			expect(context.dir).toEqual('/subdir');
+		});
+		it('Clicking on an empty space of the file row will trigger the "Details" action', function() {
+			var detailsActionStub = sinon.stub();
+			fileList.setFiles(testFiles);
+			// Override the "Details" action set internally by the FileList for
+			// easier testing.
+			fileList.fileActions.registerAction({
+				mime: 'all',
+				name: 'Details',
+				permissions: OC.PERMISSION_NONE,
+				actionHandler: detailsActionStub
+			});
+			// Ensure that the action works even if fileActions.currentFile is
+			// not set.
+			fileList.fileActions.currentFile = null;
+			var $tr = fileList.findFileEl('One.txt');
+			$tr.find('td.filename a.name').click();
+			expect(detailsActionStub.calledOnce).toEqual(true);
+			expect(detailsActionStub.getCall(0).args[0]).toEqual('One.txt');
+			var context = detailsActionStub.getCall(0).args[1];
+			expect(context.$file.is($tr)).toEqual(true);
+			expect(context.fileList).toBe(fileList);
+			expect(context.fileActions).toBe(fileList.fileActions);
 			expect(context.dir).toEqual('/subdir');
 		});
 		it('redisplays actions when new actions have been registered', function() {
@@ -3222,6 +3329,16 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileInfo.mimetype).toEqual('text/plain');
 			expect(fileInfo.type).toEqual('file');
 			expect(fileInfo.path).not.toBeDefined();
+			expect(fileInfo.isEncrypted).toEqual(false);
+		});
+		it('sets isEncrypted attribute if data includes true e2eencrypted', function() {
+			testFiles[3].isEncrypted = true;
+
+			fileList.setFiles(testFiles);
+			$tr = fileList.findFileEl('somedir');
+
+			var fileInfo = fileList.elementToFile($tr);
+			expect(fileInfo.isEncrypted).toEqual(true);
 		});
 		it('adds path attribute if available', function() {
 			$tr.attr('data-path', '/subdir');

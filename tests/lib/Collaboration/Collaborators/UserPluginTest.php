@@ -442,4 +442,51 @@ class UserPluginTest extends TestCase {
 		$this->assertEquals($expected, $result['users']);
 		$this->assertSame($reachedEnd, $moreResults);
 	}
+
+	public function takeOutCurrentUserProvider() {
+		$inputUsers = [
+			'alice' => 'Alice',
+			'bob' => 'Bob',
+			'carol' => 'Carol'
+		];
+		return [
+			[
+				$inputUsers,
+				['alice', 'carol'],
+				'bob'
+			],
+			[
+				$inputUsers,
+				['alice', 'bob', 'carol'],
+				'dave'
+			],
+			[
+				$inputUsers,
+				['alice', 'bob', 'carol'],
+				null
+			]
+		];
+	}
+
+	/**
+	 * @dataProvider takeOutCurrentUserProvider
+	 * @param array $users
+	 * @param array $expectedUIDs
+	 * @param $currentUserId
+	 */
+	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, $currentUserId) {
+		$this->instantiatePlugin();
+
+		$this->session->expects($this->once())
+			->method('getUser')
+			->willReturnCallback(function() use ($currentUserId) {
+				if($currentUserId !== null) {
+					return $this->getUserMock($currentUserId, $currentUserId);
+				}
+				return null;
+			});
+
+		$this->plugin->takeOutCurrentUser($users);
+		$this->assertSame($expectedUIDs, array_keys($users));
+	}
 }

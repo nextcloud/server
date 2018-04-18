@@ -408,7 +408,7 @@
 					mime: 'all',
 					order: -50,
 					iconClass: 'icon-details',
-					permissions: OC.PERMISSION_READ,
+					permissions: OC.PERMISSION_NONE,
 					actionHandler: function(fileName, context) {
 						self._updateDetailsView(fileName);
 					}
@@ -553,9 +553,6 @@
 				actionsWidth += $(action).outerWidth();
 			});
 
-			// subtract app navigation toggle when visible
-			containerWidth -= $('#app-navigation-toggle').width();
-
 			this.breadcrumb._resize();
 
 			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
@@ -679,8 +676,28 @@
 						$(event.target).closest('a').blur();
 					}
 				} else {
-					this._updateDetailsView($tr.attr('data-file'));
+					// Even if there is no Details action the default event
+					// handler is prevented for consistency (although there
+					// should always be a Details action); otherwise the link
+					// would be downloaded by the browser when the user expected
+					// the details to be shown.
 					event.preventDefault();
+					var filename = $tr.attr('data-file');
+					this.fileActions.currentFile = $tr.find('td');
+					var mime = this.fileActions.getCurrentMimeType();
+					var type = this.fileActions.getCurrentType();
+					var permissions = this.fileActions.getCurrentPermissions();
+					var action = this.fileActions.get(mime, type, permissions)['Details'];
+					if (action) {
+						// also set on global object for legacy apps
+						window.FileActions.currentFile = this.fileActions.currentFile;
+						action(filename, {
+							$file: $tr,
+							fileList: this,
+							fileActions: this.fileActions,
+							dir: $tr.attr('data-path') || this.getCurrentDirectory()
+						});
+					}
 				}
 			}
 		},
@@ -781,6 +798,7 @@
 				OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, false);
 			};
 
+			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
 			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
 				if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 					self.copy(files, targetPath, disableLoadingState);
@@ -788,7 +806,7 @@
 				if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 					self.move(files, targetPath, disableLoadingState);
 				}
-			}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
+			}, false, "httpd/unix-directory", true, actions);
 			return false;
 		},
 
@@ -953,7 +971,8 @@
 				type: $el.attr('data-type'),
 				etag: $el.attr('data-etag'),
 				permissions: parseInt($el.attr('data-permissions'), 10),
-				hasPreview: $el.attr('data-has-preview') === 'true'
+				hasPreview: $el.attr('data-has-preview') === 'true',
+				isEncrypted: $el.attr('data-e2eencrypted') === 'true'
 			};
 			var size = $el.attr('data-size');
 			if (size) {
@@ -1155,10 +1174,18 @@
 			if (type === 'dir') {
 				mime = mime || 'httpd/unix-directory';
 
-				if (fileData.mountType && fileData.mountType.indexOf('external') === 0) {
+				if (fileData.isEncrypted) {
+					icon = OC.MimeType.getIconUrl('dir-encrypted');
+					dataIcon = icon;
+				} else if (fileData.mountType && fileData.mountType.indexOf('external') === 0) {
 					icon = OC.MimeType.getIconUrl('dir-external');
 					dataIcon = icon;
 				}
+			}
+
+			var permissions = fileData.permissions;
+			if (permissions === undefined || permissions === null) {
+				permissions = this.getDirectoryPermissions();
 			}
 
 			//containing tr
@@ -1170,8 +1197,9 @@
 				"data-mime": mime,
 				"data-mtime": mtime,
 				"data-etag": fileData.etag,
-				"data-permissions": fileData.permissions || this.getDirectoryPermissions(),
-				"data-has-preview": fileData.hasPreview !== false
+				"data-permissions": permissions,
+				"data-has-preview": fileData.hasPreview !== false,
+				"data-e2eencrypted": fileData.isEncrypted === true
 			});
 
 			if (dataIcon) {
@@ -1364,7 +1392,7 @@
 		 * @return new tr element (not appended to the table)
 		 */
 		add: function(fileData, options) {
-			var index = -1;
+			var index;
 			var $tr;
 			var $rows;
 			var $insertionPoint;
@@ -1406,6 +1434,8 @@
 				$tr.addClass('appear transparent');
 				window.setTimeout(function() {
 					$tr.removeClass('transparent');
+					$("#fileList tr").removeClass('mouseOver');
+					$tr.addClass('mouseOver');
 				});
 			}
 
@@ -1442,7 +1472,9 @@
 				path = fileData.path || this.getCurrentDirectory(),
 				permissions = parseInt(fileData.permissions, 10) || 0;
 
-			if (fileData.isShareMountPoint) {
+			var isEndToEndEncrypted = (type === 'dir' && fileData.isEncrypted);
+
+			if (!isEndToEndEncrypted && fileData.isShareMountPoint) {
 				permissions = permissions | OC.PERMISSION_UPDATE;
 			}
 
@@ -1482,6 +1514,7 @@
 				// the typeof check ensures that the default value of animate is true
 				if (typeof(options.animate) === 'undefined' || !!options.animate) {
 					this.lazyLoadPreview({
+						fileId: fileData.id,
 						path: path + '/' + fileData.name,
 						mime: mime,
 						etag: fileData.etag,
@@ -1742,7 +1775,6 @@
 				return true;
 			}
 
-			// TODO: parse remaining quota from PROPFIND response
 			this.updateStorageStatistics(true);
 
 			// first entry is the root
@@ -1772,6 +1804,10 @@
 
 		updateStorageStatistics: function(force) {
 			OCA.Files.Files.updateStorageStatistics(this.getCurrentDirectory(), force);
+		},
+
+		updateStorageQuotas: function() {
+			OCA.Files.Files.updateStorageQuotas();
 		},
 
 		/**
@@ -1824,7 +1860,15 @@
 			urlSpec.x = Math.ceil(urlSpec.x);
 			urlSpec.y = Math.ceil(urlSpec.y);
 			urlSpec.forceIcon = 0;
-			return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+
+			if (typeof urlSpec.fileId !== 'undefined') {
+				delete urlSpec.file;
+				return OC.generateUrl('/core/preview?') + $.param(urlSpec);
+			} else {
+				delete urlSpec.fileId;
+				return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+			}
+
 		},
 
 		/**
@@ -1837,6 +1881,7 @@
 		 */
 		lazyLoadPreview : function(options) {
 			var self = this;
+			var fileId = options.fileId;
 			var path = options.path;
 			var mime = options.mime;
 			var ready = options.callback;
@@ -1848,6 +1893,7 @@
 				urlSpec = {};
 			ready(iconURL); // set mimeicon URL
 
+			urlSpec.fileId = fileId;
 			urlSpec.file = OCA.Files.Files.fixPath(path);
 			if (options.x) {
 				urlSpec.x = options.x;
@@ -2003,10 +2049,12 @@
 		 * @param fileNames array of file names to move
 		 * @param targetPath absolute target path
 		 * @param callback function to call when movement is finished
+		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
 		 */
-		move: function(fileNames, targetPath, callback) {
+		move: function(fileNames, targetPath, callback, dir) {
 			var self = this;
-			var dir = this.getCurrentDirectory();
+
+			dir = typeof dir === 'string' ? dir : this.getCurrentDirectory();
 			if (dir.charAt(dir.length - 1) !== '/') {
 				dir += '/';
 			}
@@ -2066,13 +2114,14 @@
 		 * @param fileNames array of file names to copy
 		 * @param targetPath absolute target path
 		 * @param callback to call when copy is finished with success
+		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
 		 */
-		copy: function(fileNames, targetPath, callback) {
+		copy: function(fileNames, targetPath, callback, dir) {
 			var self = this;
 			var filesToNotify = [];
 			var count = 0;
 
-			var dir = this.getCurrentDirectory();
+			dir = typeof dir === 'string' ? dir : this.getCurrentDirectory();
 			if (dir.charAt(dir.length - 1) !== '/') {
 				dir += '/';
 			}
@@ -2234,7 +2283,7 @@
 
 			function updateInList(fileInfo) {
 				self.updateRow(tr, fileInfo);
-				self._updateDetailsView(fileInfo, false);
+				self._updateDetailsView(fileInfo.name, false);
 			}
 
 			// TODO: too many nested blocks, move parts into functions
@@ -2336,7 +2385,11 @@
 				event.preventDefault();
 			});
 			input.blur(function() {
-				form.trigger('submit');
+				if(input.hasClass('error')) {
+					restore();
+				} else { 
+					form.trigger('submit');
+				}
 			});
 		},
 
@@ -2604,6 +2657,7 @@
 				self.updateSelectionSummary();
 				// FIXME: don't repeat this, do it once all files are done
 				self.updateStorageStatistics();
+				self.updateStorageQuotas();
 			}
 
 			_.each(files, function(file) {
@@ -2827,18 +2881,39 @@
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
-				this.$el.find('.selectedActions .copy-move').toggleClass('hidden', !this.isSelectedCopiableOrMovable());
 				this.$el.find('.selectedActions .download').toggleClass('hidden', !this.isSelectedDownloadable());
 				this.$el.find('.delete-selected').toggleClass('hidden', !this.isSelectedDeletable());
+
+				var $copyMove = this.$el.find('.selectedActions .copy-move');
+				if (this.isSelectedCopiable()) {
+					$copyMove.toggleClass('hidden', false);
+					if (this.isSelectedMovable()) {
+						$copyMove.find('.label').text(t('files', 'Move or copy'));
+					} else {
+						$copyMove.find('.label').text(t('files', 'Copy'));
+					}
+				} else {
+					$copyMove.toggleClass('hidden', true);
+				}
 			}
 		},
 
 		/**
-		 * Check whether all selected files are copiable or movable
+		 * Check whether all selected files are copiable
 		 */
-		isSelectedCopiableOrMovable: function() {
-			return _.reduce(this.getSelectedFiles(), function(copiableOrMovable, file) {
-				return copiableOrMovable && (file.permissions & OC.PERMISSION_UPDATE);
+		isSelectedCopiable: function() {
+			return _.reduce(this.getSelectedFiles(), function(copiable, file) {
+				var requiredPermission = $('#isPublic').val() ? OC.PERMISSION_UPDATE : OC.PERMISSION_READ;
+				return copiable && (file.permissions & requiredPermission);
+			}, true);
+		},
+
+		/**
+		 * Check whether all selected files are movable
+		 */
+		isSelectedMovable: function() {
+			return _.reduce(this.getSelectedFiles(), function(movable, file) {
+				return movable && (file.permissions & OC.PERMISSION_UPDATE);
 			}, true);
 		},
 
@@ -3047,6 +3122,8 @@
 				self.showFileBusyState(uploadText.closest('tr'), false);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
+
+				self.updateStorageQuotas();
 			});
 			uploader.on('createdfolder', function(fullPath) {
 				self.addAndFetchFileInfo(OC.basename(fullPath), OC.dirname(fullPath));

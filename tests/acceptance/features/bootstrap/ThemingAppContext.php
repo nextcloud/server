@@ -84,24 +84,23 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the color selector in the Theming app has loaded
 	 */
 	public function iSeeThatTheColorSelectorInTheThemingAppHasLoaded() {
-		// When the color selector is loaded it removes the leading '#' from the
-		// value property of the input field object it is linked to, and changes
-		// the background color of the input field to that value. The only way
-		// to know that the color selector has loaded is to look for any of
-		// those changes.
+		// Checking if the color selector has loaded by getting the background color
+		// of the input element. If the value present in the element matches the
+		// background of the input element, it means the color element has been
+		// initialized.
 
 		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::inputFieldFor("Color"), 10)->isVisible());
 
 		$actor = $this->actor;
 
 		$colorSelectorLoadedCallback = function() use($actor) {
-			$colorSelectorValue = $actor->getSession()->evaluateScript("return $('#theming-color')[0].value;");
-
-			if ($colorSelectorValue[0] === '#') {
-				return false;
+			$colorSelectorValue = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#theming-color')[0].value;"));
+			$inputBgColor = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#theming-color').css('background-color');"));
+			if ($colorSelectorValue == $inputBgColor) {
+			    return true;
 			}
 
-			return true;
+			return false;
 		};
 
 		if (!Utils::waitFor($colorSelectorLoadedCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
@@ -109,24 +108,29 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 		}
 	}
 
+	private function getRGBArray ($color) {
+	    if (preg_match("/rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\)/", $color, $matches)) {
+		// Already an RGB (R, G, B) color
+		// Convert from "rgb(R, G, B)" string to RGB array
+		$tmpColor = array_splice($matches, 1);
+	    } else if ($color[0] === '#') {
+		$color = substr($color, 1);
+		// HEX Color, convert to RGB array.
+		$tmpColor = sscanf($color, "%02X%02X%02X");
+	    } else {
+		PHPUnit_Framework_Assert::fail("The acceptance test does not know how to handle the color string : '$color'. "
+			. "Please provide # before HEX colors in your features.");
+	    }
+	    return $tmpColor;
+	}
+
 	/**
 	 * @Then I see that the header color is :color
 	 */
 	public function iSeeThatTheHeaderColorIs($color) {
 		$headerColor = $this->actor->getSession()->evaluateScript("return $('#header').css('background-color');");
-
-		if ($headerColor[0] === '#') {
-			$headerColor = substr($headerColor, 1);
-		} else if (preg_match("/rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\)/", $headerColor, $matches)) {
-			// Convert from hex string to RGB array
-			$color = sscanf($color, "%02X%02X%02X");
-
-			// Convert from "rgb(R, G, B)" string to RGB array
-			$headerColor = array_splice($matches, 1);
-		} else {
-			PHPUnit_Framework_Assert::fail("The acceptance test does not know how to handle the color string returned by the browser: $headerColor");
-		}
-
+		$headerColor = $this->getRGBArray($headerColor);
+		$color = $this->getRGBArray($color);
 		PHPUnit_Framework_Assert::assertEquals($color, $headerColor);
 	}
 

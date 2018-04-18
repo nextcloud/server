@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "无法获取用户分组列表",
     "Saved" : "已保存",
     "Saving failed:" : "保存失败:",
     "File MIME type" : "文件MIME类型",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Check %s is invalid" : "检查%s是不可用",
     "Check #%s does not exist" : "检查#%s是不存在",
     "Workflow" : "工作流",
+    "Files workflow engine" : "文件工作流引擎",
     "Open documentation" : "打开文档",
     "Add rule group" : "添加规则组",
     "Short rule description" : "短规则说明",
@@ -66,8 +68,6 @@ OC.L10N.register(
     "Reset" : "重置",
     "Save" : "保存",
     "Saving…" : "保存中...",
-    "Loading…" : "加载中",
-    "Successfully saved" : "保存成功",
-    "File mime type" : "文件MIME类型"
+    "Loading…" : "加载中"
 },
 "nplurals=1; plural=0;");

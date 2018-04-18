@@ -36,6 +36,7 @@ use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Util;
 
 abstract class Fetcher {
 	const INVALIDATE_AFTER_SECONDS = 300;
@@ -128,8 +129,9 @@ abstract class Fetcher {
 	 */
 	public function get() {
 		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
+		$internetavailable = $this->config->getSystemValue('has_internet_connection', true);
 
-		if (!$appstoreenabled) {
+		if (!$appstoreenabled || !$internetavailable) {
 			return [];
 		}
 
@@ -169,9 +171,10 @@ abstract class Fetcher {
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
 		} catch (ConnectException $e) {
-			$this->logger->logException($e, ['app' => 'appstoreFetcher']);
+			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => Util::INFO, 'message' => 'Could not connect to appstore']);
 			return [];
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => Util::INFO]);
 			return [];
 		}
 	}
@@ -191,7 +194,7 @@ abstract class Fetcher {
 	 * Set the current Nextcloud version
 	 * @param string $version
 	 */
-	public function setVersion($version) {
+	public function setVersion(string $version) {
 		$this->version = $version;
 	}
 }

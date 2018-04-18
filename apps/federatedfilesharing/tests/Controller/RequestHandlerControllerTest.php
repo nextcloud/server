@@ -85,13 +85,6 @@ class RequestHandlerControllerTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 
-		$config = $this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()->getMock();
-		$clientService = $this->getMockBuilder(IClientService::class)->getMock();
-		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
-				->setConstructorArgs([$config, $clientService])
-				->getMock();
-		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
@@ -110,8 +103,6 @@ class RequestHandlerControllerTest extends TestCase {
 
 		$this->cloudIdManager = new CloudIdManager();
 
-		$this->registerHttpHelper($httpHelperMock);
-
 		$this->s2s = new RequestHandlerController(
 			'federatedfilesharing',
 			\OC::$server->getRequest(),
@@ -128,36 +119,15 @@ class RequestHandlerControllerTest extends TestCase {
 	}
 
 	protected function tearDown() {
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share_external`');
-		$query->execute();
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('share_external');
+		$qb->execute();
 
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share`');
-		$query->execute();
-
-		$this->restoreHttpHelper();
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('share');
+		$qb->execute();
 
 		parent::tearDown();
-	}
-
-	/**
-	 * Register an http helper mock for testing purposes.
-	 * @param \OC\HTTPHelper $httpHelper helper mock
-	 */
-	private function registerHttpHelper($httpHelper) {
-		$this->oldHttpHelper = \OC::$server->query('HTTPHelper');
-		\OC::$server->registerService('HTTPHelper', function ($c) use ($httpHelper) {
-			return $httpHelper;
-		});
-	}
-
-	/**
-	 * Restore the original http helper
-	 */
-	private function restoreHttpHelper() {
-		$oldHttpHelper = $this->oldHttpHelper;
-		\OC::$server->registerService('HTTPHelper', function ($c) use ($oldHttpHelper) {
-			return $oldHttpHelper;
-		});
 	}
 
 	/**
@@ -174,9 +144,15 @@ class RequestHandlerControllerTest extends TestCase {
 
 		$this->s2s->createShare(null);
 
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share_external` WHERE `remote_id` = ?');
-		$result = $query->execute(array('1'));
-		$data = $result->fetchRow();
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share_external')
+			->where(
+				$qb->expr()->eq('remote_id', $qb->createNamedParameter(1))
+			);
+		$result = $qb->execute();
+		$data = $result->fetch();
+		$result->closeCursor();
 
 		$this->assertSame('localhost', $data['remote']);
 		$this->assertSame('token', $data['share_token']);
@@ -219,7 +195,7 @@ class RequestHandlerControllerTest extends TestCase {
 
 		$this->share->expects($this->any())->method('verifyShare')->willReturn(true);
 
-		$dummy = \OCP\DB::prepare('
+		$dummy = \OC_DB::prepare('
 			INSERT INTO `*PREFIX*share`
 			(`share_type`, `uid_owner`, `item_type`, `item_source`, `item_target`, `file_source`, `file_target`, `permissions`, `stime`, `token`, `share_with`)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -227,7 +203,7 @@ class RequestHandlerControllerTest extends TestCase {
 		$dummy->execute(array(\OCP\Share::SHARE_TYPE_REMOTE, self::TEST_FILES_SHARING_API_USER1, 'test', '1', '/1', '1', '/test.txt', '1', time(), 'token1', 'foo@bar'));
 		$dummy->execute(array(\OCP\Share::SHARE_TYPE_REMOTE, self::TEST_FILES_SHARING_API_USER1, 'test', '1', '/1', '1', '/test.txt', '1', time(), 'token2', 'bar@bar'));
 
-		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
+		$verify = \OC_DB::prepare('SELECT * FROM `*PREFIX*share`');
 		$result = $verify->execute();
 		$data = $result->fetchAll();
 		$this->assertCount(2, $data);
@@ -235,7 +211,7 @@ class RequestHandlerControllerTest extends TestCase {
 		$_POST['token'] = 'token1';
 		$this->s2s->declineShare(array('id' => $data[0]['id']));
 
-		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
+		$verify = \OC_DB::prepare('SELECT * FROM `*PREFIX*share`');
 		$result = $verify->execute();
 		$data = $result->fetchAll();
 		$this->assertCount(1, $data);
@@ -244,7 +220,7 @@ class RequestHandlerControllerTest extends TestCase {
 		$_POST['token'] = 'token2';
 		$this->s2s->declineShare(array('id' => $data[0]['id']));
 
-		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
+		$verify = \OC_DB::prepare('SELECT * FROM `*PREFIX*share`');
 		$result = $verify->execute();
 		$data = $result->fetchAll();
 		$this->assertEmpty($data);

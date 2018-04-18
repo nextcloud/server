@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -47,7 +48,7 @@ interface ISystemTagManagerFactory {
 	 * @return ISystemTagManager
 	 * @since 9.0.0
 	 */
-	public function getManager();
+	public function getManager(): ISystemTagManager;
 
 	/**
 	 * creates and returns an instance of the system tag object
@@ -56,5 +57,5 @@ interface ISystemTagManagerFactory {
 	 * @return ISystemTagObjectMapper
 	 * @since 9.0.0
 	 */
-	public function getObjectMapper();
+	public function getObjectMapper(): ISystemTagObjectMapper;
 }

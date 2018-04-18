@@ -12,6 +12,8 @@ use OC\Files\SimpleFS\SimpleFolder;
 use OC\User\User;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -49,7 +51,35 @@ class AvatarTest extends \Test\TestCase {
 	}
 
 	public function testGetNoAvatar() {
-		$this->assertEquals(false, $this->avatar->get());
+		$file = $this->createMock(ISimpleFile::class);
+		$this->folder->method('newFile')
+			->willReturn($file);
+
+		$this->folder->method('getFile')
+			->will($this->returnCallback(function($path) {
+				if ($path === 'avatar.64.png') {
+					throw new NotFoundException();
+				}
+			}));
+		$this->folder->method('fileExists')
+			->will($this->returnCallback(function($path) {
+				if ($path === 'generated') {
+					return true;
+				}
+				return false;
+			}));
+
+		$data = NULL;
+		$file->method('putContent')
+			->with($this->callback(function ($d) use (&$data) {
+				$data = $d;
+				return true;
+			}));
+
+		$file->method('getContent')
+			->willReturn($data);
+
+		$this->assertEquals($data, $this->avatar->get()->data());
 	}
 
 	public function testGetAvatarSizeMatch() {
@@ -59,7 +89,8 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.128.jpg', true],
 			]));
 
-		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image();
+		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
@@ -74,7 +105,8 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.jpg', true],
 			]));
 
-		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image();
+		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
@@ -90,8 +122,10 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.32.png', false],
 			]));
 
-		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
-		$expected2 = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image();
+		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected2 = new \OC_Image();
+		$expected2->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$expected2->resize(32);
 
 		$file = $this->createMock(File::class);
@@ -161,13 +195,13 @@ class AvatarTest extends \Test\TestCase {
 			->willReturn('avatar.32.jpg');
 		$resizedAvatarFile->expects($this->once())->method('delete');
 
-		$nonAvatarFile = $this->createMock(File::class);
-		$nonAvatarFile->method('getName')
-			->willReturn('avatarX');
-		$nonAvatarFile->expects($this->never())->method('delete');
-
 		$this->folder->method('getDirectoryListing')
-			->willReturn([$avatarFileJPG, $avatarFilePNG, $resizedAvatarFile, $nonAvatarFile]);
+			->willReturn([$avatarFileJPG, $avatarFilePNG, $resizedAvatarFile]);
+
+		$generated = $this->createMock(File::class);
+		$this->folder->method('getFile')
+			->with('generated')
+			->willReturn($generated);
 
 		$newFile = $this->createMock(File::class);
 		$this->folder->expects($this->once())
@@ -175,12 +209,13 @@ class AvatarTest extends \Test\TestCase {
 			->with('avatar.png')
 			->willReturn($newFile);
 
-		$image = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$image = new \OC_Image();
+		$image->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$newFile->expects($this->once())
 			->method('putContent')
 			->with($image->data());
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(3))
 			->method('setUserValue');
 		$this->config->expects($this->once())
 			->method('getUserValue');

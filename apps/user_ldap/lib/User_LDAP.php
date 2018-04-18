@@ -38,6 +38,7 @@
 
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\NotOnLDAP;
@@ -231,7 +232,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if($user->getUsername() !== false && $this->access->setPassword($user->getDN(), $password)) {
 			$ldapDefaultPPolicyDN = $this->access->connection->ldapDefaultPPolicyDN;
 			$turnOnPasswordChange = $this->access->connection->turnOnPasswordChange;
-			if (!empty($ldapDefaultPPolicyDN) && (intval($turnOnPasswordChange) === 1)) {
+			if (!empty($ldapDefaultPPolicyDN) && ((int)$turnOnPasswordChange === 1)) {
 				//remove last password expiry warning if any
 				$notification = $this->notificationManager->createNotification();
 				$notification->setApp('user_ldap')
@@ -317,16 +318,18 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 			try {
 				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
-				if(!$uuid) {
+				if (!$uuid) {
 					return false;
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
-				if(!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+				if (!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
 				return true;
+			} catch (ServerNotAvailableException $e) {
+				throw $e;
 			} catch (\Exception $e) {
 				return false;
 			}
@@ -384,7 +387,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 
 		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
-		if(intval($marked) === 0) {
+		if((int)$marked === 0) {
 			\OC::$server->getLogger()->notice(
 				'User '.$uid . ' is not marked as deleted, not cleaning up.',
 				array('app' => 'user_ldap'));
@@ -393,7 +396,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
 			array('app' => 'user_ldap'));
 
-		$this->access->getUserMapper()->unmap($uid);
+		$this->access->getUserMapper()->unmap($uid); // we don't emit unassign signals here, since it is implicit to delete signals fired from core
 		$this->access->userManager->invalidate($uid);
 		return true;
 	}
@@ -546,7 +549,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			| Backend::GET_DISPLAYNAME
 			| Backend::PROVIDE_AVATAR
 			| Backend::COUNT_USERS
-			| ((intval($this->access->connection->turnOnPasswordChange) === 1)?(Backend::SET_PASSWORD):0)
+			| (((int)$this->access->connection->turnOnPasswordChange === 1)? Backend::SET_PASSWORD :0)
 			| $this->userPluginManager->getImplementedActions())
 			& $actions);
 	}

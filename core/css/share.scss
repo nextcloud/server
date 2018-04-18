@@ -177,9 +177,11 @@
 }
 
 .contactsmenu-popover {
-	left: -8px;
+	left: -6px;
 	right: auto;
 	padding: 3px 6px;
+	top: 100%;
+	margin-top: 0;
 	li.hidden {
 		display: none !important;
 	}

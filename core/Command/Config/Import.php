@@ -113,8 +113,7 @@ class Import extends Command implements CompletionAwareInterface  {
 	 * @return string
 	 */
 	protected function getArrayFromFile($importFile) {
-		$content = file_get_contents($importFile);
-		return $content;
+		return file_get_contents($importFile);
 	}
 
 	/**

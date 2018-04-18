@@ -14,6 +14,8 @@ script(
 	]
 );
 /** @var array $_ */
+/** @var \OCP\IURLGenerator $urlGenerator */
+$urlGenerator = $_['urlGenerator'];
 ?>
 <script id="categories-template" type="text/x-handlebars-template">
 {{#each this}}
@@ -29,7 +31,7 @@ script(
 
 <?php if($_['appstoreEnabled']): ?>
 	<li>
-		<a class="app-external icon-info" target="_blank" rel="noreferrer noopener" href="https://docs.nextcloud.org/server/12/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
+		<a class="app-external icon-info" target="_blank" rel="noreferrer noopener" href="<?php p($urlGenerator->linkToDocs('developer-manual')); ?>"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>
@@ -56,7 +58,7 @@ script(
 	</div>
 	<div class="app-version">{{version}}</div>
 	<div class="app-level">
-		{{{level}}}{{#unless internal}}<a href="https://apps.nextcloud.com/apps/{{id}}"><?php p($l->t('View in store'));?> ↗</a>{{/unless}}
+		{{{level}}}{{#unless internal}}<a href="https://apps.nextcloud.com/apps/{{id}}" target="_blank"><?php p($l->t('View in store'));?> ↗</a>{{/unless}}
 	</div>
 
 	<div class="app-groups">
@@ -203,9 +205,6 @@ script(
 	</ul>
 </div>
 <div id="app-content" class="icon-loading">
-	<svg class="app-filter">
-		<defs><filter id="invertIcon"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-	</svg>
 	<div id="apps-list"></div>
 	<div id="apps-list-empty" class="hidden emptycontent emptycontent-search">
 		<div id="app-list-empty-icon" class="icon-search"></div>

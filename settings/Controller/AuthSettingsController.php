@@ -197,10 +197,18 @@ class AuthSettingsController extends Controller {
 	 *
 	 * @param int $id
 	 * @param array $scope
-	 * @return array
+	 * @return array|JSONResponse
 	 */
 	public function update($id, array $scope) {
-		$token = $this->tokenProvider->getTokenById((string)$id);
+		try {
+			$token = $this->tokenProvider->getTokenById((string)$id);
+			if ($token->getUID() !== $this->uid) {
+				throw new InvalidTokenException('User mismatch');
+			}
+		} catch (InvalidTokenException $e) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		}
+
 		$token->setScope([
 			'filesystem' => $scope['filesystem']
 		]);

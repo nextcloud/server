@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Segítségével személyre szabott megosztási linket hozhatsz létre egy fájlhoz vagy mappához az e-mail cím beleírásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
     "Enforce password protection" : "Jelszóvédelem kényszerítése",
-    "Failed to send share by E-mail" : "Nem sikerült elküldeni a megosztó e-mailt!",
-    "%s shared »%s« with you on behalf of %s" : "%s megosztotta ezt: »%s« veled %s nevében.",
-    "Failed to create the E-mail" : "Nem sikerült létrehozni az e-mailt.",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Üdv,\n\n%s megosztotta ezt: »%s« veled %s nevében.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Üdvözöljük!\n\nÉrtesítjük, hogy %s megosztotta Önnel a következőt: »%s«.\n\n%s\n",
-    "Cheers!" : "Üdvözlettel,",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Üdv,<br><br>%s megosztotta ezt: <a href=\"%s\">%s</a> veled %s nevében.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Üdvözöljük!<br><br>Értesítjük, hogy %s megosztotta Önnel a következőt: <a href=\"%s\">%s</a>.<br><br>"
+    "Failed to send share by E-mail" : "Nem sikerült elküldeni a megosztó e-mailt!"
 },
 "nplurals=2; plural=(n != 1);");

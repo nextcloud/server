@@ -152,7 +152,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string[] the keys stored for the app
 	 */
 	public function getAppKeys($appName) {
-		return \OC::$server->getAppConfig()->getKeys($appName);
+		return \OC::$server->query(\OC\AppConfig::class)->getKeys($appName);
 	}
 
 	/**
@@ -163,7 +163,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string|float|int $value the value that should be stored
 	 */
 	public function setAppValue($appName, $key, $value) {
-		\OC::$server->getAppConfig()->setValue($appName, $key, $value);
+		\OC::$server->query(\OC\AppConfig::class)->setValue($appName, $key, $value);
 	}
 
 	/**
@@ -175,7 +175,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string the saved value
 	 */
 	public function getAppValue($appName, $key, $default = '') {
-		return \OC::$server->getAppConfig()->getValue($appName, $key, $default);
+		return \OC::$server->query(\OC\AppConfig::class)->getValue($appName, $key, $default);
 	}
 
 	/**
@@ -185,7 +185,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 */
 	public function deleteAppValue($appName, $key) {
-		\OC::$server->getAppConfig()->deleteKey($appName, $key);
+		\OC::$server->query(\OC\AppConfig::class)->deleteKey($appName, $key);
 	}
 
 	/**
@@ -194,7 +194,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $appName the appName the configs are stored under
 	 */
 	public function deleteAppValues($appName) {
-		\OC::$server->getAppConfig()->deleteApp($appName);
+		\OC::$server->query(\OC\AppConfig::class)->deleteApp($appName);
 	}
 
 
@@ -233,7 +233,7 @@ class AllConfig implements \OCP\IConfig {
 					->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 				$qb->execute();
 
-				$this->userCache[$userId][$appName][$key] = $value;
+				$this->userCache[$userId][$appName][$key] = (string)$value;
 				return;
 			}
 		}
@@ -258,7 +258,7 @@ class AllConfig implements \OCP\IConfig {
 			if (!isset($this->userCache[$userId][$appName])) {
 				$this->userCache[$userId][$appName] = array();
 			}
-			$this->userCache[$userId][$appName][$key] = $value;
+			$this->userCache[$userId][$appName][$key] = (string)$value;
 		}
 	}
 

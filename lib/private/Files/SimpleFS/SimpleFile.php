@@ -23,6 +23,7 @@
 namespace OC\Files\SimpleFS;
 
 use OCP\Files\File;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
@@ -79,10 +80,18 @@ class SimpleFile implements ISimpleFile  {
 	/**
 	 * Get the content
 	 *
+	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 * @return string
 	 */
 	public function getContent() {
-		return $this->file->getContent();
+		$result = $this->file->getContent();
+
+		if ($result === false) {
+			$this->checkFile();
+		}
+
+		return $result;
 	}
 
 	/**
@@ -94,6 +103,31 @@ class SimpleFile implements ISimpleFile  {
 	public function putContent($data) {
 		$this->file->putContent($data);
 	}
+
+	/**
+	 * Sometimes there are some issues with the AppData. Most of them are from
+	 * user error. But we should handle them gracefull anyway.
+	 *
+	 * If for some reason the current file can't be found. We remove it.
+	 * Then traverse up and check all folders if they exists. This so that the
+	 * next request will have a valid appdata structure again.
+	 *
+	 * @throws NotFoundException
+	 */
+	private function checkFile() {
+		$cur = $this->file;
+
+		while ($cur->stat() === false) {
+			$parent = $cur->getParent();
+			$cur->delete();
+			$cur = $parent;
+		}
+
+		if ($cur !== $this->file) {
+			throw new NotFoundException('File does not exist');
+		}
+	}
+
 
 	/**
 	 * Delete the file

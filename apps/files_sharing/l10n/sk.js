@@ -87,6 +87,10 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Zlý alebo žiadny zadaný parameter aktualizácie",
     "Can't change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
     "Cannot increase permissions" : "Nie je možné navýšiť oprávnenia",
+    "shared by %s" : "Sprístupnil %s",
+    "Download" : "Sťahovanie",
+    "Direct link" : "Priama linka",
+    "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "Share API is disabled" : "API pre sprístupňovanie je zakázané",
     "This share is password-protected" : "Táto položka je chránené heslom",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
@@ -101,15 +105,11 @@ OC.L10N.register(
     "the link expired" : "linke vypršala platnosť",
     "sharing is disabled" : "sprístupňovanie je zakázané",
     "For more info, please ask the person who sent this link." : "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz.",
-    "shared by %s" : "Sprístupnil %s",
-    "Download" : "Sťahovanie",
-    "Direct link" : "Priama linka",
-    "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "Download %s" : "Stiahnuť %s",
     "Upload files to %s" : "Nahrať súbory do %s",
     "Select or drop files" : "Vyberte alebo položte súbory",
     "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
-    "%s is publicly shared" : "%s je sprístupnené verejne"
+    "%s is publicly shared" : "%s je verejne zdieľaný"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

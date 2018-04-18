@@ -253,7 +253,7 @@ class VerifyUserData extends Job {
 	 * @param array $argument
 	 */
 	protected function reAddJob(IJobList $jobList, array $argument) {
-		$jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+		$jobList->add(VerifyUserData::class,
 			[
 				'verificationCode' => $argument['verificationCode'],
 				'data' => $argument['data'],

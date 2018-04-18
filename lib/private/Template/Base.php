@@ -166,8 +166,11 @@ class Base {
 		$l = $this->l10n;
 		$theme = $this->theme;
 
-		if( !is_null($additionalParams)) {
+		if(!is_null($additionalParams)) {
 			$_ = array_merge( $additionalParams, $this->vars );
+			foreach ($_ as $var => $value) {
+				${$var} = $value;
+			}
 		}
 
 		// Include

@@ -68,6 +68,10 @@ class EMailTemplateTest extends TestCase {
 			->expects($this->any())
 			->method('getName')
 			->willReturn('TestCloud');
+		$this->defaults
+			->expects($this->any())
+			->method('getTextColorPrimary')
+			->willReturn('#ffffff');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('getAbsoluteURL')
@@ -109,6 +113,10 @@ class EMailTemplateTest extends TestCase {
 			->expects($this->any())
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
+		$this->defaults
+			->expects($this->any())
+			->method('getTextColorPrimary')
+			->willReturn('#ffffff');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('getAbsoluteURL')
@@ -148,6 +156,10 @@ class EMailTemplateTest extends TestCase {
 			->expects($this->any())
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
+		$this->defaults
+			->expects($this->any())
+			->method('getTextColorPrimary')
+			->willReturn('#ffffff');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('getAbsoluteURL')
@@ -189,6 +201,10 @@ class EMailTemplateTest extends TestCase {
 			->expects($this->any())
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
+		$this->defaults
+			->expects($this->any())
+			->method('getTextColorPrimary')
+			->willReturn('#ffffff');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('getAbsoluteURL')

@@ -77,4 +77,10 @@ interface IAvatar {
 	 * @since 9.0.0
 	 */
 	public function getFile($size);
+
+	/**
+	 * Handle a changed user
+	 * @since 13.0.0
+	 */
+	public function userChanged($feature, $oldValue, $newValue);
 }

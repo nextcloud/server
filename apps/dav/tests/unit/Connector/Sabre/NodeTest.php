@@ -42,15 +42,17 @@ use OCP\Share\IShare;
 class NodeTest extends \Test\TestCase {
 	public function davPermissionsProvider() {
 		return array(
-			array(\OCP\Constants::PERMISSION_ALL, 'file', false, false, 'RDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL, 'dir', false, false, 'RDNVCK'),
-			array(\OCP\Constants::PERMISSION_ALL, 'file', true, false, 'SRDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL, 'file', true, true, 'SRMDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE, 'file', true, false, 'SDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_UPDATE, 'file', false, false, 'RD'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE, 'file', false, false, 'RNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'file', false, false, 'RDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'dir', false, false, 'RDNV'),
+			array(\OCP\Constants::PERMISSION_ALL, 'file', false, false, 'RGDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL, 'dir', false, false, 'RGDNVCK'),
+			array(\OCP\Constants::PERMISSION_ALL, 'file', true, false, 'SRGDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL, 'file', true, true, 'SRMGDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE, 'file', true, false, 'SGDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_UPDATE, 'file', false, false, 'RGD'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE, 'file', false, false, 'RGNVW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'file', false, false, 'RGDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_READ, 'file', false, false, 'RDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'dir', false, false, 'RGDNV'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_READ, 'dir', false, false, 'RDNVCK'),
 		);
 	}
 

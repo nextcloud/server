@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Nie można pobrać listy grup",
     "Saved" : "Zapisano",
     "Saving failed:" : "Zapis się nie udał:",
     "File MIME type" : "Typy plików MIME",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Sprawdź, czy %s jest nieprawidłowy",
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
     "Workflow" : "Wpływ na pracę",
+    "Files workflow engine" : "Piliki silnika workflow",
     "Open documentation" : "Otwórz dokumentację",
     "Add rule group" : "Dodaj grupę reguł",
     "Short rule description" : "Krótki opis reguły",
@@ -66,8 +68,6 @@ OC.L10N.register(
     "Reset" : "Zresetuj",
     "Save" : "Zapisz",
     "Saving…" : "Zapisywanie...",
-    "Loading…" : "Wczytywanie...",
-    "Successfully saved" : "Zapis się powiódł",
-    "File mime type" : "Typ MIME pliku"
+    "Loading…" : "Wczytywanie..."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

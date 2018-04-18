@@ -72,7 +72,7 @@ class File {
 	/**
 	 * write a message in the log
 	 * @param string $app
-	 * @param string $message
+	 * @param string|array $message
 	 * @param int $level
 	 */
 	public static function write($app, $message, $level) {
@@ -101,11 +101,14 @@ class File {
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
 		if($config->getValue('installed', false)) {
-			$user = (\OC_User::getUser()) ? \OC_User::getUser() : '--';
+			$user = \OC_User::getUser() ? \OC_User::getUser() : '--';
 		} else {
 			$user = '--';
 		}
-		$userAgent = $request->getHeader('User-Agent') ?: '--';
+		$userAgent = $request->getHeader('User-Agent');
+		if ($userAgent === '') {
+			$userAgent = '--';
+		}
 		$version = $config->getValue('version', '');
 		$entry = compact(
 			'reqId',

@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "La contrasenya antiga no es correcta, Si us plau, Intenteu-ho de nou.",
     "The current log-in password was not correct, please try again." : "La contrasenya d'inici de sessió actual no era correcta, torneu-ho a provar.",
     "Private key password successfully updated." : "La contrasenya de la clau privada s'ha actualitzat.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Necessiteu migrar les claus de xifratge des del xifratge antic (ownCloud <= 8.0) al nou. Si us plau, executeu 'encryption d'occ: migrate' o poseu-vos en contacte amb l'administrador",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Clau privada no vàlida per a l'aplicació de xifrat. Actualitzeu la contrasenya de la clau privada a la vostra configuració personal per recuperar l'accés als vostres fitxers xifrats.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "L'aplicació de xifrat està habilitada, però les vostres claus no s'inicialitzen. Tanqueu la sessió d'inici de sessió i torneu a iniciar sessió.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Activeu el xifratge del servidor en la configuració de l'administrador per poder utilitzar el mòdul de xifratge.",
@@ -31,9 +30,9 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "contrasenya única per al xifrat del costat del servidor",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No es pot desencriptar aquest fitxer, probablement és un fitxer compartit. Demaneu al propietari del fitxer que el comparteixi de nou amb vós.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No es pot llegir aquest fitxer, probablement aquest sigui un fitxer compartit. Demana al propietari del fitxer que torni a compartir el fitxer amb tu.",
+    "Default encryption module" : "Mòdul de xifrat per defecte",
     "The share will expire on %s." : "La compartició venç el %s.",
     "Cheers!" : "Salut!",
-    "Default encryption module" : "Mòdul de xifrat per defecte",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou.",
     "Encrypt the home storage" : "Xifra l'emmagatzematge de casa",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Si activeu aquesta opció xifra tots els fitxers emmagatzemats a l'emmagatzematge principal, en cas contrari, només es codificaran els fitxers en emmagatzematge extern",
@@ -58,6 +57,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activar aquesta opció us permetrà obtenir de nou accés als vostres fitxers encriptats en cas de perdre la contrasenya",
     "Enabled" : "Activat",
     "Disabled" : "Desactivat",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou."
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Necessiteu migrar les claus de xifratge des del xifratge antic (ownCloud <= 8.0) al nou. Si us plau, executeu 'encryption d'occ: migrate' o poseu-vos en contacte amb l'administrador"
 },
 "nplurals=2; plural=(n != 1);");

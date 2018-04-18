@@ -49,7 +49,7 @@
 	left: 0;
 	right: 0;
 	z-index: 2000;
-	height: 45px;
+	height: 50px;
 	background-color: $color-primary;
 	box-sizing: border-box;
 	justify-content: space-between;
@@ -57,10 +57,8 @@
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-	padding: 5px;
-	padding-bottom: 0;
-	height: 45px;
-	/* header height */
+	padding: 8px 12px;
+	height: 100%;
 	box-sizing: border-box;
 	opacity: 1;
 	&:focus {
@@ -74,14 +72,21 @@
 #header {
 	/* Header menu */
 	.menu {
-		top: 45px;
 		background-color: $color-main-background;
-		filter: drop-shadow(0 1px 3px $color-box-shadow);
+		filter: drop-shadow(0 1px 10px $color-box-shadow);
 		border-radius: 0 0 3px 3px;
-		display: none;
 		box-sizing: border-box;
 		z-index: 2000;
 		position: absolute;
+		max-width: 350px;
+		max-height: 280px;
+		right: 5px;
+		top: 50px;
+		margin: 0;
+
+		&:not(.popovermenu) {
+			display: none;
+		}
 
 		/* Dropdown arrow */
 		&:after {
@@ -93,6 +98,7 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
+			right: 10px;
 		}
 	}
 	.logo {
@@ -148,6 +154,26 @@
 	#header-right, .header-right {
 		justify-content: flex-end;
 	}
+
+	/* Right header standard */
+	.header-right {
+		> div,
+		> form {
+			height: 100%;
+			position: relative;
+			> .menutoggle {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 50px;
+				height: 100%;
+				cursor: pointer;
+				opacity: 0.6;
+				padding: 0;
+				margin: 0;
+			}
+		}
+	}
 }
 
 /* hover effect for app switcher label */
@@ -196,24 +222,28 @@
 }
 
 /* NAVIGATION --------------------------------------------------------------- */
-nav {
+nav[role='navigation'] {
 	display: inline-block;
-	width: 44px;
-	height: 44px;
-	margin-left: -54px;
+	width: 50px;
+	height: 50px;
+	margin-left: -50px;
+}
+
+.header-left #navigation {
+	position: relative;
+	left: 25px; /* half the togglemenu */
+	transform: translateX(-50%);
+	width: 160px;
 }
 
 .header-left #navigation,
 .ui-datepicker,
 .ui-timepicker.ui-widget {
-	position: relative;
-	left: -100%;
-	width: 160px;
 	background-color: $color-main-background;
-	filter: drop-shadow(0 1px 3px $color-box-shadow);
+	filter: drop-shadow(0 1px 10px $color-box-shadow);
 	&:after {
 		/* position of dropdown arrow */
-		left: 47%;
+		left: 50%;
 		bottom: 100%;
 		border: solid transparent;
 		content: ' ';
@@ -223,24 +253,9 @@ nav {
 		pointer-events: none;
 		border-color: rgba(0, 0, 0, 0);
 		border-bottom-color: $color-main-background;
-		border-width: 9px;
-		margin-left: -9px;
+		border-width: 10px;
+		margin-left: -10px; /* border width */
 	}
-}
-
-/* arrow look */
-#expanddiv:after {
-	bottom: 100%;
-	border: solid transparent;
-	content: ' ';
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-color: transparent;
-	border-bottom-color: $color-main-background;
-	border-width: 10px;
-	margin-left: -10px;
 }
 
 #navigation {
@@ -253,10 +268,10 @@ nav {
 	}
 	a {
 		position: relative;
-		display: block;
+		display: inline-flex;
 		padding: 10px 12px;
-		height:40px;
-		vertical-align: text-bottom;
+		height: 40px;
+		align-items: center;
 		span {
 			display: inline-block;
 			padding-bottom: 0;
@@ -270,9 +285,6 @@ nav {
 		svg,
 		span {
 			opacity: .7;
-		}
-		svg {
-			margin-bottom: 2px;
 		}
 		&:hover svg,
 		&:focus svg,
@@ -293,20 +305,20 @@ nav {
 		max-width: 32px;
 	}
 
-}
+	/* loading feedback for apps */
+	.app-loading {
+		.icon-loading-small {
+			display: inline !important;
+			position: absolute;
+			left: 12px;
+			width: 16px;
+			height: 16px;
+		}
+		.app-icon {
+			opacity: 0;
+		}
+	}
 
-/* loading feedback for apps */
-.app-loading {
-	.icon-loading-small-dark {
-		display: inline !important;
-		position: absolute;
-		left: 12px;
-		width: 16px;
-		height: 16px;
-	}
-	.app-icon {
-		opacity: 0;
-	}
 }
 
 /* Apps management */
@@ -327,102 +339,95 @@ nav {
 
 #settings {
 	display: inline-block;
+	height: 100%;
 	color: rgba($color-primary-text, 0.7);
 	cursor: pointer;
-	.icon-loading-small-dark {
-		display: inline-block;
-		margin-bottom: -3px;
-		margin-right: 6px;
-		background-size: 16px 16px;
-	}
 	flex: 0 0 auto;
-}
 
-/* User menu on the right */
-#expand {
-	position: relative;
-	display: flex;
-	align-items: center;
-	padding: 7px 20px 6px 10px;
-	cursor: pointer;
-	* {
-		cursor: pointer;
-	}
-	img {
-		opacity: .7;
-		margin-bottom: -2px;
-	}
-	&:hover,
-	&:focus,
-	&:active {
-		color: $color-primary-text;
-		img,
-		#expandDisplayName {
-			opacity: 1;
-		}
-	}
+	/* User menu on the right */
+	#expand {
+		opacity: 1; /* override icon opacity */
+		padding-right: 12px;
 
-	/* Profile picture in header */
-	.avatardiv {
-		cursor: pointer;
-		height: 32px;
-		width: 32px;
 		img {
-			opacity: 1;
+			opacity: .7;
+			margin-bottom: -2px;
+		}
+		&:hover,
+		&:focus,
+		&:active {
+			color: $color-primary-text;
+
+			img, #expandDisplayName {
+				opacity: 1;
+			}
+		}
+
+		/* Profile picture in header */
+		.avatardiv {
 			cursor: pointer;
+			height: 32px;
+			width: 32px;
+
+			img {
+				opacity: 1;
+				cursor: pointer;
+			}
+			/* do not show display name when profile picture is present */
+			&.avatardiv-shown + #expandDisplayName {
+				display: none;
+			}
 		}
-		/* do not show display name when profile picture is present */
-		&.avatardiv-shown + #expandDisplayName {
-			display: none;
+
+		#expandDisplayName {
+			padding: 8px;
+			opacity: .6;
+
+			/* full opacity for gear icon if active */
+			#body-settings & {
+				opacity: 1;
+			}
+		}
+
+		/* show triangle below user menu if active */
+		#body-settings &:before {
+			content: ' ';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border: 0 solid transparent;
+			border-bottom-color: $color-main-background;
+			border-width: 10px;
+			bottom: 0;
+			z-index: 100;
+			display: block;
 		}
 	}
-
-	#expandDisplayName {
-		padding: 8px;
-		opacity: .6;
-	}
-}
-
-/* full opacity for gear icon if active */
-#body-settings #expandDisplayName {
-	opacity: 1;
-}
-
-/* show triangle below user menu if active */
-#body-settings #expand:before {
-	content: ' ';
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border: 0 solid transparent;
-	border-bottom-color: $color-main-background;
-	border-width: 10px;
-	transform: translateX(-50%);
-	left: 26px;
-	bottom: 0;
-	z-index: 100;
-	display: block;
 }
 
 #expanddiv {
-	right: 13px;
-	background: $color-main-background;
-	box-shadow: 0 1px 10px $color-box-shadow;
-	&:after {
-		/* position of dropdown arrow */
-		right: 13px;
+	&.menu {
+		right: 17px;
 	}
 	a {
-		display: block;
+		display: inline-flex;
+		align-items: center;
 		height: 40px;
 		color: $color-main-text;
-		padding: 10px 12px 0;
+		padding: 12px;
 		box-sizing: border-box;
 		opacity: .7;
+		white-space: nowrap;
+
+		.icon-loading-small {
+			margin-right: 9px;
+			background-size: 16px 16px;
+		}
 		img {
-			margin-bottom: -3px;
-			margin-right: 6px;
+			margin-right: 9px;
+			height: 16px;
+			width: 16px;
 		}
 		&:hover,
 		&:focus,
@@ -437,30 +442,38 @@ nav {
 #appmenu {
 	display: inline-block;
 	width: auto;
+	min-width: 50px;
+	height: 100%;
 	clear: both;
-	height: 44px;
 
 	li {
 		float: left;
 		display: inline-block;
 		position: relative;
 		vertical-align: top !important;
-		height: 45px;
+		height: 100%;
 		cursor: pointer;
 
 		a {
 			position: relative;
 			display: inline-block;
 			margin: 0;
-			padding: 12px;
-			height: 21px;
+			padding: 15px 15px;
+			height: 20px;
 			text-align: center;
 			vertical-align: top !important;
 			opacity: .6;
 		}
 	}
-	.app-loading .icon-loading-small-dark {
-		top:12px;
+	.app-loading {
+		> svg {
+			display: none;
+		}
+		.icon-loading-small-dark {
+			width: 20px;
+			height: 20px;
+			display: block !important;
+		}
 	}
 
 
@@ -481,20 +494,20 @@ nav {
 		display: none;
 		position: absolute;
 		overflow: visible;
-		background-color: rgba($color-main-background, .97);
+		background-color: $color-main-background;
 		white-space: nowrap;
 		border: none;
 		border-radius: $border-radius;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
-		margin-top: 0;
 		color: rgba($color-main-text, .7);
 		width: auto;
 		left: 50%;
-		top: 45px;
+		top: 100%;
 		transform: translateX(-50%);
 		padding: 4px 10px;
-		box-shadow: 0 1px 10px $color-box-shadow;
+		filter: drop-shadow(0 1px 10px $color-box-shadow);
+		z-index: 100;
 	}
 
 	li:hover span {
@@ -515,13 +528,19 @@ nav {
 		transform: translateX(-50%);
 		left: 50%;
 		bottom: 0;
-		z-index: 100;
 		display: none;
 	}
 	li a.active:before,
 	li:hover a:before,
 	li:hover a.active:before {
 		display: block;
+	}
+	li a.active:before {
+		z-index: 99;
+	}
+	li:hover a:before,
+	li a.active:hover:before {
+		z-index: 101;
 	}
 	&.menu-open li:hover a:before,
 	&.menu-open li a.active:before,

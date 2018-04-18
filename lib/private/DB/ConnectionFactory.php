@@ -46,26 +46,26 @@ class ConnectionFactory {
 	 */
 	protected $defaultConnectionParams = [
 		'mysql' => [
-			'adapter' => '\OC\DB\AdapterMySQL',
+			'adapter' => AdapterMySQL::class,
 			'charset' => 'UTF8',
 			'driver' => 'pdo_mysql',
-			'wrapperClass' => 'OC\DB\Connection',
+			'wrapperClass' => Connection::class,
 		],
 		'oci' => [
-			'adapter' => '\OC\DB\AdapterOCI8',
+			'adapter' => AdapterOCI8::class,
 			'charset' => 'AL32UTF8',
 			'driver' => 'oci8',
-			'wrapperClass' => 'OC\DB\OracleConnection',
+			'wrapperClass' => OracleConnection::class,
 		],
 		'pgsql' => [
-			'adapter' => '\OC\DB\AdapterPgSql',
+			'adapter' => AdapterPgSql::class,
 			'driver' => 'pdo_pgsql',
-			'wrapperClass' => 'OC\DB\Connection',
+			'wrapperClass' => Connection::class,
 		],
 		'sqlite3' => [
-			'adapter' => '\OC\DB\AdapterSqlite',
+			'adapter' => AdapterSqlite::class,
 			'driver' => 'pdo_sqlite',
-			'wrapperClass' => 'OC\DB\Connection',
+			'wrapperClass' => Connection::class,
 		],
 	];
 
@@ -139,9 +139,6 @@ class ConnectionFactory {
 				unset($additionalConnectionParams['host']);
 				break;
 
-			case 'pgsql':
-				$additionalConnectionParams['platform'] = new OCPostgreSqlPlatform();
-				break;
 			case 'sqlite3':
 				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
 				$additionalConnectionParams['platform'] = new OCSqlitePlatform();

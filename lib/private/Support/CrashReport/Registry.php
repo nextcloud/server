@@ -29,7 +29,7 @@ use Throwable;
 
 class Registry implements IRegistry {
 
-	/** @var array<IReporter> */
+	/** @var IReporter[] */
 	private $reporters = [];
 
 	/**

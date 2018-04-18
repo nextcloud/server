@@ -149,6 +149,7 @@
 			message: '',
 			errorMessage: '',
 			saving: false,
+			groups: [],
 			initialize: function() {
 				// this creates a new copy of the object to definitely have a new reference and being able to reset the model
 				this.originalModel = JSON.parse(JSON.stringify(this.model));
@@ -161,6 +162,25 @@
 				if (this.model.get('id') === undefined) {
 					this.hasChanged = true;
 				}
+				var self = this;
+				$.ajax({
+					url: OC.generateUrl('settings/users/groups'),
+					dataType: 'json',
+					quietMillis: 100,
+				}).success(function(response) {
+					// add admin groups
+					$.each(response.data.adminGroups, function(id, group) {
+						self.groups.push({ id: group.id, displayname: group.name });
+					});
+					// add groups
+					$.each(response.data.groups, function(id, group) {
+						self.groups.push({ id: group.id, displayname: group.name });
+					});
+					self.render();
+				}).error(function(data) {
+					OC.Notification.error(t('workflowengine', 'Unable to retrieve the group list'), {type: 'error'});
+					console.log(data);
+				});
 			},
 			delete: function() {
 				if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
@@ -304,10 +324,11 @@
 						id = $element.data('id'),
 						check = checks[id],
 						valueElement = $element.find('.check-value').first();
+						var self = this;
 
 					_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
 						if (_.isFunction(plugin.render)) {
-							plugin.render(valueElement, check);
+							plugin.render(valueElement, check, self.groups);
 						}
 					});
 				}, this);

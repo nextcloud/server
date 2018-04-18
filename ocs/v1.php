@@ -29,6 +29,7 @@
  *
  */
 
+require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
 if (\OCP\Util::needUpgrade()
@@ -55,6 +56,10 @@ try {
 	OC_App::loadApps();
 
 	OC::$server->getRouter()->match('/ocs'.\OC::$server->getRequest()->getRawPathInfo());
+
+	sleep(1);
+	OC::$server->getLogger()->info('This uses an old OCP\API::register construct. This will be removed in a future version of Nextcloud. Please migrate to the OCSController');
+
 	return;
 } catch (ResourceNotFoundException $e) {
 	// Fall through the not found
@@ -80,7 +85,7 @@ try {
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt='Invalid query, please check the syntax. API specifications are here:'
-		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 } catch (MethodNotAllowedException $e) {
 	OC_API::setContentType();
@@ -95,7 +100,7 @@ try {
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt='Invalid query, please check the syntax. API specifications are here:'
-		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 }
 

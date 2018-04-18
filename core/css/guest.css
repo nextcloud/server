@@ -4,7 +4,7 @@
 
 /* Default and reset */
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
-html, body { height:100%; }
+html { height:100%; }
 article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
 body { line-height:1.5; }
 table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
@@ -28,7 +28,8 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-attachment: fixed; /* fix background gradient */
-	height: 100%; /* fix sticky footer */
+	min-height: 100%; /* fix sticky footer */
+	height: auto;
 }
 
 /* Various fonts settings */
@@ -60,6 +61,13 @@ h3 {
 }
 
 /* Global content */
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 #header .logo {
 	background-image: url('../img/logo.svg?v=1');
 	background-repeat: no-repeat;
@@ -77,22 +85,15 @@ h3 {
 	max-height: 200px;
 }
 .wrapper {
-	min-height: 100%;
-	margin: 0 auto -70px;
 	width: 300px;
-}
-.v-align {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	margin-top: 10vh;
 }
 
 /* Default FORM */
 form {
 	position: relative;
 	width: 280px;
-	margin: 16px auto;
+	margin: auto;
 	padding: 0;
 }
 form fieldset {
@@ -136,8 +137,7 @@ form #datadirField legend {
 						   absolutely positioned descendant icons */
 }
 
-#submit-wrapper .submit-icon,
-#reset-password-wrapper .submit-icon {
+#submit-wrapper .submit-icon {
 	position: absolute;
 	top: 23px;
 	right: 23px;
@@ -145,6 +145,16 @@ form #datadirField legend {
 							 From the user point of view the icon is part of the
 							 button, so the clicks on the icon have to be
 							 applied to the button instead. */
+}
+
+#reset-password-submit {
+	padding: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#reset-password-wrapper .submit-icon {
+	display: none;
 }
 
 #submit-wrapper .icon-loading-small {
@@ -282,9 +292,12 @@ label.infield {
 .strengthify-wrapper {
 	display: inline-block;
 	position: relative;
-	left: 15px;
-	top: -23px;
-	width: 250px;
+	left: 5px;
+	top: -20px;
+	width: 269px;
+	border-radius: 0 0 2px 2px;
+	overflow: hidden;
+	height: 3px;
 }
 .tooltip-inner {
 	font-weight: bold;
@@ -400,7 +413,6 @@ form .warning input[type='checkbox']+label {
 	padding: 12px;
 	margin-top: -6px;
 	color: #fff;
-	opacity: .7;
 }
 #forgot-password {
 	padding: 11px;
@@ -569,8 +581,7 @@ fieldset.update legend + p {
 	margin-bottom: 15px;
 }
 p.info {
-	margin: 0 auto;
-	padding-top: 20px;
+	margin: 20px auto;
 	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -711,9 +722,9 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 }
 
 /* FOOTER */
-footer,
-.push {
+footer {
 	height: 70px;
+	margin-top: auto;
 }
 
 footer .info a {

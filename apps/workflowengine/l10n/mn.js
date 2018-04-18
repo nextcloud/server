@@ -59,8 +59,6 @@ OC.L10N.register(
     "Reset" : "тохируулах",
     "Save" : "хадгалах",
     "Saving…" : "хадгалж байна",
-    "Loading…" : "уншиж байна",
-    "Successfully saved" : "амжилттай хадгалагдлаа",
-    "File mime type" : "файлын mime төрөл"
+    "Loading…" : "уншиж байна"
 },
 "nplurals=2; plural=(n != 1);");

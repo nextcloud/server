@@ -39,6 +39,6 @@ class ExpireTrashTest extends \Test\TestCase {
 
 		/** @var \OC\BackgroundJob\JobList $jobList */
 		$backgroundJob->execute($jobList);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 }

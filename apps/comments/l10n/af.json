@@ -1,17 +1,16 @@
 { "translations": {
     "Comments" : "Kommentare",
-    "Unknown user" : "Onbekende gebruiker",
-    "New comment …" : "Nuwe kommentaar…",
+    "Edit comment" : "Wysig kommentaar",
     "Delete comment" : "Skrap kommentaar",
+    "New comment …" : "Nuwe kommentaar…",
     "Post" : "Plaas",
     "Cancel" : "Kanselleer",
-    "Edit comment" : "Wysig kommentaar",
     "[Deleted user]" : "[Geskrapte gebruiker]",
     "No comments yet, start the conversation!" : "Nog geen kommentaar, begin die gesprek!",
     "More comments …" : "Nog kommentare …",
     "Save" : "Bewaar",
     "Allowed characters {count} of {max}" : "Toegelate karakters {telling} van {maks}",
-    "Error occurred while retrieving comment with id {id}" : "’n Fout het voorgekom toe kommentaar met id {id} opgehaal is",
+    "Error occurred while retrieving comment with ID {id}" : "’n Fout het voorgekom toe kommentaar met id {id} opgehaal is",
     "Error occurred while updating comment with id {id}" : "’n Fout het voorgekom toe kommentaar met id {id} bygewerk is",
     "Error occurred while posting comment" : "’n Fout het voorgekom toe kommentaar geplaas is",
     "_%n unread comment_::_%n unread comments_" : ["%n ongeleesde kommentaar","%n ongeleeste kommentare"],
@@ -24,9 +23,12 @@
     "%1$s commented on %2$s" : "%1$s het op %2$s kommentaar gelewer",
     "{author} commented on {file}" : "{outeur} het op {lêer} kommentaar gelewer",
     "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> vir lêers",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "’n (Nou) geskrapte gebruiker het u in ’n kommentaar op “%s” genoem",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "’n (Nou) geskrapte gebruiker het u in ’n kommentaar op “{lêer}” genoem",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Jy was genoem op \"%s\", in die kommentaar van 'n gebruiker wat intussen geskrap is.",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Jy was genoem op “{lêer}”, in die kommentaar van 'n gebruiker wat intussen geskrap is.",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s het u in ’n kommentaar op “%2$s” genoem",
-    "{user} mentioned you in a comment on “{file}”" : "{gebruiker} het u in ’n kommentaar oor “{lêer}” genoem"
+    "{user} mentioned you in a comment on “{file}”" : "{gebruiker} het u in ’n kommentaar oor “{lêer}” genoem",
+    "Unknown user" : "Onbekende gebruiker",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "’n (Nou) geskrapte gebruiker het u in ’n kommentaar op “%s” genoem",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "’n (Nou) geskrapte gebruiker het u in ’n kommentaar op “{lêer}” genoem"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

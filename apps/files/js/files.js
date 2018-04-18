@@ -31,6 +31,13 @@
 				Files.updateMaxUploadFilesize(response);
 			});
 		},
+		// update quota
+		updateStorageQuotas: function() {
+			var state = Files.updateStorageQuotas;
+			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
+				Files.updateQuota(response);
+			});
+		},
 		/**
 		 * Update storage statistics such as free space, max upload,
 		 * etc based on the given directory.
@@ -77,6 +84,32 @@
 
 		},
 
+		updateQuota:function(response) {
+			if (response === undefined) {
+				return;
+			}
+			if (response.data !== undefined
+			 && response.data.quota !== undefined
+			 && response.data.used !== undefined
+			 && response.data.usedSpacePercent !== undefined) {
+				var humanUsed = OC.Util.humanFileSize(response.data.used, true);
+				var humanQuota = OC.Util.humanFileSize(response.data.quota, true);
+				if (response.data.quota > 0) {
+					$('#quota').attr('data-original-title', Math.floor(response.data.used/response.data.quota*1000)/10 + '%');
+					$('#quota progress').val(response.data.usedSpacePercent);
+					$('#quotatext').text(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanQuota}));
+				} else {
+					$('#quotatext').text(t('files', '{used} used', {used: humanUsed}));
+				}
+				if (response.data.usedSpacePercent > 80) {
+					$('#quota progress').addClass('warn');
+				} else {
+					$('#quota progress').removeClass('warn');
+				}
+			}
+
+		},
+
 		/**
 		 * Fix path name by removing double slash at the beginning, if any
 		 */
@@ -101,6 +134,8 @@
 				throw t('files', '"{name}" is an invalid file name.', {name: name});
 			} else if (trimmedName.length === 0) {
 				throw t('files', 'File name cannot be empty.');
+			} else if (trimmedName.indexOf('/') !== -1) {
+				throw t('files', '"/" is not allowed inside a file name.');
 			} else if (OC.fileIsBlacklisted(trimmedName)) {
 				throw t('files', '"{name}" is not an allowed filetype', {name: name});
 			}
@@ -383,7 +418,6 @@ var dragOptions={
 	revert: 'invalid',
 	revertDuration: 300,
 	opacity: 0.7,
-	zIndex: 100,
 	appendTo: 'body',
 	cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow,

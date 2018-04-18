@@ -31,11 +31,13 @@
 
 namespace OC\Memcache;
 
-use \OCP\ICacheFactory;
-use \OCP\ILogger;
+use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\ILogger;
+use OCP\IMemcache;
 
 class Factory implements ICacheFactory {
-	const NULL_CACHE = '\\OC\\Memcache\\NullCache';
+	const NULL_CACHE = NullCache::class;
 
 	/**
 	 * @var string $globalPrefix
@@ -69,7 +71,7 @@ class Factory implements ICacheFactory {
 	 * @param string|null $distributedCacheClass
 	 * @param string|null $lockingCacheClass
 	 */
-	public function __construct($globalPrefix, ILogger $logger,
+	public function __construct(string $globalPrefix, ILogger $logger,
 		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null)
 	{
 		$this->logger = $logger;
@@ -128,9 +130,9 @@ class Factory implements ICacheFactory {
 	 * create a cache instance for storing locks
 	 *
 	 * @param string $prefix
-	 * @return \OCP\IMemcache
+	 * @return IMemcache
 	 */
-	public function createLocking($prefix = '') {
+	public function createLocking(string $prefix = ''): IMemcache {
 		return new $this->lockingCacheClass($this->globalPrefix . '/' . $prefix);
 	}
 
@@ -138,9 +140,9 @@ class Factory implements ICacheFactory {
 	 * create a distributed cache instance
 	 *
 	 * @param string $prefix
-	 * @return \OC\Memcache\Cache
+	 * @return ICache
 	 */
-	public function createDistributed($prefix = '') {
+	public function createDistributed(string $prefix = ''): ICache {
 		return new $this->distributedCacheClass($this->globalPrefix . '/' . $prefix);
 	}
 
@@ -148,18 +150,19 @@ class Factory implements ICacheFactory {
 	 * create a local cache instance
 	 *
 	 * @param string $prefix
-	 * @return \OC\Memcache\Cache
+	 * @return ICache
 	 */
-	public function createLocal($prefix = '') {
+	public function createLocal(string $prefix = ''): ICache {
 		return new $this->localCacheClass($this->globalPrefix . '/' . $prefix);
 	}
 
 	/**
 	 * @see \OC\Memcache\Factory::createDistributed()
 	 * @param string $prefix
-	 * @return \OC\Memcache\Cache
+	 * @return ICache
+	 * @deprecated 13.0.0 Use either createLocking, createDistributed or createLocal
 	 */
-	public function create($prefix = '') {
+	public function create(string $prefix = ''): ICache {
 		return $this->createDistributed($prefix);
 	}
 
@@ -168,25 +171,25 @@ class Factory implements ICacheFactory {
 	 *
 	 * @return bool
 	 */
-	public function isAvailable() {
+	public function isAvailable(): bool {
 		return ($this->distributedCacheClass !== self::NULL_CACHE);
 	}
 
 	/**
 	 * @see \OC\Memcache\Factory::createLocal()
 	 * @param string $prefix
-	 * @return Cache
+	 * @return ICache
 	 */
-	public function createLowLatency($prefix = '') {
+	public function createLowLatency(string $prefix = ''): ICache {
 		return $this->createLocal($prefix);
 	}
 
 	/**
-	 * check local memcache availability
+	 * Check if a local memory cache backend is available
 	 *
 	 * @return bool
 	 */
-	public function isAvailableLowLatency() {
+	public function isLocalCacheAvailable(): bool {
 		return ($this->localCacheClass !== self::NULL_CACHE);
 	}
 }

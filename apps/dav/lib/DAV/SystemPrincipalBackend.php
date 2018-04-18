@@ -24,7 +24,6 @@
 namespace OCA\DAV\DAV;
 
 use Sabre\DAVACL\PrincipalBackend\AbstractBackend;
-use Sabre\HTTP\URLUtil;
 
 class SystemPrincipalBackend extends AbstractBackend {
 

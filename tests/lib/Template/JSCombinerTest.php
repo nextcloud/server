@@ -31,6 +31,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 
@@ -47,6 +48,8 @@ class JSCombinerTest extends \Test\TestCase {
 	protected $jsCombiner;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $cacheFactory;
 
 	protected function setUp() {
 		parent::setUp();
@@ -54,15 +57,20 @@ class JSCombinerTest extends \Test\TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(SystemConfig::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->depsCache = $this->createMock(ICache::class);
+		$this->cacheFactory->expects($this->at(0))
+			->method('createDistributed')
+			->willReturn($this->depsCache);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->jsCombiner = new JSCombiner(
 			$this->appData,
 			$this->urlGenerator,
-			$this->depsCache,
+			$this->cacheFactory,
 			$this->config,
 			$this->logger
 		);
+
 	}
 
 	public function testProcessDebugMode() {
@@ -187,6 +195,10 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$fileDeps->expects($this->once())->method('getContent')->willReturn('{}');
 
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
+
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $fileDeps) {
 				if ($path === 'combine.js') {
@@ -196,6 +208,7 @@ class JSCombinerTest extends \Test\TestCase {
 				if ($path === 'combine.js.deps') {
 					return $fileDeps;
 				}
+
 				$this->fail();
 			}));
 
@@ -221,6 +234,9 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn($folder);
 		$folder->method('getName')
 			->willReturn('awesomeapp');
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
 
 		$file = $this->createMock(ISimpleFile::class);
 
@@ -263,6 +279,9 @@ class JSCombinerTest extends \Test\TestCase {
 	public function testIsCachedWithNotExistingFile() {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
 			->with('combine.js.deps')
@@ -278,6 +297,9 @@ class JSCombinerTest extends \Test\TestCase {
 	public function testIsCachedWithOlderMtime() {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
 			->with('combine.js.deps')
@@ -293,6 +315,9 @@ class JSCombinerTest extends \Test\TestCase {
 	public function testIsCachedWithoutContent() {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->method('fileExists')
+			->with('combine.js')
+			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
 			->with('combine.js.deps')
@@ -511,4 +536,29 @@ var b = \'world\';
 		$expected = [];
 		$this->assertEquals($expected, $this->jsCombiner->getContent($pathInfo['dirname'], $pathInfo['basename']));
 	}
+
+	public function testResetCache() {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->once())
+			->method('delete');
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder->expects($this->once())
+			->method('getDirectoryListing')
+			->willReturn([$file]);
+
+		$cache = $this->createMock(ICache::class);
+		$this->cacheFactory->expects($this->once())
+			->method('createDistributed')
+			->willReturn($cache);
+		$cache->expects($this->once())
+			->method('clear')
+			->with('');
+		$this->appData->expects($this->once())
+			->method('getDirectoryListing')
+			->willReturn([$folder]);
+
+		$this->jsCombiner->resetCache();
+	}
+
 }

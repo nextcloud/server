@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -40,16 +41,16 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 class Memory extends Session {
 	protected $data;
 
-	public function __construct($name) {
+	public function __construct(string $name) {
 		//no need to use $name since all data is already scoped to this instance
-		$this->data = array();
+		$this->data = [];
 	}
 
 	/**
 	 * @param string $key
 	 * @param integer $value
 	 */
-	public function set($key, $value) {
+	public function set(string $key, $value) {
 		$this->validateSession();
 		$this->data[$key] = $value;
 	}
@@ -58,7 +59,7 @@ class Memory extends Session {
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function get($key) {
+	public function get(string $key) {
 		if (!$this->exists($key)) {
 			return null;
 		}
@@ -69,20 +70,20 @@ class Memory extends Session {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function exists($key) {
+	public function exists(string $key): bool {
 		return isset($this->data[$key]);
 	}
 
 	/**
 	 * @param string $key
 	 */
-	public function remove($key) {
+	public function remove(string $key) {
 		$this->validateSession();
 		unset($this->data[$key]);
 	}
 
 	public function clear() {
-		$this->data = array();
+		$this->data = [];
 	}
 
 	/**
@@ -90,7 +91,7 @@ class Memory extends Session {
 	 *
 	 * @param bool $deleteOldSession
 	 */
-	public function regenerateId($deleteOldSession = true) {}
+	public function regenerateId(bool $deleteOldSession = true) {}
 
 	/**
 	 * Wrapper around session_id
@@ -99,7 +100,7 @@ class Memory extends Session {
 	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
-	public function getId() {
+	public function getId(): string {
 		throw new SessionNotAvailableException('Memory session does not have an ID');
 	}
 

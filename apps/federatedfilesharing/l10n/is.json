@@ -15,13 +15,6 @@
     "Couldn't establish a federated share." : "Gat ekki bætt við skýjasambandssameign.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Gat ekki bætt við skýjasambandssameign, hugsanlega var lykilorðið ekki rétt.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Sendi beiðni um skýjasambandssameign, þú munt fá boðskort. Athugaðu skilaboð til þín.",
-    "The mountpoint name contains invalid characters." : "Heiti tengipunktsins inniheldur ógilda stafi.",
-    "Not allowed to create a federated share with the owner." : "Ekki er heimilt að búa til skýjasambandssameign með eigandanum.",
-    "Invalid or untrusted SSL certificate" : "Ógilt eða vantreyst SSL-skilríki",
-    "Could not authenticate to remote share, password might be wrong" : "Gat ekki auðkennt á fjartengdri sameign, lykilorð gæti verið rangt",
-    "Storage not valid" : "Geymslan er ekki gild",
-    "Federated share added" : "Bætti við skýjasambandssameign",
-    "Couldn't add remote share" : "Gat ekki bætt við fjartengdri sameign",
     "Sharing %s failed, because this item is already shared with %s" : "Deiling %s mistókst, því þessu atriði er þegar deilt með %s",
     "Not allowed to create a federated share with the same user" : "Ekki er heimilt að búa til skýjasambandssameign með sama notanda",
     "File is already shared with %s" : "Skránni er þegar deilt með %s",
@@ -36,6 +29,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID",
     "Sharing" : "Deiling",
+    "Federated file sharing" : "Deiling skráa milli þjóna (skýjasambandssameign)",
     "Federated Cloud Sharing" : "Deiling með skýjasambandi",
     "Open documentation" : "Opna hjálparskjöl",
     "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna.",
@@ -50,7 +44,13 @@
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:",
-    "Search global and public address book for users and let local users publish their data" : "Leita að notendum í víðværri og opinberri vistfangaskrá og leyfa staðværum notendum að birta gögnin sín",
-    "Share it:" : "Deila því:"
+    "The mountpoint name contains invalid characters." : "Heiti tengipunktsins inniheldur ógilda stafi.",
+    "Not allowed to create a federated share with the owner." : "Ekki er heimilt að búa til skýjasambandssameign með eigandanum.",
+    "Invalid or untrusted SSL certificate" : "Ógilt eða vantreyst SSL-skilríki",
+    "Could not authenticate to remote share, password might be wrong" : "Gat ekki auðkennt á fjartengdri sameign, lykilorð gæti verið rangt",
+    "Storage not valid" : "Geymslan er ekki gild",
+    "Federated share added" : "Bætti við skýjasambandssameign",
+    "Couldn't add remote share" : "Gat ekki bætt við fjartengdri sameign",
+    "Search global and public address book for users and let local users publish their data" : "Leita að notendum í víðværri og opinberri vistfangaskrá og leyfa staðværum notendum að birta gögnin sín"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

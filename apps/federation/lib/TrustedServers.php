@@ -28,6 +28,7 @@
 namespace OCA\Federation;
 
 use OC\HintException;
+use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
@@ -116,7 +117,7 @@ class TrustedServers {
 			$token = $this->secureRandom->generate(16);
 			$this->dbHandler->addToken($url, $token);
 			$this->jobList->add(
-				'OCA\Federation\BackgroundJob\RequestSharedSecret',
+				RequestSharedSecret::class,
 				[
 					'url' => $url,
 					'token' => $token,
@@ -241,7 +242,11 @@ class TrustedServers {
 
 			}
 		} catch (\Exception $e) {
-			$this->logger->debug('No Nextcloud server: ' . $e->getMessage());
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'No Nextcloud server.',
+				'level' => \OCP\Util::DEBUG,
+				'app' => 'federation',
+			]);
 			return false;
 		}
 

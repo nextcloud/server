@@ -118,7 +118,6 @@ class Node implements \OCP\Files\Node {
 	}
 
 	public function delete() {
-		return;
 	}
 
 	/**
@@ -349,7 +348,6 @@ class Node implements \OCP\Files\Node {
 	}
 
 	public function getChecksum() {
-		return;
 	}
 
 	/**

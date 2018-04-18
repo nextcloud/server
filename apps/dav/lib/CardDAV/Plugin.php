@@ -27,7 +27,6 @@ use OCA\DAV\CardDAV\Xml\Groups;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
-use Sabre\HTTP\URLUtil;
 
 class Plugin extends \Sabre\CardDAV\Plugin {
 

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Tilføj serveren automatisk, når et datafællesskab er oprettet ",
     "+ Add trusted server" : "+ Tilføj pålidelig server",
     "Trusted server" : "Pålidelig server",
-    "Add" : "Tilføj",
-    "Federation" : "Datafællesskab"
+    "Add" : "Tilføj"
 },
 "nplurals=2; plural=(n != 1);");

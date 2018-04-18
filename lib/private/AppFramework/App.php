@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,6 +34,8 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Http\ICallbackResponse;
+use OCP\AppFramework\Http\IOutput;
+use OCP\IRequest;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -53,7 +56,7 @@ class App {
 	 * the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 */
-	public static function buildAppNamespace($appId, $topNamespace='OCA\\') {
+	public static function buildAppNamespace(string $appId, string $topNamespace='OCA\\'): string {
 		// Hit the cache!
 		if (isset(self::$nameSpaceCache[$appId])) {
 			return $topNamespace . self::$nameSpaceCache[$appId];
@@ -79,11 +82,11 @@ class App {
 	 * @param DIContainer $container an instance of a pimple container.
 	 * @param array $urlParams list of URL parameters (optional)
 	 */
-	public static function main($controllerName, $methodName, DIContainer $container, array $urlParams = null) {
+	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
-			$container['OCP\\IRequest']->setUrlParameters($urlParams);
+			$container[IRequest::class]->setUrlParameters($urlParams);
 		} else if (isset($container['urlParams']) && !is_null($container['urlParams'])) {
-			$container['OCP\\IRequest']->setUrlParameters($container['urlParams']);
+			$container[IRequest::class]->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 
@@ -114,7 +117,7 @@ class App {
 			$response
 		) = $dispatcher->dispatch($controller, $methodName);
 
-		$io = $container['OCP\\AppFramework\\Http\\IOutput'];
+		$io = $container[IOutput::class];
 
 		if(!is_null($httpHeaders)) {
 			$io->setHeader($httpHeaders);
@@ -169,7 +172,7 @@ class App {
 	 * @param array $urlParams an array with variables extracted from the routes
 	 * @param DIContainer $container an instance of a pimple container.
 	 */
-	public static function part($controllerName, $methodName, array $urlParams,
+	public static function part(string $controllerName, string $methodName, array $urlParams,
 								DIContainer $container){
 
 		$container['urlParams'] = $urlParams;

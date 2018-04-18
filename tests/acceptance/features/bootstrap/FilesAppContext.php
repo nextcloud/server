@@ -26,6 +26,7 @@ use Behat\Behat\Context\Context;
 class FilesAppContext implements Context, ActorAwareInterface {
 
 	use ActorAware;
+	use FileListAncestorSetter;
 
 	/**
 	 * @return array
@@ -84,6 +85,15 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->css(".icon-close")->
 				descendantOf(self::currentSectionDetailsView())->
 				describedAs("Close current section details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function fileNameInCurrentSectionDetailsView() {
+		return Locator::forThe()->css(".fileName")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("File name in current section details view in Files app");
 	}
 
 	/**
@@ -207,6 +217,18 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function allowUploadAndEditingRadioButton() {
+		// forThe()->radio("Allow upload and editing") can not be used here;
+		// that would return the radio button itself, but the element that the
+		// user interacts with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Allow upload and editing']")->
+				descendantOf(self::currentSectionDetailsView())->
+				describedAs("Allow upload and editing radio button in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function passwordProtectCheckbox() {
 		// forThe()->checkbox("Password protect") can not be used here; that
 		// would return the checkbox itself, but the element that the user
@@ -233,170 +255,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @return Locator
-	 */
-	public static function createMenuButton() {
-		return Locator::forThe()->css("#controls .button.new")->
-				descendantOf(self::currentSectionMainView())->
-				describedAs("Create menu button in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function createNewFolderMenuItem() {
-		return self::createMenuItemFor("New folder");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function createNewFolderMenuItemNameInput() {
-		return Locator::forThe()->css(".filenameform input")->
-				descendantOf(self::createNewFolderMenuItem())->
-				describedAs("Name input in create new folder menu item in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	private static function createMenuItemFor($newType) {
-		return Locator::forThe()->xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' newFileMenu ')]//span[normalize-space() = '$newType']/ancestor::li")->
-				descendantOf(self::currentSectionMainView())->
-				describedAs("Create $newType menu item in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function rowForFile($fileName) {
-		return Locator::forThe()->xpath("//*[@id = 'fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
-				descendantOf(self::currentSectionMainView())->
-				describedAs("Row for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function rowForFilePreceding($fileName1, $fileName2) {
-		return Locator::forThe()->xpath("//preceding-sibling::tr//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName1']/ancestor::tr")->
-				descendantOf(self::rowForFile($fileName2))->
-				describedAs("Row for file $fileName1 preceding $fileName2 in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function favoriteMarkForFile($fileName) {
-		return Locator::forThe()->css(".favorite-mark")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Favorite mark for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function notFavoritedStateIconForFile($fileName) {
-		return Locator::forThe()->css(".icon-star")->descendantOf(self::favoriteMarkForFile($fileName))->
-				describedAs("Not favorited state icon for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function favoritedStateIconForFile($fileName) {
-		return Locator::forThe()->css(".icon-starred")->descendantOf(self::favoriteMarkForFile($fileName))->
-				describedAs("Favorited state icon for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function mainLinkForFile($fileName) {
-		return Locator::forThe()->css(".name")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Main link for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function shareActionForFile($fileName) {
-		return Locator::forThe()->css(".action-share")->descendantOf(self::rowForFile($fileName))->
-				describedAs("Share action for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function fileActionsMenuButtonForFile($fileName) {
-		return Locator::forThe()->css(".action-menu")->descendantOf(self::rowForFile($fileName))->
-				describedAs("File actions menu button for file $fileName in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function fileActionsMenu() {
-		return Locator::forThe()->css(".fileActionsMenu")->
-				describedAs("File actions menu in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function detailsMenuItem() {
-		return self::fileActionsMenuItemFor("Details");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function addToFavoritesMenuItem() {
-		return self::fileActionsMenuItemFor("Add to favorites");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function removeFromFavoritesMenuItem() {
-		return self::fileActionsMenuItemFor("Remove from favorites");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function viewFileInFolderMenuItem() {
-		return self::fileActionsMenuItemFor("View in folder");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	private static function fileActionsMenuItemFor($itemText) {
-		return Locator::forThe()->xpath("//a[normalize-space() = '$itemText']")->
-				descendantOf(self::fileActionsMenu())->
-				describedAs($itemText . " item in file actions menu in Files app");
-	}
-
-	/**
-	 * @Given I create a new folder named :folderName
-	 */
-	public function iCreateANewFolderNamed($folderName) {
-		$this->actor->find(self::createMenuButton(), 10)->click();
-
-		$this->actor->find(self::createNewFolderMenuItem(), 2)->click();
-		$this->actor->find(self::createNewFolderMenuItemNameInput(), 2)->setValue($folderName . "\r");
-	}
-
-	/**
-	 * @Given I open the details view for :fileName
-	 */
-	public function iOpenTheDetailsViewFor($fileName) {
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
-
-		$this->actor->find(self::detailsMenuItem(), 2)->click();
-	}
-
-	/**
 	 * @Given I close the details view
 	 */
 	public function iCloseTheDetailsView() {
@@ -418,32 +276,10 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Given I mark :fileName as favorite
-	 */
-	public function iMarkAsFavorite($fileName) {
-		$this->iSeeThatIsNotMarkedAsFavorite($fileName);
-
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
-
-		$this->actor->find(self::addToFavoritesMenuItem(), 2)->click();
-	}
-
-	/**
-	 * @Given I unmark :fileName as favorite
-	 */
-	public function iUnmarkAsFavorite($fileName) {
-		$this->iSeeThatIsMarkedAsFavorite($fileName);
-
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
-
-		$this->actor->find(self::removeFromFavoritesMenuItem(), 2)->click();
-	}
-
-	/**
 	 * @Given I share the link for :fileName
 	 */
 	public function iShareTheLinkFor($fileName) {
-		$this->actor->find(self::shareActionForFile($fileName), 10)->click();
+		$this->actor->find(FileListContext::shareActionForFile(self::currentSectionMainView(), $fileName), 10)->click();
 
 		$this->actor->find(self::shareLinkCheckbox(), 5)->click();
 	}
@@ -452,16 +288,17 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I write down the shared link
 	 */
 	public function iWriteDownTheSharedLink() {
-		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::shareLinkField(), 10)->getValue();
-	}
+		// The shared link field always exists in the DOM (once the "Sharing"
+		// tab is loaded), but its value is the actual shared link only when it
+		// is visible.
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::shareLinkField(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The shared link was not shown yet after $timeout seconds");
+		}
 
-	/**
-	 * @When I view :fileName in folder
-	 */
-	public function iViewInFolder($fileName) {
-		$this->actor->find(self::fileActionsMenuButtonForFile($fileName), 10)->click();
-
-		$this->actor->find(self::viewFileInFolderMenuItem(), 2)->click();
+		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::shareLinkField())->getValue();
 	}
 
 	/**
@@ -483,6 +320,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I set the shared link as editable
+	 */
+	public function iSetTheSharedLinkAsEditable() {
+		$this->actor->find(self::allowUploadAndEditingRadioButton(), 10)->click();
+	}
+
+	/**
 	 * @When I protect the shared link with the password :password
 	 */
 	public function iProtectTheSharedLinkWithThePassword($password) {
@@ -498,6 +342,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		PHPUnit_Framework_Assert::assertStringStartsWith(
 				$this->actor->locatePath("/apps/files/"),
 				$this->actor->getSession()->getCurrentUrl());
+
+		$this->setFileListAncestorForActor(self::currentSectionMainView(), $this->actor);
 	}
 
 	/**
@@ -534,24 +380,11 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Then I see that :fileName1 precedes :fileName2 in the file list
+	 * @Then I see that the file name shown in the details view is :fileName
 	 */
-	public function iSeeThatPrecedesInTheFileList($fileName1, $fileName2) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFilePreceding($fileName1, $fileName2), 10));
-	}
-
-	/**
-	 * @Then I see that :fileName is marked as favorite
-	 */
-	public function iSeeThatIsMarkedAsFavorite($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::favoritedStateIconForFile($fileName), 10));
-	}
-
-	/**
-	 * @Then I see that :fileName is not marked as favorite
-	 */
-	public function iSeeThatIsNotMarkedAsFavorite($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::notFavoritedStateIconForFile($fileName), 10));
+	public function iSeeThatTheFileNameShownInTheDetailsViewIs($fileName) {
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->find(self::fileNameInCurrentSectionDetailsView(), 10)->getText(), $fileName);
 	}
 
 	/**
@@ -606,7 +439,10 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @When I see that the :tabName tab in the details view is eventually loaded
 	 */
 	public function iSeeThatTheTabInTheDetailsViewIsEventuallyLoaded($tabName) {
-		if (!$this->waitForElementToBeEventuallyNotShown(self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName), $timeout = 10)) {
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
 	}
@@ -622,7 +458,10 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the working icon for password protect is eventually not shown
 	 */
 	public function iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown() {
-		if (!$this->waitForElementToBeEventuallyNotShown(self::passwordProtectWorkingIcon(), $timeout = 10)) {
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::passwordProtectWorkingIcon(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The working icon for password protect is still shown after $timeout seconds");
 		}
 	}
@@ -637,17 +476,4 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown();
 	}
 
-	private function waitForElementToBeEventuallyNotShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
-		$actor = $this->actor;
-
-		$elementNotFoundCallback = function() use ($actor, $elementLocator) {
-			try {
-				return !$actor->find($elementLocator)->isVisible();
-			} catch (NoSuchElementException $exception) {
-				return true;
-			}
-		};
-
-		return Utils::waitFor($elementNotFoundCallback, $timeout, $timeoutStep);
-	}
 }

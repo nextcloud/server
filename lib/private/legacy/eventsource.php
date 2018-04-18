@@ -81,7 +81,7 @@ class OC_EventSource implements \OCP\IEventSource {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}
-		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
+		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
 			$this->send('error', 'Possible CSRF attack. Connection will be closed.');
 			$this->close();
 			exit();
@@ -110,13 +110,13 @@ class OC_EventSource implements \OCP\IEventSource {
 		}
 		if ($this->fallback) {
 			$response = '<script type="text/javascript">window.parent.OC.EventSource.fallBackCallBack('
-				. $this->fallBackId . ',"' . $type . '",' . OCP\JSON::encode($data) . ')</script>' . PHP_EOL;
+				. $this->fallBackId . ',"' . $type . '",' . OC_JSON::encode($data) . ')</script>' . PHP_EOL;
 			echo $response;
 		} else {
 			if ($type) {
 				echo 'event: ' . $type . PHP_EOL;
 			}
-			echo 'data: ' . OCP\JSON::encode($data) . PHP_EOL;
+			echo 'data: ' . OC_JSON::encode($data) . PHP_EOL;
 		}
 		echo PHP_EOL;
 		flush();

@@ -27,12 +27,7 @@
 namespace OC\Settings\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\StreamResponse;
-use OCP\IL10N;
-use OCP\IRequest;
-use OCP\IConfig;
 
 /**
  * Class LogSettingsController

@@ -101,15 +101,6 @@ class Manager implements IManager {
 	 * @throws ServiceUnavailableException
 	 */
 	public function isReady() {
-		// check if we are still in transit between the old and the new encryption
-		$oldEncryption = $this->config->getAppValue('files_encryption', 'installed_version');
-		if (!empty($oldEncryption)) {
-			$warning = 'Installation is in transit between the old Encryption (ownCloud <= 8.0)
-			and the new encryption. Please enable the "Default encryption module"
-			and run \'occ encryption:migrate\'';
-			$this->logger->warning($warning);
-			return false;
-		}
 
 		if ($this->isKeyStorageReady() === false) {
 			throw new ServiceUnavailableException('Key Storage is not ready');

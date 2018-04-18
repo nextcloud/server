@@ -66,7 +66,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function wrongPasswordMessage() {
-		return Locator::forThe()->xpath("//*[@class = 'warning' and normalize-space() = 'Wrong password.']")->
+		return Locator::forThe()->xpath("//*[@class = 'warning wrongPasswordMsg' and normalize-space() = 'Wrong password.']")->
 				describedAs("Wrong password message in Login page");
 	}
 

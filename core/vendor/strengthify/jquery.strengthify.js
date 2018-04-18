@@ -51,7 +51,8 @@
             },
             drawTitles: false,
             drawMessage: false,
-            drawBars: true
+            drawBars: true,
+            $addAfter: null
         };
 
         return this.each(function() {
@@ -175,8 +176,13 @@
                     elemId = $elem.attr('id');
                 var drawSelf = drawStrengthify.bind(this);
 
+                var $addAfter = options.$addAfter;
+                if (!$addAfter) {
+                    $addAfter = $elem;
+                }
+
                 // add elements
-                $elem.after('<div class="strengthify-wrapper" data-strengthifyFor="' + $elem.attr('id') + '"></div>');
+                $addAfter.after('<div class="strengthify-wrapper" data-strengthifyFor="' + $elem.attr('id') + '"></div>');
 
                 if (options.drawBars) {
                     getWrapperFor(elemId)

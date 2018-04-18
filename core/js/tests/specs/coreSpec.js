@@ -351,14 +351,14 @@ describe('Core base tests', function() {
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
 			oldConfig = window.oc_config;
-			routeStub = sinon.stub(OC, 'generateUrl').returns('/heartbeat');
+			routeStub = sinon.stub(OC, 'generateUrl').returns('/csrftoken');
 			counter = 0;
 
 			fakeServer.autoRespond = true;
 			fakeServer.autoRespondAfter = 0;
-			fakeServer.respondWith(/\/heartbeat/, function(xhr) {
+			fakeServer.respondWith(/\/csrftoken/, function(xhr) {
 				counter++;
-				xhr.respond(200, {'Content-Type': 'application/json'}, '{}');
+				xhr.respond(200, {'Content-Type': 'application/json'}, '{"token": "pgBEsb3MzTb1ZPd2mfDZbQ6/0j3OrXHMEZrghHcOkg8=:3khw5PSa+wKQVo4f26exFD3nplud9ECjJ8/Y5zk5/k4="}');
 			});
 			$(document).off('ajaxComplete'); // ignore previously registered heartbeats
 		});
@@ -377,7 +377,7 @@ describe('Core base tests', function() {
 				session_lifetime: 300
 			};
 			window.initCore();
-			expect(routeStub.calledWith('/heartbeat')).toEqual(true);
+			expect(routeStub.calledWith('/csrftoken')).toEqual(true);
 
 			expect(counter).toEqual(0);
 
@@ -502,8 +502,8 @@ describe('Core base tests', function() {
 	});
 	describe('Generate Url', function() {
 		it('returns absolute urls', function() {
-			expect(OC.generateUrl('heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
-			expect(OC.generateUrl('/heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
+			expect(OC.generateUrl('csrftoken')).toEqual(OC.webroot + '/index.php/csrftoken');
+			expect(OC.generateUrl('/csrftoken')).toEqual(OC.webroot + '/index.php/csrftoken');
 		});
 		it('substitutes parameters which are escaped by default', function() {
 			expect(OC.generateUrl('apps/files/download/{file}', {file: '<">ImAnUnescapedString/!'})).toEqual(OC.webroot + '/index.php/apps/files/download/%3C%22%3EImAnUnescapedString%2F!');
@@ -1110,6 +1110,494 @@ describe('Core base tests', function() {
 			clock.tick(101);
 
 			expect(OC._ajaxConnectionLostHandler.calls.count()).toBe(1);
+		});
+	});
+	describe('Snapper', function() {
+		var snapConstructorStub;
+		var snapperStub;
+		var clock;
+
+		beforeEach(function() {
+			snapConstructorStub = sinon.stub(window, 'Snap');
+
+			snapperStub = {};
+			snapperStub.enable = sinon.stub();
+			snapperStub.disable = sinon.stub();
+			snapperStub.close = sinon.stub();
+
+			snapConstructorStub.returns(snapperStub);
+
+			clock = sinon.useFakeTimers();
+
+			// _.now could have been set to Date.now before Sinon replaced it
+			// with a fake version, so _.now must be stubbed to ensure that the
+			// fake Date.now will be called instead of the original one.
+			_.now = sinon.stub(_, 'now').callsFake(function() {
+				return new Date().getTime();
+			});
+
+			$('#testArea').append('<div id="app-navigation">The navigation bar</div><div id="app-content">Content</div>');
+		});
+		afterEach(function() {
+			snapConstructorStub.restore();
+
+			clock.restore();
+
+			_.now.restore();
+
+			// Remove the event handler for the resize event added to the window
+			// due to calling window.initCore() when there is an #app-navigation
+			// element.
+			$(window).off('resize');
+
+			viewport.reset();
+		});
+
+		it('is enabled on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapConstructorStub.calledOnce).toBe(true);
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+		});
+		it('is disabled when disallowing the gesture on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.disable.alwaysCalledWithExactly(true)).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+		});
+		it('is not disabled again when disallowing the gesture twice on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.disable.alwaysCalledWithExactly(true)).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+		});
+		it('is enabled when allowing the gesture after disallowing it on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.disable.alwaysCalledWithExactly(true)).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledTwice).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+		});
+		it('is not enabled again when allowing the gesture twice after disallowing it on a narrow screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.disable.alwaysCalledWithExactly(true)).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledTwice).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledTwice).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.called).toBe(false);
+		});
+		it('is disabled on a wide screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapConstructorStub.calledOnce).toBe(true);
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is not disabled again when disallowing the gesture on a wide screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+		});
+		it('is not enabled when allowing the gesture after disallowing it on a wide screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+		});
+		it('is enabled when resizing to a narrow screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is not enabled when resizing to a narrow screen after disallowing the gesture', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is enabled when resizing to a narrow screen after disallowing the gesture and allowing it', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is enabled when allowing the gesture after disallowing it and resizing to a narrow screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+		});
+		it('is disabled when disallowing the gesture after disallowing it, resizing to a narrow screen and allowing it', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledTwice).toBe(true);
+			expect(snapperStub.disable.getCall(1).calledWithExactly(true)).toBe(true);
+		});
+		it('is disabled when resizing to a wide screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			viewport.set(1280);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+		});
+		it('is not disabled again when disallowing the gesture after resizing to a wide screen', function() {
+			viewport.set(480);
+
+			window.initCore();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.called).toBe(false);
+			expect(snapperStub.close.called).toBe(false);
+
+			viewport.set(1280);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.calledOnce).toBe(true);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+		});
+		it('is not enabled when allowing the gesture after disallowing it, resizing to a narrow screen and resizing to a wide screen', function() {
+			viewport.set(1280);
+
+			window.initCore();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			OC.disallowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			viewport.set(480);
+
+			// Setting the viewport width does not automatically trigger a
+			// resize.
+			$(window).resize();
+
+			// The resize handler is debounced to be executed a few milliseconds
+			// after the resize event.
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledOnce).toBe(true);
+			expect(snapperStub.close.calledOnce).toBe(true);
+
+			viewport.set(1280);
+
+			$(window).resize();
+
+			clock.tick(1000);
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledTwice).toBe(true);
+			expect(snapperStub.close.calledTwice).toBe(true);
+
+			OC.allowNavigationBarSlideGesture();
+
+			expect(snapperStub.enable.called).toBe(false);
+			expect(snapperStub.disable.calledTwice).toBe(true);
+			expect(snapperStub.close.calledTwice).toBe(true);
+		});
+	});
+	describe('Requires password confirmation', function () {
+		var stubMomentNow;
+		var stubJsPageLoadTime;
+
+		afterEach(function () {
+			delete window.nc_pageLoad;
+			delete window.nc_lastLogin;
+			delete window.backendAllowsPasswordConfirmation;
+
+			stubMomentNow.restore();
+			stubJsPageLoadTime.restore();
+		});
+
+		it('should not show the password confirmation dialog when server time is earlier than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
+		});
+
+		it('should show the password confirmation dialog when server time is earlier than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
+		});
+
+		it('should not show the password confirmation dialog when server time is later than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
+		});
+
+		it('should show the password confirmation dialog when server time is later than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
 		});
 	});
 });

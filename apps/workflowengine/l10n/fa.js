@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "ریست",
     "Save" : "ذخیره",
     "Saving…" : "در حال ذخیره",
-    "Loading…" : "در حال بار گزاری",
-    "Successfully saved" : "با موفقیت ذخیره شد ",
-    "File mime type" : "نوع فایل "
+    "Loading…" : "در حال بار گزاری"
 },
 "nplurals=1; plural=0;");

@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "ძველი პაროლი არ იყო სწორი, გთხოვთ სცადოთ ახლიდან.",
     "The current log-in password was not correct, please try again." : "ამჟამინდელი ლოგინის პაროლი არ იყო სწორი, გთხოვთ სცადოთ ახლიდან.",
     "Private key password successfully updated." : "პირადი გასაღების პაროლი წარმატებით განახლდა.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "საჭიროა შიფრაციის ძველი გასაღებების მიგრაცია (ownCloud <= 8.0) ახალებზე. გთხოვთ გაუშვათ 'occ encryption:migrate' ან დაუკავშირდეთ ადმინისტრატორს",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "შიფრაციის აპლიკაციისთვის არასწორი პირადი გასაღები. დაშიფრული ფაილებისადმი წვდომის აღსადგენად, გთხოვთ განაახლოთ თქვენი პირადი გასაღების პაროლი პირად პარამეტრებში.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "შიფრაციის აპლიკაცია მოქმედია, თუმცა თქვენი გასაღებები არაა ინიციალიზირებული. გთხოვთ გახვიდეთ და ახლიდან გაიაროთ ავტორიზაცია.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "შიფრაციის მოდულის გამოსაყენებლად გთხოვთ ადმინისტრატორის პარამეტრებიდან აამოქმედოთ შიფრაცია სერვერულ მხარეს.",
@@ -31,11 +30,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "ერთჯერადი პაროლი სერვერული მხარის შიფრაციისთვის",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "ამ ფაილის გაშიფვრა ვერ ხერხდება, ალბათ ის გაზიარებული ფაილია. გთხოვთ სთხოვოთ ფაილის მფლობელს ახლიდან გააზიაროს ის თქვენთან.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "ამ ფაილის წაკითხვა არ ხერხდება, ალბათ ის გაზიარებული ფაილია. გთხოვთ სთხოვოთ ფაილის მფლობელს ახლიდან გააზიაროს ის თქვენთან.",
+    "Default encryption module" : "საწყისი შიფრაციის მოდული",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "გამარჯობა,\n\nადმინისტრატორმა აამოქმედა სერვერული მხარის შიფრაცია. თქვენი ფაილების შიფრაცია მოხდა პაროლით '%s'.\n\nგთხოვთ ვებ-ინტერფეისში გაიაროთ ავტორიზაცია, პირად პარამეტრებში გადახვიდეთ სექციაზე 'მარტივი შიფრაციის მოდული' და განაახლოთ შიფრაციის პაროლი, 'ძველი ლოგინის პაროლისა' და ამჟამინდელი ლოგინის პაროლის შეყვანით.\n\n",
     "The share will expire on %s." : "გაზიარება გაუქმდება %s-ზე.",
     "Cheers!" : "წარმატებები!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "გამარჯობა,<br><br>ადმინისტრატორმა აამოქმედა სერვერული მხარის შიფრაცია. თქვენი ფაილების შიფრაცია მოხდა პაროლით <strong>%s</strong>.<br><br>გთხოვთ ვებ-ინტერფეისში გაიაროთ ავტორიზაცია, პირად პარამეტრებში გადახვიდეთ სექციაზე 'მარტივი შიფრაციის მოდული' და განაახლოთ შიფრაციის პაროლი, 'ძველი ლოგინის პაროლისა' და ამჟამინდელი ლოგინის პაროლის შეყვანით.<br><br>",
-    "Default encryption module" : "საწყისი შიფრაციის მოდული",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "შიფრაციის აპლიკაცია მოქმედია, მაგრამ თქვენი გასაღებები არაა ინციალიზირებული, გთხოვთ გახვიდეთ და ახლიდან გაიაროთ ავტორიზაცია",
     "Encrypt the home storage" : "სახლის საცავის შიფრაცია",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "ამ არჩევნის ამოქმედება დაშიფრავს ყველა ფაილს, რომელიც განთავსებულია მთავარ საცავში, სხვა შემთხვევაში დაიშიფრება მოხოლოდ ექსტერნალურ საცავში არსებული ფაილები",
@@ -60,6 +59,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "ამ არჩევნის ამოქმედება, პაროლის დაკარგვის შემთხვევაში, საშუალებას მოგცემთ ახლიდან მოიპოვოთ წვდომა თქვენს დაშიფრულ ფაილებზე",
     "Enabled" : "მოქმედია",
     "Disabled" : "არაა მოქმედი",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "შიფრაციის აპლიკაცია მოქმედია, თუმცა თქვენი გასაღებები არაა ინიციალიზირებული, გთხოვთ გახვიდეთ და ახლიდან გაიაროთ ავტორიზაცია."
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "საჭიროა შიფრაციის ძველი გასაღებების მიგრაცია (ownCloud <= 8.0) ახალებზე. გთხოვთ გაუშვათ 'occ encryption:migrate' ან დაუკავშირდეთ ადმინისტრატორს"
 },
 "nplurals=1; plural=0;");

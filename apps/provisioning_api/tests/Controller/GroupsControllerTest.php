@@ -26,54 +26,67 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\Accounts\AccountManager;
+use OC\Group\Manager;
+use OC\SubAdmin;
 use OCA\Provisioning_API\Controller\GroupsController;
-use OCP\IGroupManager;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 class GroupsControllerTest extends \Test\TestCase {
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
-	protected $groupManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	protected $userSession;
-	/** @var \OC\SubAdmin|\PHPUnit_Framework_MockObject_MockObject */
-	protected $subAdminManager;
 
-	/** @var GroupsController */
+	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
+	protected $request;
+	/** @var IUserManager|PHPUnit_Framework_MockObject_MockObject */
+	protected $userManager;
+	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
+	/** @var Manager|PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
+	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+	/** @var AccountManager|PHPUnit_Framework_MockObject_MockObject */
+	protected $accountManager;
+	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
+
+	/** @var GroupsController|PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->groupManager = $this->createMock(Manager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->logger = $this->createMock(ILogger::class);
+		
+		$this->subAdminManager = $this->createMock(SubAdmin::class);
 
-		$this->groupManager = $this->getMockBuilder('OC\Group\Manager')
-			->disableOriginalConstructor()
-			->getMock();
 		$this->groupManager
-			->method('getSubAdmin')
-			->willReturn($this->subAdminManager);
-
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
+				->method('getSubAdmin')
+				->willReturn($this->subAdminManager);
+		
+		$this->api = $this->getMockBuilder(GroupsController::class)
+			->setConstructorArgs([
+				'provisioning_api',
+				$this->request,
+				$this->userManager,
+				$this->config,
+				$this->groupManager,
+				$this->userSession,
+				$this->accountManager,
+				$this->logger
+			])
+			->setMethods(['fillStorageInfo'])
 			->getMock();
-		$request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$logger = $this->createMock(ILogger::class);
-
-		$this->api = new GroupsController(
-			'provisioning_api',
-			$request,
-			$this->groupManager,
-			$this->userSession,
-			$logger
-		);
 	}
 
 	/**
@@ -85,6 +98,10 @@ class GroupsControllerTest extends \Test\TestCase {
 		$group
 			->method('getGID')
 			->willReturn($gid);
+		$group
+			->method('getDisplayName')
+			->willReturn($gid.'-name');
+
 		return $group;
 	}
 
@@ -137,10 +154,10 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	public function dataGetGroups() {
 		return [
-			[null, null, null],
-			['foo', null, null],
-			[null, 1, null],
-			[null, null, 2],
+			[null, 0, 0],
+			['foo', 0, 0],
+			[null, 1, 0],
+			[null, 0, 2],
 			['foo', 1, 2],
 		];
 	}
@@ -165,6 +182,33 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$result = $this->api->getGroups($search, $limit, $offset);
 		$this->assertEquals(['groups' => ['group1', 'group2']], $result->getData());
+
+	}
+
+	/**
+	 * @dataProvider dataGetGroups
+	 *
+	 * @param string|null $search
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 */
+	public function testGetGroupsDetails($search, $limit, $offset) {
+		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
+
+		$search = $search === null ? '' : $search;
+
+		$this->groupManager
+			->expects($this->once())
+			->method('search')
+			->with($search, $limit, $offset)
+			->willReturn($groups);
+
+		$result = $this->api->getGroupsDetails($search, $limit, $offset);
+		$this->assertEquals(['groups' => [
+			Array('id' => 'group1', 'displayname' => 'group1-name'), 
+			Array('id' => 'group2', 'displayname' => 'group2-name')
+		]], $result->getData());
+
 	}
 
 	public function testGetGroupAsSubadmin() {
@@ -193,7 +237,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 997
+	 * @expectedExceptionCode 403
 	 */
 	public function testGetGroupAsIrrelevantSubadmin() {
 		$group = $this->createGroup('group');
@@ -238,7 +282,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 998
+	 * @expectedExceptionCode 404
 	 * @expectedExceptionMessage The requested group could not be found
 	 */
 	public function testGetGroupNonExisting() {

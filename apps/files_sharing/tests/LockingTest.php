@@ -111,6 +111,6 @@ class LockingTest extends TestCase {
 		$recipientView->changeLock('bar.txt', ILockingProvider::LOCK_EXCLUSIVE);
 		$recipientView->unlockFile('bar.txt', ILockingProvider::LOCK_EXCLUSIVE);
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 }

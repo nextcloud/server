@@ -21,11 +21,8 @@ OC.L10N.register(
     "New password" : "Kata laluan baru",
     "Change password" : "Ubah kata laluan",
     "Username" : "Nama pengguna",
-    "Create" : "Buat",
     "Other" : "Lain",
     "Quota" : "Kuota",
-    "Invalid request" : "Permintaan tidak sah",
-    "__language_name__" : "Bahasa Melayu",
-    "Name" : "Nama"
+    "Create" : "Buat"
 },
 "nplurals=1; plural=0;");

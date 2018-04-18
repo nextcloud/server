@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,13 +34,13 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
-use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
@@ -49,8 +50,8 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\OCSController;
+use OCP\IL10N;
 use OCP\INavigationManager;
-use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IRequest;
 use OCP\ILogger;
@@ -77,8 +78,6 @@ class SecurityMiddleware extends Middleware {
 	private $urlGenerator;
 	/** @var ILogger */
 	private $logger;
-	/** @var ISession */
-	private $session;
 	/** @var bool */
 	private $isLoggedIn;
 	/** @var bool */
@@ -91,48 +90,36 @@ class SecurityMiddleware extends Middleware {
 	private $cspNonceManager;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var IL10N */
+	private $l10n;
 
-	/**
-	 * @param IRequest $request
-	 * @param ControllerMethodReflector $reflector
-	 * @param INavigationManager $navigationManager
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 * @param ISession $session
-	 * @param string $appName
-	 * @param bool $isLoggedIn
-	 * @param bool $isAdminUser
-	 * @param ContentSecurityPolicyManager $contentSecurityPolicyManager
-	 * @param CSRFTokenManager $csrfTokenManager
-	 * @param ContentSecurityPolicyNonceManager $cspNonceManager
-	 * @param IAppManager $appManager
-	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
-								ISession $session,
-								$appName,
-								$isLoggedIn,
-								$isAdminUser,
+								string $appName,
+								bool $isLoggedIn,
+								bool $isAdminUser,
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
 								ContentSecurityPolicyNonceManager $cspNonceManager,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								IL10N $l10n
+	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->appName = $appName;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
-		$this->session = $session;
 		$this->isLoggedIn = $isLoggedIn;
 		$this->isAdminUser = $isAdminUser;
 		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->cspNonceManager = $cspNonceManager;
 		$this->appManager = $appManager;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -156,17 +143,8 @@ class SecurityMiddleware extends Middleware {
 				throw new NotLoggedInException();
 			}
 
-			if(!$this->reflector->hasAnnotation('NoAdminRequired')) {
-				if(!$this->isAdminUser) {
-					throw new NotAdminException();
-				}
-			}
-		}
-
-		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
-			$lastConfirm = (int) $this->session->get('last-password-confirm');
-			if ($lastConfirm < (time() - (30 * 60 + 15))) { // allow 15 seconds delay
-				throw new NotConfirmedException();
+			if(!$this->reflector->hasAnnotation('NoAdminRequired') && !$this->isAdminUser) {
+				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
 			}
 		}
 
@@ -183,24 +161,35 @@ class SecurityMiddleware extends Middleware {
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
 			 * hacks around that we have no full token auth in place yet and we
 			 * do want to offer CSRF checks for web requests.
+			 *
+			 * Additionally we allow Bearer authenticated requests to pass on OCS routes.
+			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
 			 */
 			if(!$this->request->passesCSRFCheck() && !(
-					$controller instanceof OCSController &&
-					$this->request->getHeader('OCS-APIREQUEST') === 'true')) {
+					$controller instanceof OCSController && (
+						$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
+						strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0
+					)
+				)) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}
 
 		/**
-		 * FIXME: Use DI once available
 		 * Checks if app is enabled (also includes a check whether user is allowed to access the resource)
 		 * The getAppPath() check is here since components such as settings also use the AppFramework and
 		 * therefore won't pass this check.
+		 * If page is public, app does not need to be enabled for current user/visitor
 		 */
-		if(\OC_App::getAppPath($this->appName) !== false && !$this->appManager->isEnabledForUser($this->appName)) {
-			throw new AppNotEnabledException();
+		try {
+			$appPath = $this->appManager->getAppPath($this->appName);
+		} catch (AppPathNotFoundException $e) {
+			$appPath = false;
 		}
 
+		if ($appPath !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
+			throw new AppNotEnabledException();
+		}
 	}
 
 	/**
@@ -212,7 +201,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController($controller, $methodName, Response $response): Response {
 		$policy = !is_null($response->getContentSecurityPolicy()) ? $response->getContentSecurityPolicy() : new ContentSecurityPolicy();
 
 		if (get_class($policy) === EmptyContentSecurityPolicy::class) {
@@ -241,14 +230,14 @@ class SecurityMiddleware extends Middleware {
 	 * @throws \Exception the passed in exception if it can't handle it
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if($exception instanceof SecurityException) {
 			if($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT);
  			}
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
-					array('message' => $exception->getMessage()),
+					['message' => $exception->getMessage()],
 					$exception->getCode()
 				);
 			} else {
@@ -265,7 +254,10 @@ class SecurityMiddleware extends Middleware {
 				}
 			}
 
-			$this->logger->debug($exception->getMessage());
+			$this->logger->logException($exception, [
+				'level' => \OCP\Util::DEBUG,
+				'app' => 'core',
+			]);
 			return $response;
 		}
 

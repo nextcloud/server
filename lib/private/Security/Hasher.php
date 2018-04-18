@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -50,11 +51,9 @@ class Hasher implements IHasher {
 	/** @var IConfig */
 	private $config;
 	/** @var array Options passed to password_hash and password_needs_rehash */
-	private $options = array();
+	private $options = [];
 	/** @var string Salt used for legacy passwords */
 	private $legacySalt = null;
-	/** @var int Current version of the generated hash */
-	private $currentVersion = 1;
 
 	/**
 	 * @param IConfig $config
@@ -63,7 +62,7 @@ class Hasher implements IHasher {
 		$this->config = $config;
 
 		$hashingCost = $this->config->getSystemValue('hashingCost', null);
-		if(!is_null($hashingCost)) {
+		if(!\is_null($hashingCost)) {
 			$this->options['cost'] = $hashingCost;
 		}
 	}
@@ -76,8 +75,12 @@ class Hasher implements IHasher {
 	 * @param string $message Message to generate hash from
 	 * @return string Hash of the message with appended version parameter
 	 */
-	public function hash($message) {
-		return $this->currentVersion . '|' . password_hash($message, PASSWORD_DEFAULT, $this->options);
+	public function hash(string $message): string {
+		if (\defined('PASSWORD_ARGON2I')) {
+			return 2 . '|' . password_hash($message, PASSWORD_ARGON2I, $this->options);
+		} else {
+			return 1 . '|' . password_hash($message, PASSWORD_BCRYPT, $this->options);
+		}
 	}
 
 	/**
@@ -85,11 +88,11 @@ class Hasher implements IHasher {
 	 * @param string $prefixedHash
 	 * @return null|array Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
 	 */
-	protected function splitHash($prefixedHash) {
+	protected function splitHash(string $prefixedHash) {
 		$explodedString = explode('|', $prefixedHash, 2);
-		if(count($explodedString) === 2) {
+		if(\count($explodedString) === 2) {
 			if((int)$explodedString[0] > 0) {
-				return array('version' => (int)$explodedString[0], 'hash' => $explodedString[1]);
+				return ['version' => (int)$explodedString[0], 'hash' => $explodedString[1]];
 			}
 		}
 
@@ -103,15 +106,15 @@ class Hasher implements IHasher {
 	 * @param null|string &$newHash Reference will contain the updated hash
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
-	protected function legacyHashVerify($message, $hash, &$newHash = null) {
+	protected function legacyHashVerify($message, $hash, &$newHash = null): bool {
 		if(empty($this->legacySalt)) {
 			$this->legacySalt = $this->config->getSystemValue('passwordsalt', '');
 		}
 
 		// Verify whether it matches a legacy PHPass or SHA1 string
-		$hashLength = strlen($hash);
-		if($hashLength === 60 && password_verify($message.$this->legacySalt, $hash) ||
-			$hashLength === 40 && hash_equals($hash, sha1($message))) {
+		$hashLength = \strlen($hash);
+		if(($hashLength === 60 && password_verify($message.$this->legacySalt, $hash)) ||
+			($hashLength === 40 && hash_equals($hash, sha1($message)))) {
 			$newHash = $this->hash($message);
 			return true;
 		}
@@ -120,15 +123,38 @@ class Hasher implements IHasher {
 	}
 
 	/**
-	 * Verify V1 hashes
+	 * Verify V1 (blowfish) hashes
 	 * @param string $message Message to verify
 	 * @param string $hash Assumed hash of the message
 	 * @param null|string &$newHash Reference will contain the updated hash if necessary. Update the existing hash with this one.
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
-	protected function verifyHashV1($message, $hash, &$newHash = null) {
+	protected function verifyHashV1(string $message, string $hash, &$newHash = null): bool {
 		if(password_verify($message, $hash)) {
-			if(password_needs_rehash($hash, PASSWORD_DEFAULT, $this->options)) {
+			$algo = PASSWORD_BCRYPT;
+			if (\defined('PASSWORD_ARGON2I')) {
+				$algo = PASSWORD_ARGON2I;
+			}
+
+			if(password_needs_rehash($hash, $algo, $this->options)) {
+				$newHash = $this->hash($message);
+			}
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Verify V2 (argon2i) hashes
+	 * @param string $message Message to verify
+	 * @param string $hash Assumed hash of the message
+	 * @param null|string &$newHash Reference will contain the updated hash if necessary. Update the existing hash with this one.
+	 * @return bool Whether $hash is a valid hash of $message
+	 */
+	protected function verifyHashV2(string $message, string $hash, &$newHash = null) : bool {
+		if(password_verify($message, $hash)) {
+			if(password_needs_rehash($hash, PASSWORD_ARGON2I, $this->options)) {
 				$newHash = $this->hash($message);
 			}
 			return true;
@@ -143,11 +169,13 @@ class Hasher implements IHasher {
 	 * @param null|string &$newHash Reference will contain the updated hash if necessary. Update the existing hash with this one.
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
-	public function verify($message, $hash, &$newHash = null) {
+	public function verify(string $message, string $hash, &$newHash = null): bool {
 		$splittedHash = $this->splitHash($hash);
 
 		if(isset($splittedHash['version'])) {
 			switch ($splittedHash['version']) {
+				case 2:
+					return $this->verifyHashV2($message, $splittedHash['hash'], $newHash);
 				case 1:
 					return $this->verifyHashV1($message, $splittedHash['hash'], $newHash);
 			}

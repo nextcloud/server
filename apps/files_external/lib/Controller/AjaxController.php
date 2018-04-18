@@ -30,8 +30,6 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Response;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\AppFramework\Http\JSONResponse;
@@ -110,9 +108,7 @@ class AjaxController extends Controller {
 		$currentUser = $this->userSession->getUser();
 
 		// Non-admins can only edit their own credentials
-		$allowedToEdit = (
-			$this->groupManager->isAdmin($currentUser->getUID()) || $currentUser->getUID() === $uid
-		) ? true : false;
+		$allowedToEdit = ($this->groupManager->isAdmin($currentUser->getUID()) || $currentUser->getUID() === $uid);
 
 		if ($allowedToEdit) {
 			$this->globalAuth->saveAuth($uid, $user, $password);

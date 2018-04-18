@@ -27,6 +27,7 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\Exception\Forbidden;
@@ -41,7 +42,10 @@ use Sabre\DAV\PropPatch;
  */
 class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
-	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n) {
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config) {
 		parent::__construct($caldavBackend, $calendarInfo);
 
 		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
@@ -51,6 +55,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$this->calendarInfo['{DAV:}displayname'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Personal');
 		}
+
+		$this->config = $config;
 	}
 
 	/**
@@ -201,6 +207,16 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			]);
 			return;
 		}
+
+		// Remember when a user deleted their birthday calendar
+		// in order to not regenerate it on the next contacts change
+		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
+			$principalURI = $this->getPrincipalURI();
+			$userId = substr($principalURI, 17);
+
+			$this->config->setUserValue($userId, 'dav', 'generateBirthdayCalendar', 'no');
+		}
+
 		parent::delete();
 	}
 

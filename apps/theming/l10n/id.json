@@ -10,13 +10,13 @@
     "You are already using a custom theme" : "Anda telah siap menggunakan Tema Kustom",
     "Theming" : "Tema",
     "Name" : "Nama",
-    "reset to default" : "Atur ulang ke awal",
     "Web address" : "Alamat Web",
     "Web address https://…" : "Alamat Web https://...",
     "Slogan" : "Slogan",
     "Color" : "Warna",
     "Logo" : "Logo",
     "Upload new logo" : "Unggah Logo baru",
-    "Login image" : "Gambar ketika masuk"
+    "Login image" : "Gambar ketika masuk",
+    "reset to default" : "Atur ulang ke awal"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

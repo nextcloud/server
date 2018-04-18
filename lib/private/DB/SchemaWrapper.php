@@ -23,11 +23,11 @@
 
 namespace OC\DB;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 
-class SchemaWrapper {
+class SchemaWrapper implements ISchemaWrapper {
 
 	/** @var IDBConnection|Connection */
 	protected $connection;
@@ -76,6 +76,13 @@ class SchemaWrapper {
 	// Overwritten methods
 
 	/**
+	 * @return array
+	 */
+	public function getTableNames() {
+		return $this->schema->getTableNames();
+	}
+
+	/**
 	 * @param string $tableName
 	 *
 	 * @return \Doctrine\DBAL\Schema\Table
@@ -107,19 +114,6 @@ class SchemaWrapper {
 	}
 
 	/**
-	 * Renames a table.
-	 *
-	 * @param string $oldTableName
-	 * @param string $newTableName
-	 *
-	 * @return \Doctrine\DBAL\Schema\Schema
-	 * @throws DBALException
-	 */
-	public function renameTable($oldTableName, $newTableName) {
-		throw new DBALException('Renaming tables is not supported. Please create and drop the tables manually.');
-	}
-
-	/**
 	 * Drops a table from the schema.
 	 *
 	 * @param string $tableName
@@ -131,11 +125,11 @@ class SchemaWrapper {
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $arguments
-	 * @return mixed
+	 * Gets all tables of this schema.
+	 *
+	 * @return \Doctrine\DBAL\Schema\Table[]
 	 */
-	public function __call($name, $arguments) {
-		return call_user_func_array([$this->schema, $name], $arguments);
+	public function getTables() {
+		return $this->schema->getTables();
 	}
 }

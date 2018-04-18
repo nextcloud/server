@@ -15,11 +15,11 @@ $color-primary-element: $color-primary;
   @return lighten($color, $value);
 }
 
-$image-logo: '../img/logo-icon.svg?v=1';
+$image-logo: '../img/logo.svg?v=1';
 $image-login-background: '../img/background.png?v=2';
 
 $color-loading: #969696;
 $color-loading-dark: #bbbbbb;
-$color-box-shadow: rgba(nc-darken($color-main-background, 30%), 0.75);
+$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75);
 $color-border: nc-darken($color-main-background, 8%);
 $border-radius: 3px;

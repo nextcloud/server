@@ -25,6 +25,7 @@ describe('OC.Share.ShareItemModel', function() {
 	var fetchSharesDeferred, fetchReshareDeferred;
 	var fileInfoModel, configModel, model;
 	var oldCurrentUser;
+	var capsSpec;
 
 	beforeEach(function() {
 		oldCurrentUser = OC.currentUser;
@@ -56,8 +57,15 @@ describe('OC.Share.ShareItemModel', function() {
 			configModel: configModel,
 			fileInfoModel: fileInfoModel
 		});
+		capsSpec = sinon.stub(OC, 'getCapabilities');
+		capsSpec.returns({
+			'files_sharing': {
+				'default_permissions': OC.PERMISSION_ALL
+			}
+		});
 	});
 	afterEach(function() {
+		capsSpec.restore(); 
 		if (fetchSharesStub) {
 			fetchSharesStub.restore();
 		}
@@ -527,7 +535,22 @@ describe('OC.Share.ShareItemModel', function() {
 				});
 				expect(
 					testWithPermissions(OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
-				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_UPDATE);
+				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
+			});
+			it('uses default permissions from capabilities', function() {
+				capsSpec.returns({
+					'files_sharing': {
+						'default_permissions': OC.PERMISSION_READ | OC.PERMISSION_CREATE | OC.PERMISSION_SHARE
+					}
+				});
+				configModel.set('isResharingAllowed', true);
+				model.set({
+					reshare: {},
+					shares: []
+				});
+				expect(
+					testWithPermissions(OC.PERMISSION_ALL)
+				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_CREATE | OC.PERMISSION_SHARE);
 			});
 		});
 	});

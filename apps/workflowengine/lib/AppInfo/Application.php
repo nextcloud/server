@@ -21,13 +21,17 @@
 
 namespace OCA\WorkflowEngine\AppInfo;
 
+use OCP\Template;
+use OCA\WorkflowEngine\Controller\RequestTime;
+use OCA\WorkflowEngine\Controller\FlowOperations;
+
 class Application extends \OCP\AppFramework\App {
 
 	public function __construct() {
 		parent::__construct('workflowengine');
 
-		$this->getContainer()->registerAlias('FlowOperationsController', 'OCA\WorkflowEngine\Controller\FlowOperations');
-		$this->getContainer()->registerAlias('RequestTimeController', 'OCA\WorkflowEngine\Controller\RequestTime');
+		$this->getContainer()->registerAlias('FlowOperationsController', FlowOperations::class);
+		$this->getContainer()->registerAlias('RequestTimeController', RequestTime::class);
 	}
 
 	/**
@@ -40,7 +44,7 @@ class Application extends \OCP\AppFramework\App {
 			function() {
 				if (!function_exists('style')) {
 					// This is hacky, but we need to load the template class
-					class_exists('OCP\Template', true);
+					class_exists(Template::class, true);
 				}
 
 				style('workflowengine', [

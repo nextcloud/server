@@ -130,7 +130,7 @@ OC.FileUpload.prototype = {
 	},
 
 	/**
-	 * Get full path for the target file, 
+	 * Get full path for the target file,
 	 * including relative path and file name.
 	 *
 	 * @return {String} full path
@@ -235,7 +235,7 @@ OC.FileUpload.prototype = {
 		) {
 			data.isChunked = true;
 			chunkFolderPromise = this.uploader.davClient.createDirectory(
-				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+				'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
 			);
 			// TODO: if fails, it means same id already existed, need to retry
 		} else {
@@ -260,18 +260,29 @@ OC.FileUpload.prototype = {
 		}
 
 		var uid = OC.getCurrentUser().uid;
+		var mtime = this.getFile().lastModified;
+		var size = this.getFile().size;
+		var headers = {};
+		if (mtime) {
+			headers['X-OC-Mtime'] = mtime / 1000;
+		}
+		if (size) {
+			headers['OC-Total-Length'] = size;
+
+		}
+
 		return this.uploader.davClient.move(
-			'uploads/' + encodeURIComponent(uid) + '/' + encodeURIComponent(this.getId()) + '/.file',
-			'files/' + encodeURIComponent(uid) + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
+			'uploads/' + uid + '/' + this.getId() + '/.file',
+			'files/' + uid + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
 			true,
-			{'X-OC-Mtime': this.getFile().lastModified / 1000}
+			headers
 		);
 	},
 
 	_deleteChunkFolder: function() {
 		// delete transfer directory for this upload
 		this.uploader.davClient.remove(
-			'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+			'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
 		);
 	},
 
@@ -303,7 +314,23 @@ OC.FileUpload.prototype = {
 	 */
 	getResponse: function() {
 		var response = this.data.response();
-		if (typeof response.result !== 'string') {
+		if (response.errorThrown) {
+			// attempt parsing Sabre exception is available
+			var xml = response.jqXHR.responseXML;
+			if (xml.documentElement.localName === 'error' && xml.documentElement.namespaceURI === 'DAV:') {
+				var messages = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'message');
+				var exceptions = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'exception');
+				if (messages.length) {
+					response.message = messages[0].textContent;
+				}
+				if (exceptions.length) {
+					response.exception = exceptions[0].textContent;
+				}
+				return response;
+			}
+		}
+
+		if (typeof response.result !== 'string' && response.result) {
 			//fetch response from iframe
 			response = $.parseJSON(response.result[0].body.innerText);
 			if (!response) {
@@ -947,7 +974,12 @@ OC.Uploader.prototype = _.extend({
 						self.cancelUploads();
 					} else {
 						// HTTP connection problem or other error
-						OC.Notification.show(data.errorThrown, {type: 'error'});
+						var message = '';
+						if (upload) {
+							var response = upload.getResponse();
+							message = response.message;
+						}
+						OC.Notification.show(message || data.errorThrown, {type: 'error'});
 					}
 
 					if (upload) {
@@ -1076,14 +1108,11 @@ OC.Uploader.prototype = _.extend({
 					self.log('progress handle fileuploadstop', e, data);
 
 					self.clear();
+					self._hideProgressBar();
 					self.trigger('stop', e, data);
 				});
 				fileupload.on('fileuploadfail', function(e, data) {
 					self.log('progress handle fileuploadfail', e, data);
-					//if user pressed cancel hide upload progress bar and cancel button
-					if (data.errorThrown === 'abort') {
-						self._hideProgressBar();
-					}
 					self.trigger('fail', e, data);
 				});
 				var disableDropState = function() {
@@ -1133,27 +1162,26 @@ OC.Uploader.prototype = _.extend({
 					var chunkId = range.split('/')[0].split('-')[0];
 					data.url = OC.getRootPath() +
 						'/remote.php/dav/uploads' +
-						'/' + encodeURIComponent(OC.getCurrentUser().uid) +
-						'/' + encodeURIComponent(upload.getId()) +
-						'/' + encodeURIComponent(chunkId);
+						'/' + OC.getCurrentUser().uid +
+						'/' + upload.getId() +
+						'/' + chunkId;
 					delete data.contentRange;
 					delete data.headers['Content-Range'];
 				});
 				fileupload.on('fileuploaddone', function(e, data) {
 					var upload = self.getUpload(data);
 					upload.done().then(function() {
-						self._hideProgressBar();
 						self.trigger('done', e, upload);
-					}).fail(function(status) {
-						self._hideProgressBar();
+					}).fail(function(status, response) {
+						var message = response.message;
 						if (status === 507) {
 							// not enough space
-							OC.Notification.show(t('files', 'Not enough free space'), {type: 'error'});
+							OC.Notification.show(message || t('files', 'Not enough free space'), {type: 'error'});
 							self.cancelUploads();
 						} else if (status === 409) {
-							OC.Notification.show(t('files', 'Target folder does not exist any more'), {type: 'error'});
+							OC.Notification.show(message || t('files', 'Target folder does not exist any more'), {type: 'error'});
 						} else {
-							OC.Notification.show(t('files', 'Error when assembling chunks, status code {status}', {status: status}), {type: 'error'});
+							OC.Notification.show(message || t('files', 'Error when assembling chunks, status code {status}', {status: status}), {type: 'error'});
 						}
 						self.trigger('fail', e, data);
 					});

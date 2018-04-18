@@ -31,6 +31,7 @@ $pullRequestNumber = getenv('DRONE_PULL_REQUEST');
 $repoOwner = getenv('DRONE_REPO_OWNER');
 $repoName = getenv('DRONE_REPO_NAME');
 $droneEvent = getenv('DRONE_BUILD_EVENT');
+$githubToken = getenv('GITHUB_TOKEN');
 
 if(is_string($droneEvent) && $droneEvent === 'push') {
 	echo("Push event - no signed-off check required.\n");
@@ -52,10 +53,16 @@ if(!is_string($repoName) || $repoName === '') {
 	exit(1);
 }
 
+if(!is_string($githubToken) || $githubToken === '') {
+	echo("The environment variable GITHUB_TOKEN has no proper value.\n");
+	exit(1);
+}
+
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/'.$repoOwner.'/'.$repoName.'/pulls/'.$pullRequestNumber.'/commits');
 curl_setopt($ch, CURLOPT_USERAGENT, 'CI for Nextcloud (https://github.com/nextcloud/server)');
+curl_setopt($ch, CURLOPT_HTTPHEADER, 'Authorization: token ' . $githubToken);
 $response = curl_exec($ch);
 curl_close($ch);
 

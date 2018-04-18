@@ -46,7 +46,6 @@ use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
 use Sabre\DAV\Exception\BadRequest;
-use Sabre\HTTP\URLUtil;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

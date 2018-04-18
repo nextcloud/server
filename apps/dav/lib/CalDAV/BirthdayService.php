@@ -31,6 +31,7 @@ namespace OCA\DAV\CalDAV;
 use Exception;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\DAV\GroupPrincipalBackend;
+use OCP\IConfig;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\DateTimeParser;
@@ -52,17 +53,22 @@ class BirthdayService {
 	/** @var CardDavBackend  */
 	private $cardDavBackEnd;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * BirthdayService constructor.
 	 *
 	 * @param CalDavBackend $calDavBackEnd
 	 * @param CardDavBackend $cardDavBackEnd
 	 * @param GroupPrincipalBackend $principalBackend
+	 * @param IConfig $config;
 	 */
-	public function __construct(CalDavBackend $calDavBackEnd, CardDavBackend $cardDavBackEnd, GroupPrincipalBackend $principalBackend) {
+	public function __construct(CalDavBackend $calDavBackEnd, CardDavBackend $cardDavBackEnd, GroupPrincipalBackend $principalBackend, IConfig $config) {
 		$this->calDavBackEnd = $calDavBackEnd;
 		$this->cardDavBackEnd = $cardDavBackEnd;
 		$this->principalBackend = $principalBackend;
+		$this->config = $config;
 	}
 
 	/**
@@ -71,8 +77,11 @@ class BirthdayService {
 	 * @param string $cardData
 	 */
 	public function onCardChanged($addressBookId, $cardUri, $cardData) {
+		if (!$this->isGloballyEnabled()) {
+			return;
+		}
+
 		$targetPrincipals = $this->getAllAffectedPrincipals($addressBookId);
-		
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
 		$targetPrincipals[] = $book['principaluri'];
 		$datesToSync = [
@@ -81,6 +90,10 @@ class BirthdayService {
 			['postfix' => '-anniversary', 'field' => 'ANNIVERSARY', 'symbol' => "⚭"],
 		];
 		foreach ($targetPrincipals as $principalUri) {
+			if (!$this->isUserEnabled($principalUri)) {
+				continue;
+			}
+
 			$calendar = $this->ensureCalendarExists($principalUri);
 			foreach ($datesToSync as $type) {
 				$this->updateCalendar($cardUri, $cardData, $book, $calendar['id'], $type);
@@ -93,10 +106,18 @@ class BirthdayService {
 	 * @param string $cardUri
 	 */
 	public function onCardDeleted($addressBookId, $cardUri) {
+		if (!$this->isGloballyEnabled()) {
+			return;
+		}
+
 		$targetPrincipals = $this->getAllAffectedPrincipals($addressBookId);
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
 		$targetPrincipals[] = $book['principaluri'];
 		foreach ($targetPrincipals as $principalUri) {
+			if (!$this->isUserEnabled($principalUri)) {
+				continue;
+			}
+
 			$calendar = $this->ensureCalendarExists($principalUri);
 			foreach (['', '-death', '-anniversary'] as $tag) {
 				$objectUri = $book['uri'] . '-' . $cardUri . $tag .'.ics';
@@ -127,10 +148,11 @@ class BirthdayService {
 	/**
 	 * @param string $cardData
 	 * @param string $dateField
+	 * @param string $postfix
 	 * @param string $summarySymbol
 	 * @return null|VCalendar
 	 */
-	public function buildDateFromContact($cardData, $dateField, $summarySymbol) {
+	public function buildDateFromContact($cardData, $dateField, $postfix, $summarySymbol) {
 		if (empty($cardData)) {
 			return null;
 		}
@@ -200,7 +222,7 @@ class BirthdayService {
 			$date
 		);
 		$vEvent->DTEND['VALUE'] = 'DATE';
-		$vEvent->{'UID'} = $doc->UID;
+		$vEvent->{'UID'} = $doc->UID . $postfix;
 		$vEvent->{'RRULE'} = 'FREQ=YEARLY';
 		$vEvent->{'SUMMARY'} = $summary;
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
@@ -276,7 +298,7 @@ class BirthdayService {
 	 */
 	private function updateCalendar($cardUri, $cardData, $book, $calendarId, $type) {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
-		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['symbol']);
+		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $type['symbol']);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
 		if (is_null($calendarData)) {
 			if (!is_null($existing)) {
@@ -291,6 +313,33 @@ class BirthdayService {
 				}
 			}
 		}
+	}
+
+	/**
+	 * checks if the admin opted-out of birthday calendars
+	 *
+	 * @return bool
+	 */
+	private function isGloballyEnabled() {
+		$isGloballyEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');
+		return $isGloballyEnabled === 'yes';
+	}
+
+	/**
+	 * checks if the user opted-out of birthday calendars
+	 *
+	 * @param $userPrincipal
+	 * @return bool
+	 */
+	private function isUserEnabled($userPrincipal) {
+		if (strpos($userPrincipal, 'principals/users/') === 0) {
+			$userId = substr($userPrincipal, 17);
+			$isEnabled = $this->config->getUserValue($userId, 'dav', 'generateBirthdayCalendar', 'yes');
+			return $isEnabled === 'yes';
+		}
+
+		// not sure how we got here, just be on the safe side and return true
+		return true;
 	}
 
 }

@@ -53,7 +53,7 @@ interface File extends Node {
 	 *
 	 * @param string $data
 	 * @throws \OCP\Files\NotPermittedException
-	 * @return void
+	 * @throws \OCP\Files\GenericFileException
 	 * @since 6.0.0
 	 */
 	public function putContent($data);

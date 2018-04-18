@@ -21,6 +21,7 @@
 			<directory suffix=".php">..</directory>
 			<exclude>
 				<directory suffix=".php">../3rdparty</directory>
+				<directory suffix=".php">../apps/admin_audit/tests</directory>
 				<directory suffix=".php">../apps/dav/tests</directory>
 				<directory suffix=".php">../apps/encryption/tests</directory>
 				<directory suffix=".php">../apps/federatedfilesharing/tests</directory>

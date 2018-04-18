@@ -23,6 +23,9 @@ namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\Swift;
 
+/**
+ * @group PRIMARY-swift
+ */
 class SwiftTest extends ObjectStoreTest {
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore

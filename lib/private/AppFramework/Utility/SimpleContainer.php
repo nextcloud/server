@@ -46,6 +46,7 @@ class SimpleContainer extends Container implements IContainer {
 	/**
 	 * @param ReflectionClass $class the class to instantiate
 	 * @return \stdClass the created class
+	 * @suppress PhanUndeclaredClassInstanceof
 	 */
 	private function buildClass(ReflectionClass $class) {
 		$constructor = $class->getConstructor();
@@ -66,6 +67,12 @@ class SimpleContainer extends Container implements IContainer {
 				try {
 					$parameters[] = $this->query($resolveName);
 				} catch (\Exception $e) {
+					if (class_exists('PHPUnit_Framework_AssertionFailedError', false) &&
+						$e instanceof \PHPUnit_Framework_AssertionFailedError) {
+						// Easier debugging of "Your test case is not allowed to access the database."
+						throw $e;
+					}
+
 					// Service not found, use the default value when available
 					if ($parameter->isDefaultValueAvailable()) {
 						$parameters[] = $parameter->getDefaultValue();

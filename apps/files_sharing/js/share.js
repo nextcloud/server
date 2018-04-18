@@ -12,6 +12,7 @@
 
 	_.extend(OC.Files.Client, {
 		PROPERTY_SHARE_TYPES:	'{' + OC.Files.Client.NS_OWNCLOUD + '}share-types',
+		PROPERTY_OWNER_ID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}owner-id',
 		PROPERTY_OWNER_DISPLAY_NAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}owner-display-name'
 	});
 
@@ -46,13 +47,14 @@
 				tr.attr('data-share-permissions', sharePermissions);
 				if (fileData.shareOwner) {
 					tr.attr('data-share-owner', fileData.shareOwner);
+					tr.attr('data-share-owner-id', fileData.shareOwnerId);
 					// user should always be able to rename a mount point
 					if (fileData.mountType === 'shared-root') {
 						tr.attr('data-permissions', fileData.permissions | OC.PERMISSION_UPDATE);
 					}
 				}
-				if (fileData.recipientsDisplayName) {
-					tr.attr('data-share-recipients', fileData.recipientsDisplayName);
+				if (fileData.recipientData && !_.isEmpty(fileData.recipientData)) {
+					tr.attr('data-share-recipient-data', JSON.stringify(fileData.recipientData));
 				}
 				if (fileData.shareTypes) {
 					tr.attr('data-share-types', fileData.shareTypes.join(','));
@@ -65,10 +67,10 @@
 				var fileInfo = oldElementToFile.apply(this, arguments);
 				fileInfo.sharePermissions = $el.attr('data-share-permissions') || undefined;
 				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined;
+				fileInfo.shareOwnerId = $el.attr('data-share-owner-id') || undefined;
 
 				if( $el.attr('data-share-types')){
-					var shareTypes = $el.attr('data-share-types').split(',');
-					fileInfo.shareTypes = shareTypes;
+					fileInfo.shareTypes = $el.attr('data-share-types').split(',');
 				}
 
 				if( $el.attr('data-expiration')){
@@ -77,14 +79,13 @@
 					fileInfo.shares.push({expiration: expirationTimestamp});
 				}
 
-				fileInfo.recipientsDisplayName = $el.attr('data-share-recipients') || undefined;
-
 				return fileInfo;
 			};
 
 			var oldGetWebdavProperties = fileList._getWebdavProperties;
 			fileList._getWebdavProperties = function() {
 				var props = oldGetWebdavProperties.apply(this, arguments);
+				props.push(OC.Files.Client.PROPERTY_OWNER_ID);
 				props.push(OC.Files.Client.PROPERTY_OWNER_DISPLAY_NAME);
 				props.push(OC.Files.Client.PROPERTY_SHARE_TYPES);
 				return props;
@@ -97,6 +98,7 @@
 
 				if (permissionsProp && permissionsProp.indexOf('S') >= 0) {
 					data.shareOwner = props[OC.Files.Client.PROPERTY_OWNER_DISPLAY_NAME];
+					data.shareOwnerId = props[OC.Files.Client.PROPERTY_OWNER_ID];
 				}
 
 				var shareTypesProp = props[OC.Files.Client.PROPERTY_SHARE_TYPES];
@@ -218,10 +220,13 @@
 			var recipients = _.pluck(shareModel.get('shares'), 'share_with_displayname');
 			// note: we only update the data attribute because updateIcon()
 			if (recipients.length) {
-				$tr.attr('data-share-recipients', OCA.Sharing.Util.formatRecipients(recipients));
+				var recipientData = _.mapObject(shareModel.get('shares'), function (share) {
+					return {shareWith: share.share_with, shareWithDisplayName: share.share_with_displayname};
+				});
+				$tr.attr('data-share-recipient-data', JSON.stringify(recipientData));
 			}
 			else {
-				$tr.removeAttr('data-share-recipients');
+				$tr.removeAttr('data-share-recipient-data');
 			}
 		},
 
@@ -229,44 +234,19 @@
 		 * Update the file action share icon for the given file
 		 *
 		 * @param $tr file element of the file to update
-		 * @param {bool} hasUserShares true if a user share exists
-		 * @param {bool} hasLinkShare true if a link share exists
+		 * @param {boolean} hasUserShares true if a user share exists
+		 * @param {boolean} hasLinkShare true if a link share exists
 		 *
-		 * @return {bool} true if the icon was set, false otherwise
+		 * @return {boolean} true if the icon was set, false otherwise
 		 */
 		_updateFileActionIcon: function($tr, hasUserShares, hasLinkShare) {
 			// if the statuses are loaded already, use them for the icon
 			// (needed when scrolling to the next page)
-			if (hasUserShares || hasLinkShare || $tr.attr('data-share-recipients') || $tr.attr('data-share-owner')) {
+			if (hasUserShares || hasLinkShare || $tr.attr('data-share-recipient-data') || $tr.attr('data-share-owner')) {
 				OC.Share.markFileAsShared($tr, true, hasLinkShare);
 				return true;
 			}
 			return false;
-		},
-
-		/**
-		 * Formats a recipients array to be displayed.
-		 * The first four recipients will be shown and the
-		 * other ones will be shown as "+x" where "x" is the number of
-		 * remaining recipients.
-		 *
-		 * @param {Array.<String>} recipients recipients array
-		 * @param {int} count optional total recipients count (in case the array was shortened)
-		 * @return {String} formatted recipients display text
-		 */
-		formatRecipients: function(recipients, count) {
-			var maxRecipients = 4;
-			var text;
-			if (!_.isNumber(count)) {
-				count = recipients.length;
-			}
-			// TODO: use natural sort
-			recipients = _.first(recipients, maxRecipients).sort();
-			text = recipients.join(', ');
-			if (count > maxRecipients) {
-				text += ', +' + (count - maxRecipients);
-			}
-			return text;
 		},
 
 		/**

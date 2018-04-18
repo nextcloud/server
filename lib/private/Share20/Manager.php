@@ -64,6 +64,7 @@ use OCP\Share\IProviderFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IShareProvider;
+use OCP\Share;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -536,7 +537,7 @@ class Manager implements IManager {
 				/** @var \OCA\Files_Sharing\SharedStorage $storage */
 				$share->setParent($storage->getShareId());
 			}
-		};
+		}
 	}
 
 	/**
@@ -669,26 +670,31 @@ class Manager implements IManager {
 		$this->eventDispatcher->dispatch('OCP\Share::postShare', $event);
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
-			$user = $this->userManager->get($share->getSharedWith());
-			if ($user !== null) {
-				$emailAddress = $user->getEMailAddress();
-				if ($emailAddress !== null && $emailAddress !== '') {
-					$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
-					$l = $this->l10nFactory->get('lib', $userLang);
-					$this->sendMailNotification(
-						$l,
-						$share->getNode()->getName(),
-						$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [ 'fileid' => $share->getNode()->getId() ]),
-						$share->getSharedBy(),
-						$emailAddress,
-						$share->getExpirationDate()
-					);
-					$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
+			$mailSend = $share->getMailSend();
+			if($mailSend === true) {
+				$user = $this->userManager->get($share->getSharedWith());
+				if ($user !== null) {
+					$emailAddress = $user->getEMailAddress();
+					if ($emailAddress !== null && $emailAddress !== '') {
+						$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
+						$l = $this->l10nFactory->get('lib', $userLang);
+						$this->sendMailNotification(
+							$l,
+							$share->getNode()->getName(),
+							$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]),
+							$share->getSharedBy(),
+							$emailAddress,
+							$share->getExpirationDate()
+						);
+						$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
+					} else {
+						$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					}
 				} else {
-					$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
 				}
 			} else {
-				$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
+				$this->logger->debug('Share notification not send because mailsend is false.', ['app' => 'share']);
 			}
 		}
 
@@ -729,7 +735,7 @@ class Manager implements IManager {
 		$text = $l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
 
 		$emailTemplate->addBodyText(
-			$text . ' ' . $l->t('Click the button below to open it.'),
+			htmlspecialchars($text . ' ' . $l->t('Click the button below to open it.')),
 			$text
 		);
 		$emailTemplate->addBodyButton(
@@ -833,7 +839,7 @@ class Manager implements IManager {
 		}
 
 		if ($expirationDateUpdated === true) {
-			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
+			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'date' => $share->getExpirationDate(),
@@ -842,7 +848,7 @@ class Manager implements IManager {
 		}
 
 		if ($share->getPassword() !== $originalShare->getPassword()) {
-			\OC_Hook::emit('OCP\Share', 'post_update_password', [
+			\OC_Hook::emit(Share::class, 'post_update_password', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'uidOwner' => $share->getSharedBy(),
@@ -857,7 +863,7 @@ class Manager implements IManager {
 			} else {
 				$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 			}
-			\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
+			\OC_Hook::emit(Share::class, 'post_update_permissions', array(
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'shareType' => $share->getShareType(),
@@ -1390,7 +1396,13 @@ class Manager implements IManager {
 			foreach ($tmp as $k => $v) {
 				if (isset($al[$k])) {
 					if (is_array($al[$k])) {
-						$al[$k] = array_merge($al[$k], $v);
+						if ($currentAccess) {
+							$al[$k] += $v;
+						} else {
+							$al[$k] = array_merge($al[$k], $v);
+							$al[$k] = array_unique($al[$k]);
+							$al[$k] = array_values($al[$k]);
+						}
 					} else {
 						$al[$k] = $al[$k] || $v;
 					}

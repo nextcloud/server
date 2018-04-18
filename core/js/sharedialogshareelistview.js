@@ -30,7 +30,7 @@
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
 						'<span class="shareOption">' +
-							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
+							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" />' +
 							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
 						'</span>' +
 						'{{/if}}' +
@@ -104,7 +104,7 @@
 							'<label for="password-{{cid}}-{{shareId}}">{{passwordLabel}}</label>' +
 							'<div class="passwordContainer-{{cid}}-{{shareId}} {{#unless isPasswordSet}}hidden{{/unless}}">' +
 							'    <label for="passwordField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordLabel}}</label>' +
-							'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" />' +
+							'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" autocomplete="new-password" />' +
 							'    <span class="icon-loading-small hidden"></span>' +
 							'</div>' +
 						'</span>' +
@@ -116,7 +116,7 @@
 						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
 						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless hasExpireDate}}hidden{{/unless}}">' +
 						'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expireDate}}" />' +
+						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
 						'</div>' +
 					'</span>' +
 				'</li>' +
@@ -232,7 +232,7 @@
 			return _.extend(hasPermissionOverride, {
 				cid: this.cid,
 				hasSharePermission: this.model.hasSharePermission(shareIndex),
-				hasEditPermission: this.model.hasEditPermission(shareIndex),
+				editPermissionState: this.model.editPermissionState(shareIndex),
 				hasCreatePermission: this.model.hasCreatePermission(shareIndex),
 				hasUpdatePermission: this.model.hasUpdatePermission(shareIndex),
 				hasDeletePermission: this.model.hasDeletePermission(shareIndex),
@@ -241,7 +241,7 @@
 				shareWithTitle: shareWithTitle,
 				shareType: shareType,
 				shareId: this.model.get('shares')[shareIndex].id,
-				modSeed: shareType !== OC.Share.SHARE_TYPE_USER,
+				modSeed: shareType !== OC.Share.SHARE_TYPE_USER && shareType !== OC.Share.SHARE_TYPE_CIRCLE,
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
 				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
@@ -266,6 +266,8 @@
 				expireDateLabel: t('core', 'Set expiration date'),
 				passwordLabel: t('core', 'Password protect'),
 				crudsLabel: t('core', 'Access control'),
+				expirationDatePlaceholder: t('core', 'Expiration date'),
+				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
 				triangleSImage: OC.imagePath('core', 'actions/triangle-s'),
 				isResharingAllowed: this.configModel.get('isResharingAllowed'),
 				isPasswordForMailSharesRequired: this.configModel.get('isPasswordForMailSharesRequired'),
@@ -376,17 +378,19 @@
 				var sharee = this.getShareeObject(shareWithIndex);
 				$.extend(sharee, this.getShareProperties());
 				var $li = this.$('li[data-share-id=' + permissionChangeShareId + ']');
-				$li.find('.popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
-
-				var checkBoxId = 'canEdit-' + this.cid + '-' + sharee.shareWith;
-				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
-				var $edit = $li.parent().find(checkBoxId);
-				if($edit.length === 1) {
-					$edit.prop('checked', sharee.hasEditPermission);
-				}
+				$li.find('.sharingOptionsGroup .popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
 			}
 
 			var _this = this;
+			this.getShareeList().forEach(function(sharee) {
+				var checkBoxId = 'canEdit-' + _this.cid + '-' + sharee.shareWith;
+				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@|\/)/g, "\\$1");
+				var $edit = _this.$(checkBoxId);
+				if($edit.length === 1) {
+					$edit.prop('checked', sharee.editPermissionState === 'checked');
+					$edit.prop('indeterminate', sharee.editPermissionState === 'indeterminate');
+				}
+			});
 			this.$('.popovermenu').on('afterHide', function() {
 				_this._menuOpen = false;
 			});
@@ -403,12 +407,12 @@
 					}
 				}
 			});
-			if (this._menuOpen != false) {
+			if (this._menuOpen !== false) {
 				// Open menu again if it was opened before
 				var shareId = parseInt(this._menuOpen, 10);
 				if(!_.isNaN(shareId)) {
 					var liSelector = 'li[data-share-id=' + shareId + ']';
-					OC.showMenu(null, this.$(liSelector + '.sharingOptionsGroup .popovermenu'));
+					OC.showMenu(null, this.$(liSelector + ' .sharingOptionsGroup .popovermenu'));
 				}
 			}
 
@@ -513,19 +517,14 @@
 			var shareId = li.data('share-id');
 			var expirationDatePicker = '#expirationDatePicker-' + this.cid + '-' + shareId;
 			var view = this;
-			$(expirationDatePicker).closest('div').datepicker({
+			$(expirationDatePicker).datepicker({
 				dateFormat : 'dd-mm-yy',
-				onSelect:
-					function (expireDate) {
-						view.setExpirationDate(shareId, expireDate);
-					},
-				onClose:
-					function () {
-						$(expirationDatePicker).removeClass('hidden-visually');
-					}
+				onSelect: function (expireDate) {
+					view.setExpirationDate(shareId, expireDate);
+				}
 			});
+			$(expirationDatePicker).focus();
 
-			$(expirationDatePicker).addClass('hidden-visually');
 		},
 
 		setExpirationDate: function(shareId, expireDate) {
@@ -630,8 +629,10 @@
 					}
 				} else {
 					var numberChecked = $checkboxes.filter(':checked').length;
-					checked = numberChecked > 0;
-					$('input[name="edit"]', $li).prop('checked', checked);
+					checked = numberChecked === $checkboxes.length;
+					var $editCb = $('input[name="edit"]', $li);
+					$editCb.prop('checked', checked);
+					$editCb.prop('indeterminate', !checked && numberChecked > 0);
 				}
 			} else {
 				if ($element.attr('name') === 'edit' && $element.is(':checked')) {

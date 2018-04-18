@@ -29,9 +29,13 @@ namespace OCA\DAV\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
+use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\InvalidSyncToken;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\ServiceUnavailable;
 
@@ -41,6 +45,8 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// If tokenauth can throw this exception (which is basically as
 		// NotAuthenticated. So not fatal.
 		PasswordLoginForbidden::class => true,
+		// basically a NotAuthenticated
+		InvalidSyncToken::class => true,
 		// the sync client uses this to find out whether files exist,
 		// so it is not always an error, log it as debug
 		NotFound::class => true,
@@ -54,6 +60,15 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// Happens when an external storage or federated share is temporarily
 		// not available
 		StorageNotAvailableException::class => true,
+		// happens if some a client uses the wrong method for a given URL
+		// the error message itself is visible on the client side anyways
+		NotImplemented::class => true,
+		// happens when the parent directory is not present (for example when a
+		// move is done to a non-existent directory)
+		Conflict::class => true,
+		// happens when a certain method is not allowed to be called
+		// for example creating a folder that already exists
+		MethodNotAllowed::class => true,
 	];
 
 	/** @var string */

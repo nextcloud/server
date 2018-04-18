@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -48,7 +49,7 @@ class LockedException extends \Exception {
 	 *
 	 * @since 8.1.0
 	 */
-	public function __construct($path, \Exception $previous = null) {
+	public function __construct(string $path, \Exception $previous = null) {
 		parent::__construct('"' . $path . '" is locked', 0, $previous);
 		$this->path = $path;
 	}
@@ -57,7 +58,7 @@ class LockedException extends \Exception {
 	 * @return string
 	 * @since 8.1.0
 	 */
-	public function getPath() {
+	public function getPath(): string {
 		return $this->path;
 	}
 }

@@ -85,7 +85,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 */
 	static private function getRefreshInterval() {
 		//defaults to every hour
-		return \OCP\Config::getAppValue('user_ldap', 'bgjRefreshInterval', 3600);
+		return \OC::$server->getConfig()->getAppValue('user_ldap', 'bgjRefreshInterval', 3600);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 */
 	static private function handleKnownGroups($groups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Dealing with known Groups.', \OCP\Util::DEBUG);
-		$query = \OCP\DB::prepare('
+		$query = \OC_DB::prepare('
 			UPDATE `*PREFIX*ldap_group_members`
 			SET `owncloudusers` = ?
 			WHERE `owncloudname` = ?
@@ -131,7 +131,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 */
 	static private function handleCreatedGroups($createdGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with created Groups.', \OCP\Util::DEBUG);
-		$query = \OCP\DB::prepare('
+		$query = \OC_DB::prepare('
 			INSERT
 			INTO `*PREFIX*ldap_group_members` (`owncloudname`, `owncloudusers`)
 			VALUES (?, ?)
@@ -153,7 +153,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 */
 	static private function handleRemovedGroups($removedGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with removed groups.', \OCP\Util::DEBUG);
-		$query = \OCP\DB::prepare('
+		$query = \OC_DB::prepare('
 			DELETE
 			FROM `*PREFIX*ldap_group_members`
 			WHERE `owncloudname` = ?
@@ -192,7 +192,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 				\OC::$server->getUserManager(),
 				\OC::$server->getNotificationManager());
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
-			$ldapAccess = new Access($connector, $ldapWrapper, $userManager, $helper, \OC::$server->getConfig());
+			$ldapAccess = new Access($connector, $ldapWrapper, $userManager, $helper, \OC::$server->getConfig(), \OC::$server->getUserManager());
 			$groupMapper = new GroupMapping($dbc);
 			$userMapper  = new UserMapping($dbc);
 			$ldapAccess->setGroupMapper($groupMapper);
@@ -212,7 +212,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 		if(is_array(self::$groupsFromDB)) {
 			return self::$groupsFromDB;
 		}
-		$query = \OCP\DB::prepare('
+		$query = \OC_DB::prepare('
 			SELECT `owncloudname`, `owncloudusers`
 			FROM `*PREFIX*ldap_group_members`
 		');

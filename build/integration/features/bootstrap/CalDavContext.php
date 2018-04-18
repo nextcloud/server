@@ -83,7 +83,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 		$password = ($user === 'admin') ? 'admin' : '123456';
 		try {
-			$request = $this->client->createRequest(
+			$this->response = $this->client->request(
 				'PROPFIND',
 				$davUrl,
 				[
@@ -93,7 +93,6 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -170,7 +169,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$user.'/'.$name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
-		$request = $this->client->createRequest(
+		$this->response = $this->client->request(
 			'MKCALENDAR',
 			$davUrl,
 			[
@@ -181,8 +180,6 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 				],
 			]
 		);
-
-		$this->response = $this->client->send($request);
 	}
 
 	/**
@@ -195,7 +192,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$user.'/'.$name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
-		$request = $this->client->createRequest(
+		$this->response = $this->client->request(
 			'POST',
 			$davUrl,
 			[
@@ -209,8 +206,6 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 				],
 			]
 		);
-
-		$this->response = $this->client->send($request);
 	}
 
 	/**

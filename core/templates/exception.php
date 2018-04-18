@@ -12,14 +12,14 @@ style('core', ['styles', 'header']);
 
 	<h3><?php p($l->t('Technical details')) ?></h3>
 	<ul>
-		<li><?php p($l->t('Remote Address: %s', $_['remoteAddr'])) ?></li>
-		<li><?php p($l->t('Request ID: %s', $_['requestID'])) ?></li>
+		<li><?php p($l->t('Remote Address: %s', [$_['remoteAddr']])) ?></li>
+		<li><?php p($l->t('Request ID: %s', [$_['requestID']])) ?></li>
 		<?php if($_['debugMode']): ?>
-			<li><?php p($l->t('Type: %s', $_['errorClass'])) ?></li>
-			<li><?php p($l->t('Code: %s', $_['errorCode'])) ?></li>
-			<li><?php p($l->t('Message: %s', $_['errorMsg'])) ?></li>
-			<li><?php p($l->t('File: %s', $_['file'])) ?></li>
-			<li><?php p($l->t('Line: %s', $_['line'])) ?></li>
+			<li><?php p($l->t('Type: %s', [$_['errorClass']])) ?></li>
+			<li><?php p($l->t('Code: %s', [$_['errorCode']])) ?></li>
+			<li><?php p($l->t('Message: %s', [$_['errorMsg']])) ?></li>
+			<li><?php p($l->t('File: %s', [$_['file']])) ?></li>
+			<li><?php p($l->t('Line: %s', [$_['line']])) ?></li>
 		<?php endif; ?>
 	</ul>
 

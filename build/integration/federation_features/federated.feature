@@ -113,7 +113,7 @@ Feature: federated
 			| permissions | 19 |
 			| stime | A_NUMBER |
 			| storage | A_NUMBER |
-			| mail_send | 0 |
+			| mail_send | 1 |
 			| uid_owner | user1 |
 			| file_parent | A_NUMBER |
 			| displayname_owner | user1 |

@@ -194,9 +194,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 						'message' => 'Could not delete object ' . $this->getURN($stat['fileid']) . ' for ' . $path,
 					]);
 					return false;
-				} else {
-					//removing from cache is ok as it does not exist in the objectstore anyway
 				}
+				//removing from cache is ok as it does not exist in the objectstore anyway
 			}
 			$this->getCache()->remove($path);
 			return true;
@@ -262,6 +261,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	public function fopen($path, $mode) {
 		$path = $this->normalizePath($path);
 
+		if (strrpos($path, '.') !== false) {
+			$ext = substr($path, strrpos($path, '.'));
+		} else {
+			$ext = '';
+		}
+
 		switch ($mode) {
 			case 'r':
 			case 'rb':
@@ -281,21 +286,21 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				}
 			case 'w':
 			case 'wb':
+			case 'w+':
+			case 'wb+':
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$handle = fopen($tmpFile, $mode);
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+					$this->writeBack($tmpFile, $path);
+				});
 			case 'a':
 			case 'ab':
 			case 'r+':
-			case 'w+':
-			case 'wb+':
 			case 'a+':
 			case 'x':
 			case 'x+':
 			case 'c':
 			case 'c+':
-				if (strrpos($path, '.') !== false) {
-					$ext = substr($path, strrpos($path, '.'));
-				} else {
-					$ext = '';
-				}
 				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
@@ -351,27 +356,26 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			$stat['mtime'] = $mtime;
 			$this->getCache()->update($stat['fileid'], $stat);
 		} else {
-			$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
-			// create new file
-			$stat = array(
-				'etag' => $this->getETag($path),
-				'mimetype' => $mimeType,
-				'size' => 0,
-				'mtime' => $mtime,
-				'storage_mtime' => $mtime,
-				'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
-			);
-			$fileId = $this->getCache()->put($path, $stat);
 			try {
-				//read an empty file from memory
+				//create a empty file, need to have at least on char to make it
+				// work with all object storage implementations
 				$this->file_put_contents($path, ' ');
+				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
+				$stat = array(
+					'etag' => $this->getETag($path),
+					'mimetype' => $mimeType,
+					'size' => 0,
+					'mtime' => $mtime,
+					'storage_mtime' => $mtime,
+					'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
+				);
+				$this->getCache()->put($path, $stat);
 			} catch (\Exception $ex) {
-				$this->getCache()->remove($path);
 				$this->logger->logException($ex, [
 					'app' => 'objectstore',
-					'message' => 'Could not create object ' . $this->getURN($fileId) . ' for ' . $path,
+					'message' => 'Could not create object for ' . $path,
 				]);
-				return false;
+				throw $ex;
 			}
 		}
 		return true;
@@ -423,6 +427,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	 * @return false
 	 */
 	public function hasUpdated($path, $time) {
+		return false;
+	}
+
+	public function needsPartFile() {
 		return false;
 	}
 }

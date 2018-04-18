@@ -152,7 +152,7 @@ class MountPoint implements IMountPoint {
 					// the root storage could not be initialized, show the user!
 					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
 				} else {
-					\OCP\Util::writeLog('core', $exception->getMessage(), \OCP\Util::ERROR);
+					\OC::$server->getLogger()->logException($exception, ['level' => \OCP\Util::ERROR]);
 				}
 				return;
 			}

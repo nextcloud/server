@@ -12,7 +12,6 @@
 	min-width: initial !important;
 }
 
-/* hide size and date columns */
 table th#headerSize,
 table td.filesize,
 table th#headerDate,
@@ -52,6 +51,11 @@ table td.filename .nametext .innernametext {
 	max-width: calc(100% - 175px) !important;
 }
 
+/* show the delete icon in name column in lower resolutions */
+table th#headerName .selectedActions .delete-selected {
+	display: inline;
+}
+
 /* proper notification area for multi line messages */
 #notification-container {
 	display: flex;
@@ -69,4 +73,25 @@ table td.filename .nametext .innernametext {
 	display: block !important;
 }
 
+/* ensure that it is visible over #app-content */
+table.dragshadow {
+	z-index: 1000;
+}
+
+}
+@media only screen and (max-width: 480px)  {
+	/* Only show icons */
+	table th .selectedActions a span:not(.icon) {
+		display: none;
+	}
+
+	/* Increase touch area for the icons */
+	table th .selectedActions a {
+		padding: 17px 14px;
+	}
+
+	/* Remove the margin to reduce the overlap between the name and the icons */
+	table.multiselect th .columntitle.name {
+		margin-left: 0;
+	}
 }

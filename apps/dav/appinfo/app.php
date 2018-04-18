@@ -53,5 +53,15 @@ $cm->register(function() use ($cm, $app) {
 	$user = \OC::$server->getUserSession()->getUser();
 	if (!is_null($user)) {
 		$app->setupContactsProvider($cm, $user->getUID());
+	} else {
+		$app->setupSystemContactsProvider($cm);
+	}
+});
+
+$calendarManager = \OC::$server->getCalendarManager();
+$calendarManager->register(function() use ($calendarManager, $app) {
+	$user = \OC::$server->getUserSession()->getUser();
+	if ($user !== null) {
+		$app->setupCalendarProvider($calendarManager, $user->getUID());
 	}
 });

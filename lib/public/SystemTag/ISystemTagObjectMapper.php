@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -51,7 +52,7 @@ interface ISystemTagObjectMapper {
 	 *
 	 * @since 9.0.0
 	 */
-	public function getTagIdsForObjects($objIds, $objectType);
+	public function getTagIdsForObjects($objIds, string $objectType): array;
 
 	/**
 	 * Get a list of objects tagged with $tagIds.
@@ -63,14 +64,14 @@ interface ISystemTagObjectMapper {
 	 *
 	 * @return string[] array of object ids or empty array if none found
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one of the
+	 * @throws TagNotFoundException if at least one of the
 	 * given tags does not exist
 	 * @throws \InvalidArgumentException When a limit is specified together with
 	 * multiple tag ids
 	 *
 	 * @since 9.0.0
 	 */
-	public function getObjectIdsForTags($tagIds, $objectType, $limit = 0, $offset = '');
+	public function getObjectIdsForTags($tagIds, string $objectType, int $limit = 0, string $offset = ''): array;
 
 	/**
 	 * Assign the given tags to the given object.
@@ -84,12 +85,12 @@ interface ISystemTagObjectMapper {
 	 * @param string $objectType object type
 	 * @param string|array $tagIds tag id or array of tag ids to assign
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one of the
+	 * @throws TagNotFoundException if at least one of the
 	 * given tags does not exist
 	 *
 	 * @since 9.0.0
 	 */
-	public function assignTags($objId, $objectType, $tagIds);
+	public function assignTags(string $objId, string $objectType, $tagIds);
 
 	/**
 	 * Unassign the given tags from the given object.
@@ -103,12 +104,12 @@ interface ISystemTagObjectMapper {
 	 * @param string $objectType object type
 	 * @param string|array $tagIds tag id or array of tag ids to unassign
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one of the
+	 * @throws TagNotFoundException if at least one of the
 	 * given tags does not exist
 	 *
 	 * @since 9.0.0
 	 */
-	public function unassignTags($objId, $objectType, $tagIds);
+	public function unassignTags(string $objId, string $objectType, $tagIds);
 
 	/**
 	 * Checks whether the given objects have the given tag.
@@ -122,10 +123,10 @@ interface ISystemTagObjectMapper {
 	 * @return bool true if the condition set by $all is matched, false
 	 * otherwise
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if the tag does not exist
+	 * @throws TagNotFoundException if the tag does not exist
 	 *
 	 * @since 9.0.0
 	 */
-	public function haveTag($objIds, $objectType, $tagId, $all = true);
+	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool;
 
 }

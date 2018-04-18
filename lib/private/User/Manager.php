@@ -50,6 +50,9 @@ use OCP\UserInterface;
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user, string $password)
  * - change(\OC\User\User $user)
+ * - assignedUserId(string $uid)
+ * - preUnassignedUserId(string $uid)
+ * - postUnassignedUserId(string $uid)
  *
  * @package OC\User
  */
@@ -150,16 +153,6 @@ class Manager extends PublicEmitter implements IUserManager {
 	protected function getUserObject($uid, $backend, $cacheUser = true) {
 		if (isset($this->cachedUsers[$uid])) {
 			return $this->cachedUsers[$uid];
-		}
-
-		if (method_exists($backend, 'loginName2UserName')) {
-			$loginName = $backend->loginName2UserName($uid);
-			if ($loginName !== false) {
-				$uid = $loginName;
-			}
-			if (isset($this->cachedUsers[$uid])) {
-				return $this->cachedUsers[$uid];
-			}
 		}
 
 		$user = new User($uid, $backend, $this, $this->config);
@@ -488,6 +481,7 @@ class Manager extends PublicEmitter implements IUserManager {
 						if ($return === false) {
 							return;
 						}
+						break;
 					}
 				}
 			}
@@ -498,7 +492,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * Getting all userIds that have a listLogin value requires checking the
 	 * value in php because on oracle you cannot use a clob in a where clause,
 	 * preventing us from doing a not null or length(value) > 0 check.
-	 * 
+	 *
 	 * @param int $limit
 	 * @param int $offset
 	 * @return string[] with user ids

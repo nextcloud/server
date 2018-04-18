@@ -30,6 +30,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICacheFactory;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 
@@ -50,21 +51,25 @@ class JSCombiner {
 	/** @var ILogger */
 	protected $logger;
 
+	/** @var ICacheFactory */
+	private $cacheFactory;
+
 	/**
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
-	 * @param ICache $depsCache
+	 * @param ICacheFactory $cacheFactory
 	 * @param SystemConfig $config
 	 * @param ILogger $logger
 	 */
 	public function __construct(IAppData $appData,
 								IURLGenerator $urlGenerator,
-								ICache $depsCache,
+								ICacheFactory $cacheFactory,
 								SystemConfig $config,
 								ILogger $logger) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
-		$this->depsCache = $depsCache;
+		$this->cacheFactory = $cacheFactory;
+		$this->depsCache = $this->cacheFactory->createDistributed('JS-' . md5($this->urlGenerator->getBaseUrl()));
 		$this->config = $config;
 		$this->logger = $logger;
 	}
@@ -104,13 +109,20 @@ class JSCombiner {
 	 * @return bool
 	 */
 	protected function isCached($fileName, ISimpleFolder $folder) {
-		$fileName = str_replace('.json', '.js', $fileName) . '.deps';
+		$fileName = str_replace('.json', '.js', $fileName);
+
+		if (!$folder->fileExists($fileName)) {
+			return false;
+		}
+
+		$fileName = $fileName . '.deps';
 		try {
 			$deps = $this->depsCache->get($folder->getName() . '-' . $fileName);
 			if ($deps === null || $deps === '') {
 				$depFile = $folder->getFile($fileName);
 				$deps = $depFile->getContent();
 			}
+
 			// check again
 			if ($deps === null || $deps === '') {
 				$this->logger->info('JSCombiner: deps file empty: ' . $fileName);
@@ -184,9 +196,10 @@ class JSCombiner {
 			$depFile->putContent($deps);
 			$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 			$gzipFile->putContent(gzencode($res, 9));
-
+			$this->logger->debug('JSCombiner: successfully cached: ' . $fileName);
 			return true;
 		} catch (NotPermittedException $e) {
+			$this->logger->error('JSCombiner: unable to cache: ' . $fileName);
 			return false;
 		}
 	}
@@ -226,5 +239,21 @@ class JSCombiner {
 		}
 
 		return $result;
+	}
+
+
+	/**
+	 * Clear cache with combined javascript files
+	 *
+	 * @throws NotFoundException
+	 */
+	public function resetCache() {
+		$this->cacheFactory->createDistributed('JS-')->clear();
+		$appDirectory = $this->appData->getDirectoryListing();
+		foreach ($appDirectory as $folder) {
+			foreach ($folder->getDirectoryListing() as $file) {
+				$file->delete();
+			}
+		}
 	}
 }

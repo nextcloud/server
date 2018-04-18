@@ -110,7 +110,7 @@ class UserHooksTest extends TestCase {
 		$this->sessionMock->expects($this->once())
 			->method('clear');
 		$this->instance->logout();
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testPostCreateUser() {
@@ -118,7 +118,7 @@ class UserHooksTest extends TestCase {
 			->method('setupUser');
 
 		$this->instance->postCreateUser($this->params);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testPostDeleteUser() {
@@ -127,7 +127,7 @@ class UserHooksTest extends TestCase {
 			->with('testUser');
 
 		$this->instance->postDeleteUser($this->params);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testPrePasswordReset() {

@@ -23,7 +23,7 @@
 
 namespace OC\App\CodeChecker;
 
-class DeprecationCheck extends AbstractCheck implements ICheck {
+class DeprecationCheck extends AbstractCheck {
 	/**
 	 * @return string
 	 */
@@ -38,13 +38,15 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 		return [
 			'OC_JSON' => '8.2.0',
 
-			'OCP\Config' => '8.0.0',
 			'OCP\Contacts' => '8.1.0',
 			'OCP\DB' => '8.1.0',
-			'OCP\IHelper' => '8.1.0',
 			'OCP\JSON' => '8.1.0',
 			'OCP\Response' => '8.1.0',
 			'OCP\AppFramework\IApi' => '8.0.0',
+			'OCP\User' => '13.0.0',
+			'OCP\BackgroundJob' => '14.0.0',
+			'OCP\App' => '14.0.0',
+			'OCP\Files' => '14.0.0',
 		];
 	}
 
@@ -101,6 +103,13 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\App::addNavigationEntry' => '8.1.0',
 			'OCP\App::getActiveNavigationEntry' => '8.2.0',
 			'OCP\App::setActiveNavigationEntry' => '8.1.0',
+			'OCP\App::registerPersonal' => '14.0.0',
+			'OCP\App::registerAdmin' => '14.0.0',
+			'OC_App::getAppInfo' => '14.0.0',
+			'OCP\App::getAppInfo' => '14.0.0',
+			'OC_App::getAppVersion' => '14.0.0',
+			'OCP\App::getAppVersion' => '14.0.0',
+			'OCP\App::registerPersonal' => '14.0.0',
 
 			'OCP\AppFramework\Controller::params' => '7.0.0',
 			'OCP\AppFramework\Controller::getParams' => '7.0.0',
@@ -116,6 +125,8 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\AppFramework\IAppContainer::log' => '8.0.0',
 
 			'OCP\BackgroundJob::registerJob' => '8.1.0',
+			'OCP\BackgroundJob::getExecutionType' => '14.0.0',
+			'OCP\BackgroundJob::setExecutionType' => '14.0.0',
 
 			'OCP\Files::tmpFile' => '8.1.0',
 			'OCP\Files::tmpFolder' => '8.1.0',
@@ -135,6 +146,8 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\IServerContainer::getDb' => '8.1.0',
 			'OCP\IServerContainer::getHTTPHelper' => '8.1.0',
 
+			'OCP\Response::disableCaching' => '14.0.0',
+
 			'OCP\User::getUser' => '8.0.0',
 			'OCP\User::getUsers' => '8.1.0',
 			'OCP\User::getDisplayName' => '8.1.0',
@@ -142,6 +155,9 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\User::userExists' => '8.1.0',
 			'OCP\User::logout' => '8.1.0',
 			'OCP\User::checkPassword' => '8.1.0',
+			'OCP\User::isLoggedIn' => '13.0.0',
+			'OCP\User::checkAdminUser' => '13.0.0',
+			'OCP\User::checkLoggedIn' => '13.0.0',
 
 			'OCP\Util::encryptedFiles' => '8.1.0',
 			'OCP\Util::formatDate' => '8.0.0',
@@ -159,6 +175,13 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\Util::mb_substr_replace' => '8.2.0',
 			'OCP\Util::sendMail' => '8.1.0',
 			'OCP\Util::writeLog' => '13.0.0',
+
+			'OCP\Files::rmdirr' => '14.0.0',
+			'OCP\Files::getMimeType' => '14.0.0',
+			'OCP\Files::searchByMime' => '14.0.0',
+			'OCP\Files::streamCopy' => '14.0.0',
+			'OCP\Files::buildNotExistingFileName' => '14.0.0',
+			'OCP\Files::getStorage' => '14.0.0',
 		];
 	}
 }

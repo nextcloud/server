@@ -25,8 +25,8 @@
  *
  */
 
-OCP\JSON::checkAppEnabled('files_versions');
-OCP\JSON::checkLoggedIn();
+\OC_JSON::checkAppEnabled('files_versions');
+\OC_JSON::checkLoggedIn();
 
 $file = $_GET['file'];
 $revision=(int)$_GET['revision'];
@@ -48,9 +48,11 @@ $view = new OC\Files\View('/');
 $ftype = \OC::$server->getMimeTypeDetector()->getSecureMimeType($view->getMimeType('/'.$uid.'/files/'.$filename));
 
 header('Content-Type:'.$ftype);
-OCP\Response::setContentDispositionHeader(basename($filename), 'attachment');
-OCP\Response::disableCaching();
-OCP\Response::setContentLengthHeader($view->filesize($versionName));
+\OC_Response::setContentDispositionHeader(basename($filename), 'attachment');
+header('Pragma: public');// enable caching in IE
+header('Expires: 0');
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+\OC_Response::setContentLengthHeader($view->filesize($versionName));
 
 OC_Util::obEnd();
 

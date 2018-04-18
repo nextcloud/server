@@ -206,11 +206,10 @@ class Cache implements ICache {
 			$result = $this->connection->executeQuery($sql, [$fileId]);
 			$files = $result->fetchAll();
 			return array_map(function (array $data) {
-				return self::cacheEntryFromData($data, $this->mimetypeLoader);;
+				return self::cacheEntryFromData($data, $this->mimetypeLoader);
 			}, $files);
-		} else {
-			return array();
 		}
+		return [];
 	}
 
 	/**
@@ -259,7 +258,7 @@ class Cache implements ICache {
 
 		$data['path'] = $file;
 		$data['parent'] = $this->getParentId($file);
-		$data['name'] = \OC_Util::basename($file);
+		$data['name'] = basename($file);
 
 		list($queryParts, $params) = $this->buildParts($data);
 		$queryParts[] = '`storage`';
@@ -551,7 +550,7 @@ class Cache implements ICache {
 			}
 
 			$sql = 'UPDATE `*PREFIX*filecache` SET `storage` = ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` = ? WHERE `fileid` = ?';
-			$this->connection->executeQuery($sql, array($targetStorageId, $targetPath, md5($targetPath), \OC_Util::basename($targetPath), $newParentId, $sourceId));
+			$this->connection->executeQuery($sql, array($targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId));
 			$this->connection->commit();
 		} else {
 			$this->moveFromCacheFallback($sourceCache, $sourcePath, $targetPath);

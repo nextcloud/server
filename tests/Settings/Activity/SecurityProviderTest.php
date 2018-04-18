@@ -62,7 +62,7 @@ class SecurityProviderTest extends TestCase {
 		$event->expects($this->once())
 			->method('getType')
 			->willReturn('comments');
-		$this->setExpectedException(InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		$this->provider->parse($lang, $event);
 	}
@@ -87,7 +87,7 @@ class SecurityProviderTest extends TestCase {
 			->willReturn('security');
 		$this->l10n->expects($this->once())
 			->method('get')
-			->with('core', $lang)
+			->with('settings', $lang)
 			->willReturn($l);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
@@ -119,7 +119,7 @@ class SecurityProviderTest extends TestCase {
 			->willReturn('security');
 		$this->l10n->expects($this->once())
 			->method('get')
-			->with('core', $lang)
+			->with('settings', $lang)
 			->willReturn($l);
 		$event->expects($this->once())
 			->method('getSubject')

@@ -5,8 +5,6 @@
     "_%n byte_::_%n bytes_" : ["%n 바이트"],
     "Restore" : "복원",
     "No earlier versions available" : "이전 버전을 사용할 수 없음",
-    "More versions …" : "더 많은 버전 …",
-    "No versions available" : "버전을 사용할 수 없음",
-    "More versions..." : "더 많은 버전..."
+    "More versions …" : "더 많은 버전 …"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

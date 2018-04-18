@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Athugunin %s er ógild",
     "Check #%s does not exist" : "Athugunin #%s er ekki til",
     "Workflow" : "Vinnuferli",
+    "Files workflow engine" : "Verkferlavél skráa",
     "Open documentation" : "Opna hjálparskjöl",
     "Add rule group" : "Bæta við regluhópi",
     "Short rule description" : "Stutt lýsing á reglu",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "Endurstilla",
     "Save" : "Vista",
     "Saving…" : "Vista…",
-    "Loading…" : "Hleð inn...",
-    "Successfully saved" : "Tókst að vista",
-    "File mime type" : "Skráartegund"
+    "Loading…" : "Hleð inn..."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

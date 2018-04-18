@@ -16,3 +16,11 @@ select {
 	visibility: hidden;
 }
 
+.ie #header .menu,
+.ie .header-left #navigation,
+.ie .ui-datepicker,
+.ie .ui-timepicker.ui-widget,
+.ie #appmenu li span,
+.ie .tooltip-inner {
+	box-shadow: 0 1px 10px $color-box-shadow;
+}

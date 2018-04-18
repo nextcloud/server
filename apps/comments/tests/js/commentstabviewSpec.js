@@ -190,7 +190,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 			expect(fetchStub.notCalled).toEqual(true);
 
-			view.$el.find('.showMore').click();
+			view.$el.find('.showMore').trigger('click');
 
 			expect(fetchStub.calledOnce).toEqual(true);
 		});
@@ -219,6 +219,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 	describe('posting comments', function() {
 		var createStub;
 		var currentUserStub;
+		var $newCommentForm;
 
 		beforeEach(function() {
 			view.collection.set(testComments);
@@ -228,6 +229,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				uid: 'testuser',
 				displayName: 'Test User'
 			});
+
+			$newCommentForm = view.$el.find('.newCommentForm');
 
 			// Required for the absolute selector used to find the new comment
 			// after a successful creation in _onSubmitSuccess.
@@ -239,8 +242,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		});
 
 		it('creates a new comment when clicking post button', function() {
-			view.$el.find('.message').text('New message');
-			view.$el.find('form').submit();
+			$newCommentForm.find('.message').text('New message');
+			$newCommentForm.submit();
 
 			expect(createStub.calledOnce).toEqual(true);
 			expect(createStub.lastCall.args[0]).toEqual({
@@ -252,9 +255,82 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
 			});
 		});
+		it('creates a new comment when typing enter', function() {
+			$newCommentForm.find('.message').text('New message');
+			var keydownEvent = new $.Event('keydown', {keyCode: 13});
+			$newCommentForm.find('.message').trigger(keydownEvent);
+
+			expect(createStub.calledOnce).toEqual(true);
+			expect(createStub.lastCall.args[0]).toEqual({
+				actorId: 'testuser',
+				actorDisplayName: 'Test User',
+				actorType: 'users',
+				verb: 'comment',
+				message: 'New message',
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
+			});
+			expect(keydownEvent.isDefaultPrevented()).toEqual(true);
+		});
+		it('creates a new mention when typing enter in the autocomplete popover', function() {
+			var autoCompleteStub = sinon.stub(view, '_onAutoComplete');
+			autoCompleteStub.callsArgWith(1, [{"id":"userId", "label":"User Name", "source":"users"}]);
+
+			// Force the autocomplete to be initialized
+			view._initAutoComplete($newCommentForm.find('.message'));
+
+			// PhantomJS does not seem to handle typing in a contenteditable, so
+			// some tricks are needed to show the autocomplete popover.
+			//
+			// Instead of sending key events to type "@u" the characters are
+			// programatically set in the input field.
+			$newCommentForm.find('.message').text('Mention to @u');
+
+			// When focusing on the input field the caret is not guaranteed to
+			// be at the end; instead of calling "focus()" on the input field
+			// the caret is explicitly set at the end of the input field, that
+			// is, after "@u".
+			var range = document.createRange();
+			range.selectNodeContents($newCommentForm.find('.message')[0]);
+			range.collapse(false);
+			var selection = window.getSelection();
+			selection.removeAllRanges();
+			selection.addRange(range);
+
+			// As PhantomJS does not handle typing in a contenteditable the key
+			// typed here is in practice ignored by At.js, but despite that it
+			// will cause the popover to be shown.
+			$newCommentForm.find('.message').trigger(new $.Event('keydown', {keyCode: 's'}));
+			$newCommentForm.find('.message').trigger(new $.Event('keyup', {keyCode: 's'}));
+
+			expect(autoCompleteStub.calledOnce).toEqual(true);
+
+			var keydownEvent = new $.Event('keydown', {keyCode: 13});
+			$newCommentForm.find('.message').trigger(keydownEvent);
+
+			expect(createStub.calledOnce).toEqual(false);
+			expect($newCommentForm.find('.message').html()).toContain('Mention to <span');
+			expect($newCommentForm.find('.message').html()).toContain('<div class="avatar"');
+			expect($newCommentForm.find('.message').html()).toContain('<strong>User Name</strong>');
+			expect($newCommentForm.find('.message').text()).not.toContain('@');
+			// In this case the default behaviour is prevented by the
+			// "onKeydown" event handler of At.js.
+			expect(keydownEvent.isDefaultPrevented()).toEqual(true);
+		});
+		it('creates a new line when typing shift+enter', function() {
+			$newCommentForm.find('.message').text('New message');
+			var keydownEvent = new $.Event('keydown', {keyCode: 13, shiftKey: true});
+			$newCommentForm.find('.message').trigger(keydownEvent);
+
+			expect(createStub.calledOnce).toEqual(false);
+			// PhantomJS does not seem to handle typing in a contenteditable, so
+			// instead of looking for a new line the best that can be done is
+			// checking that the default behaviour would have been executed.
+			expect($newCommentForm.find('.message').text()).toContain('New message');
+			expect(keydownEvent.isDefaultPrevented()).toEqual(false);
+		});
 		it('creates a new comment with mentions when clicking post button', function() {
-			view.$el.find('.message').text('New message @anotheruser');
-			view.$el.find('form').submit();
+			$newCommentForm.find('.message').text('New message @anotheruser');
+			$newCommentForm.submit();
 
 			var createStubExpectedData = {
 				actorId: 'testuser',
@@ -297,8 +373,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($message.find('.avatar[data-user=anotheruser] ~ .contactsmenu-popover').length).toEqual(1);
 		});
 		it('does not create a comment if the field is empty', function() {
-			view.$el.find('.message').val('   ');
-			view.$el.find('form').submit();
+			$newCommentForm.find('.message').val('   ');
+			$newCommentForm.submit();
 
 			expect(createStub.notCalled).toEqual(true);
 		});
@@ -307,8 +383,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			for (var i = 0; i < view._commentMaxLength * 2; i++) {
 				bigMessage += 'a';
 			}
-			view.$el.find('.message').val(bigMessage);
-			view.$el.find('form').submit();
+			$newCommentForm.find('.message').val(bigMessage);
+			$newCommentForm.submit();
 
 			expect(createStub.notCalled).toEqual(true);
 		});
@@ -319,13 +395,13 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 			beforeEach(function() {
 				tooltipStub = sinon.stub($.fn, 'tooltip');
-				$message = view.$el.find('.message');
-				$submitButton = view.$el.find('.submit');
+				$message = $newCommentForm.find('.message');
+				$submitButton = $newCommentForm.find('.submit');
 			});
-			afterEach(function() { 
-				tooltipStub.restore(); 
+			afterEach(function() {
+				tooltipStub.restore();
 			});
-			
+
 			it('does not displays tooltip when limit is far away', function() {
 				$message.val(createMessageWithLength(3));
 				$message.trigger('change');
@@ -335,7 +411,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				expect($message.hasClass('error')).toEqual(false);
 			});
 			it('displays tooltip when limit is almost reached', function() {
-				$message.val(createMessageWithLength(view._commentMaxLength - 2));
+				$message.text(createMessageWithLength(view._commentMaxLength - 2));
 				$message.trigger('change');
 
 				expect(tooltipStub.calledWith('show')).toEqual(true);
@@ -343,7 +419,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				expect($message.hasClass('error')).toEqual(false);
 			});
 			it('displays tooltip and disabled button when limit is exceeded', function() {
-				$message.val(createMessageWithLength(view._commentMaxLength + 2));
+				$message.text(createMessageWithLength(view._commentMaxLength + 2));
 				$message.trigger('change');
 
 				expect(tooltipStub.calledWith('show')).toEqual(true);
@@ -414,18 +490,21 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		it('shows edit link for owner comments', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
 			expect($comment.length).toEqual(1);
+			$comment.find('.action.more').trigger('click');
 			expect($comment.find('.action.edit').length).toEqual(1);
 		});
 
 		it('does not show edit link for other user\'s comments', function() {
 			var $comment = view.$el.find('.comment[data-id=2]');
 			expect($comment.length).toEqual(1);
+			$comment.find('.action.more').trigger('click');
 			expect($comment.find('.action.edit').length).toEqual(0);
 		});
 
 		it('shows edit form when clicking edit', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.edit').trigger('click');
 
 			expect($comment.hasClass('hidden')).toEqual(true);
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
@@ -434,7 +513,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 		it('saves message and updates comment item when clicking save', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.edit').trigger('click');
 
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
 			expect($formRow.length).toEqual(1);
@@ -468,7 +548,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 		it('saves message and updates comment item with mentions when clicking save', function() {
 			var $comment = view.$el.find('.comment[data-id=3]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.edit').trigger('click');
 
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=3]');
 			expect($formRow.length).toEqual(1);
@@ -515,13 +596,14 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 		it('restores original comment when cancelling', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.edit').trigger('click');
 
 			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
 			expect($formRow.length).toEqual(1);
 
 			$formRow.find('textarea').val('modified\nmessage');
-			$formRow.find('.cancel').click();
+			$formRow.find('.cancel').trigger('click');
 
 			expect(saveStub.notCalled).toEqual(true);
 
@@ -538,12 +620,8 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		it('destroys model when clicking delete', function() {
 			var destroyStub = sinon.stub(OCA.Comments.CommentModel.prototype, 'destroy');
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
-
-			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
-			expect($formRow.length).toEqual(1);
-
-			$formRow.find('.delete').click();
+			$comment.find('.action.more').trigger('click');
+			$comment.find('.action.delete').trigger('click');
 
 			expect(destroyStub.calledOnce).toEqual(true);
 			expect(destroyStub.thisValues[0].id).toEqual(1);
@@ -554,15 +632,11 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			$comment = view.$el.find('.comment[data-id=1]');
 			expect($comment.length).toEqual(0);
 
-			// form row is gone
-			$formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
-			expect($formRow.length).toEqual(0);
-
 			destroyStub.restore();
 		});
 		it('does not submit comment if the field is empty', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.edit').trigger('click');
 			$comment.find('.message').val('   ');
 			$comment.find('form').submit();
 
@@ -570,7 +644,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		});
 		it('does not submit comment if the field length is too large', function() {
 			var $comment = view.$el.find('.comment[data-id=1]');
-			$comment.find('.action.edit').click();
+			$comment.find('.action.edit').trigger('click');
 			$comment.find('.message').val(createMessageWithLength(view._commentMaxLength * 2));
 			$comment.find('form').submit();
 
@@ -583,7 +657,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		beforeEach(function() {
 			updateMarkerStub = sinon.stub(OCA.Comments.CommentCollection.prototype, 'updateReadMarker');
 		});
-		afterEach(function() { 
+		afterEach(function() {
 			updateMarkerStub.restore();
 		});
 

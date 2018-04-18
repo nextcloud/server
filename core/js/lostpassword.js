@@ -16,6 +16,7 @@ OC.Lostpassword = {
 		$('#lost-password').click(OC.Lostpassword.resetLink);
 		$('#lost-password-back').click(OC.Lostpassword.backToLogin);
 		$('form[name=login]').submit(OC.Lostpassword.onSendLink);
+		$('#reset-password #submit').click(OC.Lostpassword.resetPassword);
 		OC.Lostpassword.resetButtons();
 	},
 
@@ -49,6 +50,7 @@ OC.Lostpassword = {
 		event.preventDefault();
 
 		$('#lost-password').hide();
+		$('.wrongPasswordMsg').hide();
 		$('#lost-password-back').slideDown().fadeIn();
 		$('.remember-login-container').slideUp().fadeOut();
 		$('#submit-wrapper').slideUp().fadeOut();
@@ -160,14 +162,7 @@ OC.Lostpassword = {
 	resetDone : function(result){
 		var resetErrorMsg;
 		if (result && result.status === 'success'){
-			$.post(
-					OC.webroot + '/',
-					{
-						user : window.location.href.split('/').pop(),
-						password : $('#password').val()
-					},
-					OC.Lostpassword.redirect
-			);
+			OC.Lostpassword.redirect();
 		} else {
 			if (result && result.msg){
 				resetErrorMsg = result.msg;

@@ -99,17 +99,17 @@ class Notifier implements INotifier {
 				$userFolder = $this->rootFolder->getUserFolder($notification->getUser());
 				$nodes = $userFolder->getById((int)$parameters[1]);
 				if(empty($nodes)) {
-					throw new \InvalidArgumentException('Cannot resolve file id to Node instance');
+					throw new \InvalidArgumentException('Cannot resolve file ID to node instance');
 				}
 				$node = $nodes[0];
 
 				if ($isDeletedActor) {
 					$notification->setParsedSubject($l->t(
-							'A (now) deleted user mentioned you in a comment on “%s”',
+							'You were mentioned on “%s”, in a comment by a user that has since been deleted',
 							[$node->getName()]
 						))
 						->setRichSubject(
-							$l->t('A (now) deleted user mentioned you in a comment on “{file}”'),
+							$l->t('You were mentioned on “{file}”, in a comment by a user that has since been deleted'),
 							[
 								'file' => [
 									'type' => 'file',

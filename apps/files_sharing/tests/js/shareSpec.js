@@ -140,6 +140,7 @@ describe('OCA.Sharing.Util tests', function() {
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				shareOwner: 'User One',
+				shareOwnerId: 'User One',
 				etag: 'abc',
 				shareTypes: []
 			}]);
@@ -161,6 +162,16 @@ describe('OCA.Sharing.Util tests', function() {
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				recipientsDisplayName: 'User One, User Two',
+				recipientData: {
+					0: {
+						shareWith: 'User One',
+						shareWithDisplayName: 'User One'
+					},
+					1: {
+						shareWith: 'User Two',
+						shareWithDisplayName: 'User Two'
+					}
+				},
 				etag: 'abc',
 				shareTypes: [OC.Share.SHARE_TYPE_USER]
 			}]);
@@ -264,14 +275,12 @@ describe('OCA.Sharing.Util tests', function() {
 			// simulate updating shares
 			shareTab._dialog.model.set({
 				shares: [
-					{share_with_displayname: 'User One'},
-					{share_with_displayname: 'User Two'},
-					{share_with_displayname: 'Group One'},
-					{share_with_displayname: 'Group Two'}
+					{share_with_displayname: 'User One', share_with: 'User One'},
+					{share_with_displayname: 'User Two', share_with: 'User Two'},
+					{share_with_displayname: 'Group One', share_with: 'Group One'},
+					{share_with_displayname: 'Group Two', share_with: 'Group Two'}
 				]
 			});
-
-			expect($tr.attr('data-share-recipients')).toEqual('Group One, Group Two, User One, User Two');
 
 			expect($action.text().trim()).toEqual('Shared with Group One Shared with Group Two Shared with User One Shared with User Two');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
@@ -298,13 +307,11 @@ describe('OCA.Sharing.Util tests', function() {
 			// simulate updating shares
 			shareTab._dialog.model.set({
 				shares: [
-					{share_with_displayname: 'User One'},
-					{share_with_displayname: 'User Two'},
-					{share_with_displayname: 'User Three'}
+					{share_with_displayname: 'User One', share_with: 'User One'},
+					{share_with_displayname: 'User Two', share_with: 'User Two'},
+					{share_with_displayname: 'User Three', share_with: 'User Three'}
 				]
 			});
-
-			expect($tr.attr('data-share-recipients')).toEqual('User One, User Three, User Two');
 
 			expect($action.text().trim()).toEqual('Shared with User One Shared with User Three Shared with User Two');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
@@ -334,7 +341,7 @@ describe('OCA.Sharing.Util tests', function() {
 				shares: []
 			});
 
-			expect($tr.attr('data-share-recipients')).not.toBeDefined();
+			expect($tr.attr('data-share-recipient-data')).not.toBeDefined();
 		});
 		it('keep share text after updating reshare', function() {
 			var $action, $tr;
@@ -348,7 +355,8 @@ describe('OCA.Sharing.Util tests', function() {
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				etag: 'abc',
-				shareOwner: 'User One'
+				shareOwner: 'User One',
+				shareOwnerId: 'User One'
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
 			$tr = fileList.$el.find('tr:first');
@@ -359,8 +367,6 @@ describe('OCA.Sharing.Util tests', function() {
 			shareTab._dialog.model.set({
 				shares: [{share_with_displayname: 'User Two'}]
 			});
-
-			expect($tr.attr('data-share-recipients')).toEqual('User Two');
 
 			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
@@ -379,7 +385,9 @@ describe('OCA.Sharing.Util tests', function() {
 				permissions: OC.PERMISSION_ALL,
 				etag: 'abc',
 				shareOwner: 'User One',
-				recipients: 'User Two'
+				shareOwnerId: 'User One',
+				recipients: 'User Two',
+				recipientData: {'User Two': 'User Two'}
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
 			$tr = fileList.$el.find('tr:first');
@@ -391,58 +399,11 @@ describe('OCA.Sharing.Util tests', function() {
 				shares: []
 			});
 
-			expect($tr.attr('data-share-recipients')).not.toBeDefined();
+			expect($tr.attr('data-share-recipient-data')).not.toBeDefined();
 
 			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
 			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
-		});
-	});
-	describe('formatRecipients', function() {
-		it('returns a single recipient when one passed', function() {
-			expect(OCA.Sharing.Util.formatRecipients(['User one']))
-				.toEqual('User one');
-		});
-		it('returns two recipients when two passed', function() {
-			expect(OCA.Sharing.Util.formatRecipients(['User one', 'User two']))
-				.toEqual('User one, User two');
-		});
-		it('returns four recipients with plus when five passed', function() {
-			var recipients = [
-				'User one',
-				'User two',
-				'User three',
-				'User four',
-				'User five'
-			];
-			expect(OCA.Sharing.Util.formatRecipients(recipients))
-				.toEqual('User four, User one, User three, User two, +1');
-		});
-		it('returns four recipients with plus when ten passed', function() {
-			var recipients = [
-				'User one',
-				'User two',
-				'User three',
-				'User four',
-				'User five',
-				'User six',
-				'User seven',
-				'User eight',
-				'User nine',
-				'User ten'
-			];
-			expect(OCA.Sharing.Util.formatRecipients(recipients))
-				.toEqual('User four, User one, User three, User two, +6');
-		});
-		it('returns four recipients with plus when four passed with counter', function() {
-			var recipients = [
-				'User one',
-				'User two',
-				'User three',
-				'User four'
-			];
-			expect(OCA.Sharing.Util.formatRecipients(recipients, 10))
-				.toEqual('User four, User one, User three, User two, +6');
 		});
 	});
 	describe('Excluded lists', function() {
@@ -537,7 +498,7 @@ describe('OCA.Sharing.Util tests', function() {
 			var changeHandler = sinon.stub();
 			fileInfoModel.on('change', changeHandler);
 
-			shareTabSpy.getCall(0).thisValue.trigger('sharesChanged', shareModel);
+			shareTabSpy.getCall(0).returnValue.trigger('sharesChanged', shareModel);
 
 			expect(changeHandler.calledOnce).toEqual(true);
 			expect(changeHandler.getCall(0).args[0].changed).toEqual({

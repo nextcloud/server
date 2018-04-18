@@ -47,14 +47,6 @@
 		 */
 		$el: null,
 
-		/**
-		 * List of handlers to be notified whenever a register() or
-		 * setDefault() was called.
-		 *
-		 * @member {Function[]}
-		 */
-		_updateListeners: {},
-
 		_fileActionTriggerTemplate: null,
 
 		/**
@@ -142,7 +134,22 @@
 			var mime = action.mime;
 			var name = action.name;
 			var actionSpec = {
-				action: action.actionHandler,
+				action: function(fileName, context) {
+					// Actions registered in one FileAction may be executed on a
+					// different one (for example, due to the "merge" function),
+					// so the listeners have to be updated on the FileActions
+					// from the context instead of on the one in which it was
+					// originally registered.
+					if (context && context.fileActions) {
+						context.fileActions._notifyUpdateListeners('beforeTriggerAction', {action: actionSpec, fileName: fileName, context: context});
+					}
+
+					action.actionHandler(fileName, context);
+
+					if (context && context.fileActions) {
+						context.fileActions._notifyUpdateListeners('afterTriggerAction', {action: actionSpec, fileName: fileName, context: context});
+					}
+				},
 				name: name,
 				displayName: action.displayName,
 				mime: mime,
@@ -174,7 +181,6 @@
 			this.defaults = {};
 			this.icons = {};
 			this.currentFile = null;
-			this._updateListeners = [];
 		},
 		/**
 		 * Sets the default action for a given mime type.
@@ -235,7 +241,7 @@
 			}
 			var filteredActions = {};
 			$.each(actions, function (name, action) {
-				if (action.permissions & permissions) {
+				if ((action.permissions === OC.PERMISSION_NONE) || (action.permissions & permissions)) {
 					filteredActions[name] = action;
 				}
 			});
@@ -619,20 +625,31 @@
 
 			this.registerAction({
 				name: 'MoveCopy',
-				displayName: t('files', 'Move or copy'),
+				displayName: function(context) {
+					var permissions = context.fileInfoModel.attributes.permissions;
+					if (permissions & OC.PERMISSION_UPDATE) {
+						return t('files', 'Move or copy');
+					}
+					return t('files', 'Copy');
+				},
 				mime: 'all',
 				order: -25,
-				permissions: OC.PERMISSION_UPDATE,
+				permissions: $('#isPublic').val() ? OC.PERMISSION_UPDATE : OC.PERMISSION_READ,
 				iconClass: 'icon-external',
 				actionHandler: function (filename, context) {
+					var permissions = context.fileInfoModel.attributes.permissions;
+					var actions = OC.dialogs.FILEPICKER_TYPE_COPY;
+					if (permissions & OC.PERMISSION_UPDATE) {
+						actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
+					}
 					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
 						if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
-							context.fileList.copy(filename, targetPath);
+							context.fileList.copy(filename, targetPath, false, context.dir);
 						}
 						if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
-							context.fileList.move(filename, targetPath);
+							context.fileList.move(filename, targetPath, false, context.dir);
 						}
-					}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
+					}, false, "httpd/unix-directory", true, actions);
 				}
 			});
 

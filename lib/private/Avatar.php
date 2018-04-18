@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
@@ -117,27 +118,52 @@ class Avatar implements IAvatar {
 			$img = $data;
 			$data = $img->data();
 		} else {
-			$img = new OC_Image($data);
+			$img = new OC_Image();
+			if (is_resource($data) && get_resource_type($data) === "gd") {
+				$img->setResource($data);
+			} elseif(is_resource($data)) {
+				$img->loadFromFileHandle($data);
+			} else {
+				try {
+					// detect if it is a path or maybe the images as string
+					$result = @realpath($data);
+					if ($result === false || $result === null) {
+						$img->loadFromData($data);
+					} else {
+						$img->loadFromFile($data);
+					}
+				} catch (\Error $e) {
+					$img->loadFromData($data);
+				}
+			}
 		}
 		$type = substr($img->mimeType(), -3);
 		if ($type === 'peg') {
 			$type = 'jpg';
 		}
 		if ($type !== 'jpg' && $type !== 'png') {
-			throw new \Exception($this->l->t("Unknown filetype"));
+			throw new \Exception($this->l->t('Unknown filetype'));
 		}
 
 		if (!$img->valid()) {
-			throw new \Exception($this->l->t("Invalid image"));
+			throw new \Exception($this->l->t('Invalid image'));
 		}
 
 		if (!($img->height() === $img->width())) {
-			throw new NotSquareException($this->l->t("Avatar image is not square"));
+			throw new NotSquareException($this->l->t('Avatar image is not square'));
 		}
 
 		$this->remove();
 		$file = $this->folder->newFile('avatar.'.$type);
 		$file->putContent($data);
+
+		try {
+			$generated = $this->folder->getFile('generated');
+			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'false');
+			$generated->delete();
+		} catch (NotFoundException $e) {
+			//
+		}
 		$this->user->triggerChange('avatar', $file);
 	}
 
@@ -146,17 +172,15 @@ class Avatar implements IAvatar {
 	 * @return void
 	*/
 	public function remove () {
-		$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
 		$avatars = $this->folder->getDirectoryListing();
 
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
 			(int)$this->config->getUserValue($this->user->getUID(), 'avatar', 'version', 0) + 1);
 
 		foreach ($avatars as $avatar) {
-			if (preg_match($regex, $avatar->getName())) {
-				$avatar->delete();
-			}
+			$avatar->delete();
 		}
+		$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
 		$this->user->triggerChange('avatar', '');
 	}
 
@@ -164,7 +188,17 @@ class Avatar implements IAvatar {
 	 * @inheritdoc
 	 */
 	public function getFile($size) {
-		$ext = $this->getExtension();
+		try {
+			$ext = $this->getExtension();
+		} catch (NotFoundException $e) {
+			$data = $this->generateAvatar($this->user->getDisplayName(), 1024);
+			$avatar = $this->folder->newFile('avatar.png');
+			$avatar->putContent($data);
+			$ext = 'png';
+
+			$this->folder->newFile('generated');
+			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
+		}
 
 		if ($size === -1) {
 			$path = 'avatar.' . $ext;
@@ -179,19 +213,31 @@ class Avatar implements IAvatar {
 				throw new NotFoundException;
 			}
 
-			$avatar = new OC_Image();
-			/** @var ISimpleFile $file */
-			$file = $this->folder->getFile('avatar.' . $ext);
-			$avatar->loadFromData($file->getContent());
-			if ($size !== -1) {
+			if ($this->folder->fileExists('generated')) {
+				$data = $this->generateAvatar($this->user->getDisplayName(), $size);
+
+			} else {
+				$avatar = new OC_Image();
+				/** @var ISimpleFile $file */
+				$file = $this->folder->getFile('avatar.' . $ext);
+				$avatar->loadFromData($file->getContent());
 				$avatar->resize($size);
+				$data = $avatar->data();
 			}
+
 			try {
 				$file = $this->folder->newFile($path);
-				$file->putContent($avatar->data());
+				$file->putContent($data);
 			} catch (NotPermittedException $e) {
 				$this->logger->error('Failed to save avatar for ' . $this->user->getUID());
+				throw new NotFoundException();
 			}
+
+		}
+
+		if($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {
+			$generated = $this->folder->fileExists('generated') ? 'true' : 'false';
+			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', $generated);
 		}
 
 		return $file;
@@ -211,4 +257,135 @@ class Avatar implements IAvatar {
 		}
 		throw new NotFoundException;
 	}
+
+	/**
+	 * @param string $userDisplayName
+	 * @param int $size
+	 * @return string
+	 */
+	private function generateAvatar($userDisplayName, $size) {
+		$text = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
+		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
+
+		$im = imagecreatetruecolor($size, $size);
+		$background = imagecolorallocate($im, $backgroundColor->r, $backgroundColor->g, $backgroundColor->b);
+		$white = imagecolorallocate($im, 255, 255, 255);
+		imagefilledrectangle($im, 0, 0, $size, $size, $background);
+
+		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
+
+		$fontSize = $size * 0.4;
+		$box = imagettfbbox($fontSize, 0, $font, $text);
+
+		$x = ($size - ($box[2] - $box[0])) / 2;
+		$y = ($size - ($box[1] - $box[7])) / 2;
+		$x += 1;
+		$y -= $box[7];
+		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $text);
+
+		ob_start();
+		imagepng($im);
+		$data = ob_get_contents();
+		ob_end_clean();
+
+		return $data;
+	}
+
+	/**
+	 * Calculate steps between two Colors
+	 * @param object Color $steps start color
+	 * @param object Color $ends end color
+	 * @return array [r,g,b] steps for each color to go from $steps to $ends
+	 */
+	private function stepCalc($steps, $ends) {
+		$step = array();
+		$step[0] = ($ends[1]->r - $ends[0]->r) / $steps;
+		$step[1] = ($ends[1]->g - $ends[0]->g) / $steps;
+		$step[2] = ($ends[1]->b - $ends[0]->b) / $steps;
+		return $step;
+	}
+	/**
+	 * Convert a string to an integer evenly
+	 * @param string $hash the text to parse
+	 * @param int $maximum the maximum range
+	 * @return int between 0 and $maximum
+	 */
+	private function mixPalette($steps, $color1, $color2) {
+		$count = $steps + 1;
+		$palette = array($color1);
+		$step = $this->stepCalc($steps, [$color1, $color2]);
+		for ($i = 1; $i < $steps; $i++) {
+			$r = intval($color1->r + ($step[0] * $i));
+			$g = intval($color1->g + ($step[1] * $i));
+			$b = intval($color1->b + ($step[2] * $i));
+				$palette[] = new Color($r, $g, $b);
+		}
+		return $palette;
+	}
+
+
+	/**
+	 * Convert a string to an integer evenly
+	 * @param string $hash the text to parse
+	 * @param int $maximum the maximum range
+	 * @return int between 0 and $maximum
+	 */
+	private function hashToInt($hash, $maximum) {
+		$final = 0;
+		$result = array();
+
+		// Splitting evenly the string
+		for ($i=0; $i< strlen($hash); $i++) {
+			// chars in md5 goes up to f, hex:16
+			$result[] = intval(substr($hash, $i, 1), 16) % 16;
+		}
+		// Adds up all results
+		foreach ($result as $value) {
+			$final += $value;
+		}
+		// chars in md5 goes up to f, hex:16
+		return intval($final % $maximum);
+	}
+
+
+	/**
+	 * @param string $text
+	 * @return Color Object containting r g b int in the range [0, 255]
+	 */
+	function avatarBackgroundColor($text) {
+		$hash = preg_replace('/[^0-9a-f]+/', '', $text);
+
+		$hash = md5($hash);
+		$hashChars = str_split($hash);
+
+		$red = new Color(182, 70, 157);
+		$yellow = new Color(221, 203, 85);
+		$blue = new Color(0, 130, 201); // Nextcloud blue
+		// Number of steps to go from a color to another
+		// 3 colors * 6 will result in 18 generated colors
+		$steps = 6;
+
+		$palette1 = $this->mixPalette($steps, $red, $yellow);
+		$palette2 = $this->mixPalette($steps, $yellow, $blue);
+		$palette3 = $this->mixPalette($steps, $blue, $red);
+
+		$finalPalette = array_merge($palette1, $palette2, $palette3);
+
+		return $finalPalette[$this->hashToInt($hash, $steps * 3 )];
+	}
+
+	public function userChanged($feature, $oldValue, $newValue) {
+		// We only change the avatar on display name changes
+		if ($feature !== 'displayName') {
+			return;
+		}
+
+		// If the avatar is not generated (so an uploaded image) we skip this
+		if (!$this->folder->fileExists('generated')) {
+			return;
+		}
+
+		$this->remove();
+	}
+
 }

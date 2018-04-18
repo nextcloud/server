@@ -23,6 +23,7 @@
 namespace OCA\Files_Sharing;
 
 use OCP\Capabilities\ICapability;
+use OCP\Constants;
 use \OCP\IConfig;
 
 /**
@@ -86,6 +87,7 @@ class Capabilities implements ICapability {
 			$res['group'] = [];
 			$res['group']['enabled'] = $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
 			$res['group']['expire_date']['enabled'] = true;
+			$res['default_permissions'] = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL);
 		}
 
 		//Federated sharing

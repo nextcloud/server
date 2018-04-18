@@ -138,7 +138,7 @@ class AppConfigControllerTest extends TestCase {
 
 	public function dataGetValue() {
 		return [
-			['app1 ', null, null, null, new \InvalidArgumentException('error'), Http::STATUS_FORBIDDEN],
+			['app1', 'key', 'default', null, new \InvalidArgumentException('error'), Http::STATUS_FORBIDDEN],
 			['app2', 'key', 'default', 'return', null, Http::STATUS_OK],
 		];
 	}
@@ -186,8 +186,8 @@ class AppConfigControllerTest extends TestCase {
 
 	public function dataSetValue() {
 		return [
-			['app1 ', null, null, new \InvalidArgumentException('error1'), null, Http::STATUS_FORBIDDEN],
-			['app2', 'key', null, null, new \InvalidArgumentException('error2'), Http::STATUS_FORBIDDEN],
+			['app1', 'key', 'default', new \InvalidArgumentException('error1'), null, Http::STATUS_FORBIDDEN],
+			['app2', 'key', 'default', null, new \InvalidArgumentException('error2'), Http::STATUS_FORBIDDEN],
 			['app2', 'key', 'default', null, null, Http::STATUS_OK],
 		];
 	}
@@ -252,7 +252,7 @@ class AppConfigControllerTest extends TestCase {
 
 	public function dataDeleteValue() {
 		return [
-			['app1 ', null, new \InvalidArgumentException('error1'), null, Http::STATUS_FORBIDDEN],
+			['app1', 'key', new \InvalidArgumentException('error1'), null, Http::STATUS_FORBIDDEN],
 			['app2', 'key', null, new \InvalidArgumentException('error2'), Http::STATUS_FORBIDDEN],
 			['app2', 'key', null, null, Http::STATUS_OK],
 		];
@@ -318,7 +318,7 @@ class AppConfigControllerTest extends TestCase {
 	public function testVerifyAppId() {
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyAppId', ['activity']);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function dataVerifyAppIdThrows() {
@@ -356,7 +356,7 @@ class AppConfigControllerTest extends TestCase {
 	public function testVerifyConfigKey($app, $key) {
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key]);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function dataVerifyConfigKeyThrows() {

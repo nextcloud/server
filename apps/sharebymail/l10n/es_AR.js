@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Le permite a los usuarios compartir un link personalizado a un archivo o carpeta colocando una dirección de correo eletrónico. ",
     "Send password by mail" : "La contraseña ha sido enviada por correo",
     "Enforce password protection" : "Forzar protección con contraseña",
-    "Failed to send share by E-mail" : "Se presentó una falla al enviar el recurso compartido por correo electrónico",
-    "%s shared »%s« with you on behalf of %s" : "%s ha compartido »%s« con usted a nombre de %s",
-    "Failed to create the E-mail" : "Se presentó una falla al crear el correo electrónico",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hola,\n\n%s ha compartido »%s« con usted a nombre de %s.\n\n%s\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hola,\n\n%s ha compartido »%s« con usted.\n\n%s\n",
-    "Cheers!" : "¡Saludos!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola,<br><br>%s ha compartido <a href=\"%s\">%s</a> con usted a nombre de %s.<br><br> ",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola, <br><br>%s ha compartido <a href=\"%s\">%s</a> con usted.<br><br> "
+    "Failed to send share by E-mail" : "Se presentó una falla al enviar el recurso compartido por correo electrónico"
 },
 "nplurals=2; plural=(n != 1);");

@@ -16,12 +16,6 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Le Compartir de Servitor a Servitor non es activate in iste servitor",
     "Couldn't establish a federated share." : "Impossibile establir le Compartir Federate.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Impossibile establir le Compartir Federate, possibilemente le contrasigno esseva incorrecte.",
-    "The mountpoint name contains invalid characters." : "Le nomine pro le puncto de montage contine characteres non valide.",
-    "Not allowed to create a federated share with the owner." : "Il non es permittite crear le Compartir Federate con le proprietario.",
-    "Invalid or untrusted SSL certificate" : "Certificato SSL non valide o non fiduciari",
-    "Could not authenticate to remote share, password might be wrong" : "Impossibile authenticar al Compartir Remote, le contrasigno debe esser incorrecte",
-    "Storage not valid" : "Immagazinage non valide",
-    "Couldn't add remote share" : "Impossibile adder le Compartir Remote",
     "Sharing %s failed, because this item is already shared with %s" : "Compartir %s falleva, proque iste elemento ja es compartite con %s",
     "Not allowed to create a federated share with the same user" : "Il non es permittite crear le Compartir Federate con le mesme usator.",
     "File is already shared with %s" : "File ja es compartite con %s",
@@ -45,6 +39,11 @@ OC.L10N.register(
     "Add to your website" : "Adde a tu sito web",
     "Share with me via Nextcloud" : "Comparti con me via Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "Share it:" : "Comparti lo:"
+    "The mountpoint name contains invalid characters." : "Le nomine pro le puncto de montage contine characteres non valide.",
+    "Not allowed to create a federated share with the owner." : "Il non es permittite crear le Compartir Federate con le proprietario.",
+    "Invalid or untrusted SSL certificate" : "Certificato SSL non valide o non fiduciari",
+    "Could not authenticate to remote share, password might be wrong" : "Impossibile authenticar al Compartir Remote, le contrasigno debe esser incorrecte",
+    "Storage not valid" : "Immagazinage non valide",
+    "Couldn't add remote share" : "Impossibile adder le Compartir Remote"
 },
 "nplurals=2; plural=(n != 1);");

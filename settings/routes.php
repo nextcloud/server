@@ -50,7 +50,6 @@ $application->registerRoutes($this, [
 		['name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'],
 		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps', 'verb' => 'GET'],
 		['name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'],
-		['name' => 'SecuritySettings#trustedDomains', 'url' => '/settings/admin/security/trustedDomains', 'verb' => 'POST'],
 		['name' => 'Users#setDisplayName', 'url' => '/settings/users/{username}/displayName', 'verb' => 'POST'],
 		['name' => 'Users#setEMailAddress', 'url' => '/settings/users/{id}/mailAddress', 'verb' => 'PUT'],
 		['name' => 'Users#setUserSettings', 'url' => '/settings/users/{username}/settings', 'verb' => 'PUT'],
@@ -106,8 +105,6 @@ $this->create('settings_ajax_updateapp', '/settings/ajax/updateapp.php')
 	->actionInclude('settings/ajax/updateapp.php');
 $this->create('settings_ajax_uninstallapp', '/settings/ajax/uninstallapp.php')
 	->actionInclude('settings/ajax/uninstallapp.php');
-$this->create('settings_ajax_navigationdetect', '/settings/ajax/navigationdetect.php')
-	->actionInclude('settings/ajax/navigationdetect.php');
 // admin
 $this->create('settings_ajax_excludegroups', '/settings/ajax/excludegroups.php')
 	->actionInclude('settings/ajax/excludegroups.php');

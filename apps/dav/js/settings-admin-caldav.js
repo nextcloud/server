@@ -26,3 +26,13 @@ $('#caldavSendInvitations').change(function() {
 
 	OCP.AppConfig.setValue('dav', 'sendInvitations', val ? 'yes' : 'no');
 });
+
+$('#caldavGenerateBirthdayCalendar').change(function() {
+	var val = $(this)[0].checked;
+
+	if (val) {
+		$.post(OC.generateUrl(OC.linkTo("dav", "enableBirthdayCalendar")));
+	} else {
+		$.post(OC.generateUrl(OC.linkTo("dav", "disableBirthdayCalendar")));
+	}
+});

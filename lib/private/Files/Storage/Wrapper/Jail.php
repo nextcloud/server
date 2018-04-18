@@ -60,6 +60,17 @@ class Jail extends Wrapper {
 		}
 	}
 
+	public function getJailedPath($path) {
+		$root = rtrim($this->rootPath, '/') . '/';
+
+		if (strpos($path, $root) !== 0) {
+			return null;
+		} else {
+			$path = substr($path, strlen($this->rootPath));
+			return trim($path, '/');
+		}
+	}
+
 	public function getId() {
 		return parent::getId();
 	}

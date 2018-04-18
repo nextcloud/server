@@ -95,6 +95,11 @@ class MailerTest extends TestCase {
 	}
 
 	public function testCreateMessage() {
+		$this->config
+			->expects($this->any())
+			->method('getSystemValue')
+			->with('mail_send_plaintext_only', false)
+			->will($this->returnValue(false));
 		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
 	}
 
@@ -133,6 +138,10 @@ class MailerTest extends TestCase {
 	}
 
 	public function testCreateEMailTemplate() {
+		$this->config->method('getSystemValue')
+			->with('mail_template_class', '')
+			->willReturnArgument(1);
+
 		$this->assertSame(EMailTemplate::class, get_class($this->mailer->createEMailTemplate('tests.MailerTest')));
 	}
 }

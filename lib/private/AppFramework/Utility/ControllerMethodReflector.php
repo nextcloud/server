@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -42,31 +43,33 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @param object $object an object or classname
 	 * @param string $method the method which we want to inspect
 	 */
-	public function reflect($object, $method){
+	public function reflect($object, string $method){
 		$reflection = new \ReflectionMethod($object, $method);
 		$docs = $reflection->getDocComment();
 
-		// extract everything prefixed by @ and first letter uppercase
-		preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)((?P<parameter>.*))?$/m', $docs, $matches);
-		foreach($matches['annotation'] as $key => $annontation) {
-			$annotationValue = $matches['parameter'][$key];
-			if(isset($annotationValue[0]) && $annotationValue[0] === '(' && $annotationValue[strlen($annotationValue) - 1] === ')') {
-				$cutString = substr($annotationValue, 1, -1);
-				$cutString = str_replace(' ', '', $cutString);
-				$splittedArray = explode(',', $cutString);
-				foreach($splittedArray as $annotationValues) {
-					list($key, $value) = explode('=', $annotationValues);
-					$this->annotations[$annontation][$key] = $value;
+		if ($docs !== false) {
+			// extract everything prefixed by @ and first letter uppercase
+			preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)((?P<parameter>.*))?$/m', $docs, $matches);
+			foreach ($matches['annotation'] as $key => $annontation) {
+				$annotationValue = $matches['parameter'][$key];
+				if (isset($annotationValue[0]) && $annotationValue[0] === '(' && $annotationValue[\strlen($annotationValue) - 1] === ')') {
+					$cutString = substr($annotationValue, 1, -1);
+					$cutString = str_replace(' ', '', $cutString);
+					$splittedArray = explode(',', $cutString);
+					foreach ($splittedArray as $annotationValues) {
+						list($key, $value) = explode('=', $annotationValues);
+						$this->annotations[$annontation][$key] = $value;
+					}
+					continue;
 				}
-				continue;
+
+				$this->annotations[$annontation] = [$annotationValue];
 			}
 
-			$this->annotations[$annontation] = [$annotationValue];
+			// extract type parameter information
+			preg_match_all('/@param\h+(?P<type>\w+)\h+\$(?P<var>\w+)/', $docs, $matches);
+			$this->types = array_combine($matches['var'], $matches['type']);
 		}
-
-		// extract type parameter information
-		preg_match_all('/@param\h+(?P<type>\w+)\h+\$(?P<var>\w+)/', $docs, $matches);
-		$this->types = array_combine($matches['var'], $matches['type']);
 
 		foreach ($reflection->getParameters() as $param) {
 			// extract type information from PHP 7 scalar types and prefer them
@@ -78,10 +81,9 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 				}
 			}
 
+			$default = null;
 			if($param->isOptional()) {
 				$default = $param->getDefaultValue();
-			} else {
-				$default = null;
 			}
 			$this->parameters[$param->name] = $default;
 		}
@@ -94,18 +96,18 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @return string|null type in the type parameters (@param int $something)
 	 * would return int or null if not existing
 	 */
-	public function getType($parameter) {
+	public function getType(string $parameter) {
 		if(array_key_exists($parameter, $this->types)) {
 			return $this->types[$parameter];
-		} else {
-			return null;
 		}
+
+		return null;
 	}
 
 	/**
 	 * @return array the arguments of the method with key => default value
 	 */
-	public function getParameters() {
+	public function getParameters(): array {
 		return $this->parameters;
 	}
 
@@ -114,7 +116,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @param string $name the name of the annotation
 	 * @return bool true if the annotation is found
 	 */
-	public function hasAnnotation($name) {
+	public function hasAnnotation(string $name): bool {
 		return array_key_exists($name, $this->annotations);
 	}
 
@@ -125,7 +127,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @param string $key the string of the annotation
 	 * @return string
 	 */
-	public function getAnnotationParameter($name, $key) {
+	public function getAnnotationParameter(string $name, string $key): string {
 		if(isset($this->annotations[$name][$key])) {
 			return $this->annotations[$name][$key];
 		}

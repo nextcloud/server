@@ -30,6 +30,7 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\Cache\ICacheEntry;
 
 /**
@@ -62,10 +63,28 @@ class Cache extends CacheJail {
 		$this->storage = $storage;
 		$this->sourceRootInfo = $sourceRootInfo;
 		$this->numericId = $sourceRootInfo->getStorageId();
+
 		parent::__construct(
 			null,
-			$this->sourceRootInfo->getPath()
+			null
 		);
+	}
+
+	protected function getRoot() {
+		if (is_null($this->root)) {
+			$absoluteRoot = $this->sourceRootInfo->getPath();
+
+			// the sourceRootInfo path is the absolute path of the folder in the "real" storage
+			// in the case where a folder is shared from a Jail we need to ensure that the share Jail
+			// has it's root set relative to the source Jail
+			$currentStorage = $this->storage->getSourceStorage();
+			if ($currentStorage->instanceOfStorage(Jail::class)) {
+				/** @var Jail $currentStorage */
+				$absoluteRoot = $currentStorage->getJailedPath($absoluteRoot);
+			}
+			$this->root = $absoluteRoot;
+		}
+		return $this->root;
 	}
 
 	public function getCache() {
@@ -91,7 +110,7 @@ class Cache extends CacheJail {
 
 	public function get($file) {
 		if ($this->rootUnchanged && ($file === '' || $file === $this->sourceRootInfo->getId())) {
-			return $this->formatCacheEntry(clone $this->sourceRootInfo);
+			return $this->formatCacheEntry(clone $this->sourceRootInfo, '');
 		}
 		return parent::get($file);
 	}
@@ -116,16 +135,20 @@ class Cache extends CacheJail {
 		return parent::moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}
 
-	protected function formatCacheEntry($entry) {
-		$path = isset($entry['path']) ? $entry['path'] : '';
-		$entry = parent::formatCacheEntry($entry);
+	protected function formatCacheEntry($entry, $path = null) {
+		if (is_null($path)) {
+			$path = isset($entry['path']) ? $entry['path'] : '';
+			$entry['path'] = $this->getJailedPath($path);
+		} else {
+			$entry['path'] = $path;
+		}
 		$sharePermissions = $this->storage->getPermissions($path);
 		if (isset($entry['permissions'])) {
 			$entry['permissions'] &= $sharePermissions;
 		} else {
 			$entry['permissions'] = $sharePermissions;
 		}
-		$entry['uid_owner'] = $this->storage->getOwner($path);
+		$entry['uid_owner'] = $this->storage->getOwner('');
 		$entry['displayname_owner'] = $this->getOwnerDisplayName();
 		if ($path === '') {
 			$entry['is_share_mount_point'] = true;

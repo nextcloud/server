@@ -335,8 +335,10 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->expects($this->at(1))->method('encryptFile')->with('/user1/files/bar');
 		$encryptAll->expects($this->at(2))->method('encryptFile')->with('/user1/files/foo/subfile');
 
-		$progressBar = $this->getMockBuilder(ProgressBar::class)
-			->disableOriginalConstructor()->getMock();
+		$this->outputInterface->expects($this->any())
+			->method('getFormatter')
+			->willReturn($this->createMock(OutputFormatterInterface::class));
+		$progressBar = new ProgressBar($this->outputInterface);
 
 		$this->invokePrivate($encryptAll, 'encryptUsersFiles', ['user1', $progressBar, '']);
 

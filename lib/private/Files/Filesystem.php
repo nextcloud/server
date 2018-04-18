@@ -794,7 +794,7 @@ class Filesystem {
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
 		if (is_null(self::$normalizedPathCache)) {
-			self::$normalizedPathCache = new CappedMemoryCache();
+			self::$normalizedPathCache = new CappedMemoryCache(2048);
 		}
 
 		/**
@@ -839,8 +839,8 @@ class Filesystem {
 		$path = preg_replace('#/{2,}#', '/', $path);
 
 		//remove trailing slash
-		if ($stripTrailingSlash and strlen($path) > 1 and substr($path, -1, 1) === '/') {
-			$path = substr($path, 0, -1);
+		if ($stripTrailingSlash and strlen($path) > 1) {
+			$path = rtrim($path, '/');
 		}
 
 		// remove trailing '/.'

@@ -229,6 +229,9 @@ abstract class Common implements Storage, ILockingStorage {
 			$source = $this->fopen($path1, 'r');
 			$target = $this->fopen($path2, 'w');
 			list(, $result) = \OC_Helper::streamCopy($source, $target);
+			if (!$result) {
+				\OC::$server->getLogger()->warning("Failed to write data while copying $path1 to $path2");
+			}
 			$this->removeCachedFile($path2);
 			return $result;
 		}
@@ -446,8 +449,11 @@ abstract class Common implements Storage, ILockingStorage {
 			if ($this->stat('')) {
 				return true;
 			}
+			\OC::$server->getLogger()->info("External storage not available: stat() failed");
 			return false;
 		} catch (\Exception $e) {
+			\OC::$server->getLogger()->info("External storage not available: " . $e->getMessage());
+			\OC::$server->getLogger()->logException($e, ['level' => \OCP\Util::DEBUG]);
 			return false;
 		}
 	}

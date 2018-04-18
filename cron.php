@@ -34,12 +34,7 @@
  *
  */
 
-// Show warning if a PHP version below 5.6.0 is used
-if (version_compare(PHP_VERSION, '5.6.0') === -1) {
-	echo 'This version of Nextcloud requires at least PHP 5.6.0<br/>';
-	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.';
-	return;
-}
+require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
 
@@ -68,7 +63,7 @@ try {
 	$logger = \OC::$server->getLogger();
 	$config = \OC::$server->getConfig();
 
-	// Don't do anything if ownCloud has not been installed
+	// Don't do anything if Nextcloud has not been installed
 	if (!$config->getSystemValue('installed', false)) {
 		exit(0);
 	}
@@ -76,8 +71,8 @@ try {
 	\OC::$server->getTempManager()->cleanOld();
 
 	// Exit if background jobs are disabled!
-	$appMode = \OCP\BackgroundJob::getExecutionType();
-	if ($appMode == 'none') {
+	$appMode = $config->getAppValue('core', 'backgroundjobs_mode', 'ajax');
+	if ($appMode === 'none') {
 		if (OC::$CLI) {
 			echo 'Background Jobs are disabled!' . PHP_EOL;
 		} else {
@@ -106,9 +101,9 @@ try {
 			exit(1);
 		}
 
-		// We call ownCloud from the CLI (aka cron)
-		if ($appMode != 'cron') {
-			\OCP\BackgroundJob::setExecutionType('cron');
+		// We call Nextcloud from the CLI (aka cron)
+		if ($appMode !== 'cron') {
+			$config->setAppValue('core', 'backgroundjobs_mode', 'cron');
 		}
 
 		// Work
@@ -160,7 +155,7 @@ try {
 	exit();
 
 } catch (Exception $ex) {
-	\OCP\Util::writeLog('cron', $ex->getMessage(), \OCP\Util::FATAL);
+	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
 } catch (Error $ex) {
-	\OCP\Util::writeLog('cron', $ex->getMessage(), \OCP\Util::FATAL);
+	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
 }

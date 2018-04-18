@@ -196,22 +196,13 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getBackground() {
-		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime',false);
-
-		$backgroundExists = true;
-		try {
-			$this->appData->getFolder('images')->getFile('background');
-		} catch (\Exception $e) {
-			$backgroundExists = false;
-		}
-
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 
-		if(!$backgroundLogo || !$backgroundExists) {
-			return $this->urlGenerator->imagePath('core','background.png') . '?v=' . $cacheBusterCounter;
+		if($this->util->isBackgroundThemed()) {
+			return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground') . '?v=' . $cacheBusterCounter;
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground') . '?v=' . $cacheBusterCounter;
+		return $this->urlGenerator->imagePath('core','background.png') . '?v=' . $cacheBusterCounter;
 	}
 
 	/**
@@ -240,7 +231,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return array scss variables to overwrite
 	 */
 	public function getScssVariables() {
-		$cache = $this->cacheFactory->create('theming');
+		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
 		if ($value = $cache->get('getScssVariables')) {
 			return $value;
 		}
@@ -251,18 +242,13 @@ class ThemingDefaults extends \OC_Defaults {
 			'theming-background-mime' => "'" . $this->config->getAppValue('theming', 'backgroundMime', '') . "'"
 		];
 
-		$variables['image-logo'] = "'".$this->urlGenerator->getAbsoluteURL($this->getLogo())."'";
-		$variables['image-login-background'] = "'".$this->urlGenerator->getAbsoluteURL($this->getBackground())."'";
+		$variables['image-logo'] = "'".$this->getLogo()."'";
+		$variables['image-login-background'] = "'".$this->getBackground()."'";
 		$variables['image-login-plain'] = 'false';
 
 		if ($this->config->getAppValue('theming', 'color', null) !== null) {
-			if ($this->util->invertTextColor($this->getColorPrimary())) {
-				$colorPrimaryText = '#000000';
-			} else {
-				$colorPrimaryText = '#ffffff';
-			}
 			$variables['color-primary'] = $this->getColorPrimary();
-			$variables['color-primary-text'] = $colorPrimaryText;
+			$variables['color-primary-text'] = $this->getTextColorPrimary();
 			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
 		}
 
@@ -312,7 +298,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return bool
 	 */
 	public function shouldReplaceIcons() {
-		$cache = $this->cacheFactory->create('theming');
+		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
 		if($value = $cache->get('shouldReplaceIcons')) {
 			return (bool)$value;
 		}
@@ -334,7 +320,7 @@ class ThemingDefaults extends \OC_Defaults {
 	private function increaseCacheBuster() {
 		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->setAppValue('theming', 'cachebuster', (int)$cacheBusterKey+1);
-		$this->cacheFactory->create('theming')->clear('getScssVariables');
+		$this->cacheFactory->createDistributed('theming-')->clear();
 	}
 
 	/**
@@ -377,5 +363,14 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		return $returnValue;
+	}
+
+	/**
+	 * Color of text in the header and primary buttons
+	 *
+	 * @return string
+	 */
+	public function getTextColorPrimary() {
+		return $this->util->invertTextColor($this->getColorPrimary()) ? '#000000' : '#ffffff';
 	}
 }

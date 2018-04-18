@@ -148,7 +148,7 @@ class RequestHandlerController extends OCSController {
 			);
 			\OCP\Util::writeLog('files_sharing', 'shareWith after, ' . $shareWith, \OCP\Util::DEBUG);
 
-			if (!\OCP\User::userExists($shareWith)) {
+			if (!\OC::$server->getUserManager()->userExists($shareWith)) {
 				throw new OCSException('User does not exists', 400);
 			}
 
@@ -209,7 +209,11 @@ class RequestHandlerController extends OCSController {
 
 				return new Http\DataResponse();
 			} catch (\Exception $e) {
-				\OCP\Util::writeLog('files_sharing', 'server can not add remote share, ' . $e->getMessage(), \OCP\Util::ERROR);
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Server can not add remote share.',
+					'level' => \OCP\Util::ERROR,
+					'app' => 'files_sharing'
+				]);
 				throw new OCSException('internal server error, was not able to add share from ' . $remote, 500);
 			}
 		}
@@ -423,9 +427,19 @@ class RequestHandlerController extends OCSController {
 
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
-		$query->execute(array($id, $token));
-		$share = $query->fetchRow();
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share_external')
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+					$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+				)
+			);
+
+		$result = $qb->execute();
+		$share = $result->fetch();
+		$result->closeCursor();
 
 		if ($token && $id && !empty($share)) {
 
@@ -435,8 +449,17 @@ class RequestHandlerController extends OCSController {
 			$mountpoint = $share['mountpoint'];
 			$user = $share['user'];
 
-			$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
-			$query->execute(array($id, $token));
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('share_external')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+						$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+					)
+				);
+
+			$result = $qb->execute();
+			$result->closeCursor();
 
 			if ($share['accepted']) {
 				$path = trim($mountpoint, '/');

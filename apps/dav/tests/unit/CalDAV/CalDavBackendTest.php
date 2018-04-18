@@ -31,10 +31,12 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
+use Sabre\DAV\Exception\NotFound;
 
 /**
  * Class CalDavBackendTest
@@ -131,6 +133,8 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 				return vsprintf($text, $parameters);
 			}));
 
+		$config = $this->createMock(IConfig::class);
+
 		$this->userManager->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
@@ -142,14 +146,14 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$calendarId = $this->createTestCalendar();
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
-		$calendar = new Calendar($this->backend, $calendars[0], $l10n);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::updateShares');
 		$this->backend->updateShares($calendar, $add, []);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
 		$this->assertCount(1, $calendars);
-		$calendar = new Calendar($this->backend, $calendars[0], $l10n);
+		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
 		$acl = $calendar->getACL();
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
@@ -505,8 +509,9 @@ EOD;
 
 		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
+		$config = $this->createMock(IConfig::class);
 
-		$calendar = new Calendar($this->backend, $calendarInfo, $l10n);
+		$calendar = new Calendar($this->backend, $calendarInfo, $l10n, $config);
 		$calendar->setPublishStatus(true);
 		$this->assertNotEquals(false, $calendar->getPublishStatus());
 
@@ -522,7 +527,7 @@ EOD;
 		$calendar->setPublishStatus(false);
 		$this->assertEquals(false, $calendar->getPublishStatus());
 
-		$this->setExpectedException('Sabre\DAV\Exception\NotFound');
+		$this->expectException(NotFound::class);
 		$this->backend->getPublicCalendar($publicCalendarURI);
 	}
 
@@ -720,5 +725,114 @@ EOD;
 			'search-term' => 't',
 		]);
 		$this->assertEquals(count($search5), 0);
+	}
+
+	/**
+	 * @dataProvider searchDataProvider
+	 */
+	public function testSearch($isShared, $count) {
+		$calendarId = $this->createTestCalendar();
+
+		$uris = [];
+		$calData = [];
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-1
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-2
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:123
+LOCATION:Test
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-3
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:123
+ATTENDEE;CN=test:mailto:foo@bar.com
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PRIVATE
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-4
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:123
+ATTENDEE;CN=foobar:mailto:test@bar.com
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:CONFIDENTIAL
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uriCount = count($uris);
+		for ($i=0; $i < $uriCount; $i++) {
+			$this->backend->createCalendarObject($calendarId,
+				$uris[$i], $calData[$i]);
+		}
+
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => $isShared ? 'user2' : 'user1',
+		];
+
+		$result = $this->backend->search($calendarInfo, 'Test',
+			['SUMMARY', 'LOCATION', 'ATTENDEE'], [], null, null);
+
+		$this->assertCount($count, $result);
+	}
+
+	public function searchDataProvider() {
+		return [
+			[false, 4],
+			[true, 2],
+		];
 	}
 }

@@ -1,17 +1,16 @@
 { "translations": {
     "Comments" : "Athugasemdir",
-    "Unknown user" : "Óþekktur notandi",
-    "New comment …" : "Ný athugasemd ...",
+    "Edit comment" : "Breyta athugasemd",
     "Delete comment" : "Eyða athugasemd",
+    "New comment …" : "Ný athugasemd ...",
     "Post" : "Senda",
     "Cancel" : "Hætta við",
-    "Edit comment" : "Breyta athugasemd",
     "[Deleted user]" : "[Eyddur notandi]",
     "No comments yet, start the conversation!" : "Engar athugasemdir ennþá, byrjaðu umræðuna!",
     "More comments …" : "Fleiri athugasemdir ...",
     "Save" : "Vista",
     "Allowed characters {count} of {max}" : "Leyfður stafafjöldi {count} af {max}",
-    "Error occurred while retrieving comment with id {id}" : "Villa kom upp við að reyna að ná í athugasemd með auðkenninu {id}",
+    "Error occurred while retrieving comment with ID {id}" : "Villa kom upp við að reyna að ná í ummæli með auðkenninu {id}",
     "Error occurred while updating comment with id {id}" : "Villa kom upp við að reyna að uppfæra athugasemd með auðkenninu {id}",
     "Error occurred while posting comment" : "Villa kom upp við að senda inn athugasemd",
     "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"],
@@ -24,9 +23,12 @@
     "%1$s commented on %2$s" : "%1$s setti inn athugasemd um %2$s",
     "{author} commented on {file}" : "{author} setti inn athugasemd við {file}",
     "<strong>Comments</strong> for files" : "<strong>Athugasemdir</strong> við skrár",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “{file}”",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Minnst var á þig í “%s”, í athugasemd frá notanda sem síðan þá hefur verið eytt",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Minnst var á þig í “{file}”, í athugasemd frá notanda sem síðan þá hefur verið eytt",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s minntist á þig í athugasemd við “%2$s”",
-    "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”"
+    "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”",
+    "Unknown user" : "Óþekktur notandi",
+    "A (now) deleted user mentioned you in a comment on “%s”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “%s”",
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “{file}”"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

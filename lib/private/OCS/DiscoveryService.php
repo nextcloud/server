@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -46,7 +47,7 @@ class DiscoveryService implements IDiscoveryService {
 	public function __construct(ICacheFactory $cacheFactory,
 								IClientService $clientService
 	) {
-		$this->cache = $cacheFactory->create('ocs-discovery');
+		$this->cache = $cacheFactory->createDistributed('ocs-discovery');
 		$this->client = $clientService->newClient();
 	}
 
@@ -60,11 +61,14 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param string $service the service you want to discover
 	 * @return array
 	 */
-	public function discover($remote, $service) {
+	public function discover(string $remote, string $service): array {
 		// Check the cache first
 		$cacheData = $this->cache->get($remote . '#' . $service);
 		if($cacheData) {
-			return json_decode($cacheData, true);
+			$data = json_decode($cacheData, true);
+			if (\is_array($data)) {
+				return $data;
+			}
 		}
 
 		$discoveredServices = [];
@@ -77,32 +81,31 @@ class DiscoveryService implements IDiscoveryService {
 			]);
 			if($response->getStatusCode() === Http::STATUS_OK) {
 				$decodedServices = json_decode($response->getBody(), true);
-				$discoveredServices = $this->getEndpoints($decodedServices, $service);
+				if (\is_array($decodedServices)) {
+					$discoveredServices = $this->getEndpoints($decodedServices, $service);
+				}
 			}
 		} catch (\Exception $e) {
 			// if we couldn't discover the service or any end-points we return a empty array
-			return [];
 		}
 
 		// Write into cache
-		$this->cache->set($remote . '#' . $service, json_encode($discoveredServices));
+		$this->cache->set($remote . '#' . $service, json_encode($discoveredServices), 60*60*24);
 		return $discoveredServices;
 	}
 
 	/**
 	 * get requested end-points from the requested service
 	 *
-	 * @param $decodedServices
-	 * @param $service
+	 * @param array $decodedServices
+	 * @param string $service
 	 * @return array
 	 */
-	protected function getEndpoints($decodedServices, $service) {
+	protected function getEndpoints(array $decodedServices, string $service): array {
 
 		$discoveredServices = [];
 
-		if(is_array($decodedServices) &&
-			isset($decodedServices['services'][$service]['endpoints'])
-		) {
+		if(isset($decodedServices['services'][$service]['endpoints'])) {
 			foreach ($decodedServices['services'][$service]['endpoints'] as $endpoint => $url) {
 				if($this->isSafeUrl($url)) {
 					$discoveredServices[$endpoint] = $url;
@@ -120,7 +123,7 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param string $url
 	 * @return bool
 	 */
-	protected function isSafeUrl($url) {
+	protected function isSafeUrl(string $url): bool {
 		return (bool)preg_match('/^[\/\.\-A-Za-z0-9]+$/', $url);
 	}
 

@@ -11,7 +11,6 @@ OC.L10N.register(
     "The given color is invalid" : "Màu đã chọn không hợp lệ",
     "No file uploaded" : "Không có tệp nào được tải lên",
     "Unsupported image type" : "Loại hình ảnh không được hỗ trợ",
-    "You are already using a custom theme" : "Bạn đã sử dụng một chủ đề tuỳ chỉnh",
     "Theming" : "Điều chỉnh giao diện",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Điều chỉnh giao diện cho phép bạn có thể dễ dàng tùy biến bố cục trình bày của hệ thống. Khi thực hiện nó sẽ hiện hữu đối với tất cả người dùng",
     "Name" : "Tên",
@@ -25,7 +24,7 @@ OC.L10N.register(
     "Login image" : "Hình ảnh trang đăng nhập",
     "Upload new login background" : "Tải lên ảnh nền trang đăng nhập mới",
     "Remove background image" : "Xóa bỏ ảnh nền",
-    "reset to default" : "đặt lại về mặc định",
-    "Log in image" : "Ảnh đăng nhập"
+    "You are already using a custom theme" : "Bạn đã sử dụng một chủ đề tuỳ chỉnh",
+    "reset to default" : "đặt lại về mặc định"
 },
 "nplurals=1; plural=0;");

@@ -35,10 +35,13 @@
 
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Files\Node\Folder;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\AppFramework\Http\Template\SimpleMenuAction;
+use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
+use OCP\AppFramework\Http\Template\LinkMenuAction;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\Template;
@@ -167,10 +170,11 @@ class ShareController extends Controller {
 	 *
 	 * Authenticates against password-protected shares
 	 * @param string $token
+	 * @param string $redirect
 	 * @param string $password
 	 * @return RedirectResponse|TemplateResponse|NotFoundResponse
 	 */
-	public function authenticate($token, $password = '') {
+	public function authenticate($token, $redirect, $password = '') {
 
 		// Check whether share exists
 		try {
@@ -181,8 +185,17 @@ class ShareController extends Controller {
 
 		$authenticate = $this->linkShareAuth($share, $password);
 
-		if($authenticate === true) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
+		// if download was requested before auth, redirect to download
+		if ($authenticate === true && $redirect === 'download') {
+			return new RedirectResponse($this->urlGenerator->linkToRoute(
+				'files_sharing.sharecontroller.downloadShare',
+				array('token' => $token))
+			);
+		} else if ($authenticate === true) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute(
+				'files_sharing.sharecontroller.showShare',
+				array('token' => $token))
+			);
 		}
 
 		$response = new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
@@ -244,7 +257,7 @@ class ShareController extends Controller {
 				$exception = $e;
 			}
 		}
-		\OC_Hook::emit('OCP\Share', 'share_link_access', [
+		\OC_Hook::emit(Share::class, 'share_link_access', [
 			'itemType' => $itemType,
 			'itemSource' => $itemSource,
 			'uidOwner' => $uidOwner,
@@ -291,7 +304,7 @@ class ShareController extends Controller {
 		// Share is password protected - check whether the user is permitted to access the share
 		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				array('token' => $token)));
+				array('token' => $token, 'redirect' => 'preview')));
 		}
 
 		if (!$this->validateShare($share)) {
@@ -348,7 +361,7 @@ class ShareController extends Controller {
 				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 			}
 
-			$hideFileList = $share->getPermissions() & \OCP\Constants::PERMISSION_READ ? false : true;
+			$hideFileList = !($share->getPermissions() & \OCP\Constants::PERMISSION_READ);
 			$maxUploadFilesize = $freeSpace;
 
 			$folder = new Template('files', 'list', '');
@@ -385,7 +398,18 @@ class ShareController extends Controller {
 			// We just have direct previews for image files
 			if ($share->getNode()->getMimePart() === 'image') {
 				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
+
 				$ogPreview = $shareTmpl['previewURL'];
+
+				//Whatapp is kind of picky about their size requirements
+				if ($this->request->isUserAgent(['/^WhatsApp/'])) {
+					$ogPreview = $this->urlGenerator->linkToRouteAbsolute('files_sharing.PublicPreview.getPreview', [
+						't' => $token,
+						'x' => 256,
+						'y' => 256,
+						'a' => true,
+					]);
+				}
 			}
 		} else {
 			$shareTmpl['previewImage'] = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));
@@ -425,7 +449,17 @@ class ShareController extends Controller {
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
-		$response = new TemplateResponse($this->appName, 'public', $shareTmpl, 'base');
+
+		$response = new PublicTemplateResponse($this->appName, 'public', $shareTmpl);
+		$response->setHeaderTitle($shareTmpl['filename']);
+		$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['displayName']]));
+		$response->setHeaderActions([
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
+			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
+			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']),
+		]);
+
 		$response->setContentSecurityPolicy($csp);
 
 		$this->emitAccessShareHook($share);
@@ -456,7 +490,7 @@ class ShareController extends Controller {
 		// Share is password protected - check whether the user is permitted to access the share
 		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				['token' => $token]));
+				['token' => $token, 'redirect' => 'download']));
 		}
 
 		$files_list = null;

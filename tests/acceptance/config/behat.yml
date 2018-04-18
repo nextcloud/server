@@ -1,6 +1,4 @@
 default:
-  autoload:
-    '': %paths.base%/../features/bootstrap
   suites:
     default:
       paths:
@@ -11,7 +9,9 @@ default:
 
         - AppNavigationContext
         - CommentsAppContext
+        - ContactsMenuContext
         - FeatureContext
+        - FileListContext
         - FilesAppContext
         - FilesSharingAppContext
         - LoginPageContext

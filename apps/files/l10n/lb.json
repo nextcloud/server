@@ -117,25 +117,6 @@
     "Tags" : "Tags",
     "Deleted files" : "Geläschten Dateien",
     "Text file" : "Text Fichier",
-    "New text file.txt" : "Neien Text file.txt",
-    "Uploading..." : "Lueden erop...",
-    "..." : "...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} Stonn iwwereg","{hours}:{minutes}:{seconds} Stonnen iwwereg"],
-    "{hours}:{minutes}h" : "{hours}:{minutes} Stonnen",
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} Minute iwwereg","{minutes}:{seconds} Minuten iwwereg"],
-    "{minutes}:{seconds}m" : "{minutes}:{seconds} Minuten",
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} Sekonn iwwereg","{seconds} Sekonnen iwwereg"],
-    "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "An engen Moment",
-    "Soon..." : "Geschwënn",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
-    "Move" : "Verschieben",
-    "Copy local link" : "Lokale Link kopéiert",
-    "Folder" : "Dossier",
-    "Upload" : "Eroplueden",
-    "A new file or folder has been <strong>deleted</strong>" : "Eng Datei oder en Dossier gouf <strong> geläscht</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Eng Datei oder en Dossier gouf <strong> erem hier gestallt</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Benotz dess Address  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">, fir op deng Dateien via WebDAV zouzegräifen</a>",
-    "No favorites" : "Keng Favoriten"
+    "New text file.txt" : "Neien Text file.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

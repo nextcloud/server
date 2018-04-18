@@ -166,7 +166,9 @@ class PreviewManager implements IPreview {
 			return new \OC_Image();
 		}
 
-		return new \OC_Image($preview->getContent());
+		$previewImage = new \OC_Image();
+		$previewImage->loadFromData($preview->getContent());
+		return $previewImage;
 	}
 
 	/**
@@ -304,20 +306,20 @@ class PreviewManager implements IPreview {
 		}
 
 		$imageProviders = [
-			'OC\Preview\PNG',
-			'OC\Preview\JPEG',
-			'OC\Preview\GIF',
-			'OC\Preview\BMP',
-			'OC\Preview\XBitmap'
+			Preview\PNG::class,
+			Preview\JPEG::class,
+			Preview\GIF::class,
+			Preview\BMP::class,
+			Preview\XBitmap::class
 		];
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
-			'OC\Preview\MarkDown',
-			'OC\Preview\MP3',
-			'OC\Preview\TXT',
+			Preview\MarkDown::class,
+			Preview\MP3::class,
+			Preview\TXT::class,
 		], $imageProviders));
 
-		if (in_array('OC\Preview\Image', $this->defaultProviders)) {
+		if (in_array(Preview\Image::class, $this->defaultProviders)) {
 			$this->defaultProviders = array_merge($this->defaultProviders, $imageProviders);
 		}
 		$this->defaultProviders = array_unique($this->defaultProviders);
@@ -347,27 +349,27 @@ class PreviewManager implements IPreview {
 		}
 		$this->registeredCoreProviders = true;
 
-		$this->registerCoreProvider('OC\Preview\TXT', '/text\/plain/');
-		$this->registerCoreProvider('OC\Preview\MarkDown', '/text\/(x-)?markdown/');
-		$this->registerCoreProvider('OC\Preview\PNG', '/image\/png/');
-		$this->registerCoreProvider('OC\Preview\JPEG', '/image\/jpeg/');
-		$this->registerCoreProvider('OC\Preview\GIF', '/image\/gif/');
-		$this->registerCoreProvider('OC\Preview\BMP', '/image\/bmp/');
-		$this->registerCoreProvider('OC\Preview\XBitmap', '/image\/x-xbitmap/');
-		$this->registerCoreProvider('OC\Preview\MP3', '/audio\/mpeg/');
+		$this->registerCoreProvider(Preview\TXT::class, '/text\/plain/');
+		$this->registerCoreProvider(Preview\MarkDown::class, '/text\/(x-)?markdown/');
+		$this->registerCoreProvider(Preview\PNG::class, '/image\/png/');
+		$this->registerCoreProvider(Preview\JPEG::class, '/image\/jpeg/');
+		$this->registerCoreProvider(Preview\GIF::class, '/image\/gif/');
+		$this->registerCoreProvider(Preview\BMP::class, '/image\/bmp/');
+		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
+		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
 
 		// SVG, Office and Bitmap require imagick
 		if (extension_loaded('imagick')) {
 			$checkImagick = new \Imagick();
 
 			$imagickProviders = [
-				'SVG'	=> ['mimetype' => '/image\/svg\+xml/', 'class' => '\OC\Preview\SVG'],
-				'TIFF'	=> ['mimetype' => '/image\/tiff/', 'class' => '\OC\Preview\TIFF'],
-				'PDF'	=> ['mimetype' => '/application\/pdf/', 'class' => '\OC\Preview\PDF'],
-				'AI'	=> ['mimetype' => '/application\/illustrator/', 'class' => '\OC\Preview\Illustrator'],
-				'PSD'	=> ['mimetype' => '/application\/x-photoshop/', 'class' => '\OC\Preview\Photoshop'],
-				'EPS'	=> ['mimetype' => '/application\/postscript/', 'class' => '\OC\Preview\Postscript'],
-				'TTF'	=> ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => '\OC\Preview\Font'],
+				'SVG'	=> ['mimetype' => '/image\/svg\+xml/', 'class' => Preview\SVG::class],
+				'TIFF'	=> ['mimetype' => '/image\/tiff/', 'class' => Preview\TIFF::class],
+				'PDF'	=> ['mimetype' => '/application\/pdf/', 'class' => Preview\PDF::class],
+				'AI'	=> ['mimetype' => '/application\/illustrator/', 'class' => Preview\Illustrator::class],
+				'PSD'	=> ['mimetype' => '/application\/x-photoshop/', 'class' => Preview\Photoshop::class],
+				'EPS'	=> ['mimetype' => '/application\/postscript/', 'class' => Preview\Postscript::class],
+				'TTF'	=> ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Preview\Font::class],
 			];
 
 			foreach ($imagickProviders as $queryFormat => $provider) {
@@ -396,27 +398,27 @@ class PreviewManager implements IPreview {
 					}
 
 					if ($officeFound) {
-						$this->registerCoreProvider('\OC\Preview\MSOfficeDoc', '/application\/msword/');
-						$this->registerCoreProvider('\OC\Preview\MSOffice2003', '/application\/vnd.ms-.*/');
-						$this->registerCoreProvider('\OC\Preview\MSOffice2007', '/application\/vnd.openxmlformats-officedocument.*/');
-						$this->registerCoreProvider('\OC\Preview\OpenDocument', '/application\/vnd.oasis.opendocument.*/');
-						$this->registerCoreProvider('\OC\Preview\StarOffice', '/application\/vnd.sun.xml.*/');
+						$this->registerCoreProvider(Preview\MSOfficeDoc::class, '/application\/msword/');
+						$this->registerCoreProvider(Preview\MSOffice2003::class, '/application\/vnd.ms-.*/');
+						$this->registerCoreProvider(Preview\MSOffice2007::class, '/application\/vnd.openxmlformats-officedocument.*/');
+						$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
+						$this->registerCoreProvider(Preview\StarOffice::class, '/application\/vnd.sun.xml.*/');
 					}
 				}
 			}
 		}
 
 		// Video requires avconv or ffmpeg
-		if (in_array('OC\Preview\Movie', $this->getEnabledDefaultProvider())) {
+		if (in_array(Preview\Movie::class, $this->getEnabledDefaultProvider())) {
 			$avconvBinary = \OC_Helper::findBinaryPath('avconv');
-			$ffmpegBinary = ($avconvBinary) ? null : \OC_Helper::findBinaryPath('ffmpeg');
+			$ffmpegBinary = $avconvBinary ? null : \OC_Helper::findBinaryPath('ffmpeg');
 
 			if ($avconvBinary || $ffmpegBinary) {
 				// FIXME // a bit hacky but didn't want to use subclasses
 				\OC\Preview\Movie::$avconvBinary = $avconvBinary;
 				\OC\Preview\Movie::$ffmpegBinary = $ffmpegBinary;
 
-				$this->registerCoreProvider('\OC\Preview\Movie', '/video\/.*/');
+				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/');
 			}
 		}
 	}

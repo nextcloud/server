@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -52,7 +53,7 @@ class ManagerEvent extends Event {
 	 * @param ISystemTag|null $beforeTag
 	 * @since 9.0.0
 	 */
-	public function __construct($event, ISystemTag $tag, ISystemTag $beforeTag = null) {
+	public function __construct(string $event, ISystemTag $tag, ISystemTag $beforeTag = null) {
 		$this->event = $event;
 		$this->tag = $tag;
 		$this->beforeTag = $beforeTag;
@@ -62,7 +63,7 @@ class ManagerEvent extends Event {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getEvent() {
+	public function getEvent(): string {
 		return $this->event;
 	}
 
@@ -70,15 +71,16 @@ class ManagerEvent extends Event {
 	 * @return ISystemTag
 	 * @since 9.0.0
 	 */
-	public function getTag() {
+	public function getTag(): ISystemTag {
 		return $this->tag;
 	}
 
 	/**
 	 * @return ISystemTag
 	 * @since 9.0.0
+	 * @throws \BadMethodCallException
 	 */
-	public function getTagBefore() {
+	public function getTagBefore(): ISystemTag {
 		if ($this->event !== self::EVENT_UPDATE) {
 			throw new \BadMethodCallException('getTagBefore is only available on the update Event');
 		}

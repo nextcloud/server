@@ -426,8 +426,7 @@ class View {
 				flush();
 			}
 			fclose($handle);
-			$size = $this->filesize($path);
-			return $size;
+			return $this->filesize($path);
 		}
 		return false;
 	}
@@ -476,8 +475,7 @@ class View {
 					echo fread($handle, $len);
 					flush();
 				}
-				$size = ftell($handle) - $from;
-				return $size;
+				return ftell($handle) - $from;
 			}
 
 			throw new \OCP\Files\UnseekableException('fseek error');
@@ -684,7 +682,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
+			$hooks = $this->file_exists($path) ? array('update', 'write') : array('create', 'write');
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
@@ -698,7 +696,7 @@ class View {
 			// do not allow deleting the root
 			return false;
 		}
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
 		if ($mount and $mount->getInternalPath($absolutePath) === '') {
@@ -1067,7 +1065,7 @@ class View {
 	 * @return bool|null|string
 	 */
 	public function hash($type, $path, $raw = false) {
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
@@ -1083,8 +1081,7 @@ class View {
 			}
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($storage) {
-				$result = $storage->hash($type, $internalPath, $raw);
-				return $result;
+				return $storage->hash($type, $internalPath, $raw);
 			}
 		}
 		return null;
@@ -1119,7 +1116,7 @@ class View {
 	 * \OC\Files\Storage\Storage for delegation to a storage backend for execution
 	 */
 	private function basicOperation($operation, $path, $hooks = [], $extraParam = null) {
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
 			and !Filesystem::isFileBlacklisted($path)
@@ -1248,7 +1245,7 @@ class View {
 	private function runHooks($hooks, $path, $post = false) {
 		$relativePath = $path;
 		$path = $this->getHookPath($path);
-		$prefix = ($post) ? 'post_' : '';
+		$prefix = $post ? 'post_' : '';
 		$run = true;
 		if ($this->shouldEmitHooks($relativePath)) {
 			foreach ($hooks as $hook) {
@@ -1362,6 +1359,9 @@ class View {
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 
 		$mount = Filesystem::getMountManager()->find($path);
+		if (!$mount) {
+			return false;
+		}
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($path);
 		if ($storage) {
@@ -1411,6 +1411,9 @@ class View {
 		$path = $this->getAbsolutePath($directory);
 		$path = Filesystem::normalizePath($path);
 		$mount = $this->getMount($directory);
+		if (!$mount) {
+			return [];
+		}
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($path);
 		if ($storage) {
@@ -1458,12 +1461,11 @@ class View {
 							continue;
 						} catch (\Exception $e) {
 							// sometimes when the storage is not available it can be any exception
-							\OCP\Util::writeLog(
-								'core',
-								'Exception while scanning storage "' . $subStorage->getId() . '": ' .
-								get_class($e) . ': ' . $e->getMessage(),
-								\OCP\Util::ERROR
-							);
+							\OC::$server->getLogger()->logException($e, [
+								'message' => 'Exception while scanning storage "' . $subStorage->getId() . '"',
+								'level' => \OCP\Util::ERROR,
+								'app' => 'lib',
+							]);
 							continue;
 						}
 						$rootEntry = $subCache->get('');

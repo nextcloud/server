@@ -31,6 +31,8 @@ use OCP\Files\Folder;
 use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Service class to manage tags on files.
@@ -45,23 +47,28 @@ class TagService {
 	private $tagger;
 	/** @var Folder */
 	private $homeFolder;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
 	/**
 	 * @param IUserSession $userSession
 	 * @param IManager $activityManager
 	 * @param ITags $tagger
 	 * @param Folder $homeFolder
+	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(
 		IUserSession $userSession,
 		IManager $activityManager,
 		ITags $tagger,
-		Folder $homeFolder
+		Folder $homeFolder,
+		EventDispatcherInterface $dispatcher
 	) {
 		$this->userSession = $userSession;
 		$this->activityManager = $activityManager;
 		$this->tagger = $tagger;
 		$this->homeFolder = $homeFolder;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -113,6 +120,13 @@ class TagService {
 		if (!$user instanceof IUser) {
 			return;
 		}
+
+		$eventName = $addToFavorite ? 'addFavorite' : 'removeFavorite';
+		$this->dispatcher->dispatch(self::class . '::' . $eventName, new GenericEvent(null, [
+			'userId' => $user->getUID(),
+			'fileId' => $fileId,
+			'path' => $path,
+		]));
 
 		$event = $this->activityManager->generateEvent();
 		try {

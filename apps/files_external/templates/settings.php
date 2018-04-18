@@ -87,6 +87,11 @@
 	}
 ?>
 
+<div id="emptycontent" class="hidden">
+	<div class="icon-external"></div>
+	<h2><?php p($l->t('No external storage configured or you don\'t have the permission to configure them')); ?></h2>
+</div>
+
 <form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2 data-anchor-name="external-storage"><?php p($l->t('External storages')); ?></h2>
 	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) print_unescaped(''.$_['dependencies'].''); ?>
@@ -101,6 +106,7 @@
 				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
+				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -110,7 +116,7 @@
 			<?php endif; ?>
 			>
 				<td class="status">
-					<span></span>
+					<span data-placement="right" title="<?php p($l->t('Click to recheck the configuration')); ?>"></span>
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint" value=""
 					placeholder="<?php p($l->t('Folder name')); ?>">
@@ -143,25 +149,14 @@
 					</td>
 				<?php endif; ?>
 				<td class="mountOptionsToggle hidden">
-					<img class="svg"
-						title="<?php p($l->t('Advanced settings')); ?>"
-						alt="<?php p($l->t('Advanced settings')); ?>"
-						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>"
-					/>
+					<div class="icon-settings-dark" title="<?php p($l->t('Advanced settings')); ?>"></div>
 					<input type="hidden" class="mountOptions" value="" />
 				</td>
 				<td class="remove hidden">
-					<img class="svg"
-						alt="<?php p($l->t('Delete')); ?>"
-						title="<?php p($l->t('Delete')); ?>"
-						src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>"
-					/>
+					<div class="icon-delete" title="<?php p($l->t('Delete')); ?>"></div>
 				</td>
 				<td class="save hidden">
-					<img alt="<?php p($l->t('Save')); ?>"
-						 title="<?php p($l->t('Save')); ?>"
-						 src="<?php print_unescaped(image_path('core', 'actions/checkmark.svg')); ?>"
-					/>
+					<div class="icon-checkmark" title="<?php p($l->t('Save')); ?>"></div>
 				</td>
 			</tr>
 		</tbody>

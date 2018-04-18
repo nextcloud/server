@@ -55,6 +55,14 @@ class ContactsManager {
 	public function setupContactsProvider(IManager $cm, $userId, IURLGenerator $urlGenerator) {
 		$addressBooks = $this->backend->getAddressBooksForUser("principals/users/$userId");
 		$this->register($cm, $addressBooks, $urlGenerator);
+		$this->setupSystemContactsProvider($cm, $urlGenerator);
+	}
+
+	/**
+	 * @param IManager $cm
+	 * @param IURLGenerator $urlGenerator
+	 */
+	public function setupSystemContactsProvider(IManager $cm, IURLGenerator $urlGenerator) {
 		$addressBooks = $this->backend->getAddressBooksForUser("principals/system/system");
 		$this->register($cm, $addressBooks, $urlGenerator);
 	}

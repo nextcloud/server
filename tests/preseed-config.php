@@ -34,3 +34,41 @@ if (getenv('OBJECT_STORE') === 's3') {
 		)
 	];
 }
+if (getenv('OBJECT_STORE') === 'swift') {
+	$swiftHost = getenv('DRONE') === 'true' ? 'dockswift' : 'localhost';
+
+	if (getenv('SWIFT-AUTH') === 'v2.0') {
+		$CONFIG['objectstore'] = [
+			'class' => 'OC\\Files\\ObjectStore\\Swift',
+			'arguments' => array(
+				'autocreate' => true,
+				'username' => 'swift',
+				'tenantName' => 'service',
+				'password' => 'swift',
+				'serviceName' => 'swift',
+				'region' => 'regionOne',
+				'url' => "http://$swiftHost:5000/v2.0",
+				'bucket' => 'nextcloud'
+			)
+		];
+	} else {
+		$CONFIG['objectstore'] = [
+			'class' => 'OC\\Files\\ObjectStore\\Swift',
+			'arguments' => array(
+				'autocreate' => true,
+				'user' => [
+					'name' => 'swift',
+					'password' => 'swift',
+					'domain' => [
+						'name' => 'default',
+					]
+				],
+				'tenantName' => 'service',
+				'serviceName' => 'swift',
+				'region' => 'regionOne',
+				'url' => "http://$swiftHost:5000/v3",
+				'bucket' => 'nextcloud'
+			)
+		];
+	}
+}

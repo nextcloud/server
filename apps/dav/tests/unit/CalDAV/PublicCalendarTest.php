@@ -26,6 +26,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCP\IConfig;
 use Sabre\VObject\Reader;
 
 class PublicCalendarTest extends CalendarTest {
@@ -61,8 +62,10 @@ class PublicCalendarTest extends CalendarTest {
 			'id' => 666,
 			'uri' => 'cal',
 		];
+		/** @var \PHPUnit_Framework_MockObject_MockObject | IConfig $config */
+		$config = $this->createMock(IConfig::class);
 
-		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n);
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config);
 		$children = $c->getChildren();
 		$this->assertEquals(2, count($children));
 		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2']);
@@ -146,7 +149,9 @@ EOD;
 			'id' => 666,
 			'uri' => 'cal',
 		];
-		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n);
+		/** @var \PHPUnit_Framework_MockObject_MockObject | IConfig $config */
+		$config = $this->createMock(IConfig::class);
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config);
 
 		$this->assertEquals(count($c->getChildren()), 2);
 

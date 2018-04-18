@@ -44,13 +44,16 @@ $authBackend = new Auth(
 $principalBackend = new Principal(
 	\OC::$server->getUserManager(),
 	\OC::$server->getGroupManager(),
+	\OC::$server->getShareManager(),
+	\OC::$server->getUserSession(),
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();
 $userManager = \OC::$server->getUserManager();
 $random = \OC::$server->getSecureRandom();
+$logger = \OC::$server->getLogger();
 $dispatcher = \OC::$server->getEventDispatcher();
-$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, \OC::$server->getGroupManager(), $random, $dispatcher, true);
+$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, \OC::$server->getGroupManager(), $random, $logger, $dispatcher, true);
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 $sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';

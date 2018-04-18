@@ -1,5 +1,7 @@
 { "translations": {
+    "Saved" : "Запазено",
     "Saving failed:" : "Запазването се провали:",
+    "File MIME type" : "Тип MIME файл",
     "is" : "е",
     "is not" : "не е",
     "matches" : "съвпадения",
@@ -62,8 +64,6 @@
     "Reset" : "Възстанови",
     "Save" : "Запази",
     "Saving…" : "Запазване...",
-    "Loading…" : "Зареждане...",
-    "Successfully saved" : "Успешно запазен",
-    "File mime type" : "Разширения"
+    "Loading…" : "Зареждане..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

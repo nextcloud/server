@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -33,12 +34,14 @@ use OCA\AdminAudit\Actions\Auth;
 use OCA\AdminAudit\Actions\Console;
 use OCA\AdminAudit\Actions\Files;
 use OCA\AdminAudit\Actions\GroupManagement;
+use OCA\AdminAudit\Actions\Security;
 use OCA\AdminAudit\Actions\Sharing;
 use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\UserManagement;
 use OCA\AdminAudit\Actions\Versions;
 use OCP\App\ManagerEvent;
 use OCP\AppFramework\App;
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Console\ConsoleEvent;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -46,6 +49,7 @@ use OCP\IPreview;
 use OCP\IUserSession;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\Share;
 
 class Application extends App {
 
@@ -75,6 +79,8 @@ class Application extends App {
 		$this->fileHooks($logger);
 		$this->trashbinHooks($logger);
 		$this->versionsHooks($logger);
+
+		$this->securityHooks($logger);
 	}
 
 	protected function userManagementHooks(ILogger $logger) {
@@ -87,6 +93,8 @@ class Application extends App {
 		/** @var IUserSession|Session $userSession */
 		$userSession = $this->getContainer()->getServer()->getUserSession();
 		$userSession->listen('\OC\User', 'postSetPassword', [$userActions, 'setPassword']);
+		$userSession->listen('\OC\User', 'assignedUserId', [$userActions, 'assign']);
+		$userSession->listen('\OC\User', 'postUnassignedUserId', [$userActions, 'unassign']);
 	}
 
 	protected function groupHooks(ILogger $logger)  {
@@ -103,12 +111,12 @@ class Application extends App {
 	protected function sharingHooks(ILogger $logger) {
 		$shareActions = new Sharing($logger);
 
-		Util::connectHook('OCP\Share', 'post_shared', $shareActions, 'shared');
-		Util::connectHook('OCP\Share', 'post_unshare', $shareActions, 'unshare');
-		Util::connectHook('OCP\Share', 'post_update_permissions', $shareActions, 'updatePermissions');
-		Util::connectHook('OCP\Share', 'post_update_password', $shareActions, 'updatePassword');
-		Util::connectHook('OCP\Share', 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
-		Util::connectHook('OCP\Share', 'share_link_access', $shareActions, 'shareAccessed');
+		Util::connectHook(Share::class, 'post_shared', $shareActions, 'shared');
+		Util::connectHook(Share::class, 'post_unshare', $shareActions, 'unshare');
+		Util::connectHook(Share::class, 'post_update_permissions', $shareActions, 'updatePermissions');
+		Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword');
+		Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
+		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
 	}
 
 	protected function authHooks(ILogger $logger) {
@@ -217,5 +225,17 @@ class Application extends App {
 		$trashActions = new Trashbin($logger);
 		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
 		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
+	}
+
+	protected function securityHooks(ILogger $logger) {
+		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function(GenericEvent $event) use ($logger) {
+			$security = new Security($logger);
+			$security->twofactorSuccess($event->getSubject(), $event->getArguments());
+		});
+		$eventDispatcher->addListener(IProvider::EVENT_FAILED, function(GenericEvent $event) use ($logger) {
+			$security = new Security($logger);
+			$security->twofactorFailed($event->getSubject(), $event->getArguments());
+		});
 	}
 }

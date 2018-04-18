@@ -63,10 +63,6 @@ class ShareTest extends TestCase {
 
 		self::$tempStorage = null;
 
-		// clear database table
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share`');
-		$query->execute();
-
 		parent::tearDown();
 	}
 

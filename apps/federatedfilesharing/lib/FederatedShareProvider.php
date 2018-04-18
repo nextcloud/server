@@ -264,7 +264,11 @@ class FederatedShareProvider implements IShareProvider {
 				$failure = true;
 			}
 		} catch (\Exception $e) {
-			$this->logger->error('Failed to notify remote server of federated share, removing share (' . $e->getMessage() . ')');
+			$this->logger->logException($e, [
+				'message' => 'Failed to notify remote server of federated share, removing share.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'federatedfilesharing',
+			]);
 			$failure = true;
 		}
 
@@ -588,7 +592,6 @@ class FederatedShareProvider implements IShareProvider {
 		// shares is a umount of a external storage. This is handled here
 		// apps/files_sharing/lib/external/manager.php
 		// TODO move this code over to this app
-		return;
 	}
 
 
@@ -930,7 +933,6 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	public function groupDeleted($gid) {
 		// We don't handle groups here
-		return;
 	}
 
 	/**
@@ -941,7 +943,6 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
 		// We don't handle groups here
-		return;
 	}
 
 	/**

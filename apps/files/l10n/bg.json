@@ -114,22 +114,6 @@
     "Tags" : "Етикети",
     "Deleted files" : "Изтрити файлове",
     "Text file" : "Текстов файл",
-    "New text file.txt" : "Нов текст file.txt",
-    "Uploading..." : "Качване...",
-    "..." : "...",
-    "{hours}:{minutes}h" : "{hours}:{minutes}ч",
-    "{minutes}:{seconds}m" : "{minutes}:{seconds}м",
-    "{seconds}s" : "{seconds}и",
-    "Any moment now..." : "Всеки момент...",
-    "Soon..." : "Скоро...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Извършва се качване на файлове. Затварянето на тази страница ще прекъсне качването.",
-    "Move" : "Преместване",
-    "Copy local link" : "Копиране на локална връзка",
-    "Folder" : "Папка",
-    "Upload" : "Качване",
-    "A new file or folder has been <strong>deleted</strong>" : "Нов файл или папка беше <strong>изтрит/а</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Нов файл или папка беше <strong>възстановен/а</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Ползвайте горния адрес <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">за да достъпите файловете чрез WebDAV</a>",
-    "No favorites" : "Няма любими"
+    "New text file.txt" : "Нов текст file.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

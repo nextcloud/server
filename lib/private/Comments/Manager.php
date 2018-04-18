@@ -87,14 +87,14 @@ class Manager implements ICommentsManager {
 	 * @return array
 	 */
 	protected function normalizeDatabaseData(array $data) {
-		$data['id'] = strval($data['id']);
-		$data['parent_id'] = strval($data['parent_id']);
-		$data['topmost_parent_id'] = strval($data['topmost_parent_id']);
+		$data['id'] = (string)$data['id'];
+		$data['parent_id'] = (string)$data['parent_id'];
+		$data['topmost_parent_id'] = (string)$data['topmost_parent_id'];
 		$data['creation_timestamp'] = new \DateTime($data['creation_timestamp']);
 		if (!is_null($data['latest_child_timestamp'])) {
 			$data['latest_child_timestamp'] = new \DateTime($data['latest_child_timestamp']);
 		}
-		$data['children_count'] = intval($data['children_count']);
+		$data['children_count'] = (int)$data['children_count'];
 		return $data;
 	}
 
@@ -171,7 +171,7 @@ class Manager implements ICommentsManager {
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
 		$resultStatement->closeCursor();
-		$children = intval($data[0]);
+		$children = (int)$data[0];
 
 		$comment = $this->get($id);
 		$comment->setChildrenCount($children);
@@ -207,7 +207,7 @@ class Manager implements ICommentsManager {
 		if (empty($id)) {
 			return;
 		}
-		$this->commentsCache[strval($id)] = $comment;
+		$this->commentsCache[(string)$id] = $comment;
 	}
 
 	/**
@@ -216,7 +216,7 @@ class Manager implements ICommentsManager {
 	 * @param mixed $id the comment's id
 	 */
 	protected function uncache($id) {
-		$id = strval($id);
+		$id = (string)$id;
 		if (isset($this->commentsCache[$id])) {
 			unset($this->commentsCache[$id]);
 		}
@@ -232,7 +232,7 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function get($id) {
-		if (intval($id) === 0) {
+		if ((int)$id === 0) {
 			throw new \InvalidArgumentException('IDs must be translatable to a number in this implementation.');
 		}
 
@@ -402,7 +402,7 @@ class Manager implements ICommentsManager {
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
 		$resultStatement->closeCursor();
-		return intval($data[0]);
+		return (int)$data[0];
 	}
 
 	/**
@@ -569,7 +569,7 @@ class Manager implements ICommentsManager {
 			->execute();
 
 		if ($affectedRows > 0) {
-			$comment->setId(strval($qb->getLastInsertId()));
+			$comment->setId((string)$qb->getLastInsertId());
 			$this->sendEvent(CommentsEvent::EVENT_ADD, $comment);
 		}
 

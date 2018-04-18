@@ -166,7 +166,7 @@ class OfflineUser {
 	 * @return int
 	 */
 	public function getLastLogin() {
-		return intval($this->lastLogin);
+		return (int)$this->lastLogin;
 	}
 
 	/**
@@ -211,7 +211,7 @@ class OfflineUser {
 		', 1);
 		$query->execute(array($this->ocName));
 		$sResult = $query->fetchColumn(0);
-		if(intval($sResult) === 1) {
+		if((int)$sResult === 1) {
 			$this->hasActiveShares = true;
 			return;
 		}
@@ -223,7 +223,7 @@ class OfflineUser {
 		', 1);
 		$query->execute(array($this->ocName));
 		$sResult = $query->fetchColumn(0);
-		if(intval($sResult) === 1) {
+		if((int)$sResult === 1) {
 			$this->hasActiveShares = true;
 			return;
 		}

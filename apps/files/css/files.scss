@@ -16,11 +16,18 @@
 .actions .button a:active {
 	color: #333;
 }
-.actions.hidden { display: none; }
 
 .actions.creatable {
 	position: relative;
-	z-index: -30;
+	display: flex;
+	flex: 1 1;
+	.button:not(:last-child) {
+		margin-right: 3px;
+	}
+}
+
+.actions.hidden {
+	display: none;
 }
 
 #trash {
@@ -31,20 +38,17 @@
 	font-weight: normal;
 }
 
-.newFileMenu .error, #fileList .error {
+.newFileMenu .error,
+.newFileMenu .error + .icon-confirm,
+#fileList .error {
 	color: $color-error;
 	border-color: $color-error;
-	box-shadow: 0 0 6px #f8b9b7;
 }
 
 /* FILE TABLE */
 #filestable {
 	position: relative;
 	width: 100%;
-}
-
-#filestable.has-controls {
-	top: 44px;
 }
 
 #filestable tbody tr {
@@ -242,12 +246,12 @@ table th.column-last, table td.column-last {
 
 /* Multiselect bar */
 #filestable.multiselect {
-	top: 95px;
+	top: 51px;
 }
 table.multiselect thead {
 	position: fixed;
 	top: 89px;
-	z-index: 10;
+	z-index: 55;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	left: 250px; /* sidebar */
@@ -542,6 +546,10 @@ a.action > img {
 	vertical-align: text-bottom;
 	margin-bottom: -1px;
 }
+/* hide the delete icon in name column normal resolutions */
+table th#headerName .selectedActions .delete-selected {
+	display: none;
+}
 
 #fileList td a {
 	a.action {
@@ -649,6 +657,7 @@ table tr.summary td {
 
 table.dragshadow {
 	width:auto;
+	z-index: 100;
 }
 table.dragshadow td.filename {
 	padding-left:60px;
@@ -686,14 +695,6 @@ table.dragshadow td.size {
 	min-width: 100px;
 	margin-left: 7px;
 	z-index: 1001;
-}
-
-.newFileMenu .filenameform {
-	display: inline-block;
-}
-
-.newFileMenu .filenameform input {
-	margin: 2px 0;
 }
 
 #filestable .filename .action .icon,

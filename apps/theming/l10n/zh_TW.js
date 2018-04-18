@@ -5,13 +5,13 @@ OC.L10N.register(
     "Saved" : "已儲存",
     "Admin" : "管理員",
     "a safe home for all your data" : "您資料的安全屋",
+    "Name cannot be empty" : "名稱不能空白",
     "The given name is too long" : "指定的名稱太長",
     "The given web address is too long" : "提供的網址太長",
     "The given slogan is too long" : "指定的標語太長",
     "The given color is invalid" : "指定的顏色無效",
     "No file uploaded" : "未上傳檔案",
     "Unsupported image type" : "不支援的圖片類型",
-    "You are already using a custom theme" : "您正在使用自訂主題",
     "Theming" : "佈景主題",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "使用佈景主題來客製化網頁界面和客戶端程式的外觀（並非所有客戶端程式都支援佈景主題），外觀將會套用至所有使用者。",
     "Name" : "名稱",
@@ -25,7 +25,7 @@ OC.L10N.register(
     "Login image" : "登入圖片",
     "Upload new login background" : "上傳新的登入頁背景",
     "Remove background image" : "移除背景圖片",
-    "reset to default" : "恢復預設值",
-    "Log in image" : "登入頁圖片"
+    "You are already using a custom theme" : "您正在使用自訂主題",
+    "reset to default" : "恢復預設值"
 },
 "nplurals=1; plural=0;");

@@ -134,9 +134,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$response = $this->avatarController->getAvatar('userId', 32);
 
 		//Comment out until JS is fixed
-		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
-		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals('displayName', $response->getData()['data']['displayname']);
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
 	/**
@@ -167,9 +165,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$response = $this->avatarController->getAvatar('userDoesNotExist', 32);
 
 		//Comment out until JS is fixed
-		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
-		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals('userDoesNotExist', $response->getData()['data']['displayname']);
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
 	/**

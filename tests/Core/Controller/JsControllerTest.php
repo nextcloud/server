@@ -109,10 +109,10 @@ class JsControllerTest extends TestCase {
 			->willReturn($file);
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
-		$expected->cacheFor(86400);
+		$expected->addHeader('Cache-Control', 'max-age=31536000, immutable');
 		$expires = new \DateTime();
 		$expires->setTimestamp(1337);
-		$expires->add(new \DateInterval('PT24H'));
+		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$expected->addHeader('Pragma', 'cache');
 
@@ -137,10 +137,10 @@ class JsControllerTest extends TestCase {
 
 		$expected = new FileDisplayResponse($gzipFile, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
 		$expected->addHeader('Content-Encoding', 'gzip');
-		$expected->cacheFor(86400);
+		$expected->addHeader('Cache-Control', 'max-age=31536000, immutable');
 		$expires = new \DateTime();
 		$expires->setTimestamp(1337);
-		$expires->add(new \DateInterval('PT24H'));
+		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$expected->addHeader('Pragma', 'cache');
 
@@ -170,10 +170,10 @@ class JsControllerTest extends TestCase {
 			->willReturn('gzip, deflate');
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
-		$expected->cacheFor(86400);
+		$expected->addHeader('Cache-Control', 'max-age=31536000, immutable');
 		$expires = new \DateTime();
 		$expires->setTimestamp(1337);
-		$expires->add(new \DateInterval('PT24H'));
+		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$expected->addHeader('Pragma', 'cache');
 

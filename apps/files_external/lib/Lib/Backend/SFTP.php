@@ -36,7 +36,7 @@ class SFTP extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SFTP')
 			->setText($l->t('SFTP'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('Host'))),
+				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('root', $l->t('Root')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])

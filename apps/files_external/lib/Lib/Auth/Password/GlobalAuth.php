@@ -29,7 +29,6 @@ use OCP\IUser;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\Security\ICredentialsManager;
-use OCP\Files\Storage;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 
 /**

@@ -24,6 +24,8 @@
 
 namespace Test\AppFramework\Db;
 
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use \OCP\IDBConnection;
 use \OCP\AppFramework\Db\Entity;
 use \OCP\AppFramework\Db\Mapper;
@@ -95,8 +97,7 @@ class MapperTest extends MapperTestUtility {
 		$params = array('jo');
 		$rows = array();
 		$this->setMapperResult($sql, $params, $rows);
-		$this->setExpectedException(
-			'\OCP\AppFramework\Db\DoesNotExistException');
+		$this->expectException(DoesNotExistException::class);
 		$this->mapper->find($sql, $params);
 	}
 
@@ -105,8 +106,7 @@ class MapperTest extends MapperTestUtility {
 		$params = array('jo');
 		$rows = array();
 		$this->setMapperResult($sql, $params, $rows, null, null, true);
-		$this->setExpectedException(
-			'\OCP\AppFramework\Db\DoesNotExistException');
+		$this->expectException(DoesNotExistException::class);
 		$this->mapper->findOneEntity($sql, $params);
 	}
 
@@ -117,8 +117,7 @@ class MapperTest extends MapperTestUtility {
 			array('jo'), array('ho')
 		);
 		$this->setMapperResult($sql, $params, $rows, null, null, true);
-		$this->setExpectedException(
-			'\OCP\AppFramework\Db\MultipleObjectsReturnedException');
+		$this->expectException(MultipleObjectsReturnedException::class);
 		$this->mapper->find($sql, $params);
 	}
 
@@ -129,8 +128,7 @@ class MapperTest extends MapperTestUtility {
 			array('jo'), array('ho')
 		);
 		$this->setMapperResult($sql, $params, $rows, null, null, true);
-		$this->setExpectedException(
-			'\OCP\AppFramework\Db\MultipleObjectsReturnedException');
+		$this->expectException(MultipleObjectsReturnedException::class);
 		$this->mapper->findOneEntity($sql, $params);
 	}
 
@@ -223,7 +221,7 @@ class MapperTest extends MapperTestUtility {
 		$entity->setPreName($params[0]);
 		$entity->setEmail($params[1]);
 
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 
 		$this->mapper->update($entity);
 	}

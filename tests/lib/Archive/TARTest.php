@@ -18,6 +18,6 @@ class TARTest extends TestBase {
 	}
 
 	protected function getNew() {
-		return new TAR(\OCP\Files::tmpFile('.tar.gz'));
+		return new TAR(\OC::$server->getTempManager()->getTemporaryFile('.tar.gz'));
 	}
 }

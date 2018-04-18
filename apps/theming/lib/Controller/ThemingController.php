@@ -32,7 +32,6 @@
 
 namespace OCA\Theming\Controller;
 
-use OC\Files\AppData\Factory;
 use OC\Template\SCSSCacher;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Controller;
@@ -48,11 +47,11 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCA\Theming\Util;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use OCP\App\IAppManager;
 
 /**
  * Class ThemingController
@@ -80,6 +79,8 @@ class ThemingController extends Controller {
 	private $scssCacher;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var IAppManager */
+	private $appManager;
 
 	/**
 	 * ThemingController constructor.
@@ -95,6 +96,7 @@ class ThemingController extends Controller {
 	 * @param IAppData $appData
 	 * @param SCSSCacher $scssCacher
 	 * @param IURLGenerator $urlGenerator
+	 * @param IAppManager $appManager
 	 */
 	public function __construct(
 		$appName,
@@ -107,7 +109,8 @@ class ThemingController extends Controller {
 		ITempManager $tempManager,
 		IAppData $appData,
 		SCSSCacher $scssCacher,
-		IURLGenerator $urlGenerator
+		IURLGenerator $urlGenerator,
+		IAppManager $appManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -120,6 +123,7 @@ class ThemingController extends Controller {
 		$this->appData = $appData;
 		$this->scssCacher = $scssCacher;
 		$this->urlGenerator = $urlGenerator;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -176,7 +180,7 @@ class ThemingController extends Controller {
 		$this->themingDefaults->set($setting, $value);
 
 		// reprocess server scss for preview
-		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/server.scss', 'core');
+		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, 'core/css/server.scss', 'core');
 
 		return new DataResponse(
 			[
@@ -214,14 +218,14 @@ class ThemingController extends Controller {
 		$newBackgroundLogo = $this->request->getUploadedFile('upload-login-background');
 		$error = null;
 		$phpFileUploadErrors = [
-			UPLOAD_ERR_OK => $this->l10n->t('There is no error, the file uploaded with success'),
+			UPLOAD_ERR_OK => $this->l10n->t('The file was uploaded'),
 			UPLOAD_ERR_INI_SIZE => $this->l10n->t('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
 			UPLOAD_ERR_FORM_SIZE => $this->l10n->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
-			UPLOAD_ERR_PARTIAL => $this->l10n->t('The uploaded file was only partially uploaded'),
+			UPLOAD_ERR_PARTIAL => $this->l10n->t('The file was only partially uploaded'),
 			UPLOAD_ERR_NO_FILE => $this->l10n->t('No file was uploaded'),
 			UPLOAD_ERR_NO_TMP_DIR => $this->l10n->t('Missing a temporary folder'),
-			UPLOAD_ERR_CANT_WRITE => $this->l10n->t('Failed to write file to disk.'),
-			UPLOAD_ERR_EXTENSION => $this->l10n->t('A PHP extension stopped the file upload.'),
+			UPLOAD_ERR_CANT_WRITE => $this->l10n->t('Could not write file to disk'),
+			UPLOAD_ERR_EXTENSION => $this->l10n->t('A PHP extension stopped the file upload'),
 		];
 		if (empty($newLogo) && empty($newBackgroundLogo)) {
 			$error = $this->l10n->t('No file uploaded');
@@ -288,12 +292,10 @@ class ThemingController extends Controller {
 			// Optimize the image since some people may upload images that will be
 			// either to big or are not progressive rendering.
 			$tmpFile = $this->tempManager->getTemporaryFile();
-			if (function_exists('imagescale')) {
-				// FIXME: Once PHP 5.5.0 is a requirement the above check can be removed
-				// Workaround for https://bugs.php.net/bug.php?id=65171
-				$newHeight = imagesy($image) / (imagesx($image) / 1920);
-				$image = imagescale($image, 1920, $newHeight);
-			}
+			$newWidth = imagesx($image) < 4096 ? imagesx($image) : 4096;
+			$newHeight = imagesy($image) / (imagesx($image) / $newWidth);
+			$image = imagescale($image, $newWidth, $newHeight);
+
 			imageinterlace($image, 1);
 			imagejpeg($image, $tmpFile, 75);
 			imagedestroy($image);
@@ -324,7 +326,7 @@ class ThemingController extends Controller {
 	public function undo($setting) {
 		$value = $this->themingDefaults->undo($setting);
 		// reprocess server scss for preview
-		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/server.scss', 'core');
+		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, 'core/css/server.scss', 'core');
 
 		if($setting === 'logoMime') {
 			try {
@@ -413,12 +415,13 @@ class ThemingController extends Controller {
 	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	public function getStylesheet() {
-		$appPath = substr(\OC::$server->getAppManager()->getAppPath('theming'), strlen(\OC::$SERVERROOT) + 1);
+		$appPath = $this->appManager->getAppPath('theming');
+
 		/* SCSSCacher is required here
 		 * We cannot rely on automatic caching done by \OC_Util::addStyle,
 		 * since we need to add the cacheBuster value to the url
 		 */
-		$cssCached = $this->scssCacher->process(\OC::$SERVERROOT, $appPath . '/css/theming.scss', 'theming');
+		$cssCached = $this->scssCacher->process($appPath, 'css/theming.scss', 'theming');
 		if(!$cssCached) {
 			return new NotFoundResponse();
 		}

@@ -132,7 +132,7 @@
 				<ol>
 					<?php foreach(json_decode($_['cronErrors']) as $error) { if(isset($error->error)) {?>
 						<li><?php p($error->error) ?> <?php p($error->hint) ?></li>
-					<?php }};?>
+					<?php }} ?>
 				</ol>
 			</li>
 			<?php
@@ -159,7 +159,9 @@
 	<p class="cronlog inlineblock">
 		<?php if ($_['lastcron'] !== false):
 			$relative_time = relative_modified_date($_['lastcron']);
-			$absolute_time = OC_Util::formatDate($_['lastcron']);
+
+			$formatter = \OC::$server->getDateTimeFormatter();
+			$absolute_time = $formatter->formatDateTime($_['lastcron'], 'long', 'long');
 			if (time() - $_['lastcron'] <= 3600): ?>
 				<span class="status success"></span>
 				<span class="crondate" title="<?php p($absolute_time);?>">

@@ -167,7 +167,7 @@ Feature: sharing
     And folder "/merge-test-outside-perms" of user "user0" is shared with user "user1" with permissions 31
     Then as "user1" gets properties of folder "/merge-test-outside-perms" with
       |{http://owncloud.org/ns}permissions|
-    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRGDNVCK"
     And as "user1" the folder "/merge-test-outside-perms (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from outside with two groups
@@ -197,7 +197,7 @@ Feature: sharing
     And folder "/merge-test-outside-twogroups-perms" of user "user0" is shared with group "group2" with permissions 31
     Then as "user1" gets properties of folder "/merge-test-outside-twogroups-perms" with
       |{http://owncloud.org/ns}permissions|
-    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRGDNVCK"
     And as "user1" the folder "/merge-test-outside-twogroups-perms (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from outside with two groups and member
@@ -214,7 +214,7 @@ Feature: sharing
     And folder "/merge-test-outside-twogroups-member-perms" of user "user0" is shared with user "user1" with permissions 1
     Then as "user1" gets properties of folder "/merge-test-outside-twogroups-member-perms" with
       |{http://owncloud.org/ns}permissions|
-    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRGDNVCK"
     And as "user1" the folder "/merge-test-outside-twogroups-member-perms (2)" does not exist
 
   Scenario: Merging shares for recipient when shared from inside with group
@@ -253,7 +253,7 @@ Feature: sharing
     And folder "/merge-test-inside-twogroups-perms" of user "user0" is shared with group "group2"
     Then as "user0" gets properties of folder "/merge-test-inside-twogroups-perms" with
       |{http://owncloud.org/ns}permissions|
-    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "RDNVCK"
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "RGDNVCK"
     And as "user0" the folder "/merge-test-inside-twogroups-perms (2)" does not exist
     And as "user0" the folder "/merge-test-inside-twogroups-perms (3)" does not exist
 
@@ -270,7 +270,7 @@ Feature: sharing
     And folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
     Then as "user1" gets properties of folder "/merge-test-outside-groups-renamebeforesecondshare-renamed" with
       |{http://owncloud.org/ns}permissions|
-    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRGDNVCK"
     And as "user1" the folder "/merge-test-outside-groups-renamebeforesecondshare" does not exist
 
   Scenario: Merging shares for recipient when shared from outside with user then group and recipient renames in between
@@ -287,7 +287,7 @@ Feature: sharing
     And folder "/merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
     Then as "user1" gets properties of folder "/merge-test-outside-groups-renamebeforesecondshare-renamed" with
       |{http://owncloud.org/ns}permissions|
-    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRGDNVCK"
     And as "user1" the folder "/merge-test-outside-groups-renamebeforesecondshare" does not exist
 
   Scenario: Empting trashbin

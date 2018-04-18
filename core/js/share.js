@@ -161,7 +161,6 @@ OC.Share = _.extend(OC.Share || {}, {
 	updateIcon:function(itemType, itemSource) {
 		var shares = false;
 		var link = false;
-		var image = OC.imagePath('core', 'actions/share');
 		var iconClass = '';
 		$.each(OC.Share.itemShares, function(index) {
 			if (OC.Share.itemShares[index]) {
@@ -200,15 +199,17 @@ OC.Share = _.extend(OC.Share || {}, {
 	/**
 	 * Format a remote address
 	 *
-	 * @param {String} remoteAddress full remote share
+	 * @param {String} shareWith userid, full remote share, or whatever
+	 * @param {String} shareWithDisplayName
+	 * @param {String} message
 	 * @return {String} HTML code to display
 	 */
-	_formatRemoteShare: function(remoteAddress, message) {
-		var parts = this._REMOTE_OWNER_REGEXP.exec(remoteAddress);
+	_formatRemoteShare: function(shareWith, shareWithDisplayName, message) {
+		var parts = this._REMOTE_OWNER_REGEXP.exec(shareWith);
 		if (!parts) {
 			// display avatar of the user
-			var avatar = '<span class="avatar" data-userName="' + escapeHTML(remoteAddress) + '" title="' + message + " " + escapeHTML(remoteAddress) + '"></span>';
-			var hidden = '<span class="hidden-visually">' + message + ' ' + escapeHTML(remoteAddress) + '</span> ';
+			var avatar = '<span class="avatar" data-username="' + escapeHTML(shareWith) + '" title="' + message + " " + escapeHTML(shareWithDisplayName) + '"></span>';
+			var hidden = '<span class="hidden-visually">' + message + ' ' + escapeHTML(shareWithDisplayName) + '</span> ';
 			return avatar + hidden;
 		}
 
@@ -238,14 +239,17 @@ OC.Share = _.extend(OC.Share || {}, {
 	 * Loop over all recipients in the list and format them using
 	 * all kind of fancy magic.
 	 *
-	 * @param {String[]} recipients array of all the recipients
+	 * @param {Object} recipients array of all the recipients
 	 * @return {String[]} modified list of recipients
 	 */
 	_formatShareList: function(recipients) {
 		var _parent = this;
+		recipients = _.toArray(recipients);
+		recipients.sort(function(a, b) {
+			return a.shareWithDisplayName.localeCompare(b.shareWithDisplayName);
+		});
 		return $.map(recipients, function(recipient) {
-			recipient = _parent._formatRemoteShare(recipient, t('core', 'Shared with'));
-			return recipient;
+			return _parent._formatRemoteShare(recipient.shareWith, recipient.shareWithDisplayName, t('core', 'Shared with'));
 		});
 	},
 	/**
@@ -261,12 +265,13 @@ OC.Share = _.extend(OC.Share || {}, {
 		var type = $tr.data('type');
 		var icon = action.find('.icon');
 		var message, recipients, avatars;
+		var ownerId = $tr.attr('data-share-owner-id');
 		var owner = $tr.attr('data-share-owner');
 		var shareFolderIcon;
 		var iconClass = 'icon-shared';
 		action.removeClass('shared-style');
 		// update folder icon
-		if (type === 'dir' && (hasShares || hasLink || owner)) {
+		if (type === 'dir' && (hasShares || hasLink || ownerId)) {
 			if (hasLink) {
 				shareFolderIcon = OC.MimeType.getIconUrl('dir-public');
 			}
@@ -276,10 +281,14 @@ OC.Share = _.extend(OC.Share || {}, {
 			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
 			$tr.attr('data-icon', shareFolderIcon);
 		} else if (type === 'dir') {
+			var isEncrypted = $tr.attr('data-e2eencrypted');
 			var mountType = $tr.attr('data-mounttype');
 			// FIXME: duplicate of FileList._createRow logic for external folder,
 			// need to refactor the icon logic into a single code path eventually
-			if (mountType && mountType.indexOf('external') === 0) {
+			if (isEncrypted === 'true') {
+				shareFolderIcon = OC.MimeType.getIconUrl('dir-encrypted');
+				$tr.attr('data-icon', shareFolderIcon);
+			} else if (mountType && mountType.indexOf('external') === 0) {
 				shareFolderIcon = OC.MimeType.getIconUrl('dir-external');
 				$tr.attr('data-icon', shareFolderIcon);
 			} else {
@@ -290,25 +299,26 @@ OC.Share = _.extend(OC.Share || {}, {
 			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
 		}
 		// update share action text / icon
-		if (hasShares || owner) {
-			recipients = $tr.attr('data-share-recipients');
+		if (hasShares || ownerId) {
+			recipients = $tr.data('share-recipient-data');
 			action.addClass('shared-style');
 
 			avatars = '<span>' + t('core', 'Shared') + '</span>';
 			// even if reshared, only show "Shared by"
-			if (owner) {
+			if (ownerId) {
 				message = t('core', 'Shared by');
-				avatars = this._formatRemoteShare(owner, message);
+				avatars = this._formatRemoteShare(ownerId, owner, message);
 			} else if (recipients) {
-				avatars = this._formatShareList(recipients.split(', ')).join('');
+				avatars = this._formatShareList(recipients);
 			}
 			action.html(avatars).prepend(icon);
 
-			if (owner || recipients) {
+			if (ownerId || recipients) {
 				var avatarElement = action.find('.avatar');
-				avatarElement.avatar(avatarElement.data('username'), 32);
-
-				action.find('.icon-shared + span').tooltip({placement: 'top'});
+				avatarElement.each(function () {
+					$(this).avatar($(this).data('username'), 32);
+				});
+				action.find('span[title]').tooltip({placement: 'top'});
 			}
 		} else {
 			action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon);

@@ -44,6 +44,9 @@ trait Sharing {
 	/** @var int */
 	private $savedShareId = null;
 
+	/** @var \Psr\Http\Message\ResponseInterface */
+	private $response;
+
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
 	 * @param string $user
@@ -69,16 +72,16 @@ trait Sharing {
 				$dateModification = $fd['expireDate'];
 				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
 			}
-			$options['body'] = $fd;
+			$options['form_params'] = $fd;
 		}
 
 		try {
-			$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
+			$this->response = $client->request("POST", $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
 
-		$this->lastShareData = $this->response->xml();
+		$this->lastShareData = simplexml_load_string($this->response->getBody());
 	}
 
 	/**
@@ -159,8 +162,8 @@ trait Sharing {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		$date = date('Y-m-d', strtotime("+3 days"));
-		$options['body'] = ['expireDate' => $date];
-		$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
+		$options['form_params'] = ['expireDate' => $date];
+		$this->response = $this->response = $client->request("PUT", $fullUrl, $options);
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
@@ -189,11 +192,11 @@ trait Sharing {
 				$dateModification = $fd['expireDate'];
 				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
 			}
-			$options['body'] = $fd;
+			$options['form_params'] = $fd;
 		}
 
 		try {
-			$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
+			$this->response = $client->request("PUT", $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -221,38 +224,39 @@ trait Sharing {
 		} else {
 			$options['auth'] = [$user, $this->regularUser];
 		}
-		$fd = [];
+		$body = [];
 		if (!is_null($path)){
-			$fd['path'] = $path;
+			$body['path'] = $path;
 		}
 		if (!is_null($shareType)){
-			$fd['shareType'] = $shareType;
+			$body['shareType'] = $shareType;
 		}
 		if (!is_null($shareWith)){
-			$fd['shareWith'] = $shareWith;
+			$body['shareWith'] = $shareWith;
 		}
 		if (!is_null($publicUpload)){
-			$fd['publicUpload'] = $publicUpload;
+			$body['publicUpload'] = $publicUpload;
 		}
 		if (!is_null($password)){
-			$fd['password'] = $password;
+			$body['password'] = $password;
 		}
 		if (!is_null($permissions)){
-			$fd['permissions'] = $permissions;
+			$body['permissions'] = $permissions;
 		}
 
-		$options['body'] = $fd;
+		$options['form_params'] = $body;
 
 		try {
-			$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
-			$this->lastShareData = $this->response->xml();
+			$this->response = $client->request("POST", $fullUrl, $options);
+			$this->lastShareData = simplexml_load_string($this->response->getBody());
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
+			throw new \Exception($this->response->getBody());
 		}
 	}
 
 	public function isFieldInResponse($field, $contentExpected){
-		$data = $this->response->xml()->data[0];
+		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration'){
 			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
 		}
@@ -330,7 +334,7 @@ trait Sharing {
 	}
 
 	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null){
-		$data = $this->response->xml()->data[0];
+		$data = simplexml_load_string($this->response->getBody())->data[0];
 		foreach($data as $element) {
 			if ($element->share_with == $userOrGroup && ($permissions === null || $permissions == $element->permissions)){
 				return True;
@@ -532,7 +536,7 @@ trait Sharing {
 		foreach($table->getTable() as $header) {
 			$headerName = $header[0];
 			$expectedHeaderValue = $header[1];
-			$returnedHeader = $this->response->getHeader($headerName);
+			$returnedHeader = $this->response->getHeader($headerName)[0];
 			if($returnedHeader !== $expectedHeaderValue) {
 				throw new \Exception(
 					sprintf(

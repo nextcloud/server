@@ -96,11 +96,11 @@ class SmbTest extends \Test\Files\Storage\Storage {
 
 	public function testNotifyGetChanges() {
 		$notifyHandler = $this->instance->notify('');
-		usleep(100 * 1000); //give time for the notify to start
+		sleep(1); //give time for the notify to start
 		$this->instance->file_put_contents('/newfile.txt', 'test content');
 		$this->instance->rename('/newfile.txt', 'renamed.txt');
 		$this->instance->unlink('/renamed.txt');
-		usleep(100 * 1000); //time for all changes to be processed
+		sleep(1); //time for all changes to be processed
 
 		$changes = $notifyHandler->getChanges();
 		$notifyHandler->stop();

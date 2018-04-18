@@ -112,9 +112,22 @@ describe('OCA.Files.App tests', function() {
 			App.initialize();
 
 			var actions = App.fileList.fileActions.actions;
-			expect(actions.all.OverwriteThis.action).toBe(actionStub);
-			expect(actions.all.LegacyTest.action).toBe(legacyActionStub);
-			expect(actions.all.RegularTest.action).toBe(actionStub);
+			var context = { fileActions: sinon.createStubInstance(OCA.Files.FileActions) };
+			actions.all.OverwriteThis.action('testFileName', context);
+			expect(actionStub.calledOnce).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.callCount).toBe(2);
+			expect(context.fileActions._notifyUpdateListeners.getCall(0).calledWith('beforeTriggerAction')).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.getCall(1).calledWith('afterTriggerAction')).toBe(true);
+			actions.all.LegacyTest.action('testFileName', context);
+			expect(legacyActionStub.calledOnce).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.callCount).toBe(4);
+			expect(context.fileActions._notifyUpdateListeners.getCall(2).calledWith('beforeTriggerAction')).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.getCall(3).calledWith('afterTriggerAction')).toBe(true);
+			actions.all.RegularTest.action('testFileName', context);
+			expect(actionStub.calledTwice).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.callCount).toBe(6);
+			expect(context.fileActions._notifyUpdateListeners.getCall(4).calledWith('beforeTriggerAction')).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.getCall(5).calledWith('afterTriggerAction')).toBe(true);
 			// default one still there
 			expect(actions.dir.Open.action).toBeDefined();
 		});

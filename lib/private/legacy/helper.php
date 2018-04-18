@@ -141,7 +141,7 @@ class OC_Helper {
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
 		if (is_numeric($str)) {
-			return floatval($str);
+			return (float)$str;
 		}
 
 		$bytes_array = array(
@@ -158,7 +158,7 @@ class OC_Helper {
 			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
 		);
 
-		$bytes = floatval($str);
+		$bytes = (float)$str;
 
 		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
 			$bytes *= $bytes_array[$matches[1]];
@@ -408,7 +408,7 @@ class OC_Helper {
 		$it = new RecursiveIteratorIterator($aIt);
 
 		while ($it->valid()) {
-			if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+			if (((isset($index) AND ($it->key() == $index)) OR !isset($index)) AND ($it->current() == $needle)) {
 				return $aIt->key();
 			}
 
@@ -477,12 +477,12 @@ class OC_Helper {
 			return false;
 		}
 		$ini = \OC::$server->getIniWrapper();
-		$disabled = explode(',', $ini->get('disable_functions'));
+		$disabled = explode(',', $ini->get('disable_functions') ?: '');
 		$disabled = array_map('trim', $disabled);
 		if (in_array($function_name, $disabled)) {
 			return false;
 		}
-		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist'));
+		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist') ?: '');
 		$disabled = array_map('trim', $disabled);
 		if (in_array($function_name, $disabled)) {
 			return false;
@@ -497,7 +497,7 @@ class OC_Helper {
 	 * @return null|string
 	 */
 	public static function findBinaryPath($program) {
-		$memcache = \OC::$server->getMemCacheFactory()->create('findBinaryPath');
+		$memcache = \OC::$server->getMemCacheFactory()->createDistributed('findBinaryPath');
 		if ($memcache->hasKey($program)) {
 			return $memcache->get($program);
 		}

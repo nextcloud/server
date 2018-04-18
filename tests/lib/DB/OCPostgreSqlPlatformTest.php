@@ -18,33 +18,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
- 
+
 namespace Test\DB;
 
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
-use OC\DB\OCPostgreSqlPlatform;
- 
- /**
+
+/**
  * Class OCPostgreSqlPlatformTest
+ *
+ * custom OCPostgreSqlPlatform behavior has been upstreamed, test is left to
+ * ensure behavior stays correct.
  *
  * @group DB
  *
  * @package Test\DB
  */
- 
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
 
-	public function testAlterBigint(){
-		$platform = new OCPostgreSqlPlatform();
+	public function testAlterBigint() {
+		$platform = new PostgreSqlPlatform();
 		$sourceSchema = new Schema();
 		$targetSchema = new Schema();
-		
+
 		$this->createTableAndColumn($sourceSchema, Type::INTEGER);
 		$this->createTableAndColumn($targetSchema, Type::BIGINT);
-		
+
 		$comparator = new Comparator();
 		$diff = $comparator->compare($sourceSchema, $targetSchema);
 		$sqlStatements = $diff->toSql($platform);
@@ -53,22 +54,22 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 			$sqlStatements,
 			true
 		);
-		
+
 		$this->assertNotContains(
 			'ALTER TABLE poor_yorick ALTER id DROP DEFAULT',
 			$sqlStatements,
 			true
 		);
 	}
-	
-	protected function createTableAndColumn($schema, $type){
+
+	protected function createTableAndColumn($schema, $type) {
 		$table = $schema->createTable("poor_yorick");
 		$table->addColumn('id', $type, [
 			'autoincrement' => true,
-				'unsigned' => true,
-				'notnull' => true,
-				'length' => 11,
+			'unsigned' => true,
+			'notnull' => true,
+			'length' => 11,
 		]);
 	}
-	
+
 }

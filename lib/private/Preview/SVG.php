@@ -53,7 +53,10 @@ class SVG extends Provider {
 			$svg->readImageBlob($content);
 			$svg->setImageFormat('png32');
 		} catch (\Exception $e) {
-			\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'level' => \OCP\Util::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,6 +30,7 @@ use OCP\Lock\ILockingProvider;
  * to release any left over locks at the end of the request
  */
 abstract class AbstractLockingProvider implements ILockingProvider {
+	/** @var int $ttl */
 	protected $ttl; // how long until we clear stray locks in seconds
 
 	protected $acquiredLocks = [
@@ -43,7 +45,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	 * @param int $type
 	 * @return bool
 	 */
-	protected function hasAcquiredLock($path, $type) {
+	protected function hasAcquiredLock(string $path, int $type): bool {
 		if ($type === self::LOCK_SHARED) {
 			return isset($this->acquiredLocks['shared'][$path]) && $this->acquiredLocks['shared'][$path] > 0;
 		} else {
@@ -57,7 +59,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 */
-	protected function markAcquire($path, $type) {
+	protected function markAcquire(string $path, int $type) {
 		if ($type === self::LOCK_SHARED) {
 			if (!isset($this->acquiredLocks['shared'][$path])) {
 				$this->acquiredLocks['shared'][$path] = 0;
@@ -74,7 +76,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 */
-	protected function markRelease($path, $type) {
+	protected function markRelease(string $path, int $type) {
 		if ($type === self::LOCK_SHARED) {
 			if (isset($this->acquiredLocks['shared'][$path]) and $this->acquiredLocks['shared'][$path] > 0) {
 				$this->acquiredLocks['shared'][$path]--;
@@ -93,7 +95,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	 * @param string $path
 	 * @param int $targetType self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 */
-	protected function markChange($path, $targetType) {
+	protected function markChange(string $path, int $targetType) {
 		if ($targetType === self::LOCK_SHARED) {
 			unset($this->acquiredLocks['exclusive'][$path]);
 			if (!isset($this->acquiredLocks['shared'][$path])) {
@@ -121,7 +123,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 		}
 	}
 
-	protected function getOwnSharedLockCount($path) {
+	protected function getOwnSharedLockCount(string $path) {
 		return isset($this->acquiredLocks['shared'][$path]) ? $this->acquiredLocks['shared'][$path] : 0;
 	}
 }

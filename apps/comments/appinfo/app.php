@@ -36,7 +36,7 @@ $eventDispatcher->addListener(
 
 $eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, function(\OCP\Comments\CommentsEntityEvent $event) {
 	$event->addEntityCollection('files', function($name) {
-		$nodes = \OC::$server->getUserFolder()->getById(intval($name));
+		$nodes = \OC::$server->getUserFolder()->getById((int)$name);
 		return !empty($nodes);
 	});
 });
@@ -59,15 +59,4 @@ $commentsManager->registerEventHandler(function () {
 	/** @var \OCA\Comments\EventHandler $handler */
 	$handler = $application->getContainer()->query(\OCA\Comments\EventHandler::class);
 	return $handler;
-});
-$commentsManager->registerDisplayNameResolver('user', function($id) {
-	$manager = \OC::$server->getUserManager();
-	$user = $manager->get($id);
-	if(is_null($user)) {
-		$l = \OC::$server->getL10N('comments');
-		$displayName = $l->t('Unknown user');
-	} else {
-		$displayName = $user->getDisplayName();
-	}
-	return $displayName;
 });

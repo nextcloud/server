@@ -89,11 +89,11 @@ class Wizard extends LDAPUtility {
 	 *
 	 * @param string $filter the LDAP search filter
 	 * @param string $type a string being either 'users' or 'groups';
-	 * @return bool|int
+	 * @return int
 	 * @throws \Exception
 	 */
-	public function countEntries($filter, $type) {
-		$reqs = array('ldapHost', 'ldapPort', 'ldapBase');
+	public function countEntries(string $filter, string $type): int {
+		$reqs = ['ldapHost', 'ldapPort', 'ldapBase'];
 		if($type === 'users') {
 			$reqs[] = 'ldapUserFilter';
 		}
@@ -101,7 +101,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Requirements not met', 400);
 		}
 
-		$attr = array('dn'); // default
+		$attr = ['dn']; // default
 		$limit = 1001;
 		if($type === 'groups') {
 			$result =  $this->access->countGroups($filter, $attr, $limit);
@@ -113,22 +113,21 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Internal error: Invalid object type', 500);
 		}
 
-		return $result;
+		return (int)$result;
 	}
 
 	/**
 	 * formats the return value of a count operation to the string to be
 	 * inserted.
 	 *
-	 * @param bool|int $count
-	 * @return int|string
+	 * @param int $count
+	 * @return string
 	 */
-	private function formatCountResult($count) {
-		$formatted = ($count !== false) ? $count : 0;
-		if($formatted > 1000) {
-			$formatted = '> 1000';
+	private function formatCountResult(int $count): string {
+		if($count > 1000) {
+			return '> 1000';
 		}
-		return $formatted;
+		return (string)$count;
 	}
 
 	public function countGroups() {
@@ -141,7 +140,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		try {
-			$groupsTotal = $this->formatCountResult($this->countEntries($filter, 'groups'));
+			$groupsTotal = $this->countEntries($filter, 'groups');
 		} catch (\Exception $e) {
 			//400 can be ignored, 500 is forwarded
 			if($e->getCode() === 500) {
@@ -149,7 +148,12 @@ class Wizard extends LDAPUtility {
 			}
 			return false;
 		}
-		$output = self::$l->n('%s group found', '%s groups found', $groupsTotal, array($groupsTotal));
+		$output = self::$l->n(
+			'%s group found',
+			'%s groups found',
+			$groupsTotal,
+			[$this->formatCountResult($groupsTotal)]
+		);
 		$this->result->addChange('ldap_group_count', $output);
 		return $this->result;
 	}
@@ -161,8 +165,13 @@ class Wizard extends LDAPUtility {
 	public function countUsers() {
 		$filter = $this->access->getFilterForUserCount();
 
-		$usersTotal = $this->formatCountResult($this->countEntries($filter, 'users'));
-		$output = self::$l->n('%s user found', '%s users found', $usersTotal, array($usersTotal));
+		$usersTotal = $this->countEntries($filter, 'users');
+		$output = self::$l->n(
+			'%s user found',
+			'%s users found',
+			$usersTotal,
+			[$this->formatCountResult($usersTotal)]
+		);
 		$this->result->addChange('ldap_user_count', $output);
 		return $this->result;
 	}
@@ -175,7 +184,7 @@ class Wizard extends LDAPUtility {
 	 */
 	public function countInBaseDN() {
 		// we don't need to provide a filter in this case
-		$total = $this->countEntries(null, 'objects');
+		$total = $this->countEntries('', 'objects');
 		if($total === false) {
 			throw new \Exception('invalid results received');
 		}
@@ -227,7 +236,7 @@ class Wizard extends LDAPUtility {
 		if ($attr !== '' && $attr !== 'displayName') {
 			// most likely not the default value with upper case N,
 			// verify it still produces a result
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 			if($count > 0) {
 				//no change, but we sent it back to make sure the user interface
 				//is still correct, even if the ajax call was cancelled meanwhile
@@ -239,13 +248,13 @@ class Wizard extends LDAPUtility {
 		// first attribute that has at least one result wins
 		$displayNameAttrs = array('displayname', 'cn');
 		foreach ($displayNameAttrs as $attr) {
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 
 			if($count > 0) {
 				$this->applyFind('ldap_display_name', $attr);
 				return $this->result;
 			}
-		};
+		}
 
 		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings.'));
 	}
@@ -267,7 +276,7 @@ class Wizard extends LDAPUtility {
 
 		$attr = $this->configuration->ldapEmailAttribute;
 		if ($attr !== '') {
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 			if($count > 0) {
 				return false;
 			}
@@ -690,7 +699,7 @@ class Wizard extends LDAPUtility {
 			if ($settingsFound === true) {
 				$config = array(
 					'ldapPort' => $p,
-					'ldapTLS' => intval($t)
+					'ldapTLS' => (int)$t
 				);
 				$this->configuration->setConfiguration($config);
 				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
@@ -1069,7 +1078,7 @@ class Wizard extends LDAPUtility {
 
 		if($login === true) {
 			$this->ldap->unbind($cr);
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . intval($tls), \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls, \OCP\Util::DEBUG);
 			return true;
 		}
 
@@ -1326,7 +1335,7 @@ class Wizard extends LDAPUtility {
 		//636 ← LDAPS / SSL
 		//7xxx ← UCS. need to be checked first, because both ports may be open
 		$host = $this->configuration->ldapHost;
-		$port = intval($this->configuration->ldapPort);
+		$port = (int)$this->configuration->ldapPort;
 		$portSettings = array();
 
 		//In case the port is already provided, we will check this first

@@ -196,9 +196,7 @@ class Crypt {
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
 		$catFile = $this->concatSig($catFile, $sig);
-		$padded = $this->addPadding($catFile);
-
-		return $padded;
+		return $this->addPadding($catFile);
 	}
 
 	/**
@@ -495,8 +493,7 @@ class Crypt {
 	 */
 	private function createSignature($data, $passPhrase) {
 		$passPhrase = hash('sha512', $passPhrase . 'a', true);
-		$signature = hash_hmac('sha256', $data, $passPhrase);
-		return $signature;
+		return hash_hmac('sha256', $data, $passPhrase);
 	}
 
 
@@ -560,7 +557,7 @@ class Crypt {
 		$signaturePosition = strpos($meta, '00sig00');
 
 		// enforce signature for the new 'CTR' ciphers
-		if ($signaturePosition === false && strpos(strtolower($cipher), 'ctr') !== false) {
+		if ($signaturePosition === false && stripos($cipher, 'ctr') !== false) {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
 

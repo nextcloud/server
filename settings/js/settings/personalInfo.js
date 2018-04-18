@@ -60,7 +60,7 @@ function updateAvatar (hidedefault) {
 	$displaydiv.avatar(user.uid, 145, true, null, function() {
 		$displaydiv.removeClass('loading');
 		$('#displayavatar img').show();
-		if($('#displayavatar img').length === 0) {
+		if($('#displayavatar img').length === 0 || oc_userconfig.avatar.generated) {
 			$('#removeavatar').removeClass('inlineblock').addClass('hidden');
 		} else {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
@@ -129,6 +129,7 @@ function avatarResponseHandler (data) {
 	$warning.hide();
 	if (data.status === "success") {
 		$('#displayavatar .avatardiv').removeClass('icon-loading');
+		oc_userconfig.avatar.generated = false;
 		updateAvatar();
 	} else if (data.data === "notsquare") {
 		showAvatarCropper();
@@ -256,8 +257,14 @@ $(document).ready(function () {
 	});
 
 
+	var userSettings = new OC.Settings.UserSettings();
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
-		el: '#personal-settings'
+		el: '#personal-settings',
+		config: userSettings
+	});
+
+	userSettings.on("sync", function() {
+		updateAvatar(false);
 	});
 	federationSettingsView.render();
 
@@ -304,11 +311,14 @@ $(document).ready(function () {
 		submit: function(e, data) {
 			$('#displayavatar img').hide();
 			$('#displayavatar .avatardiv').addClass('icon-loading');
+			$('#uploadavatar').prop('disabled', true)
 			data.formData = _.extend(data.formData || {}, {
 				requesttoken: OC.requestToken
 			});
 		},
-		fail: function (e, data){
+		fail: function (e, data) {
+			$('#displayavatar .avatardiv').removeClass('icon-loading');
+			$('#uploadavatar').prop('disabled', false)
 			var msg = data.jqXHR.statusText + ' (' + data.jqXHR.status + ')';
 			if (!_.isUndefined(data.jqXHR.responseJSON) &&
 				!_.isUndefined(data.jqXHR.responseJSON.data) &&
@@ -331,7 +341,8 @@ $(document).ready(function () {
 			t('settings', "Select a profile picture"),
 			function (path) {
 				$('#displayavatar img').hide();
-				$('#displayavatar .avatardiv').addClass('loading');
+				$('#displayavatar .avatardiv').addClass('icon-loading');
+				$('#uploadavatar').prop('disabled', true)
 				$.ajax({
 					type: "POST",
 					url: OC.generateUrl('/avatar/'),
@@ -362,14 +373,16 @@ $(document).ready(function () {
 			type: 'DELETE',
 			url: OC.generateUrl('/avatar/'),
 			success: function () {
+				oc_userconfig.avatar.generated = true;
 				updateAvatar(true);
 			}
 		});
 	});
 
 	$('#abortcropperbutton').click(function () {
-		$('#displayavatar .avatardiv').removeClass('loading');
+		$('#displayavatar .avatardiv').removeClass('icon-loading');
 		$('#displayavatar img').show();
+		$('#uploadavatar').prop('disabled', false)
 		cleanCropper();
 	});
 
@@ -387,12 +400,13 @@ $(document).ready(function () {
 			t('settings', 'Strong password')
 		],
 		drawTitles: true,
+		$addAfter: $('input[name="newpassword-clone"]'),
 	});
 
 	// Load the big avatar
 	var user = OC.getCurrentUser();
 	$('#avatarform .avatardiv').avatar(user.uid, 145, true, null, function() {
-		if($('#displayavatar img').length === 0) {
+		if($('#displayavatar img').length === 0 || oc_userconfig.avatar.generated) {
 			$('#removeavatar').removeClass('inlineblock').addClass('hidden');
 		} else {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');

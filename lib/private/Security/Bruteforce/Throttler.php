@@ -243,6 +243,33 @@ class Throttler {
 	}
 
 	/**
+	 * Reset the throttling delay for an IP address, action and metadata
+	 *
+	 * @param string $ip
+	 * @param string $action
+	 * @param string $metadata
+	 */
+	public function resetDelay($ip, $action, $metadata) {
+		$ipAddress = new IpAddress($ip);
+		if ($this->isIPWhitelisted((string)$ipAddress)) {
+			return;
+		}
+
+		$cutoffTime = (new \DateTime())
+			->sub($this->getCutoff(43200))
+			->getTimestamp();
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('bruteforce_attempts')
+			->where($qb->expr()->gt('occurred', $qb->createNamedParameter($cutoffTime)))
+			->andWhere($qb->expr()->eq('subnet', $qb->createNamedParameter($ipAddress->getSubnet())))
+			->andWhere($qb->expr()->eq('action', $qb->createNamedParameter($action)))
+			->andWhere($qb->expr()->eq('metadata', $qb->createNamedParameter(json_encode($metadata))));
+
+		$qb->execute();
+	}
+
+	/**
 	 * Will sleep for the defined amount of time
 	 *
 	 * @param string $ip

@@ -30,7 +30,6 @@
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
@@ -182,6 +181,9 @@ class DefaultShareProvider implements IShareProvider {
 		if ($data === false) {
 			throw new ShareNotFound();
 		}
+
+		$mailSendValue = $share->getMailSend();
+		$data['mail_send'] = ($mailSendValue === null) ? true : $mailSendValue;
 
 		$share = $this->createShare($data);
 		return $share;
@@ -449,9 +451,9 @@ class DefaultShareProvider implements IShareProvider {
 						'uid_owner' => $qb->createNamedParameter($share->getShareOwner()),
 						'uid_initiator' => $qb->createNamedParameter($share->getSharedBy()),
 						'parent' => $qb->createNamedParameter($share->getId()),
-						'item_type' => $qb->createNamedParameter($share->getNode() instanceof File ? 'file' : 'folder'),
-						'item_source' => $qb->createNamedParameter($share->getNode()->getId()),
-						'file_source' => $qb->createNamedParameter($share->getNode()->getId()),
+						'item_type' => $qb->createNamedParameter($share->getNodeType()),
+						'item_source' => $qb->createNamedParameter($share->getNodeId()),
+						'file_source' => $qb->createNamedParameter($share->getNodeId()),
 						'file_target' => $qb->createNamedParameter($share->getTarget()),
 						'permissions' => $qb->createNamedParameter($share->getPermissions()),
 						'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),

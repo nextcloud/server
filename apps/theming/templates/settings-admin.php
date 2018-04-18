@@ -37,7 +37,7 @@ style('theming', 'settings-admin');
 	<p>
 		<?php p($_['errorMessage']) ?>
 	</p>
-	<?php } else { ?>
+	<?php } ?>
 	<div>
 		<label>
 			<span><?php p($l->t('Name')) ?></span>
@@ -48,7 +48,7 @@ style('theming', 'settings-admin');
 	<div>
 		<label>
 			<span><?php p($l->t('Web address')) ?></span>
-			<input id="theming-url" type="text" placeholder="<?php p($l->t('Web address https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
+			<input id="theming-url" type="url" placeholder="<?php p($l->t('Web address https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
 			<div data-setting="url" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
@@ -62,7 +62,7 @@ style('theming', 'settings-admin');
 	<div>
 		<label>
 			<span><?php p($l->t('Color')) ?></span>
-			<input id="theming-color" type="text" class="jscolor" maxlength="6" value="<?php p($_['color']) ?>" />
+			<input id="theming-color" type="text" class="jscolor" data-jscolor="{hash:true}" maxlength="7" value="<?php p($_['color']) ?>" />
 			<div data-setting="color" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
@@ -99,5 +99,4 @@ style('theming', 'settings-admin');
 			</p>
 		<?php } ?>
 	</div>
-	<?php } ?>
 </div>

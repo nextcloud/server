@@ -7,8 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Restore" : "Gendan",
     "No earlier versions available" : "Ingen tidligere versioner tilgængelige",
-    "More versions …" : "Flere versioner ...",
-    "No versions available" : "Ingen tilgængelige versioner",
-    "More versions..." : "Flere versioner..."
+    "More versions …" : "Flere versioner ..."
 },
 "nplurals=2; plural=(n != 1);");

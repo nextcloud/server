@@ -26,8 +26,8 @@
 
 	var TEMPLATE_FILENAME_FORM =
 		'<form class="filenameform">' +
-		'<label class="hidden-visually" for="{{cid}}-input-{{fileType}}">{{fileName}}</label>' +
 		'<input id="{{cid}}-input-{{fileType}}" type="text" value="{{fileName}}" autocomplete="off" autocapitalize="off">' +
+		'<input type="submit" value=" " class="icon-confirm" />'
 		'</form>';
 
 	/**
@@ -116,7 +116,7 @@
 			}
 
 			if ($target.find('form').length) {
-				$target.find('input').focus();
+				$target.find('input[type=\'text\']').focus();
 				return;
 			}
 
@@ -138,7 +138,8 @@
 			$target.append($form);
 
 			// here comes the OLD code
-			var $input = $form.find('input');
+			var $input = $form.find('input[type=\'text\']');
+			var $submit = $form.find('input[type=\'submit\']');
 
 			var lastPos;
 			var checkInput = function () {
@@ -155,7 +156,7 @@
 					}
 				} catch (error) {
 					$input.attr('title', error);
-					$input.tooltip({placement: 'right', trigger: 'manual'});
+					$input.tooltip({placement: 'right', trigger: 'manual', 'container': '.newFileMenu'});
 					$input.tooltip('fixTitle');
 					$input.tooltip('show');
 					$input.addClass('error');
@@ -169,6 +170,12 @@
 					$input.tooltip('hide');
 					$input.removeClass('error');
 				}
+			});
+
+			$submit.click(function(event) {
+				event.stopPropagation();
+				event.preventDefault();
+				$form.submit();
 			});
 
 			$input.focus();

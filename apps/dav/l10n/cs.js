@@ -10,6 +10,8 @@ OC.L10N.register(
     "You deleted calendar {calendar}" : "Smazal(a) jste kalendář {calendar}",
     "{actor} updated calendar {calendar}" : "{actor} aktualizoval(a) kalendář {calendar}",
     "You updated calendar {calendar}" : "Aktualizoval(a) jste kalendář {calendar}",
+    "You shared calendar {calendar} as public link" : "Sdílel(a) jste kalendář {calendar} jako veřejný odkaz",
+    "You removed public link for calendar {calendar}" : "Odstranil(a) jste veřejný odkaz pro kalendář {calendar} ",
     "{actor} shared calendar {calendar} with you" : "{actor} s vámi nasdílel(a) kalendář {calendar}",
     "You shared calendar {calendar} with {user}" : "S uživatelem {user} jste začal(a) sdílet kalendář {calendar}",
     "{actor} shared calendar {calendar} with {user}" : "{actor} začal sdílet kalendář {calendar} s uživatelem {user}",
@@ -41,6 +43,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "<strong>Událost</strong> v kalendáři byla změněna",
     "A calendar <strong>todo</strong> was modified" : "<strong>Úkol</strong> v kalendáři byl změněn",
     "Contact birthdays" : "Narozeniny kontaktů",
+    "%s via %s" : "%s přes %s",
     "Invitation canceled" : "Pozvánka zrušena",
     "Hello %s," : "Dobrý den %s,",
     "The meeting »%s« with %s was canceled." : "Setkání »%s« s %s bylo zrušeno.",
@@ -52,11 +55,13 @@ OC.L10N.register(
     "Description:" : "Popis:",
     "Link:" : "Odkaz:",
     "Contacts" : "Kontakty",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Technické detaily",
     "Remote Address: %s" : "Vzdálená adresa: %s",
     "Request ID: %s" : "ID požadavku: %s",
     "CalDAV server" : "CalDAV server",
     "Send invitations to attendees" : "Poslat pozvánky na adresy účastníků",
-    "Please make sure to properly set up the email settings above." : "Ujistěte se, že jste správně nastavili výše uvedená nastavení e-mailu."
+    "Please make sure to properly set up the email settings above." : "Ujistěte se, že jste správně nastavili výše uvedená nastavení e-mailu.",
+    "Automatically generate a birthday calendar" : "Automaticky vytvořit kalendář s narozeninami"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

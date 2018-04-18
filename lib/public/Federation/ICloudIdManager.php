@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017, Robin Appelman <robin@icewind.nl>
  *
@@ -37,7 +38,7 @@ interface ICloudIdManager {
 	 *
 	 * @since 12.0.0
 	 */
-	public function resolveCloudId($cloudId);
+	public function resolveCloudId(string $cloudId): ICloudId;
 
 	/**
 	 * Get the cloud id for a remote user
@@ -48,7 +49,7 @@ interface ICloudIdManager {
 	 *
 	 * @since 12.0.0
 	 */
-	public function getCloudId($user, $remote);
+	public function getCloudId(string $user, string $remote): ICloudId;
 
 	/**
 	 * Check if the input is a correctly formatted cloud id
@@ -58,5 +59,5 @@ interface ICloudIdManager {
 	 *
 	 * @since 12.0.0
 	 */
-	public function isValidCloudId($cloudId);
+	public function isValidCloudId(string $cloudId): bool;
 }

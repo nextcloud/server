@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 клијенти",
     "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 дозвољава спољним сервисима да захтевају приступ на %s.",
     "Name" : "Име",

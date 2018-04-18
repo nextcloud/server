@@ -50,22 +50,25 @@ class OC_Defaults {
 	private $defaultDocVersion;
 	private $defaultSlogan;
 	private $defaultColorPrimary;
+	private $defaultTextColorPrimary;
 
 	public function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
+		$config = \OC::$server->getConfig();
 
 		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = 'Nextcloud'; /* short name, used when referring to the software */
 		$this->defaultTitle = 'Nextcloud'; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = 'https://nextcloud.com';
-		$this->defaultSyncClientUrl = 'https://nextcloud.com/install/#install-clients';
-		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8';
-		$this->defaultiTunesAppId = '1125420102';
-		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.nextcloud.client';
+		$this->defaultSyncClientUrl = $config->getSystemValue('customclient_desktop', 'https://nextcloud.com/install/#install-clients');
+		$this->defaultiOSClientUrl = $config->getSystemValue('customclient_ios', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
+		$this->defaultiTunesAppId = $config->getSystemValue('customclient_ios_appid', '1125420102');
+		$this->defaultAndroidClientUrl = $config->getSystemValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.nextcloud.client');
 		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
-		$this->defaultDocVersion = '12'; // used to generate doc links
+		$this->defaultDocVersion = '14'; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultColorPrimary = '#0082c9';
+		$this->defaultTextColorPrimary = '#ffffff';
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
@@ -317,5 +320,12 @@ class OC_Defaults {
 			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo.png');
 		}
 	    return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
+	}
+
+	public function getTextColorPrimary() {
+		if ($this->themeExist('getTextColorPrimary')) {
+			return $this->theme->getTextColorPrimary();
+		}
+		return $this->defaultTextColorPrimary;
 	}
 }

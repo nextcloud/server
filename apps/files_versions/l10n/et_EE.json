@@ -5,8 +5,6 @@
     "_%n byte_::_%n bytes_" : ["%n bait","%n baiti"],
     "Restore" : "Taasta",
     "No earlier versions available" : "Eelnevaid versioone pole saadaval",
-    "More versions …" : "Veel versioone ...",
-    "No versions available" : "Ühtegi versiooni pole saadaval",
-    "More versions..." : "Rohkem versioone..."
+    "More versions …" : "Veel versioone ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

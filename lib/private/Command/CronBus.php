@@ -51,11 +51,11 @@ class CronBus extends AsyncBus {
 	 */
 	private function getJobClass($command) {
 		if ($command instanceof \Closure) {
-			return 'OC\Command\ClosureJob';
+			return ClosureJob::class;
 		} else if (is_callable($command)) {
-			return 'OC\Command\CallableJob';
+			return CallableJob::class;
 		} else if ($command instanceof ICommand) {
-			return 'OC\Command\CommandJob';
+			return CommandJob::class;
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
 		}

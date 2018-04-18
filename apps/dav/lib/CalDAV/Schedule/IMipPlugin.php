@@ -35,7 +35,6 @@ use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
-use Sabre\DAV\Xml\Element\Prop;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
@@ -378,11 +377,12 @@ class IMipPlugin extends SabreIMipPlugin {
 			}
 		}
 
-		$localeStart = $l10n->l('datetime', $dtstartDt, ['width' => 'medium']);
+		$localeStart = $l10n->l('weekdayName', $dtstartDt, ['width' => 'abbreviated']) . ', ' .
+			$l10n->l('datetime', $dtstartDt, ['width' => 'medium|short']);
 
 		// always show full date with timezone if timezones are different
 		if ($startTimezone !== $endTimezone) {
-			$localeEnd = $l10n->l('datetime', $dtendDt, ['width' => 'medium']);
+			$localeEnd = $l10n->l('datetime', $dtendDt, ['width' => 'medium|short']);
 
 			return $localeStart . ' (' . $startTimezone . ') - ' .
 				$localeEnd . ' (' . $endTimezone . ')';
@@ -390,9 +390,10 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		// show only end time if date is the same
 		if ($this->isDayEqual($dtstartDt, $dtendDt)) {
-			$localeEnd = $l10n->l('time', $dtendDt, ['width' => 'medium']);
+			$localeEnd = $l10n->l('time', $dtendDt, ['width' => 'short']);
 		} else {
-			$localeEnd = $l10n->l('datetime', $dtendDt, ['width' => 'medium']);
+			$localeEnd = $l10n->l('weekdayName', $dtendDt, ['width' => 'abbreviated']) . ', ' .
+				$l10n->l('datetime', $dtendDt, ['width' => 'medium|short']);
 		}
 
 		return  $localeStart . ' - ' . $localeEnd . ' (' . $startTimezone . ')';

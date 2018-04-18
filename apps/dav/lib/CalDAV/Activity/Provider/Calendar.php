@@ -26,6 +26,7 @@ namespace OCA\DAV\CalDAV\Activity\Provider;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -36,6 +37,8 @@ class Calendar extends Base {
 	const SUBJECT_ADD = 'calendar_add';
 	const SUBJECT_UPDATE = 'calendar_update';
 	const SUBJECT_DELETE = 'calendar_delete';
+	const SUBJECT_PUBLISH = 'calendar_publish';
+	const SUBJECT_UNPUBLISH = 'calendar_unpublish';
 	const SUBJECT_SHARE_USER = 'calendar_user_share';
 	const SUBJECT_SHARE_GROUP = 'calendar_group_share';
 	const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
@@ -61,10 +64,11 @@ class Calendar extends Base {
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
 	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IEventMerger $eventMerger) {
-		parent::__construct($userManager);
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IGroupManager $groupManager, IEventMerger $eventMerger) {
+		parent::__construct($userManager, $groupManager);
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -104,6 +108,11 @@ class Calendar extends Base {
 			$subject = $this->l->t('{actor} updated calendar {calendar}');
 		} else if ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
 			$subject = $this->l->t('You updated calendar {calendar}');
+
+		} else if ($event->getSubject() === self::SUBJECT_PUBLISH . '_self') {
+			$subject = $this->l->t('You shared calendar {calendar} as public link');
+		} else if ($event->getSubject() === self::SUBJECT_UNPUBLISH . '_self') {
+			$subject = $this->l->t('You removed public link for calendar {calendar}');
 
 		} else if ($event->getSubject() === self::SUBJECT_SHARE_USER) {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with you');
@@ -215,6 +224,8 @@ class Calendar extends Base {
 			case self::SUBJECT_DELETE . '_self':
 			case self::SUBJECT_UPDATE:
 			case self::SUBJECT_UPDATE . '_self':
+			case self::SUBJECT_PUBLISH . '_self':
+			case self::SUBJECT_UNPUBLISH . '_self':
 			case self::SUBJECT_SHARE_USER:
 			case self::SUBJECT_UNSHARE_USER:
 			case self::SUBJECT_UNSHARE_USER . '_self':

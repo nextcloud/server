@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Couldn't delete %s permanently" : "No fue posible eliminar %s permanentemente",
     "Couldn't restore %s" : "No fue posible restaurar %s",
-    "Deleted files" : "Archivos borrados",
+    "Deleted files" : "Papelera",
     "Restore" : "Restaurar",
     "Delete" : "Borrar",
     "Delete permanently" : "Borrar permanentemente",

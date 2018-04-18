@@ -58,6 +58,15 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 interface IServerContainer extends IContainer {
 
 	/**
+	 * The calendar manager will act as a broker between consumers for calendar information and
+	 * providers which actual deliver the calendar information.
+	 *
+	 * @return \OCP\Calendar\IManager
+	 * @since 13.0.0
+	 */
+	public function getCalendarManager();
+
+	/**
 	 * The contacts manager will act as a broker between consumers for contacts information and
 	 * providers which actual deliver the contact information.
 	 *
@@ -116,7 +125,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Files\Folder
 	 * @since 6.0.0
-	 * @deprecated since 9.2.0 use IAppData
+	 * @deprecated 9.2.0 use IAppData
 	 */
 	public function getAppFolder();
 
@@ -242,14 +251,6 @@ interface IServerContainer extends IContainer {
 	public function getURLGenerator();
 
 	/**
-	 * Returns the Helper
-	 *
-	 * @return \OCP\IHelper
-	 * @since 6.0.0
-	 */
-	public function getHelper();
-
-	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache
@@ -345,14 +346,6 @@ interface IServerContainer extends IContainer {
 	 * @since 8.0.0
 	 */
 	public function createEventSource();
-
-	/**
-	 * Returns an instance of the HTTP helper class
-	 * @return \OC\HTTPHelper
-	 * @deprecated 8.1.0 Use \OCP\Http\Client\IClientService
-	 * @since 8.0.0
-	 */
-	public function getHTTPHelper();
 
 	/**
 	 * Returns an instance of the HTTP client service
@@ -532,4 +525,16 @@ interface IServerContainer extends IContainer {
 	 * @since 12.0.0
 	 */
 	public function getCloudIdManager();
+
+	/**
+	 * @return \OCP\Remote\Api\IApiFactory
+	 * @since 13.0.0
+	 */
+	public function getRemoteApiFactory();
+
+	/**
+	 * @return \OCP\Remote\IInstanceFactory
+	 * @since 13.0.0
+	 */
+	public function getRemoteInstanceFactory();
 }

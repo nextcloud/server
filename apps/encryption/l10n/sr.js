@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Стара лозинка није исправна. Покушајте поново.",
     "The current log-in password was not correct, please try again." : "Тренутна лозинка за пријаву није исправна. Покушајте поново.",
     "Private key password successfully updated." : "Лозинка личног кључа је успешно ажурирана.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Морате да пребаците старе шифрарске кључеве (оунКлауд <= 8.0) у нове. Покрените 'occ encryption:migrate' или контактирајте администратора.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Неисправан лични кључ за шифровање. Ажурирајте лозинку личног кључа у поставкама да повратите приступ шифрованим фајловима.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Апликација за шифровање је укључена али кључеви још нису иницијализовани. Одјавите се и поново се пријавите.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Укључите шифровање на страни сервера у администраторским поставкама да бисте користили модул за шифровање.",
@@ -31,11 +30,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "једнократна лозинка за шифровање на страни сервера",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не могу да дешифрујем фајл. Вероватно је то дељен фајл. Затражите од власника да га поново подели.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не могу да читам фајл. Вероватно је дељен. Питајте власника да га поново подели.",
+    "Default encryption module" : "Подразумевани модул за шифровање",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Поштовање,\n\nадминистратор је укључио шифровање на серверској страни. Ваши фајлови су шифровани лозинком „%s“.\n\nПријавите се на веб сучеље, идите на одељак 'основни модул за шифровање' у личним поставкама и ажурирајте своју лозинку за шифровање уношењем ове лозинке у поље „стара лозинка за пријаву“ и своју тренутну лозинку за пријављивање.\n",
     "The share will expire on %s." : "Дељење истиче %s.",
     "Cheers!" : "Здраво!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Поштовање,<br><br>администратор је укључио шифровање на серверској страни. Ваши фајлови су шифровани лозинком <strong>%s</strong>.<br><br>Пријавите се на веб сучеље, идите на одељак 'основни модул за шифровање' у личним поставкама и ажурирајте своју лозинку за шифровање тако што унесете ову лозинку у поље 'стара лозинка за пријаву' и своју тренутну лозинку за пријављивање.<br><br>",
-    "Default encryption module" : "Подразумевани модул за шифровање",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Апликација за шифровање је укључена али кључеви још нису иницијализовани. Одјавите се и поново се пријавите.",
     "Encrypt the home storage" : "Шифровање главног складишта",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Укључивање ове опције ће шифровати све фајлове на главном складишту. У супротном ће само фајлови на спољашњем складишту бити шифровани",
@@ -60,6 +59,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Укључивање ове опције омогућиће поновно добијање приступа вашим шифрованим фајловима у случају губитка лозинке",
     "Enabled" : "укључено",
     "Disabled" : "искључено",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Апликација шифровања је укључена али ваши кључеви нису иницијализовани. Одјавите се и поново се пријавите."
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Морате да пребаците старе шифрарске кључеве (оунКлауд <= 8.0) у нове. Покрените 'occ encryption:migrate' или контактирајте администратора."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

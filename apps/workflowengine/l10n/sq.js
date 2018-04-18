@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "Rivendos",
     "Save" : "Ruaj",
     "Saving…" : "Duke u ruajtur...",
-    "Loading…" : "Po ngarkohet...",
-    "Successfully saved" : "U ruajt me sukses",
-    "File mime type" : "Tipi mime i skedarëve"
+    "Loading…" : "Po ngarkohet..."
 },
 "nplurals=2; plural=(n != 1);");

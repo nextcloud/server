@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * Copyright (c) 2017, John Molakvoæ <skjnldsv@protonmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -20,10 +21,10 @@ style('settings', 'settings');
 $userlistParams = array();
 $allGroups=array();
 foreach($_["adminGroup"] as $group) {
-	$allGroups[] = $group['name'];
+	$allGroups[$group['id']] = array('displayName' => $group['name']);
 }
 foreach($_["groups"] as $group) {
-	$allGroups[] = $group['name'];
+	$allGroups[$group['id']] = array('displayName' => $group['name']);
 }
 $userlistParams['subadmingroups'] = $allGroups;
 $userlistParams['allGroups'] = json_encode($allGroups);
@@ -35,6 +36,7 @@ translation('settings');
 ?>
 
 <div id="app-navigation">
+	<?php print_unescaped($this->inc('users/part.createuser')); ?>
 	<?php print_unescaped($this->inc('users/part.grouplist')); ?>
 	<div id="app-settings">
 		<div id="app-settings-header">
@@ -65,20 +67,6 @@ translation('settings');
 						<?php p($l->t('Show last login')) ?>
 					</label>
 				</p>
-				<p>
-					<input type="checkbox" name="EmailAddress" value="EmailAddress" id="CheckboxEmailAddress"
-						class="checkbox" <?php if ($_['show_email'] === 'true') print_unescaped('checked="checked"'); ?> />
-					<label for="CheckboxEmailAddress">
-						<?php p($l->t('Show email address')) ?>
-					</label>
-				</p>
-				<p>
-					<input type="checkbox" name="MailOnUserCreate" value="MailOnUserCreate" id="CheckboxMailOnUserCreate"
-						class="checkbox" <?php if ($_['send_email'] === 'true') print_unescaped('checked="checked"'); ?> />
-					<label for="CheckboxMailOnUserCreate">
-						<?php p($l->t('Send email to new user')) ?>
-					</label>
-				</p>
 				<p class="info-text">
 					<?php p($l->t('When the password of a new user is left empty, an activation email with a link to set the password is sent.')) ?>
 				</p>
@@ -88,6 +76,5 @@ translation('settings');
 </div>
 
 <div id="app-content">
-	<?php print_unescaped($this->inc('users/part.createuser')); ?>
 	<?php print_unescaped($this->inc('users/part.userlist', $userlistParams)); ?>
 </div>

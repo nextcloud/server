@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Neteisingas senas slaptažodis, prašome bandyti dar kartą.",
     "The current log-in password was not correct, please try again." : "Esamas prisijungimo slaptažodis buvo neteisingas, prašome bandyti dar kartą.",
     "Private key password successfully updated." : "Privataus rakto slaptažodis sėkmingai atnaujintas.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Jūs turite atlikti šifravimo raktų migraciją iš senojo (ownCloud <= 8.0) į naująjį. Prašome terminale įvykdyti \"occ encryption:migrate\" arba susisiekti su sistemos administratoriumi",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Šifravimo įskiepis neatpažįsta privataus rakto. Atnaujinkite slaptažodį skirtą privačiam raktui naudoti, kurį rasite asmeninių nustatymų skiltyje, skirtoje atstatyti prieigą prie šifruotų failų.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Šifravimo įskiepis veikia, tačiau privatus ir atkūrimo raktas nebuvo panaudotas. Pabandykite prisijungti iš naujo.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Administratoriaus nustatymuose įgalinkite šifravimą, jei norite naudoti šifravimo modulį.",
@@ -31,11 +30,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "vienkartinis slaptažodis skirtas šifravimui",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nepavyksta iššifruoti šio failo, tikriausiai, tai yra bendrinamas failas. Paprašykite failo savininko iš naujo pradėti bendrinti su jumis šį failą.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nepavyksta perskaityti šio failo, tikriausiai, tai yra bendrinamas failas. Paprašykite failo savininko iš naujo pradėti bendrinti su jumis šį failą.",
+    "Default encryption module" : "Numatytasis šifravimo modulis",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Sveiki,\n\nAdministratorius įjungė šifravimą sistemoje. Jūsų failai buvo užšifruoti naudojantis šiuo slaptažodžiu: \"%s\".\n\nPrisijunkite prie sistemos, atidarykite nustatymus, pasirinkite skiltį \"Šifravimo įskiepis\" ir atnaujinkite savo šifravimui skirtą slaptažodį pasinaudodami šiuo ir savo prisijungimo slaptažodžiu.\n\n",
     "The share will expire on %s." : "Bendrinimo laikas pasibaigs %s.",
     "Cheers!" : "Sveikinimai!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Sveiki, <br><br>Administratorius įjungė šifravimą sistemoje. Jūsų failai buvo užšifruoti naudojantis šiuo slaptažodžiu: <strong>%s</strong>.<br><br> Prisijunkite prie sistemos, atidarykite nustatymus, pasirinkite skiltį \"Šifravimo įskiepis\" ir atnaujinkite savo šifravimui skirtą slaptažodį pasinaudodami šiuo ir savo prisijungimo slaptažodžiu.<br><br>",
-    "Default encryption module" : "Numatytasis šifravimo modulis",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Šifravimo įskiepis veikia, tačiau privatus ir atkūrimo raktas nebuvo panaudotas. Pabandykite prisijungti iš naujo",
     "Encrypt the home storage" : "Šifruoti visą saugyklą",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ši parinktis užšifruos visus duomenis, esančius visoje saugykloje. Jei pasirinkimas šioje skiltyje liks išjungtas, tada duomenys, esantys išorinėje saugykloje bus užšifruoti.",
@@ -60,6 +59,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Šios parinkties įjungimas leis jums iš naujo gauti prieigą prie savo užšifruotų duomenų tuo atveju, jei prarasite slaptažodį",
     "Enabled" : "Įjungta",
     "Disabled" : "Išjungta",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Šifravimo programėlė yra įjungta, tačiau jūsų raktai nėra inicijuoti. Prašome atsijungti ir vėl prisijungti"
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Jūs turite atlikti savo šifravimo raktų perkėlimą iš senojo šifravimo (ownCloud <= 8.0) į naująjį. Prašome terminale įvykdyti \"occ encryption:migrate\" arba susisiekti su sistemos administratoriumi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,23 +30,23 @@ use OCP\IConfig;
 use Test\TestCase;
 
 class ResetTokenBackgroundJobTest extends TestCase {
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $timeFactory;
 	/** @var ResetTokenBackgroundJob */
 	private $resetTokenBackgroundJob;
-	/** @var ITimeFactory */
-	private $timeFactory;
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder('\\OCP\\IConfig')->getMock();
-		$this->timeFactory = $this->getMockBuilder('\\OCP\\AppFramework\\Utility\\ITimeFactory')->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->resetTokenBackgroundJob = new ResetTokenBackgroundJob($this->config, $this->timeFactory);
 	}
 
 	public function testRunWithNotExpiredToken() {
 		$this->timeFactory
-			->expects($this->any())
+			->expects($this->atLeastOnce())
 			->method('getTime')
 			->willReturn(123);
 		$this->config
@@ -54,10 +55,9 @@ class ResetTokenBackgroundJobTest extends TestCase {
 			->with('core', 'updater.secret.created', 123);
 		$this->config
 			->expects($this->never())
-			->method('deleteSystemValue')
-			->with('updater.secret');
+			->method('deleteSystemValue');
 
-		$this->invokePrivate($this->resetTokenBackgroundJob, 'run', ['']);
+		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}
 
 	public function testRunWithExpiredToken() {
@@ -78,6 +78,6 @@ class ResetTokenBackgroundJobTest extends TestCase {
 			->method('deleteSystemValue')
 			->with('updater.secret');
 
-		$this->invokePrivate($this->resetTokenBackgroundJob, 'run', ['']);
+		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}
 }

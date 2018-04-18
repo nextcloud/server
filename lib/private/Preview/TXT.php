@@ -46,6 +46,11 @@ class TXT extends Provider {
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		$content = $fileview->fopen($path, 'r');
+
+		if ($content === false) {
+			return false;
+		}
+
 		$content = stream_get_contents($content,3000);
 
 		//don't create previews of empty text files
@@ -55,7 +60,7 @@ class TXT extends Provider {
 
 		$lines = preg_split("/\r\n|\n|\r/", $content);
 
-		$fontSize = ($maxX) ? (int) ((5 / 32) * $maxX) : 5; //5px
+		$fontSize = $maxX ? (int) ((5 / 32) * $maxX) : 5; //5px
 		$lineSize = ceil($fontSize * 1.25);
 
 		$image = imagecreate($maxX, $maxY);
@@ -86,8 +91,9 @@ class TXT extends Provider {
 			}
 		}
 
-		$image = new \OC_Image($image);
+		$imageObject = new \OC_Image();
+		$imageObject->setResource($image);
 
-		return $image->valid() ? $image : false;
+		return $imageObject->valid() ? $imageObject : false;
 	}
 }

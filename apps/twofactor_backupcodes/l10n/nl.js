@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Generate backup codes" : "Genereer backup code",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup codes zijn gegenereerd. {{used}} van {{total}} codes zijn gebruikt.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dit zijn jouw backup codes. Bewaar ze en/of druk ze af, aangezien je ze later niet weer kunt zien.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dit zijn je back-upcodes. Bewaar ze en/of druk ze alsjeblieft af, want je ze niet later nog een keer opvragen.",
     "Save backup codes" : "Bewaren backup code",
     "Print backup codes" : "Afdrukken backup code",
     "Regenerate backup codes" : "Regenereer backup code",
@@ -13,6 +13,7 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Je creëerde tweefactor back-up codes voor je account",
     "Backup code" : "Backup code",
     "Use backup code" : "Gebruik backup code",
+    "Two factor backup codes" : "Twee-factor backupcode",
     "Second-factor backup codes" : "Twee-factor backup code"
 },
 "nplurals=2; plural=(n != 1);");

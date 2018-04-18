@@ -85,7 +85,18 @@ default:
               - admin
               - admin
             regular_user_password: what_for
-
+    remoteapi:
+      paths:
+        - %paths.base%/../remoteapi_features
+      contexts:
+        - FeatureContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - RemoteContext:
+            remote:  http://localhost:8080
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
           filename: report.xml

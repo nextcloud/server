@@ -2,6 +2,7 @@
  * Copyright (c) 2014, Arthur Schiwon <blizzz@owncloud.com>
  * Copyright (c) 2014, Raghu Nayyar <beingminimal@gmail.com>
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * Copyright (c) 2017, John Molakvoæ <skjnldsv@protonmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -31,6 +32,17 @@ var UserList = {
 		// initially the list might already contain user entries (not fully ajaxified yet)
 		// initialize these entries
 		this.$el.find('.quota-user').singleSelect().on('change', this.onQuotaSelect);
+		$('#new-user-button').on('click', function(event) {
+			event.preventDefault();
+			$('#newuserHeader').slideToggle(OC.menuSpeed);
+			$('#newusername').focus();
+		});
+		$('#newreset').on('click', function(event) {
+			$('#newuserHeader').slideToggle(OC.menuSpeed);
+		});
+		$('.has-tooltip').tooltip({
+			placement: 'bottom'
+		});
 	},
 
 	/**
@@ -40,8 +52,8 @@ var UserList = {
 	 *            {
 	 * 				'name': 			'username',
 	 * 				'displayname': 		'Users display name',
-	 * 				'groups': 			['group1', 'group2'],
-	 * 				'subadmin': 		['group4', 'group5'],
+	 * 				'groups': 			{group1: {displayName: 'Group 1'}, group2: {displayName: 'Group 2'}}
+	 * 				'subadmin': 		{group5: {displayName: 'Group 5'}, group6: {displayName: 'Group 6'}}
 	 *				'quota': 			'10 GB',
 	 *				'quota_bytes':		'10737418240',
 	 *				'storageLocation':	'/srv/www/owncloud/data/username',
@@ -54,7 +66,7 @@ var UserList = {
 	 * 			}
 	 */
 	add: function (user) {
-		if (this.currentGid && this.currentGid !== '_everyone' && this.currentGid !== '_disabledUsers' && _.indexOf(user.groups, this.currentGid) < 0) {
+		if (this.currentGid && this.currentGid !== '_everyone' && this.currentGid !== '_disabledUsers' && Object.keys(user.groups).indexOf(this.currentGid) < 0) {
 			return false;
 		}
 
@@ -101,16 +113,9 @@ var UserList = {
 		$tdSubadmins.find('.action').tooltip({placement: 'top'});
 
 		/**
-		 * user actions menu
+		 * hide user actions menu for current user
 		 */
-		if ($tr.find('td.userActions > span > img').length === 0 && OC.currentUser !== user.name) {
-			var menuImage = $('<img class="svg action">').attr({
-				src: OC.imagePath('core', 'actions/more')
-			});
-			var menuLink = $('<span class="toggleUserActions"></span>')
-				.append(menuImage);
-			$tr.find('td.userActions > span').replaceWith(menuLink);
-		} else if (OC.currentUser === user.name) {
+		if (OC.currentUser === user.name) {
 			$tr.find('td.userActions').empty();
 		}
 
@@ -449,11 +454,10 @@ var UserList = {
 				if (!OC.isUserAdmin() && checked.length === 1 && checked[0] === group) {
 					return false;
 				}
-
-				if (add && OC.isUserAdmin() && UserList.availableGroups.indexOf(group) === -1) {
+				if (add && OC.isUserAdmin() && _.isUndefined(UserList.availableGroups[group])) {
 					GroupList.createGroup(group);
-					if (UserList.availableGroups.indexOf(group) === -1) {
-						UserList.availableGroups.push(group);
+					if (_.isUndefined(UserList.availableGroups[group])) {
+						UserList.availableGroups[group] = {displayName: group};
 					}
 				}
 
@@ -468,8 +472,8 @@ var UserList = {
 					},
 					success: function () {
 						GroupList.update();
-						if (add && UserList.availableGroups.indexOf(group) === -1) {
-							UserList.availableGroups.push(group);
+						if (add && _.isUndefined(UserList.availableGroups[group])) {
+							UserList.availableGroups[group] = {displayName: group};
 						}
 
 						if (add) {
@@ -515,7 +519,7 @@ var UserList = {
 			checked: checked,
 			oncheck: addUserToGroup,
 			onuncheck: removeUserFromGroup,
-			minWidth: 100
+			minWidth: 150
 		});
 	},
 
@@ -549,7 +553,7 @@ var UserList = {
 			checked: checked,
 			oncheck: checkHandler,
 			onuncheck: checkHandler,
-			minWidth: 100
+			minWidth: 150
 		});
 	},
 
@@ -642,11 +646,12 @@ var UserList = {
 	 * Creates a temporary jquery.multiselect selector on the given group field
 	 */
 	_triggerGroupEdit: function ($td, isSubadminSelect) {
+		var self = this;
 		var $groupsListContainer = $td.find('.groupsListContainer');
-		var placeholder = $groupsListContainer.attr('data-placeholder') || t('settings', 'no group');
+		var placeholder = $groupsListContainer.data('placeholder') || t('settings', 'no group');
 		var user = UserList.getUID($td);
-		var checked = $td.data('groups') || [];
-		var extraGroups = [].concat(checked);
+		var checked = $td.data('groups') || {};
+		var extraGroups = Object.assign({}, checked);
 
 		$td.find('.multiselectoptions').remove();
 
@@ -658,22 +663,21 @@ var UserList = {
 			$groupsSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" title="' + placeholder + '"></select>')
 		}
 
-		function createItem (group) {
-			if (isSubadminSelect && group === 'admin') {
+		function createItem (gid, group) {
+			if (isSubadminSelect && group.displayName === 'admin') {
 				// can't become subadmin of "admin" group
 				return;
 			}
-			$groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
+			$groupsSelect.append($('<option value="' + escapeHTML(gid) + '">' + escapeHTML(group.displayName) + '</option>'));
 		}
 
-		$.each(this.availableGroups, function (i, group) {
+		$.each(this.availableGroups, function (gid, group) {
 			// some new groups might be selected but not in the available groups list yet
-			var extraIndex = extraGroups.indexOf(group);
-			if (extraIndex >= 0) {
+			if (extraGroups[gid] !== undefined) {
 				// remove extra group as it was found
-				extraGroups.splice(extraIndex, 1);
+				delete extraGroups[gid];
 			}
-			createItem(group);
+			createItem(gid, group);
 		});
 		$.each(extraGroups, function (i, group) {
 			createItem(group);
@@ -681,10 +685,13 @@ var UserList = {
 
 		$td.append($groupsSelect);
 
+		var checkedIds = Object.keys(checked).map(function(group, gid) {
+			return checked[group].displayName;
+		});
 		if (isSubadminSelect) {
-			UserList.applySubadminSelect($groupsSelect, user, checked);
+			UserList.applySubadminSelect($groupsSelect, user, checkedIds);
 		} else {
-			UserList.applyGroupSelect($groupsSelect, user, checked);
+			UserList.applyGroupSelect($groupsSelect, user, checkedIds);
 		}
 
 		$groupsListContainer.addClass('hidden');
@@ -694,7 +701,15 @@ var UserList = {
 			$td.find('.multiselect:not(.groupsListContainer)').parent().remove();
 			$td.find('.multiselectoptions').remove();
 			$groupsListContainer.removeClass('hidden');
-			UserList._updateGroupListLabel($td, e.checked);
+			// Pull all checked groups from this.availableGroups
+			var checked = Object.keys(self.availableGroups).reduce(function (previous, key) {
+				if(e.checked.indexOf(key) >= 0) {
+					return Object.assign(previous, {[key]:self.availableGroups[key]});
+				} else {
+					return previous;
+				}
+			}, {});
+			UserList._updateGroupListLabel($td, checked);
 		});
 	},
 
@@ -702,9 +717,12 @@ var UserList = {
 	 * Updates the groups list td with the given groups selection
 	 */
 	_updateGroupListLabel: function ($td, groups) {
-		var placeholder = $td.find('.groupsListContainer').attr('data-placeholder');
+		var placeholder = $td.find('.groupsListContainer').data('placeholder');
 		var $groupsEl = $td.find('.groupsList');
-		$groupsEl.text(groups.join(', ') || placeholder || t('settings', 'no group'));
+		var grouptext = Object.keys(groups).map(function(group, gid) {
+			return groups[group].displayName;
+		});
+		$groupsEl.text(grouptext.join(', ') || placeholder || t('settings', 'no group'));
 		$td.data('groups', groups);
 	}
 };
@@ -947,7 +965,7 @@ $(document).ready(function () {
 		UserList._triggerGroupEdit($td, isSubadminSelect);
 	});
 
-	$userListBody.on('click', '.toggleUserActions', function (event) {
+	$userListBody.on('click', '.toggleUserActions > .action', function (event) {
 		event.stopPropagation();
 		var $td = $(this).closest('td');
 		var $tr = $($td).closest('tr');
@@ -970,8 +988,11 @@ $(document).ready(function () {
 		$tr.addClass('active');
 	});
 
-	$(document.body).click(function () {
-		$('#userlist tr.active').removeClass('active');
+	$(document).on('mouseup', function (event) {
+		if (!$(event.target).closest('.toggleUserActions').length) {
+			$('#userlist tr.active').removeClass('active');
+			$('#userlist .popovermenu.open').removeClass('open');
+		}
 	});
 
 	$userListBody.on('click', '.action-togglestate', function (event) {
@@ -1021,7 +1042,7 @@ $(document).ready(function () {
 		OC.Search.clear();
 	});
 
-	UserList._updateGroupListLabel($('#newuser .groups'), []);
+	UserList._updateGroupListLabel($('#newuser .groups'), {});
 	var _submitNewUserForm = function (event) {
 		event.preventDefault();
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
@@ -1040,21 +1061,6 @@ $(document).ready(function () {
 			}));
 			return false;
 		}
-		if ($.trim(password) === '' && !$('#CheckboxMailOnUserCreate').is(':checked')) {
-			OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
-				message: t('settings', 'A valid password must be provided')
-			}));
-			return false;
-		}
-		if (!$('#CheckboxMailOnUserCreate').is(':checked')) {
-			email = '';
-		}
-		if ($('#CheckboxMailOnUserCreate').is(':checked') && $.trim(email) === '') {
-			OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
-				message: t('settings', 'A valid email must be provided')
-			}));
-			return false;
-		}
 
 		var promise;
 		if (UserDeleteHandler) {
@@ -1064,7 +1070,8 @@ $(document).ready(function () {
 		}
 
 		promise.then(function () {
-			var groups = $('#newuser .groups').data('groups') || [];
+			var groups = $('#newuser .groups').data('groups') || {};
+			groups = Object.keys(groups);
 			$.post(
 				OC.generateUrl('/settings/users/users'),
 				{
@@ -1077,8 +1084,8 @@ $(document).ready(function () {
 					if (result.groups) {
 						for (var i in result.groups) {
 							var gid = result.groups[i];
-							if (UserList.availableGroups.indexOf(gid) === -1) {
-								UserList.availableGroups.push(gid);
+							if (_.isUndefined(UserList.availableGroups[gid])) {
+								UserList.availableGroups[gid] = {displayName: gid};
 							}
 							var $li = GroupList.getGroupLI(gid);
 							var userCount = GroupList.getUserCount($li);
@@ -1138,24 +1145,6 @@ $(document).ready(function () {
 		}
 	});
 
-	if ($('#CheckboxEmailAddress').is(':checked')) {
-		$("#userlist .mailAddress").show();
-	}
-	// Option to display/hide the "Mail Address" column
-	$('#CheckboxEmailAddress').click(function () {
-		if ($('#CheckboxEmailAddress').is(':checked')) {
-			$("#userlist .mailAddress").show();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_show_email', 'true');
-			}
-		} else {
-			$("#userlist .mailAddress").hide();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_show_email', 'false');
-			}
-		}
-	});
-
 	if ($('#CheckboxUserBackend').is(':checked')) {
 		$("#userlist .userBackend").show();
 	}
@@ -1170,24 +1159,6 @@ $(document).ready(function () {
 			$("#userlist .userBackend").hide();
 			if (OC.isUserAdmin()) {
 				OCP.AppConfig.setValue('core', 'umgmt_show_backend', 'false');
-			}
-		}
-	});
-
-	if ($('#CheckboxMailOnUserCreate').is(':checked')) {
-		$("#newemail").show();
-	}
-	// Option to display/hide the "E-Mail" input field
-	$('#CheckboxMailOnUserCreate').click(function () {
-		if ($('#CheckboxMailOnUserCreate').is(':checked')) {
-			$("#newemail").show();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_send_email', 'true');
-			}
-		} else {
-			$("#newemail").hide();
-			if (OC.isUserAdmin()) {
-				OCP.AppConfig.setValue('core', 'umgmt_send_email', 'false');
 			}
 		}
 	});

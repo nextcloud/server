@@ -65,6 +65,8 @@ class Setup {
 	protected $logger;
 	/** @var ISecureRandom */
 	protected $random;
+	/** @var Installer */
+	protected $installer;
 
 	/**
 	 * @param SystemConfig $config
@@ -73,13 +75,15 @@ class Setup {
 	 * @param Defaults $defaults
 	 * @param ILogger $logger
 	 * @param ISecureRandom $random
+	 * @param Installer $installer
 	 */
 	public function __construct(SystemConfig $config,
 						 IniGetWrapper $iniWrapper,
 						 IL10N $l10n,
 						 Defaults $defaults,
 						 ILogger $logger,
-						 ISecureRandom $random
+						 ISecureRandom $random,
+						 Installer $installer
 		) {
 		$this->config = $config;
 		$this->iniWrapper = $iniWrapper;
@@ -87,6 +91,7 @@ class Setup {
 		$this->defaults = $defaults;
 		$this->logger = $logger;
 		$this->random = $random;
+		$this->installer = $installer;
 	}
 
 	static protected $dbSetupClasses = [
@@ -320,15 +325,20 @@ class Setup {
 		$secret = $this->random->generate(48);
 
 		//write the config file
-		$this->config->setValues([
+		$newConfigValues = [
 			'passwordsalt'		=> $salt,
 			'secret'			=> $secret,
 			'trusted_domains'	=> $trustedDomains,
 			'datadirectory'		=> $dataDir,
-			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT,
 			'dbtype'			=> $dbType,
 			'version'			=> implode('.', \OCP\Util::getVersion()),
-		]);
+		];
+
+		if ($this->config->getValue('overwrite.cli.url', null) === null) {
+			$newConfigValues['overwrite.cli.url'] = $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT;
+		}
+
+		$this->config->setValues($newConfigValues);
 
 		try {
 			$dbSetup->initialize($options);
@@ -371,18 +381,11 @@ class Setup {
 
 			// Install shipped apps and specified app bundles
 			Installer::installShippedApps();
-			$installer = new Installer(
-				\OC::$server->getAppFetcher(),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getTempManager(),
-				\OC::$server->getLogger(),
-				\OC::$server->getConfig()
-			);
 			$bundleFetcher = new BundleFetcher(\OC::$server->getL10N('lib'));
 			$defaultInstallationBundles = $bundleFetcher->getDefaultInstallationBundle();
 			foreach($defaultInstallationBundles as $bundle) {
 				try {
-					$installer->installAppBundle($bundle);
+					$this->installer->installAppBundle($bundle);
 				} catch (Exception $e) {}
 			}
 
@@ -439,14 +442,23 @@ class Setup {
 				return false;
 			}
 			$webRoot = parse_url($webRoot, PHP_URL_PATH);
+			if ($webRoot === null) {
+				return false;
+			}
 			$webRoot = rtrim($webRoot, '/');
 		} else {
 			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
 		}
 
-		$setupHelper = new \OC\Setup($config, \OC::$server->getIniWrapper(),
-			\OC::$server->getL10N('lib'), \OC::$server->query(Defaults::class), \OC::$server->getLogger(),
-			\OC::$server->getSecureRandom());
+		$setupHelper = new \OC\Setup(
+			$config,
+			\OC::$server->getIniWrapper(),
+			\OC::$server->getL10N('lib'),
+			\OC::$server->query(Defaults::class),
+			\OC::$server->getLogger(),
+			\OC::$server->getSecureRandom(),
+			\OC::$server->query(Installer::class)
+		);
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
@@ -478,7 +490,7 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots.txt";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/updater/";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/";
-			$content .= "\n  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*";
+			$content .= "\n  RewriteCond %{REQUEST_URI} !^/\\.well-known/(acme-challenge|pki-validation)/.*";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteBase " . $rewriteBase;
 			$content .= "\n  <IfModule mod_env.c>";

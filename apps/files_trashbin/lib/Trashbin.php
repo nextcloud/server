@@ -635,8 +635,6 @@ class Trashbin {
 
 		if ($timestamp) {
 			$filename = $filename . '.d' . $timestamp;
-		} else {
-			$filename = $filename;
 		}
 
 		$target = Filesystem::normalizePath('files_trashbin/files/' . $filename);
@@ -875,10 +873,10 @@ class Trashbin {
 			foreach ($matches as $ma) {
 				if ($timestamp) {
 					$parts = explode('.v', substr($ma['path'], 0, $offset));
-					$versions[] = (end($parts));
+					$versions[] = end($parts);
 				} else {
 					$parts = explode('.v', $ma);
-					$versions[] = (end($parts));
+					$versions[] = end($parts);
 				}
 			}
 		}
@@ -1002,6 +1000,6 @@ class Trashbin {
 	 * @return string
 	 */
 	public static function preview_icon($path) {
-		return \OCP\Util::linkToRoute('core_ajax_trashbin_preview', array('x' => 32, 'y' => 32, 'file' => $path));
+		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_trashbin_preview', array('x' => 32, 'y' => 32, 'file' => $path));
 	}
 }

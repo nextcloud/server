@@ -175,13 +175,40 @@ $(document).ready(function () {
 		$('#upload-login-background').click();
 	});
 
+	function checkName () {
+		var length = $('#theming-name').val().length;
+		try {
+			if (length > 0) {
+				return true;
+			} else {
+				throw t('theming', 'Name cannot be empty');
+			} 
+		} catch (error) {
+			$('#theming-name').attr('title', error);
+			$('#theming-name').tooltip({placement: 'top', trigger: 'manual'});
+			$('#theming-name').tooltip('fixTitle');
+			$('#theming-name').tooltip('show');
+			$('#theming-name').addClass('error');
+		}
+		return false;
+	}
+
+	$('#theming-name').keyup(function() {
+		if (checkName()) {
+			$('#theming-name').tooltip('hide');
+			$('#theming-name').removeClass('error');
+		}  
+	});
+
 	$('#theming-name').change(function(e) {
 		var el = $(this);
-		$.when(el.focusout()).then(function() {
-			setThemingValue('name', $(this).val());
-		});
-		if (e.keyCode == 13) {
-			setThemingValue('name', $(this).val());
+		if(checkName()){
+			$.when(el.focusout()).then(function() {
+				setThemingValue('name', $(this).val());
+			});
+			if (e.keyCode == 13) {
+				setThemingValue('name', $(this).val());
+			} 
 		}
 	});
 
@@ -206,7 +233,11 @@ $(document).ready(function () {
 	});
 
 	$('#theming-color').change(function (e) {
-		setThemingValue('color', '#' + $(this).val());
+		var color = $(this).val();
+		if (color.indexOf('#') !== 0) {
+			color = '#' + color;
+		}
+		setThemingValue('color', color);
 	});
 
 	$('.theme-undo').click(function (e) {

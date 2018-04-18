@@ -83,9 +83,7 @@
 
 /* position controls for apps with app-navigation */
 #app-navigation+#app-content #controls {
-	left: 0 !important;
 	padding-left: 44px;
-	width: 100%;
 }
 
 /* .viewer-mode is when text editor, PDF viewer, etc is open */
@@ -132,4 +130,40 @@ table.multiselect thead {
 
 
 /* end of media query */
+}
+
+@media only screen and (max-width: 480px) {
+	#header .header-right .menu {
+		max-width: calc(100vw - 10px);
+		position: fixed;
+		&::after {
+			display: none !important;
+		}
+	}
+	/* Arrow directly child of menutoggle */
+	#header .header-right > div {
+		&.openedMenu{
+			&::after {
+				display: block;
+			}
+		}
+		&::after {
+			border: 10px solid transparent;
+			border-bottom-color: $color-main-background;
+			bottom: 0;
+			content: ' ';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			right: 15px;
+			z-index: 2001;
+			display: none;
+		}
+
+		/* settings need a different offset, since they have a right padding */
+		&#settings::after {
+			right: 27px;
+		}
+	}
 }

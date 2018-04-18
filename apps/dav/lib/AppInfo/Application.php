@@ -29,13 +29,15 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
 use \OCP\AppFramework\App;
-use OCP\Contacts\IManager;
+use OCP\Contacts\IManager as IContactsManager;
+use OCP\Calendar\IManager as ICalendarManager;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -63,14 +65,33 @@ class Application extends App {
 	}
 
 	/**
-	 * @param IManager $contactsManager
+	 * @param IContactsManager $contactsManager
 	 * @param string $userID
 	 */
-	public function setupContactsProvider(IManager $contactsManager, $userID) {
+	public function setupContactsProvider(IContactsManager $contactsManager, $userID) {
 		/** @var ContactsManager $cm */
 		$cm = $this->getContainer()->query(ContactsManager::class);
 		$urlGenerator = $this->getContainer()->getServer()->getURLGenerator();
 		$cm->setupContactsProvider($contactsManager, $userID, $urlGenerator);
+	}
+
+	/**
+	 * @param IManager $contactsManager
+	 */
+	public function setupSystemContactsProvider(IContactsManager $contactsManager) {
+		/** @var ContactsManager $cm */
+		$cm = $this->getContainer()->query(ContactsManager::class);
+		$urlGenerator = $this->getContainer()->getServer()->getURLGenerator();
+		$cm->setupSystemContactsProvider($contactsManager, $urlGenerator);
+	}
+
+	/**
+	 * @param ICalendarManager $calendarManager
+	 * @param string $userId
+	 */
+	public function setupCalendarProvider(ICalendarManager $calendarManager, $userId) {
+		$cm = $this->getContainer()->query(CalendarManager::class);
+		$cm->setupCalendarProvider($calendarManager, $userId);
 	}
 
 	public function registerHooks() {
@@ -164,6 +185,15 @@ class Application extends App {
 				$event->getArgument('shares'),
 				$event->getArgument('add'),
 				$event->getArgument('remove')
+			);
+		});
+
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::publishCalendar', function(GenericEvent $event) {
+			/** @var Backend $backend */
+			$backend = $this->getContainer()->query(Backend::class);
+			$backend->onCalendarPublication(
+				$event->getArgument('calendarData'),
+				$event->getArgument('public')
 			);
 		});
 

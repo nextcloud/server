@@ -100,22 +100,19 @@ input {
 	}
 }
 
-#personal-settings-avatar-container,
-#personal-settings-group-container {
-	display: inline-block;
+#personal-settings-avatar-container {
+	display: inline-grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 2fr 1fr 1fr;
 	vertical-align: top;
-	width: 225px;
 }
 
 .profile-settings-container {
-	display: inline-block;
-	max-width: 600px;
-	margin-bottom: 20px;
-	> div {
-		float: left;
-		width: 300px;
-	}
+	display: inline-grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 2fr 1fr;
 }
+
 
 .icon-federation-menu {
 	padding-left: 16px;
@@ -137,7 +134,7 @@ input {
 }
 
 .personal-settings-setting-box input {
-	&[type="text"], &[type="email"], &[type="tel"] {
+	&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
 		width: 100%;
 	}
 }
@@ -157,21 +154,84 @@ input {
 	}
 }
 
+#personal-settings {
+	display: grid;
+	padding: 20px;
+	max-width: 1500px;
+	grid-template-columns:1fr 2fr 1fr;
+	.section {
+		padding: 10px 10px;
+	}
+}
+
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		#personal-settings-avatar-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr;
+			grid-column: 2;
+		}
+	}
+}
+
+@media (max-width: 1200px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr;
+		#personal-settings-avatar-container {
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr;
+		}
+	}
+}
+
+@media (max-width: 560px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr;
+		#personal-settings-avatar-container {
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 1fr;
+		}
+	}
+}
+
 .personal-settings-container {
-	display: inline-block;
-	max-width: 600px;
-	margin-bottom: 20px;
+	display: inline-grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 	&:after {
 		clear: both;
-	}
-	&:not(#personal-settings-avatar-container) > div {
-		float: left;
-		width: 300px;
 	}
 	> div {
 		h2 {
 			position: relative;
-			margin-bottom: 5px;
+			margin-bottom: 12px;
 			display: inline-flex;
 			flex-wrap: nowrap;
 			justify-content: space-between;
@@ -183,7 +243,7 @@ input {
 			}
 		}
 		> form span {
-			&[class^="icon-checkmark"], &[class^="icon-error"] {
+			&[class^='icon-checkmark'], &[class^='icon-error'] {
 				position: relative;
 				right: 8px;
 				top: -28px;
@@ -329,10 +389,22 @@ table.nostyle {
 		}
 	}
 	.token-list td {
-		&.more {
+		&%icon {
 			overflow: visible;
 			position: relative;
 			width: 16px;
+		}
+		&.more {
+			@extend %icon;
+		}
+		&.client {
+			@extend %icon;
+
+			div {
+				opacity: 0.57;
+				width: inherit;
+				padding-top: 5px;
+			}
 		}
 		border-top: 1px solid #DDD;
 		text-overflow: ellipsis;
@@ -342,12 +414,12 @@ table.nostyle {
 		vertical-align: top;
 		position: relative;
 	}
-	tr > *:nth-child(2) {
+	tr > *:nth-child(3) {
 		text-align: right;
 	}
 	.token-list {
 		td > a.icon {
-			opacity: 0;
+
 			transition: opacity 0.5s;
 		}
 		a.icon {
@@ -479,9 +551,13 @@ table.grid {
 	}
 }
 
-td {
+td, th {
 	&.name {
 		padding-left: .8em;
+		min-width: 5em;
+		max-width: 12em;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 	&.password {
 		padding-left: .8em;
@@ -492,9 +568,18 @@ td {
 	&.displayName > img {
 		visibility: hidden;
 	}
-	&.password, &.displayName {
-		width: 12em;
+	&.password,
+	&.displayName,
+	&.mailAddress {
+		min-width: 5em;
+		max-width: 12em;
 		cursor: pointer;
+		span {
+			width: 90%;
+			display: inline-block;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
 	}
 	&.mailAddress {
 		cursor: pointer;
@@ -512,14 +597,14 @@ span.usersLastLoginTooltip {
 /* dropdowns will be relative to this element */
 #userlist {
 	position: relative;
-	.mailAddress, .storageLocation, .userBackend, .lastLogin {
+	.storageLocation, .userBackend, .lastLogin {
 		display: none;
 	}
 	th.name {
 		color: #000;
 	}
 	tr {
-		height: 51px;
+		height: 50px;
 	}
 	.mailAddress .loading-small {
 		width: 16px;
@@ -531,16 +616,17 @@ span.usersLastLoginTooltip {
 	.groupsListContainer.hidden {
 		display: none;
 	}
+	thead th,
+	thead tr {
+		z-index: 100;
+		background-color: $color-main-background;
+		position: sticky;
+		// positional attribute is required for position to take affect.
+		top: 0;
+	}
 }
 
-/* because of accessibility the name cell is <th> - therefore we enforce the black color */
-/* use same height as in files app */
 #newuser {
-	/* positioning fixes */
-	padding-left: 3px;
-	.groups {
-		display: inline;
-	}
 	.groupsListContainer.hidden {
 		display: none;
 	}
@@ -548,6 +634,24 @@ span.usersLastLoginTooltip {
 		min-width: 150px !important;
 		position: relative;
 		top: -1px;
+	}
+	input {
+		&:not([type='submit']),
+		&:not([type='reset']) {
+			width: 100%;
+		}
+	}
+	.userActions input {
+		width: 44px;
+		height: 44px;
+		&.icon-close {
+			border: none;
+			background-color: initial;
+			opacity: .5;
+		}
+		&:hover {
+			opacity: 1;
+		}
 	}
 }
 
@@ -563,34 +667,23 @@ tr:hover > td {
 }
 
 td.userActions {
-	width: 25px;
-	text-align: center;
-	position: relative;
-	.action {
-		position: relative;
-		top: 3px;
-	}
 	.toggleUserActions {
-		border: none;
-		background-color: rgba(0, 0, 0, 0);
-		width: 34px;
-		height: 34px;
-		margin: 0;
-		opacity: 0.5;
-		&:hover,
-		&:focus {
-			background-color: transparent;
-			opacity: 1;
+		width: 44px;
+		height: 44px;
+		position: relative;
+		.action {
+			display: block;
+			padding: 14px;
+			opacity: 0.5;
+			.icon-more {
+				display: inline-block;
+			}
+			&:hover,
+			&:focus {
+				opacity: 1;
+			}
 		}
 	}
-}
-
-tr.active td.userActions .action {
-	opacity: 1;
-}
-
-td.userActions .action:hover {
-	cursor: pointer;
 }
 
 div.recoveryPassword {
@@ -721,6 +814,7 @@ span.version {
 	}
 	a {
 		padding: 10px;
+		margin: -6px;
 		white-space: nowrap;
 	}
 	.official {
@@ -832,7 +926,7 @@ span.version {
 	margin-bottom: 18px;
 }
 
-/* capitalize "Other" category */
+/* capitalize 'Other' category */
 
 #app-category-925 {
 	text-transform: capitalize;
@@ -899,6 +993,7 @@ span.version {
 		}
 		.app-image {
 			width: 44px;
+			height: auto;
 			text-align: right;
 		}
 		.app-image-icon svg {
@@ -1027,6 +1122,13 @@ table.grid td.date {
 	.double-indent {
 		padding-left: 56px;
 	}
+	.nocheckbox {
+		padding-left: 20px;
+	}
+}
+
+#shareApiDefaultPermissionsSection label {
+	margin-right: 20px;
 }
 
 #fileSharingSettings h3 {
@@ -1102,14 +1204,14 @@ table.grid td.date {
 
 span {
 	&.success {
-		background: #37ce02;
+		background-color: $color-success;
 		border-radius: $border-radius;
 	}
 	&.error {
-		background: #ce3702;
+		background-color: $color-error;
 	}
 	&.indeterminate {
-		background: #e6db00;
+		background-color: $color-warning;
 		border-radius: 40% 0;
 	}
 }
@@ -1118,8 +1220,11 @@ span {
 #passwordform .strengthify-wrapper {
 	position: absolute;
 	left: 0;
-	width: 130px;
+	width: 100%;
+	border-radius: 0 0 2px 2px;
 	margin-top: -6px;
+	overflow: hidden;
+	height: 3px;
 }
 
 /* OPERA hack for strengthify*/

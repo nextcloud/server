@@ -157,5 +157,7 @@ abstract class Backend extends \Test\TestCase {
 
 		$this->backend->createGroup($group);
 		$this->backend->createGroup($group);
+
+		$this->addToAssertionCount(1);
 	}
 }

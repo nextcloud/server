@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -34,6 +35,8 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+use OCP\Session\Exceptions\SessionNotAvailableException;
+
 /**
  * Interface ISession
  *
@@ -49,7 +52,7 @@ interface ISession {
 	 * @param mixed $value
 	 * @since 6.0.0
 	 */
-	public function set($key, $value);
+	public function set(string $key, $value);
 
 	/**
 	 * Get a value from the session
@@ -58,7 +61,7 @@ interface ISession {
 	 * @return mixed should return null if $key does not exist
 	 * @since 6.0.0
 	 */
-	public function get($key);
+	public function get(string $key);
 
 	/**
 	 * Check if a named key exists in the session
@@ -67,7 +70,7 @@ interface ISession {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function exists($key);
+	public function exists(string $key): bool;
 
 	/**
 	 * Remove a $key/$value pair from the session
@@ -75,7 +78,7 @@ interface ISession {
 	 * @param string $key
 	 * @since 6.0.0
 	 */
-	public function remove($key);
+	public function remove(string $key);
 
 	/**
 	 * Reset and recreate the session
@@ -96,7 +99,7 @@ interface ISession {
 	 * @return void
 	 * @since 9.0.0
 	 */
-	public function regenerateId($deleteOldSession = true);
+	public function regenerateId(bool $deleteOldSession = true);
 
 	/**
 	 * Wrapper around session_id
@@ -105,5 +108,5 @@ interface ISession {
 	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
-	public function getId();
+	public function getId(): string;
 }

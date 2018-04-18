@@ -66,8 +66,6 @@ OC.L10N.register(
     "Reset" : "초기화",
     "Save" : "저장",
     "Saving…" : "저장 중…",
-    "Loading…" : "불러오는 중…",
-    "Successfully saved" : "성공적으로 저장됨",
-    "File mime type" : "파일 MIME 형식"
+    "Loading…" : "불러오는 중…"
 },
 "nplurals=1; plural=0;");

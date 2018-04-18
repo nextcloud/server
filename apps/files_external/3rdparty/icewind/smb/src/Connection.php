@@ -35,6 +35,19 @@ class Connection extends RawConnection {
 	}
 
 	/**
+	 * @throws ConnectException
+	 */
+	public function clearTillPrompt() {
+		$this->write('');
+		do {
+			$promptLine = $this->readLine();
+			$this->parser->checkConnectionError($promptLine);
+		} while (!$this->isPrompt($promptLine));
+		$this->write('');
+		$this->readLine();
+	}
+
+	/**
 	 * get all unprocessed output from smbclient until the next prompt
 	 *
 	 * @param callable $callback (optional) callback to call for every line read

@@ -37,6 +37,7 @@ script('settings', [
 	<table class="icon-loading">
 		<thead class="token-list-header">
 			<tr>
+				<th></th>
 				<th><?php p($l->t('Device'));?></th>
 				<th><?php p($l->t('Last activity'));?></th>
 				<th></th>

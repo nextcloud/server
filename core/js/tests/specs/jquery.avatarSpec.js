@@ -19,6 +19,13 @@ describe('jquery.avatar tests', function() {
 
 		devicePixelRatio = window.devicePixelRatio;
 		window.devicePixelRatio = 1;
+
+		spyOn(window, 'Image').and.returnValue({
+			onload: function() {
+			},
+			onerror: function() {
+			}
+		});
 	});
 
 	afterEach(function() {
@@ -39,6 +46,9 @@ describe('jquery.avatar tests', function() {
 			$div.height(9);
 			$div.avatar('foo');
 
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onerror();
+
 			expect($div.height()).toEqual(9);
 			expect($div.width()).toEqual(9);
 		});
@@ -47,6 +57,9 @@ describe('jquery.avatar tests', function() {
 			$div.data('size', 10);
 			$div.avatar('foo');
 
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onerror();
+
 			expect($div.height()).toEqual(10);
 			expect($div.width()).toEqual(10);
 		});
@@ -54,6 +67,9 @@ describe('jquery.avatar tests', function() {
 
 		it('defined', function() {
 			$div.avatar('foo', 8);
+
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onerror();
 
 			expect($div.height()).toEqual(8);
 			expect($div.width()).toEqual(8);
@@ -73,16 +89,10 @@ describe('jquery.avatar tests', function() {
 	describe('no avatar', function() {
 		it('show placeholder for existing user', function() {
 			spyOn($div, 'imageplaceholder');
-			$div.avatar('foo');
+			$div.avatar('foo', undefined, undefined, undefined, undefined, 'bar');
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({
-					data: {displayname: 'bar'}
-				})
-			);
-
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onerror();
 			expect($div.imageplaceholder).toHaveBeenCalledWith('foo', 'bar');
 		});
 
@@ -91,32 +101,23 @@ describe('jquery.avatar tests', function() {
 			spyOn($div, 'css');
 			$div.avatar('foo');
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({
-					data: {}
-				})
-			);
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onerror();
 
 			expect($div.imageplaceholder).toHaveBeenCalledWith('?');
 			expect($div.css).toHaveBeenCalledWith('background-color', '#b9b9b9');
 		});
 
-		it('show no placeholder', function() {
+		it('show no placeholder is ignored', function() {
 			spyOn($div, 'imageplaceholder');
+			spyOn($div, 'css');
 			$div.avatar('foo', undefined, undefined, true);
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({
-					data: {}
-				})
-			);
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onerror();
 
-			expect($div.imageplaceholder.calls.any()).toEqual(false);
-			expect($div.css('display')).toEqual('none');
+			expect($div.imageplaceholder).toHaveBeenCalledWith('?');
+			expect($div.css).toHaveBeenCalledWith('background-color', '#b9b9b9');
 		});
 	});
 
@@ -129,24 +130,24 @@ describe('jquery.avatar tests', function() {
 			window.devicePixelRatio = 1;
 			$div.avatar('foo', 32);
 
-			expect(fakeServer.requests[0].method).toEqual('GET');
-			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/avatar/foo/32');
+			expect(window.Image).toHaveBeenCalled();
+			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/32');
 		});
 
 		it('high DPI icon', function() {
 			window.devicePixelRatio = 4;
 			$div.avatar('foo', 32);
 
-			expect(fakeServer.requests[0].method).toEqual('GET');
-			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/avatar/foo/128');
+			expect(window.Image).toHaveBeenCalled();
+			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/128');
 		});
 
 		it('high DPI icon round up size', function() {
 			window.devicePixelRatio = 1.9;
 			$div.avatar('foo', 32);
 
-			expect(fakeServer.requests[0].method).toEqual('GET');
-			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/avatar/foo/61');
+			expect(window.Image).toHaveBeenCalled();
+			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/61');
 		});
 	});
 
@@ -158,17 +159,12 @@ describe('jquery.avatar tests', function() {
 		it('default (no ie8 fix)', function() {
 			$div.avatar('foo', 32);
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'image/jpeg' },
-				''
-			);
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onload();
 
-			var img = $div.children('img')[0];
-
-			expect(img.height).toEqual(32);
-			expect(img.width).toEqual(32);
-			expect(img.src).toEqual('http://localhost/index.php/avatar/foo/32');
+			expect(window.Image().height).toEqual(32);
+			expect(window.Image().width).toEqual(32);
+			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/32');
 		});
 
 		it('default high DPI icon', function() {
@@ -176,37 +172,23 @@ describe('jquery.avatar tests', function() {
 
 			$div.avatar('foo', 32);
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'image/jpeg' },
-				''
-			);
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onload();
 
-			var img = $div.children('img')[0];
-
-			expect(img.height).toEqual(32);
-			expect(img.width).toEqual(32);
-			expect(img.src).toEqual('http://localhost/index.php/avatar/foo/61');
+			expect(window.Image().height).toEqual(32);
+			expect(window.Image().width).toEqual(32);
+			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/61');
 		});
 
-		it('with ie8 fix', function() {
-			sinon.stub(Math, 'random').callsFake(function() {
-				return 0.5;
-			});
-
+		it('with ie8 fix (ignored)', function() {
 			$div.avatar('foo', 32, true);
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'image/jpeg' },
-				''
-			);
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onload();
 
-			var img = $div.children('img')[0];
-
-			expect(img.height).toEqual(32);
-			expect(img.width).toEqual(32);
-			expect(img.src).toEqual('http://localhost/index.php/avatar/foo/32#500');
+			expect(window.Image().height).toEqual(32);
+			expect(window.Image().width).toEqual(32);
+			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/32');
 		});
 
 		it('unhide div', function() {
@@ -214,13 +196,12 @@ describe('jquery.avatar tests', function() {
 
 			$div.avatar('foo', 32);
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'image/jpeg' },
-				''
-			);
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onload();
 
-			expect($div.css('display')).toEqual('block');
+			expect(window.Image().height).toEqual(32);
+			expect(window.Image().width).toEqual(32);
+			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/32');
 		});
 
 		it('callback called', function() {
@@ -232,12 +213,12 @@ describe('jquery.avatar tests', function() {
 				observer.callback();
 			});
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'image/jpeg' },
-				''
-			);
+			expect(window.Image).toHaveBeenCalled();
+			window.Image().onload();
 
+			expect(window.Image().height).toEqual(32);
+			expect(window.Image().width).toEqual(32);
+			expect(window.Image().src).toEqual('http://localhost/index.php/avatar/foo/32');
 			expect(observer.callback).toHaveBeenCalled();
 		});
 	});

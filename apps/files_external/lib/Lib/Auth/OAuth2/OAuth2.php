@@ -39,7 +39,7 @@ class OAuth2 extends AuthMechanism {
 			->addParameters([
 				(new DefinitionParameter('configured', 'configured'))
 					->setType(DefinitionParameter::VALUE_HIDDEN),
-				(new DefinitionParameter('client_id', $l->t('Client ID'))),
+				new DefinitionParameter('client_id', $l->t('Client ID')),
 				(new DefinitionParameter('client_secret', $l->t('Client secret')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 				(new DefinitionParameter('token', 'token'))

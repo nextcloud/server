@@ -6,7 +6,7 @@
 		<?php p($theme->getTitle()); ?>
 		</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="referrer" content="never">
+		<meta name="referrer" content="no-referrer">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
 		<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
@@ -19,7 +19,7 @@
 		<?php print_unescaped($_['headers']); ?>
 	</head>
 	<body id="<?php p($_['bodyid']);?>">
-		<?php include('layout.noscript.warning.php'); ?>
+		<?php include 'layout.noscript.warning.php'; ?>
 		<div class="wrapper">
 			<div class="v-align">
 				<?php if ($_['bodyid'] === 'body-login' ): ?>
@@ -38,7 +38,6 @@
 					</header>
 				<?php endif; ?>
 				<?php print_unescaped($_['content']); ?>
-				<div class="push"></div><!-- for sticky footer -->
 			</div>
 		</div>
 		<footer role="contentinfo">

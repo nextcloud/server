@@ -43,7 +43,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
-use OC_Util;
 use OCP\IURLGenerator;
 
 /**
@@ -96,7 +95,7 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Checks if the ownCloud server can connect to the internet using HTTPS and HTTP
+	 * Checks if the server can connect to the internet using HTTPS and HTTP
 	 * @return bool
 	 */
 	private function isInternetConnectionWorking() {
@@ -105,8 +104,10 @@ class CheckSetupController extends Controller {
 		}
 
 		$siteArray = ['www.nextcloud.com',
-						'www.google.com',
-						'www.github.com'];
+						'www.startpage.com',
+						'www.eff.org',
+						'www.edri.org',
+			];
 
 		foreach($siteArray as $site) {
 			if ($this->isSiteReachable($site)) {
@@ -117,7 +118,7 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	* Chceks if the ownCloud server can connect to a specific URL using both HTTPS and HTTP
+	* Checks if the Nextcloud server can connect to a specific URL using both HTTPS and HTTP
 	* @return bool
 	*/
 	private function isSiteReachable($sitename) {
@@ -238,7 +239,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated() {
-		if (version_compare(PHP_VERSION, '5.5.0') === -1) {
+		if (version_compare(PHP_VERSION, '7.0.0', '<')) {
 			return true;
 		}
 
@@ -410,6 +411,14 @@ Raw output
 	}
 
 	/**
+	 * Check if the required FreeType functions are present
+	 * @return bool
+	 */
+	protected function hasFreeTypeSupport() {
+		return function_exists('imagettfbbox') && function_exists('imagettftext');
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -430,6 +439,7 @@ Raw output
 				'isOpcacheProperlySetup' => $this->isOpcacheProperlySetup(),
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
+				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
 			]
 		);
 	}

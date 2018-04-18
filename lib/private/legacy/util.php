@@ -274,7 +274,7 @@ class OC_Util {
 			self::initLocalStorageRootFS();
 		}
 
-		if ($user != '' && !OCP\User::userExists($user)) {
+		if ($user != '' && !\OC::$server->getUserManager()->userExists($user)) {
 			\OC::$server->getEventLogger()->end('setup_fs');
 			return false;
 		}
@@ -300,9 +300,8 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isPublicLinkPasswordRequired() {
-		$appConfig = \OC::$server->getAppConfig();
-		$enforcePassword = $appConfig->getValue('core', 'shareapi_enforce_links_password', 'no');
-		return ($enforcePassword === 'yes') ? true : false;
+		$enforcePassword = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_links_password', 'no');
+		return $enforcePassword === 'yes';
 	}
 
 	/**
@@ -341,11 +340,11 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
-		$isDefaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+		$isDefaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
 		$enforceDefaultExpireDate = false;
 		if ($isDefaultExpireDateEnabled === 'yes') {
-			$value = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
-			$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
+			$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+			$enforceDefaultExpireDate = $value === 'yes';
 		}
 
 		return $enforceDefaultExpireDate;
@@ -379,7 +378,23 @@ class OC_Util {
 	 */
 	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
 
-		$skeletonDirectory = \OC::$server->getConfig()->getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$userLang = \OC::$server->getL10NFactory()->findLanguage();
+		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
+
+		if (!file_exists($skeletonDirectory)) {
+			$dialectStart = strpos($userLang, '_');
+			if ($dialectStart !== false) {
+				$skeletonDirectory = str_replace('{lang}', substr($userLang, 0, $dialectStart), $plainSkeletonDirectory);
+			}
+			if ($dialectStart === false || !file_exists($skeletonDirectory)) {
+				$skeletonDirectory = str_replace('{lang}', 'default', $plainSkeletonDirectory);
+			}
+			if (!file_exists($skeletonDirectory)) {
+				$skeletonDirectory = '';
+			}
+		}
+
 		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', '');
 
 		if ($instanceId === null) {
@@ -664,29 +679,6 @@ class OC_Util {
 	}
 
 	/**
-	 * formats a timestamp in the "right" way
-	 *
-	 * @param int $timestamp
-	 * @param bool $dateOnly option to omit time from the result
-	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
-	 * @return string timestamp
-	 *
-	 * @deprecated Use \OC::$server->query('DateTimeFormatter') instead
-	 */
-	public static function formatDate($timestamp, $dateOnly = false, $timeZone = null) {
-		if ($timeZone !== null && !$timeZone instanceof \DateTimeZone) {
-			$timeZone = new \DateTimeZone($timeZone);
-		}
-
-		/** @var \OC\DateTimeFormatter $formatter */
-		$formatter = \OC::$server->query('DateTimeFormatter');
-		if ($dateOnly) {
-			return $formatter->formatDate($timestamp, 'long', $timeZone);
-		}
-		return $formatter->formatDateTime($timestamp, 'long', 'long', $timeZone);
-	}
-
-	/**
 	 * check if the current server configuration is suitable for ownCloud
 	 *
 	 * @param \OC\SystemConfig $config
@@ -708,8 +700,15 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		$setup = new \OC\Setup($config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'),
-			\OC::$server->query(\OCP\Defaults::class), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
+		$setup = new \OC\Setup(
+			$config,
+			\OC::$server->getIniWrapper(),
+			\OC::$server->getL10N('lib'),
+			\OC::$server->query(\OCP\Defaults::class),
+			\OC::$server->getLogger(),
+			\OC::$server->getSecureRandom(),
+			\OC::$server->query(\OC\Installer::class)
+		);
 
 		$urlGenerator = \OC::$server->getURLGenerator();
 
@@ -874,7 +873,7 @@ class OC_Util {
 		}
 		foreach($invalidIniSettings as $setting) {
 			if(is_bool($setting[1])) {
-				$setting[1] = ($setting[1]) ? 'on' : 'off';
+				$setting[1] = $setting[1] ? 'on' : 'off';
 			}
 			$errors[] = [
 				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
@@ -974,8 +973,11 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
+		if(\OC::$server->getConfig()->getSystemValue('check_data_directory_permissions', true) === false) {
+			return  [];
+		}
 		$l = \OC::$server->getL10N('lib');
-		$errors = array();
+		$errors = [];
 		$permissionsModHint = $l->t('Please change the permissions to 0770 so that the directory'
 			. ' cannot be listed by other users.');
 		$perms = substr(decoct(@fileperms($dataDirectory)), -3);
@@ -1092,7 +1094,7 @@ class OC_Util {
 		if (isset($_REQUEST['redirect_url']) && strpos($_REQUEST['redirect_url'], '@') === false) {
 			$location = $urlGenerator->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		} else {
-			$defaultPage = \OC::$server->getAppConfig()->getValue('core', 'defaultpage');
+			$defaultPage = \OC::$server->getConfig()->getAppValue('core', 'defaultpage');
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
@@ -1407,16 +1409,6 @@ class OC_Util {
 		}
 
 		return $normalizedValue;
-	}
-
-	/**
-	 * @param boolean|string $file
-	 * @return string
-	 */
-	public static function basename($file) {
-		$file = rtrim($file, '/');
-		$t = explode('/', $file);
-		return array_pop($t);
 	}
 
 	/**

@@ -23,11 +23,9 @@
 
 namespace Tests\Core\Controller;
 
-
 use OC\Core\Controller\AutoCompleteController;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
-use OCP\IConfig;
 use OCP\IRequest;
 use Test\TestCase;
 
@@ -36,8 +34,6 @@ class AutoCompleteControllerTest extends TestCase {
 	protected $collaboratorSearch;
 	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $autoCompleteManager;
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
-	protected $config;
 	/** @var  AutoCompleteController */
 	protected $controller;
 
@@ -48,68 +44,124 @@ class AutoCompleteControllerTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
 		$this->autoCompleteManager = $this->createMock(IManager::class);
-		$this->config = $this->createMock(IConfig::class);
 
 		$this->controller = new AutoCompleteController(
 			'core',
 			$request,
 			$this->collaboratorSearch,
-			$this->autoCompleteManager,
-			$this->config
+			$this->autoCompleteManager
 		);
 	}
 
-	public function testGet() {
-		$searchResults = [
-			'exact' => [
-				'users' => [],
-				'robots' => [],
+	public function searchDataProvider() {
+		return [
+			[ #0 – regular search
+				// searchResults
+				[
+					'exact' => [
+						'users' => [],
+						'robots' => [],
+					],
+					'users' => [
+						['label' => 'Alice A.', 'value' => ['shareWith' => 'alice']],
+						['label' => 'Bob Y.', 'value' => ['shareWith' => 'bob']],
+					],
+				],
+				// expected
+				[
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+				],
+				'',
+				'files',
+				'42',
+				null
 			],
-			'users' => [
-				['label' => 'Alice A.', 'value' => ['shareWith' => 'alice']],
-				['label' => 'Bob Y.', 'value' => ['shareWith' => 'bob']],
+			[ #1 – missing itemtype and id
+				[
+					'exact' => [
+						'users' => [],
+						'robots' => [],
+					],
+					'users' => [
+						['label' => 'Alice A.', 'value' => ['shareWith' => 'alice']],
+						['label' => 'Bob Y.', 'value' => ['shareWith' => 'bob']],
+					],
+				],
+				// expected
+				[
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+				],
+				'',
+				null,
+				null,
+				null
 			],
+			[ #2 – with sorter
+				[
+					'exact' => [
+						'users' => [],
+						'robots' => [],
+					],
+					'users' => [
+						['label' => 'Alice A.', 'value' => ['shareWith' => 'alice']],
+						['label' => 'Bob Y.', 'value' => ['shareWith' => 'bob']],
+					],
+				],
+				// expected
+				[
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+				],
+				'',
+				'files',
+				'42',
+				'karma|bus-factor'
+			],
+			[ #3 – exact Match
+				[
+					'exact' => [
+						'users' => [
+							['label' => 'Bob Y.', 'value' => ['shareWith' => 'bob']],
+						],
+						'robots' => [],
+					],
+					'users' => [
+						['label' => 'Robert R.', 'value' => ['shareWith' => 'bobby']],
+					],
+				],
+				[
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+					[ 'id' => 'bobby', 'label' => 'Robert R.', 'source' => 'users'],
+				],
+				'bob',
+				'files',
+				'42',
+				null
+			]
 		];
-
-		$expected = [
-			[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
-			[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
-		];
-
-		$this->collaboratorSearch->expects($this->once())
-			->method('search')
-			->willReturn([$searchResults, false]);
-
-		$response = $this->controller->get('', 'files', '42', null);
-
-		$list = $response->getData();
-		$this->assertEquals($expected, $list);	// has better error output…
-		$this->assertSame($expected, $list);
 	}
 
-	public function testGetWithExactMatch() {
-		$searchResults = [
-			'exact' => [
-				'users' => [
-					['label' => 'Bob Y.', 'value' => ['shareWith' => 'bob']],
-				],
-				'robots' => [],
-			],
-			'users' => [
-				['label' => 'Robert R.', 'value' => ['shareWith' => 'bobby']],
-			],
-		];
-
-		$expected = [
-			[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
-			[ 'id' => 'bobby', 'label' => 'Robert R.', 'source' => 'users'],
-		];
-
+	/**
+	 * @param $searchResults
+	 * @param $expected
+	 * @param $searchTerm
+	 * @param $itemType
+	 * @param $itemId
+	 * @param $sorter
+	 * @dataProvider searchDataProvider
+	 */
+	public function testGet($searchResults, $expected, $searchTerm, $itemType, $itemId, $sorter) {
 		$this->collaboratorSearch->expects($this->once())
 			->method('search')
 			->willReturn([$searchResults, false]);
 
-		$response = $this->controller->get('bob', 'files', '42', null);
+		$runSorterFrequency = $sorter === null ? $this->never() : $this->once();
+		$this->autoCompleteManager->expects($runSorterFrequency)
+			->method('runSorters');
+
+		$response = $this->controller->get($searchTerm, $itemType, $itemId, $sorter);
 
 		$list = $response->getData();
 		$this->assertEquals($expected, $list);	// has better error output…

@@ -26,7 +26,7 @@
 				var messages = [];
 				if (xhr.status !== 207 && xhr.status !== 401) {
 					messages.push({
-						msg: t('core', 'Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken.'),
+						msg: t('core', 'Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken.'),
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					});
 				}
@@ -66,7 +66,7 @@
 				if (xhr.status !== 207) {
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
 					messages.push({
-						msg: t('core', 'Your web server is not set up properly to resolve "{url}". Further information can be found in our <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
+						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					});
 				}
@@ -94,19 +94,19 @@
 				if (xhr.status === 200 && data) {
 					if (!data.serverHasInternetConnection) {
 						messages.push({
-							msg: t('core', 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.'),
+							msg: t('core', 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 					if(!data.isMemcacheConfigured) {
 						messages.push({
-							msg: t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs}),
+							msg: t('core', 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs}),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if(!data.isUrandomAvailable) {
 						messages.push({
-							msg: t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.securityDocs}),
+							msg: t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.securityDocs}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -118,13 +118,19 @@
 					}
 					if(data.phpSupported && data.phpSupported.eol) {
 						messages.push({
-							msg: t('core', 'You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer noopener" href="{phpLink}">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'}),
+							msg: t('core', 'You are currently running PHP {version}. Upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer noopener" href="{phpLink}">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'}),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
+					if(data.phpSupported && data.phpSupported.version.substr(0, 3) === '5.6') {
+						messages.push({
+							msg: t('core', 'You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if(!data.forwardedForHeadersWorking) {
 						messages.push({
-							msg: t('core', 'The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs}),
+							msg: t('core', 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -138,7 +144,7 @@
 						messages.push({
 							msg: t(
 									'core',
-									'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>. (<a href="{codeIntegrityDownloadEndpoint}">List of invalid files…</a> / <a href="{rescanEndpoint}">Rescan…</a>)',
+									'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>. (<a href="{codeIntegrityDownloadEndpoint}">List of invalid files…</a> / <a href="{rescanEndpoint}">Rescan…</a>)',
 									{
 										docLink: data.codeIntegrityCheckerDocumentation,
 										codeIntegrityDownloadEndpoint: OC.generateUrl('/settings/integrity/failed'),
@@ -152,7 +158,7 @@
 						messages.push({
 							msg: t(
 								'core',
-								'The PHP OPcache is not properly configured. <a target="_blank" rel="noreferrer noopener" href="{docLink}">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:',
+								'The PHP OPcache is not properly configured. <a target="_blank" rel="noreferrer noopener" href="{docLink}">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:',
 								{
 									docLink: data.phpOpcacheDocumentation,
 								}
@@ -164,9 +170,18 @@
 						messages.push({
 							msg: t(
 								'core',
-								'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. We strongly recommend enabling this function.'),
+								'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
+					}
+					if (!data.hasFreeTypeSupport) {
+						messages.push({
+							msg: t(
+								'core',
+								'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
 					}
 				} else {
 					messages.push({
@@ -221,7 +236,7 @@
 				// .ocdata is an empty file in the data directory - if this is readable then the data dir is not protected
 				if (xhr.status === 200 && xhr.responseText === '') {
 					messages.push({
-						msg: t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.'),
+						msg: t('core', 'Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.'),
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					});
 				}
@@ -258,9 +273,9 @@
 				for (var header in securityHeaders) {
 					var option = securityHeaders[header][0];
 					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase() !== option.toLowerCase()) {
-						var msg = t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". This is a potential security or privacy risk and we recommend adjusting this setting.', {header: header, expected: option});
+						var msg = t('core', 'The "{header}" HTTP header is not set to "{expected}". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', {header: header, expected: option});
 						if(xhr.getResponseHeader(header) && securityHeaders[header].length > 1 && xhr.getResponseHeader(header).toLowerCase() === securityHeaders[header][1].toLowerCase()) {
-							msg = t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". Some features might not work correctly and we recommend adjusting this setting.', {header: header, expected: option});
+							msg = t('core', 'The "{header}" HTTP header is not set to "{expected}". Some features might not work correctly, as it is recommended to adjust this setting accordingly.', {header: header, expected: option});
 						}
 						messages.push({
 							msg: msg,
@@ -304,13 +319,13 @@
 					var minimumSeconds = 15552000;
 					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= (minimumSeconds - 1)) {
 						messages.push({
-							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not configured to at least "{seconds}" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="{docUrl}" rel="noreferrer noopener">security tips</a>.', {'seconds': minimumSeconds, docUrl: tipsUrl}),
+							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not set to at least "{seconds}" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href="{docUrl}" rel="noreferrer noopener">security tips</a>.', {'seconds': minimumSeconds, docUrl: tipsUrl}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 				} else {
 					messages.push({
-						msg: t('core', 'You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href="{docUrl}">security tips</a>.', {docUrl:  tipsUrl}),
+						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips</a>.', {docUrl:  tipsUrl}),
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}

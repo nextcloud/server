@@ -23,6 +23,7 @@
  */
 namespace OCA\DAV\CalDAV\Search;
 
+use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use OCA\DAV\CalDAV\CalendarHome;
@@ -78,7 +79,7 @@ class SearchPlugin extends ServerPlugin {
 		$server->on('report', [$this, 'report']);
 
 		$server->xml->elementMap['{' . self::NS_Nextcloud . '}calendar-search'] =
-			'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport';
+			CalendarSearchReport::class;
 	}
 
 	/**

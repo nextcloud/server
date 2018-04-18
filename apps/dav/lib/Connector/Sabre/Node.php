@@ -165,6 +165,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 *  Even if the modification time is set to a custom value the access time is set to now.
 	 */
 	public function touch($mtime) {
+		$mtime = $this->sanitizeMtime($mtime);
 		$this->fileView->touch($this->path, $mtime);
 		$this->refreshInfo();
 	}
@@ -300,6 +301,9 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($this->info->isMounted()) {
 			$p .= 'M';
 		}
+		if ($this->info->isReadable()) {
+			$p .= 'G';
+		}
 		if ($this->info->isDeletable()) {
 			$p .= 'D';
 		}
@@ -355,4 +359,17 @@ abstract class Node implements \Sabre\DAV\INode {
 	public function getFileInfo() {
 		return $this->info;
 	}
+
+	protected function sanitizeMtime($mtimeFromRequest) {
+		// In PHP 5.X "is_numeric" returns true for strings in hexadecimal
+		// notation. This is no longer the case in PHP 7.X, so this check
+		// ensures that strings with hexadecimal notations fail too in PHP 5.X.
+		$isHexadecimal = is_string($mtimeFromRequest) && preg_match('/^\s*0[xX]/', $mtimeFromRequest);
+		if ($isHexadecimal || !is_numeric($mtimeFromRequest)) {
+			throw new \InvalidArgumentException('X-OC-MTime header must be an integer (unix timestamp).');
+		}
+
+		return (int)$mtimeFromRequest;
+	}
+
 }

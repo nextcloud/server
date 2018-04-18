@@ -40,14 +40,14 @@ class DBLockingProviderTest extends LockingProvider {
 	/**
 	 * @var \OCP\IDBConnection
 	 */
-	private $connection;
+	protected $connection;
 
 	/**
 	 * @var \OCP\AppFramework\Utility\ITimeFactory
 	 */
-	private $timeFactory;
+	protected $timeFactory;
 
-	private $currentTime;
+	protected $currentTime;
 
 	public function setUp() {
 		$this->currentTime = time();
@@ -95,5 +95,32 @@ class DBLockingProviderTest extends LockingProvider {
 		$query = $this->connection->prepare('SELECT count(*) FROM `*PREFIX*file_locks`');
 		$query->execute();
 		return $query->fetchColumn();
+	}
+
+	protected function getLockValue($key) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('lock')
+			->from('file_locks')
+			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
+		return $query->execute()->fetchColumn();
+	}
+
+	public function testDoubleShared() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+
+		$this->assertEquals(1, $this->getLockValue('foo'));
+
+		$this->instance->releaseLock('foo', ILockingProvider::LOCK_SHARED);
+
+		$this->assertEquals(1, $this->getLockValue('foo'));
+
+		$this->instance->releaseLock('foo', ILockingProvider::LOCK_SHARED);
+
+		$this->assertEquals(1, $this->getLockValue('foo'));
+
+		$this->instance->releaseAll();
+
+		$this->assertEquals(0, $this->getLockValue('foo'));
 	}
 }

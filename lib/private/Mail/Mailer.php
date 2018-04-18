@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -91,8 +92,9 @@ class Mailer implements IMailer {
 	 *
 	 * @return IMessage
 	 */
-	public function createMessage() {
-		return new Message(new \Swift_Message());
+	public function createMessage(): IMessage {
+		$plainTextOnly = $this->config->getSystemValue('mail_send_plaintext_only', false);
+		return new Message(new \Swift_Message(), $plainTextOnly);
 	}
 
 	/**
@@ -102,7 +104,7 @@ class Mailer implements IMailer {
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function createAttachment($data = null, $filename = null, $contentType = null) {
+	public function createAttachment($data = null, $filename = null, $contentType = null): IAttachment {
 		return new Attachment(\Swift_Attachment::newInstance($data, $filename, $contentType));
 	}
 
@@ -112,7 +114,7 @@ class Mailer implements IMailer {
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function createAttachmentFromPath($path, $contentType = null) {
+	public function createAttachmentFromPath(string $path, $contentType = null): IAttachment {
 		return new Attachment(\Swift_Attachment::fromPath($path, $contentType));
 	}
 
@@ -124,7 +126,7 @@ class Mailer implements IMailer {
 	 * @return IEMailTemplate
 	 * @since 12.0.0
 	 */
-	public function createEMailTemplate($emailId, array $data = []) {
+	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
 		$class = $this->config->getSystemValue('mail_template_class', '');
 
 		if ($class !== '' && class_exists($class) && is_a($class, EMailTemplate::class, true)) {
@@ -156,7 +158,7 @@ class Mailer implements IMailer {
 	 * @throws \Exception In case it was not possible to send the message. (for example if an invalid mail address
 	 * has been supplied.)
 	 */
-	public function send(IMessage $message) {
+	public function send(IMessage $message): array {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
 		if (empty($message->getFrom())) {
@@ -191,7 +193,7 @@ class Mailer implements IMailer {
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
 	 */
-	public function validateMailAddress($email) {
+	public function validateMailAddress(string $email): bool {
 		return \Swift_Validate::email($this->convertEmail($email));
 	}
 
@@ -203,8 +205,8 @@ class Mailer implements IMailer {
 	 * @param string $email
 	 * @return string Converted mail address if `idn_to_ascii` exists
 	 */
-	protected function convertEmail($email) {
-		if (!function_exists('idn_to_ascii') || strpos($email, '@') === false) {
+	protected function convertEmail(string $email): string {
+		if (!function_exists('idn_to_ascii') || !defined('INTL_IDNA_VARIANT_UTS46') || strpos($email, '@') === false) {
 			return $email;
 		}
 
@@ -246,7 +248,7 @@ class Mailer implements IMailer {
 	 *
 	 * @return \Swift_SmtpTransport
 	 */
-	protected function getSmtpInstance() {
+	protected function getSmtpInstance(): \Swift_SmtpTransport {
 		$transport = \Swift_SmtpTransport::newInstance();
 		$transport->setTimeout($this->config->getSystemValue('mail_smtptimeout', 10));
 		$transport->setHost($this->config->getSystemValue('mail_smtphost', '127.0.0.1'));
@@ -269,7 +271,7 @@ class Mailer implements IMailer {
 	 *
 	 * @return \Swift_SendmailTransport
 	 */
-	protected function getSendMailInstance() {
+	protected function getSendMailInstance(): \Swift_SendmailTransport {
 		switch ($this->config->getSystemValue('mail_smtpmode', 'php')) {
 			case 'qmail':
 				$binaryPath = '/var/qmail/bin/sendmail';
@@ -287,7 +289,7 @@ class Mailer implements IMailer {
 	 *
 	 * @return \Swift_MailTransport
 	 */
-	protected function getMailInstance() {
+	protected function getMailInstance(): \Swift_MailTransport {
 		return \Swift_MailTransport::newInstance();
 	}
 

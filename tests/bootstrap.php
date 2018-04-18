@@ -14,10 +14,6 @@ require_once __DIR__ . '/../lib/base.php';
 // load all enabled apps
 \OC_App::loadApps();
 
-if (!class_exists('PHPUnit_Framework_TestCase')) {
-	require_once('PHPUnit/Autoload.php');
-}
-
 OC_Hook::clear();
 
 set_include_path(get_include_path() . PATH_SEPARATOR . '/usr/share/php');

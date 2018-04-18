@@ -92,13 +92,13 @@ $CONFIG = array(
  * ``supportedDatabases``
  *
  * Available:
- * 	- sqlite (SQLite3)
+ * 	- sqlite3 (SQLite3)
  * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
  *
- * Defaults to ``sqlite``
+ * Defaults to ``sqlite3``
  */
-'dbtype' => 'sqlite',
+'dbtype' => 'sqlite3',
 
 /**
  * Your host server name, for example ``localhost``, ``hostname``,
@@ -157,7 +157,11 @@ $CONFIG = array(
  * language codes such as ``en`` for English, ``de`` for German, and ``fr`` for
  * French. It overrides automatic language detection on public pages like login
  * or shared items. User's language preferences configured under "personal ->
- * language" override this setting after they have logged in.
+ * language" override this setting after they have logged in. Nextcloud has two
+ * distinguished language codes for German, 'de' and 'de_DE'. 'de' is used for
+ * informal German and 'de_DE' for formal German. By setting this value to 'de_DE'
+ * you can enforce the formal version of German unless the user has chosen
+ * something different explicitly.
  *
  * Defaults to ``en``
  */
@@ -242,6 +246,9 @@ $CONFIG = array(
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
+ * ``{lang}`` can be used as a placeholder for the language of the user.
+ * If the directory does not exist, it falls back to non dialect (from ``de_DE``
+ * to ``de``). If that does not exist either, it falls back to ``default``
  *
  * Defaults to ``core/skeleton`` in the Nextcloud directory.
  */
@@ -383,6 +390,18 @@ $CONFIG = array(
  */
 'mail_smtppassword' => '',
 
+/**
+ * Replaces the default mail template layout. This can be utilized if the
+ * options to modify the mail texts with the theming app is not enough.
+ * The class must extend  ``\OC\Mail\EMailTemplate``
+ */
+'mail_template_class' => '\OC\Mail\EMailTemplate',
+
+/**
+ * Email will be send by default with an HTML and a plain text body. This option
+ * allows to only send plain text emails.
+ */
+'mail_send_plaintext_only' => false,
 
 /**
  * Proxy Configurations
@@ -646,6 +665,18 @@ $CONFIG = array(
 'check_for_working_htaccess' => true,
 
 /**
+ * In rare setups (e.g. on Openshift or docker on windows) the permissions check
+ * might block the installation while the underlying system offers no means to
+ * "correct" the permissions. In this case, set the value to false.
+ *
+ * In regular cases, if issues with permissions are encountered they should be
+ * adjusted accordingly. Changing the flag is discouraged.
+ *
+ * Defaults to ``true``
+ */
+'check_data_directory_permissions' => true,
+
+/**
  * In certain environments it is desired to have a read-only configuration file.
  * When this switch is set to ``true`` Nextcloud will not verify whether the
  * configuration is writable. However, it will not be possible to configure
@@ -745,9 +776,9 @@ $CONFIG = array(
  * old logfile reaches your limit. If a rotated log file is already present, it
  * will be overwritten.
  *
- * Defaults to ``0`` (no rotation)
+ * Defaults to 100 MB
  */
-'log_rotate_size' => false,
+'log_rotate_size' => 100 * 1024 * 1024,
 
 
 /**
@@ -763,7 +794,8 @@ $CONFIG = array(
  * Defaults to
  * * Desktop client: ``https://nextcloud.com/install/#install-clients``
  * * Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
- * * iOS client    : ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ * * iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ *  *iOS client app id: ``1125420102``
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
@@ -771,7 +803,8 @@ $CONFIG = array(
 	'https://play.google.com/store/apps/details?id=com.nextcloud.client',
 'customclient_ios' =>
 	'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8',
-
+'customclient_ios_appid' =>
+		'1125420102',
 /**
  * Apps
  *
@@ -805,7 +838,6 @@ $CONFIG = array(
  * @see appcodechecker
  */
 
-
 /**
  * Previews
  *
@@ -831,25 +863,16 @@ $CONFIG = array(
  * The maximum width, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  *
- * Defaults to ``2048``
+ * Defaults to ``4096``
  */
-'preview_max_x' => 2048,
+'preview_max_x' => 4096,
 /**
  * The maximum height, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  *
- * Defaults to ``2048``
+ * Defaults to ``4096``
  */
-'preview_max_y' => 2048,
-/**
- * If a lot of small pictures are stored on the Nextcloud instance and the
- * preview system generates blurry previews, you might want to consider setting
- * a maximum scale factor. By default, pictures are upscaled to 10 times the
- * original size. A value of ``1`` or ``null`` disables scaling.
- *
- * Defaults to ``2``
- */
-'preview_max_scale_factor' => 10,
+'preview_max_y' => 4096,
 
 /**
  * max file size for generating image previews with imagegd (default behavior)
@@ -862,6 +885,7 @@ $CONFIG = array(
 
 /**
  * custom path for LibreOffice/OpenOffice binary
+ *
  *
  * Defaults to ``''`` (empty string)
  */
@@ -974,13 +998,6 @@ $CONFIG = array(
 'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
 
 /**
- * Replaces the default mail template layout. This can be utilized if the
- * options to modify the mail texts with the theming app is not enough.
- * The class must extend  ``\OC\Mail\EMailTemplate``
- */
-'mail_template_class' => '\OC\Mail\EMailTemplate',
-
-/**
  * Maintenance
  *
  * These options are for halting user activity when you are performing server
@@ -1073,7 +1090,7 @@ $CONFIG = array(
  * server configuration above, and perform HA on the hostname.
  *
  * Redis Cluster support requires the php module phpredis in version 3.0.0 or
- * higher for PHP 7+ or phpredis in version 2.2.8 for PHP 5.6.
+ * higher.
  *
  * Available failover modes:
  *  - \RedisCluster::FAILOVER_NONE - only send commands to master nodes (default)
@@ -1082,8 +1099,8 @@ $CONFIG = array(
  *
  * WARNING: FAILOVER_DISTRIBUTE is a not recommended setting and we strongly
  * suggest to not use it if you use Redis for file locking. Due to the way Redis
- * is synchronised it could happen, that the read for an existing lock is
- * scheduled to a slave that is not fully synchronised with the connected master
+ * is synchronized it could happen, that the read for an existing lock is
+ * scheduled to a slave that is not fully synchronized with the connected master
  * which then causes a FileLocked exception.
  *
  * See https://redis.io/topics/cluster-spec for details about the Redis cluster
@@ -1201,6 +1218,28 @@ $CONFIG = array(
 		'serviceName' => 'swift',
 		// The Interface / url Type, optional
 		'urlType' => 'internal'
+	],
+],
+
+/**
+ * To use swift V3
+ */
+'objectstore' => [
+	'class' => 'OC\\Files\\ObjectStore\\Swift',
+	'arguments' => [
+		'autocreate' => true,
+		'user' => [
+			'name' => 'swift',
+			'password' => 'swift',
+			'domain' => [
+				'name' => 'default',
+			],
+		],
+		'tenantName' => 'service',
+		'serviceName' => 'swift',
+		'region' => 'regionOne',
+		'url' => "http://yourswifthost:5000/v3",
+		'bucket' => 'nextcloud',
 	],
 ],
 

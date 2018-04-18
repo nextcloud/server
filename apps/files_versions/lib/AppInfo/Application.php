@@ -25,6 +25,8 @@ namespace OCA\Files_Versions\AppInfo;
 
 use OCP\AppFramework\App;
 use OCA\Files_Versions\Expiration;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCA\Files_Versions\Capabilities;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
@@ -35,7 +37,7 @@ class Application extends App {
 		/*
 		 * Register capabilities
 		 */
-		$container->registerCapability('OCA\Files_Versions\Capabilities');
+		$container->registerCapability(Capabilities::class);
 
 		/*
 		 * Register expiration
@@ -43,7 +45,7 @@ class Application extends App {
 		$container->registerService('Expiration', function($c) {
 			return  new Expiration(
 				$c->query('ServerContainer')->getConfig(),
-				$c->query('OCP\AppFramework\Utility\ITimeFactory')
+				$c->query(ITimeFactory::class)
 			);
 		});
 	}

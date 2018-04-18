@@ -20,7 +20,6 @@
     "{nthServer}. Server" : "{nthServer}. Servidor",
     "No object found in the given Base DN. Please revise." : "Nenhum objecto encontrado na Base DN fornecida. Por favor verifique.",
     "More than 1,000 directory entries available." : "Mais de 1,000 entradas de diretório disponíveis.",
-    " entries available within the provided Base DN" : "entradas disponíveis no ND de base fornecido",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Ocorreu um erro. Por favor verifique o ND de base, bem como as definições de ligação e as credenciais.",
     "Do you really want to delete the current Server Configuration?" : "Deseja realmente apagar as configurações de servidor actuais?",
     "Confirm Deletion" : "Confirmar a operação de apagar",
@@ -81,7 +80,6 @@
     "Saving" : "Guardando",
     "Back" : "Voltar",
     "Continue" : "Continuar",
-    "LDAP" : "LDAP",
     "Server" : "Servidor",
     "Users" : "Utilizadores",
     "Login Attributes" : "Atributos de Sessão",
@@ -135,14 +133,11 @@
     "UUID Attribute for Users:" : "Atributo UUID para utilizadores:",
     "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
     "Username-LDAP User Mapping" : "Mapeamento do utilizador LDAP",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "O ownCloud usa nomes de utilizadores para guardar e atribuir (meta) dados. Para identificar com precisão os utilizadores, cada utilizador de LDAP tem um nome de utilizador interno. Isto requer um mapeamento entre o utilizador LDAP e o utilizador ownCloud. Adicionalmente, o DN é colocado em cache para reduzir a interação com LDAP, porém não é usado para identificação. Se o DN muda, essas alterações serão vistas pelo ownCloud. O nome interno do ownCloud é usado em todo o lado, no ownCloud. Limpar os mapeamentos deixará vestígios em todo o lado. A limpeza dos mapeamentos não é sensível à configuração, pois afeta todas as configurações de LDAP! Nunca limpe os mapeamentos num ambiente de produção, apenas o faça numa fase de testes ou experimental.",
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP",
-    "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "O campo %uid está em falta. Este será substituído pelo utilizador do ownCloud quando for efectuado o pedido ao LDAP / AD.",
-    "Verify settings and count groups" : "Verificar condições e contar grupos",
-    "Add a new and blank configuration" : "Adicione uma nova configuração em branco",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Pode omitir o protocolo, excepto se necessitar de SSL. Neste caso, comece com ldaps://",
+    " entries available within the provided Base DN" : "entradas disponíveis no ND de base fornecido",
+    "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Aviso:</b> A aplicação user_ldap e user_webdavauth são incompativeis. A aplicação pode tornar-se instável. Por favor, peça ao seu administrador para desactivar uma das aplicações.",
-    "in bytes" : "em bytes"
+    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "O ownCloud usa nomes de utilizadores para guardar e atribuir (meta) dados. Para identificar com precisão os utilizadores, cada utilizador de LDAP tem um nome de utilizador interno. Isto requer um mapeamento entre o utilizador LDAP e o utilizador ownCloud. Adicionalmente, o DN é colocado em cache para reduzir a interação com LDAP, porém não é usado para identificação. Se o DN muda, essas alterações serão vistas pelo ownCloud. O nome interno do ownCloud é usado em todo o lado, no ownCloud. Limpar os mapeamentos deixará vestígios em todo o lado. A limpeza dos mapeamentos não é sensível à configuração, pois afeta todas as configurações de LDAP! Nunca limpe os mapeamentos num ambiente de produção, apenas o faça numa fase de testes ou experimental."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

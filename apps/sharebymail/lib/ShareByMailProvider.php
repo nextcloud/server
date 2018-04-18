@@ -351,11 +351,19 @@ class ShareByMailProvider implements IShareProvider {
 				$share->getExpirationDate()
 			);
 		} catch (HintException $hintException) {
-			$this->logger->error('Failed to send share by mail: ' . $hintException->getMessage());
+			$this->logger->logException($hintException, [
+				'message' => 'Failed to send share by mail.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'sharebymail',
+			]);
 			$this->removeShareFromTable($shareId);
 			throw $hintException;
 		} catch (\Exception $e) {
-			$this->logger->error('Failed to send share by email: ' . $e->getMessage());
+			$this->logger->logException($e, [
+				'message' => 'Failed to send share by mail.',
+				'level' => \OCP\Util::ERROR,
+				'app' => 'sharebymail',
+			]);
 			$this->removeShareFromTable($shareId);
 			throw new HintException('Failed to send share by mail',
 				$this->l->t('Failed to send share by email'));
@@ -396,7 +404,7 @@ class ShareByMailProvider implements IShareProvider {
 		$text = $this->l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
 
 		$emailTemplate->addBodyText(
-			$text . ' ' . $this->l->t('Click the button below to open it.'),
+			htmlspecialchars($text . ' ' . $this->l->t('Click the button below to open it.')),
 			$text
 		);
 		$emailTemplate->addBodyButton(
@@ -468,7 +476,7 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate->setSubject($this->l->t('Password to access »%s« shared to you by %s', [$filename, $initiatorDisplayName]));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
-		$emailTemplate->addBodyText($htmlBodyPart, $plainBodyPart);
+		$emailTemplate->addBodyText(htmlspecialchars($htmlBodyPart), $plainBodyPart);
 		$emailTemplate->addBodyText($this->l->t('It is protected with the following password: %s', [$password]));
 
 		// The "From" contains the sharers name
@@ -682,7 +690,6 @@ class ShareByMailProvider implements IShareProvider {
 	 */
 	public function deleteFromSelf(IShare $share, $recipient) {
 		// nothing to do here, mail shares are only outgoing shares
-		return;
 	}
 
 	/**
@@ -973,7 +980,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $gid
 	 */
 	public function groupDeleted($gid) {
-		return;
 	}
 
 	/**
@@ -983,7 +989,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $gid
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
-		return;
 	}
 
 	/**

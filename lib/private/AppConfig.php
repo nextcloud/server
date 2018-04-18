@@ -101,7 +101,6 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app the app we are looking for
 	 * @return array an array of key names
-	 * @deprecated 8.0.0 use method getAppKeys of \OCP\IConfig
 	 *
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
@@ -129,7 +128,6 @@ class AppConfig implements IAppConfig {
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 * @return string the value or $default
-	 * @deprecated 8.0.0 use method getAppValue of \OCP\IConfig
 	 *
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
@@ -164,7 +162,6 @@ class AppConfig implements IAppConfig {
 	 * @param string $key key
 	 * @param string|float|int $value value
 	 * @return bool True if the value was inserted or updated, false if the value was the same
-	 * @deprecated 8.0.0 use method setAppValue of \OCP\IConfig
 	 */
 	public function setValue($app, $key, $value) {
 		if (!$this->hasKey($app, $key)) {
@@ -220,7 +217,6 @@ class AppConfig implements IAppConfig {
 	 * @param string $app app
 	 * @param string $key key
 	 * @return boolean
-	 * @deprecated 8.0.0 use method deleteAppValue of \OCP\IConfig
 	 */
 	public function deleteKey($app, $key) {
 		$this->loadConfigValues();
@@ -242,7 +238,6 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app app
 	 * @return boolean
-	 * @deprecated 8.0.0 use method deleteAppValue of \OCP\IConfig
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */
@@ -293,9 +288,11 @@ class AppConfig implements IAppConfig {
 	public function getFilteredValues($app) {
 		$values = $this->getValues($app, false);
 
-		foreach ($this->sensitiveValues[$app] as $sensitiveKey) {
-			if (isset($values[$sensitiveKey])) {
-				$values[$sensitiveKey] = IConfig::SENSITIVE_VALUE;
+		if (isset($this->sensitiveValues[$app])) {
+			foreach ($this->sensitiveValues[$app] as $sensitiveKey) {
+				if (isset($values[$sensitiveKey])) {
+					$values[$sensitiveKey] = IConfig::SENSITIVE_VALUE;
+				}
 			}
 		}
 

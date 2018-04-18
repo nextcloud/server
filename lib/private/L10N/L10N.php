@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -60,7 +61,6 @@ class L10N implements IL10N {
 		$this->app = $app;
 		$this->lang = $lang;
 
-		$this->translations = [];
 		foreach ($files as $languageFile) {
 			$this->load($languageFile);
 		}
@@ -71,20 +71,24 @@ class L10N implements IL10N {
 	 *
 	 * @return string language
 	 */
-	public function getLanguageCode() {
+	public function getLanguageCode(): string {
 		return $this->lang;
 	}
 
 	/**
 	 * Translating
 	 * @param string $text The text we need a translation for
-	 * @param array $parameters default:array() Parameters for sprintf
+	 * @param array|string $parameters default:array() Parameters for sprintf
 	 * @return string Translation or the same text
 	 *
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned.
 	 */
-	public function t($text, $parameters = array()) {
+	public function t(string $text, $parameters = []): string {
+		if (!\is_array($parameters)) {
+			$parameters = [$parameters];
+		}
+
 		return (string) new L10NString($this, $text, $parameters);
 	}
 
@@ -103,17 +107,17 @@ class L10N implements IL10N {
 	 * provided by the po file.
 	 *
 	 */
-	public function n($text_singular, $text_plural, $count, $parameters = array()) {
+	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
 		$identifier = "_${text_singular}_::_${text_plural}_";
 		if (isset($this->translations[$identifier])) {
 			return (string) new L10NString($this, $identifier, $parameters, $count);
-		} else {
-			if ($count === 1) {
-				return (string) new L10NString($this, $text_singular, $parameters, $count);
-			} else {
-				return (string) new L10NString($this, $text_plural, $parameters, $count);
-			}
 		}
+
+		if ($count === 1) {
+			return (string) new L10NString($this, $text_singular, $parameters, $count);
+		}
+
+		return (string) new L10NString($this, $text_plural, $parameters, $count);
 	}
 
 	/**
@@ -138,7 +142,7 @@ class L10N implements IL10N {
 	 *  - firstday: Returns the first day of the week (0 sunday - 6 saturday)
 	 *  - jsdate: Returns the short JS date format
 	 */
-	public function l($type, $data = null, $options = array()) {
+	public function l(string $type, $data = null, array $options = []) {
 		// Use the language of the instance
 		$locale = $this->getLanguageCode();
 		if ($locale === 'sr@latin') {
@@ -155,14 +159,15 @@ class L10N implements IL10N {
 		$value = new \DateTime();
 		if ($data instanceof \DateTime) {
 			$value = $data;
-		} else if (is_string($data) && !is_numeric($data)) {
+		} else if (\is_string($data) && !is_numeric($data)) {
 			$data = strtotime($data);
 			$value->setTimestamp($data);
 		} else if ($data !== null) {
+			$data = (int)$data;
 			$value->setTimestamp($data);
 		}
 
-		$options = array_merge(array('width' => 'long'), $options);
+		$options = array_merge(['width' => 'long'], $options);
 		$width = $options['width'];
 		switch ($type) {
 			case 'date':
@@ -184,7 +189,7 @@ class L10N implements IL10N {
 	 * Called by \OC_L10N_String
 	 * @return array
 	 */
-	public function getTranslations() {
+	public function getTranslations(): array {
 		return $this->translations;
 	}
 
@@ -192,10 +197,10 @@ class L10N implements IL10N {
 	 * Returnsed function accepts the argument $n
 	 *
 	 * Called by \OC_L10N_String
-	 * @return string the plural form function
+	 * @return \Closure the plural form function
 	 */
-	public function getPluralFormFunction() {
-		if (is_null($this->pluralFormFunction)) {
+	public function getPluralFormFunction(): \Closure {
+		if (\is_null($this->pluralFormFunction)) {
 			$lang = $this->getLanguageCode();
 			$this->pluralFormFunction = function($n) use ($lang) {
 				return PluralizationRules::get($n, $lang);
@@ -206,12 +211,12 @@ class L10N implements IL10N {
 	}
 
 	/**
-	 * @param $translationFile
+	 * @param string $translationFile
 	 * @return bool
 	 */
-	protected function load($translationFile) {
+	protected function load(string $translationFile): bool {
 		$json = json_decode(file_get_contents($translationFile), true);
-		if (!is_array($json)) {
+		if (!\is_array($json)) {
 			$jsonError = json_last_error();
 			\OC::$server->getLogger()->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
 			return false;

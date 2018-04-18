@@ -1,7 +1,7 @@
 <fieldset id="ldapWizard3">
 	<div>
 		<p>
-			<?php p($l->t('When logging in, %s will find the user based on the following attributes:', $theme->getName()));?>
+			<?php p($l->t('When logging in, %s will find the user based on the following attributes:', [$theme->getName()]));?>
 		</p>
 		<p>
 			<label for="ldap_loginfilter_username">

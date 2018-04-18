@@ -104,7 +104,7 @@
 				},
 				mime: 'all',
 				order: -100,
-				permissions: OC.PERMISSION_READ,
+				permissions: OC.PERMISSION_NONE,
 				iconClass: function(fileName, context) {
 					var $file = context.$file;
 					var isFavorite = $file.data('favorite') === true;

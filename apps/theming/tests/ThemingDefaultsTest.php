@@ -78,8 +78,8 @@ class ThemingDefaultsTest extends TestCase {
 		$this->defaults = new \OC_Defaults();
 		$this->cacheFactory
 			->expects($this->any())
-			->method('create')
-			->with('theming')
+			->method('createDistributed')
+			->with('theming-')
 			->willReturn($this->cache);
 		$this->template = new ThemingDefaults(
 			$this->config,
@@ -276,7 +276,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cache
 			->expects($this->once())
 			->method('clear')
-			->with('getScssVariables');
+			->with('');
 		$this->template->set('MySetting', 'MyValue');
 	}
 
@@ -391,24 +391,14 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetBackgroundDefault() {
-		$this->appData->expects($this->once())
-			->method('getFolder')
-			->willThrowException(new NotFoundException());
 		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('theming', 'backgroundMime')
-			->willReturn('');
-		$this->config
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getAppValue')
 			->with('theming', 'cachebuster', '0')
 			->willReturn('0');
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willThrowException(new \Exception());
+		$this->util->expects($this->once())
+			->method('isBackgroundThemed')
+			->willReturn(false);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'background.png')
@@ -417,24 +407,14 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetBackgroundCustom() {
-		$folder = $this->createMock(ISimpleFolder::class);
-		$file = $this->createMock(ISimpleFile::class);
-		$folder->expects($this->once())
-			->method('getFile')
-			->willReturn($file);
-		$this->appData->expects($this->once())
-			->method('getFolder')
-			->willReturn($folder);
 		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('theming', 'backgroundMime', false)
-			->willReturn('image/svg+xml');
-		$this->config
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getAppValue')
 			->with('theming', 'cachebuster', '0')
 			->willReturn('0');
+		$this->util->expects($this->once())
+			->method('isBackgroundThemed')
+			->willReturn(true);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('theming.Theming.getLoginBackground')
@@ -513,12 +493,12 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config->expects($this->at(2))->method('getAppValue')->with('theming', 'backgroundMime', false)->willReturn('jpeg');
 		$this->config->expects($this->at(3))->method('getAppValue')->with('theming', 'logoMime', false)->willReturn('jpeg');
 		$this->config->expects($this->at(4))->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('0');
-		$this->config->expects($this->at(5))->method('getAppValue')->with('theming', 'backgroundMime', false)->willReturn('jpeg');
-		$this->config->expects($this->at(6))->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('0');
-		$this->config->expects($this->at(7))->method('getAppValue')->with('theming', 'color', null)->willReturn($this->defaults->getColorPrimary());
+		$this->util->expects($this->once())->method('isBackgroundThemed')->willReturn(true);
+		$this->config->expects($this->at(5))->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('0');
+		$this->config->expects($this->at(6))->method('getAppValue')->with('theming', 'color', null)->willReturn($this->defaults->getColorPrimary());
+		$this->config->expects($this->at(7))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 		$this->config->expects($this->at(8))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 		$this->config->expects($this->at(9))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
-		$this->config->expects($this->at(10))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 
 		$this->util->expects($this->any())->method('invertTextColor')->with($this->defaults->getColorPrimary())->willReturn(false);
 		$this->util->expects($this->any())->method('elementColor')->with($this->defaults->getColorPrimary())->willReturn('#aaaaaa');
@@ -537,18 +517,12 @@ class ThemingDefaultsTest extends TestCase {
 				['theming.Theming.getLoginBackground', [], 'custom-background'],
 			]);
 
-		$this->urlGenerator->expects($this->exactly(2))
-			->method('getAbsoluteURL')
-			->willReturnCallback(function ($path) {
-				return 'absolute-' . $path;
-			});
-
 		$expected = [
 			'theming-cachebuster' => '\'0\'',
 			'theming-logo-mime' => '\'jpeg\'',
 			'theming-background-mime' => '\'jpeg\'',
-			'image-logo' => "'absolute-custom-logo?v=0'",
-			'image-login-background' => "'absolute-custom-background?v=0'",
+			'image-logo' => "'custom-logo?v=0'",
+			'image-login-background' => "'custom-background?v=0'",
 			'color-primary' => $this->defaults->getColorPrimary(),
 			'color-primary-text' => '#ffffff',
 			'image-login-plain' => 'false',
@@ -582,20 +556,20 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'iOSClientUrl', 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
-			->willReturn('https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
+			->with('theming', 'iOSClientUrl', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
+			->willReturn('https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
 
-		$this->assertEquals('https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8', $this->template->getiOSClientUrl());
+		$this->assertEquals('https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8', $this->template->getiOSClientUrl());
 	}
 
 	public function testGetCustomiOSURL() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'iOSClientUrl', 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
-			->willReturn('https://itunes.apple.com/us/app/nextcloud/id1234567890?mt=8');
+			->with('theming', 'iOSClientUrl', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
+			->willReturn('https://geo.itunes.apple.com/us/app/nextcloud/id1234567890?mt=8');
 
-		$this->assertEquals('https://itunes.apple.com/us/app/nextcloud/id1234567890?mt=8', $this->template->getiOSClientUrl());
+		$this->assertEquals('https://geo.itunes.apple.com/us/app/nextcloud/id1234567890?mt=8', $this->template->getiOSClientUrl());
 	}
 
 	public function testGetDefaultiTunesAppId() {

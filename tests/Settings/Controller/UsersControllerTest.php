@@ -19,7 +19,6 @@ use OC\SubAdmin;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Encryption\IEncryptionModule;
@@ -38,7 +37,6 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OC\User\User;
 use Test\Util\User\Dummy;
@@ -74,12 +72,8 @@ class UsersControllerTest extends \Test\TestCase {
 	private $accountManager;
 	/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject  */
 	private $secureRandom;
-	/** @var ITimeFactory | \PHPUnit_Framework_MockObject_MockObject */
-	private $timeFactory;
 	/** @var NewUserMailHelper|\PHPUnit_Framework_MockObject_MockObject */
 	private $newUserMailHelper;
-	/** @var ICrypto | \PHPUnit_Framework_MockObject_MockObject */
-	private $crypto;
 	/** @var  IJobList | \PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
 	/** @var \OC\Security\IdentityProof\Manager |\PHPUnit_Framework_MockObject_MockObject  */
@@ -105,11 +99,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->crypto = $this->createMock(ICrypto::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->crypto = $this->createMock(ICrypto::class);
 		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
@@ -163,8 +153,6 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->accountManager,
 				$this->secureRandom,
 				$this->newUserMailHelper,
-				$this->timeFactory,
-				$this->crypto,
 				$this->securityManager,
 				$this->jobList,
 				$this->userMountCache,
@@ -190,8 +178,6 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->accountManager,
 						$this->secureRandom,
 						$this->newUserMailHelper,
-						$this->timeFactory,
-						$this->crypto,
 						$this->securityManager,
 						$this->jobList,
 						$this->userMountCache,
@@ -220,7 +206,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$foo
 			->expects($this->exactly(2))
 			->method('getQuota')
-			->will($this->returnValue('1024'));
+			->will($this->returnValue(1024));
 		$foo
 			->method('getLastLogin')
 			->will($this->returnValue(500));
@@ -250,7 +236,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin
 			->expects($this->exactly(2))
 			->method('getQuota')
-			->will($this->returnValue('404'));
+			->will($this->returnValue(404));
 		$admin
 			->expects($this->once())
 			->method('getLastLogin')
@@ -282,7 +268,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar
 			->expects($this->exactly(2))
 			->method('getQuota')
-			->will($this->returnValue('2323'));
+			->will($this->returnValue(2323));
 		$bar
 			->method('getLastLogin')
 			->will($this->returnValue(3999));
@@ -310,8 +296,20 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnValue(array('foo' => 'M. Foo', 'admin' => 'S. Admin', 'bar' => 'B. Ar')));
 		$this->groupManager
 			->expects($this->exactly(3))
-			->method('getUserGroupIds')
-			->will($this->onConsecutiveCalls(array('Users', 'Support'), array('admins', 'Support'), array('External Users')));
+			->method('getUserGroupNames')
+			->will($this->onConsecutiveCalls(
+				array(
+					'Users' => array('displayName' => 'Users'),
+					'Support' => array('displayName' => 'Support')
+				),
+				array(
+					'admins' => array('displayName' => 'admins'),
+					'Support' => array('displayName' => 'Support')
+				),
+				array(
+					'External Users' => array('displayName' => 'External Users')
+				)
+			));
 		$this->userManager
 			->expects($this->at(0))
 			->method('get')
@@ -333,17 +331,17 @@ class UsersControllerTest extends \Test\TestCase {
 			->getMock();
 		$subadmin
 			->expects($this->any())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($foo)
 			->will($this->returnValue([]));
 		$subadmin
 			->expects($this->any())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($admin)
 			->will($this->returnValue([]));
 		$subadmin
 			->expects($this->any())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($bar)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -361,10 +359,13 @@ class UsersControllerTest extends \Test\TestCase {
 				0 => array(
 					'name' => 'foo',
 					'displayname' => 'M. Foo',
-					'groups' => array('Users', 'Support'),
+					'groups' => array(
+						'Users' => array('displayName' => 'Users'),
+						'Support' => array('displayName' => 'Support')
+					),
 					'subadmin' => array(),
 					'quota' => 1024,
-					'quota_bytes' => 1024,
+					'quota_bytes' => 1024.0,
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500000,
 					'backend' => 'OC_User_Database',
@@ -377,10 +378,13 @@ class UsersControllerTest extends \Test\TestCase {
 				1 => array(
 					'name' => 'admin',
 					'displayname' => 'S. Admin',
-					'groups' => array('admins', 'Support'),
+					'groups' => array(
+						'admins' => array('displayName' => 'admins'),
+						'Support' => array('displayName' => 'Support')
+					),
 					'subadmin' => array(),
 					'quota' => 404,
-					'quota_bytes' => 404,
+					'quota_bytes' => 404.0,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12000,
 					'backend' => Dummy::class,
@@ -393,10 +397,12 @@ class UsersControllerTest extends \Test\TestCase {
 				2 => array(
 					'name' => 'bar',
 					'displayname' => 'B. Ar',
-					'groups' => array('External Users'),
+					'groups' => array(
+						'External Users' => array('displayName' => 'External Users')
+					),
 					'subadmin' => array(),
 					'quota' => 2323,
-					'quota_bytes' => 2323,
+					'quota_bytes' => 2323.0,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999000,
 					'backend' => Dummy::class,
@@ -569,6 +575,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnValue([$subgroup1, $subgroup2]));
 		$subadmin
 			->expects($this->any())
+			->method('getSubAdminsGroupsName')
+			->will($this->returnValue([]));
+		$subadmin
+			->expects($this->any())
 			->method('getSubAdminsGroups')
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -588,8 +598,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'displayname' => 'B. Ar',
 					'groups' => ['SubGroup1'],
 					'subadmin' => [],
-					'quota' => 2323,
-					'quota_bytes' => 2323,
+					'quota' => '2323',
+					'quota_bytes' => 2323.0,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999000,
 					'backend' => Dummy::class,
@@ -604,8 +614,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'displayname' => 'M. Foo',
 					'groups' => ['SubGroup2', 'SubGroup1'],
 					'subadmin' => [],
-					'quota' => 1024,
-					'quota_bytes' => 1024,
+					'quota' => '1024',
+					'quota_bytes' => 1024.0,
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500000,
 					'backend' => 'OC_User_Database',
@@ -620,8 +630,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'displayname' => 'S. Admin',
 					'groups' => ['SubGroup2'],
 					'subadmin' => [],
-					'quota' => 404,
-					'quota_bytes' => 404,
+					'quota' => '404',
+					'quota_bytes' => 404.0,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12000,
 					'backend' => Dummy::class,
@@ -745,14 +755,26 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnValue([$foo, $admin, $bar]));
 		$this->groupManager
 			->expects($this->exactly(3))
-			->method('getUserGroupIds')
-			->will($this->onConsecutiveCalls(array('Users', 'Support'), array('admins', 'Support'), array('External Users')));
+			->method('getUserGroupNames')
+			->will($this->onConsecutiveCalls(
+				array(
+					'Users' => array('displayName' => 'Users'),
+					'Support' => array('displayName' => 'Support')
+				),
+				array(
+					'admins' => array('displayName' => 'admins'),
+					'Support' => array('displayName' => 'Support')
+				),
+				array(
+					'External Users' => array('displayName' => 'External Users')
+				)
+			));
 
 		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->any())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->will($this->returnValue([]));
 		$this->groupManager
 			->expects($this->any())
@@ -769,7 +791,10 @@ class UsersControllerTest extends \Test\TestCase {
 				0 => array(
 					'name' => 'foo',
 					'displayname' => 'M. Foo',
-					'groups' => array('Users', 'Support'),
+					'groups' => array(
+						'Users' => array('displayName' => 'Users'),
+						'Support' => array('displayName' => 'Support')
+					),
 					'subadmin' => array(),
 					'quota' => 1024,
 					'quota_bytes' => 1024,
@@ -785,7 +810,10 @@ class UsersControllerTest extends \Test\TestCase {
 				1 => array(
 					'name' => 'admin',
 					'displayname' => 'S. Admin',
-					'groups' => array('admins', 'Support'),
+					'groups' => array(
+						'admins' => array('displayName' => 'admins'),
+						'Support' => array('displayName' => 'Support')
+					),
 					'subadmin' => array(),
 					'quota' => 404,
 					'quota_bytes' => 404,
@@ -801,7 +829,9 @@ class UsersControllerTest extends \Test\TestCase {
 				2 => array(
 					'name' => 'bar',
 					'displayname' => 'B. Ar',
-					'groups' => array('External Users'),
+					'groups' => array(
+						'External Users' => array('displayName' => 'External Users')
+					),
 					'subadmin' => array(),
 					'quota' => 2323,
 					'quota_bytes' => 2323,
@@ -871,7 +901,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->will($this->returnValue([]));
 		$this->groupManager
 			->expects($this->any())
@@ -958,7 +988,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->getMock();
 		$subadmin
 			->expects($this->any())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -1036,16 +1066,21 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->onConsecutiveCalls($newGroup));
 		$this->groupManager
 			->expects($this->once())
-			->method('getUserGroupIds')
+			->method('getUserGroupNames')
 			->with($user)
-			->will($this->onConsecutiveCalls(array('NewGroup', 'ExistingGroup')));
+			->will($this->onConsecutiveCalls(
+				array(
+					'NewGroup' => array('displayName' => 'NewGroup'),
+					'ExistingGroup' => array('displayName' => 'ExistingGroup')
+				)
+			));
 
 		$subadmin = $this->getMockBuilder(SubAdmin::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin
 			->expects($this->once())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -1056,7 +1091,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedResponse = new DataResponse(
 			array(
 				'name' => 'foo',
-				'groups' => array('NewGroup', 'ExistingGroup'),
+				'groups' => array(
+					'NewGroup' => array('displayName' => 'NewGroup'),
+					'ExistingGroup' => array('displayName' => 'ExistingGroup')
+				),
 				'storageLocation' => '/home/user',
 				'backend' => 'bar',
 				'lastLogin' => null,
@@ -1114,18 +1152,20 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnValue($newUser));
 		$this->groupManager
 			->expects($this->once())
-			->method('getUserGroupIds')
+			->method('getUserGroupNames')
 			->with($user)
-			->will($this->onConsecutiveCalls(['SubGroup1']));
+			->will($this->onConsecutiveCalls(array('SubGroup1' =>
+				array('displayName' => 'SubGroup1')
+			)));
 		$this->groupManager
 			->expects($this->once())
-			->method('getUserGroupIds')
+			->method('getUserGroupNames')
 			->with($newUser)
 			->will($this->onConsecutiveCalls(['SubGroup1']));
 
 		$subadmin = $this->createMock(\OC\SubAdmin::class);
 		$subadmin->expects($this->atLeastOnce())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->willReturnMap([
 				[$user, [$subGroup1]],
@@ -1149,7 +1189,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedResponse = new DataResponse(
 			array(
 				'name' => 'foo',
-				'groups' => ['SubGroup1'],
+				'groups' => array('SubGroup1' => array('displayName' => 'SubGroup1')),
 				'storageLocation' => '/home/user',
 				'backend' => 'bar',
 				'lastLogin' => 0,
@@ -1577,7 +1617,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -1643,7 +1683,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -1690,7 +1730,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -1728,7 +1768,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -1785,7 +1825,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -1807,7 +1847,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$subadmin->expects($this->once())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager
@@ -1874,6 +1914,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->getMock();
 		$subadmin
 			->expects($this->at(0))
+			->method('getSubAdminsGroupsName')
+			->will($this->returnValue([$group1, $group2]));
+		$subadmin
+			->expects($this->at(0))
 			->method('getSubAdminsGroups')
 			->will($this->returnValue([$group1, $group2]));
 
@@ -1889,29 +1933,6 @@ class UsersControllerTest extends \Test\TestCase {
 		);
 
 		$response = $controller->stats();
-		$this->assertEquals($expectedResponse, $response);
-	}
-
-	public function testSetDisplayNameNull() {
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')->willReturn('userName');
-
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
-
-		$expectedResponse = new DataResponse(
-			[
-				'status' => 'error',
-				'data' => [
-					'message' => 'Authentication error',
-				],
-			]
-		);
-		$controller = $this->getController(true);
-		$response = $controller->setDisplayName(null, 'displayName');
-
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -2444,7 +2465,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->getMock();
 		$subadmin
 			->expects($this->any())
-			->method('getSubAdminsGroups')
+			->method('getSubAdminsGroupsName')
 			->with($user)
 			->will($this->returnValue([]));
 		$this->groupManager

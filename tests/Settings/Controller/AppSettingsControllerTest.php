@@ -25,10 +25,12 @@ namespace Tests\Settings\Controller;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
+use OC\Installer;
 use OC\Settings\Controller\AppSettingsController;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use Test\TestCase;
 use OCP\IRequest;
@@ -63,6 +65,10 @@ class AppSettingsControllerTest extends TestCase {
 	private $l10nFactory;
 	/** @var BundleFetcher|\PHPUnit_Framework_MockObject_MockObject */
 	private $bundleFetcher;
+	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	private $installer;
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
 
 	public function setUp() {
 		parent::setUp();
@@ -79,6 +85,8 @@ class AppSettingsControllerTest extends TestCase {
 		$this->appFetcher = $this->createMock(AppFetcher::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
+		$this->installer = $this->createMock(Installer::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
@@ -90,11 +98,16 @@ class AppSettingsControllerTest extends TestCase {
 			$this->categoryFetcher,
 			$this->appFetcher,
 			$this->l10nFactory,
-			$this->bundleFetcher
+			$this->bundleFetcher,
+			$this->installer,
+			$this->urlGenerator
 		);
 	}
 
 	public function testListCategories() {
+		$this->installer->expects($this->any())
+			->method('isUpdateAvailable')
+			->willReturn(false);
 		$expected = new JSONResponse([
 			[
 				'id' => 2,
@@ -196,7 +209,14 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['category' => 'installed', 'appstoreEnabled' => true], 'user');
+		$expected = new TemplateResponse('settings',
+			'apps',
+			[
+				'category' => 'installed',
+				'appstoreEnabled' => true,
+				'urlGenerator' => $this->urlGenerator,
+			],
+			'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
@@ -216,7 +236,14 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['category' => 'installed', 'appstoreEnabled' => false], 'user');
+		$expected = new TemplateResponse('settings',
+			'apps',
+			[
+				'category' => 'installed',
+				'appstoreEnabled' => false,
+				'urlGenerator' => $this->urlGenerator,
+			],
+			'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());

@@ -91,9 +91,7 @@ class TAR extends Archive {
 	 */
 	public function addFolder($path) {
 		$tmpBase = \OC::$server->getTempManager()->getTemporaryFolder();
-		if (substr($path, -1, 1) != '/') {
-			$path .= '/';
-		}
+		$path = rtrim($path, '/') . '/';
 		if ($this->fileExists($path)) {
 			return false;
 		}
@@ -141,7 +139,7 @@ class TAR extends Archive {
 	 */
 	public function rename($source, $dest) {
 		//no proper way to delete, rename entire archive, rename file and remake archive
-		$tmp = \OCP\Files::tmpFolder();
+		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		rename($tmp . $source, $tmp . $dest);
 		$this->tar = null;
@@ -260,7 +258,7 @@ class TAR extends Archive {
 	 * @return bool
 	 */
 	public function extractFile($path, $dest) {
-		$tmp = \OCP\Files::tmpFolder();
+		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		if (!$this->fileExists($path)) {
 			return false;
 		}
@@ -297,10 +295,7 @@ class TAR extends Archive {
 		if ((array_search($path, $files) !== false) or (array_search($path . '/', $files) !== false)) {
 			return true;
 		} else {
-			$folderPath = $path;
-			if (substr($folderPath, -1, 1) != '/') {
-				$folderPath .= '/';
-			}
+			$folderPath = rtrim($path, '/') . '/';
 			$pathLength = strlen($folderPath);
 			foreach ($files as $file) {
 				if (strlen($file) > $pathLength and substr($file, 0, $pathLength) == $folderPath) {
@@ -328,7 +323,7 @@ class TAR extends Archive {
 		$this->fileList = false;
 		$this->cachedHeaders = false;
 		//no proper way to delete, extract entire archive, delete file and remake archive
-		$tmp = \OCP\Files::tmpFolder();
+		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		\OCP\Files::rmdirr($tmp . $path);
 		$this->tar = null;
@@ -351,7 +346,7 @@ class TAR extends Archive {
 		} else {
 			$ext = '';
 		}
-		$tmpFile = \OCP\Files::tmpFile($ext);
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 		if ($this->fileExists($path)) {
 			$this->extractFile($path, $tmpFile);
 		} elseif ($mode == 'r' or $mode == 'rb') {

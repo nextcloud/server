@@ -53,7 +53,7 @@ else
 fi
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, please install phpunit version >= 4.8" >&2
+	echo "phpunit executable not found, please install phpunit version >= 6.5" >&2
 	exit 3
 fi
 
@@ -68,8 +68,8 @@ PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
 PHPUNIT_MAJOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f1)
 PHPUNIT_MINOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f2)
 
-if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 4 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 4 -a "$PHPUNIT_MINOR_VERSION" -ge 8 \) ]; then
-	echo "phpunit version >= 4.8 required. Version found: $PHPUNIT_VERSION" >&2
+if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 6 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 6 -a "$PHPUNIT_MINOR_VERSION" -ge 5 \) ]; then
+	echo "phpunit version >= 6.5 required. Version found: $PHPUNIT_VERSION" >&2
 	exit 4
 fi
 
@@ -308,11 +308,11 @@ function execute_tests {
 			echo "Postgres is up."
 		else
 			if [ ! -z "$DRONE" ] ; then
-				DATABASEHOST=postgres
+				DATABASEHOST="postgres-$POSTGRES"
 			fi
 			echo "Waiting for Postgres to be available ..."
 			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 5432 60; then
-				echo "[ERROR] Waited 60 seconds, no response" >&2
+				echo "[ERROR] Waited 60 seconds for $DATABASEHOST, no response" >&2
 				exit 1
 			fi
 			echo "Give it 10 additional seconds ..."
@@ -369,6 +369,9 @@ function execute_tests {
 	if [ "$TEST_SELECTION" == "PRIMARY-s3" ]; then
 		GROUP='--group PRIMARY-s3'
 	fi
+	if [ "$TEST_SELECTION" == "PRIMARY-swift" ]; then
+		GROUP='--group PRIMARY-swift'
+	fi
 
 	COVER=''
 	if [ -z "$NOCOVERAGE" ]; then
@@ -377,17 +380,9 @@ function execute_tests {
 		echo "No coverage"
 	fi
 
-	if [ -d "$2" ]; then
-	    for f in $(find "$2" -name '*Test.php'); do
-			echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" / "$f" "$3"
-			"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$f" "$3"
-			RESULT=$?
-	    done;
-	else
-	    echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-	    "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-		RESULT=$?
-	fi
+	echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	RESULT=$?
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
 		cd ..

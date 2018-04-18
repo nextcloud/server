@@ -33,7 +33,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Security\ISecureRandom;
 
-abstract class TestCase extends \PHPUnit_Framework_TestCase {
+abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** @var \OC\Command\QueueBus */
 	private $commandBus;
 
@@ -45,24 +45,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	/** @var array */
 	protected $services = [];
-
-	/**
-	 * Wrapper to be forward compatible to phpunit 5.4+
-	 *
-	 * @param string $originalClassName
-	 * @return \PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function createMock($originalClassName) {
-		if (is_callable('parent::createMock')) {
-			return parent::createMock($originalClassName);
-		}
-
-		return $this->getMockBuilder($originalClassName)
-			->disableOriginalConstructor()
-			->disableOriginalClone()
-			->disableArgumentCloning()
-			->getMock();
-	}
 
 	/**
 	 * @param string $name
@@ -152,7 +134,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	protected function onNotSuccessfulTest($e) {
+	protected function onNotSuccessfulTest(\Throwable $t) {
 		$this->restoreAllServices();
 
 		// restore database connection
@@ -162,7 +144,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			});
 		}
 
-		parent::onNotSuccessfulTest($e);
+		parent::onNotSuccessfulTest($t);
 	}
 
 	protected function tearDown() {
@@ -385,7 +367,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			$userObject->updateLastLoginTimestamp();
 		}
 		\OC_Util::setupFS($user);
-		if (\OC_User::userExists($user)) {
+		if (\OC::$server->getUserManager()->userExists($user)) {
 			\OC::$server->getUserFolder($user);
 		}
 	}
