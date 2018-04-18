@@ -181,7 +181,7 @@ class Server {
 		// we do not provide locking we emulate it using a fake locking plugin.
 		if($request->isUserAgent([
 			'/WebDAVFS/',
-			'/Microsoft Office OneNote 2013/',
+			'/OneNote/',
 			'/^Microsoft-WebDAV/',// Microsoft-WebDAV-MiniRedir/6.1.7601
 		])) {
 			$this->server->addPlugin(new FakeLockerPlugin());
