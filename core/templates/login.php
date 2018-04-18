@@ -37,6 +37,7 @@ script('core', 'merged-login');
 		<p class="grouptop<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
 			<input type="text" name="user" id="user"
 				placeholder="<?php p($l->t('Username or email')); ?>"
+				aria-label="<?php p($l->t('Username or email')); ?>"
 				value="<?php p($_['loginName']); ?>"
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
 				autocomplete="on" autocapitalize="none" autocorrect="off" required>
@@ -46,6 +47,7 @@ script('core', 'merged-login');
 		<p class="groupbottom<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
 			<input type="password" name="password" id="password" value=""
 				placeholder="<?php p($l->t('Password')); ?>"
+				aria-label="<?php p($l->t('Password')); ?>"
 				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
 				autocomplete="on" autocapitalize="off" autocorrect="none" required>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>

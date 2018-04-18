@@ -37,7 +37,9 @@
 						</div>
 					</header>
 				<?php endif; ?>
-				<?php print_unescaped($_['content']); ?>
+				<main>
+					<?php print_unescaped($_['content']); ?>
+				</main>
 			</div>
 		</div>
 		<footer role="contentinfo">
