@@ -380,9 +380,7 @@
 				var $li = this.$('li[data-share-id=' + permissionChangeShareId + ']');
 				$li.find('.sharingOptionsGroup .popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
 
-				var checkBoxId = 'canEdit-' + this.cid + '-' + sharee.shareId;
-				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
-				var $edit = $li.parent().find(checkBoxId);
+				var $edit = $li.parent().find('#canEdit-' + this.cid + '-' + sharee.shareId);
 				if($edit.length === 1) {
 					$edit.prop('checked', sharee.hasEditPermission);
 				}
