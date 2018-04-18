@@ -139,6 +139,18 @@ interface ICommentsManager {
 	): array;
 
 	/**
+	 * Search for comments with a given content
+	 *
+	 * @param string $search content to search for
+	 * @param string $objectType Limit the search by object type
+	 * @param string $objectId Limit the search by object id
+	 * @param string $verb Limit the verb of the comment
+	 * @return IComment[]
+	 * @since 14.0.0
+	 */
+	public function search(string $search, string $objectType, string $objectId, string $verb): array;
+
+	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments

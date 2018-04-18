@@ -27,6 +27,7 @@ use OCA\Comments\Controller\Notifications;
 use OCA\Comments\EventHandler;
 use OCA\Comments\JSSettingsHelper;
 use OCA\Comments\Notification\Notifier;
+use OCA\Comments\Search\Provider;
 use OCP\AppFramework\App;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\Util;
@@ -45,11 +46,15 @@ class Application extends App {
 	}
 
 	public function register() {
-		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$server = $this->getContainer()->getServer();
+
+		$dispatcher = $server->getEventDispatcher();
 		$this->registerSidebarScripts($dispatcher);
 		$this->registerDavEntity($dispatcher);
 		$this->registerNotifier();
 		$this->registerCommentsEventHandler();
+
+		$server->getSearch()->registerProvider(Provider::class, ['apps' => ['files']]);
 	}
 
 	protected function registerSidebarScripts(EventDispatcherInterface $dispatcher) {

@@ -494,6 +494,48 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
+	 * Search for comments with a given content
+	 *
+	 * @param string $search content to search for
+	 * @param string $objectType Limit the search by object type
+	 * @param string $objectId Limit the search by object id
+	 * @param string $verb Limit the verb of the comment
+	 * @return IComment[]
+	 */
+	public function search(string $search, string $objectType, string $objectId, string $verb): array {
+		$query = $this->dbConn->getQueryBuilder();
+
+		$query->select('*')
+			->from('comments')
+			->where($query->expr()->iLike('message', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search). '%'
+			)))
+			->orderBy('creation_timestamp', 'DESC')
+			->addOrderBy('id', 'DESC');
+
+		if ($objectType !== '') {
+			$query->andWhere($query->expr()->eq('object_type', $query->createNamedParameter($objectType)));
+		}
+		if ($objectId !== '') {
+			$query->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)));
+		}
+		if ($verb !== '') {
+			$query->andWhere($query->expr()->eq('verb', $query->createNamedParameter($verb)));
+		}
+
+		$comments = [];
+		$result = $query->execute();
+		while ($data = $result->fetch()) {
+			$comment = new Comment($this->normalizeDatabaseData($data));
+			$this->cache($comment);
+			$comments[] = $comment;
+		}
+		$result->closeCursor();
+
+		return $comments;
+	}
+
+	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
