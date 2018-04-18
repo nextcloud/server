@@ -36,7 +36,7 @@ use Test\TestCase;
 class IMipPluginTest extends TestCase {
 
 	public function testDelivery() {
-		$mailMessage = new \OC\Mail\Message(new \Swift_Message());
+		$mailMessage = new \OC\Mail\Message(new \Swift_Message(), false);
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
 		$mailer = $this->getMockBuilder('OC\Mail\Mailer')->disableOriginalConstructor()->getMock();
 		$mailer->method('createMessage')->willReturn($mailMessage);
@@ -68,7 +68,7 @@ class IMipPluginTest extends TestCase {
 	}
 
 	public function testFailedDelivery() {
-		$mailMessage = new \OC\Mail\Message(new \Swift_Message());
+		$mailMessage = new \OC\Mail\Message(new \Swift_Message(), false);
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
 		$mailer = $this->getMockBuilder('OC\Mail\Mailer')->disableOriginalConstructor()->getMock();
 		$mailer->method('createMessage')->willReturn($mailMessage);
@@ -103,7 +103,7 @@ class IMipPluginTest extends TestCase {
 	 * @dataProvider dataNoMessageSendForPastEvents
 	 */
 	public function testNoMessageSendForPastEvents($veventParams, $expectsMail) {
-		$mailMessage = new \OC\Mail\Message(new \Swift_Message());
+		$mailMessage = new \OC\Mail\Message(new \Swift_Message(), false);
 		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
 		$mailer = $this->getMockBuilder('OC\Mail\Mailer')->disableOriginalConstructor()->getMock();
 		$mailer->method('createMessage')->willReturn($mailMessage);

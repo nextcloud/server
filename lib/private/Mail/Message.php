@@ -33,12 +33,12 @@ use Swift_Message;
 class Message {
 	/** @var Swift_Message */
 	private $swiftMessage;
+	/** @var bool */
+	private $plainTextOnly;
 
-	/**
-	 * @param Swift_Message $swiftMessage
-	 */
-	function __construct(Swift_Message $swiftMessage) {
+	public function __construct(Swift_Message $swiftMessage, $plainTextOnly) {
 		$this->swiftMessage = $swiftMessage;
+		$this->plainTextOnly = $plainTextOnly;
 	}
 
 	/**
@@ -229,7 +229,9 @@ class Message {
 	 * @return $this
 	 */
 	public function setHtmlBody($body) {
-		$this->swiftMessage->addPart($body, 'text/html');
+		if (!$this->plainTextOnly) {
+			$this->swiftMessage->addPart($body, 'text/html');
+		}
 		return $this;
 	}
 
@@ -247,7 +249,9 @@ class Message {
 	 * @return $this
 	 */
 	public function setBody($body, $contentType) {
-		$this->swiftMessage->setBody($body, $contentType);
+		if (!$this->plainTextOnly || $contentType !== 'text/html') {
+			$this->swiftMessage->setBody($body, $contentType);
+		}
 		return $this;
 	}
 }

@@ -9,6 +9,7 @@
 namespace Test\Mail;
 
 use OC\Mail\Message;
+use OCP\Mail\IEMailTemplate;
 use Swift_Message;
 use Test\TestCase;
 
@@ -36,7 +37,7 @@ class MessageTest extends TestCase {
 		$this->swiftMessage = $this->getMockBuilder('\Swift_Message')
 			->disableOriginalConstructor()->getMock();
 
-		$this->message = new Message($this->swiftMessage);
+		$this->message = new Message($this->swiftMessage, false);
 	}
 
 	/**
