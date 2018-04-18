@@ -702,6 +702,9 @@ var OCP = {},
 				$menuEl.parent().addClass('openedMenu');
 			}
 
+			// Set menu to expanded
+			$toggle.attr('aria-expanded', true);
+
 			$menuEl.slideToggle(OC.menuSpeed, toggle);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
@@ -736,6 +739,10 @@ var OCP = {},
 				}
 			});
 		}
+
+		// Set menu to closed
+		$('.menutoggle').attr('aria-expanded', false);
+
 		$('.openedMenu').removeClass('openedMenu');
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;
