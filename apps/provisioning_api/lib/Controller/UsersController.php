@@ -199,6 +199,7 @@ class UsersController extends AUserData {
 	 *
 	 * @param string $userid
 	 * @param string $password
+	 * @param string $displayName
 	 * @param string $email
 	 * @param array $groups
 	 * @param array $subadmins
@@ -209,6 +210,7 @@ class UsersController extends AUserData {
 	 */
 	public function addUser(string $userid,
 							string $password = '',
+							string $displayName = '',
 							string $email = '',
 							array $groups = [],
 							array $subadmin = [],
@@ -280,6 +282,10 @@ class UsersController extends AUserData {
 			}
 			foreach ($subadminGroups as $group) {
 				$subAdminManager->createSubAdmin($newUser, $group);
+			}
+
+			if ($displayName !== '') {
+				$this->editUser($userid, 'display', $displayName);
 			}
 
 			if ($quota !== '') {
