@@ -576,7 +576,6 @@ OC.Uploader.prototype = _.extend({
 	 * Clear uploads
 	 */
 	clear: function() {
-		this._uploads = {};
 		this._knownDirs = {};
 	},
 	/**
@@ -593,6 +592,19 @@ OC.Uploader.prototype = _.extend({
 			return this._uploads[data.uploadId];
 		}
 		return null;
+	},
+
+	/**
+	 * Removes an upload from the list of known uploads.
+	 *
+	 * @param {OC.FileUpload} upload the upload to remove.
+	 */
+	removeUpload: function(upload) {
+		if (!upload || !upload.data || !upload.data.uploadId) {
+			return;
+		}
+
+		delete this._uploads[upload.data.uploadId];
 	},
 
 	showUploadCancelMessage: _.debounce(function() {
@@ -959,6 +971,8 @@ OC.Uploader.prototype = _.extend({
 					}
 					self.log('fail', e, upload);
 
+					self.removeUpload(upload);
+
 					if (data.textStatus === 'abort') {
 						self.showUploadCancelMessage();
 					} else if (status === 412) {
@@ -995,6 +1009,8 @@ OC.Uploader.prototype = _.extend({
 					var upload = self.getUpload(data);
 					var that = $(this);
 					self.log('done', e, upload);
+
+					self.removeUpload(upload);
 
 					var status = upload.getResponseStatus();
 					if (status < 200 || status >= 300) {
