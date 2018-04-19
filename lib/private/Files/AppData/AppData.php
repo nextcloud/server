@@ -73,7 +73,12 @@ class AppData implements IAppData {
 				throw new \RuntimeException('no instance id!');
 			}
 
-			$name = 'appdata_' . $instanceId;
+			$appdataPath = $this->config->getValue('appdata_path', '');
+			if ($appdataPath !== '') {
+				$name = '/appdata.local/appdata_' . $instanceId;
+			} else {
+				$name = 'appdata_' . $instanceId;
+			}
 
 			try {
 				$appDataFolder = $this->rootFolder->get($name);

@@ -722,6 +722,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			$config = $c->getConfig();
 			$manager->registerProvider(new CacheMountProvider($config));
+			$manager->registerProvider(new AppdataMountProvider($config));
 			$manager->registerHomeProvider(new LocalHomeMountProvider());
 			$manager->registerHomeProvider(new ObjectHomeMountProvider($config));
 

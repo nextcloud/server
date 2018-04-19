@@ -672,6 +672,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\FileInfo' => __DIR__ . '/../../..' . '/lib/private/Files/FileInfo.php',
         'OC\\Files\\Filesystem' => __DIR__ . '/../../..' . '/lib/private/Files/Filesystem.php',
         'OC\\Files\\Mount\\CacheMountProvider' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/CacheMountProvider.php',
+        'OC\\Files\\Mount\\AppdataMountProvider' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/AppdataMountProvider.php',
         'OC\\Files\\Mount\\LocalHomeMountProvider' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/LocalHomeMountProvider.php',
         'OC\\Files\\Mount\\Manager' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/Manager.php',
         'OC\\Files\\Mount\\MountPoint' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/MountPoint.php',

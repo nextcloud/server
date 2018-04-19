@@ -642,6 +642,7 @@ return array(
     'OC\\Files\\FileInfo' => $baseDir . '/lib/private/Files/FileInfo.php',
     'OC\\Files\\Filesystem' => $baseDir . '/lib/private/Files/Filesystem.php',
     'OC\\Files\\Mount\\CacheMountProvider' => $baseDir . '/lib/private/Files/Mount/CacheMountProvider.php',
+    'OC\\Files\\Mount\\AppdataMountProvider' => $baseDir . '/lib/private/Files/Mount/AppdataMountProvider.php',
     'OC\\Files\\Mount\\LocalHomeMountProvider' => $baseDir . '/lib/private/Files/Mount/LocalHomeMountProvider.php',
     'OC\\Files\\Mount\\Manager' => $baseDir . '/lib/private/Files/Mount/Manager.php',
     'OC\\Files\\Mount\\MountPoint' => $baseDir . '/lib/private/Files/Mount/MountPoint.php',
