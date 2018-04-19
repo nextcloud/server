@@ -95,19 +95,5 @@ export default {
 		return axios.delete(sanitize(url), { data: data, headers: tokenHeaders.headers })
 			.then((response) => Promise.resolve(response))
 			.catch((error) => Promise.reject(error));
-	},
-
-	// OCS API entry points
-	/**
-	 * 
-	 * @param {string} app Application name 
-	 * @param {string} key Config key
-	 * @param {string} [value=''] Value to set
-	 * @returns{Promise}
-	 */
-	setAppConfig(app, key, value = '') {
-		return this.requireAdmin().then((response) => {
-			return this.post(OC.linkToOCS(`apps/provisioning_api/api/v1/config/apps/${app}/${key}`, 2), {value: value});
-		});
 	}
 };

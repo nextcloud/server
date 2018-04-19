@@ -69,6 +69,8 @@ export default {
 		return {
 			// default quota is unlimited
 			unlimitedQuota: {id:'default', label:t('settings', 'Unlimited')},
+			// temporary value used for multiselect change
+			selectedQuota: false,
 			showConfig: {
 				showStoragePath: false,
 				showUserBackend: false,
@@ -110,9 +112,17 @@ export default {
 		 * @returns {string}
 		 */
 		setDefaultQuota(quota = 'none') {
-			// ensure we only send the preset id
-			quota = quota.id ? quota.id : quota;
-			api.setAppConfig('files', 'default_quota', quota);
+			this.$store.dispatch('setAppConfig', {
+				app: 'files',
+				key: 'default_quota',
+				// ensure we only send the preset id
+				value: quota.id ? quota.id : quota
+			}).then(() => {
+				if (typeof quota !== 'object') {
+					quota = {id: quota, label: quota};
+				}
+				this.defaultQuota = quota;
+			});
 		},
 
 		/**
@@ -190,12 +200,21 @@ export default {
 			return quotaPreset;
 		},
 		// mapping saved values to objects
-		defaultQuota() {
-			if (OC.Util.computerFileSize(this.settings.defaultQuota) > 0) {
-				// if value is valid, let's map the quotaOptions or return custom quota
-				return {id:this.settings.defaultQuota, label:this.settings.defaultQuota};
+		defaultQuota: {
+			get: function() {
+				if (this.selectedQuota !== false) {
+					return this.selectedQuota;
+				}
+				if (OC.Util.computerFileSize(this.settings.defaultQuota) > 0) {
+					// if value is valid, let's map the quotaOptions or return custom quota
+					return {id:this.settings.defaultQuota, label:this.settings.defaultQuota};
+				}
+				return this.unlimitedQuota; // unlimited
+			},
+			set: function(quota) {
+				this.selectedQuota =  quota;
 			}
-			return this.unlimitedQuota; // unlimited
+			
 		},
 
 		// BUILD APP NAVIGATION MENU OBJECT
