@@ -292,6 +292,7 @@
     "Error while validating your second factor" : "Ошибка проверки кода",
     "Access through untrusted domain" : "Доступ через недоверенный домен",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Обратитесь к администратору. Если вы являетесь администратором этого сервера, отредактируйте параметр «trusted_domains» в файле «config/config.php». Пример настройки можно найти в файле «config/config.sample.php».",
+    "Further information how to configure this can be found in the %sdocumentation%s." : "Более подробная информация о том, как это сконфигурировать, может быть найдена в %sдокументации%s.",
     "App update required" : "Требуется обновление приложения",
     "%s will be updated to version %s" : "%s будет обновлен до версии %s",
     "These apps will be updated:" : "Следующие приложения будут обновлены:",
