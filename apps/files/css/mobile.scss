@@ -28,12 +28,7 @@ table td {
 table.multiselect thead {
 	padding-left: 0;
 }
-
-/* restrict length of displayed filename to prevent overflow */
-table td.filename .nametext {
-	width: 100%;
-}
-
+	
 #fileList a.action.action-menu img {
 	padding-left: 0;
 }
@@ -44,11 +39,6 @@ table td.filename .nametext {
 /* hide text of the share action on mobile */
 #fileList a.action-share span:not(.icon) {
 	display: none !important;
-}
-
-/* ellipsis on file names */
-table td.filename .nametext .innernametext {
-	max-width: calc(100% - 175px) !important;
 }
 
 /* show the delete icon in name column in lower resolutions */
