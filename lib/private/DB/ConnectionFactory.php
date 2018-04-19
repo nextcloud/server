@@ -193,17 +193,7 @@ class ConnectionFactory {
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $this->config->getValue('dbhost', '');
-			$matches = [];
-			if (preg_match('/^(.*):([^\]:]+)$/', $host, $matches)) {
-				// Host variable carries a port or socket.
-				$host = $matches[1];
-				if (is_numeric($matches[2])) {
-					$connectionParams['port'] = (int) $matches[2];
-				} else {
-					$connectionParams['unix_socket'] = $matches[2];
-				}
-			}
-			$connectionParams['host'] = $host;
+			$connectionParams = array_merge($connectionParams, $this->splitHostFromPortAndSocket($host));
 			$connectionParams['dbname'] = $name;
 		}
 
@@ -232,5 +222,28 @@ class ConnectionFactory {
 		}
 
 		return $connectionParams;
+	}
+
+	/**
+	 * @param string $host
+	 * @return array
+	 */
+	protected function splitHostFromPortAndSocket($host): array {
+		$params = [
+			'host' => $host,
+		];
+
+		$matches = [];
+		if (preg_match('/^(.*):([^\]:]+)$/', $host, $matches)) {
+			// Host variable carries a port or socket.
+			$params['host'] = $matches[1];
+			if (is_numeric($matches[2])) {
+				$params['port'] = (int) $matches[2];
+			} else {
+				$params['unix_socket'] = $matches[2];
+			}
+		}
+
+		return $params;
 	}
 }
