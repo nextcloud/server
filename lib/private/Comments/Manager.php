@@ -377,11 +377,13 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
-	 * @param string $objectType
-	 * @param string $objectId
-	 * @param int $lastKnownCommentId
-	 * @param string $sortDirection
-	 * @param int $limit
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
+	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
+	 * @param int $limit optional, number of maximum comments to be returned. if
+	 * set to 0, all comments are returned.
+	 * @return IComment[]
 	 * @return array
 	 */
 	public function getForObjectSince(
@@ -463,9 +465,9 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
-	 * @param string $objectType
-	 * @param string $objectId
-	 * @param int $id
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param int $id the comment to look for
 	 * @return Comment|null
 	 */
 	protected function getLastKnownComment(string $objectType,
