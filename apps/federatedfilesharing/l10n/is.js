@@ -17,6 +17,7 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Gat ekki bætt við skýjasambandssameign.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Gat ekki bætt við skýjasambandssameign, hugsanlega var lykilorðið ekki rétt.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Sendi beiðni um skýjasambandssameign, þú munt fá boðskort. Athugaðu skilaboð til þín.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Gat ekki bætt við skýjasambandssameign, það lítur út fyrir að þjónninn sem á að koma sambandi við sé of gamall (Nextcloud <= 9).",
     "Sharing %s failed, because this item is already shared with %s" : "Deiling %s mistókst, því þessu atriði er þegar deilt með %s",
     "Not allowed to create a federated share with the same user" : "Ekki er heimilt að búa til skýjasambandssameign með sama notanda",
     "File is already shared with %s" : "Skránni er þegar deilt með %s",
