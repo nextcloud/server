@@ -30,8 +30,10 @@ class ConnectionFactoryTest extends TestCase {
 	public function splitHostFromPortAndSocketData() {
 		return [
 			['127.0.0.1', ['host' => '127.0.0.1']],
+			['db.example.org', ['host' => 'db.example.org']],
 			['[::1]', ['host' => '[::1]']],
 			['127.0.0.1:3306', ['host' => '127.0.0.1', 'port' => 3306]],
+			['db.example.org:3306', ['host' => 'db.example.org', 'port' => 3306]],
 			['[::1]:3306', ['host' => '[::1]', 'port' => 3306]],
 			['unix:/socket', ['host' => 'unix', 'unix_socket' => '/socket']],
 		];
