@@ -63,7 +63,7 @@ export default {
 			orderBy: this.$store.getters.getServerData.sortGroups,
 			userCount: this.$store.getters.getServerData.userCount
 		});
-		this.$store.dispatch('getPasswordPolicyMinLength');
+		//this.$store.dispatch('getPasswordPolicyMinLength');
 	},
 	data() {
 		return {
@@ -241,7 +241,7 @@ export default {
 					item.utils.actions = [{
 						icon: 'icon-delete',
 						text: t('settings', 'Remove group'),
-						action: function() {self.removeGroup(item.id)}
+						action: function() {self.removeGroup(group.id)}
 					}];
 				};
 				return item;
@@ -249,12 +249,12 @@ export default {
 
 			// Adjust data
 			let adminGroup = groups.find(group => group.id == 'admin');
-			   let disabledGroupIndex = groups.findIndex(group => group.id == 'disabled');
-			   let disabledGroup = groups[disabledGroupIndex];
-			if (adminGroup.text) {
+			let disabledGroupIndex = groups.findIndex(group => group.id == 'disabled');
+			let disabledGroup = groups[disabledGroupIndex];
+			if (adminGroup && adminGroup.text) {
 				adminGroup.text = t('settings', 'Admins'); // rename admin group
 			}
-			if (disabledGroup.text) {
+			if (disabledGroup && disabledGroup.text) {
 				disabledGroup.text = t('settings', 'Disabled users'); // rename disabled group
 				if (disabledGroup.utils.counter === 0) {
 					groups.splice(disabledGroupIndex, 1); // remove disabled if empty

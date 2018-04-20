@@ -220,7 +220,7 @@ class UsersController extends Controller {
 		$groupsInfo->setSorting($sortGroupsBy);
 		list($adminGroup, $groups) = $groupsInfo->get();
 		
-		if ($isAdmin) {
+		if ($this->isAdmin) {
 			$subAdmins = $this->groupManager->getSubAdmin()->getAllSubAdmins();
 			// New class returns IUser[] so convert back
 			$result = [];
