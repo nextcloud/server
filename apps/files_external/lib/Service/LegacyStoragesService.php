@@ -140,11 +140,7 @@ abstract class LegacyStoragesService {
 					$parts = explode('/', ltrim($rootMountPath, '/'), 3);
 					if (count($parts) < 3) {
 						// something went wrong, skip
-						\OCP\Util::writeLog(
-							'files_external',
-							'Could not parse mount point "' . $rootMountPath . '"',
-							\OCP\Util::ERROR
-						);
+						\OC::$server->getLogger()->error('Could not parse mount point "' . $rootMountPath . '"', ['app' => 'files_external']);
 						continue;
 					}
 					$relativeMountPath = rtrim($parts[2], '/');

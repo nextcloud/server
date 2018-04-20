@@ -195,7 +195,7 @@ class Trashbin {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
 			$result = $query->execute(array($targetFilename, $timestamp, $targetLocation, $user));
 			if (!$result) {
-				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OCP\Util::ERROR);
+				\OC::$server->getLogger()->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
 			}
 		}
 	}
@@ -257,7 +257,7 @@ class Trashbin {
 			if ($trashStorage->file_exists($trashInternalPath)) {
 				$trashStorage->unlink($trashInternalPath);
 			}
-			\OCP\Util::writeLog('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OCP\Util::ERROR);
+			\OC::$server->getLogger()->error('Couldn\'t move ' . $file_path . ' to the trash bin', ['app' => 'files_trashbin']);
 		}
 
 		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
@@ -275,7 +275,7 @@ class Trashbin {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
 			$result = $query->execute(array($filename, $timestamp, $location, $owner));
 			if (!$result) {
-				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated', \OCP\Util::ERROR);
+				\OC::$server->getLogger()->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);
 			}
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => Filesystem::normalizePath($file_path),
 				'trashPath' => Filesystem::normalizePath($filename . '.d' . $timestamp)));
@@ -391,7 +391,7 @@ class Trashbin {
 		if ($timestamp) {
 			$location = self::getLocation($user, $filename, $timestamp);
 			if ($location === false) {
-				\OCP\Util::writeLog('files_trashbin', 'trash bin database inconsistent! ($user: ' . $user . ' $filename: ' . $filename . ', $timestamp: ' . $timestamp . ')', \OCP\Util::ERROR);
+				\OC::$server->getLogger()->error('trash bin database inconsistent! ($user: ' . $user . ' $filename: ' . $filename . ', $timestamp: ' . $timestamp . ')', ['app' => 'files_trashbin']);
 			} else {
 				// if location no longer exists, restore file in the root directory
 				if ($location !== '/' &&
@@ -763,7 +763,7 @@ class Trashbin {
 			foreach ($files as $file) {
 				if ($availableSpace < 0 && $expiration->isExpired($file['mtime'], true)) {
 					$tmp = self::delete($file['name'], $user, $file['mtime']);
-					\OCP\Util::writeLog('files_trashbin', 'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', \OCP\Util::INFO);
+					\OC::$server->getLogger()->info('remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', ['app' => 'files_trashbin']);
 					$availableSpace += $tmp;
 					$size += $tmp;
 				} else {

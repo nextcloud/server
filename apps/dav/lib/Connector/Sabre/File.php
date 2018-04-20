@@ -156,7 +156,7 @@ class File extends Node implements IFile {
 		try {
 			$target = $partStorage->fopen($internalPartPath, 'wb');
 			if ($target === false) {
-				\OCP\Util::writeLog('webdav', '\OC\Files\Filesystem::fopen() failed', \OCP\Util::ERROR);
+				\OC::$server->getLogger()->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Exception('Could not write file contents');
 			}
@@ -209,7 +209,7 @@ class File extends Node implements IFile {
 						$fileExists = $storage->file_exists($internalPath);
 					}
 					if (!$run || $renameOkay === false || $fileExists === false) {
-						\OCP\Util::writeLog('webdav', 'renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', \OCP\Util::ERROR);
+						\OC::$server->getLogger()->error('renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', ['app' => 'webdav']);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (ForbiddenException $ex) {
@@ -474,7 +474,7 @@ class File extends Node implements IFile {
 					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
 					$fileExists = $targetStorage->file_exists($targetInternalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						\OCP\Util::writeLog('webdav', '\OC\Files\Filesystem::rename() failed', \OCP\Util::ERROR);
+						\OC::$server->getLogger()->error('\OC\Files\Filesystem::rename() failed', ['app' => 'webdav']);
 						// only delete if an error occurred and the target file was already created
 						if ($fileExists) {
 							// set to null to avoid double-deletion when handling exception

@@ -229,7 +229,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if (isset($fileOwner)) {
 			$source['fileOwner'] = $fileOwner;
 		} else {
-			\OCP\Util::writeLog('files_sharing', "No owner found for reshare", \OCP\Util::ERROR);
+			\OC::$server->getLogger()->error('No owner found for reshare', ['app' => 'files_sharing']);
 		}
 
 		return $source;

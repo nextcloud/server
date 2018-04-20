@@ -140,13 +140,14 @@ class RequestHandlerController extends OCSController {
 			}
 
 			// FIXME this should be a method in the user management instead
-			\OCP\Util::writeLog('files_sharing', 'shareWith before, ' . $shareWith, \OCP\Util::DEBUG);
+			$logger = \OC::$server->getLogger();
+			$logger->debug('shareWith before, ' . $shareWith, ['app' => 'files_sharing']);
 			\OCP\Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				array('uid' => &$shareWith)
 			);
-			\OCP\Util::writeLog('files_sharing', 'shareWith after, ' . $shareWith, \OCP\Util::DEBUG);
+			$logger->debug('shareWith after, ' . $shareWith, ['app' => 'files_sharing']);
 
 			if (!\OC::$server->getUserManager()->userExists($shareWith)) {
 				throw new OCSException('User does not exists', 400);
