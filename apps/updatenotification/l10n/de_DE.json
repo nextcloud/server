@@ -30,6 +30,7 @@
     "Update for {app} to version %s is available." : "Eine Aktualisierung für {app} auf Version %s ist verfügbar.",
     "Update notification" : "Aktualisierungs-Benachrichtigung",
     "A new version is available: %s" : "Eine neue Version ist verfügbar: %s",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Ihre installierte Version wird nicht mehr unterstützt. Bitte aktualisieren Sie baldmöglichst auf eine unterstützte Version.",
     "Download now" : "Jetzt herunterladen",
     "Checked on %s" : "Überprüft am %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Der gewählte Aktualisierungskanal macht dedizierte Benachrichtigungen für Server Aktualisierungen obsolet.",

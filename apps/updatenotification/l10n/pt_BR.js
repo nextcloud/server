@@ -32,6 +32,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Atualização para {app} para a versão %s está disponível.",
     "Update notification" : "Notificação de atualização",
     "A new version is available: %s" : "Uma nova versão está disponível: %s",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "A versão que você está executando não é mais mantida. Por favor, atualize para uma versão suportada o mais rápido possível.",
     "Download now" : "Baixar agora",
     "Checked on %s" : "Verificada em %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "A atualização selecionada fornece notificações dedicadas para o servidor desatualizado.",
