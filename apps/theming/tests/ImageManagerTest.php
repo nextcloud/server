@@ -24,6 +24,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
+use OCA\Theming\ThemingDefaults;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IURLGenerator;

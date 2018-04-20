@@ -267,6 +267,8 @@ class ThemingController extends Controller {
 			$folder = $this->appData->newFolder('images');
 		}
 
+		$this->imageManager->delete($key);
+
 		$target = $folder->newFile($key);
 		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg'];
 		$detectedMimeType = mime_content_type($image['tmp_name']);
@@ -359,9 +361,9 @@ class ThemingController extends Controller {
 	 * @return FileDisplayResponse|NotFoundResponse
 	 * @throws \Exception
 	 */
-	public function getImage(string $key) {
+	public function getImage(string $key, bool $asPng = false) {
 		try {
-			$file = $this->imageManager->getImage($key);
+			$file = $this->imageManager->getImage($key, $asPng);
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
 		}
@@ -370,6 +372,11 @@ class ThemingController extends Controller {
 		$response->cacheFor(3600);
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
 		$response->addHeader('Content-Disposition', 'attachment; filename="' . $key . '"');
+		if ($asPng) {
+			$response->addHeader('Content-Type', 'image/png');
+		} else {
+			$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
+		}
 		return $response;
 	}
 

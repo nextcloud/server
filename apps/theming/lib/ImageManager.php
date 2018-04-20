@@ -26,6 +26,7 @@ namespace OCA\Theming;
 
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -41,9 +42,12 @@ class ImageManager {
 	private $config;
 	/** @var IAppData */
 	private $appData;
-
+	/** @var IURLGenerator */
+	private $urlGenerator;
 	/** @var array */
 	private $supportedImageKeys = ['background', 'logo', 'logoheader', 'favicon'];
+	/** @var ICacheFactory */
+	private $cacheFactory;
 
 	/**
 	 * ImageManager constructor.
@@ -51,14 +55,17 @@ class ImageManager {
 	 * @param IConfig $config
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
+	 * @param ThemingDefaults $themingDefaults
 	 */
 	public function __construct(IConfig $config,
 								IAppData $appData,
-								IURLGenerator $urlGenerator
+								IURLGenerator $urlGenerator,
+								ICacheFactory $cacheFactory
 	) {
 		$this->config = $config;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
+		$this->cacheFactory = $cacheFactory;
 	}
 
 	public function getImageUrl(string $key): string {
@@ -88,12 +95,28 @@ class ImageManager {
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	public function getImage(string $key): ISimpleFile {
+	public function getImage(string $key, bool $useSvg = false): ISimpleFile {
 		$logo = $this->config->getAppValue('theming', $key . 'Mime', false);
 		if ($logo === false) {
 			throw new NotFoundException();
 		}
 		$folder = $this->appData->getFolder('images');
+		if (!$useSvg && $this->shouldReplaceIcons()) {
+			if (!$folder->fileExists($key . '.png')) {
+				try {
+					$finalIconFile = new \Imagick();
+					$finalIconFile->setBackgroundColor('none');
+					$finalIconFile->readImageBlob($folder->getFile($key)->getContent());
+					$finalIconFile->setImageFormat('png32');
+					$pngFile = $folder->newFile($key . '.png');
+					$pngFile->putContent($finalIconFile->getImageBlob());
+				} catch (\ImagickException $e) {
+				}
+			} else {
+				$pngFile = $folder->getFile($key . '.png');
+			}
+			return $pngFile;
+		}
 		return $folder->getFile($key);
 	}
 
@@ -165,6 +188,12 @@ class ImageManager {
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {
 		}
+		try {
+			$file = $this->appData->getFolder('images')->getFile($key . '.png');
+			$file->delete();
+		} catch (NotFoundException $e) {
+		} catch (NotPermittedException $e) {
+		}
 	}
 
 	/**
@@ -181,5 +210,26 @@ class ImageManager {
 				$folder->delete();
 			}
 		}
+	}
+
+	/**
+	 * Check if Imagemagick is enabled and if SVG is supported
+	 * otherwise we can't render custom icons
+	 *
+	 * @return bool
+	 */
+	public function shouldReplaceIcons() {
+		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
+		if($value = $cache->get('shouldReplaceIcons')) {
+			return (bool)$value;
+		}
+		$value = false;
+		if(extension_loaded('imagick')) {
+			if (count(\Imagick::queryFormats('SVG')) >= 1) {
+				$value = true;
+			}
+		}
+		$cache->set('shouldReplaceIcons', $value);
+		return $value;
 	}
 }
