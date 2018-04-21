@@ -106,7 +106,7 @@ if($isAdmin) {
 	$subAdmins = false;
 }
 
-$disabledUsers = $isLDAPUsed ? 0 : $userManager->countDisabledUsers();
+$disabledUsers = $isLDAPUsed ? 0 : $isAdmin ? $userManager->countDisabledUsers() : $userManager->countDisabledUsersOfGroups($gids);
 $disabledUsersGroup = [
 	'id' => '_disabledUsers',
 	'name' => '_disabledUsers',
