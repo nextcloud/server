@@ -142,6 +142,7 @@ OC.L10N.register(
     "Tags" : "Ετικέτες",
     "Deleted files" : "Διεγραμμένα αρχεία",
     "Text file" : "Αρχείο κειμένου",
-    "New text file.txt" : "Νέο αρχείο κειμένου.txt"
+    "New text file.txt" : "Νέο αρχείο κειμένου.txt",
+    "Move" : "Μετακίνηση"
 },
 "nplurals=2; plural=(n != 1);");
