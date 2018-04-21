@@ -28,6 +28,8 @@
 namespace OC\Group;
 
 use OCP\IUserSession;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 
 class MetaData {
 	const SORT_NONE = 0;
@@ -40,8 +42,10 @@ class MetaData {
 	protected $isAdmin;
 	/** @var array */
 	protected $metaData = array();
-	/** @var \OCP\IGroupManager */
+	/** @var IGroupManager */
 	protected $groupManager;
+	/** @var IUserManager */
+	protected $userManager;
 	/** @var bool */
 	protected $sorting = false;
 	/** @var IUserSession */
@@ -50,18 +54,21 @@ class MetaData {
 	/**
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
-	 * @param \OCP\IGroupManager $groupManager
+	 * @param IGroupManager $groupManager
+	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(
 			$user,
 			$isAdmin,
-			\OCP\IGroupManager $groupManager,
+			IGroupManager $groupManager,
+			IUserManager $userManager,
 			IUserSession $userSession
 			) {
 		$this->user = $user;
 		$this->isAdmin = (bool)$isAdmin;
 		$this->groupManager = $groupManager;
+		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 	}
 
@@ -162,6 +169,7 @@ class MetaData {
 				'id' => $group->getGID(),
 				'name' => $group->getDisplayName(),
 				'usercount' => $this->sorting === self::SORT_USERCOUNT ? $group->count($userSearch) : 0,
+				'disabled' => $this->userManager->countDisabledUsersOfGroups([$group->getGID()])
 			);
 	}
 

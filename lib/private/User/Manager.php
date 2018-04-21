@@ -445,7 +445,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * returns how many users are disabled in the requested groups
 	 *
 	 * @return int
-	 * @since 12.0.0
+	 * @since 14.0.0
 	 */
 	public function countDisabledUsersOfGroups(array $groups) {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
