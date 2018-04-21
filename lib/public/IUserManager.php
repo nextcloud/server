@@ -167,7 +167,7 @@ interface IUserManager {
 	 * @return int
 	 * @since 12.0.0
 	 */
-	public function countDisabledUsers();
+	public function countDisabledUsers():int;
 
 	/**
 	 * returns how many users are disabled in the requested groups
@@ -176,7 +176,7 @@ interface IUserManager {
 	 * @return int
 	 * @since 14.0.0
 	 */
-	public function countDisabledUsersOfGroups(array $groups);
+	public function countDisabledUsersOfGroups(array $groups):int;
 
 	/**
 	 * returns how many users have logged in once

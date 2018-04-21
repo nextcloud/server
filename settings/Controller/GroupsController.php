@@ -32,6 +32,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 /**
@@ -40,6 +41,8 @@ use OCP\IUserSession;
 class GroupsController extends Controller {
 	/** @var IGroupManager */
 	private $groupManager;
+	/** @var IUserManager */
+	private $userManager;
 	/** @var IL10N */
 	private $l10n;
 	/** @var IUserSession */
@@ -58,11 +61,13 @@ class GroupsController extends Controller {
 	public function __construct($appName,
 								IRequest $request,
 								IGroupManager $groupManager,
+								IUserManager $userManager,
 								IUserSession $userSession,
 								$isAdmin,
 								IL10N $l10n) {
 		parent::__construct($appName, $request);
 		$this->groupManager = $groupManager;
+		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 		$this->isAdmin = $isAdmin;
 		$this->l10n = $l10n;
@@ -83,6 +88,7 @@ class GroupsController extends Controller {
 			$this->userSession->getUser()->getUID(),
 			$this->isAdmin,
 			$this->groupManager,
+			$this->userManager,
 			$this->userSession
 		);
 		$groupsInfo->setSorting($sortGroups);

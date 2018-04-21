@@ -425,7 +425,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return int
 	 * @since 12.0.0
 	 */
-	public function countDisabledUsers() {
+	public function countDisabledUsers():int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
 			->from('preferences')
@@ -448,7 +448,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return int
 	 * @since 14.0.0
 	 */
-	public function countDisabledUsersOfGroups(array $groups) {
+	public function countDisabledUsersOfGroups(array $groups):int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->createFunction('COUNT(Distinct uid)'))
 			->from('preferences', 'p')
