@@ -68,7 +68,7 @@
 		</div>
 		<div class="storageLocation" v-if="showConfig.showStoragePath">{{user.storageLocation}}</div>
 		<div class="userBackend" v-if="showConfig.showUserBackend">{{user.backend}}</div>
-		<div class="lastLogin" v-if="showConfig.showLastLogin" :title="user.lastLogin>0 ? OC.Util.formatDate(user.lastLogin) : ''">
+		<div class="lastLogin" v-if="showConfig.showLastLogin" v-tooltip.auto="user.lastLogin>0 ? OC.Util.formatDate(user.lastLogin) : ''">
 			{{user.lastLogin>0 ? OC.Util.relativeModifiedDate(user.lastLogin) : t('settings','Never')}}
 		</div>
 		<div class="userActions">
@@ -86,6 +86,10 @@
 import popoverMenu from '../popoverMenu';
 import ClickOutside from 'vue-click-outside';
 import Multiselect from 'vue-multiselect';
+import Vue from 'vue'
+import VTooltip from 'v-tooltip'
+
+Vue.use(VTooltip)
 
 export default {
 	name: 'userRow',

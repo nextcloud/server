@@ -63,7 +63,7 @@ export default {
 			orderBy: this.$store.getters.getServerData.sortGroups,
 			userCount: this.$store.getters.getServerData.userCount
 		});
-		//this.$store.dispatch('getPasswordPolicyMinLength');
+		this.$store.dispatch('getPasswordPolicyMinLength');
 	},
 	data() {
 		return {
