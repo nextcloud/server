@@ -444,6 +444,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * returns how many users are disabled in the requested groups
 	 *
+	 * @param array $groups groupids to search
 	 * @return int
 	 * @since 14.0.0
 	 */
