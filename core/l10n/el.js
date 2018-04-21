@@ -79,6 +79,7 @@ OC.L10N.register(
     "I know what I'm doing" : "Γνωρίζω τι κάνω",
     "Password can not be changed. Please contact your administrator." : "Το συνθηματικό σας δεν μπορεί να αλλάξει. Παρακαλώ επικοινωνήστε με το διαχειριστή.",
     "Reset password" : "Επαναφορά συνθηματικού",
+    "Sending email …" : "Γίνεται αποστολή αλληλογραφίας …",
     "No" : "Όχι",
     "Yes" : "Ναι",
     "No files in here" : "Δεν υπάρχουν αρχεία",

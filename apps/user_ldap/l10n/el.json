@@ -86,6 +86,7 @@
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Το DN του χρήστη πελάτη με το οποίο θα πρέπει να γίνει η σύνδεση, π.χ. uid=agent,dc=example,dc=com. Για χρήση χωρίς πιστοποίηση, αφήστε το DN και τον Κωδικό κενά.",
     "Password" : "Συνθηματικό",
     "For anonymous access, leave DN and Password empty." : "Για ανώνυμη πρόσβαση, αφήστε κενά τα πεδία DN και Pasword.",
+    "Save Credentials" : "Αποθήκευση διαπιστευτηρίων",
     "One Base DN per line" : "Ένα DN Βάσης ανά γραμμή ",
     "You can specify Base DN for users and groups in the Advanced tab" : "Μπορείτε να καθορίσετε το Base DN για χρήστες και ομάδες από την καρτέλα Προηγμένες ρυθμίσεις",
     "Detect Base DN" : "Ανίχνευση Base DN",

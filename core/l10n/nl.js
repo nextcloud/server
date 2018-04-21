@@ -56,7 +56,7 @@ OC.L10N.register(
     "Search contacts …" : "Zoek contacten ...",
     "No contacts found" : "Geen contacten gevonden",
     "Show all contacts …" : "Alle contacten weergeven",
-    "Could not load your contacts" : "Kon uw contacten niet laden",
+    "Could not load your contacts" : "Kon je contacten niet laden",
     "Loading your contacts …" : "Je contacten wordt geladen ...",
     "Looking for {term} …" : "Kijken voor {term} …",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Er traden problemen op tijdens de code betrouwbaarheidscontrole. Meer informatie…</a>",
