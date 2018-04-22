@@ -335,17 +335,20 @@ table td.filename .nametext, .modified, .column-last>span:first-child { float:le
 
 /* TODO fix usability bug (accidental file/folder selection) */
 table {
-	td.filename .nametext {
-		width: 0;
-		flex-grow: 1;
-		display: flex;
-		padding: 0;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		height: 100%;
-		z-index: 10;
-		padding-right: 20px;
+	td.filename {
+		max-width: 0;
+		.nametext {
+			width: 0;
+			flex-grow: 1;
+			display: flex;
+			padding: 0;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			height: 100%;
+			z-index: 10;
+			padding-right: 20px;
+		}
 	}
 
 	.uploadtext {
