@@ -32,6 +32,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Доступно је ажурирање апликације {app} на верзију %s.",
     "Update notification" : "Обавештење о ажурирању",
     "A new version is available: %s" : "Доступна је нова верзија: %s",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Верзија коју тренутно користите се више не одржава. Постарајте се да ажурирате инсталацију на неку подржану верзију што је пре могуће.",
     "Download now" : "Скини сада",
     "Checked on %s" : "Проверено %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Уз означени канал за ажурирање нема смисла да имате обавештења о новим верзијама.",

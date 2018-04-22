@@ -20,7 +20,7 @@ OC.L10N.register(
     "Good password" : "Хороший пароль",
     "Strong password" : "Надёжный пароль",
     "The Base DN appears to be wrong" : "База поиска DN по всей видимости указана неправильно",
-    "Testing configuration…" : "Проверка конфигурации...",
+    "Testing configuration…" : "Проверка конфигурации…",
     "Configuration incorrect" : "Конфигурация некорректна",
     "Configuration incomplete" : "Конфигурация не завершена",
     "Configuration OK" : "Конфигурация в порядке",

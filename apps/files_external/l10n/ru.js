@@ -17,7 +17,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Действительно удалить это внешнее хранилище?",
     "Delete storage?" : "Удалить хранилище?",
     "Saved" : "Сохранено",
-    "Saving..." : "Сохранение...",
+    "Saving..." : "Сохранение…",
     "Save" : "Сохранить",
     "Empty response from the server" : "Получен пустой ответ сервера",
     "Couldn't access. Please log out and in again to activate this mount point" : "Не удалось получить доступ. Для активации этой точки подключения выйдите и снова войдите в систему",

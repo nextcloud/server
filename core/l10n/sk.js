@@ -266,6 +266,7 @@ OC.L10N.register(
     "More apps" : "Viac aplikácií",
     "Search" : "Hľadať",
     "Reset search" : "Vynuluj vyhľadávanie",
+    "Contacts" : "Kontakty",
     "Confirm your password" : "Potvrďte svoje heslo",
     "Server side authentication failed!" : "Autentifikácia na serveri zlyhala!",
     "Please contact your administrator." : "Kontaktujte prosím vášho administrátora.",
