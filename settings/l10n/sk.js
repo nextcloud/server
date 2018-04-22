@@ -157,6 +157,7 @@ OC.L10N.register(
     "Good password" : "Dobré heslo",
     "Strong password" : "Silné heslo",
     "Groups" : "Skupiny",
+    "Unable to retrieve the group list" : "Nie je možné načítať zoznam skupín",
     "Unable to delete {objName}" : "Nemožno vymazať {objName}",
     "Error creating group: {message}" : "Chyba pri vytváraní skupiny: {message}",
     "A valid group name must be provided" : "Musíte zadať platný názov skupiny",

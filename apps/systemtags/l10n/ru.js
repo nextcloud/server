@@ -4,7 +4,7 @@ OC.L10N.register(
     "Tags" : "Метки",
     "Update" : "Обновить",
     "Create" : "Создать",
-    "Select tag…" : "Выберите метку...",
+    "Select tag…" : "Выберите метку…",
     "Tagged files" : "Помеченные файлы",
     "Select tags to filter by" : "Выберите метки для отбора",
     "No tags found" : "Меток не найдено",

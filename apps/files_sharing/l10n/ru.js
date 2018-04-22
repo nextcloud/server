@@ -109,7 +109,7 @@ OC.L10N.register(
     "Download %s" : "Скачать %s",
     "Upload files to %s" : "Загрузка файлов пользователю %s",
     "Select or drop files" : "Выберите или перетащите файлы",
-    "Uploading files…" : "Файлы передаются на сервер...",
+    "Uploading files…" : "Файлы передаются на сервер…",
     "Uploaded files:" : "Отправленные файлы:",
     "%s is publicly shared" : "«%s» опубликован "
 },
