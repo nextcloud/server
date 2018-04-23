@@ -149,9 +149,7 @@ class Installer {
 		}
 
 		//run appinfo/install.php
-		if((!isset($data['noinstall']) or $data['noinstall']==false)) {
-			self::includeAppScript($basedir . '/appinfo/install.php');
-		}
+		self::includeAppScript($basedir . '/appinfo/install.php');
 
 		$appData = OC_App::getAppInfo($appId);
 		OC_App::executeRepairSteps($appId, $appData['repair-steps']['install']);
