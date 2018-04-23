@@ -133,6 +133,7 @@ return array(
     'OCA\\DAV\\Migration\\Version1004Date20170919104507' => $baseDir . '/../lib/Migration/Version1004Date20170919104507.php',
     'OCA\\DAV\\Migration\\Version1004Date20170924124212' => $baseDir . '/../lib/Migration/Version1004Date20170924124212.php',
     'OCA\\DAV\\Migration\\Version1004Date20170926103422' => $baseDir . '/../lib/Migration/Version1004Date20170926103422.php',
+    'OCA\\DAV\\Repair\\RemoveInvalidShares' => $baseDir . '/../lib/Repair/RemoveInvalidShares.php',
     'OCA\\DAV\\RootCollection' => $baseDir . '/../lib/RootCollection.php',
     'OCA\\DAV\\Server' => $baseDir . '/../lib/Server.php',
     'OCA\\DAV\\Settings\\CalDAVSettings' => $baseDir . '/../lib/Settings/CalDAVSettings.php',

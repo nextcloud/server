@@ -4,8 +4,8 @@
 	<name>WebDAV</name>
 	<description>WebDAV endpoint</description>
 	<licence>AGPL</licence>
+	<version>1.4.7</version>
 	<author>owncloud.org</author>
-	<version>1.4.6</version>
 	<default_enable/>
 	<types>
 		<filesystem/>
@@ -22,6 +22,7 @@
 			<step>OCA\DAV\Migration\FixBirthdayCalendarComponent</step>
 			<step>OCA\DAV\Migration\CalDAVRemoveEmptyValue</step>
 			<step>OCA\DAV\Migration\BuildCalendarSearchIndex</step>
+			<step>OCA\DAV\Repair\RemoveInvalidShares</step>
 		</post-migration>
 	</repair-steps>
 	<commands>
