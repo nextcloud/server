@@ -770,7 +770,7 @@ class DAV extends Common {
 			if ($response === false) {
 				if ($path === '') {
 					// if root is gone it means the storage is not available
-					throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
+					throw new StorageNotAvailableException('root is gone');
 				}
 				return false;
 			}

@@ -199,7 +199,7 @@ class SwiftFactory {
 					'name' => $this->params['container']
 				]);
 			} else {
-				throw new StorageNotAvailableException('Invalid response while trying to get container info', StorageNotAvailableException::STATUS_ERROR, $e);
+				throw new StorageNotAvailableException('Invalid response while trying to get container info', StorageNotAvailableException::STATUS_ERROR, $ex);
 			}
 		} catch (ConnectException $e) {
 			/** @var RequestInterface $request */
