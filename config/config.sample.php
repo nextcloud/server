@@ -632,12 +632,6 @@ $CONFIG = array(
 'has_internet_connection' => true,
 
 /**
- * Allows Nextcloud to verify a working WebDAV connection. This is done by
- * attempting to make a WebDAV request from PHP.
- */
-'check_for_working_webdav' => true,
-
-/**
  * Allows Nextcloud to verify a working .well-known URL redirects. This is done
  * by attempting to make a request from JS to
  * https://your-domain.com/.well-known/caldav/
