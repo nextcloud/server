@@ -30,7 +30,9 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use OCP\Share\IManager as ShareManager;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
@@ -73,7 +75,12 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->principal = $this->getMockBuilder(Principal::class)
-			->disableOriginalConstructor()
+			->setConstructorArgs([
+				$this->userManager,
+				$this->groupManager,
+				$this->createMock(ShareManager::class),
+				$this->createMock(IUserSession::class),
+			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalByPath')
