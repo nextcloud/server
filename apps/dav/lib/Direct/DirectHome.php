@@ -24,10 +24,12 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Direct;
 
+use OC\Security\Bruteforce\Throttler;
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IRootFolder;
+use OCP\IRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -44,12 +46,22 @@ class DirectHome implements ICollection {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var Throttler */
+	private $throttler;
+
+	/** @var IRequest */
+	private $request;
+
 	public function __construct(IRootFolder $rootFolder,
 								DirectMapper $mapper,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								Throttler $throttler,
+								IRequest $request) {
 		$this->rootFolder = $rootFolder;
 		$this->mapper = $mapper;
 		$this->timeFactory = $timeFactory;
+		$this->throttler = $throttler;
+		$this->request = $request;
 	}
 
 	public function createFile($name, $data = null) {
@@ -71,7 +83,9 @@ class DirectHome implements ICollection {
 
 			return new DirectFile($direct, $this->rootFolder);
 		} catch (DoesNotExistException $e) {
-			//TODO: throttle the ip to avoid brute forcing
+			// Since the token space is so huge only throttle on non exsisting token
+			$this->throttler->registerAttempt('directlink', $this->request->getRemoteAddress());
+			$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'directlink');
 
 			throw new NotFound();
 		}

@@ -24,9 +24,12 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Direct;
 
+use OC\Security\Bruteforce\Throttler;
 use OCA\DAV\Db\DirectMapper;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IRequest;
 
 class ServerFactory {
 	/** @var IConfig */
@@ -39,8 +42,11 @@ class ServerFactory {
 	public function createServer(string $baseURI,
 								 string $requestURI,
 								 IRootFolder $rootFolder,
-								 DirectMapper $mapper) {
-		$home = new DirectHome($rootFolder, $mapper);
+								 DirectMapper $mapper,
+								 ITimeFactory $timeFactory,
+								 Throttler $throttler,
+								 IRequest $request): Server {
+		$home = new DirectHome($rootFolder, $mapper, $timeFactory, $throttler, $request);
 		$server = new Server($home);
 
 		$server->httpRequest->setUrl($requestURI);
