@@ -50,7 +50,6 @@ use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\Mapping\AbstractMapping;
-
 use OC\ServerNotAvailableException;
 use OCP\IConfig;
 use OCP\IUserManager;
