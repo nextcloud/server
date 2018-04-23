@@ -325,6 +325,13 @@ class Principal implements BackendInterface {
 				return $this->principalPrefix . '/' . $user->getUID();
 			}
 		}
+		if (substr($uri, 0, 10) === 'principal:') {
+			$principal = substr($uri, 10);
+			$principal = $this->getPrincipalByPath($principal);
+			if ($principal !== null) {
+				return $principal['uri'];
+			}
+		}
 
 		return null;
 	}
