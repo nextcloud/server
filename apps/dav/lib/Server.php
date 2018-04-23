@@ -80,7 +80,6 @@ class Server {
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->getLogger();
 		$dispatcher = \OC::$server->getEventDispatcher();
-		$sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
@@ -139,24 +138,28 @@ class Server {
 		$this->server->addPlugin($acl);
 
 		// calendar plugins
-		$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
-		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-		$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
-		if ($sendInvitations) {
-			$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+		if ($this->requestIsForSubtree('calendars')) {
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
+			$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
+			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
+				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+			}
+			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
+			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
+				\OC::$server->getConfig(),
+				\OC::$server->getURLGenerator()
+			));
 		}
-		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
-		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
-		$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
-		$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
-			\OC::$server->getConfig(),
-			\OC::$server->getURLGenerator()
-		));
 
 		// addressbook plugins
-		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
-		$this->server->addPlugin(new VCFExportPlugin());
-		$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
+		if ($this->requestIsForSubtree('addressbooks')) {
+			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
+			$this->server->addPlugin(new VCFExportPlugin());
+			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
+		}
 
 		// system tags plugins
 		$this->server->addPlugin(new SystemTagPlugin(
@@ -281,5 +284,14 @@ class Server {
 
 	public function exec() {
 		$this->server->exec();
+	}
+
+	/**
+	 * @param string $subTree
+	 * @return bool
+	 */
+	private function requestIsForSubtree($subTree) {
+		$subTree = trim($subTree, " /");
+		return strpos($this->server->getRequestUri(), "$subTree/") === 0;
 	}
 }
