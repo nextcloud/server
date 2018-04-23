@@ -40,12 +40,23 @@
 
 namespace OC\Group;
 
+use OCP\Group\Backend\ABackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\ICountUsersBackend;
+use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\IDBConnection;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends Backend {
+class Database extends ABackend
+	implements IAddToGroupBackend,
+	           ICountUsersBackend,
+	           ICreateGroupBackend,
+	           IDeleteGroupBackend,
+	           IRemoveFromGroupBackend {
 
 	/** @var string[] */
 	private $groupCache = [];
@@ -79,7 +90,7 @@ class Database extends Backend {
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public function createGroup( $gid ) {
+	public function createGroup(string $gid): bool {
 		$this->fixDI();
 
 		// Add group
@@ -100,7 +111,7 @@ class Database extends Backend {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public function deleteGroup( $gid ) {
+	public function deleteGroup(string $gid): bool {
 		$this->fixDI();
 
 		// Delete the group
@@ -160,7 +171,7 @@ class Database extends Backend {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup( $uid, $gid ) {
+	public function addToGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
 		// No duplicate entries!
@@ -184,7 +195,7 @@ class Database extends Backend {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup( $uid, $gid ) {
+	public function removeFromGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -333,9 +344,9 @@ class Database extends Backend {
 	 * get the number of all users matching the search string in a group
 	 * @param string $gid
 	 * @param string $search
-	 * @return int|false
+	 * @return int
 	 */
-	public function countUsersInGroup($gid, $search = '') {
+	public function countUsersInGroup(string $gid, string $search = ''): int {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -355,7 +366,10 @@ class Database extends Backend {
 
 		if ($count !== false) {
 			$count = (int)$count;
+		} else {
+			$count = 0;
 		}
+
 		return $count;
 	}
 
