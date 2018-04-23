@@ -46,47 +46,47 @@ class DirectFile implements IFile {
 		$this->rootFolder = $rootFolder;
 	}
 
-	function put($data) {
+	public function put($data) {
 		throw new Forbidden();
 	}
 
-	function get() {
+	public function get() {
 		$this->getFile();
 
 		return $this->file->fopen('rb');
 	}
 
-	function getContentType() {
+	public function getContentType() {
 		$this->getFile();
 
 		return $this->file->getMimeType();
 	}
 
-	function getETag() {
+	public function getETag() {
 		$this->getFile();
 
 		return $this->file->getEtag();
 	}
 
-	function getSize() {
+	public function getSize() {
 		$this->getFile();
 
 		return $this->file->getSize();
 	}
 
-	function delete() {
+	public function delete() {
 		throw new Forbidden();
 	}
 
-	function getName() {
+	public function getName() {
 		return $this->direct->getToken();
 	}
 
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden();
 	}
 
-	function getLastModified() {
+	public function getLastModified() {
 		$this->getFile();
 
 		return $this->file->getMTime();
@@ -96,8 +96,6 @@ class DirectFile implements IFile {
 		if ($this->file === null) {
 			$userFolder = $this->rootFolder->getUserFolder($this->direct->getUserId());
 			$files = $userFolder->getById($this->direct->getFileId());
-
-			//TODO check expiration
 
 			if ($files === []) {
 				throw new NotFound();

@@ -26,6 +26,7 @@ namespace OCA\DAV\Direct;
 
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IRootFolder;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -40,22 +41,33 @@ class DirectHome implements ICollection {
 	/** @var DirectMapper */
 	private $mapper;
 
-	public function __construct(IRootFolder $rootFolder, DirectMapper $mapper) {
+	/** @var ITimeFactory */
+	private $timeFactory;
+
+	public function __construct(IRootFolder $rootFolder,
+								DirectMapper $mapper,
+								ITimeFactory $timeFactory) {
 		$this->rootFolder = $rootFolder;
 		$this->mapper = $mapper;
+		$this->timeFactory = $timeFactory;
 	}
 
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
 
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		throw new Forbidden();
 	}
 
-	public function getChild($name) {
+	public function getChild($name): DirectFile {
 		try {
 			$direct = $this->mapper->getByToken($name);
+
+			// Expired
+			if ($direct->getExpiration() >= $this->timeFactory->getTime()) {
+				throw new NotFound();
+			}
 
 			return new DirectFile($direct, $this->rootFolder);
 		} catch (DoesNotExistException $e) {
@@ -65,27 +77,27 @@ class DirectHome implements ICollection {
 		}
 	}
 
-	function getChildren() {
+	public function getChildren() {
 		throw new MethodNotAllowed('Listing members of this collection is disabled');
 	}
 
-	function childExists($name) {
+	public function childExists($name): bool {
 		return false;
 	}
 
-	function delete() {
+	public function delete() {
 		throw new Forbidden();
 	}
 
-	function getName() {
+	public function getName(): string {
 		return 'direct';
 	}
 
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden();
 	}
 
-	function getLastModified() {
+	public function getLastModified(): int {
 		return 0;
 	}
 
