@@ -67,7 +67,8 @@ class Application extends App {
 				$notification,
 				$addressHandler,
 				$server->getUserManager(),
-				$server->getCloudIdManager()
+				$server->getCloudIdManager(),
+				$server->getLogger()
 			);
 		});
 	}

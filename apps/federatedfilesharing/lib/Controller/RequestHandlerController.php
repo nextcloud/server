@@ -43,6 +43,7 @@ use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Share;
@@ -74,6 +75,9 @@ class RequestHandlerController extends OCSController {
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * Server2Server constructor.
 	 *
@@ -95,7 +99,8 @@ class RequestHandlerController extends OCSController {
 								Notifications $notifications,
 								AddressHandler $addressHandler,
 								IUserManager $userManager,
-								ICloudIdManager $cloudIdManager
+								ICloudIdManager $cloudIdManager,
+								ILogger $logger
 	) {
 		parent::__construct($appName, $request);
 
@@ -106,6 +111,7 @@ class RequestHandlerController extends OCSController {
 		$this->addressHandler = $addressHandler;
 		$this->userManager = $userManager;
 		$this->cloudIdManager = $cloudIdManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -140,14 +146,13 @@ class RequestHandlerController extends OCSController {
 			}
 
 			// FIXME this should be a method in the user management instead
-			$logger = \OC::$server->getLogger();
-			$logger->debug('shareWith before, ' . $shareWith, ['app' => 'files_sharing']);
+			$this->logger->debug('shareWith before, ' . $shareWith, ['app' => 'files_sharing']);
 			\OCP\Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				array('uid' => &$shareWith)
 			);
-			$logger->debug('shareWith after, ' . $shareWith, ['app' => 'files_sharing']);
+			$this->logger->debug('shareWith after, ' . $shareWith, ['app' => 'files_sharing']);
 
 			if (!\OC::$server->getUserManager()->userExists($shareWith)) {
 				throw new OCSException('User does not exists', 400);
@@ -210,7 +215,7 @@ class RequestHandlerController extends OCSController {
 
 				return new Http\DataResponse();
 			} catch (\Exception $e) {
-				\OC::$server->getLogger()->logException($e, [
+				$this->logger->logException($e, [
 					'message' => 'Server can not add remote share.',
 					'level' => \OCP\Util::ERROR,
 					'app' => 'files_sharing'
