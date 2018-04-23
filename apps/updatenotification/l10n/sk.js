@@ -22,6 +22,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Pre {app} je dostupná aktualizácia na verziu %s.",
     "Update notification" : "Aktualizovať hlásenie",
     "A new version is available: %s" : "Je dostupná nová verzia: %s",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Verzia, ktorú používate už nie je podporovaná. Čím skôr aktualizujte na podporovanú verziu prosím.",
     "Download now" : "Stiahnuť teraz",
     "Checked on %s" : "Skontrolované %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Pre vybraný aktualizačný kanál budú priradené upozornenia pre server zastarané.",
