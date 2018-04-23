@@ -407,11 +407,11 @@ class Manager implements ICommentsManager {
 			$query->setMaxResults($limit);
 		}
 
-		$lastKnownComment = $this->getLastKnownComment(
+		$lastKnownComment = $lastKnownCommentId > 0 ? $this->getLastKnownComment(
 			$objectType,
 			$objectId,
 			$lastKnownCommentId
-		);
+		) : null;
 		if ($lastKnownComment instanceof IComment) {
 			$lastKnownCommentDateTime = $lastKnownComment->getCreationDateTime();
 			if ($sortDirection === 'desc') {
