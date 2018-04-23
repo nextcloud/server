@@ -73,7 +73,7 @@ class Server {
 	private $baseUri;
 
 	/** @var Connector\Sabre\Server  */
-	private $server;
+	public $server;
 
 	public function __construct(IRequest $request, $baseUri) {
 		$this->request = $request;
@@ -138,7 +138,7 @@ class Server {
 		$this->server->addPlugin($acl);
 
 		// calendar plugins
-		if ($this->requestIsForSubtree('calendars')) {
+		if ($this->requestIsForSubtree(['calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
@@ -155,7 +155,8 @@ class Server {
 		}
 
 		// addressbook plugins
-		if ($this->requestIsForSubtree('addressbooks')) {
+		if ($this->requestIsForSubtree(['addressbooks', 'principals'])) {
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
 			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
@@ -286,12 +287,13 @@ class Server {
 		$this->server->exec();
 	}
 
-	/**
-	 * @param string $subTree
-	 * @return bool
-	 */
-	private function requestIsForSubtree($subTree) {
-		$subTree = trim($subTree, " /");
-		return strpos($this->server->getRequestUri(), "$subTree/") === 0;
+	private function requestIsForSubtree(array $subTrees): bool {
+		foreach ($subTrees as $subTree) {
+			$subTree = trim($subTree, ' /');
+			if (strpos($this->server->getRequestUri(), $subTree.'/') === 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
