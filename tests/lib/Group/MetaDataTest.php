@@ -27,6 +27,8 @@ use OCP\IUserSession;
 class MetaDataTest extends \Test\TestCase {
 	/** @var \OC\Group\Manager */
 	private $groupManager;
+	/** @var \OC\User\Manager */
+	private $userManager;
 	/** @var \OCP\IUserSession */
 	private $userSession;
 	/** @var \OC\Group\MetaData */
@@ -39,11 +41,15 @@ class MetaDataTest extends \Test\TestCase {
 		$this->groupManager = $this->getMockBuilder('\OC\Group\Manager')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->userManager = $this->getMockBuilder('\OC\user\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupMetadata = new \OC\Group\MetaData(
 			'foo',
 			$this->isAdmin,
 			$this->groupManager,
+			$this->userManager,
 			$this->userSession
 		);
 	}
@@ -53,12 +59,12 @@ class MetaDataTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$group->expects($this->exactly(6))
+		$group->expects($this->exactly(9))
 			->method('getGID')
 			->will($this->onConsecutiveCalls(
-				'admin', 'admin',
-				'g2', 'g2',
-				'g3', 'g3'));
+				'admin', 'admin', 'admin',
+				'g2', 'g2', 'g2',
+				'g3', 'g3', 'g3'));
 
 		$group->expects($this->exactly(3))
 			->method('getDisplayName')
@@ -71,6 +77,10 @@ class MetaDataTest extends \Test\TestCase {
 			->method('count')
 			->with('')
 			->will($this->onConsecutiveCalls(2, 3, 5));
+
+		$this->userManager->expects($this->exactly(3))
+			->method('countDisabledUsersOfGroups')
+			->will($this->onConsecutiveCalls(1, 2, 3));
 
 		return $group;
 	}

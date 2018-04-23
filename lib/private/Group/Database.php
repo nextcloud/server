@@ -359,4 +359,31 @@ class Database extends Backend {
 		return $count;
 	}
 
+	/**
+	 * get the number of disabled users in a group
+	 *
+	 * @param string $search
+	 * @return int|bool
+	 */
+	public function countDisabledInGroup($gid) {
+		$this->fixDI();
+		
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select($queryBuilder->createFunction('COUNT(*)'))
+			->from('preferences')
+			->where($query->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
+			->andWhere($query->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
+			->andWhere($query->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
+
+		$result = $query->execute();
+		$result = (int)$result->fetchColumn();
+		$query->closeCursor();
+
+
+		if ($count !== false) {
+			$count = (int)$count;
+		}
+		return $count;
+	}
+
 }

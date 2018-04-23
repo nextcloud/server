@@ -101,6 +101,13 @@ interface IGroup {
 	public function count($search = '');
 
 	/**
+	 * returns the number of disabled users
+	 *
+	 * @since 14.0.0
+	 */
+	public function countDisabled();
+
+	/**
 	 * search for users in the group by displayname
 	 *
 	 * @param string $search

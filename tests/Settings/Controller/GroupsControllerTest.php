@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 /**
@@ -28,6 +29,9 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $groupManager;
+
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
 
 	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	private $userSession;
@@ -39,6 +43,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')
@@ -49,6 +54,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			'settings',
 			$this->createMock(IRequest::class),
 			$this->groupManager,
+			$this->userManager,
 			$this->userSession,
 			true,
 			$l
@@ -112,8 +118,15 @@ class GroupsControllerTest extends \Test\TestCase {
 		$groups[] = $thirdGroup;
 		$groups[] = $fourthGroup;
 
+		// Get disabled count
+		$this->userManager->expects($this->exactly(4))
+			->method('countDisabledUsersOfGroups')
+			->will($this->returnValue(0));
+		
 		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
+		
+		// Get connected user
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -132,7 +145,8 @@ class GroupsControllerTest extends \Test\TestCase {
 					0 => array(
 						'id' => 'admin',
 						'name' => 'Admin',
-						'usercount' => 0,//User count disabled 18,
+						'usercount' => 0, // User count disabled, should be 18,
+						'disabled' => 0
 					)
 				),
 				'groups' =>
@@ -140,17 +154,20 @@ class GroupsControllerTest extends \Test\TestCase {
 						0 => array(
 							'id' => 'firstGroup',
 							'name' => 'First group',
-							'usercount' => 0,//User count disabled 12,
+							'usercount' => 0, // User count disabled, should be 12,
+							'disabled' => 0
 						),
 						1 => array(
 							'id' => 'secondGroup',
 							'name' => 'Second group',
-							'usercount' => 0,//User count disabled 25,
+							'usercount' => 0, // User count disabled, should be 25,
+							'disabled' => 0
 						),
 						2 => array(
 							'id' => 'thirdGroup',
 							'name' => 'Third group',
-							'usercount' => 0,//User count disabled 14,
+							'usercount' => 0, // User count disabled, should be 14,
+							'disabled' => 0
 						),
 					)
 				)
@@ -216,8 +233,15 @@ class GroupsControllerTest extends \Test\TestCase {
 		$groups[] = $thirdGroup;
 		$groups[] = $fourthGroup;
 
+		// Get disabled count
+		$this->userManager->expects($this->exactly(4))
+			->method('countDisabledUsersOfGroups')
+			->will($this->returnValue(0));
+		
 		$user = $this->getMockBuilder(User::class)
 			->disableOriginalConstructor()->getMock();
+		
+		// Get connected user
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -238,6 +262,7 @@ class GroupsControllerTest extends \Test\TestCase {
 						'id' => 'admin',
 						'name' => 'Admin',
 						'usercount' => 18,
+						'disabled' => 0
 					)
 				),
 				'groups' =>
@@ -246,16 +271,19 @@ class GroupsControllerTest extends \Test\TestCase {
 							'id' => 'secondGroup',
 							'name' => 'Second group',
 							'usercount' => 25,
+							'disabled' => 0
 						),
 						1 => array(
 							'id' => 'thirdGroup',
 							'name' => 'Third group',
 							'usercount' => 14,
+							'disabled' => 0
 						),
 						2 => array(
 							'id' => 'firstGroup',
 							'name' => 'First group',
 							'usercount' => 12,
+							'disabled' => 0
 						),
 					)
 				)

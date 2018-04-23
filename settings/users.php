@@ -75,6 +75,7 @@ $groupsInfo = new \OC\Group\MetaData(
 	$uid,
 	$isAdmin,
 	$groupManager,
+	$userManager,
 	\OC::$server->getUserSession()
 );
 
@@ -84,7 +85,7 @@ list($adminGroup, $groups) = $groupsInfo->get();
 $recoveryAdminEnabled = $appManager->isEnabledForUser('encryption') &&
 					    $config->getAppValue( 'encryption', 'recoveryAdminEnabled', '0');
 
-if($isAdmin) {
+if ($isAdmin) {
 	$subAdmins = \OC::$server->getGroupManager()->getSubAdmin()->getAllSubAdmins();
 	// New class returns IUser[] so convert back
 	$result = [];
@@ -95,7 +96,7 @@ if($isAdmin) {
 		];
 	}
 	$subAdmins = $result;
-}else{
+} else {
 	/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
 	$gids = array();
 	foreach($groups as $group) {
@@ -106,7 +107,12 @@ if($isAdmin) {
 	$subAdmins = false;
 }
 
-$disabledUsers = $isLDAPUsed ? 0 : $userManager->countDisabledUsers();
+// remove disabled from total count
+foreach($groups as $key => $group) {
+	$groups[$key]['usercount'] -= $group['disabled'];
+}
+
+$disabledUsers = $isLDAPUsed ? 0 : $isAdmin ? $userManager->countDisabledUsers() : $userManager->countDisabledUsersOfGroups();
 $disabledUsersGroup = [
 	'id' => '_disabledUsers',
 	'name' => '_disabledUsers',

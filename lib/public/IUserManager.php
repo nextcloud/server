@@ -162,12 +162,12 @@ interface IUserManager {
 	public function callForAllUsers(\Closure $callback, $search = '');
 
 	/**
-	 * returns how many users have logged in once
+	 * returns how many users are disabled
 	 *
 	 * @return int
-	 * @since 11.0.0
+	 * @since 12.0.0
 	 */
-	public function countDisabledUsers();
+	public function countDisabledUsers():int;
 
 	/**
 	 * returns how many users have logged in once
