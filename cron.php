@@ -41,11 +41,11 @@ try {
 	require_once __DIR__ . '/lib/base.php';
 
 	if (\OCP\Util::needUpgrade()) {
-		\OCP\Util::writeLog('cron', 'Update required, skipping cron', \OCP\Util::DEBUG);
+		\OC::$server->getLogger()->debug('Update required, skipping cron', ['app' => 'cron']);
 		exit;
 	}
 	if (\OC::$server->getSystemConfig()->getValue('maintenance', false)) {
-		\OCP\Util::writeLog('cron', 'We are in maintenance mode, skipping cron', \OCP\Util::DEBUG);
+		\OC::$server->getLogger()->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
 		exit;
 	}
 
