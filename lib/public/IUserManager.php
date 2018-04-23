@@ -162,23 +162,6 @@ interface IUserManager {
 	public function callForAllUsers(\Closure $callback, $search = '');
 
 	/**
-	 * returns how many users are disabled
-	 *
-	 * @return int
-	 * @since 12.0.0
-	 */
-	public function countDisabledUsers():int;
-
-	/**
-	 * returns how many users are disabled in the requested groups
-	 *
-	 * @param array $groups groupids to search
-	 * @return int
-	 * @since 14.0.0
-	 */
-	public function countDisabledUsersOfGroups(array $groups):int;
-
-	/**
 	 * returns how many users have logged in once
 	 *
 	 * @return int

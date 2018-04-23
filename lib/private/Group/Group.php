@@ -237,6 +237,26 @@ class Group implements IGroup {
 	}
 
 	/**
+	 * returns the number of disabled users
+	 *
+	 * @return int|bool
+	 */
+	public function countDisabled() {
+		$users = false;
+		foreach ($this->backends as $backend) {
+			if($backend->implementsActions(\OC\Group\Backend::COUNT_DISABLED)) {
+				if($users === false) {
+					//we could directly add to a bool variable, but this would
+					//be ugly
+					$users = 0;
+				}
+				$users += $backend->countUsersInGroup($this->gid);
+			}
+		}
+		return $users;
+	}
+
+	/**
 	 * search for users in the group by displayname
 	 *
 	 * @param string $search

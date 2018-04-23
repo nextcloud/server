@@ -39,6 +39,7 @@ abstract class Backend implements \OCP\GroupInterface {
 		self::ADD_TO_GROUP => 'addToGroup',
 		self::REMOVE_FROM_GOUP => 'removeFromGroup',
 		self::COUNT_USERS => 'countUsersInGroup',
+		self::COUNT_DISABLED => 'countDisabledInGroup',
 		self::GROUP_DETAILS => 'getGroupDetails',
 		self::IS_ADMIN => 'isAdmin',
 	];

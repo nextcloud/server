@@ -420,28 +420,6 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * returns how many users are disabled
-	 *
-	 * @return int
-	 * @since 12.0.0
-	 */
-	public function countDisabledUsers():int {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
-			->from('preferences')
-			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
-			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
-			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
-
-		$query = $queryBuilder->execute();
-
-		$result = (int)$query->fetchColumn();
-		$query->closeCursor();
-
-		return $result;
-	}
-
-	/**
 	 * returns how many users are disabled in the requested groups
 	 *
 	 * @param array $groups groupids to search
@@ -456,7 +434,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
-			->andWhere($queryBuilder->expr()->in('gid', $queryBuilder->createNamedParameter(implode(',', $groups))));
+			->andWhere($queryBuilder->expr()->in('gid', $queryBuilder->createNamedParameter($groups, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		$query = $queryBuilder->execute();
 

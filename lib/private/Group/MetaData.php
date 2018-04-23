@@ -162,14 +162,14 @@ class MetaData {
 	 * creates an array containing the group meta data
 	 * @param \OCP\IGroup $group
 	 * @param string $userSearch
-	 * @return array with the keys 'id', 'name' and 'usercount'
+	 * @return array with the keys 'id', 'name', 'usercount' and 'disabled'
 	 */
 	private function generateGroupMetaData(\OCP\IGroup $group, $userSearch) {
 		return array(
 				'id' => $group->getGID(),
 				'name' => $group->getDisplayName(),
 				'usercount' => $this->sorting === self::SORT_USERCOUNT ? $group->count($userSearch) : 0,
-				'disabled' => $this->userManager->countDisabledUsersOfGroups([$group->getGID()])
+				'disabled' => $group->countDisabled()
 			);
 	}
 
