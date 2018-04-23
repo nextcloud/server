@@ -500,9 +500,11 @@ class Manager implements ICommentsManager {
 	 * @param string $objectType Limit the search by object type
 	 * @param string $objectId Limit the search by object id
 	 * @param string $verb Limit the verb of the comment
+	 * @param int $offset
+	 * @param int $limit
 	 * @return IComment[]
 	 */
-	public function search(string $search, string $objectType, string $objectId, string $verb): array {
+	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {
 		$query = $this->dbConn->getQueryBuilder();
 
 		$query->select('*')
@@ -511,7 +513,8 @@ class Manager implements ICommentsManager {
 				'%' . $this->dbConn->escapeLikeParameter($search). '%'
 			)))
 			->orderBy('creation_timestamp', 'DESC')
-			->addOrderBy('id', 'DESC');
+			->addOrderBy('id', 'DESC')
+			->setMaxResults($limit);
 
 		if ($objectType !== '') {
 			$query->andWhere($query->expr()->eq('object_type', $query->createNamedParameter($objectType)));
@@ -521,6 +524,9 @@ class Manager implements ICommentsManager {
 		}
 		if ($verb !== '') {
 			$query->andWhere($query->expr()->eq('verb', $query->createNamedParameter($verb)));
+		}
+		if ($offset !== 0) {
+			$query->setFirstResult($offset);
 		}
 
 		$comments = [];

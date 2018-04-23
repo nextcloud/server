@@ -32,7 +32,7 @@ class FakeManager implements ICommentsManager {
 
 	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null) {}
 
-	public function search(string $search, string $objectType, string $objectId, string $verb): array {
+	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {
 		return [];
 	}
 
