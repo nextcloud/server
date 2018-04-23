@@ -29,7 +29,6 @@ namespace OC\Group;
 
 use OCP\IUserSession;
 use OCP\IGroupManager;
-use OCP\IUserManager;
 
 class MetaData {
 	const SORT_NONE = 0;
@@ -44,8 +43,6 @@ class MetaData {
 	protected $metaData = array();
 	/** @var IGroupManager */
 	protected $groupManager;
-	/** @var IUserManager */
-	protected $userManager;
 	/** @var bool */
 	protected $sorting = false;
 	/** @var IUserSession */
@@ -62,13 +59,11 @@ class MetaData {
 			$user,
 			$isAdmin,
 			IGroupManager $groupManager,
-			IUserManager $userManager,
 			IUserSession $userSession
 			) {
 		$this->user = $user;
 		$this->isAdmin = (bool)$isAdmin;
 		$this->groupManager = $groupManager;
-		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 	}
 
