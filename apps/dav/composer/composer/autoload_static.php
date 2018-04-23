@@ -26,6 +26,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Avatars\\AvatarHome' => __DIR__ . '/..' . '/../lib/Avatars/AvatarHome.php',
         'OCA\\DAV\\Avatars\\AvatarNode' => __DIR__ . '/..' . '/../lib/Avatars/AvatarNode.php',
         'OCA\\DAV\\Avatars\\RootCollection' => __DIR__ . '/..' . '/../lib/Avatars/RootCollection.php',
+        'OCA\\DAV\\BackgroundJob\\CleanupDirectLinksJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupDirectLinksJob.php',
         'OCA\\DAV\\BackgroundJob\\GenerateBirthdayCalendarBackgroundJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/GenerateBirthdayCalendarBackgroundJob.php',
         'OCA\\DAV\\CalDAV\\Activity\\Backend' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Backend.php',
         'OCA\\DAV\\CalDAV\\Activity\\Filter\\Calendar' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Filter/Calendar.php',

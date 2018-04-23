@@ -5,7 +5,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.5.1</version>
+	<version>1.5.2</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -18,6 +18,10 @@
 	<dependencies>
 		<nextcloud min-version="14" max-version="14" />
 	</dependencies>
+
+	<background-jobs>
+		<job>OCA\DAV\BackgroundJob\CleanupDirectLinksJob</job>
+	</background-jobs>
 
 	<repair-steps>
 		<post-migration>

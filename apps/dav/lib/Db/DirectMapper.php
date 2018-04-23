@@ -34,6 +34,11 @@ class DirectMapper extends Mapper {
 		parent::__construct($db, 'directlink', Direct::class);
 	}
 
+	/**
+	 * @param string $token
+	 * @return Direct
+	 * @throws DoesNotExistException
+	 */
 	public function getByToken(string $token): Direct {
 		$qb = $this->db->getQueryBuilder();
 
@@ -48,9 +53,20 @@ class DirectMapper extends Mapper {
 		$cursor->closeCursor();
 
 		if ($data === false) {
-			throw new DoesNotExistException();
+			throw new DoesNotExistException('Direct link with token does not exist');
 		}
 
 		return Direct::fromRow($data);
+	}
+
+	public function deleteExpired(int $expiration) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete('directlink')
+			->where(
+				$qb->expr()->lt('expiration', $qb->createNamedParameter($expiration))
+			);
+
+		$qb->execute();
 	}
 }

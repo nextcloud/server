@@ -11,6 +11,7 @@ return array(
     'OCA\\DAV\\Avatars\\AvatarHome' => $baseDir . '/../lib/Avatars/AvatarHome.php',
     'OCA\\DAV\\Avatars\\AvatarNode' => $baseDir . '/../lib/Avatars/AvatarNode.php',
     'OCA\\DAV\\Avatars\\RootCollection' => $baseDir . '/../lib/Avatars/RootCollection.php',
+    'OCA\\DAV\\BackgroundJob\\CleanupDirectLinksJob' => $baseDir . '/../lib/BackgroundJob/CleanupDirectLinksJob.php',
     'OCA\\DAV\\BackgroundJob\\GenerateBirthdayCalendarBackgroundJob' => $baseDir . '/../lib/BackgroundJob/GenerateBirthdayCalendarBackgroundJob.php',
     'OCA\\DAV\\CalDAV\\Activity\\Backend' => $baseDir . '/../lib/CalDAV/Activity/Backend.php',
     'OCA\\DAV\\CalDAV\\Activity\\Filter\\Calendar' => $baseDir . '/../lib/CalDAV/Activity/Filter/Calendar.php',
