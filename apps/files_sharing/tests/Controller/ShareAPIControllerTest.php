@@ -756,7 +756,7 @@ class ShareAPIControllerTest extends TestCase {
 			}))
 			->will($this->returnArgument(0));
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, 'validUser');
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -863,7 +863,7 @@ class ShareAPIControllerTest extends TestCase {
 			}))
 			->will($this->returnArgument(0));
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_GROUP, 'validGroup');
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -998,7 +998,7 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'true', '', '');
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1032,7 +1032,7 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', 'password', '');
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1079,7 +1079,7 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', '2000-01-01');
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1254,7 +1254,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('getSharedWith')
 			->willReturn([]);
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, '', 'false', '');
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1289,7 +1289,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('getSharedWith')
 			->willReturn([]);
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, 'password', 'true', '2000-01-01');
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1323,7 +1323,7 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, $permissions, $password, $publicUpload, $expireDate);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1440,7 +1440,7 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, 'newpassword', null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1477,7 +1477,7 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, null, null, '2010-12-23');
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1514,7 +1514,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('getSharedWith')
 			->willReturn([]);
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, null, 'true', null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1550,7 +1550,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, 7, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1586,7 +1586,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, 31, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
@@ -1615,7 +1615,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
-		$expected = new DataResponse(null);
+		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, 31, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
