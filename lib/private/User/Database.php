@@ -222,6 +222,7 @@ class Database extends ABackend
 	 * @return string display name
 	 */
 	public function getDisplayName($uid): string {
+		$uid = (string)$uid;
 		$this->loadUser($uid);
 		return empty($this->cache[$uid]['displayname']) ? $uid : $this->cache[$uid]['displayname'];
 	}
@@ -258,7 +259,7 @@ class Database extends ABackend
 		$result = $query->execute();
 		$displayNames = [];
 		while ($row = $result->fetch()) {
-			$displayNames[$row['uid']] = $row['displayname'];
+			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
 		}
 
 		return $displayNames;
@@ -296,7 +297,7 @@ class Database extends ABackend
 				if (!empty($newHash)) {
 					$this->setPassword($uid, $password);
 				}
-				return $row['uid'];
+				return (string)$row['uid'];
 			}
 
 		}
@@ -337,8 +338,8 @@ class Database extends ABackend
 
 			// "uid" is primary key, so there can only be a single result
 			if ($row !== false) {
-				$this->cache[$uid]['uid'] = $row['uid'];
-				$this->cache[$uid]['displayname'] = $row['displayname'];
+				$this->cache[$uid]['uid'] = (string)$row['uid'];
+				$this->cache[$uid]['displayname'] = (string)$row['displayname'];
 			} else {
 				return false;
 			}
@@ -357,7 +358,9 @@ class Database extends ABackend
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		$users = $this->getDisplayNames($search, $limit, $offset);
-		$userIds = array_keys($users);
+		$userIds = array_map(function ($uid) {
+			return (string)$uid;
+		}, array_keys($users));
 		sort($userIds, SORT_STRING | SORT_FLAG_CASE);
 		return $userIds;
 	}
