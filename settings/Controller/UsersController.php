@@ -42,21 +42,15 @@ namespace OC\Settings\Controller;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
-use OC\HintException;
-use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Security\IdentityProof\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\BackgroundJob\IJobList;
-use OCP\Files\Config\IUserMountCache;
-use OCP\Encryption\IEncryptionModule;
-use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -64,57 +58,37 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
-use OCP\IAvatarManager;
-use OCP\Security\ISecureRandom;
-use OCP\Util;
 use OC\Settings\BackgroundJobs\VerifyUserData;
 
 /**
  * @package OC\Settings\Controller
  */
 class UsersController extends Controller {
-	/** @var IL10N */
-	private $l10n;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var bool */
-	private $isAdmin;
 	/** @var IUserManager */
 	private $userManager;
 	/** @var IGroupManager */
 	private $groupManager;
+	/** @var IUserSession */
+	private $userSession;
 	/** @var IConfig */
 	private $config;
-	/** @var ILogger */
-	private $log;
+	/** @var bool */
+	private $isAdmin;
+	/** @var IL10N */
+	private $l10n;
 	/** @var IMailer */
 	private $mailer;
 	/** @var IFactory */
 	private $l10nFactory;
-	/** @var bool contains the state of the encryption app */
-	private $isEncryptionAppEnabled;
-	/** @var bool contains the state of the admin recovery setting */
-	private $isRestoreEnabled = false;
 	/** @var IAppManager */
 	private $appManager;
-	/** @var IAvatarManager */
-	private $avatarManager;
 	/** @var AccountManager */
 	private $accountManager;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var NewUserMailHelper */
-	private $newUserMailHelper;
 	/** @var Manager */
 	private $keyManager;
 	/** @var IJobList */
 	private $jobList;
 
-	/** @var IUserMountCache */
-	private $userMountCache;
-
-	/** @var IManager */
-	private $encryptionManager;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -124,19 +98,12 @@ class UsersController extends Controller {
 								IConfig $config,
 								bool $isAdmin,
 								IL10N $l10n,
-								ILogger $log,
 								IMailer $mailer,
 								IFactory $l10nFactory,
-								IURLGenerator $urlGenerator,
 								IAppManager $appManager,
-								IAvatarManager $avatarManager,
 								AccountManager $accountManager,
-								ISecureRandom $secureRandom,
-								NewUserMailHelper $newUserMailHelper,
 								Manager $keyManager,
-								IJobList $jobList,
-								IUserMountCache $userMountCache,
-								IManager $encryptionManager) {
+								IJobList $jobList) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -144,18 +111,12 @@ class UsersController extends Controller {
 		$this->config = $config;
 		$this->isAdmin = $isAdmin;
 		$this->l10n = $l10n;
-		$this->log = $log;
 		$this->mailer = $mailer;
 		$this->l10nFactory = $l10nFactory;
 		$this->appManager = $appManager;
-		$this->avatarManager = $avatarManager;
 		$this->accountManager = $accountManager;
-		$this->secureRandom = $secureRandom;
-		$this->newUserMailHelper = $newUserMailHelper;
 		$this->keyManager = $keyManager;
 		$this->jobList = $jobList;
-		$this->userMountCache = $userMountCache;
-		$this->encryptionManager = $encryptionManager;
 	}
 
 

@@ -132,9 +132,9 @@ export default {
 				text: t('settings','Delete user'),
 				action: this.deleteUser
 			},{
-				'icon': this.user.enabled ? 'icon-close' : 'icon-add',
-				'text': this.user.enabled ? t('settings','Disable user') : t('settings','Enable user'),
-				'action': this.enableDisableUser
+				icon: this.user.enabled ? 'icon-close' : 'icon-add',
+				text: this.user.enabled ? t('settings','Disable user') : t('settings','Enable user'),
+				action: this.enableDisableUser
 			}]
 		},
 
