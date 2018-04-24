@@ -546,7 +546,7 @@ class ShareAPIController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	private function getSharesInDir(Folder $folder): DataResponse {
+	private function getSharesInDir(Node $folder): DataResponse {
 		if (!($folder instanceof \OCP\Files\Folder)) {
 			throw new OCSBadRequestException($this->l->t('Not a directory'));
 		}
@@ -616,6 +616,8 @@ class ShareAPIController extends OCSController {
 				throw new OCSNotFoundException($this->l->t('Could not lock path'));
 			}
 		}
+
+		$include_tags = $include_tags === 'true';
 
 		if ($shared_with_me === 'true') {
 			$result = $this->getSharedWithMe($path, $include_tags);
