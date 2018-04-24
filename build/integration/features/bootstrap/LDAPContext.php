@@ -167,4 +167,19 @@ class LDAPContext implements Context {
 		}
 		PHPUnit_Framework_Assert::assertTrue(false, 'expected Exception not received');
 	}
+
+	/**
+	 * @Given /^the "([^"]*)" result should contain "([^"]*)" of$/
+	 */
+	public function theResultShouldContainOf($type, $expectedCount, TableNode $expectations) {
+		$listReturnedElements = simplexml_load_string($this->response->getBody())->data[0]->$type[0]->element;
+		$extractedIDsArray = json_decode(json_encode($listReturnedElements), 1);
+		$uidsFound = 0;
+		foreach($expectations->getRows() as $expectation) {
+			if(in_array($expectation[0], $extractedIDsArray)) {
+				$uidsFound++;
+			}
+		}
+		PHPUnit_Framework_Assert::assertSame((int)$expectedCount, $uidsFound);
+	}
 }

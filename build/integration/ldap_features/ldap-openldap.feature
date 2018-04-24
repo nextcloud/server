@@ -80,26 +80,25 @@ Feature: LDAP
       | PurpleGroup  | 1 |
       | SquareGroup  | 0 |
 
-    Scenario: Test backup server
-      Given modify LDAP configuration
-        | ldapBackupHost | openldap |
-        | ldapBackupPort | 389      |
-        | ldapHost       | foo.bar  |
-        | ldapPort       | 2456     |
-      And Logging in using web as "alice"
-      Then the HTTP status code should be "200"
+  Scenario: Test backup server
+    Given modify LDAP configuration
+      | ldapBackupHost | openldap |
+      | ldapBackupPort | 389      |
+      | ldapHost       | foo.bar  |
+      | ldapPort       | 2456     |
+    And Logging in using web as "alice"
+    Then the HTTP status code should be "200"
 
-    Scenario: Test backup server offline
-      Given modify LDAP configuration
-        | ldapBackupHost | off.line |
-        | ldapBackupPort | 3892     |
-        | ldapHost       | foo.bar  |
-        | ldapPort       | 2456     |
-      Then Expect ServerException on failed web login as "alice"
+  Scenario: Test backup server offline
+    Given modify LDAP configuration
+      | ldapBackupHost | off.line |
+      | ldapBackupPort | 3892     |
+      | ldapHost       | foo.bar  |
+      | ldapPort       | 2456     |
+    Then Expect ServerException on failed web login as "alice"
 
-    Scenario: Test LDAP server offline, no backup server
-      Given modify LDAP configuration
-        | ldapHost       | foo.bar  |
-        | ldapPort       | 2456     |
-      Then Expect ServerException on failed web login as "alice"
-
+  Scenario: Test LDAP server offline, no backup server
+    Given modify LDAP configuration
+      | ldapHost       | foo.bar  |
+      | ldapPort       | 2456     |
+    Then Expect ServerException on failed web login as "alice"
