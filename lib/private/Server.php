@@ -87,6 +87,7 @@ use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Lockdown\LockdownManager;
+use OC\Log\LogFactory;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
@@ -546,8 +547,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OCP\ILogger::class, function (Server $c) {
 			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
-			$logger = Log::getLogClass($logType);
-			call_user_func(array($logger, 'init'));
+			$factory = new LogFactory($c);
+			$logger = $factory->get($logType);
 			$config = $this->getSystemConfig();
 			$registry = $c->query(\OCP\Support\CrashReport\IRegistry::class);
 

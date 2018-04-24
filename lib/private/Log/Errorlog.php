@@ -25,14 +25,7 @@
 
 namespace OC\Log;
 
-class Errorlog {
-
-
-	/**
-	 * Init class data
-	 */
-	public static function init() {
-	}
+class Errorlog implements IWritable {
 
 	/**
 	 * write a message in the log
@@ -40,7 +33,7 @@ class Errorlog {
 	 * @param string $message
 	 * @param int $level
 	 */
-	public static function write($app, $message, $level) {
+	public function write($app, $message, $level) {
 		error_log('[owncloud]['.$app.']['.$level.'] '.$message);
 	}
 }

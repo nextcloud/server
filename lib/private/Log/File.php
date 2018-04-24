@@ -45,28 +45,21 @@ use OCP\ILogger;
  * Log is saved at data/nextcloud.log (on default)
  */
 
-class File {
-	static protected $logFile;
+class File implements IWritable, IFileBased {
+	/** @var string */
+	protected $logFile;
 
-	/**
-	 * Init class data
-	 */
-	public static function init() {
-		$systemConfig = \OC::$server->getSystemConfig();
-		$defaultLogFile = $systemConfig->getValue("datadirectory", \OC::$SERVERROOT.'/data').'/nextcloud.log';
-		self::$logFile = $systemConfig->getValue("logfile", $defaultLogFile);
-
-		/**
-		 * Fall back to default log file if specified logfile does not exist
-		 * and can not be created.
-		 */
-		if (!file_exists(self::$logFile)) {
-			if(!is_writable(dirname(self::$logFile))) {
-				self::$logFile = $defaultLogFile;
-			} else {
-				if(!touch(self::$logFile)) {
-					self::$logFile = $defaultLogFile;
-				}
+	public function __construct(string $path, string $fallbackPath = '') {
+		$this->logFile = $path;
+		if (!file_exists($this->logFile)) {
+			if(
+				(
+					!is_writable(dirname($this->logFile))
+					|| !touch($this->logFile)
+				)
+				&& $fallbackPath !== ''
+			) {
+				$this->logFile = $fallbackPath;
 			}
 		}
 	}
@@ -77,7 +70,7 @@ class File {
 	 * @param string|array $message
 	 * @param int $level
 	 */
-	public static function write($app, $message, $level) {
+	public function write($app, $message, $level) {
 		$config = \OC::$server->getSystemConfig();
 
 		// default to ISO8601
@@ -137,9 +130,9 @@ class File {
 			}
 		}
 		$entry = json_encode($entry, JSON_PARTIAL_OUTPUT_ON_ERROR);
-		$handle = @fopen(self::$logFile, 'a');
-		if ((fileperms(self::$logFile) & 0777) != 0640) {
-			@chmod(self::$logFile, 0640);
+		$handle = @fopen($this->logFile, 'a');
+		if ((fileperms($this->logFile) & 0777) != 0640) {
+			@chmod($this->logFile, 0640);
 		}
 		if ($handle) {
 			fwrite($handle, $entry."\n");
@@ -159,11 +152,10 @@ class File {
 	 * @param int $offset
 	 * @return array
 	 */
-	public static function getEntries($limit=50, $offset=0) {
-		self::init();
+	public function getEntries($limit=50, $offset=0) {
 		$minLevel = \OC::$server->getSystemConfig()->getValue("loglevel", ILogger::WARN);
 		$entries = array();
-		$handle = @fopen(self::$logFile, 'rb');
+		$handle = @fopen($this->logFile, 'rb');
 		if ($handle) {
 			fseek($handle, 0, SEEK_END);
 			$pos = ftell($handle);
@@ -205,7 +197,7 @@ class File {
 	/**
 	 * @return string
 	 */
-	public static function getLogFilePath() {
-		return self::$logFile;
+	public function getLogFilePath() {
+		return $this->logFile;
 	}
 }

@@ -38,7 +38,8 @@ namespace OC;
 use InterfaSys\LogNormalizer\Normalizer;
 
 use OC\Log\ExceptionSerializer;
-use OC\Log\File;
+use OC\Log\IFileBased;
+use OC\Log\IWritable;
 use OCP\ILogger;
 use OCP\Support\CrashReport\IRegistry;
 use OCP\Util;
@@ -54,7 +55,7 @@ use OCP\Util;
  */
 class Log implements ILogger {
 
-	/** @var string */
+	/** @var IWritable */
 	private $logger;
 
 	/** @var SystemConfig */
@@ -70,27 +71,19 @@ class Log implements ILogger {
 	private $crashReporters;
 
 	/**
-	 * @param string $logger The logger that should be used
+	 * @param IWritable $logger The logger that should be used
 	 * @param SystemConfig $config the system config object
 	 * @param Normalizer|null $normalizer
 	 * @param IRegistry|null $registry
 	 */
-	public function __construct($logger = null, SystemConfig $config = null, $normalizer = null, IRegistry $registry = null) {
+	public function __construct(IWritable $logger, SystemConfig $config = null, $normalizer = null, IRegistry $registry = null) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
 			$config = \OC::$server->getSystemConfig();
 		}
 
 		$this->config = $config;
-
-		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
-		if ($logger === null) {
-			$logType = $this->config->getValue('log_type', 'file');
-			$this->logger = static::getLogClass($logType);
-			call_user_func([$this->logger, 'init']);
-		} else {
-			$this->logger = $logger;
-		}
+		$this->logger = $logger;
 		if ($normalizer === null) {
 			$this->normalizer = new Normalizer();
 		} else {
@@ -302,7 +295,7 @@ class Log implements ILogger {
 		array_walk($context, [$this->normalizer, 'format']);
 
 		if ($level >= $minLevel) {
-			if ($this->logger !== File::class) {
+			if (!$this->logger instanceof IFileBased) {
 				$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR);
 			}
 			$this->writeLog($app, $data, $level);
@@ -320,28 +313,13 @@ class Log implements ILogger {
 	 * @param int $level
 	 */
 	protected function writeLog(string $app, $entry, int $level) {
-		call_user_func([$this->logger, 'write'], $app, $entry, $level);
+		$this->logger->write($app, $entry, $level);
 	}
 
-	/**
-	 * @param string $logType
-	 * @return string
-	 * @internal
-	 */
-	public static function getLogClass(string $logType): string {
-		switch (strtolower($logType)) {
-			case 'errorlog':
-				return \OC\Log\Errorlog::class;
-			case 'syslog':
-				return \OC\Log\Syslog::class;
-			case 'file':
-				return \OC\Log\File::class;
-
-			// Backwards compatibility for old and fallback for unknown log types
-			case 'owncloud':
-			case 'nextcloud':
-			default:
-				return \OC\Log\File::class;
+	public function getLogPath():string {
+		if($this->logger instanceof IFileBased) {
+			return $this->logger->getLogFilePath();
 		}
+		throw new \RuntimeException('Log implementation has no path');
 	}
 }

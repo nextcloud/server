@@ -31,6 +31,9 @@ class FileTest extends TestCase
 	private $restore_logfile;
 	private $restore_logdateformat;
 
+	/** @var File */
+	protected $logFile;
+
 	protected function setUp() {
 		parent::setUp();
 		$config = \OC::$server->getConfig();
@@ -38,7 +41,7 @@ class FileTest extends TestCase
 		$this->restore_logdateformat = $config->getSystemValue('logdateformat');
 		
 		$config->setSystemValue("logfile", $config->getSystemValue('datadirectory') . "/logtest");
-		File::init();
+		$this->logFile = new File($config->getSystemValue('datadirectory') . '/logtest');
 	}
 	protected function tearDown() {
 		$config = \OC::$server->getConfig();
@@ -51,8 +54,8 @@ class FileTest extends TestCase
 			$config->getSystemValue("logdateformat", $this->restore_logdateformat);
 		} else {
 			$config->deleteSystemValue("logdateformat");
-		}		
-		File::init();
+		}
+		$this->logFile = new File($this->restore_logfile);
 		parent::tearDown();
 	}
 	
@@ -63,7 +66,7 @@ class FileTest extends TestCase
 
 		# set format & write log line
 		$config->setSystemValue('logdateformat', 'u');
-		File::write('test', 'message', ILogger::ERROR);
+		$this->logFile->write('test', 'message', ILogger::ERROR);
 
 		# read log line
 		$handle = @fopen($config->getSystemValue('logfile'), 'r');
