@@ -258,7 +258,7 @@ class Database extends ABackend
 		$result = $query->execute();
 		$displayNames = [];
 		while ($row = $result->fetch()) {
-			$displayNames[$row['uid']] = $row['displayname'];
+			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
 		}
 
 		return $displayNames;
@@ -296,7 +296,7 @@ class Database extends ABackend
 				if (!empty($newHash)) {
 					$this->setPassword($uid, $password);
 				}
-				return $row['uid'];
+				return (string)$row['uid'];
 			}
 
 		}
@@ -337,8 +337,8 @@ class Database extends ABackend
 
 			// "uid" is primary key, so there can only be a single result
 			if ($row !== false) {
-				$this->cache[$uid]['uid'] = $row['uid'];
-				$this->cache[$uid]['displayname'] = $row['displayname'];
+				$this->cache[$uid]['uid'] = (string)$row['uid'];
+				$this->cache[$uid]['displayname'] = (string)$row['displayname'];
 			} else {
 				return false;
 			}
