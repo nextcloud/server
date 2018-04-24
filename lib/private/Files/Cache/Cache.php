@@ -121,30 +121,32 @@ class Cache implements ICache {
 	 * @return ICacheEntry|false the cache entry as array of false if the file is not found in the cache
 	 */
 	public function get($file) {
-		if (is_string($file) or $file == '') {
+		$qb = $this->connection->getQueryBuilder();
+
+		$qb->select('fileid', 'storage', 'path', 'path_hash', 'parent', 'name', 'mimetype', 'mimepart', 'size', 'mtime',
+			'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum')
+			->from('filecache');
+
+		if (\is_string($file) || $file === '') {
 			// normalize file
 			$file = $this->normalize($file);
 
-			$where = 'WHERE `storage` = ? AND `path_hash` = ?';
-			$params = array($this->getNumericStorageId(), md5($file));
+			$qb->where(
+				$qb->expr()->eq('storage', $qb->createNamedParameter($this->getNumericStorageId()))
+			)->andWhere(
+				$qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($file)))
+			);
 		} else { //file id
-			$where = 'WHERE `fileid` = ?';
-			$params = array($file);
+			$qb->where(
+				$qb->expr()->eq('fileid', $qb->createNamedParameter($file))
+			);
 		}
-		$sql = 'SELECT `fileid`, `storage`, `path`, `path_hash`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-					   `storage_mtime`, `encrypted`, `etag`, `permissions`, `checksum`
-				FROM `*PREFIX*filecache` ' . $where;
-		$result = $this->connection->executeQuery($sql, $params);
-		$data = $result->fetch();
-
-		//FIXME hide this HACK in the next database layer, or just use doctrine and get rid of MDB2 and PDO
-		//PDO returns false, MDB2 returns null, oracle always uses MDB2, so convert null to false
-		if ($data === null) {
-			$data = false;
-		}
+		$cursor = $qb->execute();
+		$data = $cursor->fetch();
+		$cursor->closeCursor();
 
 		//merge partial data
-		if (!$data and is_string($file)) {
+		if (!$data && \is_string($file)) {
 			if (isset($this->partial[$file])) {
 				$data = $this->partial[$file];
 			}
@@ -200,14 +202,22 @@ class Cache implements ICache {
 	 */
 	public function getFolderContentsById($fileId) {
 		if ($fileId > -1) {
-			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-						   `storage_mtime`, `encrypted`, `etag`, `permissions`, `checksum`
-					FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC';
-			$result = $this->connection->executeQuery($sql, [$fileId]);
-			$files = $result->fetchAll();
-			return array_map(function (array $data) {
-				return self::cacheEntryFromData($data, $this->mimetypeLoader);
-			}, $files);
+			$qb = $this->connection->getQueryBuilder();
+
+			$qb->select('fileid', 'storage', 'path', 'parent', 'name', 'mimetype', 'mimepart', 'size', 'mtime',
+						   'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum')
+				->from('filecache')
+			->where(
+				$qb->expr()->eq('parent', $qb->createNamedParameter($fileId))
+			)->orderBy('name', 'ASC');
+
+			$cursor = $qb->execute();
+			$result = [];
+			while($data = $cursor->fetch()) {
+				$result[] = self::cacheEntryFromData($data, $this->mimetypeLoader);
+			}
+			$cursor->closeCursor();
+			return $result;
 		}
 		return [];
 	}
@@ -387,10 +397,21 @@ class Cache implements ICache {
 
 		$pathHash = md5($file);
 
-		$sql = 'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?';
-		$result = $this->connection->executeQuery($sql, array($this->getNumericStorageId(), $pathHash));
-		if ($row = $result->fetch()) {
-			return $row['fileid'];
+		$qb = $this->connection->getQueryBuilder();
+
+		$qb->select('fileid')
+			->from('filecache')
+			->where(
+				$qb->expr()->eq('storage', $qb->createNamedParameter($this->getNumericStorageId()))
+			)->andWhere(
+				$qb->expr()->eq('path_hash', $qb->createNamedParameter($pathHash))
+			);
+		$cursor = $qb->execute();
+		$data = $cursor->fetch();
+		$cursor->closeCursor();
+
+		if ($data !== false) {
+			return (int)$data['fileid'];
 		} else {
 			return -1;
 		}
@@ -438,8 +459,13 @@ class Cache implements ICache {
 	 */
 	public function remove($file) {
 		$entry = $this->get($file);
-		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
-		$this->connection->executeQuery($sql, array($entry['fileid']));
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('filecache')
+			->where(
+				$qb->expr()->eq('fileid', $qb->createNamedParameter($entry['fileid']))
+			);
+		$qb->execute();
 		if ($entry['mimetype'] === 'httpd/unix-directory') {
 			$this->removeChildren($entry);
 		}
@@ -469,8 +495,12 @@ class Cache implements ICache {
 		foreach ($subFolders as $folder) {
 			$this->removeChildren($folder);
 		}
-		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `parent` = ?';
-		$this->connection->executeQuery($sql, array($entry['fileid']));
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('filecache')
+			->where(
+				$qb->expr()->eq('parent', $qb->createNamedParameter($entry['fileid']))
+			);
+		$qb->execute();
 	}
 
 	/**
