@@ -48,6 +48,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\BackgroundJob\IJobList;
+use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -88,6 +89,8 @@ class UsersController extends Controller {
 	private $keyManager;
 	/** @var IJobList */
 	private $jobList;
+	/** @var IManager */
+	private $encryptionManager;
 
 
 	public function __construct(string $appName,
@@ -103,7 +106,8 @@ class UsersController extends Controller {
 								IAppManager $appManager,
 								AccountManager $accountManager,
 								Manager $keyManager,
-								IJobList $jobList) {
+								IJobList $jobList,
+								IManager $encryptionManager) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -117,6 +121,7 @@ class UsersController extends Controller {
 		$this->accountManager = $accountManager;
 		$this->keyManager = $keyManager;
 		$this->jobList = $jobList;
+		$this->encryptionManager = $encryptionManager;
 	}
 
 
