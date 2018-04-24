@@ -222,6 +222,7 @@ class Database extends ABackend
 	 * @return string display name
 	 */
 	public function getDisplayName($uid): string {
+		$uid = (string)$uid;
 		$this->loadUser($uid);
 		return empty($this->cache[$uid]['displayname']) ? $uid : $this->cache[$uid]['displayname'];
 	}
@@ -357,7 +358,9 @@ class Database extends ABackend
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		$users = $this->getDisplayNames($search, $limit, $offset);
-		$userIds = array_keys($users);
+		$userIds = array_map(function ($uid) {
+			return (string)$uid;
+		}, array_keys($users));
 		sort($userIds, SORT_STRING | SORT_FLAG_CASE);
 		return $userIds;
 	}
