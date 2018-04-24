@@ -30,6 +30,7 @@
     "Update for {app} to version %s is available." : "Для приложения «{app}» доступно обновление до версии %s.",
     "Update notification" : "Уведомление о новой версии",
     "A new version is available: %s" : "Доступна новая версия: %s",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Версия, которой вы пользуетесь, больше не обслуживается. Пожалуйста, обновитесь до поддерживаемой версии как можно скорее.",
     "Download now" : "Скачать сейчас",
     "Checked on %s" : "Проверено %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Выбранный канал обновлений высылает специальные уведомления, если сервер устарел.",
