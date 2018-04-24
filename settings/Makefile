@@ -1,9 +1,11 @@
-all: clean npm-update build-js-production
+all: dev-setup build-js-production
 
-dev-setup: clean npm-update build-js
+dev-setup: clean clean-dev npm-init
+
+npm-init:
+	npm install
 
 npm-update:
-	rm -rf node_modules
 	npm update
 
 build-js:
@@ -16,6 +18,9 @@ watch-js:
 	npm run watch
 
 clean:
-	rm js/main.js
-	rm js/main.js.map
+	rm -f js/main.js
+	rm -f js/main.js.map
+
+clean-dev:
+	rm -rf node_modules
 

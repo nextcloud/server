@@ -92,7 +92,7 @@ export default {
 		}
 	},
 	methods: {
-		showMen() {
+		showMenu() {
 			this.openedMenu = true;
 		},
 		hideMenu() {
