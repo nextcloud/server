@@ -1229,10 +1229,18 @@ $CONFIG = array(
 				'name' => 'default',
 			],
 		],
+		'scope' => [
+			'project' => [
+				'name' => 'service',
+				'domain' => [
+					'name' => 'default',
+				],
+			],
+		],
 		'tenantName' => 'service',
 		'serviceName' => 'swift',
 		'region' => 'regionOne',
-		'url' => "http://yourswifthost:5000/v3",
+		'url' => 'http://yourswifthost:5000/v3',
 		'bucket' => 'nextcloud',
 	],
 ],
