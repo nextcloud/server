@@ -52,9 +52,6 @@ input {
 
 #displayavatar {
 	text-align: center;
-	p {
-		text-align: left;
-	}
 }
 
 #uploadavatarbutton, #selectavatar, #removeavatar {
@@ -119,6 +116,7 @@ input {
 	background-size: 16px;
 	background-position: left 8px;
 	opacity: .3;
+	margin-top: -2px;
 	margin-left: 10px;
 	cursor: pointer;
 
@@ -234,7 +232,7 @@ input {
 			margin-bottom: 12px;
 			display: inline-flex;
 			flex-wrap: nowrap;
-			justify-content: space-between;
+			justify-content: flex-start;
 			width: 100%;
 			> label {
 				white-space: nowrap;
