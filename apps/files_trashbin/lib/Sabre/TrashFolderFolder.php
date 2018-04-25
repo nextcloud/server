@@ -64,7 +64,7 @@ class TrashFolderFolder implements ICollection, ITrash {
 
 		foreach ($entries as $entry) {
 			if ($entry->getName() === $name) {
-				if ($entry->getMimetype() === 'httpd/unix-directory') {
+				if ($entry->getType() === FileInfo::TYPE_FOLDER) {
 					return new TrashFolderFolder($this->root . '/' . $this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 				}
 				return new TrashFolderFile($this->root . '/' . $this->getName(), $this->userId, $entry, $this->getOriginalLocation());
@@ -76,7 +76,7 @@ class TrashFolderFolder implements ICollection, ITrash {
 		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles($this->root . '/' . $this->getName(), $this->userId);
 
 		$children = array_map(function (FileInfo $entry) {
-			if ($entry->getMimetype() === 'httpd/unix-directory') {
+			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
 				return new TrashFolderFolder($this->root.'/'.$this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 			}
 			return new TrashFolderFile($this->root.'/'.$this->getName(), $this->userId, $entry, $this->getOriginalLocation());

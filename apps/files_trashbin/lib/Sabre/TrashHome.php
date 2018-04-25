@@ -75,7 +75,7 @@ class TrashHome implements ICollection {
 
 		foreach ($entries as $entry) {
 			if ($entry->getName() . '.d'.$entry->getMtime() === $name) {
-				if ($entry->getMimetype() === 'httpd/unix-directory') {
+				if ($entry->getType() === FileInfo::TYPE_FOLDER) {
 					return new TrashFolder('/', $userId, $entry);
 				}
 				return new TrashFile($userId, $entry);
@@ -91,7 +91,7 @@ class TrashHome implements ICollection {
 		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $userId);
 
 		$children = array_map(function (FileInfo $entry) use ($userId) {
-			if ($entry->getMimetype() === 'httpd/unix-directory') {
+			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
 				return new TrashFolder('/', $userId, $entry);
 			}
 			return new TrashFile($userId, $entry);
