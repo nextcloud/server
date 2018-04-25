@@ -23,8 +23,21 @@
 
 namespace OCP\Log;
 
+/**
+ * Interface IFileBased
+ *
+ * @package OCP\Log
+ *
+ * @since 14.0.0
+ */
 interface IFileBased {
-	public function getLogFilePath();
+	/**
+	 * @since 14.0.0
+	 */
+	public function getLogFilePath():string;
 
-	public function getEntries($limit=50, $offset=0);
+	/**
+	 * @since 14.0.0
+	 */
+	public function getEntries(int $limit=50, int $offset=0): array;
 }
