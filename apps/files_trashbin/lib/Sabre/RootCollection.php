@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -42,7 +43,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @param array $principalInfo
 	 * @return INode
 	 */
-	public function getChildForPrincipal(array $principalInfo) {
+	public function getChildForPrincipal(array $principalInfo): TrashHome {
 		list(,$name) = \Sabre\Uri\split($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
@@ -51,7 +52,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		return new TrashHome($principalInfo);
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'trashbin';
 	}
 

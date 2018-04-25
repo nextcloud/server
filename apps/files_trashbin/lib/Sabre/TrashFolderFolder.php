@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -24,13 +25,13 @@ namespace OCA\Files_Trashbin\Sabre;
 
 use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class TrashFolderFolder implements ICollection, ITrash {
 
 	/** @var string */
 	private $root;
-
 
 	/** @var string */
 	private $userId;
@@ -59,7 +60,7 @@ class TrashFolderFolder implements ICollection, ITrash {
 		throw new Forbidden();
 	}
 
-	public function getChild($name) {
+	public function getChild($name): ITrash {
 		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles($this->root . '/' . $this->getName(), $this->userId);
 
 		foreach ($entries as $entry) {
@@ -70,9 +71,11 @@ class TrashFolderFolder implements ICollection, ITrash {
 				return new TrashFolderFile($this->root . '/' . $this->getName(), $this->userId, $entry, $this->getOriginalLocation());
 			}
 		}
+
+		throw new NotFound();
 	}
 
-	public function getChildren() {
+	public function getChildren(): array {
 		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles($this->root . '/' . $this->getName(), $this->userId);
 
 		$children = array_map(function (FileInfo $entry) {
@@ -85,7 +88,7 @@ class TrashFolderFolder implements ICollection, ITrash {
 		return $children;
 	}
 
-	public function childExists($name) {
+	public function childExists($name): bool {
 		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles($this->root . '/' . $this->getName(), $this->userId);
 
 		foreach ($entries as $entry) {
@@ -101,7 +104,7 @@ class TrashFolderFolder implements ICollection, ITrash {
 		\OCA\Files_Trashbin\Trashbin::delete($this->root . '/' . $this->getName(), $this->userId, null);
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return $this->data->getName();
 
 	}
@@ -110,7 +113,7 @@ class TrashFolderFolder implements ICollection, ITrash {
 		throw new Forbidden();
 	}
 
-	function getLastModified() {
+	public function getLastModified(): int {
 		return $this->data->getMtime();
 	}
 

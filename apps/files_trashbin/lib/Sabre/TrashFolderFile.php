@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -57,15 +58,15 @@ class TrashFolderFile implements IFile, ITrash {
 		return $this->data->getStorage()->fopen($this->data->getInternalPath(), 'rb');
 	}
 
-	public function getContentType() {
+	public function getContentType(): string {
 		return $this->data->getMimetype();
 	}
 
-	public function getETag() {
+	public function getETag(): string {
 		return $this->data->getEtag();
 	}
 
-	public function getSize() {
+	public function getSize(): int {
 		return $this->data->getSize();
 	}
 
@@ -73,7 +74,7 @@ class TrashFolderFile implements IFile, ITrash {
 		\OCA\Files_Trashbin\Trashbin::delete($this->root . '/' . $this->getName(), $this->userId, null);
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return $this->data->getName();
 	}
 
@@ -81,7 +82,7 @@ class TrashFolderFile implements IFile, ITrash {
 		throw new Forbidden();
 	}
 
-	public function getLastModified() {
+	public function getLastModified(): int {
 		return $this->data->getMtime();
 	}
 

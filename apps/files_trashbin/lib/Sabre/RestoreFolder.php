@@ -63,19 +63,19 @@ class RestoreFolder implements ICollection, IMoveTarget {
 		throw new Forbidden();
 	}
 
-	public function getLastModified() {
+	public function getLastModified(): int {
 		return 0;
 	}
 
-	public function getChildren() {
+	public function getChildren(): array {
 		return [];
 	}
 
-	public function childExists($name) {
+	public function childExists($name): bool {
 		return false;
 	}
 
-	function moveInto($targetName, $sourcePath, INode $sourceNode) {
+	public function moveInto($targetName, $sourcePath, INode $sourceNode): bool {
 		if (!($sourceNode instanceof ITrash)) {
 			return false;
 		}

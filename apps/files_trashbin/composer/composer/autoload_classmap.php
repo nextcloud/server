@@ -27,6 +27,7 @@ return array(
     'OCA\\Files_Trashbin\\Sabre\\TrashFolderFile' => $baseDir . '/../lib/Sabre/TrashFolderFile.php',
     'OCA\\Files_Trashbin\\Sabre\\TrashFolderFolder' => $baseDir . '/../lib/Sabre/TrashFolderFolder.php',
     'OCA\\Files_Trashbin\\Sabre\\TrashHome' => $baseDir . '/../lib/Sabre/TrashHome.php',
+    'OCA\\Files_Trashbin\\Sabre\\TrashRoot' => $baseDir . '/../lib/Sabre/TrashRoot.php',
     'OCA\\Files_Trashbin\\Storage' => $baseDir . '/../lib/Storage.php',
     'OCA\\Files_Trashbin\\Trashbin' => $baseDir . '/../lib/Trashbin.php',
 );

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -22,29 +23,21 @@
  */
 namespace OCA\Files_Trashbin\Sabre;
 
-use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class TrashHome implements ICollection {
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $principalInfo;
 
-	/**
-	 * FilesHome constructor.
-	 *
-	 * @param array $principalInfo
-	 */
-	public function __construct($principalInfo) {
+	public function __construct(array $principalInfo) {
 		$this->principalInfo = $principalInfo;
 	}
 
 	public function delete() {
-		\OCA\Files_Trashbin\Trashbin::deleteAll();
+		throw new Forbidden();
 	}
 
 	public function getName(): string {
@@ -70,53 +63,27 @@ class TrashHome implements ICollection {
 		if ($name === 'restore') {
 			return new RestoreFolder($userId);
 		}
-
-		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $userId);
-
-		foreach ($entries as $entry) {
-			if ($entry->getName() . '.d'.$entry->getMtime() === $name) {
-				if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-					return new TrashFolder('/', $userId, $entry);
-				}
-				return new TrashFile($userId, $entry);
-			}
+		if ($name === 'trash') {
+			return new TrashRoot($userId);
 		}
 
 		throw new NotFound();
 	}
 
-	public function getChildren() {
+	public function getChildren(): array {
 		list(,$userId) = \Sabre\Uri\split($this->principalInfo['uri']);
 
-		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $userId);
-
-		$children = array_map(function (FileInfo $entry) use ($userId) {
-			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-				return new TrashFolder('/', $userId, $entry);
-			}
-			return new TrashFile($userId, $entry);
-		}, $entries);
-
-		$children[] = new RestoreFolder($userId);
-
-		return $children;
+		return [
+			new RestoreFolder($userId),
+			new TrashRoot($userId),
+		];
 	}
 
-	public function childExists($name) {
-		list(,$userId) = \Sabre\Uri\split($this->principalInfo['uri']);
-
-		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $userId);
-
-		foreach ($entries as $entry) {
-			if ($entry->getName() . '.d'.$entry->getMtime() === $name) {
-				return true;
-			}
-		}
-
-		return false;
+	public function childExists($name): bool {
+		return $name === 'restore' || $name === 'trash';
 	}
 
-	public function getLastModified() {
+	public function getLastModified(): int {
 		return 0;
 	}
 }

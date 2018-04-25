@@ -28,35 +28,44 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
-class TrashFolder implements ICollection, ITrash {
+class TrashRoot implements ICollection {
+
 	/** @var string */
 	private $userId;
 
-	/** @var FileInfo */
-	private $data;
-
-	public function __construct(string $root, string $userId, FileInfo $data) {
+	public function __construct(string $userId) {
 		$this->userId = $userId;
-		$this->data = $data;
+	}
+
+	public function delete() {
+		\OCA\Files_Trashbin\Trashbin::deleteAll();
+	}
+
+	public function getName(): string {
+		return 'trash';
+	}
+
+	public function setName($name) {
+		throw new Forbidden('Permission denied to rename this trashbin');
 	}
 
 	public function createFile($name, $data = null) {
-		throw new Forbidden();
+		throw new Forbidden('Not allowed to create files in the trashbin');
 	}
 
 	public function createDirectory($name) {
-		throw new Forbidden();
+		throw new Forbidden('Not allowed to create folders in the trashbin');
 	}
 
 	public function getChild($name): ITrash {
-		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles($this->getName(), $this->userId);
+		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $this->userId);
 
 		foreach ($entries as $entry) {
-			if ($entry->getName() === $name) {
+			if ($entry->getName() . '.d'.$entry->getMtime() === $name) {
 				if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-					return new TrashFolderFolder($this->getName(), $this->userId, $entry, $this->getOriginalLocation());
+					return new TrashFolder('/', $this->userId, $entry);
 				}
-				return new TrashFolderFile($this->getName(), $this->userId, $entry, $this->getOriginalLocation());
+				return new TrashFile($this->userId, $entry);
 			}
 		}
 
@@ -64,23 +73,23 @@ class TrashFolder implements ICollection, ITrash {
 	}
 
 	public function getChildren(): array {
-		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles($this->getName(), $this->userId);
+			$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $this->userId);
 
 		$children = array_map(function (FileInfo $entry) {
 			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-				return new TrashFolderFolder($this->getName(), $this->userId, $entry, $this->getOriginalLocation());
+				return new TrashFolder('/', $this->userId, $entry);
 			}
-			return new TrashFolderFile($this->getName(), $this->userId, $entry, $this->getOriginalLocation());
+			return new TrashFile($this->userId, $entry);
 		}, $entries);
 
 		return $children;
 	}
 
 	public function childExists($name): bool {
-		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles($this->getName(), $this->userId);
+		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $this->userId);
 
 		foreach ($entries as $entry) {
-			if ($entry->getName() === $name) {
+			if ($entry->getName() . '.d'.$entry->getMtime() === $name) {
 				return true;
 			}
 		}
@@ -88,33 +97,7 @@ class TrashFolder implements ICollection, ITrash {
 		return false;
 	}
 
-	public function delete() {
-		\OCA\Files_Trashbin\Trashbin::delete($this->data->getName(), $this->userId, $this->getLastModified());
-	}
-
-	public function getName(): string {
-		return $this->data->getName() . '.d' . $this->getLastModified();
-	}
-
-	public function setName($name) {
-		throw new Forbidden();
-	}
-
 	public function getLastModified(): int {
-		return $this->data->getMtime();
+		return 0;
 	}
-
-	public function restore(): bool {
-		return \OCA\Files_Trashbin\Trashbin::restore($this->getName(), $this->data->getName(), $this->getLastModified());
-	}
-
-	public function getFilename(): string {
-		return $this->data->getName();
-	}
-
-	public function getOriginalLocation(): string {
-		return $this->data['extraData'];
-	}
-
-
 }
