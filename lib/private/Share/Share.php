@@ -41,6 +41,7 @@ namespace OC\Share;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\Util;
 
 /**
@@ -92,7 +93,7 @@ class Share extends Constants {
 			\OCP\Util::writeLog('OCP\Share',
 				'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class']
 				.' is already registered for '.$itemType,
-				\OCP\Util::WARN);
+				ILogger::WARN);
 		}
 		return false;
 	}
@@ -264,7 +265,7 @@ class Share extends Constants {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?', 1);
 		$result = $query->execute(array($token));
 		if ($result === false) {
-			\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage() . ', token=' . $token, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage() . ', token=' . $token, ILogger::ERROR);
 		}
 		$row = $result->fetchRow();
 		if ($row === false) {
@@ -335,7 +336,7 @@ class Share extends Constants {
 		if ($backend->isShareTypeAllowed($shareType) === false) {
 			$message = 'Sharing %s failed, because the backend does not allow shares from type %i';
 			$message_t = $l->t('Sharing %s failed, because the backend does not allow shares from type %i', array($itemSourceName, $shareType));
-			\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareType), \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareType), ILogger::DEBUG);
 			throw new \Exception($message_t);
 		}
 
@@ -356,14 +357,14 @@ class Share extends Constants {
 			if (!$path) {
 				$message = 'Sharing %s failed, because the file does not exist';
 				$message_t = $l->t('Sharing %s failed, because the file does not exist', array($itemSourceName));
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 			// verify that the user has share permission
 			if (!\OC\Files\Filesystem::isSharable($path) || \OCP\Util::isSharingDisabledForUser()) {
 				$message = 'You are not allowed to share %s';
 				$message_t = $l->t('You are not allowed to share %s', [$path]);
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $path), \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $path), ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 		}
@@ -376,7 +377,7 @@ class Share extends Constants {
 			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
 					$message = 'Sharing "' . $itemSourceName . '" failed, because it contains files shared with you!';
-					\OCP\Util::writeLog('OCP\Share', $message, \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', $message, ILogger::DEBUG);
 					throw new \Exception($message);
 				}
 
@@ -408,13 +409,13 @@ class Share extends Constants {
 			if ($shareWith == $uidOwner) {
 				$message = 'Sharing %s failed, because you can not share with yourself';
 				$message_t = $l->t('Sharing %s failed, because you can not share with yourself', [$itemName]);
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if (!\OC::$server->getUserManager()->userExists($shareWith)) {
 				$message = 'Sharing %s failed, because the user %s does not exist';
 				$message_t = $l->t('Sharing %s failed, because the user %s does not exist', array($itemSourceName, $shareWith));
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if ($shareWithinGroupOnly) {
@@ -435,7 +436,7 @@ class Share extends Constants {
 					$message = 'Sharing %s failed, because the user '
 						.'%s is not a member of any groups that %s is a member of';
 					$message_t = $l->t('Sharing %s failed, because the user %s is not a member of any groups that %s is a member of', array($itemName, $shareWith, $uidOwner));
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemName, $shareWith, $uidOwner), \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemName, $shareWith, $uidOwner), ILogger::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -448,7 +449,7 @@ class Share extends Constants {
 				if ($checkExists['uid_owner'] != $uidOwner || $checkExists['share_type'] == $shareType) {
 					$message = 'Sharing %s failed, because this item is already shared with %s';
 					$message_t = $l->t('Sharing %s failed, because this item is already shared with %s', array($itemSourceName, $shareWith));
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), ILogger::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -460,7 +461,7 @@ class Share extends Constants {
 				if ($checkExists['uid_owner'] != $uidOwner || $checkExists['share_type'] == $shareType) {
 					$message = 'Sharing %s failed, because this item is already shared with user %s';
 					$message_t = $l->t('Sharing %s failed, because this item is already shared with user %s', array($itemSourceName, $shareWith));
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::ERROR);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), ILogger::ERROR);
 					throw new \Exception($message_t);
 				}
 			}
@@ -468,7 +469,7 @@ class Share extends Constants {
 			if (!\OC::$server->getGroupManager()->groupExists($shareWith)) {
 				$message = 'Sharing %s failed, because the group %s does not exist';
 				$message_t = $l->t('Sharing %s failed, because the group %s does not exist', array($itemSourceName, $shareWith));
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if ($shareWithinGroupOnly) {
@@ -478,7 +479,7 @@ class Share extends Constants {
 					$message = 'Sharing %s failed, because '
 						. '%s is not a member of the group %s';
 					$message_t = $l->t('Sharing %s failed, because %s is not a member of the group %s', array($itemSourceName, $uidOwner, $shareWith));
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $uidOwner, $shareWith), \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $uidOwner, $shareWith), ILogger::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -490,7 +491,7 @@ class Share extends Constants {
 				if ($checkExists['share_with'] === $shareWith && $checkExists['share_type'] === \OCP\Share::SHARE_TYPE_GROUP) {
 					$message = 'Sharing %s failed, because this item is already shared with %s';
 					$message_t = $l->t('Sharing %s failed, because this item is already shared with %s', array($itemSourceName, $shareWith));
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), ILogger::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -557,7 +558,7 @@ class Share extends Constants {
 				if (\OCP\Util::isPublicLinkPasswordRequired() && empty($shareWith)) {
 					$message = 'You need to provide a password to create a public link, only protected links are allowed';
 					$message_t = $l->t('You need to provide a password to create a public link, only protected links are allowed');
-					\OCP\Util::writeLog('OCP\Share', $message, \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', $message, ILogger::DEBUG);
 					throw new \Exception($message_t);
 				}
 
@@ -585,7 +586,7 @@ class Share extends Constants {
 			}
 			$message = 'Sharing %s failed, because sharing with links is not allowed';
 			$message_t = $l->t('Sharing %s failed, because sharing with links is not allowed', array($itemSourceName));
-			\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), ILogger::DEBUG);
 			throw new \Exception($message_t);
 		} else if ($shareType === self::SHARE_TYPE_REMOTE) {
 
@@ -596,7 +597,7 @@ class Share extends Constants {
 				$shareWith, $uidOwner, self::FORMAT_NONE, null, 1, true, true)) {
 					$message = 'Sharing %s failed, because this item is already shared with %s';
 					$message_t = $l->t('Sharing %s failed, because this item is already shared with %s', array($itemSourceName, $shareWith));
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), ILogger::DEBUG);
 					throw new \Exception($message_t);
 			}
 
@@ -607,7 +608,7 @@ class Share extends Constants {
 			if (Helper::isSameUserOnSameServer($user, $remote, $currentUser, $currentServer)) {
 				$message = 'Not allowed to create a federated share with the same user.';
 				$message_t = $l->t('Not allowed to create a federated share with the same user');
-				\OCP\Util::writeLog('OCP\Share', $message, \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', $message, ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 
@@ -634,7 +635,7 @@ class Share extends Constants {
 			// Future share types need to include their own conditions
 			$message = 'Share type %s is not valid for %s';
 			$message_t = $l->t('Share type %s is not valid for %s', array($shareType, $itemSource));
-			\OCP\Util::writeLog('OCP\Share', sprintf($message, $shareType, $itemSource), \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('OCP\Share', sprintf($message, $shareType, $itemSource), ILogger::DEBUG);
 			throw new \Exception($message_t);
 		}
 
@@ -703,7 +704,7 @@ class Share extends Constants {
 		$result = $query->execute(array($status, $itemType, $itemSource, $shareType, $recipient));
 
 		if($result === false) {
-			\OCP\Util::writeLog('OCP\Share', 'Couldn\'t set send mail status', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('OCP\Share', 'Couldn\'t set send mail status', ILogger::ERROR);
 		}
 	}
 
@@ -740,7 +741,7 @@ class Share extends Constants {
 			if ($date > $maxDate) {
 				$warning = 'Cannot set expiration date. Shares cannot expire later than ' . $maxDays . ' after they have been shared';
 				$warning_t = $l->t('Cannot set expiration date. Shares cannot expire later than %s after they have been shared', array($maxDays));
-				\OCP\Util::writeLog('OCP\Share', $warning, \OCP\Util::WARN);
+				\OCP\Util::writeLog('OCP\Share', $warning, ILogger::WARN);
 				throw new \Exception($warning_t);
 			}
 		}
@@ -748,7 +749,7 @@ class Share extends Constants {
 		if ($date < $today) {
 			$message = 'Cannot set expiration date. Expiration date is in the past';
 			$message_t = $l->t('Cannot set expiration date. Expiration date is in the past');
-			\OCP\Util::writeLog('OCP\Share', $message, \OCP\Util::WARN);
+			\OCP\Util::writeLog('OCP\Share', $message, ILogger::WARN);
 			throw new \Exception($message_t);
 		}
 
@@ -849,20 +850,20 @@ class Share extends Constants {
 				if (!(self::$backends[$itemType] instanceof \OCP\Share_Backend)) {
 					$message = 'Sharing backend %s must implement the interface OCP\Share_Backend';
 					$message_t = $l->t('Sharing backend %s must implement the interface OCP\Share_Backend', array($class));
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $class), \OCP\Util::ERROR);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $class), ILogger::ERROR);
 					throw new \Exception($message_t);
 				}
 				return self::$backends[$itemType];
 			} else {
 				$message = 'Sharing backend %s not found';
 				$message_t = $l->t('Sharing backend %s not found', array($class));
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $class), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $class), ILogger::ERROR);
 				throw new \Exception($message_t);
 			}
 		}
 		$message = 'Sharing backend for %s not found';
 		$message_t = $l->t('Sharing backend for %s not found', array($itemType));
-		\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemType), \OCP\Util::ERROR);
+		\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemType), ILogger::ERROR);
 		throw new \Exception($message_t);
 	}
 
@@ -1133,7 +1134,7 @@ class Share extends Constants {
 		if ($result === false) {
 			\OCP\Util::writeLog('OCP\Share',
 				\OC_DB::getErrorMessage() . ', select=' . $select . ' where=',
-				\OCP\Util::ERROR);
+				ILogger::ERROR);
 		}
 		$items = array();
 		$targets = array();
@@ -1197,7 +1198,7 @@ class Share extends Constants {
 					if ($result === false) {
 						\OCP\Util::writeLog('OCP\Share', 'Can\'t select parent: ' .
 							\OC_DB::getErrorMessage() . ', select=' . $select . ' where=' . $where,
-							\OCP\Util::ERROR);
+							ILogger::ERROR);
 					} else {
 						$parentRow = $parentResult->fetchRow();
 						$tmpPath = $parentRow['file_target'];
@@ -1668,7 +1669,7 @@ class Share extends Constants {
 				$message = 'Sharing %s failed, because the user %s is the original sharer';
 				$message_t = $l->t('Sharing failed, because the user %s is the original sharer', [$shareWith]);
 
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 		}
@@ -1680,7 +1681,7 @@ class Share extends Constants {
 					$message = 'Sharing %s failed, because the permissions exceed permissions granted to %s';
 					$message_t = $l->t('Sharing %s failed, because the permissions exceed permissions granted to %s', array($itemSourceName, $uidOwner));
 
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $uidOwner), \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $uidOwner), ILogger::DEBUG);
 					throw new \Exception($message_t);
 				} else {
 					// TODO Don't check if inside folder
@@ -1712,7 +1713,7 @@ class Share extends Constants {
 				$message = 'Sharing %s failed, because resharing is not allowed';
 				$message_t = $l->t('Sharing %s failed, because resharing is not allowed', array($itemSourceName));
 
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 		} else {
@@ -1725,7 +1726,7 @@ class Share extends Constants {
 				$message = 'Sharing %s failed, because the sharing backend for '
 					.'%s could not find its source';
 				$message_t = $l->t('Sharing %s failed, because the sharing backend for %s could not find its source', array($itemSource, $itemType));
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSource, $itemType), \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSource, $itemType), ILogger::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if ($backend instanceof \OCP\Share_Backend_File_Dependent) {
@@ -1740,7 +1741,7 @@ class Share extends Constants {
 					$message = 'Sharing %s failed, because the file could not be found in the file cache';
 					$message_t = $l->t('Sharing %s failed, because the file could not be found in the file cache', array($itemSource));
 
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSource), \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSource), ILogger::DEBUG);
 					throw new \Exception($message_t);
 				}
 			} else {

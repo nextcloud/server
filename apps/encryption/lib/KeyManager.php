@@ -374,7 +374,7 @@ class KeyManager {
 		} catch (\Exception $e) {
 			$this->log->logException($e, [
 				'message' => 'Could not decrypt the private key from user "' . $uid . '"" during login. Assume password change on the user back-end.',
-				'level' => \OCP\Util::WARN,
+				'level' => ILogger::WARN,
 				'app' => 'encryption',
 			]);
 			return false;

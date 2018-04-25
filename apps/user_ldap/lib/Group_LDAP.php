@@ -43,6 +43,7 @@ namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
 use OCP\GroupInterface;
+use OCP\ILogger;
 
 class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLDAP {
 	protected $enabled = false;
@@ -197,7 +198,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 				}
 			} else {
 				\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
-					'of group ' . $dnGroup, \OCP\Util::DEBUG);
+					'of group ' . $dnGroup, ILogger::DEBUG);
 			}
 		}
 		return $dynamicMembers;
@@ -656,7 +657,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 					}
 				} else {
 					\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
-						'of group ' . print_r($dynamicGroup, true), \OCP\Util::DEBUG);
+						'of group ' . print_r($dynamicGroup, true), ILogger::DEBUG);
 				}
 			}
 		}
@@ -699,7 +700,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			$result = $this->access->readAttribute($userDN, 'uid');
 			if ($result === false) {
 				\OCP\Util::writeLog('user_ldap', 'No uid attribute found for DN ' . $userDN . ' on '.
-					$this->access->connection->ldapHost, \OCP\Util::DEBUG);
+					$this->access->connection->ldapHost, ILogger::DEBUG);
 			}
 			$uid = $result[0];
 		} else {
@@ -961,7 +962,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$cacheKey = 'getGroups-'.$search.'-'.$limit.'-'.$offset;
 
 		//Check cache before driving unnecessary searches
-		\OCP\Util::writeLog('user_ldap', 'getGroups '.$cacheKey, \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap', 'getGroups '.$cacheKey, ILogger::DEBUG);
 		$ldap_groups = $this->access->connection->getFromCache($cacheKey);
 		if(!is_null($ldap_groups)) {
 			return $ldap_groups;
@@ -976,7 +977,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			$this->access->connection->ldapGroupFilter,
 			$this->access->getFilterPartForGroupSearch($search)
 		));
-		\OCP\Util::writeLog('user_ldap', 'getGroups Filter '.$filter, \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap', 'getGroups Filter '.$filter, ILogger::DEBUG);
 		$ldap_groups = $this->access->fetchListOfGroups($filter,
 				array($this->access->connection->ldapGroupDisplayName, 'dn'),
 				$limit,
@@ -1021,7 +1022,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			$chunkLimit = min($pagingSize, $overallLimit - $chunkOffset);
 			$ldapGroups = $this->getGroupsChunk($search, $chunkLimit, $chunkOffset);
 			$nread = count($ldapGroups);
-			\OCP\Util::writeLog('user_ldap', 'getGroups('.$search.'): read '.$nread.' at offset '.$chunkOffset.' (limit: '.$chunkLimit.')', \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'getGroups('.$search.'): read '.$nread.' at offset '.$chunkOffset.' (limit: '.$chunkLimit.')', ILogger::DEBUG);
 			if ($nread) {
 				$allGroups = array_merge($allGroups, $ldapGroups);
 				$chunkOffset += $nread;

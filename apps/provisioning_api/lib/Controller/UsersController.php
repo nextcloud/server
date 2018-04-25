@@ -294,7 +294,7 @@ class UsersController extends AUserData {
 				} catch (\Exception $e) {
 					$this->logger->logException($e, [
 						'message' => "Can't send new user mail to $email",
-						'level' => \OCP\Util::ERROR,
+						'level' => ILogger::ERROR,
 						'app' => 'ocs_api',
 					]);
 					throw new OCSException('Unable to send the invitation mail', 109);
@@ -306,14 +306,14 @@ class UsersController extends AUserData {
 		} catch (HintException $e ) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with hint exception.',
-				'level' => \OCP\Util::WARN,
+				'level' => ILogger::WARN,
 				'app' => 'ocs_api',
 			]);
 			throw new OCSException($e->getHint(), 107);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with exception.',
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'ocs_api',
 			]);
 			throw new OCSException('Bad request', 101);
@@ -885,7 +885,7 @@ class UsersController extends AUserData {
 		} catch(\Exception $e) {
 			$this->logger->logException($e, [
 				'message' => "Can't send new user mail to $email",
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'settings',
 			]);
 			throw new OCSException('Sending email failed', 102);

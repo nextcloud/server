@@ -45,6 +45,7 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
@@ -181,7 +182,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($uid);
 		} catch(NotOnLDAP $e) {
-			if($this->ocConfig->getSystemValue('loglevel', Util::WARN) === Util::DEBUG) {
+			if($this->ocConfig->getSystemValue('loglevel', ILogger::WARN) === ILogger::DEBUG) {
 				\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
 			}
 			return false;
@@ -193,7 +194,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			Util::writeLog('user_ldap',
 				'LDAP Login: Could not get user object for DN ' . $dn .
 				'. Maybe the LDAP entry has no set display name attribute?',
-				Util::WARN);
+				ILogger::WARN);
 			return false;
 		}
 		if($user->getUsername() !== false) {
@@ -278,14 +279,14 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 		Util::writeLog('user_ldap',
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
-			Util::DEBUG);
+			ILogger::DEBUG);
 		//do the search and translate results to Nextcloud names
 		$ldap_users = $this->access->fetchListOfUsers(
 			$filter,
 			$this->access->userManager->getAttributes(true),
 			$limit, $offset);
 		$ldap_users = $this->access->nextcloudUserNames($ldap_users);
-		Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', Util::DEBUG);
+		Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', ILogger::DEBUG);
 
 		$this->access->connection->writeToCache($cachekey, $ldap_users);
 		return $ldap_users;
@@ -358,7 +359,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 		if(is_null($user)) {
 			Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
-				$this->access->connection->ldapHost, Util::DEBUG);
+				$this->access->connection->ldapHost, ILogger::DEBUG);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		} else if($user instanceof OfflineUser) {

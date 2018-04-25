@@ -42,6 +42,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Files\StorageInvalidException;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -165,7 +166,7 @@ class MountPublicLinkController extends Controller {
 			$this->federatedShareProvider->create($share);
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
-				'level' => \OCP\Util::WARN,
+				'level' => ILogger::WARN,
 				'app' => 'federatedfilesharing',
 			]);
 			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);

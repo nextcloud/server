@@ -9,6 +9,7 @@
 namespace Test;
 
 use OC\Log;
+use OCP\ILogger;
 
 class LoggerTest extends TestCase {
 
@@ -45,7 +46,7 @@ class LoggerTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getValue')
 			->will(($this->returnValueMap([
-				['loglevel', \OCP\Util::WARN, \OCP\Util::WARN],
+				['loglevel', ILogger::WARN, ILogger::WARN],
 				['log.condition', [], ['apps' => ['files']]]
 			])));
 		$logger = $this->logger;

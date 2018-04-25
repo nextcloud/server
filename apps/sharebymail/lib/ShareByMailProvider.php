@@ -353,7 +353,7 @@ class ShareByMailProvider implements IShareProvider {
 		} catch (HintException $hintException) {
 			$this->logger->logException($hintException, [
 				'message' => 'Failed to send share by mail.',
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'sharebymail',
 			]);
 			$this->removeShareFromTable($shareId);
@@ -361,7 +361,7 @@ class ShareByMailProvider implements IShareProvider {
 		} catch (\Exception $e) {
 			$this->logger->logException($e, [
 				'message' => 'Failed to send share by mail.',
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'sharebymail',
 			]);
 			$this->removeShareFromTable($shareId);

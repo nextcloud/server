@@ -194,14 +194,14 @@ class GetSharedSecret extends Job {
 			$status = -1; // There is no status code if we could not connect
 			$this->logger->logException($e, [
 				'message' => 'Could not connect to ' . $target,
-				'level' => \OCP\Util::INFO,
+				'level' => ILogger::INFO,
 				'app' => 'federation',
 			]);
 		} catch (RingException $e) {
 			$status = -1; // There is no status code if we could not connect
 			$this->logger->logException($e, [
 				'message' => 'Could not connect to ' . $target,
-				'level' => \OCP\Util::INFO,
+				'level' => ILogger::INFO,
 				'app' => 'federation',
 			]);
 		} catch (\Exception $e) {

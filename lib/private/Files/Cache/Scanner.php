@@ -38,6 +38,7 @@ use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -110,7 +111,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
-			\OCP\Util::writeLog(Scanner::class, "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
+			\OCP\Util::writeLog(Scanner::class, "!!! Path '$path' is not accessible or present !!!", ILogger::DEBUG);
 		}
 		return $data;
 	}
@@ -454,7 +455,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				}
 				\OC::$server->getLogger()->logException($ex, [
 					'message' => 'Exception while scanning file "' . $child . '"',
-					'level' => \OCP\Util::DEBUG,
+					'level' => ILogger::DEBUG,
 					'app' => 'core',
 				]);
 				$exceptionOccurred = true;

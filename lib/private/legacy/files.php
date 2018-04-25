@@ -41,6 +41,7 @@
 
 use OC\Files\View;
 use OC\Streamer;
+use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -422,7 +423,7 @@ class OC_Files {
 			if (!$handle) {
 				\OCP\Util::writeLog('files',
 					'Can\'t write upload limit to ' . $filename . '. Please check the file permissions',
-					\OCP\Util::WARN);
+					ILogger::WARN);
 				$success = false;
 				continue; // try to update as many files as possible
 			}

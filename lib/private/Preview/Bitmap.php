@@ -26,6 +26,7 @@
 namespace OC\Preview;
 
 use Imagick;
+use OCP\ILogger;
 
 /**
  * Creates a PNG preview using ImageMagick via the PECL extension
@@ -50,7 +51,7 @@ abstract class Bitmap extends Provider {
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => 'Imagick says:',
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;

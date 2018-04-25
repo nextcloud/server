@@ -31,6 +31,7 @@ namespace OC\Setup;
 
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
+use OCP\ILogger;
 
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
@@ -70,7 +71,7 @@ class MySQL extends AbstractDatabase {
 		} catch (\Exception $ex) {
 			$this->logger->logException($ex, [
 				'message' => 'Database creation failed.',
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'mysql.setup',
 			]);
 			return;
@@ -83,7 +84,7 @@ class MySQL extends AbstractDatabase {
 		} catch (\Exception $ex) {
 			$this->logger->logException($ex, [
 				'message' => 'Could not automatically grant privileges, this can be ignored if database user already had privileges.',
-				'level' => \OCP\Util::DEBUG,
+				'level' => ILogger::DEBUG,
 				'app' => 'mysql.setup',
 			]);
 		}
@@ -107,7 +108,7 @@ class MySQL extends AbstractDatabase {
 		catch (\Exception $ex){
 			$this->logger->logException($ex, [
 				'message' => 'Database user creation failed.',
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'mysql.setup',
 			]);
 		}
@@ -162,7 +163,7 @@ class MySQL extends AbstractDatabase {
 		} catch (\Exception $ex) {
 			$this->logger->logException($ex, [
 				'message' => 'Can not create a new MySQL user, will continue with the provided user.',
-				'level' => \OCP\Util::INFO,
+				'level' => ILogger::INFO,
 				'app' => 'mysql.setup',
 			]);
 		}

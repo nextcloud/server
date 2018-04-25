@@ -101,7 +101,7 @@ class AppFetcher extends Fetcher {
 							$releases[] = $release;
 						}
 					} catch (\InvalidArgumentException $e) {
-						$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => Util::WARN]);
+						$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::WARN]);
 					}
 				}
 			}

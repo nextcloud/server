@@ -18,6 +18,7 @@
 namespace Test\Log;
 
 use OC\Log\File;
+use OCP\ILogger;
 use Test\TestCase;
 
 /**
@@ -62,8 +63,8 @@ class FileTest extends TestCase
 
 		# set format & write log line
 		$config->setSystemValue('logdateformat', 'u');
-		File::write('test', 'message', \OCP\Util::ERROR);
-		
+		File::write('test', 'message', ILogger::ERROR);
+
 		# read log line
 		$handle = @fopen($config->getSystemValue('logfile'), 'r');
 		$line = fread($handle, 1000);

@@ -25,6 +25,8 @@
  */
 namespace OC\Preview;
 
+use OCP\ILogger;
+
 abstract class Office extends Provider {
 	private $cmd;
 
@@ -60,7 +62,7 @@ abstract class Office extends Provider {
 			unlink($absPath);
 			unlink($pdfPreview);
 			\OC::$server->getLogger()->logException($e, [
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;

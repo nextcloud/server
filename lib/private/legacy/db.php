@@ -28,6 +28,8 @@
  *
  */
 
+use OCP\ILogger;
+
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * Doctrine with some adaptions.
@@ -185,7 +187,7 @@ class OC_DB {
 		try {
 			$result = $schemaManager->updateDbFromStructure($file);
 		} catch (Exception $e) {
-			\OCP\Util::writeLog('core', 'Failed to update database structure ('.$e.')', \OCP\Util::FATAL);
+			\OCP\Util::writeLog('core', 'Failed to update database structure ('.$e.')', ILogger::FATAL);
 			throw $e;
 		}
 		return $result;

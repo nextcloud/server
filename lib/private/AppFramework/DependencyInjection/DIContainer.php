@@ -57,6 +57,7 @@ use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\GlobalScale\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IUserSession;
@@ -375,19 +376,19 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	public function log($message, $level) {
 		switch($level){
 			case 'debug':
-				$level = \OCP\Util::DEBUG;
+				$level = ILogger::DEBUG;
 				break;
 			case 'info':
-				$level = \OCP\Util::INFO;
+				$level = ILogger::INFO;
 				break;
 			case 'warn':
-				$level = \OCP\Util::WARN;
+				$level = ILogger::WARN;
 				break;
 			case 'fatal':
-				$level = \OCP\Util::FATAL;
+				$level = ILogger::FATAL;
 				break;
 			default:
-				$level = \OCP\Util::ERROR;
+				$level = ILogger::ERROR;
 				break;
 		}
 		\OCP\Util::writeLog($this->getAppName(), $message, $level);

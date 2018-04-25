@@ -54,6 +54,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 
@@ -453,7 +454,7 @@ abstract class Common implements Storage, ILockingStorage {
 			return false;
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->info("External storage not available: " . $e->getMessage());
-			\OC::$server->getLogger()->logException($e, ['level' => \OCP\Util::DEBUG]);
+			\OC::$server->getLogger()->logException($e, ['level' => ILogger::DEBUG]);
 			return false;
 		}
 	}

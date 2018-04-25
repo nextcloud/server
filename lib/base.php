@@ -54,6 +54,7 @@
  *
  */
 
+use OCP\ILogger;
 use OCP\Share;
 use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
@@ -828,7 +829,7 @@ class OC {
 					// so log the exception
 					\OC::$server->getLogger()->logException($e, [
 						'message' => 'Exception when running cache gc.',
-						'level' => \OCP\Util::WARN,
+						'level' => ILogger::WARN,
 						'app' => 'core',
 					]);
 				}

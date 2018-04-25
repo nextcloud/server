@@ -59,6 +59,7 @@ namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
@@ -408,7 +409,7 @@ class Database extends ABackend
 		$query = \OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
 		$result = $query->execute();
 		if ($result === false) {
-			Util::writeLog('core', \OC_DB::getErrorMessage(), Util::ERROR);
+			Util::writeLog('core', \OC_DB::getErrorMessage(), ILogger::ERROR);
 			return false;
 		}
 		return $result->fetchOne();
