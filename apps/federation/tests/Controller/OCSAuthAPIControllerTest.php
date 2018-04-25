@@ -176,13 +176,10 @@ class OCSAuthAPIControllerTest extends TestCase {
 				->willReturn('secret');
 			$this->trustedServers->expects($this->once())
 				->method('addSharedSecret')->willReturn($url, 'secret');
-			$this->dbHandler->expects($this->once())
-				->method('addToken')->with($url, '');
 		} else {
 			$this->secureRandom->expects($this->never())->method('getMediumStrengthGenerator');
 			$this->secureRandom->expects($this->never())->method('generate');
 			$this->trustedServers->expects($this->never())->method('addSharedSecret');
-			$this->dbHandler->expects($this->never())->method('addToken');
 		}
 
 		try {

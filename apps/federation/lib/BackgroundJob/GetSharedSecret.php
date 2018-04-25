@@ -35,7 +35,6 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Ring\Exception\RingException;
 use OC\BackgroundJob\JobList;
 use OC\BackgroundJob\Job;
-use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -68,9 +67,6 @@ class GetSharedSecret extends Job {
 	/** @var TrustedServers  */
 	private $trustedServers;
 
-	/** @var DbHandler */
-	private $dbHandler;
-
 	/** @var IDiscoveryService  */
 	private $ocsDiscoveryService;
 
@@ -82,8 +78,6 @@ class GetSharedSecret extends Job {
 
 	/** @var bool */
 	protected $retainJob = false;
-
-	private $format = '?format=json';
 
 	private $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret';
 
@@ -98,7 +92,6 @@ class GetSharedSecret extends Job {
 	 * @param IJobList $jobList
 	 * @param TrustedServers $trustedServers
 	 * @param ILogger $logger
-	 * @param DbHandler $dbHandler
 	 * @param IDiscoveryService $ocsDiscoveryService
 	 * @param ITimeFactory $timeFactory
 	 */
@@ -108,7 +101,6 @@ class GetSharedSecret extends Job {
 		IJobList $jobList,
 		TrustedServers $trustedServers,
 		ILogger $logger,
-		DbHandler $dbHandler,
 		IDiscoveryService $ocsDiscoveryService,
 		ITimeFactory $timeFactory
 	) {
@@ -116,7 +108,6 @@ class GetSharedSecret extends Job {
 		$this->httpClient = $httpClientService->newClient();
 		$this->jobList = $jobList;
 		$this->urlGenerator = $urlGenerator;
-		$this->dbHandler = $dbHandler;
 		$this->ocsDiscoveryService = $ocsDiscoveryService;
 		$this->trustedServers = $trustedServers;
 		$this->timeFactory = $timeFactory;
@@ -172,7 +163,7 @@ class GetSharedSecret extends Job {
 		$endPoint = isset($endPoints['shared-secret']) ? $endPoints['shared-secret'] : $this->defaultEndPoint;
 
 		// make sure that we have a well formatted url
-		$url = rtrim($target, '/') . '/' . trim($endPoint, '/') . $this->format;
+		$url = rtrim($target, '/') . '/' . trim($endPoint, '/');
 
 		$result = null;
 		try {
@@ -182,7 +173,8 @@ class GetSharedSecret extends Job {
 					'query' =>
 						[
 							'url' => $source,
-							'token' => $token
+							'token' => $token,
+							'format' => 'json',
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
@@ -223,9 +215,6 @@ class GetSharedSecret extends Job {
 			&& $status !== Http::STATUS_FORBIDDEN
 		) {
 			$this->retainJob = true;
-		}  else {
-			// reset token if we received a valid response
-			$this->dbHandler->addToken($target, '');
 		}
 
 		if ($status === Http::STATUS_OK && $result instanceof IResponse) {
@@ -238,7 +227,7 @@ class GetSharedSecret extends Job {
 				);
 			} else {
 				$this->logger->error(
-						'remote server "' . $target . '"" does not return a valid shared secret',
+						'remote server "' . $target . '"" does not return a valid shared secret. Received data: ' . $body,
 						['app' => 'federation']
 				);
 				$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);

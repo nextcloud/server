@@ -32,7 +32,6 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Ring\Exception\RingException;
 use OCA\Federation\BackgroundJob\GetSharedSecret;
 use OCA\Files_Sharing\Tests\TestCase;
-use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -68,9 +67,6 @@ class GetSharedSecretTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject|TrustedServers  */
 	private $trustedServers;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|DbHandler */
-	private $dbHandler;
-
 	/** @var \PHPUnit_Framework_MockObject_MockObject|ILogger */
 	private $logger;
 
@@ -95,8 +91,6 @@ class GetSharedSecretTest extends TestCase {
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
 			->disableOriginalConstructor()->getMock();
-		$this->dbHandler = $this->getMockBuilder(DbHandler::class)
-			->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->response = $this->getMockBuilder(IResponse::class)->getMock();
 		$this->discoverService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
@@ -111,7 +105,6 @@ class GetSharedSecretTest extends TestCase {
 			$this->jobList,
 			$this->trustedServers,
 			$this->logger,
-			$this->dbHandler,
 			$this->discoverService,
 			$this->timeFactory
 		);
@@ -133,7 +126,6 @@ class GetSharedSecretTest extends TestCase {
 					$this->jobList,
 					$this->trustedServers,
 					$this->logger,
-					$this->dbHandler,
 					$this->discoverService,
 					$this->timeFactory
 				]
@@ -198,12 +190,13 @@ class GetSharedSecretTest extends TestCase {
 			->willReturn($source);
 		$this->httpClient->expects($this->once())->method('get')
 			->with(
-				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret?format=json',
+				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret',
 				[
 					'query' =>
 						[
 							'url' => $source,
-							'token' => $token
+							'token' => $token,
+							'format' => 'json',
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
@@ -212,15 +205,6 @@ class GetSharedSecretTest extends TestCase {
 
 		$this->response->expects($this->once())->method('getStatusCode')
 			->willReturn($statusCode);
-
-		if (
-			$statusCode !== Http::STATUS_OK
-			&& $statusCode !== Http::STATUS_FORBIDDEN
-		) {
-			$this->dbHandler->expects($this->never())->method('addToken');
-		}  else {
-			$this->dbHandler->expects($this->once())->method('addToken')->with($target, '');
-		}
 
 		if ($statusCode === Http::STATUS_OK) {
 			$this->response->expects($this->once())->method('getBody')
@@ -297,19 +281,19 @@ class GetSharedSecretTest extends TestCase {
 			->willReturn($source);
 		$this->httpClient->expects($this->once())->method('get')
 			->with(
-				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret?format=json',
+				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret',
 				[
 					'query' =>
 						[
 							'url' => $source,
-							'token' => $token
+							'token' => $token,
+							'format' => 'json',
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
 				]
 			)->willThrowException($this->createMock(ConnectException::class));
 
-		$this->dbHandler->expects($this->never())->method('addToken');
 		$this->trustedServers->expects($this->never())->method('addSharedSecret');
 
 		$this->invokePrivate($this->getSharedSecret, 'run', [$argument]);
@@ -334,19 +318,19 @@ class GetSharedSecretTest extends TestCase {
 			->willReturn($source);
 		$this->httpClient->expects($this->once())->method('get')
 			->with(
-				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret?format=json',
+				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret',
 				[
 					'query' =>
 						[
 							'url' => $source,
-							'token' => $token
+							'token' => $token,
+							'format' => 'json',
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
 				]
 			)->willThrowException($this->createMock(RingException::class));
 
-		$this->dbHandler->expects($this->never())->method('addToken');
 		$this->trustedServers->expects($this->never())->method('addSharedSecret');
 
 		$this->invokePrivate($this->getSharedSecret, 'run', [$argument]);
