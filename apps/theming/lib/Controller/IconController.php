@@ -33,21 +33,16 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
-use OCA\Theming\Util;
-use OCP\IConfig;
 
 class IconController extends Controller {
 	/** @var ThemingDefaults */
 	private $themingDefaults;
-	/** @var Util */
-	private $util;
 	/** @var ITimeFactory */
 	private $timeFactory;
-	/** @var IConfig */
-	private $config;
 	/** @var IconBuilder */
 	private $iconBuilder;
 	/** @var ImageManager */
@@ -61,19 +56,16 @@ class IconController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param ThemingDefaults $themingDefaults
-	 * @param Util $util
 	 * @param ITimeFactory $timeFactory
-	 * @param IConfig $config
 	 * @param IconBuilder $iconBuilder
 	 * @param ImageManager $imageManager
+	 * @param FileAccessHelper $fileAccessHelper
 	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
 		ThemingDefaults $themingDefaults,
-		Util $util,
 		ITimeFactory $timeFactory,
-		IConfig $config,
 		IconBuilder $iconBuilder,
 		ImageManager $imageManager,
 		FileAccessHelper $fileAccessHelper
@@ -81,9 +73,7 @@ class IconController extends Controller {
 		parent::__construct($appName, $request);
 
 		$this->themingDefaults = $themingDefaults;
-		$this->util = $util;
 		$this->timeFactory = $timeFactory;
-		$this->config = $config;
 		$this->iconBuilder = $iconBuilder;
 		$this->imageManager = $imageManager;
 		$this->fileAccessHelper = $fileAccessHelper;
@@ -96,16 +86,17 @@ class IconController extends Controller {
 	 * @param $app string app name
 	 * @param $image string image file name (svg required)
 	 * @return FileDisplayResponse|NotFoundResponse
+	 * @throws \Exception
 	 */
-	public function getThemedIcon($app, $image) {
+	public function getThemedIcon(string $app, string $image): Response {
 		try {
-			$iconFile = $this->imageManager->getCachedImage("icon-" . $app . '-' . str_replace("/","_",$image));
+			$iconFile = $this->imageManager->getCachedImage('icon-' . $app . '-' . str_replace('/', '_',$image));
 		} catch (NotFoundException $exception) {
 			$icon = $this->iconBuilder->colorSvg($app, $image);
-			if ($icon === false || $icon === "") {
+			if ($icon === false || $icon === '') {
 				return new NotFoundResponse();
 			}
-			$iconFile = $this->imageManager->setCachedImage("icon-" . $app . '-' . str_replace("/","_",$image), $icon);
+			$iconFile = $this->imageManager->setCachedImage('icon-' . $app . '-' . str_replace('/', '_',$image), $icon);
 		}
 		if ($iconFile !== false) {
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
@@ -116,9 +107,9 @@ class IconController extends Controller {
 			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 			$response->addHeader('Pragma', 'cache');
 			return $response;
-		} else {
-			return new NotFoundResponse();
 		}
+
+		return new NotFoundResponse();
 	}
 
 	/**
@@ -129,10 +120,17 @@ class IconController extends Controller {
 	 *
 	 * @param $app string app name
 	 * @return FileDisplayResponse|DataDisplayResponse
+	 * @throws \Exception
 	 */
-	public function getFavicon($app = "core") {
+	public function getFavicon(string $app = 'core'): Response {
 		$response = null;
-		if ($this->themingDefaults->shouldReplaceIcons()) {
+		$iconFile = null;
+		try {
+			$iconFile = $this->imageManager->getImage('favicon');
+			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+		} catch (NotFoundException $e) {
+		}
+		if ($iconFile === null && $this->themingDefaults->shouldReplaceIcons()) {
 			try {
 				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
 			} catch (NotFoundException $exception) {
@@ -164,9 +162,15 @@ class IconController extends Controller {
 	 *
 	 * @param $app string app name
 	 * @return FileDisplayResponse|NotFoundResponse
+	 * @throws \Exception
 	 */
-	public function getTouchIcon($app = "core") {
+	public function getTouchIcon(string $app = 'core'): Response {
 		$response = null;
+		try {
+			$iconFile = $this->imageManager->getImage('favicon');
+			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+		} catch (NotFoundException $e) {
+		}
 		if ($this->themingDefaults->shouldReplaceIcons()) {
 			try {
 				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
