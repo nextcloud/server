@@ -69,7 +69,7 @@ class ExceptionLoggerPluginTest extends TestCase {
 			});
 
 		$this->server = new Server();
-		$this->logger = new TestLogger(new Log\File(\OC::$SERVERROOT.'/data/nextcloud.log'), $config);
+		$this->logger = new TestLogger(new Log\File(\OC::$SERVERROOT.'/data/nextcloud.log', '', $config), $config);
 		$this->plugin = new PluginToTest('unit-test', $this->logger);
 		$this->plugin->initialize($this->server);
 	}

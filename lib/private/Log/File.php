@@ -36,6 +36,8 @@
  */
 
 namespace OC\Log;
+use OCP\IConfig;
+use OCP\Log\IWriter;
 
 use OCP\ILogger;
 
@@ -45,11 +47,13 @@ use OCP\ILogger;
  * Log is saved at data/nextcloud.log (on default)
  */
 
-class File implements IWritable, IFileBased {
+class File implements IWriter, IFileBased {
 	/** @var string */
 	protected $logFile;
+	/** @var IConfig */
+	private $config;
 
-	public function __construct(string $path, string $fallbackPath = '') {
+	public function __construct(string $path, string $fallbackPath = '', IConfig $config) {
 		$this->logFile = $path;
 		if (!file_exists($this->logFile)) {
 			if(
@@ -62,6 +66,7 @@ class File implements IWritable, IFileBased {
 				$this->logFile = $fallbackPath;
 			}
 		}
+		$this->config = $config;
 	}
 
 	/**
@@ -70,12 +75,10 @@ class File implements IWritable, IFileBased {
 	 * @param string|array $message
 	 * @param int $level
 	 */
-	public function write($app, $message, $level) {
-		$config = \OC::$server->getSystemConfig();
-
+	public function write(string $app, $message, int $level) {
 		// default to ISO8601
-		$format = $config->getValue('logdateformat', \DateTime::ATOM);
-		$logTimeZone = $config->getValue('logtimezone', 'UTC');
+		$format = $this->config->getSystemValue('logdateformat', \DateTime::ATOM);
+		$logTimeZone = $this->config->getSystemValue('logtimezone', 'UTC');
 		try {
 			$timezone = new \DateTimeZone($logTimeZone);
 		} catch (\Exception $e) {
@@ -95,7 +98,7 @@ class File implements IWritable, IFileBased {
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		if($config->getValue('installed', false)) {
+		if($this->config->getSystemValue('installed', false)) {
 			$user = \OC_User::getUser() ? \OC_User::getUser() : '--';
 		} else {
 			$user = '--';
@@ -104,7 +107,7 @@ class File implements IWritable, IFileBased {
 		if ($userAgent === '') {
 			$userAgent = '--';
 		}
-		$version = $config->getValue('version', '');
+		$version = $this->config->getSystemValue('version', '');
 		$entry = compact(
 			'reqId',
 			'level',
@@ -153,7 +156,7 @@ class File implements IWritable, IFileBased {
 	 * @return array
 	 */
 	public function getEntries($limit=50, $offset=0) {
-		$minLevel = \OC::$server->getSystemConfig()->getValue("loglevel", ILogger::WARN);
+		$minLevel = $this->config->getSystemValue("loglevel", ILogger::WARN);
 		$entries = array();
 		$handle = @fopen($this->logFile, 'rb');
 		if ($handle) {

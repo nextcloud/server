@@ -21,8 +21,17 @@
  *
  */
 
-namespace OC\Log;
+namespace OCP\Log;
 
-interface IWritable {
-	public function write($app, $message, $level);
+/**
+ * Interface IWriter
+ *
+ * @package OCP\Log
+ * @since 14.0.0
+ */
+interface IWriter {
+	/**
+	 * @since 14.0.0
+	 */
+	public function write(string $app, $message, int $level);
 }

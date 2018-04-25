@@ -23,9 +23,13 @@
 
 namespace OC\Log;
 
+use OC\Log;
+use OCP\ILogger;
 use OCP\IServerContainer;
+use OCP\Log\ILogFactory;
+use OCP\Log\IWriter;
 
-class LogFactory {
+class LogFactory implements ILogFactory {
 	/** @var IServerContainer */
 	private $c;
 
@@ -38,7 +42,7 @@ class LogFactory {
 	 * @return \OC\Log\Errorlog|File|\stdClass
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function get($type) {
+	public function get(string $type):IWriter {
 		switch (strtolower($type)) {
 			case 'errorlog':
 				return new Errorlog();
@@ -51,16 +55,23 @@ class LogFactory {
 			case 'owncloud':
 			case 'nextcloud':
 			default:
-			return $this->buildLogFile();
+				return $this->buildLogFile();
 		}
 	}
 
-	protected function buildLogFile() {
+	public function getCustomLogger(string $path):ILogger {
+		$log = $this->buildLogFile($path);
+		return new Log($log, $this->c->getConfig());
+	}
+
+	protected function buildLogFile(string $logFile = ''):File {
 		$config = $this->c->getConfig();
 		$defaultLogFile = $config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data').'/nextcloud.log';
-		$logFile = $config->getSystemValue('logfile', $defaultLogFile);
+		if($logFile === '') {
+			$logFile = $config->getSystemValue('logfile', $defaultLogFile);
+		}
 		$fallback = $defaultLogFile !== $logFile ? $defaultLogFile : '';
 
-		return new File($logFile, $fallback);
+		return new File($logFile, $fallback, $config);
 	}
 }

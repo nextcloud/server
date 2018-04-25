@@ -135,6 +135,7 @@ use OCP\ITempManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
+use OCP\Log\ILogFactory;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
@@ -549,12 +550,17 @@ class Server extends ServerContainer implements IServerContainer {
 			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
 			$factory = new LogFactory($c);
 			$logger = $factory->get($logType);
-			$config = $this->getSystemConfig();
+			$config = $this->getConfig();
 			$registry = $c->query(\OCP\Support\CrashReport\IRegistry::class);
 
 			return new Log($logger, $config, null, $registry);
 		});
 		$this->registerAlias('Logger', \OCP\ILogger::class);
+
+		$this->registerService(ILogFactory::class, function (Server $c) {
+			return new LogFactory($c);
+		});
+		$this->registerAlias('LogFactory', ILogFactory::class);
 
 		$this->registerService(\OCP\BackgroundJob\IJobList::class, function (Server $c) {
 			$config = $c->getConfig();
@@ -1527,6 +1533,14 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getLogger() {
 		return $this->query('Logger');
+	}
+
+	/**
+	 * @return ILogFactory
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function getLogFactory() {
+		return $this->query('LogFactory');
 	}
 
 	/**

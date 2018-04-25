@@ -25,7 +25,9 @@
 
 namespace OC\Log;
 
-class Errorlog implements IWritable {
+use OCP\Log\IWriter;
+
+class Errorlog implements IWriter {
 
 	/**
 	 * write a message in the log
@@ -33,7 +35,7 @@ class Errorlog implements IWritable {
 	 * @param string $message
 	 * @param int $level
 	 */
-	public function write($app, $message, $level) {
+	public function write(string $app, $message, int $level) {
 		error_log('[owncloud]['.$app.']['.$level.'] '.$message);
 	}
 }
