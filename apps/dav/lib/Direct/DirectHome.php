@@ -77,7 +77,7 @@ class DirectHome implements ICollection {
 			$direct = $this->mapper->getByToken($name);
 
 			// Expired
-			if ($direct->getExpiration() >= $this->timeFactory->getTime()) {
+			if ($direct->getExpiration() < $this->timeFactory->getTime()) {
 				throw new NotFound();
 			}
 
