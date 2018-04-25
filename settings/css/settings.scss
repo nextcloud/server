@@ -160,6 +160,16 @@ input {
 	.section {
 		padding: 10px 10px;
 	}
+
+	.personal-info {
+		margin-right: 10%;
+		margin-bottom: 20px;
+	}
+	.personal-info[class^='icon-'], .personal-info[class*=' icon-'] {
+		background-position: 0px 2px;
+		padding-left: 30px;
+		opacity: 0.7;
+	}
 }
 
 
@@ -269,6 +279,26 @@ input {
 		opacity: 100;
 	}
 }
+
+
+#body-settings #quota {
+	cursor: default;
+	position: relative;
+	progress {
+		height: 6px;
+		&::-moz-progress-bar {
+			border-radius: 3px 0 0 3px;
+		}
+		&::-webkit-progress-value {
+			border-radius: 3px 0 0 3px;
+		}
+	}
+	div {
+		font-weight: normal;
+		white-space: nowrap;
+	}
+}
+
 
 /* verify accounts */
 /* only show pointer cursor when popup will be there */

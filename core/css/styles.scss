@@ -927,40 +927,6 @@ code {
 	font-family: 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', monospace;
 }
 
-#body-settings #quota {
-	cursor: default;
-	margin: 30px !important;
-	position: relative;
-	padding: 0 !important;
-	progress {
-		height: 36px;
-		&::-moz-progress-bar {
-			border-radius: 3px 0 0 3px;
-		}
-		&::-webkit-progress-value {
-			border-radius: 3px 0 0 3px;
-		}
-	}
-	div {
-		font-weight: normal;
-		white-space: nowrap;
-		position: absolute;;
-		top: 0;
-		&.quotatext-bg {
-			mix-blend-mode: luminosity;
-		}
-		&.quotatext-fg {
-			color: $color-primary-text;
-			overflow: hidden;
-			z-index: 50;
-			max-width: 100%;
-		}
-		.quotatext {
-			padding: .6em 1em;
-		}
-	}
-}
-
 .pager {
 	list-style: none;
 	float: right;
