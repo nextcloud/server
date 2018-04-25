@@ -242,6 +242,7 @@ return array(
     'OCP\\Log\\IFileBased' => $baseDir . '/lib/public/Log/IFileBased.php',
     'OCP\\Log\\ILogFactory' => $baseDir . '/lib/public/Log/ILogFactory.php',
     'OCP\\Log\\IWriter' => $baseDir . '/lib/public/Log/IWriter.php',
+    'OCP\\Log\\RotationTrait' => $baseDir . '/lib/public/Log/RotationTrait.php',
     'OCP\\Mail\\IAttachment' => $baseDir . '/lib/public/Mail/IAttachment.php',
     'OCP\\Mail\\IEMailTemplate' => $baseDir . '/lib/public/Mail/IEMailTemplate.php',
     'OCP\\Mail\\IMailer' => $baseDir . '/lib/public/Mail/IMailer.php',

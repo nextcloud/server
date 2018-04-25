@@ -63,8 +63,10 @@ class Application extends App {
 
 	public function initLogger() {
 		$c = $this->getContainer()->getServer();
+		$config = $c->getConfig();
 
-		$logFile = $c->getConfig()->getAppValue('admin_audit', 'logfile', null);
+		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
+		$logFile = $config->getAppValue('admin_audit', 'logfile', $default);
 		if($logFile === null) {
 			$this->logger = $c->getLogger();
 			return;

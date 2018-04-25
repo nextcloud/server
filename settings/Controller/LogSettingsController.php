@@ -39,7 +39,7 @@ use OCP\IRequest;
  */
 class LogSettingsController extends Controller {
 
-	/** @var Log */
+	/** @var ILogger */
 	private $log;
 
 	public function __construct(string $appName, IRequest $request, ILogger $logger) {

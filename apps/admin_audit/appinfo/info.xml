@@ -17,4 +17,7 @@
 	<dependencies>
 		<nextcloud min-version="14" max-version="14" />
 	</dependencies>
+	<background-jobs>
+		<job>OCA\AdminAudit\BackgroundJobs\Rotate</job>
+	</background-jobs>
 </info>

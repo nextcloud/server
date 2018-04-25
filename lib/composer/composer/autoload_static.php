@@ -272,6 +272,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Log\\IFileBased' => __DIR__ . '/../../..' . '/lib/public/Log/IFileBased.php',
         'OCP\\Log\\ILogFactory' => __DIR__ . '/../../..' . '/lib/public/Log/ILogFactory.php',
         'OCP\\Log\\IWriter' => __DIR__ . '/../../..' . '/lib/public/Log/IWriter.php',
+        'OCP\\Log\\RotationTrait' => __DIR__ . '/../../..' . '/lib/public/Log/RotationTrait.php',
         'OCP\\Mail\\IAttachment' => __DIR__ . '/../../..' . '/lib/public/Mail/IAttachment.php',
         'OCP\\Mail\\IEMailTemplate' => __DIR__ . '/../../..' . '/lib/public/Mail/IEMailTemplate.php',
         'OCP\\Mail\\IMailer' => __DIR__ . '/../../..' . '/lib/public/Mail/IMailer.php',
