@@ -21,7 +21,7 @@
  *
  */
 
-namespace OC\Log;
+namespace OCP\Log;
 
 interface IFileBased {
 	public function getLogFilePath();

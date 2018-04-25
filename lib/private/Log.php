@@ -38,7 +38,7 @@ namespace OC;
 use InterfaSys\LogNormalizer\Normalizer;
 
 use OC\Log\ExceptionSerializer;
-use OC\Log\IFileBased;
+use OCP\Log\IFileBased;
 use OCP\IConfig;
 use OCP\Log\IWriter;
 use OCP\ILogger;

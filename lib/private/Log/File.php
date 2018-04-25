@@ -37,6 +37,7 @@
 
 namespace OC\Log;
 use OCP\IConfig;
+use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
 
 use OCP\ILogger;
