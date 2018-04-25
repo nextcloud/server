@@ -12,6 +12,7 @@ OC.L10N.register(
     "More comments …" : "其他留言…",
     "Save" : "儲存",
     "Allowed characters {count} of {max}" : "已輸入 {count} / 長度限制 {max}",
+    "Error occurred while retrieving comment with ID {id}" : "在擷取 ID {id} 的註解時發生錯誤",
     "Error occurred while updating comment with id {id}" : "編輯留言 {id} 發生錯誤",
     "Error occurred while posting comment" : "張貼留言出錯",
     "_%n unread comment_::_%n unread comments_" : ["%n 未讀留言"],

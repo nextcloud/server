@@ -359,7 +359,7 @@ OC.L10N.register(
     "Show user backend" : "Benutzer-Backend anzeigen",
     "Show last login" : "Letzte Anmeldung anzeigen",
     "When the password of a new user is left empty, an activation email with a link to set the password is sent." : "Wenn das Passwort für den neuen Benutzer leer gelassen wird, wird eine Aktivierungs-E-Mail mit einem Link zur Passwortvergabe versandt.",
-    "Add user" : "User hinzufügen.",
+    "Add user" : "Benutzer hinzufügen",
     "Everyone" : "Jeder",
     "Admins" : "Administratoren",
     "Disabled" : "Deaktiviert",
