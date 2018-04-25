@@ -30,7 +30,7 @@ use OCP\IConfig;
 use OCP\Log\IWriter;
 
 class Syslog implements IWriter {
-	static protected $levels = [
+	protected $levels = [
 		ILogger::DEBUG => LOG_DEBUG,
 		ILogger::INFO => LOG_INFO,
 		ILogger::WARN => LOG_WARNING,
@@ -40,7 +40,10 @@ class Syslog implements IWriter {
 
 	public function __construct(IConfig $config) {
 		openlog($config->getSystemValue('syslog_tag', 'ownCloud'), LOG_PID | LOG_CONS, LOG_USER);
-		register_shutdown_function('closelog');
+	}
+
+	public function __destruct() {
+		closelog();
 	}
 
 	/**
@@ -50,7 +53,7 @@ class Syslog implements IWriter {
 	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level) {
-		$syslog_level = self::$levels[$level];
+		$syslog_level = $this->levels[$level];
 		syslog($syslog_level, '{'.$app.'} '.$message);
 	}
 }
