@@ -39,7 +39,6 @@ use InterfaSys\LogNormalizer\Normalizer;
 
 use OC\Log\ExceptionSerializer;
 use OCP\Log\IFileBased;
-use OCP\IConfig;
 use OCP\Log\IWriter;
 use OCP\ILogger;
 use OCP\Support\CrashReport\IRegistry;
@@ -59,7 +58,7 @@ class Log implements ILogger {
 	/** @var IWriter */
 	private $logger;
 
-	/** @var IConfig */
+	/** @var SystemConfig */
 	private $config;
 
 	/** @var boolean|null cache the result of the log condition check for the request */
@@ -73,14 +72,14 @@ class Log implements ILogger {
 
 	/**
 	 * @param IWriter $logger The logger that should be used
-	 * @param IConfig $config the system config object
+	 * @param SystemConfig $config the system config object
 	 * @param Normalizer|null $normalizer
 	 * @param IRegistry|null $registry
 	 */
-	public function __construct(IWriter $logger, IConfig $config = null, $normalizer = null, IRegistry $registry = null) {
+	public function __construct(IWriter $logger, SystemConfig $config = null, $normalizer = null, IRegistry $registry = null) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
-			$config = \OC::$server->getConfig();
+			$config = \OC::$server->getSystemConfig();
 		}
 
 		$this->config = $config;
@@ -258,7 +257,7 @@ class Log implements ILogger {
 		}
 
 		if (isset($context['app'])) {
-			$logCondition = $this->config->getSystemValue('log.condition', []);
+			$logCondition = $this->config->getValue('log.condition', []);
 			$app = $context['app'];
 
 			/**
@@ -272,7 +271,7 @@ class Log implements ILogger {
 			}
 		}
 
-		return min($this->config->getSystemValue('loglevel', ILogger::WARN), ILogger::FATAL);
+		return min($this->config->getValue('loglevel', ILogger::WARN), ILogger::FATAL);
 	}
 
 	/**

@@ -550,10 +550,9 @@ class Server extends ServerContainer implements IServerContainer {
 			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
 			$factory = new LogFactory($c);
 			$logger = $factory->get($logType);
-			$config = $this->getConfig();
 			$registry = $c->query(\OCP\Support\CrashReport\IRegistry::class);
 
-			return new Log($logger, $config, null, $registry);
+			return new Log($logger, $this->getSystemConfig(), null, $registry);
 		});
 		$this->registerAlias('Logger', \OCP\ILogger::class);
 

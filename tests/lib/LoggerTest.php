@@ -30,7 +30,7 @@ class LoggerTest extends TestCase implements IWriter {
 		parent::setUp();
 
 		$this->logs = [];
-		$this->config = $this->createMock(\OCP\IConfig::class);
+		$this->config = $this->createMock(\OC\SystemConfig::class);
 		$this->registry = $this->createMock(\OCP\Support\CrashReport\IRegistry::class);
 		$this->logger = new Log($this, $this->config, null, $this->registry);
 	}
@@ -45,7 +45,7 @@ class LoggerTest extends TestCase implements IWriter {
 
 	public function testAppCondition() {
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getValue')
 			->will(($this->returnValueMap([
 				['loglevel', ILogger::WARN, ILogger::WARN],
 				['log.condition', [], ['apps' => ['files']]]

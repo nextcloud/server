@@ -23,6 +23,7 @@
 
 namespace OC\Log;
 
+use OC\AllConfig;
 use OC\Log;
 use OCP\ILogger;
 use OCP\IServerContainer;
@@ -60,8 +61,14 @@ class LogFactory implements ILogFactory {
 	}
 
 	public function getCustomLogger(string $path):ILogger {
+		$systemConfig = null;
+		$iconfig = $this->c->getConfig();
+		if($iconfig instanceof AllConfig) {
+			// Log is bound to SystemConfig, but fetches it from \OC::$server if not supplied
+			$systemConfig = $iconfig->getSystemConfig();
+		}
 		$log = $this->buildLogFile($path);
-		return new Log($log, $this->c->getConfig());
+		return new Log($log, $systemConfig);
 	}
 
 	protected function buildLogFile(string $logFile = ''):File {
