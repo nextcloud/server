@@ -27,9 +27,11 @@ namespace OCA\DAV\Controller;
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -87,25 +89,22 @@ class DirectController extends OCSController {
 		}
 
 		$file = array_shift($files);
-		$storage = $file->getStorage();
-		$directDownload = $storage->getDirectDownload($file->getInternalPath());
-
-		if (isset($directDownload['url'])) {
-			$url = $directDownload['url'];
-		} else {
-			// Fallback to our default implemenation
-			$direct = new Direct();
-			$direct->setUserId($this->userId);
-			$direct->setFileId($fileId);
-
-			$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
-			$direct->setToken($token);
-			$direct->setExpiration($this->timeFactory->getTime() + 60 * 60 * 8);
-
-			$this->mapper->insert($direct);
-
-			$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/'.$token);
+		if (!($file instanceof File)) {
+			throw new OCSBadRequestException('Direct download only works for files');
 		}
+
+		//TODO: at some point we should use the directdownlaod function of storages
+		$direct = new Direct();
+		$direct->setUserId($this->userId);
+		$direct->setFileId($fileId);
+
+		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		$direct->setToken($token);
+		$direct->setExpiration($this->timeFactory->getTime() + 60 * 60 * 8);
+
+		$this->mapper->insert($direct);
+
+		$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/'.$token);
 
 		return new DataResponse([
 			'url' => $url,
