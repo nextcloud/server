@@ -56,7 +56,7 @@ class SwiftFactory {
 	private function getCachedToken(string $cacheKey) {
 		$cachedTokenString = $this->cache->get($cacheKey . '/token');
 		if ($cachedTokenString) {
-			return json_decode($cachedTokenString);
+			return json_decode($cachedTokenString, true);
 		} else {
 			return null;
 		}
