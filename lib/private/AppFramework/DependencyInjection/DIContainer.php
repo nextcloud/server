@@ -46,6 +46,7 @@ use OC\AppFramework\Middleware\Security\RateLimitingMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\Collaboration\Collaborators\SearchResult;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\RichObjectStrings\Validator;
 use OC\ServerContainer;
@@ -53,6 +54,7 @@ use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\GlobalScale\IConfig;
@@ -62,7 +64,6 @@ use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\RichObjectStrings\IValidator;
-use OCP\Util;
 use OCP\Encryption\IManager;
 use OCA\WorkflowEngine\Manager;
 
@@ -143,6 +144,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService(\OCP\AppFramework\IAppContainer::class, function ($c) {
 			return $c;
 		});
+
+		$this->registerAlias(ISearchResult::class, SearchResult::class);
 
 		// commonly used attributes
 		$this->registerService('UserId', function ($c) {
