@@ -265,7 +265,11 @@ class Node implements \OCP\Files\Node {
 	 * @return Node
 	 */
 	public function getParent() {
-		return $this->root->get(dirname($this->path));
+		$newPath = dirname($this->path);
+		if ($newPath === '' || $newPath === '.' || $newPath === '/') {
+			return $this->root;
+		}
+		return $this->root->get($newPath);
 	}
 
 	/**
