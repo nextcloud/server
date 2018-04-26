@@ -32,6 +32,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Uppfærsla fyrir {app} í útgáfu %s er tiltæk.",
     "Update notification" : "Tilkynning um uppfærslu",
     "A new version is available: %s" : "Ný útgáfa er tiltæk: %s",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Útgáfunni sem þú ert að keyra er ekki legur viðhaldið. Uppfærðu í studda útgáfu við fyrsta tækifæri.",
     "Download now" : "Sækja núna",
     "Checked on %s" : "Athugað þann %s",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Valda uppfærslurásin gerir úreltar sértækar tilkynningar fyrir vefþjóninn.",
