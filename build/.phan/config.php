@@ -155,7 +155,7 @@ return [
 	// Issue::SEVERITY_CRITICAL. Setting it to only
 	// critical issues is a good place to start on a big
 	// sloppy mature code base.
-	'minimum_severity' => \Phan\Issue::SEVERITY_CRITICAL,
+	'minimum_severity' => \Phan\Issue::SEVERITY_NORMAL,
 
 	// If true, missing properties will be created when
 	// they are first seen. If false, we'll report an
