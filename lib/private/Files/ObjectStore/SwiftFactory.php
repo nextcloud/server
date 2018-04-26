@@ -131,9 +131,9 @@ class SwiftFactory {
 
 		$cachedToken = $this->params['cachedToken'];
 		$hasValidCachedToken = false;
-		if (is_array($cachedToken)) {
+		if (\is_array($cachedToken) && ($authService instanceof IdentityV3Service)) {
 			$token = $authService->generateTokenFromCache($cachedToken);
-			if (is_null($token->catalog)) {
+			if (\is_null($token->catalog)) {
 				$this->logger->warning('Invalid cached token for swift, no catalog set: ' . json_encode($cachedToken));
 			} else if ($token->hasExpired()) {
 				$this->logger->debug('Cached token for swift expired');
