@@ -723,6 +723,7 @@ describe('OCA.Sharing.FileList tests', function() {
 				mimetype: 'text/plain',
 				size: 12,
 				permissions: OC.PERMISSION_READ,
+				sharePermissions: OC.PERMISSION_READ,
 				etag: 'abc',
 				shareOwner: 'User One',
 				recipients: 'User Two',
@@ -730,7 +731,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			}]);
 			$tr = fileList.$el.find('tr:first');
 
-			expect(parseInt($tr.attr('data-share-permissions'), 10)).toEqual(OC.PERMISSION_ALL - OC.PERMISSION_SHARE);
+			expect(parseInt($tr.attr('data-share-permissions'), 10)).toEqual(OC.PERMISSION_READ);
 		});
 
 		it('external storage root folder reshare', function () {
@@ -744,6 +745,7 @@ describe('OCA.Sharing.FileList tests', function() {
 				mimetype: 'text/plain',
 				size: 12,
 				permissions: OC.PERMISSION_READ + OC.PERMISSION_SHARE,
+				sharePermissions: OC.PERMISSION_READ + OC.PERMISSION_SHARE,
 				etag: 'abc',
 				shareOwner: 'User One',
 				recipients: 'User Two',
@@ -751,7 +753,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			}]);
 			$tr = fileList.$el.find('tr:first');
 
-			expect(parseInt($tr.attr('data-share-permissions'), 10)).toEqual(OC.PERMISSION_ALL);
+			expect(parseInt($tr.attr('data-share-permissions'), 10)).toEqual(OC.PERMISSION_READ + OC.PERMISSION_SHARE);
 		});
 
 		it('external storage root folder file', function () {
@@ -765,6 +767,7 @@ describe('OCA.Sharing.FileList tests', function() {
 				mimetype: 'text/plain',
 				size: 12,
 				permissions: OC.PERMISSION_READ,
+				sharePermissions: OC.PERMISSION_READ,
 				etag: 'abc',
 				shareOwner: 'User One',
 				recipients: 'User Two',
@@ -773,7 +776,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			$tr = fileList.$el.find('tr:first');
 
 			expect(parseInt($tr.attr('data-share-permissions'), 10))
-				.toEqual(OC.PERMISSION_ALL - OC.PERMISSION_SHARE - OC.PERMISSION_DELETE - OC.PERMISSION_CREATE);
+				.toEqual(OC.PERMISSION_READ);
 		});
 	});
 });
