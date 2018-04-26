@@ -27,6 +27,7 @@ namespace OC\Files\ObjectStore;
 use Aws\ClientResolver;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use OCP\ILogger;
 
 trait S3ConnectionTrait {
 	/** @var array */
@@ -113,7 +114,7 @@ trait S3ConnectionTrait {
 			} catch (S3Exception $e) {
 				$logger->logException($e, [
 					'message' => 'Invalid remote storage.',
-					'level' => \OCP\Util::DEBUG,
+					'level' => ILogger::DEBUG,
 					'app' => 'objectstore',
 				]);
 				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());

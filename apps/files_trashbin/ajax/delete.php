@@ -24,6 +24,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\ILogger;
+
 \OC_JSON::checkLoggedIn();
 \OC_JSON::callCheck();
 \OC::$server->getSession()->close();
@@ -66,7 +69,7 @@ foreach ($list as $file) {
 	OCA\Files_Trashbin\Trashbin::delete($filename, \OCP\User::getUser(), $timestamp);
 	if (OCA\Files_Trashbin\Trashbin::file_exists($filename, $timestamp)) {
 		$error[] = $filename;
-		\OCP\Util::writeLog('trashbin','can\'t delete ' . $filename . ' permanently.', \OCP\Util::ERROR);
+		\OCP\Util::writeLog('trashbin','can\'t delete ' . $filename . ' permanently.', ILogger::ERROR);
 	}
 	// only list deleted files if not deleting everything
 	else if (!$deleteAll) {

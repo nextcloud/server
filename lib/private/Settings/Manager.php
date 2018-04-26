@@ -150,12 +150,12 @@ class Manager implements IManager {
 				/** @var ISection $section */
 				$section = \OC::$server->query($class);
 			} catch (QueryException $e) {
-				$this->log->logException($e, ['level' => Util::INFO]);
+				$this->log->logException($e, ['level' => ILogger::INFO]);
 				continue;
 			}
 
 			if (!$section instanceof ISection) {
-				$this->log->logException(new \InvalidArgumentException('Invalid settings section registered'), ['level' => Util::INFO]);
+				$this->log->logException(new \InvalidArgumentException('Invalid settings section registered'), ['level' => ILogger::INFO]);
 				continue;
 			}
 
@@ -200,12 +200,12 @@ class Manager implements IManager {
 				/** @var ISettings $setting */
 				$setting = \OC::$server->query($class);
 			} catch (QueryException $e) {
-				$this->log->logException($e, ['level' => Util::INFO]);
+				$this->log->logException($e, ['level' => ILogger::INFO]);
 				continue;
 			}
 
 			if (!$setting instanceof ISettings) {
-				$this->log->logException(new \InvalidArgumentException('Invalid settings setting registered'), ['level' => Util::INFO]);
+				$this->log->logException(new \InvalidArgumentException('Invalid settings setting registered'), ['level' => ILogger::INFO]);
 				continue;
 			}
 

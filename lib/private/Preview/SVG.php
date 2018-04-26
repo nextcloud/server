@@ -24,6 +24,8 @@
  */
 namespace OC\Preview;
 
+use OCP\ILogger;
+
 class SVG extends Provider {
 	/**
 	 * {@inheritDoc}
@@ -54,7 +56,7 @@ class SVG extends Provider {
 			$svg->setImageFormat('png32');
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;

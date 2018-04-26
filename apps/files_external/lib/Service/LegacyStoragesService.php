@@ -25,6 +25,7 @@
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\ILogger;
 
 /**
  * Read mount config from legacy mount.json
@@ -190,7 +191,7 @@ abstract class LegacyStoragesService {
 						// don't die if a storage backend doesn't exist
 						\OC::$server->getLogger()->logException($e, [
 							'message' => 'Could not load storage.',
-							'level' => \OCP\Util::ERROR,
+							'level' => ILogger::ERROR,
 							'app' => 'files_external',
 						]);
 					}

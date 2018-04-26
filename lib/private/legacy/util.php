@@ -62,6 +62,7 @@
 
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
 
 class OC_Util {
@@ -100,7 +101,7 @@ class OC_Util {
 	private static function initObjectStoreRootFS($config) {
 		// check misconfiguration
 		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = array();
@@ -134,7 +135,7 @@ class OC_Util {
 	private static function initObjectStoreMultibucketRootFS($config) {
 		// check misconfiguration
 		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = array();
@@ -409,7 +410,7 @@ class OC_Util {
 			\OCP\Util::writeLog(
 				'files_skeleton',
 				'copying skeleton for '.$userId.' from '.$skeletonDirectory.' to '.$userDirectory->getFullPath('/'),
-				\OCP\Util::DEBUG
+				ILogger::DEBUG
 			);
 			self::copyr($skeletonDirectory, $userDirectory);
 			// update the file cache
@@ -1378,7 +1379,7 @@ class OC_Util {
 		// XCache
 		if (function_exists('xcache_clear_cache')) {
 			if (\OC::$server->getIniWrapper()->getBool('xcache.admin.enable_auth')) {
-				\OCP\Util::writeLog('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', \OCP\Util::WARN);
+				\OCP\Util::writeLog('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', ILogger::WARN);
 			} else {
 				@xcache_clear_cache(XC_TYPE_PHP, 0);
 			}

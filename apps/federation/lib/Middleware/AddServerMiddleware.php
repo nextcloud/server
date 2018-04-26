@@ -72,7 +72,7 @@ class AddServerMiddleware extends Middleware {
 			throw $exception;
 		}
 		$this->logger->logException($exception, [
-			'level' => \OCP\Util::ERROR,
+			'level' => ILogger::ERROR,
 			'app' => $this->appName,
 		]);
 		if ($exception instanceof HintException) {

@@ -31,6 +31,7 @@
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
+use OCP\ILogger;
 
 class ZIP extends Archive{
 	/**
@@ -47,7 +48,7 @@ class ZIP extends Archive{
 		$this->zip=new \ZipArchive();
 		if($this->zip->open($source, \ZipArchive::CREATE)) {
 		}else{
-			\OCP\Util::writeLog('files_archive', 'Error while opening archive '.$source, \OCP\Util::WARN);
+			\OCP\Util::writeLog('files_archive', 'Error while opening archive '.$source, ILogger::WARN);
 		}
 	}
 	/**

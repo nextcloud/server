@@ -24,6 +24,7 @@
  */
 
 namespace OC\Log;
+use OCP\ILogger;
 
 /**
  * This rotates the current logfile to a new name, this way the total log usage
@@ -49,6 +50,6 @@ class Rotate extends \OC\BackgroundJob\Job {
 		$rotatedLogfile = $logfile.'.1';
 		rename($logfile, $rotatedLogfile);
 		$msg = 'Log file "'.$logfile.'" was over '.$this->max_log_size.' bytes, moved to "'.$rotatedLogfile.'"';
-		\OCP\Util::writeLog(Rotate::class, $msg, \OCP\Util::WARN);
+		\OCP\Util::writeLog(Rotate::class, $msg, ILogger::WARN);
 	}
 }

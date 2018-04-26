@@ -28,6 +28,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\ILogger;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
@@ -208,7 +210,7 @@ if (\OCP\Util::needUpgrade()) {
 		$updater->upgrade();
 	} catch (\Exception $e) {
 		\OC::$server->getLogger()->logException($e, [
-			'level' => \OCP\Util::ERROR,
+			'level' => ILogger::ERROR,
 			'app' => 'update',
 		]);
 		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());

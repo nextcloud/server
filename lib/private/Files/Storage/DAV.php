@@ -35,6 +35,7 @@ namespace OC\Files\Storage;
 
 use Exception;
 use GuzzleHttp\Exception\RequestException;
+use OCP\ILogger;
 use Psr\Http\Message\ResponseInterface;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Filesystem;
@@ -357,7 +358,7 @@ class DAV extends Common {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
 						throw new \OCP\Lock\LockedException($path);
 					} else {
-						Util::writeLog("webdav client", 'Guzzle get returned status code ' . $response->getStatusCode(), Util::ERROR);
+						Util::writeLog("webdav client", 'Guzzle get returned status code ' . $response->getStatusCode(), ILogger::ERROR);
 					}
 				}
 

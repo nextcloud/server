@@ -42,6 +42,7 @@ namespace OC\Files\Storage;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage\IStorage;
+use OCP\ILogger;
 
 /**
  * for local filestore, we only have to map the paths
@@ -235,17 +236,17 @@ class Local extends \OC\Files\Storage\Common {
 		$dstParent = dirname($path2);
 
 		if (!$this->isUpdatable($srcParent)) {
-			\OCP\Util::writeLog('core', 'unable to rename, source directory is not writable : ' . $srcParent, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', 'unable to rename, source directory is not writable : ' . $srcParent, ILogger::ERROR);
 			return false;
 		}
 
 		if (!$this->isUpdatable($dstParent)) {
-			\OCP\Util::writeLog('core', 'unable to rename, destination directory is not writable : ' . $dstParent, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', 'unable to rename, destination directory is not writable : ' . $dstParent, ILogger::ERROR);
 			return false;
 		}
 
 		if (!$this->file_exists($path1)) {
-			\OCP\Util::writeLog('core', 'unable to rename, file does not exists : ' . $path1, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', 'unable to rename, file does not exists : ' . $path1, ILogger::ERROR);
 			return false;
 		}
 
@@ -382,7 +383,7 @@ class Local extends \OC\Files\Storage\Common {
 			return $fullPath;
 		}
 
-		\OCP\Util::writeLog('core', "Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", \OCP\Util::ERROR);
+		\OCP\Util::writeLog('core', "Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", ILogger::ERROR);
 		throw new ForbiddenException('Following symlinks is not allowed', false);
 	}
 

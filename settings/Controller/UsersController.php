@@ -455,7 +455,7 @@ class UsersController extends Controller {
 				} catch (\Exception $e) {
 					$this->log->logException($e, [
 						'message' => "Can't send new user mail to $email",
-						'level' => \OCP\Util::ERROR,
+						'level' => ILogger::ERROR,
 						'app' => 'settings',
 					]);
 				}

@@ -39,6 +39,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\ILogger;
 
 class Wizard extends LDAPUtility {
 	/** @var \OCP\IL10N */
@@ -301,7 +302,7 @@ class Wizard extends LDAPUtility {
 			if($writeLog) {
 				\OCP\Util::writeLog('user_ldap', 'The mail attribute has ' .
 					'automatically been reset, because the original value ' .
-					'did not return any results.', \OCP\Util::INFO);
+					'did not return any results.', ILogger::INFO);
 			}
 		}
 
@@ -679,7 +680,7 @@ class Wizard extends LDAPUtility {
 		foreach($portSettings as $setting) {
 			$p = $setting['port'];
 			$t = $setting['tls'];
-			\OCP\Util::writeLog('user_ldap', 'Wiz: trying port '. $p . ', TLS '. $t, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: trying port '. $p . ', TLS '. $t, ILogger::DEBUG);
 			//connectAndBind may throw Exception, it needs to be catched by the
 			//callee of this method
 
@@ -702,7 +703,7 @@ class Wizard extends LDAPUtility {
 					'ldapTLS' => (int)$t
 				);
 				$this->configuration->setConfiguration($config);
-				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, ILogger::DEBUG);
 				$this->result->addChange('ldap_port', $p);
 				return $this->result;
 			}
@@ -848,7 +849,7 @@ class Wizard extends LDAPUtility {
 			$errorNo  = $this->ldap->errno($cr);
 			$errorMsg = $this->ldap->error($cr);
 			\OCP\Util::writeLog('user_ldap', 'Wiz: Could not search base '.$base.
-							' Error '.$errorNo.': '.$errorMsg, \OCP\Util::INFO);
+							' Error '.$errorNo.': '.$errorMsg, ILogger::INFO);
 			return false;
 		}
 		$entries = $this->ldap->countEntries($cr, $rr);
@@ -1024,7 +1025,7 @@ class Wizard extends LDAPUtility {
 				break;
 		}
 
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Final filter '.$filter, \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap', 'Wiz: Final filter '.$filter, ILogger::DEBUG);
 
 		return $filter;
 	}
@@ -1044,7 +1045,7 @@ class Wizard extends LDAPUtility {
 		if(!$hostInfo) {
 			throw new \Exception(self::$l->t('Invalid Host'));
 		}
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Attempting to connect ', \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap', 'Wiz: Attempting to connect ', ILogger::DEBUG);
 		$cr = $this->ldap->connect($host, $port);
 		if(!is_resource($cr)) {
 			throw new \Exception(self::$l->t('Invalid Host'));
@@ -1063,7 +1064,7 @@ class Wizard extends LDAPUtility {
 				}
 			}
 
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', ILogger::DEBUG);
 			//interesting part: do the bind!
 			$login = $this->ldap->bind($cr,
 				$this->configuration->ldapAgentName,
@@ -1078,7 +1079,7 @@ class Wizard extends LDAPUtility {
 
 		if($login === true) {
 			$this->ldap->unbind($cr);
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls, ILogger::DEBUG);
 			return true;
 		}
 

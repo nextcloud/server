@@ -217,7 +217,7 @@ class RequestHandlerController extends OCSController {
 			} catch (\Exception $e) {
 				$this->logger->logException($e, [
 					'message' => 'Server can not add remote share.',
-					'level' => \OCP\Util::ERROR,
+					'level' => ILogger::ERROR,
 					'app' => 'files_sharing'
 				]);
 				throw new OCSException('internal server error, was not able to add share from ' . $remote, 500);

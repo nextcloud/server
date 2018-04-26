@@ -442,7 +442,7 @@ class UsersControllerTest extends TestCase {
 			->method('logException')
 			->with($exception, [
 				'message' => 'Failed addUser attempt with exception.',
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'ocs_api',
 			]);
 		$loggedInUser = $this->getMockBuilder(IUser::class)

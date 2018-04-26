@@ -37,6 +37,8 @@
 
 namespace OC\Log;
 
+use OCP\ILogger;
+
 /**
  * logging utilities
  *
@@ -159,7 +161,7 @@ class File {
 	 */
 	public static function getEntries($limit=50, $offset=0) {
 		self::init();
-		$minLevel = \OC::$server->getSystemConfig()->getValue("loglevel", \OCP\Util::WARN);
+		$minLevel = \OC::$server->getSystemConfig()->getValue("loglevel", ILogger::WARN);
 		$entries = array();
 		$handle = @fopen(self::$logFile, 'rb');
 		if ($handle) {

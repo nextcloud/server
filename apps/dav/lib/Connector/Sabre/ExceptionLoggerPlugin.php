@@ -108,14 +108,14 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function logException(\Exception $ex) {
 		$exceptionClass = get_class($ex);
-		$level = \OCP\Util::FATAL;
+		$level = ILogger::FATAL;
 		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
 			(
 				$exceptionClass === ServiceUnavailable::class &&
 				$ex->getMessage() === 'System in maintenance mode.'
 			)
 		) {
-			$level = \OCP\Util::DEBUG;
+			$level = ILogger::DEBUG;
 		}
 
 		$this->logger->logException($ex, [

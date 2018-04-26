@@ -26,6 +26,7 @@ namespace OC;
 
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\ILogger;
 use OCP\ISession;
 
 class DateTimeZone implements IDateTimeZone {
@@ -64,7 +65,7 @@ class DateTimeZone implements IDateTimeZone {
 		try {
 			return new \DateTimeZone($timeZone);
 		} catch (\Exception $e) {
-			\OCP\Util::writeLog('datetimezone', 'Failed to created DateTimeZone "' . $timeZone . "'", \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('datetimezone', 'Failed to created DateTimeZone "' . $timeZone . "'", ILogger::DEBUG);
 			return new \DateTimeZone($this->getDefaultTimeZone());
 		}
 	}
@@ -109,7 +110,7 @@ class DateTimeZone implements IDateTimeZone {
 			}
 
 			// No timezone found, fallback to UTC
-			\OCP\Util::writeLog('datetimezone', 'Failed to find DateTimeZone for offset "' . $offset . "'", \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('datetimezone', 'Failed to find DateTimeZone for offset "' . $offset . "'", ILogger::DEBUG);
 			return new \DateTimeZone($this->getDefaultTimeZone());
 		}
 	}

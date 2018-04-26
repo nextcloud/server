@@ -59,6 +59,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -975,7 +976,7 @@ class View {
 				$hooks[] = 'write';
 				break;
 			default:
-				\OCP\Util::writeLog('core', 'invalid mode (' . $mode . ') for ' . $path, \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', 'invalid mode (' . $mode . ') for ' . $path, ILogger::ERROR);
 		}
 
 		if ($mode !== 'r' && $mode !== 'w') {
@@ -1463,7 +1464,7 @@ class View {
 							// sometimes when the storage is not available it can be any exception
 							\OC::$server->getLogger()->logException($e, [
 								'message' => 'Exception while scanning storage "' . $subStorage->getId() . '"',
-								'level' => \OCP\Util::ERROR,
+								'level' => ILogger::ERROR,
 								'app' => 'lib',
 							]);
 							continue;
@@ -1752,7 +1753,7 @@ class View {
 		if (!$targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
 			\OCP\Util::writeLog('files',
 				'It is not allowed to move one mount point into another one',
-				\OCP\Util::DEBUG);
+				ILogger::DEBUG);
 			return false;
 		}
 
@@ -1775,7 +1776,7 @@ class View {
 		if (count($shares) > 0) {
 			\OCP\Util::writeLog('files',
 				'It is not allowed to move one mount point into a shared folder',
-				\OCP\Util::DEBUG);
+				ILogger::DEBUG);
 			return false;
 		}
 

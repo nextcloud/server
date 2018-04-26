@@ -56,6 +56,7 @@ use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OCP\App\ManagerEvent;
+use OCP\ILogger;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -425,7 +426,7 @@ class OC_App {
 			}
 		}
 
-		\OCP\Util::writeLog('core', 'No application directories are marked as writable.', \OCP\Util::ERROR);
+		\OCP\Util::writeLog('core', 'No application directories are marked as writable.', ILogger::ERROR);
 		return null;
 	}
 
@@ -666,7 +667,7 @@ class OC_App {
 
 		foreach (OC::$APPSROOTS as $apps_dir) {
 			if (!is_readable($apps_dir['path'])) {
-				\OCP\Util::writeLog('core', 'unable to read app folder : ' . $apps_dir['path'], \OCP\Util::WARN);
+				\OCP\Util::writeLog('core', 'unable to read app folder : ' . $apps_dir['path'], ILogger::WARN);
 				continue;
 			}
 			$dh = opendir($apps_dir['path']);
@@ -707,12 +708,12 @@ class OC_App {
 
 				$info = OC_App::getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
-					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', \OCP\Util::ERROR);
+					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', ILogger::ERROR);
 					continue;
 				}
 
 				if (!isset($info['name'])) {
-					\OCP\Util::writeLog('core', 'App id "' . $app . '" has no name in appinfo', \OCP\Util::ERROR);
+					\OCP\Util::writeLog('core', 'App id "' . $app . '" has no name in appinfo', ILogger::ERROR);
 					continue;
 				}
 
@@ -994,11 +995,11 @@ class OC_App {
 				}
 				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appId);
 			} else {
-				\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ', user not logged in', \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ', user not logged in', ILogger::ERROR);
 				return false;
 			}
 		} else {
-			\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', ILogger::ERROR);
 			return false;
 		}
 	}

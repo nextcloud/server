@@ -24,6 +24,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\ILogger;
+
 OC_JSON::checkAdminUser();
 \OC_JSON::callCheck();
 
@@ -51,7 +54,7 @@ try {
 	OC_JSON::success(['data' => ['update_required' => $updateRequired]]);
 } catch (Exception $e) {
 	\OC::$server->getLogger()->logException($e, [
-		'level' => \OCP\Util::DEBUG,
+		'level' => ILogger::DEBUG,
 		'app' => 'core',
 	]);
 	OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));

@@ -441,7 +441,7 @@ class Encryption extends Wrapper {
 			} catch (ModuleDoesNotExistsException $e) {
 				$this->logger->logException($e, [
 					'message' => 'Encryption module "' . $encryptionModuleId . '" not found, file will be stored unencrypted',
-					'level' => \OCP\Util::WARN,
+					'level' => ILogger::WARN,
 					'app' => 'core',
 				]);
 			}

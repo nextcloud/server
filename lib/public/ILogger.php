@@ -37,6 +37,27 @@ namespace OCP;
  */
 interface ILogger {
 	/**
+	 * @since 14.0.0
+	 */
+	const DEBUG=0;
+	/**
+	 * @since 14.0.0
+	 */
+	const INFO=1;
+	/**
+	 * @since 14.0.0
+	 */
+	const WARN=2;
+	/**
+	 * @since 14.0.0
+	 */
+	const ERROR=3;
+	/**
+	 * @since 14.0.0
+	 */
+	const FATAL=4;
+
+	/**
 	 * System is unusable.
 	 *
 	 * @param string $message

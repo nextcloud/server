@@ -37,6 +37,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\ILogger;
 
 /**
  * magic properties (incomplete)
@@ -192,7 +193,7 @@ class Connection extends LDAPUtility {
 			$this->establishConnection();
 		}
 		if(is_null($this->ldapConnectionRes)) {
-			\OCP\Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->configuration->ldapHost, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->configuration->ldapHost, ILogger::ERROR);
 			throw new ServerNotAvailableException('Connection to LDAP server could not be established');
 		}
 		return $this->ldapConnectionRes;
@@ -366,7 +367,7 @@ class Connection extends LDAPUtility {
 					\OCP\Util::writeLog('user_ldap',
 										'Illegal value for the '.
 										$effectiveSetting.', '.'reset to '.
-										'autodetect.', \OCP\Util::INFO);
+										'autodetect.', ILogger::INFO);
 				}
 
 			}
@@ -390,10 +391,11 @@ class Connection extends LDAPUtility {
 		if((stripos($this->configuration->ldapHost, 'ldaps://') === 0)
 			&& $this->configuration->ldapTLS) {
 			$this->configuration->ldapTLS = false;
-			\OCP\Util::writeLog('user_ldap',
-								'LDAPS (already using secure connection) and '.
-								'TLS do not work together. Switched off TLS.',
-								\OCP\Util::INFO);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.',
+				ILogger::INFO
+			);
 		}
 	}
 
@@ -432,9 +434,11 @@ class Connection extends LDAPUtility {
 						break;
 				}
 				$configurationOK = false;
-				\OCP\Util::writeLog('user_ldap',
-									$errorStr.'No '.$subj.' given!',
-									\OCP\Util::WARN);
+				\OCP\Util::writeLog(
+					'user_ldap',
+					$errorStr.'No '.$subj.' given!',
+					ILogger::WARN
+				);
 			}
 		}
 
@@ -445,11 +449,11 @@ class Connection extends LDAPUtility {
 			($agent === ''  && $pwd !== '')
 			|| ($agent !== '' && $pwd === '')
 		) {
-			\OCP\Util::writeLog('user_ldap',
-								$errorStr.'either no password is given for the '.
-								'user agent or a password is given, but not an '.
-								'LDAP agent.',
-				\OCP\Util::WARN);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				$errorStr.'either no password is given for the user ' .
+					'agent or a password is given, but not an LDAP agent.',
+				ILogger::WARN);
 			$configurationOK = false;
 		}
 
@@ -458,18 +462,21 @@ class Connection extends LDAPUtility {
 		$baseGroups = $this->configuration->ldapBaseGroups;
 
 		if(empty($base) && empty($baseUsers) && empty($baseGroups)) {
-			\OCP\Util::writeLog('user_ldap',
-								$errorStr.'Not a single Base DN given.',
-								\OCP\Util::WARN);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				$errorStr.'Not a single Base DN given.',
+				ILogger::WARN
+			);
 			$configurationOK = false;
 		}
 
 		if(mb_strpos($this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8')
 		   === false) {
-			\OCP\Util::writeLog('user_ldap',
-								$errorStr.'login filter does not contain %uid '.
-								'place holder.',
-								\OCP\Util::WARN);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				$errorStr.'login filter does not contain %uid place holder.',
+				ILogger::WARN
+			);
 			$configurationOK = false;
 		}
 
@@ -511,18 +518,21 @@ class Connection extends LDAPUtility {
 			return false;
 		}
 		if(!$this->ignoreValidation && !$this->configured) {
-			\OCP\Util::writeLog('user_ldap',
-								'Configuration is invalid, cannot connect',
-								\OCP\Util::WARN);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				'Configuration is invalid, cannot connect',
+				ILogger::WARN
+			);
 			return false;
 		}
 		if(!$this->ldapConnectionRes) {
 			if(!$this->ldap->areLDAPFunctionsAvailable()) {
 				$phpLDAPinstalled = false;
-				\OCP\Util::writeLog('user_ldap',
-									'function ldap_connect is not available. Make '.
-									'sure that the PHP ldap module is installed.',
-									\OCP\Util::ERROR);
+				\OCP\Util::writeLog(
+					'user_ldap',
+					'function ldap_connect is not available. Make sure that the PHP ldap module is installed.',
+					ILogger::ERROR
+				);
 
 				return false;
 			}
@@ -530,11 +540,13 @@ class Connection extends LDAPUtility {
 				if(putenv('LDAPTLS_REQCERT=never')) {
 					\OCP\Util::writeLog('user_ldap',
 						'Turned off SSL certificate validation successfully.',
-						\OCP\Util::DEBUG);
+						ILogger::DEBUG);
 				} else {
-					\OCP\Util::writeLog('user_ldap',
-										'Could not turn off SSL certificate validation.',
-										\OCP\Util::WARN);
+					\OCP\Util::writeLog(
+						'user_ldap',
+						'Could not turn off SSL certificate validation.',
+						ILogger::WARN
+					);
 				}
 			}
 
@@ -651,7 +663,7 @@ class Connection extends LDAPUtility {
 
 			\OCP\Util::writeLog('user_ldap',
 				'Bind failed: ' . $errno . ': ' . $this->ldap->error($cr),
-				\OCP\Util::WARN);
+				ILogger::WARN);
 
 			// Set to failure mode, if LDAP error code is not LDAP_SUCCESS or LDAP_INVALID_CREDENTIALS
 			if($errno !== 0x00 && $errno !== 0x31) {

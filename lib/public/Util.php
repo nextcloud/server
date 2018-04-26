@@ -57,11 +57,25 @@ namespace OCP;
  * @since 4.0.0
  */
 class Util {
-	// consts for Logging
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::DEBUG
+	 */
 	const DEBUG=0;
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::INFO
+	 */
 	const INFO=1;
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::WARN
+	 */
 	const WARN=2;
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::ERROR
+	 */
 	const ERROR=3;
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::FATAL
+	 */
 	const FATAL=4;
 
 	/** \OCP\Share\IManager */
@@ -115,7 +129,7 @@ class Util {
 	 * @since ....0.0 - parameter $level was added in 7.0.0
 	 * @deprecated 8.2.0 use logException of \OCP\ILogger
 	 */
-	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
+	public static function logException( $app, \Exception $ex, $level = ILogger::FATAL) {
 		\OC::$server->getLogger()->logException($ex, ['app' => $app]);
 	}
 

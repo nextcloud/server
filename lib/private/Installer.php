@@ -175,7 +175,7 @@ class Installer {
 				$this->downloadApp($appId);
 			} catch (\Exception $e) {
 				$this->logger->logException($e, [
-					'level' => \OCP\Util::ERROR,
+					'level' => ILogger::ERROR,
 					'app' => 'core',
 				]);
 				return false;
@@ -460,7 +460,7 @@ class Installer {
 			OC_Helper::rmdirr($appDir);
 			return true;
 		}else{
-			\OCP\Util::writeLog('core', 'can\'t remove app '.$appId.'. It is not installed.', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', 'can\'t remove app '.$appId.'. It is not installed.', ILogger::ERROR);
 
 			return false;
 		}

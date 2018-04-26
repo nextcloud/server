@@ -47,6 +47,7 @@ namespace OC;
 use OC\Tagging\Tag;
 use OC\Tagging\TagMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\ILogger;
 
 class Tags implements \OCP\ITags {
 
@@ -237,14 +238,14 @@ class Tags implements \OCP\ITags {
 					$entries[$objId][] = $row['category'];
 				}
 				if ($result === null) {
-					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
+					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 					return false;
 				}
 			}
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;
@@ -270,7 +271,7 @@ class Tags implements \OCP\ITags {
 		} elseif(is_string($tag)) {
 			$tag = trim($tag);
 			if($tag === '') {
-				\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', ILogger::DEBUG);
 				return false;
 			}
 			$tagId = $this->getTagId($tag);
@@ -291,13 +292,13 @@ class Tags implements \OCP\ITags {
 			$stmt = \OC_DB::prepare($sql);
 			$result = $stmt->execute(array($tagId));
 			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 				return false;
 			}
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;
@@ -360,11 +361,11 @@ class Tags implements \OCP\ITags {
 		$name = trim($name);
 
 		if($name === '') {
-			\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', ILogger::DEBUG);
 			return false;
 		}
 		if($this->userHasTag($name, $this->user)) {
-			\OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', ILogger::DEBUG);
 			return false;
 		}
 		try {
@@ -374,12 +375,12 @@ class Tags implements \OCP\ITags {
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;
 		}
-		\OCP\Util::writeLog('core', __METHOD__.', id: ' . $tag->getId(), \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('core', __METHOD__.', id: ' . $tag->getId(), ILogger::DEBUG);
 		return $tag->getId();
 	}
 
@@ -395,7 +396,7 @@ class Tags implements \OCP\ITags {
 		$to = trim($to);
 
 		if($to === '' || $from === '') {
-			\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', ILogger::DEBUG);
 			return false;
 		}
 
@@ -405,13 +406,13 @@ class Tags implements \OCP\ITags {
 			$key = $this->getTagByName($from);
 		}
 		if($key === false) {
-			\OCP\Util::writeLog('core', __METHOD__.', tag: ' . $from. ' does not exist', \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('core', __METHOD__.', tag: ' . $from. ' does not exist', ILogger::DEBUG);
 			return false;
 		}
 		$tag = $this->tags[$key];
 
 		if($this->userHasTag($to, $tag->getOwner())) {
-			\OCP\Util::writeLog('core', __METHOD__.', A tag named ' . $to. ' already exists for user ' . $tag->getOwner() . '.', \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('core', __METHOD__.', A tag named ' . $to. ' already exists for user ' . $tag->getOwner() . '.', ILogger::DEBUG);
 			return false;
 		}
 
@@ -421,7 +422,7 @@ class Tags implements \OCP\ITags {
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;
@@ -476,7 +477,7 @@ class Tags implements \OCP\ITags {
 				} catch(\Exception $e) {
 					\OC::$server->getLogger()->logException($e, [
 						'message' => __METHOD__,
-						'level' => \OCP\Util::ERROR,
+						'level' => ILogger::ERROR,
 						'app' => 'core',
 					]);
 				}
@@ -485,7 +486,7 @@ class Tags implements \OCP\ITags {
 			// reload tags to get the proper ids.
 			$this->tags = $this->mapper->loadTags($this->owners, $this->type);
 			\OCP\Util::writeLog('core', __METHOD__.', tags: ' . print_r($this->tags, true),
-				\OCP\Util::DEBUG);
+				ILogger::DEBUG);
 			// Loop through temporarily cached objectid/tagname pairs
 			// and save relations.
 			$tags = $this->tags;
@@ -494,7 +495,7 @@ class Tags implements \OCP\ITags {
 			$dbConnection = \OC::$server->getDatabaseConnection();
 			foreach(self::$relations as $relation) {
 				$tagId = $this->getTagId($relation['tag']);
-				\OCP\Util::writeLog('core', __METHOD__ . 'catid, ' . $relation['tag'] . ' ' . $tagId, \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('core', __METHOD__ . 'catid, ' . $relation['tag'] . ' ' . $tagId, ILogger::DEBUG);
 				if($tagId) {
 					try {
 						$dbConnection->insertIfNotExist(self::RELATION_TABLE,
@@ -506,7 +507,7 @@ class Tags implements \OCP\ITags {
 					} catch(\Exception $e) {
 						\OC::$server->getLogger()->logException($e, [
 							'message' => __METHOD__,
-							'level' => \OCP\Util::ERROR,
+							'level' => ILogger::ERROR,
 							'app' => 'core',
 						]);
 					}
@@ -515,7 +516,7 @@ class Tags implements \OCP\ITags {
 			self::$relations = array(); // reset
 		} else {
 			\OCP\Util::writeLog('core', __METHOD__.', $this->tags is not an array! '
-				. print_r($this->tags, true), \OCP\Util::ERROR);
+				. print_r($this->tags, true), ILogger::ERROR);
 		}
 	}
 
@@ -534,12 +535,12 @@ class Tags implements \OCP\ITags {
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 			}
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 		}
@@ -554,7 +555,7 @@ class Tags implements \OCP\ITags {
 					} catch(\Exception $e) {
 						\OC::$server->getLogger()->logException($e, [
 							'message' => __METHOD__,
-							'level' => \OCP\Util::ERROR,
+							'level' => ILogger::ERROR,
 							'app' => 'core',
 						]);
 					}
@@ -562,7 +563,7 @@ class Tags implements \OCP\ITags {
 			} catch(\Exception $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => __METHOD__,
-					'level' => \OCP\Util::ERROR,
+					'level' => ILogger::ERROR,
 					'app' => 'core',
 				]);
 			}
@@ -572,12 +573,12 @@ class Tags implements \OCP\ITags {
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 			}
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 		}
@@ -603,13 +604,13 @@ class Tags implements \OCP\ITags {
 			$stmt = \OC_DB::prepare($query);
 			$result = $stmt->execute($updates);
 			if ($result === null) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 				return false;
 			}
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;
@@ -628,7 +629,7 @@ class Tags implements \OCP\ITags {
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return array();
@@ -669,7 +670,7 @@ class Tags implements \OCP\ITags {
 		if(is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if($tag === '') {
-				\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', ILogger::DEBUG);
 				return false;
 			}
 			if(!$this->hasTag($tag)) {
@@ -689,7 +690,7 @@ class Tags implements \OCP\ITags {
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;
@@ -708,7 +709,7 @@ class Tags implements \OCP\ITags {
 		if(is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if($tag === '') {
-				\OCP\Util::writeLog('core', __METHOD__.', Tag name is empty', \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('core', __METHOD__.', Tag name is empty', ILogger::DEBUG);
 				return false;
 			}
 			$tagId =  $this->getTagId($tag);
@@ -724,7 +725,7 @@ class Tags implements \OCP\ITags {
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
-				'level' => \OCP\Util::ERROR,
+				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
 			return false;
@@ -747,7 +748,7 @@ class Tags implements \OCP\ITags {
 		array_filter($names);
 
 		\OCP\Util::writeLog('core', __METHOD__ . ', before: '
-			. print_r($this->tags, true), \OCP\Util::DEBUG);
+			. print_r($this->tags, true), ILogger::DEBUG);
 		foreach($names as $name) {
 			$id = null;
 
@@ -763,7 +764,7 @@ class Tags implements \OCP\ITags {
 				$this->mapper->delete($tag);
 			} else {
 				\OCP\Util::writeLog('core', __METHOD__ . 'Cannot delete tag ' . $name
-					. ': not found.', \OCP\Util::ERROR);
+					. ': not found.', ILogger::ERROR);
 			}
 			if(!is_null($id) && $id !== false) {
 				try {
@@ -774,13 +775,13 @@ class Tags implements \OCP\ITags {
 					if ($result === null) {
 						\OCP\Util::writeLog('core',
 							__METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(),
-							\OCP\Util::ERROR);
+							ILogger::ERROR);
 						return false;
 					}
 				} catch(\Exception $e) {
 					\OC::$server->getLogger()->logException($e, [
 						'message' => __METHOD__,
-						'level' => \OCP\Util::ERROR,
+						'level' => ILogger::ERROR,
 						'app' => 'core',
 					]);
 					return false;

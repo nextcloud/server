@@ -25,13 +25,15 @@
 
 namespace OC\Log;
 
+use OCP\ILogger;
+
 class Syslog {
 	static protected $levels = array(
-		\OCP\Util::DEBUG => LOG_DEBUG,
-		\OCP\Util::INFO => LOG_INFO,
-		\OCP\Util::WARN => LOG_WARNING,
-		\OCP\Util::ERROR => LOG_ERR,
-		\OCP\Util::FATAL => LOG_CRIT,
+		ILogger::DEBUG => LOG_DEBUG,
+		ILogger::INFO => LOG_INFO,
+		ILogger::WARN => LOG_WARNING,
+		ILogger::ERROR => LOG_ERR,
+		ILogger::FATAL => LOG_CRIT,
 	);
 
 	/**
