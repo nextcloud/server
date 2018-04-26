@@ -16,17 +16,24 @@ return [
 	// Thus, both first-party and third-party code being used by
 	// your application should be included in this list.
 	'directory_list' => [
-		'build/.phan/stubs',
 		'3rdparty',
-		'lib/composer',
-		'themes',
-		'lib/',
 		'apps/',
+		'build/.phan/stubs',
 		'core/',
-		'ocs/',
+		'lib/',
+		'lib/composer',
 		'ocs-provider/',
+		'ocs/',
 		'settings/',
 		'tests/lib/Util/User',
+		'themes',
+	],
+	'file_list' => [
+		'index.php',
+		'public.php',
+		'remote.php',
+		'status.php',
+		'version.php',
 	],
 
 	// A directory list that defines files that will be excluded
@@ -40,9 +47,8 @@ return [
 	//       party code, directories containing that code
 	//       should be added to the `directory_list` as
 	//       to `exclude_analysis_directory_list`.
-	"exclude_analysis_directory_list" => [
+	'exclude_analysis_directory_list' => [
 		'3rdparty',
-		'lib/composer',
 		'apps/admin_audit/composer',
 		'apps/admin_audit/tests',
 		'apps/comments/composer',
@@ -88,7 +94,37 @@ return [
 		'apps/user_ldap/tests',
 		'apps/workflowengine/composer',
 		'apps/workflowengine/tests',
+		'build/.phan/',
+		'lib/composer',
 	],
+
+	// A file list that defines files that will be excluded
+	// from parsing and analysis and will not be read at all.
+	//
+	// This is useful for excluding hopelessly unanalyzable
+	// files that can't be removed for whatever reason.
+	'exclude_file_list' => [
+		'apps/encryption/appinfo/routes.php',
+		'apps/federation/appinfo/routes.php',
+		'apps/files/appinfo/routes.php',
+		'apps/files_external/appinfo/routes.php',
+		'apps/files_trashbin/appinfo/routes.php',
+		'apps/files_versions/appinfo/routes.php',
+		'apps/testing/appinfo/routes.php',
+		'apps/user_ldap/appinfo/routes.php',
+		'settings/routes.php',
+		'settings/ajax/updateapp.php',
+		'settings/ajax/uninstallapp.php',
+		'settings/ajax/togglesubadmins.php',
+		'settings/ajax/setquota.php',
+		'settings/ajax/enableapp.php',
+		'settings/ajax/disableapp.php',
+		'core/register_command.php',
+		'ocs/routes.php',
+		'ocs/v1.php',
+		'core/routes.php',
+	],
+
 
 	// The number of processes to fork off during the analysis
 	// phase.
