@@ -28,7 +28,6 @@ use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin as PluginToTest;
 use OC\Log;
-use OCP\IConfig;
 use PHPUnit_Framework_MockObject_MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
@@ -70,7 +69,7 @@ class ExceptionLoggerPluginTest extends TestCase {
 			});
 
 		$this->server = new Server();
-		$this->logger = new TestLogger(new Log\File(\OC::$SERVERROOT.'/data/nextcloud.log', '', $this->createMock(IConfig::class)), $config);
+		$this->logger = new TestLogger(new Log\File(\OC::$SERVERROOT.'/data/nextcloud.log', '', $config), $config);
 		$this->plugin = new PluginToTest('unit-test', $this->logger);
 		$this->plugin->initialize($this->server);
 	}

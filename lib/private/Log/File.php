@@ -36,10 +36,9 @@
  */
 
 namespace OC\Log;
-use OCP\IConfig;
+use OC\SystemConfig;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
-
 use OCP\ILogger;
 
 /**
@@ -51,10 +50,10 @@ use OCP\ILogger;
 class File implements IWriter, IFileBased {
 	/** @var string */
 	protected $logFile;
-	/** @var IConfig */
+	/** @var SystemConfig */
 	private $config;
 
-	public function __construct(string $path, string $fallbackPath = '', IConfig $config) {
+	public function __construct(string $path, string $fallbackPath = '', SystemConfig $config) {
 		$this->logFile = $path;
 		if (!file_exists($this->logFile)) {
 			if(
@@ -78,8 +77,8 @@ class File implements IWriter, IFileBased {
 	 */
 	public function write(string $app, $message, int $level) {
 		// default to ISO8601
-		$format = $this->config->getSystemValue('logdateformat', \DateTime::ATOM);
-		$logTimeZone = $this->config->getSystemValue('logtimezone', 'UTC');
+		$format = $this->config->getValue('logdateformat', \DateTime::ATOM);
+		$logTimeZone = $this->config->getValue('logtimezone', 'UTC');
 		try {
 			$timezone = new \DateTimeZone($logTimeZone);
 		} catch (\Exception $e) {
@@ -99,7 +98,7 @@ class File implements IWriter, IFileBased {
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		if($this->config->getSystemValue('installed', false)) {
+		if($this->config->getValue('installed', false)) {
 			$user = \OC_User::getUser() ? \OC_User::getUser() : '--';
 		} else {
 			$user = '--';
@@ -108,7 +107,7 @@ class File implements IWriter, IFileBased {
 		if ($userAgent === '') {
 			$userAgent = '--';
 		}
-		$version = $this->config->getSystemValue('version', '');
+		$version = $this->config->getValue('version', '');
 		$entry = compact(
 			'reqId',
 			'level',
@@ -157,7 +156,7 @@ class File implements IWriter, IFileBased {
 	 * @return array
 	 */
 	public function getEntries(int $limit=50, int $offset=0):array {
-		$minLevel = $this->config->getSystemValue("loglevel", ILogger::WARN);
+		$minLevel = $this->config->getValue("loglevel", ILogger::WARN);
 		$entries = array();
 		$handle = @fopen($this->logFile, 'rb');
 		if ($handle) {

@@ -36,24 +36,24 @@ class FileTest extends TestCase
 
 	protected function setUp() {
 		parent::setUp();
-		$config = \OC::$server->getConfig();
-		$this->restore_logfile = $config->getSystemValue("logfile");
-		$this->restore_logdateformat = $config->getSystemValue('logdateformat');
+		$config = \OC::$server->getSystemConfig();
+		$this->restore_logfile = $config->getValue("logfile");
+		$this->restore_logdateformat = $config->getValue('logdateformat');
 		
-		$config->setSystemValue("logfile", $config->getSystemValue('datadirectory') . "/logtest");
-		$this->logFile = new File($config->getSystemValue('datadirectory') . '/logtest', '', $config);
+		$config->setValue("logfile", $config->getValue('datadirectory') . "/logtest.log");
+		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
 	protected function tearDown() {
-		$config = \OC::$server->getConfig();
+		$config = \OC::$server->getSystemConfig();
 		if (isset($this->restore_logfile)) {
-			$config->getSystemValue("logfile", $this->restore_logfile);
+			$config->getValue("logfile", $this->restore_logfile);
 		} else {
-			$config->deleteSystemValue("logfile");
+			$config->deleteValue("logfile");
 		}		
 		if (isset($this->restore_logdateformat)) {
-			$config->getSystemValue("logdateformat", $this->restore_logdateformat);
+			$config->getValue("logdateformat", $this->restore_logdateformat);
 		} else {
-			$config->deleteSystemValue("logdateformat");
+			$config->deleteValue("logdateformat");
 		}
 		$this->logFile = new File($this->restore_logfile, '', $config);
 		parent::tearDown();

@@ -548,7 +548,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OCP\ILogger::class, function (Server $c) {
 			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
-			$factory = new LogFactory($c);
+			$factory = new LogFactory($c, $this->getSystemConfig());
 			$logger = $factory->get($logType);
 			$registry = $c->query(\OCP\Support\CrashReport\IRegistry::class);
 
@@ -557,9 +557,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias('Logger', \OCP\ILogger::class);
 
 		$this->registerService(ILogFactory::class, function (Server $c) {
-			return new LogFactory($c);
+			return new LogFactory($c, $this->getSystemConfig());
 		});
-		$this->registerAlias('LogFactory', ILogFactory::class);
 
 		$this->registerService(\OCP\BackgroundJob\IJobList::class, function (Server $c) {
 			$config = $c->getConfig();
@@ -1539,7 +1538,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function getLogFactory() {
-		return $this->query('LogFactory');
+		return $this->query(ILogFactory::class);
 	}
 
 	/**

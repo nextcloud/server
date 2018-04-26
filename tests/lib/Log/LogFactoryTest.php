@@ -26,6 +26,7 @@ use OC\Log\Errorlog;
 use OC\Log\File;
 use OC\Log\LogFactory;
 use OC\Log\Syslog;
+use OC\SystemConfig;
 use OCP\IConfig;
 use OCP\IServerContainer;
 use Test\TestCase;
@@ -42,12 +43,16 @@ class LogFactoryTest extends TestCase {
 	/** @var LogFactory */
 	protected $factory;
 
+	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	protected $systemConfig;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->c = $this->createMock(IServerContainer::class);
+		$this->systemConfig = $this->createMock(SystemConfig::class);
 
-		$this->factory = new LogFactory($this->c);
+		$this->factory = new LogFactory($this->c, $this->systemConfig);
 	}
 
 	public function fileTypeProvider(): array {
@@ -76,15 +81,10 @@ class LogFactoryTest extends TestCase {
 		$datadir = \OC::$SERVERROOT.'/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->exactly(2))
-			->method('getSystemValue')
+		$this->systemConfig->expects($this->exactly(2))
+			->method('getValue')
 			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog])
 			->willReturnOnConsecutiveCalls($datadir, $defaultLog);
-
-		$this->c->expects($this->any())
-			->method('getConfig')
-			->willReturn($config);
 
 		$log = $this->factory->get($type);
 		$this->assertInstanceOf(File::class, $log);
@@ -111,15 +111,10 @@ class LogFactoryTest extends TestCase {
 		$datadir = \OC::$SERVERROOT.'/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->exactly(2))
-			->method('getSystemValue')
+		$this->systemConfig->expects($this->exactly(2))
+			->method('getValue')
 			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog])
 			->willReturnOnConsecutiveCalls($datadir, $path);
-
-		$this->c->expects($this->any())
-			->method('getConfig')
-			->willReturn($config);
 
 		$log = $this->factory->get('file');
 		$this->assertInstanceOf(File::class, $log);

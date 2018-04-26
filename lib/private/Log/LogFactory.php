@@ -23,8 +23,8 @@
 
 namespace OC\Log;
 
-use OC\AllConfig;
 use OC\Log;
+use OC\SystemConfig;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\Log\ILogFactory;
@@ -33,14 +33,15 @@ use OCP\Log\IWriter;
 class LogFactory implements ILogFactory {
 	/** @var IServerContainer */
 	private $c;
+	/** @var SystemConfig */
+	private $systemConfig;
 
-	public function __construct(IServerContainer $c) {
+	public function __construct(IServerContainer $c, SystemConfig $systemConfig) {
 		$this->c = $c;
+		$this->systemConfig = $systemConfig;
 	}
 
 	/**
-	 * @param $type
-	 * @return \OC\Log\Errorlog|File|\stdClass
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function get(string $type):IWriter {
@@ -61,24 +62,17 @@ class LogFactory implements ILogFactory {
 	}
 
 	public function getCustomLogger(string $path):ILogger {
-		$systemConfig = null;
-		$iconfig = $this->c->getConfig();
-		if($iconfig instanceof AllConfig) {
-			// Log is bound to SystemConfig, but fetches it from \OC::$server if not supplied
-			$systemConfig = $iconfig->getSystemConfig();
-		}
 		$log = $this->buildLogFile($path);
-		return new Log($log, $systemConfig);
+		return new Log($log, $this->systemConfig);
 	}
 
 	protected function buildLogFile(string $logFile = ''):File {
-		$config = $this->c->getConfig();
-		$defaultLogFile = $config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data').'/nextcloud.log';
+		$defaultLogFile = $this->systemConfig->getValue('datadirectory', \OC::$SERVERROOT.'/data').'/nextcloud.log';
 		if($logFile === '') {
-			$logFile = $config->getSystemValue('logfile', $defaultLogFile);
+			$logFile = $this->systemConfig->getValue('logfile', $defaultLogFile);
 		}
 		$fallback = $defaultLogFile !== $logFile ? $defaultLogFile : '';
 
-		return new File($logFile, $fallback, $config);
+		return new File($logFile, $fallback, $this->systemConfig);
 	}
 }
