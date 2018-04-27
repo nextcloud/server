@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Grup listesi boş",
     "Unable to retrieve the group list" : "Grup listesi alınamadı",
     "Saved" : "Kaydedildi",
     "Saving failed:" : "Kaydedilemedi:",
