@@ -49,7 +49,8 @@
 			xmlNamespaces: {
 				'DAV:': 'd',
 				'http://owncloud.org/ns': 'oc',
-				'http://nextcloud.org/ns': 'nc'
+				'http://nextcloud.org/ns': 'nc',
+				'http://open-collaboration-services.org/ns': 'ocs'
 			}
 		};
 		if (options.userName) {
@@ -65,6 +66,7 @@
 	Client.NS_OWNCLOUD = 'http://owncloud.org/ns';
 	Client.NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	Client.NS_DAV = 'DAV:';
+	Client.NS_OCS = 'http://open-collaboration-services.org/ns';
 
 	Client.PROPERTY_GETLASTMODIFIED	= '{' + Client.NS_DAV + '}getlastmodified';
 	Client.PROPERTY_GETETAG	= '{' + Client.NS_DAV + '}getetag';
@@ -75,6 +77,7 @@
 	Client.PROPERTY_SIZE	= '{' + Client.NS_OWNCLOUD + '}size';
 	Client.PROPERTY_GETCONTENTLENGTH	= '{' + Client.NS_DAV + '}getcontentlength';
 	Client.PROPERTY_ISENCRYPTED	= '{' + Client.NS_DAV + '}is-encrypted';
+	Client.PROPERTY_SHARE_PERMISSIONS	= '{' + Client.NS_OCS + '}share-permissions';
 
 	Client.PROTOCOL_HTTP	= 'http';
 	Client.PROTOCOL_HTTPS	= 'https';
@@ -125,6 +128,10 @@
 		 * Encryption state
 		 */
 		[Client.NS_NEXTCLOUD, 'is-encrypted'],
+		/**
+		 * Share permissions
+		 */
+		[Client.NS_OCS, 'share-permissions']
 	];
 
 	/**
@@ -371,6 +378,11 @@
 							break;
 					}
 				}
+			}
+
+			var sharePermissionsProp = props[Client.PROPERTY_SHARE_PERMISSIONS];
+			if (!_.isUndefined(sharePermissionsProp)) {
+				data.sharePermissions = parseInt(sharePermissionsProp);
 			}
 
 			var mounTypeProp = props['{' + Client.NS_NEXTCLOUD + '}mount-type'];
