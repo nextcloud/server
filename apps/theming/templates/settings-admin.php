@@ -111,7 +111,7 @@ style('theming', 'settings-admin');
 				<input type="hidden" name="key" value="favicon" />
 				<label for="upload-login-favicon"><span><?php p($l->t('Favicon')) ?></span></label>
 				<input id="upload-login-favicon" class="fileupload" name="image" type="file">
-				<label for="upload-login-favicon" class="button icon-upload svg" id="upload-login-favicon" title="<?php p($l->t("Upload new favion")) ?>"></label>
+				<label for="upload-login-favicon" class="button icon-upload svg" id="upload-login-favicon" title="<?php p($l->t("Upload new favicon")) ?>"></label>
 				<div class="image-preview"></div>
 				<div data-setting="faviconMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 			</form>
