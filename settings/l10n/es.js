@@ -158,6 +158,7 @@ OC.L10N.register(
     "Good password" : "Contraseña buena",
     "Strong password" : "Contraseña muy buena",
     "Groups" : "Grupos",
+    "Group list is empty" : "La lista del grupo está vacía",
     "Unable to retrieve the group list" : "No es posible recibir la lista de grupos",
     "Unable to delete {objName}" : "No es posible eliminar {objName}",
     "Error creating group: {message}" : "Error creando el grupo: {message}",

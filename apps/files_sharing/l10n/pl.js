@@ -92,6 +92,7 @@ OC.L10N.register(
     "Direct link" : "Bezpośredni link",
     "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
     "Share API is disabled" : "API udostępniania jest wyłączone",
+    "File sharing" : "Udostępnianie plików",
     "This share is password-protected" : "Udostępniony folder chroniony jest hasłem",
     "The password is wrong. Try again." : "To hasło jest niewłaściwe. Spróbuj ponownie.",
     "Password" : "Hasło",

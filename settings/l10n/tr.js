@@ -158,6 +158,7 @@ OC.L10N.register(
     "Good password" : "Parola iyi",
     "Strong password" : "Parola güçlü",
     "Groups" : "Gruplar",
+    "Group list is empty" : "Grup listesi boş",
     "Unable to retrieve the group list" : "Grup listesi alınamadı",
     "Unable to delete {objName}" : "{objName} silinemedi",
     "Error creating group: {message}" : "Grup oluşturulurken sorun çıktı: {message}",
