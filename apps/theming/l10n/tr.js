@@ -38,7 +38,6 @@ OC.L10N.register(
     "Header logo" : "Üst bilgi logosu",
     "Upload new header logo" : "Yeni üst bilgi logosu yükle",
     "Favicon" : "Favicon",
-    "Upload new favion" : "Yeni favicon yükle",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
     "You are already using a custom theme" : "Zaten özel bir tema kullanıyorsunuz",
     "reset to default" : "varsayılana dön",

@@ -38,7 +38,6 @@ OC.L10N.register(
     "Header logo" : "Logo de la cabecera",
     "Upload new header logo" : "Subir nuevo logo de la cabecera",
     "Favicon" : "Favicon",
-    "Upload new favion" : "Subir nuevo favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión de PHP Imagemagick con soporte para imágenes SVG para generar automáticamente faviconos basados en el logo y color subidos.",
     "You are already using a custom theme" : "Ya estás usando un tema personalizado",
     "reset to default" : "restaurar a configuración inicial",

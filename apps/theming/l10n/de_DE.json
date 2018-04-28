@@ -36,7 +36,6 @@
     "Header logo" : "Kopfbereich-Logo",
     "Upload new header logo" : "Neues Kopfbereich-Logo hochladen",
     "Favicon" : "Favicon",
-    "Upload new favion" : "Neues Favicon hochladen",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favoriten-Icons auf Basis des hochgeladenen Icons und der Farbe zu erstellen.",
     "You are already using a custom theme" : "Sie benutzen bereits ein eigenes Thema",
     "reset to default" : "Auf Standard zurücksetzen",
