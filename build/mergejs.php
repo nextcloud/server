@@ -30,7 +30,10 @@ $vendors = $data['vendor'];
 
 $vendorjs = fopen(__DIR__.'/../core/vendor/core.js', 'w');
 foreach($vendors as $vendor) {
-	fwrite($vendorjs, file_get_contents(__DIR__.'/../core/vendor/'.$vendor));
+	$content = file_get_contents(__DIR__.'/../core/vendor/'.$vendor);
+	// Remove the sourceMappingURL references from the merged file
+	$content = preg_replace('@//# sourceMappingURL=.*$@', '', $content);
+	fwrite($vendorjs, $content);
 	fwrite($vendorjs, PHP_EOL);
 }
 fclose($vendorjs);
