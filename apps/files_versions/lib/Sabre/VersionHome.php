@@ -66,6 +66,9 @@ class VersionHome implements ICollection {
 		if ($name === 'versions') {
 			return new VersionRoot($userId, $this->rootFolder);
 		}
+		if ($name === 'restore') {
+			return new RestoreFolder($userId);
+		}
 	}
 
 	public function getChildren() {
@@ -73,6 +76,7 @@ class VersionHome implements ICollection {
 
 		return [
 			new VersionRoot($userId, $this->rootFolder),
+			new RestoreFolder($userId),
 		];
 	}
 

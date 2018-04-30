@@ -23,6 +23,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Sabre;
 
+use OCA\Files_Versions\Storage;
 use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\IFile;
@@ -69,5 +70,9 @@ class VersionFile implements IFile {
 
 	public function getLastModified(): int {
 		return (int)$this->data['version'];
+	}
+
+	public function rollBack(): bool {
+		return Storage::rollback($this->data['path'], $this->data['version']);
 	}
 }

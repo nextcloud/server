@@ -21,28 +21,21 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Versions\Sabre;
 
-use OCA\Files_Versions\Storage;
-use OCP\Files\File;
-use OCP\Files\Folder;
 use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
+use Sabre\DAV\IMoveTarget;
+use Sabre\DAV\INode;
 
-class VersionCollection implements ICollection {
-	/** @var Folder */
-	private $userFolder;
 
-	/** @var File */
-	private $file;
+class RestoreFolder implements ICollection, IMoveTarget {
 
 	/** @var string */
-	private $userId;
+	protected $userId;
 
-	public function __construct(Folder $userFolder, File $file, string $userId) {
-		$this->userFolder = $userFolder;
-		$this->file = $file;
+	public function __construct(string $userId) {
 		$this->userId = $userId;
 	}
 
@@ -55,41 +48,15 @@ class VersionCollection implements ICollection {
 	}
 
 	public function getChild($name) {
-		/** @var VersionFile[] $versions */
-		$versions = $this->getChildren();
-
-		foreach ($versions as $version) {
-			if ($version->getName() === $name) {
-				return $version;
-			}
-		}
-
-		throw new NotFound();
-	}
-
-	public function getChildren(): array {
-		$versions = Storage::getVersions($this->userId, $this->userFolder->getRelativePath($this->file->getPath()));
-
-		return array_map(function (array $data) {
-			return new VersionFile($data);
-		}, $versions);
-	}
-
-	public function childExists($name): bool {
-		try {
-			$this->getChild($name);
-			return true;
-		} catch (NotFound $e) {
-			return false;
-		}
+		return null;
 	}
 
 	public function delete() {
 		throw new Forbidden();
 	}
 
-	public function getName(): string {
-		return (string)$this->file->getId();
+	public function getName() {
+		return 'restore';
 	}
 
 	public function setName($name) {
@@ -99,4 +66,21 @@ class VersionCollection implements ICollection {
 	public function getLastModified(): int {
 		return 0;
 	}
+
+	public function getChildren(): array {
+		return [];
+	}
+
+	public function childExists($name): bool {
+		return false;
+	}
+
+	public function moveInto($targetName, $sourcePath, INode $sourceNode): bool {
+		if (!($sourceNode instanceof VersionFile)) {
+			return false;
+		}
+
+		return $sourceNode->rollBack();
+	}
+
 }
