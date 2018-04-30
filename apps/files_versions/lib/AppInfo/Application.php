@@ -23,6 +23,7 @@
 
 namespace OCA\Files_Versions\AppInfo;
 
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\App;
 use OCA\Files_Versions\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -46,6 +47,18 @@ class Application extends App {
 			return  new Expiration(
 				$c->query('ServerContainer')->getConfig(),
 				$c->query(ITimeFactory::class)
+			);
+		});
+
+		/*
+		 * Register $principalBackend for the DAV collection
+		 */
+		$container->registerService('principalBackend', function () {
+			return new Principal(
+				\OC::$server->getUserManager(),
+				\OC::$server->getGroupManager(),
+				\OC::$server->getShareManager(),
+				\OC::$server->getUserSession()
 			);
 		});
 	}

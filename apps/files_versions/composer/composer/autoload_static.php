@@ -31,6 +31,11 @@ class ComposerStaticInitFiles_Versions
         'OCA\\Files_Versions\\Events\\CreateVersionEvent' => __DIR__ . '/..' . '/../lib/Events/CreateVersionEvent.php',
         'OCA\\Files_Versions\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
         'OCA\\Files_Versions\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
+        'OCA\\Files_Versions\\Sabre\\RootCollection' => __DIR__ . '/..' . '/../lib/Sabre/RootCollection.php',
+        'OCA\\Files_Versions\\Sabre\\VersionCollection' => __DIR__ . '/..' . '/../lib/Sabre/VersionCollection.php',
+        'OCA\\Files_Versions\\Sabre\\VersionFile' => __DIR__ . '/..' . '/../lib/Sabre/VersionFile.php',
+        'OCA\\Files_Versions\\Sabre\\VersionHome' => __DIR__ . '/..' . '/../lib/Sabre/VersionHome.php',
+        'OCA\\Files_Versions\\Sabre\\VersionRoot' => __DIR__ . '/..' . '/../lib/Sabre/VersionRoot.php',
         'OCA\\Files_Versions\\Storage' => __DIR__ . '/..' . '/../lib/Storage.php',
     );
 
