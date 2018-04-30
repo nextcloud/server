@@ -44,7 +44,7 @@ class CloudId implements ICloudId {
 	public function __construct(string $id, string $user, string $remote) {
 		$this->id = $id;
 		$this->user = $user;
-		$this->remote = $remote;
+		$this->remote = $this->getHostname($remote);
 	}
 
 	/**
@@ -76,5 +76,31 @@ class CloudId implements ICloudId {
 	 */
 	public function getRemote(): string {
 		return $this->remote;
+	}
+
+	/**
+	 * The real hostname of the server
+	 *
+	 * @param string $remote
+	 * @return string
+	*/
+	public function getHostname(string $remote): string {
+		// Check for srv record
+		$srv_prefix = '_nextcloud._tcp.';
+		$rec = \dns_get_record($srv_prefix . $remote, \DNS_SRV);
+		if (!empty($rec)) {
+			// TODO(jhesketh): Handle weight & ports etc
+			if (empty($rec[0]['target'])) {
+				return $remote;
+			}
+			else {
+				return $rec[0]['target'];
+			}
+		}
+
+		// TODO: Optionally, or alternatively, support checking a TXT record.
+		// TODO: Optionally, or alternatively, check for .well-known record
+		// Default to given remote:
+		return $remote;
 	}
 }
