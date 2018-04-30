@@ -262,6 +262,7 @@
     "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Зверніться до вашого системного адміністратора якщо це повідомлення не зникає або з'являється несподівано.",
     "Thank you for your patience." : "Дякуємо за ваше терпіння.",
+    "Wrong password. Reset it?" : "Невірний пароль. Скинути його?",
     "Stay logged in" : "Залишатись в системі",
     "Alternative Logins" : "Альтернативні імена користувача",
     "Add \"%s\" as trusted domain" : "Додати \"%s\" як довірений домен",

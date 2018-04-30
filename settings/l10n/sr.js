@@ -158,6 +158,7 @@ OC.L10N.register(
     "Good password" : "Добра лозинка",
     "Strong password" : "Јака лозинка",
     "Groups" : "Групе",
+    "Group list is empty" : "Списак група је празан",
     "Unable to retrieve the group list" : "Није могуће дохватити списак група",
     "Unable to delete {objName}" : "Не могу да обришем {objName}",
     "Error creating group: {message}" : "Грешка при прављењу групе: {message}",
