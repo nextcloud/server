@@ -247,7 +247,7 @@
     "Enforce expiration date" : "Força la data de venciment",
     "Allow resharing" : "Permet compartir de nou",
     "Allow sharing with groups" : "Permetre compartir amb grups",
-    "Restrict users to only share with users in their groups" : "Permet als usuaris compartir només amb usuaris del seu grup",
+    "Restrict users to only share with users in their groups" : "Força als usuaris a compartir només amb usuaris del seu grup",
     "Exclude groups from sharing" : "Exclou grups de compartició",
     "These groups will still be able to receive shares, but not to initiate them." : "Aquests fitxers encara podran rebre compartits, però no podran iniciar-los.",
     "Tips & tricks" : "Consells i trucs",

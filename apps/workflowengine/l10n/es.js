@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "La lista de grupos está vacía",
     "Unable to retrieve the group list" : "No es posible recibir la lista de grupos",
     "Saved" : "Guardado",
     "Saving failed:" : "Fallo al guardar:",
