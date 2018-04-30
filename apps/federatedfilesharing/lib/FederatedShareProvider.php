@@ -30,7 +30,6 @@
 namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Share;
-use OCA\FederatedFileSharing\OCM\CloudFederationProvider;
 use OCP\Federation\ICloudIdManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Folder;
@@ -92,9 +91,6 @@ class FederatedShareProvider implements IShareProvider {
 	/** @var \OCP\GlobalScale\IConfig */
 	private $gsConfig;
 
-	/** @var CloudFederationProvider */
-	private $cloudFederationProvider;
-
 	/**
 	 * DefaultShareProvider constructor.
 	 *
@@ -109,7 +105,6 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IUserManager $userManager
 	 * @param ICloudIdManager $cloudIdManager
 	 * @param \OCP\GlobalScale\IConfig $globalScaleConfig
-	 * @param CloudFederationProvider $cloudFederationProvider
 	 */
 	public function __construct(
 			IDBConnection $connection,
@@ -122,8 +117,7 @@ class FederatedShareProvider implements IShareProvider {
 			IConfig $config,
 			IUserManager $userManager,
 			ICloudIdManager $cloudIdManager,
-			\OCP\GlobalScale\IConfig $globalScaleConfig,
-			CloudFederationProvider $cloudFederationProvider
+			\OCP\GlobalScale\IConfig $globalScaleConfig
 	) {
 		$this->dbConnection = $connection;
 		$this->addressHandler = $addressHandler;
@@ -136,8 +130,6 @@ class FederatedShareProvider implements IShareProvider {
 		$this->userManager = $userManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->gsConfig = $globalScaleConfig;
-		$this->cloudFederationProvider = $cloudFederationProvider;
-
 	}
 
 	/**

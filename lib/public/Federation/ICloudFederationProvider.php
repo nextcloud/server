@@ -21,6 +21,7 @@
 
 namespace OCP\Federation;
 
+use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ShareNotFoundException;
 
 /**
@@ -36,16 +37,11 @@ use OCP\Federation\Exceptions\ShareNotFoundException;
 interface ICloudFederationProvider {
 
 	/**
-	 * ICloudFederationProvider constructor.
-	 *
-	 * @param $shareType define the share type, handled by this provider
-	 */
-	public function __construct($shareType);
-
-	/**
 	 * get the name of the share type, handled by this provider
 	 *
 	 * @return string
+	 *
+	 * @since 14.0.0
 	 */
 	public function getShareType();
 
@@ -61,6 +57,8 @@ interface ICloudFederationProvider {
 	 *
 	 * @param ICloudFederationShare $share
 	 * @return string provider specific unique ID of the share
+	 *
+	 * @throws ProviderCouldNotAddShareException
 	 *
 	 * @since 14.0.0
 	 */
