@@ -24,16 +24,23 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Sabre;
 
 use OCA\Files_Versions\Storage;
-use OCP\Files\FileInfo;
+use OCP\Files\File;
+use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
 
 class VersionFile implements IFile {
 	/** @var array */
 	private $data;
 
-	public function __construct(array $data) {
+	/** @var Folder */
+	private $userRoot;
+
+	public function __construct(array $data, Folder $userRoot) {
 		$this->data = $data;
+		$this->userRoot = $userRoot;
 	}
 
 	public function put($data) {
@@ -41,7 +48,16 @@ class VersionFile implements IFile {
 	}
 
 	public function get() {
-		throw new Forbidden();
+		try {
+			/** @var Folder $versions */
+			$versions = $this->userRoot->get('files_versions');
+			/** @var File $version */
+			$version = $versions->get($this->data['path'].'.v'.$this->data['version']);
+		} catch (NotFoundException $e) {
+			throw new NotFound();
+		}
+
+		return $version->fopen('rb');
 	}
 
 	public function getContentType(): string {

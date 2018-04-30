@@ -71,7 +71,7 @@ class VersionCollection implements ICollection {
 		$versions = Storage::getVersions($this->userId, $this->userFolder->getRelativePath($this->file->getPath()));
 
 		return array_map(function (array $data) {
-			return new VersionFile($data);
+			return new VersionFile($data, $this->userFolder->getParent());
 		}, $versions);
 	}
 
