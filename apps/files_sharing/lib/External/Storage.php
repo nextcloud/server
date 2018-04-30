@@ -366,4 +366,7 @@ class Storage extends DAV implements ISharedStorage {
 		return $permissions;
 	}
 
+	public function needsPartFile() {
+		return false;
+	}
 }

@@ -73,4 +73,8 @@ class OwnCloud extends \OC\Files\Storage\DAV{
 
 		parent::__construct($params);
 	}
+
+	public function needsPartFile() {
+		return false;
+	}
 }
