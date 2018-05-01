@@ -282,17 +282,19 @@ table td.fileaction {
 	text-align: center;
 }
 table td.filename a.name {
+	display: flex;
 	position:relative; /* Firefox needs to explicitly have this default set … */
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	display: block;
 	height: 50px;
 	line-height: 50px;
 	padding: 0;
 }
 table td.filename .thumbnail-wrapper {
-	position: absolute;
-	width: 50px;
+	/* we need this to make sure flex is working inside a table cell */
+	width: 0;
+	min-width: 50px;
+	max-width: 50px;
 	height: 50px;
 }
 table td.filename .thumbnail-wrapper.icon-loading-small {
@@ -332,24 +334,27 @@ table td.filename .nametext, .modified, .column-last>span:first-child { float:le
 }
 
 /* TODO fix usability bug (accidental file/folder selection) */
-table td.filename .nametext {
-	position: absolute;
-	padding: 0;
-	padding-left: 55px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	width: 70%;
-	max-width: 800px;
-	height: 100%;
-	z-index: 10;
-}
-table td.filename .uploadtext {
-	position: absolute;
-	left: 55px;
-}
-/* ellipsis on file names */
-table td.filename .nametext .innernametext {
-	max-width: calc(100% - 100px) !important;
+table {
+	td.filename {
+		max-width: 0;
+		.nametext {
+			width: 0;
+			flex-grow: 1;
+			display: flex;
+			padding: 0;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			height: 100%;
+			z-index: 10;
+			padding-right: 20px;
+		}
+	}
+
+	.uploadtext {
+		position: absolute;
+		left: 55px;
+	}
 }
 
 .hide-hidden-files #fileList tr.hidden-file,
@@ -371,57 +376,7 @@ table td.filename .nametext .innernametext {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	position: relative;
-	display: inline-block;
 	vertical-align: top;
-}
-
-@media only screen and (min-width: 1500px) {
-	table td.filename .nametext .innernametext {
-		max-width: 790px;
-	}
-	.with-app-sidebar table td.filename .nametext .innernametext {
-		max-width: 390px;
-	}
-}
-@media only screen and (min-width: 1366px) and (max-width: 1500px) {
-	table td.filename .nametext .innernametext {
-		max-width: 660px;
-	}
-	.with-app-sidebar table td.filename .nametext .innernametext {
-		max-width: 290px;
-	}
-}
-@media only screen and (min-width: 1200px) and (max-width: 1366px) {
-	table td.filename .nametext .innernametext {
-		max-width: 500px;
-	}
-	.with-app-sidebar table td.filename .nametext .innernametext {
-		max-width: 230px;
-	}
-}
-@media only screen and (min-width: 1100px) and (max-width: 1200px) {
-	table td.filename .nametext .innernametext {
-		max-width: 400px;
-	}
-	.with-app-sidebar table td.filename .nametext .innernametext {
-		max-width: 230px;
-	}
-}
-@media only screen and (min-width: 1000px) and (max-width: 1100px) {
-	table td.filename .nametext .innernametext {
-		max-width: 310px;
-	}
-	.with-app-sidebar table td.filename .nametext .innernametext {
-		max-width: 230px;
-	}
-}
-@media only screen and (min-width: 768px) and (max-width: 1000px) {
-	table td.filename .nametext .innernametext {
-		max-width: 240px;
-	}
-	.with-app-sidebar table td.filename .nametext .innernametext {
-		max-width: 230px;
-	}
 }
 
 /* for smaller resolutions - see mobile.css */
@@ -490,8 +445,6 @@ table td.selection {
 
 /* File actions */
 .fileactions {
-	position: absolute;
-	right: 0;
 	z-index: 50;
 }
 
