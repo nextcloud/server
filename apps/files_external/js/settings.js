@@ -48,6 +48,12 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'				<label for="mountOptionsEncoding">{{mountOptionsEncodingLabel}}</label>'+
 	'			</span>'+
 	'		</li>'+
+	'		<li class="optionRow">' +
+	'			<span class="menuitem">' +
+	'				<input id="mountOptionsReadOnly" class="checkbox" name="readonly" type="checkbox" value="true"/>' +
+	'				<label for="mountOptionsReadOnly">{{t "files_external" "Read only"}}</label>' +
+	'			</span>' +
+	'		</li>' +
 	'	</ul>'+
 	'</div>';
 
@@ -916,7 +922,8 @@ MountConfigListView.prototype = _.extend({
 				'previews': true,
 				'enable_sharing': false,
 				'filesystem_check_changes': 1,
-				'encoding_compatibility': false
+				'encoding_compatibility': false,
+				'readonly': false,
 			}));
 		}
 
@@ -1303,7 +1310,8 @@ MountConfigListView.prototype = _.extend({
 			'previews',
 			'filesystem_check_changes',
 			'enable_sharing',
-			'encoding_compatibility'
+			'encoding_compatibility',
+			'readonly'
 		];
 		if (this._encryptionEnabled) {
 			visibleOptions.push('encrypt');

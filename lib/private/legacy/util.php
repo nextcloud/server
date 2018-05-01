@@ -259,6 +259,23 @@ class OC_Util {
 			return $storage;
 		});
 
+		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, \OCP\Files\Storage\IStorage $storage, \OCP\Files\Mount\IMountPoint $mount) {
+			/*
+			 * Do not allow any operations that modify the storage
+			 */
+			if ($mount->getOption('readonly', false)) {
+				return new \OC\Files\Storage\Wrapper\PermissionsMask([
+					'storage' => $storage,
+					'mask' => \OCP\Constants::PERMISSION_ALL & ~(
+						\OCP\Constants::PERMISSION_UPDATE |
+						\OCP\Constants::PERMISSION_CREATE |
+						\OCP\Constants::PERMISSION_DELETE
+					),
+				]);
+			}
+			return $storage;
+		});
+
 		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
 		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(true);
 

@@ -272,7 +272,7 @@ abstract class Node implements \Sabre\DAV\INode {
 				$mountpointpath = substr($mountpointpath, 0, -1);
 			}
 
-			if ($mountpointpath === $this->info->getPath()) {
+			if (!$mountpoint->getOption('readonly', false) && $mountpointpath === $this->info->getPath()) {
 				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
 			}
 		}
