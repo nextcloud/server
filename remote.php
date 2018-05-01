@@ -100,6 +100,7 @@ function resolveService($service) {
 		'carddav' => 'dav/appinfo/v1/carddav.php',
 		'contacts' => 'dav/appinfo/v1/carddav.php',
 		'files' => 'dav/appinfo/v1/webdav.php',
+		'direct' => 'dav/appinfo/v2/direct.php',
 	];
 	if (isset($services[$service])) {
 		return $services[$service];
