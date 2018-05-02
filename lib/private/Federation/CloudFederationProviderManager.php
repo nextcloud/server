@@ -22,6 +22,7 @@
 
 namespace OC\Federation;
 
+use OCP\App\IAppManager;
 use OCP\Federation\Exceptions\ProviderAlreadyExistsException;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationNotification;
@@ -41,8 +42,12 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/** @var array list of available cloud federation providers */
 	private $cloudFederationProvider;
 
-	public function __construct() {
+	/** @var IAppManager */
+	private $appManager;
+
+	public function __construct(IAppManager $appManager) {
 		$this->cloudFederationProvider= [];
+		$this->appManager = $appManager;
 	}
 
 
@@ -103,6 +108,15 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 	public function sendNotification(ICloudFederationNotification $notification) {
 		// TODO: Implement sendNotification() method.
+	}
+
+	/**
+	 * check if the new cloud federation API is ready to be used
+	 *
+	 * @return bool
+	 */
+	public function isReady() {
+		return $this->appManager->isEnabledForUser('cloud_federation_api', false);
 	}
 
 }

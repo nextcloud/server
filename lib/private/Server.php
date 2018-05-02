@@ -1117,7 +1117,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(ICloudFederationProviderManager::class, function (Server $c) {
-			return new CloudFederationProviderManager();
+			return new CloudFederationProviderManager($c->getAppManager());
 		});
 
 		$this->registerService(ICloudFederationFactory::class, function (Server $c) {

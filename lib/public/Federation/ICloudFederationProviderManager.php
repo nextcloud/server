@@ -93,5 +93,14 @@ interface ICloudFederationProviderManager {
 	 */
 	public function sendNotification(ICloudFederationNotification $notification);
 
+	/**
+	 * check if the new cloud federation API is ready to be used
+	 *
+	 * @return bool
+	 *
+	 * @since 14.0.0
+	 */
+	public function isReady();
+
 
 }
