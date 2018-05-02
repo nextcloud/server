@@ -266,9 +266,9 @@ class JSCombiner {
 	private function prependVersionPrefix(string $jsFile, string $appId): string {
 		$appVersion = \OC_App::getAppVersion($appId);
 		if ($appVersion !== '0') {
-			return substr(md5($appVersion), 0, 5) . '-' . $jsFile;
+			return substr(md5($appVersion), 0, 4) . '-' . $jsFile;
 		}
 		$coreVersion = \OC_Util::getVersionString();
-		return substr(md5($coreVersion), 0, 5) . '-' . $jsFile;
+		return substr(md5($coreVersion), 0, 4) . '-' . $jsFile;
 	}
 }

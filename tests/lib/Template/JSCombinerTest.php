@@ -50,6 +50,8 @@ class JSCombinerTest extends \Test\TestCase {
 	protected $logger;
 	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $cacheFactory;
+	/** string, the md5 core version prefix used for apps that does not exists */
+	protected $corePrefix;
 
 	protected function setUp() {
 		parent::setUp();
@@ -70,6 +72,8 @@ class JSCombinerTest extends \Test\TestCase {
 			$this->config,
 			$this->logger
 		);
+
+		$this->corePrefix =  substr(md5(\OC_Util::getVersionString()), 0, 4) . '-';
 
 	}
 
@@ -121,18 +125,18 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $gzfile) {
-				if ($path === 'combine.js') {
+				if ($path === $this->corePrefix.'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
+				} else if ($path === $this->corePrefix.'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gzip') {
+				} else if ($path === $this->corePrefix.'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
 			}));
 		$folder->expects($this->once())
 			->method('newFile')
-			->with('combine.js.deps')
+			->with($this->corePrefix.'combine.js.deps')
 			->willReturn($fileDeps);
 
 		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
@@ -158,18 +162,18 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $gzfile) {
-				if ($path === 'combine.js') {
+				if ($path === $this->corePrefix.'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
+				} else if ($path === $this->corePrefix.'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gzip') {
+				} else if ($path === $this->corePrefix.'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
 			}));
 		$folder->expects($this->once())
 			->method('newFile')
-			->with('combine.js.deps')
+			->with($this->corePrefix.'combine.js.deps')
 			->willReturn($fileDeps);
 
 		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
@@ -196,16 +200,16 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileDeps->expects($this->once())->method('getContent')->willReturn('{}');
 
 		$folder->method('fileExists')
-			->with('combine.js')
+			->with($this->corePrefix.'combine.js')
 			->willReturn(true);
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $fileDeps) {
-				if ($path === 'combine.js') {
+				if ($path === $this->corePrefix.'combine.js') {
 					return $file;
 				}
 
-				if ($path === 'combine.js.deps') {
+				if ($path === $this->corePrefix.'combine.js.deps') {
 					return $fileDeps;
 				}
 
@@ -235,18 +239,18 @@ class JSCombinerTest extends \Test\TestCase {
 		$folder->method('getName')
 			->willReturn('awesomeapp');
 		$folder->method('fileExists')
-			->with('combine.js')
+			->with($this->corePrefix.'combine.js')
 			->willReturn(true);
 
 		$file = $this->createMock(ISimpleFile::class);
 
 		$this->depsCache->method('get')
-			->with('awesomeapp-combine.js.deps')
+			->with('awesomeapp-'.$this->corePrefix.'combine.js.deps')
 			->willReturn('{}');
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file) {
-				if ($path === 'combine.js') {
+				if ($path === $this->corePrefix.'combine.js') {
 					return $file;
 				}
 				$this->fail();
@@ -272,7 +276,7 @@ class JSCombinerTest extends \Test\TestCase {
 				$this->fail();
 			}));
 
-		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
+		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder, 'core']);
 		$this->assertFalse($actual);
 	}
 
@@ -280,17 +284,17 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
 		$folder->method('fileExists')
-			->with('combine.js')
+			->with($this->corePrefix.'combine.js')
 			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
-			->with('combine.js.deps')
+			->with($this->corePrefix.'combine.js.deps')
 			->willReturn($file);
 		$file->expects($this->once())
 			->method('getContent')
 			->willReturn(json_encode(['/etc/certainlynotexisting/file/ihope' => 10000]));
 
-		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
+		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder, 'core']);
 		$this->assertFalse($actual);
 	}
 
@@ -298,17 +302,17 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
 		$folder->method('fileExists')
-			->with('combine.js')
+			->with($this->corePrefix.'combine.js')
 			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
-			->with('combine.js.deps')
+			->with($this->corePrefix.'combine.js.deps')
 			->willReturn($file);
 		$file->expects($this->once())
 			->method('getContent')
 			->willReturn(json_encode([__FILE__ => 1234]));
 
-		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
+		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder, 'core']);
 		$this->assertFalse($actual);
 	}
 
@@ -316,19 +320,19 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileName = 'combine.json';
 		$folder = $this->createMock(ISimpleFolder::class);
 		$folder->method('fileExists')
-			->with('combine.js')
+			->with($this->corePrefix.'combine.js')
 			->willReturn(true);
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->method('getFile')
-			->with('combine.js.deps')
+			->with($this->corePrefix.'combine.js.deps')
 			->willReturn($file);
 		$file->expects($this->once())
 			->method('getContent')
 			->willReturn('');
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('JSCombiner: deps file empty: combine.js.deps');
-		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
+			->with('JSCombiner: deps file empty: '.$this->corePrefix.'combine.js.deps');
+		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder, 'core']);
 		$this->assertFalse($actual);
 	}
 
@@ -346,11 +350,11 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$folder->method('newFile')->will($this->returnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {
-				if ($filename === 'combine.js') {
+				if ($filename === $this->corePrefix.'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} else if ($filename === $this->corePrefix.'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} else if ($filename === $this->corePrefix.'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -361,7 +365,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$depsFile->expects($this->once())->method('putContent');
 		$gzFile->expects($this->once())->method('putContent');
 
-		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder]);
+		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder, 'core']);
 		$this->assertTrue($actual);
 	}
 
@@ -377,11 +381,11 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$folder->method('getFile')->will($this->returnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {
-				if ($filename === 'combine.js') {
+				if ($filename === $this->corePrefix.'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} else if ($filename === $this->corePrefix.'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} else if ($filename === $this->corePrefix.'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -392,12 +396,12 @@ class JSCombinerTest extends \Test\TestCase {
 		$depsFile->expects($this->once())->method('putContent');
 		$gzFile->expects($this->once())->method('putContent');
 
-		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder]);
+		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder, 'core']);
 		$this->assertTrue($actual);
 	}
 
 	public function testCacheNotPermittedException() {
-		$fileName = 'combine.js';
+		$fileName = $this->corePrefix.'combine.js';
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -428,7 +432,7 @@ var b = \'world\';
 			}))
 			->willThrowException(new NotPermittedException());
 
-		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder]);
+		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder, 'core']);
 		$this->assertFalse($actual);
 	}
 
@@ -445,11 +449,11 @@ var b = \'world\';
 
 		$folder->method('getFile')->will($this->returnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {
-				if ($filename === 'combine.js') {
+				if ($filename === $this->corePrefix.'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} else if ($filename === $this->corePrefix.'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} else if ($filename === $this->corePrefix.'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -483,14 +487,14 @@ var b = \'world\';
 			}
 		));
 
-		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder]);
+		$actual = self::invokePrivate($this->jsCombiner, 'cache', [$path, 'combine.json', $folder, 'core']);
 		$this->assertTrue($actual);
 	}
 
-	public function dataGetCachedSCSS() {
+	public function dataGetCachedJS() {
 		return [
-			['awesomeapp', 'core/js/foo.json', '/js/core/foo.js'],
-			['files', 'apps/files/js/foo.json', '/js/files/foo.js']
+			['awesomeapp', 'core/js/foo.json', '/js/core/foo.js', \OC_Util::getVersionString()],
+			['files', 'apps/files/js/foo.json', '/js/files/foo.js', \OC_App::getAppVersion('files')]
 		];
 	}
 
@@ -498,13 +502,13 @@ var b = \'world\';
 	 * @param $appName
 	 * @param $fileName
 	 * @param $result
-	 * @dataProvider dataGetCachedSCSS
+	 * @dataProvider dataGetCachedJS
 	 */
-	public function testGetCachedSCSS($appName, $fileName, $result) {
+	public function testGetCachedJS($appName, $fileName, $result, $version) {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.Js.getJs', [
-				'fileName' => 'foo.js',
+				'fileName' => substr(md5($version), 0, 4).'-foo.js',
 				'appName' => $appName
 			])
 			->willReturn(\OC::$WEBROOT . $result);
