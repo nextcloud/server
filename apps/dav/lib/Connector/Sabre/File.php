@@ -51,6 +51,7 @@ use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -135,8 +136,9 @@ class File extends Node implements IFile {
 			}
 		}
 
+		/** @var Storage $partStorage */
 		list($partStorage) = $this->fileView->resolvePath($this->path);
-		$needsPartFile = $this->needsPartFile($partStorage) && (strlen($this->path) > 1);
+		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
@@ -443,8 +445,9 @@ class File extends Node implements IFile {
 		}
 
 		if ($chunk_handler->isComplete()) {
+			/** @var Storage $storage */
 			list($storage,) = $this->fileView->resolvePath($path);
-			$needsPartFile = $this->needsPartFile($storage);
+			$needsPartFile = $storage->needsPartFile();
 			$partFile = null;
 
 			$targetPath = $path . '/' . $info['name'];
@@ -527,21 +530,6 @@ class File extends Node implements IFile {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Returns whether a part file is needed for the given storage
-	 * or whether the file can be assembled/uploaded directly on the
-	 * target storage.
-	 *
-	 * @param \OCP\Files\Storage $storage
-	 * @return bool true if the storage needs part file handling
-	 */
-	private function needsPartFile($storage) {
-		// TODO: in the future use ChunkHandler provided by storage
-		return !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage') &&
-			!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud') &&
-			$storage->needsPartFile();
 	}
 
 	/**
