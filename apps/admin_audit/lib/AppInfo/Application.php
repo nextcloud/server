@@ -53,8 +53,26 @@ use OCP\Share;
 
 class Application extends App {
 
+	/** @var ILogger */
+	protected $logger;
+
 	public function __construct() {
 		parent::__construct('admin_audit');
+		$this->initLogger();
+	}
+
+	public function initLogger() {
+		$c = $this->getContainer()->getServer();
+		$config = $c->getConfig();
+
+		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
+		$logFile = $config->getAppValue('admin_audit', 'logfile', $default);
+		if($logFile === null) {
+			$this->logger = $c->getLogger();
+			return;
+		}
+		$this->logger = $c->getLogFactory()->getCustomLogger($logFile);
+
 	}
 
 	public function register() {
@@ -65,26 +83,24 @@ class Application extends App {
 	 * Register hooks in order to log them
 	 */
 	protected function registerHooks() {
-		$logger = $this->getContainer()->getServer()->getLogger();
+		$this->userManagementHooks();
+		$this->groupHooks();
+		$this->authHooks();
 
-		$this->userManagementHooks($logger);
-		$this->groupHooks($logger);
-		$this->authHooks($logger);
+		$this->consoleHooks();
+		$this->appHooks();
 
-		$this->consoleHooks($logger);
-		$this->appHooks($logger);
+		$this->sharingHooks();
 
-		$this->sharingHooks($logger);
+		$this->fileHooks();
+		$this->trashbinHooks();
+		$this->versionsHooks();
 
-		$this->fileHooks($logger);
-		$this->trashbinHooks($logger);
-		$this->versionsHooks($logger);
-
-		$this->securityHooks($logger);
+		$this->securityHooks();
 	}
 
-	protected function userManagementHooks(ILogger $logger) {
-		$userActions = new UserManagement($logger);
+	protected function userManagementHooks() {
+		$userActions = new UserManagement($this->logger);
 
 		Util::connectHook('OC_User', 'post_createUser',	$userActions, 'create');
 		Util::connectHook('OC_User', 'post_deleteUser',	$userActions, 'delete');
@@ -97,8 +113,8 @@ class Application extends App {
 		$userSession->listen('\OC\User', 'postUnassignedUserId', [$userActions, 'unassign']);
 	}
 
-	protected function groupHooks(ILogger $logger)  {
-		$groupActions = new GroupManagement($logger);
+	protected function groupHooks()  {
+		$groupActions = new GroupManagement($this->logger);
 
 		/** @var IGroupManager|Manager $groupManager */
 		$groupManager = $this->getContainer()->getServer()->getGroupManager();
@@ -108,8 +124,8 @@ class Application extends App {
 		$groupManager->listen('\OC\Group', 'postCreate',  [$groupActions, 'createGroup']);
 	}
 
-	protected function sharingHooks(ILogger $logger) {
-		$shareActions = new Sharing($logger);
+	protected function sharingHooks() {
+		$shareActions = new Sharing($this->logger);
 
 		Util::connectHook(Share::class, 'post_shared', $shareActions, 'shared');
 		Util::connectHook(Share::class, 'post_unshare', $shareActions, 'unshare');
@@ -119,42 +135,42 @@ class Application extends App {
 		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
 	}
 
-	protected function authHooks(ILogger $logger) {
-		$authActions = new Auth($logger);
+	protected function authHooks() {
+		$authActions = new Auth($this->logger);
 
 		Util::connectHook('OC_User', 'pre_login', $authActions, 'loginAttempt');
 		Util::connectHook('OC_User', 'post_login', $authActions, 'loginSuccessful');
 		Util::connectHook('OC_User', 'logout', $authActions, 'logout');
 	}
 
-	protected function appHooks(ILogger $logger) {
+	protected function appHooks() {
 
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function(ManagerEvent $event) use ($logger) {
-			$appActions = new AppManagement($logger);
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function(ManagerEvent $event) {
+			$appActions = new AppManagement($this->logger);
 			$appActions->enableApp($event->getAppID());
 		});
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, function(ManagerEvent $event) use ($logger) {
-			$appActions = new AppManagement($logger);
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, function(ManagerEvent $event) {
+			$appActions = new AppManagement($this->logger);
 			$appActions->enableAppForGroups($event->getAppID(), $event->getGroups());
 		});
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, function(ManagerEvent $event) use ($logger) {
-			$appActions = new AppManagement($logger);
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, function(ManagerEvent $event) {
+			$appActions = new AppManagement($this->logger);
 			$appActions->disableApp($event->getAppID());
 		});
 
 	}
 
-	protected function consoleHooks(ILogger $logger) {
+	protected function consoleHooks() {
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function(ConsoleEvent $event) use ($logger) {
-			$appActions = new Console($logger);
+		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function(ConsoleEvent $event) {
+			$appActions = new Console($this->logger);
 			$appActions->runCommand($event->getArguments());
 		});
 	}
 
-	protected function fileHooks(ILogger $logger) {
-		$fileActions = new Files($logger);
+	protected function fileHooks() {
+		$fileActions = new Files($this->logger);
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
 		$eventDispatcher->addListener(
 			IPreview::EVENT,
@@ -215,26 +231,26 @@ class Application extends App {
 		);
 	}
 
-	protected function versionsHooks(ILogger $logger) {
-		$versionsActions = new Versions($logger);
+	protected function versionsHooks() {
+		$versionsActions = new Versions($this->logger);
 		Util::connectHook('\OCP\Versions', 'rollback', $versionsActions, 'rollback');
 		Util::connectHook('\OCP\Versions', 'delete',$versionsActions, 'delete');
 	}
 
-	protected function trashbinHooks(ILogger $logger) {
-		$trashActions = new Trashbin($logger);
+	protected function trashbinHooks() {
+		$trashActions = new Trashbin($this->logger);
 		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
 		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
 	}
 
-	protected function securityHooks(ILogger $logger) {
+	protected function securityHooks() {
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function(GenericEvent $event) use ($logger) {
-			$security = new Security($logger);
+		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function(GenericEvent $event) {
+			$security = new Security($this->logger);
 			$security->twofactorSuccess($event->getSubject(), $event->getArguments());
 		});
-		$eventDispatcher->addListener(IProvider::EVENT_FAILED, function(GenericEvent $event) use ($logger) {
-			$security = new Security($logger);
+		$eventDispatcher->addListener(IProvider::EVENT_FAILED, function(GenericEvent $event) {
+			$security = new Security($this->logger);
 			$security->twofactorFailed($event->getSubject(), $event->getArguments());
 		});
 	}

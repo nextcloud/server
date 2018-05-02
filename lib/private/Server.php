@@ -87,6 +87,7 @@ use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Lockdown\LockdownManager;
+use OC\Log\LogFactory;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
@@ -134,6 +135,7 @@ use OCP\ITempManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
+use OCP\Log\ILogFactory;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
@@ -546,14 +548,17 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OCP\ILogger::class, function (Server $c) {
 			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
-			$logger = Log::getLogClass($logType);
-			call_user_func(array($logger, 'init'));
-			$config = $this->getSystemConfig();
+			$factory = new LogFactory($c, $this->getSystemConfig());
+			$logger = $factory->get($logType);
 			$registry = $c->query(\OCP\Support\CrashReport\IRegistry::class);
 
-			return new Log($logger, $config, null, $registry);
+			return new Log($logger, $this->getSystemConfig(), null, $registry);
 		});
 		$this->registerAlias('Logger', \OCP\ILogger::class);
+
+		$this->registerService(ILogFactory::class, function (Server $c) {
+			return new LogFactory($c, $this->getSystemConfig());
+		});
 
 		$this->registerService(\OCP\BackgroundJob\IJobList::class, function (Server $c) {
 			$config = $c->getConfig();
@@ -1526,6 +1531,14 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getLogger() {
 		return $this->query('Logger');
+	}
+
+	/**
+	 * @return ILogFactory
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function getLogFactory() {
+		return $this->query(ILogFactory::class);
 	}
 
 	/**

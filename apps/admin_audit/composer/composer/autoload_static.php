@@ -33,6 +33,7 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Actions\\UserManagement' => __DIR__ . '/..' . '/../lib/Actions/UserManagement.php',
         'OCA\\AdminAudit\\Actions\\Versions' => __DIR__ . '/..' . '/../lib/Actions/Versions.php',
         'OCA\\AdminAudit\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\AdminAudit\\BackgroundJobs\\Rotate' => __DIR__ . '/..' . '/../lib/BackgroundJobs/Rotate.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -10,8 +10,9 @@ namespace Test;
 
 use OC\Log;
 use OCP\ILogger;
+use OCP\Log\IWriter;
 
-class LoggerTest extends TestCase {
+class LoggerTest extends TestCase implements IWriter {
 
 	/** @var \OC\SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
@@ -23,15 +24,15 @@ class LoggerTest extends TestCase {
 	private $logger;
 
 	/** @var array */
-	static private $logs = array();
+	private $logs = [];
 
 	protected function setUp() {
 		parent::setUp();
 
-		self::$logs = array();
+		$this->logs = [];
 		$this->config = $this->createMock(\OC\SystemConfig::class);
 		$this->registry = $this->createMock(\OCP\Support\CrashReport\IRegistry::class);
-		$this->logger = new Log('Test\LoggerTest', $this->config, null, $this->registry);
+		$this->logger = new Log($this, $this->config, null, $this->registry);
 	}
 
 	public function testInterpolation() {
@@ -63,11 +64,11 @@ class LoggerTest extends TestCase {
 	}
 
 	private function getLogs() {
-		return self::$logs;
+		return $this->logs;
 	}
 
-	public static function write($app, $message, $level) {
-		self::$logs[]= "$level $message";
+	public function write(string $app, $message, int $level) {
+		$this->logs[]= "$level $message";
 	}
 
 	public function userAndPasswordData() {
@@ -201,24 +202,5 @@ class LoggerTest extends TestCase {
 			$this->assertNotContains($password, $logLine);
 			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
-	}
-
-	public function dataGetLogClass() {
-		return [
-			['file', \OC\Log\File::class],
-			['errorlog', \OC\Log\Errorlog::class],
-			['syslog', \OC\Log\Syslog::class],
-
-			['owncloud', \OC\Log\File::class],
-			['nextcloud', \OC\Log\File::class],
-			['foobar', \OC\Log\File::class],
-		];
-	}
-
-	/**
-	 * @dataProvider dataGetLogClass
-	 */
-	public function testGetLogClass($type, $class) {
-		$this->assertEquals($class, Log::getLogClass($type));
 	}
 }
