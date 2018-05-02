@@ -97,10 +97,10 @@ class JSCombiner {
 			$folder = $this->appData->newFolder($app);
 		}
 
-		if($this->isCached($fileName, $folder)) {
+		if($this->isCached($fileName, $folder, $app)) {
 			return true;
 		}
-		return $this->cache($path, $fileName, $folder);
+		return $this->cache($path, $fileName, $folder, $app);
 	}
 
 	/**
@@ -108,8 +108,8 @@ class JSCombiner {
 	 * @param ISimpleFolder $folder
 	 * @return bool
 	 */
-	protected function isCached($fileName, ISimpleFolder $folder) {
-		$fileName = str_replace('.json', '.js', $fileName);
+	protected function isCached($fileName, ISimpleFolder $folder, string $app) {
+		$fileName = $this->prependVersionPrefix(str_replace('.json', '.js', $fileName), $app);
 
 		if (!$folder->fileExists($fileName)) {
 			return false;
@@ -153,7 +153,7 @@ class JSCombiner {
 	 * @param ISimpleFolder $folder
 	 * @return bool
 	 */
-	protected function cache($path, $fileName, ISimpleFolder $folder) {
+	protected function cache($path, $fileName, ISimpleFolder $folder, $app) {
 		$deps = [];
 		$fullPath = $path . '/' . $fileName;
 		$data = json_decode(file_get_contents($fullPath));
@@ -170,14 +170,14 @@ class JSCombiner {
 			}
 		}
 
-		$fileName = str_replace('.json', '.js', $fileName);
+		$fileNameCached = $this->prependVersionPrefix(str_replace('.json', '.js', $fileName), $app);
 		try {
-			$cachedfile = $folder->getFile($fileName);
+			$cachedfile = $folder->getFile($fileNameCached);
 		} catch(NotFoundException $e) {
-			$cachedfile = $folder->newFile($fileName);
+			$cachedfile = $folder->newFile($fileNameCached);
 		}
 
-		$depFileName = $fileName . '.deps';
+		$depFileName = $fileNameCached . '.deps';
 		try {
 			$depFile = $folder->getFile($depFileName);
 		} catch (NotFoundException $e) {
@@ -185,9 +185,9 @@ class JSCombiner {
 		}
 
 		try {
-			$gzipFile = $folder->getFile($fileName . '.gzip'); # Safari doesn't like .gz
+			$gzipFile = $folder->getFile($fileNameCached . '.gzip'); # Safari doesn't like .gz
 		} catch (NotFoundException $e) {
-			$gzipFile = $folder->newFile($fileName . '.gzip'); # Safari doesn't like .gz
+			$gzipFile = $folder->newFile($fileNameCached . '.gzip'); # Safari doesn't like .gz
 		}
 
 		try {
@@ -196,10 +196,10 @@ class JSCombiner {
 			$depFile->putContent($deps);
 			$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 			$gzipFile->putContent(gzencode($res, 9));
-			$this->logger->debug('JSCombiner: successfully cached: ' . $fileName);
+			$this->logger->debug('JSCombiner: successfully cached: ' . $fileNameCached);
 			return true;
 		} catch (NotPermittedException $e) {
-			$this->logger->error('JSCombiner: unable to cache: ' . $fileName);
+			$this->logger->error('JSCombiner: unable to cache: ' . $fileNameCached);
 			return false;
 		}
 	}
@@ -212,7 +212,7 @@ class JSCombiner {
 	public function getCachedJS($appName, $fileName) {
 		$tmpfileLoc = explode('/', $fileName);
 		$fileName = array_pop($tmpfileLoc);
-		$fileName = str_replace('.json', '.js', $fileName);
+		$fileName = $this->prependVersionPrefix(str_replace('.json', '.js', $fileName), $appName);
 
 		return substr($this->urlGenerator->linkToRoute('core.Js.getJs', array('fileName' => $fileName, 'appName' => $appName)), strlen(\OC::$WEBROOT) + 1);
 	}
@@ -255,5 +255,20 @@ class JSCombiner {
 				$file->delete();
 			}
 		}
+	}
+
+	/**
+	 * Prepend hashed app version hash
+	 * @param string $jsFile
+	 * @param string $appId
+	 * @return string
+	 */
+	private function prependVersionPrefix(string $jsFile, string $appId): string {
+		$appVersion = \OC_App::getAppVersion($appId);
+		if ($appVersion !== '0') {
+			return substr(md5($appVersion), 0, 5) . '-' . $jsFile;
+		}
+		$coreVersion = \OC_Util::getVersionString();
+		return substr(md5($coreVersion), 0, 5) . '-' . $jsFile;
 	}
 }
