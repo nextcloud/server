@@ -112,6 +112,7 @@ OC.L10N.register(
     "Check for changes" : "Değişiklikleri denetle",
     "Never" : "Asla",
     "Once every direct access" : "Her doğrudan erişimde bir kez",
+    "Read only" : "Salt okunur",
     "Folder name" : "Klasör adı",
     "External storage" : "Dış depolama",
     "Authentication" : "Kimlik Doğrulama",

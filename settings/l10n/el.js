@@ -258,6 +258,7 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Να επιτρέπεται σε χρήστες ο διαμοιρασμός μόνο με χρήστες που ανήκουν στις ομάδες τους",
     "Exclude groups from sharing" : "Εξαίρεση ομάδων από τον διαμοιρασμό",
     "These groups will still be able to receive shares, but not to initiate them." : "Αυτές οι ομάδες θα συνεχίσουν να λαμβάνουν διαμοιρασμούς, αλλά δεν θα είναι δυνατό να τους δημιουργήσουν.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Να επιτρέπεται η χρήση αυτόματης συμπλήρωσης του ονόματος χρήστη στο πεδίο διαμοιρασμού. Αν η ρύθμιση αυτή είναι απενεργοποιημένη θα πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή το email του. ",
     "This text will be shown on the public link upload page when the file list is hidden." : "Αυτό το κείμενο θα ",
     "Tips & tricks" : "Συμβουλές & τεχνάσματα",
     "How to do backups" : "Πώς να κάνετε αντίγραφα ασφαλείας",
