@@ -84,8 +84,8 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				<div class="quotatext-bg">
 					<p class="quotatext">
 						<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
-							<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong>',
-								[$_['usage'], $_['total_space']]));?>
+							<?php print_unescaped($l->t('You are using <strong>%s</strong>',
+								[$_['usage']]));?>
 						<?php else: ?>
 							<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)',
 								[$_['usage'], $_['total_space'],  $_['usage_relative']]));?>
