@@ -25,6 +25,7 @@ namespace Test\Template;
 use function foo\func;
 use OC\SystemConfig;
 use OC\Template\JSCombiner;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -48,6 +49,8 @@ class JSCombinerTest extends \Test\TestCase {
 	protected $jsCombiner;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $appManager;
 	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $cacheFactory;
 	/** string, the md5 core version prefix used for apps that does not exists */
@@ -65,12 +68,14 @@ class JSCombinerTest extends \Test\TestCase {
 			->method('createDistributed')
 			->willReturn($this->depsCache);
 		$this->logger = $this->createMock(ILogger::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->jsCombiner = new JSCombiner(
 			$this->appData,
 			$this->urlGenerator,
 			$this->cacheFactory,
 			$this->config,
-			$this->logger
+			$this->logger,
+			$this->appManager
 		);
 
 		$this->corePrefix =  substr(md5(\OC_Util::getVersionString()), 0, 4) . '-';
@@ -494,7 +499,7 @@ var b = \'world\';
 	public function dataGetCachedJS() {
 		return [
 			['awesomeapp', 'core/js/foo.json', '/js/core/foo.js', \OC_Util::getVersionString()],
-			['files', 'apps/files/js/foo.json', '/js/files/foo.js', \OC_App::getAppVersion('files')]
+			['files', 'apps/files/js/foo.json', '/js/files/foo.js', '1.1.1']
 		];
 	}
 
@@ -505,6 +510,13 @@ var b = \'world\';
 	 * @dataProvider dataGetCachedJS
 	 */
 	public function testGetCachedJS($appName, $fileName, $result, $version) {
+		$this->appManager->expects($this->once())
+			->method('getAppInfo')
+			->with($appName)
+			->will($this->returnCallback(function($appName) {
+				// null is returned for app that does not exists
+				return $appName === 'files' ? ['version' => '1.1.1'] : null;
+			}));
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.Js.getJs', [

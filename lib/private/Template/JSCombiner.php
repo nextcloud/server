@@ -25,6 +25,7 @@
 namespace OC\Template;
 
 use OC\SystemConfig;
+use OCP\App\IAppManager;
 use OCP\ICache;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -54,24 +55,30 @@ class JSCombiner {
 	/** @var ICacheFactory */
 	private $cacheFactory;
 
+	/** @var IAppManager */
+	private $appManager;
+
 	/**
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
 	 * @param ICacheFactory $cacheFactory
 	 * @param SystemConfig $config
 	 * @param ILogger $logger
+	 * @param IAppManager $appManager
 	 */
 	public function __construct(IAppData $appData,
 								IURLGenerator $urlGenerator,
 								ICacheFactory $cacheFactory,
 								SystemConfig $config,
-								ILogger $logger) {
+								ILogger $logger,
+								IAppManager $appManager) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->cacheFactory = $cacheFactory;
 		$this->depsCache = $this->cacheFactory->createDistributed('JS-' . md5($this->urlGenerator->getBaseUrl()));
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -264,8 +271,8 @@ class JSCombiner {
 	 * @return string
 	 */
 	private function prependVersionPrefix(string $jsFile, string $appId): string {
-		$appVersion = \OC_App::getAppVersion($appId);
-		if ($appVersion !== '0') {
+		$appVersion = $this->appManager->getAppInfo($appId)['version'];
+		if (!is_null($appVersion)) {
 			return substr(md5($appVersion), 0, 4) . '-' . $jsFile;
 		}
 		$coreVersion = \OC_Util::getVersionString();
