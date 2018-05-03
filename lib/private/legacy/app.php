@@ -464,7 +464,7 @@ class OC_App {
 		} else {
 			$versionToLoad = [];
 			foreach ($possibleApps as $possibleApp) {
-				$version = self::getAppVersionByPath($possibleApp['path']);
+				$version = self::getAppVersionByPath($possibleApp['path'] . '/' . $appId);
 				if (empty($versionToLoad) || version_compare($version, $versionToLoad['version'], '>')) {
 					$versionToLoad = array(
 						'dir' => $possibleApp,
