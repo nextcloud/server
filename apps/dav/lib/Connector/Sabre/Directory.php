@@ -28,6 +28,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
@@ -147,8 +148,16 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 				$info = new \OC\Files\FileInfo($path, null, null, [], null);
 			}
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
+
+			// only allow 1 process to upload a file at once but still allow reading the file while writing the part file
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
-			return $node->put($data);
+			$this->fileView->lockFile($path . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+
+			$result = $node->put($data);
+
+			$this->fileView->unlockFile($path . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+			$node->releaseLock(ILockingProvider::LOCK_SHARED);
+			return $result;
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (InvalidPathException $ex) {
