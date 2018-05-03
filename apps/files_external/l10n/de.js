@@ -112,6 +112,7 @@ OC.L10N.register(
     "Check for changes" : "Auf Änderungen prüfen",
     "Never" : "Nie",
     "Once every direct access" : "Einmal bei jedem Direktzugriff",
+    "Read only" : "Schreibgeschützt",
     "Folder name" : "Ordnername",
     "External storage" : "Externer Speicher",
     "Authentication" : "Authentifizierung",
