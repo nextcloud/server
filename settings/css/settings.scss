@@ -106,23 +106,6 @@ input {
 	grid-template-rows: 1fr 2fr 1fr;
 }
 
-
-.icon-federation-menu {
-	padding-left: 16px;
-	background-size: 16px;
-	background-position: left 8px;
-	opacity: .3;
-	margin-top: -2px;
-	margin-left: 10px;
-	cursor: pointer;
-
-	.icon-triangle-s {
-		display: inline-block;
-		vertical-align: middle;
-		cursor: pointer;
-	}
-}
-
 .personal-show-container {
 	width: 100%;
 }
@@ -318,20 +301,37 @@ input {
 	}
 }
 
-.federationScopeMenu {
-	top: 44px;
-	&.popovermenu {
-		.menuitem {
-			// override h2 heading font size
-			font-size: 12.8px;
-			line-height: 1.6em;
-			.menuitem-text-detail {
-				opacity: .75;
-			}
-			&.active {
-				box-shadow: inset 2px 0 $color-primary;
-				.menuitem-text {
-					font-weight: 600;
+.federation-menu {
+	position: relative;
+	cursor: pointer;
+	margin-left: 10px;
+	.icon-federation-menu {
+		padding-left: 16px;
+		background-size: 16px;
+		background-position: left center;
+		opacity: .3;
+		cursor: inherit;
+		.icon-triangle-s {
+			display: inline-block;
+			vertical-align: middle;
+			cursor: inherit;
+		}
+	}
+	.federationScopeMenu {
+		top: 44px;
+		&.popovermenu {
+			.menuitem {
+				// override h2 heading font size
+				font-size: 12.8px;
+				line-height: 1.6em;
+				.menuitem-text-detail {
+					opacity: .75;
+				}
+				&.active {
+					box-shadow: inset 2px 0 $color-primary;
+					.menuitem-text {
+						font-weight: 600;
+					}
 				}
 			}
 		}

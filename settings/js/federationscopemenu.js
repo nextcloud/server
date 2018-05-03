@@ -37,7 +37,7 @@
 	 */
 	var FederationScopeMenu = OC.Backbone.View.extend({
 		tagName: 'div',
-		className: 'federationScopeMenu popovermenu bubble hidden menu',
+		className: 'federationScopeMenu popovermenu bubble menu menu-center',
 		field: undefined,
 		_scopes: undefined,
 
@@ -128,10 +128,6 @@
 					this._scopes[2].active = true;
 					break;
 			}
-
-			var $el = $(context.target);
-			var offsetIcon = $el.offset();
-			var offsetHeading = $el.closest('h2').offset();
 
 			this.render();
 			this.$el.removeClass('hidden');
