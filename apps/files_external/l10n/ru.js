@@ -112,6 +112,7 @@ OC.L10N.register(
     "Check for changes" : "Проверять изменения",
     "Never" : "Никогда",
     "Once every direct access" : "Каждый раз при прямом доступе",
+    "Read only" : "Только чтение",
     "Folder name" : "Имя папки",
     "External storage" : "Внешнее хранилище",
     "Authentication" : "Способ авторизации",
