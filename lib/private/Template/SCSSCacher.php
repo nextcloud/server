@@ -273,7 +273,11 @@ class SCSSCacher {
 		$appDirectory = $this->appData->getDirectoryListing();
 		foreach ($appDirectory as $folder) {
 			foreach ($folder->getDirectoryListing() as $file) {
-				$file->delete();
+				try {
+					$file->delete();
+				} catch(NotPermittedException $e) {
+					$this->logger->logException($e, ['message' => 'SCSSCacher: unable to delete file: ' . $file->getName()]);
+				}
 			}
 		}
 	}
