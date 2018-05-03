@@ -37,34 +37,6 @@ vendor_style('jcrop/css/jquery.Jcrop');
 
 ?>
 
-<div id="quota" class="section">
-	<progress value="<?php p($_['usage_relative']); ?>" max="100"
-	<?php if($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
-
-	<div style="width:<?php p($_['usage_relative']);?>%" class="quotatext-fg">
-		<p class="quotatext">
-			<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
-				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong>',
-					[$_['usage'], $_['total_space']]));?>
-			<?php else: ?>
-				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)',
-					[$_['usage'], $_['total_space'],  $_['usage_relative']]));?>
-			<?php endif ?>
-		</p>
-	</div>
-	<div class="quotatext-bg">
-		<p class="quotatext">
-			<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
-				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong>',
-					[$_['usage'], $_['total_space']]));?>
-			<?php else: ?>
-				<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)',
-					[$_['usage'], $_['total_space'],  $_['usage_relative']]));?>
-			<?php endif ?>
-		</p>
-	</div>
-</div>
-
 <div id="personal-settings">
 	<div id="personal-settings-avatar-container" class="personal-settings-container">
 		<div>
@@ -100,13 +72,27 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				<?php } ?>
 			</form>
 		</div>
-		<div class="personal-settings-setting-box personal-settings-group-box">
-			<div id="groups" class="section">
-				<h2><?php p($l->t('Groups')); ?></h2>
-				<p><?php p($l->t('You are member of the following groups:')); ?></p>
+		<div class="personal-settings-setting-box personal-settings-group-box section">
+			<h2><?php p($l->t('Details')); ?></h2>
+			<div id="groups" class="personal-info icon-user">
+				<p class="icon-groups"><?php p($l->t('You are member of the following groups:')); ?></p>
 				<p id="groups-groups">
 					<strong><?php p(implode(', ', $_['groups'])); ?></strong>
 				</p>
+			</div>
+			<div id="quota" class="personal-info icon-quota">
+				<div class="quotatext-bg">
+					<p class="quotatext">
+						<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
+							<?php print_unescaped($l->t('You are using <strong>%s</strong>',
+								[$_['usage']]));?>
+						<?php else: ?>
+							<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)',
+								[$_['usage'], $_['total_space'],  $_['usage_relative']]));?>
+						<?php endif ?>
+					</p>
+				</div>
+				<progress value="<?php p($_['usage_relative']); ?>" max="100"<?php if($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
 			</div>
 		</div>
 	</div>
