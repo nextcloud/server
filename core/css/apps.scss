@@ -436,11 +436,15 @@ kbd {
 			line-height: 44px;
 			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
 
-			span.highlighted {
-				padding: 2px 5px;
-				border-radius: 10px;
-				background-color: $color-primary;
-				color: $color-primary-text;
+			&.highlighted {
+				padding-right: 0;
+				text-align: center;
+				span {
+					padding: 2px 5px;
+					border-radius: 10px;
+					background-color: $color-primary;
+					color: $color-primary-text;
+				}
 			}
 		}
 	}
