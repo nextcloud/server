@@ -39,13 +39,9 @@ class GenerateFromSchemaFileCommand extends GenerateCommand {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var IAppManager */
-	protected $appManager;
-
 	public function __construct(IConfig $config, IAppManager $appManager, IDBConnection $connection) {
-		parent::__construct($connection);
+		parent::__construct($connection, $appManager);
 		$this->config = $config;
-		$this->appManager = $appManager;
 	}
 
 
