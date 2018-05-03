@@ -38,10 +38,6 @@ input {
 	.avatardiv {
 		margin: 10px auto;
 	}
-	.federationScopeMenu {
-		/* popover magic fix */
-		margin-right: calc(-50% - 7px);
-	}
 	.warning {
 		width: 100%;
 	}
@@ -324,17 +320,9 @@ input {
 
 .federationScopeMenu {
 	top: 44px;
-	margin-right: calc(-50% + 30px); /* half - the triangle icon width - borders */
-	&.bubble::after {
-		right: 50%;
-		transform: translate(50%, 0);
-	}
 	&.popovermenu {
-		a.menuitem, label.menuitem {
-			font-size: 12.8px;
-			line-height: 1.6em;
-		}
 		.menuitem {
+			// override h2 heading font size
 			font-size: 12.8px;
 			line-height: 1.6em;
 			.menuitem-text-detail {
@@ -342,7 +330,6 @@ input {
 			}
 			&.active {
 				box-shadow: inset 2px 0 $color-primary;
-
 				.menuitem-text {
 					font-weight: 600;
 				}
