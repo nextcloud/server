@@ -109,15 +109,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	}
 
 	/**
-	 * send new share to another server
-	 *
-	 * @since 14.0.0
-	 */
-	public function sendShare() {
-		// TODO: Implement sendShare() method.
-	}
-
-	/**
 	 * share received from another server
 	 *
 	 * @param ICloudFederationShare $share
@@ -186,6 +177,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				\OC::$server->getHTTPClientService(),
 				\OC::$server->getNotificationManager(),
 				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+				\OC::$server->getCloudFederationProviderManager(),
 				$shareWith
 			);
 

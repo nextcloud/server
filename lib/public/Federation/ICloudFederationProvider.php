@@ -46,13 +46,6 @@ interface ICloudFederationProvider {
 	public function getShareType();
 
 	/**
-	 * send new share to another server
-	 *
-	 * @since 14.0.0
-	 */
-	public function sendShare();
-
-	/**
 	 * share received from another server
 	 *
 	 * @param ICloudFederationShare $share

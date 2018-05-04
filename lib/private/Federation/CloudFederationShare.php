@@ -203,14 +203,14 @@ class CloudFederationShare implements ICloudFederationShare {
 	}
 
 	/**
-	 * get JSON encoded share, ready to send out
+	 * get the whole share, ready to send out
 	 *
-	 * @return string
+	 * @return array
 	 *
 	 * @since 14.0.0
 	 */
 	public function getShare() {
-		return json_encode($this->share);
+		return $this->share;
 	}
 
 	/**

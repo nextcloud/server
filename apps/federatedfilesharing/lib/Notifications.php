@@ -27,6 +27,8 @@ namespace OCA\FederatedFileSharing;
 
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
+use OCP\Federation\ICloudFederationFactory;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
 use OCP\OCS\IDiscoveryService;
 
@@ -45,22 +47,34 @@ class Notifications {
 	/** @var IJobList  */
 	private $jobList;
 
+	/** @var ICloudFederationProviderManager */
+	private $federationProviderManager;
+
+	/** @var ICloudFederationFactory */
+	private $cloudFederationFactory;
+
 	/**
 	 * @param AddressHandler $addressHandler
 	 * @param IClientService $httpClientService
 	 * @param IDiscoveryService $discoveryService
 	 * @param IJobList $jobList
+	 * @param ICloudFederationProviderManager $federationProviderManager
+	 * @param ICloudFederationFactory $cloudFederationFactory
 	 */
 	public function __construct(
 		AddressHandler $addressHandler,
 		IClientService $httpClientService,
 		IDiscoveryService $discoveryService,
-		IJobList $jobList
+		IJobList $jobList,
+		ICloudFederationProviderManager $federationProviderManager,
+		ICloudFederationFactory $cloudFederationFactory
 	) {
 		$this->addressHandler = $addressHandler;
 		$this->httpClientService = $httpClientService;
 		$this->discoveryService = $discoveryService;
 		$this->jobList = $jobList;
+		$this->federationProviderManager = $federationProviderManager;
+		$this->cloudFederationFactory = $cloudFederationFactory;
 	}
 
 	/**
@@ -100,7 +114,10 @@ class Notifications {
 			$result = $this->tryHttpPostToShareEndpoint($remote, '', $fields);
 			$status = json_decode($result['result'], true);
 
-			if ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200)) {
+			$ocsStatus = isset($status['ocs']);
+			$ocsSuccess = $ocsStatus && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200);
+
+			if ($result['success'] && (!$ocsStatus ||$ocsSuccess)) {
 				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $remote]);
 				return true;
 			}
@@ -271,11 +288,11 @@ class Notifications {
 	 * @param string $remoteDomain
 	 * @param string $urlSuffix
 	 * @param array $fields post parameters
+	 * @param string $action define the action (possible values: share, reshare, accept, decline, unshare, revoke, permissions)
 	 * @return array
 	 * @throws \Exception
 	 */
-	protected function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields) {
-		$client = $this->httpClientService->newClient();
+	protected function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields, $action="share") {
 
 		if ($this->addressHandler->urlContainProtocol($remoteDomain) === false) {
 			$remoteDomain = 'https://' . $remoteDomain;
@@ -286,6 +303,15 @@ class Notifications {
 			'result' => '',
 		];
 
+		// if possible we use the new OCM API
+		$ocmResult = $this->tryOCMEndPoint($remoteDomain, $fields, $action);
+		if ($ocmResult) {
+			$result['success'] = true;
+			return $result;
+		}
+
+		// Fall back to old API
+		$client = $this->httpClientService->newClient();
 		$federationEndpoints = $this->discoveryService->discover($remoteDomain, 'FEDERATED_SHARING');
 		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
 		try {
@@ -306,5 +332,59 @@ class Notifications {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * check if server supports the new OCM api and ask for the correct end-point
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	protected function getOCMEndPoint($url) {
+		$client = $this->httpClientService->newClient();
+		try {
+			$response = $client->get($url, ['timeout' => 10, 'connect_timeout' => 10]);
+		} catch (\Exception $e) {
+			return '';
+		}
+
+		$result = $response->getBody();
+		$result = json_decode($result, true);
+
+		if (isset($result['end-point'])) {
+			return $result['end-point'];
+		}
+
+		return '';
+	}
+
+	/**
+	 * send action regarding federated sharing to the remote server using the OCM API
+	 *
+	 * @param $remoteDomain
+	 * @param $fields
+	 * @param $action
+	 *
+	 * @return bool
+	 */
+	protected function tryOCMEndPoint($remoteDomain, $fields, $action) {
+		switch ($action) {
+			case 'share':
+				$share = $this->cloudFederationFactory->getCloudFederationShare(
+					$fields['shareWith'] . '@' . $remoteDomain,
+					$fields['name'],
+					'',
+					$fields['remoteId'],
+					$fields['ownerFederatedId'],
+					$fields['owner'],
+					$fields['sharedByFederatedId'],
+					$fields['sharedBy'],
+					['name' => 'webdav', 'options' => ['access_token' => $fields['token'], 'permissions' => ['read', 'write', 'share']]],
+					'user',
+					'file'
+				);
+				return $this->federationProviderManager->sendShare($share);
+		}
+
 	}
 }

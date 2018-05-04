@@ -32,6 +32,7 @@ use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
+use OCP\Federation\ICloudIdManager;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -65,6 +66,9 @@ class RequestHandlerController extends Controller {
 	/** @var ICloudFederationFactory */
 	private $factory;
 
+	/** @var ICloudIdManager */
+	private $cloudIdManager;
+
 	public function __construct($appName,
 								IRequest $request,
 								ILogger $logger,
@@ -72,7 +76,8 @@ class RequestHandlerController extends Controller {
 								IURLGenerator $urlGenerator,
 								ICloudFederationProviderManager $cloudFederationProviderManager,
 								Config $config,
-								ICloudFederationFactory $factory
+								ICloudFederationFactory $factory,
+								ICloudIdManager $cloudIdManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -82,6 +87,7 @@ class RequestHandlerController extends Controller {
 		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
 		$this->config = $config;
 		$this->factory = $factory;
+		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -104,7 +110,7 @@ class RequestHandlerController extends Controller {
 	 * @param $resourceType ('file', 'calendar',...)
 	 * @return Http\DataResponse|JSONResponse
 	 *
-	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"access_token":"8Lrd1FVEREthux7","permissions":31}}}' http://localhost/server/index.php/ocm/shares
+	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1@serve1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"access_token":"8Lrd1FVEREthux7","permissions":31}}}' http://localhost/server/index.php/ocm/shares
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 
@@ -133,7 +139,9 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		$shareWith = $this->mapUid($shareWith);
+		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+		$shareWithLocalId = $cloudId->getUser();
+		$shareWith = $this->mapUid($shareWithLocalId);
 
 		if (!$this->userManager->userExists($shareWith)) {
 			return new JSONResponse(

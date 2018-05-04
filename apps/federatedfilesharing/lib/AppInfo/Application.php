@@ -76,7 +76,9 @@ class Application extends App {
 				$addressHandler,
 				$server->getHTTPClientService(),
 				$server->query(\OCP\OCS\IDiscoveryService::class),
-				\OC::$server->getJobList()
+				\OC::$server->getJobList(),
+				\OC::$server->getCloudFederationProviderManager(),
+				\OC::$server->getCloudFederationFactory()
 			);
 			return new RequestHandlerController(
 				$c->query('AppName'),
@@ -121,7 +123,9 @@ class Application extends App {
 			$addressHandler,
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-			\OC::$server->getJobList()
+			\OC::$server->getJobList(),
+			\OC::$server->getCloudFederationProviderManager(),
+			\OC::$server->getCloudFederationFactory()
 		);
 		$tokenHandler = new \OCA\FederatedFileSharing\TokenHandler(
 			\OC::$server->getSecureRandom()

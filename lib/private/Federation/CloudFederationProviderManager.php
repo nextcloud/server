@@ -29,6 +29,8 @@ use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
+use OCP\Federation\ICloudIdManager;
+use OCP\Http\Client\IClientService;
 
 /**
  * Class Manager
@@ -45,9 +47,26 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/** @var IAppManager */
 	private $appManager;
 
-	public function __construct(IAppManager $appManager) {
+	/** @var IClientService */
+	private $httpClientService;
+
+	/** @var ICloudIdManager */
+	private $cloudIdManager;
+
+	/**
+	 * CloudFederationProviderManager constructor.
+	 *
+	 * @param IAppManager $appManager
+	 * @param IClientService $httpClientService
+	 * @param ICloudIdManager $cloudIdManager
+	 */
+	public function __construct(IAppManager $appManager,
+								IClientService $httpClientService,
+								ICloudIdManager $cloudIdManager) {
 		$this->cloudFederationProvider= [];
 		$this->appManager = $appManager;
+		$this->httpClientService = $httpClientService;
+		$this->cloudIdManager = $cloudIdManager;
 	}
 
 
@@ -103,7 +122,32 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	}
 
 	public function sendShare(ICloudFederationShare $share) {
-		// TODO: Implement sendShare() method.
+		$ocmEndPoint = $this->getOCMEndPoint($share->getShareWith());
+
+		if (empty($ocmEndPoint)) {
+			return false;
+		}
+
+		$client = $this->httpClientService->newClient();
+		try {
+			$response = $client->post($ocmEndPoint . '/shares', [
+				'body' => $share->getShare(),
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			]);
+			$result['result'] = $response->getBody();
+			$result['success'] = true;
+		} catch (\Exception $e) {
+			// if flat re-sharing is not supported by the remote server
+			// we re-throw the exception and fall back to the old behaviour.
+			// (flat re-shares has been introduced in Nextcloud 9.1)
+			if ($e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
+				throw $e;
+			}
+		}
+
+		return true;
+
 	}
 
 	public function sendNotification(ICloudFederationNotification $notification) {
@@ -118,5 +162,30 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	public function isReady() {
 		return $this->appManager->isEnabledForUser('cloud_federation_api', false);
 	}
+	/**
+	 * check if server supports the new OCM api and ask for the correct end-point
+	 *
+	 * @param string $recipient full federated cloud ID of the recipient of a share
+	 * @return string
+	 */
+	protected function getOCMEndPoint($recipient) {
+		$cloudId = $this->cloudIdManager->resolveCloudId($recipient);
+		$client = $this->httpClientService->newClient();
+		try {
+			$response = $client->get($cloudId->getRemote() . '/ocm-provider/', ['timeout' => 10, 'connect_timeout' => 10]);
+		} catch (\Exception $e) {
+			return '';
+		}
+
+		$result = $response->getBody();
+		$result = json_decode($result, true);
+
+		if (isset($result['end-point'])) {
+			return $result['end-point'];
+		}
+
+		return '';
+	}
+
 
 }
