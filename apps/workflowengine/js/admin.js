@@ -167,12 +167,12 @@
                     url: OC.linkToOCS('cloud/groups', 2) + 'details',
                     dataType: 'json',
                     quietMillis: 100,
-                }).success(function(response) {
+                }).success(function(data) {
                     if (data.ocs.data.groups && data.ocs.data.groups.length > 0) {
 
                         data.ocs.data.groups.forEach(function(group) {
                             self.groups.push({ id: group.id, displayname: group.displayname });
-                        })
+                        });
                         self.render();
 
                     } else {
