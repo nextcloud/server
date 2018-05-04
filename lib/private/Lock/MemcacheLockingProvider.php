@@ -71,12 +71,12 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 	public function acquireLock($path, $type) {
 		if ($type === self::LOCK_SHARED) {
 			if (!$this->memcache->inc($path)) {
-				throw new LockedException($path);
+				throw new LockedException($path, null, $this->getExistingLockForException($path));
 			}
 		} else {
 			$this->memcache->add($path, 0);
 			if (!$this->memcache->cas($path, 0, 'exclusive')) {
-				throw new LockedException($path);
+				throw new LockedException($path, null, $this->getExistingLockForException($path));
 			}
 		}
 		$this->setTTL($path);
@@ -114,15 +114,26 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 	public function changeLock($path, $targetType) {
 		if ($targetType === self::LOCK_SHARED) {
 			if (!$this->memcache->cas($path, 'exclusive', 1)) {
-				throw new LockedException($path);
+				throw new LockedException($path, null, $this->getExistingLockForException($path));
 			}
 		} else if ($targetType === self::LOCK_EXCLUSIVE) {
 			// we can only change a shared lock to an exclusive if there's only a single owner of the shared lock
 			if (!$this->memcache->cas($path, 1, 'exclusive')) {
-				throw new LockedException($path);
+				throw new LockedException($path, null, $this->getExistingLockForException($path));
 			}
 		}
 		$this->setTTL($path);
 		$this->markChange($path, $targetType);
+	}
+
+	private function getExistingLockForException($path) {
+		$existing = $this->memcache->get($path);
+		if (!$existing) {
+			return 'none';
+		} else if ($existing === 'exclusive') {
+			return $existing;
+		} else {
+			return $existing . ' shared locks';
+		}
 	}
 }
