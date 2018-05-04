@@ -266,6 +266,7 @@ OC.L10N.register(
     "More apps" : "Más aplicaciones",
     "Search" : "Buscar",
     "Reset search" : "Reestablecer búsqueda",
+    "Contacts" : "Contactos",
     "Confirm your password" : "Confirma tu contraseña",
     "Server side authentication failed!" : "¡Falló la autenticación del lado del servidor!",
     "Please contact your administrator." : "Por favor contacta al administrador.",

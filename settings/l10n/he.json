@@ -166,7 +166,6 @@
     "Improving the config.php" : "שיפור קובץ config.php",
     "Theming" : "ערכת נושא",
     "Hardening and security guidance" : "הדרכת הקשחה ואבטחה",
-    "You are using <strong>%s</strong> of <strong>%s</strong>" : "הנך משתמש ב- <strong>%s</strong> מתוך <strong>%s</strong>",
     "Profile picture" : "תמונת פרופיל",
     "Upload new" : "העלאת חדש",
     "Select from Files" : "בחירה מתוך קבצים",
@@ -211,6 +210,7 @@
     "Add trusted domain" : "הוספת שם מתחם מהימן",
     "A valid password must be provided" : "יש לספק סיסמא תקנית",
     "A valid email must be provided" : "יש לספק כתובת דואר אלקטרוני תקנית",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "הנך משתמש ב- <strong>%s</strong> מתוך <strong>%s</strong>",
     "Show email address" : "הצגת כתובת דואר אלקטרוני",
     "Send email to new user" : "שליחת דואר אלקטרוני למשתמש חדש",
     "Create" : "יצירה"

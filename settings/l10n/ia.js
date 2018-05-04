@@ -161,7 +161,6 @@ OC.L10N.register(
     "How to do backups" : "Como facer retrocopias",
     "Improving the config.php" : "Meliorante config.php",
     "Theming" : "Personalisante themas",
-    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Tu usa <strong>%s</strong> de <strong>%s</strong>",
     "Profile picture" : "Pictura de profilo",
     "Upload new" : "Incargar nove",
     "Select from Files" : "Selectionar de Files",
@@ -211,6 +210,7 @@ OC.L10N.register(
     "Add trusted domain" : "Adder dominio fiduciari",
     "A valid password must be provided" : "Un contrasigno valide debe esser providite",
     "A valid email must be provided" : "Un adresse de e-posta valide debe esser providite",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Tu usa <strong>%s</strong> de <strong>%s</strong>",
     "Show email address" : "Monstrar adresse de e-posta",
     "Send email to new user" : "Inviar message de e-posta a nove usator",
     "Create" : "Crear"
