@@ -319,15 +319,18 @@ class Scanner extends BasicEmitter implements IScanner {
 				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
 		}
-		$data = $this->scanFile($path, $reuse, -1, null, $lock);
-		if ($data and $data['mimetype'] === 'httpd/unix-directory') {
-			$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock);
-			$data['size'] = $size;
-		}
-		if ($lock) {
-			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-				$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-				$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
+		try {
+			$data = $this->scanFile($path, $reuse, -1, null, $lock);
+			if ($data and $data['mimetype'] === 'httpd/unix-directory') {
+				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock);
+				$data['size'] = $size;
+			}
+		} finally {
+			if ($lock) {
+				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+					$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
+				}
 			}
 		}
 		return $data;
