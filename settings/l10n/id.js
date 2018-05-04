@@ -208,7 +208,6 @@ OC.L10N.register(
     "Improving the config.php" : "Memperbaiki config.php",
     "Theming" : "Tema",
     "Hardening and security guidance" : "Panduan Keselamatan dan Keamanan",
-    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Anda sedang menggunakan <strong>%s</strong> dari <strong>%s</strong>",
     "Profile picture" : "Foto profil",
     "Upload new" : "Unggah baru",
     "Select from Files" : "Pilih dari berkas",
@@ -264,6 +263,7 @@ OC.L10N.register(
     "Add trusted domain" : "Tambah domain terpercaya",
     "A valid password must be provided" : "Harus memberikan kata sandi yang benar",
     "A valid email must be provided" : "Surel yang benar harus diberikan",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Anda sedang menggunakan <strong>%s</strong> dari <strong>%s</strong>",
     "Show email address" : "Tampilkan alamat surel",
     "Send email to new user" : "Kirim surel kepada pengguna baru",
     "Create" : "Buat"

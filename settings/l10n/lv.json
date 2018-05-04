@@ -176,7 +176,6 @@
     "Improving the config.php" : "Uzlabot config.php",
     "Theming" : "Dizains",
     "Hardening and security guidance" : "Aizsardzības un drošības norādījumi",
-    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Jūs izmantojiet <strong>%s</strong> no <strong>%s</strong>",
     "Profile picture" : "Profila attēls",
     "Upload new" : "Ielādēt jaunu",
     "Select from Files" : "Izvēlēties no faila",
@@ -235,6 +234,7 @@
     "Add trusted domain" : "Pievienot uzticamu domēnu",
     "A valid password must be provided" : "Jānorāda derīga parole",
     "A valid email must be provided" : "Jānorāda derīga e-pasta adrese",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Jūs izmantojiet <strong>%s</strong> no <strong>%s</strong>",
     "Show email address" : "Rādīt e-pasta adreses",
     "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
     "Create" : "Izveidot"

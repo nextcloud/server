@@ -141,7 +141,6 @@ OC.L10N.register(
     "Performance tuning" : "Настройване на производителност",
     "Improving the config.php" : "Подобряване на config.php",
     "Theming" : "Промяна на облика",
-    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Ползвате <strong>%s</strong> от <strong>%s</strong>",
     "Profile picture" : "Аватар",
     "Upload new" : "Качи нов",
     "Remove image" : "Премахни изображението",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Add trusted domain" : "Добавяне на сигурен домейн",
     "A valid password must be provided" : "Трябва да бъде зададена валидна парола",
     "A valid email must be provided" : "Трябва да бъде зададена валидна електронна поща",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Ползвате <strong>%s</strong> от <strong>%s</strong>",
     "Show email address" : "Покажи адреса на електронната поща",
     "Send email to new user" : "Изпращай писмо към нов потребител",
     "Create" : "Създаване"
