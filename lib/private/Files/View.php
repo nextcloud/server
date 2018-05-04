@@ -1361,6 +1361,7 @@ class View {
 
 		$mount = Filesystem::getMountManager()->find($path);
 		if (!$mount) {
+			\OC::$server->getLogger()->warning('Mountpoint not found for path: ' . $path);
 			return false;
 		}
 		$storage = $mount->getStorage();
@@ -1392,6 +1393,8 @@ class View {
 			}
 
 			return $info;
+		} else {
+			\OC::$server->getLogger()->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint());
 		}
 
 		return false;
