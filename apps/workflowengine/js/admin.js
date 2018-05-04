@@ -270,6 +270,7 @@
 					var check = OCA.WorkflowEngine.getCheckByClass(value);
 					if (!_.isUndefined(check)) {
 						checks[id]['operator'] = check['operators'][0]['operator'];
+						checks[id]['value'] = '';
 					}
 				}
 				// model change will trigger render
