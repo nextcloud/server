@@ -776,9 +776,7 @@ abstract class Common implements Storage, ILockingStorage {
 		try {
 			$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
-			if ($logger) {
-				$logger->logException($e);
-			}
+			\OC::$server->getLogger()->logException($e);
 			throw $e;
 		}
 	}
