@@ -150,7 +150,6 @@ OC.L10N.register(
     "Improving the config.php" : "Izboljšave v config.php",
     "Theming" : "Teme",
     "Hardening and security guidance" : "Varnost in varnostni napotki",
-    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Uporabljate <strong>%s</strong> od <strong>%s</strong>",
     "Profile picture" : "Slika profila",
     "Upload new" : "Pošlji novo",
     "Select from Files" : "Izbor iz datotek",
@@ -195,6 +194,7 @@ OC.L10N.register(
     "Add trusted domain" : "Dodaj varno domeno",
     "A valid password must be provided" : "Navedeno mora biti veljavno geslo",
     "A valid email must be provided" : "Naveden mora biti veljaven naslov elektronske pošte.",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Uporabljate <strong>%s</strong> od <strong>%s</strong>",
     "Show email address" : "Pokaži naslov elektronske pošte",
     "Send email to new user" : "Pošlji sporočilo novemu uporabniku",
     "Create" : "Ustvari"

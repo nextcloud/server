@@ -112,6 +112,7 @@ OC.L10N.register(
     "Check for changes" : "Comprobar si hay cambios",
     "Never" : "Nunca",
     "Once every direct access" : "Una vez cada acceso directo",
+    "Read only" : "Solo lectura",
     "Folder name" : "Nombre de la carpeta",
     "External storage" : "Almacenamiento externo",
     "Authentication" : "Autentificación",

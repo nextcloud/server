@@ -133,7 +133,6 @@
     "Improving the config.php" : "Покращення  config.php",
     "Theming" : "Оформлення",
     "Hardening and security guidance" : "Інструктування з безпеки та захисту",
-    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Ви використовуєте <strong>%s</strong> з <strong>%s</strong>",
     "Profile picture" : "Зображення облікового запису",
     "Upload new" : "Завантажити нове",
     "Remove image" : "Видалити зображення",
@@ -176,6 +175,7 @@
     "Add trusted domain" : "Додати довірений домен",
     "A valid password must be provided" : "Потрібно задати вірний пароль",
     "A valid email must be provided" : "Вкажіть дійсний email",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Ви використовуєте <strong>%s</strong> з <strong>%s</strong>",
     "Show email address" : "Показати адресу електронної пошти",
     "Send email to new user" : "Надіслати email новому користувачу",
     "Create" : "Створити"

@@ -147,7 +147,6 @@ OC.L10N.register(
     "Improving the config.php" : "ปรับปรุงไฟล์ config.php",
     "Theming" : "ชุดรูปแบบ",
     "Hardening and security guidance" : "คำแนะนำการรักษาความปลอดภัย",
-    "You are using <strong>%s</strong> of <strong>%s</strong>" : "คุณกำลังใช้พื้นที่ <strong>%s</strong> จากทั้งหมด <strong>%s</strong>",
     "Profile picture" : "รูปภาพโปรไฟล์",
     "Upload new" : "อัพโหลดใหม่",
     "Select from Files" : "เลือกจากไฟล์",
@@ -190,6 +189,7 @@ OC.L10N.register(
     "Add trusted domain" : "เพิ่มโดเมนที่เชื่อถือได้",
     "A valid password must be provided" : "จะต้องระบุรหัสผ่านที่ถูกต้อง",
     "A valid email must be provided" : "จะต้องระบุอีเมลที่ถูกต้อง",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "คุณกำลังใช้พื้นที่ <strong>%s</strong> จากทั้งหมด <strong>%s</strong>",
     "Show email address" : "แสดงที่อยู่อีเมล",
     "Send email to new user" : "ส่งอีเมลไปยังผู้ใช้ใหม่",
     "Create" : "สร้าง"
