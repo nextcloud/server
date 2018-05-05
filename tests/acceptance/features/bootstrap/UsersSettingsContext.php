@@ -31,7 +31,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function newUserForm() {
-		return Locator::forThe()->id("newuserHeader")->
+		return Locator::forThe()->id("new-user")->
 				describedAs("New user form in Users Settings");
 	}
 
@@ -71,7 +71,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForUser($user) {
-		return Locator::forThe()->xpath("//table[@id = 'userlist']//td[normalize-space() = '$user']/..")->
+		return Locator::forThe()->xpath("//div[@id='app-content']/div/div[normalize-space() = '$user']/..")->
 				describedAs("Row for user $user in Users Settings");
 	}
 
