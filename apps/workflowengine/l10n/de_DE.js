@@ -20,7 +20,7 @@ OC.L10N.register(
     "is tagged with" : "hat den Tag",
     "is not tagged with" : "hat nicht den Tag",
     "Select tag…" : "Wählen Sie einen Tag…",
-    "Request remote address" : "Entfernte Adresse anfordern",
+    "Request remote address" : "IP Adresse der Anfrage",
     "matches IPv4" : "entspricht IPv4",
     "does not match IPv4" : "entspricht nicht IPv4",
     "matches IPv6" : "entspricht IPv6",
