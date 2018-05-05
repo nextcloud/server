@@ -57,11 +57,18 @@ class Avatar implements IAvatar {
 	private $logger;
 	/** @var IConfig */
 	private $config;
-	/** @var string */
+
+	/**
+	 * https://github.com/sebdesign/cap-height -- for 500px height
+	 * Open Sans cap-height is 0.72 and we want a 200px caps height size (0.4 letter-to-total-height ratio, 500*0.4=200). 200/0.72 = 278px.
+	 * Since we start from the baseline (text-anchor) we need to shift the y axis by 100px (half the caps height): 500/2+100=350
+	 * 
+	 * @var string 
+	 */
 	private $svgTemplate = '
-		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 {size} {size}" xmlns="http://www.w3.org/2000/svg">
+		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
 			<rect width="100%" height="100%" fill="#{fill}"></rect>
-			<text x="50%" y="{y}" style="font-weight:600;font-size:{font}px;font-family:\'Open Sans\';text-anchor:middle;fill:#fff">{letter}</text>
+			<text x="50%" y="350" style="font-weight:600;font-size:278px;font-family:\'Open Sans\';text-anchor:middle;fill:#fff">{letter}</text>
 		</svg>';
 
 	/**
@@ -265,13 +272,8 @@ class Avatar implements IAvatar {
 	}
 	
 	/**
-	 * https://github.com/sebdesign/cap-height -- for 500px height
-	 * Open Sans cap-height is 0.72 and we want a 200px caps height size (0.4 letter-to-total-height ratio, 500*0.4=200). 200/0.72 = 278px.
-	 * Since we start from the baseline (text-anchor) we need to shift the y axis by 100px (half the caps height): 500/2+100=350 -->
 	 * {size} = 500
 	 * {fill} = hex color to fill
-	 * {y} = top to bottom baseline text-anchor y position
-	 * {font} = font size
 	 * {letter} = Letter to display
 	 * 
 	 * Generate SVG avatar
@@ -283,14 +285,10 @@ class Avatar implements IAvatar {
 
 		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b);
-
 		$letter = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
-		$font = round($size * 0.4);
-		$fontSize = round($font / 0.72);
-		$y = round($size/2 + $font/2);
-		$toReplace = ['{size}', '{fill}', '{y}', '{font}', '{letter}'];
-
-		return str_replace($toReplace, [$size, $bgHEX, $y, $fontSize, $letter], $this->svgTemplate);
+		
+		$toReplace = ['{size}', '{fill}', '{letter}'];
+		return str_replace($toReplace, [$size, $bgHEX, $letter], $this->svgTemplate);
 	}
 
 	/**
