@@ -41,6 +41,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\AppFramework\Http\DataResponse;
 
 /**
  * Class AvatarController
@@ -113,6 +114,20 @@ class AvatarController extends Controller {
 
 
 
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
+	 * @PublicPage
+	 * 
+	 * Shortcut to getAvatar
+	 */
+	public function getAvatarPng($userId, $size) {
+		return $this->getAvatar($userId, $size, true);
+	}
+
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -121,24 +136,37 @@ class AvatarController extends Controller {
 	 *
 	 * @param string $userId
 	 * @param int $size
+	 * @param bool $png return png or not
 	 * @return JSONResponse|FileDisplayResponse
 	 */
-	public function getAvatar($userId, $size) {
+	public function getAvatar($userId, $size, bool $png = false) {
 		if ($size > 2048) {
 			$size = 2048;
 		} elseif ($size <= 0) {
 			$size = 64;
 		}
 
-		try {
-			$avatar = $this->avatarManager->getAvatar($userId)->getFile($size);
-			$resp = new FileDisplayResponse($avatar,
+		if ($png === false) {
+			$avatar = $this->avatarManager->getAvatar($userId)->getAvatarVector($size);
+			$resp = new DataDisplayResponse(
+				$avatar,
 				Http::STATUS_OK,
-				['Content-Type' => $avatar->getMimeType()]);
-		} catch (\Exception $e) {
-			$resp = new Http\Response();
-			$resp->setStatus(Http::STATUS_NOT_FOUND);
-			return $resp;
+				['Content-Type' => 'image/svg+xml'
+			]);
+		} else {
+
+			try {
+				$avatar = $this->avatarManager->getAvatar($userId)->getFile($size);
+				$resp = new FileDisplayResponse(
+					$avatar,
+					Http::STATUS_OK,
+					['Content-Type' => $avatar->getMimeType()
+				]);
+			} catch (\Exception $e) {
+				$resp = new Http\Response();
+				$resp->setStatus(Http::STATUS_NOT_FOUND);
+				return $resp;
+			}
 		}
 
 		// Cache for 30 minutes
