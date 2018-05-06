@@ -17,6 +17,7 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Ei voinut muodostaa federoitua jakoa.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Ei voinut muodostaa federoitua jakoa. Ehkä salasana oli väärin.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federoidun jakamisen pyyntö lähetetty, saat kutsun. Tarkista ilmoitukset.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Federoitua jakoa ei voitu muodostaa. Vaikuttaa siltä, että palvelin jonka kanssa federointia yritetään, on versioltaan liian vanha (Nextcloud <= 9).",
     "Sharing %s failed, because this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjälle %s",
     "Not allowed to create a federated share with the same user" : "Saman käyttäjän kanssa ei ole sallittua luoda federoitua jakoa",
     "File is already shared with %s" : "Tiedosto on jo jaettu kohteen %s kanssa",
