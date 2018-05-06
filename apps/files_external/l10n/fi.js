@@ -112,6 +112,7 @@ OC.L10N.register(
     "Check for changes" : "Tarkista muutokset",
     "Never" : "Ei koskaan",
     "Once every direct access" : "Kerran aina suoran käytön yhteydessä",
+    "Read only" : "Vain luku",
     "Folder name" : "Kansion nimi",
     "External storage" : "Erillinen tallennustila",
     "Authentication" : "Tunnistautuminen",
