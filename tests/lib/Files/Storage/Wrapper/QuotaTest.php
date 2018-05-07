@@ -208,4 +208,9 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Wrapper'));
 		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota'));
 	}
+
+	public function testNoMkdirQuotaZero() {
+		$instance = $this->getLimitedStorage(0.0);
+		$this->assertFalse($instance->mkdir('foobar'));
+	}
 }

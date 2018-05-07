@@ -200,4 +200,12 @@ class Quota extends Wrapper {
 			return false;
 		}
 	}
+
+	public function mkdir($path) {
+		if ($this->quota === 0.0) {
+			return false;
+		}
+
+		return parent::mkdir($path);
+	}
 }
