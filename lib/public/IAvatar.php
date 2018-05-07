@@ -91,6 +91,7 @@ interface IAvatar {
 	/**
 	 * @param string $text
 	 * @return Color Object containting r g b int in the range [0, 255]
+     * @since 14.0.0
 	 */
 	public function avatarBackgroundColor(string $text);
 
