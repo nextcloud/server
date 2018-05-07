@@ -112,6 +112,7 @@ OC.L10N.register(
     "Check for changes" : "Проверавај за измене",
     "Never" : "никад",
     "Once every direct access" : "једном при сваком директном приступу",
+    "Read only" : "Само за читање",
     "Folder name" : "Назив фасцикле",
     "External storage" : "Спољашње складиште",
     "Authentication" : "Провера идентитета",
