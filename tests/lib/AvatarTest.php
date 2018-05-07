@@ -48,6 +48,9 @@ class AvatarTest extends \Test\TestCase {
 			$this->createMock(ILogger::class),
 			$this->config
 		);
+		
+		// abcdefghi is a convenient name that our algorithm convert to our nextcloud blue 0082c9
+		$this->user->method('getDisplayName')->willReturn('abcdefghi');
 	}
 
 	public function testGetNoAvatar() {
@@ -224,6 +227,39 @@ class AvatarTest extends \Test\TestCase {
 		$this->user->expects($this->exactly(2))->method('triggerChange');
 
 		$this->avatar->set($image->data());
+	}
+
+	public function testGenerateSvgAvatar() {
+		$avatar = $this->avatar->getAvatarVector(64);
+		
+		$svg = '
+		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+			<rect width="100%" height="100%" fill="#0082c9"></rect>
+			<text x="50%" y="350" style="font-weight:600;font-size:278px;font-family:\'Open Sans\';text-anchor:middle;fill:#fff">A</text>
+		</svg>';
+		$this->assertEquals($avatar, $svg);
+	}
+
+	public function testHashToInt() {
+		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
+		$this->assertTrue(gettype($hashToInt) === 'integer');
+	}
+
+	public function testMixPalette() {
+		$colorFrom = new \OC\Color(0,0,0);
+		$colorTo = new \OC\Color(6,12,18);
+		$steps = 6;
+		$palette = $this->invokePrivate($this->avatar, 'mixPalette', [$steps, $colorFrom, $colorTo]);
+		foreach($palette as $j => $color) {
+			// calc increment
+			$incR = $colorTo->r / $steps * $j;
+			$incG = $colorTo->g / $steps * $j;
+			$incB = $colorTo->b / $steps * $j;
+			// ensure everything is equal
+			$this->assertEquals($color, new \OC\Color($incR, $incG,$incB));
+		}
+		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
+		$this->assertTrue(gettype($hashToInt) === 'integer');
 	}
 
 }
