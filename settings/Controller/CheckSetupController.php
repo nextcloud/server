@@ -49,284 +49,284 @@ use OCP\IURLGenerator;
  * @package OC\Settings\Controller
  */
 class CheckSetupController extends Controller {
-	/** @var IConfig */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
-	/** @var \OC_Util */
-	private $util;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
-	/** @var Checker */
-	private $checker;
-	/** @var ILogger */
-	private $logger;
+    /** @var IConfig */
+    private $config;
+    /** @var IClientService */
+    private $clientService;
+    /** @var \OC_Util */
+    private $util;
+    /** @var IURLGenerator */
+    private $urlGenerator;
+    /** @var IL10N */
+    private $l10n;
+    /** @var Checker */
+    private $checker;
+    /** @var ILogger */
+    private $logger;
 
-	/**
-	 * @param string $AppName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IClientService $clientService
-	 * @param IURLGenerator $urlGenerator
-	 * @param \OC_Util $util
-	 * @param IL10N $l10n
-	 * @param Checker $checker
-	 * @param ILogger $logger
-	 */
-	public function __construct($AppName,
-								IRequest $request,
-								IConfig $config,
-								IClientService $clientService,
-								IURLGenerator $urlGenerator,
-								\OC_Util $util,
-								IL10N $l10n,
-								Checker $checker,
-								ILogger $logger) {
-		parent::__construct($AppName, $request);
-		$this->config = $config;
-		$this->clientService = $clientService;
-		$this->util = $util;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
-		$this->checker = $checker;
-		$this->logger = $logger;
+    /**
+     * @param string $AppName
+     * @param IRequest $request
+     * @param IConfig $config
+     * @param IClientService $clientService
+     * @param IURLGenerator $urlGenerator
+     * @param \OC_Util $util
+     * @param IL10N $l10n
+     * @param Checker $checker
+     * @param ILogger $logger
+     */
+    public function __construct($AppName,
+				IRequest $request,
+				IConfig $config,
+				IClientService $clientService,
+				IURLGenerator $urlGenerator,
+				\OC_Util $util,
+				IL10N $l10n,
+				Checker $checker,
+				ILogger $logger) {
+	parent::__construct($AppName, $request);
+	$this->config = $config;
+	$this->clientService = $clientService;
+	$this->util = $util;
+	$this->urlGenerator = $urlGenerator;
+	$this->l10n = $l10n;
+	$this->checker = $checker;
+	$this->logger = $logger;
+    }
+
+    /**
+     * Checks if the server can connect to the internet using HTTPS and HTTP
+     * @return bool
+     */
+    private function isInternetConnectionWorking() {
+	if ($this->config->getSystemValue('has_internet_connection', true) === false) {
+	    return false;
 	}
 
-	/**
-	 * Checks if the server can connect to the internet using HTTPS and HTTP
-	 * @return bool
-	 */
-	private function isInternetConnectionWorking() {
-		if ($this->config->getSystemValue('has_internet_connection', true) === false) {
-			return false;
-		}
+	$siteArray = ['www.nextcloud.com',
+		      'www.startpage.com',
+		      'www.eff.org',
+		      'www.edri.org',
+	];
 
-		$siteArray = ['www.nextcloud.com',
-						'www.startpage.com',
-						'www.eff.org',
-						'www.edri.org',
-			];
-
-		foreach($siteArray as $site) {
-			if ($this->isSiteReachable($site)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	* Checks if the Nextcloud server can connect to a specific URL using both HTTPS and HTTP
-	* @return bool
-	*/
-	private function isSiteReachable($sitename) {
-		$httpSiteName = 'http://' . $sitename . '/';
-		$httpsSiteName = 'https://' . $sitename . '/';
-
-		try {
-			$client = $this->clientService->newClient();
-			$client->get($httpSiteName);
-			$client->get($httpsSiteName);
-		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'internet_connection_check']);
-			return false;
-		}
+	foreach($siteArray as $site) {
+	    if ($this->isSiteReachable($site)) {
 		return true;
+	    }
 	}
+	return false;
+    }
 
-	/**
-	 * Checks whether a local memcache is installed or not
-	 * @return bool
-	 */
-	private function isMemcacheConfigured() {
-		return $this->config->getSystemValue('memcache.local', null) !== null;
+    /**
+     * Checks if the Nextcloud server can connect to a specific URL using both HTTPS and HTTP
+     * @return bool
+     */
+    private function isSiteReachable($sitename) {
+	$httpSiteName = 'http://' . $sitename . '/';
+	$httpsSiteName = 'https://' . $sitename . '/';
+
+	try {
+	    $client = $this->clientService->newClient();
+	    $client->get($httpSiteName);
+	    $client->get($httpsSiteName);
+	} catch (\Exception $e) {
+	    $this->logger->logException($e, ['app' => 'internet_connection_check']);
+	    return false;
 	}
+	return true;
+    }
 
-	/**
-	 * Whether /dev/urandom is available to the PHP controller
-	 *
-	 * @return bool
-	 */
-	private function isUrandomAvailable() {
-		if(@file_exists('/dev/urandom')) {
-			$file = fopen('/dev/urandom', 'rb');
-			if($file) {
-				fclose($file);
-				return true;
-			}
-		}
+    /**
+     * Checks whether a local memcache is installed or not
+     * @return bool
+     */
+    private function isMemcacheConfigured() {
+	return $this->config->getSystemValue('memcache.local', null) !== null;
+    }
 
-		return false;
-	}
-
-	/**
-	 * Public for the sake of unit-testing
-	 *
-	 * @return array
-	 */
-	protected function getCurlVersion() {
-		return curl_version();
-	}
-
-	/**
-	 * Check if the used  SSL lib is outdated. Older OpenSSL and NSS versions do
-	 * have multiple bugs which likely lead to problems in combination with
-	 * functionality required by ownCloud such as SNI.
-	 *
-	 * @link https://github.com/owncloud/core/issues/17446#issuecomment-122877546
-	 * @link https://bugzilla.redhat.com/show_bug.cgi?id=1241172
-	 * @return string
-	 */
-	private function isUsedTlsLibOutdated() {
-		// Don't run check when:
-		// 1. Server has `has_internet_connection` set to false
-		// 2. AppStore AND S2S is disabled
-		if(!$this->config->getSystemValue('has_internet_connection', true)) {
-			return '';
-		}
-		if(!$this->config->getSystemValue('appstoreenabled', true)
-			&& $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'no'
-			&& $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'no') {
-			return '';
-		}
-
-		$versionString = $this->getCurlVersion();
-		if(isset($versionString['ssl_version'])) {
-			$versionString = $versionString['ssl_version'];
-		} else {
-			return '';
-		}
-
-		$features = (string)$this->l10n->t('installing and updating apps via the app store or Federated Cloud Sharing');
-		if(!$this->config->getSystemValue('appstoreenabled', true)) {
-			$features = (string)$this->l10n->t('Federated Cloud Sharing');
-		}
-
-		// Check if at least OpenSSL after 1.01d or 1.0.2b
-		if(strpos($versionString, 'OpenSSL/') === 0) {
-			$majorVersion = substr($versionString, 8, 5);
-			$patchRelease = substr($versionString, 13, 6);
-
-			if(($majorVersion === '1.0.1' && ord($patchRelease) < ord('d')) ||
-				($majorVersion === '1.0.2' && ord($patchRelease) < ord('b'))) {
-				return (string) $this->l10n->t('cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably.', ['OpenSSL', $versionString, $features]);
-			}
-		}
-
-		// Check if NSS and perform heuristic check
-		if(strpos($versionString, 'NSS/') === 0) {
-			try {
-				$firstClient = $this->clientService->newClient();
-				$firstClient->get('https://nextcloud.com/');
-
-				$secondClient = $this->clientService->newClient();
-				$secondClient->get('https://nextcloud.com/');
-			} catch (ClientException $e) {
-				if($e->getResponse()->getStatusCode() === 400) {
-					return (string) $this->l10n->t('cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably.', ['NSS', $versionString, $features]);
-				}
-			}
-		}
-
-		return '';
-	}
-
-	/**
-	 * Whether the version is outdated
-	 *
-	 * @return bool
-	 */
-	protected function isPhpOutdated() {
-		if (version_compare(PHP_VERSION, '7.0.0', '<')) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Whether the php version is still supported (at time of release)
-	 * according to: https://secure.php.net/supported-versions.php
-	 *
-	 * @return array
-	 */
-	private function isPhpSupported() {
-		return ['eol' => $this->isPhpOutdated(), 'version' => PHP_VERSION];
-	}
-
-	/**
-	 * Check if the reverse proxy configuration is working as expected
-	 *
-	 * @return bool
-	 */
-	private function forwardedForHeadersWorking() {
-		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
-		$remoteAddress = $this->request->getRemoteAddress();
-
-		if (is_array($trustedProxies) && in_array($remoteAddress, $trustedProxies)) {
-			return false;
-		}
-
-		// either not enabled or working correctly
+    /**
+     * Whether /dev/urandom is available to the PHP controller
+     *
+     * @return bool
+     */
+    private function isUrandomAvailable() {
+	if(@file_exists('/dev/urandom')) {
+	    $file = fopen('/dev/urandom', 'rb');
+	    if($file) {
+		fclose($file);
 		return true;
+	    }
 	}
 
-	/**
-	 * Checks if the correct memcache module for PHP is installed. Only
-	 * fails if memcached is configured and the working module is not installed.
-	 *
-	 * @return bool
-	 */
-	private function isCorrectMemcachedPHPModuleInstalled() {
-		if ($this->config->getSystemValue('memcache.distributed', null) !== '\OC\Memcache\Memcached') {
-			return true;
+	return false;
+    }
+
+    /**
+     * Public for the sake of unit-testing
+     *
+     * @return array
+     */
+    protected function getCurlVersion() {
+	return curl_version();
+    }
+
+    /**
+     * Check if the used  SSL lib is outdated. Older OpenSSL and NSS versions do
+     * have multiple bugs which likely lead to problems in combination with
+     * functionality required by ownCloud such as SNI.
+     *
+     * @link https://github.com/owncloud/core/issues/17446#issuecomment-122877546
+     * @link https://bugzilla.redhat.com/show_bug.cgi?id=1241172
+     * @return string
+     */
+    private function isUsedTlsLibOutdated() {
+	// Don't run check when:
+	// 1. Server has `has_internet_connection` set to false
+	// 2. AppStore AND S2S is disabled
+	if(!$this->config->getSystemValue('has_internet_connection', true)) {
+	    return '';
+	}
+	if(!$this->config->getSystemValue('appstoreenabled', true)
+	   && $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'no'
+	   && $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'no') {
+	    return '';
+	}
+
+	$versionString = $this->getCurlVersion();
+	if(isset($versionString['ssl_version'])) {
+	    $versionString = $versionString['ssl_version'];
+	} else {
+	    return '';
+	}
+
+	$features = (string)$this->l10n->t('installing and updating apps via the app store or Federated Cloud Sharing');
+	if(!$this->config->getSystemValue('appstoreenabled', true)) {
+	    $features = (string)$this->l10n->t('Federated Cloud Sharing');
+	}
+
+	// Check if at least OpenSSL after 1.01d or 1.0.2b
+	if(strpos($versionString, 'OpenSSL/') === 0) {
+	    $majorVersion = substr($versionString, 8, 5);
+	    $patchRelease = substr($versionString, 13, 6);
+
+	    if(($majorVersion === '1.0.1' && ord($patchRelease) < ord('d')) ||
+	       ($majorVersion === '1.0.2' && ord($patchRelease) < ord('b'))) {
+		return (string) $this->l10n->t('cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably.', ['OpenSSL', $versionString, $features]);
+	    }
+	}
+
+	// Check if NSS and perform heuristic check
+	if(strpos($versionString, 'NSS/') === 0) {
+	    try {
+		$firstClient = $this->clientService->newClient();
+		$firstClient->get('https://nextcloud.com/');
+
+		$secondClient = $this->clientService->newClient();
+		$secondClient->get('https://nextcloud.com/');
+	    } catch (ClientException $e) {
+		if($e->getResponse()->getStatusCode() === 400) {
+		    return (string) $this->l10n->t('cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably.', ['NSS', $versionString, $features]);
 		}
-
-		// there are two different memcached modules for PHP
-		// we only support memcached and not memcache
-		// https://code.google.com/p/memcached/wiki/PHPClientComparison
-		return !(!extension_loaded('memcached') && extension_loaded('memcache'));
+	    }
 	}
 
-	/**
-	 * Checks if set_time_limit is not disabled.
-	 *
-	 * @return bool
-	 */
-	private function isSettimelimitAvailable() {
-		if (function_exists('set_time_limit')
-			&& strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-			return true;
-		}
+	return '';
+    }
 
-		return false;
+    /**
+     * Whether the version is outdated
+     *
+     * @return bool
+     */
+    protected function isPhpOutdated() {
+	if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+	    return true;
 	}
 
-	/**
-	 * @return RedirectResponse
-	 */
-	public function rescanFailedIntegrityCheck() {
-		$this->checker->runInstanceVerification();
-		return new RedirectResponse(
-			$this->urlGenerator->linkToRoute('settings.AdminSettings.index')
-		);
+	return false;
+    }
+
+    /**
+     * Whether the php version is still supported (at time of release)
+     * according to: https://secure.php.net/supported-versions.php
+     *
+     * @return array
+     */
+    private function isPhpSupported() {
+	return ['eol' => $this->isPhpOutdated(), 'version' => PHP_VERSION];
+    }
+
+    /**
+     * Check if the reverse proxy configuration is working as expected
+     *
+     * @return bool
+     */
+    private function forwardedForHeadersWorking() {
+	$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
+	$remoteAddress = $this->request->getRemoteAddress();
+
+	if (is_array($trustedProxies) && in_array($remoteAddress, $trustedProxies)) {
+	    return false;
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @return DataResponse
-	 */
-	public function getFailedIntegrityCheckFiles() {
-		if(!$this->checker->isCodeCheckEnforced()) {
-			return new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
-		}
+	// either not enabled or working correctly
+	return true;
+    }
 
-		$completeResults = $this->checker->getResults();
+    /**
+     * Checks if the correct memcache module for PHP is installed. Only
+     * fails if memcached is configured and the working module is not installed.
+     *
+     * @return bool
+     */
+    private function isCorrectMemcachedPHPModuleInstalled() {
+	if ($this->config->getSystemValue('memcache.distributed', null) !== '\OC\Memcache\Memcached') {
+	    return true;
+	}
 
-		if(!empty($completeResults)) {
-			$formattedTextResponse = 'Technical information
+	// there are two different memcached modules for PHP
+	// we only support memcached and not memcache
+	// https://code.google.com/p/memcached/wiki/PHPClientComparison
+	return !(!extension_loaded('memcached') && extension_loaded('memcache'));
+    }
+
+    /**
+     * Checks if set_time_limit is not disabled.
+     *
+     * @return bool
+     */
+    private function isSettimelimitAvailable() {
+	if (function_exists('set_time_limit')
+	    && strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+	    return true;
+	}
+
+	return false;
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function rescanFailedIntegrityCheck() {
+	$this->checker->runInstanceVerification();
+	return new RedirectResponse(
+	    $this->urlGenerator->linkToRoute('settings.AdminSettings.index')
+	);
+    }
+
+    /**
+     * @NoCSRFRequired
+     * @return DataResponse
+     */
+    public function getFailedIntegrityCheckFiles() {
+	if(!$this->checker->isCodeCheckEnforced()) {
+	    return new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
+	}
+
+	$completeResults = $this->checker->getResults();
+
+	if(!empty($completeResults)) {
+	    $formattedTextResponse = 'Technical information
 =====================
 The following list covers which files have failed the integrity check. Please read
 the previous linked documentation to learn more about the errors and how to fix
@@ -334,113 +334,112 @@ them.
 
 Results
 =======
-';
-			foreach($completeResults as $context => $contextResult) {
-				$formattedTextResponse .= "- $context\n";
+            ';
+	    foreach($completeResults as $context => $contextResult) {
+		$formattedTextResponse .= "- $context\n";
 
-				foreach($contextResult as $category => $result) {
-					$formattedTextResponse .= "\t- $category\n";
-					if($category !== 'EXCEPTION') {
-						foreach ($result as $key => $results) {
-							$formattedTextResponse .= "\t\t- $key\n";
-						}
-					} else {
-						foreach ($result as $key => $results) {
-							$formattedTextResponse .= "\t\t- $results\n";
-						}
-					}
-
-				}
+		foreach($contextResult as $category => $result) {
+		    $formattedTextResponse .= "\t- $category\n";
+		    if($category !== 'EXCEPTION') {
+			foreach ($result as $key => $results) {
+			    $formattedTextResponse .= "\t\t- $key\n";
 			}
+		    } else {
+			foreach ($result as $key => $results) {
+			    $formattedTextResponse .= "\t\t- $results\n";
+			}
+		    }
 
-			$formattedTextResponse .= '
+		}
+	    }
+
+	    $formattedTextResponse .= '
 Raw output
 ==========
-';
-			$formattedTextResponse .= print_r($completeResults, true);
-		} else {
-			$formattedTextResponse = 'No errors have been found.';
-		}
-
-
-		$response = new DataDisplayResponse(
-			$formattedTextResponse,
-			Http::STATUS_OK,
-			[
-				'Content-Type' => 'text/plain',
-			]
-		);
-
-		return $response;
+            ';
+	    $formattedTextResponse .= print_r($completeResults, true);
+	} else {
+	    $formattedTextResponse = 'No errors have been found.';
 	}
 
-	/**
-	 * Checks whether a PHP opcache is properly set up
-	 * @return bool
-	 */
-	protected function isOpcacheProperlySetup() {
-		$iniWrapper = new IniGetWrapper();
 
-		$isOpcacheProperlySetUp = true;
+	$response = new DataDisplayResponse(
+	    $formattedTextResponse,
+	    Http::STATUS_OK,
+	    [
+		'Content-Type' => 'text/plain',
+	    ]
+	);
 
-		if(!$iniWrapper->getBool('opcache.enable')) {
-			$isOpcacheProperlySetUp = false;
-		}
+	return $response;
+    }
 
-		if(!$iniWrapper->getBool('opcache.save_comments')) {
-			$isOpcacheProperlySetUp = false;
-		}
+    /**
+     * Checks whether a PHP opcache is properly set up
+     * @return bool
+     */
+    protected function isOpcacheProperlySetup() {
+	$iniWrapper = new IniGetWrapper();
 
-		if(!$iniWrapper->getBool('opcache.enable_cli')) {
-			$isOpcacheProperlySetUp = false;
-		}
-
-		if($iniWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
-			$isOpcacheProperlySetUp = false;
-		}
-
-		if($iniWrapper->getNumeric('opcache.memory_consumption') < 128) {
-			$isOpcacheProperlySetUp = false;
-		}
-
-		if($iniWrapper->getNumeric('opcache.interned_strings_buffer') < 8) {
-			$isOpcacheProperlySetUp = false;
-		}
-
-		return $isOpcacheProperlySetUp;
+	if(!$iniWrapper->getBool('opcache.enable')) {
+	    return false;
 	}
 
-	/**
-	 * Check if the required FreeType functions are present
-	 * @return bool
-	 */
-	protected function hasFreeTypeSupport() {
-		return function_exists('imagettfbbox') && function_exists('imagettftext');
+	if(!$iniWrapper->getBool('opcache.save_comments')) {
+	    return false;
 	}
 
-	/**
-	 * @return DataResponse
-	 */
-	public function check() {
-		return new DataResponse(
-			[
-				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
-				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
-				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
-				'isUrandomAvailable' => $this->isUrandomAvailable(),
-				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
-				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
-				'phpSupported' => $this->isPhpSupported(),
-				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
-				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
-				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
-				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
-				'isOpcacheProperlySetup' => $this->isOpcacheProperlySetup(),
-				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
-				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
-			]
-		);
+	if(!$iniWrapper->getBool('opcache.enable_cli')) {
+	    return false;
 	}
+
+	if($iniWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
+	    return false;
+	}
+
+	if($iniWrapper->getNumeric('opcache.memory_consumption') < 128) {
+	    return false;
+	}
+
+	if($iniWrapper->getNumeric('opcache.interned_strings_buffer') < 8) {
+	    return false;
+	}
+
+	return true;
+    }
+
+    /**
+     * Check if the required FreeType functions are present
+     * @return bool
+     */
+    protected function hasFreeTypeSupport() {
+	return function_exists('imagettfbbox') && function_exists('imagettftext');
+    }
+
+    /**
+     * @return DataResponse
+     */
+    public function check() {
+	return new DataResponse(
+	    [
+		'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
+		'isMemcacheConfigured' => $this->isMemcacheConfigured(),
+		'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
+		'isUrandomAvailable' => $this->isUrandomAvailable(),
+		'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
+		'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
+		'phpSupported' => $this->isPhpSupported(),
+		'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
+		'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
+		'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
+		'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
+		'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
+		'isOpcacheProperlySetup' => $this->isOpcacheProperlySetup(),
+                'hasOpcacheLoaded' => extension_loaded("opcache"),
+		'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
+		'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
+		'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
+	    ]
+	);
+    }
 }

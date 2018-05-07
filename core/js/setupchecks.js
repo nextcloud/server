@@ -154,7 +154,19 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if(!data.isOpcacheProperlySetup) {
+                                        if(!data.hasOpcacheLoaded) {
+						messages.push({
+							msg: t(
+								'core',
+								'The PHP OPcache module is not loaded. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to load it into your PHP installation.',
+								{
+									docLink: data.phpOpcacheDocumentation,
+								}
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
+					else if(!data.isOpcacheProperlySetup) {
 						messages.push({
 							msg: t(
 								'core',
