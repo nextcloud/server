@@ -8,6 +8,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -146,13 +147,22 @@ class AvatarController extends Controller {
 			$size = 64;
 		}
 
+		// Serve png as a fallback only
 		if ($png === false) {
-			$avatar = $this->avatarManager->getAvatar($userId)->getAvatarVector($size);
-			$resp = new DataDisplayResponse(
-				$avatar,
-				Http::STATUS_OK,
-				['Content-Type' => 'image/svg+xml'
-			]);
+
+			try {
+				$avatar = $this->avatarManager->getAvatar($userId)->getAvatarVector($size);
+				$resp = new DataDisplayResponse(
+					$avatar,
+					Http::STATUS_OK,
+					['Content-Type' => 'image/svg+xml'
+				]);
+			} catch (\Exception $e) {
+				$resp = new Http\Response();
+				$resp->setStatus(Http::STATUS_NOT_FOUND);
+				return $resp;
+			}
+
 		} else {
 
 			try {

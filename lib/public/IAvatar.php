@@ -8,6 +8,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -26,6 +27,7 @@
  */
 
 namespace OCP;
+
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 
@@ -35,52 +37,66 @@ use OCP\Files\NotFoundException;
  */
 interface IAvatar {
 
-	/**
-	 * get the users avatar
-	 * @param int $size size in px of the avatar, avatars are square, defaults to 64, -1 can be used to not scale the image
-	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
-	 * @since 6.0.0 - size of -1 was added in 9.0.0
-	 */
-	public function get($size = 64);
+    /**
+     * get the users avatar
+     * @param int $size size in px of the avatar, avatars are square, defaults to 64, -1 can be used to not scale the image
+     * @return boolean|\OCP\IImage containing the avatar or false if there's no image
+     * @since 6.0.0 - size of -1 was added in 9.0.0
+     */
+    public function get($size = 64);
+
+    /**
+     * Check if an avatar exists for the user
+     *
+     * @return bool
+     * @since 8.1.0
+     */
+    public function exists();
+
+    /**
+     * sets the users avatar
+     * @param \OCP\IImage|resource|string $data An image object, imagedata or path to set a new avatar
+     * @throws \Exception if the provided file is not a jpg or png image
+     * @throws \Exception if the provided image is not valid
+     * @throws \OC\NotSquareException if the image is not square
+     * @return void
+     * @since 6.0.0
+     */
+    public function set($data);
+
+    /**
+     * remove the users avatar
+     * @return void
+     * @since 6.0.0
+     */
+    public function remove();
+
+    /**
+     * Get the file of the avatar
+     * @param int $size -1 can be used to not scale the image
+     * @return File
+     * @throws NotFoundException
+     * @since 9.0.0
+     */
+    public function getFile($size);
+
+    /**
+     * Generate SVG avatar
+     * @param int $size -1 can be used to not scale the image
+     * @return string
+     * @since 14.0.0
+     */
+    public function getAvatarVector(int $size): string;
 
 	/**
-	 * Check if an avatar exists for the user
-	 *
-	 * @return bool
-	 * @since 8.1.0
+	 * @param string $text
+	 * @return Color Object containting r g b int in the range [0, 255]
 	 */
-	public function exists();
+	public function avatarBackgroundColor(string $text);
 
-	/**
-	 * sets the users avatar
-	 * @param \OCP\IImage|resource|string $data An image object, imagedata or path to set a new avatar
-	 * @throws \Exception if the provided file is not a jpg or png image
-	 * @throws \Exception if the provided image is not valid
-	 * @throws \OC\NotSquareException if the image is not square
-	 * @return void
-	 * @since 6.0.0
-	 */
-	public function set($data);
-
-	/**
-	 * remove the users avatar
-	 * @return void
-	 * @since 6.0.0
-	 */
-	public function remove();
-
-	/**
-	 * Get the file of the avatar
-	 * @param int $size -1 can be used to not scale the image
-	 * @return File
-	 * @throws NotFoundException
-	 * @since 9.0.0
-	 */
-	public function getFile($size);
-
-	/**
-	 * Handle a changed user
-	 * @since 13.0.0
-	 */
-	public function userChanged($feature, $oldValue, $newValue);
+    /**
+     * Handle a changed user
+     * @since 13.0.0
+     */
+    public function userChanged($feature, $oldValue, $newValue);
 }

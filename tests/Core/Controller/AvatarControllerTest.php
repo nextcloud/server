@@ -94,6 +94,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->timeFactory = $this->getMockBuilder('OC\AppFramework\Utility\TimeFactory')->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
+		$this->color = new \OC\Color(0, 130, 201);
 		$this->userMock = $this->getMockBuilder(IUser::class)->getMock();
 
 		$this->avatarController = new AvatarController(
@@ -119,6 +120,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarFile->method('getContent')->willReturn('image data');
 		$this->avatarFile->method('getMimeType')->willReturn('image type');
 		$this->avatarFile->method('getEtag')->willReturn('my etag');
+
+		$this->avatarMock->method('avatarBackgroundColor')->willReturn($this->color);
 	}
 
 	public function tearDown() {
@@ -130,10 +133,21 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testGetAvatarNoAvatar() {
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
-		$this->avatarMock->method('getFile')->will($this->throwException(new NotFoundException()));
+		$this->avatarMock->method('getAvatarVector')->willReturn('<svg></svg>');
 		$response = $this->avatarController->getAvatar('userId', 32);
 
-		//Comment out until JS is fixed
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
+		$this->assertEquals('<svg></svg>', $response->getData());
+	}
+
+	/**
+	 * Fetch a png avatar if a user has no avatar
+	 */
+	public function testGetPngAvatarNoAvatar() {
+		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarMock->method('getFile')->will($this->throwException(new NotFoundException()));
+		$response = $this->avatarController->getAvatar('userId', 32, true);
+
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
@@ -141,10 +155,26 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Fetch the user's avatar
 	 */
 	public function testGetAvatar() {
-		$this->avatarMock->method('getFile')->willReturn($this->avatarFile);
+		$this->avatarMock->method('getAvatarVector')->willReturn('<svg></svg>');
 		$this->avatarManager->method('getAvatar')->with('userId')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->getAvatar('userId', 32);
+
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
+		$this->assertArrayHasKey('Content-Type', $response->getHeaders());
+		$this->assertEquals('image/svg+xml', $response->getHeaders()['Content-Type']);
+
+		$this->assertEquals('<svg></svg>', $response->getData());
+	}
+
+	/**
+	 * Fetch the user's avatar
+	 */
+	public function testGetPngAvatar() {
+		$this->avatarMock->method('getFile')->willReturn($this->avatarFile);
+		$this->avatarManager->method('getAvatar')->with('userId')->willReturn($this->avatarMock);
+
+		$response = $this->avatarController->getAvatar('userId', 32, true);
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 		$this->assertArrayHasKey('Content-Type', $response->getHeaders());
@@ -171,7 +201,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	/**
 	 * Make sure we get the correct size
 	 */
-	public function testGetAvatarSize() {
+	public function testGetPngAvatarSize() {
 		$this->avatarMock->expects($this->once())
 			->method('getFile')
 			->with($this->equalTo(32))
@@ -179,13 +209,13 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
-		$this->avatarController->getAvatar('userId', 32);
+		$this->avatarController->getAvatar('userId', 32, true);
 	}
 
 	/**
 	 * We cannot get avatars that are 0 or negative
 	 */
-	public function testGetAvatarSizeMin() {
+	public function testGetPngAvatarSizeMin() {
 		$this->avatarMock->expects($this->once())
 			->method('getFile')
 			->with($this->equalTo(64))
@@ -193,13 +223,13 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
-		$this->avatarController->getAvatar('userId', 0);
+		$this->avatarController->getAvatar('userId', 0, true);
 	}
 
 	/**
 	 * We do not support avatars larger than 2048*2048
 	 */
-	public function testGetAvatarSizeMax() {
+	public function testGetPngAvatarSizeMax() {
 		$this->avatarMock->expects($this->once())
 			->method('getFile')
 			->with($this->equalTo(2048))
@@ -207,7 +237,7 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
-		$this->avatarController->getAvatar('userId', 2049);
+		$this->avatarController->getAvatar('userId', 2049, true);
 	}
 
 	/**
@@ -486,7 +516,6 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]));
 	}
 
-
 	/**
 	 * Check for proper reply on proper crop argument
 	 */
@@ -499,6 +528,15 @@ class AvatarControllerTest extends \Test\TestCase {
 		$response = $this->avatarController->postAvatar(null);
 
 		$this->assertEquals('File is too big', $response->getData()['data']['message']);
+	}
+
+	/**
+	 * Test get Avatar BG colour algorithm
+	 */
+	public function testAvatarBackgroundColor() {
+		$bgRGB = $this->avatarMock->avatarBackgroundColor('TestBlue');
+		$this->assertEquals($bgRGB, $this->color);
+		$this->assertEquals(sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b), '0082c9');
 	}
 
 }

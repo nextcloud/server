@@ -11,6 +11,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -280,7 +281,7 @@ class Avatar implements IAvatar {
 	 * @return string
 	 * 
 	 */
-	public function getAvatarVector($size) {
+	public function getAvatarVector(int $size): string {
 		$userDisplayName = $this->user->getDisplayName();
 
 		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
@@ -410,7 +411,7 @@ class Avatar implements IAvatar {
 	 * @param string $text
 	 * @return Color Object containting r g b int in the range [0, 255]
 	 */
-	public function avatarBackgroundColor($text) {
+	public function avatarBackgroundColor(string $text) {
 		$hash = preg_replace('/[^0-9a-f]+/', '', $text);
 
 		$hash = md5($hash);
