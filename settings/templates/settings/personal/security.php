@@ -32,7 +32,7 @@ script('settings', [
 
 
 <div id="security" class="section">
-	<h2><?php p($l->t('Security'));?></h2>
+	<h2><?php p($l->t('Devices & sessions'));?></h2>
 	<p class="settings-hint hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></p>
 	<table class="icon-loading">
 		<thead class="token-list-header">
