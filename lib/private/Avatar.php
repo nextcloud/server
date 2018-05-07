@@ -408,14 +408,20 @@ class Avatar implements IAvatar {
 	}
 
 	/**
-	 * @param string $text
+	 * @param string $hash
 	 * @return Color Object containting r g b int in the range [0, 255]
 	 */
-	public function avatarBackgroundColor(string $text) {
-		$hash = preg_replace('/[^0-9a-f]+/', '', $text);
+	public function avatarBackgroundColor(string $hash) {
+		// Normalize hash
+		$hash = strtolower($hash);
+		
+		// Already a md5 hash?
+		if( preg_match('/^([0-9a-f]{4}-?){8}$/', $hash, $matches) !== 1 ) {
+			$hash = md5($hash);
+		}
 
-		$hash = md5($hash);
-		$hashChars = str_split($hash);
+		// Remove unwanted char
+		$hash = preg_replace('/[^0-9a-f]+/', '', $hash);
 
 		$red = new Color(182, 70, 157);
 		$yellow = new Color(221, 203, 85);
