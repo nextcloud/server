@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Списак група је празан",
     "Unable to retrieve the group list" : "Није могуће дохватити списак група",
     "Saved" : "Снимљено",
     "Saving failed:" : "Снимање није успело:",
