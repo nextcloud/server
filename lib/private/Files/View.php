@@ -1318,15 +1318,13 @@ class View {
 		try {
 			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
 			if (!$data || $data['size'] === -1) {
-				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				if (!$storage->file_exists($internalPath)) {
-					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 					return false;
 				}
+				// don't need to get a lock here since the scanner does it's own locking
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
-				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$watcher->update($internalPath, $data);
