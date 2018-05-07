@@ -42,9 +42,12 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<div>
 			<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
 				<h2>
-					<label><?php p($l->t('Profile picture')); ?></label><span class="icon-federation-menu icon-password">
-						<span class="icon-triangle-s"></span>
-					</span>
+					<label><?php p($l->t('Profile picture')); ?></label>
+					<div class="federation-menu">
+						<span class="icon-federation-menu icon-password">
+							<span class="icon-triangle-s"></span>
+						</span>
+					</div>
 				</h2>
 				<div id="displayavatar">
 					<div class="avatardiv"></div>
@@ -102,9 +105,11 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			<form id="displaynameform" class="section">
 				<h2>
 					<label for="displayname"><?php p($l->t('Full name')); ?></label>
-					<span class="icon-federation-menu icon-password">
-						<span class="icon-triangle-s"></span>
-					</span>
+					<div class="federation-menu">
+						<span class="icon-federation-menu icon-password">
+							<span class="icon-triangle-s"></span>
+						</span>
+					</div>
 				</h2>
 				<input type="text" id="displayname" name="displayname"
 					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
@@ -124,9 +129,11 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			<form id="emailform" class="section">
 				<h2>
 					<label for="email"><?php p($l->t('Email')); ?></label>
-					<span class="icon-federation-menu icon-password">
-						<span class="icon-triangle-s"></span>
-					</span>
+					<div class="federation-menu">
+						<span class="icon-federation-menu icon-password">
+							<span class="icon-triangle-s"></span>
+						</span>
+					</div>
 				</h2>
 				<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') p('hidden'); ?>">
 					<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
@@ -165,9 +172,11 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			<form id="phoneform" class="section">
 				<h2>
 					<label for="phone"><?php p($l->t('Phone number')); ?></label>
-					<span class="icon-federation-menu icon-password">
-						<span class="icon-triangle-s"></span>
-					</span>
+					<div class="federation-menu">
+						<span class="icon-federation-menu icon-password">
+							<span class="icon-triangle-s"></span>
+						</span>
+					</div>
 				</h2>
 				<input type="tel" id="phone" name="phone" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"'); ?>
 					   value="<?php p($_['phone']) ?>"
@@ -185,9 +194,11 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			<form id="addressform" class="section">
 				<h2>
 					<label for="address"><?php p($l->t('Address')); ?></label>
-					<span class="icon-federation-menu icon-password">
-						<span class="icon-triangle-s"></span>
-					</span>
+					<div class="federation-menu">
+						<span class="icon-federation-menu icon-password">
+							<span class="icon-triangle-s"></span>
+						</span>
+					</div>
 				</h2>
 				<input type="text" id="address" name="address" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
 					   placeholder="<?php p($l->t('Your postal address')); ?>"
@@ -205,9 +216,11 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			<form id="websiteform" class="section">
 				<h2>
 					<label for="website"><?php p($l->t('Website')); ?></label>
-					<span class="icon-federation-menu icon-password">
-						<span class="icon-triangle-s"></span>
-					</span>
+					<div class="federation-menu">
+						<span class="icon-federation-menu icon-password">
+							<span class="icon-triangle-s"></span>
+						</span>
+					</div>
 				</h2>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 				<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') p('hidden'); ?>">
@@ -252,9 +265,11 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			<form id="twitterform" class="section">
 				<h2>
 					<label for="twitter"><?php p($l->t('Twitter')); ?></label>
-					<span class="icon-federation-menu icon-password">
-						<span class="icon-triangle-s"></span>
-					</span>
+					<div class="federation-menu">
+						<span class="icon-federation-menu icon-password">
+							<span class="icon-triangle-s"></span>
+						</span>
+					</div>
 				</h2>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 				<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') p('hidden'); ?>">
