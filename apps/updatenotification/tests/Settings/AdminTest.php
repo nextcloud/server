@@ -140,10 +140,10 @@ class AdminTest extends TestCase {
 
 
 	public function testGetSection() {
-		$this->assertSame('server', $this->admin->getSection());
+		$this->assertSame('overview', $this->admin->getSection());
 	}
 
 	public function testGetPriority() {
-		$this->assertSame(1, $this->admin->getPriority());
+		$this->assertSame(11, $this->admin->getPriority());
 	}
 }

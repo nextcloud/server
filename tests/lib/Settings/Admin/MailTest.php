@@ -24,11 +24,12 @@
 namespace Test\Settings\Admin;
 
 use OC\Settings\Admin\Additional;
+use OC\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use Test\TestCase;
 
-class AdditionalTest extends TestCase {
+class MailTest extends TestCase {
 	/** @var Additional */
 	private $admin;
 	/** @var IConfig */
@@ -38,7 +39,7 @@ class AdditionalTest extends TestCase {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 
-		$this->admin = new Additional(
+		$this->admin = new Mail(
 			$this->config
 		);
 	}
@@ -118,10 +119,10 @@ class AdditionalTest extends TestCase {
 	}
 
 	public function testGetSection() {
-		$this->assertSame('additional', $this->admin->getSection());
+		$this->assertSame('server', $this->admin->getSection());
 	}
 
 	public function testGetPriority() {
-		$this->assertSame(0, $this->admin->getPriority());
+		$this->assertSame(10, $this->admin->getPriority());
 	}
 }

@@ -130,7 +130,7 @@ class Admin implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection(): string {
-		return 'server';
+		return 'overview';
 	}
 
 	/**
@@ -141,6 +141,6 @@ class Admin implements ISettings {
 	 * E.g.: 70
 	 */
 	public function getPriority(): int {
-		return 1;
+		return 11;
 	}
 }

@@ -29,7 +29,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
 
-class Additional implements ISettings {
+class Mail implements ISettings {
 	/** @var IConfig */
 	private $config;
 
@@ -70,7 +70,7 @@ class Additional implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return 'additional';
+		return 'server';
 	}
 
 	/**
@@ -81,6 +81,6 @@ class Additional implements ISettings {
 	 * E.g.: 70
 	 */
 	public function getPriority() {
-		return 0;
+		return 10;
 	}
 }

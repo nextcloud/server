@@ -49,7 +49,7 @@ class CalDAVSettingsTest extends TestCase {
 	}
 
 	public function testGetSection() {
-		$this->assertEquals('additional', $this->settings->getSection());
+		$this->assertEquals('server', $this->settings->getSection());
 	}
 
 	public function testGetPriority() {

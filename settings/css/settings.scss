@@ -151,6 +151,11 @@ input {
 		width: 100%;
 	}
 }
+#personal-settings {
+	.section {
+		border: 0;
+	}
+}
 
 #personal-settings {
 	display: grid;
@@ -905,11 +910,21 @@ span.version {
 }
 
 .section {
-	h2.app-name {
-		display: block;
-		margin: 8px 0;
-	}
 	margin-bottom: 0;
+	/* use 2nd child since app-navigation-toggle is the first */
+	&:not(:nth-child(2)) {
+		border-top: 1px solid $color-border;
+	}
+
+	/* correctly display help icons next to headings */
+	h2  {
+		margin-bottom: 22px;
+		.icon-info {
+			padding: 6px 20px;
+			vertical-align: text-bottom;
+			display: inline-block;
+		}
+	}
 }
 
 .personal-settings-setting-box .section {
@@ -1054,6 +1069,10 @@ span.version {
 		&.apps-experimental {
 			flex-basis: 90%;
 		}
+		h2.app-name {
+			display: block;
+			margin: 8px 0;
+		}
 	}
 	.app-description {
 		p {
@@ -1092,6 +1111,7 @@ span.version {
 			position: absolute;
 			padding-left: 6px;
 			padding-top: 15px;
+
 			.enable {
 				position: relative;
 				top: -1px;
@@ -1129,6 +1149,7 @@ table.grid td.date {
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;
+	list-style-position: inside;
 }
 
 #security-warning-state span {
@@ -1195,7 +1216,8 @@ table.grid td.date {
 		width: 300px;
 		text-align: right;
 	}
-	select:nth-child(2) {
+	select:nth-child(2),
+	input {
 		width: 143px;
 	}
 }
@@ -1288,13 +1310,16 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		height: 50px;
 		background-position: left center;
 	}
-	.errors, .warnings {
-		color: #ce3702;
+	.errors, .errors a {
+		color: $color-error;
+	}
+	.warnings, .warnings a {
+		color: $color-warning;
 	}
 }
 
 #security-warning > ul {
-	color: #ce3702;
+	color: $color-error;
 }
 
 #admin-tips li {
