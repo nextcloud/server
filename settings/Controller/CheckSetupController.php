@@ -396,33 +396,31 @@ Raw output
 	protected function isOpcacheProperlySetup() {
 		$iniWrapper = new IniGetWrapper();
 
-		$isOpcacheProperlySetUp = true;
-
 		if(!$iniWrapper->getBool('opcache.enable')) {
-			$isOpcacheProperlySetUp = false;
+			return false;
 		}
 
 		if(!$iniWrapper->getBool('opcache.save_comments')) {
-			$isOpcacheProperlySetUp = false;
+			return false;
 		}
 
 		if(!$iniWrapper->getBool('opcache.enable_cli')) {
-			$isOpcacheProperlySetUp = false;
+			return false;
 		}
 
 		if($iniWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
-			$isOpcacheProperlySetUp = false;
+			return false;
 		}
 
 		if($iniWrapper->getNumeric('opcache.memory_consumption') < 128) {
-			$isOpcacheProperlySetUp = false;
+			return false;
 		}
 
 		if($iniWrapper->getNumeric('opcache.interned_strings_buffer') < 8) {
-			$isOpcacheProperlySetUp = false;
+			return false;
 		}
 
-		return $isOpcacheProperlySetUp;
+		return true;
 	}
 
 	/**
@@ -555,6 +553,7 @@ Raw output
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'isOpcacheProperlySetup' => $this->isOpcacheProperlySetup(),
+				'hasOpcacheLoaded' => extension_loaded("opcache"),
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
