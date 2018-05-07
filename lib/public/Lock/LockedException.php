@@ -46,11 +46,15 @@ class LockedException extends \Exception {
 	 *
 	 * @param string $path locked path
 	 * @param \Exception|null $previous previous exception for cascading
-	 *
+	 * @param string $existingLock since 14.0.0
 	 * @since 8.1.0
 	 */
-	public function __construct(string $path, \Exception $previous = null) {
-		parent::__construct('"' . $path . '" is locked', 0, $previous);
+	public function __construct(string $path, \Exception $previous = null, string $existingLock = null) {
+		$message = '"' . $path . '" is locked';
+		if ($existingLock) {
+			$message .= ', existing lock on file: ' . $existingLock;
+		}
+		parent::__construct($message, 0, $previous);
 		$this->path = $path;
 	}
 
