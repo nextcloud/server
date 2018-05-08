@@ -627,6 +627,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\DB\\QueryBuilder\\QueryBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/QueryBuilder.php',
         'OC\\DB\\QueryBuilder\\QueryFunction' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/QueryFunction.php',
         'OC\\DB\\QueryBuilder\\QuoteHelper' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/QuoteHelper.php',
+        'OC\\DB\\ReconnectWrapper' => __DIR__ . '/../../..' . '/lib/private/DB/ReconnectWrapper.php',
         'OC\\DB\\SQLiteMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/SQLiteMigrator.php',
         'OC\\DB\\SQLiteSessionInit' => __DIR__ . '/../../..' . '/lib/private/DB/SQLiteSessionInit.php',
         'OC\\DB\\SchemaWrapper' => __DIR__ . '/../../..' . '/lib/private/DB/SchemaWrapper.php',
