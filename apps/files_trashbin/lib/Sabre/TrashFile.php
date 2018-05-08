@@ -87,5 +87,7 @@ class TrashFile implements IFile, ITrash {
 		return $this->data['extraData'];
 	}
 
-
+	public function getDeletionTime(): int {
+		return $this->getLastModified();
+	}
 }

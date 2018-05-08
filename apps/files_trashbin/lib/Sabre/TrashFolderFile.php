@@ -98,5 +98,7 @@ class TrashFolderFile implements IFile, ITrash {
 		return $this->location . '/' . $this->getFilename();
 	}
 
-
+	public function getDeletionTime(): int {
+		return $this->getLastModified();
+	}
 }
