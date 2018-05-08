@@ -358,12 +358,13 @@ class ThemingController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $key
+	 * @param bool $useSvg
 	 * @return FileDisplayResponse|NotFoundResponse
-	 * @throws \Exception
+	 * @throws NotPermittedException
 	 */
-	public function getImage(string $key, bool $asPng = false) {
+	public function getImage(string $key, bool $useSvg = true) {
 		try {
-			$file = $this->imageManager->getImage($key, $asPng);
+			$file = $this->imageManager->getImage($key, $useSvg);
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
 		}
@@ -372,7 +373,7 @@ class ThemingController extends Controller {
 		$response->cacheFor(3600);
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
 		$response->addHeader('Content-Disposition', 'attachment; filename="' . $key . '"');
-		if ($asPng) {
+		if (!$useSvg) {
 			$response->addHeader('Content-Type', 'image/png');
 		} else {
 			$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));

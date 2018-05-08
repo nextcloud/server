@@ -65,10 +65,10 @@ class ImageManager {
 		$this->cacheFactory = $cacheFactory;
 	}
 
-	public function getImageUrl(string $key): string {
+	public function getImageUrl(string $key, bool $useSvg = true): string {
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 		try {
-			$this->getImage($key);
+			$image = $this->getImage($key, $useSvg);
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
 		} catch (NotFoundException $e) {
 		}
@@ -83,16 +83,18 @@ class ImageManager {
 		}
 	}
 
-	public function getImageUrlAbsolute(string $key): string {
-		return $this->urlGenerator->getAbsoluteURL($this->getImageUrl($key));
+	public function getImageUrlAbsolute(string $key, bool $useSvg = true): string {
+		return $this->urlGenerator->getAbsoluteURL($this->getImageUrl($key, $useSvg));
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
+	 * @param bool $useSvg
 	 * @return ISimpleFile
 	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
-	public function getImage(string $key, bool $useSvg = false): ISimpleFile {
+	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
 		$logo = $this->config->getAppValue('theming', $key . 'Mime', false);
 		$folder = $this->appData->getFolder('images');
 		if ($logo === false || !$folder->fileExists($key)) {

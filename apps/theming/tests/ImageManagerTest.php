@@ -126,7 +126,7 @@ class ImageManagerTest extends TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->willReturn('url-to-image');
-		$this->assertEquals('url-to-image?v=0', $this->imageManager->getImageUrl('logo'));
+		$this->assertEquals('url-to-image?v=0', $this->imageManager->getImageUrl('logo', false));
 	}
 
 	public function testGetImageUrlDefault() {
@@ -164,7 +164,7 @@ class ImageManagerTest extends TestCase {
 		$this->urlGenerator->expects($this->at(2))
 			->method('getAbsoluteUrl')
 			->willReturn('url-to-image-absolute?v=0');
-		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo'));
+		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo', false));
 
 	}
 
@@ -175,7 +175,7 @@ class ImageManagerTest extends TestCase {
 			->willReturn('png');
 		$file = $this->createMock(ISimpleFile::class);
 		$this->mockGetImage('logo', $file);
-		$this->assertEquals($file, $this->imageManager->getImage('logo'));
+		$this->assertEquals($file, $this->imageManager->getImage('logo', false));
 	}
 
 	/**

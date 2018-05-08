@@ -604,7 +604,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('theming.Theming.getImage')
-			->willReturn('custom-logo');
+			->willReturn('custom-logo?v=0');
 		$this->assertEquals('custom-logo' . '?v=0', $this->template->getLogo());
 	}
 
