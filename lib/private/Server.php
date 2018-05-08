@@ -164,6 +164,9 @@ class Server extends ServerContainer implements IServerContainer {
 		parent::__construct();
 		$this->webRoot = $webRoot;
 
+		// To find out if we are running from CLI or not
+		$this->registerParameter('isCLI', \OC::$CLI);
+
 		$this->registerService(\OCP\IServerContainer::class, function (IServerContainer $c) {
 			return $c;
 		});
