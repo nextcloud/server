@@ -23,6 +23,7 @@
 namespace OCA\Files_Versions\Sabre;
 
 use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
@@ -33,10 +34,13 @@ class RootCollection extends AbstractPrincipalCollection {
 	private $rootFolder;
 
 	public function __construct(PrincipalBackend\BackendInterface $principalBackend,
-								IRootFolder $rootFolder) {
+								IRootFolder $rootFolder,
+								IConfig $config) {
 		parent::__construct($principalBackend, 'principals/users');
 
 		$this->rootFolder = $rootFolder;
+
+		$this->disableListing = !$config->getSystemValue('debug', false);
 	}
 
 	/**

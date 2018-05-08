@@ -23,14 +23,17 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCP\IConfig;
 use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
 
 class RootCollection extends AbstractPrincipalCollection {
 
-	public function __construct(PrincipalBackend\BackendInterface $principalBackend) {
+	public function __construct(PrincipalBackend\BackendInterface $principalBackend, IConfig $config) {
 		parent::__construct($principalBackend, 'principals/users');
+
+		$this->disableListing = !$config->getSystemValue('debug', false);
 	}
 
 	/**
