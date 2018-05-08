@@ -23,6 +23,7 @@
 
 namespace Test\Template;
 
+use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
@@ -51,7 +52,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->logger = $this->createMock(ILogger::class);
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);

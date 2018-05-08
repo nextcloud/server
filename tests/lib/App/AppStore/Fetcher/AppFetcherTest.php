@@ -23,6 +23,7 @@ namespace Test\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\CompareVersion;
+use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
@@ -63,7 +64,7 @@ EOD;
 
 		/** @var Factory|PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 		$factory->expects($this->once())
 			->method('get')
 			->with('appstore')

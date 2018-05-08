@@ -23,6 +23,7 @@
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\CssController;
+use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -51,7 +52,7 @@ class CssControllerTest extends TestCase {
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 		$factory->expects($this->once())
 			->method('get')
 			->with('css')
