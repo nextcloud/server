@@ -131,7 +131,7 @@
 						aria-label="<?php p($l->t('Settings menu'));?>">
 					<ul>
 					<?php foreach($_['settingsnavigation'] as $entry):?>
-						<li>
+						<li data-id="<?php p($entry['id']); ?>">
 							<a href="<?php print_unescaped($entry['href']); ?>"
 								<?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
 								<img alt="" src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>">
