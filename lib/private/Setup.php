@@ -47,6 +47,7 @@ use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Authentication\Token\DefaultTokenCleanupJob;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Log\Rotate;
+use OC\Preview\BackgroundCleanupJob;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -419,6 +420,7 @@ class Setup {
 		$jobList = \OC::$server->getJobList();
 		$jobList->add(DefaultTokenCleanupJob::class);
 		$jobList->add(Rotate::class);
+		$jobList->add(BackgroundCleanupJob::class);
 	}
 
 	/**
