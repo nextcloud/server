@@ -112,6 +112,7 @@ OC.L10N.register(
     "Check for changes" : "Check for changes",
     "Never" : "Never",
     "Once every direct access" : "Once every direct access",
+    "Read only" : "Read only",
     "Folder name" : "Folder name",
     "External storage" : "External storage",
     "Authentication" : "Authentication",
