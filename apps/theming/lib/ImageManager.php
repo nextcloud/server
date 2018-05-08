@@ -33,9 +33,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IURLGenerator;
 
-/**
- * @property IURLGenerator urlGenerator
- */
 class ImageManager {
 
 	/** @var IConfig */
@@ -55,7 +52,7 @@ class ImageManager {
 	 * @param IConfig $config
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
-	 * @param ThemingDefaults $themingDefaults
+	 * @param ICacheFactory $cacheFactory
 	 */
 	public function __construct(IConfig $config,
 								IAppData $appData,
@@ -97,10 +94,10 @@ class ImageManager {
 	 */
 	public function getImage(string $key, bool $useSvg = false): ISimpleFile {
 		$logo = $this->config->getAppValue('theming', $key . 'Mime', false);
-		if ($logo === false) {
+		$folder = $this->appData->getFolder('images');
+		if ($logo === false || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
-		$folder = $this->appData->getFolder('images');
 		if (!$useSvg && $this->shouldReplaceIcons()) {
 			if (!$folder->fileExists($key . '.png')) {
 				try {

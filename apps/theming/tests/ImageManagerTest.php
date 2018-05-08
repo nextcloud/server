@@ -26,6 +26,7 @@ namespace OCA\Theming\Tests;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use Test\TestCase;
@@ -43,17 +44,34 @@ class ImageManagerTest extends TestCase {
 	protected $imageManager;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $cacheFactory;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->imageManager = new ImageManager(
 			$this->config,
 			$this->appData,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->cacheFactory
 		);
+	}
+
+	private function checkImagick() {
+		if(!extension_loaded('imagick')) {
+			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
+		}
+		$checkImagick = new \Imagick();
+		if (count($checkImagick->queryFormats('SVG')) < 1) {
+			$this->markTestSkipped('No SVG provider present.');
+		}
+		if (count($checkImagick->queryFormats('PNG')) < 1) {
+			$this->markTestSkipped('No PNG provider present.');
+		}
 	}
 
 	public function mockGetImage($key, $file) {
@@ -65,10 +83,28 @@ class ImageManagerTest extends TestCase {
 				->with('logo')
 				->willThrowException(new NotFoundException());
 		} else {
-			$folder->expects($this->once())
+			$file->expects($this->once())
+				->method('getContent')
+				->willReturn(file_get_contents(__DIR__ . '/../../../tests/data/testimage.png'));
+			$folder->expects($this->at(0))
+				->method('fileExists')
+				->with('logo')
+				->willReturn(true);
+			$folder->expects($this->at(1))
+				->method('fileExists')
+				->with('logo.png')
+				->willReturn(false);
+			$folder->expects($this->at(2))
 				->method('getFile')
 				->with('logo')
 				->willReturn($file);
+			$newFile = $this->createMock(ISimpleFile::class);
+			$folder->expects($this->at(3))
+				->method('newFile')
+				->with('logo.png')
+				->willReturn($newFile);
+			$newFile->expects($this->once())
+				->method('putContent');
 			$this->appData->expects($this->once())
 				->method('getFolder')
 				->with('images')
@@ -77,12 +113,13 @@ class ImageManagerTest extends TestCase {
 	}
 
 	public function testGetImageUrl() {
+		$this->checkImagick();
 		$file = $this->createMock(ISimpleFile::class);
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', false]
+				['theming', 'logoMime', '']
 				)
 			->willReturn(0);
 		$this->mockGetImage('logo', $file);
@@ -108,27 +145,31 @@ class ImageManagerTest extends TestCase {
 	}
 
 	public function testGetImageUrlAbsolute() {
+		$this->checkImagick();
 		$file = $this->createMock(ISimpleFile::class);
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', false]
+				['theming', 'logoMime', '']
 			)
 			->willReturn(0);
 		$this->mockGetImage('logo', $file);
 		$this->urlGenerator->expects($this->at(0))
-			->method('linkToRoute')
-			->willReturn('url-to-image');
+			->method('getBaseUrl')
+			->willReturn('baseurl');
 		$this->urlGenerator->expects($this->at(1))
 			->method('getAbsoluteUrl')
-			->with('url-to-image?v=0')
+			->willReturn('url-to-image-absolute?v=0');
+		$this->urlGenerator->expects($this->at(2))
+			->method('getAbsoluteUrl')
 			->willReturn('url-to-image-absolute?v=0');
 		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo'));
 
 	}
 
 	public function testGetImage() {
+		$this->checkImagick();
 		$this->config->expects($this->once())
 			->method('getAppValue')->with('theming', 'logoMime', false)
 			->willReturn('png');
