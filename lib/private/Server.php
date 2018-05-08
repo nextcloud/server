@@ -978,7 +978,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getURLGenerator(),
 				$this->getMemCacheFactory(),
 				$c->getSystemConfig(),
-				$c->getLogger()
+				$c->getLogger(),
+				$c->getAppManager()
 			);
 		});
 		$this->registerService(EventDispatcher::class, function () {
