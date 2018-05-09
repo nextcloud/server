@@ -15,16 +15,19 @@ Vue.use(Router);
 
 export default new Router({
 	mode: 'history',
-	routes: [{
-		path: '(/index.php)?/settings/users',
-		component: Users,
-		props: true,
-		name: 'users',
-		children: [{
-			  path: ':selectedGroup',
-			  name: 'group',
-			  component: Users
-			},
-		]
-	}]
+	routes: [
+		{
+			path: '/:index(index.php/)?settings/users',
+			component: Users,
+			props: true,
+			name: 'users',
+			children: [
+				{
+					path: ':selectedGroup',
+					name: 'group',
+					component: Users
+				}
+			]
+		}
+	]
 });

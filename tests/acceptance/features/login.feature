@@ -18,7 +18,6 @@ Feature: login
     And I am logged in as the admin
     And I open the User settings
     And I set the password for user0 to 654321
-    And I see that the "Password successfully changed" notification is shown
     And I act as John
     And I log in with user user0 and password 654321
     Then I see that the current page is the Files app
