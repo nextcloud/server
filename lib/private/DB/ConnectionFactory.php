@@ -228,7 +228,7 @@ class ConnectionFactory {
 	 * @param string $host
 	 * @return array
 	 */
-	protected function splitHostFromPortAndSocket($host): array {
+	protected function splitHostFromPortAndSocket($host) {
 		$params = [
 			'host' => $host,
 		];
