@@ -25,6 +25,7 @@ namespace OC\Preview;
 
 use OC\BackgroundJob\TimedJob;
 use OC\Files\AppData\Factory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
@@ -56,17 +57,16 @@ class BackgroundCleanupJob extends TimedJob {
 
 		$previewFodlerId = $previews->getId();
 
-		$qb2 = $this->connection->getQueryBuilder();
-		$qb2->select('fileid')
-			->from('filecache');
-
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('name')
-			->from('filecache')
+		$qb->select('a.name')
+			->from('filecache', 'a')
+			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
+				$qb->expr()->castColumn('a.name', IQueryBuilder::PARAM_INT), 'b.fileid'
+			))
 			->where(
-				$qb->expr()->eq('parent', $qb->createNamedParameter($previewFodlerId))
+				$qb->expr()->isNull('b.fileid')
 			)->andWhere(
-				$qb->expr()->notIn('name', $qb->createFunction($qb2->getSQL()))
+				$qb->expr()->eq('a.parent', $qb->createNamedParameter($previewFodlerId))
 			);
 
 		if (!$this->isCLI) {
