@@ -285,6 +285,7 @@ OC.L10N.register(
     "Please log in before granting %s access to your %s account." : "Por favor inicia sesión antes de otorgarle a %s acceso a tu cuenta %s.",
     "App token" : "Ficha de la aplicación",
     "Grant access" : "Conceder acceso",
+    "Alternative log in using app token" : "Inicio de sesión alternativo usando una ficha de aplicación",
     "Account access" : "Acceo de cuenta",
     "You are about to grant %s access to your %s account." : "Estas a punto de otorgar acceso de %s a tu cuenta %s.",
     "Redirecting …" : "Redireccionando ... ",
