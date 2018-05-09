@@ -40,6 +40,8 @@ class Hooks {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getNotificationManager(),
 			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+			\OC::$server->getCloudFederationProviderManager(),
+			\OC::$server->getCloudFederationFactory(),
 			$params['uid']);
 
 		$manager->removeUserShares($params['uid']);

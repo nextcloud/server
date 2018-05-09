@@ -22,8 +22,8 @@
 
 namespace OC\Federation;
 
+use OC\AppFramework\Http;
 use OCP\App\IAppManager;
-use OCP\Federation\Exceptions\ProviderAlreadyExistsException;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationProvider;
@@ -31,6 +31,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
+use OCP\ILogger;
 
 /**
  * Class Manager
@@ -53,20 +54,26 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * CloudFederationProviderManager constructor.
 	 *
 	 * @param IAppManager $appManager
 	 * @param IClientService $httpClientService
 	 * @param ICloudIdManager $cloudIdManager
+	 * @param ILogger $logger
 	 */
 	public function __construct(IAppManager $appManager,
 								IClientService $httpClientService,
-								ICloudIdManager $cloudIdManager) {
+								ICloudIdManager $cloudIdManager,
+								ILogger $logger) {
 		$this->cloudFederationProvider= [];
 		$this->appManager = $appManager;
 		$this->httpClientService = $httpClientService;
 		$this->cloudIdManager = $cloudIdManager;
+		$this->logger = $logger;
 	}
 
 
@@ -135,8 +142,11 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 				'timeout' => 10,
 				'connect_timeout' => 10,
 			]);
-			$result['result'] = $response->getBody();
-			$result['success'] = true;
+
+			if ($response->getStatusCode() === Http::STATUS_OK) {
+				return true;
+			}
+
 		} catch (\Exception $e) {
 			// if flat re-sharing is not supported by the remote server
 			// we re-throw the exception and fall back to the old behaviour.
@@ -146,12 +156,38 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 			}
 		}
 
-		return true;
+		return false;
 
 	}
 
-	public function sendNotification(ICloudFederationNotification $notification) {
-		// TODO: Implement sendNotification() method.
+	/**
+	 * @param string $url
+	 * @param ICloudFederationNotification $notification
+	 * @return bool
+	 */
+	public function sendNotification($url, ICloudFederationNotification $notification) {
+		$ocmEndPoint = $this->getOCMEndPoint($url);
+
+		if (empty($ocmEndPoint)) {
+			return false;
+		}
+
+		$client = $this->httpClientService->newClient();
+		try {
+			$response = $client->post($ocmEndPoint . '/notifications', [
+				'body' => $notification->getMessage(),
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			]);
+			if ($response->getStatusCode() === Http::STATUS_OK) {
+				return true;
+			}
+		} catch (\Exception $e) {
+			// log the error and return false
+			$this->logger->error('error while sending notification for federated share: ' . $e->getMessage());
+		}
+
+		return false;
 	}
 
 	/**

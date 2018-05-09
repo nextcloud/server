@@ -103,6 +103,8 @@ class Application extends App {
 				$server->getHTTPClientService(),
 				$server->getNotificationManager(),
 				$server->query(\OCP\OCS\IDiscoveryService::class),
+				$server->getCloudFederationProviderManager(),
+				$server->getCloudFederationFactory(),
 				$uid
 			);
 		});

@@ -27,6 +27,7 @@ use OCA\CloudFederationAPI\Config;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudFederationFactory;
@@ -190,13 +191,12 @@ class RequestHandlerController extends Controller {
 	/**
 	 * receive notification about existing share
 	 *
-	 * @param $resourceType ('file', 'calendar',...)
-	 * @param string $name resource name (e.g "file", "calendar",...)
-	 * @param string $id unique id of the corresponding item on the receiving site
-	 * @param array $notification contain the actual notification, content is defined by cloud federation provider
+	 * @param string $notificationType (notification type, e.g. SHARE_ACCEPTED)
+	 * @param string $resourceType (calendar, file, contact,...)
+	 * @param array $message contain the actual notification, content is defined by cloud federation provider
 	 * @return JSONResponse
 	 */
-	public function receiveNotification($resourceType, $name, $id, $notification) {
+	public function receiveNotification($notificationType, $resourceType, $message) {
 		if (!$this->config->incomingRequestsEnabled()) {
 			return new JSONResponse(
 				['message' => 'This server doesn\'t support outgoing federated shares'],
@@ -205,9 +205,9 @@ class RequestHandlerController extends Controller {
 		}
 
 		// check if all required parameters are set
-		if ($name === null ||
-			$id === null ||
-			!is_array($notification)
+		if ($notificationType === null ||
+			$resourceType === null ||
+			!is_array($message)
 		) {
 			return new JSONResponse(
 				['message' => 'Missing arguments'],
@@ -217,7 +217,7 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			$provider->notificationReceived($id, $notification);
+			$provider->notificationReceived($notificationType, $message);
 		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
@@ -227,6 +227,11 @@ class RequestHandlerController extends Controller {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_BAD_REQUEST
+			);
+		} catch (ActionNotSupportedException $e) {
+			return new JSONResponse(
+				['message' => $e->getMessage()],
+				Http::STATUS_NOT_IMPLEMENTED
 			);
 		} catch (\Exception $e) {
 			return new JSONResponse(

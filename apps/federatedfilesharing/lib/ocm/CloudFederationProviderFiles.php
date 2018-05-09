@@ -27,7 +27,9 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
+use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
+use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
@@ -178,6 +180,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				\OC::$server->getNotificationManager(),
 				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 				\OC::$server->getCloudFederationProviderManager(),
+				\OC::$server->getCloudFederationFactory(),
 				$shareWith
 			);
 
@@ -230,15 +233,22 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/**
 	 * notification received from another server
 	 *
-	 * @param string $id unique ID of a already existing share
-	 * @param array $notification provider specific notification
+	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
+	 * @param array $message
 	 *
-	 * @throws \OCP\Federation\Exceptions\ShareNotFoundException
+	 * @throws ShareNotFoundException
+	 * @throws ActionNotSupportedException
 	 *
 	 * @since 14.0.0
 	 */
-	public function notificationReceived($id, $notification) {
-		// TODO: Implement notificationReceived() method.
+	public function notificationReceived($notificationType, array $message) {
+		switch ($notificationType) {
+			case 'SHARE_ACCEPTED' :
+				return;
+		}
+
+
+		throw new ActionNotSupportedException($notificationType);
 	}
 
 	/**

@@ -21,6 +21,7 @@
 
 namespace OCP\Federation;
 
+use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ShareNotFoundException;
 
@@ -60,13 +61,14 @@ interface ICloudFederationProvider {
 	/**
 	 * notification received from another server
 	 *
-	 * @param string $id unique ID of a already existing share
-	 * @param array $notification provider specific notification
+	 * @param string $notificationType (e.g SHARE_ACCEPTED)
+	 * @param array $message provider specific notification
 	 *
 	 * @throws ShareNotFoundException
+	 * @throws ActionNotSupportedException
 	 *
 	 * @since 14.0.0
 	 */
-	public function notificationReceived($id, $notification);
+	public function notificationReceived($notificationType, array $message);
 
 }

@@ -26,15 +26,16 @@ interface ICloudFederationNotification {
 	/**
 	 * add a message to the notification
 	 *
-	 * @param string $identifier
-	 * @param string $message
+	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
+	 * @param string $resourceType (e.g. file, calendar, contact,...)
+	 * @param array $message
 	 *
 	 * @since 14.0.0
 	 */
-	public function setMessage($identifier, $message);
+	public function setMessage($notificationType, $resourceType, array $message);
 
 	/**
-	 * get JSON encoded Message, ready to send out
+	 * get message, ready to send out
 	 *
 	 * @return string
 	 *

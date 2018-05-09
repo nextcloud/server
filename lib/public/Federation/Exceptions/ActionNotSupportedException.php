@@ -19,39 +19,21 @@
  *
  */
 
-namespace OC\Federation;
+namespace OCP\Federation\Exceptions;
 
-use OCP\Federation\ICloudFederationNotification;
+use OC\HintException;
 
-class CloudFederationNotification implements ICloudFederationNotification {
-
-	private $message = [];
+class ActionNotSupportedException extends HintException {
 
 	/**
-	 * add a message to the notification
+	 * ActionNotSupportedException constructor.
 	 *
-	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
-	 * @param string $resourceType (e.g. file, calendar, contact,...)
-	 * @param array $message
-	 *
-	 * @since 14.0.0
 	 */
-	public function setMessage($notificationType, $resourceType, array $message) {
-		$this->message = [
-			'notificationType' => $notificationType,
-			'resourceType' => $resourceType,
-			'message' => $message,
-		];
+	public function __construct($action) {
+		$l = \OC::$server->getL10N('federation');
+		$message = 'Action "' . $action . '" not supported or implemented.';
+		$hint = $l->t('Action "%s" not supported or implemented.', [$action]);
+		parent::__construct($message, $hint);
 	}
 
-	/**
-	 * get message, ready to send out
-	 *
-	 * @return array
-	 *
-	 * @since 14.0.0
-	 */
-	public function getMessage() {
-		return $this->message;
-	}
 }

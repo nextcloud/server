@@ -33,6 +33,8 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\Helper;
+use OCP\Federation\ICloudFederationFactory;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
@@ -79,6 +81,12 @@ class Manager {
 	 */
 	private $discoveryService;
 
+	/** @var ICloudFederationProviderManager */
+	private $cloudFederationProviderManager;
+
+	/** @var ICloudFederationFactory */
+	private $cloudFederationFactory;
+
 	/**
 	 * @param IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
@@ -86,6 +94,8 @@ class Manager {
 	 * @param IClientService $clientService
 	 * @param IManager $notificationManager
 	 * @param IDiscoveryService $discoveryService
+	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
+	 * @param ICloudFederationFactory $cloudFederationFactory
 	 * @param string $uid
 	 */
 	public function __construct(IDBConnection $connection,
@@ -94,6 +104,8 @@ class Manager {
 								IClientService $clientService,
 								IManager $notificationManager,
 								IDiscoveryService $discoveryService,
+								ICloudFederationProviderManager $cloudFederationProviderManager,
+								ICloudFederationFactory $cloudFederationFactory,
 								$uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
@@ -102,6 +114,8 @@ class Manager {
 		$this->uid = $uid;
 		$this->notificationManager = $notificationManager;
 		$this->discoveryService = $discoveryService;
+		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
+		$this->cloudFederationFactory = $cloudFederationFactory;
 	}
 
 	/**
@@ -274,6 +288,12 @@ class Manager {
 	 */
 	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
 
+		$result = $this->tryOCMEndPoint($remote, $token, $remoteId, $feedback);
+
+		if($result === true) {
+			return true;
+		}
+
 		$federationEndpoints = $this->discoveryService->discover($remote, 'FEDERATED_SHARING');
 		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
 
@@ -298,6 +318,31 @@ class Manager {
 
 		return ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200);
 	}
+
+	/**
+	 * try send accept message to ocm end-point
+	 *
+	 * @param string $remoteDomain
+	 * @param string $token
+	 * @param $remoteId
+	 * @param string $feedback
+	 * @return mixed
+	 */
+	protected function tryOCMEndPoint($remoteDomain, $token, $remoteId, $feedback) {
+		switch ($feedback) {
+			case 'accept':
+				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+				$notification->setMessage('SHARE_ACCEPTED', 'file',
+					[
+						'id' => $remoteId,
+						'access_token' => $token
+					]
+				);
+				return $this->cloudFederationProviderManager->sendNotification($remoteDomain, $notification);
+		}
+
+	}
+
 
 	/**
 	 * remove '/user/files' from the path and trailing slashes

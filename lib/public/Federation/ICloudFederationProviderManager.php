@@ -86,12 +86,13 @@ interface ICloudFederationProviderManager {
 	/**
 	 * send notification about existing share
 	 *
+	 * @param string $url
 	 * @param ICloudFederationNotification $notification
-	 * @return mixed
+	 * @return bool
 	 *
 	 * @since 14.0.0
 	 */
-	public function sendNotification(ICloudFederationNotification $notification);
+	public function sendNotification($url, ICloudFederationNotification $notification);
 
 	/**
 	 * check if the new cloud federation API is ready to be used
