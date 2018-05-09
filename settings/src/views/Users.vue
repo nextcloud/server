@@ -83,7 +83,9 @@ export default {
 	methods: {
 		getLocalstorage(key) {
 			// force initialization
-			this.showConfig[key] = this.$localStorage.get(key) === 'true';
+			let localConfig = this.$localStorage.get(key);
+			// if localstorage is null, fallback to original values
+			this.showConfig[key] = localConfig !== null ? localConfig === 'true' : this.showConfig[key];
 			return this.showConfig[key];
 		},
 		setLocalStorage(key, status) {

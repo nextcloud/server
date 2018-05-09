@@ -1,8 +1,8 @@
 <?php
 
 /**
- *
  * @copyright Copyright (c) 2017, Daniel Calviño Sánchez (danxuliu@gmail.com)
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -86,9 +86,33 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function groupsCellForUser($user) {
+		return Locator::forThe()->css(".groups")->descendantOf(self::rowForUser($user))->
+				describedAs("Groups cell for user $user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function passwordInputForUser($user) {
 		return Locator::forThe()->css("input")->descendantOf(self::passwordCellForUser($user))->
 				describedAs("Password input for user $user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function groupsInputForUser($user) {
+		return Locator::forThe()->css("input")->descendantOf(self::groupsCellForUser($user))->
+				describedAs("Groups input for user $user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function groupOptionInInputForUser($user) {
+		return Locator::forThe()->css(".multiselect__option--highlight")->descendantOf(self::groupsCellForUser($user))->
+				describedAs("Group option for input for user $user in Users Settings");
 	}
 
 	/**
@@ -103,9 +127,17 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function theAction($action, $user) {
-		return Locator::forThe()->xpath("//button/span[normalize-space() = '$action']/..")->
+		return Locator::forThe()->xpath("//button[normalize-space() = '$action']")->
 				descendantOf(self::rowForUser($user))->
 				describedAs("$action action for the user $user");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function theColumn($column) {
+		return Locator::forThe()->xpath("//div[@class='user-list-grid']//div[normalize-space() = '$column']")->
+				describedAs("The $column column");
 	}
 
 	/**
@@ -116,7 +148,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @When I click the $action action in the $user actions menu
+	 * @When I click the :action action in the :user actions menu
 	 */
 	public function iClickTheAction($action, $user) {
 		$this->actor->find(self::theAction($action, $user))->click();
@@ -142,22 +174,29 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @When I set the password for :user to :password
 	 */
 	public function iSetThePasswordForUserTo($user, $password) {
-		$this->actor->find(self::passwordCellForUser($user), 10)->click();
 		$this->actor->find(self::passwordInputForUser($user), 2)->setValue($password . "\r");
+	}
+
+	/**
+	 * @When I assign the user :user to the group :group
+	 */
+	public function iAssignTheUserToTheGroup($user, $group) {
+		$this->actor->find(self::groupsInputForUser($user))->setValue($group);
+		$this->actor->find(self::groupOptionInInputForUser($user))->click();
 	}
 
 	/**
 	 * @Then I see that the list of users contains the user :user
 	 */
 	public function iSeeThatTheListOfUsersContainsTheUser($user) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForUser($user), 10));
+		WaitFor::elementToBeEventuallyShown($this->actor, self::rowForUser($user));
 	}
 
 	/**
 	 * @Then I see that the list of users does not contains the user :user
 	 */
 	public function iSeeThatTheListOfUsersDoesNotContainsTheUser($user) {
-		PHPUnit_Framework_Assert::assertNull($this->actor->find(self::rowForUser($user), 10));
+		WaitFor::elementToBeEventuallyNotShown($this->actor, self::rowForUser($user));
 	}
 
 	/**
@@ -169,11 +208,19 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Then I see the $action action in the $user actions menu
+	 * @Then I see that the :action action in the :user actions menu is shown
 	 */
 	public function iSeeTheAction($action, $user) {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::theAction($action, $user), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the :column column is shown
+	 */
+	public function iSeeThatTheColumnIsShown($column) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::theColumn($column), 10)->isVisible());
 	}
 
 }
