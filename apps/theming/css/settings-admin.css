@@ -27,7 +27,7 @@
     visibility: hidden;
 }
 form.uploadButton {
-    width: 356px;
+    width: 411px;
 }
 #theming form .theme-undo,
 #theming .theme-remove-bg {
@@ -51,7 +51,7 @@ form.uploadButton {
 
 #theming label span {
     display: inline-block;
-    min-width: 120px;
+    min-width: 175px;
     padding: 8px 0px;
     vertical-align: top;
 }
@@ -91,7 +91,7 @@ form.uploadButton {
     background-size: cover;
     background-position: center center;
     text-align: center;
-    margin-left: 123px;
+    margin-left: 178px;
     margin-top: 10px;
     cursor: pointer;
 }

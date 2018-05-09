@@ -95,7 +95,8 @@ function hideUndoButton(setting, value) {
 		url: 'https://nextcloud.com',
 		color: '#0082c9',
 		logoMime: '',
-		backgroundMime: ''
+		backgroundMime: '',
+		imprintUrl: ''
 	};
 
 	if (value === themingDefaults[setting] || value === '') {
@@ -192,6 +193,16 @@ $(document).ready(function () {
 		});
 		if (e.keyCode == 13) {
 			setThemingValue('url', $(this).val());
+		}
+	});
+
+	$('#theming-imprintUrl').change(function(e) {
+		var el = $(this);
+		$.when(el.focusout()).then(function () {
+			setThemingValue('imprintUrl', $(this).val());
+		});
+		if (e.keyCode == 13) {
+			setThemingValue('imprintUrl', $(this).val());
 		}
 	});
 

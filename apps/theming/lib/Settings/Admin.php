@@ -83,7 +83,8 @@ class Admin implements ISettings {
 			'backgroundMime'  => $this->config->getAppValue('theming', 'backgroundMime', ''),
 			'uploadLogoRoute' => $path,
 			'canThemeIcons'   => $this->themingDefaults->shouldReplaceIcons(),
-			'iconDocs'        => $this->urlGenerator->linkToDocs('admin-theming-icons')
+			'iconDocs'        => $this->urlGenerator->linkToDocs('admin-theming-icons'),
+			'imprintUrl'      => $this->themingDefaults->getImprintUrl(),
 		];
 
 		return new TemplateResponse('theming', 'settings-admin', $parameters, '');
