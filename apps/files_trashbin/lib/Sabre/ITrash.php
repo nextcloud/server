@@ -29,4 +29,6 @@ interface ITrash {
 	public function getFilename(): string;
 
 	public function getOriginalLocation(): string;
+
+	public function getDeletionTime(): int;
 }
