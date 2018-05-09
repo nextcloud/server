@@ -92,10 +92,41 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @return Locator
+	 */
+	public static function actionsMenuOf($user) {
+		return Locator::forThe()->css(".icon-more")->descendantOf(self::rowForUser($user))->
+				describedAs("Actions menu for user $user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function theAction($action, $user) {
+		return Locator::forThe()->xpath("//button/span[normalize-space() = '$action']/..")->
+				descendantOf(self::rowForUser($user))->
+				describedAs("$action action for the user $user");
+	}
+
+	/**
 	 * @When I click the New user button
 	 */
 	public function iClickTheNewUserButton() {
 		$this->actor->find(self::newUserButton())->click();
+	}
+
+	/**
+	 * @When I click the $action action in the $user actions menu
+	 */
+	public function iClickTheAction($action, $user) {
+		$this->actor->find(self::theAction($action, $user))->click();
+	}
+
+	/**
+	 * @When I open the actions menu for the user :user
+	 */
+	public function iOpenTheActionsMenuOf($user) {
+		$this->actor->find(self::actionsMenuOf($user))->click();
 	}
 
 	/**
@@ -123,11 +154,26 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that the list of users does not contains the user :user
+	 */
+	public function iSeeThatTheListOfUsersDoesNotContainsTheUser($user) {
+		PHPUnit_Framework_Assert::assertNull($this->actor->find(self::rowForUser($user), 10));
+	}
+
+	/**
 	 * @Then I see that the new user form is shown
 	 */
 	public function iSeeThatTheNewUserFormIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::newUserForm(), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see the $action action in the $user actions menu
+	 */
+	public function iSeeTheAction($action, $user) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::theAction($action, $user), 10)->isVisible());
 	}
 
 }
