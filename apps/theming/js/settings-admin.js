@@ -175,7 +175,7 @@ $(document).ready(function () {
 		var el = $(this);
 	});
 
-	$('#theming input[type=text]').change(function(e) {
+	function onChange(e) {
 		var el = $(this);
 		var setting = el.parent().find('div[data-setting]').data('setting');
 		var value = $(this).val();
@@ -186,14 +186,14 @@ $(document).ready(function () {
 			}
 		}
 		if(setting === 'name') {
-      if(checkName()){
-        $.when(el.focusout()).then(function() {
-          setThemingValue('name', value);
-        });
-        if (e.keyCode == 13) {
-          setThemingValue('name', value);
-        } 
-      }
+			if(checkName()){
+				$.when(el.focusout()).then(function() {
+					setThemingValue('name', value);
+				});
+				if (e.keyCode == 13) {
+					setThemingValue('name', value);
+				}
+			}
 		}
 
 		$.when(el.focusout()).then(function() {
@@ -202,7 +202,10 @@ $(document).ready(function () {
 		if (e.keyCode == 13) {
 			setThemingValue(setting, value);
 		}
-	});
+	};
+
+	$('#theming input[type="text"]').change(onChange);
+	$('#theming input[type="url"]').change(onChange);
 
 	$('.theme-undo').click(function (e) {
 		var setting = $(this).data('setting');

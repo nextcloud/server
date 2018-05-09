@@ -744,6 +744,11 @@ footer .info a {
 	overflow: hidden;
 }
 
+a.legal {
+	font-size: smaller;
+	text-decoration: underline;
+}
+
 /* for low-res screens, use Regular font-weight instead of Light */
 @media (-webkit-max-device-pixel-ratio: 1.3), (max-resolution: 124.8dpi) {
 	@font-face {

@@ -94,6 +94,13 @@ style('theming', 'settings-admin');
 	<h2 class="inlineblock"><?php p($l->t('Advanced options')); ?></h2>
 
 	<div class="advanced-options">
+		<div>
+			<label>
+				<span><?php p($l->t('Legal notice address')) ?></span>
+				<input id="theming-imprintUrl" type="url" placeholder="<?php p($l->t('Legal notice address https://…')); ?>" value="<?php p($_['imprintUrl']) ?>" maxlength="500" />
+				<div data-setting="imprintUrl" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			</label>
+		</div>
 		<div class="advanced-option-logoheader">
 			<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>" data-image-key="logoheader">
 				<input type="hidden" id="theming-logoheaderMime" value="<?php p($_['images']['logoheader']['mime']); ?>" />
