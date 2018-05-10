@@ -90,4 +90,10 @@ class TrashFile implements IFile, ITrash {
 	public function getDeletionTime(): int {
 		return $this->getLastModified();
 	}
+
+	public function getFileId(): int {
+		return $this->data->getId();
+	}
+
+
 }

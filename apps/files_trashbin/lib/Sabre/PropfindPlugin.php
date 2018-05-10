@@ -69,6 +69,10 @@ class PropfindPlugin extends ServerPlugin {
 		$propFind->handle(FilesPlugin::SIZE_PROPERTYNAME, function () use ($node) {
 			return $node->getSize();
 		});
+
+		$propFind->handle(FilesPlugin::FILEID_PROPERTYNAME, function () use ($node) {
+			return $node->getFileId();
+		});
 	}
 
 }
