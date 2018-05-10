@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * 
  * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,44 +25,44 @@ use Behat\Behat\Context\Context;
 
 class DialogContext implements Context, ActorAwareInterface {
 
-    use ActorAware;
+	use ActorAware;
 
-    /**
-     * @return Locator
-     */
-    public static function theDialog() {
-        return Locator::forThe()->css(".oc-dialog")->
-            describedAs("The dialog");
-    }
+	/**
+	 * @return Locator
+	 */
+	public static function theDialog() {
+		return Locator::forThe()->css(".oc-dialog")->
+			describedAs("The dialog");
+	}
 
-    /**
-     * @return Locator
-     */
-    public static function theDialogButton($text) {
-        return Locator::forThe()->xpath("//button[normalize-space() = '$text']")->
-            descendantOf(self::theDialog())->
-            describedAs($text . " button of the dialog");
-    }
+	/**
+	 * @return Locator
+	 */
+	public static function theDialogButton($text) {
+		return Locator::forThe()->xpath("//button[normalize-space() = '$text']")->
+			descendantOf(self::theDialog())->
+			describedAs($text . " button of the dialog");
+	}
 
-    /**
-     * @Given I click the :text button of the confirmation dialog
-     */
-    public function iClickTheDialogButton($text) {
-        $this->actor->find(self::theDialogButton($text), 10)->click();
-    }
+	/**
+	 * @Given I click the :text button of the confirmation dialog
+	 */
+	public function iClickTheDialogButton($text) {
+		$this->actor->find(self::theDialogButton($text), 10)->click();
+	}
 
-    /**
-     * @Then I see that the confirmation dialog is shown
-     */
-    public function iSeeThatTheConfirmationDialogIsShown() {
-        WaitFor::elementToBeEventuallyShown($this->actor, self::theDialog());
-    }
+	/**
+	 * @Then I see that the confirmation dialog is shown
+	 */
+	public function iSeeThatTheConfirmationDialogIsShown() {
+		WaitFor::elementToBeEventuallyShown($this->actor, self::theDialog());
+	}
 
-    /**
-     * @Then I see that the confirmation dialog is not shown
-     */
-    public function iSeeThatTheConfirmationDialogIsNotShown() {
-        WaitFor::elementToBeEventuallyNotShown($this->actor, self::theDialog());
-    }
+	/**
+	 * @Then I see that the confirmation dialog is not shown
+	 */
+	public function iSeeThatTheConfirmationDialogIsNotShown() {
+		WaitFor::elementToBeEventuallyNotShown($this->actor, self::theDialog());
+	}
 
 }
