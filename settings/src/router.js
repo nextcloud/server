@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Users from './views/Users';
+import Apps from './views/Apps';
 
 Vue.use(Router);
 
@@ -30,6 +31,26 @@ export default new Router({
 					path: ':selectedGroup',
 					name: 'group',
 					component: Users
+				}
+			]
+		},
+		{
+			path: '/:index(index.php/)?settings/apps',
+			component: Apps,
+			props: true,
+			name: 'apps',
+			children: [
+				{
+					path: ':category',
+					name: 'apps-category',
+					component: Apps,
+					children: [
+						{
+							path: ':id',
+							name: 'apps-details',
+							component: Apps
+						}
+					]
 				}
 			]
 		}

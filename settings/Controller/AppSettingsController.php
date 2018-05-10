@@ -150,7 +150,9 @@ class AppSettingsController extends Controller {
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 		$templateResponse->setContentSecurityPolicy($policy);
 
+		return new TemplateResponse('settings', 'settings', ['serverData' => $params]);
 		return $templateResponse;
+
 	}
 
 	private function getAllCategories() {
