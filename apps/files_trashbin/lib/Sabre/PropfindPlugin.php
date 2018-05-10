@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -63,6 +64,10 @@ class PropfindPlugin extends ServerPlugin {
 
 		$propFind->handle(self::TRASHBIN_DELETION_TIME, function () use ($node) {
 			return $node->getDeletionTime();
+		});
+
+		$propFind->handle(FilesPlugin::SIZE_PROPERTYNAME, function () use ($node) {
+			return $node->getSize();
 		});
 	}
 
