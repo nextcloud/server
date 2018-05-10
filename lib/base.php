@@ -891,6 +891,8 @@ class OC {
 				self::$loader->setMemoryCache($memcacheFactory->createLocal('Autoloader'));
 			} catch (\Exception $ex) {
 			}
+
+			self::$composerAutoloader->setApcuPrefix($instanceId . '-mainComposer');
 		}
 	}
 
