@@ -37,6 +37,10 @@ class Groups extends Base {
 	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
 	const SUBJECT_UNSHARED_GROUP_SELF = 'unshared_group_self';
 	const SUBJECT_UNSHARED_GROUP_BY = 'unshared_group_by';
+	const SUBJECT_SHARED_CIRCLE_SELF = 'shared_circle_self';
+	const SUBJECT_UNSHARED_CIRCLE_SELF = 'unshared_circle_self';
+	const SUBJECT_RESHARED_CIRCLE_BY = 'reshared_circle_by';
+	const SUBJECT_UNSHARED_CIRCLE_BY = 'unshared_circle_by';
 
 	/** @var IGroupManager */
 	protected $groupManager;
@@ -73,6 +77,14 @@ class Groups extends Base {
 			$subject = $this->l->t('{actor} shared with group {group}');
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} removed share for group {group}');
+		} else if ($event->getSubject() === self::SUBJECT_SHARED_CIRCLE_SELF) {
+				$subject = $this->l->t('Shared with circle {circle}');
+		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_CIRCLE_SELF) {
+				$subject = $this->l->t('Removed share for circle {circle}');
+		} else if ($event->getSubject() === self::SUBJECT_RESHARED_CIRCLE_BY) {
+				$subject = $this->l->t('{actor} shared with circle {circle}');
+		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_CIRCLE_BY) {
+				$subject = $this->l->t('{actor} removed share for circle {circle}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -104,6 +116,14 @@ class Groups extends Base {
 			$subject = $this->l->t('{actor} shared {file} with group {group}');
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} removed group {group} from {file}');
+		} else if ($event->getSubject() === self::SUBJECT_SHARED_CIRCLE_SELF) {
+			$subject = $this->l->t('You shared {file} with circle {circle}');
+		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_CIRCLE_SELF) {
+			$subject = $this->l->t('You removed circle {circle} from {file}');
+		} else if ($event->getSubject() === self::SUBJECT_RESHARED_CIRCLE_BY) {
+			$subject = $this->l->t('{actor} shared {file} with circle {circle}');
+		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_CIRCLE_BY) {
+			$subject = $this->l->t('{actor} removed circle {circle} from {file}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -135,6 +155,29 @@ class Groups extends Base {
 				return [
 					'file' => $this->getFile($parameters[0], $event),
 					'group' => $this->generateGroupParameter($parameters[1]),
+				];
+			case self::SUBJECT_SHARED_CIRCLE_SELF:
+			case self::SUBJECT_UNSHARED_CIRCLE_SELF:
+				$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($parameters[1]);
+				return [
+					'file' => $this->getFile($parameters[0], $event),
+					'circle' => [
+					'type' => 'circle',
+					'id' => $parameters[1],
+					'name' => $circle->getName(),
+				],
+				];
+			case self::SUBJECT_RESHARED_CIRCLE_BY:
+			case self::SUBJECT_UNSHARED_CIRCLE_BY:
+				$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($parameters[2]);
+				return [
+					'file' => $this->getFile($parameters[0], $event),
+					'circle' => [
+					'type' => 'circle',
+					'id' => $parameters[2],
+					'name' => $parameters[2],
+					],
+					'actor' => $this->getUser($parameters[1]),
 				];
 		}
 		return [];
