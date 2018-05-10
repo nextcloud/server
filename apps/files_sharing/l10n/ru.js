@@ -87,7 +87,7 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Параметр для изменения неправилен или не задан",
     "Can't change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
     "Cannot increase permissions" : "Не удалось повысить права доступа",
-    "shared by %s" : "поделился %s",
+    "shared by %s" : "доступ предоставлен пользователем %s",
     "Download" : "Скачать",
     "Direct link" : "Прямая ссылка",
     "Add to your Nextcloud" : "Добавить в свой Nextcloud",
