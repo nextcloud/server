@@ -13,6 +13,12 @@
 	 * @memberof OCA.Versions
 	 */
 	var VersionModel = OC.Backbone.Model.extend({
+		sync: OC.Backbone.davSync,
+
+		davProperties: {
+			'size': OC.Files.Client.PROPERTY_GETCONTENTLENGTH,
+			'mimetype': OC.Files.Client.PROPERTY_GETCONTENTTYPE,
+		},
 
 		/**
 		 * Restores the original file to this revision
