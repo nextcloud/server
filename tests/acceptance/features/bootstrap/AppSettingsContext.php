@@ -25,77 +25,77 @@ use Behat\Behat\Context\Context;
 
 class AppSettingsContext implements Context, ActorAwareInterface {
 
-    use ActorAware;
+	use ActorAware;
 
-    /**
-     * @return Locator
-     */
-    public static function appSettings() {
-        return Locator::forThe()->id("app-settings")->
-            describedAs("App settings");
-    }
-    /**
-     * @return Locator
-     */
-    public static function appSettingsContent() {
-        return Locator::forThe()->id("app-settings-content")->
-            descendantOf(self::appSettings())->
-            describedAs("App settings");
-    }
+	/**
+	 * @return Locator
+	 */
+	public static function appSettings() {
+		return Locator::forThe()->id("app-settings")->
+			describedAs("App settings");
+	}
+	/**
+	 * @return Locator
+	 */
+	public static function appSettingsContent() {
+		return Locator::forThe()->id("app-settings-content")->
+			descendantOf(self::appSettings())->
+			describedAs("App settings");
+	}
 
-    /**
-     * @return Locator
-     */
-    public static function appSettingsOpenButton() {
-        return Locator::forThe()->xpath("//div[@id = 'app-settings-header']/button")->
-            descendantOf(self::appSettings())->
-            describedAs("The button to open the app settings");
-    }
+	/**
+	 * @return Locator
+	 */
+	public static function appSettingsOpenButton() {
+		return Locator::forThe()->xpath("//div[@id = 'app-settings-header']/button")->
+			descendantOf(self::appSettings())->
+			describedAs("The button to open the app settings");
+	}
 
-    /**
-     * @return Locator
-     */
-    public static function checkboxInTheSettings($id) {
-        return Locator::forThe()->xpath("//input[@id = '$id']")->
-            descendantOf(self::appSettingsContent())->
-            describedAs("The $id checkbox in the settings");
-    }
+	/**
+	 * @return Locator
+	 */
+	public static function checkboxInTheSettings($id) {
+		return Locator::forThe()->xpath("//input[@id = '$id']")->
+			descendantOf(self::appSettingsContent())->
+			describedAs("The $id checkbox in the settings");
+	}
 
-    /**
-     * @return Locator
-     */
-    public static function checkboxLabelInTheSettings($id) {
-        return Locator::forThe()->xpath("//label[@for = '$id']")->
-            descendantOf(self::appSettingsContent())->
-            describedAs("The label for the $id checkbox in the settings");
-    }
+	/**
+	 * @return Locator
+	 */
+	public static function checkboxLabelInTheSettings($id) {
+		return Locator::forThe()->xpath("//label[@for = '$id']")->
+			descendantOf(self::appSettingsContent())->
+			describedAs("The label for the $id checkbox in the settings");
+	}
 
-    /**
-     * @Given I open the settings
-     */
-    public function iOpenTheSettings() {
-        $this->actor->find(self::appSettingsOpenButton())->click();
-    }
+	/**
+	 * @Given I open the settings
+	 */
+	public function iOpenTheSettings() {
+		$this->actor->find(self::appSettingsOpenButton())->click();
+	}
 
-    /**
-     * @Given I toggle the :id checkbox in the settings
-     */
-    public function iToggleTheCheckboxInTheSettingsTo($id) {
-        $locator = self::CheckboxInTheSettings($id);
+	/**
+	 * @Given I toggle the :id checkbox in the settings
+	 */
+	public function iToggleTheCheckboxInTheSettingsTo($id) {
+		$locator = self::CheckboxInTheSettings($id);
 
-        // If locator is not visible, fallback to label
-        if (!$this->actor->find(self::CheckboxInTheSettings($id))->isVisible()) {
-            $locator = self::checkboxLabelInTheSettings($id);
-        }
+		// If locator is not visible, fallback to label
+		if (!$this->actor->find(self::CheckboxInTheSettings($id))->isVisible()) {
+			$locator = self::checkboxLabelInTheSettings($id);
+		}
 
-        $this->actor->find($locator)->click();
-    }    
+		$this->actor->find($locator)->click();
+	}	
 
-    /**
-     * @Then I see that the settings are opened
-     */
-    public function iSeeThatTheSettingsAreOpened() {
-        WaitFor::elementToBeEventuallyShown($this->actor, self::appSettingsContent());
-    }
+	/**
+	 * @Then I see that the settings are opened
+	 */
+	public function iSeeThatTheSettingsAreOpened() {
+		WaitFor::elementToBeEventuallyShown($this->actor, self::appSettingsContent());
+	}
 
 }
