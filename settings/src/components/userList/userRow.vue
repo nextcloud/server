@@ -73,7 +73,7 @@
 		</div>
 		<div class="userActions">
 			<div class="toggleUserActions" v-if="OC.currentUser !== user.id && user.id !== 'admin' && !loading.all">
-				<div class="icon-more" v-click-outside="hideMenu" @click="showMenu"></div>
+				<div class="icon-more" v-click-outside="hideMenu" @click="toggleMenu"></div>
 				<div class="popovermenu" :class="{ 'open': openedMenu }">
 					<popover-menu :menu="userActions" />
 				</div>
@@ -196,8 +196,8 @@ export default {
 	},
 	methods: {
 		/* MENU HANDLING */
-		showMenu() {
-			this.openedMenu = true;
+		toggleMenu() {
+			this.openedMenu = !this.openedMenu;
 		},
 		hideMenu() {
 			this.openedMenu = false;

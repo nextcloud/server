@@ -81,6 +81,14 @@ export default {
 		}
 	},
 	methods: {
+		toggleNewUserMenu() {
+			this.showConfig.showNewUserForm = !this.showConfig.showNewUserForm;
+			if (this.showConfig.showNewUserForm) {
+				Vue.nextTick(() => {
+					window.newusername.focus();
+				});
+			}
+		},
 		getLocalstorage(key) {
 			// force initialization
 			let localConfig = this.$localStorage.get(key);
@@ -287,7 +295,7 @@ export default {
 					id:'new-user-button',
 					text: t('settings','New user'),
 					icon: 'icon-add',
-					action: () => this.showConfig.showNewUserForm=!this.showConfig.showNewUserForm
+					action: this.toggleNewUserMenu
 				},
 				items: groups
 			}

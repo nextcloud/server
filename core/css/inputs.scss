@@ -633,7 +633,8 @@ input {
     &.multiselect--active {
         /* Opened: force display the input */
         input.multiselect__input {
-            opacity: 1 !important;
+			opacity: 1 !important;
+			cursor: text !important;
         }
     }
     &.multiselect--disabled,
@@ -648,7 +649,7 @@ input {
         cursor: pointer;
         position: relative;
         border-radius: 3px;
-        height: 38px;
+        height: 34px;
         /* tag wrapper */
         .multiselect__tags-wrap {
             align-items: center;
@@ -707,7 +708,9 @@ input {
             height: 100%;
             border: none;
             /* override hide to force show the placeholder */
-            display: block !important;
+			display: block !important;
+			/* only when not active */
+			cursor: pointer;
         }
     }
     /* results wrapper */

@@ -1281,8 +1281,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		grid-auto-rows: $grid-row-height;
 		grid-column-gap: 20px;
 		.row {
+			// TODO replace with css4 subgrid when available
 			display: grid;
 			grid-row-start: span 1;
+			grid-gap: 3px;
 			align-items: center;
 			/* let's define the column until storage path,
 			   what follows will be manually defined  */
