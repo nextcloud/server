@@ -677,6 +677,10 @@ var OCP = {},
 				// close it
 				self.hideMenus();
 			}
+
+			// Set menu to expanded
+			$toggle.attr('aria-expanded', true);
+
 			$menuEl.slideToggle(OC.menuSpeed, toggle);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
@@ -711,6 +715,10 @@ var OCP = {},
 				}
 			});
 		}
+
+		// Set menu to closed
+		$('.menutoggle').attr('aria-expanded', false);
+
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;
 	},

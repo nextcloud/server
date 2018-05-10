@@ -147,10 +147,9 @@ table tr.mouseOver td {
 tbody a { color: $color-main-text; }
 
 span.conflict-path, span.extension, span.uploading, td.date {
-	color: #999;
+	color: $color-text-details;
 }
 span.conflict-path, span.extension {
-	opacity: .7;
 	-webkit-transition: opacity 300ms;
 	-moz-transition: opacity 300ms;
 	-o-transition: opacity 300ms;
@@ -162,11 +161,11 @@ tr:focus span.conflict-path,
 tr:hover span.extension,
 tr:focus span.extension {
 	opacity: 1;
-	color: #777;
+	color: $color-text-details;
 }
 
 table th, table th a {
-	color: #999;
+	color: $color-text-details;
 }
 table.multiselect th a {
 	color: #000;

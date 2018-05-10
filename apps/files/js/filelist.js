@@ -1327,7 +1327,9 @@
 			// size column
 			if (typeof(fileData.size) !== 'undefined' && fileData.size >= 0) {
 				simpleSize = humanFileSize(parseInt(fileData.size, 10), true);
-				sizeColor = Math.round(160-Math.pow((fileData.size/(1024*1024)),2));
+				// rgb(118, 118, 118) / #767676
+				// min. color contrast for normal text on white background according to WCAG AA
+				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)),2));
 			} else {
 				simpleSize = t('files', 'Pending');
 			}
@@ -1342,8 +1344,10 @@
 			// difference in days multiplied by 5 - brightest shade for files older than 32 days (160/5)
 			var modifiedColor = Math.round(((new Date()).getTime() - mtime )/1000/60/60/24*5 );
 			// ensure that the brightest color is still readable
-			if (modifiedColor >= '160') {
-				modifiedColor = 160;
+			// rgb(118, 118, 118) / #767676
+			// min. color contrast for normal text on white background according to WCAG AA
+			if (modifiedColor >= '118') {
+				modifiedColor = 118;
 			}
 			var formatted;
 			var text;
