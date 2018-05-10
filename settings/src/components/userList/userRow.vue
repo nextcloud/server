@@ -9,7 +9,7 @@
 		<form class="displayName" :class="{'icon-loading-small': loading.displayName}" v-on:submit.prevent="updateDisplayName">
 			<input :id="'displayName'+user.id+rand" type="text"
 					:disabled="loading.displayName||loading.all"
-					:value="user.displayname" ref="displayName"
+					:value="user.displayname"
 					autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" />
 			<input type="submit" class="icon-confirm" value="" />
 		</form>

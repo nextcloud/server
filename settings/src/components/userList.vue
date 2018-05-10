@@ -160,7 +160,7 @@ export default {
 				let disabledUsers = this.users.filter(user => user.enabled !== true);
 				if (disabledUsers.length===0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
 					// disabled group is empty, redirection to all users
-					this.$router.push('/settings/users');
+					this.$router.push({name: 'users'});
 					this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
 				}
 				return disabledUsers;
