@@ -48,7 +48,7 @@ style('theming', 'settings-admin');
 	<div>
 		<label>
 			<span><?php p($l->t('Web address')) ?></span>
-			<input id="theming-url" type="url" placeholder="<?php p($l->t('Web address https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
+			<input id="theming-url" type="url" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
 			<div data-setting="url" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
@@ -97,7 +97,7 @@ style('theming', 'settings-admin');
 		<div>
 			<label>
 				<span><?php p($l->t('Legal notice address')) ?></span>
-				<input id="theming-imprintUrl" type="url" placeholder="<?php p($l->t('Legal notice address https://…')); ?>" value="<?php p($_['imprintUrl']) ?>" maxlength="500" />
+				<input id="theming-imprintUrl" type="url" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['imprintUrl']) ?>" maxlength="500" />
 				<div data-setting="imprintUrl" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 			</label>
 		</div>

@@ -46,7 +46,11 @@
     input[type='text']:hover + .theme-undo,
     input[type='text'] + .theme-undo:hover,
     input[type='text']:focus + .theme-undo,
-    input[type='text']:active + .theme-undo {
+    input[type='text']:active + .theme-undo,
+    input[type='url']:hover + .theme-undo,
+    input[type='url'] + .theme-undo:hover,
+    input[type='url']:focus + .theme-undo,
+    input[type='url']:active + .theme-undo{
         visibility: visible;
     }
 

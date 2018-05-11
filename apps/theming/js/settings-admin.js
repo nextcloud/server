@@ -83,7 +83,8 @@ function hideUndoButton(setting, value) {
 		url: 'https://nextcloud.com',
 		color: '#0082c9',
 		logoMime: '',
-		backgroundMime: ''
+		backgroundMime: '',
+		imprintUrl: ''
 	};
 
 	if (value === themingDefaults[setting] || value === '') {
