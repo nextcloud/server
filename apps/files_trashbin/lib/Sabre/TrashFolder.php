@@ -120,4 +120,7 @@ class TrashFolder implements ICollection, ITrash {
 		return $this->getLastModified();
 	}
 
+	public function getSize(): int {
+		return $this->data->getSize();
+	}
 }

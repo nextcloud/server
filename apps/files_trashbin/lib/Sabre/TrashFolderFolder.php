@@ -132,4 +132,8 @@ class TrashFolderFolder implements ICollection, ITrash {
 	public function getDeletionTime(): int {
 		return $this->getLastModified();
 	}
+
+	public function getSize(): int {
+		return $this->data->getSize();
+	}
 }
