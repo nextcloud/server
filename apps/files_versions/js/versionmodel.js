@@ -67,12 +67,7 @@
 		},
 
 		getDownloadUrl: function() {
-			var url = OC.generateUrl('/apps/files_versions/download.php');
-			var params = {
-				file: this.get('fullPath'),
-				revision: this.get('timestamp')
-			};
-			return url + '?' + OC.buildQueryString(params);
+			return OC.linkToRemote('dav') + '/versions/' + OC.getCurrentUser().uid + '/versions/' + this.collection.getFileInfo().id + '/' + this.get('timestamp');
 		}
 	});
 

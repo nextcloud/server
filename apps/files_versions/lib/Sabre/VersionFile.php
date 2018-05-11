@@ -91,4 +91,8 @@ class VersionFile implements IFile {
 	public function rollBack(): bool {
 		return Storage::rollback($this->data['path'], $this->data['version']);
 	}
+
+	public function getFileName(): string {
+		return $this->data['name'];
+	}
 }
