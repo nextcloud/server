@@ -9,7 +9,7 @@
 		<form class="displayName" :class="{'icon-loading-small': loading.displayName}" v-on:submit.prevent="updateDisplayName">
 			<input :id="'displayName'+user.id+rand" type="text"
 					:disabled="loading.displayName||loading.all"
-					:value="user.displayname"
+					:value="user.displayname" ref="displayName"
 					autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" />
 			<input type="submit" class="icon-confirm" value="" />
 		</form>
@@ -353,7 +353,13 @@ export default {
 			let userid = this.user.id;
 			let gid = group.id;
 			return this.$store.dispatch('removeUserGroup', {userid, gid})
-				.then(() => this.loading.groups = false);
+				.then(() => {
+					this.loading.groups = false
+					// remove user from current list if current list is the removed group
+					if (this.$route.params.selectedGroup === gid) {
+						this.$store.commit('deleteUser', userid);
+					}
+				});
 		},
 
 		/**

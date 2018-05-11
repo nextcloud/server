@@ -57,8 +57,6 @@ const mutations = {
 		}
 	},
 	addUserGroup(state, { userid, gid }) {
-		// this should not be needed as it would means the user contains a group
-		// the server database doesn't have.
 		let group = state.groups.find(groupSearch => groupSearch.id == gid);
 		if (group) {
 			group.usercount++; // increase count
@@ -68,8 +66,6 @@ const mutations = {
 		state.groups = orderGroups(state.groups, state.orderBy);
 	},
 	removeUserGroup(state, { userid, gid }) {
-		// this should not be needed as it would means the user contains a group
-		// the server database doesn't have.
 		let group = state.groups.find(groupSearch => groupSearch.id == gid);
 		if (group) {
 			group.usercount--; // lower count

@@ -17,7 +17,7 @@ export default new Router({
 	mode: 'history',
 	// if index.php is in the url AND we got this far, then it's working:
 	// let's keep using index.php in the url
-	base: window.location.pathname.indexOf('index.php') > 0 ? '/index.php/' : '/',
+	base: OC.generateUrl(''),
 	routes: [
 		{
 			path: '/:index(index.php/)?settings/users',
