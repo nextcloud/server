@@ -113,7 +113,7 @@
 					self.$versionsContainer.empty();
 					self.collection.setFileInfo(fileInfoModel);
 					self.collection.reset([], {silent: true});
-					self.collection.fetchNext();
+					self.collection.fetch();
 
 					self.$el.find('.versions').removeClass('hidden');
 

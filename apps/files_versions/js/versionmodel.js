@@ -25,32 +25,21 @@
 		 */
 		revert: function(options) {
 			options = options ? _.clone(options) : {};
-			var model = this;
-			var file = this.getFullPath();
-			var revision = this.get('timestamp');
 
-			$.ajax({
-				type: 'GET',
-				url: OC.generateUrl('/apps/files_versions/ajax/rollbackVersion.php'),
-				dataType: 'json',
-				data: {
-					file: file,
-					revision: revision
-				},
-				success: function(response) {
-					if (response.status === 'error') {
-						if (options.error) {
-							options.error.call(options.context, model, response, options);
-						}
-						model.trigger('error', model, response, options);
-					} else {
-						if (options.success) {
-							options.success.call(options.context, model, response, options);
-						}
-						model.trigger('revert', model, response, options);
+			options = _.extend(options,
+				{
+					type: 'MOVE',
+					url: OC.linkToRemote('dav') + '/versions/' + OC.getCurrentUser().uid + '/versions/' + this.collection.getFileInfo().id + '/' + this.get('timestamp'),
+					headers: {
+						Destination: OC.linkToRemote('dav') + '/versions/' + OC.getCurrentUser().uid + '/restore/' + this.get('timestamp')
 					}
 				}
-			});
+			);
+
+			OC.Backbone.davCall(
+				options,
+				this
+			);
 		},
 
 		getFullPath: function() {
