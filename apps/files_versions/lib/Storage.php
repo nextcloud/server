@@ -845,7 +845,7 @@ class Storage {
 		if (is_null(self::$application)) {
 			self::$application = new Application();
 		}
-		return self::$application->getContainer()->query('Expiration');
+		return self::$application->getContainer()->query(Expiration::class);
 	}
 
 }
