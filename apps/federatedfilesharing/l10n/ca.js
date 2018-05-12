@@ -40,7 +40,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Cerca llibreta d'adreces global i pública per als usuaris",
     "Allow users to publish their data to a global and public address book" : "Permetre als usuaris publicar les seves dades en una llibreta d'adreces global i pública",
     "Federated Cloud" : "Núvol federat",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podeu compartir amb qualsevol persona que usi Nextcloud, ownCloud vs Pydio! Acaba de posar el seu identificador de núvol federat al diàleg d'accions. Sembla person@cloud.example.com",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podeu compartir amb qualsevol persona que usi Nextcloud, ownCloud o Pydio! Només s'ha de posar el seu identificador de núvol federat a la finestra de compartir. És semblant a algu@cloud.web.cat",
     "Your Federated Cloud ID:" : "El teu ID de Núvol Federat:",
     "Share it so your friends can share files with you:" : "Compartiu-lo perquè els vostres amics puguin compartir fitxers amb vosaltres:",
     "Add to your website" : "Afegeix a la teva pàgina web",
@@ -50,7 +50,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the owner." : "No es permet crear una compartida federada amb el propietari.",
     "Invalid or untrusted SSL certificate" : "El certificat SSL és invàlid o no és fiable",
     "Could not authenticate to remote share, password might be wrong" : "No s'ha pogut autenticar per compartir de manera remota, la contrasenya podria estar equivocada",
-    "Storage not valid" : "Emmagatzemament no vàlid",
+    "Storage not valid" : "Emmagatzematge no vàlid",
     "Federated share added" : "S'ha afegit una part federada",
     "Couldn't add remote share" : "No s'ha pogut afegir una compartició remota",
     "Search global and public address book for users and let local users publish their data" : "Busqueu llibreta d'adreces global i pública per als usuaris i deixeu que els usuaris locals publiquin les seves dades"
