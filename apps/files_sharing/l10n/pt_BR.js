@@ -55,7 +55,7 @@ OC.L10N.register(
     "{actor} removed share for {user}" : "{actor} excluiu o compartilhamento para {user}",
     "Shared by {actor}" : "Compartilhado por {actor}",
     "{actor} removed share" : "{actor} compartilhamento removido",
-    "You shared {file} with {user}" : "Você compartilhou {arquivo} com {user}",
+    "You shared {file} with {user}" : "Você compartilhou {file} com {user}",
     "You removed {user} from {file}" : "Você excluiu {user} de {file}",
     "{actor} shared {file} with {user}" : "{actor} compartilhou {file} com {user}",
     "{actor} removed {user} from {file}" : "{actor} excluiu {user} de {file}",
