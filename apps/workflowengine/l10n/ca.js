@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "La llista del grup és buida",
     "Saved" : "Desat",
     "Saving failed:" : "Error al desar",
     "File MIME type" : "Tipus MIME d\\'arxiu",
@@ -33,7 +34,7 @@ OC.L10N.register(
     "Predefined URLs" : "URLs predefinits",
     "Files WebDAV" : "Arxius WebDAV",
     "Request user agent" : "Agent d\\'usuari de la petició",
-    "Sync clients" : "Sincronitzar clients",
+    "Sync clients" : "Aplicacions per sincronitzar",
     "Android client" : "Client android",
     "iOS client" : "Client iOS",
     "Desktop client" : "Client d'escriptori",
