@@ -118,7 +118,6 @@ OC.L10N.register(
     "Current password" : "Nuværende password",
     "New password" : "Nyt password",
     "Renew password" : "Forny venligst password",
-    "Wrong password. Reset it?" : "Forkert password.\nSkal det nulstilles?",
     "Wrong password." : "Forkert password.",
     "Cancel" : "Annullér",
     "Server" : "Server",
@@ -186,6 +185,7 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Ryd kortlægning mellem brugernavn og LDAP-bruger",
     "Clear Groupname-LDAP Group Mapping" : "Ryd kortlægning mellem gruppenavn og LDAP-gruppe",
     " entries available within the provided Base DN" : "poster tilgængelige inden for det angivne Base DN.",
+    "Wrong password. Reset it?" : "Forkert password.\nSkal det nulstilles?",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advarsel:</b> Apps'ene user_ldap og user_webdavauth er ikke kompatible. Du kan opleve uventet adfærd. Spørg venligst din systemadministrator om at slå én af dem fra.",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Brugernavne bruges til at lagre og tildele (meta)data. For at kunne identificere og genkende brugere præcist, så vil hver LDAP-bruger have et internt brugernavn. Det oprettede brugernavn kortlægges til UUID'et for LDAP-brugeren. I tillæg mellemlagres DN'et for at mindske LDAP-interaktioner, men det benyttes ikke til identifikation. Hvis DN'et ændres, så vil ændringerne blive registreret. Det interne brugernavn anvendes overalt. Hvis kortlægningerne ryddes, så vil der være rester overalt. Rydning af kortlægningerne er ikke konfigurationssensitivt - det påvirker alle LDAP-konfigurationer! Ryd aldrig kortlægningerne i et produktionsmiljø, kun i et teststadie eller eksperimentelt stadie."
