@@ -118,7 +118,6 @@ OC.L10N.register(
     "Current password" : "当前密码",
     "New password" : "新密码",
     "Renew password" : "更新密码",
-    "Wrong password. Reset it?" : "密码错误。是否重置？",
     "Wrong password." : "密码错误。",
     "Cancel" : "取消！",
     "Server" : "服务器",
@@ -186,6 +185,7 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "清除用户-LDAP用户映射",
     "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射",
     " entries available within the provided Base DN" : "基础DN中的可用条目",
+    "Wrong password. Reset it?" : "密码错误。是否重置？",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告：</b> 应用 user_ldap 和 user_webdavauth 之间不兼容。您可能遭遇未预料的行为。请让系统管理员禁用其中一个。",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "用户名用于存储和分配数据 (元)。为了准确地识别和确认用户，每个用户都有一个内部用户名。这需要一个 ownCloud 用户名到 LDAP 用户的映射。创建的用户名被映射到 LDAP 用户的 UUID。此外，DN 也会被缓存，以减少 LDAP 连接，但它不用于识别。DN 的变化会被监视到。内部用户名会被用于所有地方。清除映射将导致一片混乱。清除映射不是常用的设置，它会影响到所有的 LDAP 配置！千万不要在正式环境中清除映射，只有在测试或试验时才这样做。"

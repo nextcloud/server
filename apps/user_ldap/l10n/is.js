@@ -76,7 +76,6 @@ OC.L10N.register(
     "Current password" : "Núverandi lykilorð",
     "New password" : "Nýtt lykilorð",
     "Renew password" : "Endurnýja lykilorð",
-    "Wrong password. Reset it?" : "Rangt lykilorð. Endursetja?",
     "Wrong password." : "Rangt lykilorð.",
     "Cancel" : "Hætta við",
     "Server" : "Þjónn",
@@ -98,6 +97,7 @@ OC.L10N.register(
     "Quota Default" : "Sjálfgefinn kvóti",
     "Email Field" : "Gagnasvið fyrir netfang",
     "Internal Username" : "Innra notandanafn",
+    "Wrong password. Reset it?" : "Rangt lykilorð. Endursetja?",
     "LDAP" : "LDAP"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
