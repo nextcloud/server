@@ -23,6 +23,7 @@
 
 namespace Test\Template;
 
+use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\SCSSCacher;
 use OCA\Theming\ThemingDefaults;
@@ -58,7 +59,7 @@ class SCSSCacherTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->logger = $this->createMock(ILogger::class);
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);

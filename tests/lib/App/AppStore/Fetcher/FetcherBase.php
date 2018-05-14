@@ -22,6 +22,7 @@
 namespace Test\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Fetcher\Fetcher;
+use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
@@ -58,7 +59,7 @@ abstract class FetcherBase extends TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->appDataFactory = $this->createMock(Factory::class);
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 		$this->appDataFactory->expects($this->once())
 			->method('get')
 			->with('appstore')

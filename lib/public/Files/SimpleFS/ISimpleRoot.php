@@ -42,7 +42,7 @@ interface ISimpleRoot {
 	 * @throws \RuntimeException
 	 * @since 11.0.0
 	 */
-	public function getFolder($name);
+	public function getFolder(string $name): ISimpleFolder;
 
 	/**
 	 * Get all the Folders
@@ -52,7 +52,7 @@ interface ISimpleRoot {
 	 * @throws \RuntimeException
 	 * @since 11.0.0
 	 */
-	public function getDirectoryListing();
+	public function getDirectoryListing(): array;
 
 	/**
 	 * Create a new folder named $name
@@ -63,5 +63,5 @@ interface ISimpleRoot {
 	 * @throws \RuntimeException
 	 * @since 11.0.0
 	 */
-	public function newFolder($name);
+	public function newFolder(string $name): ISimpleFolder;
 }

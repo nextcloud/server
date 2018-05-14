@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -21,44 +21,28 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Preview;
+namespace OC\Repair\NC14;
 
-use OCP\Files\Node;
-use OCP\Files\Folder;
-use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
+use OC\Preview\BackgroundCleanupJob;
+use OCP\BackgroundJob\IJobList;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-/**
- * Class Watcher
- *
- * @package OC\Preview
- *
- * Class that will watch filesystem activity and remove previews as needed.
- */
-class Watcher {
-	/** @var IAppData */
-	private $appData;
+class AddPreviewBackgroundCleanupJob implements IRepairStep {
 
-	/**
-	 * Watcher constructor.
-	 *
-	 * @param IAppData $appData
-	 */
-	public function __construct(IAppData $appData) {
-		$this->appData = $appData;
+	/** @var IJobList */
+	private $jobList;
+
+	public function __construct(IJobList $jobList) {
+		$this->jobList = $jobList;
 	}
 
-	public function postWrite(Node $node) {
-		// We only handle files
-		if ($node instanceof Folder) {
-			return;
-		}
-
-		try {
-			$folder = $this->appData->getFolder((string)$node->getId());
-			$folder->delete();
-		} catch (NotFoundException $e) {
-			//Nothing to do
-		}
+	public function getName(): string {
+		return 'Add preview background cleanup job';
 	}
+
+	public function run(IOutput $output) {
+		$this->jobList->add(BackgroundCleanupJob::class);
+	}
+
 }

@@ -25,13 +25,11 @@
  */
 namespace OCA\Theming\Tests;
 
+use OC\Files\AppData\AppData;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\Files\IAppData;
-use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use PHPUnit\Framework\Error\Warning;
@@ -41,7 +39,7 @@ class IconBuilderTest extends TestCase {
 
 	/** @var IConfig */
 	protected $config;
-	/** @var IAppData */
+	/** @var AppData */
 	protected $appData;
 	/** @var ThemingDefaults */
 	protected $themingDefaults;
@@ -56,7 +54,7 @@ class IconBuilderTest extends TestCase {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
 			->disableOriginalConstructor()->getMock();
 		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
@@ -127,6 +125,10 @@ class IconBuilderTest extends TestCase {
 		$this->themingDefaults->expects($this->once())
 			->method('getColorPrimary')
 			->willReturn($color);
+		$this->appData->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willThrowException(new NotFoundException());
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
 		$icon = new \Imagick();
@@ -156,6 +158,10 @@ class IconBuilderTest extends TestCase {
 		$this->themingDefaults->expects($this->once())
 			->method('getColorPrimary')
 			->willReturn($color);
+		$this->appData->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willThrowException(new NotFoundException());
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
 		$actualIcon = $this->iconBuilder->getFavicon($app);
