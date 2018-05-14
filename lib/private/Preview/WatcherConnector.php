@@ -60,6 +60,8 @@ class WatcherConnector {
 			$this->root->listen('\OC\Files', 'postWrite', function (Node $node) {
 				$this->getWatcher()->postWrite($node);
 			});
+
+			\OC_Hook::connect('\OCP\Versions', 'rollback', $this->getWatcher(), 'versionRollback');
 		}
 	}
 }

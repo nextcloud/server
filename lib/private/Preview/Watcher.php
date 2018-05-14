@@ -49,6 +49,10 @@ class Watcher {
 	}
 
 	public function postWrite(Node $node) {
+		$this->deleteNode($node);
+	}
+
+	protected function deleteNode(Node $node) {
 		// We only handle files
 		if ($node instanceof Folder) {
 			return;
@@ -59,6 +63,12 @@ class Watcher {
 			$folder->delete();
 		} catch (NotFoundException $e) {
 			//Nothing to do
+		}
+	}
+
+	public function versionRollback(array $data) {
+		if (isset($data['node'])) {
+			$this->deleteNode($data['node']);
 		}
 	}
 }
