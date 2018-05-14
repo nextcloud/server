@@ -337,6 +337,9 @@ class Storage {
 			return false;
 		}
 
+		// Fetch the userfolder to trigger view hooks
+		$userFolder = \OC::$server->getUserFolder($uid);
+
 		$users_view = new View('/'.$uid);
 		$files_view = new View('/'. User::getUser().'/files');
 
@@ -375,9 +378,14 @@ class Storage {
 		if (self::copyFileContents($users_view, $fileToRestore, 'files' . $filename)) {
 			$files_view->touch($file, $revision);
 			Storage::scheduleExpire($uid, $file);
+
+			$node = $userFolder->get($file);
+
+			// TODO: move away from those legacy hooks!
 			\OC_Hook::emit('\OCP\Versions', 'rollback', array(
 				'path' => $filename,
 				'revision' => $revision,
+				'node' => $node,
 			));
 			return true;
 		} else if ($versionCreated) {
