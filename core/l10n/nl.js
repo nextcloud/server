@@ -266,6 +266,7 @@ OC.L10N.register(
     "More apps" : "Meer apps",
     "Search" : "Zoeken",
     "Reset search" : "Zoekopdracht wissen",
+    "Settings menu" : "Instellingenmenu",
     "Confirm your password" : "Bevestig je wachtwoord",
     "Server side authentication failed!" : "Authenticatie bij de server mislukt!",
     "Please contact your administrator." : "Neem contact op met je systeembeheerder.",
