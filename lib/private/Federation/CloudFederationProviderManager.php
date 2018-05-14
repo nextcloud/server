@@ -57,6 +57,8 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/** @var ILogger */
 	private $logger;
 
+	private $supportedAPIVersion = '2.0-draft';
+
 	/**
 	 * CloudFederationProviderManager constructor.
 	 *
@@ -216,7 +218,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		$result = $response->getBody();
 		$result = json_decode($result, true);
 
-		if (isset($result['end-point'])) {
+		$supportedVersion = isset($result['api-version']) && $result['api-version'] === $this->supportedAPIVersion;
+
+		if (isset($result['end-point']) && $supportedVersion) {
 			return $result['end-point'];
 		}
 
