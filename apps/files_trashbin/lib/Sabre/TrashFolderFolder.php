@@ -136,4 +136,8 @@ class TrashFolderFolder implements ICollection, ITrash {
 	public function getSize(): int {
 		return $this->data->getSize();
 	}
+
+	public function getFileId(): int {
+		return $this->data->getId();
+	}
 }

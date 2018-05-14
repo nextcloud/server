@@ -62,7 +62,6 @@ class Helper {
 		$dirContent = $storage->getCache()->getFolderContents($mount->getInternalPath($view->getAbsolutePath($dir)));
 		foreach ($dirContent as $entry) {
 			$entryName = $entry->getName();
-			$id = $entry->getId();
 			$name = $entryName;
 			if ($dir === '' || $dir === '/') {
 				$pathparts = pathinfo($entryName);
@@ -91,7 +90,8 @@ class Helper {
 				'directory' => ($dir === '/') ? '' : $dir,
 				'size' => $entry->getSize(),
 				'etag' => '',
-				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE
+				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE,
+				'fileid' => $entry->getId(),
 			);
 			if ($originalPath) {
 				if ($originalPath !== '.') {
