@@ -23,6 +23,7 @@ return array(
     'OCP\\AppFramework\\Db\\Entity' => $baseDir . '/lib/public/AppFramework/Db/Entity.php',
     'OCP\\AppFramework\\Db\\Mapper' => $baseDir . '/lib/public/AppFramework/Db/Mapper.php',
     'OCP\\AppFramework\\Db\\MultipleObjectsReturnedException' => $baseDir . '/lib/public/AppFramework/Db/MultipleObjectsReturnedException.php',
+    'OCP\\AppFramework\\Db\\QBMapper' => $baseDir . '/lib/public/AppFramework/Db/QBMapper.php',
     'OCP\\AppFramework\\Http' => $baseDir . '/lib/public/AppFramework/Http.php',
     'OCP\\AppFramework\\Http\\ContentSecurityPolicy' => $baseDir . '/lib/public/AppFramework/Http/ContentSecurityPolicy.php',
     'OCP\\AppFramework\\Http\\DataDisplayResponse' => $baseDir . '/lib/public/AppFramework/Http/DataDisplayResponse.php',
