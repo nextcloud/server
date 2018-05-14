@@ -13,23 +13,19 @@
 
 				</div>
 				<div>
-					<input type="checkbox" id="showLanguages" class="checkbox"
-						   :checked="showLanguages" v-model="showLanguages">
+					<input type="checkbox" id="showLanguages" class="checkbox" v-model="showLanguages">
 					<label for="showLanguages">{{t('settings', 'Show Languages')}}</label>
 				</div>
 				<div>
-					<input type="checkbox" id="showLastLogin" class="checkbox"
-						   :checked="showLastLogin" v-model="showLastLogin">
+					<input type="checkbox" id="showLastLogin" class="checkbox" v-model="showLastLogin">
 					<label for="showLastLogin">{{t('settings', 'Show last login')}}</label>
 				</div>
 				<div>
-					<input type="checkbox" id="showUserBackend" class="checkbox"
-						   :checked="showUserBackend" v-model="showUserBackend">
+					<input type="checkbox" id="showUserBackend" class="checkbox" v-model="showUserBackend">
 					<label for="showUserBackend">{{t('settings', 'Show user backend')}}</label>
 				</div>
 				<div>
-					<input type="checkbox" id="showStoragePath" class="checkbox"
-						   :checked="showStoragePath" v-model="showStoragePath">
+					<input type="checkbox" id="showStoragePath" class="checkbox" v-model="showStoragePath">
 					<label for="showStoragePath">{{t('settings', 'Show storage path')}}</label>
 				</div>
 			</template>
