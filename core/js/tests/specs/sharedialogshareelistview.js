@@ -122,6 +122,56 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
 			expect(updateShareStub.calledOnce).toEqual(true);
 		});
+
+		it('Checks edit box when clicking on it', function () {
+			updateShareStub.callsFake(function (shareId, attributes) {
+				// Update the permissions to get the new value when rendering
+				// again.
+				var shareIndex = this.findShareWithIndex(shareId);
+				this.get('shares')[shareIndex].permissions = attributes.permissions;
+			});
+
+			shareModel.set('shares', [{
+				id: 100,
+				item_source: 123,
+				permissions: 0,
+				share_type: OC.Share.SHARE_TYPE_USER,
+				share_with: 'user1',
+				share_with_displayname: 'User One'
+			}]);
+			shareModel.set('itemType', 'folder');
+			listView.render();
+			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(false);
+			listView.$el.find("input[name='edit']").click();
+			listView.render();
+			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
+			expect(updateShareStub.calledOnce).toEqual(true);
+		});
+
+		it('Checks edit box when clicking on it for sharee with special characters', function () {
+			updateShareStub.callsFake(function (shareId, attributes) {
+				// Update the permissions to get the new value when rendering
+				// again.
+				var shareIndex = this.findShareWithIndex(shareId);
+				this.get('shares')[shareIndex].permissions = attributes.permissions;
+			});
+
+			shareModel.set('shares', [{
+				id: 100,
+				item_source: 123,
+				permissions: 0,
+				share_type: OC.Share.SHARE_TYPE_USER,
+				share_with: 'user _.@-\'',
+				share_with_displayname: 'User One'
+			}]);
+			shareModel.set('itemType', 'folder');
+			listView.render();
+			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(false);
+			listView.$el.find("input[name='edit']").click();
+			listView.render();
+			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
+			expect(updateShareStub.calledOnce).toEqual(true);
+		});
 	});
 
 });
