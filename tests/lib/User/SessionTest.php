@@ -581,6 +581,8 @@ class SessionTest extends \Test\TestCase {
 		$tokenObject->expects($this->once())
 			->method('getLoginName')
 			->willReturn('foobar');
+		$tokenObject->method('getId')
+			->willReturn(42);
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with($sessionId)
@@ -593,14 +595,21 @@ class SessionTest extends \Test\TestCase {
 			->method('setMagicInCookie');
 		$user->expects($this->once())
 			->method('updateLastLoginTimestamp');
-		$session->expects($this->once())
+		$setUID = false;
+		$session
 			->method('set')
-			->with('user_id', 'foo');
+			->will($this->returnCallback(function ($k, $v) use (&$setUID) {
+				if ($k === 'user_id' && $v === 'foo') {
+					$setUID = true;
+				}
+			}));
 		$userSession->expects($this->once())
 			->method('setLoginName')
 			->willReturn('foobar');
 
 		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
+
+		$this->assertTrue($setUID);
 
 		$this->assertTrue($granted);
 	}
