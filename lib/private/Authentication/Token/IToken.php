@@ -57,9 +57,9 @@ interface IToken extends JsonSerializable {
 	/**
 	 * Get the (encrypted) login password
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function getPassword(): string;
+	public function getPassword();
 
 	/**
 	 * Get the timestamp of the last password check
@@ -94,7 +94,7 @@ interface IToken extends JsonSerializable {
 	 *
 	 * @param array $scope
 	 */
-	public function setScope(array $scope);
+	public function setScope(array $scope = null);
 
 	public function getName(): string;
 

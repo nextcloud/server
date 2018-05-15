@@ -24,10 +24,10 @@ namespace Test\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultToken;
+use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -39,7 +39,7 @@ class DefaultTokenProviderTest extends TestCase {
 
 	/** @var DefaultTokenProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $tokenProvider;
-	/** @var Mapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var DefaultTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $mapper;
 	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
 	private $crypto;
@@ -55,9 +55,7 @@ class DefaultTokenProviderTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->mapper = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenMapper')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->mapper = $this->createMock(DefaultTokenMapper::class);
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(ILogger::class);

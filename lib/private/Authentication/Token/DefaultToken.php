@@ -31,14 +31,12 @@ use OCP\AppFramework\Db\Entity;
  * @method void setUid(string $uid);
  * @method void setLoginName(string $loginname)
  * @method void setPassword(string $password)
- * @method string getName()
  * @method void setName(string $name)
  * @method void setToken(string $token)
  * @method string getToken()
  * @method void setType(int $type)
  * @method int getType()
  * @method void setRemember(int $remember)
- * @method int getRemember()
  * @method void setLastActivity(int $lastactivity)
  * @method int getLastActivity()
  */
@@ -107,9 +105,9 @@ class DefaultToken extends Entity implements IToken {
 	/**
 	 * Get the (encrypted) login password
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function getPassword(): string {
+	public function getPassword() {
 		return parent::getPassword();
 	}
 
@@ -136,14 +134,18 @@ class DefaultToken extends Entity implements IToken {
 	 * Get the timestamp of the last password check
 	 *
 	 * @param int $time
-	 * @return int
 	 */
-	public function setLastCheck(int $time): int {
-		return parent::setLastCheck($time);
+	public function setLastCheck(int $time) {
+		parent::setLastCheck($time);
 	}
 
 	public function getScope(): string {
-		return parent::getScope();
+		$scope = parent::getScope();
+		if ($scope === null) {
+			return '';
+		}
+
+		return $scope;
 	}
 
 	public function getScopeAsArray(): array {
@@ -156,7 +158,17 @@ class DefaultToken extends Entity implements IToken {
 		return $scope;
 	}
 
-	public function setScope(array $scope) {
-		parent::setScope(json_encode($scope));
+	public function setScope(array $scope = null) {
+		if ($scope !== null) {
+			parent::setScope(json_encode($scope));
+		}
+	}
+
+	public function getName(): string {
+		return parent::getName();
+	}
+
+	public function getRemember(): int {
+		return parent::getRemember();
 	}
 }

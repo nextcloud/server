@@ -65,11 +65,11 @@ interface IProvider {
 	/**
 	 * Get a token by token id
 	 *
-	 * @param string $tokenId
+	 * @param int $tokenId
 	 * @throws InvalidTokenException
 	 * @return IToken
 	 */
-	public function getTokenById(string $tokenId): IToken;
+	public function getTokenById(int $tokenId): IToken;
 
 	/**
 	 * Duplicate an existing session token
