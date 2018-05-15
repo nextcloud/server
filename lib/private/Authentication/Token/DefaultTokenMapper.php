@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,7 +30,6 @@
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -46,7 +46,7 @@ class DefaultTokenMapper extends QBMapper {
 	 *
 	 * @param string $token
 	 */
-	public function invalidate($token) {
+	public function invalidate(string $token) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
@@ -59,7 +59,7 @@ class DefaultTokenMapper extends QBMapper {
 	 * @param int $olderThan
 	 * @param int $remember
 	 */
-	public function invalidateOld($olderThan, $remember = IToken::DO_NOT_REMEMBER) {
+	public function invalidateOld(int $olderThan, int $remember = IToken::DO_NOT_REMEMBER) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
@@ -76,7 +76,7 @@ class DefaultTokenMapper extends QBMapper {
 	 * @throws DoesNotExistException
 	 * @return DefaultToken
 	 */
-	public function getToken($token) {
+	public function getToken(string $token): DefaultToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
@@ -95,11 +95,11 @@ class DefaultTokenMapper extends QBMapper {
 	/**
 	 * Get the token for $id
 	 *
-	 * @param string $id
+	 * @param int $id
 	 * @throws DoesNotExistException
 	 * @return DefaultToken
 	 */
-	public function getTokenById($id) {
+	public function getTokenById(int $id): DefaultToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'token', 'last_activity', 'last_check', 'scope')
@@ -124,7 +124,7 @@ class DefaultTokenMapper extends QBMapper {
 	 * @param IUser $user
 	 * @return DefaultToken[]
 	 */
-	public function getTokenByUser(IUser $user) {
+	public function getTokenByUser(IUser $user): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
@@ -146,7 +146,7 @@ class DefaultTokenMapper extends QBMapper {
 	 * @param IUser $user
 	 * @param int $id
 	 */
-	public function deleteById(IUser $user, $id) {
+	public function deleteById(IUser $user, int $id) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
@@ -160,7 +160,7 @@ class DefaultTokenMapper extends QBMapper {
 	 *
 	 * @param string $name
 	 */
-	public function deleteByName($name) {
+	public function deleteByName(string $name) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR));
