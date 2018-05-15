@@ -145,4 +145,14 @@ interface IProvider {
 	 * @throws InvalidTokenException
 	 */
 	public function setPassword(IToken $token, string $tokenId, string $password);
+
+	/**
+	 * Rotate the token. Usefull for for example oauth tokens
+	 *
+	 * @param IToken $token
+	 * @param string $oldTokenId
+	 * @param string $newTokenId
+	 * @return IToken
+	 */
+	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken;
 }

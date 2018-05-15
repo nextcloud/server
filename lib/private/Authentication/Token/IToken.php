@@ -96,7 +96,30 @@ interface IToken extends JsonSerializable {
 	 */
 	public function setScope($scope);
 
+	/**
+	 * Get the name of the token
+	 * @return string
+	 */
 	public function getName(): string;
 
+	/**
+	 * Get the remember state of the token
+	 *
+	 * @return int
+	 */
 	public function getRemember(): int;
+
+	/**
+	 * Set the token
+	 *
+	 * @param string $token
+	 */
+	public function setToken(string $token);
+
+	/**
+	 * Set the password
+	 *
+	 * @param string $password
+	 */
+	public function setPassword(string $password);
 }
