@@ -183,7 +183,9 @@ export default {
 		},
 		groups() {
 			// data provided php side + remove the disabled group
-			return this.$store.getters.getGroups.filter(group => group.id !== 'disabled');
+			return this.$store.getters.getGroups
+				.filter(group => group.id !== 'disabled')
+				.sort((a, b) => a.name.localeCompare(b.name));
 		},
 		subAdminsGroups() {
 			// data provided php side
