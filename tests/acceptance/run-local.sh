@@ -63,6 +63,8 @@ if [ "$1" = "--acceptance-tests-dir" ]; then
 	shift 2
 fi
 
+ACCEPTANCE_TESTS_CONFIG_DIR="../../$ACCEPTANCE_TESTS_DIR/config"
+
 # "--timeout-multiplier N" option can be provided to set the timeout multiplier
 # to be used in ActorContext.
 TIMEOUT_MULTIPLIER=""
@@ -133,7 +135,7 @@ if [ "$TIMEOUT_MULTIPLIER" != "" ]; then
 	REPLACEMENT="\
         - ActorContext:\n\
             actorTimeoutMultiplier: $TIMEOUT_MULTIPLIER"
-	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" ../../$ACCEPTANCE_TESTS_DIR/config/behat.yml
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 fi
 
 if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
@@ -154,7 +156,7 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
         - NextcloudTestServerContext:\n\
             nextcloudTestServerHelperParameters:\n\
               - $NEXTCLOUD_SERVER_DOMAIN"
-	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" ../../$ACCEPTANCE_TESTS_DIR/config/behat.yml
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 fi
 
 if [ "$SELENIUM_SERVER" != "$DEFAULT_SELENIUM_SERVER" ]; then
@@ -215,4 +217,4 @@ cd tests/acceptance
 echo "Waiting for Selenium"
 timeout 60s bash -c "while ! curl $SELENIUM_SERVER >/dev/null 2>&1; do sleep 1; done"
 
-vendor/bin/behat --config=../../$ACCEPTANCE_TESTS_DIR/config/behat.yml $SCENARIO_TO_RUN
+vendor/bin/behat --config=$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml $SCENARIO_TO_RUN
