@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -28,82 +29,69 @@ use OCP\AppFramework\Db\Entity;
 /**
  * @method void setId(int $id)
  * @method void setUid(string $uid);
- * @method void setLoginName(string $loginName)
+ * @method void setLoginName(string $loginname)
  * @method void setPassword(string $password)
- * @method void setName(string $name)
  * @method string getName()
+ * @method void setName(string $name)
  * @method void setToken(string $token)
  * @method string getToken()
- * @method void setType(string $type)
+ * @method void setType(int $type)
  * @method int getType()
  * @method void setRemember(int $remember)
  * @method int getRemember()
- * @method void setLastActivity(int $lastActivity)
+ * @method void setLastActivity(int $lastactivity)
  * @method int getLastActivity()
  */
 class DefaultToken extends Entity implements IToken {
 
-	/**
-	 * @var string user UID
-	 */
+	/** @var string user UID */
 	protected $uid;
 
-	/**
-	 * @var string login name used for generating the token
-	 */
+	/** @var string login name used for generating the token */
 	protected $loginName;
 
-	/**
-	 * @var string encrypted user password
-	 */
+	/** @var string encrypted user password */
 	protected $password;
 
-	/**
-	 * @var string token name (e.g. browser/OS)
-	 */
+	/** @var string token name (e.g. browser/OS) */
 	protected $name;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $token;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $type;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $remember;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $lastActivity;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $lastCheck;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $scope;
 
 	public function __construct() {
+		$this->addType('uid', 'string');
+		$this->addType('loginName', 'string');
+		$this->addType('password', 'string');
+		$this->addType('name', 'string');
+		$this->addType('token', 'string');
 		$this->addType('type', 'int');
+		$this->addType('remember', 'int');
 		$this->addType('lastActivity', 'int');
 		$this->addType('lastCheck', 'int');
+		$this->addType('scope', 'string');
 	}
 
-	public function getId() {
+	public function getId(): int {
 		return $this->id;
 	}
 
-	public function getUID() {
+	public function getUID(): string {
 		return $this->uid;
 	}
 
@@ -112,7 +100,7 @@ class DefaultToken extends Entity implements IToken {
 	 *
 	 * @return string
 	 */
-	public function getLoginName() {
+	public function getLoginName(): string {
 		return parent::getLoginName();
 	}
 
@@ -121,7 +109,7 @@ class DefaultToken extends Entity implements IToken {
 	 *
 	 * @return string
 	 */
-	public function getPassword() {
+	public function getPassword(): string {
 		return parent::getPassword();
 	}
 
@@ -140,7 +128,7 @@ class DefaultToken extends Entity implements IToken {
 	 *
 	 * @return int
 	 */
-	public function getLastCheck() {
+	public function getLastCheck(): int {
 		return parent::getLastCheck();
 	}
 
@@ -148,16 +136,17 @@ class DefaultToken extends Entity implements IToken {
 	 * Get the timestamp of the last password check
 	 *
 	 * @param int $time
+	 * @return int
 	 */
-	public function setLastCheck($time) {
+	public function setLastCheck(int $time): int {
 		return parent::setLastCheck($time);
 	}
 
-	public function getScope() {
+	public function getScope(): string {
 		return parent::getScope();
 	}
 
-	public function getScopeAsArray() {
+	public function getScopeAsArray(): array {
 		$scope = json_decode($this->getScope(), true);
 		if (!$scope) {
 			return [
@@ -167,11 +156,7 @@ class DefaultToken extends Entity implements IToken {
 		return $scope;
 	}
 
-	public function setScope($scope) {
-		if (is_array($scope)) {
-			parent::setScope(json_encode($scope));
-		} else {
-			parent::setScope((string)$scope);
-		}
+	public function setScope(array $scope) {
+		parent::setScope(json_encode($scope));
 	}
 }
