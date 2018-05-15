@@ -213,9 +213,11 @@ const actions = {
 	
 
 	getPasswordPolicyMinLength(context) {
-		return api.get(OC.linkToOCS('apps/provisioning_api/api/v1/config/apps/password_policy/minLength', 2))
-			.then((response) => context.commit('setPasswordPolicyMinLength', response.data.ocs.data.data))
-			.catch((error) => context.commit('API_FAILURE', error));
+		if(oc_capabilities.password_policy && oc_capabilities.password_policy.minLength) {
+			context.commit('setPasswordPolicyMinLength', oc_capabilities.password_policy.minLength);
+			return oc_capabilities.password_policy.minLength;
+		}
+		return false;
 	},
 
 	/**
@@ -344,12 +346,12 @@ const actions = {
 	 * @param {string} options.quota User email
 	 * @returns {Promise}
 	 */
-	addUser({context, dispatch}, { userid, password, email, groups, subadmin, quota, language }) {
+	addUser({commit, dispatch}, { userid, password, email, groups, subadmin, quota, language }) {
 		return api.requireAdmin().then((response) => {
 			return api.post(OC.linkToOCS(`cloud/users`, 2), { userid, password, email, groups, subadmin, quota, language })
 				.then((response) => dispatch('addUserData', userid))
 				.catch((error) => {throw error;});
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
+		}).catch((error) => commit('API_FAILURE', { userid, error }));
 	},
 
 	/**

@@ -1331,13 +1331,22 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px $color-box-shadow;
 				}
+				/* fake input for groups validation */
+				input#newgroups {
+					position: absolute;
+					opacity: 0;
+					width: 80% !important;
+					margin: 0 10%;
+					z-index: 0;
+				}
+			}
+			// separate prop to set initial value to top:0
+			&#new-user {
+				top: $grid-row-height;
 			}
 			&#grid-header {
 				color: nc-lighten($color-main-text, 60%);
 				z-index: 60; /* above new-user */
-			}
-			&#new-user {
-				top: $grid-row-height;
 			}
 			&:hover {
 				input:not([type='submit']):not(:focus):not(:active) {

@@ -10,8 +10,9 @@ const debug = process.env.NODE_ENV !== 'production';
 
 const mutations = {
 	API_FAILURE(state, error) {
-		console.log(state, error);
 		OC.Notification.showTemporary(t('settings','An error occured during the request. Unable to proceed.'));
+		// throw to raise exception of the promise and allow a `.then` in the Vue methods
+		throw error;
 	}
 };
 

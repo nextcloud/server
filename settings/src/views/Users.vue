@@ -241,7 +241,7 @@ export default {
 				item.text = group.name;						// group name
 				item.utils = {counter: group.usercount};	// users count
 
-				if (item.id !== 'admin' && item.id !== 'disabled') {
+				if (item.id !== 'admin' && item.id !== 'disabled' && this.settings.isAdmin) {
 					// add delete button on real groups
 					let self = this;
 					item.utils.actions = [{

@@ -8,7 +8,7 @@
 			<div id="headerAddress" class="mailAddress">{{ t('settings',  'Email') }}</div>
 			<div id="headerGroups" class="groups">{{ t('settings',  'Groups') }}</div>
 			<div id="headerSubAdmins" class="subadmins"
-				 v-if="subAdminsGroups.length>0">{{ t('settings', 'Group admin for') }}</div>
+				 v-if="subAdminsGroups.length>0 && settings.isAdmin">{{ t('settings', 'Group admin for') }}</div>
 			<div id="headerQuota" class="quota">{{ t('settings', 'Quota') }}</div>
 			<div id="headerLanguages" class="languages"
 				 v-if="showConfig.showLanguages">{{ t('settings', 'Languages') }}</div>
@@ -50,19 +50,26 @@
 					   autocomplete="off" autocapitalize="none" autocorrect="off">
 			</div>
 			<div class="groups">
+				<!-- hidden input trick for vanilla html5 form validation -->
+				<input type="text" :value="newUser.groups" v-if="!settings.isAdmin"
+					   tabindex="-1" id="newgroups" :required="!settings.isAdmin" />
 				<multiselect :options="groups" v-model="newUser.groups"
 							 :placeholder="t('settings', 'Add user in group')"
 							 label="name" track-by="id" class="multiselect-vue"
-							 :multiple="true" :close-on-select="false">
-					<span slot="noResult">{{t('settings','No result')}}</span>
+							 :multiple="true" :close-on-select="false"
+							 :allowEmpty="settings.isAdmin">
+							 <!-- If user is not admin, he is a subadmin.
+							 	  Subadmins can't create users outside their groups
+								  Therefore, empty select is forbidden -->
+					<span slot="noResult">{{t('settings', 'No results')}}</span>
 				</multiselect>
 			</div>
-			<div class="subadmins" v-if="subAdminsGroups.length>0">
+			<div class="subadmins" v-if="subAdminsGroups.length>0 && settings.isAdmin">
 				<multiselect :options="subAdminsGroups" v-model="newUser.subAdminsGroups"
 							 :placeholder="t('settings', 'Set user as admin for')"
 							 label="name" track-by="id" class="multiselect-vue"
 							 :multiple="true" :close-on-select="false">
-					<span slot="noResult">{{t('settings','No result')}}</span>
+					<span slot="noResult">{{t('settings', 'No results')}}</span>
 			</multiselect>
 			</div>
 			<div class="quota">
@@ -269,7 +276,8 @@ export default {
 				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
 				quota: this.newUser.quota.id,
 				language: this.newUser.language.code,
-			}).then(() => this.resetForm());
+			}).then(() => this.resetForm())
+			.catch(() => this.loading = false);
 		},
 		setNewUserDefaultGroup(value) {
 			if (value && value.length > 0) {

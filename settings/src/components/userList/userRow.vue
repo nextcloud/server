@@ -34,18 +34,19 @@
 						 tag-placeholder="create" :placeholder="t('settings', 'Add user in group')"
 						 label="name" track-by="id" class="multiselect-vue"
 						 :limit="2" :limitText="limitGroups"
-						 :multiple="true" :taggable="true" :closeOnSelect="false"
+						 :multiple="true" :taggable="settings.isAdmin" :closeOnSelect="false"
 						 @tag="createGroup" @select="addUserGroup" @remove="removeUserGroup">
+				<span slot="noResult">{{t('settings', 'No results')}}</span>
 			</multiselect>
 		</div>
-		<div class="subadmins" v-if="subAdminsGroups.length>0" :class="{'icon-loading-small': loading.subadmins}">
+		<div class="subadmins" v-if="subAdminsGroups.length>0 && settings.isAdmin" :class="{'icon-loading-small': loading.subadmins}">
 			<multiselect :value="userSubAdminsGroups" :options="subAdminsGroups" :disabled="loading.subadmins||loading.all"
 						 :placeholder="t('settings', 'Set user as admin for')"
 						 label="name" track-by="id" class="multiselect-vue"
 						 :limit="2" :limitText="limitGroups"
 						 :multiple="true" :closeOnSelect="false"
 						 @select="addUserSubAdmin" @remove="removeUserSubAdmin">
-				<span slot="noResult">{{t('settings','No result')}}</span>
+				<span slot="noResult">{{t('settings', 'No results')}}</span>
 			</multiselect>
 		</div>
 		<div class="quota" :class="{'icon-loading-small': loading.quota}">
