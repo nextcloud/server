@@ -94,7 +94,7 @@ interface IToken extends JsonSerializable {
 	 *
 	 * @param array $scope
 	 */
-	public function setScope(array $scope = null);
+	public function setScope($scope);
 
 	public function getName(): string;
 
