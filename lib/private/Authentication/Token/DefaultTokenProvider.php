@@ -267,6 +267,28 @@ class DefaultTokenProvider implements IProvider {
 	}
 
 	/**
+	 * Rotate the token. Usefull for for example oauth tokens
+	 *
+	 * @param IToken $token
+	 * @param string $oldTokenId
+	 * @param string $newTokenId
+	 * @return IToken
+	 */
+	public function rotate(IToken $token, $oldTokenId, $newTokenId) {
+		try {
+			$password = $this->getPassword($token, $oldTokenId);
+			$token->setPassword($this->encryptPassword($password, $newTokenId));
+		} catch (PasswordlessTokenException $e) {
+
+		}
+
+		$token->setToken($this->hashToken($newTokenId));
+		$this->updateToken($token);
+
+		return $token;
+	}
+
+	/**
 	 * @param string $token
 	 * @return string
 	 */
