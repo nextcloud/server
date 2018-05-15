@@ -451,6 +451,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Authentication\\Token\\ExpiredTokenException' => __DIR__ . '/../../..' . '/lib/private/Authentication/Exceptions/ExpiredTokenException.php',
         'OC\\Authentication\\Token\\IProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IProvider.php',
         'OC\\Authentication\\Token\\IToken' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IToken.php',
+        'OC\\Authentication\\Token\\Manager' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/Manager.php',
         'OC\\Authentication\\TwoFactorAuth\\Manager' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/Manager.php',
         'OC\\Avatar' => __DIR__ . '/../../..' . '/lib/private/Avatar.php',
         'OC\\AvatarManager' => __DIR__ . '/../../..' . '/lib/private/AvatarManager.php',

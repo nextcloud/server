@@ -421,6 +421,7 @@ return array(
     'OC\\Authentication\\Token\\ExpiredTokenException' => $baseDir . '/lib/private/Authentication/Exceptions/ExpiredTokenException.php',
     'OC\\Authentication\\Token\\IProvider' => $baseDir . '/lib/private/Authentication/Token/IProvider.php',
     'OC\\Authentication\\Token\\IToken' => $baseDir . '/lib/private/Authentication/Token/IToken.php',
+    'OC\\Authentication\\Token\\Manager' => $baseDir . '/lib/private/Authentication/Token/Manager.php',
     'OC\\Authentication\\TwoFactorAuth\\Manager' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/Manager.php',
     'OC\\Avatar' => $baseDir . '/lib/private/Avatar.php',
     'OC\\AvatarManager' => $baseDir . '/lib/private/AvatarManager.php',
