@@ -90,6 +90,7 @@ class OauthApiController extends Controller {
 	 */
 	public function getToken($grant_type, $code, $refresh_token, $client_id, $client_secret) {
 
+		// We only handle two types
 		if ($grant_type !== 'authorization_code' && $grant_type !== 'refresh_token') {
 			return new JSONResponse([
 				'error' => 'invalid_grant',
@@ -117,6 +118,7 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 
+		// The client id and secret must match. Else we don't provide an access token!
 		if ($client->getClientIdentifier() !== $client_id || $client->getSecret() !== $client_secret) {
 			return new JSONResponse([
 				'error' => 'invalid_client',
@@ -125,6 +127,7 @@ class OauthApiController extends Controller {
 
 		$decryptedToken = $this->crypto->decrypt($accessToken->getEncryptedToken(), $code);
 
+		// Obtain the appToken assoicated
 		try {
 			$appToken = $this->tokenProvider->getTokenById($accessToken->getTokenId());
 		} catch (ExpiredTokenException $e) {
@@ -137,6 +140,7 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 
+		// Rotate the apptoken (so the old one becomes invalid basically)
 		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 
 		$appToken = $this->tokenProvider->rotate(
@@ -144,9 +148,12 @@ class OauthApiController extends Controller {
 			$decryptedToken,
 			$newToken
 		);
+
+		// Expiration is in 1 hour again
 		$appToken->setExpires($this->time->getTime() + 3600);
 		$this->tokenProvider->updateToken($appToken);
 
+		// Generate a new refresh token and encrypt the new apptoken in the DB
 		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 		$accessToken->setHashedCode(hash('sha512', $newCode));
 		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
