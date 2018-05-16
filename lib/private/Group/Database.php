@@ -5,6 +5,7 @@
  * @author Aaron Wood <aaronjwood@gmail.com>
  * @author Loki3000 <github@labcms.ru>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -40,8 +41,10 @@
 
 namespace OC\Group;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\ICountUsersBackend;
 use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
@@ -53,6 +56,7 @@ use OCP\IDBConnection;
  */
 class Database extends ABackend
 	implements IAddToGroupBackend,
+			   ICountDisabledInGroup,
 	           ICountUsersBackend,
 	           ICreateGroupBackend,
 	           IDeleteGroupBackend,
@@ -364,6 +368,37 @@ class Database extends ABackend
 		$count = $result->fetchColumn();
 		$result->closeCursor();
 
+		if ($count !== false) {
+			$count = (int)$count;
+		} else {
+			$count = 0;
+		}
+
+		return $count;
+	}
+
+	/**
+	 * get the number of disabled users in a group
+	 *
+	 * @param string $search
+	 * @return int|bool
+	 */
+	public function countDisabledInGroup(string $gid): int {
+		$this->fixDI();
+		
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select($query->createFunction('COUNT(Distinct uid)'))
+			->from('preferences', 'p')
+			->innerJoin('p', 'group_user', 'g', 'p.userid = g.uid')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('core')))
+			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('enabled')))
+			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
+			->andWhere($query->expr()->eq('gid', $query->createNamedParameter($gid), IQueryBuilder::PARAM_STR));
+		
+		$result = $query->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+		
 		if ($count !== false) {
 			$count = (int)$count;
 		} else {

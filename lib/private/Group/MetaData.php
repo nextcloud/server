@@ -8,6 +8,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stephan Peijnik <speijnik@anexia-it.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -28,6 +29,7 @@
 namespace OC\Group;
 
 use OCP\IUserSession;
+use OCP\IGroupManager;
 
 class MetaData {
 	const SORT_NONE = 0;
@@ -40,7 +42,7 @@ class MetaData {
 	protected $isAdmin;
 	/** @var array */
 	protected $metaData = array();
-	/** @var \OCP\IGroupManager */
+	/** @var IGroupManager */
 	protected $groupManager;
 	/** @var bool */
 	protected $sorting = false;
@@ -50,13 +52,14 @@ class MetaData {
 	/**
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
-	 * @param \OCP\IGroupManager $groupManager
+	 * @param IGroupManager $groupManager
+	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(
 			$user,
 			$isAdmin,
-			\OCP\IGroupManager $groupManager,
+			IGroupManager $groupManager,
 			IUserSession $userSession
 			) {
 		$this->user = $user;
@@ -155,13 +158,14 @@ class MetaData {
 	 * creates an array containing the group meta data
 	 * @param \OCP\IGroup $group
 	 * @param string $userSearch
-	 * @return array with the keys 'id', 'name' and 'usercount'
+	 * @return array with the keys 'id', 'name', 'usercount' and 'disabled'
 	 */
 	private function generateGroupMetaData(\OCP\IGroup $group, $userSearch) {
 		return array(
 				'id' => $group->getGID(),
 				'name' => $group->getDisplayName(),
 				'usercount' => $this->sorting === self::SORT_USERCOUNT ? $group->count($userSearch) : 0,
+				'disabled' => $group->countDisabled()
 			);
 	}
 
