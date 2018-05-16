@@ -122,4 +122,11 @@ interface IToken extends JsonSerializable {
 	 * @param string $password
 	 */
 	public function setPassword(string $password);
+
+	/**
+	 * Set the expiration time of the token
+	 *
+	 * @param int|null $expires
+	 */
+	public function setExpires($expires);
 }

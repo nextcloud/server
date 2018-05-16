@@ -70,6 +70,9 @@ class DefaultToken extends Entity implements IToken {
 	/** @var string */
 	protected $scope;
 
+	/** @var int */
+	protected $expires;
+
 	public function __construct() {
 		$this->addType('uid', 'string');
 		$this->addType('loginName', 'string');
@@ -81,6 +84,7 @@ class DefaultToken extends Entity implements IToken {
 		$this->addType('lastActivity', 'int');
 		$this->addType('lastCheck', 'int');
 		$this->addType('scope', 'string');
+		$this->addType('expires', 'int');
 	}
 
 	public function getId(): int {
@@ -178,5 +182,16 @@ class DefaultToken extends Entity implements IToken {
 
 	public function setPassword(string $password = null) {
 		parent::setPassword($password);
+	}
+
+	public function setExpires($expires) {
+		parent::setExpires($expires);
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getExpires() {
+		return parent::getExpires();
 	}
 }

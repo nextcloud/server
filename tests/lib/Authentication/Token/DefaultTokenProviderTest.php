@@ -26,6 +26,7 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\DefaultTokenProvider;
+use OC\Authentication\Token\ExpiredTokenException;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -395,6 +396,63 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->tokenProvider->renewSessionToken('oldId', 'newId');
 	}
 
+	public function testGetToken() {
+		$token = new DefaultToken();
+
+		$this->config->method('getSystemValue')
+			->with('secret')
+			->willReturn('mysecret');
+
+		$this->mapper->method('getToken')
+			->with(
+				$this->callback(function (string $token) {
+					return hash('sha512', 'unhashedTokenmysecret') === $token;
+				})
+			)->willReturn($token);
+
+		$this->assertSame($token, $this->tokenProvider->getToken('unhashedToken'));
+	}
+
+	public function testGetInvalidToken() {
+		$this->expectException(InvalidTokenException::class);
+
+		$this->config->method('getSystemValue')
+			->with('secret')
+			->willReturn('mysecret');
+
+		$this->mapper->method('getToken')
+			->with(
+				$this->callback(function (string $token) {
+					return hash('sha512', 'unhashedTokenmysecret') === $token;
+				})
+			)->willThrowException(new InvalidTokenException());
+
+		$this->tokenProvider->getToken('unhashedToken');
+	}
+
+	public function testGetExpiredToken() {
+		$token = new DefaultToken();
+		$token->setExpires(42);
+
+		$this->config->method('getSystemValue')
+			->with('secret')
+			->willReturn('mysecret');
+
+		$this->mapper->method('getToken')
+			->with(
+				$this->callback(function (string $token) {
+					return hash('sha512', 'unhashedTokenmysecret') === $token;
+				})
+			)->willReturn($token);
+
+		try {
+			$this->tokenProvider->getToken('unhashedToken');
+		} catch (ExpiredTokenException $e) {
+			$this->assertSame($token, $e->getToken());
+		}
+
+	}
+
 	public function testGetTokenById() {
 		$token = $this->createMock(DefaultToken::class);
 
@@ -415,6 +473,23 @@ class DefaultTokenProviderTest extends TestCase {
 			->willThrowException(new DoesNotExistException('nope'));
 
 		$this->tokenProvider->getTokenById(42);
+	}
+
+	public function testGetExpiredTokenById() {
+		$token = new DefaultToken();
+		$token->setExpires(42);
+
+		$this->mapper->expects($this->once())
+			->method('getTokenById')
+			->with($this->equalTo(42))
+			->willReturn($token);
+
+		try {
+			$this->tokenProvider->getTokenById(42);
+			$this->fail();
+		} catch (ExpiredTokenException $e) {
+			$this->assertSame($token, $e->getToken());
+		}
 	}
 
 	public function testRotate() {
