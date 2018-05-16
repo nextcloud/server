@@ -6,8 +6,14 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OC\\Settings\\' => 12,
+            'OC\\Core\\' => 8,
+            'OC\\' => 3,
+            'OCP\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -418,6 +424,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Authentication\\Token\\DefaultTokenCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/DefaultTokenCleanupJob.php',
         'OC\\Authentication\\Token\\DefaultTokenMapper' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/DefaultTokenMapper.php',
         'OC\\Authentication\\Token\\DefaultTokenProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/DefaultTokenProvider.php',
+        'OC\\Authentication\\Token\\ExpiredTokenException' => __DIR__ . '/../../..' . '/lib/private/Authentication/Exceptions/ExpiredTokenException.php',
         'OC\\Authentication\\Token\\IProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IProvider.php',
         'OC\\Authentication\\Token\\IToken' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IToken.php',
         'OC\\Authentication\\TwoFactorAuth\\Manager' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/Manager.php',
@@ -561,6 +568,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Migrations\\Version13000Date20170814074715' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170814074715.php',
         'OC\\Core\\Migrations\\Version13000Date20170919121250' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170919121250.php',
         'OC\\Core\\Migrations\\Version13000Date20170926101637' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170926101637.php',
+        'OC\\Core\\Migrations\\Version13000Date20180516101403' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20180516101403.php',
         'OC\\DB\\Adapter' => __DIR__ . '/../../..' . '/lib/private/DB/Adapter.php',
         'OC\\DB\\AdapterMySQL' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterMySQL.php',
         'OC\\DB\\AdapterOCI8' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterOCI8.php',
@@ -986,7 +994,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$classMap;
 
