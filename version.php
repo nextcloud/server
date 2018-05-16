@@ -45,6 +45,7 @@ $OC_VersionCanBeUpgradedFrom = [
 		'10.0.5.4' => true,
 		'10.0.6.1' => true,
 		'10.0.7.2' => true,
+		'10.0.8.5' => true,
 	],
 ];
 
