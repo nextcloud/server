@@ -30,9 +30,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setId(int $id)
  * @method void setUid(string $uid);
  * @method void setLoginName(string $loginname)
- * @method void setPassword(string $password)
  * @method void setName(string $name)
- * @method void setToken(string $token)
  * @method string getToken()
  * @method void setType(int $type)
  * @method int getType()
@@ -172,5 +170,13 @@ class DefaultToken extends Entity implements IToken {
 
 	public function getRemember(): int {
 		return parent::getRemember();
+	}
+
+	public function setToken(string $token) {
+		parent::setToken($token);
+	}
+
+	public function setPassword(string $password = null) {
+		parent::setPassword($password);
 	}
 }
