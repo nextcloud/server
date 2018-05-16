@@ -48,6 +48,7 @@ interface IProvider {
 	 *
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
+	 * @throws ExpiredTokenException
 	 * @return IToken
 	 */
 	public function getToken($tokenId);
@@ -58,6 +59,7 @@ interface IProvider {
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @return DefaultToken
+	 * @throws ExpiredTokenException
 	 */
 	public function getTokenById($tokenId);
 

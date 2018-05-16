@@ -150,13 +150,20 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @return DefaultToken
+	 * @throws ExpiredTokenException
 	 */
 	public function getToken($tokenId) {
 		try {
-			return $this->mapper->getToken($this->hashToken($tokenId));
+			$token = $this->mapper->getToken($this->hashToken($tokenId));
 		} catch (DoesNotExistException $ex) {
 			throw new InvalidTokenException();
 		}
+
+		if ($token->getExpires() !== null && $token->getExpires() < $this->time->getTime()) {
+			throw new ExpiredTokenException($token);
+		}
+
+		return $token;
 	}
 
 	/**
@@ -165,13 +172,21 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @return DefaultToken
+	 * @throws ExpiredTokenException
+	 * @return IToken
 	 */
 	public function getTokenById($tokenId) {
 		try {
-			return $this->mapper->getTokenById($tokenId);
+			$token = $this->mapper->getTokenById($tokenId);
 		} catch (DoesNotExistException $ex) {
 			throw new InvalidTokenException();
 		}
+
+		if ($token->getExpires() !== null && $token->getExpires() < $this->time->getTime()) {
+			throw new ExpiredTokenException($token);
+		}
+
+		return $token;
 	}
 
 	/**
