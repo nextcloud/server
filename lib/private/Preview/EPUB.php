@@ -26,14 +26,14 @@ class EPUB extends Provider {
 			$containerxmlfile = $zip->getFromName('META-INF/container.xml');
 			$containerxml = simplexml_load_string($containerxmlfile);
 
-            /* The OPF file should have a more or less direct connection to the cover-image. */
+			/* The OPF file should have a more or less direct connection to the cover-image. */
 			$opffilepath = (string)$containerxml->rootfiles->rootfile->attributes()->{'full-path'};
 			$opffile = $zip->getFromName($opffilepath);
 
 			/* Fuck you haystack, almost got the needle. */
 			$opffile = str_replace('xmlns=', 'ns=', $opffile);
 			$opfxml = simplexml_load_string($opffile);
-            $opfxml->registerXPathNamespace('opf','http://www.idpf.org/2007/opf');
+			$opfxml->registerXPathNamespace('opf','http://www.idpf.org/2007/opf');
 
 			$coverimagepath = (string)$opfxml->xpath('//item[@id=//meta[@name="cover"]/@content]/@href')[0];
 			$picture = $zip->getFromName(dirname($opffilepath) . '/' . $coverimagepath);
