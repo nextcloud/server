@@ -21,13 +21,17 @@
 
 namespace OCA\OAuth2\Controller;
 
-use OC\Authentication\Token\DefaultTokenMapper;
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\ExpiredTokenException;
+use OC\Authentication\Token\IProvider as TokenProvider;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -39,10 +43,12 @@ class OauthApiController extends Controller {
 	private $clientMapper;
 	/** @var ICrypto */
 	private $crypto;
-	/** @var DefaultTokenMapper */
-	private $defaultTokenMapper;
+	/** @var TokenProvider */
+	private $tokenProvider;
 	/** @var ISecureRandom */
 	private $secureRandom;
+	/** @var ITimeFactory */
+	private $time;
 
 	/**
 	 * @param string $appName
@@ -50,22 +56,25 @@ class OauthApiController extends Controller {
 	 * @param ICrypto $crypto
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param ClientMapper $clientMapper
-	 * @param DefaultTokenMapper $defaultTokenMapper
+	 * @param TokenProvider $tokenProvider
 	 * @param ISecureRandom $secureRandom
+	 * @param ITimeFactory $time
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								ICrypto $crypto,
 								AccessTokenMapper $accessTokenMapper,
 								ClientMapper $clientMapper,
-								DefaultTokenMapper $defaultTokenMapper,
-								ISecureRandom $secureRandom) {
+								TokenProvider $tokenProvider,
+								ISecureRandom $secureRandom,
+								ITimeFactory $time) {
 		parent::__construct($appName, $request);
 		$this->crypto = $crypto;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->clientMapper = $clientMapper;
-		$this->defaultTokenMapper = $defaultTokenMapper;
+		$this->tokenProvider = $tokenProvider;
 		$this->secureRandom = $secureRandom;
+		$this->time = $time;
 	}
 
 	/**
@@ -115,18 +124,41 @@ class OauthApiController extends Controller {
 		}
 
 		$decryptedToken = $this->crypto->decrypt($accessToken->getEncryptedToken(), $code);
-		$newCode = $this->secureRandom->generate(128);
+
+		try {
+			$appToken = $this->tokenProvider->getTokenById($accessToken->getTokenId());
+		} catch (ExpiredTokenException $e) {
+			$appToken = $e->getToken();
+		} catch (InvalidTokenException $e) {
+			//We can't do anything...
+			$this->accessTokenMapper->delete($accessToken);
+			return new JSONResponse([
+				'error' => 'invalid_request',
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+
+		$appToken = $this->tokenProvider->rotate(
+			$appToken,
+			$decryptedToken,
+			$newToken
+		);
+		$appToken->setExpires($this->time->getTime() + 3600);
+		$this->tokenProvider->updateToken($appToken);
+
+		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 		$accessToken->setHashedCode(hash('sha512', $newCode));
-		$accessToken->setEncryptedToken($this->crypto->encrypt($decryptedToken, $newCode));
+		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
 		$this->accessTokenMapper->update($accessToken);
 
 		return new JSONResponse(
 			[
-				'access_token' => $decryptedToken,
+				'access_token' => $newToken,
 				'token_type' => 'Bearer',
 				'expires_in' => 3600,
 				'refresh_token' => $newCode,
-				'user_id' => $this->defaultTokenMapper->getTokenById($accessToken->getTokenId())->getUID(),
+				'user_id' => $appToken->getUID(),
 			]
 		);
 	}
