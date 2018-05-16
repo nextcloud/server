@@ -65,9 +65,11 @@ class OauthApiController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $code
+	 * @param string $client_id
+	 * @param string $client_secret
 	 * @return JSONResponse
 	 */
-	public function getToken($code) {
+	public function getToken($code, $client_id, $client_secret) {
 		$accessToken = $this->accessTokenMapper->getByCode($code);
 		$decryptedToken = $this->crypto->decrypt($accessToken->getEncryptedToken(), $code);
 		$newCode = $this->secureRandom->generate(128);
