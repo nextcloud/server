@@ -13,7 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "autosize": "4.0.0",
+    "autosize": "^4.0.0",
     "backbone": "~1.2.3",
     "base64": "~0.3.0",
     "blueimp-md5": "^2.7.0",
