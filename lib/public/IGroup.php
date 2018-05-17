@@ -104,6 +104,7 @@ interface IGroup {
 	 * returns the number of disabled users
 	 *
 	 * @return int|bool
+	 * @since 14.0.0
 	 */
 	public function countDisabled();
 
