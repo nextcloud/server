@@ -79,7 +79,7 @@ class DefaultTokenMapper extends QBMapper {
 	public function getToken(string $token): DefaultToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
+		$result = $qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->execute();
@@ -102,7 +102,7 @@ class DefaultTokenMapper extends QBMapper {
 	public function getTokenById(int $id): DefaultToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'token', 'last_activity', 'last_check', 'scope')
+		$result = $qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->execute();
@@ -127,7 +127,7 @@ class DefaultTokenMapper extends QBMapper {
 	public function getTokenByUser(IUser $user): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
+		$qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->setMaxResults(1000);
