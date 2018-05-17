@@ -15,7 +15,7 @@ OC.L10N.register(
     "Error occurred while retrieving comment with ID {id}" : "אירעה שגיאה בעת קבלת התגובה עם המזהה {id}",
     "Error occurred while updating comment with id {id}" : "שגיאה אירעה כאשר עודכנה תגובה עם מספר זיהוי {id}",
     "Error occurred while posting comment" : "אירעה שגיאה בזמן פרסום תגובה",
-    "_%n unread comment_::_%n unread comments_" : ["תגובה אחת שלא נקראה","%n תגובות שלא נקראו"],
+    "_%n unread comment_::_%n unread comments_" : ["תגובה אחת שלא נקראה","%n תגובות שלא נקראו","%n תגובות שלא נקראו"],
     "Comment" : "תגובה",
     "You commented" : "הערות שלך",
     "%1$s commented" : "התקבלו תגובות %1$s",
@@ -33,4 +33,4 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "אוזכרת על ידי משתמש שנמחק (נכון לעכשיו) בתגובה על „%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "אוזכרת על ידי משתמש שנמחק (נכון לעכשיו) בתגובה על „{file}”"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=4; plural=(n==1 ? 1: n == 2 ? 2 : (n % 10 == 0 and n > 10) ? 4);");

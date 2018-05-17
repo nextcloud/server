@@ -28,4 +28,4 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "Pre vybraný aktualizačný kanál budú priradené upozornenia pre server zastarané.",
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizácií ešte neskončila. Obnovte prosím stránku."
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);");

@@ -14,7 +14,7 @@ OC.L10N.register(
     "Allowed characters {count} of {max}" : "Leidžiama simbolių {count} iš {max}",
     "Error occurred while updating comment with id {id}" : "Klaida bandant pataisyti komentarą pagal identifikavimo numerį {id}",
     "Error occurred while posting comment" : "Skelbiant komentarą, įvyko klaida",
-    "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų"],
+    "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų","%n neskaitytų komentarų"],
     "Comment" : "Komentaras",
     "You commented" : "Jūs pakomentavote",
     "%1$s commented" : "%1$s pakomentavo",
@@ -30,4 +30,4 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Ištrintas vartotojas paminėjo jus komentare \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Ištrintas vartotojas paminėjo jus komentare \"{file}\""
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 1 : (n%10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 3 : n % 1 != 0 ? 4);");

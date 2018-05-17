@@ -154,5 +154,5 @@
     "Show email address" : "نمایش پست الکترونیکی",
     "Send email to new user" : "ارسال ایمیل به کاربر جدید",
     "Create" : "ایجاد کردن"
-},"pluralForm" :"nplurals=1; plural=0;"
+},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
 }

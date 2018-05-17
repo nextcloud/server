@@ -14,7 +14,7 @@ OC.L10N.register(
     "Allowed characters {count} of {max}" : "დაშვებული სიმბოლოები {count} {max}-იდან",
     "Error occurred while updating comment with id {id}" : "კომენტარის id-იდ {id}-ის ცვლილებისას წარმოიშვა შეცდომა",
     "Error occurred while posting comment" : "კომენტარის გამოქვეყნებისას წარმოიშვა შეცდომა",
-    "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი"],
+    "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი","%n წაუკუთხავი კომენტარი"],
     "Comment" : "კომენტარის დამატება",
     "You commented" : "თქვენ გააკეთეთ კომენტარი",
     "%1$s commented" : "%1$s მოხმარებელმა გააკეთა კომენტარი",
@@ -32,4 +32,4 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში “%s”-ზე",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში ფაილზე \"{file}\""
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

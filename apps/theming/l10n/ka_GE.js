@@ -37,4 +37,4 @@ OC.L10N.register(
     "Failed to write file to disk." : "ფაილი დისკზე ვერ ჩაიწერა.",
     "A PHP extension stopped the file upload." : "PHP გაფართოებამ შეაჩერა ფაილის ატვირთვა."
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

@@ -54,12 +54,12 @@
     "Name" : "Názov",
     "Size" : "Veľkosť",
     "Modified" : "Upravené",
-    "_%n folder_::_%n folders_" : ["%n priečinok","%n priečinky","%n priečinkov"],
-    "_%n file_::_%n files_" : ["%n súbor","%n súbory","%n súborov"],
+    "_%n folder_::_%n folders_" : ["%n priečinok","%n priečinky","%n priečinkov","%n priečinkov"],
+    "_%n file_::_%n files_" : ["%n súbor","%n súbory","%n súborov","%n súborov"],
     "{dirs} and {files}" : "{dirs} a {files}",
-    "_including %n hidden_::_including %n hidden_" : ["vrátane %n skytého","vrátane %n skrytých","vrátane %n skrytých"],
+    "_including %n hidden_::_including %n hidden_" : ["vrátane %n skytého","vrátane %n skrytých","vrátane %n skrytých","vrátane %n skrytých"],
     "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
-    "_Uploading %n file_::_Uploading %n files_" : ["Nahrávam %n súbor","Nahrávam %n súbory","Nahrávam %n súborov"],
+    "_Uploading %n file_::_Uploading %n files_" : ["Nahrávam %n súbor","Nahrávam %n súbory","Nahrávam %n súborov","Nahrávam %n súborov"],
     "New" : "Nový",
     "{used} of {quota} used" : "použitých {used} z {quota}",
     "{used} used" : "{used} použitých",
@@ -71,12 +71,12 @@
     "Your storage is full, files can not be updated or synced anymore!" : "Vaše úložisko je plné. Súbory nemožno aktualizovať ani synchronizovať!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Úloisko používateľa {owner} je takmer plné ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Vaše úložisko je takmer plné ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["zodpovedá '{filter}'","zodpovedá '{filter}'","zodpovedá '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["zodpovedá '{filter}'","zodpovedá '{filter}'","zodpovedá '{filter}'","zodpovedá '{filter}'"],
     "View in folder" : "Zobraziť v priečinku",
     "Copied!" : "Skopírované!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre používateľov, ktorí majú prístup k tomuto súboru/priečinku)",
     "Path" : "Cesta",
-    "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtov"],
+    "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtov","%n bajtov"],
     "Favorited" : "Pridané k obľúbeným",
     "Favorite" : "Obľúbené",
     "New folder" : "Nový priečinok",
@@ -150,5 +150,5 @@
     "A new file or folder has been <strong>deleted</strong>" : "Nový súbor alebo priečinok bol <strong>zmazaný</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nový súbor alebo priečinok bol<strong>obnovený</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použi túto adresu pre <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">prístup ku svojím súborom cez WebDAV</a>"
-},"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
+},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);"
 }

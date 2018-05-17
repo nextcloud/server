@@ -8,4 +8,4 @@ OC.L10N.register(
     "Trusted server" : "سرور قابل اعتماد",
     "Add" : "افزودن"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=((n<=1 && n>= 0) ? 1);");

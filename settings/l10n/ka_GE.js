@@ -380,7 +380,7 @@ OC.L10N.register(
     "Migration Completed" : "მიგრაცია დასრულდა",
     "Are you really sure you want add {domain} as trusted domain?" : "დამდვილად გსურთ {domain}-ის დამატება სანდო დომენად?",
     "Add trusted domain" : "სანდო დომენის დამატება",
-    "_You have %n app update pending_::_You have %n app updates pending_" : ["თქვენ მოლოდინში გაქვთ %n აპლიკაციის განახლება"],
+    "_You have %n app update pending_::_You have %n app updates pending_" : ["თქვენ მოლოდინში გაქვთ %n აპლიკაციის განახლება","თქვენ მოლოდინში გაქვთ %n აპლიკაციის განახლება"],
     "Updating...." : "ნახლდება…",
     "Error while updating app" : "შეცდომა აპლიკაციის განახლების დროს",
     "Error while removing app" : "აპლიკაციის წაშლისას წარმოიშვა შეცდომა",
@@ -425,4 +425,4 @@ OC.L10N.register(
     "Create" : "შექმნა",
     "Group name" : "ჯგუფის სახელი"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

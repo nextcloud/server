@@ -52,5 +52,5 @@
     "No entries found in this folder" : "V tomto priečinku sa nič nenašlo",
     "Size" : "Veľkosť",
     "Modified" : "Upravené"
-},"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
+},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);"
 }
