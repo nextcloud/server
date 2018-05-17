@@ -161,6 +161,16 @@ class ThemingController extends Controller {
 					]);
 				}
 				break;
+			case 'imprintUrl':
+				if (strlen($value) > 500) {
+					return new DataResponse([
+						'data' => [
+							'message' => $this->l10n->t('The given legal notice address is too long'),
+						],
+						'status' => 'error'
+					]);
+				}
+				break;
 			case 'slogan':
 				if (strlen($value) > 500) {
 					return new DataResponse([
@@ -408,6 +418,7 @@ class ThemingController extends Controller {
 		url: ' . json_encode($this->themingDefaults->getBaseUrl()) . ',
 		slogan: ' . json_encode($this->themingDefaults->getSlogan()) . ',
 		color: ' . json_encode($this->themingDefaults->getColorPrimary()) . ',
+		imprintUrl: ' . json_encode($this->themingDefaults->getImprintUrl()) . ',
 		inverted: ' . json_encode($this->util->invertTextColor($this->themingDefaults->getColorPrimary())) . ',
 		cacheBuster: ' . json_encode($cacheBusterValue) . '
 	};
