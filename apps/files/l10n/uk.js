@@ -50,11 +50,11 @@ OC.L10N.register(
     "Name" : "Ім'я",
     "Size" : "Розмір",
     "Modified" : "Змінено",
-    "_%n folder_::_%n folders_" : ["%n тека ","теки : %n ","теки : %n "],
-    "_%n file_::_%n files_" : ["%n файл ","файли : %n ","файли : %n "],
+    "_%n folder_::_%n folders_" : ["%n тека ","теки : %n ","теки : %n ","теки : %n "],
+    "_%n file_::_%n files_" : ["%n файл ","файли : %n ","файли : %n ","файли : %n "],
     "{dirs} and {files}" : "{dirs} і {files}",
     "You don’t have permission to upload or create files here" : "У вас недостатньо прав для вивантаження або створення тут файлів",
-    "_Uploading %n file_::_Uploading %n files_" : ["Вивантаження %n файлу","Вивантаження %n файлів","Вивантаження %n файлів"],
+    "_Uploading %n file_::_Uploading %n files_" : ["Вивантаження %n файлу","Вивантаження %n файлів","Вивантаження %n файлів","Вивантаження %n файлів"],
     "New" : "Створити",
     "\"{name}\" is an invalid file name." : "\"{name}\" - некоректне ім'я файлу.",
     "File name cannot be empty." : " Ім'я файлу не може бути порожнім.",
@@ -63,7 +63,7 @@ OC.L10N.register(
     "Your storage is full, files can not be updated or synced anymore!" : "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані !",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Сховище користувача {owner} майже заповнене ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Ваше сховище майже повне ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'"],
     "View in folder" : "Переглянути в каталозі",
     "Copied!" : "Скопійовано!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Скопіювати пряме посилання (працює лише для користувачів, що мають доступ до файлу/теки)",
@@ -135,4 +135,4 @@ OC.L10N.register(
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл file.txt"
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=( n % 1 == 0 && n % 10 =1 && n % 100 != 11) ? 1 : ( n %1 == 0 && ( n >= 2 && n <=4) && ( n % 100 <12 || n % 100 > 14)) ? 3 : ( n % 1 ==0 && (n% 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14));");

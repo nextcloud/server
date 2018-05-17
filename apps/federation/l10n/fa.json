@@ -5,5 +5,5 @@
     "Trusted servers" : "سرورهای قابل اعتماد",
     "Trusted server" : "سرور قابل اعتماد",
     "Add" : "افزودن"
-},"pluralForm" :"nplurals=1; plural=0;"
+},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
 }

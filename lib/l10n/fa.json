@@ -12,13 +12,13 @@
     "Invalid image" : "عکس نامعتبر",
     "today" : "امروز",
     "yesterday" : "دیروز",
-    "_%n day ago_::_%n days ago_" : ["%n روز پیش"],
+    "_%n day ago_::_%n days ago_" : ["%n روز پیش","%n روز پیش"],
     "last month" : "ماه قبل",
-    "_%n month ago_::_%n months ago_" : ["%n ماه قبل"],
+    "_%n month ago_::_%n months ago_" : ["%n ماه قبل","%n ماه قبل"],
     "last year" : "سال قبل",
-    "_%n year ago_::_%n years ago_" : ["%n سال پیش"],
-    "_%n hour ago_::_%n hours ago_" : ["%n ساعت قبل"],
-    "_%n minute ago_::_%n minutes ago_" : ["%n دقیقه قبل"],
+    "_%n year ago_::_%n years ago_" : ["%n سال پیش","%n سال پیش"],
+    "_%n hour ago_::_%n hours ago_" : ["%n ساعت قبل","%n ساعت قبل"],
+    "_%n minute ago_::_%n minutes ago_" : ["%n دقیقه قبل","%n دقیقه قبل"],
     "seconds ago" : "ثانیه‌ها پیش",
     "File name is a reserved word" : "این نام فایل جزو کلمات رزرو می‌باشد",
     "File name contains at least one invalid character" : "نام فایل دارای حداقل یک کاراکتر نامعتبر است",
@@ -52,5 +52,5 @@
     "PHP module %s not installed." : "ماژول PHP %s نصب نشده است.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است",
     "Please upgrade your database version" : "لطفا نسخه‌ی پایگاه‌داده‌ی خود را بروز کنید"
-},"pluralForm" :"nplurals=1; plural=0;"
+},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
 }

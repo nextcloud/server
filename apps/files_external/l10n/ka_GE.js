@@ -135,4 +135,4 @@ OC.L10N.register(
     "You can add external storages in the personal settings" : "გარე საცავები შეგიძლიათ დაამატოთ პირად პარამეტრებში",
     "Are you sure you want to delete this external storage" : "დარწმუნებული ხართ, რომ გსურთ ამ გარე საცავის გაუქმება?"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");
