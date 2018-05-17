@@ -305,7 +305,7 @@ class ThemingControllerTest extends TestCase {
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
 		touch($tmpLogo);
-		copy(__DIR__ . '/../../../../tests/data/testimagelarge.svg', $tmpLogo);
+		copy(__DIR__ . '/../../../../tests/data/testimage.png', $tmpLogo);
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
@@ -701,6 +701,7 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'text/svg');
+		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
 		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
 	}
 
@@ -733,6 +734,7 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'image/png');
+		$expected->addHeader('Content-Disposition', 'attachment; filename="background"');
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
