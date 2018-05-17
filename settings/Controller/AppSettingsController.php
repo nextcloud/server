@@ -143,6 +143,7 @@ class AppSettingsController extends Controller {
 		$params['category'] = $category;
 		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
 		$params['urlGenerator'] = $this->urlGenerator;
+		$params['updateCount'] = count($this->getAppsWithUpdates());
 		$this->navigationManager->setActiveEntry('core_apps');
 
 		$templateResponse = new TemplateResponse($this->appName, 'apps', $params, 'user');
@@ -158,14 +159,7 @@ class AppSettingsController extends Controller {
 	private function getAllCategories() {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
-		$updateCount = count($this->getAppsWithUpdates());
-		$formattedCategories = [
-			['id' => self::CAT_ALL_INSTALLED, 'ident' => 'installed', 'displayName' => (string)$this->l10n->t('Your apps')],
-			['id' => self::CAT_UPDATES, 'ident' => 'updates', 'displayName' => (string)$this->l10n->t('Updates'), 'counter' => $updateCount],
-			['id' => self::CAT_ENABLED, 'ident' => 'enabled', 'displayName' => (string)$this->l10n->t('Enabled apps')],
-			['id' => self::CAT_DISABLED, 'ident' => 'disabled', 'displayName' => (string)$this->l10n->t('Disabled apps')],
-			['id' => self::CAT_APP_BUNDLES, 'ident' => 'app-bundles', 'displayName' => (string)$this->l10n->t('App bundles')],
-		];
+		$formattedCategories = [];
 		$categories = $this->categoryFetcher->get();
 		foreach($categories as $category) {
 			$formattedCategories[] = [
