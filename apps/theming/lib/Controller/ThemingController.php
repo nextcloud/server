@@ -248,8 +248,9 @@ class ThemingController extends Controller {
 		}
 
 		$target = $folder->newFile($key);
-		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'text/svg'];
-		if (!in_array($image['type'], $supportedFormats)) {
+		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg'];
+		$detectedMimeType = mime_content_type($image['tmp_name']);
+		if (!in_array($image['type'], $supportedFormats) || !in_array($detectedMimeType, $supportedFormats)) {
 			return new DataResponse(
 				[
 					'data' => [
