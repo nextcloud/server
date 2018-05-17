@@ -55,4 +55,4 @@ OC.L10N.register(
     "Couldn't add remote share" : "Nepodařilo se přidat propojené sdílení",
     "Search global and public address book for users and let local users publish their data" : "Hledat uživatele v globálním a veřejném adresáři a dovolit místním uživatelům publikovat jejich údaje"
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n < 10 && n % 1 == 0) ? 1 : (n < 9999 && n >= 10 && n % 1 == 0) ? 3 : (n % 1 != 0) : 4;");

@@ -38,8 +38,8 @@ OC.L10N.register(
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "אירעה שגיאת חיבור ל- LDAP / AD, יש לבדוק את השרת, שער החיבור - פורט ופרטי הכניסה. ",
     "Please provide a login name to test against" : "יש לספק שם משתמש לבדיקה מולו",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "שדה הקבוצה נוטרל, כיוון ששרת ה- LDAP / AD לא תומך ב- memberOf.",
-    "_%s group found_::_%s groups found_" : ["אותרה %s קבוצה","אותרו %s קבוצות"],
-    "_%s user found_::_%s users found_" : ["אותר %s משתמש","אותרו %s משתמשים"],
+    "_%s group found_::_%s groups found_" : ["אותרה %s קבוצה","אותרו %s קבוצות","אותרו %s קבוצות"],
+    "_%s user found_::_%s users found_" : ["אותר %s משתמש","אותרו %s משתמשים","אותרו %s משתמשים"],
     "Could not find the desired feature" : "לא אותרה התכונה הרצויה",
     "Invalid Host" : "מארח לא חוקי",
     "Test Configuration" : "בדיקת הגדרות",
@@ -134,4 +134,4 @@ OC.L10N.register(
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>אזהרה:</b> יישומים user_ldap ו- user_webdavauth אינם תואמים. תופעות לא מוסברות עלולות להתקיים. כדאי לפנות למנהל המערכת כדי שינטרל אחד מהם."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=4; plural=(n==1 ? 1: n == 2 ? 2 : (n % 10 == 0 and n > 10) ? 4);");

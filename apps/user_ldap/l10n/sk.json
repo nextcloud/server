@@ -46,10 +46,10 @@
     "Please login with the new password" : "Prihláste sa prosím novým heslom",
     "Your password will expire tomorrow." : "Vaše heslo expiruje zajtra.",
     "Your password will expire today." : "Vaše heslo expiruje dnes.",
-    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Vaše heslo expiruje o %n deň.","Vaše heslo expiruje o %n dni.","Vaše heslo expiruje o %n dní."],
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Vaše heslo expiruje o %n deň.","Vaše heslo expiruje o %n dni.","Vaše heslo expiruje o %n dní.","Vaše heslo expiruje o %n dní."],
     "LDAP / AD integration" : "Spolupráca s LDAP/AD",
-    "_%s group found_::_%s groups found_" : ["%s nájdená skupina","%s nájdené skupiny","%s nájdených skupín"],
-    "_%s user found_::_%s users found_" : ["%s nájdený používateľ","%s nájdení používatelia","%s nájdených používateľov"],
+    "_%s group found_::_%s groups found_" : ["%s nájdená skupina","%s nájdené skupiny","%s nájdených skupín","%s nájdených skupín"],
+    "_%s user found_::_%s users found_" : ["%s nájdený používateľ","%s nájdení používatelia","%s nájdených používateľov","%s nájdených používateľov"],
     "Could not find the desired feature" : "Nemožno nájsť požadovanú funkciu",
     "Invalid Host" : "Neplatný hostiteľ",
     "Test Configuration" : "Test nastavenia",
@@ -154,5 +154,5 @@
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth sú navzájom nekompatibilné. Môžete zaznamenať neočakávané správanie. Požiadajte prosím vášho systémového administrátora pre zakázanie jedného z nich.",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Používateľské mená sa používajú na uchovávanie a priraďovanie (meta)dát. Každý používateľ v LDAP bude mať interné používateľské meno, aby bolo možné správne identifikovať a rozpoznávať používateľov. To je vyžaduje vytvorenie mapovania používateľských mien na používateľov v LDAPe. Vytvorené používateľské meno sa namapuje na UUID používateľa v LDAPe. Naviac je sa vo vyrovnávacej pamäti udržiava DN, aby sa obmedzila nadmerná interakcia s LDAPom, ale to sa nepoužíva na identifikáciu. Ak sa DN zmení, zmena bude správne rozpoznaná. Interné používateľské meno sa používa všade. Vyčistenie mapovaní vymaže zvyšky všade. Vyčistenie mapovaní naviac nie je špecifické pre určitú konfiguráciu; bude mať vplyv na všetky konfigurácie LDAPu! Nikdy nečistite mapovanie v produkčnom prostredí, len v testovacej alebo experimentálnej fáze."
-},"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
+},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);"
 }

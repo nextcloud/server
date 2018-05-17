@@ -61,7 +61,7 @@
     "Error fetching contact actions" : "Неможливо отримати дії з контактами",
     "Settings" : "Налаштування",
     "Connection to server lost" : "З'єднання з сервером втрачено",
-    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Проблема під час завантаження сторінки, повторне завантаження за %n сек.","Проблема під час завантаження сторінки, повторне завантаження за %n сек.","Проблема під час завантаження сторінки, повторне завантаження за 5 сек."],
+    "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Проблема під час завантаження сторінки, повторне завантаження за %n сек.","Проблема під час завантаження сторінки, повторне завантаження за %n сек.","Проблема під час завантаження сторінки, повторне завантаження за 5 сек.","Проблема під час завантаження сторінки, повторне завантаження за 5 сек."],
     "Saving..." : "Збереження...",
     "Dismiss" : "Припинити",
     "This action requires you to confirm your password" : "Ця дія потребує підтвердження вашого пароля",
@@ -88,7 +88,7 @@
     "OK" : "OK",
     "Error loading message template: {error}" : "Помилка при завантаженні шаблону повідомлення: {error}",
     "read-only" : "Тільки для читання",
-    "_{count} file conflict_::_{count} file conflicts_" : ["{count} файловий конфлікт","{count} файлових конфліктів","{count} файлових конфліктів"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["{count} файловий конфлікт","{count} файлових конфліктів","{count} файлових конфліктів","{count} файлових конфліктів"],
     "One file conflict" : "Один файловий конфлікт",
     "New Files" : "Нових Файлів",
     "Already existing files" : "Файли що вже існують",
@@ -176,13 +176,13 @@
     "Hello {name}, the weather is {weather}" : "Привіт {name}, погода {weather} ",
     "Hello {name}" : "Привіт {name}",
     "new" : "новий",
-    "_download %n file_::_download %n files_" : ["завантаження %n файлу","завантаження %n файлів","завантаження %n файлів"],
+    "_download %n file_::_download %n files_" : ["завантаження %n файлу","завантаження %n файлів","завантаження %n файлів","завантаження %n файлів"],
     "Update to {version}" : "Оновлення до {version}",
     "An error occurred." : "Виникла помилка.",
     "Please reload the page." : "Будь ласка, перезавантажте сторінку.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Оновлення не вдалося. За інформацією <a href=\"{url}\">зверніться до повідомлення на форумі</a>, що описує цю проблему.",
     "Searching other places" : "Йде пошук в інших місцях",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках"],
+    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках"],
     "Personal" : "Особисте",
     "Users" : "Користувачі",
     "Apps" : "Додатки",
@@ -268,5 +268,5 @@
     "Add \"%s\" as trusted domain" : "Додати \"%s\" як довірений домен",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для допомоги, дивіться  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
     "Back to log in" : "Повернутися до сторінки авторизації"
-},"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
+},"pluralForm" :"nplurals=4; plural=( n % 1 == 0 && n % 10 =1 && n % 100 != 11) ? 1 : ( n %1 == 0 && ( n >= 2 && n <=4) && ( n % 100 <12 || n % 100 > 14)) ? 3 : ( n % 1 ==0 && (n% 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14));"
 }

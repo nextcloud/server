@@ -41,4 +41,4 @@ OC.L10N.register(
     "Failed to write file to disk." : "Nepodarilo sa zapísať súbor na disk.",
     "A PHP extension stopped the file upload." : "rozšírenie PHP zastavilo nahrávanie súboru."
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);");

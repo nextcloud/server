@@ -16,10 +16,10 @@
     "Invalid image" : "Невірне зображення",
     "today" : "сьогодні",
     "yesterday" : "вчора",
-    "_%n day ago_::_%n days ago_" : ["%n день тому","%n днів тому","%n днів тому"],
+    "_%n day ago_::_%n days ago_" : ["%n день тому","%n днів тому","%n днів тому","%n днів тому"],
     "last month" : "минулого місяця",
     "last year" : "минулого року",
-    "_%n year ago_::_%n years ago_" : ["%n рік тому","%n років тому","%n років тому"],
+    "_%n year ago_::_%n years ago_" : ["%n рік тому","%n років тому","%n років тому","%n років тому"],
     "seconds ago" : "секунди тому",
     "File name is a reserved word" : "Ім’я файлу є зарезервованим словом",
     "File name contains at least one invalid character" : "Ім’я файлу містить принаймні один некоректний символ",
@@ -112,5 +112,5 @@
     "Storage incomplete configuration. %s" : "Неповна конфігурація сховища. %s",
     "Storage connection error. %s" : "Помилка з'єднання зі сховищем. %s",
     "Storage connection timeout. %s" : "Час під'єднання до сховища вичерпався. %s"
-},"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
+},"pluralForm" :"nplurals=4; plural=( n % 1 == 0 && n % 10 =1 && n % 100 != 11) ? 1 : ( n %1 == 0 && ( n >= 2 && n <=4) && ( n % 100 <12 || n % 100 > 14)) ? 3 : ( n % 1 ==0 && (n% 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14));"
 }

@@ -15,7 +15,7 @@ OC.L10N.register(
     "Error occurred while retrieving comment with ID {id}" : "Pri načítavaní komentára s id {id} nastala chyba",
     "Error occurred while updating comment with id {id}" : "Pri aktualizovaní komentára s id {id} nastala chyba",
     "Error occurred while posting comment" : "Pri odosielaní komentára nastala chyba",
-    "_%n unread comment_::_%n unread comments_" : ["%n neprečítaný komentár","%n neprečítaných komentárov","%n neprečítaných komentárov"],
+    "_%n unread comment_::_%n unread comments_" : ["%n neprečítaný komentár","%n neprečítaných komentárov","%n neprečítaných komentárov","%n neprečítaných komentárov"],
     "Comment" : "Komentár",
     "You commented" : "Komentovali ste",
     "%1$s commented" : "%1$s komentoval",
@@ -32,4 +32,4 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"%s\"",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"{file}\""
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);");

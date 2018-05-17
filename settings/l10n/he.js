@@ -217,4 +217,4 @@ OC.L10N.register(
     "Send email to new user" : "שליחת דואר אלקטרוני למשתמש חדש",
     "Create" : "יצירה"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=4; plural=(n==1 ? 1: n == 2 ? 2 : (n % 10 == 0 and n > 10) ? 4);");

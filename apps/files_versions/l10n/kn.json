@@ -3,5 +3,5 @@
     "Versions" : "ಆವೃತ್ತಿಗಳು",
     "Failed to revert {file} to revision {timestamp}." : "{timestamp} ದ ಪರಿಷ್ಕರಣೆ ಇಂದ  {file}  ಕಡತವನ್ನು ಹಿಂದಿರುಗಿಸಲು ವಿಫಲವಾಗಿದೆ.",
     "Restore" : "ಮರುಸ್ಥಾಪಿಸು"
-},"pluralForm" :"nplurals=1; plural=0;"
+},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
 }

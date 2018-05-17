@@ -91,4 +91,4 @@ OC.L10N.register(
     "A valid email must be provided" : "﻿ಮಾನ್ಯ ಬಳಕೆದಾರ ಇ-ಅಂಚೆಯನ್ನು ಒದಗಿಸಬೇಕಾಗುತ್ತದೆ",
     "Create" : "ಸೃಷ್ಟಿಸಿ"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=((n<=1 && n>= 0) ? 1);");

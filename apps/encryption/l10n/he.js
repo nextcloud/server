@@ -61,4 +61,4 @@ OC.L10N.register(
     "Disabled" : "מנוטרל",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "יש צורך להמיר את מפתחות ההצפנה מהצופן הישן (ownCloud <= 8.0) לצופן החדש. יש להריץ 'occ encryption:migrate' או לפנות למנהל שלך"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=4; plural=(n==1 ? 1: n == 2 ? 2 : (n % 10 == 0 and n > 10) ? 4);");

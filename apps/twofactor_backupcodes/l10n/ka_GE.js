@@ -16,4 +16,4 @@ OC.L10N.register(
     "Two factor backup codes" : "მეორე-ფაქტორის ბექაფის კოდები",
     "Second-factor backup codes" : "მეორე-ფაქტორის ბექაფის კოდები"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

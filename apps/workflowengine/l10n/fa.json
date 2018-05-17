@@ -65,5 +65,5 @@
     "Save" : "ذخیره",
     "Saving…" : "در حال ذخیره",
     "Loading…" : "در حال بار گزاری"
-},"pluralForm" :"nplurals=1; plural=0;"
+},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
 }
