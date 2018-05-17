@@ -255,7 +255,7 @@ class ThemingControllerTest extends TestCase {
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn([
-				'tmp_name' => 'logo.pdf',
+				'tmp_name' => __DIR__  . '/../../../../tests/data/lorem.txt',
 				'type' => 'application/pdf',
 				'name' => 'logo.pdf',
 				'error' => 0,
@@ -295,7 +295,7 @@ class ThemingControllerTest extends TestCase {
 			['image/gif'],
 			['image/png'],
 			['image/svg+xml'],
-			['text/svg'],
+			['image/svg']
 		];
 	}
 
@@ -305,6 +305,7 @@ class ThemingControllerTest extends TestCase {
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
 		touch($tmpLogo);
+		copy(__DIR__ . '/../../../../tests/data/testimage.png', $tmpLogo);
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
@@ -377,10 +378,10 @@ class ThemingControllerTest extends TestCase {
 
 	/** @dataProvider dataUpdateImages */
 	public function testUpdateLogoLoginScreenUpload($folderExists) {
-		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
+		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . 'logo.png';
 
 		touch($tmpLogo);
-		file_put_contents($tmpLogo, file_get_contents(__DIR__  . '/../../../../tests/data/desktopapp.png'));
+		copy(__DIR__ . '/../../../../tests/data/desktopapp.png', $tmpLogo);
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
@@ -392,7 +393,7 @@ class ThemingControllerTest extends TestCase {
 			->with('image')
 			->willReturn([
 				'tmp_name' => $tmpLogo,
-				'type' => 'text/svg',
+				'type' => 'image/svg+xml',
 				'name' => 'logo.svg',
 				'error' => 0,
 			]);
@@ -524,7 +525,7 @@ class ThemingControllerTest extends TestCase {
 			->with('image')
 			->willReturn([
 				'tmp_name' => '',
-				'type' => 'text/svg',
+				'type' => 'image/svg+xml',
 				'name' => 'logo.svg',
 				'error' => $error,
 			]);
@@ -700,6 +701,7 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'text/svg');
+		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
 		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
 	}
 
@@ -732,6 +734,7 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'image/png');
+		$expected->addHeader('Content-Disposition', 'attachment; filename="background"');
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
