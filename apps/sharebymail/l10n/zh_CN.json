@@ -36,13 +36,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "允许用户通过电子邮件地址来共享文件或文件夹的个性化链接。",
     "Send password by mail" : "通过电子邮件发送密码",
     "Enforce password protection" : "强制密码保护",
-    "Failed to send share by E-mail" : "通过电子邮件发送共享失败",
-    "%s shared »%s« with you on behalf of %s" : "%s 共享 »%s« 和你代表 %s",
-    "Failed to create the E-mail" : "创建电子邮件失败",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "嘿那儿,\n\n%s 共享 »%s« 与你代表 %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "嘿那儿,\n\n%s 共享 »%s« 与你.\n\n%s\n\n",
-    "Cheers!" : "干杯！",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "嘿那儿,<br><br>%s 共享 <a href=\"%s\">%s</a> 与你代表 %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "嘿那儿,<br><br>%s 共享 <a href=\"%s\">%s</a> 与你.<br><br>"
+    "Failed to send share by E-mail" : "通过电子邮件发送共享失败"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

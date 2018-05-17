@@ -45,10 +45,10 @@ use Sabre\DAV\Exception\NotFound;
 use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Backend\SearchResult;
-use SearchDAV\XML\BasicSearch;
-use SearchDAV\XML\Literal;
-use SearchDAV\XML\Operator;
-use SearchDAV\XML\Order;
+use SearchDAV\Query\Query;
+use SearchDAV\Query\Literal;
+use SearchDAV\Query\Operator;
+use SearchDAV\Query\Order;
 
 class FileSearchBackend implements ISearchBackend {
 	/** @var CachingTree */
@@ -113,7 +113,7 @@ class FileSearchBackend implements ISearchBackend {
 		//todo dynamically load all propfind properties that are supported
 		return [
 			// queryable properties
-			new SearchPropertyDefinition('{DAV:}displayname', true, false, true),
+			new SearchPropertyDefinition('{DAV:}displayname', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getlastmodified', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
@@ -135,10 +135,10 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	/**
-	 * @param BasicSearch $search
+	 * @param Query $search
 	 * @return SearchResult[]
 	 */
-	public function search(BasicSearch $search) {
+	public function search(Query $search) {
 		if (count($search->from) !== 1) {
 			throw new \InvalidArgumentException('Searching more than one folder is not supported');
 		}
@@ -157,7 +157,8 @@ class FileSearchBackend implements ISearchBackend {
 		/** @var Folder $folder $results */
 		$results = $folder->search($query);
 
-		return array_map(function (Node $node) {
+		/** @var SearchResult[] $nodes */
+		$nodes = array_map(function (Node $node) {
 			if ($node instanceof Folder) {
 				$davNode = new \OCA\DAV\Connector\Sabre\Directory($this->view, $node, $this->tree, $this->shareManager);
 			} else {
@@ -167,6 +168,90 @@ class FileSearchBackend implements ISearchBackend {
 			$this->tree->cacheNode($davNode, $path);
 			return new SearchResult($davNode, $path);
 		}, $results);
+
+		// Sort again, since the result from multiple storages is appended and not sorted
+		usort($nodes, function (SearchResult $a, SearchResult $b) use ($search) {
+			return $this->sort($a, $b, $search->orderBy);
+		});
+
+		// If a limit is provided use only return that number of files
+		if ($search->limit->maxResults !== 0) {
+			$nodes = \array_slice($nodes, 0, $search->limit->maxResults);
+		}
+
+		return $nodes;
+	}
+
+	private function sort(SearchResult $a, SearchResult $b, array $orders) {
+		/** @var Order $order */
+		foreach ($orders as $order) {
+			$v1 = $this->getSearchResultProperty($a, $order->property);
+			$v2 = $this->getSearchResultProperty($b, $order->property);
+
+
+			if ($v1 === null && $v2 === null) {
+				continue;
+			}
+			if ($v1 === null) {
+				return $order->order === Order::ASC ? 1 : -1;
+			}
+			if ($v2 === null) {
+				return $order->order === Order::ASC ? -1 : 1;
+			}
+
+			$s = $this->compareProperties($v1, $v2, $order);
+			if ($s === 0) {
+				continue;
+			}
+
+			if ($order->order === Order::DESC) {
+				$s = -$s;
+			}
+			return $s;
+		}
+
+		return 0;
+	}
+
+	private function compareProperties($a, $b, Order $order) {
+		switch ($order->property->dataType) {
+			case SearchPropertyDefinition::DATATYPE_STRING:
+				return strcmp($a, $b);
+			case SearchPropertyDefinition::DATATYPE_BOOLEAN:
+				if ($a === $b) {
+					return 0;
+				}
+				if ($a === false) {
+					return -1;
+				}
+				return 1;
+			default:
+				if ($a === $b) {
+					return 0;
+				}
+				if ($a < $b) {
+					return -1;
+				}
+				return 1;
+		}
+	}
+
+	private function getSearchResultProperty(SearchResult $result, SearchPropertyDefinition $property) {
+		/** @var \OCA\DAV\Connector\Sabre\Node $node */
+		$node = $result->node;
+
+		switch ($property->name) {
+			case '{DAV:}displayname':
+				return $node->getName();
+			case '{DAV:}getlastmodified':
+				return $node->getLastModified();
+			case FilesPlugin::SIZE_PROPERTYNAME:
+				return $node->getSize();
+			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:
+				return $node->getInternalFileId();
+			default:
+				return null;
+		}
 	}
 
 	/**
@@ -179,13 +264,14 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	/**
-	 * @param BasicSearch $query
+	 * @param Query $query
 	 * @return ISearchQuery
 	 */
-	private function transformQuery(BasicSearch $query) {
-		// TODO offset, limit
+	private function transformQuery(Query $query) {
+		// TODO offset
+		$limit = $query->limit;
 		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
-		return new SearchQuery($this->transformSearchOperation($query->where), 0, 0, $orders, $this->user);
+		return new SearchQuery($this->transformSearchOperation($query->where), (int)$limit->maxResults, 0, $orders, $this->user);
 	}
 
 	/**
@@ -217,7 +303,7 @@ class FileSearchBackend implements ISearchBackend {
 				if (count($operator->arguments) !== 2) {
 					throw new \InvalidArgumentException('Invalid number of arguments for ' . $trimmedType . ' operation');
 				}
-				if (!is_string($operator->arguments[0])) {
+				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
 					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
 				}
 				if (!($operator->arguments[1] instanceof Literal)) {
@@ -232,11 +318,11 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	/**
-	 * @param string $propertyName
+	 * @param SearchPropertyDefinition $property
 	 * @return string
 	 */
-	private function mapPropertyNameToColumn($propertyName) {
-		switch ($propertyName) {
+	private function mapPropertyNameToColumn(SearchPropertyDefinition $property) {
+		switch ($property->name) {
 			case '{DAV:}displayname':
 				return 'name';
 			case '{DAV:}getcontenttype':
@@ -252,33 +338,26 @@ class FileSearchBackend implements ISearchBackend {
 			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:
 				return 'fileid';
 			default:
-				throw new \InvalidArgumentException('Unsupported property for search or order: ' . $propertyName);
+				throw new \InvalidArgumentException('Unsupported property for search or order: ' . $property->name);
 		}
 	}
 
-	private function castValue($propertyName, $value) {
-		$allProps = $this->getPropertyDefinitionsForScope('', '');
-		foreach ($allProps as $prop) {
-			if ($prop->name === $propertyName) {
-				$dataType = $prop->dataType;
-				switch ($dataType) {
-					case SearchPropertyDefinition::DATATYPE_BOOLEAN:
-						return $value === 'yes';
-					case SearchPropertyDefinition::DATATYPE_DECIMAL:
-					case SearchPropertyDefinition::DATATYPE_INTEGER:
-					case SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER:
-						return 0 + $value;
-					case SearchPropertyDefinition::DATATYPE_DATETIME:
-						if (is_numeric($value)) {
-							return 0 + $value;
-						}
-						$date = \DateTime::createFromFormat(\DateTime::ATOM, $value);
-						return ($date instanceof \DateTime) ? $date->getTimestamp() : 0;
-					default:
-						return $value;
+	private function castValue(SearchPropertyDefinition $property, $value) {
+		switch ($property->dataType) {
+			case SearchPropertyDefinition::DATATYPE_BOOLEAN:
+				return $value === 'yes';
+			case SearchPropertyDefinition::DATATYPE_DECIMAL:
+			case SearchPropertyDefinition::DATATYPE_INTEGER:
+			case SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER:
+				return 0 + $value;
+			case SearchPropertyDefinition::DATATYPE_DATETIME:
+				if (is_numeric($value)) {
+					return 0 + $value;
 				}
-			}
+				$date = \DateTime::createFromFormat(\DateTime::ATOM, $value);
+				return ($date instanceof \DateTime) ? $date->getTimestamp() : 0;
+			default:
+				return $value;
 		}
-		return $value;
 	}
 }

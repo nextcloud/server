@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -58,13 +59,19 @@ class DiscoveryService implements IDiscoveryService {
 	 *
 	 * @param string $remote
 	 * @param string $service the service you want to discover
+	 * @param bool $skipCache We won't check if the data is in the cache. This is usefull if a background job is updating the status
 	 * @return array
 	 */
-	public function discover($remote, $service) {
+	public function discover(string $remote, string $service, bool $skipCache = false): array {
 		// Check the cache first
-		$cacheData = $this->cache->get($remote . '#' . $service);
-		if($cacheData) {
-			return json_decode($cacheData, true);
+		if ($skipCache === false) {
+			$cacheData = $this->cache->get($remote . '#' . $service);
+			if ($cacheData) {
+				$data = json_decode($cacheData, true);
+				if (\is_array($data)) {
+					return $data;
+				}
+			}
 		}
 
 		$discoveredServices = [];
@@ -77,7 +84,9 @@ class DiscoveryService implements IDiscoveryService {
 			]);
 			if($response->getStatusCode() === Http::STATUS_OK) {
 				$decodedServices = json_decode($response->getBody(), true);
-				$discoveredServices = $this->getEndpoints($decodedServices, $service);
+				if (\is_array($decodedServices)) {
+					$discoveredServices = $this->getEndpoints($decodedServices, $service);
+				}
 			}
 		} catch (\Exception $e) {
 			// if we couldn't discover the service or any end-points we return a empty array
@@ -91,17 +100,15 @@ class DiscoveryService implements IDiscoveryService {
 	/**
 	 * get requested end-points from the requested service
 	 *
-	 * @param $decodedServices
-	 * @param $service
+	 * @param array $decodedServices
+	 * @param string $service
 	 * @return array
 	 */
-	protected function getEndpoints($decodedServices, $service) {
+	protected function getEndpoints(array $decodedServices, string $service): array {
 
 		$discoveredServices = [];
 
-		if(is_array($decodedServices) &&
-			isset($decodedServices['services'][$service]['endpoints'])
-		) {
+		if(isset($decodedServices['services'][$service]['endpoints'])) {
 			foreach ($decodedServices['services'][$service]['endpoints'] as $endpoint => $url) {
 				if($this->isSafeUrl($url)) {
 					$discoveredServices[$endpoint] = $url;
@@ -119,7 +126,7 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param string $url
 	 * @return bool
 	 */
-	protected function isSafeUrl($url) {
+	protected function isSafeUrl(string $url): bool {
 		return (bool)preg_match('/^[\/\.\-A-Za-z0-9]+$/', $url);
 	}
 

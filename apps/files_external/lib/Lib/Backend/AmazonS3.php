@@ -23,12 +23,8 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
-
 use \OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 
 class AmazonS3 extends Backend {
@@ -42,7 +38,7 @@ class AmazonS3 extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\AmazonS3')
 			->setText($l->t('Amazon S3'))
 			->addParameters([
-				(new DefinitionParameter('bucket', $l->t('Bucket'))),
+				new DefinitionParameter('bucket', $l->t('Bucket')),
 				(new DefinitionParameter('hostname', $l->t('Hostname')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('port', $l->t('Port')))

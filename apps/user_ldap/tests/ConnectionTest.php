@@ -174,7 +174,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('connect')
 			->will($this->returnValue('ldapResource'));
 
-		$this->ldap->expects($this->exactly(2))
+		$this->ldap->expects($this->once())
 			->method('bind')
 			->will($this->returnValue(false));
 

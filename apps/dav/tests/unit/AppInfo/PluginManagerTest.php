@@ -22,8 +22,8 @@
 
 namespace OCA\DAV\Tests\unit\AppInfo;
 
+use OC\App\AppManager;
 use Test\TestCase;
-use OCP\App\IAppManager;
 use OC\ServerContainer;
 use OCA\DAV\AppInfo\PluginManager;
 
@@ -37,7 +37,7 @@ class PluginManagerTest extends TestCase {
 		$server = $this->createMock(ServerContainer::class);
 
 
-		$appManager = $this->createMock(IAppManager::class);
+		$appManager = $this->createMock(AppManager::class);
 		$appManager->method('getInstalledApps')
 			->willReturn(['adavapp', 'adavapp2']);
 
@@ -72,8 +72,8 @@ class PluginManagerTest extends TestCase {
 
 		$appManager->method('getAppInfo')
 			->will($this->returnValueMap([
-				['adavapp', $appInfo1],
-				['adavapp2', $appInfo2],
+				['adavapp', false, null, $appInfo1],
+				['adavapp2', false, null, $appInfo2],
 			]));
 
 		$pluginManager = new PluginManager($server, $appManager);

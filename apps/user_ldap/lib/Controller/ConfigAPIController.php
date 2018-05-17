@@ -285,7 +285,7 @@ class ConfigAPIController extends OCSController {
 
 			$config = new Configuration($configID);
 			$data = $config->getConfiguration();
-			if(!boolval(intval($showPassword))) {
+			if(!(int)$showPassword) {
 				$data['ldapAgentPassword'] = '***';
 			}
 			foreach ($data as $key => $value) {

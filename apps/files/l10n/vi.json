@@ -122,20 +122,6 @@
     "Shared by link" : "Được chia sẻ bởi liên kết",
     "Tags" : "Nhãn",
     "Deleted files" : "Thùng rác",
-    "Text file" : "Tập tin văn bản",
-    "Uploading..." : "tải lên...",
-    "_{hours}:{minutes}:{seconds} hour left_::_{hours}:{minutes}:{seconds} hours left_" : ["{hours}:{minutes}:{seconds} giờ còn lại"],
-    "_{minutes}:{seconds} minute left_::_{minutes}:{seconds} minutes left_" : ["{minutes}:{seconds} phút còn lại"],
-    "_{seconds} second left_::_{seconds} seconds left_" : ["{seconds} giây còn lại"],
-    "Any moment now..." : "Sắp xong rồi...",
-    "Soon..." : "Sớm thôi...",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này.",
-    "Move" : "Di chuyển",
-    "Copy local link" : "Sao chép liên kết cục bộ",
-    "Folder" : "Thư mục",
-    "Upload" : "Tải lên",
-    "A new file or folder has been <strong>restored</strong>" : "Một tập tin hoặc thư mục mới đã được <strong>khôi phục</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ này để <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">Truy cập tệp của bạn qua WebDAV</a>",
-    "No favorites" : "Không có mục ưa thích nào"
+    "Text file" : "Tập tin văn bản"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

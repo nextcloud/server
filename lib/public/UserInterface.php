@@ -48,6 +48,7 @@ interface UserInterface {
 	 * Returns the supported actions as int to be
 	 * compared with \OC\User\Backend::CREATE_USER etc.
 	 * @since 4.5.0
+	 * @deprecated 14.0.0 Switch to the interfaces from OCP\User\Backend
 	 */
 	public function implementsActions($actions);
 

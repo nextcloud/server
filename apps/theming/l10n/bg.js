@@ -10,7 +10,6 @@ OC.L10N.register(
     "The given color is invalid" : "Избраният цвят е невалиден",
     "No file uploaded" : "Няма качен файл",
     "Unsupported image type" : "Неподдържан тип изображение",
-    "You are already using a custom theme" : "Вие вече използвате персонализирана тема",
     "Theming" : "Теми",
     "Name" : "Име",
     "Web address" : "Уеб адрес",
@@ -21,7 +20,7 @@ OC.L10N.register(
     "Upload new logo" : "Качване на ново лого",
     "Login image" : "Изображение при вписване",
     "Upload new login background" : "Качване на нов фон за входа",
-    "reset to default" : "възстановяване към стандартни",
-    "Log in image" : "Изображение при вписване"
+    "You are already using a custom theme" : "Вие вече използвате персонализирана тема",
+    "reset to default" : "възстановяване към стандартни"
 },
 "nplurals=2; plural=(n != 1);");

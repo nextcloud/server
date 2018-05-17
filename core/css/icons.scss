@@ -165,6 +165,10 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-image: url('../img/actions/confirm.svg?v=2');
 }
 
+.icon-confirm-fade {
+	background-image: url('../img/actions/confirm-fade.svg?v=2');
+}
+
 .icon-confirm-white {
 	background-image: url('../img/actions/confirm-white.svg?v=2');
 }
@@ -294,6 +298,10 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 
 .icon-public {
 	background-image: url('../img/actions/public.svg?v=1');
+}
+
+.icon-quota {
+	background-image: url('../img/actions/quota.svg?v=1');
 }
 
 .icon-rename {
@@ -439,6 +447,10 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
 }
 
+.icon-video-switch {
+	background-image: url('../img/actions/video-switch.svg?v=1');
+}
+
 .icon-view-close {
 	background-image: url('../img/actions/view-close.svg?v=1');
 }
@@ -514,6 +526,20 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 
 .icon-picture {
 	background-image: url('../img/places/picture.svg?v=1');
+}
+
+/* CLIENTS ------------------------------------------------------------------- */
+
+.icon-desktop {
+	background-image: url('../img/clients/desktop.svg?v=1');
+}
+
+.icon-phone {
+	background-image: url('../img/clients/phone.svg?v=1');
+}
+
+.icon-tablet {
+	background-image: url('../img/clients/tablet.svg?v=1');
 }
 
 /* APP CATEGORIES ------------------------------------------------------------------- */

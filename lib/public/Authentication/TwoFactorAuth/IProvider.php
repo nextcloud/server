@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -31,13 +32,19 @@ use OCP\Template;
 interface IProvider {
 
 	/**
+	 * @since 14.0.0
+	 */
+	const EVENT_SUCCESS = self::class . '::success';
+	const EVENT_FAILED  = self::class . '::failed';
+
+	/**
 	 * Get unique identifier of this 2FA provider
 	 *
 	 * @since 9.1.0
 	 *
 	 * @return string
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * Get the display name for selecting the 2FA provider
@@ -48,7 +55,7 @@ interface IProvider {
 	 *
 	 * @return string
 	 */
-	public function getDisplayName();
+	public function getDisplayName(): string;
 
 	/**
 	 * Get the description for selecting the 2FA provider
@@ -59,7 +66,7 @@ interface IProvider {
 	 *
 	 * @return string
 	 */
-	public function getDescription();
+	public function getDescription(): string;
 
 	/**
 	 * Get the template for rending the 2FA provider view
@@ -69,7 +76,7 @@ interface IProvider {
 	 * @param IUser $user
 	 * @return Template
 	 */
-	public function getTemplate(IUser $user);
+	public function getTemplate(IUser $user): Template;
 
 	/**
 	 * Verify the given challenge
@@ -78,8 +85,9 @@ interface IProvider {
 	 *
 	 * @param IUser $user
 	 * @param string $challenge
+	 * @return bool
 	 */
-	public function verifyChallenge(IUser $user, $challenge);
+	public function verifyChallenge(IUser $user, string $challenge): bool;
 
 	/**
 	 * Decides whether 2FA is enabled for the given user
@@ -87,7 +95,7 @@ interface IProvider {
 	 * @since 9.1.0
 	 *
 	 * @param IUser $user
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isTwoFactorAuthEnabledForUser(IUser $user);
+	public function isTwoFactorAuthEnabledForUser(IUser $user): bool;
 }

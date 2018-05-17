@@ -61,6 +61,6 @@ class ApplicationTest extends TestCase {
 		/** @var IManager|\PHPUnit_Framework_MockObject_MockObject $cm */
 		$cm = $this->createMock(IManager::class);
 		$app->setupContactsProvider($cm, 'xxx');
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 }

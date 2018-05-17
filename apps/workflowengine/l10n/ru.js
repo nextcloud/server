@@ -1,6 +1,8 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Список групп пуст",
+    "Unable to retrieve the group list" : "Не удается получить список групп",
     "Saved" : "Сохранено",
     "Saving failed:" : "Ошибка при сохранении:",
     "File MIME type" : "MIME-тип файла",
@@ -58,16 +60,15 @@ OC.L10N.register(
     "Check %s does not exist" : "Проверка %s не существует",
     "Check %s is invalid" : "Проверка %s неверна",
     "Check #%s does not exist" : "Проверка #%s не существует",
-    "Workflow" : "Рабочий процесс",
+    "Workflow" : "Обработка файлов",
+    "Files workflow engine" : "Механизм обработки файлов",
     "Open documentation" : "Открыть документацию",
     "Add rule group" : "Добавить группу правил",
     "Short rule description" : "Краткое описание правила",
     "Add rule" : "Добавить правило",
     "Reset" : "Сбросить",
     "Save" : "Сохранить",
-    "Saving…" : "Сохранение...",
-    "Loading…" : "Загрузка...",
-    "Successfully saved" : "Успешно сохранено",
-    "File mime type" : "MIME тип файла"
+    "Saving…" : "Сохранение…",
+    "Loading…" : "Загрузка…"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

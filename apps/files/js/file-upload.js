@@ -235,7 +235,7 @@ OC.FileUpload.prototype = {
 		) {
 			data.isChunked = true;
 			chunkFolderPromise = this.uploader.davClient.createDirectory(
-				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+				'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
 			);
 			// TODO: if fails, it means same id already existed, need to retry
 		} else {
@@ -272,8 +272,8 @@ OC.FileUpload.prototype = {
 		}
 
 		return this.uploader.davClient.move(
-			'uploads/' + encodeURIComponent(uid) + '/' + encodeURIComponent(this.getId()) + '/.file',
-			'files/' + encodeURIComponent(uid) + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
+			'uploads/' + uid + '/' + this.getId() + '/.file',
+			'files/' + uid + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
 			true,
 			headers
 		);
@@ -282,7 +282,7 @@ OC.FileUpload.prototype = {
 	_deleteChunkFolder: function() {
 		// delete transfer directory for this upload
 		this.uploader.davClient.remove(
-			'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+			'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
 		);
 	},
 
@@ -576,7 +576,6 @@ OC.Uploader.prototype = _.extend({
 	 * Clear uploads
 	 */
 	clear: function() {
-		this._uploads = {};
 		this._knownDirs = {};
 	},
 	/**
@@ -593,6 +592,19 @@ OC.Uploader.prototype = _.extend({
 			return this._uploads[data.uploadId];
 		}
 		return null;
+	},
+
+	/**
+	 * Removes an upload from the list of known uploads.
+	 *
+	 * @param {OC.FileUpload} upload the upload to remove.
+	 */
+	removeUpload: function(upload) {
+		if (!upload || !upload.data || !upload.data.uploadId) {
+			return;
+		}
+
+		delete this._uploads[upload.data.uploadId];
 	},
 
 	showUploadCancelMessage: _.debounce(function() {
@@ -958,7 +970,8 @@ OC.Uploader.prototype = _.extend({
 						status = upload.getResponseStatus();
 					}
 					self.log('fail', e, upload);
-					self._hideProgressBar();
+
+					self.removeUpload(upload);
 
 					if (data.textStatus === 'abort') {
 						self.showUploadCancelMessage();
@@ -996,6 +1009,8 @@ OC.Uploader.prototype = _.extend({
 					var upload = self.getUpload(data);
 					var that = $(this);
 					self.log('done', e, upload);
+
+					self.removeUpload(upload);
 
 					var status = upload.getResponseStatus();
 					if (status < 200 || status >= 300) {
@@ -1109,14 +1124,11 @@ OC.Uploader.prototype = _.extend({
 					self.log('progress handle fileuploadstop', e, data);
 
 					self.clear();
+					self._hideProgressBar();
 					self.trigger('stop', e, data);
 				});
 				fileupload.on('fileuploadfail', function(e, data) {
 					self.log('progress handle fileuploadfail', e, data);
-					//if user pressed cancel hide upload progress bar and cancel button
-					if (data.errorThrown === 'abort') {
-						self._hideProgressBar();
-					}
 					self.trigger('fail', e, data);
 				});
 				var disableDropState = function() {
@@ -1166,20 +1178,18 @@ OC.Uploader.prototype = _.extend({
 					var chunkId = range.split('/')[0].split('-')[0];
 					data.url = OC.getRootPath() +
 						'/remote.php/dav/uploads' +
-						'/' + encodeURIComponent(OC.getCurrentUser().uid) +
-						'/' + encodeURIComponent(upload.getId()) +
-						'/' + encodeURIComponent(chunkId);
+						'/' + OC.getCurrentUser().uid +
+						'/' + upload.getId() +
+						'/' + chunkId;
 					delete data.contentRange;
 					delete data.headers['Content-Range'];
 				});
 				fileupload.on('fileuploaddone', function(e, data) {
 					var upload = self.getUpload(data);
 					upload.done().then(function() {
-						self._hideProgressBar();
 						self.trigger('done', e, upload);
 					}).fail(function(status, response) {
 						var message = response.message;
-						self._hideProgressBar();
 						if (status === 507) {
 							// not enough space
 							OC.Notification.show(message || t('files', 'Not enough free space'), {type: 'error'});

@@ -113,7 +113,7 @@ class ArrayCache extends Cache implements IMemcache {
 			return $oldValue + $step;
 		} else {
 			$success = $this->add($key, $step);
-			return ($success) ? $step : false;
+			return $success ? $step : false;
 		}
 	}
 

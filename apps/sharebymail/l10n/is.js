@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Gerir notendum kleift að deila sérsniðnum tengli á skrá eða möppu með því að setja inn tölvupóstfang.",
     "Send password by mail" : "Senda lykilorð með pósti",
     "Enforce password protection" : "Krefjast verndunar með aðgangsorði",
-    "Failed to send share by E-mail" : "Gat ekki sent sameign með tölvupósti",
-    "%s shared »%s« with you on behalf of %s" : "%s deildi »%s« með þér fyrir hönd %s",
-    "Failed to create the E-mail" : "Mistókst að útbúa tölvupóstinn",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Góðan daginn,\n\n%s deildi »%s« með þér fyrir hönd %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Góðan daginn,\n\n%s deildi »%s« með þér.\n\n%s\n\n",
-    "Cheers!" : "Til hamingju!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Góðan daginn,<br><br>%s deildi <a href=\"%s\">%s</a> með þér fyrir hönd %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Góðan daginn,<br><br>%s deildi <a href=\"%s\">%s</a> með þér.<br><br>"
+    "Failed to send share by E-mail" : "Gat ekki sent sameign með tölvupósti"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

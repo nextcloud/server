@@ -16,8 +16,6 @@ use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
-use OCP\Migration\ISchemaMigration;
-use OCP\Migration\ISqlMigration;
 
 /**
  * Class MigrationsTest

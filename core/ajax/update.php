@@ -28,6 +28,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\ILogger;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
@@ -98,7 +100,7 @@ class FeedBackHandler {
 	}
 }
 
-if (OC::checkUpgrade(false)) {
+if (\OCP\Util::needUpgrade()) {
 
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {
@@ -120,7 +122,6 @@ if (OC::checkUpgrade(false)) {
 			\OC::$server->query(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
-	$disabledThirdPartyApps = [];
 
 	$dispatcher = \OC::$server->getEventDispatcher();
 	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($eventSource, $l) {
@@ -187,9 +188,6 @@ if (OC::checkUpgrade(false)) {
 	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
 		$incompatibleApps[]= $app;
 	});
-	$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use (&$disabledThirdPartyApps) {
-		$disabledThirdPartyApps[]= $app;
-	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);
 		$eventSource->close();
@@ -211,15 +209,16 @@ if (OC::checkUpgrade(false)) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
+		\OC::$server->getLogger()->logException($e, [
+			'level' => ILogger::ERROR,
+			'app' => 'update',
+		]);
 		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());
 		$eventSource->close();
 		exit();
 	}
 
 	$disabledApps = [];
-	foreach ($disabledThirdPartyApps as $app) {
-		$disabledApps[$app] = (string) $l->t('%s (3rdparty)', [$app]);
-	}
 	foreach ($incompatibleApps as $app) {
 		$disabledApps[$app] = (string) $l->t('%s (incompatible)', [$app]);
 	}

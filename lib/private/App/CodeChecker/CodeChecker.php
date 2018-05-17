@@ -63,8 +63,9 @@ class CodeChecker extends BasicEmitter {
 	/**
 	 * @param string $appId
 	 * @return array
+	 * @throws \RuntimeException if app with $appId is unknown
 	 */
-	public function analyse($appId) {
+	public function analyse(string $appId): array {
 		$appPath = \OC_App::getAppPath($appId);
 		if ($appPath === false) {
 			throw new \RuntimeException("No app with given id <$appId> known.");
@@ -78,7 +79,7 @@ class CodeChecker extends BasicEmitter {
 	 * @param string $folder
 	 * @return array
 	 */
-	public function analyseFolder($appId, $folder) {
+	public function analyseFolder(string $appId, string $folder): array {
 		$errors = [];
 
 		$excludedDirectories = ['vendor', '3rdparty', '.git', 'l10n', 'tests', 'test'];
@@ -106,7 +107,7 @@ class CodeChecker extends BasicEmitter {
 		foreach ($iterator as $file) {
 			/** @var SplFileInfo $file */
 			$this->emit('CodeChecker', 'analyseFileBegin', [$file->getPathname()]);
-			$fileErrors = $this->analyseFile($file);
+			$fileErrors = $this->analyseFile($file->__toString());
 			$this->emit('CodeChecker', 'analyseFileFinished', [$file->getPathname(), $fileErrors]);
 			$errors = array_merge($fileErrors, $errors);
 		}
@@ -119,7 +120,7 @@ class CodeChecker extends BasicEmitter {
 	 * @param string $file
 	 * @return array
 	 */
-	public function analyseFile($file) {
+	public function analyseFile(string $file): array {
 		$code = file_get_contents($file);
 		$statements = $this->parser->parse($code);
 

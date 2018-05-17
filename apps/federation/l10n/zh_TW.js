@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "當聯盟分享成功建立的時候自動將伺服器加入信任清單",
     "+ Add trusted server" : "+ 加入信任的伺服器",
     "Trusted server" : "信任的伺服器",
-    "Add" : "新增",
-    "Federation" : "聯盟"
+    "Add" : "新增"
 },
 "nplurals=1; plural=0;");

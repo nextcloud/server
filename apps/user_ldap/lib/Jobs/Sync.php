@@ -25,9 +25,9 @@ namespace OCA\User_LDAP\Jobs;
 
 use OC\BackgroundJob\TimedJob;
 use OC\ServerNotAvailableException;
-use OCA\User_LDAP\Access;
+use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
-use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
@@ -62,6 +62,10 @@ class Sync extends TimedJob {
 	protected $ncUserManager;
 	/** @var  IManager */
 	protected $notificationManager;
+	/** @var ConnectionFactory */
+	protected $connectionFactory;
+	/** @var AccessFactory */
+	protected $accessFactory;
 
 	public function __construct() {
 		$this->setInterval(
@@ -112,7 +116,7 @@ class Sync extends TimedJob {
 	/**
 	 * @param array $argument
 	 */
-	protected function run($argument) {
+	public function run($argument) {
 		$this->setArgument($argument);
 
 		$isBackgroundJobModeAjax = $this->config
@@ -140,11 +144,11 @@ class Sync extends TimedJob {
 			if ($expectMoreResults) {
 				$this->increaseOffset($cycleData);
 			} else {
-				$this->determineNextCycle();
+				$this->determineNextCycle($cycleData);
 			}
 			$this->updateInterval();
 		} catch (ServerNotAvailableException $e) {
-			$this->determineNextCycle();
+			$this->determineNextCycle($cycleData);
 		}
 	}
 
@@ -153,8 +157,8 @@ class Sync extends TimedJob {
 	 * @return bool whether more results are expected from the same configuration
 	 */
 	public function runCycle($cycleData) {
-		$connection = new Connection($this->ldap, $cycleData['prefix']);
-		$access = new Access($connection, $this->ldap, $this->userManager, $this->ldapHelper, $this->config);
+		$connection = $this->connectionFactory->get($cycleData['prefix']);
+		$access = $this->accessFactory->get($connection);
 		$access->setUserMapper($this->mapper);
 
 		$filter = $access->combineFilterWithAnd(array(
@@ -170,10 +174,10 @@ class Sync extends TimedJob {
 			true
 		);
 
-		if($connection->ldapPagingSize === 0) {
-			return true;
+		if((int)$connection->ldapPagingSize === 0) {
+			return false;
 		}
-		return count($results) !== $connection->ldapPagingSize;
+		return count($results) >= (int)$connection->ldapPagingSize;
 	}
 
 	/**
@@ -246,7 +250,7 @@ class Sync extends TimedJob {
 	 * @param $cycleData
 	 * @return bool
 	 */
-	protected function qualifiesToRun($cycleData) {
+	public function qualifiesToRun($cycleData) {
 		$lastChange = $this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', 0);
 		if((time() - $lastChange) > 60 * 30) {
 			return true;
@@ -357,6 +361,24 @@ class Sync extends TimedJob {
 			$this->mapper = $argument['mapper'];
 		} else {
 			$this->mapper = new UserMapping($this->dbc);
+		}
+		
+		if(isset($argument['connectionFactory'])) {
+			$this->connectionFactory = $argument['connectionFactory'];
+		} else {
+			$this->connectionFactory = new ConnectionFactory($this->ldap);
+		}
+
+		if(isset($argument['accessFactory'])) {
+			$this->accessFactory = $argument['accessFactory'];
+		} else {
+			$this->accessFactory = new AccessFactory(
+				$this->ldap,
+				$this->userManager,
+				$this->ldapHelper,
+				$this->config,
+				$this->ncUserManager
+			);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,7 +25,7 @@
 namespace OC\IntegrityCheck\Iterator;
 
 class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
-	private $excludedFolders = [];
+	private $excludedFolders;
 
 	public function __construct(\RecursiveIterator $iterator, $root = '') {
 		parent::__construct($iterator);
@@ -59,7 +60,7 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 	 * @return bool
 	 */
 	public function accept() {
-		return !in_array(
+		return !\in_array(
 			$this->current()->getPathName(),
 			$this->excludedFolders,
 			true

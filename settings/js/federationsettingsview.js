@@ -62,14 +62,13 @@
 		render: function() {
 			var self = this;
 			_.each(this._inputFields, function(field) {
-				var $heading = self.$('#' + field + 'form h2');
-				var $icon = self.$('#' + field + 'form h2 > span');
+				var $icon = self.$('#' + field + 'form h2 > .federation-menu');
 				var scopeMenu = new OC.Settings.FederationScopeMenu({field: field});
 
 				self.listenTo(scopeMenu, 'select:scope', function(scope) {
 					self._onScopeChanged(field, scope);
 				});
-				$heading.append(scopeMenu.$el);
+				$icon.append(scopeMenu.$el);
 				$icon.on('click', _.bind(scopeMenu.show, scopeMenu));
 
 				// Restore initial state
@@ -190,7 +189,7 @@
 		},
 
 		_setFieldScopeIcon: function(field, scope) {
-			var $icon = this.$('#' + field + 'form > h2 > span');
+			var $icon = this.$('#' + field + 'form > h2 .icon-federation-menu');
 			
 			$icon.removeClass('icon-password');
 			$icon.removeClass('icon-contacts-dark');

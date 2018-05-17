@@ -45,7 +45,7 @@
 			var placeholder = 'Mozilla/5.0 User Agent';
 
 			if (check['operator'] === 'matches' || check['operator'] === '!matches') {
-				placeholder = '/^Mozilla\\/5\\.0 (.?)$/i';
+				placeholder = '/^Mozilla\\/5\\.0 (.*)$/i';
 			}
 
 			$(element).css('width', '250px')

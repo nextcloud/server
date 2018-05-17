@@ -171,9 +171,10 @@ abstract class Fetcher {
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
 		} catch (ConnectException $e) {
-			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => Util::INFO, 'message' => 'Could not connect to appstore']);
+			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::INFO, 'message' => 'Could not connect to appstore']);
 			return [];
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::INFO]);
 			return [];
 		}
 	}
@@ -193,7 +194,7 @@ abstract class Fetcher {
 	 * Set the current Nextcloud version
 	 * @param string $version
 	 */
-	public function setVersion($version) {
+	public function setVersion(string $version) {
 		$this->version = $version;
 	}
 }

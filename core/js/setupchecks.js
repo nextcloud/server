@@ -178,7 +178,7 @@
 						messages.push({
 							msg: t(
 								'core',
-								'Your PHP does not have freetype support. This will result in broken profile pictures and settings interface.'
+								'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.'
 							),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})

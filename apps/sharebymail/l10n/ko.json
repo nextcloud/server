@@ -36,13 +36,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "파일이나 폴더를 공유하는 개인화된 링크를 이메일 주소를 통해서 공유합니다.",
     "Send password by mail" : "이메일로 암호 보내기",
     "Enforce password protection" : "암호 보호 강제",
-    "Failed to send share by E-mail" : "이메일로 공유를 보낼 수 없음",
-    "%s shared »%s« with you on behalf of %s" : "%s 님이 %s을(를) 공유함(%s 님 대신)",
-    "Failed to create the E-mail" : "이메일을 생성할 수 없음",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "안녕하세요,\n\n%s 님이 여러분과 %s을(를) 공유했습니다(%s 님 대신).\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "안녕하세요,\n\n%s 님이 여러분과 %s을(를) 공유했습니다.\n\n%s\n\n",
-    "Cheers!" : "감사합니다!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "안녕하세요,<br><br>%s 님이 여러분과 <a href=\"%s\">%s</a>을(를) 공유했습니다(%s 님 대신).<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "안녕하세요,<br><br>%s 님이 여러분과 <a href=\"%s\">%s</a>을(를) 공유했습니다.<br><br>"
+    "Failed to send share by E-mail" : "이메일로 공유를 보낼 수 없음"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

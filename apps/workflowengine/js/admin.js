@@ -20,7 +20,7 @@
 
 (function() {
 	Handlebars.registerHelper('selectItem', function(currentValue, itemValue) {
-		if(currentValue === itemValue) {
+		if (currentValue === itemValue) {
 			return 'selected="selected"';
 		}
 
@@ -36,18 +36,18 @@
 	});
 
 	OCA.WorkflowEngine = _.extend(OCA.WorkflowEngine || {}, {
-			availablePlugins: [],
-			availableChecks: [],
+		availablePlugins: [],
+		availableChecks: [],
 
-			getCheckByClass: function(className) {
-				var length = OCA.WorkflowEngine.availableChecks.length;
-				for (var i = 0; i < length; i++) {
-					if (OCA.WorkflowEngine.availableChecks[i]['class'] === className) {
-						return OCA.WorkflowEngine.availableChecks[i];
-					}
+		getCheckByClass: function(className) {
+			var length = OCA.WorkflowEngine.availableChecks.length;
+			for (var i = 0; i < length; i++) {
+				if (OCA.WorkflowEngine.availableChecks[i]['class'] === className) {
+					return OCA.WorkflowEngine.availableChecks[i];
 				}
-				return undefined;
 			}
+			return undefined;
+		}
 	});
 
 	/**
@@ -149,10 +149,11 @@
 			message: '',
 			errorMessage: '',
 			saving: false,
+			groups: [],
 			initialize: function() {
 				// this creates a new copy of the object to definitely have a new reference and being able to reset the model
 				this.originalModel = JSON.parse(JSON.stringify(this.model));
-				this.model.on('change', function(){
+				this.model.on('change', function() {
 					console.log('model changed');
 					this.hasChanged = true;
 					this.render();
@@ -161,6 +162,27 @@
 				if (this.model.get('id') === undefined) {
 					this.hasChanged = true;
 				}
+				var self = this;
+				$.ajax({
+					url: OC.linkToOCS('cloud/groups', 2) + 'details',
+					dataType: 'json',
+					quietMillis: 100,
+				}).success(function(data) {
+					if (data.ocs.data.groups && data.ocs.data.groups.length > 0) {
+
+						data.ocs.data.groups.forEach(function(group) {
+							self.groups.push({ id: group.id, displayname: group.displayname });
+						});
+						self.render();
+
+					} else {
+						OC.Notification.error(t('workflowengine', 'Group list is empty'), { type: 'error' });
+						console.log(data);
+					}
+				}).error(function(data) {
+					OC.Notification.error(t('workflowengine', 'Unable to retrieve the group list'), { type: 'error' });
+					console.log(data);
+				});
 			},
 			delete: function() {
 				if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
@@ -174,7 +196,7 @@
 			reset: function() {
 				this.hasChanged = false;
 				// silent is need to not trigger the change event which resets the hasChanged attribute
-				this.model.set(this.originalModel, {silent: true});
+				this.model.set(this.originalModel, { silent: true });
 				this.render();
 			},
 			save: function() {
@@ -202,7 +224,7 @@
 				this.hasChanged = false;
 				this.saving = true;
 				this.render();
-				this.model.save(null, {success: success, error: error, context: this});
+				this.model.save(null, { success: success, error: error, context: this });
 			},
 			add: function() {
 				var checks = _.clone(this.model.get('checks')),
@@ -214,7 +236,7 @@
 					'operator': operators[0]['operator'],
 					'value': ''
 				});
-				this.model.set({'checks': checks});
+				this.model.set({ 'checks': checks });
 			},
 			checkChanged: function(event) {
 				var value = event.target.value,
@@ -248,10 +270,11 @@
 					var check = OCA.WorkflowEngine.getCheckByClass(value);
 					if (!_.isUndefined(check)) {
 						checks[id]['operator'] = check['operators'][0]['operator'];
+						checks[id]['value'] = '';
 					}
 				}
 				// model change will trigger render
-				this.model.set({'checks': checks});
+				this.model.set({ 'checks': checks });
 			},
 			deleteCheck: function(event) {
 				console.log(arguments);
@@ -261,7 +284,7 @@
 				// splice removes 1 element at index `id`
 				checks.splice(id, 1);
 				// model change will trigger render
-				this.model.set({'checks': checks});
+				this.model.set({ 'checks': checks });
 			},
 			operationChanged: function(event) {
 				var value = event.target.value,
@@ -299,22 +322,23 @@
 				}));
 
 				var checks = this.model.get('checks');
-				_.each(this.$el.find('.check'), function(element){
+				_.each(this.$el.find('.check'), function(element) {
 					var $element = $(element),
 						id = $element.data('id'),
 						check = checks[id],
 						valueElement = $element.find('.check-value').first();
+					var self = this;
 
 					_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
 						if (_.isFunction(plugin.render)) {
-							plugin.render(valueElement, check);
+							plugin.render(valueElement, check, self.groups);
 						}
 					});
 				}, this);
 
 				if (this.message !== '') {
 					// hide success messages after some time
-					_.delay(function(elements){
+					_.delay(function(elements) {
 						$(elements).css('opacity', 0);
 					}, 7000, this.$el.find('.msg.success'));
 					this.message = '';
@@ -347,16 +371,18 @@
 					});
 				}
 
-				this.collection.fetch({data: {
-					'class': classname
-				}});
+				this.collection.fetch({
+					data: {
+						'class': classname
+					}
+				});
 				this.collection.once('sync', this.render, this);
 			},
 			add: function() {
 				var operation = this.collection.create();
 				this.renderOperation(operation);
 			},
-			renderOperation: function(subView){
+			renderOperation: function(subView) {
 				var operationsElement = this.$el.find('.operations');
 				operationsElement.append(subView.$el);
 				subView.render();

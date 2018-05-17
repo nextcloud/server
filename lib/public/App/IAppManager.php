@@ -36,6 +36,26 @@ use OCP\IUser;
  * @since 8.0.0
  */
 interface IAppManager {
+
+	/**
+	 * Returns the app information from "appinfo/info.xml".
+	 *
+	 * @param string $appId
+	 * @return mixed
+	 * @since 14.0.0
+	 */
+	public function getAppInfo(string $appId, bool $path = false, $lang = null);
+
+	/**
+	 * Returns the app information from "appinfo/info.xml".
+	 *
+	 * @param string $appId
+	 * @param bool $useCache
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function getAppVersion(string $appId, bool $useCache = true): string;
+
 	/**
 	 * Check if an app is enabled for user
 	 *
@@ -47,7 +67,9 @@ interface IAppManager {
 	public function isEnabledForUser($appId, $user = null);
 
 	/**
-	 * Check if an app is installed in the instance
+	 * Check if an app is enabled in the instance
+	 *
+	 * Notice: This actually checks if the app is enabled and not only if it is installed.
 	 *
 	 * @param string $appId
 	 * @return bool

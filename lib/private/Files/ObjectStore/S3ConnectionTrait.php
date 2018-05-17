@@ -27,6 +27,7 @@ namespace OC\Files\ObjectStore;
 use Aws\ClientResolver;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use OCP\ILogger;
 
 trait S3ConnectionTrait {
 	/** @var array */
@@ -55,7 +56,7 @@ trait S3ConnectionTrait {
 
 		$this->test = isset($params['test']);
 		$this->bucket = $params['bucket'];
-		$this->timeout = (!isset($params['timeout'])) ? 15 : $params['timeout'];
+		$this->timeout = !isset($params['timeout']) ? 15 : $params['timeout'];
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
@@ -103,14 +104,20 @@ trait S3ConnectionTrait {
 		}
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
+			$logger = \OC::$server->getLogger();
 			try {
+				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
 				$this->connection->createBucket(array(
 					'Bucket' => $this->bucket
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
-				throw new \Exception('Creation of bucket failed. ' . $e->getMessage());
+				$logger->logException($e, [
+					'message' => 'Invalid remote storage.',
+					'level' => ILogger::DEBUG,
+					'app' => 'objectstore',
+				]);
+				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
 			}
 		}
 

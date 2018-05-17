@@ -51,18 +51,31 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
-use DateTimeZone;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
  * @since 4.0.0
  */
 class Util {
-	// consts for Logging
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::DEBUG
+	 */
 	const DEBUG=0;
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::INFO
+	 */
 	const INFO=1;
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::WARN
+	 */
 	const WARN=2;
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::ERROR
+	 */
 	const ERROR=3;
+	/**
+	 * @deprecated 14.0.0 use \OCP\ILogger::FATAL
+	 */
 	const FATAL=4;
 
 	/** \OCP\Share\IManager */
@@ -96,56 +109,6 @@ class Util {
 	}
 
 	/**
-	 * send an email
-	 * @param string $toaddress
-	 * @param string $toname
-	 * @param string $subject
-	 * @param string $mailtext
-	 * @param string $fromaddress
-	 * @param string $fromname
-	 * @param int $html
-	 * @param string $altbody
-	 * @param string $ccaddress
-	 * @param string $ccname
-	 * @param string $bcc
-	 * @deprecated 8.1.0 Use \OCP\Mail\IMailer instead
-	 * @since 4.0.0
-	 */
-	public static function sendMail($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
-		$html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
-		$mailer = \OC::$server->getMailer();
-		$message = $mailer->createMessage();
-		$message->setTo([$toaddress => $toname]);
-		$message->setSubject($subject);
-		$message->setPlainBody($mailtext);
-		$message->setFrom([$fromaddress => $fromname]);
-		if($html === 1) {
-			$message->setHtmlBody($altbody);
-		}
-
-		if($altbody === '') {
-			$message->setHtmlBody($mailtext);
-			$message->setPlainBody('');
-		} else {
-			$message->setHtmlBody($mailtext);
-			$message->setPlainBody($altbody);
-		}
-
-		if(!empty($ccaddress)) {
-			if(!empty($ccname)) {
-				$message->setCc([$ccaddress => $ccname]);
-			} else {
-				$message->setCc([$ccaddress]);
-			}
-		}
-		if(!empty($bcc)) {
-			$message->setBcc([$bcc]);
-		}
-
-		$mailer->send($message);
-	}
-
-	/**
 	 * write a message in the log
 	 * @param string $app
 	 * @param string $message
@@ -166,7 +129,7 @@ class Util {
 	 * @since ....0.0 - parameter $level was added in 7.0.0
 	 * @deprecated 8.2.0 use logException of \OCP\ILogger
 	 */
-	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
+	public static function logException( $app, \Exception $ex, $level = ILogger::FATAL) {
 		\OC::$server->getLogger()->logException($ex, ['app' => $app]);
 	}
 
@@ -245,32 +208,6 @@ class Util {
 	}
 
 	/**
-	 * formats a timestamp in the "right" way
-	 * @param int $timestamp $timestamp
-	 * @param bool $dateOnly option to omit time from the result
-	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
-	 * @return string timestamp
-	 *
-	 * @deprecated 8.0.0 Use \OC::$server->query('DateTimeFormatter') instead
-	 * @since 4.0.0
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
-		return \OC_Util::formatDate($timestamp, $dateOnly, $timeZone);
-	}
-
-	/**
-	 * check if some encrypted files are stored
-	 * @return bool
-	 *
-	 * @deprecated 8.1.0 No longer required
-	 * @since 6.0.0
-	 */
-	public static function encryptedFiles() {
-		return false;
-	}
-
-	/**
 	 * Creates an absolute url to the given app and file.
 	 * @param string $app app
 	 * @param string $file file
@@ -308,43 +245,6 @@ class Util {
 	 */
 	public static function linkToPublic($service) {
 		return \OC_Helper::linkToPublic($service);
-	}
-
-	/**
-	 * Creates an url using a defined route
-	 * @param string $route
-	 * @param array $parameters
-	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @return string the url
-	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
-	 * @since 5.0.0
-	 */
-	public static function linkToRoute( $route, $parameters = array() ) {
-		return \OC::$server->getURLGenerator()->linkToRoute($route, $parameters);
-	}
-
-	/**
-	 * Creates an url to the given app and file
-	 * @param string $app app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 * 	The value of $args will be urlencoded
-	 * @return string the url
-	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
-	 * @since 4.0.0 - parameter $args was added in 4.5.0
-	 */
-	public static function linkTo( $app, $file, $args = array() ) {
-		return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
-	}
-
-	/**
-	 * Returns the server host, even if the website uses one or more reverse proxy
-	 * @return string the server host
-	 * @deprecated 8.1.0 Use \OCP\IRequest::getServerHost
-	 * @since 4.0.0
-	 */
-	public static function getServerHost() {
-		return \OC::$server->getRequest()->getServerHost();
 	}
 
 	/**
@@ -392,48 +292,6 @@ class Util {
 
 		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
 		return $user_part.'@localhost.localdomain';
-	}
-
-	/**
-	 * Returns the server protocol. It respects reverse proxy servers and load balancers
-	 * @return string the server protocol
-	 * @deprecated 8.1.0 Use \OCP\IRequest::getServerProtocol
-	 * @since 4.5.0
-	 */
-	public static function getServerProtocol() {
-		return \OC::$server->getRequest()->getServerProtocol();
-	}
-
-	/**
-	 * Returns the request uri, even if the website uses one or more reverse proxies
-	 * @return string the request uri
-	 * @deprecated 8.1.0 Use \OCP\IRequest::getRequestUri
-	 * @since 5.0.0
-	 */
-	public static function getRequestUri() {
-		return \OC::$server->getRequest()->getRequestUri();
-	}
-
-	/**
-	 * Returns the script name, even if the website uses one or more reverse proxies
-	 * @return string the script name
-	 * @deprecated 8.1.0 Use \OCP\IRequest::getScriptName
-	 * @since 5.0.0
-	 */
-	public static function getScriptName() {
-		return \OC::$server->getRequest()->getScriptName();
-	}
-
-	/**
-	 * Creates path to an image
-	 * @param string $app app
-	 * @param string $image image name
-	 * @return string the url
-	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->imagePath($app, $image)
-	 * @since 4.0.0
-	 */
-	public static function imagePath( $app, $image ) {
-		return \OC::$server->getURLGenerator()->imagePath($app, $image);
 	}
 
 	/**
@@ -654,17 +512,6 @@ class Util {
 	 */
 	public static function isValidFileName($file) {
 		return \OC_Util::isValidFileName($file);
-	}
-
-	/**
-	 * Generates a cryptographic secure pseudo-random string
-	 * @param int $length of the random string
-	 * @return string
-	 * @deprecated 8.0.0 Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
-	 * @since 7.0.0
-	 */
-	public static function generateRandomBytes($length = 30) {
-		return \OC::$server->getSecureRandom()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 	}
 
 	/**

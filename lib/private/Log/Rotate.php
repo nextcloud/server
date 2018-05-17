@@ -24,6 +24,7 @@
  */
 
 namespace OC\Log;
+use OCP\Log\RotationTrait;
 
 /**
  * This rotates the current logfile to a new name, this way the total log usage
@@ -32,23 +33,17 @@ namespace OC\Log;
  * location and manage that with your own tools.
  */
 class Rotate extends \OC\BackgroundJob\Job {
-	private $max_log_size;
+	use RotationTrait;
+
 	public function run($dummy) {
 		$systemConfig = \OC::$server->getSystemConfig();
-		$logFile = $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
-		$this->max_log_size = \OC::$server->getConfig()->getSystemValue('log_rotate_size', false);
-		if ($this->max_log_size) {
-			$filesize = @filesize($logFile);
-			if ($filesize >= $this->max_log_size) {
-				$this->rotate($logFile);
-			}
-		}
-	}
+		$this->filePath = $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
 
-	protected function rotate($logfile) {
-		$rotatedLogfile = $logfile.'.1';
-		rename($logfile, $rotatedLogfile);
-		$msg = 'Log file "'.$logfile.'" was over '.$this->max_log_size.' bytes, moved to "'.$rotatedLogfile.'"';
-		\OCP\Util::writeLog('OC\Log\Rotate', $msg, \OCP\Util::WARN);
+		$this->maxSize = \OC::$server->getConfig()->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
+		if($this->shouldRotateBySize()) {
+			$rotatedFile = $this->rotate();
+			$msg = 'Log file "'.$this->filePath.'" was over '.$this->maxSize.' bytes, moved to "'.$rotatedFile.'"';
+			\OC::$server->getLogger()->warning($msg, ['app' => Rotate::class]);
+		}
 	}
 }

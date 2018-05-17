@@ -50,6 +50,9 @@ class CapabilitiesTest extends TestCase  {
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
+	/** @var Util|\PHPUnit_Framework_MockObject_MockObject */
+	protected $util;
+
 	/** @var Capabilities */
 	protected $capabilities;
 
@@ -59,13 +62,13 @@ class CapabilitiesTest extends TestCase  {
 		$this->theming = $this->createMock(ThemingDefaults::class);
 		$this->url = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->config = $this->createMock(IConfig::class);
-		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class));
-		$this->capabilities = new Capabilities($this->theming, $util, $this->url, $this->config);
+		$this->util = $this->createMock(Util::class);
+		$this->capabilities = new Capabilities($this->theming, $this->util, $this->url, $this->config);
 	}
 
 	public function dataGetCapabilities() {
 		return [
-			['name', 'url', 'slogan', '#FFFFFF', '#000000', 'logo', 'background', 'http://absolute/', [
+			['name', 'url', 'slogan', '#FFFFFF', '#000000', 'logo', 'background', 'http://absolute/', true, [
 				'name' => 'name',
 				'url' => 'url',
 				'slogan' => 'slogan',
@@ -74,8 +77,10 @@ class CapabilitiesTest extends TestCase  {
 				'color-element' => '#555555',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
+				'background-plain' => false,
+				'background-default' => false,
 			]],
-			['name1', 'url2', 'slogan3', '#01e4a0', '#ffffff', 'logo5', 'background6', 'http://localhost/', [
+			['name1', 'url2', 'slogan3', '#01e4a0', '#ffffff', 'logo5', 'background6', 'http://localhost/', false, [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
@@ -84,8 +89,10 @@ class CapabilitiesTest extends TestCase  {
 				'color-element' => '#01e4a0',
 				'logo' => 'http://localhost/logo5',
 				'background' => 'http://localhost/background6',
+				'background-plain' => false,
+				'background-default' => true,
 			]],
-			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', 'http://localhost/', [
+			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', 'http://localhost/', true, [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
@@ -94,6 +101,20 @@ class CapabilitiesTest extends TestCase  {
 				'color-element' => '#000000',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
+				'background-plain' => true,
+				'background-default' => false,
+			]],
+			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', 'http://localhost/', false, [
+				'name' => 'name1',
+				'url' => 'url2',
+				'slogan' => 'slogan3',
+				'color' => '#000000',
+				'color-text' => '#ffffff',
+				'color-element' => '#000000',
+				'logo' => 'http://localhost/logo5',
+				'background' => '#000000',
+				'background-plain' => true,
+				'background-default' => true,
 			]],
 		];
 	}
@@ -104,13 +125,14 @@ class CapabilitiesTest extends TestCase  {
 	 * @param string $url
 	 * @param string $slogan
 	 * @param string $color
-	 * @param string $logo
 	 * @param string $textColor
+	 * @param string $logo
 	 * @param string $background
 	 * @param string $baseUrl
+	 * @param bool $backgroundThemed
 	 * @param string[] $expected
 	 */
-	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $baseUrl, array $expected) {
+	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $baseUrl, $backgroundThemed, array $expected) {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->willReturn($background);
@@ -132,6 +154,16 @@ class CapabilitiesTest extends TestCase  {
 		$this->theming->expects($this->once())
 			->method('getTextColorPrimary')
 			->willReturn($textColor);
+
+		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class));
+		$this->util->expects($this->once())
+			->method('elementColor')
+			->with($color)
+			->willReturn($util->elementColor($color));
+
+		$this->util->expects($this->once())
+			->method('isBackgroundThemed')
+			->willReturn($backgroundThemed);
 
 		if($background !== 'backgroundColor') {
 			$this->theming->expects($this->once())

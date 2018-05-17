@@ -47,6 +47,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 /**
@@ -77,6 +78,8 @@ class AppSettingsController extends Controller {
 	private $bundleFetcher;
 	/** @var Installer */
 	private $installer;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * @param string $appName
@@ -90,8 +93,9 @@ class AppSettingsController extends Controller {
 	 * @param IFactory $l10nFactory
 	 * @param BundleFetcher $bundleFetcher
 	 * @param Installer $installer
+	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IL10N $l10n,
 								IConfig $config,
@@ -101,7 +105,8 @@ class AppSettingsController extends Controller {
 								AppFetcher $appFetcher,
 								IFactory $l10nFactory,
 								BundleFetcher $bundleFetcher,
-								Installer $installer) {
+								Installer $installer,
+								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -112,6 +117,7 @@ class AppSettingsController extends Controller {
 		$this->l10nFactory = $l10nFactory;
 		$this->bundleFetcher = $bundleFetcher;
 		$this->installer = $installer;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -128,6 +134,7 @@ class AppSettingsController extends Controller {
 		$params = [];
 		$params['category'] = $category;
 		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
+		$params['urlGenerator'] = $this->urlGenerator;
 		$this->navigationManager->setActiveEntry('core_apps');
 
 		$templateResponse = new TemplateResponse($this->appName, 'apps', $params, 'user');
@@ -205,7 +212,7 @@ class AppSettingsController extends Controller {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
-			$existsLocally = (\OC_App::getAppPath($app['id']) !== false) ? true : false;
+			$existsLocally = \OC_App::getAppPath($app['id']) !== false;
 			$phpDependencies = [];
 			if($phpVersion->getMinimumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['min-version'] = $phpVersion->getMinimumVersion();

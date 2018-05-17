@@ -157,7 +157,7 @@ class Encryption extends Wrapper {
 								$unencryptedSize,
 								$headerSize,
 								$signed,
-								$wrapper =  'OC\Files\Stream\Encryption') {
+								$wrapper = Encryption::class) {
 
 		$context = stream_context_create(array(
 			'ocencryption' => array(
@@ -195,10 +195,10 @@ class Encryption extends Wrapper {
 	protected static function wrapSource($source, $context, $protocol, $class, $mode = 'r+') {
 		try {
 			stream_wrapper_register($protocol, $class);
-			if (@rewinddir($source) === false) {
-				$wrapped = fopen($protocol . '://', $mode, false, $context);
-			} else {
+			if (self::isDirectoryHandle($source)) {
 				$wrapped = opendir($protocol . '://', $context);
+			} else {
+				$wrapped = fopen($protocol . '://', $mode, false, $context);
 			}
 		} catch (\BadMethodCallException $e) {
 			stream_wrapper_unregister($protocol);
@@ -329,7 +329,7 @@ class Encryption extends Wrapper {
 			$resultFseek = $this->parentStreamSeek($positionInFile);
 
 			// only allow writes on seekable streams, or at the end of the encrypted stream
-			if (!($this->readOnly) && ($resultFseek || $positionInFile === $this->size)) {
+			if (!$this->readOnly && ($resultFseek || $positionInFile === $this->size)) {
 
 				// switch the writeFlag so flush() will write the block
 				$this->writeFlag = true;

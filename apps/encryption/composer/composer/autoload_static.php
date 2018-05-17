@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitEncryption
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\Encryption\\' => 15,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -21,7 +24,6 @@ class ComposerStaticInitEncryption
         'OCA\\Encryption\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Encryption\\Command\\DisableMasterKey' => __DIR__ . '/..' . '/../lib/Command/DisableMasterKey.php',
         'OCA\\Encryption\\Command\\EnableMasterKey' => __DIR__ . '/..' . '/../lib/Command/EnableMasterKey.php',
-        'OCA\\Encryption\\Command\\MigrateKeys' => __DIR__ . '/..' . '/../lib/Command/MigrateKeys.php',
         'OCA\\Encryption\\Controller\\RecoveryController' => __DIR__ . '/..' . '/../lib/Controller/RecoveryController.php',
         'OCA\\Encryption\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\Encryption\\Controller\\StatusController' => __DIR__ . '/..' . '/../lib/Controller/StatusController.php',
@@ -37,7 +39,6 @@ class ComposerStaticInitEncryption
         'OCA\\Encryption\\Hooks\\Contracts\\IHook' => __DIR__ . '/..' . '/../lib/Hooks/Contracts/IHook.php',
         'OCA\\Encryption\\Hooks\\UserHooks' => __DIR__ . '/..' . '/../lib/Hooks/UserHooks.php',
         'OCA\\Encryption\\KeyManager' => __DIR__ . '/..' . '/../lib/KeyManager.php',
-        'OCA\\Encryption\\Migration' => __DIR__ . '/..' . '/../lib/Migration.php',
         'OCA\\Encryption\\Migration\\SetMasterKeyStatus' => __DIR__ . '/..' . '/../lib/Migration/SetMasterKeyStatus.php',
         'OCA\\Encryption\\Recovery' => __DIR__ . '/..' . '/../lib/Recovery.php',
         'OCA\\Encryption\\Session' => __DIR__ . '/..' . '/../lib/Session.php',
@@ -50,7 +51,7 @@ class ComposerStaticInitEncryption
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitEncryption::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitEncryption::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitEncryption::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitEncryption::$classMap;
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -59,7 +60,7 @@ interface IClient {
 	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
-	public function get($uri, array $options = []);
+	public function get(string $uri, array $options = []): IResponse;
 
 	/**
 	 * Sends a HEAD request
@@ -84,7 +85,7 @@ interface IClient {
 	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
-	public function head($uri, $options = []);
+	public function head(string $uri, array $options = []): IResponse;
 
 	/**
 	 * Sends a POST request
@@ -114,7 +115,7 @@ interface IClient {
 	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
-	public function post($uri, array $options = []);
+	public function post(string $uri, array $options = []): IResponse;
 
 	/**
 	 * Sends a PUT request
@@ -144,7 +145,7 @@ interface IClient {
 	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
-	public function put($uri, array $options = []);
+	public function put(string $uri, array $options = []): IResponse;
 
 	/**
 	 * Sends a DELETE request
@@ -174,7 +175,7 @@ interface IClient {
 	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
-	public function delete($uri, array $options = []);
+	public function delete(string $uri, array $options = []): IResponse;
 
 	/**
 	 * Sends a options request
@@ -204,5 +205,5 @@ interface IClient {
 	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
-	public function options($uri, array $options = []);
+	public function options(string $uri, array $options = []): IResponse;
 }

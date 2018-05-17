@@ -31,7 +31,7 @@
     "{nthServer}. Server" : "{nthServer}. Szerver",
     "No object found in the given Base DN. Please revise." : "Nem találhatók objektumok a megadott címtár gyökérben (base DN). Kérlek, ellenőrizd.",
     "More than 1,000 directory entries available." : "Több mint 1000 címtár bejegyzés érhető el.",
-    " entries available within the provided Base DN" : "a megadott címtár gyökér alatt elérhető bejegyzések",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} bejegyzés érhető el a megadott Base DN-ben","{objectsFound} bejegyzés érhető el a megadott Base DN-ben"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Hiba törént. Kérlek, ellenőrizd a címtár gyökerét (base DN), a kapcsolat beállításait és az azonosítókat.",
     "Do you really want to delete the current Server Configuration?" : "Tényleg törölni szeretné a szerver beállításait?",
     "Confirm Deletion" : "A törlés megerősítése",
@@ -117,7 +117,6 @@
     "Current password" : "Jelenlegi jelszó",
     "New password" : "Új jelszó",
     "Renew password" : "Jelszó megújítás",
-    "Wrong password. Reset it?" : "Hibás jelszó. Visszaállítja?",
     "Wrong password." : "Hibás jelszó.",
     "Cancel" : "Mégsem",
     "Server" : "Szerver",
@@ -182,15 +181,12 @@
     "UUID Attribute for Users:" : "A felhasználók UUID attribútuma:",
     "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:",
     "Username-LDAP User Mapping" : "Felhasználó - LDAP felhasználó hozzárendelés",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "A felhasználónevek adattárolásra és hozzárendelésre (meta) szolgálnak. A felhasználók pontos felismerésére és azonosítására, minden LDAP felhasználóhoz hozzárendelünk egy belső felhaszhálónevet. Ez a felhasználónév LDAP felhasználóhoz rendelését igényli. A létrehozott felhasználónév az LDAP UUID-hez kötődik. Egyben a DN tárolásra kerül az LDAP interakció csökkentésére, de nem használjuk az azonosítás során. Ha a DN változik, a változást megtaláljuk. A belső felhasználónevek újrahasznosításra kerülnek. A leképezés kitörlése mindenfelé maradványokat eredményez. A leképezések törlése nem konfiguráció érzékeny, minden LDAP konfigurációt érint! Soha ne töröld a leképezéseket éles rendszeren, csak tesztelési vagy kísérleti állapotban.",
     "Clear Username-LDAP User Mapping" : "A felhasználó - LDAP felhasználó hozzárendelés törlése",
     "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése",
-    "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "A %uid helytartó hiányzik. Ez kerül behelyettesítésre a felhasználónévvel az LDAP / AD lekérdezéskor.",
-    "Verify settings and count groups" : "Ellenőrizd a beállításokat és számold meg a csoportokat",
-    "Add a new and blank configuration" : "Új üres konfiguráció hozzáadása",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "A protokoll előtag elhagyható, kivéve, ha SSL-t kíván használni. Ebben az esetben kezdje így:  ldaps://",
+    " entries available within the provided Base DN" : "a megadott címtár gyökér alatt elérhető bejegyzések",
+    "Wrong password. Reset it?" : "Hibás jelszó. Visszaállítja?",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Figyelem:</b> a user_ldap és user_webdavauth alkalmazások nem kompatibilisek. Együttes használatuk váratlan eredményekhez vezethet. Kérje meg a rendszergazdát, hogy a kettő közül kapcsolja ki az egyiket.",
-    "in bytes" : "bájtban"
+    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "A felhasználónevek adattárolásra és hozzárendelésre (meta) szolgálnak. A felhasználók pontos felismerésére és azonosítására, minden LDAP felhasználóhoz hozzárendelünk egy belső felhaszhálónevet. Ez a felhasználónév LDAP felhasználóhoz rendelését igényli. A létrehozott felhasználónév az LDAP UUID-hez kötődik. Egyben a DN tárolásra kerül az LDAP interakció csökkentésére, de nem használjuk az azonosítás során. Ha a DN változik, a változást megtaláljuk. A belső felhasználónevek újrahasznosításra kerülnek. A leképezés kitörlése mindenfelé maradványokat eredményez. A leképezések törlése nem konfiguráció érzékeny, minden LDAP konfigurációt érint! Soha ne töröld a leképezéseket éles rendszeren, csak tesztelési vagy kísérleti állapotban."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

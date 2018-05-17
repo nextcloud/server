@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "მიეცით უფლება მომხმარებლებს ელ-მისამართში მოთავსებით, ფაილზე ან დირექტორიაზე გააზიარონ პერსონალიზირებული ბმულები",
     "Send password by mail" : "პაროლის გაგზავნა ფოსტით",
     "Enforce password protection" : "პროლით დაცვის იძულება",
-    "Failed to send share by E-mail" : "საოფსტო გაზიარების გაგზავნა ვერ მოხერხდა",
-    "%s shared »%s« with you on behalf of %s" : "%s მომხმარებელმა გაგიზიარათ »%s« სახელით %s",
-    "Failed to create the E-mail" : "ელ-ფოსტის შექმნა ვერ მოხერხდა",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "გამარჯობა,\n\nთქვენთან სახელით %s %s-სგან გაზიარდა »%s«.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "გამარჯობა,\n\n%s მომხმარებელმა გაგიზიარათ »%s«.\n\n%s\n",
-    "Cheers!" : "წარმატებები",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "გამარჯობა,<br><br>მომხმარებელმა %s გაგიზიარათ <a href=\"%s\">%s</a> სახელით %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "გამარჯობა, <br><br>მომხმარებელმა %s გაგიზიარათ <a href=\"%s\">%s</a>.<br><br>"
+    "Failed to send share by E-mail" : "საოფსტო გაზიარების გაგზავნა ვერ მოხერხდა"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

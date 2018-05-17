@@ -69,8 +69,8 @@ class CleanUp extends TimedJob {
 
 	public function __construct() {
 		$minutes = \OC::$server->getConfig()->getSystemValue(
-			'ldapUserCleanupInterval', strval($this->defaultIntervalMin));
-		$this->setInterval(intval($minutes) * 60);
+			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
+		$this->setInterval((int)$minutes * 60);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class CleanUp extends TimedJob {
 	 * @return bool
 	 */
 	public function isOffsetResetNecessary($resultCount) {
-		return ($resultCount < $this->limit) ? true : false;
+		return $resultCount < $this->limit;
 	}
 
 	/**
@@ -172,9 +172,7 @@ class CleanUp extends TimedJob {
 			return false;
 		}
 
-		$enabled = $this->isCleanUpEnabled();
-
-		return $enabled;
+		return $this->isCleanUpEnabled();
 	}
 
 	/**
@@ -183,7 +181,7 @@ class CleanUp extends TimedJob {
 	 */
 	private function isCleanUpEnabled() {
 		return (bool)$this->ocConfig->getSystemValue(
-			'ldapUserCleanupInterval', strval($this->defaultIntervalMin));
+			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
 	}
 
 	/**
@@ -215,7 +213,7 @@ class CleanUp extends TimedJob {
 	 * @return int
 	 */
 	private function getOffset() {
-		return intval($this->ocConfig->getAppValue('user_ldap', 'cleanUpJobOffset', 0));
+		return (int)$this->ocConfig->getAppValue('user_ldap', 'cleanUpJobOffset', 0);
 	}
 
 	/**

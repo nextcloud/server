@@ -46,26 +46,26 @@ class ConnectionFactory {
 	 */
 	protected $defaultConnectionParams = [
 		'mysql' => [
-			'adapter' => '\OC\DB\AdapterMySQL',
+			'adapter' => AdapterMySQL::class,
 			'charset' => 'UTF8',
 			'driver' => 'pdo_mysql',
-			'wrapperClass' => 'OC\DB\Connection',
+			'wrapperClass' => Connection::class,
 		],
 		'oci' => [
-			'adapter' => '\OC\DB\AdapterOCI8',
+			'adapter' => AdapterOCI8::class,
 			'charset' => 'AL32UTF8',
 			'driver' => 'oci8',
-			'wrapperClass' => 'OC\DB\OracleConnection',
+			'wrapperClass' => OracleConnection::class,
 		],
 		'pgsql' => [
-			'adapter' => '\OC\DB\AdapterPgSql',
+			'adapter' => AdapterPgSql::class,
 			'driver' => 'pdo_pgsql',
-			'wrapperClass' => 'OC\DB\Connection',
+			'wrapperClass' => Connection::class,
 		],
 		'sqlite3' => [
-			'adapter' => '\OC\DB\AdapterSqlite',
+			'adapter' => AdapterSqlite::class,
 			'driver' => 'pdo_sqlite',
-			'wrapperClass' => 'OC\DB\Connection',
+			'wrapperClass' => Connection::class,
 		],
 	];
 
@@ -193,16 +193,7 @@ class ConnectionFactory {
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $this->config->getValue('dbhost', '');
-			if (strpos($host, ':')) {
-				// Host variable may carry a port or socket.
-				list($host, $portOrSocket) = explode(':', $host, 2);
-				if (ctype_digit($portOrSocket)) {
-					$connectionParams['port'] = $portOrSocket;
-				} else {
-					$connectionParams['unix_socket'] = $portOrSocket;
-				}
-			}
-			$connectionParams['host'] = $host;
+			$connectionParams = array_merge($connectionParams, $this->splitHostFromPortAndSocket($host));
 			$connectionParams['dbname'] = $name;
 		}
 
@@ -231,5 +222,28 @@ class ConnectionFactory {
 		}
 
 		return $connectionParams;
+	}
+
+	/**
+	 * @param string $host
+	 * @return array
+	 */
+	protected function splitHostFromPortAndSocket($host): array {
+		$params = [
+			'host' => $host,
+		];
+
+		$matches = [];
+		if (preg_match('/^(.*):([^\]:]+)$/', $host, $matches)) {
+			// Host variable carries a port or socket.
+			$params['host'] = $matches[1];
+			if (is_numeric($matches[2])) {
+				$params['port'] = (int) $matches[2];
+			} else {
+				$params['unix_socket'] = $matches[2];
+			}
+		}
+
+		return $params;
 	}
 }

@@ -23,7 +23,7 @@
  */
 namespace OCA\DAV\Migration;
 
-use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
@@ -31,13 +31,13 @@ class Version1004Date20170919104507 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @return null|Schema
+	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
-		/** @var Schema $schema */
+		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('addressbooks');

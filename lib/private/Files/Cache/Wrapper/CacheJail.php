@@ -29,6 +29,7 @@
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Search\SearchQuery;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchQuery;
 
@@ -236,8 +237,14 @@ class CacheJail extends CacheWrapper {
 	}
 
 	public function searchQuery(ISearchQuery $query) {
-		$results = $this->getCache()->searchQuery($query);
-		return $this->formatSearchResults($results);
+		$simpleQuery = new SearchQuery($query->getSearchOperation(), 0, 0, $query->getOrder(), $query->getUser());
+		$results = $this->getCache()->searchQuery($simpleQuery);
+		$results = $this->formatSearchResults($results);
+
+		$limit = $query->getLimit() === 0 ? NULL : $query->getLimit();
+		$results = array_slice($results, $query->getOffset(), $limit);
+
+		return $results;
 	}
 
 	/**
@@ -312,6 +319,10 @@ class CacheJail extends CacheWrapper {
 	 */
 	public function getPathById($id) {
 		$path = $this->getCache()->getPathById($id);
+		if ($path === null) {
+			return null;
+		}
+
 		return $this->getJailedPath($path);
 	}
 

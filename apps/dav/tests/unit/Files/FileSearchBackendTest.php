@@ -38,6 +38,9 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Search\ISearchComparison;
 use OCP\IUser;
 use OCP\Share\IManager;
+use SearchDAV\Backend\SearchPropertyDefinition;
+use SearchDAV\Query\Limit;
+use SearchDAV\Query\Query;
 use SearchDAV\XML\BasicSearch;
 use SearchDAV\XML\Literal;
 use SearchDAV\XML\Operator;
@@ -132,7 +135,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]));
 
-		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -161,7 +164,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]));
 
-		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, '{DAV:}getcontenttype', 'foo');
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}getcontenttype', 'foo');
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -190,7 +193,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]));
 
-		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, FilesPlugin::SIZE_PROPERTYNAME, 10);
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_GREATER_THAN, FilesPlugin::SIZE_PROPERTYNAME, 10);
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -219,7 +222,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]));
 
-		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, '{DAV:}getlastmodified', 10);
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_GREATER_THAN, '{DAV:}getlastmodified', 10);
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -248,7 +251,7 @@ class FileSearchBackendTest extends TestCase {
 				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
 			]));
 
-		$query = $this->getBasicQuery(Operator::OPERATION_IS_COLLECTION, 'yes');
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_IS_COLLECTION, 'yes');
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);
@@ -266,29 +269,30 @@ class FileSearchBackendTest extends TestCase {
 		$this->searchFolder->expects($this->never())
 			->method('search');
 
-		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, '{DAV:}getetag', 'foo');
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}getetag', 'foo');
 		$this->search->search($query);
 	}
 
 	private function getBasicQuery($type, $property, $value = null) {
-		$query = new BasicSearch();
-		$scope = new Scope('/', 'infinite');
+		$scope = new \SearchDAV\Query\Scope('/', 'infinite');
 		$scope->path = '/';
-		$query->from = [$scope];
-		$query->orderBy = [];
-		$query->select = [];
+		$from = [$scope];
+		$orderBy = [];
+		$select = [];
 		if (is_null($value)) {
-			$query->where = new Operator(
+			$where = new \SearchDAV\Query\Operator(
 				$type,
-				[new Literal($property)]
+				[new \SearchDAV\Query\Literal($property)]
 			);
 		} else {
-			$query->where = new Operator(
+			$where = new \SearchDAV\Query\Operator(
 				$type,
-				[$property, new Literal($value)]
+				[new SearchPropertyDefinition($property, true, true, true), new \SearchDAV\Query\Literal($value)]
 			);
 		}
-		return $query;
+		$limit = new Limit();
+
+		return new Query($select, $from, $where, $orderBy, $limit);
 	}
 
 	/**
@@ -301,7 +305,7 @@ class FileSearchBackendTest extends TestCase {
 			->method('getNodeForPath')
 			->willReturn($davNode);
 
-		$query = $this->getBasicQuery(Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
 		$this->search->search($query);
 	}
 }

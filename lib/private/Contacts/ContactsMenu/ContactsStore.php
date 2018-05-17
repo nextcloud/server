@@ -27,14 +27,12 @@
 
 namespace OC\Contacts\ContactsMenu;
 
-use OC\Share\Share;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 
 class ContactsStore implements IContactsStore {

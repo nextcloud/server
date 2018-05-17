@@ -275,7 +275,11 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::checkPassword('roland', 'dt19');
+		$user = \OC::$server->getUserManager()->checkPassword('roland', 'dt19');
+		$result = false;
+		if ($user !== false) {
+			$result = $user->getUID();
+		}
 		$this->assertEquals('gunslinger', $result);
 	}
 
@@ -285,7 +289,11 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::checkPassword('roland', 'wrong');
+		$user = \OC::$server->getUserManager()->checkPassword('roland', 'wrong');
+		$result = false;
+		if ($user !== false) {
+			$result = $user->getUID();
+		}
 		$this->assertFalse($result);
 	}
 
@@ -295,7 +303,11 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::checkPassword('mallory', 'evil');
+		$user = \OC::$server->getUserManager()->checkPassword('mallory', 'evil');
+		$result = false;
+		if ($user !== false) {
+			$result = $user->getUID();
+		}
 		$this->assertFalse($result);
 	}
 
@@ -477,13 +489,21 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals(0, count($result));
 	}
 
+	private function getUsers($search = '', $limit = null, $offset = null) {
+		$users = \OC::$server->getUserManager()->search($search, $limit, $offset);
+		$uids = array_map(function(IUser $user) {
+			return $user->getUID();
+		}, $users);
+		return $uids;
+	}
+
 	public function testGetUsersViaAPINoParam() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers();
+		$result = $this->getUsers();
 		$this->assertEquals(3, count($result));
 	}
 
@@ -493,7 +513,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers('', 1, 2);
+		$result = $this->getUsers('', 1, 2);
 		$this->assertEquals(1, count($result));
 	}
 
@@ -503,7 +523,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers('', 2, 1);
+		$result = $this->getUsers('', 2, 1);
 		$this->assertEquals(2, count($result));
 	}
 
@@ -513,7 +533,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers('yo');
+		$result = $this->getUsers('yo');
 		$this->assertEquals(2, count($result));
 	}
 
@@ -523,7 +543,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		\OC_User::useBackend($backend);
 
-		$result = \OCP\User::getUsers('nix');
+		$result = $this->getUsers('nix');
 		$this->assertEquals(0, count($result));
 	}
 
@@ -629,7 +649,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn($this->createMock(UserMapping::class));
 
 		//test for existing user
-		$result = \OCP\User::userExists('gunslinger');
+		$result = \OC::$server->getUserManager()->userExists('gunslinger');
 		$this->assertTrue($result);
 	}
 
@@ -656,7 +676,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn($this->createMock(User::class));
 
 		//test for deleted user
-		\OCP\User::userExists('formerUser');
+		\OC::$server->getUserManager()->userExists('formerUser');
 	}
 
 	public function testUserExistsPublicAPIForNeverExisting() {
@@ -675,7 +695,7 @@ class User_LDAPTest extends TestCase {
 			}));
 
 		//test for never-existing user
-		$result = \OCP\User::userExists('mallory');
+		$result = \OC::$server->getUserManager()->userExists('mallory');
 		$this->assertFalse($result);
 	}
 
@@ -1073,11 +1093,11 @@ class User_LDAPTest extends TestCase {
 			->willReturnCallback(function($uuid) { return $uuid . '1'; });
 
 		//with displayName
-		$result = \OCP\User::getDisplayName('gunslinger');
+		$result = \OC::$server->getUserManager()->get('gunslinger')->getDisplayName();
 		$this->assertEquals('Roland Deschain', $result);
 
 		//empty displayname retrieved
-		$result = \OCP\User::getDisplayName('newyorker');
+		$result = \OC::$server->getUserManager()->get('newyorker') === null ? 'newyorker' : \OC::$server->getUserManager()->get('newyorker')->getDisplayName();
 		$this->assertEquals('newyorker', $result);
 	}
 

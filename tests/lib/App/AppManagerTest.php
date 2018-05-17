@@ -10,6 +10,7 @@
 namespace Test\App;
 
 use OC\App\AppManager;
+use OC\AppConfig;
 use OC\Group\Group;
 use OC\User\User;
 use OCP\App\AppPathNotFoundException;
@@ -31,11 +32,11 @@ use Test\TestCase;
  */
 class AppManagerTest extends TestCase {
 	/**
-	 * @return IAppConfig|\PHPUnit_Framework_MockObject_MockObject
+	 * @return AppConfig|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getAppConfig() {
 		$appConfig = array();
-		$config = $this->createMock(IAppConfig::class);
+		$config = $this->createMock(AppConfig::class);
 
 		$config->expects($this->any())
 			->method('getValue')
@@ -75,7 +76,7 @@ class AppManagerTest extends TestCase {
 	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
 
-	/** @var IAppConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AppConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $appConfig;
 
 	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -34,7 +35,7 @@ class EnvironmentHelper {
 	 *
 	 * @return string
 	 */
-	public function getServerRoot() {
+	public function getServerRoot(): string {
 		return rtrim(\OC::$SERVERROOT, '/');
 	}
 
@@ -43,7 +44,7 @@ class EnvironmentHelper {
 	 *
 	 * @return string
 	 */
-	public function getChannel() {
+	public function getChannel(): string {
 		return \OC_Util::getChannel();
 	}
 }

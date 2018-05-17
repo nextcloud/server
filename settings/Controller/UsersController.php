@@ -1,4 +1,7 @@
 <?php
+// FIXME: disabled for now to be able to inject IGroupManager and also use
+// getSubAdmin()
+//declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -45,7 +48,6 @@ use OC\Security\IdentityProof\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Encryption\IEncryptionModule;
@@ -61,9 +63,9 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\IAvatarManager;
-use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Util;
+use OC\Settings\BackgroundJobs\VerifyUserData;
 
 /**
  * @package OC\Settings\Controller
@@ -99,10 +101,6 @@ class UsersController extends Controller {
 	private $secureRandom;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var ICrypto */
-	private $crypto;
 	/** @var Manager */
 	private $keyManager;
 	/** @var IJobList */
@@ -114,38 +112,13 @@ class UsersController extends Controller {
 	/** @var IManager */
 	private $encryptionManager;
 
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param bool $isAdmin
-	 * @param IL10N $l10n
-	 * @param ILogger $log
-	 * @param IMailer $mailer
-	 * @param IURLGenerator $urlGenerator
-	 * @param IAppManager $appManager
-	 * @param IAvatarManager $avatarManager
-	 * @param AccountManager $accountManager
-	 * @param ISecureRandom $secureRandom
-	 * @param NewUserMailHelper $newUserMailHelper
-	 * @param ITimeFactory $timeFactory
-	 * @param ICrypto $crypto
-	 * @param Manager $keyManager
-	 * @param IJobList $jobList
-	 * @param IUserMountCache $userMountCache
-	 * @param IManager $encryptionManager
-	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								IConfig $config,
-								$isAdmin,
+								bool $isAdmin,
 								IL10N $l10n,
 								ILogger $log,
 								IMailer $mailer,
@@ -155,8 +128,6 @@ class UsersController extends Controller {
 								AccountManager $accountManager,
 								ISecureRandom $secureRandom,
 								NewUserMailHelper $newUserMailHelper,
-								ITimeFactory $timeFactory,
-								ICrypto $crypto,
 								Manager $keyManager,
 								IJobList $jobList,
 								IUserMountCache $userMountCache,
@@ -175,8 +146,6 @@ class UsersController extends Controller {
 		$this->accountManager = $accountManager;
 		$this->secureRandom = $secureRandom;
 		$this->newUserMailHelper = $newUserMailHelper;
-		$this->timeFactory = $timeFactory;
-		$this->crypto = $crypto;
 		$this->keyManager = $keyManager;
 		$this->jobList = $jobList;
 		$this->userMountCache = $userMountCache;
@@ -196,7 +165,7 @@ class UsersController extends Controller {
 	 * @param array|null $userGroups
 	 * @return array
 	 */
-	private function formatUserForIndex(IUser $user, array $userGroups = null) {
+	private function formatUserForIndex(IUser $user, array $userGroups = null): array {
 
 		// TODO: eliminate this encryption specific code below and somehow
 		// hook in additional user info from other apps
@@ -234,10 +203,7 @@ class UsersController extends Controller {
 			$restorePossible = true;
 		}
 
-		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($user);
-		foreach ($subAdminGroups as $key => $subAdminGroup) {
-			$subAdminGroups[$key] = $subAdminGroup->getGID();
-		}
+		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroupsName($user);
 
 		$displayName = $user->getEMailAddress();
 		if (is_null($displayName)) {
@@ -254,7 +220,7 @@ class UsersController extends Controller {
 		return [
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
-			'groups' => (empty($userGroups)) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
+			'groups' => empty($userGroups) ? $this->groupManager->getUserGroupNames($user) : $userGroups,
 			'subadmin' => $subAdminGroups,
 			'quota' => $user->getQuota(),
 			'quota_bytes' => Util::computerFileSize($user->getQuota()),
@@ -272,7 +238,7 @@ class UsersController extends Controller {
 	 * @param array $userIDs Array with schema [$uid => $displayName]
 	 * @return IUser[]
 	 */
-	private function getUsersForUID(array $userIDs) {
+	private function getUsersForUID(array $userIDs): array {
 		$users = [];
 		foreach ($userIDs as $uid => $displayName) {
 			$users[$uid] = $this->userManager->get($uid);
@@ -292,7 +258,7 @@ class UsersController extends Controller {
 	 *
 	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
-	public function index($offset = 0, $limit = 10, $gid = '', $pattern = '', $backend = '') {
+	public function index(int $offset = 0, int $limit = 10, string $gid = '', string $pattern = '', string $backend = ''): DataResponse {
 		// Remove backends
 		if (!empty($backend)) {
 			$activeBackends = $this->userManager->getBackends();
@@ -386,11 +352,11 @@ class UsersController extends Controller {
 	 * @param string $email
 	 * @return DataResponse
 	 */
-	public function create($username, $password, array $groups = [], $email = '') {
+	public function create(string $username, string $password, array $groups = [], $email = ''): DataResponse {
 		if ($email !== '' && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Invalid mail address')
+					'message' => $this->l10n->t('Invalid mail address')
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
@@ -407,7 +373,7 @@ class UsersController extends Controller {
 						continue;
 					}
 
-					if (!$this->groupManager->getSubAdmin()->isSubAdminofGroup($currentUser, $groupObject)) {
+					if (!$this->groupManager->getSubAdmin()->isSubAdminOfGroup($currentUser, $groupObject)) {
 						unset($groups[$key]);
 					}
 				}
@@ -426,7 +392,7 @@ class UsersController extends Controller {
 		if ($this->userManager->userExists($username)) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('A user with that name already exists.')
+					'message' => $this->l10n->t('A user with that name already exists.')
 				],
 				Http::STATUS_CONFLICT
 			);
@@ -437,7 +403,7 @@ class UsersController extends Controller {
 			if ($email === '') {
 				return new DataResponse(
 					[
-						'message' => (string)$this->l10n->t('To send a password link to the user an email address is required.')
+						'message' => $this->l10n->t('To send a password link to the user an email address is required.')
 					],
 					Http::STATUS_UNPROCESSABLE_ENTITY
 				);
@@ -487,11 +453,15 @@ class UsersController extends Controller {
 					$emailTemplate = $this->newUserMailHelper->generateTemplate($user, $generatePasswordResetToken);
 					$this->newUserMailHelper->sendMail($user, $emailTemplate);
 				} catch (\Exception $e) {
-					$this->log->error("Can't send new user mail to $email: " . $e->getMessage(), ['app' => 'settings']);
+					$this->log->logException($e, [
+						'message' => "Can't send new user mail to $email",
+						'level' => ILogger::ERROR,
+						'app' => 'settings',
+					]);
 				}
 			}
 			// fetch users groups
-			$userGroups = $this->groupManager->getUserGroupIds($user);
+			$userGroups = $this->groupManager->getUserGroupNames($user);
 
 			return new DataResponse(
 				$this->formatUserForIndex($user, $userGroups),
@@ -501,7 +471,7 @@ class UsersController extends Controller {
 
 		return new DataResponse(
 			[
-				'message' => (string)$this->l10n->t('Unable to create user.')
+				'message' => $this->l10n->t('Unable to create user.')
 			],
 			Http::STATUS_FORBIDDEN
 		);
@@ -515,7 +485,7 @@ class UsersController extends Controller {
 	 * @param string $id
 	 * @return DataResponse
 	 */
-	public function destroy($id) {
+	public function destroy(string $id): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
 		$user = $this->userManager->get($id);
 
@@ -524,7 +494,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string)$this->l10n->t('Unable to delete user.')
+						'message' => $this->l10n->t('Unable to delete user.')
 					]
 				],
 				Http::STATUS_FORBIDDEN
@@ -536,32 +506,30 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string)$this->l10n->t('Authentication error')
+						'message' => $this->l10n->t('Authentication error')
 					]
 				],
 				Http::STATUS_FORBIDDEN
 			);
 		}
 
-		if ($user) {
-			if ($user->delete()) {
-				return new DataResponse(
-					[
-						'status' => 'success',
-						'data' => [
-							'username' => $id
-						]
-					],
-					Http::STATUS_NO_CONTENT
-				);
-			}
+		if ($user && $user->delete()) {
+			return new DataResponse(
+				[
+					'status' => 'success',
+					'data' => [
+						'username' => $id
+					]
+				],
+				Http::STATUS_NO_CONTENT
+			);
 		}
 
 		return new DataResponse(
 			[
 				'status' => 'error',
 				'data' => [
-					'message' => (string)$this->l10n->t('Unable to delete user.')
+					'message' => $this->l10n->t('Unable to delete user.')
 				]
 			],
 			Http::STATUS_FORBIDDEN
@@ -575,12 +543,12 @@ class UsersController extends Controller {
 	 * @param int $enabled
 	 * @return DataResponse
 	 */
-	public function setEnabled($id, $enabled) {
+	public function setEnabled(string $id, int $enabled): DataResponse {
 		$enabled = (bool)$enabled;
 		if ($enabled) {
-			$errorMsgGeneral = (string)$this->l10n->t('Error while enabling user.');
+			$errorMsgGeneral = $this->l10n->t('Error while enabling user.');
 		} else {
-			$errorMsgGeneral = (string)$this->l10n->t('Error while disabling user.');
+			$errorMsgGeneral = $this->l10n->t('Error while disabling user.');
 		}
 
 		$userId = $this->userSession->getUser()->getUID();
@@ -603,7 +571,7 @@ class UsersController extends Controller {
 					[
 						'status' => 'error',
 						'data' => [
-							'message' => (string)$this->l10n->t('Authentication error')
+							'message' => $this->l10n->t('Authentication error')
 						]
 					],
 					Http::STATUS_FORBIDDEN
@@ -645,7 +613,7 @@ class UsersController extends Controller {
 	 * @param bool $onlyVerificationCode only return verification code without updating the data
 	 * @return DataResponse
 	 */
-	public function getVerificationCode($account, $onlyVerificationCode) {
+	public function getVerificationCode(string $account, bool $onlyVerificationCode): DataResponse {
 
 		$user = $this->userSession->getUser();
 
@@ -655,7 +623,7 @@ class UsersController extends Controller {
 
 		$accountData = $this->accountManager->getUser($user);
 		$cloudId = $user->getCloudId();
-		$message = "Use my Federated Cloud ID to share with me: " . $cloudId;
+		$message = 'Use my Federated Cloud ID to share with me: ' . $cloudId;
 		$signature = $this->signMessage($user, $message);
 
 		$code = $message . ' ' . $signature;
@@ -684,7 +652,7 @@ class UsersController extends Controller {
 		if ($onlyVerificationCode === false) {
 			$this->accountManager->updateUser($user, $accountData);
 
-			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => $code,
 					'data' => $data,
@@ -704,7 +672,7 @@ class UsersController extends Controller {
 	 *
 	 * @return int
 	 */
-	protected function getCurrentTime() {
+	protected function getCurrentTime(): int {
 		return time();
 	}
 
@@ -716,12 +684,10 @@ class UsersController extends Controller {
 	 *
 	 * @return string base64 encoded signature
 	 */
-	protected function signMessage(IUser $user, $message) {
+	protected function signMessage(IUser $user, string $message): string {
 		$privateKey = $this->keyManager->getKey($user)->getPrivate();
 		openssl_sign(json_encode($message), $signature, $privateKey, OPENSSL_ALGO_SHA512);
-		$signatureBase64 = base64_encode($signature);
-
-		return $signatureBase64;
+		return base64_encode($signature);
 	}
 
 	/**
@@ -764,7 +730,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string)$this->l10n->t('Invalid mail address')
+						'message' => $this->l10n->t('Invalid mail address')
 					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
@@ -808,7 +774,7 @@ class UsersController extends Controller {
 						'websiteScope' => $data[AccountManager::PROPERTY_WEBSITE]['scope'],
 						'address' => $data[AccountManager::PROPERTY_ADDRESS]['value'],
 						'addressScope' => $data[AccountManager::PROPERTY_ADDRESS]['scope'],
-						'message' => (string)$this->l10n->t('Settings saved')
+						'message' => $this->l10n->t('Settings saved')
 					]
 				],
 				Http::STATUS_OK
@@ -832,7 +798,7 @@ class UsersController extends Controller {
 	 * @param array $data
 	 * @throws ForbiddenException
 	 */
-	protected function saveUserSettings(IUser $user, $data) {
+	protected function saveUserSettings(IUser $user, array $data) {
 
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
@@ -870,7 +836,7 @@ class UsersController extends Controller {
 	 *
 	 * @return DataResponse
 	 */
-	public function stats() {
+	public function stats(): DataResponse {
 		$userCount = 0;
 		if ($this->isAdmin) {
 			$countByBackend = $this->userManager->countUsers();
@@ -913,7 +879,7 @@ class UsersController extends Controller {
 	 * @param string $displayName
 	 * @return DataResponse
 	 */
-	public function setDisplayName($username, $displayName) {
+	public function setDisplayName(string $username, string $displayName) {
 		$currentUser = $this->userSession->getUser();
 		$user = $this->userManager->get($username);
 
@@ -970,7 +936,7 @@ class UsersController extends Controller {
 	 * @param string $mailAddress
 	 * @return DataResponse
 	 */
-	public function setEMailAddress($id, $mailAddress) {
+	public function setEMailAddress(string $id, string $mailAddress) {
 		$user = $this->userManager->get($id);
 		if (!$this->isAdmin
 			&& !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)
@@ -979,7 +945,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string)$this->l10n->t('Forbidden')
+						'message' => $this->l10n->t('Forbidden')
 					]
 				],
 				Http::STATUS_FORBIDDEN
@@ -991,7 +957,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string)$this->l10n->t('Invalid mail address')
+						'message' => $this->l10n->t('Invalid mail address')
 					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
@@ -1003,7 +969,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string)$this->l10n->t('Invalid user')
+						'message' => $this->l10n->t('Invalid user')
 					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
@@ -1016,7 +982,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => (string)$this->l10n->t('Unable to change mail address')
+						'message' => $this->l10n->t('Unable to change mail address')
 					]
 				],
 				Http::STATUS_FORBIDDEN
@@ -1034,7 +1000,7 @@ class UsersController extends Controller {
 					'data' => [
 						'username' => $id,
 						'mailAddress' => $mailAddress,
-						'message' => (string)$this->l10n->t('Email saved')
+						'message' => $this->l10n->t('Email saved')
 					]
 				],
 				Http::STATUS_OK

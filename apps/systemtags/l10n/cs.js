@@ -43,7 +43,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové tagy</strong> souboru byly upraveny",
     "Collaborative tags" : "Značky pro spolupráci",
     "Create and edit collaborative tags. These tags affect all users." : "Vytvářejte a upravujte značky pro spolupráci. Tyto značky ovlivní všechny uživatele.",
-    "Select tag …" : "Vyberte značku …",
+    "Select tag …" : "Vyberte štítek…",
     "Name" : "Název",
     "Delete" : "Smazat",
     "Public" : "Veřejné",
@@ -55,4 +55,4 @@ OC.L10N.register(
     "Size" : "Velikost",
     "Modified" : "Upraveno"
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n < 10 && n % 1 == 0) ? 1 : (n < 9999 && n >= 10 && n % 1 == 0) ? 3 : (n % 1 != 0) : 4;");

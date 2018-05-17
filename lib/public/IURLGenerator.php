@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,14 +25,6 @@
  *
  */
 
-/**
- * Public interface of ownCloud for apps to use.
- * URL generator interface
- *
- */
-
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
 /**
@@ -46,7 +39,7 @@ interface IURLGenerator {
 	 * @return string the url
 	 * @since 6.0.0
 	 */
-	public function linkToRoute($routeName, $arguments = array());
+	public function linkToRoute(string $routeName, array $arguments = array()): string;
 
 	/**
 	 * Returns the absolute URL for a route
@@ -55,7 +48,7 @@ interface IURLGenerator {
 	 * @return string the absolute url
 	 * @since 8.0.0
 	 */
-	public function linkToRouteAbsolute($routeName, $arguments = array());
+	public function linkToRouteAbsolute(string $routeName, array $arguments = array()): string;
 
 	/**
 	 * Returns an URL for an image or file
@@ -66,7 +59,7 @@ interface IURLGenerator {
 	 * @return string the url
 	 * @since 6.0.0
 	 */
-	public function linkTo($appName, $file, $args = array());
+	public function linkTo(string $appName, string $file, array $args = array()): string;
 
 	/**
 	 * Returns the link to an image, like linkTo but only with prepending img/
@@ -75,7 +68,7 @@ interface IURLGenerator {
 	 * @return string the url
 	 * @since 6.0.0
 	 */
-	public function imagePath($appName, $file);
+	public function imagePath(string $appName, string $file): string;
 
 
 	/**
@@ -84,18 +77,18 @@ interface IURLGenerator {
 	 * @return string the absolute version of the url
 	 * @since 6.0.0
 	 */
-	public function getAbsoluteURL($url);
+	public function getAbsoluteURL(string $url): string;
 
 	/**
 	 * @param string $key
 	 * @return string url to the online documentation
 	 * @since 8.0.0
 	 */
-	public function linkToDocs($key);
+	public function linkToDocs(string $key): string;
 
 	/**
 	 * @return string base url of the current request
 	 * @since 13.0.0
 	 */
-	public function getBaseUrl();
+	public function getBaseUrl(): string;
 }

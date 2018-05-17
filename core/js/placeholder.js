@@ -2,7 +2,7 @@
  * ownCloud
  *
  * @author John Molakvoæ
- * @copyright 2016-2017 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright 2016-2018 John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke
  * @copyright 2013 Morris Jobke <morris.jobke@gmail.com>
  *
@@ -36,7 +36,7 @@
  *
  * Which will result in:
  *
- * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">T</div>
+ * <div id="albumart" style="background-color: rgb(121, 90, 171); ... ">T</div>
  *
  * You may also call it like this, to have a different background, than the seed:
  *
@@ -44,25 +44,24 @@
  *
  * Resulting in:
  *
- * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">A</div>
+ * <div id="albumart" style="background-color: rgb(121, 90, 171); ... ">A</div>
  *
  */
 
  /*
- * Alternatively, you can use the prototype function to convert your string to hsl colors:
+ * Alternatively, you can use the prototype function to convert your string to rgb colors:
  *
- * "a6741a86aded5611a8e46ce16f2ad646".toHsl()
+ * "a6741a86aded5611a8e46ce16f2ad646".toRgb()
  *
- * Will return the hsl parameters within an array:
+ * Will return the rgb parameters within the following object:
  *
- * [290, 60, 68]
+ * Color {r: 208, g: 158, b: 109}
  *
  */
 
 (function ($) {
 
-	String.prototype.toHsl = function() {
-
+	String.prototype.toRgb = function() {
 		var hash = this.toLowerCase().replace(/[^0-9a-f]+/g, '');
 
 		// Already a md5 hash?
@@ -70,65 +69,74 @@
 			hash = md5(hash);
 		}
 
-		function rgbToHsl(r, g, b) {
-			r /= 255; g /= 255; b /= 255;
-			var max = Math.max(r, g, b), min = Math.min(r, g, b);
-			var h, s, l = (max + min) / 2;
-			if(max === min) {
-				h = s = 0; // achromatic
-			} else {
-				var d = max - min;
-				s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-				switch(max) {
-				case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-				case g: h = (b - r) / d + 2; break;
-				case b: h = (r - g) / d + 4; break;
-				}
-				h /= 6;
+		function Color(r,g,b) {
+			this.r = r;
+			this.g = g;
+			this.b = b;
+		}
+
+		function stepCalc(steps, ends) {
+			var step = new Array(3);
+			step[0] = (ends[1].r - ends[0].r) / steps;
+			step[1] = (ends[1].g - ends[0].g) / steps;
+			step[2] = (ends[1].b - ends[0].b) / steps;
+			return step;
+		}
+
+		function mixPalette(steps, color1, color2) {
+			var count = steps + 1;
+			var palette = new Array();
+			palette.push(color1);
+			var step = stepCalc(steps, [color1, color2])
+			for (i = 1; i < steps; i++) {
+				var r = parseInt(color1.r + (step[0] * i));
+				var g = parseInt(color1.g + (step[1] * i));
+				var b = parseInt(color1.b + (step[2] * i));
+					palette.push(new Color(r,g,b));
 			}
-			return [h, s, l];
+			return palette;
 		}
 
-		// Init vars
-		var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		var rgb = [0, 0, 0];
-		var sat = 70;
-		var lum = 68;
-		var modulo = 16;
+		var red = new Color(182, 70, 157);
+		var yellow = new Color(221, 203, 85);
+		var blue = new Color(0, 130, 201); // Nextcloud blue
+		// Number of steps to go from a color to another
+		// 3 colors * 6 will result in 18 generated colors
+		var steps = 6;
 
-		// Splitting evenly the string
-		for(var i in hash) {
-			result[i%modulo] = result[i%modulo] + parseInt(hash.charAt(i), 16).toString();
+		var palette1 = mixPalette(steps, red, yellow);
+		var palette2 = mixPalette(steps, yellow, blue);
+		var palette3 = mixPalette(steps, blue, red);
+
+		var finalPalette = palette1.concat(palette2).concat(palette3);
+
+		// Convert a string to an integer evenly
+		function hashToInt(hash, maximum) {
+			var finalInt = 0;
+			var result = Array();
+
+			// Splitting evenly the string
+			for (var i in hash) {
+				// chars in md5 goes up to f, hex:16
+				result.push(parseInt(hash.charAt(i), 16) % 16);
+			}
+			// Adds up all results
+			for (var j in result) {
+				finalInt += result[j];
+			}
+			// chars in md5 goes up to f, hex:16
+			// make sure we're always using int in our operation
+			return parseInt(parseInt(finalInt) % maximum);
 		}
-
-		// Converting our data into a usable rgb format
-		// Start at 1 because 16%3=1 but 15%3=0 and makes the repartition even
-		for(var count=1;count<modulo;count++) {
-			rgb[count%3] += parseInt(result[count]);
-		}
-
-		// Reduce values bigger than rgb requirements
-		rgb[0] = rgb[0]%255;
-		rgb[1] = rgb[1]%255;
-		rgb[2] = rgb[2]%255;
-
-		var hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
-
-		// Classic formulla to check the brigtness for our eye
-		// If too bright, lower the sat
-		var bright = Math.sqrt( 0.299 * Math.pow(rgb[0], 2) + 0.587 * Math.pow(rgb[1], 2) + 0.114 * Math.pow(rgb[2], 2) );
-		if (bright >= 200) {
-			sat = 60;
-		}
-		return [parseInt(hsl[0] * 360), sat, lum];
+		return finalPalette[hashToInt(hash, steps * 3 )];
 	};
 
 	$.fn.imageplaceholder = function(seed, text, size) {
 		text = text || seed;
 
 		// Compute the hash
-		var hsl = seed.toHsl();
-		this.css('background-color', 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)');
+		var rgb = seed.toRgb();
+		this.css('background-color', 'rgb('+rgb.r+', '+rgb.g+', '+rgb.b+')');
 
 		// Placeholders are square
 		var height = this.height() || size || 32;

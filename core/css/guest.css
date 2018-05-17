@@ -93,7 +93,7 @@ body {
 form {
 	position: relative;
 	width: 280px;
-	margin: 16px auto;
+	margin: auto;
 	padding: 0;
 }
 form fieldset {
@@ -292,9 +292,12 @@ label.infield {
 .strengthify-wrapper {
 	display: inline-block;
 	position: relative;
-	left: 15px;
-	top: -23px;
-	width: 250px;
+	left: 5px;
+	top: -20px;
+	width: 269px;
+	border-radius: 0 0 2px 2px;
+	overflow: hidden;
+	height: 3px;
 }
 .tooltip-inner {
 	font-weight: bold;
@@ -410,7 +413,6 @@ form .warning input[type='checkbox']+label {
 	padding: 12px;
 	margin-top: -6px;
 	color: #fff;
-	opacity: .7;
 }
 #forgot-password {
 	padding: 11px;
@@ -579,8 +581,7 @@ fieldset.update legend + p {
 	margin-bottom: 15px;
 }
 p.info {
-	margin: 0 auto;
-	padding-top: 20px;
+	margin: 20px auto;
 	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
 	-webkit-user-select: none;
 	-moz-user-select: none;

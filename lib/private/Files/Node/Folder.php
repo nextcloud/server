@@ -302,18 +302,15 @@ class Folder extends Node implements \OCP\Files\Folder {
 			return [];
 		}
 
-		// we only need to get the cache info once, since all mounts we found point to the same storage
-
-		$mount = $folderMounts[$mountsContainingFile[0]->getMountPoint()];
-		$cacheEntry = $mount->getStorage()->getCache()->get((int)$id);
-		if (!$cacheEntry) {
-			return [];
-		}
-		// cache jails will hide the "true" internal path
-		$internalPath = ltrim($mountsContainingFile[0]->getRootInternalPath() . '/' . $cacheEntry->getPath(), '/');
-
-		$nodes = array_map(function (ICachedMountInfo $cachedMountInfo) use ($cacheEntry, $folderMounts, $internalPath) {
+		$nodes = array_map(function (ICachedMountInfo $cachedMountInfo) use ($folderMounts, $id) {
 			$mount = $folderMounts[$cachedMountInfo->getMountPoint()];
+			$cacheEntry = $mount->getStorage()->getCache()->get((int)$id);
+			if (!$cacheEntry) {
+				return null;
+			}
+
+			// cache jails will hide the "true" internal path
+			$internalPath = ltrim($cachedMountInfo->getRootInternalPath() . '/' . $cacheEntry->getPath(), '/');
 			$pathRelativeToMount = substr($internalPath, strlen($cachedMountInfo->getRootInternalPath()));
 			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
 			$absolutePath = $cachedMountInfo->getMountPoint() . $pathRelativeToMount;
@@ -322,6 +319,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
 			));
 		}, $mountsContainingFile);
+
+		$nodes = array_filter($nodes);
 
 		return array_filter($nodes, function (Node $node) {
 			return $this->getRelativePath($node->getPath());

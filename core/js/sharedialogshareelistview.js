@@ -30,8 +30,8 @@
 					'<span class="sharingOptionsGroup">' +
 						'{{#if editPermissionPossible}}' +
 						'<span class="shareOption">' +
-							'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
-							'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
+							'<input id="canEdit-{{cid}}-{{shareId}}" type="checkbox" name="edit" class="permissions checkbox" />' +
+							'<label for="canEdit-{{cid}}-{{shareId}}">{{canEditLabel}}</label>' +
 						'</span>' +
 						'{{/if}}' +
 						'<a href="#"><span class="icon icon-more"></span></a>' +
@@ -58,8 +58,8 @@
 				'{{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isMailShare}}' +
 				'<li>' +
 					'<span class="shareOption menuitem">' +
-						'<input id="canShare-{{cid}}-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
-						'<label for="canShare-{{cid}}-{{shareWith}}">{{canShareLabel}}</label>' +
+						'<input id="canShare-{{cid}}-{{shareId}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
+						'<label for="canShare-{{cid}}-{{shareId}}">{{canShareLabel}}</label>' +
 					'</span>' +
 				'</li>' +
 				'{{/unless}} {{/if}} {{/if}}' +
@@ -67,24 +67,24 @@
 					'{{#if createPermissionPossible}}{{#unless isMailShare}}' +
 					'<li>' +
 						'<span class="shareOption menuitem">' +
-							'<input id="canCreate-{{cid}}-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
-							'<label for="canCreate-{{cid}}-{{shareWith}}">{{createPermissionLabel}}</label>' +
+							'<input id="canCreate-{{cid}}-{{shareId}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
+							'<label for="canCreate-{{cid}}-{{shareId}}">{{createPermissionLabel}}</label>' +
 						'</span>' +
 					'</li>' +
 					'{{/unless}}{{/if}}' +
 					'{{#if updatePermissionPossible}}{{#unless isMailShare}}' +
 					'<li>' +
 						'<span class="shareOption menuitem">' +
-							'<input id="canUpdate-{{cid}}-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
-							'<label for="canUpdate-{{cid}}-{{shareWith}}">{{updatePermissionLabel}}</label>' +
+							'<input id="canUpdate-{{cid}}-{{shareId}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
+							'<label for="canUpdate-{{cid}}-{{shareId}}">{{updatePermissionLabel}}</label>' +
 						'</span>' +
 					'</li>' +
 					'{{/unless}}{{/if}}' +
 					'{{#if deletePermissionPossible}}{{#unless isMailShare}}' +
 					'<li>' +
 						'<span class="shareOption menuitem">' +
-							'<input id="canDelete-{{cid}}-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
-							'<label for="canDelete-{{cid}}-{{shareWith}}">{{deletePermissionLabel}}</label>' +
+							'<input id="canDelete-{{cid}}-{{shareId}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
+							'<label for="canDelete-{{cid}}-{{shareId}}">{{deletePermissionLabel}}</label>' +
 						'</span>' +
 					'</li>' +
 					'{{/unless}}{{/if}}' +
@@ -104,7 +104,7 @@
 							'<label for="password-{{cid}}-{{shareId}}">{{passwordLabel}}</label>' +
 							'<div class="passwordContainer-{{cid}}-{{shareId}} {{#unless isPasswordSet}}hidden{{/unless}}">' +
 							'    <label for="passwordField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordLabel}}</label>' +
-							'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" />' +
+							'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" autocomplete="new-password" />' +
 							'    <span class="icon-loading-small hidden"></span>' +
 							'</div>' +
 						'</span>' +
@@ -232,7 +232,7 @@
 			return _.extend(hasPermissionOverride, {
 				cid: this.cid,
 				hasSharePermission: this.model.hasSharePermission(shareIndex),
-				hasEditPermission: this.model.hasEditPermission(shareIndex),
+				editPermissionState: this.model.editPermissionState(shareIndex),
 				hasCreatePermission: this.model.hasCreatePermission(shareIndex),
 				hasUpdatePermission: this.model.hasUpdatePermission(shareIndex),
 				hasDeletePermission: this.model.hasDeletePermission(shareIndex),
@@ -241,7 +241,7 @@
 				shareWithTitle: shareWithTitle,
 				shareType: shareType,
 				shareId: this.model.get('shares')[shareIndex].id,
-				modSeed: shareType !== OC.Share.SHARE_TYPE_USER,
+				modSeed: shareType !== OC.Share.SHARE_TYPE_USER && shareType !== OC.Share.SHARE_TYPE_CIRCLE,
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
 				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
@@ -379,16 +379,16 @@
 				$.extend(sharee, this.getShareProperties());
 				var $li = this.$('li[data-share-id=' + permissionChangeShareId + ']');
 				$li.find('.sharingOptionsGroup .popovermenu').replaceWith(this.popoverMenuTemplate(sharee));
-
-				var checkBoxId = 'canEdit-' + this.cid + '-' + sharee.shareWith;
-				checkBoxId = '#' + checkBoxId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1");
-				var $edit = $li.parent().find(checkBoxId);
-				if($edit.length === 1) {
-					$edit.prop('checked', sharee.hasEditPermission);
-				}
 			}
 
 			var _this = this;
+			this.getShareeList().forEach(function(sharee) {
+				var $edit = _this.$('#canEdit-' + _this.cid + '-' + sharee.shareId);
+				if($edit.length === 1) {
+					$edit.prop('checked', sharee.editPermissionState === 'checked');
+					$edit.prop('indeterminate', sharee.editPermissionState === 'indeterminate');
+				}
+			});
 			this.$('.popovermenu').on('afterHide', function() {
 				_this._menuOpen = false;
 			});
@@ -627,8 +627,10 @@
 					}
 				} else {
 					var numberChecked = $checkboxes.filter(':checked').length;
-					checked = numberChecked > 0;
-					$('input[name="edit"]', $li).prop('checked', checked);
+					checked = numberChecked === $checkboxes.length;
+					var $editCb = $('input[name="edit"]', $li);
+					$editCb.prop('checked', checked);
+					$editCb.prop('indeterminate', !checked && numberChecked > 0);
 				}
 			} else {
 				if ($element.attr('name') === 'edit' && $element.is(':checked')) {

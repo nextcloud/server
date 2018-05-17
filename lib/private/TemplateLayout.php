@@ -80,9 +80,9 @@ class TemplateLayout extends \OC_Template {
 			// Add navigation entry
 			$this->assign( 'application', '');
 			$this->assign( 'appid', $appId );
-			$navigation = \OC_App::getNavigation();
+			$navigation = \OC::$server->getNavigationManager()->getAll();
 			$this->assign( 'navigation', $navigation);
-			$settingsNavigation = \OC_App::getSettingsNavigation();
+			$settingsNavigation = \OC::$server->getNavigationManager()->getAll('settings');
 			$this->assign( 'settingsnavigation', $settingsNavigation);
 			foreach($navigation as $entry) {
 				if ($entry['active']) {
@@ -123,12 +123,18 @@ class TemplateLayout extends \OC_Template {
 		} else if ($renderAs == 'guest') {
 			parent::__construct('core', 'layout.guest');
 			$this->assign('bodyid', 'body-login');
+		} else if ($renderAs == 'public') {
+			parent::__construct('core', 'layout.public');
+			$this->assign( 'appid', $appId );
+			$this->assign('bodyid', 'body-public');
 		} else {
 			parent::__construct('core', 'layout.base');
 
 		}
 		// Send the language to our layouts
-		$this->assign('language', \OC::$server->getL10NFactory()->findLanguage());
+		$lang = \OC::$server->getL10NFactory()->findLanguage();
+		$lang = str_replace('_', '-', $lang);
+		$this->assign('language', $lang);
 
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
 			if (empty(self::$versionHash)) {
@@ -154,7 +160,8 @@ class TemplateLayout extends \OC_Template {
 					$this->config,
 					\OC::$server->getGroupManager(),
 					\OC::$server->getIniWrapper(),
-					\OC::$server->getURLGenerator()
+					\OC::$server->getURLGenerator(),
+					\OC::$server->getCapabilitiesManager()
 				);
 				$this->assign('inline_ocjs', $jsConfigHelper->getConfig());
 			} else {
@@ -178,7 +185,9 @@ class TemplateLayout extends \OC_Template {
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
-			&& !preg_match('/^\/login/', $pathInfo)) {
+			&& !preg_match('/^\/login/', $pathInfo)
+			&& $renderAs !== 'error' && $renderAs !== 'guest'
+		) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			// If we ignore the scss compiler,
@@ -297,13 +306,7 @@ class TemplateLayout extends \OC_Template {
 			$theme,
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			new JSCombiner(
-				\OC::$server->getAppDataDir('js'),
-				\OC::$server->getURLGenerator(),
-				\OC::$server->getMemCacheFactory()->createDistributed('JS'),
-				\OC::$server->getSystemConfig(),
-				\OC::$server->getLogger()
-			)
+			\OC::$server->query(JSCombiner::class)
 			);
 		$locator->find($scripts);
 		return $locator->getResources();

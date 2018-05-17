@@ -66,8 +66,10 @@ class CacheTest extends TestCase {
 
 		$this->shareManager = \OC::$server->getShareManager();
 
-		\OC_User::setDisplayName(self::TEST_FILES_SHARING_API_USER1, 'User One');
-		\OC_User::setDisplayName(self::TEST_FILES_SHARING_API_USER2, 'User Two');
+
+		$userManager = \OC::$server->getUserManager();
+		$userManager->get(self::TEST_FILES_SHARING_API_USER1)->setDisplayName('User One');
+		$userManager->get(self::TEST_FILES_SHARING_API_USER2)->setDisplayName('User Two');
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 

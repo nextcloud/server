@@ -59,18 +59,20 @@ trait Auth {
 		$fullUrl = substr($this->baseUrl, 0, -5) . $url;
 		try {
 			if ($useCookies) {
-				$request = $this->client->createRequest($method, $fullUrl, [
+				$options = [
 					'cookies' => $this->cookieJar,
-				]);
+				];
 			} else {
-				$request = $this->client->createRequest($method, $fullUrl);
+				$options = [];
 			}
 			if ($authHeader) {
-				$request->setHeader('Authorization', $authHeader);
+				$options['headers'] = [
+					'Authorization' => $authHeader
+				];
 			}
-			$request->setHeader('OCS_APIREQUEST', 'true');
-			$request->setHeader('requesttoken', $this->requestToken);
-			$this->response = $this->client->send($request);
+			$options['headers']['OCS_APIREQUEST'] = 'true';
+			$options['headers']['requesttoken'] = $this->requestToken;
+			$this->response = $this->client->request($method, $fullUrl, $options);
 		} catch (ClientException $ex) {
 			$this->response = $ex->getResponse();
 		} catch (ServerException $ex) {
@@ -90,7 +92,7 @@ trait Auth {
 	 * @return object
 	 */
 	private function createClientToken($loginViaWeb = true) {
-		if($loginViaWeb) {
+		if ($loginViaWeb) {
 			$this->loggingInUsingWebAs('user0');
 		}
 
@@ -101,7 +103,7 @@ trait Auth {
 				'user0',
 				$loginViaWeb ? '123456' : $this->restrictedClientToken,
 			],
-			'body' => [
+			'form_params' => [
 				'requesttoken' => $this->requestToken,
 				'name' => md5(microtime()),
 			],
@@ -109,7 +111,7 @@ trait Auth {
 		];
 
 		try {
-			$this->response = $client->send($client->createRequest('POST', $fullUrl, $options));
+			$this->response = $client->request('POST', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -119,7 +121,7 @@ trait Auth {
 	/**
 	 * @Given a new restricted client token is added
 	 */
-	public function aNewRestrictedClientTokenIsAdded()  {
+	public function aNewRestrictedClientTokenIsAdded() {
 		$tokenObj = $this->createClientToken();
 		$newCreatedTokenId = $tokenObj->deviceToken->id;
 		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens/' . $newCreatedTokenId;
@@ -136,7 +138,7 @@ trait Auth {
 			],
 			'cookies' => $this->cookieJar,
 		];
-		$this->response = $client->send($client->createRequest('PUT', $fullUrl, $options));
+		$this->response = $client->request('PUT', $fullUrl, $options);
 		$this->restrictedClientToken = $tokenObj->token;
 	}
 
@@ -232,13 +234,13 @@ trait Auth {
 		$client = new Client();
 		$response = $client->post(
 			$loginUrl, [
-			'body' => [
-				'user' => 'user0',
-				'password' => '123456',
-				'remember_login' => $remember ? '1' : '0',
-				'requesttoken' => $this->requestToken,
-			],
-			'cookies' => $this->cookieJar,
+				'form_params' => [
+					'user' => 'user0',
+					'password' => '123456',
+					'remember_login' => $remember ? '1' : '0',
+					'requesttoken' => $this->requestToken,
+				],
+				'cookies' => $this->cookieJar,
 			]
 		);
 		$this->extracRequestTokenFromResponse($response);

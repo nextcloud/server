@@ -19,7 +19,6 @@
     "The old password was not correct, please try again." : "Het oude wachtwoord was onjuist, probeer het opnieuw.",
     "The current log-in password was not correct, please try again." : "Het huidige inlogwachtwoord was niet juist, probeer het opnieuw.",
     "Private key password successfully updated." : "Privésleutel succesvol bijgewerkt.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Je moet je cryptosleutels van de oude versleuteling (ownCloud <= 8.0) migreren naar de nieuwe. Start 'occ encryption:migrate' of neem contact op met je beheerder",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ongeldige privésleutel voor de crypto app. Werk het privésleutel wachtwoord bij in je persoonlijke instellingen om opnieuw toegang te krijgen tot je versleutelde bestanden.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Crypto app is ingeschakeld, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Activeer de server-encryptie in de beheerdersinstellingen om de encryptiemodule te kunnen gebruiken.",
@@ -29,14 +28,14 @@
     "one-time password for server-side-encryption" : "eenmalig wachtwoord voor server-side versleuteling",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan dit bestand niet ontcijferen, waarschijnlijk is het een gedeeld bestand, Vraag de eigenaar om het bestand opnieuw met je te delen.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan dit bestand niet lezen, waarschijnlijk is het een gedeeld bestand. Vraag de eigenaar om het bestand opnieuw met je te delen.",
+    "Default encryption module" : "Standaard cryptomodule",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hallo daar,\n\nde beheerder heeft server-side versleuteling ingeschakeld. Je bestanden werden versleuteld met het wachtwoord '%s'.\n\nLogin op de webinterface, ga naar 'basis cryptomodule' in je persoonlijke instellingen en pas je cryptowachtwoord aan door dit wachtwoord in het 'oude inlog wachtwoord' veld in te vullen alsmede in je huidige inlogwachtwoord.\n",
     "The share will expire on %s." : "De share vervalt op %s.",
     "Cheers!" : "Proficiat!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hallo daar,<br><br>de beheerder heeft server-side versleuteling ingeschakeld. Je bestanden werden versleuteld met het wachtwoord <strong>%s</strong>.<br><br>Login op de webinterface, ga naar 'basis cryptomodule' in je persoonlijke instellingen en pas je cryptowachtwoord aan door dit wachtwoord in het \"oude inlog wachtwoord\" veld in te vullen alsmede in je huidige inlogwachtwoord.<br><br>",
-    "Default encryption module" : "Standaard cryptomodule",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is ingeschakeld, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Encrypt the home storage" : "Versleutel de eigen serveropslag",
-    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Het inschakelen van deze optie zorgt voor versleutelen van alle bestanden op do hoofdopslag, anders worden alleen bestanden op externe opslag versleuteld",
+    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Het inschakelen van deze optie zorgt voor versleutelen van alle bestanden op de hoofdopslag, anders worden alleen bestanden op externe opslag versleuteld",
     "Enable recovery key" : "Activeer herstelsleutel",
     "Disable recovery key" : "Deactiveer herstelsleutel",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "De herstelsleutel is een extra cryptografische sleutel die wordt gebruikt om bestanden te versleutelen. Die maakt het mogelijk bestanden te herstellen als de gebruiker zijn of haar wachtwoord vergeet.",
@@ -58,6 +57,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om je versleutelde bestanden te benaderen als je wachtwoord kwijt is",
     "Enabled" : "Ingeschakeld",
     "Disabled" : "Uitgeschakeld",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is ingeschakeld, maar je sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in."
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Je moet je cryptosleutels van de oude versleuteling (ownCloud <= 8.0) migreren naar de nieuwe. Start 'occ encryption:migrate' of neem contact op met je beheerder"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

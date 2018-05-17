@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,12 +25,12 @@
 
 namespace OCA\UpdateNotification\Tests;
 
-use OC\Updater;
+use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\UpdateChecker;
 use Test\TestCase;
 
 class UpdateCheckerTest extends TestCase {
-	/** @var Updater */
+	/** @var VersionCheck|\PHPUnit_Framework_MockObject_MockObject */
 	private $updater;
 	/** @var UpdateChecker */
 	private $updateChecker;
@@ -37,8 +38,7 @@ class UpdateCheckerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->updater = $this->getMockBuilder('\OC\Updater\VersionCheck')
-			->disableOriginalConstructor()->getMock();
+		$this->updater = $this->createMock(VersionCheck::class);
 		$this->updateChecker = new UpdateChecker($this->updater);
 	}
 
@@ -52,12 +52,14 @@ class UpdateCheckerTest extends TestCase {
 				'web'=> 'javascript:alert(1)',
 				'url'=> 'javascript:alert(2)',
 				'autoupdater'=> '0',
+				'eol'=> '1',
 			]);
 
 		$expected = [
 			'updateAvailable' => true,
 			'updateVersion' => 'Nextcloud 123',
 			'updaterEnabled' => false,
+			'versionIsEol' => true,
 		];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
@@ -72,12 +74,14 @@ class UpdateCheckerTest extends TestCase {
 				'web'=> 'https://docs.nextcloud.com/myUrl',
 				'url'=> 'https://downloads.nextcloud.org/server',
 				'autoupdater'=> '1',
+				'eol'=> '0',
 			]);
 
 		$expected = [
 			'updateAvailable' => true,
 			'updateVersion' => 'Nextcloud 123',
 			'updaterEnabled' => true,
+			'versionIsEol' => false,
 			'updateLink' => 'https://docs.nextcloud.com/myUrl',
 			'downloadLink' => 'https://downloads.nextcloud.org/server',
 		];

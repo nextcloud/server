@@ -1,6 +1,8 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Gruppenliste ist leer",
+    "Unable to retrieve the group list" : "Gruppenliste konnte nicht empfangen werden",
     "Saved" : "Gespeichert",
     "Saving failed:" : "Speichern fehlgeschlagen:",
     "File MIME type" : "Datei MIME-Typ",
@@ -18,7 +20,7 @@ OC.L10N.register(
     "is tagged with" : "hat den Tag",
     "is not tagged with" : "hat nicht den Tag",
     "Select tag…" : "Wähle einen Tag…",
-    "Request remote address" : "Entfernte Adresse anfordern",
+    "Request remote address" : "IP Adresse der Anfrage",
     "matches IPv4" : "entspricht IPv4",
     "does not match IPv4" : "entspricht nicht IPv4",
     "matches IPv6" : "entspricht IPv6",
@@ -59,6 +61,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Die Prüfung %s ist ungültig",
     "Check #%s does not exist" : "Die Prüfung #%s existiert nicht",
     "Workflow" : "Workflow",
+    "Files workflow engine" : "Datei-Workflow-Engine",
     "Open documentation" : "Dokumentation öffnen",
     "Add rule group" : "Regelgruppe hinzufügen",
     "Short rule description" : "Kurze Regelbeschreibung",
@@ -66,8 +69,6 @@ OC.L10N.register(
     "Reset" : "Zurücksetzen",
     "Save" : "Speichern",
     "Saving…" : "Speichern…",
-    "Loading…" : "Laden…",
-    "Successfully saved" : "Erfolgreich gespeichert",
-    "File mime type" : "Datei MIME-Typ"
+    "Loading…" : "Laden…"
 },
 "nplurals=2; plural=(n != 1);");

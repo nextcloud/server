@@ -21,8 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkAdminUser();
-OCP\JSON::callCheck();
+\OC_JSON::checkAdminUser();
+\OC_JSON::callCheck();
 
 $lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
 if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
@@ -39,6 +39,6 @@ if (!array_key_exists('appid', $_POST)) {
 $appIds = (array)$_POST['appid'];
 foreach($appIds as $appId) {
 	$appId = OC_App::cleanAppId($appId);
-	OC_App::disable($appId);
+	\OC::$server->getAppManager()->disableApp($appId);
 }
 OC_JSON::success();

@@ -27,7 +27,6 @@ namespace OCA\DAV\Files;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\Forbidden;
-use Sabre\HTTP\URLUtil;
 
 class FilesHome extends Directory {
 

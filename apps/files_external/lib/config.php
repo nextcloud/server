@@ -41,6 +41,12 @@ use \OCA\Files_External\Lib\Backend\LegacyBackend;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCP\Files\StorageNotAvailableException;
+use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Lib\Auth\Builtin;
+use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCP\IUserManager;
+use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserStoragesService;
 
 /**
  * Class to configure mount.json globally and for users
@@ -66,8 +72,8 @@ class OC_Mount_Config {
 	 * @deprecated 8.2.0 use \OCA\Files_External\Service\BackendService::registerBackend()
 	 */
 	public static function registerBackend($class, $definition) {
-		$backendService = self::$app->getContainer()->query('OCA\Files_External\Service\BackendService');
-		$auth = self::$app->getContainer()->query('OCA\Files_External\Lib\Auth\Builtin');
+		$backendService = self::$app->getContainer()->query(BackendService::class);
+		$auth = self::$app->getContainer()->query(Builtin::class);
 
 		$backendService->registerBackend(new LegacyBackend($class, $definition, $auth));
 
@@ -86,9 +92,9 @@ class OC_Mount_Config {
 	public static function getAbsoluteMountPoints($uid) {
 		$mountPoints = array();
 
-		$userGlobalStoragesService = self::$app->getContainer()->query('OCA\Files_External\Service\UserGlobalStoragesService');
-		$userStoragesService = self::$app->getContainer()->query('OCA\Files_External\Service\UserStoragesService');
-		$user = self::$app->getContainer()->query('OCP\IUserManager')->get($uid);
+		$userGlobalStoragesService = self::$app->getContainer()->query(UserGlobalStoragesService::class);
+		$userStoragesService = self::$app->getContainer()->query(UserStoragesService::class);
+		$user = self::$app->getContainer()->query(IUserManager::class)->get($uid);
 
 		$userGlobalStoragesService->setUser($user);
 		$userStoragesService->setUser($user);
@@ -127,7 +133,7 @@ class OC_Mount_Config {
 	 */
 	public static function getSystemMountPoints() {
 		$mountPoints = [];
-		$service = self::$app->getContainer()->query('OCA\Files_External\Service\GlobalStoragesService');
+		$service = self::$app->getContainer()->query(GlobalStoragesService::class);
 
 		foreach ($service->getStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, false);
@@ -145,7 +151,7 @@ class OC_Mount_Config {
 	 */
 	public static function getPersonalMountPoints() {
 		$mountPoints = [];
-		$service = self::$app->getContainer()->query('OCA\Files_External\Service\UserStoragesService');
+		$service = self::$app->getContainer()->query(UserStoragesService::class);
 
 		foreach ($service->getStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, true);
@@ -241,7 +247,7 @@ class OC_Mount_Config {
 					throw $e;
 				}
 			} catch (Exception $exception) {
-				\OCP\Util::logException('files_external', $exception);
+				\OC::$server->getLogger()->logException($exception, ['app' => 'files_external']);
 				throw $exception;
 			}
 		}
@@ -361,7 +367,7 @@ class OC_Mount_Config {
 	 */
 	private static function encryptPassword($password) {
 		$cipher = self::getCipher();
-		$iv = \OCP\Util::generateRandomBytes(16);
+		$iv = \OC::$server->getSecureRandom()->generate(16);
 		$cipher->setIV($iv);
 		return base64_encode($iv . $cipher->encrypt($password));
 	}

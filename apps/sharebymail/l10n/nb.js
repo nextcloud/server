@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillater brukere å dele en personalisert lenke til ei fil eller mappe ved å skrive inn en e-postadresse.",
     "Send password by mail" : "Send passord via e-post",
     "Enforce password protection" : "Krev passordbeskyttelse",
-    "Failed to send share by E-mail" : "Mislyktes i å sende delt ressurs per e-post",
-    "%s shared »%s« with you on behalf of %s" : "%s delte »%s« med deg på vegne av %s",
-    "Failed to create the E-mail" : "Klarte ikke å opprette e-posten",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hei,\n\n%s delte »%s« med deg på vegne av %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hei,\n\n%s delte »%s« med deg.\n\n%s\n\n",
-    "Cheers!" : "Skål!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hei,<br><br>%s delte <a href=\"%s\">%s</a> med deg på vegne av %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hei,<br><br>%s delte <a href=\"%s\">%s</a> med deg.<br><br>"
+    "Failed to send share by E-mail" : "Mislyktes i å sende delt ressurs per e-post"
 },
 "nplurals=2; plural=(n != 1);");

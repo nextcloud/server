@@ -92,6 +92,22 @@ kbd {
 	border-right: 1px solid $color-border;
 	display: flex;
 	flex-direction: column;
+
+	/* 'New' button */
+	.app-navigation-new {
+		display: block;
+		padding: 10px;
+		button {
+			display: inline-block;
+			width: 100%;
+			padding: 10px;
+			padding-left: 34px;
+			background-position: 10px center;
+			text-align: left;
+			margin: 0;
+		}
+	}
+
 	li {
 		position: relative;
 	}
@@ -118,7 +134,6 @@ kbd {
 				}
 			}
 
-			> a,
 			> .app-navigation-entry-deleted {
 				/* Ugly hack for overriding the main entry link */
 				padding-left: 44px !important;
@@ -137,7 +152,7 @@ kbd {
 				&,
 				> a {
 					opacity: 1;
-					box-shadow: inset 2px 0 $color-primary;
+					box-shadow: inset 4px 0 $color-primary;
 				}
 			}
 
@@ -161,16 +176,17 @@ kbd {
 
 			/* Second level nesting for lists */
 			> ul {
-				flex: 1 0 100%;
-				padding-left: 62px;
-				width: inherit;
+				flex: 0 1 auto;
+				width: 100%;
 				transition: max-height 2000ms ease-in-out,
 							opacity 250ms ease-in-out;
 				max-height: 9999px;
 				opacity: 1;
+				position: relative;
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
+					padding-left: 44px;
 					&:focus,
 					&:hover,
 					&.active,
@@ -181,21 +197,27 @@ kbd {
 						}
 					}
 
+					&.active {
+						box-shadow: inset 4px 0 $color-primary;
+					}
+
 					/* align loader */
 					&.icon-loading-small:after {
-						left: -10px;
+						left: 22px; /* 44px / 2 */
 					}
 
-					/* Submenu fix for icon */
-					> a[class*='icon-'],
-					> a[style*='background-image'],
-					.app-navigation-entry-bullet {
-						margin-left: -32px; /* 44px padding - 12px padding */
+					> .app-navigation-entry-deleted {
+						/* margin to keep active indicator visible */
+						margin-left: 4px;
+						padding-left: 84px;
 					}
 
-					/* Submenu fix for bullet */
-					> .app-navigation-entry-bullet {
-						left: -32px;/* 44px padding - 12px padding */
+					> .app-navigation-entry-edit {
+						/* margin to keep active indicator visible */
+						margin-left: 4px;
+						/* align the input correctly with the link text
+						44px+44px-4px-6px padding for the input */
+						padding-left: 78px !important;
 					}
 				}
 			}
@@ -210,7 +232,8 @@ kbd {
 			&.icon-loading-small {
 				> a,
 				> .app-navigation-entry-bullet {
-					background: none !important;
+					/* hide icon or bullet if loading state*/
+					background: transparent !important;
 				}
 			}
 			/* Main entry link */
@@ -222,19 +245,20 @@ kbd {
 				justify-content: space-between;
 				line-height: 44px;
 				min-height: 44px;
-				padding: 0 12px;
+				padding: 0 12px 0 44px;
 				overflow: hidden;
 				box-sizing: border-box;
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				color: $color-main-text;
 				opacity: .57;
-				flex: 1 1 0;
-				z-index: 100; /* above the bullet */
+				flex: 1 1 0px;
+				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
 				&:first-child img {
 				    margin-right: 11px;
 				    width: 16px;
+				    height: 16px;
 				    margin-left: -30px;
 				}
 
@@ -257,12 +281,12 @@ kbd {
 				border: none;
 				border-radius: 50%;
 				cursor: pointer;
-			}
+				transition: background 100ms ease-in-out;
 
-			/* padding in case of icon or bullet */
-			> a[class*='icon-'],
-			> a[style*='background-image'] {
-				padding-left: 44px;
+				+ a {
+					/* hide icon if bullet, can't have both */
+					background: transparent !important;
+				}
 			}
 
 			/* popover fix the flex positionning of the li parent */
@@ -319,7 +343,7 @@ kbd {
 			margin: 0;
 			z-index: 110;
 		}
-		&:after {
+		&:before {
 			position: absolute;
 			height: 44px;
 			width: 44px;
@@ -339,13 +363,14 @@ kbd {
 			-webkit-transform: rotate(-90deg);
 			-ms-transform: rotate(-90deg);
 			transform: rotate(-90deg);
+			z-index: 50;
 		}
 
 		/* force padding on link no matter if 'a' has an icon class */
 		> a:first-child {
 			padding-left: 44px;
 		}
-		&:after,
+		&:before,
 		> a {
 			transition: background 100ms ease-in-out,
 						transform 250ms ease-in-out,
@@ -357,12 +382,15 @@ kbd {
 		}
 		&:hover,
 		&:focus {
-			&:after {
+			&:before {
 				opacity: 1;
+			}
+			.app-navigation-entry-bullet {
+				background: transparent !important;
 			}
 		}
 		&.open {
-			&:after {
+			&:before {
 				-webkit-transform: rotate(0);
 				-ms-transform: rotate(0);
 				transform: rotate(0);
@@ -407,6 +435,17 @@ kbd {
 			font-size: 9pt;
 			line-height: 44px;
 			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
+
+			&.highlighted {
+				padding: 0;
+				text-align: center;
+				span {
+					padding: 2px 5px;
+					border-radius: 10px;
+					background-color: $color-primary;
+					color: $color-primary-text;
+				}
+			}
 		}
 	}
 
@@ -449,7 +488,7 @@ kbd {
 			height: 38px;
 			flex: 0 0 36px;
 			&:not(:last-child) {
-				border-radius: 0;
+				border-radius: 0 !important;
 			}
 			&:not(:first-child) {
 				margin-left: -1px;
@@ -466,14 +505,14 @@ kbd {
 	 */
 	.app-navigation-entry-deleted {
 		display: inline-flex;
-		padding-left: 12px;
+		padding-left: 44px;
 		transform: translateX(250px);
 		.app-navigation-entry-deleted-description {
 			position: relative;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
-			flex: 1 1 0;
+			flex: 1 1 0px;
 			line-height: 44px;
 		}
 		.app-navigation-entry-deleted-button {
@@ -497,6 +536,7 @@ kbd {
 					opacity 250ms ease-in-out,
 					z-index 250ms ease-in-out;
 		position: absolute;
+		left: 0;
 		background-color: $color-main-background;
 		box-sizing: border-box;
 	}
@@ -552,7 +592,7 @@ kbd {
 */
 #app-sidebar {
 	position: fixed;
-	top: 45px;
+	top: 50px;
 	right: 0;
 	left: auto;
 	bottom: 0;
@@ -697,21 +737,6 @@ kbd {
 	}
 }
 
-/* DROPDOWN ----------------------------------------------------------------- */
-.dropdown {
-	background: nc-darken($color-main-background, 8%);
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	box-shadow: 0 1px 1px $color-box-shadow;
-	display: block;
-	margin-right: 0;
-	position: absolute;
-	right: 0;
-	width: 420px;
-	z-index: 500;
-	padding: 16px;
-}
-
 /* TABS --------------------------------------------------------------------- */
 .tabHeaders {
 	display: inline-block;
@@ -751,6 +776,9 @@ kbd {
 }
 
 /* POPOVER MENU ------------------------------------------------------------- */
+$popoveritem-height: 38px;
+$popovericon-size: 16px;
+
 .ie,
 .edge {
 	.bubble, .bubble:after,
@@ -827,12 +855,11 @@ kbd {
 		> a,
 		> .menuitem {
 			cursor: pointer;
-			line-height: 36px;
+			line-height: $popoveritem-height;
 			border: 0;
 			background-color: transparent;
 			display: flex;
-			align-items: center;
-			width: auto;
+			align-items: flex-start;
 			height: auto;
 			margin: 0;
 			font-weight: 300;
@@ -841,24 +868,34 @@ kbd {
 			color: $color-main-text;
 			/* Override the app-navigation li opacity */
 			opacity: .7 !important;
-			[class^='icon-'],
-			[class*=' icon-'],
+			span[class^='icon-'],
+			span[class*=' icon-'],
 			&[class^='icon-'],
 			&[class*=' icon-'] {
 				min-width: 0; /* Overwrite icons*/
 				min-height: 0;
-				background-position: 10px center;
-				background-size: 16px;
+				background-position: #{($popoveritem-height - $popovericon-size) / 2} center;
+				background-size: $popovericon-size;
 			}
-			[class^='icon-'],
-			[class*=' icon-'] {
+			span[class^='icon-'],
+			span[class*=' icon-'] {
 				/* Keep padding to define the width to
 				 assure correct position of a possible text */
-				padding: 18px 0 18px 36px;
+				padding: #{$popoveritem-height / 2} 0 #{$popoveritem-height / 2} $popoveritem-height;
+			}
+			// If no icons set, force left margin to align
+			&:not([class^='icon-']):not([class*='icon-']) {
+				> span,
+				> input,
+				> form {
+					&:not([class^='icon-']):not([class*='icon-']):first-child {
+						margin-left: $popoveritem-height;
+					}
+				}
 			}
 			&[class^='icon-'],
 			&[class*=' icon-'] {
-				padding: 0 10px 0 36px !important;
+				padding: 0 #{($popoveritem-height - $popovericon-size) / 2} 0 $popoveritem-height !important;
 			}
 			&:hover, &:focus, &.active {
 				opacity: 1 !important;
@@ -876,24 +913,74 @@ kbd {
 				line-height: 1.6em;
 				padding: 8px 0;
 			}
+			> select {
+				margin: 0;
+				margin-left: 6px;
+			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
 				padding-right: 10px !important;
 			}
+			/* DEPRECATED! old img in popover fallback
+			 * TODO: to remove */
 			> img {
-				width: 16px;
-				padding: 0 10px;
+				width: $popovericon-size;
+				padding: #{($popoveritem-height - $popovericon-size) / 2};
 			}
+			/* checkbox/radio fixes */
+			> input.radio + label,
 			> input.checkbox + label {
 				padding: 0 !important;
-				&::before {
-					margin: -2px 12px 0;
+				width: 100%;
+			}
+			> input.checkbox + label::before {
+				margin: -2px 13px 0;
+			}
+			> input.radio + label::before {
+				margin: -2px 12px 0;
+			}
+			> input:not([type=radio]):not([type=checkbox]):not([type=image]) {
+				width: 150px;
+			}
+			form {
+				display: flex;
+				flex: 1 1 auto;
+				/* put a small space between text and form
+				   if there is an element before */
+				&:not(:first-child)  {
+					margin-left: 5px;
 				}
 			}
-			> input.radio + label {
-				padding: 0 !important;
-				&::before {
-					margin: -2px 11px 0;
+			/* no margin if hidden span before */
+			> span.hidden + form,
+			> span[style*='display:none'] + form {
+				margin-left: 0;
+			}
+			/* Inputs inside popover supports text, submit & reset */
+			input {
+				min-width: #{$popoveritem-height - 4px}; /* twice the margin */
+				max-height: #{$popoveritem-height - 4px}; /* twice the margin */
+				margin: 2px 0;
+				flex: 1 1 auto;
+				&:not(:first-child) {
+					margin-left: 5px;
+				}
+			}
+		}
+		/* css hack, only first not hidden*/
+		&:not(.hidden):not([style*='display:none']) {
+			&:first-of-type {
+				> button, > a, > .menuitem {
+					> form, > input {
+						margin-top: 10px;
+					}
+				}
+			}
+			&:last-of-type {
+				> button, > a, > .menuitem {
+					> form, > input {
+						margin-bottom: 10px;
+					}
 				}
 			}
 		}
@@ -907,7 +994,7 @@ kbd {
 	}
 }
 
-
+/* CONTENT WRAPPER  --------------------------------------------------------- */
 #app-content-wrapper {
 	display: flex;
 	position: relative;
@@ -922,6 +1009,8 @@ kbd {
 		overflow-y: auto;
 	}
 }
+
+/* CONTENT LIST ------------------------------------------------------------- */
 .app-content-list {
 	width: 300px;
 	border-right: 1px solid nc-darken($color-main-background, 8%);
@@ -1025,6 +1114,8 @@ kbd {
 			object-fit: cover;
 			user-select: none;
 			cursor: pointer;
+			top: 50%;
+			margin-top: -20px;
 		}
 
 		.app-content-list-item-line-one,
@@ -1035,7 +1126,7 @@ kbd {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			order: 1;
-			flex: 1 1 0;
+			flex: 1 1 0px;
 			padding-right: 10px;
 			cursor: pointer;
 		}
@@ -1043,7 +1134,8 @@ kbd {
 		.app-content-list-item-line-two {
 			opacity: .5;
 			order: 3;
-			flex: 1 0 calc(100% - 24px);
+			flex: 1 0;
+			flex-basis: calc(100% - 24px);
 		}
 
 		.app-content-list-item-details {
@@ -1067,7 +1159,8 @@ kbd {
 		}
 	}
 }
-/* App content */
+
+/* CONTENT ------------------------------------------------------------------ */
 .app-content-detail {
 	/* grow full width */
 	flex-grow: 1;
@@ -1077,6 +1170,7 @@ kbd {
 	}
 }
 
+/* MOBILE ------------------------------------------------------------------- */
 /* Mobile width < 768px */
 @media only screen and (max-width: 768px) {
 

@@ -311,11 +311,14 @@ $(document).ready(function () {
 		submit: function(e, data) {
 			$('#displayavatar img').hide();
 			$('#displayavatar .avatardiv').addClass('icon-loading');
+			$('#uploadavatar').prop('disabled', true)
 			data.formData = _.extend(data.formData || {}, {
 				requesttoken: OC.requestToken
 			});
 		},
-		fail: function (e, data){
+		fail: function (e, data) {
+			$('#displayavatar .avatardiv').removeClass('icon-loading');
+			$('#uploadavatar').prop('disabled', false)
 			var msg = data.jqXHR.statusText + ' (' + data.jqXHR.status + ')';
 			if (!_.isUndefined(data.jqXHR.responseJSON) &&
 				!_.isUndefined(data.jqXHR.responseJSON.data) &&
@@ -338,7 +341,8 @@ $(document).ready(function () {
 			t('settings', "Select a profile picture"),
 			function (path) {
 				$('#displayavatar img').hide();
-				$('#displayavatar .avatardiv').addClass('loading');
+				$('#displayavatar .avatardiv').addClass('icon-loading');
+				$('#uploadavatar').prop('disabled', true)
 				$.ajax({
 					type: "POST",
 					url: OC.generateUrl('/avatar/'),
@@ -376,8 +380,9 @@ $(document).ready(function () {
 	});
 
 	$('#abortcropperbutton').click(function () {
-		$('#displayavatar .avatardiv').removeClass('loading');
+		$('#displayavatar .avatardiv').removeClass('icon-loading');
 		$('#displayavatar img').show();
+		$('#uploadavatar').prop('disabled', false)
 		cleanCropper();
 	});
 
@@ -395,6 +400,7 @@ $(document).ready(function () {
 			t('settings', 'Strong password')
 		],
 		drawTitles: true,
+		$addAfter: $('input[name="newpassword-clone"]'),
 	});
 
 	// Load the big avatar

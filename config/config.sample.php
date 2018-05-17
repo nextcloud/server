@@ -92,13 +92,13 @@ $CONFIG = array(
  * ``supportedDatabases``
  *
  * Available:
- * 	- sqlite (SQLite3)
+ * 	- sqlite3 (SQLite3)
  * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
  *
- * Defaults to ``sqlite``
+ * Defaults to ``sqlite3``
  */
-'dbtype' => 'sqlite',
+'dbtype' => 'sqlite3',
 
 /**
  * Your host server name, for example ``localhost``, ``hostname``,
@@ -390,6 +390,18 @@ $CONFIG = array(
  */
 'mail_smtppassword' => '',
 
+/**
+ * Replaces the default mail template layout. This can be utilized if the
+ * options to modify the mail texts with the theming app is not enough.
+ * The class must extend  ``\OC\Mail\EMailTemplate``
+ */
+'mail_template_class' => '\OC\Mail\EMailTemplate',
+
+/**
+ * Email will be send by default with an HTML and a plain text body. This option
+ * allows to only send plain text emails.
+ */
+'mail_send_plaintext_only' => false,
 
 /**
  * Proxy Configurations
@@ -627,12 +639,6 @@ $CONFIG = array(
 'has_internet_connection' => true,
 
 /**
- * Allows Nextcloud to verify a working WebDAV connection. This is done by
- * attempting to make a WebDAV request from PHP.
- */
-'check_for_working_webdav' => true,
-
-/**
  * Allows Nextcloud to verify a working .well-known URL redirects. This is done
  * by attempting to make a request from JS to
  * https://your-domain.com/.well-known/caldav/
@@ -764,9 +770,9 @@ $CONFIG = array(
  * old logfile reaches your limit. If a rotated log file is already present, it
  * will be overwritten.
  *
- * Defaults to ``0`` (no rotation)
+ * Defaults to 100 MB
  */
-'log_rotate_size' => false,
+'log_rotate_size' => 100 * 1024 * 1024,
 
 
 /**
@@ -782,7 +788,8 @@ $CONFIG = array(
  * Defaults to
  * * Desktop client: ``https://nextcloud.com/install/#install-clients``
  * * Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
- * * iOS client    : ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ * * iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ *  *iOS client app id: ``1125420102``
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
@@ -790,7 +797,8 @@ $CONFIG = array(
 	'https://play.google.com/store/apps/details?id=com.nextcloud.client',
 'customclient_ios' =>
 	'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8',
-
+'customclient_ios_appid' =>
+		'1125420102',
 /**
  * Apps
  *
@@ -849,25 +857,16 @@ $CONFIG = array(
  * The maximum width, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  *
- * Defaults to ``2048``
+ * Defaults to ``4096``
  */
-'preview_max_x' => 2048,
+'preview_max_x' => 4096,
 /**
  * The maximum height, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  *
- * Defaults to ``2048``
+ * Defaults to ``4096``
  */
-'preview_max_y' => 2048,
-/**
- * If a lot of small pictures are stored on the Nextcloud instance and the
- * preview system generates blurry previews, you might want to consider setting
- * a maximum scale factor. By default, pictures are upscaled to 10 times the
- * original size. A value of ``1`` or ``null`` disables scaling.
- *
- * Defaults to ``2``
- */
-'preview_max_scale_factor' => 10,
+'preview_max_y' => 4096,
 
 /**
  * max file size for generating image previews with imagegd (default behavior)
@@ -993,13 +992,6 @@ $CONFIG = array(
 'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
 
 /**
- * Replaces the default mail template layout. This can be utilized if the
- * options to modify the mail texts with the theming app is not enough.
- * The class must extend  ``\OC\Mail\EMailTemplate``
- */
-'mail_template_class' => '\OC\Mail\EMailTemplate',
-
-/**
  * Maintenance
  *
  * These options are for halting user activity when you are performing server
@@ -1092,7 +1084,7 @@ $CONFIG = array(
  * server configuration above, and perform HA on the hostname.
  *
  * Redis Cluster support requires the php module phpredis in version 3.0.0 or
- * higher for PHP 7+ or phpredis in version 2.2.8 for PHP 5.6.
+ * higher.
  *
  * Available failover modes:
  *  - \RedisCluster::FAILOVER_NONE - only send commands to master nodes (default)
@@ -1220,6 +1212,36 @@ $CONFIG = array(
 		'serviceName' => 'swift',
 		// The Interface / url Type, optional
 		'urlType' => 'internal'
+	],
+],
+
+/**
+ * To use swift V3
+ */
+'objectstore' => [
+	'class' => 'OC\\Files\\ObjectStore\\Swift',
+	'arguments' => [
+		'autocreate' => true,
+		'user' => [
+			'name' => 'swift',
+			'password' => 'swift',
+			'domain' => [
+				'name' => 'default',
+			],
+		],
+		'scope' => [
+			'project' => [
+				'name' => 'service',
+				'domain' => [
+					'name' => 'default',
+				],
+			],
+		],
+		'tenantName' => 'service',
+		'serviceName' => 'swift',
+		'region' => 'regionOne',
+		'url' => 'http://yourswifthost:5000/v3',
+		'bucket' => 'nextcloud',
 	],
 ],
 

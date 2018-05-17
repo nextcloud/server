@@ -67,7 +67,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$this->sendingToWith('GET', "/apps/files_sharing/api/v1/remote_shares/pending", null);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
-		$share_id = $this->response->xml()->data[0]->element[0]->id;
+		$share_id = simplexml_load_string($this->response->getBody())->data[0]->element[0]->id;
 		$this->sendingToWith('POST', "/apps/files_sharing/api/v1/remote_shares/pending/{$share_id}", null);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');

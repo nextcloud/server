@@ -36,6 +36,10 @@
  */
 
 namespace OC\Log;
+use OC\SystemConfig;
+use OCP\Log\IFileBased;
+use OCP\Log\IWriter;
+use OCP\ILogger;
 
 /**
  * logging utilities
@@ -43,44 +47,38 @@ namespace OC\Log;
  * Log is saved at data/nextcloud.log (on default)
  */
 
-class File {
-	static protected $logFile;
+class File implements IWriter, IFileBased {
+	/** @var string */
+	protected $logFile;
+	/** @var SystemConfig */
+	private $config;
 
-	/**
-	 * Init class data
-	 */
-	public static function init() {
-		$systemConfig = \OC::$server->getSystemConfig();
-		$defaultLogFile = $systemConfig->getValue("datadirectory", \OC::$SERVERROOT.'/data').'/nextcloud.log';
-		self::$logFile = $systemConfig->getValue("logfile", $defaultLogFile);
-
-		/**
-		 * Fall back to default log file if specified logfile does not exist
-		 * and can not be created.
-		 */
-		if (!file_exists(self::$logFile)) {
-			if(!is_writable(dirname(self::$logFile))) {
-				self::$logFile = $defaultLogFile;
-			} else {
-				if(!touch(self::$logFile)) {
-					self::$logFile = $defaultLogFile;
-				}
+	public function __construct(string $path, string $fallbackPath = '', SystemConfig $config) {
+		$this->logFile = $path;
+		if (!file_exists($this->logFile)) {
+			if(
+				(
+					!is_writable(dirname($this->logFile))
+					|| !touch($this->logFile)
+				)
+				&& $fallbackPath !== ''
+			) {
+				$this->logFile = $fallbackPath;
 			}
 		}
+		$this->config = $config;
 	}
 
 	/**
 	 * write a message in the log
 	 * @param string $app
-	 * @param string $message
+	 * @param string|array $message
 	 * @param int $level
 	 */
-	public static function write($app, $message, $level) {
-		$config = \OC::$server->getSystemConfig();
-
+	public function write(string $app, $message, int $level) {
 		// default to ISO8601
-		$format = $config->getValue('logdateformat', \DateTime::ATOM);
-		$logTimeZone = $config->getValue('logtimezone', 'UTC');
+		$format = $this->config->getValue('logdateformat', \DateTime::ATOM);
+		$logTimeZone = $this->config->getValue('logtimezone', 'UTC');
 		try {
 			$timezone = new \DateTimeZone($logTimeZone);
 		} catch (\Exception $e) {
@@ -100,13 +98,16 @@ class File {
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		if($config->getValue('installed', false)) {
-			$user = (\OC_User::getUser()) ? \OC_User::getUser() : '--';
+		if($this->config->getValue('installed', false)) {
+			$user = \OC_User::getUser() ? \OC_User::getUser() : '--';
 		} else {
 			$user = '--';
 		}
-		$userAgent = $request->getHeader('User-Agent') ?: '--';
-		$version = $config->getValue('version', '');
+		$userAgent = $request->getHeader('User-Agent');
+		if ($userAgent === '') {
+			$userAgent = '--';
+		}
+		$version = $this->config->getValue('version', '');
 		$entry = compact(
 			'reqId',
 			'level',
@@ -132,9 +133,9 @@ class File {
 			}
 		}
 		$entry = json_encode($entry, JSON_PARTIAL_OUTPUT_ON_ERROR);
-		$handle = @fopen(self::$logFile, 'a');
-		if ((fileperms(self::$logFile) & 0777) != 0640) {
-			@chmod(self::$logFile, 0640);
+		$handle = @fopen($this->logFile, 'a');
+		if ((fileperms($this->logFile) & 0777) != 0640) {
+			@chmod($this->logFile, 0640);
 		}
 		if ($handle) {
 			fwrite($handle, $entry."\n");
@@ -154,11 +155,10 @@ class File {
 	 * @param int $offset
 	 * @return array
 	 */
-	public static function getEntries($limit=50, $offset=0) {
-		self::init();
-		$minLevel = \OC::$server->getSystemConfig()->getValue("loglevel", \OCP\Util::WARN);
+	public function getEntries(int $limit=50, int $offset=0):array {
+		$minLevel = $this->config->getValue("loglevel", ILogger::WARN);
 		$entries = array();
-		$handle = @fopen(self::$logFile, 'rb');
+		$handle = @fopen($this->logFile, 'rb');
 		if ($handle) {
 			fseek($handle, 0, SEEK_END);
 			$pos = ftell($handle);
@@ -200,7 +200,7 @@ class File {
 	/**
 	 * @return string
 	 */
-	public static function getLogFilePath() {
-		return self::$logFile;
+	public function getLogFilePath():string {
+		return $this->logFile;
 	}
 }

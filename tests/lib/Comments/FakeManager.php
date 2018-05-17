@@ -22,6 +22,14 @@ class FakeManager implements ICommentsManager {
 		\DateTime $notOlderThan = null
 	) {}
 
+	public function getForObjectSince(
+		string $objectType,
+		string $objectId,
+		int $lastKnownCommentId,
+		string $sortDirection = 'asc',
+		int $limit = 30
+	): array { return []; }
+
 	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null) {}
 
 	public function create($actorType, $actorId, $objectType, $objectId) {}

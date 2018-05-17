@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "追加するサーバーは自動的に統合され、共有が追加されました",
     "+ Add trusted server" : "+ 信頼済サーバーに追加",
     "Trusted server" : "信頼済サーバー",
-    "Add" : "追加",
-    "Federation" : "連携"
+    "Add" : "追加"
 },
 "nplurals=1; plural=0;");

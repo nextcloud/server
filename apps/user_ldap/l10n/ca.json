@@ -31,7 +31,6 @@
     "{nthServer}. Server" : "{nthServer}. Servidor",
     "No object found in the given Base DN. Please revise." : "No s'ha trobat cap objecte a la Base DN donada. Reviseu.",
     "More than 1,000 directory entries available." : "Hi ha més de 1.000 entrades de directoris disponibles.",
-    " entries available within the provided Base DN" : "les entrades disponibles a la Base DN proporcionada",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Hi ha hagut un error. Comproveu la base DN, així com la configuració de connexió i les credencials.",
     "Do you really want to delete the current Server Configuration?" : "Voleu eliminar la configuració actual del servidor?",
     "Confirm Deletion" : "Confirma l'eliminació",
@@ -73,7 +72,9 @@
     "Edit LDAP Query" : "Editeu la consulta LDAP",
     "LDAP Filter:" : "Filtre LDAP:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "El filtre especifica quins grups LDAP haurien de tenir accés a la instància %s.",
+    "Verify settings and count the groups" : "Comprova la configuració i compta els grups",
     "Other Attributes:" : "Altres atributs:",
+    "Verify settings" : "Comprova la configuració",
     "1. Server" : "1. Servidor",
     "%s. Server:" : "%s. Servidor:",
     "Delete the current configuration" : "Esborra la configuració actual",
@@ -108,7 +109,7 @@
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "No es recomana, useu-ho només com a prova! Importeu el certificat SSL del servidor LDAP al servidor %s només si la connexió funciona amb aquesta opció.",
     "Cache Time-To-Live" : "Memòria cau Time-To-Live",
     "in seconds. A change empties the cache." : "en segons. Un canvi buidarà la memòria cau.",
-    "Directory Settings" : "Arranjaments de carpetes",
+    "Directory Settings" : "Configuracio de carpetes",
     "User Display Name Field" : "Camp per mostrar el nom d'usuari",
     "The LDAP attribute to use to generate the user's display name." : "Atribut LDAP a usar per generar el nom a mostrar de l'usuari.",
     "Base User Tree" : "Arbre base d'usuaris",
@@ -140,9 +141,8 @@
     "Username-LDAP User Mapping" : "Mapatge d'usuari Nom d'usuari-LDAP",
     "Clear Username-LDAP User Mapping" : "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Elimina el mapatge de grup Nom de grup-LDAP",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Podeu ometre el protocol, excepte si requeriu SSL. Llavors comenceu amb ldaps://",
+    " entries available within the provided Base DN" : "les entrades disponibles a la Base DN proporcionada",
     "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avís:</b> Les aplicacions user_ldap i user_webdavauth són incompatibles. Podeu experimentar comportaments inesperats. Demaneu a l'administrador del sistema que en desactivi una.",
-    "in bytes" : "en bytes"
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avís:</b> Les aplicacions user_ldap i user_webdavauth són incompatibles. Podeu experimentar comportaments inesperats. Demaneu a l'administrador del sistema que en desactivi una."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

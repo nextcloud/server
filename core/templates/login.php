@@ -10,7 +10,7 @@ script('core', 'merged-login');
 	<?php if (!empty($_['redirect_url'])) {
 		print_unescaped('<input type="hidden" name="redirect_url" value="' . \OCP\Util::sanitizeHTML($_['redirect_url']) . '">');
 	} ?>
-		<?php if (isset($_['apacheauthfailed']) && ($_['apacheauthfailed'])): ?>
+		<?php if (isset($_['apacheauthfailed']) && $_['apacheauthfailed']): ?>
 			<div class="warning">
 				<?php p($l->t('Server side authentication failed!')); ?><br>
 				<small><?php p($l->t('Please contact your administrator.')); ?></small>
@@ -21,7 +21,7 @@ script('core', 'merged-login');
 				<?php p($message); ?><br>
 			</div>
 		<?php endforeach; ?>
-		<?php if (isset($_['internalexception']) && ($_['internalexception'])): ?>
+		<?php if (isset($_['internalexception']) && $_['internalexception']): ?>
 			<div class="warning">
 				<?php p($l->t('An internal error occurred.')); ?><br>
 				<small><?php p($l->t('Please try again or contact your administrator.')); ?></small>
@@ -37,6 +37,7 @@ script('core', 'merged-login');
 		<p class="grouptop<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
 			<input type="text" name="user" id="user"
 				placeholder="<?php p($l->t('Username or email')); ?>"
+				aria-label="<?php p($l->t('Username or email')); ?>"
 				value="<?php p($_['loginName']); ?>"
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
 				autocomplete="on" autocapitalize="none" autocorrect="off" required>
@@ -46,21 +47,28 @@ script('core', 'merged-login');
 		<p class="groupbottom<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
 			<input type="password" name="password" id="password" value=""
 				placeholder="<?php p($l->t('Password')); ?>"
+				aria-label="<?php p($l->t('Password')); ?>"
 				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
 				autocomplete="on" autocapitalize="off" autocorrect="none" required>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 		</p>
 
-		<?php if (!empty($_['invalidpassword'])) { ?>
-			<p class="warning">
-				<?php p($l->t('Wrong password.')); ?>
-			</p>
-		<?php } ?>
-
 		<div id="submit-wrapper">
 			<input type="submit" id="submit" class="login primary" title="" value="<?php p($l->t('Log in')); ?>" disabled="disabled" />
 			<div class="submit-icon icon-confirm-white"></div>
 		</div>
+
+		<?php if (!empty($_['invalidpassword'])) { ?>
+			<p class="warning wrongPasswordMsg">
+				<?php p($l->t('Wrong password.')); ?>
+			</p>
+		<?php } ?>
+
+		<?php if ($_['throttle_delay'] > 5000) { ?>
+			<p class="warning throttledMsg">
+				<?php p($l->t('We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')); ?>
+			</p>
+		<?php } ?>
 
 		<?php if (!empty($_['canResetPassword'])) { ?>
 		<div id="reset-password-wrapper" style="display: none;">
@@ -70,23 +78,13 @@ script('core', 'merged-login');
 		<?php } ?>
 
 		<div class="login-additional">
-			<?php if (!$_['hideRemeberLoginState']) { ?>
-			<div class="remember-login-container">
-				<?php if ($_['rememberLoginState'] === 0) { ?>
-				<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white">
-				<?php } else { ?>
-				<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white" checked="checked">
-				<?php } ?>
-				<label for="remember_login"><?php p($l->t('Stay logged in')); ?></label>
-			</div>
-			<?php } ?>
 			<?php if (!empty($_['canResetPassword'])) { ?>
 			<div class="lost-password-container">
 				<a id="lost-password" href="<?php p($_['resetPasswordLink']); ?>">
 					<?php p($l->t('Forgot password?')); ?>
 				</a>
 				<a id="lost-password-back" href="" style="display:none;">
-					<?php p($l->t('Back to log in')); ?>
+					<?php p($l->t('Back to login')); ?>
 				</a>
 			</div>
 			<?php } ?>
@@ -100,7 +98,6 @@ script('core', 'merged-login');
 <?php if (!empty($_['alt_login'])) { ?>
 <form id="alternative-logins">
 	<fieldset>
-		<legend><?php p($l->t('Alternative Logins')) ?></legend>
 		<ul>
 			<?php foreach($_['alt_login'] as $login): ?>
 				<li><a class="button" href="<?php print_unescaped($login['href']); ?>" ><?php p($login['name']); ?></a></li>

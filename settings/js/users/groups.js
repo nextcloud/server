@@ -17,11 +17,14 @@ GroupList = {
 	filter: '',
 	filterGroups: false,
 
-	addGroup: function (gid, usercount) {
+	addGroup: function (gid, displayName, usercount) {
+		if (_.isUndefined(displayName)) {
+			displayName = gid;
+		}
 		var $li = $userGroupList.find('.isgroup:last-child').clone();
 		$li
 			.data('gid', gid)
-			.find('.groupname').text(gid);
+			.find('.groupname').text(displayName);
 		GroupList.setUserCount($li, usercount);
 
 		$li.appendTo($userGroupList);
@@ -128,22 +131,22 @@ GroupList = {
 		}
 	},
 
-	createGroup: function (groupname) {
+	createGroup: function (groupid) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.createGroup, this, groupname));
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.createGroup, this, groupid));
 			return;
 		}
 
 		$.post(
 			OC.generateUrl('/settings/users/groups'),
 			{
-				id: groupname
+				id: groupid
 			},
 			function (result) {
 				if (result.groupname) {
 					var addedGroup = result.groupname;
-					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, [addedGroup]));
-					GroupList.addGroup(result.groupname);
+					UserList.availableGroups[groupid] = {displayName: result.groupname};
+					GroupList.addGroup(groupid, result.groupname);
 				}
 				GroupList.toggleAddGroup();
 			}).fail(function(result) {
@@ -173,7 +176,7 @@ GroupList = {
 								GroupList.setUserCount(GroupList.getGroupLI(group.name).first(), group.usercount);
 							}
 							else {
-								var $li = GroupList.addGroup(group.name, group.usercount);
+								var $li = GroupList.addGroup(group.id, group.name, group.usercount);
 
 								$li.addClass('appear transparent');
 								lis.push($li);

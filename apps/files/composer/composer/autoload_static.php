@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitFiles
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\Files\\' => 10,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -39,6 +42,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\Scan' => __DIR__ . '/..' . '/../lib/Command/Scan.php',
         'OCA\\Files\\Command\\ScanAppData' => __DIR__ . '/..' . '/../lib/Command/ScanAppData.php',
         'OCA\\Files\\Command\\TransferOwnership' => __DIR__ . '/..' . '/../lib/Command/TransferOwnership.php',
+        'OCA\\Files\\Controller\\AjaxController' => __DIR__ . '/..' . '/../lib/Controller/AjaxController.php',
         'OCA\\Files\\Controller\\ApiController' => __DIR__ . '/..' . '/../lib/Controller/ApiController.php',
         'OCA\\Files\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\Files\\Controller\\ViewController' => __DIR__ . '/..' . '/../lib/Controller/ViewController.php',
@@ -50,7 +54,7 @@ class ComposerStaticInitFiles
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitFiles::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitFiles::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitFiles::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitFiles::$classMap;
 

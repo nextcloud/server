@@ -38,10 +38,6 @@ input {
 	.avatardiv {
 		margin: 10px auto;
 	}
-	.federationScopeMenu {
-		/* popover magic fix */
-		margin-right: calc(-50% - 7px);
-	}
 	.warning {
 		width: 100%;
 	}
@@ -52,9 +48,6 @@ input {
 
 #displayavatar {
 	text-align: center;
-	p {
-		text-align: left;
-	}
 }
 
 #uploadavatarbutton, #selectavatar, #removeavatar {
@@ -100,36 +93,17 @@ input {
 	}
 }
 
-#personal-settings-avatar-container,
-#personal-settings-group-container {
-	display: inline-block;
+#personal-settings-avatar-container {
+	display: inline-grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 2fr 1fr 1fr;
 	vertical-align: top;
-	width: 225px;
 }
 
 .profile-settings-container {
-	display: inline-block;
-	max-width: 600px;
-	margin-bottom: 20px;
-	> div {
-		float: left;
-		width: 300px;
-	}
-}
-
-.icon-federation-menu {
-	padding-left: 16px;
-	background-size: 16px;
-	background-position: left 8px;
-	opacity: .3;
-	margin-left: 10px;
-	cursor: pointer;
-
-	.icon-triangle-s {
-		display: inline-block;
-		vertical-align: middle;
-		cursor: pointer;
-	}
+	display: inline-grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 2fr 1fr;
 }
 
 .personal-show-container {
@@ -137,7 +111,7 @@ input {
 }
 
 .personal-settings-setting-box input {
-	&[type="text"], &[type="email"], &[type="tel"] {
+	&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
 		width: 100%;
 	}
 }
@@ -156,25 +130,103 @@ input {
 		width: 100%;
 	}
 }
+#personal-settings {
+	.section {
+		border: 0;
+	}
+}
+
+#personal-settings {
+	display: grid;
+	padding: 20px;
+	max-width: 1500px;
+	grid-template-columns:1fr 2fr 1fr;
+	.section {
+		padding: 10px 10px;
+	}
+
+	.personal-info {
+		margin-right: 10%;
+		margin-bottom: 20px;
+	}
+	.personal-info[class^='icon-'], .personal-info[class*=' icon-'] {
+		background-position: 0px 2px;
+		padding-left: 30px;
+		opacity: 0.7;
+	}
+}
+
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		#personal-settings-avatar-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr;
+			grid-column: 2;
+		}
+	}
+}
+
+@media (max-width: 1200px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr;
+		#personal-settings-avatar-container {
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr;
+		}
+	}
+}
+
+@media (max-width: 560px) {
+	#personal-settings {
+		display: grid;
+		grid-template-columns: 1fr;
+		#personal-settings-avatar-container {
+			grid-template-rows: 1fr;
+		}
+		.personal-settings-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+		}
+		.profile-settings-container {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 1fr;
+		}
+	}
+}
 
 .personal-settings-container {
-	display: inline-block;
-	max-width: 600px;
-	margin-bottom: 20px;
+	display: inline-grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 	&:after {
 		clear: both;
-	}
-	&:not(#personal-settings-avatar-container) > div {
-		float: left;
-		width: 300px;
 	}
 	> div {
 		h2 {
 			position: relative;
-			margin-bottom: 5px;
+			margin-bottom: 12px;
 			display: inline-flex;
 			flex-wrap: nowrap;
-			justify-content: space-between;
+			justify-content: flex-start;
 			width: 100%;
 			> label {
 				white-space: nowrap;
@@ -183,7 +235,7 @@ input {
 			}
 		}
 		> form span {
-			&[class^="icon-checkmark"], &[class^="icon-error"] {
+			&[class^='icon-checkmark'], &[class^='icon-error'] {
 				position: relative;
 				right: 8px;
 				top: -28px;
@@ -212,6 +264,26 @@ input {
 	}
 }
 
+
+#body-settings #quota {
+	cursor: default;
+	position: relative;
+	progress {
+		height: 6px;
+		&::-moz-progress-bar {
+			border-radius: 3px 0 0 3px;
+		}
+		&::-webkit-progress-value {
+			border-radius: 3px 0 0 3px;
+		}
+	}
+	div {
+		font-weight: normal;
+		white-space: nowrap;
+	}
+}
+
+
 /* verify accounts */
 /* only show pointer cursor when popup will be there */
 .verification-dialog {
@@ -229,29 +301,37 @@ input {
 	}
 }
 
-.federationScopeMenu {
-	top: 44px;
-	margin-right: calc(-50% + 30px); /* half - the triangle icon width - borders */
-	&.bubble::after {
-		right: 50%;
-		transform: translate(50%, 0);
-	}
-	&.popovermenu {
-		a.menuitem, label.menuitem {
-			font-size: 12.8px;
-			line-height: 1.6em;
+.federation-menu {
+	position: relative;
+	cursor: pointer;
+	margin-left: 10px;
+	.icon-federation-menu {
+		padding-left: 16px;
+		background-size: 16px;
+		background-position: left center;
+		opacity: .3;
+		cursor: inherit;
+		.icon-triangle-s {
+			display: inline-block;
+			vertical-align: middle;
+			cursor: inherit;
 		}
-		.menuitem {
-			font-size: 12.8px;
-			line-height: 1.6em;
-			.menuitem-text-detail {
-				opacity: .75;
-			}
-			&.active {
-				box-shadow: inset 2px 0 $color-primary;
-
-				.menuitem-text {
-					font-weight: 600;
+	}
+	.federationScopeMenu {
+		top: 44px;
+		&.popovermenu {
+			.menuitem {
+				// override h2 heading font size
+				font-size: 12.8px;
+				line-height: 1.6em;
+				.menuitem-text-detail {
+					opacity: .75;
+				}
+				&.active {
+					box-shadow: inset 2px 0 $color-primary;
+					.menuitem-text {
+						font-weight: 600;
+					}
 				}
 			}
 		}
@@ -329,10 +409,22 @@ table.nostyle {
 		}
 	}
 	.token-list td {
-		&.more {
+		&%icon {
 			overflow: visible;
 			position: relative;
 			width: 16px;
+		}
+		&.more {
+			@extend %icon;
+		}
+		&.client {
+			@extend %icon;
+
+			div {
+				opacity: 0.57;
+				width: inherit;
+				padding-top: 5px;
+			}
 		}
 		border-top: 1px solid #DDD;
 		text-overflow: ellipsis;
@@ -342,12 +434,12 @@ table.nostyle {
 		vertical-align: top;
 		position: relative;
 	}
-	tr > *:nth-child(2) {
+	tr > *:nth-child(3) {
 		text-align: right;
 	}
 	.token-list {
 		td > a.icon {
-			opacity: 0;
+
 			transition: opacity 0.5s;
 		}
 		a.icon {
@@ -479,9 +571,13 @@ table.grid {
 	}
 }
 
-td {
+td, th {
 	&.name {
 		padding-left: .8em;
+		min-width: 5em;
+		max-width: 12em;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 	&.password {
 		padding-left: .8em;
@@ -492,9 +588,18 @@ td {
 	&.displayName > img {
 		visibility: hidden;
 	}
-	&.password, &.displayName {
-		width: 12em;
+	&.password,
+	&.displayName,
+	&.mailAddress {
+		min-width: 5em;
+		max-width: 12em;
 		cursor: pointer;
+		span {
+			width: 90%;
+			display: inline-block;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
 	}
 	&.mailAddress {
 		cursor: pointer;
@@ -512,14 +617,14 @@ span.usersLastLoginTooltip {
 /* dropdowns will be relative to this element */
 #userlist {
 	position: relative;
-	.mailAddress, .storageLocation, .userBackend, .lastLogin {
+	.storageLocation, .userBackend, .lastLogin {
 		display: none;
 	}
 	th.name {
 		color: #000;
 	}
 	tr {
-		height: 51px;
+		height: 50px;
 	}
 	.mailAddress .loading-small {
 		width: 16px;
@@ -531,16 +636,17 @@ span.usersLastLoginTooltip {
 	.groupsListContainer.hidden {
 		display: none;
 	}
+	thead th,
+	thead tr {
+		z-index: 100;
+		background-color: $color-main-background;
+		position: sticky;
+		// positional attribute is required for position to take affect.
+		top: 0;
+	}
 }
 
-/* because of accessibility the name cell is <th> - therefore we enforce the black color */
-/* use same height as in files app */
 #newuser {
-	/* positioning fixes */
-	padding-left: 3px;
-	.groups {
-		display: inline;
-	}
 	.groupsListContainer.hidden {
 		display: none;
 	}
@@ -548,6 +654,24 @@ span.usersLastLoginTooltip {
 		min-width: 150px !important;
 		position: relative;
 		top: -1px;
+	}
+	input {
+		&:not([type='submit']),
+		&:not([type='reset']) {
+			width: 100%;
+		}
+	}
+	.userActions input {
+		width: 44px;
+		height: 44px;
+		&.icon-close {
+			border: none;
+			background-color: initial;
+			opacity: .5;
+		}
+		&:hover {
+			opacity: 1;
+		}
 	}
 }
 
@@ -563,34 +687,23 @@ tr:hover > td {
 }
 
 td.userActions {
-	width: 25px;
-	text-align: center;
-	position: relative;
-	.action {
-		position: relative;
-		top: 3px;
-	}
 	.toggleUserActions {
-		border: none;
-		background-color: rgba(0, 0, 0, 0);
-		width: 34px;
-		height: 34px;
-		margin: 0;
-		opacity: 0.5;
-		&:hover,
-		&:focus {
-			background-color: transparent;
-			opacity: 1;
+		width: 44px;
+		height: 44px;
+		position: relative;
+		.action {
+			display: block;
+			padding: 14px;
+			opacity: 0.5;
+			.icon-more {
+				display: inline-block;
+			}
+			&:hover,
+			&:focus {
+				opacity: 1;
+			}
 		}
 	}
-}
-
-tr.active td.userActions .action {
-	opacity: 1;
-}
-
-td.userActions .action:hover {
-	cursor: pointer;
 }
 
 div.recoveryPassword {
@@ -721,6 +834,7 @@ span.version {
 	}
 	a {
 		padding: 10px;
+		margin: -6px;
 		white-space: nowrap;
 	}
 	.official {
@@ -783,11 +897,21 @@ span.version {
 }
 
 .section {
-	h2.app-name {
-		display: block;
-		margin: 8px 0;
-	}
 	margin-bottom: 0;
+	/* use 2nd child since app-navigation-toggle is the first */
+	&:not(:nth-child(2)) {
+		border-top: 1px solid $color-border;
+	}
+
+	/* correctly display help icons next to headings */
+	h2  {
+		margin-bottom: 22px;
+		.icon-info {
+			padding: 6px 20px;
+			vertical-align: text-bottom;
+			display: inline-block;
+		}
+	}
 }
 
 .personal-settings-setting-box .section {
@@ -832,7 +956,7 @@ span.version {
 	margin-bottom: 18px;
 }
 
-/* capitalize "Other" category */
+/* capitalize 'Other' category */
 
 #app-category-925 {
 	text-transform: capitalize;
@@ -932,6 +1056,10 @@ span.version {
 		&.apps-experimental {
 			flex-basis: 90%;
 		}
+		h2.app-name {
+			display: block;
+			margin: 8px 0;
+		}
 	}
 	.app-description {
 		p {
@@ -970,6 +1098,7 @@ span.version {
 			position: absolute;
 			padding-left: 6px;
 			padding-top: 15px;
+
 			.enable {
 				position: relative;
 				top: -1px;
@@ -1007,6 +1136,7 @@ table.grid td.date {
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;
+	list-style-position: inside;
 }
 
 #security-warning-state span {
@@ -1028,6 +1158,13 @@ table.grid td.date {
 	.double-indent {
 		padding-left: 56px;
 	}
+	.nocheckbox {
+		padding-left: 20px;
+	}
+}
+
+#shareApiDefaultPermissionsSection label {
+	margin-right: 20px;
 }
 
 #fileSharingSettings h3 {
@@ -1066,7 +1203,8 @@ table.grid td.date {
 		width: 300px;
 		text-align: right;
 	}
-	select:nth-child(2) {
+	select:nth-child(2),
+	input {
 		width: 143px;
 	}
 }
@@ -1103,14 +1241,14 @@ table.grid td.date {
 
 span {
 	&.success {
-		background: #37ce02;
+		background-color: $color-success;
 		border-radius: $border-radius;
 	}
 	&.error {
-		background: #ce3702;
+		background-color: $color-error;
 	}
 	&.indeterminate {
-		background: #e6db00;
+		background-color: $color-warning;
 		border-radius: 40% 0;
 	}
 }
@@ -1119,8 +1257,11 @@ span {
 #passwordform .strengthify-wrapper {
 	position: absolute;
 	left: 0;
-	width: 130px;
+	width: 100%;
+	border-radius: 0 0 2px 2px;
 	margin-top: -6px;
+	overflow: hidden;
+	height: 3px;
 }
 
 /* OPERA hack for strengthify*/
@@ -1156,13 +1297,16 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		height: 50px;
 		background-position: left center;
 	}
-	.errors, .warnings {
-		color: #ce3702;
+	.errors, .errors a {
+		color: $color-error;
+	}
+	.warnings, .warnings a {
+		color: $color-warning;
 	}
 }
 
 #security-warning > ul {
-	color: #ce3702;
+	color: $color-error;
 }
 
 #admin-tips li {

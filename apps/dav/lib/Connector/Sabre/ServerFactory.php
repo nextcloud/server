@@ -39,7 +39,6 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
-use Sabre\DAV\Auth\Backend\BackendInterface;
 use Sabre\DAV\Auth\Plugin;
 
 class ServerFactory {
@@ -120,7 +119,7 @@ class ServerFactory {
 		// we do not provide locking we emulate it using a fake locking plugin.
 		if($this->request->isUserAgent([
 				'/WebDAVFS/',
-				'/Microsoft Office OneNote 2013/',
+				'/OneNote/',
 				'/Microsoft-WebDAV-MiniRedir/',
 		])) {
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());

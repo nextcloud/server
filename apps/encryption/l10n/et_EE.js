@@ -34,7 +34,6 @@ OC.L10N.register(
     "New recovery key password" : "Uus taastevõtme parool",
     "Repeat new recovery key password" : "Korda uut taastevõtme parooli",
     "Change Password" : "Muuda parooli",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krüpteerimisrakend on lubatud, kuid võtmeid pole lähtestatud. Palun logi välja ning uuesti sisse.",
     "Your private key password no longer matches your log-in password." : "Sinu provaatvõtme parool ei kattu enam sinu sisselogimise parooliga.",
     "Set your old private key password to your current log-in password:" : "Pane oma vana privaatvõtme parooliks oma praegune sisselogimise parool.",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Kui sa ei mäleta oma vana parooli, siis palu oma süsteemihalduril taastada ligipääs failidele.",

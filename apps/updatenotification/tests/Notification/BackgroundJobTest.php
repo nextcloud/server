@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -105,7 +106,7 @@ class BackgroundJobTest extends TestCase {
 		self::invokePrivate($job, 'run', [null]);
 	}
 
-	public function dataCheckCoreUpdate() {
+	public function dataCheckCoreUpdate(): array {
 		return [
 			['daily', null, null, null, null],
 			['git', null, null, null, null],
@@ -142,7 +143,7 @@ class BackgroundJobTest extends TestCase {
 	 * @param null|string $readableVersion
 	 * @param null|int $errorDays
 	 */
-	public function testCheckCoreUpdate($channel, $versionCheck, $version, $readableVersion, $errorDays) {
+	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays) {
 		$job = $this->getJob([
 			'getChannel',
 			'createVersionCheck',
@@ -197,13 +198,13 @@ class BackgroundJobTest extends TestCase {
 				->method('clearErrorNotifications');
 			$job->expects($this->once())
 				->method('createNotifications')
-				->willReturn('core', $version, $readableVersion);
+				->with('core', $version, $readableVersion);
 		}
 
 		self::invokePrivate($job, 'checkCoreUpdate');
 	}
 
-	public function dataCheckAppUpdates() {
+	public function dataCheckAppUpdates(): array {
 		return [
 			[
 				['app1', 'app2'],
@@ -235,18 +236,18 @@ class BackgroundJobTest extends TestCase {
 			->method('getInstalledApps')
 			->willReturn($apps);
 
-		$job->expects($this->exactly(count($apps)))
+		$job->expects($this->exactly(\count($apps)))
 			->method('isUpdateAvailable')
 			->willReturnMap($isUpdateAvailable);
 
-		$mockedMethod = $job->expects($this->exactly(count($notifications)))
+		$mockedMethod = $job->expects($this->exactly(\count($notifications)))
 			->method('createNotifications');
-		call_user_func_array([$mockedMethod, 'withConsecutive'], $notifications);
+		\call_user_func_array([$mockedMethod, 'withConsecutive'], $notifications);
 
 		self::invokePrivate($job, 'checkAppUpdates');
 	}
 
-	public function dataCreateNotifications() {
+	public function dataCreateNotifications(): array {
 		return [
 			['app1', '1.0.0', '1.0.0', false, false, null, null],
 			['app2', '1.0.1', '1.0.0', '1.0.0', true, ['user1'], [['user1']]],
@@ -265,7 +266,7 @@ class BackgroundJobTest extends TestCase {
 	 * @param string[]|null $users
 	 * @param array|null $userNotifications
 	 */
-	public function testCreateNotifications($app, $version, $lastNotification, $callDelete, $createNotification, $users, $userNotifications) {
+	public function testCreateNotifications(string $app, string $version, $lastNotification, $callDelete, $createNotification, $users, $userNotifications) {
 		$job = $this->getJob([
 			'deleteOutdatedNotifications',
 			'getUsersToNotify',
@@ -319,12 +320,12 @@ class BackgroundJobTest extends TestCase {
 				->willReturnSelf();
 
 			if ($userNotifications !== null) {
-				$mockedMethod = $notification->expects($this->exactly(count($userNotifications)))
+				$mockedMethod = $notification->expects($this->exactly(\count($userNotifications)))
 					->method('setUser')
 					->willReturnSelf();
-				call_user_func_array([$mockedMethod, 'withConsecutive'], $userNotifications);
+				\call_user_func_array([$mockedMethod, 'withConsecutive'], $userNotifications);
 
-				$this->notificationManager->expects($this->exactly(count($userNotifications)))
+				$this->notificationManager->expects($this->exactly(\count($userNotifications)))
 					->method('notify')
 					->willReturn($notification);
 			}
@@ -340,7 +341,7 @@ class BackgroundJobTest extends TestCase {
 		self::invokePrivate($job, 'createNotifications', [$app, $version]);
 	}
 
-	public function dataGetUsersToNotify() {
+	public function dataGetUsersToNotify(): array {
 		return [
 			[['g1', 'g2'], ['g1' => null, 'g2' => ['u1', 'u2']], ['u1', 'u2']],
 			[['g3', 'g4'], ['g3' => ['u1', 'u2'], 'g4' => ['u2', 'u3']], ['u1', 'u2', 'u3']],
@@ -353,7 +354,7 @@ class BackgroundJobTest extends TestCase {
 	 * @param array $groupUsers
 	 * @param string[] $expected
 	 */
-	public function testGetUsersToNotify($groups, array $groupUsers, array $expected) {
+	public function testGetUsersToNotify(array $groups, array $groupUsers, array $expected) {
 		$job = $this->getJob();
 
 		$this->config->expects($this->once())
@@ -373,7 +374,7 @@ class BackgroundJobTest extends TestCase {
 			}
 			$groupMap[] = [$gid, $group];
 		}
-		$this->groupManager->expects($this->exactly(count($groups)))
+		$this->groupManager->expects($this->exactly(\count($groups)))
 			->method('get')
 			->willReturnMap($groupMap);
 
@@ -385,7 +386,7 @@ class BackgroundJobTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function dataDeleteOutdatedNotifications() {
+	public function dataDeleteOutdatedNotifications(): array {
 		return [
 			['app1', '1.1.0'],
 			['app2', '1.2.0'],
@@ -397,7 +398,7 @@ class BackgroundJobTest extends TestCase {
 	 * @param string $app
 	 * @param string $version
 	 */
-	public function testDeleteOutdatedNotifications($app, $version) {
+	public function testDeleteOutdatedNotifications(string $app, string $version) {
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('setApp')
@@ -423,7 +424,7 @@ class BackgroundJobTest extends TestCase {
 	 * @param string[] $userIds
 	 * @return IUser[]|\PHPUnit_Framework_MockObject_MockObject[]
 	 */
-	protected function getUsers(array $userIds) {
+	protected function getUsers(array $userIds): array {
 		$users = [];
 		foreach ($userIds as $uid) {
 			$user = $this->createMock(IUser::class);
@@ -436,10 +437,10 @@ class BackgroundJobTest extends TestCase {
 	}
 
 	/**
-	 * @param $gid
+	 * @param string $gid
 	 * @return \OCP\IGroup|\PHPUnit_Framework_MockObject_MockObject
 	 */
-	protected function getGroup($gid) {
+	protected function getGroup(string $gid) {
 		$group = $this->createMock(IGroup::class);
 		$group->expects($this->any())
 			->method('getGID')

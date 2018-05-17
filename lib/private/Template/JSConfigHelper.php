@@ -28,6 +28,7 @@
 namespace OC\Template;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\CapabilitiesManager;
 use OCP\App\IAppManager;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -66,6 +67,9 @@ class JSConfigHelper {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var CapabilitiesManager */
+	private $capabilitiesManager;
+
 	/**
 	 * @param IL10N $l
 	 * @param Defaults $defaults
@@ -76,6 +80,7 @@ class JSConfigHelper {
 	 * @param IGroupManager $groupManager
 	 * @param IniGetWrapper $iniWrapper
 	 * @param IURLGenerator $urlGenerator
+	 * @param CapabilitiesManager $capabilitiesManager
 	 */
 	public function __construct(IL10N $l,
 								Defaults $defaults,
@@ -85,7 +90,8 @@ class JSConfigHelper {
 								IConfig $config,
 								IGroupManager $groupManager,
 								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								CapabilitiesManager $capabilitiesManager) {
 		$this->l = $l;
 		$this->defaults = $defaults;
 		$this->appManager = $appManager;
@@ -95,6 +101,7 @@ class JSConfigHelper {
 		$this->groupManager = $groupManager;
 		$this->iniWrapper = $iniWrapper;
 		$this->urlGenerator = $urlGenerator;
+		$this->capabilitiesManager = $capabilitiesManager;
 	}
 
 	public function getConfig() {
@@ -122,7 +129,7 @@ class JSConfigHelper {
 
 
 		$enableLinkPasswordByDefault = $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no');
-		$enableLinkPasswordByDefault = ($enableLinkPasswordByDefault === 'yes') ? true : false;
+		$enableLinkPasswordByDefault = $enableLinkPasswordByDefault === 'yes';
 		$defaultExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
 		$defaultExpireDate = $enforceDefaultExpireDate = null;
 		if ($defaultExpireDateEnabled) {
@@ -146,6 +153,8 @@ class JSConfigHelper {
 			$lastConfirmTimestamp = 0;
 		}
 
+		$capabilities = $this->capabilitiesManager->getCapabilities();
+
 		$array = [
 			"oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			"oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
@@ -155,6 +164,7 @@ class JSConfigHelper {
 			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
+			'nc_pageLoad' => time(),
 			"dayNames" =>  json_encode([
 				(string)$this->l->t('Sunday'),
 				(string)$this->l->t('Monday'),
@@ -218,9 +228,9 @@ class JSConfigHelper {
 				'versionstring'		=> \OC_Util::getVersionString(),
 				'enable_avatars'	=> true, // here for legacy reasons - to not crash existing code that relies on this value
 				'lost_password_link'=> $this->config->getSystemValue('lost_password_link', null),
-				'modRewriteWorking'	=> ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true'),
-				'sharing.maxAutocompleteResults' => intval($this->config->getSystemValue('sharing.maxAutocompleteResults', 0)),
-				'sharing.minSearchStringLength' => intval($this->config->getSystemValue('sharing.minSearchStringLength', 0)),
+				'modRewriteWorking'	=> $this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true',
+				'sharing.maxAutocompleteResults' => (int)$this->config->getSystemValue('sharing.maxAutocompleteResults', 0),
+				'sharing.minSearchStringLength' => (int)$this->config->getSystemValue('sharing.minSearchStringLength', 0),
 				'blacklist_files_regex' => \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX,
 			]),
 			"oc_appconfig" => json_encode([
@@ -251,6 +261,7 @@ class JSConfigHelper {
 				'longFooter' => $this->defaults->getLongFooter(),
 				'folder' => \OC_Util::getTheme(),
 			]),
+			"oc_capabilities" => json_encode($capabilities),
 		];
 
 		if ($this->currentUser !== null) {

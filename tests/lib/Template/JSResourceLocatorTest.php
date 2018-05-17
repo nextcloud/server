@@ -25,8 +25,8 @@ namespace Test\Template;
 
 use OC\Template\JSCombiner;
 use OCP\Files\IAppData;
+use OCP\ICacheFactory;
 use OCP\IURLGenerator;
-use OCP\ICache;
 use OC\SystemConfig;
 use OCP\ILogger;
 use OC\Template\JSResourceLocator;
@@ -38,8 +38,8 @@ class JSResourceLocatorTest extends \Test\TestCase {
 	protected $urlGenerator;
 	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
-	protected $depsCache;
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $cacheFactory;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
 
@@ -49,7 +49,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(SystemConfig::class);
-		$this->depsCache = $this->createMock(ICache::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(ILogger::class);
 	}
 
@@ -57,7 +57,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$jsCombiner = new JSCombiner(
 			$this->appData,
 			$this->urlGenerator,
-			$this->depsCache,
+			$this->cacheFactory,
 			$this->config,
 			$this->logger
 		);

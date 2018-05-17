@@ -86,7 +86,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 
 		$password = ($user === 'admin') ? 'admin' : '123456';
 		try {
-			$request = $this->client->createRequest(
+			$this->response = $this->client->request(
 				'PROPFIND',
 				$davUrl,
 				[
@@ -96,7 +96,6 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -130,7 +129,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
-		$request = $this->client->createRequest(
+		$this->response = $this->client->request(
 			'MKCOL',
 			$davUrl,
 			[
@@ -153,8 +152,6 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 				],
 			]
 		);
-
-		$this->response = $this->client->send($request);
 
 		if($this->response->getStatusCode() !== (int)$statusCode) {
 			throw new \Exception(
@@ -212,7 +209,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
-		$request = $this->client->createRequest(
+		$this->response = $this->client->request(
 			'PUT',
 			$davUrl,
 			[
@@ -226,8 +223,6 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 				],
 			]
 		);
-
-		$this->response = $this->client->send($request);
 
 		if($this->response->getStatusCode() !== 201) {
 			throw new \Exception(
@@ -248,7 +243,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
 		try {
-			$request = $this->client->createRequest(
+			$this->response = $this->client->request(
 				'GET',
 				$davUrl,
 				[
@@ -261,7 +256,6 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -275,7 +269,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
 		try {
-			$request = $this->client->createRequest(
+			$this->response = $this->client->request(
 				'GET',
 				$davUrl,
 				[
@@ -288,7 +282,6 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 				$this->response = $e->getResponse();
 		}
@@ -303,7 +296,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		foreach($table->getTable() as $header) {
 			$headerName = $header[0];
 			$expectedHeaderValue = $header[1];
-			$returnedHeader = $this->response->getHeader($headerName);
+			$returnedHeader = $this->response->getHeader($headerName)[0];
 			if($returnedHeader !== $expectedHeaderValue) {
 				throw new \Exception(
 					sprintf(

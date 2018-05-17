@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitAdminAudit
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\AdminAudit\\' => 15,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -24,17 +27,19 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Actions\\Console' => __DIR__ . '/..' . '/../lib/Actions/Console.php',
         'OCA\\AdminAudit\\Actions\\Files' => __DIR__ . '/..' . '/../lib/Actions/Files.php',
         'OCA\\AdminAudit\\Actions\\GroupManagement' => __DIR__ . '/..' . '/../lib/Actions/GroupManagement.php',
+        'OCA\\AdminAudit\\Actions\\Security' => __DIR__ . '/..' . '/../lib/Actions/Security.php',
         'OCA\\AdminAudit\\Actions\\Sharing' => __DIR__ . '/..' . '/../lib/Actions/Sharing.php',
         'OCA\\AdminAudit\\Actions\\Trashbin' => __DIR__ . '/..' . '/../lib/Actions/Trashbin.php',
         'OCA\\AdminAudit\\Actions\\UserManagement' => __DIR__ . '/..' . '/../lib/Actions/UserManagement.php',
         'OCA\\AdminAudit\\Actions\\Versions' => __DIR__ . '/..' . '/../lib/Actions/Versions.php',
         'OCA\\AdminAudit\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\AdminAudit\\BackgroundJobs\\Rotate' => __DIR__ . '/..' . '/../lib/BackgroundJobs/Rotate.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitAdminAudit::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitAdminAudit::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitAdminAudit::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitAdminAudit::$classMap;
 

@@ -83,6 +83,16 @@ class QuerySearchHelper {
 		return false;
 	}
 
+	/**
+	 * @param IQueryBuilder $builder
+	 * @param ISearchOperator $operator
+	 */
+	public function searchOperatorArrayToDBExprArray(IQueryBuilder $builder, array $operators) {
+		return array_map(function ($operator) use ($builder) {
+			return $this->searchOperatorToDBExpr($builder, $operator);
+		}, $operators);
+	}
+
 	public function searchOperatorToDBExpr(IQueryBuilder $builder, ISearchOperator $operator) {
 		$expr = $builder->expr();
 		if ($operator instanceof ISearchBinaryOperator) {
@@ -95,9 +105,9 @@ class QuerySearchHelper {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
 				case ISearchBinaryOperator::OPERATOR_AND:
-					return $expr->andX($this->searchOperatorToDBExpr($builder, $operator->getArguments()[0]), $this->searchOperatorToDBExpr($builder, $operator->getArguments()[1]));
+					return call_user_func_array([$expr, 'andX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
 				case ISearchBinaryOperator::OPERATOR_OR:
-					return $expr->orX($this->searchOperatorToDBExpr($builder, $operator->getArguments()[0]), $this->searchOperatorToDBExpr($builder, $operator->getArguments()[1]));
+					return call_user_func_array([$expr, 'orX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
 				default:
 					throw new \InvalidArgumentException('Invalid operator type: ' . $operator->getType());
 			}

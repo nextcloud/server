@@ -12,9 +12,11 @@ return array(
     'OCA\\AdminAudit\\Actions\\Console' => $baseDir . '/../lib/Actions/Console.php',
     'OCA\\AdminAudit\\Actions\\Files' => $baseDir . '/../lib/Actions/Files.php',
     'OCA\\AdminAudit\\Actions\\GroupManagement' => $baseDir . '/../lib/Actions/GroupManagement.php',
+    'OCA\\AdminAudit\\Actions\\Security' => $baseDir . '/../lib/Actions/Security.php',
     'OCA\\AdminAudit\\Actions\\Sharing' => $baseDir . '/../lib/Actions/Sharing.php',
     'OCA\\AdminAudit\\Actions\\Trashbin' => $baseDir . '/../lib/Actions/Trashbin.php',
     'OCA\\AdminAudit\\Actions\\UserManagement' => $baseDir . '/../lib/Actions/UserManagement.php',
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',
     'OCA\\AdminAudit\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\AdminAudit\\BackgroundJobs\\Rotate' => $baseDir . '/../lib/BackgroundJobs/Rotate.php',
 );

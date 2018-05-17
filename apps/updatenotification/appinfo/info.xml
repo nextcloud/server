@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>updatenotification</id>
 	<name>Update notification</name>
+	<summary>Displays update notifications for Nextcloud and provides the SSO for the updater.</summary>
 	<description>Displays update notifications for Nextcloud and provides the SSO for the updater.</description>
-	<licence>AGPL</licence>
+	<version>1.4.1</version>
+	<licence>agpl</licence>
 	<author>Lukas Reschke</author>
-	<version>1.3.0</version>
 	<namespace>UpdateNotification</namespace>
 	<default_enable/>
+	<category>monitoring</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="13" max-version="13" />
+		<nextcloud min-version="14" max-version="14" />
 	</dependencies>
 
 	<background-jobs>
@@ -17,6 +21,6 @@
 	</background-jobs>
 
 	<settings>
-		<admin>OCA\UpdateNotification\Controller\AdminController</admin>
+		<admin>OCA\UpdateNotification\Settings\Admin</admin>
 	</settings>
 </info>

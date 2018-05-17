@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -43,8 +44,8 @@ class Internal extends Session {
 	 * @param string $name
 	 * @throws \Exception
 	 */
-	public function __construct($name) {
-		set_error_handler(array($this, 'trapError'));
+	public function __construct(string $name) {
+		set_error_handler([$this, 'trapError']);
 		$this->invoke('session_name', [$name]);
 		try {
 			$this->invoke('session_start');
@@ -61,7 +62,7 @@ class Internal extends Session {
 	 * @param string $key
 	 * @param integer $value
 	 */
-	public function set($key, $value) {
+	public function set(string $key, $value) {
 		$this->validateSession();
 		$_SESSION[$key] = $value;
 	}
@@ -70,7 +71,7 @@ class Internal extends Session {
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function get($key) {
+	public function get(string $key) {
 		if (!$this->exists($key)) {
 			return null;
 		}
@@ -81,14 +82,14 @@ class Internal extends Session {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function exists($key) {
+	public function exists(string $key): bool {
 		return isset($_SESSION[$key]);
 	}
 
 	/**
 	 * @param string $key
 	 */
-	public function remove($key) {
+	public function remove(string $key) {
 		if (isset($_SESSION[$key])) {
 			unset($_SESSION[$key]);
 		}
@@ -112,7 +113,7 @@ class Internal extends Session {
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
 	 * @return void
 	 */
-	public function regenerateId($deleteOldSession = true) {
+	public function regenerateId(bool $deleteOldSession = true) {
 		try {
 			@session_regenerate_id($deleteOldSession);
 		} catch (\Error $e) {
@@ -127,7 +128,7 @@ class Internal extends Session {
 	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
-	public function getId() {
+	public function getId(): string {
 		$id = $this->invoke('session_id', [], true);
 		if ($id === '') {
 			throw new SessionNotAvailableException();
@@ -147,7 +148,7 @@ class Internal extends Session {
 	 * @param string $errorString
 	 * @throws \ErrorException
 	 */
-	public function trapError($errorNumber, $errorString) {
+	public function trapError(int $errorNumber, string $errorString) {
 		throw new \ErrorException($errorString);
 	}
 
@@ -167,7 +168,7 @@ class Internal extends Session {
 	 * @throws \ErrorException via trapError
 	 * @return mixed
 	 */
-	private function invoke($functionName, array $parameters = [], $silence = false) {
+	private function invoke(string $functionName, array $parameters = [], bool $silence = false) {
 		try {
 			if($silence) {
 				return @call_user_func_array($functionName, $parameters);

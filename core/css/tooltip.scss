@@ -31,6 +31,7 @@
 	font-size: 12px;
 	opacity: 0;
 	z-index: 100000;
+	filter: drop-shadow(0 1px 10px $color-box-shadow);
 	&.in {
 		opacity: 1;
 	}
@@ -115,7 +116,6 @@
 	padding: 5px 8px;
 	background-color: $color-main-background;
 	color: $color-main-text;
-	box-shadow: 0 1px 10px $color-box-shadow;
 	text-align: center;
 	border-radius: $border-radius;
 }

@@ -207,6 +207,54 @@ select {
 	padding-right: 24px !important;
 }
 
+/* Confirm inputs */
+input {
+	&[type='text'],
+	&[type='password'],
+	&[type='email'] {
+		+ .icon-confirm {
+			margin-left: -8px !important;
+			border-left-color: transparent !important;
+			border-radius: 0 $border-radius $border-radius 0 !important;
+			background-clip: padding-box; /* Avoid background under border */
+			background-color: $color-main-background !important;
+			opacity: 1;
+			width: 34px;
+			padding: 7px 6px;
+			cursor: pointer;
+			&:disabled {
+				cursor: default;
+				background-image: url('../img/actions/confirm-fade.svg?v=2') !important;
+			}
+		}
+		/* only show confirm borders if input is not focused */
+		&:not(:active):not(:hover):not(:focus){
+			+ .icon-confirm {
+				&:active,
+				&:hover,
+				&:focus {
+					border-color: $color-primary-element !important;
+					border-radius: $border-radius !important;
+					&:disabled {
+						border-color: nc-darken($color-main-background, 14%) !important;
+					}
+				}
+			}
+		}
+		&:active,
+		&:hover,
+		&:focus {
+			+ .icon-confirm {
+				border-color: $color-primary-element !important;
+				border-left-color: transparent !important;
+				z-index: 2; /* above previous input */
+			}
+		}
+	}
+
+}
+
+
 /* Various Fixes */
 button img,
 .button img {
@@ -479,6 +527,81 @@ input {
 		}
 		.select2-search-field input {
 			line-height: 20px;
+		}
+	}
+}
+
+/* Vue v-select */
+.v-select {
+	margin: 3px 3px 3px 0;
+	display: inline-block;
+	.dropdown-toggle {
+		display: flex !important;
+		flex-wrap: wrap;
+		.selected-tag {
+			line-height: 20px;
+			padding-left: 5px;
+			background-image: none;
+			background-color: $color-main-background;
+			color: nc-lighten($color-main-text, 33%);
+			border: 1px solid nc-darken($color-main-background, 14%);
+			display: inline-flex;
+			align-items: center;
+			.close {
+				margin-left: 3px;
+			}
+		}
+	}
+	.dropdown-menu {
+		padding: 0;
+		li {
+			padding: 5px;
+			position: relative;
+			display: list-item;
+			background-color: transparent;
+			cursor: pointer;
+			color: nc-lighten($color-main-text, 33%);
+			a {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				height: 25px;
+				padding: 3px 7px 4px 2px;
+				margin: 0;
+				cursor: pointer;
+				min-height: 1em;
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				display: inline-flex;
+				align-items: center;
+				background-color: transparent !important;
+				color: inherit !important;
+				&::before {
+					content: ' ';
+					background-image: url('../img/actions/checkmark.svg?v=1');
+					background-repeat: no-repeat;
+					background-position: center;
+					min-width: 16px;
+					min-height: 16px;
+					display: block;
+					opacity: 0.5;
+					margin-right: 5px;
+					visibility: hidden;
+				}
+			}
+			&.highlight {
+				color: $color-main-text;
+			}
+			&.active > a {
+				background-color: nc-darken($color-main-background, 3%);
+				color: $color-main-text;
+				&::before {
+					visibility: visible;
+				}
+			}
 		}
 	}
 }

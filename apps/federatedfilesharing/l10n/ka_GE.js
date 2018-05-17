@@ -17,13 +17,6 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "ფედერალური გაზიარება ვერ დამყარდა.",
     "Couldn't establish a federated share, maybe the password was wrong." : "ფედერალური გაზიარება ვერ დამყარდა, შეისაძლოა პაროლი არ იყოს მართებული.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "ფედერალური გაზიარების მოთხოვნა გაიგზავნა, თქვენ მიიღებთ მოწვევას. შეამოწმეთ თქვენი შეტყობინებები.",
-    "The mountpoint name contains invalid characters." : "დამონტაჟების წერტილის სახელი შეიცავს არასწორ სიმბოლოებს.",
-    "Not allowed to create a federated share with the owner." : "მფლობელთან ფედერალური გაზიარების შექმნა არაა ნებადართული.",
-    "Invalid or untrusted SSL certificate" : "არასწორი ან არასანდო SSL სერტიფიკატი",
-    "Could not authenticate to remote share, password might be wrong" : "დისტანციურ გაზიარებასთან აუტენტიფიკაცია არ მოხერხდა, შესაძლოა პაროლი იყოს არასწორი",
-    "Storage not valid" : "საცავი არაა სწორი",
-    "Federated share added" : "ფედერალური გაზიარება დაემატა",
-    "Couldn't add remote share" : "ფედერალური გაზიარება ვერ დაემატა",
     "Sharing %s failed, because this item is already shared with %s" : "%s-ს გაზიარება არ მოხერხდა, ეს ობიექტი %s მომხმარებელთან უკვე გაზიარებულია",
     "Not allowed to create a federated share with the same user" : "იმავე მომხმარებელთან ფედერალური გაზიარება ვერ შეიქმნება",
     "File is already shared with %s" : "ფაილი უკვე გაზიარებულია მომხმარებელთან %s ",
@@ -38,6 +31,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით, იხილეთ %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით",
     "Sharing" : "გაზიარება",
+    "Federated file sharing" : "ფედერალური ფაილების გაზიარება",
     "Federated Cloud Sharing" : "ფედერალური ქლაუდ გაზიარება",
     "Open documentation" : "ღია დოკუმენტაცია",
     "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება.",
@@ -52,7 +46,13 @@ OC.L10N.register(
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
     "HTML Code:" : "HTML კოდი:",
-    "Search global and public address book for users and let local users publish their data" : "მოიძიეთ გლობალური და ღია მისამართების წიგნები მომხმარებლებისთვის და მიეცით უფლება ლოკალურ მომხმარებლებს გააზიარონ საკუთარი მონაცემები",
-    "Share it:" : "გააზიარე ეს:"
+    "The mountpoint name contains invalid characters." : "დამონტაჟების წერტილის სახელი შეიცავს არასწორ სიმბოლოებს.",
+    "Not allowed to create a federated share with the owner." : "მფლობელთან ფედერალური გაზიარების შექმნა არაა ნებადართული.",
+    "Invalid or untrusted SSL certificate" : "არასწორი ან არასანდო SSL სერტიფიკატი",
+    "Could not authenticate to remote share, password might be wrong" : "დისტანციურ გაზიარებასთან აუტენტიფიკაცია არ მოხერხდა, შესაძლოა პაროლი იყოს არასწორი",
+    "Storage not valid" : "საცავი არაა სწორი",
+    "Federated share added" : "ფედერალური გაზიარება დაემატა",
+    "Couldn't add remote share" : "ფედერალური გაზიარება ვერ დაემატა",
+    "Search global and public address book for users and let local users publish their data" : "მოიძიეთ გლობალური და ღია მისამართების წიგნები მომხმარებლებისთვის და მიეცით უფლება ლოკალურ მომხმარებლებს გააზიარონ საკუთარი მონაცემები"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

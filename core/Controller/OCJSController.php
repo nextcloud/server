@@ -26,6 +26,7 @@
 namespace OC\Core\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\CapabilitiesManager;
 use OC\Template\JSConfigHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -59,6 +60,7 @@ class OCJSController extends Controller {
 	 * @param IGroupManager $groupManager
 	 * @param IniGetWrapper $iniWrapper
 	 * @param IURLGenerator $urlGenerator
+	 * @param CapabilitiesManager $capabilitiesManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -70,7 +72,8 @@ class OCJSController extends Controller {
 								IConfig $config,
 								IGroupManager $groupManager,
 								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								CapabilitiesManager $capabilitiesManager) {
 		parent::__construct($appName, $request);
 
 		$this->helper = new JSConfigHelper(
@@ -82,7 +85,8 @@ class OCJSController extends Controller {
 			$config,
 			$groupManager,
 			$iniWrapper,
-			$urlGenerator
+			$urlGenerator,
+			$capabilitiesManager
 		);
 	}
 

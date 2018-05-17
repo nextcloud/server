@@ -26,20 +26,23 @@ namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
+use OCP\App\IAppManager;
 use OCP\IDBConnection;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateCommand extends Command {
+class GenerateCommand extends Command implements CompletionAwareInterface {
 
 	protected static $_templateSimple =
 		'<?php
 namespace {{namespace}};
 
-use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
@@ -50,7 +53,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @since 13.0.0
 	 */
@@ -59,9 +62,9 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @return null|Schema
+	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
@@ -70,7 +73,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @since 13.0.0
 	 */
@@ -82,11 +85,16 @@ class {{classname}} extends SimpleMigrationStep {
 	/** @var IDBConnection */
 	protected $connection;
 
+	/** @var IAppManager */
+	protected $appManager;
+
 	/**
 	 * @param IDBConnection $connection
+	 * @param IAppManager $appManager
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, IAppManager $appManager) {
 		$this->connection = $connection;
+		$this->appManager = $appManager;
 
 		parent::__construct();
 	}
@@ -117,6 +125,36 @@ class {{classname}} extends SimpleMigrationStep {
 
 		$output->writeln("New migration class has been generated to <info>$path</info>");
 		return 0;
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'app') {
+			$allApps = \OC_App::getAllApps();
+			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
+		}
+
+		if ($argumentName === 'version') {
+			$appName = $context->getWordAtIndex($context->getWordIndex() - 1);
+
+			$version = explode('.', $this->appManager->getAppVersion($appName));
+			return [$version[0] . sprintf('%1$03d', $version[1])];
+		}
+
+		return [];
 	}
 
 	/**

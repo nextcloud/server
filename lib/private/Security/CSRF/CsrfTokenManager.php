@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -52,8 +53,8 @@ class CsrfTokenManager {
 	 *
 	 * @return CsrfToken
 	 */
-	public function getToken() {
-		if(!is_null($this->csrfToken)) {
+	public function getToken(): CsrfToken {
+		if(!\is_null($this->csrfToken)) {
 			return $this->csrfToken;
 		}
 
@@ -73,7 +74,7 @@ class CsrfTokenManager {
 	 *
 	 * @return CsrfToken
 	 */
-	public function refreshToken() {
+	public function refreshToken(): CsrfToken {
 		$value = $this->tokenGenerator->generateToken();
 		$this->sessionStorage->setToken($value);
 		$this->csrfToken = new CsrfToken($value);
@@ -94,7 +95,7 @@ class CsrfTokenManager {
 	 * @param CsrfToken $token
 	 * @return bool
 	 */
-	public function isTokenValid(CsrfToken $token) {
+	public function isTokenValid(CsrfToken $token): bool {
 		if(!$this->sessionStorage->hasToken()) {
 			return false;
 		}

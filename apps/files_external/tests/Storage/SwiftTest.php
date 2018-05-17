@@ -27,6 +27,7 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
+use GuzzleHttp\Exception\ClientException;
 use \OCA\Files_External\Lib\Storage\Swift;
 
 /**
@@ -39,6 +40,11 @@ use \OCA\Files_External\Lib\Storage\Swift;
 class SwiftTest extends \Test\Files\Storage\Storage {
 
 	private $config;
+
+	/**
+	 * @var Swift instance
+	 */
+	protected $instance;
 
 	protected function setUp() {
 		parent::setUp();
@@ -53,17 +59,15 @@ class SwiftTest extends \Test\Files\Storage\Storage {
 	protected function tearDown() {
 		if ($this->instance) {
 			try {
-				$connection = $this->instance->getConnection();
-				$container = $connection->getContainer($this->config['bucket']);
+				$container = $this->instance->getContainer();
 
-				$objects = $container->objectList();
-				while($object = $objects->next()) {
-					$object->setName(str_replace('#','%23',$object->getName()));
+				$objects = $container->listObjects();
+				foreach ($objects as $object) {
 					$object->delete();
 				}
 
 				$container->delete();
-			} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+			} catch (ClientException $e) {
 				// container didn't exist, so we don't need to delete it
 			}
 		}

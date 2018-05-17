@@ -35,7 +35,6 @@ use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
-use Sabre\DAV\Xml\Element\Prop;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;

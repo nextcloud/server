@@ -23,7 +23,7 @@
   <FilesMatch "\.(css|js|svg|gif)$">
     Header set Cache-Control "max-age=15778463"
   </FilesMatch>
-  
+
   # Let browsers cache WOFF files for a week
   <FilesMatch "\.woff$">
     Header set Cache-Control "max-age=604800"
@@ -63,7 +63,7 @@
   RewriteRule ^\.well-known/caldav /remote.php/dav/ [R=301,L]
   RewriteRule ^remote/(.*) remote.php [QSA,L]
   RewriteRule ^(?:build|tests|config|lib|3rdparty|templates)/.* - [R=404,L]
-  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*
+  RewriteCond %{REQUEST_URI} !^/\.well-known/(acme-challenge|pki-validation)/.*
   RewriteRule ^(?:\.|autotest|occ|issue|indie|db_|console).* - [R=404,L]
 </IfModule>
 <IfModule mod_mime.c>

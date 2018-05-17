@@ -27,7 +27,6 @@
 namespace Test\AppFramework\DependencyInjection;
 
 
-use OC\AppFramework\Core\API;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use \OC\AppFramework\Http\Request;
 use OCP\AppFramework\QueryException;
@@ -49,13 +48,6 @@ class DIContainerTest extends \Test\TestCase {
 			->setMethods(['isAdminUser'])
 			->setConstructorArgs(['name'])
 			->getMock();
-		$this->api = $this->getMockBuilder(API::class)
-			->setConstructorArgs(['hi'])
-			->getMock();
-	}
-
-	public function testProvidesAPI(){
-		$this->assertTrue(isset($this->container['API']));
 	}
 
 

@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitFiles_Trashbin
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\Files_Trashbin\\' => 19,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -30,6 +33,16 @@ class ComposerStaticInitFiles_Trashbin
         'OCA\\Files_Trashbin\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
         'OCA\\Files_Trashbin\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files_Trashbin\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
+        'OCA\\Files_Trashbin\\Sabre\\ITrash' => __DIR__ . '/..' . '/../lib/Sabre/ITrash.php',
+        'OCA\\Files_Trashbin\\Sabre\\PropfindPlugin' => __DIR__ . '/..' . '/../lib/Sabre/PropfindPlugin.php',
+        'OCA\\Files_Trashbin\\Sabre\\RestoreFolder' => __DIR__ . '/..' . '/../lib/Sabre/RestoreFolder.php',
+        'OCA\\Files_Trashbin\\Sabre\\RootCollection' => __DIR__ . '/..' . '/../lib/Sabre/RootCollection.php',
+        'OCA\\Files_Trashbin\\Sabre\\TrashFile' => __DIR__ . '/..' . '/../lib/Sabre/TrashFile.php',
+        'OCA\\Files_Trashbin\\Sabre\\TrashFolder' => __DIR__ . '/..' . '/../lib/Sabre/TrashFolder.php',
+        'OCA\\Files_Trashbin\\Sabre\\TrashFolderFile' => __DIR__ . '/..' . '/../lib/Sabre/TrashFolderFile.php',
+        'OCA\\Files_Trashbin\\Sabre\\TrashFolderFolder' => __DIR__ . '/..' . '/../lib/Sabre/TrashFolderFolder.php',
+        'OCA\\Files_Trashbin\\Sabre\\TrashHome' => __DIR__ . '/..' . '/../lib/Sabre/TrashHome.php',
+        'OCA\\Files_Trashbin\\Sabre\\TrashRoot' => __DIR__ . '/..' . '/../lib/Sabre/TrashRoot.php',
         'OCA\\Files_Trashbin\\Storage' => __DIR__ . '/..' . '/../lib/Storage.php',
         'OCA\\Files_Trashbin\\Trashbin' => __DIR__ . '/..' . '/../lib/Trashbin.php',
     );
@@ -37,7 +50,7 @@ class ComposerStaticInitFiles_Trashbin
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitFiles_Trashbin::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitFiles_Trashbin::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitFiles_Trashbin::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitFiles_Trashbin::$classMap;
 

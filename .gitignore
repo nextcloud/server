@@ -1,6 +1,5 @@
 # the default generated dir + db file
 /data
-/owncloud
 /config/config.php
 /config/*.config.php
 /config/mimetype*.json
@@ -8,6 +7,8 @@
 /apps/inc.php
 /assets
 /.htaccess
+/translationfiles
+/translationtool.phar
 
 # ignore all apps except core ones
 /apps*/*
@@ -30,6 +31,11 @@
 !/apps/testing
 !/apps/admin_audit
 !/apps/updatenotification
+/apps/updatenotification/build
+/apps/updatenotification/js/merged.js
+/apps/updatenotification/js/merged.js.map
+/apps/updatenotification/js/*.hot-update.*
+/apps/updatenotification/node_modules
 !/apps/theming
 !/apps/twofactor_backupcodes
 !/apps/workflowengine

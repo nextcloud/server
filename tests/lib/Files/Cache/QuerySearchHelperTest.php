@@ -151,8 +151,13 @@ class QuerySearchHelperTest extends TestCase {
 			[new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', 'image/%'), [0, 1]],
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'size', 50),
-				new SearchComparison(ISearchComparison::COMPARE_LESS_THAN, 'mtime', 125), [0]
+				new SearchComparison(ISearchComparison::COMPARE_LESS_THAN, 'mtime', 125)
 			]), [0]],
+			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'size', 50),
+				new SearchComparison(ISearchComparison::COMPARE_LESS_THAN, 'mtime', 125),
+				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', 'text/%')
+			]), []],
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
 				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mtime', 100),
 				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mtime', 150),

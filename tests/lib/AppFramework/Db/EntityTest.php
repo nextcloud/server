@@ -46,7 +46,7 @@ class TestEntity extends Entity {
 	protected $preName;
 
 	public function __construct($name=null){
-		$this->addType('testId', 'integer');		
+		$this->addType('testId', 'integer');
 		$this->name = $name;
 	}
 };
@@ -119,23 +119,26 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
+	/**
+	 * @expectedException \BadFunctionCallException
+	 */
 	public function testCallShouldOnlyWorkForGetterSetter(){
-		$this->setExpectedException('\BadFunctionCallException');
-
 		$this->entity->something();
 	}
 
 
+	/**
+	 * @expectedException \BadFunctionCallException
+	 */
 	public function testGetterShouldFailIfAttributeNotDefined(){
-		$this->setExpectedException('\BadFunctionCallException');
-
 		$this->entity->getTest();
 	}
 
+	/**
+	 * @expectedException \BadFunctionCallException
+	 */
 
 	public function testSetterShouldFailIfAttributeNotDefined(){
-		$this->setExpectedException('\BadFunctionCallException');
-
 		$this->entity->setTest();
 	}
 

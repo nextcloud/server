@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2017, Morris Jobke <hey@morrisjobke.de>
  *
@@ -62,7 +63,7 @@ interface IEMailTemplate {
 	 *
 	 * @since 13.0.0
 	 */
-	public function setSubject($subject);
+	public function setSubject(string $subject);
 
 	/**
 	 * Adds a header to the email
@@ -80,58 +81,58 @@ interface IEMailTemplate {
 	 *
 	 * @since 12.0.0
 	 */
-	public function addHeading($title, $plainTitle = '');
+	public function addHeading(string $title, $plainTitle = '');
 
 	/**
 	 * Adds a paragraph to the body of the email
 	 *
-	 * @param string $text
+	 * @param string $text; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string|bool $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyText($text, $plainText = '');
+	public function addBodyText(string $text, $plainText = '');
 
 	/**
 	 * Adds a list item to the body of the email
 	 *
-	 * @param string $text
-	 * @param string $metaInfo
+	 * @param string $text; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
+	 * @param string $metaInfo; Note: When $plainMetaInfo falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $icon Absolute path, must be 16*16 pixels
-	 * @param string $plainText Text that is used in the plain text email
+	 * @param string|bool $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
-	 * @param string $plainMetaInfo Meta info that is used in the plain text email
+	 * @param string|bool $plainMetaInfo Meta info that is used in the plain text email
 	 *   if empty the $metaInfo is used, if false none will be used
 	 * @since 12.0.0
 	 */
-	public function addBodyListItem($text, $metaInfo = '', $icon = '', $plainText = '', $plainMetaInfo = '');
+	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '');
 
 	/**
 	 * Adds a button group of two buttons to the body of the email
 	 *
-	 * @param string $textLeft Text of left button
+	 * @param string $textLeft Text of left button; Note: When $plainTextLeft falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $urlLeft URL of left button
-	 * @param string $textRight Text of right button
+	 * @param string $textRight Text of right button; Note: When $plainTextRight falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $urlRight URL of right button
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if empty the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if empty the $textRight is used
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyButtonGroup($textLeft, $urlLeft, $textRight, $urlRight, $plainTextLeft = '', $plainTextRight = '');
+	public function addBodyButtonGroup(string $textLeft, string $urlLeft, string $textRight, string $urlRight, string $plainTextLeft = '', string $plainTextRight = '');
 
 	/**
 	 * Adds a button to the body of the email
 	 *
-	 * @param string $text Text of button
+	 * @param string $text Text of button; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $url URL of button
 	 * @param string $plainText Text of button in plain text version
 	 * 		if empty the $text is used, if false none will be used
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyButton($text, $url, $plainText = '');
+	public function addBodyButton(string $text, string $url, $plainText = '');
 
 	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
@@ -140,7 +141,7 @@ interface IEMailTemplate {
 	 *
 	 * @since 12.0.0
 	 */
-	public function addFooter($text = '');
+	public function addFooter(string $text = '');
 
 	/**
 	 * Returns the rendered email subject as string
@@ -149,7 +150,7 @@ interface IEMailTemplate {
 	 *
 	 * @since 13.0.0
 	 */
-	public function renderSubject();
+	public function renderSubject(): string;
 
 	/**
 	 * Returns the rendered HTML email as string
@@ -158,7 +159,7 @@ interface IEMailTemplate {
 	 *
 	 * @since 12.0.0
 	 */
-	public function renderHtml();
+	public function renderHtml(): string;
 
 	/**
 	 * Returns the rendered plain text email as string
@@ -167,5 +168,5 @@ interface IEMailTemplate {
 	 *
 	 * @since 12.0.0
 	 */
-	public function renderText();
+	public function renderText(): string;
 }

@@ -69,6 +69,7 @@ class OC_Image implements \OCP\IImage {
 	 * an imagecreate* function.
 	 * @param \OCP\ILogger $logger
 	 * @param \OCP\IConfig $config
+	 * @throws \InvalidArgumentException in case the $imageRef parameter is not null
 	 */
 	public function __construct($imageRef = null, \OCP\ILogger $logger = null, \OCP\IConfig $config = null) {
 		$this->logger = $logger;
@@ -85,7 +86,7 @@ class OC_Image implements \OCP\IImage {
 		}
 
 		if ($imageRef !== null) {
-			$this->load($imageRef);
+			throw new \InvalidArgumentException('The first parameter in the constructor is not supported anymore. Please use any of the load* methods of the image object to load an image.');
 		}
 	}
 
@@ -298,10 +299,41 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
+	 * @param resource Returns the image resource in any.
+	 * @throws \InvalidArgumentException in case the supplied resource does not have the type "gd"
+	 */
+	public function setResource($resource) {
+		if (get_resource_type($resource) === 'gd') {
+			$this->resource = $resource;
+			return;
+		}
+		throw new \InvalidArgumentException('Supplied resource is not of type "gd".');
+	}
+
+	/**
 	 * @return resource Returns the image resource in any.
 	 */
 	public function resource() {
 		return $this->resource;
+	}
+
+	/**
+	 * @return string Returns the mimetype of the data. Returns the empty string
+	 * if the data is not valid.
+	 */
+	public function dataMimeType() {
+		if (!$this->valid()) {
+			return '';
+		}
+
+		switch ($this->mimeType) {
+			case 'image/png':
+			case 'image/jpeg':
+			case 'image/gif':
+				return $this->mimeType;
+			default:
+				return 'image/png';
+		}
 	}
 
 	/**
@@ -481,31 +513,6 @@ class OC_Image implements \OCP\IImage {
 				return false;
 			}
 		}
-		return false;
-	}
-
-	/**
-	 * Loads an image from a local file, a base64 encoded string or a resource created by an imagecreate* function.
-	 *
-	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle    ).
-	 * @return resource|false An image resource or false on error
-	 */
-	public function load($imageRef) {
-		if (is_resource($imageRef)) {
-			if (get_resource_type($imageRef) === 'gd') {
-				$this->resource = $imageRef;
-				return $this->resource;
-			} elseif (in_array(get_resource_type($imageRef), array('file', 'stream'))) {
-				return $this->loadFromFileHandle($imageRef);
-			}
-		} elseif ($this->loadFromBase64($imageRef) !== false) {
-			return $this->resource;
-		} elseif ($this->loadFromFile($imageRef) !== false) {
-			return $this->resource;
-		} elseif ($this->loadFromData($imageRef) !== false) {
-			return $this->resource;
-		}
-		$this->logger->debug(__METHOD__ . '(): could not load anything. Giving up!', array('app' => 'core'));
 		return false;
 	}
 
@@ -777,16 +784,16 @@ class OC_Image implements \OCP\IImage {
 						$color[1] = (($color[1] & 0xf800) >> 8) * 65536 + (($color[1] & 0x07e0) >> 3) * 256 + (($color[1] & 0x001f) << 3);
 						break;
 					case 8:
-						$color = @unpack('n', $vide . substr($data, $p, 1));
-						$color[1] = (isset($palette[$color[1] + 1])) ? $palette[$color[1] + 1] : $palette[1];
+						$color = @unpack('n', $vide . ($data[$p] ?? ''));
+						$color[1] = isset($palette[$color[1] + 1]) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					case 4:
-						$color = @unpack('n', $vide . substr($data, floor($p), 1));
+						$color = @unpack('n', $vide . ($data[floor($p)] ?? ''));
 						$color[1] = ($p * 2) % 2 == 0 ? $color[1] >> 4 : $color[1] & 0x0F;
-						$color[1] = (isset($palette[$color[1] + 1])) ? $palette[$color[1] + 1] : $palette[1];
+						$color[1] = isset($palette[$color[1] + 1]) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					case 1:
-						$color = @unpack('n', $vide . substr($data, floor($p), 1));
+						$color = @unpack('n', $vide . ($data[floor($p)] ?? ''));
 						switch (($p * 8) % 8) {
 							case 0:
 								$color[1] = $color[1] >> 7;
@@ -813,7 +820,7 @@ class OC_Image implements \OCP\IImage {
 								$color[1] = ($color[1] & 0x1);
 								break;
 						}
-						$color[1] = (isset($palette[$color[1] + 1])) ? $palette[$color[1] + 1] : $palette[1];
+						$color[1] = isset($palette[$color[1] + 1]) ? $palette[$color[1] + 1] : $palette[1];
 						break;
 					default:
 						fclose($fh);
@@ -854,7 +861,7 @@ class OC_Image implements \OCP\IImage {
 			$newHeight = $maxSize;
 		}
 
-		$this->preciseResize(round($newWidth), round($newHeight));
+		$this->preciseResize((int)round($newWidth), (int)round($newHeight));
 		return true;
 	}
 
@@ -863,7 +870,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param int $height
 	 * @return bool
 	 */
-	public function preciseResize($width, $height) {
+	public function preciseResize(int $width, int $height): bool {
 		if (!$this->valid()) {
 			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
 			return false;
@@ -963,7 +970,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param int $h Height
 	 * @return bool for success or failure
 	 */
-	public function crop($x, $y, $w, $h) {
+	public function crop(int $x, int $y, int $w, int $h): bool {
 		if (!$this->valid()) {
 			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
 			return false;
@@ -1014,7 +1021,7 @@ class OC_Image implements \OCP\IImage {
 		$newWidth = min($maxWidth, $ratio * $maxHeight);
 		$newHeight = min($maxHeight, $maxWidth / $ratio);
 
-		$this->preciseResize(round($newWidth), round($newHeight));
+		$this->preciseResize((int)round($newWidth), (int)round($newHeight));
 		return true;
 	}
 

@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "古いパスワードが一致しませんでした。もう一度入力してください。",
     "The current log-in password was not correct, please try again." : "ログインパスワードが一致しませんでした。もう一度入力してください。",
     "Private key password successfully updated." : "秘密鍵のパスワードが正常に更新されました。",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "古い暗号化(ownCloud 8.0以前)から新しい方へ、暗号化キーを移行する必要があります。'occ encryption:migrate'を実行するか、管理者に問い合わせてください。",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "暗号化アプリの無効なプライベートキーです。あなたの暗号化されたファイルへアクセスするために、個人設定からプライベートキーのパスワードを更新してください。",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "暗号化モジュールを利用する場合は、管理者設定でサーバーサイド暗号化を有効にしてください。",
@@ -31,11 +30,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "サーバーサイド暗号化のワンタイムパスワード",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを読み取ることができません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
+    "Default encryption module" : "デフォルトの暗号化モジュール",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "こんにちは\n\n管理者がサーバーサイド暗号化を有効にしました。'%s'というパスワードであなたのファイルが暗号化されました。\n\nWeb画面からログインして、個人設定画面の'基本暗号化モジュール' セクションにいき、暗号化パスワードの更新をお願いします。 '旧ログインパスワード'部分に上記パスワードを入力し、現在のログインパスワードで更新します。\n",
     "The share will expire on %s." : "共有は %s で有効期限が切れます。",
     "Cheers!" : "それでは！",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "こんにちは、<br><br>管理者がサーバーサイド暗号化を有効にしました。<strong>%s</strong>というパスワードであなたのファイルが暗号化されました。<br><br>Web画面からログインして、個人設定画面の\"基本暗号化モジュール\"のセクションにいき、暗号化パスワードの更新をお願いします。 \"旧ログインパスワード”部分に上記パスワードを入力し、現在のログインパスワードで更新します。<br><br>",
-    "Default encryption module" : "デフォルトの暗号化モジュール",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください",
     "Encrypt the home storage" : "メインストレージ暗号化",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "このオプションを有効にすると、外部ストレージ接続ストレージだけが暗号化されるのではなく、メインストレージのファイル全てが暗号化されます。",
@@ -60,6 +59,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
     "Disabled" : "無効",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください"
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "古い暗号化(ownCloud 8.0以前)から新しい方へ、暗号化キーを移行する必要があります。'occ encryption:migrate'を実行するか、管理者に問い合わせてください。"
 },
 "nplurals=1; plural=0;");

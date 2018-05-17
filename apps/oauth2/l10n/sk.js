@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "klienti OAuth 2.0",
     "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 umožňuje externým službám vyžiadať prístup k %s.",
     "Name" : "Názov",
@@ -10,4 +11,4 @@ OC.L10N.register(
     "Add client" : "Pridať klienta",
     "Add" : "Pridať"
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);");

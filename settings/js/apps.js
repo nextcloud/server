@@ -542,14 +542,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	updateApp:function(appId, element) {
 		var oldButtonText = element.val();
-		element.val(t('settings','Upgrading …'));
+		element.val(t('settings','Updating …'));
 		OC.Settings.Apps.hideErrorMessage(appId);
 		$.post(OC.filePath('settings','ajax','updateapp.php'),{appid:appId},function(result) {
 			if(!result || result.status !== 'success') {
 				if (result.data && result.data.message) {
 					OC.Settings.Apps.showErrorMessage(appId, result.data.message);
 				} else {
-					OC.Settings.Apps.showErrorMessage(appId, t('settings','Could not upgrade app'));
+					OC.Settings.Apps.showErrorMessage(appId, t('settings','Could not update app'));
 				}
 				element.val(oldButtonText);
 			}
@@ -597,10 +597,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	rebuildNavigation: function() {
-		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php')).done(function(response){
-			if(response.status === 'success') {
+		$.getJSON(OC.linkToOCS('core/navigation', 2) + 'apps?format=json').done(function(response){
+			if(response.ocs.meta.status === 'ok') {
 				var addedApps = {};
-				var navEntries = response.nav_entries;
+				var navEntries = response.ocs.data;
 				var container = $('#apps ul');
 
 				// remove disabled apps
@@ -641,14 +641,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						$('#navigation li[data-id=' + previousEntry.id + ']').after(li);
 
 						// draw attention to the newly added app entry
-						// by flashing it twice
+						// by flashing twice the more apps menu
 						if(addedApps[entry.id]) {
-							$('#header .menutoggle')
+							$('#header #more-apps')
 								.animate({opacity: 0.5})
 								.animate({opacity: 1})
 								.animate({opacity: 0.5})
-								.animate({opacity: 1})
-								.animate({opacity: 0.75});
+								.animate({opacity: 1});
 						}
 					}
 
@@ -728,9 +727,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		OC.dialogs.info(
 			t(
 				'settings',
-				'The app has been enabled but needs to be upgraded. You will be redirected to the upgrade page in 5 seconds.'
+				'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
 			),
-			t('settings','App upgrade'),
+			t('settings','App update'),
 			function () {
 				window.location.reload();
 			},

@@ -59,7 +59,7 @@ class GroupPlugin implements ISearchPlugin {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groupIds = array_map(function (IGroup $group) { return $group->getGID(); }, $groups);
 
-		if (!$this->shareeEnumeration || sizeof($groups) < $limit) {
+		if (!$this->shareeEnumeration || count($groups) < $limit) {
 			$hasMoreResults = true;
 		}
 
@@ -102,13 +102,13 @@ class GroupPlugin implements ISearchPlugin {
 			// user id and if so, we add that to the exact match list
 			$group = $this->groupManager->get($search);
 			if ($group instanceof IGroup && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
-				array_push($result['exact'], [
+				$result['exact'][] = [
 					'label' => $group->getDisplayName(),
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_GROUP,
 						'shareWith' => $group->getGID(),
 					],
-				]);
+				];
 			}
 		}
 

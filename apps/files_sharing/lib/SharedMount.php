@@ -131,7 +131,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	private function generateUniqueTarget($path, $view, array $mountpoints) {
 		$pathinfo = pathinfo($path);
-		$ext = (isset($pathinfo['extension'])) ? '.' . $pathinfo['extension'] : '';
+		$ext = isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '';
 		$name = $pathinfo['filename'];
 		$dir = $pathinfo['dirname'];
 
@@ -167,9 +167,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		// it is not a file relative to data/user/files
 		if (count($split) < 3 || $split[1] !== 'files') {
-			\OCP\Util::writeLog('file sharing',
-				'Can not strip userid and "files/" from path: ' . $path,
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->error('Can not strip userid and "files/" from path: ' . $path, ['app' => 'files_sharing']);
 			throw new \OCA\Files_Sharing\Exceptions\BrokenPath('Path does not start with /user/files', 10);
 		}
 
@@ -198,9 +196,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 			$this->setMountPoint($target);
 			$this->storage->setMountPoint($relTargetPath);
 		} catch (\Exception $e) {
-			\OCP\Util::writeLog('file sharing',
-				'Could not rename mount point for shared folder "' . $this->getMountPoint() . '" to "' . $target . '"',
-				\OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, ['app' => 'files_sharing', 'message' => 'Could not rename mount point for shared folder "' . $this->getMountPoint() . '" to "' . $target . '"']);
 		}
 
 		return $result;

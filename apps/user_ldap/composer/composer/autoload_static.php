@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitUser_LDAP
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\User_LDAP\\' => 14,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -19,6 +22,7 @@ class ComposerStaticInitUser_LDAP
 
     public static $classMap = array (
         'OCA\\User_LDAP\\Access' => __DIR__ . '/..' . '/../lib/Access.php',
+        'OCA\\User_LDAP\\AccessFactory' => __DIR__ . '/..' . '/../lib/AccessFactory.php',
         'OCA\\User_LDAP\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\User_LDAP\\BackendUtility' => __DIR__ . '/..' . '/../lib/BackendUtility.php',
         'OCA\\User_LDAP\\Command\\CheckUser' => __DIR__ . '/..' . '/../lib/Command/CheckUser.php',
@@ -31,6 +35,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Command\\TestConfig' => __DIR__ . '/..' . '/../lib/Command/TestConfig.php',
         'OCA\\User_LDAP\\Configuration' => __DIR__ . '/..' . '/../lib/Configuration.php',
         'OCA\\User_LDAP\\Connection' => __DIR__ . '/..' . '/../lib/Connection.php',
+        'OCA\\User_LDAP\\ConnectionFactory' => __DIR__ . '/..' . '/../lib/ConnectionFactory.php',
         'OCA\\User_LDAP\\Controller\\ConfigAPIController' => __DIR__ . '/..' . '/../lib/Controller/ConfigAPIController.php',
         'OCA\\User_LDAP\\Controller\\RenewPasswordController' => __DIR__ . '/..' . '/../lib/Controller/RenewPasswordController.php',
         'OCA\\User_LDAP\\Exceptions\\ConstraintViolationException' => __DIR__ . '/..' . '/../lib/Exceptions/ConstraintViolationException.php',
@@ -79,7 +84,7 @@ class ComposerStaticInitUser_LDAP
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitUser_LDAP::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitUser_LDAP::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitUser_LDAP::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitUser_LDAP::$classMap;
 

@@ -67,7 +67,8 @@ describe('OCA.Files.NewFileMenu', function() {
 		});
 
 		it('sets default text in field', function() {
-			expect($input.length).toEqual(1);
+			// text + submit
+			expect($input.length).toEqual(2);
 			expect($input.val()).toEqual('New folder');
 		});
 		it('prevents entering invalid file names', function() {

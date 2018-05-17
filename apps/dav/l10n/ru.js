@@ -55,6 +55,7 @@ OC.L10N.register(
     "Description:" : "Описание:",
     "Link:" : "Ссылка:",
     "Contacts" : "Контакты",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Технические подробности",
     "Remote Address: %s" : "Удаленный адрес: %s",
     "Request ID: %s" : "ID запроса: %s",

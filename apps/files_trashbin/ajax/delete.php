@@ -24,8 +24,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
+
+use OCP\ILogger;
+
+\OC_JSON::checkLoggedIn();
+\OC_JSON::callCheck();
 \OC::$server->getSession()->close();
 
 $folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
@@ -66,7 +69,7 @@ foreach ($list as $file) {
 	OCA\Files_Trashbin\Trashbin::delete($filename, \OCP\User::getUser(), $timestamp);
 	if (OCA\Files_Trashbin\Trashbin::file_exists($filename, $timestamp)) {
 		$error[] = $filename;
-		\OCP\Util::writeLog('trashbin','can\'t delete ' . $filename . ' permanently.', \OCP\Util::ERROR);
+		\OCP\Util::writeLog('trashbin','can\'t delete ' . $filename . ' permanently.', ILogger::ERROR);
 	}
 	// only list deleted files if not deleting everything
 	else if (!$deleteAll) {
@@ -83,8 +86,8 @@ if ( $error ) {
 	}
 	$l = \OC::$server->getL10N('files_trashbin');
 	$message = $l->t("Couldn't delete %s permanently", array(rtrim($filelist, ', ')));
-	OCP\JSON::error(array("data" => array("message" => $message,
+	\OC_JSON::error(array("data" => array("message" => $message,
 			                               "success" => $success, "error" => $error)));
 } else {
-	OCP\JSON::success(array("data" => array("success" => $success)));
+	\OC_JSON::success(array("data" => array("success" => $success)));
 }

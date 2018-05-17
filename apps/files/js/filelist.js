@@ -798,6 +798,7 @@
 				OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, false);
 			};
 
+			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
 			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
 				if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 					self.copy(files, targetPath, disableLoadingState);
@@ -805,7 +806,7 @@
 				if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 					self.move(files, targetPath, disableLoadingState);
 				}
-			}, false, "httpd/unix-directory", true, OC.dialogs.FILEPICKER_TYPE_COPY_MOVE);
+			}, false, "httpd/unix-directory", true, actions);
 			return false;
 		},
 
@@ -1327,7 +1328,9 @@
 			// size column
 			if (typeof(fileData.size) !== 'undefined' && fileData.size >= 0) {
 				simpleSize = humanFileSize(parseInt(fileData.size, 10), true);
-				sizeColor = Math.round(160-Math.pow((fileData.size/(1024*1024)),2));
+				// rgb(118, 118, 118) / #767676
+				// min. color contrast for normal text on white background according to WCAG AA
+				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)),2));
 			} else {
 				simpleSize = t('files', 'Pending');
 			}
@@ -1342,8 +1345,10 @@
 			// difference in days multiplied by 5 - brightest shade for files older than 32 days (160/5)
 			var modifiedColor = Math.round(((new Date()).getTime() - mtime )/1000/60/60/24*5 );
 			// ensure that the brightest color is still readable
-			if (modifiedColor >= '160') {
-				modifiedColor = 160;
+			// rgb(118, 118, 118) / #767676
+			// min. color contrast for normal text on white background according to WCAG AA
+			if (modifiedColor >= '118') {
+				modifiedColor = 118;
 			}
 			var formatted;
 			var text;
@@ -1433,6 +1438,8 @@
 				$tr.addClass('appear transparent');
 				window.setTimeout(function() {
 					$tr.removeClass('transparent');
+					$("#fileList tr").removeClass('mouseOver');
+					$tr.addClass('mouseOver');
 				});
 			}
 
@@ -1511,6 +1518,7 @@
 				// the typeof check ensures that the default value of animate is true
 				if (typeof(options.animate) === 'undefined' || !!options.animate) {
 					this.lazyLoadPreview({
+						fileId: fileData.id,
 						path: path + '/' + fileData.name,
 						mime: mime,
 						etag: fileData.etag,
@@ -1856,7 +1864,15 @@
 			urlSpec.x = Math.ceil(urlSpec.x);
 			urlSpec.y = Math.ceil(urlSpec.y);
 			urlSpec.forceIcon = 0;
-			return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+
+			if (typeof urlSpec.fileId !== 'undefined') {
+				delete urlSpec.file;
+				return OC.generateUrl('/core/preview?') + $.param(urlSpec);
+			} else {
+				delete urlSpec.fileId;
+				return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+			}
+
 		},
 
 		/**
@@ -1869,6 +1885,7 @@
 		 */
 		lazyLoadPreview : function(options) {
 			var self = this;
+			var fileId = options.fileId;
 			var path = options.path;
 			var mime = options.mime;
 			var ready = options.callback;
@@ -1880,6 +1897,7 @@
 				urlSpec = {};
 			ready(iconURL); // set mimeicon URL
 
+			urlSpec.fileId = fileId;
 			urlSpec.file = OCA.Files.Files.fixPath(path);
 			if (options.x) {
 				urlSpec.x = options.x;
@@ -2035,10 +2053,12 @@
 		 * @param fileNames array of file names to move
 		 * @param targetPath absolute target path
 		 * @param callback function to call when movement is finished
+		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
 		 */
-		move: function(fileNames, targetPath, callback) {
+		move: function(fileNames, targetPath, callback, dir) {
 			var self = this;
-			var dir = this.getCurrentDirectory();
+
+			dir = typeof dir === 'string' ? dir : this.getCurrentDirectory();
 			if (dir.charAt(dir.length - 1) !== '/') {
 				dir += '/';
 			}
@@ -2098,13 +2118,14 @@
 		 * @param fileNames array of file names to copy
 		 * @param targetPath absolute target path
 		 * @param callback to call when copy is finished with success
+		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
 		 */
-		copy: function(fileNames, targetPath, callback) {
+		copy: function(fileNames, targetPath, callback, dir) {
 			var self = this;
 			var filesToNotify = [];
 			var count = 0;
 
-			var dir = this.getCurrentDirectory();
+			dir = typeof dir === 'string' ? dir : this.getCurrentDirectory();
 			if (dir.charAt(dir.length - 1) !== '/') {
 				dir += '/';
 			}
@@ -2266,7 +2287,7 @@
 
 			function updateInList(fileInfo) {
 				self.updateRow(tr, fileInfo);
-				self._updateDetailsView(fileInfo, false);
+				self._updateDetailsView(fileInfo.name, false);
 			}
 
 			// TODO: too many nested blocks, move parts into functions
@@ -2368,7 +2389,11 @@
 				event.preventDefault();
 			});
 			input.blur(function() {
-				form.trigger('submit');
+				if(input.hasClass('error')) {
+					restore();
+				} else {
+					form.trigger('submit');
+				}
 			});
 		},
 
@@ -2860,18 +2885,39 @@
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
-				this.$el.find('.selectedActions .copy-move').toggleClass('hidden', !this.isSelectedCopiableOrMovable());
 				this.$el.find('.selectedActions .download').toggleClass('hidden', !this.isSelectedDownloadable());
 				this.$el.find('.delete-selected').toggleClass('hidden', !this.isSelectedDeletable());
+
+				var $copyMove = this.$el.find('.selectedActions .copy-move');
+				if (this.isSelectedCopiable()) {
+					$copyMove.toggleClass('hidden', false);
+					if (this.isSelectedMovable()) {
+						$copyMove.find('.label').text(t('files', 'Move or copy'));
+					} else {
+						$copyMove.find('.label').text(t('files', 'Copy'));
+					}
+				} else {
+					$copyMove.toggleClass('hidden', true);
+				}
 			}
 		},
 
 		/**
-		 * Check whether all selected files are copiable or movable
+		 * Check whether all selected files are copiable
 		 */
-		isSelectedCopiableOrMovable: function() {
-			return _.reduce(this.getSelectedFiles(), function(copiableOrMovable, file) {
-				return copiableOrMovable && (file.permissions & OC.PERMISSION_UPDATE);
+		isSelectedCopiable: function() {
+			return _.reduce(this.getSelectedFiles(), function(copiable, file) {
+				var requiredPermission = $('#isPublic').val() ? OC.PERMISSION_UPDATE : OC.PERMISSION_READ;
+				return copiable && (file.permissions & requiredPermission);
+			}, true);
+		},
+
+		/**
+		 * Check whether all selected files are movable
+		 */
+		isSelectedMovable: function() {
+			return _.reduce(this.getSelectedFiles(), function(movable, file) {
+				return movable && (file.permissions & OC.PERMISSION_UPDATE);
 			}, true);
 		},
 

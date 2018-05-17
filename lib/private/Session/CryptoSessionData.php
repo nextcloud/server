@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -55,7 +56,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 */
 	public function __construct(ISession $session,
 								ICrypto $crypto,
-								$passphrase) {
+								string $passphrase) {
 		$this->crypto = $crypto;
 		$this->session = $session;
 		$this->passphrase = $passphrase;
@@ -75,7 +76,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	}
 
 	protected function initializeSession() {
-		$encryptedSessionData = $this->session->get(self::encryptedSessionName);
+		$encryptedSessionData = $this->session->get(self::encryptedSessionName) ?: '';
 		try {
 			$this->sessionValues = json_decode(
 				$this->crypto->decrypt($encryptedSessionData, $this->passphrase),
@@ -92,7 +93,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function set($key, $value) {
+	public function set(string $key, $value) {
 		$this->sessionValues[$key] = $value;
 		$this->isModified = true;
 	}
@@ -103,7 +104,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 * @return string|null Either the value or null
 	 */
-	public function get($key) {
+	public function get(string $key) {
 		if(isset($this->sessionValues[$key])) {
 			return $this->sessionValues[$key];
 		}
@@ -117,7 +118,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function exists($key) {
+	public function exists(string $key): bool {
 		return isset($this->sessionValues[$key]);
 	}
 
@@ -126,7 +127,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 *
 	 * @param string $key
 	 */
-	public function remove($key) {
+	public function remove(string $key) {
 		$this->isModified = true;
 		unset($this->sessionValues[$key]);
 		$this->session->remove(self::encryptedSessionName);
@@ -151,7 +152,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
 	 * @return void
 	 */
-	public function regenerateId($deleteOldSession = true) {
+	public function regenerateId(bool $deleteOldSession = true) {
 		$this->session->regenerateId($deleteOldSession);
 	}
 
@@ -162,7 +163,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
-	public function getId() {
+	public function getId(): string {
 		return $this->session->getId();
 	}
 
@@ -182,7 +183,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @return bool
 	 */
-	public function offsetExists($offset) {
+	public function offsetExists($offset): bool {
 		return $this->exists($offset);
 	}
 

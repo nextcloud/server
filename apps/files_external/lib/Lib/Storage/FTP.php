@@ -128,7 +128,7 @@ class FTP extends StreamWrapper{
 				} else {
 					$ext='';
 				}
-				$tmpFile=\OCP\Files::tmpFile($ext);
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 				if ($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
 				}
@@ -150,7 +150,7 @@ class FTP extends StreamWrapper{
 	 */
 	public static function checkDependencies() {
 		if (function_exists('ftp_login')) {
-			return(true);
+			return true;
 		} else {
 			return array('ftp');
 		}

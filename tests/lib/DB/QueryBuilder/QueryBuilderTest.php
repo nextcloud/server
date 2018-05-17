@@ -1137,7 +1137,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			$qB->getLastInsertId();
 			$this->fail('getLastInsertId() should throw an exception, when being called before insert()');
 		} catch (\BadMethodCallException $e) {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 
 		$qB->insert('properties')
@@ -1163,7 +1163,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			$qB->getLastInsertId();
 			$this->fail('getLastInsertId() should throw an exception, when being called after delete()');
 		} catch (\BadMethodCallException $e) {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 	}
 

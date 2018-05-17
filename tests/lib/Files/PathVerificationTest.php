@@ -87,6 +87,8 @@ class PathVerificationTest extends \Test\TestCase {
 		if (!$connection->supports4ByteText()) {
 			$this->expectException(InvalidPathException::class);
 			$this->expectExceptionMessage('File name contains at least one invalid character');
+		} else {
+			$this->addToAssertionCount(1);
 		}
 
 		$this->view->verifyPath('', $fileName);
@@ -161,7 +163,7 @@ class PathVerificationTest extends \Test\TestCase {
 
 		self::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
 		// nothing thrown
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function providesValidPosixPaths() {

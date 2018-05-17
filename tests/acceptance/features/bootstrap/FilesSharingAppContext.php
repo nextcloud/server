@@ -26,6 +26,7 @@ use Behat\Behat\Context\Context;
 class FilesSharingAppContext implements Context, ActorAwareInterface {
 
 	use ActorAware;
+	use FileListAncestorSetter;
 
 	/**
 	 * @return Locator
@@ -55,7 +56,7 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareMenuButton() {
-		return Locator::forThe()->id("share-menutoggle")->
+		return Locator::forThe()->id("header-actions-toggle")->
 				describedAs("Share menu button in Shared file page");
 	}
 
@@ -63,7 +64,7 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareMenu() {
-		return Locator::forThe()->id("share-menu")->
+		return Locator::forThe()->id("header-actions-menu")->
 				describedAs("Share menu in Shared file page");
 	}
 
@@ -89,7 +90,7 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function saveItemInShareMenu() {
-		return Locator::forThe()->id("save")->
+		return Locator::forThe()->id("save-external-share")->
 				descendantOf(self::shareMenu())->
 				describedAs("Save item in Share menu in Shared file page");
 	}
@@ -107,6 +108,13 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iVisitTheSharedLinkIWroteDown() {
 		$this->actor->getSession()->visit($this->actor->getSharedNotebook()["shared link"]);
+	}
+
+	/**
+	 * @When I visit the direct download shared link I wrote down
+	 */
+	public function iVisitTheDirectDownloadSharedLinkIWroteDown() {
+		$this->actor->getSession()->visit($this->actor->getSharedNotebook()["shared link"] . "/download");
 	}
 
 	/**
@@ -129,7 +137,16 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheSharedLinkIWroteDown() {
 		PHPUnit_Framework_Assert::assertEquals(
-				$this->actor->getSharedNotebook()["shared link"] . "/authenticate",
+				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/preview",
+				$this->actor->getSession()->getCurrentUrl());
+	}
+
+	/**
+	 * @Then I see that the current page is the Authenticate page for the direct download shared link I wrote down
+	 */
+	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheDirectDownloadSharedLinkIWroteDown() {
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/download",
 				$this->actor->getSession()->getCurrentUrl());
 	}
 
@@ -139,6 +156,17 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheCurrentPageIsTheSharedLinkIWroteDown() {
 		PHPUnit_Framework_Assert::assertEquals(
 				$this->actor->getSharedNotebook()["shared link"],
+				$this->actor->getSession()->getCurrentUrl());
+
+		$this->setFileListAncestorForActor(null, $this->actor);
+	}
+
+	/**
+	 * @Then I see that the current page is the direct download shared link I wrote down
+	 */
+	public function iSeeThatTheCurrentPageIsTheDirectDownloadSharedLinkIWroteDown() {
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->getSharedNotebook()["shared link"] . "/download",
 				$this->actor->getSession()->getCurrentUrl());
 	}
 
@@ -157,8 +185,8 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 		// Unlike other menus, the Share menu is always present in the DOM, so
 		// the element could be found when it was no made visible yet due to the
 		// command not having been processed by the browser.
-		if (!$this->waitForElementToBeEventuallyShown(
-				self::shareMenu(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor, self::shareMenu(), $timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The Share menu is not visible yet after $timeout seconds");
 		}
 
@@ -175,20 +203,6 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSharedFilePreviewShowsTheText($text) {
 		PHPUnit_Framework_Assert::assertContains($text, $this->actor->find(self::textPreview(), 10)->getText());
-	}
-
-	private function waitForElementToBeEventuallyShown($elementLocator, $timeout = 10, $timeoutStep = 1) {
-		$actor = $this->actor;
-
-		$elementShownCallback = function() use ($actor, $elementLocator) {
-			try {
-				return $actor->find($elementLocator)->isVisible();
-			} catch (NoSuchElementException $exception) {
-				return false;
-			}
-		};
-
-		return Utils::waitFor($elementShownCallback, $timeout, $timeoutStep);
 	}
 
 }

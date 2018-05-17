@@ -28,7 +28,6 @@ namespace OCA\DAV\Connector;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
-use Sabre\HTTP\URLUtil;
 use Sabre\DAVACL\Xml\Property\Principal;
 
 class LegacyDAVACL extends DavAclPlugin {

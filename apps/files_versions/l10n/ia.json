@@ -5,8 +5,6 @@
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Restore" : "Restaurar",
     "No earlier versions available" : "Nulle versiones anterior disponibile",
-    "More versions …" : "Plus versiones …",
-    "No versions available" : "Nulle versiones disponibile",
-    "More versions..." : "Plus versiones..."
+    "More versions …" : "Plus versiones …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

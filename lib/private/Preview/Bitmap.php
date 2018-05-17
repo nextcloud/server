@@ -26,6 +26,7 @@
 namespace OC\Preview;
 
 use Imagick;
+use OCP\ILogger;
 
 /**
  * Creates a PNG preview using ImageMagick via the PECL extension
@@ -48,7 +49,11 @@ abstract class Bitmap extends Provider {
 		try {
 			$bp = $this->getResizedPreview($tmpPath, $maxX, $maxY);
 		} catch (\Exception $e) {
-			\OCP\Util::writeLog('core', 'ImageMagick says: ' . $e->getMessage(), \OCP\Util::ERROR);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'Imagick says:',
+				'level' => ILogger::ERROR,
+				'app' => 'core',
+			]);
 			return false;
 		}
 

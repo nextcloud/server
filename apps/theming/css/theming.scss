@@ -1,3 +1,12 @@
+/** Calculate luma as it is also used in OCA\Theming\Util::calculateLuma */
+@function luma($c) {
+	$-local-red: red(rgba($c, 1.0));
+	$-local-green: green(rgba($c, 1.0));
+	$-local-blue: blue(rgba($c, 1.0));
+
+	@return (0.2126 * $-local-red  + 0.7152 * $-local-green + 0.0722 * $-local-blue) / 255;
+}
+
 .nc-theming-main-background {
 	background-color: $color-primary;
 }
@@ -10,7 +19,13 @@
 	color: $color-primary-text;
 }
 
-@if (lightness($color-primary) > 55) {
+@if (luma($color-primary) > 0.6) {
+	#appmenu:not(.inverted) svg {
+		filter: invert(1);
+	}
+	#appmenu.inverted svg {
+		filter: none;
+	}
 	.searchbox input[type="search"] {
 		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
 	}
@@ -53,6 +68,13 @@
 			background-color: nc-darken($color-primary-element, 30%) !important;
 		}
 	}
+} @else {
+	#appmenu:not(.inverted) svg {
+		filter: none;
+	}
+	#appmenu.inverted svg {
+		filter: invert(1);
+	}
 }
 
 /* Colorized svg images */
@@ -69,18 +91,54 @@
 }
 
 /* override styles for login screen in guest.css */
-#header .logo {
-	background-image: url(#{$image-logo});
-	@if $theming-logo-mime != '' {
+@if variable_exists('theming-logo-mime') and $theming-logo-mime != '' {
+	#theming-preview-logo,
+	#header .logo {
+		background-image: url(#{$image-logo});
 		background-size: contain;
+	}
+	#body-login #header .logo {
+		margin-bottom: 22px;
+	}
+} @else {
+	#theming-preview-logo {
+		background-image: url(#{$image-logo});
 	}
 }
 
-#body-login,
-#firstrunwizard .firstrunwizard-header,
-#theming-preview {
-	background-image: url(#{$image-login-background});
-	background-color: $color-primary;
+@if variable_exists('theming-background-mime') and $theming-background-mime != ''  {
+	#body-login,
+	#firstrunwizard .firstrunwizard-header,
+	#theming-preview {
+		background-image: url(#{$image-login-background});
+		background-color: $color-primary;
+	}
+} @else {
+	  #theming-preview {
+		  background-image: url(#{$image-login-background});
+		  background-color: $color-primary;
+	  }
+}
+
+@if variable_exists('theming-logoheader-mime') and $theming-logoheader-mime != '' {
+	#theming .advanced-option-logoheader .image-preview,
+	body:not(#body-login) #header .logo {
+		background-image: url(#{$image-logoheader});
+	}
+} @else {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: none;
+	}
+}
+
+@if variable_exists('theming-favicon-mime') and $theming-favicon-mime != '' {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: url(#{$image-favicon});
+	}
+} @else {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: none;
+	}
 }
 
 input.primary,
@@ -90,8 +148,8 @@ input.primary,
 	color: $color-primary-text;
 }
 
-@if (lightness($color-primary) > 50) {
-	#body-login #submit-icon.icon-confirm-white {
+@if (luma($color-primary) > 0.6) {
+	#body-login #submit-wrapper .icon-confirm-white {
 		background-image: url('../../../core/img/actions/confirm.svg');
 	}
 }
@@ -108,6 +166,10 @@ input.primary,
 			color: $color-primary-text !important;
 		}
 
+	}
+} @else {
+	#body-login {
+		background-color: $color-primary;
 	}
 }
 

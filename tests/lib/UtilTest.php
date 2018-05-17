@@ -38,70 +38,6 @@ class UtilTest extends \Test\TestCase {
 		$this->assertTrue(is_string($edition));
 	}
 
-	/**
-	 * @group DB
-	 */
-	function testFormatDate() {
-		date_default_timezone_set("UTC");
-
-		$result = OC_Util::formatDate(1350129205);
-		$expected = 'October 13, 2012 at 11:53:25 AM GMT+0';
-		$this->assertEquals($expected, $result);
-
-		$result = OC_Util::formatDate(1102831200, true);
-		$expected = 'December 12, 2004';
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @group DB
-	 */
-	function testFormatDateWithTZ() {
-		date_default_timezone_set("UTC");
-
-		$result = OC_Util::formatDate(1350129205, false, 'Europe/Berlin');
-		$expected = 'October 13, 2012 at 1:53:25 PM GMT+2';
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @expectedException \Exception
-	 */
-	function testFormatDateWithInvalidTZ() {
-		OC_Util::formatDate(1350129205, false, 'Mordor/Barad-dûr');
-	}
-
-	public function formatDateWithTZFromSessionData() {
-		return array(
-			array(3, 'October 13, 2012 at 2:53:25 PM GMT+3', 'Etc/GMT-3'),
-			array(15, 'October 13, 2012 at 11:53:25 AM GMT+0', 'UTC'),
-			array(-13, 'October 13, 2012 at 11:53:25 AM GMT+0', 'UTC'),
-			array(9.5, 'October 13, 2012 at 9:23:25 PM GMT+9:30', 'Australia/Darwin'),
-			array(-4.5, 'October 13, 2012 at 7:23:25 AM GMT-4:30', 'America/Caracas'),
-			array(15.5, 'October 13, 2012 at 11:53:25 AM GMT+0', 'UTC'),
-		);
-	}
-
-	/**
-	 * @dataProvider formatDateWithTZFromSessionData
-	 * @group DB
-	 */
-	function testFormatDateWithTZFromSession($offset, $expected, $expectedTimeZone) {
-		date_default_timezone_set("UTC");
-
-		\OC::$server->getSession()->set('timezone', $offset);
-
-		$selectedTimeZone = \OC::$server->getDateTimeZone()->getTimeZone(1350129205);
-		$this->assertEquals($expectedTimeZone, $selectedTimeZone->getName());
-		$newDateTimeFormatter = new \OC\DateTimeFormatter($selectedTimeZone, \OC::$server->getL10N('lib', 'en'));
-		$this->overwriteService('DateTimeFormatter', $newDateTimeFormatter);
-
-		$result = OC_Util::formatDate(1350129205, false);
-		$this->assertEquals($expected, $result);
-
-		$this->restoreService('DateTimeFormatter');
-	}
-
 	function testSanitizeHTML() {
 		$badArray = [
 			'While it is unusual to pass an array',
@@ -304,12 +240,12 @@ class UtilTest extends \Test\TestCase {
 
 		// need to set a user id to make sure enabled apps are read from cache
 		\OC_User::setUserId($this->getUniqueID());
-		\OCP\Config::setSystemValue('defaultapp', $defaultAppConfig);
+		\OC::$server->getConfig()->setSystemValue('defaultapp', $defaultAppConfig);
 		$this->assertEquals('http://localhost/' . $expectedPath, Dummy_OC_Util::getDefaultPageUrl());
 
 		// restore old state
 		\OC::$WEBROOT = $oldWebRoot;
-		\OCP\Config::setSystemValue('defaultapp', $oldDefaultApps);
+		\OC::$server->getConfig()->setSystemValue('defaultapp', $oldDefaultApps);
 		\OC_User::setUserId(null);
 	}
 
@@ -396,13 +332,13 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testCheckDataDirectoryValidity() {
-		$dataDir = \OCP\Files::tmpFolder();
+		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		touch($dataDir . '/.ocdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
 		\OCP\Files::rmdirr($dataDir);
 
-		$dataDir = \OCP\Files::tmpFolder();
+		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		// no touch
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertNotEmpty($errors);

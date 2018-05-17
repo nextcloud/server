@@ -23,8 +23,6 @@
 
 namespace OCA\DAV\CalDAV;
 
-use Sabre\HTTP\URLUtil;
-
 class Plugin extends \Sabre\CalDAV\Plugin {
 
 	/**
@@ -36,8 +34,6 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 			list(, $principalId) = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT .'/' . $principalId;
 		}
-
-		return;
 	}
 
 }

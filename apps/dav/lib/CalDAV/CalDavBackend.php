@@ -51,10 +51,8 @@ use Sabre\DAV;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
-use Sabre\HTTP\URLUtil;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -2253,7 +2251,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					if (!$this->db->supports4ByteText()) {
 						$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
 					}
-					$value = substr($value, 0, 254);
+					$value = mb_substr($value, 0, 254);
 
 					$query->setParameter('name', $property->name);
 					$query->setParameter('parameter', null);
@@ -2261,7 +2259,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$query->execute();
 				}
 
-				if (in_array($property->name, array_keys(self::$indexParameters))) {
+				if (array_key_exists($property->name, self::$indexParameters)) {
 					$parameters = $property->parameters();
 					$indexedParametersForProperty = self::$indexParameters[$property->name];
 
@@ -2271,7 +2269,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 							if ($this->db->supports4ByteText()) {
 								$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
 							}
-							$value = substr($value, 0, 254);
+							$value = mb_substr($value, 0, 254);
 
 							$query->setParameter('name', $property->name);
 							$query->setParameter('parameter', substr($key, 0, 254));

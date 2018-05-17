@@ -62,8 +62,6 @@ class ManagerTest extends TestCase {
 	private $lockingProvider;
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var Mapper|\PHPUnit_Framework_MockObject_MockObject */
-	private $mapper;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $url;
 	/** @var AccountManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -72,8 +70,6 @@ class ManagerTest extends TestCase {
 	private $groupManager;
 	/** @var  IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10nFactory;
-	/** @var \OC_Defaults|\PHPUnit_Framework_MockObject_MockObject */
-	private $defaults;
 	/** @var IAppManager */
 	private $appManager;
 
@@ -88,12 +84,10 @@ class ManagerTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->lockingProvider = $this->createMock(ILockingProvider::class);
 		$this->request = $this->createMock(IRequest::class);
-		$this->mapper = $this->createMock(Mapper::class);
 		$this->url = $this->createMock(IURLGenerator::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
-		$this->defaults = $this->createMock(\OC_Defaults::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->manager = new Manager(
@@ -105,77 +99,12 @@ class ManagerTest extends TestCase {
 			$this->userManager,
 			$this->lockingProvider,
 			$this->request,
-			$this->mapper,
 			$this->url,
 			$this->accountManager,
 			$this->groupManager,
 			$this->l10nFactory,
-			$this->defaults,
 			$this->appManager
 		);
-	}
-
-	public function settingsTypeProvider() {
-		return [
-			['admin', 'admin_settings'],
-			['personal', 'personal_settings'],
-		];
-	}
-
-	/**
-	 * @dataProvider settingsTypeProvider
-	 * @param string $type
-	 * @param string $table
-	 */
-	public function testSetupSettingsUpdate($type, $table) {
-		$className = 'OCA\Files\Settings\Admin';
-
-		$this->mapper->expects($this->any())
-			->method('has')
-			->with($table, $className)
-			->will($this->returnValue(true));
-
-		$this->mapper->expects($this->once())
-			->method('update')
-			->with($table,
-				'class',
-				$className, [
-					'section' => 'additional',
-					'priority' => 5
-				]);
-		$this->mapper->expects($this->never())
-			->method('add');
-
-		$this->manager->setupSettings([
-			$type => [$className],
-		]);
-	}
-
-	/**
-	 * @dataProvider settingsTypeProvider
-	 * @param string $type
-	 * @param string $table
-	 */
-	public function testSetupSettingsAdd($type, $table) {
-		$this->mapper->expects($this->any())
-			->method('has')
-			->with($table, 'OCA\Files\Settings\Admin')
-			->will($this->returnValue(false));
-
-		$this->mapper->expects($this->once())
-			->method('add')
-			->with($table, [
-				'class' => 'OCA\Files\Settings\Admin',
-				'section' => 'additional',
-				'priority' => 5
-			]);
-
-		$this->mapper->expects($this->never())
-			->method('update');
-
-		$this->manager->setupSettings([
-			$type => ['OCA\Files\Settings\Admin'],
-		]);
 	}
 
 	public function testGetAdminSections() {
@@ -184,30 +113,27 @@ class ManagerTest extends TestCase {
 			->method('t')
 			->will($this->returnArgument(0));
 
-		$this->mapper->expects($this->once())
-			->method('getAdminSectionsFromDB')
-			->will($this->returnValue([
-				['class' => \OCA\WorkflowEngine\Settings\Section::class, 'priority' => 90]
-			]));
+		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$this->url->expects($this->exactly(6))
+		$this->url->expects($this->exactly(7))
 			->method('imagePath')
 			->willReturnMap([
-				['settings', 'admin.svg', '1'],
+				['settings', 'admin.svg', '0'],
+				['core', 'actions/settings-dark.svg', '1'],
 				['core', 'actions/share.svg', '2'],
 				['core', 'actions/password.svg', '3'],
-				['core', 'actions/settings-dark.svg', '4'],
-				['settings', 'help.svg', '5'],
+				['settings', 'help.svg', '4'],
 			]);
 
 		$this->assertEquals([
-			0 => [new Section('server', 'Basic settings', 0, '1')],
+			0 => [new Section('overview', 'Overview', 0, '0')],
+			1 => [new Section('server', 'Basic settings', 0, '1')],
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
 			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
-			90 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
-			98 => [new Section('additional', 'Additional settings', 0, '4')],
-			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '5')],
+			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			98 => [new Section('additional', 'Additional settings', 0, '1')],
+			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '4')],
 		], $this->manager->getAdminSections());
 	}
 
@@ -217,11 +143,7 @@ class ManagerTest extends TestCase {
 			->method('t')
 			->will($this->returnArgument(0));
 
-		$this->mapper->expects($this->once())
-			->method('getPersonalSectionsFromDB')
-			->will($this->returnValue([
-				['class' => \OCA\WorkflowEngine\Settings\Section::class, 'priority' => 90]
-			]));
+		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$this->url->expects($this->exactly(3))
 			->method('imagePath')
@@ -231,11 +153,11 @@ class ManagerTest extends TestCase {
 				['settings', 'change.svg', '3'],
 			]);
 
-		$this->assertArraySubset([
+		$this->assertEquals([
 			0 => [new Section('personal-info', 'Personal info', 0, '1')],
 			5 => [new Section('security', 'Security', 0, '2')],
 			15 => [new Section('sync-clients', 'Sync clients', 0, '3')],
-			90 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
 		], $this->manager->getPersonalSections());
 	}
 
@@ -245,28 +167,24 @@ class ManagerTest extends TestCase {
 			->method('t')
 			->will($this->returnArgument(0));
 
-		$this->mapper->expects($this->once())
-			->method('getAdminSectionsFromDB')
-			->will($this->returnValue([
-			]));
-
-		$this->url->expects($this->exactly(6))
+		$this->url->expects($this->exactly(7))
 			->method('imagePath')
 			->willReturnMap([
-				['settings', 'admin.svg', '1'],
+				['settings', 'admin.svg', '0'],
+				['core', 'actions/settings-dark.svg', '1'],
 				['core', 'actions/share.svg', '2'],
 				['core', 'actions/password.svg', '3'],
-				['core', 'actions/settings-dark.svg', '4'],
-				['settings', 'help.svg', '5'],
+				['settings', 'help.svg', '4'],
 			]);
 
 		$this->assertEquals([
-			0 => [new Section('server', 'Basic settings', 0, '1')],
+			0 => [new Section('overview', 'Overview', 0, '0')],
+			1 => [new Section('server', 'Basic settings', 0, '1')],
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
 			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
-			98 => [new Section('additional', 'Additional settings', 0, '4')],
-			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '5')],
+			98 => [new Section('additional', 'Additional settings', 0, '1')],
+			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '4')],
 		], $this->manager->getAdminSections());
 	}
 
@@ -275,10 +193,6 @@ class ManagerTest extends TestCase {
 			->expects($this->any())
 			->method('t')
 			->will($this->returnArgument(0));
-
-		$this->mapper->expects($this->once())
-			->method('getPersonalSectionsFromDB')
-			->will($this->returnValue([]));
 
 		$this->url->expects($this->exactly(3))
 			->method('imagePath')
@@ -296,20 +210,12 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSettings() {
-		$this->mapper->expects($this->any())
-			->method('getAdminSettingsFromDB')
-			->will($this->returnValue([]));
-
 		$this->assertEquals([
-			0 => [new Sharing($this->config)],
+			0 => [new Sharing($this->config, $this->l10n)],
 		], $this->manager->getAdminSettings('sharing'));
 	}
 
 	public function testGetPersonalSettings() {
-		$this->mapper->expects($this->any())
-			->method('getPersonalSettingsFromDB')
-			->will($this->returnValue([]));
-
 		$this->assertEquals([
 			10 => [new Security()],
 		], $this->manager->getPersonalSettings('security'));

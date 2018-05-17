@@ -28,9 +28,9 @@ $urlGenerator = $_['urlGenerator'];
 ?>
 
 <div class="picker-window">
-	<h2><?php p($l->t('Account access')) ?></h2>
+	<h2><?php p($l->t('Connect to your account')) ?></h2>
 	<p class="info">
-		<?php print_unescaped($l->t('You are about to grant %s access to your %s account.', [
+		<?php print_unescaped($l->t('Please log in before granting %s access to your %s account.', [
 								'<strong>' . \OCP\Util::sanitizeHTML($_['client']) . '</strong>',
 								\OCP\Util::sanitizeHTML($_['instanceName'])
 							])) ?>
@@ -39,8 +39,8 @@ $urlGenerator = $_['urlGenerator'];
 	<br/>
 
 	<p id="redirect-link">
-		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.redirectPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState']])) ?>">
-			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
+		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState']])) ?>">
+			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>">
 		</a>
 	</p>
 
@@ -59,5 +59,5 @@ $urlGenerator = $_['urlGenerator'];
 </div>
 
 <?php if(empty($_['oauthState'])): ?>
-<a id="app-token-login" class="warning" href="#"><?php p($l->t('Alternative login using app token')) ?></a>
+<a id="app-token-login" class="warning" href="#"><?php p($l->t('Alternative log in using app token')) ?></a>
 <?php endif; ?>

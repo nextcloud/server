@@ -71,7 +71,7 @@ class TrashbinTest extends \Test\TestCase {
 		$application->registerMountProviders();
 
 		//disable encryption
-		\OC_App::disable('encryption');
+		\OC::$server->getAppManager()->disableApp('encryption');
 
 		$config = \OC::$server->getConfig();
 		//configure trashbin

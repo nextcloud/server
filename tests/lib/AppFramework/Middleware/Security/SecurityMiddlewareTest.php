@@ -45,13 +45,11 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
-use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
-use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
@@ -82,8 +80,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $cspNonceManager;
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	private $userSession;
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
 
 	protected function setUp() {
 		parent::setUp();
@@ -97,21 +95,19 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
-		$this->appManager = $this->createMock(IAppManager::class);
-		$this->appManager->expects($this->any())
-			->method('isEnabledForUser')
-			->willReturn(true);
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
 	}
 
-	/**
-	 * @param bool $isLoggedIn
-	 * @param bool $isAdminUser
-	 * @return SecurityMiddleware
-	 */
-	private function getMiddleware($isLoggedIn, $isAdminUser) {
+	private function getMiddleware(bool $isLoggedIn, bool $isAdminUser, bool $isAppEnabledForUser = true): SecurityMiddleware {
+
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appManager->expects($this->any())
+			->method('isEnabledForUser')
+			->willReturn($isAppEnabledForUser);
+
 		return new SecurityMiddleware(
 			$this->request,
 			$this->reader,
@@ -124,7 +120,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->contentSecurityPolicyManager,
 			$this->csrfTokenManager,
 			$this->cspNonceManager,
-			$this->appManager
+			$this->appManager,
+			$this->l10n
 		);
 	}
 
@@ -168,7 +165,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		// add assertion if everything should work fine otherwise phpunit will
 		// complain
 		if ($status === 0) {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 	}
 
@@ -263,9 +260,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser);
 
 		if($shouldFail) {
-			$this->setExpectedException('\OC\AppFramework\Middleware\Security\Exceptions\SecurityException');
+			$this->expectException(SecurityException::class);
 		} else {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 
 		$this->reader->reflect(__CLASS__, $method);
@@ -387,11 +384,15 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->getMock();
 
 		return [
-			[$controller, false, true],
-			[$controller, true,  true],
+			[$controller, false, false, true],
+			[$controller, false,  true, true],
+			[$controller,  true, false, true],
+			[$controller,  true,  true, true],
 
-			[$ocsController, false, true],
-			[$ocsController, true,  false],
+			[$ocsController, false, false,  true],
+			[$ocsController, false,  true, false],
+			[$ocsController,  true, false, false],
+			[$ocsController,  true,  true, false],
 		];
 	}
 
@@ -399,13 +400,21 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @dataProvider dataCsrfOcsController
 	 * @param Controller $controller
 	 * @param bool $hasOcsApiHeader
+	 * @param bool $hasBearerAuth
 	 * @param bool $exception
 	 */
-	public function testCsrfOcsController(Controller $controller, $hasOcsApiHeader, $exception) {
+	public function testCsrfOcsController(Controller $controller, bool $hasOcsApiHeader, bool $hasBearerAuth, bool $exception) {
 		$this->request
 			->method('getHeader')
-			->with('OCS-APIREQUEST')
-			->willReturn($hasOcsApiHeader ? 'true' : null);
+			->will(self::returnCallback(function ($header) use ($hasOcsApiHeader, $hasBearerAuth) {
+				if ($header === 'OCS-APIREQUEST' && $hasOcsApiHeader) {
+					return 'true';
+				}
+				if ($header === 'Authorization' && $hasBearerAuth) {
+					return 'Bearer TOKEN!';
+				}
+				return '';
+			}));
 		$this->request->expects($this->once())
 			->method('passesStrictCookieCheck')
 			->willReturn(true);
@@ -454,7 +463,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 	public function testAfterExceptionNotCaughtThrowsItAgain(){
 		$ex = new \Exception();
-		$this->setExpectedException('\Exception');
+		$this->expectException(\Exception::class);
 		$this->middleware->afterException($this->controller, 'test', $ex);
 	}
 
@@ -483,8 +492,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue('http://localhost/nextcloud/index.php/login?redirect_url=nextcloud/index.php/apps/specialapp'));
 		$this->logger
 			->expects($this->once())
-			->method('debug')
-			->with('Current user is not logged in');
+			->method('logException');
 		$response = $this->middleware->afterException(
 			$this->controller,
 			'test',
@@ -530,7 +538,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				new CrossSiteRequestForgeryException(),
 			],
 			[
-				new NotAdminException(),
+				new NotAdminException(''),
 			],
 		];
 	}
@@ -554,8 +562,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware = $this->getMiddleware(false, false);
 		$this->logger
 			->expects($this->once())
-			->method('debug')
-			->with($exception->getMessage());
+			->method('logException');
 		$response = $this->middleware->afterException(
 			$this->controller,
 			'test',
@@ -656,5 +663,76 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->with($mergedPolicy);
 
 		$this->assertEquals($response, $this->middleware->afterController($this->controller, 'test', $response));
+	}
+
+	public function dataRestrictedApp() {
+		return [
+			[false, false, false,],
+			[false, false,  true,],
+			[false,  true, false,],
+			[false,  true,  true,],
+			[ true, false, false,],
+			[ true, false,  true,],
+			[ true,  true, false,],
+			[ true,  true,  true,],
+		];
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function testRestrictedAppLoggedInPublicPage() {
+		$middleware = $this->getMiddleware(true, false);
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+
+		$this->appManager->method('getAppPath')
+			->with('files')
+			->willReturn('foo');
+
+		$this->appManager->method('isEnabledForUser')
+			->with('files')
+			->willReturn(false);
+
+		$middleware->beforeController($this->controller, __FUNCTION__);
+		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function testRestrictedAppNotLoggedInPublicPage() {
+		$middleware = $this->getMiddleware(false, false);
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+
+		$this->appManager->method('getAppPath')
+			->with('files')
+			->willReturn('foo');
+
+		$this->appManager->method('isEnabledForUser')
+			->with('files')
+			->willReturn(false);
+
+		$middleware->beforeController($this->controller, __FUNCTION__);
+		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function testRestrictedAppLoggedIn() {
+		$middleware = $this->getMiddleware(true, false, false);
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+
+		$this->appManager->method('getAppPath')
+			->with('files')
+			->willReturn('foo');
+
+		$this->expectException(AppNotEnabledException::class);
+		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 }

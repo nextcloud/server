@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -90,7 +91,7 @@ class BackgroundJob extends TimedJob {
 	 * Check for ownCloud update
 	 */
 	protected function checkCoreUpdate() {
-		if (in_array($this->getChannel(), ['daily', 'git'], true)) {
+		if (\in_array($this->getChannel(), ['daily', 'git'], true)) {
 			// "These aren't the update channels you're looking for." - Ben Obi-Wan Kenobi
 			return;
 		}
@@ -102,10 +103,10 @@ class BackgroundJob extends TimedJob {
 			$errors = 1 + (int) $this->config->getAppValue('updatenotification', 'update_check_errors', 0);
 			$this->config->setAppValue('updatenotification', 'update_check_errors', $errors);
 
-			if (in_array($errors, $this->connectionNotifications, true)) {
+			if (\in_array($errors, $this->connectionNotifications, true)) {
 				$this->sendErrorNotifications($errors);
 			}
-		} else if (is_array($status)) {
+		} else if (\is_array($status)) {
 			$this->config->setAppValue('updatenotification', 'update_check_errors', 0);
 			$this->clearErrorNotifications();
 
@@ -178,26 +179,31 @@ class BackgroundJob extends TimedJob {
 		if ($lastNotification === $version) {
 			// We already notified about this update
 			return;
-		} else if ($lastNotification !== false) {
+		}
+
+		if ($lastNotification !== false) {
 			// Delete old updates
 			$this->deleteOutdatedNotifications($app, $lastNotification);
 		}
 
-
 		$notification = $this->notificationManager->createNotification();
-		$notification->setApp('updatenotification')
-			->setDateTime(new \DateTime())
-			->setObject($app, $version);
+		try {
+			$notification->setApp('updatenotification')
+				->setDateTime(new \DateTime())
+				->setObject($app, $version);
 
-		if ($visibleVersion !== '') {
-			$notification->setSubject('update_available', ['version' => $visibleVersion]);
-		} else {
-			$notification->setSubject('update_available');
-		}
+			if ($visibleVersion !== '') {
+				$notification->setSubject('update_available', ['version' => $visibleVersion]);
+			} else {
+				$notification->setSubject('update_available');
+			}
 
-		foreach ($this->getUsersToNotify() as $uid) {
-			$notification->setUser($uid);
-			$this->notificationManager->notify($notification);
+			foreach ($this->getUsersToNotify() as $uid) {
+				$notification->setUser($uid);
+				$this->notificationManager->notify($notification);
+			}
+		} catch (\InvalidArgumentException $e) {
+			return;
 		}
 
 		$this->config->setAppValue('updatenotification', $app, $version);
@@ -206,12 +212,12 @@ class BackgroundJob extends TimedJob {
 	/**
 	 * @return string[]
 	 */
-	protected function getUsersToNotify() {
+	protected function getUsersToNotify(): array {
 		if ($this->users !== null) {
 			return $this->users;
 		}
 
-		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
+		$notifyGroups = (array) json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
 		$this->users = [];
 		foreach ($notifyGroups as $group) {
 			$groupToNotify = $this->groupManager->get($group);
@@ -235,15 +241,19 @@ class BackgroundJob extends TimedJob {
 	 */
 	protected function deleteOutdatedNotifications($app, $version) {
 		$notification = $this->notificationManager->createNotification();
-		$notification->setApp('updatenotification')
-			->setObject($app, $version);
+		try {
+			$notification->setApp('updatenotification')
+				->setObject($app, $version);
+		} catch (\InvalidArgumentException $e) {
+			return;
+		}
 		$this->notificationManager->markProcessed($notification);
 	}
 
 	/**
 	 * @return VersionCheck
 	 */
-	protected function createVersionCheck() {
+	protected function createVersionCheck(): VersionCheck {
 		return new VersionCheck(
 			$this->client,
 			$this->config
@@ -253,7 +263,7 @@ class BackgroundJob extends TimedJob {
 	/**
 	 * @return string
 	 */
-	protected function getChannel() {
+	protected function getChannel(): string {
 		return \OC_Util::getChannel();
 	}
 

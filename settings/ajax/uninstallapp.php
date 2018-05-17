@@ -22,8 +22,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkAdminUser();
-OCP\JSON::callCheck();
+\OC_JSON::checkAdminUser();
+\OC_JSON::callCheck();
 
 $lastConfirm = (int) \OC::$server->getSession()->get('last-password-confirm');
 if ($lastConfirm < (time() - 30 * 60 + 15)) { // allow 15 seconds delay
@@ -40,7 +40,10 @@ if (!array_key_exists('appid', $_POST)) {
 $appId = (string)$_POST['appid'];
 $appId = OC_App::cleanAppId($appId);
 
-$result = OC_App::removeApp($appId);
+// FIXME: move to controller
+/** @var \OC\Installer $installer */
+$installer = \OC::$server->query(\OC\Installer::class);
+$result = $installer->removeApp($app);
 if($result !== false) {
 	// FIXME: Clear the cache - move that into some sane helper method
 	\OC::$server->getMemCacheFactory()->createDistributed('settings')->remove('listApps-0');

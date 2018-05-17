@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -23,6 +24,8 @@
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\HandlerStack;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
@@ -51,7 +54,7 @@ class ClientService implements IClientService {
 	/**
 	 * @return Client
 	 */
-	public function newClient() {
-		return new Client($this->config, $this->certificateManager, new GuzzleClient());
+	public function newClient(): IClient {
+		return new Client($this->config, $this->certificateManager, new GuzzleClient(), HandlerStack::create());
 	}
 }

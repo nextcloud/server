@@ -97,7 +97,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 		}
 
 		$propFind->handle(self::PROPERTY_NAME_COUNT, function() use ($node) {
-			return $this->commentsManager->getNumberOfCommentsForObject('files', strval($node->getId()));
+			return $this->commentsManager->getNumberOfCommentsForObject('files', (string)$node->getId());
 		});
 
 		$propFind->handle(self::PROPERTY_NAME_HREF, function() use ($node) {
@@ -153,9 +153,9 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			return null;
 		}
 
-		$lastRead = $this->commentsManager->getReadMark('files', strval($node->getId()), $user);
+		$lastRead = $this->commentsManager->getReadMark('files', (string)$node->getId(), $user);
 
-		return $this->commentsManager->getNumberOfCommentsForObject('files', strval($node->getId()), $lastRead);
+		return $this->commentsManager->getNumberOfCommentsForObject('files', (string)$node->getId(), $lastRead);
 	}
 
 }

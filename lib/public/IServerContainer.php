@@ -44,6 +44,7 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
+use OCP\Log\ILogFactory;
 use OCP\Security\IContentSecurityPolicyManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -125,7 +126,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Files\Folder
 	 * @since 6.0.0
-	 * @deprecated since 9.2.0 use IAppData
+	 * @deprecated 9.2.0 use IAppData
 	 */
 	public function getAppFolder();
 
@@ -251,14 +252,6 @@ interface IServerContainer extends IContainer {
 	public function getURLGenerator();
 
 	/**
-	 * Returns the Helper
-	 *
-	 * @return \OCP\IHelper
-	 * @since 6.0.0
-	 */
-	public function getHelper();
-
-	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache
@@ -323,6 +316,14 @@ interface IServerContainer extends IContainer {
 	public function getLogger();
 
 	/**
+	 * returns a log factory instance
+	 *
+	 * @return ILogFactory
+	 * @since 14.0.0
+	 */
+	public function getLogFactory();
+
+	/**
 	 * Returns a router for generating and matching urls
 	 *
 	 * @return \OCP\Route\IRouter
@@ -354,14 +355,6 @@ interface IServerContainer extends IContainer {
 	 * @since 8.0.0
 	 */
 	public function createEventSource();
-
-	/**
-	 * Returns an instance of the HTTP helper class
-	 * @return \OC\HTTPHelper
-	 * @deprecated 8.1.0 Use \OCP\Http\Client\IClientService
-	 * @since 8.0.0
-	 */
-	public function getHTTPHelper();
 
 	/**
 	 * Returns an instance of the HTTP client service

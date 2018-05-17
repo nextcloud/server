@@ -121,6 +121,24 @@ interface ICommentsManager {
 	);
 
 	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
+	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
+	 * @param int $limit optional, number of maximum comments to be returned. if
+	 * set to 0, all comments are returned.
+	 * @return IComment[]
+	 * @since 14.0.0
+	 */
+	public function getForObjectSince(
+		string $objectType,
+		string $objectId,
+		int $lastKnownCommentId,
+		string $sortDirection = 'asc',
+		int $limit = 30
+	): array;
+
+	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments

@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "შეამოწმეთ %s არასწორია",
     "Check #%s does not exist" : "შეამოწმეთ #%s არ არსებობს",
     "Workflow" : "შრომითი პროცესები",
+    "Files workflow engine" : "ფაილების სამუშაოს შესრულების ძრავა",
     "Open documentation" : "ღია დოკუმენტაცია",
     "Add rule group" : "ჯგუფის წესის დამატება",
     "Short rule description" : "წესის მოკლე აღწერა",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "საწყის მდოგმარეობაში დაბრუნება",
     "Save" : "შენახვა",
     "Saving…" : "მიმდინარეობს დამახსოვრება...",
-    "Loading…" : "იტვირთება...",
-    "Successfully saved" : "წარმატებით დამახსოვრდა",
-    "File mime type" : "ფაილის mime სახეობა"
+    "Loading…" : "იტვირთება..."
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

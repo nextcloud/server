@@ -34,7 +34,6 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\ILogger;
@@ -285,7 +284,8 @@ class AvatarController extends Controller {
 									Http::STATUS_NOT_FOUND);
 		}
 
-		$image = new \OC_Image($tmpAvatar);
+		$image = new \OC_Image();
+		$image->loadFromData($tmpAvatar);
 
 		$resp = new DataDisplayResponse($image->data(),
 				Http::STATUS_OK,
@@ -322,7 +322,8 @@ class AvatarController extends Controller {
 									Http::STATUS_BAD_REQUEST);
 		}
 
-		$image = new \OC_Image($tmpAvatar);
+		$image = new \OC_Image();
+		$image->loadFromData($tmpAvatar);
 		$image->crop($crop['x'], $crop['y'], (int)round($crop['w']), (int)round($crop['h']));
 		try {
 			$avatar = $this->avatarManager->getAvatar($this->userId);

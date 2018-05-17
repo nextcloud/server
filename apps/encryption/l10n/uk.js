@@ -34,7 +34,6 @@ OC.L10N.register(
     "New recovery key password" : "Новий пароль ключа відновлення",
     "Repeat new recovery key password" : "Повторіть новий пароль ключа відновлення",
     "Change Password" : "Змінити Пароль",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Доданок шифрування ввімкнено, але ваші ключі не ініціалізовано, вийдіть та зайдіть знову",
     "Your private key password no longer matches your log-in password." : "Пароль вашого закритого ключа більше не відповідає паролю від вашого облікового запису.",
     "Set your old private key password to your current log-in password:" : "Замініть старий пароль від закритого ключа на новий пароль входу:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Якщо ви не пам'ятаєте ваш старий пароль, ви можете звернутися до адміністратора щоб його відновити.",
@@ -46,4 +45,4 @@ OC.L10N.register(
     "Enabled" : "Увімкнено",
     "Disabled" : "Вимкнено"
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=( n % 1 == 0 && n % 10 =1 && n % 100 != 11) ? 1 : ( n %1 == 0 && ( n >= 2 && n <=4) && ( n % 100 <12 || n % 100 > 14)) ? 3 : ( n % 1 ==0 && (n% 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14));");

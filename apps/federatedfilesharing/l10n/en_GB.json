@@ -15,13 +15,7 @@
     "Couldn't establish a federated share." : "Couldn't establish a federated share.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Couldn't establish a federated share, maybe the password was wrong.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federated Share request sent, you will receive an invitation. Check your notifications.",
-    "The mountpoint name contains invalid characters." : "The mountpoint name contains invalid characters.",
-    "Not allowed to create a federated share with the owner." : "Not allowed to create a federated share with the owner.",
-    "Invalid or untrusted SSL certificate" : "Invalid or untrusted SSL certificate",
-    "Could not authenticate to remote share, password might be wrong" : "Could not authenticate to remote share, password might be wrong",
-    "Storage not valid" : "Storage not valid",
-    "Federated share added" : "Federated share added",
-    "Couldn't add remote share" : "Couldn't add remote share",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9).",
     "Sharing %s failed, because this item is already shared with %s" : "Sharing %s failed, because this item is already shared with %s",
     "Not allowed to create a federated share with the same user" : "Not allowed to create a federated share with the same user",
     "File is already shared with %s" : "File is already shared with %s",
@@ -36,6 +30,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Share with me through my #Nextcloud Federated Cloud ID, see %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
     "Sharing" : "Sharing",
+    "Federated file sharing" : "Federated file sharing",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Open documentation" : "Open documentation",
     "Adjust how people can share between servers." : "Adjust how people can share between servers.",
@@ -50,7 +45,13 @@
     "Add to your website" : "Add to your website",
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
     "HTML Code:" : "HTML Code:",
-    "Search global and public address book for users and let local users publish their data" : "Search global and public address book for users and let local users publish their data",
-    "Share it:" : "Share it:"
+    "The mountpoint name contains invalid characters." : "The mountpoint name contains invalid characters.",
+    "Not allowed to create a federated share with the owner." : "Not allowed to create a federated share with the owner.",
+    "Invalid or untrusted SSL certificate" : "Invalid or untrusted SSL certificate",
+    "Could not authenticate to remote share, password might be wrong" : "Could not authenticate to remote share, password might be wrong",
+    "Storage not valid" : "Storage not valid",
+    "Federated share added" : "Federated share added",
+    "Couldn't add remote share" : "Couldn't add remote share",
+    "Search global and public address book for users and let local users publish their data" : "Search global and public address book for users and let local users publish their data"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

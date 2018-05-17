@@ -80,6 +80,13 @@ var OCP = {},
 	 */
 	webroot:oc_webroot,
 
+	/**
+	 * Capabilities
+	 *
+	 * @type array
+	 */
+	_capabilities: window.oc_capabilities || null,
+
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	/**
 	 * Currently logged in user or null if none
@@ -306,6 +313,18 @@ var OCP = {},
 	 */
 	getRootPath: function() {
 		return OC.webroot;
+	},
+
+
+	/**
+	 * Returns the capabilities
+	 *
+	 * @return {array} capabilities
+	 *
+	 * @since 14.0
+	 */
+	getCapabilities: function() {
+		return OC._capabilities;
 	},
 
 	/**
@@ -659,9 +678,10 @@ var OCP = {},
 	 * @param {jQuery} $toggle
 	 * @param {jQuery} $menuEl
 	 * @param {function|undefined} toggle callback invoked everytime the menu is opened
+	 * @param {boolean} headerMenu is this a top right header menu?
 	 * @returns {undefined}
 	 */
-	registerMenu: function($toggle, $menuEl, toggle) {
+	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
 		$toggle.on('click.menu', function(event) {
@@ -677,6 +697,14 @@ var OCP = {},
 				// close it
 				self.hideMenus();
 			}
+
+			if (headerMenu === true) {
+				$menuEl.parent().addClass('openedMenu');
+			}
+
+			// Set menu to expanded
+			$toggle.attr('aria-expanded', true);
+
 			$menuEl.slideToggle(OC.menuSpeed, toggle);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
@@ -711,6 +739,11 @@ var OCP = {},
 				}
 			});
 		}
+
+		// Set menu to closed
+		$('.menutoggle').attr('aria-expanded', false);
+
+		$('.openedMenu').removeClass('openedMenu');
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;
 	},
@@ -1237,7 +1270,6 @@ OC.Notification={
 	 * @param {string} [options.type] notification type
 	 */
 	showTemporary: function(text, options) {
-		var self = this;
 		var defaults = {
 			isHTML: false,
 			timeout: 7
@@ -1341,34 +1373,29 @@ function initCore() {
 	});
 
 	/**
-	 * Calls the server periodically to ensure that session doesn't
-	 * time out
+	 * Calls the server periodically to ensure that session and CSRF
+	 * token doesn't expire
 	 */
-	function initSessionHeartBeat(){
-		// max interval in seconds set to 24 hours
-		var maxInterval = 24 * 3600;
+	function initSessionHeartBeat() {
 		// interval in seconds
 		var interval = 900;
 		if (oc_config.session_lifetime) {
 			interval = Math.floor(oc_config.session_lifetime / 2);
 		}
 		// minimum one minute
-		if (interval < 60) {
-			interval = 60;
-		}
-		if (interval > maxInterval) {
-			interval = maxInterval;
-		}
-		var url = OC.generateUrl('/heartbeat');
-		var heartBeatTimeout = null;
-		var heartBeat = function() {
-			clearInterval(heartBeatTimeout);
-			heartBeatTimeout = setInterval(function() {
-				$.post(url);
-			}, interval * 1000);
-		};
-		$(document).ajaxComplete(heartBeat);
-		heartBeat();
+		interval = Math.max(60, interval);
+		// max interval in seconds set to 24 hours
+		interval = Math.min(24 * 3600, interval);
+
+		var url = OC.generateUrl('/csrftoken');
+		setInterval(function() {
+			$.ajax(url).then(function(resp) {
+				oc_requesttoken = resp.token;
+				OC.requestToken = resp.token;
+			}).fail(function(e) {
+				console.error('session heartbeat failed', e);
+			});
+		}, interval * 1000);
 	}
 
 	// session heartbeat (defaults to enabled)
@@ -1378,7 +1405,7 @@ function initCore() {
 		initSessionHeartBeat();
 	}
 
-	OC.registerMenu($('#expand'), $('#expanddiv'));
+	OC.registerMenu($('#expand'), $('#expanddiv'), false, true);
 
 	// toggle for menus
 	$(document).on('mouseup.closemenus', function(event) {
@@ -1462,7 +1489,7 @@ function initCore() {
 			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
 				$page.find('img').remove();
 				$page.find('div').remove(); // prevent odd double-clicks
-				$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
+				$page.prepend($('<div/>').addClass('icon-loading-small'));
 			} else {
 				// Close navigation when opening menu entry in
 				// a new tab
@@ -1532,10 +1559,6 @@ function initCore() {
 		// show at least 2 apps in the popover
 		if(appList.length-1-appCount >= 1) {
 			appCount--;
-		}
-		// show at least one icon
-		if(appCount < 1) {
-			appCount = 1;
 		}
 
 		$('#more-apps a').removeClass('active');
@@ -1675,13 +1698,16 @@ function initCore() {
 
 OC.PasswordConfirmation = {
 	callback: null,
-
+	pageLoadTime: null,
 	init: function() {
 		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this));
+		this.pageLoadTime = moment.now();
 	},
 
 	requiresPasswordConfirmation: function() {
-		var timeSinceLogin = moment.now() - (nc_lastLogin * 1000);
+		var serverTimeDiff = this.pageLoadTime - (nc_pageLoad * 1000);
+		var timeSinceLogin = moment.now() - (serverTimeDiff + (nc_lastLogin * 1000));
+
 		// if timeSinceLogin > 30 minutes and user backend allows password confirmation
 		return (backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000);
 	},

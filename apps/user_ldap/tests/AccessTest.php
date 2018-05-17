@@ -72,6 +72,8 @@ class AccessTest extends TestCase {
 	private $helper;
 	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $ncUserManager;
 	/** @var Access */
 	private $access;
 
@@ -82,13 +84,15 @@ class AccessTest extends TestCase {
 		$this->helper = $this->createMock(Helper::class);
 		$this->config  = $this->createMock(IConfig::class);
 		$this->userMapper = $this->createMock(UserMapping::class);
+		$this->ncUserManager = $this->createMock(IUserManager::class);
 
 		$this->access = new Access(
 			$this->connection,
 			$this->ldap,
 			$this->userManager,
 			$this->helper,
-			$this->config
+			$this->config,
+			$this->ncUserManager
 		);
 		$this->access->setUserMapper($this->userMapper);
 	}
@@ -227,7 +231,7 @@ class AccessTest extends TestCase {
 		list($lw, $con, $um, $helper) = $this->getConnectorAndLdapMock();
 		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->createMock(IConfig::class);
-		$access = new Access($con, $lw, $um, $helper, $config);
+		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager);
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
@@ -250,7 +254,7 @@ class AccessTest extends TestCase {
 		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$lw = new LDAP();
-		$access = new Access($con, $lw, $um, $helper, $config);
+		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager);
 
 		if(!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
@@ -431,7 +435,7 @@ class AccessTest extends TestCase {
 				$attribute => array('count' => 1, $dnFromServer)
 			)));
 
-		$access = new Access($con, $lw, $um, $helper, $config);
+		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
@@ -631,6 +635,37 @@ class AccessTest extends TestCase {
 		$list = $this->access->fetchListOfUsers($filter, $attrs);
 		$this->assertSame($expected, $list);
 	}
+
+	public function intUsernameProvider() {
+		// system dependent :-/
+		$translitExpected = @iconv('UTF-8', 'ASCII//TRANSLIT', 'fränk') ? 'frank' : 'frnk';
+
+		return [
+			['alice', 'alice'],
+			['b/ob', 'bob'],
+			['charly🐬', 'charly'],
+			['debo rah', 'debo_rah'],
+			['epost@poste.test', 'epost@poste.test'],
+			['fränk', $translitExpected],
+			[' gerda ', 'gerda'],
+			['🕱🐵🐘🐑', null]
+		];
+	}
+
+	/**
+	 * @dataProvider intUsernameProvider
+	 *
+	 * @param $name
+	 * @param $expected
+	 */
+	public function testSanitizeUsername($name, $expected) {
+		if($expected === null) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
+		$sanitizedName = $this->access->sanitizeUsername($name);
+		$this->assertSame($expected, $sanitizedName);
+	}
+
 
 
 }

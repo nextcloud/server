@@ -65,6 +65,7 @@ use OC\Files\Storage\StorageFactory;
 use OC\Lockdown\Filesystem\NullStorage;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\NotFoundException;
+use OCP\ILogger;
 use OCP\IUserManager;
 
 class Filesystem {
@@ -408,7 +409,7 @@ class Filesystem {
 		$userObject = $userManager->get($user);
 
 		if (is_null($userObject)) {
-			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, ILogger::ERROR);
 			// reset flag, this will make it possible to rethrow the exception if called again
 			unset(self::$usersSetup[$user]);
 			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
@@ -418,7 +419,7 @@ class Filesystem {
 		// workaround in case of different casings
 		if ($user !== $realUid) {
 			$stack = json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 50));
-			\OCP\Util::writeLog('files', 'initMountPoints() called with wrong user casing. This could be a bug. Expected: "' . $realUid . '" got "' . $user . '". Stack: ' . $stack, \OCP\Util::WARN);
+			\OCP\Util::writeLog('files', 'initMountPoints() called with wrong user casing. This could be a bug. Expected: "' . $realUid . '" got "' . $user . '". Stack: ' . $stack, ILogger::WARN);
 			$user = $realUid;
 
 			// again with the correct casing
@@ -794,7 +795,7 @@ class Filesystem {
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
 		if (is_null(self::$normalizedPathCache)) {
-			self::$normalizedPathCache = new CappedMemoryCache();
+			self::$normalizedPathCache = new CappedMemoryCache(2048);
 		}
 
 		/**
@@ -839,8 +840,8 @@ class Filesystem {
 		$path = preg_replace('#/{2,}#', '/', $path);
 
 		//remove trailing slash
-		if ($stripTrailingSlash and strlen($path) > 1 and substr($path, -1, 1) === '/') {
-			$path = substr($path, 0, -1);
+		if ($stripTrailingSlash and strlen($path) > 1) {
+			$path = rtrim($path, '/');
 		}
 
 		// remove trailing '/.'

@@ -41,6 +41,7 @@
 
 use OC\Files\View;
 use OC\Streamer;
+use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -75,7 +76,9 @@ class OC_Files {
 	private static function sendHeaders($filename, $name, array $rangeArray) {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary', true);
-		OC_Response::disableCaching();
+		header('Pragma: public');// enable caching in IE
+		header('Expires: 0');
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
 		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 		if ($fileSize > -1) {
@@ -142,17 +145,34 @@ class OC_Files {
 				}
 			}
 
-			$streamer = new Streamer();
-			OC_Util::obEnd();
-
 			self::lockFiles($view, $dir, $files);
 
+			/* Calculate filesize and number of files */
+			if ($getType === self::ZIP_FILES) {
+				$fileInfos = array();
+				$fileSize = 0;
+				foreach ($files as $file) {
+					$fileInfo = \OC\Files\Filesystem::getFileInfo($dir . '/' . $file);
+					$fileSize += $fileInfo->getSize();
+					$fileInfos[] = $fileInfo;
+				}
+				$numberOfFiles = self::getNumberOfFiles($fileInfos);
+			} elseif ($getType === self::ZIP_DIR) {
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($dir . '/' . $files);
+				$fileSize = $fileInfo->getSize();
+				$numberOfFiles = self::getNumberOfFiles(array($fileInfo));
+			}
+
+			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize, $numberOfFiles);
+			OC_Util::obEnd();
+
 			$streamer->sendHeaders($name);
-			$executionTime = intval(OC::$server->getIniWrapper()->getNumeric('max_execution_time'));
+			$executionTime = (int)OC::$server->getIniWrapper()->getNumeric('max_execution_time');
 			if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 				@set_time_limit(0);
 			}
 			ignore_user_abort(true);
+
 			if ($getType === self::ZIP_FILES) {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
@@ -312,6 +332,29 @@ class OC_Files {
 	}
 
 	/**
+	 * Returns the total (recursive) number of files and folders in the given
+	 * FileInfos.
+	 *
+	 * @param \OCP\Files\FileInfo[] $fileInfos the FileInfos to count
+	 * @return int the total number of files and folders
+	 */
+	private static function getNumberOfFiles($fileInfos) {
+		$numberOfFiles = 0;
+
+		$view = new View();
+
+		while ($fileInfo = array_pop($fileInfos)) {
+			$numberOfFiles++;
+
+			if ($fileInfo->getType() === \OCP\Files\FileInfo::TYPE_FOLDER) {
+				$fileInfos = array_merge($fileInfos, $view->getDirectoryContent($fileInfo->getPath()));
+			}
+		}
+
+		return $numberOfFiles;
+	}
+
+	/**
 	 * @param View $view
 	 * @param string $dir
 	 * @param string[]|string $files
@@ -344,7 +387,7 @@ class OC_Files {
 	 */
 	public static function setUploadLimit($size, $files = []) {
 		//don't allow user to break his config
-		$size = intval($size);
+		$size = (int)$size;
 		if ($size < self::UPLOAD_MIN_LIMIT_BYTES) {
 			return false;
 		}
@@ -380,7 +423,7 @@ class OC_Files {
 			if (!$handle) {
 				\OCP\Util::writeLog('files',
 					'Can\'t write upload limit to ' . $filename . '. Please check the file permissions',
-					\OCP\Util::WARN);
+					ILogger::WARN);
 				$success = false;
 				continue; // try to update as many files as possible
 			}

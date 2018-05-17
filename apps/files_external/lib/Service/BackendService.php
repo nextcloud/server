@@ -194,7 +194,7 @@ class BackendService {
 	 */
 	public function getAvailableBackends() {
 		return array_filter($this->getBackends(), function($backend) {
-			return !($backend->checkDependencies());
+			return !$backend->checkDependencies();
 		});
 	}
 

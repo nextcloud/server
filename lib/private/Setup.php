@@ -47,6 +47,7 @@ use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Authentication\Token\DefaultTokenCleanupJob;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Log\Rotate;
+use OC\Preview\BackgroundCleanupJob;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -325,15 +326,20 @@ class Setup {
 		$secret = $this->random->generate(48);
 
 		//write the config file
-		$this->config->setValues([
+		$newConfigValues = [
 			'passwordsalt'		=> $salt,
 			'secret'			=> $secret,
 			'trusted_domains'	=> $trustedDomains,
 			'datadirectory'		=> $dataDir,
-			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT,
 			'dbtype'			=> $dbType,
 			'version'			=> implode('.', \OCP\Util::getVersion()),
-		]);
+		];
+
+		if ($this->config->getValue('overwrite.cli.url', null) === null) {
+			$newConfigValues['overwrite.cli.url'] = $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT;
+		}
+
+		$this->config->setValues($newConfigValues);
 
 		try {
 			$dbSetup->initialize($options);
@@ -414,6 +420,7 @@ class Setup {
 		$jobList = \OC::$server->getJobList();
 		$jobList->add(DefaultTokenCleanupJob::class);
 		$jobList->add(Rotate::class);
+		$jobList->add(BackgroundCleanupJob::class);
 	}
 
 	/**
@@ -437,6 +444,9 @@ class Setup {
 				return false;
 			}
 			$webRoot = parse_url($webRoot, PHP_URL_PATH);
+			if ($webRoot === null) {
+				return false;
+			}
 			$webRoot = rtrim($webRoot, '/');
 		} else {
 			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
@@ -482,7 +492,7 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots.txt";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/updater/";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/";
-			$content .= "\n  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*";
+			$content .= "\n  RewriteCond %{REQUEST_URI} !^/\\.well-known/(acme-challenge|pki-validation)/.*";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteBase " . $rewriteBase;
 			$content .= "\n  <IfModule mod_env.c>";

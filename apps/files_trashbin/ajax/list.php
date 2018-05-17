@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkLoggedIn();
+\OC_JSON::checkLoggedIn();
 \OC::$server->getSession()->close();
 
 // Load the files
@@ -44,5 +44,5 @@ $data['permissions'] = 0;
 $data['directory'] = $dir;
 $data['files'] = \OCA\Files_Trashbin\Helper::formatFileInfos($files);
 
-OCP\JSON::success(array('data' => $data));
+\OC_JSON::success(array('data' => $data));
 

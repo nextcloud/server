@@ -43,6 +43,7 @@ use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Share;
@@ -74,6 +75,9 @@ class RequestHandlerController extends OCSController {
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * Server2Server constructor.
 	 *
@@ -95,7 +99,8 @@ class RequestHandlerController extends OCSController {
 								Notifications $notifications,
 								AddressHandler $addressHandler,
 								IUserManager $userManager,
-								ICloudIdManager $cloudIdManager
+								ICloudIdManager $cloudIdManager,
+								ILogger $logger
 	) {
 		parent::__construct($appName, $request);
 
@@ -106,6 +111,7 @@ class RequestHandlerController extends OCSController {
 		$this->addressHandler = $addressHandler;
 		$this->userManager = $userManager;
 		$this->cloudIdManager = $cloudIdManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -140,15 +146,15 @@ class RequestHandlerController extends OCSController {
 			}
 
 			// FIXME this should be a method in the user management instead
-			\OCP\Util::writeLog('files_sharing', 'shareWith before, ' . $shareWith, \OCP\Util::DEBUG);
+			$this->logger->debug('shareWith before, ' . $shareWith, ['app' => 'files_sharing']);
 			\OCP\Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				array('uid' => &$shareWith)
 			);
-			\OCP\Util::writeLog('files_sharing', 'shareWith after, ' . $shareWith, \OCP\Util::DEBUG);
+			$this->logger->debug('shareWith after, ' . $shareWith, ['app' => 'files_sharing']);
 
-			if (!\OCP\User::userExists($shareWith)) {
+			if (!\OC::$server->getUserManager()->userExists($shareWith)) {
 				throw new OCSException('User does not exists', 400);
 			}
 
@@ -209,7 +215,11 @@ class RequestHandlerController extends OCSController {
 
 				return new Http\DataResponse();
 			} catch (\Exception $e) {
-				\OCP\Util::writeLog('files_sharing', 'server can not add remote share, ' . $e->getMessage(), \OCP\Util::ERROR);
+				$this->logger->logException($e, [
+					'message' => 'Server can not add remote share.',
+					'level' => ILogger::ERROR,
+					'app' => 'files_sharing'
+				]);
 				throw new OCSException('internal server error, was not able to add share from ' . $remote, 500);
 			}
 		}
@@ -423,9 +433,19 @@ class RequestHandlerController extends OCSController {
 
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
-		$query->execute(array($id, $token));
-		$share = $query->fetchRow();
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share_external')
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+					$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+				)
+			);
+
+		$result = $qb->execute();
+		$share = $result->fetch();
+		$result->closeCursor();
 
 		if ($token && $id && !empty($share)) {
 
@@ -435,8 +455,17 @@ class RequestHandlerController extends OCSController {
 			$mountpoint = $share['mountpoint'];
 			$user = $share['user'];
 
-			$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
-			$query->execute(array($id, $token));
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('share_external')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+						$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+					)
+				);
+
+			$result = $qb->execute();
+			$result->closeCursor();
 
 			if ($share['accepted']) {
 				$path = trim($mountpoint, '/');

@@ -40,52 +40,10 @@ namespace OCP;
 /**
  * This class provides functions to manage apps in ownCloud
  * @since 4.0.0
+ * @deprecated 14.0.0
  */
 class App {
 
-	/**
-	 * Adds an entry to the navigation
-	 *
-	 * This function adds a new entry to the navigation visible to users. $data
-	 * is an associative array.
-	 * The following keys are required:
-	 *   - id: unique id for this entry ('addressbook_index')
-	 *   - href: link to the page
-	 *   - name: Human readable name ('Addressbook')
-	 *
-	 * The following keys are optional:
-	 *   - icon: path to the icon of the app
-	 *   - order: integer, that influences the position of your application in
-	 *     the navigation. Lower values come first.
-	 *
-	 * @param array $data containing the data
-	 * @return boolean
-	 *
-	 * @deprecated 8.1.0 Use \OC::$server->getNavigationManager()->add() instead to
-	 * register a closure, this helps to speed up all requests against ownCloud
-	 * @since 4.0.0
-	 */
-	public static function addNavigationEntry($data) {
-		\OC::$server->getNavigationManager()->add($data);
-		return true;
-	}
-
-	/**
-	 * Marks a navigation entry as active
-	 * @param string $id id of the entry
-	 * @return boolean
-	 *
-	 * This function sets a navigation entry as active and removes the 'active'
-	 * property from all other entries. The templates can use this for
-	 * highlighting the current position of the user.
-	 *
-	 * @deprecated 8.1.0 Use \OC::$server->getNavigationManager()->setActiveEntry() instead
-	 * @since 4.0.0
-	 */
-	public static function setActiveNavigationEntry( $id ) {
-		\OC::$server->getNavigationManager()->setActiveEntry($id);
-		return true;
-	}
 
 	/**
 	 * Register a Configuration Screen that should appear in the personal settings section.
@@ -93,6 +51,7 @@ class App {
 	 * @param string $page page to be included
 	 * @return void
 	 * @since 4.0.0
+	 * @deprecated 14.0.0 Use settings section in appinfo.xml to register personal admin sections
 	*/
 	public static function registerPersonal( $app, $page ) {
 		\OC_App::registerPersonal( $app, $page );
@@ -104,6 +63,7 @@ class App {
 	 * @param string $page string page to be included
 	 * @return void
 	 * @since 4.0.0
+	 * @deprecated 14.0.0 Use settings section in appinfo.xml to register admin sections
 	 */
 	public static function registerAdmin( $app, $page ) {
 		\OC_App::registerAdmin( $app, $page );
@@ -114,6 +74,7 @@ class App {
 	 * @param string $app id of the app or the path of the info.xml file
 	 * @param boolean $path (optional)
 	 * @return array|null
+	 * @deprecated 14.0.0 ise \OC::$server->getAppManager()->getAppInfo($appId)
 	 * @since 4.0.0
 	*/
 	public static function getAppInfo( $app, $path=false ) {
@@ -148,8 +109,9 @@ class App {
 	 * @param string $app
 	 * @return string
 	 * @since 4.0.0
+	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion($appId)
 	 */
 	public static function getAppVersion( $app ) {
-		return \OC_App::getAppVersion( $app );
+		return \OC::$server->getAppManager()->getAppVersion($app);
 	}
 }

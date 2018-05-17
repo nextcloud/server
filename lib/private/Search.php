@@ -41,17 +41,6 @@ class Search implements ISearch {
 	 * Search all providers for $query
 	 * @param string $query
 	 * @param string[] $inApps optionally limit results to the given apps
-	 * @return array An array of OC\Search\Result's
-	 */
-	public function search($query, array $inApps = array()) {
-		// old apps might assume they get all results, so we set size 0
-		return $this->searchPaged($query, $inApps, 1, 0);
-	}
-
-	/**
-	 * Search all providers for $query
-	 * @param string $query
-	 * @param string[] $inApps optionally limit results to the given apps
 	 * @param int $page pages start at page 1
 	 * @param int $size, 0 = all
 	 * @return array An array of OC\Search\Result's

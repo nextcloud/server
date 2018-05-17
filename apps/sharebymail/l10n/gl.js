@@ -38,12 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a usuarios compartir un enlace personalizado a un ficheiro ou carpeta indicando unha dirección de correo ",
     "Send password by mail" : "Enviar contrasinal por correo",
     "Enforce password protection" : "Aplicar protección por contrasinal",
-    "Failed to send share by E-mail" : "Fallou ó compartir por correo",
-    "%s shared »%s« with you on behalf of %s" : "%s compartiu »%s« contigo en representación de %s",
-    "Failed to create the E-mail" : "Fallo ó crear o correo",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hola,\n\n%s compartiu »%s« contigo en representación de %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hola,\n\n%s compartiu »%s« contigo.\n\n%s\n\n",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hola, <br><br>%s compartiu <a href=\"%s\">%s</a> contigo en representación de %s. <br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hola, <br><br>%s compartiu <a href=\"%s\">%s</a>contigo, <br><br>"
+    "Failed to send share by E-mail" : "Fallou ó compartir por correo"
 },
 "nplurals=2; plural=(n != 1);");

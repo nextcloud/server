@@ -31,7 +31,6 @@
     "{nthServer}. Server" : "{nthServer}. Serwer",
     "No object found in the given Base DN. Please revise." : "Brak obiektów w podanym Base DN. Proszę sprawdzić.",
     "More than 1,000 directory entries available." : "Ponad 1,000 wpisów katalogowych dostępne.",
-    " entries available within the provided Base DN" : "wpisów dostępnych w podanym Base DN ",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Wystąpił błąd. Proszę sprawdzić Base DN oraz ustawienia połączenia i dane dostępowe.",
     "Do you really want to delete the current Server Configuration?" : "Czy chcesz usunąć bieżącą konfigurację serwera?",
     "Confirm Deletion" : "Potwierdź usunięcie",
@@ -117,7 +116,6 @@
     "Current password" : "Bieżące hasło",
     "New password" : "Nowe hasło",
     "Renew password" : "Odnów hasło",
-    "Wrong password. Reset it?" : "Nieprawidłowe hasło. Czy chcesz je zresetować?",
     "Wrong password." : "Nieprawidłowe hasło",
     "Cancel" : "Anuluj",
     "Server" : "Serwer",
@@ -182,15 +180,12 @@
     "UUID Attribute for Users:" : "Atrybuty UUID dla użytkowników:",
     "UUID Attribute for Groups:" : "Atrybuty UUID dla grup:",
     "Username-LDAP User Mapping" : "Mapowanie użytkownika LDAP",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Nazwy użytkowników służą do przechowywania i przypisywania (meta) danych. W celu dokładnego określenia i rozpoznawania użytkowników, każdy użytkownik LDAP ma przypisaną wewnętrzną nazwę użytkownika. Wymaga to mapowania nazwy użytkownika do użytkownika LDAP. Utworzona nazwa użytkownika jest odwzorowywana na UUID użytkownika LDAP. Dodatkowo DN są buforowane, także w celu zmniejszenia oddziaływania LDAP, ale nie są stosowane do identyfikacji. Po zmianie DN, będzie można znaleźć zmiany. Wewnętrzna nazwa jest używana wszędzie. Usuwanie mapowania będzie miało wpływ wszędzie. Usuwanie mapowania nie jest wrażliwe na konfiguracje, dotyczy to wszystkich konfiguracji LDAP! Nigdy nie usuwaj mapowania w środowisku produkcyjnym, jest to dopuszczalne tylko w fazie eksperymentalnej, testowej.",
     "Clear Username-LDAP User Mapping" : "Czyść Mapowanie użytkownika LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Czyść Mapowanie nazwy grupy LDAP",
-    "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Nie znaleziono zamiennika dla %uid. Podczas odpytywania LDAP-a / AD będzie zastąpiony nazwą użytkownika.",
-    "Verify settings and count groups" : "Zweryfikuj ustawienia i policz grupy",
-    "Add a new and blank configuration" : "Dodaj nową pustą konfigurację",
-    "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Można pominąć protokół, z wyjątkiem wymaganego protokołu SSL. Następnie uruchom z ldaps://",
+    " entries available within the provided Base DN" : "wpisów dostępnych w podanym Base DN ",
+    "Wrong password. Reset it?" : "Nieprawidłowe hasło. Czy chcesz je zresetować?",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Ostrzeżenie:</b> Aplikacje user_ldap i user_webdavauth nie są  kompatybilne. Mogą powodować nieoczekiwane zachowanie. Poproś administratora o wyłączenie jednej z nich.",
-    "in bytes" : "w bajtach"
+    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Nazwy użytkowników służą do przechowywania i przypisywania (meta) danych. W celu dokładnego określenia i rozpoznawania użytkowników, każdy użytkownik LDAP ma przypisaną wewnętrzną nazwę użytkownika. Wymaga to mapowania nazwy użytkownika do użytkownika LDAP. Utworzona nazwa użytkownika jest odwzorowywana na UUID użytkownika LDAP. Dodatkowo DN są buforowane, także w celu zmniejszenia oddziaływania LDAP, ale nie są stosowane do identyfikacji. Po zmianie DN, będzie można znaleźć zmiany. Wewnętrzna nazwa jest używana wszędzie. Usuwanie mapowania będzie miało wpływ wszędzie. Usuwanie mapowania nie jest wrażliwe na konfiguracje, dotyczy to wszystkich konfiguracji LDAP! Nigdy nie usuwaj mapowania w środowisku produkcyjnym, jest to dopuszczalne tylko w fazie eksperymentalnej, testowej."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

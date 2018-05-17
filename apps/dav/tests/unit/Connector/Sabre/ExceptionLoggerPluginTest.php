@@ -24,6 +24,7 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin as PluginToTest;
 use OC\Log;
@@ -37,13 +38,9 @@ class TestLogger extends Log {
 	public $message;
 	public $level;
 
-	public function __construct($logger = null) {
-		//disable original constructor
-	}
-
-	public function log($level, $message, array $context = array()) {
+	public function writeLog(string $app, $entry, int $level) {
 		$this->level = $level;
-		$this->message = $message;
+		$this->message = $entry;
 	}
 }
 
@@ -59,8 +56,20 @@ class ExceptionLoggerPluginTest extends TestCase {
 	private $logger;
 
 	private function init() {
+		$config = $this->createMock(SystemConfig::class);
+		$config->expects($this->any())
+			->method('getValue')
+			->willReturnCallback(function($key, $default) {
+				switch ($key) {
+					case 'loglevel':
+						return 0;
+					default:
+						return $default;
+				}
+			});
+
 		$this->server = new Server();
-		$this->logger = new TestLogger();
+		$this->logger = new TestLogger(new Log\File(\OC::$SERVERROOT.'/data/nextcloud.log', '', $config), $config);
 		$this->plugin = new PluginToTest('unit-test', $this->logger);
 		$this->plugin->initialize($this->server);
 	}
@@ -73,7 +82,8 @@ class ExceptionLoggerPluginTest extends TestCase {
 		$this->plugin->logException($exception);
 
 		$this->assertEquals($expectedLogLevel, $this->logger->level);
-		$this->assertStringStartsWith('Exception: {"Exception":' . json_encode(get_class($exception)) . ',"Message":"' . $expectedMessage . '",', $this->logger->message);
+		$this->assertEquals(get_class($exception), $this->logger->message['Exception']);
+		$this->assertEquals($expectedMessage, $this->logger->message['Message']);
 	}
 
 	public function providesExceptions() {

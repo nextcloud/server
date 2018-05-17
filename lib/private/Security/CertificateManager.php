@@ -249,9 +249,7 @@ class CertificateManager implements ICertificateManager {
 		if ($uid === '') {
 			$uid = $this->uid;
 		}
-		$path = is_null($uid) ? '/files_external/' : '/' . $uid . '/files_external/';
-
-		return $path;
+		return is_null($uid) ? '/files_external/' : '/' . $uid . '/files_external/';
 	}
 
 	/**

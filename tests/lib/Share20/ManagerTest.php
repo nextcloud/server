@@ -779,6 +779,7 @@ class ManagerTest extends \Test\TestCase {
 
 		try {
 			self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+			$this->addToAssertionCount(1);
 		} catch (\OCP\Share\Exceptions\GenericShareException $e) {
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getMessage());
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getHint());
@@ -1008,6 +1009,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn([]);
 
 		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -1143,6 +1145,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn([$share2]);
 
 		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -1237,6 +1240,7 @@ class ManagerTest extends \Test\TestCase {
 			]));
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -1292,6 +1296,7 @@ class ManagerTest extends \Test\TestCase {
 			]));
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -1360,6 +1365,7 @@ class ManagerTest extends \Test\TestCase {
 			]));
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testLinkCreateChecksReadOnly() {
@@ -1375,6 +1381,7 @@ class ManagerTest extends \Test\TestCase {
 			]));
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -1407,12 +1414,14 @@ class ManagerTest extends \Test\TestCase {
 		$this->mountManager->method('findIn')->with('path')->willReturn([$mount]);
 
 		self::invokePrivate($this->manager, 'pathCreateChecks', [$path]);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testPathCreateChecksContainsNoFolder() {
 		$path = $this->createMock(File::class);
 
 		self::invokePrivate($this->manager, 'pathCreateChecks', [$path]);
+		$this->addToAssertionCount(1);
 	}
 
 	public function dataIsSharingDisabledForUser() {
@@ -2744,6 +2753,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->method('move')->with($share, 'recipient')->will($this->returnArgument(0));
 
 		$this->manager->moveShare($share, 'recipient');
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -2801,6 +2811,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->method('move')->with($share, 'recipient')->will($this->returnArgument(0));
 
 		$this->manager->moveShare($share, 'recipient');
+		$this->addToAssertionCount(1);
 	}
 
 	/**

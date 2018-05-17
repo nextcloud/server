@@ -13,6 +13,7 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "შექმენით ორ-ფაქტორიანი ბექაფის კოდები თქვენი ანგარიშისთვის",
     "Backup code" : "ბექაფის კოდები",
     "Use backup code" : "ბექაფის კოდების გამოყენება",
-    "Second-factor backup codes" : "მეორე-ფაქტორის ბექფის კოდები"
+    "Two factor backup codes" : "მეორე-ფაქტორის ბექაფის კოდები",
+    "Second-factor backup codes" : "მეორე-ფაქტორის ბექაფის კოდები"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

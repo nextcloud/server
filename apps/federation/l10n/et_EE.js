@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add server automatically once a federated share was created successfully" : "Lisa server automaatselt niipea kui liitjagamine õnnestus",
     "+ Add trusted server" : "+ Lisa usaldatud server",
     "Trusted server" : "Usaldatud server",
-    "Add" : "Lisa",
-    "Federation" : "Liit"
+    "Add" : "Lisa"
 },
 "nplurals=2; plural=(n != 1);");

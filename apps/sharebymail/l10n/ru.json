@@ -1,7 +1,7 @@
 { "translations": {
-    "Shared with %1$s" : "Предоставлен общий доступ для %1$s",
+    "Shared with %1$s" : "Предоставлен общий доступ %1$s",
     "Shared with {email}" : "Предоставлен общий доступ для {email}",
-    "Shared with %1$s by %2$s" : "%2$s предоставил(а) общий доступ для %1$s",
+    "Shared with %1$s by %2$s" : "%2$s предоставил(а) общий доступ %1$s",
     "Shared with {email} by {actor}" : "{actor} предоставил(а) общий доступ для {email}",
     "Password for mail share sent to %1$s" : "Пароль для доступа по адресу электронной почты был отправлен на адрес %1$s",
     "Password for mail share sent to {email}" : "Пароль для доступа по адресу электронной почты был отправлен на адрес {email}",
@@ -36,13 +36,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
     "Enforce password protection" : "Требовать защиту паролем",
-    "Failed to send share by E-mail" : "Не удалось поделиться по e-mail",
-    "%s shared »%s« with you on behalf of %s" : "%s предоставил(а) Вам общий доступ к  «%s» от имени %s",
-    "Failed to create the E-mail" : "Не удалось создать сообщение электронной почты",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Привет,\n\n%s предоставил(а) Вам общий доступ к «%s» от имени %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Привет,\n\n%s предоставил(а) Вам общий доступ к «%s».\n\n%s\n\n",
-    "Cheers!" : "Всего наилучшего!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Привет,<br><br>%s предоставил(а) Вам общий доступ к «<a href=\"%s\">%s</a>» от имени %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Привет,<br><br>%s предоставил(а) Вам общий доступ к «<a href=\"%s\">%s</a>».<br><br>"
+    "Failed to send share by E-mail" : "Не удалось поделиться по e-mail"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

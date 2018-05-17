@@ -34,6 +34,7 @@ use OC\Files\AppData\Factory;
 use OC\L10N\L10N;
 use OC\Template\SCSSCacher;
 use OCA\Theming\Controller\ThemingController;
+use OCA\Theming\ImageManager;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -74,6 +75,8 @@ class ThemingControllerTest extends TestCase {
 	private $appManager;
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	private $appData;
+	/** @var ImageManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $imageManager;
 	/** @var SCSSCacher */
 	private $scssCacher;
 	/** @var IURLGenerator */
@@ -94,6 +97,7 @@ class ThemingControllerTest extends TestCase {
 		$this->tempManager = \OC::$server->getTempManager();
 		$this->scssCacher = $this->createMock(SCSSCacher::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->imageManager = $this->createMock(ImageManager::class);
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -106,7 +110,9 @@ class ThemingControllerTest extends TestCase {
 			$this->tempManager,
 			$this->appData,
 			$this->scssCacher,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->appManager,
+			$this->imageManager
 		);
 
 		return parent::setUp();
@@ -210,17 +216,12 @@ class ThemingControllerTest extends TestCase {
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
-			->with('backgroundColor')
-			->willReturn(false);
+			->with('key')
+			->willReturn('logo');
 		$this->request
 			->expects($this->at(1))
 			->method('getUploadedFile')
-			->with('uploadlogo')
-			->willReturn(null);
-		$this->request
-			->expects($this->at(2))
-			->method('getUploadedFile')
-			->with('upload-login-background')
+			->with('image')
 			->willReturn(null);
 		$this->l10n
 			->expects($this->any())
@@ -240,30 +241,25 @@ class ThemingControllerTest extends TestCase {
 			Http::STATUS_UNPROCESSABLE_ENTITY
 		);
 
-		$this->assertEquals($expected, $this->themingController->updateLogo());
+		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
 	public function testUpdateLogoInvalidMimeType() {
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
-			->with('backgroundColor')
-			->willReturn(false);
+			->with('key')
+			->willReturn('logo');
 		$this->request
 			->expects($this->at(1))
 			->method('getUploadedFile')
-			->with('uploadlogo')
+			->with('image')
 			->willReturn([
 				'tmp_name' => 'logo.pdf',
 				'type' => 'application/pdf',
 				'name' => 'logo.pdf',
 				'error' => 0,
 			]);
-		$this->request
-			->expects($this->at(2))
-			->method('getUploadedFile')
-			->with('upload-login-background')
-			->willReturn(null);
 		$this->l10n
 			->expects($this->any())
 			->method('t')
@@ -289,30 +285,7 @@ class ThemingControllerTest extends TestCase {
 			Http::STATUS_UNPROCESSABLE_ENTITY
 		);
 
-		$this->assertEquals($expected, $this->themingController->updateLogo());
-	}
-
-	public function testUpdateBackgroundColor() {
-		$this->request
-			->expects($this->at(0))
-			->method('getParam')
-			->with('backgroundColor')
-			->willReturn(true);
-		$this->themingDefaults
-			->expects($this->once())
-			->method('set')
-			->with('backgroundMime', 'backgroundColor');
-		$expected = new DataResponse(
-			[
-				'data' =>
-					[
-						'name' => 'backgroundColor',
-						'message' => $this->l10n->t('Saved')
-					],
-				'status' => 'success'
-			]
-		);
-		$this->assertEquals($expected, $this->themingController->updateLogo());
+		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
 	public function dataUpdateImages() {
@@ -335,23 +308,18 @@ class ThemingControllerTest extends TestCase {
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
-			->with('backgroundColor')
-			->willReturn(false);
+			->with('key')
+			->willReturn('logo');
 		$this->request
 			->expects($this->at(1))
 			->method('getUploadedFile')
-			->with('uploadlogo')
+			->with('image')
 			->willReturn([
 				'tmp_name' => $tmpLogo,
 				'type' => $mimeType,
 				'name' => 'logo.svg',
 				'error' => 0,
 			]);
-		$this->request
-			->expects($this->at(2))
-			->method('getUploadedFile')
-			->with('upload-login-background')
-			->willReturn(null);
 		$this->l10n
 			->expects($this->any())
 			->method('t')
@@ -384,18 +352,27 @@ class ThemingControllerTest extends TestCase {
 			->method('newFile')
 			->with('logo')
 			->willReturn($file);
+		$this->urlGenerator->expects($this->once())
+			->method('linkTo')
+			->willReturn('serverCss');
+		$this->imageManager->expects($this->once())
+			->method('getImageUrl')
+			->with('logo')
+			->willReturn('imageUrl');
 		$expected = new DataResponse(
 			[
 				'data' =>
 					[
 						'name' => 'logo.svg',
 						'message' => 'Saved',
+						'url' => 'imageUrl',
+						'serverCssUrl' => 'serverCss'
 					],
 				'status' => 'success'
 			]
 		);
 
-		$this->assertEquals($expected, $this->themingController->updateLogo());
+		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
 	/** @dataProvider dataUpdateImages */
@@ -407,17 +384,12 @@ class ThemingControllerTest extends TestCase {
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
-			->with('backgroundColor')
-			->willReturn(false);
+			->with('key')
+			->willReturn('background');
 		$this->request
 			->expects($this->at(1))
 			->method('getUploadedFile')
-			->with('uploadlogo')
-			->willReturn(null);
-		$this->request
-			->expects($this->at(2))
-			->method('getUploadedFile')
-			->with('upload-login-background')
+			->with('image')
 			->willReturn([
 				'tmp_name' => $tmpLogo,
 				'type' => 'text/svg',
@@ -456,17 +428,26 @@ class ThemingControllerTest extends TestCase {
 			->with('background')
 			->willReturn($file);
 
+		$this->urlGenerator->expects($this->once())
+			->method('linkTo')
+			->willReturn('serverCss');
+		$this->imageManager->expects($this->once())
+			->method('getImageUrl')
+			->with('background')
+			->willReturn('imageUrl');
 		$expected = new DataResponse(
 			[
 				'data' =>
 					[
 						'name' => 'logo.svg',
 						'message' => 'Saved',
+						'url' => 'imageUrl',
+						'serverCssUrl' => 'serverCss'
 					],
 				'status' => 'success'
 			]
 		);
-		$this->assertEquals($expected, $this->themingController->updateLogo());
+		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
 	public function testUpdateLogoLoginScreenUploadWithInvalidImage() {
@@ -477,20 +458,15 @@ class ThemingControllerTest extends TestCase {
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
-			->with('backgroundColor')
-			->willReturn(false);
+			->with('key')
+			->willReturn('logo');
 		$this->request
 			->expects($this->at(1))
 			->method('getUploadedFile')
-			->with('uploadlogo')
-			->willReturn(null);
-		$this->request
-			->expects($this->at(2))
-			->method('getUploadedFile')
-			->with('upload-login-background')
+			->with('image')
 			->willReturn([
 				'tmp_name' => $tmpLogo,
-				'type' => 'text/svg',
+				'type' => 'foobar',
 				'name' => 'logo.svg',
 				'error' => 0,
 			]);
@@ -518,18 +494,18 @@ class ThemingControllerTest extends TestCase {
 			],
 			Http::STATUS_UNPROCESSABLE_ENTITY
 		);
-		$this->assertEquals($expected, $this->themingController->updateLogo());
+		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
 	public function dataPhpUploadErrors() {
 		return [
 			[UPLOAD_ERR_INI_SIZE, 'The uploaded file exceeds the upload_max_filesize directive in php.ini'],
 			[UPLOAD_ERR_FORM_SIZE, 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'],
-			[UPLOAD_ERR_PARTIAL, 'The uploaded file was only partially uploaded'],
+			[UPLOAD_ERR_PARTIAL, 'The file was only partially uploaded'],
 			[UPLOAD_ERR_NO_FILE, 'No file was uploaded'],
 			[UPLOAD_ERR_NO_TMP_DIR, 'Missing a temporary folder'],
-			[UPLOAD_ERR_CANT_WRITE, 'Failed to write file to disk.'],
-			[UPLOAD_ERR_EXTENSION, 'A PHP extension stopped the file upload.'],
+			[UPLOAD_ERR_CANT_WRITE, 'Could not write file to disk'],
+			[UPLOAD_ERR_EXTENSION, 'A PHP extension stopped the file upload'],
 		];
 	}
 
@@ -540,17 +516,12 @@ class ThemingControllerTest extends TestCase {
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
-			->with('backgroundColor')
-			->willReturn(false);
+			->with('key')
+			->willReturn('background');
 		$this->request
 			->expects($this->at(1))
 			->method('getUploadedFile')
-			->with('uploadlogo')
-			->willReturn(null);
-		$this->request
-			->expects($this->at(2))
-			->method('getUploadedFile')
-			->with('upload-login-background')
+			->with('image')
 			->willReturn([
 				'tmp_name' => '',
 				'type' => 'text/svg',
@@ -574,7 +545,7 @@ class ThemingControllerTest extends TestCase {
 			],
 			Http::STATUS_UNPROCESSABLE_ENTITY
 		);
-		$this->assertEquals($expected, $this->themingController->updateLogo());
+		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
 	/**
@@ -584,23 +555,18 @@ class ThemingControllerTest extends TestCase {
 		$this->request
 			->expects($this->at(0))
 			->method('getParam')
-			->with('backgroundColor')
-			->willReturn(false);
+			->with('key')
+			->willReturn('background');
 		$this->request
 			->expects($this->at(1))
 			->method('getUploadedFile')
-			->with('uploadlogo')
+			->with('image')
 			->willReturn([
 				'tmp_name' => '',
 				'type' => 'text/svg',
 				'name' => 'logo.svg',
 				'error' => $error,
 			]);
-		$this->request
-			->expects($this->at(2))
-			->method('getUploadedFile')
-			->with('upload-login-background')
-			->willReturn(null);
 		$this->l10n
 			->expects($this->any())
 			->method('t')
@@ -618,7 +584,7 @@ class ThemingControllerTest extends TestCase {
 			],
 			Http::STATUS_UNPROCESSABLE_ENTITY
 		);
-		$this->assertEquals($expected, $this->themingController->updateLogo());
+		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
 	public function testUndo() {
@@ -686,21 +652,9 @@ class ThemingControllerTest extends TestCase {
 			->method('linkTo')
 			->with('', '/core/css/someHash-server.scss')
 			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
-		$folder = $this->createMock(ISimpleFolder::class);
-		$file = $this->createMock(ISimpleFile::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
-		$folder
-			->expects($this->once())
-			->method('getFile')
-			->with($filename)
-			->willReturn($file);
-		$file
-			->expects($this->once())
-			->method('delete');
+		$this->imageManager->expects($this->once())
+			->method('delete')
+			->with($filename);
 
 		$expected = new DataResponse(
 			[
@@ -719,27 +673,19 @@ class ThemingControllerTest extends TestCase {
 
 
 	public function testGetLogoNotExistent() {
-		$this->appData->method('getFolder')
-			->with($this->equalTo('images'))
+		$this->imageManager->method('getImage')
+			->with($this->equalTo('logo'))
 			->willThrowException(new NotFoundException());
 
 		$expected = new Http\NotFoundResponse();
-		$this->assertEquals($expected, $this->themingController->getLogo());
+		$this->assertEquals($expected, $this->themingController->getImage('logo'));
 	}
 
 	public function testGetLogo() {
 		$file = $this->createMock(ISimpleFile::class);
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
-		$folder->expects($this->once())
-			->method('getFile')
-			->with('logo')
+		$this->imageManager->expects($this->once())
+			->method('getImage')
 			->willReturn($file);
-
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -754,29 +700,22 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'text/svg');
-		@$this->assertEquals($expected, $this->themingController->getLogo());
+		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
 	}
 
 
 	public function testGetLoginBackgroundNotExistent() {
-		$this->appData->method('getFolder')
-			->with($this->equalTo('images'))
+		$this->imageManager->method('getImage')
+			->with($this->equalTo('background'))
 			->willThrowException(new NotFoundException());
 		$expected = new Http\NotFoundResponse();
-		$this->assertEquals($expected, $this->themingController->getLoginBackground());
+		$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
 	public function testGetLoginBackground() {
 		$file = $this->createMock(ISimpleFile::class);
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
-		$folder->expects($this->once())
-			->method('getFile')
-			->with('background')
+		$this->imageManager->expects($this->once())
+			->method('getImage')
 			->willReturn($file);
 
 		$this->config
@@ -793,12 +732,12 @@ class ThemingControllerTest extends TestCase {
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
 		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'image/png');
-		@$this->assertEquals($expected, $this->themingController->getLoginBackground());
+		@$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
 
 	public function testGetStylesheet() {
-
+		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn(\OC::$SERVERROOT . '/theming');
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
 		$file->expects($this->any())->method('getContent')->willReturn('compiled');
@@ -818,12 +757,33 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetStylesheetFails() {
+		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn(\OC::$SERVERROOT . '/theming');
 		$file = $this->createMock(ISimpleFile::class);
 		$file->expects($this->any())->method('getName')->willReturn('theming.css');
 		$file->expects($this->any())->method('getContent')->willReturn('compiled');
 		$this->scssCacher->expects($this->once())->method('process')->willReturn(true);
 		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willThrowException(new NotFoundException());
 		$response = new Http\NotFoundResponse();
+
+		$actual = $this->themingController->getStylesheet();
+		$this->assertEquals($response, $actual);
+	}
+
+	public function testGetStylesheetOutsideServerroot() {
+		$this->appManager->expects($this->once())->method('getAppPath')->with('theming')->willReturn('/outside/serverroot/theming');
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->any())->method('getName')->willReturn('theming.css');
+		$file->expects($this->any())->method('getContent')->willReturn('compiled');
+		$this->scssCacher->expects($this->once())->method('process')->with('/outside/serverroot/theming', 'css/theming.scss', 'theming')->willReturn(true);
+		$this->scssCacher->expects($this->once())->method('getCachedCSS')->willReturn($file);
+
+		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
+		$response->cacheFor(86400);
+		$expires = new \DateTime();
+		$expires->setTimestamp($this->timeFactory->getTime());
+		$expires->add(new \DateInterval('PT24H'));
+		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
+		$response->addHeader('Pragma', 'cache');
 
 		$actual = $this->themingController->getStylesheet();
 		$this->assertEquals($response, $actual);

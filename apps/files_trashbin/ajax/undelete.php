@@ -26,8 +26,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
+
+use OCP\ILogger;
+
+\OC_JSON::checkLoggedIn();
+\OC_JSON::callCheck();
 \OC::$server->getSession()->close();
 
 $dir = '/';
@@ -72,7 +75,7 @@ foreach ($list as $file) {
 
 	if ( !OCA\Files_Trashbin\Trashbin::restore($path, $filename, $timestamp) ) {
 		$error[] = $filename;
-		\OCP\Util::writeLog('trashbin', 'can\'t restore ' . $filename, \OCP\Util::ERROR);
+		\OCP\Util::writeLog('trashbin', 'can\'t restore ' . $filename, ILogger::ERROR);
 	} else {
 		$success[$i]['filename'] = $file;
 		$success[$i]['timestamp'] = $timestamp;
@@ -88,8 +91,8 @@ if ( $error ) {
 	}
 	$l = OC::$server->getL10N('files_trashbin');
 	$message = $l->t("Couldn't restore %s", array(rtrim($filelist, ', ')));
-	OCP\JSON::error(array("data" => array("message" => $message,
+	\OC_JSON::error(array("data" => array("message" => $message,
 										  "success" => $success, "error" => $error)));
 } else {
-	OCP\JSON::success(array("data" => array("success" => $success)));
+	\OC_JSON::success(array("data" => array("success" => $success)));
 }

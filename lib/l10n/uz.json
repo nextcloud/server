@@ -1,0 +1,5 @@
+{ "translations": {
+    "Cannot write into \"config\" directory!" : "\"Config\" katalogiga yozish mumkin emas!",
+    "January" : "Yanvar"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

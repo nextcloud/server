@@ -115,11 +115,4 @@ class UpdaterTest extends TestCase {
 		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersions));
 	}
 
-	public function testSetSkip3rdPartyAppsDisable() {
-		$this->updater->setSkip3rdPartyAppsDisable(true);
-		$this->assertSame(true, $this->invokePrivate($this->updater, 'skip3rdPartyAppsDisable'));
-		$this->updater->setSkip3rdPartyAppsDisable(false);
-		$this->assertSame(false, $this->invokePrivate($this->updater, 'skip3rdPartyAppsDisable'));
-	}
-
 }

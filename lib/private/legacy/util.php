@@ -62,6 +62,7 @@
 
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
 
 class OC_Util {
@@ -100,7 +101,7 @@ class OC_Util {
 	private static function initObjectStoreRootFS($config) {
 		// check misconfiguration
 		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = array();
@@ -134,7 +135,7 @@ class OC_Util {
 	private static function initObjectStoreMultibucketRootFS($config) {
 		// check misconfiguration
 		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = array();
@@ -258,6 +259,23 @@ class OC_Util {
 			return $storage;
 		});
 
+		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, \OCP\Files\Storage\IStorage $storage, \OCP\Files\Mount\IMountPoint $mount) {
+			/*
+			 * Do not allow any operations that modify the storage
+			 */
+			if ($mount->getOption('readonly', false)) {
+				return new \OC\Files\Storage\Wrapper\PermissionsMask([
+					'storage' => $storage,
+					'mask' => \OCP\Constants::PERMISSION_ALL & ~(
+						\OCP\Constants::PERMISSION_UPDATE |
+						\OCP\Constants::PERMISSION_CREATE |
+						\OCP\Constants::PERMISSION_DELETE
+					),
+				]);
+			}
+			return $storage;
+		});
+
 		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
 		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(true);
 
@@ -274,7 +292,7 @@ class OC_Util {
 			self::initLocalStorageRootFS();
 		}
 
-		if ($user != '' && !OCP\User::userExists($user)) {
+		if ($user != '' && !\OC::$server->getUserManager()->userExists($user)) {
 			\OC::$server->getEventLogger()->end('setup_fs');
 			return false;
 		}
@@ -300,9 +318,8 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isPublicLinkPasswordRequired() {
-		$appConfig = \OC::$server->getAppConfig();
-		$enforcePassword = $appConfig->getValue('core', 'shareapi_enforce_links_password', 'no');
-		return ($enforcePassword === 'yes') ? true : false;
+		$enforcePassword = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_links_password', 'no');
+		return $enforcePassword === 'yes';
 	}
 
 	/**
@@ -341,11 +358,11 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
-		$isDefaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+		$isDefaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
 		$enforceDefaultExpireDate = false;
 		if ($isDefaultExpireDateEnabled === 'yes') {
-			$value = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
-			$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
+			$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+			$enforceDefaultExpireDate = $value === 'yes';
 		}
 
 		return $enforceDefaultExpireDate;
@@ -410,7 +427,7 @@ class OC_Util {
 			\OCP\Util::writeLog(
 				'files_skeleton',
 				'copying skeleton for '.$userId.' from '.$skeletonDirectory.' to '.$userDirectory->getFullPath('/'),
-				\OCP\Util::DEBUG
+				ILogger::DEBUG
 			);
 			self::copyr($skeletonDirectory, $userDirectory);
 			// update the file cache
@@ -680,29 +697,6 @@ class OC_Util {
 	}
 
 	/**
-	 * formats a timestamp in the "right" way
-	 *
-	 * @param int $timestamp
-	 * @param bool $dateOnly option to omit time from the result
-	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
-	 * @return string timestamp
-	 *
-	 * @deprecated Use \OC::$server->query('DateTimeFormatter') instead
-	 */
-	public static function formatDate($timestamp, $dateOnly = false, $timeZone = null) {
-		if ($timeZone !== null && !$timeZone instanceof \DateTimeZone) {
-			$timeZone = new \DateTimeZone($timeZone);
-		}
-
-		/** @var \OC\DateTimeFormatter $formatter */
-		$formatter = \OC::$server->query('DateTimeFormatter');
-		if ($dateOnly) {
-			return $formatter->formatDate($timestamp, 'long', $timeZone);
-		}
-		return $formatter->formatDateTime($timestamp, 'long', 'long', $timeZone);
-	}
-
-	/**
 	 * check if the current server configuration is suitable for ownCloud
 	 *
 	 * @param \OC\SystemConfig $config
@@ -895,7 +889,7 @@ class OC_Util {
 		}
 		foreach($invalidIniSettings as $setting) {
 			if(is_bool($setting[1])) {
-				$setting[1] = ($setting[1]) ? 'on' : 'off';
+				$setting[1] = $setting[1] ? 'on' : 'off';
 			}
 			$errors[] = [
 				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
@@ -1116,7 +1110,7 @@ class OC_Util {
 		if (isset($_REQUEST['redirect_url']) && strpos($_REQUEST['redirect_url'], '@') === false) {
 			$location = $urlGenerator->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		} else {
-			$defaultPage = \OC::$server->getAppConfig()->getValue('core', 'defaultpage');
+			$defaultPage = \OC::$server->getConfig()->getAppValue('core', 'defaultpage');
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
@@ -1402,7 +1396,7 @@ class OC_Util {
 		// XCache
 		if (function_exists('xcache_clear_cache')) {
 			if (\OC::$server->getIniWrapper()->getBool('xcache.admin.enable_auth')) {
-				\OCP\Util::writeLog('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', \OCP\Util::WARN);
+				\OCP\Util::writeLog('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', ILogger::WARN);
 			} else {
 				@xcache_clear_cache(XC_TYPE_PHP, 0);
 			}

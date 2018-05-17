@@ -13,7 +13,6 @@ OC.L10N.register(
     "undo" : "يېنىۋال",
     "never" : "ھەرگىز",
     "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",
-    "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
     "Forum" : "مۇنبەر",
     "None" : "يوق",
     "Login" : "تىزىمغا كىرىڭ",
@@ -32,18 +31,11 @@ OC.L10N.register(
     "New password" : "يېڭى ئىم",
     "Change password" : "ئىم ئۆزگەرت",
     "Username" : "ئىشلەتكۈچى ئاتى",
-    "Create" : "قۇر",
     "Unlimited" : "چەكسىز",
     "Other" : "باشقا",
     "set new password" : "يېڭى ئىم تەڭشە",
     "Default" : "كۆڭۈلدىكى",
-    "Invalid request" : "ئىناۋەتسىز ئىلتىماس",
-    "Admins can't remove themself from the admin group" : "باشقۇرغۇچى ئۆزىنى باشقۇرۇش گۇرۇپپىسىدىن چىقىرىۋېتەلمەيدۇ",
-    "Unable to add user to group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىغا قوشالمايدۇ",
-    "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
-    "Updating...." : "يېڭىلاۋاتىدۇ…",
-    "Error while updating app" : "ئەپنى يېڭىلاۋاتقاندا خاتالىق كۆرۈلدى",
-    "__language_name__" : "ئۇيغۇرچە",
-    "Name" : "ئاتى"
+    "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
+    "Create" : "قۇر"
 },
 "nplurals=1; plural=0;");

@@ -25,6 +25,7 @@ namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\DAV\Sharing\Xml\Invite;
+use OCA\DAV\DAV\Sharing\Xml\ShareRequest;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
@@ -100,8 +101,8 @@ class Plugin extends ServerPlugin {
 	 */
 	function initialize(Server $server) {
 		$this->server = $server;
-		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}share'] = 'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest';
-		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}invite'] = 'OCA\\DAV\\DAV\\Sharing\\Xml\\Invite';
+		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}share'] = ShareRequest::class;
+		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}invite'] = Invite::class;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
 		$this->server->on('propFind',    [$this, 'propFind']);

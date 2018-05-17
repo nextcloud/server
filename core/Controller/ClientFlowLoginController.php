@@ -115,7 +115,7 @@ class ClientFlowLoginController extends Controller {
 	 */
 	private function getClientName() {
 		$userAgent = $this->request->getHeader('USER_AGENT');
-		return $userAgent !== null ? $userAgent : 'unknown';
+		return $userAgent !== '' ? $userAgent : 'unknown';
 	}
 
 	/**
@@ -191,6 +191,44 @@ class ClientFlowLoginController extends Controller {
 		return new TemplateResponse(
 			$this->appName,
 			'loginflow/authpicker',
+			[
+				'client' => $clientName,
+				'clientIdentifier' => $clientIdentifier,
+				'instanceName' => $this->defaults->getName(),
+				'urlGenerator' => $this->urlGenerator,
+				'stateToken' => $stateToken,
+				'serverHost' => $this->request->getServerHost(),
+				'oauthState' => $this->session->get('oauth.state'),
+			],
+			'guest'
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @UseSession
+	 *
+	 * @param string $stateToken
+	 * @param string $clientIdentifier
+	 * @return TemplateResponse
+	 */
+	public function grantPage($stateToken = '',
+								 $clientIdentifier = '') {
+		if(!$this->isValidToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		$clientName = $this->getClientName();
+		$client = null;
+		if($clientIdentifier !== '') {
+			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
+			$clientName = $client->getName();
+		}
+
+		return new TemplateResponse(
+			$this->appName,
+			'loginflow/grant',
 			[
 				'client' => $clientName,
 				'clientIdentifier' => $clientIdentifier,
@@ -315,7 +353,18 @@ class ClientFlowLoginController extends Controller {
 				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
 			}
 
-			$serverPath = $this->request->getServerProtocol() . "://" . $this->request->getServerHost() . $serverPostfix;
+			$protocol = $this->request->getServerProtocol();
+
+			if ($protocol !== "https") {
+				$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
+				$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
+				if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
+					$protocol = 'https';
+				}
+			}
+
+
+			$serverPath = $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
 			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
 		}
 

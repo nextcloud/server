@@ -284,7 +284,7 @@ function human_file_size( $bytes ) {
 function strip_time($timestamp){
 	$date = new \DateTime("@{$timestamp}");
 	$date->setTime(0, 0, 0);
-	return intval($date->format('U'));
+	return (int)$date->format('U');
 }
 
 /**

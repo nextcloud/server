@@ -39,17 +39,17 @@ class Hooks {
 
 	public static function connectHooks() {
 		// Listen to write signals
-		\OCP\Util::connectHook('OC_Filesystem', 'write', 'OCA\Files_Versions\Hooks', 'write_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'write', Hooks::class, 'write_hook');
 		// Listen to delete and rename signals
-		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', 'OCA\Files_Versions\Hooks', 'remove_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Files_Versions\Hooks', 'pre_remove_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Files_Versions\Hooks', 'rename_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', 'OCA\Files_Versions\Hooks', 'copy_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Files_Versions\Hooks', 'pre_renameOrCopy_hook');
-		\OCP\Util::connectHook('OC_Filesystem', 'copy', 'OCA\Files_Versions\Hooks', 'pre_renameOrCopy_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', Hooks::class, 'remove_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', Hooks::class, 'pre_remove_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', Hooks::class, 'rename_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', Hooks::class, 'copy_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'rename', Hooks::class, 'pre_renameOrCopy_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'copy', Hooks::class, 'pre_renameOrCopy_hook');
 
 		$eventDispatcher = \OC::$server->getEventDispatcher();
-		$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts', ['OCA\Files_Versions\Hooks', 'onLoadFilesAppScripts']);
+		$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts', [Hooks::class, 'onLoadFilesAppScripts']);
 	}
 
 	/**

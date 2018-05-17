@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  *
  *
@@ -51,8 +52,8 @@ class ProvisioningApiMiddleware extends Middleware {
 	 */
 	public function __construct(
 		IControllerMethodReflector $reflector,
-		$isAdmin,
-		$isSubAdmin) {
+		bool $isAdmin,
+		bool $isSubAdmin) {
 		$this->reflector = $reflector;
 		$this->isAdmin = $isAdmin;
 		$this->isSubAdmin = $isSubAdmin;

@@ -351,14 +351,14 @@ describe('Core base tests', function() {
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
 			oldConfig = window.oc_config;
-			routeStub = sinon.stub(OC, 'generateUrl').returns('/heartbeat');
+			routeStub = sinon.stub(OC, 'generateUrl').returns('/csrftoken');
 			counter = 0;
 
 			fakeServer.autoRespond = true;
 			fakeServer.autoRespondAfter = 0;
-			fakeServer.respondWith(/\/heartbeat/, function(xhr) {
+			fakeServer.respondWith(/\/csrftoken/, function(xhr) {
 				counter++;
-				xhr.respond(200, {'Content-Type': 'application/json'}, '{}');
+				xhr.respond(200, {'Content-Type': 'application/json'}, '{"token": "pgBEsb3MzTb1ZPd2mfDZbQ6/0j3OrXHMEZrghHcOkg8=:3khw5PSa+wKQVo4f26exFD3nplud9ECjJ8/Y5zk5/k4="}');
 			});
 			$(document).off('ajaxComplete'); // ignore previously registered heartbeats
 		});
@@ -377,7 +377,7 @@ describe('Core base tests', function() {
 				session_lifetime: 300
 			};
 			window.initCore();
-			expect(routeStub.calledWith('/heartbeat')).toEqual(true);
+			expect(routeStub.calledWith('/csrftoken')).toEqual(true);
 
 			expect(counter).toEqual(0);
 
@@ -502,8 +502,8 @@ describe('Core base tests', function() {
 	});
 	describe('Generate Url', function() {
 		it('returns absolute urls', function() {
-			expect(OC.generateUrl('heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
-			expect(OC.generateUrl('/heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
+			expect(OC.generateUrl('csrftoken')).toEqual(OC.webroot + '/index.php/csrftoken');
+			expect(OC.generateUrl('/csrftoken')).toEqual(OC.webroot + '/index.php/csrftoken');
 		});
 		it('substitutes parameters which are escaped by default', function() {
 			expect(OC.generateUrl('apps/files/download/{file}', {file: '<">ImAnUnescapedString/!'})).toEqual(OC.webroot + '/index.php/apps/files/download/%3C%22%3EImAnUnescapedString%2F!');
@@ -1537,6 +1537,67 @@ describe('Core base tests', function() {
 			expect(snapperStub.enable.called).toBe(false);
 			expect(snapperStub.disable.calledTwice).toBe(true);
 			expect(snapperStub.close.calledTwice).toBe(true);
+		});
+	});
+	describe('Requires password confirmation', function () {
+		var stubMomentNow;
+		var stubJsPageLoadTime;
+
+		afterEach(function () {
+			delete window.nc_pageLoad;
+			delete window.nc_lastLogin;
+			delete window.backendAllowsPasswordConfirmation;
+
+			stubMomentNow.restore();
+			stubJsPageLoadTime.restore();
+		});
+
+		it('should not show the password confirmation dialog when server time is earlier than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
+		});
+
+		it('should show the password confirmation dialog when server time is earlier than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
+		});
+
+		it('should not show the password confirmation dialog when server time is later than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
+		});
+
+		it('should show the password confirmation dialog when server time is later than local time', function () {
+			// add server variables
+			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
+			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
+			window.backendAllowsPasswordConfirmation = true;
+
+			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
+			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
+
+			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
 		});
 	});
 });

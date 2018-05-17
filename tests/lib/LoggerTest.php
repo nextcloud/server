@@ -9,8 +9,10 @@
 namespace Test;
 
 use OC\Log;
+use OCP\ILogger;
+use OCP\Log\IWriter;
 
-class LoggerTest extends TestCase {
+class LoggerTest extends TestCase implements IWriter {
 
 	/** @var \OC\SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
@@ -22,15 +24,15 @@ class LoggerTest extends TestCase {
 	private $logger;
 
 	/** @var array */
-	static private $logs = array();
+	private $logs = [];
 
 	protected function setUp() {
 		parent::setUp();
 
-		self::$logs = array();
+		$this->logs = [];
 		$this->config = $this->createMock(\OC\SystemConfig::class);
 		$this->registry = $this->createMock(\OCP\Support\CrashReport\IRegistry::class);
-		$this->logger = new Log('Test\LoggerTest', $this->config, null, $this->registry);
+		$this->logger = new Log($this, $this->config, null, $this->registry);
 	}
 
 	public function testInterpolation() {
@@ -45,7 +47,7 @@ class LoggerTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getValue')
 			->will(($this->returnValueMap([
-				['loglevel', \OCP\Util::WARN, \OCP\Util::WARN],
+				['loglevel', ILogger::WARN, ILogger::WARN],
 				['log.condition', [], ['apps' => ['files']]]
 			])));
 		$logger = $this->logger;
@@ -62,11 +64,11 @@ class LoggerTest extends TestCase {
 	}
 
 	private function getLogs() {
-		return self::$logs;
+		return $this->logs;
 	}
 
-	public static function write($app, $message, $level) {
-		self::$logs[]= "$level $message";
+	public function write(string $app, $message, int $level) {
+		$this->logs[]= "$level $message";
 	}
 
 	public function userAndPasswordData() {
@@ -96,9 +98,12 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('login(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
@@ -115,9 +120,12 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('checkPassword(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
@@ -134,9 +142,12 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('validateUserPass(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
@@ -153,9 +164,12 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('tryLogin(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
@@ -177,32 +191,16 @@ class LoggerTest extends TestCase {
 
 		$logLines = $this->getLogs();
 		foreach($logLines as $logLine) {
+			if (is_array($logLine)) {
+				$logLine = json_encode($logLine);
+			}
 			$log = explode('\n', $logLine);
 			unset($log[1]); // Remove `testDetectclosure(` because we are not testing this here, but the closure on stack trace 0
 			$logLine = implode('\n', $log);
 
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('{closure}(*** sensitive parameters replaced ***)', $logLine);
+			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
 		}
-	}
-
-	public function dataGetLogClass() {
-		return [
-			['file', \OC\Log\File::class],
-			['errorlog', \OC\Log\Errorlog::class],
-			['syslog', \OC\Log\Syslog::class],
-
-			['owncloud', \OC\Log\File::class],
-			['nextcloud', \OC\Log\File::class],
-			['foobar', \OC\Log\File::class],
-		];
-	}
-
-	/**
-	 * @dataProvider dataGetLogClass
-	 */
-	public function testGetLogClass($type, $class) {
-		$this->assertEquals($class, Log::getLogClass($type));
 	}
 }

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Αδύνατη η ανάκτηση λίστας της ομάδας",
     "Saved" : "Αποθηκεύτηκε",
     "Saving failed:" : "Απέτυχε η αποθήκευση:",
     "File MIME type" : "Τύπος αρχείου MIME",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Reset" : "Επαναφορά",
     "Save" : "Αποθήκευση",
     "Saving…" : "Αποθηκεύεται...",
-    "Loading…" : "Φορτώνει...",
-    "Successfully saved" : "Επιτυχημένη αποθήκευση",
-    "File mime type" : "Αρχεία τύπου mime"
+    "Loading…" : "Φορτώνει..."
 },
 "nplurals=2; plural=(n != 1);");

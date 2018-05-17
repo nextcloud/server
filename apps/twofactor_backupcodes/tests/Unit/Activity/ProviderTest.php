@@ -62,7 +62,7 @@ class ProviderTest extends TestCase {
 		$event->expects($this->once())
 			->method('getApp')
 			->willReturn('comments');
-		$this->setExpectedException(InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		$this->provider->parse($lang, $event);
 	}

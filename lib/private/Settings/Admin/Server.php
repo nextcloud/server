@@ -74,63 +74,7 @@ class Server implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		try {
-			if ($this->db->getDatabasePlatform() instanceof SqlitePlatform) {
-				$invalidTransactionIsolationLevel = false;
-			} else {
-				$invalidTransactionIsolationLevel = $this->db->getTransactionIsolation() !== Connection::TRANSACTION_READ_COMMITTED;
-			}
-		} catch (DBALException $e) {
-			// ignore
-			$invalidTransactionIsolationLevel = false;
-		}
-
-		$envPath = getenv('PATH');
-
-		// warn if outdated version of a memcache module is used
-		$caches = [
-			'apcu'	=> ['name' => $this->l->t('APCu'), 'version' => '4.0.6'],
-			'redis'	=> ['name' => $this->l->t('Redis'), 'version' => '2.2.5'],
-		];
-		$outdatedCaches = [];
-		foreach ($caches as $php_module => $data) {
-			$isOutdated = extension_loaded($php_module) && version_compare(phpversion($php_module), $data['version'], '<');
-			if ($isOutdated) {
-				$outdatedCaches[$php_module] = $data;
-			}
-		}
-
-		if ($this->lockingProvider instanceof NoopLockingProvider) {
-			$fileLockingType = 'none';
-		} else if ($this->lockingProvider instanceof DBLockingProvider) {
-			$fileLockingType = 'db';
-		} else {
-			$fileLockingType = 'cache';
-		}
-
-		$suggestedOverwriteCliUrl = '';
-		if ($this->config->getSystemValue('overwrite.cli.url', '') === '') {
-			$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
-			if (!$this->config->getSystemValue('config_is_read_only', false)) {
-				// Set the overwrite URL when it was not set yet.
-				$this->config->setSystemValue('overwrite.cli.url', $suggestedOverwriteCliUrl);
-				$suggestedOverwriteCliUrl = '';
-			}
-		}
-
 		$parameters = [
-			// Diagnosis
-			'readOnlyConfigEnabled'            => \OC_Helper::isReadOnlyConfigEnabled(),
-			'isLocaleWorking'                  => \OC_Util::isSetLocaleWorking(),
-			'isAnnotationsWorking'             => \OC_Util::isAnnotationsWorking(),
-			'checkForWorkingWellKnownSetup'    => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
-			'has_fileinfo'                     => \OC_Util::fileInfoLoaded(),
-			'invalidTransactionIsolationLevel' => $invalidTransactionIsolationLevel,
-			'getenvServerNotWorking'           => empty($envPath),
-			'OutdatedCacheWarning'             => $outdatedCaches,
-			'fileLockingType'                  => $fileLockingType,
-			'suggestedOverwriteCliUrl'         => $suggestedOverwriteCliUrl,
-
 			// Background jobs
 			'backgroundjobs_mode' => $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'),
 			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),

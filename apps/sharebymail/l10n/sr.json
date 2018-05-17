@@ -36,13 +36,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозвољава корисницима да поделе персонализовану везу до фајла или фасцикле преко е-поште.",
     "Send password by mail" : "Пошаљи лозинку е-поштом",
     "Enforce password protection" : "Захтевај заштиту лозинком",
-    "Failed to send share by E-mail" : "Грешка у слању дељења е-поштом",
-    "%s shared »%s« with you on behalf of %s" : "%s је поделио »%s« са Вама у име корисника %s",
-    "Failed to create the E-mail" : "Грешка при креирању е-поште",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Поздрав,\n\n%s је поделио »%s« са Вама у име корисника %s.\n\n%s\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Поздрав,\n\n%s је поделио »%s« са Вама.\n\n%s\n",
-    "Cheers!" : "Здраво!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Поздрав, <br><br>%s је поделио <a href=\"%s\">%s</a> са Вама у име корисника %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Поздрав,<br><br>%sје поделио <a href=\"%s\">%s</a>са Вама.<br><br>"
+    "Failed to send share by E-mail" : "Грешка у слању дељења е-поштом"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -33,7 +33,9 @@
 
 namespace OC\Core\Controller;
 
+use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
 use OC_Util;
@@ -72,6 +74,8 @@ class LoginController extends Controller {
 	private $twoFactorManager;
 	/** @var Defaults */
 	private $defaults;
+	/** @var Throttler */
+	private $throttler;
 
 	/**
 	 * @param string $appName
@@ -84,6 +88,7 @@ class LoginController extends Controller {
 	 * @param ILogger $logger
 	 * @param Manager $twoFactorManager
 	 * @param Defaults $defaults
+	 * @param Throttler $throttler
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -94,7 +99,8 @@ class LoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
 								Manager $twoFactorManager,
-								Defaults $defaults) {
+								Defaults $defaults,
+								Throttler $throttler) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -104,6 +110,7 @@ class LoginController extends Controller {
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
 		$this->defaults = $defaults;
+		$this->throttler = $throttler;
 	}
 
 	/**
@@ -131,11 +138,11 @@ class LoginController extends Controller {
 	 *
 	 * @param string $user
 	 * @param string $redirect_url
-	 * @param string $remember_login
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showLoginForm($user, $redirect_url, $remember_login) {
+	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
+
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}
@@ -153,7 +160,7 @@ class LoginController extends Controller {
 		}
 
 		$parameters['messages'] = $messages;
-		if (!is_null($user) && $user !== '') {
+		if ($user !== null && $user !== '') {
 			$parameters['loginName'] = $user;
 			$parameters['user_autofocus'] = false;
 		} else {
@@ -167,7 +174,7 @@ class LoginController extends Controller {
 		$parameters['canResetPassword'] = true;
 		$parameters['resetPasswordLink'] = $this->config->getSystemValue('lost_password_link', '');
 		if (!$parameters['resetPasswordLink']) {
-			if (!is_null($user) && $user !== '') {
+			if ($user !== null && $user !== '') {
 				$userObj = $this->userManager->get($user);
 				if ($userObj instanceof IUser) {
 					$parameters['canResetPassword'] = $userObj->canChangePassword();
@@ -178,16 +185,16 @@ class LoginController extends Controller {
 		}
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
-		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
-		$parameters['hideRemeberLoginState'] = !empty($redirect_url) && $this->session->exists('client.flow.state.token');
 
-		if (!is_null($user) && $user !== '') {
+		if ($user !== null && $user !== '') {
 			$parameters['loginName'] = $user;
 			$parameters['user_autofocus'] = false;
 		} else {
 			$parameters['loginName'] = '';
 			$parameters['user_autofocus'] = true;
 		}
+
+		$parameters['throttle_delay'] = $this->throttler->getDelay($this->request->getRemoteAddress());
 
 		// OpenGraph Support: http://ogp.me/
 		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
@@ -232,7 +239,7 @@ class LoginController extends Controller {
 	 * @param string $timezone_offset
 	 * @return RedirectResponse
 	 */
-	public function tryLogin($user, $password, $redirect_url, $remember_login = false, $timezone = '', $timezone_offset = '') {
+	public function tryLogin($user, $password, $redirect_url, $remember_login = true, $timezone = '', $timezone_offset = '') {
 		if(!is_string($user)) {
 			throw new \InvalidArgumentException('Username must be string');
 		}
@@ -256,13 +263,15 @@ class LoginController extends Controller {
 			$users = $this->userManager->getByEmail($user);
 			// we only allow login by email if unique
 			if (count($users) === 1) {
+				$previousUser = $user;
 				$user = $users[0]->getUID();
-				$loginResult = $this->userManager->checkPassword($user, $password);
-			} else {
-				$this->logger->warning('Login failed: \''. $user .'\' (Remote IP: \''. $this->request->getRemoteAddress(). '\')', ['app' => 'core']);
+				if($user !== $previousUser) {
+					$loginResult = $this->userManager->checkPassword($user, $password);
+				}
 			}
 		}
 		if ($loginResult === false) {
+			$this->logger->warning('Login failed: \''. $user .'\' (Remote IP: \''. $this->request->getRemoteAddress(). '\')', ['app' => 'core']);
 			// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
 			$args = !is_null($user) ? ['user' => $originalUser] : [];
 			if (!is_null($redirect_url)) {
@@ -278,7 +287,7 @@ class LoginController extends Controller {
 		// TODO: remove password checks from above and let the user session handle failures
 		// requires https://github.com/owncloud/core/pull/24616
 		$this->userSession->completeLogin($loginResult, ['loginName' => $user, 'password' => $password]);
-		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password, (int)$remember_login);
+		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password, IToken::REMEMBER);
 
 		// User has successfully logged in, now remove the password reset link, when it is available
 		$this->config->deleteUserValue($loginResult->getUID(), 'core', 'lostpassword');

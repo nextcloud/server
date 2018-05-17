@@ -23,8 +23,11 @@
 
 namespace OCA\Files_Trashbin\AppInfo;
 
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\App;
 use OCA\Files_Trashbin\Expiration;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCA\Files_Trashbin\Capabilities;
 
 class Application extends App {
 	public function __construct (array $urlParams = []) {
@@ -34,7 +37,7 @@ class Application extends App {
 		/*
 		 * Register capabilities
 		 */
-		$container->registerCapability('OCA\Files_Trashbin\Capabilities');
+		$container->registerCapability(Capabilities::class);
 
 		/*
 		 * Register expiration
@@ -42,7 +45,19 @@ class Application extends App {
 		$container->registerService('Expiration', function($c) {
 			return  new Expiration(
 				$c->query('ServerContainer')->getConfig(),
-				$c->query('OCP\AppFramework\Utility\ITimeFactory')
+				$c->query(ITimeFactory::class)
+			);
+		});
+
+		/*
+		 * Register $principalBackend for the DAV collection
+		 */
+		$container->registerService('principalBackend', function () {
+			return new Principal(
+				\OC::$server->getUserManager(),
+				\OC::$server->getGroupManager(),
+				\OC::$server->getShareManager(),
+				\OC::$server->getUserSession()
 			);
 		});
 	}

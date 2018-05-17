@@ -22,8 +22,6 @@
 
 namespace OCA\DAV\Upload;
 
-
-use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -99,7 +97,10 @@ class ChunkingPlugin extends ServerPlugin {
 			return;
 		}
 		$actualSize = $this->sourceNode->getSize();
-		if ((int)$expectedSize !== $actualSize) {
+
+		// casted to string because cast to float cause equality for non equal numbers
+		// and integer has the problem of limited size on 32 bit systems
+		if ((string)$expectedSize !== (string)$actualSize) {
 			throw new BadRequest("Chunks on server do not sum up to $expectedSize but to $actualSize bytes");
 		}
 	}

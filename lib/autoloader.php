@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,6 +34,7 @@
 namespace OC;
 
 use \OCP\AutoloadNotAllowedException;
+use OCP\ILogger;
 
 class Autoloader {
 	/** @var bool */
@@ -63,7 +65,7 @@ class Autoloader {
 	 *
 	 * @param string $root
 	 */
-	public function addValidRoot($root) {
+	public function addValidRoot(string $root) {
 		$root = stream_resolve_include_path($root);
 		$this->validRoots[$root] = true;
 	}
@@ -86,12 +88,12 @@ class Autoloader {
 	 * get the possible paths for a class
 	 *
 	 * @param string $class
-	 * @return array|bool an array of possible paths or false if the class is not part of ownCloud
+	 * @return array an array of possible paths
 	 */
-	public function findClass($class) {
+	public function findClass(string $class): array {
 		$class = trim($class, '\\');
 
-		$paths = array();
+		$paths = [];
 		if ($this->useGlobalClassPath && array_key_exists($class, \OC::$CLASSPATH)) {
 			$paths[] = \OC::$CLASSPATH[$class];
 			/**
@@ -99,7 +101,7 @@ class Autoloader {
 			 * Remove "apps/" from inclusion path for smooth migration to multi app dir
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
-				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', ILogger::DEBUG);
 				$paths[] = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
@@ -124,8 +126,9 @@ class Autoloader {
 	/**
 	 * @param string $fullPath
 	 * @return bool
+	 * @throws AutoloadNotAllowedException
 	 */
-	protected function isValidPath($fullPath) {
+	protected function isValidPath(string $fullPath): bool {
 		foreach ($this->validRoots as $root => $true) {
 			if (substr($fullPath, 0, strlen($root) + 1) === $root . '/') {
 				return true;
@@ -139,8 +142,9 @@ class Autoloader {
 	 *
 	 * @param string $class
 	 * @return bool
+	 * @throws AutoloadNotAllowedException
 	 */
-	public function load($class) {
+	public function load(string $class): bool {
 		$pathsToRequire = null;
 		if ($this->memoryCache) {
 			$pathsToRequire = $this->memoryCache->get($class);

@@ -284,11 +284,11 @@ class ViewTest extends \Test\TestCase {
 		// Reset sharing disabled for users cache
 		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 
-		$appConfig = \OC::$server->getAppConfig();
-		$oldExcludeGroupsFlag = $appConfig->getValue('core', 'shareapi_exclude_groups', 'no');
-		$oldExcludeGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
-		$appConfig->setValue('core', 'shareapi_exclude_groups', $excludeGroups);
-		$appConfig->setValue('core', 'shareapi_exclude_groups_list', $excludeGroupsList);
+		$config = \OC::$server->getConfig();
+		$oldExcludeGroupsFlag = $config->getAppValue('core', 'shareapi_exclude_groups', 'no');
+		$oldExcludeGroupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+		$config->setAppValue('core', 'shareapi_exclude_groups', $excludeGroups);
+		$config->setAppValue('core', 'shareapi_exclude_groups_list', $excludeGroupsList);
 
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
@@ -303,8 +303,8 @@ class ViewTest extends \Test\TestCase {
 		$folderContent = $view->getDirectoryContent('mount');
 		$this->assertEquals($expectedShareable, $folderContent[0]->isShareable());
 
-		$appConfig->setValue('core', 'shareapi_exclude_groups', $oldExcludeGroupsFlag);
-		$appConfig->setValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
+		$config->setAppValue('core', 'shareapi_exclude_groups', $oldExcludeGroupsFlag);
+		$config->setAppValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 
 		// Reset sharing disabled for users cache
 		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);

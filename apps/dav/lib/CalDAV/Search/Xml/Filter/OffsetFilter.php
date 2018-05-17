@@ -40,6 +40,6 @@ class OffsetFilter implements XmlDeserializable {
 			throw new BadRequest('The {' . SearchPlugin::NS_Nextcloud . '}offset has illegal value');
 		}
 
-		return intval($value);
+		return (int)$value;
 	}
 }

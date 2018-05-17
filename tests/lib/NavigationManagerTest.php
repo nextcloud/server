@@ -284,7 +284,7 @@ class NavigationManagerTest extends TestCase {
 			],
 		];
 		return [
-			'minimalistic' => [array_merge($defaults, [[
+			'minimalistic' => [array_merge([$defaults[0]], [[
 				'id' => 'test',
 				'order' => 100,
 				'href' => '/apps/test/',
@@ -293,8 +293,8 @@ class NavigationManagerTest extends TestCase {
 				'active' => false,
 				'type' => 'link',
 				'classes' => '',
-			]]), ['navigations' => [['route' => 'test.page.index', 'name' => 'Test']]]],
-			'minimalistic-settings' => [array_merge($defaults, [[
+			]], [$defaults[1]]), ['navigations' => [['route' => 'test.page.index', 'name' => 'Test']]]],
+			'minimalistic-settings' => [array_merge([$defaults[0]], [[
 				'id' => 'test',
 				'order' => 100,
 				'href' => '/apps/test/',
@@ -303,8 +303,8 @@ class NavigationManagerTest extends TestCase {
 				'active' => false,
 				'type' => 'settings',
 				'classes' => '',
-			]]), ['navigations' => [['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']]]],
-			'admin' => [array_merge($apps, $defaults, [[
+			]], [$defaults[1]]), ['navigations' => [['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']]]],
+			'admin' => [array_merge([$defaults[0]], $apps, [[
 				'id' => 'test',
 				'order' => 100,
 				'href' => '/apps/test/',
@@ -313,8 +313,8 @@ class NavigationManagerTest extends TestCase {
 				'active' => false,
 				'type' => 'link',
 				'classes' => '',
-			]]), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]], true],
-			'no name' => [array_merge($apps, $defaults), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']]], true],
+			]], [$defaults[1]]), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]], true],
+			'no name' => [array_merge([$defaults[0]], $apps, [$defaults[1]]), ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']]], true],
 			'no admin' => [$defaults, ['navigations' => [['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']]]]
 		];
 	}

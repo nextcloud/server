@@ -27,13 +27,8 @@ OC.L10N.register(
     "New password" : "නව මුරපදය",
     "Change password" : "මුරපදය වෙනස් කිරීම",
     "Username" : "පරිශීලක නම",
-    "Create" : "තනන්න",
     "Other" : "වෙනත්",
     "Quota" : "සලාකය",
-    "Invalid request" : "අවලංගු අයැදුමක්",
-    "Unable to add user to group %s" : "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක",
-    "Unable to remove user from group %s" : "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක",
-    "__language_name__" : "සිංහල",
-    "Name" : "නම"
+    "Create" : "තනන්න"
 },
 "nplurals=2; plural=(n != 1);");

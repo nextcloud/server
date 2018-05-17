@@ -61,7 +61,7 @@ class MemoryCacheTest extends TestCase {
 			->expects($this->once())
 			->method('get')
 			->with('eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b')
-			->willReturn(false);
+			->willReturn(null);
 
 		$this->assertSame(0, $this->memoryCache->getAttempts('Method', 'User', 123));
 	}
@@ -97,7 +97,7 @@ class MemoryCacheTest extends TestCase {
 			->expects($this->once())
 			->method('get')
 			->with('eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b')
-			->willReturn(false);
+			->willReturn(null);
 		$this->cache
 			->expects($this->once())
 			->method('set')

@@ -59,6 +59,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -426,8 +427,7 @@ class View {
 				flush();
 			}
 			fclose($handle);
-			$size = $this->filesize($path);
-			return $size;
+			return $this->filesize($path);
 		}
 		return false;
 	}
@@ -476,8 +476,7 @@ class View {
 					echo fread($handle, $len);
 					flush();
 				}
-				$size = ftell($handle) - $from;
-				return $size;
+				return ftell($handle) - $from;
 			}
 
 			throw new \OCP\Files\UnseekableException('fseek error');
@@ -684,7 +683,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
+			$hooks = $this->file_exists($path) ? array('update', 'write') : array('create', 'write');
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
@@ -698,7 +697,7 @@ class View {
 			// do not allow deleting the root
 			return false;
 		}
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
 		if ($mount and $mount->getInternalPath($absolutePath) === '') {
@@ -977,7 +976,7 @@ class View {
 				$hooks[] = 'write';
 				break;
 			default:
-				\OCP\Util::writeLog('core', 'invalid mode (' . $mode . ') for ' . $path, \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', 'invalid mode (' . $mode . ') for ' . $path, ILogger::ERROR);
 		}
 
 		if ($mode !== 'r' && $mode !== 'w') {
@@ -1067,7 +1066,7 @@ class View {
 	 * @return bool|null|string
 	 */
 	public function hash($type, $path, $raw = false) {
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
@@ -1083,8 +1082,7 @@ class View {
 			}
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($storage) {
-				$result = $storage->hash($type, $internalPath, $raw);
-				return $result;
+				return $storage->hash($type, $internalPath, $raw);
 			}
 		}
 		return null;
@@ -1119,7 +1117,7 @@ class View {
 	 * \OC\Files\Storage\Storage for delegation to a storage backend for execution
 	 */
 	private function basicOperation($operation, $path, $hooks = [], $extraParam = null) {
-		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
 			and !Filesystem::isFileBlacklisted($path)
@@ -1248,7 +1246,7 @@ class View {
 	private function runHooks($hooks, $path, $post = false) {
 		$relativePath = $path;
 		$path = $this->getHookPath($path);
-		$prefix = ($post) ? 'post_' : '';
+		$prefix = $post ? 'post_' : '';
 		$run = true;
 		if ($this->shouldEmitHooks($relativePath)) {
 			foreach ($hooks as $hook) {
@@ -1318,15 +1316,13 @@ class View {
 		try {
 			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
 			if (!$data || $data['size'] === -1) {
-				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				if (!$storage->file_exists($internalPath)) {
-					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 					return false;
 				}
+				// don't need to get a lock here since the scanner does it's own locking
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
-				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$watcher->update($internalPath, $data);
@@ -1363,6 +1359,7 @@ class View {
 
 		$mount = Filesystem::getMountManager()->find($path);
 		if (!$mount) {
+			\OC::$server->getLogger()->warning('Mountpoint not found for path: ' . $path);
 			return false;
 		}
 		$storage = $mount->getStorage();
@@ -1371,6 +1368,7 @@ class View {
 			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
 			if (!$data instanceof ICacheEntry) {
+				\OC::$server->getLogger()->debug('No cache entry found for ' . $path . ' (storage: ' . $storage->getId() . ', internalPath: ' . $internalPath . ')');
 				return false;
 			}
 
@@ -1394,6 +1392,8 @@ class View {
 			}
 
 			return $info;
+		} else {
+			\OC::$server->getLogger()->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint());
 		}
 
 		return false;
@@ -1464,12 +1464,11 @@ class View {
 							continue;
 						} catch (\Exception $e) {
 							// sometimes when the storage is not available it can be any exception
-							\OCP\Util::writeLog(
-								'core',
-								'Exception while scanning storage "' . $subStorage->getId() . '": ' .
-								get_class($e) . ': ' . $e->getMessage(),
-								\OCP\Util::ERROR
-							);
+							\OC::$server->getLogger()->logException($e, [
+								'message' => 'Exception while scanning storage "' . $subStorage->getId() . '"',
+								'level' => ILogger::ERROR,
+								'app' => 'lib',
+							]);
 							continue;
 						}
 						$rootEntry = $subCache->get('');
@@ -1756,7 +1755,7 @@ class View {
 		if (!$targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
 			\OCP\Util::writeLog('files',
 				'It is not allowed to move one mount point into another one',
-				\OCP\Util::DEBUG);
+				ILogger::DEBUG);
 			return false;
 		}
 
@@ -1779,7 +1778,7 @@ class View {
 		if (count($shares) > 0) {
 			\OCP\Util::writeLog('files',
 				'It is not allowed to move one mount point into a shared folder',
-				\OCP\Util::DEBUG);
+				ILogger::DEBUG);
 			return false;
 		}
 

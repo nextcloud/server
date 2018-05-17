@@ -23,6 +23,10 @@
 
 namespace OCA\User_LDAP\Tests\Jobs;
 
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\AccessFactory;
+use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Jobs\Sync;
 use OCA\User_LDAP\LDAP;
@@ -33,6 +37,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use function Sodium\memcmp;
 use Test\TestCase;
 
 class SyncTest extends TestCase {
@@ -59,6 +64,10 @@ class SyncTest extends TestCase {
 	protected $ncUserManager;
 	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $notificationManager;
+	/** @var ConnectionFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $connectionFactory;
+	/** @var AccessFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $accessFactory;
 
 	public function setUp() {
 		parent::setUp();
@@ -72,6 +81,8 @@ class SyncTest extends TestCase {
 		$this->dbc = $this->createMock(IDBConnection::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 		$this->notificationManager = $this->createMock(IManager::class);
+		$this->connectionFactory = $this->createMock(ConnectionFactory::class);
+		$this->accessFactory = $this->createMock(AccessFactory::class);
 
 		$this->arguments = [
 			'helper' => $this->helper,
@@ -83,6 +94,8 @@ class SyncTest extends TestCase {
 			'dbc' => $this->dbc,
 			'ncUserManager' => $this->ncUserManager,
 			'notificationManager' => $this->notificationManager,
+			'connectionFactory' => $this->connectionFactory,
+			'accessFactory' => $this->accessFactory,
 		];
 
 		$this->sync = new Sync();
@@ -139,6 +152,220 @@ class SyncTest extends TestCase {
 
 		$this->sync->setArgument($this->arguments);
 		$this->sync->updateInterval();
+	}
+
+	public function moreResultsProvider() {
+		return [
+			[ 3, 3, true ],
+			[ 3, 5, true ],
+			[ 3, 2, false],
+			[ 0, 4, false],
+			[ null, 4, false]
+		];
+	}
+
+	/**
+	 * @dataProvider moreResultsProvider
+	 */
+	public function testMoreResults($pagingSize, $results, $expected) {
+		$connection = $this->createMock(Connection::class);
+		$this->connectionFactory->expects($this->any())
+			->method('get')
+			->willReturn($connection);
+		$connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($key) use ($pagingSize) {
+				if($key === 'ldapPagingSize') {
+					return $pagingSize;
+				}
+				return null;
+			});
+
+		/** @var Access|\PHPUnit_Framework_MockObject_MockObject $access */
+		$access = $this->createMock(Access::class);
+		$this->accessFactory->expects($this->any())
+			->method('get')
+			->with($connection)
+			->willReturn($access);
+
+		$access->expects($this->once())
+			->method('fetchListOfUsers')
+			->willReturn(array_pad([], $results, 'someUser'));
+		$access->connection = $connection;
+		$access->userManager = $this->userManager;
+
+		$this->sync->setArgument($this->arguments);
+		$hasMoreResults = $this->sync->runCycle(['prefix' => 's01', 'offset' => 100]);
+		$this->assertSame($expected, $hasMoreResults);
+	}
+
+	public function cycleDataProvider() {
+		$lastCycle = ['prefix' => 's01', 'offset' => 1000];
+		$lastCycle2 = ['prefix' => '', 'offset' => 1000];
+		return [
+			[ null, ['s01'], ['prefix' => 's01', 'offset' => 0] ],
+			[ null, [''], ['prefix' => '', 'offset' => 0] ],
+			[ $lastCycle, ['s01', 's02'], ['prefix' => 's02', 'offset' => 0] ],
+			[ $lastCycle, [''], ['prefix' => '', 'offset' => 0] ],
+			[ $lastCycle2, ['', 's01'], ['prefix' => 's01', 'offset' => 0] ],
+			[ $lastCycle, [], null ],
+		];
+	}
+
+	/**
+	 * @dataProvider cycleDataProvider
+	 */
+	public function testDetermineNextCycle($cycleData, $prefixes, $expectedCycle) {
+		$this->helper->expects($this->any())
+			->method('getServerConfigurationPrefixes')
+			->with(true)
+			->willReturn($prefixes);
+
+		if(is_array($expectedCycle)) {
+			$this->config->expects($this->exactly(2))
+				->method('setAppValue')
+				->withConsecutive(
+					['user_ldap', 'background_sync_prefix', $expectedCycle['prefix']],
+					['user_ldap', 'background_sync_offset', $expectedCycle['offset']]
+				);
+		} else {
+			$this->config->expects($this->never())
+				->method('setAppValue');
+		}
+
+		$this->sync->setArgument($this->arguments);
+		$nextCycle = $this->sync->determineNextCycle($cycleData);
+
+		if($expectedCycle === null) {
+			$this->assertNull($nextCycle);
+		} else {
+			$this->assertSame($expectedCycle['prefix'], $nextCycle['prefix']);
+			$this->assertSame($expectedCycle['offset'], $nextCycle['offset']);
+		}
+	}
+
+	public function testQualifiesToRun() {
+		$cycleData = ['prefix' => 's01'];
+
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->willReturnOnConsecutiveCalls(time() - 60*40, time() - 60*20);
+
+		$this->sync->setArgument($this->arguments);
+		$this->assertTrue($this->sync->qualifiesToRun($cycleData));
+		$this->assertFalse($this->sync->qualifiesToRun($cycleData));
+	}
+
+	public function runDataProvider() {
+		return [
+			#0 - one LDAP server, reset
+			[[
+				'prefixes' => [''],
+				'scheduledCycle' => ['prefix' => '', 'offset' => '4500'],
+				'pagingSize' => 500,
+				'usersThisCycle' => 0,
+				'expectedNextCycle' => ['prefix' => '', 'offset' => '0'],
+				'mappedUsers' => 123,
+			]],
+			#1 - 2 LDAP servers, next prefix
+			[[
+				'prefixes' => ['', 's01'],
+				'scheduledCycle' => ['prefix' => '', 'offset' => '4500'],
+				'pagingSize' => 500,
+				'usersThisCycle' => 0,
+				'expectedNextCycle' => ['prefix' => 's01', 'offset' => '0'],
+				'mappedUsers' => 123,
+			]],
+			#2 - 2 LDAP servers, rotate prefix
+			[[
+				'prefixes' => ['', 's01'],
+				'scheduledCycle' => ['prefix' => 's01', 'offset' => '4500'],
+				'pagingSize' => 500,
+				'usersThisCycle' => 0,
+				'expectedNextCycle' => ['prefix' => '', 'offset' => '0'],
+				'mappedUsers' => 123,
+			]],
+		];
+	}
+
+	/**
+	 * @dataProvider runDataProvider
+	 */
+	public function testRun($runData) {
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(function($app, $key, $default) use ($runData) {
+				if($app === 'core' && $key === 'backgroundjobs_mode') {
+					return 'cron';
+				}
+				if($app = 'user_ldap') {
+					// for getCycle()
+					if($key === 'background_sync_prefix') {
+						return $runData['scheduledCycle']['prefix'];
+					}
+					if($key === 'background_sync_offset') {
+						return $runData['scheduledCycle']['offset'];
+					}
+					// for qualifiesToRun()
+					if($key === $runData['scheduledCycle']['prefix'] . '_lastChange') {
+						return time() - 60*40;
+					}
+					// for getMinPagingSize
+					if($key === $runData['scheduledCycle']['prefix'] . 'ldap_paging_size') {
+						return $runData['pagingSize'];
+					}
+				}
+
+				return $default;
+			});
+		$this->config->expects($this->exactly(3))
+			->method('setAppValue')
+			->withConsecutive(
+				['user_ldap', 'background_sync_prefix', $runData['expectedNextCycle']['prefix']],
+				['user_ldap', 'background_sync_offset', $runData['expectedNextCycle']['offset']],
+				['user_ldap', 'background_sync_interval', $this->anything()]
+			);
+		$this->config->expects($this->any())
+			->method('getAppKeys')
+			->with('user_ldap')
+			->willReturn([$runData['scheduledCycle']['prefix'] . 'ldap_paging_size']);
+
+		$this->helper->expects($this->any())
+			->method('getServerConfigurationPrefixes')
+			->with(true)
+			->willReturn($runData['prefixes']);
+
+		$connection = $this->createMock(Connection::class);
+		$this->connectionFactory->expects($this->any())
+			->method('get')
+			->willReturn($connection);
+		$connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($key) use ($runData) {
+				if($key === 'ldapPagingSize') {
+					return $runData['pagingSize'];
+				}
+				return null;
+			});
+
+		/** @var Access|\PHPUnit_Framework_MockObject_MockObject $access */
+		$access = $this->createMock(Access::class);
+		$this->accessFactory->expects($this->any())
+			->method('get')
+			->with($connection)
+			->willReturn($access);
+
+		$access->expects($this->once())
+			->method('fetchListOfUsers')
+			->willReturn(array_pad([], $runData['usersThisCycle'], 'someUser'));
+		$access->connection = $connection;
+		$access->userManager = $this->userManager;
+
+		$this->mapper->expects($this->any())
+			->method('count')
+			->willReturn($runData['mappedUsers']);
+
+		$this->sync->run($this->arguments);
 	}
 
 }

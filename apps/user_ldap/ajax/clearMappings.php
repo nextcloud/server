@@ -27,23 +27,33 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
 
 // Check user and app status
-OCP\JSON::checkAdminUser();
-OCP\JSON::checkAppEnabled('user_ldap');
-OCP\JSON::callCheck();
+\OC_JSON::checkAdminUser();
+\OC_JSON::checkAppEnabled('user_ldap');
+\OC_JSON::callCheck();
 
 $subject = (string)$_POST['ldap_clear_mapping'];
 $mapping = null;
-if($subject === 'user') {
-	$mapping = new UserMapping(\OC::$server->getDatabaseConnection());
-} else if($subject === 'group') {
-	$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
-}
 try {
-	if(is_null($mapping) || !$mapping->clear()) {
+	if($subject === 'user') {
+		$mapping = new UserMapping(\OC::$server->getDatabaseConnection());
+		$result = $mapping->clearCb(
+			function ($uid) {
+				\OC::$server->getUserManager()->emit('\OC\User', 'preUnassignedUserId', [$uid]);
+			},
+			function ($uid) {
+				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
+			}
+		);
+	} else if($subject === 'group') {
+		$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
+		$result = $mapping->clear();
+	}
+
+	if($mapping === null || !$result) {
 		$l = \OC::$server->getL10N('user_ldap');
 		throw new \Exception($l->t('Failed to clear the mappings.'));
 	}
-	OCP\JSON::success();
+	\OC_JSON::success();
 } catch (\Exception $e) {
-	OCP\JSON::error(array('message' => $e->getMessage()));
+	\OC_JSON::error(array('message' => $e->getMessage()));
 }

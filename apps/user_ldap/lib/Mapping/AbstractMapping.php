@@ -279,6 +279,32 @@ abstract class AbstractMapping {
 	}
 
 	/**
+	 * clears the mapping table one by one and executing a callback with
+	 * each row's id (=owncloud_name col)
+	 *
+	 * @param callable $preCallback
+	 * @param callable $postCallback
+	 * @return bool true on success, false when at least one row was not
+	 * deleted
+	 */
+	public function clearCb(Callable $preCallback, Callable $postCallback): bool {
+		$picker = $this->dbc->getQueryBuilder();
+		$picker->select('owncloud_name')
+			->from($this->getTableName());
+		$cursor = $picker->execute();
+		$result = true;
+		while($id = $cursor->fetchColumn(0)) {
+			$preCallback($id);
+			if($isUnmapped = $this->unmap($id)) {
+				$postCallback($id);
+			}
+			$result &= $isUnmapped;
+		}
+		$cursor->closeCursor();
+		return $result;
+	}
+
+	/**
 	 * returns the number of entries in the mappings table
 	 *
 	 * @return int

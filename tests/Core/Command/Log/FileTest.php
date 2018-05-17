@@ -105,7 +105,7 @@ class FileTest extends TestCase {
 				['log_type', 'file', 'log_type_value'],
 				['datadirectory', \OC::$SERVERROOT.'/data', '/data/directory/'],
 				['logfile', '/data/directory/nextcloud.log', '/var/log/nextcloud.log'],
-				['log_rotate_size', 0, 5 * 1024 * 1024],
+				['log_rotate_size', 100 * 1024 * 1024, 5 * 1024 * 1024],
 			]));
 
 		$this->consoleOutput->expects($this->at(0))

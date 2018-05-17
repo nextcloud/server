@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -22,7 +23,6 @@
  */
 namespace OC\Preview;
 
-use OCP\Files\File;
 use OCP\Files\Node;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
@@ -39,9 +39,6 @@ class Watcher {
 	/** @var IAppData */
 	private $appData;
 
-	/** @var int[] */
-	private $toDelete = [];
-
 	/**
 	 * Watcher constructor.
 	 *
@@ -52,53 +49,26 @@ class Watcher {
 	}
 
 	public function postWrite(Node $node) {
+		$this->deleteNode($node);
+	}
+
+	protected function deleteNode(Node $node) {
 		// We only handle files
 		if ($node instanceof Folder) {
 			return;
 		}
 
 		try {
-			$folder = $this->appData->getFolder($node->getId());
+			$folder = $this->appData->getFolder((string)$node->getId());
 			$folder->delete();
 		} catch (NotFoundException $e) {
 			//Nothing to do
 		}
 	}
 
-	public function preDelete(Node $node) {
-		// To avoid cycles
-		if ($this->toDelete !== []) {
-			return;
-		}
-
-		if ($node instanceof File) {
-			$this->toDelete[] = $node->getId();
-			return;
-		}
-
-		/** @var Folder $node */
-		$this->deleteFolder($node);
-	}
-
-	private function deleteFolder(Folder $folder) {
-		$nodes = $folder->getDirectoryListing();
-		foreach ($nodes as $node) {
-			if ($node instanceof File) {
-				$this->toDelete[] = $node->getId();
-			} else if ($node instanceof Folder) {
-				$this->deleteFolder($node);
-			}
-		}
-	}
-
-	public function postDelete(Node $node) {
-		foreach ($this->toDelete as $fid) {
-			try {
-				$folder = $this->appData->getFolder($fid);
-				$folder->delete();
-			} catch (NotFoundException $e) {
-				// continue
-			}
+	public function versionRollback(array $data) {
+		if (isset($data['node'])) {
+			$this->deleteNode($data['node']);
 		}
 	}
 }

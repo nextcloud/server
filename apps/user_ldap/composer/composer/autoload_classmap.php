@@ -7,6 +7,7 @@ $baseDir = $vendorDir;
 
 return array(
     'OCA\\User_LDAP\\Access' => $baseDir . '/../lib/Access.php',
+    'OCA\\User_LDAP\\AccessFactory' => $baseDir . '/../lib/AccessFactory.php',
     'OCA\\User_LDAP\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\User_LDAP\\BackendUtility' => $baseDir . '/../lib/BackendUtility.php',
     'OCA\\User_LDAP\\Command\\CheckUser' => $baseDir . '/../lib/Command/CheckUser.php',
@@ -19,6 +20,7 @@ return array(
     'OCA\\User_LDAP\\Command\\TestConfig' => $baseDir . '/../lib/Command/TestConfig.php',
     'OCA\\User_LDAP\\Configuration' => $baseDir . '/../lib/Configuration.php',
     'OCA\\User_LDAP\\Connection' => $baseDir . '/../lib/Connection.php',
+    'OCA\\User_LDAP\\ConnectionFactory' => $baseDir . '/../lib/ConnectionFactory.php',
     'OCA\\User_LDAP\\Controller\\ConfigAPIController' => $baseDir . '/../lib/Controller/ConfigAPIController.php',
     'OCA\\User_LDAP\\Controller\\RenewPasswordController' => $baseDir . '/../lib/Controller/RenewPasswordController.php',
     'OCA\\User_LDAP\\Exceptions\\ConstraintViolationException' => $baseDir . '/../lib/Exceptions/ConstraintViolationException.php',

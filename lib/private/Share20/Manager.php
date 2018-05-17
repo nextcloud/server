@@ -64,6 +64,7 @@ use OCP\Share\IProviderFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IShareProvider;
+use OCP\Share;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -536,7 +537,7 @@ class Manager implements IManager {
 				/** @var \OCA\Files_Sharing\SharedStorage $storage */
 				$share->setParent($storage->getShareId());
 			}
-		};
+		}
 	}
 
 	/**
@@ -734,7 +735,7 @@ class Manager implements IManager {
 		$text = $l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
 
 		$emailTemplate->addBodyText(
-			$text . ' ' . $l->t('Click the button below to open it.'),
+			htmlspecialchars($text . ' ' . $l->t('Click the button below to open it.')),
 			$text
 		);
 		$emailTemplate->addBodyButton(
@@ -838,7 +839,7 @@ class Manager implements IManager {
 		}
 
 		if ($expirationDateUpdated === true) {
-			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
+			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'date' => $share->getExpirationDate(),
@@ -847,7 +848,7 @@ class Manager implements IManager {
 		}
 
 		if ($share->getPassword() !== $originalShare->getPassword()) {
-			\OC_Hook::emit('OCP\Share', 'post_update_password', [
+			\OC_Hook::emit(Share::class, 'post_update_password', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'uidOwner' => $share->getSharedBy(),
@@ -862,7 +863,7 @@ class Manager implements IManager {
 			} else {
 				$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 			}
-			\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
+			\OC_Hook::emit(Share::class, 'post_update_permissions', array(
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'shareType' => $share->getShareType(),

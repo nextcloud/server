@@ -87,14 +87,14 @@ class Manager implements ICommentsManager {
 	 * @return array
 	 */
 	protected function normalizeDatabaseData(array $data) {
-		$data['id'] = strval($data['id']);
-		$data['parent_id'] = strval($data['parent_id']);
-		$data['topmost_parent_id'] = strval($data['topmost_parent_id']);
+		$data['id'] = (string)$data['id'];
+		$data['parent_id'] = (string)$data['parent_id'];
+		$data['topmost_parent_id'] = (string)$data['topmost_parent_id'];
 		$data['creation_timestamp'] = new \DateTime($data['creation_timestamp']);
 		if (!is_null($data['latest_child_timestamp'])) {
 			$data['latest_child_timestamp'] = new \DateTime($data['latest_child_timestamp']);
 		}
-		$data['children_count'] = intval($data['children_count']);
+		$data['children_count'] = (int)$data['children_count'];
 		return $data;
 	}
 
@@ -171,7 +171,7 @@ class Manager implements ICommentsManager {
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
 		$resultStatement->closeCursor();
-		$children = intval($data[0]);
+		$children = (int)$data[0];
 
 		$comment = $this->get($id);
 		$comment->setChildrenCount($children);
@@ -207,7 +207,7 @@ class Manager implements ICommentsManager {
 		if (empty($id)) {
 			return;
 		}
-		$this->commentsCache[strval($id)] = $comment;
+		$this->commentsCache[(string)$id] = $comment;
 	}
 
 	/**
@@ -216,7 +216,7 @@ class Manager implements ICommentsManager {
 	 * @param mixed $id the comment's id
 	 */
 	protected function uncache($id) {
-		$id = strval($id);
+		$id = (string)$id;
 		if (isset($this->commentsCache[$id])) {
 			unset($this->commentsCache[$id]);
 		}
@@ -232,7 +232,7 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function get($id) {
-		if (intval($id) === 0) {
+		if ((int)$id === 0) {
 			throw new \InvalidArgumentException('IDs must be translatable to a number in this implementation.');
 		}
 
@@ -377,6 +377,123 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
+	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
+	 * @param int $limit optional, number of maximum comments to be returned. if
+	 * set to 0, all comments are returned.
+	 * @return IComment[]
+	 * @return array
+	 */
+	public function getForObjectSince(
+		string $objectType,
+		string $objectId,
+		int $lastKnownCommentId,
+		string $sortDirection = 'asc',
+		int $limit = 30
+	): array {
+		$comments = [];
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('*')
+			->from('comments')
+			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
+			->orderBy('creation_timestamp', $sortDirection === 'desc' ? 'DESC' : 'ASC')
+			->addOrderBy('id', $sortDirection === 'desc' ? 'DESC' : 'ASC');
+
+		if ($limit > 0) {
+			$query->setMaxResults($limit);
+		}
+
+		$lastKnownComment = $lastKnownCommentId > 0 ? $this->getLastKnownComment(
+			$objectType,
+			$objectId,
+			$lastKnownCommentId
+		) : null;
+		if ($lastKnownComment instanceof IComment) {
+			$lastKnownCommentDateTime = $lastKnownComment->getCreationDateTime();
+			if ($sortDirection === 'desc') {
+				$query->andWhere(
+					$query->expr()->orX(
+						$query->expr()->lt(
+							'creation_timestamp',
+							$query->createNamedParameter($lastKnownCommentDateTime, IQueryBuilder::PARAM_DATE),
+							IQueryBuilder::PARAM_DATE
+						),
+						$query->expr()->andX(
+							$query->expr()->eq(
+								'creation_timestamp',
+								$query->createNamedParameter($lastKnownCommentDateTime, IQueryBuilder::PARAM_DATE),
+								IQueryBuilder::PARAM_DATE
+							),
+							$query->expr()->lt('id', $query->createNamedParameter($lastKnownCommentId))
+						)
+					)
+				);
+			} else {
+				$query->andWhere(
+					$query->expr()->orX(
+						$query->expr()->gt(
+							'creation_timestamp',
+							$query->createNamedParameter($lastKnownCommentDateTime, IQueryBuilder::PARAM_DATE),
+							IQueryBuilder::PARAM_DATE
+						),
+						$query->expr()->andX(
+							$query->expr()->eq(
+								'creation_timestamp',
+								$query->createNamedParameter($lastKnownCommentDateTime, IQueryBuilder::PARAM_DATE),
+								IQueryBuilder::PARAM_DATE
+							),
+							$query->expr()->gt('id', $query->createNamedParameter($lastKnownCommentId))
+						)
+					)
+				);
+			}
+		}
+
+		$resultStatement = $query->execute();
+		while ($data = $resultStatement->fetch()) {
+			$comment = new Comment($this->normalizeDatabaseData($data));
+			$this->cache($comment);
+			$comments[] = $comment;
+		}
+		$resultStatement->closeCursor();
+
+		return $comments;
+	}
+
+	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param int $id the comment to look for
+	 * @return Comment|null
+	 */
+	protected function getLastKnownComment(string $objectType,
+										   string $objectId,
+										   int $id) {
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('*')
+			->from('comments')
+			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
+			->andWhere($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		if ($row) {
+			$comment = new Comment($this->normalizeDatabaseData($row));
+			$this->cache($comment);
+			return $comment;
+		}
+
+		return null;
+	}
+
+	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
@@ -402,7 +519,7 @@ class Manager implements ICommentsManager {
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
 		$resultStatement->closeCursor();
-		return intval($data[0]);
+		return (int)$data[0];
 	}
 
 	/**
@@ -569,7 +686,7 @@ class Manager implements ICommentsManager {
 			->execute();
 
 		if ($affectedRows > 0) {
-			$comment->setId(strval($qb->getLastInsertId()));
+			$comment->setId((string)$qb->getLastInsertId());
 			$this->sendEvent(CommentsEvent::EVENT_ADD, $comment);
 		}
 

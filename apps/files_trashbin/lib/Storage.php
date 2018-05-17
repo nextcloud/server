@@ -130,8 +130,11 @@ class Storage extends Wrapper {
 			}
 		} catch (\Exception $e) {
 			// do nothing, in this case we just disable the trashbin and continue
-			$logger = \OC::$server->getLogger();
-			$logger->debug('Trashbin storage could not check if a file was moved out of a shared folder: ' . $e->getMessage());
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'Trashbin storage could not check if a file was moved out of a shared folder.',
+				'level' => ILogger::DEBUG,
+				'app' => 'files_trashbin',
+			]);
 		}
 
 		if($fileMovedOutOfSharedFolder) {
@@ -251,8 +254,7 @@ class Storage extends Wrapper {
 	 * @return MoveToTrashEvent
 	 */
 	protected function createMoveToTrashEvent(Node $node) {
-		$event = new MoveToTrashEvent($node);
-		return $event;
+		return new MoveToTrashEvent($node);
 	}
 
 	/**
@@ -266,7 +268,7 @@ class Storage extends Wrapper {
 	 */
 	private function doDelete($path, $method, $ownerOnly = false) {
 		if (self::$disableTrash
-			|| !\OC_App::isEnabled('files_trashbin')
+			|| !\OC::$server->getAppManager()->isEnabledForUser('files_trashbin')
 			|| (pathinfo($path, PATHINFO_EXTENSION) === 'part')
 			|| $this->shouldMoveToTrash($path) === false
 		) {

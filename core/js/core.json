@@ -46,6 +46,7 @@
 		"config.js",
 		"public/appconfig.js",
 		"public/comments.js",
+		"public/publicpage.js",
 		"multiselect.js",
 		"oc-requesttoken.js",
 		"setupchecks.js",

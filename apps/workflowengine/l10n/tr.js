@@ -1,6 +1,8 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Grup listesi boş",
+    "Unable to retrieve the group list" : "Grup listesi alınamadı",
     "Saved" : "Kaydedildi",
     "Saving failed:" : "Kaydedilemedi:",
     "File MIME type" : "Dosya MIME türü",
@@ -59,6 +61,7 @@ OC.L10N.register(
     "Check %s is invalid" : "%s denetimi geçersiz",
     "Check #%s does not exist" : "#%s denetimi bulunamadı",
     "Workflow" : "İş akışı",
+    "Files workflow engine" : "Dosya iş akışı motoru",
     "Open documentation" : "Belgeleri aç",
     "Add rule group" : "Kural grubu ekle",
     "Short rule description" : "Kısa kural açıklaması",
@@ -66,8 +69,6 @@ OC.L10N.register(
     "Reset" : "Sıfırla",
     "Save" : "Kaydet",
     "Saving…" : "Kaydediliyor...",
-    "Loading…" : "Yükleniyor...",
-    "Successfully saved" : "Kaydedildi",
-    "File mime type" : "Dosya MIME türü"
+    "Loading…" : "Yükleniyor..."
 },
 "nplurals=2; plural=(n > 1);");

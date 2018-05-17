@@ -183,17 +183,19 @@ body {
 		font-size: 1.2em;
 		padding: 3px;
 		padding-left: 25px;
-		background: transparent url('../img/actions/search-white.svg?v=1') no-repeat 6px center;
+		padding-right: 20px;
+		background: transparent url('../img/actions/search-white.svg?v=1') no-repeat center center;
 		color: $color-primary-text;
 		border: 0;
 		border-radius: $border-radius;
-		margin-top: 3px;
+		margin-top: 9px;
 		width: 0;
 		cursor: pointer;
 		-webkit-transition: all 100ms;
 		transition: all 100ms;
 		opacity: .6;
 		&:focus, &:active, &:valid {
+			background-position-x: 6px;
 			color: $color-primary-text;
 			width: 155px;
 			cursor: text;
@@ -206,10 +208,11 @@ body {
 		& ~ .icon-close-white {
 			display: inline;
 			position: absolute;
-			width: 15px;
-			height: 32px;
-			right: 3px;
+			width: 30px;
+			height: 100%;
+			right: 0;
 			top: 0;
+			margin: 0;
 			&, &:focus, &:active, &:hover {
 				border: none;
 				background-color: transparent;
@@ -253,29 +256,21 @@ body {
 	box-sizing: border-box;
 }
 
-#controls {
-	.button, button {
-		box-sizing: border-box;
-		display: inline-block;
-		height: 36px;
-		padding: 7px 10px;
-	}
-	input {
-		&[type='submit'], &[type='text'], &[type='password'] {
+#controls .actions {
+	> div,
+	& {
+		> .button, button {
 			box-sizing: border-box;
 			display: inline-block;
+			display: flex;
 			height: 36px;
-			padding: 7px 10px;
+			width: 36px;
+			align-items: center;
+			justify-content: center;
 		}
-	}
-	select {
-		box-sizing: border-box;
-		display: inline-block;
-		height: 36px;
-		padding: 7px 10px;
-	}
-	.button.hidden {
-		display: none;
+		.button.hidden {
+			display: none;
+		}
 	}
 }
 
@@ -294,7 +289,7 @@ body {
 	width: 100%;
 	overflow-x: hidden;
 	/* prevent horizontal scrollbar */
-	padding-top: 45px;
+	padding-top: 50px;
 	box-sizing: border-box;
 }
 
@@ -448,9 +443,12 @@ body {
 	.strengthify-wrapper {
 		display: inline-block;
 		position: relative;
-		left: 15px;
-		top: -23px;
-		width: 250px;
+		left: 5px;
+		top: -20px;
+		width: 269px;
+		border-radius: 0 0 2px 2px;
+		overflow: hidden;
+		height: 3px;
 	}
 	input {
 		&[type='text'], &[type='password'], &[type='email'] {
@@ -929,40 +927,6 @@ code {
 	font-family: 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', monospace;
 }
 
-#body-settings #quota {
-	cursor: default;
-	margin: 30px !important;
-	position: relative;
-	padding: 0 !important;
-	progress {
-		height: 36px;
-		&::-moz-progress-bar {
-			border-radius: 3px 0 0 3px;
-		}
-		&::-webkit-progress-value {
-			border-radius: 3px 0 0 3px;
-		}
-	}
-	div {
-		font-weight: normal;
-		white-space: nowrap;
-		position: absolute;;
-		top: 0;
-		&.quotatext-bg {
-			mix-blend-mode: luminosity;
-		}
-		&.quotatext-fg {
-			color: $color-primary-text;
-			overflow: hidden;
-			z-index: 50;
-			max-width: 100%;
-		}
-		.quotatext {
-			padding: .6em 1em;
-		}
-	}
-}
-
 .pager {
 	list-style: none;
 	float: right;
@@ -1030,6 +994,8 @@ code {
 			font-weight: normal;
 			color: nc-lighten($color-main-text, 33%);
 			opacity: .8;
+			width: 26px;
+			padding: 2px;
 		}
 		tr:hover {
 			background-color: inherit;
@@ -1137,10 +1103,11 @@ code {
 		flex-wrap: nowrap;
 		justify-content: space-between;
 		td {
-			display: block;
-			flex: 1 1;
+			flex: 1 1 auto;
 			margin: 0;
 			padding: 2px;
+			height: 26px;
+			width: 26px;
 			display: flex;
 			align-items: center;
 			justify-content: center;

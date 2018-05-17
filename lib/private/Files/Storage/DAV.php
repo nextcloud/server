@@ -35,7 +35,8 @@ namespace OC\Files\Storage;
 
 use Exception;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Message\ResponseInterface;
+use OCP\ILogger;
+use Psr\Http\Message\ResponseInterface;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Filesystem;
 use Icewind\Streams\IteratorDirectory;
@@ -118,13 +119,9 @@ class DAV extends Common {
 					$this->certPath = $certPath;
 				}
 			}
-			$this->root = isset($params['root']) ? $params['root'] : '/';
-			if (!$this->root || $this->root[0] != '/') {
-				$this->root = '/' . $this->root;
-			}
-			if (substr($this->root, -1, 1) != '/') {
-				$this->root .= '/';
-			}
+			$this->root = $params['root'] ?? '/';
+			$this->root = '/' . ltrim($this->root, '/');
+			$this->root = rtrim($this->root, '/') . '/';
 		} else {
 			throw new \Exception('Invalid webdav storage configuration');
 		}
@@ -348,7 +345,7 @@ class DAV extends Common {
 							'auth' => [$this->user, $this->password],
 							'stream' => true
 						]);
-				} catch (RequestException $e) {
+				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
 						&& $e->getResponse()->getStatusCode() === 404) {
 						return false;
@@ -361,7 +358,7 @@ class DAV extends Common {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
 						throw new \OCP\Lock\LockedException($path);
 					} else {
-						Util::writeLog("webdav client", 'Guzzle get returned status code ' . $response->getStatusCode(), Util::ERROR);
+						Util::writeLog("webdav client", 'Guzzle get returned status code ' . $response->getStatusCode(), ILogger::ERROR);
 					}
 				}
 
@@ -774,7 +771,7 @@ class DAV extends Common {
 			if ($response === false) {
 				if ($path === '') {
 					// if root is gone it means the storage is not available
-					throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
+					throw new StorageNotAvailableException('root is gone');
 				}
 				return false;
 			}
@@ -830,8 +827,7 @@ class DAV extends Common {
 	 * which might be temporary
 	 */
 	protected function convertException(Exception $e, $path = '') {
-		\OC::$server->getLogger()->logException($e);
-		Util::writeLog('files_external', $e->getMessage(), Util::ERROR);
+		\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
 				throw new \OCP\Lock\LockedException($path);

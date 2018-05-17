@@ -43,7 +43,7 @@
 				}
 
 				var linkText = url.replace(self.protocolRegex, '');
-				return '<a class="external" href="' + url + '">' + linkText + '</a>';
+				return '<a class="external" target="_blank" rel="noopener noreferrer" href="' + url + '">' + linkText + '</a>';
 			});
 		},
 

@@ -25,5 +25,8 @@ return [
 	'routes' => [
 		['name' => 'birthday_calendar#enable', 'url' => '/enableBirthdayCalendar', 'verb' => 'POST'],
 		['name' => 'birthday_calendar#disable', 'url' => '/disableBirthdayCalendar', 'verb' => 'POST'],
-	]
+	],
+	'ocs' => [
+		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],
+	],
 ];

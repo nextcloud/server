@@ -23,7 +23,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\JSON::checkLoggedIn();
+
+use OCP\Files\StorageNotAvailableException;
+use OCP\Files\StorageInvalidException;
+
+\OC_JSON::checkLoggedIn();
 \OC::$server->getSession()->close();
 $l = \OC::$server->getL10N('files');
 
@@ -39,7 +43,7 @@ try {
 	}
 
 	$data = array();
-	$baseUrl = OCP\Util::linkTo('files', 'index.php') . '?dir=';
+	$baseUrl = \OC::$server->getURLGenerator()->linkTo('files', 'index.php') . '?dir=';
 
 	$permissions = $dirInfo->getPermissions();
 
@@ -75,28 +79,28 @@ try {
 	$data['files'] = \OCA\Files\Helper::formatFileInfos($files);
 	$data['permissions'] = $permissions;
 
-	OCP\JSON::success(array('data' => $data));
+	\OC_JSON::success(array('data' => $data));
 } catch (\OCP\Files\StorageNotAvailableException $e) {
-	\OCP\Util::logException('files', $e);
-	OCP\JSON::error([
+	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
+	\OC_JSON::error([
 		'data' => [
-			'exception' => '\OCP\Files\StorageNotAvailableException',
+			'exception' => StorageNotAvailableException::class,
 			'message' => $l->t('Storage is temporarily not available')
 		]
 	]);
 } catch (\OCP\Files\StorageInvalidException $e) {
-	\OCP\Util::logException('files', $e);
-	OCP\JSON::error(array(
+	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
+	\OC_JSON::error(array(
 		'data' => array(
-			'exception' => '\OCP\Files\StorageInvalidException',
+			'exception' => StorageInvalidException::class,
 			'message' => $l->t('Storage invalid')
 		)
 	));
 } catch (\Exception $e) {
-	\OCP\Util::logException('files', $e);
-	OCP\JSON::error(array(
+	\OC::$server->getLogger()->logException($e, ['app' => 'files']);
+	\OC_JSON::error(array(
 		'data' => array(
-			'exception' => '\Exception',
+			'exception' => \Exception::class,
 			'message' => $l->t('Unknown error')
 		)
 	));

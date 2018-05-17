@@ -13,6 +13,7 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Kétfaktoros helyreállítási kódot hoztál létre a fiókodhoz",
     "Backup code" : "Biztonsági kód",
     "Use backup code" : "Biztonsági kód használata",
+    "Two factor backup codes" : "Kétfaktoros biztonsági mentési kódok",
     "Second-factor backup codes" : "Második lépcsős biztonsági kódok"
 },
 "nplurals=2; plural=(n != 1);");

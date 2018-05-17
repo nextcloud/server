@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 კლიენტები",
     "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 გარე სერვისებს ანიჭებს %s-ზე წვდომის მოთხოვნის უფლებას.",
     "Name" : "სახელი",
@@ -10,4 +11,4 @@ OC.L10N.register(
     "Add client" : "კლიენტის დამატება",
     "Add" : "დამატება"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n==1);");

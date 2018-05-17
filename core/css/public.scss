@@ -1,0 +1,47 @@
+#body-public {
+	.header-right {
+
+		#header-primary-action a {
+			color: $color-primary-text;
+		}
+
+		.menutoggle,
+		#header-primary-action[class^='icon-'] {
+			padding: 14px;
+			padding-right: 40px;
+			background-position: right 15px center;
+			color: $color-primary-text;
+			cursor: pointer;
+		}
+
+		#header-secondary-action {
+			margin-right: 13px;
+
+			ul li {
+				min-width: 270px;
+			}
+			#save-external-share {
+				form {
+					display: flex;
+					margin: 0;
+				}
+				.hidden {
+					display: none;
+				}
+				#save-button-confirm {
+					flex-grow: 0;
+				}
+			}
+		}
+	}
+
+	#content {
+		height: initial;
+		min-height: calc(100vh - 160px);
+	}
+
+	/* force layout to make sure the content element's height matches its contents' height */
+	.ie #content {
+		display: inline-block;
+	}
+}

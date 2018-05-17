@@ -35,6 +35,7 @@ use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\LogWrapper;
 use OCP\IAvatarManager;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Util;
@@ -125,10 +126,10 @@ class User {
 		INotificationManager $notificationManager) {
 	
 		if ($username === null) {
-			$log->log("uid for '$dn' must not be null!", Util::ERROR);
+			$log->log("uid for '$dn' must not be null!", ILogger::ERROR);
 			throw new \InvalidArgumentException('uid must not be null!');
 		} else if ($username === '') {
-			$log->log("uid for '$dn' must not be an empty string", Util::ERROR);
+			$log->log("uid for '$dn' must not be an empty string", ILogger::ERROR);
 			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
 
@@ -194,11 +195,11 @@ class User {
 		$displayName = $displayName2 = '';
 		$attr = strtolower($this->connection->ldapUserDisplayName);
 		if(isset($ldapEntry[$attr])) {
-			$displayName = strval($ldapEntry[$attr][0]);
+			$displayName = (string)$ldapEntry[$attr][0];
 		}
 		$attr = strtolower($this->connection->ldapUserDisplayName2);
 		if(isset($ldapEntry[$attr])) {
-			$displayName2 = strval($ldapEntry[$attr][0]);
+			$displayName2 = (string)$ldapEntry[$attr][0];
 		}
 		if ($displayName !== '') {
 			$this->composeAndStoreDisplayName($displayName);
@@ -281,7 +282,7 @@ class User {
 	 * @throws \Exception
 	 */
 	public function getHomePath($valueFromLDAP = null) {
-		$path = strval($valueFromLDAP);
+		$path = (string)$valueFromLDAP;
 		$attr = null;
 
 		if (is_null($valueFromLDAP)
@@ -387,7 +388,7 @@ class User {
 		$lastChecked = $this->config->getUserValue($this->uid, 'user_ldap',
 			self::USER_PREFKEY_LASTREFRESH, 0);
 
-		if((time() - intval($lastChecked)) < intval($this->config->getAppValue('user_ldap', 'updateAttributesInterval', 86400)) ) {
+		if((time() - (int)$lastChecked) < (int)$this->config->getAppValue('user_ldap', 'updateAttributesInterval', 86400)) {
 			return false;
 		}
 		return  true;
@@ -412,7 +413,7 @@ class User {
 	 * @returns string the effective display name
 	 */
 	public function composeAndStoreDisplayName($displayName, $displayName2 = '') {
-		$displayName2 = strval($displayName2);
+		$displayName2 = (string)$displayName2;
 		if($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
@@ -452,20 +453,20 @@ class User {
 		if($this->wasRefreshed('email')) {
 			return;
 		}
-		$email = strval($valueFromLDAP);
+		$email = (string)$valueFromLDAP;
 		if(is_null($valueFromLDAP)) {
 			$emailAttribute = $this->connection->ldapEmailAttribute;
 			if ($emailAttribute !== '') {
 				$aEmail = $this->access->readAttribute($this->dn, $emailAttribute);
 				if(is_array($aEmail) && (count($aEmail) > 0)) {
-					$email = strval($aEmail[0]);
+					$email = (string)$aEmail[0];
 				}
 			}
 		}
 		if ($email !== '') {
 			$user = $this->userManager->get($this->uid);
 			if (!is_null($user)) {
-				$currentEmail = strval($user->getEMailAddress());
+				$currentEmail = (string)$user->getEMailAddress();
 				if ($currentEmail !== $email) {
 					$user->setEMailAddress($email);
 				}
@@ -507,7 +508,7 @@ class User {
 					if ($this->verifyQuotaValue($aQuota[0])) {
 						$quota = $aQuota[0];
 					} else {
-						$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', \OCP\Util::WARN);
+						$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', ILogger::WARN);
 					}
 				}
 			}
@@ -515,7 +516,7 @@ class User {
 			if ($this->verifyQuotaValue($valueFromLDAP)) {
 				$quota = $valueFromLDAP;
 			} else {
-				$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', \OCP\Util::WARN);
+				$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', ILogger::WARN);
 			}
 		}
 
@@ -532,10 +533,10 @@ class User {
 			if($quota !== false) {
 				$targetUser->setQuota($quota);
 			} else {
-				$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', \OCP\Util::WARN);
+				$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', ILogger::WARN);
 			}
 		} else {
-			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', \OCP\Util::ERROR);
+			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', ILogger::ERROR);
 		}
 	}
 
@@ -577,13 +578,13 @@ class User {
 	 */
 	private function setOwnCloudAvatar() {
 		if(!$this->image->valid()) {
-			$this->log->log('jpegPhoto data invalid for '.$this->dn, \OCP\Util::ERROR);
+			$this->log->log('jpegPhoto data invalid for '.$this->dn, ILogger::ERROR);
 			return;
 		}
 		//make sure it is a square and not bigger than 128x128
 		$size = min(array($this->image->width(), $this->image->height(), 128));
 		if(!$this->image->centerCrop($size)) {
-			$this->log->log('croping image for avatar failed for '.$this->dn, \OCP\Util::ERROR);
+			$this->log->log('croping image for avatar failed for '.$this->dn, ILogger::ERROR);
 			return;
 		}
 
@@ -595,9 +596,11 @@ class User {
 			$avatar = $this->avatarManager->getAvatar($this->uid);
 			$avatar->set($this->image);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->notice(
-				'Could not set avatar for ' . $this->dn	. ', because: ' . $e->getMessage(),
-				['app' => 'user_ldap']);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'Could not set avatar for ' . $this->dn,
+				'level' => ILogger::INFO,
+				'app' => 'user_ldap',
+			]);
 		}
 	}
 
@@ -608,13 +611,13 @@ class User {
 	 */
 	public function handlePasswordExpiry($params) {
 		$ppolicyDN = $this->connection->ldapDefaultPPolicyDN;
-		if (empty($ppolicyDN) || (intval($this->connection->turnOnPasswordChange) !== 1)) {
+		if (empty($ppolicyDN) || ((int)$this->connection->turnOnPasswordChange !== 1)) {
 			return;//password expiry handling disabled
 		}
 		$uid = $params['uid'];
 		if(isset($uid) && $uid === $this->getUsername()) {
 			//retrieve relevant user attributes
-			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
+			$result = $this->access->search('objectclass=*', array($this->dn), ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
 			
 			if(array_key_exists('pwdpolicysubentry', $result[0])) {
 				$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
@@ -631,7 +634,7 @@ class User {
 			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
 			$result = $this->connection->getFromCache($cacheKey);
 			if(is_null($result)) {
-				$result = $this->access->search('objectclass=*', $ppolicyDN, ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
+				$result = $this->access->search('objectclass=*', array($ppolicyDN), ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
 				$this->connection->writeToCache($cacheKey, $result);
 			}
 			
@@ -644,7 +647,7 @@ class User {
 			if($pwdGraceUseTime && $pwdGraceUseTimeCount > 0) { //was this a grace login?
 				if($pwdGraceAuthNLimit 
 					&& (count($pwdGraceAuthNLimit) > 0)
-					&&($pwdGraceUseTimeCount < intval($pwdGraceAuthNLimit[0]))) { //at least one more grace login available?
+					&&($pwdGraceUseTimeCount < (int)$pwdGraceAuthNLimit[0])) { //at least one more grace login available?
 					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
 					'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
@@ -665,8 +668,8 @@ class User {
 			if($pwdChangedTime && (count($pwdChangedTime) > 0)) {
 				if($pwdMaxAge && (count($pwdMaxAge) > 0)
 					&& $pwdExpireWarning && (count($pwdExpireWarning) > 0)) {
-					$pwdMaxAgeInt = intval($pwdMaxAge[0]);
-					$pwdExpireWarningInt = intval($pwdExpireWarning[0]);
+					$pwdMaxAgeInt = (int)$pwdMaxAge[0];
+					$pwdExpireWarningInt = (int)$pwdExpireWarning[0];
 					if($pwdMaxAgeInt > 0 && $pwdExpireWarningInt > 0){
 						$pwdChangedTimeDt = \DateTime::createFromFormat('YmdHisZ', $pwdChangedTime[0]);
 						$pwdChangedTimeDt->add(new \DateInterval('PT'.$pwdMaxAgeInt.'S'));

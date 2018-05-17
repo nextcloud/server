@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Parola veche nu este cea corectă, încearcă din nou.",
     "The current log-in password was not correct, please try again." : "Parola curentă de autentificare nu este corectă, încearcă din nou.",
     "Private key password successfully updated." : "Parola cheii private a fost actualizată cu succes.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Este necesar să migrezi cheile de criptare de la vechiul algoritm (ownCloud <= 8.0) la cel nou. Rulează 'occ encryption:migrate' sau contactează-ți administratorul.",
     "Bad Signature" : "Semnătură greșită",
     "Missing Signature" : "Semnătură lipsă",
     "The share will expire on %s." : "Partajarea va expira în data de %s.",
@@ -35,7 +34,6 @@ OC.L10N.register(
     "New recovery key password" : "Parola nouă a cheii de recuperare",
     "Repeat new recovery key password" : "Repetă parola nouă a cheii de recuperare",
     "Change Password" : "Schimbă parola",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplicația de criptare este activată dar cheile nu sunt inițializate, te rugăm reautentifică-te",
     "Your private key password no longer matches your log-in password." : "Parola cheii tale private nu se mai potrivește cu parola pentru autentificare.",
     "Old log-in password" : "Parola veche pentru autentificare",
     "Current log-in password" : "Parola curentă pentru autentificare",
@@ -43,6 +41,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Activează recuperarea parolei:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activarea acestei opțiuni îți va permite să redobândești accesul la fișierele tale criptate în cazul pierderii parolei",
     "Enabled" : "Activat",
-    "Disabled" : "Dezactivat"
+    "Disabled" : "Dezactivat",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Este necesar să migrezi cheile de criptare de la vechiul algoritm (ownCloud <= 8.0) la cel nou. Rulează 'occ encryption:migrate' sau contactează-ți administratorul."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

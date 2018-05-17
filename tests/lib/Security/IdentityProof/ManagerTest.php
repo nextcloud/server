@@ -21,6 +21,7 @@
 
 namespace Test\Security\IdentityProof;
 
+use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Security\IdentityProof\Key;
 use OC\Security\IdentityProof\Manager;
@@ -50,7 +51,7 @@ class ManagerTest extends TestCase  {
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$this->factory = $this->createMock(Factory::class);
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->factory->expects($this->any())
 			->method('get')

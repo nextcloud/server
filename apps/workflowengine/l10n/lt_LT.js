@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Unable to retrieve the group list" : "Nepavyko nuskaityti grupių sąrašo",
     "Saved" : "Įrašyta",
     "Saving failed:" : "Įrašymas nepavyko:",
     "File MIME type" : "Failo MIME tipas",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Neteisingas %s",
     "Check #%s does not exist" : "#%s neegzistuoja",
     "Workflow" : "Darbo eiga",
+    "Files workflow engine" : "Darbo eigos su failais modulis",
     "Open documentation" : "Atverti dokumentaciją",
     "Add rule group" : "Pridėti taisyklių grupę",
     "Short rule description" : "Rodyti taisyklės aprašymą",
@@ -66,8 +68,6 @@ OC.L10N.register(
     "Reset" : "Atstatyti",
     "Save" : "Įrašyti",
     "Saving…" : "Įrašoma…",
-    "Loading…" : "Įkeliama…",
-    "Successfully saved" : "Sėkmingai įrašyta",
-    "File mime type" : "Failo mime tipas"
+    "Loading…" : "Įkeliama…"
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 1 : (n%10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 3 : n % 1 != 0 ? 4);");

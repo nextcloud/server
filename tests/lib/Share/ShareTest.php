@@ -103,8 +103,8 @@ class ShareTest extends \Test\TestCase {
 		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
-		$this->resharing = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_resharing', 'yes');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', 'yes');
+		$this->resharing = \OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// 20 Minutes in the past, 20 minutes in the future.
 		$now = time();
@@ -116,7 +116,7 @@ class ShareTest extends \Test\TestCase {
 	protected function tearDown() {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', $this->resharing);
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', $this->resharing);
 
 		$this->user1->delete();
 		$this->user2->delete();
@@ -542,53 +542,6 @@ class ShareTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataRemoteShareUrlCalls() {
-		return [
-			['admin@localhost', 'localhost'],
-			['admin@https://localhost', 'localhost'],
-			['admin@http://localhost', 'localhost'],
-			['admin@localhost/subFolder', 'localhost/subFolder'],
-		];
-	}
-
-	/**
-	 * @dataProvider dataRemoteShareUrlCalls
-	 *
-	 * @param string $shareWith
-	 * @param string $urlHost
-	 */
-	public function testRemoteShareUrlCalls($shareWith, $urlHost) {
-		$httpHelperMock = $this->getMockBuilder('OC\HTTPHelper')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->overwriteService('HTTPHelper', $httpHelperMock);
-
-		$httpHelperMock->expects($this->at(0))
-			->method('post')
-			->with($this->stringStartsWith('https://' . $urlHost . '/ocs/v2.php/cloud/shares'), $this->anything())
-			->willReturn(['success' => false, 'result' => 'Exception']);
-		$httpHelperMock->expects($this->at(1))
-			->method('post')
-			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v2.php/cloud/shares'), $this->anything())
-			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
-
-		\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith, \OCP\Constants::PERMISSION_READ);
-		$shares = \OCP\Share::getItemShared('test', 'test.txt');
-		$share = array_shift($shares);
-
-		$httpHelperMock->expects($this->at(0))
-			->method('post')
-			->with($this->stringStartsWith('https://' . $urlHost . '/ocs/v2.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
-			->willReturn(['success' => false, 'result' => 'Exception']);
-		$httpHelperMock->expects($this->at(1))
-			->method('post')
-			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v2.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
-			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
-
-		\OC\Share\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith);
-		$this->restoreService('HTTPHelper');
-	}
-
 	/**
 	 * @dataProvider dataProviderTestGroupItems
 	 * @param array $ungrouped
@@ -664,41 +617,6 @@ class ShareTest extends \Test\TestCase {
 					)
 				),
 		);
-	}
-
-	/**
-	 * Make sure that a user cannot have multiple identical shares to remote users
-	 */
-	public function testOnlyOneRemoteShare() {
-		$httpHelperMock = $this->getMockBuilder('OC\HTTPHelper')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->overwriteService('HTTPHelper', $httpHelperMock);
-
-		$httpHelperMock->expects($this->at(0))
-			->method('post')
-			->with($this->stringStartsWith('https://localhost/ocs/v2.php/cloud/shares'), $this->anything())
-			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
-
-		\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
-		$shares = \OCP\Share::getItemShared('test', 'test.txt');
-		$share = array_shift($shares);
-
-		//Try share again
-		try {
-			\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
-			$this->fail('Identical remote shares are not allowed');
-		} catch (\Exception $e) {
-			$this->assertEquals('Sharing test.txt failed, because this item is already shared with foo@localhost', $e->getMessage());
-		}
-
-		$httpHelperMock->expects($this->at(0))
-			->method('post')
-			->with($this->stringStartsWith('https://localhost/ocs/v2.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
-			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
-
-		\OC\Share\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost');
-		$this->restoreService('HTTPHelper');
 	}
 
 	/**

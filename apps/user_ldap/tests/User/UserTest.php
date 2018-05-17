@@ -1132,7 +1132,7 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('search')
 			->will($this->returnCallback(function($filter, $base) {
-				if($base === 'uid=alice') {
+				if($base === array('uid=alice')) {
 					return array(
 						array(
 							'pwdchangedtime' => array((new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'),
@@ -1140,7 +1140,7 @@ class UserTest extends \Test\TestCase {
 						),
 					);
 				}
-				if($base === 'cn=default,ou=policies,dc=foo,dc=bar') {
+				if($base === array('cn=default,ou=policies,dc=foo,dc=bar')) {
 					return array(
 						array(
 							'pwdmaxage' => array('2592000'),
@@ -1202,7 +1202,7 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('search')
 			->will($this->returnCallback(function($filter, $base) {
-				if($base === 'uid=alice') {
+				if($base === array('uid=alice')) {
 					return array(
 						array(
 							'pwdpolicysubentry' => array('cn=custom,ou=policies,dc=foo,dc=bar'),
@@ -1211,7 +1211,7 @@ class UserTest extends \Test\TestCase {
 						)
 					);
 				}
-				if($base === 'cn=custom,ou=policies,dc=foo,dc=bar') {
+				if($base === array('cn=custom,ou=policies,dc=foo,dc=bar')) {
 					return array(
 						array(
 							'pwdmaxage' => array('2592000'),

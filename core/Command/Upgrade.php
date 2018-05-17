@@ -39,11 +39,11 @@ use OC\Installer;
 use OC\Updater;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Upgrade extends Command {
@@ -76,13 +76,7 @@ class Upgrade extends Command {
 	protected function configure() {
 		$this
 			->setName('upgrade')
-			->setDescription('run upgrade routines after installation of a new release. The release has to be installed before.')
-			->addOption(
-				'--no-app-disable',
-				null,
-				InputOption::VALUE_NONE,
-				'skips the disable of third party apps'
-			);
+			->setDescription('run upgrade routines after installation of a new release. The release has to be installed before.');
 	}
 
 	/**
@@ -93,7 +87,7 @@ class Upgrade extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
-		if(\OC::checkUpgrade(false)) {
+		if(Util::needUpgrade()) {
 			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 				// Prepend each line with a little timestamp
 				$timestampFormatter = new TimestampFormatter($this->config, $output->getFormatter());
@@ -108,9 +102,6 @@ class Upgrade extends Command {
 					$this->installer
 			);
 
-			if ($input->getOption('no-app-disable')) {
-				$updater->setSkip3rdPartyAppsDisable(true);
-			}
 			$dispatcher = \OC::$server->getEventDispatcher();
 			$progress = new ProgressBar($output);
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
@@ -223,9 +214,6 @@ class Upgrade extends Command {
 			});
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use($output) {
 				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
-			});
-			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use ($output) {
-				$output->writeln('<comment>Disabled 3rd-party app: ' . $app . '</comment>');
 			});
 			$updater->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use($output) {
 				$output->writeln('<info>Checking for update of app ' . $app . ' in appstore</info>');

@@ -39,6 +39,7 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Group_LDAP as GroupLDAP;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\Manager;
+use Test\TestCase;
 
 /**
  * Class GroupLDAPTest
@@ -47,7 +48,7 @@ use OCA\User_LDAP\User\Manager;
  *
  * @package OCA\User_LDAP\Tests
  */
-class Group_LDAPTest extends \Test\TestCase {
+class Group_LDAPTest extends TestCase {
 	/**
 	 * @return \PHPUnit_Framework_MockObject_MockObject|Access
 	 */
@@ -150,7 +151,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$access->expects($this->any())
 			->method('dn2username')
 			->will($this->returnCallback(function() {
-				return 'foobar' . \OCP\Util::generateRandomBytes(7);
+				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
 			}));
 
 		$groupBackend = new GroupLDAP($access,$pluginManager);
@@ -965,6 +966,88 @@ class Group_LDAPTest extends \Test\TestCase {
 		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$ldap->getGroupDetails('gid');
-	}	
+	}
+
+	public function groupMemberProvider() {
+		$base = 'dc=species,dc=earth';
+
+		$groups0 = [
+			'uid=3723,' . $base,
+			'uid=8372,' . $base,
+			'uid=8427,' . $base,
+			'uid=2333,' . $base,
+			'uid=4754,' . $base,
+		];
+		$groups1 = [
+			'3723',
+			'8372',
+			'8427',
+			'2333',
+			'4754',
+		];
+		$groups2Nested = ['6642', '1424'];
+		$expGroups2 = array_merge($groups1, $groups2Nested);
+
+		return [
+			[ #0 – test DNs
+				'cn=Birds,' . $base,
+				$groups0,
+				['cn=Birds,' . $base => $groups0]
+			],
+			[ #1 – test uids
+				'cn=Birds,' . $base,
+				$groups1,
+				['cn=Birds,' . $base => $groups1]
+			],
+			[ #2 – test uids with nested groups
+				'cn=Birds,' . $base,
+				$expGroups2,
+				[
+					'cn=Birds,' . $base => $groups1,
+					'8427' => $groups2Nested, // simplified - nested groups would work with DNs
+				],
+			],
+		];
+	}
+
+	/**
+	 * @param string $groupDN
+	 * @param string[] $expectedMembers
+	 * @param array $groupsInfo
+	 * @dataProvider groupMemberProvider
+	 */
+	public function testGroupMembers($groupDN, $expectedMembers, $groupsInfo = null) {
+		$access = $this->getAccessMock();
+		$access->expects($this->any())
+			->method('readAttribute')
+			->willReturnCallback(function($group) use ($groupDN, $expectedMembers, $groupsInfo) {
+				if(isset($groupsInfo[$group])) {
+					return $groupsInfo[$group];
+				}
+				return [];
+			});
+
+		$access->connection = $this->createMock(Connection::class);
+		if(count($groupsInfo) > 1) {
+			$access->connection->expects($this->any())
+				->method('__get')
+				->willReturnCallback(function($name) {
+					if($name === 'ldapNestedGroups') {
+						return 1;
+					}
+					return null;
+				});
+		}
+
+		/** @var GroupPluginManager $pluginManager */
+		$pluginManager = $this->createMock(GroupPluginManager::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
+		$resultingMembers = $this->invokePrivate($ldap, '_groupMembers', [$groupDN]);
+
+		$expected = array_keys(array_flip($expectedMembers));
+
+		$this->assertEquals($expected, array_keys($resultingMembers), '', 0.0, 10, true);
+	}
 
 }

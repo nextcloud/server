@@ -23,14 +23,12 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
-use \OCA\Files_External\Lib\Backend\SMB;
 use OCP\IUser;
 
 /**
@@ -46,7 +44,7 @@ class SMB_OC extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
 			->setText($l->t('SMB / CIFS using OC login'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('Host'))),
+				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('username_as_share', $l->t('Username as share')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
 				(new DefinitionParameter('share', $l->t('Share')))

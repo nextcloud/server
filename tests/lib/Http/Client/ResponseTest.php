@@ -8,42 +8,42 @@
 
 namespace Test\Http\Client;
 
-use GuzzleHttp\Stream\Stream;
-use GuzzleHttp\Message\Response as GuzzleResponse;
+use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use OC\Http\Client\Response;
 
 /**
  * Class ResponseTest
  */
 class ResponseTest extends \Test\TestCase {
-	/** @var Response */
-	private $response;
 	/** @var GuzzleResponse */
 	private $guzzleResponse;
 
 	public function setUp() {
 		parent::setUp();
 		$this->guzzleResponse = new GuzzleResponse(1337);
-		$this->response = new Response($this->guzzleResponse);
 	}
 
 	public function testGetBody() {
-		$this->guzzleResponse->setBody(Stream::factory('MyResponse'));
-		$this->assertSame('MyResponse', $this->response->getBody());
+		$response = new Response($this->guzzleResponse->withBody(stream_for('MyResponse')));
+		$this->assertSame('MyResponse', $response->getBody());
 	}
 
 	public function testGetStatusCode() {
-		$this->assertSame(1337, $this->response->getStatusCode());
+		$response = new Response($this->guzzleResponse);
+		$this->assertSame(1337, $response->getStatusCode());
 	}
 
 	public function testGetHeader() {
-		$this->guzzleResponse->setHeader('bar', 'foo');
-		$this->assertSame('foo', $this->response->getHeader('bar'));
+		$response = new Response($this->guzzleResponse->withHeader('bar', 'foo'));
+		$this->assertSame('foo', $response->getHeader('bar'));
 	}
 
 	public function testGetHeaders() {
-		$this->guzzleResponse->setHeader('bar', 'foo');
-		$this->guzzleResponse->setHeader('x-awesome', 'yes');
+		$response = new Response($this->guzzleResponse
+			->withHeader('bar', 'foo')
+			->withHeader('x-awesome', 'yes')
+		);
 
 		$expected = [
 			'bar' => [
@@ -53,7 +53,7 @@ class ResponseTest extends \Test\TestCase {
 				0 => 'yes',
 			],
 		];
-		$this->assertSame($expected, $this->response->getHeaders());
-		$this->assertSame('yes', $this->response->getHeader('x-awesome'));
+		$this->assertSame($expected, $response->getHeaders());
+		$this->assertSame('yes', $response->getHeader('x-awesome'));
 	}
 }

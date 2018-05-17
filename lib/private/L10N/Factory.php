@@ -247,7 +247,7 @@ class Factory implements IFactory {
 	 */
 	private function getLanguageFromRequest($app) {
 		$header = $this->request->getHeader('ACCEPT_LANGUAGE');
-		if ($header) {
+		if ($header !== '') {
 			$available = $this->findAvailableLanguages($app);
 
 			// E.g. make sure that 'de' is before 'de_DE'.
@@ -407,7 +407,8 @@ class Factory implements IFactory {
 			$body .= ';';
 			$res = '';
 			$p = 0;
-			for($i = 0; $i < strlen($body); $i++) {
+			$length = strlen($body);
+			for($i = 0; $i < $length; $i++) {
 				$ch = $body[$i];
 				switch ( $ch ) {
 					case '?':

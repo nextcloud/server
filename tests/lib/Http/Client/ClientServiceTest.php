@@ -9,6 +9,7 @@
 namespace Test\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\HandlerStack;
 use OC\Http\Client\Client;
 use OC\Http\Client\ClientService;
 use OCP\ICertificateManager;
@@ -22,7 +23,7 @@ class ClientServiceTest extends \Test\TestCase {
 		$config = $this->createMock(IConfig::class);
 		$certificateManager = $this->createMock(ICertificateManager::class);
 
-		$expected = new Client($config, $certificateManager, new GuzzleClient());
+		$expected = new Client($config, $certificateManager, new GuzzleClient(), HandlerStack::create());
 		$clientService = new ClientService($config, $certificateManager);
 		$this->assertEquals($expected, $clientService->newClient());
 	}

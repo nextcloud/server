@@ -120,8 +120,9 @@ abstract class TestCase extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share`');
-		$query->execute();
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->delete('share');
+		$qb->execute();
 
 		parent::tearDown();
 	}
@@ -206,16 +207,15 @@ abstract class TestCase extends \Test\TestCase {
 	 * @return array with: item_source, share_type, share_with, item_type, permissions
 	 */
 	protected function getShareFromId($shareID) {
-		$sql = 'SELECT `item_source`, `share_type`, `share_with`, `item_type`, `permissions` FROM `*PREFIX*share` WHERE `id` = ?';
-		$args = array($shareID);
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute($args);
-
-		$share = Null;
-
-		if ($result) {
-			$share = $result->fetchRow();
-		}
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->select('item_source', '`share_type', 'share_with', 'item_type', 'permissions')
+			->from('share')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($shareID))
+			);
+		$result = $qb->execute();
+		$share = $result->fetch();
+		$result->closeCursor();
 
 		return $share;
 

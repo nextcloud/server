@@ -24,10 +24,10 @@ namespace Test\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultToken;
+use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -39,7 +39,7 @@ class DefaultTokenProviderTest extends TestCase {
 
 	/** @var DefaultTokenProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $tokenProvider;
-	/** @var Mapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var DefaultTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $mapper;
 	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
 	private $crypto;
@@ -55,9 +55,7 @@ class DefaultTokenProviderTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->mapper = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenMapper')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->mapper = $this->createMock(DefaultTokenMapper::class);
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(ILogger::class);
@@ -417,5 +415,47 @@ class DefaultTokenProviderTest extends TestCase {
 			->willThrowException(new DoesNotExistException('nope'));
 
 		$this->tokenProvider->getTokenById(42);
+	}
+
+	public function testRotate() {
+		$token = new DefaultToken();
+		$token->setPassword('oldencryptedpassword');
+
+		$this->config->method('getSystemValue')
+			->with('secret')
+			->willReturn('mysecret');
+
+		$this->crypto->method('decrypt')
+			->with('oldencryptedpassword', 'oldtokenmysecret')
+			->willReturn('mypassword');
+		$this->crypto->method('encrypt')
+			->with('mypassword', 'newtokenmysecret')
+			->willReturn('newencryptedpassword');
+
+		$this->mapper->expects($this->once())
+			->method('update')
+			->with($this->callback(function (DefaultToken $token) {
+				return $token->getPassword() === 'newencryptedpassword' &&
+					$token->getToken() === hash('sha512', 'newtokenmysecret');
+			}));
+
+		$this->tokenProvider->rotate($token, 'oldtoken', 'newtoken');
+	}
+
+	public function testRotateNoPassword() {
+		$token = new DefaultToken();
+
+		$this->config->method('getSystemValue')
+			->with('secret')
+			->willReturn('mysecret');
+
+		$this->mapper->expects($this->once())
+			->method('update')
+			->with($this->callback(function (DefaultToken $token) {
+				return $token->getPassword() === null &&
+					$token->getToken() === hash('sha512', 'newtokenmysecret');
+			}));
+
+		$this->tokenProvider->rotate($token, 'oldtoken', 'newtoken');
 	}
 }

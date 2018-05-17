@@ -74,7 +74,7 @@
             	
             	// Create clone
 				var $clone = cloneElement($input);
-					$clone.insertBefore($input);
+					$clone.insertAfter($input);
 				
 				// Set callback arguments
             	if(callback.fn){	

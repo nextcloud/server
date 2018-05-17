@@ -55,9 +55,16 @@ class FactoryTest extends TestCase {
 
 	/**
 	 * @param array $methods
+	 * @param bool $mockRequestGetHeaderMethod
 	 * @return Factory|\PHPUnit_Framework_MockObject_MockObject
 	 */
-	protected function getFactory(array $methods = []) {
+	protected function getFactory(array $methods = [], $mockRequestGetHeaderMethod = false) {
+		if ($mockRequestGetHeaderMethod) {
+			$this->request->expects($this->any())
+				->method('getHeader')
+				->willReturn('');
+		}
+
 		if (!empty($methods)) {
 			return $this->getMockBuilder(Factory::class)
 				->setConstructorArgs([
@@ -137,7 +144,7 @@ class FactoryTest extends TestCase {
 	}
 
 	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguage() {
-		$factory = $this->getFactory(['languageExists']);
+		$factory = $this->getFactory(['languageExists'], true);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
 		$factory->expects($this->at(0))
 				->method('languageExists')
@@ -180,7 +187,7 @@ class FactoryTest extends TestCase {
 	}
 
 	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguageAndNotExistingDefault() {
-		$factory = $this->getFactory(['languageExists']);
+		$factory = $this->getFactory(['languageExists'], true);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
 		$factory->expects($this->at(0))
 				->method('languageExists')
@@ -226,7 +233,7 @@ class FactoryTest extends TestCase {
 	}
 
 	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguageAndNotExistingDefaultAndNoAppInScope() {
-		$factory = $this->getFactory(['languageExists']);
+		$factory = $this->getFactory(['languageExists'], true);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
 		$factory->expects($this->at(0))
 				->method('languageExists')
@@ -385,7 +392,7 @@ class FactoryTest extends TestCase {
 			->willReturn($header);
 
 		if ($expected instanceof LanguageNotFoundException) {
-			$this->setExpectedException(LanguageNotFoundException::class);
+			$this->expectException(LanguageNotFoundException::class);
 			self::invokePrivate($factory, 'getLanguageFromRequest', [$app]);
 		} else {
 			$this->assertSame($expected, self::invokePrivate($factory, 'getLanguageFromRequest', [$app]), 'Asserting returned language');

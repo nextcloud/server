@@ -132,7 +132,7 @@ class OC_Template extends \OC\Template\Base {
 					foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
 						//remove trailing ".js" as addVendorScript will append it
 						OC_Util::addVendorScript(
-							substr($vendorLibrary, 0, strlen($vendorLibrary) - 3),null,true);
+							substr($vendorLibrary, 0, -3),null,true);
 						}
  				} else {
 					throw new \Exception('Cannot read core/js/core.json');
@@ -206,6 +206,12 @@ class OC_Template extends \OC\Template\Base {
 		if( $this->renderAs ) {
 			$page = new TemplateLayout($this->renderAs, $this->app);
 
+			if(is_array($additionalParams)) {
+				foreach ($additionalParams as $key => $value) {
+					$page->assign($key, $value);
+				}
+			}
+
 			// Add custom headers
 			$headers = '';
 			foreach(OC_Util::$headers as $header) {
@@ -226,7 +232,7 @@ class OC_Template extends \OC\Template\Base {
 			$page->assign('headers', $headers);
 
 			$page->assign('content', $data);
-			return $page->fetchPage();
+			return $page->fetchPage($additionalParams);
 		}
 
 		return $data;

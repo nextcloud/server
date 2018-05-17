@@ -106,4 +106,15 @@
 		<br/>
 		<textarea placeholder="<?php p($l->t('This text will be shown on the public link upload page when the file list is hidden.')) ?>" id="publicShareDisclaimerText" <?php if ($_['publicShareDisclaimerText'] === null) { print_unescaped('class="hidden"'); } ?>><?php p($_['publicShareDisclaimerText']) ?></textarea>
 	</p>
+
+	<h3><?php p($l->t('Default share permissions'));?></h3>
+	<input type="hidden" name="shareapi_default_permissions" id="shareApiDefaultPermissions" class="checkbox"
+		   value="<?php p($_['shareApiDefaultPermissions']) ?>" />
+	<p id="shareApiDefaultPermissionsSection" class="indent <?php if ($_['shareAPIEnabled'] === 'no') p('hidden'); ?>">
+		<?php foreach ($_['shareApiDefaultPermissionsCheckboxes'] as $perm): ?>
+			<input type="checkbox" name="shareapi_default_permission_<?php p($perm['id']) ?>" id="shareapi_default_permission_<?php p($perm['id']) ?>"
+				   class="noautosave checkbox" value="<?php p($perm['value']) ?>" <?php if (($_['shareApiDefaultPermissions'] & $perm['value']) !== 0) print_unescaped('checked="checked"'); ?> />
+			<label for="shareapi_default_permission_<?php p($perm['id']) ?>"><?php p($perm['label']);?></label>
+		<?php endforeach ?>
+	</p>
 </div>

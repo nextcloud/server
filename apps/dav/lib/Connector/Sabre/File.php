@@ -51,6 +51,7 @@ use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -135,8 +136,9 @@ class File extends Node implements IFile {
 			}
 		}
 
+		/** @var Storage $partStorage */
 		list($partStorage) = $this->fileView->resolvePath($this->path);
-		$needsPartFile = $this->needsPartFile($partStorage) && (strlen($this->path) > 1);
+		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
@@ -144,6 +146,8 @@ class File extends Node implements IFile {
 		} else {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
+
+			$this->emitPreHooks($exists);
 		}
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
@@ -154,7 +158,7 @@ class File extends Node implements IFile {
 		try {
 			$target = $partStorage->fopen($internalPartPath, 'wb');
 			if ($target === false) {
-				\OCP\Util::writeLog('webdav', '\OC\Files\Filesystem::fopen() failed', \OCP\Util::ERROR);
+				\OC::$server->getLogger()->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Exception('Could not write file contents');
 			}
@@ -188,11 +192,7 @@ class File extends Node implements IFile {
 
 		try {
 			$view = \OC\Files\Filesystem::getView();
-			if ($view) {
-				$run = $this->emitPreHooks($exists);
-			} else {
-				$run = true;
-			}
+			$run = ($view && $needsPartFile) ? $this->emitPreHooks($exists) : true;
 
 			try {
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
@@ -211,7 +211,7 @@ class File extends Node implements IFile {
 						$fileExists = $storage->file_exists($internalPath);
 					}
 					if (!$run || $renameOkay === false || $fileExists === false) {
-						\OCP\Util::writeLog('webdav', 'renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', \OCP\Util::ERROR);
+						\OC::$server->getLogger()->error('renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', ['app' => 'webdav']);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (ForbiddenException $ex) {
@@ -334,7 +334,11 @@ class File extends Node implements IFile {
 				// do a if the file did not exist
 				throw new NotFound();
 			}
-			$res = $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+			try {
+				$res = $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+			} catch (\Exception $e) {
+				$this->convertToSabreException($e);
+			}
 			if ($res === false) {
 				throw new ServiceUnavailable("Could not open file");
 			}
@@ -441,8 +445,9 @@ class File extends Node implements IFile {
 		}
 
 		if ($chunk_handler->isComplete()) {
+			/** @var Storage $storage */
 			list($storage,) = $this->fileView->resolvePath($path);
-			$needsPartFile = $this->needsPartFile($storage);
+			$needsPartFile = $storage->needsPartFile();
 			$partFile = null;
 
 			$targetPath = $path . '/' . $info['name'];
@@ -472,7 +477,7 @@ class File extends Node implements IFile {
 					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
 					$fileExists = $targetStorage->file_exists($targetInternalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						\OCP\Util::writeLog('webdav', '\OC\Files\Filesystem::rename() failed', \OCP\Util::ERROR);
+						\OC::$server->getLogger()->error('\OC\Files\Filesystem::rename() failed', ['app' => 'webdav']);
 						// only delete if an error occurred and the target file was already created
 						if ($fileExists) {
 							// set to null to avoid double-deletion when handling exception
@@ -525,21 +530,6 @@ class File extends Node implements IFile {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Returns whether a part file is needed for the given storage
-	 * or whether the file can be assembled/uploaded directly on the
-	 * target storage.
-	 *
-	 * @param \OCP\Files\Storage $storage
-	 * @return bool true if the storage needs part file handling
-	 */
-	private function needsPartFile($storage) {
-		// TODO: in the future use ChunkHandler provided by storage
-		return !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage') &&
-			!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud') &&
-			$storage->needsPartFile();
 	}
 
 	/**

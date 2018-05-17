@@ -466,7 +466,7 @@ class NotificationTest extends TestCase {
 
 		$this->assertSame($this->notification, $this->notification->addAction($action));
 
-		$this->setExpectedException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$this->notification->addAction($action);
 	}
 
@@ -512,7 +512,7 @@ class NotificationTest extends TestCase {
 
 		$this->assertSame($this->notification, $this->notification->addParsedAction($action));
 
-		$this->setExpectedException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$this->notification->addParsedAction($action);
 	}
 

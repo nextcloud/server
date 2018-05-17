@@ -38,13 +38,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven.",
     "Send password by mail" : "Wachtwoord per email verzenden",
     "Enforce password protection" : "Wachtwoord-beveiliging afdwingen",
-    "Failed to send share by E-mail" : "delen per email is mislukt",
-    "%s shared »%s« with you on behalf of %s" : "%s deelde »%s« met jou in naam van %s",
-    "Failed to create the E-mail" : "Maken van de mail is mislukt",
-    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hallo daar,\n\n%s deelde \"%s\" met je namens %s.\n\n%s\n\n",
-    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hallo daar,\n\n%s deelde \"%s\" met je.\n\n%s\n\n",
-    "Cheers!" : "Proost!",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hallo daar,<br><br>%s deelde <a href=\"%s\">%s</a> met je namens %s.<br><br>",
-    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hallo daar,<br><br>%s deelde <a href=\"%s\">%s</a> met je.<br><br>"
+    "Failed to send share by E-mail" : "delen per email is mislukt"
 },
 "nplurals=2; plural=(n != 1);");

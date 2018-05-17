@@ -12,6 +12,7 @@
 
 	_.extend(OC.Files.Client, {
 		PROPERTY_SHARE_TYPES:	'{' + OC.Files.Client.NS_OWNCLOUD + '}share-types',
+		PROPERTY_OWNER_ID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}owner-id',
 		PROPERTY_OWNER_DISPLAY_NAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}owner-display-name'
 	});
 
@@ -66,6 +67,7 @@
 				var fileInfo = oldElementToFile.apply(this, arguments);
 				fileInfo.sharePermissions = $el.attr('data-share-permissions') || undefined;
 				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined;
+				fileInfo.shareOwnerId = $el.attr('data-share-owner-id') || undefined;
 
 				if( $el.attr('data-share-types')){
 					fileInfo.shareTypes = $el.attr('data-share-types').split(',');
@@ -83,6 +85,7 @@
 			var oldGetWebdavProperties = fileList._getWebdavProperties;
 			fileList._getWebdavProperties = function() {
 				var props = oldGetWebdavProperties.apply(this, arguments);
+				props.push(OC.Files.Client.PROPERTY_OWNER_ID);
 				props.push(OC.Files.Client.PROPERTY_OWNER_DISPLAY_NAME);
 				props.push(OC.Files.Client.PROPERTY_SHARE_TYPES);
 				return props;
@@ -95,6 +98,7 @@
 
 				if (permissionsProp && permissionsProp.indexOf('S') >= 0) {
 					data.shareOwner = props[OC.Files.Client.PROPERTY_OWNER_DISPLAY_NAME];
+					data.shareOwnerId = props[OC.Files.Client.PROPERTY_OWNER_ID];
 				}
 
 				var shareTypesProp = props[OC.Files.Client.PROPERTY_SHARE_TYPES];
@@ -250,20 +254,7 @@
 		 * @returns {String}
 		 */
 		getSharePermissions: function(fileData) {
-			var sharePermissions = fileData.permissions;
-			if (fileData.mountType && fileData.mountType === "external-root"){
-				// for external storages we can't use the permissions of the mountpoint
-				// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
-				sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
-			}
-			if (fileData.type === 'file') {
-				// files can't be shared with delete permissions
-				sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
-
-				// create permissions don't mean anything for files
-				sharePermissions = sharePermissions & ~OC.PERMISSION_CREATE;
-			}
-			return sharePermissions;
+			return fileData.sharePermissions;
 		}
 	};
 })();

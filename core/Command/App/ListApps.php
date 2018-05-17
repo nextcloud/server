@@ -87,7 +87,7 @@ class ListApps extends Base {
 
 		sort($enabledApps);
 		foreach ($enabledApps as $app) {
-			$apps['enabled'][$app] = (isset($versions[$app])) ? $versions[$app] : true;
+			$apps['enabled'][$app] = isset($versions[$app]) ? $versions[$app] : true;
 		}
 
 		sort($disabledApps);

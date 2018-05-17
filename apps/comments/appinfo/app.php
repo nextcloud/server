@@ -36,7 +36,7 @@ $eventDispatcher->addListener(
 
 $eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, function(\OCP\Comments\CommentsEntityEvent $event) {
 	$event->addEntityCollection('files', function($name) {
-		$nodes = \OC::$server->getUserFolder()->getById(intval($name));
+		$nodes = \OC::$server->getUserFolder()->getById((int)$name);
 		return !empty($nodes);
 	});
 });

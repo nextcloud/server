@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Stare hasło nie było poprawne. Spróbuj jeszcze raz.",
     "The current log-in password was not correct, please try again." : "Obecne hasło logowania nie było poprawne. Spróbuj ponownie.",
     "Private key password successfully updated." : "Pomyślnie zaktualizowano hasło klucza prywatnego.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musisz przenieść swoje klucze szyfrowania ze starego sposobu szyfrowania (Nextcloud <= 8,0) na nowy. Proszę uruchomić 'occ encryption:migrate' lub skontaktować się z administratorem",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Nieprawidłowy klucz prywatny do szyfrowania aplikacji. Należy zaktualizować hasło klucza prywatnego w ustawieniach osobistych, aby odzyskać dostęp do zaszyfrowanych plików.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Aplikacja szyfrująca jest włączona, ale Twoje klucze nie są zainicjowane. Proszę się wylogować i zalogować ponownie.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Aby móc korzystać z modułu szyfrowania trzeba włączyć w panelu administratora szyfrowanie po stronie serwera. ",
@@ -31,11 +30,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "jednorazowe hasło do serwera szyfrowania strony",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nie można odszyfrować tego pliku, prawdopodobnie jest to plik udostępniony. Poproś właściciela pliku o ponowne udostępnianie pliku Tobie.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nie można odczytać tego pliku, prawdopodobnie plik nie jest współdzielony. Proszę zwrócić się do właściciela pliku, aby udostępnił go dla Ciebie.",
+    "Default encryption module" : "Domyślny moduł szyfrujący",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hej tam,\n\nadmin włączył szyfrowanie po stronie serwera. Twoje pliki zostały zaszyfrowane przy użyciu hasła '%s'.\n\nProszę zalogować się do interfejsu internetowego, przejdź do sekcji Nextcloud podstawowy moduł szyfrowania, następnie osobiste ustawienia i zaktualizuj hasło szyfrowania wpisując aktualny login, w polu stare hasło logowania wpisz stare hasło, a następnie aktualne hasło.\n\n",
     "The share will expire on %s." : "Ten zasób wygaśnie %s",
     "Cheers!" : "Dzięki!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hej tam,<br><br>admin włączył szyfrowanie po stronie serwera. Twoje pliki zostały zaszyfrowane przy użyciu hasła <strong>%s</strong>.<br><br>Proszę zalogować się do interfejsu internetowego, przejdź do sekcji Nextcloud podstawowy moduł szyfrowania, następnie osobiste ustawienia i zaktualizuj hasło szyfrowania wpisując aktualny login, w polu stare hasło logowania wpisz stare hasło, a następnie aktualne hasło.<br><br>",
-    "Default encryption module" : "Domyślny moduł szyfrujący",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Szyfrowanie w aplikacji jest włączone, ale klucze nie są zainicjowane. Prosimy wylogować się i ponownie zalogować się.",
     "Encrypt the home storage" : "Szyfrowanie przechowywanie w domu",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Włączenie tej opcji spowoduje szyfrowanie wszystkich plików zapisanych na pamięci wewnętrznej. W innym wypadku szyfrowane będą tylko pliki na pamięci zewnętrznej.",
@@ -60,6 +59,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła",
     "Enabled" : "Włączone",
     "Disabled" : "Wyłączone",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacja szyfrująca jest aktywna, ale Twoje klucze nie zostały zainicjowane, proszę wyloguj się i zaloguj ponownie."
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musisz przenieść swoje klucze szyfrowania ze starego sposobu szyfrowania (Nextcloud <= 8,0) na nowy. Proszę uruchomić 'occ encryption:migrate' lub skontaktować się z administratorem"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

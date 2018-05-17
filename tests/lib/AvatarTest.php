@@ -89,7 +89,8 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.128.jpg', true],
 			]));
 
-		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image();
+		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
@@ -104,7 +105,8 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.jpg', true],
 			]));
 
-		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image();
+		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->createMock(File::class);
 		$file->method('getContent')->willReturn($expected->data());
@@ -120,8 +122,10 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.32.png', false],
 			]));
 
-		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
-		$expected2 = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image();
+		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected2 = new \OC_Image();
+		$expected2->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$expected2->resize(32);
 
 		$file = $this->createMock(File::class);
@@ -205,7 +209,8 @@ class AvatarTest extends \Test\TestCase {
 			->with('avatar.png')
 			->willReturn($newFile);
 
-		$image = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$image = new \OC_Image();
+		$image->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$newFile->expects($this->once())
 			->method('putContent')
 			->with($image->data());
