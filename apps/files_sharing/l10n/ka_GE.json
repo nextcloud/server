@@ -110,5 +110,5 @@
     "Uploading files…" : "ფაილების ატვირთვა...",
     "Uploaded files:" : "ფაილების ატვირთვა:",
     "%s is publicly shared" : "%s საზოგადოდ გაზიარებულია"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

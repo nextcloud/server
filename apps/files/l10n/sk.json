@@ -150,5 +150,5 @@
     "A new file or folder has been <strong>deleted</strong>" : "Nový súbor alebo priečinok bol <strong>zmazaný</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nový súbor alebo priečinok bol<strong>obnovený</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použi túto adresu pre <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">prístup ku svojím súborom cez WebDAV</a>"
-},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);"
+},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

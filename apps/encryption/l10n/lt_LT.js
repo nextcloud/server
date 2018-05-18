@@ -61,4 +61,4 @@ OC.L10N.register(
     "Disabled" : "Išjungta",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Jūs turite atlikti savo šifravimo raktų perkėlimą iš senojo šifravimo (ownCloud <= 8.0) į naująjį. Prašome terminale įvykdyti \"occ encryption:migrate\" arba susisiekti su sistemos administratoriumi"
 },
-"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 1 : (n%10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 3 : n % 1 != 0 ? 4);");
+"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

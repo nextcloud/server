@@ -52,5 +52,5 @@
     "No entries found in this folder" : "ამ დირექტორიაში შენატანების მოძებნა ვერ მოხერხდა",
     "Size" : "ზომა",
     "Modified" : "შეცვლილია"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

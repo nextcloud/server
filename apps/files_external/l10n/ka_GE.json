@@ -132,5 +132,5 @@
     "No external storage configured" : "გარე საცავი არაა კონფიგურირებული",
     "You can add external storages in the personal settings" : "გარე საცავები შეგიძლიათ დაამატოთ პირად პარამეტრებში",
     "Are you sure you want to delete this external storage" : "დარწმუნებული ხართ, რომ გსურთ ამ გარე საცავის გაუქმება?"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

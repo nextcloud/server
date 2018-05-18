@@ -157,4 +157,4 @@ OC.L10N.register(
     "Send email to new user" : "ارسال ایمیل به کاربر جدید",
     "Create" : "ایجاد کردن"
 },
-"nplurals=2; plural=((n<=1 && n>= 0) ? 1);");
+"nplurals=2; plural=(n > 1);");

@@ -30,5 +30,5 @@
     "Send password by mail" : "Odoslať heslo e-mailom",
     "Enforce password protection" : "Vynútiť ochranu heslom",
     "Failed to send share by E-mail" : "Nebolo možné poslať sprístupnenie emailom"
-},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);"
+},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

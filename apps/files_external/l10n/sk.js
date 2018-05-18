@@ -128,4 +128,4 @@ OC.L10N.register(
     "You can add external storages in the personal settings" : "Externé úložisko je možné pridať v osobných nastaveniach",
     "Are you sure you want to delete this external storage" : "Naozaj chcete zmazať toto externé úložisko?"
 },
-"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);");
+"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -55,4 +55,4 @@ OC.L10N.register(
     "Couldn't add remote share" : "ფედერალური გაზიარება ვერ დაემატა",
     "Search global and public address book for users and let local users publish their data" : "მოიძიეთ გლობალური და ღია მისამართების წიგნები მომხმარებლებისთვის და მიეცით უფლება ლოკალურ მომხმარებლებს გააზიარონ საკუთარი მონაცემები"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");

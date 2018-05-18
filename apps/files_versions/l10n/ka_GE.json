@@ -6,5 +6,5 @@
     "Restore" : "აღდგენა",
     "No earlier versions available" : "წინა ვერსიები ხელმისაწვდომი არაა",
     "More versions …" : "მეტი ვერსია …"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

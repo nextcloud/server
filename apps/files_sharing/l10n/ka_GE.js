@@ -113,4 +113,4 @@ OC.L10N.register(
     "Uploaded files:" : "ფაილების ატვირთვა:",
     "%s is publicly shared" : "%s საზოგადოდ გაზიარებულია"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");

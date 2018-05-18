@@ -20,8 +20,6 @@ OC.L10N.register(
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motivy umožňují jednoduché přizpůsobení vzhledu vaší instance a podporovaných klientů. Tato přizpůsobení uvidí všichni uživatelé.",
     "Name" : "Název",
     "Reset to default" : "Obnovit výchozí",
-    "Web address" : "Webová adresa",
-    "Web address https://…" : "Webová adresa https://",
     "Slogan" : "Slogan",
     "Color" : "Barva",
     "Logo" : "Logo",
@@ -32,9 +30,11 @@ OC.L10N.register(
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy.",
     "You are already using a custom theme" : "Již používáte vlastní motiv",
     "reset to default" : "obnovit výchozí",
+    "Web address" : "Webová adresa",
+    "Web address https://…" : "Webová adresa https://",
     "There is no error, the file uploaded with success" : "Nenastala žádná chyba, soubor byl úspěšně nahrán",
     "The uploaded file was only partially uploaded" : "Nahraný soubor byl nahrán pouze částečně",
     "Failed to write file to disk." : "Selhal zápis na disk",
     "A PHP extension stopped the file upload." : "Rozšíření PHP zastavilo nahrávání souboru."
 },
-"nplurals=4; plural=(n < 10 && n % 1 == 0) ? 1 : (n < 9999 && n >= 10 && n % 1 == 0) ? 3 : (n % 1 != 0) : 4;");
+"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

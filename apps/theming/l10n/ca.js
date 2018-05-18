@@ -17,8 +17,6 @@ OC.L10N.register(
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "La personalització permet canviar fàcilment l'aspecte de la vostra web i dels clients. Això serà visible per a tots els usuaris.",
     "Name" : "Nom",
     "Reset to default" : "Restablir al valor predeterminat",
-    "Web address" : "Adreça web",
-    "Web address https://…" : "Adreça del servidor https://…",
     "Slogan" : "Lema",
     "Color" : "Color",
     "Logo" : "Logotip",
@@ -30,6 +28,8 @@ OC.L10N.register(
     "Upload new header logo" : "Pujar un nou logo de capçalera",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·la l'extensió Imagemagick per al PHP i es generarà automàticament un favicon a partir del logo i del color del tema.",
     "You are already using a custom theme" : "Ja esteu utilitzant un tema personalitzat",
-    "reset to default" : "restablir a configuració predeterminada"
+    "reset to default" : "restablir a configuració predeterminada",
+    "Web address" : "Adreça web",
+    "Web address https://…" : "Adreça del servidor https://…"
 },
 "nplurals=2; plural=(n != 1);");

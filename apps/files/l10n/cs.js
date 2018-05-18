@@ -159,4 +159,4 @@ OC.L10N.register(
     "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo adresář byl <strong>obnoven</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použít tuto adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> pro přístup k souborům přes WebDAV</a>"
 },
-"nplurals=4; plural=(n < 10 && n % 1 == 0) ? 1 : (n < 9999 && n >= 10 && n % 1 == 0) ? 3 : (n % 1 != 0) : 4;");
+"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

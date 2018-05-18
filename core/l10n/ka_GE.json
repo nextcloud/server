@@ -343,5 +343,5 @@
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "თქვენს PHP-ს არ აქვს freetype-ის მხარდაჭერა. ეს გამოწვევს დარღვეულ პროფილის სურათებს და მომხმარებლის ინტერფეისს.",
     "Back to log in" : "უკან ავტორიზაციისკენ",
     "Depending on your configuration, this button could also work to trust the domain:" : "თქვენი კონფიგურაციიდან გამომდინარე, ეს ღილაკი დომენის ნდობისთვის შეიძლება ასევე მუშაობდეს."
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

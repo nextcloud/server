@@ -6,5 +6,5 @@
     "Restore" : "بازیابی",
     "No earlier versions available" : "هیچ نسخه قدیمی تری در دسترس نیست",
     "More versions …" : "نسخه های بیشتر ..."
-},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

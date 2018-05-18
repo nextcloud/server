@@ -231,5 +231,5 @@
     "Storage connection timeout. %s" : "Vypršanie pripojenia k úložisku. %s",
     "Personal" : "Osobné",
     "App '%s' could not be installed!" : "Aplikáciu '%s' nebolo možné nainštalovať!"
-},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);"
+},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

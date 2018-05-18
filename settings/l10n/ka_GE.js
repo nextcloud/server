@@ -425,4 +425,4 @@ OC.L10N.register(
     "Create" : "შექმნა",
     "Group name" : "ჯგუფის სახელი"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");
