@@ -29,3 +29,9 @@ default:
           selenium2: ~
         Jane:
           selenium2: ~
+        Rubeus:
+          # Rubeus uses a browser that has CSS grid support.
+          selenium2:
+            capabilities:
+              firefox:
+                profile: config/firefox-profiles/css-grid-enabled.zip
