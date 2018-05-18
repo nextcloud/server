@@ -76,9 +76,9 @@ class Manager implements IProvider {
 	public function updateToken(IToken $token) {
 		if ($token instanceof DefaultToken) {
 			$this->defaultTokenProvider->updateToken($token);
+		} else {
+			throw new InvalidTokenException();
 		}
-
-		throw new InvalidTokenException();
 	}
 
 	/**
@@ -90,9 +90,9 @@ class Manager implements IProvider {
 	public function updateTokenActivity(IToken $token) {
 		if ($token instanceof DefaultToken) {
 			$this->defaultTokenProvider->updateTokenActivity($token);
+		} else {
+			throw new InvalidTokenException();
 		}
-
-		throw new InvalidTokenException();
 	}
 
 	/**
