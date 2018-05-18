@@ -102,12 +102,14 @@ class SharingCheckMiddleware extends Middleware {
 			!$this->externalSharesChecks()) {
 			throw new S2SException('Federated sharing not allowed');
 		} else if ($controller instanceof ShareController) {
+			/*
 			$token = $this->request->getParam('token');
 			$share = $this->shareManager->getShareByToken($token);
 			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK
 				&& !$this->isLinkSharingEnabled()) {
 				throw new NotFoundException('Link sharing is disabled');
 			}
+			*/
 		}
 	}
 

@@ -38,6 +38,7 @@ namespace OCA\Files_Sharing\Controller;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
@@ -46,7 +47,6 @@ use OCP\Defaults;
 use OCP\IL10N;
 use OCP\Template;
 use OCP\Share;
-use OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -58,32 +58,27 @@ use OCP\IUserManager;
 use OCP\ISession;
 use OCP\IPreview;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
-use \OCP\Files\NotFoundException;
+use OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Share\Exceptions\ShareNotFound;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OCP\Share\IManager as ShareManager;
 
 /**
  * Class ShareController
  *
  * @package OCA\Files_Sharing\Controllers
  */
-class ShareController extends Controller {
+class ShareController extends AuthPublicShareController {
 
 	/** @var IConfig */
 	protected $config;
-	/** @var IURLGenerator */
-	protected $urlGenerator;
 	/** @var IUserManager */
 	protected $userManager;
 	/** @var ILogger */
 	protected $logger;
 	/** @var \OCP\Activity\IManager */
 	protected $activityManager;
-	/** @var \OCP\Share\IManager */
-	protected $shareManager;
-	/** @var ISession */
-	protected $session;
 	/** @var IPreview */
 	protected $previewManager;
 	/** @var IRootFolder */
@@ -96,6 +91,11 @@ class ShareController extends Controller {
 	protected $l10n;
 	/** @var Defaults */
 	protected $defaults;
+	/** @var ShareManager */
+	protected $shareManager;
+
+	/** @var Share\IShare */
+	protected $share;
 
 	/**
 	 * @param string $appName
@@ -121,7 +121,7 @@ class ShareController extends Controller {
 								IUserManager $userManager,
 								ILogger $logger,
 								\OCP\Activity\IManager $activityManager,
-								\OCP\Share\IManager $shareManager,
+								ShareManager $shareManager,
 								ISession $session,
 								IPreview $previewManager,
 								IRootFolder $rootFolder,
@@ -129,78 +129,63 @@ class ShareController extends Controller {
 								EventDispatcherInterface $eventDispatcher,
 								IL10N $l10n,
 								Defaults $defaults) {
-		parent::__construct($appName, $request);
+		parent::__construct($appName, $request, $session, $urlGenerator);
 
 		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->activityManager = $activityManager;
-		$this->shareManager = $shareManager;
-		$this->session = $session;
 		$this->previewManager = $previewManager;
 		$this->rootFolder = $rootFolder;
 		$this->federatedShareProvider = $federatedShareProvider;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->l10n = $l10n;
 		$this->defaults = $defaults;
+		$this->shareManager = $shareManager;
+	}
+
+	protected function verifyPassword(string $password): bool {
+		return $this->shareManager->checkPassword($this->share, $password);
+	}
+
+	protected function getPasswordHash(): string {
+		return $this->share->getPassword();
+	}
+
+	public function isValidToken(): bool {
+		try {
+			$this->share = $this->shareManager->getShareByToken($this->getToken());
+		} catch (ShareNotFound $e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	protected function isPasswordProtected(): bool {
+		return $this->share->getPassword() !== null;
+	}
+
+	protected function authSucceeded() {
+		// For share this was always set so it is still used in other apps
+		$this->session->set('public_link_authenticated', (string)$this->share->getId());
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param string $token
-	 * @return TemplateResponse|RedirectResponse
+	 * @return TemplateResponse
 	 */
-	public function showAuthenticate($token) {
-		$share = $this->shareManager->getShareByToken($token);
-
-		if($this->linkShareAuth($share)) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
-		}
-
+	public function showAuthenticate(): TemplateResponse {
 		return new TemplateResponse($this->appName, 'authenticate', array(), 'guest');
 	}
 
 	/**
-	 * @PublicPage
-	 * @UseSession
-	 * @BruteForceProtection(action=publicLinkAuth)
-	 *
-	 * Authenticates against password-protected shares
-	 * @param string $token
-	 * @param string $redirect
-	 * @param string $password
-	 * @return RedirectResponse|TemplateResponse|NotFoundResponse
+	 * @return TemplateResponse
 	 */
-	public function authenticate($token, $redirect, $password = '') {
-
-		// Check whether share exists
-		try {
-			$share = $this->shareManager->getShareByToken($token);
-		} catch (ShareNotFound $e) {
-			return new NotFoundResponse();
-		}
-
-		$authenticate = $this->linkShareAuth($share, $password);
-
-		// if download was requested before auth, redirect to download
-		if ($authenticate === true && $redirect === 'download') {
-			return new RedirectResponse($this->urlGenerator->linkToRoute(
-				'files_sharing.sharecontroller.downloadShare',
-				array('token' => $token))
-			);
-		} else if ($authenticate === true) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute(
-				'files_sharing.sharecontroller.showShare',
-				array('token' => $token))
-			);
-		}
-
-		$response = new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
-		$response->throttle();
-		return $response;
+	public function showAuthFailed(): TemplateResponse {
+		return new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
 	}
 
 	/**
@@ -285,27 +270,21 @@ class ShareController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @param string $token
+
 	 * @param string $path
-	 * @return TemplateResponse|RedirectResponse|NotFoundResponse
+	 * @return TemplateResponse
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
-	public function showShare($token, $path = '') {
+	public function showShare($path = ''): TemplateResponse {
 		\OC_User::setIncognitoMode(true);
 
 		// Check whether share exists
 		try {
-			$share = $this->shareManager->getShareByToken($token);
+			$share = $this->shareManager->getShareByToken($this->getToken());
 		} catch (ShareNotFound $e) {
-			$this->emitAccessShareHook($token, 404, 'Share not found');
-			return new NotFoundResponse();
-		}
-
-		// Share is password protected - check whether the user is permitted to access the share
-		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				array('token' => $token, 'redirect' => 'preview')));
+			$this->emitAccessShareHook($this->getToken(), 404, 'Share not found');
+			throw new NotFoundException();
 		}
 
 		if (!$this->validateShare($share)) {
@@ -329,8 +308,8 @@ class ShareController extends Controller {
 		$shareTmpl['directory_path'] = $share->getTarget();
 		$shareTmpl['mimetype'] = $share->getNode()->getMimetype();
 		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($share->getNode()->getMimetype());
-		$shareTmpl['dirToken'] = $token;
-		$shareTmpl['sharingToken'] = $token;
+		$shareTmpl['dirToken'] = $this->getToken();
+		$shareTmpl['sharingToken'] = $this->getToken();
 		$shareTmpl['server2serversharing'] = $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 		$shareTmpl['protected'] = $share->getPassword() !== null ? 'true' : 'false';
 		$shareTmpl['dir'] = '';
@@ -367,7 +346,7 @@ class ShareController extends Controller {
 
 			$folder = new Template('files', 'list', '');
 			$folder->assign('dir', $rootFolder->getRelativePath($folderNode->getPath()));
-			$folder->assign('dirToken', $token);
+			$folder->assign('dirToken', $this->getToken());
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
 			$folder->assign('isPublic', true);
 			$folder->assign('hideFileList', $hideFileList);
@@ -382,8 +361,8 @@ class ShareController extends Controller {
 
 		$shareTmpl['hideFileList'] = $hideFileList;
 		$shareTmpl['shareOwner'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
-		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', ['token' => $token]);
-		$shareTmpl['shareUrl'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
+		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', ['token' => $this->getToken()]);
+		$shareTmpl['shareUrl'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $this->getToken()]);
 		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
 		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
 		$shareTmpl['previewMaxX'] = $this->config->getSystemValue('preview_max_x', 1024);
@@ -398,14 +377,14 @@ class ShareController extends Controller {
 
 			// We just have direct previews for image files
 			if ($share->getNode()->getMimePart() === 'image') {
-				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
+				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $this->getToken()]);
 
 				$ogPreview = $shareTmpl['previewURL'];
 
 				//Whatapp is kind of picky about their size requirements
 				if ($this->request->isUserAgent(['/^WhatsApp/'])) {
 					$ogPreview = $this->urlGenerator->linkToRouteAbsolute('files_sharing.PublicPreview.getPreview', [
-						't' => $token,
+						'token' => $this->getToken(),
 						'x' => 256,
 						'y' => 256,
 						'a' => true,
@@ -486,12 +465,6 @@ class ShareController extends Controller {
 
 		if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
 			return new \OCP\AppFramework\Http\DataResponse('Share is read-only');
-		}
-
-		// Share is password protected - check whether the user is permitted to access the share
-		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-				['token' => $token, 'redirect' => 'download']));
 		}
 
 		$files_list = null;
