@@ -1299,19 +1299,16 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.password {
 				width: 150px;
 			}
-			.mailAddress{
+			.mailAddress,
+			.groups,
+			.subadmins {
 				width: 200px;
 			}
-			.groups,
-			.subadmins,
 			.quota {
-				width: 170px;
+				width: 150px;
 			}
 			.languages {
 				width: 200px;
-				.multiselect {
-					width: 100%;
-				}
 			}
 			.storageLocation {
 				width: 250px;
@@ -1379,7 +1376,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
                     }
 					progress {
 						position: absolute;
-						width: 160px;
+						width: calc(100% - 4px); /* minus left and right */
 						left: 2px;
 						bottom: 2px;
 						height: 3px;
@@ -1415,24 +1412,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 						}
 					}
 				}
-				.v-select {
-					&.open .selected-tag-wrap {
-						display: none;
-					}
-					.dropdown-toggle .selected-tag {
-						padding-right: 5px;
-						.close {
-							/* no delete on tags*/
-							display: none;
-						}
-					}
-					.dropdown-menu li a .icon-add {
-						position: absolute;
-						width: 16px;
-						height: 16px;
-						opacity: .5;
-						left: 7px;
-					}
+				/* Fill the grid cell */
+				.multiselect.multiselect-vue {
+					width: 100%;
 				}
 			}
 		}

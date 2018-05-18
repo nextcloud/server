@@ -626,8 +626,8 @@ input {
     margin: 1px 2px;
     padding: 0 !important;
     display: inline-block;
-    min-width: 160px;
-    width: 160px;
+    /* min-width: 160px; */
+    /* width: 160px; */
     position: relative;
     background-color: $color-main-background;
     &.multiselect--active {
@@ -642,6 +642,9 @@ input {
         background-color: nc-darken($color-main-background, 8%) !important;
     }
     .multiselect__tags {
+		/* space between tags and limit tag */
+		$space-between: 5px;
+
         display: flex;
         flex-wrap: nowrap;
         overflow: hidden;
@@ -657,7 +660,8 @@ input {
             overflow: hidden;
             max-width: 100%;
             position: relative;
-            padding: 3px 5px;
+			padding: 3px $space-between;
+			flex-grow: 1;
             /* no tags or simple select? Show input directly
 			   input is used to display single value */
             &:empty ~ input.multiselect__input {
@@ -669,7 +673,7 @@ input {
             }
             /* selected tag */
             .multiselect__tag {
-                flex: 0 0 auto;
+                flex: 1 0 calc(50% - 5px);;
                 line-height: 20px;
                 padding: 1px 5px;
                 background-image: none;
@@ -677,8 +681,25 @@ input {
                 border: 1px solid nc-darken($color-main-background, 14%);
                 display: inline-flex;
                 align-items: center;
-                border-radius: 3px;
-                margin-right: 5px;
+				border-radius: 3px;
+				/* require to override the default width
+				   and force the tag to shring properly */
+				min-width: 0;
+				/* css hack, detect if more than two tags
+				   if so, flex-basis is set to half */
+				&:only-child {
+					flex: 0 1 auto;
+				}
+				&:not(:last-child) {
+					margin-right: $space-between;
+				}
+				/* ellipsis the groups to be sure
+				   we display at least two of them */
+				> span {
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
             }
         }
         /* Single select default value */
@@ -690,13 +711,17 @@ input {
             cursor: pointer;
         }
         /* displayed text if tag limit reached */
-        .multiselect__strong {
+		.multiselect__strong,
+		.multiselect__limit {
             flex: 0 0 auto;
             line-height: 20px;
             color: nc-lighten($color-main-text, 33%);
             display: inline-flex;
             align-items: center;
-	        opacity: .7;
+			opacity: .7;
+			margin-right: $space-between;
+			/* above the input */
+			z-index: 5;
         }
         /* default multiselect input for search and placeholder */
         input.multiselect__input {

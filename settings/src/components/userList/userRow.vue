@@ -32,20 +32,20 @@
 		<div class="groups" :class="{'icon-loading-small': loading.groups}">
 			<multiselect :value="userGroups" :options="groups" :disabled="loading.groups||loading.all"
 						 tag-placeholder="create" :placeholder="t('settings', 'Add user in group')"
-						 label="name" track-by="id" class="multiselect-vue"
-						 :limit="2" :limitText="limitGroups"
+						 label="name" track-by="id" class="multiselect-vue" :limit="2"
 						 :multiple="true" :taggable="settings.isAdmin" :closeOnSelect="false"
 						 @tag="createGroup" @select="addUserGroup" @remove="removeUserGroup">
+				<span slot="limit" class="multiselect__limit" v-tooltip.auto="formatGroupsTitle(userGroups)">+{{userGroups.length-2}}</span>
 				<span slot="noResult">{{t('settings', 'No results')}}</span>
 			</multiselect>
 		</div>
 		<div class="subadmins" v-if="subAdminsGroups.length>0 && settings.isAdmin" :class="{'icon-loading-small': loading.subadmins}">
 			<multiselect :value="userSubAdminsGroups" :options="subAdminsGroups" :disabled="loading.subadmins||loading.all"
 						 :placeholder="t('settings', 'Set user as admin for')"
-						 label="name" track-by="id" class="multiselect-vue"
-						 :limit="2" :limitText="limitGroups"
+						 label="name" track-by="id" class="multiselect-vue" :limit="2"
 						 :multiple="true" :closeOnSelect="false"
 						 @select="addUserSubAdmin" @remove="removeUserSubAdmin">
+				<span slot="limit" class="multiselect__limit" v-tooltip.auto="formatGroupsTitle(userSubAdminsGroups)">+{{userSubAdminsGroups.length-2}}</span>
 				<span slot="noResult">{{t('settings', 'No results')}}</span>
 			</multiselect>
 		</div>
@@ -222,15 +222,14 @@ export default {
 			);
 		},
 
-
 		/**
-		 * Format the limit text in the selected options
+		 * Format array of groups objects to a string for the popup
 		 * 
-		 * @param {int} count elements left
+		 * @param {array} groups The groups
 		 * @returns {string}
 		 */
-		limitGroups(count) {
-			return '+'+count;
+		formatGroupsTitle(groups) {
+			return groups.map(group => group.name).join(', ');
 		},
 
 		deleteUser() {
