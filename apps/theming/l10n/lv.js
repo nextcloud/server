@@ -15,8 +15,6 @@ OC.L10N.register(
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Tēmošana padara iespējamu viegli pielāgot savas instances un atbalstošo klientaplikāciju izskatu un sajūtu. Tas būs redzams visiem lietotājiem.",
     "Name" : "Nosaukums",
     "Reset to default" : "Atiestatīt",
-    "Web address" : "Tīmekļa adrese",
-    "Web address https://…" : "Servera adrese https://…",
     "Slogan" : "Sauklis",
     "Color" : "Krāsa",
     "Logo" : "Logo",
@@ -25,6 +23,8 @@ OC.L10N.register(
     "Upload new login background" : "Augšupielādēt jaunu pieslēgšanās fona attēlu",
     "Remove background image" : "Noņemt fona attēlu",
     "You are already using a custom theme" : "Tu jau izmanto pielāgotu tēmu",
-    "reset to default" : "Atiestatīt"
+    "reset to default" : "Atiestatīt",
+    "Web address" : "Tīmekļa adrese",
+    "Web address https://…" : "Servera adrese https://…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

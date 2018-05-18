@@ -17,8 +17,6 @@ OC.L10N.register(
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "السمات تجعل من الممكن بسهولة تخصيص الشكل والمظهر لنموذجك ودعم العملاء. سيكون هذا مرئيا لجميع المستخدمين.",
     "Name" : "الاسم",
     "Reset to default" : "اعادة تعيين الافتراضيات",
-    "Web address" : "عنوان صفحة أنترنت",
-    "Web address https://…" : "عنوان صفحة أنترنت https://",
     "Slogan" : "شعار",
     "Color" : "لون",
     "Logo" : "العلامة",
@@ -28,6 +26,8 @@ OC.L10N.register(
     "Remove background image" : "إزالة صورة الخلفية",
     "You are already using a custom theme" : "انت تستعمل قالب مخصص",
     "reset to default" : "إلغاء كل التغييرات",
+    "Web address" : "عنوان صفحة أنترنت",
+    "Web address https://…" : "عنوان صفحة أنترنت https://",
     "Failed to write file to disk." : "خطأ في الكتابة على القرص الصلب."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

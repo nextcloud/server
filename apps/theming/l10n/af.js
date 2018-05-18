@@ -17,8 +17,6 @@ OC.L10N.register(
     "Unsupported image type" : "Onondersteunde beeldtipe",
     "Name" : "Naam",
     "Reset to default" : "Herstel na verstek",
-    "Web address" : "Webadres",
-    "Web address https://…" : "Webadres https://…",
     "Slogan" : "Slagspreuk",
     "Color" : "Kleur",
     "Logo" : "Logo",
@@ -28,6 +26,8 @@ OC.L10N.register(
     "Remove background image" : "Verwyder agtergrondbeeld",
     "You are already using a custom theme" : "U gebruik reeds ’n pasgemaakte tema",
     "reset to default" : "herstel na verstek",
+    "Web address" : "Webadres",
+    "Web address https://…" : "Webadres https://…",
     "There is no error, the file uploaded with success" : "Geen fout is teëgekom nie, die lêer is met suksesvol opgelaai",
     "The uploaded file was only partially uploaded" : "Die opgelaaide lêer is slegs gedeeltelik opgelaai"
 },

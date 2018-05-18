@@ -342,5 +342,5 @@
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "Váš PHP nepodporuje freetype. Následek budou požkozené profilové obrázky a nastavení rozhraní",
     "Back to log in" : "Zpět na přihlášení",
     "Depending on your configuration, this button could also work to trust the domain:" : "V závislosti na vaší konfiguraci by pro označení domény za důvěryhodnou mohlo fungovat i toto tlačítko:"
-},"pluralForm" :"nplurals=4; plural=(n < 10 && n % 1 == 0) ? 1 : (n < 9999 && n >= 10 && n % 1 == 0) ? 3 : (n % 1 != 0) : 4;"
+},"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

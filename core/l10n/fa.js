@@ -268,4 +268,4 @@ OC.L10N.register(
     "Alternative Logins" : "ورود متناوب",
     "Add \"%s\" as trusted domain" : "افزودن \"%s\" به عنوان دامنه مورد اعتماد"
 },
-"nplurals=2; plural=((n<=1 && n>= 0) ? 1);");
+"nplurals=2; plural=(n > 1);");

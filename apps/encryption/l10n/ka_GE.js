@@ -61,4 +61,4 @@ OC.L10N.register(
     "Disabled" : "არაა მოქმედი",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "საჭიროა შიფრაციის ძველი გასაღებების მიგრაცია (ownCloud <= 8.0) ახალებზე. გთხოვთ გაუშვათ 'occ encryption:migrate' ან დაუკავშირდეთ ადმინისტრატორს"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");

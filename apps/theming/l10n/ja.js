@@ -18,8 +18,6 @@ OC.L10N.register(
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "テーマではあなたのインスタンスとサポートされたクライアントのルック＆フィールを簡単に変更できます。この変更は全てのユーザが対象となります。",
     "Name" : "名前",
     "Reset to default" : "デフォルトに戻す",
-    "Web address" : "Webアドレス",
-    "Web address https://…" : "Webアドレス https://...",
     "Slogan" : "スローガン",
     "Color" : "色",
     "Logo" : "ロゴ",
@@ -29,6 +27,8 @@ OC.L10N.register(
     "Remove background image" : "背景画像を削除",
     "You are already using a custom theme" : "あなたは既にカスタムテーマを利用しています",
     "reset to default" : "デフォルトに戻す",
+    "Web address" : "Webアドレス",
+    "Web address https://…" : "Webアドレス https://...",
     "There is no error, the file uploaded with success" : "ファイルはエラーなくアップロードされました",
     "Failed to write file to disk." : "ファイルをディスクに書き込めませんでした",
     "A PHP extension stopped the file upload." : "PHP拡張でファイルのアップロードが停止されています"

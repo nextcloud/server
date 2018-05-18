@@ -13,8 +13,6 @@
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "El tematizar hace posible personalizar facilmente la manera en que se ve su instancia y clientes soportados. Esto será visible para todos los usuarios. ",
     "Name" : "Nombre",
     "Reset to default" : "Restablecer al predeterminado",
-    "Web address" : "Dirección web",
-    "Web address https://…" : "Dirección web https://...",
     "Slogan" : "Lema",
     "Color" : "Color",
     "Logo" : "Logotipo",
@@ -23,6 +21,8 @@
     "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión",
     "Remove background image" : "Eliminar imagen de fondo",
     "You are already using a custom theme" : "Usted ya se encuentra usando un tema personalizado",
-    "reset to default" : "restaurar a predeterminado"
+    "reset to default" : "restaurar a predeterminado",
+    "Web address" : "Dirección web",
+    "Web address https://…" : "Dirección web https://..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

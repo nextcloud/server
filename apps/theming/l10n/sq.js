@@ -15,8 +15,6 @@ OC.L10N.register(
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Theming bën të mundur për të përshtatur lehtësisht pamjen dhe ndjenjën e instancës suaj dhe klientëve të mbështetur. Kjo do të jetë e dukshme për të gjithë përdoruesit.",
     "Name" : "Emri",
     "Reset to default" : "Rivendos tek të paracaktuarat",
-    "Web address" : "Adresa e Web",
-    "Web address https://…" : "Adresë uebi https://...",
     "Slogan" : "Sllogan",
     "Color" : "Ngjyrë ",
     "Logo" : "Logo",
@@ -25,6 +23,8 @@ OC.L10N.register(
     "Upload new login background" : "Ngarko background të ri hyrjeje",
     "Remove background image" : "Hiqni imazhin në sfond",
     "You are already using a custom theme" : "Ju jeni duke përdorur një temë të zakonshme tashmë",
-    "reset to default" : "rivendos tek të paracaktuarat"
+    "reset to default" : "rivendos tek të paracaktuarat",
+    "Web address" : "Adresa e Web",
+    "Web address https://…" : "Adresë uebi https://..."
 },
 "nplurals=2; plural=(n != 1);");

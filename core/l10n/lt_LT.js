@@ -305,4 +305,4 @@ OC.L10N.register(
     "Back to log in" : "Grįžti prie prisijungimo",
     "Depending on your configuration, this button could also work to trust the domain:" : "Priklausomai nuo konfigūracijos, šiuo mygtuku taip pat galima patvirtinti domeną kaip patikimą."
 },
-"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 1 : (n%10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 3 : n % 1 != 0 ? 4);");
+"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

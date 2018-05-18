@@ -134,4 +134,4 @@ OC.L10N.register(
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>אזהרה:</b> יישומים user_ldap ו- user_webdavauth אינם תואמים. תופעות לא מוסברות עלולות להתקיים. כדאי לפנות למנהל המערכת כדי שינטרל אחד מהם."
 },
-"nplurals=4; plural=(n==1 ? 1: n == 2 ? 2 : (n % 10 == 0 and n > 10) ? 4);");
+"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

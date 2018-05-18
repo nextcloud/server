@@ -9,4 +9,4 @@ OC.L10N.register(
     "No earlier versions available" : "هیچ نسخه قدیمی تری در دسترس نیست",
     "More versions …" : "نسخه های بیشتر ..."
 },
-"nplurals=2; plural=((n<=1 && n>= 0) ? 1);");
+"nplurals=2; plural=(n > 1);");

@@ -422,5 +422,5 @@
     "Send email to new user" : "გაუგზავნეთ ელ-წერილი ახალ მომხმარებელს",
     "Create" : "შექმნა",
     "Group name" : "ჯგუფის სახელი"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

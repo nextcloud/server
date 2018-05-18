@@ -52,5 +52,5 @@
     "PHP module %s not installed." : "ماژول PHP %s نصب نشده است.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است",
     "Please upgrade your database version" : "لطفا نسخه‌ی پایگاه‌داده‌ی خود را بروز کنید"
-},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

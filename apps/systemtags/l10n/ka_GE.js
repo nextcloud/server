@@ -55,4 +55,4 @@ OC.L10N.register(
     "Size" : "ზომა",
     "Modified" : "შეცვლილია"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");
