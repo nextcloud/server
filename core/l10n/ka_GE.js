@@ -346,4 +346,4 @@ OC.L10N.register(
     "Back to log in" : "უკან ავტორიზაციისკენ",
     "Depending on your configuration, this button could also work to trust the domain:" : "თქვენი კონფიგურაციიდან გამომდინარე, ეს ღილაკი დომენის ნდობისთვის შეიძლება ასევე მუშაობდეს."
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");

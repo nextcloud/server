@@ -265,5 +265,5 @@
     "Stay logged in" : "در سیستم بمانید",
     "Alternative Logins" : "ورود متناوب",
     "Add \"%s\" as trusted domain" : "افزودن \"%s\" به عنوان دامنه مورد اعتماد"
-},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

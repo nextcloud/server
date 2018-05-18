@@ -66,5 +66,5 @@
     "Save" : "შენახვა",
     "Saving…" : "მიმდინარეობს დამახსოვრება...",
     "Loading…" : "იტვირთება..."
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

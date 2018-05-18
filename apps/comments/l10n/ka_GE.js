@@ -32,4 +32,4 @@ OC.L10N.register(
     "A (now) deleted user mentioned you in a comment on “%s”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში “%s”-ზე",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(ახლა) წაშლილმა მოხმარებელმა მოგიხსენიათ კომენტარში ფაილზე \"{file}\""
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");

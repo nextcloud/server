@@ -37,5 +37,5 @@
     "Send password by mail" : "პაროლის გაგზავნა ფოსტით",
     "Enforce password protection" : "პროლით დაცვის იძულება",
     "Failed to send share by E-mail" : "საოფსტო გაზიარების გაგზავნა ვერ მოხერხდა"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

@@ -40,4 +40,4 @@ OC.L10N.register(
     "Enforce password protection" : "პროლით დაცვის იძულება",
     "Failed to send share by E-mail" : "საოფსტო გაზიარების გაგზავნა ვერ მოხერხდა"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");

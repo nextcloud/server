@@ -61,4 +61,4 @@ OC.L10N.register(
     "Disabled" : "Zakázané",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musíte migrovať vaše šifrovacie kľúče zo starého šifrovania (ownCloud <= 8,0) na nové. Spustite „occ encryption:migrate“ alebo sa obráťte na správcu"
 },
-"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);");
+"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -27,4 +27,4 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "არჩეული განახლების არხი მოძველებული სერვერის შესახებ საჭიროებს გამოყოფილ შეტყობინებებს.",
     "The update check is not yet finished. Please refresh the page." : "განახლება ჯერ არ დასრულებულა. გთხოვთ განაახლოთ გვერდი."
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");

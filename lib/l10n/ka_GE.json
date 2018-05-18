@@ -245,5 +245,5 @@
     "Cannot set expiration date more than %s days in the future" : "ვადის ამოწურვის თარიღი %s დღეზე მეტი მომავალში ვერ იქნება",
     "No app name specified" : "აპლიკაციის სახელი არაა მოცემული",
     "App '%s' could not be installed!" : "აპლიკაცია '%s' ვერ ყენდება!"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

@@ -159,4 +159,4 @@ OC.L10N.register(
     "A new file or folder has been <strong>restored</strong>" : "קובץ או תיקייה חדשים <strong>שוחזרו</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">לגשת לקבצים שלך דרך WebDAV</a>"
 },
-"nplurals=4; plural=(n==1 ? 1: n == 2 ? 2 : (n % 10 == 0 and n > 10) ? 4);");
+"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

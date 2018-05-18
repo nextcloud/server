@@ -10,5 +10,5 @@
     "+ Add trusted server" : "+ სანდო სერვერის დამატება",
     "Trusted server" : "სანდო სერვერი",
     "Add" : "დამატება"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

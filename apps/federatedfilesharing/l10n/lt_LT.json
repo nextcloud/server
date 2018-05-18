@@ -50,5 +50,5 @@
     "Federated share added" : "Pasidalinta per kitą serverį",
     "Couldn't add remote share" : "Nepavyko peržiūrėti kitame serveryje pasidalintų duomenų",
     "Search global and public address book for users and let local users publish their data" : "Rasti globalias ar viešas adresų knygas ir leisti naudotojams viešinti savo duomenis"
-},"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 1 : (n%10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 3 : n % 1 != 0 ? 4);"
+},"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

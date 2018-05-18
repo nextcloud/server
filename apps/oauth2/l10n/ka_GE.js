@@ -11,4 +11,4 @@ OC.L10N.register(
     "Add client" : "კლიენტის დამატება",
     "Add" : "დამატება"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");
