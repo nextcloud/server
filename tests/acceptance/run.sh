@@ -106,18 +106,24 @@ function setOperatingSystemAbstractionVariables() {
 # "vncviewer 127.0.0.1:5900"); when asked for the password use "secret".
 function prepareSelenium() {
 	SELENIUM_CONTAINER=selenium-nextcloud-local-test-acceptance
+	export JAVA_OPTS=-Dwebdriver.firefox.profile=default
 
 	echo "Starting Selenium server"
-	docker run --detach --name=$SELENIUM_CONTAINER --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS selenium/standalone-firefox-debug:2.53.1-beryllium
+	docker run --detach --name=$SELENIUM_CONTAINER --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS -e JAVA_OPTS selenium/standalone-firefox-debug:2.53.1-beryllium
 
 	echo "Waiting for Selenium server to be ready"
 	if ! $TIMEOUT 10s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"; then
 		echo "Could not start Selenium server; running" \
-		     "\"docker run --rm --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS selenium/standalone-firefox-debug:2.53.1-beryllium\"" \
+		     "\"docker run --rm --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS -e JAVA_OPTS selenium/standalone-firefox-debug:2.53.1-beryllium\"" \
 		     "could give you a hint of the problem"
 
 		exit 1
 	fi
+
+	echo "Copying firefox profile"
+	docker exec --user=seluser $SELENIUM_CONTAINER mkdir -p /home/seluser/.mozilla/firefox
+	docker cp ./config/firefox-profile/profiles.ini $SELENIUM_CONTAINER:/home/seluser/.mozilla/firefox/
+	docker cp ./config/firefox-profile/ $SELENIUM_CONTAINER:/home/seluser/.mozilla/firefox/
 }
 
 # Creates a Docker container to run both the acceptance tests and the Nextcloud
