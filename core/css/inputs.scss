@@ -673,7 +673,7 @@ input {
             }
             /* selected tag */
             .multiselect__tag {
-                flex: 1 0 calc(50% - 5px);;
+                flex: 1 0 0;
                 line-height: 20px;
                 padding: 1px 5px;
                 background-image: none;
@@ -685,6 +685,9 @@ input {
 				/* require to override the default width
 				   and force the tag to shring properly */
 				min-width: 0;
+				max-width: 50%;
+				max-width: fit-content;
+				max-width: -moz-fit-content;
 				/* css hack, detect if more than two tags
 				   if so, flex-basis is set to half */
 				&:only-child {

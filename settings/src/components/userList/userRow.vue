@@ -229,7 +229,8 @@ export default {
 		 * @returns {string}
 		 */
 		formatGroupsTitle(groups) {
-			return groups.map(group => group.name).join(', ');
+			let names = groups.map(group => group.name);
+			return names.slice(2,).join(', ');
 		},
 
 		deleteUser() {
