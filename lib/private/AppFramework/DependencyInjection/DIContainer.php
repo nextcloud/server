@@ -62,6 +62,7 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IServerContainer;
+use OCP\ISession;
 use OCP\IUserSession;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Encryption\IManager;
@@ -304,7 +305,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$middleWares = &$this->middleWares;
-		$this->registerService('MiddlewareDispatcher', function($c) use (&$middleWares) {
+		$this->registerService('MiddlewareDispatcher', function(SimpleContainer $c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c[OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware::class]);
 			$dispatcher->registerMiddleware($c['CORSMiddleware']);
@@ -314,6 +315,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c['TwoFactorMiddleware']);
 			$dispatcher->registerMiddleware($c['BruteForceMiddleware']);
 			$dispatcher->registerMiddleware($c['RateLimitingMiddleware']);
+			$dispatcher->registerMiddleware(new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
+				$c['Request'],
+				$c->query(ISession::class),
+				$c->query(\OCP\IConfig::class)
+			));
 
 			foreach($middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c[$middleWare]);
