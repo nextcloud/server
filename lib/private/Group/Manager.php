@@ -216,6 +216,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function createGroup($gid) {
 		if ($gid === '' || $gid === null) {
 			return false;
+		} else if (trim(strtolower($gid)) === 'admin' && $this->get('admin')) {
+			return $this->get('admin');
 		} else if ($group = $this->get($gid)) {
 			return $group;
 		} else {

@@ -360,6 +360,23 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->addGroup('ExistingGroup');
 	}
 
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 */
+	public function testAddGroupAdminGroup() {
+		$this->api->addGroup('Admin');
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 102
+	 */
+	public function testAddGroupAdmin2Group() {
+		$this->api->addGroup(' Admin ');
+	}
+
+
 	public function testAddGroup() {
 		$this->groupManager
 			->method('groupExists')
