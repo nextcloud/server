@@ -68,6 +68,14 @@ class Avatar implements IAvatar {
 	 */
 	private $svgTemplate = '
 		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+		<defs>
+			<style type="text/css">
+				@font-face {
+					font-family: Open Sans;
+					src: url({font});
+				}
+			</style>
+		</defs>
 			<rect width="100%" height="100%" fill="#{fill}"></rect>
 			<text x="50%" y="350" style="font-weight:600;font-size:278px;font-family:\'Open Sans\';text-anchor:middle;fill:#fff">{letter}</text>
 		</svg>';
@@ -287,9 +295,10 @@ class Avatar implements IAvatar {
 		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b);
 		$letter = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
+		$font = \OC::$WEBROOT.'/core/fonts/OpenSans-Semibold.ttf';
 		
-		$toReplace = ['{size}', '{fill}', '{letter}'];
-		return str_replace($toReplace, [$size, $bgHEX, $letter], $this->svgTemplate);
+		$toReplace = ['{size}', '{fill}', '{letter}', '{font}'];
+		return str_replace($toReplace, [$size, $bgHEX, $letter, $font], $this->svgTemplate);
 	}
 
 	/**
