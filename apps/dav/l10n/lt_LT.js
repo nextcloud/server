@@ -41,9 +41,13 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Kalendoriaus <strong>įvykis</strong> buvo pakeistas",
     "A calendar <strong>todo</strong> was modified" : "Kalendoriaus <strong>užduotis</strong> buvo pakeista",
     "Contact birthdays" : "Kontaktų gimtadieniai",
+    "Invitation updated" : "Pakvietimas atnaujintas",
+    "Description:" : "Aprašas:",
     "Contacts" : "Kontaktai",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Techninė informacija",
     "Remote Address: %s" : "Nuotolinis adresas: %s",
-    "Request ID: %s" : "Užklausos ID: %s"
+    "Request ID: %s" : "Užklausos ID: %s",
+    "CalDAV server" : "CalDAV serveris"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
