@@ -275,6 +275,8 @@ OC.L10N.register(
     "Wrong password." : "Chybné heslo.",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Bylo rozpoznáno několik neplatných pokusů o přihlášeni z Vaší IP. Další přihlášení bude možné za 30 sekund.",
     "Forgot password?" : "Zapomněli jste heslo?",
+    "Back to login" : "Zpět na přihlášení",
+    "Connect to your account" : "Připojit ke svému účtu",
     "App token" : "Token aplikace",
     "Grant access" : "Povolit přístup",
     "Account access" : "Přístup k účtu",
