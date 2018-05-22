@@ -89,6 +89,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Comments\\RootCollection' => __DIR__ . '/..' . '/../lib/Comments/RootCollection.php',
         'OCA\\DAV\\Connector\\LegacyDAVACL' => __DIR__ . '/..' . '/../lib/Connector/LegacyDAVACL.php',
         'OCA\\DAV\\Connector\\PublicAuth' => __DIR__ . '/..' . '/../lib/Connector/PublicAuth.php',
+        'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\AppEnabledPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AppEnabledPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\Auth' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Auth.php',
         'OCA\\DAV\\Connector\\Sabre\\BearerAuth' => __DIR__ . '/..' . '/../lib/Connector/Sabre/BearerAuth.php',

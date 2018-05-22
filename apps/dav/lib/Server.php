@@ -54,6 +54,7 @@ use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCP\IRequest;
@@ -101,6 +102,7 @@ class Server {
 		$this->server->setBaseUri($this->baseUri);
 
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
+		$this->server->addPlugin(new AnonymousOptionsPlugin());
 		$authPlugin = new Plugin();
 		$authPlugin->addBackend(new PublicAuth());
 		$this->server->addPlugin($authPlugin);
