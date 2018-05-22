@@ -77,7 +77,8 @@ class CreateCalendar extends Command {
 			$this->userManager,
 			$this->groupManager,
 			\OC::$server->getShareManager(),
-			\OC::$server->getUserSession()
+			\OC::$server->getUserSession(),
+			\OC::$server->getConfig()
 		);
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();

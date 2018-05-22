@@ -27,6 +27,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\User\User;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -47,18 +48,22 @@ class PrincipalTest extends TestCase {
 	private $shareManager;
 	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
 	private $userSession;
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject  */
+	private $config;
 
 	public function setUp() {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
 			$this->userManager,
 			$this->groupManager,
 			$this->shareManager,
-			$this->userSession);
+			$this->userSession,
+			$this->config);
 		parent::setUp();
 	}
 
@@ -278,26 +283,37 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider searchPrincipalsDataProvider
 	 */
-	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $result) {
+	public function testSearchPrincipals($disableFreeBusy, $sharingEnabled, $disableFBSharingCombination, $groupsOnly, $result) {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->will($this->returnValue($sharingEnabled));
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'disableFreeBusy', $sharingEnabled ? 'no' : 'yes')
+			->will($this->returnValue($disableFBSharingCombination));
 
-		if ($sharingEnabled) {
-			$this->shareManager->expects($this->once())
-				->method('shareWithGroupMembersOnly')
-				->will($this->returnValue($groupsOnly));
+		if ($disableFreeBusy === 'no') {
+			if ($sharingEnabled) {
+				$this->shareManager->expects($this->once())
+					->method('shareWithGroupMembersOnly')
+					->will($this->returnValue($groupsOnly));
 
-			if ($groupsOnly) {
-				$user = $this->createMock(IUser::class);
-				$this->userSession->expects($this->once())
-					->method('getUser')
-					->will($this->returnValue($user));
+				if ($groupsOnly) {
+					$user = $this->createMock(IUser::class);
+					$this->userSession->expects($this->once())
+						->method('getUser')
+						->will($this->returnValue($user));
 
-				$this->groupManager->expects($this->at(0))
-					->method('getUserGroupIds')
-					->with($user)
-					->will($this->returnValue(['group1', 'group2']));
+					$this->groupManager->expects($this->at(0))
+						->method('getUserGroupIds')
+						->with($user)
+						->will($this->returnValue(['group1', 'group2']));
+				}
+			} else {
+				$this->shareManager->expects($this->never())
+					->method('shareWithGroupMembersOnly');
+				$this->groupManager->expects($this->never())
+					->method($this->anything());
 			}
 		} else {
 			$this->shareManager->expects($this->never())
@@ -306,27 +322,43 @@ class PrincipalTest extends TestCase {
 				->method($this->anything());
 		}
 
+
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->will($this->returnValue('user2'));
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->will($this->returnValue('user3'));
 
-		if ($sharingEnabled) {
-			$this->userManager->expects($this->at(0))
-				->method('getByEmail')
-				->with('user')
-				->will($this->returnValue([$user2, $user3]));
+		if ($disableFreeBusy === 'no') {
+			if ($sharingEnabled) {
+				$this->userManager->expects($this->at(0))
+					->method('getByEmail')
+					->with('user')
+					->will($this->returnValue([$user2, $user3]));
+			} else {
+				$this->userManager->expects($this->never())
+					->method('getByEmail');
+			}
+		} else {
+			$this->userManager->expects($this->never())
+				->method('getByEmail');
 		}
 
-		if ($sharingEnabled && $groupsOnly) {
-			$this->groupManager->expects($this->at(1))
-				->method('getUserGroupIds')
-				->with($user2)
-				->will($this->returnValue(['group1', 'group3']));
-			$this->groupManager->expects($this->at(2))
-				->method('getUserGroupIds')
-				->with($user3)
-				->will($this->returnValue(['group3', 'group4']));
+		if ($disableFreeBusy === 'no') {
+			if ($sharingEnabled && $groupsOnly) {
+				$this->groupManager->expects($this->at(1))
+					->method('getUserGroupIds')
+					->with($user2)
+					->will($this->returnValue(['group1', 'group3']));
+				$this->groupManager->expects($this->at(2))
+					->method('getUserGroupIds')
+					->with($user3)
+					->will($this->returnValue(['group3', 'group4']));
+			}
+		} else {
+			$this->groupManager->expects($this->never())
+				->method('getUserGroupIds');
+			$this->groupManager->expects($this->never())
+				->method('getUserGroupIds');
 		}
 
 		$this->assertEquals($result, $this->connector->searchPrincipals('principals/users',
@@ -335,9 +367,12 @@ class PrincipalTest extends TestCase {
 
 	public function searchPrincipalsDataProvider() {
 		return [
-			[true, false, ['principals/users/user2', 'principals/users/user3']],
-			[true, true, ['principals/users/user2']],
-			[false, false, []],
+			['yes', true, 'yes', false, []],
+			['no', true, 'no', false, ['principals/users/user2', 'principals/users/user3']],
+			['yes', true, 'yes', true, []],
+			['no', true, 'no', true, ['principals/users/user2']],
+			['yes', false, 'yes', false, []],
+			['no', false, 'yes', false, []],
 		];
 	}
 
@@ -345,6 +380,10 @@ class PrincipalTest extends TestCase {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
 			->will($this->returnValue(false));
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'disableFreeBusy', 'yes')
+			->will($this->returnValue('yes'));
 
 		$this->assertEquals(null, $this->connector->findByUri('mailto:user@foo.com', 'principals/users'));
 	}
@@ -352,45 +391,56 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider findByUriWithGroupRestrictionDataProvider
 	 */
-	public function testFindByUriWithGroupRestriction($uri, $email, $expects) {
+	public function testFindByUriWithGroupRestriction($disableFreeBusy, $uri, $email, $expects) {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
 			->will($this->returnValue(true));
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'disableFreeBusy', 'no')
+			->will($this->returnValue($disableFreeBusy));
 
-		$this->shareManager->expects($this->once())
-			->method('shareWithGroupMembersOnly')
-			->will($this->returnValue(true));
-
-		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($user));
-
-		$this->groupManager->expects($this->at(0))
-			->method('getUserGroupIds')
-			->with($user)
-			->will($this->returnValue(['group1', 'group2']));
-
-		$user2 = $this->createMock(IUser::class);
-		$user2->method('getUID')->will($this->returnValue('user2'));
-		$user3 = $this->createMock(IUser::class);
-		$user3->method('getUID')->will($this->returnValue('user3'));
-
-		$this->userManager->expects($this->once())
-			->method('getByEmail')
-			->with($email)
-			->will($this->returnValue([$email === 'user2@foo.bar' ? $user2 : $user3]));
-
-		if ($email === 'user2@foo.bar') {
-			$this->groupManager->expects($this->at(1))
-				->method('getUserGroupIds')
-				->with($user2)
-				->will($this->returnValue(['group1', 'group3']));
+		if ($disableFreeBusy === 'yes') {
+			$this->shareManager->expects($this->never())
+				->method('shareWithGroupMembersOnly');
+			$this->userSession->expects($this->never())
+				->method('getUser');
 		} else {
-			$this->groupManager->expects($this->at(1))
+			$this->shareManager->expects($this->once())
+				->method('shareWithGroupMembersOnly')
+				->will($this->returnValue(true));
+
+			$user = $this->createMock(IUser::class);
+			$this->userSession->expects($this->once())
+				->method('getUser')
+				->will($this->returnValue($user));
+
+			$this->groupManager->expects($this->at(0))
 				->method('getUserGroupIds')
-				->with($user3)
-				->will($this->returnValue(['group3', 'group3']));
+				->with($user)
+				->will($this->returnValue(['group1', 'group2']));
+
+			$user2 = $this->createMock(IUser::class);
+			$user2->method('getUID')->will($this->returnValue('user2'));
+			$user3 = $this->createMock(IUser::class);
+			$user3->method('getUID')->will($this->returnValue('user3'));
+
+			$this->userManager->expects($this->once())
+				->method('getByEmail')
+				->with($email)
+				->will($this->returnValue([$email === 'user2@foo.bar' ? $user2 : $user3]));
+
+			if ($email === 'user2@foo.bar') {
+				$this->groupManager->expects($this->at(1))
+					->method('getUserGroupIds')
+					->with($user2)
+					->will($this->returnValue(['group1', 'group3']));
+			} else {
+				$this->groupManager->expects($this->at(1))
+					->method('getUserGroupIds')
+					->with($user3)
+					->will($this->returnValue(['group3', 'group3']));
+			}
 		}
 
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
@@ -398,40 +448,56 @@ class PrincipalTest extends TestCase {
 
 	public function findByUriWithGroupRestrictionDataProvider() {
 		return [
-			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
-			['mailto:user3@foo.bar', 'user3@foo.bar', null],
+			['yes', 'mailto:user2@foo.bar', 'user2@foo.bar', null],
+			['no', 'mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
+			['yes', 'mailto:user3@foo.bar', 'user3@foo.bar', null],
+			['no', 'mailto:user3@foo.bar', 'user3@foo.bar', null],
 		];
 	}
 
 	/**
 	 * @dataProvider findByUriWithoutGroupRestrictionDataProvider
 	 */
-	public function testFindByUriWithoutGroupRestriction($uri, $email, $expects) {
+	public function testFindByUriWithoutGroupRestriction($disableFreeBusy, $uri, $email, $expects) {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
 			->will($this->returnValue(true));
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'disableFreeBusy', 'no')
+			->will($this->returnValue($disableFreeBusy));
 
-		$this->shareManager->expects($this->once())
-			->method('shareWithGroupMembersOnly')
-			->will($this->returnValue(false));
+		if ($disableFreeBusy === 'yes') {
+			$this->shareManager->expects($this->never())
+				->method('shareWithGroupMembersOnly');
 
-		$user2 = $this->createMock(IUser::class);
-		$user2->method('getUID')->will($this->returnValue('user2'));
-		$user3 = $this->createMock(IUser::class);
-		$user3->method('getUID')->will($this->returnValue('user3'));
+			$this->userManager->expects($this->never())
+				->method('getByEmail');
+		} else {
+			$this->shareManager->expects($this->once())
+				->method('shareWithGroupMembersOnly')
+				->will($this->returnValue(false));
 
-		$this->userManager->expects($this->once())
-			->method('getByEmail')
-			->with($email)
-			->will($this->returnValue([$email === 'user2@foo.bar' ? $user2 : $user3]));
+			$user2 = $this->createMock(IUser::class);
+			$user2->method('getUID')->will($this->returnValue('user2'));
+			$user3 = $this->createMock(IUser::class);
+			$user3->method('getUID')->will($this->returnValue('user3'));
+
+			$this->userManager->expects($this->once())
+				->method('getByEmail')
+				->with($email)
+				->will($this->returnValue([$email === 'user2@foo.bar' ? $user2 : $user3]));
+		}
 
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
 	}
 
 	public function findByUriWithoutGroupRestrictionDataProvider() {
 		return [
-			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
-			['mailto:user3@foo.bar', 'user3@foo.bar', 'principals/users/user3'],
+			['yes', 'mailto:user2@foo.bar', 'user2@foo.bar', null],
+			['yes', 'mailto:user3@foo.bar', 'user3@foo.bar', null],
+			['no', 'mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
+			['no', 'mailto:user3@foo.bar', 'user3@foo.bar', 'principals/users/user3'],
 		];
 	}
 }
