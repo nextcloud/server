@@ -876,6 +876,7 @@ class ThemingControllerTest extends TestCase {
 		url: "",
 		slogan: "",
 		color: "#000",
+		imprintUrl: null,
 		inverted: false,
 		cacheBuster: null
 	};
@@ -910,6 +911,7 @@ class ThemingControllerTest extends TestCase {
 		url: "nextcloudurl",
 		slogan: "awesome",
 		color: "#ffffff",
+		imprintUrl: null,
 		inverted: true,
 		cacheBuster: null
 	};

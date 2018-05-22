@@ -47,7 +47,7 @@ style('theming', 'settings-admin');
 	</div>
 	<div>
 		<label>
-			<span><?php p($l->t('Web address')) ?></span>
+			<span><?php p($l->t('Web link')) ?></span>
 			<input id="theming-url" type="text" placeholder="<?php p($l->t('Web address https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
 			<div data-setting="url" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
@@ -87,6 +87,13 @@ style('theming', 'settings-admin');
 	</div>
 	<div id="theming-preview">
 		<img src="<?php p($_['logo']); ?>" id="theming-preview-logo" />
+	</div>
+	<div>
+		<label>
+				<span><?php p($l->t('Legal notice link')) ?></span>
+				<input id="theming-imprintUrl" type="text" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['imprintUrl']) ?>" maxlength="500" />
+			<div data-setting="imprintUrl" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
+		</label>
 	</div>
 	<div class="theming-hints">
 		<?php if (!$_['canThemeIcons']) { ?>

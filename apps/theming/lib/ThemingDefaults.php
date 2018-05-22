@@ -142,11 +142,25 @@ class ThemingDefaults extends \OC_Defaults {
 		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', $this->slogan));
 	}
 
+	public function getImprintUrl() {
+		return $this->config->getAppValue('theming', 'imprintUrl', '');
+	}
+
 	public function getShortFooter() {
 		$slogan = $this->getSlogan();
 		$footer = '<a href="'. $this->getBaseUrl() . '" target="_blank"' .
 			' rel="noreferrer noopener">' .$this->getEntity() . '</a>'.
 			($slogan !== '' ? ' – ' . $slogan : '');
+
+		$imprintUrl = (string)$this->getImprintUrl();
+		if($imprintUrl !== ''
+			&& filter_var($imprintUrl, FILTER_VALIDATE_URL, [
+				'flags' => FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED
+			])
+		) {
+			$footer .= '<br/><a href="' . $imprintUrl . '" class="legal" target="_blank"' .
+				' rel="noreferrer noopener">' . $this->l->t('Legal notice') . '</a>';
+		}
 
 		return $footer;
 	}
