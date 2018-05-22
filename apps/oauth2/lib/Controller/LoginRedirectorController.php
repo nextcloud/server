@@ -61,11 +61,20 @@ class LoginRedirectorController extends Controller {
 	 *
 	 * @param string $client_id
 	 * @param string $state
+	 * @param string $response_type
 	 * @return RedirectResponse
 	 */
 	public function authorize($client_id,
-							  $state) {
+							  $state,
+							  $response_type) {
 		$client = $this->clientMapper->getByIdentifier($client_id);
+
+		if ($response_type !== 'code') {
+			//Fail
+			$url = $client->getRedirectUri() . '?error=unsupported_response_type&state=' . $state;
+			return new RedirectResponse($url);
+		}
+
 		$this->session->set('oauth.state', $state);
 
 		$targetUrl = $this->urlGenerator->linkToRouteAbsolute(

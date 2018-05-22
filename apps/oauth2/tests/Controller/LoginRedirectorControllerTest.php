@@ -86,6 +86,24 @@ class LoginRedirectorControllerTest extends TestCase {
 			->willReturn('https://example.com/?clientIdentifier=foo');
 
 		$expected = new RedirectResponse('https://example.com/?clientIdentifier=foo');
-		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState'));
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code'));
+	}
+
+	public function testAuthorizeWrongResponseType() {
+		$client = new Client();
+		$client->setClientIdentifier('MyClientIdentifier');
+		$client->setRedirectUri('http://foo.bar');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->never())
+			->method('set');
+
+
+		$expected = new RedirectResponse('http://foo.bar?error=unsupported_response_type&state=MyState');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode'));
 	}
 }

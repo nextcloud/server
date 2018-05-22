@@ -21,12 +21,22 @@
 
 namespace OCA\OAuth2\Tests\Controller;
 
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenMapper;
+use OC\Authentication\Token\ExpiredTokenException;
+use OC\Authentication\Token\IProvider as TokenProvider;
+use OC\Authentication\Token\IToken;
 use OCA\OAuth2\Controller\OauthApiController;
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
+use OCA\OAuth2\Db\Client;
+use OCA\OAuth2\Db\ClientMapper;
+use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -39,10 +49,14 @@ class OauthApiControllerTest extends TestCase {
 	private $crypto;
 	/** @var AccessTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $accessTokenMapper;
-	/** @var DefaultTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
-	private $defaultTokenMapper;
+	/** @var ClientMapper|\PHPUnit_Framework_MockObject_MockObject */
+	private $clientMapper;
+	/** @var TokenProvider|\PHPUnit_Framework_MockObject_MockObject */
+	private $tokenProvider;
 	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	private $secureRandom;
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $time;
 	/** @var OauthApiController */
 	private $oauthApiController;
 
@@ -52,55 +66,307 @@ class OauthApiControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
-		$this->defaultTokenMapper = $this->createMock(DefaultTokenMapper::class);
+		$this->clientMapper = $this->createMock(ClientMapper::class);
+		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->time = $this->createMock(ITimeFactory::class);
 
 		$this->oauthApiController = new OauthApiController(
 			'oauth2',
 			$this->request,
 			$this->crypto,
 			$this->accessTokenMapper,
-			$this->defaultTokenMapper,
-			$this->secureRandom
+			$this->clientMapper,
+			$this->tokenProvider,
+			$this->secureRandom,
+			$this->time
 		);
 	}
 
-	public function testGetToken() {
+	public function testGetTokenInvalidGrantType() {
+		$expected = new JSONResponse([
+			'error' => 'invalid_grant',
+		], Http::STATUS_BAD_REQUEST);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('foo', null, null, null, null));
+	}
+
+	public function testGetTokenInvalidCode() {
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('invalidcode')
+			->willThrowException(new AccessTokenNotFoundException());
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'invalidcode', null, null, null));
+	}
+
+	public function testGetTokenInvalidRefreshToken() {
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('invalidrefresh')
+			->willThrowException(new AccessTokenNotFoundException());
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'invalidrefresh', null, null));
+	}
+
+	public function testGetTokenClientDoesNotExist() {
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+
 		$accessToken = new AccessToken();
-		$accessToken->setEncryptedToken('MyEncryptedToken');
-		$accessToken->setTokenId(123);
-		$this->accessTokenMapper
-			->expects($this->once())
-			->method('getByCode')
-			->willReturn($accessToken);
-		$this->crypto
-			->expects($this->once())
-			->method('decrypt')
-			->with('MyEncryptedToken', 'MySecretCode')
-			->willReturn('MyDecryptedToken');
-		$this->secureRandom
-			->expects($this->once())
-			->method('generate')
-			->with(128)
-			->willReturn('NewToken');
-		$token = new DefaultToken();
-		$token->setUid('JohnDoe');
-		$this->defaultTokenMapper
-			->expects($this->once())
-			->method('getTokenById')
-			->with(123)
-			->willReturn($token);
+		$accessToken->setClientId(42);
 
-		$expected = new JSONResponse(
-			[
-				'access_token' => 'MyDecryptedToken',
-				'token_type' => 'Bearer',
-				'expires_in' => 3600,
-				'refresh_token' => 'NewToken',
-				'user_id' => 'JohnDoe',
-			]
-		);
-		$this->assertEquals($expected, $this->oauthApiController->getToken('MySecretCode'));
+		$this->accessTokenMapper->method('getByCode')
+			->with('validrefresh')
+			->willReturn($accessToken);
+
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willThrowException(new ClientNotFoundException());
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
 	}
 
+	public function invalidClientProvider() {
+		return [
+			['invalidClientId', 'invalidClientSecret'],
+			['clientId', 'invalidClientSecret'],
+			['invalidClientId', 'clientSecret'],
+		];
+	}
+
+	/**
+	 * @dataProvider invalidClientProvider
+	 *
+	 * @param string $clientId
+	 * @param string $clientSecret
+	 */
+	public function testGetTokenInvalidClient($clientId, $clientSecret) {
+		$expected = new JSONResponse([
+			'error' => 'invalid_client',
+		], Http::STATUS_BAD_REQUEST);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validrefresh')
+			->willReturn($accessToken);
+
+		$client = new Client();
+		$client->setClientIdentifier('clientId');
+		$client->setSecret('clientSecret');
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willReturn($client);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', $clientId, $clientSecret));
+	}
+
+	public function testGetTokenInvalidAppToken() {
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setTokenId(1337);
+		$accessToken->setEncryptedToken('encryptedToken');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validrefresh')
+			->willReturn($accessToken);
+
+		$client = new Client();
+		$client->setClientIdentifier('clientId');
+		$client->setSecret('clientSecret');
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willReturn($client);
+
+		$this->crypto->method('decrypt')
+			->with(
+				'encryptedToken',
+				'validrefresh'
+			)->willReturn('decryptedToken');
+
+		$this->tokenProvider->method('getTokenById')
+			->with(1337)
+			->willThrowException(new InvalidTokenException());
+
+		$this->accessTokenMapper->expects($this->once())
+			->method('delete')
+			->with($accessToken);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
+	}
+
+	public function testGetTokenValidAppToken() {
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setTokenId(1337);
+		$accessToken->setEncryptedToken('encryptedToken');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validrefresh')
+			->willReturn($accessToken);
+
+		$client = new Client();
+		$client->setClientIdentifier('clientId');
+		$client->setSecret('clientSecret');
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willReturn($client);
+
+		$this->crypto->method('decrypt')
+			->with(
+				'encryptedToken',
+				'validrefresh'
+			)->willReturn('decryptedToken');
+
+		$appToken = new DefaultToken();
+		$appToken->setUid('userId');
+		$this->tokenProvider->method('getTokenById')
+			->with(1337)
+			->willThrowException(new ExpiredTokenException($appToken));
+
+		$this->accessTokenMapper->expects($this->never())
+			->method('delete')
+			->with($accessToken);
+
+		$this->secureRandom->method('generate')
+			->will($this->returnCallback(function ($len) {
+				return 'random'.$len;
+			}));
+
+		$this->tokenProvider->expects($this->once())
+			->method('rotate')
+			->with(
+				$appToken,
+				'decryptedToken',
+				'random72'
+			)->willReturn($appToken);
+
+		$this->time->method('getTime')
+			->willReturn(1000);
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with(
+				$this->callback(function (DefaultToken $token) {
+					return $token->getExpires() === 4600;
+				})
+			);
+
+		$this->crypto->method('encrypt')
+			->with('random72', 'random128')
+			->willReturn('newEncryptedToken');
+
+		$this->accessTokenMapper->expects($this->once())
+			->method('update')
+			->with(
+				$this->callback(function (AccessToken $token) {
+					return $token->getHashedCode() === hash('sha512', 'random128') &&
+						$token->getEncryptedToken() === 'newEncryptedToken';
+				})
+			);
+
+		$expected = new JSONResponse([
+			'access_token' => 'random72',
+			'token_type' => 'Bearer',
+			'expires_in' => 3600,
+			'refresh_token' => 'random128',
+			'user_id' => 'userId',
+		]);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
+	}
+
+	public function testGetTokenExpiredAppToken() {
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setTokenId(1337);
+		$accessToken->setEncryptedToken('encryptedToken');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validrefresh')
+			->willReturn($accessToken);
+
+		$client = new Client();
+		$client->setClientIdentifier('clientId');
+		$client->setSecret('clientSecret');
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willReturn($client);
+
+		$this->crypto->method('decrypt')
+			->with(
+				'encryptedToken',
+				'validrefresh'
+			)->willReturn('decryptedToken');
+
+		$appToken = new DefaultToken();
+		$appToken->setUid('userId');
+		$this->tokenProvider->method('getTokenById')
+			->with(1337)
+			->willReturn($appToken);
+
+		$this->accessTokenMapper->expects($this->never())
+			->method('delete')
+			->with($accessToken);
+
+		$this->secureRandom->method('generate')
+			->will($this->returnCallback(function ($len) {
+				return 'random'.$len;
+			}));
+
+		$this->tokenProvider->expects($this->once())
+			->method('rotate')
+			->with(
+				$appToken,
+				'decryptedToken',
+				'random72'
+			)->willReturn($appToken);
+
+		$this->time->method('getTime')
+			->willReturn(1000);
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with(
+				$this->callback(function (DefaultToken $token) {
+					return $token->getExpires() === 4600;
+				})
+			);
+
+		$this->crypto->method('encrypt')
+			->with('random72', 'random128')
+			->willReturn('newEncryptedToken');
+
+		$this->accessTokenMapper->expects($this->once())
+			->method('update')
+			->with(
+				$this->callback(function (AccessToken $token) {
+					return $token->getHashedCode() === hash('sha512', 'random128') &&
+						$token->getEncryptedToken() === 'newEncryptedToken';
+				})
+			);
+
+		$expected = new JSONResponse([
+			'access_token' => 'random72',
+			'token_type' => 'Bearer',
+			'expires_in' => 3600,
+			'refresh_token' => 'random128',
+			'user_id' => 'userId',
+		]);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
+	}
 }
