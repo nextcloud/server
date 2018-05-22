@@ -82,7 +82,7 @@ class Util {
 	private static $shareManager;
 
 	/**
-	 * get the current installed version of ownCloud
+	 * get the current installed version of Nextcloud
 	 * @return array
 	 * @since 4.0.0
 	 */
