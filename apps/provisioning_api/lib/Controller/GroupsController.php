@@ -225,6 +225,10 @@ class GroupsController extends AUserData {
 			$this->logger->error('Group name not supplied', ['app' => 'provisioning_api']);
 			throw new OCSException('Invalid group name', 101);
 		}
+		// Check if trying to create an admin group
+		if (trim(strtolower($groupid)) === 'admin') {
+			throw new OCSException('', 102);
+		}
 		// Check if it exists
 		if($this->groupManager->groupExists($groupid)){
 			throw new OCSException('', 102);
