@@ -31,6 +31,7 @@
 
 namespace OC\Core\Controller;
 
+use OC\HintException;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;
@@ -275,6 +276,8 @@ class LostController extends Controller {
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
+		} catch (HintException $e){
+			return $this->error($e->getHint());
 		} catch (\Exception $e){
 			return $this->error($e->getMessage());
 		}
