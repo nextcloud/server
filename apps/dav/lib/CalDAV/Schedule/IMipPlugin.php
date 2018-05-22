@@ -42,6 +42,8 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Recur\EventIterator;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 /**
  * iMIP handler.
  *
@@ -81,6 +83,9 @@ class IMipPlugin extends SabreIMipPlugin {
 
 	/** @var Defaults */
 	private $defaults;
+	
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
 	const MAX_DATE = '2038-01-01';
 
@@ -98,7 +103,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param Defaults $defaults
 	 * @param string $userId
 	 */
-	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory, IURLGenerator $urlGenerator, Defaults $defaults, $userId) {
+	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory, IURLGenerator $urlGenerator, Defaults $defaults, $userId, EventDispatcherInterface $dispatcher) {
 		parent::__construct('');
 		$this->userId = $userId;
 		$this->config = $config;
@@ -108,6 +113,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
 		$this->defaults = $defaults;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -184,7 +190,21 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$meetingWhen = $this->generateWhenString($l10n, $start, $end);
 
-		$meetingUrl = $vevent->URL;
+        $event = new GenericEvent(null, [
+			'uid' => $vevent->UID,
+			'recipient' => $recipient,
+		]);
+		$this->dispatcher->dispatch(self::class . '::getMeetingUrl', $event);
+		try {
+			$meetingUrl = $event->getArgument('meetingUrl');
+			if (empty($meetingUrl)) {
+				// Will use event URL below.
+				throw new \InvalidArgumentException('meetingUrl may not be empty');
+			}
+		} catch (\InvalidArgumentException $e) {
+			$meetingUrl = $vevent->URL;
+		}
+
 		$meetingLocation = $vevent->LOCATION;
 
 		$defaultVal = '--';
