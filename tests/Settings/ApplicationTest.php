@@ -72,7 +72,6 @@ class ApplicationTest extends TestCase {
 			[AuthSettingsController::class, Controller::class],
 			// Needs session: [CertificateController::class, Controller::class],
 			[CheckSetupController::class, Controller::class],
-			[GroupsController::class, Controller::class],
 			[LogSettingsController::class, Controller::class],
 			[MailSettingsController::class, Controller::class],
 			[UsersController::class, Controller::class],

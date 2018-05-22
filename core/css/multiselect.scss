@@ -75,8 +75,9 @@ ul.multiselectoptions {
 	}
 }
 
-div.multiselect,
-select.multiselect {
+/* TODO drop old legacy multiselect! */
+div.multiselect:not(.multiselect-vue),
+select.multiselect:not(.multiselect-vue) {
 	display: inline-block;
 	max-width: 200px;
 	min-width: 150px !important;

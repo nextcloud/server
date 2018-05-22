@@ -1,8 +1,9 @@
 <?php
 
 /**
- *
+ * 
  * @copyright Copyright (c) 2017, Daniel Calviño Sánchez (danxuliu@gmail.com)
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,7 +32,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function newUserForm() {
-		return Locator::forThe()->id("newuserHeader")->
+		return Locator::forThe()->id("new-user")->
 				describedAs("New user form in Users Settings");
 	}
 
@@ -63,7 +64,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function createNewUserButton() {
-		return Locator::forThe()->xpath("//form[@id = 'newuser']//input[@type = 'submit']")->
+		return Locator::forThe()->xpath("//form[@id = 'new-user']//input[@type = 'submit']")->
 				describedAs("Create user button in Users Settings");
 	}
 
@@ -71,24 +72,72 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForUser($user) {
-		return Locator::forThe()->xpath("//table[@id = 'userlist']//td[normalize-space() = '$user']/..")->
+		return Locator::forThe()->xpath("//div[@id='app-content']/div/div[normalize-space() = '$user']/..")->
 				describedAs("Row for user $user in Users Settings");
 	}
 
 	/**
+	 * Warning: you need to watch out for the proper classes order
+	 * 
 	 * @return Locator
 	 */
-	public static function passwordCellForUser($user) {
-		return Locator::forThe()->css(".password")->descendantOf(self::rowForUser($user))->
-				describedAs("Password cell for user $user in Users Settings");
+	public static function classCellForUser($class, $user) {
+		return Locator::forThe()->xpath("//*[@class='$class']")->
+				descendantOf(self::rowForUser($user))->
+				describedAs("$class cell for user $user in Users Settings");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function passwordInputForUser($user) {
-		return Locator::forThe()->css("input")->descendantOf(self::passwordCellForUser($user))->
-				describedAs("Password input for user $user in Users Settings");
+	public static function inputForUserInCell($cell, $user) {
+		return Locator::forThe()->css("input")->
+				descendantOf(self::classCellForUser($cell, $user))->
+				describedAs("$cell input for user $user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function optionInInputForUser($cell, $user) {
+		return Locator::forThe()->css(".multiselect__option--highlight")->
+				descendantOf(self::classCellForUser($cell, $user))->
+				describedAs("Selected $cell option in $cell input for user $user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function actionsMenuOf($user) {
+		return Locator::forThe()->css(".icon-more")->
+				descendantOf(self::rowForUser($user))->
+				describedAs("Actions menu for user $user in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function theAction($action, $user) {
+		return Locator::forThe()->xpath("//button[normalize-space() = '$action']")->
+				descendantOf(self::rowForUser($user))->
+				describedAs("$action action for the user $user row in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function theColumn($column) {
+		return Locator::forThe()->xpath("//div[@class='user-list-grid']//div[normalize-space() = '$column']")->
+				describedAs("The $column column in Users Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function selectedSelectOption($cell, $user) {
+		return Locator::forThe()->css(".multiselect__single")->
+				descendantOf(self::classCellForUser($cell, $user))->
+				describedAs("The selected option of the $cell select for the user $user in Users Settings");
 	}
 
 	/**
@@ -96,6 +145,20 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iClickTheNewUserButton() {
 		$this->actor->find(self::newUserButton())->click();
+	}
+
+	/**
+	 * @When I click the :action action in the :user actions menu
+	 */
+	public function iClickTheAction($action, $user) {
+		$this->actor->find(self::theAction($action, $user))->click();
+	}
+
+	/**
+	 * @When I open the actions menu for the user :user
+	 */
+	public function iOpenTheActionsMenuOf($user) {
+		$this->actor->find(self::actionsMenuOf($user))->click();
 	}
 
 	/**
@@ -108,18 +171,40 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @When I set the password for :user to :password
+	 * @When I set the :field for :user to :value
 	 */
-	public function iSetThePasswordForUserTo($user, $password) {
-		$this->actor->find(self::passwordCellForUser($user), 10)->click();
-		$this->actor->find(self::passwordInputForUser($user), 2)->setValue($password . "\r");
+	public function iSetTheFieldForUserTo($field, $user, $value) {
+		$this->actor->find(self::inputForUserInCell($field, $user), 2)->setValue($value . "\r");
+	}
+
+	/**
+	 * @When I assign the user :user to the group :group
+	 */
+	public function iAssignTheUserToTheGroup($user, $group) {
+		$this->actor->find(self::inputForUserInCell('groups', $user))->setValue($group);
+		$this->actor->find(self::optionInInputForUser('groups', $user))->click();
+	}
+
+	/**
+	 * @When I set the user :user quota to :quota
+	 */
+	public function iSetTheUserQuotaTo($user, $quota) {
+		$this->actor->find(self::inputForUserInCell('quota', $user))->setValue($quota);
+		$this->actor->find(self::optionInInputForUser('quota', $user))->click();
 	}
 
 	/**
 	 * @Then I see that the list of users contains the user :user
 	 */
 	public function iSeeThatTheListOfUsersContainsTheUser($user) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForUser($user), 10));
+		WaitFor::elementToBeEventuallyShown($this->actor, self::rowForUser($user));
+	}
+
+	/**
+	 * @Then I see that the list of users does not contains the user :user
+	 */
+	public function iSeeThatTheListOfUsersDoesNotContainsTheUser($user) {
+		WaitFor::elementToBeEventuallyNotShown($this->actor, self::rowForUser($user));
 	}
 
 	/**
@@ -129,5 +214,46 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::newUserForm(), 10)->isVisible());
 	}
+
+	/**
+	 * @Then I see that the :action action in the :user actions menu is shown
+	 */
+	public function iSeeTheAction($action, $user) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::theAction($action, $user), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the :column column is shown
+	 */
+	public function iSeeThatTheColumnIsShown($column) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::theColumn($column), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the :field of :user is :value
+	 */
+	public function iSeeThatTheFieldOfUserIs($field, $user, $value) {
+		PHPUnit_Framework_Assert::assertEquals(
+			$this->actor->find(self::inputForUserInCell($field, $user), 10)->getValue(), $value);
+	}
+
+	/**
+	 * @Then I see that the :cell cell for user :user is done loading
+	 */
+	public function iSeeThatTheCellForUserIsDoneLoading($cell, $user) {
+		WaitFor::elementToBeEventuallyShown($this->actor, self::classCellForUser($cell.' icon-loading-small', $user));
+		WaitFor::elementToBeEventuallyNotShown($this->actor, self::classCellForUser($cell.' icon-loading-small', $user));
+	}
+
+	/**
+	 * @Then I see that the user quota of :user is :quota
+	 */
+	public function iSeeThatTheuserQuotaIs($user, $quota) {
+		PHPUnit_Framework_Assert::assertEquals(
+			$this->actor->find(self::selectedSelectOption('quota', $user), 2)->getText(), $quota);
+	}
+	
 
 }

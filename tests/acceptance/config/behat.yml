@@ -8,8 +8,10 @@ default:
         - NextcloudTestServerContext
 
         - AppNavigationContext
+        - AppSettingsContext
         - CommentsAppContext
         - ContactsMenuContext
+        - DialogContext
         - FeatureContext
         - FileListContext
         - FilesAppContext

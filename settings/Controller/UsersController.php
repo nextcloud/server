@@ -42,75 +42,56 @@ namespace OC\Settings\Controller;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
-use OC\HintException;
-use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Security\IdentityProof\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\BackgroundJob\IJobList;
-use OCP\Files\Config\IUserMountCache;
-use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
-use OCP\IAvatarManager;
-use OCP\Security\ISecureRandom;
-use OCP\Util;
 use OC\Settings\BackgroundJobs\VerifyUserData;
 
 /**
  * @package OC\Settings\Controller
  */
 class UsersController extends Controller {
-	/** @var IL10N */
-	private $l10n;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var bool */
-	private $isAdmin;
 	/** @var IUserManager */
 	private $userManager;
 	/** @var IGroupManager */
 	private $groupManager;
+	/** @var IUserSession */
+	private $userSession;
 	/** @var IConfig */
 	private $config;
-	/** @var ILogger */
-	private $log;
+	/** @var bool */
+	private $isAdmin;
+	/** @var IL10N */
+	private $l10n;
 	/** @var IMailer */
 	private $mailer;
-	/** @var bool contains the state of the encryption app */
-	private $isEncryptionAppEnabled;
-	/** @var bool contains the state of the admin recovery setting */
-	private $isRestoreEnabled = false;
+	/** @var IFactory */
+	private $l10nFactory;
 	/** @var IAppManager */
 	private $appManager;
-	/** @var IAvatarManager */
-	private $avatarManager;
 	/** @var AccountManager */
 	private $accountManager;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var NewUserMailHelper */
-	private $newUserMailHelper;
 	/** @var Manager */
 	private $keyManager;
 	/** @var IJobList */
 	private $jobList;
-
-	/** @var IUserMountCache */
-	private $userMountCache;
-
 	/** @var IManager */
 	private $encryptionManager;
+
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -120,17 +101,12 @@ class UsersController extends Controller {
 								IConfig $config,
 								bool $isAdmin,
 								IL10N $l10n,
-								ILogger $log,
 								IMailer $mailer,
-								IURLGenerator $urlGenerator,
+								IFactory $l10nFactory,
 								IAppManager $appManager,
-								IAvatarManager $avatarManager,
 								AccountManager $accountManager,
-								ISecureRandom $secureRandom,
-								NewUserMailHelper $newUserMailHelper,
 								Manager $keyManager,
 								IJobList $jobList,
-								IUserMountCache $userMountCache,
 								IManager $encryptionManager) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
@@ -139,467 +115,271 @@ class UsersController extends Controller {
 		$this->config = $config;
 		$this->isAdmin = $isAdmin;
 		$this->l10n = $l10n;
-		$this->log = $log;
 		$this->mailer = $mailer;
+		$this->l10nFactory = $l10nFactory;
 		$this->appManager = $appManager;
-		$this->avatarManager = $avatarManager;
 		$this->accountManager = $accountManager;
-		$this->secureRandom = $secureRandom;
-		$this->newUserMailHelper = $newUserMailHelper;
 		$this->keyManager = $keyManager;
 		$this->jobList = $jobList;
-		$this->userMountCache = $userMountCache;
 		$this->encryptionManager = $encryptionManager;
-
-		// check for encryption state - TODO see formatUserForIndex
-		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
-		if ($this->isEncryptionAppEnabled) {
-			// putting this directly in empty is possible in PHP 5.5+
-			$result = $config->getAppValue('encryption', 'recoveryAdminEnabled', '0');
-			$this->isRestoreEnabled = !empty($result);
-		}
 	}
 
-	/**
-	 * @param IUser $user
-	 * @param array|null $userGroups
-	 * @return array
-	 */
-	private function formatUserForIndex(IUser $user, array $userGroups = null): array {
-
-		// TODO: eliminate this encryption specific code below and somehow
-		// hook in additional user info from other apps
-
-		// recovery isn't possible if admin or user has it disabled and encryption
-		// is enabled - so we eliminate the else paths in the conditional tree
-		// below
-		$restorePossible = false;
-
-		if ($this->isEncryptionAppEnabled) {
-			if ($this->isRestoreEnabled) {
-				// check for the users recovery setting
-				$recoveryMode = $this->config->getUserValue($user->getUID(), 'encryption', 'recoveryEnabled', '0');
-				// method call inside empty is possible with PHP 5.5+
-				$recoveryModeEnabled = !empty($recoveryMode);
-				if ($recoveryModeEnabled) {
-					// user also has recovery mode enabled
-					$restorePossible = true;
-				}
-			} else {
-				$modules = $this->encryptionManager->getEncryptionModules();
-				$restorePossible = true;
-				foreach ($modules as $id => $module) {
-					/* @var IEncryptionModule $instance */
-					$instance = call_user_func($module['callback']);
-					if ($instance->needDetailedAccessList()) {
-						$restorePossible = false;
-						break;
-					}
-				}
-			}
-		} else {
-			// recovery is possible if encryption is disabled (plain files are
-			// available)
-			$restorePossible = true;
-		}
-
-		$subAdminGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroupsName($user);
-
-		$displayName = $user->getEMailAddress();
-		if (is_null($displayName)) {
-			$displayName = '';
-		}
-
-		$avatarAvailable = false;
-		try {
-			$avatarAvailable = $this->avatarManager->getAvatar($user->getUID())->exists();
-		} catch (\Exception $e) {
-			//No avatar yet
-		}
-
-		return [
-			'name' => $user->getUID(),
-			'displayname' => $user->getDisplayName(),
-			'groups' => empty($userGroups) ? $this->groupManager->getUserGroupNames($user) : $userGroups,
-			'subadmin' => $subAdminGroups,
-			'quota' => $user->getQuota(),
-			'quota_bytes' => Util::computerFileSize($user->getQuota()),
-			'storageLocation' => $user->getHome(),
-			'lastLogin' => $user->getLastLogin() * 1000,
-			'backend' => $user->getBackendClassName(),
-			'email' => $displayName,
-			'isRestoreDisabled' => !$restorePossible,
-			'isAvatarAvailable' => $avatarAvailable,
-			'isEnabled' => $user->isEnabled(),
-		];
-	}
 
 	/**
-	 * @param array $userIDs Array with schema [$uid => $displayName]
-	 * @return IUser[]
-	 */
-	private function getUsersForUID(array $userIDs): array {
-		$users = [];
-		foreach ($userIDs as $uid => $displayName) {
-			$users[$uid] = $this->userManager->get($uid);
-		}
-		return $users;
-	}
-
-	/**
+	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 *
-	 * @param int $offset
-	 * @param int $limit
-	 * @param string $gid GID to filter for
-	 * @param string $pattern Pattern to search for in the username
-	 * @param string $backend Backend to filter for (class-name)
-	 * @return DataResponse
-	 *
-	 * TODO: Tidy up and write unit tests - code is mainly static method calls
+	 * 
+	 * Display users list template
+	 * 
+	 * @return TemplateResponse
 	 */
-	public function index(int $offset = 0, int $limit = 10, string $gid = '', string $pattern = '', string $backend = ''): DataResponse {
-		// Remove backends
-		if (!empty($backend)) {
-			$activeBackends = $this->userManager->getBackends();
-			$this->userManager->clearBackends();
-			foreach ($activeBackends as $singleActiveBackend) {
-				if ($backend === get_class($singleActiveBackend)) {
-					$this->userManager->registerBackend($singleActiveBackend);
-					break;
+	public function usersListByGroup() {
+		return $this->usersList();
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * 
+	 * Display users list template
+	 * 
+	 * @return TemplateResponse
+	 */
+	public function usersList() {
+		$user = $this->userSession->getUser();
+		$uid = $user->getUID();
+
+		\OC::$server->getNavigationManager()->setActiveEntry('core_users');
+				
+		/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
+		$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
+		if ($this->config->getSystemValue('sort_groups_by_name', false)) {
+			$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
+		} else {
+			$isLDAPUsed = false;
+			if ($this->appManager->isEnabledForUser('user_ldap')) {
+				$isLDAPUsed =
+					$this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_LDAP')
+					|| $this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
+				if ($isLDAPUsed) {
+					// LDAP user count can be slow, so we sort by group name here
+					$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
 				}
 			}
 		}
-
-		$userObjects = [];
-		$users = [];
+		
+		/* ENCRYPTION CONFIG */
+		$isEncryptionEnabled = $this->encryptionManager->isEnabled();
+		$useMasterKey = $this->config->getAppValue('encryption', 'useMasterKey', true);
+		// If masterKey enabled, then you can change password. This is to avoid data loss!
+		$canChangePassword = ($isEncryptionEnabled && $useMasterKey) || $useMasterKey;
+		
+		
+		/* GROUPS */		
+		$groupsInfo = new \OC\Group\MetaData(
+			$uid,
+			$this->isAdmin,
+			$this->groupManager,
+			$this->userSession
+		);
+		
+		$groupsInfo->setSorting($sortGroupsBy);
+		list($adminGroup, $groups) = $groupsInfo->get();
+		
 		if ($this->isAdmin) {
-			if ($gid !== '' && $gid !== '_disabledUsers' && $gid !== '_everyone') {
-				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
-			} else {
-				$batch = $this->userManager->search($pattern, $limit, $offset);
+			$subAdmins = $this->groupManager->getSubAdmin()->getAllSubAdmins();
+			// New class returns IUser[] so convert back
+			$result = [];
+			foreach ($subAdmins as $subAdmin) {
+				$result[] = [
+					'gid' => $subAdmin['group']->getGID(),
+					'uid' => $subAdmin['user']->getUID(),
+				];
 			}
-
-			foreach ($batch as $user) {
-				if (($gid !== '_disabledUsers' && $user->isEnabled()) ||
-					($gid === '_disabledUsers' && !$user->isEnabled())
-				) {
-					$userObjects[] = $user;
-					$users[] = $this->formatUserForIndex($user);
-				}
-			}
-
+			$subAdmins = $result;
 		} else {
-			$subAdminOfGroups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($this->userSession->getUser());
-			// New class returns IGroup[] so convert back
-			$gids = [];
-			foreach ($subAdminOfGroups as $group) {
-				$gids[] = $group->getGID();
-			}
-			$subAdminOfGroups = $gids;
-
-			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
-			if ($gid !== '' && $gid !== '_disabledUsers' && !in_array($gid, $subAdminOfGroups)) {
-				$gid = '';
-			}
-
-			// Batch all groups the user is subadmin of when a group is specified
-			$batch = [];
-			if ($gid !== '' && $gid !== '_disabledUsers' && $gid !== '_everyone') {
-				$batch = $this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset);
-			} else {
-				foreach ($subAdminOfGroups as $group) {
-					$groupUsers = $this->groupManager->displayNamesInGroup($group, $pattern, $limit, $offset);
-
-					foreach ($groupUsers as $uid => $displayName) {
-						$batch[$uid] = $displayName;
-					}
+			/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
+			$gids = array();
+			foreach($groups as $group) {
+				if (isset($group['id'])) {
+					$gids[] = $group['id'];
 				}
 			}
-			$batch = $this->getUsersForUID($batch);
-
-			foreach ($batch as $user) {
-				// Only add the groups, this user is a subadmin of
-				$userGroups = array_values(array_intersect(
-					$this->groupManager->getUserGroupIds($user),
-					$subAdminOfGroups
-				));
-				if (($gid !== '_disabledUsers' && $user->isEnabled()) ||
-					($gid === '_disabledUsers' && !$user->isEnabled())
-				) {
-					$userObjects[] = $user;
-					$users[] = $this->formatUserForIndex($user, $userGroups);
-				}
-			}
+			$subAdmins = false;
 		}
-
-		$usedSpace = $this->userMountCache->getUsedSpaceForUsers($userObjects);
-
-		foreach ($users as &$userData) {
-			$userData['size'] = isset($usedSpace[$userData['name']]) ? $usedSpace[$userData['name']] : 0;
+		
+		$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsers();
+		$disabledUsersGroup = [
+			'id' => 'disabled',
+			'name' => 'Disabled users',
+			'usercount' => $disabledUsers
+		];
+		$allGroups = array_merge_recursive($adminGroup, $groups);
+		
+		/* QUOTAS PRESETS */
+		$quotaPreset = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
+		$quotaPreset = explode(',', $quotaPreset);
+		foreach ($quotaPreset as &$preset) {
+			$preset = trim($preset);
 		}
+		$quotaPreset = array_diff($quotaPreset, array('default', 'none'));
+		$defaultQuota = $this->config->getAppValue('files', 'default_quota', 'none');
+		
+		\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
+		
+		/* TOTAL USERS COUNT */
+		$userCount = array_reduce($this->userManager->countUsers(), function($v, $w) {
+			return $v + (int)$w;
+		}, 0);
+		
+		/* LANGUAGES */
+		$languages = $this->l10nFactory->getLanguages();
+		
+		/* FINAL DATA */
+		$serverData = array();
+		// groups
+		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
+		$serverData['subadmingroups'] = $groups;
+		// Various data
+		$serverData['isAdmin'] = $this->isAdmin;
+		$serverData['subadmins'] = $subAdmins;
+		$serverData['sortGroups'] = $sortGroupsBy;
+		$serverData['quotaPreset'] = $quotaPreset;
+		$serverData['userCount'] = $userCount-$disabledUsers;
+		$serverData['languages'] = $languages;
+		$serverData['defaultLanguage'] = $this->config->getSystemValue('default_language', 'en');
+		// Settings
+		$serverData['defaultQuota'] = $defaultQuota;
+		$serverData['canChangePassword'] = $canChangePassword;
 
-		return new DataResponse($users);
+		return new TemplateResponse('settings', 'settings', ['serverData' => $serverData]);
 	}
 
 	/**
 	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 * @PasswordConfirmationRequired
 	 *
-	 * @param string $username
-	 * @param string $password
-	 * @param array $groups
+	 * @param string $avatarScope
+	 * @param string $displayname
+	 * @param string $displaynameScope
+	 * @param string $phone
+	 * @param string $phoneScope
 	 * @param string $email
+	 * @param string $emailScope
+	 * @param string $website
+	 * @param string $websiteScope
+	 * @param string $address
+	 * @param string $addressScope
+	 * @param string $twitter
+	 * @param string $twitterScope
 	 * @return DataResponse
 	 */
-	public function create(string $username, string $password, array $groups = [], $email = ''): DataResponse {
-		if ($email !== '' && !$this->mailer->validateMailAddress($email)) {
+	public function setUserSettings($avatarScope,
+									$displayname,
+									$displaynameScope,
+									$phone,
+									$phoneScope,
+									$email,
+									$emailScope,
+									$website,
+									$websiteScope,
+									$address,
+									$addressScope,
+									$twitter,
+									$twitterScope
+	) {
+		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				[
-					'message' => $this->l10n->t('Invalid mail address')
+					'status' => 'error',
+					'data' => [
+						'message' => $this->l10n->t('Invalid mail address')
+					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
-
-		$currentUser = $this->userSession->getUser();
-
-		if (!$this->isAdmin) {
-			if (!empty($groups)) {
-				foreach ($groups as $key => $group) {
-					$groupObject = $this->groupManager->get($group);
-					if ($groupObject === null) {
-						unset($groups[$key]);
-						continue;
-					}
-
-					if (!$this->groupManager->getSubAdmin()->isSubAdminOfGroup($currentUser, $groupObject)) {
-						unset($groups[$key]);
-					}
-				}
-			}
-
-			if (empty($groups)) {
-				return new DataResponse(
-					[
-						'message' => $this->l10n->t('No valid group selected'),
-					],
-					Http::STATUS_FORBIDDEN
-				);
+		$user = $this->userSession->getUser();
+		$data = $this->accountManager->getUser($user);
+		$data[AccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
+		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
+			$data[AccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
+			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
+		}
+		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
+			$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
+			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+			if ($shareProvider->isLookupServerUploadEnabled()) {
+				$data[AccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
+				$data[AccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
+				$data[AccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
+				$data[AccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
 			}
 		}
-
-		if ($this->userManager->userExists($username)) {
-			return new DataResponse(
-				[
-					'message' => $this->l10n->t('A user with that name already exists.')
-				],
-				Http::STATUS_CONFLICT
-			);
-		}
-
-		$generatePasswordResetToken = false;
-		if ($password === '') {
-			if ($email === '') {
-				return new DataResponse(
-					[
-						'message' => $this->l10n->t('To send a password link to the user an email address is required.')
-					],
-					Http::STATUS_UNPROCESSABLE_ENTITY
-				);
-			}
-
-			$password = $this->secureRandom->generate(30);
-			// Make sure we pass the password_policy
-			$password .= $this->secureRandom->generate(2, '$!.,;:-~+*[]{}()');
-			$generatePasswordResetToken = true;
-		}
-
 		try {
-			$user = $this->userManager->createUser($username, $password);
-		} catch (\Exception $exception) {
-			$message = $exception->getMessage();
-			if ($exception instanceof HintException && $exception->getHint()) {
-				$message = $exception->getHint();
-			}
-			if (!$message) {
-				$message = $this->l10n->t('Unable to create user.');
-			}
-			return new DataResponse(
-				[
-					'message' => (string)$message,
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
-		if ($user instanceof IUser) {
-			if ($groups !== null) {
-				foreach ($groups as $groupName) {
-					$group = $this->groupManager->get($groupName);
-
-					if (empty($group)) {
-						$group = $this->groupManager->createGroup($groupName);
-					}
-					$group->addUser($user);
-				}
-			}
-			/**
-			 * Send new user mail only if a mail is set
-			 */
-			if ($email !== '') {
-				$user->setEMailAddress($email);
-				try {
-					$emailTemplate = $this->newUserMailHelper->generateTemplate($user, $generatePasswordResetToken);
-					$this->newUserMailHelper->sendMail($user, $emailTemplate);
-				} catch (\Exception $e) {
-					$this->log->logException($e, [
-						'message' => "Can't send new user mail to $email",
-						'level' => ILogger::ERROR,
-						'app' => 'settings',
-					]);
-				}
-			}
-			// fetch users groups
-			$userGroups = $this->groupManager->getUserGroupNames($user);
-
-			return new DataResponse(
-				$this->formatUserForIndex($user, $userGroups),
-				Http::STATUS_CREATED
-			);
-		}
-
-		return new DataResponse(
-			[
-				'message' => $this->l10n->t('Unable to create user.')
-			],
-			Http::STATUS_FORBIDDEN
-		);
-
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @PasswordConfirmationRequired
-	 *
-	 * @param string $id
-	 * @return DataResponse
-	 */
-	public function destroy(string $id): DataResponse {
-		$userId = $this->userSession->getUser()->getUID();
-		$user = $this->userManager->get($id);
-
-		if ($userId === $id) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l10n->t('Unable to delete user.')
-					]
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
-		if (!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l10n->t('Authentication error')
-					]
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
-		if ($user && $user->delete()) {
+			$this->saveUserSettings($user, $data);
 			return new DataResponse(
 				[
 					'status' => 'success',
 					'data' => [
-						'username' => $id
+						'userId' => $user->getUID(),
+						'avatarScope' => $data[AccountManager::PROPERTY_AVATAR]['scope'],
+						'displayname' => $data[AccountManager::PROPERTY_DISPLAYNAME]['value'],
+						'displaynameScope' => $data[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
+						'email' => $data[AccountManager::PROPERTY_EMAIL]['value'],
+						'emailScope' => $data[AccountManager::PROPERTY_EMAIL]['scope'],
+						'website' => $data[AccountManager::PROPERTY_WEBSITE]['value'],
+						'websiteScope' => $data[AccountManager::PROPERTY_WEBSITE]['scope'],
+						'address' => $data[AccountManager::PROPERTY_ADDRESS]['value'],
+						'addressScope' => $data[AccountManager::PROPERTY_ADDRESS]['scope'],
+						'message' => $this->l10n->t('Settings saved')
 					]
 				],
-				Http::STATUS_NO_CONTENT
+				Http::STATUS_OK
 			);
-		}
-
-		return new DataResponse(
-			[
+		} catch (ForbiddenException $e) {
+			return new DataResponse([
 				'status' => 'error',
 				'data' => [
-					'message' => $this->l10n->t('Unable to delete user.')
-				]
-			],
-			Http::STATUS_FORBIDDEN
-		);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $id
-	 * @param int $enabled
-	 * @return DataResponse
-	 */
-	public function setEnabled(string $id, int $enabled): DataResponse {
-		$enabled = (bool)$enabled;
-		if ($enabled) {
-			$errorMsgGeneral = $this->l10n->t('Error while enabling user.');
-		} else {
-			$errorMsgGeneral = $this->l10n->t('Error while disabling user.');
-		}
-
-		$userId = $this->userSession->getUser()->getUID();
-		$user = $this->userManager->get($id);
-
-		if ($userId === $id) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $errorMsgGeneral
-					]
-				], Http::STATUS_FORBIDDEN
-			);
-		}
-
-		if ($user) {
-			if (!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
-				return new DataResponse(
-					[
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l10n->t('Authentication error')
-						]
-					],
-					Http::STATUS_FORBIDDEN
-				);
-			}
-
-			$user->setEnabled($enabled);
-			return new DataResponse(
-				[
-					'status' => 'success',
-					'data' => [
-						'username' => $id,
-						'enabled' => $enabled
-					]
-				]
-			);
-		} else {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $errorMsgGeneral
-					]
+					'message' => $e->getMessage()
 				],
-				Http::STATUS_FORBIDDEN
-			);
+			]);
 		}
-
+	}
+	/**
+	 * update account manager with new user data
+	 *
+	 * @param IUser $user
+	 * @param array $data
+	 * @throws ForbiddenException
+	 */
+	protected function saveUserSettings(IUser $user, array $data) {
+		// keep the user back-end up-to-date with the latest display name and email
+		// address
+		$oldDisplayName = $user->getDisplayName();
+		$oldDisplayName = is_null($oldDisplayName) ? '' : $oldDisplayName;
+		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
+			&& $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']
+		) {
+			$result = $user->setDisplayName($data[AccountManager::PROPERTY_DISPLAYNAME]['value']);
+			if ($result === false) {
+				throw new ForbiddenException($this->l10n->t('Unable to change full name'));
+			}
+		}
+		$oldEmailAddress = $user->getEMailAddress();
+		$oldEmailAddress = is_null($oldEmailAddress) ? '' : $oldEmailAddress;
+		if (isset($data[AccountManager::PROPERTY_EMAIL]['value'])
+			&& $oldEmailAddress !== $data[AccountManager::PROPERTY_EMAIL]['value']
+		) {
+			// this is the only permission a backend provides and is also used
+			// for the permission of setting a email address
+			if (!$user->canChangeDisplayName()) {
+				throw new ForbiddenException($this->l10n->t('Unable to change email address'));
+			}
+			$user->setEMailAddress($data[AccountManager::PROPERTY_EMAIL]['value']);
+		}
+		$this->accountManager->updateUser($user, $data);
 	}
 
 	/**
@@ -689,330 +469,4 @@ class UsersController extends Controller {
 		openssl_sign(json_encode($message), $signature, $privateKey, OPENSSL_ALGO_SHA512);
 		return base64_encode($signature);
 	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoSubadminRequired
-	 * @PasswordConfirmationRequired
-	 *
-	 * @param string $avatarScope
-	 * @param string $displayname
-	 * @param string $displaynameScope
-	 * @param string $phone
-	 * @param string $phoneScope
-	 * @param string $email
-	 * @param string $emailScope
-	 * @param string $website
-	 * @param string $websiteScope
-	 * @param string $address
-	 * @param string $addressScope
-	 * @param string $twitter
-	 * @param string $twitterScope
-	 * @return DataResponse
-	 */
-	public function setUserSettings($avatarScope,
-									$displayname,
-									$displaynameScope,
-									$phone,
-									$phoneScope,
-									$email,
-									$emailScope,
-									$website,
-									$websiteScope,
-									$address,
-									$addressScope,
-									$twitter,
-									$twitterScope
-	) {
-
-		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l10n->t('Invalid mail address')
-					]
-				],
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		}
-
-		$user = $this->userSession->getUser();
-
-		$data = $this->accountManager->getUser($user);
-
-		$data[AccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
-		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$data[AccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
-			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
-		}
-
-		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
-			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
-			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$data[AccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
-				$data[AccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
-				$data[AccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
-				$data[AccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
-			}
-		}
-
-		try {
-			$this->saveUserSettings($user, $data);
-			return new DataResponse(
-				[
-					'status' => 'success',
-					'data' => [
-						'userId' => $user->getUID(),
-						'avatarScope' => $data[AccountManager::PROPERTY_AVATAR]['scope'],
-						'displayname' => $data[AccountManager::PROPERTY_DISPLAYNAME]['value'],
-						'displaynameScope' => $data[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
-						'email' => $data[AccountManager::PROPERTY_EMAIL]['value'],
-						'emailScope' => $data[AccountManager::PROPERTY_EMAIL]['scope'],
-						'website' => $data[AccountManager::PROPERTY_WEBSITE]['value'],
-						'websiteScope' => $data[AccountManager::PROPERTY_WEBSITE]['scope'],
-						'address' => $data[AccountManager::PROPERTY_ADDRESS]['value'],
-						'addressScope' => $data[AccountManager::PROPERTY_ADDRESS]['scope'],
-						'message' => $this->l10n->t('Settings saved')
-					]
-				],
-				Http::STATUS_OK
-			);
-		} catch (ForbiddenException $e) {
-			return new DataResponse([
-				'status' => 'error',
-				'data' => [
-					'message' => $e->getMessage()
-				],
-			]);
-		}
-
-	}
-
-
-	/**
-	 * update account manager with new user data
-	 *
-	 * @param IUser $user
-	 * @param array $data
-	 * @throws ForbiddenException
-	 */
-	protected function saveUserSettings(IUser $user, array $data) {
-
-		// keep the user back-end up-to-date with the latest display name and email
-		// address
-		$oldDisplayName = $user->getDisplayName();
-		$oldDisplayName = is_null($oldDisplayName) ? '' : $oldDisplayName;
-		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
-			&& $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']
-		) {
-			$result = $user->setDisplayName($data[AccountManager::PROPERTY_DISPLAYNAME]['value']);
-			if ($result === false) {
-				throw new ForbiddenException($this->l10n->t('Unable to change full name'));
-			}
-		}
-
-		$oldEmailAddress = $user->getEMailAddress();
-		$oldEmailAddress = is_null($oldEmailAddress) ? '' : $oldEmailAddress;
-		if (isset($data[AccountManager::PROPERTY_EMAIL]['value'])
-			&& $oldEmailAddress !== $data[AccountManager::PROPERTY_EMAIL]['value']
-		) {
-			// this is the only permission a backend provides and is also used
-			// for the permission of setting a email address
-			if (!$user->canChangeDisplayName()) {
-				throw new ForbiddenException($this->l10n->t('Unable to change email address'));
-			}
-			$user->setEMailAddress($data[AccountManager::PROPERTY_EMAIL]['value']);
-		}
-
-		$this->accountManager->updateUser($user, $data);
-	}
-
-	/**
-	 * Count all unique users visible for the current admin/subadmin.
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @return DataResponse
-	 */
-	public function stats(): DataResponse {
-		$userCount = 0;
-		if ($this->isAdmin) {
-			$countByBackend = $this->userManager->countUsers();
-
-			if (!empty($countByBackend)) {
-				foreach ($countByBackend as $count) {
-					$userCount += $count;
-				}
-			}
-		} else {
-			$groups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($this->userSession->getUser());
-
-			$uniqueUsers = [];
-			foreach ($groups as $group) {
-				foreach ($group->getUsers() as $uid => $displayName) {
-					$uniqueUsers[$uid] = true;
-				}
-			}
-
-			$userCount = count($uniqueUsers);
-		}
-
-		return new DataResponse(
-			[
-				'totalUsers' => $userCount
-			]
-		);
-	}
-
-
-	/**
-	 * Set the displayName of a user
-	 *
-	 * @NoAdminRequired
-	 * @NoSubadminRequired
-	 * @PasswordConfirmationRequired
-	 * @todo merge into saveUserSettings
-	 *
-	 * @param string $username
-	 * @param string $displayName
-	 * @return DataResponse
-	 */
-	public function setDisplayName(string $username, string $displayName) {
-		$currentUser = $this->userSession->getUser();
-		$user = $this->userManager->get($username);
-
-		if ($user === null ||
-			!$user->canChangeDisplayName() ||
-			(
-				!$this->groupManager->isAdmin($currentUser->getUID()) &&
-				!$this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $user) &&
-				$currentUser->getUID() !== $username
-
-			)
-		) {
-			return new DataResponse([
-				'status' => 'error',
-				'data' => [
-					'message' => $this->l10n->t('Authentication error'),
-				],
-			]);
-		}
-
-		$userData = $this->accountManager->getUser($user);
-		$userData[AccountManager::PROPERTY_DISPLAYNAME]['value'] = $displayName;
-
-
-		try {
-			$this->saveUserSettings($user, $userData);
-			return new DataResponse([
-				'status' => 'success',
-				'data' => [
-					'message' => $this->l10n->t('Your full name has been changed.'),
-					'username' => $username,
-					'displayName' => $displayName,
-				],
-			]);
-		} catch (ForbiddenException $e) {
-			return new DataResponse([
-				'status' => 'error',
-				'data' => [
-					'message' => $e->getMessage(),
-					'displayName' => $user->getDisplayName(),
-				],
-			]);
-		}
-	}
-
-	/**
-	 * Set the mail address of a user
-	 *
-	 * @NoAdminRequired
-	 * @NoSubadminRequired
-	 * @PasswordConfirmationRequired
-	 *
-	 * @param string $id
-	 * @param string $mailAddress
-	 * @return DataResponse
-	 */
-	public function setEMailAddress(string $id, string $mailAddress) {
-		$user = $this->userManager->get($id);
-		if (!$this->isAdmin
-			&& !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)
-		) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l10n->t('Forbidden')
-					]
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
-		if ($mailAddress !== '' && !$this->mailer->validateMailAddress($mailAddress)) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l10n->t('Invalid mail address')
-					]
-				],
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		}
-
-		if (!$user) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l10n->t('Invalid user')
-					]
-				],
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		}
-		// this is the only permission a backend provides and is also used
-		// for the permission of setting a email address
-		if (!$user->canChangeDisplayName()) {
-			return new DataResponse(
-				[
-					'status' => 'error',
-					'data' => [
-						'message' => $this->l10n->t('Unable to change mail address')
-					]
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
-		$userData = $this->accountManager->getUser($user);
-		$userData[AccountManager::PROPERTY_EMAIL]['value'] = $mailAddress;
-
-		try {
-			$this->saveUserSettings($user, $userData);
-			return new DataResponse(
-				[
-					'status' => 'success',
-					'data' => [
-						'username' => $id,
-						'mailAddress' => $mailAddress,
-						'message' => $this->l10n->t('Email saved')
-					]
-				],
-				Http::STATUS_OK
-			);
-		} catch (ForbiddenException $e) {
-			return new DataResponse([
-				'status' => 'error',
-				'data' => [
-					'message' => $e->getMessage()
-				],
-			]);
-		}
-	}
-
 }

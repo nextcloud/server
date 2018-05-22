@@ -148,6 +148,18 @@ class ElementWrapper {
 	}
 
 	/**
+	 * Returns whether the wrapped element is checked or not.
+	 *
+	 * @return bool true if the wrapped element is checked, false otherwise.
+	 */
+	public function isChecked() {
+		$commandCallback = function() {
+			return $this->element->isChecked();
+		};
+		return $this->executeCommand($commandCallback, "check state could not be got");
+	}
+
+	/**
 	 * Returns the text of the wrapped element.
 	 *
 	 * If the wrapped element is not visible the returned text is an empty
@@ -203,6 +215,32 @@ class ElementWrapper {
 			$this->element->click();
 		};
 		$this->executeCommandOnVisibleElement($commandCallback, "could not be clicked");
+	}
+
+	/**
+	 * Check the wrapped element.
+	 *
+	 * If automatically waits for the wrapped element to be visible (up to the
+	 * timeout set when finding it).
+	 */
+	public function check() {
+		$commandCallback = function() {
+			$this->element->check();
+		};
+		$this->executeCommand($commandCallback, "could not be checked");
+	}
+
+	/**
+	 * uncheck the wrapped element.
+	 *
+	 * If automatically waits for the wrapped element to be visible (up to the
+	 * timeout set when finding it).
+	 */
+	public function uncheck() {
+		$commandCallback = function() {
+			$this->element->uncheck();
+		};
+		$this->executeCommand($commandCallback, "could not be unchecked");
 	}
 
 	/**

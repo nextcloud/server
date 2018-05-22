@@ -11,119 +11,128 @@
  */
 
 .tooltip {
-	position: absolute;
-	display: block;
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
-	font-style: normal;
-	font-weight: 400;
-	letter-spacing: normal;
-	line-break: auto;
-	line-height: 1.6;
-	text-align: left;
-	text-align: start;
-	text-decoration: none;
-	text-shadow: none;
-	text-transform: none;
-	white-space: normal;
-	word-break: normal;
-	word-spacing: normal;
-	word-wrap: normal;
-	font-size: 12px;
-	opacity: 0;
-	z-index: 100000;
-	filter: drop-shadow(0 1px 10px $color-box-shadow);
-	&.in {
-		opacity: 1;
-	}
-
-	&.top {
-		margin-top: -3px;
-		padding: 10px 0;
-	}
-	&.bottom {
-		margin-top: 3px;
-		padding: 10px 0;
-	}
-
-	&.right {
-		margin-left: 3px;
-		padding: 0 10px;
-		.tooltip-arrow {
-			top: 50%;
-			left: 0;
-			margin-top: -10px;
-			border-width: 10px 10px 10px 0;
-			border-right-color: $color-main-background;
-		}
-	}
-	&.left {
-		margin-left: -3px;
-		padding: 0 5px;
-		.tooltip-arrow {
-			top: 50%;
-			right: 0;
-			margin-top: -10px;
-			border-width: 10px 0 10px 10px;
-			border-left-color: $color-main-background;
-		}
-	}
-
-	/* TOP */
-	&.top .tooltip-arrow,
-	&.top-left .tooltip-arrow,
-	&.top-right .tooltip-arrow  {
-		bottom: 0;
-		border-width: 10px 10px 0;
-		border-top-color: $color-main-background;
-	}
-	&.top .tooltip-arrow {
-		left: 50%;
-		margin-left: -10px;
-	}
-	&.top-left .tooltip-arrow {
-		right: 10px;
-		margin-bottom: -10px;
-	}
-	&.top-right .tooltip-arrow {
-		left: 10px;
-		margin-bottom: -10px;
-	}
-
-	/* BOTTOM */
-	&.bottom .tooltip-arrow,
-	&.bottom-left .tooltip-arrow,
-	&.bottom-right .tooltip-arrow  {
-		top: 0;
-		border-width: 0 10px 10px;
-		border-bottom-color: $color-main-background;
-	}
-	&.bottom .tooltip-arrow {
-		left: 50%;
-		margin-left: -10px;
-	}
-	&.bottom-left .tooltip-arrow {
-		right: 10px;
-		margin-top: -10px;
-	}
-	&.bottom-right .tooltip-arrow {
-		left: 10px;
-		margin-top: -10px;
-	}
+    position: absolute;
+    display: block;
+    font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-break: auto;
+    line-height: 1.6;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    font-size: 12px;
+    opacity: 0;
+    z-index: 100000;
+    /* default to top */
+    margin-top: -3px;
+    padding: 10px 0;
+    filter: drop-shadow(0 1px 10px $color-box-shadow);
+    &.in,
+    &.tooltip[aria-hidden='false'] {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .15s;
+    }
+    &.top .tooltip-arrow,
+    &[x-placement^='top'] {
+        left: 50%;
+        margin-left: -10px;
+    }
+    &.bottom,
+    &[x-placement^='bottom'] {
+        margin-top: 3px;
+        padding: 10px 0;
+    }
+    &.right,
+    &[x-placement^='right'] {
+        margin-left: 3px;
+        padding: 0 10px;
+        .tooltip-arrow {
+            top: 50%;
+            left: 0;
+            margin-top: -10px;
+            border-width: 10px 10px 10px 0;
+            border-right-color: $color-main-background;
+        }
+    }
+    &.left,
+    &[x-placement^='left'] {
+        margin-left: -3px;
+        padding: 0 5px;
+        .tooltip-arrow {
+            top: 50%;
+            right: 0;
+            margin-top: -10px;
+            border-width: 10px 0 10px 10px;
+            border-left-color: $color-main-background;
+        }
+    }
+    /* TOP */
+    &.top,
+    &.top-left,
+    &[x-placement^='top'],
+    &.top-right {
+        .tooltip-arrow {
+            bottom: 0;
+            border-width: 10px 10px 0;
+            border-top-color: $color-main-background;
+        }
+    }
+    &.top-left .tooltip-arrow {
+        right: 10px;
+        margin-bottom: -10px;
+    }
+    &.top-right .tooltip-arrow {
+        left: 10px;
+        margin-bottom: -10px;
+    }
+    /* BOTTOM */
+    &.bottom,
+    &[x-placement^='bottom'],
+    &.bottom-left,
+    &.bottom-right {
+        .tooltip-arrow {
+            top: 0;
+            border-width: 0 10px 10px;
+            border-bottom-color: $color-main-background;
+        }
+    }
+    &[x-placement^='bottom'] .tooltip-arrow,
+    &.bottom .tooltip-arrow {
+        left: 50%;
+        margin-left: -10px;
+    }
+    &.bottom-left .tooltip-arrow {
+        right: 10px;
+        margin-top: -10px;
+    }
+    &.bottom-right .tooltip-arrow {
+        left: 10px;
+        margin-top: -10px;
+    }
 }
 
 .tooltip-inner {
-	max-width: 350px;
-	padding: 5px 8px;
-	background-color: $color-main-background;
-	color: $color-main-text;
-	text-align: center;
-	border-radius: $border-radius;
+    max-width: 350px;
+    padding: 5px 8px;
+    background-color: $color-main-background;
+    color: $color-main-text;
+    text-align: center;
+    border-radius: $border-radius;
 }
 
 .tooltip-arrow {
-	position: absolute;
-	width: 0;
-	height: 0;
-	border-color: transparent;
-	border-style: solid;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
 }

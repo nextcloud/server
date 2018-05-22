@@ -1,9 +1,10 @@
 <?php
 
 /**
- *
+ * 
  * @copyright Copyright (c) 2017, Daniel Calviño Sánchez (danxuliu@gmail.com)
- *
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * 
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,24 +33,43 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 */
 	public static function appNavigation() {
 		return Locator::forThe()->id("app-navigation")->
-				describedAs("App navigation");
+			describedAs("App navigation");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function appNavigationSectionItemFor($sectionText) {
-		return Locator::forThe()->xpath("//li[normalize-space() = '$sectionText']")->
-				descendantOf(self::appNavigation())->
-				describedAs($sectionText . " section item in App Navigation");
+		return Locator::forThe()->xpath("//li/a[normalize-space() = '$sectionText']/..")->
+			descendantOf(self::appNavigation())->
+			describedAs($sectionText . " section item in App Navigation");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function appNavigationCurrentSectionItem() {
-		return Locator::forThe()->css(".active")->descendantOf(self::appNavigation())->
-				describedAs("Current section item in App Navigation");
+		return Locator::forThe()->css(".active")->
+			descendantOf(self::appNavigation())->
+			describedAs("Current section item in App Navigation");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function buttonForTheSection($class, $section) {
+		return Locator::forThe()->css("." . $class)->
+			descendantOf(self::appNavigationSectionItemFor($section))->
+			describedAs("The $class button on the $section section in App Navigation");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function counterForTheSection($section) {
+		return Locator::forThe()->css(".app-navigation-entry-utils-counter")->
+			descendantOf(self::appNavigationSectionItemFor($section))->
+			describedAs("The counter for the $section section in App Navigation");
 	}
 
 	/**
@@ -60,10 +80,38 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Given I click the :class button on the :section section
+	 */
+	public function iClickTheButtonInTheSection($class, $section) {
+		$this->actor->find(self::buttonForTheSection($class, $section), 10)->click();
+	}
+
+	/**
 	 * @Then I see that the current section is :section
 	 */
 	public function iSeeThatTheCurrentSectionIs($section) {
 		PHPUnit_Framework_Assert::assertEquals($this->actor->find(self::appNavigationCurrentSectionItem(), 10)->getText(), $section);
 	}
+
+	/**
+	 * @Then I see that the section :section is shown
+	 */
+	public function iSeeThatTheSectionIsShown($section) {
+		WaitFor::elementToBeEventuallyShown($this->actor, self::appNavigationSectionItemFor($section));
+	}
+
+	/**
+	 * @Then I see that the section :section is not shown
+	 */
+	public function iSeeThatTheSectionIsNotShown($section) {
+		WaitFor::elementToBeEventuallyNotShown($this->actor, self::appNavigationSectionItemFor($section));
+	}
+
+	/**
+	 * @Then I see that the section :section has a count of :count
+	 */
+	public function iSeeThatTheSectionHasACountOf($section, $count) {
+		PHPUnit_Framework_Assert::assertEquals($this->actor->find(self::counterForTheSection($section), 10)->getText(), $count);
+	}	
 
 }

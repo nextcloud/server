@@ -39,6 +39,7 @@ use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 
 class PersonalInfo implements ISettings {
+
 	/** @var IConfig */
 	private $config;
 	/** @var IUserManager */
@@ -51,12 +52,6 @@ class PersonalInfo implements ISettings {
 	private $appManager;
 	/** @var IFactory */
 	private $l10nFactory;
-
-	const COMMON_LANGUAGE_CODES = [
-		'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it',
-		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
-	];
-
 	/** @var IL10N */
 	private $l;
 
@@ -198,64 +193,29 @@ class PersonalInfo implements ISettings {
 
 		$uid = $user->getUID();
 
-		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
-		$languageCodes = $this->l10nFactory->findAvailableLanguages();
+		$userConfLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$languages = $this->l10nFactory->getLanguages();
 
-		$commonLanguages = [];
-		$languages = [];
-
-		foreach($languageCodes as $lang) {
-			$l = \OC::$server->getL10N('lib', $lang);
-			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
-			$potentialName = (string) $l->t('__language_name__');
-			if($l->getLanguageCode() === $lang && $potentialName[0] !== '_') {//first check if the language name is in the translation file
-				$ln = array('code' => $lang, 'name' => $potentialName);
-			} elseif ($lang === 'en') {
-				$ln = ['code' => $lang, 'name' => 'English (US)'];
-			}else{//fallback to language code
-				$ln=array('code'=>$lang, 'name'=>$lang);
-			}
-
-			// put appropriate languages into appropriate arrays, to print them sorted
-			// used language -> common languages -> divider -> other languages
-			if ($lang === $userLang) {
-				$userLang = $ln;
-			} elseif (in_array($lang, self::COMMON_LANGUAGE_CODES)) {
-				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES)]=$ln;
-			} else {
-				$languages[]=$ln;
-			}
+		// associate the user language with the proper array
+		$userLangIndex = array_search($userConfLang, array_column($languages['commonlanguages'], 'code'));
+		$userLang = $languages['commonlanguages'][$userLangIndex];
+		// search in the other languages
+		if ($userLangIndex === false) {
+			$userLangIndex = array_search($userConfLang, array_column($languages['languages'], 'code'));		
+			$userLang = $languages['languages'][$userLangIndex];
 		}
-
 		// if user language is not available but set somehow: show the actual code as name
 		if (!is_array($userLang)) {
 			$userLang = [
-				'code' => $userLang,
-				'name' => $userLang,
+				'code' => $userConfLang,
+				'name' => $userConfLang,
 			];
 		}
 
-		ksort($commonLanguages);
-
-		// sort now by displayed language not the iso-code
-		usort( $languages, function ($a, $b) {
-			if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
-				// If a doesn't have a name, but b does, list b before a
-				return 1;
-			}
-			if ($a['code'] !== $a['name'] && $b['code'] === $b['name']) {
-				// If a does have a name, but b doesn't, list a before b
-				return -1;
-			}
-			// Otherwise compare the names
-			return strcmp($a['name'], $b['name']);
-		});
-
-		return [
-			'activelanguage' => $userLang,
-			'commonlanguages' => $commonLanguages,
-			'languages' => $languages
-		];
+		return array_merge(
+			array('activelanguage' => $userLang),
+			$languages
+		);
 	}
 
 	/**
