@@ -1,6 +1,11 @@
 <div class="warning">
 	<h2 class="two-factor-header"><?php p($l->t('Two-factor authentication')) ?></h2>
 	<p><?php p($l->t('Enhanced security is enabled for your account. Please authenticate using a second factor.')) ?></p>
+	<?php if ($_['providerMissing']): ?>
+	<p>
+		<strong><?php p($l->t('Could not load at least one of your enabled two-factor auth methods. Please contact your admin.')) ?></strong>
+	</p>
+	<?php endif; ?>
 	<p>
 		<ul>
 			<?php foreach ($_['providers'] as $provider): ?>
