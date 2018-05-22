@@ -132,6 +132,10 @@ OCA.Sharing.PublicApp = {
 			img.attr('src', $('#downloadURL').val());
 			imgcontainer.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
+			if (oc_appswebroots['files_texteditor'] !== undefined) {
+				// the text editor handles the previewing
+				return;
+			}
 			// Undocumented Url to public WebDAV endpoint
 			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
 			$.ajax({
