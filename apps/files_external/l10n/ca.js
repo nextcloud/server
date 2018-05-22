@@ -10,6 +10,7 @@ OC.L10N.register(
     "All users. Type to select user or group." : "Tots els usuaris. Escriu per seleccionar un usuari o grup.",
     "(group)" : "(grup)",
     "Admin defined" : "Administrador definit",
+    "Delete storage?" : "Esborro l'emmagatzematge?",
     "Saved" : "Desat",
     "Saving..." : "Desant...",
     "Save" : "Desa",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "workflowengine",
     {
     "Group list is empty" : "La llista del grup és buida",
+    "Unable to retrieve the group list" : "No es pot obtenir la llista del grup",
     "Saved" : "Desat",
     "Saving failed:" : "Error al desar",
     "File MIME type" : "Tipus MIME d\\'arxiu",

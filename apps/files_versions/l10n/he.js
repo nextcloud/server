@@ -4,7 +4,7 @@ OC.L10N.register(
     "Could not revert: %s" : "לא ניתן להחזיר: %s",
     "Versions" : "גרסאות",
     "Failed to revert {file} to revision {timestamp}." : "נכשל אחזור {file} לגרסה {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n בייט","%n בייטים","%n בייטים"],
+    "_%n byte_::_%n bytes_" : ["%n בייט","%n בייטים","%n בייטים","%n בייטים"],
     "Restore" : "שחזור",
     "No earlier versions available" : "אין גרסאות קודמות זמינות",
     "More versions …" : "גרסאות נוספות…"
