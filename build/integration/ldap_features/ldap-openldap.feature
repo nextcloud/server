@@ -37,8 +37,8 @@ Feature: LDAP
     And sending "GET" to "/cloud/users?search=alice"
     Then the OCS status code should be "200"
     And looking up details for the first result matches expectations
-      | email | alice@nextcloud.ci |
-      | displayname | Alice |
+      | email           | alice@nextcloud.ci |
+      | displayname     | Alice              |
 
   Scenario: Test group filter with one specific group
     Given modify LDAP configuration
