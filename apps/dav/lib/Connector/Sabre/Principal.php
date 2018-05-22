@@ -30,6 +30,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -54,6 +55,9 @@ class Principal implements BackendInterface {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var string */
 	private $principalPrefix;
 
@@ -65,17 +69,20 @@ class Principal implements BackendInterface {
 	 * @param IGroupManager $groupManager
 	 * @param IShareManager $shareManager
 	 * @param IUserSession $userSession
+	 * @param IConfig $config
 	 * @param string $principalPrefix
 	 */
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
 								IShareManager $shareManager,
 								IUserSession $userSession,
+								IConfig $config,
 								$principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
+		$this->config = $config;
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = ($principalPrefix === 'principals/users/');
 	}
@@ -205,8 +212,10 @@ class Principal implements BackendInterface {
 	protected function searchUserPrincipals(array $searchProperties, $test = 'allof') {
 		$results = [];
 
-		// If sharing is disabled, return the empty array
-		if (!$this->shareManager->shareApiEnabled()) {
+		// If sharing is disabled (or FreeBusy was disabled on purpose), return the empty array
+		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
+		$disableFreeBusy = $this->config->getAppValue('dav', 'disableFreeBusy', $shareAPIEnabled ? 'no' : 'yes');
+		if ($disableFreeBusy === 'yes') {
 			return [];
 		}
 
@@ -289,8 +298,10 @@ class Principal implements BackendInterface {
 	 * @return string
 	 */
 	function findByUri($uri, $principalPrefix) {
-		// If sharing is disabled, return null as in user not found
-		if (!$this->shareManager->shareApiEnabled()) {
+		// If sharing is disabled (or FreeBusy was disabled on purpose), return the empty array
+		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
+		$disableFreeBusy = $this->config->getAppValue('dav', 'disableFreeBusy', $shareAPIEnabled ? 'no' : 'yes');
+		if ($disableFreeBusy === 'yes') {
 			return null;
 		}
 

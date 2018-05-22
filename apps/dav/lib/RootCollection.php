@@ -51,7 +51,8 @@ class RootCollection extends SimpleCollection {
 			$userManager,
 			$groupManager,
 			$shareManager,
-			\OC::$server->getUserSession()
+			\OC::$server->getUserSession(),
+			$config
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager);
 		// as soon as debug mode is enabled we allow listing of principals
