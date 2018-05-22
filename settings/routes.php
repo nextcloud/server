@@ -51,7 +51,10 @@ $application->registerRoutes($this, [
 		['name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'],
 
 		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps/{category}', 'verb' => 'GET', 'defaults' => ['category' => '']],
+		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps/{category}/{id}', 'verb' => 'GET', 'defaults' => ['category' => '', 'id' => '']],
+
 		['name' => 'AppSettings#enableApp', 'url' => '/settings/apps/enable/{appId}', 'verb' => 'GET'],
+		['name' => 'AppSettings#enableApp', 'url' => '/settings/apps/enable/{appId}', 'verb' => 'POST'],
 		['name' => 'AppSettings#enableApps', 'url' => '/settings/apps/enable', 'verb' => 'POST'],
 		['name' => 'AppSettings#disableApp', 'url' => '/settings/apps/disable/{appId}', 'verb' => 'GET'],
 		['name' => 'AppSettings#disableApps', 'url' => '/settings/apps/disable', 'verb' => 'POST'],

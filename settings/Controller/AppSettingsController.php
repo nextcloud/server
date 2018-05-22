@@ -187,7 +187,7 @@ class AppSettingsController extends Controller {
 	 * @param string $requestedCategory
 	 * @return array
 	 */
-	private function getAppsForCategory($requestedCategory) {
+	private function getAppsForCategory($requestedCategory = '') {
 		$versionParser = new VersionParser();
 		$formattedApps = [];
 		$apps = $this->appFetcher->get();
@@ -197,14 +197,16 @@ class AppSettingsController extends Controller {
 			}
 
 			// Skip all apps not in the requested category
-			$isInCategory = false;
-			foreach($app['categories'] as $category) {
-				if($category === $requestedCategory) {
-					$isInCategory = true;
+			if ($requestedCategory !== '') {
+				$isInCategory = false;
+				foreach($app['categories'] as $category) {
+					if($category === $requestedCategory) {
+						$isInCategory = true;
+					}
 				}
-			}
-			if(!$isInCategory) {
-				continue;
+				if(!$isInCategory) {
+					continue;
+				}
 			}
 
 			$nextCloudVersion = $versionParser->getVersion($app['releases'][0]['rawPlatformVersionSpec']);
@@ -496,9 +498,10 @@ class AppSettingsController extends Controller {
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $appId
+	 * @param array $groups
 	 * @return JSONResponse
 	 */
-	public function enableApp(string $appId, array $groups): JSONResponse {
+	public function enableApp(string $appId, array $groups = []): JSONResponse {
 		return $this->enableApps([$appId], $groups);
 	}
 
