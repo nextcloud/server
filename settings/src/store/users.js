@@ -48,12 +48,12 @@ const mutations = {
 		state.groups = orderGroups(state.groups, state.orderBy);
 		
 	},
-	addGroup(state, gid) {
+	addGroup(state, {gid, displayName}) {
 		try {
 			// extend group to default values
 			let group = Object.assign({}, defaults.group, {
 				id: gid,
-				name: gid
+				name: displayName,
 			});
 			state.groups.push(group);
 			state.groups = orderGroups(state.groups, state.orderBy);
@@ -197,6 +197,21 @@ const actions = {
 			.catch((error) => context.commit('API_FAILURE', error));
 	},
 
+	getGroups(context) { /* { offset, limit, search } */
+		//search = typeof search === 'string' ? search : '';
+		return api.get(OC.linkToOCS(`cloud/groups`, 2)) /* ?offset=${offset}&limit=${limit}&search=${search}` */
+			.then((response) => {
+				if (Object.keys(response.data.ocs.data.groups).length > 0) {
+					response.data.ocs.data.groups.forEach(function(group) {
+						context.commit('addGroup', {gid: group, displayName: group});
+					});
+					return true;
+				}
+				return false;
+			})
+			.catch((error) => context.commit('API_FAILURE', error));
+	},
+
 	/**
 	 * Get all users with full details
 	 * 
@@ -253,7 +268,7 @@ const actions = {
 	addGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
 			return api.post(OC.linkToOCS(`cloud/groups`, 2), {groupid: gid})
-				.then((response) => context.commit('addGroup', gid))
+				.then((response) => context.commit('addGroup', {gid: gid, displayName: gid}))
 				.catch((error) => {throw error;});
 		}).catch((error) => {
 			context.commit('API_FAILURE', { gid, error });
