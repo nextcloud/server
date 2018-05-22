@@ -21,6 +21,7 @@
  */
 
 import api from './api';
+import axios from 'axios/index';
 
 const state = {
 	apps: [],
@@ -51,6 +52,16 @@ const mutations = {
 		state.apps = apps;
 	},
 
+	enableApp(state, {appId, groups}) {
+		state.apps.find(app => app.id === appId).active = true;
+		state.apps.find(app => app.id === appId).groups = groups;
+		console.log(state.apps.find(app => app.id === appId).groups);
+	},
+
+	disableApp(state, appId) {
+		state.apps.find(app => app.id === appId).active = false;
+	},
+
 	reset(state) {
 		state.apps = [];
 		state.categories = [];
@@ -72,6 +83,36 @@ const getters = {
 
 const actions = {
 
+	enableApp(context, { appId, groups }) {
+		return api.requireAdmin().then((response) => {
+				return api.post(OC.generateUrl(`settings/apps/enable/${appId}`), {
+					groups: groups
+				})
+				.then((response) => {
+					context.commit('enableApp', {appId: appId, groups: groups});
+					return true;
+				})
+				.catch((error) => {throw error;})
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
+
+	},
+	disableApp(context, { appId }) {
+		return api.requireAdmin().then((response) => {
+			return api.get(OC.generateUrl(`settings/apps/disable/${appId}`))
+				.then((response) => {
+					context.commit('disableApp', appId);
+					return true;
+				})
+				.catch((error) => {throw error;})
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
+	},
+	installApp(appId) {
+
+	},
+	uninstallApp(appId) {
+
+	},
+
 	getApps(context, { category }) {
 		return api.get(OC.generateUrl(`settings/apps/list?category=${category}`))
 			.then((response) => {
@@ -79,7 +120,6 @@ const actions = {
 				return true;
 			})
 			.catch((error) => context.commit('API_FAILURE', error))
-
 	},
 
 	getCategories(context) {

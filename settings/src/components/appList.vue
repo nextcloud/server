@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div id="app-content">
+	<div id="app-content" :class="{ 'with-app-sidebar': app }">
 		<div id="apps-list" class="installed">
 			<div class="apps-header" v-if="category === 'app-bundles'">
 				<div class="app-image"></div>
@@ -32,73 +32,92 @@
 				<div class="actions">&nbsp;</div>
 			</div>
 
-			<div class="section" v-for="app in apps">
-				<div class="app-image app-image-icon">
-					<svg width="32" height="32" viewBox="0 0 32 32">
-						<defs><filter id="invertIconApps-606"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-						<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invertIconApps-606)" xlink:href="/core/img/places/default-app-icon.svg?v=13.0.2.1" class="app-icon"></image>
-					</svg>
-				</div>
-				<div class="app-name">
-					{{ app.name }}
-				</div>
-				<div class="app-version">{{ app.version }}</div>
-				<div class="app-level">
-					<a href="https://apps.nextcloud.com/apps/apporder">Im Store anzeigen ↗</a>
-				</div>
-
-				<div class="app-groups">
-					<div class="groups-enable">
-						<input type="checkbox" class="groups-enable__checkbox checkbox" id="groups_enable-apporder">
-						<label for="groups_enable-apporder">Auf Gruppen beschränken</label>
-						<input type="hidden" class="group_select" title="Alle" value="">
-					</div>
-				</div>
-
-				<div class="actions">
-					<div class="warning hidden"></div>
-					<input class="update hidden" type="submit" value="Aktualisierung auf false" data-appid="apporder">
-					<input class="enable" type="submit" data-appid="apporder" data-active="true" value="Deaktivieren">
-				</div>
-			</div>
+			<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
 		</div>
 	</div>
 </template>
 
 <script>
-import userRow from './userList/userRow';
+import appItem from './appList/appItem';
 import Multiselect from 'vue-multiselect';
-import InfiniteLoading from 'vue-infinite-loading';
-import Vue from 'vue';
 
 export default {
 	name: 'appList',
-	props: ['category'],
+	props: ['category', 'app'],
 	components: {
 		Multiselect,
+		appItem
 	},
 	data() {
 		return {
+			groupCheckedAppsData: [],
 			loading: false,
 			scrolled: false,
 		};
 	},
 	watch: {
-		// watch url change and group select
-		category: function (val, old) {
-			this.$store.commit('resetApps');
-			this.$store.dispatch('getApps', { category: this.category });
-		}
+
 	},
 	mounted() {
-		this.$store.dispatch('getApps', { category: this.category });
+		//this.$store.dispatch('getApps', { category: this.category });
+		this.$store.dispatch('getGroups');
+
 	},
 	computed: {
 		apps() {
 			return this.$store.getters.getApps;
 		},
+		groups() {
+			console.log(this.$store.getters.getGroups);
+			return this.$store.getters.getGroups;
+				/*.filter(group => group.id !== 'disabled')
+				.sort((a, b) => a.name.localeCompare(b.name));*/
+		},
 	},
 	methods: {
+		prefix(prefix, content) {
+			return prefix + '_' + content;
+		},
+		isLimitedToGroups(app) {
+			if (app.groups.length || this.groupCheckedAppsData.includes(app.id)) {
+				return true;
+			}
+			return false;
+		},
+		canLimitToGroups(app) {
+			if (app.types && app.types.includes('filesystem')
+				|| app.types.includes('prelogin')
+				|| app.types.includes('authentication')
+				|| app.types.includes('logging')
+				|| app.types.includes('prevent_group_restriction')) {
+				return false;
+			}
+			return true;
+		},
+		addGroupLimitation(appId, group) {
+			let currentGroups = this.$store.apps.find(app => app.id === appId).groups;
+			currentGroups.push(group);
+			this.$store.dispatch('enableApp', { appId: appId, groups: groups});
+		},
+		removeGroupLimitation(appId, group) {
+			let currentGroups = this.$store.apps.find(app => app.id === appId).groups;
+			currentGroups.push(group);
+			let index = currentGroups.indexOf(group);
+			if (index > -1) {
+				currentGroups.splice(index, 1);
+			}
+			this.$store.dispatch('enableApp', { appId: appId, groups: groups});
+		},
+		enable(appId) {
+			this.$store.dispatch('enableApp', { appId: appId })
+				.catch((error) => { OC.Notification.show(error)});
+		},
+		disable(appId) {
+			this.$store.dispatch('disableApp', { appId: appId })
+				.catch((error) => { OC.Notification.show(error)});
+		},
+		remove() {},
+		install() {},
 		createUser() {
 			this.loading = true;
 			this.$store.dispatch('addUser', {

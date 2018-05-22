@@ -71,7 +71,7 @@ export default {
 			waitForpassword();
 		});
 	},
-	get(url) {
+	get(url, data) {
 		return axios.get(sanitize(url), tokenHeaders)
 			.then((response) => Promise.resolve(response))
 			.catch((error) => Promise.reject(error));

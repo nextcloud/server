@@ -23,7 +23,13 @@
 <template>
 	<div id="app">
 		<app-navigation :menu="menu" />
-		<app-list :category="category"></app-list>
+		<app-list :category="category" :app="currentApp"></app-list>
+		<div id="app-sidebar" v-if="currentApp">
+			{{ currentApp.name }}
+			<div class="app-description">
+				{{ currentApp.description }}
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -41,13 +47,23 @@ Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Apps',
-	props: ['category'],
+	props: {
+		category: {
+			type: String,
+			default: 'installed',
+		},
+		id: {
+			type: String,
+			default: '',
+		}
+	},
 	components: {
 		appNavigation,
 		appList,
 	},
 	beforeMount() {
 		this.$store.dispatch('getCategories');
+		this.$store.dispatch('getApps', { category: this.category });
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 	},
 	data() {
@@ -55,7 +71,17 @@ export default {
 
 		}
 	},
+	watch: {
+		// watch url change and group select
+		category: function (val, old) {
+			this.$store.commit('resetApps');
+			this.$store.dispatch('getApps', { category: this.category });
+		}
+	},
 	computed: {
+		currentApp() {
+			return this.apps.find(app => app.id === this.id );
+		},
 		categories() {
 			return this.$store.getters.getCategories;
 		},
