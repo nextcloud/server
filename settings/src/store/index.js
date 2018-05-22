@@ -12,9 +12,7 @@ const mutations = {
 	API_FAILURE(state, error) {
 		let message = error.error.response.data.ocs.meta.message;
 		OC.Notification.showHtml(t('settings','An error occured during the request. Unable to proceed.')+'<br>'+message, {timeout: 7});
-		// throw to raise exception of the promise and allow a `.then` in the Vue methods
 		console.log(state, error);
-		throw new Error(error);
 	}
 };
 
