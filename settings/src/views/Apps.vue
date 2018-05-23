@@ -23,12 +23,10 @@
 <template>
 	<div id="app">
 		<app-navigation :menu="menu" />
-		<app-list :category="category" :app="currentApp"></app-list>
+		<app-list :category="category" :app="currentApp" :search="search"></app-list>
 		<div id="app-sidebar" v-if="currentApp">
-			{{ currentApp.name }}
-			<div class="app-description">
-				{{ currentApp.description }}
-			</div>
+			{{ search }}
+			<app-details :app="currentApp"></app-details>
 		</div>
 	</div>
 </template>
@@ -41,6 +39,7 @@ import Vue from 'vue';
 import VueLocalStorage from 'vue-localstorage'
 import Multiselect from 'vue-multiselect';
 import api from '../store/api';
+import AppDetails from '../components/appDetails';
 
 Vue.use(VueLocalStorage)
 Vue.use(VueLocalStorage)
@@ -58,17 +57,33 @@ export default {
 		}
 	},
 	components: {
+		AppDetails,
 		appNavigation,
 		appList,
 	},
+	methods: {
+		setSearch(search) {
+			this.search = search;
+		}
+	},
 	beforeMount() {
 		this.$store.dispatch('getCategories');
-		this.$store.dispatch('getApps', { category: this.category });
+		this.$store.dispatch('getApps', {category: this.category});
+		this.$store.dispatch('getAllApps');
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
+		console.log(this.$store.getters.getServerData.updateCount);
+	},
+	mounted() {
+		// TODO: remove jQuery once we have a proper standardisation of the search
+		$('#searchbox').show();
+		let self = this;
+		$('#searchbox').change(function(e) {
+			self.setSearch($('#searchbox').val());
+		});
 	},
 	data() {
 		return {
-
+			search: ''
 		}
 	},
 	watch: {

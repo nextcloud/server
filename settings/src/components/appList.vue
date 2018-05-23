@@ -21,19 +21,43 @@
   -->
 
 <template>
-	<div id="app-content" :class="{ 'with-app-sidebar': app }">
-		<div id="apps-list" class="installed">
-			<div class="apps-header" v-if="category === 'app-bundles'">
-				<div class="app-image"></div>
-				<h2>Firmen-Paket <input class="enable" type="submit" data-bundleid="EnterpriseBundle" data-active="true" value="Alle aktivieren"></h2>
-				<div class="app-version"></div>
-				<div class="app-level"></div>
-				<div class="app-groups"></div>
-				<div class="actions">&nbsp;</div>
-			</div>
-
+	<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': app }">
+		<div id="apps-list" class="installed" v-if="useListView">
 			<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
 		</div>
+
+		<div id="apps-list" class="installed" v-if="useBundleView">
+			<template v-for="app in apps">
+				<div class="apps-header" v-if="app.newCategory">
+					<div class="app-image"></div>
+					<h2>{{ app.categoryName }} <input class="enable" type="button" value="Alle aktivieren"></h2>
+					<div class="app-version"></div>
+					<div class="app-level"></div>
+					<div class="app-groups"></div>
+					<div class="actions">&nbsp;</div>
+				</div>
+				<app-item v-else :key="app.id" :app="app" :category="category"/>
+			</template>
+		</div>
+
+		<div id="apps-list" class="store" v-if="useAppStoreView">
+			<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" :list-view="false" />
+		</div>
+
+		<div id="apps-list" class="installed" v-if="search !== ''">
+			<div>
+				<div></div>
+				<h2>{{ t('settings', 'Results from other categories') }}</h2>
+			</div>
+			<app-item v-for="app in searchApps" :key="app.id" :app="app" :category="category" :list-view="true" />
+		</div>
+
+		<div id="apps-list-empty" class="emptycontent emptycontent-search" v-if="apps.length == 0 && loading">
+			<div id="app-list-empty-icon" class="icon-search"></div>
+			<h2>{{ t('settings', 'No apps found for your versoin')}}</h2>
+		</div>
+
+		<div id="searchresults"></div>
 	</div>
 </template>
 
@@ -43,7 +67,7 @@ import Multiselect from 'vue-multiselect';
 
 export default {
 	name: 'appList',
-	props: ['category', 'app'],
+	props: ['category', 'app', 'search'],
 	components: {
 		Multiselect,
 		appItem
@@ -65,14 +89,28 @@ export default {
 	},
 	computed: {
 		apps() {
-			return this.$store.getters.getApps;
+			return this.$store.getters.getApps
+				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
+		},
+		searchApps() {
+			return this.$store.getters.getAllApps
+				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 		},
 		groups() {
 			console.log(this.$store.getters.getGroups);
-			return this.$store.getters.getGroups;
-				/*.filter(group => group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name));*/
+			return this.$store.getters.getGroups
+				.filter(group => group.id !== 'disabled')
+				.sort((a, b) => a.name.localeCompare(b.name));
 		},
+		useAppStoreView() {
+			return !this.useListView && !this.useBundleView;
+		},
+		useListView() {
+			return (this.category === 'installed' || this.category === 'enabled' || this.category === 'disabled' || this.category === 'updates');
+		},
+		useBundleView() {
+			return (this.category === 'app-bundles');
+		}
 	},
 	methods: {
 		prefix(prefix, content) {

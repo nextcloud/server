@@ -21,166 +21,122 @@
   -->
 
 <template>
-	<div id="app-sidebar">
+	<div id="app-details-view" style="padding: 20px;">
 		<h2>{{ app.name }}</h2>
+		<img :src="app.preview" width="100%" />
+		<app-score v-if="app.ratingNumThresholdReached" :score="app.score"></app-score>
+		<div class="app-author">
+			{{ author }}
+			{{ licence }}
+		</div>
+		<div class="actions">
+			<div class="warning hidden"></div>
+			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" />
+			<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" />
+			<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" />
+			<input v-if="!app.active && !app.needsDownload" class="enable" type="button" :value="t('settings','Enable')" v-on:click="enable(app.id)" :disabled="!app.canInstall" />
+			<input v-if="!app.active && app.needsDownload" class="enable needs-download" type="button" :value="t('settings', 'Enable')" :disabled="!app.canInstall"/>
+		</div>
+		<p class="documentation">
+			<a class="appslink" v-if="app.website" :href="app.website" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Visit website') }} ↗</a>
+			<a class="appslink" v-if="app.bugs" :href="app.bugs" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Report a bug') }} ↗</a>
+
+			<a class="appslink" v-if="app.documentation.user" :href="app.documentation.user" target="_blank" rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation.admin" :href="app.documentation.admin" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Admin documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation.developer" :href="app.documentation.developer" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
+		</p>
+
+		<ul class="app-dependencies">
+			<li v-if="app.missingMinOwnCloudVersion">{{ t('settings', 'This app has no minimum Nextcloud version assigned. This will be an error in the future.') }}</li>
+			<li v-if="app.missingMaxOwnCloudVersion">{{ t('settings', 'This app has no maximum Nextcloud version assigned. This will be an error in the future.') }}</li>
+			<li v-if="!app.canInstall">
+				{{ t('settings', 'This app cannot be installed because the following dependencies are not fulfilled:') }}
+				<ul class="missing-dependencies">
+					<li v-for="dep in app.missingDependencies">{{ dep }}</li>
+				</ul>
+			</li>
+		</ul>
+
+		<div class="app-description" v-html="renderMarkdown"></div>
 	</div>
 </template>
 
 <script>
-import userRow from './userList/userRow';
 import Multiselect from 'vue-multiselect';
-import InfiniteLoading from 'vue-infinite-loading';
-import Vue from 'vue';
-
+import AppScore from './appList/appScore';
 export default {
-	name: 'userList',
-	props: ['users', 'showConfig', 'selectedGroup'],
+	name: 'appDetails',
+	props: ['app'],
 	components: {
-		userRow,
 		Multiselect,
-		InfiniteLoading
-	},
-	data() {
-		let unlimitedQuota = {id:'none', label:t('settings', 'Unlimited')},
-			defaultQuota = {id:'default', label:t('settings', 'Default quota')};
-		return {
-			unlimitedQuota: unlimitedQuota,
-			defaultQuota: defaultQuota,
-			loading: false,
-			scrolled: false,
-			newUser: {
-				id:'',
-				displayName:'',
-				password:'',
-				mailAddress:'',
-				groups: [],
-				subAdminsGroups: [],
-				quota: defaultQuota,
-				language: {code: 'en', name: t('settings', 'Default language')}
-			}
-		};
-	},
-	mounted() {
-		if (!this.settings.canChangePassword) {
-			OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'));
-		}
-		/** 
-		 * Init default language from server data. The use of this.settings
-		 * requires a computed variable,vwhich break the v-model binding of the form,
-		 * this is a much easier solution than getter and setter
-		 */
-		Vue.set(this.newUser.language, 'code', this.settings.defaultLanguage);
+		AppScore
 	},
 	computed: {
-		settings() {
-			return this.$store.getters.getServerData;
+		licence() {
+			return this.app.license + t('settings', '-licensed');
 		},
-		filteredUsers() {
-			if (this.selectedGroup === 'disabled') {
-				let disabledUsers = this.users.filter(user => user.enabled !== true);
-				if (disabledUsers.length===0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
-					// disabled group is empty, redirection to all users
-					this.$router.push('users');
-					this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+		author() {
+			return t('settings', 'by') + ' ' + this.app.author;
+		},
+		renderMarkdown() {
+			// TODO: bundle marked as well
+			var renderer = new window.marked.Renderer();
+			renderer.link = function(href, title, text) {
+				try {
+					var prot = decodeURIComponent(unescape(href))
+						.replace(/[^\w:]/g, '')
+						.toLowerCase();
+				} catch (e) {
+					return '';
 				}
-				return disabledUsers;
-			}
-			return this.users.filter(user => user.enabled === true);
-		},
-		groups() {
-			// data provided php side + remove the disabled group
-			return this.$store.getters.getGroups.filter(group => group.id !== 'disabled');
-		},
-		subAdminsGroups() {
-			// data provided php side
-			return this.$store.getters.getServerData.subadmingroups;
-		},
-		quotaOptions() {
-			// convert the preset array into objects
-			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({id:cur, label:cur}), []);
-			// add default presets
-			quotaPreset.unshift(this.unlimitedQuota);
-			quotaPreset.unshift(this.defaultQuota);
-			return quotaPreset;
-		},
-		minPasswordLength() {
-			return this.$store.getters.getPasswordPolicyMinLength;
-		},
-		usersOffset() {
-			return this.$store.getters.getUsersOffset;
-		},
-		usersLimit() {
-			return this.$store.getters.getUsersLimit;
-		},
 
-		/* LANGUAGES */
-		languages() {
-			return Array(
+				if (prot.indexOf('http:') !== 0 && prot.indexOf('https:') !== 0) {
+					return '';
+				}
+
+				var out = '<a href="' + href + '" rel="noreferrer noopener"';
+				if (title) {
+					out += ' title="' + title + '"';
+				}
+				out += '>' + text + '</a>';
+				return out;
+			};
+			renderer.image = function(href, title, text) {
+				if (text) {
+					return text;
+				}
+				return title;
+			};
+			renderer.blockquote = function(quote) {
+				return quote;
+			};
+			return DOMPurify.sanitize(
+				window.marked(this.app.description.trim(), {
+					renderer: renderer,
+					gfm: false,
+					highlight: false,
+					tables: false,
+					breaks: false,
+					pedantic: false,
+					sanitize: true,
+					smartLists: true,
+					smartypants: false
+				}),
 				{
-					label: t('settings', 'Common languages'),
-					languages: this.settings.languages.commonlanguages
-				},
-				{
-					label: t('settings', 'All languages'),
-					languages: this.settings.languages.languages
+					SAFE_FOR_JQUERY: true,
+					ALLOWED_TAGS: [
+						'strong',
+						'p',
+						'a',
+						'ul',
+						'ol',
+						'li',
+						'em',
+						'del',
+						'blockquote'
+					]
 				}
 			);
-		}
-	},
-	watch: {
-		// watch url change and group select
-		selectedGroup: function (val, old) {
-			this.$store.commit('resetUsers');
-			this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-		}
-	},
-	methods: {
-		onScroll(event) {
-			this.scrolled = event.target.scrollTop>0;
-		},
-
-		/**
-		 * Validate quota string to make sure it's a valid human file size
-		 * 
-		 * @param {string} quota Quota in readable format '5 GB'
-		 * @returns {Object}
-		 */
-		validateQuota(quota) {
-			// only used for new presets sent through @Tag
-			let validQuota = OC.Util.computerFileSize(quota);
-			if (validQuota !== null && validQuota > 0) {
-				// unify format output
-				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota));
-				return this.newUser.quota = {id: quota, label: quota};
-			}
-			// Default is unlimited
-			return this.newUser.quota = this.quotaOptions[0];
-		},
-
-		infiniteHandler($state) {
-			this.$store.dispatch('getUsers', {
-				offset: this.usersOffset,
-				limit: this.usersLimit,
-				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : ''})
-				.then((response) => {response?$state.loaded():$state.complete()});
-		},
-
-		resetForm() {
-			// revert form to original state
-			Object.assign(this.newUser, this.$options.data.call(this).newUser);
-			this.loading = false;
-		},
-		createUser() {
-			this.loading = true;
-			this.$store.dispatch('addUser', {
-				userid: this.newUser.id,
-				password: this.newUser.password,
-				email: this.newUser.mailAddress,
-				groups: this.newUser.groups.map(group => group.id),
-				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
-				quota: this.newUser.quota.id,
-				language: this.newUser.language.code,
-			}).then(() => this.resetForm());
 		}
 	}
 }

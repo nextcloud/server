@@ -21,23 +21,26 @@
   -->
 
 <template>
-	<div class="section" v-on:click="showAppDetails">
-		<div class="app-image app-image-icon">
-			<svg width="32" height="32" viewBox="0 0 32 32">
+	<div class="section">
+		<div class="app-image app-image-icon" v-on:click="showAppDetails">
+			<img :src="app.preview" v-if="!app.previewAsIcon" width="100%" />
+			<svg v-else width="32" height="32" viewBox="0 0 32 32" v-if="app.previewAsIcon">
 				<defs><filter id="invertIconApps-606"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-				<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invertIconApps-606)" xlink:href="/core/img/places/default-app-icon.svg?v=13.0.2.1" class="app-icon"></image>
+				<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invertIconApps-606)" :xlink:href="app.preview" class="app-icon"></image>
 			</svg>
 		</div>
-		<div class="app-name">
+		<div class="app-name" v-on:click="showAppDetails">
 			{{ app.name }}
 		</div>
 		<div class="app-version">{{ app.version }}</div>
+		<div class="app-score" v-if="!listView"><app-score :score="app.score"></app-score> </div>
+		<div class="app-summary" v-if="!listView">{{ app.summary }}</div>
 		<div class="app-level">
 			<span class="official icon-checkmark" v-if="app.level === 200">{{ t('settings', 'Official') }}</span>
-			<a :href="app.appstoreUrl" v-if="!app.internal">Im Store anzeigen ↗</a>
+			<a :href="appstoreUrl" v-if="!app.internal && listView">Im Store anzeigen ↗</a>
 		</div>
 
-		<div class="app-groups">
+		<div class="app-groups" v-if="listView">
 			<div class="groups-enable" v-if="app.active && canLimitToGroups(app)">
 				<input type="checkbox" :value="app.id" v-model="groupCheckedAppsData" v-on:change="setGroupLimit" class="groups-enable__checkbox checkbox" :id="prefix('groups_enable', app.id)">
 				<label :for="prefix('groups_enable', app.id)">Auf Gruppen beschränken</label>
@@ -53,26 +56,31 @@
 
 		<div class="actions">
 			<div class="warning hidden"></div>
-			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" :data-appid="app.id" />
-			<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" :data-appid="app.id" />
-			<input v-if="app.active" class="enable" type="button" :data-appid="app.id" data-active="true" :value="t('settings','Disable')" v-on:click="disable(app.id)" />
-			<input v-if="!app.active && !app.needsDownload" class="enable" type="button" :data-appid="app.id" :value="t('settings','Enable')" v-on:click="enable(app.id)" />
-			<!--if !canInstall -> disable the enable button {{#unless canInstall}}disabled="disabled"{{/unless}} //-->
-			<input v-if="!app.active && app.needsDownload" class="enable needs-download" type="button" :data-appid="app.id" :value="t('settings', 'Enable')"/>
-			<!-- <php /* data-active="false" {{#unless canInstall}}disabled="disabled"{{/unless}} */ ?>//-->
-
+			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" v-on:click="update(app.id)" />
+			<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" v-on:click="remove(app.id)" />
+			<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" />
+			<input v-if="!app.active" class="enable" type="button" :value="enableButtonText" v-on:click="enable(app.id)" :disabled="!app.canInstall" />
 		</div>
 	</div>
 </template>
 
 <script>
 	import Multiselect from 'vue-multiselect';
+	import AppScore from './appScore';
 
 	export default {
 		name: 'appItem',
-		props: ['app', 'category'],
+		props: {
+			app: {},
+			category: {},
+			listView: {
+				type: Boolean,
+				default: true,
+			}
+		},
 		components: {
 			Multiselect,
+			AppScore,
 		},
 		data() {
 			return {
@@ -87,15 +95,23 @@
 			}
 		},
 		computed: {
+			appstoreUrl() {
+				return `https://apps.nextcloud.com/apps/${this.app.id}`;
+			},
 			appGroups() {
 				return this.app.groups.map(group => {return {id: group, name: group}});
 			},
 			groups() {
-				console.log(this.$store.getters.getGroups);
 				return this.$store.getters.getGroups
 					.filter(group => group.id !== 'disabled')
 					.sort((a, b) => a.name.localeCompare(b.name));
 			},
+			enableButtonText() {
+				if (this.app.needsDownload) {
+					return t('settings','Download and enable');
+				}
+				return t('settings','Enable');
+			}
 		},
 		watchers: {
 
@@ -145,15 +161,25 @@
 				this.$store.dispatch('enableApp', { appId: this.app.id, groups: currentGroups});
 			},
 			enable(appId) {
-				this.$store.dispatch('enableApp', { appId: appId })
+				this.$store.dispatch('enableApp', { appId: appId, groups: [] })
 					.catch((error) => { OC.Notification.show(error)});
 			},
 			disable(appId) {
 				this.$store.dispatch('disableApp', { appId: appId })
 					.catch((error) => { OC.Notification.show(error)});
 			},
-			remove() {},
-			install() {},
+			remove(appId) {
+				this.$store.dispatch('uninstallApp', { appId: appId })
+					.catch((error) => { OC.Notification.show(error)});
+			},
+			install(appId) {
+				this.$store.dispatch('installApp', { appId: appId })
+					.catch((error) => { OC.Notification.show(error)});
+			},
+			update(appId) {
+				this.$store.dispatch('updateApp', { appId: appId })
+					.catch((error) => { OC.Notification.show(error)});
+			},
 			createUser() {
 				this.loading = true;
 				this.$store.dispatch('addUser', {

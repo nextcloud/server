@@ -25,11 +25,18 @@ import axios from 'axios/index';
 
 const state = {
 	apps: [],
+	allApps: [],
 	categories: [],
 	updateCount: 0
 };
 
 const mutations = {
+
+	APPS_API_FAILURE(state, error) {
+		OC.Notification.showHtml(t('settings','An error occured during the request. Unable to proceed.')+'<br>'+error.error.response.data.data.message, {timeout: 7});
+		console.log(state, error);
+	},
+
 	initCategories(state, {categories, updateCount}) {
 		state.categories = categories;
 		state.updateCount = updateCount;
@@ -52,16 +59,36 @@ const mutations = {
 		state.apps = apps;
 	},
 
+	setAllApps(state, apps) {
+		state.allApps = apps;
+	},
+
 	enableApp(state, {appId, groups}) {
-		state.apps.find(app => app.id === appId).active = true;
-		state.apps.find(app => app.id === appId).groups = groups;
-		console.log(state.apps.find(app => app.id === appId).groups);
+		let app = state.apps.find(app => app.id === appId);
+		app.active = true;
+		app.groups = groups;
 	},
 
 	disableApp(state, appId) {
-		state.apps.find(app => app.id === appId).active = false;
+		let app = state.apps.find(app => app.id === appId);
+		app.active = false;
+		app.groups = [];
+		if (app.removable) {
+			app.canUnInstall = true;
+		}
 	},
 
+	uninstallApp(state, appId) {
+		state.apps.find(app => app.id === appId).active = false;
+		state.apps.find(app => app.id === appId).groups = [];
+		state.apps.find(app => app.id === appId).needsDownload = true;
+		state.apps.find(app => app.id === appId).canUnInstall = false;
+		state.apps.find(app => app.id === appId).canInstall = true;
+	},
+
+	resetApps(state) {
+		state.apps = [];
+	},
 	reset(state) {
 		state.apps = [];
 		state.categories = [];
@@ -74,7 +101,18 @@ const getters = {
 		return state.categories;
 	},
 	getApps(state) {
-		return state.apps;
+		return state.apps.concat([]).sort(function (a, b) {
+			if (a.active !== b.active) {
+				return (a.active ? -1 : 1)
+			}
+			if (a.update !== b.update) {
+				return (a.update ? -1 : 1)
+			}
+			return OC.Util.naturalSortCompare(a.name, b.name);
+		});
+	},
+	getAllApps(state) {
+		return state.allApps;
 	},
 	getUpdateCount(state) {
 		return state.updateCount;
@@ -92,7 +130,7 @@ const actions = {
 					context.commit('enableApp', {appId: appId, groups: groups});
 					return true;
 				})
-				.catch((error) => {throw error;})
+				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 
 	},
@@ -103,20 +141,43 @@ const actions = {
 					context.commit('disableApp', appId);
 					return true;
 				})
-				.catch((error) => {throw error;})
+				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
-	installApp(appId) {
-
+	installApp(context, { appId }) {
+		return api.requireAdmin().then((response) => {
+			return api.get(OC.generateUrl(`settings/apps/enable/${appId}`))
+				.then((response) => {
+					context.commit('enableApp', appId);
+					return true;
+				})
+				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
-	uninstallApp(appId) {
-
+	uninstallApp(context, { appId }) {
+		return api.requireAdmin().then((response) => {
+			return api.get(OC.generateUrl(`settings/apps/uninstall/${appId}`))
+				.then((response) => {
+					context.commit('uninstallApp', appId);
+					return true;
+				})
+				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
 
 	getApps(context, { category }) {
 		return api.get(OC.generateUrl(`settings/apps/list?category=${category}`))
 			.then((response) => {
 				context.commit('setApps', response.data.apps);
+				return true;
+			})
+			.catch((error) => context.commit('API_FAILURE', error))
+	},
+
+	getAllApps(context) {
+		return api.get(OC.generateUrl(`settings/apps/list`))
+			.then((response) => {
+				context.commit('setAllApps', response.data.apps);
 				return true;
 			})
 			.catch((error) => context.commit('API_FAILURE', error))
