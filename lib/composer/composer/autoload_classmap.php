@@ -363,6 +363,7 @@ return array(
     'OC\\Authentication\\Token\\DefaultTokenCleanupJob' => $baseDir . '/lib/private/Authentication/Token/DefaultTokenCleanupJob.php',
     'OC\\Authentication\\Token\\DefaultTokenMapper' => $baseDir . '/lib/private/Authentication/Token/DefaultTokenMapper.php',
     'OC\\Authentication\\Token\\DefaultTokenProvider' => $baseDir . '/lib/private/Authentication/Token/DefaultTokenProvider.php',
+    'OC\\Authentication\\Token\\ExpiredTokenException' => $baseDir . '/lib/private/Authentication/Exceptions/ExpiredTokenException.php',
     'OC\\Authentication\\Token\\IProvider' => $baseDir . '/lib/private/Authentication/Token/IProvider.php',
     'OC\\Authentication\\Token\\IToken' => $baseDir . '/lib/private/Authentication/Token/IToken.php',
     'OC\\Authentication\\TwoFactorAuth\\Manager' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/Manager.php',

@@ -286,7 +286,7 @@ class ClientFlowLoginController extends Controller {
 		);
 
 		if($client) {
-			$code = $this->random->generate(128);
+			$code = $this->random->generate(128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 			$accessToken = new AccessToken();
 			$accessToken->setClientId($client->getId());
 			$accessToken->setEncryptedToken($this->crypto->encrypt($token, $code));

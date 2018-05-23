@@ -48,6 +48,7 @@ interface IProvider {
 	 *
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
+	 * @throws ExpiredTokenException
 	 * @return IToken
 	 */
 	public function getToken($tokenId);
@@ -58,6 +59,7 @@ interface IProvider {
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @return DefaultToken
+	 * @throws ExpiredTokenException
 	 */
 	public function getTokenById($tokenId);
 
@@ -135,4 +137,14 @@ interface IProvider {
 	 * @throws InvalidTokenException
 	 */
 	public function setPassword(IToken $token, $tokenId, $password);
+
+	/**
+	 * Rotate the token. Usefull for for example oauth tokens
+	 *
+	 * @param IToken $token
+	 * @param string $oldTokenId
+	 * @param string $newTokenId
+	 * @return IToken
+	 */
+	public function rotate(IToken $token, $oldTokenId, $newTokenId);
 }

@@ -150,13 +150,20 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @return DefaultToken
+	 * @throws ExpiredTokenException
 	 */
 	public function getToken($tokenId) {
 		try {
-			return $this->mapper->getToken($this->hashToken($tokenId));
+			$token = $this->mapper->getToken($this->hashToken($tokenId));
 		} catch (DoesNotExistException $ex) {
 			throw new InvalidTokenException();
 		}
+
+		if ($token->getExpires() !== null && $token->getExpires() < $this->time->getTime()) {
+			throw new ExpiredTokenException($token);
+		}
+
+		return $token;
 	}
 
 	/**
@@ -165,13 +172,21 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @return DefaultToken
+	 * @throws ExpiredTokenException
+	 * @return IToken
 	 */
 	public function getTokenById($tokenId) {
 		try {
-			return $this->mapper->getTokenById($tokenId);
+			$token = $this->mapper->getTokenById($tokenId);
 		} catch (DoesNotExistException $ex) {
 			throw new InvalidTokenException();
 		}
+
+		if ($token->getExpires() !== null && $token->getExpires() < $this->time->getTime()) {
+			throw new ExpiredTokenException($token);
+		}
+
+		return $token;
 	}
 
 	/**
@@ -259,6 +274,28 @@ class DefaultTokenProvider implements IProvider {
 		$rememberThreshold = $this->time->getTime() - (int) $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		$this->logger->debug('Invalidating remembered session tokens older than ' . date('c', $rememberThreshold), ['app' => 'cron']);
 		$this->mapper->invalidateOld($rememberThreshold, IToken::REMEMBER);
+	}
+
+	/**
+	 * Rotate the token. Usefull for for example oauth tokens
+	 *
+	 * @param IToken $token
+	 * @param string $oldTokenId
+	 * @param string $newTokenId
+	 * @return IToken
+	 */
+	public function rotate(IToken $token, $oldTokenId, $newTokenId) {
+		try {
+			$password = $this->getPassword($token, $oldTokenId);
+			$token->setPassword($this->encryptPassword($password, $newTokenId));
+		} catch (PasswordlessTokenException $e) {
+
+		}
+
+		$token->setToken($this->hashToken($newTokenId));
+		$this->updateToken($token);
+
+		return $token;
 	}
 
 	/**

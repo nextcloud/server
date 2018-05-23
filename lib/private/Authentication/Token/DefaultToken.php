@@ -28,10 +28,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setId(int $id)
  * @method void setUid(string $uid);
  * @method void setLoginName(string $loginName)
- * @method void setPassword(string $password)
  * @method void setName(string $name)
  * @method string getName()
- * @method void setToken(string $token)
  * @method string getToken()
  * @method void setType(string $type)
  * @method int getType()
@@ -92,10 +90,18 @@ class DefaultToken extends Entity implements IToken {
 	 */
 	protected $scope;
 
+	/** @var int */
+	protected $expires;
+
 	public function __construct() {
 		$this->addType('type', 'int');
 		$this->addType('lastActivity', 'int');
 		$this->addType('lastCheck', 'int');
+		$this->addType('scope', 'string');
+		$this->addType('expires', 'int');
+
+		$this->setExpires(null);
+		$this->markFieldUpdated('expires');
 	}
 
 	public function getId() {
@@ -172,5 +178,24 @@ class DefaultToken extends Entity implements IToken {
 		} else {
 			parent::setScope((string)$scope);
 		}
+	}
+
+	public function setToken($token) {
+		parent::setToken($token);
+	}
+
+	public function setPassword($password = null) {
+		parent::setPassword($password);
+	}
+
+	public function setExpires($expires) {
+		parent::setExpires($expires);
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getExpires() {
+		return parent::getExpires();
 	}
 }

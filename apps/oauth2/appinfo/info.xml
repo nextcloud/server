@@ -6,7 +6,7 @@
 	<licence>agpl</licence>
 	<author>Lukas Reschke</author>
 	<namespace>OAuth2</namespace>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<default_enable/>
 	<types>
 		<authentication/>
@@ -15,6 +15,12 @@
 	<dependencies>
 		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\OAuth2\Migration\SetTokenExpiration</step>
+		</post-migration>
+	</repair-steps>
 
 	<settings>
 		<admin>OCA\OAuth2\Settings\Admin</admin>

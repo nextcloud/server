@@ -1181,6 +1181,15 @@
 				<notnull>false</notnull>
 			</field>
 
+			<field>
+				<name>expires</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
 			<index>
 				<name>authtoken_token_index</name>
 				<unique>true</unique>
