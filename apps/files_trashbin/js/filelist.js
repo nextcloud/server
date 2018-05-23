@@ -260,7 +260,7 @@
 		},
 
 		generatePreviewUrl: function(urlSpec) {
-			return OC.generateUrl('/apps/files_trashbin/ajax/preview.php?') + $.param(urlSpec);
+			return OC.generateUrl('/apps/files_trashbin/preview?') + $.param(urlSpec);
 		},
 
 		getDownloadUrl: function() {

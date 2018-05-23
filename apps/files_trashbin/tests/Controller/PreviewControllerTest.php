@@ -26,6 +26,7 @@ use OCA\Files_Trashbin\Controller\PreviewController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
@@ -50,6 +51,9 @@ class PreviewControllerTest extends TestCase {
 	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject */
 	private $previewManager;
 
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $time;
+
 	/** @var PreviewController */
 	private $controller;
 
@@ -60,6 +64,7 @@ class PreviewControllerTest extends TestCase {
 		$this->userId = 'user';
 		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
 		$this->previewManager = $this->createMock(IPreview::class);
+		$this->time = $this->createMock(ITimeFactory::class);
 
 		$this->controller = new PreviewController(
 			'files_versions',
@@ -67,26 +72,20 @@ class PreviewControllerTest extends TestCase {
 			$this->rootFolder,
 			$this->userId,
 			$this->mimeTypeDetector,
-			$this->previewManager
+			$this->previewManager,
+			$this->time
 		);
 	}
 
-	public function testInvalidFile() {
-		$res = $this->controller->getPreview('');
-		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
-
-		$this->assertEquals($expected, $res);
-	}
-
 	public function testInvalidWidth() {
-		$res = $this->controller->getPreview('file', 0);
+		$res = $this->controller->getPreview(42, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
 	public function testInvalidHeight() {
-		$res = $this->controller->getPreview('file', 10, 0);
+		$res = $this->controller->getPreview(42, 10, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
@@ -111,11 +110,14 @@ class PreviewControllerTest extends TestCase {
 			->willReturn('myMime');
 
 		$file = $this->createMock(File::class);
-		$trash->method('get')
-			->with($this->equalTo('file.1234'))
-			->willReturn($file);
+		$trash->method('getById')
+			->with($this->equalTo(42))
+			->willReturn([$file]);
 		$file->method('getName')
 			->willReturn('file.1234');
+
+		$file->method('getParent')
+			->willReturn($trash);
 
 		$preview = $this->createMock(ISimpleFile::class);
 		$this->previewManager->method('getPreview')
@@ -124,8 +126,14 @@ class PreviewControllerTest extends TestCase {
 		$preview->method('getMimeType')
 			->willReturn('previewMime');
 
-		$res = $this->controller->getPreview('file.1234', 10, 10);
+		$this->time->method('getTime')
+			->willReturn(1337);
+
+		$this->overwriteService(ITimeFactory::class, $this->time);
+
+		$res = $this->controller->getPreview(42, 10, 10);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'previewMime']);
+		$expected->cacheFor(3600 * 24);
 
 		$this->assertEquals($expected, $res);
 	}
@@ -144,11 +152,11 @@ class PreviewControllerTest extends TestCase {
 			->with('files_trashbin/files')
 			->willReturn($trash);
 
-		$trash->method('get')
-			->with($this->equalTo('file.1234'))
-			->willThrowException(new NotFoundException());
+		$trash->method('getById')
+			->with($this->equalTo(42))
+			->willReturn([]);
 
-		$res = $this->controller->getPreview('file.1234', 10, 10);
+		$res = $this->controller->getPreview(42, 10, 10);
 		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
 
 		$this->assertEquals($expected, $res);
@@ -169,11 +177,11 @@ class PreviewControllerTest extends TestCase {
 			->willReturn($trash);
 
 		$folder = $this->createMock(Folder::class);
-		$trash->method('get')
-			->with($this->equalTo('folder'))
-			->willReturn($folder);
+		$trash->method('getById')
+			->with($this->equalTo(43))
+			->willReturn([$folder]);
 
-		$res = $this->controller->getPreview('folder', 10, 10);
+		$res = $this->controller->getPreview(43, 10, 10);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
