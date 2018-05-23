@@ -521,6 +521,18 @@ class AppSettingsController extends Controller {
 
 			foreach ($appIds as $appId) {
 				$appId = OC_App::cleanAppId($appId);
+
+				// Check if app is already downloaded
+				/** @var Installer $installer */
+				$installer = \OC::$server->query(Installer::class);
+				$isDownloaded = $installer->isDownloaded($appId);
+
+				if(!$isDownloaded) {
+					$installer->downloadApp($appId);
+				}
+
+				$installer->installApp($appId);
+
 				if (count($groups) > 0) {
 					$this->appManager->enableAppForGroups($appId, $this->getGroupList($groups));
 				} else {
@@ -575,7 +587,9 @@ class AppSettingsController extends Controller {
 	 */
 	public function uninstallApp(string $appId): JSONResponse {
 		$appId = OC_App::cleanAppId($appId);
-		$result = OC_App::removeApp($appId);
+		/** @var Installer $installer */
+		$installer = \OC::$server->query(\OC\Installer::class);
+		$result = $installer->removeApp($appId);
 		if($result !== false) {
 			// FIXME: Clear the cache - move that into some sane helper method
 			\OC::$server->getMemCacheFactory()->createDistributed('settings')->remove('listApps-0');
