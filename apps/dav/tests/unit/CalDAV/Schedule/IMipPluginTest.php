@@ -75,8 +75,9 @@ class IMipPluginTest extends TestCase {
 		$defaults->expects($this->once())
 			->method('getName')
 			->will($this->returnValue('Instance Name 123'));
+		$dispatcher = \OC::$server->getEventDispatcher();
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123', $dispatcher);
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -130,8 +131,9 @@ class IMipPluginTest extends TestCase {
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
 		$defaults = $this->createMock(Defaults::class);
+		$dispatcher = \OC::$server->getEventDispatcher();
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123', $dispatcher);
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -192,8 +194,9 @@ class IMipPluginTest extends TestCase {
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
 		$defaults = $this->createMock(Defaults::class);
-
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		$dispatcher = \OC::$server->getEventDispatcher();
+		
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123', $dispatcher);
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
