@@ -5,19 +5,17 @@
 	<description>Adjust the Nextcloud theme</description>
 	<licence>AGPL</licence>
 	<author>Nextcloud</author>
-	<version>1.4.2</version>
+	<version>1.4.3</version>
 	<namespace>Theming</namespace>
-	<category>other</category>
-
-	<dependencies>
-		<nextcloud min-version="13" max-version="13" />
-	</dependencies>
-
 	<types>
 		<logging/>
 	</types>
-
 	<default_enable/>
+	<category>customization</category>
+	<bugs>https://github.com/nextcloud/server/issues/</bugs>
+	<dependencies>
+		<nextcloud min-version="13" max-version="13" />
+	</dependencies>
 
 	<settings>
 		<admin>OCA\Theming\Settings\Admin</admin>
