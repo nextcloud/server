@@ -360,7 +360,7 @@ class AppManager implements IAppManager {
 	 * @param null $lang
 	 * @return array|null app info
 	 */
-	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
+	public function getAppInfo(string $appId, bool $path = false, $lang = null): array {
 		if ($path) {
 			$file = $appId;
 		} else {
@@ -370,7 +370,7 @@ class AppManager implements IAppManager {
 			try {
 				$appPath = $this->getAppPath($appId);
 			} catch (AppPathNotFoundException $e) {
-				return null;
+				return [];
 			}
 			$file = $appPath . '/appinfo/info.xml';
 		}
