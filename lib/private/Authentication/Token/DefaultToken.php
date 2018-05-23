@@ -99,6 +99,9 @@ class DefaultToken extends Entity implements IToken {
 		$this->addType('lastCheck', 'int');
 		$this->addType('scope', 'string');
 		$this->addType('expires', 'int');
+
+		$this->setExpires(null);
+		$this->markFieldUpdated('expires');
 	}
 
 	public function getId() {
