@@ -1,9 +1,9 @@
 { "translations": {
     "Unknown filetype" : "Nepoznat tip datoteke",
     "Invalid image" : "Nevažeća datoteka",
+    "__language_name__" : "Bosanski jezik",
     "Apps" : "Aplikacije",
     "Users" : "Korisnici",
-    "__language_name__" : "Bosanski jezik",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nije podržan i %s na ovoj platformi neće raditi kako treba. Korištenje na vlastiti rizik!",
     "For the best results, please consider using a GNU/Linux server instead." : "Umjesto toga, za najbolje rezultate, molimo razmislite o mogućnosti korištenje GNU/Linux servera.",
     "A valid username must be provided" : "Nužno je navesti valjano korisničko ime",

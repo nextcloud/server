@@ -1,18 +1,15 @@
 OC.L10N.register(
     "settings",
     {
-    "Authentication error" : "Ralat pengesahan",
-    "Email saved" : "Emel disimpan",
+    "Groups" : "Kumpulan",
+    "Email" : "Email",
     "Disable" : "Nyahaktif",
     "Enable" : "Aktif",
     "Delete" : "Padam",
-    "Groups" : "Kumpulan",
-    "never" : "jangan",
     "Login" : "Log masuk",
     "Server address" : "Alamat pelayan",
     "Profile picture" : "Gambar profil",
     "Cancel" : "Batal",
-    "Email" : "Email",
     "Your email address" : "Alamat emel anda",
     "Language" : "Bahasa",
     "Help translate" : "Bantu terjemah",
@@ -21,8 +18,11 @@ OC.L10N.register(
     "New password" : "Kata laluan baru",
     "Change password" : "Ubah kata laluan",
     "Username" : "Nama pengguna",
+    "Authentication error" : "Ralat pengesahan",
+    "Email saved" : "Emel disimpan",
+    "never" : "jangan",
+    "Create" : "Buat",
     "Other" : "Lain",
-    "Quota" : "Kuota",
-    "Create" : "Buat"
+    "Quota" : "Kuota"
 },
 "nplurals=1; plural=0;");
