@@ -239,7 +239,6 @@ class UsersController extends Controller {
 		$serverData = array();
 		// groups
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
-		$serverData['subadmingroups'] = $groups;
 		// Various data
 		$serverData['isAdmin'] = $this->isAdmin;
 		$serverData['subadmins'] = $subAdmins;
