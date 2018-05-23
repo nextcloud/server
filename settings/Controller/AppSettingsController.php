@@ -139,6 +139,7 @@ class AppSettingsController extends Controller {
 			$category = 'installed';
 		}
 
+		\OC_Util::addVendorScript('core', 'marked/marked.min');
 		$params = [];
 		$params['category'] = $category;
 		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
@@ -146,12 +147,11 @@ class AppSettingsController extends Controller {
 		$params['updateCount'] = count($this->getAppsWithUpdates());
 		$this->navigationManager->setActiveEntry('core_apps');
 
-		$templateResponse = new TemplateResponse($this->appName, 'apps', $params, 'user');
+		$templateResponse = new TemplateResponse('settings', 'settings', ['serverData' => $params]);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 		$templateResponse->setContentSecurityPolicy($policy);
 
-		return new TemplateResponse('settings', 'settings', ['serverData' => $params]);
 		return $templateResponse;
 
 	}
