@@ -1,0 +1,11 @@
+version: '3'
+services:
+  server:
+    build:
+      context: .
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:80"
+    container_name: 'nextcloud-server'
+

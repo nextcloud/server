@@ -1,0 +1,2 @@
+# Don't send any files to the Docker deamon (speeds up build)
+/*
