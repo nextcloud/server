@@ -80,6 +80,7 @@ class PublicShareMiddleware extends Middleware {
 	}
 
 	private function getFunctionForRoute(string $route): string {
-		return array_pop(explode('.', $route));
+		$tmp = explode('.', $route);
+		return array_pop($tmp);
 	}
 }
