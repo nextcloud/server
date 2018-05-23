@@ -131,6 +131,11 @@ class Factory implements IFactory {
 	 * @return string language If nothing works it returns 'en'
 	 */
 	public function findLanguage($app = null) {
+		$forceLang = $this->config->getSystemValue('force_language', false);
+		if (is_string($forceLang)) {
+			$this->requestLanguage = $forceLang;
+		}
+
 		if ($this->requestLanguage !== '' && $this->languageExists($app, $this->requestLanguage)) {
 			return $this->requestLanguage;
 		}
