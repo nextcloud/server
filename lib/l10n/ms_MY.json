@@ -1,7 +1,7 @@
 { "translations": {
+    "__language_name__" : "Bahasa Melayu",
     "Apps" : "Aplikasi",
     "Users" : "Pengguna",
-    "__language_name__" : "Bahasa Melayu",
     "Authentication error" : "Ralat pengesahan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
