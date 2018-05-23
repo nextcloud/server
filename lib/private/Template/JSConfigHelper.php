@@ -232,6 +232,7 @@ class JSConfigHelper {
 				'sharing.maxAutocompleteResults' => (int)$this->config->getSystemValue('sharing.maxAutocompleteResults', 0),
 				'sharing.minSearchStringLength' => (int)$this->config->getSystemValue('sharing.minSearchStringLength', 0),
 				'blacklist_files_regex' => \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX,
+				'previewsEnabled' => false,
 			]),
 			"oc_appconfig" => json_encode([
 				'core' => [

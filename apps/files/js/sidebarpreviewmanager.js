@@ -41,7 +41,7 @@
 		},
 
 		loadPreview: function (model, $thumbnailDiv, $thumbnailContainer) {
-			if (model.get('hasPreview') === false && this.getMimeTypePreviewHandler(model.get('mimetype')) === null) {
+			if (oc_config.previewsEnabled === false ||(model.get('hasPreview') === false && this.getMimeTypePreviewHandler(model.get('mimetype')) === null)) {
 				var mimeIcon = OC.MimeType.getIconUrl(model.get('mimetype'));
 				$thumbnailDiv.removeClass('icon-loading icon-32');
 				$thumbnailContainer.removeClass('image'); //fall back to regular view

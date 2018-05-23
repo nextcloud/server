@@ -88,7 +88,7 @@ OCA.Sharing.PublicApp = {
 		mimetypeIcon = mimetypeIcon.substring(0, mimetypeIcon.length - 3);
 		mimetypeIcon = mimetypeIcon + 'svg';
 
-		var previewSupported = $('#previewSupported').val();
+		var previewSupported = $('#previewSupported').val() && oc_config.previewsEnabled;
 
 		if (typeof FileActions !== 'undefined') {
 			// Show file preview if previewer is available, images are already handled by the template
