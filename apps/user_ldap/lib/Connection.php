@@ -125,6 +125,9 @@ class Connection extends LDAPUtility {
 	public function __clone() {
 		$this->configuration = new Configuration($this->configPrefix,
 												 !is_null($this->configID));
+		if(count($this->bindResult) !== 0 && $this->bindResult['result'] === true) {
+			$this->bindResult = [];
+		}
 		$this->ldapConnectionRes = null;
 		$this->dontDestruct = true;
 	}
