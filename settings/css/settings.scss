@@ -1282,6 +1282,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		grid-column-gap: 20px;
 		.row {
 			// TODO replace with css4 subgrid when available
+			// fallback for ie11 no grid
+			display: flex;
 			display: grid;
 			grid-row-start: span 1;
 			grid-gap: 3px;

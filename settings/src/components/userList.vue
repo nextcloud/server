@@ -189,7 +189,7 @@ export default {
 		},
 		subAdminsGroups() {
 			// data provided php side
-			return this.$store.getters.getServerData.subadmingroups;
+			return this.$store.getters.getSubadminGroups;
 		},
 		quotaOptions() {
 			// convert the preset array into objects

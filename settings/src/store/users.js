@@ -121,6 +121,10 @@ const getters = {
 	getGroups(state) {
 		return state.groups;
 	},
+	getSubadminGroups(state) {
+		// Can't be subadmin of admin or disabled
+		return state.groups.filter(group => group.id !== 'admin' && group.id !== 'disabled');
+	},
 	getPasswordPolicyMinLength(state) {
 		return state.minPasswordLength;
 	},
