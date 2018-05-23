@@ -92,6 +92,7 @@ OC.L10N.register(
     "Direct link" : "Liga directa",
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
     "Share API is disabled" : "El API para compartir está deshabilitado",
+    "File sharing" : "Compartir archivos",
     "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Por favor inténtalo de nuevo.",
     "Password" : "Contraseña",
@@ -109,6 +110,7 @@ OC.L10N.register(
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploading files…" : "Cargando archivos...",
-    "Uploaded files:" : "Archivos cargados:"
+    "Uploaded files:" : "Archivos cargados:",
+    "%s is publicly shared" : "%s está compartido públicamente"
 },
 "nplurals=2; plural=(n != 1);");

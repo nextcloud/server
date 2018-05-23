@@ -1,15 +1,12 @@
 OC.L10N.register(
     "settings",
     {
-    "Authentication error" : "සත්‍යාපන දෝෂයක්",
-    "Email saved" : "වි-තැපෑල සුරකින ලදී",
+    "Groups" : "කණ්ඩායම්",
+    "Email" : "විද්‍යුත් තැපෑල",
     "All" : "සියල්ල",
     "Disable" : "අක්‍රිය කරන්න",
     "Enable" : "සක්‍රිය කරන්න",
     "Delete" : "මකා දමන්න",
-    "Groups" : "කණ්ඩායම්",
-    "undo" : "නිෂ්ප්‍රභ කරන්න",
-    "never" : "කවදාවත්",
     "None" : "කිසිවක් නැත",
     "Login" : "ප්‍රවිශ්ටය",
     "Encryption" : "ගුප්ත කේතනය",
@@ -18,7 +15,6 @@ OC.L10N.register(
     "Sharing" : "හුවමාරු කිරීම",
     "Allow resharing" : "යළි යළිත් හුවමාරුවට අවසර දෙමි",
     "Cancel" : "එපා",
-    "Email" : "විද්‍යුත් තැපෑල",
     "Your email address" : "ඔබගේ විද්‍යුත් තැපෑල",
     "Language" : "භාෂාව",
     "Help translate" : "පරිවර්ථන සහය",
@@ -27,8 +23,12 @@ OC.L10N.register(
     "New password" : "නව මුරපදය",
     "Change password" : "මුරපදය වෙනස් කිරීම",
     "Username" : "පරිශීලක නම",
+    "Authentication error" : "සත්‍යාපන දෝෂයක්",
+    "Email saved" : "වි-තැපෑල සුරකින ලදී",
+    "undo" : "නිෂ්ප්‍රභ කරන්න",
+    "never" : "කවදාවත්",
+    "Create" : "තනන්න",
     "Other" : "වෙනත්",
-    "Quota" : "සලාකය",
-    "Create" : "තනන්න"
+    "Quota" : "සලාකය"
 },
 "nplurals=2; plural=(n != 1);");
