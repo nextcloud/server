@@ -10,7 +10,11 @@ const debug = process.env.NODE_ENV !== 'production';
 
 const mutations = {
 	API_FAILURE(state, error) {
-		let message = error.error.response.data.ocs.meta.message;
+		try {
+			let message = error.error.response.data.ocs.meta.message;
+		} catch(e) {
+			let message = error;
+		}
 		OC.Notification.showHtml(t('settings','An error occured during the request. Unable to proceed.')+'<br>'+message, {timeout: 7});
 		console.log(state, error);
 	}

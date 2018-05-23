@@ -1,20 +1,15 @@
 <template>
-	<li :id="item.id" :class="[{'icon-loading-small': item.loading, 'open': item.opened, 'collapsible': item.collapsible&&item.children&&item.children.length>0 }, item.classes]">
+	<router-link :to="item.router" tag="li" :id="item.id" exact
+				 :class="[{'icon-loading-small': item.loading, 'open': item.opened, 'collapsible': item.collapsible&&item.children&&item.children.length>0 }, item.classes]">
 
 		<!-- Bullet -->
 		<div v-if="item.bullet" class="app-navigation-entry-bullet" :style="{ backgroundColor: item.bullet }"></div>
 
 		<!-- Main link -->
-		<a v-if="item.href" :href="(item.href) ? item.href : '#' " @click="toggleCollapse" :class="item.icon" >
+		<a :href="(item.href) ? item.href : '#' " @click="toggleCollapse" :class="item.icon">
 			<img v-if="item.iconUrl" :alt="item.text" :src="item.iconUrl">
 			{{item.text}}
 		</a>
-
-		<!-- Router link if specified. href OR router -->
-		<router-link :to="item.router" v-else-if="item.router" :class="item.icon" >
-			<img v-if="item.iconUrl" :alt="item.text" :src="item.iconUrl">
-			{{item.text}}
-		</router-link>	
 
 		<!-- Popover, counter and button(s) -->
 		<div v-if="item.utils" class="app-navigation-entry-utils">
@@ -69,7 +64,7 @@
 		<ul v-if="item.children">
 			<navigation-item v-for="(item, key) in item.children" :item="item" :key="key" />
 		</ul>
-	</li>
+	</router-link>
 </template>
 
 <script>

@@ -187,34 +187,34 @@ class UsersController extends Controller {
 		list($adminGroup, $groups) = $groupsInfo->get();
 		
 		if ($this->isAdmin) {
-			$subAdmins = $this->groupManager->getSubAdmin()->getAllSubAdmins();
-			// New class returns IUser[] so convert back
-			$result = [];
-			foreach ($subAdmins as $subAdmin) {
-				$result[] = [
-					'gid' => $subAdmin['group']->getGID(),
-					'uid' => $subAdmin['user']->getUID(),
-				];
-			}
-			$subAdmins = $result;
+			$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsers();
+			$userCount = array_reduce($this->userManager->countUsers(), function($v, $w) {
+				return $v + (int)$w;
+			}, 0);
 		} else {
-			/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
-			$gids = array();
-			foreach($groups as $group) {
-				if (isset($group['id'])) {
-					$gids[] = $group['id'];
+			// User is subadmin !
+			// TODO We can't have the total user count per groups, disabling it
+			$userCount = false;
+			$groupsNames = [];
+			// Map group list to names to retrieve the countDisabledUsersOfGroups
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+
+			foreach($groups as $key => $group) {
+				// $userCount += (int)$group['usercount'];
+				array_push($groupsNames, $group['name']);
+				// we prevent subadmins from looking up themselves
+				// so we lower the count of the groups he belongs to
+				if (in_array($group['id'], $userGroups)) {
+					$groups[$key]['usercount']--;
 				}
-			}
-			$subAdmins = false;
+			};
+			$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsersOfGroups($groupsNames);
 		}
-		
-		$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsers();
 		$disabledUsersGroup = [
 			'id' => 'disabled',
 			'name' => 'Disabled users',
 			'usercount' => $disabledUsers
 		];
-		$allGroups = array_merge_recursive($adminGroup, $groups);
 		
 		/* QUOTAS PRESETS */
 		$quotaPreset = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
@@ -227,11 +227,6 @@ class UsersController extends Controller {
 		
 		\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
 		
-		/* TOTAL USERS COUNT */
-		$userCount = array_reduce($this->userManager->countUsers(), function($v, $w) {
-			return $v + (int)$w;
-		}, 0);
-		
 		/* LANGUAGES */
 		$languages = $this->l10nFactory->getLanguages();
 		
@@ -241,10 +236,9 @@ class UsersController extends Controller {
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
 		// Various data
 		$serverData['isAdmin'] = $this->isAdmin;
-		$serverData['subadmins'] = $subAdmins;
 		$serverData['sortGroups'] = $sortGroupsBy;
 		$serverData['quotaPreset'] = $quotaPreset;
-		$serverData['userCount'] = $userCount-$disabledUsers;
+		$serverData['userCount'] = $userCount === false ? false : $userCount - $disabledUsers;
 		$serverData['languages'] = $languages;
 		$serverData['defaultLanguage'] = $this->config->getSystemValue('default_language', 'en');
 		// Settings

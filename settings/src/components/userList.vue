@@ -171,7 +171,7 @@ export default {
 		},
 		filteredUsers() {
 			if (this.selectedGroup === 'disabled') {
-				let disabledUsers = this.users.filter(user => user.enabled !== true);
+				let disabledUsers = this.users.filter(user => user.enabled === false);
 				if (disabledUsers.length===0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
 					// disabled group is empty, redirection to all users
 					this.$router.push({name: 'users'});
@@ -179,7 +179,7 @@ export default {
 				}
 				return disabledUsers;
 			}
-			return this.users.filter(user => user.enabled === true);
+			return this.users.filter(user => user.enabled !== false);
 		},
 		groups() {
 			// data provided php side + remove the disabled group

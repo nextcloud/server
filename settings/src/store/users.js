@@ -12,6 +12,15 @@ const orderGroups = function(groups, orderBy) {
 	}
 };
 
+const defaults = {
+	group: {
+		id: '',
+		name: '',
+		usercount: 0,
+		disabled: 0
+	}
+}
+
 const state = {
 	users: [],
 	groups: [],
@@ -33,18 +42,20 @@ const mutations = {
 		state.minPasswordLength = length!=='' ? length : 0;
 	},
 	initGroups(state, {groups, orderBy, userCount}) {
-		state.groups = groups;
+		state.groups = groups.map(group => Object.assign({}, defaults.group, group));
 		state.orderBy = orderBy;
 		state.userCount = userCount;
 		state.groups = orderGroups(state.groups, state.orderBy);
+		
 	},
 	addGroup(state, gid) {
 		try {
-			state.groups.push({
+			// extend group to default values
+			let group = Object.assign({}, defaults.group, {
 				id: gid,
-				name: gid,
-				usercount: 0 // user will be added after the creation
+				name: gid
 			});
+			state.groups.push(group);
 			state.groups = orderGroups(state.groups, state.orderBy);
 		} catch (e) {
 			console.log('Can\'t create group', e);
@@ -90,11 +101,15 @@ const mutations = {
 		state.users.push(response.data.ocs.data);
 	},
 	enableDisableUser(state, { userid, enabled }) {
-		state.users.find(user => user.id == userid).enabled = enabled;
+		let user  = state.users.find(user => user.id == userid);
+		user.enabled = enabled;
 		// increment or not
 		state.groups.find(group => group.id == 'disabled').usercount += enabled ? -1 : 1;
 		state.userCount += enabled ? 1 : -1;
-		console.log(enabled);
+		user.groups.forEach(group => {
+			// Increment disabled count
+			state.groups.find(groupSearch => groupSearch.id == group).disabled += enabled ? -1 : 1;
+		});
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {

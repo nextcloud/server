@@ -238,8 +238,8 @@ export default {
 					name: 'group',
 					params: {selectedGroup: group.id}
 				};
-				item.text = group.name;						// group name
-				item.utils = {counter: group.usercount};	// users count
+				item.text = group.name;										// group name
+				item.utils = {counter: group.usercount - group.disabled};	// users count
 
 				if (item.id !== 'admin' && item.id !== 'disabled' && this.settings.isAdmin) {
 					// add delete button on real groups
@@ -275,14 +275,6 @@ export default {
 				text: t('settings', 'Everyone'),
 				utils: {counter: this.userCount}
 			});
-
-			// Set current group as active
-			let activeGroup = groups.findIndex(group => group.id === this.selectedGroup);
-			if (activeGroup >= 0) {
-				groups[activeGroup].classes.push('active');
-			} else {
-				groups[0].classes.push('active');
-			}
 
 			// Return
 			return {
