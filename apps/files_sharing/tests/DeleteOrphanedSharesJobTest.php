@@ -129,17 +129,20 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	public function testClearShares() {
 		$this->loginAsUser($this->user1);
 
-		$view = new \OC\Files\View('/' . $this->user1 . '/');
-		$view->mkdir('files/test');
-		$view->mkdir('files/test/sub');
+		$user1Folder = \OC::$server->getUserFolder($this->user1);
+		$testFolder = $user1Folder->newFolder('test');
+		$testSubFolder = $testFolder->newFolder('sub');
 
-		$fileInfo = $view->getFileInfo('files/test/sub');
-		$fileId = $fileInfo->getId();
+		$shareManager = \OC::$server->getShareManager();
+		$share = $shareManager->newShare();
 
-		$this->assertTrue(
-			\OC\Share\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
-			'Failed asserting that user 1 successfully shared "test/sub" with user 2.'
-		);
+		$share->setNode($testSubFolder)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setSharedWith($this->user2)
+			->setSharedBy($this->user1);
+
+		$shareManager->createShare($share);
 
 		$this->assertCount(1, $this->getShares());
 
@@ -147,28 +150,11 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		$this->assertCount(1, $this->getShares(), 'Linked shares not deleted');
 
-		$view->unlink('files/test');
+		$testFolder->delete();
 
 		$this->job->run([]);
 
 		$this->assertCount(0, $this->getShares(), 'Orphaned shares deleted');
-	}
-
-	public function testKeepNonFileShares() {
-		$this->loginAsUser($this->user1);
-
-		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
-
-		$this->assertTrue(
-			\OC\Share\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
-			'Failed asserting that user 1 successfully shared something with user 2.'
-		);
-
-		$this->assertCount(1, $this->getShares());
-
-		$this->job->run([]);
-
-		$this->assertCount(1, $this->getShares(), 'Non-file shares kept');
 	}
 }
 
