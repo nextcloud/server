@@ -112,6 +112,7 @@ try {
 		// We only ask for jobs for 14 minutes, because after 15 minutes the next
 		// system cron task should spawn.
 		$endTime = time() + 14 * 60;
+		$currentVersion = $config->getSystemValue('version', '');
 
 		$executedJobs = [];
 		while ($job = $jobList->getNext()) {
@@ -128,14 +129,18 @@ try {
 			$executedJobs[$job->getId()] = true;
 			unset($job);
 
-			if (time() > $endTime) {
+			if (time() > $endTime ||
+				$config->getSystemValue('maintenance', false) ||
+				$currentVersion !== $config->getSystemValue('version', '')
+				) {
+				// Time over or there is/was an update, make sure we don't continue with old cached data...
 				break;
 			}
 		}
 
 	} else {
 		// We call cron.php from some website
-		if ($appMode == 'cron') {
+		if ($appMode === 'cron') {
 			// Cron is cron :-P
 			OC_JSON::error(array('data' => array('message' => 'Backgroundjobs are using system cron!')));
 		} else {
@@ -151,7 +156,7 @@ try {
 	}
 
 	// Log the successful cron execution
-	\OC::$server->getConfig()->setAppValue('core', 'lastcron', time());
+	$config->setAppValue('core', 'lastcron', time());
 	exit();
 
 } catch (Exception $ex) {
