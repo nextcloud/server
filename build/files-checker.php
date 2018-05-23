@@ -32,7 +32,6 @@ $expectedFiles = [
 	'.htaccess',
 	'.idea',
 	'.jshintrc',
-	'.lgtm',
 	'.mailmap',
 	'.scrutinizer.yml',
 	'.tag',
