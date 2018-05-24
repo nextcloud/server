@@ -1715,38 +1715,54 @@ OC.PasswordConfirmation = {
 	/**
 	 * @param {function} callback
 	 */
-	requirePasswordConfirmation: function(callback) {
+	requirePasswordConfirmation: function(callback, options) {
+		options = typeof options !== 'undefined' ? options : {};
+		var defaults = {
+			title: t('core','Authentication required'),
+			text: t(
+				'core',
+				'This action requires you to confirm your password'
+			),
+			confirm: t('core', 'Confirm'),
+			label: t('core','Password'),
+			error: '',
+		};
+
+		var config = _.extend(defaults, options);
+
 		var self = this;
 
 		if (this.requiresPasswordConfirmation()) {
 			OC.dialogs.prompt(
-				t(
-					'core',
-					'This action requires you to confirm your password'
-				),
-				t('core','Authentication required'),
+				config.text,
+				config.title,
 				function (result, password) {
 					if (result && password !== '') {
-						self._confirmPassword(password);
+						self._confirmPassword(password, config);
 					}
 				},
 				true,
-				t('core','Password'),
+				config.label,
 				true
 			).then(function() {
 				var $dialog = $('.oc-dialog:visible');
 				$dialog.find('.ui-icon').remove();
+				$dialog.addClass('password-confirmation');
+				if (config.error !== '') {
+					var $error = $('<p></p>').addClass('msg warning').text(config.error);
+				}
+				$dialog.find('.oc-dialog-content').append($error);
 
 				var $buttons = $dialog.find('button');
-				$buttons.eq(0).text(t('core', 'Cancel'));
-				$buttons.eq(1).text(t('core', 'Confirm'));
+				$buttons.eq(0).hide();
+				$buttons.eq(1).text(config.confirm);
 			});
 		}
 
 		this.callback = callback;
 	},
 
-	_confirmPassword: function(password) {
+	_confirmPassword: function(password, config) {
 		var self = this;
 
 		$.ajax({
@@ -1763,8 +1779,8 @@ OC.PasswordConfirmation = {
 				}
 			},
 			error: function() {
-				OC.PasswordConfirmation.requirePasswordConfirmation(self.callback);
-				OC.Notification.showTemporary(t('core', 'Failed to authenticate, try again'));
+				config.error = t('core', 'Failed to authenticate, try again');
+				OC.PasswordConfirmation.requirePasswordConfirmation(self.callback, config);
 			}
 		});
 	}
