@@ -143,7 +143,11 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getImprintUrl() {
-		return $this->config->getAppValue('theming', 'imprintUrl', '');
+		return (string)$this->config->getAppValue('theming', 'imprintUrl', '');
+	}
+
+	public function getPrivacyUrl() {
+		return (string)$this->config->getAppValue('theming', 'privacyUrl', '');
 	}
 
 	public function getShortFooter() {
@@ -152,14 +156,31 @@ class ThemingDefaults extends \OC_Defaults {
 			' rel="noreferrer noopener">' .$this->getEntity() . '</a>'.
 			($slogan !== '' ? ' – ' . $slogan : '');
 
-		$imprintUrl = (string)$this->getImprintUrl();
-		if($imprintUrl !== ''
-			&& filter_var($imprintUrl, FILTER_VALIDATE_URL, [
-				'flags' => FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED
-			])
-		) {
-			$footer .= '<br/><a href="' . $imprintUrl . '" class="legal" target="_blank"' .
-				' rel="noreferrer noopener">' . $this->l->t('Legal notice') . '</a>';
+		$links = [
+			[
+				'text' => $this->l->t('Legal notice'),
+				'url' => (string)$this->getImprintUrl()
+			],
+			[
+				'text' => $this->l->t('Privacy policy'),
+				'url' => (string)$this->getPrivacyUrl()
+			],
+		];
+
+		$legalLinks = ''; $divider = '';
+		foreach($links as $link) {
+			if($link['url'] !== ''
+				&& filter_var($link['url'], FILTER_VALIDATE_URL, [
+					'flags' => FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED
+				])
+			) {
+				$legalLinks .= $divider . '<a href="' . $link['url'] . '" class="legal" target="_blank"' .
+					' rel="noreferrer noopener">' . $link['text'] . '</a>';
+				$divider = ' · ';
+			}
+		}
+		if($legalLinks !== '' ) {
+			$footer .= '<br/>' . $legalLinks;
 		}
 
 		return $footer;
@@ -269,6 +290,12 @@ class ThemingDefaults extends \OC_Defaults {
 		if ($this->config->getAppValue('theming', 'backgroundMime', null) === 'backgroundColor') {
 			$variables['image-login-plain'] = 'true';
 		}
+
+		$variables['has-legal-links'] = 'false';
+		if($this->getImprintUrl() !== '' || $this->getPrivacyUrl() !== '') {
+			$variables['has-legal-links'] = 'true';
+		}
+
 		$cache->set('getScssVariables', $variables);
 		return $variables;
 	}

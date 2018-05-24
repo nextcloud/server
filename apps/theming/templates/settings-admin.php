@@ -90,9 +90,16 @@ style('theming', 'settings-admin');
 	</div>
 	<div>
 		<label>
-				<span><?php p($l->t('Legal notice link')) ?></span>
-				<input id="theming-imprintUrl" type="text" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['imprintUrl']) ?>" maxlength="500" />
+			<span><?php p($l->t('Legal notice link')) ?></span>
+			<input id="theming-imprintUrl" type="text" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['imprintUrl']) ?>" maxlength="500" />
 			<div data-setting="imprintUrl" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
+		</label>
+	</div>
+	<div>
+		<label>
+			<span><?php p($l->t('Privacy policy link')) ?></span>
+			<input id="theming-privacyUrl" type="text" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['privacyUrl']) ?>" maxlength="500" />
+			<div data-setting="privacyUrl" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
 	<div class="theming-hints">

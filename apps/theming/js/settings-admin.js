@@ -96,7 +96,8 @@ function hideUndoButton(setting, value) {
 		color: '#0082c9',
 		logoMime: '',
 		backgroundMime: '',
-		imprintUrl: ''
+		imprintUrl: '',
+		privacyUrl: ''
 	};
 
 	if (value === themingDefaults[setting] || value === '') {
@@ -203,6 +204,16 @@ $(document).ready(function () {
 		});
 		if (e.keyCode == 13) {
 			setThemingValue('imprintUrl', $(this).val());
+		}
+	});
+
+	$('#theming-privacyUrl').change(function(e) {
+		var el = $(this);
+		$.when(el.focusout()).then(function () {
+			setThemingValue('privacyUrl', $(this).val());
+		});
+		if (e.keyCode == 13) {
+			setThemingValue('privacyUrl', $(this).val());
 		}
 	});
 
