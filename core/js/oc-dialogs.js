@@ -122,7 +122,7 @@ var OCdialogs = {
 				type       : 'notice'
 			});
 			var input = $('<input/>');
-			input.attr('type', password ? 'password' : 'text').attr('id', dialogName + '-input');
+			input.attr('type', password ? 'password' : 'text').attr('id', dialogName + '-input').attr('placeholder', name);
 			var label = $('<label/>').attr('for', dialogName + '-input').text(name + ': ');
 			$dlg.append(label);
 			$dlg.append(input);
