@@ -143,11 +143,11 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getImprintUrl() {
-		return $this->config->getAppValue('theming', 'imprintUrl', '');
+		return (string)$this->config->getAppValue('theming', 'imprintUrl', '');
 	}
 
 	public function getPrivacyUrl() {
-		return $this->config->getAppValue('theming', 'privacyUrl', '');
+		return (string)$this->config->getAppValue('theming', 'privacyUrl', '');
 	}
 
 	public function getShortFooter() {
@@ -290,6 +290,12 @@ class ThemingDefaults extends \OC_Defaults {
 		if ($this->config->getAppValue('theming', 'backgroundMime', null) === 'backgroundColor') {
 			$variables['image-login-plain'] = 'true';
 		}
+
+		$variables['has-legal-links'] = 'false';
+		if($this->getImprintUrl() !== '' || $this->getPrivacyUrl() !== '') {
+			$variables['has-legal-links'] = 'true';
+		}
+
 		$cache->set('getScssVariables', $variables);
 		return $variables;
 	}

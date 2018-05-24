@@ -670,7 +670,8 @@ class ThemingDefaultsTest extends TestCase {
 			'color-primary' => $this->defaults->getColorPrimary(),
 			'color-primary-text' => '#ffffff',
 			'image-login-plain' => 'false',
-			'color-primary-element' => '#aaaaaa'
+			'color-primary-element' => '#aaaaaa',
+			'has-legal-links' => 'false'
 
 		];
 		$this->assertEquals($expected, $this->template->getScssVariables());
