@@ -102,6 +102,19 @@ class IMipPluginTest extends TestCase {
 
 		$plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
+		
+		$dispatcher->dispatch('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl', new GenericEvent(
+            '\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl',
+            [
+                'vevent' => [
+					'UID' => $message->uid,
+					'SEQUENCE' => $message->sequence,
+					'SUMMARY' => 'Fellowship meeting',
+					'DTSTART' => new \DateTime('2017-01-01 00:00:00') // 1483228800
+				],
+                'recipient' => 'mailto:frodo@hobb.it',
+            ]
+        ));
 	}
 
 	public function testFailedDelivery() {
@@ -158,6 +171,19 @@ class IMipPluginTest extends TestCase {
 
 		$plugin->schedule($message);
 		$this->assertEquals('5.0', $message->getScheduleStatus());
+		
+		$dispatcher->dispatch('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl', new GenericEvent(
+            '\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl',
+            [
+                'vevent' => [
+					'UID' => $message->uid,
+					'SEQUENCE' => $message->sequence,
+					'SUMMARY' => 'Fellowship meeting',
+					'DTSTART' => new \DateTime('2017-01-01 00:00:00') // 1483228800
+				],
+                'recipient' => 'mailto:frodo@hobb.it',
+            ]
+        ));
 	}
 
 	/**
@@ -215,6 +241,19 @@ class IMipPluginTest extends TestCase {
  		} else {
 			$this->assertEquals(false, $message->getScheduleStatus());
 		}
+		
+		$dispatcher->dispatch('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl', new GenericEvent(
+            '\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl',
+            [
+                'vevent' => [
+					'UID' => $message->uid,
+					'SEQUENCE' => $message->sequence,
+					'SUMMARY' => 'Fellowship meeting',
+					'DTSTART' => new \DateTime('2017-01-01 00:00:00') // 1483228800
+				],
+                'recipient' => 'mailto:frodo@hobb.it',
+            ]
+        ));
 	}
 
 	public function dataNoMessageSendForPastEvents() {
