@@ -34,6 +34,7 @@ namespace OC\User;
 use OC\Hooks\PublicEmitter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUser;
+use OCP\IGroup;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
@@ -382,6 +383,24 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 		}
 		return $userCountStatistics;
+	}
+
+	/**
+	 * returns how many users per backend exist in the requested groups (if supported by backend)
+	 *
+	 * @param IGroup[] $groups an array of gid to search in
+	 * @return array|int an array of backend class as key and count number as value
+	 *                if $hasLoggedIn is true only an int is returned
+	 */
+	public function countUsersOfGroups(array $groups) {
+		$users = [];
+		foreach($groups as $group) {
+			$usersIds = array_map(function($user) {
+				return $user->getUID();
+			}, $group->getUsers());
+			$users = array_merge($users, $usersIds);
+		}
+		return count(array_unique($users));
 	}
 
 	/**

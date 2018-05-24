@@ -188,7 +188,7 @@ class MetaData {
 	 * @param string $search a search string
 	 * @return \OCP\IGroup[]
 	 */
-	protected function getGroups($search = '') {
+	public function getGroups($search = '') {
 		if($this->isAdmin) {
 			return $this->groupManager->search($search);
 		} else {

@@ -12,6 +12,7 @@ sync(store, router);
 Vue.prototype.t = t;
 Vue.prototype.OC = OC;
 Vue.prototype.oc_userconfig = oc_userconfig;
+Vue.prototype.oc_current_user = oc_current_user;
 
 const app = new Vue({
 	router,

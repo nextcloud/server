@@ -193,21 +193,22 @@ class UsersController extends Controller {
 			}, 0);
 		} else {
 			// User is subadmin !
-			// TODO We can't have the total user count per groups, disabling it
-			$userCount = false;
-			$groupsNames = [];
 			// Map group list to names to retrieve the countDisabledUsersOfGroups
-			$userGroups = $this->groupManager->getUserGroupIds($user);
+			$userGroups = $this->groupManager->getUserGroups($user);
+			$groupsNames = [];
+			$userCount = 0;
 
 			foreach($groups as $key => $group) {
 				// $userCount += (int)$group['usercount'];
 				array_push($groupsNames, $group['name']);
 				// we prevent subadmins from looking up themselves
 				// so we lower the count of the groups he belongs to
-				if (in_array($group['id'], $userGroups)) {
+				if (array_key_exists($group['id'], $userGroups)) {
 					$groups[$key]['usercount']--;
+					$userCount = -1; // we also lower from one the total count
 				}
 			};
+			$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
 			$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsersOfGroups($groupsNames);
 		}
 		$disabledUsersGroup = [
@@ -238,7 +239,7 @@ class UsersController extends Controller {
 		$serverData['isAdmin'] = $this->isAdmin;
 		$serverData['sortGroups'] = $sortGroupsBy;
 		$serverData['quotaPreset'] = $quotaPreset;
-		$serverData['userCount'] = $userCount === false ? false : $userCount - $disabledUsers;
+		$serverData['userCount'] = $userCount - $disabledUsers;
 		$serverData['languages'] = $languages;
 		$serverData['defaultLanguage'] = $this->config->getSystemValue('default_language', 'en');
 		// Settings
