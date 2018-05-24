@@ -192,3 +192,9 @@ input.primary,
 		border: 1px solid #ebebeb;
 	}
 }
+
+@if ($has-legal-links == 'true') {
+	footer {
+		height: 92px;
+	}
+}
