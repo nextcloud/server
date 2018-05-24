@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -19,58 +20,40 @@
  *
  */
 
-namespace OCA\DAV\Repair;
+namespace OCA\DAV\Command;
 
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
-use OCP\ILogger;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class RemoveInvalidShares - removes shared calendars and addressbook which
  * have no matching principal. Happened because of a bug in the calendar app.
- *
- * @package OCA\DAV\Repair
  */
-class RemoveInvalidShares implements IRepairStep {
+class RemoveInvalidShares extends Command {
 
 	/** @var IDBConnection */
 	private $connection;
 	/** @var Principal */
 	private $principalBackend;
 
-	/**
-	 * RemoveInvalidShares constructor.
-	 *
-	 * @param IDBConnection $connection
-	 * @param Principal $principalBackend
-	 */
 	public function __construct(IDBConnection $connection,
 								Principal $principalBackend) {
+		parent::__construct();
+
 		$this->connection = $connection;
 		$this->principalBackend = $principalBackend;
 	}
 
-	/**
-	 * Returns the step's name
-	 *
-	 * @return string
-	 * @since 9.1.0
-	 */
-	public function getName() {
-		return 'Remove invalid calendar and addressbook shares';
+	protected function configure() {
+		$this
+			->setName('dav:remove-invalid-shares')
+			->setDescription('Remove invalid dav shares');
 	}
 
-	/**
-	 * Run repair step.
-	 * Must throw exception on error.
-	 *
-	 * @param IOutput $output
-	 * @throws \Exception in case of failure
-	 * @since 9.1.0
-	 */
-	public function run(IOutput $output) {
+	protected function execute(InputInterface $input, OutputInterface $output) {
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->selectDistinct('principaluri')
 			->from('dav_shares')
@@ -80,7 +63,6 @@ class RemoveInvalidShares implements IRepairStep {
 			$principaluri = $row['principaluri'];
 			$p = $this->principalBackend->getPrincipalByPath($principaluri);
 			if ($p === null) {
-				$output->info(" ... for principal '$principaluri'");
 				$this->deleteSharesForPrincipal($principaluri);
 			}
 		}
