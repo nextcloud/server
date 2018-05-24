@@ -12,10 +12,10 @@ const mutations = {
 	API_FAILURE(state, error) {
 		try {
 			let message = error.error.response.data.ocs.meta.message;
+			OC.Notification.showHtml(t('settings','An error occured during the request. Unable to proceed.')+'<br>'+message, {timeout: 7});
 		} catch(e) {
-			let message = error;
+			OC.Notification.showTemporary(t('settings','An error occured during the request. Unable to proceed.'));
 		}
-		OC.Notification.showHtml(t('settings','An error occured during the request. Unable to proceed.')+'<br>'+message, {timeout: 7});
 		console.log(state, error);
 	}
 };

@@ -326,18 +326,22 @@ export default {
 		},
 
 		/**
-		 * Create a new group
+		 * Create a new group and add user to it
 		 * 
 		 * @param {string} groups Group id
 		 * @returns {Promise}
 		 */
 		createGroup(gid) {
 			this.loading = {groups:true, subadmins:true}
-			this.$store.dispatch('addGroup', gid).then(() => {
-				this.loading = {groups:false, subadmins:false};
-				let userid = this.user.id;
-				this.$store.dispatch('addUserGroup', {userid, gid});
-			});
+			this.$store.dispatch('addGroup', gid)
+				.then(() => {
+					this.loading = {groups:false, subadmins:false};
+					let userid = this.user.id;
+					this.$store.dispatch('addUserGroup', {userid, gid});
+				})
+				.catch(() => {
+					this.loading = {groups:false, subadmins:false};
+				});
 			return this.$store.getters.getGroups[this.groups.length];
 		},
 
@@ -372,6 +376,9 @@ export default {
 					if (this.$route.params.selectedGroup === gid) {
 						this.$store.commit('deleteUser', userid);
 					}
+				})
+				.catch(() => {
+					this.loading.groups = false
 				});
 		},
 

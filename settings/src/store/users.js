@@ -6,7 +6,7 @@ const orderGroups = function(groups, orderBy) {
 	 * https://github.com/nextcloud/server/blob/208e38e84e1a07a49699aa90dc5b7272d24489f0/lib/private/Group/MetaData.php#L34
 	 */
 	if (orderBy === 1) {
-		return groups.sort((a, b) => a.usercount < b.usercount);
+		return groups.sort((a, b) => a.usercount-a.disabled < b.usercount - b.disabled);
 	} else {
 		return groups.sort((a, b) => a.name.localeCompare(b.name));
 	}
@@ -69,19 +69,23 @@ const mutations = {
 	},
 	addUserGroup(state, { userid, gid }) {
 		let group = state.groups.find(groupSearch => groupSearch.id == gid);
-		if (group) {
-			group.usercount++; // increase count
+		let user = state.users.find(user => user.id == userid);
+		// increase count if user is enabled
+		if (group && user.enabled) {
+			group.usercount++; 
 		}
-		let groups = state.users.find(user => user.id == userid).groups;
+		let groups = user.groups;
 		groups.push(gid);
 		state.groups = orderGroups(state.groups, state.orderBy);
 	},
 	removeUserGroup(state, { userid, gid }) {
 		let group = state.groups.find(groupSearch => groupSearch.id == gid);
-		if (group) {
-			group.usercount--; // lower count
+		let user = state.users.find(user => user.id == userid);
+		// lower count if user is enabled
+		if (group && user.enabled) {
+			group.usercount--;
 		}
-		let groups = state.users.find(user => user.id == userid).groups;
+		let groups = user.groups;
 		groups.splice(groups.indexOf(gid),1);
 		state.groups = orderGroups(state.groups, state.orderBy);
 	},
@@ -251,7 +255,12 @@ const actions = {
 			return api.post(OC.linkToOCS(`cloud/groups`, 2), {groupid: gid})
 				.then((response) => context.commit('addGroup', gid))
 				.catch((error) => {throw error;});
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
+		}).catch((error) => {
+			context.commit('API_FAILURE', { gid, error });
+			// let's throw one more time to prevent the view
+			// from adding the user to a group that doesn't exists
+			throw error;
+		});
 	},
 
 	/**
@@ -300,7 +309,12 @@ const actions = {
 			return api.delete(OC.linkToOCS(`cloud/users/${userid}/groups`, 2), { groupid: gid })
 				.then((response) => context.commit('removeUserGroup', { userid, gid }))
 				.catch((error) => {throw error;});
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
+		}).catch((error) => {
+			context.commit('API_FAILURE', { userid, error });
+			// let's throw one more time to prevent
+			// the view from removing the user row on failure
+			throw error; 
+		});
 	},
 
 	/**
