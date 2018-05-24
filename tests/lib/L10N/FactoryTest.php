@@ -110,7 +110,12 @@ class FactoryTest extends TestCase {
 				->with('MyApp', 'de')
 				->willReturn(false);
 		$this->config
-			->expects($this->once())
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('force_language', false)
+			->willReturn(false);
+		$this->config
+			->expects($this->at(1))
 			->method('getSystemValue')
 			->with('installed', false)
 			->willReturn(true);
@@ -144,7 +149,12 @@ class FactoryTest extends TestCase {
 				->with('MyApp', 'de')
 				->willReturn(false);
 		$this->config
-				->expects($this->at(0))
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('force_language', false)
+			->willReturn(false);
+		$this->config
+				->expects($this->at(1))
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
@@ -167,7 +177,7 @@ class FactoryTest extends TestCase {
 				->with('MyApp', 'jp')
 				->willReturn(false);
 		$this->config
-				->expects($this->at(2))
+				->expects($this->at(3))
 				->method('getSystemValue')
 				->with('default_language', false)
 				->willReturn('es');
@@ -187,7 +197,12 @@ class FactoryTest extends TestCase {
 				->with('MyApp', 'de')
 				->willReturn(false);
 		$this->config
-				->expects($this->at(0))
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('force_language', false)
+			->willReturn(false);
+		$this->config
+				->expects($this->at(1))
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
@@ -210,7 +225,7 @@ class FactoryTest extends TestCase {
 				->with('MyApp', 'jp')
 				->willReturn(false);
 		$this->config
-				->expects($this->at(2))
+				->expects($this->at(3))
 				->method('getSystemValue')
 				->with('default_language', false)
 				->willReturn('es');
@@ -233,7 +248,12 @@ class FactoryTest extends TestCase {
 				->with('MyApp', 'de')
 				->willReturn(false);
 		$this->config
-				->expects($this->at(0))
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('force_language', false)
+			->willReturn(false);
+		$this->config
+				->expects($this->at(1))
 				->method('getSystemValue')
 				->with('installed', false)
 				->willReturn(true);
@@ -256,7 +276,7 @@ class FactoryTest extends TestCase {
 				->with('MyApp', 'jp')
 				->willReturn(false);
 		$this->config
-				->expects($this->at(2))
+				->expects($this->at(3))
 				->method('getSystemValue')
 				->with('default_language', false)
 				->willReturn('es');
@@ -271,6 +291,22 @@ class FactoryTest extends TestCase {
 
 
 		$this->assertSame('en', $factory->findLanguage('MyApp'));
+	}
+
+	public function testFindLanguageWithForcedLanguage() {
+		$factory = $this->getFactory(['languageExists']);
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('force_language', false)
+			->willReturn('de');
+
+		$factory->expects($this->once())
+			->method('languageExists')
+			->with('MyApp', 'de')
+			->willReturn(true);
+
+		$this->assertSame('de', $factory->findLanguage('MyApp'));
 	}
 
 	/**
