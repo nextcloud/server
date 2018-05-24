@@ -233,7 +233,6 @@ export default {
 			groups = groups.map(group => {
 				let item = {};
 				item.id = group.id.replace(' ', '_');
-				item.classes = [];							// empty classes, active will be set later
 				item.router = {								// router link to
 					name: 'group',
 					params: {selectedGroup: group.id}
@@ -270,7 +269,6 @@ export default {
 			// Add everyone group
 			groups.unshift({
 				id: 'everyone',
-				classes: [],
 				router: {name:'users'},
 				text: t('settings', 'Everyone'),
 				utils: {counter: this.userCount}

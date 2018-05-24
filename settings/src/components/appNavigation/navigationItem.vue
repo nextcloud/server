@@ -1,5 +1,5 @@
 <template>
-	<router-link :to="item.router" tag="li" :id="item.id" exact
+	<nav-element :id="item.id" v-bind="navElement(item)"
 				 :class="[{'icon-loading-small': item.loading, 'open': item.opened, 'collapsible': item.collapsible&&item.children&&item.children.length>0 }, item.classes]">
 
 		<!-- Bullet -->
@@ -64,7 +64,7 @@
 		<ul v-if="item.children">
 			<navigation-item v-for="(item, key) in item.children" :item="item" :key="key" />
 		</ul>
-	</router-link>
+	</nav-element>
 </template>
 
 <script>
@@ -84,7 +84,7 @@ export default {
 	data() {
 		return {
 			openedMenu: false
-		}
+		};
 	},
 	methods: {
 		showMenu() {
@@ -101,12 +101,29 @@ export default {
 		cancelEdit() {
 			// remove the editing class
 			if (Array.isArray(this.item.classes))
-				this.item.classes = this.item.classes.filter(item => item !== 'editing');
+				this.item.classes = this.item.classes.filter(
+					item => item !== 'editing'
+				);
+		},
+		// This is used to decide which outter element type to use
+		// li or router-link
+		navElement(item) {
+			if (item.href) {
+				return {
+					is: 'li'
+				};
+			}
+			return {
+				is: 'router-link',
+				tag: 'li',
+				to: item.router,
+				exact: true
+			};
 		}
 	},
 	mounted() {
 		// prevent click outside event with popupItem.
 		this.popupItem = this.$el;
-	},
-}
+	}
+};
 </script>
