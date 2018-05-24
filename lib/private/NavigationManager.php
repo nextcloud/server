@@ -289,7 +289,7 @@ class NavigationManager implements INavigationManager {
 				$id = isset($nav['id']) ? $nav['id'] : $app;
 				$order = isset($nav['order']) ? $nav['order'] : 100;
 				$type = isset($nav['type']) ? $nav['type'] : 'link';
-				$route = $this->urlGenerator->linkToRoute($nav['route']);
+				$route = $nav['route'] !== '' ? $this->urlGenerator->linkToRoute($nav['route']) : '';
 				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
 				foreach ([$icon, "$app.svg"] as $i) {
 					try {
