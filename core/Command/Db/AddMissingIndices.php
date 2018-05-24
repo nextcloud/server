@@ -27,6 +27,8 @@ use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class AddMissingIndices
@@ -41,12 +43,14 @@ class AddMissingIndices extends Command {
 	/** @var IDBConnection */
 	private $connection;
 
-	/**
-	 * @param IDBConnection $connection
-	 */
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+
+	public function __construct(IDBConnection $connection, EventDispatcherInterface $dispatcher) {
 		parent::__construct();
+
+		$this->connection = $connection;
+		$this->dispatcher = $dispatcher;
 	}
 
 	protected function configure() {
@@ -58,6 +62,9 @@ class AddMissingIndices extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->addShareTableIndicies($output);
 
+		// Dispatch event so apps can also update indexes if needed
+		$event = new GenericEvent($output);
+		$this->dispatcher->dispatch(IDBConnection::ADD_MISSING_INDEXES_EVENT, $event);
 	}
 
 	/**
@@ -73,8 +80,8 @@ class AddMissingIndices extends Command {
 		$schema = new SchemaWrapper($this->connection);
 		$updated = false;
 
-		if ($schema->hasTable("share")) {
-			$table = $schema->getTable("share");
+		if ($schema->hasTable('share')) {
+			$table = $schema->getTable('share');
 			if (!$table->hasIndex('share_with_index')) {
 				$output->writeln('<info>Adding additional index to the share table, this can take some time...</info>');
 				$table->addIndex(['share_with'], 'share_with_index');
