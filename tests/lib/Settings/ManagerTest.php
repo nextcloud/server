@@ -199,13 +199,13 @@ class ManagerTest extends TestCase {
 			->willReturnMap([
 				['core', 'actions/info.svg', '1'],
 				['settings', 'password.svg', '2'],
-				['settings', 'change.svg', '3'],
+				['core', 'clients/phone.svg', '3'],
 			]);
 
 		$this->assertArraySubset([
 			0 => [new Section('personal-info', 'Personal info', 0, '1')],
 			5 => [new Section('security', 'Security', 0, '2')],
-			15 => [new Section('sync-clients', 'Sync clients', 0, '3')],
+			15 => [new Section('sync-clients', 'Mobile & desktop', 0, '3')],
 		], $this->manager->getPersonalSections());
 	}
 
