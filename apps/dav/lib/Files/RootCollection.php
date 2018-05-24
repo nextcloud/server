@@ -23,6 +23,7 @@
  */
 namespace OCA\DAV\Files;
 
+use OCP\Files\FileInfo;
 use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAV\SimpleCollection;
@@ -48,7 +49,11 @@ class RootCollection extends AbstractPrincipalCollection {
 			// in the future this could be considered to be used for accessing shared files
 			return new SimpleCollection($name);
 		}
-		return new FilesHome($principalInfo);
+		$userFolder = \OC::$server->getUserFolder();
+		if (!($userFolder instanceof FileInfo)) {
+			throw new \Exception('Home does not exist');
+		}
+		return new FilesHome($principalInfo, $userFolder);
 	}
 
 	function getName() {
