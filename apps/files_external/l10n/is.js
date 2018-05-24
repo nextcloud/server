@@ -112,6 +112,7 @@ OC.L10N.register(
     "Check for changes" : "Fylgjast með breytingum",
     "Never" : "Aldrei",
     "Once every direct access" : "Einu sinni við hvern beinan aðgang",
+    "Read only" : "Skrifvarið",
     "Folder name" : "Nafn möppu",
     "External storage" : "Ytri gagnageymsla",
     "Authentication" : "Auðkenning",
