@@ -20,12 +20,14 @@
  */
 
 
-namespace OCA\DAV\Tests\Unit\Repair;
+namespace OCA\DAV\Tests\Unit\Command;
 
 
 use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\Repair\RemoveInvalidShares;
+use OCA\DAV\Command\RemoveInvalidShares;
 use OCP\Migration\IOutput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 /**
@@ -57,8 +59,7 @@ class RemoveInvalidSharesTest extends TestCase {
 		$output = $this->createMock(IOutput::class);
 
 		$repair = new RemoveInvalidShares($db, $principal);
-		$this->assertEquals("Remove invalid calendar and addressbook shares", $repair->getName());
-		$repair->run($output);
+		$this->invokePrivate($repair, 'run', [$this->createMock(InputInterface::class), $this->createMock(OutputInterface::class)]);
 
 		$query = $db->getQueryBuilder();
 		$result = $query->select('*')->from('dav_shares')

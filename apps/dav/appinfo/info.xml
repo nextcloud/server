@@ -22,7 +22,6 @@
 			<step>OCA\DAV\Migration\FixBirthdayCalendarComponent</step>
 			<step>OCA\DAV\Migration\CalDAVRemoveEmptyValue</step>
 			<step>OCA\DAV\Migration\BuildCalendarSearchIndex</step>
-			<step>OCA\DAV\Repair\RemoveInvalidShares</step>
 		</post-migration>
 	</repair-steps>
 	<commands>
@@ -30,6 +29,7 @@
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
+		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 	</commands>
 
 	<activity>
