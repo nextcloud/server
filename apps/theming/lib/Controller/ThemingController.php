@@ -171,6 +171,16 @@ class ThemingController extends Controller {
 					]);
 				}
 				break;
+			case 'privacyUrl':
+				if (strlen($value) > 500) {
+					return new DataResponse([
+						'data' => [
+							'message' => $this->l10n->t('The given privacy policy address is too long'),
+						],
+						'status' => 'error'
+					]);
+				}
+				break;
 			case 'slogan':
 				if (strlen($value) > 500) {
 					return new DataResponse([
@@ -419,6 +429,7 @@ class ThemingController extends Controller {
 		slogan: ' . json_encode($this->themingDefaults->getSlogan()) . ',
 		color: ' . json_encode($this->themingDefaults->getColorPrimary()) . ',
 		imprintUrl: ' . json_encode($this->themingDefaults->getImprintUrl()) . ',
+		privacyUrl: ' . json_encode($this->themingDefaults->getPrivacyUrl()) . ',
 		inverted: ' . json_encode($this->util->invertTextColor($this->themingDefaults->getColorPrimary())) . ',
 		cacheBuster: ' . json_encode($cacheBusterValue) . '
 	};

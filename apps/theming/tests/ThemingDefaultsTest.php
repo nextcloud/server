@@ -195,16 +195,16 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('https://example.com/', $this->template->getBaseUrl());
 	}
 
-	public function imprintUrlProvider() {
+	public function legalUrlProvider() {
 		return [
 			[ '' ],
-			[ 'https://example.com/imprint.html']
+			[ 'https://example.com/legal.html']
 		];
 	}
 
 	/**
 	 * @param $imprintUrl
-	 * @dataProvider imprintUrlProvider
+	 * @dataProvider legalUrlProvider
 	 */
 	public function testGetImprintURL($imprintUrl) {
 		$this->config
@@ -214,6 +214,20 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn($imprintUrl);
 
 		$this->assertEquals($imprintUrl, $this->template->getImprintUrl());
+	}
+
+	/**
+	 * @param $privacyUrl
+	 * @dataProvider legalUrlProvider
+	 */
+	public function testGetPrivacyURL($privacyUrl) {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'privacyUrl', '')
+			->willReturn($privacyUrl);
+
+		$this->assertEquals($privacyUrl, $this->template->getPrivacyUrl());
 	}
 
 	public function testGetSloganWithDefault() {
@@ -238,13 +252,14 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function testGetShortFooter() {
 		$this->config
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['theming', 'imprintUrl', '', ''],
+				['theming', 'privacyUrl', '', ''],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan', $this->template->getShortFooter());
@@ -252,13 +267,14 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function testGetShortFooterEmptySlogan() {
 		$this->config
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), ''],
 				['theming', 'imprintUrl', '', ''],
+				['theming', 'privacyUrl', '', ''],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a>', $this->template->getShortFooter());
@@ -266,13 +282,14 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function testGetShortFooterImprint() {
 		$this->config
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['theming', 'imprintUrl', '', 'https://example.com/imprint'],
+				['theming', 'privacyUrl', '', ''],
 			]);
 
 		$this->l10n
@@ -283,26 +300,86 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a>', $this->template->getShortFooter());
 	}
 
-	public function invalidImprintUrlProvider() {
+	public function testGetShortFooterPrivacy() {
+		$this->config
+			->expects($this->exactly(5))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
+				['theming', 'name', 'Nextcloud', 'Name'],
+				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'imprintUrl', '', ''],
+				['theming', 'privacyUrl', '', 'https://example.com/privacy'],
+			]);
+
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->willReturnArgument(0);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan<br/><a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
+	}
+
+	public function testGetShortFooterAllLegalLinks() {
+		$this->config
+			->expects($this->exactly(5))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
+				['theming', 'name', 'Nextcloud', 'Name'],
+				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'imprintUrl', '', 'https://example.com/imprint'],
+				['theming', 'privacyUrl', '', 'https://example.com/privacy'],
+			]);
+
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->willReturnArgument(0);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
+	}
+
+	public function invalidLegalUrlProvider() {
 		return [
-			['example.com/imprint'],  # missing scheme
-			['https:///imprint'],     # missing host
+			['example.com/legal'],  # missing scheme
+			['https:///legal'],     # missing host
 		];
 	}
 
 	/**
 	 * @param $invalidImprintUrl
-	 * @dataProvider invalidImprintUrlProvider
+	 * @dataProvider invalidLegalUrlProvider
 	 */
 	public function testGetShortFooterInvalidImprint($invalidImprintUrl) {
 		$this->config
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
 				['theming', 'name', 'Nextcloud', 'Name'],
 				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
 				['theming', 'imprintUrl', '', $invalidImprintUrl],
+				['theming', 'privacyUrl', '', ''],
+			]);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan', $this->template->getShortFooter());
+	}
+
+	/**
+	 * @param $invalidPrivacyUrl
+	 * @dataProvider invalidLegalUrlProvider
+	 */
+	public function testGetShortFooterInvalidPrivacy($invalidPrivacyUrl) {
+		$this->config
+			->expects($this->exactly(5))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'url', $this->defaults->getBaseUrl(), 'url'],
+				['theming', 'name', 'Nextcloud', 'Name'],
+				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'imprintUrl', '', ''],
+				['theming', 'privacyUrl', '', $invalidPrivacyUrl],
 			]);
 
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan', $this->template->getShortFooter());

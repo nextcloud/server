@@ -84,7 +84,8 @@ function hideUndoButton(setting, value) {
 		color: '#0082c9',
 		logoMime: '',
 		backgroundMime: '',
-		imprintUrl: ''
+		imprintUrl: '',
+		privacyUrl: ''
 	};
 
 	if (value === themingDefaults[setting] || value === '') {

@@ -87,6 +87,10 @@ class AdminTest extends TestCase {
 			->willReturn('');
 		$this->themingDefaults
 			->expects($this->once())
+			->method('getPrivacyUrl')
+			->willReturn('');
+		$this->themingDefaults
+			->expects($this->once())
 			->method('getSlogan')
 			->willReturn('MySlogan');
 		$this->themingDefaults
@@ -110,6 +114,7 @@ class AdminTest extends TestCase {
 			'iconDocs' => null,
 			'images' => [],
 			'imprintUrl' => '',
+			'privacyUrl' => '',
 		];
 
 		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');
@@ -141,6 +146,10 @@ class AdminTest extends TestCase {
 			->willReturn('');
 		$this->themingDefaults
 			->expects($this->once())
+			->method('getPrivacyUrl')
+			->willReturn('');
+		$this->themingDefaults
+			->expects($this->once())
 			->method('getSlogan')
 			->willReturn('MySlogan');
 		$this->themingDefaults
@@ -164,6 +173,7 @@ class AdminTest extends TestCase {
 			'iconDocs' => '',
 			'images' => [],
 			'imprintUrl' => '',
+			'privacyUrl' => '',
 		];
 
 		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');

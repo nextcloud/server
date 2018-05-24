@@ -85,6 +85,7 @@ class Admin implements ISettings {
 			'iconDocs'        => $this->urlGenerator->linkToDocs('admin-theming-icons'),
 			'images'		  => $this->imageManager->getCustomImages(),
 			'imprintUrl'      => $this->themingDefaults->getImprintUrl(),
+			'privacyUrl'      => $this->themingDefaults->getPrivacyUrl(),
 		];
 
 		return new TemplateResponse('theming', 'settings-admin', $parameters, '');
