@@ -76,3 +76,17 @@
 .oc-dialog-content {
 	width: 100%;
 }
+
+.oc-dialog.password-confirmation {
+	.oc-dialog-content {
+		width: auto;
+		margin: 12px;
+
+		input[type=password] {
+			width: 100%;
+		}
+		label {
+			display: none;
+		}
+	}
+}

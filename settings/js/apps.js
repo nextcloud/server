@@ -324,7 +324,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	enableAppBundle:function(bundleId, active, element, groups) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.enableAppBundle, this, bundleId, active, element, groups));
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.enableAppBundle, this, bundleId, active, element, groups), {
+				text: t('settings', 'Installing apps requires you to confirm your password'),
+				confirm: t('settings', 'Install app bundle'),
+			});
 			return;
 		}
 
@@ -348,7 +351,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		 */
 	enableApp:function(appId, active, groups) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.enableApp, this, appId, active, groups));
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.enableApp, this, appId, active, groups), {
+				text: ( active ? t('settings', 'Disabling apps requires you to confirm your password') : t('settings', 'Enabling apps requires you to confirm your password') ),
+				confirm: ( active ? t('settings', 'Disable app') : t('settings', 'Enable app') ),
+			});
 			return;
 		}
 
@@ -577,7 +583,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	uninstallApp:function(appId, element) {
 		if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.uninstallApp, this, appId, element));
+			OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(this.uninstallApp, this, appId, element), {
+				text: t('settings', 'Uninstalling apps requires you to confirm your password'),
+				confirm: t('settings', 'Uninstall')
+			});
 			return;
 		}
 
