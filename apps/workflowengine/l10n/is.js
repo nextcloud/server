@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Listi yfir hópa er tómur",
     "Unable to retrieve the group list" : "Tókst ekki að ná í lista yfir hópinn",
     "Saved" : "Vistað",
     "Saving failed:" : "Vistun mistókst:",
