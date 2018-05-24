@@ -4,7 +4,7 @@
 			<button type="button" :id="menu.new.id" :class="menu.new.icon" @click="menu.new.action">{{menu.new.text}}</button>
 		</div>
 		<ul :id="menu.id">
-			<navigation-item v-for="(item, key) in menu.items" :item="item" :key="key" />
+			<navigation-item v-for="item in menu.items" :item="item" :key="item.key" />
 		</ul>
 		<div id="app-settings">
 			<div id="app-settings-header">
