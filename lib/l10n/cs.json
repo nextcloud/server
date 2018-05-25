@@ -25,6 +25,7 @@
     "Following platforms are supported: %s" : "Jsou podporovány následující systémy: %s",
     "Server version %s or higher is required." : "Je potřeba verze serveru %s nebo vyšší.",
     "Server version %s or lower is required." : "Je potřeba verze serveru %s nebo nižší.",
+    "Logged in user must be an admin" : "Je třeba, aby přihlášený uživatel byl správce",
     "Unknown filetype" : "Neznámý typ souboru",
     "Invalid image" : "Chybný obrázek",
     "Avatar image is not square" : "Avatar není čtvercový",
@@ -69,6 +70,7 @@
     "Change" : "Změnit",
     "Delete" : "Smazat",
     "Share" : "Sdílet",
+    "Overview" : "Přehled",
     "Basic settings" : "Základní nastavení",
     "Sharing" : "Sdílení",
     "Security" : "Zabezpečení",
@@ -231,6 +233,7 @@
     "Storage is temporarily not available" : "Úložiště je dočasně nedostupné",
     "Storage connection timeout. %s" : "Vypršení připojení k úložišti. %s",
     "Personal" : "Osobní",
+    "DB Error: \"%s\"" : "Chyba databáze: „%s“",
     "No app name specified" : "Nezadán název aplikace"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

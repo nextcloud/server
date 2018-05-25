@@ -14,6 +14,7 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Vybraný kanál aktualizací nepodporuje aktualizace serveru.",
     "A new version is available: <strong>{newVersionString}</strong>" : "K dispozici je nová verze: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Zkontrolováno {lastCheckedDate}",
+    "Checking apps for compatible updates" : "Zjišťuje se dostupnost kompatibilních aktualizací aplikací",
     "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci",
     "Update notifications" : "Aktualizovat upozornění",
     "Channel updated" : "Kanál aktualizován",

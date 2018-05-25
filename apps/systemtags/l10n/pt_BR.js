@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (invisível)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>As etiquetas de sistema</strong> para um arquivo foram modificadas",
     "Collaborative tags" : "Etiquetas colaborativas",
+    "Collaborative tagging functionality which shares tags among users." : "Funcionalidade de etiquetamento colaborativo que compartilha etiquetas entre usuários.",
+    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de etiquetamento colaborativo que compartilha etiquetas entre usuários. Muito bom para equipes.\n\t(Se você for um provedor com uma instalação de multilocação, é aconselhável desativar este aplicativo, pois as etiquetas são compartilhadas.)",
     "Create and edit collaborative tags. These tags affect all users." : "Crie e edite etiquetas colaborativas. Estas etiquetas afetam todos os usuários.",
     "Select tag …" : "Selecionar etiqueta...",
     "Name" : "Nome",
