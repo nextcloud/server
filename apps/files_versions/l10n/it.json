@@ -5,6 +5,7 @@
     "_%n byte_::_%n bytes_" : ["%n byte","%n byte"],
     "Restore" : "Ripristina",
     "No earlier versions available" : "Nessuna versione precedente disponibile",
-    "More versions …" : "Altre versioni..."
+    "More versions …" : "Altre versioni...",
+    "This application automatically maintains older versions of files that are changed." : "Questa applicazione mantiene automaticamente le vecchie versioni dei file modificati."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

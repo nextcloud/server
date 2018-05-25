@@ -35,6 +35,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Puoi scegliere una password diversa in qualsiasi momento nella finestra di condivisione.",
     "Could not find share" : "Non è stato possibile trovare la condivisione",
     "Share by mail" : "Condividi tramite email",
+    "Share provider which allows you to share files by mail" : "Fornitore di condivisione che ti consente di condividere file tramite posta",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Consente agli utenti di condividere un collegamento personalizzato a un file o a una cartella inserendo un indirizzo di posta elettronica.",
     "Send password by mail" : "Invia password tramite posta",
     "Enforce password protection" : "Imponi la protezione con password",

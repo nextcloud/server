@@ -126,6 +126,7 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Soubor nebo adresář byl <strong>obnoven</strong>",
     "Unlimited" : "Neomezeně",
     "Upload (max. %s)" : "Nahrát (max. %s)",
+    "File Management" : "Správa souborů",
     "File handling" : "Zacházení se soubory",
     "Maximum upload size" : "Maximální velikost pro odesílání",
     "max. possible: " : "největší možná: ",

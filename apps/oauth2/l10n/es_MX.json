@@ -1,5 +1,6 @@
 { "translations": {
     "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "Permite autenticación compatible con OAuth2 desde otras aplicaciones web.",
     "OAuth 2.0 clients" : "Clientes OAuth 2.0",
     "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 le permite a los servicios externos solicitar acceso a %s.",
     "Name" : "Nombre",

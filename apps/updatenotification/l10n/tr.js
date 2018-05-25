@@ -31,6 +31,7 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "%1$s sürümünden %2$s sürümüne güncelleme yayınlanmış.",
     "Update for {app} to version %s is available." : "{app} uygulaması için %s sürümü güncellemesi yayınlanmış.",
     "Update notification" : "Güncelleme bildirimi",
+    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud güncelleme bildirimlerini görüntüler ve güncelleyici için Tek Oturum Açma (SSO) bilgilerini sağlar.",
     "A new version is available: %s" : "Yeni bir sürüm yayınlanmış: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Kullanmakta olduğunuz sürüm artık desteklenmiyor. Lütfen en kısa sürede desteklenen bir sürüme güncellemeyi ihmal etmeyin.",
     "Download now" : "İndir",

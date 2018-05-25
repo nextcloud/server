@@ -22,6 +22,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Você já está usando um tema personalizado. As configurações do aplicativo Theming podem ser sobrescritas por isso.",
     "Theming" : "Personalização",
     "Legal notice" : "Aviso legal",
+    "Adjust the Nextcloud theme" : "Ajustar o tema do Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Criar e alterar temas torna possível personalizar facilmente o Nextcloud e clientes suportados. Isso será visível para todos os usuários.",
     "Name" : "Nome",
     "Reset to default" : "Redefinir para o padrão",
