@@ -234,12 +234,21 @@ export default {
 				let item = {};
 				item.id = group.id.replace(' ', '_');
 				item.key = item.id;
-				item.router = {								// router link to
+				item.utils = {}
+
+				// router link to
+				item.router = {
 					name: 'group',
 					params: {selectedGroup: group.id}
 				};
-				item.text = group.name;										// group name
-				item.utils = {counter: group.usercount - group.disabled};	// users count
+
+				// group name
+				item.text = group.name;
+
+				// users count
+				if (group.usercount - group.disabled > 0) {
+					item.utils.counter = group.usercount - group.disabled;
+				}
 
 				if (item.id !== 'admin' && item.id !== 'disabled' && this.settings.isAdmin) {
 					// add delete button on real groups
@@ -268,13 +277,17 @@ export default {
 			}
 
 			// Add everyone group
-			groups.unshift({
+			let everyoneGroup = {
 				id: 'everyone',
 				key: 'everyone',
 				router: {name:'users'},
 				text: t('settings', 'Everyone'),
-				utils: {counter: this.userCount}
-			});
+			};
+			// users count
+			if (this.userCount > 0) {
+				everyoneGroup.utils = {counter: this.userCount};
+			}
+			groups.unshift(everyoneGroup);
 
 			// Return
 			return {
