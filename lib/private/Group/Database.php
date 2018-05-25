@@ -56,7 +56,7 @@ use OCP\IDBConnection;
  */
 class Database extends ABackend
 	implements IAddToGroupBackend,
-			   ICountDisabledInGroup,
+	           ICountDisabledInGroup,
 	           ICountUsersBackend,
 	           ICreateGroupBackend,
 	           IDeleteGroupBackend,
