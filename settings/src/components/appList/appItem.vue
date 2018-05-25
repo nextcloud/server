@@ -21,8 +21,9 @@
   -->
 
 <template>
-	<div class="section">
+	<div class="section" v-bind:class="{ selected: isSelected }">
 		<div class="app-image app-image-icon" v-on:click="showAppDetails">
+			{{ isSelected }}
 			<div v-if="!app.preview" class="icon-settings-dark"></div>
 			<img v-if="!app.previewAsIcon && app.preview" :src="app.preview"  width="100%" />
 			<svg v-if="app.previewAsIcon && app.preview" width="32" height="32" viewBox="0 0 32 32">
@@ -83,12 +84,18 @@
 				default: true,
 			}
 		},
+		watch: {
+			'$route.params.id': function (id) {
+				this.isSelected = (this.app.id === id);
+			}
+		},
 		components: {
 			Multiselect,
 			AppScore,
 		},
 		data() {
 			return {
+				isSelected: false,
 				groupCheckedAppsData: false,
 				loading: false,
 				scrolled: false,
@@ -99,6 +106,7 @@
 			if (this.app.groups.length > 0) {
 				this.groupCheckedAppsData = true;
 			}
+			this.isSelected = (this.app.id === this.$route.params.id);
 			this.filterId = 'invertIconApps' + Math.floor((Math.random() * 100 )) + new Date().getSeconds() + new Date().getMilliseconds();
 		},
 		computed: {

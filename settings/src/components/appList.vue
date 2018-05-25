@@ -64,9 +64,11 @@
 <script>
 import appItem from './appList/appItem';
 import Multiselect from 'vue-multiselect';
+import prefix from './prefixMixin';
 
 export default {
 	name: 'appList',
+	mixins: [prefix],
 	props: ['category', 'app', 'search'],
 	components: {
 		Multiselect,
@@ -74,7 +76,6 @@ export default {
 	},
 	data() {
 		return {
-			groupCheckedAppsData: [],
 			loading: false,
 			scrolled: false,
 		};
@@ -113,9 +114,7 @@ export default {
 		}
 	},
 	methods: {
-		prefix(prefix, content) {
-			return prefix + '_' + content;
-		},
+
 	}
 }
 </script>

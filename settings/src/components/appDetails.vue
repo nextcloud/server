@@ -25,11 +25,16 @@
 		<a class="close icon-close" href="#" v-on:click="hideAppDetails"><span class="hidden-visually">Close</span></a>
 		<h2>{{ app.name }}</h2>
 		<img :src="app.preview" width="100%" />
-		<app-score v-if="app.appstoreData.ratingNumOverall > 5" :score="app.appstoreData.ratingOverall"></app-score>
+		<app-score v-if="app.appstoreData && app.appstoreData.ratingNumOverall > 5" :score="app.appstoreData.ratingOverall"></app-score>
 		<div class="app-author">
-			{{ author }}
-			{{ licence }}
+			{{ t('settings', 'by') }}
+			<span v-if="author.length > 0" v-for="a in author">
+				<a v-if="a['@attributes']['homepage']" :href="a['@attributes']['homepage']">{{ a['@value'] }}</a> &nbsp;
+				<span v-else>{{ a['@value'] }}</span>
+			</span>
+			<span v-else>{{ author }}</span>
 		</div>
+		{{ licence }}
 		<div class="actions">
 			<div class="warning hidden"></div>
 			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" />
@@ -42,7 +47,6 @@
 			<div class="groups-enable" v-if="app.active && canLimitToGroups(app)">
 				<input type="checkbox" :value="app.id" v-model="groupCheckedAppsData" v-on:change="setGroupLimit" class="groups-enable__checkbox checkbox" :id="prefix('groups_enable', app.id)">
 				<label :for="prefix('groups_enable', app.id)">Auf Gruppen beschränken</label>
-				<input type="hidden" class="group_select" title="Alle" value="">
 				<multiselect v-if="isLimitedToGroups(app)" :options="groups" :value="appGroups" @select="addGroupLimitation" @remove="removeGroupLimitation"
 							 :placeholder="t('settings', 'Limit app usage to groups')"
 							 label="name" track-by="id" class="multiselect-vue"
@@ -79,8 +83,10 @@
 import Multiselect from 'vue-multiselect';
 import AppScore from './appList/appScore';
 import AppManagement from './appManagement';
+import prefix from './prefixMixin';
+
 export default {
-	mixins: [AppManagement],
+	mixins: [AppManagement, prefix],
 	name: 'appDetails',
 	props: ['category', 'app'],
 	components: {
@@ -96,10 +102,17 @@ export default {
 		},
 	},
 	computed: {
+		groups() {
+			console.log(this.$store.getters.getGroups);
+			return this.$store.getters.getGroups
+				.filter(group => group.id !== 'disabled')
+				.sort((a, b) => a.name.localeCompare(b.name));
+		},
 		licence() {
 			return this.app.license + t('settings', '-licensed');
 		},
 		author() {
+			return this.app.author;
 			return t('settings', 'by') + ' ' + this.app.author;
 		},
 		renderMarkdown() {

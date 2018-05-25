@@ -22,6 +22,16 @@
 
 <script>
 	export default {
+		mounted() {
+			if (this.app.groups.length > 0) {
+				this.groupCheckedAppsData = true;
+			}
+		},
+		computed: {
+			appGroups() {
+				return this.app.groups.map(group => {return {id: group, name: group}});
+			},
+		},
 		methods: {
 			isLimitedToGroups(app) {
 				if (this.app.groups.length || this.groupCheckedAppsData) {

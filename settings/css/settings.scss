@@ -1014,6 +1014,9 @@ span.version {
 		position: relative;
 		flex: 0 0 auto;
 
+		&.selected {
+			background-color: nc-darken($color-main-background, 6%);
+		}
 		h2.app-name {
 			display: block;
 			margin: 8px 0;
