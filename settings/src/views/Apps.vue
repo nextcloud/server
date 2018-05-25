@@ -158,6 +158,14 @@ export default {
 					text: t('settings', 'Disabled apps'),
 				}
 			];
+
+			if (!this.settings.appstoreEnabled) {
+				return {
+					id: 'appscategories',
+					items: defaultCategories
+				}
+			}
+
 			if (this.$store.getters.getUpdateCount > 0) {
 				defaultCategories.push({
 					id: 'app-category-updates',
@@ -186,6 +194,13 @@ export default {
 			} else {
 				categories[0].classes.push('active');
 			}
+
+			categories.push({
+				id: 'app-developer-docs',
+				classes: [],
+				href: this.settings.developerDocumentation,
+				text: t('settings', 'Developer documentation') + ' ↗',
+			});
 
 			// Return
 			return {

@@ -23,8 +23,9 @@
 <template>
 	<div class="section">
 		<div class="app-image app-image-icon" v-on:click="showAppDetails">
-			<img :src="app.preview" v-if="!app.previewAsIcon" width="100%" />
-			<svg v-else width="32" height="32" viewBox="0 0 32 32" v-if="app.previewAsIcon">
+			<div v-if="!app.preview" class="icon-settings-dark"></div>
+			<img v-if="!app.previewAsIcon && app.preview" :src="app.preview"  width="100%" />
+			<svg v-if="app.previewAsIcon && app.preview" width="32" height="32" viewBox="0 0 32 32">
 				<defs><filter id="invertIconApps-606"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
 				<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invertIconApps-606)" :xlink:href="app.preview" class="app-icon"></image>
 			</svg>

@@ -145,6 +145,7 @@ class AppSettingsController extends Controller {
 		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
 		$params['urlGenerator'] = $this->urlGenerator;
 		$params['updateCount'] = count($this->getAppsWithUpdates());
+		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
 		$this->navigationManager->setActiveEntry('core_apps');
 
 		$templateResponse = new TemplateResponse('settings', 'settings', ['serverData' => $params]);
@@ -255,6 +256,7 @@ class AppSettingsController extends Controller {
 				'id' => $app['id'],
 				'name' => isset($app['translations'][$currentLanguage]['name']) ? $app['translations'][$currentLanguage]['name'] : $app['translations']['en']['name'],
 				'description' => isset($app['translations'][$currentLanguage]['description']) ? $app['translations'][$currentLanguage]['description'] : $app['translations']['en']['description'],
+				'summary' => isset($app['translations'][$currentLanguage]['summary']) ? $app['translations'][$currentLanguage]['summary'] : $app['translations']['en']['summary'],
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => false,

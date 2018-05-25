@@ -41,9 +41,9 @@
 			<a class="appslink" v-if="app.website" :href="app.website" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Visit website') }} ↗</a>
 			<a class="appslink" v-if="app.bugs" :href="app.bugs" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Report a bug') }} ↗</a>
 
-			<a class="appslink" v-if="app.documentation.user" :href="app.documentation.user" target="_blank" rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
-			<a class="appslink" v-if="app.documentation.admin" :href="app.documentation.admin" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Admin documentation') }} ↗</a>
-			<a class="appslink" v-if="app.documentation.developer" :href="app.documentation.developer" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation && app.documentation.user" :href="app.documentation.user" target="_blank" rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation && app.documentation.admin" :href="app.documentation.admin" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Admin documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation && app.documentation.developer" :href="app.documentation.developer" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
 		</p>
 
 		<ul class="app-dependencies">
