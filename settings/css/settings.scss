@@ -762,8 +762,27 @@ span.version {
 	}
 }
 #apps-list.store {
+	.section {
+		border: 0;
+	}
 	.app-name {
 		display: block;
+		margin: 5px 0;
+	}
+	.app-name, .app-image * {
+		cursor: pointer;
+	}
+	.app-summary {
+		opacity: .7;
+	}
+	.app-image-icon .icon-settings-dark {
+		width: 100%;
+		height: 150px;
+		background-size: 45px;
+		opacity: 0.5;
+	}
+	.app-score-image {
+		height: 14px;
 	}
 }
 
@@ -771,38 +790,57 @@ span.version {
 	.app-description p {
 		margin-bottom: 10px;
 	}
-}
-
-@media (min-width: 1601px) {
-	#apps-list .section {
-		width: 22%;
-		box-sizing: border-box;
-		&:nth-child(4n) {
-			margin-right: 20px;
-		}
+	.close {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 14px;
+		opacity: 0.5;
+		z-index: 1;
 	}
 }
 
-@media (min-width: 1201px) and (max-width: 1600px) {
-	#apps-list .section {
-		width: 30%;
-		box-sizing: border-box;
-		&:nth-child(3n) {
-			margin-right: 20px;
-		}
+@media only screen and (min-width: 1601px) {
+	.store .section {
+		width: 25%;
+	}
+	.with-app-sidebar .store .section {
+		width: 33%;
 	}
 }
 
-@media (min-width: 901px) and (max-width: 1200px), (min-width: 601px) and (max-width: 770px) {
-	#apps-list .section {
-		width: 40%;
-		box-sizing: border-box;
-		&:nth-child(2n) {
-			margin-right: 20px;
-		}
+@media only screen and (max-width: 1600px) {
+	.store .section {
+		width: 25%;
+	}
+	.with-app-sidebar .store .section {
+		width: 33%;
 	}
 }
 
+@media only screen and (max-width: 1400px) {
+	.store .section {
+		width: 33%;
+	}
+	.with-app-sidebar .store .section {
+		width: 50%;
+	}
+}
+
+@media only screen and (max-width: 900px) {
+	.store .section {
+		width: 50%;
+	}
+	.with-app-sidebar .store .section {
+		width: 100%;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.store .section {
+		width: 50%;
+	}
+}
 /* hide app version and level on narrower screens */
 @media only screen and (max-width: 768px) {
 	#apps-list.installed {
@@ -948,11 +986,14 @@ span.version {
 			height: auto;
 			text-align: right;
 		}
-		.app-image-icon svg {
+		.app-image-icon svg,
+		.app-image-icon .icon-settings-dark {
 			margin-top: 5px;
 			width: 20px;
 			height: 20px;
 			opacity: .5;
+			background-size: cover;
+			display: inline-block;
 		}
 	}
 	&:not(.installed) .app-image-icon svg {
@@ -972,10 +1013,7 @@ span.version {
 	.section {
 		position: relative;
 		flex: 0 0 auto;
-		margin-left: 20px;
-		&.apps-experimental {
-			flex-basis: 90%;
-		}
+
 		h2.app-name {
 			display: block;
 			margin: 8px 0;

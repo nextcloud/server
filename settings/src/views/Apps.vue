@@ -24,9 +24,8 @@
 	<div id="app">
 		<app-navigation :menu="menu" />
 		<app-list :category="category" :app="currentApp" :search="search"></app-list>
-		<div id="app-sidebar" v-if="currentApp">
-			{{ search }}
-			<app-details :app="currentApp"></app-details>
+		<div id="app-sidebar" v-if="id">
+			<app-details :category="category" :app="currentApp"></app-details>
 		</div>
 	</div>
 </template>

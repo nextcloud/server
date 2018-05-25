@@ -33,13 +33,15 @@
 		<div class="app-name" v-on:click="showAppDetails">
 			{{ app.name }}
 		</div>
-		<div class="app-version">{{ app.version }}</div>
-		<div class="app-score" v-if="!listView"><app-score :score="app.score"></app-score> </div>
 		<div class="app-summary" v-if="!listView">{{ app.summary }}</div>
+		<div class="app-version" v-if="listView">{{ app.version }}</div>
+
 		<div class="app-level">
 			<span class="official icon-checkmark" v-if="app.level === 200">{{ t('settings', 'Official') }}</span>
+			<app-score v-if="!listView" :score="app.score"></app-score>
 			<a :href="appstoreUrl" v-if="!app.internal && listView">Im Store anzeigen ↗</a>
 		</div>
+
 
 		<div class="app-groups" v-if="listView">
 			<div class="groups-enable" v-if="app.active && canLimitToGroups(app)">
@@ -119,7 +121,6 @@
 		},
 		methods: {
 			showAppDetails() {
-				console.log(this.app.id);
 				this.$router.push({
 					name: 'apps-details',
 					params: {category: this.category, id: this.app.id}

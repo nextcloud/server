@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<img :src="scoreImage" />
+	<img :src="scoreImage" class="app-score-image" />
 </template>
 <script>
 	export default {

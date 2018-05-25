@@ -22,6 +22,7 @@
 
 <template>
 	<div id="app-details-view" style="padding: 20px;">
+		<a class="close icon-close" href="#" v-on:click="hideAppDetails"><span class="hidden-visually">Close</span></a>
 		<h2>{{ app.name }}</h2>
 		<img :src="app.preview" width="100%" />
 		<app-score v-if="app.ratingNumThresholdReached" :score="app.score"></app-score>
@@ -66,10 +67,18 @@ import Multiselect from 'vue-multiselect';
 import AppScore from './appList/appScore';
 export default {
 	name: 'appDetails',
-	props: ['app'],
+	props: ['category', 'app'],
 	components: {
 		Multiselect,
 		AppScore
+	},
+	methods: {
+		hideAppDetails() {
+			this.$router.push({
+				name: 'apps-category',
+				params: {category: this.category}
+			});
+		},
 	},
 	computed: {
 		licence() {
