@@ -29,10 +29,13 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 class Manager {
 
 	public function __construct(AppFetcher $appFetcher) {
-		$this->apps = $appFetcher->get();
+		$apps = $appFetcher->get();
+		foreach ($apps as $app) {
+			$this->apps[$app['id']] = $app;
+		}
 	}
 
 	public function getApp(string $appId) {
-		return $this->apps;
+		return $this->apps[$appId];
 	}
 }

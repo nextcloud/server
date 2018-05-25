@@ -116,58 +116,6 @@ export default {
 		prefix(prefix, content) {
 			return prefix + '_' + content;
 		},
-		isLimitedToGroups(app) {
-			if (app.groups.length || this.groupCheckedAppsData.includes(app.id)) {
-				return true;
-			}
-			return false;
-		},
-		canLimitToGroups(app) {
-			if (app.types && app.types.includes('filesystem')
-				|| app.types.includes('prelogin')
-				|| app.types.includes('authentication')
-				|| app.types.includes('logging')
-				|| app.types.includes('prevent_group_restriction')) {
-				return false;
-			}
-			return true;
-		},
-		addGroupLimitation(appId, group) {
-			let currentGroups = this.$store.apps.find(app => app.id === appId).groups;
-			currentGroups.push(group);
-			this.$store.dispatch('enableApp', { appId: appId, groups: groups});
-		},
-		removeGroupLimitation(appId, group) {
-			let currentGroups = this.$store.apps.find(app => app.id === appId).groups;
-			currentGroups.push(group);
-			let index = currentGroups.indexOf(group);
-			if (index > -1) {
-				currentGroups.splice(index, 1);
-			}
-			this.$store.dispatch('enableApp', { appId: appId, groups: groups});
-		},
-		enable(appId) {
-			this.$store.dispatch('enableApp', { appId: appId })
-				.catch((error) => { OC.Notification.show(error)});
-		},
-		disable(appId) {
-			this.$store.dispatch('disableApp', { appId: appId })
-				.catch((error) => { OC.Notification.show(error)});
-		},
-		remove() {},
-		install() {},
-		createUser() {
-			this.loading = true;
-			this.$store.dispatch('addUser', {
-				userid: this.newUser.id,
-				password: this.newUser.password,
-				email: this.newUser.mailAddress,
-				groups: this.newUser.groups.map(group => group.id),
-				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
-				quota: this.newUser.quota.id,
-				language: this.newUser.language.code,
-			}).then(() => this.resetForm());
-		}
 	}
 }
 </script>

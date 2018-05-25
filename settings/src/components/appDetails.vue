@@ -25,7 +25,7 @@
 		<a class="close icon-close" href="#" v-on:click="hideAppDetails"><span class="hidden-visually">Close</span></a>
 		<h2>{{ app.name }}</h2>
 		<img :src="app.preview" width="100%" />
-		<app-score v-if="app.ratingNumThresholdReached" :score="app.score"></app-score>
+		<app-score v-if="app.appstoreData.ratingNumOverall > 5" :score="app.appstoreData.ratingOverall"></app-score>
 		<div class="app-author">
 			{{ author }}
 			{{ licence }}
@@ -37,6 +37,19 @@
 			<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" />
 			<input v-if="!app.active && !app.needsDownload" class="enable" type="button" :value="t('settings','Enable')" v-on:click="enable(app.id)" :disabled="!app.canInstall" />
 			<input v-if="!app.active && app.needsDownload" class="enable needs-download" type="button" :value="t('settings', 'Enable')" :disabled="!app.canInstall"/>
+		</div>
+		<div class="app-groups" v-if="app.active">
+			<div class="groups-enable" v-if="app.active && canLimitToGroups(app)">
+				<input type="checkbox" :value="app.id" v-model="groupCheckedAppsData" v-on:change="setGroupLimit" class="groups-enable__checkbox checkbox" :id="prefix('groups_enable', app.id)">
+				<label :for="prefix('groups_enable', app.id)">Auf Gruppen beschränken</label>
+				<input type="hidden" class="group_select" title="Alle" value="">
+				<multiselect v-if="isLimitedToGroups(app)" :options="groups" :value="appGroups" @select="addGroupLimitation" @remove="removeGroupLimitation"
+							 :placeholder="t('settings', 'Limit app usage to groups')"
+							 label="name" track-by="id" class="multiselect-vue"
+							 :multiple="true" :close-on-select="false">
+					<span slot="noResult">{{t('settings', 'No results')}}</span>
+				</multiselect>
+			</div>
 		</div>
 		<p class="documentation">
 			<a class="appslink" v-if="app.website" :href="app.website" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Visit website') }} ↗</a>
@@ -65,7 +78,9 @@
 <script>
 import Multiselect from 'vue-multiselect';
 import AppScore from './appList/appScore';
+import AppManagement from './appManagement';
 export default {
+	mixins: [AppManagement],
 	name: 'appDetails',
 	props: ['category', 'app'],
 	components: {

@@ -26,8 +26,8 @@
 			<div v-if="!app.preview" class="icon-settings-dark"></div>
 			<img v-if="!app.previewAsIcon && app.preview" :src="app.preview"  width="100%" />
 			<svg v-if="app.previewAsIcon && app.preview" width="32" height="32" viewBox="0 0 32 32">
-				<defs><filter id="invertIconApps-606"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
-				<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" filter="url(#invertIconApps-606)" :xlink:href="app.preview" class="app-icon"></image>
+				<defs><filter :id="filterId"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
+				<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" :filter="filterUrl" :xlink:href="app.preview" class="app-icon"></image>
 			</svg>
 		</div>
 		<div class="app-name" v-on:click="showAppDetails">
@@ -70,9 +70,11 @@
 <script>
 	import Multiselect from 'vue-multiselect';
 	import AppScore from './appScore';
+	import AppManagement from '../appManagement';
 
 	export default {
 		name: 'appItem',
+		mixins: [AppManagement],
 		props: {
 			app: {},
 			category: {},
@@ -90,14 +92,19 @@
 				groupCheckedAppsData: false,
 				loading: false,
 				scrolled: false,
+				filterId: '',
 			};
 		},
 		mounted() {
 			if (this.app.groups.length > 0) {
 				this.groupCheckedAppsData = true;
 			}
+			this.filterId = 'invertIconApps' + Math.floor((Math.random() * 100 )) + new Date().getSeconds() + new Date().getMilliseconds();
 		},
 		computed: {
+			filterUrl() {
+				return `url(#${this.filterId})`;
+			},
 			appstoreUrl() {
 				return `https://apps.nextcloud.com/apps/${this.app.id}`;
 			},
@@ -129,71 +136,6 @@
 			prefix(prefix, content) {
 				return prefix + '_' + content;
 			},
-			isLimitedToGroups(app) {
-				if (this.app.groups.length || this.groupCheckedAppsData) {
-					return true;
-				}
-				return false;
-			},
-			setGroupLimit: function() {
-				if (!this.groupCheckedAppsData) {
-					this.$store.dispatch('enableApp', {appId: this.app.id, groups: []});
-				}
-			},
-			canLimitToGroups(app) {
-				if (app.types && app.types.includes('filesystem')
-					|| app.types.includes('prelogin')
-					|| app.types.includes('authentication')
-					|| app.types.includes('logging')
-					|| app.types.includes('prevent_group_restriction')) {
-					return false;
-				}
-				return true;
-			},
-			addGroupLimitation(group) {
-				let groups = this.app.groups.concat([]).concat([group.id]);
-				this.$store.dispatch('enableApp', { appId: this.app.id, groups: groups});
-			},
-			removeGroupLimitation(group) {
-				let currentGroups = this.app.groups.concat([]);
-				let index = currentGroups.indexOf(group.id);
-				if (index > -1) {
-					currentGroups.splice(index, 1);
-				}
-				this.$store.dispatch('enableApp', { appId: this.app.id, groups: currentGroups});
-			},
-			enable(appId) {
-				this.$store.dispatch('enableApp', { appId: appId, groups: [] })
-					.catch((error) => { OC.Notification.show(error)});
-			},
-			disable(appId) {
-				this.$store.dispatch('disableApp', { appId: appId })
-					.catch((error) => { OC.Notification.show(error)});
-			},
-			remove(appId) {
-				this.$store.dispatch('uninstallApp', { appId: appId })
-					.catch((error) => { OC.Notification.show(error)});
-			},
-			install(appId) {
-				this.$store.dispatch('installApp', { appId: appId })
-					.catch((error) => { OC.Notification.show(error)});
-			},
-			update(appId) {
-				this.$store.dispatch('updateApp', { appId: appId })
-					.catch((error) => { OC.Notification.show(error)});
-			},
-			createUser() {
-				this.loading = true;
-				this.$store.dispatch('addUser', {
-					userid: this.newUser.id,
-					password: this.newUser.password,
-					email: this.newUser.mailAddress,
-					groups: this.newUser.groups.map(group => group.id),
-					subadmin: this.newUser.subAdminsGroups.map(group => group.id),
-					quota: this.newUser.quota.id,
-					language: this.newUser.language.code,
-				}).then(() => this.resetForm());
-			}
 		}
 	}
 </script>

@@ -334,12 +334,12 @@ class AppSettingsController extends Controller {
 	 */
 	public function listApps($category = '') {
 		$appClass = new \OC_App();
+		$manager = \OC::$server->query(\OC\App\AppStore\Manager::class);
 
 		switch ($category) {
 			// installed apps
 			case 'installed':
 				$apps = $appClass->listAllApps();
-
 				foreach($apps as $key => $app) {
 					$newVersion = $this->installer->isUpdateAvailable($app['id']);
 					$apps[$key]['update'] = $newVersion;
@@ -479,6 +479,14 @@ class AppSettingsController extends Controller {
 			$app['missingMaxOwnCloudVersion'] = !isset($app['dependencies']['nextcloud']['@attributes']['max-version']);
 
 			return $app;
+		}, $apps);
+
+		// Add app store dump for app to data
+		$apps = array_map(function($appData) use ($manager) {
+			$appStoreData = $manager->getApp($appData['id']);
+			$appData['appstoreData'] = $appStoreData;
+			$appData['preview'] = isset($appStoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($appStoreData['screenshots'][0]['url']) : '';
+			return $appData;
 		}, $apps);
 
 		return new JSONResponse(['apps' => $apps, 'status' => 'success']);
