@@ -1,20 +1,15 @@
 <template>
-	<li :id="item.id" :class="[{'icon-loading-small': item.loading, 'open': item.opened, 'collapsible': item.collapsible&&item.children&&item.children.length>0 }, item.classes]">
+	<nav-element :id="item.id" v-bind="navElement(item)"
+				 :class="[{'icon-loading-small': item.loading, 'open': item.opened, 'collapsible': item.collapsible&&item.children&&item.children.length>0 }, item.classes]">
 
 		<!-- Bullet -->
 		<div v-if="item.bullet" class="app-navigation-entry-bullet" :style="{ backgroundColor: item.bullet }"></div>
 
 		<!-- Main link -->
-		<a v-if="item.href" :href="(item.href) ? item.href : '#' " @click="toggleCollapse" :class="item.icon" >
+		<a :href="(item.href) ? item.href : '#' " @click="toggleCollapse" :class="item.icon">
 			<img v-if="item.iconUrl" :alt="item.text" :src="item.iconUrl">
 			{{item.text}}
 		</a>
-
-		<!-- Router link if specified. href OR router -->
-		<router-link :to="item.router" v-else-if="item.router" :class="item.icon" >
-			<img v-if="item.iconUrl" :alt="item.text" :src="item.iconUrl">
-			{{item.text}}
-		</router-link>	
 
 		<!-- Popover, counter and button(s) -->
 		<div v-if="item.utils" class="app-navigation-entry-utils">
@@ -69,7 +64,7 @@
 		<ul v-if="item.children">
 			<navigation-item v-for="(item, key) in item.children" :item="item" :key="key" />
 		</ul>
-	</li>
+	</nav-element>
 </template>
 
 <script>
@@ -89,7 +84,7 @@ export default {
 	data() {
 		return {
 			openedMenu: false
-		}
+		};
 	},
 	methods: {
 		showMenu() {
@@ -106,12 +101,29 @@ export default {
 		cancelEdit() {
 			// remove the editing class
 			if (Array.isArray(this.item.classes))
-				this.item.classes = this.item.classes.filter(item => item !== 'editing');
+				this.item.classes = this.item.classes.filter(
+					item => item !== 'editing'
+				);
+		},
+		// This is used to decide which outter element type to use
+		// li or router-link
+		navElement(item) {
+			if (item.href) {
+				return {
+					is: 'li'
+				};
+			}
+			return {
+				is: 'router-link',
+				tag: 'li',
+				to: item.router,
+				exact: true
+			};
 		}
 	},
 	mounted() {
 		// prevent click outside event with popupItem.
 		this.popupItem = this.$el;
-	},
-}
+	}
+};
 </script>

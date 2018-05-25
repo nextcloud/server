@@ -34,6 +34,7 @@ namespace OC\User;
 use OC\Hooks\PublicEmitter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUser;
+use OCP\IGroup;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
@@ -385,6 +386,24 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
+	 * returns how many users per backend exist in the requested groups (if supported by backend)
+	 *
+	 * @param IGroup[] $groups an array of gid to search in
+	 * @return array|int an array of backend class as key and count number as value
+	 *                if $hasLoggedIn is true only an int is returned
+	 */
+	public function countUsersOfGroups(array $groups) {
+		$users = [];
+		foreach($groups as $group) {
+			$usersIds = array_map(function($user) {
+				return $user->getUID();
+			}, $group->getUsers());
+			$users = array_merge($users, $usersIds);
+		}
+		return count(array_unique($users));
+	}
+
+	/**
 	 * The callback is executed for each user on each backend.
 	 * If the callback returns false no further users will be retrieved.
 	 *
@@ -420,12 +439,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * returns how many users have logged in once
+	 * returns how many users are disabled
 	 *
 	 * @return int
 	 * @since 12.0.0
 	 */
-	public function countDisabledUsers() {
+	public function countDisabledUsers(): int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
 			->from('preferences')
@@ -433,12 +452,48 @@ class Manager extends PublicEmitter implements IUserManager {
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
 
-		$query = $queryBuilder->execute();
+		
+		$result = $queryBuilder->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+		
+		if ($count !== false) {
+			$count = (int)$count;
+		} else {
+			$count = 0;
+		}
 
-		$result = (int)$query->fetchColumn();
-		$query->closeCursor();
+		return $count;
+	}
 
-		return $result;
+	/**
+	 * returns how many users are disabled in the requested groups
+	 *
+	 * @param array $groups groupids to search
+	 * @return int
+	 * @since 14.0.0
+	 */
+	public function countDisabledUsersOfGroups(array $groups): int {
+		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder->select($queryBuilder->createFunction('COUNT(Distinct uid)'))
+			->from('preferences', 'p')
+			->innerJoin('p', 'group_user', 'g', 'p.userid = g.uid')
+			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
+			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
+			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
+			->andWhere($queryBuilder->expr()->in('gid', $queryBuilder->createNamedParameter($groups, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		$result = $queryBuilder->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+		
+		if ($count !== false) {
+			$count = (int)$count;
+		} else {
+			$count = 0;
+		}
+
+		return $count;
 	}
 
 	/**

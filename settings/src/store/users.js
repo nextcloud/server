@@ -6,11 +6,20 @@ const orderGroups = function(groups, orderBy) {
 	 * https://github.com/nextcloud/server/blob/208e38e84e1a07a49699aa90dc5b7272d24489f0/lib/private/Group/MetaData.php#L34
 	 */
 	if (orderBy === 1) {
-		return groups.sort((a, b) => a.usercount < b.usercount);
+		return groups.sort((a, b) => a.usercount-a.disabled < b.usercount - b.disabled);
 	} else {
 		return groups.sort((a, b) => a.name.localeCompare(b.name));
 	}
 };
+
+const defaults = {
+	group: {
+		id: '',
+		name: '',
+		usercount: 0,
+		disabled: 0
+	}
+}
 
 const state = {
 	users: [],
@@ -33,18 +42,20 @@ const mutations = {
 		state.minPasswordLength = length!=='' ? length : 0;
 	},
 	initGroups(state, {groups, orderBy, userCount}) {
-		state.groups = groups;
+		state.groups = groups.map(group => Object.assign({}, defaults.group, group));
 		state.orderBy = orderBy;
 		state.userCount = userCount;
 		state.groups = orderGroups(state.groups, state.orderBy);
+		
 	},
 	addGroup(state, gid) {
 		try {
-			state.groups.push({
+			// extend group to default values
+			let group = Object.assign({}, defaults.group, {
 				id: gid,
-				name: gid,
-				usercount: 0 // user will be added after the creation
+				name: gid
 			});
+			state.groups.push(group);
 			state.groups = orderGroups(state.groups, state.orderBy);
 		} catch (e) {
 			console.log('Can\'t create group', e);
@@ -58,19 +69,23 @@ const mutations = {
 	},
 	addUserGroup(state, { userid, gid }) {
 		let group = state.groups.find(groupSearch => groupSearch.id == gid);
-		if (group) {
-			group.usercount++; // increase count
+		let user = state.users.find(user => user.id == userid);
+		// increase count if user is enabled
+		if (group && user.enabled) {
+			group.usercount++; 
 		}
-		let groups = state.users.find(user => user.id == userid).groups;
+		let groups = user.groups;
 		groups.push(gid);
 		state.groups = orderGroups(state.groups, state.orderBy);
 	},
 	removeUserGroup(state, { userid, gid }) {
 		let group = state.groups.find(groupSearch => groupSearch.id == gid);
-		if (group) {
-			group.usercount--; // lower count
+		let user = state.users.find(user => user.id == userid);
+		// lower count if user is enabled
+		if (group && user.enabled) {
+			group.usercount--;
 		}
-		let groups = state.users.find(user => user.id == userid).groups;
+		let groups = user.groups;
 		groups.splice(groups.indexOf(gid),1);
 		state.groups = orderGroups(state.groups, state.orderBy);
 	},
@@ -90,11 +105,15 @@ const mutations = {
 		state.users.push(response.data.ocs.data);
 	},
 	enableDisableUser(state, { userid, enabled }) {
-		state.users.find(user => user.id == userid).enabled = enabled;
+		let user  = state.users.find(user => user.id == userid);
+		user.enabled = enabled;
 		// increment or not
 		state.groups.find(group => group.id == 'disabled').usercount += enabled ? -1 : 1;
 		state.userCount += enabled ? 1 : -1;
-		console.log(enabled);
+		user.groups.forEach(group => {
+			// Increment disabled count
+			state.groups.find(groupSearch => groupSearch.id == group).disabled += enabled ? -1 : 1;
+		});
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
@@ -236,7 +255,12 @@ const actions = {
 			return api.post(OC.linkToOCS(`cloud/groups`, 2), {groupid: gid})
 				.then((response) => context.commit('addGroup', gid))
 				.catch((error) => {throw error;});
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
+		}).catch((error) => {
+			context.commit('API_FAILURE', { gid, error });
+			// let's throw one more time to prevent the view
+			// from adding the user to a group that doesn't exists
+			throw error;
+		});
 	},
 
 	/**
@@ -285,7 +309,12 @@ const actions = {
 			return api.delete(OC.linkToOCS(`cloud/users/${userid}/groups`, 2), { groupid: gid })
 				.then((response) => context.commit('removeUserGroup', { userid, gid }))
 				.catch((error) => {throw error;});
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
+		}).catch((error) => {
+			context.commit('API_FAILURE', { userid, error });
+			// let's throw one more time to prevent
+			// the view from removing the user row on failure
+			throw error; 
+		});
 	},
 
 	/**

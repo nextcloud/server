@@ -18,6 +18,7 @@ export default new Router({
 	// if index.php is in the url AND we got this far, then it's working:
 	// let's keep using index.php in the url
 	base: OC.generateUrl(''),
+	linkActiveClass: 'active',
 	routes: [
 		{
 			path: '/:index(index.php/)?settings/users',

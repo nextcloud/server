@@ -180,6 +180,10 @@ class UsersController extends AUserData {
 			// Do not insert empty entry
 			if (!empty($userData)) {
 				$usersDetails[$userId] = $userData;
+			} else {
+				// Logged user does not have permissions to see this user
+				// only showing its id
+				$usersDetails[$userId] = ['id' => $userId];
 			}
 		}
 

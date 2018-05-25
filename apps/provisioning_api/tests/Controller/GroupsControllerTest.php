@@ -101,6 +101,12 @@ class GroupsControllerTest extends \Test\TestCase {
 		$group
 			->method('getDisplayName')
 			->willReturn($gid.'-name');
+		$group
+			->method('count')
+			->willReturn(123);
+		$group
+			->method('countDisabled')
+			->willReturn(11);
 
 		return $group;
 	}
@@ -205,8 +211,18 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$result = $this->api->getGroupsDetails($search, $limit, $offset);
 		$this->assertEquals(['groups' => [
-			Array('id' => 'group1', 'displayname' => 'group1-name'), 
-			Array('id' => 'group2', 'displayname' => 'group2-name')
+			Array(
+				'id' => 'group1',
+				'displayname' => 'group1-name',
+				'usercount' => 123,
+				'disabled' => 11
+			), 
+			Array(
+				'id' => 'group2',
+				'displayname' => 'group2-name',
+				'usercount' => 123,
+				'disabled' => 11
+				)
 		]], $result->getData());
 
 	}

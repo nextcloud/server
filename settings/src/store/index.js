@@ -10,8 +10,12 @@ const debug = process.env.NODE_ENV !== 'production';
 
 const mutations = {
 	API_FAILURE(state, error) {
-		let message = error.error.response.data.ocs.meta.message;
-		OC.Notification.showHtml(t('settings','An error occured during the request. Unable to proceed.')+'<br>'+message, {timeout: 7});
+		try {
+			let message = error.error.response.data.ocs.meta.message;
+			OC.Notification.showHtml(t('settings','An error occured during the request. Unable to proceed.')+'<br>'+message, {timeout: 7});
+		} catch(e) {
+			OC.Notification.showTemporary(t('settings','An error occured during the request. Unable to proceed.'));
+		}
 		console.log(state, error);
 	}
 };

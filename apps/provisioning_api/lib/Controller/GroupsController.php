@@ -111,7 +111,12 @@ class GroupsController extends AUserData {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groups = array_map(function($group) {
 			/** @var IGroup $group */
-			return ['id' => $group->getGID(), 'displayname' => $group->getDisplayName()];
+			return [
+				'id' => $group->getGID(),
+				'displayname' => $group->getDisplayName(),
+				'usercount' => $group->count(),
+				'disabled' => $group->countDisabled()
+			];
 		}, $groups);
 
 		return new DataResponse(['groups' => $groups]);
@@ -202,6 +207,10 @@ class GroupsController extends AUserData {
 				// Do not insert empty entry
 				if(!empty($userData)) {
 					$usersDetails[$userId] = $userData;
+				} else {
+					// Logged user does not have permissions to see this user
+					// only showing its id
+					$usersDetails[$userId] = ['id' => $userId];
 				}
 			}
 			return new DataResponse(['users' => $usersDetails]);

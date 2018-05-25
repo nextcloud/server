@@ -1,5 +1,17 @@
 <template>
-	<div class="row" :class="{'disabled': loading.delete || loading.disable}">
+	<!-- Obfuscated user: Logged in user does not have permissions to see all of the data -->
+	<div class="row" v-if="Object.keys(user).length ===1">
+		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable}">
+			<img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)"
+				 :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
+				 v-if="!loading.delete && !loading.disable">
+		</div>
+		<div class="name">{{user.id}}</div>
+		<div class="obfuscated">{{t('settings','You do not have permissions to see the details of this user')}}</div>
+	</div>
+
+	<!-- User full data -->
+	<div class="row" v-else :class="{'disabled': loading.delete || loading.disable}">
 		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable}">
 			<img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)"
 				 :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
@@ -314,18 +326,22 @@ export default {
 		},
 
 		/**
-		 * Create a new group
+		 * Create a new group and add user to it
 		 * 
 		 * @param {string} groups Group id
 		 * @returns {Promise}
 		 */
 		createGroup(gid) {
 			this.loading = {groups:true, subadmins:true}
-			this.$store.dispatch('addGroup', gid).then(() => {
-				this.loading = {groups:false, subadmins:false};
-				let userid = this.user.id;
-				this.$store.dispatch('addUserGroup', {userid, gid});
-			});
+			this.$store.dispatch('addGroup', gid)
+				.then(() => {
+					this.loading = {groups:false, subadmins:false};
+					let userid = this.user.id;
+					this.$store.dispatch('addUserGroup', {userid, gid});
+				})
+				.catch(() => {
+					this.loading = {groups:false, subadmins:false};
+				});
 			return this.$store.getters.getGroups[this.groups.length];
 		},
 
@@ -360,6 +376,9 @@ export default {
 					if (this.$route.params.selectedGroup === gid) {
 						this.$store.commit('deleteUser', userid);
 					}
+				})
+				.catch(() => {
+					this.loading.groups = false
 				});
 		},
 
