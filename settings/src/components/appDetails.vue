@@ -28,11 +28,11 @@
 		<app-score v-if="app.appstoreData && app.appstoreData.ratingNumOverall > 5" :score="app.appstoreData.ratingOverall"></app-score>
 		<div class="app-author">
 			{{ t('settings', 'by') }}
-			<span v-if="author.length > 0" v-for="a in author">
-				<a v-if="a['@attributes']['homepage']" :href="a['@attributes']['homepage']">{{ a['@value'] }}</a> &nbsp;
+			<span v-for="a in author">
+				<a v-if="a['@attributes'] && a['@attributes']['homepage']" :href="a['@attributes']['homepage']">{{ a['@value'] }}</a>
 				<span v-else>{{ a['@value'] }}</span>
+				 &nbsp;
 			</span>
-			<span v-else>{{ author }}</span>
 		</div>
 		{{ licence }}
 		<div class="actions">
@@ -103,7 +103,6 @@ export default {
 	},
 	computed: {
 		groups() {
-			console.log(this.$store.getters.getGroups);
 			return this.$store.getters.getGroups
 				.filter(group => group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name));
@@ -112,8 +111,17 @@ export default {
 			return this.app.license + t('settings', '-licensed');
 		},
 		author() {
+			if (typeof this.app.author === 'string') {
+				return [
+					{
+						'@value': this.app.author
+					}
+				]
+			}
+			if (this.app.author['@value']) {
+				return [this.app.author];
+			}
 			return this.app.author;
-			return t('settings', 'by') + ' ' + this.app.author;
 		},
 		renderMarkdown() {
 			// TODO: bundle marked as well

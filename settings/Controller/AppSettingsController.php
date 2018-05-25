@@ -485,6 +485,7 @@ class AppSettingsController extends Controller {
 		$apps = array_map(function($appData) use ($manager) {
 			$appStoreData = $manager->getApp($appData['id']);
 			$appData['appstoreData'] = $appStoreData;
+			$appData['license'] = $appStoreData['releases'][0]['licenses'];
 			$appData['preview'] = isset($appStoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($appStoreData['screenshots'][0]['url']) : '';
 			return $appData;
 		}, $apps);

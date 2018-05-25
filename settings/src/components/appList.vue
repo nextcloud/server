@@ -45,7 +45,7 @@
 		</div>
 
 		<div id="apps-list" class="installed" v-if="search !== ''">
-			<div>
+			<div class="section">
 				<div></div>
 				<h2>{{ t('settings', 'Results from other categories') }}</h2>
 			</div>
@@ -95,10 +95,15 @@ export default {
 		},
 		searchApps() {
 			return this.$store.getters.getAllApps
-				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
+				.filter(app => {
+					if (app.name.toLowerCase().search(this.search.toLowerCase()) !== -1) {
+						return (!this.apps.find(_app => _app.id === app.id));
+					}
+					return false;
+
+				});
 		},
 		groups() {
-			console.log(this.$store.getters.getGroups);
 			return this.$store.getters.getGroups
 				.filter(group => group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name));

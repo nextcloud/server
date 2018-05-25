@@ -23,7 +23,6 @@
 <template>
 	<div class="section" v-bind:class="{ selected: isSelected }">
 		<div class="app-image app-image-icon" v-on:click="showAppDetails">
-			{{ isSelected }}
 			<div v-if="!app.preview" class="icon-settings-dark"></div>
 			<img v-if="!app.previewAsIcon && app.preview" :src="app.preview"  width="100%" />
 			<svg v-if="app.previewAsIcon && app.preview" width="32" height="32" viewBox="0 0 32 32">
