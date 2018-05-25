@@ -818,6 +818,7 @@ class ThemingControllerTest extends TestCase {
 		slogan: "",
 		color: "#000",
 		imprintUrl: null,
+		privacyUrl: null,
 		inverted: false,
 		cacheBuster: null
 	};
@@ -853,6 +854,7 @@ class ThemingControllerTest extends TestCase {
 		slogan: "awesome",
 		color: "#ffffff",
 		imprintUrl: null,
+		privacyUrl: null,
 		inverted: true,
 		cacheBuster: null
 	};
