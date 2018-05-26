@@ -1,10 +1,10 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "Nelze zapisovat do adresáře \"config\"!",
+    "Cannot write into \"config\" directory!" : "Nelze zapisovat do složky „config“!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "To lze obvykle vyřešit povolením zápisu webovému serveru do konfiguračního adresáře",
     "See %s" : "Viz %s",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "To lze obvykle vyřešit povolením zápisu webovému serveru do konfiguračního adresáře. Viz %s",
     "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Soubory aplikace %$1s nebyly řádně nahrazeny. Ujistěte se, že je to verze kompatibilní se serverem.",
-    "Sample configuration detected" : "Byla detekována vzorová konfigurace",
+    "Sample configuration detected" : "Bylo zjištěno setrvání u předváděcího nastavení",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Pravděpodobně byla zkopírována konfigurační nastavení ze vzorových souborů. Toto není podporováno a může poškodit vaši instalaci. Nahlédněte prosím do dokumentace před prováděním změn v souboru config.php",
     "%1$s and %2$s" : "%1$s a %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s a %3$s",

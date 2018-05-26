@@ -16,7 +16,7 @@
     "Recovery Key enabled" : "Záchranný klíč povolen",
     "Could not enable the recovery key, please try again or contact your administrator" : "Nelze povolit záchranný klíč. Zkuste to prosím znovu nebo kontaktujte svého správce.",
     "Could not update the private key password." : "Nelze aktualizovat heslo soukromého klíče.",
-    "The old password was not correct, please try again." : "Staré heslo nebylo zadáno správně, zkuste to prosím znovu.",
+    "The old password was not correct, please try again." : "Původní heslo nebylo zadáno správně, zkuste to prosím znovu.",
     "The current log-in password was not correct, please try again." : "Současné přihlašovací heslo nebylo zadáno správně, zkuste to prosím znovu.",
     "Private key password successfully updated." : "Heslo soukromého klíče úspěšně aktualizováno.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chybný soukromý klíč pro šifrovací aplikaci. Aktualizujte prosím heslo svého soukromého klíče v osobním nastavení, abyste znovu získali přístup ke svým zašifrovaným souborům.",

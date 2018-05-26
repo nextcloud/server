@@ -11,9 +11,10 @@ OC.L10N.register(
     "This operation is forbidden" : "Tato operace je zakázána",
     "This directory is unavailable, please check the logs or contact the administrator" : "Tento adresář není dostupný, zkontrolujte prosím logy nebo kontaktujte svého správce systému",
     "restored" : "obnoveno",
+    "This application enables users to restore files that were deleted from the system." : "Tato aplikace umožňuje uživatelům obnovit soubory které byly ze systému smazány.",
     "No deleted files" : "Žádné smazané soubory",
     "You will be able to recover deleted files from here" : "Odtud budete moci obnovovat odstraněné soubory",
-    "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
+    "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Select all" : "Vybrat vše",
     "Name" : "Název",
     "Deleted" : "Smazáno"
