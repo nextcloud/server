@@ -1183,6 +1183,38 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'password', 'NewPassword')->getData());
 	}
 
+	public function testEditUserRegularUserSelfEditChangePasswordWithEncryption() {
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
+		$targetUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->will($this->returnValue($targetUser));
+		$targetUser
+			->expects($this->once())
+			->method('setPassword')
+			->with('NewPassword', 'recoveryPassword');
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('UID'));
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'password', 'NewPassword', 'recoveryPassword')->getData());
+	}
+
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException

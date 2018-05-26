@@ -404,10 +404,12 @@ class UsersController extends AUserData {
 	 * @param string $userId
 	 * @param string $key
 	 * @param string $value
+	 * @param string $recoveryPassword
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function editUser(string $userId, string $key, string $value): DataResponse {
+
+	public function editUser(string $userId, string $key, string $value, string $recoveryPassword = null): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);
@@ -498,7 +500,7 @@ class UsersController extends AUserData {
 				$targetUser->setQuota($quota);
 				break;
 			case 'password':
-				$targetUser->setPassword($value);
+				$targetUser->setPassword($value, $recoveryPassword);
 				break;
 			case 'language':
 				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
