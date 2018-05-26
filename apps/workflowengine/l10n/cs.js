@@ -1,9 +1,10 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Seznam skupin je prázdný",
     "Unable to retrieve the group list" : "Nedaří se získat seznam skupin",
     "Saved" : "Uloženo",
-    "Saving failed:" : "Ukládání selhalo:",
+    "Saving failed:" : "Ukládání se nezdařilo:",
     "File MIME type" : "MIME typ souboru",
     "is" : "je",
     "is not" : "není",
@@ -16,9 +17,9 @@ OC.L10N.register(
     "greater or equals" : "větší nebo rovno",
     "greater" : "větší",
     "File system tag" : "Štítek souborového systému",
-    "is tagged with" : "je označen",
+    "is tagged with" : "je označeno jako",
     "is not tagged with" : "není označen",
-    "Select tag…" : "vybrat značku…",
+    "Select tag…" : "Vybrat značku…",
     "Request remote address" : "Vzdálená adresa požadavku",
     "matches IPv4" : "odpovídá IPv4",
     "does not match IPv4" : "neodpovídá IPv4",

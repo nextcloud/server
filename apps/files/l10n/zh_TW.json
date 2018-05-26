@@ -130,7 +130,7 @@
     "Save" : "儲存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "如果使用 PHP-FPM ，此設定值需要5分鐘左右才會生效。",
     "Missing permissions to edit from here." : "您沒有在此編輯的權限",
-    "%s of %s used" : "在 %s 中使用了 %s",
+    "%s of %s used" : "在 %s 中使用了%s ",
     "%s used" : "%s已使用",
     "Settings" : "設定",
     "Show hidden files" : "顯示隱藏檔",

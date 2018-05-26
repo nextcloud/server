@@ -1,6 +1,6 @@
 { "translations": {
     "Added to the list of trusted servers" : "Přidán na seznam důvěryhodných serverů.",
-    "Server is already in the list of trusted servers." : "Server je již přidán na seznam důvěryhodných serverů.",
+    "Server is already in the list of trusted servers." : "Server se už nachází na seznamu těch důvěryhodných.",
     "No server to federate with found" : "Nenalezen žádný server ke sdružování",
     "Could not add server" : "Nepodařilo se přidat server",
     "Federation" : "Federování",
