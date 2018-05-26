@@ -1,6 +1,6 @@
 { "translations": {
     "Unable to change password" : "Změna hesla se nezdařila",
-    "Verifying …" : "Ověřování …",
+    "Verifying …" : "Ověřování…",
     "An error occured while changing your language. Please reload the page and try again." : "Při změně jazyka došlo k chybě. Znovu načtěte stránku a zkuste to ještě jednou.",
     "Select a profile picture" : "Vyberte profilový obrázek",
     "Very weak password" : "Velmi slabé heslo",
@@ -16,7 +16,7 @@
     "Enable user" : "Zpřístupnit uživatelský účet",
     "Full name" : "Celé jméno",
     "Email" : "E-mail",
-    "Group admin for" : "Administrátor skupiny",
+    "Group admin for" : "Správce skupiny",
     "Languages" : "Jazyky",
     "User backend" : "Backend uživatelů",
     "No results" : "Žádné výsledky",
