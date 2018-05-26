@@ -63,8 +63,8 @@ export default {
 	},
 	data() {
 		return {
-			// default quota is unlimited
-			unlimitedQuota: {id:'default', label:t('settings', 'Unlimited')},
+			// default quota is set to unlimited
+			unlimitedQuota: {id: 'none', label: t('settings', 'Unlimited')},
 			// temporary value used for multiselect change
 			selectedQuota: false,
 			showConfig: {

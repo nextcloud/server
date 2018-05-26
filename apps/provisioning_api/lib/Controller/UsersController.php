@@ -487,9 +487,7 @@ class UsersController extends AUserData {
 					if ($quota === false) {
 						throw new OCSException('Invalid quota value '.$value, 103);
 					}
-					if ($quota === 0) {
-						$quota = 'default';
-					}else if ($quota === -1) {
+					if ($quota === -1) {
 						$quota = 'none';
 					} else {
 						$quota = \OCP\Util::humanFileSize($quota);
