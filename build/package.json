@@ -25,7 +25,7 @@
     "karma-viewport": "^0.4.2",
     "phantomjs-prebuilt": "*",
     "node-sass": "~4.1.1",
-    "sinon": "*"
+    "sinon": "<= 5.0.7"
   },
   "engine": "node >= 6.9"
 }
