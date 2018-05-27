@@ -70,7 +70,6 @@
     "Additional settings" : "Επιπρόσθετες ρυθμίσεις",
     "Tips & tricks" : "Συμβουλές & κόλπα",
     "Personal info" : "Προσωπικές πληροφορίες",
-    "Sync clients" : "Εφαρμογές συγχρονισμού",
     "Unlimited" : "Απεριόριστα",
     "Verifying" : "Γίνεται επαλήθευση",
     "Verifying …" : "Γίνεται επαλήθευση ...",
@@ -219,6 +218,7 @@
     "Storage incomplete configuration. %s" : "Ελλιπής διαμόρφωση αποθηκευτικού χώρου. %s",
     "Storage connection error. %s" : "Σφάλμα σύνδεσης με αποθηκευτικό χώρο. %s",
     "Storage is temporarily not available" : "Μη διαθέσιμος χώρος αποθήκευσης προσωρινά",
-    "Storage connection timeout. %s" : "Λήξη χρονικού ορίου σύνδεσης με αποθηκευτικό χώρο.%s"
+    "Storage connection timeout. %s" : "Λήξη χρονικού ορίου σύνδεσης με αποθηκευτικό χώρο.%s",
+    "Sync clients" : "Εφαρμογές συγχρονισμού"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

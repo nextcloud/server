@@ -72,7 +72,6 @@
     "Additional settings" : "Övriga inställningar",
     "Tips & tricks" : "Tips & tricks",
     "Personal info" : "Personlig information",
-    "Sync clients" : "Synkklienter",
     "Unlimited" : "Obegränsad",
     "Verifying" : "Verifierar",
     "Verifying …" : "Verifierar ...",
@@ -225,6 +224,7 @@
     "Storage incomplete configuration. %s" : "Lagringsutrymme felaktigt inställt. %s",
     "Storage connection error. %s" : "Lagringsutrymme lyckas inte ansluta. %s",
     "Storage is temporarily not available" : "Lagringsutrymme är för tillfället inte tillgängligt",
-    "Storage connection timeout. %s" : "Lagringsutrymme lyckas inte ansluta \"timeout\". %s"
+    "Storage connection timeout. %s" : "Lagringsutrymme lyckas inte ansluta \"timeout\". %s",
+    "Sync clients" : "Synkklienter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

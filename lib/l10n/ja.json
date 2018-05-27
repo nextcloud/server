@@ -78,7 +78,6 @@
     "Additional settings" : "追加設定",
     "Tips & tricks" : "ヒントとコツ",
     "Personal info" : "個人情報",
-    "Sync clients" : "同期クライアント",
     "Unlimited" : "無制限",
     "Verifying" : "検証中",
     "Verifying …" : "検証中",
@@ -245,6 +244,7 @@
     "Files can't be shared with create permissions" : "作成権限付きでファイル共有はできません",
     "Cannot set expiration date more than %s days in the future" : "%s 日以上先の有効期限は設定できません ",
     "No app name specified" : "アプリ名が指定されていません",
-    "App '%s' could not be installed!" : "アプリ名 %s はインストールできませんでした"
+    "App '%s' could not be installed!" : "アプリ名 %s はインストールできませんでした",
+    "Sync clients" : "同期クライアント"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

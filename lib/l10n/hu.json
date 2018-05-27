@@ -77,7 +77,6 @@
     "Additional settings" : "További beállítások",
     "Tips & tricks" : "Tippek és trükkök",
     "Personal info" : "Személyes információk",
-    "Sync clients" : "Szinkronizálási kliensek",
     "Unlimited" : "Korlátlan",
     "Verifying" : "Ellenőrzés",
     "Verifying …" : "Ellenőrzés...",
@@ -244,6 +243,7 @@
     "Files can't be shared with create permissions" : "A fájlokat nem lehet megosztani a létrehozási jogosultságokkal",
     "Cannot set expiration date more than %s days in the future" : "%s napnál távolabbi lejárati dátumot nem lehet beállítani",
     "No app name specified" : "Nincs az alkalmazás név megadva.",
-    "App '%s' could not be installed!" : "\"%s\" alkalmazás nem lehet telepíthető!"
+    "App '%s' could not be installed!" : "\"%s\" alkalmazás nem lehet telepíthető!",
+    "Sync clients" : "Szinkronizálási kliensek"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

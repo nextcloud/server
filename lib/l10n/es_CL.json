@@ -78,7 +78,6 @@
     "Additional settings" : "Configuraciones adicionales",
     "Tips & tricks" : "Consejos & trucos",
     "Personal info" : "Información personal",
-    "Sync clients" : "Sincronizar clientes",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verficando",
     "Verifying …" : "Verficando ...",
@@ -245,6 +244,7 @@
     "Files can't be shared with create permissions" : "No se pueden compartir archivos con privilegios para crear",
     "Cannot set expiration date more than %s days in the future" : "No se puede establecer la fecha de expiración más alla de %s días en el futuro",
     "No app name specified" : "No se especificó el nombre de la aplicación",
-    "App '%s' could not be installed!" : "¡No se pudo instalar la aplciación '%s'!"
+    "App '%s' could not be installed!" : "¡No se pudo instalar la aplciación '%s'!",
+    "Sync clients" : "Sincronizar clientes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

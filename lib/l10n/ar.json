@@ -49,7 +49,6 @@
     "Additional settings" : "الإعدادات المتقدمة",
     "Tips & tricks" : "نصائح و تلميحات",
     "Personal info" : "المعلومات الشخصية",
-    "Sync clients" : "مزامنة العملاء",
     "Unlimited" : "غير محدود",
     "Verifying" : "التحقق",
     "Verifying …" : "عملية التحقق جارية …",
@@ -135,6 +134,7 @@
     "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
     "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
     "Personal" : "الحساب الشخصي",
-    "Admin" : "المدير"
+    "Admin" : "المدير",
+    "Sync clients" : "مزامنة العملاء"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

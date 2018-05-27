@@ -72,7 +72,6 @@
     "Additional settings" : "Valfrjálsar stillingar",
     "Tips & tricks" : "Ábendingar og góð ráð",
     "Personal info" : "Persónulegar upplýsingar",
-    "Sync clients" : "Samstilla biðlara",
     "Unlimited" : "Ótakmarkað",
     "Verifying" : "Sannreyni",
     "Verifying …" : "Sannreyni …",
@@ -225,6 +224,7 @@
     "Storage incomplete configuration. %s" : "Ófullgerð uppsetning gagnageymslu. %s",
     "Storage connection error. %s" : "Villa í tengingu við gagnageymslu. %s",
     "Storage is temporarily not available" : "Gagnageymsla ekki tiltæk í augnablikinu",
-    "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s"
+    "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s",
+    "Sync clients" : "Samstilla biðlara"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }
