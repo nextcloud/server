@@ -60,7 +60,6 @@
     "Additional settings" : "Papildomi nustatymai",
     "Tips & tricks" : "Patarimai ir gudrybės",
     "Personal info" : "Asmeninė informacija",
-    "Sync clients" : "Sinchronizavimo klientas",
     "Unlimited" : "Neribota",
     "Verifying" : "Tikrinimas",
     "Verifying …" : "Tikrinama...",
@@ -206,6 +205,7 @@
     "Files can't be shared with delete permissions" : "Failai negali būti bendrinami su ištrynimo leidimais",
     "Files can't be shared with create permissions" : "Failai negali būti bendrinami su sukūrimo leidimais",
     "No app name specified" : "Nenurodytas programėlės pavadinimas",
-    "App '%s' could not be installed!" : "Nepavyko įdiegti \"%s\" programėlės!"
+    "App '%s' could not be installed!" : "Nepavyko įdiegti \"%s\" programėlės!",
+    "Sync clients" : "Sinchronizavimo klientas"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -67,7 +67,6 @@
     "Additional settings" : "Ustawienia dodatkowe",
     "Tips & tricks" : "Porady i wskazówki",
     "Personal info" : "Informacje Osobiste",
-    "Sync clients" : "Synchronizuj z klientami",
     "Unlimited" : "Nielimitowane",
     "Verifying" : "Weryfikacja",
     "Verifying …" : "Weryfikacja...",
@@ -220,6 +219,7 @@
     "Storage incomplete configuration. %s" : "Niekompletna konfiguracja magazynu. %s",
     "Storage connection error. %s" : "Błąd połączenia z magazynem. %s",
     "Storage is temporarily not available" : "Magazyn jest tymczasowo niedostępny",
-    "Storage connection timeout. %s" : "Limit czasu połączenia do magazynu został przekroczony. %s"
+    "Storage connection timeout. %s" : "Limit czasu połączenia do magazynu został przekroczony. %s",
+    "Sync clients" : "Synchronizuj z klientami"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

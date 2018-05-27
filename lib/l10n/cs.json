@@ -78,7 +78,6 @@
     "Additional settings" : "Dodatečná nastavení",
     "Tips & tricks" : "Tipy a triky",
     "Personal info" : "Osobní informace",
-    "Sync clients" : "Synchronizační klienti",
     "Unlimited" : "Neomezeně",
     "Verifying" : "Ověření",
     "Verifying …" : "Ověřování …",
@@ -234,6 +233,7 @@
     "Storage connection timeout. %s" : "Vypršení připojení k úložišti. %s",
     "Personal" : "Osobní",
     "DB Error: \"%s\"" : "Chyba databáze: „%s“",
-    "No app name specified" : "Nezadán název aplikace"
+    "No app name specified" : "Nezadán název aplikace",
+    "Sync clients" : "Synchronizační klienti"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

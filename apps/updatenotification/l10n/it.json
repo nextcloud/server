@@ -29,6 +29,7 @@
     "Update for %1$s to version %2$s is available." : "È disponibile l'aggiornamento di %1$s alla versione %2$s.",
     "Update for {app} to version %s is available." : "È disponibile l'aggiornamento di {app} alla versione %s.",
     "Update notification" : "Notifica di aggiornamento",
+    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visualizza le notifiche degli aggiornamenti per Nextcloud e fornisce il SSO per lo strumento di aggiornamento.",
     "A new version is available: %s" : "Una nuova versione è disponibile: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La versione che stai eseguendo non è più mantenuta. Assicurati di aggiornare a una versione supportata non appena possibile.",
     "Download now" : "Scarica ora",
