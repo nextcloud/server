@@ -75,7 +75,6 @@
     "Additional settings" : "Ďalšie nastavenia",
     "Tips & tricks" : "Tipy a triky",
     "Personal info" : "Osobné informácie",
-    "Sync clients" : "Klienti synchronizácie",
     "Unlimited" : "Neobmedzené",
     "Verifying" : "Overovanie",
     "Verifying …" : "Overovanie ...",
@@ -230,6 +229,7 @@
     "Storage is temporarily not available" : "Úložisko je dočasne nedostupné",
     "Storage connection timeout. %s" : "Vypršanie pripojenia k úložisku. %s",
     "Personal" : "Osobné",
-    "App '%s' could not be installed!" : "Aplikáciu '%s' nebolo možné nainštalovať!"
+    "App '%s' could not be installed!" : "Aplikáciu '%s' nebolo možné nainštalovať!",
+    "Sync clients" : "Klienti synchronizácie"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

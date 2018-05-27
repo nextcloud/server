@@ -78,7 +78,6 @@
     "Additional settings" : "Ek ayarlar",
     "Tips & tricks" : "İpucu ve kolaylıklar",
     "Personal info" : "Kişisel Bilgiler",
-    "Sync clients" : "Eşitleme istemcileri",
     "Unlimited" : "Sınırsız",
     "Verifying" : "Doğrulanıyor",
     "Verifying …" : "Doğrulanıyor...",
@@ -245,6 +244,7 @@
     "Files can't be shared with create permissions" : "Dosyalar oluşturma izniyle paylaşılamaz",
     "Cannot set expiration date more than %s days in the future" : "Paylaşımların son kullanım süreleri, gelecekte %s günden fazla olamaz",
     "No app name specified" : "Uygulama adı belirtilmemiş",
-    "App '%s' could not be installed!" : "'%s' uygulaması kurulamadı!"
+    "App '%s' could not be installed!" : "'%s' uygulaması kurulamadı!",
+    "Sync clients" : "Eşitleme istemcileri"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

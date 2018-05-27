@@ -76,7 +76,6 @@
     "Additional settings" : "其他设置",
     "Tips & tricks" : "小提示",
     "Personal info" : "个人信息",
-    "Sync clients" : "同步客户",
     "Unlimited" : "无限制",
     "Verifying" : "验证",
     "Verifying …" : "验证...",
@@ -232,6 +231,7 @@
     "Storage connection timeout. %s" : "存储连接超时. %s",
     "Personal" : "个人",
     "DB Error: \"%s\"" : "数据库错误：\"%s\"",
-    "No app name specified" : "没有指定的 App 名称"
+    "No app name specified" : "没有指定的 App 名称",
+    "Sync clients" : "同步客户"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

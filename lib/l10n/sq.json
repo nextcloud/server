@@ -63,7 +63,6 @@
     "Additional settings" : "Konfigurime shtesë",
     "Tips & tricks" : "Këshilla dhe rrengje",
     "Personal info" : "Informacion personal",
-    "Sync clients" : "Klientë të sikronizuar",
     "Unlimited" : "E palimituar",
     "Verifying" : "Duke e verifikuar",
     "Verifying …" : "Duke e verifikuar ...",
@@ -215,6 +214,7 @@
     "Storage incomplete configuration. %s" : "Formësim jo i plotë i depozitës. %s",
     "Storage connection error. %s" : "Gabim lidhje te depozita. %s",
     "Storage is temporarily not available" : "Hapsira ruajtëse nuk është në dispozicion përkohësisht",
-    "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s"
+    "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
+    "Sync clients" : "Klientë të sikronizuar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

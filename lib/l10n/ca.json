@@ -69,7 +69,6 @@
     "Additional settings" : "Configuració addicional",
     "Tips & tricks" : "Consells i trucs",
     "Personal info" : "Informació personal",
-    "Sync clients" : "Aplicacions per sincronitzar",
     "Unlimited" : "Il·limitat",
     "Verifying" : "Verificant",
     "Verifying …" : "Verificant ...",
@@ -186,6 +185,7 @@
     "Please upgrade your database version" : "Actualitzeu la versió de la base de dades",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Canvieu els permisos a 0770 per tal que la carpeta no es pugui llistar per altres usuaris.",
     "Could not obtain lock type %d on \"%s\"." : "No s'ha pogut obtenir un bloqueig tipus %d a \"%s\".",
-    "Personal" : "Personal"
+    "Personal" : "Personal",
+    "Sync clients" : "Aplicacions per sincronitzar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

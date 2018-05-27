@@ -14,6 +14,7 @@ OC.L10N.register(
     "Group list is empty" : "Lista de grupos vazia",
     "Unable to retrieve the group list" : "Impossível recuperar a lista do grupo",
     "Settings" : "Configurações",
+    "You do not have permissions to see the details of this user" : "Você não tem permissão para ver os detalhes deste usuário",
     "Delete user" : "Excluir usuário",
     "Disable user" : "Desabilitar usuário",
     "Enable user" : "Habilitar usuário",
