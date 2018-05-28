@@ -80,20 +80,32 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 				$principalUrl = $node->getPrincipalUrl();
 
 				$calendarHomePath = $caldavPlugin->getCalendarHomeForPrincipal($principalUrl);
-
 				if (!$calendarHomePath) {
+					return null;
+				}
+
+				if (strpos($principalUrl, 'principals/users') === 0) {
+					$uri = CalDavBackend::PERSONAL_CALENDAR_URI;
+					$displayname = CalDavBackend::PERSONAL_CALENDAR_NAME;
+				} elseif (strpos($principalUrl, 'principals/calendar-resources') === 0 ||
+						  strpos($principalUrl, 'principals/calendar-rooms') === 0) {
+					$uri = CalDavBackend::RESOURCE_BOOKING_CALENDAR_URI;
+					$displayname = CalDavBackend::RESOURCE_BOOKING_CALENDAR_NAME;
+				} else {
+					// How did we end up here?
+					// TODO - throw exception or just ignore?
 					return null;
 				}
 
 				/** @var CalendarHome $calendarHome */
 				$calendarHome = $this->server->tree->getNodeForPath($calendarHomePath);
-				if (!$calendarHome->childExists(CalDavBackend::PERSONAL_CALENDAR_URI)) {
-					$calendarHome->getCalDAVBackend()->createCalendar($principalUrl, CalDavBackend::PERSONAL_CALENDAR_URI, [
-						'{DAV:}displayname' => CalDavBackend::PERSONAL_CALENDAR_NAME,
+				if (!$calendarHome->childExists($uri)) {
+					$calendarHome->getCalDAVBackend()->createCalendar($principalUrl, $uri, [
+						'{DAV:}displayname' => $displayname,
 					]);
 				}
 
-				$result = $this->server->getPropertiesForPath($calendarHomePath . '/' . CalDavBackend::PERSONAL_CALENDAR_URI, [], 1);
+				$result = $this->server->getPropertiesForPath($calendarHomePath . '/' . $uri, [], 1);
 				if (empty($result)) {
 					return null;
 				}

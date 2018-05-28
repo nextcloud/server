@@ -27,4 +27,15 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 	function getChildForPrincipal(array $principal) {
 		return new CalendarHome($this->caldavBackend, $principal);
 	}
+
+	function getName() {
+		if ($this->principalPrefix === 'principals/calendar-resources' ||
+			$this->principalPrefix === 'principals/calendar-rooms') {
+			$parts = explode('/', $this->principalPrefix);
+
+			return $parts[1];
+		}
+
+		return parent::getName();
+	}
 }
