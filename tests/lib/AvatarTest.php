@@ -230,7 +230,7 @@ class AvatarTest extends \Test\TestCase {
 	}
 
 	public function testGenerateSvgAvatar() {
-		$avatar = $this->avatar->getAvatarVector(64);
+		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [64]);
 		
 		$svg = '
 		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">

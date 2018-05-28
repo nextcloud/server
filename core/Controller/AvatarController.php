@@ -113,22 +113,6 @@ class AvatarController extends Controller {
 	}
 
 
-
-
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @NoSameSiteCookieRequired
-	 * @PublicPage
-	 * 
-	 * Shortcut to getAvatar
-	 */
-	public function getAvatarPng($userId, $size) {
-		return $this->getAvatar($userId, $size, true);
-	}
-
-
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -137,46 +121,28 @@ class AvatarController extends Controller {
 	 *
 	 * @param string $userId
 	 * @param int $size
-	 * @param bool $png return png or not
 	 * @return JSONResponse|FileDisplayResponse
 	 */
-	public function getAvatar($userId, $size, bool $png = false) {
+	public function getAvatar($userId, $size) {
+		// min/max size
 		if ($size > 2048) {
 			$size = 2048;
 		} elseif ($size <= 0) {
 			$size = 64;
 		}
 
-		// Serve png as a fallback only
-		if ($png === false) {
-
-			try {
-				$avatar = $this->avatarManager->getAvatar($userId)->getAvatarVector($size);
-				$resp = new DataDisplayResponse(
-					$avatar,
-					Http::STATUS_OK,
-					['Content-Type' => 'image/svg+xml'
-				]);
-			} catch (\Exception $e) {
-				$resp = new Http\Response();
-				$resp->setStatus(Http::STATUS_NOT_FOUND);
-				return $resp;
-			}
-
-		} else {
-
-			try {
-				$avatar = $this->avatarManager->getAvatar($userId)->getFile($size);
-				$resp = new FileDisplayResponse(
-					$avatar,
-					Http::STATUS_OK,
-					['Content-Type' => $avatar->getMimeType()
-				]);
-			} catch (\Exception $e) {
-				$resp = new Http\Response();
-				$resp->setStatus(Http::STATUS_NOT_FOUND);
-				return $resp;
-			}
+		try {
+			$avatar = $this->avatarManager->getAvatar($userId)->getFile($size);
+			$resp = new FileDisplayResponse(
+				$avatar,
+				Http::STATUS_OK,
+				['Content-Type' => $avatar->getMimeType()
+			]);
+		} catch (\Exception $e) {
+			var_dump($e);
+			$resp = new Http\Response();
+			$resp->setStatus(Http::STATUS_NOT_FOUND);
+			return $resp;
 		}
 
 		// Cache for 30 minutes

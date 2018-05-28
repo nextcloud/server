@@ -42,6 +42,7 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OC\User\User;
 use OC_Image;
+use Imagick;
 
 /**
  * This class gets and sets users avatars.
@@ -66,16 +67,8 @@ class Avatar implements IAvatar {
 	 * 
 	 * @var string 
 	 */
-	private $svgTemplate = '
+	private $svgTemplate = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-		<defs>
-			<style type="text/css">
-				@font-face {
-					font-family: Open Sans;
-					src: url({font});
-				}
-			</style>
-		</defs>
 			<rect width="100%" height="100%" fill="#{fill}"></rect>
 			<text x="50%" y="350" style="font-weight:600;font-size:278px;font-family:\'Open Sans\';text-anchor:middle;fill:#fff">{letter}</text>
 		</svg>';
@@ -213,7 +206,9 @@ class Avatar implements IAvatar {
 		try {
 			$ext = $this->getExtension();
 		} catch (NotFoundException $e) {
-			$data = $this->generateAvatar($this->user->getDisplayName(), 1024);
+			if (!$data = $this->generateAvatarFromSvg(1024)) {
+				$data = $this->generateAvatar($this->user->getDisplayName(), 1024);
+			}
 			$avatar = $this->folder->newFile('avatar.png');
 			$avatar->putContent($data);
 			$ext = 'png';
@@ -236,7 +231,9 @@ class Avatar implements IAvatar {
 			}
 
 			if ($this->folder->fileExists('generated')) {
-				$data = $this->generateAvatar($this->user->getDisplayName(), $size);
+				if (!$data = $this->generateAvatarFromSvg($size)) {
+					$data = $this->generateAvatar($this->user->getDisplayName(), $size);
+				}
 
 			} else {
 				$avatar = new OC_Image();
@@ -289,19 +286,45 @@ class Avatar implements IAvatar {
 	 * @return string
 	 * 
 	 */
-	public function getAvatarVector(int $size): string {
+	private function getAvatarVector(int $size): string {
 		$userDisplayName = $this->user->getDisplayName();
 
 		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b);
 		$letter = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
-		$font = \OC::$WEBROOT.'/core/fonts/OpenSans-Semibold.ttf';
 		
-		$toReplace = ['{size}', '{fill}', '{letter}', '{font}'];
-		return str_replace($toReplace, [$size, $bgHEX, $letter, $font], $this->svgTemplate);
+		$toReplace = ['{size}', '{fill}', '{letter}'];
+		return str_replace($toReplace, [$size, $bgHEX, $letter], $this->svgTemplate);
 	}
 
 	/**
+	 * Generate png avatar from svg with Imagick
+	 * 
+	 * @param int $size
+	 * @return string
+	 */
+	private function generateAvatarFromSvg(int $size) {
+		if (!extension_loaded('imagick')) {
+			return false;
+		}
+		try {
+			$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
+			$svg = $this->getAvatarVector($size);
+			$avatar = new Imagick();
+			$avatar->setFont($font);
+			$avatar->readImageBlob($svg);
+			$avatar->setImageFormat('png');
+			$image = new OC_Image();
+			$image->loadFromData($avatar);
+			return $image->data();
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Generate png avatar with GD
+	 * 
 	 * @param string $userDisplayName
 	 * @param int $size
 	 * @return string

@@ -80,14 +80,6 @@ interface IAvatar {
      */
     public function getFile($size);
 
-    /**
-     * Generate SVG avatar
-     * @param int $size -1 can be used to not scale the image
-     * @return string
-     * @since 14.0.0
-     */
-    public function getAvatarVector(int $size): string;
-
 	/**
 	 * @param string $text
 	 * @return Color Object containting r g b int in the range [0, 255]
