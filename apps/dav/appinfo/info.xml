@@ -5,7 +5,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.5.2</version>
+	<version>1.5.3</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -36,6 +36,7 @@
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
+		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 	</commands>
 
 	<settings>
