@@ -43,6 +43,7 @@ use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -316,7 +317,7 @@ class AccessTest extends TestCase {
 		$userMock->expects($this->exactly(count($data)))
 			->method('processAttributes');
 
-		$this->userManager->expects($this->exactly(count($data)))
+		$this->userManager->expects($this->exactly(count($data) * 2))
 			->method('get')
 			->will($this->returnValue($userMock));
 
@@ -398,7 +399,7 @@ class AccessTest extends TestCase {
 		$userMock->expects($this->exactly(count($data)))
 			->method('processAttributes');
 
-		$this->userManager->expects($this->exactly(count($data)))
+		$this->userManager->expects($this->exactly(count($data) * 2))
 			->method('get')
 			->will($this->returnValue($userMock));
 
@@ -666,6 +667,40 @@ class AccessTest extends TestCase {
 		$this->assertSame($expected, $sanitizedName);
 	}
 
+	public function testUserStateUpdate() {
+		$this->connection->expects($this->any())
+			->method('__get')
+			->willReturnMap([
+				[ 'ldapUserDisplayName', 'displayName' ],
+				[ 'ldapUserDisplayName2', null],
+			]);
 
+		$offlineUserMock = $this->createMock(OfflineUser::class);
+		$offlineUserMock->expects($this->once())
+			->method('unmark');
+
+		$regularUserMock = $this->createMock(User::class);
+
+		$this->userManager->expects($this->atLeastOnce())
+			->method('get')
+			->with('detta')
+			->willReturnOnConsecutiveCalls($offlineUserMock, $regularUserMock);
+
+		/** @var UserMapping|\PHPUnit_Framework_MockObject_MockObject $mapperMock */
+		$mapperMock = $this->createMock(UserMapping::class);
+		$mapperMock->expects($this->any())
+			->method('getNameByDN')
+			->with('uid=detta,ou=users,dc=hex,dc=ample')
+			->willReturn('detta');
+		$this->access->setUserMapper($mapperMock);
+
+		$records = [
+			[
+				'dn' => ['uid=detta,ou=users,dc=hex,dc=ample'],
+				'displayName' => ['Detta Detkova'],
+			]
+		];
+		$this->access->nextcloudUserNames($records);
+	}
 
 }
