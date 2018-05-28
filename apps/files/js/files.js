@@ -422,6 +422,7 @@ var dragOptions={
 	cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow,
 	cursor: 'move',
+	containment: $('#app-content-files'),
 
 	start: function(event, ui){
 		var $selectedFiles = $('td.filename input:checkbox:checked');
