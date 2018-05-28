@@ -46,8 +46,12 @@ class Capabilities implements ICapability {
 		$capabilities = ['ocm' =>
 			[
 				'enabled' => true,
-				'api-version' => '2.0-draft',
+				'api-version' => '1.0-proposal1',
 				'end-point' => substr($url, 0, strrpos($url, '/')),
+				'share-types' => ['file'],
+				'protocol' => [
+					'webdav' => '/public.php/webdav/',
+				]
 			]
 		];
 
