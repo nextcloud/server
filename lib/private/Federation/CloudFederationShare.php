@@ -50,10 +50,9 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @param string $ownerDisplayName display name of the user who shared the item
 	 * @param string $sharedBy provider specific UID of the user who shared the resource
 	 * @param string $sharedByDisplayName display name of the user who shared the resource
-	 * @param array $protocol (e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]])
 	 * @param string $shareType ('group' or 'user' share)
-	 * @param $resourceType ('file', 'calendar',...)
-	 *
+	 * @param string $resourceType ('file', 'calendar',...)
+	 * @param string $sharedSecret
 	 */
 	public function __construct($shareWith = '',
 								$name = '',
@@ -63,9 +62,9 @@ class CloudFederationShare implements ICloudFederationShare {
 								$ownerDisplayName = '',
 								$sharedBy = '',
 								$sharedByDisplayName = '',
-								$protocol = [],
 								$shareType = '',
-								$resourceType = ''
+								$resourceType = '',
+								$sharedSecret = ''
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);
@@ -75,7 +74,13 @@ class CloudFederationShare implements ICloudFederationShare {
 		$this->setOwnerDisplayName($ownerDisplayName);
 		$this->setSharedBy($sharedBy);
 		$this->setSharedByDisplayName($sharedByDisplayName);
-		$this->setProtocol($protocol);
+		$this->setProtocol([
+			'name' => 'webdav',
+			'options' => [
+				'sharedSecret' => $sharedSecret,
+				'permissions' => '{http://open-collaboration-services.org/ns}share-permissions'
+			]
+		]);
 		$this->setShareType($shareType);
 		$this->setResourceType($resourceType);
 
@@ -321,6 +326,17 @@ class CloudFederationShare implements ICloudFederationShare {
 	 */
 	public function getShareType() {
 		return $this->share['shareType'];
+	}
+
+	/**
+	 * get share Secret
+	 *
+	 * @return string
+	 *
+	 * @since 14.0.0
+	 */
+	public function getShareSecret() {
+		return $this->share['protocol']['options']['sharedSecret'];
 	}
 
 	/**

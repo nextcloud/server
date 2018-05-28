@@ -135,7 +135,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		list($ownerUid, $remote) = $this->addressHandler->splitUserRemote($share->getOwner());
 
 		$remote = $remote;
-		$token = isset($protocol['options']['access_token']) ? $protocol['options']['access_token'] : null;
+		$token = $share->getShareSecret();
 		$name = $share->getResourceName();
 		$owner = $share->getOwnerDisplayName();
 		$sharedBy = $share->getSharedByDisplayName();
@@ -234,21 +234,22 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * notification received from another server
 	 *
 	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
-	 * @param array $message
+	 * @param string $providerId id of the share
+	 * @param array $notification payload of the notification
 	 *
 	 * @throws ShareNotFoundException
 	 * @throws ActionNotSupportedException
 	 *
 	 * @since 14.0.0
 	 */
-	public function notificationReceived($notificationType, array $message) {
+	public function notificationReceived($notificationType, $providerId, array $notification) {
 		switch ($notificationType) {
 			case 'SHARE_ACCEPTED' :
 				return;
 		}
 
 
-		throw new ActionNotSupportedException($notificationType);
+		throw new ActionNotSupportedException($notification);
 	}
 
 	/**

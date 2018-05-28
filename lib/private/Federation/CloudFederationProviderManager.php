@@ -57,7 +57,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/** @var ILogger */
 	private $logger;
 
-	private $supportedAPIVersion = '2.0-draft';
+	private $supportedAPIVersion = '1.0-proposal1';
 
 	/**
 	 * CloudFederationProviderManager constructor.
@@ -131,7 +131,8 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	}
 
 	public function sendShare(ICloudFederationShare $share) {
-		$ocmEndPoint = $this->getOCMEndPoint($share->getShareWith());
+		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
+		$ocmEndPoint = $this->getOCMEndPoint($cloudID->getRemote());
 
 		if (empty($ocmEndPoint)) {
 			return false;
@@ -203,14 +204,13 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/**
 	 * check if server supports the new OCM api and ask for the correct end-point
 	 *
-	 * @param string $recipient full federated cloud ID of the recipient of a share
+	 * @param string $url full base URL of the cloud server
 	 * @return string
 	 */
-	protected function getOCMEndPoint($recipient) {
-		$cloudId = $this->cloudIdManager->resolveCloudId($recipient);
+	protected function getOCMEndPoint($url) {
 		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->get($cloudId->getRemote() . '/ocm-provider/', ['timeout' => 10, 'connect_timeout' => 10]);
+			$response = $client->get($url . '/ocm-provider/', ['timeout' => 10, 'connect_timeout' => 10]);
 		} catch (\Exception $e) {
 			return '';
 		}
@@ -218,10 +218,10 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		$result = $response->getBody();
 		$result = json_decode($result, true);
 
-		$supportedVersion = isset($result['api-version']) && $result['api-version'] === $this->supportedAPIVersion;
+		$supportedVersion = isset($result['apiVersion']) && $result['apiVersion'] === $this->supportedAPIVersion;
 
-		if (isset($result['end-point']) && $supportedVersion) {
-			return $result['end-point'];
+		if (isset($result['endPoint']) && $supportedVersion) {
+			return $result['endPoint'];
 		}
 
 		return '';

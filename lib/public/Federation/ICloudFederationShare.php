@@ -222,6 +222,16 @@ interface ICloudFederationShare {
 	public function getShareType();
 
 	/**
+	 * get share Secret
+	 *
+	 * @return string
+	 *
+	 * @since 14.0.0
+	 */
+	public function getShareSecret();
+
+
+	/**
 	 * get protocol specification
 	 *
 	 * @return array

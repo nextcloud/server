@@ -62,13 +62,14 @@ interface ICloudFederationProvider {
 	 * notification received from another server
 	 *
 	 * @param string $notificationType (e.g SHARE_ACCEPTED)
-	 * @param array $message provider specific notification
+	 * @param string $providerId share ID
+	 * @param array $notification provider specific notification
 	 *
 	 * @throws ShareNotFoundException
 	 * @throws ActionNotSupportedException
 	 *
 	 * @since 14.0.0
 	 */
-	public function notificationReceived($notificationType, array $message);
+	public function notificationReceived($notificationType, $providerId, array $notification);
 
 }

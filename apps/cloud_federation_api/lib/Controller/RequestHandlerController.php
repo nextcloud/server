@@ -105,16 +105,16 @@ class RequestHandlerController extends Controller {
 	 * @param string $owner provider specific UID of the user who owns the resource
 	 * @param string $ownerDisplayName display name of the user who shared the item
 	 * @param string $sharedBy provider specific UID of the user who shared the resource
-	 * @param $sharedByDisplayName display name of the user who shared the resource
+	 * @param string $sharedByDisplayName display name of the user who shared the resource
+	 * @param string $sharedSecret use to authenticate accross servers
 	 * @param array $protocol (e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]])
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param $resourceType ('file', 'calendar',...)
 	 * @return Http\DataResponse|JSONResponse
 	 *
-	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1@serve1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"access_token":"8Lrd1FVEREthux7","permissions":31}}}' http://localhost/server/index.php/ocm/shares
+	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1@serve1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"sharedSecret":"secret","permissions":"webdav-property"}}}' http://localhost/server/index.php/ocm/shares
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-
 		if (!$this->config->incomingRequestsEnabled()) {
 			return new JSONResponse(
 				['message' => 'This server doesn\'t support outgoing federated shares'],
@@ -132,7 +132,8 @@ class RequestHandlerController extends Controller {
 			!is_array($protocol) ||
 			!isset($protocol['name']) ||
 			!isset ($protocol['options']) ||
-			!is_array($protocol['options'])
+			!is_array($protocol['options']) ||
+			!isset($protocol['options']['sharedSecret'])
 		) {
 			return new JSONResponse(
 				['message' => 'Missing arguments'],
@@ -163,7 +164,8 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType);
+			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
+			$share->setProtocol($protocol);
 			$id = $provider->shareReceived($share);
 		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
@@ -191,12 +193,17 @@ class RequestHandlerController extends Controller {
 	/**
 	 * receive notification about existing share
 	 *
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @BruteForceProtection(action=receiveFederatedShareNotification)
+	 *
 	 * @param string $notificationType (notification type, e.g. SHARE_ACCEPTED)
 	 * @param string $resourceType (calendar, file, contact,...)
-	 * @param array $message contain the actual notification, content is defined by cloud federation provider
+	 * @param string $providerId id of the share
+	 * @param array $notification the actual payload of the notification
 	 * @return JSONResponse
 	 */
-	public function receiveNotification($notificationType, $resourceType, $message) {
+	public function receiveNotification($notificationType, $resourceType, $providerId, array $notification) {
 		if (!$this->config->incomingRequestsEnabled()) {
 			return new JSONResponse(
 				['message' => 'This server doesn\'t support outgoing federated shares'],
@@ -207,7 +214,8 @@ class RequestHandlerController extends Controller {
 		// check if all required parameters are set
 		if ($notificationType === null ||
 			$resourceType === null ||
-			!is_array($message)
+			$providerId === null ||
+			!is_array($notification)
 		) {
 			return new JSONResponse(
 				['message' => 'Missing arguments'],
@@ -217,7 +225,7 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			$provider->notificationReceived($notificationType, $message);
+			$provider->notificationReceived($notificationType, $providerId, $notification);
 		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
@@ -241,10 +249,7 @@ class RequestHandlerController extends Controller {
 		}
 
 
-		return new JSONResponse(
-			['id' => $id, 'createdAt' => date()],
-			Http::STATUS_CREATED);
-
+		return new JSONResponse([],Http::STATUS_CREATED);
 
 	}
 

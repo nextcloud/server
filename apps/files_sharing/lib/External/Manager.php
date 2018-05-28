@@ -324,7 +324,7 @@ class Manager {
 	 *
 	 * @param string $remoteDomain
 	 * @param string $token
-	 * @param $remoteId
+	 * @param $remoteId id of the share
 	 * @param string $feedback
 	 * @return mixed
 	 */
@@ -332,11 +332,15 @@ class Manager {
 		switch ($feedback) {
 			case 'accept':
 				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-				$notification->setMessage('SHARE_ACCEPTED', 'file',
+				$notification->setMessage(
+					'SHARE_ACCEPTED',
+					'file',
+					$remoteId,
 					[
-						'id' => $remoteId,
-						'access_token' => $token
+						'sharedSecret' => $token,
+						'message' => 'Recipient accept the share'
 					]
+
 				);
 				return $this->cloudFederationProviderManager->sendNotification($remoteDomain, $notification);
 		}

@@ -379,7 +379,7 @@ class Notifications {
 					$fields['owner'],
 					$fields['sharedByFederatedId'],
 					$fields['sharedBy'],
-					['name' => 'webdav', 'options' => ['access_token' => $fields['token'], 'permissions' => ['read', 'write', 'share']]],
+					$fields['token'],
 					'user',
 					'file'
 				);

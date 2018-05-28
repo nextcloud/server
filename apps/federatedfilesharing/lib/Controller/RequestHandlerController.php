@@ -170,7 +170,7 @@ class RequestHandlerController extends OCSController {
 			$owner,
 			$sharedByFederatedId,
 			$sharedBy,
-			['name' => 'webdav', 'options' => ['access_token' => $token]],
+			$token,
 			'user',
 			'file'
 		);

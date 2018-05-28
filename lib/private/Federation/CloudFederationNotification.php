@@ -32,16 +32,19 @@ class CloudFederationNotification implements ICloudFederationNotification {
 	 *
 	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
 	 * @param string $resourceType (e.g. file, calendar, contact,...)
-	 * @param array $message
+	 * @param string $providerId id of the share
+	 * @param array $notification payload of the notification
 	 *
 	 * @since 14.0.0
 	 */
-	public function setMessage($notificationType, $resourceType, array $message) {
+	public function setMessage($notificationType, $resourceType, $providerId, array $notification) {
 		$this->message = [
 			'notificationType' => $notificationType,
 			'resourceType' => $resourceType,
-			'message' => $message,
+			'providerId' => $providerId,
+			'notification' => $notification,
 		];
+
 	}
 
 	/**

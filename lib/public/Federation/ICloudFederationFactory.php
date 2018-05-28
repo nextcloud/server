@@ -33,15 +33,15 @@ interface ICloudFederationFactory {
 	 * @param string $owner provider specific UID of the user who owns the resource
 	 * @param string $ownerDisplayName display name of the user who shared the item
 	 * @param string $sharedBy provider specific UID of the user who shared the resource
-	 * @param $sharedByDisplayName display name of the user who shared the resource
-	 * @param array $protocol (e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]])
+	 * @param string $sharedByDisplayName display name of the user who shared the resource
+	 * @param string $sharedSecret used to authenticate requests across servers
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param $resourceType ('file', 'calendar',...)
 	 * @return ICloudFederationShare
 	 *
 	 * @since 14.0.0
 	 */
-	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType);
+	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType);
 
 	/**
 	 * get a Cloud FederationNotification object to prepare a notification you
