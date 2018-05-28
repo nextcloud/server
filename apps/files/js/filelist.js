@@ -126,7 +126,11 @@
 		 * @type OCA.Files.FileActions
 		 */
 		fileActions: null,
-
+		/**
+		 * File selection menu, defaults to OCA.Files.FileSelectionMenu
+		 * @type OCA.Files.FileSelectionMenu
+		 */
+		fileSelectionMenu: null,
 		/**
 		 * Whether selection is allowed, checkboxes and selection overlay will
 		 * be rendered
@@ -271,7 +275,8 @@
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
 				this._detailsView.$el.insertBefore(this.$el);
-				this._detailsView.$el.addClass('disappear');
+				// this._detailsView.$el.addClass('disappear');
+				this.showDetailsView('/');
 			}
 
 			this._initFileActions(options.fileActions);
@@ -287,6 +292,28 @@
 			this.dirInfo = new OC.Files.FileInfo({});
 
 			this.fileSummary = this._createSummary();
+
+			this.fileSelectionMenu = new OCA.Files.FileSelectionMenu([
+				{
+					name: 'moveCopy',
+					displayName:  t('files', 'Move or copy'),
+					iconClass: 'icon-external',
+					method: _.bind(this._onClickCopyMoveSelected, this)
+				},
+				{
+					name: 'download',
+					displayName:  t('files', 'Download'),
+					iconClass: 'icon-download',
+					method: _.bind(this._onClickDownloadSelected, this)
+				},
+				{
+					name: 'delete',
+					displayName: t('files', 'Delete'),
+					iconClass: 'icon-delete',
+					method: _.bind(this._onClickDeleteSelected, this)
+				}
+			]);
+			this.$el.find('#selectedActionsList').append(this.fileSelectionMenu.$el);
 
 			if (options.sorting) {
 				this.setSort(options.sorting.mode, options.sorting.direction, false, false);
@@ -339,6 +366,10 @@
 			this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
 			this.$el.find('.copy-move').click(_.bind(this._onClickCopyMoveSelected, this));
 			this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
+			this.$el.find('.actions-selected').click(function () {
+				self.fileSelectionMenu.show(self);
+				return false;
+			});
 
 			this.$el.find('.selectedActions a').tooltip({placement:'top'});
 
@@ -364,6 +395,7 @@
 					this.setupUploadEvents(this._uploader);
 				}
 			}
+
 
 			OC.Plugins.attach('OCA.Files.FileList', this);
 		},
@@ -754,6 +786,7 @@
 				files = _.pluck(this.getSelectedFiles(), 'name');
 			}
 
+			// TODO: Update
 			var downloadFileaction = $('#selectedActionsList').find('.download');
 
 			// don't allow a second click on the download action
@@ -786,6 +819,7 @@
 
 			files = _.pluck(this.getSelectedFiles(), 'name');
 
+			// TODO: Update
 			var moveFileAction = $('#selectedActionsList').find('.move');
 
 			// don't allow a second click on the download action
@@ -2882,22 +2916,21 @@
 					selection += ' (' + hiddenInfo + ')';
 				}
 
+				// TODO : Change here!!
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
-				this.$el.find('.selectedActions .download').toggleClass('hidden', !this.isSelectedDownloadable());
-				this.$el.find('.delete-selected').toggleClass('hidden', !this.isSelectedDeletable());
 
-				var $copyMove = this.$el.find('.selectedActions .copy-move');
+
+				this.fileSelectionMenu.toggleItemVisibility('download', !this.isSelectedDownloadable());
+				this.fileSelectionMenu.toggleItemVisibility('delete', !this.isSelectedDeletable());
+				this.fileSelectionMenu.toggleItemVisibility('moveCopy', !this.isSelectedCopiable());
 				if (this.isSelectedCopiable()) {
-					$copyMove.toggleClass('hidden', false);
 					if (this.isSelectedMovable()) {
-						$copyMove.find('.label').text(t('files', 'Move or copy'));
+						this.fileSelectionMenu.updateItemText('moveCopy', t('files', 'Move or copy'));
 					} else {
-						$copyMove.find('.label').text(t('files', 'Copy'));
+						this.fileSelectionMenu.updateItemText('moveCopy', t('files', 'Copy'));
 					}
-				} else {
-					$copyMove.toggleClass('hidden', true);
 				}
 			}
 		},

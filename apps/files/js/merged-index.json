@@ -6,6 +6,7 @@
   "jquery-visibility.js",
   "fileinfomodel.js",
   "filesummary.js",
+  "fileselectionmenu.js",
   "breadcrumb.js",
   "filelist.js",
   "search.js",

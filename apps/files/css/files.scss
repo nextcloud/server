@@ -169,7 +169,7 @@ table.multiselect th a {
 	color: #000;
 }
 table th .columntitle {
-	display: block;
+	display: inline-block;
 	padding: 15px;
 	height: 50px;
 	box-sizing: border-box;
@@ -178,7 +178,6 @@ table th .columntitle {
 }
 table th .columntitle.name {
 	padding-left: 5px;
-	padding-right: 80px;
 	margin-left: 50px;
 }
 
@@ -474,10 +473,9 @@ a.action > img {
 
 /* Actions for selected files */
 .selectedActions {
-	position: absolute;
-	top: 0;
-	right: 0;
+    position: relative;
 }
+
 .selectedActions a {
 	display: inline;
 	font-size: 11px;
