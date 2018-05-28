@@ -334,6 +334,12 @@ class Database extends ABackend
 			$result = $qb->execute();
 			$row = $result->fetch();
 			$result->closeCursor();
+			
+			// check proper uid case
+			if((string)$row['uid'] !== $uid) {
+				$this->cache[$uid] = false;
+				return false;
+			}
 
 			$this->cache[$uid] = false;
 

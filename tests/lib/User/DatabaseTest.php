@@ -115,6 +115,13 @@ class DatabaseTest extends Backend {
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
+	public function testGetUserProperCaseUID() {
+		$user1 = $this->getUniqueID('Test_');
+		$this->backend->createUser($user1, 'pw');
+		$this->assertTrue($this->backend->userExists($user1));
+		$this->assertFalse($this->backend->userExists(strtolower($user1)));
+	}
+
 	public function testSearch() {
 		parent::testSearch();
 
