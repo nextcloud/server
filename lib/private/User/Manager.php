@@ -239,7 +239,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
 			 */
-			return strcmp($a->getUID(), $b->getUID());
+			return strcasecmp($a->getUID(), $b->getUID());
 		});
 		return $users;
 	}
@@ -268,7 +268,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
 			 */
-			return strcmp(strtolower($a->getDisplayName()), strtolower($b->getDisplayName()));
+			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});
 		return $users;
 	}

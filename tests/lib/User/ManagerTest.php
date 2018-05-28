@@ -236,7 +236,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getUsers')
 			->with($this->equalTo('fo'))
-			->will($this->returnValue(array('foo', 'afoo')));
+			->will($this->returnValue(array('foo', 'afoo', 'Afoo1', 'Bfoo')));
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
@@ -244,8 +244,10 @@ class ManagerTest extends TestCase {
 		$manager->registerBackend($backend);
 
 		$result = $manager->search('fo');
-		$this->assertEquals(2, count($result));
+		$this->assertEquals(4, count($result));
 		$this->assertEquals('afoo', array_shift($result)->getUID());
+		$this->assertEquals('Afoo1', array_shift($result)->getUID());
+		$this->assertEquals('Bfoo', array_shift($result)->getUID());
 		$this->assertEquals('foo', array_shift($result)->getUID());
 	}
 
