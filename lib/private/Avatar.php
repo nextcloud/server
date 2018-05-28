@@ -301,7 +301,7 @@ class Avatar implements IAvatar {
 	 * Generate png avatar from svg with Imagick
 	 * 
 	 * @param int $size
-	 * @return string
+	 * @return string|boolean
 	 */
 	private function generateAvatarFromSvg(int $size) {
 		if (!extension_loaded('imagick')) {

@@ -42,7 +42,6 @@ $application->registerRoutes($this, [
 		['name' => 'lost#setPassword', 'url' => '/lostpassword/set/{token}/{userId}', 'verb' => 'POST'],
 		['name' => 'user#getDisplayNames', 'url' => '/displaynames', 'verb' => 'POST'],
 		['name' => 'avatar#getAvatar', 'url' => '/avatar/{userId}/{size}', 'verb' => 'GET'],
-		['name' => 'avatar#getAvatarPng', 'url' => '/avatar/{userId}/{size}/png', 'verb' => 'GET'],
 		['name' => 'avatar#deleteAvatar', 'url' => '/avatar/', 'verb' => 'DELETE'],
 		['name' => 'avatar#postCroppedAvatar', 'url' => '/avatar/cropped', 'verb' => 'POST'],
 		['name' => 'avatar#getTmpAvatar', 'url' => '/avatar/tmp', 'verb' => 'GET'],
