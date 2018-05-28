@@ -14,6 +14,7 @@ OC.L10N.register(
     "Group list is empty" : "Gruppenliste ist leer",
     "Unable to retrieve the group list" : "Gruppenliste konnte nicht empfangen werden",
     "Settings" : "Einstellungen",
+    "You do not have permissions to see the details of this user" : "Sie besitzen nicht die nötigen Berechtigungen um die Details zu diesem Benutzer zu sehen",
     "Delete user" : "Benutzer löschen",
     "Disable user" : "Benutzer deaktivieren",
     "Enable user" : "Benutzer aktivieren",
