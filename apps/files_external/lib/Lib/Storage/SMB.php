@@ -78,19 +78,27 @@ class SMB extends Common implements INotifyStorage {
 	protected $statCache;
 
 	public function __construct($params) {
-		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
+		if (!isset($params['host'])) {
+			throw new \Exception('Invalid configuration, no host provided');
+		}
+
+		if (isset($params['auth'])) {
+			$auth = $params['auth'];
+		} else if (isset($params['user']) && isset($params['password']) && isset($params['share'])) {
 			list($workgroup, $user) = $this->splitUser($params['user']);
 			$auth = new BasicAuth($user, $workgroup, $params['password']);
-			$serverFactory = new ServerFactory();
-			$this->server = $serverFactory->createServer($params['host'], $auth);
-			$this->share = $this->server->getShare(trim($params['share'], '/'));
-
-			$this->root = $params['root'] ?? '/';
-			$this->root = '/' . ltrim($this->root, '/');
-			$this->root = rtrim($this->root, '/') . '/';
 		} else {
-			throw new \Exception('Invalid configuration');
+			throw new \Exception('Invalid configuration, no credentials provided');
 		}
+
+		$serverFactory = new ServerFactory();
+		$this->server = $serverFactory->createServer($params['host'], $auth);
+		$this->share = $this->server->getShare(trim($params['share'], '/'));
+
+		$this->root = $params['root'] ?? '/';
+		$this->root = '/' . ltrim($this->root, '/');
+		$this->root = rtrim($this->root, '/') . '/';
+
 		$this->statCache = new CappedMemoryCache();
 		parent::__construct($params);
 	}
