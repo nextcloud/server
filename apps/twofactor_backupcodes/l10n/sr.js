@@ -14,6 +14,7 @@ OC.L10N.register(
     "Backup code" : "Резервни код",
     "Use backup code" : "Искористи резервни код",
     "Two factor backup codes" : "Двофакторски резервни кодови",
+    "A two-factor auth backup codes provider" : "Провајдер резервних кодова за двофакторску ауторизацију",
     "Second-factor backup codes" : "Двофакторски резервни кодови"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

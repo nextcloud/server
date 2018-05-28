@@ -9,6 +9,7 @@
     "This operation is forbidden" : "Esta operación está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta carpeta no está disponible, por favor verifique los registros o contáctese con el administrador",
     "restored" : "recuperado",
+    "This application enables users to restore files that were deleted from the system." : "Esta app permite a los usuarios recuperar archivos borrados del sistema.",
     "No deleted files" : "No hay ningún archivo eliminado",
     "You will be able to recover deleted files from here" : "Desde aquí se podrán recuperar archivos eliminados",
     "No entries found in this folder" : "No hay entradas en esta carpeta",
