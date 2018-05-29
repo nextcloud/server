@@ -42,6 +42,7 @@ use OCP\AppFramework\OCSController;
 use OCP\Constants;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
+use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
@@ -265,45 +266,30 @@ class RequestHandlerController extends OCSController {
 	 * @param int $id
 	 * @return Http\DataResponse
 	 * @throws OCSException
+	 * @throws Share\Exceptions\ShareNotFound
+	 * @throws \OC\HintException
 	 */
 	public function acceptShare($id) {
 
-		if (!$this->isS2SEnabled()) {
-			throw new OCSException('Server does not support federated cloud sharing', 503);
-		}
-
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
-		try {
-			$share = $this->federatedShareProvider->getShareById($id);
-		} catch (Share\Exceptions\ShareNotFound $e) {
-			return new Http\DataResponse();
-		}
+		$notification = [
+			'sharedSecret' => $token,
+			'message' => 'Recipient accept the share'
+		];
 
-		if ($this->verifyShare($share, $token)) {
-			$this->executeAcceptShare($share);
-			if ($share->getShareOwner() !== $share->getSharedBy()) {
-				list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedBy());
-				$remoteId = $this->federatedShareProvider->getRemoteId($share);
-				$this->notifications->sendAcceptShare($remote, $remoteId, $share->getToken());
-			}
+		try {
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
+			$provider->notificationReceived('SHARE_ACCEPTED', $id, $notification);
+		} catch (ProviderDoesNotExistsException $e) {
+			throw new OCSException('Server does not support federated cloud sharing', 503);
+		} catch (ShareNotFoundException $e) {
+			$this->logger->debug('Share not found: ' . $e->getMessage());
+		} catch (\Exception $e) {
+			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage());
 		}
 
 		return new Http\DataResponse();
-	}
-
-	protected function executeAcceptShare(Share\IShare $share) {
-		$fileId = (int) $share->getNode()->getId();
-		list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
-
-		$event = \OC::$server->getActivityManager()->generateEvent();
-		$event->setApp('files_sharing')
-			->setType('remote_share')
-			->setAffectedUser($this->getCorrectUid($share))
-			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_ACCEPTED, [$share->getSharedWith(), [$fileId => $file]])
-			->setObject('files', $fileId, $file)
-			->setLink($link);
-		\OC::$server->getActivityManager()->publish($event);
 	}
 
 	/**
@@ -361,20 +347,6 @@ class RequestHandlerController extends OCSController {
 			->setLink($link);
 		\OC::$server->getActivityManager()->publish($event);
 
-	}
-
-	/**
-	 * check if we are the initiator or the owner of a re-share and return the correct UID
-	 *
-	 * @param Share\IShare $share
-	 * @return string
-	 */
-	protected function getCorrectUid(Share\IShare $share) {
-		if ($this->userManager->userExists($share->getShareOwner())) {
-			return $share->getShareOwner();
-		}
-
-		return $share->getSharedBy();
 	}
 
 	/**
@@ -546,24 +518,6 @@ class RequestHandlerController extends OCSController {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * check if we got the right share
-	 *
-	 * @param Share\IShare $share
-	 * @param string $token
-	 * @return bool
-	 */
-	protected function verifyShare(Share\IShare $share, $token) {
-		if (
-			$share->getShareType() === FederatedShareProvider::SHARE_TYPE_REMOTE &&
-			$share->getToken() === $token
-		) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

@@ -22,21 +22,29 @@
 namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
+use OC\Files\Filesystem;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Activity\IManager as IActivityManager;
+use OCP\Activity\IManager;
 use OCP\App\IAppManager;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
+use OCP\Federation\Exceptions\AuthenticationFailedException;
+use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\NotFoundException;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IShare;
+use OCP\Util;
 
 class CloudFederationProviderFiles implements ICloudFederationProvider {
 
@@ -153,13 +161,13 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		if ($remote && $token && $name && $owner && $remoteId && $shareWith) {
 
-			if (!\OCP\Util::isValidFileName($name)) {
+			if (!Util::isValidFileName($name)) {
 				throw new ProviderCouldNotAddShareException('The mountpoint name contains invalid characters.', '', Http::STATUS_BAD_REQUEST);
 			}
 
 			// FIXME this should be a method in the user management instead
 			$this->logger->debug('shareWith before, ' . $shareWith, ['app' => 'files_sharing']);
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				array('uid' => &$shareWith)
@@ -174,8 +182,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 			$externalManager = new \OCA\Files_Sharing\External\Manager(
 				\OC::$server->getDatabaseConnection(),
-				\OC\Files\Filesystem::getMountManager(),
-				\OC\Files\Filesystem::getLoader(),
+				Filesystem::getMountManager(),
+				Filesystem::getLoader(),
 				\OC::$server->getHTTPClientService(),
 				\OC::$server->getNotificationManager(),
 				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
@@ -219,7 +227,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			} catch (\Exception $e) {
 				$this->logger->logException($e, [
 					'message' => 'Server can not add remote share.',
-					'level' => \OCP\Util::ERROR,
+					'level' => Util::ERROR,
 					'app' => 'files_sharing'
 				]);
 				throw new ProviderCouldNotAddShareException('internal server error, was not able to add share from ' . $remote, '', HTTP::STATUS_INTERNAL_SERVER_ERROR);
@@ -237,20 +245,153 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param string $providerId id of the share
 	 * @param array $notification payload of the notification
 	 *
-	 * @throws ShareNotFoundException
 	 * @throws ActionNotSupportedException
-	 *
+	 * @throws AuthenticationFailedException
+	 * @throws BadRequestException
+	 * @throws ShareNotFoundException
+	 * @throws \OC\HintException
 	 * @since 14.0.0
 	 */
 	public function notificationReceived($notificationType, $providerId, array $notification) {
+
 		switch ($notificationType) {
-			case 'SHARE_ACCEPTED' :
+			case 'SHARE_ACCEPTED':
+				$this->shareAccepted($providerId, $notification);
 				return;
 		}
 
 
 		throw new ActionNotSupportedException($notification);
 	}
+
+	/**
+	 * @param $id
+	 * @param $notification
+	 * @return bool
+	 * @throws ActionNotSupportedException
+	 * @throws AuthenticationFailedException
+	 * @throws BadRequestException
+	 * @throws ShareNotFoundException
+	 * @throws \OC\HintException
+	 */
+	private function shareAccepted($id, $notification) {
+
+		if (!$this->isS2SEnabled(true)) {
+			throw new ActionNotSupportedException('Server does not support federated cloud sharing', '', Http::STATUS_SERVICE_UNAVAILABLE);
+		}
+
+		if (!isset($notification['sharedSecret'])) {
+			throw new BadRequestException(['sharedSecret']);
+		}
+
+		$token = $notification['sharedSecret'];
+
+		$share = $this->federatedShareProvider->getShareById($id);
+
+		$this->verifyShare($share, $token);
+		$this->executeAcceptShare($share);
+		if ($share->getShareOwner() !== $share->getSharedBy()) {
+			list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedBy());
+			$remoteId = $this->federatedShareProvider->getRemoteId($share);
+			$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+			$notification->setMessage(
+				'SHARE_ACCEPTED',
+				'file',
+				$remoteId,
+				[
+					'sharedSecret' => $token,
+					'message' => 'Recipient accepted the re-share'
+				]
+
+			);
+			$this->cloudFederationProviderManager->sendNotification($remote, $notification);
+
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @param IShare $share
+	 * @throws ShareNotFoundException
+	 */
+	protected function executeAcceptShare(IShare $share) {
+		try {
+			$fileId = (int)$share->getNode()->getId();
+			list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
+		} catch (\Exception $e) {
+			throw new ShareNotFoundException();
+		}
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('files_sharing')
+			->setType('remote_share')
+			->setAffectedUser($this->getCorrectUid($share))
+			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_ACCEPTED, [$share->getSharedWith(), [$fileId => $file]])
+			->setObject('files', $fileId, $file)
+			->setLink($link);
+		$this->activityManager->publish($event);
+	}
+
+	/**
+	 * get file
+	 *
+	 * @param string $user
+	 * @param int $fileSource
+	 * @return array with internal path of the file and a absolute link to it
+	 */
+	private function getFile($user, $fileSource) {
+		\OC_Util::setupFS($user);
+
+		try {
+			$file = Filesystem::getPath($fileSource);
+		} catch (NotFoundException $e) {
+			$file = null;
+		}
+		$args = Filesystem::is_dir($file) ? array('dir' => $file) : array('dir' => dirname($file), 'scrollto' => $file);
+		$link = Util::linkToAbsolute('files', 'index.php', $args);
+
+		return array($file, $link);
+
+	}
+
+	/**
+	 * check if we are the initiator or the owner of a re-share and return the correct UID
+	 *
+	 * @param IShare $share
+	 * @return string
+	 */
+	protected function getCorrectUid(IShare $share) {
+		if ($this->userManager->userExists($share->getShareOwner())) {
+			return $share->getShareOwner();
+		}
+
+		return $share->getSharedBy();
+	}
+
+
+
+	/**
+	 * check if we got the right share
+	 *
+	 * @param IShare $share
+	 * @param string $token
+	 * @return bool
+	 * @throws AuthenticationFailedException
+	 */
+	protected function verifyShare(IShare $share, $token) {
+		if (
+			$share->getShareType() === FederatedShareProvider::SHARE_TYPE_REMOTE &&
+			$share->getToken() === $token
+		) {
+			return true;
+		}
+
+		throw new AuthenticationFailedException();
+	}
+
+
 
 	/**
 	 * check if server-to-server sharing is enabled

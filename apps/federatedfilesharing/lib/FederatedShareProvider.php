@@ -30,6 +30,7 @@
 namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Share;
+use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudIdManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Folder;
@@ -708,13 +709,13 @@ class FederatedShareProvider implements IShareProvider {
 		$cursor->closeCursor();
 
 		if ($data === false) {
-			throw new ShareNotFound();
+			throw new ShareNotFoundException();
 		}
 
 		try {
 			$share = $this->createShareObject($data);
 		} catch (InvalidShare $e) {
-			throw new ShareNotFound();
+			throw new ShareNotFoundException();
 		}
 
 		return $share;
