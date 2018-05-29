@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': app }">
+	<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': app, 'icon-loading': loading }">
 		<div id="apps-list" class="installed" v-if="useListView">
 			<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
 		</div>
@@ -44,7 +44,7 @@
 			<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" :list-view="false" />
 		</div>
 
-		<div id="apps-list" class="installed" v-if="search !== ''">
+		<div id="apps-list" class="installed" v-if="search !== '' && searchApps.length > 0">
 			<div class="section">
 				<div></div>
 				<h2>{{ t('settings', 'Results from other categories') }}</h2>
@@ -52,7 +52,7 @@
 			<app-item v-for="app in searchApps" :key="app.id" :app="app" :category="category" :list-view="true" />
 		</div>
 
-		<div id="apps-list-empty" class="emptycontent emptycontent-search" v-if="apps.length == 0 && loading">
+		<div id="apps-list-empty" class="emptycontent emptycontent-search" v-if="!loading && searchApps.length === 0 && apps.length === 0">
 			<div id="app-list-empty-icon" class="icon-search"></div>
 			<h2>{{ t('settings', 'No apps found for your versoin')}}</h2>
 		</div>
@@ -74,21 +74,10 @@ export default {
 		Multiselect,
 		appItem
 	},
-	data() {
-		return {
-			loading: false,
-			scrolled: false,
-		};
-	},
-	watch: {
-
-	},
-	mounted() {
-		//this.$store.dispatch('getApps', { category: this.category });
-		this.$store.dispatch('getGroups');
-
-	},
 	computed: {
+		loading() {
+			return this.$store.getters.loading('list');
+		},
 		apps() {
 			return this.$store.getters.getApps
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
@@ -100,13 +89,7 @@ export default {
 						return (!this.apps.find(_app => _app.id === app.id));
 					}
 					return false;
-
 				});
-		},
-		groups() {
-			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name));
 		},
 		useAppStoreView() {
 			return !this.useListView && !this.useBundleView;
@@ -120,6 +103,6 @@ export default {
 	},
 	methods: {
 
-	}
+	},
 }
 </script>

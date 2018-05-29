@@ -69,6 +69,7 @@ export default {
 		this.$store.dispatch('getCategories');
 		this.$store.dispatch('getApps', {category: this.category});
 		this.$store.dispatch('getAllApps');
+		this.$store.dispatch('getGroups');
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 		console.log(this.$store.getters.getServerData.updateCount);
 	},
@@ -93,6 +94,9 @@ export default {
 		}
 	},
 	computed: {
+		loading() {
+			return this.$store.getters.loading('categories');
+		},
 		currentApp() {
 			return this.apps.find(app => app.id === this.id );
 		},
@@ -101,9 +105,6 @@ export default {
 		},
 		apps() {
 			return this.$store.getters.getApps;
-		},
-		loading() {
-			return Object.keys(this.apps).length === 0;
 		},
 		updateCount() {
 			return this.$store.getters.getUpdateCount;
@@ -161,7 +162,7 @@ export default {
 			if (!this.settings.appstoreEnabled) {
 				return {
 					id: 'appscategories',
-					items: defaultCategories
+					items: defaultCategories,
 				}
 			}
 
@@ -204,7 +205,8 @@ export default {
 			// Return
 			return {
 				id: 'appscategories',
-				items: categories
+				items: categories,
+				loading: this.loading
 			}
 		},
 	}

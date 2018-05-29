@@ -22,12 +22,15 @@
 
 import api from './api';
 import axios from 'axios/index';
+import Vue from 'vue';
 
 const state = {
 	apps: [],
 	allApps: [],
 	categories: [],
-	updateCount: 0
+	updateCount: 0,
+	loading: {},
+	loadingList: false,
 };
 
 const mutations = {
@@ -93,10 +96,23 @@ const mutations = {
 		state.apps = [];
 		state.categories = [];
 		state.updateCount = 0;
-	}
+	},
+	startLoading(state, id) {
+		Vue.set(state.loading, id, true);
+		console.log(state.loading);
+	},
+	stopLoading(state, id) {
+		Vue.set(state.loading, id, false);
+		console.log(state.loading);
+	},
 };
 
 const getters = {
+	loading(state) {
+		return function(id) {
+			return state.loading[id];
+		}
+	},
 	getCategories(state) {
 		return state.categories;
 	},
@@ -166,28 +182,34 @@ const actions = {
 	},
 
 	getApps(context, { category }) {
+		context.commit('startLoading', 'list');
 		return api.get(OC.generateUrl(`settings/apps/list?category=${category}`))
 			.then((response) => {
 				context.commit('setApps', response.data.apps);
+				context.commit('stopLoading', 'list');
 				return true;
 			})
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
 
 	getAllApps(context) {
+		context.commit('startLoading', 'all');
 		return api.get(OC.generateUrl(`settings/apps/list`))
 			.then((response) => {
 				context.commit('setAllApps', response.data.apps);
+				context.commit('stopLoading', 'all');
 				return true;
 			})
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
 
 	getCategories(context) {
+		context.commit('startLoading', 'categories');
 		return api.get(OC.generateUrl('settings/apps/categories'))
 			.then((response) => {
 				if (response.data.length > 0) {
 					context.commit('appendCategories', response.data);
+					context.commit('stopLoading', 'categories');
 					return true;
 				}
 				return false;
