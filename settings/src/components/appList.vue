@@ -83,6 +83,9 @@ export default {
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 		},
 		searchApps() {
+			if (this.search === '') {
+				return [];
+			}
 			return this.$store.getters.getAllApps
 				.filter(app => {
 					if (app.name.toLowerCase().search(this.search.toLowerCase()) !== -1) {
