@@ -32,8 +32,12 @@ class Manager implements IProvider {
 	/** @var DefaultTokenProvider */
 	private $defaultTokenProvider;
 
-	public function __construct(DefaultTokenProvider $defaultTokenProvider) {
+	/** @var PublicKeyTokenProvider */
+	private $publicKeyTokenProvider;
+
+	public function __construct(DefaultTokenProvider $defaultTokenProvider, PublicKeyTokenProvider $publicKeyTokenProvider) {
 		$this->defaultTokenProvider = $defaultTokenProvider;
+		$this->publicKeyTokenProvider = $publicKeyTokenProvider;
 	}
 
 	/**
@@ -76,6 +80,8 @@ class Manager implements IProvider {
 	public function updateToken(IToken $token) {
 		if ($token instanceof DefaultToken) {
 			$this->defaultTokenProvider->updateToken($token);
+		} else if ($token instanceof PublicKeyToken) {
+			$this->publicKeyTokenProvider->updateToken($token);
 		} else {
 			throw new InvalidTokenException();
 		}
@@ -90,22 +96,18 @@ class Manager implements IProvider {
 	public function updateTokenActivity(IToken $token) {
 		if ($token instanceof DefaultToken) {
 			$this->defaultTokenProvider->updateTokenActivity($token);
+		} else if ($token instanceof PublicKeyToken) {
+			$this->publicKeyTokenProvider->updateTokenActivity($token);
 		} else {
 			throw new InvalidTokenException();
 		}
 	}
 
-	/**
-	 * Get all tokens of a user
-	 *
-	 * The provider may limit the number of result rows in case of an abuse
-	 * where a high number of (session) tokens is generated
-	 *
-	 * @param IUser $user
-	 * @return IToken[]
-	 */
 	public function getTokenByUser(string $uid): array {
-		return $this->defaultTokenProvider->getTokenByUser($uid);
+		$old = $this->defaultTokenProvider->getTokenByUser($uid);
+		$new = $this->publicKeyTokenProvider->getTokenByUser($uid);
+
+		return array_merge($old, $new);
 	}
 
 	/**
@@ -116,8 +118,11 @@ class Manager implements IProvider {
 	 * @return IToken
 	 */
 	public function getToken(string $tokenId): IToken {
-		// TODO: first try new token then old token
-		return $this->defaultTokenProvider->getToken($tokenId);
+		try {
+			return $this->publicKeyTokenProvider->getToken($tokenId);
+		} catch (InvalidTokenException $e) {
+			return $this->defaultTokenProvider->getToken($tokenId);
+		}
 	}
 
 	/**
@@ -128,8 +133,11 @@ class Manager implements IProvider {
 	 * @return IToken
 	 */
 	public function getTokenById(int $tokenId): IToken {
-		// TODO: Find a way to distinguis between tokens
-		return $this->defaultTokenProvider->getTokenById($tokenId);
+		try {
+			$this->publicKeyTokenProvider->getTokenById($tokenId);
+		} catch (InvalidTokenException $e) {
+			return $this->defaultTokenProvider->getTokenById($tokenId);
+		}
 	}
 
 	/**
@@ -138,9 +146,12 @@ class Manager implements IProvider {
 	 * @throws InvalidTokenException
 	 */
 	public function renewSessionToken(string $oldSessionId, string $sessionId) {
-		// TODO: first try new then old
-		// TODO: if old move to new token type
-		$this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+		try {
+			$this->publicKeyTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+		} catch (InvalidTokenException $e) {
+			//TODO: Move to new token
+			$this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+		}
 	}
 
 	/**
@@ -151,59 +162,53 @@ class Manager implements IProvider {
 	 * @return string
 	 */
 	public function getPassword(IToken $savedToken, string $tokenId): string {
-		//TODO convert to new token type
 		if ($savedToken instanceof DefaultToken) {
+			//TODO convert to new token type
 			return $this->defaultTokenProvider->getPassword($savedToken, $tokenId);
 		}
-	}
 
-	/**
-	 * Encrypt and set the password of the given token
-	 *
-	 * @param IToken $token
-	 * @param string $tokenId
-	 * @param string $password
-	 * @throws InvalidTokenException
-	 */
-	public function setPassword(IToken $token, string $tokenId, string $password) {
-		//TODO conver to new token
-		if ($token instanceof DefaultToken) {
-			$this->defaultTokenProvider->setPassword($token, $tokenId, $password);
+		if ($savedToken instanceof PublicKeyToken) {
+			return $this->publicKeyTokenProvider->getPassword($savedToken, $tokenId);
 		}
 	}
 
-	/**
-	 * Invalidate (delete) the given session token
-	 *
-	 * @param string $token
-	 */
+	public function setPassword(IToken $token, string $tokenId, string $password) {
+
+		if ($token instanceof DefaultToken) {
+			//TODO conver to new token
+			$this->defaultTokenProvider->setPassword($token, $tokenId, $password);
+		}
+
+		if ($tokenId instanceof PublicKeyToken) {
+			$this->publicKeyTokenProvider->setPassword($token, $tokenId, $password);
+		}
+	}
+
 	public function invalidateToken(string $token) {
-		// TODO: check both providers
 		$this->defaultTokenProvider->invalidateToken($token);
+		$this->publicKeyTokenProvider->invalidateToken($token);
 	}
 
-	/**
-	 * Invalidate (delete) the given token
-	 *
-	 * @param IUser $user
-	 * @param int $id
-	 */
 	public function invalidateTokenById(string $uid, int $id) {
-		//TODO find way to distinguis between tokens
 		$this->defaultTokenProvider->invalidateTokenById($uid, $id);
+		$this->publicKeyTokenProvider->invalidateTokenById($uid, $id);
 	}
 
-	/**
-	 * Invalidate (delete) old session tokens
-	 */
 	public function invalidateOldTokens() {
-		//Call on both
 		$this->defaultTokenProvider->invalidateOldTokens();
+		$this->publicKeyTokenProvider->invalidateOldTokens();
 	}
 
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
-		// Migrate to new token
-		return $this->defaultTokenProvider->rotate($token, $oldTokenId, $newTokenId);
+
+		if ($token instanceof DefaultToken) {
+			//TODO Migrate to new token
+			return $this->defaultTokenProvider->rotate($token, $oldTokenId, $newTokenId);
+		}
+
+		if ($token instanceof PublicKeyToken) {
+			return $this->publicKeyTokenProvider->rotate($token, $oldTokenId, $newTokenId);
+		}
 	}
 
 
