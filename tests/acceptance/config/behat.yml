@@ -36,4 +36,4 @@ default:
           selenium2:
             capabilities:
               firefox:
-                profile: config/firefox-profiles/css-grid-enabled.zip
+                profile: %paths.base%/firefox-profiles/css-grid-enabled.zip

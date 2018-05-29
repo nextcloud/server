@@ -63,6 +63,8 @@ if [ "$1" = "--acceptance-tests-dir" ]; then
 	shift 2
 fi
 
+ACCEPTANCE_TESTS_CONFIG_DIR="../../$ACCEPTANCE_TESTS_DIR/config"
+
 # "--timeout-multiplier N" option can be provided to set the timeout multiplier
 # to be used in ActorContext.
 TIMEOUT_MULTIPLIER=""
@@ -133,7 +135,7 @@ if [ "$TIMEOUT_MULTIPLIER" != "" ]; then
 	REPLACEMENT="\
         - ActorContext:\n\
             actorTimeoutMultiplier: $TIMEOUT_MULTIPLIER"
-	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" ../../$ACCEPTANCE_TESTS_DIR/config/behat.yml
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 fi
 
 if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
@@ -154,8 +156,20 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
         - NextcloudTestServerContext:\n\
             nextcloudTestServerHelperParameters:\n\
               - $NEXTCLOUD_SERVER_DOMAIN"
-	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" ../../$ACCEPTANCE_TESTS_DIR/config/behat.yml
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 fi
+
+# Due to a bug in the Mink Extension for Behat it is not possible to use the
+# "paths.base" parameter in the path to the custom Firefox profile. Thus, the
+# default "behat.yml" configuration file has to be adjusted to replace the
+# parameter by its value before the configuration file is parsed by Behat.
+ORIGINAL="profile: %paths.base%"
+REPLACEMENT="profile: $ACCEPTANCE_TESTS_CONFIG_DIR"
+# As the substitution does not involve regular expressions or multilines it can
+# be done just with Bash. Moreover, this does not require escaping the regular
+# expression characters that may appear in the path, like "/".
+FILE_CONTENTS=$(<$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml)
+echo "${FILE_CONTENTS//$ORIGINAL/$REPLACEMENT}" > $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 
 if [ "$SELENIUM_SERVER" != "$DEFAULT_SELENIUM_SERVER" ]; then
 	# Set the Selenium server to be used by Mink; this extends the default
@@ -215,4 +229,4 @@ cd tests/acceptance
 echo "Waiting for Selenium"
 timeout 60s bash -c "while ! curl $SELENIUM_SERVER >/dev/null 2>&1; do sleep 1; done"
 
-vendor/bin/behat --config=../../$ACCEPTANCE_TESTS_DIR/config/behat.yml $SCENARIO_TO_RUN
+vendor/bin/behat --config=$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml $SCENARIO_TO_RUN
