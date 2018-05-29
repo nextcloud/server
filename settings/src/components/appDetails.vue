@@ -24,9 +24,10 @@
 	<div id="app-details-view" style="padding: 20px;">
 		<a class="close icon-close" href="#" v-on:click="hideAppDetails"><span class="hidden-visually">Close</span></a>
 		<h2>{{ app.name }}</h2>
-		<img :src="app.preview" width="100%" />
+		<img :src="app.screenshot" width="100%" />
+		<p v-if="app.internal">{{ t('settings', 'This app is shipped with the release, therefore no further information is available') }}</p>
 		<app-score v-if="app.appstoreData && app.appstoreData.ratingNumOverall > 5" :score="app.appstoreData.ratingOverall"></app-score>
-		<div class="app-author">
+		<div class="app-author" v-if="author">
 			{{ t('settings', 'by') }}
 			<span v-for="a in author">
 				<a v-if="a['@attributes'] && a['@attributes']['homepage']" :href="a['@attributes']['homepage']">{{ a['@value'] }}</a>
@@ -34,7 +35,7 @@
 				 &nbsp;
 			</span>
 		</div>
-		{{ licence }}
+		<div class="app-licence" v-if="licence">{{ licence }}</div>
 		<div class="actions">
 			<div class="warning hidden"></div>
 			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" />
