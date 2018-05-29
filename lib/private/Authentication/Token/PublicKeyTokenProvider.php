@@ -134,9 +134,14 @@ class PublicKeyTokenProvider implements IProvider {
 	public function renewSessionToken(string $oldSessionId, string $sessionId) {
 		$token = $this->getToken($oldSessionId);
 
+		if (!($token instanceof PublicKeyToken)) {
+			throw new InvalidTokenException();
+		}
+
 		$password = null;
 		if (!is_null($token->getPassword())) {
-			$password = $this->decryptPassword($token->getPassword(), $oldSessionId);
+			$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
+			$password = $this->decryptPassword($token->getPassword(), $privateKey);
 		}
 
 		$this->generateToken(
@@ -196,6 +201,10 @@ class PublicKeyTokenProvider implements IProvider {
 	public function getPassword(IToken $token, string $tokenId): string {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException();
+		}
+
+		if ($token->getPassword() === null) {
+			throw new PasswordlessTokenException();
 		}
 
 		// Decrypt private key with tokenId
