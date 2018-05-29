@@ -40,7 +40,9 @@
 		<div class="app-version" v-if="listView">{{ app.version }}</div>
 
 		<div class="app-level">
-			<span class="official icon-checkmark" v-if="app.level === 200">{{ t('settings', 'Official') }}</span>
+			<span class="official icon-checkmark" v-if="app.level === 200"
+				  v-tooltip.auto="t('settings', 'Official apps are developed by and within the community. They offer central functionality and are ready for production use.')">
+				{{ t('settings', 'Official') }}</span>
 			<app-score v-if="!listView" :score="app.score"></app-score>
 			<a :href="appstoreUrl" v-if="!app.internal && listView">Im Store anzeigen ↗</a>
 		</div>
@@ -65,7 +67,7 @@
 			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" v-on:click="update(app.id)" />
 			<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" v-on:click="remove(app.id)" />
 			<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" />
-			<input v-if="!app.active" class="enable" type="button" :value="enableButtonText" v-on:click="enable(app.id)" :disabled="!app.canInstall" />
+			<input v-if="!app.active" class="enable" type="button" :value="enableButtonText" v-on:click="enable(app.id)" v-tooltip.auto="enableButtonTooltip" :disabled="!app.canInstall" />
 		</div>
 	</div>
 </template>
@@ -131,6 +133,12 @@
 					return t('settings','Download and enable');
 				}
 				return t('settings','Enable');
+			},
+			enableButtonTooltip() {
+				if (this.app.needsDownload) {
+					return t('settings','The app will be downloaded from the app store');
+				}
+				return false;
 			}
 		},
 		watchers: {
