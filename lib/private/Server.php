@@ -1122,7 +1122,13 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\AppFramework\Utility\IControllerMethodReflector::class, \OC\AppFramework\Utility\ControllerMethodReflector::class);
 		$this->registerAlias('ControllerMethodReflector', \OCP\AppFramework\Utility\IControllerMethodReflector::class);
 
-		$this->registerAlias(\OCP\AppFramework\Utility\ITimeFactory::class, \OC\AppFramework\Utility\TimeFactory::class);
+		$this->registerService(\OCP\AppFramework\Utility\ITimeFactory::class, function (Server $c) {
+			return new class implements ITimeFactory {
+				public function getTime(): int {
+					return \time();
+				}
+			};
+		});
 		$this->registerAlias('TimeFactory', \OCP\AppFramework\Utility\ITimeFactory::class);
 
 		$this->registerService(Defaults::class, function (Server $c) {
