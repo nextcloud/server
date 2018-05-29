@@ -54,7 +54,6 @@ use OC\ServerNotAvailableException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserManager;
-use OCP\Util;
 
 /**
  * Class Access
@@ -664,6 +663,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param array $ldapObjects as returned by fetchList()
 	 * @param bool $isUsers
 	 * @return array
+	 * @throws \Exception
 	 */
 	private function ldap2NextcloudNames($ldapObjects, $isUsers) {
 		if($isUsers) {
@@ -672,7 +672,7 @@ class Access extends LDAPUtility implements IUserTools {
 		} else {
 			$nameAttribute = $this->connection->ldapGroupDisplayName;
 		}
-		$nextcloudNames = array();
+		$nextcloudNames = [];
 
 		foreach($ldapObjects as $ldapObject) {
 			$nameByLDAP = null;
@@ -688,6 +688,7 @@ class Access extends LDAPUtility implements IUserTools {
 			if($ncName) {
 				$nextcloudNames[] = $ncName;
 				if($isUsers) {
+					$this->updateUserState($ncName);
 					//cache the user names so it does not need to be retrieved
 					//again later (e.g. sharing dialogue).
 					if(is_null($nameByLDAP)) {
@@ -700,6 +701,19 @@ class Access extends LDAPUtility implements IUserTools {
 			}
 		}
 		return $nextcloudNames;
+	}
+
+	/**
+	 * removes the deleted-flag of a user if it was set
+	 *
+	 * @param string $ncname
+	 * @throws \Exception
+	 */
+	public function updateUserState($ncname) {
+		$user = $this->userManager->get($ncname);
+		if($user instanceof OfflineUser) {
+			$user->unmark();
+		}
 	}
 
 	/**
@@ -873,7 +887,9 @@ class Access extends LDAPUtility implements IUserTools {
 	 * provided with an array of LDAP user records the method will fetch the
 	 * user object and requests it to process the freshly fetched attributes and
 	 * and their values
+	 *
 	 * @param array $ldapRecords
+	 * @throws \Exception
 	 */
 	public function batchApplyUserAttributes(array $ldapRecords){
 		$displayNameAttribute = strtolower($this->connection->ldapUserDisplayName);
@@ -886,11 +902,8 @@ class Access extends LDAPUtility implements IUserTools {
 			if($ocName === false) {
 				continue;
 			}
+			$this->updateUserState($ocName);
 			$user = $this->userManager->get($ocName);
-			if($user instanceof OfflineUser) {
-				$user->unmark();
-				$user = $this->userManager->get($ocName);
-			}
 			if ($user !== null) {
 				$user->processAttributes($userRecord);
 			} else {
