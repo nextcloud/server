@@ -33,7 +33,6 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\IUser;
 
 class DefaultTokenMapper extends QBMapper {
 
@@ -124,15 +123,15 @@ class DefaultTokenMapper extends QBMapper {
 	 * The provider may limit the number of result rows in case of an abuse
 	 * where a high number of (session) tokens is generated
 	 *
-	 * @param IUser $user
+	 * @param string $uid
 	 * @return DefaultToken[]
 	 */
-	public function getTokenByUser(IUser $user): array {
+	public function getTokenByUser(string $uid): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
 			->from('authtoken')
-			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1000);
 		$result = $qb->execute();
@@ -146,16 +145,12 @@ class DefaultTokenMapper extends QBMapper {
 		return $entities;
 	}
 
-	/**
-	 * @param IUser $user
-	 * @param int $id
-	 */
-	public function deleteById(IUser $user, int $id) {
+	public function deleteById(string $uid, int $id) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}

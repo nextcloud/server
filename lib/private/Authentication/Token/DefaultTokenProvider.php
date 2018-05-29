@@ -143,17 +143,8 @@ class DefaultTokenProvider implements IProvider {
 		}
 	}
 
-	/**
-	 * Get all tokens of a user
-	 *
-	 * The provider may limit the number of result rows in case of an abuse
-	 * where a high number of (session) tokens is generated
-	 *
-	 * @param IUser $user
-	 * @return IToken[]
-	 */
-	public function getTokenByUser(IUser $user): array {
-		return $this->mapper->getTokenByUser($user);
+	public function getTokenByUser(string $uid): array {
+		return $this->mapper->getTokenByUser($uid);
 	}
 
 	/**
@@ -265,14 +256,8 @@ class DefaultTokenProvider implements IProvider {
 		$this->mapper->invalidate($this->hashToken($token));
 	}
 
-	/**
-	 * Invalidate (delete) the given token
-	 *
-	 * @param IUser $user
-	 * @param int $id
-	 */
-	public function invalidateTokenById(IUser $user, int $id) {
-		$this->mapper->deleteById($user, $id);
+	public function invalidateTokenById(string $uid, int $id) {
+		$this->mapper->deleteById($uid, $id);
 	}
 
 	/**

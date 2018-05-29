@@ -28,7 +28,6 @@ namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OCP\IUser;
 
 interface IProvider {
 
@@ -92,10 +91,10 @@ interface IProvider {
 	/**
 	 * Invalidate (delete) the given token
 	 *
-	 * @param IUser $user
+	 * @param string $uid
 	 * @param int $id
 	 */
-	public function invalidateTokenById(IUser $user, int $id);
+	public function invalidateTokenById(string $uid, int $id);
 
 	/**
 	 * Invalidate (delete) old session tokens
@@ -122,10 +121,10 @@ interface IProvider {
 	 * The provider may limit the number of result rows in case of an abuse
 	 * where a high number of (session) tokens is generated
 	 *
-	 * @param IUser $user
+	 * @param string $uid
 	 * @return IToken[]
 	 */
-	public function getTokenByUser(IUser $user): array;
+	public function getTokenByUser(string $uid): array;
 
 	/**
 	 * Get the (unencrypted) password of the given token

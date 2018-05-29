@@ -161,8 +161,8 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->mapper->invalidate($this->hashToken($token));
 	}
 
-	public function invalidateTokenById(IUser $user, int $id) {
-		$this->mapper->deleteById($user, $id);
+	public function invalidateTokenById(string $uid, int $id) {
+		$this->mapper->deleteById($uid, $id);
 	}
 
 	public function invalidateOldTokens() {
@@ -194,8 +194,8 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 	}
 
-	public function getTokenByUser(IUser $user): array {
-		return $this->mapper->getTokenByUser($user);
+	public function getTokenByUser(string $uid): array {
+		return $this->mapper->getTokenByUser($uid);
 	}
 
 	public function getPassword(IToken $token, string $tokenId): string {

@@ -83,11 +83,7 @@ class AuthSettingsController extends Controller {
 	 * @return JSONResponse|array
 	 */
 	public function index() {
-		$user = $this->userManager->get($this->uid);
-		if ($user === null) {
-			return [];
-		}
-		$tokens = $this->tokenProvider->getTokenByUser($user);
+		$tokens = $this->tokenProvider->getTokenByUser($this->uid);
 		
 		try {
 			$sessionId = $this->session->getId();
@@ -182,12 +178,7 @@ class AuthSettingsController extends Controller {
 	 * @return array
 	 */
 	public function destroy($id) {
-		$user = $this->userManager->get($this->uid);
-		if (is_null($user)) {
-			return [];
-		}
-
-		$this->tokenProvider->invalidateTokenById($user, $id);
+		$this->tokenProvider->invalidateTokenById($this->uid, $id);
 		return [];
 	}
 

@@ -104,8 +104,8 @@ class Manager implements IProvider {
 	 * @param IUser $user
 	 * @return IToken[]
 	 */
-	public function getTokenByUser(IUser $user): array {
-		return $this->defaultTokenProvider->getTokenByUser($user);
+	public function getTokenByUser(string $uid): array {
+		return $this->defaultTokenProvider->getTokenByUser($uid);
 	}
 
 	/**
@@ -188,9 +188,9 @@ class Manager implements IProvider {
 	 * @param IUser $user
 	 * @param int $id
 	 */
-	public function invalidateTokenById(IUser $user, int $id) {
+	public function invalidateTokenById(string $uid, int $id) {
 		//TODO find way to distinguis between tokens
-		$this->defaultTokenProvider->invalidateTokenById($user, $id);
+		$this->defaultTokenProvider->invalidateTokenById($uid, $id);
 	}
 
 	/**
