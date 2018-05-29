@@ -22,34 +22,36 @@
 
 <template>
 	<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': app, 'icon-loading': loading }">
-		<div id="apps-list" class="installed" v-if="useListView">
-			<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
-		</div>
 
-		<div id="apps-list" class="installed" v-if="useBundleView">
-			<template v-for="bundle in bundles">
+		<div id="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
+			<template v-if="useListView">
+				<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
+			</template>
+			<template v-for="bundle in bundles" v-if="useBundleView && bundleApps(bundle.id).length > 0">
 				<div class="apps-header">
 					<div class="app-image"></div>
-					<h2>{{ bundle.name }} <input class="enable" type="button" value="Alle aktivieren"></h2>
+					<h2>{{ bundle.name }} <input type="button" :value="bundleToggleText(bundle.id)" v-on:click="toggleBundle(bundle.id)"></h2>
 					<div class="app-version"></div>
 					<div class="app-level"></div>
 					<div class="app-groups"></div>
 					<div class="actions">&nbsp;</div>
 				</div>
-				<app-item v-for="app in bundleApps(bundle.id)" :key="app.id" :app="app" :category="category"/>
+				<app-item v-for="app in bundleApps(bundle.id)" :key="bundle.id + app.id" :app="app" :category="category"/>
 			</template>
+			<template v-if="useAppStoreView">
+				<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" :list-view="false" />
+			</template>
+
 		</div>
 
-		<div id="apps-list" class="store" v-if="useAppStoreView">
-			<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" :list-view="false" />
-		</div>
-
-		<div id="apps-list" class="installed" v-if="search !== '' && searchApps.length > 0">
-			<div class="section">
-				<div></div>
-				<h2>{{ t('settings', 'Results from other categories') }}</h2>
-			</div>
-			<app-item v-for="app in searchApps" :key="app.id" :app="app" :category="category" :list-view="true" />
+		<div id="apps-list-search" class="installed">
+			<template v-if="search !== '' && searchApps.length > 0">
+				<div class="section">
+					<div></div>
+					<h2>{{ t('settings', 'Results from other categories') }}</h2>
+				</div>
+				<app-item v-for="app in searchApps" :key="app.id" :app="app" :category="category" :list-view="true" />
+			</template>
 		</div>
 
 		<div id="apps-list-empty" class="emptycontent emptycontent-search" v-if="!loading && searchApps.length === 0 && apps.length === 0">
