@@ -117,7 +117,7 @@ class LargeFileHelper {
 	public function getFileSizeViaCurl($fileName) {
 		if (\OC::$server->getIniWrapper()->getString('open_basedir') === '') {
 			$encodedFileName = rawurlencode($fileName);
-			$ch = curl_init("file://$encodedFileName");
+			$ch = curl_init("file:///$encodedFileName");
 			curl_setopt($ch, CURLOPT_NOBODY, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HEADER, true);
@@ -185,14 +185,22 @@ class LargeFileHelper {
 	 * @return int
 	 */
 	public function getFileMtime($fullPath) {
-		if (\OC_Helper::is_function_enabled('exec')) {
-			$os = strtolower(php_uname('s'));
-			if (strpos($os, 'linux') !== false) {
-				return $this->exec('stat -c %Y ' . escapeshellarg($fullPath));
+		try {
+			$result = filemtime($fullPath);
+		} catch (\Exception $e) {
+			$result =- 1;
+		}
+		if ($result < 0) {
+			if (\OC_Helper::is_function_enabled('exec')) {
+				$os = strtolower(php_uname('s'));
+				if (strpos($os, 'linux') !== false) {
+					return $this->exec('stat -c %Y ' . escapeshellarg($fullPath));
+				}
 			}
 		}
+		return $result;
 
-		return filemtime($fullPath);
+
 	}
 
 	protected function exec($cmd) {
