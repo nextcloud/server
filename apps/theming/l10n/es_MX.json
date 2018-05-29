@@ -7,6 +7,7 @@
     "The given name is too long" : "El nombre dado es demasiado largo",
     "The given web address is too long" : "La dirección web dada es demasiado larga",
     "The given legal notice address is too long" : "La dirección del aviso legal es demasiado larga",
+    "The given privacy policy address is too long" : "La dirección de la política de privacidad dada es demasiado larga",
     "The given slogan is too long" : "El lema dado es demasiado largo",
     "The given color is invalid" : "El color dado es inválido",
     "The file was uploaded" : "El archivo fue cargado",
