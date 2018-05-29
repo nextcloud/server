@@ -146,7 +146,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 				'connect_timeout' => 10,
 			]);
 
-			if ($response->getStatusCode() === Http::STATUS_OK) {
+			if ($response->getStatusCode() === Http::STATUS_CREATED) {
 				return true;
 			}
 
