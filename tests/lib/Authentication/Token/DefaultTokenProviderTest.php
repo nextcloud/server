@@ -132,13 +132,12 @@ class DefaultTokenProviderTest extends TestCase {
 	}
 	
 	public function testGetTokenByUser() {
-		$user = $this->createMock(IUser::class);
 		$this->mapper->expects($this->once())
 			->method('getTokenByUser')
-			->with($user)
+			->with('uid')
 			->will($this->returnValue(['token']));
 
-		$this->assertEquals(['token'], $this->tokenProvider->getTokenByUser($user));
+		$this->assertEquals(['token'], $this->tokenProvider->getTokenByUser('uid'));
 	}
 
 	public function testGetPassword() {
@@ -243,13 +242,12 @@ class DefaultTokenProviderTest extends TestCase {
 
 	public function testInvaildateTokenById() {
 		$id = 123;
-		$user = $this->createMock(IUser::class);
 
 		$this->mapper->expects($this->once())
 			->method('deleteById')
-			->with($user, $id);
+			->with('uid', $id);
 
-		$this->tokenProvider->invalidateTokenById($user, $id);
+		$this->tokenProvider->invalidateTokenById('uid', $id);
 	}
 
 	public function testInvalidateOldTokens() {

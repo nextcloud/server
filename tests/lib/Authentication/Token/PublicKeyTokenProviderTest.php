@@ -121,13 +121,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testGetTokenByUser() {
-		$user = $this->createMock(IUser::class);
 		$this->mapper->expects($this->once())
 			->method('getTokenByUser')
-			->with($user)
+			->with('uid')
 			->will($this->returnValue(['token']));
 
-		$this->assertEquals(['token'], $this->tokenProvider->getTokenByUser($user));
+		$this->assertEquals(['token'], $this->tokenProvider->getTokenByUser('uid'));
 	}
 
 	public function testGetPassword() {
@@ -189,7 +188,18 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
+		$this->mapper->method('getTokenByUser')
+			->with('user')
+			->willReturn([$actual]);
+
 		$newpass = 'newpass';
+		$this->mapper->expects($this->once())
+			->method('update')
+			->with($this->callback(function ($token) use ($newpass) {
+				return $newpass === $this->tokenProvider->getPassword($token, 'token');
+			}));
+
+
 		$this->tokenProvider->setPassword($actual, $token, $newpass);
 
 		$this->assertSame($newpass, $this->tokenProvider->getPassword($actual, 'token'));
@@ -216,13 +226,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 	public function testInvaildateTokenById() {
 		$id = 123;
-		$user = $this->createMock(IUser::class);
 
 		$this->mapper->expects($this->once())
 			->method('deleteById')
-			->with($user, $id);
+			->with('uid', $id);
 
-		$this->tokenProvider->invalidateTokenById($user, $id);
+		$this->tokenProvider->invalidateTokenById('uid', $id);
 	}
 
 	public function testInvalidateOldTokens() {

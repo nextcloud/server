@@ -215,9 +215,19 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function setPassword(IToken $token, string $tokenId, string $password) {
-		// Kill all temp tokens except the current token
+		if (!($token instanceof PublicKeyToken)) {
+			throw new InvalidTokenException();
+		}
 
-		// Update pass for all permanent tokens by rencrypting
+		// Update the password for all tokens
+		$tokens = $this->mapper->getTokenByUser($token->getUID());
+		foreach ($tokens as $t) {
+			$publicKey = $token->getPublicKey();
+			$t->setPassword($this->encryptPassword($password, $publicKey));
+			$this->updateToken($t);
+		}
+
+		//TODO: should we also do this for temp tokens?
 	}
 
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
