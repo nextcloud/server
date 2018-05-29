@@ -138,28 +138,42 @@ const getters = {
 const actions = {
 
 	enableApp(context, { appId, groups }) {
+		let apps;
+		if (Array.isArray(appId)) {
+			apps = appId;
+		} else {
+			apps = [appId];
+		}
 		return api.requireAdmin().then((response) => {
-				return api.post(OC.generateUrl(`settings/apps/enable/${appId}`), {
-					groups: groups
-				})
+				return api.post(OC.generateUrl(`settings/apps/enable`), {appIds: apps, groups: groups})
 				.then((response) => {
-					context.commit('enableApp', {appId: appId, groups: groups});
+					apps.forEach(_appId => {
+						context.commit('enableApp', {appId: _appId, groups: groups});
+					});
 					return true;
 				})
 				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
-
 	},
 	disableApp(context, { appId }) {
+		let apps;
+		if (Array.isArray(appId)) {
+			apps = appId;
+		} else {
+			apps = [appId];
+		}
 		return api.requireAdmin().then((response) => {
-			return api.get(OC.generateUrl(`settings/apps/disable/${appId}`))
+			return api.post(OC.generateUrl(`settings/apps/disable`), {appIds: apps})
 				.then((response) => {
-					context.commit('disableApp', appId);
+					apps.forEach(_appId => {
+						context.commit('disableApp', _appId);
+					});
 					return true;
 				})
 				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
+	// TODO: use enable app
 	installApp(context, { appId }) {
 		return api.requireAdmin().then((response) => {
 			return api.get(OC.generateUrl(`settings/apps/enable/${appId}`))

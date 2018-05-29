@@ -113,10 +113,40 @@ export default {
 		},
 		useBundleView() {
 			return (this.category === 'app-bundles');
+		},
+		allBundlesEnabled() {
+			return function(id) {
+				console.log(this.bundleApps(id).filter(app => !app.active));
+				return this.bundleApps(id).filter(app => !app.active).length === 0;
+			}
+		},
+		bundleToggleText() {
+			return function(id) {
+				if (this.allBundlesEnabled(id)) {
+					return t('settings', 'Disable all');
+				}
+				return t('settings', 'Enable all');
+			}
 		}
 	},
 	methods: {
-
+		toggleBundle(id) {
+			if (this.allBundlesEnabled) {
+				return this.disableBundle(id);
+			}
+			return this.enableBundle(id);
+		},
+		enableBundle(id) {
+			let apps = this.bundleApps(id).map(app => app.id);
+			console.log(apps);
+			this.$store.dispatch('enableApp', { appId: apps, groups: [] })
+				.catch((error) => { console.log(error); OC.Notification.show(error)});
+		},
+		disableBundle(id) {
+			let apps = this.bundleApps(id).map(app => app.id);
+			this.$store.dispatch('disableApp', { appId: apps, groups: [] })
+				.catch((error) => { OC.Notification.show(error)});
+		}
 	},
 }
 </script>
