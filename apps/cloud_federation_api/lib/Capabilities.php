@@ -48,9 +48,13 @@ class Capabilities implements ICapability {
 				'enabled' => true,
 				'apiVersion' => '1.0-proposal1',
 				'endPoint' => substr($url, 0, strrpos($url, '/')),
-				'shareTypes' => ['file'],
-				'protocol' => [
-					'webdav' => '/public.php/webdav/',
+				'shareTypes' => [
+					[
+						'name' => 'file',
+						'protocols' => [
+							'webdav' => '/public.php/webdav/',
+						]
+					],
 				]
 			]
 		];
