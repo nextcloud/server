@@ -24,11 +24,14 @@
 	<div class="section" v-bind:class="{ selected: isSelected }">
 		<div class="app-image app-image-icon" v-on:click="showAppDetails">
 			<div v-if="!app.preview" class="icon-settings-dark"></div>
-			<img v-if="!app.previewAsIcon && app.preview" :src="app.preview"  width="100%" />
-			<svg v-if="app.previewAsIcon && app.preview" width="32" height="32" viewBox="0 0 32 32">
+			<img v-if="!app.previewAsIcon && app.preview && listView" :src="app.preview"  width="100%" />
+
+			<svg v-if="listView && app.previewAsIcon && app.preview" width="32" height="32" viewBox="0 0 32 32">
 				<defs><filter :id="filterId"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
 				<image x="0" y="0" width="32" height="32" preserveAspectRatio="xMinYMin meet" :filter="filterUrl" :xlink:href="app.preview" class="app-icon"></image>
 			</svg>
+
+			<img v-if="!listView && app.screenshot" :src="app.screenshot"  width="100%" />
 		</div>
 		<div class="app-name" v-on:click="showAppDetails">
 			{{ app.name }}

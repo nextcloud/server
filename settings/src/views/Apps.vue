@@ -122,7 +122,7 @@ export default {
 			// Map groups
 			categories = categories.map(category => {
 				let item = {};
-				item.id = category.ident;
+				item.id = 'app-category-' + category.ident;
 				item.icon = 'icon-category-' + category.ident;
 				item.classes = [];							// empty classes, active will be set later
 				item.router = {								// router link to
@@ -188,7 +188,7 @@ export default {
 			categories = defaultCategories.concat(categories);
 
 			// Set current group as active
-			let activeGroup = categories.findIndex(group => group.id === this.category);
+			let activeGroup = categories.findIndex(group => group.id === 'app-category-' + this.category);
 			if (activeGroup >= 0) {
 				categories[activeGroup].classes.push('active');
 			} else {
