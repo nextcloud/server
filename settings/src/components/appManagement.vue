@@ -68,22 +68,27 @@
 			},
 			enable(appId) {
 				this.$store.dispatch('enableApp', { appId: appId, groups: [] })
+					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
 					.catch((error) => { OC.Notification.show(error)});
 			},
 			disable(appId) {
 				this.$store.dispatch('disableApp', { appId: appId })
+					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
 					.catch((error) => { OC.Notification.show(error)});
 			},
 			remove(appId) {
 				this.$store.dispatch('uninstallApp', { appId: appId })
+					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
 					.catch((error) => { OC.Notification.show(error)});
 			},
 			install(appId) {
 				this.$store.dispatch('installApp', { appId: appId })
+					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
 					.catch((error) => { OC.Notification.show(error)});
 			},
 			update(appId) {
 				this.$store.dispatch('updateApp', { appId: appId })
+					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
 					.catch((error) => { OC.Notification.show(error)});
 			}
 		}
