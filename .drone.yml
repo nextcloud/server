@@ -872,7 +872,7 @@ services:
       - MYSQL_USER=oc_autotest
       - MYSQL_PASSWORD=owncloud
       - MYSQL_DATABASE=oc_autotest
-    command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
+    command: [ "--innodb-large-prefix=true", "--innodb-file-format=barracuda", "--innodb-file-per-table=true" ]
     tmpfs:
       - /var/lib/mysql
     when:
