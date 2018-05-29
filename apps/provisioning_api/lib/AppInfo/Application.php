@@ -25,10 +25,10 @@
 namespace OCA\Provisioning_API\AppInfo;
 
 use OC\AppFramework\Utility\SimpleContainer;
-use OC\AppFramework\Utility\TimeFactory;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Util;
 
@@ -46,7 +46,7 @@ class Application extends App {
 				$server->getL10N('settings'),
 				$server->getMailer(),
 				$server->getSecureRandom(),
-				new TimeFactory(),
+				$server->query(ITimeFactory::class),
 				$server->getConfig(),
 				$server->getCrypto(),
 				Util::getDefaultEmailAddress('no-reply')

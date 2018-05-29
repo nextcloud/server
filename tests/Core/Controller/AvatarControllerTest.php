@@ -31,9 +31,9 @@ function is_uploaded_file($filename) {
 
 namespace Tests\Core\Controller;
 
-use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Cache\ICache;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -76,7 +76,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	private $logger;
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var TimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
 	
 	protected function setUp() {
@@ -91,7 +91,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
-		$this->timeFactory = $this->getMockBuilder('OC\AppFramework\Utility\TimeFactory')->getMock();
+		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
 		$this->userMock = $this->getMockBuilder(IUser::class)->getMock();
