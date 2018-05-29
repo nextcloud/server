@@ -27,16 +27,16 @@
 		</div>
 
 		<div id="apps-list" class="installed" v-if="useBundleView">
-			<template v-for="app in apps">
-				<div class="apps-header" v-if="app.newCategory">
+			<template v-for="bundle in bundles">
+				<div class="apps-header">
 					<div class="app-image"></div>
-					<h2>{{ app.categoryName }} <input class="enable" type="button" value="Alle aktivieren"></h2>
+					<h2>{{ bundle.name }} <input class="enable" type="button" value="Alle aktivieren"></h2>
 					<div class="app-version"></div>
 					<div class="app-level"></div>
 					<div class="app-groups"></div>
 					<div class="actions">&nbsp;</div>
 				</div>
-				<app-item v-else :key="app.id" :app="app" :category="category"/>
+				<app-item v-for="app in bundleApps(bundle.id)" :key="app.id" :app="app" :category="category"/>
 			</template>
 		</div>
 
@@ -81,6 +81,15 @@ export default {
 		apps() {
 			return this.$store.getters.getApps
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
+		},
+		bundles() {
+			return this.$store.getters.getServerData.bundles;
+		},
+		bundleApps() {
+			return function(bundle) {
+				return this.$store.getters.getApps
+					.filter(app => app.bundleId === bundle);
+			}
 		},
 		searchApps() {
 			if (this.search === '') {

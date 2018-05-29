@@ -140,6 +140,7 @@ class AppSettingsController extends Controller {
 		$params['urlGenerator'] = $this->urlGenerator;
 		$params['updateCount'] = count($this->getAppsWithUpdates());
 		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
+		$params['bundles'] = $this->getBundles();
 		$this->navigationManager->setActiveEntry('core_apps');
 
 		$templateResponse = new TemplateResponse('settings', 'settings', ['serverData' => $params]);
@@ -148,6 +149,20 @@ class AppSettingsController extends Controller {
 		$templateResponse->setContentSecurityPolicy($policy);
 
 		return $templateResponse;
+	}
+
+	private function getBundles() {
+		$result = [];
+		$bundles = $this->bundleFetcher->getBundles();
+		foreach ($bundles as $bundle) {
+			$result[] = [
+				'name' => $bundle->getName(),
+				'id' => $bundle->getIdentifier(),
+				'appIdentifiers' => $bundle->getAppIdentifiers()
+			];
+		}
+		return $result;
+
 	}
 
 	private function getAllCategories() {
@@ -385,28 +400,22 @@ class AppSettingsController extends Controller {
 				foreach($bundles as $bundle) {
 					$newCategory = true;
 					$allApps = $appClass->listAllApps();
-					$categories = $this->getAllCategories();
-					foreach($categories as $singleCategory) {
-						$newApps = $this->getAppsForCategory($singleCategory['id']);
-						foreach($allApps as $app) {
-							foreach($newApps as $key => $newApp) {
-								if($app['id'] === $newApp['id']) {
-									unset($newApps[$key]);
-								}
+
+					$newApps = $this->getAppsForCategory();
+					foreach($allApps as $app) {
+						foreach($newApps as $key => $newApp) {
+							if($app['id'] === $newApp['id']) {
+								unset($newApps[$key]);
 							}
 						}
-						$allApps = array_merge($allApps, $newApps);
 					}
+					$allApps = array_merge($allApps, $newApps);
+
 
 					foreach($bundle->getAppIdentifiers() as $identifier) {
 						foreach($allApps as $app) {
 							if($app['id'] === $identifier) {
-								if($newCategory) {
-									$app['newCategory'] = true;
-									$app['categoryName'] = $bundle->getName();
-								}
 								$app['bundleId'] = $bundle->getIdentifier();
-								$newCategory = false;
 								$apps[] = $app;
 								continue;
 							}
