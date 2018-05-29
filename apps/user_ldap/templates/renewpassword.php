@@ -23,7 +23,7 @@ style('user_ldap', 'renewPassword');
 				<?php p($message); ?><br>
 			</div>
 		<?php endforeach; ?>
-		<?php if (isset($_['internalexception']) && ($_['internalexception'])): ?>
+		<?php if (isset($_['internalexception']) && $_['internalexception']): ?>
 			<div class="warning">
 				<?php p($l->t('An internal error occurred.')); ?><br>
 				<small><?php p($l->t('Please try again or contact your administrator.')); ?></small>
@@ -53,11 +53,7 @@ style('user_ldap', 'renewPassword');
 		
 		<input type="submit" id="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Renew password')); ?>"/>
 
-		<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) { ?>
-		<a id="lost-password" class="warning" href="<?php p($_['resetPasswordLink']); ?>">
-			<?php p($l->t('Wrong password. Reset it?')); ?>
-		</a>
-		<?php } else if (!empty($_['invalidpassword'])) { ?>
+		<?php if (!empty($_['invalidpassword'])) { ?>
 			<p class="warning">
 				<?php p($l->t('Wrong password.')); ?>
 			</p>
