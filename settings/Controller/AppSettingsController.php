@@ -131,17 +131,11 @@ class AppSettingsController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 *
-	 * @param string $category
 	 * @return TemplateResponse
 	 */
-	public function viewApps($category = '') {
-		if ($category === '') {
-			$category = 'installed';
-		}
-
+	public function viewApps(): TemplateResponse {
 		\OC_Util::addVendorScript('core', 'marked/marked.min');
 		$params = [];
-		$params['category'] = $category;
 		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
 		$params['urlGenerator'] = $this->urlGenerator;
 		$params['updateCount'] = count($this->getAppsWithUpdates());
@@ -154,7 +148,6 @@ class AppSettingsController extends Controller {
 		$templateResponse->setContentSecurityPolicy($policy);
 
 		return $templateResponse;
-
 	}
 
 	private function getAllCategories() {
@@ -178,7 +171,7 @@ class AppSettingsController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
-	public function listCategories() {
+	public function listCategories(): JSONResponse {
 		return new JSONResponse($this->getAllCategories());
 	}
 
@@ -187,8 +180,9 @@ class AppSettingsController extends Controller {
 	 *
 	 * @param string $requestedCategory
 	 * @return array
+	 * @throws \Exception
 	 */
-	private function getAppsForCategory($requestedCategory = '') {
+	private function getAppsForCategory($requestedCategory = ''): array {
 		$versionParser = new VersionParser();
 		$formattedApps = [];
 		$apps = $this->appFetcher->get();
@@ -247,7 +241,7 @@ class AppSettingsController extends Controller {
 
 			$currentVersion = '';
 			if($this->appManager->isInstalled($app['id'])) {
-				$currentVersion = \OC_App::getAppVersion($app['id']);
+				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
 				$currentLanguage = $app['releases'][0]['version'];
 			}
@@ -315,15 +309,17 @@ class AppSettingsController extends Controller {
 				unset($apps[$key]);
 			}
 		}
-		usort($apps, function ($a, $b) {
-			$a = (string)$a['name'];
-			$b = (string)$b['name'];
-			if ($a === $b) {
-				return 0;
-			}
-			return ($a < $b) ? -1 : 1;
-		});
+		usort($apps, [$this, 'sortApps']);
 		return $apps;
+	}
+
+	private function sortApps($a, $b) {
+		$a = (string)$a['name'];
+		$b = (string)$b['name'];
+		if ($a === $b) {
+			return 0;
+		}
+		return ($a < $b) ? -1 : 1;
 	}
 
 	/**
@@ -331,6 +327,7 @@ class AppSettingsController extends Controller {
 	 *
 	 * @param string $category
 	 * @return JSONResponse
+	 * @throws \Exception
 	 */
 	public function listApps($category = '') {
 		$appClass = new \OC_App();
@@ -345,14 +342,7 @@ class AppSettingsController extends Controller {
 					$apps[$key]['update'] = $newVersion;
 				}
 
-				usort($apps, function ($a, $b) {
-					$a = (string)$a['name'];
-					$b = (string)$b['name'];
-					if ($a === $b) {
-						return 0;
-					}
-					return ($a < $b) ? -1 : 1;
-				});
+				usort($apps, [$this, 'sortApps']);
 				break;
 			// updates
 			case 'updates':
@@ -370,14 +360,7 @@ class AppSettingsController extends Controller {
 					$apps[$key]['update'] = $newVersion;
 				}
 
-				usort($apps, function ($a, $b) {
-					$a = (string)$a['name'];
-					$b = (string)$b['name'];
-					if ($a === $b) {
-						return 0;
-					}
-					return ($a < $b) ? -1 : 1;
-				});
+				usort($apps, [$this, 'sortApps']);
 				break;
 			// disabled  apps
 			case 'disabled':
@@ -394,14 +377,7 @@ class AppSettingsController extends Controller {
 					return $app;
 				}, $apps);
 
-				usort($apps, function ($a, $b) {
-					$a = (string)$a['name'];
-					$b = (string)$b['name'];
-					if ($a === $b) {
-						return 0;
-					}
-					return ($a < $b) ? -1 : 1;
-				});
+				usort($apps, [$this, 'sortApps']);
 				break;
 			case 'app-bundles':
 				$bundles = $this->bundleFetcher->getBundles();
@@ -440,16 +416,6 @@ class AppSettingsController extends Controller {
 				break;
 			default:
 				$apps = $this->getAppsForCategory($category);
-
-				// sort by score
-				usort($apps, function ($a, $b) {
-					$a = (int)$a['score'];
-					$b = (int)$b['score'];
-					if ($a === $b) {
-						return 0;
-					}
-					return ($a > $b) ? -1 : 1;
-				});
 				break;
 		}
 
@@ -598,9 +564,7 @@ class AppSettingsController extends Controller {
 	 */
 	public function uninstallApp(string $appId): JSONResponse {
 		$appId = OC_App::cleanAppId($appId);
-		/** @var Installer $installer */
-		$installer = \OC::$server->query(\OC\Installer::class);
-		$result = $installer->removeApp($appId);
+		$result = $this->installer->removeApp($appId);
 		if($result !== false) {
 			// FIXME: Clear the cache - move that into some sane helper method
 			\OC::$server->getMemCacheFactory()->createDistributed('settings')->remove('listApps-0');
@@ -610,13 +574,16 @@ class AppSettingsController extends Controller {
 		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t remove app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 
-	public function updateApp(string $appId) {
+	/**
+	 * @param string $appId
+	 * @return JSONResponse
+	 */
+	public function updateApp(string $appId): JSONResponse {
 		$appId = OC_App::cleanAppId($appId);
 
 		$this->config->setSystemValue('maintenance', true);
 		try {
-			$installer = \OC::$server->query(\OC\Installer::class);
-			$result = $installer->updateAppstoreApp($appId);
+			$result = $this->installer->updateAppstoreApp($appId);
 			$this->config->setSystemValue('maintenance', false);
 		} catch (\Exception $ex) {
 			$this->config->setSystemValue('maintenance', false);
@@ -628,4 +595,5 @@ class AppSettingsController extends Controller {
 		}
 		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t update app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
+
 }
