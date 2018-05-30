@@ -152,6 +152,18 @@ class AppSettingsController extends Controller {
 		return $templateResponse;
 	}
 
+	private function getAppsWithUpdates() {
+		$appClass = new \OC_App();
+		$apps = $appClass->listAllApps();
+		foreach($apps as $key => $app) {
+			$newVersion = $this->installer->isUpdateAvailable($app['id']);
+			if($newVersion === false) {
+				unset($apps[$key]);
+			}
+		}
+		return $apps;
+	}
+
 	private function getBundles() {
 		$result = [];
 		$bundles = $this->bundleFetcher->getBundles();
@@ -164,6 +176,15 @@ class AppSettingsController extends Controller {
 		}
 		return $result;
 
+	}
+
+	/**
+	 * Get all available categories
+	 *
+	 * @return JSONResponse
+	 */
+	public function listCategories(): JSONResponse {
+		return new JSONResponse($this->getAllCategories());
 	}
 
 	private function getAllCategories() {
@@ -183,12 +204,114 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
-	 * Get all available categories
+	 * Get all available apps in a category
 	 *
+	 * @param string $category
 	 * @return JSONResponse
+	 * @throws \Exception
 	 */
-	public function listCategories(): JSONResponse {
-		return new JSONResponse($this->getAllCategories());
+	public function listApps($category = ''): JSONResponse {
+		$appClass = new \OC_App();
+
+		switch ($category) {
+			case 'installed':
+				$apps = $appClass->listAllApps();
+				break;
+			case 'updates':
+				$apps = $this->getAppsWithUpdates();
+				break;
+			case 'enabled':
+				$apps = $appClass->listAllApps();
+				$apps = array_filter($apps, function ($app) {
+					return $app['active'];
+				});
+				break;
+			case 'disabled':
+				$apps = $appClass->listAllApps();
+				$apps = array_filter($apps, function ($app) {
+					return !$app['active'];
+				});
+				break;
+			case 'app-bundles':
+				$bundles = $this->bundleFetcher->getBundles();
+				$apps = [];
+				$installedApps = $appClass->listAllApps();
+				$appstoreApps = $this->getAppsForCategory();
+				foreach($bundles as $bundle) {
+					foreach($bundle->getAppIdentifiers() as $identifier) {
+						$alreadyMatched = false;
+						foreach($installedApps as $app) {
+							if($app['id'] === $identifier) {
+								$app['bundleId'] = $bundle->getIdentifier();
+								$apps[] = $app;
+								$alreadyMatched = true;
+								continue;
+							}
+						}
+						if (!$alreadyMatched) {
+							foreach ($appstoreApps as $app) {
+								if ($app['id'] === $identifier) {
+									$app['bundleId'] = $bundle->getIdentifier();
+									$apps[] = $app;
+									continue;
+								}
+							}
+						}
+					}
+				}
+				break;
+			default:
+				$apps = $this->getAppsForCategory($category);
+				break;
+		}
+
+
+		// Fetch all apps from appstore
+		$appstoreData = [];
+		$fetchedApps = $this->appFetcher->get();
+		foreach ($fetchedApps as $app) {
+			$appstoreData[$app['id']] = $app;
+		}
+
+		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
+
+		// Extend existing app details
+		$apps = array_map(function($appData) use ($appstoreData, $dependencyAnalyzer) {
+			$appData['appstoreData'] = $appstoreData[$appData['id']];
+			$appData['license'] = $appstoreData['releases'][0]['licenses'];
+			$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($appstoreData['screenshots'][0]['url']) : '';
+			$newVersion = $this->installer->isUpdateAvailable($appData['id']);
+			if($newVersion && $this->appManager->isInstalled($appData['id'])) {
+				$appData['update'] = $newVersion;
+			}
+
+			// fix groups to be an array
+			$groups = array();
+			if (is_string($appData['groups'])) {
+				$groups = json_decode($appData['groups']);
+			}
+			$appData['groups'] = $groups;
+			$appData['canUnInstall'] = !$appData['active'] && $appData['removable'];
+
+			// fix licence vs license
+			if (isset($appData['license']) && !isset($appData['licence'])) {
+				$appData['licence'] = $appData['license'];
+			}
+
+			// analyse dependencies
+			$missing = $dependencyAnalyzer->analyze($appData);
+			$appData['canInstall'] = empty($missing);
+			$appData['missingDependencies'] = $missing;
+
+			$appData['missingMinOwnCloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['min-version']);
+			$appData['missingMaxOwnCloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['max-version']);
+
+			return $appData;
+		}, $apps);
+
+		usort($apps, [$this, 'sortApps']);
+
+		return new JSONResponse(['apps' => $apps, 'status' => 'success']);
 	}
 
 	/**
@@ -203,10 +326,6 @@ class AppSettingsController extends Controller {
 		$formattedApps = [];
 		$apps = $this->appFetcher->get();
 		foreach($apps as $app) {
-			if (isset($app['isFeatured'])) {
-				$app['featured'] = $app['isFeatured'];
-			}
-
 			// Skip all apps not in the requested category
 			if ($requestedCategory !== '') {
 				$isInCategory = false;
@@ -285,200 +404,24 @@ class AppSettingsController extends Controller {
 					$nextCloudVersionDependencies,
 					$phpDependencies
 				),
-				'level' => ($app['featured'] === true) ? 200 : 100,
+				'level' => ($app['isFeatured'] === true) ? 200 : 100,
 				'missingMaxOwnCloudVersion' => false,
 				'missingMinOwnCloudVersion' => false,
 				'canInstall' => true,
 				'preview' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($app['screenshots'][0]['url']) : '',
 				'score' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
-				'ratingNumThresholdReached' => $app['ratingNumOverall'] > 5 ? true : false,
+				'ratingNumThresholdReached' => $app['ratingNumOverall'] > 5,
 				'removable' => $existsLocally,
 				'active' => $this->appManager->isEnabledForUser($app['id']),
 				'needsDownload' => !$existsLocally,
 				'groups' => $groups,
 				'fromAppStore' => true,
-				'appstoreData' => $app
+				'appstoreData' => $app,
 			];
-
-
-			$newVersion = $this->installer->isUpdateAvailable($app['id']);
-			if($newVersion && $this->appManager->isInstalled($app['id'])) {
-				$formattedApps[count($formattedApps)-1]['update'] = $newVersion;
-			}
 		}
 
 		return $formattedApps;
-	}
-
-	private function getAppsWithUpdates() {
-		$appClass = new \OC_App();
-		$apps = $appClass->listAllApps();
-		/** @var \OC\App\AppStore\Manager $manager */
-		$manager = \OC::$server->query(\OC\App\AppStore\Manager::class);
-		foreach($apps as $key => $app) {
-			$newVersion = $this->installer->isUpdateAvailable($app['id']);
-			if($newVersion !== false) {
-				$apps[$key]['update'] = $newVersion;
-				$apps[$key]['appstoreData'] = $manager->getApp($app['id']);
-			} else {
-				unset($apps[$key]);
-			}
-		}
-		usort($apps, [$this, 'sortApps']);
-		return $apps;
-	}
-
-	private function sortApps($a, $b) {
-		$a = (string)$a['name'];
-		$b = (string)$b['name'];
-		if ($a === $b) {
-			return 0;
-		}
-		return ($a < $b) ? -1 : 1;
-	}
-
-	/**
-	 * Get all available apps in a category
-	 *
-	 * @param string $category
-	 * @return JSONResponse
-	 * @throws \Exception
-	 */
-	public function listApps($category = '') {
-		$appClass = new \OC_App();
-		$manager = \OC::$server->query(\OC\App\AppStore\Manager::class);
-
-		switch ($category) {
-			// installed apps
-			case 'installed':
-				$apps = $appClass->listAllApps();
-				foreach($apps as $key => $app) {
-					$newVersion = $this->installer->isUpdateAvailable($app['id']);
-					$apps[$key]['update'] = $newVersion;
-				}
-
-				usort($apps, [$this, 'sortApps']);
-				break;
-			// updates
-			case 'updates':
-				$apps = $this->getAppsWithUpdates();
-				break;
-			// enabled apps
-			case 'enabled':
-				$apps = $appClass->listAllApps();
-				$apps = array_filter($apps, function ($app) {
-					return $app['active'];
-				});
-
-				foreach($apps as $key => $app) {
-					$newVersion = $this->installer->isUpdateAvailable($app['id']);
-					$apps[$key]['update'] = $newVersion;
-				}
-
-				usort($apps, [$this, 'sortApps']);
-				break;
-			// disabled  apps
-			case 'disabled':
-				$apps = $appClass->listAllApps();
-				$apps = array_filter($apps, function ($app) {
-					return !$app['active'];
-				});
-
-				$apps = array_map(function ($app) {
-					$newVersion = $this->installer->isUpdateAvailable($app['id']);
-					if ($newVersion !== false) {
-						$app['update'] = $newVersion;
-					}
-					return $app;
-				}, $apps);
-
-				usort($apps, [$this, 'sortApps']);
-				break;
-			case 'app-bundles':
-				$bundles = $this->bundleFetcher->getBundles();
-				$apps = [];
-				foreach($bundles as $bundle) {
-					$newCategory = true;
-					$allApps = $appClass->listAllApps();
-
-					$newApps = $this->getAppsForCategory();
-					foreach($allApps as $app) {
-						foreach($newApps as $key => $newApp) {
-							if($app['id'] === $newApp['id']) {
-								unset($newApps[$key]);
-							}
-						}
-					}
-					$allApps = array_merge($allApps, $newApps);
-
-
-					foreach($bundle->getAppIdentifiers() as $identifier) {
-						foreach($allApps as $app) {
-							if($app['id'] === $identifier) {
-								$app['bundleId'] = $bundle->getIdentifier();
-								$apps[] = $app;
-								continue;
-							}
-						}
-					}
-				}
-				break;
-			default:
-				$apps = $this->getAppsForCategory($category);
-				break;
-		}
-
-		// fix groups to be an array
-		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
-		$apps = array_map(function($app) use ($dependencyAnalyzer) {
-
-			// fix groups
-			$groups = array();
-			if (is_string($app['groups'])) {
-				$groups = json_decode($app['groups']);
-			}
-			$app['groups'] = $groups;
-			$app['canUnInstall'] = !$app['active'] && $app['removable'];
-
-			// fix licence vs license
-			if (isset($app['license']) && !isset($app['licence'])) {
-				$app['licence'] = $app['license'];
-			}
-
-			// analyse dependencies
-			$missing = $dependencyAnalyzer->analyze($app);
-			$app['canInstall'] = empty($missing);
-			$app['missingDependencies'] = $missing;
-
-			$app['missingMinOwnCloudVersion'] = !isset($app['dependencies']['nextcloud']['@attributes']['min-version']);
-			$app['missingMaxOwnCloudVersion'] = !isset($app['dependencies']['nextcloud']['@attributes']['max-version']);
-
-			return $app;
-		}, $apps);
-
-		// Add app store dump for app to data
-		$apps = array_map(function($appData) use ($manager) {
-			$appStoreData = $manager->getApp($appData['id']);
-			$appData['appstoreData'] = $appStoreData;
-			$appData['license'] = $appStoreData['releases'][0]['licenses'];
-			$appData['screenshot'] = isset($appStoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($appStoreData['screenshots'][0]['url']) : '';
-			return $appData;
-		}, $apps);
-
-		return new JSONResponse(['apps' => $apps, 'status' => 'success']);
-	}
-
-	private function getGroupList(array $groups) {
-		$groupManager = \OC::$server->getGroupManager();
-		$groupsList = [];
-		foreach ($groups as $group) {
-			$groupItem = $groupManager->get($group);
-			if ($groupItem instanceof \OCP\IGroup) {
-				$groupsList[] = $groupManager->get($group);
-			}
-		}
-		return $groupsList;
 	}
 
 	/**
@@ -535,6 +478,18 @@ class AppSettingsController extends Controller {
 			$this->logger->logException($e);
 			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	private function getGroupList(array $groups) {
+		$groupManager = \OC::$server->getGroupManager();
+		$groupsList = [];
+		foreach ($groups as $group) {
+			$groupItem = $groupManager->get($group);
+			if ($groupItem instanceof \OCP\IGroup) {
+				$groupsList[] = $groupManager->get($group);
+			}
+		}
+		return $groupsList;
 	}
 
 	/**
@@ -604,6 +559,15 @@ class AppSettingsController extends Controller {
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
 		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t update app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+	}
+
+	private function sortApps($a, $b) {
+		$a = (string)$a['name'];
+		$b = (string)$b['name'];
+		if ($a === $b) {
+			return 0;
+		}
+		return ($a < $b) ? -1 : 1;
 	}
 
 }

@@ -30,6 +30,7 @@ use OC\Settings\Controller\AppSettingsController;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use Test\TestCase;
@@ -69,6 +70,8 @@ class AppSettingsControllerTest extends TestCase {
 	private $installer;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
 
 	public function setUp() {
 		parent::setUp();
@@ -87,6 +90,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->logger = $this->createMock(ILogger::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
@@ -100,7 +104,8 @@ class AppSettingsControllerTest extends TestCase {
 			$this->l10nFactory,
 			$this->bundleFetcher,
 			$this->installer,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->logger
 		);
 	}
 
@@ -109,32 +114,6 @@ class AppSettingsControllerTest extends TestCase {
 			->method('isUpdateAvailable')
 			->willReturn(false);
 		$expected = new JSONResponse([
-			[
-				'id' => 2,
-				'ident' => 'installed',
-				'displayName' => 'Your apps',
-			],
-			[
-				'id' => 4,
-				'ident' => 'updates',
-				'displayName' => 'Updates',
-				'counter' => 0,
-			],
-			[
-				'id' => 0,
-				'ident' => 'enabled',
-				'displayName' => 'Enabled apps',
-			],
-			[
-				'id' => 1,
-				'ident' => 'disabled',
-				'displayName' => 'Disabled apps',
-			],
-			[
-				'id' => 3,
-				'ident' => 'app-bundles',
-				'displayName' => 'App bundles',
-			],
 			[
 				'id' => 'auth',
 				'ident' => 'auth',
@@ -196,6 +175,7 @@ class AppSettingsControllerTest extends TestCase {
 	}
 
 	public function testViewApps() {
+		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -210,11 +190,15 @@ class AppSettingsControllerTest extends TestCase {
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings',
-			'apps',
+			'settings',
 			[
-				'category' => 'installed',
-				'appstoreEnabled' => true,
-				'urlGenerator' => $this->urlGenerator,
+				'serverData' => [
+					'updateCount' => 67,
+					'appstoreEnabled' => true,
+					'urlGenerator' => $this->urlGenerator,
+					'bundles' => [],
+					'developerDocumentation' => ''
+				]
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
@@ -223,6 +207,7 @@ class AppSettingsControllerTest extends TestCase {
 	}
 
 	public function testViewAppsAppstoreNotEnabled() {
+		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -237,11 +222,15 @@ class AppSettingsControllerTest extends TestCase {
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings',
-			'apps',
+			'settings',
 			[
-				'category' => 'installed',
-				'appstoreEnabled' => false,
-				'urlGenerator' => $this->urlGenerator,
+				'serverData' => [
+					'updateCount' => 67,
+					'appstoreEnabled' => false,
+					'urlGenerator' => $this->urlGenerator,
+					'bundles' => [],
+					'developerDocumentation' => ''
+				]
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
