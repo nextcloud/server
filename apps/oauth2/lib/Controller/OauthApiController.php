@@ -118,6 +118,11 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 
+		if (isset($this->request->server['PHP_AUTH_USER'])) {
+			$client_id = $this->request->server['PHP_AUTH_USER'];
+			$client_secret = $this->request->server['PHP_AUTH_PW'];
+		}
+
 		// The client id and secret must match. Else we don't provide an access token!
 		if ($client->getClientIdentifier() !== $client_id || $client->getSecret() !== $client_secret) {
 			return new JSONResponse([

@@ -289,6 +289,90 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
 	}
 
+	public function testGetTokenValidAppTokenBasicAuth() {
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setTokenId(1337);
+		$accessToken->setEncryptedToken('encryptedToken');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validrefresh')
+			->willReturn($accessToken);
+
+		$client = new Client();
+		$client->setClientIdentifier('clientId');
+		$client->setSecret('clientSecret');
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willReturn($client);
+
+		$this->crypto->method('decrypt')
+			->with(
+				'encryptedToken',
+				'validrefresh'
+			)->willReturn('decryptedToken');
+
+		$appToken = new DefaultToken();
+		$appToken->setUid('userId');
+		$this->tokenProvider->method('getTokenById')
+			->with(1337)
+			->willThrowException(new ExpiredTokenException($appToken));
+
+		$this->accessTokenMapper->expects($this->never())
+			->method('delete')
+			->with($accessToken);
+
+		$this->secureRandom->method('generate')
+			->will($this->returnCallback(function ($len) {
+				return 'random'.$len;
+			}));
+
+		$this->tokenProvider->expects($this->once())
+			->method('rotate')
+			->with(
+				$appToken,
+				'decryptedToken',
+				'random72'
+			)->willReturn($appToken);
+
+		$this->time->method('getTime')
+			->willReturn(1000);
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with(
+				$this->callback(function (DefaultToken $token) {
+					return $token->getExpires() === 4600;
+				})
+			);
+
+		$this->crypto->method('encrypt')
+			->with('random72', 'random128')
+			->willReturn('newEncryptedToken');
+
+		$this->accessTokenMapper->expects($this->once())
+			->method('update')
+			->with(
+				$this->callback(function (AccessToken $token) {
+					return $token->getHashedCode() === hash('sha512', 'random128') &&
+						$token->getEncryptedToken() === 'newEncryptedToken';
+				})
+			);
+
+		$expected = new JSONResponse([
+			'access_token' => 'random72',
+			'token_type' => 'Bearer',
+			'expires_in' => 3600,
+			'refresh_token' => 'random128',
+			'user_id' => 'userId',
+		]);
+
+		$this->request->server['PHP_AUTH_USER'] = 'clientId';
+		$this->request->server['PHP_AUTH_PW'] = 'clientSecret';
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
+	}
+
 	public function testGetTokenExpiredAppToken() {
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
