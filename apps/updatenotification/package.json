@@ -31,7 +31,7 @@
     "css-loader": "^0.28.8",
     "file-loader": "^1.1.6",
     "vue-loader": "^13.7.0",
-    "vue-template-compiler": "^2.5.13",
+    "vue-template-compiler": "^2.5.16",
     "webpack": "^3.6.0"
   }
 }
