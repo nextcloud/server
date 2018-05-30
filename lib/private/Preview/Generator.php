@@ -89,6 +89,12 @@ class Generator {
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+		//Make sure that we can read the file
+		if (!$file->isReadable()) {
+			throw new NotFoundException('Cannot read file');
+		}
+
+
 		$this->eventDispatcher->dispatch(
 			IPreview::EVENT,
 			new GenericEvent($file,[

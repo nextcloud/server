@@ -76,6 +76,8 @@ class GeneratorTest extends \Test\TestCase {
 
 	public function testGetCachedPreview() {
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 		$file->method('getMimeType')
 			->willReturn('myMimeType');
 		$file->method('getId')
@@ -122,6 +124,8 @@ class GeneratorTest extends \Test\TestCase {
 
 	public function testGetNewPreview() {
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 		$file->method('getMimeType')
 			->willReturn('myMimeType');
 		$file->method('getId')
@@ -248,6 +252,8 @@ class GeneratorTest extends \Test\TestCase {
 		$this->expectException(NotFoundException::class);
 
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 
 		$this->previewManager->method('isMimeSupported')
 			->with('invalidType')
@@ -271,6 +277,8 @@ class GeneratorTest extends \Test\TestCase {
 
 	public function testNoProvider() {
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 		$file->method('getMimeType')
 			->willReturn('myMimeType');
 		$file->method('getId')
@@ -350,6 +358,8 @@ class GeneratorTest extends \Test\TestCase {
 	 */
 	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY) {
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 		$file->method('getMimeType')
 			->willReturn('myMimeType');
 		$file->method('getId')
@@ -415,5 +425,15 @@ class GeneratorTest extends \Test\TestCase {
 		} else {
 			$this->assertSame($preview, $result);
 		}
+	}
+
+	public function testUnreadbleFile() {
+		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(false);
+
+		$this->expectException(NotFoundException::class);
+
+		$this->generator->getPreview($file, 100, 100, false);
 	}
 }
