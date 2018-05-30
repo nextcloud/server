@@ -15,7 +15,7 @@
     "handlebars": "^4.0.5",
     "jasmine-core": "~2.5.2",
     "jasmine-sinon": "^0.4.0",
-    "jsdoc": "~3.4.0",
+    "jsdoc": "~3.5.5",
     "karma": "^1.5.0",
     "karma-coverage": "*",
     "karma-jasmine": "^1.1.0",
