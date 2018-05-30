@@ -14,6 +14,7 @@ OC.L10N.register(
     "Backup code" : "Código de respaldo",
     "Use backup code" : "Usa el código de respaldo",
     "Two factor backup codes" : "Códigos de respaldo de dos factores",
+    "A two-factor auth backup codes provider" : "Un proveedor de códigos de respaldo para autenticación de dos-factores",
     "Second-factor backup codes" : "Códigos de respaldo del segundo factor"
 },
 "nplurals=2; plural=(n != 1);");

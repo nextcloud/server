@@ -152,7 +152,7 @@ OC.L10N.register(
     "Send" : "Enviar",
     "Allow upload and editing" : "Permitir carga y edición",
     "Read only" : "Sólo lectura",
-    "File drop (upload only)" : "Permitir carga",
+    "File drop (upload only)" : "Soltar archivo (solo carga)",
     "Shared with you and the group {group} by {owner}" : "Compartido contigo y el grupo {group} por {owner}",
     "Shared with you by {owner}" : "Compartido contigo por {owner}",
     "Choose a password for the mail share" : "Elige una contraseña para el elemento compartido por correo",

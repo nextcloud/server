@@ -14,6 +14,7 @@ OC.L10N.register(
     "Group list is empty" : "Grup listesi boş",
     "Unable to retrieve the group list" : "Grup listesi alınamadı",
     "Settings" : "Ayarlar",
+    "You do not have permissions to see the details of this user" : "Bu kullanıcının ayrıntılarını görüntüleme izniniz yok",
     "Delete user" : "Kullanıcıyı Sil",
     "Disable user" : "Kullanıcıyı devre dışı bırak",
     "Enable user" : "Kullanıcıyı etkinleştir",
