@@ -258,14 +258,17 @@ const actions = {
 	updateApp(context, { appId }) {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', appId);
+			context.commit('startLoading', 'install');
 			return api.get(OC.generateUrl(`settings/apps/update/${appId}`))
 				.then((response) => {
+					context.commit('stopLoading', 'install');
 					context.commit('stopLoading', appId);
 					context.commit('updateApp', appId);
 					return true;
 				})
 				.catch((error) => {
 					context.commit('stopLoading', appId);
+					context.commit('stopLoading', 'install');
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
