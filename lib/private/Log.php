@@ -285,8 +285,16 @@ class Log implements ILogger {
 				if(isset($logCondition['shared_secret'])) {
 					$request = \OC::$server->getRequest();
 
+					if ($request->getMethod() === 'PUT' &&
+						strpos($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false &&
+						strpos($request->getHeader('Content-Type'), 'application/json') === false) {
+						$logSecretRequest = '';
+					} else {
+						$logSecretRequest = $request->getParam('log_secret', '');
+					}
+
 					// if token is found in the request change set the log condition to satisfied
-					if($request && hash_equals($logCondition['shared_secret'], $request->getParam('log_secret', ''))) {
+					if ($request && hash_equals($logCondition['shared_secret'], $logSecretRequest)) {
 						$this->logConditionSatisfied = true;
 					}
 				}
