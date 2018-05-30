@@ -56,6 +56,12 @@ class UpdateChecker {
 			if (strpos($data['url'], 'https://') === 0) {
 				$result['downloadLink'] = $data['url'];
 			}
+			if (strpos($data['changelog'], 'https://') === 0) {
+				$result['changelog'] = $data['changelog'];
+			}
+			if($data['whatsNew'] !== null) {
+				$result['whatsNew'] = $data['whatsNew'];
+			}
 
 			return $result;
 		}

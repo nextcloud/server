@@ -44,3 +44,30 @@
 #updatenotification .warning {
 	color: #ce3702;
 }
+
+#updatenotification .whatsNew {
+	display: inline-block;
+}
+
+#updatenotification .toggleWhatsNews {
+	position: relative;
+}
+
+#updatenotification .item-wrapper {
+	display: flex;
+	align-items: flex-start;
+}
+
+#updatenotification .item-wrapper {
+	display: flex;
+	align-items: flex-start;
+}
+
+#updatenotification .item-wrapper p {
+	margin-bottom: 10px;
+	margin-left: 0.5em;
+}
+
+#updatenotification .item-wrapper span[class^="icon-"] {
+	padding: 0 19px 0 0;
+}

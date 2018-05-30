@@ -39,6 +39,14 @@
 
 				<a v-if="updaterEnabled" href="#" class="button" @click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
 				<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+				<div class="whatsNew" v-if="whatsNew">
+					<div class="toggleWhatsNews">
+						<span v-click-outside="hideMenu" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</span>
+						<div class="popovermenu" :class="{ 'open': openedWhatsNew }">
+							<popover-menu :menu="whatsNew" />
+						</div>
+					</div>
+				</div>
 			</template>
 			<template v-else-if="!isUpdateChecked">{{ t('updatenotification', 'The update check is not yet finished. Please refresh the page.') }}</template>
 			<template v-else>
@@ -80,11 +88,17 @@
 
 <script>
 	import vSelect from 'vue-select';
+	import popoverMenu from './popoverMenu';
+	import ClickOutside from 'vue-click-outside';
 
 	export default {
 		name: 'root',
 		components: {
 			vSelect,
+			popoverMenu,
+		},
+		directives: {
+			ClickOutside
 		},
 		data: function () {
 			return {
@@ -96,6 +110,8 @@
 				downloadLink: '',
 				isNewVersionAvailable: false,
 				updateServerURL: '',
+				changelogURL: '',
+				whatsNewData: [],
 				currentChannel: '',
 				channels: [],
 				notifyGroups: '',
@@ -109,7 +125,8 @@
 				appStoreDisabled: false,
 				isListFetched: false,
 				hideMissingUpdates: false,
-				hideAvailableUpdates: true
+				hideAvailableUpdates: true,
+				openedWhatsNew: false,
 			};
 		},
 
@@ -202,6 +219,24 @@
 
 			betaInfoString: function() {
 				return t('updatenotification', '<strong>beta</strong> is a pre-release version only for testing new features, not for production environments.');
+			},
+
+			whatsNew: function () {
+				console.warn("fobar");
+				var whatsNew = [];
+				for (var i in this.whatsNewData) {
+					whatsNew[i] = { icon: 'icon-star-dark', longtext: this.whatsNewData[i] };
+				}
+				if(this.changelogURL) {
+					whatsNew.push({
+						href: this.changelogURL,
+						text: t('updatenotificaiton', 'View changelog'),
+						icon: 'icon-link',
+						target: '_blank',
+						action: ''
+					});
+				}
+				return whatsNew;
 			}
 		},
 
@@ -261,11 +296,18 @@
 			},
 			toggleHideAvailableUpdates: function() {
 				this.hideAvailableUpdates = !this.hideAvailableUpdates;
-			}
+			},
+			toggleMenu() {
+				this.openedWhatsNew = !this.openedWhatsNew;
+			},
+			hideMenu() {
+				this.openedWhatsNew = false;
+			},
 		},
 		beforeMount: function() {
 			// Parse server data
 			var data = JSON.parse($('#updatenotification').attr('data-json'));
+			console.warn(data);
 
 			this.newVersionString = data.newVersionString;
 			this.lastCheckedDate = data.lastChecked;
@@ -279,6 +321,7 @@
 			this.notifyGroups = data.notifyGroups;
 			this.isDefaultUpdateServerURL = data.isDefaultUpdateServerURL;
 			this.versionIsEol = data.versionIsEol;
+			this.whatsNewData = data.whatsNew;
 		},
 		mounted: function () {
 			this._$el = $(this.$el);

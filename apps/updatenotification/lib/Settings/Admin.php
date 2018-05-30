@@ -93,6 +93,8 @@ class Admin implements ISettings {
 			'channels' => $channels,
 			'newVersionString' => empty($updateState['updateVersion']) ? '' : $updateState['updateVersion'],
 			'downloadLink' => empty($updateState['downloadLink']) ? '' : $updateState['downloadLink'],
+			'changelogURL' => empty($updateState['changelog']) ? false : $updateState['changelog'],
+			'whatsNew' => empty($updateState['whatsNew']) ? false : $updateState['whatsNew'],
 			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
 			'versionIsEol' => empty($updateState['versionIsEol']) ? false : $updateState['versionIsEol'],
 			'isDefaultUpdateServerURL' => $updateServerURL === $defaultUpdateServerURL,

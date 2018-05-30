@@ -55,7 +55,7 @@ class VersionCheck {
 	 */
 	public function check() {
 		// Look up the cache - it is invalidated all 30 minutes
-		if (((int)$this->config->getAppValue('core', 'lastupdatedat') + 1800) > time()) {
+		if (false && ((int)$this->config->getAppValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
@@ -70,7 +70,7 @@ class VersionCheck {
 		$version = Util::getVersion();
 		$version['installed'] = $this->config->getAppValue('core', 'installedat');
 		$version['updated'] = $this->config->getAppValue('core', 'lastupdatedat');
-		$version['updatechannel'] = \OC_Util::getChannel();
+		$version['updatechannel'] = 'stable'; //\OC_Util::getChannel();
 		$version['edition'] = '';
 		$version['build'] = \OC_Util::getBuild();
 		$version['php_major'] = PHP_MAJOR_VERSION;
@@ -97,6 +97,10 @@ class VersionCheck {
 				$tmp['versionstring'] = (string)$data->versionstring;
 				$tmp['url'] = (string)$data->url;
 				$tmp['web'] = (string)$data->web;
+				$tmp['changelog'] = isset($data->changelog) ? (string)$data->changelog : null;
+				// TODO: one's it is decided, use the proper field…
+				$tmp['whatsNew'] = isset($data->whatsNew) ? ((array)$data->whatsNew)['item'] : null;
+				$tmp['whatsNew'] = isset($data->whatsNew_admin) ? ((array)$data->whatsNew_admin)['item'] : (string)$data->whatsNew;
 				$tmp['autoupdater'] = (string)$data->autoupdater;
 				$tmp['eol'] = isset($data->eol) ? (string)$data->eol : '0';
 			} else {
