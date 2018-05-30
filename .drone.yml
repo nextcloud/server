@@ -866,7 +866,7 @@ services:
       matrix:
         DB: mysql5.5
   mysqlmb4:
-    image: mysql
+    image: mysql:5.7.22
     environment:
       - MYSQL_ROOT_PASSWORD=owncloud
       - MYSQL_USER=oc_autotest
