@@ -14,6 +14,7 @@ OC.L10N.register(
     "Backup code" : "Yedek kod",
     "Use backup code" : "Yedek kodu kullan",
     "Two factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
+    "A two-factor auth backup codes provider" : "İki aşamalı kimlik doğrulaması için yedek kodlar sağlayıcısı",
     "Second-factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları"
 },
 "nplurals=2; plural=(n > 1);");
