@@ -614,7 +614,7 @@ class User {
 		$uid = $params['uid'];
 		if(isset($uid) && $uid === $this->getUsername()) {
 			//retrieve relevant user attributes
-			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
+			$result = $this->access->search('objectclass=*', array($this->dn), ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
 			
 			if(array_key_exists('pwdpolicysubentry', $result[0])) {
 				$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
@@ -631,7 +631,7 @@ class User {
 			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
 			$result = $this->connection->getFromCache($cacheKey);
 			if(is_null($result)) {
-				$result = $this->access->search('objectclass=*', $ppolicyDN, ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
+				$result = $this->access->search('objectclass=*', array($ppolicyDN), ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
 				$this->connection->writeToCache($cacheKey, $result);
 			}
 			
