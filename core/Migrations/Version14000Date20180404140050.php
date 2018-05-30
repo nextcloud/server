@@ -41,6 +41,14 @@ class Version14000Date20180404140050 extends SimpleMigrationStep {
 		$this->connection = $connection;
 	}
 
+	public function name(): string {
+		return 'Add lowercase user id column to users table';
+	}
+
+	public function description(): string {
+		return 'Adds "uid_lower" column to the users table and fills the column to allow indexed case-insensitive searches';
+	}
+
 	/**
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
