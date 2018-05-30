@@ -174,9 +174,33 @@ const actions = {
 					apps.forEach(_appId => {
 						context.commit('enableApp', {appId: _appId, groups: groups});
 					});
-					return true;
+
+					// check for server health
+					return api.get(OC.generateUrl('apps/files'))
+						.then(() => {
+							if (response.data.update_required) {
+								OC.dialogs.info(
+									t(
+										'settings',
+										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
+									),
+									t('settings','App update'),
+									function () {
+										window.location.reload();
+									},
+									true
+								);
+								setTimeout(function() {
+									location.reload();
+								}, 5000);
+							}
+						})
+						.catch((error) => {
+							context.commit('setError', {appId: apps, error: t('settings', 'Error: This app can not be enabled because it makes the server unstable')});
+						});
 				})
 				.catch((error) => {
+					context.commit('setError', {appId: apps, error: t('settings', 'Error while enabling app')});
 					context.commit('stopLoading', apps);
 					context.commit('stopLoading', 'install');
 					context.commit('APPS_API_FAILURE', { appId, error })

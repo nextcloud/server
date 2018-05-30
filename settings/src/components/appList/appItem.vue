@@ -65,7 +65,7 @@
 		<div class="actions">
 			<div class="warning" v-if="app.error">{{ app.error }}</div>
 			<div class="icon icon-loading-small" v-if="loading(app.id)"></div>
-			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" v-on:click="update(app.id)" :disabled="installing || loading(app.id)" />
+			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to {update}', {update:app.update})" v-on:click="update(app.id)" :disabled="installing || loading(app.id)" />
 			<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" v-on:click="remove(app.id)" :disabled="installing || loading(app.id)" />
 			<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" :disabled="installing || loading(app.id)" />
 			<input v-if="!app.active" class="enable" type="button" :value="enableButtonText" v-on:click="enable(app.id)" v-tooltip.auto="enableButtonTooltip" :disabled="!app.canInstall || installing || loading(app.id)" />
