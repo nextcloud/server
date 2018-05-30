@@ -37,7 +37,6 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Ring\Exception\RingException;
 use OC\BackgroundJob\JobList;
 use OC\BackgroundJob\Job;
-use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -66,9 +65,6 @@ class RequestSharedSecret extends Job {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var DbHandler */
-	private $dbHandler;
-
 	/** @var TrustedServers */
 	private $trustedServers;
 
@@ -84,8 +80,6 @@ class RequestSharedSecret extends Job {
 	/** @var bool */
 	protected $retainJob = false;
 
-	private $format = '?format=json';
-
 	private $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/request-shared-secret';
 
 	/** @var  int  30 day = 2592000sec */
@@ -98,7 +92,6 @@ class RequestSharedSecret extends Job {
 	 * @param IURLGenerator $urlGenerator
 	 * @param IJobList $jobList
 	 * @param TrustedServers $trustedServers
-	 * @param DbHandler $dbHandler
 	 * @param IDiscoveryService $ocsDiscoveryService
 	 * @param ILogger $logger
 	 * @param ITimeFactory $timeFactory
@@ -108,7 +101,6 @@ class RequestSharedSecret extends Job {
 		IURLGenerator $urlGenerator,
 		IJobList $jobList,
 		TrustedServers $trustedServers,
-		DbHandler $dbHandler,
 		IDiscoveryService $ocsDiscoveryService,
 		ILogger $logger,
 		ITimeFactory $timeFactory
@@ -116,7 +108,6 @@ class RequestSharedSecret extends Job {
 		$this->httpClient = $httpClientService->newClient();
 		$this->jobList = $jobList;
 		$this->urlGenerator = $urlGenerator;
-		$this->dbHandler = $dbHandler;
 		$this->logger = $logger;
 		$this->ocsDiscoveryService = $ocsDiscoveryService;
 		$this->trustedServers = $trustedServers;
@@ -175,7 +166,7 @@ class RequestSharedSecret extends Job {
 		$endPoint = isset($endPoints['shared-secret']) ? $endPoints['shared-secret'] : $this->defaultEndPoint;
 
 		// make sure that we have a well formated url
-		$url = rtrim($target, '/') . '/' . trim($endPoint, '/') . $this->format;
+		$url = rtrim($target, '/') . '/' . trim($endPoint, '/');
 
 		try {
 			$result = $this->httpClient->post(
@@ -184,6 +175,7 @@ class RequestSharedSecret extends Job {
 					'body' => [
 						'url' => $source,
 						'token' => $token,
+						'format' => 'json',
 					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
@@ -216,11 +208,6 @@ class RequestSharedSecret extends Job {
 			&& $status !== Http::STATUS_FORBIDDEN
 		) {
 			$this->retainJob = true;
-		}
-
-		if ($status === Http::STATUS_FORBIDDEN) {
-			// clear token if remote server refuses to ask for shared secret
-			$this->dbHandler->addToken($target, '');
 		}
 
 	}
