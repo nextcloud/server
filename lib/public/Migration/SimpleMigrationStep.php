@@ -33,6 +33,7 @@ abstract class SimpleMigrationStep implements IMigrationStep {
 	 * Human readable name of the migration step
 	 *
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function name(): string {
 		return '';
@@ -42,6 +43,7 @@ abstract class SimpleMigrationStep implements IMigrationStep {
 	 * Human readable description of the migration step
 	 *
 	 * @return string
+	 * @since 14.0.0
 	 */
 	public function description(): string {
 		return '';
