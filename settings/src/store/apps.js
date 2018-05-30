@@ -99,6 +99,15 @@ const mutations = {
 		state.apps.find(app => app.id === appId).canInstall = true;
 	},
 
+	updateApp(state, appId) {
+		let app = state.apps.find(app => app.id === appId);
+		let version = app.update;
+		app.update = null;
+		app.version = version;
+		state.updateCount--;
+
+	},
+
 	resetApps(state) {
 		state.apps = [];
 	},
@@ -237,6 +246,22 @@ const actions = {
 				.then((response) => {
 					context.commit('stopLoading', appId);
 					context.commit('uninstallApp', appId);
+					return true;
+				})
+				.catch((error) => {
+					context.commit('stopLoading', appId);
+					context.commit('APPS_API_FAILURE', { appId, error })
+				})
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
+	},
+
+	updateApp(context, { appId }) {
+		return api.requireAdmin().then((response) => {
+			context.commit('startLoading', appId);
+			return api.get(OC.generateUrl(`settings/apps/update/${appId}`))
+				.then((response) => {
+					context.commit('stopLoading', appId);
+					context.commit('updateApp', appId);
 					return true;
 				})
 				.catch((error) => {

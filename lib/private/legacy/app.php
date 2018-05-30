@@ -887,6 +887,7 @@ class OC_App {
 		}
 		self::registerAutoloading($appId, $appPath);
 
+		\OC::$server->getAppManager()->clearAppsCache();
 		$appData = self::getAppInfo($appId);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
 
