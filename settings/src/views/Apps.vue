@@ -90,6 +90,7 @@ export default {
 		// watch url change and group select
 		category: function (val, old) {
 			this.$store.commit('resetApps');
+			this.setSearch('');
 			this.$store.dispatch('getApps', { category: this.category });
 		}
 	},
