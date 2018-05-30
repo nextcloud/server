@@ -709,7 +709,7 @@ class FederatedShareProvider implements IShareProvider {
 		$cursor->closeCursor();
 
 		if ($data === false) {
-			throw new ShareNotFoundException();
+			throw new ShareNotFoundException('Can not find share with ID: ' . $id);
 		}
 
 		try {

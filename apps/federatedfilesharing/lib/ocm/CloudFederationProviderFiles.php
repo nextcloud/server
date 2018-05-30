@@ -34,7 +34,9 @@ use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ShareNotFoundException;
+use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\NotFoundException;
@@ -75,6 +77,12 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var ICloudFederationFactory */
+	private $cloudFederationFactory;
+
+	/** @var ICloudFederationProviderManager */
+	private $cloudFederationProviderManager;
+
 	/**
 	 * CloudFederationProvider constructor.
 	 *
@@ -87,6 +95,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param IActivityManager $activityManager
 	 * @param INotificationManager $notificationManager
 	 * @param IURLGenerator $urlGenerator
+	 * @param ICloudFederationFactory $cloudFederationFactory
+	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
 	 */
 	public function __construct(IAppManager $appManager,
 								FederatedShareProvider $federatedShareProvider,
@@ -96,7 +106,9 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 								ICloudIdManager $cloudIdManager,
 								IActivityManager $activityManager,
 								INotificationManager $notificationManager,
-								IURLGenerator $urlGenerator
+								IURLGenerator $urlGenerator,
+								ICloudFederationFactory $cloudFederationFactory,
+								ICloudFederationProviderManager $cloudFederationProviderManager
 	) {
 		$this->appManager = $appManager;
 		$this->federatedShareProvider = $federatedShareProvider;
@@ -107,6 +119,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->activityManager = $activityManager;
 		$this->notificationManager = $notificationManager;
 		$this->urlGenerator = $urlGenerator;
+		$this->cloudFederationFactory = $cloudFederationFactory;
+		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
 	}
 
 
@@ -258,15 +272,18 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			case 'SHARE_ACCEPTED':
 				$this->shareAccepted($providerId, $notification);
 				return;
+			case 'SHARE_DECLINED':
+				$this->shareDeclined($providerId, $notification);
+				return;
 		}
 
 
-		throw new ActionNotSupportedException($notification);
+		throw new BadRequestException([$notificationType]);
 	}
 
 	/**
-	 * @param $id
-	 * @param $notification
+	 * @param string $id
+	 * @param array $notification
 	 * @return bool
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
@@ -276,8 +293,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 */
 	private function shareAccepted($id, $notification) {
 
-		if (!$this->isS2SEnabled(true)) {
-			throw new ActionNotSupportedException('Server does not support federated cloud sharing', '', Http::STATUS_SERVICE_UNAVAILABLE);
+		if (!$this->isS2SEnabled()) {
+			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
 		}
 
 		if (!isset($notification['sharedSecret'])) {
@@ -311,7 +328,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		return true;
 	}
 
-
 	/**
 	 * @param IShare $share
 	 * @throws ShareNotFoundException
@@ -333,6 +349,81 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			->setLink($link);
 		$this->activityManager->publish($event);
 	}
+
+	/**
+	 * @param string $id
+	 * @param array $notification
+	 * @throws ActionNotSupportedException
+	 * @throws AuthenticationFailedException
+	 * @throws BadRequestException
+	 * @throws ShareNotFound
+	 * @throws ShareNotFoundException
+	 * @throws \OC\HintException
+	 */
+	protected function shareDeclined($id, $notification) {
+
+		if (!$this->isS2SEnabled()) {
+			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
+		}
+
+		if (!isset($notification['sharedSecret'])) {
+			throw new BadRequestException(['sharedSecret']);
+		}
+
+		$token = $notification['sharedSecret'];
+
+		$share = $this->federatedShareProvider->getShareById($id);
+
+		$this->verifyShare($share, $token);
+
+		if ($share->getShareOwner() !== $share->getSharedBy()) {
+			list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedBy());
+			$remoteId = $this->federatedShareProvider->getRemoteId($share);
+			$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+			$notification->setMessage(
+				'SHARE_DECLINED',
+				'file',
+				$remoteId,
+				[
+					'sharedSecret' => $token,
+					'message' => 'Recipient declined the re-share'
+				]
+
+			);
+			$this->cloudFederationProviderManager->sendNotification($remote, $notification);
+		}
+
+		$this->executeDeclineShare($share);
+
+	}
+
+	/**
+	 * delete declined share and create a activity
+	 *
+	 * @param IShare $share
+	 * @throws ShareNotFoundException
+	 */
+	protected function executeDeclineShare(IShare $share) {
+		$this->federatedShareProvider->removeShareFromTable($share);
+
+		try {
+			$fileId = (int)$share->getNode()->getId();
+			list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
+		} catch (\Exception $e) {
+			throw new ShareNotFoundException();
+		}
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('files_sharing')
+			->setType('remote_share')
+			->setAffectedUser($this->getCorrectUid($share))
+			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_DECLINED, [$share->getSharedWith(), [$fileId => $file]])
+			->setObject('files', $fileId, $file)
+			->setLink($link);
+		$this->activityManager->publish($event);
+
+	}
+
 
 	/**
 	 * get file

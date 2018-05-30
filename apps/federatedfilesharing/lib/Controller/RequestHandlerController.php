@@ -304,49 +304,25 @@ class RequestHandlerController extends OCSController {
 	 */
 	public function declineShare($id) {
 
-		if (!$this->isS2SEnabled()) {
-			throw new OCSException('Server does not support federated cloud sharing', 503);
-		}
-
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
-		try {
-			$share = $this->federatedShareProvider->getShareById($id);
-		} catch (Share\Exceptions\ShareNotFound $e) {
-			return new Http\DataResponse();
-		}
+		$notification = [
+			'sharedSecret' => $token,
+			'message' => 'Recipient declined the share'
+		];
 
-		if ($this->verifyShare($share, $token)) {
-			if ($share->getShareOwner() !== $share->getSharedBy()) {
-				list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedBy());
-				$remoteId = $this->federatedShareProvider->getRemoteId($share);
-				$this->notifications->sendDeclineShare($remote, $remoteId, $share->getToken());
-			}
-			$this->executeDeclineShare($share);
+		try {
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
+			$provider->notificationReceived('SHARE_DECLINED', $id, $notification);
+		} catch (ProviderDoesNotExistsException $e) {
+			throw new OCSException('Server does not support federated cloud sharing', 503);
+		} catch (ShareNotFoundException $e) {
+			$this->logger->debug('Share not found: ' . $e->getMessage());
+		} catch (\Exception $e) {
+			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage());
 		}
 
 		return new Http\DataResponse();
-	}
-
-	/**
-	 * delete declined share and create a activity
-	 *
-	 * @param Share\IShare $share
-	 */
-	protected function executeDeclineShare(Share\IShare $share) {
-		$this->federatedShareProvider->removeShareFromTable($share);
-		$fileId = (int) $share->getNode()->getId();
-		list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
-
-		$event = \OC::$server->getActivityManager()->generateEvent();
-		$event->setApp('files_sharing')
-			->setType('remote_share')
-			->setAffectedUser($this->getCorrectUid($share))
-			->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_DECLINED, [$share->getSharedWith(), [$fileId => $file]])
-			->setObject('files', $fileId, $file)
-			->setLink($link);
-		\OC::$server->getActivityManager()->publish($event);
-
 	}
 
 	/**

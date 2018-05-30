@@ -62,7 +62,9 @@ class Application extends App {
 					$server->getCloudIdManager(),
 					$server->getActivityManager(),
 					$server->getNotificationManager(),
-					$server->getURLGenerator()
+					$server->getURLGenerator(),
+					$server->getCloudFederationFactory(),
+					$server->getCloudFederationProviderManager()
 				);
 			});
 

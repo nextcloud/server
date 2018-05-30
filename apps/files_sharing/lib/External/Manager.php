@@ -326,7 +326,7 @@ class Manager {
 	 * @param string $token
 	 * @param $remoteId id of the share
 	 * @param string $feedback
-	 * @return mixed
+	 * @return bool
 	 */
 	protected function tryOCMEndPoint($remoteDomain, $token, $remoteId, $feedback) {
 		switch ($feedback) {
@@ -343,7 +343,22 @@ class Manager {
 
 				);
 				return $this->cloudFederationProviderManager->sendNotification($remoteDomain, $notification);
+			case 'decline':
+				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+				$notification->setMessage(
+					'SHARE_DECLINED',
+					'file',
+					$remoteId,
+					[
+						'sharedSecret' => $token,
+						'message' => 'Recipient declined the share'
+					]
+
+				);
+				return $this->cloudFederationProviderManager->sendNotification($remoteDomain, $notification);
 		}
+
+		return false;
 
 	}
 
