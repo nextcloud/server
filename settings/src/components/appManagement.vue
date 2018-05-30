@@ -82,7 +82,7 @@
 					.catch((error) => { OC.Notification.show(error)});
 			},
 			install(appId) {
-				this.$store.dispatch('installApp', { appId: appId })
+				this.$store.dispatch('enableApp', { appId: appId })
 					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
 					.catch((error) => { OC.Notification.show(error)});
 			},

@@ -63,11 +63,12 @@
 		</div>
 
 		<div class="actions">
-			<div class="warning hidden"></div>
-			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" v-on:click="update(app.id)" />
-			<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" v-on:click="remove(app.id)" />
-			<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" />
-			<input v-if="!app.active" class="enable" type="button" :value="enableButtonText" v-on:click="enable(app.id)" v-tooltip.auto="enableButtonTooltip" :disabled="!app.canInstall" />
+			<div class="warning" v-if="app.error">{{ app.error }}</div>
+			<div class="icon icon-loading-small" v-if="loading(app.id)"></div>
+			<input v-if="app.update" class="update" type="button" :value="t('settings', 'Update to %s', app.update)" v-on:click="update(app.id)" :disabled="installing || loading(app.id)" />
+			<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" v-on:click="remove(app.id)" :disabled="installing || loading(app.id)" />
+			<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" :disabled="installing || loading(app.id)" />
+			<input v-if="!app.active" class="enable" type="button" :value="enableButtonText" v-on:click="enable(app.id)" v-tooltip.auto="enableButtonTooltip" :disabled="!app.canInstall || installing || loading(app.id)" />
 		</div>
 	</div>
 </template>
@@ -101,7 +102,6 @@
 			return {
 				isSelected: false,
 				groupCheckedAppsData: false,
-				loading: false,
 				scrolled: false,
 				filterId: '',
 			};
@@ -114,6 +114,15 @@
 			this.filterId = 'invertIconApps' + Math.floor((Math.random() * 100 )) + new Date().getSeconds() + new Date().getMilliseconds();
 		},
 		computed: {
+			loading() {
+				let self = this;
+				return function(id) {
+					return self.$store.getters.loading(id);
+				}
+			},
+			installing() {
+				return this.$store.getters.loading('install');
+			},
 			filterUrl() {
 				return `url(#${this.filterId})`;
 			},

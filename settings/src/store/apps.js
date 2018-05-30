@@ -66,6 +66,16 @@ const mutations = {
 		state.allApps = apps;
 	},
 
+	setError(state, {appId, error}) {
+		let app = state.apps.find(app => app.id === appId);
+		app.error = error;
+	},
+
+	clearError(state, {appId, error}) {
+		let app = state.apps.find(app => app.id === appId);
+		app.error = null;
+	},
+
 	enableApp(state, {appId, groups}) {
 		let app = state.apps.find(app => app.id === appId);
 		app.active = true;
@@ -98,12 +108,22 @@ const mutations = {
 		state.updateCount = 0;
 	},
 	startLoading(state, id) {
-		Vue.set(state.loading, id, true);
-		console.log(state.loading);
+		if (Array.isArray(id)) {
+			id.forEach((_id) => {
+				Vue.set(state.loading, _id, true);
+			})
+		} else {
+			Vue.set(state.loading, id, true);
+		}
 	},
 	stopLoading(state, id) {
-		Vue.set(state.loading, id, false);
-		console.log(state.loading);
+		if (Array.isArray(id)) {
+			id.forEach((_id) => {
+				Vue.set(state.loading, _id, false);
+			})
+		} else {
+			Vue.set(state.loading, id, false);
+		}
 	},
 };
 
@@ -145,14 +165,22 @@ const actions = {
 			apps = [appId];
 		}
 		return api.requireAdmin().then((response) => {
-				return api.post(OC.generateUrl(`settings/apps/enable`), {appIds: apps, groups: groups})
+			context.commit('startLoading', apps);
+			context.commit('startLoading', 'install');
+			return api.post(OC.generateUrl(`settings/apps/enable`), {appIds: apps, groups: groups})
 				.then((response) => {
+					context.commit('stopLoading', apps);
+					context.commit('stopLoading', 'install');
 					apps.forEach(_appId => {
 						context.commit('enableApp', {appId: _appId, groups: groups});
 					});
 					return true;
 				})
-				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
+				.catch((error) => {
+					context.commit('stopLoading', apps);
+					context.commit('stopLoading', 'install');
+					context.commit('APPS_API_FAILURE', { appId, error })
+				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
 	disableApp(context, { appId }) {
@@ -163,35 +191,34 @@ const actions = {
 			apps = [appId];
 		}
 		return api.requireAdmin().then((response) => {
+			context.commit('startLoading', apps);
 			return api.post(OC.generateUrl(`settings/apps/disable`), {appIds: apps})
 				.then((response) => {
+					context.commit('stopLoading', apps);
 					apps.forEach(_appId => {
 						context.commit('disableApp', _appId);
 					});
 					return true;
 				})
-				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
-	},
-	// TODO: use enable app
-	installApp(context, { appId }) {
-		return api.requireAdmin().then((response) => {
-			return api.get(OC.generateUrl(`settings/apps/enable/${appId}`))
-				.then((response) => {
-					context.commit('enableApp', appId);
-					return true;
+				.catch((error) => {
+					context.commit('stopLoading', apps);
+					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
 	uninstallApp(context, { appId }) {
 		return api.requireAdmin().then((response) => {
+			context.commit('startLoading', appId);
 			return api.get(OC.generateUrl(`settings/apps/uninstall/${appId}`))
 				.then((response) => {
+					context.commit('stopLoading', appId);
 					context.commit('uninstallApp', appId);
 					return true;
 				})
-				.catch((error) => context.commit('APPS_API_FAILURE', { appId, error }))
+				.catch((error) => {
+					context.commit('stopLoading', appId);
+					context.commit('APPS_API_FAILURE', { appId, error })
+				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
 
