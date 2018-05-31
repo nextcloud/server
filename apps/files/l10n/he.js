@@ -126,6 +126,7 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "קובץ או תיקייה <strong>שוחזרו</strong>",
     "Unlimited" : "ללא הגבלה",
     "Upload (max. %s)" : "העלאה (מקסימום %s)",
+    "File Management" : "ניהול קבצים",
     "File handling" : "טיפול בקבצים",
     "Maximum upload size" : "גודל העלאה מקסימלי",
     "max. possible: " : "המרבי האפשרי: ",

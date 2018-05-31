@@ -220,6 +220,7 @@ OC.L10N.register(
     "Need help?" : "Нуждаете се от помощ?",
     "See the documentation" : "Прегледайте документацията",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "За да функционира приложението изисква JavaScript. Моля, {linkstart}включете JavaScript{linkend} и презаредете страницата.",
+    "More apps" : "Още приложения",
     "Search" : "Търсене",
     "Confirm your password" : "Потвърдете паролата си",
     "Server side authentication failed!" : "Удостоверяването от страна на сървъра е неуспешно!",
