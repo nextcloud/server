@@ -174,17 +174,7 @@ class PreviewController extends Controller {
 		try {
 			$f = $this->preview->getPreview($node, $x, $y, !$a, $mode);
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
-
-			// Let cache this!
-			$response->addHeader('Pragma', 'public');
-
-			// Cache previews for 24H
 			$response->cacheFor(3600 * 24);
-			$expires = new \DateTime();
-			$expires->setTimestamp($this->timeFactory->getTime());
-			$expires->add(new \DateInterval('P1D'));
-			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-
 			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);

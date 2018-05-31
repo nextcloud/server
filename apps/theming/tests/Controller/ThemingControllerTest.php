@@ -695,11 +695,6 @@ class ThemingControllerTest extends TestCase {
 
 		@$expected = new Http\FileDisplayResponse($file);
 		$expected->cacheFor(3600);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'text/svg');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
 		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
@@ -728,11 +723,6 @@ class ThemingControllerTest extends TestCase {
 
 		@$expected = new Http\FileDisplayResponse($file);
 		$expected->cacheFor(3600);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'image/png');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="background"');
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
@@ -749,11 +739,6 @@ class ThemingControllerTest extends TestCase {
 
 		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$response->addHeader('Pragma', 'cache');
 
 		$actual = $this->themingController->getStylesheet();
 		$this->assertEquals($response, $actual);
@@ -782,11 +767,6 @@ class ThemingControllerTest extends TestCase {
 
 		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$response->addHeader('Pragma', 'cache');
 
 		$actual = $this->themingController->getStylesheet();
 		$this->assertEquals($response, $actual);
@@ -824,8 +804,6 @@ class ThemingControllerTest extends TestCase {
 	};
 })();';
 		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$expected->addHeader('Pragma', 'cache');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
@@ -860,8 +838,6 @@ class ThemingControllerTest extends TestCase {
 	};
 })();';
 		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$expected->addHeader('Pragma', 'cache');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
@@ -908,8 +884,6 @@ class ThemingControllerTest extends TestCase {
 				],
 			'display' => 'standalone'
 		]);
-		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$response->addHeader('Pragma', 'cache');
 		$response->cacheFor(3600);
 		$this->assertEquals($response, $this->themingController->getManifest('core'));
 	}

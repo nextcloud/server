@@ -101,11 +101,6 @@ class IconController extends Controller {
 		if ($iconFile !== false) {
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 			$response->cacheFor(86400);
-			$expires = new \DateTime();
-			$expires->setTimestamp($this->timeFactory->getTime());
-			$expires->add(new \DateInterval('PT24H'));
-			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-			$response->addHeader('Pragma', 'cache');
 			return $response;
 		}
 
@@ -146,11 +141,6 @@ class IconController extends Controller {
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
 		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
 
@@ -187,11 +177,6 @@ class IconController extends Controller {
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}
 		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
 }

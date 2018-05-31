@@ -102,11 +102,6 @@ class IconControllerTest extends TestCase {
 			->willReturn($file);
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 	}
 
@@ -139,11 +134,6 @@ class IconControllerTest extends TestCase {
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
@@ -162,11 +152,6 @@ class IconControllerTest extends TestCase {
 			->willReturn(file_get_contents($fallbackLogo));
 		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
@@ -196,11 +181,6 @@ class IconControllerTest extends TestCase {
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
 
@@ -219,11 +199,6 @@ class IconControllerTest extends TestCase {
 			->willReturn(file_get_contents($fallbackLogo));
 		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
 
