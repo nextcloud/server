@@ -196,7 +196,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		]);
 		$this->dispatcher->dispatch(self::class . '::getMeetingUrl', $event);
 
-		if ($event->hasArgument('meetingUrl') {
+		if ($event->hasArgument('meetingUrl')) {
 			$meetingUrl = $event->getArgument('meetingUrl');
 		}
 		else {
