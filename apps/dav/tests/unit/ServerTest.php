@@ -41,7 +41,7 @@ class ServerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesUris
 	 */
-	public function test($uri, array $plugins) {
+	public function test($uri, $plugins) {
 		/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject $r */
 		$r = $this->createMock(IRequest::class);
 		$r->expects($this->any())->method('getRequestUri')->willReturn($uri);

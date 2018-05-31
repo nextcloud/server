@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 /**
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

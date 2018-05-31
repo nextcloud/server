@@ -67,7 +67,7 @@ class Backend {
 	 * @param string[] $add
 	 * @param string[] $remove
 	 */
-	public function updateShares(IShareable $shareable, array $add, array $remove) {
+	public function updateShares(IShareable $shareable, $add, $remove) {
 		foreach($add as $element) {
 			$principal = $this->principalBackend->findByUri($element['href'], '');
 			if ($principal !== '') {
