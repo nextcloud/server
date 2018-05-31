@@ -144,7 +144,7 @@ class Manager implements IProvider {
 	 */
 	public function getTokenById(int $tokenId): IToken {
 		try {
-			$this->publicKeyTokenProvider->getTokenById($tokenId);
+			return $this->publicKeyTokenProvider->getTokenById($tokenId);
 		} catch (InvalidTokenException $e) {
 			return $this->defaultTokenProvider->getTokenById($tokenId);
 		}
@@ -178,16 +178,22 @@ class Manager implements IProvider {
 		if ($savedToken instanceof PublicKeyToken) {
 			return $this->publicKeyTokenProvider->getPassword($savedToken, $tokenId);
 		}
+
+		throw new InvalidTokenException();
 	}
 
 	public function setPassword(IToken $token, string $tokenId, string $password) {
 		if ($token instanceof DefaultToken) {
 			$this->defaultTokenProvider->setPassword($token, $tokenId, $password);
+			return;
 		}
 
-		if ($tokenId instanceof PublicKeyToken) {
+		if ($token instanceof PublicKeyToken) {
 			$this->publicKeyTokenProvider->setPassword($token, $tokenId, $password);
+			return;
 		}
+
+		throw new InvalidTokenException();
 	}
 
 	public function invalidateToken(string $token) {
@@ -219,6 +225,8 @@ class Manager implements IProvider {
 		if ($token instanceof PublicKeyToken) {
 			return $this->publicKeyTokenProvider->rotate($token, $oldTokenId, $newTokenId);
 		}
+
+		throw new InvalidTokenException();
 	}
 
 

@@ -204,23 +204,11 @@ class PublicKeyTokenMapperTest extends TestCase {
 	}
 
 	public function testGetTokenByUser() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user1'));
-
-		$this->assertCount(2, $this->mapper->getTokenByUser($user));
+		$this->assertCount(2, $this->mapper->getTokenByUser('user1'));
 	}
 
 	public function testGetTokenByUserNotFound() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user1000'));
-
-		$this->assertCount(0, $this->mapper->getTokenByUser($user));
+		$this->assertCount(0, $this->mapper->getTokenByUser('user1000'));
 	}
 
 	public function testDeleteById() {
@@ -232,11 +220,8 @@ class PublicKeyTokenMapperTest extends TestCase {
 			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
 		$result = $qb->execute();
 		$id = $result->fetch()['id'];
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user1'));
 
-		$this->mapper->deleteById($user, (int)$id);
+		$this->mapper->deleteById('user1', (int)$id);
 		$this->assertEquals(2, $this->getNumberOfTokens());
 	}
 
@@ -244,11 +229,8 @@ class PublicKeyTokenMapperTest extends TestCase {
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$id = 33;
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user10000'));
 
-		$this->mapper->deleteById($user, $id);
+		$this->mapper->deleteById('user1000', $id);
 		$this->assertEquals(3, $this->getNumberOfTokens());
 	}
 
