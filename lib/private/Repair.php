@@ -53,8 +53,6 @@ use OC\Repair\RepairMimeTypes;
 use OC\Repair\RepairInvalidShares;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
-use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\Repair\RemoveInvalidShares;
 use OCP\AppFramework\QueryException;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -169,7 +167,7 @@ class Repair implements IOutput{
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager())
 		];
 	}
 
