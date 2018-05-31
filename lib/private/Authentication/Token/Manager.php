@@ -59,8 +59,7 @@ class Manager implements IProvider {
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
-		//TODO switch to new token by default once it is there
-		return $this->defaultTokenProvider->generateToken(
+		return $this->publicKeyTokenProvider->generateToken(
 			$token,
 			$uid,
 			$loginName,
