@@ -181,7 +181,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 			}
 
 			$this->carddavBackend->updateShares($this, [], [
-				'href' => $principal
+				$principal
 			]);
 			return;
 		}

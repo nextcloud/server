@@ -6,8 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitDAV
 {
-    public static $firstCharsPsr4 = array (
-        'O' => true,
+    public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'OCA\\DAV\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -76,6 +79,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CardDAV\\Xml\\Groups' => __DIR__ . '/..' . '/../lib/CardDAV/Xml/Groups.php',
         'OCA\\DAV\\Command\\CreateAddressBook' => __DIR__ . '/..' . '/../lib/Command/CreateAddressBook.php',
         'OCA\\DAV\\Command\\CreateCalendar' => __DIR__ . '/..' . '/../lib/Command/CreateCalendar.php',
+        'OCA\\DAV\\Command\\RemoveInvalidShares' => __DIR__ . '/..' . '/../lib/Command/RemoveInvalidShares.php',
         'OCA\\DAV\\Command\\SyncBirthdayCalendar' => __DIR__ . '/..' . '/../lib/Command/SyncBirthdayCalendar.php',
         'OCA\\DAV\\Command\\SyncSystemAddressBook' => __DIR__ . '/..' . '/../lib/Command/SyncSystemAddressBook.php',
         'OCA\\DAV\\Comments\\CommentNode' => __DIR__ . '/..' . '/../lib/Comments/CommentNode.php',
@@ -166,7 +170,7 @@ class ComposerStaticInitDAV
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->firstCharsPsr4 = ComposerStaticInitDAV::$firstCharsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitDAV::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitDAV::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInitDAV::$classMap;
 
