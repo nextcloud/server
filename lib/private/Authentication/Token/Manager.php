@@ -121,8 +121,19 @@ class Manager implements IProvider {
 		try {
 			return $this->publicKeyTokenProvider->getToken($tokenId);
 		} catch (InvalidTokenException $e) {
-			return $this->defaultTokenProvider->getToken($tokenId);
+			// No worries we try to convert it to a PublicKey Token
 		}
+
+		//Convert!
+		$token = $this->defaultTokenProvider->getToken($tokenId);
+
+		try {
+			$password = $this->defaultTokenProvider->getPassword($token, $tokenId);
+		} catch (PasswordlessTokenException $e) {
+			$password = null;
+		}
+
+		return $this->publicKeyTokenProvider->convertToken($token, $tokenId, $password);
 	}
 
 	/**
@@ -149,7 +160,6 @@ class Manager implements IProvider {
 		try {
 			$this->publicKeyTokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (InvalidTokenException $e) {
-			//TODO: Move to new token
 			$this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		}
 	}
@@ -163,7 +173,6 @@ class Manager implements IProvider {
 	 */
 	public function getPassword(IToken $savedToken, string $tokenId): string {
 		if ($savedToken instanceof DefaultToken) {
-			//TODO convert to new token type
 			return $this->defaultTokenProvider->getPassword($savedToken, $tokenId);
 		}
 
@@ -173,9 +182,7 @@ class Manager implements IProvider {
 	}
 
 	public function setPassword(IToken $token, string $tokenId, string $password) {
-
 		if ($token instanceof DefaultToken) {
-			//TODO conver to new token
 			$this->defaultTokenProvider->setPassword($token, $tokenId, $password);
 		}
 
@@ -200,10 +207,14 @@ class Manager implements IProvider {
 	}
 
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
-
 		if ($token instanceof DefaultToken) {
-			//TODO Migrate to new token
-			return $this->defaultTokenProvider->rotate($token, $oldTokenId, $newTokenId);
+			try {
+				$password = $this->defaultTokenProvider->getPassword($token, $oldTokenId);
+			} catch (PasswordlessTokenException $e) {
+				$password = null;
+			}
+
+			return $this->publicKeyTokenProvider->convertToken($token, $newTokenId, $password);
 		}
 
 		if ($token instanceof PublicKeyToken) {

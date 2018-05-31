@@ -159,4 +159,12 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb->execute();
 	}
 
+	public function deleteTempToken(PublicKeyToken $except) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete('authtoken')
+			->where($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN)))
+			->andWhere($qb->expr()->neq('id', $qb->createNamedParameter($except->getId())))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)));
+	}
 }

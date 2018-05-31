@@ -67,36 +67,7 @@ class PublicKeyTokenProvider implements IProvider {
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
-		$dbToken = new PublicKeyToken();
-		$dbToken->setUid($uid);
-		$dbToken->setLoginName($loginName);
-
-		$config = [
-			'digest_alg' => 'sha512',
-			'private_key_bits' => 2048,
-		];
-
-		// Generate new key
-		$res = openssl_pkey_new($config);
-		openssl_pkey_export($res, $privateKey);
-
-		// Extract the public key from $res to $pubKey
-		$publicKey = openssl_pkey_get_details($res);
-		$publicKey = $publicKey['key'];
-
-		$dbToken->setPublicKey($publicKey);
-		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
-
-		if (!is_null($password)) {
-			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
-		}
-
-		$dbToken->setName($name);
-		$dbToken->setToken($this->hashToken($token));
-		$dbToken->setType($type);
-		$dbToken->setRemember($remember);
-		$dbToken->setLastActivity($this->time->getTime());
-		$dbToken->setLastCheck($this->time->getTime());
+		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
 
 		$this->mapper->insert($dbToken);
 
@@ -219,6 +190,9 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException();
 		}
 
+		// When changeing passwords all temp tokens are deleted
+		$this->mapper->deleteTempToken($token);
+
 		// Update the password for all tokens
 		$tokens = $this->mapper->getTokenByUser($token->getUID());
 		foreach ($tokens as $t) {
@@ -226,8 +200,6 @@ class PublicKeyTokenProvider implements IProvider {
 			$t->setPassword($this->encryptPassword($password, $publicKey));
 			$this->updateToken($t);
 		}
-
-		//TODO: should we also do this for temp tokens?
 	}
 
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
@@ -267,11 +239,13 @@ class PublicKeyTokenProvider implements IProvider {
 
 	private function encryptPassword(string $password, string $publicKey): string {
 		openssl_public_encrypt($password, $encryptedPassword, $publicKey, OPENSSL_PKCS1_OAEP_PADDING);
+		$encryptedPassword = base64_encode($encryptedPassword);
 
 		return $encryptedPassword;
 	}
 
 	private function decryptPassword(string $encryptedPassword, string $privateKey): string {
+		$encryptedPassword = base64_decode($encryptedPassword);
 		openssl_private_decrypt($encryptedPassword, $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
 
 		return $password;
@@ -280,5 +254,66 @@ class PublicKeyTokenProvider implements IProvider {
 	private function hashToken(string $token): string {
 		$secret = $this->config->getSystemValue('secret');
 		return hash('sha512', $token . $secret);
+	}
+
+	/**
+	 * Convert a DefaultToken to a publicKeyToken
+	 * This will also be updated directly in the Database
+	 */
+	public function convertToken(DefaultToken $defaultToken, string $token, $password): PublicKeyToken {
+		$pkToken = $this->newToken(
+			$token,
+			$defaultToken->getUID(),
+			$defaultToken->getLoginName(),
+			$password,
+			$defaultToken->getName(),
+			$defaultToken->getType(),
+			$defaultToken->getRemember()
+		);
+
+		$pkToken->setId($defaultToken->getId());
+
+		return $this->mapper->update($pkToken);
+	}
+
+	private function newToken(string $token,
+							  string $uid,
+							  string $loginName,
+							  $password,
+							  string $name,
+							  int $type,
+							  int $remember): PublicKeyToken {
+		$dbToken = new PublicKeyToken();
+		$dbToken->setUid($uid);
+		$dbToken->setLoginName($loginName);
+
+		$config = [
+			'digest_alg' => 'sha512',
+			'private_key_bits' => 2048,
+		];
+
+		// Generate new key
+		$res = openssl_pkey_new($config);
+		openssl_pkey_export($res, $privateKey);
+
+		// Extract the public key from $res to $pubKey
+		$publicKey = openssl_pkey_get_details($res);
+		$publicKey = $publicKey['key'];
+
+		$dbToken->setPublicKey($publicKey);
+		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
+
+		if (!is_null($password)) {
+			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
+		}
+
+		$dbToken->setName($name);
+		$dbToken->setToken($this->hashToken($token));
+		$dbToken->setType($type);
+		$dbToken->setRemember($remember);
+		$dbToken->setLastActivity($this->time->getTime());
+		$dbToken->setLastCheck($this->time->getTime());
+
+		return $dbToken;
 	}
 }
