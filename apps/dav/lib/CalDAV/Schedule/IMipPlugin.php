@@ -190,15 +190,16 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$meetingWhen = $this->generateWhenString($l10n, $start, $end);
 
-		$event = new GenericEvent(null, [
+        $event = new GenericEvent(null, [
 			'vevent' => $vevent,
 			'recipient' => $recipient,
 		]);
 		$this->dispatcher->dispatch(self::class . '::getMeetingUrl', $event);
 
-		$meetingUrl = $event->getArgument('meetingUrl');
-		if (empty($meetingUrl)) {
-			// Will use event URL.
+		if ($event->hasArgument('meetingUrl') {
+			$meetingUrl = $event->getArgument('meetingUrl');
+		}
+		else {
 			$meetingUrl = $vevent->URL;
 		}
 
