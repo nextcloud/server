@@ -159,6 +159,7 @@ class ViewController extends Controller {
 		// FIXME: Make non static
 		$storageInfo = $this->getStorageInfo();
 
+
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
@@ -169,18 +170,59 @@ class ViewController extends Controller {
 			]
 		);
 
+
+
+		$user = $this->userSession->getUser()->getUID();
+
+		$tagger=\OC::$server->getTagManager();
+
+
+		$helper= new \OCA\Files\Activity\Helper($tagger);
+		$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
+		$favItems = $favElements['items'];
+
+		$key='show_Quick_Access';
+
+		if($this->config->getUserValue($user,$this->appName,$key,true) && sizeof($favElements['folders'])>0){
+			/*$nav->assign('showQuickAccess', 1);
+			\OCA\Files\App::getNavigationManager()->add(
+				[
+					'id' => 'Spacer',
+					'classes' => 'app-navigation-caption',
+					'order' => 6,
+					'name' => $this->l10n->t('Quick-Access')
+				]
+			);*/
+
+		$i=0;
+		foreach($favElements['folders'] as $elem){
+
+			\OCA\Files\App::getNavigationManager()->add(
+				[
+					'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
+					'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
+					'order' => 7+$i,
+					'classes' => 'app-navigation-subelement',
+					'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
+					'icon' => 'files'
+				]
+			);
+			$i++;
+		}
+		}
+
+
+
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 		usort($navItems, function($item1, $item2) {
 			return $item1['order'] - $item2['order'];
 		});
-		$nav->assign('navigationItems', $navItems);
 
-		$webdavurl = $this->urlGenerator->linkTo('', 'remote.php') .
-			'/dav/files/' .
-			$this->userSession->getUser()->getUID() .
-			'/';
-		$webdavurl = $this->urlGenerator->getAbsoluteURL($webdavurl);
-		$nav->assign('webdavurl', $webdavurl);
+
+
+
+
+		$nav->assign('navigationItems', $navItems);
 
 		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -215,7 +257,6 @@ class ViewController extends Controller {
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'];
 		$params['isPublic'] = false;
 		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
-		$user = $this->userSession->getUser()->getUID();
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
@@ -233,6 +274,7 @@ class ViewController extends Controller {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
+
 
 		return $response;
 	}

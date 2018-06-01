@@ -76,6 +76,16 @@ $application->registerRoutes(
 				'url' => '/ajax/getstoragestats.php',
 				'verb' => 'GET',
 			],
+			[
+				'name' => 'API#showQuickAccess',
+				'url' => '/api/v1/showquickaccess',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'API#hideQuickAccess',
+				'url' => '/api/v1/hidequickaccess',
+				'verb' => 'GET',
+			],
 		]
 	]
 );

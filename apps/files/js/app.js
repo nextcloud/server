@@ -53,12 +53,19 @@
 			this.$showHiddenFiles = $('input#showhiddenfilesToggle');
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
+
+			this.$showQuickAccess = $('input#showfavoritequickaccessToggle');
+			var showQuickAccess = $('#showFavoriteQuickAccess').val() === "1";
+			this.$showQuickAccess.prop('checked', showQuickAccess);
+
+
 			if ($('#fileNotFound').val() === "1") {
 				OC.Notification.show(t('files', 'File could not be found'), {type: 'error'});
 			}
 
 			this._filesConfig = new OC.Backbone.Model({
-				showhidden: showHidden
+				showhidden: showHidden,
+				showQuickAccess: showQuickAccess
 			});
 
 			var urlParams = OC.Util.History.parseUrlQuery();
@@ -131,6 +138,7 @@
 			});
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
+			this._debouncedPersistShowQuickAccessState = _.debounce(this._persistShowQuickAccessState, 1200);
 		},
 
 		/**
@@ -205,6 +213,7 @@
 
 			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
 			this.$showHiddenFiles.on('change', _.bind(this._onShowHiddenFilesChange, this));
+			this.$showQuickAccess.on('change', _.bind(this._onShowQuickAccessChange, this));
 		},
 
 		/**
@@ -229,6 +238,35 @@
 				show: show
 			});
 		},
+
+
+		/**
+		 * Toggle showing hidden files according to the settings checkbox
+		 *
+		 * @returns {undefined}
+		 */
+		_onShowQuickAccessChange: function() {
+			var qa = this.$showQuickAccess.is(':checked');
+			this._filesConfig.set('show_quick_access', qa);
+			this._debouncedPersistShowQuickAccessState();
+		},
+
+		/**
+		 * Persist show hidden preference on ther server
+		 *
+		 * @returns {undefined}
+		 */
+		_persistShowQuickAccessState: function() {
+			var qa = this._filesConfig.get('show_quick_access');
+			var url="/apps/files/api/v1/hidequickaccess";
+			if(qa){
+				url="/apps/files/api/v1/showquickaccess";
+			}
+
+			$.get(OC.generateUrl(url),function(data, status){
+			});
+		},
+
 
 		/**
 		 * Event handler for when the current navigation item has changed

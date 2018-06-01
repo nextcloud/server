@@ -584,6 +584,41 @@ kbd {
 	.app-navigation-entry-menu ul {
 		list-style-type: none;
 	}
+
+	.app-navigation-caption {
+		font-weight: bold;
+		line-height: 44px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		float: left;
+		margin-left:10px;
+		margin-top:10px;
+		margin-bottom:10px;
+		//Make the Link in the spacer not selectable and prevent mouseevents
+		-moz-user-select: -moz-none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+		pointer-events:none;
+	}
+
+	.app-navigation-subelement {
+		line-height: 24px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		float: left;
+		padding-left: 14px;
+		& a {
+			//Overrides normal size for smaller subelements
+			line-height: 24px;
+			min-height: 24px;
+			//Removes the double border on the a element
+			&:visited { box-shadow:none;}
+			&:hover { box-shadow:none;}
+			&:active {box-shadow:none; }
+		}
+	}
 }
 
 /* APP-CONTENT ---------------------------------------------------------------*/
@@ -690,6 +725,7 @@ kbd {
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 }
+
 
 .settings-button {
 	display: block;

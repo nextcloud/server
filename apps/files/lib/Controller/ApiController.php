@@ -265,4 +265,32 @@ class ApiController extends Controller {
 		return new Response();
 	}
 
+	/**
+	 * Toggle default for showing/hiding QuickAccess folder
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param int $value
+	 * @return Response
+	 */
+	public function showQuickAccess() {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1);
+		return new Response();
+		}
+
+	/**
+	 * Toggle default for showing/hiding QuickAccess folder
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param int $value
+	 * @return Response
+	 */
+	public function hideQuickAccess() {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 0);
+		return new Response();
+		}
+
+
+
 }
