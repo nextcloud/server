@@ -175,6 +175,27 @@ class ViewController extends Controller {
 		});
 		$nav->assign('navigationItems', $navItems);
 
+		$tagger=\OC::$server->getTagManager();
+
+
+		$helper= new \OCA\Files\Activity\Helper($tagger);
+		$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
+		$favItems = $favElements["items"];
+
+		$i=0;
+		foreach($favElements["folders"] as $elem){
+			$item['path']=$elem;
+			$item['name']=substr( $elem, strrpos($elem,'/')+1, strlen($elem));
+			$item['serverroot']=\OC::$WEBROOT;
+			$favFolder[$i]=$item;
+			$i++;
+		}
+
+		$nav->assign('favoritesItems', $favItems);
+
+		$nav->assign('favoritesFolders', $favFolder);
+
+
 		$webdavurl = $this->urlGenerator->linkTo('', 'remote.php') .
 			'/dav/files/' .
 			$this->userSession->getUser()->getUID() .

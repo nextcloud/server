@@ -11,6 +11,16 @@
 			</a>
 		</li>
 		<?php } ?>
+
+		<?php $pinned = 0; ?>
+		<?php foreach ($_['favoritesFolders'] as $item) {
+			strpos($item['classes'], 'pinned')!==false ? $pinned++ : '';
+			?>
+			<li data-id=<?php echo $item['path']; ?>>
+				<a class="nav-icon-files svg" href="<?php echo $item['serverroot']."/index.php/apps/files/?dir=".$item['path']; ?>"><?php echo $item['name']; ?></a>
+			</li>
+		<?php }?>
+
 		<li id="quota" class="pinned <?php p($pinned===0?'first-pinned ':'') ?><?php
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 			?>has-tooltip" title="<?php p($_['usage_relative'] . '%');
