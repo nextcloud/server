@@ -222,7 +222,7 @@
 			},
 
 			whatsNew: function () {
-				console.warn("fobar");
+
 				var whatsNew = [];
 				for (var i in this.whatsNewData) {
 					whatsNew[i] = { icon: 'icon-star-dark', longtext: this.whatsNewData[i] };
