@@ -34,6 +34,7 @@ OC.L10N.register(
     "Remove background image" : "Odebrat obrázek pozadí",
     "Advanced options" : "Pokročilé předvolby",
     "Header logo" : "Logo v záhlaví",
+    "Favicon" : "Favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy.",
     "You are already using a custom theme" : "Již používáte vlastní motiv",
     "reset to default" : "obnovit výchozí",

@@ -21,7 +21,7 @@
     "<strong>stable</strong> is the most recent stable version. It is suited for production use and will always update to the latest major version." : "<strong>stabile</strong> è la versione stabile più recente. È appropriata per l'utilizzo in produzione e sarà sempre aggiornata all'ultima versione stabile.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> è una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione.",
     "Could not start updater, please try the manual update" : "Impossibile avviare lo strumento di aggiornamento, prova l'aggiornamento manuale",
-    "Update notifications" : "Notifiche di aggiornamento",
+    "Update notifications" : "Notifiche degli aggiornamenti",
     "Channel updated" : "Canale aggiornato",
     "The update server could not be reached since %d days to check for new updates." : "Il server degli aggiornamenti non è raggiungibile da %d giorni per controllare la presenza di nuovi aggiornamenti.",
     "Please check the Nextcloud and server log files for errors." : "Controlla i file di log di Nextcloud e del server alla ricerca di errori.",
