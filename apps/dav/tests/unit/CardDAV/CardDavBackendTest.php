@@ -36,6 +36,7 @@ use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -97,6 +98,7 @@ class CardDavBackendTest extends TestCase {
 				$this->groupManager,
 				$this->createMock(ShareManager::class),
 				$this->createMock(IUserSession::class),
+				$this->createMock(IConfig::class),
 				])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
