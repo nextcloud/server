@@ -47,6 +47,7 @@ $principalBackend = new Principal(
 	\OC::$server->getGroupManager(),
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
+	\OC::$server->getConfig(),
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();
