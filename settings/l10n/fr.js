@@ -151,7 +151,7 @@ OC.L10N.register(
     "Allow users to share via link" : "Autoriser les utilisateurs à partager par lien",
     "Allow public uploads" : "Autoriser les téléversements publics",
     "Always ask for a password" : "Toujours demander un mot de passe",
-    "Enforce password protection" : "Imposer la protection par mot de passe",
+    "Enforce password protection" : "Imposer la protection renforcée du mot de passe",
     "Set default expiration date" : "Indiquer une date d'expiration par défaut",
     "Expire after " : "Expiration après ",
     "days" : "jours",
