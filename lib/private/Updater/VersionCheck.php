@@ -97,7 +97,7 @@ class VersionCheck {
 				$tmp['versionstring'] = (string)$data->versionstring;
 				$tmp['url'] = (string)$data->url;
 				$tmp['web'] = (string)$data->web;
-				$tmp['changelog'] = isset($data->changelog) ? (string)$data->changelog : null;
+				$tmp['changelog'] = isset($data->changelog) ? (string)$data->changelog : '';
 				// TODO: one's it is decided, use the proper field…
 				$tmp['whatsNew'] = isset($data->whatsNew) ? ((array)$data->whatsNew)['item'] : null;
 				$tmp['whatsNew'] = isset($data->whatsNew_admin) ? ((array)$data->whatsNew_admin)['item'] : (string)$data->whatsNew;

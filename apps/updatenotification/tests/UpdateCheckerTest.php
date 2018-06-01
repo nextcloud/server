@@ -51,6 +51,8 @@ class UpdateCheckerTest extends TestCase {
 				'versionstring' => 'Nextcloud 123',
 				'web'=> 'javascript:alert(1)',
 				'url'=> 'javascript:alert(2)',
+				'changelog' => 'javascript:alert(3)',
+				'whatsNew' => 'javascript:alert(4)',
 				'autoupdater'=> '0',
 				'eol'=> '1',
 			]);
@@ -73,6 +75,8 @@ class UpdateCheckerTest extends TestCase {
 				'versionstring' => 'Nextcloud 123',
 				'web'=> 'https://docs.nextcloud.com/myUrl',
 				'url'=> 'https://downloads.nextcloud.org/server',
+				'changelog' => 'https://nextcloud.com/changelog/#123.0.0',
+				'whatsNew' => ['Brews coffee', 'Makes appointments', 'Orchestrates Terminators'],
 				'autoupdater'=> '1',
 				'eol'=> '0',
 			]);
@@ -84,6 +88,8 @@ class UpdateCheckerTest extends TestCase {
 			'versionIsEol' => false,
 			'updateLink' => 'https://docs.nextcloud.com/myUrl',
 			'downloadLink' => 'https://downloads.nextcloud.org/server',
+			'changelog' => 'https://nextcloud.com/changelog/#123.0.0',
+			'whatsNew' => ['Brews coffee', 'Makes appointments', 'Orchestrates Terminators'],
 		];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}

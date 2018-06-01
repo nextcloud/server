@@ -59,7 +59,7 @@ class UpdateChecker {
 			if (strpos($data['changelog'], 'https://') === 0) {
 				$result['changelog'] = $data['changelog'];
 			}
-			if($data['whatsNew'] !== null) {
+			if (is_array($data['whatsNew']) && count($data['whatsNew']) <= 3) {
 				$result['whatsNew'] = $data['whatsNew'];
 			}
 

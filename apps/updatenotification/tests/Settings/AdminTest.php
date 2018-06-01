@@ -99,6 +99,8 @@ class AdminTest extends TestCase {
 				'updateAvailable' => true,
 				'updateVersion' => '8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'changelog' => 'https://nextcloud.com/changelog/#8.1.2',
+				'whatsNew' => ['Autoshare to mother-in-law', 'Faster backend', 'Sparkling frontend'],
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 			]);
@@ -124,6 +126,8 @@ class AdminTest extends TestCase {
 				'channels' => $channels,
 				'newVersionString' => '8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'changelogURL' => 'https://nextcloud.com/changelog/#8.1.2',
+				'whatsNew' => ['Autoshare to mother-in-law', 'Faster backend', 'Sparkling frontend'],
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => true,
