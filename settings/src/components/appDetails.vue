@@ -146,7 +146,6 @@ export default {
 			if (this.app.author['@value']) {
 				return [this.app.author];
 			}
-			console.log(this.app.author);
 			return this.app.author;
 		},
 		appGroups() {

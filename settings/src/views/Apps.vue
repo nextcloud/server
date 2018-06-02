@@ -72,7 +72,6 @@ export default {
 		this.$store.dispatch('getAllApps');
 		this.$store.dispatch('getGroups');
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
-		console.log(this.$store.getters.getServerData.updateCount);
 	},
 	mounted() {
 		// TODO: remove jQuery once we have a proper standardisation of the search
