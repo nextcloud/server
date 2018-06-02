@@ -25,7 +25,7 @@
 		<?php if($_['favoritesFolders']>0){ ?>
 
 			<li class="nav-sidebar-spacer">
-				Favorites:
+				<?php p($l->t('Favorites'));?>:
 			</li>
 		<?php } ?>
 

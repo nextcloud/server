@@ -240,14 +240,12 @@
 		 */
 		_persistShowQuickAccessState: function() {
 			var qa = this._filesConfig.get('show_quick_access');
-			window.alert("Persist SQA "+qa);
 			var url="/apps/files/api/v1/hidequickaccess";
 			if(qa){
 				url="/apps/files/api/v1/showquickaccess";
 			}
 
 			$.get(OC.generateUrl(url),function(data, status){
-				alert("Data: " + data + "\nStatus: " + status);
 			});
 		},
 
