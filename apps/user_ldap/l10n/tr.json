@@ -63,6 +63,7 @@
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Görüntülenecek kullanıcı adı özniteliği algılanamadı. Lütfen gelişmiş LDAP ayarları bölümünden siz belirtin.",
     "Could not find the desired feature" : "İstenilen özellik bulunamadı",
     "Invalid Host" : "Sunucu Geçersiz",
+    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "Bu uygulama yöneticilerin Nextcloud sunucusunu bir LDAP temelli kullanıcı klasörüne bağlamasını sağlar.",
     "Test Configuration" : "Yapılandırmayı Sına",
     "Help" : "Yardım",
     "Groups meeting these criteria are available in %s:" : "%s içinde bu ölçüte uygun gruplar var:",
