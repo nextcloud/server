@@ -23,9 +23,11 @@
 <template>
 	<div id="app">
 		<app-navigation :menu="menu" />
-		<app-list :category="category" :app="currentApp" :search="search"></app-list>
-		<div id="app-sidebar" v-if="id && currentApp">
-			<app-details :category="category" :app="currentApp"></app-details>
+		<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': currentApp, 'icon-loading': loadingList }">
+			<app-list :category="category" :app="currentApp" :search="search"></app-list>
+			<div id="app-sidebar" v-if="id && currentApp">
+				<app-details :category="category" :app="currentApp"></app-details>
+			</div>
 		</div>
 	</div>
 </template>
@@ -97,6 +99,9 @@ export default {
 	computed: {
 		loading() {
 			return this.$store.getters.loading('categories');
+		},
+		loadingList() {
+			return this.$store.getters.loading('list');
 		},
 		currentApp() {
 			return this.apps.find(app => app.id === this.id );

@@ -31,6 +31,27 @@
 			appGroups() {
 				return this.app.groups.map(group => {return {id: group, name: group}});
 			},
+			loading() {
+				let self = this;
+				return function(id) {
+					return self.$store.getters.loading(id);
+				}
+			},
+			installing() {
+				return this.$store.getters.loading('install');
+			},
+			enableButtonText() {
+				if (this.app.needsDownload) {
+					return t('settings','Download and enable');
+				}
+				return t('settings','Enable');
+			},
+			enableButtonTooltip() {
+				if (this.app.needsDownload) {
+					return t('settings','The app will be downloaded from the app store');
+				}
+				return false;
+			}
 		},
 		methods: {
 			isLimitedToGroups(app) {

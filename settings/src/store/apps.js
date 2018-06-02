@@ -205,7 +205,12 @@ const actions = {
 							}
 						})
 						.catch((error) => {
-							context.commit('setError', {appId: apps, error: t('settings', 'Error: This app can not be enabled because it makes the server unstable')});
+							if (!Array.isArray(appId)) {
+								context.commit('setError', {
+									appId: apps,
+									error: t('settings', 'Error: This app can not be enabled because it makes the server unstable')
+								});
+							}
 						});
 				})
 				.catch((error) => {

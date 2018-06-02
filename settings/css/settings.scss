@@ -784,11 +784,33 @@ span.version {
 	.app-score-image {
 		height: 14px;
 	}
+	.actions {
+		margin-top: 10px;
+	}
 }
 
 #app-sidebar #app-details-view {
-	.app-description p {
+	h2 {
+		.icon-settings-dark,
+		svg {
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			margin-right: 10px;
+			opacity: .7;
+		}
+	}
+	.app-level {
 		margin-bottom: 10px;
+	}
+	.app-author, .app-licence {
+		color: $color-text-details;
+	}
+	.app-dependencies {
+		margin: 10px 0;
+	}
+	.app-description p {
+		margin: 10px 0;
 	}
 	.close {
 		position: absolute;
@@ -797,6 +819,9 @@ span.version {
 		padding: 14px;
 		opacity: 0.5;
 		z-index: 1;
+	}.
+	.actions {
+		display: flex;
 	}
 }
 
@@ -842,7 +867,7 @@ span.version {
 	}
 }
 /* hide app version and level on narrower screens */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 900px) {
 	#apps-list.installed {
 		.app-version, .app-level {
 			display: none !important;
@@ -850,7 +875,7 @@ span.version {
 	}
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 500px) {
 	#apps-list.installed .app-groups {
 		display: none !important;
 	}
@@ -932,30 +957,15 @@ span.version {
 	list-style-position: inside;
 }
 
-/* Transition to complete width! */
-
-.app {
-	&:hover, &:active {
-		max-width: inherit;
-	}
-}
-
 .appslink {
 	text-decoration: underline;
 }
 
-.score {
-	color: #666;
-	font-weight: bold;
-	font-size: 0.8em;
-}
-
-.appinfo .documentation {
-	margin-top: 1em;
-	margin-bottom: 1em;
-}
 
 #apps-list, #apps-list-search {
+	.section {
+		cursor: pointer;
+	}
 	&.installed {
 		display: table;
 		width: 100%;
@@ -973,6 +983,9 @@ span.version {
 				border-bottom: 1px solid $color-border;
 				padding: 6px;
 				box-sizing: border-box;
+			}
+			&.selected {
+				background-color: nc-darken($color-main-background, 3%);
 			}
 		}
 		.groups-enable {
@@ -995,6 +1008,14 @@ span.version {
 			background-size: cover;
 			display: inline-block;
 		}
+		.actions {
+			text-align: right;
+			.icon-loading-small {
+				display: inline-block;
+				top: 4px;
+				margin-right: 10px;
+			}
+		}
 	}
 	&:not(.installed) .app-image-icon svg {
 		position: absolute;
@@ -1014,9 +1035,6 @@ span.version {
 		position: relative;
 		flex: 0 0 auto;
 
-		&.selected {
-			background-color: nc-darken($color-main-background, 6%);
-		}
 		h2.app-name {
 			display: block;
 			margin: 8px 0;
@@ -1070,10 +1088,6 @@ span.version {
 			}
 		}
 	}
-}
-
-.installed .actions {
-	text-align: right;
 }
 
 /* LOG */

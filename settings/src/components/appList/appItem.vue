@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div class="section" v-bind:class="{ selected: isSelected }">
+	<div class="section" v-bind:class="{ selected: isSelected }" v-on:click="showAppDetails">
 		<div class="app-image app-image-icon" v-on:click="showAppDetails">
 			<div v-if="!app.preview" class="icon-settings-dark"></div>
 			<img v-if="!app.previewAsIcon && app.preview && listView" :src="app.preview"  width="100%" />
@@ -37,29 +37,16 @@
 			{{ app.name }}
 		</div>
 		<div class="app-summary" v-if="!listView">{{ app.summary }}</div>
-		<div class="app-version" v-if="listView">{{ app.version }}</div>
+		<div class="app-version" v-if="listView">
+			<span v-if="app.version">{{ app.version }}</span>
+			<span v-else-if="app.appstoreData.releases[0].version">{{ app.appstoreData.releases[0].version }}</span>
+		</div>
 
 		<div class="app-level">
 			<span class="official icon-checkmark" v-if="app.level === 200"
 				  v-tooltip.auto="t('settings', 'Official apps are developed by and within the community. They offer central functionality and are ready for production use.')">
 				{{ t('settings', 'Official') }}</span>
 			<app-score v-if="!listView" :score="app.score"></app-score>
-			<a :href="appstoreUrl" v-if="!app.internal && listView">Im Store anzeigen ↗</a>
-		</div>
-
-
-		<div class="app-groups" v-if="listView">
-			<div class="groups-enable" v-if="app.active && canLimitToGroups(app)">
-				<input type="checkbox" :value="app.id" v-model="groupCheckedAppsData" v-on:change="setGroupLimit" class="groups-enable__checkbox checkbox" :id="prefix('groups_enable', app.id)">
-				<label :for="prefix('groups_enable', app.id)">Auf Gruppen beschränken</label>
-				<input type="hidden" class="group_select" title="Alle" value="">
-				<multiselect v-if="isLimitedToGroups(app)" :options="groups" :value="appGroups" @select="addGroupLimitation" @remove="removeGroupLimitation"
-							 :placeholder="t('settings', 'Limit app usage to groups')"
-							 label="name" track-by="id" class="multiselect-vue"
-							 :multiple="true" :close-on-select="false">
-					<span slot="noResult">{{t('settings', 'No results')}}</span>
-				</multiselect>
-			</div>
 		</div>
 
 		<div class="actions">
@@ -77,10 +64,11 @@
 	import Multiselect from 'vue-multiselect';
 	import AppScore from './appScore';
 	import AppManagement from '../appManagement';
+	import SvgFilterMixin from '../svgFilterMixin';
 
 	export default {
 		name: 'appItem',
-		mixins: [AppManagement],
+		mixins: [AppManagement, SvgFilterMixin],
 		props: {
 			app: {},
 			category: {},
@@ -101,60 +89,23 @@
 		data() {
 			return {
 				isSelected: false,
-				groupCheckedAppsData: false,
 				scrolled: false,
-				filterId: '',
 			};
 		},
 		mounted() {
-			if (this.app.groups.length > 0) {
-				this.groupCheckedAppsData = true;
-			}
 			this.isSelected = (this.app.id === this.$route.params.id);
-			this.filterId = 'invertIconApps' + Math.floor((Math.random() * 100 )) + new Date().getSeconds() + new Date().getMilliseconds();
 		},
 		computed: {
-			loading() {
-				let self = this;
-				return function(id) {
-					return self.$store.getters.loading(id);
-				}
-			},
-			installing() {
-				return this.$store.getters.loading('install');
-			},
-			filterUrl() {
-				return `url(#${this.filterId})`;
-			},
-			appstoreUrl() {
-				return `https://apps.nextcloud.com/apps/${this.app.id}`;
-			},
-			appGroups() {
-				return this.app.groups.map(group => {return {id: group, name: group}});
-			},
-			groups() {
-				return this.$store.getters.getGroups
-					.filter(group => group.id !== 'disabled')
-					.sort((a, b) => a.name.localeCompare(b.name));
-			},
-			enableButtonText() {
-				if (this.app.needsDownload) {
-					return t('settings','Download and enable');
-				}
-				return t('settings','Enable');
-			},
-			enableButtonTooltip() {
-				if (this.app.needsDownload) {
-					return t('settings','The app will be downloaded from the app store');
-				}
-				return false;
-			}
+
 		},
 		watchers: {
 
 		},
 		methods: {
-			showAppDetails() {
+			showAppDetails(event) {
+				if (event.currentTarget.tagName === 'INPUT' || event.currentTarget.tagName === 'A') {
+					return;
+				}
 				this.$router.push({
 					name: 'apps-details',
 					params: {category: this.category, id: this.app.id}

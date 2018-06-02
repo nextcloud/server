@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': app, 'icon-loading': loading }">
-
+	<div id="app-content-inner">
 		<div id="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
 			<template v-if="useListView">
 				<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
@@ -115,14 +114,15 @@ export default {
 			return (this.category === 'app-bundles');
 		},
 		allBundlesEnabled() {
+			let self = this;
 			return function(id) {
-				console.log(this.bundleApps(id).filter(app => !app.active));
-				return this.bundleApps(id).filter(app => !app.active).length === 0;
+				return self.bundleApps(id).filter(app => !app.active).length === 0;
 			}
 		},
 		bundleToggleText() {
+			let self = this;
 			return function(id) {
-				if (this.allBundlesEnabled(id)) {
+				if (self.allBundlesEnabled(id)) {
 					return t('settings', 'Disable all');
 				}
 				return t('settings', 'Enable all');
@@ -131,14 +131,13 @@ export default {
 	},
 	methods: {
 		toggleBundle(id) {
-			if (this.allBundlesEnabled) {
+			if (this.allBundlesEnabled(id)) {
 				return this.disableBundle(id);
 			}
 			return this.enableBundle(id);
 		},
 		enableBundle(id) {
 			let apps = this.bundleApps(id).map(app => app.id);
-			console.log(apps);
 			this.$store.dispatch('enableApp', { appId: apps, groups: [] })
 				.catch((error) => { console.log(error); OC.Notification.show(error)});
 		},
