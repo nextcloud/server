@@ -176,7 +176,7 @@ class ViewController extends Controller {
 		});
 		$nav->assign('navigationItems', $navItems);
 
-
+		$user = $this->userSession->getUser()->getUID();
 
 		$tagger=\OC::$server->getTagManager();
 
@@ -185,20 +185,30 @@ class ViewController extends Controller {
 		$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
 		$favItems = $favElements["items"];
 
+		$key="show_Quick_Access";
+
+		if($this->config->getUserValue($user,$this->appName,$key,false)){
+			$showFavoriteQuickAccess=true;
+		}else{
+			$showFavoriteQuickAccess=false;
+		}
+
 		$i=0;
 		foreach($favElements["folders"] as $elem){
 			$item['path']=$elem;
-			$item['name']=substr( $elem, strrpos($elem,'/')+1, strlen($elem));
+			$item['name']=substr( $elem, strrpos($elem,'/')+1, strlen($elem)).$test;
 			$item['serverroot']=\OC::$WEBROOT;
 			$favFolder[$i]=$item;
 			$i++;
 		}
 
-		$showFavoriteQuickAccess=true;
+
 		if($showFavoriteQuickAccess){
 			$nav->assign('favoritesItems', $favItems);
 			$nav->assign('favoritesFolders', $favFolder);
+
 		}
+		$nav->assign('setQuickAccessChecked', $showFavoriteQuickAccess);
 
 
 		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
@@ -234,13 +244,10 @@ class ViewController extends Controller {
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'];
 		$params['isPublic'] = false;
 		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
-		$user = $this->userSession->getUser()->getUID();
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
-		$showFavoriteQuickAccess = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
-		$params['showfavoritesquickaccess'] = $showFavoriteQuickAccess ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;

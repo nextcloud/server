@@ -83,7 +83,7 @@
 				<label for="showhiddenfilesToggle"><?php p($l->t('Show hidden files')); ?></label>
 			</div>
 			<div id="files-setting-showFavoriteQuickAccess">
-				<input class="checkbox" id="showfavoritequickaccessToggle" checked="checked" type="checkbox">
+				<input class="checkbox" id="showfavoritequickaccessToggle" <?php if($_['setQuickAccessChecked']) { ?> checked="checked" <?php } ?> type="checkbox">
 				<label for="showfavoritequickaccessToggle"><?php p($l->t('Enable Favorites Quick Access')); ?></label>
 			</div>
 			<label for="webdavurl"><?php p($l->t('WebDAV'));?></label>
