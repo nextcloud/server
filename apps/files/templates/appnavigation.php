@@ -1,7 +1,9 @@
 <div id="app-navigation">
 	<ul class="with-icon">
-		<?php $pinned = 0 ?>
-		<?php $trashelement = null; ?>
+		<?php
+		$pinned = 0;
+		$trashelement = null;
+		?>
 
 		<?php foreach ($_['navigationItems'] as $item) {
 			strpos($item['classes'], 'pinned')!==false ? $pinned++ : '';
@@ -22,7 +24,9 @@
 		<?php } ?>
 
 
-		<?php if($_['favoritesFolders']>0){ ?>
+		<?php if($_['favoritesFolders']>0){
+
+			?>
 
 			<li class="nav-sidebar-spacer">
 				<?php p($l->t('Favorites'));?>:
@@ -83,7 +87,7 @@
 				<label for="showhiddenfilesToggle"><?php p($l->t('Show hidden files')); ?></label>
 			</div>
 			<div id="files-setting-showFavoriteQuickAccess">
-				<input class="checkbox" id="showfavoritequickaccessToggle" <?php if($_['setQuickAccessChecked']) { ?> checked="checked" <?php } ?> type="checkbox">
+				<input class="checkbox" id="showfavoritequickaccessToggle" checked="checked" type="checkbox">
 				<label for="showfavoritequickaccessToggle"><?php p($l->t('Enable Favorites Quick Access')); ?></label>
 			</div>
 			<label for="webdavurl"><?php p($l->t('WebDAV'));?></label>
