@@ -169,11 +169,14 @@ class ViewController extends Controller {
 			]
 		);
 
+
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 		usort($navItems, function($item1, $item2) {
 			return $item1['order'] - $item2['order'];
 		});
 		$nav->assign('navigationItems', $navItems);
+
+
 
 		$tagger=\OC::$server->getTagManager();
 
@@ -191,17 +194,12 @@ class ViewController extends Controller {
 			$i++;
 		}
 
-		$nav->assign('favoritesItems', $favItems);
+		$showFavoriteQuickAccess=true;
+		if($showFavoriteQuickAccess){
+			$nav->assign('favoritesItems', $favItems);
+			$nav->assign('favoritesFolders', $favFolder);
+		}
 
-		$nav->assign('favoritesFolders', $favFolder);
-
-
-		$webdavurl = $this->urlGenerator->linkTo('', 'remote.php') .
-			'/dav/files/' .
-			$this->userSession->getUser()->getUID() .
-			'/';
-		$webdavurl = $this->urlGenerator->getAbsoluteURL($webdavurl);
-		$nav->assign('webdavurl', $webdavurl);
 
 		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -240,7 +238,9 @@ class ViewController extends Controller {
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
+		$showFavoriteQuickAccess = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
+		$params['showfavoritesquickaccess'] = $showFavoriteQuickAccess ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
@@ -254,6 +254,7 @@ class ViewController extends Controller {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
+
 
 		return $response;
 	}
