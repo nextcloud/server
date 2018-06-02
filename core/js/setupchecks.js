@@ -283,6 +283,25 @@
 						});
 					}
 				}
+
+				if (!xhr.getResponseHeader('Referrer-Policy') ||
+					(xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'no-referrer' &&
+					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'no-referrer-when-downgrade' &&
+					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'strict-origin' &&
+					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'strict-origin-when-cross-origin')) {
+					messages.push({
+						msg: t('core', 'The "{header}" HTTP header is not set to "{val1}", "{val2}", "{val3}" or "{val4}". This can leak referer information. See the <a target="_blank" rel="noreferrer noopener" href="{link}">W3C Recommendation</a>.',
+							{
+								header: 'Referrer-Policy',
+								val1: 'no-referrer',
+								val2: 'no-referrer-when-downgrade',
+								val3: 'strict-origin',
+								val4: 'strict-origin-when-cross-origin',
+								link: 'https://www.w3.org/TR/referrer-policy/'
+							}),
+						type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					});
+				}
 			} else {
 				messages.push({
 					msg: t('core', 'Error occurred while checking server setup'),
