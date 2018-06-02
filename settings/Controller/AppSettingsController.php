@@ -81,6 +81,9 @@ class AppSettingsController extends Controller {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var array */
+	private $allApps = [];
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -197,6 +200,41 @@ class AppSettingsController extends Controller {
 		return $formattedCategories;
 	}
 
+	private function fetchApps() {
+		$appClass = new \OC_App();
+		$apps = $appClass->listAllApps();
+		foreach ($apps as $app) {
+			$app['installed'] = true;
+			$this->allApps[$app['id']] = $app;
+		}
+
+		$apps = $this->getAppsForCategory('');
+		foreach ($apps as $app) {
+			$app['appstore'] = true;
+			if (!array_key_exists($app['id'], $this->allApps)) {
+				$this->allApps[$app['id']] = $app;
+			} else {
+				$this->allApps[$app['id']] = array_merge($this->allApps[$app['id']], $app);
+			}
+		}
+
+		// add bundle information
+		$bundles = $this->bundleFetcher->getBundles();
+		foreach($bundles as $bundle) {
+			foreach($bundle->getAppIdentifiers() as $identifier) {
+				foreach($this->allApps as &$app) {
+					if($app['id'] === $identifier) {
+						$app['bundleId'] = $bundle->getIdentifier();
+						continue;
+					}
+				}
+			}
+		}
+	}
+
+	private function getAllApps() {
+		return $this->allApps;
+	}
 	/**
 	 * Get all available apps in a category
 	 *
@@ -204,75 +242,16 @@ class AppSettingsController extends Controller {
 	 * @return JSONResponse
 	 * @throws \Exception
 	 */
-	public function listApps($category = ''): JSONResponse {
-		$appClass = new \OC_App();
+	public function listApps(): JSONResponse {
 
-		switch ($category) {
-			case 'installed':
-				$apps = $appClass->listAllApps();
-				break;
-			case 'updates':
-				$apps = $this->getAppsWithUpdates();
-				break;
-			case 'enabled':
-				$apps = $appClass->listAllApps();
-				$apps = array_filter($apps, function ($app) {
-					return $app['active'];
-				});
-				break;
-			case 'disabled':
-				$apps = $appClass->listAllApps();
-				$apps = array_filter($apps, function ($app) {
-					return !$app['active'];
-				});
-				break;
-			case 'app-bundles':
-				$bundles = $this->bundleFetcher->getBundles();
-				$apps = [];
-				$installedApps = $appClass->listAllApps();
-				$appstoreApps = $this->getAppsForCategory();
-				foreach($bundles as $bundle) {
-					foreach($bundle->getAppIdentifiers() as $identifier) {
-						$alreadyMatched = false;
-						foreach($installedApps as $app) {
-							if($app['id'] === $identifier) {
-								$app['bundleId'] = $bundle->getIdentifier();
-								$apps[] = $app;
-								$alreadyMatched = true;
-								continue;
-							}
-						}
-						if (!$alreadyMatched) {
-							foreach ($appstoreApps as $app) {
-								if ($app['id'] === $identifier) {
-									$app['bundleId'] = $bundle->getIdentifier();
-									$apps[] = $app;
-									continue;
-								}
-							}
-						}
-					}
-				}
-				break;
-			default:
-				$apps = $this->getAppsForCategory($category);
-				break;
-		}
-
-
-		// Fetch all apps from appstore
-		$allAppStoreApps = [];
-		$fetchedApps = $this->appFetcher->get();
-		foreach ($fetchedApps as $app) {
-			$allAppStoreApps[$app['id']] = $app;
-		}
+		$this->fetchApps();
+		$apps = $this->getAllApps();
 
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
 
 		// Extend existing app details
-		$apps = array_map(function($appData) use ($allAppStoreApps, $dependencyAnalyzer) {
-			$appstoreData = $allAppStoreApps[$appData['id']];
-			$appData['appstoreData'] = $appstoreData;
+		$apps = array_map(function($appData) use ($dependencyAnalyzer) {
+			$appstoreData = $appData['appstoreData'];
 			$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($appstoreData['screenshots'][0]['url']) : '';
 
 			$newVersion = $this->installer->isUpdateAvailable($appData['id']);
@@ -310,7 +289,7 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
-	 * Get all apps for a category
+	 * Get all apps for a category from the app store
 	 *
 	 * @param string $requestedCategory
 	 * @return array

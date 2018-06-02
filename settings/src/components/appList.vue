@@ -80,15 +80,45 @@ export default {
 			return this.$store.getters.loading('list');
 		},
 		apps() {
-			return this.$store.getters.getApps
+			let apps = this.$store.getters.getAllApps
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
+				.sort(function (a, b) {
+					if (a.active !== b.active) {
+						return (a.active ? -1 : 1)
+					}
+					if (a.update !== b.update) {
+						return (a.update ? -1 : 1)
+					}
+					return OC.Util.naturalSortCompare(a.name, b.name);
+				});
+
+			if (this.category === 'installed') {
+				return apps.filter(app => app.installed);
+			}
+			if (this.category === 'enabled') {
+				return apps.filter(app => app.active);
+			}
+			if (this.category === 'disabled') {
+				return apps.filter(app => !app.active);
+			}
+			if (this.category === 'app-bundles') {
+				return apps.filter(app => app.bundles);
+			}
+			if (this.category === 'updates') {
+				return apps.filter(app => app.update);
+			}
+			// filter app store categories
+			return apps.filter(app => {
+				return app.appstore && app.category !== undefined &&
+					(app.category === this.category || app.category.indexOf(this.category) > -1);
+			});
 		},
 		bundles() {
 			return this.$store.getters.getServerData.bundles;
 		},
 		bundleApps() {
 			return function(bundle) {
-				return this.$store.getters.getApps
+				return this.$store.getters.getAllApps
 					.filter(app => app.bundleId === bundle);
 			}
 		},

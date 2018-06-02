@@ -26,7 +26,6 @@ import Vue from 'vue';
 
 const state = {
 	apps: [],
-	allApps: [],
 	categories: [],
 	updateCount: 0,
 	loading: {},
@@ -58,12 +57,8 @@ const mutations = {
 		state.categories = categoriesArray;
 	},
 
-	setApps(state, apps) {
-		state.apps = apps;
-	},
-
 	setAllApps(state, apps) {
-		state.allApps = apps;
+		state.apps = apps;
 	},
 
 	setError(state, {appId, error}) {
@@ -145,19 +140,8 @@ const getters = {
 	getCategories(state) {
 		return state.categories;
 	},
-	getApps(state) {
-		return state.apps.concat([]).sort(function (a, b) {
-			if (a.active !== b.active) {
-				return (a.active ? -1 : 1)
-			}
-			if (a.update !== b.update) {
-				return (a.update ? -1 : 1)
-			}
-			return OC.Util.naturalSortCompare(a.name, b.name);
-		});
-	},
 	getAllApps(state) {
-		return state.allApps;
+		return state.apps;
 	},
 	getUpdateCount(state) {
 		return state.updateCount;
@@ -279,23 +263,12 @@ const actions = {
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
 
-	getApps(context, { category }) {
-		context.commit('startLoading', 'list');
-		return api.get(OC.generateUrl(`settings/apps/list?category=${category}`))
-			.then((response) => {
-				context.commit('setApps', response.data.apps);
-				context.commit('stopLoading', 'list');
-				return true;
-			})
-			.catch((error) => context.commit('API_FAILURE', error))
-	},
-
 	getAllApps(context) {
-		context.commit('startLoading', 'all');
+		context.commit('startLoading', 'list');
 		return api.get(OC.generateUrl(`settings/apps/list`))
 			.then((response) => {
 				context.commit('setAllApps', response.data.apps);
-				context.commit('stopLoading', 'all');
+				context.commit('stopLoading', 'list');
 				return true;
 			})
 			.catch((error) => context.commit('API_FAILURE', error))

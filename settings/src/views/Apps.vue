@@ -69,7 +69,6 @@ export default {
 	},
 	beforeMount() {
 		this.$store.dispatch('getCategories');
-		this.$store.dispatch('getApps', {category: this.category});
 		this.$store.dispatch('getAllApps');
 		this.$store.dispatch('getGroups');
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
@@ -89,11 +88,8 @@ export default {
 		}
 	},
 	watch: {
-		// watch url change and group select
 		category: function (val, old) {
-			this.$store.commit('resetApps');
 			this.setSearch('');
-			this.$store.dispatch('getApps', { category: this.category });
 		}
 	},
 	computed: {
@@ -110,7 +106,7 @@ export default {
 			return this.$store.getters.getCategories;
 		},
 		apps() {
-			return this.$store.getters.getApps;
+			return this.$store.getters.getAllApps;
 		},
 		updateCount() {
 			return this.$store.getters.getUpdateCount;
