@@ -20,6 +20,7 @@
 <input type="hidden" name="defaultFileSorting" id="defaultFileSorting" value="<?php p($_['defaultFileSorting']) ?>" />
 <input type="hidden" name="defaultFileSortingDirection" id="defaultFileSortingDirection" value="<?php p($_['defaultFileSortingDirection']) ?>" />
 <input type="hidden" name="showHiddenFiles" id="showHiddenFiles" value="<?php p($_['showHiddenFiles']); ?>" />
+<input type="hidden" name="showQuickAccess" id="showQuickAccess" value="<?php p($_['showQuickAccess']); ?>" />
 <?php endif;
 
 foreach ($_['hiddenFields'] as $name => $value) {?>

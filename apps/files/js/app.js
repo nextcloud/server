@@ -64,7 +64,8 @@
 			}
 
 			this._filesConfig = new OC.Backbone.Model({
-				showhidden: showHidden
+				showhidden: showHidden,
+				showQuickAccess: showQuickAccess
 			});
 
 			var urlParams = OC.Util.History.parseUrlQuery();

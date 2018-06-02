@@ -206,9 +206,10 @@ class ViewController extends Controller {
 		if($showFavoriteQuickAccess){
 			$nav->assign('favoritesItems', $favItems);
 			$nav->assign('favoritesFolders', $favFolder);
+			$nav->assign('setQuickAccessChecked', "checked");
 
 		}
-		$nav->assign('setQuickAccessChecked', $showFavoriteQuickAccess);
+		//$nav->assign('setQuickAccessChecked', $showFavoriteQuickAccess);
 
 
 		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
@@ -248,6 +249,7 @@ class ViewController extends Controller {
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
+		$params['showQuickAccess'] = $showFavoriteQuickAccess ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
