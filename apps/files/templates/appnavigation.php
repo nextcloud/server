@@ -24,7 +24,7 @@
 
 		<?php if($_['favoritesFolders']>0){ ?>
 
-			<li class="spacer">
+			<li class="nav-sidebar-spacer">
 				Favorites:
 			</li>
 		<?php } ?>
