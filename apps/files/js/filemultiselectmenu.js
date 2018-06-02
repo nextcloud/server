@@ -20,45 +20,15 @@
 				'<span class="no-icon"></span>' +
 			'{{/if}}' +
 			'<span class="label">{{displayName}}</span>' +
-		'</li>' +
+		'</a></li>' +
 		'{{/each}}' +
 		'</ul>';
 
-	var FileSelectionMenu = OC.Backbone.View.extend({
+	var FileMultiSelectMenu = OC.Backbone.View.extend({
 		tagName: 'div',
 		className: 'filesSelectMenu popovermenu bubble menu-center',
 		_scopes: null,
-		/**
-		 * Event handler whenever an action has been clicked within the menu
-		 *
-		 * @param {Object} event event object
-		 */
-		_onClickAction: function(event) {
-			var $target = $(event.currentTarget);
-			if (!$target.hasClass('menuitem')) {
-				$target = $target.closest('.menuitem');
-			}
-
-			OC.hideMenus();
-
-			var action = $target.data('action');
-			if (!action) {
-				return;
-			}
-
-			for (var i = 0; i !== this._scopes.length; ++i) {
-				var name = this._scopes[i].name;
-				var method = this._scopes[i].method;
-				if (name === action) {
-					method(event);
-					break;
-				}
-			}
-
-		},
 		initialize: function(menuItems) {
-			console.log('init-fileseleectionmenu');
-			console.log(menuItems);
 			this._scopes = menuItems;
 		},
 		events: {
@@ -84,7 +54,11 @@
 
 			this.render();
 			this.$el.removeClass('hidden');
-
+			if (window.innerWidth < 480) {
+				this.$el.removeClass('menu-center').addClass('menu-right');
+			} else {
+				this.$el.removeClass('menu-right').addClass('menu-center');
+			}
 			OC.showMenu(null, this.$el);
 			return false;
 		},
@@ -93,8 +67,44 @@
 		},
 		updateItemText: function (itemName, translation) {
 			this.$el.find('.item-' + itemName).find('label').text(translation);
+		},
+		toggleLoading: function (itemName, showLoading) {
+			var $actionElement = this.$el.find('.item-' + itemName);
+			if ($actionElement.length === 0) {
+				return;
+			}
+			var $icon = $actionElement.find('.icon');
+			if (showLoading) {
+				var $loadingIcon = $('<span class="icon icon-loading-small"></span>');
+				$icon.after($loadingIcon);
+				$icon.addClass('hidden');
+				$actionElement.addClass('disabled');
+			} else {
+				$actionElement.find('.icon-loading-small').remove();
+				$actionElement.find('.icon').removeClass('hidden');
+				$actionElement.removeClass('disabled');
+			}
+		},
+		isDisabled: function (itemName) {
+			var $actionElement = this.$el.find('.item-' + itemName);
+			return $actionElement.hasClass('disabled');
+		},
+		/**
+		 * Event handler whenever an action has been clicked within the menu
+		 *
+		 * @param {Object} event event object
+		 */
+		_onClickAction: function (event) {
+			var $target = $(event.currentTarget);
+			if (!$target.hasClass('menuitem')) {
+				$target = $target.closest('.menuitem');
+			}
+
+			OC.hideMenus();
+			this._context.multiSelectMenuClick(event, $target.data('action'));
+			return false;
 		}
 	});
 
-	OCA.Files.FileSelectionMenu = FileSelectionMenu;
+	OCA.Files.FileMultiSelectMenu = FileMultiSelectMenu;
 })(OC, OCA);

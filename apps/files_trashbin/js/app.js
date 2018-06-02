@@ -30,7 +30,19 @@ OCA.Trashbin.App = {
 				fileActions: this._createFileActions(),
 				detailsViewEnabled: false,
 				scrollTo: urlParams.scrollto,
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				multiSelectMenu: [
+				{
+					name: 'restore',
+					displayName:  t('files', 'Restore'),
+					iconClass: 'icon-history',
+				},
+				{
+					name: 'delete',
+					displayName: t('files', 'Delete'),
+					iconClass: 'icon-delete',
+				}
+			]
 			}
 		);
 	},

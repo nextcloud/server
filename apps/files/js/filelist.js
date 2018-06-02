@@ -130,7 +130,7 @@
 		 * File selection menu, defaults to OCA.Files.FileSelectionMenu
 		 * @type OCA.Files.FileSelectionMenu
 		 */
-		fileSelectionMenu: null,
+		fileMultiSelectMenu: null,
 		/**
 		 * Whether selection is allowed, checkboxes and selection overlay will
 		 * be rendered
@@ -293,27 +293,10 @@
 
 			this.fileSummary = this._createSummary();
 
-			this.fileSelectionMenu = new OCA.Files.FileSelectionMenu([
-				{
-					name: 'moveCopy',
-					displayName:  t('files', 'Move or copy'),
-					iconClass: 'icon-external',
-					method: _.bind(this._onClickCopyMoveSelected, this)
-				},
-				{
-					name: 'download',
-					displayName:  t('files', 'Download'),
-					iconClass: 'icon-download',
-					method: _.bind(this._onClickDownloadSelected, this)
-				},
-				{
-					name: 'delete',
-					displayName: t('files', 'Delete'),
-					iconClass: 'icon-delete',
-					method: _.bind(this._onClickDeleteSelected, this)
-				}
-			]);
-			this.$el.find('#selectedActionsList').append(this.fileSelectionMenu.$el);
+			if (options.multiSelectMenu) {
+				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(options.multiSelectMenu);
+				this.$el.find('#selectedActionsList').append(this.fileMultiSelectMenu.$el);
+			}
 
 			if (options.sorting) {
 				this.setSort(options.sorting.mode, options.sorting.direction, false, false);
@@ -363,15 +346,10 @@
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
-			this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
-			this.$el.find('.copy-move').click(_.bind(this._onClickCopyMoveSelected, this));
-			this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
 			this.$el.find('.actions-selected').click(function () {
-				self.fileSelectionMenu.show(self);
+				self.fileMultiSelectMenu.show(self);
 				return false;
 			});
-
-			this.$el.find('.selectedActions a').tooltip({placement:'top'});
 
 			this.$container.on('scroll', _.bind(this._onScroll, this));
 
@@ -420,6 +398,22 @@
 			$('#app-content').off('appresized', this._onResize);
 		},
 
+		multiSelectMenuClick: function (ev, action) {
+				switch (action) {
+					case 'delete':
+						this._onClickDeleteSelected(ev)
+						break;
+					case 'download':
+						this._onClickDownloadSelected(ev);
+						break;
+					case 'moveCopy':
+						this._onClickCopyMoveSelected(ev);
+						break;
+					case 'restore':
+						this._onClickRestoreSelected(ev);
+						break;
+				}
+		},
 		/**
 		 * Initializes the file actions, set up listeners.
 		 *
@@ -775,9 +769,11 @@
 		/**
 		 * Event handler for when clicking on "Download" for the selected files
 		 */
-		_onClickDownloadSelected: function(event) {
+		_onClickDownloadSelected: function() {
 			var files;
+			var self = this;
 			var dir = this.getCurrentDirectory();
+
 			if (this.isAllSelected() && this.getSelectedFiles().length > 1) {
 				files = OC.basename(dir);
 				dir = OC.dirname(dir) || '/';
@@ -786,20 +782,16 @@
 				files = _.pluck(this.getSelectedFiles(), 'name');
 			}
 
-			// TODO: Update
-			var downloadFileaction = $('#selectedActionsList').find('.download');
-
 			// don't allow a second click on the download action
-			if(downloadFileaction.hasClass('disabled')) {
-				event.preventDefault();
-				return;
+			if(this.fileMultiSelectMenu.isDisabled('download')) {
+				return false;
 			}
 
+			this.fileMultiSelectMenu.toggleLoading('download', true);
 			var disableLoadingState = function(){
-				OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, false);
+				self.fileMultiSelectMenu.toggleLoading('download', false);
 			};
 
-			OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, true);
 			if(this.getSelectedFiles().length > 1) {
 				OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState);
 			}
@@ -813,23 +805,20 @@
 		/**
 		 * Event handler for when clicking on "Move" for the selected files
 		 */
-		_onClickCopyMoveSelected: function(event) {
+		_onClickCopyMoveSelected: function() {
 			var files;
 			var self = this;
 
 			files = _.pluck(this.getSelectedFiles(), 'name');
 
-			// TODO: Update
-			var moveFileAction = $('#selectedActionsList').find('.move');
-
 			// don't allow a second click on the download action
-			if(moveFileAction.hasClass('disabled')) {
-				event.preventDefault();
-				return;
+			if(this.fileMultiSelectMenu.isDisabled('moveCopy')) {
+				return false;
 			}
 
+			self.fileMultiSelectMenu.toggleLoading('moveCopy', true);
 			var disableLoadingState = function(){
-				OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, false);
+				self.fileMultiSelectMenu.toggleLoading('moveCopy', false);
 			};
 
 			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
@@ -847,7 +836,7 @@
 		/**
 		 * Event handler for when clicking on "Delete" for the selected files
 		 */
-		_onClickDeleteSelected: function(event) {
+		_onClickDeleteSelected: function() {
 			var files = null;
 			if (!this.isAllSelected()) {
 				files = _.pluck(this.getSelectedFiles(), 'name');
@@ -2922,14 +2911,14 @@
 				this.$el.find('table').addClass('multiselect');
 
 
-				this.fileSelectionMenu.toggleItemVisibility('download', !this.isSelectedDownloadable());
-				this.fileSelectionMenu.toggleItemVisibility('delete', !this.isSelectedDeletable());
-				this.fileSelectionMenu.toggleItemVisibility('moveCopy', !this.isSelectedCopiable());
+				this.fileMultiSelectMenu.toggleItemVisibility('download', !this.isSelectedDownloadable());
+				this.fileMultiSelectMenu.toggleItemVisibility('delete', !this.isSelectedDeletable());
+				this.fileMultiSelectMenu.toggleItemVisibility('moveCopy', !this.isSelectedCopiable());
 				if (this.isSelectedCopiable()) {
 					if (this.isSelectedMovable()) {
-						this.fileSelectionMenu.updateItemText('moveCopy', t('files', 'Move or copy'));
+						this.fileMultiSelectMenu.updateItemText('moveCopy', t('files', 'Move or copy'));
 					} else {
-						this.fileSelectionMenu.updateItemText('moveCopy', t('files', 'Copy'));
+						this.fileMultiSelectMenu.updateItemText('moveCopy', t('files', 'Copy'));
 					}
 				}
 			}

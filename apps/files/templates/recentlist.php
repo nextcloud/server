@@ -28,10 +28,12 @@
 			<a id="modified" class="columntitle"
 			   data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span
 					class="sort-indicator"></span></a>
-			<span class="selectedActions"><a href="" class="delete-selected">
-						<span><?php p($l->t('Delete')) ?></span>
-						<span class="icon icon-delete"></span>
-					</a></span>
+			<span class="selectedActions">
+				<a href="" class="delete-selected">
+					<span class="icon icon-delete"></span>
+					<span><?php p($l->t('Delete')) ?></span>
+				</a>
+			</span>
 		</th>
 	</tr>
 	</thead>
