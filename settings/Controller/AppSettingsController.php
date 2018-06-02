@@ -57,11 +57,6 @@ use OCP\L10N\IFactory;
  * @package OC\Settings\Controller
  */
 class AppSettingsController extends Controller {
-	const CAT_ENABLED = 0;
-	const CAT_DISABLED = 1;
-	const CAT_ALL_INSTALLED = 2;
-	const CAT_APP_BUNDLES = 3;
-	const CAT_UPDATES = 4;
 
 	/** @var \OCP\IL10N */
 	private $l10n;
@@ -138,7 +133,6 @@ class AppSettingsController extends Controller {
 		\OC_Util::addVendorScript('core', 'marked/marked.min');
 		$params = [];
 		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
-		$params['urlGenerator'] = $this->urlGenerator;
 		$params['updateCount'] = count($this->getAppsWithUpdates());
 		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
 		$params['bundles'] = $this->getBundles();
@@ -267,19 +261,20 @@ class AppSettingsController extends Controller {
 
 
 		// Fetch all apps from appstore
-		$appstoreData = [];
+		$allAppStoreApps = [];
 		$fetchedApps = $this->appFetcher->get();
 		foreach ($fetchedApps as $app) {
-			$appstoreData[$app['id']] = $app;
+			$allAppStoreApps[$app['id']] = $app;
 		}
 
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
 
 		// Extend existing app details
-		$apps = array_map(function($appData) use ($appstoreData, $dependencyAnalyzer) {
-			$appData['appstoreData'] = $appstoreData[$appData['id']];
-			$appData['license'] = $appstoreData['releases'][0]['licenses'];
+		$apps = array_map(function($appData) use ($allAppStoreApps, $dependencyAnalyzer) {
+			$appstoreData = $allAppStoreApps[$appData['id']];
+			$appData['appstoreData'] = $appstoreData;
 			$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($appstoreData['screenshots'][0]['url']) : '';
+
 			$newVersion = $this->installer->isUpdateAvailable($appData['id']);
 			if($newVersion && $this->appManager->isInstalled($appData['id'])) {
 				$appData['update'] = $newVersion;
@@ -531,9 +526,7 @@ class AppSettingsController extends Controller {
 		$appId = OC_App::cleanAppId($appId);
 		$result = $this->installer->removeApp($appId);
 		if($result !== false) {
-			// FIXME: Clear the cache - move that into some sane helper method
-			\OC::$server->getMemCacheFactory()->createDistributed('settings')->remove('listApps-0');
-			\OC::$server->getMemCacheFactory()->createDistributed('settings')->remove('listApps-1');
+			$this->appManager->clearAppsCache();
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
 		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t remove app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);

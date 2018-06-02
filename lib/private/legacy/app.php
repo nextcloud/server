@@ -901,6 +901,7 @@ class OC_App {
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
 		// update appversion in app manager
+		\OC::$server->getAppManager()->clearAppsCache();
 		\OC::$server->getAppManager()->getAppVersion($appId, false);
 
 		// run upgrade code
