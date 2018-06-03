@@ -43,8 +43,8 @@ div[contenteditable=true],
 	padding: 7px 6px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
-	color: nc-lighten($color-main-text, 33%);
-	border: 1px solid nc-darken($color-main-background, 14%);
+	color: var(--color-text-lighter);
+	border: 1px solid var(--color-border-dark);
 	outline: none;
 	border-radius: var(--border-radius);
 	cursor: text;
@@ -62,7 +62,7 @@ div[contenteditable=true],
 		}
 	}
 	&:disabled {
-		background-color: nc-darken($color-main-background, 8%);
+		background-color: var(--color-background-dark);
 		color: rgba(var(--color-main-text), 0.4);
 		cursor: default;
 		opacity: 0.5;
@@ -91,7 +91,7 @@ div[contenteditable=true],
 		}
 		&:disabled {
 			background-color: rgba(var(--color-primary-element), .7);
-			color: nc-lighten($color-main-text, 73%);
+			color: var(--color-primary-text-dark);
 		}
 	}
 }
@@ -101,13 +101,13 @@ div[contenteditable=false] {
 	padding: 7px 6px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
-	color: nc-lighten($color-main-text, 33%);
-	border: 1px solid nc-darken($color-main-background, 14%);
+	color: var(--color-text-lighter);
+	border: 1px solid var(--color-background-darker);
 	outline: none;
 	border-radius: var(--border-radius);
 	cursor: text;
 
-	background-color: nc-darken($color-main-background, 8%);
+	background-color: var(--color-background-dark);
 	color: rgba(var(--color-main-text), 0.4);
 	cursor: default;
 	opacity: 0.5;
@@ -155,7 +155,7 @@ input[type='reset'] {
 	min-height: 34px;
 	cursor: pointer;
 	box-sizing: border-box;
-	background-color: nc-darken($color-main-background, 3%);
+	background-color: var(--color-background-dark);
 }
 
 /* Buttons */
@@ -182,7 +182,7 @@ button, .button {
 }
 
 textarea, div[contenteditable=true] {
-	color: nc-lighten($color-main-text, 33%);
+	color: var(--color-text-lighter);
 	cursor: text;
 	font-family: inherit;
 	height: auto;
@@ -190,14 +190,14 @@ textarea, div[contenteditable=true] {
 		&:active,
 		&:hover,
 		&:focus {
-			border-color: nc-darken($color-main-background, 14%) !important;
+			border-color: var(--color-background-darker) !important;
 			background-color: var(--color-main-background) !important;
 		}
 	}
 }
 
 div[contenteditable=false] {
-	color: nc-lighten($color-main-text, 33%);
+	color: var(--color-text-lighter);
 	cursor: text;
 	font-family: inherit;
 	height: auto;
@@ -245,7 +245,7 @@ input {
 					border-color: var(--color-primary-element) !important;
 					border-radius: var(--border-radius) !important;
 					&:disabled {
-						border-color: nc-darken($color-main-background, 14%) !important;
+						border-color: var(--color-background-darker) !important;
 					}
 				}
 			}
@@ -347,8 +347,9 @@ input {
 			}
 		}
 
-		/* We do not use the nc-darken function as this si not supposed to be changed */
-		--color-checkbox-radio-white: #fff;
+		/* We do not use the nc-darken function as this is not supposed to be changed */
+		$color-checkbox-radio-white: #fff;
+		--color-checkbox-radio-white: $color-checkbox-radio-white;
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before,
@@ -395,7 +396,7 @@ input {
 	margin-top: -2px;
 	background-color: var(--color-main-background);
 	&.select2-drop-active {
-		border-color: nc-darken($color-main-background, 14%);
+		border-color: var(--color-border-dark);
 	}
 	.avatar {
 		display: inline-block;
@@ -430,15 +431,15 @@ input {
 			padding: 12px;
 			background-color: transparent;
 			cursor: pointer;
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 		}
 		.select2-result {
 			&.select2-selected {
-				background-color: nc-darken($color-main-background, 3%);
+				background-color: var(--color-background-dark);
 			}
 		}
 		.select2-highlighted {
-				background-color: nc-darken($color-main-background, 3%);
+				background-color: var(--color-background-dark);
 				color: var(--color-main-text);
 		}
 	}
@@ -457,10 +458,10 @@ input {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		background: var(--color-main-background);
-		color: nc-lighten($color-main-text, 33%);
+		color: var(--color-text-lighter);
 		box-sizing: content-box;
 		border-radius: var(--border-radius);
-		border: 1px solid nc-darken($color-main-background, 14%);
+		border: 1px solid var(--color-border-dark);
 		margin: 0;
 		padding: 2px 0;
 		min-height: auto;
@@ -473,8 +474,8 @@ input {
 			& {
 				background-image: none;
 				background-color: var(--color-main-background);
-				color: nc-lighten($color-main-text, 33%);
-				border: 1px solid nc-darken($color-main-background, 14%);
+				color: var(--color-text-lighter);
+				border: 1px solid var(--color-border-dark);
 			}
 			.select2-search-choice-close {
 				display: none;
@@ -502,10 +503,10 @@ input {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		background: var(--color-main-background);
-		color: nc-lighten($color-main-text, 33%);
+		color: var(--color-text-lighter);
 		box-sizing: content-box;
 		border-radius: var(--border-radius);
-		border: 1px solid nc-darken($color-main-background, 14%);
+		border: 1px solid var(--color-border-dark);
 		margin: 0;
 		padding: 2px 0;
 		padding-left: 6px;
@@ -514,8 +515,8 @@ input {
 			line-height: 20px;
 			padding-left: 5px;
 			background-image: none;
-			background-color: nc-darken($color-main-background, 3%);
-			border-color: nc-darken($color-main-background, 3%);
+			background-color: var(--color-background-dark);
+			border-color: var(--color-background-dark);
 			.select2-search-choice-close {
 				display: none;
 			}
@@ -557,8 +558,8 @@ input {
 			padding-left: 5px;
 			background-image: none;
 			background-color: var(--color-main-background);
-			color: nc-lighten($color-main-text, 33%);
-			border: 1px solid nc-darken($color-main-background, 14%);
+			color: var(--color-text-lighter);
+			border: 1px solid var(--color-border-dark);
 			display: inline-flex;
 			align-items: center;
 			.close {
@@ -574,7 +575,7 @@ input {
 			display: list-item;
 			background-color: transparent;
 			cursor: pointer;
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 			a {
 				white-space: nowrap;
 				overflow: hidden;
@@ -610,7 +611,7 @@ input {
 				color: var(--color-main-text);
 			}
 			&.active > a {
-				background-color: nc-darken($color-main-background, 3%);
+				background-color: var(--color-background-dark);
 				color: var(--color-main-text);
 				&::before {
 					visibility: visible;
@@ -638,7 +639,7 @@ input {
     }
     &.multiselect--disabled,
     &.multiselect--disabled .multiselect__single {
-        background-color: nc-darken($color-main-background, 8%) !important;
+        background-color: var(--color-background-dark) !important;
     }
     .multiselect__tags {
 		/* space between tags and limit tag */
@@ -647,7 +648,7 @@ input {
         display: flex;
         flex-wrap: nowrap;
         overflow: hidden;
-        border: 1px solid nc-darken($color-main-background, 14%);
+        border: 1px solid var(--color-border-dark);
         cursor: pointer;
         position: relative;
         border-radius: 3px;
@@ -676,8 +677,8 @@ input {
                 line-height: 20px;
                 padding: 1px 5px;
                 background-image: none;
-                color: nc-lighten($color-main-text, 33%);
-                border: 1px solid nc-darken($color-main-background, 14%);
+                color: var(--color-text-lighter);
+                border: 1px solid var(--color-border-dark);
                 display: inline-flex;
                 align-items: center;
 				border-radius: 3px;
@@ -717,7 +718,7 @@ input {
 		.multiselect__limit {
             flex: 0 0 auto;
             line-height: 20px;
-            color: nc-lighten($color-main-text, 33%);
+            color: var(--color-text-lighter);
             display: inline-flex;
             align-items: center;
 			opacity: .7;
@@ -745,7 +746,7 @@ input {
         position: absolute;
         width: 100%;
         margin-top: -1px;
-        border: 1px solid nc-darken($color-main-background, 14%);
+        border: 1px solid var(--color-border-dark);
         background: var(--color-main-background);
         z-index: 50;
         max-height: 250px;
@@ -779,7 +780,7 @@ input {
                 display: inline-flex;
                 align-items: center;
                 background-color: transparent !important;
-                color: nc-lighten($color-main-text, 33%);
+                color: var(--color-text-lighter);
                 width: 100%;
                 /* selected checkmark icon */
                 &::before {
@@ -795,7 +796,7 @@ input {
                     visibility: hidden;
                 }
                 &.multiselect__option--disabled {
-					background-color: nc-darken($color-main-background, 8%);
+					background-color: var(--color-background-dark);
 					opacity: .5;
                 }
                 /* add the prop tag-placeholder="create" to add the +
@@ -830,7 +831,7 @@ progress {
 	width: 100%;
 	padding: 0;
 	border: 0 none;
-	background-color: nc-darken($color-main-background, 10%);
+	background-color: var(--color-background-dark);
 	border-radius: var(--border-radius);
 	flex-basis: 100%;
 	height: 5px;

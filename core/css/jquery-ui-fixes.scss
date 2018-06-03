@@ -1,7 +1,7 @@
 /* Component containers
 ----------------------------------*/
 .ui-widget-content {
-	border: 1px solid nc-darken($color-main-background, 20%);
+	border: 1px solid var(--color-border);
 	background: var(--color-main-background) none;
 	color: var(--color-main-text);
 }
@@ -22,7 +22,7 @@
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-	border: 1px solid nc-darken($color-main-background, 20%);
+	border: 1px solid var(--color-border);
 	background: var(--color-main-background) none;
 	font-weight: bold;
 	color: #555;
@@ -70,12 +70,12 @@
 .ui-widget-header .ui-state-highlight {
 	border: 1px solid var(--color-main-background);
 	background: var(--color-main-background) none;
-	color: nc-lighten($color-main-text, 30%);
+	color: var(--color-text-lighter);
 }
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
 .ui-widget-header .ui-state-highlight a {
-	color: nc-lighten($color-main-text, 30%);
+	color: var(--color-text-lighter);
 }
 .ui-state-error,
 .ui-widget-content .ui-state-error,

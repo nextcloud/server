@@ -5,13 +5,21 @@
 :root {
 	--color-main-text: $color-main-text;
 	--color-main-background: $color-main-background;
+
+	--color-background-dark: $color-background-dark;
+	--color-background-darker: $color-background-darker;
+
 	--color-primary: $color-primary;
 	--color-primary-text: $color-primary-text;
+	--color-primary-text-dark: $color-primary-text-dark;
+	--color-primary-element: $color-primary-element;
+
 	--color-error: $color-error;
 	--color-warning: $color-warning;
 	--color-success: $color-success;
-	--color-primary-element: $color-primary-element;
 
+	--color-text-maxcontrast: $color-text-maxcontrast;
+	--color-text-lighter: $color-text-lighter;
 	--color-text-details: $color-text-details;
 
 	--image-logo: $image-logo;
@@ -19,8 +27,11 @@
 
 	--color-loading: $color-loading;
 	--color-loading-dark: $color-loading-dark;
+
 	--color-box-shadow: $color-box-shadow;
+
 	--color-border: $color-border;
+	--color-border-dark: $color-border-dark;
 	--border-radius: $border-radius;
 }
 

@@ -1,6 +1,6 @@
 .oc-dialog {
 	background: var(--color-main-background);
-	color: nc-darken($color-main-text, 20%);
+	color: var(--color-text-light);
 	border-radius: var(--border-radius);
 	box-shadow: 0 0 7px var(--color-box-shadow);
 	padding: 15px;

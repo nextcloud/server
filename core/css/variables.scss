@@ -1,26 +1,3 @@
-$color-main-text: #000000;
-$color-main-background: #ffffff;
-$color-primary: #0082c9;
-$color-primary-text: #ffffff;
-$color-error: #e9322d;
-$color-warning: #eca700;
-$color-success: #46ba61;
-$color-primary-element: $color-primary;
-
-// rgb(118, 118, 118) / #767676
-// min. color contrast for normal text on white background according to WCAG AA
-// (Works as well: color: #000; opacity: 0.57;)
-$color-text-details: #767676;
-
-$image-logo: url('../img/logo.svg?v=1');
-$image-login-background: url('../img/background.png?v=2');
-
-$color-loading: #969696;
-$color-loading-dark: #bbbbbb;
-$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75);
-$color-border: nc-darken($color-main-background, 8%);
-$border-radius: 3px;
-
 // SCSS darken/lighten function override 
 @function nc-darken($color, $value) {
 	@return darken($color, $value);
@@ -29,3 +6,41 @@ $border-radius: 3px;
 @function nc-lighten($color, $value) {
 	@return lighten($color, $value);
 }
+
+// SCSS variables
+$color-main-text: #000000;
+$color-main-background: #ffffff;
+
+// used for different active/disabled states
+$color-background-dark: nc-darken($color-main-background, 7%);
+$color-background-darker: nc-darken($color-main-background, 14%);
+
+$color-primary: #0082c9;
+$color-primary-text: #ffffff;
+$color-primary-text-dark: nc-darken($color-primary-text, 7%);
+$color-primary-element: $color-primary;
+
+$color-error: #e9322d;
+$color-warning: #eca700;
+$color-success: #46ba61;
+
+// rgb(118, 118, 118) / #767676
+// min. color contrast for normal text on white background according to WCAG AA
+// (Works as well: color: #000; opacity: 0.57;)
+$color-text-maxcontrast: nc-lighten($color-main-text, 46.2%);
+$color-text-light: nc-lighten($color-main-text, 15%);
+$color-text-lighter: nc-lighten($color-main-text, 30%);
+
+$image-logo: url('../img/logo.svg?v=1');
+$image-login-background: url('../img/background.png?v=2');
+
+$color-loading: #969696;
+$color-loading-dark: #bbbbbb;
+
+$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75);
+
+// light border like file table or app-content list
+$color-border: nc-darken($color-main-background, 7%);
+// darker border like inputs or very visible elements
+$color-border-dark: nc-darken($color-main-background, 14%);
+$border-radius: 3px;

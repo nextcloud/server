@@ -250,7 +250,7 @@ kbd {
 				box-sizing: border-box;
 				white-space: nowrap;
 				text-overflow: ellipsis;
-				color: var(--color-main-text);
+				color: var(--color-error);
 				opacity: .57;
 				flex: 1 1 0px;
 				z-index: 100; /* above the bullet to allow click*/
@@ -553,9 +553,6 @@ kbd {
 	.error {
 		color: var(--color-error);
 	}
-	.app-navigation-separator {
-		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
-	}
 
 	.app-navigation-entry-utils ul,
 	.app-navigation-entry-menu ul {
@@ -704,7 +701,7 @@ kbd {
 .section {
 	display: block;
 	padding: 30px;
-	color: nc-lighten($color-main-text, 33%);
+	color: var(--color-text-lighter);
 	margin-bottom: 24px;
 	&.hidden {
 		display: none !important;
@@ -745,18 +742,18 @@ kbd {
 		float: left;
 		padding: 5px;
 		cursor: pointer;
-		color: nc-lighten($color-main-text, 33%);
+		color: var(--color-text-lighter);
 		margin-bottom: 1px;
 		a {
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 			margin-bottom: 1px;
 		}
 		&.selected {
 			font-weight: 600;
-			border-bottom: 1px solid nc-lighten($color-main-text, 20%);
+			border-bottom: 1px solid var(--color-border);
 		}
 		&:hover {
-			border-bottom: 1px solid nc-lighten($color-main-text, 20%);
+			border-bottom: 1px solid var(--color-border);
 		}
 		&.selected, &:hover {
 			margin-bottom: 0px;
@@ -1013,7 +1010,7 @@ $popovericon-size: 16px;
 /* CONTENT LIST ------------------------------------------------------------- */
 .app-content-list {
 	width: 300px;
-	border-right: 1px solid nc-darken($color-main-background, 8%);
+	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 	transition: transform 250ms ease-in-out;
@@ -1022,7 +1019,7 @@ $popovericon-size: 16px;
 	.app-content-list-item {
 		position: relative;
 		height: 68px;
-		border-top: 1px solid nc-darken($color-main-background, 8%);
+		border-top: 1px solid var(--color-border);
 		cursor: pointer;
 		padding: 10px 7px;
 		display: flex;
@@ -1061,7 +1058,7 @@ $popovericon-size: 16px;
 
 		&:hover, &:focus,
 		&.active {
-			background-color: nc-darken($color-main-background, 6%);
+			background-color: var(--color-background-dark);
 		}
 
 		.app-content-list-item-checkbox.checkbox + label,
