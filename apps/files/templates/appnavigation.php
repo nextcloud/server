@@ -61,7 +61,7 @@
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 		?>has-tooltip" title="<?php p($_['usage_relative'] . '%');
 		} ?>">
-			<a href="#" class="nav-icon-quota svg">
+			<a href="#" class="icon-quota svg">
 				<p id="quotatext"><?php
 					if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 						p($l->t('%s of %s used', [$_['usage'], $_['total_space']]));
