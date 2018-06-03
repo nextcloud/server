@@ -59,9 +59,9 @@
 		margin-right: 0;
 	}
 	.error {
-		color: $color-error;
-		border-color: $color-error;
-		box-shadow: 0 0 6px rgba($color-error, 0.35);
+		color: var(--color-error);
+		border-color: var(--color-error);
+		box-shadow: 0 0 6px rgba(var(--color-error), 0.35);
 	}
 	.mailView .icon-mail {
 		opacity: 0.5;
@@ -173,7 +173,7 @@
 .notCreatable {
 	padding-left: 12px;
 	padding-top: 12px;
-	color: rgba($color-main-text, .4);
+	color: rgba(var(--color-main-text), .4);
 }
 
 .contactsmenu-popover {
