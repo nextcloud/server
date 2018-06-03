@@ -42,15 +42,15 @@
 		-webkit-transform-origin: center;
 		-ms-transform-origin: center;
 		transform-origin: center;
-		border: 2px solid rgba($color-loading, 0.5);
-		border-top-color: $color-loading;
+		border: 2px solid rgba(var(--color-loading), 0.5);
+		border-top-color: var(--color-loading);
 	}
 }
 
 .icon-loading-dark:after,
 .icon-loading-small-dark:after {
-	border: 2px solid rgba($color-loading-dark, 0.5);
-	border-top-color: $color-loading-dark;
+	border: 2px solid rgba(var(--color-loading-dark), 0.5);
+	border-top-color: var(--color-loading-dark);
 }
 
 .icon-loading-small:after,
@@ -92,7 +92,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 .icon-white {
 	filter: invert(100%);
 	&.icon-shadow {
-		filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+		filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 	}
 }
 
@@ -112,7 +112,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-audio.icon-white.icon-shadow */
 .icon-audio-white {
 	background-image: url('../img/actions/audio.svg?v=2');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-audio-off {
@@ -122,7 +122,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-audio-off.icon-white.icon-shadow */
 .icon-audio-off-white {
 	background-image: url('../img/actions/audio-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-caret {
@@ -237,7 +237,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-fullscreen.icon-white.icon-shadow */
 .icon-fullscreen-white {
 	background-image: url('../img/actions/fullscreen.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-history {
@@ -315,7 +315,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-screen.icon-white.icon-shadow */
 .icon-screen-white {
 	background-image: url('../img/actions/screen.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-screen-off {
@@ -325,7 +325,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-screen-off.icon-white.icon-shadow */
 .icon-screen-off-white {
 	background-image: url('../img/actions/screen-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-search {
@@ -434,7 +434,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-video-off.icon-white.icon-shadow */
 .icon-video-white {
 	background-image: url('../img/actions/video.svg?v=2');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-video-off {
@@ -444,7 +444,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-video-off.icon-white.icon-shadow */
 .icon-video-off-white {
 	background-image: url('../img/actions/video-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-video-switch {
