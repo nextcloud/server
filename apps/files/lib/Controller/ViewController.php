@@ -183,9 +183,9 @@ class ViewController extends Controller {
 
 		$helper= new \OCA\Files\Activity\Helper($tagger);
 		$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
-		$favItems = $favElements["items"];
+		$favItems = $favElements['items'];
 
-		$key="show_Quick_Access";
+		$key='show_Quick_Access';
 
 		if($this->config->getUserValue($user,$this->appName,$key,false)){
 			$showFavoriteQuickAccess=true;
@@ -194,9 +194,9 @@ class ViewController extends Controller {
 		}
 
 		$i=0;
-		foreach($favElements["folders"] as $elem){
+		foreach($favElements['folders'] as $elem){
 			$item['path']=$elem;
-			$item['name']=substr( $elem, strrpos($elem,'/')+1, strlen($elem)).$test;
+			$item['name']=substr( $elem, strrpos($elem,'/')+1, strlen($elem));
 			$item['serverroot']=\OC::$WEBROOT;
 			$favFolder[$i]=$item;
 			$i++;
