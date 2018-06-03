@@ -22,5 +22,5 @@ select {
 .ie .ui-timepicker.ui-widget,
 .ie #appmenu li span,
 .ie .tooltip-inner {
-	box-shadow: 0 1px 10px $color-box-shadow;
+	box-shadow: 0 1px 10px var(--color-box-shadow);
 }
