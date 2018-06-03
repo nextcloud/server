@@ -9,7 +9,7 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "[Deleted user]" : "[Slettet bruker]",
     "No comments yet, start the conversation!" : "Ingen kommentarer enda, start diskusjonen!",
-    "More comments …" : "Flere kommentarer..",
+    "More comments …" : "Flere kommentarer …",
     "Save" : "Lagre",
     "Allowed characters {count} of {max}" : "Antall tegn tillatt {count} av {max}",
     "Error occurred while retrieving comment with ID {id}" : "En feil oppstod under henting av kommentar med ID {id}",
