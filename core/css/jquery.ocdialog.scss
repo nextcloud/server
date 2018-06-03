@@ -1,8 +1,8 @@
 .oc-dialog {
-	background: $color-main-background;
+	background: var(--color-main-background);
 	color: nc-darken($color-main-text, 20%);
-	border-radius: $border-radius;
-	box-shadow: 0 0 7px $color-box-shadow;
+	border-radius: var(--border-radius);
+	box-shadow: 0 0 7px var(--color-box-shadow);
 	padding: 15px;
 	z-index: 10000;
 	font-size: 100%;
@@ -16,7 +16,7 @@
 	overflow: auto;
 }
 .oc-dialog-title {
-	background: $color-main-background;
+	background: var(--color-main-background);
 	margin-left: 12px;
 }
 .oc-dialog-buttonrow {
@@ -29,7 +29,7 @@
 	padding-bottom: 0;
 	box-sizing: border-box;
 	width: 100%;
-	background-image: linear-gradient(rgba(255, 255, 255, 0.0), $color-main-background);
+	background-image: linear-gradient(rgba(255, 255, 255, 0.0), var(--color-main-background));
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
