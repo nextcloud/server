@@ -109,6 +109,7 @@ class OC_Template extends \OC\Template\Base {
 				}
 			}
 
+			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
 			OC_Util::addStyle('jquery-ui-fixes',null,true);
 			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
