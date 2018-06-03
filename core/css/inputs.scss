@@ -42,28 +42,28 @@ div[contenteditable=true],
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px;
 	font-size: 13px;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	color: nc-lighten($color-main-text, 33%);
 	border: 1px solid nc-darken($color-main-background, 14%);
 	outline: none;
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 	cursor: text;
 	&:not(:disabled):not(.primary) {
 		&:hover,
 		&:focus,
 		&.active {
 		/* active class used for multiselect */
-			border-color: $color-primary-element;
+			border-color: var(--color-primary-element);
 			outline: none;
 		}
 		&:active {
 			outline: none;
-			background-color: $color-main-background;
+			background-color: var(--color-main-background);
 		}
 	}
 	&:disabled {
 		background-color: nc-darken($color-main-background, 8%);
-		color: rgba($color-main-text, 0.4);
+		color: rgba(var(--color-main-text), 0.4);
 		cursor: default;
 		opacity: 0.5;
 	}
@@ -72,25 +72,25 @@ div[contenteditable=true],
     }
     &:invalid {
         box-shadow: none !important;
-        border-color: $color-error;
+        border-color: var(--color-error);
     }
 	/* Primary action button, use sparingly */
 	&.primary {
-		background-color: $color-primary-element;
-		border: 1px solid $color-primary-text;
-		color: $color-primary-text;
+		background-color: var(--color-primary-element);
+		border: 1px solid var(--color-primary-text);
+		color: var(--color-primary-text);
 		cursor: pointer;
 		&:not(:disabled) {
 			&:hover,
 			&:focus {
-				background-color: rgba($color-primary-element, .85);
+				background-color: rgba(var(--color-primary-element), .85);
 			}
 			&:active {
-				background-color: rgba($color-primary-element, .7);
+				background-color: rgba(var(--color-primary-element), .7);
 			}
 		}
 		&:disabled {
-			background-color: rgba($color-primary-element, .7);
+			background-color: rgba(var(--color-primary-element), .7);
 			color: nc-lighten($color-main-text, 73%);
 		}
 	}
@@ -100,15 +100,15 @@ div[contenteditable=false] {
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px;
 	font-size: 13px;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	color: nc-lighten($color-main-text, 33%);
 	border: 1px solid nc-darken($color-main-background, 14%);
 	outline: none;
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 	cursor: text;
 
 	background-color: nc-darken($color-main-background, 8%);
-	color: rgba($color-main-text, 0.4);
+	color: rgba(var(--color-main-text), 0.4);
 	cursor: default;
 	opacity: 0.5;
 }
@@ -191,7 +191,7 @@ textarea, div[contenteditable=true] {
 		&:hover,
 		&:focus {
 			border-color: nc-darken($color-main-background, 14%) !important;
-			background-color: $color-main-background !important;
+			background-color: var(--color-main-background) !important;
 		}
 	}
 }
@@ -222,10 +222,10 @@ input {
 		+ .icon-confirm {
 			margin-left: -8px !important;
 			border-left-color: transparent !important;
-			border-radius: 0 $border-radius $border-radius 0 !important;
+			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
 			background-clip: padding-box;
 			/* Avoid background under border */
-			background-color: $color-main-background !important;
+			background-color: var(--color-main-background) !important;
 			opacity: 1;
 			width: 34px;
 			padding: 7px 6px;
@@ -242,8 +242,8 @@ input {
 				&:active,
 				&:hover,
 				&:focus {
-					border-color: $color-primary-element !important;
-					border-radius: $border-radius !important;
+					border-color: var(--color-primary-element) !important;
+					border-radius: var(--border-radius) !important;
 					&:disabled {
 						border-color: nc-darken($color-main-background, 14%) !important;
 					}
@@ -255,11 +255,11 @@ input {
 		&:focus {
             &:invalid {
                 + .icon-confirm {
-                    border-color: $color-error;
+                    border-color: var(--color-error);
                 }
             }
 			+ .icon-confirm {
-				border-color: $color-primary-element !important;
+				border-color: var(--color-primary-element) !important;
 				border-left-color: transparent !important;
                 /* above previous input */
 				z-index: 2;
@@ -281,8 +281,8 @@ select,
 
 /* Radio & Checkboxes */
 input {
-	$color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
-	$color-checkbox-radio-border: nc-darken($color-main-background, 47%);
+	--color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
+	--color-checkbox-radio-border: nc-darken($color-main-background, 47%);
 	&[type='checkbox'],
 	&[type='radio'] {
 		&.radio,
@@ -309,26 +309,26 @@ input {
 				border-radius: 50%;
 				margin: 3px;
 				margin-top: 1px;
-				border: 1px solid $color-checkbox-radio-border;
+				border: 1px solid var(--color-checkbox-radio-border);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
-				border-color: $color-primary-element;
+				border-color: var(--color-primary-element);
 			}
 			&:checked + label:before,
 			&.checkbox:indeterminate + label:before {
 			/* ^ :indeterminate have a strange behavior on radio,
 			so we respecified the checkbox class again to be safe */
-				box-shadow: inset 0px 0px 0px 2px $color-main-background;
-				background-color: $color-primary-element;
-				border-color: $color-primary-element;
+				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+				background-color: var(--color-primary-element);
+				border-color: var(--color-primary-element);
 			}
 			&:disabled + label:before {
-				border: 1px solid $color-checkbox-radio-border;
-				background-color: $color-checkbox-radio-disabled !important; /* override other status */
+				border: 1px solid var(--color-checkbox-radio-border);
+				background-color: var(--color-checkbox-radio-disabled) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				background-color: $color-checkbox-radio-disabled;
+				background-color: var(--color-checkbox-radio-disabled);
 			}
 		}
 		&.checkbox {
@@ -348,7 +348,7 @@ input {
 		}
 
 		/* We do not use the nc-darken function as this si not supposed to be changed */
-		$color-checkbox-radio-white: #fff;
+		--color-checkbox-radio-white: #fff;
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before,
@@ -356,20 +356,20 @@ input {
 				border-color: darken($color-checkbox-radio-white, 27%);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before {
-				border-color: $color-checkbox-radio-white;
+				border-color: var(--color-checkbox-radio-white);
 			}
 			&:checked + label:before {
-				box-shadow: inset 0px 0px 0px 2px $color-main-background;
+				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
 				background-color: darken($color-checkbox-radio-white, 14%);
 				border-color: darken($color-checkbox-radio-white, 14%);
 			}
 			&:disabled + label:before {
 				background-color: darken($color-checkbox-radio-white, 27%) !important; /* override other status */
-				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
+				border-color: rgba(var(--color-checkbox-radio-white), 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				box-shadow: inset 0px 0px 0px 2px $color-main-background;
-				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
+				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+				border-color: rgba(var(--color-checkbox-radio-white), 0.4) !important; /* override other status */
 				background-color: darken($color-checkbox-radio-white, 27%);
 			}
 		}
@@ -377,7 +377,7 @@ input {
 			&:checked + label:before,
 			&:indeterminate + label:before {
 				background-color: transparent !important; /* Override default checked */
-				border-color: $color-checkbox-radio-white !important; /* Override default checked */
+				border-color: var(--color-checkbox-radio-white) !important; /* Override default checked */
 				background-image: url('../img/actions/checkbox-mark-white.svg');
 			}
 			&:indeterminate + label:before {
@@ -393,7 +393,7 @@ input {
 /* Select2 overriding. Merged to core with vendor stylesheet */
 .select2-drop {
 	margin-top: -2px;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	&.select2-drop-active {
 		border-color: nc-darken($color-main-background, 14%);
 	}
@@ -439,7 +439,7 @@ input {
 		}
 		.select2-highlighted {
 				background-color: nc-darken($color-main-background, 3%);
-				color: $color-main-text;
+				color: var(--color-main-text);
 		}
 	}
 }
@@ -456,10 +456,10 @@ input {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		background: $color-main-background;
+		background: var(--color-main-background);
 		color: nc-lighten($color-main-text, 33%);
 		box-sizing: content-box;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 		border: 1px solid nc-darken($color-main-background, 14%);
 		margin: 0;
 		padding: 2px 0;
@@ -472,7 +472,7 @@ input {
 			&:active,
 			& {
 				background-image: none;
-				background-color: $color-main-background;
+				background-color: var(--color-main-background);
 				color: nc-lighten($color-main-text, 33%);
 				border: 1px solid nc-darken($color-main-background, 14%);
 			}
@@ -501,10 +501,10 @@ input {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		background: $color-main-background;
+		background: var(--color-main-background);
 		color: nc-lighten($color-main-text, 33%);
 		box-sizing: content-box;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 		border: 1px solid nc-darken($color-main-background, 14%);
 		margin: 0;
 		padding: 2px 0;
@@ -521,8 +521,8 @@ input {
 			}
 			&.select2-search-choice-focus,
 			&:hover {
-				background-color: $color-border;
-				border-color: $color-border;
+				background-color: var(--color-border);
+				border-color: var(--color-border);
 			}
 		}
 		.select2-arrow {
@@ -556,7 +556,7 @@ input {
 			line-height: 20px;
 			padding-left: 5px;
 			background-image: none;
-			background-color: $color-main-background;
+			background-color: var(--color-main-background);
 			color: nc-lighten($color-main-text, 33%);
 			border: 1px solid nc-darken($color-main-background, 14%);
 			display: inline-flex;
@@ -607,11 +607,11 @@ input {
 				}
 			}
 			&.highlight {
-				color: $color-main-text;
+				color: var(--color-main-text);
 			}
 			&.active > a {
 				background-color: nc-darken($color-main-background, 3%);
-				color: $color-main-text;
+				color: var(--color-main-text);
 				&::before {
 					visibility: visible;
 				}
@@ -628,7 +628,7 @@ input {
     display: inline-block;
     width: 160px;
     position: relative;
-    background-color: $color-main-background;
+    background-color: var(--color-main-background);
     &.multiselect--active {
         /* Opened: force display the input */
         input.multiselect__input {
@@ -709,7 +709,7 @@ input {
             padding: 8px 10px;
             flex: 0 0 100%;
             z-index: 1; /* above input */
-            background-color: $color-main-background;
+            background-color: var(--color-main-background);
             cursor: pointer;
         }
         /* displayed text if tag limit reached */
@@ -746,7 +746,7 @@ input {
         width: 100%;
         margin-top: -1px;
         border: 1px solid nc-darken($color-main-background, 14%);
-        background: $color-main-background;
+        background: var(--color-main-background);
         z-index: 50;
         max-height: 250px;
         overflow-y: auto;
@@ -808,7 +808,7 @@ input {
                     }
                 }
                 &.multiselect__option--highlight {
-                    color: $color-main-text;
+                    color: var(--color-main-text);
                 }
 				&:not(.multiselect__option--disabled):hover::before {
 					opacity: .3;
@@ -831,29 +831,29 @@ progress {
 	padding: 0;
 	border: 0 none;
 	background-color: nc-darken($color-main-background, 10%);
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 	flex-basis: 100%;
 	height: 5px;
 	overflow: hidden;
 	&.warn {
 		&::-moz-progress-bar {
-			background: $color-error;
+			background: var(--color-error);
 		}
 		&::-webkit-progress-value {
-			background: $color-error;
+			background: var(--color-error);
 		}
 	}
 	&::-webkit-progress-bar {
 		background: transparent;
 	}
 	&::-moz-progress-bar {
-		border-radius: $border-radius;
-		background: $color-primary;
+		border-radius: var(--border-radius);
+		background: var(--color-primary);
 		transition: 250ms all ease-in-out;
 	}
 	&::-webkit-progress-value {
-		border-radius: $border-radius;
-		background: $color-primary;
+		border-radius: var(--border-radius);
+		background: var(--color-primary);
 		transition: 250ms all ease-in-out;
 	}
 }
