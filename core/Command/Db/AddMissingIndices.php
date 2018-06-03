@@ -84,8 +84,16 @@ class AddMissingIndices extends Command {
 		if ($schema->hasTable('share')) {
 			$table = $schema->getTable('share');
 			if (!$table->hasIndex('share_with_index')) {
-				$output->writeln('<info>Adding additional index to the share table, this can take some time...</info>');
+				$output->writeln('<info>Adding additional share_with index to the share table, this can take some time...</info>');
 				$table->addIndex(['share_with'], 'share_with_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Share table updated successfully.</info>');
+			}
+
+			if (!$table->hasIndex('parent_index')) {
+				$output->writeln('<info>Adding additional parent index to the share table, this can take some time...</info>');
+				$table->addIndex(['parent'], 'parent_index');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>Share table updated successfully.</info>');
