@@ -41,8 +41,8 @@
 .newFileMenu .error,
 .newFileMenu .error + .icon-confirm,
 #fileList .error {
-	color: $color-error;
-	border-color: $color-error;
+	color: var(--color-error);
+	border-color: var(--color-error);
 }
 
 /* FILE TABLE */
@@ -71,7 +71,7 @@
 }
 
 .app-files #app-content.dir-drop {
-	background-color: $color-main-background !important;
+	background-color: var(--color-main-background) !important;
 }
 
 .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover{
@@ -140,12 +140,12 @@
 #filestable tbody tr.searchresult,
 table tr.mouseOver td {
 	transition: background-color 0.3s ease;
-	background-color: nc-darken($color-main-background, 3%);
+	background-color: var(--color-background-dark);
 }
-tbody a { color: $color-main-text; }
+tbody a { color: var(--color-main-text); }
 
 span.conflict-path, span.extension, span.uploading, td.date {
-	color: $color-text-details;
+	color: var(--color-text-maxcontrast);
 }
 span.conflict-path, span.extension {
 	-webkit-transition: opacity 300ms;
@@ -159,11 +159,11 @@ tr:focus span.conflict-path,
 tr:hover span.extension,
 tr:focus span.extension {
 	opacity: 1;
-	color: $color-text-details;
+	color: var(--color-text-maxcontrast);
 }
 
 table th, table th a {
-	color: $color-text-details;
+	color: var(--color-text-maxcontrast);
 }
 table.multiselect th a {
 	color: #000;
@@ -208,7 +208,7 @@ table th:focus .sort-indicator.hidden {
 
 table th,
 table td {
-	border-bottom: 1px solid $color-border;
+	border-bottom: 1px solid var(--color-border);
 	text-align: left;
 	font-weight: normal;
 }
@@ -625,7 +625,7 @@ table.dragshadow td.size {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	background-repeat: no-repeat no-repeat;
 	background-position: 50%;
 	opacity: 0.7;
@@ -703,11 +703,11 @@ table.dragshadow td.size {
 
 	.quota-container {
 		height: 5px;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 
 		div {
 			height: 100%;
-			background-color: $color-primary;
+			background-color: var(--color-primary);
 		}
 	}
 }
