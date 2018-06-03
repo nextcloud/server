@@ -58,7 +58,7 @@ kbd {
 	padding: 4px 10px;
 	border: 1px solid #ccc;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, .2);
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 	display: inline-block;
 	white-space: nowrap;
 }
@@ -83,13 +83,13 @@ kbd {
 	height: 100%;
 	float: left;
 	box-sizing: border-box;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	padding-bottom: 44px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid $color-border;
+	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 
@@ -152,7 +152,7 @@ kbd {
 				&,
 				> a {
 					opacity: 1;
-					box-shadow: inset 4px 0 $color-primary;
+					box-shadow: inset 4px 0 var(--color-primary);
 				}
 			}
 
@@ -198,7 +198,7 @@ kbd {
 					}
 
 					&.active {
-						box-shadow: inset 4px 0 $color-primary;
+						box-shadow: inset 4px 0 var(--color-primary);
 					}
 
 					/* align loader */
@@ -250,7 +250,7 @@ kbd {
 				box-sizing: border-box;
 				white-space: nowrap;
 				text-overflow: ellipsis;
-				color: $color-main-text;
+				color: var(--color-main-text);
 				opacity: .57;
 				flex: 1 1 0px;
 				z-index: 100; /* above the bullet to allow click*/
@@ -442,8 +442,8 @@ kbd {
 				span {
 					padding: 2px 5px;
 					border-radius: 10px;
-					background-color: $color-primary;
-					color: $color-primary-text;
+					background-color: var(--color-primary);
+					color: var(--color-primary-text);
 				}
 			}
 		}
@@ -460,7 +460,7 @@ kbd {
 		transition: opacity 250ms ease-in-out;
 		opacity: 0;
 		position: absolute;
-		background-color: $color-main-background;
+		background-color: var(--color-main-background);
 		z-index: -1;
 		form,
 		div {
@@ -537,7 +537,7 @@ kbd {
 					z-index 250ms ease-in-out;
 		position: absolute;
 		left: 0;
-		background-color: $color-main-background;
+		background-color: var(--color-main-background);
 		box-sizing: border-box;
 	}
 
@@ -551,7 +551,7 @@ kbd {
 	}
 
 	.error {
-		color: $color-error;
+		color: var(--color-error);
 	}
 	.app-navigation-separator {
 		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
@@ -599,8 +599,8 @@ kbd {
 	width: 27%;
 	min-width: 300px;
 	display: block;
-	background: $color-main-background;
-	border-left: 1px solid $color-border;
+	background: var(--color-main-background);
+	border-left: 1px solid var(--color-border);
 	-webkit-transition: margin-right 300ms;
 	transition: margin-right 300ms;
 	overflow-x: hidden;
@@ -632,11 +632,11 @@ kbd {
 #app-settings-content {
 	display: none;
 	padding: 10px;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-	border-right: 1px solid $color-border;
+	border-right: 1px solid var(--color-border);
 	width: 250px;
 	box-sizing: border-box;
 
@@ -647,7 +647,7 @@ kbd {
 
 	.info-text {
 		padding: 5px 0 7px 22px;
-		color: rgba($color-main-text, .4);
+		color: rgba(var(--color-main-text), .4);
 	}
 	input {
 		&[type='checkbox'],
@@ -665,10 +665,10 @@ kbd {
 }
 
 #app-settings-header {
-	border-right: 1px solid $color-border;
+	border-right: 1px solid var(--color-border);
 	width: 250px;
 	box-sizing: border-box;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 }
 
 .settings-button {
@@ -677,7 +677,7 @@ kbd {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	background-image: url('../img/actions/settings-dark.svg?v=1');
 	background-position: 14px center;
 	background-repeat: no-repeat;
@@ -689,14 +689,14 @@ kbd {
 	font-weight: 400;
 
 	/* like app-navigation a */
-	color: $color-main-text;
+	color: var(--color-main-text);
 	opacity: .57;
 
 	&.opened,
 	&:hover {
-		background-color: $color-main-background;
+		background-color: var(--color-main-background);
 		opacity: 1;
-		box-shadow: inset 4px 0 $color-primary;
+		box-shadow: inset 4px 0 var(--color-primary);
 	}
 }
 
@@ -760,10 +760,10 @@ kbd {
 		}
 		&.selected, &:hover {
 			margin-bottom: 0px;
-			color: $color-main-text;
+			color: var(--color-main-text);
 			a {
 				margin-bottom: 0px;
-				color: $color-main-text;
+				color: var(--color-main-text);
 			}
 		}
 	}
@@ -785,7 +785,7 @@ $popovericon-size: 16px;
 	.popovermenu, .popovermenu:after,
 	#app-navigation .app-navigation-entry-menu,
 	#app-navigation .app-navigation-entry-menu:after {
-		border: 1px solid $color-border;
+		border: 1px solid var(--color-border);
 	}
 }
 
@@ -793,14 +793,14 @@ $popovericon-size: 16px;
 .app-navigation-entry-menu,
 .popovermenu {
 	position: absolute;
-	background-color: $color-main-background;
-	color: $color-main-text;
-	border-radius: $border-radius;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border-radius: var(--border-radius);
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
 	right: 0;
-	filter: drop-shadow(0 1px 3px $color-box-shadow);
+	filter: drop-shadow(0 1px 3px var(--color-box-shadow));
 	display: none;
 
 	&:after {
@@ -815,7 +815,7 @@ $popovericon-size: 16px;
 		width: 0;
 		position: absolute;
 		pointer-events: none;
-		border-bottom-color: $color-main-background;
+		border-bottom-color: var(--color-main-background);
 		border-width: 10px;
 	}
 	/* Center the popover */
@@ -865,7 +865,7 @@ $popovericon-size: 16px;
 			font-weight: 300;
 			box-shadow: none;
 			width: 100%;
-			color: $color-main-text;
+			color: var(--color-main-text);
 			/* Override the app-navigation li opacity */
 			opacity: .7 !important;
 			span[class^='icon-'],
@@ -1177,14 +1177,14 @@ $popovericon-size: 16px;
 	/* full width for message list on mobile */
 	.app-content-list {
 		width: 100%;
-		background: $color-main-background;
+		background: var(--color-main-background);
 		position: relative;
 		z-index: 100;
 	}
 
 	/* overlay message detail on top of message list */
 	.app-content-detail {
-		background: $color-main-background;
+		background: var(--color-main-background);
 		width: 100%;
 		left: 0;
 		height: 100%;
