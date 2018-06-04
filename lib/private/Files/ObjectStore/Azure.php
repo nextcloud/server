@@ -22,6 +22,7 @@
 namespace OC\Files\ObjectStore;
 
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class Azure implements IObjectStore {
@@ -33,6 +34,10 @@ class Azure implements IObjectStore {
 	private $accountKey;
 	/** @var BlobRestProxy|null */
 	private $blobClient = null;
+	/** @var string|null */
+	private $endpoint = null;
+	/** @var bool  */
+	private $autoCreate = false;
 
 	/**
 	 * @param array $parameters
@@ -41,6 +46,12 @@ class Azure implements IObjectStore {
 		$this->containerName = $parameters['container'];
 		$this->accountName = $parameters['account_name'];
 		$this->accountKey = $parameters['account_key'];
+		if (isset($parameters['endpoint'])) {
+			$this->endpoint = $parameters['endpoint'];
+		}
+		if (isset($parameters['autocreate'])) {
+			$this->autoCreate = $parameters['autocreate'];
+		}
 	}
 
 	/**
@@ -48,8 +59,24 @@ class Azure implements IObjectStore {
 	 */
 	private function getBlobClient() {
 		if (!$this->blobClient) {
-			$connectionString = "DefaultEndpointsProtocol=https;AccountName=" . $this->accountName . ";AccountKey=" . $this->accountKey;
+			$protocol = $this->endpoint ? substr($this->endpoint, 0, strpos($this->endpoint, ':')) : 'https';
+			$connectionString = "DefaultEndpointsProtocol=" . $protocol . ";AccountName=" . $this->accountName . ";AccountKey=" . $this->accountKey;
+			if ($this->endpoint) {
+				$connectionString .= ';BlobEndpoint=' . $this->endpoint;
+			}
 			$this->blobClient = BlobRestProxy::createBlobService($connectionString);
+
+			if ($this->autoCreate) {
+				try {
+					$this->blobClient->createContainer($this->containerName);
+				} catch (ServiceException $e) {
+					if ($e->getCode() === 409) {
+						// already exists
+					} else {
+						throw $e;
+					}
+				}
+			}
 		}
 		return $this->blobClient;
 	}

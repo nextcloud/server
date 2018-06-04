@@ -782,6 +782,8 @@ matrix:
     - TESTS: carddavtester-old-endpoint
     - TESTS: object-store
       OBJECT_STORE: s3
+    - TESTS: object-store
+      OBJECT_STORE: azure
 #    - TESTS: object-store
 #      OBJECT_STORE: swift
 #      SWIFT-AUTH: v2.0
@@ -883,6 +885,13 @@ services:
       when:
         matrix:
           OBJECT_STORE: s3
+  azurite:
+      image: arafato/azurite
+      environment:
+      - executable=blob
+      when:
+        matrix:
+          OBJECT_STORE: azure
   dockswift:
       image: icewind1991/dockswift:nextcloud-ci
       environment:
