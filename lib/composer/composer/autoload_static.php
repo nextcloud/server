@@ -703,6 +703,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Node\\Root' => __DIR__ . '/../../..' . '/lib/private/Files/Node/Root.php',
         'OC\\Files\\Notify\\Change' => __DIR__ . '/../../..' . '/lib/private/Files/Notify/Change.php',
         'OC\\Files\\Notify\\RenameChange' => __DIR__ . '/../../..' . '/lib/private/Files/Notify/RenameChange.php',
+        'OC\\Files\\ObjectStore\\Azure' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/Azure.php',
         'OC\\Files\\ObjectStore\\HomeObjectStoreStorage' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/HomeObjectStoreStorage.php',
         'OC\\Files\\ObjectStore\\Mapper' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/Mapper.php',
         'OC\\Files\\ObjectStore\\NoopScanner' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/NoopScanner.php',
