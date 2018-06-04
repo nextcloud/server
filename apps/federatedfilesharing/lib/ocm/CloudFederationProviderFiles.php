@@ -41,6 +41,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\NotFoundException;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -84,6 +85,9 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/** @var ICloudFederationProviderManager */
 	private $cloudFederationProviderManager;
 
+	/** @var IDBConnection */
+	private $connection;
+
 	/**
 	 * CloudFederationProvider constructor.
 	 *
@@ -98,6 +102,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ICloudFederationFactory $cloudFederationFactory
 	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
+	 * @param IDBConnection $connection
 	 */
 	public function __construct(IAppManager $appManager,
 								FederatedShareProvider $federatedShareProvider,
@@ -109,7 +114,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 								INotificationManager $notificationManager,
 								IURLGenerator $urlGenerator,
 								ICloudFederationFactory $cloudFederationFactory,
-								ICloudFederationProviderManager $cloudFederationProviderManager
+								ICloudFederationProviderManager $cloudFederationProviderManager,
+								IDBConnection $connection
 	) {
 		$this->appManager = $appManager;
 		$this->federatedShareProvider = $federatedShareProvider;
@@ -122,6 +128,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->urlGenerator = $urlGenerator;
 		$this->cloudFederationFactory = $cloudFederationFactory;
 		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
+		$this->connection = $connection;
 	}
 
 
@@ -275,8 +282,12 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				return $this->shareAccepted($providerId, $notification);
 			case 'SHARE_DECLINED':
 				return $this->shareDeclined($providerId, $notification);
+			case 'SHARE_UNSHARED':
+				return $this->unshare($providerId, $notification);
 			case 'REQUEST_RESHARE':
 				return $this->reshareRequested($providerId, $notification);
+			case 'RESHARE_UNDO':
+				return $this->undoReshare($providerId, $notification);
 		}
 
 
@@ -432,6 +443,104 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			->setLink($link);
 		$this->activityManager->publish($event);
 
+	}
+
+	/**
+	 * received the notification that the owner unshared a file from you
+	 *
+	 * @param string $id
+	 * @param string $notification
+	 * @return array
+	 * @throws AuthenticationFailedException
+	 * @throws BadRequestException
+	 * @throws ShareNotFoundException
+	 */
+	private function undoReshare($id, $notification) {
+
+		if (!isset($notification['sharedSecret'])) {
+			throw new BadRequestException(['sharedSecret']);
+		}
+		$token = $notification['sharedSecret'];
+
+		$share = $this->federatedShareProvider->getShareById($id);
+
+		$this->verifyShare($share, $token);
+		$this->federatedShareProvider->removeShareFromTable($share);
+		return [];
+	}
+
+	private function unshare($id, $notification) {
+		error_log("new unshare!");
+		if (!$this->isS2SEnabled(true)) {
+			throw new ActionNotSupportedException("incoming shares disabled!");
+		}
+
+		if (!isset($notification['sharedSecret'])) {
+			throw new BadRequestException(['sharedSecret']);
+		}
+		$token = $notification['sharedSecret'];
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share_external')
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+					$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+				)
+			);
+
+		$result = $qb->execute();
+		$share = $result->fetch();
+		$result->closeCursor();
+
+		if ($token && $id && !empty($share)) {
+
+			$remote = $this->cleanupRemote($share['remote']);
+
+			$owner = $this->cloudIdManager->getCloudId($share['owner'], $remote);
+			$mountpoint = $share['mountpoint'];
+			$user = $share['user'];
+
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('share_external')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+						$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+					)
+				);
+
+			$qb->execute();
+
+			if ($share['accepted']) {
+				$path = trim($mountpoint, '/');
+			} else {
+				$path = trim($share['name'], '/');
+			}
+
+			$notification = $this->notificationManager->createNotification();
+			$notification->setApp('files_sharing')
+				->setUser($share['user'])
+				->setObject('remote_share', (int)$share['id']);
+			$this->notificationManager->markProcessed($notification);
+
+			$event = $this->activityManager->generateEvent();
+			$event->setApp('files_sharing')
+				->setType('remote_share')
+				->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path])
+				->setAffectedUser($user)
+				->setObject('remote_share', (int)$share['id'], $path);
+			\OC::$server->getActivityManager()->publish($event);
+		}
+
+		return [];
+	}
+
+	private function cleanupRemote($remote) {
+		$remote = substr($remote, strpos($remote, '://') + 3);
+
+		return rtrim($remote, '/');
 	}
 
 	/**

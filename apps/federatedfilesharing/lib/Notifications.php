@@ -199,7 +199,7 @@ class Notifications {
 	 * @return bool
 	 */
 	public function sendRevokeShare($remote, $id, $token) {
-		$this->sendUpdateToRemote($remote, $id, $token, 'revoke');
+		$this->sendUpdateToRemote($remote, $id, $token, 'reshare_undo');
 	}
 
 	/**
@@ -250,12 +250,15 @@ class Notifications {
 	 */
 	public function sendUpdateToRemote($remote, $remoteId, $token, $action, $data = [], $try = 0) {
 
-		$fields = array('token' => $token);
+		$fields = [
+			'token' => $token,
+			'remoteId' => $remoteId
+			];
 		foreach ($data as $key => $value) {
 			$fields[$key] = $value;
 		}
 
-		$result = $this->tryHttpPostToShareEndpoint(rtrim($remote, '/'), '/' . $remoteId . '/' . $action, $fields);
+		$result = $this->tryHttpPostToShareEndpoint(rtrim($remote, '/'), '/' . $remoteId . '/' . $action, $fields, $action);
 		$status = json_decode($result['result'], true);
 
 		if ($result['success'] &&
@@ -416,6 +419,7 @@ class Notifications {
 				);
 				return $this->federationProviderManager->sendShare($share);
 			case 'reshare':
+				// ask owner to reshare a file
 				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 				$notification->setMessage('REQUEST_RESHARE',
 					'file',
@@ -428,6 +432,18 @@ class Notifications {
 					]
 				);
 				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);
+			case 'unshare':
+				//owner unshares the file from the recipient again
+				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+				$notification->setMessage('SHARE_UNSHARED',
+					'file',
+					$fields['remoteId'],
+					[
+						'sharedSecret' => $fields['token'],
+					]
+				);
+				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);
+				return false;
 		}
 
 		return false;

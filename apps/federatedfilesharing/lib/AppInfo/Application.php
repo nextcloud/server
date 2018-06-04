@@ -64,7 +64,8 @@ class Application extends App {
 					$server->getNotificationManager(),
 					$server->getURLGenerator(),
 					$server->getCloudFederationFactory(),
-					$server->getCloudFederationProviderManager()
+					$server->getCloudFederationProviderManager(),
+					$server->getDatabaseConnection()
 				);
 			});
 

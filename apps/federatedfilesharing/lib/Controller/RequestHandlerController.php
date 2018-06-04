@@ -333,60 +333,12 @@ class RequestHandlerController extends OCSController {
 
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('*')
-			->from('share_external')
-			->where(
-				$qb->expr()->andX(
-					$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
-					$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
-				)
-			);
-
-		$result = $qb->execute();
-		$share = $result->fetch();
-		$result->closeCursor();
-
-		if ($token && $id && !empty($share)) {
-
-			$remote = $this->cleanupRemote($share['remote']);
-
-			$owner = $this->cloudIdManager->getCloudId($share['owner'], $remote);
-			$mountpoint = $share['mountpoint'];
-			$user = $share['user'];
-
-			$qb = $this->connection->getQueryBuilder();
-			$qb->delete('share_external')
-				->where(
-					$qb->expr()->andX(
-						$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
-						$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
-					)
-				);
-
-			$result = $qb->execute();
-			$result->closeCursor();
-
-			if ($share['accepted']) {
-				$path = trim($mountpoint, '/');
-			} else {
-				$path = trim($share['name'], '/');
-			}
-
-			$notificationManager = \OC::$server->getNotificationManager();
-			$notification = $notificationManager->createNotification();
-			$notification->setApp('files_sharing')
-				->setUser($share['user'])
-				->setObject('remote_share', (int)$share['id']);
-			$notificationManager->markProcessed($notification);
-
-			$event = \OC::$server->getActivityManager()->generateEvent();
-			$event->setApp('files_sharing')
-				->setType('remote_share')
-				->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path])
-				->setAffectedUser($user)
-				->setObject('remote_share', (int)$share['id'], $path);
-			\OC::$server->getActivityManager()->publish($event);
+		try {
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
+			$notification = ['sharedSecret' => $token];
+			$provider->notificationReceived('SHARE_UNSHARED', $id, $notification);
+		} catch (\Exception $e) {
+			$this->logger->debug('processing unshare notification failed: ' . $e->getMessage());
 		}
 
 		return new Http\DataResponse();
@@ -410,16 +362,20 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSBadRequestException
 	 */
 	public function revoke($id) {
+
 		$token = $this->request->getParam('token');
 
-		$share = $this->federatedShareProvider->getShareById($id);
+		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+		$notification->setMessage(['sharedSecret' => $token]);
 
-		if ($this->verifyShare($share, $token)) {
-			$this->federatedShareProvider->removeShareFromTable($share);
+		try {
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
+			$provider->notificationReceived('SHARE_UNSHARE', $id, $notification);
 			return new Http\DataResponse();
+		} catch (\Exception $e) {
+			throw new OCSBadRequestException();
 		}
 
-		throw new OCSBadRequestException();
 	}
 
 	/**
