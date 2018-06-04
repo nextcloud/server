@@ -35,8 +35,9 @@ class EPUB extends Provider {
 			$opfxml = simplexml_load_string($opffile);
 			$opfxml->registerXPathNamespace('opf','http://www.idpf.org/2007/opf');
 
-			$coverimagepath = (string)$opfxml->xpath('//item[@id=//meta[@name="cover"]/@content]/@href')[0];
-			$picture = $zip->getFromName(dirname($opffilepath) . '/' . $coverimagepath);
+			$coverimagefile = (string)$opfxml->xpath('//item[@id=//meta[@name="cover"]/@content]/@href')[0];
+            $coverpath = (dirname($opffilepath) == '.') ? "" : dirname($opffilepath) . '/';
+			$picture = $zip->getFromName( $coverpath . $coverimagefile);
 
 		}
 
