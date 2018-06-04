@@ -401,6 +401,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['file_source'], 'file_source_index');
 			$table->addIndex(['token'], 'token_index');
 			$table->addIndex(['share_with'], 'share_with_index');
+			$table->addIndex(['parent'], 'parent_index');
 		}
 
 		if (!$schema->hasTable('jobs')) {
