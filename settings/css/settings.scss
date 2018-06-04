@@ -1038,12 +1038,6 @@ table.grid td.date {
 	margin-top: 20px;
 }
 
-#security-warning li {
-	list-style: initial;
-	margin: 10px 0;
-	list-style-position: inside;
-}
-
 #security-warning-state span {
 	padding-left: 25px;
 	background-position: 5px center;
@@ -1198,6 +1192,18 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 }
 
 #postsetupchecks {
+	ul {
+		margin-left: 44px;
+		list-style: disc;
+
+		li {
+			margin: 10px 0;
+		}
+
+		ul {
+			list-style: circle;
+		}
+	}
 	.loading {
 		height: 50px;
 		background-position: left center;
@@ -1207,6 +1213,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	}
 	.warnings, .warnings a {
 		color: $color-warning;
+	}
+
+	.hint {
+		margin: 20px 0;
 	}
 }
 

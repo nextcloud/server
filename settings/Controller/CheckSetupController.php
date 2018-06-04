@@ -33,6 +33,7 @@ namespace OC\Settings\Controller;
 use bantu\IniGetWrapper\IniGetWrapper;
 use GuzzleHttp\Exception\ClientException;
 use OC\AppFramework\Http;
+use OC\DB\MissingIndexInformation;
 use OC\IntegrityCheck\Checker;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -40,10 +41,13 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @package OC\Settings\Controller
@@ -63,18 +67,9 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var ILogger */
 	private $logger;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
-	/**
-	 * @param string $AppName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IClientService $clientService
-	 * @param IURLGenerator $urlGenerator
-	 * @param \OC_Util $util
-	 * @param IL10N $l10n
-	 * @param Checker $checker
-	 * @param ILogger $logger
-	 */
 	public function __construct($AppName,
 								IRequest $request,
 								IConfig $config,
@@ -83,7 +78,8 @@ class CheckSetupController extends Controller {
 								\OC_Util $util,
 								IL10N $l10n,
 								Checker $checker,
-								ILogger $logger) {
+								ILogger $logger,
+								EventDispatcherInterface $dispatcher) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -92,6 +88,7 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -419,6 +416,19 @@ Raw output
 	}
 
 	/**
+	 * Check if the required FreeType functions are present
+	 * @return bool
+	 */
+	protected function hasMissingIndexes() {
+		$indexInfo = new MissingIndexInformation();
+		// Dispatch event so apps can also hint for pending index updates if needed
+		$event = new GenericEvent($indexInfo);
+		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_INDEXES_EVENT, $event);
+
+		return $indexInfo->getListOfMissingIndexes();
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -440,6 +450,7 @@ Raw output
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
+				'hasMissingIndexes' => $this->hasMissingIndexes(),
 			]
 		);
 	}

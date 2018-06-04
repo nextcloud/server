@@ -34,6 +34,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OC_Util;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
 use OC\IntegrityCheck\Checker;
 
@@ -61,6 +62,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
+	/** @var EventDispatcher|\PHPUnit_Framework_MockObject_MockObject */
+	private $dispatcher;
 
 	public function setUp() {
 		parent::setUp();
@@ -82,6 +85,8 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnCallback(function($message, array $replace) {
 				return vsprintf($message, $replace);
 			}));
+		$this->dispatcher = $this->getMockBuilder(EventDispatcher::class)
+			->disableOriginalConstructor()->getMock();
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
@@ -95,9 +100,10 @@ class CheckSetupControllerTest extends TestCase {
 				$this->util,
 				$this->l10n,
 				$this->checker,
-				$this->logger
+				$this->logger,
+				$this->dispatcher,
 				])
-			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup', 'hasFreeTypeSupport'])->getMock();
+			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup', 'hasFreeTypeSupport', 'hasMissingIndexes'])->getMock();
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -329,6 +335,9 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checkSetupController
 			->method('hasFreeTypeSupport')
 			->willReturn(false);
+		$this->checkSetupController
+			->method('hasMissingIndexes')
+			->willReturn([]);
 
 		$expected = new DataResponse(
 			[
@@ -351,6 +360,7 @@ class CheckSetupControllerTest extends TestCase {
 				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
 				'isSettimelimitAvailable' => true,
 				'hasFreeTypeSupport' => false,
+				'hasMissingIndexes' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -367,7 +377,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->util,
 				$this->l10n,
 				$this->checker,
-				$this->logger
+				$this->logger,
+				$this->dispatcher,
 			])
 			->setMethods(null)->getMock();
 
