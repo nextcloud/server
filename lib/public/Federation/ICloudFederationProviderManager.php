@@ -77,7 +77,7 @@ interface ICloudFederationProviderManager {
 	 * send federated share
 	 *
 	 * @param ICloudFederationShare $share
-	 * @return mixed
+	 * @return bool
 	 *
 	 * @since 14.0.0
 	 */
@@ -88,7 +88,7 @@ interface ICloudFederationProviderManager {
 	 *
 	 * @param string $url
 	 * @param ICloudFederationNotification $notification
-	 * @return bool
+	 * @return mixed
 	 *
 	 * @since 14.0.0
 	 */

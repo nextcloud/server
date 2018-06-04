@@ -66,6 +66,7 @@ interface ICloudFederationProvider {
 	 * @param string $notificationType (e.g SHARE_ACCEPTED)
 	 * @param string $providerId share ID
 	 * @param array $notification provider specific notification
+	 * @return array $data send back to sender
 	 *
 	 * @throws ShareNotFoundException
 	 * @throws ActionNotSupportedException

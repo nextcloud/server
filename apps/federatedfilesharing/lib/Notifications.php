@@ -136,20 +136,31 @@ class Notifications {
 	 * @param string $remote remote address of the owner
 	 * @param string $shareWith
 	 * @param int $permission
+	 * @param string $filename
 	 * @return bool
 	 * @throws \OC\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission) {
+	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission, $filename) {
 
 		$fields = array(
 			'shareWith' => $shareWith,
 			'token' => $token,
 			'permission' => $permission,
-			'remoteId' => $shareId
+			'remoteId' => $shareId,
 		);
 
-		$result = $this->tryHttpPostToShareEndpoint(rtrim($remote, '/'), '/' . $id . '/reshare', $fields);
+		$ocmFields = $fields;
+		$ocmFields['remoteId'] = $id;
+		$ocmFields['localId'] = $shareId;
+		$ocmFields['name'] = $filename;
+
+		$ocmResult = $this->tryOCMEndPoint($remote, $ocmFields, 'reshare');
+		if (is_array($ocmResult) && isset($ocmResult['token']) && isset($ocmResult['providerId'])) {
+			return [$ocmResult['token'], $ocmResult['providerId']];
+		}
+
+		$result = $this->tryLegacyEndPoint(rtrim($remote, '/'), '/' . $id . '/reshare', $fields);
 		$status = json_decode($result['result'], true);
 
 		$httpRequestSuccessful = $result['success'];
@@ -310,6 +321,25 @@ class Notifications {
 			return $result;
 		}
 
+		return $this->tryLegacyEndPoint($remoteDomain, $urlSuffix, $fields);
+	}
+
+	/**
+	 * try old federated sharing API if the OCM api doesn't work
+	 *
+	 * @param $remoteDomain
+	 * @param $urlSuffix
+	 * @param array $fields
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	protected function tryLegacyEndPoint($remoteDomain, $urlSuffix, array $fields) {
+
+		$result = [
+			'success' => false,
+			'result' => '',
+		];
+
 		// Fall back to old API
 		$client = $this->httpClientService->newClient();
 		$federationEndpoints = $this->discoveryService->discover($remoteDomain, 'FEDERATED_SHARING');
@@ -332,6 +362,7 @@ class Notifications {
 		}
 
 		return $result;
+
 	}
 
 	/**
@@ -384,7 +415,22 @@ class Notifications {
 					'file'
 				);
 				return $this->federationProviderManager->sendShare($share);
+			case 'reshare':
+				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+				$notification->setMessage('REQUEST_RESHARE',
+					'file',
+					$fields['remoteId'],
+					[
+						'sharedSecret' => $fields['token'],
+						'shareWith' => $fields['shareWith'],
+						'senderId' => $fields['localId'],
+						'message' => 'Ask owner to reshare the file'
+					]
+				);
+				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);
 		}
+
+		return false;
 
 	}
 }

@@ -117,6 +117,7 @@ class RequestHandlerController extends Controller {
 	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1@serve1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"sharedSecret":"secret","permissions":"webdav-property"}}}' http://localhost/server/index.php/ocm/shares
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
+
 		if (!$this->config->incomingRequestsEnabled()) {
 			return new JSONResponse(
 				['message' => 'This server doesn\'t support outgoing federated shares'],
@@ -227,7 +228,7 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			$provider->notificationReceived($notificationType, $providerId, $notification);
+			$result = $provider->notificationReceived($notificationType, $providerId, $notification);
 		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
@@ -255,8 +256,7 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-
-		return new JSONResponse([],Http::STATUS_CREATED);
+		return new JSONResponse($result,Http::STATUS_CREATED);
 
 	}
 

@@ -166,7 +166,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/**
 	 * @param string $url
 	 * @param ICloudFederationNotification $notification
-	 * @return bool
+	 * @return mixed
 	 */
 	public function sendNotification($url, ICloudFederationNotification $notification) {
 		$ocmEndPoint = $this->getOCMEndPoint($url);
@@ -182,8 +182,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 				'timeout' => 10,
 				'connect_timeout' => 10,
 			]);
-			if ($response->getStatusCode() === Http::STATUS_OK) {
-				return true;
+			if ($response->getStatusCode() === Http::STATUS_CREATED) {
+				$result = json_decode($response->getBody(), true);
+				return (is_array($result)) ? $result : [];
 			}
 		} catch (\Exception $e) {
 			// log the error and return false

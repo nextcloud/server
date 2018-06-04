@@ -29,6 +29,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\Activity\IManager;
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
@@ -258,6 +259,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
 	 * @param string $providerId id of the share
 	 * @param array $notification payload of the notification
+	 * @return array data send back to the sender
 	 *
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
@@ -270,11 +272,11 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		switch ($notificationType) {
 			case 'SHARE_ACCEPTED':
-				$this->shareAccepted($providerId, $notification);
-				return;
+				return $this->shareAccepted($providerId, $notification);
 			case 'SHARE_DECLINED':
-				$this->shareDeclined($providerId, $notification);
-				return;
+				return $this->shareDeclined($providerId, $notification);
+			case 'REQUEST_RESHARE':
+				return $this->reshareRequested($providerId, $notification);
 		}
 
 
@@ -282,9 +284,11 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	}
 
 	/**
+	 * process notification that the recipient accepted a share
+	 *
 	 * @param string $id
 	 * @param array $notification
-	 * @return bool
+	 * @return array
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
@@ -325,7 +329,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		}
 
-		return true;
+		return [];
 	}
 
 	/**
@@ -351,14 +355,18 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	}
 
 	/**
+	 * process notification that the recipient declined a share
+	 *
 	 * @param string $id
 	 * @param array $notification
+	 * @return array
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 * @throws ShareNotFound
 	 * @throws ShareNotFoundException
 	 * @throws \OC\HintException
+	 *
 	 */
 	protected function shareDeclined($id, $notification) {
 
@@ -395,6 +403,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		$this->executeDeclineShare($share);
 
+		return [];
+
 	}
 
 	/**
@@ -424,6 +434,64 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 	}
 
+	/**
+	 * recipient of a share request to re-share the file with another user
+	 *
+	 * @param $id
+	 * @param $notification
+	 * @return array
+	 * @throws AuthenticationFailedException
+	 * @throws BadRequestException
+	 * @throws ProviderCouldNotAddShareException
+	 * @throws ShareNotFoundException
+	 * @throws ShareNotFound
+	 */
+	protected function reshareRequested($id, $notification) {
+
+		if (!isset($notification['sharedSecret'])) {
+			throw new BadRequestException(['sharedSecret']);
+		}
+		$token = $notification['sharedSecret'];
+
+		if (!isset($notification['shareWith'])) {
+			throw new BadRequestException(['shareWith']);
+		}
+		$shareWith = $notification['shareWith'];
+
+		if (!isset($notification['senderId'])) {
+			throw new BadRequestException(['senderId']);
+		}
+		$senderId = $notification['senderId'];
+
+		$share = $this->federatedShareProvider->getShareById($id);
+		// don't allow to share a file back to the owner
+		try {
+			list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
+			$owner = $share->getShareOwner();
+			$currentServer = $this->addressHandler->generateRemoteURL();
+			if ($this->addressHandler->compareAddresses($user, $remote, $owner, $currentServer)) {
+				throw new ProviderCouldNotAddShareException('Resharing back to the owner is not allowed: ' . $id);
+			}
+		} catch (\Exception $e) {
+			throw new ProviderCouldNotAddShareException($e->getMessage());
+		}
+
+		$this->verifyShare($share, $token);
+
+		// check if re-sharing is allowed
+		if ($share->getPermissions() | ~Constants::PERMISSION_SHARE) {
+			// the recipient of the initial share is now the initiator for the re-share
+			$share->setSharedBy($share->getSharedWith());
+			$share->setSharedWith($shareWith);
+			$result = $this->federatedShareProvider->create($share);
+			$this->federatedShareProvider->storeRemoteId((int)$result->getId(), $senderId);
+			return ['token' => $result->getToken(), 'providerId' => $result->getId()];
+		} else {
+			throw new ProviderCouldNotAddShareException('resharing not allowed for share: ' . $id);
+		}
+
+		throw new BadRequestException([]);
+	}
 
 	/**
 	 * get file

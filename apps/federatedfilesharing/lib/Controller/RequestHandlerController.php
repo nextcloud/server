@@ -218,44 +218,34 @@ class RequestHandlerController extends OCSController {
 			throw new OCSBadRequestException();
 		}
 
+		$notification = [
+			'sharedSecret' => $token,
+			'shareWith' => $shareWith,
+			'senderId' => $remoteId,
+			'message' => 'Recipient of a share ask the owner to reshare the file'
+		];
+
 		try {
-			$share = $this->federatedShareProvider->getShareById($id);
-		} catch (Share\Exceptions\ShareNotFound $e) {
-			throw new OCSNotFoundException();
-		}
-
-		// don't allow to share a file back to the owner
-		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
-		$owner = $share->getShareOwner();
-		$currentServer = $this->addressHandler->generateRemoteURL();
-		if ($this->addressHandler->compareAddresses($user, $remote, $owner, $currentServer)) {
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
+			list($newToken, $localId) = $provider->notificationReceived('REQUEST_RESHARE', $id, $notification);
+			return new Http\DataResponse([
+				'token' => $newToken,
+				'remoteId' => $localId
+			]);
+		} catch (ProviderDoesNotExistsException $e) {
+			throw new OCSException('Server does not support federated cloud sharing', 503);
+		} catch (ShareNotFoundException $e) {
+			$this->logger->debug('Share not found: ' . $e->getMessage());
+		} catch (ProviderCouldNotAddShareException $e) {
+			$this->logger->debug('Could not add reshare: ' . $e->getMessage());
 			throw new OCSForbiddenException();
+		} catch (\Exception $e) {
+			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage());
 		}
 
-		if ($this->verifyShare($share, $token)) {
-
-			// check if re-sharing is allowed
-			if ($share->getPermissions() | ~Constants::PERMISSION_SHARE) {
-				$share->setPermissions($share->getPermissions() & $permission);
-				// the recipient of the initial share is now the initiator for the re-share
-				$share->setSharedBy($share->getSharedWith());
-				$share->setSharedWith($shareWith);
-				try {
-					$result = $this->federatedShareProvider->create($share);
-					$this->federatedShareProvider->storeRemoteId((int)$result->getId(), $remoteId);
-					return new Http\DataResponse([
-						'token' => $result->getToken(),
-						'remoteId' => $result->getId()
-					]);
-				} catch (\Exception $e) {
-					throw new OCSBadRequestException();
-				}
-			} else {
-				throw new OCSForbiddenException();
-			}
-		}
 		throw new OCSBadRequestException();
 	}
+
 
 	/**
 	 * @NoCSRFRequired
