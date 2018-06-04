@@ -77,13 +77,8 @@ class Manager implements IProvider {
 	 * @throws InvalidTokenException
 	 */
 	public function updateToken(IToken $token) {
-		if ($token instanceof DefaultToken) {
-			$this->defaultTokenProvider->updateToken($token);
-		} else if ($token instanceof PublicKeyToken) {
-			$this->publicKeyTokenProvider->updateToken($token);
-		} else {
-			throw new InvalidTokenException();
-		}
+		$provider = $this->getProvider($token);
+		$provider->updateToken($token);
 	}
 
 	/**
@@ -93,13 +88,8 @@ class Manager implements IProvider {
 	 * @param IToken $token
 	 */
 	public function updateTokenActivity(IToken $token) {
-		if ($token instanceof DefaultToken) {
-			$this->defaultTokenProvider->updateTokenActivity($token);
-		} else if ($token instanceof PublicKeyToken) {
-			$this->publicKeyTokenProvider->updateTokenActivity($token);
-		} else {
-			throw new InvalidTokenException();
-		}
+		$provider = $this->getProvider($token);
+		$provider->updateTokenActivity($token);
 	}
 
 	public function getTokenByUser(string $uid): array {
@@ -171,29 +161,13 @@ class Manager implements IProvider {
 	 * @return string
 	 */
 	public function getPassword(IToken $savedToken, string $tokenId): string {
-		if ($savedToken instanceof DefaultToken) {
-			return $this->defaultTokenProvider->getPassword($savedToken, $tokenId);
-		}
-
-		if ($savedToken instanceof PublicKeyToken) {
-			return $this->publicKeyTokenProvider->getPassword($savedToken, $tokenId);
-		}
-
-		throw new InvalidTokenException();
+		$provider = $this->getProvider($savedToken);
+		return $provider->getPassword($savedToken, $tokenId);
 	}
 
 	public function setPassword(IToken $token, string $tokenId, string $password) {
-		if ($token instanceof DefaultToken) {
-			$this->defaultTokenProvider->setPassword($token, $tokenId, $password);
-			return;
-		}
-
-		if ($token instanceof PublicKeyToken) {
-			$this->publicKeyTokenProvider->setPassword($token, $tokenId, $password);
-			return;
-		}
-
-		throw new InvalidTokenException();
+		$provider = $this->getProvider($token);
+		$provider->setPassword($token, $tokenId, $password);
 	}
 
 	public function invalidateToken(string $token) {
@@ -229,5 +203,13 @@ class Manager implements IProvider {
 		throw new InvalidTokenException();
 	}
 
-
+	private function getProvider(IToken $token): IProvider {
+		if ($token instanceof DefaultToken) {
+			return $this->defaultTokenProvider;
+		}
+		if ($token instanceof PublicKeyToken) {
+			return $this->publicKeyTokenProvider;
+		}
+		throw new InvalidTokenException();
+	}
 }
