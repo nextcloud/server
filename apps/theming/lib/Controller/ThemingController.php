@@ -368,11 +368,6 @@ class ThemingController extends Controller {
 
 		$response = new FileDisplayResponse($file);
 		$response->cacheFor(3600);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$response->addHeader('Pragma', 'cache');
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
 		$response->addHeader('Content-Disposition', 'attachment; filename="' . $key . '"');
 		return $response;
@@ -403,11 +398,6 @@ class ThemingController extends Controller {
 			$cssFile = $this->scssCacher->getCachedCSS('theming', 'theming.css');
 			$response = new FileDisplayResponse($cssFile, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 			$response->cacheFor(86400);
-			$expires = new \DateTime();
-			$expires->setTimestamp($this->timeFactory->getTime());
-			$expires->add(new \DateInterval('PT24H'));
-			$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-			$response->addHeader('Pragma', 'cache');
 			return $response;
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
@@ -435,8 +425,6 @@ class ThemingController extends Controller {
 	};
 })();';
 		$response = new DataDownloadResponse($responseJS, 'javascript', 'text/javascript');
-		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$response->addHeader('Pragma', 'cache');
 		$response->cacheFor(3600);
 		return $response;
 	}
@@ -470,8 +458,6 @@ class ThemingController extends Controller {
 			'display' => 'standalone'
 		];
 		$response = new Http\JSONResponse($responseJS);
-		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$response->addHeader('Pragma', 'cache');
 		$response->cacheFor(3600);
 		return $response;
 	}

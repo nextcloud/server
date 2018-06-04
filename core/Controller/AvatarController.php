@@ -141,16 +141,8 @@ class AvatarController extends Controller {
 			return $resp;
 		}
 
-		// Let cache this!
-		$resp->addHeader('Pragma', 'public');
 		// Cache for 30 minutes
 		$resp->cacheFor(1800);
-
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT30M'));
-		$resp->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-
 		return $resp;
 	}
 

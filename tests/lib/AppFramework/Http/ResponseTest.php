@@ -27,6 +27,7 @@ namespace Test\AppFramework\Http;
 
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 
 
 class ResponseTest extends \Test\TestCase {
@@ -222,15 +223,24 @@ class ResponseTest extends \Test\TestCase {
 
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('no-cache, no-store, must-revalidate', $headers['Cache-Control']);
+		$this->assertFalse(isset($headers['Pragma']));
+		$this->assertFalse(isset($headers['Expires']));
 	}
 
 
 	public function testCacheSeconds() {
+		$time = $this->createMock(ITimeFactory::class);
+		$time->method('getTime')
+			->willReturn('1234567');
+
+		$this->overwriteService(ITimeFactory::class, $time);
+
 		$this->childResponse->cacheFor(33);
 
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('max-age=33, must-revalidate',
-			$headers['Cache-Control']);
+		$this->assertEquals('max-age=33, must-revalidate', $headers['Cache-Control']);
+		$this->assertEquals('public', $headers['Pragma']);
+		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
 	}
 
 
