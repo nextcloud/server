@@ -159,6 +159,7 @@ class ViewController extends Controller {
 		// FIXME: Make non static
 		$storageInfo = $this->getStorageInfo();
 
+
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
@@ -170,11 +171,6 @@ class ViewController extends Controller {
 		);
 
 
-		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-		usort($navItems, function($item1, $item2) {
-			return $item1['order'] - $item2['order'];
-		});
-		$nav->assign('navigationItems', $navItems);
 
 		$user = $this->userSession->getUser()->getUID();
 
@@ -188,29 +184,44 @@ class ViewController extends Controller {
 		$key='show_Quick_Access';
 
 		if($this->config->getUserValue($user,$this->appName,$key,false)){
-			$showFavoriteQuickAccess=true;
-		}else{
-			$showFavoriteQuickAccess=false;
-		}
+
+			\OCA\Files\App::getNavigationManager()->add(
+				[
+					'id' => 'Spacer',
+					'classes' => 'nav-sidebar-spacer', //Todo Rename class and move it
+					'order' => 6,
+					'name' => $this->l10n->t('Spacer')
+				]
+			);
 
 		$i=0;
 		foreach($favElements['folders'] as $elem){
-			$item['path']=$elem;
-			$item['name']=substr( $elem, strrpos($elem,'/')+1, strlen($elem));
-			$item['serverroot']=\OC::$WEBROOT;
-			$favFolder[$i]=$item;
+
+			\OCA\Files\App::getNavigationManager()->add(
+				[
+					'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
+					'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
+					'order' => 7+$i,
+					'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
+					'icon' => 'files'
+				]
+			);
 			$i++;
 		}
-
-
-		if($showFavoriteQuickAccess){
-			$nav->assign('favoritesItems', $favItems);
-			$nav->assign('favoritesFolders', $favFolder);
-			$nav->assign('setQuickAccessChecked', "checked");
-
 		}
-		//$nav->assign('setQuickAccessChecked', $showFavoriteQuickAccess);
 
+
+
+		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
+		usort($navItems, function($item1, $item2) {
+			return $item1['order'] - $item2['order'];
+		});
+
+
+
+
+
+		$nav->assign('navigationItems', $navItems);
 
 		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -249,7 +260,7 @@ class ViewController extends Controller {
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
-		$params['showQuickAccess'] = $showFavoriteQuickAccess ? 1 : 0;
+		//$params['showQuickAccess'] = $showFavoriteQuickAccess ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;

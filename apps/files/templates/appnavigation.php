@@ -1,61 +1,17 @@
 <div id="app-navigation">
 	<ul class="with-icon">
-		<?php
-		$pinned = 0;
-		$trashelement = null;
-		?>
 
+		<?php $pinned = 0 ?>
 		<?php foreach ($_['navigationItems'] as $item) {
 			strpos($item['classes'], 'pinned')!==false ? $pinned++ : '';
-			//var_dump($_['navigationItems']);
-			if($item['id']=="trashbin"){
-				$trashelement=$item;
-				break;
-			}
 			?>
-
-
-			<li data-id="<?php p($item['id']) ?>" class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?>">
+			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?>" class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?>">
 				<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
 				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg">
 					<?php p($item['name']);?>
 				</a>
 			</li>
 		<?php } ?>
-
-
-		<?php if($_['favoritesFolders']>0){
-
-			?>
-
-			<li class="nav-sidebar-spacer">
-				<?php p($l->t('Favorites'));?>:
-			</li>
-		<?php } ?>
-
-		<?php $pinned = 0; ?>
-
-		<?php foreach ($_['favoritesFolders'] as $item) { ?>
-
-			<li data-id=<?php echo $item['path']; ?>>
-				<a class="nav-icon-files svg" href=<?php echo $item['serverroot']."/index.php/apps/files/?dir=".$item['path']; ?>><?php echo $item['name']; ?></a>
-			</li>
-
-		<?php }?>
-
-		<?php
-
-		if(isset($trashelement)){
-			strpos($trashelement['classes'], 'pinned')!==false ? $pinned++ : '';
-			?>
-			<li data-id="<?php p($trashelement['id']) ?>" class="nav-<?php p($trashelement['id']) ?> <?php p($trashelement['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?>">
-				<a href="<?php p(isset($trashelement['href']) ? $trashelement['href'] : '#') ?>"
-				   class="nav-icon-<?php p($trashelement['icon'] !== '' ? $trashelement['icon'] : $trashelement['id']) ?> svg">
-					<?php p($trashelement['name']);?>
-				</a>
-			</li>
-		<?php } ?>
-
 
 		<li id="quota" class="pinned <?php p($pinned===0?'first-pinned ':'') ?><?php
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
