@@ -147,6 +147,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$token->setLastCheck($this->time - 10);
 		$token->setPublicKey('public key');
 		$token->setPrivateKey('private key');
+		$token->setVersion(PublicKeyToken::VERSION);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 
@@ -178,6 +179,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$token->setLastCheck($this->time - 10);
 		$token->setPublicKey('public key');
 		$token->setPrivateKey('private key');
+		$token->setVersion(PublicKeyToken::VERSION);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 		$token->setId($dbToken->getId()); // We don't know the ID

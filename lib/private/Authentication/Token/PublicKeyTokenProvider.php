@@ -190,7 +190,7 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException();
 		}
 
-		// When changeing passwords all temp tokens are deleted
+		// When changing passwords all temp tokens are deleted
 		$this->mapper->deleteTempToken($token);
 
 		// Update the password for all tokens
@@ -314,6 +314,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setRemember($remember);
 		$dbToken->setLastActivity($this->time->getTime());
 		$dbToken->setLastCheck($this->time->getTime());
+		$dbToken->setVersion(PublicKeyToken::VERSION);
 
 		return $dbToken;
 	}

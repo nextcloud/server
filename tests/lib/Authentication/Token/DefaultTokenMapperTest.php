@@ -135,6 +135,7 @@ class DefaultTokenMapperTest extends TestCase {
 		$token->setRemember(IToken::DO_NOT_REMEMBER);
 		$token->setLastActivity($this->time - 60 * 60 * 24 * 3);
 		$token->setLastCheck($this->time - 10);
+		$token->setVersion(DefaultToken::VERSION);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 
@@ -164,6 +165,7 @@ class DefaultTokenMapperTest extends TestCase {
 		$token->setRemember(IToken::DO_NOT_REMEMBER);
 		$token->setLastActivity($this->time - 60 * 60 * 24 * 3);
 		$token->setLastCheck($this->time - 10);
+		$token->setVersion(DefaultToken::VERSION);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 		$token->setId($dbToken->getId()); // We don't know the ID

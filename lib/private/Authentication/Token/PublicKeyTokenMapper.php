@@ -45,7 +45,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 	}
 
@@ -60,7 +60,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->where($qb->expr()->lt('last_activity', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 	}
 
@@ -75,7 +75,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$result = $qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 
 		$data = $result->fetch();
@@ -97,7 +97,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$result = $qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 
 		$data = $result->fetch();
@@ -123,7 +123,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1000);
 		$result = $qb->execute();
 		$data = $result->fetchAll();
@@ -142,7 +142,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}
 
@@ -155,7 +155,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}
 
@@ -165,7 +165,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN)))
 			->andWhere($qb->expr()->neq('id', $qb->createNamedParameter($except->getId())))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
 
 		$qb->execute();
 	}

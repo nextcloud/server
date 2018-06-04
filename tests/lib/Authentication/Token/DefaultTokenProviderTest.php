@@ -91,6 +91,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$toInsert->setRemember(IToken::DO_NOT_REMEMBER);
 		$toInsert->setLastActivity($this->time);
 		$toInsert->setLastCheck($this->time);
+		$toInsert->setVersion(DefaultToken::VERSION);
 
 		$this->config->expects($this->any())
 			->method('getSystemValue')

@@ -45,6 +45,8 @@ use OCP\AppFramework\Db\Entity;
  */
 class PublicKeyToken extends Entity implements IToken {
 
+	const VERSION = 2;
+
 	/** @var string user UID */
 	protected $uid;
 
@@ -102,8 +104,6 @@ class PublicKeyToken extends Entity implements IToken {
 		$this->addType('publicKey', 'string');
 		$this->addType('privateKey', 'string');
 		$this->addType('version', 'int');
-
-		$this->setVersion(2);
 	}
 
 	public function getId(): int {

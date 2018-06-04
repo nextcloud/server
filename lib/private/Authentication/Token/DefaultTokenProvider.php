@@ -105,6 +105,7 @@ class DefaultTokenProvider implements IProvider {
 		$dbToken->setRemember($remember);
 		$dbToken->setLastActivity($this->time->getTime());
 		$dbToken->setLastCheck($this->time->getTime());
+		$dbToken->setVersion(DefaultToken::VERSION);
 
 		$this->mapper->insert($dbToken);
 

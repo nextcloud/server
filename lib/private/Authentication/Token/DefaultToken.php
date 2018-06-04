@@ -41,6 +41,8 @@ use OCP\AppFramework\Db\Entity;
  */
 class DefaultToken extends Entity implements IToken {
 
+	const VERSION = 1;
+
 	/** @var string user UID */
 	protected $uid;
 
@@ -90,8 +92,6 @@ class DefaultToken extends Entity implements IToken {
 		$this->addType('scope', 'string');
 		$this->addType('expires', 'int');
 		$this->addType('version', 'int');
-
-		$this->setVersion(1);
 	}
 
 	public function getId(): int {
