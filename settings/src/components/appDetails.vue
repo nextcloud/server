@@ -68,7 +68,7 @@
 		</div>
 
 		<p class="documentation">
-			<a class="appslink" :href="appstoreUrl" v-if="!app.internal" target="_blank" rel="noreferrer noopener">Im Store anzeigen ↗</a>
+			<a class="appslink" :href="appstoreUrl" v-if="!app.internal" target="_blank" rel="noreferrer noopener">{{ t('settings', 'View in store')}} ↗</a>
 
 			<a class="appslink" v-if="app.website" :href="app.website" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Visit website') }} ↗</a>
 			<a class="appslink" v-if="app.bugs" :href="app.bugs" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Report a bug') }} ↗</a>
