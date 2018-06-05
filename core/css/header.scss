@@ -269,8 +269,9 @@ nav[role='navigation'] {
 	a {
 		position: relative;
 		display: inline-flex;
-		padding: 10px 12px;
-		height: 40px;
+		height: 44px;
+		width: 100%;
+		padding: 12px;
 		align-items: center;
 		span {
 			display: inline-block;
@@ -412,7 +413,8 @@ nav[role='navigation'] {
 	a {
 		display: inline-flex;
 		align-items: center;
-		height: 40px;
+		height: 44px;
+		width: 100%;
 		color: var(--color-main-text);
 		padding: 12px;
 		box-sizing: border-box;
