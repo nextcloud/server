@@ -40,6 +40,8 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Constants;
+use OCP\Federation\Exceptions\AuthenticationFailedException;
+use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\Exceptions\ShareNotFoundException;
@@ -365,11 +367,9 @@ class RequestHandlerController extends OCSController {
 
 		$token = $this->request->getParam('token');
 
-		$notification = $this->cloudFederationFactory->getCloudFederationNotification();
-		$notification->setMessage(['sharedSecret' => $token]);
-
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
+			$notification = ['sharedSecret' => $token];
 			$provider->notificationReceived('RESHARE_UNDO', $id, $notification);
 			return new Http\DataResponse();
 		} catch (\Exception $e) {
@@ -399,28 +399,6 @@ class RequestHandlerController extends OCSController {
 		}
 
 		return false;
-	}
-
-	/**
-	 * get file
-	 *
-	 * @param string $user
-	 * @param int $fileSource
-	 * @return array with internal path of the file and a absolute link to it
-	 */
-	private function getFile($user, $fileSource) {
-		\OC_Util::setupFS($user);
-
-		try {
-			$file = \OC\Files\Filesystem::getPath($fileSource);
-		} catch (NotFoundException $e) {
-			$file = null;
-		}
-		$args = \OC\Files\Filesystem::is_dir($file) ? array('dir' => $file) : array('dir' => dirname($file), 'scrollto' => $file);
-		$link = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
-
-		return array($file, $link);
-
 	}
 
 	/**
@@ -454,19 +432,15 @@ class RequestHandlerController extends OCSController {
 	 */
 	public function updatePermissions($id) {
 		$token = $this->request->getParam('token', null);
-		$permissions = $this->request->getParam('permissions', null);
+		$ncPermissions = $this->request->getParam('permissions', null);
 
 		try {
-			$share = $this->federatedShareProvider->getShareById($id);
-		} catch (Share\Exceptions\ShareNotFound $e) {
-			throw new OCSBadRequestException();
-		}
-
-		$validPermission = ctype_digit($permissions);
-		$validToken = $this->verifyShare($share, $token);
-		if ($validPermission && $validToken) {
-			$this->updatePermissionsInDatabase($share, (int)$permissions);
-		} else {
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
+			$ocmPermissions = $this->ncPermissions2ocmPermissions((int)$ncPermissions);
+			$notification = ['sharedSecret' => $token, 'permission' => $ocmPermissions];
+			$provider->notificationReceived('RESHARE_CHANGE_PERMISSION', $id, $notification);
+		} catch (\Exception $e) {
+			$this->logger->debug($e->getMessage());
 			throw new OCSBadRequestException();
 		}
 
@@ -474,17 +448,30 @@ class RequestHandlerController extends OCSController {
 	}
 
 	/**
-	 * update permissions in database
+	 * translate Nextcloud permissions to OCM Permissions
 	 *
-	 * @param IShare $share
-	 * @param int $permissions
+	 * @param $ncPermissions
+	 * @return array
 	 */
-	protected function updatePermissionsInDatabase(IShare $share, $permissions) {
-		$query = $this->connection->getQueryBuilder();
-		$query->update('share')
-			->where($query->expr()->eq('id', $query->createNamedParameter($share->getId())))
-			->set('permissions', $query->createNamedParameter($permissions))
-			->execute();
+	protected function ncPermissions2ocmPermissions($ncPermissions) {
+
+		$ocmPermissions = [];
+
+		if ($ncPermissions & Constants::PERMISSION_SHARE) {
+			$ocmPermissions[] = 'share';
+		}
+
+		if ($ncPermissions & Constants::PERMISSION_READ) {
+			$ocmPermissions[] = 'read';
+		}
+
+		if (($ncPermissions & Constants::PERMISSION_CREATE) ||
+			($ncPermissions & Constants::PERMISSION_UPDATE)) {
+			$ocmPermissions[] = 'write';
+		}
+
+		return $ocmPermissions;
+
 	}
 
 	/**

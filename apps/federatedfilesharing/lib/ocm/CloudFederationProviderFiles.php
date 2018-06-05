@@ -21,6 +21,7 @@
 
 namespace OCA\FederatedFileSharing\OCM;
 
+use function GuzzleHttp\default_ca_bundle;
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
@@ -288,6 +289,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				return $this->reshareRequested($providerId, $notification);
 			case 'RESHARE_UNDO':
 				return $this->undoReshare($providerId, $notification);
+			case 'RESHARE_CHANGE_PERMISSION':
+				return $this->updateResharePermissions($providerId, $notification);
 		}
 
 
@@ -600,6 +603,85 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		throw new BadRequestException([]);
 	}
+
+	/**
+	 * update permission of a re-share so that the share dialog shows the right
+	 * permission if the owner or the sender changes the permission
+	 *
+	 * @param string $id
+	 * @param array $notification
+	 * @return array
+	 * @throws AuthenticationFailedException
+	 * @throws BadRequestException
+	 * @throws ShareNotFoundException
+	 */
+	protected function updateResharePermissions($id, $notification) {
+
+		if (!isset($notification['sharedSecret'])) {
+			throw new BadRequestException(['sharedSecret']);
+		}
+		$token = $notification['sharedSecret'];
+
+		if (!isset($notification['permission'])) {
+			throw new BadRequestException(['permission']);
+		}
+		$ocmPermissions = $notification['permission'];
+
+		$share = $this->federatedShareProvider->getShareById($id);
+
+		$ncPermission = $this->ocmPermissions2ncPermissions($ocmPermissions);
+
+		$this->verifyShare($share, $token);
+		$this->updatePermissionsInDatabase($share, $ncPermission);
+
+		return [];
+	}
+
+	/**
+	 * translate OCM Permissions to Nextcloud permissions
+	 *
+	 * @param $ocmPermissions
+	 * @return int
+	 * @throws BadRequestException
+	 */
+	protected function ocmPermissions2ncPermissions($ocmPermissions) {
+		error_log("ocm permissions: " . json_encode($ocmPermissions));
+		$ncPermissions = 0;
+		foreach($ocmPermissions as $permission) {
+			switch (strtolower($permission)) {
+				case 'read':
+					$ncPermissions += Constants::PERMISSION_READ;
+					break;
+				case 'write':
+					$ncPermissions += Constants::PERMISSION_CREATE + Constants::PERMISSION_UPDATE;
+					break;
+				case 'share':
+					$ncPermissions += Constants::PERMISSION_SHARE;
+					break;
+				default:
+					throw new BadRequestException(['permission']);
+			}
+
+			error_log("new permissions: " . $ncPermissions);
+		}
+
+		return $ncPermissions;
+	}
+
+	/**
+	 * update permissions in database
+	 *
+	 * @param IShare $share
+	 * @param int $permissions
+	 */
+	protected function updatePermissionsInDatabase(IShare $share, $permissions) {
+		$query = $this->connection->getQueryBuilder();
+		$query->update('share')
+			->where($query->expr()->eq('id', $query->createNamedParameter($share->getId())))
+			->set('permissions', $query->createNamedParameter($permissions))
+			->execute();
+	}
+
 
 	/**
 	 * get file
