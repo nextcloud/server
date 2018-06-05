@@ -250,7 +250,7 @@ kbd {
 				box-sizing: border-box;
 				white-space: nowrap;
 				text-overflow: ellipsis;
-				color: var(--color-error);
+				color: var(--color-main-text);
 				opacity: .57;
 				flex: 1 1 0px;
 				z-index: 100; /* above the bullet to allow click*/
@@ -644,7 +644,7 @@ kbd {
 
 	.info-text {
 		padding: 5px 0 7px 22px;
-		color: rgba(var(--color-main-text), .4);
+		color: var(--color-text-lighter);
 	}
 	input {
 		&[type='checkbox'],

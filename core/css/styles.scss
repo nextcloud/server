@@ -110,14 +110,14 @@ body {
 	width: 258px !important;
 	display: inline-block;
 	margin-bottom: 0 !important;
-	background-color: rgba(var(--color-main-text), 0.3) !important;
+	background-color: var(--color-background-darker) !important;
 	border: none !important;
 }
 
 .two-factor-link {
 	display: inline-block;
 	padding: 12px;
-	color: rgba(var(--color-main-background), 0.75);
+	color: var(--color-text-lighter);
 }
 
 .float-spinner {
@@ -138,7 +138,7 @@ body {
 	width: 100%;
 	z-index: 9000;
 	text-align: center;
-	background-color: rgba(var(--color-main-text), 0.5);
+	background-color: var(--color-background-darker);
 	color: var(--color-primary-text);
 	line-height: 125%;
 	font-size: 24px;
@@ -200,7 +200,7 @@ body {
 			width: 155px;
 			cursor: text;
 			background-color: var(--color-primary) !important;
-			border: 1px solid rgba(var(--color-primary-text), 0.5) !important;
+			border: 1px solid var(--color-primary-text-dark) !important;
 		}
 		&:hover, &:focus, &:active {
 			opacity: 1;
@@ -236,7 +236,7 @@ body {
 	height: 44px;
 	padding: 0;
 	margin: 0;
-	background-color: rgba(var(--color-main-background), 0.95);
+	background-color: var(--color-main-background-light);
 	z-index: 60;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -488,7 +488,6 @@ body {
 	border-top: 0 !important;
 	border-bottom: 0 !important;
 	border-radius: 0 !important;
-	box-shadow: 0 1px 0 rgba(var(--color-main-text), 0.1) inset !important;
 }
 
 #body-login .groupbottom input, .groupbottom input {
@@ -496,7 +495,6 @@ body {
 	border-top: 0 !important;
 	border-top-right-radius: 0 !important;
 	border-top-left-radius: 0 !important;
-	box-shadow: 0 1px 0 rgba(var(--color-main-text), 0.1) inset !important;
 }
 
 #body-login .groupbottom input[type=submit] {
@@ -522,7 +520,6 @@ label.infield {
 			user-select: none;
 		}
 		.errors {
-			background: rgba(var(--color-error), .35);
 			border: 1px solid var(--color-error);
 			list-style-indent: inside;
 			margin: 0 0 2em;
@@ -530,7 +527,6 @@ label.infield {
 		}
 	}
 	.success {
-		background: rgba(var(--color-success), .35);
 		border: 1px solid var(--color-success);
 		width: 35%;
 		margin: 30px auto;
@@ -645,7 +641,7 @@ label.infield {
 	.warning, .update, .error {
 		display: block;
 		padding: 10px;
-		background-color: rgba(var(--color-main-text), 0.3);
+		background-color: var(--color-background-darker);
 		color: var(--color-primary-text);
 		text-align: left;
 		border-radius: var(--border-radius);
@@ -674,7 +670,6 @@ label.infield {
 #body-user .warning, #body-settings .warning {
 	margin-top: 8px;
 	padding: 5px;
-	background: rgba(var(--color-error), .15);
 	border-radius: var(--border-radius);
 }
 

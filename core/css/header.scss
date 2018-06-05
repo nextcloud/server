@@ -340,7 +340,6 @@ nav[role='navigation'] {
 #settings {
 	display: inline-block;
 	height: 100%;
-	color: rgba(var(--color-primary-text), 0.7);
 	cursor: pointer;
 	flex: 0 0 auto;
 
@@ -500,7 +499,7 @@ nav[role='navigation'] {
 		border-radius: var(--border-radius);
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
-		color: rgba(var(--color-main-text), .7);
+		color: var(--color-text-lighter);
 		width: auto;
 		left: 50%;
 		top: 100%;

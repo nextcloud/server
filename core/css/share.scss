@@ -61,7 +61,6 @@
 	.error {
 		color: var(--color-error);
 		border-color: var(--color-error);
-		box-shadow: 0 0 6px rgba(var(--color-error), 0.35);
 	}
 	.mailView .icon-mail {
 		opacity: 0.5;
@@ -173,7 +172,7 @@
 .notCreatable {
 	padding-left: 12px;
 	padding-top: 12px;
-	color: rgba(var(--color-main-text), .4);
+	color: var(--color-text-lighter);
 }
 
 .contactsmenu-popover {

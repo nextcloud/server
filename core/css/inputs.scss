@@ -32,6 +32,13 @@ div[contenteditable=false] {
 	box-sizing: border-box;
 }
 
+/**
+ * color-text-lighter		normal state
+ * color-text-lighter		active state
+ * color-text-maxcontrast 	disabled state
+ */
+
+
 /* Default global values */
 select,
 button, .button,
@@ -59,11 +66,12 @@ div[contenteditable=true],
 		&:active {
 			outline: none;
 			background-color: var(--color-main-background);
+			color: var(--color-text-light);
 		}
 	}
 	&:disabled {
 		background-color: var(--color-background-dark);
-		color: rgba(var(--color-main-text), 0.4);
+		color: var(--color-text-maxcontrast);
 		cursor: default;
 		opacity: 0.5;
 	}
@@ -82,15 +90,17 @@ div[contenteditable=true],
 		cursor: pointer;
 		&:not(:disabled) {
 			&:hover,
-			&:focus {
-				background-color: rgba(var(--color-primary-element), .85);
+			&:focus,
+			&:active  {
+				background-color: var(--color-primary-element-light)
 			}
 			&:active {
-				background-color: rgba(var(--color-primary-element), .7);
+				color: var(--color-primary-text-dark);
 			}
 		}
 		&:disabled {
-			background-color: rgba(var(--color-primary-element), .7);
+			// opacity is already defined to .5 if disabled
+			background-color: var(--color-primary-element);
 			color: var(--color-primary-text-dark);
 		}
 	}
@@ -108,7 +118,7 @@ div[contenteditable=false] {
 	cursor: text;
 
 	background-color: var(--color-background-dark);
-	color: rgba(var(--color-main-text), 0.4);
+	color: var(--color-text-lighter);
 	cursor: default;
 	opacity: 0.5;
 }
@@ -349,7 +359,6 @@ input {
 
 		/* We do not use the nc-darken function as this is not supposed to be changed */
 		$color-checkbox-radio-white: #fff;
-		--color-checkbox-radio-white: $color-checkbox-radio-white;
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before,
@@ -357,7 +366,7 @@ input {
 				border-color: darken($color-checkbox-radio-white, 27%);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before {
-				border-color: var(--color-checkbox-radio-white);
+				border-color: $color-checkbox-radio-white;
 			}
 			&:checked + label:before {
 				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
@@ -366,11 +375,11 @@ input {
 			}
 			&:disabled + label:before {
 				background-color: darken($color-checkbox-radio-white, 27%) !important; /* override other status */
-				border-color: rgba(var(--color-checkbox-radio-white), 0.4) !important; /* override other status */
+				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
 				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-				border-color: rgba(var(--color-checkbox-radio-white), 0.4) !important; /* override other status */
+				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
 				background-color: darken($color-checkbox-radio-white, 27%);
 			}
 		}
@@ -378,7 +387,7 @@ input {
 			&:checked + label:before,
 			&:indeterminate + label:before {
 				background-color: transparent !important; /* Override default checked */
-				border-color: var(--color-checkbox-radio-white) !important; /* Override default checked */
+				border-color: $color-checkbox-radio-white !important; /* Override default checked */
 				background-image: url('../img/actions/checkbox-mark-white.svg');
 			}
 			&:indeterminate + label:before {

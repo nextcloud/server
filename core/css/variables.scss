@@ -8,8 +8,9 @@
 }
 
 // SCSS variables
-$color-main-text: #000000;
-$color-main-background: #ffffff;
+// DEPRECATED, please use CSS4 vars
+$color-main-text: #000;
+$color-main-background: #fff;
 
 // used for different active/disabled states
 $color-background-dark: nc-darken($color-main-background, 7%);
@@ -19,6 +20,7 @@ $color-primary: #0082c9;
 $color-primary-text: #ffffff;
 $color-primary-text-dark: nc-darken($color-primary-text, 7%);
 $color-primary-element: $color-primary;
+$color-primary-element-light: nc-lighten($color-primary-element, 15%);
 
 $color-error: #e9322d;
 $color-warning: #eca700;
@@ -34,8 +36,8 @@ $color-text-lighter: nc-lighten($color-main-text, 30%);
 $image-logo: url('../img/logo.svg?v=1');
 $image-login-background: url('../img/background.png?v=2');
 
-$color-loading: #969696;
-$color-loading-dark: #bbbbbb;
+$color-loading-light: #777;
+$color-loading-dark: #ccc;
 
 $color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75);
 
