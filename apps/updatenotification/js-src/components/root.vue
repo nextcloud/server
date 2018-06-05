@@ -40,7 +40,7 @@
 				<a v-if="updaterEnabled" href="#" class="button" @click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
 				<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
 				<div class="whatsNew" v-if="whatsNew">
-					<div class="toggleWhatsNews">
+					<div class="toggleWhatsNew">
 						<span v-click-outside="hideMenu" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</span>
 						<div class="popovermenu" :class="{ 'open': openedWhatsNew }">
 							<popover-menu :menu="whatsNew" />

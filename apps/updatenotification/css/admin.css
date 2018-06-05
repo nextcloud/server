@@ -49,25 +49,27 @@
 	display: inline-block;
 }
 
-#updatenotification .toggleWhatsNews {
+#updatenotification .toggleWhatsNew {
 	position: relative;
 }
 
 #updatenotification .item-wrapper {
 	display: flex;
 	align-items: flex-start;
-}
-
-#updatenotification .item-wrapper {
-	display: flex;
-	align-items: flex-start;
+	padding-right: 10px;
 }
 
 #updatenotification .item-wrapper p {
-	margin-bottom: 10px;
-	margin-left: 0.5em;
+	margin-bottom: 0;
+	padding-top: 10px;
 }
 
 #updatenotification .item-wrapper span[class^="icon-"] {
-	padding: 0 19px 0 0;
+	padding: 19px 0 19px 22px;
+	line-height: 38px;
+}
+
+#updatenotification .popovermenu {
+	margin-top: 5px;
+	width: 300px;
 }
