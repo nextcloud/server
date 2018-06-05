@@ -370,7 +370,7 @@ class RequestHandlerController extends OCSController {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
-			$provider->notificationReceived('SHARE_UNSHARE', $id, $notification);
+			$provider->notificationReceived('RESHARE_UNDO', $id, $notification);
 			return new Http\DataResponse();
 		} catch (\Exception $e) {
 			throw new OCSBadRequestException();

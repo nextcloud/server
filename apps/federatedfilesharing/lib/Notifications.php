@@ -319,8 +319,10 @@ class Notifications {
 
 		// if possible we use the new OCM API
 		$ocmResult = $this->tryOCMEndPoint($remoteDomain, $fields, $action);
-		if ($ocmResult) {
+		if (is_array($ocmResult)) {
 			$result['success'] = true;
+			$result['result'] = json_encode([
+				'ocs' => ['meta' => ['statuscode' => 200]]]);
 			return $result;
 		}
 
@@ -440,10 +442,22 @@ class Notifications {
 					$fields['remoteId'],
 					[
 						'sharedSecret' => $fields['token'],
+						'messgage' => 'file is no longer shared with you'
 					]
 				);
 				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);
-				return false;
+			case 'reshare_undo':
+				// if a reshare was unshared we send the information to the initiator/owner
+				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+				$notification->setMessage('RESHARE_UNDO',
+					'file',
+					$fields['remoteId'],
+					[
+						'sharedSecret' => $fields['token'],
+						'message' => 'reshare was revoked'
+					]
+				);
+				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);
 		}
 
 		return false;

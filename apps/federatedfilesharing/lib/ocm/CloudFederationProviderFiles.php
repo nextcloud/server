@@ -456,7 +456,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws ShareNotFoundException
 	 */
 	private function undoReshare($id, $notification) {
-
 		if (!isset($notification['sharedSecret'])) {
 			throw new BadRequestException(['sharedSecret']);
 		}
@@ -470,7 +469,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	}
 
 	private function unshare($id, $notification) {
-		error_log("new unshare!");
+
 		if (!$this->isS2SEnabled(true)) {
 			throw new ActionNotSupportedException("incoming shares disabled!");
 		}
