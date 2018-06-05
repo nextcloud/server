@@ -32,7 +32,6 @@
 
 namespace OC\App;
 
-use OC\AppConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
