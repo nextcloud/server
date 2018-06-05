@@ -271,7 +271,7 @@ nav[role='navigation'] {
 		display: inline-flex;
 		height: 44px;
 		width: 100%;
-		padding: 12px;
+		padding: 12px 20px 12px 14px; /* for nice visual balance */
 		align-items: center;
 		span {
 			display: inline-block;
@@ -415,8 +415,8 @@ nav[role='navigation'] {
 		align-items: center;
 		height: 44px;
 		width: 100%;
+		padding: 12px 20px 12px 14px; /* for nice visual balance */
 		color: var(--color-main-text);
-		padding: 12px;
 		box-sizing: border-box;
 		opacity: .7;
 		white-space: nowrap;
