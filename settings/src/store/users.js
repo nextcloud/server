@@ -197,9 +197,9 @@ const actions = {
 			.catch((error) => context.commit('API_FAILURE', error));
 	},
 
-	getGroups(context) { /* { offset, limit, search } */
-		//search = typeof search === 'string' ? search : '';
-		return api.get(OC.linkToOCS(`cloud/groups`, 2)) /* ?offset=${offset}&limit=${limit}&search=${search}` */
+	getGroups(context, { offset, limit, search }) {
+		search = typeof search === 'string' ? search : '';
+		return api.get(OC.linkToOCS(`cloud/groups?offset=${offset}&limit=${limit}&search=${search}`, 2))
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.groups).length > 0) {
 					response.data.ocs.data.groups.forEach(function(group) {
