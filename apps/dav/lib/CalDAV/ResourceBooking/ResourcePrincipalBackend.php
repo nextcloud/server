@@ -24,6 +24,7 @@ namespace OCA\DAV\CalDAV\ResourceBooking;
 
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUserSession;
 
 class ResourcePrincipalBackend extends AbstractPrincipalBackend {
@@ -32,11 +33,13 @@ class ResourcePrincipalBackend extends AbstractPrincipalBackend {
 	 * @param IDBConnection $dbConnection
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
+	 * @param ILogger $logger
 	 */
 	public function __construct(IDBConnection $dbConnection,
 								IUserSession $userSession,
-								IGroupManager $groupManager) {
-		parent::__construct($dbConnection, $userSession, $groupManager,
+								IGroupManager $groupManager,
+								ILogger $logger) {
+		parent::__construct($dbConnection, $userSession, $groupManager, $logger,
 			'principals/calendar-resources', 'resources');
 	}
 }

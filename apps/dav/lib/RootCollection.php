@@ -58,8 +58,8 @@ class RootCollection extends SimpleCollection {
 			$config
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager);
-		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager);
-		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager);
+		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger);
+		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger);
 		// as soon as debug mode is enabled we allow listing of principals
 		$disableListing = !$config->getSystemValue('debug', false);
 

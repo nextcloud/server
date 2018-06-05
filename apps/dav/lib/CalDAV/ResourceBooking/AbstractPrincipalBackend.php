@@ -24,6 +24,7 @@ namespace OCA\DAV\CalDAV\ResourceBooking;
 
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUserSession;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 use Sabre\DAV\Exception;
@@ -40,6 +41,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	/** @var IGroupManager */
 	private $groupManager;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var string */
 	private $principalPrefix;
 
@@ -50,16 +54,19 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param IDBConnection $dbConnection
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
+	 * @param ILogger $logger
 	 * @param string $principalPrefix
 	 * @param string $dbPrefix
 	 */
 	public function __construct(IDBConnection $dbConnection,
 								IUserSession $userSession,
 								IGroupManager $groupManager,
+								ILogger $logger,
 								$principalPrefix, $dbPrefix) {
 		$this->db = $dbConnection;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
+		$this->logger = $logger;
 		$this->principalPrefix = $principalPrefix;
 		$this->dbTableName = 'calendar_' . $dbPrefix . '_cache';
 	}
@@ -82,7 +89,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 		if ($prefixPath === $this->principalPrefix) {
 			$query = $this->db->getQueryBuilder();
-			$query->select(['backend_id', 'resource_id', 'email', 'displayname'])
+			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
 				->from($this->dbTableName);
 			$stmt = $query->execute();
 
@@ -113,7 +120,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		list($backendId, $resourceId) = explode('-',  $name, 2);
 
 		$query = $this->db->getQueryBuilder();
-		$query->select(['backend_id', 'resource_id', 'email', 'displayname'])
+		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
 			->from($this->dbTableName)
 			->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)))
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
@@ -132,7 +139,6 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 *
 	 * @param string $principal
 	 * @return string[]
-	 * @throws Exception
 	 */
 	public function getGroupMemberSet($principal) {
 		return [];
@@ -143,7 +149,6 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 *
 	 * @param string $principal
 	 * @return array
-	 * @throws Exception
 	 */
 	public function getGroupMembership($principal) {
 		return [];
@@ -188,7 +193,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 		$user = $this->userSession->getUser();
 		if (!$user) {
-			return null;
+			return [];
 		}
 		$usersGroups = $this->groupManager->getUserGroupIds($user);
 
@@ -196,30 +201,38 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
 					$query = $this->db->getQueryBuilder();
-					$query->select(['backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
+					$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
 						->from($this->dbTableName)
-						->where($query->expr()->eq('email', $query->createNamedParameter($value)));
+						->where($query->expr()->iLike('email', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
 
 					$stmt = $query->execute();
+					$principals = [];
 					while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-						// TODO - check for group restrictions
-						$results[] = $this->rowToPrincipal($row)['uri'];
+						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
+							continue;
+						}
+						$principals[] = $this->rowToPrincipal($row)['uri'];
 					}
+					$results[] = $principals;
 
 					$stmt->closeCursor();
 					break;
 
 				case '{DAV:}displayname':
 					$query = $this->db->getQueryBuilder();
-					$query->select(['backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
+					$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
 						->from($this->dbTableName)
-						->where($query->expr()->eq('displayname', $query->createNamedParameter($value)));
+						->where($query->expr()->iLike('displayname', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
 
 					$stmt = $query->execute();
+					$principals = [];
 					while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-						// TODO - check for group restrictions
-						$results[] = $this->rowToPrincipal($row)['uri'];
+						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
+							continue;
+						}
+						$principals[] = $this->rowToPrincipal($row)['uri'];
 					}
+					$results[] = $principals;
 
 					$stmt->closeCursor();
 					break;
@@ -233,16 +246,16 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		// results is an array of arrays, so this is not the first search result
 		// but the results of the first searchProperty
 		if (count($results) === 1) {
-			return $results;
+			return $results[0];
 		}
 
 		switch ($test) {
 			case 'anyof':
-				return array_unique(array_merge(...$results));
+				return array_values(array_unique(array_merge(...$results)));
 
 			case 'allof':
 			default:
-				return array_intersect(...$results);
+				return array_values(array_intersect(...$results));
 		}
 	}
 
@@ -261,7 +274,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		if (strpos($uri, 'mailto:') === 0) {
 			$email = substr($uri, 7);
 			$query = $this->db->getQueryBuilder();
-			$query->select(['backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
+			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
 				->from($this->dbTableName)
 				->where($query->expr()->eq('email', $query->createNamedParameter($email)));
 
@@ -271,16 +284,38 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			if(!$row) {
 				return null;
 			}
+			if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
+				return null;
+			}
 
 			return $this->rowToPrincipal($row)['uri'];
 		}
-		if (strpos($uri, 'principal:') === 0) {
-			$principal = substr($uri, 10);
-			$principal = $this->getPrincipalByPath($principal);
 
-			if ($principal !== null) {
-				return $principal['uri'];
+		if (strpos($uri, 'principal:') === 0) {
+			$path = substr($uri, 10);
+			if (strpos($path, $this->principalPrefix) !== 0) {
+				return null;
 			}
+
+			list(, $name) = \Sabre\Uri\split($path);
+			list($backendId, $resourceId) = explode('-',  $name, 2);
+
+			$query = $this->db->getQueryBuilder();
+			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
+				->from($this->dbTableName)
+				->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)))
+				->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
+			$stmt = $query->execute();
+			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+			if(!$row) {
+				return null;
+			}
+			if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
+				return null;
+			}
+
+			return $this->rowToPrincipal($row)['uri'];
 		}
 
 		return null;
@@ -295,5 +330,32 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			'{DAV:}displayname' => $row['displayname'],
 			'{http://sabredav.org/ns}email-address' => $row['email']
 		];
+	}
+
+	/**
+	 * @param $row
+	 * @param $userGroups
+	 * @return bool
+	 */
+	private function isAllowedToAccessResource($row, $userGroups) {
+		if (!isset($row['group_restrictions']) ||
+			$row['group_restrictions'] === null ||
+			$row['group_restrictions'] === '') {
+			return true;
+		}
+
+		// group restrictions contains something, but not parsable, deny access and log warning
+		$json = json_decode($row['group_restrictions']);
+		if (!\is_array($json)) {
+			$this->logger->info('group_restrictions field could not be parsed for ' . $this->dbTableName . '::' . $row['id'] . ', denying access to resource');
+			return false;
+		}
+
+		// empty array => no group restrictions
+		if (empty($json)) {
+			return true;
+		}
+
+		return !empty(array_intersect($json, $userGroups));
 	}
 }
