@@ -29,6 +29,7 @@
 
 namespace OCA\Files_Sharing\AppInfo;
 
+use OC\Authentication\Token\IProvider;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCA\Files_Sharing\MountProvider;
@@ -72,7 +73,8 @@ class Application extends App {
 				$federatedSharingApp->getFederatedShareProvider(),
 				$server->getEventDispatcher(),
 				$server->getL10N($c->query('AppName')),
-				$server->query(Defaults::class)
+				$server->query(Defaults::class),
+				$server->query(IProvider::class)
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {

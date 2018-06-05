@@ -31,6 +31,7 @@
 
 namespace OCA\Files_Sharing\Tests\Controllers;
 
+use OC\Authentication\Token\IProvider;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
@@ -125,7 +126,8 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->federatedShareProvider,
 			$this->eventDispatcher,
 			$this->l10n,
-			$this->getMockBuilder('\OCP\Defaults')->getMock()
+			$this->getMockBuilder('\OCP\Defaults')->getMock(),
+			$this->createMock(IProvider::class)
 		);
 
 
