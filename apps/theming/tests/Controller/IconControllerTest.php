@@ -118,7 +118,7 @@ class IconControllerTest extends TestCase {
 			->method('getImage')
 			->with('favicon')
 			->will($this->throwException(new NotFoundException()));
-		$this->themingDefaults->expects($this->any())
+		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(true);
 		$this->imageManager->expects($this->once())
@@ -142,7 +142,7 @@ class IconControllerTest extends TestCase {
 			->method('getImage')
 			->with('favicon')
 			->will($this->throwException(new NotFoundException()));
-		$this->themingDefaults->expects($this->any())
+		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
@@ -163,10 +163,13 @@ class IconControllerTest extends TestCase {
 		if (count($checkImagick->queryFormats('SVG')) < 1) {
 			$this->markTestSkipped('No SVG provider present.');
 		}
-		$this->themingDefaults->expects($this->any())
+
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->will($this->throwException(new NotFoundException()));
+		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(true);
-
 		$this->iconBuilder->expects($this->once())
 			->method('getTouchIcon')
 			->with('core')
@@ -189,7 +192,7 @@ class IconControllerTest extends TestCase {
 			->method('getImage')
 			->with('favicon')
 			->will($this->throwException(new NotFoundException()));
-		$this->themingDefaults->expects($this->any())
+		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';

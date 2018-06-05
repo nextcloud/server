@@ -317,10 +317,10 @@ class ThemingDefaults extends \OC_Defaults {
 			$customFavicon = null;
 		}
 
-		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->shouldReplaceIcons())) {
+		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue;
 		}
-		if ($image === 'favicon-touch.png' && ($customFavicon !== null || $this->shouldReplaceIcons())) {
+		if ($image === 'favicon-touch.png' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue;
 		}
 		if ($image === 'manifest.json') {
@@ -334,19 +334,7 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		return false;
 	}
-
-	/**
-	 * Check if Imagemagick is enabled and if SVG is supported
-	 * otherwise we can't render custom icons
-	 *
-	 * TODO: move to usage of image manager
-	 *
-	 * @return bool
-	 */
-	public function shouldReplaceIcons() {
-		return $this->imageManager->shouldReplaceIcons();
-	}
-
+	
 	/**
 	 * Increases the cache buster key
 	 */

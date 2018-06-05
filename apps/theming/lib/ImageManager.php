@@ -181,6 +181,7 @@ class ImageManager {
 	}
 
 	public function delete(string $key) {
+		/* ignore exceptions, since we don't want to fail hard if something goes wrong during cleanup */
 		try {
 			$file = $this->appData->getFolder('images')->getFile($key);
 			$file->delete();

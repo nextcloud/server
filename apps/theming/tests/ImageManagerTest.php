@@ -66,10 +66,10 @@ class ImageManagerTest extends TestCase {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
 		$checkImagick = new \Imagick();
-		if (count($checkImagick->queryFormats('SVG')) < 1) {
+		if (empty($checkImagick->queryFormats('SVG'))) {
 			$this->markTestSkipped('No SVG provider present.');
 		}
-		if (count($checkImagick->queryFormats('PNG')) < 1) {
+		if (empty($checkImagick->queryFormats('PNG'))) {
 			$this->markTestSkipped('No PNG provider present.');
 		}
 	}
