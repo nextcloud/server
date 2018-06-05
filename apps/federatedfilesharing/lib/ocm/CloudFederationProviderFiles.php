@@ -590,7 +590,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->verifyShare($share, $token);
 
 		// check if re-sharing is allowed
-		if ($share->getPermissions() | ~Constants::PERMISSION_SHARE) {
+		if ($share->getPermissions() & Constants::PERMISSION_SHARE) {
 			// the recipient of the initial share is now the initiator for the re-share
 			$share->setSharedBy($share->getSharedWith());
 			$share->setSharedWith($shareWith);
