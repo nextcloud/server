@@ -31,11 +31,11 @@
 			</svg>
 			{{ app.name }}</h2>
 		<img v-if="app.screenshot" :src="app.screenshot" width="100%" />
-		<div class="app-level">
-		<span class="official icon-checkmark" v-if="app.level === 200"
+		<div class="app-level" v-if="app.level === 200 || hasRating">
+			<span class="official icon-checkmark" v-if="app.level === 200"
 			  v-tooltip.auto="t('settings', 'Official apps are developed by and within the community. They offer central functionality and are ready for production use.')">
 				{{ t('settings', 'Official') }}</span>
-			<app-score v-if="app.appstoreData && app.appstoreData.ratingNumOverall > 5" :score="app.appstoreData.ratingOverall"></app-score>
+			<app-score v-if="hasRating" :score="app.appstoreData.ratingOverall"></app-score>
 		</div>
 
 		<div class="app-author" v-if="author">
@@ -134,6 +134,9 @@ export default {
 			if (this.app.licence)
 				return ('' + this.app.licence).toUpperCase() + t('settings', '-licensed');
 			return null;
+		},
+		hasRating() {
+			return this.app.appstoreData && this.app.appstoreData.ratingNumOverall > 5;
 		},
 		author() {
 			if (typeof this.app.author === 'string') {
