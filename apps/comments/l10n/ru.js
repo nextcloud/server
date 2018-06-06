@@ -29,6 +29,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Вы были упомянуты в комментарии к файлу «{file}» пользователем, учётная запись которого была удалена",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s упомянул вас в комментарии к \"%2$s\"",
     "{user} mentioned you in a comment on “{file}”" : "{user} упомянул вас в комментарии к “{file}”.",
+    "Files app plugin to add comments to files" : "Плагин для добавления комментариев к файлам",
     "Unknown user" : "Неизвестный пользователь",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Пользователь (удалённый в настоящее время) упомянул вас в комментарии к “%s”.",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Пользователь (удалённый в настоящее время) упомянул вас в комментарии к “{file}”."
