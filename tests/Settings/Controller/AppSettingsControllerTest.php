@@ -176,6 +176,9 @@ class AppSettingsControllerTest extends TestCase {
 
 	public function testViewApps() {
 		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
+		$this->installer->expects($this->any())
+			->method('isUpdateAvailable')
+			->willReturn(false);
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -193,9 +196,8 @@ class AppSettingsControllerTest extends TestCase {
 			'settings',
 			[
 				'serverData' => [
-					'updateCount' => 67,
+					'updateCount' => 0,
 					'appstoreEnabled' => true,
-					'urlGenerator' => $this->urlGenerator,
 					'bundles' => [],
 					'developerDocumentation' => ''
 				]
@@ -207,6 +209,9 @@ class AppSettingsControllerTest extends TestCase {
 	}
 
 	public function testViewAppsAppstoreNotEnabled() {
+		$this->installer->expects($this->any())
+			->method('isUpdateAvailable')
+			->willReturn(false);
 		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
 		$this->config
 			->expects($this->once())
@@ -225,9 +230,8 @@ class AppSettingsControllerTest extends TestCase {
 			'settings',
 			[
 				'serverData' => [
-					'updateCount' => 67,
+					'updateCount' => 0,
 					'appstoreEnabled' => false,
-					'urlGenerator' => $this->urlGenerator,
 					'bundles' => [],
 					'developerDocumentation' => ''
 				]
