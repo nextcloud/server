@@ -6,6 +6,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
+ * @author Johannes Ernst <jernst@indiecomputing.com>
  *
  * @license AGPL-3.0
  *
@@ -55,7 +56,7 @@ class Manage extends Command implements CompletionAwareInterface {
 				'backend',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'set the logging backend [file, syslog, errorlog]'
+				'set the logging backend [file, syslog, errorlog, systemd]'
 			)
 			->addOption(
 				'level',
@@ -181,7 +182,7 @@ class Manage extends Command implements CompletionAwareInterface {
 	 */
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'backend') {
-			return ['file', 'syslog', 'errorlog'];
+			return ['file', 'syslog', 'errorlog', 'systemd'];
 		} else if ($optionName === 'level') {
 			return ['debug', 'info', 'warning', 'error'];
 		} else if ($optionName === 'timezone') {

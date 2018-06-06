@@ -763,6 +763,7 @@ return array(
     'OC\\Log\\LogFactory' => $baseDir . '/lib/private/Log/LogFactory.php',
     'OC\\Log\\Rotate' => $baseDir . '/lib/private/Log/Rotate.php',
     'OC\\Log\\Syslog' => $baseDir . '/lib/private/Log/Syslog.php',
+    'OC\\Log\\Systemdlog' => $baseDir . '/lib/private/Log/Systemdlog.php',
     'OC\\Mail\\Attachment' => $baseDir . '/lib/private/Mail/Attachment.php',
     'OC\\Mail\\EMailTemplate' => $baseDir . '/lib/private/Mail/EMailTemplate.php',
     'OC\\Mail\\Mailer' => $baseDir . '/lib/private/Mail/Mailer.php',

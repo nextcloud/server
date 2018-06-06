@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Johannes Ernst <jernst@indiecomputing.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -50,6 +51,8 @@ class LogFactory implements ILogFactory {
 				return new Errorlog();
 			case 'syslog':
 				return $this->c->resolve(Syslog::class);
+			case 'systemd':
+				return $this->c->resolve(Systemdlog::class);
 			case 'file':
 				return $this->buildLogFile();
 

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Johannes Ernst <jernst@indiecomputing.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,6 +27,7 @@ use OC\Log\Errorlog;
 use OC\Log\File;
 use OC\Log\LogFactory;
 use OC\Log\Syslog;
+use OC\Log\Systemdlog;
 use OC\SystemConfig;
 use OCP\IConfig;
 use OCP\IServerContainer;
@@ -140,5 +142,18 @@ class LogFactoryTest extends TestCase {
 
 		$log = $this->factory->get('syslog');
 		$this->assertInstanceOf(Syslog::class, $log);
+	}
+
+	/**
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function testSystemdLog() {
+		$this->c->expects($this->once())
+			->method('resolve')
+			->with(Systemdlog::class)
+			->willReturn($this->createMock(Systemdlog::class));
+
+		$log = $this->factory->get('systemd');
+		$this->assertInstanceOf(Systemdlog::class, $log);
 	}
 }
