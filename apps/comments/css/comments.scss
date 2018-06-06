@@ -70,7 +70,7 @@
 }
 
 #commentsTabView .comments .comment {
-	border-top: 1px solid $color-border;
+	border-top: 1px solid var(--color-border);
 }
 
 #commentsTabView .comment .avatar,
