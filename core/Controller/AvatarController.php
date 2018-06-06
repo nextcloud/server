@@ -26,18 +26,18 @@
  */
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IAvatarManager;
 use OCP\ICache;
-use OCP\ILogger;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -73,7 +73,7 @@ class AvatarController extends Controller {
 	/** @var string */
 	protected $userId;
 
-	/** @var TimeFactory */
+	/** @var ITimeFactory */
 	protected $timeFactory;
 
 	/**
@@ -86,7 +86,7 @@ class AvatarController extends Controller {
 	 * @param IRootFolder $rootFolder
 	 * @param ILogger $logger
 	 * @param string $userId
-	 * @param TimeFactory $timeFactory
+	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -97,7 +97,7 @@ class AvatarController extends Controller {
 								IRootFolder $rootFolder,
 								ILogger $logger,
 								$userId,
-								TimeFactory $timeFactory) {
+								ITimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
 		$this->avatarManager = $avatarManager;

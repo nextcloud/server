@@ -55,7 +55,6 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
-use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Collaboration\Collaborators\GroupPlugin;
@@ -344,7 +343,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$crypto = $c->getCrypto();
 			$config = $c->getConfig();
 			$logger = $c->getLogger();
-			$timeFactory = new TimeFactory();
+			$timeFactory = $c->query(ITimeFactory::class);
 			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger, $timeFactory);
 		});
 		$this->registerAlias(IProvider::class, Authentication\Token\DefaultTokenProvider::class);
@@ -352,7 +351,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\IUserSession::class, function (Server $c) {
 			$manager = $c->getUserManager();
 			$session = new \OC\Session\Memory('');
-			$timeFactory = new TimeFactory();
+			$timeFactory = $c->query(ITimeFactory::class);
 			// Token providers might require a working database. This code
 			// might however be called when ownCloud is not yet setup.
 			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
@@ -568,7 +567,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC\BackgroundJob\JobList(
 				$c->getDatabaseConnection(),
 				$config,
-				new TimeFactory()
+				$c->query(ITimeFactory::class)
 			);
 		});
 		$this->registerAlias('JobList', \OCP\BackgroundJob\IJobList::class);
@@ -594,14 +593,14 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC\Security\RateLimiting\Limiter(
 				$this->getUserSession(),
 				$this->getRequest(),
-				new \OC\AppFramework\Utility\TimeFactory(),
+				$c->query(ITimeFactory::class),
 				$c->query(\OC\Security\RateLimiting\Backend\IBackend::class)
 			);
 		});
-		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
+		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function (Server $c) {
 			return new \OC\Security\RateLimiting\Backend\MemoryCache(
 				$this->getMemCacheFactory(),
-				new \OC\AppFramework\Utility\TimeFactory()
+				$c->query(ITimeFactory::class)
 			);
 		});
 
@@ -762,7 +761,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('Throttler', function (Server $c) {
 			return new Throttler(
 				$c->getDatabaseConnection(),
-				new TimeFactory(),
+				$c->query(ITimeFactory::class),
 				$c->getLogger(),
 				$c->getConfig()
 			);
@@ -859,7 +858,7 @@ class Server extends ServerContainer implements IServerContainer {
 				return new DBLockingProvider(
 					$c->getDatabaseConnection(),
 					$c->getLogger(),
-					new TimeFactory(),
+					$c->query(ITimeFactory::class),
 					$ttl,
 					!\OC::$CLI
 				);
@@ -1123,7 +1122,13 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\AppFramework\Utility\IControllerMethodReflector::class, \OC\AppFramework\Utility\ControllerMethodReflector::class);
 		$this->registerAlias('ControllerMethodReflector', \OCP\AppFramework\Utility\IControllerMethodReflector::class);
 
-		$this->registerAlias(\OCP\AppFramework\Utility\ITimeFactory::class, \OC\AppFramework\Utility\TimeFactory::class);
+		$this->registerService(\OCP\AppFramework\Utility\ITimeFactory::class, function (Server $c) {
+			return new class implements ITimeFactory {
+				public function getTime(): int {
+					return \time();
+				}
+			};
+		});
 		$this->registerAlias('TimeFactory', \OCP\AppFramework\Utility\ITimeFactory::class);
 
 		$this->registerService(Defaults::class, function (Server $c) {

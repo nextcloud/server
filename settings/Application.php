@@ -28,7 +28,6 @@
 
 namespace OC\Settings;
 
-use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
 use OC\Settings\Activity\Provider;
@@ -39,6 +38,7 @@ use OC\Settings\Activity\Setting;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IContainer;
 use OCP\Settings\IManager;
@@ -103,7 +103,7 @@ class Application extends App {
 				$server->getL10N('settings'),
 				$server->getMailer(),
 				$server->getSecureRandom(),
-				new TimeFactory(),
+				$server->query(ITimeFactory::class),
 				$server->getConfig(),
 				$server->getCrypto(),
 				Util::getDefaultEmailAddress('no-reply')
