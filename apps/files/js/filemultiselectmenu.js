@@ -51,8 +51,6 @@
 		 */
 		show: function(context) {
 			this._context = context;
-
-			this.render();
 			this.$el.removeClass('hidden');
 			if (window.innerWidth < 480) {
 				this.$el.removeClass('menu-center').addClass('menu-right');
@@ -62,11 +60,15 @@
 			OC.showMenu(null, this.$el);
 			return false;
 		},
-		toggleItemVisibility: function (itemName, hide) {
-			this.$el.find('.item-' + itemName).toggleClass('hidden', hide);
+		toggleItemVisibility: function (itemName, show) {
+			if (show) {
+				this.$el.find('.item-' + itemName).removeClass('hidden');
+			} else {
+				this.$el.find('.item-' + itemName).addClass('hidden');
+			}
 		},
 		updateItemText: function (itemName, translation) {
-			this.$el.find('.item-' + itemName).find('label').text(translation);
+			this.$el.find('.item-' + itemName).find('.label').text(translation);
 		},
 		toggleLoading: function (itemName, showLoading) {
 			var $actionElement = this.$el.find('.item-' + itemName);

@@ -90,7 +90,7 @@
 					filesClient: OC.Files.getClient(),
 					multiSelectMenu: [
 						{
-							name: 'moveCopy',
+							name: 'copyMove',
 							displayName:  t('files', 'Move or copy'),
 							iconClass: 'icon-external',
 						},

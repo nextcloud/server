@@ -295,7 +295,8 @@
 
 			if (options.multiSelectMenu) {
 				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(options.multiSelectMenu);
-				this.$el.find('#selectedActionsList').append(this.fileMultiSelectMenu.$el);
+				this.fileMultiSelectMenu.render();
+				this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
 			}
 
 			if (options.sorting) {
@@ -406,7 +407,7 @@
 					case 'download':
 						this._onClickDownloadSelected(ev);
 						break;
-					case 'moveCopy':
+					case 'copyMove':
 						this._onClickCopyMoveSelected(ev);
 						break;
 					case 'restore':
@@ -769,7 +770,7 @@
 		/**
 		 * Event handler for when clicking on "Download" for the selected files
 		 */
-		_onClickDownloadSelected: function() {
+		_onClickDownloadSelected: function(event) {
 			var files;
 			var self = this;
 			var dir = this.getCurrentDirectory();
@@ -799,26 +800,26 @@
 				var first = this.getSelectedFiles()[0];
 				OCA.Files.Files.handleDownload(this.getDownloadUrl(first.name, dir, true), disableLoadingState);
 			}
-			return false;
+			event.preventDefault();
 		},
 
 		/**
 		 * Event handler for when clicking on "Move" for the selected files
 		 */
-		_onClickCopyMoveSelected: function() {
+		_onClickCopyMoveSelected: function(event) {
 			var files;
 			var self = this;
 
 			files = _.pluck(this.getSelectedFiles(), 'name');
 
 			// don't allow a second click on the download action
-			if(this.fileMultiSelectMenu.isDisabled('moveCopy')) {
+			if(this.fileMultiSelectMenu.isDisabled('copyMove')) {
 				return false;
 			}
 
-			self.fileMultiSelectMenu.toggleLoading('moveCopy', true);
+			self.fileMultiSelectMenu.toggleLoading('copyMove', true);
 			var disableLoadingState = function(){
-				self.fileMultiSelectMenu.toggleLoading('moveCopy', false);
+				self.fileMultiSelectMenu.toggleLoading('copyMove', false);
 			};
 
 			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
@@ -830,20 +831,19 @@
 					self.move(files, targetPath, disableLoadingState);
 				}
 			}, false, "httpd/unix-directory", true, actions);
-			return false;
+			event.preventDefault();
 		},
 
 		/**
 		 * Event handler for when clicking on "Delete" for the selected files
 		 */
-		_onClickDeleteSelected: function() {
+		_onClickDeleteSelected: function(event) {
 			var files = null;
 			if (!this.isAllSelected()) {
 				files = _.pluck(this.getSelectedFiles(), 'name');
 			}
 			this.do_delete(files);
 			event.preventDefault();
-			return false;
 		},
 
 		/**
@@ -2905,20 +2905,22 @@
 					selection += ' (' + hiddenInfo + ')';
 				}
 
-				// TODO : Change here!!
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
 
-
-				this.fileMultiSelectMenu.toggleItemVisibility('download', !this.isSelectedDownloadable());
-				this.fileMultiSelectMenu.toggleItemVisibility('delete', !this.isSelectedDeletable());
-				this.fileMultiSelectMenu.toggleItemVisibility('moveCopy', !this.isSelectedCopiable());
-				if (this.isSelectedCopiable()) {
-					if (this.isSelectedMovable()) {
-						this.fileMultiSelectMenu.updateItemText('moveCopy', t('files', 'Move or copy'));
+				if (this.fileMultiSelectMenu) {
+					this.fileMultiSelectMenu.toggleItemVisibility('download', this.isSelectedDownloadable());
+					this.fileMultiSelectMenu.toggleItemVisibility('delete', this.isSelectedDeletable());
+					this.fileMultiSelectMenu.toggleItemVisibility('copyMove', this.isSelectedCopiable());
+					if (this.isSelectedCopiable()) {
+						if (this.isSelectedMovable()) {
+							this.fileMultiSelectMenu.updateItemText('copyMove', t('files', 'Move or copy'));
+						} else {
+							this.fileMultiSelectMenu.updateItemText('copyMove', t('files', 'Copy'));
+						}
 					} else {
-						this.fileMultiSelectMenu.updateItemText('moveCopy', t('files', 'Copy'));
+						this.fileMultiSelectMenu.toggleItemVisibility('copyMove', false);
 					}
 				}
 			}

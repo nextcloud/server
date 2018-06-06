@@ -153,7 +153,6 @@
 			}
 			this.fileSummary.update();
 			this.updateEmptyContent();
-			this.enableActions();
 		},
 
 		_onClickRestoreSelected: function(event) {
@@ -162,7 +161,7 @@
 			var allFiles = this.$el.find('.select-all').is(':checked');
 			var files = [];
 			var params = {};
-			this.disableActions();
+			this.fileMultiSelectMenu.toggleLoading('restore', true);
 			if (allFiles) {
 				this.showMask();
 				params = {
@@ -192,13 +191,14 @@
 						self.hideMask();
 						// simply remove all files
 						self.setFiles([]);
-						self.enableActions();
 					}
 					else {
 						self._removeCallback(result);
 					}
+					self.fileMultiSelectMenu.toggleLoading('restore', true);
 				}
 			);
+			event.preventDefault();
 		},
 
 		_onClickDeleteSelected: function(event) {
@@ -221,7 +221,7 @@
 				};
 			}
 
-			this.disableActions();
+			this.fileMultiSelectMenu.toggleLoading('delete', true);
 			if (allFiles) {
 				this.showMask();
 			}
@@ -242,11 +242,11 @@
 							self.hideMask();
 							// simply remove all files
 							self.setFiles([]);
-							self.enableActions();
 						}
 						else {
 							self._removeCallback(result);
 						}
+						self.fileMultiSelectMenu.toggleLoading('delete', false);
 					}
 			);
 		},
@@ -266,16 +266,6 @@
 		getDownloadUrl: function() {
 			// no downloads
 			return '#';
-		},
-
-		enableActions: function() {
-			this.$el.find('.action').css('display', 'inline');
-			this.$el.find('input:checkbox').removeClass('u-hidden');
-		},
-
-		disableActions: function() {
-			this.$el.find('.action').css('display', 'none');
-			this.$el.find('input:checkbox').addClass('u-hidden');
 		},
 
 		updateStorageStatistics: function() {
