@@ -14,6 +14,13 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
+  vue-builds:
+    image: node
+    commands:
+     - ./build/vue-builds.sh
+    when:
+      matrix:
+        TESTS: vue-builds
   checkers:
     image: nextcloudci/php7.0:php7.0-19
     commands:
@@ -662,6 +669,7 @@ pipeline:
 matrix:
   include:
     - TESTS: checkers
+    - TESTS: vue-builds
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
     - TESTS: db-codecov
