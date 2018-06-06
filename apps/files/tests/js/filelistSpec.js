@@ -94,9 +94,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<input type="checkbox" id="select_all_files" class="select-all checkbox">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span id="selectedActionsList" class="selectedActions hidden">' +
-			'<a href class="copy-move"><span class="label">Move or copy</span></a>' +
-			'<a href class="download"><img src="actions/download.svg">Download</a>' +
-			'<a href class="delete-selected">Delete</a></span>' +
+			'<a href="" class="actions-selected"><span class="icon icon-more"></span><span>Actions</span></a>' +
 			'</th>' +
 			'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
 			'<th class="hidden column-mtime"><a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +
@@ -161,7 +159,22 @@ describe('OCA.Files.FileList tests', function() {
 		fileList = new OCA.Files.FileList($('#app-content-files'), {
 			filesClient: filesClient,
 			config: filesConfig,
-			enableUpload: true
+			enableUpload: true,
+			multiSelectMenu: [{
+			    name: 'copyMove',
+			    displayName:  t('files', 'Move or copy'),
+			    iconClass: 'icon-external',
+			},
+			{
+			    name: 'download',
+			    displayName:  t('files', 'Download'),
+			    iconClass: 'icon-download',
+			},
+			{
+			    name: 'delete',
+			    displayName: t('files', 'Delete'),
+			    iconClass: 'icon-delete',
+			}]
 		});
 	});
 	afterEach(function() {
@@ -2100,41 +2113,41 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.setFiles(testFiles);
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
 				$('.select-all').click();
-				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(false);
-				expect(fileList.$el.find('.selectedActions .copy-move .label').text()).toEqual('Move or copy');
+				expect(fileList.$el.find('.selectedActions .item-copyMove').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .item-copyMove .label').text()).toEqual('Move or copy');
 				testFiles[0].permissions = OC.PERMISSION_READ;
 				$('.select-all').click();
 				fileList.setFiles(testFiles);
 				$('.select-all').click();
-				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(false);
-				expect(fileList.$el.find('.selectedActions .copy-move .label').text()).toEqual('Copy');
+				expect(fileList.$el.find('.selectedActions .item-copyMove').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .item-copyMove .label').text()).toEqual('Copy');
 				testFiles[0].permissions = OC.PERMISSION_NONE;
 				$('.select-all').click();
 				fileList.setFiles(testFiles);
 				$('.select-all').click();
-				expect(fileList.$el.find('.selectedActions .copy-move').hasClass('hidden')).toEqual(true);
+				expect(fileList.$el.find('.selectedActions .item-copyMove').hasClass('hidden')).toEqual(true);
 			});
 			it('show doesnt show the download action if one or more files are not downloadable', function () {
 				fileList.setFiles(testFiles);
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
 				$('.select-all').click();
-				expect(fileList.$el.find('.selectedActions .download').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .item-download').hasClass('hidden')).toEqual(false);
 				testFiles[0].permissions = OC.PERMISSION_UPDATE;
 				$('.select-all').click();
 				fileList.setFiles(testFiles);
 				$('.select-all').click();
-				expect(fileList.$el.find('.selectedActions .download').hasClass('hidden')).toEqual(true);
+				expect(fileList.$el.find('.selectedActions .item-download').hasClass('hidden')).toEqual(true);
 			});
 			it('show doesnt show the delete action if one or more files are not deletable', function () {
 				fileList.setFiles(testFiles);
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
 				$('.select-all').click();
-				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(false);
+				expect(fileList.$el.find('.selectedActions .item-delete').hasClass('hidden')).toEqual(false);
 				testFiles[0].permissions = OC.PERMISSION_READ;
 				$('.select-all').click();
 				fileList.setFiles(testFiles);
 				$('.select-all').click();
-				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(true);
+				expect(fileList.$el.find('.selectedActions .item-delete').hasClass('hidden')).toEqual(true);
 			});
 		});
 		describe('Actions', function() {
@@ -2219,8 +2232,12 @@ describe('OCA.Files.FileList tests', function() {
 				});
 			});
 			describe('Download', function() {
+				beforeEach(function() {
+					fileList.$el.find('.actions-selected').click();
+				});
+
 				it('Opens download URL when clicking "Download"', function() {
-					$('.selectedActions .download').click();
+					$('.selectedActions .filesSelectMenu .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
 					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22One.txt%22%2C%22Three.pdf%22%2C%22somedir%22%5D');
 					redirectStub.restore();
@@ -2228,28 +2245,37 @@ describe('OCA.Files.FileList tests', function() {
 				it('Downloads root folder when all selected in root folder', function() {
 					$('#dir').val('/');
 					$('.select-all').click();
-					$('.selectedActions .download').click();
+					$('.selectedActions .filesSelectMenu .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
 					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=');
 				});
 				it('Downloads parent folder when all selected in subfolder', function() {
 					$('.select-all').click();
-					$('.selectedActions .download').click();
+					$('.selectedActions .filesSelectMenu .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
 					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=subdir');
 				});
+
+				afterEach(function() {
+					fileList.$el.find('.actions-selected').click();
+				});
 			});
+
 			describe('Delete', function() {
 				var deleteStub, deferredDelete;
 				beforeEach(function() {
 					deferredDelete = $.Deferred();
 					deleteStub = sinon.stub(filesClient, 'remove').returns(deferredDelete.promise());
+					fileList.$el.find('.actions-selected').click();
 				});
+
 				afterEach(function() {
+					fileList.$el.find('.actions-selected').click();
 					deleteStub.restore();
 				});
+
 				it('Deletes selected files when "Delete" clicked', function() {
-					$('.selectedActions .delete-selected').click();
+					$('.selectedActions .filesSelectMenu .delete').click();
 
 					expect(deleteStub.callCount).toEqual(3);
 					expect(deleteStub.getCall(0).args[0]).toEqual('/subdir/One.txt');
@@ -2265,7 +2291,7 @@ describe('OCA.Files.FileList tests', function() {
 				});
 				it('Deletes all files when all selected when "Delete" clicked', function() {
 					$('.select-all').click();
-					$('.selectedActions .delete-selected').click();
+					$('.selectedActions .filesSelectMenu .delete').click();
 
 					expect(deleteStub.callCount).toEqual(4);
 					expect(deleteStub.getCall(0).args[0]).toEqual('/subdir/One.txt');

@@ -46,8 +46,8 @@ describe('OCA.Trashbin.FileList tests', function() {
 			'<input type="checkbox" id="select_all_trash" class="select-all">' +
 			'<span class="name">Name</span>' +
 			'<span class="selectedActions hidden">' +
-			'<a href class="undelete">Restore</a>' +
-			'<a href class="delete-selected">Delete</a></span>' +
+			'<a href="" class="actions-selected"><span class="icon icon-more"></span><span>Actions</span>' +
+			'</span>' +
 			'</th></tr></thead>' +
 			'<tbody id="fileList"></tbody>' +
 			'<tfoot></tfoot>' +
@@ -90,7 +90,18 @@ describe('OCA.Trashbin.FileList tests', function() {
 		var fileActions = OCA.Trashbin.App._createFileActions(fileList);
 		fileList = new OCA.Trashbin.FileList(
 			$('#app-content-trashbin'), {
-				fileActions: fileActions
+				fileActions: fileActions,
+				multiSelectMenu: [{
+						name: 'restore',
+						displayName:  t('files', 'Restore'),
+						iconClass: 'icon-history',
+					},
+					{
+						name: 'delete',
+						displayName: t('files', 'Delete'),
+						iconClass: 'icon-delete',
+					}
+				]
 			}
 		);
 	});
@@ -260,33 +271,39 @@ describe('OCA.Trashbin.FileList tests', function() {
 			fileList.findFileEl('One.txt.d11111').find('input:checkbox').click();
 			fileList.findFileEl('Three.pdf.d33333').find('input:checkbox').click();
 			fileList.findFileEl('somedir.d99999').find('input:checkbox').click();
+			fileList.$el.find('.actions-selected').click();
 		});
+
+		afterEach(function() {
+			fileList.$el.find('.actions-selected').click();
+		});
+
 		describe('Delete', function() {
 			it('Shows trashbin actions', function() {
 				// visible because a few files were selected
 				expect($('.selectedActions').is(':visible')).toEqual(true);
-				expect($('.selectedActions .delete-selected').is(':visible')).toEqual(true);
-				expect($('.selectedActions .undelete').is(':visible')).toEqual(true);
+				expect($('.selectedActions .item-delete').is(':visible')).toEqual(true);
+				expect($('.selectedActions .item-restore').is(':visible')).toEqual(true);
 
 				// check
 				fileList.$el.find('.select-all').click();
 
 				// stays visible
 				expect($('.selectedActions').is(':visible')).toEqual(true);
-				expect($('.selectedActions .delete-selected').is(':visible')).toEqual(true);
-				expect($('.selectedActions .undelete').is(':visible')).toEqual(true);
+				expect($('.selectedActions .item-delete').is(':visible')).toEqual(true);
+				expect($('.selectedActions .item-restore').is(':visible')).toEqual(true);
 
 				// uncheck
 				fileList.$el.find('.select-all').click();
 
 				// becomes hidden now
 				expect($('.selectedActions').is(':visible')).toEqual(false);
-				expect($('.selectedActions .delete-selected').is(':visible')).toEqual(false);
-				expect($('.selectedActions .undelete').is(':visible')).toEqual(false);
+				expect($('.selectedActions .item-delete').is(':visible')).toEqual(false);
+				expect($('.selectedActions .item-restore').is(':visible')).toEqual(false);
 			});
 			it('Deletes selected files when "Delete" clicked', function() {
 				var request;
-				$('.selectedActions .delete-selected').click();
+				$('.selectedActions .filesSelectMenu .delete').click();
 				expect(fakeServer.requests.length).toEqual(1);
 				request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/delete.php');
@@ -314,7 +331,7 @@ describe('OCA.Trashbin.FileList tests', function() {
 			it('Deletes all files when all selected when "Delete" clicked', function() {
 				var request;
 				$('.select-all').click();
-				$('.selectedActions .delete-selected').click();
+				$('.selectedActions .filesSelectMenu .delete').click();
 				expect(fakeServer.requests.length).toEqual(1);
 				request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/delete.php');
@@ -331,7 +348,7 @@ describe('OCA.Trashbin.FileList tests', function() {
 		describe('Restore', function() {
 			it('Restores selected files when "Restore" clicked', function() {
 				var request;
-				$('.selectedActions .undelete').click();
+				$('.selectedActions .filesSelectMenu .restore').click();
 				expect(fakeServer.requests.length).toEqual(1);
 				request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/undelete.php');
@@ -359,7 +376,7 @@ describe('OCA.Trashbin.FileList tests', function() {
 			it('Restores all files when all selected when "Restore" clicked', function() {
 				var request;
 				$('.select-all').click();
-				$('.selectedActions .undelete').click();
+				$('.selectedActions .filesSelectMenu .restore').click();
 				expect(fakeServer.requests.length).toEqual(1);
 				request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/undelete.php');
