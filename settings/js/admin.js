@@ -256,7 +256,7 @@ $(document).ready(function(){
 	).then(function(check1, check2, check3, check4, check5, check6) {
 		var messages = [].concat(check1, check2, check3, check4, check5, check6);
 		var $el = $('#postsetupchecks');
-		$el.find('.loading').addClass('hidden');
+		$('#security-warning-state-loading').addClass('hidden');
 
 		var hasMessages = false;
 		var $errorsEl = $el.find('.errors');
@@ -291,11 +291,14 @@ $(document).ready(function(){
 		}
 
 		if (hasMessages) {
-			$el.find('.hint').removeClass('hidden');
+			$('#postsetupchecks-hint').removeClass('hidden');
+			$('#security-warning-state-failure').removeClass('hidden');
 		} else {
 			var securityWarning = $('#security-warning');
 			if (securityWarning.children('ul').children().length === 0) {
-				$('#security-warning-state').find('span').removeClass('hidden');
+				$('#security-warning-state-ok').removeClass('hidden');
+			} else {
+				$('#security-warning-state-failure').removeClass('hidden');
 			}
 		}
 	});

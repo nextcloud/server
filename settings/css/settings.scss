@@ -1038,10 +1038,29 @@ table.grid td.date {
 	margin-top: 20px;
 }
 
-#security-warning-state span {
-	padding-left: 25px;
-	background-position: 5px center;
-	margin-left: -5px;
+#security-warning-state-ok,
+#security-warning-state-failure,
+#security-warning-state-loading {
+	span {
+		vertical-align: middle;
+
+		&.message {
+			padding: 12px;
+		}
+		&.icon {
+			width: 32px;
+			height: 32px;
+			background-position: center center;
+			display: inline-block;
+			border-radius: 50%;
+		}
+		&.icon-checkmark-white {
+			background-color: $color-success;
+		}
+		&.icon-close-white {
+			background-color: $color-error;
+		}
+	}
 }
 
 #shareAPI {
@@ -1204,6 +1223,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			list-style: circle;
 		}
 	}
+
 	.loading {
 		height: 50px;
 		background-position: left center;

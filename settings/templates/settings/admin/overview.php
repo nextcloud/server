@@ -151,18 +151,25 @@
 			<?php endif; ?>
 	</ul>
 
+	<div id="security-warning-state-ok" class="hidden">
+		<span class="icon icon-checkmark-white"></span><span class="message"><?php p($l->t('All checks passed.'));?></span>
+	</div>
+	<div id="security-warning-state-failure" class="hidden">
+		<span class="icon icon-close-white"></span><span class="message"><?php p($l->t('Some checks have failed.'));?></span>
+	</div>
+	<div id="security-warning-state-loading">
+		<span class="icon loading"></span><span class="message"><?php p($l->t('Checking for system and security issues.'));?></span>
+	</div>
+
 	<div id="postsetupchecks" data-check-wellknown="<?php if($_['checkForWorkingWellKnownSetup']) { p('true'); } else { p('false'); } ?>">
-		<div class="loading"></div>
 		<ul class="errors hidden"></ul>
 		<ul class="warnings hidden"></ul>
 		<ul class="info hidden"></ul>
-		<p class="hint hidden">
-			<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer noopener" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
-		</p>
 	</div>
-	<div id="security-warning-state">
-		<span class="hidden icon-checkmark"><?php p($l->t('All checks passed.'));?></span>
-	</div>
+	<p id="postsetupchecks-hint" class="hidden">
+		<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer noopener" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
+	</p>
+
 </div>
 
 <div class="section">
