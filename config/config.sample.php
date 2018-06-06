@@ -1599,6 +1599,8 @@ $CONFIG = array(
  * List of incompatible user agents opted out from Same Site Cookie Protection.
  * Some user agents are notorious and don't really properly follow HTTP
  * specifications. For those, have an opt-out.
+ *
+ * WARNING: only use this if you know what you are doing
  */
 'csrf.optout' => array(
 	'/^WebDAVFS/', // OS X Finder
