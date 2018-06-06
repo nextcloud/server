@@ -579,6 +579,7 @@ return array(
     'OC\\DB\\MigrationException' => $baseDir . '/lib/private/DB/MigrationException.php',
     'OC\\DB\\MigrationService' => $baseDir . '/lib/private/DB/MigrationService.php',
     'OC\\DB\\Migrator' => $baseDir . '/lib/private/DB/Migrator.php',
+    'OC\\DB\\MissingIndexInformation' => $baseDir . '/lib/private/DB/MissingIndexInformation.php',
     'OC\\DB\\MySQLMigrator' => $baseDir . '/lib/private/DB/MySQLMigrator.php',
     'OC\\DB\\MySqlTools' => $baseDir . '/lib/private/DB/MySqlTools.php',
     'OC\\DB\\OCSqlitePlatform' => $baseDir . '/lib/private/DB/OCSqlitePlatform.php',

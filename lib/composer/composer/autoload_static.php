@@ -609,6 +609,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\DB\\MigrationException' => __DIR__ . '/../../..' . '/lib/private/DB/MigrationException.php',
         'OC\\DB\\MigrationService' => __DIR__ . '/../../..' . '/lib/private/DB/MigrationService.php',
         'OC\\DB\\Migrator' => __DIR__ . '/../../..' . '/lib/private/DB/Migrator.php',
+        'OC\\DB\\MissingIndexInformation' => __DIR__ . '/../../..' . '/lib/private/DB/MissingIndexInformation.php',
         'OC\\DB\\MySQLMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/MySQLMigrator.php',
         'OC\\DB\\MySqlTools' => __DIR__ . '/../../..' . '/lib/private/DB/MySqlTools.php',
         'OC\\DB\\OCSqlitePlatform' => __DIR__ . '/../../..' . '/lib/private/DB/OCSqlitePlatform.php',
