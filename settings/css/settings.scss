@@ -756,38 +756,118 @@ span.version {
 	opacity: .5;
 }
 
-@media (min-width: 1601px) {
-	#apps-list .section {
-		width: 22%;
-		box-sizing: border-box;
-		&:nth-child(4n) {
-			margin-right: 20px;
-		}
+.app-settings-content {
+	#searchresults {
+		display: none;
+	}
+}
+#apps-list.store {
+	.section {
+		border: 0;
+	}
+	.app-name {
+		display: block;
+		margin: 5px 0;
+	}
+	.app-name, .app-image * {
+		cursor: pointer;
+	}
+	.app-summary {
+		opacity: .7;
+	}
+	.app-image-icon .icon-settings-dark {
+		width: 100%;
+		height: 150px;
+		background-size: 45px;
+		opacity: 0.5;
+	}
+	.app-score-image {
+		height: 14px;
+	}
+	.actions {
+		margin-top: 10px;
 	}
 }
 
-@media (min-width: 1201px) and (max-width: 1600px) {
-	#apps-list .section {
-		width: 30%;
-		box-sizing: border-box;
-		&:nth-child(3n) {
-			margin-right: 20px;
+#app-sidebar #app-details-view {
+	h2 {
+		.icon-settings-dark,
+		svg {
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			margin-right: 10px;
+			opacity: .7;
 		}
+	}
+	.app-level {
+		margin-bottom: 10px;
+	}
+	.app-author, .app-licence {
+		color: $color-text-details;
+	}
+	.app-dependencies {
+		margin: 10px 0;
+	}
+	.app-description p {
+		margin: 10px 0;
+	}
+	.close {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 14px;
+		opacity: 0.5;
+		z-index: 1;
+	}.
+	.actions {
+		display: flex;
 	}
 }
 
-@media (min-width: 901px) and (max-width: 1200px), (min-width: 601px) and (max-width: 770px) {
-	#apps-list .section {
-		width: 40%;
-		box-sizing: border-box;
-		&:nth-child(2n) {
-			margin-right: 20px;
-		}
+@media only screen and (min-width: 1601px) {
+	.store .section {
+		width: 25%;
+	}
+	.with-app-sidebar .store .section {
+		width: 33%;
 	}
 }
 
-/* hide app version and level on narrower screens */
+@media only screen and (max-width: 1600px) {
+	.store .section {
+		width: 25%;
+	}
+	.with-app-sidebar .store .section {
+		width: 33%;
+	}
+}
+
+@media only screen and (max-width: 1400px) {
+	.store .section {
+		width: 33%;
+	}
+	.with-app-sidebar .store .section {
+		width: 50%;
+	}
+}
+
+@media only screen and (max-width: 900px) {
+	.store .section {
+		width: 50%;
+	}
+	.with-app-sidebar .store .section {
+		width: 100%;
+	}
+}
+
 @media only screen and (max-width: 768px) {
+	.store .section {
+		width: 50%;
+	}
+}
+/* hide app version and level on narrower screens */
+@media only screen and (max-width: 900px) {
 	#apps-list.installed {
 		.app-version, .app-level {
 			display: none !important;
@@ -795,7 +875,7 @@ span.version {
 	}
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 500px) {
 	#apps-list.installed .app-groups {
 		display: none !important;
 	}
@@ -877,30 +957,15 @@ span.version {
 	list-style-position: inside;
 }
 
-/* Transition to complete width! */
-
-.app {
-	&:hover, &:active {
-		max-width: inherit;
-	}
-}
-
 .appslink {
 	text-decoration: underline;
 }
 
-.score {
-	color: #666;
-	font-weight: bold;
-	font-size: 0.8em;
-}
 
-.appinfo .documentation {
-	margin-top: 1em;
-	margin-bottom: 1em;
-}
-
-#apps-list {
+#apps-list, #apps-list-search {
+	.section {
+		cursor: pointer;
+	}
 	&.installed {
 		display: table;
 		width: 100%;
@@ -919,6 +984,9 @@ span.version {
 				padding: 6px;
 				box-sizing: border-box;
 			}
+			&.selected {
+				background-color: nc-darken($color-main-background, 3%);
+			}
 		}
 		.groups-enable {
 			margin-top: 0;
@@ -931,11 +999,22 @@ span.version {
 			height: auto;
 			text-align: right;
 		}
-		.app-image-icon svg {
+		.app-image-icon svg,
+		.app-image-icon .icon-settings-dark {
 			margin-top: 5px;
 			width: 20px;
 			height: 20px;
 			opacity: .5;
+			background-size: cover;
+			display: inline-block;
+		}
+		.actions {
+			text-align: right;
+			.icon-loading-small {
+				display: inline-block;
+				top: 4px;
+				margin-right: 10px;
+			}
 		}
 	}
 	&:not(.installed) .app-image-icon svg {
@@ -946,8 +1025,6 @@ span.version {
 		height: 64px;
 		opacity: .1;
 	}
-	position: relative;
-	height: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
@@ -957,10 +1034,7 @@ span.version {
 	.section {
 		position: relative;
 		flex: 0 0 auto;
-		margin-left: 20px;
-		&.apps-experimental {
-			flex-basis: 90%;
-		}
+
 		h2.app-name {
 			display: block;
 			margin: 8px 0;
@@ -1014,10 +1088,6 @@ span.version {
 			}
 		}
 	}
-}
-
-.installed .actions {
-	text-align: right;
 }
 
 /* LOG */
