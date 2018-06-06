@@ -53,20 +53,9 @@
 	position: relative;
 }
 
-#updatenotification .item-wrapper {
-	display: flex;
-	align-items: flex-start;
-	padding-right: 10px;
-}
-
-#updatenotification .item-wrapper p {
+#updatenotification .popovermenu p {
 	margin-bottom: 0;
-	padding-top: 10px;
-}
-
-#updatenotification .item-wrapper span[class^="icon-"] {
-	padding: 19px 0 19px 22px;
-	line-height: 38px;
+	width: 100%;
 }
 
 #updatenotification .popovermenu {
