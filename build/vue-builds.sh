@@ -14,6 +14,7 @@ do
 	cp $entryFile $backupFile
 
 	# Make the app
+	set -e
 	cd "$path/../"
 	make
 
@@ -25,7 +26,7 @@ do
 	if ! diff -q $entryFile $backupFile &>/dev/null
 	then
 		echo "$entryFile build is NOT up-to-date! Please send the proper production build within the pull request"
-		cat /root/.npm/_logs/*.log
+		cat $HOME/.npm/_logs/*.log
 		exit 2
 	else
 		echo "$entryFile build is up-to-date"
