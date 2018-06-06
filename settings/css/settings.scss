@@ -1039,6 +1039,7 @@ table.grid td.date {
 }
 
 #security-warning-state-ok,
+#security-warning-state-warning,
 #security-warning-state-failure,
 #security-warning-state-loading {
 	span {
@@ -1056,6 +1057,9 @@ table.grid td.date {
 		}
 		&.icon-checkmark-white {
 			background-color: $color-success;
+		}
+		&.icon-error-white {
+			background-color: $color-warning;
 		}
 		&.icon-close-white {
 			background-color: $color-error;

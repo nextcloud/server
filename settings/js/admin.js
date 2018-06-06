@@ -292,7 +292,11 @@ $(document).ready(function(){
 
 		if (hasMessages) {
 			$('#postsetupchecks-hint').removeClass('hidden');
-			$('#security-warning-state-failure').removeClass('hidden');
+			if ($errorsEl.find('li').length > 0) {
+				$('#security-warning-state-failure').removeClass('hidden');
+			} else {
+				$('#security-warning-state-warning').removeClass('hidden');
+			}
 		} else {
 			var securityWarning = $('#security-warning');
 			if (securityWarning.children('ul').children().length === 0) {

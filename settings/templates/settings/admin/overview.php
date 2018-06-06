@@ -155,7 +155,10 @@
 		<span class="icon icon-checkmark-white"></span><span class="message"><?php p($l->t('All checks passed.'));?></span>
 	</div>
 	<div id="security-warning-state-failure" class="hidden">
-		<span class="icon icon-close-white"></span><span class="message"><?php p($l->t('Some checks have failed.'));?></span>
+		<span class="icon icon-close-white"></span><span class="message"><?php p($l->t('There are some errors regarding your setup.'));?></span>
+	</div>
+	<div id="security-warning-state-warning" class="hidden">
+		<span class="icon icon-error-white"></span><span class="message"><?php p($l->t('There are some warnings regarding your setup.'));?></span>
 	</div>
 	<div id="security-warning-state-loading">
 		<span class="icon loading"></span><span class="message"><?php p($l->t('Checking for system and security issues.'));?></span>
