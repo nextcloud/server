@@ -12,6 +12,7 @@
     "Group list is empty" : "Список групп пуст",
     "Unable to retrieve the group list" : "Не удается получить список групп",
     "Settings" : "Настройки",
+    "You do not have permissions to see the details of this user" : "У вас нет прав на просмотр данных об этом пользователе",
     "Delete user" : "Удалить пользователя",
     "Disable user" : "Отключить пользователя",
     "Enable user" : "Включить пользователя",
