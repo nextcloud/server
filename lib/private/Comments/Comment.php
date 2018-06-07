@@ -225,7 +225,7 @@ class Comment implements IComment {
 	 *
 	 */
 	public function getMentions() {
-		$ok = preg_match_all('/\B(^@\w+|(?<=\s)@\w+)/gi', $this->getMessage(), $mentions);
+		$ok = preg_match_all('/\B(^@\w+|(?<=\s)@\w+)/i', $this->getMessage(), $mentions);
 		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
 			return [];
 		}
