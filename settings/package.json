@@ -34,10 +34,10 @@
     "babel-preset-stage-3": "^6.24.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
-    "vue-loader": "^14.2.2",
+    "vue-loader": "^15.2.4",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.8.3",
-    "webpack-cli": "^2.1.4",
+    "webpack": "^4.11.1",
+    "webpack-cli": "^3.0.2",
     "webpack-merge": "^4.1.2"
   }
 }
