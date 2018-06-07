@@ -66,8 +66,6 @@ class ThemingController extends Controller {
 	private $themingDefaults;
 	/** @var Util */
 	private $util;
-	/** @var ITimeFactory */
-	private $timeFactory;
 	/** @var IL10N */
 	private $l10n;
 	/** @var IConfig */
@@ -93,7 +91,6 @@ class ThemingController extends Controller {
 	 * @param IConfig $config
 	 * @param ThemingDefaults $themingDefaults
 	 * @param Util $util
-	 * @param ITimeFactory $timeFactory
 	 * @param IL10N $l
 	 * @param ITempManager $tempManager
 	 * @param IAppData $appData
@@ -108,7 +105,6 @@ class ThemingController extends Controller {
 		IConfig $config,
 		ThemingDefaults $themingDefaults,
 		Util $util,
-		ITimeFactory $timeFactory,
 		IL10N $l,
 		ITempManager $tempManager,
 		IAppData $appData,
@@ -121,7 +117,6 @@ class ThemingController extends Controller {
 
 		$this->themingDefaults = $themingDefaults;
 		$this->util = $util;
-		$this->timeFactory = $timeFactory;
 		$this->l10n = $l;
 		$this->config = $config;
 		$this->tempManager = $tempManager;
