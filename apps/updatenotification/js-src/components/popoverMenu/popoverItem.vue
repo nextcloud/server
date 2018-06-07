@@ -13,7 +13,7 @@
 			<p v-else-if="item.longtext">{{item.longtext}}</p>
 		</button>
 		<!-- If item.longtext is set AND the item does not have an action -->
-		<span v-else>
+		<span class="menuitem" v-else>
 			<span :class="item.icon"></span>
 			<span v-if="item.text">{{item.text}}</span>
 			<p v-else-if="item.longtext">{{item.longtext}}</p>
