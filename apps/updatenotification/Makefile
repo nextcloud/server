@@ -4,7 +4,7 @@ project_dir=$(CURDIR)/../$(app_name)
 build_dir=$(CURDIR)/build
 source_dir=$(build_dir)/$(app_name)
 
-all: dev-setup build-js-production package
+all: dev-setup build-js-production
 
 dev-setup: clean clean-dev npm-init
 
