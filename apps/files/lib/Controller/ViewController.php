@@ -188,9 +188,9 @@ class ViewController extends Controller {
 			\OCA\Files\App::getNavigationManager()->add(
 				[
 					'id' => 'Spacer',
-					'classes' => 'nav-sidebar-spacer', //Todo Rename class and move it
+					'classes' => 'settings-caption',
 					'order' => 6,
-					'name' => $this->l10n->t('Spacer')
+					'name' => $this->l10n->t('Quick-Access')
 				]
 			);
 
