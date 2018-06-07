@@ -14,10 +14,17 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
-  vue-builds:
+  vue-build-settings:
     image: node
     commands:
-     - ./build/vue-builds.sh
+     - ./build/vue-builds.sh ./settings/js/main.js
+    when:
+      matrix:
+        TESTS: vue-builds
+  vue-build-updatenotification:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/updatenotification/js/merged.js
     when:
       matrix:
         TESTS: vue-builds

@@ -2,10 +2,13 @@
 
 declare -a apps=("./settings/js/main.js" "./apps/updatenotification/js/merged.js")
 root=$(pwd)
+entryFile=$1
 
-for i in "${apps[@]}"
-do
-	entryFile=$i
+if [ ! -f "$entryFile" ]
+then
+	echo "The build file $entryFile does not exists"
+	exit 2
+else
 	backupFile="$entryFile.orig"
 	path=$(dirname "$entryFile")
 
@@ -31,4 +34,4 @@ do
 	else
 		echo "$entryFile build is up-to-date"
 	fi
-done
+fi
