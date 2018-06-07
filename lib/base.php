@@ -523,11 +523,18 @@ class OC {
 		// specifications. For those, have an automated opt-out. Since the protection
 		// for remote.php is applied in base.php as starting point we need to opt out
 		// here.
-		$incompatibleUserAgents = [
-			// OS X Finder
-			'/^WebDAVFS/',
-			'/^Microsoft-WebDAV-MiniRedir/',
-		];
+		$incompatibleUserAgents = \OC::$server->getConfig()->getSystemValue('csrf.optout');
+
+		// Fallback, if csrf.optout is unset
+		if (!is_array($incompatibleUserAgents)) {
+			$incompatibleUserAgents = [
+				// OS X Finder
+				'/^WebDAVFS/',
+				// Windows webdav drive
+				'/^Microsoft-WebDAV-MiniRedir/',
+			];
+		}
+
 		if($request->isUserAgent($incompatibleUserAgents)) {
 			return;
 		}
