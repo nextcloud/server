@@ -106,9 +106,17 @@ class Notify extends Base {
 
 		if ($input->getOption('user')) {
 			$mount->setBackendOption('user', $input->getOption('user'));
+		} else if (isset($_ENV['NOTIFY_USER'])) {
+			$mount->setBackendOption('user', $_ENV['NOTIFY_USER']);
+		} else if (isset($_SERVER['NOTIFY_USER'])) {
+			$mount->setBackendOption('user', $_SERVER['NOTIFY_USER']);
 		}
 		if ($input->getOption('password')) {
 			$mount->setBackendOption('password', $input->getOption('password'));
+		} else if (isset($_ENV['NOTIFY_PASSWORD'])) {
+			$mount->setBackendOption('password', $_ENV['NOTIFY_PASSWORD']);
+		} else if (isset($_SERVER['NOTIFY_PASSWORD'])) {
+			$mount->setBackendOption('password', $_SERVER['NOTIFY_PASSWORD']);
 		}
 
 		try {
