@@ -183,8 +183,8 @@ class ViewController extends Controller {
 
 		$key='show_Quick_Access';
 
-		if($this->config->getUserValue($user,$this->appName,$key,false)){
-
+		if($this->config->getUserValue($user,$this->appName,$key,true) && sizeof($favElements['folders'])>0){
+			/*$nav->assign('showQuickAccess', 1);
 			\OCA\Files\App::getNavigationManager()->add(
 				[
 					'id' => 'Spacer',
@@ -192,7 +192,7 @@ class ViewController extends Controller {
 					'order' => 6,
 					'name' => $this->l10n->t('Quick-Access')
 				]
-			);
+			);*/
 
 		$i=0;
 		foreach($favElements['folders'] as $elem){
@@ -202,6 +202,7 @@ class ViewController extends Controller {
 					'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
 					'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
 					'order' => 7+$i,
+					'classes' => 'app-navigation-subelement',
 					'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
 					'icon' => 'files'
 				]
@@ -260,7 +261,6 @@ class ViewController extends Controller {
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
-		//$params['showQuickAccess'] = $showFavoriteQuickAccess ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;

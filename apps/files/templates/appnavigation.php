@@ -42,12 +42,13 @@
 				<input class="checkbox" id="showhiddenfilesToggle" checked="checked" type="checkbox">
 				<label for="showhiddenfilesToggle"><?php p($l->t('Show hidden files')); ?></label>
 			</div>
-			<div id="files-setting-showFavoriteQuickAccess">
-				<input class="checkbox" id="showfavoritequickaccessToggle" checked="checked" type="checkbox">
-				<label for="showfavoritequickaccessToggle"><?php p($l->t('Enable Favorites Quick Access')); ?></label>
-			</div>
+			<!--Removed to disable disabling, but kept to allow easy reenabling-->
+			<!--<div id="files-setting-showFavoriteQuickAccess">
+				<input class="checkbox" id="showfavoritequickaccessToggle" <?php /*if($_['showQuickAccess']){ */?>checked="checked"<?php /*} */?> type="checkbox">
+				<label for="showfavoritequickaccessToggle"><?php /*p($l->t('Enable Favorites Quick Access')); */?></label>
+			</div>-->
 			<label for="webdavurl"><?php p($l->t('WebDAV'));?></label>
-			<input id="webdavurl" type="text" readonly="readonly" value="<?php p($_['webdavurl']); ?>" />
+			<input id="webdavurl" type="text" readonly="readonly" value="<?php p(\OCP\Util::linkToRemote('webdav')); ?>" />
 			<em><?php print_unescaped($l->t('Use this address to <a href="%s" target="_blank" rel="noreferrer noopener">access your Files via WebDAV</a>', array(link_to_docs('user-webdav'))));?></em>
 		</div>
 	</div>
