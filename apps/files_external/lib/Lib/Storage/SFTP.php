@@ -47,7 +47,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	private $root;
 	private $port = 22;
 
-	private $auth;
+	private $auth = [];
 
 	/**
 	 * @var \phpseclib\Net\SFTP
@@ -93,10 +93,13 @@ class SFTP extends \OC\Files\Storage\Common {
 		$this->user = $params['user'];
 
 		if (isset($params['public_key_auth'])) {
-			$this->auth = $params['public_key_auth'];
-		} elseif (isset($params['password'])) {
-			$this->auth = $params['password'];
-		} else {
+			$this->auth[] = $params['public_key_auth'];
+		}
+		if (isset($params['password']) && $params['password'] !== '') {
+			$this->auth[] = $params['password'];
+		}
+
+		if ($this->auth === []) {
 			throw new \UnexpectedValueException('no authentication parameters specified');
 		}
 
@@ -132,7 +135,15 @@ class SFTP extends \OC\Files\Storage\Common {
 			$this->writeHostKeys($hostKeys);
 		}
 
-		if (!$this->client->login($this->user, $this->auth)) {
+		$login = false;
+		foreach ($this->auth as $auth) {
+			$login = $this->client->login($this->user, $auth);
+			if ($login === true) {
+				break;
+			}
+		}
+
+		if ($login === false) {
 			throw new \Exception('Login failed');
 		}
 		return $this->client;
