@@ -188,7 +188,7 @@ class ViewController extends Controller {
 			\OCA\Files\App::getNavigationManager()->add(
 				[
 					'id' => 'Spacer',
-					'classes' => 'settings-caption',
+					'classes' => 'app-navigation-caption',
 					'order' => 6,
 					'name' => $this->l10n->t('Quick-Access')
 				]
