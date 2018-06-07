@@ -24,7 +24,6 @@
 
 namespace OCP\Share;
 
-use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 
@@ -125,7 +124,7 @@ interface IShareProvider {
 	 * @param int $id
 	 * @param string|null $recipientId
 	 * @return \OCP\Share\IShare
-	 * @throws ShareNotFoundException
+	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
 	public function getShareById($id, $recipientId = null);

@@ -31,7 +31,6 @@ use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
-use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
@@ -40,6 +39,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Share\Exceptions\ShareNotFound;
 
 
 /**
@@ -234,7 +234,7 @@ class RequestHandlerController extends Controller {
 				['message' => $e->getMessage()],
 				Http::STATUS_BAD_REQUEST
 			);
-		} catch (ShareNotFoundException $e) {
+		} catch (ShareNotFound $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_BAD_REQUEST

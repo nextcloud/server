@@ -25,7 +25,7 @@ use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
-use OCP\Federation\Exceptions\ShareNotFoundException;
+use \OCP\Share\Exceptions\ShareNotFound;
 
 /**
  * Interface ICloudFederationProvider
@@ -68,7 +68,7 @@ interface ICloudFederationProvider {
 	 * @param array $notification provider specific notification
 	 * @return array $data send back to sender
 	 *
-	 * @throws ShareNotFoundException
+	 * @throws ShareNotFound
 	 * @throws ActionNotSupportedException
 	 * @throws BadRequestException
 	 * @throws AuthenticationFailedException

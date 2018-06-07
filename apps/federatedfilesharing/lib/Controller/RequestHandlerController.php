@@ -29,7 +29,6 @@
 
 namespace OCA\FederatedFileSharing\Controller;
 
-use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
@@ -37,24 +36,19 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
-use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Constants;
-use OCP\Federation\Exceptions\AuthenticationFailedException;
-use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
-use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
-use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Share;
-use OCP\Share\IShare;
+use OCP\Share\Exceptions\ShareNotFound;
 
 class RequestHandlerController extends OCSController {
 
@@ -201,8 +195,8 @@ class RequestHandlerController extends OCSController {
 	 * @param int $id
 	 * @return Http\DataResponse
 	 * @throws OCSBadRequestException
+	 * @throws OCSException
 	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
 	 */
 	public function reShare($id) {
 
@@ -236,11 +230,8 @@ class RequestHandlerController extends OCSController {
 			]);
 		} catch (ProviderDoesNotExistsException $e) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
-		} catch (ShareNotFoundException $e) {
+		} catch (ShareNotFound $e) {
 			$this->logger->debug('Share not found: ' . $e->getMessage());
-		} catch (ProviderCouldNotAddShareException $e) {
-			$this->logger->debug('Could not add reshare: ' . $e->getMessage());
-			throw new OCSForbiddenException();
 		} catch (\Exception $e) {
 			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage());
 		}
@@ -258,7 +249,7 @@ class RequestHandlerController extends OCSController {
 	 * @param int $id
 	 * @return Http\DataResponse
 	 * @throws OCSException
-	 * @throws Share\Exceptions\ShareNotFound
+	 * @throws ShareNotFound
 	 * @throws \OC\HintException
 	 */
 	public function acceptShare($id) {
@@ -275,7 +266,7 @@ class RequestHandlerController extends OCSController {
 			$provider->notificationReceived('SHARE_ACCEPTED', $id, $notification);
 		} catch (ProviderDoesNotExistsException $e) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
-		} catch (ShareNotFoundException $e) {
+		} catch (ShareNotFound $e) {
 			$this->logger->debug('Share not found: ' . $e->getMessage());
 		} catch (\Exception $e) {
 			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage());
@@ -308,7 +299,7 @@ class RequestHandlerController extends OCSController {
 			$provider->notificationReceived('SHARE_DECLINED', $id, $notification);
 		} catch (ProviderDoesNotExistsException $e) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
-		} catch (ShareNotFoundException $e) {
+		} catch (ShareNotFound $e) {
 			$this->logger->debug('Share not found: ' . $e->getMessage());
 		} catch (\Exception $e) {
 			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage());

@@ -21,21 +21,18 @@
 
 namespace OCA\FederatedFileSharing\OCM;
 
-use function GuzzleHttp\default_ca_bundle;
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Activity\IManager as IActivityManager;
-use OCP\Activity\IManager;
 use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
-use OCP\Federation\Exceptions\ShareNotFoundException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -272,7 +269,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
-	 * @throws ShareNotFoundException
 	 * @throws \OC\HintException
 	 * @since 14.0.0
 	 */
@@ -306,7 +302,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
-	 * @throws ShareNotFoundException
 	 * @throws \OC\HintException
 	 */
 	private function shareAccepted($id, $notification) {
@@ -348,14 +343,14 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 	/**
 	 * @param IShare $share
-	 * @throws ShareNotFoundException
+	 * @throws ShareNotFound
 	 */
 	protected function executeAcceptShare(IShare $share) {
 		try {
 			$fileId = (int)$share->getNode()->getId();
 			list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
 		} catch (\Exception $e) {
-			throw new ShareNotFoundException();
+			throw new ShareNotFound();
 		}
 
 		$event = $this->activityManager->generateEvent();
@@ -378,7 +373,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 * @throws ShareNotFound
-	 * @throws ShareNotFoundException
 	 * @throws \OC\HintException
 	 *
 	 */
@@ -425,7 +419,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * delete declined share and create a activity
 	 *
 	 * @param IShare $share
-	 * @throws ShareNotFoundException
+	 * @throws ShareNotFound
 	 */
 	protected function executeDeclineShare(IShare $share) {
 		$this->federatedShareProvider->removeShareFromTable($share);
@@ -434,7 +428,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			$fileId = (int)$share->getNode()->getId();
 			list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
 		} catch (\Exception $e) {
-			throw new ShareNotFoundException();
+			throw new ShareNotFound();
 		}
 
 		$event = $this->activityManager->generateEvent();
@@ -456,7 +450,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @return array
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
-	 * @throws ShareNotFoundException
 	 */
 	private function undoReshare($id, $notification) {
 		if (!isset($notification['sharedSecret'])) {
@@ -471,7 +464,16 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		return [];
 	}
 
-	private function unshare($id, $notification) {
+	/**
+	 * unshare file from self
+	 *
+	 * @param string $id
+	 * @param array $notification
+	 * @return array
+	 * @throws ActionNotSupportedException
+	 * @throws BadRequestException
+	 */
+	private function unshare($id, array $notification) {
 
 		if (!$this->isS2SEnabled(true)) {
 			throw new ActionNotSupportedException("incoming shares disabled!");
@@ -554,7 +556,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 * @throws ProviderCouldNotAddShareException
-	 * @throws ShareNotFoundException
 	 * @throws ShareNotFound
 	 */
 	protected function reshareRequested($id, $notification) {
@@ -613,7 +614,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @return array
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
-	 * @throws ShareNotFoundException
 	 */
 	protected function updateResharePermissions($id, $notification) {
 
