@@ -179,7 +179,7 @@ export default {
 				}
 				return disabledUsers;
 			}
-			if (!settings.isAdmin) {
+			if (!this.settings.isAdmin) {
 				// We don't want subadmins to edit themselves
 				return this.users.filter(user => user.enabled !== false && user.id !== oc_current_user);
 			}
@@ -249,7 +249,7 @@ export default {
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
 			let validQuota = OC.Util.computerFileSize(quota);
-			if (validQuota !== null && validQuota > 0) {
+			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota));
 				return this.newUser.quota = {id: quota, label: quota};

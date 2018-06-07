@@ -175,12 +175,12 @@ export default {
 		},
 		// Mapping saved values to objects
 		userQuota() {
-			if (this.user.quota.quota > 0) {
+			if (this.user.quota.quota >= 0) {
 				// if value is valid, let's map the quotaOptions or return custom quota
 				let humanQuota = OC.Util.humanFileSize(this.user.quota.quota);
 				let userQuota = this.quotaOptions.find(quota => quota.id === humanQuota);
 				return userQuota ? userQuota : {id:humanQuota, label:humanQuota};
-			} else if (this.user.quota.quota === 0 || this.user.quota.quota === 'default') {
+			} else if (this.user.quota.quota === 'default') {
 				// default quota is replaced by the proper value on load
 				return this.quotaOptions[0];
 			}
@@ -437,9 +437,7 @@ export default {
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
 			let validQuota = OC.Util.computerFileSize(quota);
-			if (validQuota === 0) {
-				return this.setUserQuota('none');
-			} else if (validQuota !== null) {
+			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)));
 			}
