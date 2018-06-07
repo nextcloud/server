@@ -263,7 +263,23 @@
 				this.hideAvailableUpdates = !this.hideAvailableUpdates;
 			}
 		},
+		beforeMount: function() {
+			// Parse server data
+			var data = JSON.parse($('#updatenotification').attr('data-json'));
 
+			this.newVersionString = data.newVersionString;
+			this.lastCheckedDate = data.lastChecked;
+			this.isUpdateChecked = data.isUpdateChecked;
+			this.updaterEnabled = data.updaterEnabled;
+			this.downloadLink = data.downloadLink;
+			this.isNewVersionAvailable = data.isNewVersionAvailable;
+			this.updateServerURL = data.updateServerURL;
+			this.currentChannel = data.currentChannel;
+			this.channels = data.channels;
+			this.notifyGroups = data.notifyGroups;
+			this.isDefaultUpdateServerURL = data.isDefaultUpdateServerURL;
+			this.versionIsEol = data.versionIsEol;
+		},
 		mounted: function () {
 			this._$el = $(this.$el);
 			this._$releaseChannel = this._$el.find('#release-channel');
@@ -273,15 +289,12 @@
 			}.bind(this));
 
 			$.ajax({
-				url: OC.generateUrl('/settings/users/groups'),
+				url: OC.linkToOCS('cloud', 2)+ '/groups',
 				dataType: 'json',
 				success: function(data) {
 					var results = [];
-					$.each(data.data.adminGroups, function(i, group) {
-						results.push({value: group.id, label: group.name});
-					});
-					$.each(data.data.groups, function(i, group) {
-						results.push({value: group.id, label: group.name});
+					$.each(data.ocs.data.groups, function(i, group) {
+						results.push({value: group, label: group});
 					});
 
 					this.availableGroups = results;
