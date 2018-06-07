@@ -328,14 +328,9 @@ $CONFIG = array(
 'mail_smtpdebug' => false,
 
 /**
- * Which mode to use for sending mail: ``sendmail``, ``smtp``, ``qmail`` or
- * ``php``.
+ * Which mode to use for sending mail: ``sendmail``, ``smtp`` or ``qmail``.
  *
  * If you are using local or remote SMTP, set this to ``smtp``.
- *
- * If you are using PHP mail you must have an installed and working email system
- * on the server. The program used to send email is defined in the ``php.ini``
- * file.
  *
  * For the ``sendmail`` option you need an installed and working email system on
  * the server, with ``/usr/sbin/sendmail`` installed on your Unix system.
@@ -343,9 +338,9 @@ $CONFIG = array(
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
  *
- * Defaults to ``php``
+ * Defaults to ``smtp``
  */
-'mail_smtpmode' => 'php',
+'mail_smtpmode' => 'smtp',
 
 /**
  * This depends on ``mail_smtpmode``. Specify the IP address of your mail
