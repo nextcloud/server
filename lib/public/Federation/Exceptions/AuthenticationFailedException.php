@@ -23,12 +23,20 @@ namespace OCP\Federation\Exceptions;
 
 use OC\HintException;
 
+/**
+ * Class AuthenticationFailedException
+ *
+ * @package OCP\Federation\Exceptions
+ *
+ * @since 14.0.0
+ */
 class AuthenticationFailedException extends HintException {
 
 	/**
 	 * BadRequestException constructor.
 	 *
-	 * @param array $missingParameters
+	 * @since 14.0.0
+	 *
 	 */
 	public function __construct() {
 		$l = \OC::$server->getL10N('federation');

@@ -162,7 +162,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		list($ownerUid, $remote) = $this->addressHandler->splitUserRemote($share->getOwner());
 
-		$remote = $remote;
 		$token = $share->getShareSecret();
 		$name = $share->getResourceName();
 		$owner = $share->getOwnerDisplayName();
@@ -247,7 +246,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			} catch (\Exception $e) {
 				$this->logger->logException($e, [
 					'message' => 'Server can not add remote share.',
-					'level' => Util::ERROR,
+					'level' => ILogger::ERROR,
 					'app' => 'files_sharing'
 				]);
 				throw new ProviderCouldNotAddShareException('internal server error, was not able to add share from ' . $remote, '', HTTP::STATUS_INTERNAL_SERVER_ERROR);
@@ -304,7 +303,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws BadRequestException
 	 * @throws \OC\HintException
 	 */
-	private function shareAccepted($id, $notification) {
+	private function shareAccepted($id, array $notification) {
 
 		if (!$this->isS2SEnabled()) {
 			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
@@ -376,7 +375,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws \OC\HintException
 	 *
 	 */
-	protected function shareDeclined($id, $notification) {
+	protected function shareDeclined($id, array $notification) {
 
 		if (!$this->isS2SEnabled()) {
 			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
@@ -446,12 +445,12 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * received the notification that the owner unshared a file from you
 	 *
 	 * @param string $id
-	 * @param string $notification
+	 * @param array $notification
 	 * @return array
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 */
-	private function undoReshare($id, $notification) {
+	private function undoReshare($id, array $notification) {
 		if (!isset($notification['sharedSecret'])) {
 			throw new BadRequestException(['sharedSecret']);
 		}
@@ -550,15 +549,15 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/**
 	 * recipient of a share request to re-share the file with another user
 	 *
-	 * @param $id
-	 * @param $notification
+	 * @param string $id
+	 * @param array $notification
 	 * @return array
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 * @throws ProviderCouldNotAddShareException
 	 * @throws ShareNotFound
 	 */
-	protected function reshareRequested($id, $notification) {
+	protected function reshareRequested($id, array $notification) {
 
 		if (!isset($notification['sharedSecret'])) {
 			throw new BadRequestException(['sharedSecret']);
@@ -602,7 +601,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			throw new ProviderCouldNotAddShareException('resharing not allowed for share: ' . $id);
 		}
 
-		throw new BadRequestException([]);
 	}
 
 	/**
@@ -615,7 +613,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 */
-	protected function updateResharePermissions($id, $notification) {
+	protected function updateResharePermissions($id, array $notification) {
 
 		if (!isset($notification['sharedSecret'])) {
 			throw new BadRequestException(['sharedSecret']);
@@ -640,12 +638,11 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/**
 	 * translate OCM Permissions to Nextcloud permissions
 	 *
-	 * @param $ocmPermissions
+	 * @param array $ocmPermissions
 	 * @return int
 	 * @throws BadRequestException
 	 */
-	protected function ocmPermissions2ncPermissions($ocmPermissions) {
-		error_log("ocm permissions: " . json_encode($ocmPermissions));
+	protected function ocmPermissions2ncPermissions(array $ocmPermissions) {
 		$ncPermissions = 0;
 		foreach($ocmPermissions as $permission) {
 			switch (strtolower($permission)) {
@@ -701,7 +698,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$args = Filesystem::is_dir($file) ? array('dir' => $file) : array('dir' => dirname($file), 'scrollto' => $file);
 		$link = Util::linkToAbsolute('files', 'index.php', $args);
 
-		return array($file, $link);
+		return [$file, $link];
 
 	}
 

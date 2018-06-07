@@ -23,10 +23,19 @@ namespace OCP\Federation\Exceptions;
 
 use OC\HintException;
 
+/**
+ * Class ProviderAlreadyExistsException
+ *
+ * @package OCP\Federation\Exceptions
+ *
+ * @since 14.0.0
+ */
 class ProviderAlreadyExistsException extends HintException {
 
 	/**
 	 * ProviderAlreadyExistsException constructor.
+	 *
+	 * @since 14.0.0
 	 *
 	 * @param string $newProviderId cloud federation provider ID of the new provider
 	 * @param string $existingProviderName name of cloud federation provider which already use the same ID

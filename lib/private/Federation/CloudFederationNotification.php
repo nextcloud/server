@@ -23,6 +23,13 @@ namespace OC\Federation;
 
 use OCP\Federation\ICloudFederationNotification;
 
+/**
+ * Class CloudFederationNotification
+ *
+ * @package OC\Federation
+ *
+ * @since 14.0.0
+ */
 class CloudFederationNotification implements ICloudFederationNotification {
 
 	private $message = [];

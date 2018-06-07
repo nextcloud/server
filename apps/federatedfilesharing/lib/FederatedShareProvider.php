@@ -506,12 +506,12 @@ class FederatedShareProvider implements IShareProvider {
 	 * Delete a share (owner unShares the file)
 	 *
 	 * @param IShare $share
+	 * @throws ShareNotFound
+	 * @throws \OC\HintException
 	 */
 	public function delete(IShare $share) {
 
 		list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedWith());
-
-		$isOwner = false;
 
 		// if the local user is the owner we can send the unShare request directly...
 		if ($this->userManager->userExists($share->getShareOwner())) {

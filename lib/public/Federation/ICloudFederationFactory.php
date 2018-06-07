@@ -21,6 +21,13 @@
 
 namespace OCP\Federation;
 
+/**
+ * Interface ICloudFederationFactory
+ *
+ * @package OCP\Federation
+ *
+ * @since 14.0.0
+ */
 interface ICloudFederationFactory {
 
 	/**

@@ -200,7 +200,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @return bool
 	 */
 	public function isReady() {
-		return $this->appManager->isEnabledForUser('cloud_federation_api', false);
+		return $this->appManager->isEnabledForUser('cloud_federation_api');
 	}
 	/**
 	 * check if server supports the new OCM api and ask for the correct end-point

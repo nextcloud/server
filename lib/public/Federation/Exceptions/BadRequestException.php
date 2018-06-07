@@ -23,12 +23,21 @@ namespace OCP\Federation\Exceptions;
 
 use OC\HintException;
 
+/**
+ * Class BadRequestException
+ *
+ * @package OCP\Federation\Exceptions
+ *
+ * @since 14.0.0
+ */
 class BadRequestException extends HintException {
 
 	private $parameterList;
 
 	/**
 	 * BadRequestException constructor.
+	 *
+	 * @since 14.0.0
 	 *
 	 * @param array $missingParameters
 	 */
@@ -43,6 +52,8 @@ class BadRequestException extends HintException {
 
 	/**
 	 * get array with the return message as defined in the OCM API
+	 *
+	 * @since 14.0.0
 	 *
 	 * @return array
 	 */

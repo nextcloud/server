@@ -23,10 +23,19 @@ namespace OCP\Federation\Exceptions;
 
 use OC\HintException;
 
+/**
+ * Class ProviderDoesNotExistsException
+ *
+ * @package OCP\Federation\Exceptions
+ *
+ * @since 14.0.0
+ */
 class ProviderDoesNotExistsException extends HintException {
 
 	/**
 	 * ProviderDoesNotExistsException constructor.
+	 *
+	 * @since 14.0.0
 	 *
 	 * @param string $providerId cloud federation provider ID
 	 */

@@ -108,7 +108,6 @@ class RequestHandlerController extends Controller {
 	 * @param string $ownerDisplayName display name of the user who shared the item
 	 * @param string $sharedBy provider specific UID of the user who shared the resource
 	 * @param string $sharedByDisplayName display name of the user who shared the resource
-	 * @param string $sharedSecret use to authenticate accross servers
 	 * @param array $protocol (e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]])
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param $resourceType ('file', 'calendar',...)

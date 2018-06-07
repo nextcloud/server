@@ -21,6 +21,13 @@
 
 namespace OCP\Federation;
 
+/**
+ * Interface ICloudFederationNotification
+ *
+ * @package OCP\Federation
+ *
+ * @since 14.0.0
+ */
 interface ICloudFederationNotification {
 
 	/**
@@ -31,7 +38,6 @@ interface ICloudFederationNotification {
 	 * @param $providerId id of the share
 	 * @param array $notification , payload of the notification
 	 *
-	 * @return
 	 * @since 14.0.0
 	 */
 	public function setMessage($notificationType, $resourceType, $providerId, array $notification);
@@ -39,7 +45,7 @@ interface ICloudFederationNotification {
 	/**
 	 * get message, ready to send out
 	 *
-	 * @return string
+	 * @return array
 	 *
 	 * @since 14.0.0
 	 */
