@@ -10,8 +10,7 @@
   "scripts": {
     "dev": "webpack --config js-src/webpack.dev.js",
     "watch": "webpack --progress --watch --config js-src/webpack.dev.js",
-    "build": "webpack --progress --hide-modules --config js-src/webpack.prod.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --progress --hide-modules --config js-src/webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +28,6 @@
     "vue-select": "^2.4.0"
   },
   "devDependencies": {
-    "cross-env": "^5.1.6",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "vue-loader": "^15.2.4",
