@@ -1131,23 +1131,8 @@ OC.Uploader.prototype = _.extend({
 					self.log('progress handle fileuploadfail', e, data);
 					self.trigger('fail', e, data);
 				});
-				var disableDropState = function() {
-					$('#app-content').removeClass('file-drag');
-					$('.dropping-to-dir').removeClass('dropping-to-dir');
-					$('.dir-drop').removeClass('dir-drop');
-					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
-				};
-				var disableClassOnFirefox = _.debounce(function() {
-					disableDropState();
-				}, 100);
 				fileupload.on('fileuploaddragover', function(e){
 					$('#app-content').addClass('file-drag');
-					// dropping a folder in firefox doesn't cause a drop event
-					// this is simulated by simply invoke disabling all classes
-					// once no dragover event isn't noticed anymore
-					if (/Firefox/i.test(navigator.userAgent)) {
-						disableClassOnFirefox();
-					}
 					$('#emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
 
 					var filerow = $(e.delegatedEvent.target).closest('tr');
@@ -1164,6 +1149,14 @@ OC.Uploader.prototype = _.extend({
 						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
 					}
 				});
+
+				var disableDropState = function() {
+					$('#app-content').removeClass('file-drag');
+					$('.dropping-to-dir').removeClass('dropping-to-dir');
+					$('.dir-drop').removeClass('dir-drop');
+					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
+				};
+
 				fileupload.on('fileuploaddragleave fileuploaddrop', disableDropState);
 
 				// In some browsers the "drop" event can be triggered with no
