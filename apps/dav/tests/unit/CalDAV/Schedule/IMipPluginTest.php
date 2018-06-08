@@ -104,6 +104,10 @@ class IMipPluginTest extends TestCase {
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl');
 			
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getAttachment');
+			
 		$plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	
@@ -165,6 +169,10 @@ class IMipPluginTest extends TestCase {
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl');
 			
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getAttachment');
+			
 		$plugin->schedule($message);
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 		
@@ -221,6 +229,10 @@ class IMipPluginTest extends TestCase {
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl');
+			
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getAttachment');
 			
 		$plugin->schedule($message);
 

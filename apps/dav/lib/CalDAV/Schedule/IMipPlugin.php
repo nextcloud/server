@@ -244,10 +244,34 @@ class IMipPlugin extends SabreIMipPlugin {
 		$template->addFooter();
 		$message->useTemplate($template);
 
+		$attachmentData = $iTipMessage->message->serialize();
+		$attachmentName = 'event.ics';
+		$attachmentType = 'text/calendar; method=' . $iTipMessage->method;
+		
+        $event = new GenericEvent(null, [
+			'vcalendar' => $iTipMessage->message,
+			'recipient' => $recipient,
+			'attachmentName' => $attachmentName,
+			'attachmentType' => $attachmentType
+		]);
+		$this->dispatcher->dispatch(self::class . '::getAttachment', $event);
+
+		if ($event->hasArgument('attachment')) {
+			$attachmentData = $event->getArgument('attachment');
+		}
+
+		if ($event->hasArgument('attachmentName')) {
+			$attachmentName = $event->getArgument('attachmentName');
+		}
+		
+		if ($event->hasArgument('attachmentType')) {
+			$attachmentType = $event->getArgument('attachmentType');
+		}
+		
 		$attachment = $this->mailer->createAttachment(
-			$iTipMessage->message->serialize(),
-			'event.ics',// TODO(leon): Make file name unique, e.g. add event id
-			'text/calendar; method=' . $iTipMessage->method
+			$attachmentData,
+			$attachmentName,
+			$attachmentType
 		);
 		$message->attach($attachment);
 
