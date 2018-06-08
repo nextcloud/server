@@ -1,10 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "Wrong password" : "Սխալ գաղտնաբառ",
-    "Saved" : "Պահված",
     "Unable to change password" : "Չկարողացա փոխել գաղտնաբառը",
-    "Delete" : "Ջնջել",
     "Very weak password" : "Շատ թույլ գաղտնաբառ",
     "Weak password" : "Թույլ գաղտնաբառ",
     "So-so password" : "Միջինոտ գաղտնաբառ",
@@ -12,6 +9,7 @@ OC.L10N.register(
     "Strong password" : "Ուժեղ գաղտնաբառ",
     "Groups" : "Խմբեր",
     "Email" : "Էլ. հասցե",
+    "Delete" : "Ջնջել",
     "days" : "օր",
     "Cancel" : "Չեղարկել",
     "Language" : "Լեզու",
@@ -20,6 +18,8 @@ OC.L10N.register(
     "New password" : "Նոր գաղտնաբառ",
     "Change password" : "Փոխել գաղտնաբառը",
     "Username" : "Օգտանուն",
+    "Wrong password" : "Սխալ գաղտնաբառ",
+    "Saved" : "Պահված",
     "never" : "երբեք",
     "Other" : "Այլ"
 },
