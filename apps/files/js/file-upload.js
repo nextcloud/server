@@ -1166,6 +1166,16 @@ OC.Uploader.prototype = _.extend({
 				});
 				fileupload.on('fileuploaddragleave fileuploaddrop', disableDropState);
 
+				// In some browsers the "drop" event can be triggered with no
+				// files even if the "dragover" event seemed to suggest that a
+				// file was being dragged (and thus caused "fileuploaddragover"
+				// to be triggered).
+				fileupload.on('fileuploaddropnofiles', function() {
+					disableDropState();
+
+					OC.Notification.show(t('files', 'Uploading that item is not supported'), {type: 'error'});
+				});
+
 				fileupload.on('fileuploadchunksend', function(e, data) {
 					// modify the request to adjust it to our own chunking
 					var upload = self.getUpload(data);
