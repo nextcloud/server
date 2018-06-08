@@ -1041,6 +1041,8 @@ OC.Uploader.prototype = _.extend({
 				//remaining time
 				var lastUpdate, lastSize, bufferSize, buffer, bufferIndex, bufferIndex2, bufferTotal;
 
+				var dragging = false;
+
 				// add progress handlers
 				fileupload.on('fileuploadadd', function(e, data) {
 					self.log('progress handle fileuploadadd', e, data);
@@ -1148,6 +1150,8 @@ OC.Uploader.prototype = _.extend({
 						filerow.addClass('dropping-to-dir');
 						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
 					}
+
+					dragging = true;
 				});
 
 				var disableDropState = function() {
@@ -1155,6 +1159,8 @@ OC.Uploader.prototype = _.extend({
 					$('.dropping-to-dir').removeClass('dropping-to-dir');
 					$('.dir-drop').removeClass('dir-drop');
 					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
+
+					dragging = false;
 				};
 
 				fileupload.on('fileuploaddragleave fileuploaddrop', disableDropState);
@@ -1164,6 +1170,10 @@ OC.Uploader.prototype = _.extend({
 				// file was being dragged (and thus caused "fileuploaddragover"
 				// to be triggered).
 				fileupload.on('fileuploaddropnofiles', function() {
+					if (!dragging) {
+						return;
+					}
+
 					disableDropState();
 
 					OC.Notification.show(t('files', 'Uploading that item is not supported'), {type: 'error'});
