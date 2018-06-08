@@ -148,8 +148,10 @@ class CommentTest extends TestCase {
 					' however the most important thing to know is that www.croissant.com/@oil is not valid' .
 					' and won\'t match anything at all',
 				['foobar', 'barfoo', 'foo@bar.com', 'bar@foo.org@foobar.io', '23452-4333-54353-2342', 'yolo']
+			],
+			[
+			'@@chef is also a valid mention, no matter how strange it looks', ['@chef']
 			]
-
 		];
 	}
 
