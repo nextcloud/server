@@ -43,9 +43,7 @@ class Admin implements ISettings {
 		return new TemplateResponse(
 			'oauth2',
 			'admin',
-			[
-				'clients' => $this->clientMapper->getClients(),
-			],
+			[],
 			''
 		);
 	}
