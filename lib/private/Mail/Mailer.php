@@ -57,7 +57,7 @@ use OCP\Mail\IMessage;
  * @package OC\Mail
  */
 class Mailer implements IMailer {
-	/** @var \Swift_SmtpTransport|\Swift_SendmailTransport Cached transport */
+	/** @var \Swift_Mailer Cached mailer */
 	private $instance = null;
 	/** @var IConfig */
 	private $config;
@@ -220,27 +220,24 @@ class Mailer implements IMailer {
 		return $name.'@'.$domain;
 	}
 
-	/**
-	 * Returns whatever transport is configured within the config
-	 *
-	 * @return \Swift_SmtpTransport|\Swift_SendmailTransport
-	 */
-	protected function getInstance() {
+	protected function getInstance(): \Swift_Mailer {
 		if (!is_null($this->instance)) {
 			return $this->instance;
 		}
 
+		$transport = null;
+
 		switch ($this->config->getSystemValue('mail_smtpmode', 'smtp')) {
 			case 'sendmail':
-				$this->instance = $this->getSendMailInstance();
+				$transport = $this->getSendMailInstance();
 				break;
 			case 'smtp':
 			default:
-				$this->instance = $this->getSmtpInstance();
+				$transport = $this->getSmtpInstance();
 				break;
 		}
 
-		return $this->instance;
+		return new \Swift_Mailer($transport);
 	}
 
 	/**
@@ -262,7 +259,7 @@ class Mailer implements IMailer {
 		if (!empty($smtpSecurity)) {
 			$transport->setEncryption($smtpSecurity);
 		}
-		$transport->start();
+
 		return $transport;
 	}
 
@@ -272,7 +269,7 @@ class Mailer implements IMailer {
 	 * @return \Swift_SendmailTransport
 	 */
 	protected function getSendMailInstance(): \Swift_SendmailTransport {
-		switch ($this->config->getSystemValue('mail_smtpmode', 'smpt')) {
+		switch ($this->config->getSystemValue('mail_smtpmode', 'smtp')) {
 			case 'qmail':
 				$binaryPath = '/var/qmail/bin/sendmail';
 				break;
