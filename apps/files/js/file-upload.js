@@ -1164,12 +1164,7 @@ OC.Uploader.prototype = _.extend({
 						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
 					}
 				});
-				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
-					$('#app-content').removeClass('file-drag');
-					$('.dropping-to-dir').removeClass('dropping-to-dir');
-					$('.dir-drop').removeClass('dir-drop');
-					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
-				});
+				fileupload.on('fileuploaddragleave fileuploaddrop', disableDropState);
 
 				fileupload.on('fileuploadchunksend', function(e, data) {
 					// modify the request to adjust it to our own chunking
