@@ -126,6 +126,7 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Фајл или фасцикла су <strong>враћени</strong>",
     "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Отпремање (макс. %s)",
+    "File Management" : "Управљање фајловима",
     "File handling" : "Руковање фајловима",
     "Maximum upload size" : "Највећа величина отпремања",
     "max. possible: " : "највише могуће:",
