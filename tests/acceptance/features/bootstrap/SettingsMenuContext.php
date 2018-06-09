@@ -54,6 +54,13 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function usersAppsItem() {
+		return self::menuItemFor("Apps");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function logOutMenuItem() {
 		return self::menuItemFor("Log out");
 	}
@@ -98,6 +105,15 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 		$this->iOpenTheSettingsMenu();
 
 		$this->actor->find(self::usersMenuItem(), 2)->click();
+	}
+
+	/**
+	 * @When I open the Apps management
+	 */
+	public function iOpenTheAppsManagement() {
+		$this->iOpenTheSettingsMenu();
+
+		$this->actor->find(self::usersAppsItem(), 2)->click();
 	}
 
 	/**
