@@ -106,6 +106,14 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 		describedAs("Enable button in the app list");
 	}
 
+	/**
+	 * @return Locator
+	 */
+	public static function sidebar() {
+		return Locator::forThe()->id("app-sidebar")->
+		describedAs("Sidebar in apps management");
+	}
+
 
 	/**
 	 * @When I enable the :app app
@@ -203,6 +211,21 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheIsDisabled($bundle) {
 		PHPUnit\Framework\Assert::assertEquals('Enable all', $this->actor->find(self::bundleButton($bundle))->getValue());
+	}
+
+	/**
+	 * @Given /^I see that the app details are shown$/
+	 */
+	public function iSeeThatTheAppDetailsAreShown() {
+		// The sidebar always exists in the DOM, so it has to be explicitly
+		// waited for it to be visible instead of relying on the implicit wait
+		// made to find the element.
+		if (!WaitFor::elementToBeEventuallyShown(
+			$this->actor,
+			self::sidebar(),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The sidebar was not shown yet after $timeout seconds");
+		}
 	}
 
 

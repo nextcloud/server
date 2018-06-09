@@ -53,7 +53,7 @@ Feature: apps
     And I am logged in as the admin
     And I open the Apps management
     When I click on the "QA testing" app
-    Then I see that the sidebar is open
+    Then I see that the app details are shown
 
   # TODO: Improve testing with app store as external API
   # The following scenarios require the files_antivirus and calendar app
@@ -77,7 +77,7 @@ Feature: apps
     And I open the Apps management
     And I open the "Tools" section
     When I click on the "Antivirus App for files" app
-    Then I see that the sidebar is open
+    Then I see that the app details are shown
 
   Scenario: Install an app from the app store
     Given I act as Jane
@@ -85,6 +85,6 @@ Feature: apps
     And I open the Apps management
     And I open the "Office & text" section
     And I click on the "Calendar" app
-    And I see that the sidebar is open
+    And I see that the app details are shown
     Then I download and enable the "Calendar" app
     And I see that the "Calendar" app has been enabled
