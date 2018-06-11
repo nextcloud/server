@@ -26,7 +26,6 @@ namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -68,14 +67,18 @@ abstract class AuthPublicShareController extends PublicShareController {
 	 *
 	 * @since 14.0.0
 	 */
-	abstract public function showAuthenticate(): TemplateResponse;
+	public function showAuthenticate(): TemplateResponse {
+		return new TemplateResponse('core', 'publicshareauth', [], 'guest');
+	}
 
 	/**
 	 * The template to show when authentication failed
 	 *
 	 * @since 14.0.0
 	 */
-	abstract protected function showAuthFailed(): TemplateResponse;
+	protected function showAuthFailed(): TemplateResponse {
+		return new TemplateResponse('core', 'publicshareauth', ['wrongpw' => true], 'guest');
+	}
 
 	/**
 	 * Verify the password

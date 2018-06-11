@@ -172,23 +172,6 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @return TemplateResponse
-	 */
-	public function showAuthenticate(): TemplateResponse {
-		return new TemplateResponse($this->appName, 'authenticate', array(), 'guest');
-	}
-
-	/**
-	 * @return TemplateResponse
-	 */
-	public function showAuthFailed(): TemplateResponse {
-		return new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
-	}
-
-	/**
 	 * Authenticate a link item with the given password.
 	 * Or use the session if no password is provided.
 	 *
