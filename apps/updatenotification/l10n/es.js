@@ -14,6 +14,8 @@ OC.L10N.register(
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> es una versión preliminar solo para probar nuevas características, no para entornos de producción.",
     "Could not start updater, please try the manual update" : "No se ha podido iniciar el actualizador. Por favor, prueba a realizar la actualización de forma manual",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La versión que usas yo no está mantenida. Por favor, asegúrate de actualizar a una versión soportada tan pronto como sea posible.",
+    "Apps missing updates" : "Apps con actualizaciones pendientes",
+    "View in store" : "Ver en la tienda",
     "Apps with available updates" : "Apps con actualizaciones disponibles",
     "Open updater" : "Abrir el actualizador",
     "Download now" : "Descargar ahora",
@@ -35,6 +37,7 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "La actualización de %1$s a la versión %2$s está disponible.",
     "Update for {app} to version %s is available." : "Actualización de {app} a la versión %s disponible.",
     "Update notification" : "Notificación de actualización",
+    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Muestra notificaciones de actualizaciones para Nexcloud y provee el SSO para el actualizador.",
     "A new version is available: %s" : "Hay una nueva versión disponible: %s",
     "Checked on %s" : "Comprobado el %s"
 },
