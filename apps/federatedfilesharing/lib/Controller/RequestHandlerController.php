@@ -178,7 +178,7 @@ class RequestHandlerController extends OCSController {
 		} catch (ProviderDoesNotExistsException $e) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		} catch (ProviderCouldNotAddShareException $e) {
-			throw new OCSException($e->getMessage(), $e->getCode());
+			throw new OCSException($e->getMessage(), 400);
 		} catch (\Exception $e) {
 			throw new OCSException('internal server error, was not able to add share from ' . $remote, 500);
 		}
@@ -367,29 +367,6 @@ class RequestHandlerController extends OCSController {
 			throw new OCSBadRequestException();
 		}
 
-	}
-
-	/**
-	 * get share
-	 *
-	 * @param int $id
-	 * @param string $token
-	 * @return array|bool
-	 */
-	protected function getShare($id, $token) {
-		$query = $this->connection->getQueryBuilder();
-		$query->select('*')->from($this->shareTable)
-			->where($query->expr()->eq('token', $query->createNamedParameter($token)))
-			->andWhere($query->expr()->eq('share_type', $query->createNamedParameter(FederatedShareProvider::SHARE_TYPE_REMOTE)))
-			->andWhere($query->expr()->eq('id', $query->createNamedParameter($id)));
-
-		$result = $query->execute()->fetchAll();
-
-		if (!empty($result) && isset($result[0])) {
-			return $result[0];
-		}
-
-		return false;
 	}
 
 	/**
