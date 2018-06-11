@@ -9,6 +9,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\PublicShareController;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 
@@ -19,14 +20,22 @@ class PublicShareMiddleware extends Middleware {
 	/** @var ISession */
 	private $session;
 
-	public function __construct(IRequest $request, ISession $session) {
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(IRequest $request, ISession $session, IConfig $config) {
 		$this->request = $request;
 		$this->session = $session;
+		$this->config = $config;
 	}
 
 	public function beforeController($controller, $methodName) {
 		if (!($controller instanceof PublicShareController)) {
 			return;
+		}
+
+		if (!$this->isLinkSharingEnabled()) {
+			throw new NotFoundException('Link sharing is disabled');
 		}
 
 		// We require the token parameter to be set
@@ -82,5 +91,22 @@ class PublicShareMiddleware extends Middleware {
 	private function getFunctionForRoute(string $route): string {
 		$tmp = explode('.', $route);
 		return array_pop($tmp);
+	}
+
+	/**
+	 * Check if link sharing is allowed
+	 */
+	private function isLinkSharingEnabled(): bool {
+		// Check if the shareAPI is enabled
+		if ($this->config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
+			return false;
+		}
+
+		// Check whether public sharing is enabled
+		if($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+			return false;
+		}
+
+		return true;
 	}
 }

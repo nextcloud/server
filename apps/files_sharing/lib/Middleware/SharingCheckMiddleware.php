@@ -101,15 +101,6 @@ class SharingCheckMiddleware extends Middleware {
 		if ($controller instanceof ExternalSharesController &&
 			!$this->externalSharesChecks()) {
 			throw new S2SException('Federated sharing not allowed');
-		} else if ($controller instanceof ShareController) {
-			/*
-			$token = $this->request->getParam('token');
-			$share = $this->shareManager->getShareByToken($token);
-			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK
-				&& !$this->isLinkSharingEnabled()) {
-				throw new NotFoundException('Link sharing is disabled');
-			}
-			*/
 		}
 	}
 
@@ -167,22 +158,6 @@ class SharingCheckMiddleware extends Middleware {
 		return true;
 	}
 
-	/**
-	 * Check if link sharing is allowed
-	 * @return bool
-	 */
-	private function isLinkSharingEnabled() {
-		// Check if the shareAPI is enabled
-		if ($this->config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
-			return false;
-		}
 
-		// Check whether public sharing is enabled
-		if($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
-			return false;
-		}
-
-		return true;
-	}
 
 }
