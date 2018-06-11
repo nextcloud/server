@@ -27,7 +27,7 @@
 				<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
 			</template>
 			<template v-for="bundle in bundles" v-if="useBundleView && bundleApps(bundle.id).length > 0">
-				<div class="apps-header">
+				<div class="apps-header" :key="bundle.id">
 					<div class="app-image"></div>
 					<h2>{{ bundle.name }} <input type="button" :value="bundleToggleText(bundle.id)" v-on:click="toggleBundle(bundle.id)"></h2>
 					<div class="app-version"></div>
@@ -99,7 +99,7 @@ export default {
 				return apps.filter(app => app.active);
 			}
 			if (this.category === 'disabled') {
-				return apps.filter(app => !app.active);
+				return apps.filter(app => !app.active && app.installed);
 			}
 			if (this.category === 'app-bundles') {
 				return apps.filter(app => app.bundles);
