@@ -93,10 +93,11 @@ interface ISession {
 	 * Wrapper around session_regenerate_id
 	 *
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 * @param bool $updateToken Wheater to update the associated auth token
 	 * @return void
-	 * @since 9.0.0
+	 * @since 9.0.0, $updateToken added in 14.0.0
 	 */
-	public function regenerateId($deleteOldSession = true);
+	public function regenerateId($deleteOldSession = true, $updateToken = false);
 
 	/**
 	 * Wrapper around session_id

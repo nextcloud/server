@@ -624,6 +624,8 @@ class Session implements IUserSession, Emitter {
 		try {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
+			// Make sure the current sessionId has no leftover tokens
+			$this->tokenProvider->invalidateToken($sessionId);
 			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
 			return true;
 		} catch (SessionNotAvailableException $ex) {
