@@ -121,6 +121,11 @@ trait S3ConnectionTrait {
 			}
 		}
 
+		// google cloud's s3 compatibility doesn't like the EncodingType parameter
+		if (strpos($base_url, 'storage.googleapis.com')) {
+			$this->connection->getHandlerList()->remove('s3.auto_encode');
+		}
+
 		return $this->connection;
 	}
 
