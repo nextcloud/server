@@ -35,8 +35,10 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC_Files;
 use OC_Util;
+use OC\Authentication\Token\IProvider as  TokenProvider;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
@@ -96,6 +98,8 @@ class ShareController extends Controller {
 	protected $l10n;
 	/** @var Defaults */
 	protected $defaults;
+	/** @var TokenProvider */
+	protected $tokenProvider;
 
 	/**
 	 * @param string $appName
@@ -113,6 +117,7 @@ class ShareController extends Controller {
 	 * @param EventDispatcherInterface $eventDispatcher
 	 * @param IL10N $l10n
 	 * @param Defaults $defaults
+	 * @param TokenProvider $tokenProvider
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -128,7 +133,8 @@ class ShareController extends Controller {
 								FederatedShareProvider $federatedShareProvider,
 								EventDispatcherInterface $eventDispatcher,
 								IL10N $l10n,
-								Defaults $defaults) {
+								Defaults $defaults,
+								TokenProvider $tokenProvider) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -144,6 +150,7 @@ class ShareController extends Controller {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->l10n = $l10n;
 		$this->defaults = $defaults;
+		$this->tokenProvider = $tokenProvider;
 	}
 
 	/**
@@ -217,7 +224,16 @@ class ShareController extends Controller {
 	private function linkShareAuth(\OCP\Share\IShare $share, $password = null) {
 		if ($password !== null) {
 			if ($this->shareManager->checkPassword($share, $password)) {
+				$oldId = $this->session->getId();
 				$this->session->regenerateId();
+				$newId = $this->session->getId();
+				try {
+					$this->tokenProvider->renewSessionToken($oldId, $newId);
+				} catch (InvalidTokenException $e) {
+					//This was not a session with a valid token. So ignore
+				}
+
+
 				$this->session->set('public_link_authenticated', (string)$share->getId());
 			} else {
 				$this->emitAccessShareHook($share, 403, 'Wrong password');
