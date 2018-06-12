@@ -21,6 +21,8 @@
 
 
 namespace OCA\CloudFederationAPI;
+use OCP\GlobalScale\IConfig as IGsConfig;
+use OCP\IConfig;
 
 
 /**
@@ -32,15 +34,33 @@ namespace OCA\CloudFederationAPI;
  */
 class Config {
 
-	public function __construct() {
+	/** @var IGsConfig  */
+	private $gsConfig;
+
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(IGsConfig $globalScaleConfig, IConfig $config) {
+		$this->gsConfig = $globalScaleConfig;
+		$this->config = $config;
 	}
 
 	public function incomingRequestsEnabled() {
-		return true;
+		if ($this->gsConfig->onlyInternalFederation()) {
+			return false;
+		}
+		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
+		return ($result === 'yes');
 	}
 
 	public function outgoingRequestsEnabled() {
-		return true;
+
+		if ($this->gsConfig->onlyInternalFederation()) {
+			return false;
+		}
+		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+		return ($result === 'yes');
+
 	}
 
 }
