@@ -29,6 +29,8 @@ namespace OCA\FederatedFileSharing\Tests;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\BackgroundJob\IJobList;
+use OCP\Federation\ICloudFederationFactory;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
 use OCP\OCS\IDiscoveryService;
 
@@ -46,6 +48,12 @@ class NotificationsTest extends \Test\TestCase {
 	/** @var  IJobList | \PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
 
+	/** @var ICloudFederationProviderManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $cloudFederationProviderManager;
+
+	/** @var ICloudFederationFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $cloudFederationFactory;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -54,6 +62,8 @@ class NotificationsTest extends \Test\TestCase {
 		$this->httpClientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
+		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
+		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 
 	}
 
@@ -69,7 +79,9 @@ class NotificationsTest extends \Test\TestCase {
 				$this->addressHandler,
 				$this->httpClientService,
 				$this->discoveryService,
-				$this->jobList
+				$this->jobList,
+				$this->cloudFederationProviderManager,
+				$this->cloudFederationFactory
 			);
 		} else {
 			$instance = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
@@ -78,7 +90,9 @@ class NotificationsTest extends \Test\TestCase {
 						$this->addressHandler,
 						$this->httpClientService,
 						$this->discoveryService,
-						$this->jobList
+						$this->jobList,
+						$this->cloudFederationProviderManager,
+						$this->cloudFederationFactory
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}
@@ -99,12 +113,13 @@ class NotificationsTest extends \Test\TestCase {
 		$id = 42;
 		$timestamp = 63576;
 		$token = 'token';
+		$action = 'unshare';
 		$instance = $this->getInstance(['tryHttpPostToShareEndpoint', 'getTimestamp']);
 
 		$instance->expects($this->any())->method('getTimestamp')->willReturn($timestamp);
 
 		$instance->expects($this->once())->method('tryHttpPostToShareEndpoint')
-			->with($remote, '/'.$id.'/unshare', ['token' => $token, 'data1Key' => 'data1Value'])
+			->with($remote, '/'.$id.'/unshare', ['token' => $token, 'data1Key' => 'data1Value', 'remoteId' => $id], $action)
 			->willReturn($httpRequestResult);
 
 		// only add background job on first try
@@ -127,7 +142,7 @@ class NotificationsTest extends \Test\TestCase {
 		}
 
 		$this->assertSame($expected,
-			$instance->sendUpdateToRemote($remote, $id, $token, 'unshare', ['data1Key' => 'data1Value'], $try)
+			$instance->sendUpdateToRemote($remote, $id, $token, $action, ['data1Key' => 'data1Value'], $try)
 		);
 
 	}
