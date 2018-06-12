@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './js'),
     publicPath: '/',
-    filename: 'main.js'
+    filename: 'settings-vue.js'
   },
   module: {
     rules: [

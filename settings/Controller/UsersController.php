@@ -246,7 +246,7 @@ class UsersController extends Controller {
 		$serverData['defaultQuota'] = $defaultQuota;
 		$serverData['canChangePassword'] = $canChangePassword;
 
-		return new TemplateResponse('settings', 'settings', ['serverData' => $serverData]);
+		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData]);
 	}
 
 	/**
