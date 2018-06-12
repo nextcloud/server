@@ -539,7 +539,7 @@ describe('OC.SetupChecks tests', function() {
 					msg: 'The "X-Permitted-Cross-Domain-Policies" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation</a>.',
+					msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}
 				]);
@@ -702,7 +702,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation</a>.',
+							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						}
 					]);
@@ -728,7 +728,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation</a>.',
+							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						}
 					]);
@@ -754,7 +754,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation</a>.',
+							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						}
 					]);
@@ -780,7 +780,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation</a>.',
+							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						}
 					]);
@@ -808,7 +808,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
+				msg: 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="https://docs.example.org/admin-security">security tips ↗</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -855,7 +855,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="https://docs.example.org/admin-security">security tips ↗</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -881,7 +881,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="https://docs.example.org/admin-security">security tips ↗</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -907,7 +907,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="http://localhost/index.php/settings/admin/tips-tricks">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a rel="noreferrer noopener" href="https://docs.example.org/admin-security">security tips ↗</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();

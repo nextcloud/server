@@ -428,6 +428,10 @@ Raw output
 		return $indexInfo->getListOfMissingIndexes();
 	}
 
+	protected function isSqliteUsed() {
+		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
+	}
+
 	/**
 	 * @return DataResponse
 	 */
@@ -451,6 +455,8 @@ Raw output
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
 				'hasMissingIndexes' => $this->hasMissingIndexes(),
+				'isSqliteUsed' => $this->isSqliteUsed(),
+				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 			]
 		);
 	}

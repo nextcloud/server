@@ -1314,8 +1314,18 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	}
 }
 
-#security-warning > ul {
-	color: $color-error;
+#security-warning {
+	a {
+		text-decoration: underline;
+	}
+
+	& > ul {
+		color: $color-error;
+	}
+
+	.extra-top-margin {
+		margin-top: 12px;
+	}
 }
 
 #admin-tips li {

@@ -103,7 +103,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->logger,
 				$this->dispatcher,
 				])
-			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup', 'hasFreeTypeSupport', 'hasMissingIndexes'])->getMock();
+			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup', 'hasFreeTypeSupport', 'hasMissingIndexes', 'isSqliteUsed'])->getMock();
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -332,12 +332,19 @@ class CheckSetupControllerTest extends TestCase {
 			->method('linkToDocs')
 			->with('admin-php-opcache')
 			->willReturn('http://docs.example.org/server/go.php?to=admin-php-opcache');
+		$this->urlGenerator->expects($this->at(5))
+			->method('linkToDocs')
+			->with('admin-db-conversion')
+			->willReturn('http://docs.example.org/server/go.php?to=admin-db-conversion');
 		$this->checkSetupController
 			->method('hasFreeTypeSupport')
 			->willReturn(false);
 		$this->checkSetupController
 			->method('hasMissingIndexes')
 			->willReturn([]);
+		$this->checkSetupController
+			->method('isSqliteUsed')
+			->willReturn(false);
 
 		$expected = new DataResponse(
 			[
@@ -361,6 +368,8 @@ class CheckSetupControllerTest extends TestCase {
 				'isSettimelimitAvailable' => true,
 				'hasFreeTypeSupport' => false,
 				'hasMissingIndexes' => [],
+				'isSqliteUsed' => false,
+				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
