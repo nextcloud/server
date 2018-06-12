@@ -183,7 +183,7 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
-					if (data.hasMissingIndexes) {
+					if (data.hasMissingIndexes.length > 0) {
 						var listOfMissingIndexes = "";
 						data.hasMissingIndexes.forEach(function(element){
 							listOfMissingIndexes += "<li>";

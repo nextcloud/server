@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Morris Jobke <hey@morrisjobke.de>
  *
@@ -21,19 +22,18 @@
 
 namespace OC\DB;
 
-
 class MissingIndexInformation {
 
 	private $listOfMissingIndexes = [];
 
-	public function addHintForMissingSubject($tableName, $indexName) {
+	public function addHintForMissingSubject(string $tableName, string $indexName) {
 		$this->listOfMissingIndexes[] = [
 			'tableName' => $tableName,
 			'indexName' => $indexName
 		];
 	}
 
-	public function getListOfMissingIndexes() {
+	public function getListOfMissingIndexes(): array {
 		return $this->listOfMissingIndexes;
 	}
 }

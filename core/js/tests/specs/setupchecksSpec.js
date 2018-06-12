@@ -157,7 +157,8 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -191,7 +192,8 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -226,7 +228,8 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -259,7 +262,8 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -290,7 +294,8 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -321,7 +326,8 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -352,7 +358,8 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: false,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -404,7 +411,8 @@ describe('OC.SetupChecks tests', function() {
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -436,7 +444,8 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: false,
 					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					hasMissingIndexes: []
 				})
 			);
 
@@ -468,7 +477,8 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: false
+					hasFreeTypeSupport: false,
+					hasMissingIndexes: []
 				})
 			);
 
