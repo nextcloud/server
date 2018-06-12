@@ -14,7 +14,7 @@
  * 
  */
 
-script('settings', 'main');
+script('settings', 'settings-vue');
 style('settings', 'settings');
 
 // Did we have some data to inject ?

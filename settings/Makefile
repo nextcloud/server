@@ -18,8 +18,8 @@ watch-js:
 	npm run watch
 
 clean:
-	rm -f js/main.js
-	rm -f js/main.js.map
+	rm -f js/settings-vue.js
+	rm -f js/settings-vue.js.map
 
 clean-dev:
 	rm -rf node_modules

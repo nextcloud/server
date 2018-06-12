@@ -1,7 +1,7 @@
 {
   "name": "settings",
   "description": "Nextcloud settings",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>",
   "license": "AGPL3",
   "private": true,
