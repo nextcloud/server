@@ -193,7 +193,7 @@ class AppSettingsControllerTest extends TestCase {
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings',
-			'settings',
+			'settings-vue',
 			[
 				'serverData' => [
 					'updateCount' => 0,
@@ -227,7 +227,7 @@ class AppSettingsControllerTest extends TestCase {
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings',
-			'settings',
+			'settings-vue',
 			[
 				'serverData' => [
 					'updateCount' => 0,

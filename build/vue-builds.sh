@@ -1,6 +1,5 @@
 #!/bin/bash
 
-declare -a apps=("./settings/js/settings-vue.js" "./apps/updatenotification/js/merged.js")
 root=$(pwd)
 entryFile=$1
 
