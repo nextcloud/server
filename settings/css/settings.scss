@@ -1463,9 +1463,24 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 						display: block !important;
 					}
 				}
+				/* inputs like mail, username, password */
 				&:not(.userActions) > input:not([type='submit']) {
 					width: 100%;
 					min-width: 0;
+				}
+				&.name {
+					word-break: break-all;
+				}
+				&.displayName,
+				&.mailAddress {
+					> input {
+						text-overflow: ellipsis;
+					}
+				}
+				&.name,
+				&.storageLocation {
+					// better multi-line visual
+					line-height: 1em;
 				}
 				&.quota {
                     .multiselect--active + progress {
