@@ -21,7 +21,7 @@
  *
  */
 
- import Vue from 'vue';
+import Vue from 'vue';
 import Router from 'vue-router';
 import Users from './views/Users';
 import Apps from './views/Apps';
