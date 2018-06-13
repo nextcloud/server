@@ -117,13 +117,6 @@ class RequestHandlerController extends Controller {
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 
-		if (!$this->config->incomingRequestsEnabled()) {
-			return new JSONResponse(
-				['message' => 'This server doesn\'t support outgoing federated shares'],
-			Http::STATUS_NOT_IMPLEMENTED
-			);
-		}
-
 		// check if all required parameters are set
 		if ($shareWith === null ||
 			$name === null ||
@@ -212,12 +205,6 @@ class RequestHandlerController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function receiveNotification($notificationType, $resourceType, $providerId, array $notification) {
-		if (!$this->config->incomingRequestsEnabled()) {
-			return new JSONResponse(
-				['message' => 'This server doesn\'t support outgoing federated shares'],
-				Http::STATUS_NOT_IMPLEMENTED
-			);
-		}
 
 		// check if all required parameters are set
 		if ($notificationType === null ||
