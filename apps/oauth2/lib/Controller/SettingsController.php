@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -27,14 +28,10 @@ use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
 class SettingsController extends Controller {
-	/** @var IURLGenerator */
-	private $urlGenerator;
 	/** @var ClientMapper */
 	private $clientMapper;
 	/** @var ISecureRandom */
@@ -49,7 +46,6 @@ class SettingsController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param IURLGenerator $urlGenerator
 	 * @param ClientMapper $clientMapper
 	 * @param ISecureRandom $secureRandom
 	 * @param AccessTokenMapper $accessTokenMapper
@@ -57,14 +53,12 @@ class SettingsController extends Controller {
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
-								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
 								ISecureRandom $secureRandom,
 								AccessTokenMapper $accessTokenMapper,
 								DefaultTokenMapper $defaultTokenMapper
 	) {
 		parent::__construct($appName, $request);
-		$this->urlGenerator = $urlGenerator;
 		$this->secureRandom = $secureRandom;
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;

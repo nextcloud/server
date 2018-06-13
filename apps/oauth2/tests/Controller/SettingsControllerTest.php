@@ -27,17 +27,13 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
-	private $urlGenerator;
 	/** @var ClientMapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $clientMapper;
 	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
@@ -53,7 +49,6 @@ class SettingsControllerTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->clientMapper = $this->createMock(ClientMapper::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
@@ -62,7 +57,6 @@ class SettingsControllerTest extends TestCase {
 		$this->settingsController = new SettingsController(
 			'oauth2',
 			$this->request,
-			$this->urlGenerator,
 			$this->clientMapper,
 			$this->secureRandom,
 			$this->accessTokenMapper,
