@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -21,25 +22,12 @@
 
 namespace OCA\OAuth2\Settings;
 
-use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
-	/** @var ClientMapper */
-	private $clientMapper;
 
-	/**
-	 * @param ClientMapper $clientMapper
-	 */
-	public function __construct(ClientMapper $clientMapper) {
-		$this->clientMapper = $clientMapper;
-	}
-
-	/**
-	 * @return TemplateResponse
-	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		return new TemplateResponse(
 			'oauth2',
 			'admin',
@@ -48,17 +36,11 @@ class Admin implements ISettings {
 		);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'security';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 0;
 	}
 }
