@@ -21,6 +21,7 @@
 
 namespace Tests\Settings\Controller;
 
+use OC\DB\Connection;
 use OC\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -28,11 +29,13 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OC_Util;
+use OCP\Lock\ILockingProvider;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
@@ -64,6 +67,12 @@ class CheckSetupControllerTest extends TestCase {
 	private $checker;
 	/** @var EventDispatcher|\PHPUnit_Framework_MockObject_MockObject */
 	private $dispatcher;
+	/** @var Connection|\PHPUnit_Framework_MockObject_MockObject */
+	private $db;
+	/** @var ILockingProvider|\PHPUnit_Framework_MockObject_MockObject */
+	private $lockingProvider;
+	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
+	private $dateTimeFormatter;
 
 	public function setUp() {
 		parent::setUp();
@@ -90,6 +99,10 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->db = $this->getMockBuilder(Connection::class)
+			->disableOriginalConstructor()->getMock();
+		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
+		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
 		$this->checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',
@@ -102,8 +115,11 @@ class CheckSetupControllerTest extends TestCase {
 				$this->checker,
 				$this->logger,
 				$this->dispatcher,
+				$this->db,
+				$this->lockingProvider,
+				$this->dateTimeFormatter,
 				])
-			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup', 'hasFreeTypeSupport', 'hasMissingIndexes', 'isSqliteUsed'])->getMock();
+			->setMethods(['isReadOnlyConfig', 'hasValidTransactionIsolationLevel', 'hasFileinfoInstalled', 'hasWorkingFileLocking', 'getLastCronInfo', 'getSuggestedOverwriteCliURL', 'getOutdatedCaches', 'getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup', 'hasFreeTypeSupport', 'hasMissingIndexes', 'isSqliteUsed'])->getMock();
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -263,21 +279,21 @@ class CheckSetupControllerTest extends TestCase {
 
 	public function testCheck() {
 		$this->config->expects($this->at(0))
-			->method('getSystemValue')
-			->with('has_internet_connection', true)
-			->will($this->returnValue(true));
-		$this->config->expects($this->at(1))
+			->method('getAppValue')
+			->with('core', 'cronErrors')
+			->willReturn('');
+		$this->config->expects($this->at(2))
 			->method('getSystemValue')
 			->with('memcache.local', null)
 			->will($this->returnValue('SomeProvider'));
-		$this->config->expects($this->at(2))
-			->method('getSystemValue')
-			->with('has_internet_connection', true)
-			->will($this->returnValue(false));
 		$this->config->expects($this->at(3))
 			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn(['1.2.3.4']);
+			->with('has_internet_connection', true)
+			->will($this->returnValue(true));
+		$this->config->expects($this->at(4))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(false));
 
 		$this->request->expects($this->once())
 			->method('getRemoteAddress')
@@ -343,11 +359,55 @@ class CheckSetupControllerTest extends TestCase {
 			->method('hasMissingIndexes')
 			->willReturn([]);
 		$this->checkSetupController
+			->method('getOutdatedCaches')
+			->willReturn([]);
+		$this->checkSetupController
 			->method('isSqliteUsed')
 			->willReturn(false);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isReadOnlyConfig')
+			->willReturn(false);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasValidTransactionIsolationLevel')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasFileinfoInstalled')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasWorkingFileLocking')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('getSuggestedOverwriteCliURL')
+			->willReturn('');
+		$this->checkSetupController
+			->expects($this->once())
+			->method('getLastCronInfo')
+			->willReturn([
+				'diffInSeconds' => 123,
+				'relativeTime' => '2 hours ago',
+				'backgroundJobsUrl' => 'https://example.org',
+			]);
 
 		$expected = new DataResponse(
 			[
+				'isGetenvServerWorking' => true,
+				'isReadOnlyConfig' => false,
+				'hasValidTransactionIsolationLevel' => true,
+				'outdatedCaches' => [],
+				'hasFileinfoInstalled' => true,
+				'hasWorkingFileLocking' => true,
+				'suggestedOverwriteCliURL' => '',
+				'cronInfo' => [
+					'diffInSeconds' => 123,
+					'relativeTime' => '2 hours ago',
+					'backgroundJobsUrl' => 'https://example.org',
+				],
+				'cronErrors' => '',
 				'serverHasInternetConnection' => false,
 				'isMemcacheConfigured' => true,
 				'memcacheDocs' => 'http://docs.example.org/server/go.php?to=admin-performance',
@@ -367,9 +427,9 @@ class CheckSetupControllerTest extends TestCase {
 				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
 				'isSettimelimitAvailable' => true,
 				'hasFreeTypeSupport' => false,
-				'hasMissingIndexes' => [],
 				'isSqliteUsed' => false,
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
+				'missingIndexes' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -388,6 +448,9 @@ class CheckSetupControllerTest extends TestCase {
 				$this->checker,
 				$this->logger,
 				$this->dispatcher,
+				$this->db,
+				$this->lockingProvider,
+				$this->dateTimeFormatter,
 			])
 			->setMethods(null)->getMock();
 

@@ -149,6 +149,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					serverHasInternetConnection: false,
 					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
@@ -158,7 +164,12 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -184,6 +195,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					serverHasInternetConnection: false,
 					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
@@ -193,7 +210,12 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -220,6 +242,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					serverHasInternetConnection: false,
 					isMemcacheConfigured: true,
@@ -229,7 +257,12 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -253,6 +286,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: false,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
@@ -263,7 +302,12 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -285,6 +329,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
@@ -295,7 +345,12 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -317,6 +372,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					serverHasInternetConnection: true,
 					isMemcacheConfigured: true,
@@ -327,7 +388,12 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -349,6 +415,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					serverHasInternetConnection: true,
 					isMemcacheConfigured: true,
@@ -359,7 +431,12 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: false,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -401,6 +478,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
@@ -412,7 +495,12 @@ describe('OC.SetupChecks tests', function() {
 					isOpcacheProperlySetup: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -434,6 +522,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
@@ -445,7 +539,12 @@ describe('OC.SetupChecks tests', function() {
 					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
@@ -467,6 +566,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
@@ -478,7 +583,12 @@ describe('OC.SetupChecks tests', function() {
 					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: false,
-					hasMissingIndexes: []
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 

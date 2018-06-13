@@ -31,21 +31,27 @@
 namespace OC\Settings\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use GuzzleHttp\Exception\ClientException;
 use OC\AppFramework\Http;
+use OC\DB\Connection;
 use OC\DB\MissingIndexInformation;
 use OC\IntegrityCheck\Checker;
+use OC\Lock\NoopLockingProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IDateTimeFormatter;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Lock\ILockingProvider;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -69,6 +75,12 @@ class CheckSetupController extends Controller {
 	private $logger;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
+	/** @var IDBConnection|Connection */
+	private $db;
+	/** @var ILockingProvider */
+	private $lockingProvider;
+	/** @var IDateTimeFormatter */
+	private $dateTimeFormatter;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -79,7 +91,10 @@ class CheckSetupController extends Controller {
 								IL10N $l10n,
 								Checker $checker,
 								ILogger $logger,
-								EventDispatcherInterface $dispatcher) {
+								EventDispatcherInterface $dispatcher,
+								IDBConnection $db,
+								ILockingProvider $lockingProvider,
+								IDateTimeFormatter $dateTimeFormatter) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -89,6 +104,9 @@ class CheckSetupController extends Controller {
 		$this->checker = $checker;
 		$this->logger = $logger;
 		$this->dispatcher = $dispatcher;
+		$this->db = $db;
+		$this->lockingProvider = $lockingProvider;
+		$this->dateTimeFormatter = $dateTimeFormatter;
 	}
 
 	/**
@@ -424,8 +442,75 @@ Raw output
 		return $indexInfo->getListOfMissingIndexes();
 	}
 
+	/**
+	 * warn if outdated version of a memcache module is used
+	 */
+	protected function getOutdatedCaches(): array {
+		$caches = [
+			'apcu'	=> ['name' => 'APCu', 'version' => '4.0.6'],
+			'redis'	=> ['name' => 'Redis', 'version' => '2.2.5'],
+		];
+		$outdatedCaches = [];
+		foreach ($caches as $php_module => $data) {
+			$isOutdated = extension_loaded($php_module) && version_compare(phpversion($php_module), $data['version'], '<');
+			if ($isOutdated) {
+				$outdatedCaches[] = $data;
+			}
+		}
+
+		return $outdatedCaches;
+	}
+
 	protected function isSqliteUsed() {
 		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
+	}
+
+	protected function isReadOnlyConfig(): bool {
+		return \OC_Helper::isReadOnlyConfigEnabled();
+	}
+
+	protected function hasValidTransactionIsolationLevel(): bool {
+		try {
+			if ($this->db->getDatabasePlatform() instanceof SqlitePlatform) {
+				return true;
+			}
+
+			return $this->db->getTransactionIsolation() === Connection::TRANSACTION_READ_COMMITTED;
+		} catch (DBALException $e) {
+			// ignore
+		}
+
+		return true;
+	}
+
+	protected function hasFileinfoInstalled(): bool {
+		return \OC_Util::fileInfoLoaded();
+	}
+
+	protected function hasWorkingFileLocking(): bool {
+		return !($this->lockingProvider instanceof NoopLockingProvider);
+	}
+
+	protected function getSuggestedOverwriteCliURL(): string {
+		$suggestedOverwriteCliUrl = '';
+		if ($this->config->getSystemValue('overwrite.cli.url', '') === '') {
+			$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
+			if (!$this->config->getSystemValue('config_is_read_only', false)) {
+				// Set the overwrite URL when it was not set yet.
+				$this->config->setSystemValue('overwrite.cli.url', $suggestedOverwriteCliUrl);
+				$suggestedOverwriteCliUrl = '';
+			}
+		}
+		return $suggestedOverwriteCliUrl;
+	}
+
+	protected function getLastCronInfo(): array {
+		$lastCronRun = $this->config->getAppValue('core', 'lastcron', 0);
+		return [
+			'diffInSeconds' => time() - $lastCronRun,
+			'relativeTime' => $this->dateTimeFormatter->formatTimeSpan($lastCronRun),
+			'backgroundJobsUrl' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'server']) . '#backgroundjobs',
+		];
 	}
 
 	/**
@@ -434,6 +519,15 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
+				'isGetenvServerWorking' => !empty(getenv('PATH')),
+				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
+				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
+				'outdatedCaches' => $this->getOutdatedCaches(),
+				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
+				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
+				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
+				'cronInfo' => $this->getLastCronInfo(),
+				'cronErrors' => json_decode($this->config->getAppValue('core', 'cronErrors', ''), true),
 				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
@@ -450,7 +544,7 @@ Raw output
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
-				'hasMissingIndexes' => $this->hasMissingIndexes(),
+				'missingIndexes' => $this->hasMissingIndexes(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 			]
