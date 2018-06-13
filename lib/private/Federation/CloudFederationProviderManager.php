@@ -82,15 +82,13 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/**
 	 * Registers an callback function which must return an cloud federation provider
 	 *
-	 * @param string $shareType which share type does the provider handles
+	 * @param string $resourceType which resource type does the provider handles
 	 * @param string $displayName user facing name of the federated share provider
 	 * @param callable $callback
 	 */
-	public function addCloudFederationProvider($shareType, $displayName, callable $callback) {
-		\OC::$server->getRemoteApiFactory();
-
-		$this->cloudFederationProvider[$shareType] = [
-			'shareType' => $shareType,
+	public function addCloudFederationProvider($resourceType, $displayName, callable $callback) {
+		$this->cloudFederationProvider[$resourceType] = [
+			'resourceType' => $resourceType,
 			'displayName' => $displayName,
 			'callback' => $callback,
 		];
@@ -109,7 +107,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/**
 	 * get a list of all cloudFederationProviders
 	 *
-	 * @return array [id => ['id' => $id, 'displayName' => $displayName, 'callback' => callback]]
+	 * @return array [resourceType => ['resourceType' => $resourceType, 'displayName' => $displayName, 'callback' => callback]]
 	 */
 	public function getAllCloudFederationProviders() {
 		return $this->cloudFederationProvider;
@@ -118,15 +116,15 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/**
 	 * get a specific cloud federation provider
 	 *
-	 * @param string $shareType
+	 * @param string $resourceType
 	 * @return ICloudFederationProvider
 	 * @throws ProviderDoesNotExistsException
 	 */
-	public function getCloudFederationProvider($shareType) {
-		if (isset($this->cloudFederationProvider[$shareType])) {
-			return call_user_func($this->cloudFederationProvider[$shareType]['callback']);
+	public function getCloudFederationProvider($resourceType) {
+		if (isset($this->cloudFederationProvider[$resourceType])) {
+			return call_user_func($this->cloudFederationProvider[$resourceType]['callback']);
 		} else {
-			throw new ProviderDoesNotExistsException($shareType);
+			throw new ProviderDoesNotExistsException($resourceType);
 		}
 	}
 
