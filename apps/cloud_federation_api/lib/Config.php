@@ -21,6 +21,7 @@
 
 
 namespace OCA\CloudFederationAPI;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\GlobalScale\IConfig as IGsConfig;
 use OCP\IConfig;
 
@@ -34,33 +35,23 @@ use OCP\IConfig;
  */
 class Config {
 
-	/** @var IGsConfig  */
-	private $gsConfig;
+	/** @var ICloudFederationProviderManager */
+	private $cloudFederationProviderManager;
 
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IGsConfig $globalScaleConfig, IConfig $config) {
-		$this->gsConfig = $globalScaleConfig;
-		$this->config = $config;
+	public function __construct(ICloudFederationProviderManager $cloudFederationProviderManager) {
+		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
 	}
 
-	public function incomingRequestsEnabled() {
-		if ($this->gsConfig->onlyInternalFederation()) {
-			return false;
-		}
-		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-		return ($result === 'yes');
-	}
-
-	public function outgoingRequestsEnabled() {
-
-		if ($this->gsConfig->onlyInternalFederation()) {
-			return false;
-		}
-		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-		return ($result === 'yes');
-
+	/**
+	 * get a list of supported share types
+	 *
+	 * @param string $resourceType
+	 * @return array
+	 * @throws \OCP\Federation\Exceptions\ProviderDoesNotExistsException
+	 */
+	public function getSupportedShareTypes($resourceType) {
+		$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
+		return $provider->getSupportedShareTypes();
 	}
 
 }

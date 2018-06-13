@@ -77,4 +77,13 @@ interface ICloudFederationProvider {
 	 */
 	public function notificationReceived($notificationType, $providerId, array $notification);
 
+	/**
+	 * get the supported share types, e.g. "user", "group", etc.
+	 *
+	 * @return array
+	 *
+	 * @since 14.0.0
+	 */
+	public function getSupportedShareTypes();
+
 }
