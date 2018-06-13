@@ -32,6 +32,7 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
+use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -238,7 +239,7 @@ trait BasicStructure {
 	 * @param int $statusCode
 	 */
 	public function theOCSStatusCodeShouldBe($statusCode) {
-		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->getOCSResponse($this->response));
+		Assert::assertEquals($statusCode, $this->getOCSResponse($this->response));
 	}
 
 	/**
@@ -246,7 +247,7 @@ trait BasicStructure {
 	 * @param int $statusCode
 	 */
 	public function theHTTPStatusCodeShouldBe($statusCode) {
-		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->response->getStatusCode());
+		Assert::assertEquals($statusCode, $this->response->getStatusCode());
 	}
 
 	/**
@@ -254,7 +255,7 @@ trait BasicStructure {
 	 * @param string $contentType
 	 */
 	public function theContentTypeShouldbe($contentType) {
-		PHPUnit_Framework_Assert::assertEquals($contentType, $this->response->getHeader('Content-Type')[0]);
+		Assert::assertEquals($contentType, $this->response->getHeader('Content-Type')[0]);
 	}
 
 	/**

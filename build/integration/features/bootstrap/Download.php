@@ -23,6 +23,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -63,7 +64,7 @@ trait Download {
 	public function theDownloadedZipFileIsAZip32File() {
 		// assertNotContains is not used to prevent the whole file from being
 		// printed in case of error.
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			strpos($this->downloadedFile, "\x50\x4B\x06\x06") === false,
 			"File contains the zip64 end of central dir signature"
 		);
@@ -75,7 +76,7 @@ trait Download {
 	public function theDownloadedZipFileIsAZip64File() {
 		// assertNotContains is not used to prevent the whole file from being
 		// printed in case of error.
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			strpos($this->downloadedFile, "\x50\x4B\x06\x06") !== false,
 			"File does not contain the zip64 end of central dir signature"
 		);
@@ -95,7 +96,7 @@ trait Download {
 
 		// assertRegExp is not used to prevent the whole file from being printed
 		// in case of error and to be able to get the extra field length.
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 			1, preg_match($fileHeaderRegExp, $this->downloadedFile, $matches),
 			"Local header for file did not appear once in zip file"
 		);
@@ -115,7 +116,7 @@ trait Download {
 
 		// assertRegExp is not used to prevent the whole file from being printed
 		// in case of error.
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 			1, preg_match($fileHeaderAndContentRegExp, $this->downloadedFile),
 			"Local header and contents for file did not appear once in zip file"
 		);
@@ -135,7 +136,7 @@ trait Download {
 
 		// assertRegExp is not used to prevent the whole file from being printed
 		// in case of error.
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 			1, preg_match($folderHeaderRegExp, $this->downloadedFile),
 			"Local header for folder did not appear once in zip file"
 		);
