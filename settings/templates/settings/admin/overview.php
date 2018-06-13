@@ -28,7 +28,7 @@
 
 <div id="security-warning" class="section">
 	<h2><?php p($l->t('Security & setup warnings'));?></h2>
-	<p class="settings-hint"><?php p($l->t('It\'s important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Tricks section and the documentation for more information.'));?></p>
+	<p class="settings-hint"><?php p($l->t('It\'s important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information.'));?></p>
 	<ul>
 		<?php
 		// is php setup properly to query system environment variables like getenv('PATH')
@@ -171,6 +171,10 @@
 	</div>
 	<p id="postsetupchecks-hint" class="hidden">
 		<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer noopener" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
+	</p>
+
+	<p class="extra-top-margin">
+		<?php print_unescaped($l->t('Check the security of your Nextcloud over <a target="_blank" rel="noreferrer noopener" href="%s">our security scan ↗</a>.', ['https://scan.nextcloud.com']));?>
 	</p>
 
 </div>

@@ -198,6 +198,22 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
+					if (data.isSqliteUsed) {
+						messages.push({
+							msg: t(
+								'core',
+								'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.'
+							) + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +
+							t(
+								'core',
+								'To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a>.',
+								{
+									docLink: data.databaseConversionDocumentation,
+								}
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
 				} else {
 					messages.push({
 						msg: t('core', 'Error occurred while checking server setup'),
@@ -305,7 +321,7 @@
 					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'strict-origin' &&
 					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'strict-origin-when-cross-origin')) {
 					messages.push({
-						msg: t('core', 'The "{header}" HTTP header is not set to "{val1}", "{val2}", "{val3}" or "{val4}". This can leak referer information. See the <a target="_blank" rel="noreferrer noopener" href="{link}">W3C Recommendation</a>.',
+						msg: t('core', 'The "{header}" HTTP header is not set to "{val1}", "{val2}", "{val3}" or "{val4}". This can leak referer information. See the <a target="_blank" rel="noreferrer noopener" href="{link}">W3C Recommendation ↗</a>.',
 							{
 								header: 'Referrer-Policy',
 								val1: 'no-referrer',
@@ -337,7 +353,7 @@
 			var messages = [];
 
 			if (xhr.status === 200) {
-				var tipsUrl = OC.generateUrl('settings/admin/tips-tricks');
+				var tipsUrl = oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-security');
 				if(OC.getProtocol() === 'https') {
 					// Extract the value of 'Strict-Transport-Security'
 					var transportSecurityValidity = xhr.getResponseHeader('Strict-Transport-Security');
@@ -353,13 +369,13 @@
 					var minimumSeconds = 15552000;
 					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= (minimumSeconds - 1)) {
 						messages.push({
-							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not set to at least "{seconds}" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href="{docUrl}" rel="noreferrer noopener">security tips</a>.', {'seconds': minimumSeconds, docUrl: tipsUrl}),
+							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not set to at least "{seconds}" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href="{docUrl}" rel="noreferrer noopener">security tips ↗</a>.', {'seconds': minimumSeconds, docUrl: tipsUrl}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 				} else {
 					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips</a>.', {docUrl:  tipsUrl}),
+						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips ↗</a>.', {docUrl:  tipsUrl}),
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}

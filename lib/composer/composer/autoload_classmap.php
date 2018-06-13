@@ -907,7 +907,6 @@ return array(
     'OC\\Settings\\Admin\\Server' => $baseDir . '/lib/private/Settings/Admin/Server.php',
     'OC\\Settings\\Admin\\ServerDevNotice' => $baseDir . '/lib/private/Settings/Admin/ServerDevNotice.php',
     'OC\\Settings\\Admin\\Sharing' => $baseDir . '/lib/private/Settings/Admin/Sharing.php',
-    'OC\\Settings\\Admin\\TipsTricks' => $baseDir . '/lib/private/Settings/Admin/TipsTricks.php',
     'OC\\Settings\\Application' => $baseDir . '/settings/Application.php',
     'OC\\Settings\\BackgroundJobs\\VerifyUserData' => $baseDir . '/settings/BackgroundJobs/VerifyUserData.php',
     'OC\\Settings\\Controller\\AdminSettingsController' => $baseDir . '/settings/Controller/AdminSettingsController.php',
