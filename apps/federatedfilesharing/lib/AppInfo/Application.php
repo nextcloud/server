@@ -65,7 +65,8 @@ class Application extends App {
 					$server->getURLGenerator(),
 					$server->getCloudFederationFactory(),
 					$server->getCloudFederationProviderManager(),
-					$server->getDatabaseConnection()
+					$server->getDatabaseConnection(),
+					$server->getGroupManager()
 				);
 			});
 
@@ -145,7 +146,9 @@ class Application extends App {
 			\OC::$server->getConfig(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getCloudIdManager(),
-			$c->query(IConfig::class)
+			$c->query(IConfig::class),
+			\OC::$server->getCloudFederationProviderManager()
+
 		);
 	}
 

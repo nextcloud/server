@@ -126,12 +126,15 @@ class Manager {
 	 * @param string $password
 	 * @param string $name
 	 * @param string $owner
+	 * @param int $shareType
 	 * @param boolean $accepted
 	 * @param string $user
 	 * @param int $remoteId
+	 * @param int $parent
 	 * @return Mount|null
+	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function addShare($remote, $token, $password, $name, $owner, $accepted=false, $user = null, $remoteId = -1) {
+	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted=false, $user = null, $remoteId = -1, $parent = -1) {
 
 		$user = $user ? $user : $this->uid;
 		$accepted = $accepted ? 1 : 0;
@@ -156,6 +159,7 @@ class Manager {
 				'mountpoint_hash'	=> $hash,
 				'accepted'		=> $accepted,
 				'remote_id'		=> $remoteId,
+				'share_type'    => $shareType,
 			];
 
 			$i = 1;
@@ -174,10 +178,10 @@ class Manager {
 
 		$query = $this->connection->prepare('
 				INSERT INTO `*PREFIX*share_external`
-					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`, `parent`, `share_type`)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 			');
-		$query->execute(array($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId));
+		$query->execute(array($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType));
 
 		$options = array(
 			'remote'	=> $remote,
@@ -223,13 +227,17 @@ class Manager {
 			$mountPoint = Filesystem::normalizePath($mountPoint);
 			$hash = md5($mountPoint);
 
-			$acceptShare = $this->connection->prepare('
+			if($share['share_type'] === \OCP\Share::SHARE_TYPE_USER) {
+				$acceptShare = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?,
 					`mountpoint` = ?,
 					`mountpoint_hash` = ?
 				WHERE `id` = ? AND `user` = ?');
-			$updated = $acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
+				$updated = $acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
+			} else {
+				// TODO group share, add additional row for the user who accepted it
+			}
 			if ($updated === true) {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
 				\OC_Hook::emit(Share::class, 'federated_share_added', ['server' => $share['remote']]);
@@ -537,10 +545,17 @@ class Manager {
 	 * @return array list of open server-to-server shares
 	 */
 	private function getShares($accepted) {
+		$user = $this->userManager->get($this->uid);
+		$groups = $this->groupManager->getUserGroups($user);
+		$userGroups = [];
+		foreach ($groups as $group) {
+			$userGroups[] = $group->getGID();
+		}
+
 		$query = 'SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
 		          FROM `*PREFIX*share_external` 
-				  WHERE `user` = ?';
-		$parameters = [$this->uid];
+				  WHERE `user` = ? OR `user` IN (?)';
+		$parameters = [$this->uid, implode(',',$userGroups)];
 		if (!is_null($accepted)) {
 			$query .= ' AND `accepted` = ?';
 			$parameters[] = (int) $accepted;

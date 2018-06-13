@@ -135,7 +135,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getConfig(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getCloudIdManager(),
-				$this->serverContainer->getGlobalScaleConfig()
+				$this->serverContainer->getGlobalScaleConfig(),
+				$this->serverContainer->getCloudFederationProviderManager()
 			);
 		}
 
@@ -250,7 +251,7 @@ class ProviderFactory implements IProviderFactory {
 			$shareType === \OCP\Share::SHARE_TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE || \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
 			$provider = $this->federatedShareProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
