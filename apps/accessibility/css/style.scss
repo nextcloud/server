@@ -1,0 +1,39 @@
+.preview-list {
+	display: flex;
+}
+.preview {
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	border: 1px solid var(--color-border);
+	padding: 10px;
+	border-radius: var(--border-radius);
+	transition: all 200ms ease-in-out;
+	filter: drop-shadow(0 1px 2px var(--color-box-shadow));
+	background-color: var(--color-main-background);
+	opacity: 0.9;
+	&:not(:last-child) {
+		margin-right: 20px;
+	}
+	&,
+	* {
+		cursor: pointer;
+		user-select: none;
+	}
+	&:hover,
+	&.selected {
+		background-color: var(--color-background-dark);
+		filter: drop-shadow(0 1px 4px var(--color-box-shadow));
+		opacity: 1;
+	}
+	.preview-image {
+		width: 100%;
+		height: 150px;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+	p {
+		text-align: justify;
+	}
+}

@@ -1,0 +1,36 @@
+{
+	"name": "accessibility",
+	"description": "Provides multiple accessibilities options to ease your use of nextcloud",
+	"version": "1.0.0",
+	"author": "John Molakvoæ <skjnldsv@protonmail.com>",
+	"license": "agpl",
+	"private": true,
+	"scripts": {
+		"dev": "webpack --config webpack.dev.js",
+		"watch": "webpack --progress --watch --config webpack.dev.js",
+		"build": "webpack --progress --hide-modules --config webpack.prod.js"
+	},
+	"dependencies": {
+		"@babel/core": "^7.0.0-beta.51",
+		"@babel/preset-env": "^7.0.0-beta.51",
+		"vue": "^2.5.16"
+	},
+	"browserslist": [
+		"last 2 versions",
+		"not ie <= 11"
+	],
+	"devDependencies": {
+		"babel-core": "^6.26.3",
+		"babel-loader": "^8.0.0-beta.3",
+		"babel-preset-env": "^1.7.0",
+		"css-loader": "^0.28.11",
+		"file-loader": "^1.1.11",
+		"node-sass": "^4.9.0",
+		"sass-loader": "^7.0.3",
+		"vue-loader": "^15.2.4",
+		"vue-template-compiler": "^2.5.16",
+		"webpack": "^4.12.0",
+		"webpack-cli": "^3.0.4",
+		"webpack-merge": "^4.1.2"
+	}
+}

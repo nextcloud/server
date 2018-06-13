@@ -12,6 +12,7 @@
 
 # ignore all apps except core ones
 /apps*/*
+!/apps/accessibility
 !/apps/comments
 !/apps/dav
 !/apps/files

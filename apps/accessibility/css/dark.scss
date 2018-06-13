@@ -1,0 +1,14 @@
+// Revert lighten/darken
+@function nc-darken($color, $value) {
+	@return lighten($color, $value);
+}
+
+@function nc-lighten($color, $value) {
+	@return darken($color, $value);
+}
+
+// SCSS variables
+$color-main-text: #d8d8d8;
+$color-main-background: #181818;
+$color-loading-light: #777;
+$color-loading-dark: #ccc;
