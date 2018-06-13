@@ -258,6 +258,9 @@
             // Callback for drop events of the dropZone(s):
             // drop: function (e, data) {}, // .bind('fileuploaddrop', func);
 
+            // Callback for drop events of the dropZone(s) when there are no files:
+            // dropnofiles: function (e) {}, // .bind('fileuploaddropnofiles', func);
+
             // Callback for dragover events of the dropZone(s):
             // dragover: function (e) {}, // .bind('fileuploaddragover', func);
 
@@ -1275,6 +1278,15 @@
                         that._onAdd(e, data);
                     }
                 });
+            } else {
+                // "dropnofiles" is triggered to allow proper cleanup of the
+                // drag and drop operation, as some browsers trigger "drop"
+                // events that have no files even if the "DataTransfer.types" of
+                // the "dragover" event included a "Files" item.
+                this._trigger(
+                    'dropnofiles',
+                    $.Event('drop', {delegatedEvent: e})
+                );
             }
         },
 
