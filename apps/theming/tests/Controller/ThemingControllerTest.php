@@ -86,18 +86,21 @@ class ThemingControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(L10N::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->util = new Util($this->config, $this->appManager, $this->appData);
-		$this->timeFactory->expects($this->any())
-			->method('getTime')
-			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
 		$this->scssCacher = $this->createMock(SCSSCacher::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
+
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->timeFactory->expects($this->any())
+			->method('getTime')
+			->willReturn(123);
+
+		$this->overwriteService(ITimeFactory::class, $this->timeFactory);
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -105,7 +108,6 @@ class ThemingControllerTest extends TestCase {
 			$this->config,
 			$this->themingDefaults,
 			$this->util,
-			$this->timeFactory,
 			$this->l10n,
 			$this->tempManager,
 			$this->appData,

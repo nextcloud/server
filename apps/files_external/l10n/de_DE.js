@@ -70,6 +70,8 @@ OC.L10N.register(
     "User entered, store in database" : "Benutzer eingetragen, in Datenbank gespeichert",
     "RSA public key" : "RSA öffentlicher Schlüssel",
     "Public key" : "Öffentlicher Schlüssel",
+    "RSA private key" : "RSA privater Schlüssel",
+    "Private key" : "Privater Schlüssel",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Host-Name",

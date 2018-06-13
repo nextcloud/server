@@ -1,3 +1,25 @@
+<!--
+  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @license GNU AGPL version 3 or any later version
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+  -->
+  
 <template>
 	<div id="app-content" class="user-list-grid" v-on:scroll.passive="onScroll">
 		<div class="row" id="grid-header" :class="{'sticky': scrolled && !showConfig.showNewUserForm}">
@@ -179,7 +201,7 @@ export default {
 				}
 				return disabledUsers;
 			}
-			if (!settings.isAdmin) {
+			if (!this.settings.isAdmin) {
 				// We don't want subadmins to edit themselves
 				return this.users.filter(user => user.enabled !== false && user.id !== oc_current_user);
 			}
@@ -249,7 +271,7 @@ export default {
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
 			let validQuota = OC.Util.computerFileSize(quota);
-			if (validQuota !== null && validQuota > 0) {
+			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota));
 				return this.newUser.quota = {id: quota, label: quota};

@@ -14,6 +14,20 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
+  vue-build-settings:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./settings/js/settings-vue.js
+    when:
+      matrix:
+        TESTS: vue-builds
+  vue-build-updatenotification:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/updatenotification/js/merged.js
+    when:
+      matrix:
+        TESTS: vue-builds
   checkers:
     image: nextcloudci/php7.0:php7.0-19
     commands:
@@ -601,6 +615,13 @@ pipeline:
       when:
         matrix:
           TESTS-ACCEPTANCE: users
+  acceptance-apps:
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
+      commands:
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-apps --selenium-server selenium:4444 allow-git-repository-modifications features/apps.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: apps
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-19
     commands:
@@ -662,6 +683,7 @@ pipeline:
 matrix:
   include:
     - TESTS: checkers
+    - TESTS: vue-builds
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
     - TESTS: db-codecov
@@ -770,6 +792,8 @@ matrix:
       TESTS-ACCEPTANCE: login
     - TESTS: acceptance
       TESTS-ACCEPTANCE: users
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: apps
     - TESTS: jsunit
     - TESTS: syntax-php7.0
     - TESTS: syntax-php7.1

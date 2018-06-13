@@ -174,9 +174,12 @@ abstract class AUserData extends OCSController {
 			if ($user === null) {
 				throw new OCSException('User does not exist', 101);
 			}
-			$quota = OC_Helper::computerFileSize($user->getQuota());
+			$quota = $user->getQuota();
+			if ($quota !== 'none') {
+				$quota = OC_Helper::computerFileSize($quota);
+			}
 			$data = [
-				'quota' => $quota ? $quota : 'none',
+				'quota' => $quota !== false ? $quota : 'none',
 				'used' => 0
 			];
 		}

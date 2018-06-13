@@ -19,13 +19,22 @@
  */
 
 /* global define, $ */
+import Vue from 'vue';
+import Root from './components/root'
 
-define(function(require) {
-	'use strict';
-
-	var App = require('./app');
-
-	$(function() {
-		App.initialise();
-	});
+Vue.mixin({
+	methods: {
+		t: function(app, text, vars, count, options) {
+			return OC.L10N.translate(app, text, vars, count, options);
+		},
+		n: function(app, textSingular, textPlural, count, vars, options) {
+			return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options);
+		}
+	}
 });
+
+const vm = new Vue({
+	render: h => h(Root)
+}).$mount('#updatenotification');
+
+

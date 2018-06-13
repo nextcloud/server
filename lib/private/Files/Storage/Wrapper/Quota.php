@@ -202,7 +202,8 @@ class Quota extends Wrapper {
 	}
 
 	public function mkdir($path) {
-		if ($this->quota === 0.0) {
+		$free = $this->free_space($path);
+		if ($free === 0.0) {
 			return false;
 		}
 

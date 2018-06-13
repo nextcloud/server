@@ -20,6 +20,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -79,7 +80,7 @@ class RemoteContext implements Context {
 			$version = \OC::$server->getConfig()->getSystemValue('version', '0.0.0.0');
 		}
 
-		PHPUnit_Framework_Assert::assertEquals($version, $this->remoteInstance->getVersion());
+		Assert::assertEquals($version, $this->remoteInstance->getVersion());
 	}
 
 	/**
@@ -87,7 +88,7 @@ class RemoteContext implements Context {
 	 * @param string $protocol
 	 */
 	public function theRemoteProtocolShouldBe($protocol) {
-		PHPUnit_Framework_Assert::assertEquals($protocol, $this->remoteInstance->getProtocol());
+		Assert::assertEquals($protocol, $this->remoteInstance->getProtocol());
 	}
 
 	/**
@@ -117,7 +118,7 @@ class RemoteContext implements Context {
 	 * @param string $user
 	 */
 	public function remoteUserId($user) {
-		PHPUnit_Framework_Assert::assertEquals($user, $this->userResult->getUserId());
+		Assert::assertEquals($user, $this->userResult->getUserId());
 	}
 
 	/**
@@ -125,7 +126,7 @@ class RemoteContext implements Context {
 	 * @param string $class
 	 */
 	public function lastError($class) {
-		PHPUnit_Framework_Assert::assertEquals($class, get_class($this->lastException));
+		Assert::assertEquals($class, get_class($this->lastException));
 	}
 
 	/**
@@ -142,6 +143,6 @@ class RemoteContext implements Context {
 				$current = isset($current[$part]) ? $current[$part] : null;
 			}
 		}
-		PHPUnit_Framework_Assert::assertEquals($value, $current);
+		Assert::assertEquals($value, $current);
 	}
 }

@@ -70,6 +70,8 @@ OC.L10N.register(
     "User entered, store in database" : "Kullanıcı yazdı, veritabanında sakla",
     "RSA public key" : "Herkese açık RSA anahtarı",
     "Public key" : "Herkese açık anahtar",
+    "RSA private key" : "Özel RSA anahtarı",
+    "Private key" : "Özel anahtar",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Buket",
     "Hostname" : "Sunucu adı",

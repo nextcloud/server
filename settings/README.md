@@ -16,4 +16,7 @@ make watch-js
 
 # build for production with minification
 make build-js-production
+
+# clean output files
+make clean
 ```

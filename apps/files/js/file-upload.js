@@ -1041,6 +1041,8 @@ OC.Uploader.prototype = _.extend({
 				//remaining time
 				var lastUpdate, lastSize, bufferSize, buffer, bufferIndex, bufferIndex2, bufferTotal;
 
+				var dragging = false;
+
 				// add progress handlers
 				fileupload.on('fileuploadadd', function(e, data) {
 					self.log('progress handle fileuploadadd', e, data);
@@ -1131,23 +1133,8 @@ OC.Uploader.prototype = _.extend({
 					self.log('progress handle fileuploadfail', e, data);
 					self.trigger('fail', e, data);
 				});
-				var disableDropState = function() {
-					$('#app-content').removeClass('file-drag');
-					$('.dropping-to-dir').removeClass('dropping-to-dir');
-					$('.dir-drop').removeClass('dir-drop');
-					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
-				};
-				var disableClassOnFirefox = _.debounce(function() {
-					disableDropState();
-				}, 100);
 				fileupload.on('fileuploaddragover', function(e){
 					$('#app-content').addClass('file-drag');
-					// dropping a folder in firefox doesn't cause a drop event
-					// this is simulated by simply invoke disabling all classes
-					// once no dragover event isn't noticed anymore
-					if (/Firefox/i.test(navigator.userAgent)) {
-						disableClassOnFirefox();
-					}
 					$('#emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
 
 					var filerow = $(e.delegatedEvent.target).closest('tr');
@@ -1163,12 +1150,33 @@ OC.Uploader.prototype = _.extend({
 						filerow.addClass('dropping-to-dir');
 						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
 					}
+
+					dragging = true;
 				});
-				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
+
+				var disableDropState = function() {
 					$('#app-content').removeClass('file-drag');
 					$('.dropping-to-dir').removeClass('dropping-to-dir');
 					$('.dir-drop').removeClass('dir-drop');
 					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
+
+					dragging = false;
+				};
+
+				fileupload.on('fileuploaddragleave fileuploaddrop', disableDropState);
+
+				// In some browsers the "drop" event can be triggered with no
+				// files even if the "dragover" event seemed to suggest that a
+				// file was being dragged (and thus caused "fileuploaddragover"
+				// to be triggered).
+				fileupload.on('fileuploaddropnofiles', function() {
+					if (!dragging) {
+						return;
+					}
+
+					disableDropState();
+
+					OC.Notification.show(t('files', 'Uploading that item is not supported'), {type: 'error'});
 				});
 
 				fileupload.on('fileuploadchunksend', function(e, data) {

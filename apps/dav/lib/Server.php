@@ -138,7 +138,7 @@ class Server {
 		$this->server->addPlugin($acl);
 
 		// calendar plugins
-		if ($this->requestIsForSubtree(['calendars', 'principals'])) {
+		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());

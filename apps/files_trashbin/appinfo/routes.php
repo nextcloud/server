@@ -29,7 +29,7 @@ $application->registerRoutes($this, [
 	'routes' => [
 		[
 			'name' => 'Preview#getPreview',
-			'url' => '/ajax/preview.php',
+			'url' => '/preview',
 			'verb' => 'GET',
 		],
 	],

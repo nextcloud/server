@@ -181,10 +181,10 @@ select {
 	width: auto;
 	min-width: 25px;
 	padding: 5px;
-	background-color: rgba(240,240,240,.9);
+	background-color: white;
 	font-weight: 600;
 	color: #555;
-	border: 1px solid rgba(240,240,240,.9);
+	border: none;
 	cursor: pointer;
 }
 input[type='text'],

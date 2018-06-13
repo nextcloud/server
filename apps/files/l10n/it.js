@@ -19,6 +19,7 @@ OC.L10N.register(
     "Uploading …" : "Caricamento in corso...",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} di {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "Il caricamento di tale elemento non è supportato",
     "Target folder does not exist any more" : "La cartella di destinazione non esiste più",
     "Error when assembling chunks, status code {status}" : "Errore durante l'assemblaggio dei blocchi, codice di stato {status}",
     "Actions" : "Azioni",

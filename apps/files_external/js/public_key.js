@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 	OCA.External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme, onCompletion) {
-		if (scheme === 'publickey') {
+		if (scheme === 'publickey' && authMechanism === 'publickey::rsa') {
 			var config = $tr.find('.configuration');
 			if ($(config).find('[name="public_key_generate"]').length === 0) {
 				setupTableRow($tr, config);

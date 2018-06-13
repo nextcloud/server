@@ -115,7 +115,7 @@ class ManagerTest extends TestCase {
 
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$this->url->expects($this->exactly(7))
+		$this->url->expects($this->exactly(6))
 			->method('imagePath')
 			->willReturnMap([
 				['settings', 'admin.svg', '0'],
@@ -133,7 +133,6 @@ class ManagerTest extends TestCase {
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
 			98 => [new Section('additional', 'Additional settings', 0, '1')],
-			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '4')],
 		], $this->manager->getAdminSections());
 	}
 
@@ -167,7 +166,7 @@ class ManagerTest extends TestCase {
 			->method('t')
 			->will($this->returnArgument(0));
 
-		$this->url->expects($this->exactly(7))
+		$this->url->expects($this->exactly(6))
 			->method('imagePath')
 			->willReturnMap([
 				['settings', 'admin.svg', '0'],
@@ -184,7 +183,6 @@ class ManagerTest extends TestCase {
 			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
 			98 => [new Section('additional', 'Additional settings', 0, '1')],
-			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '4')],
 		], $this->manager->getAdminSections());
 	}
 

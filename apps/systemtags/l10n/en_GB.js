@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (invisible)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System tags</strong> for a file have been modified",
     "Collaborative tags" : "Collaborative tags",
+    "Collaborative tagging functionality which shares tags among users." : "Collaborative tagging functionality which shares tags among users.",
+    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)",
     "Create and edit collaborative tags. These tags affect all users." : "Create and edit collaborative tags. These tags affect all users.",
     "Select tag …" : "Select tag …",
     "Name" : "Name",

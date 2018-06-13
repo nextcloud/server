@@ -150,12 +150,21 @@ class File extends Node implements IFile {
 			$this->emitPreHooks($exists);
 		}
 
+		$view = \OC\Files\Filesystem::getView();
+
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
 		list($partStorage, $internalPartPath) = $this->fileView->resolvePath($partFilePath);
 		/** @var \OC\Files\Storage\Storage $storage */
 		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
 		try {
+			if (!$needsPartFile) {
+				if ($view && !$this->emitPreHooks($exists)) {
+					throw new Exception('Could not write to final file, canceled by hook');
+				}
+				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
+			}
+
 			$target = $partStorage->fopen($internalPartPath, 'wb');
 			if ($target === false) {
 				\OC::$server->getLogger()->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
@@ -191,26 +200,25 @@ class File extends Node implements IFile {
 		}
 
 		try {
-			$view = \OC\Files\Filesystem::getView();
-			$run = ($view && $needsPartFile) ? $this->emitPreHooks($exists) : true;
-
-			try {
-				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
-			} catch (LockedException $e) {
-				if ($needsPartFile) {
-					$partStorage->unlink($internalPartPath);
-				}
-				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-			}
-
 			if ($needsPartFile) {
+				if ($view && !$this->emitPreHooks($exists)) {
+					$partStorage->unlink($internalPartPath);
+					throw new Exception('Could not rename part file to final file, canceled by hook');
+				}
+				try {
+					$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
+				} catch (LockedException $e) {
+					if ($needsPartFile) {
+						$partStorage->unlink($internalPartPath);
+					}
+					throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+				}
+
 				// rename to correct path
 				try {
-					if ($run) {
-						$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
-						$fileExists = $storage->file_exists($internalPath);
-					}
-					if (!$run || $renameOkay === false || $fileExists === false) {
+					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
+					$fileExists = $storage->file_exists($internalPath);
+					if ($renameOkay === false || $fileExists === false) {
 						\OC::$server->getLogger()->error('renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', ['app' => 'webdav']);
 						throw new Exception('Could not rename part file to final file');
 					}

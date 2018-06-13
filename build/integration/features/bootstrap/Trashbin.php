@@ -22,6 +22,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -71,7 +72,7 @@ trait Trashbin {
 
 		$firstEntry = $this->findFirstTrashedEntry($user, trim($sections[0], '/'));
 
-		PHPUnit_Framework_Assert::assertNotNull($firstEntry);
+		Assert::assertNotNull($firstEntry);
 
 		// query was on the main element ?
 		if (count($sections) === 1) {
@@ -97,7 +98,7 @@ trait Trashbin {
 			}
 		}
 
-		PHPUnit_Framework_Assert::assertTrue($found);
+		Assert::assertTrue($found);
 	}
 
 	/**

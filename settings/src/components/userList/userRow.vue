@@ -1,3 +1,25 @@
+<!--
+  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @license GNU AGPL version 3 or any later version
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+  -->
+
 <template>
 	<!-- Obfuscated user: Logged in user does not have permissions to see all of the data -->
 	<div class="row" v-if="Object.keys(user).length ===1">
@@ -175,12 +197,12 @@ export default {
 		},
 		// Mapping saved values to objects
 		userQuota() {
-			if (this.user.quota.quota > 0) {
+			if (this.user.quota.quota >= 0) {
 				// if value is valid, let's map the quotaOptions or return custom quota
 				let humanQuota = OC.Util.humanFileSize(this.user.quota.quota);
 				let userQuota = this.quotaOptions.find(quota => quota.id === humanQuota);
 				return userQuota ? userQuota : {id:humanQuota, label:humanQuota};
-			} else if (this.user.quota.quota === 0 || this.user.quota.quota === 'default') {
+			} else if (this.user.quota.quota === 'default') {
 				// default quota is replaced by the proper value on load
 				return this.quotaOptions[0];
 			}
@@ -437,9 +459,7 @@ export default {
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
 			let validQuota = OC.Util.computerFileSize(quota);
-			if (validQuota === 0) {
-				return this.setUserQuota('none');
-			} else if (validQuota !== null) {
+			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)));
 			}
