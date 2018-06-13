@@ -92,6 +92,85 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
+					if (!data.isGetenvServerWorking) {
+						messages.push({
+							msg: t('core', 'PHP does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.') + ' ' +
+								t(
+									'core',
+									'Please check the <a target="_blank" rel="noreferrer noopener" href="{docLink}">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.',
+									{
+										docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm')
+									}
+								),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
+					}
+					if (data.isReadOnlyConfig) {
+						messages.push({
+							msg: t('core', 'The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
+					if (!data.hasValidTransactionIsolationLevel) {
+						messages.push({
+							msg: t('core', 'Your database does not run with "READ COMMITTED" transaction isolation level. This can cause problems when multiple actions are executed in parallel.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+						});
+					}
+					if(!data.hasFileinfoInstalled) {
+						messages.push({
+							msg: t('core', 'The PHP module "fileinfo" is missing. It is strongly recommended to enable this module to get the best results with MIME type detection.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
+					}
+					if (data.outdatedCaches.length > 0) {
+						data.outdatedCaches.forEach(function(element){
+							messages.push({
+								msg: t(
+									'core',
+									'{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version.',
+									element
+								),
+								type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+							})
+						});
+					}
+					if(!data.hasWorkingFileLocking) {
+						messages.push({
+							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a> for more information.', {docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking')}),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
+					}
+					if (data.suggestedOverwriteCliURL !== '') {
+						messages.push({
+							msg: t('core', 'If your installation is not installed at the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwrite.cli.url" option in your config.php file to the webroot path of your installation (suggestion: "{suggestedOverwriteCliURL}")', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
+					}
+					if (data.cronErrors.length > 0) {
+						var listOfCronErrors = "";
+						data.cronErrors.forEach(function(element){
+							listOfCronErrors += "<li>";
+							listOfCronErrors += element.error;
+							listOfCronErrors += ' ';
+							listOfCronErrors += element.hint;
+							listOfCronErrors += "</li>";
+						});
+						messages.push({
+							msg: t(
+								'core',
+								'It was not possible to execute the cron job via CLI. The following technical errors have appeared:'
+							) + "<ul>" + listOfCronErrors + "</ul>",
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+						})
+					}
+					if (data.cronInfo.diffInSeconds > 3600) {
+						messages.push({
+							msg: t('core', 'Last background job execution ran {relativeTime}. Something seems wrong.', {relativeTime: data.cronInfo.relativeTime}) +
+								' <a href="' + data.cronInfo.backgroundJobsUrl + '">' + t('core', 'Check the background job settings') + '</a>',
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+						});
+					}
 					if (!data.serverHasInternetConnection) {
 						messages.push({
 							msg: t('core', 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.'),
@@ -183,9 +262,9 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
-					if (data.hasMissingIndexes.length > 0) {
+					if (data.missingIndexes.length > 0) {
 						var listOfMissingIndexes = "";
-						data.hasMissingIndexes.forEach(function(element){
+						data.missingIndexes.forEach(function(element){
 							listOfMissingIndexes += "<li>";
 							listOfMissingIndexes += t('core', 'Missing index "{indexName}" in table "{tableName}".', element);
 							listOfMissingIndexes += "</li>";

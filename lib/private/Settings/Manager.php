@@ -259,7 +259,7 @@ class Manager implements IManager {
 
 		if ($section === 'overview') {
 			/** @var ISettings $form */
-			$form = new Admin\Overview($this->dbc, $this->request, $this->config, $this->lockingProvider, $this->l);
+			$form = new Admin\Overview($this->config);
 			$forms[$form->getPriority()] = [$form];
 			$form = new Admin\ServerDevNotice();
 			$forms[$form->getPriority()] = [$form];
