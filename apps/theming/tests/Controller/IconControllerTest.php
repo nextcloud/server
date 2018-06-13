@@ -64,19 +64,21 @@ class IconControllerTest extends TestCase {
 	public function setUp() {
 		$this->request = $this->createMock(IRequest::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->iconBuilder = $this->createMock(IconBuilder::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
+
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
+
+		$this->overwriteService(ITimeFactory::class, $this->timeFactory);
 
 		$this->iconController = new IconController(
 			'theming',
 			$this->request,
 			$this->themingDefaults,
-			$this->timeFactory,
 			$this->iconBuilder,
 			$this->imageManager,
 			$this->fileAccessHelper

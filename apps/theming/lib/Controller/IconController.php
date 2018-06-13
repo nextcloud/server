@@ -34,15 +34,12 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 class IconController extends Controller {
 	/** @var ThemingDefaults */
 	private $themingDefaults;
-	/** @var ITimeFactory */
-	private $timeFactory;
 	/** @var IconBuilder */
 	private $iconBuilder;
 	/** @var ImageManager */
@@ -56,7 +53,6 @@ class IconController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param ThemingDefaults $themingDefaults
-	 * @param ITimeFactory $timeFactory
 	 * @param IconBuilder $iconBuilder
 	 * @param ImageManager $imageManager
 	 * @param FileAccessHelper $fileAccessHelper
@@ -65,7 +61,6 @@ class IconController extends Controller {
 		$appName,
 		IRequest $request,
 		ThemingDefaults $themingDefaults,
-		ITimeFactory $timeFactory,
 		IconBuilder $iconBuilder,
 		ImageManager $imageManager,
 		FileAccessHelper $fileAccessHelper
@@ -73,7 +68,6 @@ class IconController extends Controller {
 		parent::__construct($appName, $request);
 
 		$this->themingDefaults = $themingDefaults;
-		$this->timeFactory = $timeFactory;
 		$this->iconBuilder = $iconBuilder;
 		$this->imageManager = $imageManager;
 		$this->fileAccessHelper = $fileAccessHelper;
