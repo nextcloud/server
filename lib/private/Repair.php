@@ -30,6 +30,7 @@
 
 namespace OC;
 
+use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\Collation;
@@ -135,6 +136,7 @@ class Repair implements IOutput{
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
+			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 		];
 	}
 
