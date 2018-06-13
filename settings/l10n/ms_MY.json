@@ -1,5 +1,4 @@
 { "translations": {
-    "Groups" : "Kumpulan",
     "Enable" : "Aktif",
     "Email" : "Email",
     "Delete" : "Padam",
@@ -18,6 +17,7 @@
     "Authentication error" : "Ralat pengesahan",
     "Email saved" : "Emel disimpan",
     "Disable" : "Nyahaktif",
+    "Groups" : "Kumpulan",
     "never" : "jangan",
     "Create" : "Buat",
     "Other" : "Lain",

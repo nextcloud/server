@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Groups" : "Grwpiau",
     "Email" : "E-bost",
     "Delete" : "Dileu",
     "None" : "Dim",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "Username" : "Enw defnyddiwr",
     "Authentication error" : "Gwall dilysu",
     "Email sent" : "Anfonwyd yr e-bost",
+    "Groups" : "Grwpiau",
     "undo" : "dadwneud",
     "never" : "byth",
     "Other" : "Arall"

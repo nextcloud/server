@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Groups" : "群組",
     "Enable" : "啟用",
     "Email" : "電郵",
     "Unlimited" : "無限",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "All" : "所有",
     "Disable" : "停用",
     "Updated" : "已更新",
+    "Groups" : "群組",
     "undo" : "復原",
     "Create" : "新增",
     "Other" : "其他",

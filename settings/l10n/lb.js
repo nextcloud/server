@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Groups" : "Gruppen",
     "Enable" : "Aschalten",
     "The app will be downloaded from the app store" : "D'App gett aus dem App Store erofgelueden",
     "Email" : "Email",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "Email sent" : "Email geschéckt",
     "All" : "All",
     "Disable" : "Ofschalten",
+    "Groups" : "Gruppen",
     "undo" : "réckgängeg man",
     "never" : "ni",
     "E-Mail" : "E-Mail",

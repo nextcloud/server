@@ -19,6 +19,7 @@ OC.L10N.register(
     "Uploading …" : "Enviando...",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "O envio deste item não é suportado",
     "Target folder does not exist any more" : "Pasta destino não existe mais",
     "Error when assembling chunks, status code {status}" : "Erro ao montar partes, código de status {status}",
     "Actions" : "Ações",

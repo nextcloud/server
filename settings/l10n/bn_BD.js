@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Strong password" : "শক্তিশালী কুটশব্দ",
-    "Groups" : "গোষ্ঠীসমূহ",
     "Enable" : "সক্রিয় ",
     "Email" : "ইমেইল",
     "Unlimited" : "অসীম",
@@ -49,6 +47,8 @@ OC.L10N.register(
     "Disable" : "নিষ্ক্রিয়",
     "Updated" : "নবায়নকৃত",
     "Valid until {date}" : "বৈধতা বলবৎ আছে {তারিখ} অবধি ",
+    "Strong password" : "শক্তিশালী কুটশব্দ",
+    "Groups" : "গোষ্ঠীসমূহ",
     "undo" : "ক্রিয়া প্রত্যাহার",
     "never" : "কখনোই নয়",
     "Create" : "তৈরী কর",

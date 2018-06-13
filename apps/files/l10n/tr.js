@@ -19,6 +19,7 @@ OC.L10N.register(
     "Uploading …" : "Yükleniyor…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "Bu ögenin yüklenmesi desteklenmiyor",
     "Target folder does not exist any more" : "Hedef klasör artık yok",
     "Error when assembling chunks, status code {status}" : "Kümeler oluşturulurken sorun çıktı, durum kodu {status}",
     "Actions" : "İşlemler",

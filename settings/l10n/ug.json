@@ -1,5 +1,4 @@
 { "translations": {
-    "Groups" : "گۇرۇپپا",
     "Enable" : "قوزغات",
     "Email" : "تورخەت",
     "Unlimited" : "چەكسىز",
@@ -27,6 +26,7 @@
     "All" : "ھەممىسى",
     "Disable" : "چەكلە",
     "Updated" : "يېڭىلاندى",
+    "Groups" : "گۇرۇپپا",
     "undo" : "يېنىۋال",
     "never" : "ھەرگىز",
     "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",
