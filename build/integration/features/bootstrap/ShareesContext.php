@@ -23,6 +23,7 @@
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -64,10 +65,10 @@ class ShareesContext implements Context, SnippetAcceptingContext {
 		if ($isEmpty !== 'is empty') {
 			$sharees = $shareesList->getRows();
 			$respondedArray = $this->getArrayOfShareesResponded($this->response, $shareeType);
-			PHPUnit_Framework_Assert::assertEquals($sharees, $respondedArray);
+			Assert::assertEquals($sharees, $respondedArray);
 		} else {
 			$respondedArray = $this->getArrayOfShareesResponded($this->response, $shareeType);
-			PHPUnit_Framework_Assert::assertEmpty($respondedArray);
+			Assert::assertEmpty($respondedArray);
 		}
 	}
 
