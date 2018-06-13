@@ -4,6 +4,7 @@ OC.L10N.register(
     "Please select a file." : "Bonvolu elekti dosieron.",
     "File is too big" : "Dosiero tro grandas.",
     "The selected file is not an image." : "La elektita dosiero ne estas bildo",
+    "The selected file cannot be read." : "La elektita dosiero ne eblas legi",
     "No image or file provided" : "Neniu bildo aŭ dosiero donis",
     "Unknown filetype" : "Ne konatas dosiertipo",
     "Invalid image" : "Ne validas bildo",

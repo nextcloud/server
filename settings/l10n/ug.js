@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Groups" : "گۇرۇپپا",
     "Enable" : "قوزغات",
     "Email" : "تورخەت",
     "Unlimited" : "چەكسىز",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "All" : "ھەممىسى",
     "Disable" : "چەكلە",
     "Updated" : "يېڭىلاندى",
+    "Groups" : "گۇرۇپپا",
     "undo" : "يېنىۋال",
     "never" : "ھەرگىز",
     "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",
