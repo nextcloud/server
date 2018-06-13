@@ -415,11 +415,7 @@ Raw output
 		return function_exists('imagettfbbox') && function_exists('imagettftext');
 	}
 
-	/**
-	 * Check if the required FreeType functions are present
-	 * @return bool
-	 */
-	protected function hasMissingIndexes() {
+	protected function hasMissingIndexes(): array {
 		$indexInfo = new MissingIndexInformation();
 		// Dispatch event so apps can also hint for pending index updates if needed
 		$event = new GenericEvent($indexInfo);
