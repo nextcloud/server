@@ -68,6 +68,8 @@
     "User entered, store in database" : "Usuario registrado, almacenar en la base de datos",
     "RSA public key" : "Clave pública RSA",
     "Public key" : "Clave pública",
+    "RSA private key" : "Clave privada RSA",
+    "Private key" : "Clave privada",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Depósito",
     "Hostname" : "Nombre de equipo",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Groups" : "Nhóm",
     "Enable" : "Bật",
     "Email" : "Email",
     "Unlimited" : "Không giới hạn",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "All" : "Tất cả",
     "Disable" : "Tắt",
     "Updated" : "Đã cập nhật",
+    "Groups" : "Nhóm",
     "undo" : "lùi lại",
     "never" : "không thay đổi",
     "Create" : "Tạo",

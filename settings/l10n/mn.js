@@ -1,8 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Unable to change password" : "Нууц үг солих боломжгүй",
-    "Groups" : "Бүлгүүд",
     "Visit website" : "Цахим хуудсаар зочлох",
     "User documentation" : "Хэрэглэгчийн баримт бичиг",
     "Settings" : "Тохиргоо",
@@ -56,6 +54,7 @@ OC.L10N.register(
     "Enabled apps" : "Идэвхижүүлсэн аппликэйшнүүд",
     "Wrong password" : "Нууц үг буруу байна",
     "Saved" : "Хадгалагдсан",
+    "Unable to change password" : "Нууц үг солих боломжгүй",
     "Authentication error" : "Нотолгооны алдаа",
     "Group already exists." : "Бүлэг аль хэдийн үүссэн байна",
     "Unable to add group." : "Бүлэг нэмэх боломжгүй",
@@ -80,6 +79,7 @@ OC.L10N.register(
     "Set your password" : "Нууц үгээ тохируулна уу",
     "Sending…" : "Илгээх...",
     "Updated" : "Шинэчлэгдсэн",
+    "Groups" : "Бүлгүүд",
     "never" : "хэзээ ч үгүй",
     "Add group" : "Бүлэг нэмэх",
     "Documentation:" : "Баримт бичиг:",

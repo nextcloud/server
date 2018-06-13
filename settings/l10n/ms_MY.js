@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Groups" : "Kumpulan",
     "Enable" : "Aktif",
     "Email" : "Email",
     "Delete" : "Padam",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Authentication error" : "Ralat pengesahan",
     "Email saved" : "Emel disimpan",
     "Disable" : "Nyahaktif",
+    "Groups" : "Kumpulan",
     "never" : "jangan",
     "Create" : "Buat",
     "Other" : "Lain",

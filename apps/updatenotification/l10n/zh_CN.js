@@ -2,6 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
+    "A new version is available: <strong>{newVersionString}</strong>" : "有可用的新版本： <strong>{newVersionString}</strong>",
     "Could not start updater, please try the manual update" : "无法启动自动更新，请尝试手动更新",
     "Open updater" : "打开更新器",
     "Download now" : "开始下载",

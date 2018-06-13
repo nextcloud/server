@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Groups" : "කණ්ඩායම්",
     "Enable" : "සක්‍රිය කරන්න",
     "Email" : "විද්‍යුත් තැපෑල",
     "Delete" : "මකා දමන්න",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Email saved" : "වි-තැපෑල සුරකින ලදී",
     "All" : "සියල්ල",
     "Disable" : "අක්‍රිය කරන්න",
+    "Groups" : "කණ්ඩායම්",
     "undo" : "නිෂ්ප්‍රභ කරන්න",
     "never" : "කවදාවත්",
     "Create" : "තනන්න",
