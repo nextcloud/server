@@ -26,6 +26,7 @@ use OCA\OAuth2\Controller\SettingsController;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -90,27 +91,39 @@ class SettingsControllerTest extends TestCase {
 		$this->clientMapper
 			->expects($this->once())
 			->method('insert')
-			->with($client);
+			->with($this->callback(function (Client $c) {
+				return $c->getName() === 'My Client Name' &&
+					$c->getRedirectUri() === 'https://example.com/' &&
+					$c->getSecret() === 'MySecret' &&
+					$c->getClientIdentifier() === 'MyClientIdentifier';
+			}))->will($this->returnCallback(function (Client $c) {
+				$c->setId(42);
+				return $c;
+			}));
 
-		$this->urlGenerator
-			->expects($this->once())
-			->method('getAbsoluteURL')
-			->with('/index.php/settings/admin/security')
-			->willReturn('https://example.com/index.php/settings/admin/security');
+		$result = $this->settingsController->addClient('My Client Name', 'https://example.com/');
+		$this->assertInstanceOf(JSONResponse::class, $result);
 
-		$expected = new RedirectResponse('https://example.com/index.php/settings/admin/security');
-		$this->assertEquals($expected, $this->settingsController->addClient('My Client Name', 'https://example.com/'));
+		$data = $result->getData();
+
+		$this->assertEquals([
+			'id' => 42,
+			'name' => 'My Client Name',
+			'redirectUri' => 'https://example.com/',
+			'clientId' => 'MyClientIdentifier',
+			'clientSecret' => 'MySecret',
+		], $data);
 	}
 
 	public function testDeleteClient() {
 		$client = new Client();
+		$client->setId(123);
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
 		$client->setSecret('MySecret');
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper
-			->expects($this->at(0))
 			->method('getByUid')
 			->with(123)
 			->willReturn($client);
@@ -123,17 +136,52 @@ class SettingsControllerTest extends TestCase {
 			->method('deleteByName')
 			->with('My Client Name');
 		$this->clientMapper
-			->expects($this->at(1))
 			->method('delete')
 			->with($client);
 
-		$this->urlGenerator
-			->expects($this->once())
-			->method('getAbsoluteURL')
-			->with('/index.php/settings/admin/security')
-			->willReturn('https://example.com/index.php/settings/admin/security');
+		$result = $this->settingsController->deleteClient(123);
+		$this->assertInstanceOf(JSONResponse::class, $result);
+		$this->assertEquals([], $result->getData());
+	}
 
-		$expected = new RedirectResponse('https://example.com/index.php/settings/admin/security');
-		$this->assertEquals($expected, $this->settingsController->deleteClient(123));
+	public function testGetClients() {
+		$client1 = new Client();
+		$client1->setId(123);
+		$client1->setName('My Client Name');
+		$client1->setRedirectUri('https://example.com/');
+		$client1->setSecret('MySecret');
+		$client1->setClientIdentifier('MyClientIdentifier');
+
+		$client2 = new Client();
+		$client2->setId(42);
+		$client2->setName('My Client Name2');
+		$client2->setRedirectUri('https://example.com/2');
+		$client2->setSecret('MySecret2');
+		$client2->setClientIdentifier('MyClientIdentifier2');
+
+		$this->clientMapper->method('getClients')
+			->willReturn([$client1, $client2]);
+
+		$result = $this->settingsController->getClients();
+		$this->assertInstanceOf(JSONResponse::class, $result);
+
+		$data = $result->getData();
+
+		$this->assertSame([
+			[
+				'id' => 123,
+				'name' => 'My Client Name',
+				'redirectUri' => 'https://example.com/',
+				'clientId' => 'MyClientIdentifier',
+				'clientSecret' => 'MySecret',
+			],
+			[
+				'id' => 42,
+				'name' => 'My Client Name2',
+				'redirectUri' => 'https://example.com/2',
+				'clientId' => 'MyClientIdentifier2',
+				'clientSecret' => 'MySecret2',
+			],
+		], $data);
 	}
 }
