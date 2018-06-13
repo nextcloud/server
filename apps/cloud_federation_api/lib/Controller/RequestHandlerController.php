@@ -186,8 +186,14 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
+		$user = $this->userManager->get($shareWithLocalId);
+		$recipientDisplayName = '';
+		if($user) {
+			$recipientDisplayName = $user->getDisplayName();
+		}
+
 		return new JSONResponse(
-			['id' => $id, 'createdAt' => time()],
+			['recipientDisplayName' => $recipientDisplayName],
 			Http::STATUS_CREATED);
 
 	}
