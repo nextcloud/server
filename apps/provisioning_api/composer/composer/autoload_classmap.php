@@ -11,6 +11,7 @@ return array(
     'OCA\\Provisioning_API\\Controller\\AppConfigController' => $baseDir . '/../lib/Controller/AppConfigController.php',
     'OCA\\Provisioning_API\\Controller\\AppsController' => $baseDir . '/../lib/Controller/AppsController.php',
     'OCA\\Provisioning_API\\Controller\\GroupsController' => $baseDir . '/../lib/Controller/GroupsController.php',
+    'OCA\\Provisioning_API\\Controller\\UserConfigController' => $baseDir . '/../lib/Controller/UserConfigController.php',
     'OCA\\Provisioning_API\\Controller\\UsersController' => $baseDir . '/../lib/Controller/UsersController.php',
     'OCA\\Provisioning_API\\FederatedFileSharingFactory' => $baseDir . '/../lib/FederatedFileSharingFactory.php',
     'OCA\\Provisioning_API\\Middleware\\Exceptions\\NotSubAdminException' => $baseDir . '/../lib/Middleware/Exceptions/NotSubAdminException.php',

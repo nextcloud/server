@@ -67,5 +67,9 @@ return [
 		['name' => 'AppConfig#getValue', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'GET'],
 		['name' => 'AppConfig#setValue', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'POST'],
 		['name' => 'AppConfig#deleteKey', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'DELETE'],
+
+		['name' => 'UserConfig#getValue', 'url' => '/api/v1/config/user/{app}/{key}', 'verb' => 'GET'],
+		['name' => 'UserConfig#setValue', 'url' => '/api/v1/config/user/{app}/{key}', 'verb' => 'POST'],
+		['name' => 'UserConfig#deleteKey', 'url' => '/api/v1/config/user/{app}/{key}', 'verb' => 'DELETE'],
 	],
 ];
