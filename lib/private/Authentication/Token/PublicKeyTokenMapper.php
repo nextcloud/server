@@ -115,7 +115,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	 * where a high number of (session) tokens is generated
 	 *
 	 * @param string $uid
-	 * @return DefaultToken[]
+	 * @return PublicKeyToken[]
 	 */
 	public function getTokenByUser(string $uid): array {
 		/* @var $qb IQueryBuilder */

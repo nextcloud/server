@@ -29,7 +29,6 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\IUser;
 use OCP\Security\ICrypto;
 
 class PublicKeyTokenProvider implements IProvider {

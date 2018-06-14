@@ -35,7 +35,6 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\IUser;
 use OCP\Security\ICrypto;
 
 class DefaultTokenProvider implements IProvider {
@@ -299,7 +298,7 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $token
 	 * @return string
 	 */
-	private function hashToken(string $token) {
+	private function hashToken(string $token): string {
 		$secret = $this->config->getSystemValue('secret');
 		return hash('sha512', $token . $secret);
 	}

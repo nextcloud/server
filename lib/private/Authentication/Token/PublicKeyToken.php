@@ -1,4 +1,5 @@
 <?php
+/** @noinspection ALL */
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
@@ -180,7 +181,7 @@ class PublicKeyToken extends Entity implements IToken {
 	}
 
 	public function setScope($scope) {
-		if (\is_array($scope)) {
+		if (is_array($scope)) {
 			parent::setScope(json_encode($scope));
 		} else {
 			parent::setScope((string)$scope);

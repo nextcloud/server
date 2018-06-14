@@ -25,7 +25,6 @@ namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OCP\IUser;
 
 class Manager implements IProvider {
 
@@ -92,6 +91,10 @@ class Manager implements IProvider {
 		$provider->updateTokenActivity($token);
 	}
 
+	/**
+	 * @param string $uid
+	 * @return IToken[]
+	 */
 	public function getTokenByUser(string $uid): array {
 		$old = $this->defaultTokenProvider->getTokenByUser($uid);
 		$new = $this->publicKeyTokenProvider->getTokenByUser($uid);
@@ -185,6 +188,13 @@ class Manager implements IProvider {
 		$this->publicKeyTokenProvider->invalidateOldTokens();
 	}
 
+	/**
+	 * @param IToken $token
+	 * @param string $oldTokenId
+	 * @param string $newTokenId
+	 * @return IToken
+	 * @throws InvalidTokenException
+	 */
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
 		if ($token instanceof DefaultToken) {
 			try {
@@ -203,6 +213,11 @@ class Manager implements IProvider {
 		throw new InvalidTokenException();
 	}
 
+	/**
+	 * @param IToken $token
+	 * @return IProvider
+	 * @throws InvalidTokenException
+	 */
 	private function getProvider(IToken $token): IProvider {
 		if ($token instanceof DefaultToken) {
 			return $this->defaultTokenProvider;
