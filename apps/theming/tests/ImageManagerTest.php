@@ -28,6 +28,7 @@ use OCA\Theming\ThemingDefaults;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 use Test\TestCase;
 use OCP\Files\SimpleFS\ISimpleFolder;
@@ -46,6 +47,8 @@ class ImageManagerTest extends TestCase {
 	private $urlGenerator;
 	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $cacheFactory;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
 
 	protected function setUp() {
 		parent::setUp();
@@ -53,11 +56,13 @@ class ImageManagerTest extends TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->logger = $this->createMock(ILogger::class);
 		$this->imageManager = new ImageManager(
 			$this->config,
 			$this->appData,
 			$this->urlGenerator,
-			$this->cacheFactory
+			$this->cacheFactory,
+			$this->logger
 		);
 	}
 

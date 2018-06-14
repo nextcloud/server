@@ -31,6 +31,7 @@ use OCP\IConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class ImageManager {
@@ -45,6 +46,8 @@ class ImageManager {
 	private $supportedImageKeys = ['background', 'logo', 'logoheader', 'favicon'];
 	/** @var ICacheFactory */
 	private $cacheFactory;
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * ImageManager constructor.
@@ -53,16 +56,19 @@ class ImageManager {
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
 	 * @param ICacheFactory $cacheFactory
+	 * @param ILogger $logger
 	 */
 	public function __construct(IConfig $config,
 								IAppData $appData,
 								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory
+								ICacheFactory $cacheFactory,
+								ILogger $logger
 	) {
 		$this->config = $config;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->cacheFactory = $cacheFactory;
+		$this->logger = $logger;
 	}
 
 	public function getImageUrl(string $key, bool $useSvg = true): string {
@@ -95,6 +101,7 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
+		$pngFile = null;
 		$logo = $this->config->getAppValue('theming', $key . 'Mime', false);
 		$folder = $this->appData->getFolder('images');
 		if ($logo === false || !$folder->fileExists($key)) {
@@ -110,10 +117,14 @@ class ImageManager {
 					$pngFile = $folder->newFile($key . '.png');
 					$pngFile->putContent($finalIconFile->getImageBlob());
 				} catch (\ImagickException $e) {
+					$this->logger->info('The image was requested to be no SVG file, but converting it to PNG failed.', $e->getMessage());
+					$pngFile = null;
 				}
 			} else {
 				$pngFile = $folder->getFile($key . '.png');
 			}
+		}
+		if ($pngFile !== null) {
 			return $pngFile;
 		}
 		return $folder->getFile($key);
