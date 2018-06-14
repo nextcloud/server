@@ -58,7 +58,7 @@ class PublicShareMiddleware extends Middleware {
 		}
 
 		// If authentication succeeds just continue
-		if ($controller->isAuthenticated($token)) {
+		if ($controller->isAuthenticated()) {
 			return;
 		}
 
