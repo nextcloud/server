@@ -15,7 +15,8 @@
 		"autosize/dist/autosize.min.js",
 		"DOMPurify/dist/purify.min.js",
 		"snapjs/dist/latest/snap.js",
-		"select2/select2.js"
+		"select2/select2.js",
+		"css-vars-ponyfill/dist/css-vars-ponyfill.min.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",
