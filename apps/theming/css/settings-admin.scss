@@ -122,3 +122,11 @@
         background-size: contain;
     }
 }
+
+/* transition effects for theming value changes */
+#header {
+    transition: background-color 500ms linear;
+    svg, img {
+        transition: 500ms filter linear;
+    }
+}
