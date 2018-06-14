@@ -48,7 +48,6 @@
     "Security" : "Turvalisus",
     "Encryption" : "Krüpteerimine",
     "Additional settings" : "Lisaseaded",
-    "Tips & tricks" : "Nõuanded ja trikid",
     "Personal info" : "Isiklik info",
     "Unlimited" : "Piiramatult",
     "Verifying" : "Kontrollin",
@@ -180,6 +179,7 @@
     "Please upgrade your database version" : "Palun uuenda oma andmebaasi versiooni",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Palun muuda kataloogi õigused 0770-ks, et kataloogi sisu poleks teistele kasutajatele nähtav",
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
+    "Tips & tricks" : "Nõuanded ja trikid",
     "Sync clients" : "Klientide sünkroniseerimine"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

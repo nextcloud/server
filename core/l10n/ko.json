@@ -124,8 +124,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "데이터 디렉터리와 파일을 인터넷에서 접근할 수 있는 것 같습니다. .htaccess 파일을 사용할 수 없습니다. 웹 서버 설정을 변경하여 데이터 디렉터리에 접근할 수 없도록 하거나, 데이터 디렉터리를 웹 서버 문서 디렉터리 밖으로 옮기는 것을 추천합니다.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP 헤더가 \"{expected}\"(으)로 설정되어 있지 않습니다. 잠재적인 정보 유출 및 보안 위협이 될 수 있으므로 설정을 변경하는 것을 추천합니다.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP 헤더가 \"{expected}\"(으)로 설정되어 있지 않습니다. 일부 기능이 올바르게 작동하지 않을 수 있으므로 설정을 변경하는 것을 추천합니다.",
-    "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "\"Strict-Transport-Security\" HTTP 헤더가 \"{seconds}\"초 이상로 설정되어 있지 않습니다. <a href=\"{docUrl}\" rel=\"noreferrer noopener\">보안 팁</a>에서 제안하는 것처럼 HSTS를 활성화하는 것을 추천합니다.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "사이트에 HTTP를 통해서 보안 없이 접근하고 있습니다. <a href=\"{docUrl}\">보안 팁</a>에서 제안하는 것처럼 HTTPS를 설정하는 것을 추천합니다.",
     "Shared" : "공유됨",
     "Shared with" : "다음 사용자와 공유함",
     "Shared by" : "다음 사용자가 공유함",
@@ -341,6 +339,8 @@
     "Add \"%s\" as trusted domain" : "\"%s\"을(를) 신뢰할 수 있는 도메인으로 추가",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "도움이 필요한 경우 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">문서</a>를 참조하십시오.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "PHP에 freetype 지원이 없습니다. 프로필 사진과 설정 인터페이스가 올바르게 표시되지 않을 수도 있습니다.",
+    "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "\"Strict-Transport-Security\" HTTP 헤더가 \"{seconds}\"초 이상로 설정되어 있지 않습니다. <a href=\"{docUrl}\" rel=\"noreferrer noopener\">보안 팁</a>에서 제안하는 것처럼 HSTS를 활성화하는 것을 추천합니다.",
+    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "사이트에 HTTP를 통해서 보안 없이 접근하고 있습니다. <a href=\"{docUrl}\">보안 팁</a>에서 제안하는 것처럼 HTTPS를 설정하는 것을 추천합니다.",
     "Back to log in" : "로그인으로 돌아가기",
     "Depending on your configuration, this button could also work to trust the domain:" : "설정에 따라 아래 단추는 도메인 신뢰를 추가하는 데 사용할 수 있습니다:"
 },"pluralForm" :"nplurals=1; plural=0;"

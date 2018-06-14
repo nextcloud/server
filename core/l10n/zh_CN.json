@@ -124,8 +124,6 @@
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的数据目录和文件可以从互联网直接访问。.htaccess 文件不起作用。强烈建议您配置 Web 服务器，以便数据目录不再可访问，或都你可以将数据目录移出 Web 服务器文档根目录。",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP 请求头 \"{header}\" 没有配置为 \"{expected}\"。这是一个潜在的安全或隐私风险, 我们建议您调整这项设置.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "HTTP 请求头 \"{header}\" 没有配置为 \"{expected}\"。某些功能可能无法正常工作，因此建议相应地调整此设置。",
-    "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "HTTP 请求头 \"Strict-Transport-Security\" 没有配置为至少 “{seconds}” 秒。出于增强安全性考虑，我们推荐按照 <a href=\"{docUrl}\" rel=\"noreferrer noopener\">安全提示</a>中的说明启用HSTS。",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "您正在通过 HTTP 访问该站点, 我们强烈建议您按照<a href=\"{docUrl}\">安全提示</a>中的说明配置服务器强制使用 HTTPS.",
     "Shared" : "已共享",
     "Shared with" : "分享给",
     "Shared by" : "共享人",
@@ -351,6 +349,8 @@
     "Add \"%s\" as trusted domain" : "添加 \"%s\" 为信任域名",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "获取更多帮助, 请查看 <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">文档</a>.",
     "Your PHP does not have freetype support. This will result in broken profile pictures and settings interface." : "您的 PHP 没有 FreeType 支持，导致配置文件图片和设置界面中断。",
+    "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "HTTP 请求头 \"Strict-Transport-Security\" 没有配置为至少 “{seconds}” 秒。出于增强安全性考虑，我们推荐按照 <a href=\"{docUrl}\" rel=\"noreferrer noopener\">安全提示</a>中的说明启用HSTS。",
+    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "您正在通过 HTTP 访问该站点, 我们强烈建议您按照<a href=\"{docUrl}\">安全提示</a>中的说明配置服务器强制使用 HTTPS.",
     "Back to log in" : "返回登录",
     "Depending on your configuration, this button could also work to trust the domain:" : "取决于配置，此按钮也可用作设置信任域名："
 },"pluralForm" :"nplurals=1; plural=0;"

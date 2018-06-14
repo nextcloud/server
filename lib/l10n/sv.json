@@ -63,14 +63,11 @@
     "Log out" : "Logga ut",
     "Users" : "Användare",
     "Unknown user" : "Okänd användare",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
     "Basic settings" : "Generella inställningar",
     "Sharing" : "Delning",
     "Security" : "Säkerhet",
     "Encryption" : "Kryptering",
     "Additional settings" : "Övriga inställningar",
-    "Tips & tricks" : "Tips & tricks",
     "Personal info" : "Personlig information",
     "Unlimited" : "Obegränsad",
     "Verifying" : "Verifierar",
@@ -225,6 +222,9 @@
     "Storage connection error. %s" : "Lagringsutrymme lyckas inte ansluta. %s",
     "Storage is temporarily not available" : "Lagringsutrymme är för tillfället inte tillgängligt",
     "Storage connection timeout. %s" : "Lagringsutrymme lyckas inte ansluta \"timeout\". %s",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Tips & tricks" : "Tips & tricks",
     "Sync clients" : "Synkklienter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

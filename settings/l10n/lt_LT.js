@@ -50,9 +50,6 @@ OC.L10N.register(
     "Allow public uploads" : "Leisti viešus įkėlimus",
     "days" : "dienos",
     "Allow resharing" : "Leisti dalintis",
-    "Tips & tricks" : "Patarimai ir gudrybės",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Norėdami persikelti į kitą duomenų bazę, naudokite komandų eilutės įrankį: \"occ db:convert-type\" arba žiūrėkite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentaciją ↗</a>.",
-    "How to do backups" : "Kaip daryti atsargines kopijas",
     "Profile picture" : "Profilio paveikslas",
     "Upload new" : "Įkelti naują",
     "Remove image" : "Šalinti paveikslą",
@@ -200,7 +197,9 @@ OC.L10N.register(
     "A valid password must be provided" : "Slaptažodis turi būti tinkamas",
     "__language_name__" : "Lietuvių",
     "Personal info" : "Asmeninė informacija",
+    "Tips & tricks" : "Patarimai ir gudrybės",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation ↗</a>." : "Norėdami persikelti į kitą duomenų bazę, naudokite komandų eilutės įrankį: \"occ db:convert-type\" arba žiūrėkite <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentaciją ↗</a>.",
+    "How to do backups" : "Kaip daryti atsargines kopijas",
     "This app has an update available." : "Šiai programėlei yra prieinamas atnaujinimas.",
     "Documentation:" : "Dokumentacija:",
     "Admin documentation" : "Administratoriaus dokumentacija",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "Default" : "Numatytasis",
     "Updating …" : "Atnaujinama …",
     "Could not update app" : "Nepavyko atnaujinti programėlės",
-    "Could not remove app" : "Nepavyko pašalinti programėlės"
+    "Could not remove app" : "Nepavyko pašalinti programėlės",
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Norėdami persikelti į kitą duomenų bazę, naudokite komandų eilutės įrankį: \"occ db:convert-type\" arba žiūrėkite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentaciją ↗</a>."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
