@@ -49,7 +49,6 @@ use OCP\Template;
 use OCP\Share;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\IURLGenerator;
 use OCP\IConfig;
@@ -114,7 +113,7 @@ class ShareController extends AuthPublicShareController {
 	 * @param IL10N $l10n
 	 * @param Defaults $defaults
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
 								IURLGenerator $urlGenerator,
@@ -171,34 +170,8 @@ class ShareController extends AuthPublicShareController {
 		$this->session->set('public_link_authenticated', (string)$this->share->getId());
 	}
 
-	/**
-	 * Authenticate a link item with the given password.
-	 * Or use the session if no password is provided.
-	 *
-	 * This is a modified version of Helper::authenticate
-	 * TODO: Try to merge back eventually with Helper::authenticate
-	 *
-	 * @param \OCP\Share\IShare $share
-	 * @param string|null $password
-	 * @return bool
-	 */
-	private function linkShareAuth(\OCP\Share\IShare $share, $password = null) {
-		if ($password !== null) {
-			if ($this->shareManager->checkPassword($share, $password)) {
-				$this->session->regenerateId(true, true);
-				$this->session->set('public_link_authenticated', (string)$share->getId());
-			} else {
-				$this->emitAccessShareHook($share, 403, 'Wrong password');
-				return false;
-			}
-		} else {
-			// not authenticated ?
-			if ( ! $this->session->exists('public_link_authenticated')
-				|| $this->session->get('public_link_authenticated') !== (string)$share->getId()) {
-				return false;
-			}
-		}
-		return true;
+	protected function authFailed() {
+		$this->emitAccessShareHook($this->share, 403, 'Wrong password');
 	}
 
 	/**
@@ -463,12 +436,14 @@ class ShareController extends AuthPublicShareController {
 			}
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
-		$originalSharePath = $userFolder->getRelativePath($share->getNode()->getPath());
 
 		if (!$this->validateShare($share)) {
 			throw new NotFoundException();
 		}
+
+		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+		$originalSharePath = $userFolder->getRelativePath($share->getNode()->getPath());
+
 
 		// Single file share
 		if ($share->getNode() instanceof \OCP\Files\File) {
