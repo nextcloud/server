@@ -63,14 +63,11 @@
     "Log out" : "Salir",
     "Users" : "Usuarios",
     "Unknown user" : "Ususario desconocido",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
     "Basic settings" : "Configuraciones  básicas",
     "Sharing" : "Compartiendo",
     "Security" : "Seguridad",
     "Encryption" : "Encripción",
     "Additional settings" : "Configuraciones adicionales",
-    "Tips & tricks" : "Consejos & trucos",
     "Personal info" : "Información personal",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verficando",
@@ -225,6 +222,9 @@
     "Storage connection error. %s" : "Se presentó un error con la conexión al almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Tips & tricks" : "Consejos & trucos",
     "Sync clients" : "Sincronizar clientes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

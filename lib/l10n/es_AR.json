@@ -52,14 +52,11 @@
     "Log out" : "Cerrar sesión",
     "Users" : "Usuarios",
     "Unknown user" : "Ususario desconocido",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
     "Basic settings" : "Configuraciones  básicas",
     "Sharing" : "Compartiendo",
     "Security" : "Seguridad",
     "Encryption" : "Encripción",
     "Additional settings" : "Configuraciones adicionales",
-    "Tips & tricks" : "Consejos y trucos",
     "%s enter the database username and name." : "%s ingrese el nombre del usuario y nombre de la base de datos",
     "%s enter the database username." : "%s ingresar el nombre de usuario de la base de datos.",
     "%s enter the database name." : "%s ingresar el nombre de la base de datos",
@@ -198,6 +195,9 @@
     "Storage incomplete configuration. %s" : "Configuración incompleta del almacenamiento. %s",
     "Storage connection error. %s" : "Se presentó un error con la conexión al almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
-    "Storage connection timeout. %s" : "Se agotó el tiempo de conexión del almacenamiento. %s"
+    "Storage connection timeout. %s" : "Se agotó el tiempo de conexión del almacenamiento. %s",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Tips & tricks" : "Consejos y trucos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

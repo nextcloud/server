@@ -35,8 +35,6 @@
     "Apps" : "Приложения",
     "Users" : "Потребители",
     "Unknown user" : "Непознат потребител",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
     "Sharing" : "Споделяне",
     "Additional settings" : "Допълнителни настройки",
     "%s enter the database username and name." : "%s въведете потребителско име и име за базата данни",
@@ -142,6 +140,8 @@
     "PostgreSQL >= 9 required" : "Изисква се PostgreSQL >= 9",
     "Please upgrade your database version" : "Моля, обнови базата данни.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Моля, променете правата за достъп на 0770, за да не може директорията да бъде видяна от други потребители.",
-    "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\".",
+    "APCu" : "APCu",
+    "Redis" : "Redis"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

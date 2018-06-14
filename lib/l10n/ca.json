@@ -55,8 +55,6 @@
     "Log out" : "Surt",
     "Users" : "Usuaris",
     "Unknown user" : "Usuari desconegut",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
     "Create" : "Crea",
     "Change" : "Modifica",
     "Delete" : "Esborra",
@@ -67,7 +65,6 @@
     "Security" : "Seguretat",
     "Encryption" : "Xifrat",
     "Additional settings" : "Configuració addicional",
-    "Tips & tricks" : "Consells i trucs",
     "Personal info" : "Informació personal",
     "Unlimited" : "Il·limitat",
     "Verifying" : "Verificant",
@@ -186,6 +183,9 @@
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Canvieu els permisos a 0770 per tal que la carpeta no es pugui llistar per altres usuaris.",
     "Could not obtain lock type %d on \"%s\"." : "No s'ha pogut obtenir un bloqueig tipus %d a \"%s\".",
     "Personal" : "Personal",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Tips & tricks" : "Consells i trucs",
     "Sync clients" : "Aplicacions per sincronitzar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
