@@ -74,7 +74,7 @@ abstract class PublicShareController extends Controller {
 	 *
 	 * @since 14.0.0
 	 */
-	public function getToken(): string {
+	final public function getToken(): string {
 		return $this->token;
 	}
 
