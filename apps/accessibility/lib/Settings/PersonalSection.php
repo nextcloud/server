@@ -29,6 +29,9 @@ use OCP\Settings\IIconSection;
 
 class PersonalSection implements IIconSection {
 
+	/** @var string */
+	protected $appName;
+
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
@@ -38,11 +41,14 @@ class PersonalSection implements IIconSection {
 	/**
 	 * Personal Section constructor.
 	 *
+	 * @param string $appName
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l
 	 */
-	public function __construct(IURLGenerator $urlGenerator,
+	public function __construct(string $appName,
+								IURLGenerator $urlGenerator,
 								IL10N $l) {
+		$this->appName      = $appName;
 		$this->urlGenerator = $urlGenerator;
 		$this->l            = $l;
 	}
@@ -55,7 +61,7 @@ class PersonalSection implements IIconSection {
 	 * @since 13.0.0
 	 */
 	public function getIcon() {
-		return $this->urlGenerator->imagePath('accessibility', 'app-dark.svg');
+		return $this->urlGenerator->imagePath($this->appName, 'app-dark.svg');
 	}
 
 	/**
@@ -66,7 +72,7 @@ class PersonalSection implements IIconSection {
 	 * @since 9.1
 	 */
 	public function getID() {
-		return 'accessibility';
+		return $this->appName;
 	}
 
 	/**

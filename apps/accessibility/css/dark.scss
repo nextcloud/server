@@ -1,14 +1,23 @@
-// Revert lighten/darken
-@function nc-darken($color, $value) {
-	@return lighten($color, $value);
-}
-
-@function nc-lighten($color, $value) {
-	@return darken($color, $value);
-}
-
 // SCSS variables
 $color-main-text: #d8d8d8;
 $color-main-background: #181818;
+
+$color-background-dark: lighten($color-main-background, 4%);
+$color-background-darker: lighten($color-main-background, 8%);
+
+$color-text-maxcontrast: darken($color-main-text, 30%);
+$color-text-light: darken($color-main-text, 10%);
+$color-text-lighter: darken($color-main-text, 20%);
+
 $color-loading-light: #777;
 $color-loading-dark: #ccc;
+
+$color-box-shadow: rgba(darken($color-main-background, 70%), .5);
+
+$color-border: lighten($color-main-background, 7%);
+$color-border-dark: lighten($color-main-background, 14%);
+
+#app-navigation > ul > li > a:first-child img,
+#app-navigation > ul > li > ul > li > a:first-child img {
+	filter: invert(100%);
+}

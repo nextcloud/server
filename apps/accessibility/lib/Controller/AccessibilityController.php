@@ -29,6 +29,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -62,6 +63,9 @@ class AccessibilityController extends Controller {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IAppManager */
+	private $appManager;
+
 	/**
 	 * Account constructor.
 	 *
@@ -73,39 +77,43 @@ class AccessibilityController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ITimeFactory $timeFactory
 	 * @param IUserSession $userSession
+	 * @param IAppManager $appManager
 	 */
 	public function __construct(string $appName,
-		IRequest $request,
-		IConfig $config,
-		IUserManager $userManager,
-		ILogger $logger,
-		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory,
-		IUserSession $userSession) {
+								IRequest $request,
+								IConfig $config,
+								IUserManager $userManager,
+								ILogger $logger,
+								IURLGenerator $urlGenerator,
+								ITimeFactory $timeFactory,
+								IUserSession $userSession,
+								IAppManager $appManager) {
 		parent::__construct($appName, $request);
+		$this->appName      = $appName;
 		$this->config       = $config;
 		$this->userManager  = $userManager;
 		$this->logger       = $logger;
 		$this->urlGenerator = $urlGenerator;
 		$this->timeFactory  = $timeFactory;
 		$this->userSession  = $userSession;
+		$this->appManager   = $appManager;
 
 		$this->serverRoot = \OC::$SERVERROOT;
-		$this->appRoot    = \OC_App::getAppPath($this->appName);
+		$this->appRoot    = $this->appManager->getAppPath($this->appName);
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @return DataResponse
+	 * @return DataDisplayResponse
 	 */
 	public function getCss(): DataDisplayResponse {
 
 		$css     = '';
 		$imports = '';
 
-		foreach ($this->getUserValues() as $scssFile) {
+		foreach ($this->getUserValues() as $key => $scssFile) {
 			if ($scssFile !== false) {
 				$imports .= '@import "' . $scssFile . '";';
 			}
@@ -122,7 +130,7 @@ class AccessibilityController extends Controller {
 			$scss->setIgnoreErrors(true);
 			$scss->setFormatter(Crunched::class);
 
-			// Compile
+			// Import theme, variables and compile css4 variables
 			try {
 				$css .= $scss->compile(
 					$imports .
@@ -139,9 +147,9 @@ class AccessibilityController extends Controller {
 
 		$response = new DataDisplayResponse($css, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 
+		// Set cache control
 		$ttl = 31536000;
 		$response->addHeader('Cache-Control', 'max-age=' . $ttl . ', immutable');
-
 		$expires = new \DateTime();
 		$expires->setTimestamp($this->timeFactory->getTime());
 		$expires->add(new \DateInterval('PT' . $ttl . 'S'));
@@ -152,13 +160,10 @@ class AccessibilityController extends Controller {
 	}
 
 	private function getUserValues() {
-		$userTheme = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'accessibility', 'theme', false);
-		$userFont  = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'accessibility', 'font', false);
+		$userTheme = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false);
+		$userFont  = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false);
 
-		return [
-			'theme' => $userTheme,
-			'font'  => $userFont
-		];
+		return [$userTheme, $userFont];
 	}
 
 	private function filterOutRule(string $rule, string $css) {

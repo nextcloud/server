@@ -1,10 +1,13 @@
 .preview-list {
 	display: flex;
+	flex-wrap: wrap;
 }
 .preview {
 	display: flex;
 	flex-direction: column;
-	width: 300px;
+	min-width: 250px;
+	max-width: 400px;
+	flex: 1 1 300px;
 	border: 1px solid var(--color-border);
 	padding: 10px;
 	border-radius: var(--border-radius);
@@ -12,9 +15,8 @@
 	filter: drop-shadow(0 1px 2px var(--color-box-shadow));
 	background-color: var(--color-main-background);
 	opacity: 0.9;
-	&:not(:last-child) {
-		margin-right: 20px;
-	}
+	margin: 10px;
+	position: relative;
 	&,
 	* {
 		cursor: pointer;
@@ -22,18 +24,30 @@
 	}
 	&:hover,
 	&.selected {
-		background-color: var(--color-background-dark);
 		filter: drop-shadow(0 1px 4px var(--color-box-shadow));
 		opacity: 1;
 	}
 	.preview-image {
-		width: 100%;
-		height: 150px;
-		background-position: center;
+		height: 200px;
+		background-position: top left;
 		background-size: cover;
 		background-repeat: no-repeat;
 	}
 	p {
 		text-align: justify;
+	}
+	.icon-checkmark {
+		position: absolute;
+		width: 50px;
+		height: 50px;
+		background-size: contain;
+		right: -10px;
+		top: -15px;
+		opacity: 0;
+		transition: all 100ms ease-in-out;
+	}
+	&.selected .icon-checkmark {
+		opacity: 1;
+		filter: drop-shadow(0 1px 1px var(--color-box-shadow));
 	}
 }

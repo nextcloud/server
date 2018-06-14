@@ -83,12 +83,12 @@ class Personal implements ISettings {
 
 		$serverData = [
 			'themes' => $this->accessibilityProvider->getThemes(),
-			'fonts' => $this->accessibilityProvider->getFonts(),
-			'theme' => $this->config->getUserValue($this->userSession->getUser()->getUID(), 'accessibility', 'theme', 'dark'),
-			'font' => $this->config->getUserValue($this->userSession->getUser()->getUID(), 'accessibility', 'font', false)
+			'fonts'  => $this->accessibilityProvider->getFonts(),
+			'theme'  => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false),
+			'font'   => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false)
 		];
 
-		return new TemplateResponse('accessibility', 'settings-personal', ['serverData' => $serverData]);
+		return new TemplateResponse($this->appName, 'settings-personal', ['serverData' => $serverData]);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Personal implements ISettings {
 	 * @since 9.1
 	 */
 	public function getSection() {
-		return 'accessibility';
+		return $this->appName;
 	}
 
 	/**

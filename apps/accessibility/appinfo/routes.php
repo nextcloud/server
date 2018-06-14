@@ -23,6 +23,6 @@
 
 return [
     'routes' => [
-        ['name' => 'accessibility#getCss', 'url' => '/css/user.css', 'verb' => 'GET'],
+        ['name' => 'accessibility#getCss', 'url' => '/css/user-{md5}.css', 'verb' => 'GET'],
     ],
 ];

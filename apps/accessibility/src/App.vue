@@ -62,14 +62,19 @@ export default {
 		},
 
 		/**
-		 * Commit a change
+		 * Commit a change and force reload css
+		 * Fetching the file again will trigger the server update
 		 *
 		 * @param {string} type type of the change (font or theme)
 		 * @param {string} id the data of the change
 		 */
 		selectItem(type, id) {
 			this.serverData[type] = id;
-			console.log(type, id);
+			let cssLink = document.querySelector(
+				'link[rel=stylesheet][href*=accessibility][href*=user-]'
+			);
+			cssLink.href =
+				cssLink.href.split('?')[0] + '?v=' + new Date().getTime();
 		}
 	}
 };

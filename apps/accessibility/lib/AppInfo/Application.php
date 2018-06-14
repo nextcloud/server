@@ -24,16 +24,32 @@
 namespace OCA\Accessibility\AppInfo;
 
 use OCP\AppFramework\App;
+use OCP\IConfig;
+use OCP\IUserSession;
 
 class Application extends App {
 
 	/** @var string */
 	protected $appName = 'accessibility';
 
+	/** @var IConfig */
+	private $config;
+
+	/** @var IUserSession */
+	private $userSession;
+
 	public function __construct() {
 		parent::__construct($this->appName);
-        
-        // Inject the fake css on all pages
-        \OCP\Util::addStyle('accessibility', 'user', true);
+		$this->config      = \OC::$server->getConfig();
+		$this->userSession = \OC::$server->getUserSession();
+
+		// Inject the fake css on all pages if enabled and user is logged
+		$loggedUser = $this->userSession->getUser();
+		if (!is_null($loggedUser)) {
+			$userValues = $this->config->getUserKeys($loggedUser->getUID(), $this->appName);
+			if(count($userValues) > 0) {
+				\OCP\Util::addStyle($this->appName, 'user-' . md5(implode('-', $userValues)), true);
+			}
+		}
 	}
 }
