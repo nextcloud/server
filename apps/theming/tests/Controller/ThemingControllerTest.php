@@ -151,20 +151,20 @@ class ThemingControllerTest extends TestCase {
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
-			->with('core', '/core/css/server.scss')
-			->willReturn('/core/css/someHash-server.scss');
+			->with('core', '/core/css/css-variables.scss')
+			->willReturn('/core/css/someHash-css-variables.scss');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkTo')
-			->with('', '/core/css/someHash-server.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
+			->with('', '/core/css/someHash-css-variables.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 
 		$expected = new DataResponse(
 			[
 				'data' =>
 					[
 						'message' => $message,
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
 					],
 				'status' => 'success',
 			]
@@ -604,13 +604,13 @@ class ThemingControllerTest extends TestCase {
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
-			->with('core', '/core/css/server.scss')
-			->willReturn('/core/css/someHash-server.scss');
+			->with('core', '/core/css/css-variables.scss')
+			->willReturn('/core/css/someHash-css-variables.scss');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkTo')
-			->with('', '/core/css/someHash-server.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
+			->with('', '/core/css/someHash-css-variables.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 
 		$expected = new DataResponse(
 			[
@@ -618,7 +618,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => 'MyValue',
 						'message' => 'Saved',
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
 					],
 				'status' => 'success'
 			]
@@ -648,13 +648,13 @@ class ThemingControllerTest extends TestCase {
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
-			->with('core', '/core/css/server.scss')
-			->willReturn('/core/css/someHash-server.scss');
+			->with('core', '/core/css/css-variables.scss')
+			->willReturn('/core/css/someHash-css-variables.scss');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkTo')
-			->with('', '/core/css/someHash-server.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
+			->with('', '/core/css/someHash-css-variables.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 		$this->imageManager->expects($this->once())
 			->method('delete')
 			->with($filename);
@@ -665,7 +665,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => $value,
 						'message' => 'Saved',
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
 					],
 				'status' => 'success'
 			]
