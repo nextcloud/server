@@ -63,14 +63,11 @@
     "Log out" : "Skrá út",
     "Users" : "Notendur",
     "Unknown user" : "Óþekktur notandi",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
     "Basic settings" : "Grunnstillingar",
     "Sharing" : "Deiling",
     "Security" : "Öryggi",
     "Encryption" : "Dulritun",
     "Additional settings" : "Valfrjálsar stillingar",
-    "Tips & tricks" : "Ábendingar og góð ráð",
     "Personal info" : "Persónulegar upplýsingar",
     "Unlimited" : "Ótakmarkað",
     "Verifying" : "Sannreyni",
@@ -225,6 +222,9 @@
     "Storage connection error. %s" : "Villa í tengingu við gagnageymslu. %s",
     "Storage is temporarily not available" : "Gagnageymsla ekki tiltæk í augnablikinu",
     "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Tips & tricks" : "Ábendingar og góð ráð",
     "Sync clients" : "Samstilla biðlara"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

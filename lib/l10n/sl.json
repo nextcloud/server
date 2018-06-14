@@ -44,7 +44,6 @@
     "Unknown user" : "Neznan uporabnik",
     "Basic settings" : "Osnovne nastavitve",
     "Security" : "Varnost",
-    "Tips & tricks" : "Triki in nasveti",
     "%s enter the database username and name." : "%s - vnos uporabniškega imena in imena podatkovne zbirke.",
     "%s enter the database username." : "%s - vnos uporabniškega imena podatkovne zbirke.",
     "%s enter the database name." : "%s - vnos imena podatkovne zbirke.",
@@ -128,6 +127,7 @@
     "Storage unauthorized. %s" : "Dostop do shrambe ni overjen. %s",
     "Storage incomplete configuration. %s" : "Nepopolna nastavitev shrambe. %s",
     "Storage connection error. %s" : "Napaka povezave do shrambe. %s",
-    "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s"
+    "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s",
+    "Tips & tricks" : "Triki in nasveti"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

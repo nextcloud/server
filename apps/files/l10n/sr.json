@@ -17,6 +17,7 @@
     "Uploading …" : "Отпремам…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} од {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "Отпремање те ставке није подржано",
     "Target folder does not exist any more" : "Одредишна фасцикла више не постоји",
     "Error when assembling chunks, status code {status}" : "Грешки при прикупљању делова фајла, статус код {status}",
     "Actions" : "Радње",
