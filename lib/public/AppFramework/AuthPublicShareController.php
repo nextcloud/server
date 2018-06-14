@@ -132,7 +132,6 @@ abstract class AuthPublicShareController extends PublicShareController {
 		$this->session->regenerateId();
 		$response = $this->getRedirect();
 
-		$this->session->clear();
 		$this->session->set('public_link_authenticated_token', $this->getToken());
 		$this->session->set('public_link_authenticated_password_hash', $this->getPasswordHash());
 
