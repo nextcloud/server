@@ -10,9 +10,9 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "webpack --config js-src/webpack.dev.js",
-    "watch": "webpack --progress --watch --config js-src/webpack.dev.js",
-    "build": "webpack --progress --hide-modules --config js-src/webpack.prod.js",
+    "dev": "webpack --config src/webpack.dev.js",
+    "watch": "webpack --progress --watch --config src/webpack.dev.js",
+    "build": "webpack --progress --hide-modules --config src/webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
