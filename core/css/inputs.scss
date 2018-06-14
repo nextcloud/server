@@ -14,10 +14,10 @@
 
  /* Specifically override browser styles */
 input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: var(--font-face)
 }
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !important;
+	font-family: var(--font-face) !important;
 }
 
 /* Simple selector to allow easy overriding */
@@ -290,9 +290,11 @@ select,
 }
 
 /* Radio & Checkboxes */
-input {
+input, label {
 	--color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
 	--color-checkbox-radio-border: nc-darken($color-main-background, 47%);
+}
+input {
 	&[type='checkbox'],
 	&[type='radio'] {
 		&.radio,

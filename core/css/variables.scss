@@ -1,16 +1,20 @@
-// SCSS darken/lighten function override 
-@function nc-darken($color, $value) {
-	@return darken($color, $value);
+// SCSS darken/lighten function override
+// if no exists
+@if function-exists(nc-darken) == false {
+	@function nc-darken($color, $value) {
+		@return darken($color, $value);
+	}
 }
-
-@function nc-lighten($color, $value) {
-	@return lighten($color, $value);
+@if function-exists(nc-lighten) == false {
+	@function nc-lighten($color, $value) {
+		@return lighten($color, $value);
+	}
 }
 
 // SCSS variables
 // DEPRECATED, please use CSS4 vars
-$color-main-text: #000;
-$color-main-background: #fff;
+$color-main-text: #000 !default;
+$color-main-background: #fff !default;
 
 // used for different active/disabled states
 $color-background-dark: nc-darken($color-main-background, 7%);
@@ -18,7 +22,9 @@ $color-background-darker: nc-darken($color-main-background, 14%);
 
 $color-primary: #0082c9;
 $color-primary-text: #ffffff;
-$color-primary-text-dark: nc-darken($color-primary-text, 7%);
+// do not use nc-darken in case of overriding because
+// primary-text is independent of color-main-text
+$color-primary-text-dark: darken($color-primary-text, 7%);
 $color-primary-element: $color-primary;
 $color-primary-element-light: nc-lighten($color-primary-element, 15%);
 
@@ -36,8 +42,8 @@ $color-text-lighter: nc-lighten($color-main-text, 30%);
 $image-logo: url('../img/logo.svg?v=1');
 $image-login-background: url('../img/background.png?v=2');
 
-$color-loading-light: #777;
-$color-loading-dark: #ccc;
+$color-loading-light: #ccc !default;
+$color-loading-dark: #777 !default;
 
 $color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75);
 
@@ -45,4 +51,6 @@ $color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75);
 $color-border: nc-darken($color-main-background, 7%);
 // darker border like inputs or very visible elements
 $color-border-dark: nc-darken($color-main-background, 14%);
-$border-radius: 3px;
+$border-radius: 3px !default;
+
+$font-face: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !default;

@@ -25,7 +25,12 @@
 }
 
 /* LOADING ------------------------------------------------------------------ */
-.loading, .loading-small, .icon-loading, .icon-loading-dark, .icon-loading-small, .icon-loading-small-dark {
+.loading,
+.loading-small,
+.icon-loading,
+.icon-loading-dark,
+.icon-loading-small,
+.icon-loading-small-dark {
 	position: relative;
 	&:after {
 		z-index: 2;
@@ -42,15 +47,15 @@
 		-webkit-transform-origin: center;
 		-ms-transform-origin: center;
 		transform-origin: center;
-		border: 2px solid var(--color-loading-dark);
-		border-top-color: var(--color-loading-light);
+		border: 2px solid var(--color-loading-light);
+		border-top-color: var(--color-loading-dark);
 	}
 }
 
 .icon-loading-dark:after,
 .icon-loading-small-dark:after {
-	border: 2px solid var(--color-loading-light);
-	border-top-color: var(--color-loading-dark);
+	border: 2px solid var(--color-loading-dark);
+	border-top-color: var(--color-loading-light);
 }
 
 .icon-loading-small:after,
@@ -61,7 +66,7 @@
 }
 
 /* Css replaced elements don't have ::after nor ::before */
-img, object, video, button, textarea, input, select, div[contenteditable=true] {
+img, object, video, button, textarea, input, select, div[contenteditable='true'] {
 	.icon-loading {
 		background-image: url('../img/loading.gif');
 	}
@@ -176,11 +181,13 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 .icon-delete {
 	background-image: url('../img/actions/delete.svg?v=1');
 	&.no-permission {
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			background-image: url('../img/actions/delete.svg?v=1');
 		}
 	}
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-image: url('../img/actions/delete-hover.svg?v=1');
 		filter: initial;
 	}
@@ -189,11 +196,13 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 .icon-delete-white {
 	background-image: url('../img/actions/delete-white.svg?v=1');
 	&.no-permission {
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			background-image: url('../img/actions/delete-white.svg?v=1');
 		}
 	}
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-image: url('../img/actions/delete-hover.svg?v=1');
 	}
 }
@@ -375,14 +384,16 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 }
 
 .icon-starred {
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-image: url('../img/actions/star.svg?v=1');
 	}
 	background-image: url('../img/actions/starred.svg?v=1');
 }
 
 .icon-star {
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-image: url('../img/actions/starred.svg?v=1');
 	}
 }
@@ -500,11 +511,13 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-image: url('../img/places/files-dark.svg?v=1');
 }
 
-.icon-file, .icon-filetype-text {
+.icon-file,
+.icon-filetype-text {
 	background-image: url('../img/filetypes/text.svg?v=1');
 }
 
-.icon-folder, .icon-filetype-folder {
+.icon-folder,
+.icon-filetype-folder {
 	background-image: url('../img/filetypes/folder.svg?v=1');
 }
 
@@ -614,4 +627,3 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 .icon-category-search {
 	background-image: url('../img/actions/search.svg?v=1');
 }
-

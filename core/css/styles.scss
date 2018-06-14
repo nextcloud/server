@@ -87,7 +87,7 @@ body {
 	font-weight: 400;
 	font-size: .8em;
 	line-height: 1.6em;
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: var(--font-face);
 	color: var(--color-main-text);
 	height: auto;
 }
