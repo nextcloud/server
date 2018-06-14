@@ -248,7 +248,7 @@ table th.column-last, table td.column-last {
 }
 table.multiselect thead {
 	position: fixed;
-	top: 89px;
+	top: 94px;
 	z-index: 55;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -477,13 +477,14 @@ a.action > img {
 /* Actions for selected files */
 .selectedActions {
     position: relative;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .selectedActions a {
 	display: inline;
-	font-size: 11px;
 	line-height: 50px;
-	padding: 18px 5px;
+	padding: 16px 5px;
 }
 
 .selectedActions a.hidden {
