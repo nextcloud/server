@@ -17,16 +17,16 @@ $color-main-text: #000 !default;
 $color-main-background: #fff !default;
 
 // used for different active/disabled states
-$color-background-dark: nc-darken($color-main-background, 7%);
-$color-background-darker: nc-darken($color-main-background, 14%);
+$color-background-dark: nc-darken($color-main-background, 7%) !default;
+$color-background-darker: nc-darken($color-main-background, 14%) !default;
 
 $color-primary: #0082c9;
 $color-primary-text: #ffffff;
 // do not use nc-darken in case of overriding because
 // primary-text is independent of color-main-text
-$color-primary-text-dark: darken($color-primary-text, 7%);
-$color-primary-element: $color-primary;
-$color-primary-element-light: nc-lighten($color-primary-element, 15%);
+$color-primary-text-dark: darken($color-primary-text, 7%) !default;
+$color-primary-element: $color-primary !default;
+$color-primary-element-light: nc-lighten($color-primary-element, 15%) !default;
 
 $color-error: #e9322d;
 $color-warning: #eca700;
@@ -45,7 +45,7 @@ $image-login-background: url('../img/background.png?v=2');
 $color-loading-light: #ccc !default;
 $color-loading-dark: #777 !default;
 
-$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75);
+$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75) !default;
 
 // light border like file table or app-content list
 $color-border: nc-darken($color-main-background, 7%);
