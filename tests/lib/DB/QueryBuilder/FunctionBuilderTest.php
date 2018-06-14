@@ -110,4 +110,14 @@ class FunctionBuilderTest extends TestCase {
 
 		$this->assertEquals(1, $query->execute()->fetchColumn());
 	}
+
+	public function testCount() {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->count('appid'));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$this->assertGreaterThan(1, $query->execute()->fetchColumn());
+	}
 }
