@@ -480,7 +480,9 @@ a.action > img {
     display: inline-block;
     vertical-align: middle;
 }
-
+.selectedActions.hidden {
+    display: none;
+}
 .selectedActions a {
 	display: inline;
 	line-height: 50px;
