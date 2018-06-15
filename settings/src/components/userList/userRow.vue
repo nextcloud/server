@@ -175,11 +175,11 @@ export default {
 
 		/* GROUPS MANAGEMENT */
 		userGroups() {
-			let userGroups = this.groups.filter(group => this.user.groups.includes(group.id));
+			let userGroups = this.groups.filter(group => this.user.groups.includes(group.id) || this.user.groups.includes(group.name));
 			return userGroups;
 		},
 		userSubAdminsGroups() {
-			let userSubAdminsGroups = this.subAdminsGroups.filter(group => this.user.subadmin.includes(group.id));
+			let userSubAdminsGroups = this.subAdminsGroups.filter(group => this.user.subadmin.includes(group.id) || this.user.subadmin.includes(group.name));
 			return userSubAdminsGroups;
 		},
 
