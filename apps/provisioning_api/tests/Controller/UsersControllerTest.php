@@ -707,13 +707,13 @@ class UsersControllerTest extends TestCase {
 			->method('getSubAdminsGroups')
 			->willReturn([$group]);
 		$group->expects($this->at(0))
-			->method('getDisplayName')
+			->method('getGID')
 			->willReturn('group0');
 		$group->expects($this->at(1))
-			->method('getDisplayName')
+			->method('getGID')
 			->willReturn('group1');
 		$group->expects($this->at(2))
-			->method('getDisplayName')
+			->method('getGID')
 			->willReturn('group2');
 		$group->expects($this->at(3))
 			->method('getGID')

@@ -105,7 +105,7 @@ abstract class AUserData extends OCSController {
 		$groups = $this->groupManager->getUserGroups($targetUserObject);
 		$gids = [];
 		foreach ($groups as $group) {
-			$gids[] = $group->getDisplayName();
+			$gids[] = $group->getGID();
 		}
 
 		// Find the data
