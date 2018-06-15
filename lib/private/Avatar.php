@@ -11,6 +11,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -30,7 +31,6 @@
 
 namespace OC;
 
-use OC\User\User;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -39,8 +39,10 @@ use OCP\IAvatar;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IL10N;
-use OC_Image;
 use OCP\ILogger;
+use OC\User\User;
+use OC_Image;
+use Imagick;
 
 /**
  * This class gets and sets users avatars.
@@ -59,6 +61,19 @@ class Avatar implements IAvatar {
 	private $config;
 
 	/**
+	 * https://github.com/sebdesign/cap-height -- for 500px height
+	 * Open Sans cap-height is 0.72 and we want a 200px caps height size (0.4 letter-to-total-height ratio, 500*0.4=200). 200/0.72 = 278px.
+	 * Since we start from the baseline (text-anchor) we need to shift the y axis by 100px (half the caps height): 500/2+100=350
+	 * 
+	 * @var string 
+	 */
+	private $svgTemplate = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+			<rect width="100%" height="100%" fill="#{fill}"></rect>
+			<text x="50%" y="350" style="font-weight:600;font-size:278px;font-family:\'Open Sans\';text-anchor:middle;fill:#fff">{letter}</text>
+		</svg>';
+
+	/**
 	 * constructor
 	 *
 	 * @param ISimpleFolder $folder The folder where the avatars are
@@ -68,10 +83,10 @@ class Avatar implements IAvatar {
 	 * @param IConfig $config
 	 */
 	public function __construct(ISimpleFolder $folder,
-								IL10N $l,
-								$user,
-								ILogger $logger,
-								IConfig $config) {
+		IL10N $l,
+		$user,
+		ILogger $logger,
+		IConfig $config) {
 		$this->folder = $folder;
 		$this->l = $l;
 		$this->user = $user;
@@ -82,7 +97,7 @@ class Avatar implements IAvatar {
 	/**
 	 * @inheritdoc
 	 */
-	public function get ($size = 64) {
+	public function get($size = 64) {
 		try {
 			$file = $this->getFile($size);
 		} catch (NotFoundException $e) {
@@ -111,17 +126,17 @@ class Avatar implements IAvatar {
 	 * @throws \Exception if the provided image is not valid
 	 * @throws NotSquareException if the image is not square
 	 * @return void
-	*/
-	public function set ($data) {
+	 */
+	public function set($data) {
 
-		if($data instanceOf IImage) {
+		if ($data instanceof IImage) {
 			$img = $data;
 			$data = $img->data();
 		} else {
 			$img = new OC_Image();
 			if (is_resource($data) && get_resource_type($data) === "gd") {
 				$img->setResource($data);
-			} elseif(is_resource($data)) {
+			} elseif (is_resource($data)) {
 				$img->loadFromFileHandle($data);
 			} else {
 				try {
@@ -154,7 +169,7 @@ class Avatar implements IAvatar {
 		}
 
 		$this->remove();
-		$file = $this->folder->newFile('avatar.'.$type);
+		$file = $this->folder->newFile('avatar.' . $type);
 		$file->putContent($data);
 
 		try {
@@ -165,17 +180,17 @@ class Avatar implements IAvatar {
 			//
 		}
 		$this->user->triggerChange('avatar', $file);
-	}
+	}	
 
 	/**
 	 * remove the users avatar
 	 * @return void
-	*/
-	public function remove () {
+	 */
+	public function remove() {
 		$avatars = $this->folder->getDirectoryListing();
 
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
-			(int)$this->config->getUserValue($this->user->getUID(), 'avatar', 'version', 0) + 1);
+			(int) $this->config->getUserValue($this->user->getUID(), 'avatar', 'version', 0) + 1);
 
 		foreach ($avatars as $avatar) {
 			$avatar->delete();
@@ -191,7 +206,9 @@ class Avatar implements IAvatar {
 		try {
 			$ext = $this->getExtension();
 		} catch (NotFoundException $e) {
-			$data = $this->generateAvatar($this->user->getDisplayName(), 1024);
+			if (!$data = $this->generateAvatarFromSvg(1024)) {
+				$data = $this->generateAvatar($this->user->getDisplayName(), 1024);
+			}
 			$avatar = $this->folder->newFile('avatar.png');
 			$avatar->putContent($data);
 			$ext = 'png';
@@ -214,7 +231,9 @@ class Avatar implements IAvatar {
 			}
 
 			if ($this->folder->fileExists('generated')) {
-				$data = $this->generateAvatar($this->user->getDisplayName(), $size);
+				if (!$data = $this->generateAvatarFromSvg($size)) {
+					$data = $this->generateAvatar($this->user->getDisplayName(), $size);
+				}
 
 			} else {
 				$avatar = new OC_Image();
@@ -235,7 +254,7 @@ class Avatar implements IAvatar {
 
 		}
 
-		if($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {
+		if ($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {
 			$generated = $this->folder->fileExists('generated') ? 'true' : 'false';
 			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', $generated);
 		}
@@ -257,8 +276,55 @@ class Avatar implements IAvatar {
 		}
 		throw new NotFoundException;
 	}
+	
+	/**
+	 * {size} = 500
+	 * {fill} = hex color to fill
+	 * {letter} = Letter to display
+	 * 
+	 * Generate SVG avatar
+	 * @return string
+	 * 
+	 */
+	private function getAvatarVector(int $size): string {
+		$userDisplayName = $this->user->getDisplayName();
+
+		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
+		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b);
+		$letter = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
+		
+		$toReplace = ['{size}', '{fill}', '{letter}'];
+		return str_replace($toReplace, [$size, $bgHEX, $letter], $this->svgTemplate);
+	}
 
 	/**
+	 * Generate png avatar from svg with Imagick
+	 * 
+	 * @param int $size
+	 * @return string|boolean
+	 */
+	private function generateAvatarFromSvg(int $size) {
+		if (!extension_loaded('imagick')) {
+			return false;
+		}
+		try {
+			$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
+			$svg = $this->getAvatarVector($size);
+			$avatar = new Imagick();
+			$avatar->setFont($font);
+			$avatar->readImageBlob($svg);
+			$avatar->setImageFormat('png');
+			$image = new OC_Image();
+			$image->loadFromData($avatar);
+			return $image->data();
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Generate png avatar with GD
+	 * 
 	 * @param string $userDisplayName
 	 * @param int $size
 	 * @return string
@@ -275,12 +341,9 @@ class Avatar implements IAvatar {
 		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
 
 		$fontSize = $size * 0.4;
-		$box = imagettfbbox($fontSize, 0, $font, $text);
 
-		$x = ($size - ($box[2] - $box[0])) / 2;
-		$y = ($size - ($box[1] - $box[7])) / 2;
-		$x += 1;
-		$y -= $box[7];
+		list($x, $y) = $this->imageTTFCenter($im, $text, $font, $fontSize);
+
 		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $text);
 
 		ob_start();
@@ -289,6 +352,35 @@ class Avatar implements IAvatar {
 		ob_end_clean();
 
 		return $data;
+	}
+
+	/**
+	 * Calculate real image ttf center
+	 *
+	 * @param resource $image
+	 * @param string $text text string
+	 * @param string $font font path
+	 * @param int $size font size
+	 * @param int $angle
+	 * @return Array
+	 */
+	protected function imageTTFCenter($image, string $text, string $font, int $size, $angle = 0): array {
+		// Image width & height
+		$xi = imagesx($image);
+		$yi = imagesy($image);
+
+		// bounding box
+		$box = imagettfbbox($size, $angle, $font, $text);
+
+		// imagettfbbox can return negative int
+		$xr = abs(max($box[2], $box[4]));
+		$yr = abs(max($box[5], $box[7]));
+
+		// calculate bottom left placement
+		$x = intval(($xi - $xr) / 2);
+		$y = intval(($yi + $yr) / 2);
+
+		return array($x, $y);
 	}
 
 	/**
@@ -304,6 +396,7 @@ class Avatar implements IAvatar {
 		$step[2] = ($ends[1]->b - $ends[0]->b) / $steps;
 		return $step;
 	}
+
 	/**
 	 * Convert a string to an integer evenly
 	 * @param string $hash the text to parse
@@ -318,11 +411,10 @@ class Avatar implements IAvatar {
 			$r = intval($color1->r + ($step[0] * $i));
 			$g = intval($color1->g + ($step[1] * $i));
 			$b = intval($color1->b + ($step[2] * $i));
-				$palette[] = new Color($r, $g, $b);
+			$palette[] = new Color($r, $g, $b);
 		}
 		return $palette;
 	}
-
 
 	/**
 	 * Convert a string to an integer evenly
@@ -335,7 +427,7 @@ class Avatar implements IAvatar {
 		$result = array();
 
 		// Splitting evenly the string
-		for ($i=0; $i< strlen($hash); $i++) {
+		for ($i = 0; $i < strlen($hash); $i++) {
 			// chars in md5 goes up to f, hex:16
 			$result[] = intval(substr($hash, $i, 1), 16) % 16;
 		}
@@ -347,20 +439,26 @@ class Avatar implements IAvatar {
 		return intval($final % $maximum);
 	}
 
-
 	/**
-	 * @param string $text
+	 * @param string $hash
 	 * @return Color Object containting r g b int in the range [0, 255]
 	 */
-	function avatarBackgroundColor($text) {
-		$hash = preg_replace('/[^0-9a-f]+/', '', $text);
+	public function avatarBackgroundColor(string $hash) {
+		// Normalize hash
+		$hash = strtolower($hash);
+		
+		// Already a md5 hash?
+		if( preg_match('/^([0-9a-f]{4}-?){8}$/', $hash, $matches) !== 1 ) {
+			$hash = md5($hash);
+		}
 
-		$hash = md5($hash);
-		$hashChars = str_split($hash);
+		// Remove unwanted char
+		$hash = preg_replace('/[^0-9a-f]+/', '', $hash);
 
 		$red = new Color(182, 70, 157);
 		$yellow = new Color(221, 203, 85);
 		$blue = new Color(0, 130, 201); // Nextcloud blue
+
 		// Number of steps to go from a color to another
 		// 3 colors * 6 will result in 18 generated colors
 		$steps = 6;
@@ -371,7 +469,7 @@ class Avatar implements IAvatar {
 
 		$finalPalette = array_merge($palette1, $palette2, $palette3);
 
-		return $finalPalette[$this->hashToInt($hash, $steps * 3 )];
+		return $finalPalette[$this->hashToInt($hash, $steps * 3)];
 	}
 
 	public function userChanged($feature, $oldValue, $newValue) {

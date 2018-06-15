@@ -8,6 +8,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -41,6 +42,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\AppFramework\Http\DataResponse;
 
 /**
  * Class AvatarController
@@ -111,8 +113,6 @@ class AvatarController extends Controller {
 	}
 
 
-
-
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -124,6 +124,7 @@ class AvatarController extends Controller {
 	 * @return JSONResponse|FileDisplayResponse
 	 */
 	public function getAvatar($userId, $size) {
+		// min/max size
 		if ($size > 2048) {
 			$size = 2048;
 		} elseif ($size <= 0) {
@@ -132,9 +133,11 @@ class AvatarController extends Controller {
 
 		try {
 			$avatar = $this->avatarManager->getAvatar($userId)->getFile($size);
-			$resp = new FileDisplayResponse($avatar,
+			$resp = new FileDisplayResponse(
+				$avatar,
 				Http::STATUS_OK,
-				['Content-Type' => $avatar->getMimeType()]);
+				['Content-Type' => $avatar->getMimeType()
+			]);
 		} catch (\Exception $e) {
 			$resp = new Http\Response();
 			$resp->setStatus(Http::STATUS_NOT_FOUND);

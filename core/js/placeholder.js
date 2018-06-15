@@ -62,12 +62,15 @@
 (function ($) {
 
 	String.prototype.toRgb = function() {
-		var hash = this.toLowerCase().replace(/[^0-9a-f]+/g, '');
+		// Normalize hash		
+		var hash = this.toLowerCase();
 
 		// Already a md5 hash?
-		if( !hash.match(/^[0-9a-f]{32}$/g) ) {
+		if( hash.match(/^([0-9a-f]{4}-?){8}$/) === null ) {
 			hash = md5(hash);
 		}
+
+		hash = hash.replace(/[^0-9a-f]/g, '');
 
 		function Color(r,g,b) {
 			this.r = r;
@@ -116,7 +119,7 @@
 			var result = Array();
 
 			// Splitting evenly the string
-			for (var i in hash) {
+			for (var i=0; i<hash.length; i++) {
 				// chars in md5 goes up to f, hex:16
 				result.push(parseInt(hash.charAt(i), 16) % 16);
 			}
