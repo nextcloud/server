@@ -19,7 +19,7 @@
     "Empty response from the server" : "サーバーから空の応答がありました",
     "Couldn't access. Please log out and in again to activate this mount point" : "アクセスできません。ログアウトして、再度このマウントポイントをアクティベートしてください。",
     "Couldn't get the information from the remote server: {code} {type}" : "リモートサーバーから情報を取得できませんでした：{code} {type}",
-    "Couldn't get the list of external mount points: {type}" : "外部マウントポイントのリストを取得出来ませんでした。: {type}",
+    "Couldn't get the list of external mount points: {type}" : "外部マウントポイントのリストを取得できませんでした。: {type}",
     "There was an error with message: " : "メッセージ付きのエラーが発生しました：",
     "External mount error" : "外部マウントエラー",
     "external-storage" : "外部ストレージ",

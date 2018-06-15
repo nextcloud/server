@@ -6,6 +6,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Zkontrolováno {lastCheckedDate}",
     "Checking apps for compatible updates" : "Zjišťuje se dostupnost kompatibilních aktualizací aplikací",
     "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci",
+    "View in store" : "Zobrazit v obchodě",
     "Apps with available updates" : "Aplikace s dostupnými aktualizacemi",
     "Open updater" : "Otevřít aktualizátor",
     "Download now" : "Stáhnout nyní",

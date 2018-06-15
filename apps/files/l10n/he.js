@@ -19,6 +19,7 @@ OC.L10N.register(
     "Uploading …" : "מתבצעת העלאה…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} מתוך {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "העלאת הפריט הזה אינה נתמכת",
     "Target folder does not exist any more" : "תיקיית היעד אינה קיימת עוד",
     "Error when assembling chunks, status code {status}" : "שגיאה באיסוף הנתחים, קוד המצב {status}",
     "Actions" : "פעולות",

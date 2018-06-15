@@ -38,7 +38,7 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "このオプションを有効にすると、外部ストレージ接続ストレージだけが暗号化されるのではなく、メインストレージのファイル全てが暗号化されます。",
     "Enable recovery key" : "復旧キーを有効にする",
     "Disable recovery key" : "復旧キーを無効にする",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザのファイルを復元することができます。",
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザーがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザーのファイルを復元することができます。",
     "Recovery key password" : "復旧キーのパスワード",
     "Repeat recovery key password" : "復旧キーのパスワードをもう一度入力",
     "Change recovery key password:" : "復旧キーのパスワードを変更:",
