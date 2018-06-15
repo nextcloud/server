@@ -690,7 +690,7 @@ class ThemingControllerTest extends TestCase {
 			->method('getImage')
 			->willReturn($file);
 		$this->config
-			->expects($this->once())
+			->expects($this->any())
 			->method('getAppValue')
 			->with('theming', 'logoMime', '')
 			->willReturn('text/svg');
@@ -718,7 +718,7 @@ class ThemingControllerTest extends TestCase {
 			->willReturn($file);
 
 		$this->config
-			->expects($this->once())
+			->expects($this->any())
 			->method('getAppValue')
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');

@@ -205,7 +205,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 		$logoExists = true;
 		try {
-			$this->imageManager->getImage('logo');
+			$this->imageManager->getImage('logo', $useSvg);
 		} catch (\Exception $e) {
 			$logoExists = false;
 		}
@@ -221,7 +221,7 @@ class ThemingDefaults extends \OC_Defaults {
 			return $logo . '?v=' . $cacheBusterCounter;
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => 'logo' ]) . '?v=' . $cacheBusterCounter;
+		return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => 'logo', 'useSvg' => $useSvg, 'v' => $cacheBusterCounter ]);
 	}
 
 	/**
@@ -317,10 +317,10 @@ class ThemingDefaults extends \OC_Defaults {
 			$customFavicon = null;
 		}
 
-		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->shouldReplaceIcons())) {
+		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue;
 		}
-		if ($image === 'favicon-touch.png' && ($customFavicon !== null || $this->shouldReplaceIcons())) {
+		if ($image === 'favicon-touch.png' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue;
 		}
 		if ($image === 'manifest.json') {
@@ -334,30 +334,7 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		return false;
 	}
-
-	/**
-	 * Check if Imagemagick is enabled and if SVG is supported
-	 * otherwise we can't render custom icons
-	 *
-	 * @return bool
-	 */
-	public function shouldReplaceIcons() {
-		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
-		if($value = $cache->get('shouldReplaceIcons')) {
-			return (bool)$value;
-		}
-		$value = false;
-		if(extension_loaded('imagick')) {
-			$checkImagick = new \Imagick();
-			if (count($checkImagick->queryFormats('SVG')) >= 1) {
-				$value = true;
-			}
-			$checkImagick->clear();
-		}
-		$cache->set('shouldReplaceIcons', $value);
-		return $value;
-	}
-
+	
 	/**
 	 * Increases the cache buster key
 	 */

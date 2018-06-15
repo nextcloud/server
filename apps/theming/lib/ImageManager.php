@@ -26,24 +26,28 @@ namespace OCA\Theming;
 
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 
-/**
- * @property IURLGenerator urlGenerator
- */
 class ImageManager {
 
 	/** @var IConfig */
 	private $config;
 	/** @var IAppData */
 	private $appData;
-
+	/** @var IURLGenerator */
+	private $urlGenerator;
 	/** @var array */
 	private $supportedImageKeys = ['background', 'logo', 'logoheader', 'favicon'];
+	/** @var ICacheFactory */
+	private $cacheFactory;
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * ImageManager constructor.
@@ -51,20 +55,26 @@ class ImageManager {
 	 * @param IConfig $config
 	 * @param IAppData $appData
 	 * @param IURLGenerator $urlGenerator
+	 * @param ICacheFactory $cacheFactory
+	 * @param ILogger $logger
 	 */
 	public function __construct(IConfig $config,
 								IAppData $appData,
-								IURLGenerator $urlGenerator
+								IURLGenerator $urlGenerator,
+								ICacheFactory $cacheFactory,
+								ILogger $logger
 	) {
 		$this->config = $config;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
+		$this->cacheFactory = $cacheFactory;
+		$this->logger = $logger;
 	}
 
-	public function getImageUrl(string $key): string {
+	public function getImageUrl(string $key, bool $useSvg = true): string {
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 		try {
-			$this->getImage($key);
+			$image = $this->getImage($key, $useSvg);
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
 		} catch (NotFoundException $e) {
 		}
@@ -79,21 +89,44 @@ class ImageManager {
 		}
 	}
 
-	public function getImageUrlAbsolute(string $key): string {
-		return $this->urlGenerator->getAbsoluteURL($this->getImageUrl($key));
+	public function getImageUrlAbsolute(string $key, bool $useSvg = true): string {
+		return $this->urlGenerator->getAbsoluteURL($this->getImageUrl($key, $useSvg));
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
+	 * @param bool $useSvg
 	 * @return ISimpleFile
 	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
-	public function getImage(string $key): ISimpleFile {
+	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
+		$pngFile = null;
 		$logo = $this->config->getAppValue('theming', $key . 'Mime', false);
-		if ($logo === false) {
+		$folder = $this->appData->getFolder('images');
+		if ($logo === false || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
-		$folder = $this->appData->getFolder('images');
+		if (!$useSvg && $this->shouldReplaceIcons()) {
+			if (!$folder->fileExists($key . '.png')) {
+				try {
+					$finalIconFile = new \Imagick();
+					$finalIconFile->setBackgroundColor('none');
+					$finalIconFile->readImageBlob($folder->getFile($key)->getContent());
+					$finalIconFile->setImageFormat('png32');
+					$pngFile = $folder->newFile($key . '.png');
+					$pngFile->putContent($finalIconFile->getImageBlob());
+				} catch (\ImagickException $e) {
+					$this->logger->info('The image was requested to be no SVG file, but converting it to PNG failed.', $e->getMessage());
+					$pngFile = null;
+				}
+			} else {
+				$pngFile = $folder->getFile($key . '.png');
+			}
+		}
+		if ($pngFile !== null) {
+			return $pngFile;
+		}
 		return $folder->getFile($key);
 	}
 
@@ -159,8 +192,15 @@ class ImageManager {
 	}
 
 	public function delete(string $key) {
+		/* ignore exceptions, since we don't want to fail hard if something goes wrong during cleanup */
 		try {
 			$file = $this->appData->getFolder('images')->getFile($key);
+			$file->delete();
+		} catch (NotFoundException $e) {
+		} catch (NotPermittedException $e) {
+		}
+		try {
+			$file = $this->appData->getFolder('images')->getFile($key . '.png');
 			$file->delete();
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {
@@ -181,5 +221,26 @@ class ImageManager {
 				$folder->delete();
 			}
 		}
+	}
+
+	/**
+	 * Check if Imagemagick is enabled and if SVG is supported
+	 * otherwise we can't render custom icons
+	 *
+	 * @return bool
+	 */
+	public function shouldReplaceIcons() {
+		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
+		if($value = $cache->get('shouldReplaceIcons')) {
+			return (bool)$value;
+		}
+		$value = false;
+		if(extension_loaded('imagick')) {
+			if (count(\Imagick::queryFormats('SVG')) >= 1) {
+				$value = true;
+			}
+		}
+		$cache->set('shouldReplaceIcons', $value);
+		return $value;
 	}
 }

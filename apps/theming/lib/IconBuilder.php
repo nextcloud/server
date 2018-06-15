@@ -35,19 +35,24 @@ class IconBuilder {
 	private $themingDefaults;
 	/** @var Util */
 	private $util;
+	/** @var ImageManager */
+	private $imageManager;
 
 	/**
 	 * IconBuilder constructor.
 	 *
 	 * @param ThemingDefaults $themingDefaults
 	 * @param Util $util
+	 * @param ImageManager $imageManager
 	 */
 	public function __construct(
 		ThemingDefaults $themingDefaults,
-		Util $util
+		Util $util,
+		ImageManager $imageManager
 	) {
 		$this->themingDefaults = $themingDefaults;
 		$this->util = $util;
+		$this->imageManager = $imageManager;
 	}
 
 	/**
@@ -55,7 +60,7 @@ class IconBuilder {
 	 * @return string|false image blob
 	 */
 	public function getFavicon($app) {
-		if (!$this->themingDefaults->shouldReplaceIcons()) {
+		if (!$this->imageManager->shouldReplaceIcons()) {
 			return false;
 		}
 		try {

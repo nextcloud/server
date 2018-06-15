@@ -27,6 +27,7 @@ namespace OCA\Theming\Tests;
 
 use OC\Files\AppData\AppData;
 use OCA\Theming\IconBuilder;
+use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -45,6 +46,8 @@ class IconBuilderTest extends TestCase {
 	protected $themingDefaults;
 	/** @var Util */
 	protected $util;
+	/** @var ImageManager */
+	protected $imageManager;
 	/** @var IconBuilder */
 	protected $iconBuilder;
 	/** @var IAppManager */
@@ -53,13 +56,13 @@ class IconBuilderTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
 		$this->appData = $this->createMock(AppData::class);
-		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
-			->disableOriginalConstructor()->getMock();
-		$this->appManager = $this->getMockBuilder('OCP\App\IAppManager')->getMock();
+		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->util = new Util($this->config, $this->appManager, $this->appData);
-		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util);
+		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util, $this->imageManager);
 	}
 
 	private function checkImagick() {
@@ -152,7 +155,7 @@ class IconBuilderTest extends TestCase {
 	 */
 	public function testGetFavicon($app, $color, $file) {
 		$this->checkImagick();
-		$this->themingDefaults->expects($this->once())
+		$this->imageManager->expects($this->once())
 			->method('shouldReplaceIcons')
 			->willReturn(true);
 		$this->themingDefaults->expects($this->once())
@@ -183,8 +186,8 @@ class IconBuilderTest extends TestCase {
 		$this->checkImagick();
 		$this->expectException(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
-		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
-		$this->themingDefaults->expects($this->once())
+		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
+		$this->imageManager->expects($this->once())
 			->method('shouldReplaceIcons')
 			->willReturn(true);
 		$util->expects($this->once())
@@ -197,7 +200,7 @@ class IconBuilderTest extends TestCase {
 		$this->checkImagick();
 		$this->expectException(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
-		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
+		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$util->expects($this->once())
 			->method('getAppIcon')
 			->willReturn('notexistingfile');
@@ -208,7 +211,7 @@ class IconBuilderTest extends TestCase {
 		$this->checkImagick();
 		$this->expectException(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
-		$iconBuilder = new IconBuilder($this->themingDefaults, $util);
+		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$util->expects($this->once())
 			->method('getAppImage')
 			->willReturn('notexistingfile');
