@@ -228,7 +228,7 @@ class Throttler {
 			return 0;
 		}
 
-		$maxDelay = 30;
+		$maxDelay = 25;
 		$firstDelay = 0.1;
 		if ($attempts > (8 * PHP_INT_SIZE - 1))  {
 			// Don't ever overflow. Just assume the maxDelay time:s
