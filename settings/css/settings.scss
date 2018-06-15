@@ -130,11 +130,6 @@ input {
 		width: 100%;
 	}
 }
-#personal-settings {
-	.section {
-		border: 0;
-	}
-}
 
 #personal-settings {
 	display: grid;
@@ -143,8 +138,11 @@ input {
 	grid-template-columns:1fr 2fr 1fr;
 	.section {
 		padding: 10px 10px;
+		border: 0;
+		h2 {
+			margin-bottom: 12px;
+		}
 	}
-
 	.personal-info {
 		margin-right: 10%;
 		margin-bottom: 20px;
@@ -223,7 +221,6 @@ input {
 	> div {
 		h2 {
 			position: relative;
-			margin-bottom: 12px;
 			display: inline-flex;
 			flex-wrap: nowrap;
 			justify-content: flex-start;
@@ -1348,21 +1345,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	margin-top: -12px;
 	margin-bottom: 12px;
 	opacity: .7;
-}
-
-.settings-caption {
-	font-weight: bold;
-	line-height: 44px;
-	padding: 0 44px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	// !important to overwrite specific hover and focus
-	opacity: .4 !important;
-	box-shadow: none !important;
-
-	&:not(:first-child) {
-		margin-top: 22px;
-	}
 }
 
 

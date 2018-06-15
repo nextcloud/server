@@ -174,6 +174,23 @@ kbd {
 				}
 			}
 
+			&.app-navigation-caption {
+				font-weight: bold;
+				line-height: 44px;
+				padding: 0 44px;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				// !important to overwrite specific hover and focus
+				opacity: .7;
+				box-shadow: none !important;
+				user-select: none;
+				pointer-events:none;
+
+				&:not(:first-child) {
+					margin-top: 22px;
+				}
+			}
+
 			/* Second level nesting for lists */
 			> ul {
 				flex: 0 1 auto;
