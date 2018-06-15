@@ -124,6 +124,7 @@ OC.L10N.register(
     "Shared by link" : "Được chia sẻ bởi liên kết",
     "Tags" : "Nhãn",
     "Deleted files" : "Thùng rác",
-    "Text file" : "Tập tin văn bản"
+    "Text file" : "Tập tin văn bản",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> để truy cập các Tập tin của bạn qua WebDAV</a>"
 },
 "nplurals=1; plural=0;");
