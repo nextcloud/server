@@ -195,7 +195,7 @@
 					else {
 						self._removeCallback(result);
 					}
-					self.fileMultiSelectMenu.toggleLoading('restore', true);
+					self.fileMultiSelectMenu.toggleLoading('restore', false);
 				}
 			);
 			event.preventDefault();
