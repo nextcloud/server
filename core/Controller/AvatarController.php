@@ -139,7 +139,6 @@ class AvatarController extends Controller {
 				['Content-Type' => $avatar->getMimeType()
 			]);
 		} catch (\Exception $e) {
-			var_dump($e);
 			$resp = new Http\Response();
 			$resp->setStatus(Http::STATUS_NOT_FOUND);
 			return $resp;
