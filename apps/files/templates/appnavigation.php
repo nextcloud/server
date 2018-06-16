@@ -30,7 +30,7 @@
 						</ul>
 				</div>
 
-					<ul id="quickaccess-list">
+					<ul id="quickaccess-list"  <?php if($item['enableQuickaccess']=='false'){ ?> style="display: none"<?php } ?>>
 				<?php } ?>
 				<?php if($item['quickaccesselement']=='last'){?>
 					</ul>

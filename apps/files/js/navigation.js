@@ -39,6 +39,10 @@
 		$currentContent: null,
 
 		/**
+		 * Key for QuickAccesselement selected item in the list
+		 */
+		QuickAccessKey: "#quickaccess-list",
+		/**
 		 * Initializes the navigation from the given container
 		 *
 		 * @private
@@ -151,10 +155,19 @@
 
 			//window.alert("input   "+itemId);
 			if(itemId==='enableQuickAccess'){
+				//$( this.QuickAccessKey ).toggle();
 				$( "#quickaccess-list" ).toggle();
+
+				var qa = $(this.QuickAccessKey).is(":visible");
+				var url="/apps/files/api/v1/hidequickaccess";
+				if(qa){
+					url="/apps/files/api/v1/showquickaccess";
+				}
+
+				$.get(OC.generateUrl(url),function(data, status){
+				});
+
 			}
-
-
 			ev.preventDefault();
 		}
 

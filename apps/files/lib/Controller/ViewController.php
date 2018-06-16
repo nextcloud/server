@@ -160,35 +160,30 @@ class ViewController extends Controller {
 		$storageInfo = $this->getStorageInfo();
 
 
+		$user = $this->userSession->getUser()->getUID();
+		$key='show_Quick_Access';
+
+		if($this->config->getUserValue($user,$this->appName,$key,true)){
+			$expanded='true';
+		}else{
+			$expanded='false';
+		}
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
-				'classes' => '',
+				'enableQuickaccess' => $expanded,
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites')
 			]
 		);
 
-
-
-		$user = $this->userSession->getUser()->getUID();
-
 		$tagger=\OC::$server->getTagManager();
-
 
 		$helper= new \OCA\Files\Activity\Helper($tagger);
 		$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
 		$favItems = $favElements['items'];
-
-		$key='show_Quick_Access';
-
-		$expanded=$this->config->getUserValue($user,$this->appName,$key,true);
-		$expanded=true;
-
-		//this prevents adding quick-access-folders in case the elements are collapsed
-		if(!$expanded){$favElements['folders']=null;}
 
 		$FavoritesFolderCount=sizeof($favElements['folders']);
 		if($FavoritesFolderCount>0){
