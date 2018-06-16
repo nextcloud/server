@@ -10,8 +10,42 @@
 				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg">
 					<?php p($item['name']);?>
 				</a>
+				<?php if($item['id']=='favorites'){?>
+<!--				<button id="button---><?php //p($item['id']) ?><!--" class="app-navigation-entry-utils-menu-button icon icon-more"></button>-->
+
+
+				<div class="app-navigation-entry-utils">
+					<ul>
+						<li class="app-navigation-entry-utils-menu-button svg"><button id="button-<?php p($item['id']) ?>"></button></li>
+					</ul>
+				</div>
+				<div class="app-navigation-entry-menu" id="menu-<?php p($item['id']) ?>">
+						<ul>
+							<li>
+								<span class="menuitem">
+									<input id="enableQuickAccess" type="checkbox" class="checkbox" />
+									<label for="enableQuickAccess"><?php p($l->t('Enable Quickaccess')); ?></label>
+								</span>
+							</li>
+						</ul>
+				</div>
+
+					<ul id="quickaccess-list">
+				<?php } ?>
+				<?php if($item['quickaccesselement']=='last'){?>
+					</ul>
+				<?php } ?>
 			</li>
+
+
+
+
 		<?php } ?>
+
+
+
+
+
 
 		<li id="quota" class="pinned <?php p($pinned===0?'first-pinned ':'') ?><?php
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {

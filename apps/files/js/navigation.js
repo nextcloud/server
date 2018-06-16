@@ -55,7 +55,9 @@
 		 * Setup UI events
 		 */
 		_setupEvents: function() {
-			this.$el.on('click', 'li a', _.bind(this._onClickItem, this));
+			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
+			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
+			this.$el.on('click', 'li input', _.bind(this._onClickMenuItem, this));
 		},
 
 		/**
@@ -127,7 +129,35 @@
 				this.setActiveItem(itemId);
 			}
 			ev.preventDefault();
+		},
+		/**
+		 * Event handler for when clicking on an item.
+		 */
+		_onClickMenuButton: function(ev) {
+			var $target = $(ev.target);
+			var itemId = $target.closest('button').attr('id');
+			//window.alert("Button   "+itemId);
+
+			if(itemId==='button-favorites'){
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+
+
+			ev.preventDefault();
+		},
+		_onClickMenuItem: function(ev) {
+			var $target = $(ev.target);
+			var itemId = $target.closest('input').attr('id');
+
+			//window.alert("input   "+itemId);
+			if(itemId==='enableQuickAccess'){
+				$( "#quickaccess-list" ).toggle();
+			}
+
+
+			ev.preventDefault();
 		}
+
 	};
 
 	OCA.Files.Navigation = Navigation;

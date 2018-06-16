@@ -165,6 +165,7 @@ class ViewController extends Controller {
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
+				'classes' => '',
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites')
 			]
@@ -183,44 +184,71 @@ class ViewController extends Controller {
 
 		$key='show_Quick_Access';
 
-		if($this->config->getUserValue($user,$this->appName,$key,true) && sizeof($favElements['folders'])>0){
-			/*$nav->assign('showQuickAccess', 1);
-			\OCA\Files\App::getNavigationManager()->add(
-				[
-					'id' => 'Spacer',
-					'classes' => 'app-navigation-caption',
-					'order' => 6,
-					'name' => $this->l10n->t('Quick-Access')
-				]
-			);*/
+		$expanded=$this->config->getUserValue($user,$this->appName,$key,true);
+		$expanded=true;
 
-		$i=0;
+		//this prevents adding quick-access-folders in case the elements are collapsed
+		if(!$expanded){$favElements['folders']=null;}
+
+		$FavoritesFolderCount=sizeof($favElements['folders']);
+		if($FavoritesFolderCount>0){
+
+		$orderPosition=6;
+
+		$currentCount=0;
 		foreach($favElements['folders'] as $elem){
 
-			\OCA\Files\App::getNavigationManager()->add(
-				[
-					'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
-					'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
-					'order' => 7+$i,
-					'classes' => 'app-navigation-subelement',
-					'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
-					'icon' => 'files'
-				]
-			);
-			$i++;
-		}
+			$currentCount++;
+			if($currentCount!=$FavoritesFolderCount){
+				\OCA\Files\App::getNavigationManager()->add(
+					[
+						'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
+						'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
+						'order' => $orderPosition,
+						'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
+						'icon' => 'files',
+						'quickaccesselement' => 'true'
+					]
+				);
+			}else{
+				\OCA\Files\App::getNavigationManager()->add(
+					[
+						'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
+						'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
+						'order' => $orderPosition,
+						'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
+						'icon' => 'files',
+						'quickaccesselement' => 'last'
+					]
+				);
+			}
+
+			$orderPosition++;
 		}
 
+		}
+		$linkname="Collapse Folders!";
+		$linkhref="#&test=1234";
+		if(!$expanded){
+			$linkname="Expand Folders!";
+			$linkhref="#&test=56789";
+			$orderPosition=6;
+		}
+	/*	\OCA\Files\App::getNavigationManager()->add(
+			[
+				'id' => $linkname,
+				'href' => $linkhref,
+				'order' => $orderPosition,
+				'classes' => 'app-navigation-subelement-link',
+				'name' => $linkname,
+			]
+		);*/
 
 
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 		usort($navItems, function($item1, $item2) {
 			return $item1['order'] - $item2['order'];
 		});
-
-
-
-
 
 		$nav->assign('navigationItems', $navItems);
 
