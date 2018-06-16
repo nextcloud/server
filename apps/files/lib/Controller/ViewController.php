@@ -194,12 +194,14 @@ class ViewController extends Controller {
 		foreach($favElements['folders'] as $elem){
 
 			$currentCount++;
+			$SortingValue=substr( $elem, strrpos($elem,'/')+1, strlen($elem));
 			if($currentCount!=$FavoritesFolderCount){
 				\OCA\Files\App::getNavigationManager()->add(
 					[
 						'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
 						'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
 						'order' => $orderPosition,
+						'folderPosition' => $SortingValue,
 						'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
 						'icon' => 'files',
 						'quickaccesselement' => 'true'
@@ -211,6 +213,7 @@ class ViewController extends Controller {
 						'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
 						'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
 						'order' => $orderPosition,
+						'folderPosition' => $SortingValue,
 						'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
 						'icon' => 'files',
 						'quickaccesselement' => 'last'

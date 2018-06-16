@@ -39,10 +39,6 @@
 		$currentContent: null,
 
 		/**
-		 * Key for QuickAccesselement selected item in the list
-		 */
-		QuickAccessKey: "#quickaccess-list",
-		/**
 		 * Initializes the navigation from the given container
 		 *
 		 * @private
@@ -135,30 +131,32 @@
 			ev.preventDefault();
 		},
 		/**
-		 * Event handler for when clicking on an item.
+		 * Event handler for when clicking on an three-dot-menu.
 		 */
 		_onClickMenuButton: function(ev) {
 			var $target = $(ev.target);
 			var itemId = $target.closest('button').attr('id');
-			//window.alert("Button   "+itemId);
-
 			if(itemId==='button-favorites'){
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
-
-
 			ev.preventDefault();
 		},
+
+		/**
+		 * Event handler for when clicking on a menuitem.
+		 */
 		_onClickMenuItem: function(ev) {
+
+
+			var qaSelector= '#quickaccess-list';
+			var qaKey= 'quickaccess-list';
+
 			var $target = $(ev.target);
 			var itemId = $target.closest('input').attr('id');
 
-			//window.alert("input   "+itemId);
 			if(itemId==='enableQuickAccess'){
-				//$( this.QuickAccessKey ).toggle();
-				$( "#quickaccess-list" ).toggle();
 
-				var qa = $(this.QuickAccessKey).is(":visible");
+				var qa =$(qaSelector).is(":visible");
 				var url="/apps/files/api/v1/hidequickaccess";
 				if(qa){
 					url="/apps/files/api/v1/showquickaccess";
@@ -166,6 +164,19 @@
 
 				$.get(OC.generateUrl(url),function(data, status){
 				});
+
+				//begin sorting
+				var elem = document.getElementById(qaKey);
+				var list = elem.getElementsByTagName('li');
+				document.getElementById('menu-favorites').classList.toggle('open');
+				Quicksort(list,0, list.length);
+
+				//
+				//elem.empty();
+				//end sorting
+
+
+				$(qaSelector ).toggle();
 
 			}
 			ev.preventDefault();
@@ -176,3 +187,41 @@
 	OCA.Files.Navigation = Navigation;
 
 })();
+
+
+function Quicksort(List, start, end) {
+
+	//alert("length: "+(end-start));
+
+	if((end-start)===1){
+		alert("only one element to sort");
+		return;
+	}
+
+	var parNode=List[0].parentNode;
+
+	var pivot=((end-start)/2);
+	var pivotelem=List[pivot].getAttribute('folderPos');
+	alert("pivot: "+pivot+" cont: "+List[pivot].getAttribute('folderPos'));
+
+
+	for (var i = 0; i < (end-start); i++) {
+		alert("checking element: "+List[i].getAttribute('folderPos'));
+
+		var currelem=List[i].getAttribute('folderPos');
+
+		if(currelem >= pivotelem){
+			alert("Element: "+currelem+" is bigger or equal than: "+pivotelem);
+			parNode.insertBefore(List[i], List[pivot+1]);
+			alert("Put "+currelem+" after "+ List[pivot-1].getAttribute('folderPos'))
+		}else{
+			alert("Element: "+currelem+" is smaller than: "+pivotelem);
+			parNode.insertBefore(List[i], List[pivot]);
+			alert("Put "+currelem+" before "+ List[pivot+1].getAttribute('folderPos'))
+		}
+	}
+
+	Quicksort(List,0,pivot-1);
+	Quicksort(List,pivot, end);
+
+}

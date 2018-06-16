@@ -5,7 +5,10 @@
 		<?php foreach ($_['navigationItems'] as $item) {
 			strpos($item['classes'], 'pinned')!==false ? $pinned++ : '';
 			?>
-			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?>" class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?>">
+			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?>"
+				class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?>"
+				<?php if(isset($item['folderPosition'])){ p('folderPos='.$item['folderPosition']);} ?>
+			>
 				<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
 				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg">
 					<?php p($item['name']);?>
