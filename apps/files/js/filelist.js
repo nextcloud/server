@@ -275,8 +275,7 @@
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
 				this._detailsView.$el.insertBefore(this.$el);
-				// this._detailsView.$el.addClass('disappear');
-				this.showDetailsView('/');
+				this._detailsView.$el.addClass('disappear');
 			}
 
 			this._initFileActions(options.fileActions);

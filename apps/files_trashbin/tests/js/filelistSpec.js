@@ -303,7 +303,9 @@ describe('OCA.Trashbin.FileList tests', function() {
 			});
 			it('Deletes selected files when "Delete" clicked', function() {
 				var request;
-				$('.selectedActions .filesSelectMenu .delete').click();
+				var $deleteLink = $('.selectedActions .filesSelectMenu .delete');
+				$deleteLink.click();
+				expect($deleteLink.find('.icon-loading-small').length).toEqual(1);
 				expect(fakeServer.requests.length).toEqual(1);
 				request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/delete.php');
@@ -323,6 +325,7 @@ describe('OCA.Trashbin.FileList tests', function() {
 						}
 					})
 				);
+				expect($deleteLink.find('.icon-loading-small').length).toEqual(0);
 				expect(fileList.findFileEl('One.txt.d11111').length).toEqual(0);
 				expect(fileList.findFileEl('Three.pdf.d33333').length).toEqual(0);
 				expect(fileList.findFileEl('somedir.d99999').length).toEqual(0);
@@ -348,7 +351,9 @@ describe('OCA.Trashbin.FileList tests', function() {
 		describe('Restore', function() {
 			it('Restores selected files when "Restore" clicked', function() {
 				var request;
-				$('.selectedActions .filesSelectMenu .restore').click();
+				var $restoreLink = $('.selectedActions .filesSelectMenu .restore');
+				$restoreLink.click();
+				expect($restoreLink.find('.icon-loading-small').length).toEqual(1);
 				expect(fakeServer.requests.length).toEqual(1);
 				request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/undelete.php');
@@ -368,6 +373,7 @@ describe('OCA.Trashbin.FileList tests', function() {
 						}
 					})
 				);
+				expect($restoreLink.find('.icon-loading-small').length).toEqual(0);
 				expect(fileList.findFileEl('One.txt.d11111').length).toEqual(0);
 				expect(fileList.findFileEl('Three.pdf.d33333').length).toEqual(0);
 				expect(fileList.findFileEl('somedir.d99999').length).toEqual(0);
