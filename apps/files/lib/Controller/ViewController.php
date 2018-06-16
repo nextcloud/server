@@ -159,68 +159,79 @@ class ViewController extends Controller {
 		// FIXME: Make non static
 		$storageInfo = $this->getStorageInfo();
 
+		$user = $this->userSession->getUser()->getUID();
+
+		$sorting=$this->config->getUserValue($user,$this->appName,'quickaccess_sorting_strategy','date');
+		$reverseListSetting=$this->config->getUserValue($user,$this->appName,'quickaccess_reverse_list','false');
+		if($this->config->getUserValue($user,$this->appName,'show_Quick_Access',true)){
+			$expanded='true';
+		}else{
+			$expanded='false';
+		}
 
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
+				'enableQuickaccess' => $expanded,
+				'quickaccessSortingStrategy' => $sorting,
+				'quickaccessSortingReverse' => $reverseListSetting,
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites')
 			]
 		);
 
-
-
-		$user = $this->userSession->getUser()->getUID();
-
 		$tagger=\OC::$server->getTagManager();
-
 
 		$helper= new \OCA\Files\Activity\Helper($tagger);
 		$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
-		$favItems = $favElements['items'];
 
-		$key='show_Quick_Access';
+		$FavoritesFolderCount=sizeof($favElements['folders']);
+		if($FavoritesFolderCount>0){
 
-		if($this->config->getUserValue($user,$this->appName,$key,true) && sizeof($favElements['folders'])>0){
-			/*$nav->assign('showQuickAccess', 1);
-			\OCA\Files\App::getNavigationManager()->add(
-				[
-					'id' => 'Spacer',
-					'classes' => 'app-navigation-caption',
-					'order' => 6,
-					'name' => $this->l10n->t('Quick-Access')
-				]
-			);*/
+			$NavBarPositionPosition=6;
+			$currentCount=0;
+			foreach($favElements['folders'] as $elem){
 
-		$i=0;
-		foreach($favElements['folders'] as $elem){
+				$id=substr( $elem, strrpos($elem,'/')+1, strlen($elem));
+				$link=\OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem;
 
-			\OCA\Files\App::getNavigationManager()->add(
-				[
-					'id' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
-					'href' => \OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem,
-					'order' => 7+$i,
-					'classes' => 'app-navigation-subelement',
-					'name' => substr( $elem, strrpos($elem,'/')+1, strlen($elem)),
-					'icon' => 'files'
-				]
-			);
-			$i++;
+				$SortingValue=++$currentCount;
+				if($currentCount!=$FavoritesFolderCount){
+					\OCA\Files\App::getNavigationManager()->add(
+						[
+							'id' => $id,
+							'href' => $link,
+							'order' => $NavBarPositionPosition,
+							'folderPosition' => $SortingValue,
+							'name' => $id,
+							'icon' => 'files',
+							'quickaccesselement' => 'true'
+						]
+					);
+				}else{
+					\OCA\Files\App::getNavigationManager()->add(
+						[
+							'id' => $id,
+							'href' => $link,
+							'order' => $NavBarPositionPosition,
+							'folderPosition' => $SortingValue,
+							'name' => $id,
+							'icon' => 'files',
+							'quickaccesselement' => 'last'
+						]
+					);
+				}
+				$NavBarPositionPosition++;
+			}
 		}
-		}
-
 
 
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 		usort($navItems, function($item1, $item2) {
 			return $item1['order'] - $item2['order'];
 		});
-
-
-
-
 
 		$nav->assign('navigationItems', $navItems);
 

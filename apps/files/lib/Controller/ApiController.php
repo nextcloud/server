@@ -45,6 +45,7 @@ use OCP\IPreview;
 use OCP\Share\IManager;
 use OC\Files\Node\Node;
 use OCP\IUserSession;
+use Sabre\VObject\Property\Boolean;
 
 /**
  * Class ApiController
@@ -270,27 +271,64 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param int $value
+	 * @param bool $show
+	 *
 	 * @return Response
 	 */
-	public function showQuickAccess() {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1);
+	public function showQuickAccess($show) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', (int) $show);
 		return new Response();
 		}
 
 	/**
-	 * Toggle default for showing/hiding QuickAccess folder
+	 * quickaccess-sorting-strategy
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param int $value
+	 * @param string $strategy
 	 * @return Response
 	 */
-	public function hideQuickAccess() {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 0);
+	public function setSortingStrategy($strategy) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', (String) $strategy);
 		return new Response();
+	}
+
+	/**
+	 * Get reverse-state for quickaccess-list
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return String
+	 */
+	public function getSortingStrategy() {
+		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'date');
+	}
+
+	/**
+	 * Toggle for reverse quickaccess-list
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $reverse
+	 * @return Response
+	 */
+	public function setReverseQuickaccess($reverse) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', (int) $reverse);
+		return new Response();
+	}
+
+	/**
+	 * Get reverse-state for quickaccess-list
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return bool
+	 */
+	public function getReverseQuickaccess() {
+		if($this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', false)){
+			return true;
 		}
-
-
+		return false;
+	}
 
 }

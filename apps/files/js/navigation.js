@@ -4,6 +4,8 @@
  * @author Vincent Petry
  * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
+ * Edited by: Felix Nüsse <felix.nuesse@t-online.de> 2018
+ *
  * This file is licensed under the Affero General Public License version 3
  * or later.
  *
@@ -39,6 +41,10 @@
 		$currentContent: null,
 
 		/**
+		 * Strategy by which the quickaccesslist is sorted
+		 */
+		$sortingStrategy: 'alphabet',
+		/**
 		 * Initializes the navigation from the given container
 		 *
 		 * @private
@@ -49,13 +55,16 @@
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
+			this.initialSort();
 		},
 
 		/**
 		 * Setup UI events
 		 */
 		_setupEvents: function() {
-			this.$el.on('click', 'li a', _.bind(this._onClickItem, this));
+			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
+			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
+			this.$el.on('click', 'li input', _.bind(this._onClickMenuItem, this));
 		},
 
 		/**
@@ -127,9 +136,193 @@
 				this.setActiveItem(itemId);
 			}
 			ev.preventDefault();
+		},
+		/**
+		 * Event handler for when clicking on an three-dot-menu.
+		 */
+		_onClickMenuButton: function(ev) {
+			var $target = $(ev.target);
+			var itemId = $target.closest('button').attr('id');
+			if(itemId==='button-favorites'){
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+			ev.preventDefault();
+		},
+
+		/**
+		 * Event handler for when clicking on a menuitem.
+		 */
+		_onClickMenuItem: function(ev) {
+
+			var qaSelector= '#quickaccess-list';
+			var qaKey= 'quickaccess-list';
+
+			var itemId = $(ev.target).closest('input').attr('id');
+			var list = document.getElementById(qaKey).getElementsByTagName('li');
+
+			if(itemId==='enableQuickAccess'){
+				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
+				});
+				$(qaSelector ).toggle();
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+
+			if(itemId==='sortByAlphabet'){
+				//Prevents deselecting Group-Item
+				if(!document.getElementById('sortByAlphabet').checked){
+					ev.preventDefault();
+					return;
+				}
+				this.sortingStrategy='alphabet';
+				document.getElementById('sortByDate').checked=false;
+				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
+				this.QuickSort(list, 0, list.length - 1);
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+
+			if(itemId==='sortByDate'){
+				//Prevents deselecting Group-Item
+				if(!document.getElementById('sortByDate').checked){
+					ev.preventDefault();
+					return;
+				}
+				this.sortingStrategy='date';
+				document.getElementById('sortByAlphabet').checked=false;
+				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
+				this.QuickSort(list, 0, list.length - 1);
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+
+			if(itemId==='enableReverse'){
+				this.reverse(list);
+				var state = document.getElementById('enableReverse').checked;
+				$.get(OC.generateUrl("/apps/files/api/v1/setreversequickaccess"), {reverse: state}, function(data, status){});
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+			//ev.preventDefault();
+		},
+
+		/**
+		 * Sort initially as setup of sidebar for QuickAccess
+		 */
+		initialSort: function() {
+
+			var domRevState=document.getElementById('enableReverse').checked;
+			var domSortAlphabetState=document.getElementById('sortByAlphabet').checked;
+			var domSortDateState=document.getElementById('sortByDate').checked;
+
+			var qaKey= 'quickaccess-list';
+			var list = document.getElementById(qaKey).getElementsByTagName('li');
+
+			if(domSortAlphabetState){
+				this.sortingStrategy='alphabet';
+			}
+			if(domSortDateState){
+				this.sortingStrategy='date';
+			}
+
+			this.QuickSort(list, 0, list.length - 1);
+
+			if(domRevState){
+				this.reverse(list);
+			}
+
+			/*This creates flashes the UI, which is bad userexperience. It is the cleaner way to do it, that is why i haven't deleted it yet.
+			var scope=this;
+			$.get(OC.generateUrl("/apps/files/api/v1/getsortingstrategy"), function(data, status){
+				scope.sortingStrategy=data;
+				scope.QuickSort(list, 0, list.length - 1);
+
+			});
+
+			$.get(OC.generateUrl("/apps/files/api/v1/getreversequickaccess"), function(data, status){
+				if(data){
+					scope.reverse(list);
+				}
+			});
+			*/
+		},
+
+		/**
+		 * Sorting-Algorithm for QuickAccess
+		 */
+		QuickSort: function(list, start, end) {
+			var lastmatch;
+			if(list.length > 1){
+				lastmatch = this.quicksort_helper(list, start, end);
+				if(start < lastmatch - 1){
+					this.QuickSort(list, start, lastmatch - 1);
+				}
+				if(lastmatch < end){
+					this.QuickSort(list, lastmatch, end);
+				}
+			}
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 */
+		quicksort_helper: function(list, start, end) {
+			var pivot = Math.floor((end + start) / 2);
+			var pivotelem = this.getCompareValue(list,pivot);
+			var	i = start;
+			var	j = end;
+
+			while(i <= j){
+				while(this.getCompareValue(list,i) < pivotelem){
+					i++;
+				}
+				while(this.getCompareValue(list,j) > pivotelem){
+					j--;
+				}
+				if(i <= j){
+					this.swap(list, i, j);
+					i++;
+					j--;
+				}
+			}
+			return i;
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 * This method allows easy access to the element which is sorted by.
+		 */
+		getCompareValue: function(nodes, int){
+			if(this.sortingStrategy==='alphabet'){
+			;	return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase()
+			}else if(this.sortingStrategy==='date'){
+				return nodes[int].getAttribute('folderPos').toLowerCase();
+			}
+			return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 * This method allows easy swapping of elements.
+		 */
+		swap: function(list, j, i){
+			list[i].before(list[j]);
+			list[j].before(list[i]);
+		},
+
+		/**
+		 * Reverse QuickAccess-List
+		 */
+		reverse: function(list){
+			var len=list.length-1;
+			for(var i = 0; i < len/2; i++) {
+				this.swap(list, i, len-i);
+			}
 		}
+
 	};
 
 	OCA.Files.Navigation = Navigation;
 
 })();
+
+
+
+
+
