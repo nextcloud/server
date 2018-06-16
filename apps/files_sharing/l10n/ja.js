@@ -84,7 +84,7 @@ OC.L10N.register(
     "Unknown share type" : "不明な共有タイプ",
     "Not a directory" : "ディレクトリではありません",
     "Could not lock path" : "パスをロックできませんでした",
-    "Wrong or no update parameter given" : "間違っている、もしくはパラメータが更新されていません",
+    "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Cannot increase permissions" : "パーミッションを追加できません",
     "shared by %s" : "%s が共有",
