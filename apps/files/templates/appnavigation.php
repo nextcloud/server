@@ -14,7 +14,7 @@
 				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']);?></a>
 				<?php if($item['id']=='favorites'){?>
 
-				<div class="app-navigation-entry-utils">
+				<div class="app-navigation-entry-utils" <?php if($item['favoritescount']==0){ ?> style="display: none"<?php } ?>>
 					<ul>
 						<li class="app-navigation-entry-utils-menu-button svg"><button id="button-<?php p($item['id']) ?>"></button></li>
 					</ul>
@@ -47,8 +47,10 @@
 						</li>
 					</ul>
 				</div>
-				<ul id="quickaccess-list"  <?php if($item['enableQuickaccess']=='false'){ ?> style="display: none"<?php } ?>>
+					<ul id="quickaccess-list"  <?php if($item['enableQuickaccess']=='false'){ ?> style="display: none"<?php } ?>>
+					<?php /*This fixes the styleerrors if no favorites are set*/ if($item['favoritescount']==0){?></ul><?php } ?>
 				<?php } ?>
+
 				<?php if($item['quickaccesselement']=='last'){?>
 				</ul>
 				<?php } ?>

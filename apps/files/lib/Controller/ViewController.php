@@ -161,6 +161,7 @@ class ViewController extends Controller {
 
 		$user = $this->userSession->getUser()->getUID();
 
+		//Load QuickAccess-Defaults
 		$sorting=$this->config->getUserValue($user,$this->appName,'quickaccess_sorting_strategy','date');
 		$reverseListSetting=$this->config->getUserValue($user,$this->appName,'quickaccess_reverse_list','false');
 		if($this->config->getUserValue($user,$this->appName,'show_Quick_Access',true)){
@@ -168,6 +169,20 @@ class ViewController extends Controller {
 		}else{
 			$expanded='false';
 		}
+
+
+		//Get Favorite-Folder
+		$tagger=\OC::$server->getTagManager();
+
+		$helper= new \OCA\Files\Activity\Helper($tagger);
+
+		try {
+			$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
+		} catch (\RuntimeException $e) {
+			$favElements['folders'] = null;
+		}
+
+		$FavoritesFolderCount=sizeof($favElements['folders']);
 
 		\OCA\Files\App::getNavigationManager()->add(
 			[
@@ -178,16 +193,14 @@ class ViewController extends Controller {
 				'quickaccessSortingStrategy' => $sorting,
 				'quickaccessSortingReverse' => $reverseListSetting,
 				'order' => 5,
-				'name' => $this->l10n->t('Favorites')
+				'name' => $this->l10n->t('Favorites'),
+				//If there are zero elements, add ul end tag directly.
+				'favoritescount' => $FavoritesFolderCount
 			]
 		);
 
-		$tagger=\OC::$server->getTagManager();
 
-		$helper= new \OCA\Files\Activity\Helper($tagger);
-		$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
-
-		$FavoritesFolderCount=sizeof($favElements['folders']);
+		//Add Favorite-folder as menuentries, if there are any
 		if($FavoritesFolderCount>0){
 
 			$NavBarPositionPosition=6;
