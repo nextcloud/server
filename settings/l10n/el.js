@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Official" : "Επίσημο",
+    "No results" : "Κανένα αποτέλεσμα",
     "Visit website" : "Επισκεφθείτε την ιστοσελίδα",
     "User documentation" : "Τεκμηρίωση Χρήστη",
     "Developer documentation" : "Τεκμηρίωση προγραμματιστή",
@@ -107,6 +108,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Φωτογραφία που παρέχεται από τον πρωτότυπο λογαριασμό",
     "Cancel" : "Άκυρο",
     "Choose as profile picture" : "Επιλέξτε εικόνα προφίλ",
+    "Details" : "Λεπτομέρειες",
     "You are member of the following groups:" : "Είστε μέλος των ακόλουθων ομάδων:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Χρησιμοποιείτε <strong>%s</strong> του <strong>%s</strong>(<strong>%s%%</strong>)",
     "No display name set" : "Δεν ορίστηκε όνομα",
@@ -358,6 +360,9 @@ OC.L10N.register(
     "change email address" : "αλλαγή διεύθυνσης ηλ. αλληλογραφίας",
     "Default" : "Προκαθορισμένο",
     "App up to date" : "Ενημερωμένη εφαρμογή",
+    "Updating …" : "Γίνεται ενημέρωση ....",
+    "Could not update app" : "Αδυναμία ενημέρωσης εφαρμογής",
+    "Could not remove app" : "Αδυναμία αφαίρεσης εφαρμογής",
     "{size} used" : "{μέγεθος} που χρησιμοποιείται"
 },
 "nplurals=2; plural=(n != 1);");

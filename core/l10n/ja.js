@@ -128,7 +128,6 @@ OC.L10N.register(
     "Link" : "リンク",
     "Password protect" : "パスワード保護を有効化",
     "Allow editing" : "編集を許可",
-    "Email link to person" : "メールリンク",
     "Send" : "送信",
     "Allow upload and editing" : "アップロードと編集を許可する",
     "Read only" : "読み取り専用",
