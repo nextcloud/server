@@ -47,8 +47,10 @@
 						</li>
 					</ul>
 				</div>
-				<ul id="quickaccess-list"  <?php if($item['enableQuickaccess']=='false'){ ?> style="display: none"<?php } ?>>
+					<ul id="quickaccess-list"  <?php if($item['enableQuickaccess']=='false'){ ?> style="display: none"<?php } ?>>
+					<?php /*This fixes the styleerrors if no favorites are set*/ if($item['favoritescount']==0){?></ul><?php } ?>
 				<?php } ?>
+
 				<?php if($item['quickaccesselement']=='last'){?>
 				</ul>
 				<?php } ?>
