@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Η λίστα της ομάδας είναι κενή",
     "Unable to retrieve the group list" : "Αδύνατη η ανάκτηση λίστας της ομάδας",
     "Saved" : "Αποθηκεύτηκε",
     "Saving failed:" : "Απέτυχε η αποθήκευση:",
@@ -60,7 +61,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Έλεγχος %s δεν είναι έγκυρος",
     "Check #%s does not exist" : "Έλεγχος #%s δεν υπάρχει",
     "Workflow" : "Ροή εργασίας",
-    "Open documentation" : "Άνοιγμ τεκμηρίωσης",
+    "Open documentation" : "Άνοιγμα τεκμηρίωσης",
     "Add rule group" : "Προσθέστε κανόνα ομάδας",
     "Short rule description" : "Μικρή περιγραφή κανόνα",
     "Add rule" : "Προσθέστε κανόνα",

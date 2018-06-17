@@ -18,6 +18,7 @@ OC.L10N.register(
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "テーマではあなたのインスタンスとサポートされたクライアントのルック＆フィールを簡単に変更できます。この変更はすべてのユーザーが対象となります。",
     "Name" : "名前",
     "Reset to default" : "デフォルトに戻す",
+    "Web link" : "Webリンク",
     "Slogan" : "スローガン",
     "Color" : "色",
     "Logo" : "ロゴ",

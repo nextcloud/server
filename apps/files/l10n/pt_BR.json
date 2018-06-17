@@ -58,7 +58,7 @@
     "_%n folder_::_%n folders_" : ["%n pasta","%n pastas"],
     "_%n file_::_%n files_" : ["%n arquivo","%n arquivos"],
     "{dirs} and {files}" : "{dirs} e {files}",
-    "_including %n hidden_::_including %n hidden_" : ["incluindo %n escondido","incluindo %n oculto(s)"],
+    "_including %n hidden_::_including %n hidden_" : ["incluindo %n oculto","incluindo %n ocultos"],
     "You don’t have permission to upload or create files here" : "Você não tem permissão para enviar ou criar arquivos aqui",
     "_Uploading %n file_::_Uploading %n files_" : ["Enviando %n arquivo","Enviando %n arquivos"],
     "New" : "Novo",
