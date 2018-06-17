@@ -240,6 +240,8 @@
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Αυτή η εφαρμογή απαιτεί JavaScript για σωστή λειτουργία. Παρακαλώ {linkstart}ενεργοποιήστε τη JavaScrip{linkend} και φορτώστε ξανά τη σελίδα.",
     "More apps" : "Περισσότερες εφαρμογές",
     "Search" : "Αναζήτηση",
+    "Contacts" : "Επαφές",
+    "Contacts menu" : "Μενού επαφών",
     "Confirm your password" : "Επιβεβαίωση συνθηματικού",
     "Server side authentication failed!" : "Αποτυχημένη πιστοποίηση από πλευράς διακομιστή!",
     "Please contact your administrator." : "Παρακαλούμε επικοινωνήστε με τον διαχειριστή.",
