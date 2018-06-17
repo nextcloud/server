@@ -161,13 +161,12 @@
 			var list = document.getElementById(qaKey).getElementsByTagName('li');
 
 			if(itemId==='enableQuickAccess'){
-				var state = document.getElementById('enableQuickAccess').checked;
-				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: state}, function(data, status){
+				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
 				});
-
 				$(qaSelector ).toggle();
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
+
 			if(itemId==='sortByAlphabet'){
 				//Prevents deselecting Group-Item
 				if(!document.getElementById('sortByAlphabet').checked){
@@ -180,6 +179,7 @@
 				this.QuickSort(list, 0, list.length - 1);
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
+
 			if(itemId==='sortByDate'){
 				//Prevents deselecting Group-Item
 				if(!document.getElementById('sortByDate').checked){
@@ -192,13 +192,13 @@
 				this.QuickSort(list, 0, list.length - 1);
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
+
 			if(itemId==='enableReverse'){
 				this.reverse(list);
 				var state = document.getElementById('enableReverse').checked;
 				$.get(OC.generateUrl("/apps/files/api/v1/setreversequickaccess"), {reverse: state}, function(data, status){});
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
-
 			//ev.preventDefault();
 		},
 
@@ -211,15 +211,12 @@
 			var domSortAlphabetState=document.getElementById('sortByAlphabet').checked;
 			var domSortDateState=document.getElementById('sortByDate').checked;
 
-
 			var qaKey= 'quickaccess-list';
 			var list = document.getElementById(qaKey).getElementsByTagName('li');
-
 
 			if(domSortAlphabetState){
 				this.sortingStrategy='alphabet';
 			}
-
 			if(domSortDateState){
 				this.sortingStrategy='date';
 			}
@@ -250,21 +247,15 @@
 		 * Sorting-Algorithm for QuickAccess
 		 */
 		QuickSort: function(list, start, end) {
-
 			var lastmatch;
-
-			if (list.length > 1) {
-
+			if(list.length > 1){
 				lastmatch = this.quicksort_helper(list, start, end);
-
-				if (start < lastmatch - 1) {
+				if(start < lastmatch - 1){
 					this.QuickSort(list, start, lastmatch - 1);
 				}
-
-				if (lastmatch < end) {
+				if(lastmatch < end){
 					this.QuickSort(list, lastmatch, end);
 				}
-
 			}
 		},
 
@@ -272,22 +263,18 @@
 		 * Sorting-Algorithm-Helper for QuickAccess
 		 */
 		quicksort_helper: function(list, start, end) {
-
 			var pivot = Math.floor((end + start) / 2);
 			var pivotelem = this.getCompareValue(list,pivot);
 			var	i = start;
 			var	j = end;
 
-
 			while(i <= j){
 				while(this.getCompareValue(list,i) < pivotelem){
 					i++;
 				}
-
 				while(this.getCompareValue(list,j) > pivotelem){
 					j--;
 				}
-
 				if(i <= j){
 					this.swap(list, i, j);
 					i++;
