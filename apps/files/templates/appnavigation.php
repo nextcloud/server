@@ -7,12 +7,9 @@
 			?>
 			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?>"
 				class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?>"
-				<?php if(isset($item['folderPosition'])){ p('folderPos='.$item['folderPosition']);} ?>
-			>
+				<?php if(isset($item['folderPosition'])){ ?> folderPos="<?php p($item['folderPosition']);?>"<?php } ?>>
 				<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
-				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg">
-					<?php p($item['name']);?>
-				</a>
+				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']);?></a>
 				<?php if($item['id']=='favorites'){?>
 <!--				<button id="button---><?php //p($item['id']) ?><!--" class="app-navigation-entry-utils-menu-button icon icon-more"></button>-->
 
@@ -28,6 +25,24 @@
 								<span class="menuitem">
 									<input id="enableQuickAccess" type="checkbox" class="checkbox" />
 									<label for="enableQuickAccess"><?php p($l->t('Enable Quickaccess')); ?></label>
+								</span>
+							</li>
+							<li>
+								<span class="menuitem">
+									<input id="sortByAlphabet" type="checkbox" class="checkbox" data-group='SortingStrategy'/>
+									<label for="sortByAlphabet"><?php p($l->t('Sort by Alphabet')); ?></label>
+								</span>
+							</li>
+							<li>
+								<span class="menuitem">
+									<input id="sortByDate" type="checkbox" class="checkbox" data-group='SortingStrategy'/>
+									<label for="sortByDate"><?php p($l->t('Sort by Date')); ?></label>
+								</span>
+							</li>
+							<li>
+								<span class="menuitem">
+									<input id="enableReverse" type="checkbox" class="checkbox" />
+									<label for="enableReverse"><?php p($l->t('Reverse List')); ?></label>
 								</span>
 							</li>
 						</ul>

@@ -4,6 +4,8 @@
  * @author Vincent Petry
  * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
+ * Edited by: Felix Nüsse <felix.nuesse@t-online.de> 2018
+ *
  * This file is licensed under the Affero General Public License version 3
  * or later.
  *
@@ -38,6 +40,10 @@
 		 */
 		$currentContent: null,
 
+		/**
+		 * Strategy by which the quickaccesslist is sorted
+		 */
+		$sortingStrategy: 'alphabet',
 		/**
 		 * Initializes the navigation from the given container
 		 *
@@ -147,13 +153,27 @@
 		 */
 		_onClickMenuItem: function(ev) {
 
-
 			var qaSelector= '#quickaccess-list';
 			var qaKey= 'quickaccess-list';
 
-			var $target = $(ev.target);
-			var itemId = $target.closest('input').attr('id');
+			var itemId = $(ev.target).closest('input').attr('id');
 
+			var list = document.getElementById(qaKey).getElementsByTagName('li');
+
+			if(itemId==='enableReverse'){
+				this.reverse(list);
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+			if(itemId==='sortByAlphabet'){
+				this.sortingStrategy='alphabet';
+				this.quickSort(list, 0, list.length - 1);
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+			if(itemId==='sortByDate'){
+				this.sortingStrategy='date';
+				this.quickSort(list, 0, list.length - 1);
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
 			if(itemId==='enableQuickAccess'){
 
 				var qa =$(qaSelector).is(":visible");
@@ -165,21 +185,93 @@
 				$.get(OC.generateUrl(url),function(data, status){
 				});
 
-				//begin sorting
-				var elem = document.getElementById(qaKey);
-				var list = elem.getElementsByTagName('li');
-				document.getElementById('menu-favorites').classList.toggle('open');
-				Quicksort(list,0, list.length);
-
-				//
-				//elem.empty();
-				//end sorting
-
-
 				$(qaSelector ).toggle();
-
+				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 			ev.preventDefault();
+		},
+
+		/**
+		 * Sorting-Algorithm for QuickAccess
+		 */
+		quickSort: function(list, start, end) {
+
+			var lastmatch;
+
+			if (list.length > 1) {
+
+				lastmatch = this.partition(list, start, end);
+
+				if (start < lastmatch - 1) {
+					this.quickSort(list, start, lastmatch - 1);
+				}
+
+				if (lastmatch < end) {
+					this.quickSort(list, lastmatch, end);
+				}
+
+			}
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 */
+		partition: function(list, start, end) {
+
+			var pivot = Math.floor((end + start) / 2);
+			var pivotelem = this.getCompareValue(list,pivot);
+			var	i = start;
+			var	j = end;
+
+
+			while(i <= j){
+				while(this.getCompareValue(list,i) < pivotelem){
+					i++;
+				}
+
+				while(this.getCompareValue(list,j) > pivotelem){
+					j--;
+				}
+
+				if(i <= j){
+					this.swap(list, i, j);
+					i++;
+					j--;
+				}
+			}
+			return i;
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 * This method allows easy access to the element which is sorted by.
+		 */
+		getCompareValue: function(nodes, int){
+			if(this.sortingStrategy==='alphabet'){
+				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
+			}else if(this.sortingStrategy==='date'){
+				return nodes[int].getAttribute('folderPos').toLowerCase();
+			}
+			return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 * This method allows easy swapping of elements.
+		 */
+		swap: function(list, j, i){
+			list[i].before(list[j]);
+			list[j].before(list[i]);
+		},
+
+		/**
+		 * Reverse QuickAccess-List
+		 */
+		reverse: function(list){
+			var len=list.length-1;
+			for(var i = 0; i < len/2; i++) {
+				this.swap(list, i, len-i);
+			}
 		}
 
 	};
@@ -189,39 +281,6 @@
 })();
 
 
-function Quicksort(List, start, end) {
-
-	//alert("length: "+(end-start));
-
-	if((end-start)===1){
-		alert("only one element to sort");
-		return;
-	}
-
-	var parNode=List[0].parentNode;
-
-	var pivot=((end-start)/2);
-	var pivotelem=List[pivot].getAttribute('folderPos');
-	alert("pivot: "+pivot+" cont: "+List[pivot].getAttribute('folderPos'));
 
 
-	for (var i = 0; i < (end-start); i++) {
-		alert("checking element: "+List[i].getAttribute('folderPos'));
 
-		var currelem=List[i].getAttribute('folderPos');
-
-		if(currelem >= pivotelem){
-			alert("Element: "+currelem+" is bigger or equal than: "+pivotelem);
-			parNode.insertBefore(List[i], List[pivot+1]);
-			alert("Put "+currelem+" after "+ List[pivot-1].getAttribute('folderPos'))
-		}else{
-			alert("Element: "+currelem+" is smaller than: "+pivotelem);
-			parNode.insertBefore(List[i], List[pivot]);
-			alert("Put "+currelem+" before "+ List[pivot+1].getAttribute('folderPos'))
-		}
-	}
-
-	Quicksort(List,0,pivot-1);
-	Quicksort(List,pivot, end);
-
-}

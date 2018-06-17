@@ -194,7 +194,7 @@ class ViewController extends Controller {
 		foreach($favElements['folders'] as $elem){
 
 			$currentCount++;
-			$SortingValue=substr( $elem, strrpos($elem,'/')+1, strlen($elem));
+			$SortingValue=$currentCount;
 			if($currentCount!=$FavoritesFolderCount){
 				\OCA\Files\App::getNavigationManager()->add(
 					[
