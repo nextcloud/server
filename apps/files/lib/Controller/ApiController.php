@@ -271,22 +271,12 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @return Response
-	 */
-	public function showQuickAccess() {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1);
-		return new Response();
-		}
-
-	/**
-	 * Toggle default for showing/hiding QuickAccess folder
-	 *
-	 * @NoAdminRequired
+	 * @param bool $show
 	 *
 	 * @return Response
 	 */
-	public function hideQuickAccess() {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 0);
+	public function showQuickAccess($show) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', (int) $show);
 		return new Response();
 		}
 
@@ -299,8 +289,19 @@ class ApiController extends Controller {
 	 * @return Response
 	 */
 	public function setSortingStrategy($strategy) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sporting_strategy', (String) $strategy);
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', (String) $strategy);
 		return new Response();
+	}
+
+	/**
+	 * Get reverse-state for quickaccess-list
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return String
+	 */
+	public function getSortingStrategy() {
+		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'date');
 	}
 
 	/**
@@ -314,6 +315,20 @@ class ApiController extends Controller {
 	public function setReverseQuickaccess($reverse) {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', (int) $reverse);
 		return new Response();
+	}
+
+	/**
+	 * Get reverse-state for quickaccess-list
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return bool
+	 */
+	public function getReverseQuickaccess() {
+		if($this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', false)){
+			return true;
+		}
+		return false;
 	}
 
 }

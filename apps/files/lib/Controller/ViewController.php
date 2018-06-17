@@ -168,8 +168,10 @@ class ViewController extends Controller {
 			$expanded='false';
 		}
 
-		$sorting=$this->config->getUserValue($user,$this->appName,'quickaccess_sporting_strategy','notset');
-		$reverseListSetting=$this->config->getUserValue($user,$this->appName,'quickaccess_reverse_list',false);
+		$sorting=$this->config->getUserValue($user,$this->appName,'quickaccess_sorting_strategy','date');
+		$reverseListSetting=$this->config->getUserValue($user,$this->appName,'quickaccess_reverse_list','false');
+
+		$teststr=' exp: '.$expanded.' sort: '.$sorting.' rev: '.$reverseListSetting;
 
 		\OCA\Files\App::getNavigationManager()->add(
 			[

@@ -96,6 +96,16 @@ $application->registerRoutes(
 				'url' => '/api/v1/setreversequickaccess',
 				'verb' => 'GET',
 			],
+			[
+				'name' => 'API#getSortingStrategy',
+				'url' => '/api/v1/getsortingstrategy',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'API#getReverseQuickaccess',
+				'url' => '/api/v1/getreversequickaccess',
+				'verb' => 'GET',
+			]
 		]
 	]
 );

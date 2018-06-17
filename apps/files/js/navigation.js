@@ -55,6 +55,7 @@
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
+			this.initialSort();
 		},
 
 		/**
@@ -159,57 +160,109 @@
 			var itemId = $(ev.target).closest('input').attr('id');
 			var list = document.getElementById(qaKey).getElementsByTagName('li');
 
-			if(itemId==='enableReverse'){
-				this.reverse(list);
-				var state = document.getElementById('enableReverse').checked;
-				$.get(OC.generateUrl("/apps/files/api/v1/setreversequickaccess"), {reverse: state},function(data, status){});
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
-			if(itemId==='sortByAlphabet'){
-				this.sortingStrategy='alphabet';
-				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy},function(data, status){});
-				this.quickSort(list, 0, list.length - 1);
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
-			if(itemId==='sortByDate'){
-				this.sortingStrategy='date';
-				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy},function(data, status){});
-				this.quickSort(list, 0, list.length - 1);
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
 			if(itemId==='enableQuickAccess'){
-
-				var qa =$(qaSelector).is(":visible");
-				var url="/apps/files/api/v1/hidequickaccess";
-				if(qa){
-					url="/apps/files/api/v1/showquickaccess";
-				}
-
-				$.get(OC.generateUrl(url), function(data, status){});
+				var state = document.getElementById('enableQuickAccess').checked;
+				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: state}, function(data, status){
+				});
 
 				$(qaSelector ).toggle();
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
+			if(itemId==='sortByAlphabet'){
+				//Prevents deselecting Group-Item
+				if(!document.getElementById('sortByAlphabet').checked){
+					ev.preventDefault();
+					return;
+				}
+				this.sortingStrategy='alphabet';
+				document.getElementById('sortByDate').checked=false;
+				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
+				this.QuickSort(list, 0, list.length - 1);
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+			if(itemId==='sortByDate'){
+				//Prevents deselecting Group-Item
+				if(!document.getElementById('sortByDate').checked){
+					ev.preventDefault();
+					return;
+				}
+				this.sortingStrategy='date';
+				document.getElementById('sortByAlphabet').checked=false;
+				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
+				this.QuickSort(list, 0, list.length - 1);
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+			if(itemId==='enableReverse'){
+				this.reverse(list);
+				var state = document.getElementById('enableReverse').checked;
+				$.get(OC.generateUrl("/apps/files/api/v1/setreversequickaccess"), {reverse: state}, function(data, status){});
+				document.getElementById('menu-favorites').classList.toggle('open');
+			}
+
 			//ev.preventDefault();
+		},
+
+		/**
+		 * Sort initially as setup of sidebar for QuickAccess
+		 */
+		initialSort: function() {
+
+			var domRevState=document.getElementById('enableReverse').checked;
+			var domSortAlphabetState=document.getElementById('sortByAlphabet').checked;
+			var domSortDateState=document.getElementById('sortByDate').checked;
+
+
+			var qaKey= 'quickaccess-list';
+			var list = document.getElementById(qaKey).getElementsByTagName('li');
+
+
+			if(domSortAlphabetState){
+				this.sortingStrategy='alphabet';
+			}
+
+			if(domSortDateState){
+				this.sortingStrategy='date';
+			}
+
+			this.QuickSort(list, 0, list.length - 1);
+
+			if(domRevState){
+				this.reverse(list);
+			}
+
+			/*This creates flashes the UI, which is bad userexperience. It is the cleaner way to do it, that is why i haven't deleted it yet.
+			var scope=this;
+			$.get(OC.generateUrl("/apps/files/api/v1/getsortingstrategy"), function(data, status){
+				scope.sortingStrategy=data;
+				scope.QuickSort(list, 0, list.length - 1);
+
+			});
+
+			$.get(OC.generateUrl("/apps/files/api/v1/getreversequickaccess"), function(data, status){
+				if(data){
+					scope.reverse(list);
+				}
+			});
+			*/
 		},
 
 		/**
 		 * Sorting-Algorithm for QuickAccess
 		 */
-		quickSort: function(list, start, end) {
+		QuickSort: function(list, start, end) {
 
 			var lastmatch;
 
 			if (list.length > 1) {
 
-				lastmatch = this.partition(list, start, end);
+				lastmatch = this.quicksort_helper(list, start, end);
 
 				if (start < lastmatch - 1) {
-					this.quickSort(list, start, lastmatch - 1);
+					this.QuickSort(list, start, lastmatch - 1);
 				}
 
 				if (lastmatch < end) {
-					this.quickSort(list, lastmatch, end);
+					this.QuickSort(list, lastmatch, end);
 				}
 
 			}
@@ -218,7 +271,7 @@
 		/**
 		 * Sorting-Algorithm-Helper for QuickAccess
 		 */
-		partition: function(list, start, end) {
+		quicksort_helper: function(list, start, end) {
 
 			var pivot = Math.floor((end + start) / 2);
 			var pivotelem = this.getCompareValue(list,pivot);
