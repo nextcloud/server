@@ -92,7 +92,7 @@ class Users extends Base {
 		} else if ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
 			$subject = $this->l->t('{actor} shared {file} with you');
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
-			$subject = $this->l->t('{actor} removed you from {file}');
+			$subject = $this->l->t('{actor} removed you from the share named {file}');
 
 		} else {
 			throw new \InvalidArgumentException();
