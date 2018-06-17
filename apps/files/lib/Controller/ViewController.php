@@ -162,18 +162,23 @@ class ViewController extends Controller {
 
 		$user = $this->userSession->getUser()->getUID();
 		$key='show_Quick_Access';
-
 		if($this->config->getUserValue($user,$this->appName,$key,true)){
 			$expanded='true';
 		}else{
 			$expanded='false';
 		}
+
+		$sorting=$this->config->getUserValue($user,$this->appName,'quickaccess_sporting_strategy','notset');
+		$reverseListSetting=$this->config->getUserValue($user,$this->appName,'quickaccess_reverse_list',false);
+
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
 				'enableQuickaccess' => $expanded,
+				'quickaccessSortingStrategy' => $sorting,
+				'quickaccessSortingReverse' => $reverseListSetting,
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites')
 			]
@@ -188,10 +193,12 @@ class ViewController extends Controller {
 		$FavoritesFolderCount=sizeof($favElements['folders']);
 		if($FavoritesFolderCount>0){
 
-		$orderPosition=6;
 
+		$orderPosition=6;
 		$currentCount=0;
 		foreach($favElements['folders'] as $elem){
+
+
 
 			$currentCount++;
 			$SortingValue=$currentCount;

@@ -157,20 +157,23 @@
 			var qaKey= 'quickaccess-list';
 
 			var itemId = $(ev.target).closest('input').attr('id');
-
 			var list = document.getElementById(qaKey).getElementsByTagName('li');
 
 			if(itemId==='enableReverse'){
 				this.reverse(list);
+				var state = document.getElementById('enableReverse').checked;
+				$.get(OC.generateUrl("/apps/files/api/v1/setreversequickaccess"), {reverse: state},function(data, status){});
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 			if(itemId==='sortByAlphabet'){
 				this.sortingStrategy='alphabet';
+				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy},function(data, status){});
 				this.quickSort(list, 0, list.length - 1);
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 			if(itemId==='sortByDate'){
 				this.sortingStrategy='date';
+				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy},function(data, status){});
 				this.quickSort(list, 0, list.length - 1);
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
@@ -182,13 +185,12 @@
 					url="/apps/files/api/v1/showquickaccess";
 				}
 
-				$.get(OC.generateUrl(url),function(data, status){
-				});
+				$.get(OC.generateUrl(url), function(data, status){});
 
 				$(qaSelector ).toggle();
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
-			ev.preventDefault();
+			//ev.preventDefault();
 		},
 
 		/**
@@ -248,7 +250,7 @@
 		 */
 		getCompareValue: function(nodes, int){
 			if(this.sortingStrategy==='alphabet'){
-				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
+			;	return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase()
 			}else if(this.sortingStrategy==='date'){
 				return nodes[int].getAttribute('folderPos').toLowerCase();
 			}

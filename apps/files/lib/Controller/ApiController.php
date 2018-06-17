@@ -45,6 +45,7 @@ use OCP\IPreview;
 use OCP\Share\IManager;
 use OC\Files\Node\Node;
 use OCP\IUserSession;
+use Sabre\VObject\Property\Boolean;
 
 /**
  * Class ApiController
@@ -270,7 +271,6 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param int $value
 	 * @return Response
 	 */
 	public function showQuickAccess() {
@@ -283,7 +283,6 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param int $value
 	 * @return Response
 	 */
 	public function hideQuickAccess() {
@@ -291,6 +290,30 @@ class ApiController extends Controller {
 		return new Response();
 		}
 
+	/**
+	 * quickaccess-sorting-strategy
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $strategy
+	 * @return Response
+	 */
+	public function setSortingStrategy($strategy) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sporting_strategy', (String) $strategy);
+		return new Response();
+	}
 
+	/**
+	 * Toggle for reverse quickaccess-list
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $reverse
+	 * @return Response
+	 */
+	public function setReverseQuickaccess($reverse) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', (int) $reverse);
+		return new Response();
+	}
 
 }
