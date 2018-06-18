@@ -184,12 +184,17 @@ class ViewController extends Controller {
 
 		$FavoritesFolderCount=sizeof($favElements['folders']);
 
+		$collapsClasses='';
+		if($FavoritesFolderCount>0){
+			$collapsClasses='collapsible';
+		}
+
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
-				'classes' => 'collapsible',
+				'classes' => $collapsClasses,
 				'enableQuickaccess' => $expanded,
 				'quickaccessSortingStrategy' => $sorting,
 				'quickaccessSortingReverse' => $reverseListSetting,

@@ -12,7 +12,7 @@
 				<?php if($item['id']=='favorites'){?>id="favorites-toggle"<?php } ?>>
 
 				<?php if($item['id']=='favorites'){?>
-				<button id="button-collapseQuickAccess" class="collapse"></button><?php } ?>
+				<button id="button-collapseQuickAccess" class="collapse" <?php if($item['favoritescount']==0){ ?> style="display: none"<?php } ?>></button><?php } ?>
 
 				<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
 				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']);?></a>

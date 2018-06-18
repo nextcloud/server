@@ -83,6 +83,11 @@
 		if(listUL.childElementCount==0){
 			var dotmenu = document.getElementById("quickaccessbutton");
 			dotmenu.style.display='none';
+
+			var collapsibleButton = document.getElementById("button-collapseQuickAccess");
+			collapsibleButton.style.display='none';
+
+			$("#favorites-toggle" ).removeClass('collapsible');
 		}
 	}
 
@@ -115,6 +120,11 @@
 			listUL.appendChild(li);
 			var dotmenu = document.getElementById("quickaccessbutton");
 			dotmenu.style.display='';
+
+			var collapsibleButton = document.getElementById("button-collapseQuickAccess");
+			collapsibleButton.style.display='';
+
+			$("#favorites-toggle" ).addClass('collapsible');
 		}else{
 			list[list.length-1].after(li);
 		}
