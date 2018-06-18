@@ -39,7 +39,7 @@ class Syslog implements IWriter {
 	];
 
 	public function __construct(IConfig $config) {
-		openlog($config->getSystemValue('syslog_tag', 'ownCloud'), LOG_PID | LOG_CONS, LOG_USER);
+		openlog($config->getSystemValue('syslog_tag', 'Nextcloud'), LOG_PID | LOG_CONS, LOG_USER);
 	}
 
 	public function __destruct() {

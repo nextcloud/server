@@ -687,18 +687,24 @@ $CONFIG = array(
  */
 
 /**
- * By default the Nextcloud logs are sent to the ``nextcloud.log`` file in the
- * default Nextcloud data directory.
- * If syslogging is desired, set this parameter to ``syslog``.
- * Setting this parameter to ``errorlog`` will use the PHP error_log function
- * for logging.
+ * This parameter determines where the Nextcloud logs are sent.
+ * ``file``: the logs are written to file ``nextcloud.log`` in the default
+ * Nextcloud data directory. The log file can be changed with parameter
+ * ``logfile``.
+ * ``syslog``: the logs are sent to the system log. This requires a syslog daemon
+ * to be active.
+ * ``errorlog``: the logs are sent to the PHP ``error_log`` function.
+ * ``systemd``: the logs are sent to the Systemd journal. This requires a system
+ * that runs Systemd and the Systemd journal. The PHP extension ``systemd``
+ * must be installed and active.
  *
  * Defaults to ``file``
  */
 'log_type' => 'file',
 
 /**
- * Log file path for the Nextcloud logging type.
+ * Name of the file to which the Nextcloud logs are written if parameter
+ * ``log_type`` is set to ``file``.
  *
  * Defaults to ``[datadirectory]/nextcloud.log``
  */
@@ -715,7 +721,9 @@ $CONFIG = array(
 /**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
- * with a unique id. Only available if ``log_type`` is set to ``syslog``.
+ * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
+ * ``systemd``.
+ *
  * The default value is ``Nextcloud``.
  */
 'syslog_tag' => 'Nextcloud',
