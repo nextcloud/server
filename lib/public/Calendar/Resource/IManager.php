@@ -23,58 +23,36 @@
 
 namespace OCP\Calendar\Resource;
 
-/**
- * Interface IResource
- *
- * @package OCP\Calendar\Resource
- * @since 14.0.0
- */
-interface IResource {
+interface IManager {
 
 	/**
-	 * get the resource id
+	 * Registers a resource backend
 	 *
-	 * This id has to be unique within the backend
-	 *
-	 * @return string
+	 * @param IBackend $backend
+	 * @return void
 	 * @since 14.0.0
 	 */
-	public function getId():string;
+	public function registerBackend(IBackend $backend);
 
 	/**
-	 * get the display name for a resource
+	 * Unregisters a resource backend
 	 *
-	 * @return string
+	 * @param IBackend $backend
+	 * @return void
 	 * @since 14.0.0
 	 */
-	public function getDisplayName():string;
+	public function unregisterBackend(IBackend $backend);
 
 	/**
-	 * Get a list of groupIds that are allowed to access this resource
-	 *
-	 * If an empty array is returned, no group restrictions are
-	 * applied.
-	 *
-	 * @return string[]
+	 * @return IBackend[]
 	 * @since 14.0.0
 	 */
-	public function getGroupRestrictions():array;
+	public function getBackends():array;
 
 	/**
-	 * get email-address for resource
-	 *
-	 * The email address has to be globally unique
-	 *
-	 * @return string
+	 * removes all registered backend instances
+	 * @return void
 	 * @since 14.0.0
 	 */
-	public function getEMail():string;
-
-	/**
-	 * Get corresponding backend object
-	 *
-	 * @return IBackend
-	 * @since 14.0.0
-	 */
-	public function getBackend():IBackend;
+	public function clear();
 }

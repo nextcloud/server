@@ -36,14 +36,14 @@ interface IBackend {
 	 *
 	 * @return IRoom[]
 	 */
-	public function getAllRooms();
+	public function getAllRooms():array;
 
 	/**
 	 * get a list of all room identifiers in this backend
 	 *
 	 * @return string[]
 	 */
-	public function listAllRooms();
+	public function listAllRooms():array;
 
 	/**
 	 * get a room by it's id
@@ -52,4 +52,12 @@ interface IBackend {
 	 * @return IRoom|null
 	 */
 	public function getRoom($id);
+
+	/**
+	 * Get unique identifier of the backend
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function getBackendIdentifier():string;
 }

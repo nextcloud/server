@@ -39,7 +39,7 @@ interface IRoom {
 	 * @return string
 	 * @since 14.0.0
 	 */
-	public function getId();
+	public function getId():string;
 
 	/**
 	 * get the display name for a room
@@ -47,7 +47,7 @@ interface IRoom {
 	 * @return string
 	 * @since 14.0.0
 	 */
-	public function getDisplayName();
+	public function getDisplayName():string;
 
 	/**
 	 * Get a list of groupIds that are allowed to access this room
@@ -58,13 +58,23 @@ interface IRoom {
 	 * @return string[]
 	 * @since 14.0.0
 	 */
-	public function getGroupRestrictions();
+	public function getGroupRestrictions():array;
 
 	/**
-	 * Get the name of the backend class the room is connected with
+	 * get email-address for room
+	 *
+	 * The email address has to be globally unique
 	 *
 	 * @return string
 	 * @since 14.0.0
 	 */
-	public function getBackendClassName();
+	public function getEMail():string;
+
+	/**
+	 * Get corresponding backend object
+	 *
+	 * @return IBackend
+	 * @since 14.0.0
+	 */
+	public function getBackend():IBackend;
 }

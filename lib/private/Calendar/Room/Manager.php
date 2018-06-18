@@ -21,60 +21,51 @@
  *
  */
 
-namespace OCP\Calendar\Resource;
+namespace OC\Calendar\Room;
 
-/**
- * Interface IResource
- *
- * @package OCP\Calendar\Resource
- * @since 14.0.0
- */
-interface IResource {
+use OCP\Calendar\Room\IBackend;
 
-	/**
-	 * get the resource id
-	 *
-	 * This id has to be unique within the backend
-	 *
-	 * @return string
-	 * @since 14.0.0
-	 */
-	public function getId():string;
+class Manager implements \OCP\Calendar\Room\IManager {
+
+	/** @var IBackend[] holds all registered resource backends */
+	private $backends;
 
 	/**
-	 * get the display name for a resource
+	 * Registers a resource backend
 	 *
-	 * @return string
+	 * @param IBackend $backend
+	 * @return void
 	 * @since 14.0.0
 	 */
-	public function getDisplayName():string;
+	public function registerBackend(IBackend $backend) {
+		$this->backends[$backend->getBackendIdentifier()] = $backend;
+	}
 
 	/**
-	 * Get a list of groupIds that are allowed to access this resource
+	 * Unregisters a resource backend
 	 *
-	 * If an empty array is returned, no group restrictions are
-	 * applied.
-	 *
-	 * @return string[]
+	 * @param IBackend $backend
+	 * @return void
 	 * @since 14.0.0
 	 */
-	public function getGroupRestrictions():array;
+	public function unregisterBackend(IBackend $backend) {
+		unset($this->backends[$backend->getBackendIdentifier()]);
+	}
 
 	/**
-	 * get email-address for resource
-	 *
-	 * The email address has to be globally unique
-	 *
-	 * @return string
+	 * @return IBackend[]
 	 * @since 14.0.0
 	 */
-	public function getEMail():string;
+	public function getBackends():array {
+		return array_values($this->backends);
+	}
 
 	/**
-	 * Get corresponding backend object
-	 *
-	 * @return IBackend
+	 * removes all registered backend instances
+	 * @return void
 	 * @since 14.0.0
 	 */
-	public function getBackend():IBackend;
+	public function clear() {
+		$this->backends = [];
+	}
 }

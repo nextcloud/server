@@ -36,14 +36,14 @@ interface IBackend {
 	 *
 	 * @return IResource[]
 	 */
-	public function getAllResources();
+	public function getAllResources():array;
 
 	/**
 	 * get a list of all resource identifiers in this backend
 	 *
 	 * @return string[]
 	 */
-	public function listAllResources();
+	public function listAllResources():array;
 
 	/**
 	 * get a resource by it's id
@@ -52,4 +52,12 @@ interface IBackend {
 	 * @return IResource|null
 	 */
 	public function getResource($id);
+
+	/**
+	 * Get unique identifier of the backend
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function getBackendIdentifier():string;
 }
