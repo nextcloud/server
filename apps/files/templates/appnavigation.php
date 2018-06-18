@@ -14,7 +14,7 @@
 				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']);?></a>
 				<?php if($item['id']=='favorites'){?>
 
-				<div class="app-navigation-entry-utils">
+				<div class="app-navigation-entry-utils" <?php if($item['favoritescount']==0){ ?> style="display: none"<?php } ?>>
 					<ul>
 						<li class="app-navigation-entry-utils-menu-button svg"><button id="button-<?php p($item['id']) ?>"></button></li>
 					</ul>
