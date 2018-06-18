@@ -49,20 +49,16 @@
 			</th>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
-					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
-					<span id="selectedActionsList" class="selectedActions">
-						<a href="" class="copy-move">
-							<span class="icon icon-external"></span>
-							<span class="label"><?php p($l->t('Move or copy'))?></span>
-						</a>
-						<a href="" class="download">
-							<span class="icon icon-download"></span>
-							<span><?php p($l->t('Download'))?></span>
-						</a>
-						<a href="" class="delete-selected">
-							<span class="icon icon-delete"></span>
-							<span><?php p($l->t('Delete'))?></span>
-						</a>
+					<a class="name sort columntitle" data-sort="name">
+                        <span><?php p($l->t( 'Name' )); ?></span>
+                        <span class="sort-indicator"></span>
+
+                    </a>
+                    <span id="selectedActionsList" class="selectedActions">
+                        <a href="" class="actions-selected">
+                            <span class="icon icon-more"></span>
+                            <span><?php p($l->t('Actions'))?></span>
+                        </a>
 					</span>
 				</div>
 			</th>
@@ -71,10 +67,6 @@
 			</th>
 			<th id="headerDate" class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
-					<span class="selectedActions"><a href="" class="delete-selected">
-						<span><?php p($l->t('Delete'))?></span>
-						<span class="icon icon-delete"></span>
-					</a></span>
 			</th>
 		</tr>
 	</thead>

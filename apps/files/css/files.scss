@@ -176,9 +176,11 @@ table th .columntitle {
 	-moz-box-sizing: border-box;
 	vertical-align: middle;
 }
+table.multiselect th .columntitle {
+    display: inline-block;
+}
 table th .columntitle.name {
 	padding-left: 5px;
-	padding-right: 80px;
 	margin-left: 50px;
 }
 
@@ -246,7 +248,7 @@ table th.column-last, table td.column-last {
 }
 table.multiselect thead {
 	position: fixed;
-	top: 89px;
+	top: 94px;
 	z-index: 55;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -474,19 +476,19 @@ a.action > img {
 
 /* Actions for selected files */
 .selectedActions {
-	position: absolute;
-	top: 0;
-	right: 0;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.selectedActions.hidden {
+    display: none;
 }
 .selectedActions a {
 	display: inline;
-	font-size: 11px;
 	line-height: 50px;
-	padding: 18px 5px;
+	padding: 16px 5px;
 }
-.selectedActions a.delete-selected {
-	padding-right: 15px;
-}
+
 .selectedActions a.hidden {
 	display: none;
 }
@@ -495,9 +497,9 @@ a.action > img {
 	vertical-align: text-bottom;
 	margin-bottom: -1px;
 }
-/* hide the delete icon in name column normal resolutions */
-table th#headerName .selectedActions .delete-selected {
-	display: none;
+
+.selectedActions .actions-selected .icon-more {
+	margin-top: -3px;
 }
 
 #fileList td a {
