@@ -162,19 +162,18 @@ class ViewController extends Controller {
 		$user = $this->userSession->getUser()->getUID();
 
 		//Load QuickAccess-Defaults
-		$sorting=$this->config->getUserValue($user,$this->appName,'quickaccess_sorting_strategy','date');
-		$reverseListSetting=$this->config->getUserValue($user,$this->appName,'quickaccess_reverse_list','false');
-		if($this->config->getUserValue($user,$this->appName,'show_Quick_Access',true)){
-			$expanded='true';
-		}else{
-			$expanded='false';
+		$sorting = $this->config->getUserValue($user, $this->appName, 'quickaccess_sorting_strategy', 'date');
+		$reverseListSetting = $this->config->getUserValue($user, $this->appName, 'quickaccess_reverse_list', 'false');
+		if ($this->config->getUserValue($user, $this->appName, 'show_Quick_Access', true)) {
+			$quickAccessExpandedState = 'true';
+		} else {
+			$quickAccessExpandedState = 'false';
 		}
 
 
 		//Get Favorite-Folder
-		$tagger=\OC::$server->getTagManager();
-
-		$helper= new \OCA\Files\Activity\Helper($tagger);
+		$tagger = \OC::$server->getTagManager();
+		$helper = new \OCA\Files\Activity\Helper($tagger);
 
 		try {
 			$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
@@ -182,11 +181,11 @@ class ViewController extends Controller {
 			$favElements['folders'] = null;
 		}
 
-		$FavoritesFolderCount=sizeof($favElements['folders']);
+		$favoritesFolderCount = sizeof($favElements['folders']);
 
-		$collapsClasses='';
-		if($FavoritesFolderCount>0){
-			$collapsClasses='collapsible';
+		$collapseClasses = '';
+		if ($favoritesFolderCount > 0) {
+			$collapseClasses = 'collapsible';
 		}
 
 		\OCA\Files\App::getNavigationManager()->add(
@@ -194,61 +193,61 @@ class ViewController extends Controller {
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
-				'classes' => $collapsClasses,
-				'enableQuickaccess' => $expanded,
+				'classes' => $collapseClasses,
+				'enableQuickaccess' => $quickAccessExpandedState,
 				'quickaccessSortingStrategy' => $sorting,
 				'quickaccessSortingReverse' => $reverseListSetting,
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites'),
 				//If there are zero elements, add ul end tag directly.
-				'favoritescount' => $FavoritesFolderCount
+				'favoritescount' => $favoritesFolderCount
 			]
 		);
 
 
 		//Add Favorite-folder as menuentries, if there are any
-		if($FavoritesFolderCount>0){
+		if ($favoritesFolderCount > 0) {
 
-			$NavBarPositionPosition=6;
-			$currentCount=0;
-			foreach($favElements['folders'] as $elem){
+			$navBarPositionPosition = 6;
+			$currentCount = 0;
+			foreach ($favElements['folders'] as $elem) {
 
-				$id=substr( $elem, strrpos($elem,'/')+1, strlen($elem));
-				$link=\OC::$WEBROOT.'/index.php/apps/files/?dir='.$elem;
+				$id = substr($elem, strrpos($elem, '/') + 1, strlen($elem));
+				$link = $this->urlGenerator->linkToRouteAbsolute('files.view.index', ['dir' => $elem]);
 
-				$SortingValue=++$currentCount;
-				if($currentCount!=$FavoritesFolderCount){
+				$sortingValue = ++$currentCount;
+				if ($currentCount != $favoritesFolderCount) {
 					\OCA\Files\App::getNavigationManager()->add(
 						[
 							'id' => $id,
 							'href' => $link,
-							'order' => $NavBarPositionPosition,
-							'folderPosition' => $SortingValue,
+							'order' => $navBarPositionPosition,
+							'folderPosition' => $sortingValue,
 							'name' => $id,
 							'icon' => 'files',
 							'quickaccesselement' => 'true'
 						]
 					);
-				}else{
+				} else {
 					\OCA\Files\App::getNavigationManager()->add(
 						[
 							'id' => $id,
 							'href' => $link,
-							'order' => $NavBarPositionPosition,
-							'folderPosition' => $SortingValue,
+							'order' => $navBarPositionPosition,
+							'folderPosition' => $sortingValue,
 							'name' => $id,
 							'icon' => 'files',
 							'quickaccesselement' => 'last'
 						]
 					);
 				}
-				$NavBarPositionPosition++;
+				$navBarPositionPosition++;
 			}
 		}
 
 
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-		usort($navItems, function($item1, $item2) {
+		usort($navItems, function ($item1, $item2) {
 			return $item1['order'] - $item2['order'];
 		});
 
@@ -289,7 +288,7 @@ class ViewController extends Controller {
 		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
-		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
+		$showHidden = (bool)$this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;

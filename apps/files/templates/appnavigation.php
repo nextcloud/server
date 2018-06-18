@@ -7,17 +7,17 @@
 			?>
 
 			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?>"
-				class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?> <?php if($item['enableQuickaccess']=='true'){ ?> open<?php } ?>"
-				<?php if(isset($item['folderPosition'])){ ?> folderPos="<?php p($item['folderPosition']);?>"<?php } ?>
-				<?php if($item['id']=='favorites'){?>id="favorites-toggle"<?php } ?>>
+				class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?> <?php if ($item['enableQuickaccess'] === 'true') { ?> open<?php } ?>"
+				<?php if (isset($item['folderPosition'])){ ?> folderPos="<?php p($item['folderPosition']);?>"<?php } ?>
+				<?php if ($item['id'] === 'favorites'){?>id="favorites-toggle"<?php } ?>>
 
-				<?php if($item['id']=='favorites'){?>
-				<button id="button-collapseQuickAccess" class="collapse" <?php if($item['favoritescount']==0){ ?> style="display: none"<?php } ?>></button><?php } ?>
+				<?php if ($item['id'] ===  'favorites'){?>
+				<button id="button-collapseQuickAccess" class="collapse" <?php if ($item['favoritescount'] === 0){ ?> style="display: none"<?php } ?>></button><?php } ?>
 
 				<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
 				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']);?></a>
-				<?php if($item['id']=='favorites'){?>
-					<div id="quickaccessbutton" class="app-navigation-entry-utils" <?php if($item['favoritescount']==0){ ?> style="display: none"<?php } ?>>
+				<?php if ($item['id'] === 'favorites') {?>
+					<div id="quickaccessbutton" class="app-navigation-entry-utils" <?php if ($item['favoritescount'] === 0) { ?> style="display: none"<?php } ?>>
 						<ul>
 							<li class="app-navigation-entry-utils-menu-button svg">
 								<button id="button-<?php p($item['id']) ?>"></button>
@@ -53,10 +53,10 @@
 					</ul>
 				</div>
 					<ul id="quickaccess-list" >
-					<?php /*This fixes the styleerrors if no favorites are set*/ if($item['favoritescount']==0){?></ul><?php } ?>
+					<?php /*This fixes the styleerrors if no favorites are set*/ if ($item['favoritescount'] === 0) {?></ul><?php } ?>
 				<?php } ?>
 
-				<?php if($item['quickaccesselement']=='last'){?>
+				<?php if ($item['quickaccesselement'] === 'last') {?>
 				</ul>
 				<?php } ?>
 			</li>
