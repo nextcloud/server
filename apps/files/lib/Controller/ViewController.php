@@ -189,6 +189,7 @@ class ViewController extends Controller {
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
+				'classes' => 'collapsible',
 				'enableQuickaccess' => $expanded,
 				'quickaccessSortingStrategy' => $sorting,
 				'quickaccessSortingReverse' => $reverseListSetting,

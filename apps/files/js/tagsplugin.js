@@ -62,6 +62,68 @@
 		$favoriteMarkEl.toggleClass('permanent', state);
 	}
 
+	/**
+	 * Remove Item from Quickaccesslist
+	 *
+	 * @param {String} $appfolder folder to be removed
+	 */
+	function removeFavoriteFromList(appfolder) {
+
+		var qaKey= 'quickaccess-list';
+		var listUL = document.getElementById(qaKey);
+		var list = listUL.getElementsByTagName('li');
+		var appname=appfolder.substring(appfolder.lastIndexOf("/")+1, appfolder.length);
+
+		for(var i = 0; i <= list.length-1; i++) {
+			if(appname === list[i].getElementsByTagName('a')[0].innerHTML){
+				list[i].remove();
+			}
+		}
+
+		if(listUL.childElementCount==0){
+			var dotmenu = document.getElementById("quickaccessbutton");
+			dotmenu.style.display='none';
+		}
+	}
+
+	/**
+	 * Add Item to Quickaccesslist
+	 *
+	 * @param {String} $appfolder folder to be added
+	 */
+	function addFavoriteToList(appfolder) {
+		var qaKey= 'quickaccess-list';
+		var listUL = document.getElementById(qaKey);
+		var list = listUL.getElementsByTagName('li');
+
+		var appname=appfolder.substring(appfolder.lastIndexOf("/")+1, appfolder.length);
+
+		var a = document.createElement('A');
+		a.setAttribute("href","/cloud/index.php/apps/files/?dir="+appfolder);
+		a.setAttribute("class","nav-icon-files svg");
+		a.innerHTML=appname;
+
+		var len=list.length+1;
+		var li = document.createElement('li');
+		li.setAttribute("data-id", "/cloud/index.php/apps/files/?dir="+appfolder);
+		li.setAttribute("class", "nav-"+appname);
+		li.setAttribute("folderpos", len.toString());
+		li.appendChild(a);
+
+
+		if(listUL.childElementCount<=0){
+			listUL.appendChild(li);
+			var dotmenu = document.getElementById("quickaccessbutton");
+			dotmenu.style.display='';
+		}else{
+			list[list.length-1].after(li);
+		}
+
+		//list[list.length-1].after(li);
+		//document.getElementById('menu-favorites').classList.toggle('open');
+		//this.QuickSort(list, 0, list.length - 1);
+	}
+
 	OCA.Files = OCA.Files || {};
 
 	/**
@@ -121,6 +183,7 @@
 					var fileInfo = context.fileList.files[$file.index()];
 					var dir = context.dir || context.fileList.getCurrentDirectory();
 					var tags = $file.attr('data-tags');
+
 					if (_.isUndefined(tags)) {
 						tags = '';
 					}
@@ -130,8 +193,10 @@
 					if (isFavorite) {
 						// remove tag from list
 						tags = _.without(tags, OC.TAG_FAVORITE);
+						removeFavoriteFromList(dir + '/' + fileName);
 					} else {
 						tags.push(OC.TAG_FAVORITE);
+						addFavoriteToList(dir + '/' + fileName);
 					}
 
 					// pre-toggle the star

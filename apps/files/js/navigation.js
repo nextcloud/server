@@ -143,6 +143,16 @@
 		_onClickMenuButton: function(ev) {
 			var $target = $(ev.target);
 			var itemId = $target.closest('button').attr('id');
+			var qaSelector= '#quickaccess-list';
+
+			if(itemId==='button-collapseQuickAccess'){
+				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
+				});
+				$("#quickaccess-list" ).toggle('open');
+				var dotmenu = document.getElementById("quickaccess-list");
+				dotmenu.style.display='';
+			}
+
 			if(itemId==='button-favorites'){
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
@@ -160,10 +170,10 @@
 			var itemId = $(ev.target).closest('input').attr('id');
 			var list = document.getElementById(qaKey).getElementsByTagName('li');
 
-			if(itemId==='enableQuickAccess'){
+			if(itemId==='enableQuickAccess' ){
 				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
 				});
-				$(qaSelector ).toggle();
+				$(qaSelector).toggle('open');
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 
@@ -290,7 +300,7 @@
 		 */
 		getCompareValue: function(nodes, int){
 			if(this.sortingStrategy==='alphabet'){
-			;	return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase()
+				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
 			}else if(this.sortingStrategy==='date'){
 				return nodes[int].getAttribute('folderPos').toLowerCase();
 			}

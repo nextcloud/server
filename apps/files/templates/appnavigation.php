@@ -7,18 +7,22 @@
 			?>
 
 			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?>"
-				class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?>"
+				class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?> <?php if($item['enableQuickaccess']=='true'){ ?> open<?php } ?>"
 				<?php if(isset($item['folderPosition'])){ ?> folderPos="<?php p($item['folderPosition']);?>"<?php } ?>>
+
+				<?php if($item['id']=='favorites'){?>
+				<button id="button-collapseQuickAccess" class="collapse"></button><?php } ?>
 
 				<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
 				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']);?></a>
 				<?php if($item['id']=='favorites'){?>
-
-				<div class="app-navigation-entry-utils" <?php if($item['favoritescount']==0){ ?> style="display: none"<?php } ?>>
-					<ul>
-						<li class="app-navigation-entry-utils-menu-button svg"><button id="button-<?php p($item['id']) ?>"></button></li>
-					</ul>
-				</div>
+					<div id="quickaccessbutton" class="app-navigation-entry-utils" <?php if($item['favoritescount']==0){ ?> style="display: none"<?php } ?>>
+						<ul>
+							<li class="app-navigation-entry-utils-menu-button svg">
+								<button id="button-<?php p($item['id']) ?>"></button>
+							</li>
+						</ul>
+					</div>
 				<div class="app-navigation-entry-menu" id="menu-<?php p($item['id']) ?>">
 					<ul>
 						<li>
@@ -47,7 +51,7 @@
 						</li>
 					</ul>
 				</div>
-					<ul id="quickaccess-list"  <?php if($item['enableQuickaccess']=='false'){ ?> style="display: none"<?php } ?>>
+					<ul id="quickaccess-list" >
 					<?php /*This fixes the styleerrors if no favorites are set*/ if($item['favoritescount']==0){?></ul><?php } ?>
 				<?php } ?>
 
