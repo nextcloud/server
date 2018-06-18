@@ -177,12 +177,13 @@ class GroupsController extends AUserData {
 	 * @NoAdminRequired
 	 *
 	 * @param string $groupId
+	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getGroupUsersDetails(string $groupId, int $limit = null, int $offset = 0): DataResponse {
+	public function getGroupUsersDetails(string $groupId, string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$isSubadminOfGroup = false;
 
@@ -197,9 +198,9 @@ class GroupsController extends AUserData {
 		// Check subadmin has access to this group
 		if($this->groupManager->isAdmin($user->getUID())
 		   || $isSubadminOfGroup) {
-			$users = $this->groupManager->get($groupId)->getUsers();
+			$users = $this->groupManager->get($groupId)->searchUsers($search, $limit, $offset);
+
 			// Extract required number
-			$users = array_slice($users, $offset, $limit);
 			$users = array_keys($users);
 			$usersDetails = [];
 			foreach ($users as $userId) {

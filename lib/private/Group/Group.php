@@ -211,10 +211,10 @@ class Group implements IGroup {
 			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			$users += $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {
-				return array_values($users);
+				return $users;
 			}
 		}
-		return array_values($users);
+		return $users;
 	}
 
 	/**
