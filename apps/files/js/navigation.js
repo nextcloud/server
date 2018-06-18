@@ -290,7 +290,7 @@
 		 */
 		getCompareValue: function(nodes, int){
 			if(this.sortingStrategy==='alphabet'){
-			;	return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase()
+				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
 			}else if(this.sortingStrategy==='date'){
 				return nodes[int].getAttribute('folderPos').toLowerCase();
 			}
