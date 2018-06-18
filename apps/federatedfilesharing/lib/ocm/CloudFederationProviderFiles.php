@@ -664,7 +664,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 					throw new BadRequestException(['permission']);
 			}
 
-			error_log("new permissions: " . $ncPermissions);
 		}
 
 		return $ncPermissions;
