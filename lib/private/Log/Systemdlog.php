@@ -4,7 +4,7 @@
  *
  * @author Johannes Ernst <jernst@indiecomputing.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
  * This code is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License, version 3,
@@ -22,6 +22,7 @@
 
 namespace OC\Log;
 
+use OC\HintException;
 use OCP\ILogger;
 use OCP\IConfig;
 use OCP\Log\IWriter;
@@ -50,11 +51,20 @@ class Systemdlog implements IWriter {
 		ILogger::FATAL => 2,
 	];
 
+	protected $syslogId;
+
 	public function __construct(IConfig $config) {
+		if(!function_exists('sd_journal_send')) {
+			throw new HintException(
+				'PHP extension php-systemd is not available.',
+				'Please install and enable PHP extension systemd if you wish to log to the Systemd journal.');
+
+		}
+		$this->syslogId = $config->getSystemValue('syslog_tag', 'Nextcloud');
 	}
 
 	/**
-	 * write a message in the log
+	 * Write a message to the log.
 	 * @param string $app
 	 * @param string $message
 	 * @param int $level
@@ -62,7 +72,7 @@ class Systemdlog implements IWriter {
 	public function write(string $app, $message, int $level) {
 		$journal_level = $this->levels[$level];
 		sd_journal_send('PRIORITY='.$journal_level,
-				'SYSLOG_IDENTIFIER=nextcloud',
+				'SYSLOG_IDENTIFIER='.$this->syslogId,
 				'MESSAGE={'.$app.'} '.$message);
 	}
 }
