@@ -68,6 +68,24 @@ interface IServerContainer extends IContainer {
 	public function getCalendarManager();
 
 	/**
+	 * The calendar resource backend manager will act as a broker between consumers
+	 * for calendar resource information an providers which actual deliver the room information.
+	 *
+	 * @return \OCP\Calendar\Resource\IBackend
+	 * @since 14.0.0
+	 */
+	public function getCalendarResourceBackendManager();
+
+	/**
+	 * The calendar room backend manager will act as a broker between consumers
+	 * for calendar room information an providers which actual deliver the room information.
+	 *
+	 * @return \OCP\Calendar\Room\IBackend
+	 * @since 14.0.0
+	 */
+	public function getCalendarRoomBackendManager();
+
+	/**
 	 * The contacts manager will act as a broker between consumers for contacts information and
 	 * providers which actual deliver the contact information.
 	 *
