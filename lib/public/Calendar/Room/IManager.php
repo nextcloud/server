@@ -50,6 +50,12 @@ interface IManager {
 	public function getBackends():array;
 
 	/**
+	 * @param string $backendId
+	 * @return IBackend
+	 */
+	public function getBackend($backendId):IBackend;
+
+	/**
 	 * removes all registered backend instances
 	 * @return void
 	 * @since 14.0.0

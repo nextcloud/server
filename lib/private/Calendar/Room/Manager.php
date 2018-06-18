@@ -61,6 +61,18 @@ class Manager implements \OCP\Calendar\Room\IManager {
 	}
 
 	/**
+	 * @param string $backendId
+	 * @return IBackend|null
+	 */
+	public function getBackend($backendId):IBackend {
+		if (!isset($this->backends[$backendId])) {
+			return null;
+		}
+
+		return $this->backends[$backendId];
+	}
+
+	/**
 	 * removes all registered backend instances
 	 * @return void
 	 * @since 14.0.0

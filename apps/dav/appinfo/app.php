@@ -48,6 +48,19 @@ $eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 	}
 );
 
+$eventHandler = function() use ($app) {
+	try {
+		$job = $app->getContainer()->query(\OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob::class);
+		$job->run();
+		$app->getContainer()->getServer()->getJobList()->setLastRun($job);
+	} catch(\Exception $ex) {
+		$app->getContainer()->getServer()->getLogger()->logException($ex);
+	}
+};
+
+$eventDispatcher->addListener('\OCP\Calendar\Resource\ForceRefreshEvent', $eventHandler);
+$eventDispatcher->addListener('\OCP\Calendar\Room\ForceRefreshEvent', $eventHandler);
+
 $cm = \OC::$server->getContactsManager();
 $cm->register(function() use ($cm, $app) {
 	$user = \OC::$server->getUserSession()->getUser();

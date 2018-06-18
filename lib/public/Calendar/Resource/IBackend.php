@@ -22,6 +22,7 @@
  */
 
 namespace OCP\Calendar\Resource;
+use OCP\Calendar\BackendTemporarilyUnavailableException;
 
 /**
  * Interface IBackend
@@ -34,6 +35,7 @@ interface IBackend {
 	/**
 	 * get a list of all resources in this backend
 	 *
+	 * @throws BackendTemporarilyUnavailableException
 	 * @return IResource[]
 	 */
 	public function getAllResources():array;
@@ -41,6 +43,7 @@ interface IBackend {
 	/**
 	 * get a list of all resource identifiers in this backend
 	 *
+	 * @throws BackendTemporarilyUnavailableException
 	 * @return string[]
 	 */
 	public function listAllResources():array;
@@ -49,6 +52,7 @@ interface IBackend {
 	 * get a resource by it's id
 	 *
 	 * @param string $id
+	 * @throws BackendTemporarilyUnavailableException
 	 * @return IResource|null
 	 */
 	public function getResource($id);
