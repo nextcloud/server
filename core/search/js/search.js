@@ -100,7 +100,6 @@
 			 */
 			this.search = function(query, inApps, page, size) {
 				if (query) {
-					OC.addStyle('core/search','results');
 					if (typeof page !== 'number') {
 						page = 1;
 					}
@@ -128,8 +127,8 @@
 
 						//show spinner
 						$searchResults.removeClass('hidden');
-						$status.addClass('status');
-						$status.html(t('core', 'Searching other places')+'<img class="spinner" alt="search in progress" src="'+OC.webroot+'/core/img/loading.gif" />');
+						$status.addClass('status emptycontent');
+						$status.html('<div class="icon-loading"></div><h2>' + t('core', 'Searching other places') + '</h2>');
 
 						// do the actual search query
 						$.getJSON(OC.generateUrl('core/search'), {query:query, inApps:inApps, page:page, size:size }, function(results) {
@@ -220,8 +219,8 @@
 					var error = t('core', 'No search results in other folders for {tag}{filter}{endtag}', {filter:lastQuery});
 					$status.append($('<h2>').html(error.replace('{tag}', '<strong>').replace('{endtag}', '</strong>')));
 				} else {
-					$status.removeClass('emptycontent').addClass('status');
-					$status.text(n('core', '{count} search result in another folder', '{count} search results in other folders', count, {count:count}));
+					$status.removeClass('emptycontent').addClass('status summary');
+					$status.html('<span class="info">' + n('core', '{count} search result in another folder', '{count} search results in other folders', count, {count:count}) + '</span>');
 				}
 			}
 			function renderCurrent() {

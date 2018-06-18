@@ -115,6 +115,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addVendorStyle('select2/select2', null, true);
 			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
+			OC_Util::addStyle('search', 'results');
 			OC_Util::addScript('search', 'search', true);
 			OC_Util::addScript('merged-template-prepend', null, true);
 			OC_Util::addScript('jquery-ui-fixes');

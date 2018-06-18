@@ -299,32 +299,35 @@ body {
 	overflow-x: auto;
 }
 
-#emptycontent, .emptycontent {
+/* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
+
+#emptycontent,
+.emptycontent {
 	color: nc-lighten($color-main-text, 53%);
 	text-align: center;
 	margin-top: 30vh;
 	width: 100%;
-}
-
-#app-sidebar #emptycontent, #app-sidebar .emptycontent {
-	margin-top: 10vh;
-}
-
-#emptycontent.emptycontent-search, .emptycontent.emptycontent-search {
-	position: static;
-}
-
-#emptycontent h2, .emptycontent h2 {
-	margin-bottom: 10px;
-	line-height: 150%;
-}
-
-#emptycontent [class^='icon-'], .emptycontent [class^='icon-'], #emptycontent [class*=' icon-'], .emptycontent [class*=' icon-'] {
-	background-size: 64px;
-	height: 64px;
-	width: 64px;
-	margin: 0 auto 15px;
-	opacity: .4;
+	#app-sidebar & {
+		margin-top: 10vh;
+	}
+	.emptycontent-search {
+		position: static;
+	}
+	h2 {
+		margin-bottom: 10px;
+		line-height: 150%;
+	}
+	[class^='icon-'],
+	[class*='icon-'] {
+		background-size: 64px;
+		height: 64px;
+		width: 64px;
+		margin: 0 auto 15px;
+		&:not([class^='icon-loading']),
+		&:not([class*='icon-loading']) {
+			opacity: .4;
+		}
+	}
 }
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
