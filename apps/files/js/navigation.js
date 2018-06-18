@@ -146,11 +146,17 @@
 			var qaSelector= '#quickaccess-list';
 
 			if(itemId==='button-collapseQuickAccess'){
+
+				document.getElementById('enableQuickAccess').checked=!document.getElementById('enableQuickAccess').checked;
 				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
 				});
-				$("#quickaccess-list" ).toggle('open');
-				var dotmenu = document.getElementById("quickaccess-list");
-				dotmenu.style.display='';
+
+				if(!$("#favorites-toggle" ).hasClass('open')){
+					$("#favorites-toggle" ).addClass('open');
+				}else{
+					$("#favorites-toggle" ).removeClass('open');
+				}
+
 			}
 
 			if(itemId==='button-favorites'){
@@ -173,7 +179,11 @@
 			if(itemId==='enableQuickAccess' ){
 				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
 				});
-				$(qaSelector).toggle('open');
+				if(!$("#favorites-toggle" ).hasClass('open')){
+					$("#favorites-toggle" ).addClass('open');
+				}else{
+					$("#favorites-toggle" ).removeClass('open');
+				}
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 
