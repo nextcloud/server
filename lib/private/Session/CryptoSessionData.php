@@ -150,10 +150,11 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Wrapper around session_regenerate_id
 	 *
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 * @param bool $updateToken Wheater to update the associated auth token
 	 * @return void
 	 */
-	public function regenerateId(bool $deleteOldSession = true) {
-		$this->session->regenerateId($deleteOldSession);
+	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
+		$this->session->regenerateId($deleteOldSession, $updateToken);
 	}
 
 	/**

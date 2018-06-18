@@ -217,7 +217,7 @@ class ShareController extends Controller {
 	private function linkShareAuth(\OCP\Share\IShare $share, $password = null) {
 		if ($password !== null) {
 			if ($this->shareManager->checkPassword($share, $password)) {
-				$this->session->regenerateId();
+				$this->session->regenerateId(true, true);
 				$this->session->set('public_link_authenticated', (string)$share->getId());
 			} else {
 				$this->emitAccessShareHook($share, 403, 'Wrong password');
