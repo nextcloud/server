@@ -1,6 +1,6 @@
 {
   "name": "notifications",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "This app provides a backend and frontend for the notification API available in Nextcloud.",
   "main": "init.js",
   "directories": {
@@ -8,9 +8,9 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "webpack --config js-src/webpack.dev.js",
-    "watch": "webpack --progress --watch --config js-src/webpack.dev.js",
-    "build": "webpack --progress --hide-modules --config js-src/webpack.prod.js"
+    "dev": "webpack --config webpack.dev.js",
+    "watch": "webpack --progress --watch --config webpack.dev.js",
+    "build": "webpack --progress --hide-modules --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
