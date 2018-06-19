@@ -64,7 +64,7 @@
 			<input type="submit" class="icon-confirm" value="" />
 		</form>
 		<div class="groups" :class="{'icon-loading-small': loading.groups}">
-			<multiselect :value="userGroups" :options="groups" :disabled="loading.groups||loading.all"
+			<multiselect :value="userGroups" :options="availableGroups" :disabled="loading.groups||loading.all"
 						 tag-placeholder="create" :placeholder="t('settings', 'Add user in group')"
 						 label="name" track-by="id" class="multiselect-vue" :limit="2"
 						 :multiple="true" :taggable="settings.isAdmin" :closeOnSelect="false"
@@ -181,6 +181,23 @@ export default {
 		userSubAdminsGroups() {
 			let userSubAdminsGroups = this.subAdminsGroups.filter(group => this.user.subadmin.includes(group.id));
 			return userSubAdminsGroups;
+		},
+		availableGroups() {
+			return this.groups.map((group) => {
+				// clone object because we don't want
+				// to edit the original groups
+				let groupClone = Object.assign({}, group);
+
+				// two settings here:
+				// 1. user NOT in group but no permission to add
+				// 2. user is in group but no permission to remove
+				groupClone.$isDisabled =
+					(group.canAdd !== true &&
+						!this.user.groups.includes(group.id)) ||
+					(group.canRemove !== true &&
+						this.user.groups.includes(group.id));
+				return groupClone;
+			});
 		},
 
 		/* QUOTA MANAGEMENT */
@@ -374,6 +391,9 @@ export default {
 		 * @returns {Promise}
 		 */
 		addUserGroup(group) {
+			if (!group.canAdd) {
+				return false;
+			}
 			this.loading.groups = true;
 			let userid = this.user.id;
 			let gid = group.id;
@@ -388,6 +408,9 @@ export default {
 		 * @returns {Promise}
 		 */
 		removeUserGroup(group) {
+			if (!group.canRemove) {
+				return false;
+			}
 			this.loading.groups = true;
 			let userid = this.user.id;
 			let gid = group.id;

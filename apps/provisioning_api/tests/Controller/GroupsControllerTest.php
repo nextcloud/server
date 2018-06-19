@@ -107,6 +107,12 @@ class GroupsControllerTest extends \Test\TestCase {
 		$group
 			->method('countDisabled')
 			->willReturn(11);
+		$group
+			->method('canAddUser')
+			->willReturn(true);
+		$group
+			->method('canRemoveUser')
+			->willReturn(true);
 
 		return $group;
 	}
@@ -215,13 +221,18 @@ class GroupsControllerTest extends \Test\TestCase {
 				'id' => 'group1',
 				'displayname' => 'group1-name',
 				'usercount' => 123,
-				'disabled' => 11
+				'disabled' => 11,
+				'canAdd' => true,
+				'canRemove' => true
 			), 
 			Array(
 				'id' => 'group2',
 				'displayname' => 'group2-name',
 				'usercount' => 123,
-				'disabled' => 11
+				'disabled' => 11,
+				'canAdd' => true,
+				'canRemove' => true
+				
 				)
 		]], $result->getData());
 
