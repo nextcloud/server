@@ -748,15 +748,24 @@
 		 */
 		_onClickSelectAll: function(e) {
 			var checked = $(e.target).prop('checked');
-			this.$fileList.find('td.selection>.selectCheckBox').prop('checked', checked)
+			// Select only visible checkboxes to filter out unmatched file in search
+			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
+
+			var selectionIds = [];
+			this.$fileList.find('td.selection > .selectCheckBox:checked').closest('tr').each(function() {
+				selectionIds.push($(this).data('id'));
+			});
+
 			if (checked) {
 				for (var i = 0; i < this.files.length; i++) {
-					var fileData = this.files[i];
-					this._selectedFiles[fileData.id] = fileData;
-					this._selectionSummary.add(fileData);
+					if (selectionIds.includes(this.files[i]['id'])) {
+						var fileData = this.files[i];
+						this._selectedFiles[fileData.id] = fileData;
+						this._selectionSummary.add(fileData);
+					}
 				}
 			}
 			this.updateSelectionSummary();
