@@ -92,7 +92,7 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png või jpg, max. 20 MB",
     "Cancel" : "Loobu",
     "Choose as profile picture" : "Vali kui profiili pilt",
-    "You are member of the following groups:" : "Sa oled nende gruppide liige:",
+    "You are a member of the following groups:" : "Sa oled nende gruppide liige:",
     "No display name set" : "Näidatavat nime pole veel määratud",
     "Your email address" : "Sinu e-posti aadress",
     "No email address set" : "E-posti aadressi pole veel määratud",

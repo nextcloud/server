@@ -63,7 +63,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Pictura fornite per conto original",
     "Cancel" : "Cancellar",
     "Choose as profile picture" : "Selectiona como pictura de profilo",
-    "You are member of the following groups:" : "Tu es membro del sequente gruppos:",
+    "You are a member of the following groups:" : "Tu es membro del sequente gruppos:",
     "Your email address" : "Tu adresse de e-posta",
     "No email address set" : "Nulle adresse de e-posta definite",
     "For password reset and notifications" : "Pro reinitialisation de contrasigno e invio de notificationes",

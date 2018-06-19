@@ -121,7 +121,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Zdjęcie dostarczone przez oryginalne konto",
     "Cancel" : "Anuluj",
     "Choose as profile picture" : "Wybierz zdjęcie profilowe",
-    "You are member of the following groups:" : "Należysz do następujących grup:",
+    "You are a member of the following groups:" : "Należysz do następujących grup:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Używasz <strong>%s</strong> z <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "Brak nazwa wyświetlanej",
     "Your email address" : "Twój adres e-mail",

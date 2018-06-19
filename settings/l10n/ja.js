@@ -117,7 +117,7 @@ OC.L10N.register(
     "Picture provided by original account" : "オリジナルのアカウントで提供されている写真",
     "Cancel" : "キャンセル",
     "Choose as profile picture" : "プロファイル画像として選択",
-    "You are member of the following groups:" : "次のグループのメンバー:",
+    "You are a member of the following groups:" : "次のグループのメンバー:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "<strong>%s</strong> / <strong>%s</strong> (<strong>%s %%</strong>) 使用中",
     "No display name set" : "表示名が未設定",
     "Your email address" : "あなたのメールアドレス",

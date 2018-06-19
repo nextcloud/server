@@ -137,7 +137,7 @@ OC.L10N.register(
     "Cancel" : "Peru",
     "Choose as profile picture" : "Valitse profiilikuvaksi",
     "Details" : "Yksityiskohdat",
-    "You are member of the following groups:" : "Olet jäsenenä seuraavissa ryhmissä:",
+    "You are a member of the following groups:" : "Olet jäsenenä seuraavissa ryhmissä:",
     "You are using <strong>%s</strong>" : "Käytössäsi on <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Käytössäsi on <strong>%s</strong>/<strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "Näyttönimeä ei ole asetettu",

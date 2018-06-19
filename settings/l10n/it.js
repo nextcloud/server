@@ -150,7 +150,7 @@ OC.L10N.register(
     "Cancel" : "Annulla",
     "Choose as profile picture" : "Scegli come immagine del profilo",
     "Details" : "Dettagli",
-    "You are member of the following groups:" : "Sei membro dei seguenti gruppi:",
+    "You are a member of the following groups:" : "Sei membro dei seguenti gruppi:",
     "You are using <strong>%s</strong>" : "Stai utilizzando <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Stai utilizzando <strong>%s</strong> di <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "Nome visualizzato non impostato",

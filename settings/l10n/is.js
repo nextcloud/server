@@ -135,7 +135,7 @@ OC.L10N.register(
     "Cancel" : "Hætta við",
     "Choose as profile picture" : "Veldu sem einkennismynd",
     "Details" : "Nánar",
-    "You are member of the following groups:" : "Þú ert meðlimur eftirfarandi hópa:",
+    "You are a member of the following groups:" : "Þú ert meðlimur eftirfarandi hópa:",
     "You are using <strong>%s</strong>" : "Þú ert að nota <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "You are using <strong>%s</strong> af <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "Ekkert birtingarnafn sett",

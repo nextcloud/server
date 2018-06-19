@@ -93,7 +93,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Gambar disediakan oleh akun asli",
     "Cancel" : "Batal",
     "Choose as profile picture" : "Pilih sebagai gambar profil",
-    "You are member of the following groups:" : "Anda adalah anggota dari grup berikut:",
+    "You are a member of the following groups:" : "Anda adalah anggota dari grup berikut:",
     "No display name set" : "Nama tampilan tidak diatur",
     "Your email address" : "Alamat surel Anda",
     "No email address set" : "Alamat surel tidak diatur",

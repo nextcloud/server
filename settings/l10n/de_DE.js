@@ -148,7 +148,7 @@ OC.L10N.register(
     "Cancel" : "Abbrechen",
     "Choose as profile picture" : "Als Profilbild auswählen",
     "Details" : "Details",
-    "You are member of the following groups:" : "Sie sind Mitglied folgender Gruppen:",
+    "You are a member of the following groups:" : "Sie sind Mitglied folgender Gruppen:",
     "You are using <strong>%s</strong>" : "Sie benutzen <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Sie verwenden <strong>%s</strong> von <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "Kein Anzeigename angegeben",

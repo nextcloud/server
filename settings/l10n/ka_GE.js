@@ -121,7 +121,7 @@ OC.L10N.register(
     "Picture provided by original account" : "სურათი ორიგინალი ანგარიშიდან",
     "Cancel" : "უარყოფა",
     "Choose as profile picture" : "აირჩიეთ პროფილის სურათად",
-    "You are member of the following groups:" : "თქვენ ხართ შემდეგი ჯგუფების წევრი:",
+    "You are a member of the following groups:" : "თქვენ ხართ შემდეგი ჯგუფების წევრი:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "თქვენ იყენებთ <strong>%s</strong> სულ <strong>%s</strong>-დან (<strong>%s%%</strong>)",
     "No display name set" : "დისპლეი სახელი არაა დაყენებული",
     "Your email address" : "თქვენი ელ-ფოსტის მისამართი",

@@ -56,7 +56,7 @@ OC.L10N.register(
     "Upload new" : "Yenisini yüklə",
     "Remove image" : "Şəkili sil",
     "Cancel" : "Dayandır",
-    "You are member of the following groups:" : "Siz göstərilən qrupların üzvüsünüz:",
+    "You are a member of the following groups:" : "Siz göstərilən qrupların üzvüsünüz:",
     "No display name set" : "Ekranda adı dəsti yoxdur",
     "Your email address" : "Sizin email ünvanı",
     "No email address set" : "Email ünvanı dəsti yoxdur",

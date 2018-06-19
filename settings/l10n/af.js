@@ -28,7 +28,7 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png of jpg, maks. 20 MB",
     "Cancel" : "Kanselleer",
     "Choose as profile picture" : "Kies as profielprent",
-    "You are member of the following groups:" : "U is ’n lid van die volgende groepe:",
+    "You are a member of the following groups:" : "U is ’n lid van die volgende groepe:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "U gebruik <strong>%s</strong> van <strong>%s</strong> (<strong>%s %%</strong>)",
     "Your email address" : "U e-posadres",
     "No email address set" : "Geen e-posadres ingestel",

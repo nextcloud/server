@@ -150,7 +150,7 @@ OC.L10N.register(
     "Cancel" : "Отмена",
     "Choose as profile picture" : "Выбрать в качестве картинки профиля",
     "Details" : "Подробности",
-    "You are member of the following groups:" : "Вы являетесь членом следующих групп:",
+    "You are a member of the following groups:" : "Вы являетесь членом следующих групп:",
     "You are using <strong>%s</strong>" : "Вы используете <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Вы используете <strong>%s</strong> из <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "Отображаемое имя не указано",

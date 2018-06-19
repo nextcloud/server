@@ -83,7 +83,7 @@ OC.L10N.register(
     "Picture provided by original account" : "ใช้รูปภาพจากบัญชีเดิม",
     "Cancel" : "ยกเลิก",
     "Choose as profile picture" : "เลือกรูปภาพโปรไฟล์",
-    "You are member of the following groups:" : "คุณเป็นสมาชิกของกลุ่มต่อไปนี้:",
+    "You are a member of the following groups:" : "คุณเป็นสมาชิกของกลุ่มต่อไปนี้:",
     "No display name set" : "ไม่มีชื่อที่แสดง",
     "Your email address" : "ที่อยู่อีเมล์ของคุณ",
     "No email address set" : "ไม่ได้ตั้งค่าที่อยู่อีเมล",

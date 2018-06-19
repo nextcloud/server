@@ -114,7 +114,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Obrázok poskytnutý originálnym účtom",
     "Cancel" : "Zrušiť",
     "Choose as profile picture" : "Použiť ako obrázok avatara",
-    "You are member of the following groups:" : "Ste členom nasledovných skupín:",
+    "You are a member of the following groups:" : "Ste členom nasledovných skupín:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Využívate <strong>%s</strong> z <strong>%s</strong>(<strong>%s%%</strong>)",
     "No display name set" : "Zobrazované meno nie je nastavené",
     "Your email address" : "Vaša emailová adresa",
