@@ -23,6 +23,12 @@
 
 namespace OCP\Calendar\Resource;
 
+/**
+ * Interface IManager
+ *
+ * @package OCP\Calendar\Resource
+ * @since 14.0.0
+ */
 interface IManager {
 
 	/**
@@ -52,6 +58,7 @@ interface IManager {
 	/**
 	 * @param string $backendId
 	 * @return IBackend
+	 * @since 14.0.0
 	 */
 	public function getBackend($backendId):IBackend;
 

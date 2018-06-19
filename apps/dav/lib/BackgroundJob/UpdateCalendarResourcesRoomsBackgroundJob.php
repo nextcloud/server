@@ -243,7 +243,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 		$sorted = [
 			'new' => [],
 			'deleted' => [],
-			'existing' => [],
+			'edited' => [],
 		];
 
 		$backendIds = array_merge(array_keys($cached), array_keys($remote));
@@ -251,11 +251,11 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 			if (!isset($cached[$backendId])) {
 				$sorted['new'][$backendId] = $remote[$backendId];
 			} elseif (!isset($remote[$backendId])) {
-				$sorted['deleted'][$backendId] = $remote[$backendId];
+				$sorted['deleted'][$backendId] = $cached[$backendId];
 			} else {
 				$sorted['new'][$backendId] = array_diff($remote[$backendId], $cached[$backendId]);
 				$sorted['deleted'][$backendId] = array_diff($cached[$backendId], $remote[$backendId]);
-				$sorted['existing'][$backendId] = array_intersect($remote[$backendId], $cached[$backendId]);
+				$sorted['edited'][$backendId] = array_intersect($remote[$backendId], $cached[$backendId]);
 			}
 		}
 
@@ -272,7 +272,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 		$query = $this->db->getQueryBuilder();
 		$query->insert($table)
 			->values([
-				'backend_id' => $query->createNamedParameter($remote->getBackend()),
+				'backend_id' => $query->createNamedParameter($remote->getBackend()->getBackendIdentifier()),
 				'resource_id' => $query->createNamedParameter($remote->getId()),
 				'email' => $query->createNamedParameter($remote->getEMail()),
 				'displayname' => $query->createNamedParameter($remote->getDisplayName()),
@@ -320,6 +320,8 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 				$this->serializeGroupRestrictions(
 					$remote->getGroupRestrictions()
 				)))
+			->where($query->expr()->eq('backend_id', $query->createNamedParameter($remote->getBackend()->getBackendIdentifier())))
+			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($remote->getId())))
 			->execute();
 	}
 

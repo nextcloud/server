@@ -37,6 +37,7 @@ interface IBackend {
 	 *
 	 * @throws BackendTemporarilyUnavailableException
 	 * @return IResource[]
+	 * @since 14.0.0
 	 */
 	public function getAllResources():array;
 
@@ -45,6 +46,7 @@ interface IBackend {
 	 *
 	 * @throws BackendTemporarilyUnavailableException
 	 * @return string[]
+	 * @since 14.0.0
 	 */
 	public function listAllResources():array;
 
@@ -54,6 +56,7 @@ interface IBackend {
 	 * @param string $id
 	 * @throws BackendTemporarilyUnavailableException
 	 * @return IResource|null
+	 * @since 14.0.0
 	 */
 	public function getResource($id);
 

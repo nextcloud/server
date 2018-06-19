@@ -37,6 +37,7 @@ interface IBackend {
 	 *
 	 * @throws BackendTemporarilyUnavailableException
 	 * @return IRoom[]
+	 * @since 14.0.0
 	 */
 	public function getAllRooms():array;
 
@@ -45,6 +46,7 @@ interface IBackend {
 	 *
 	 * @throws BackendTemporarilyUnavailableException
 	 * @return string[]
+	 * @since 14.0.0
 	 */
 	public function listAllRooms():array;
 
@@ -54,6 +56,7 @@ interface IBackend {
 	 * @param string $id
 	 * @throws BackendTemporarilyUnavailableException
 	 * @return IRoom|null
+	 * @since 14.0.0
 	 */
 	public function getRoom($id);
 
