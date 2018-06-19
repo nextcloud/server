@@ -41,7 +41,7 @@ const defaults = {
 		usercount: 0,
 		disabled: 0
 	}
-};
+}
 
 const state = {
 	users: [],
