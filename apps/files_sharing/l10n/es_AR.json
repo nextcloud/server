@@ -58,7 +58,6 @@
     "{actor} shared {file} with {user}" : "{actor} compartió {file} con {user}",
     "{actor} removed {user} from {file}" : "{actor} eliminó a {user} de {file}",
     "{actor} shared {file} with you" : "{actor} ha compartido {file} con usted",
-    "{actor} removed you from {file}" : "{actor} lo eliminó de {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un archivo o carpeta compartido por correo o por link público ha sido <strong>descargado</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un archivo o carpeta fue compartido desde <strong>otro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "Un archivo o carpeta ha sido <strong>compartido</strong>",
@@ -106,6 +105,7 @@
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Seleccione o suelte los archivos",
     "Uploading files…" : "Cargando archivos...",
-    "Uploaded files:" : "Archivos cargados:"
+    "Uploaded files:" : "Archivos cargados:",
+    "{actor} removed you from {file}" : "{actor} lo eliminó de {file}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

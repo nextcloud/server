@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} ha compartit {file} amb {usuari}",
     "{actor} removed {user} from {file}" : "{actor} ha tret {user} de {file}",
     "{actor} shared {file} with you" : "{actor} ha compartit {file} amb tu",
-    "{actor} removed you from {file}" : "{actor} t'ha eliminat de {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "S'ha <strong> baixat </strong> un fitxer o carpeta compartit per correu o per enllaç públic",
     "A file or folder was shared from <strong>another server</strong>" : "S'ha compartit un fitxer o una carpeta d'un <strong> altre servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "S'ha <strong>compartit</strong> un fitxer o una carpeta",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
     "Uploading files…" : "Pujant arxius...",
     "Uploaded files:" : "Arxius pujats:",
+    "{actor} removed you from {file}" : "{actor} t'ha eliminat de {file}",
     "%s is publicly shared" : "%s està compartit de forma pública"
 },
 "nplurals=2; plural=(n != 1);");

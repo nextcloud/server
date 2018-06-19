@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} が {file} を {user} に共有しました",
     "{actor} removed {user} from {file}" : "{actor} が {file} の {user} との共有を削除しました",
     "{actor} shared {file} with you" : "{actor} が {file} を共有しました",
-    "{actor} removed you from {file}" : "{actor} が {file} の共有を削除しました",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "メールまたは公開リンクにより共有されたファイルまたはフォルダーが<strong>ダウンロード</strong>されたとき",
     "A file or folder was shared from <strong>another server</strong>" : "ファイルまたはフォルダーが<strong>他のサーバー</strong>から共有されたとき",
     "A file or folder has been <strong>shared</strong>" : "ファイルまたはフォルダーが<strong>共有</strong>されたとき",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
     "Uploading files…" : "ファイルをアップロード中...",
     "Uploaded files:" : "アップロード済ファイル:",
+    "{actor} removed you from {file}" : "{actor} が {file} の共有を削除しました",
     "%s is publicly shared" : "%s が公開共有されました"
 },
 "nplurals=1; plural=0;");

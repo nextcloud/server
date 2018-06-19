@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} jakoi kohteen {file} käyttäjälle {user}",
     "{actor} removed {user} from {file}" : "{actor} poisti käyttäjän {user} kohteen {file} käyttöoikeudet",
     "{actor} shared {file} with you" : "{actor} jakoi kohteen {file} kanssasi",
-    "{actor} removed you from {file}" : "{actor} poisti käyttöoikeutesi kohteeseen {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Tiedosto tai kansio, joka on jaettu sähköpostitse tai julkisen linkin kautta, on <strong>ladattu</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Tiedosto tai kansio on jaettu <strong>toiselta palvelimelta</strong>",
     "A file or folder has been <strong>shared</strong>" : "Tiedosto tai kansio on <strong>jaettu</strong>",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Select or drop files" : "Valitse tai pudota tiedostoja",
     "Uploading files…" : "Lähetetään tiedostoja…",
     "Uploaded files:" : "Lähetetyt tiedostot:",
+    "{actor} removed you from {file}" : "{actor} poisti käyttöoikeutesi kohteeseen {file}",
     "%s is publicly shared" : "%s on jaettu julkisesti"
 },
 "nplurals=2; plural=(n != 1);");
