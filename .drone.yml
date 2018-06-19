@@ -53,7 +53,7 @@ pipeline:
       matrix:
         TESTS: syntax-php7.1
   phan:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - composer install
       - composer require --dev "phan/phan:0.11.1"
@@ -170,7 +170,7 @@ pipeline:
         DB: NODB
         PHP: 7.1
   nodb-php7.2:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -194,7 +194,7 @@ pipeline:
         DB: sqlite
         PHP: 7.1
   sqlite-php7.2:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -218,7 +218,7 @@ pipeline:
         DB: mysql
         PHP: 7.1
   mysql-php7.2:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -292,7 +292,7 @@ pipeline:
         DB: mysqlmb4
         PHP: 7.1
   mysqlmb4-php7.2:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
