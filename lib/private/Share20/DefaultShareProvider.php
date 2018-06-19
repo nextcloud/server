@@ -31,6 +31,7 @@ namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
 use OCP\Files\Folder;
+use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
@@ -408,6 +409,41 @@ class DefaultShareProvider implements IShareProvider {
 		} else {
 			throw new ProviderException('Invalid shareType');
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 *
+	 * For now this only works for group shares
+	 * If this gets implemented for normal shares we have to extend it
+	 */
+	public function restore(IShare $share, string $recipient): IShare {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('permissions')
+			->from('share')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($share->getId()))
+			);
+		$cursor = $qb->execute();
+		$data = $cursor->fetch();
+		$cursor->closeCursor();
+
+		$originalPermission = $data['permissions'];
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->update('share')
+			->set('permissions', $qb->createNamedParameter($originalPermission))
+			->where(
+				$qb->expr()->eq('parent', $qb->createNamedParameter($share->getParent()))
+			)->andWhere(
+				$qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP))
+			)->andWhere(
+				$qb->expr()->eq('share_with', $qb->createNamedParameter($recipient))
+			);
+
+		$qb->execute();
+
+		return $this->getShareById($share->getId(), $recipient);
 	}
 
 	/**
@@ -922,6 +958,7 @@ class DefaultShareProvider implements IShareProvider {
 			while($data = $stmt->fetch()) {
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
 				$shareMap[$data['parent']]->setTarget($data['file_target']);
+				$shareMap[$data['parent']]->setParent($data['parent']);
 			}
 
 			$stmt->closeCursor();

@@ -61,6 +61,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
+use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IShareProvider;
@@ -976,6 +977,13 @@ class Manager implements IManager {
 		$provider->deleteFromSelf($share, $recipientId);
 		$event = new GenericEvent($share);
 		$this->eventDispatcher->dispatch('OCP\Share::postUnshareFromSelf', $event);
+	}
+
+	public function restoreShare(IShare $share, string $recipientId): IShare {
+		list($providerId, ) = $this->splitFullId($share->getFullId());
+		$provider = $this->factory->getProvider($providerId);
+
+		return $provider->restore($share, $recipientId);
 	}
 
 	/**

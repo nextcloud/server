@@ -42,6 +42,7 @@ use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OC\Share20\Share;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
@@ -690,6 +691,10 @@ class ShareByMailProvider implements IShareProvider {
 	 */
 	public function deleteFromSelf(IShare $share, $recipient) {
 		// nothing to do here, mail shares are only outgoing shares
+	}
+
+	public function restore(IShare $share, string $recipient): IShare {
+		throw new GenericShareException('not implemented');
 	}
 
 	/**

@@ -29,6 +29,7 @@ namespace OCP\Share;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 
 /**
@@ -82,6 +83,20 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function deleteFromSelf(IShare $share, $recipientId);
+
+	/**
+	 * Restore the share when it has been deleted
+	 * Certain share types can be restored when they have been deleted
+	 * but the provider should properly handle this\
+	 *
+	 * @param IShare $share The share to restore
+	 * @param string $recipientId The user to restore the share for
+	 * @return IShare The restored share object
+	 * @throws GenericShareException In case restoring the share failed
+	 *
+	 * @since 14.0.0
+	 */
+	public function restoreShare(IShare $share, string $recipientId): IShare;
 
 	/**
 	 * Move the share as a recipient of the share.
