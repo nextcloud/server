@@ -46,7 +46,7 @@
 		<h3>{{ t('oauth2', 'Add client') }}</h3>
 		<form @submit.prevent="addClient">
 			<input type="text" id="name" name="name" :placeholder="t('oauth2', 'Name')" v-model="newClient.name">
-			<input type="url" id="redirectUri" name="redirectUri" :placeholder="t('oauth2', 'Redirection URI')" v-model="newClient.redirctUri">
+			<input type="url" id="redirectUri" name="redirectUri" :placeholder="t('oauth2', 'Redirection URI')" v-model="newClient.redirectUri">
 			<input type="submit" class="button" :value="t('oauth2', 'Add')">
 		</form>
 	</div>
@@ -66,7 +66,7 @@ export default {
 			clients: [],
 			newClient: {
 				name: '',
-				redirctUri: ''
+				redirectUri: ''
 			}
 		};
 	},
@@ -97,14 +97,14 @@ export default {
 				OC.generateUrl('apps/oauth2/clients'),
 				{
 					name: this.newClient.name,
-					redirectUri: this.newClient.redirctUri
+					redirectUri: this.newClient.redirectUri
 				},
 				tokenHeaders)
 				.then((response) => {
 					this.clients.push(response.data)
 
 					this.newClient.name = '';
-					this.newClient.redirctUri = '';
+					this.newClient.redirectUri = '';
 				}
 			);
 		}
