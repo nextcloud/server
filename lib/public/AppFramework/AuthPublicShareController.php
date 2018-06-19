@@ -176,7 +176,9 @@ abstract class AuthPublicShareController extends PublicShareController {
 		$route = $this->getRoute('showShare');
 
 		if ($params === null) {
-			$params = [];
+			$params = [
+				'token' => $this->getToken(),
+			];
 		} else {
 			$params = json_decode($params, true);
 			if (isset($params['_route'])) {

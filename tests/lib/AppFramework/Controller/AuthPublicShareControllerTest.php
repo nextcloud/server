@@ -83,6 +83,8 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->controller->method('isAuthenticated')
 			->willReturn(true);
 
+		$this->controller->setToken('myToken');
+
 		$this->session->method('get')
 			->willReturnMap(['public_link_authenticate_redirect', ['foo' => 'bar']]);
 
