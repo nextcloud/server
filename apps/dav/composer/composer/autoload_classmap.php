@@ -13,6 +13,7 @@ return array(
     'OCA\\DAV\\Avatars\\RootCollection' => $baseDir . '/../lib/Avatars/RootCollection.php',
     'OCA\\DAV\\BackgroundJob\\CleanupDirectLinksJob' => $baseDir . '/../lib/BackgroundJob/CleanupDirectLinksJob.php',
     'OCA\\DAV\\BackgroundJob\\GenerateBirthdayCalendarBackgroundJob' => $baseDir . '/../lib/BackgroundJob/GenerateBirthdayCalendarBackgroundJob.php',
+    'OCA\\DAV\\BackgroundJob\\UpdateCalendarResourcesRoomsBackgroundJob' => $baseDir . '/../lib/BackgroundJob/UpdateCalendarResourcesRoomsBackgroundJob.php',
     'OCA\\DAV\\CalDAV\\Activity\\Backend' => $baseDir . '/../lib/CalDAV/Activity/Backend.php',
     'OCA\\DAV\\CalDAV\\Activity\\Filter\\Calendar' => $baseDir . '/../lib/CalDAV/Activity/Filter/Calendar.php',
     'OCA\\DAV\\CalDAV\\Activity\\Filter\\Todo' => $baseDir . '/../lib/CalDAV/Activity/Filter/Todo.php',
