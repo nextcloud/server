@@ -206,10 +206,11 @@ class LostController extends Controller {
 	}
 
 	/**
+	 * @param array $data
 	 * @return array
 	 */
-	private function success() {
-		return array('status'=>'success');
+	private function success($data = []) {
+		return array_merge($data, ['status'=>'success']);
 	}
 
 	/**
@@ -282,7 +283,7 @@ class LostController extends Controller {
 			return $this->error($e->getMessage());
 		}
 
-		return $this->success();
+		return $this->success(['user' => $userId]);
 	}
 
 	/**
