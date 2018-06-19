@@ -71,4 +71,8 @@ class FunctionBuilder implements IFunctionBuilder {
 	public function subtract($x, $y) {
 		return new QueryFunction($this->helper->quoteColumnName($x) . ' - ' . $this->helper->quoteColumnName($y));
 	}
+
+	public function count($input) {
+		return new QueryFunction('COUNT(' . $this->helper->quoteColumnName($input) . ')');
+	}
 }

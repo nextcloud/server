@@ -96,4 +96,12 @@ interface IFunctionBuilder {
 	 * @since 14.0.0
 	 */
 	public function subtract($x, $y);
+
+	/**
+	 * @param mixed $input The input to be counted
+	 *
+	 * @return IQueryFunction
+	 * @since 14.0.0
+	 */
+	public function count($input);
 }

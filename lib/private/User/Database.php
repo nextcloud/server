@@ -96,6 +96,7 @@ class Database extends ABackend
 	 * \OC\User\Database constructor.
 	 *
 	 * @param EventDispatcher $eventDispatcher
+	 * @param string $table
 	 */
 	public function __construct($eventDispatcher = null) {
 		$this->cache = new CappedMemoryCache();
@@ -159,8 +160,10 @@ class Database extends ABackend
 		$this->fixDI();
 
 		// Delete user-group-relation
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*users` WHERE `uid` = ?');
-		$result = $query->execute([$uid]);
+		$query = $this->dbConn->getQueryBuilder();
+		$query->delete('users')
+			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
+		$result = $query->execute();
 
 		if (isset($this->cache[$uid])) {
 			unset($this->cache[$uid]);
@@ -184,8 +187,15 @@ class Database extends ABackend
 		if ($this->userExists($uid)) {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?');
-			$result = $query->execute([\OC::$server->getHasher()->hash($password), $uid]);
+
+			$hasher = \OC::$server->getHasher();
+			$hashedPassword = $hasher->hash($password);
+
+			$query = $this->dbConn->getQueryBuilder();
+			$query->update('users')
+				->set('password', $query->createNamedParameter($hashedPassword))
+				->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
+			$result = $query->execute();
 
 			return $result ? true : false;
 		}
@@ -206,8 +216,12 @@ class Database extends ABackend
 		$this->fixDI();
 
 		if ($this->userExists($uid)) {
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*users` SET `displayname` = ? WHERE LOWER(`uid`) = LOWER(?)');
-			$query->execute([$displayName, $uid]);
+			$query = $this->dbConn->getQueryBuilder();
+			$query->update('users')
+				->set('displayname', $query->createNamedParameter($displayName))
+				->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
+			$query->execute();
+
 			$this->cache[$uid]['displayname'] = $displayName;
 
 			return true;
@@ -253,7 +267,7 @@ class Database extends ABackend
 			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orderBy($query->func()->lower('displayname'), 'ASC')
-			->orderBy($query->func()->lower('uid'), 'ASC')
+			->orderBy('uid_lower', 'ASC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
 
@@ -406,13 +420,12 @@ class Database extends ABackend
 	public function countUsers() {
 		$this->fixDI();
 
-		$query = \OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select($query->func()->count('uid'))
+			->from('users');
 		$result = $query->execute();
-		if ($result === false) {
-			Util::writeLog('core', \OC_DB::getErrorMessage(), ILogger::ERROR);
-			return false;
-		}
-		return $result->fetchOne();
+
+		return $result->fetchColumn();
 	}
 
 	/**
