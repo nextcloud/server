@@ -75,13 +75,9 @@ class AuthSettingsControllerTest extends TestCase {
 		$sessionToken = new DefaultToken();
 		$sessionToken->setId(100);
 
-		$this->userManager->expects($this->once())
-			->method('get')
-			->with($this->uid)
-			->will($this->returnValue($this->user));
 		$this->tokenProvider->expects($this->once())
 			->method('getTokenByUser')
-			->with($this->user)
+			->with($this->uid)
 			->will($this->returnValue($tokens));
 		$this->session->expects($this->once())
 			->method('getId')
@@ -192,13 +188,9 @@ class AuthSettingsControllerTest extends TestCase {
 		$id = 123;
 		$user = $this->createMock(IUser::class);
 
-		$this->userManager->expects($this->once())
-			->method('get')
-			->with($this->uid)
-			->will($this->returnValue($user));
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateTokenById')
-			->with($user, $id);
+			->with($this->uid, $id);
 
 		$this->assertEquals([], $this->controller->destroy($id));
 	}

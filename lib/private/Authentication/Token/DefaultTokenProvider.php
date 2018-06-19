@@ -35,7 +35,6 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\IUser;
 use OCP\Security\ICrypto;
 
 class DefaultTokenProvider implements IProvider {
@@ -105,6 +104,7 @@ class DefaultTokenProvider implements IProvider {
 		$dbToken->setRemember($remember);
 		$dbToken->setLastActivity($this->time->getTime());
 		$dbToken->setLastCheck($this->time->getTime());
+		$dbToken->setVersion(DefaultToken::VERSION);
 
 		$this->mapper->insert($dbToken);
 
@@ -143,17 +143,8 @@ class DefaultTokenProvider implements IProvider {
 		}
 	}
 
-	/**
-	 * Get all tokens of a user
-	 *
-	 * The provider may limit the number of result rows in case of an abuse
-	 * where a high number of (session) tokens is generated
-	 *
-	 * @param IUser $user
-	 * @return IToken[]
-	 */
-	public function getTokenByUser(IUser $user): array {
-		return $this->mapper->getTokenByUser($user);
+	public function getTokenByUser(string $uid): array {
+		return $this->mapper->getTokenByUser($uid);
 	}
 
 	/**
@@ -265,14 +256,8 @@ class DefaultTokenProvider implements IProvider {
 		$this->mapper->invalidate($this->hashToken($token));
 	}
 
-	/**
-	 * Invalidate (delete) the given token
-	 *
-	 * @param IUser $user
-	 * @param int $id
-	 */
-	public function invalidateTokenById(IUser $user, int $id) {
-		$this->mapper->deleteById($user, $id);
+	public function invalidateTokenById(string $uid, int $id) {
+		$this->mapper->deleteById($uid, $id);
 	}
 
 	/**
@@ -313,7 +298,7 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $token
 	 * @return string
 	 */
-	private function hashToken(string $token) {
+	private function hashToken(string $token): string {
 		$secret = $this->config->getSystemValue('secret');
 		return hash('sha512', $token . $secret);
 	}

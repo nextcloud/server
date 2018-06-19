@@ -1,29 +1,24 @@
 <?php
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@owncloud.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Marcel Waldvogel <marcel.waldvogel@uni-konstanz.de>
- * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -34,7 +29,7 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
-class DefaultTokenMapper extends QBMapper {
+class PublicKeyTokenMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'authtoken');
@@ -49,8 +44,8 @@ class DefaultTokenMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
-			->where($qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
+			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 	}
 
@@ -65,24 +60,22 @@ class DefaultTokenMapper extends QBMapper {
 			->where($qb->expr()->lt('last_activity', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 	}
 
 	/**
 	 * Get the user UID for the given token
 	 *
-	 * @param string $token
 	 * @throws DoesNotExistException
-	 * @return DefaultToken
 	 */
-	public function getToken(string $token): DefaultToken {
+	public function getToken(string $token): PublicKeyToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
+		$result = $qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 
 		$data = $result->fetch();
@@ -90,23 +83,21 @@ class DefaultTokenMapper extends QBMapper {
 		if ($data === false) {
 			throw new DoesNotExistException('token does not exist');
 		}
-		return DefaultToken::fromRow($data);
+		return PublicKeyToken::fromRow($data);
 	}
 
 	/**
 	 * Get the token for $id
 	 *
-	 * @param int $id
 	 * @throws DoesNotExistException
-	 * @return DefaultToken
 	 */
-	public function getTokenById(int $id): DefaultToken {
+	public function getTokenById(int $id): PublicKeyToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
+		$result = $qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 
 		$data = $result->fetch();
@@ -114,7 +105,7 @@ class DefaultTokenMapper extends QBMapper {
 		if ($data === false) {
 			throw new DoesNotExistException('token does not exist');
 		}
-		return DefaultToken::fromRow($data);
+		return PublicKeyToken::fromRow($data);
 	}
 
 	/**
@@ -124,22 +115,22 @@ class DefaultTokenMapper extends QBMapper {
 	 * where a high number of (session) tokens is generated
 	 *
 	 * @param string $uid
-	 * @return DefaultToken[]
+	 * @return PublicKeyToken[]
 	 */
 	public function getTokenByUser(string $uid): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
+		$qb->select('*')
 			->from('authtoken')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1000);
 		$result = $qb->execute();
 		$data = $result->fetchAll();
 		$result->closeCursor();
 
 		$entities = array_map(function ($row) {
-			return DefaultToken::fromRow($row);
+			return PublicKeyToken::fromRow($row);
 		}, $data);
 
 		return $entities;
@@ -151,7 +142,7 @@ class DefaultTokenMapper extends QBMapper {
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}
 
@@ -164,8 +155,18 @@ class DefaultTokenMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}
 
+	public function deleteTempToken(PublicKeyToken $except) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete('authtoken')
+			->where($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN)))
+			->andWhere($qb->expr()->neq('id', $qb->createNamedParameter($except->getId())))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+
+		$qb->execute();
+	}
 }

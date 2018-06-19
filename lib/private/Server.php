@@ -339,15 +339,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$dbConnection = $c->getDatabaseConnection();
 			return new Authentication\Token\DefaultTokenMapper($dbConnection);
 		});
-		$this->registerService(Authentication\Token\DefaultTokenProvider::class, function (Server $c) {
-			$mapper = $c->query(Authentication\Token\DefaultTokenMapper::class);
-			$crypto = $c->getCrypto();
-			$config = $c->getConfig();
-			$logger = $c->getLogger();
-			$timeFactory = new TimeFactory();
-			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger, $timeFactory);
-		});
-		$this->registerAlias(IProvider::class, Authentication\Token\DefaultTokenProvider::class);
+		$this->registerAlias(IProvider::class, Authentication\Token\Manager::class);
 
 		$this->registerService(\OCP\IUserSession::class, function (Server $c) {
 			$manager = $c->getUserManager();

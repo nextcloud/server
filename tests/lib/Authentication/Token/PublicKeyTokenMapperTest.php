@@ -1,30 +1,32 @@
 <?php
-
+declare(strict_types=1);
 /**
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @license AGPL-3.0
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace Test\Authentication\Token;
 
 use OC;
-use OC\Authentication\Token\DefaultToken;
-use OC\Authentication\Token\DefaultTokenMapper;
+use OC\Authentication\Token\PublicKeyToken;
+use OC\Authentication\Token\PublicKeyTokenMapper;
 use OC\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -32,18 +34,17 @@ use OCP\IUser;
 use Test\TestCase;
 
 /**
- * Class DefaultTokenMapperTest
- *
  * @group DB
- * @package Test\Authentication
  */
-class DefaultTokenMapperTest extends TestCase {
+class PublicKeyTokenMapperTest extends TestCase {
 
-	/** @var DefaultTokenMapper */
+	/** @var PublicKeyTokenMapper */
 	private $mapper;
 
 	/** @var IDBConnection */
 	private $dbConnection;
+
+	/** @var int */
 	private $time;
 
 	protected function setUp() {
@@ -53,7 +54,7 @@ class DefaultTokenMapperTest extends TestCase {
 		$this->time = time();
 		$this->resetDatabase();
 
-		$this->mapper = new DefaultTokenMapper($this->dbConnection);
+		$this->mapper = new PublicKeyTokenMapper($this->dbConnection);
 	}
 
 	private function resetDatabase() {
@@ -68,6 +69,9 @@ class DefaultTokenMapperTest extends TestCase {
 			'type' => $qb->createNamedParameter(IToken::TEMPORARY_TOKEN),
 			'last_activity' => $qb->createNamedParameter($this->time - 120, IQueryBuilder::PARAM_INT), // Two minutes ago
 			'last_check' => $this->time - 60 * 10, // 10mins ago
+			'public_key' => $qb->createNamedParameter('public key'),
+			'private_key' => $qb->createNamedParameter('private key'),
+			'version' => $qb->createNamedParameter(2),
 		])->execute();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user2'),
@@ -78,6 +82,9 @@ class DefaultTokenMapperTest extends TestCase {
 			'type' => $qb->createNamedParameter(IToken::TEMPORARY_TOKEN),
 			'last_activity' => $qb->createNamedParameter($this->time - 60 * 60 * 24 * 3, IQueryBuilder::PARAM_INT), // Three days ago
 			'last_check' => $this->time -  10, // 10secs ago
+			'public_key' => $qb->createNamedParameter('public key'),
+			'private_key' => $qb->createNamedParameter('private key'),
+			'version' => $qb->createNamedParameter(2),
 		])->execute();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user1'),
@@ -88,6 +95,9 @@ class DefaultTokenMapperTest extends TestCase {
 			'type' => $qb->createNamedParameter(IToken::TEMPORARY_TOKEN),
 			'last_activity' => $qb->createNamedParameter($this->time - 120, IQueryBuilder::PARAM_INT), // Two minutes ago
 			'last_check' => $this->time - 60 * 10, // 10mins ago
+			'public_key' => $qb->createNamedParameter('public key'),
+			'private_key' => $qb->createNamedParameter('private key'),
+			'version' => $qb->createNamedParameter(2),
 		])->execute();
 	}
 
@@ -125,7 +135,7 @@ class DefaultTokenMapperTest extends TestCase {
 	}
 
 	public function testGetToken() {
-		$token = new DefaultToken();
+		$token = new PublicKeyToken();
 		$token->setUid('user2');
 		$token->setLoginName('User2');
 		$token->setPassword('971a337057853344700bbeccf836519f|UwOQwyb34sJHtqPV|036d4890f8c21d17bbc7b88072d8ef049a5c832a38e97f3e3d5f9186e896c2593aee16883f617322fa242728d0236ff32d163caeb4bd45e14ca002c57a88665f');
@@ -135,7 +145,9 @@ class DefaultTokenMapperTest extends TestCase {
 		$token->setRemember(IToken::DO_NOT_REMEMBER);
 		$token->setLastActivity($this->time - 60 * 60 * 24 * 3);
 		$token->setLastCheck($this->time - 10);
-		$token->setVersion(DefaultToken::VERSION);
+		$token->setPublicKey('public key');
+		$token->setPrivateKey('private key');
+		$token->setVersion(PublicKeyToken::VERSION);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 
@@ -155,7 +167,7 @@ class DefaultTokenMapperTest extends TestCase {
 	}
 
 	public function testGetTokenById() {
-		$token = new DefaultToken();
+		$token = new PublicKeyToken();
 		$token->setUid('user2');
 		$token->setLoginName('User2');
 		$token->setPassword('971a337057853344700bbeccf836519f|UwOQwyb34sJHtqPV|036d4890f8c21d17bbc7b88072d8ef049a5c832a38e97f3e3d5f9186e896c2593aee16883f617322fa242728d0236ff32d163caeb4bd45e14ca002c57a88665f');
@@ -165,7 +177,9 @@ class DefaultTokenMapperTest extends TestCase {
 		$token->setRemember(IToken::DO_NOT_REMEMBER);
 		$token->setLastActivity($this->time - 60 * 60 * 24 * 3);
 		$token->setLastCheck($this->time - 10);
-		$token->setVersion(DefaultToken::VERSION);
+		$token->setPublicKey('public key');
+		$token->setPrivateKey('private key');
+		$token->setVersion(PublicKeyToken::VERSION);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 		$token->setId($dbToken->getId()); // We don't know the ID
@@ -186,7 +200,7 @@ class DefaultTokenMapperTest extends TestCase {
 	 * @expectedException \OCP\AppFramework\Db\DoesNotExistException
 	 */
 	public function testGetInvalidTokenById() {
-		$id = 42;
+		$id = '42';
 
 		$this->mapper->getToken($id);
 	}
@@ -209,11 +223,13 @@ class DefaultTokenMapperTest extends TestCase {
 		$result = $qb->execute();
 		$id = $result->fetch()['id'];
 
-		$this->mapper->deleteById('user1', $id);
+		$this->mapper->deleteById('user1', (int)$id);
 		$this->assertEquals(2, $this->getNumberOfTokens());
 	}
 
 	public function testDeleteByIdWrongUser() {
+		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->createMock(IUser::class);
 		$id = 33;
 
 		$this->mapper->deleteById('user1000', $id);
