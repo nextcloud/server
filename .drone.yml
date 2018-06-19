@@ -20,14 +20,14 @@ pipeline:
      - ./build/vue-builds.sh ./settings/js/settings-vue.js
     when:
       matrix:
-        TESTS: vue-builds
+        TESTS: vue-build-settings
   vue-build-updatenotification:
     image: node
     commands:
      - ./build/vue-builds.sh ./apps/updatenotification/js/merged.js
     when:
       matrix:
-        TESTS: vue-builds
+        TESTS: vue-build-updatenotification
   checkers:
     image: nextcloudci/php7.0:php7.0-19
     commands:
@@ -683,7 +683,8 @@ pipeline:
 matrix:
   include:
     - TESTS: checkers
-    - TESTS: vue-builds
+    - TESTS: vue-build-settings
+    - TESTS: vue-build-updatenotification
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
     - TESTS: db-codecov
