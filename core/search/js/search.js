@@ -86,15 +86,15 @@
 			// Register input event
 			document
 				.getElementById('searchbox')
-				.addEventListener('input', this.search, true);
+				.addEventListener('input', _.debounce(this.search, 500), true);
 			document
 				.querySelector('form.searchbox')
-				.addEventListener('submit', this.search, true);
+				.addEventListener('submit', _.debounce(this.search, 500), true);
 
 			// Register reset
 			document
 				.querySelector('form.searchbox')
-				.addEventListener('reset', this.reset, true);
+				.addEventListener('reset', _.debounce(this.reset, 500), true);
 
 			// Register esc key shortcut reset if focused
 			document.addEventListener('keyup', function(event) {
@@ -108,7 +108,7 @@
 					document.getElementById('searchbox').value === ''
 				) {
 					if (key === 'Escape' || key === 'Esc' || key === 27) {
-						self.reset(event);
+						_.debounce(self.reset, 500);
 					}
 				}
 			});
