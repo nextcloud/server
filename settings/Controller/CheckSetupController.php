@@ -513,6 +513,16 @@ Raw output
 		];
 	}
 
+	protected function getCronErrors() {
+		$errors = json_decode($this->config->getAppValue('core', 'cronErrors', ''), true);
+
+		if (is_array($errors)) {
+			return $errors;
+		}
+
+		return [];
+	}
+
 	/**
 	 * @return DataResponse
 	 */
@@ -527,7 +537,7 @@ Raw output
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
-				'cronErrors' => json_decode($this->config->getAppValue('core', 'cronErrors', ''), true),
+				'cronErrors' => $this->getCronErrors(),
 				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),

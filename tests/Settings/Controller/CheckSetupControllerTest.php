@@ -63,7 +63,7 @@ class CheckSetupControllerTest extends TestCase {
 	private $l10n;
 	/** @var ILogger */
 	private $logger;
-	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Checker|\PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
 	/** @var EventDispatcher|\PHPUnit_Framework_MockObject_MockObject */
 	private $dispatcher;
@@ -392,6 +392,10 @@ class CheckSetupControllerTest extends TestCase {
 				'relativeTime' => '2 hours ago',
 				'backgroundJobsUrl' => 'https://example.org',
 			]);
+		$this->checker
+			->expects($this->once())
+			->method('hasPassedCheck')
+			->willReturn(true);
 
 		$expected = new DataResponse(
 			[
@@ -407,7 +411,7 @@ class CheckSetupControllerTest extends TestCase {
 					'relativeTime' => '2 hours ago',
 					'backgroundJobsUrl' => 'https://example.org',
 				],
-				'cronErrors' => '',
+				'cronErrors' => [],
 				'serverHasInternetConnection' => false,
 				'isMemcacheConfigured' => true,
 				'memcacheDocs' => 'http://docs.example.org/server/go.php?to=admin-performance',
@@ -421,7 +425,7 @@ class CheckSetupControllerTest extends TestCase {
 				'forwardedForHeadersWorking' => true,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
-				'hasPassedCodeIntegrityCheck' => null,
+				'hasPassedCodeIntegrityCheck' => true,
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'isOpcacheProperlySetup' => false,
 				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
