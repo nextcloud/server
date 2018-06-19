@@ -761,7 +761,7 @@
 
 			if (checked) {
 				for (var i = 0; i < this.files.length; i++) {
-					if (selectionIds.includes(this.files[i]['id'])) {
+					if (selectionIds.indexOf(this.files[i].id) >=0 ) {
 						var fileData = this.files[i];
 						this._selectedFiles[fileData.id] = fileData;
 						this._selectionSummary.add(fileData);
