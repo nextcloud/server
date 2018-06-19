@@ -150,6 +150,20 @@ interface IManager {
 	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
 
 	/**
+	 * Get deleted shares shared with $user.
+	 * Filter by $node if provided
+	 *
+	 * @param string $userId
+	 * @param int $shareType
+	 * @param Node|null $node
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 * @since 9.0.0
+	 */
+	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
+
+	/**
 	 * Retrieve a share by the share id.
 	 * If the recipient is set make sure to retrieve the file for that user.
 	 * This makes sure that if a user has moved/deleted a group share this

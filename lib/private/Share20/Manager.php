@@ -1132,6 +1132,25 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0) {
+		$shares = $this->getSharedWith($userId, $shareType, $node, $limit, $offset);
+
+		// Only get deleted shares
+		$shares = array_filter($shares, function(IShare $share) {
+			return $share->getPermissions() === 0;
+		});
+
+		// Only get shares where the owner still exists
+		$shares = array_filter($shares, function (IShare $share) {
+			return $this->userManager->userExists($share->getShareOwner());
+		});
+
+		return $shares;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getShareById($id, $recipient = null) {
 		if ($id === null) {
 			throw new ShareNotFound();

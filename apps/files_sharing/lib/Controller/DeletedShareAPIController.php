@@ -73,17 +73,7 @@ class DeletedShareAPIController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function index(): DataResponse {
-		$shares = $this->shareManager->getSharedWith($this->userId, \OCP\Share::SHARE_TYPE_GROUP, null, -1, 0);
-
-		// Only get deleted shares
-		$shares = array_filter($shares, function(IShare $share) {
-			return $share->getPermissions() === 0;
-		});
-
-		// Only get shares where the owner still exists
-		$shares = array_filter($shares, function (IShare $share) {
-			return $this->userManager->userExists($share->getShareOwner());
-		});
+		$shares = $this->shareManager->getDeletedSharedWith($this->userId, \OCP\Share::SHARE_TYPE_GROUP, null, -1, 0);
 
 		$shares = array_map(function (IShare $share) {
 			return $this->formatShare($share);
