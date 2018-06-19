@@ -28,12 +28,14 @@ namespace OCA\DAV\CalDAV\Schedule;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Security\ISecureRandom;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
@@ -79,6 +81,12 @@ class IMipPlugin extends SabreIMipPlugin {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var ISecureRandom */
+	private $random;
+
+	/** @var IDBConnection */
+	private $db;
+
 	/** @var Defaults */
 	private $defaults;
 
@@ -96,9 +104,14 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param L10NFactory $l10nFactory
 	 * @param IUrlGenerator $urlGenerator
 	 * @param Defaults $defaults
+	 * @param ISecureRandom $random
+	 * @param IDBConnection $db
 	 * @param string $userId
 	 */
-	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger, ITimeFactory $timeFactory, L10NFactory $l10nFactory, IURLGenerator $urlGenerator, Defaults $defaults, $userId) {
+	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger,
+								ITimeFactory $timeFactory, L10NFactory $l10nFactory,
+								IURLGenerator $urlGenerator, Defaults $defaults,
+								ISecureRandom $random, IDBConnection $db, $userId) {
 		parent::__construct('');
 		$this->userId = $userId;
 		$this->config = $config;
@@ -107,6 +120,8 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->timeFactory = $timeFactory;
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
+		$this->random = $random;
+		$this->db = $db;
 		$this->defaults = $defaults;
 	}
 
@@ -138,7 +153,9 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 
 		// don't send out mails for events that already took place
-		if ($this->isEventInThePast($iTipMessage->message)) {
+		$lastOccurrence = $this->getLastOccurrence($iTipMessage->message);
+		$currentTime = $this->timeFactory->getTime();
+		if ($lastOccurrence < $currentTime) {
 			return;
 		}
 
@@ -222,6 +239,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$meetingAttendeeName, $meetingInviteeName);
 		$this->addBulletList($template, $l10n, $meetingWhen, $meetingLocation,
 			$meetingDescription, $meetingUrl);
+		$this->addResponseButtons($template, $l10n, $iTipMessage, $lastOccurrence);
 
 		$template->addFooter();
 		$message->useTemplate($template);
@@ -249,9 +267,9 @@ class IMipPlugin extends SabreIMipPlugin {
 	/**
 	 * check if event took place in the past already
 	 * @param VCalendar $vObject
-	 * @return bool
+	 * @return int
 	 */
-	private function isEventInThePast(VCalendar $vObject) {
+	private function getLastOccurrence(VCalendar $vObject) {
 		/** @var VEvent $component */
 		$component = $vObject->VEVENT;
 
@@ -291,8 +309,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			}
 		}
 
-		$currentTime = $this->timeFactory->getTime();
-		return $lastOccurrence < $currentTime;
+		return $lastOccurrence;
 	}
 
 
@@ -460,6 +477,38 @@ class IMipPlugin extends SabreIMipPlugin {
 	}
 
 	/**
+	 * @param IEMailTemplate $template
+	 * @param IL10N $l10n
+	 * @param Message $iTipMessage
+	 * @param int $lastOccurrence
+	 */
+	private function addResponseButtons(IEMailTemplate $template, IL10N $l10n,
+										Message $iTipMessage, $lastOccurrence) {
+		$token = $this->createInvitationToken($iTipMessage, $lastOccurrence);
+
+		$template->addBodyButtonGroup(
+			$l10n->t('Accept'),
+			$this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.accept', [
+				'token' => $token,
+			]),
+			$l10n->t('Decline'),
+			$this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.decline', [
+				'token' => $token,
+			])
+		);
+
+		$moreOptionsURL = $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.options', [
+			'token' => $token,
+		]);
+		$html = vsprintf('<small><a href="%s">%s</a></small>', [
+			$moreOptionsURL, $l10n->t('More options ...')
+		]);
+		$text = $l10n->t('More options at %s', [$moreOptionsURL]);
+		
+		$template->addBodyText($html, $text);
+	}
+
+	/**
 	 * @param string $path
 	 * @return string
 	 */
@@ -467,5 +516,38 @@ class IMipPlugin extends SabreIMipPlugin {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->imagePath('core', $path)
 		);
+	}
+
+	/**
+	 * @param Message $iTipMessage
+	 * @param int $lastOccurrence
+	 * @return string
+	 */
+	private function createInvitationToken(Message $iTipMessage, $lastOccurrence):string {
+		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+
+		/** @var VEvent $vevent */
+		$vevent = $iTipMessage->message->VEVENT;
+		$attendee = $iTipMessage->recipient;
+		$organizer = $iTipMessage->sender;
+		$sequence = $iTipMessage->sequence;
+		$recurrenceId = isset($vevent->{'RECURRENCE-ID'}) ?
+			$vevent->{'RECURRENCE-ID'}->serialize() : null;
+		$uid = $vevent->{'UID'};
+
+		$query = $this->db->getQueryBuilder();
+		$query->insert('calendar_invitation_tokens')
+			->values([
+				'token' => $query->createNamedParameter($token),
+				'attendee' => $query->createNamedParameter($attendee),
+				'organizer' => $query->createNamedParameter($organizer),
+				'sequence' => $query->createNamedParameter($sequence),
+				'recurrenceid' => $query->createNamedParameter($recurrenceId),
+				'expiration' => $query->createNamedParameter($lastOccurrence),
+				'uid' => $query->createNamedParameter($uid)
+			])
+			->execute();
+
+		return $token;
 	}
 }

@@ -22,6 +22,7 @@
 	<background-jobs>
 		<job>OCA\DAV\BackgroundJob\CleanupDirectLinksJob</job>
 		<job>OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob</job>
+		<job>OCA\DAV\BackgroundJob\CleanupInvitationTokenJob</job>
 	</background-jobs>
 
 	<repair-steps>

@@ -29,8 +29,10 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 use OC\Mail\Mailer;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
@@ -39,6 +41,7 @@ use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Security\ISecureRandom;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
@@ -70,13 +73,38 @@ class IMipPluginTest extends TestCase {
 		$l10nFactory->method('get')->willReturn($l10n);
 		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
+		/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject $db */
+		$db = $this->createMock(IDBConnection::class);
+		/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject $random */
+		$random = $this->createMock(ISecureRandom::class);
 		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
 		$defaults = $this->createMock(Defaults::class);
 		$defaults->expects($this->once())
 			->method('getName')
 			->will($this->returnValue('Instance Name 123'));
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		$random->expects($this->once())
+			->method('generate')
+			->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+			->will($this->returnValue('random_token'));
+
+		$queryBuilder = $this->createMock(IQueryBuilder::class);
+
+		$db->expects($this->once())
+			->method('getQueryBuilder')
+			->with()
+			->will($this->returnValue($queryBuilder));
+		$queryBuilder->expects($this->at(0))
+			->method('insert')
+			->with('calendar_invitation_tokens')
+			->will($this->returnValue($queryBuilder));
+		$queryBuilder->expects($this->at(8))
+			->method('values')
+			->will($this->returnValue($queryBuilder));
+		$queryBuilder->expects($this->at(9))
+			->method('execute');
+
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -128,10 +156,35 @@ class IMipPluginTest extends TestCase {
 		$l10nFactory->method('get')->willReturn($l10n);
 		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
+		/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject $db */
+		$db = $this->createMock(IDBConnection::class);
+		/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject $random */
+		$random = $this->createMock(ISecureRandom::class);
 		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
 		$defaults = $this->createMock(Defaults::class);
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		$random->expects($this->once())
+			->method('generate')
+			->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+			->will($this->returnValue('random_token'));
+
+		$queryBuilder = $this->createMock(IQueryBuilder::class);
+
+		$db->expects($this->once())
+			->method('getQueryBuilder')
+			->with()
+			->will($this->returnValue($queryBuilder));
+		$queryBuilder->expects($this->at(0))
+			->method('insert')
+			->with('calendar_invitation_tokens')
+			->will($this->returnValue($queryBuilder));
+		$queryBuilder->expects($this->at(8))
+			->method('values')
+			->will($this->returnValue($queryBuilder));
+		$queryBuilder->expects($this->at(9))
+			->method('execute');
+
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -190,10 +243,37 @@ class IMipPluginTest extends TestCase {
 		$l10nFactory->method('get')->willReturn($l10n);
 		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
+		/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject $db */
+		$db = $this->createMock(IDBConnection::class);
+		/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject $random */
+		$random = $this->createMock(ISecureRandom::class);
 		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
 		$defaults = $this->createMock(Defaults::class);
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		if ($expectsMail) {
+			$random->expects($this->once())
+				->method('generate')
+				->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+				->will($this->returnValue('random_token'));
+
+			$queryBuilder = $this->createMock(IQueryBuilder::class);
+
+			$db->expects($this->once())
+				->method('getQueryBuilder')
+				->with()
+				->will($this->returnValue($queryBuilder));
+			$queryBuilder->expects($this->at(0))
+				->method('insert')
+				->with('calendar_invitation_tokens')
+				->will($this->returnValue($queryBuilder));
+			$queryBuilder->expects($this->at(8))
+				->method('values')
+				->will($this->returnValue($queryBuilder));
+			$queryBuilder->expects($this->at(9))
+				->method('execute');
+		}
+
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
