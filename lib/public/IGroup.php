@@ -126,4 +126,16 @@ interface IGroup {
 	 * @since 8.0.0
 	 */
 	public function delete();
+
+	/**
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function canRemoveUser();
+
+	/**
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function canAddUser();
 }

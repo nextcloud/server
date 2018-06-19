@@ -30,6 +30,7 @@
 
 namespace OC\Group;
 
+use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\Group\Backend\ICountDisabledInGroup;
@@ -322,5 +323,31 @@ class Group implements IGroup {
 			}
 		}
 		return $users;
+	}
+
+	/**
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function canRemoveUser() {
+		foreach ($this->backends as $backend) {
+			if ($backend->implementsActions(GroupInterface::REMOVE_FROM_GOUP)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function canAddUser() {
+		foreach ($this->backends as $backend) {
+			if ($backend->implementsActions(GroupInterface::ADD_TO_GROUP)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

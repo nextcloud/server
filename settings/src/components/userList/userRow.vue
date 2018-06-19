@@ -374,6 +374,9 @@ export default {
 		 * @returns {Promise}
 		 */
 		addUserGroup(group) {
+			if (!group.canAdd) {
+				return false;
+			}
 			this.loading.groups = true;
 			let userid = this.user.id;
 			let gid = group.id;
@@ -388,6 +391,9 @@ export default {
 		 * @returns {Promise}
 		 */
 		removeUserGroup(group) {
+			if (!group.canRemove) {
+				return false;
+			}
 			this.loading.groups = true;
 			let userid = this.user.id;
 			let gid = group.id;
