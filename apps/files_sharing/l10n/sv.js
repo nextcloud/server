@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} delade {file} med {user}",
     "{actor} removed {user} from {file}" : "{actor} tog bort {user} från {file}",
     "{actor} shared {file} with you" : "{actor} delade {file} med dig",
-    "{actor} removed you from {file}" : "{actor} tog bort dig från {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "En fil eller mapp som delats via mejl eller offentlig länk har blivit <strong>nedladdad</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mapp delades från <strong>en annan server</strong>",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mapp har <strong>delats</strong>",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Upload files to %s" : "Ladda upp filer till %s",
     "Select or drop files" : "Välj eller dra filer hit",
     "Uploading files…" : "Laddar upp filer...",
-    "Uploaded files:" : "Uppladdade filer:"
+    "Uploaded files:" : "Uppladdade filer:",
+    "{actor} removed you from {file}" : "{actor} tog bort dig från {file}"
 },
 "nplurals=2; plural=(n != 1);");

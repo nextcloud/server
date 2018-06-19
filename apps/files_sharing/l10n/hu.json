@@ -58,7 +58,6 @@
     "{actor} shared {file} with {user}" : "{actor} megosztotta ezt: {file} vele: {user}",
     "{actor} removed {user} from {file}" : "{actor} eltávolította ezt: {user} innen: {file}",
     "{actor} shared {file} with you" : "{actor} megosztotta veled ezt: {file}",
-    "{actor} removed you from {file}" : "{actor} eltávolított innen: {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Egy e-mailben vagy nyilvános hivatkozással megosztott fájl vagy mappa <strong>letöltve</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Egy fájl vagy mappa meg lett osztva egy <strong>másik szerverről</strong>",
     "A file or folder has been <strong>shared</strong>" : "Egy fájl vagy mappa <strong>megosztva</strong>",
@@ -109,6 +108,7 @@
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploading files…" : "Fájlok feltöltése...",
     "Uploaded files:" : "Felöltött fájlok:",
+    "{actor} removed you from {file}" : "{actor} eltávolított innen: {file}",
     "%s is publicly shared" : "%s nyilvánosan megosztva"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

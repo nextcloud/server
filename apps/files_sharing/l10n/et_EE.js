@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} jagas {file} kasutajaga {user}",
     "{actor} removed {user} from {file}" : "{actor} eemaldas {user} jagamise faililt {file}",
     "{actor} shared {file} with you" : "{actor} jagas singuga {file}",
-    "{actor} removed you from {file}" : "{actor} eemaldas sind {file} jagamisest",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Fail või kaust mis on jagatud e-posti või avaliku lingiga  <strong>laeti alla</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Fail või kaust jagati <strong>teisest serverist</strong>",
     "A file or folder has been <strong>shared</strong>" : "Fail või kataloog on <strong>jagatud</strong>",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Select or drop files" : "Vali või lohista failid",
     "Uploading files…" : "Failide üleslaadimine...",
     "Uploaded files:" : "Üleslaetud failid:",
+    "{actor} removed you from {file}" : "{actor} eemaldas sind {file} jagamisest",
     "%s is publicly shared" : "%s on avalikult jagatud"
 },
 "nplurals=2; plural=(n != 1);");

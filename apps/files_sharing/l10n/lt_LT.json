@@ -58,7 +58,6 @@
     "{actor} shared {file} with {user}" : "{actor} pasidalino {file} su {user}",
     "{actor} removed {user} from {file}" : "{actor} nebesidalina {file} su {user}",
     "{actor} shared {file} with you" : "{actor} pasidalino {file} su jumis",
-    "{actor} removed you from {file}" : "{actor} nebesidalina su jumis {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Duomenys, bendrinti per elektroninį paštą, buvo <strong>parsiųsti</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Failas ar aplankas buvo pasidalintas iš <strong>kito serverio</strong>",
     "A file or folder has been <strong>shared</strong>" : "Failas ar aplankas buvo <strong>pasidalintas</strong>",
@@ -107,6 +106,7 @@
     "Upload files to %s" : "Įkelti duomenis į %s",
     "Select or drop files" : "Pasirinkite arba vilkite failus",
     "Uploading files…" : "Įkeliami failai…",
-    "Uploaded files:" : "Įkelti failai:"
+    "Uploaded files:" : "Įkelti failai:",
+    "{actor} removed you from {file}" : "{actor} nebesidalina su jumis {file}"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

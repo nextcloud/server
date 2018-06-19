@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} sprístupnil {file} používateľovi {user}",
     "{actor} removed {user} from {file}" : "{actor} zrušil sprístupnenie {file} pre používateľa {user}",
     "{actor} shared {file} with you" : "{actor} vám sprístupnil {file}",
-    "{actor} removed you from {file}" : "{actor} vám zrušil sprístupnenie {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Súbor alebo adresár zdieľaný cez email alebo verejný odkaz bol <strong>stiahnutý</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Súbor alebo priečinok bol sprístupnený z <strong>iného servera</strong>",
     "A file or folder has been <strong>shared</strong>" : "Súbor alebo priečinok bol <strong>sprístupnený</strong>",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Select or drop files" : "Vyberte alebo položte súbory",
     "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
+    "{actor} removed you from {file}" : "{actor} vám zrušil sprístupnenie {file}",
     "%s is publicly shared" : "%s je verejne zdieľaný"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
