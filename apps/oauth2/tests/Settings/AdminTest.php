@@ -21,35 +21,25 @@
 
 namespace OCA\OAuth2\Tests\Settings;
 
-use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var ClientMapper|\PHPUnit_Framework_MockObject_MockObject */
-	private $clientMapper;
 	/** @var Admin|\PHPUnit_Framework_MockObject_MockObject */
 	private $admin;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->clientMapper = $this->createMock(ClientMapper::class);
-		$this->admin = new Admin($this->clientMapper);
+		$this->admin = new Admin();
 	}
 
 	public function testGetForm() {
-		$this->clientMapper
-			->expects($this->once())
-			->method('getClients')
-			->willReturn(['MyClients']);
-
 		$expected = new TemplateResponse(
 			'oauth2',
 			'admin',
 			[
-				'clients' => ['MyClients'],
 			],
 			''
 		);

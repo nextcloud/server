@@ -1,7 +1,7 @@
-<?php
-declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,31 +16,20 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-namespace OCA\OAuth2\Settings;
+import Vue from 'vue';
+import App from './App.vue';
 
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+Vue.prototype.t = t;
+Vue.prototype.oc_defaults = oc_defaults;
+Vue.prototype.OC = OC;
 
-class Admin implements ISettings {
+const app = new Vue({
+	render: h => h(App)
+}).$mount('#oauth2');
 
-	public function getForm(): TemplateResponse {
-		return new TemplateResponse(
-			'oauth2',
-			'admin',
-			[],
-			''
-		);
-	}
+export { app };
 
-	public function getSection(): string {
-		return 'security';
-	}
-
-	public function getPriority(): int {
-		return 0;
-	}
-}
