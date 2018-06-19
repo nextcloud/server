@@ -110,7 +110,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Imagen proporcionadoa por la cuenta original ",
     "Cancel" : "Cancelar",
     "Choose as profile picture" : "Seleccionar como foto del perfil",
-    "You are member of the following groups:" : "Usted es un miembro de los siguientes grupos:",
+    "You are a member of the following groups:" : "Usted es un miembro de los siguientes grupos:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Usted está usando <strong>%s</strong> de <strong>%s</strong> (<strong> %s %%</strong>)",
     "No display name set" : "No se ha establecido el nombre a desplegar",
     "Your email address" : "Su dirección de correo electrónico",

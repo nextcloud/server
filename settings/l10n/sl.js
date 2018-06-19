@@ -81,7 +81,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Slika iz originalnega računa",
     "Cancel" : "Prekliči",
     "Choose as profile picture" : "Izberi kot sliko profila",
-    "You are member of the following groups:" : "Ste član naslednjih skupin:",
+    "You are a member of the following groups:" : "Ste član naslednjih skupin:",
     "No display name set" : "Prikazno ime ni nastavljeno",
     "Your email address" : "Osebni elektronski naslov",
     "No email address set" : "Poštni naslov ni nastavljen",

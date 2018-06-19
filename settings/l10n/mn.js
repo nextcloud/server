@@ -27,7 +27,7 @@ OC.L10N.register(
     "Remove image" : "Зургийг хасах",
     "Cancel" : "Цуцлах",
     "Choose as profile picture" : "Профайл зургаа сонгоно уу",
-    "You are member of the following groups:" : "Та дараах бүлгүүдийн гишүүн:",
+    "You are a member of the following groups:" : "Та дараах бүлгүүдийн гишүүн:",
     "Phone number" : "Утасны дугаар",
     "Your phone number" : "Таны утасны дугаар",
     "Address" : "Хаяг",

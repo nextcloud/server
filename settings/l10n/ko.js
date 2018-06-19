@@ -120,7 +120,7 @@ OC.L10N.register(
     "Picture provided by original account" : "원래 계정에서 제공하는 사진",
     "Cancel" : "취소",
     "Choose as profile picture" : "프로필 사진으로 선택",
-    "You are member of the following groups:" : "다음 그룹의 구성원입니다:",
+    "You are a member of the following groups:" : "다음 그룹의 구성원입니다:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "현재 <strong>%s</strong>/<strong>%s</strong>(<strong>%s%%</strong>)를 사용하고 있습니다",
     "No display name set" : "표시 이름이 설정되지 않음",
     "Your email address" : "이메일 주소",

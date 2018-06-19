@@ -81,7 +81,7 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png vai jpg, max. 20 MB",
     "Cancel" : "Atcelt",
     "Choose as profile picture" : "Izvēlēties kā profila attēlu",
-    "You are member of the following groups:" : "Jūs esat šādu grupu biedrs:",
+    "You are a member of the following groups:" : "Jūs esat šādu grupu biedrs:",
     "No display name set" : "Nav norādīts ekrāna vārds",
     "Your email address" : "Jūsu e-pasta adrese",
     "No email address set" : "Nav norādīts e-pasts",

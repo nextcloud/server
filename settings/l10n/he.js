@@ -137,7 +137,7 @@ OC.L10N.register(
     "Cancel" : "ביטול",
     "Choose as profile picture" : "יש לבחור כתמונת פרופיל",
     "Details" : "פרטים",
-    "You are member of the following groups:" : "הקבוצות הבאות כוללות אותך:",
+    "You are a member of the following groups:" : "הקבוצות הבאות כוללות אותך:",
     "You are using <strong>%s</strong>" : "הניצולת שלך היא <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "הניצולת שלך היא <strong>%s</strong> מתוך <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "לא נקבע שם תצוגה",

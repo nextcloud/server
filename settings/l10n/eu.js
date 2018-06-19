@@ -113,7 +113,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Irudia jatorrizko kontutik hartuta",
     "Cancel" : "Ezeztatu",
     "Choose as profile picture" : "Aukeratu profil irudi gisa",
-    "You are member of the following groups:" : "Zuk honako talde kide zara:",
+    "You are a member of the following groups:" : "Zuk honako talde kide zara:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "<strong>%s</strong> erabiltzen ari zara,<strong>%s</strong>-koa (<strong>%s %%</strong>)",
     "No display name set" : "Ez da bistaratze izena ezarri",
     "Your email address" : "Zure e-posta",

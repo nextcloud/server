@@ -121,7 +121,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Az eredeti fiók által biztosított kép.",
     "Cancel" : "Mégsem",
     "Choose as profile picture" : "Kiválasztás profil képként",
-    "You are member of the following groups:" : "Tagja vagy a következő csoport(ok)nak:",
+    "You are a member of the following groups:" : "Tagja vagy a következő csoport(ok)nak:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Jelenleg használt: <strong>%s</strong>, ebből: <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "Nincs megjelenítési név beállítva",
     "Your email address" : "Az Ön e-mail címe",

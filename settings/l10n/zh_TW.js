@@ -116,7 +116,7 @@ OC.L10N.register(
     "Picture provided by original account" : "原本的帳戶提供的圖片",
     "Cancel" : "取消",
     "Choose as profile picture" : "設定為大頭貼照",
-    "You are member of the following groups:" : "您的帳號屬於這些群組：",
+    "You are a member of the following groups:" : "您的帳號屬於這些群組：",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "您正在使用 <strong>%s</strong> ，共有 <strong>%s</strong>（<strong>%s %%</strong>）",
     "No display name set" : "未設定顯示名稱",
     "Your email address" : "您的電子郵件信箱",

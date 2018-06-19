@@ -101,7 +101,7 @@ OC.L10N.register(
     "Picture provided by original account" : "Imatge proveïda per compte original",
     "Cancel" : "Cancel·la",
     "Choose as profile picture" : "Elegeix una imatge de perfil",
-    "You are member of the following groups:" : "Vostè és membre dels següents grups:",
+    "You are a member of the following groups:" : "Vostè és membre dels següents grups:",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Estàs fent servir <strong>%s</strong> de <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "No s'ha establert cap nom para mostrar",
     "Your email address" : "Correu electrònic",
