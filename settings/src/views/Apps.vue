@@ -24,7 +24,7 @@
 	<div id="app">
 		<app-navigation :menu="menu" />
 		<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': currentApp, 'icon-loading': loadingList }">
-			<app-list :category="category" :app="currentApp" :search="search"></app-list>
+			<app-list :category="category" :app="currentApp" :search="searchQuery"></app-list>
 			<div id="app-sidebar" v-if="id && currentApp">
 				<app-details :category="category" :app="currentApp"></app-details>
 			</div>
@@ -63,8 +63,11 @@ export default {
 		appList,
 	},
 	methods: {
-		setSearch(search) {
-			this.search = search;
+		setSearch(query) {
+			this.searchQuery = query;
+		},
+		resetSearch() {
+			this.setSearch('');
 		}
 	},
 	beforeMount() {
@@ -74,16 +77,14 @@ export default {
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 	},
 	mounted() {
-		// TODO: remove jQuery once we have a proper standardisation of the search
-		$('#searchbox').show();
-		let self = this;
-		$('#searchbox').change(function(e) {
-			self.setSearch($('#searchbox').val());
-		});
+		/** 
+		 * Register search
+		 */
+		this.appSearch = new OCA.Search(this.setSearch, this.resetSearch);
 	},
 	data() {
 		return {
-			search: ''
+			searchQuery: ''
 		}
 	},
 	watch: {

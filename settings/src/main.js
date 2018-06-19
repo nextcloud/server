@@ -33,6 +33,7 @@ sync(store, router);
 // bind to window
 Vue.prototype.t = t;
 Vue.prototype.OC = OC;
+Vue.prototype.OCA = OCA;
 Vue.prototype.oc_userconfig = oc_userconfig;
 Vue.prototype.oc_current_user = oc_current_user;
 

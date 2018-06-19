@@ -157,6 +157,7 @@ export default {
 			defaultQuota: defaultQuota,
 			loading: false,
 			scrolled: false,
+			searchQuery: '',
 			newUser: {
 				id:'',
 				displayName:'',
@@ -186,6 +187,11 @@ export default {
 		 * the watch won't be triggered. We need to initialize it.
 		 */
 		this.setNewUserDefaultGroup(this.$route.params.selectedGroup);
+
+		/** 
+		 * Register search
+		 */
+		this.userSearch = new OCA.Search(this.search, this.resetSearch);
 	},
 	computed: {
 		settings() {
@@ -294,9 +300,20 @@ export default {
 			this.$store.dispatch('getUsers', {
 				offset: this.usersOffset,
 				limit: this.usersLimit,
-				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : ''
+				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : '',
+				search: this.searchQuery
 			})
 			.then((response) => { response ? $state.loaded() : $state.complete() });
+		},
+
+		/* SEARCH */
+		search(query) {
+			this.searchQuery = query;
+			this.$store.commit('resetUsers');
+			this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+		},
+		resetSearch() {
+			this.search('');
 		},
 
 		resetForm() {

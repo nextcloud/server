@@ -603,7 +603,7 @@ table tr.summary td {
 	padding-top: 20px;
 }
 .summary .info {
-	margin-left: 40px;
+	margin-left: 35px; /* td has padding of 15, col width is 50 */
 }
 
 table.dragshadow {
