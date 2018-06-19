@@ -782,7 +782,7 @@ input {
                 color: nc-lighten($color-main-text, 33%);
                 width: 100%;
                 /* selected checkmark icon */
-                &:not(.multiselect__option--disabled)::before {
+                &::before {
                     content: ' ';
                     background-image: url('../img/actions/checkmark.svg?v=1');
                     background-repeat: no-repeat;
@@ -790,12 +790,13 @@ input {
                     min-width: 16px;
                     min-height: 16px;
                     display: block;
-                    opacity: 0.5;
+                    opacity: .5;
                     margin-right: 5px;
                     visibility: hidden;
                 }
                 &.multiselect__option--disabled {
-                    background-color: nc-darken($color-main-background, 8%);
+					background-color: nc-darken($color-main-background, 8%);
+					opacity: .5;
                 }
                 /* add the prop tag-placeholder="create" to add the +
 				 * icon on top of an unknown-and-ready-to-be-created entry
@@ -809,11 +810,15 @@ input {
                 &.multiselect__option--highlight {
                     color: $color-main-text;
                 }
-                &.multiselect__option--selected {
-                    &::before {
-                        visibility: visible;
-                    }
-                }
+				&:not(.multiselect__option--disabled):hover::before {
+					opacity: .3;
+				}
+				&.multiselect__option--selected,
+				&:not(.multiselect__option--disabled):hover {
+					&::before {
+						visibility: visible;
+					}
+				}
             }
         }
     }

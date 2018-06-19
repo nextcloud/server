@@ -75,7 +75,7 @@
 				<!-- hidden input trick for vanilla html5 form validation -->
 				<input type="text" :value="newUser.groups" v-if="!settings.isAdmin"
 					   tabindex="-1" id="newgroups" :required="!settings.isAdmin" />
-				<multiselect :options="groups" v-model="newUser.groups"
+				<multiselect :options="canAddGroups" v-model="newUser.groups"
 							 :placeholder="t('settings', 'Add user in group')"
 							 label="name" track-by="id" class="multiselect-vue"
 							 :multiple="true" :close-on-select="false"
@@ -202,7 +202,7 @@ export default {
 				return disabledUsers;
 			}
 			if (!this.settings.isAdmin) {
-				// We don't want subadmins to edit themselves
+				// we don't want subadmins to edit themselves
 				return this.users.filter(user => user.enabled !== false && user.id !== oc_current_user);
 			}
 			return this.users.filter(user => user.enabled !== false);
@@ -212,6 +212,16 @@ export default {
 			return this.$store.getters.getGroups
 				.filter(group => group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name));
+		},
+		canAddGroups() {
+			// disabled if no permission to add new users to group
+			return this.groups.map((group) => {
+				// clone object because we don't want
+				// to edit the original groups
+				group = Object.assign({}, group);
+				group.$isDisabled = group.canAdd !== true;
+				return group;
+			});
 		},
 		subAdminsGroups() {
 			// data provided php side
