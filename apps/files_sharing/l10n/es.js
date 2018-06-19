@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} compartió {file} con {user}",
     "{actor} removed {user} from {file}" : "{actor} eliminó a {user} de {file}",
     "{actor} shared {file} with you" : "{actor} compartió {file} contigo",
-    "{actor} removed you from {file}" : "{actor} lo ha eliminado de {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un archivo o carpeta compartida por correo o enlace público fue  <strong>descargado</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Se ha compartido un archivo o carpeta desde <strong>otro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "Se ha <strong>compartido</strong> un archivo o carpeta",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Select or drop files" : "Seleccione o arrastre y suelte archivos",
     "Uploading files…" : "Subiendo archivos...",
     "Uploaded files:" : "Archivos subidos:",
+    "{actor} removed you from {file}" : "{actor} lo ha eliminado de {file}",
     "%s is publicly shared" : "%s está compartido públicamente"
 },
 "nplurals=2; plural=(n != 1);");
