@@ -31,6 +31,7 @@ pipeline:
   checkers:
     image: nextcloudci/php7.0:php7.0-19
     commands:
+      - mkdir data
       - ./autotest-checkers.sh
     secrets: [ github_token ]
     when:
@@ -680,121 +681,190 @@ pipeline:
     when:
       matrix:
         TEST: memcache-redis-cluster
+
+  log:
+    image: ubuntu:16.04
+    commands:
+      - cat /drone/src/github.com/nextcloud/server/data-autotest/nextcloud.log || true
+      - cat /drone/src/github.com/nextcloud/server/data/nextcloud.log || true
+    when:
+      matrix:
+        SHOW_LOG: true
+
 matrix:
   include:
     - TESTS: checkers
+      SHOW_LOG: true
     - TESTS: vue-build-settings
     - TESTS: vue-build-updatenotification
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - TESTS: db-codecov
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: NODB
       PHP: 7.0
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: NODB
       PHP: 7.1
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: NODB
       PHP: 7.2
       ENABLE_REDIS: false
+      SHOW_LOG: true
     - DB: sqlite
       PHP: 7.0
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: sqlite
       PHP: 7.1
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: sqlite
       PHP: 7.2
       ENABLE_REDIS: false
+      SHOW_LOG: true
     - DB: mysql
       PHP: 7.0
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: mysql
       PHP: 7.1
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: mysql
       PHP: 7.2
       ENABLE_REDIS: false
+      SHOW_LOG: true
     - DB: mysql5.6
       PHP: 7.0
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: mysql5.6
       PHP: 7.1
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: mysql5.5
       PHP: 7.0
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: mysql5.5
       PHP: 7.1
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: postgres
       PHP: 7.0
       POSTGRES: 9
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: postgres
       PHP: 7.1
       POSTGRES: 9
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: postgres
       PHP: 7.1
       POSTGRES: 10
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: mysqlmb4
       PHP: 7.0
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: mysqlmb4
       PHP: 7.1
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - DB: mysqlmb4
       PHP: 7.2
       ENABLE_REDIS: false
+      SHOW_LOG: true
     - TESTS: integration-capabilities_features
+      SHOW_LOG: true
     - TESTS: integration-federation_features
+      SHOW_LOG: true
     - TESTS: integration-maintenance-mode
+      SHOW_LOG: true
     - TESTS: integration-ratelimiting
       ENABLE_REDIS: true
+      SHOW_LOG: true
     - TESTS: integration-auth
+      SHOW_LOG: true
     - TESTS: integration-carddav
+      SHOW_LOG: true
     - TESTS: integration-dav-v2
+      SHOW_LOG: true
     - TESTS: integration-ocs-v1
+      SHOW_LOG: true
     - TESTS: integration-sharing-v1
+      SHOW_LOG: true
     - TESTS: integration-sharing-v1-part2
+      SHOW_LOG: true
     - TESTS: integration-sharing-v1-part3
+      SHOW_LOG: true
     - TESTS: integration-checksums
+      SHOW_LOG: true
     - TESTS: integration-external-storage
+      SHOW_LOG: true
     - TESTS: integration-provisioning-v1
+      SHOW_LOG: true
     - TESTS: integration-tags
+      SHOW_LOG: true
     - TESTS: integration-caldav
+      SHOW_LOG: true
     - TESTS: integration-comments
+      SHOW_LOG: true
     - TESTS: integration-favorites
+      SHOW_LOG: true
     - TESTS: integration-provisioning-v2
+      SHOW_LOG: true
     - TESTS: integration-webdav-related
+      SHOW_LOG: true
     - TESTS: integration-sharees-features
+      SHOW_LOG: true
     - TESTS: integration-sharees-v2-features
+      SHOW_LOG: true
     - TESTS: integration-setup-features
+      SHOW_LOG: true
     - TESTS: integration-filesdrop-features
+      SHOW_LOG: true
     - TESTS: integration-transfer-ownership-features
+      SHOW_LOG: true
     - TESTS: integration-ldap-features
+      SHOW_LOG: true
     - TESTS: integration-trashbin
+      SHOW_LOG: true
     - TESTS: integration-remote-api
+      SHOW_LOG: true
     - TESTS: integration-download
+      SHOW_LOG: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: access-levels
+      SHOW_LOG: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: app-comments
+      SHOW_LOG: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: app-files
+      SHOW_LOG: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: app-theming
+      SHOW_LOG: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: header
+      SHOW_LOG: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: login
+      SHOW_LOG: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: users
+      SHOW_LOG: true
     - TESTS: acceptance
       TESTS-ACCEPTANCE: apps
+      SHOW_LOG: true
     - TESTS: jsunit
     - TESTS: syntax-php7.0
     - TESTS: syntax-php7.1
@@ -807,8 +877,10 @@ matrix:
     - TESTS: carddavtester-old-endpoint
     - TESTS: object-store
       OBJECT_STORE: s3
+      SHOW_LOG: true
     - TESTS: object-store
       OBJECT_STORE: azure
+      SHOW_LOG: true
 #    - TESTS: object-store
 #      OBJECT_STORE: swift
 #      SWIFT-AUTH: v2.0
@@ -816,12 +888,17 @@ matrix:
 #      OBJECT_STORE: swift
 #      SWIFT-AUTH: v3
     - TESTS: sqlite-php7.0-samba-native
+      SHOW_LOG: true
     - TESTS: sqlite-php7.0-samba-non-native
+      SHOW_LOG: true
     - TEST: memcache-memcached
+      SHOW_LOG: true
     - TEST: memcache-redis-cluster
       ENABLE_REDIS_CLUSTER: true
+      SHOW_LOG: true
     - TESTS: sqlite-php7.0-webdav-apache
       ENABLE_REDIS: true
+      SHOW_LOG: true
 
 services:
   cache:
