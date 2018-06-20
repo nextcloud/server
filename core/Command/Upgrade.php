@@ -99,7 +99,8 @@ class Upgrade extends Command {
 					$this->config,
 					\OC::$server->getIntegrityCodeChecker(),
 					$this->logger,
-					$this->installer
+					$this->installer,
+					\OC::$server->getJobList()
 			);
 
 			$dispatcher = \OC::$server->getEventDispatcher();
@@ -190,6 +191,9 @@ class Upgrade extends Command {
 			});
 			$updater->listen('\OC\Updater', 'maintenanceActive', function () use($output) {
 				$output->writeln('<info>Maintenance mode is kept active</info>');
+			});
+			$updater->listen('\OC\Updater', 'waitForCronToFinish', function () use($output) {
+				$output->writeln('<info>Waiting for cron to finish (checks again in 5 seconds)...</info>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use($output, $self) {

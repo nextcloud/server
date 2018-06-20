@@ -38,6 +38,7 @@ use OC\DB\MigrationService;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
@@ -66,6 +67,9 @@ class Updater extends BasicEmitter {
 	/** @var Installer */
 	private $installer;
 
+	/** @var IJobList */
+	private $jobList;
+
 	private $logLevelNames = [
 		0 => 'Debug',
 		1 => 'Info',
@@ -74,20 +78,16 @@ class Updater extends BasicEmitter {
 		4 => 'Fatal',
 	];
 
-	/**
-	 * @param IConfig $config
-	 * @param Checker $checker
-	 * @param ILogger $log
-	 * @param Installer $installer
-	 */
 	public function __construct(IConfig $config,
 								Checker $checker,
-								ILogger $log = null,
-								Installer $installer) {
+								ILogger $log,
+								Installer $installer,
+								IJobList $jobList) {
 		$this->log = $log;
 		$this->config = $config;
 		$this->checker = $checker;
 		$this->installer = $installer;
+		$this->jobList = $jobList;
 	}
 
 	/**
@@ -110,6 +110,8 @@ class Updater extends BasicEmitter {
 			$this->config->setSystemValue('maintenance', true);
 			$this->emit('\OC\Updater', 'maintenanceEnabled');
 		}
+
+		$this->waitForCronToFinish();
 
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
@@ -603,6 +605,12 @@ class Updater extends BasicEmitter {
 			$log->info('\OC\Updater::finishedCheckCodeIntegrity: Finished code integrity check', ['app' => 'updater']);
 		});
 
+	}
+	private function waitForCronToFinish() {
+		while ($this->jobList->isAnyJobRunning()) {
+			$this->emit('\OC\Updater', 'waitForCronToFinish');
+			sleep(5);
+		}
 	}
 
 }
