@@ -18,6 +18,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt yok",
     "Select all" : "Tümünü seç",
     "Name" : "Ad",
+    "Actions" : "İşlemler",
     "Deleted" : "Silinme"
 },
 "nplurals=2; plural=(n > 1);");

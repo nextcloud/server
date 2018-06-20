@@ -1,7 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Saved" : "保存されました",
+    "Saved" : "保存しました",
     "Saving failed:" : "保存に失敗しました：",
     "File MIME type" : "ファイルMIMEタイプ",
     "is" : "は",
