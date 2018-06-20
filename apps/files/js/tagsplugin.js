@@ -65,68 +65,66 @@
 	/**
 	 * Remove Item from Quickaccesslist
 	 *
-	 * @param {String} $appfolder folder to be removed
+	 * @param {String} appfolder folder to be removed
 	 */
 	function removeFavoriteFromList(appfolder) {
 
-		var qaKey= 'quickaccess-list';
-		var listUL = document.getElementById(qaKey);
-		var list = listUL.getElementsByTagName('li');
-		var appname=appfolder.substring(appfolder.lastIndexOf("/")+1, appfolder.length);
+		var quickAccessKey= 'quickaccess-list';
+		var listULElements = document.getElementById(quickAccessKey);
+		var listLIElements = listULElements.getElementsByTagName('li');
+		var appName=appfolder.substring(appfolder.lastIndexOf("/")+1, appfolder.length);
 
-		for(var i = 0; i <= list.length-1; i++) {
-			if(appname === list[i].getElementsByTagName('a')[0].innerHTML){
-				list[i].remove();
+		for (var i = 0; i <= listLIElements.length-1; i++) {
+			if (appName === listLIElements[i].getElementsByTagName('a')[0].innerHTML) {
+				listLIElements[i].remove();
 			}
 		}
 
-		if(listUL.childElementCount==0){
-			var dotmenu = document.getElementById("quickaccessbutton");
-			dotmenu.style.display='none';
-
+		if (listULElements.childElementCount === 0) {
+			var dotMenu = document.getElementById("quickaccessbutton");
+			dotMenu.style.display='none';
 			var collapsibleButton = document.getElementById("button-collapseQuickAccess");
 			collapsibleButton.style.display='none';
 
-			$("#favorites-toggle" ).removeClass('collapsible');
+			$("#favorites-toggle").removeClass('collapsible');
 		}
 	}
 
 	/**
 	 * Add Item to Quickaccesslist
 	 *
-	 * @param {String} $appfolder folder to be added
+	 * @param {String} appfolder folder to be added
 	 */
 	function addFavoriteToList(appfolder) {
-		var qaKey= 'quickaccess-list';
-		var listUL = document.getElementById(qaKey);
-		var list = listUL.getElementsByTagName('li');
+		var quickAccessKey= 'quickaccess-list';
+		var listULElements = document.getElementById(quickAccessKey);
+		var listLIElements = listULElements.getElementsByTagName('li');
 
-		var appname=appfolder.substring(appfolder.lastIndexOf("/")+1, appfolder.length);
+		var appName=appfolder.substring(appfolder.lastIndexOf("/")+1, appfolder.length);
 
-		var a = document.createElement('A');
-		a.setAttribute("href","/cloud/index.php/apps/files/?dir="+appfolder);
-		a.setAttribute("class","nav-icon-files svg");
-		a.innerHTML=appname;
+		var innerTagA = document.createElement('A');
+		innerTagA.setAttribute("href","/cloud/index.php/apps/files/?dir="+appfolder);
+		innerTagA.setAttribute("class","nav-icon-files svg");
+		innerTagA.innerHTML=appName;
 
-		var len=list.length+1;
-		var li = document.createElement('li');
-		li.setAttribute("data-id", "/cloud/index.php/apps/files/?dir="+appfolder);
-		li.setAttribute("class", "nav-"+appname);
-		li.setAttribute("folderpos", len.toString());
-		li.appendChild(a);
+		var length=listLIElements.length+1;
+		var innerTagLI = document.createElement('li');
+		innerTagLI.setAttribute("data-id", "/cloud/index.php/apps/files/?dir="+appfolder);
+		innerTagLI.setAttribute("class", "nav-"+appName);
+		innerTagLI.setAttribute("folderpos", length.toString());
+		innerTagLI.appendChild(innerTagA);
 
 
-		if(listUL.childElementCount<=0){
-			listUL.appendChild(li);
-			var dotmenu = document.getElementById("quickaccessbutton");
-			dotmenu.style.display='';
-
+		if (listULElements.childElementCount <= 0) {
+			listULElements.appendChild(innerTagLI);
+			var dotMenu = document.getElementById("quickaccessbutton");
+			dotMenu.style.display='';
 			var collapsibleButton = document.getElementById("button-collapseQuickAccess");
 			collapsibleButton.style.display='';
 
 			$("#favorites-toggle" ).addClass('collapsible');
-		}else{
-			list[list.length-1].after(li);
+		} else {
+			listLIElements[listLIElements.length-1].after(innerTagLI);
 		}
 	}
 
