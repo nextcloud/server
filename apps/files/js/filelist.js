@@ -751,21 +751,40 @@
 			// Select only visible checkboxes to filter out unmatched file in search
 			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
-			this._selectedFiles = {};
-			this._selectionSummary.clear();
-
-			var selectionIds = [];
-			this.$fileList.find('td.selection > .selectCheckBox:checked').closest('tr').each(function() {
-				selectionIds.push($(this).data('id'));
-			});
 
 			if (checked) {
 				for (var i = 0; i < this.files.length; i++) {
-					if (selectionIds.indexOf(this.files[i].id) >=0 ) {
-						var fileData = this.files[i];
+					// a search will automatically hide the unwanted rows
+					// let's only select the matches
+					var fileRow = this.$fileList.find('[data-id=' + i + ']');
+					var fileData = this.files[i];
+					// do not select already selected ones
+					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id])) {
 						this._selectedFiles[fileData.id] = fileData;
 						this._selectionSummary.add(fileData);
 					}
+				}
+			} else {
+				// if we have some hidden row, then we're in a search
+				// Let's only deselect the visible ones
+				var hiddenFiles = this.$fileList.find('tr.hidden');
+				if (hiddenFiles.length > 0) {
+					var visibleFiles = this.$fileList.find('tr:not(.hidden)');
+					var self = this;
+					visibleFiles.each(function() {
+						var id = parseInt($(this).data('id'));
+						// do not deselect already deselected ones
+						if (!_.isUndefined(self._selectedFiles[id])) {
+							// a search will automatically hide the unwanted rows
+							// let's only select the matches
+							var fileData = self.files[id];
+							delete self._selectedFiles[fileData.id];
+							self._selectionSummary.remove(fileData);
+						}
+					});
+				} else {
+					this._selectedFiles = {};
+					this._selectionSummary.clear();
 				}
 			}
 			this.updateSelectionSummary();
