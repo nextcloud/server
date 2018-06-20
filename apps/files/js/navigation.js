@@ -238,21 +238,6 @@
 			if(domRevState){
 				this.reverse(list);
 			}
-
-			/*This creates flashes the UI, which is bad userexperience. It is the cleaner way to do it, that is why i haven't deleted it yet.
-			var scope=this;
-			$.get(OC.generateUrl("/apps/files/api/v1/getsortingstrategy"), function(data, status){
-				scope.sortingStrategy=data;
-				scope.QuickSort(list, 0, list.length - 1);
-
-			});
-
-			$.get(OC.generateUrl("/apps/files/api/v1/getreversequickaccess"), function(data, status){
-				if(data){
-					scope.reverse(list);
-				}
-			});
-			*/
 		},
 
 		/**
