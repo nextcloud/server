@@ -18,6 +18,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
     "Select all" : "Selecionar tudo",
     "Name" : "Nome",
+    "Actions" : "Ações",
     "Deleted" : "Excluído"
 },
 "nplurals=2; plural=(n > 1);");

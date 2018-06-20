@@ -65,6 +65,7 @@ OC.L10N.register(
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "No se ha podido detectar el atributo del nombre ",
     "Could not find the desired feature" : "No se puede encontrar la función deseada.",
     "Invalid Host" : "Host inválido",
+    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "Esta aplicación permite a los administradores conectar Nextcloud a un directorio de usuarios basado en LDAP",
     "Test Configuration" : "Configuración de prueba",
     "Help" : "Ayuda",
     "Groups meeting these criteria are available in %s:" : "Los grupos que cumplen estos criterios están disponibles en %s:",

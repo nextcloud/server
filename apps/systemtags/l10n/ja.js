@@ -42,7 +42,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (不可視)",
     "<strong>System tags</strong> for a file have been modified" : "ファイルの<strong>タグ</strong>が変更されたとき",
     "Collaborative tags" : "コラボタグ",
-    "Create and edit collaborative tags. These tags affect all users." : "共同作業タグを削除編集する。このタグは全てのユーザーに影響します",
+    "Create and edit collaborative tags. These tags affect all users." : "共同作業タグの作成と編集をします。このタグはすべてのユーザーに影響します",
     "Select tag …" : "タグを選択...",
     "Name" : "名前",
     "Delete" : "削除",

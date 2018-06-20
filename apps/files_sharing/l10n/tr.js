@@ -60,6 +60,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} {file} dosyasını {user} kullanıcısı ile paylaştı",
     "{actor} removed {user} from {file}" : "{actor} {file} dosyasının {user} kullanıcısıyla paylaşımını kaldırdı",
     "{actor} shared {file} with you" : "{actor} {file} dosyasını sizinle paylaştı",
+    "{actor} removed you from the share named {file}" : "{actor} {file} dosyasının sizinle paylaşımını kaldırdı",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "E-posta ya da herkese açık bağlantı ile paylaşılan bir dosya ya da klasör <strong>indirildi</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>Başka bir sunucudan</strong> bir dosya ya da klasör paylaşıldı",
     "A file or folder has been <strong>shared</strong>" : "Bir dosya ya da klasör <strong>paylaşıldı</strong>",
