@@ -65,3 +65,7 @@ Several apps that are included by default in regular releases such as [firstrunw
 That aside Git checkouts can be handled the same as release archives.
 
 Note they should never be used on production systems.
+
+## Tools we use
+
+[![BrowserStack](https://user-images.githubusercontent.com/45821/41675934-61fa3442-74c4-11e8-8c8e-90768c56ba08.png)](https://www.browserstack.com/)
