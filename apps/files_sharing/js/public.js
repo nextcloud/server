@@ -157,7 +157,7 @@ OCA.Sharing.PublicApp = {
 			imgcontainer.appendTo('#imgframe');
 		}
 		else if (previewSupported === 'true') {
-			$('#imgframe > video').attr('poster', OC.linkTo('files_sharing', '/publicpreview/'+token) + '?' + OC.buildQueryString(params));
+			$('#imgframe > video').attr('poster', OC.generateUrl(OC.linkTo('files_sharing', '/publicpreview/'+token)) + '?' + OC.buildQueryString(params));
 		}
 
 		if (this.fileList) {
@@ -223,7 +223,7 @@ OCA.Sharing.PublicApp = {
 				urlSpec.x = Math.ceil(urlSpec.x);
 				urlSpec.y = Math.ceil(urlSpec.y);
 				var token = $('#dirToken').val();
-				return OC.linkTo('files_sharing', '/publicpreview/'+token) + '?' + OC.buildQueryString(urlSpec);
+				return OC.generateUrl(OC.linkTo('files_sharing', '/publicpreview/'+token) + '?' + OC.buildQueryString(urlSpec));
 			};
 
 			this.fileList.updateEmptyContent = function() {
