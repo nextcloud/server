@@ -8,6 +8,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Felix Nüsse Petry <felix.nuesse@t-online.de>
  *
  * @license AGPL-3.0
  *
