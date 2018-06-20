@@ -83,22 +83,22 @@ $application->registerRoutes(
 			],
 			[
 				'name' => 'API#setSortingStrategy',
-				'url' => '/api/v1/quickaccess/setsortingstrategy',
+				'url' => '/api/v1/quickaccess/setSortingStrategy',
 				'verb' => 'GET',
 			],
 			[
 				'name' => 'API#setReverseQuickaccess',
-				'url' => '/api/v1/quickaccess/setreversequickaccess',
+				'url' => '/api/v1/quickaccess/setReverseList',
 				'verb' => 'GET',
 			],
 			[
 				'name' => 'API#getSortingStrategy',
-				'url' => '/api/v1/quickaccess/getsortingstrategy',
+				'url' => '/api/v1/quickaccess/getSortingStrategy',
 				'verb' => 'GET',
 			],
 			[
 				'name' => 'API#getReverseQuickaccess',
-				'url' => '/api/v1/quickaccess/getreversequickaccess',
+				'url' => '/api/v1/quickaccess/getReverseList',
 				'verb' => 'GET',
 			]
 		]
