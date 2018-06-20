@@ -584,24 +584,6 @@ kbd {
 	.app-navigation-entry-menu ul {
 		list-style-type: none;
 	}
-
-	.app-navigation-caption {
-		font-weight: bold;
-		line-height: 44px;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		float: left;
-		margin-left:10px;
-		margin-top:10px;
-		margin-bottom:10px;
-		//Make the Link in the spacer not selectable and prevent mouseevents
-		-moz-user-select: -moz-none;
-		-khtml-user-select: none;
-		-webkit-user-select: none;
-		-o-user-select: none;
-		user-select: none;
-		pointer-events:none;
-	}
 }
 
 /* APP-CONTENT ---------------------------------------------------------------*/

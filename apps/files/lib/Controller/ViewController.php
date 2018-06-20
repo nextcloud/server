@@ -8,7 +8,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author Felix Nüsse Petry <felix.nuesse@t-online.de>
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
  *
  * @license AGPL-3.0
  *
@@ -162,16 +162,6 @@ class ViewController extends Controller {
 
 		$user = $this->userSession->getUser()->getUID();
 
-		//Load QuickAccess-Defaults
-		$sorting = $this->config->getUserValue($user, $this->appName, 'quickaccess_sorting_strategy', 'date');
-		$reverseListSetting = $this->config->getUserValue($user, $this->appName, 'quickaccess_reverse_list', 'false');
-		if ($this->config->getUserValue($user, $this->appName, 'show_Quick_Access', true)) {
-			$quickAccessExpandedState = 'true';
-		} else {
-			$quickAccessExpandedState = 'false';
-		}
-
-
 		//Get Favorite-Folder
 		$tagger = \OC::$server->getTagManager();
 		$helper = new \OCA\Files\Activity\Helper($tagger);
@@ -182,11 +172,39 @@ class ViewController extends Controller {
 			$favElements['folders'] = null;
 		}
 
-		$favoritesFolderCount = sizeof($favElements['folders']);
-
 		$collapseClasses = '';
-		if ($favoritesFolderCount > 0) {
+		if (sizeof($favElements['folders']) > 0) {
 			$collapseClasses = 'collapsible';
+		}
+
+		$favoritesSublistArray = Array();
+
+		$navBarPositionPosition = 6;
+		$currentCount = 0;
+		foreach ($favElements['folders'] as $elem) {
+
+			$id = substr($elem, strrpos($elem, '/') + 1, strlen($elem));
+			$link = $this->urlGenerator->linkToRouteAbsolute('files.view.index', ['dir' => $elem]);
+			$sortingValue = ++$currentCount;
+
+			$element = [
+				'id' => $id,
+				'href' => $link,
+				'order' => $navBarPositionPosition,
+				'folderPosition' => $sortingValue,
+				'name' => $id,
+				'icon' => 'files',
+				'quickaccesselement' => 'true'
+			];
+
+			array_push($favoritesSublistArray, $element);
+			$navBarPositionPosition++;
+		}
+
+
+		$defaultExpandedState='true';
+		if(!$this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1)){
+			$defaultExpandedState='false';
 		}
 
 		\OCA\Files\App::getNavigationManager()->add(
@@ -195,57 +213,14 @@ class ViewController extends Controller {
 				'appname' => 'files',
 				'script' => 'simplelist.php',
 				'classes' => $collapseClasses,
-				'enableQuickaccess' => $quickAccessExpandedState,
-				'quickaccessSortingStrategy' => $sorting,
-				'quickaccessSortingReverse' => $reverseListSetting,
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites'),
-				//If there are zero elements, add ul end tag directly.
-				'favoritescount' => $favoritesFolderCount
+				'sublist' => $favoritesSublistArray,
+				'draggableSublist' => 'false',
+				'defaultExpandedState' => $defaultExpandedState,
+				'enableMenuButton' => 0,
 			]
 		);
-
-
-		//Add Favorite-folder as menuentries, if there are any
-		if ($favoritesFolderCount > 0) {
-
-			$navBarPositionPosition = 6;
-			$currentCount = 0;
-			foreach ($favElements['folders'] as $elem) {
-
-				$id = substr($elem, strrpos($elem, '/') + 1, strlen($elem));
-				$link = $this->urlGenerator->linkToRouteAbsolute('files.view.index', ['dir' => $elem]);
-
-				$sortingValue = ++$currentCount;
-				if ($currentCount != $favoritesFolderCount) {
-					\OCA\Files\App::getNavigationManager()->add(
-						[
-							'id' => $id,
-							'href' => $link,
-							'order' => $navBarPositionPosition,
-							'folderPosition' => $sortingValue,
-							'name' => $id,
-							'icon' => 'files',
-							'quickaccesselement' => 'true'
-						]
-					);
-				} else {
-					\OCA\Files\App::getNavigationManager()->add(
-						[
-							'id' => $id,
-							'href' => $link,
-							'order' => $navBarPositionPosition,
-							'folderPosition' => $sortingValue,
-							'name' => $id,
-							'icon' => 'files',
-							'quickaccesselement' => 'last'
-						]
-					);
-				}
-				$navBarPositionPosition++;
-			}
-		}
-
 
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 		usort($navItems, function ($item1, $item2) {

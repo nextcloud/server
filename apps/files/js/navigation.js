@@ -1,10 +1,9 @@
 /*
- * Copyright (c) 2014
+ * @Copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Vincent Petry
- * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
  *
- * Edited by: Felix Nüsse <felix.nuesse@t-online.de> 2018
  *
  * This file is licensed under the Affero General Public License version 3
  * or later.
@@ -13,7 +12,7 @@
  *
  */
 
-(function() {
+(function () {
 
 	/**
 	 * @class OCA.Files.Navigation
@@ -21,7 +20,7 @@
 	 *
 	 * @param $el element containing the navigation
 	 */
-	var Navigation = function($el) {
+	var Navigation = function ($el) {
 		this.initialize($el);
 	};
 
@@ -42,29 +41,44 @@
 
 		/**
 		 * Strategy by which the quickaccesslist is sorted
+		 *
+		 * Possible Strategies:
+		 * customorder
+		 * datemodified
+		 * date
+		 * alphabet
+		 *
 		 */
-		$sortingStrategy: 'alphabet',
+		$sortingStrategy: 'customorder',
+
+		/**
+		 * Key for the quick-acces-list
+		 */
+		$quickAccessListKey: 'sublist-favorites',
 		/**
 		 * Initializes the navigation from the given container
 		 *
 		 * @private
 		 * @param $el element containing the navigation
 		 */
-		initialize: function($el) {
+		initialize: function ($el) {
 			this.$el = $el;
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
-			this.initialSort();
+			this.setInitialQuickaccessSettings();
+
+
 		},
 
 		/**
 		 * Setup UI events
 		 */
-		_setupEvents: function() {
+		_setupEvents: function () {
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
-			this.$el.on('click', 'li input', _.bind(this._onClickMenuItem, this));
+			this._setOnDrag();
+
 		},
 
 		/**
@@ -72,16 +86,16 @@
 		 *
 		 * @return app container
 		 */
-		getActiveContainer: function() {
+		getActiveContainer: function () {
 			return this.$currentContent;
 		},
 
 		/**
 		 * Returns the currently active item
-		 * 
+		 *
 		 * @return item ID
 		 */
-		getActiveItem: function() {
+		getActiveItem: function () {
 			return this._activeItem;
 		},
 
@@ -92,12 +106,15 @@
 		 * @param string itemId id of the navigation item to select
 		 * @param array options "silent" to not trigger event
 		 */
-		setActiveItem: function(itemId, options) {
+		setActiveItem: function (itemId, options) {
 			var oldItemId = this._activeItem;
 			if (itemId === this._activeItem) {
 				if (!options || !options.silent) {
 					this.$el.trigger(
-						new $.Event('itemChanged', {itemId: itemId, previousItemId: oldItemId})
+						new $.Event('itemChanged', {
+							itemId: itemId,
+							previousItemId: oldItemId
+						})
 					);
 				}
 				return;
@@ -114,7 +131,10 @@
 			if (!options || !options.silent) {
 				this.$currentContent.trigger(jQuery.Event('show'));
 				this.$el.trigger(
-					new $.Event('itemChanged', {itemId: itemId, previousItemId: oldItemId})
+					new $.Event('itemChanged', {
+						itemId: itemId,
+						previousItemId: oldItemId
+					})
 				);
 			}
 		},
@@ -122,14 +142,14 @@
 		/**
 		 * Returns whether a given item exists
 		 */
-		itemExists: function(itemId) {
+		itemExists: function (itemId) {
 			return this.$el.find('li[data-id=' + itemId + ']').length;
 		},
 
 		/**
 		 * Event handler for when clicking on an item.
 		 */
-		_onClickItem: function(ev) {
+		_onClickItem: function (ev) {
 			var $target = $(ev.target);
 			var itemId = $target.closest('li').attr('data-id');
 			if (!_.isUndefined(itemId)) {
@@ -137,136 +157,148 @@
 			}
 			ev.preventDefault();
 		},
+
 		/**
-		 * Event handler for when clicking on an three-dot-menu.
+		 * Event handler for when dragging an item
 		 */
-		_onClickMenuButton: function(ev) {
-			var $target = $(ev.target);
-			var itemId = $target.closest('button').attr('id');
-			var qaSelector= '#quickaccess-list';
-
-			if(itemId==='button-collapseQuickAccess'){
-
-				document.getElementById('enableQuickAccess').checked=!document.getElementById('enableQuickAccess').checked;
-				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
-				});
-
-				$("#favorites-toggle" ).toggleClass('open');
-
-			}
-
-			if(itemId==='button-favorites'){
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
-			ev.preventDefault();
+		_setOnDrag: function () {
+			var scope=this;
+			$(function () {
+				if (document.getElementById(scope.$quickAccessListKey.toString()).hasAttribute("draggable")) {
+					$("#sublist-favorites").sortable({
+						update: function (event, ui) {
+							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
+							var string=[];
+							for (var j = 0; j < list.length; j++) {
+								var Object = {id:j, name:scope.getCompareValue(list,j,'alphabet') };
+								string.push(Object);
+							}
+							var resultorder=JSON.stringify(string);
+							console.log(resultorder);
+							$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/CustomSortingOrder"),{
+							order: resultorder}, function (data, status) {});
+						}
+					});
+				}else{
+					if(scope.$sortingStrategy === 'customorder'){
+						scope.$sortingStrategy = 'datemodified';
+					}
+				}
+			});
 		},
 
 		/**
-		 * Event handler for when clicking on a menuitem.
+		 * Event handler for clicking a button
 		 */
-		_onClickMenuItem: function(ev) {
+		_onClickMenuButton: function (ev) {
+			var $target = $(ev.target);
+			var itemId = $target.closest('button').attr('id');
 
-			var qaSelector= '#quickaccess-list';
-			var qaKey= 'quickaccess-list';
+			var collapsibleToggles = [];
+			var dotmenuToggles = [];
 
-			var itemId = $(ev.target).closest('input').attr('id');
-			var list = document.getElementById(qaKey).getElementsByTagName('li');
+			// The collapsibleToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
+			// and the parent, which should be toggled at the first arrayindex.
+			collapsibleToggles.push(["#button-collapse-favorites", "#button-collapse-parent-favorites"]);
 
-			if(itemId==='enableQuickAccess' ){
-				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
-				});
-				$("#favorites-toggle" ).toggleClass('open');
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
+			// The dotmenuToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
+			// and the parent, which should be toggled at the first arrayindex.
+			dotmenuToggles.push(["#dotmenu-button-favorites", "dotmenu-content-favorites"]);
 
-			if(itemId==='sortByAlphabet'){
-				//Prevents deselecting Group-Item
-				if(!document.getElementById('sortByAlphabet').checked){
-					ev.preventDefault();
-					return;
+
+			collapsibleToggles.forEach(function foundToggle (item) {
+				if (item[0] === ("#" + itemId)) {
+					$(item[1]).toggleClass('open');
+					var show=1;
+					if(!$(item[1]).hasClass('open')){
+						show=0;
+					}
+					$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/showList"), {show: show}, function (data, status) {
+					});
 				}
-				this.sortingStrategy='alphabet';
-				document.getElementById('sortByDate').checked=false;
-				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
-				this.QuickSort(list, 0, list.length - 1);
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
+			});
 
-			if(itemId==='sortByDate'){
-				//Prevents deselecting Group-Item
-				if(!document.getElementById('sortByDate').checked){
-					ev.preventDefault();
-					return;
+			dotmenuToggles.forEach(function foundToggle (item) {
+				if (item[0] === ("#" + itemId)) {
+					document.getElementById(item[1]).classList.toggle('open');
 				}
-				this.sortingStrategy='date';
-				document.getElementById('sortByAlphabet').checked=false;
-				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
-				this.QuickSort(list, 0, list.length - 1);
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
+			});
 
-			if(itemId==='enableReverse'){
-				this.reverse(list);
-				var state = document.getElementById('enableReverse').checked;
-				$.get(OC.generateUrl("/apps/files/api/v1/setreversequickaccess"), {reverse: state}, function(data, status){});
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
-			//ev.preventDefault();
+			ev.preventDefault();
 		},
 
 		/**
 		 * Sort initially as setup of sidebar for QuickAccess
 		 */
-		initialSort: function() {
+		setInitialQuickaccessSettings: function () {
 
-			var domRevState=document.getElementById('enableReverse').checked;
-			var domSortAlphabetState=document.getElementById('sortByAlphabet').checked;
-			var domSortDateState=document.getElementById('sortByDate').checked;
+			var quickAccesKey = this.$quickAccessListKey;
+			var list = document.getElementById(quickAccesKey).getElementsByTagName('li');
 
-			var qaKey= 'quickaccess-list';
-			var list = document.getElementById(qaKey).getElementsByTagName('li');
+			var sort = true;
+			var reverse = false;
+			if (this.$sortingStrategy === 'datemodified') {
+				sort = false;
+				reverse = false;
 
-			if(domSortAlphabetState){
-				this.sortingStrategy='alphabet';
+				var scope = this;
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/FavoriteFolders/"), function (data, status) {
+					for (var i = 0; i < data.favoriteFolders.length; i++) {
+						for (var j = 0; j < list.length; j++) {
+							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === data.favoriteFolders[i].name.toLowerCase()) {
+								list[j].setAttribute("mtime", data.favoriteFolders[i].mtime);
+							}
+						}
+					}
+					scope.QuickSort(list, 0, list.length - 1);
+					scope.reverse(list);
+				});
+
+
+			} else if (this.$sortingStrategy === 'alphabet') {
+				sort = true;
+			} else if (this.$sortingStrategy === 'date') {
+				sort = true;
+			} else if (this.$sortingStrategy === 'customorder') {
+				var scope = this;
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/CustomSortingOrder"), function (data, status) {
+					console.log("load order:");
+					var ordering=JSON.parse(data)
+					console.log(ordering);
+					for (var i = 0; i < ordering.length; i++) {
+						for (var j = 0; j < list.length; j++) {
+							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === ordering[i].name.toLowerCase()) {
+								list[j].setAttribute("folderPosition", ordering[i].id);
+							}
+						}
+					}
+					scope.QuickSort(list, 0, list.length - 1);
+				});
+
+				sort = false;
 			}
-			if(domSortDateState){
-				this.sortingStrategy='date';
+
+			if (sort) {
+				this.QuickSort(list, 0, list.length - 1);
 			}
-
-			this.QuickSort(list, 0, list.length - 1);
-
-			if(domRevState){
+			if (reverse) {
 				this.reverse(list);
 			}
 
-			/*This creates flashes the UI, which is bad userexperience. It is the cleaner way to do it, that is why i haven't deleted it yet.
-			var scope=this;
-			$.get(OC.generateUrl("/apps/files/api/v1/getsortingstrategy"), function(data, status){
-				scope.sortingStrategy=data;
-				scope.QuickSort(list, 0, list.length - 1);
-
-			});
-
-			$.get(OC.generateUrl("/apps/files/api/v1/getreversequickaccess"), function(data, status){
-				if(data){
-					scope.reverse(list);
-				}
-			});
-			*/
 		},
 
 		/**
 		 * Sorting-Algorithm for QuickAccess
 		 */
-		QuickSort: function(list, start, end) {
-			var lastmatch;
-			if(list.length > 1){
-				lastmatch = this.quicksort_helper(list, start, end);
-				if(start < lastmatch - 1){
-					this.QuickSort(list, start, lastmatch - 1);
+		QuickSort: function (list, start, end) {
+			var lastMatch;
+			if (list.length > 1) {
+				lastMatch = this.quicksort_helper(list, start, end);
+				if (start < lastMatch - 1) {
+					this.QuickSort(list, start, lastMatch - 1);
 				}
-				if(lastmatch < end){
-					this.QuickSort(list, lastmatch, end);
+				if (lastMatch < end) {
+					this.QuickSort(list, lastMatch, end);
 				}
 			}
 		},
@@ -274,20 +306,20 @@
 		/**
 		 * Sorting-Algorithm-Helper for QuickAccess
 		 */
-		quicksort_helper: function(list, start, end) {
+		quicksort_helper: function (list, start, end) {
 			var pivot = Math.floor((end + start) / 2);
-			var pivotelem = this.getCompareValue(list,pivot);
-			var	i = start;
-			var	j = end;
+			var pivotElement = this.getCompareValue(list, pivot);
+			var i = start;
+			var j = end;
 
-			while(i <= j){
-				while(this.getCompareValue(list,i) < pivotelem){
+			while (i <= j) {
+				while (this.getCompareValue(list, i) < pivotElement) {
 					i++;
 				}
-				while(this.getCompareValue(list,j) > pivotelem){
+				while (this.getCompareValue(list, j) > pivotElement) {
 					j--;
 				}
-				if(i <= j){
+				if (i <= j) {
 					this.swap(list, i, j);
 					i++;
 					j--;
@@ -300,11 +332,20 @@
 		 * Sorting-Algorithm-Helper for QuickAccess
 		 * This method allows easy access to the element which is sorted by.
 		 */
-		getCompareValue: function(nodes, int){
-			if(this.sortingStrategy==='alphabet'){
+		getCompareValue: function (nodes, int, strategy) {
+
+			if ((typeof strategy === 'undefined')) {
+				strategy = this.$sortingStrategy;
+			}
+
+			if (strategy === 'alphabet') {
 				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
-			}else if(this.sortingStrategy==='date'){
+			} else if (strategy === 'date') {
 				return nodes[int].getAttribute('folderPos').toLowerCase();
+			} else if (strategy === 'datemodified') {
+				return nodes[int].getAttribute('mtime');
+			}else if (strategy === 'customorder') {
+				return nodes[int].getAttribute('folderPosition');
 			}
 			return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
 		},
@@ -313,7 +354,7 @@
 		 * Sorting-Algorithm-Helper for QuickAccess
 		 * This method allows easy swapping of elements.
 		 */
-		swap: function(list, j, i){
+		swap: function (list, j, i) {
 			list[i].before(list[j]);
 			list[j].before(list[i]);
 		},
@@ -321,10 +362,10 @@
 		/**
 		 * Reverse QuickAccess-List
 		 */
-		reverse: function(list){
-			var len=list.length-1;
-			for(var i = 0; i < len/2; i++) {
-				this.swap(list, i, len-i);
+		reverse: function (list) {
+			var len = list.length - 1;
+			for (var i = 0; i < len / 2; i++) {
+				this.swap(list, i, len - i);
 			}
 		}
 
