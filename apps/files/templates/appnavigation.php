@@ -28,25 +28,19 @@
 					<ul>
 						<li>
 							<span class="menuitem">
-								<input id="enableQuickAccess" type="checkbox" class="checkbox"  <?php if($item['enableQuickaccess']=='true'){ ?> checked<?php } ?>/>
-								<label for="enableQuickAccess"><?php p($l->t('Enable Quickaccess')); ?></label>
-							</span>
-						</li>
-						<li>
-							<span class="menuitem">
-								<input id="sortByAlphabet" type="checkbox" class="checkbox" data-group='SortingStrategy'<?php if($item['quickaccessSortingStrategy']=='alphabet'){ ?> checked<?php } ?>/>
+								<input id="sortByAlphabet" type="checkbox" class="checkbox" data-group='SortingStrategy'<?php if ($item['quickaccessSortingStrategy'] === 'alphabet') { ?> checked<?php } ?>/>
 								<label for="sortByAlphabet"><?php p($l->t('Sort by Alphabet')); ?></label>
 							</span>
 						</li>
 						<li>
 							<span class="menuitem">
-								<input id="sortByDate" type="checkbox" class="checkbox" data-group='SortingStrategy'<?php if($item['quickaccessSortingStrategy']=='date'){ ?> checked<?php } ?>/>
+								<input id="sortByDate" type="checkbox" class="checkbox" data-group='SortingStrategy'<?php if ($item['quickaccessSortingStrategy'] === 'date') { ?> checked<?php } ?>/>
 								<label for="sortByDate"><?php p($l->t('Sort by Date')); ?></label>
 							</span>
 						</li>
 						<li>
 							<span class="menuitem">
-								<input id="enableReverse" type="checkbox" class="checkbox" <?php if($item['quickaccessSortingReverse']==true){ ?> checked<?php } ?>/>
+								<input id="enableReverse" type="checkbox" class="checkbox" <?php if ($item['quickaccessSortingReverse'] === true) { ?> checked<?php } ?>/>
 								<label for="enableReverse"><?php p($l->t('Reverse List')); ?></label>
 							</span>
 						</li>

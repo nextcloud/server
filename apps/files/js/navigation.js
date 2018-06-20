@@ -144,14 +144,15 @@
 			var $target = $(ev.target);
 			var itemId = $target.closest('button').attr('id');
 			var qaSelector= '#quickaccess-list';
+			var collapsibleToggle=$("#favorites-toggle");
 
 			if(itemId==='button-collapseQuickAccess'){
-
-				document.getElementById('enableQuickAccess').checked=!document.getElementById('enableQuickAccess').checked;
-				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/show"),
+					{show: !collapsibleToggle.hasClass('open')},
+					function(data, status){
 				});
 
-				$("#favorites-toggle" ).toggleClass('open');
+				collapsibleToggle.toggleClass('open');
 
 			}
 
@@ -173,7 +174,7 @@
 			var list = document.getElementById(qaKey).getElementsByTagName('li');
 
 			if(itemId==='enableQuickAccess' ){
-				$.get(OC.generateUrl("/apps/files/api/v1/showquickaccess"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/show"),  {show: document.getElementById('enableQuickAccess').checked}, function(data, status){
 				});
 				$("#favorites-toggle" ).toggleClass('open');
 				document.getElementById('menu-favorites').classList.toggle('open');
@@ -187,7 +188,7 @@
 				}
 				this.sortingStrategy='alphabet';
 				document.getElementById('sortByDate').checked=false;
-				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
 				this.QuickSort(list, 0, list.length - 1);
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
@@ -200,7 +201,7 @@
 				}
 				this.sortingStrategy='date';
 				document.getElementById('sortByAlphabet').checked=false;
-				$.get(OC.generateUrl("/apps/files/api/v1/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/setsortingstrategy"), {strategy: this.sortingStrategy}, function(data, status){});
 				this.QuickSort(list, 0, list.length - 1);
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
@@ -208,7 +209,7 @@
 			if(itemId==='enableReverse'){
 				this.reverse(list);
 				var state = document.getElementById('enableReverse').checked;
-				$.get(OC.generateUrl("/apps/files/api/v1/setreversequickaccess"), {reverse: state}, function(data, status){});
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/setreversequickaccess"), {reverse: state}, function(data, status){});
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 			//ev.preventDefault();

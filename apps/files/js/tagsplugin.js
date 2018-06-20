@@ -128,10 +128,6 @@
 		}else{
 			list[list.length-1].after(li);
 		}
-
-		//list[list.length-1].after(li);
-		//document.getElementById('menu-favorites').classList.toggle('open');
-		//this.QuickSort(list, 0, list.length - 1);
 	}
 
 	OCA.Files = OCA.Files || {};
