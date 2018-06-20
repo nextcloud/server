@@ -756,9 +756,10 @@
 				for (var i = 0; i < this.files.length; i++) {
 					// a search will automatically hide the unwanted rows
 					// let's only select the matches
-					var fileRow = this.$fileList.find('[data-id=' + i + ']');
 					var fileData = this.files[i];
+					var fileRow = this.$fileList.find('[data-id=' + fileData.id + ']');
 					// do not select already selected ones
+					console.log(fileRow, this._selectedFiles[fileData.id]);
 					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id])) {
 						this._selectedFiles[fileData.id] = fileData;
 						this._selectionSummary.add(fileData);
@@ -777,7 +778,7 @@
 						if (!_.isUndefined(self._selectedFiles[id])) {
 							// a search will automatically hide the unwanted rows
 							// let's only select the matches
-							var fileData = self.files[id];
+							var fileData = self._selectedFiles[id];
 							delete self._selectedFiles[fileData.id];
 							self._selectionSummary.remove(fileData);
 						}
