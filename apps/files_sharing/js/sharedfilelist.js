@@ -37,6 +37,7 @@
 		 */
 		_sharedWithUser: false,
 		_linksOnly: false,
+		_showDeleted: false,
 		_clientSideSort: true,
 		_allowSelection: false,
 
@@ -55,6 +56,9 @@
 			}
 			if (options && options.linksOnly) {
 				this._linksOnly = true;
+			}
+			if (options && options.showDeleted) {
+				this._showDeleted = true;
 			}
 		},
 
@@ -78,7 +82,7 @@
 				var permission = parseInt($tr.attr('data-permissions')) | OC.PERMISSION_DELETE;
 				$tr.attr('data-permissions', permission);
 			}
-
+			
 			// add row with expiration date for link only shares - influenced by _createRow of filelist
 			if (this._linksOnly) {
 				var expirationTimestamp = 0;
@@ -183,20 +187,36 @@
 			// there is only root
 			this._setCurrentDir('/', false);
 
+
+			if (this._showDeleted) {
+				var shares = $.ajax({
+					url: OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'deletedshares',
+					/* jshint camelcase: false */
+					data: {
+						format: 'json',
+						include_tags: true
+					},
+					type: 'GET',
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+					},
+				});
+			} else {
+				var shares = $.ajax({
+					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
+					/* jshint camelcase: false */
+					data: {
+						format: 'json',
+						shared_with_me: !!this._sharedWithUser,
+						include_tags: true
+					},
+					type: 'GET',
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+					},
+				});
+			}
 			var promises = [];
-			var shares = $.ajax({
-				url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
-				/* jshint camelcase: false */
-				data: {
-					format: 'json',
-					shared_with_me: !!this._sharedWithUser,
-					include_tags: true
-				},
-				type: 'GET',
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader('OCS-APIREQUEST', 'true');
-				},
-			});
 			promises.push(shares);
 
 			if (!!this._sharedWithUser) {

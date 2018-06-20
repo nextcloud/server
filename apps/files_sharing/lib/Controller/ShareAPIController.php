@@ -151,7 +151,6 @@ class ShareAPIController extends OCSController {
 			$node = $recipientNode;
 		} else {
 			$nodes = $userFolder->getById($share->getNodeId());
-
 			if (empty($nodes)) {
 				// fallback to guessing the path
 				$node = $userFolder->get($share->getTarget());

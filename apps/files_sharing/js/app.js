@@ -92,6 +92,30 @@ OCA.Sharing.App = {
 		return this._linkFileList;
 	},
 
+	initSharingDeleted: function($el) {
+		if (this._deletedFileList) {
+			return this._deletedFileList;
+		}
+		this._deletedFileList = new OCA.Sharing.FileList(
+			$el,
+			{
+				id: 'shares.deleted',
+				scrollContainer: $('#app-content'),
+				showDeleted: true,
+				sharedWithUser: true,
+				fileActions: this._restoreShareAction(),
+				config: OCA.Files.App.getFilesConfig()
+			}
+		);
+
+		this._extendFileList(this._deletedFileList);
+		this._deletedFileList.appName = t('files_sharing', 'Deleted shares');
+		this._deletedFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>' +
+			'<h2>' + t('files_sharing', 'No deleted shares') + '</h2>' +
+			'<p>' + t('files_sharing', 'Shares you deleted will show up here') + '</p>');
+		return this._deletedFileList;
+	},
+
 	removeSharingIn: function() {
 		if (this._inFileList) {
 			this._inFileList.$fileList.empty();
@@ -107,6 +131,12 @@ OCA.Sharing.App = {
 	removeSharingLinks: function() {
 		if (this._linkFileList) {
 			this._linkFileList.$fileList.empty();
+		}
+	},
+
+	removeSharingDeleted: function() {
+		if (this._deletedFileList) {
+			this._deletedFileList.$fileList.empty();
 		}
 	},
 
@@ -151,6 +181,29 @@ OCA.Sharing.App = {
 		return fileActions;
 	},
 
+	_restoreShareAction: function() {
+		var fileActions = new OCA.Files.FileActions();
+		fileActions.registerAction({
+			name: 'Restore',
+			displayName: '',
+			altText: t('files_sharing', 'Restore share'),
+			mime: 'all',
+			permissions: OC.PERMISSION_ALL,
+			iconClass: 'icon-history',
+			type: OCA.Files.FileActions.TYPE_INLINE,
+			actionHandler: function(fileName, context) {
+				var shareId = context.$file.data('shareId');
+				$.post(OC.linkToOCS('apps/files_sharing/api/v1/deletedshares', 2) + shareId)
+					.success(function(result) {
+						context.fileList.remove(context.fileInfoModel.attributes.name);
+					}).fail(function() {
+						OC.Notification.showTemporary(t('files_sharing', 'Something happened. Unable to restore the share.'));
+					});
+			}
+		});
+		return fileActions;
+	},
+
 	_onActionsUpdated: function(ev) {
 		_.each([this._inFileList, this._outFileList, this._linkFileList], function(list) {
 			if (!list) {
@@ -192,5 +245,11 @@ $(document).ready(function() {
 	});
 	$('#app-content-sharinglinks').on('hide', function() {
 		OCA.Sharing.App.removeSharingLinks();
+	});
+	$('#app-content-deletedshares').on('show', function(e) {
+		OCA.Sharing.App.initSharingDeleted($(e.target));
+	});
+	$('#app-content-deletedshares').on('hide', function() {
+		OCA.Sharing.App.removeSharingDeleted();
 	});
 });
