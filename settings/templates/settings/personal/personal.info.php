@@ -78,7 +78,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<div class="personal-settings-setting-box personal-settings-group-box section">
 			<h2><?php p($l->t('Details')); ?></h2>
 			<div id="groups" class="personal-info icon-user">
-				<p class="icon-groups"><?php p($l->t('You are a member of the following groups:')); ?></p>
+				<p><?php p($l->t('You are a member of the following groups:')); ?></p>
 				<p id="groups-groups">
 					<strong><?php p(implode(', ', $_['groups'])); ?></strong>
 				</p>

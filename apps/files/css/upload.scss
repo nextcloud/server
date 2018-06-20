@@ -51,7 +51,7 @@
 	left: 0px;
 	position: absolute;
 	overflow: hidden;
-	background-color: $color-primary;
+	background-color: var(--color-primary);
 }
 #uploadprogressbar .label {
 	top: 6px;
@@ -61,14 +61,14 @@
 	font-weight: normal;
 }
 #uploadprogressbar .label.inner {
-	color: $color-primary-text;
+	color: var(--color-primary-text);
 	position: absolute;
 	display: block;
 	width: 200px;
 }
 #uploadprogressbar .label.outer {
 	position: relative;
-	color: $color-main-text;
+	color: var(--color-main-text);
 }
 #uploadprogressbar .desktop {
 	display: block;

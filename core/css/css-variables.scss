@@ -1,0 +1,39 @@
+// CSS4 Variables
+// Remember, you cannot use scss functions with css4 variables
+// All css4 variables must be fixed! Scss is a PRE processor
+// css4 variables are processed after scss!
+:root {
+	--color-main-text: $color-main-text;
+	--color-main-background: $color-main-background;
+
+	--color-background-dark: $color-background-dark;
+	--color-background-darker: $color-background-darker;
+
+	--color-primary: $color-primary;
+	--color-primary-text: $color-primary-text;
+	--color-primary-text-dark: $color-primary-text-dark;
+	--color-primary-element: $color-primary-element;
+	--color-primary-element-light: $color-primary-element-light;
+
+	--color-error: $color-error;
+	--color-warning: $color-warning;
+	--color-success: $color-success;
+
+	--color-text-maxcontrast: $color-text-maxcontrast;
+	--color-text-light: $color-text-light;
+	--color-text-lighter: $color-text-lighter;
+
+	--image-logo: $image-logo;
+	--image-login-background: $image-login-background;
+
+	--color-loading-light: $color-loading-light;
+	--color-loading-dark: $color-loading-dark;
+
+	--color-box-shadow: $color-box-shadow;
+
+	--color-border: $color-border;
+	--color-border-dark: $color-border-dark;
+	--border-radius: $border-radius;
+
+	--font-face: $font-face;
+}

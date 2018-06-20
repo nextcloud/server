@@ -1,20 +1,20 @@
 /* Component containers
 ----------------------------------*/
 .ui-widget-content {
-	border: 1px solid nc-darken($color-main-background, 20%);
-	background: $color-main-background none;
-	color: $color-main-text;
+	border: 1px solid var(--color-border);
+	background: var(--color-main-background) none;
+	color: var(--color-main-text);
 }
 .ui-widget-content a {
-	color: $color-main-text;
+	color: var(--color-main-text);
 }
 .ui-widget-header {
 	border: none;
-	color: $color-main-text;
+	color: var(--color-main-text);
 	background-image: none;
 }
 .ui-widget-header a {
-	color: $color-main-text;
+	color: var(--color-main-text);
 }
 
 /* Interaction states
@@ -22,8 +22,8 @@
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-	border: 1px solid nc-darken($color-main-background, 20%);
-	background: $color-main-background none;
+	border: 1px solid var(--color-border);
+	background: var(--color-main-background) none;
 	font-weight: bold;
 	color: #555;
 }
@@ -39,28 +39,28 @@
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
 	border: 1px solid #ddd;
-	background: $color-main-background none;
+	background: var(--color-main-background) none;
 	font-weight: bold;
-	color: $color-main-text;
+	color: var(--color-main-text);
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
 .ui-state-hover a:visited {
-	color: $color-main-text;
+	color: var(--color-main-text);
 }
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid $color-primary;
-	background: $color-main-background none;
+	border: 1px solid var(--color-primary);
+	background: var(--color-main-background) none;
 	font-weight: bold;
-	color: $color-main-text;
+	color: var(--color-main-text);
 }
 .ui-state-active a,
 .ui-state-active a:link,
 .ui-state-active a:visited {
-	color: $color-main-text;
+	color: var(--color-main-text);
 }
 
 /* Interaction Cues
@@ -68,20 +68,20 @@
 .ui-state-highlight,
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
-	border: 1px solid $color-main-background;
-	background: $color-main-background none;
-	color: nc-lighten($color-main-text, 30%);
+	border: 1px solid var(--color-main-background);
+	background: var(--color-main-background) none;
+	color: var(--color-text-lighter);
 }
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
 .ui-widget-header .ui-state-highlight a {
-	color: nc-lighten($color-main-text, 30%);
+	color: var(--color-text-lighter);
 }
 .ui-state-error,
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
-	border: $color-error;
-	background: $color-error none;
+	border: var(--color-error);
+	background: var(--color-error) none;
 	color: #ffffff;
 }
 .ui-state-error a,
@@ -154,10 +154,10 @@
 		.ui-state-hover,
 		.ui-state-active {
 			border: none;
-			border-bottom: 1px solid $color-main-text;
-			color: $color-main-text;
+			border-bottom: 1px solid var(--color-main-text);
+			color: var(--color-main-text);
 			a, a:link, a:hover, a:visited {
-				color: $color-main-text;
+				color: var(--color-main-text);
 			}
 		}
 		.ui-state-active {
@@ -178,7 +178,7 @@
 	}
 
 	&.ui-widget-content {
-		background: $color-main-background;
+		background: var(--color-main-background);
 		border-top: none;
 	}
 
@@ -191,13 +191,13 @@
 	.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
 		border: 1px solid transparent;
 		background: inherit;
-		color: $color-primary-element;
+		color: var(--color-primary-element);
 	}
 }
 
 .ui-button.primary {
-	background-color: $color-primary;
-	color: $color-primary-text;
-	border: 1px solid $color-primary-text;
+	background-color: var(--color-primary);
+	color: var(--color-primary-text);
+	border: 1px solid var(--color-primary-text);
 }
 

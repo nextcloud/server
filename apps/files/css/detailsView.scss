@@ -100,7 +100,7 @@
 }
 
 #app-sidebar .file-details {
-	color: $color-text-details;
+	color: var(--color-text-maxcontrast);
 }
 
 #app-sidebar .action-favorite {

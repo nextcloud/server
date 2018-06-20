@@ -25,7 +25,12 @@
 }
 
 /* LOADING ------------------------------------------------------------------ */
-.loading, .loading-small, .icon-loading, .icon-loading-dark, .icon-loading-small, .icon-loading-small-dark {
+.loading,
+.loading-small,
+.icon-loading,
+.icon-loading-dark,
+.icon-loading-small,
+.icon-loading-small-dark {
 	position: relative;
 	&:after {
 		z-index: 2;
@@ -42,15 +47,15 @@
 		-webkit-transform-origin: center;
 		-ms-transform-origin: center;
 		transform-origin: center;
-		border: 2px solid rgba($color-loading, 0.5);
-		border-top-color: $color-loading;
+		border: 2px solid var(--color-loading-light);
+		border-top-color: var(--color-loading-dark);
 	}
 }
 
 .icon-loading-dark:after,
 .icon-loading-small-dark:after {
-	border: 2px solid rgba($color-loading-dark, 0.5);
-	border-top-color: $color-loading-dark;
+	border: 2px solid var(--color-loading-dark);
+	border-top-color: var(--color-loading-light);
 }
 
 .icon-loading-small:after,
@@ -61,7 +66,7 @@
 }
 
 /* Css replaced elements don't have ::after nor ::before */
-img, object, video, button, textarea, input, select, div[contenteditable=true] {
+img, object, video, button, textarea, input, select, div[contenteditable='true'] {
 	.icon-loading {
 		background-image: url('../img/loading.gif');
 	}
@@ -92,7 +97,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 .icon-white {
 	filter: invert(100%);
 	&.icon-shadow {
-		filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+		filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 	}
 }
 
@@ -112,7 +117,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-audio.icon-white.icon-shadow */
 .icon-audio-white {
 	background-image: url('../img/actions/audio.svg?v=2');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-audio-off {
@@ -122,7 +127,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-audio-off.icon-white.icon-shadow */
 .icon-audio-off-white {
 	background-image: url('../img/actions/audio-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-caret {
@@ -176,11 +181,13 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 .icon-delete {
 	background-image: url('../img/actions/delete.svg?v=1');
 	&.no-permission {
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			background-image: url('../img/actions/delete.svg?v=1');
 		}
 	}
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-image: url('../img/actions/delete-hover.svg?v=1');
 		filter: initial;
 	}
@@ -189,11 +196,13 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 .icon-delete-white {
 	background-image: url('../img/actions/delete-white.svg?v=1');
 	&.no-permission {
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			background-image: url('../img/actions/delete-white.svg?v=1');
 		}
 	}
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-image: url('../img/actions/delete-hover.svg?v=1');
 	}
 }
@@ -237,7 +246,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-fullscreen.icon-white.icon-shadow */
 .icon-fullscreen-white {
 	background-image: url('../img/actions/fullscreen.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-history {
@@ -315,7 +324,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-screen.icon-white.icon-shadow */
 .icon-screen-white {
 	background-image: url('../img/actions/screen.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-screen-off {
@@ -325,7 +334,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-screen-off.icon-white.icon-shadow */
 .icon-screen-off-white {
 	background-image: url('../img/actions/screen-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-search {
@@ -375,14 +384,16 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 }
 
 .icon-starred {
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-image: url('../img/actions/star.svg?v=1');
 	}
 	background-image: url('../img/actions/starred.svg?v=1');
 }
 
 .icon-star {
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-image: url('../img/actions/starred.svg?v=1');
 	}
 }
@@ -434,7 +445,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-video-off.icon-white.icon-shadow */
 .icon-video-white {
 	background-image: url('../img/actions/video.svg?v=2');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-video-off {
@@ -444,7 +455,7 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 /* TODO: to be deprecated; use .icon-video-off.icon-white.icon-shadow */
 .icon-video-off-white {
 	background-image: url('../img/actions/video-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px $color-box-shadow);
+	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-video-switch {
@@ -500,11 +511,13 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 	background-image: url('../img/places/files-dark.svg?v=1');
 }
 
-.icon-file, .icon-filetype-text {
+.icon-file,
+.icon-filetype-text {
 	background-image: url('../img/filetypes/text.svg?v=1');
 }
 
-.icon-folder, .icon-filetype-folder {
+.icon-folder,
+.icon-filetype-folder {
 	background-image: url('../img/filetypes/folder.svg?v=1');
 }
 
@@ -614,4 +627,3 @@ img, object, video, button, textarea, input, select, div[contenteditable=true] {
 .icon-category-search {
 	background-image: url('../img/actions/search.svg?v=1');
 }
-

@@ -34,7 +34,7 @@
     /* default to top */
     margin-top: -3px;
     padding: 10px 0;
-    filter: drop-shadow(0 1px 10px $color-box-shadow);
+    filter: drop-shadow(0 1px 10px var(--color-box-shadow));
     &.in,
     &.tooltip[aria-hidden='false'] {
         visibility: visible;
@@ -60,7 +60,7 @@
             left: 0;
             margin-top: -10px;
             border-width: 10px 10px 10px 0;
-            border-right-color: $color-main-background;
+            border-right-color: var(--color-main-background);
         }
     }
     &.left,
@@ -72,7 +72,7 @@
             right: 0;
             margin-top: -10px;
             border-width: 10px 0 10px 10px;
-            border-left-color: $color-main-background;
+            border-left-color: var(--color-main-background);
         }
     }
     /* TOP */
@@ -83,7 +83,7 @@
         .tooltip-arrow {
             bottom: 0;
             border-width: 10px 10px 0;
-            border-top-color: $color-main-background;
+            border-top-color: var(--color-main-background);
         }
     }
     &.top-left .tooltip-arrow {
@@ -102,7 +102,7 @@
         .tooltip-arrow {
             top: 0;
             border-width: 0 10px 10px;
-            border-bottom-color: $color-main-background;
+            border-bottom-color: var(--color-main-background);
         }
     }
     &[x-placement^='bottom'] .tooltip-arrow,
@@ -123,10 +123,10 @@
 .tooltip-inner {
     max-width: 350px;
     padding: 5px 8px;
-    background-color: $color-main-background;
-    color: $color-main-text;
+    background-color: var(--color-main-background);
+    color: var(--color-main-text);
     text-align: center;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
 }
 
 .tooltip-arrow {

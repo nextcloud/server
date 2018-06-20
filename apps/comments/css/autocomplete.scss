@@ -9,11 +9,11 @@
 	left: 0;
 	display: none;
 	margin-top: 18px;
-	background: $color-main-background;
-	color: $color-main-text;
-	border: 1px solid $color-border;
-	border-radius: $border-radius;
-	box-shadow: 0 0 5px $color-box-shadow;
+	background: var(--color-main-background);
+	color: var(--color-main-text);
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	box-shadow: 0 0 5px var(--color-box-shadow);
 	min-width: 120px;
 	z-index: 11110 !important;
 }
@@ -22,14 +22,14 @@
 	padding: 5px;
 	margin: 5px;
 	cursor: pointer;
-	border-bottom: solid 1px $color-border;
-	color: $color-main-text;
+	border-bottom: solid 1px var(--color-border);
+	color: var(--color-main-text);
 	font-size: 11px;
 	font-weight: bold;
 }
 
 .atwho-view .atwho-header .small {
-	color: $color-main-text;
+	color: var(--color-main-text);
 	float: right;
 	padding-top: 2px;
 	margin-right: -5px;
@@ -42,18 +42,18 @@
 }
 
 .atwho-view .cur {
-	background: $color-primary;
-	color: $color-primary-text;
+	background: var(--color-primary);
+	color: var(--color-primary-text);
 }
 .atwho-view .cur small {
-	color: $color-primary-text;
+	color: var(--color-primary-text);
 }
 .atwho-view strong {
-	color: $color-main-text;
+	color: var(--color-main-text);
 	font-weight: normal;
 }
 .atwho-view .cur strong {
-	color: $color-primary-text;
+	color: var(--color-primary-text);
 	font-weight: normal;
 }
 .atwho-view ul {
@@ -67,11 +67,11 @@
 .atwho-view ul li {
 	display: block;
 	padding: 5px 10px;
-	border-bottom: 1px solid $color-border;
+	border-bottom: 1px solid var(--color-border);
 	cursor: pointer;
 }
 .atwho-view small {
 	font-size: smaller;
-	color: $color-main-text;
+	color: var(--color-main-text);
 	font-weight: normal;
 }

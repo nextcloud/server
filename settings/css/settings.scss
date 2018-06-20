@@ -78,7 +78,7 @@ input {
 		transform: translate(-50%, -50%);
 		background: #fff;
 		color: #333;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 		box-shadow: 0 0 7px #888;
 		padding: 15px;
 		.jcrop-holder {
@@ -130,11 +130,6 @@ input {
 		width: 100%;
 	}
 }
-#personal-settings {
-	.section {
-		border: 0;
-	}
-}
 
 #personal-settings {
 	display: grid;
@@ -143,8 +138,11 @@ input {
 	grid-template-columns:1fr 2fr 1fr;
 	.section {
 		padding: 10px 10px;
+		border: 0;
+		h2 {
+			margin-bottom: 12px;
+		}
 	}
-
 	.personal-info {
 		margin-right: 10%;
 		margin-bottom: 20px;
@@ -223,7 +221,6 @@ input {
 	> div {
 		h2 {
 			position: relative;
-			margin-bottom: 12px;
 			display: inline-flex;
 			flex-wrap: nowrap;
 			justify-content: flex-start;
@@ -328,7 +325,7 @@ input {
 					opacity: .75;
 				}
 				&.active {
-					box-shadow: inset 2px 0 $color-primary;
+					box-shadow: inset 2px 0 var(--color-primary);
 					.menuitem-text {
 						font-weight: 600;
 					}
@@ -426,7 +423,7 @@ table.nostyle {
 				padding-top: 5px;
 			}
 		}
-		border-top: 1px solid #DDD;
+		border-top: 1px solid var(--color-border);
 		text-overflow: ellipsis;
 		max-width: 200px;
 		white-space: nowrap;
@@ -482,7 +479,6 @@ table.nostyle {
 #new-app-password {
 	width: 245px;
 	font-family: monospace;
-	background-color: lightyellow;
 }
 
 .app-password-row {
@@ -556,14 +552,14 @@ table.grid {
 	th {
 		height: 2em;
 		color: #999;
-		border-bottom: 1px solid $color-border;
+		border-bottom: 1px solid var(--color-border);
 		padding: 0 .5em;
 		padding-left: .8em;
 		text-align: left;
 		font-weight: normal;
 	}
 	td {
-		border-bottom: 1px solid $color-border;
+		border-bottom: 1px solid var(--color-border);
 		padding: 0 .5em;
 		padding-left: .8em;
 		text-align: left;
@@ -639,7 +635,7 @@ span.usersLastLoginTooltip {
 	thead th,
 	thead tr {
 		z-index: 100;
-		background-color: $color-main-background;
+		background-color: var(--color-main-background);
 		position: sticky;
 		// positional attribute is required for position to take affect.
 		top: 0;
@@ -734,7 +730,7 @@ span.version {
 		color: #555;
 		background-color: transparent;
 		border: 1px solid #555;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 		padding: 3px 6px;
 	}
 	a {
@@ -804,7 +800,7 @@ span.version {
 		margin-bottom: 10px;
 	}
 	.app-author, .app-licence {
-		color: $color-text-details;
+		color: var(--color-text-maxcontrast);
 	}
 	.app-dependencies {
 		margin: 10px 0;
@@ -819,7 +815,7 @@ span.version {
 		padding: 14px;
 		opacity: 0.5;
 		z-index: 1;
-	}.
+	}
 	.actions {
 		display: flex;
 	}
@@ -885,7 +881,7 @@ span.version {
 	margin-bottom: 0;
 	/* use 2nd child since app-navigation-toggle is the first */
 	&:not(:nth-child(2)) {
-		border-top: 1px solid $color-border;
+		border-top: 1px solid var(--color-border);
 	}
 
 	/* correctly display help icons next to headings */
@@ -980,12 +976,12 @@ span.version {
 				height: initial;
 				vertical-align: middle;
 				float: none;
-				border-bottom: 1px solid $color-border;
+				border-bottom: 1px solid var(--color-border);
 				padding: 6px;
 				box-sizing: border-box;
 			}
 			&.selected {
-				background-color: nc-darken($color-main-background, 3%);
+				background-color: var(--color-background-dark);
 			}
 		}
 		.groups-enable {
@@ -1126,13 +1122,13 @@ table.grid td.date {
 			border-radius: 50%;
 		}
 		&.icon-checkmark-white {
-			background-color: $color-success;
+			background-color: var(--color-success);
 		}
 		&.icon-error-white {
-			background-color: $color-warning;
+			background-color: var(--color-warning);
 		}
 		&.icon-close-white {
-			background-color: $color-error;
+			background-color: var(--color-error);
 		}
 	}
 }
@@ -1233,14 +1229,14 @@ table.grid td.date {
 
 span {
 	&.success {
-		background-color: $color-success;
-		border-radius: $border-radius;
+		background-color: var(--color-success);
+		border-radius: var(--border-radius);
 	}
 	&.error {
-		background-color: $color-error;
+		background-color: var(--color-error);
 	}
 	&.indeterminate {
-		background-color: $color-warning;
+		background-color: var(--color-warning);
 		border-radius: 40% 0;
 	}
 }
@@ -1303,10 +1299,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		background-position: left center;
 	}
 	.errors, .errors a {
-		color: $color-error;
+		color: var(--color-error);
 	}
 	.warnings, .warnings a {
-		color: $color-warning;
+		color: var(--color-warning);
 	}
 
 	.hint {
@@ -1351,21 +1347,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	opacity: .7;
 }
 
-.settings-caption {
-	font-weight: bold;
-	line-height: 44px;
-	padding: 0 44px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	// !important to overwrite specific hover and focus
-	opacity: .4 !important;
-	box-shadow: none !important;
-
-	&:not(:first-child) {
-		margin-top: 22px;
-	}
-}
-
 
 /* USERS LIST -------------------------------------------------------------- */
 #body-settings {
@@ -1402,7 +1383,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			   what follows will be manually defined  */
 			grid-template-columns: 44px;
 			grid-auto-columns: min-content;
-			border-top: $color-border 1px solid;
+			border-top: var(--color-border) 1px solid;
 			&.disabled {
 				opacity: .5;
 			}
@@ -1438,11 +1419,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			&#new-user {
 				position: sticky;
 				align-self: normal;
-				background-color: $color-main-background;
+				background-color: var(--color-main-background);
 				z-index: 55; /* above multiselect */
 				top: 0;
 				&.sticky {
-					box-shadow: 0 -2px 10px 1px $color-box-shadow;
+					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
 				}
 				/* fake input for groups validation */
 				input#newgroups {
@@ -1458,12 +1439,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				top: $grid-row-height;
 			}
 			&#grid-header {
-				color: nc-lighten($color-main-text, 60%);
+				color: var(--color-background-darker);
 				z-index: 60; /* above new-user */
 			}
 			&:hover {
 				input:not([type='submit']):not(:focus):not(:active) {
-					border-color: nc-darken($color-main-background, 14%) !important;
+					border-color: var(--color-border) !important;
 				}
 			}
 			> div,
@@ -1471,7 +1452,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				grid-row: 1;
 				display: inline-flex;
 				align-items: center;
-				color: nc-lighten($color-main-text, 33%);
+				color: var(--color-text-lighter);
 				position: relative;
 				> input:not(:focus):not(:active) {
 					border-color: transparent;

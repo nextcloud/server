@@ -161,7 +161,7 @@ thead {
 
 #header .header-shared-by  {
 	display: inline-block;
-	color: $color-primary-text;
+	color: var(--color-primary-text);
 	position: relative;
 	top: -10px;
 	font-weight: 300;
