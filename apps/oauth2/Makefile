@@ -19,7 +19,7 @@ watch-js:
 
 clean:
 	rm -f js/oauth2.js
-	rm -f js/oauth2.map
+	rm -f js/oauth2.js.map
 
 clean-dev:
 	rm -rf node_modules
