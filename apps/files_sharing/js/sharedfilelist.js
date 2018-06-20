@@ -82,6 +82,10 @@
 				var permission = parseInt($tr.attr('data-permissions')) | OC.PERMISSION_DELETE;
 				$tr.attr('data-permissions', permission);
 			}
+			if (this._showDeleted) {
+				var permission = fileData.permissions;
+				$tr.attr('data-share-permissions', permission);
+			}
 			
 			// add row with expiration date for link only shares - influenced by _createRow of filelist
 			if (this._linksOnly) {

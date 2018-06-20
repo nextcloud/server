@@ -79,7 +79,7 @@ class DeletedShareAPIController extends OCSController {
 			'share_type' => $share->getShareType(),
 			'uid_owner' => $share->getSharedBy(),
 			'displayname_owner' => $this->userManager->get($share->getSharedBy())->getDisplayName(),
-			'permissions' => $share->getPermissions(),
+			'permissions' => 0,
 			'stime' => $share->getShareTime()->getTimestamp(),
 			'parent' => null,
 			'expiration' => null,

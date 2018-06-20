@@ -42,6 +42,12 @@
 			var fileActions = fileList.fileActions;
 			var oldCreateRow = fileList._createRow;
 			fileList._createRow = function(fileData) {
+				
+				if (fileData.permissions === 0) {
+					// no permission, disabling sidebar
+					delete fileActions.actions.all.Details;
+				}
+
 				var tr = oldCreateRow.apply(this, arguments);
 				var sharePermissions = OCA.Sharing.Util.getSharePermissions(fileData);
 				tr.attr('data-share-permissions', sharePermissions);
@@ -158,11 +164,15 @@
 				permissions: OC.PERMISSION_ALL,
 				iconClass: 'icon-shared',
 				type: OCA.Files.FileActions.TYPE_INLINE,
-				actionHandler: function(fileName) {
-					fileList.showDetailsView(fileName, 'shareTabView');
+				actionHandler: function(fileName, context) {
+					// do not open sidebar if no permission on the file
+					var permissions = parseInt(context.$file.data('share-permissions'), 10);
+					if (permissions > 0) {
+						fileList.showDetailsView(fileName, 'shareTabView');
+					}
 				},
 				render: function(actionSpec, isDefault, context) {
-					var permissions = parseInt(context.$file.attr('data-permissions'), 10);
+					var permissions = parseInt(context.$file.data('permissions'), 10);
 					// if no share permissions but share owner exists, still show the link
 					if ((permissions & OC.PERMISSION_SHARE) !== 0 || context.$file.attr('data-share-owner')) {
 						return fileActions._defaultRenderAction.call(fileActions, actionSpec, isDefault, context);

@@ -194,11 +194,11 @@ OCA.Sharing.App = {
 			actionHandler: function(fileName, context) {
 				var shareId = context.$file.data('shareId');
 				$.post(OC.linkToOCS('apps/files_sharing/api/v1/deletedshares', 2) + shareId)
-					.success(function(result) {
-						context.fileList.remove(context.fileInfoModel.attributes.name);
-					}).fail(function() {
-						OC.Notification.showTemporary(t('files_sharing', 'Something happened. Unable to restore the share.'));
-					});
+				.success(function(result) {
+					context.fileList.remove(context.fileInfoModel.attributes.name);
+				}).fail(function() {
+					OC.Notification.showTemporary(t('files_sharing', 'Something happened. Unable to restore the share.'));
+				});
 			}
 		});
 		return fileActions;
