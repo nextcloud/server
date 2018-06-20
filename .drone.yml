@@ -28,6 +28,13 @@ pipeline:
     when:
       matrix:
         TESTS: vue-build-updatenotification
+  vue-build-oauth2:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/oauth2/js/oauth2.js
+    when:
+      matrix:
+        TESTS: vue-build-oauth2
   checkers:
     image: nextcloudci/php7.0:php7.0-19
     commands:
@@ -685,6 +692,7 @@ matrix:
     - TESTS: checkers
     - TESTS: vue-build-settings
     - TESTS: vue-build-updatenotification
+    - TESTS: vue-build-oauth2
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
     - TESTS: db-codecov
