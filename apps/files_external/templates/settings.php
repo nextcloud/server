@@ -169,7 +169,6 @@
 		<label for="allowUserMounting"><?php p($l->t('Allow users to mount external storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
 
 		<p id="userMountingBackends"<?php if (!$_['allowUserMounting']): ?> class="hidden"<?php endif; ?>>
-			<?php p($l->t('Allow users to mount the following external storage')); ?><br />
 			<?php
 				$userBackends = array_filter($_['backends'], function($backend) {
 					return $backend->isAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL);
@@ -189,9 +188,10 @@
 </form>
 
 <?php if ($canCreateMounts): ?>
-	<form autocomplete="false" class="section" action="#"
+<div class="followupsection">
+	<form autocomplete="false" action="#"
 		  id="global_credentials">
-		<p><?php p($l->t('Global credentials')); ?></p>
+		<h2><?php p($l->t('Global credentials')); ?></h2>
 		<input type="text" name="username"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['user']); ?>"
@@ -204,4 +204,5 @@
 			   value="<?php p($_['globalCredentialsUid']); ?>"/>
 		<input type="submit" value="<?php p($l->t('Save')) ?>"/>
 	</form>
+</div>
 <?php endif; ?>
