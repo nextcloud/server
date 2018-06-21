@@ -34,14 +34,16 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\SMB\BasicAuth;
 use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\IFileInfo;
-use Icewind\SMB\NativeServer;
-use Icewind\SMB\Server;
+use Icewind\SMB\Native\NativeServer;
+use Icewind\SMB\ServerFactory;
+use Icewind\SMB\System;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
@@ -53,16 +55,15 @@ use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
-use OCP\Util;
 
 class SMB extends Common implements INotifyStorage {
 	/**
-	 * @var \Icewind\SMB\Server
+	 * @var \Icewind\SMB\IServer
 	 */
 	protected $server;
 
 	/**
-	 * @var \Icewind\SMB\Share
+	 * @var \Icewind\SMB\IShare
 	 */
 	protected $share;
 
@@ -72,17 +73,16 @@ class SMB extends Common implements INotifyStorage {
 	protected $root;
 
 	/**
-	 * @var \Icewind\SMB\FileInfo[]
+	 * @var \Icewind\SMB\IFileInfo[]
 	 */
 	protected $statCache;
 
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
-			if (Server::NativeAvailable()) {
-				$this->server = new NativeServer($params['host'], $params['user'], $params['password']);
-			} else {
-				$this->server = new Server($params['host'], $params['user'], $params['password']);
-			}
+			list($workgroup, $user) = $this->splitUser($params['user']);
+			$auth = new BasicAuth($user, $workgroup, $params['password']);
+			$serverFactory = new ServerFactory();
+			$this->server = $serverFactory->createServer($params['host'], $auth);
 			$this->share = $this->server->getShare(trim($params['share'], '/'));
 
 			$this->root = $params['root'] ?? '/';
@@ -95,6 +95,16 @@ class SMB extends Common implements INotifyStorage {
 		parent::__construct($params);
 	}
 
+	private function splitUser($user) {
+		if (strpos($user, '/')) {
+			return explode('/', $user, 2);
+		} elseif (strpos($user, '\\')) {
+			return explode('\\', $user);
+		} else {
+			return [null, $user];
+		}
+	}
+
 	/**
 	 * @return string
 	 */
@@ -102,7 +112,7 @@ class SMB extends Common implements INotifyStorage {
 		// FIXME: double slash to keep compatible with the old storage ids,
 		// failure to do so will lead to creation of a new storage id and
 		// loss of shares from the storage
-		return 'smb::' . $this->server->getUser() . '@' . $this->server->getHost() . '//' . $this->share->getName() . '/' . $this->root;
+		return 'smb::' . $this->server->getAuth()->getUsername() . '@' . $this->server->getHost() . '//' . $this->share->getName() . '/' . $this->root;
 	}
 
 	/**
@@ -504,7 +514,7 @@ class SMB extends Common implements INotifyStorage {
 	public static function checkDependencies() {
 		return (
 			(bool)\OC_Helper::findBinaryPath('smbclient')
-			|| Server::NativeAvailable()
+			|| NativeServer::available(new System())
 		) ? true : ['smbclient'];
 	}
 

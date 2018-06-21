@@ -5,7 +5,9 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Native;
+
+use Icewind\SMB\IFileInfo;
 
 class NativeFileInfo implements IFileInfo {
 	const MODE_FILE = 0100000;
@@ -21,7 +23,7 @@ class NativeFileInfo implements IFileInfo {
 	protected $name;
 
 	/**
-	 * @var \Icewind\SMB\NativeShare
+	 * @var NativeShare
 	 */
 	protected $share;
 
@@ -36,7 +38,7 @@ class NativeFileInfo implements IFileInfo {
 	protected $modeCache;
 
 	/**
-	 * @param \Icewind\SMB\NativeShare $share
+	 * @param NativeShare $share
 	 * @param string $path
 	 * @param string $name
 	 * @param array $stat
@@ -113,7 +115,7 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isReadOnly() {
 		$mode = $this->getMode();
-		return (bool)($mode & FileInfo::MODE_READONLY);
+		return (bool)($mode & IFileInfo::MODE_READONLY);
 	}
 
 	/**
@@ -121,7 +123,7 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isHidden() {
 		$mode = $this->getMode();
-		return (bool)($mode & FileInfo::MODE_HIDDEN);
+		return (bool)($mode & IFileInfo::MODE_HIDDEN);
 	}
 
 	/**
@@ -129,7 +131,7 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isSystem() {
 		$mode = $this->getMode();
-		return (bool)($mode & FileInfo::MODE_SYSTEM);
+		return (bool)($mode & IFileInfo::MODE_SYSTEM);
 	}
 
 	/**
@@ -137,6 +139,6 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isArchived() {
 		$mode = $this->getMode();
-		return (bool)($mode & FileInfo::MODE_ARCHIVE);
+		return (bool)($mode & IFileInfo::MODE_ARCHIVE);
 	}
 }
