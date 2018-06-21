@@ -40,7 +40,7 @@
 						</li>
 						<li>
 							<span class="menuitem">
-								<input id="enableReverse" type="checkbox" class="checkbox" <?php if ($item['quickaccessSortingReverse'] === true) { ?> checked<?php } ?>/>
+								<input id="enableReverse" type="checkbox" class="checkbox" <?php if ($item['quickaccessSortingReverse'] === 1) { ?>checked<?php } ?>/>
 								<label for="enableReverse"><?php p($l->t('Reverse List')); ?></label>
 							</span>
 						</li>
