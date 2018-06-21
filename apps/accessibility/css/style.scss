@@ -33,21 +33,26 @@
 		background-size: cover;
 		background-repeat: no-repeat;
 	}
+	h3 {
+		display: flex;
+		justify-content: space-between;
+		line-height: 1em;
+		align-items: center;
+	}
 	p {
 		text-align: justify;
 	}
-	.icon-checkmark {
-		position: absolute;
-		width: 50px;
-		height: 50px;
-		background-size: contain;
-		right: -10px;
-		top: -15px;
-		opacity: 0;
+	.icon-checkmark-color {
 		transition: all 100ms ease-in-out;
+		border-radius: 1em;
+		padding: 4px 5px 4px 20px;
+		background-position: 4px center;
+		opacity: 0;
+		visibility: hidden;
 	}
-	&.selected .icon-checkmark {
+	&.selected .icon-checkmark-color {
 		opacity: 1;
-		filter: drop-shadow(0 1px 1px var(--color-box-shadow));
+		visibility: visible;
+		box-shadow: 0 0 0 1px var(--color-success);
 	}
 }

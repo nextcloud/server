@@ -21,6 +21,7 @@
 
 <script>
 import preview from './components/itemPreview';
+import axios from 'axios';
 
 export default {
 	name: 'app',
@@ -51,6 +52,9 @@ export default {
 				theme: this.serverData.theme,
 				font: this.serverData.font
 			};
+		},
+		tokenHeaders() {
+			return { headers: { requesttoken: OC.requestToken } }
 		}
 	},
 	methods: {
@@ -69,12 +73,28 @@ export default {
 		 * @param {string} id the data of the change
 		 */
 		selectItem(type, id) {
-			this.serverData[type] = id;
-			let cssLink = document.querySelector(
-				'link[rel=stylesheet][href*=accessibility][href*=user-]'
-			);
-			cssLink.href =
-				cssLink.href.split('?')[0] + '?v=' + new Date().getTime();
+			axios
+				.post(OC.linkToOCS('apps/accessibility/api/v1/config', 2) + type, {value: id}, this.tokenHeaders)
+				.then(response => {
+					this.serverData[type] = id;
+
+					// Remove old link
+					let oldLink = document.querySelector('link[rel=stylesheet][href*=accessibility][href*=user-]');
+					if (oldLink) {
+						oldLink.remove();
+					}
+					
+					// Insert new css
+					let link = document.createElement('link');
+					link.rel = 'stylesheet';
+					link.href = OC.generateUrl('/apps/accessibility/css/user-style.css');
+					link.href = link.href.split('?')[0] + '?v=' + new Date().getTime();
+					document.head.appendChild(link)
+				})
+				.catch(err => {
+					console.log(err, err.response);
+					OC.Notification.showTemporary(t('accessibility', err.response.data.ocs.meta.message + '. Unable to apply the setting.'));
+				});
 		}
 	}
 };

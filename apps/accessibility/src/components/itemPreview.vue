@@ -1,9 +1,11 @@
 <template>
 	<div :class="{preview: true, selected: preview.id === selected}"
 		 @click="selectItem">
-		<div class="icon-checkmark"></div>
 		<div class="preview-image" :style="{backgroundImage: 'url(' + preview.img + ')'}"></div>
-		<h3>{{preview.title}}</h3>
+		<h3>
+			<span>{{preview.title}}</span>
+			<div class="icon-checkmark-color">{{t('accessibility', 'enabled')}}</div>
+		</h3>
 		<p>{{preview.text}}</p>
 	</div>
 </template>
