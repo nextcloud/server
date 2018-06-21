@@ -34,13 +34,7 @@ return [
 		],
 		[
 			'name' => 'PublicPreview#getPreview',
-			'url' => '/publicpreview',
-			'verb' => 'GET',
-		],
-
-		[
-			'name' => 'PublicPreview#getPreview',
-			'url' => '/ajax/publicpreview.php',
+			'url' => '/publicpreview/{token}',
 			'verb' => 'GET',
 		],
 

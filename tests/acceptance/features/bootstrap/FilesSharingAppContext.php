@@ -137,7 +137,7 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheSharedLinkIWroteDown() {
 		PHPUnit_Framework_Assert::assertEquals(
-				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/preview",
+				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/showShare",
 				$this->actor->getSession()->getCurrentUrl());
 	}
 
@@ -146,7 +146,7 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheAuthenticatePageForTheDirectDownloadSharedLinkIWroteDown() {
 		PHPUnit_Framework_Assert::assertEquals(
-				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/download",
+				$this->actor->getSharedNotebook()["shared link"] . "/authenticate/downloadShare",
 				$this->actor->getSession()->getCurrentUrl());
 	}
 
