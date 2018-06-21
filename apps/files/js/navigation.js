@@ -177,7 +177,9 @@
 				var togglestate=false;
 				var dotMenu = document.getElementById("quickaccessbutton");
 				if (document.getElementById('showQuickAccessSortingToggle').checked) {
-					dotMenu.style.display='';
+					if($("#favorites-toggle" ).hasClass('collapsible')){
+						dotMenu.style.display='';
+					}
 					togglestate=true;
 				} else {
 					dotMenu.style.display='none';
@@ -286,7 +288,7 @@
 			$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/showsettings"),
 				function (data, status) {
 					document.getElementById('showQuickAccessSortingToggle').checked=data;
-					if (data) {
+					if (data && $("#favorites-toggle" ).hasClass('collapsible')) {
 						document.getElementById("quickaccessbutton").style.display='';
 					} else {
 						document.getElementById("quickaccessbutton").style.display='none';
