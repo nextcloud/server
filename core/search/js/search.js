@@ -86,15 +86,19 @@
 			// Register input event
 			document
 				.getElementById('searchbox')
-				.addEventListener('input', _.debounce(this.search, 500), true);
+				.addEventListener('input', _.debounce(self.search, 500), true);
 			document
 				.querySelector('form.searchbox')
-				.addEventListener('submit', _.debounce(this.search, 500), true);
+				.addEventListener('submit', function(event) {
+					// Avoid form submit
+					event.preventDefault();
+					_.debounce(self.search, 500);
+				}, true);
 
 			// Register reset
 			document
 				.querySelector('form.searchbox')
-				.addEventListener('reset', _.debounce(this.reset, 500), true);
+				.addEventListener('reset', _.debounce(self.reset, 500), true);
 
 			// Register esc key shortcut reset if focused
 			document.addEventListener('keyup', function(event) {
