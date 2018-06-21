@@ -162,7 +162,7 @@ OC.Lostpassword = {
 	resetDone : function(result){
 		var resetErrorMsg;
 		if (result && result.status === 'success'){
-			OC.Lostpassword.redirect();
+			OC.Lostpassword.redirect('/login?user=' + result.user);
 		} else {
 			if (result && result.msg){
 				resetErrorMsg = result.msg;
@@ -175,12 +175,8 @@ OC.Lostpassword = {
 		}
 	},
 
-	redirect : function(msg){
-		if(OC.webroot !== '') {
-			window.location = OC.webroot;
-		} else {
-			window.location = '/';
-		}
+	redirect : function(url){
+		window.location = OC.generateUrl(url);
 	},
 
 	resetError : function(msg){

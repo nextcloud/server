@@ -571,7 +571,7 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
-		$expectedResponse = array('status' => 'success');
+		$expectedResponse = array('user' => 'ValidTokenUser', 'status' => 'success');
 		$this->assertSame($expectedResponse, $response);
 	}
 
