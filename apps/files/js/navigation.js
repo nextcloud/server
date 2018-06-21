@@ -55,7 +55,7 @@
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
-			this.initialSort();
+			this.setInitialQuickaccessSettings();
 		},
 
 		/**
@@ -65,6 +65,7 @@
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 			this.$el.on('click', 'li input', _.bind(this._onClickMenuItem, this));
+			this.$el.on('click', 'div input', _.bind(this._onClickAppSettings, this));
 		},
 
 		/**
@@ -167,6 +168,33 @@
 		},
 
 		/**
+		 * Event handler for when clicking on an app setting.
+		 */
+		_onClickAppSettings: function (ev) {
+
+			var itemId = $(ev.target).closest('input').attr('id');
+			if (itemId === 'showQuickAccessSortingToggle') {
+
+				var togglestate=false;
+				var dotMenu = document.getElementById("quickaccessbutton");
+				if (document.getElementById('showQuickAccessSortingToggle').checked) {
+					dotMenu.style.display='';
+					togglestate=true;
+				} else {
+					dotMenu.style.display='none';
+					togglestate=false;
+
+				}
+
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/showsettings"),
+					{show: togglestate},
+					function (data, status) {
+					});
+				document.getElementById('showQuickAccessSortingToggle').checked=togglestate;
+			}
+		},
+
+		/**
 		 * Event handler for when clicking on a menuitem.
 		 */
 		_onClickMenuItem: function (ev) {
@@ -192,7 +220,7 @@
 
 				this.sortingStrategy = 'alphabet';
 				document.getElementById('sortByDate').checked = false;
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/setSortingStrategy"),
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/SortingStrategy"),
 					{strategy: this.sortingStrategy},
 					function (data, status) {
 				});
@@ -210,7 +238,7 @@
 
 				this.sortingStrategy = 'date';
 				document.getElementById('sortByAlphabet').checked = false;
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/setSortingStrategy"),
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/SortingStrategy"),
 					{strategy: this.sortingStrategy},
 					function (data, status) {
 				});
@@ -222,7 +250,7 @@
 			if (itemId === 'enableReverse') {
 				this.reverse(list);
 				var state = document.getElementById('enableReverse').checked;
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/setReverseList"),
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/ReverseList"),
 					{reverse: state},
 					function (data, status) {
 				});
@@ -233,7 +261,7 @@
 		/**
 		 * Sort initially as setup of sidebar for QuickAccess
 		 */
-		initialSort: function () {
+		setInitialQuickaccessSettings: function () {
 			var domRevState = document.getElementById('enableReverse').checked;
 			var domSortAlphabetState = document.getElementById('sortByAlphabet').checked;
 			var domSortDateState = document.getElementById('sortByDate').checked;
@@ -253,6 +281,17 @@
 			if (domRevState) {
 				this.reverse(list);
 			}
+
+			$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/showsettings"),
+				function (data, status) {
+					document.getElementById('showQuickAccessSortingToggle').checked=data;
+					if (data) {
+						document.getElementById("quickaccessbutton").style.display='';
+					} else {
+						document.getElementById("quickaccessbutton").style.display='none';
+					}
+				});
+
 		},
 
 		/**

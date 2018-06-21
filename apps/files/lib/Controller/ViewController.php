@@ -199,7 +199,7 @@ class ViewController extends Controller {
 				'quickaccessSortingStrategy' => $sorting,
 				'quickaccessSortingReverse' => $reverseListSetting,
 				'order' => 5,
-				'name' => $this->l10n->t('Favorites'),
+				'name' => $this->l10n->t('Favorites'.$reverseListSetting),
 				//If there are zero elements, add ul end tag directly.
 				'favoritescount' => $favoritesFolderCount
 			]

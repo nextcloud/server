@@ -331,4 +331,30 @@ class ApiController extends Controller {
 		return false;
 	}
 
+	/**
+	 * Set state for show sorting menu
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $show
+	 * @return Response
+	 */
+	public function setShowQuickaccessSettings($show) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_show_settings', (int) $show);
+		return new Response();
+	}
+	/**
+	 * Get state for show sorting menu
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return bool
+	 */
+	public function getShowQuickaccessSettings() {
+		if($this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_show_settings', false)){
+			return true;
+		}
+		return false;
+	}
+
 }
