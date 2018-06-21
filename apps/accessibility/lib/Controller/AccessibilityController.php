@@ -109,7 +109,6 @@ class AccessibilityController extends Controller {
 	 * @return DataDisplayResponse
 	 */
 	public function getCss(): DataDisplayResponse {
-
 		$css     = '';
 		$imports = '';
 

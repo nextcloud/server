@@ -26,6 +26,7 @@ namespace OCA\Accessibility\AppInfo;
 use OCP\AppFramework\App;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\IURLGenerator;
 
 class Application extends App {
 
@@ -38,17 +39,24 @@ class Application extends App {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	public function __construct() {
 		parent::__construct($this->appName);
-		$this->config      = \OC::$server->getConfig();
-		$this->userSession = \OC::$server->getUserSession();
+		$this->config       = \OC::$server->getConfig();
+		$this->userSession  = \OC::$server->getUserSession();
+		$this->urlGenerator = \OC::$server->getURLGenerator();
+	}
 
+	public function injectCss() {
 		// Inject the fake css on all pages if enabled and user is logged
 		$loggedUser = $this->userSession->getUser();
 		if (!is_null($loggedUser)) {
 			$userValues = $this->config->getUserKeys($loggedUser->getUID(), $this->appName);
-			if(count($userValues) > 0) {
-				\OCP\Util::addStyle($this->appName, 'user-' . md5(implode('-', $userValues)), true);
+			if (count($userValues) > 0) {
+				$linkToCSS = $this->urlGenerator->linkToRoute($this->appName . '.accessibility.getCss', ['md5' => md5(implode('-', $userValues))]);
+				\OCP\Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS]);
 			}
 		}
 	}

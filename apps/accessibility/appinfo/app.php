@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -22,3 +23,8 @@
  */
 
 $app = new \OCA\Accessibility\AppInfo\Application();
+
+// Separate from the constructor since the route are not initialized before that
+// 1. create the app
+// 2. generate css route and inject
+$app->injectCss();
