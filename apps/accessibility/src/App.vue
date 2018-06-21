@@ -79,17 +79,17 @@ export default {
 					this.serverData[type] = id;
 
 					// Remove old link
-					let oldLink = document.querySelector('link[rel=stylesheet][href*=accessibility][href*=user-]');
-					if (oldLink) {
-						oldLink.remove();
+					let link = document.querySelector('link[rel=stylesheet][href*=accessibility][href*=user-]');
+					if (!link) {
+						// insert new css
+						let link = document.createElement('link');
+						link.rel = 'stylesheet';
+						link.href = OC.generateUrl('/apps/accessibility/css/user-style.css');
+						document.head.appendChild(link)
+					} else {
+						// force update
+						link.href = link.href.split('?')[0] + '?v=' + new Date().getTime();
 					}
-					
-					// Insert new css
-					let link = document.createElement('link');
-					link.rel = 'stylesheet';
-					link.href = OC.generateUrl('/apps/accessibility/css/user-style.css');
-					link.href = link.href.split('?')[0] + '?v=' + new Date().getTime();
-					document.head.appendChild(link)
 				})
 				.catch(err => {
 					console.log(err, err.response);

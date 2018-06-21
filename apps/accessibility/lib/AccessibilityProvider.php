@@ -56,12 +56,12 @@ class AccessibilityProvider {
 	public function getThemes() {
 		return array(
 			[
-				'id'    => 'highcontrast',
+				'id'    => 'themehighcontrast',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-highcontrast.jpg'),
 				'title' => $this->l->t('High Contrast theme'),
 				'text'  => $this->l->t('A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased.')
 			], [
-				'id'    => 'dark',
+				'id'    => 'themedark',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-dark.jpg'),
 				'title' => $this->l->t('Dark theme'),
 				'text'  => $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness of your navigation. This is suitable for people who use computes a lot or in low luminosity spaces.')
@@ -72,10 +72,16 @@ class AccessibilityProvider {
 	public function getFonts() {
 		return array(
 			[
-				'id'    => 'dyslexic',
+				'id'    => 'fontdyslexic',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'font-opendyslexic.jpg'),
 				'title' => $this->l->t('Dyslexia font'),
 				'text'  => $this->l->t('OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license.')
+			],
+			[
+				'id'    => 'fonthighcontrast',
+				'img'   => $this->urlGenerator->imagePath($this->appName, 'font-highcontrast.jpg'),
+				'title' => $this->l->t('High Contrast font'),
+				'text'  => $this->l->t('Increase the weight of the font to improve the readability.')
 			]
 		);
 	}
