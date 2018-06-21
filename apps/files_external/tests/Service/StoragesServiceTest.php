@@ -134,6 +134,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		$sftpBackend = $this->getBackendMock('\OCA\Files_External\Lib\Backend\SFTP', '\OCA\Files_External\Lib\Storage\SFTP');
 		$backends = [
+			'identifier:\OCA\Files_External\Lib\Backend\DAV' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\DAV', '\OC\Files\Storage\DAV'),
 			'identifier:\OCA\Files_External\Lib\Backend\SMB' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\SMB', '\OCA\Files_External\Lib\Storage\SMB'),
 			'identifier:\OCA\Files_External\Lib\Backend\SFTP' => $sftpBackend,
 			'identifier:sftp_alias' => $sftpBackend,
@@ -269,25 +270,23 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			// regular case, can properly delete the oc_storages entry
 			[
 				[
-					'share' => 'share',
 					'host' => 'example.com',
 					'user' => 'test',
 					'password' => 'testPassword',
 					'root' => 'someroot',
 				],
-				'smb::test@example.com//share//someroot/',
+				'webdav::test@example.com//someroot/',
 				0
 			],
 			// special case with $user vars, cannot auto-remove the oc_storages entry
 			[
 				[
-					'share' => 'share',
 					'host' => 'example.com',
 					'user' => '$user',
 					'password' => 'testPassword',
 					'root' => 'someroot',
 				],
-				'smb::someone@example.com//share//someroot/',
+				'webdav::someone@example.com//someroot/',
 				1
 			],
 		];
@@ -297,7 +296,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 * @dataProvider deleteStorageDataProvider
 	 */
 	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
-		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
+		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\DAV');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$storage = new StorageConfig(255);
 		$storage->setMountPoint('mountpoint');
