@@ -226,6 +226,7 @@
 				});
 
 				this.QuickSort(list, 0, list.length - 1);
+				if (document.getElementById('enableReverse').checked) {this.reverse(list);}
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 
@@ -244,6 +245,7 @@
 				});
 
 				this.QuickSort(list, 0, list.length - 1);
+				if (document.getElementById('enableReverse').checked) {this.reverse(list);}
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 
