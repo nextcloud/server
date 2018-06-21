@@ -10,6 +10,7 @@
     <author>John Molakvoæ</author>
     <namespace>Accessibility</namespace>
     <category>accessibility</category>
+    <default_enable/>
     <dependencies>
         <nextcloud min-version="14" max-version="14"/>
     </dependencies>
