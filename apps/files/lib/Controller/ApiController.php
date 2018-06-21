@@ -11,7 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <pvince81@owncloud.com>
- *
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

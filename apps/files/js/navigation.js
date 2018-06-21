@@ -1,10 +1,9 @@
 /*
- * Copyright (c) 2014
+ * @Copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Vincent Petry
- * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
  *
- * Edited by: Felix Nüsse <felix.nuesse@t-online.de> 2018
  *
  * This file is licensed under the Affero General Public License version 3
  * or later.
