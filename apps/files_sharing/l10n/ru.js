@@ -60,6 +60,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} предоставил(а) пользователю {user} общий доступ к «{file}»",
     "{actor} removed {user} from {file}" : "{actor} закрыл(а) пользователю {user} общий доступ к «{file}»",
     "{actor} shared {file} with you" : "{actor} предоставил(а) вам общий доступ к «{file}»",
+    "{actor} removed you from the share named {file}" : "{actor} закрыл(а) вам общий доступ к общим именам «{file}»",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Файл или папка, которыми поделились по электронной почте или общедоступной ссылке, были <strong>скачаны</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Общий доступ к файлу или каталогу был открыт <strong>с другого сервера</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Опубликован</strong> файл или каталог",
