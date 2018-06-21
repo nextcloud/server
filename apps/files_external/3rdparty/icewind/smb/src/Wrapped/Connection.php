@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Wrapped;
 
 use Icewind\SMB\Exception\AuthenticationException;
 use Icewind\SMB\Exception\ConnectException;

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Native;
 
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\InvalidRequestException;
@@ -18,7 +18,7 @@ class NativeStream implements File {
 	public $context;
 
 	/**
-	 * @var \Icewind\SMB\NativeState
+	 * @var NativeState
 	 */
 	protected $state;
 
@@ -47,7 +47,7 @@ class NativeStream implements File {
 	 * @return resource
 	 */
 	public static function wrap($state, $smbStream, $mode, $url) {
-		stream_wrapper_register('nativesmb', '\Icewind\SMB\NativeStream');
+		stream_wrapper_register('nativesmb', NativeStream::class);
 		$context = stream_context_create(array(
 			'nativesmb' => array(
 				'state'  => $state,

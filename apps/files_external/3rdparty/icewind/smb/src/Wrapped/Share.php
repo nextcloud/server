@@ -5,18 +5,23 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Wrapped;
 
+use Icewind\SMB\AbstractShare;
 use Icewind\SMB\Exception\ConnectionException;
 use Icewind\SMB\Exception\DependencyException;
 use Icewind\SMB\Exception\FileInUseException;
 use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\INotifyHandler;
+use Icewind\SMB\IServer;
+use Icewind\SMB\System;
+use Icewind\SMB\TimeZoneProvider;
 use Icewind\Streams\CallbackWrapper;
 
 class Share extends AbstractShare {
 	/**
-	 * @var Server $server
+	 * @var IServer $server
 	 */
 	private $server;
 
@@ -31,21 +36,28 @@ class Share extends AbstractShare {
 	public $connection;
 
 	/**
-	 * @var \Icewind\SMB\Parser
+	 * @var Parser
 	 */
 	protected $parser;
 
 	/**
-	 * @var \Icewind\SMB\System
+	 * @var System
 	 */
 	private $system;
 
+	const MODE_MAP = [
+		FileInfo::MODE_READONLY => 'r',
+		FileInfo::MODE_HIDDEN   => 'h',
+		FileInfo::MODE_ARCHIVE  => 'a',
+		FileInfo::MODE_SYSTEM   => 's'
+	];
+
 	/**
-	 * @param Server $server
+	 * @param IServer $server
 	 * @param string $name
 	 * @param System $system
 	 */
-	public function __construct($server, $name, System $system = null) {
+	public function __construct(IServer $server, $name, System $system = null) {
 		parent::__construct();
 		$this->server = $server;
 		$this->name = $name;
@@ -53,21 +65,24 @@ class Share extends AbstractShare {
 		$this->parser = new Parser(new TimeZoneProvider($this->server->getHost(), $this->system));
 	}
 
-	protected function getConnection() {
-		$workgroupArgument = ($this->server->getWorkgroup()) ? ' -W ' . escapeshellarg($this->server->getWorkgroup()) : '';
-		$smbClientPath = $this->system->getSmbclientPath();
-		if (!$smbClientPath) {
-			throw new DependencyException('Can\'t find smbclient binary in path');
+	private function getAuthFileArgument() {
+		if ($this->server->getAuth()->getUsername()) {
+			return '--authentication-file=' . System::getFD(3);
+		} else {
+			return '';
 		}
-		$command = sprintf('%s%s %s --authentication-file=%s %s',
+	}
+
+	protected function getConnection() {
+		$command = sprintf('%s%s %s %s %s',
 			$this->system->hasStdBuf() ? 'stdbuf -o0 ' : '',
 			$this->system->getSmbclientPath(),
-			$workgroupArgument,
-			System::getFD(3),
+			$this->getAuthFileArgument(),
+			$this->server->getAuth()->getExtraCommandLineArguments(),
 			escapeshellarg('//' . $this->server->getHost() . '/' . $this->name)
 		);
 		$connection = new Connection($command, $this->parser);
-		$connection->writeAuthentication($this->server->getUser(), $this->server->getPassword());
+		$connection->writeAuthentication($this->server->getAuth()->getUsername(), $this->server->getAuth()->getPassword());
 		$connection->connect();
 		if (!$connection->isValid()) {
 			throw new ConnectionException($connection->readLine());
@@ -319,13 +334,7 @@ class Share extends AbstractShare {
 	 */
 	public function setMode($path, $mode) {
 		$modeString = '';
-		$modeMap = array(
-			FileInfo::MODE_READONLY => 'r',
-			FileInfo::MODE_HIDDEN   => 'h',
-			FileInfo::MODE_ARCHIVE  => 'a',
-			FileInfo::MODE_SYSTEM   => 's'
-		);
-		foreach ($modeMap as $modeByte => $string) {
+		foreach (self::MODE_MAP as $modeByte => $string) {
 			if ($mode & $modeByte) {
 				$modeString .= $string;
 			}

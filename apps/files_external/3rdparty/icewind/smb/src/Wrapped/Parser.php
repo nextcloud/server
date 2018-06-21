@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Wrapped;
 
 use Icewind\SMB\Exception\AccessDeniedException;
 use Icewind\SMB\Exception\AlreadyExistsException;
@@ -13,11 +13,13 @@ use Icewind\SMB\Exception\AuthenticationException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\FileInUseException;
 use Icewind\SMB\Exception\InvalidHostException;
+use Icewind\SMB\Exception\InvalidParameterException;
 use Icewind\SMB\Exception\InvalidResourceException;
 use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NoLoginServerException;
 use Icewind\SMB\Exception\NotEmptyException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\TimeZoneProvider;
 
 class Parser {
 	const MSG_NOT_FOUND = 'Error opening local file ';
@@ -29,22 +31,31 @@ class Parser {
 
 	// todo replace with static once <5.6 support is dropped
 	// see error.h
-	private static $exceptionMap = [
-		ErrorCodes::LogonFailure      => '\Icewind\SMB\Exception\AuthenticationException',
-		ErrorCodes::PathNotFound      => '\Icewind\SMB\Exception\NotFoundException',
-		ErrorCodes::ObjectNotFound    => '\Icewind\SMB\Exception\NotFoundException',
-		ErrorCodes::NoSuchFile        => '\Icewind\SMB\Exception\NotFoundException',
-		ErrorCodes::NameCollision     => '\Icewind\SMB\Exception\AlreadyExistsException',
-		ErrorCodes::AccessDenied      => '\Icewind\SMB\Exception\AccessDeniedException',
-		ErrorCodes::DirectoryNotEmpty => '\Icewind\SMB\Exception\NotEmptyException',
-		ErrorCodes::FileIsADirectory  => '\Icewind\SMB\Exception\InvalidTypeException',
-		ErrorCodes::NotADirectory     => '\Icewind\SMB\Exception\InvalidTypeException',
-		ErrorCodes::SharingViolation  => '\Icewind\SMB\Exception\FileInUseException',
-		ErrorCodes::InvalidParameter  => '\Icewind\SMB\Exception\InvalidParameterException'
+	const EXCEPTION_MAP = [
+		ErrorCodes::LogonFailure      => AuthenticationException::class,
+		ErrorCodes::PathNotFound      => NotFoundException::class,
+		ErrorCodes::ObjectNotFound    => NotFoundException::class,
+		ErrorCodes::NoSuchFile        => NotFoundException::class,
+		ErrorCodes::NameCollision     => AlreadyExistsException::class,
+		ErrorCodes::AccessDenied      => AccessDeniedException::class,
+		ErrorCodes::DirectoryNotEmpty => NotEmptyException::class,
+		ErrorCodes::FileIsADirectory  => InvalidTypeException::class,
+		ErrorCodes::NotADirectory     => InvalidTypeException::class,
+		ErrorCodes::SharingViolation  => FileInUseException::class,
+		ErrorCodes::InvalidParameter  => InvalidParameterException::class
+	];
+
+	const MODE_STRINGS = [
+		'R' => FileInfo::MODE_READONLY,
+		'H' => FileInfo::MODE_HIDDEN,
+		'S' => FileInfo::MODE_SYSTEM,
+		'D' => FileInfo::MODE_DIRECTORY,
+		'A' => FileInfo::MODE_ARCHIVE,
+		'N' => FileInfo::MODE_NORMAL
 	];
 
 	/**
-	 * @param \Icewind\SMB\TimeZoneProvider $timeZoneProvider
+	 * @param TimeZoneProvider $timeZoneProvider
 	 */
 	public function __construct(TimeZoneProvider $timeZoneProvider) {
 		$this->timeZoneProvider = $timeZoneProvider;
@@ -71,7 +82,7 @@ class Parser {
 			throw new InvalidResourceException('Failed opening local file "' . $localPath . '" for writing');
 		}
 
-		throw Exception::fromMap(self::$exceptionMap, $error, $path);
+		throw Exception::fromMap(self::EXCEPTION_MAP, $error, $path);
 	}
 
 	/**
@@ -107,15 +118,7 @@ class Parser {
 
 	public function parseMode($mode) {
 		$result = 0;
-		$modeStrings = array(
-			'R' => FileInfo::MODE_READONLY,
-			'H' => FileInfo::MODE_HIDDEN,
-			'S' => FileInfo::MODE_SYSTEM,
-			'D' => FileInfo::MODE_DIRECTORY,
-			'A' => FileInfo::MODE_ARCHIVE,
-			'N' => FileInfo::MODE_NORMAL
-		);
-		foreach ($modeStrings as $char => $val) {
+		foreach (self::MODE_STRINGS as $char => $val) {
 			if (strpos($mode, $char) !== false) {
 				$result |= $val;
 			}
@@ -168,6 +171,10 @@ class Parser {
 				if (strtolower($type) === 'disk') {
 					$shareNames[$name] = $description;
 				}
+			} else if (strpos($line, 'Disk')) {
+				// new output format
+				list($name, $description) = explode('Disk', $line);
+				$shareNames[trim($name)] = trim($description);
 			}
 		}
 		return $shareNames;

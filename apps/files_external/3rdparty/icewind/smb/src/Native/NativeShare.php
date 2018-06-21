@@ -5,14 +5,20 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Native;
 
+use Icewind\SMB\AbstractShare;
+use Icewind\SMB\Exception\DependencyException;
 use Icewind\SMB\Exception\InvalidPathException;
 use Icewind\SMB\Exception\InvalidResourceException;
+use Icewind\SMB\INotifyHandler;
+use Icewind\SMB\IServer;
+use Icewind\SMB\Wrapped\Server;
+use Icewind\SMB\Wrapped\Share;
 
 class NativeShare extends AbstractShare {
 	/**
-	 * @var Server $server
+	 * @var IServer $server
 	 */
 	private $server;
 
@@ -22,12 +28,12 @@ class NativeShare extends AbstractShare {
 	private $name;
 
 	/**
-	 * @var \Icewind\SMB\NativeState $state
+	 * @var NativeState $state
 	 */
 	private $state;
 
 	/**
-	 * @param Server $server
+	 * @param IServer $server
 	 * @param string $name
 	 */
 	public function __construct($server, $name) {
@@ -47,7 +53,7 @@ class NativeShare extends AbstractShare {
 		}
 
 		$this->state = new NativeState();
-		$this->state->init($this->server->getWorkgroup(), $this->server->getUser(), $this->server->getPassword());
+		$this->state->init($this->server->getAuth());
 		return $this->state;
 	}
 
@@ -295,6 +301,9 @@ class NativeShare extends AbstractShare {
 	public function notify($path) {
 		// php-smbclient does support notify (https://github.com/eduardok/libsmbclient-php/issues/29)
 		// so we use the smbclient based backend for this
+		if (!Server::available($this->server->getSystem())) {
+			throw new DependencyException('smbclient not found in path for notify command');
+		}
 		$share = new Share($this->server, $this->getName());
 		return $share->notify($path);
 	}

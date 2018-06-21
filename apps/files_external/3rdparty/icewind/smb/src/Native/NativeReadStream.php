@@ -5,24 +5,24 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Native;
 
 /**
- * Stream optimized for write only usage
+ * Stream optimized for read only usage
  */
-class NativeWriteStream extends NativeStream {
+class NativeReadStream extends NativeStream {
 	const CHUNK_SIZE = 1048576; // 1MB chunks
 	/**
 	 * @var resource
 	 */
-	private $writeBuffer = null;
+	private $readBuffer = null;
 
 	private $bufferSize = 0;
 
 	private $pos = 0;
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
-		$this->writeBuffer = fopen('php://memory', 'r+');
+		$this->readBuffer = fopen('php://memory', 'r+');
 
 		return parent::stream_open($path, $mode, $options, $opened_path);
 
@@ -38,7 +38,7 @@ class NativeWriteStream extends NativeStream {
 	 * @return resource
 	 */
 	public static function wrap($state, $smbStream, $mode, $url) {
-		stream_wrapper_register('nativesmb', '\Icewind\SMB\NativeWriteStream');
+		stream_wrapper_register('nativesmb', NativeReadStream::class);
 		$context = stream_context_create(array(
 			'nativesmb' => array(
 				'state'  => $state,
@@ -51,50 +51,51 @@ class NativeWriteStream extends NativeStream {
 		return $fh;
 	}
 
+	public function stream_read($count) {
+		// php reads 8192 bytes at once
+		// however due to network latency etc, it's faster to read in larger chunks
+		// and buffer the result
+		if (!parent::stream_eof() && $this->bufferSize < $count) {
+			$remaining = $this->readBuffer;
+			$this->readBuffer = fopen('php://memory', 'r+');
+			$this->bufferSize = 0;
+			stream_copy_to_stream($remaining, $this->readBuffer);
+			$this->bufferSize += fwrite($this->readBuffer, parent::stream_read(self::CHUNK_SIZE));
+			fseek($this->readBuffer, 0);
+		}
+
+		$result = fread($this->readBuffer, $count);
+		$this->bufferSize -= $count;
+
+		$read = strlen($result);
+		$this->pos += $read;
+
+		return $result;
+	}
+
 	public function stream_seek($offset, $whence = SEEK_SET) {
-		$this->flushWrite();
 		$result = parent::stream_seek($offset, $whence);
 		if ($result) {
+			$this->readBuffer = fopen('php://memory', 'r+');
+			$this->bufferSize = 0;
 			$this->pos = parent::stream_tell();
 		}
 		return $result;
 	}
 
-	private function flushWrite() {
-		rewind($this->writeBuffer);
-		$this->state->write($this->handle, stream_get_contents($this->writeBuffer));
-		$this->writeBuffer = fopen('php://memory', 'r+');
-		$this->bufferSize = 0;
-	}
-
-	public function stream_write($data) {
-		$written = fwrite($this->writeBuffer, $data);
-		$this->bufferSize += $written;
-		$this->pos += $written;
-
-		if ($this->bufferSize >= self::CHUNK_SIZE) {
-			$this->flushWrite();
-		}
-
-		return $written;
-	}
-
-	public function stream_close() {
-		$this->flushWrite();
-		return parent::stream_close();
+	public function stream_eof() {
+		return $this->bufferSize <= 0 && parent::stream_eof();
 	}
 
 	public function stream_tell() {
 		return $this->pos;
 	}
 
-	public function stream_read($count) {
+	public function stream_write($data) {
 		return false;
 	}
 
 	public function stream_truncate($size) {
-		$this->flushWrite();
-		$this->pos = $size;
-		return parent::stream_truncate($size);
+		return false;
 	}
 }

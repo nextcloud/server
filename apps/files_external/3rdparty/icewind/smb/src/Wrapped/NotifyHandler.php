@@ -6,10 +6,13 @@
  *
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Wrapped;
 
 
+use Icewind\SMB\Change;
 use Icewind\SMB\Exception\Exception;
+use Icewind\SMB\Exception\RevisionMismatchException;
+use Icewind\SMB\INotifyHandler;
 
 class NotifyHandler implements INotifyHandler {
 	/**
@@ -24,10 +27,9 @@ class NotifyHandler implements INotifyHandler {
 
 	private $listening = true;
 
-	// todo replace with static once <5.6 support is dropped
 	// see error.h
-	private static $exceptionMap = [
-		ErrorCodes::RevisionMismatch => '\Icewind\SMB\Exception\RevisionMismatchException',
+	const EXCEPTION_MAP = [
+		ErrorCodes::RevisionMismatch => RevisionMismatchException::class,
 	];
 
 	/**
@@ -93,7 +95,7 @@ class NotifyHandler implements INotifyHandler {
 	private function checkForError($line) {
 		if (substr($line, 0, 16) === 'notify returned ') {
 			$error = substr($line, 16);
-			throw Exception::fromMap(self::$exceptionMap, $error, 'Notify is not supported with the used smb version');
+			throw Exception::fromMap(array_merge(self::EXCEPTION_MAP, Parser::EXCEPTION_MAP), $error, 'Notify is not supported with the used smb version');
 		}
 	}
 

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Wrapped;
 
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\ConnectionException;
@@ -49,6 +49,9 @@ class RawConnection {
 		$this->env = $env;
 	}
 
+	/**
+	 * @throws ConnectException
+	 */
 	public function connect() {
 		if (is_null($this->getAuthStream())) {
 			throw new ConnectException('Authentication not set before connecting');
@@ -125,7 +128,7 @@ class RawConnection {
 	 * @return array
 	 */
 	public function readAll() {
-		$output = array();
+		$output = [];
 		while ($line = $this->readLine()) {
 			$output[] = $line;
 		}

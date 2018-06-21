@@ -5,26 +5,32 @@
  * http://opensource.org/licenses/MIT
  */
 
-namespace Icewind\SMB;
+namespace Icewind\SMB\Native;
 
-class NativeServer extends Server {
+use Icewind\SMB\AbstractServer;
+use Icewind\SMB\IAuth;
+use Icewind\SMB\System;
+use Icewind\SMB\TimeZoneProvider;
+
+class NativeServer extends AbstractServer {
 	/**
-	 * @var \Icewind\SMB\NativeState
+	 * @var NativeState
 	 */
 	protected $state;
 
 	/**
 	 * @param string $host
-	 * @param string $user
-	 * @param string $password
+	 * @param IAuth $auth
+	 * @param System $system
+	 * @param TimeZoneProvider $timeZoneProvider
 	 */
-	public function __construct($host, $user, $password) {
-		parent::__construct($host, $user, $password);
+	public function __construct($host, IAuth $auth, System $system, TimeZoneProvider $timeZoneProvider) {
+		parent::__construct($host, $auth, $system, $timeZoneProvider);
 		$this->state = new NativeState();
 	}
 
 	protected function connect() {
-		$this->state->init($this->getWorkgroup(), $this->getUser(), $this->getPassword());
+		$this->state->init($this->getAuth());
 	}
 
 	/**
@@ -51,5 +57,15 @@ class NativeServer extends Server {
 	 */
 	public function getShare($name) {
 		return new NativeShare($this, $name);
+	}
+
+	/**
+	 * Check if the smbclient php extension is available
+	 *
+	 * @param System $system
+	 * @return bool
+	 */
+	public static function available(System $system) {
+		return function_exists('smbclient_state_new');
 	}
 }
