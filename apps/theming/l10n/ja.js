@@ -1,7 +1,7 @@
 OC.L10N.register(
     "theming",
     {
-    "Loading preview…" : "プレビューを読込み中...",
+    "Loading preview…" : "プレビューを読み込み中...",
     "Saved" : "保存済み",
     "Admin" : "管理者",
     "a safe home for all your data" : "あなたのデータを安全に保管するプラットフォーム",

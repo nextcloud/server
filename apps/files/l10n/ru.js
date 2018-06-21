@@ -22,6 +22,7 @@ OC.L10N.register(
     "Uploading …" : "Загрузка…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} из {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "Загрузка этого элемента не поддерживается",
     "Target folder does not exist any more" : "Каталог больше не существует",
     "Error when assembling chunks, status code {status}" : "Ошибка при сборке чанков, код ошибки {status}",
     "Actions" : "Действия",
