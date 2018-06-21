@@ -92,14 +92,18 @@ class Database extends ABackend
 	/** @var IDBConnection */
 	private $dbConn;
 
+	/** @var string */
+	private $table;
+
 	/**
 	 * \OC\User\Database constructor.
 	 *
 	 * @param EventDispatcher $eventDispatcher
 	 * @param string $table
 	 */
-	public function __construct($eventDispatcher = null) {
+	public function __construct($eventDispatcher = null, $table = 'users') {
 		$this->cache = new CappedMemoryCache();
+		$this->table = $table;
 		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->getEventDispatcher();
 	}
 
@@ -130,7 +134,7 @@ class Database extends ABackend
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 
 			$qb = $this->dbConn->getQueryBuilder();
-			$qb->insert('users')
+			$qb->insert($this->table)
 				->values([
 					'uid' => $qb->createNamedParameter($uid),
 					'password' => $qb->createNamedParameter(\OC::$server->getHasher()->hash($password)),
@@ -161,7 +165,7 @@ class Database extends ABackend
 
 		// Delete user-group-relation
 		$query = $this->dbConn->getQueryBuilder();
-		$query->delete('users')
+		$query->delete($this->table)
 			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
 		$result = $query->execute();
 
@@ -192,7 +196,7 @@ class Database extends ABackend
 			$hashedPassword = $hasher->hash($password);
 
 			$query = $this->dbConn->getQueryBuilder();
-			$query->update('users')
+			$query->update($this->table)
 				->set('password', $query->createNamedParameter($hashedPassword))
 				->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
 			$result = $query->execute();
@@ -217,7 +221,7 @@ class Database extends ABackend
 
 		if ($this->userExists($uid)) {
 			$query = $this->dbConn->getQueryBuilder();
-			$query->update('users')
+			$query->update($this->table)
 				->set('displayname', $query->createNamedParameter($displayName))
 				->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
 			$query->execute();
@@ -256,7 +260,7 @@ class Database extends ABackend
 		$query = $this->dbConn->getQueryBuilder();
 
 		$query->select('uid', 'displayname')
-			->from('users', 'u')
+			->from($this->table, 'u')
 			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
 				$query->expr()->eq('userid', 'uid'),
 				$query->expr()->eq('appid', $query->expr()->literal('settings')),
@@ -295,7 +299,7 @@ class Database extends ABackend
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('uid', 'password')
-			->from('users')
+			->from($this->table)
 			->where(
 				$qb->expr()->eq(
 					'uid_lower', $qb->createNamedParameter(mb_strtolower($uid))
@@ -339,7 +343,7 @@ class Database extends ABackend
 
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->select('uid', 'displayname')
-				->from('users')
+				->from($this->table)
 				->where(
 					$qb->expr()->eq(
 						'uid_lower', $qb->createNamedParameter(mb_strtolower($uid))
@@ -422,7 +426,7 @@ class Database extends ABackend
 
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select($query->func()->count('uid'))
-			->from('users');
+			->from($this->table);
 		$result = $query->execute();
 
 		return $result->fetchColumn();
