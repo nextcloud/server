@@ -160,9 +160,9 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 fi
 
 # Due to a bug in the Mink Extension for Behat it is not possible to use the
-# "paths.base" parameter in the path to the custom Firefox profile. Thus, the
+# "paths.base" variable in the path to the custom Firefox profile. Thus, the
 # default "behat.yml" configuration file has to be adjusted to replace the
-# parameter by its value before the configuration file is parsed by Behat.
+# variable by its value before the configuration file is parsed by Behat.
 ORIGINAL="profile: %paths.base%"
 REPLACEMENT="profile: $ACCEPTANCE_TESTS_CONFIG_DIR"
 # As the substitution does not involve regular expressions or multilines it can
