@@ -18,6 +18,7 @@ $color-border: lighten($color-main-background, 7%);
 $color-border-dark: lighten($color-main-background, 14%);
 
 #app-navigation > ul > li > a:first-child img,
-#app-navigation > ul > li > ul > li > a:first-child img {
+#app-navigation > ul > li > ul > li > a:first-child img,
+#expanddiv a img {
 	filter: invert(100%);
 }
