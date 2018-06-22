@@ -40,4 +40,9 @@ $color-border-dark: lighten($color-main-background, 14%);
 .federation-menu .icon-federation-menu {
 	filter: invert(100%);
 }
-
+.bubble,
+.app-navigation-entry-menu,
+.popovermenu,
+#header .menu {
+	border: 1px solid var(--color-border);
+}
