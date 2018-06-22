@@ -265,6 +265,22 @@
 		 * Sort initially as setup of sidebar for QuickAccess
 		 */
 		setInitialQuickaccessSettings: function () {
+
+			$( function() {
+				$( "#quickaccess-list" ).sortable({
+					start: function(event, ui) {
+						var start_pos = ui.item.index();
+						ui.item.data('start_pos', start_pos);
+					},
+					change: function(event, ui) {
+
+					},
+					update: function(event, ui) {
+						alert(ui.item.data('start_pos', start_pos).attr('data-id')+" at "+start_pos);
+					}
+				});
+			} );
+
 			var domRevState = document.getElementById('enableReverse').checked;
 			var domSortAlphabetState = document.getElementById('sortByAlphabet').checked;
 			var domSortDateState = document.getElementById('sortByDate').checked;

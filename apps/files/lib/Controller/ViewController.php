@@ -225,6 +225,7 @@ class ViewController extends Controller {
 							'order' => $navBarPositionPosition,
 							'folderPosition' => $sortingValue,
 							'name' => $id,
+							'classes' => 'draggable',
 							'icon' => 'files',
 							'quickaccesselement' => 'true'
 						]
@@ -237,6 +238,7 @@ class ViewController extends Controller {
 							'order' => $navBarPositionPosition,
 							'folderPosition' => $sortingValue,
 							'name' => $id,
+							'classes' => 'draggable',
 							'icon' => 'files',
 							'quickaccesselement' => 'last'
 						]

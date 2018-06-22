@@ -6,9 +6,9 @@
 			strpos($item['classes'], 'pinned')!==false ? $pinned++ : '';
 			?>
 
-			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?>"
+			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?> "
 				class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?> <?php if ($item['enableQuickaccess'] === 'true') { ?> open<?php } ?>"
-				<?php if (isset($item['folderPosition'])){ ?> folderPos="<?php p($item['folderPosition']);?>"<?php } ?>
+				<?php if (isset($item['folderPosition'])){ ?> folderPos="<?php p($item['folderPosition']);?>" draggable="true"<?php } ?>
 				<?php if ($item['id'] === 'favorites'){?>id="favorites-toggle"<?php } ?>>
 
 				<?php if ($item['id'] ===  'favorites'){?>
