@@ -147,7 +147,7 @@ class AccessibilityController extends Controller {
 
 		// Rebase all urls
 		$appWebRoot = substr($this->appRoot, strlen($this->serverRoot) - strlen(\OC::$WEBROOT));
-		$css = $this->rebaseUrls($css, $appWebRoot);
+		$css = $this->rebaseUrls($css, $appWebRoot . '/css');
 
 		$response = new DataDisplayResponse($css, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 

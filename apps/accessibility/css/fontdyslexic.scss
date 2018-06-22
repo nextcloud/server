@@ -8,6 +8,13 @@
 @font-face {
 	font-family: 'OpenDyslexic';
 	font-style: normal;
+	font-weight: normal;
+	src: url('../fonts/OpenDyslexic-Regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'OpenDyslexic';
+	font-style: normal;
 	font-weight: 600;
 	src: url('../fonts/OpenDyslexic-Bold.woff') format('woff');
 }
