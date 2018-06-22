@@ -109,8 +109,8 @@ class AccessibilityController extends Controller {
 	 * @return DataDisplayResponse
 	 */
 	public function getCss(): DataDisplayResponse {
-		$css     = '';
-		$imports = '';
+		$css        = '';
+		$imports    = '';
 		$userValues = $this->getUserValues();
 
 		foreach ($userValues as $key => $scssFile) {
@@ -145,15 +145,9 @@ class AccessibilityController extends Controller {
 		// We don't want to override vars with url since path is different
 		$css = $this->filterOutRule('/--[a-z-:]+url\([^;]+\)/mi', $css);
 
-		// Calculate exact absolute path to file
-		$path = $this->urlGenerator->linkToRoute($this->appName . '.accessibility.getCss', ['md5' => md5(implode('-', $userValues))]);
-		$path = explode('/', $this->serverRoot . $path);
-		array_pop($path);
-		$path = implode('/', $path);
-		$webDir = $this->getWebDir($path, $this->appName, $this->serverRoot, \OC::$WEBROOT);
-
 		// Rebase all urls
-		$css = $this->rebaseUrls($css, $webDir);
+		$appWebRoot = substr($this->appRoot, strlen($this->serverRoot) - strlen(\OC::$WEBROOT));
+		$css = $this->rebaseUrls($css, $appWebRoot);
 
 		$response = new DataDisplayResponse($css, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 
@@ -205,24 +199,4 @@ class AccessibilityController extends Controller {
 
 		return preg_replace($re, $subst, $css);
 	}
-
-	/**
-	 * Get WebDir root
-	 * @param string $path the css file path
-	 * @param string $appName the app name
-	 * @param string $serverRoot the server root path
-	 * @param string $webRoot the nextcloud installation root path
-	 * @return string the webDir
-	 */
-	private function getWebDir(string $path, string $appName, string $serverRoot, string $webRoot): string {
-		// Detect if path is within server root AND if path is within an app path
-		if ( strpos($path, $serverRoot) === false && $appWebPath = \OC_App::getAppWebPath($appName)) {
-			// Get the file path within the app directory
-			$appDirectoryPath = explode($appName, $path)[1];
-			// Remove the webroot
-			return str_replace($webRoot, '', $appWebPath.$appDirectoryPath);
-		}
-		return $webRoot.substr($path, strlen($serverRoot));
-	}
-
 }
