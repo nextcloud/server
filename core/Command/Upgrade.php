@@ -193,7 +193,7 @@ class Upgrade extends Command {
 				$output->writeln('<info>Maintenance mode is kept active</info>');
 			});
 			$updater->listen('\OC\Updater', 'waitForCronToFinish', function () use($output) {
-				$output->writeln('<info>Waiting for cron to finish (checks again in 5 seconds)...</info>');
+				$output->writeln('<info>Waiting for cron to finish (checks again in 5 seconds) …</info>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use($output, $self) {
