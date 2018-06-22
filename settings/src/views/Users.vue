@@ -251,8 +251,6 @@ export default {
 			let groups = this.$store.getters.getGroups;
 			groups = Array.isArray(groups) ? groups : [];
 
-			console.log(groups);
-
 			// Map groups
 			groups = groups.map(group => {
 				let item = {};
