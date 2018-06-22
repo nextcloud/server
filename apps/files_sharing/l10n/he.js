@@ -46,9 +46,6 @@ OC.L10N.register(
     "Download" : "הורדה",
     "Direct link" : "קישור ישיר",
     "Share API is disabled" : "שיתוף API מנוטרל",
-    "This share is password-protected" : "שיתוף זה מוגן סיסמא",
-    "The password is wrong. Try again." : "הסיסמא שגויה. יש לנסות שנית.",
-    "Password" : "סיסמא",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Name" : "שם",
     "Share time" : "זמן שיתוף",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "the link expired" : "הקישור פג תוקף",
     "sharing is disabled" : "השיתוף נוטרל",
     "For more info, please ask the person who sent this link." : "למידע נוסף, יש לפנות לשולח קישור זה.",
-    "Download %s" : "הורדה %s"
+    "Download %s" : "הורדה %s",
+    "This share is password-protected" : "שיתוף זה מוגן סיסמא",
+    "The password is wrong. Try again." : "הסיסמא שגויה. יש לנסות שנית.",
+    "Password" : "סיסמא"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

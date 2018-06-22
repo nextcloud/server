@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Afegeix al teu NextCloud",
     "Share API is disabled" : "L'API compartida està desactivada",
     "File sharing" : "Compartir arxius",
-    "This share is password-protected" : "Aquest compartit està protegit amb contrasenya",
-    "The password is wrong. Try again." : "la contrasenya és incorrecta. Intenteu-ho de nou.",
-    "Password" : "Contrasenya",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
     "Name" : "Nom",
     "Share time" : "Temps de compartició",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "Pujant arxius...",
     "Uploaded files:" : "Arxius pujats:",
     "{actor} removed you from {file}" : "{actor} t'ha eliminat de {file}",
-    "%s is publicly shared" : "%s està compartit de forma pública"
+    "%s is publicly shared" : "%s està compartit de forma pública",
+    "This share is password-protected" : "Aquest compartit està protegit amb contrasenya",
+    "The password is wrong. Try again." : "la contrasenya és incorrecta. Intenteu-ho de nou.",
+    "Password" : "Contrasenya"
 },
 "nplurals=2; plural=(n != 1);");

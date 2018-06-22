@@ -126,7 +126,6 @@ OC.L10N.register(
     "Advanced settings" : "Напредне поставке",
     "Delete" : "Обриши",
     "Allow users to mount external storage" : "Дозволи корисницима да монтирају спољашња складишта",
-    "Allow users to mount the following external storage" : "Дозволи корисницима да монтирају следећа спољашња складишта",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Дохватање токена за захтеве није успело. Проверите да ли су апликативни кључ и тајна исправни.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Дохватање токена за приступ није успело. Проверите да ли су апликативни кључ и тајна исправни.",
     "Step 1 failed. Exception: %s" : "Корак 1 није успео. Грешка: %s",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Нема подешеног спољашњег складишта",
     "You can add external storages in the personal settings" : "Можете додати спољашња складишта у вашим личним подешавањима",
+    "Allow users to mount the following external storage" : "Дозволи корисницима да монтирају следећа спољашња складишта",
     "Are you sure you want to delete this external storage" : "Да ли стварно желите да обришете ово спољашње складиште?"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -123,7 +123,6 @@ OC.L10N.register(
     "Advanced settings" : "הגדרות מתקדמות",
     "Delete" : "מחיקה",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
-    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "קבלת אסימוני בקשה נכשלה. נא לוודא שהמפתח והסוד של היישומון שלך נכונים.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "קבלת אסימוני גישה נכשלה. נא לוודא שהמפתח והסוד של היישומון שלך נכונים.",
     "Step 1 failed. Exception: %s" : "שלב 1 נכשל: חריגה: %s",
@@ -135,6 +134,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "לא מוגדר אחסון חיצוני",
     "You can add external storages in the personal settings" : "ניתן להוסיף אחסונים חיצוניים בהגדרות האישיות",
+    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא",
     "Are you sure you want to delete this external storage" : "למחוק את התקן האחסון החיצוני הזה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

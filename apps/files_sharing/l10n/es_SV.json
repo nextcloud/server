@@ -90,9 +90,6 @@
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "File sharing" : "Compartir archivos",
-    "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
-    "The password is wrong. Try again." : "La contraseña es incorrecta. Por favor inténtalo de nuevo.",
-    "Password" : "Contraseña",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Name" : "Nombre",
     "Share time" : "Compartido desde",
@@ -109,6 +106,9 @@
     "Uploading files…" : "Cargando archivos...",
     "Uploaded files:" : "Archivos cargados:",
     "{actor} removed you from {file}" : "{actor} lo eliminó de {file}",
-    "%s is publicly shared" : "%s está compartido públicamente"
+    "%s is publicly shared" : "%s está compartido públicamente",
+    "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
+    "The password is wrong. Try again." : "La contraseña es incorrecta. Por favor inténtalo de nuevo.",
+    "Password" : "Contraseña"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

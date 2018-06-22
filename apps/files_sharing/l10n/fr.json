@@ -91,9 +91,6 @@
     "Share API is disabled" : "l'API de partage est désactivée",
     "File sharing" : "Partage de fichier",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Cette application permet aux utilisateurs de partager des fichiers au sein de Nextcloud. Lorsqu'elle est activée, l'administrateur peut choisir quels groupes peuvent partager des fichiers. Les utilisateurs concernés peuvent alors partager des fichiers et des dossiers avec d'autres utilisateurs et d'autres groupes au sein de Nextcloud. De plus, si l'administrateur active la fonctionnalité de partage par lien, un lien externe peut être utilisé pour partager des fichiers avec d'autres utilisateurs en dehors de Nextcloud. Les administrateurs peuvent aussi forcer l'utilisation de mots de passe et de dates d'expiration, et activer le partage de serveur à serveur au moyen de liens de partage, ainsi que le partage depuis un appareil mobile.\nDésactiver la fonctionnalité supprime les fichiers et les dossiers partagés sur le serveur pour tous les destinataires, et aussi dans les clients de synchronisation et les applications mobiles. Plus d'informations sont disponibles dans la documentation Nextcloud.",
-    "This share is password-protected" : "Ce partage est protégé par un mot de passe",
-    "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
-    "Password" : "Mot de passe",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Name" : "Nom",
     "Share time" : "Date de partage",
@@ -110,6 +107,9 @@
     "Uploading files…" : "Téléversement des fichiers...",
     "Uploaded files:" : "Fichiers téléversés :",
     "{actor} removed you from {file}" : "{actor} vous a supprimé de {file}",
-    "%s is publicly shared" : "%s a été partagé publiquement"
+    "%s is publicly shared" : "%s a été partagé publiquement",
+    "This share is password-protected" : "Ce partage est protégé par un mot de passe",
+    "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
+    "Password" : "Mot de passe"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

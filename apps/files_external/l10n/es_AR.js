@@ -112,9 +112,9 @@ OC.L10N.register(
     "Advanced settings" : "Configuraciones avanzadas",
     "Delete" : "Borrar",
     "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "No se ha configurado el almacenamiento externo",
-    "You can add external storages in the personal settings" : "Usted puede agregar almacenamiento externo en las configuraciones personales"
+    "You can add external storages in the personal settings" : "Usted puede agregar almacenamiento externo en las configuraciones personales",
+    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo"
 },
 "nplurals=2; plural=(n != 1);");

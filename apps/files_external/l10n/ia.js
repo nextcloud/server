@@ -74,7 +74,7 @@ OC.L10N.register(
     "Advanced settings" : "Configurationes avantiate",
     "Delete" : "Deler",
     "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe",
-    "Allow users to mount the following external storage" : "Permitter usatores montar le sequente immagazinage externe",
-    "OpenStack" : "OpenStack"
+    "OpenStack" : "OpenStack",
+    "Allow users to mount the following external storage" : "Permitter usatores montar le sequente immagazinage externe"
 },
 "nplurals=2; plural=(n != 1);");

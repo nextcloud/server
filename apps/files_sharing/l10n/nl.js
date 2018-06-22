@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
     "Share API is disabled" : "Delen API is uitgeschakeld",
     "File sharing" : "Bestand delen",
-    "This share is password-protected" : "Deze gedeelde folder is met een wachtwoord beveiligd",
-    "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
-    "Password" : "Wachtwoord",
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Name" : "Naam",
     "Share time" : "Deel tijd",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "Uploaden bestanden...",
     "Uploaded files:" : "Geüploade bestanden",
     "{actor} removed you from {file}" : "{actor} heeft je van {file} verwijderd",
-    "%s is publicly shared" : "%s is openbaar gedeeld"
+    "%s is publicly shared" : "%s is openbaar gedeeld",
+    "This share is password-protected" : "Deze gedeelde folder is met een wachtwoord beveiligd",
+    "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
+    "Password" : "Wachtwoord"
 },
 "nplurals=2; plural=(n != 1);");

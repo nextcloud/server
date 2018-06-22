@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "あなたのNextcloudに追加",
     "Share API is disabled" : "共有APIが無効です。",
     "File sharing" : "ファイル共有",
-    "This share is password-protected" : "この共有はパスワードで保護されています",
-    "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
-    "Password" : "パスワード",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Name" : "名前",
     "Share time" : "共有した時刻",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "ファイルをアップロード中...",
     "Uploaded files:" : "アップロード済ファイル:",
     "{actor} removed you from {file}" : "{actor} が {file} の共有を削除しました",
-    "%s is publicly shared" : "%s が公開共有されました"
+    "%s is publicly shared" : "%s が公開共有されました",
+    "This share is password-protected" : "この共有はパスワードで保護されています",
+    "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
+    "Password" : "パスワード"
 },
 "nplurals=1; plural=0;");

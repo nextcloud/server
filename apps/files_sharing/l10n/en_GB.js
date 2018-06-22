@@ -93,9 +93,6 @@ OC.L10N.register(
     "Share API is disabled" : "Share API is disabled",
     "File sharing" : "File sharing",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation.",
-    "This share is password-protected" : "This share is password-protected",
-    "The password is wrong. Try again." : "The password is wrong. Try again.",
-    "Password" : "Password",
     "No entries found in this folder" : "No entries found in this folder",
     "Name" : "Name",
     "Share time" : "Share time",
@@ -112,6 +109,9 @@ OC.L10N.register(
     "Uploading files…" : "Uploading files…",
     "Uploaded files:" : "Uploaded files:",
     "{actor} removed you from {file}" : "{actor} removed you from {file}",
-    "%s is publicly shared" : "%s is publicly shared"
+    "%s is publicly shared" : "%s is publicly shared",
+    "This share is password-protected" : "This share is password-protected",
+    "The password is wrong. Try again." : "The password is wrong. Try again.",
+    "Password" : "Password"
 },
 "nplurals=2; plural=(n != 1);");

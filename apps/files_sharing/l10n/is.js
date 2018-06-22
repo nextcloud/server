@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Share API is disabled" : "Deilingar-API er óvirkt",
     "File sharing" : "Skráadeiling",
-    "This share is password-protected" : "Þessi sameign er varin með lykilorði",
-    "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
-    "Password" : "Lykilorð",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Name" : "Nafn",
     "Share time" : "Deilingartími",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "Sendi inn skrár…",
     "Uploaded files:" : "Innsendar skrár:",
     "{actor} removed you from {file}" : "{actor} fjarlægði þig af {file}",
-    "%s is publicly shared" : "%s er deilt opinberlega"
+    "%s is publicly shared" : "%s er deilt opinberlega",
+    "This share is password-protected" : "Þessi sameign er varin með lykilorði",
+    "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
+    "Password" : "Lykilorð"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

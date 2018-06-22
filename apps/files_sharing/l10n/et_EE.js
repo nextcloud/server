@@ -91,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "Otsene link",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Share API is disabled" : "Jagamise API on keelatud",
-    "This share is password-protected" : "See jagamine on parooliga kaitstud",
-    "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
-    "Password" : "Parool",
     "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
     "Name" : "Nimi",
     "Share time" : "Jagamise aeg",
@@ -110,6 +107,9 @@ OC.L10N.register(
     "Uploading files…" : "Failide üleslaadimine...",
     "Uploaded files:" : "Üleslaetud failid:",
     "{actor} removed you from {file}" : "{actor} eemaldas sind {file} jagamisest",
-    "%s is publicly shared" : "%s on avalikult jagatud"
+    "%s is publicly shared" : "%s on avalikult jagatud",
+    "This share is password-protected" : "See jagamine on parooliga kaitstud",
+    "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
+    "Password" : "Parool"
 },
 "nplurals=2; plural=(n != 1);");

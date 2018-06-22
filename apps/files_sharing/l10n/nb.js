@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Share API is disabled" : "Deling API er deaktivert",
     "File sharing" : "Fildeling",
-    "This share is password-protected" : "Denne delingen er passordbeskyttet",
-    "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
-    "Password" : "Passord",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Name" : "Navn",
     "Share time" : "Delingstidspunkt",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "Laster opp filer…",
     "Uploaded files:" : "Opplastede filer:",
     "{actor} removed you from {file}" : "{actor} fjernet deg fra {file}",
-    "%s is publicly shared" : "%s er delt offentlig"
+    "%s is publicly shared" : "%s er delt offentlig",
+    "This share is password-protected" : "Denne delingen er passordbeskyttet",
+    "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
+    "Password" : "Passord"
 },
 "nplurals=2; plural=(n != 1);");
