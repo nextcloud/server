@@ -486,6 +486,18 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	background-image: url('../img/actions/arrow-left.svg?v=1');
 }
 
+.icon-disabled-user {
+	background-image: url('../img/actions/disabled-user.svg?v=1');
+}
+
+.icon-disabled-users {
+	background-image: url('../img/actions/disabled-users.svg?v=1');
+}
+
+.icon-user-admin {
+	background-image: url('../img/actions/user-admin.svg?v=1');
+}
+
 /* PLACES ------------------------------------------------------------------- */
 .icon-calendar {
 	background-image: url('../img/places/calendar.svg?v=1');
