@@ -187,7 +187,7 @@ class VerifyUserData extends Job {
 
 		// we don't check a valid user -> give up
 		if ($user === null) {
-			$this->logger->error($argument['uid'] . ' doesn\'t exist, can\'t verify user data.');
+			$this->logger->info($argument['uid'] . ' doesn\'t exist, can\'t verify user data.');
 			return true;
 		}
 
