@@ -1387,6 +1387,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			&.disabled {
 				opacity: .5;
 			}
+
+			/* grid col width */
 			.name,
 			.displayName,
 			.password {
@@ -1407,14 +1409,15 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				width: 250px;
 			}
 			.userBackend,
-			.lastLogin,
-			.userActions {
+			.lastLogin {
 				width: 100px;
 			}
 			.obfuscated {
 				width: 400px;
 				opacity: .7;
 			}
+
+			/* various */
 			&#grid-header,
 			&#new-user {
 				position: sticky;
@@ -1521,15 +1524,27 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 						display: block;
 					}
 				}
-				.toggleUserActions {
-					position: relative;
-					.icon-more {
-						width: 44px;
-						height: 44px;
-						opacity: .5;
-						cursor: pointer;
-						:hover {
-							opacity: .7;
+				&.userActions {
+					.toggleUserActions {
+						position: relative;
+						.icon-more {
+							width: 44px;
+							height: 44px;
+							opacity: .5;
+							cursor: pointer;
+							&:hover {
+								opacity: .7;
+							}
+						}
+					}
+					.feedback {
+						display: flex;
+						align-items: center;
+						white-space: nowrap;
+						transition: opacity 200ms ease-in-out;
+						.icon-checkmark {
+							opacity: .5;
+							margin-right: 5px;
 						}
 					}
 				}
