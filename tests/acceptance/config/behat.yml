@@ -27,14 +27,18 @@ default:
     Behat\MinkExtension:
       sessions:
         default:
-          selenium2: ~
+          selenium2:
+            wd_host: %selenium.server%
         John:
-          selenium2: ~
+          selenium2:
+            wd_host: %selenium.server%
         Jane:
-          selenium2: ~
+          selenium2:
+            wd_host: %selenium.server%
         Rubeus:
           # Rubeus uses a browser that has CSS grid support.
           selenium2:
+            wd_host: %selenium.server%
             capabilities:
               firefox:
                 profile: %paths.base%/firefox-profiles/css-grid-enabled.zip
