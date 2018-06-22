@@ -114,9 +114,9 @@ OC.L10N.register(
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Delete" : "Ištrinti",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
-    "Allow users to mount the following external storage" : "Leisti naudotojams prijungti šias išorines saugyklas",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Nėra sukonfigūruota jokia išorinė saugykla",
-    "You can add external storages in the personal settings" : "Galite pridėti papildomą išorinę saugyklą nustatymų skiltyje"
+    "You can add external storages in the personal settings" : "Galite pridėti papildomą išorinę saugyklą nustatymų skiltyje",
+    "Allow users to mount the following external storage" : "Leisti naudotojams prijungti šias išorines saugyklas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "Share API is disabled" : "გაზიარების API არაა მოქმედი",
     "File sharing" : "ფაილების გაზიარება",
-    "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
-    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან",
-    "Password" : "პაროლი",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანები ვერ მოიძებნა",
     "Name" : "სახელი",
     "Share time" : "გაზიარების დრო",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "ფაილების ატვირთვა...",
     "Uploaded files:" : "ფაილების ატვირთვა:",
     "{actor} removed you from {file}" : "{actor} ჩამოგაშორათ ფაილს {file}",
-    "%s is publicly shared" : "%s საზოგადოდ გაზიარებულია"
+    "%s is publicly shared" : "%s საზოგადოდ გაზიარებულია",
+    "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
+    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან",
+    "Password" : "პაროლი"
 },
 "nplurals=2; plural=(n!=1);");

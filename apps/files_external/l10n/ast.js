@@ -72,9 +72,9 @@ OC.L10N.register(
     "Add storage" : "Amestar almacenamientu",
     "Advanced settings" : "Axustes avanzaos",
     "Delete" : "Desaniciar",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamientu esternu",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Nun se configuraron almacenamientos esternos",
-    "You can add external storages in the personal settings" : "Pues amestar almacenamientos enternos nos axustes personales"
+    "You can add external storages in the personal settings" : "Pues amestar almacenamientos enternos nos axustes personales",
+    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamientu esternu"
 },
 "nplurals=2; plural=(n != 1);");

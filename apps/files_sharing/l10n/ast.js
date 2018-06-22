@@ -66,9 +66,6 @@ OC.L10N.register(
     "Download" : "Baxar",
     "Direct link" : "Enllaz direutu",
     "Share API is disabled" : "L'API de compartición ta desactivada",
-    "This share is password-protected" : "Esta compartición tien contraseña protexida",
-    "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
-    "Password" : "Contraseña",
     "No entries found in this folder" : "Nenguna entrada en esta carpeta",
     "Name" : "Nome",
     "Share time" : "Compartir hora",
@@ -83,6 +80,9 @@ OC.L10N.register(
     "Select or drop files" : "Esbilla o suelta ficheros",
     "Uploading files…" : "Xubiendo ficheros...",
     "Uploaded files:" : "Ficheros xubíos:",
-    "{actor} removed you from {file}" : "{actor} desanicióte de {file}"
+    "{actor} removed you from {file}" : "{actor} desanicióte de {file}",
+    "This share is password-protected" : "Esta compartición tien contraseña protexida",
+    "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
+    "Password" : "Contraseña"
 },
 "nplurals=2; plural=(n != 1);");

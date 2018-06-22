@@ -110,9 +110,9 @@ OC.L10N.register(
     "Advanced settings" : "Pengaturan Lanjutan",
     "Delete" : "Hapus",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Penyimpanan eksternal tidak dikonfigurasi",
-    "You can add external storages in the personal settings" : "Anda dapat menambahkan penyimpanan eksternal di pengaturan pribadi"
+    "You can add external storages in the personal settings" : "Anda dapat menambahkan penyimpanan eksternal di pengaturan pribadi",
+    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
 },
 "nplurals=1; plural=0;");

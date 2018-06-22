@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Share API is disabled" : "A partilha de API está desativada",
     "File sharing" : "Partilha de ficheiro",
-    "This share is password-protected" : "Esta partilha está protegida por palavra-passe",
-    "The password is wrong. Try again." : "A palavra-passe está errada. Por favor, tente de novo.",
-    "Password" : "Palavra-passe",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Name" : "Nome",
     "Share time" : "Hora da Partilha",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "A enviar ficheiros...",
     "Uploaded files:" : "Ficheiros enviados:",
     "{actor} removed you from {file}" : "{actor} removeu-o de {file}",
-    "%s is publicly shared" : "%s está partilhado publicamente"
+    "%s is publicly shared" : "%s está partilhado publicamente",
+    "This share is password-protected" : "Esta partilha está protegida por palavra-passe",
+    "The password is wrong. Try again." : "A palavra-passe está errada. Por favor, tente de novo.",
+    "Password" : "Palavra-passe"
 },
 "nplurals=2; plural=(n != 1);");

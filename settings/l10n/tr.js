@@ -150,6 +150,7 @@ OC.L10N.register(
     "Cancel" : "İptal",
     "Choose as profile picture" : "Profil görseli olarak seç",
     "Details" : "Ayrıntılar",
+    "You are a member of the following groups:" : "Şu gruplara üyesiniz:",
     "You are using <strong>%s</strong>" : "<strong>%s</strong> kullanıyorsunuz",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Kullandığınız: <strong>%s</strong> Kullanabileceğiniz: <strong>%s</strong> (<strong>%s %%</strong>)",
     "No display name set" : "Görüntülenecek ad belirtilmemiş",

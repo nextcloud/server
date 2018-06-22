@@ -91,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "Tiesioginė nuoroda",
     "Add to your Nextcloud" : "Pridėti į jūsų NextCloud",
     "Share API is disabled" : "Bendrinimo API yra išjungtas",
-    "This share is password-protected" : "Turinys apsaugotas slaptažodžiu",
-    "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
-    "Password" : "Slaptažodis",
     "No entries found in this folder" : "Šiame aplanke įrašų nerasta",
     "Name" : "Pavadinimas",
     "Share time" : "Dalijimosi laikas",
@@ -109,6 +106,9 @@ OC.L10N.register(
     "Select or drop files" : "Pasirinkite arba vilkite failus",
     "Uploading files…" : "Įkeliami failai…",
     "Uploaded files:" : "Įkelti failai:",
-    "{actor} removed you from {file}" : "{actor} nebesidalina su jumis {file}"
+    "{actor} removed you from {file}" : "{actor} nebesidalina su jumis {file}",
+    "This share is password-protected" : "Turinys apsaugotas slaptažodžiu",
+    "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
+    "Password" : "Slaptažodis"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

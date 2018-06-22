@@ -117,7 +117,6 @@ OC.L10N.register(
     "Advanced settings" : "Definições avançadas",
     "Delete" : "Apagar",
     "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
-    "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Falhou a obter tokens de pedido. Verifique se a sua chave de aplicação e segredo estão correctos.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Falhou a obter tokens de acesso. Verifique se a sua chave de aplicação e segredo estão correctos.",
     "Step 1 failed. Exception: %s" : "Passo 1 falhou. Excepção: %s",
@@ -129,6 +128,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Sem armazenamentos externos configurados",
     "You can add external storages in the personal settings" : "Pode adicionar armazenamentos externos nas definições pessoais",
+    "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo",
     "Are you sure you want to delete this external storage" : "De certeza que quer apagar este armazenamento externo"
 },
 "nplurals=2; plural=(n != 1);");

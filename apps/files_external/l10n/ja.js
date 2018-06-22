@@ -117,7 +117,6 @@ OC.L10N.register(
     "Advanced settings" : "詳細設定",
     "Delete" : "削除",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "リクエストトークンの取得に失敗しました。アプリのキーとパスワードが正しいことを確認してください。",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "アクセストークンの取得に失敗しました。アプリのキーとパスワードが正しいことを確認してください。",
     "Step 1 failed. Exception: %s" : "ステップ 1 の実行に失敗しました。例外: %s",
@@ -129,6 +128,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "外部ストレージは設定されていません",
     "You can add external storages in the personal settings" : "個人設定で外部ストレージを設定することができます。",
+    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
     "Are you sure you want to delete this external storage" : "この外部ストレージを本当に削除しますか?"
 },
 "nplurals=1; plural=0;");

@@ -91,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "直接連結",
     "Add to your Nextcloud" : "加入到您的 Nextcloud",
     "Share API is disabled" : "分享 API 已停用",
-    "This share is password-protected" : "這個分享有密碼保護",
-    "The password is wrong. Try again." : "請檢查您的密碼並再試一次",
-    "Password" : "密碼",
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
     "Name" : "名稱",
     "Share time" : "分享時間",
@@ -109,6 +106,9 @@ OC.L10N.register(
     "Select or drop files" : "選擇或拖曳檔案至此",
     "Uploading files…" : "上傳檔案中…",
     "Uploaded files:" : "已上傳的檔案：",
-    "{actor} removed you from {file}" : "{actor} 將你從 {file} 移除"
+    "{actor} removed you from {file}" : "{actor} 將你從 {file} 移除",
+    "This share is password-protected" : "這個分享有密碼保護",
+    "The password is wrong. Try again." : "請檢查您的密碼並再試一次",
+    "Password" : "密碼"
 },
 "nplurals=1; plural=0;");

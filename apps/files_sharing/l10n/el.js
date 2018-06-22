@@ -91,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "Άμεσος σύνδεσμος",
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Share API is disabled" : "API διαμοιρασμού είναι απενεργοποιημένο",
-    "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
-    "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
-    "Password" : "Κωδικός πρόσβασης",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Name" : "Όνομα",
     "Share time" : "Χρόνος διαμοιρασμού",
@@ -109,6 +106,9 @@ OC.L10N.register(
     "Select or drop files" : "Επιλέξτε ή ρίξτε αρχεία",
     "Uploading files…" : "Αποστολή αρχείων ...",
     "Uploaded files:" : "Αποστολή αρχείων:",
-    "{actor} removed you from {file}" : "{actor} αφαίρεσε εσάς από {file}"
+    "{actor} removed you from {file}" : "{actor} αφαίρεσε εσάς από {file}",
+    "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
+    "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
+    "Password" : "Κωδικός πρόσβασης"
 },
 "nplurals=2; plural=(n != 1);");

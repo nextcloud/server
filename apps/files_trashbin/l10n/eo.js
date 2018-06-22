@@ -16,6 +16,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Neniu enigo troviĝis en ĉi tiu dosierujo",
     "Select all" : "Elekti ĉion",
     "Name" : "Nomo",
+    "Actions" : "Agoj",
     "Deleted" : "Forigita"
 },
 "nplurals=2; plural=(n != 1);");
