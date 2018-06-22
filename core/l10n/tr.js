@@ -35,6 +35,7 @@ OC.L10N.register(
     "Turned on maintenance mode" : "Bakım kipi etkinleştirildi",
     "Turned off maintenance mode" : "Bakım kipi devre dışı bırakıldı",
     "Maintenance mode is kept active" : "Bakım kipi etkin tutuldu",
+    "Waiting for cron to finish (checks again in 5 seconds)..." : "Bitirmek için zamanlanmış görev bekleniyor (5 saniye sonra yeniden denetlenecek)...",
     "Updating database schema" : "Veritabanı şeması güncelleniyor",
     "Updated database" : "Veritabanı güncellendi",
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Veritabanı şeması güncellemesi denetleniyor (veritabanının büyüklüğüne bağlı olarak uzun sürebilir)",

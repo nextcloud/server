@@ -91,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "Lidhje e drejtpërdrejtë",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",
-    "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
-    "The password is wrong. Try again." : "Fjalëkalimi është i gabuar. Riprovoni.",
-    "Password" : "Fjalëkalim",
     "No entries found in this folder" : "S’u gjetën zëra në këtë dosje",
     "Name" : "Emër",
     "Share time" : "Kohë ndarjeje",
@@ -109,6 +106,9 @@ OC.L10N.register(
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploading files…" : "Skedarët po ngarkohen...",
     "Uploaded files:" : "Skedarët e ngarkuar:",
-    "{actor} removed you from {file}" : "{actor} iu hoqi nga {file}"
+    "{actor} removed you from {file}" : "{actor} iu hoqi nga {file}",
+    "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
+    "The password is wrong. Try again." : "Fjalëkalimi është i gabuar. Riprovoni.",
+    "Password" : "Fjalëkalim"
 },
 "nplurals=2; plural=(n != 1);");

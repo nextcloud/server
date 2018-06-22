@@ -122,7 +122,6 @@ OC.L10N.register(
     "Advanced settings" : "高级选项",
     "Delete" : "删除",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
-    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
     "Step 1 failed. Exception: %s" : "步骤 1 失败. 异常: %s",
     "Step 2 failed. Exception: %s" : "步骤 2 失败. 异常: %s",
     "Dropbox App Configuration" : "Dropbox 配置",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "没有配置外部存储",
     "You can add external storages in the personal settings" : "您可以在个人设置中添加外部存储",
+    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
     "Are you sure you want to delete this external storage" : "是否要删除该外部存储"
 },
 "nplurals=1; plural=0;");

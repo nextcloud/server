@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Add hozzá a Nextcloudodhoz",
     "Share API is disabled" : "Megosztás API letiltva",
     "File sharing" : "Fájlmegosztás",
-    "This share is password-protected" : "Ez egy jelszóval védett megosztás",
-    "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
-    "Password" : "Jelszó",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Name" : "Név",
     "Share time" : "A megosztás időpontja",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "Fájlok feltöltése...",
     "Uploaded files:" : "Felöltött fájlok:",
     "{actor} removed you from {file}" : "{actor} eltávolított innen: {file}",
-    "%s is publicly shared" : "%s nyilvánosan megosztva"
+    "%s is publicly shared" : "%s nyilvánosan megosztva",
+    "This share is password-protected" : "Ez egy jelszóval védett megosztás",
+    "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
+    "Password" : "Jelszó"
 },
 "nplurals=2; plural=(n != 1);");

@@ -113,10 +113,10 @@
     "Advanced settings" : "Avancerade inställningar",
     "Delete" : "Radera",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Ingen extern lagring konfigurerad",
     "You can add external storages in the personal settings" : "Du kan lägga till externa lagringar i de personliga inställningarna",
+    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
     "Are you sure you want to delete this external storage" : "Är du säker att du vill ta bort denna externa lagringen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

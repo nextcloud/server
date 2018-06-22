@@ -122,7 +122,6 @@ OC.L10N.register(
     "Advanced settings" : "Pokročilá nastavení",
     "Delete" : "Smazat",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
-    "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště",
     "Step 1 failed. Exception: %s" : "První krok se nezdařil. Výjimka: %s",
     "Step 2 failed. Exception: %s" : "Druhý krok se nezdařil. Výjimka: %s",
     "Dropbox App Configuration" : "Nastavení APP pro Dropbox",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Google Drive" : "Disk Google",
     "No external storage configured" : "Není nakonfigurováno žádné externí úložiště",
     "You can add external storages in the personal settings" : "Externí úložiště můžete přidat v osobních nastaveních",
+    "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště",
     "Are you sure you want to delete this external storage" : "Opravdu chcete odstranit toto externí úložiště"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

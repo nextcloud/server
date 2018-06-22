@@ -91,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "직접 링크",
     "Add to your Nextcloud" : "내 Nextcloud에 추가",
     "Share API is disabled" : "공유 API가 비활성화됨",
-    "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다",
-    "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 입력해 주십시오.",
-    "Password" : "암호",
     "No entries found in this folder" : "이 폴더에 항목 없음",
     "Name" : "이름",
     "Share time" : "공유 시간",
@@ -110,6 +107,9 @@ OC.L10N.register(
     "Uploading files…" : "파일 업로드 중…",
     "Uploaded files:" : "업로드한 파일:",
     "{actor} removed you from {file}" : "{actor} 님이 여러분을 {file}에서 삭제함",
-    "%s is publicly shared" : "%s이(가) 공개 공유됨"
+    "%s is publicly shared" : "%s이(가) 공개 공유됨",
+    "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다",
+    "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 입력해 주십시오.",
+    "Password" : "암호"
 },
 "nplurals=1; plural=0;");

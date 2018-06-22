@@ -93,9 +93,6 @@ OC.L10N.register(
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "File sharing" : "Compartir archivos",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Esta aplicación le permite a los usuarios compartir archivos dentro de Nextcloud. Si está habilitada, el administrador puede elegir que grupos pueden compartir archivos. Los usuarios correspondientes entonces pueden compartir archivos y carpetas con otros usuarios y grupos dentro de Nextcloid. Además, si el adminsitrador habilita la funcionalidad de compartir liga, una liga externa puede ser usada para compartir archivos con otros usuarios fuera de Nextcloud. Los administradores también pueden forzar contraseñas, fechas de expiración, y habilitar el compartir de servidor-a-servidor mediante ligas, asi como compartir desde dispositivos móviles. \nEl deshabilitar la funcionalidad, elimina en el servidor a los archivos y carpetas compartidos para todos los destinatarios del elemento compartido y también en los clientes de sincronización y dispositivos móviles. Hay mas información disponible en la Documentación de Nextcloud.",
-    "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
-    "The password is wrong. Try again." : "La contraseña es incorrecta. Por favor inténtalo de nuevo.",
-    "Password" : "Contraseña",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Name" : "Nombre",
     "Share time" : "Compartido desde",
@@ -112,6 +109,9 @@ OC.L10N.register(
     "Uploading files…" : "Cargando archivos...",
     "Uploaded files:" : "Archivos cargados:",
     "{actor} removed you from {file}" : "{actor} lo eliminó de {file}",
-    "%s is publicly shared" : "%s está compartido públicamente"
+    "%s is publicly shared" : "%s está compartido públicamente",
+    "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
+    "The password is wrong. Try again." : "La contraseña es incorrecta. Por favor inténtalo de nuevo.",
+    "Password" : "Contraseña"
 },
 "nplurals=2; plural=(n != 1);");

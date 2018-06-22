@@ -58,6 +58,7 @@
     "{actor} shared {file} with {user}" : "{actor} hat {file} mit {user} geteilt",
     "{actor} removed {user} from {file}" : "{actor} hat {user} von {file} entfernt",
     "{actor} shared {file} with you" : "{actor} hat {file} mit Ihnen geteilt",
+    "{actor} removed you from the share named {file}" : "{actor} hat Sie aus der Freigabe {file} entfernt",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Öffentlich oder per E-Mail geteilte Datei / Ordner wurde <strong>heruntergeladen</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
     "A file or folder has been <strong>shared</strong>" : "Eine Datei oder ein Ordner wurde <strong>geteilt</strong>",
@@ -90,9 +91,6 @@
     "Add to your Nextcloud" : "Zu Ihrer Nextcloud hinzufügen",
     "Share API is disabled" : "Teilen-API ist deaktivert",
     "File sharing" : "Dateifreigabe",
-    "This share is password-protected" : "Freigabe ist passwortgeschützt",
-    "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
-    "Password" : "Passwort",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Name" : "Name",
     "Share time" : "Freigabezeitpunkt",
@@ -109,6 +107,9 @@
     "Uploading files…" : "Dateien werden hochgeladen…",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "{actor} removed you from {file}" : "Sie wurden durch {actor} von {file} entfernt",
-    "%s is publicly shared" : "%s ist öffentlich geteilt"
+    "%s is publicly shared" : "%s ist öffentlich geteilt",
+    "This share is password-protected" : "Freigabe ist passwortgeschützt",
+    "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
+    "Password" : "Passwort"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

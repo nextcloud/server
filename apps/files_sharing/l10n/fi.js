@@ -92,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "Share API is disabled" : "Jakamisrajapinta on poistettu käytöstä",
     "File sharing" : "Tiedostonjako",
-    "This share is password-protected" : "Tämä jako on suojattu salasanalla",
-    "The password is wrong. Try again." : "Väärä salasana. Yritä uudelleen.",
-    "Password" : "Salasana",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Name" : "Nimi",
     "Share time" : "Jakamisen ajankohta",
@@ -111,6 +108,9 @@ OC.L10N.register(
     "Uploading files…" : "Lähetetään tiedostoja…",
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "{actor} removed you from {file}" : "{actor} poisti käyttöoikeutesi kohteeseen {file}",
-    "%s is publicly shared" : "%s on jaettu julkisesti"
+    "%s is publicly shared" : "%s on jaettu julkisesti",
+    "This share is password-protected" : "Tämä jako on suojattu salasanalla",
+    "The password is wrong. Try again." : "Väärä salasana. Yritä uudelleen.",
+    "Password" : "Salasana"
 },
 "nplurals=2; plural=(n != 1);");

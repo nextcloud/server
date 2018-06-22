@@ -42,6 +42,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (невидимая)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Системные метки</strong> файла были изменены",
     "Collaborative tags" : "Метки совместной работы",
+    "Collaborative tagging functionality which shares tags among users." : "Совместная функция тегов, которая разделяет теги среди пользователей.",
+    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Совместная функция тегов, которая разделяет теги среди пользователей. Отлично подходит для команд.\n(Если вы являетесь поставщиком с многоуровневой установкой, рекомендуется отключить это приложение по мере совместного использования тегов).",
     "Create and edit collaborative tags. These tags affect all users." : "Создание и изменение меток совместной работы. Действие таких меток распространяется на всех пользователей.",
     "Select tag …" : "Выберите метку…",
     "Name" : "Имя",

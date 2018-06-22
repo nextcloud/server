@@ -91,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "Priama linka",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "Share API is disabled" : "API pre sprístupňovanie je zakázané",
-    "This share is password-protected" : "Táto položka je chránené heslom",
-    "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
-    "Password" : "Heslo",
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
     "Name" : "Názov",
     "Share time" : "Čas sprístupnenia",
@@ -110,6 +107,9 @@ OC.L10N.register(
     "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
     "{actor} removed you from {file}" : "{actor} vám zrušil sprístupnenie {file}",
-    "%s is publicly shared" : "%s je verejne zdieľaný"
+    "%s is publicly shared" : "%s je verejne zdieľaný",
+    "This share is password-protected" : "Táto položka je chránené heslom",
+    "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
+    "Password" : "Heslo"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
