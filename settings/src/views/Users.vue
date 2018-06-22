@@ -290,18 +290,29 @@ export default {
 			let disabledGroup = groups[disabledGroupIndex];
 			if (adminGroup && adminGroup.text) {
 				adminGroup.text = t('settings', 'Admins'); // rename admin group
+				adminGroup.icon = 'icon-user-admin'; // set icon
 			}
 			if (disabledGroup && disabledGroup.text) {
 				disabledGroup.text = t('settings', 'Disabled users'); // rename disabled group
+				disabledGroup.icon = 'icon-disabled-users'; // set icon
 				if (disabledGroup.utils.counter === 0) {
 					groups.splice(disabledGroupIndex, 1); // remove disabled if empty
 				}
 			}
 
+			// Add separator
+			let separator = {
+				caption: true,
+				text: t('settings', 'Groups')
+			};
+			groups.unshift(separator);
+
+
 			// Add everyone group
 			let everyoneGroup = {
 				id: 'everyone',
 				key: 'everyone',
+				icon: 'icon-contacts-dark',
 				router: {name:'users'},
 				text: t('settings', 'Everyone'),
 			};
