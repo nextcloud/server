@@ -25,6 +25,8 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Daniel Tygel <dtygel@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -1447,6 +1449,7 @@ class View {
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 			$mounts = Filesystem::getMountManager()->findIn($path);
 			$dirLength = strlen($path);
+			$mounts = $this->cleanDoubleMounts($directory, $mounts);
 			foreach ($mounts as $mount) {
 				$mountPoint = $mount->getMountPoint();
 				$subStorage = $mount->getStorage();
@@ -2162,5 +2165,89 @@ class View {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Cleans duplicated mounts in root folder - when a mount is already visible inside another mount
+	 * @param Mount\MountPoint[] $mounts
+	 * @return Mount\MountPoint[]
+	 */
+	private function cleanDoubleMounts($directory, $mounts) {
+		if ($directory !== '/') {
+			return $mounts;
+		}
+
+		$return_mounts = array();
+
+		$storages = array();
+		foreach ($mounts as $mount) {
+			$storage_id = $mount->getNumericStorageId();
+			$file_id = $mount->getStorageRootId();
+
+			if (!array_key_exists($storage_id,$storages)) {
+				$storages[$storage_id] = array();
+			}
+
+			$storages[$storage_id][$file_id] = array('mount' => $mount, 'perm' => $mount->getShare()->getPermissions());
+		}
+
+		$file_ids_to_search = array();
+
+		foreach ($storages as $storage_id => $storage_mounts) {
+			if (count($storage_mounts) == 1) {
+				$return_mounts[] = reset($storage_mounts)['mount'];
+				unset($storages[$storage_id]);
+			} else {
+				foreach ($storage_mounts as $file_id => $m) {
+					$file_ids_to_search[] = $file_id;
+				}
+			}
+		}
+
+		if (count($file_ids_to_search)) {
+			try {
+				$query = \OC_DB::prepare(
+					'SELECT `fileid`, `storage`, `path`
+					FROM `*PREFIX*filecache`
+					WHERE `fileid` IN (' . implode(',', array_unique($file_ids_to_search)) . ')'
+				);
+				$result = $query->execute();
+
+				if (\OCP\DB::isError($result)) {
+					\OCP\Util::writeLog('core', 'error filtering double mounts: ' .\OC_DB::getErrorMessage(), \OCP\Util::ERROR);
+				} else {
+					while ($row = $result->fetchRow()) {
+						$storages[(int)$row['storage']][(int)$row['fileid']]['path'] = $row['path'];
+					}
+					$result->closeCursor();
+				}
+			} catch (\OC\DatabaseException $exp) {
+
+			}
+
+		}
+
+		foreach ($storages as $storage_id => $storage_mounts) {
+			foreach ($storage_mounts as $file_id => $file_data) {
+				foreach ($storage_mounts as $file_id_2 => $file_data_2) {
+					if ($file_id != $file_id_2 and $file_data_2['perm'] >= $file_data['perm'] and !array_key_exists('ign',$file_data) and !array_key_exists('ign',$file_data_2) and array_key_exists('path', $file_data) and array_key_exists('path', $file_data_2)) {
+						if (preg_match('/'.str_replace('/','\/',$file_data_2['path']).'/',$file_data['path']) > 0) {
+							$storages[$storage_id][$file_id]['ign'] = true;
+							continue(2);
+						}
+					}
+				}
+			}
+		}
+
+		foreach ($storages as $storage_id => $storage_mounts) {
+			foreach ($storage_mounts as $file_id => $file_data) {
+				if (!array_key_exists('ign',$file_data)) {
+					$return_mounts[] = $file_data['mount'];
+				}
+			}
+		}
+
+		return $return_mounts;
 	}
 }
