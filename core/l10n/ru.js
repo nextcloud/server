@@ -308,6 +308,8 @@ OC.L10N.register(
     "Redirecting …" : "Перенаправление…",
     "New password" : "Новый пароль",
     "New Password" : "Новый пароль",
+    "This share is password-protected" : "Этот раздел защищен паролем",
+    "The password is wrong. Try again." : "Пароль неправильный. Попробуйте еще раз.",
     "Two-factor authentication" : "Двухфакторная аутентификация",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Для вашей учётной записи включена повышенная безопасность. Пожалуйста, аутентифицируйтесь, используя код.",
     "Cancel log in" : "Отменить вход",
