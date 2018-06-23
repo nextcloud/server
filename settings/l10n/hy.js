@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Email" : "Էլ. հասցե",
+    "Groups" : "Խմբեր",
     "Delete" : "Ջնջել",
     "days" : "օր",
     "Cancel" : "Չեղարկել",
@@ -19,7 +20,6 @@ OC.L10N.register(
     "So-so password" : "Միջինոտ գաղտնաբառ",
     "Good password" : "Լավ գաղտնաբառ",
     "Strong password" : "Ուժեղ գաղտնաբառ",
-    "Groups" : "Խմբեր",
     "never" : "երբեք",
     "Other" : "Այլ"
 },

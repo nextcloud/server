@@ -306,6 +306,8 @@
     "Redirecting …" : "Weiterleiten…",
     "New password" : "Neues Passwort",
     "New Password" : "Neues Passwort",
+    "This share is password-protected" : "Diese Freigabe ist passwortgeschützt",
+    "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
     "Two-factor authentication" : "Zwei-Faktor Authentifizierung",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Die erweiterte Sicherheit wurde für Ihr Konto aktiviert. Bitte authentifizieren Sie sich mit einem zweiten Faktor. ",
     "Cancel log in" : "Anmeldung abbrechen",

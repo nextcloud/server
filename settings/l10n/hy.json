@@ -1,5 +1,6 @@
 { "translations": {
     "Email" : "Էլ. հասցե",
+    "Groups" : "Խմբեր",
     "Delete" : "Ջնջել",
     "days" : "օր",
     "Cancel" : "Չեղարկել",
@@ -17,7 +18,6 @@
     "So-so password" : "Միջինոտ գաղտնաբառ",
     "Good password" : "Լավ գաղտնաբառ",
     "Strong password" : "Ուժեղ գաղտնաբառ",
-    "Groups" : "Խմբեր",
     "never" : "երբեք",
     "Other" : "Այլ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
