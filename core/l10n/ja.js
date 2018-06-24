@@ -244,6 +244,7 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "このアプリケーションの動作にはJavaScriptが必要です。\n {linkstart}JavaScriptを有効にし{linkend} 、ページを更新してください。 ",
     "More apps" : "さらにアプリ",
     "Search" : "検索",
+    "Contacts" : "連絡先",
     "Confirm your password" : "パスワードを確認",
     "Server side authentication failed!" : "サーバーサイドの認証に失敗しました！",
     "Please contact your administrator." : "管理者に問い合わせてください。",

@@ -35,6 +35,7 @@ OC.L10N.register(
     "Turned on maintenance mode" : "Wartungsmodus eingeschaltet",
     "Turned off maintenance mode" : "Wartungsmodus ausgeschaltet",
     "Maintenance mode is kept active" : "Wartungsmodus bleibt aktiviert",
+    "Waiting for cron to finish (checks again in 5 seconds) …" : "Warte auf das Beenden von Cron (neue Prüfung in 5 Sekunden)…",
     "Updating database schema" : "Das Datenbankschema wird aktualisiert",
     "Updated database" : "Datenbank aktualisiert",
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Prüft, ob das Datenbankschema aktualisiert werden kann (dies kann je nach Datenbankgröße sehr lange dauern)",
