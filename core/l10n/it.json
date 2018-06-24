@@ -33,6 +33,7 @@
     "Turned on maintenance mode" : "Modalità di manutenzione attivata",
     "Turned off maintenance mode" : "Modalità di manutenzione disattivata",
     "Maintenance mode is kept active" : "La modalità di manutenzione è lasciata attiva",
+    "Waiting for cron to finish (checks again in 5 seconds) …" : "In attesa che cron finisca (nuovo controllo tra 5 secondi)…",
     "Updating database schema" : "Aggiornamento schema database",
     "Updated database" : "Database aggiornato",
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Controllo che lo schema del database possa essere aggiornato (ciò potrebbe richiedere molto tempo in base alla dimensione del database)",

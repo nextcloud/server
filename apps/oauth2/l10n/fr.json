@@ -7,6 +7,7 @@
     "Secret" : "Secret",
     "Add client" : "Ajouter un client",
     "Add" : "Ajouter",
+    "Show client secret" : "Afficher le secret du client",
     "Delete" : "Supprimer",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Autoriser l'authentification compatible OAuth2 depuis d'autres applications web.",

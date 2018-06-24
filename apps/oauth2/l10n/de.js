@@ -5,6 +5,7 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 erlaubt es externen Diensten nach Zugriff auf {instanceName} zu fragen.",
     "Name" : "Name",
     "Redirection URI" : "Weiterleitungs-URI",
+    "_headerRedirectUri_::_col_" : ["headerRedirectUri","col"],
     "Client Identifier" : "Client-Identifikationsmerkmal",
     "Secret" : "Geheimnis",
     "Add client" : "Client hinzufügen",
