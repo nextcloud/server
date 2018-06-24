@@ -1,3 +1,36 @@
+// Fonts
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Open Sans'), local('OpenSans'),
+		url('../../../core/fonts/OpenSans-Regular.woff') format('woff');
+}
+
+/* overriding default light */
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 300;
+	src: local('Open Sans'), local('OpenSans'),
+	url('../../../core/fonts/OpenSans-Regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 500;
+	src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
+		url('../../../core/fonts/OpenSans-Semibold.woff') format('woff');
+}
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Open Sans Bold'), local('OpenSans-Bold'),
+		url('../../../core/fonts/OpenSans-Bold.woff') format('woff');
+}
+
 // SCSS variables
 $color-main-text: #000;
 $color-main-background: #fff;
@@ -17,6 +50,16 @@ $color-box-shadow: $color-main-text;
 $color-border: darken($color-main-background, 50%);
 $color-border-dark: darken($color-main-background, 50%);
 
+$font-face: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+
+
+// Font weight reset
+body {
+	font-weight: 400;
+}
+
+// Opacity trick
 * {
 	opacity: 1 !important;
 }
+

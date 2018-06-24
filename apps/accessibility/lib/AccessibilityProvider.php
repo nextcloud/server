@@ -76,12 +76,6 @@ class AccessibilityProvider {
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'font-opendyslexic.jpg'),
 				'title' => $this->l->t('Dyslexia font'),
 				'text'  => $this->l->t('OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license.')
-			],
-			[
-				'id'    => 'fonthighcontrast',
-				'img'   => $this->urlGenerator->imagePath($this->appName, 'font-highcontrast.jpg'),
-				'title' => $this->l->t('High Contrast font'),
-				'text'  => $this->l->t('Increase the weight of the font to improve the readability.')
 			]
 		);
 	}
