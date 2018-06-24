@@ -794,10 +794,7 @@ class Trashbin {
 					$size += self::delete($filename, $user, $timestamp);
 					$count++;
 				} catch (\OCP\Files\NotPermittedException $e) {
-					\OC::$server->getLogger()->warning(
-						'Removing "' . $filename . '" from trashbin failed (OCP\\Files\\NotPermittedException).',
-						['app' => 'files_trashbin']
-					);
+					\OC::$server->getLogger()->logException($e, ['app' => 'files_trashbin', 'level' => \OCP\ILogger::WARN, 'message' => 'Removing "' . $filename . '" from trashbin failed.']);
 				}
 				\OC::$server->getLogger()->info(
 					'Remove "' . $filename . '" from trashbin because it exceeds max retention obligation term.',
