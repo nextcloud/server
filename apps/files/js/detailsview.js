@@ -15,8 +15,8 @@
 		'	{{#if tabHeaders}}' +
 		'	<ul class="tabHeaders">' +
 		'		{{#each tabHeaders}}' +
-		'		<li class="tabHeader" data-tabid="{{tabId}}" data-tabindex="{{tabIndex}}">' +
-		'			<a href="#">{{label}}</a>' +
+		'		<li class="tabHeader" data-tabid="{{tabId}}" tabindex="0">' +
+		'			<a href="#" tabindex="-1">{{label}}</a>' +
 		'		</li>' +
 		'		{{/each}}' +
 		'	</ul>' +
@@ -67,7 +67,8 @@
 
 		events: {
 			'click a.close': '_onClose',
-			'click .tabHeaders .tabHeader': '_onClickTab'
+			'click .tabHeaders .tabHeader': '_onClickTab',
+			'keyup .tabHeaders .tabHeader': '_onKeyboardActivateTab'
 		},
 
 		/**
@@ -99,6 +100,12 @@
 			this.selectTab(tabId);
 		},
 
+		_onKeyboardActivateTab: function (event) {
+			if (event.key === " " || event.key === "Enter") {
+				this._onClickTab(event);
+			}
+		},
+
 		template: function(vars) {
 			if (!this._template) {
 				this._template = Handlebars.compile(TEMPLATE);
@@ -126,7 +133,6 @@
 			templateVars.tabHeaders = _.map(this._tabViews, function(tabView, i) {
 				return {
 					tabId: tabView.id,
-					tabIndex: i,
 					label: tabView.getLabel()
 				};
 			});
