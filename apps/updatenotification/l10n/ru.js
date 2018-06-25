@@ -18,6 +18,7 @@ OC.L10N.register(
     "View in store" : "Посмотреть в магазине приложений",
     "Apps with available updates" : "Приложения с доступными обновлениями",
     "Open updater" : "Открыть окно обновления",
+    "_button_::_#_" : ["кнопка","#","#","#"],
     "Download now" : "Скачать сейчас",
     "Your version is up to date." : "Версия не требует обновления.",
     "The update check is not yet finished. Please refresh the page." : "Проверка обновлений ещё не закончена. Пожалуйста обновите страницу.",
@@ -37,6 +38,7 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Для приложения «%1$s» доступно обновление до версии %2$s.",
     "Update for {app} to version %s is available." : "Для приложения «{app}» доступно обновление до версии %s.",
     "Update notification" : "Уведомление о новой версии",
+    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Показывает уведомления об обновлениях для Nextcloud и обеспечивает систему обновления технологией единого входа (SSO).",
     "A new version is available: %s" : "Доступна новая версия: %s",
     "Checked on %s" : "Проверено %s"
 },

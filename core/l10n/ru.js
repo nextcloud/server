@@ -35,6 +35,7 @@ OC.L10N.register(
     "Turned on maintenance mode" : "Включён режим обслуживания ",
     "Turned off maintenance mode" : "Отключён режим обслуживания",
     "Maintenance mode is kept active" : "Режим обслуживания оставлен включенным",
+    "Waiting for cron to finish (checks again in 5 seconds) …" : "Ожидание завершения работы планировщика (проверяется каждые 5 секунд) ...",
     "Updating database schema" : "Выполняется обновление схемы базы данных",
     "Updated database" : "База данных обновлена",
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Проверка возможности обновления схемы базы данных (это может занять длительное время в зависимости от размера базы данных)",
