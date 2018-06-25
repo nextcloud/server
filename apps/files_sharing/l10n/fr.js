@@ -60,6 +60,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} a partagé {file} avec {user}",
     "{actor} removed {user} from {file}" : "{actor} a supprimé {user} de {file}",
     "{actor} shared {file} with you" : "{actor} a partagé {file} avec vous",
+    "{actor} removed you from the share named {file}" : "{actor} vous a supprimé du partage du nom de {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un fichier ou un dossier partagé par mail ou par lien public a été <strong>téléchargé</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un fichier ou un répertoire a été partagé depuis <strong>un autre serveur</strong>",
     "A file or folder has been <strong>shared</strong>" : "Un fichier ou un répertoire a été <strong>partagé</strong>",
