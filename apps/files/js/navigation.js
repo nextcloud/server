@@ -63,8 +63,11 @@
 		_setupEvents: function () {
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
+			this._setOnDrag();
 			//this.$el.on('click', 'li input', _.bind(this._onClickMenuItem, this));
 			//this.$el.on('click', 'div input', _.bind(this._onClickAppSettings, this));
+
+
 		},
 
 		/**
@@ -145,7 +148,27 @@
 		},
 
 		/**
-		 * Event handler for when clicking on an three-dot-menu.
+		 * Event handler for when dragging an item
+		 */
+		_setOnDrag: function () {
+			$(function () {
+				var start_pos;
+				if(document.getElementById("sublist-favorites").hasAttribute("draggable")){
+				$("#sublist-favorites").sortable({
+					start: function (event, ui) {
+						start_pos = ui.item.index();
+						ui.item.data('start_pos', start_pos);
+					},
+					update: function (event, ui) {
+						//alert(ui.item.data('start_pos', start_pos).attr('data-id') + " at " + start_pos);
+					}
+				});
+				}
+			});
+		},
+
+		/**
+		 * Event handler for clicking a button
 		 */
 		_onClickMenuButton: function (ev) {
 			var $target = $(ev.target);
@@ -284,20 +307,7 @@
 		 */
 		setInitialQuickaccessSettings: function () {
 
-			$( function() {
-				$( "#quickaccess-list" ).sortable({
-					start: function(event, ui) {
-						var start_pos = ui.item.index();
-						ui.item.data('start_pos', start_pos);
-					},
-					change: function(event, ui) {
 
-					},
-					update: function(event, ui) {
-						alert(ui.item.data('start_pos', start_pos).attr('data-id')+" at "+start_pos);
-					}
-				});
-			} );
 
 			var domRevState = document.getElementById('enableReverse').checked;
 			var domSortAlphabetState = document.getElementById('sortByAlphabet').checked;

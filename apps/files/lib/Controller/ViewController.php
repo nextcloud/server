@@ -208,11 +208,10 @@ class ViewController extends Controller {
 						'order' => $navBarPositionPosition,
 						'folderPosition' => $sortingValue,
 						'name' => $id,
-						'classes' => 'draggable',
-						'draggable' => true,
 						'icon' => 'files',
 						'quickaccesselement' => 'true'
 					];
+
 				array_push($favoritesSublistArray, $element);
 				$navBarPositionPosition++;
 			}
@@ -230,10 +229,9 @@ class ViewController extends Controller {
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites'),
 				'sublist' => $favoritesSublistArray,
+				'draggableSublist' => 'false',
 				'defaultExpandedState' => 'true',
 				'enableMenuButton' => 0,
-				//If there are zero elements, add ul end tag directly.
-				'favoritescount' => $favoritesFolderCount
 			]
 		);
 
