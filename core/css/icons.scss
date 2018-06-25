@@ -109,6 +109,9 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 .icon-address {
 	background-image: url('../img/actions/address.svg?v=1');
 }
+.icon-address-white {
+	background-image: url('#{$webroot}/svg/address/fff?v=1');
+}
 
 .icon-audio {
 	background-image: url('../img/actions/audio.svg?v=1');
@@ -140,14 +143,15 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 
 .icon-checkmark {
 	background-image: url('../img/actions/checkmark.svg?v=1');
+	
 }
 
 .icon-checkmark-white {
-	background-image: url('../img/actions/checkmark-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/icon-checkmark/fff?v=1');
 }
 
 .icon-checkmark-color {
-	background-image: url('../img/actions/checkmark-color.svg?v=1');
+	background-image: url('#{$webroot}/svg/icon-checkmark/#{$color-success}?v=1');
 }
 
 .icon-clippy {
@@ -159,7 +163,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-close-white {
-	background-image: url('../img/actions/close-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/close/fff?v=1');
 }
 
 .icon-comment {
@@ -175,7 +179,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-confirm-white {
-	background-image: url('../img/actions/confirm-white.svg?v=2');
+	background-image: url('#{$webroot}/svg/icon-confirm/fff?v=1');
 }
 
 .icon-delete {
@@ -188,22 +192,22 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	}
 	&:hover,
 	&:focus {
-		background-image: url('../img/actions/delete-hover.svg?v=1');
+		background-image: url('#{$webroot}/svg/icon-delete/d40000?v=1');
 		filter: initial;
 	}
 }
 
 .icon-delete-white {
-	background-image: url('../img/actions/delete-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/icon-delete/fff?v=1');
 	&.no-permission {
 		&:hover,
 		&:focus {
-			background-image: url('../img/actions/delete-white.svg?v=1');
+			background-image: url('#{$webroot}/svg/icon-delete/fff?v=1');
 		}
 	}
 	&:hover,
 	&:focus {
-		background-image: url('../img/actions/delete-hover.svg?v=1');
+		background-image: url('#{$webroot}/svg/icon-delete/d40000?v=1');
 	}
 }
 
@@ -216,7 +220,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-download-white {
-	background-image: url('../img/actions/download-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/icon-download/fff?v=1');
 }
 
 .icon-edit {
@@ -228,11 +232,11 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-error-white {
-	background-image: url('../img/actions/error-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/icon-error/fff?v=1');
 }
 
 .icon-error-color {
-	background-image: url('../img/actions/error-color.svg?v=1');
+	background-image: url('#{$webroot}/svg/icon-error/d40000?v=1');
 }
 
 .icon-external {
@@ -258,7 +262,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-info-white {
-	background-image: url('../img/actions/info-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/icon-info/fff?v=1');
 }
 
 .icon-logout {
@@ -278,7 +282,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-more-white {
-	background-image: url('../img/actions/more-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/more/fff?v=1');
 }
 
 .icon-password {
@@ -342,7 +346,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-search-white {
-	background-image: url('../img/actions/search-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/search/fff?v=1');
 }
 
 .icon-settings {
@@ -354,7 +358,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-settings-white {
-	background-image: url('../img/actions/settings-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/settings-dark/fff?v=1');
 }
 
 /* always use icon-shared, AdBlock blocks icon-share */
@@ -435,7 +439,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-upload-white {
-	background-image: url('../img/actions/upload-white.svg?v=1');
+	background-image: url('#{$webroot}/svg/upload/fff?v=1');
 }
 
 .icon-user {
