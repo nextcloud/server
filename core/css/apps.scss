@@ -84,7 +84,6 @@ kbd {
 	float: left;
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
-	padding-bottom: 44px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -640,11 +639,8 @@ kbd {
 
 /* settings area */
 #app-settings {
-	position: fixed;
-	width: 250px;
-	/* change to 100% when layout positions are absolute */
-	bottom: 0;
-	z-index: 140;
+	// To the bottom w/ flex
+	margin-top: auto;
 	&.open,
 	&.opened {
 		#app-settings-content {
