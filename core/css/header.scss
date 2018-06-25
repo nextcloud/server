@@ -480,6 +480,10 @@ nav[role='navigation'] {
 	li a:focus,
 	li a.active {
 		opacity: 1;
+	}
+
+	li:hover a,
+	li a:focus {
 		+ span {
 			display: inline-block;
 		}

@@ -19,14 +19,7 @@
 @font-face {
 	font-family: 'Open Sans';
 	font-style: normal;
-	font-weight: 500;
-	src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
-		url('../../../core/fonts/OpenSans-Semibold.woff') format('woff');
-}
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 700;
+	font-weight: 500 700;
 	src: local('Open Sans Bold'), local('OpenSans-Bold'),
 		url('../../../core/fonts/OpenSans-Bold.woff') format('woff');
 }
