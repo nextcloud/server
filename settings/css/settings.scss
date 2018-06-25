@@ -1463,9 +1463,33 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 						display: block !important;
 					}
 				}
+				/* inputs like mail, username, password */
 				&:not(.userActions) > input:not([type='submit']) {
 					width: 100%;
 					min-width: 0;
+				}
+				&.name {
+					word-break: break-all;
+				}
+				&.displayName,
+				&.mailAddress {
+					> input {
+						text-overflow: ellipsis;
+					}
+				}
+				&.name,
+				&.storageLocation {
+					/* better multi-line visual */
+					line-height: 1.3em;
+					max-height: 2.6em;
+					overflow : hidden;
+					/* not supported by all browsers 
+					   so we keep the overflow hidden
+					   as a fallback */
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
 				}
 				&.quota {
                     .multiselect--active + progress {

@@ -39,6 +39,7 @@
 				 :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
 				 v-if="!loading.delete && !loading.disable">
 		</div>
+		<!-- dirty hack to ellipsis on two lines -->
 		<div class="name">{{user.id}}</div>
 		<form class="displayName" :class="{'icon-loading-small': loading.displayName}" v-on:submit.prevent="updateDisplayName">
 			<input :id="'displayName'+user.id+rand" type="text"
