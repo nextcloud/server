@@ -78,7 +78,7 @@ class CloudFederationShare implements ICloudFederationShare {
 			'name' => 'webdav',
 			'options' => [
 				'sharedSecret' => $sharedSecret,
-				'permissions' => '{http://open-collaboration-services.org/ns}share-permissions'
+				'permissions' => '{http://open-cloud-mesh.org/ns}share-permissions'
 			]
 		]);
 		$this->setShareType($shareType);
