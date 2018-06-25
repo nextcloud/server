@@ -1,13 +1,13 @@
 <template>
-	<div :class="{preview: true, selected: preview.id === selected}"
-		 @click="selectItem">
+	<a :class="{preview: true, selected: preview.id === selected}"
+	   href="#" @click="selectItem">
 		<div class="preview-image" :style="{backgroundImage: 'url(' + preview.img + ')'}"></div>
 		<h3>
 			<span>{{preview.title}}</span>
 			<div class="icon-checkmark-color">{{t('accessibility', 'enabled')}}</div>
 		</h3>
 		<p>{{preview.text}}</p>
-	</div>
+	</a>
 </template>
 
 <script>

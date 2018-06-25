@@ -23,6 +23,7 @@
 		user-select: none;
 	}
 	&:hover,
+	&:focus,
 	&.selected {
 		filter: drop-shadow(0 1px 4px var(--color-box-shadow));
 		opacity: 1;
