@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div id="app">
+	<div id="content" class="app-settings">
 		<app-navigation :menu="menu" />
 		<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': currentApp, 'icon-loading': loadingList }">
 			<app-list :category="category" :app="currentApp" :search="searchQuery"></app-list>

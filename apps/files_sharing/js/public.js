@@ -67,7 +67,7 @@ OCA.Sharing.PublicApp = {
 				$el,
 				{
 					id: 'files.public',
-					scrollContainer: $('#content-wrapper'),
+					scrollContainer: $('#app-content'),
 					dragOptions: dragOptions,
 					folderDropOptions: folderDropOptions,
 					fileActions: fileActions,

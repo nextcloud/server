@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div id="app">
+	<div id="content" class="app-settings">
 		<app-navigation :menu="menu">
 			<template slot="settings-content">
 				<div>
