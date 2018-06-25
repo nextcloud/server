@@ -1479,8 +1479,17 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 				&.name,
 				&.storageLocation {
-					// better multi-line visual
+					/* better multi-line visual */
 					line-height: 1.3em;
+					max-height: 2.6em;
+					overflow : hidden;
+					/* not supported by all browsers 
+					   so we keep the overflow hidden
+					   as a fallback */
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
 				}
 				&.quota {
                     .multiselect--active + progress {

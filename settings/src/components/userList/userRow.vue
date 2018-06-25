@@ -40,7 +40,7 @@
 				 v-if="!loading.delete && !loading.disable">
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
-		<div class="name">{{user.id.substr(0, 40)}}{{user.id.substr(0, 40).length===40?'…':''}}</div>
+		<div class="name">{{user.id}}</div>
 		<form class="displayName" :class="{'icon-loading-small': loading.displayName}" v-on:submit.prevent="updateDisplayName">
 			<input :id="'displayName'+user.id+rand" type="text"
 					:disabled="loading.displayName||loading.all"
