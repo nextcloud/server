@@ -131,8 +131,9 @@ export default {
 			return `https://apps.nextcloud.com/apps/${this.app.id}`;
 		},
 		licence() {
-			if (this.app.licence)
-				return ('' + this.app.licence).toUpperCase() + t('settings', '-licensed');
+			if (this.app.licence) {
+				return t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() } );
+			}
 			return null;
 		},
 		hasRating() {
