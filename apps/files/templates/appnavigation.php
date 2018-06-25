@@ -1,61 +1,13 @@
 <div id="app-navigation">
 	<ul class="with-icon">
 
-		<?php $pinned = 0 ?>
-		<?php foreach ($_['navigationItems'] as $item) {
-			strpos($item['classes'], 'pinned')!==false ? $pinned++ : '';
-			?>
+		<?php
 
-			<li data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?> "
-				class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?> <?php if ($item['enableQuickaccess'] === 'true') { ?> open<?php } ?>"
-				<?php if (isset($item['folderPosition'])){ ?> folderPos="<?php p($item['folderPosition']);?>" draggable="true"<?php } ?>
-				<?php if ($item['id'] === 'favorites'){?>id="favorites-toggle"<?php } ?>>
-
-				<?php if ($item['id'] ===  'favorites'){?>
-				<button id="button-collapseQuickAccess" class="collapse" <?php if ($item['favoritescount'] === 0){ ?> style="display: none"<?php } ?>></button><?php } ?>
-
-				<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
-				   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']);?></a>
-				<?php if ($item['id'] === 'favorites') {?>
-					<div id="quickaccessbutton" class="app-navigation-entry-utils" style="display: none">
-						<ul>
-							<li class="app-navigation-entry-utils-menu-button svg">
-								<button id="button-<?php p($item['id']) ?>"></button>
-							</li>
-						</ul>
-					</div>
-				<div class="app-navigation-entry-menu" id="menu-<?php p($item['id']) ?>">
-					<ul>
-						<li>
-							<span class="menuitem">
-								<input id="sortByAlphabet" type="checkbox" class="checkbox" data-group='SortingStrategy'<?php if ($item['quickaccessSortingStrategy'] === 'alphabet') { ?> checked<?php } ?>/>
-								<label for="sortByAlphabet"><?php p($l->t('Sort by Alphabet')); ?></label>
-							</span>
-						</li>
-						<li>
-							<span class="menuitem">
-								<input id="sortByDate" type="checkbox" class="checkbox" data-group='SortingStrategy'<?php if ($item['quickaccessSortingStrategy'] === 'date') { ?> checked<?php } ?>/>
-								<label for="sortByDate"><?php p($l->t('Sort by Date')); ?></label>
-							</span>
-						</li>
-						<li>
-							<span class="menuitem">
-								<input id="enableReverse" type="checkbox" class="checkbox" <?php if ($item['quickaccessSortingReverse'] === 1) { ?>checked<?php } ?>/>
-								<label for="enableReverse"><?php p($l->t('Reverse List')); ?></label>
-							</span>
-						</li>
-					</ul>
-				</div>
-					<ul id="quickaccess-list" >
-					<?php /*This fixes the styleerrors if no favorites are set*/ if ($item['favoritescount'] === 0) {?></ul><?php } ?>
-				<?php } ?>
-
-				<?php if ($item['quickaccesselement'] === 'last') {?>
-				</ul>
-				<?php } ?>
-			</li>
-
-		<?php } ?>
+		$pinned = 0;
+		foreach ($_['navigationItems'] as $item) {
+			$pinned = NavigationListElements($item, $pinned, $l);
+		}
+		?>
 
 		<li id="quota" class="pinned <?php p($pinned===0?'first-pinned ':'') ?><?php
 		if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -86,10 +38,6 @@
 				<input class="checkbox" id="showhiddenfilesToggle" checked="checked" type="checkbox">
 				<label for="showhiddenfilesToggle"><?php p($l->t('Show hidden files')); ?></label>
 			</div>
-			<div id="files-setting-showadvancedquickaccesssorting">
-				<input class="checkbox" id="showQuickAccessSortingToggle" checked="checked" type="checkbox">
-				<label for="showQuickAccessSortingToggle"><?php p($l->t('Show Favorites Sorting-options')); ?></label>
-			</div>
 			<label for="webdavurl"><?php p($l->t('WebDAV'));?></label>
 			<input id="webdavurl" type="text" readonly="readonly" value="<?php p(\OCP\Util::linkToRemote('webdav')); ?>" />
 			<em><?php print_unescaped($l->t('Use this address to <a href="%s" target="_blank" rel="noreferrer noopener">access your Files via WebDAV</a>', array(link_to_docs('user-webdav'))));?></em>
@@ -97,3 +45,72 @@
 	</div>
 
 </div>
+
+
+<?php
+
+/**
+ * Prints the HTML for a single Entry.
+ *
+ * @param $item The item to be added
+ * @param $pinned IntegerValue to count the pinned entries at the bottom
+ * @param $l Translator
+ *
+ * @return int Returns the pinned value
+ */
+function NavigationListElements($item, $pinned, $l){
+	strpos($item['classes'], 'pinned')!==false ? $pinned++ : '';
+	?>
+	<li <?php if (isset($item['sublist'])){?>id="button-collapse-parent-<?php p($item['id']); ?>"<?php } ?> data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?> "
+		class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned===1?'first-pinned':'') ?> <?php if ($item['defaultExpandedState'] === 'true') { ?> open<?php } ?>"
+		<?php if (isset($item['folderPosition'])){ ?> folderPos="<?php p($item['folderPosition']);?>" <?php } ?>
+		>
+
+		<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
+		   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']);?></a>
+
+
+	<?php
+	    NavigationElementMenu($item);
+		if (isset($item['sublist'])){
+		?>
+		<button id="button-collapse-<?php p($item['id']); ?>" class="collapse"></button>
+		<ul id="sublist-<?php p($item['id']); ?>">
+			<?php
+			foreach ($item['sublist'] as $item) {
+				$pinned = NavigationListElements($item, $pinned, $l);
+			}
+			?>
+		</ul>
+	<?php }?>
+	</li>
+
+
+<?php
+	return $pinned;
+}
+
+/**
+ * Prints the HTML for a dotmenu.
+ *
+ * @param $item The item to be added
+ *
+ * @return void
+ */
+function NavigationElementMenu($item){
+	if ($item['menubuttons'] === 'true') {
+?>
+	<div id="dotmenu-<?php p($item['id']); ?>" class="app-navigation-entry-utils"  <?php if ($item['enableMenuButton'] === 0){ ?> style="display: none"<?php } ?>>
+		<ul>
+			<li class="app-navigation-entry-utils-menu-button svg">
+				<button id="dotmenu-button-<?php p($item['id']) ?>"></button>
+			</li>
+		</ul>
+	</div>
+	<div id="dotmenu-content-<?php p($item['id']) ?>" class="app-navigation-entry-menu">
+		<ul>
+
+		</ul>
+	</div>
+<?php }
+}

@@ -189,25 +189,10 @@ class ViewController extends Controller {
 			$collapseClasses = 'collapsible';
 		}
 
-		\OCA\Files\App::getNavigationManager()->add(
-			[
-				'id' => 'favorites',
-				'appname' => 'files',
-				'script' => 'simplelist.php',
-				'classes' => $collapseClasses,
-				'enableQuickaccess' => $quickAccessExpandedState,
-				'quickaccessSortingStrategy' => $sorting,
-				'quickaccessSortingReverse' => $reverseListSetting ? 1 : 0,
-				'order' => 5,
-				'name' => $this->l10n->t('Favorites'),
-				//If there are zero elements, add ul end tag directly.
-				'favoritescount' => $favoritesFolderCount
-			]
-		);
 
 
-		//Add Favorite-folder as menuentries, if there are any
-		if ($favoritesFolderCount > 0) {
+
+		$favoritesSublistArray=  Array();
 
 			$navBarPositionPosition = 6;
 			$currentCount = 0;
@@ -215,39 +200,42 @@ class ViewController extends Controller {
 
 				$id = substr($elem, strrpos($elem, '/') + 1, strlen($elem));
 				$link = $this->urlGenerator->linkToRouteAbsolute('files.view.index', ['dir' => $elem]);
-
 				$sortingValue = ++$currentCount;
-				if ($currentCount != $favoritesFolderCount) {
-					\OCA\Files\App::getNavigationManager()->add(
-						[
-							'id' => $id,
-							'href' => $link,
-							'order' => $navBarPositionPosition,
-							'folderPosition' => $sortingValue,
-							'name' => $id,
-							'classes' => 'draggable',
-							'icon' => 'files',
-							'quickaccesselement' => 'true'
-						]
-					);
-				} else {
-					\OCA\Files\App::getNavigationManager()->add(
-						[
-							'id' => $id,
-							'href' => $link,
-							'order' => $navBarPositionPosition,
-							'folderPosition' => $sortingValue,
-							'name' => $id,
-							'classes' => 'draggable',
-							'icon' => 'files',
-							'quickaccesselement' => 'last'
-						]
-					);
-				}
+
+				$element = [
+						'id' => $id,
+						'href' => $link,
+						'order' => $navBarPositionPosition,
+						'folderPosition' => $sortingValue,
+						'name' => $id,
+						'classes' => 'draggable',
+						'draggable' => true,
+						'icon' => 'files',
+						'quickaccesselement' => 'true'
+					];
+				array_push($favoritesSublistArray, $element);
 				$navBarPositionPosition++;
 			}
-		}
 
+
+
+		\OCA\Files\App::getNavigationManager()->add(
+			[
+				'id' => 'favorites',
+				'appname' => 'files',
+				'script' => 'simplelist.php',
+				'classes' => $collapseClasses,
+				'quickaccessSortingStrategy' => $sorting,
+				'quickaccessSortingReverse' => $reverseListSetting ? 1 : 0,
+				'order' => 5,
+				'name' => $this->l10n->t('Favorites'),
+				'sublist' => $favoritesSublistArray,
+				'defaultExpandedState' => 'true',
+				'enableMenuButton' => 0,
+				//If there are zero elements, add ul end tag directly.
+				'favoritescount' => $favoritesFolderCount
+			]
+		);
 
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 		usort($navItems, function ($item1, $item2) {

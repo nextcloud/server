@@ -69,8 +69,9 @@
 	 */
 	function removeFavoriteFromList(appfolder) {
 
-		var quickAccessKey= 'quickaccess-list';
-		var listULElements = document.getElementById(quickAccessKey);
+		var quickAccessList= 'sublist-favorites';
+		var collapsibleButtonId= 'button-collapse-favorites';
+		var listULElements = document.getElementById(quickAccessList);
 		var listLIElements = listULElements.getElementsByTagName('li');
 		var appName=appfolder.substring(appfolder.lastIndexOf("/")+1, appfolder.length);
 
@@ -81,11 +82,8 @@
 		}
 
 		if (listULElements.childElementCount === 0) {
-			var dotMenu = document.getElementById("quickaccessbutton");
-			dotMenu.style.display='none';
-			var collapsibleButton = document.getElementById("button-collapseQuickAccess");
+			var collapsibleButton = document.getElementById(collapsibleButtonId);
 			collapsibleButton.style.display='none';
-
 			$("#favorites-toggle").removeClass('collapsible');
 		}
 	}
@@ -96,8 +94,9 @@
 	 * @param {String} appfolder folder to be added
 	 */
 	function addFavoriteToList(appfolder) {
-		var quickAccessKey= 'quickaccess-list';
-		var listULElements = document.getElementById(quickAccessKey);
+		var quickAccessList= 'sublist-favorites';
+		var collapsibleButtonId= 'button-collapse-favorites';
+		var listULElements = document.getElementById(quickAccessList);
 		var listLIElements = listULElements.getElementsByTagName('li');
 
 		var appName=appfolder.substring(appfolder.lastIndexOf("/")+1, appfolder.length);
@@ -117,9 +116,7 @@
 
 		if (listULElements.childElementCount <= 0) {
 			listULElements.appendChild(innerTagLI);
-			var dotMenu = document.getElementById("quickaccessbutton");
-			dotMenu.style.display='';
-			var collapsibleButton = document.getElementById("button-collapseQuickAccess");
+			var collapsibleButton = document.getElementById(collapsibleButtonId);
 			collapsibleButton.style.display='';
 
 			$("#favorites-toggle" ).addClass('collapsible');

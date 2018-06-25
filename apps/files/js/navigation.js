@@ -54,7 +54,7 @@
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
-			this.setInitialQuickaccessSettings();
+			//this.setInitialQuickaccessSettings();
 		},
 
 		/**
@@ -63,8 +63,8 @@
 		_setupEvents: function () {
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
-			this.$el.on('click', 'li input', _.bind(this._onClickMenuItem, this));
-			this.$el.on('click', 'div input', _.bind(this._onClickAppSettings, this));
+			//this.$el.on('click', 'li input', _.bind(this._onClickMenuItem, this));
+			//this.$el.on('click', 'div input', _.bind(this._onClickAppSettings, this));
 		},
 
 		/**
@@ -150,25 +150,39 @@
 		_onClickMenuButton: function (ev) {
 			var $target = $(ev.target);
 			var itemId = $target.closest('button').attr('id');
-			var collapsibleToggle = $("#favorites-toggle");
 
-			if (itemId === 'button-collapseQuickAccess') {
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/show"),
-					{show: !collapsibleToggle.hasClass('open')},
-					function (data, status) {
-					});
-				collapsibleToggle.toggleClass('open');
-			}
+			var collapsibleToggles=[];
+			var dotmenuToggles=[];
 
-			if (itemId === 'button-favorites') {
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
+			// The collapsibleToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
+			// and the parent, which should be toggled at the first arrayindex.
+			collapsibleToggles.push(["#button-collapse-favorites", "#button-collapse-parent-favorites"]);
+
+			// The dotmenuToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
+			// and the parent, which should be toggled at the first arrayindex.
+			dotmenuToggles.push(["#dotmenu-button-favorites", "dotmenu-content-favorites"]);
+
+
+			collapsibleToggles.forEach(function foundToggle(item) {
+				if (item[0] === ("#"+itemId)) {
+					$(item[1]).toggleClass('open');
+				}
+			});
+
+			dotmenuToggles.forEach(function foundToggle(item) {
+				if (item[0] === ("#"+itemId)) {
+					document.getElementById(item[1]).classList.toggle('open');
+				}
+			});
+
 			ev.preventDefault();
 		},
+
 
 		/**
 		 * Event handler for when clicking on an app setting.
 		 */
+		/*
 		_onClickAppSettings: function (ev) {
 
 			var itemId = $(ev.target).closest('input').attr('id');
@@ -194,10 +208,13 @@
 				document.getElementById('showQuickAccessSortingToggle').checked=togglestate;
 			}
 		},
+		*/
 
 		/**
 		 * Event handler for when clicking on a menuitem.
 		 */
+
+		/*
 		_onClickMenuItem: function (ev) {
 			var quickAccessKey = 'quickaccess-list';
 			var itemId = $(ev.target).closest('input').attr('id');
@@ -260,6 +277,7 @@
 				document.getElementById('menu-favorites').classList.toggle('open');
 			}
 		},
+		*/
 
 		/**
 		 * Sort initially as setup of sidebar for QuickAccess
@@ -295,6 +313,7 @@
 				this.sortingStrategy = 'date';
 			}
 
+			/*
 			this.QuickSort(list, 0, list.length - 1);
 
 			if (domRevState) {
@@ -310,7 +329,7 @@
 						document.getElementById("quickaccessbutton").style.display='none';
 					}
 				});
-
+			*/
 		},
 
 		/**
