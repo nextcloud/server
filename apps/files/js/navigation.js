@@ -153,16 +153,16 @@
 		_setOnDrag: function () {
 			$(function () {
 				var start_pos;
-				if(document.getElementById("sublist-favorites").hasAttribute("draggable")){
-				$("#sublist-favorites").sortable({
-					start: function (event, ui) {
-						start_pos = ui.item.index();
-						ui.item.data('start_pos', start_pos);
-					},
-					update: function (event, ui) {
-						//alert(ui.item.data('start_pos', start_pos).attr('data-id') + " at " + start_pos);
-					}
-				});
+				if (document.getElementById("sublist-favorites").hasAttribute("draggable")) {
+					$("#sublist-favorites").sortable({
+						start: function (event, ui) {
+							start_pos = ui.item.index();
+							ui.item.data('start_pos', start_pos);
+						},
+						update: function (event, ui) {
+							//alert(ui.item.data('start_pos', start_pos).attr('data-id') + " at " + start_pos);
+						}
+					});
 				}
 			});
 		},
@@ -174,8 +174,8 @@
 			var $target = $(ev.target);
 			var itemId = $target.closest('button').attr('id');
 
-			var collapsibleToggles=[];
-			var dotmenuToggles=[];
+			var collapsibleToggles = [];
+			var dotmenuToggles = [];
 
 			// The collapsibleToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
 			// and the parent, which should be toggled at the first arrayindex.
@@ -186,14 +186,14 @@
 			dotmenuToggles.push(["#dotmenu-button-favorites", "dotmenu-content-favorites"]);
 
 
-			collapsibleToggles.forEach(function foundToggle(item) {
-				if (item[0] === ("#"+itemId)) {
+			collapsibleToggles.forEach(function foundToggle (item) {
+				if (item[0] === ("#" + itemId)) {
 					$(item[1]).toggleClass('open');
 				}
 			});
 
-			dotmenuToggles.forEach(function foundToggle(item) {
-				if (item[0] === ("#"+itemId)) {
+			dotmenuToggles.forEach(function foundToggle (item) {
+				if (item[0] === ("#" + itemId)) {
 					document.getElementById(item[1]).classList.toggle('open');
 				}
 			});
@@ -306,7 +306,6 @@
 		 * Sort initially as setup of sidebar for QuickAccess
 		 */
 		setInitialQuickaccessSettings: function () {
-
 
 
 			var domRevState = document.getElementById('enableReverse').checked;

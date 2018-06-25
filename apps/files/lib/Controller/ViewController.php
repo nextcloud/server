@@ -182,40 +182,34 @@ class ViewController extends Controller {
 			$favElements['folders'] = null;
 		}
 
-		$favoritesFolderCount = sizeof($favElements['folders']);
-
 		$collapseClasses = '';
-		if ($favoritesFolderCount > 0) {
+		if (sizeof($favElements['folders']) > 0) {
 			$collapseClasses = 'collapsible';
 		}
 
+		$favoritesSublistArray = Array();
 
+		$navBarPositionPosition = 6;
+		$currentCount = 0;
+		foreach ($favElements['folders'] as $elem) {
 
+			$id = substr($elem, strrpos($elem, '/') + 1, strlen($elem));
+			$link = $this->urlGenerator->linkToRouteAbsolute('files.view.index', ['dir' => $elem]);
+			$sortingValue = ++$currentCount;
 
-		$favoritesSublistArray=  Array();
+			$element = [
+				'id' => $id,
+				'href' => $link,
+				'order' => $navBarPositionPosition,
+				'folderPosition' => $sortingValue,
+				'name' => $id,
+				'icon' => 'files',
+				'quickaccesselement' => 'true'
+			];
 
-			$navBarPositionPosition = 6;
-			$currentCount = 0;
-			foreach ($favElements['folders'] as $elem) {
-
-				$id = substr($elem, strrpos($elem, '/') + 1, strlen($elem));
-				$link = $this->urlGenerator->linkToRouteAbsolute('files.view.index', ['dir' => $elem]);
-				$sortingValue = ++$currentCount;
-
-				$element = [
-						'id' => $id,
-						'href' => $link,
-						'order' => $navBarPositionPosition,
-						'folderPosition' => $sortingValue,
-						'name' => $id,
-						'icon' => 'files',
-						'quickaccesselement' => 'true'
-					];
-
-				array_push($favoritesSublistArray, $element);
-				$navBarPositionPosition++;
-			}
-
+			array_push($favoritesSublistArray, $element);
+			$navBarPositionPosition++;
+		}
 
 
 		\OCA\Files\App::getNavigationManager()->add(

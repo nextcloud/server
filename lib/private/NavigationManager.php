@@ -104,57 +104,6 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Adds a new Sublistentry to a given array
-	 *
-	 * @param array|\Closure $entry Array containing: id, name, order, icon and href key
-	 *					The use of a closure is preferred, because it will avoid
-	 * 					loading the routing of your app, unless required.
-	 * @param array Array to append item to
-	 *
-	 * @return void
-	 */
-	public function addToSublist($entry, $entryArray) {
-		$entry['active'] = false;
-		if(!isset($entry['icon'])) {
-			$entry['icon'] = '';
-		}
-		if(!isset($entry['classes'])) {
-			$entry['classes'] = '';
-		}
-		if(!isset($entry['type'])) {
-			$entry['type'] = 'link';
-		}
-		array_push($entryArray, $entry);
-	}
-
-	/**
-	 * Adds a new, draggable Sublistentry to a given array
-	 *
-	 * @param array|\Closure $entry Array containing: id, name, order, icon and href key
-	 *					The use of a closure is preferred, because it will avoid
-	 * 					loading the routing of your app, unless required.
-	 * @param array Array to append item to
-	 *
-	 * @return void
-	 */
-	public function addToSublistDraggable($entry, $entryArray) {
-		$entry['active'] = false;
-		if(!isset($entry['icon'])) {
-			$entry['icon'] = '';
-		}
-		if(!isset($entry['classes'])) {
-			$entry['classes'] = '';
-		}
-		if(!isset($entry['draggable'])) {
-			$entry['draggable'] = 'true';
-		}
-		if(!isset($entry['type'])) {
-			$entry['type'] = 'link';
-		}
-		array_push($entryArray, $entry);
-	}
-
-	/**
 	 * Get a list of navigation entries
 	 *
 	 * @param string $type type of the navigation entries
