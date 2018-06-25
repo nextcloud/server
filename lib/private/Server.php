@@ -412,18 +412,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('UserSession', \OCP\IUserSession::class);
 
-		$this->registerService(\OC\Authentication\TwoFactorAuth\Manager::class, function (Server $c) {
-			return new \OC\Authentication\TwoFactorAuth\Manager(
-				$c->getAppManager(),
-				$c->getSession(),
-				$c->getConfig(),
-				$c->getActivityManager(),
-				$c->getLogger(),
-				$c->query(IProvider::class),
-				$c->query(ITimeFactory::class),
-				$c->query(EventDispatcherInterface::class)
-			);
-		});
+		$this->registerAlias(\OCP\Authentication\TwoFactorAuth\IRegistry::class, \OC\Authentication\TwoFactorAuth\Registry::class);
 
 		$this->registerAlias(\OCP\INavigationManager::class, \OC\NavigationManager::class);
 		$this->registerAlias('NavigationManager', \OCP\INavigationManager::class);

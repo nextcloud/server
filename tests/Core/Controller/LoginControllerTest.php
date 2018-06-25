@@ -23,11 +23,13 @@ namespace Tests\Core\Controller;
 
 use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\LoginController;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -414,7 +416,7 @@ class LoginControllerTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('uid'));
-		$loginName  = 'loginli';
+		$loginName = 'loginli';
 		$password = 'secret';
 		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 
@@ -539,7 +541,7 @@ class LoginControllerTest extends TestCase {
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(urldecode($redirectUrl));
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
 	}
-	
+
 	public function testLoginWithOneTwoFactorProvider() {
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -548,7 +550,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue('john'));
 		$password = 'secret';
 		$challengeUrl = 'challenge/url';
-		$provider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
+		$provider = $this->createMock(IProvider::class);
 
 		$this->request
 			->expects($this->once())
@@ -570,10 +572,11 @@ class LoginControllerTest extends TestCase {
 		$this->twoFactorManager->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with($user);
+		$providerSet = new ProviderSet([$provider], false);
 		$this->twoFactorManager->expects($this->once())
-			->method('getProviders')
+			->method('getProviderSet')
 			->with($user)
-			->will($this->returnValue([$provider]));
+			->willReturn($providerSet);
 		$provider->expects($this->once())
 			->method('getId')
 			->will($this->returnValue('u2f'));
@@ -593,7 +596,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', $password, null));
 	}
 
-	public function testLoginWithMultpleTwoFactorProviders() {
+	public function testLoginWithMultipleTwoFactorProviders() {
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -601,8 +604,10 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue('john'));
 		$password = 'secret';
 		$challengeUrl = 'challenge/url';
-		$provider1 = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
-		$provider2 = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
+		$provider1 = $this->createMock(IProvider::class);
+		$provider2 = $this->createMock(IProvider::class);
+		$provider1->method('getId')->willReturn('prov1');
+		$provider2->method('getId')->willReturn('prov2');
 
 		$this->request
 			->expects($this->once())
@@ -624,14 +629,11 @@ class LoginControllerTest extends TestCase {
 		$this->twoFactorManager->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with($user);
+		$providerSet = new ProviderSet([$provider1, $provider2], false);
 		$this->twoFactorManager->expects($this->once())
-			->method('getProviders')
+			->method('getProviderSet')
 			->with($user)
-			->will($this->returnValue([$provider1, $provider2]));
-		$provider1->expects($this->never())
-			->method('getId');
-		$provider2->expects($this->never())
-			->method('getId');
+			->willReturn($providerSet);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.selectChallenge')
@@ -661,7 +663,7 @@ class LoginControllerTest extends TestCase {
 			->method('checkPassword')
 			->with('john', 'just wrong')
 			->willReturn(false);
-		
+
 		$this->userManager->expects($this->once())
 			->method('getByEmail')
 			->with('john@doe.com')
