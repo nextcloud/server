@@ -82,9 +82,9 @@
 		}
 
 		if (listULElements.childElementCount === 0) {
-			var collapsibleButton = document.getElementById(collapsibleButtonId);
+			var collapsibleButton = document.getElementById("button-collapse-favorites");
 			collapsibleButton.style.display = 'none';
-			$("#favorites-toggle").removeClass('collapsible');
+			$("#button-collapse-parent-favorites").removeClass('collapsible');
 		}
 	}
 
@@ -119,7 +119,7 @@
 			var collapsibleButton = document.getElementById(collapsibleButtonId);
 			collapsibleButton.style.display = '';
 
-			$("#favorites-toggle").addClass('collapsible');
+			$("#button-collapse-parent-favorites").addClass('collapsible');
 		} else {
 			listLIElements[listLIElements.length - 1].after(innerTagLI);
 		}
