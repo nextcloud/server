@@ -1,7 +1,7 @@
 {
 	"name": "accessibility",
 	"description": "Provides multiple accessibilities options to ease your use of nextcloud",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "John Molakvoæ <skjnldsv@protonmail.com>",
 	"license": "agpl",
 	"private": true,
@@ -24,8 +24,6 @@
 		"babel-preset-env": "^1.7.0",
 		"css-loader": "^0.28.11",
 		"file-loader": "^1.1.11",
-		"node-sass": "^4.9.0",
-		"sass-loader": "^7.0.3",
 		"vue-loader": "^15.2.4",
 		"vue-template-compiler": "^2.5.16",
 		"webpack": "^4.12.1",
