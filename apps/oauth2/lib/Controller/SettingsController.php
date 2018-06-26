@@ -27,7 +27,9 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 
@@ -40,6 +42,8 @@ class SettingsController extends Controller {
 	private $accessTokenMapper;
 	/** @var  DefaultTokenMapper */
 	private $defaultTokenMapper;
+	/** @var IL10N */
+	private $l;
 
 	const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -56,17 +60,24 @@ class SettingsController extends Controller {
 								ClientMapper $clientMapper,
 								ISecureRandom $secureRandom,
 								AccessTokenMapper $accessTokenMapper,
-								DefaultTokenMapper $defaultTokenMapper
+								DefaultTokenMapper $defaultTokenMapper,
+								IL10N $l
 	) {
 		parent::__construct($appName, $request);
 		$this->secureRandom = $secureRandom;
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->defaultTokenMapper = $defaultTokenMapper;
+		$this->l = $l;
 	}
 
 	public function addClient(string $name,
 							  string $redirectUri): JSONResponse {
+
+		if (filter_var($redirectUri, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED|FILTER_FLAG_HOST_REQUIRED) === false) {
+			return new JSONResponse(['message' => $this->l->t('Your redirect url needs to be a full url for example: https://yourdomain.com/path')], Http::STATUS_BAD_REQUEST);
+		}
+
 		$client = new Client();
 		$client->setName($name);
 		$client->setRedirectUri($redirectUri);

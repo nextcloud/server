@@ -44,6 +44,7 @@
 
 		<br/>
 		<h3>{{ t('oauth2', 'Add client') }}</h3>
+		<span v-if="newClient.error" class="msg error">{{newClient.errorMsg}}</span>
 		<form @submit.prevent="addClient">
 			<input type="text" id="name" name="name" :placeholder="t('oauth2', 'Name')" v-model="newClient.name">
 			<input type="url" id="redirectUri" name="redirectUri" :placeholder="t('oauth2', 'Redirection URI')" v-model="newClient.redirectUri">
@@ -66,7 +67,9 @@ export default {
 			clients: [],
 			newClient: {
 				name: '',
-				redirectUri: ''
+				redirectUri: '',
+				errorMsg: '',
+				error: false
 			}
 		};
 	},
@@ -92,6 +95,7 @@ export default {
 		addClient() {
 			let requestToken = OC.requestToken;
 			let tokenHeaders = { headers: { requesttoken: requestToken } };
+			this.newClient.error = false;
 
 			axios.post(
 				OC.generateUrl('apps/oauth2/clients'),
@@ -99,14 +103,16 @@ export default {
 					name: this.newClient.name,
 					redirectUri: this.newClient.redirectUri
 				},
-				tokenHeaders)
-				.then((response) => {
-					this.clients.push(response.data)
+				tokenHeaders
+			).then(response => {
+				this.clients.push(response.data);
 
-					this.newClient.name = '';
-					this.newClient.redirectUri = '';
-				}
-			);
+				this.newClient.name = '';
+				this.newClient.redirectUri = '';
+			}).catch(reason => {
+				this.newClient.error = true;
+				this.newClient.errorMsg = reason.response.data.message;
+			});
 		}
 	},
 }
