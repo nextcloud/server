@@ -304,6 +304,18 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * Toggle default for showing/hiding QuickAccess folder
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return String
+	 */
+	public function getShowQuickAccess() {
+
+		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1);
+	}
+
+	/**
 	 * quickaccess-sorting-strategy
 	 *
 	 * @NoAdminRequired
@@ -403,7 +415,7 @@ class ApiController extends Controller {
 	 * @return String
 	 */
 	public function getSortingOrder() {
-		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_custom_sorting_order',"");
+		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_custom_sorting_order', "");
 	}
 
 }

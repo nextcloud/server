@@ -210,6 +210,12 @@
 			collapsibleToggles.forEach(function foundToggle (item) {
 				if (item[0] === ("#" + itemId)) {
 					$(item[1]).toggleClass('open');
+					var show=1;
+					if(!$(item[1]).hasClass('open')){
+						show=0;
+					}
+					$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/showList"), {show: show}, function (data, status) {
+					});
 				}
 			});
 

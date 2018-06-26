@@ -202,6 +202,11 @@ class ViewController extends Controller {
 		}
 
 
+		$defaultExpandedState='true';
+		if(!$this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1)){
+			$defaultExpandedState='false';
+		}
+
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
@@ -212,7 +217,7 @@ class ViewController extends Controller {
 				'name' => $this->l10n->t('Favorites'),
 				'sublist' => $favoritesSublistArray,
 				'draggableSublist' => 'true',
-				'defaultExpandedState' => 'true',
+				'defaultExpandedState' => $defaultExpandedState,
 				'enableMenuButton' => 0,
 			]
 		);

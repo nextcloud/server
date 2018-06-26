@@ -78,7 +78,12 @@ $application->registerRoutes(
 			],
 			[
 				'name' => 'API#showQuickAccess',
-				'url' => '/api/v1/quickaccess/show',
+				'url' => '/api/v1/quickaccess/set/showList',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'API#getShowQuickAccess',
+				'url' => '/api/v1/quickaccess/get/showList',
 				'verb' => 'GET',
 			],
 			[
