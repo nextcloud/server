@@ -222,7 +222,9 @@
 			},
 
 			whatsNew: function () {
-
+				if(this.whatsNewData.length === 0) {
+					return null;
+				}
 				var whatsNew = [];
 				for (var i in this.whatsNewData) {
 					whatsNew[i] = { icon: 'icon-star-dark', longtext: this.whatsNewData[i] };
@@ -307,7 +309,6 @@
 		beforeMount: function() {
 			// Parse server data
 			var data = JSON.parse($('#updatenotification').attr('data-json'));
-			console.warn(data);
 
 			this.newVersionString = data.newVersionString;
 			this.lastCheckedDate = data.lastChecked;
@@ -321,7 +322,15 @@
 			this.notifyGroups = data.notifyGroups;
 			this.isDefaultUpdateServerURL = data.isDefaultUpdateServerURL;
 			this.versionIsEol = data.versionIsEol;
-			this.whatsNewData = data.whatsNew;
+			if(data.changes && data.changes.changelogURL) {
+				this.changelogURL = data.changes.changelogURL;
+			}
+			if(data.changes && data.changes.whatsNew) {
+				if(data.changes.whatsNew.admin) {
+					this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.admin);
+				}
+				this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.regular);
+			}
 		},
 		mounted: function () {
 			this._$el = $(this.$el);

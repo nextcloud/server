@@ -25,17 +25,21 @@ declare(strict_types=1);
 
 namespace OCA\UpdateNotification;
 
+use OC\Updater\ChangesCheck;
 use OC\Updater\VersionCheck;
 
 class UpdateChecker {
 	/** @var VersionCheck */
 	private $updater;
+	/** @var ChangesCheck */
+	private $changesCheck;
 
 	/**
 	 * @param VersionCheck $updater
 	 */
-	public function __construct(VersionCheck $updater) {
+	public function __construct(VersionCheck $updater, ChangesCheck $changesCheck) {
 		$this->updater = $updater;
+		$this->changesCheck = $changesCheck;
 	}
 
 	/**
@@ -56,11 +60,12 @@ class UpdateChecker {
 			if (strpos($data['url'], 'https://') === 0) {
 				$result['downloadLink'] = $data['url'];
 			}
-			if (strpos($data['changelog'], 'https://') === 0) {
-				$result['changelog'] = $data['changelog'];
-			}
-			if (is_array($data['whatsNew']) && count($data['whatsNew']) <= 3) {
-				$result['whatsNew'] = $data['whatsNew'];
+			if (strpos($data['changes'], 'https://') === 0) {
+				try {
+					$result['changes'] = $this->changesCheck->check($data['changes'], $data['version']);
+				} catch (\Exception $e) {
+					// no info, not a problem
+				}
 			}
 
 			return $result;

@@ -89,4 +89,14 @@ interface IFactory {
 	 * @since 14.0.0
 	 */
 	public function createPluralFunction($string);
+
+	/**
+	 * iterate through language settings (if provided) in this order:
+	 * 1. returns the forced language or:
+	 * 2. returns the user language or:
+	 * 3. returns the system default language or:
+	 * 4+∞. returns 'en'
+	 * @since 14.0.0
+	 */
+	public function iterateLanguage(bool $reset = false): string;
 }
