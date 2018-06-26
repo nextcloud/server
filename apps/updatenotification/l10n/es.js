@@ -18,6 +18,7 @@ OC.L10N.register(
     "View in store" : "Ver en la tienda",
     "Apps with available updates" : "Apps con actualizaciones disponibles",
     "Open updater" : "Abrir el actualizador",
+    "_button_::_#_" : ["botón","#"],
     "Download now" : "Descargar ahora",
     "Your version is up to date." : "Su versión está actualizada.",
     "The update check is not yet finished. Please refresh the page." : "La comprobación de actuliazaciones no ha finalizado aún. Por favor, recarga la página.",
