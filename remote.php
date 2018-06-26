@@ -80,8 +80,7 @@ function handleException($e) {
 			OC_Template::printErrorPage($e->getMessage(), '', $e->getCode());
 		} else {
 			\OC::$server->getLogger()->logException($e, ['app' => 'remote']);
-			OC_Response::setStatus($statusCode);
-			OC_Template::printExceptionErrorPage($e);
+			OC_Template::printExceptionErrorPage($e, $statusCode);
 		}
 	}
 }
