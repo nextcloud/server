@@ -60,6 +60,7 @@ class AuthMechanism implements \JsonSerializable {
 	const SCHEME_OAUTH2 = 'oauth2';
 	const SCHEME_PUBLICKEY = 'publickey';
 	const SCHEME_OPENSTACK = 'openstack';
+	const SCHEME_SMB = 'smb';
 
 	use VisibilityTrait;
 	use FrontendDefinitionTrait;

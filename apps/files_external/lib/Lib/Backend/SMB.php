@@ -22,6 +22,8 @@
 
 namespace OCA\Files_External\Lib\Backend;
 
+use Icewind\SMB\BasicAuth;
+use Icewind\SMB\KerberosAuth;
 use \OCP\IL10N;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -38,7 +40,7 @@ class SMB extends Backend {
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('smb')
-			->addIdentifierAlias('\OC\Files\Storage\SMB') // legacy compat
+			->addIdentifierAlias('\OC\Files\Storage\SMB')// legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
 			->setText($l->t('SMB / CIFS'))
 			->addParameters([
@@ -50,8 +52,8 @@ class SMB extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
-			->setLegacyAuthMechanism($legacyAuth)
-		;
+			->addAuthScheme(AuthMechanism::SCHEME_SMB)
+			->setLegacyAuthMechanism($legacyAuth);
 	}
 
 	/**
@@ -59,10 +61,24 @@ class SMB extends Backend {
 	 * @param IUser $user
 	 */
 	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
-		$user = $storage->getBackendOption('user');
-		if ($domain = $storage->getBackendOption('domain')) {
-			$storage->setBackendOption('user', $domain.'\\'.$user);
+		$auth = $storage->getAuthMechanism();
+		if ($auth->getScheme() === AuthMechanism::SCHEME_PASSWORD) {
+			$smbAuth = new BasicAuth(
+				$storage->getBackendOption('user'),
+				$storage->getBackendOption('domain'),
+				$storage->getBackendOption('password')
+			);
+		} else {
+			switch ($auth->getIdentifier()) {
+				case 'smb::kerberos':
+					$smbAuth = new KerberosAuth();
+					break;
+				default:
+					throw new \InvalidArgumentException('unknown authentication backend');
+			}
 		}
+
+		$storage->setBackendOption('auth', $smbAuth);
 	}
 
 }
