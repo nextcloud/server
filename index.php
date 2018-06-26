@@ -45,23 +45,19 @@ try {
 	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 
 	//show the user a detailed error page
-	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-	OC_Template::printExceptionErrorPage($ex);
+	OC_Template::printExceptionErrorPage($ex, \OC_Response::STATUS_SERVICE_UNAVAILABLE);
 } catch (\OC\HintException $ex) {
-	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 	try {
-		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint());
+		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), OC_Response::STATUS_SERVICE_UNAVAILABLE);
 	} catch (Exception $ex2) {
 		\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 		\OC::$server->getLogger()->logException($ex2, array('app' => 'index'));
 
 		//show the user a detailed error page
-		OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
-		OC_Template::printExceptionErrorPage($ex);
+		OC_Template::printExceptionErrorPage($ex, \OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 	}
 } catch (\OC\User\LoginException $ex) {
-	OC_Response::setStatus(OC_Response::STATUS_FORBIDDEN);
-	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage());
+	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), OC_Response::STATUS_FORBIDDEN);
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 
@@ -92,6 +88,5 @@ try {
 
 		throw $e;
 	}
-	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
-	OC_Template::printExceptionErrorPage($ex);
+	OC_Template::printExceptionErrorPage($ex, \OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 }

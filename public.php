@@ -36,8 +36,7 @@ try {
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
-		OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-		OC_Template::printErrorPage('Service unavailable');
+		OC_Template::printErrorPage('Service unavailable', '', OC_Response::STATUS_SERVICE_UNAVAILABLE);
 		exit;
 	}
 
@@ -80,16 +79,15 @@ try {
 
 } catch (Exception $ex) {
 	if ($ex instanceof \OC\ServiceUnavailableException) {
-		OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+		$status = OC_Response::STATUS_SERVICE_UNAVAILABLE;
 	} else {
-		OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+		$status = OC_Response::STATUS_INTERNAL_SERVER_ERROR;
 	}
 	//show the user a detailed error page
 	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
-	OC_Template::printExceptionErrorPage($ex);
+	OC_Template::printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
 	//show the user a detailed error page
-	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
-	OC_Template::printExceptionErrorPage($ex);
+	OC_Template::printExceptionErrorPage($ex, OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 }
