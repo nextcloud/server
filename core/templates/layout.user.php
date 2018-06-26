@@ -27,6 +27,10 @@
 	</head>
 	<body id="<?php p($_['bodyid']);?>">
 	<?php include 'layout.noscript.warning.php'; ?>
+
+	<a href="#app-content" class="button primary skip-navigation skip-content">Skip to main content</a>
+	<a href="#app-navigation" class="button primary skip-navigation">Skip to navigation of app</a>
+
 	<div id="notification-container">
 		<div id="notification"></div>
 	</div>
