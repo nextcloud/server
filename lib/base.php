@@ -260,7 +260,8 @@ class OC {
 					$l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
 					[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
 					. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
-					[ $urlGenerator->linkToDocs('admin-config') ] )
+					[ $urlGenerator->linkToDocs('admin-config') ] ),
+					\OC_Response::STATUS_SERVICE_UNAVAILABLE
 				);
 			}
 		}
@@ -750,11 +751,10 @@ class OC {
 		// Check whether the sample configuration has been copied
 		if($systemConfig->getValue('copied_sample_config', false)) {
 			$l = \OC::$server->getL10N('lib');
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
 			OC_Template::printErrorPage(
 				$l->t('Sample configuration detected'),
-				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php')
+				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
+				\OC_Response::STATUS_SERVICE_UNAVAILABLE
 			);
 			return;
 		}

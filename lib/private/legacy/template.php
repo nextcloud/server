@@ -306,7 +306,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $hint An optional hint message - needs to be properly escape
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public static function printErrorPage( $error_msg, $hint = '' ) {
+	public static function printErrorPage( $error_msg, $hint = '', $statusCode = \OC_Response::STATUS_INTERNAL_SERVER_ERROR ) {
 		if (\OC::$server->getAppManager()->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
 		}
@@ -317,6 +317,7 @@ class OC_Template extends \OC\Template\Base {
 			$hint = '';
 		}
 
+		http_response_code($statusCode);
 		try {
 			$content = new \OC_Template( '', 'error', 'error', false );
 			$errors = array(array('error' => $error_msg, 'hint' => $hint));
@@ -327,7 +328,6 @@ class OC_Template extends \OC\Template\Base {
 			$logger->error("$error_msg $hint", ['app' => 'core']);
 			$logger->logException($e, ['app' => 'core']);
 
-			header(self::getHttpProtocol() . ' 500 Internal Server Error');
 			header('Content-Type: text/plain; charset=utf-8');
 			print("$error_msg $hint");
 		}
