@@ -164,13 +164,8 @@
 		_setOnDrag: function () {
 			var scope=this;
 			$(function () {
-				var start_pos;
 				if (document.getElementById(scope.$quickAccessListKey.toString()).hasAttribute("draggable")) {
 					$("#sublist-favorites").sortable({
-						start: function (event, ui) {
-							start_pos = ui.item.index();
-							ui.item.data('start_pos', start_pos);
-						},
 						update: function (event, ui) {
 							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
 							var string=[];
@@ -184,6 +179,10 @@
 							order: resultorder}, function (data, status) {});
 						}
 					});
+				}else{
+					if(scope.$sortingStrategy === 'customorder'){
+						scope.$sortingStrategy = 'datemodified';
+					}
 				}
 			});
 		},

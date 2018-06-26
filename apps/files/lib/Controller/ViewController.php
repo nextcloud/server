@@ -216,7 +216,7 @@ class ViewController extends Controller {
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites'),
 				'sublist' => $favoritesSublistArray,
-				'draggableSublist' => 'true',
+				'draggableSublist' => 'false',
 				'defaultExpandedState' => $defaultExpandedState,
 				'enableMenuButton' => 0,
 			]
