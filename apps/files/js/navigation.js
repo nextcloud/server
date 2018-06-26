@@ -163,9 +163,25 @@
 		 */
 		_setOnDrag: function () {
 			var scope=this;
+			var element = $("#sublist-favorites");
 			$(function () {
 				if (document.getElementById(scope.$quickAccessListKey.toString()).hasAttribute("draggable")) {
-					$("#sublist-favorites").sortable({
+					element.sortable({
+						axis: "y",
+						containment: "parent",
+						scroll: false,
+						zIndex: 0,
+						opacity: 0.5,
+						delay: 150,
+						tolerance: "pointer",
+						start:function(event, ui){
+							//Fix for offset
+							ui.helper[0].style.left ='0px';
+						},
+						stop: function( event, ui ) {
+							//Clean up offset
+							ui.item.removeAttr("style");
+						},
 						update: function (event, ui) {
 							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
 							var string=[];
@@ -174,7 +190,6 @@
 								string.push(Object);
 							}
 							var resultorder=JSON.stringify(string);
-							console.log(resultorder);
 							$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/CustomSortingOrder"),{
 							order: resultorder}, function (data, status) {});
 						}
@@ -262,9 +277,7 @@
 			} else if (this.$sortingStrategy === 'customorder') {
 				var scope = this;
 				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/CustomSortingOrder"), function (data, status) {
-					console.log("load order:");
-					var ordering=JSON.parse(data)
-					console.log(ordering);
+					var ordering=JSON.parse(data);
 					for (var i = 0; i < ordering.length; i++) {
 						for (var j = 0; j < list.length; j++) {
 							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === ordering[i].name.toLowerCase()) {
@@ -341,7 +354,7 @@
 			if (strategy === 'alphabet') {
 				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
 			} else if (strategy === 'date') {
-				return nodes[int].getAttribute('folderPos').toLowerCase();
+				return nodes[int].getAttribute('folderPosition').toLowerCase();
 			} else if (strategy === 'datemodified') {
 				return nodes[int].getAttribute('mtime');
 			}else if (strategy === 'customorder') {
