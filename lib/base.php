@@ -432,7 +432,7 @@ class OC {
 		} catch (Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'base']);
 			//show the user a detailed error page
-			OC_Template::printExceptionErrorPage($e, \OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+			OC_Template::printExceptionErrorPage($e, 500);
 			die();
 		}
 

@@ -45,10 +45,10 @@ try {
 	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 
 	//show the user a detailed error page
-	OC_Template::printExceptionErrorPage($ex, \OC_Response::STATUS_SERVICE_UNAVAILABLE);
+	OC_Template::printExceptionErrorPage($ex, 503);
 } catch (\OC\HintException $ex) {
 	try {
-		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), OC_Response::STATUS_SERVICE_UNAVAILABLE);
+		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), 503);
 	} catch (Exception $ex2) {
 		\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 		\OC::$server->getLogger()->logException($ex2, array('app' => 'index'));
@@ -57,7 +57,7 @@ try {
 		OC_Template::printExceptionErrorPage($ex, 500);
 	}
 } catch (\OC\User\LoginException $ex) {
-	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), OC_Response::STATUS_FORBIDDEN);
+	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), 403);
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 
@@ -76,5 +76,5 @@ try {
 
 		throw $e;
 	}
-	OC_Template::printExceptionErrorPage($ex, \OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+	OC_Template::printExceptionErrorPage($ex, 500);
 }
