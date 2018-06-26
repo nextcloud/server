@@ -45,7 +45,7 @@ try {
 	$pathInfo = $request->getPathInfo();
 
 	if (!$pathInfo && $request->getParam('service', '') === '') {
-		header('HTTP/1.0 404 Not Found');
+		http_response_code(404);
 		exit;
 	} elseif ($request->getParam('service', '')) {
 		$service = $request->getParam('service', '');
@@ -55,7 +55,7 @@ try {
 	}
 	$file = \OC::$server->getConfig()->getAppValue('core', 'public_' . strip_tags($service));
 	if ($file === null) {
-		header('HTTP/1.0 404 Not Found');
+		http_response_code(404);
 		exit;
 	}
 

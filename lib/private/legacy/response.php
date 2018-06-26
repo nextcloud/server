@@ -41,40 +41,6 @@ class OC_Response {
 	const STATUS_SERVICE_UNAVAILABLE = 503;
 
 	/**
-	* Set response status
-	* @param int $status a HTTP status code, see also the STATUS constants
-	*/
-	static public function setStatus($status) {
-		$protocol = \OC::$server->getRequest()->getHttpProtocol();
-		switch($status) {
-			case self::STATUS_NOT_MODIFIED:
-				$status = $status . ' Not Modified';
-				break;
-			case self::STATUS_TEMPORARY_REDIRECT:
-				if ($protocol == 'HTTP/1.0') {
-					$status = self::STATUS_FOUND;
-					// fallthrough
-				} else {
-					$status = $status . ' Temporary Redirect';
-					break;
-				}
-			case self::STATUS_FOUND;
-				$status = $status . ' Found';
-				break;
-			case self::STATUS_NOT_FOUND;
-				$status = $status . ' Not Found';
-				break;
-			case self::STATUS_INTERNAL_SERVER_ERROR;
-				$status = $status . ' Internal Server Error';
-				break;
-			case self::STATUS_SERVICE_UNAVAILABLE;
-				$status = $status . ' Service Unavailable';
-				break;
-		}
-		header($protocol.' '.$status);
-	}
-
-	/**
 	 * Sets the content disposition header (with possible workarounds)
 	 * @param string $filename file name
 	 * @param string $type disposition type, either 'attachment' or 'inline'
