@@ -7,6 +7,7 @@
     "Secret" : "Secreto",
     "Add client" : "Añadir cliente",
     "Add" : "Añadir",
+    "_section_::_oauth2_" : ["sección","oauth2"],
     "Show client secret" : "Mostrar secreto del cliente",
     "Delete" : "Eliminar",
     "OAuth 2.0" : "OAuth 2.0",

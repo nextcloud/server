@@ -60,6 +60,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} поделио {file} са корисником {user}",
     "{actor} removed {user} from {file}" : "{actor} уклонио корисника {user} са {file}",
     "{actor} shared {file} with you" : "{actor} поделио {file} са Вама",
+    "{actor} removed you from the share named {file}" : "{actor} Вас је уклонио са дељења {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Фајл или фасцикла подељена е-поштом су <strong>преузети</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Фајл или фасцикла су дељени са <strong>другог сервера</strong>",
     "A file or folder has been <strong>shared</strong>" : "Фајл или фасцикла је <strong>дељен</strong>",

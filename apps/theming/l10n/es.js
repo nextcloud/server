@@ -31,6 +31,7 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Reset to default" : "Vovler a configuración por defecto",
     "Web link" : "Enlace web",
+    "https://…" : "https://…",
     "Slogan" : "Eslogan",
     "Color" : "Color",
     "Logo" : "Logo",
