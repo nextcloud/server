@@ -117,6 +117,10 @@
 		 * Renders this details view
 		 */
 		render: function() {
+			// remove old instances
+			$('#app-sidebar').remove();
+			this.$el.insertAfter($('#app-content'));
+			
 			var templateVars = {
 				closeLabel: t('files', 'Close')
 			};

@@ -21,13 +21,13 @@
   -->
 
 <template>
-	<div id="content" class="app-settings">
+	<div id="content" class="app-settings" :class="{ 'with-app-sidebar': currentApp}">
 		<app-navigation :menu="menu" />
-		<div id="app-content" class="app-settings-content" :class="{ 'with-app-sidebar': currentApp, 'icon-loading': loadingList }">
+		<div id="app-content" class="app-settings-content" :class="{ 'icon-loading': loadingList }">
 			<app-list :category="category" :app="currentApp" :search="searchQuery"></app-list>
-			<div id="app-sidebar" v-if="id && currentApp">
-				<app-details :category="category" :app="currentApp"></app-details>
-			</div>
+		</div>
+		<div id="app-sidebar" v-if="id && currentApp">
+			<app-details :category="category" :app="currentApp"></app-details>
 		</div>
 	</div>
 </template>

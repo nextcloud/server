@@ -16,7 +16,7 @@
  *
  */
 
-/* BASE STYLING ---------------------------------------------------------- */
+/* BASE STYLING ------------------------------------------------------------ */
 
 h2 {
 	font-size: 20px;
@@ -64,24 +64,18 @@ kbd {
 }
 
 
-/* APP STYLING -------------------------------------------------------------- */
+/* APP STYLING ------------------------------------------------------------ */
 
-#app {
-	height: 100%;
-	width: 100%;
-	* {
-		box-sizing: border-box;
-	}
+#content[class*='app-'] * {
+	box-sizing: border-box;
 }
 
-/* APP-NAVIGATION ------------------------------------------------------------*/
-
+/* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
-
 #app-navigation {
 	width: 250px;
 	/* header height */
-	height: calc(100vh - 50px);
+	height: calc(100vh - #{$header-height});
 	position: fixed;
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
@@ -581,54 +575,100 @@ kbd {
 	}
 }
 
-/* APP-CONTENT ---------------------------------------------------------------*/
+
+/* CONTENT  --------------------------------------------------------- */
+#content {
+	/* header height */
+	padding-top: $header-height;
+	box-sizing: border-box;
+	position: relative;
+	overflow-x: hidden;
+	transition: margin-right 300ms ease-in-out;
+	/* trick: scroll #app-content and not the body
+	 * to avoid double scrollbar with sidebar
+	 */
+	max-height: 100vh;
+	&.with-app-sidebar {
+		// to force the scrollbar to be visible
+		// and not under the sidebar
+		margin-right: 27vw;
+		max-width: calc(100vw - #{$sidebar-width});
+	}
+}
+
+/* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 #app-content {
 	margin-left: 250px;
 	z-index: 1000;
 	background-color: var(--color-main-background);
 	position: relative;
-	min-height: calc(100vh - 50px);
+	min-height: calc(100vh - #{$header-height});
 	/* no top border for first settings item */
 	> .section:first-child {
 		border-top: none;
 	}
-	&.with-app-sidebar {
-		margin-right: 27%;
+
+	/* if app-content-list is present */
+	#app-content-wrapper {
+		display: flex;
+		position: relative;
+		align-items: start;
+		.app-content-list,
+		.app-content-detail {
+			min-height: calc(100vh - #{$header-height});
+			max-height: calc(100vh - #{$header-height});
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+
+		/* CONTENT DETAILS AFTER LIST*/
+		.app-content-detail {
+			/* grow full width */
+			flex-grow: 1;
+			#app-navigation-toggle-back {
+				display: none;
+			}
+		}
 	}
 }
 
-/* APP-SIDEBAR ----------------------------------------------------------------*/
-
+/* APP-SIDEBAR ------------------------------------------------------------ */
 /*
-	Sidebar: a sidebar to be used within #app-content
-	 have it as first element within app-content in order to shrink other
-	 sibling containers properly. Compare Files app for example.
+	Sidebar: a sidebar to be used within #content
+	#app-content will be shrinked properly
 */
 #app-sidebar {
 	position: fixed;
-	top: 50px;
-	right: 0;
+	top: $header-height;
 	left: auto;
 	bottom: 0;
-	width: 27%;
-	min-width: 300px;
+	width: 27vw;
+	min-width: $sidebar-width;
 	display: block;
 	background: var(--color-main-background);
 	border-left: 1px solid var(--color-border);
-	-webkit-transition: margin-right 300ms;
-	transition: margin-right 300ms;
 	overflow-x: hidden;
 	overflow-y: auto;
-	visibility: visible;
 	z-index: 500;
+	animation: slideAndShow 300ms ease-in-out;
+	animation-fill-mode: both;
 	&.disappear {
-		visibility: hidden;
+		animation: slideAndHide 300ms ease-in-out;
+		animation-fill-mode: both;
 	}
 }
+@keyframes slideAndHide {
+    0%   {right: 0;}
+    99%  {right: -100%;}
+    100% {right: -100%; display: none;}
+}
+@keyframes slideAndShow {
+    0%   {right: -100%;}
+    100% {right: 0;}
+}
 
-/* APP-SETTINGS ---------------------------------------------------------------*/
-
+/* APP-SETTINGS ------------------------------------------------------------ */
 /* settings area */
 #app-settings {
 	// To the bottom w/ flex
@@ -714,7 +754,7 @@ kbd {
 	}
 }
 
-/* GENERAL SECTION ---------------------------------------------------------- */
+/* GENERAL SECTION ------------------------------------------------------------ */
 .section {
 	display: block;
 	padding: 30px;
@@ -751,7 +791,7 @@ kbd {
 	}
 }
 
-/* TABS --------------------------------------------------------------------- */
+/* TABS ------------------------------------------------------------ */
 .tabHeaders {
 	display: inline-block;
 	margin: 15px;
@@ -784,7 +824,7 @@ kbd {
 	}
 }
 
-/* POPOVER MENU ------------------------------------------------------------- */
+/* POPOVER MENU ------------------------------------------------------------ */
 $popoveritem-height: 38px;
 $popovericon-size: 16px;
 
@@ -1004,29 +1044,8 @@ $popovericon-size: 16px;
 
 	}
 }
-
-/* CONTENT WRAPPER  --------------------------------------------------------- */
-#content {
-	/* header height */
-	padding-top: 50px;
-	box-sizing: border-box;
-	position: relative;
-}
-/* if app-content-list is present */
-#app-content-wrapper {
-	display: flex;
-	position: relative;
-	align-items: start;
-	.app-content-list,
-	.app-content-detail {
-		min-height: calc(100vh - 50px);
-		max-height: calc(100vh - 50px);
-		overflow-x: hidden;
-		overflow-y: auto;
-	}
-}
 	
-/* CONTENT LIST ------------------------------------------------------------- */
+/* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	width: 300px;
 	border-right: 1px solid var(--color-border);
@@ -1176,16 +1195,6 @@ $popovericon-size: 16px;
 				right: -5px;
 			}
 		}
-	}
-}
-
-/* CONTENT ------------------------------------------------------------------ */
-.app-content-detail {
-	/* grow full width */
-	flex-grow: 1;
-
-	#app-navigation-toggle-back {
-		display: none;
 	}
 }
 
