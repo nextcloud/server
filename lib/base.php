@@ -249,14 +249,18 @@ class OC {
 			if (self::$CLI) {
 				echo $l->t('Cannot write into "config" directory!')."\n";
 				echo $l->t('This can usually be fixed by giving the webserver write access to the config directory')."\n";
-				echo "\n";
 				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-dir_permissions') ])."\n";
+				echo "\n";
+				echo $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.')."\n";
+				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ])."\n";
 				exit;
 			} else {
 				OC_Template::printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
 					$l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
-					 [ $urlGenerator->linkToDocs('admin-dir_permissions') ])
+					[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
+					. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
+					[ $urlGenerator->linkToDocs('admin-config') ] )
 				);
 			}
 		}
