@@ -42,7 +42,7 @@
 		/**
 		 * Strategy by which the quickaccesslist is sorted
 		 */
-		$sortingStrategy: 'alphabet',
+		$sortingStrategy: 'datemodified',
 		/**
 		 * Initializes the navigation from the given container
 		 *
@@ -54,7 +54,9 @@
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
-			//this.setInitialQuickaccessSettings();
+			this.setInitialQuickaccessSettings();
+
+
 		},
 
 		/**
@@ -64,9 +66,6 @@
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 			this._setOnDrag();
-			//this.$el.on('click', 'li input', _.bind(this._onClickMenuItem, this));
-			//this.$el.on('click', 'div input', _.bind(this._onClickAppSettings, this));
-
 
 		},
 
@@ -201,150 +200,53 @@
 			ev.preventDefault();
 		},
 
-
-		/**
-		 * Event handler for when clicking on an app setting.
-		 */
-		/*
-		_onClickAppSettings: function (ev) {
-
-			var itemId = $(ev.target).closest('input').attr('id');
-			if (itemId === 'showQuickAccessSortingToggle') {
-
-				var togglestate=false;
-				var dotMenu = document.getElementById("quickaccessbutton");
-				if (document.getElementById('showQuickAccessSortingToggle').checked) {
-					if($("#favorites-toggle" ).hasClass('collapsible')){
-						dotMenu.style.display='';
-					}
-					togglestate=true;
-				} else {
-					dotMenu.style.display='none';
-					togglestate=false;
-
-				}
-
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/showsettings"),
-					{show: togglestate},
-					function (data, status) {
-					});
-				document.getElementById('showQuickAccessSortingToggle').checked=togglestate;
-			}
-		},
-		*/
-
-		/**
-		 * Event handler for when clicking on a menuitem.
-		 */
-
-		/*
-		_onClickMenuItem: function (ev) {
-			var quickAccessKey = 'quickaccess-list';
-			var itemId = $(ev.target).closest('input').attr('id');
-			var list = document.getElementById(quickAccessKey).getElementsByTagName('li');
-
-			if (itemId === 'enableQuickAccess') {
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/show"),
-					{show: document.getElementById('enableQuickAccess').checked},
-					function (data, status) {
-				});
-				$("#favorites-toggle").toggleClass('open');
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
-
-			if (itemId === 'sortByAlphabet') {
-				//Prevents deselecting Group-Item
-				if (!document.getElementById('sortByAlphabet').checked) {
-					ev.preventDefault();
-					return;
-				}
-
-				this.sortingStrategy = 'alphabet';
-				document.getElementById('sortByDate').checked = false;
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/SortingStrategy"),
-					{strategy: this.sortingStrategy},
-					function (data, status) {
-				});
-
-				this.QuickSort(list, 0, list.length - 1);
-				if (document.getElementById('enableReverse').checked) {this.reverse(list);}
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
-
-			if (itemId === 'sortByDate') {
-				//Prevents deselecting Group-Item
-				if (!document.getElementById('sortByDate').checked) {
-					ev.preventDefault();
-					return;
-				}
-
-				this.sortingStrategy = 'date';
-				document.getElementById('sortByAlphabet').checked = false;
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/SortingStrategy"),
-					{strategy: this.sortingStrategy},
-					function (data, status) {
-				});
-
-				this.QuickSort(list, 0, list.length - 1);
-				if (document.getElementById('enableReverse').checked) {this.reverse(list);}
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
-
-			if (itemId === 'enableReverse') {
-				this.reverse(list);
-				var state = document.getElementById('enableReverse').checked;
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/ReverseList"),
-					{reverse: state},
-					function (data, status) {
-				});
-				document.getElementById('menu-favorites').classList.toggle('open');
-			}
-		},
-		*/
-
 		/**
 		 * Sort initially as setup of sidebar for QuickAccess
 		 */
 		setInitialQuickaccessSettings: function () {
 
-
-			var domRevState = document.getElementById('enableReverse').checked;
-			var domSortAlphabetState = document.getElementById('sortByAlphabet').checked;
-			var domSortDateState = document.getElementById('sortByDate').checked;
-
-			var quickAccesKey = 'quickaccess-list';
+			var quickAccesKey = 'sublist-favorites';
 			var list = document.getElementById(quickAccesKey).getElementsByTagName('li');
+			var scope = this;
+			console.log(OC.TAG_FAVORITE);
+			$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/FavoriteFolders/"), function (data, status) {
+				for (var i = 0; i < data.favoriteFolders.length; i++) {
+					for (var j = 0; j < list.length; j++) {
+						if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === data.favoriteFolders[i].name.toLowerCase()) {
+							list[j].setAttribute("mtime", data.favoriteFolders[i].mtime);
+						}
+					}
+				}
+			});
 
-			if (domSortAlphabetState) {
-				this.sortingStrategy = 'alphabet';
+
+			var sort = false;
+			var reverse = false;
+			if (this.$sortingStrategy === 'datemodified') {
+				sort = true;
+				reverse = true;
+			} else if (this.$sortingStrategy === 'alphabet') {
+				sort = true;
+			} else if (this.$sortingStrategy === 'date') {
+				sort = true;
+			}else if (this.$sortingStrategy === 'customorder') {
+				sort = true;
 			}
-			if (domSortDateState) {
-				this.sortingStrategy = 'date';
+
+			if (sort) {
+				this.QuickSort(list, 0, list.length - 1);
 			}
-
-			/*
-			this.QuickSort(list, 0, list.length - 1);
-
-			if (domRevState) {
+			if (reverse) {
 				this.reverse(list);
 			}
 
-			$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/showsettings"),
-				function (data, status) {
-					document.getElementById('showQuickAccessSortingToggle').checked=data;
-					if (data && $("#favorites-toggle" ).hasClass('collapsible')) {
-						document.getElementById("quickaccessbutton").style.display='';
-					} else {
-						document.getElementById("quickaccessbutton").style.display='none';
-					}
-				});
-			*/
 		},
 
 		/**
 		 * Sorting-Algorithm for QuickAccess
 		 */
 		QuickSort: function (list, start, end) {
+			console.log("sorting by: " + this.$sortingStrategy);
 			var lastMatch;
 			if (list.length > 1) {
 				lastMatch = this.quicksort_helper(list, start, end);
@@ -386,11 +288,18 @@
 		 * Sorting-Algorithm-Helper for QuickAccess
 		 * This method allows easy access to the element which is sorted by.
 		 */
-		getCompareValue: function (nodes, int) {
-			if (this.sortingStrategy === 'alphabet') {
+		getCompareValue: function (nodes, int, strategy) {
+
+			if ((typeof strategy === 'undefined')) {
+				strategy = this.$sortingStrategy;
+			}
+
+			if (strategy === 'alphabet') {
 				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
-			} else if (this.sortingStrategy === 'date') {
+			} else if (strategy === 'date') {
 				return nodes[int].getAttribute('folderPos').toLowerCase();
+			} else if (strategy === 'datemodified') {
+				return nodes[int].getAttribute('mtime');
 			}
 			return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
 		},

@@ -110,7 +110,12 @@ $application->registerRoutes(
 				'name' => 'API#getReverseQuickaccess',
 				'url' => '/api/v1/quickaccess/get/ReverseList',
 				'verb' => 'GET',
-			]
+			],
+			[
+				'name' => 'API#getFavoritesFolder',
+				'url' => '/api/v1/quickaccess/get/FavoriteFolders/',
+				'verb' => 'GET'
+			],
 		]
 	]
 );

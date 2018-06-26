@@ -200,6 +200,29 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * Returns a list of favorites modifed folder.
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return DataResponse
+	 */
+	public function getFavoritesFolder() {
+		$nodes = $this->userFolder->searchByTag('_$!<Favorite>!$_',  $this->userSession->getUser()->getUID());
+
+		$favorites = [];
+		$i = 0;
+		foreach ($nodes as &$node) {
+
+			$favorites[$i]['id'] = $node->getId();
+			$favorites[$i]['name'] = $node->getName();
+			$favorites[$i]['mtime'] = $node->getMTime();
+			$i++;
+		}
+
+		return new DataResponse(['favoriteFolders' => $favorites]);
+	}
+
+	/**
 	 * Return a list of share types for outgoing shares
 	 *
 	 * @param Node $node file node

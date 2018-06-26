@@ -162,16 +162,6 @@ class ViewController extends Controller {
 
 		$user = $this->userSession->getUser()->getUID();
 
-		//Load QuickAccess-Defaults
-		$sorting = $this->config->getUserValue($user, $this->appName, 'quickaccess_sorting_strategy', 'date');
-		$reverseListSetting = $this->config->getUserValue($user, $this->appName, 'quickaccess_reverse_list', 'false');
-		if ($this->config->getUserValue($user, $this->appName, 'show_Quick_Access', true)) {
-			$quickAccessExpandedState = 'true';
-		} else {
-			$quickAccessExpandedState = 'false';
-		}
-
-
 		//Get Favorite-Folder
 		$tagger = \OC::$server->getTagManager();
 		$helper = new \OCA\Files\Activity\Helper($tagger);
@@ -218,8 +208,6 @@ class ViewController extends Controller {
 				'appname' => 'files',
 				'script' => 'simplelist.php',
 				'classes' => $collapseClasses,
-				'quickaccessSortingStrategy' => $sorting,
-				'quickaccessSortingReverse' => $reverseListSetting ? 1 : 0,
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites'),
 				'sublist' => $favoritesSublistArray,
