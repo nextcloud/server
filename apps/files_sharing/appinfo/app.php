@@ -62,19 +62,17 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 			'name' => $l->t('Shared with you'),
 		];
 	});
-	$deletedShares = $shareManager->getDeletedSharedWith($userSession->getUser()->getUID(), \OCP\Share::SHARE_TYPE_GROUP, null, -1, 0);
-	if (count($deletedShares) > 0) {
-		\OCA\Files\App::getNavigationManager()->add(function () {
-			$l = \OC::$server->getL10N('files_sharing');
-			return [
-				'id' => 'deletedshares',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 18,
-				'name' => $l->t('Deleted shares'),
-			];
-		});
-	}
+	
+	\OCA\Files\App::getNavigationManager()->add(function () {
+		$l = \OC::$server->getL10N('files_sharing');
+		return [
+			'id' => 'deletedshares',
+			'appname' => 'files_sharing',
+			'script' => 'list.php',
+			'order' => 18,
+			'name' => $l->t('Deleted shares'),
+		];
+	});
 
 	if (\OCP\Util::isSharingDisabledForUser() === false) {
 		\OCA\Files\App::getNavigationManager()->add(function () {
