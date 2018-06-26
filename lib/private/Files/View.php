@@ -632,7 +632,7 @@ class View {
 
 	/**
 	 * @param string $path
-	 * @param mixed $data
+	 * @param string|resource $data
 	 * @return bool|mixed
 	 * @throws \Exception
 	 */
