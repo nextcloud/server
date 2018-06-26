@@ -114,6 +114,10 @@
 					<popover-menu :menu="userActions" />
 				</div>
 			</div>
+			<div class="feedback" :style="{opacity: feedbackMessage !== '' ? 1 : 0}">
+				<div class="icon-checkmark"></div>
+				{{feedbackMessage}}
+			</div>
 		</div>
 		</div>
 </template>
@@ -146,6 +150,7 @@ export default {
 		return {
 			rand: parseInt(Math.random() * 1000),
 			openedMenu: false,
+			feedbackMessage: '',
 			loading: {
 				all: false,
 				displayName: false,
@@ -163,7 +168,7 @@ export default {
 	computed: {
 		/* USER POPOVERMENU ACTIONS */
 		userActions() {
-			return [{
+			let actions = [{
 				icon: 'icon-delete',
 				text: t('settings','Delete user'),
 				action: this.deleteUser
@@ -171,7 +176,15 @@ export default {
 				icon: this.user.enabled ? 'icon-close' : 'icon-add',
 				text: this.user.enabled ? t('settings','Disable user') : t('settings','Enable user'),
 				action: this.enableDisableUser
-			}]
+			}];
+			if (this.user.email !== null && this.user.email !== '') {
+				actions.push({
+					icon: 'icon-mail',
+					text: t('settings','Resend welcome email'),
+					action: this.sendWelcomeMail
+				})
+			}
+			return actions;
 		},
 
 		/* GROUPS MANAGEMENT */
@@ -289,7 +302,7 @@ export default {
 			this.loading.delete = true;
 			this.loading.all = true;
 			let userid = this.user.id;
-			return this.$store.dispatch('deleteUser', {userid})
+			return this.$store.dispatch('deleteUser', userid)
 				.then(() => {
 					this.loading.delete = false
 					this.loading.all = false
@@ -506,6 +519,24 @@ export default {
 				value: lang.code
 			}).then(() => this.loading.languages = false);
 			return lang;
+		},
+
+		/**
+		 * Dispatch new welcome mail request
+		 */
+		sendWelcomeMail() {
+			this.loading.all = true;
+			this.$store.dispatch('sendWelcomeMail', this.user.id)
+				.then(success => {
+					if (success) {
+						// Show feedback to indicate the success
+						this.feedbackMessage = t('setting', 'Welcome mail sent!');
+						setTimeout(() => {
+							this.feedbackMessage = '';
+						}, 2000);
+					}
+					this.loading.all = false;
+				});
 		}
 	}
 }
