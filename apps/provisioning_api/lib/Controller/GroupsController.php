@@ -239,7 +239,7 @@ class GroupsController extends AUserData {
 		}
 		// Check if it exists
 		if($this->groupManager->groupExists($groupid)){
-			throw new OCSException('', 102);
+			throw new OCSException('group exists', 102);
 		}
 		$this->groupManager->createGroup($groupid);
 		return new DataResponse();
