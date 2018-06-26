@@ -56,7 +56,7 @@ class File extends Node implements \OCP\Files\File {
 	}
 
 	/**
-	 * @param string $data
+	 * @param string|resource $data
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OCP\Files\GenericFileException
 	 */
