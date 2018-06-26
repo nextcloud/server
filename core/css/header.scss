@@ -475,13 +475,26 @@ nav[role='navigation'] {
 		}
 	}
 
-
+	/* focused app visual feedback */
 	li:hover a,
 	li a:focus,
 	li a.active {
 		opacity: 1;
 	}
 
+	li:hover a,
+	li a:focus {
+		+ span {
+			display: inline-block;
+		}
+	}
+
+	li:hover span,
+	li:focus span {
+		display: inline-block;
+	}
+
+	/* hidden apps menu */
 	li img,
 	.icon-more-white {
 		display: inline-block;
@@ -489,6 +502,7 @@ nav[role='navigation'] {
 		height: 20px;
 	}
 
+	/* app title popup */
 	li span {
 		display: none;
 		position: absolute;
@@ -509,13 +523,8 @@ nav[role='navigation'] {
 		z-index: 100;
 	}
 
-	li:hover span {
-		display: inline-block;
-	}
-
 	/* show triangle below active app */
-	li:hover a:before,
-	li a.active:before {
+	li a::before {
 		content: ' ';
 		height: 0;
 		width: 0;
@@ -529,20 +538,24 @@ nav[role='navigation'] {
 		bottom: 0;
 		display: none;
 	}
-	li a.active:before,
-	li:hover a:before,
-	li:hover a.active:before {
+	/* triangle focus feedback */
+	li a.active::before,
+	li:hover a::before,
+	li:hover a.active::before,
+	li a:focus::before {
 		display: block;
 	}
-	li a.active:before {
+	li a.active::before {
 		z-index: 99;
 	}
-	li:hover a:before,
-	li a.active:hover:before {
+	li:hover a::before,
+	li:hover a::before,
+	li a.active:hover::before,
+	li a:focus::before {
 		z-index: 101;
 	}
-	&.menu-open li:hover a:before,
-	&.menu-open li a.active:before,
+	&.menu-open li:hover a::before,
+	&.menu-open li a.active::before,
 	&.menu-open li:hover span {
 		display: none !important;
 	}
