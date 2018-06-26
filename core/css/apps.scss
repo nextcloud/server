@@ -764,7 +764,7 @@ kbd {
 	margin: 15px;
 	.tabHeader {
 		float: left;
-		padding: 5px;
+		padding: 12px;
 		cursor: pointer;
 		color: var(--color-text-lighter);
 		margin-bottom: 1px;
@@ -774,21 +774,13 @@ kbd {
 		}
 		&.selected {
 			font-weight: 600;
-			border-bottom: 1px solid var(--color-border);
-		}
-		&:hover,
-		&:focus {
-			border-bottom: 1px solid var(--color-border);
 		}
 		&.selected,
-		&:hover
+		&:hover,
 		&:focus {
 			margin-bottom: 0px;
 			color: var(--color-main-text);
-			a {
-				margin-bottom: 0px;
-				color: var(--color-main-text);
-			}
+			border-bottom: 1px solid var(--color-text-lighter);
 		}
 	}
 }
