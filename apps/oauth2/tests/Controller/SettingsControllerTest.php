@@ -26,7 +26,9 @@ use OCA\OAuth2\Controller\SettingsController;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
@@ -53,6 +55,9 @@ class SettingsControllerTest extends TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
 		$this->defaultTokenMapper = $this->createMock(DefaultTokenMapper::class);
+		$l = $this->createMock(IL10N::class);
+		$l->method('t')
+			->willReturnArgument(0);
 
 		$this->settingsController = new SettingsController(
 			'oauth2',
@@ -60,7 +65,8 @@ class SettingsControllerTest extends TestCase {
 			$this->clientMapper,
 			$this->secureRandom,
 			$this->accessTokenMapper,
-			$this->defaultTokenMapper
+			$this->defaultTokenMapper,
+			$l
 		);
 	}
 
@@ -177,5 +183,12 @@ class SettingsControllerTest extends TestCase {
 				'clientSecret' => 'MySecret2',
 			],
 		], $data);
+	}
+
+	public function testInvalidRedirectUri() {
+		$result = $this->settingsController->addClient('test', 'invalidurl');
+
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $result->getStatus());
+		$this->assertSame(['message' => 'Your redirect url needs to be a full url for example: https://yourdomain.com/path'], $result->getData());
 	}
 }
