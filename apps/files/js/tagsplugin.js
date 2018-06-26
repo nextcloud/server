@@ -102,13 +102,13 @@
 		var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);
 
 		var innerTagA = document.createElement('A');
-		innerTagA.setAttribute("href", "/cloud/index.php/apps/files/?dir=" + appfolder);
+		innerTagA.setAttribute("href", OC.generateUrl('/apps/files/?dir=') + appfolder);
 		innerTagA.setAttribute("class", "nav-icon-files svg");
 		innerTagA.innerHTML = appName;
 
 		var length = listLIElements.length + 1;
 		var innerTagLI = document.createElement('li');
-		innerTagLI.setAttribute("data-id", "/cloud/index.php/apps/files/?dir=" + appfolder);
+		innerTagLI.setAttribute("data-id", OC.generateUrl('/apps/files/?dir=') + appfolder);
 		innerTagLI.setAttribute("class", "nav-" + appName);
 		innerTagLI.setAttribute("folderpos", length.toString());
 		innerTagLI.appendChild(innerTagA);
