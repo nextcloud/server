@@ -183,7 +183,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::GROUP_DETAILS)) {
 				$groupData = $backend->getGroupDetails($gid);
-				if (is_array($groupData)) {
+				if (is_array($groupData) && !empty($groupData)) {
 					// take the display name from the first backend that has a non-null one
 					if (is_null($displayName) && isset($groupData['displayName'])) {
 						$displayName = $groupData['displayName'];
