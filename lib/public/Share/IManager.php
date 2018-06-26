@@ -159,7 +159,7 @@ interface IManager {
 	 * @param int $limit The maximum number of shares returned, -1 for all
 	 * @param int $offset
 	 * @return IShare[]
-	 * @since 9.0.0
+	 * @since 14.0.0
 	 */
 	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
 
