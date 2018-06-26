@@ -63,19 +63,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function detailsViewForSection($section) {
-		return Locator::forThe()->xpath("/preceding-sibling::*[position() = 1 and @id = 'app-sidebar']")->
-				descendantOf(self::mainViewForSection($section))->
-				describedAs("Details view for section $section in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function currentSectionDetailsView() {
-		return Locator::forThe()->xpath("/preceding-sibling::*[position() = 1 and @id = 'app-sidebar']")->
-				descendantOf(self::currentSectionMainView())->
-				describedAs("Current section details view in Files app");
+	public static function detailsView() {
+		return Locator::forThe()->id("app-sidebar")->
+				describedAs("Details view in Files app");
 	}
 
 	/**
@@ -83,53 +73,53 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public static function closeDetailsViewButton() {
 		return Locator::forThe()->css(".icon-close")->
-				descendantOf(self::currentSectionDetailsView())->
-				describedAs("Close current section details view in Files app");
+				descendantOf(self::detailsView())->
+				describedAs("Close details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function fileNameInCurrentSectionDetailsView() {
+	public static function fileNameInDetailsView() {
 		return Locator::forThe()->css(".fileName")->
-				descendantOf(self::currentSectionDetailsView())->
-				describedAs("File name in current section details view in Files app");
+				descendantOf(self::detailsView())->
+				describedAs("File name in details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function fileDetailsInCurrentSectionDetailsViewWithText($fileDetailsText) {
+	public static function fileDetailsInDetailsViewWithText($fileDetailsText) {
 		return Locator::forThe()->xpath("//span[normalize-space() = '$fileDetailsText']")->
-				descendantOf(self::fileDetailsInCurrentSectionDetailsView())->
-				describedAs("File details with text \"$fileDetailsText\" in current section details view in Files app");
+				descendantOf(self::fileDetailsInDetailsView())->
+				describedAs("File details with text \"$fileDetailsText\" in details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	private static function fileDetailsInCurrentSectionDetailsView() {
+	private static function fileDetailsInDetailsView() {
 		return Locator::forThe()->css(".file-details")->
-				descendantOf(self::currentSectionDetailsView())->
-				describedAs("File details in current section details view in Files app");
+				descendantOf(self::detailsView())->
+				describedAs("File details in details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function inputFieldForTagsInCurrentSectionDetailsView() {
+	public static function inputFieldForTagsInDetailsView() {
 		return Locator::forThe()->css(".systemTagsInfoView")->
-				descendantOf(self::currentSectionDetailsView())->
-				describedAs("Input field for tags in current section details view in Files app");
+				descendantOf(self::detailsView())->
+				describedAs("Input field for tags in details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag) {
+	public static function itemInInputFieldForTagsInDetailsViewForTag($tag) {
 		return Locator::forThe()->xpath("//span[normalize-space() = '$tag']")->
-				descendantOf(self::inputFieldForTagsInCurrentSectionDetailsView())->
-				describedAs("Item in input field for tags in current section details view for tag $tag in Files app");
+				descendantOf(self::inputFieldForTagsInDetailsView())->
+				describedAs("Item in input field for tags in details view for tag $tag in Files app");
 	}
 
 	/**
@@ -161,37 +151,37 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function tabHeaderInCurrentSectionDetailsViewNamed($tabHeaderName) {
+	public static function tabHeaderInDetailsViewNamed($tabHeaderName) {
 		return Locator::forThe()->xpath("//li[normalize-space() = '$tabHeaderName']")->
-				descendantOf(self::tabHeadersInCurrentSectionDetailsView())->
-				describedAs("Tab header named $tabHeaderName in current section details view in Files app");
+				descendantOf(self::tabHeadersInDetailsView())->
+				describedAs("Tab header named $tabHeaderName in details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	private static function tabHeadersInCurrentSectionDetailsView() {
+	private static function tabHeadersInDetailsView() {
 		return Locator::forThe()->css(".tabHeaders")->
-				descendantOf(self::currentSectionDetailsView())->
-				describedAs("Tab headers in current section details view in Files app");
+				descendantOf(self::detailsView())->
+				describedAs("Tab headers in details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function tabInCurrentSectionDetailsViewNamed($tabName) {
+	public static function tabInDetailsViewNamed($tabName) {
 		return Locator::forThe()->xpath("//div[@id=//*[contains(concat(' ', normalize-space(@class), ' '), ' tabHeader ') and normalize-space() = '$tabName']/@data-tabid]")->
-				descendantOf(self::currentSectionDetailsView())->
-				describedAs("Tab named $tabName in current section details view in Files app");
+				descendantOf(self::detailsView())->
+				describedAs("Tab named $tabName in details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function loadingIconForTabInCurrentSectionDetailsViewNamed($tabName) {
+	public static function loadingIconForTabInDetailsViewNamed($tabName) {
 		return Locator::forThe()->css(".loading")->
-				descendantOf(self::tabInCurrentSectionDetailsViewNamed($tabName))->
-				describedAs("Loading icon for tab named $tabName in current section details view in Files app");
+				descendantOf(self::tabInDetailsViewNamed($tabName))->
+				describedAs("Loading icon for tab named $tabName in details view in Files app");
 	}
 
 	/**
@@ -202,7 +192,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		// return the checkbox itself, but the element that the user interacts
 		// with is the label.
 		return Locator::forThe()->xpath("//label[normalize-space() = 'Share link']")->
-				descendantOf(self::currentSectionDetailsView())->
+				descendantOf(self::detailsView())->
 				describedAs("Share link checkbox in the details view in Files app");
 	}
 
@@ -210,7 +200,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareLinkField() {
-		return Locator::forThe()->css(".linkText")->descendantOf(self::currentSectionDetailsView())->
+		return Locator::forThe()->css(".linkText")->descendantOf(self::detailsView())->
 				describedAs("Share link field in the details view in Files app");
 	}
 
@@ -222,7 +212,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		// that would return the radio button itself, but the element that the
 		// user interacts with is the label.
 		return Locator::forThe()->xpath("//label[normalize-space() = 'Allow upload and editing']")->
-				descendantOf(self::currentSectionDetailsView())->
+				descendantOf(self::detailsView())->
 				describedAs("Allow upload and editing radio button in the details view in Files app");
 	}
 
@@ -234,7 +224,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		// would return the checkbox itself, but the element that the user
 		// interacts with is the label.
 		return Locator::forThe()->xpath("//label[normalize-space() = 'Password protect']")->
-				descendantOf(self::currentSectionDetailsView())->
+				descendantOf(self::detailsView())->
 				describedAs("Password protect checkbox in the details view in Files app");
 	}
 
@@ -242,7 +232,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function passwordProtectField() {
-		return Locator::forThe()->css(".linkPassText")->descendantOf(self::currentSectionDetailsView())->
+		return Locator::forThe()->css(".linkPassText")->descendantOf(self::detailsView())->
 				describedAs("Password protect field in the details view in Files app");
 	}
 
@@ -250,7 +240,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function passwordProtectWorkingIcon() {
-		return Locator::forThe()->css(".linkPass .icon-loading-small")->descendantOf(self::currentSectionDetailsView())->
+		return Locator::forThe()->css(".linkPass .icon-loading-small")->descendantOf(self::detailsView())->
 				describedAs("Password protect working icon in the details view in Files app");
 	}
 
@@ -265,14 +255,14 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I open the input field for tags in the details view
 	 */
 	public function iOpenTheInputFieldForTagsInTheDetailsView() {
-		$this->actor->find(self::fileDetailsInCurrentSectionDetailsViewWithText("Tags"), 10)->click();
+		$this->actor->find(self::fileDetailsInDetailsViewWithText("Tags"), 10)->click();
 	}
 
 	/**
 	 * @Given I open the :tabName tab in the details view
 	 */
 	public function iOpenTheTabInTheDetailsView($tabName) {
-		$this->actor->find(self::tabHeaderInCurrentSectionDetailsViewNamed($tabName), 10)->click();
+		$this->actor->find(self::tabHeaderInDetailsViewNamed($tabName), 10)->click();
 	}
 
 	/**
@@ -347,35 +337,29 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Then I see that the details view for :section section is open
+	 * @Then I see that the details view is open
 	 */
-	public function iSeeThatTheDetailsViewForSectionIsOpen($section) {
-		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::detailsViewForSection($section), 10)->isVisible());
-
-		$otherSections = self::sections();
-		unset($otherSections[$section]);
-
-		$this->assertDetailsViewForSectionsAreClosed($otherSections);
+	public function iSeeThatTheDetailsViewIsOpen() {
+		// The sidebar always exists in the DOM, so it has to be explicitly
+		// waited for it to be visible instead of relying on the implicit wait
+		// made to find the element.
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::detailsView(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The details view is not open yet after $timeout seconds");
+		}
 	}
 
 	/**
 	 * @Then I see that the details view is closed
 	 */
 	public function iSeeThatTheDetailsViewIsClosed() {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::currentSectionMainView(), 10));
-
-		$this->assertDetailsViewForSectionsAreClosed(self::sections());
-	}
-
-	private function assertDetailsViewForSectionsAreClosed($sections) {
-		foreach ($sections as $section => $id) {
-			try {
-				PHPUnit_Framework_Assert::assertFalse(
-						$this->actor->find(self::detailsViewForSection($section))->isVisible(),
-						"Details view for section $section is open but it should be closed");
-			} catch (NoSuchElementException $exception) {
-			}
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::detailsView(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The details view is not closed yet after $timeout seconds");
 		}
 	}
 
@@ -384,7 +368,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileNameShownInTheDetailsViewIs($fileName) {
 		PHPUnit_Framework_Assert::assertEquals(
-				$this->actor->find(self::fileNameInCurrentSectionDetailsView(), 10)->getText(), $fileName);
+				$this->actor->find(self::fileNameInDetailsView(), 10)->getText(), $fileName);
 	}
 
 	/**
@@ -392,7 +376,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::inputFieldForTagsInCurrentSectionDetailsView(), 10)->isVisible());
+				$this->actor->find(self::inputFieldForTagsInDetailsView(), 10)->isVisible());
 	}
 
 	/**
@@ -400,7 +384,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewContainsTheTag($tag) {
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag), 10)->isVisible());
+				$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag), 10)->isVisible());
 	}
 
 	/**
@@ -411,7 +395,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 
 		try {
 			PHPUnit_Framework_Assert::assertFalse(
-					$this->actor->find(self::itemInInputFieldForTagsInCurrentSectionDetailsViewForTag($tag))->isVisible());
+					$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
 	}
@@ -441,7 +425,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheTabInTheDetailsViewIsEventuallyLoaded($tabName) {
 		if (!WaitFor::elementToBeEventuallyNotShown(
 				$this->actor,
-				self::loadingIconForTabInCurrentSectionDetailsViewNamed($tabName),
+				self::loadingIconForTabInDetailsViewNamed($tabName),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}

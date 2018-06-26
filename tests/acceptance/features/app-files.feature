@@ -6,7 +6,7 @@ Feature: app-files
     And I see that "welcome.txt" is marked as favorite
     And I open the "Favorites" section
     And I open the details view for "welcome.txt"
-    And I see that the details view for "Favorites" section is open
+    And I see that the details view is open
     When I view "welcome.txt" in folder
     Then I see that the current section is "All files"
     And I see that the details view is closed
@@ -17,11 +17,11 @@ Feature: app-files
     And I see that "welcome.txt" is marked as favorite
     And I open the "Favorites" section
     And I open the details view for "welcome.txt"
-    And I see that the details view for "Favorites" section is open
+    And I see that the details view is open
     And I view "welcome.txt" in folder
     And I see that the current section is "All files"
     When I open the details view for "welcome.txt"
-    Then I see that the details view for "All files" section is open
+    Then I see that the details view is open
 
   Scenario: rename a file with the details view open
     Given I am logged in
@@ -151,14 +151,14 @@ Feature: app-files
   Scenario: show the input field for tags in the details view
     Given I am logged in
     And I open the details view for "welcome.txt"
-    And I see that the details view for "All files" section is open
+    And I see that the details view is open
     When I open the input field for tags in the details view
     Then I see that the input field for tags in the details view is shown
 
   Scenario: show the input field for tags in the details view after the sharing tab has loaded
     Given I am logged in
     And I open the details view for "welcome.txt"
-    And I see that the details view for "All files" section is open
+   And I see that the details view is open
     And I open the "Sharing" tab in the details view
     And I see that the "Sharing" tab in the details view is eventually loaded
     When I open the input field for tags in the details view
