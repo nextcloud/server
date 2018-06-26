@@ -55,7 +55,7 @@ use Sabre\VObject\Property\Boolean;
 class ApiController extends Controller {
 	/** @var TagService */
 	private $tagService;
-	/** @var IManager **/
+	/** @var IManager * */
 	private $shareManager;
 	/** @var IPreview */
 	private $previewManager;
@@ -108,7 +108,7 @@ class ApiController extends Controller {
 	 * @return DataResponse|FileDisplayResponse
 	 */
 	public function getThumbnail($x, $y, $file) {
-		if($x < 1 || $y < 1) {
+		if ($x < 1 || $y < 1) {
 			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -207,7 +207,7 @@ class ApiController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getFavoritesFolder() {
-		$nodes = $this->userFolder->searchByTag('_$!<Favorite>!$_',  $this->userSession->getUser()->getUID());
+		$nodes = $this->userFolder->searchByTag('_$!<Favorite>!$_', $this->userSession->getUser()->getUID());
 
 		$favorites = [];
 		$i = 0;
@@ -285,7 +285,7 @@ class ApiController extends Controller {
 	 * @param bool $show
 	 */
 	public function showHiddenFiles($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int) $show);
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int)$show);
 		return new Response();
 	}
 
@@ -299,9 +299,9 @@ class ApiController extends Controller {
 	 * @return Response
 	 */
 	public function showQuickAccess($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', (int) $show);
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', (int)$show);
 		return new Response();
-		}
+	}
 
 	/**
 	 * quickaccess-sorting-strategy
@@ -312,7 +312,7 @@ class ApiController extends Controller {
 	 * @return Response
 	 */
 	public function setSortingStrategy($strategy) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', (String) $strategy);
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', (String)$strategy);
 		return new Response();
 	}
 
@@ -336,7 +336,7 @@ class ApiController extends Controller {
 	 * @return Response
 	 */
 	public function setReverseQuickaccess($reverse) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', (int) $reverse);
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', (int)$reverse);
 		return new Response();
 	}
 
@@ -348,7 +348,7 @@ class ApiController extends Controller {
 	 * @return bool
 	 */
 	public function getReverseQuickaccess() {
-		if($this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', false)){
+		if ($this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_reverse_list', false)) {
 			return true;
 		}
 		return false;
@@ -363,9 +363,10 @@ class ApiController extends Controller {
 	 * @return Response
 	 */
 	public function setShowQuickaccessSettings($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_show_settings', (int) $show);
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_show_settings', (int)$show);
 		return new Response();
 	}
+
 	/**
 	 * Get state for show sorting menu
 	 *
@@ -374,10 +375,35 @@ class ApiController extends Controller {
 	 * @return bool
 	 */
 	public function getShowQuickaccessSettings() {
-		if($this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_show_settings', false)){
+		if ($this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_show_settings', false)) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Set sorting-order for custom sorting
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param String $order
+	 * @return Response
+	 */
+	public function setSortingOrder($order) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_custom_sorting_order', (String)$order);
+		return new Response();
+	}
+
+	/**
+	 * Get sorting-order for custom sorting
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param String
+	 * @return String
+	 */
+	public function getSortingOrder() {
+		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_custom_sorting_order',"");
 	}
 
 }

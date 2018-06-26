@@ -116,6 +116,16 @@ $application->registerRoutes(
 				'url' => '/api/v1/quickaccess/get/FavoriteFolders/',
 				'verb' => 'GET'
 			],
+			[
+				'name' => 'API#setSortingOrder',
+				'url' => '/api/v1/quickaccess/set/CustomSortingOrder',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'API#getSortingOrder',
+				'url' => '/api/v1/quickaccess/get/CustomSortingOrder',
+				'verb' => 'GET',
+			],
 		]
 	]
 );
