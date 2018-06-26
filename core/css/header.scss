@@ -564,3 +564,24 @@ nav[role='navigation'] {
 		display: none;
 	}
 }
+
+/* Skip navigation links – show only on keyboard focus */
+.skip-navigation {
+	padding: 11px;
+	position: absolute;
+	overflow: hidden;
+	z-index: 1000;
+	top: -999px;
+	left: 3px;
+	/* Force primary color, otherwise too light focused color */
+	background: var(--color-primary) !important;
+
+	&.skip-content {
+		left: 253px;
+	}
+
+	&:focus,
+	&:active {
+		top: 50px;
+	}
+}
