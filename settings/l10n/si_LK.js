@@ -1,10 +1,11 @@
 OC.L10N.register(
     "settings",
     {
+    "Authentication error" : "සත්‍යාපන දෝෂයක්",
+    "Delete" : "මකා දමන්න",
+    "Groups" : "කණ්ඩායම්",
     "Enable" : "සක්‍රිය කරන්න",
     "Email" : "විද්‍යුත් තැපෑල",
-    "Groups" : "කණ්ඩායම්",
-    "Delete" : "මකා දමන්න",
     "None" : "කිසිවක් නැත",
     "Login" : "ප්‍රවිශ්ටය",
     "Encryption" : "ගුප්ත කේතනය",
@@ -21,7 +22,6 @@ OC.L10N.register(
     "New password" : "නව මුරපදය",
     "Change password" : "මුරපදය වෙනස් කිරීම",
     "Username" : "පරිශීලක නම",
-    "Authentication error" : "සත්‍යාපන දෝෂයක්",
     "Email saved" : "වි-තැපෑල සුරකින ලදී",
     "All" : "සියල්ල",
     "Disable" : "අක්‍රිය කරන්න",

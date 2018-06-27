@@ -1,19 +1,16 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
-    "A new version is available: <strong>{newVersionString}</strong>" : "有可用的新版本： <strong>{newVersionString}</strong>",
-    "Could not start updater, please try the manual update" : "无法启动自动更新，请尝试手动更新",
     "Open updater" : "打开更新器",
-    "Download now" : "开始下载",
     "Your version is up to date." : "您的版本已是最新。",
-    "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。",
     "A non-default update server is in use to be checked for updates:" : "检查更新使用了一个非默认的服务器：",
     "Update channel:" : "更新通道：",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "您可以随时更新到新版本 / 实验通道。但你永远不能降级到更稳定的通道。",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "请注意, 在新版本发布后, 它可能需要一段时间才能显示在这里。新版本发布后, 随着时间的推移, 当用户发现问题时我们可能会跳过一个版本。",
     "Notify members of the following groups about available updates:" : "提醒一下组群的用户关于可用的更新：",
     "Only notification for app updates are available." : "仅提醒应用更新就绪。",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "被选中的升级通道将会通知未更新的服务器",
     "The selected update channel does not support updates of the server." : "选中的更新通道不支持服务器升级。",
+    "A new version is available: <strong>{newVersionString}</strong>" : "有可用的新版本： <strong>{newVersionString}</strong>",
+    "Could not start updater, please try the manual update" : "无法启动自动更新，请尝试手动更新",
     "Update notifications" : "升级通知",
     "Channel updated" : "更新通道",
     "The update server could not be reached since %d days to check for new updates." : "更新服务器自 1%d 天前起无法访问以检查更新。",
@@ -22,6 +19,9 @@
     "Update for %1$s to version %2$s is available." : "可以从 %1$s 版本更新到 %2$s 版本。",
     "Update for {app} to version %s is available." : "可以将您的 {app} 更新到版本 %s 。",
     "A new version is available: %s" : "有可用的新版本： %s",
-    "Checked on %s" : "检查于 %s"
+    "Download now" : "开始下载",
+    "Checked on %s" : "检查于 %s",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "被选中的升级通道将会通知未更新的服务器",
+    "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
