@@ -9,6 +9,8 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Paziņot šo grupu locekļiem par pieejamajiem atjauninājumiem:",
     "Only notification for app updates are available." : "Tikai paziņojumi par programmu atjauninājumiem ir pieejami.",
     "The selected update channel does not support updates of the server." : "Izvēlēto atjauninājumu kanāls neatbalsta servera atjauninājumus.",
+    "A new version is available: <strong>{newVersionString}</strong>" : "Ir pieejama jauna versija: <strong>{newVersionString}</strong>",
+    "Checked on {lastCheckedDate}" : "Pārbaudīts {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Nevar sākt atjauninājumu, lūdzu, mēģiniet manuālo atjauninājumu",
     "Update notifications" : "Atjauninājumu paziņojumi",
     "Channel updated" : "Kanāls atjaunots",
