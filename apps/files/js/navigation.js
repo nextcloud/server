@@ -49,7 +49,7 @@
 		 * alphabet
 		 *
 		 */
-		$sortingStrategy: 'customorder',
+		$sortingStrategy: 'alphabet',
 
 		/**
 		 * Key for the quick-acces-list
@@ -66,8 +66,12 @@
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
-			this.setInitialQuickaccessSettings();
 
+			var scope=this;
+			$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/SortingStrategy"), function (data, status) {
+				scope.$sortingStrategy=data;
+				scope.setInitialQuickaccessSettings();
+			});
 
 		},
 
@@ -162,7 +166,7 @@
 		 * Event handler for when dragging an item
 		 */
 		_setOnDrag: function () {
-			var scope=this;
+			var scope = this;
 			var element = $("#sublist-favorites");
 			$(function () {
 				if (document.getElementById(scope.$quickAccessListKey.toString()).hasAttribute("draggable")) {
@@ -172,30 +176,54 @@
 						scroll: false,
 						zIndex: 0,
 						opacity: 0.5,
-						delay: 150,
 						tolerance: "pointer",
-						start:function(event, ui){
+						//revert: 0.05,
+						//delay: 150,
+						start: function (event, ui) {
 							//Fix for offset
-							ui.helper[0].style.left ='0px';
+							ui.helper[0].style.left = '0px';
+
+							//Change Icon while dragging
+							var list = document.getElementById(scope.$quickAccessListKey).getElementsByTagName('li');
+							for (var j = 0; j < list.length; j++) {
+								if (!(typeof list[j].getElementsByTagName('a')[0] === 'undefined')) {
+									list[j].getElementsByTagName('a')[0].classList.remove("nav-icon-files");
+									list[j].getElementsByTagName('a')[0].classList.add('icon-menu');
+								}
+							}
 						},
-						stop: function( event, ui ) {
+						stop: function (event, ui) {
 							//Clean up offset
 							ui.item.removeAttr("style");
+
+							//Change Icon back after dragging
+							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
+							for (var j = 0; j < list.length; j++) {
+								if (!(typeof list[j].getElementsByTagName('a')[0] === 'undefined')) {
+									list[j].getElementsByTagName('a')[0].classList.add("nav-icon-files");
+									list[j].getElementsByTagName('a')[0].classList.remove('icon-menu');
+								}
+							}
 						},
 						update: function (event, ui) {
 							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
-							var string=[];
+							var string = [];
 							for (var j = 0; j < list.length; j++) {
-								var Object = {id:j, name:scope.getCompareValue(list,j,'alphabet') };
+								var Object = {
+									id: j,
+									name: scope.getCompareValue(list, j, 'alphabet')
+								};
 								string.push(Object);
 							}
-							var resultorder=JSON.stringify(string);
-							$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/CustomSortingOrder"),{
-							order: resultorder}, function (data, status) {});
+							var resultorder = JSON.stringify(string);
+							$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/CustomSortingOrder"), {
+								order: resultorder
+							}, function (data, status) {
+							});
 						}
 					});
-				}else{
-					if(scope.$sortingStrategy === 'customorder'){
+				} else {
+					if (scope.$sortingStrategy === 'customorder') {
 						scope.$sortingStrategy = 'datemodified';
 					}
 				}
@@ -220,13 +248,12 @@
 			// and the parent, which should be toggled at the first arrayindex.
 			dotmenuToggles.push(["#dotmenu-button-favorites", "dotmenu-content-favorites"]);
 
-
 			collapsibleToggles.forEach(function foundToggle (item) {
 				if (item[0] === ("#" + itemId)) {
 					$(item[1]).toggleClass('open');
-					var show=1;
-					if(!$(item[1]).hasClass('open')){
-						show=0;
+					var show = 1;
+					if (!$(item[1]).hasClass('open')) {
+						show = 0;
 					}
 					$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/showList"), {show: show}, function (data, status) {
 					});
@@ -269,7 +296,6 @@
 					scope.reverse(list);
 				});
 
-
 			} else if (this.$sortingStrategy === 'alphabet') {
 				sort = true;
 			} else if (this.$sortingStrategy === 'date') {
@@ -277,7 +303,7 @@
 			} else if (this.$sortingStrategy === 'customorder') {
 				var scope = this;
 				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/CustomSortingOrder"), function (data, status) {
-					var ordering=JSON.parse(data);
+					var ordering = JSON.parse(data);
 					for (var i = 0; i < ordering.length; i++) {
 						for (var j = 0; j < list.length; j++) {
 							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === ordering[i].name.toLowerCase()) {
@@ -287,7 +313,6 @@
 					}
 					scope.QuickSort(list, 0, list.length - 1);
 				});
-
 				sort = false;
 			}
 
@@ -357,7 +382,7 @@
 				return nodes[int].getAttribute('folderPosition').toLowerCase();
 			} else if (strategy === 'datemodified') {
 				return nodes[int].getAttribute('mtime');
-			}else if (strategy === 'customorder') {
+			} else if (strategy === 'customorder') {
 				return nodes[int].getAttribute('folderPosition');
 			}
 			return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();

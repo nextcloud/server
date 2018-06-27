@@ -215,6 +215,7 @@ class ApiController extends Controller {
 
 			$favorites[$i]['id'] = $node->getId();
 			$favorites[$i]['name'] = $node->getName();
+			$favorites[$i]['path'] = $node->getInternalPath();
 			$favorites[$i]['mtime'] = $node->getMTime();
 			$i++;
 		}
@@ -336,7 +337,7 @@ class ApiController extends Controller {
 	 * @return String
 	 */
 	public function getSortingStrategy() {
-		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'date');
+		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'alphabet');
 	}
 
 	/**
@@ -411,11 +412,24 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param String
 	 * @return String
 	 */
 	public function getSortingOrder() {
 		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_custom_sorting_order', "");
 	}
+
+	/**
+	 * Get sorting-order for custom sorting
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param String
+	 * @return String
+	 */
+	public function getNodeType($folderpath) {
+		$node = $this->userFolder->get($folderpath);
+		return $node->getType();
+	}
+
 
 }

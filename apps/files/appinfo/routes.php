@@ -131,6 +131,11 @@ $application->registerRoutes(
 				'url' => '/api/v1/quickaccess/get/CustomSortingOrder',
 				'verb' => 'GET',
 			],
+			[
+				'name' => 'API#getNodeType',
+				'url' => '/api/v1/quickaccess/get/NodeType',
+				'verb' => 'GET',
+			],
 		]
 	]
 );

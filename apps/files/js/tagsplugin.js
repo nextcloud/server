@@ -73,10 +73,14 @@
 		var collapsibleButtonId = 'button-collapse-favorites';
 		var listULElements = document.getElementById(quickAccessList);
 		var listLIElements = listULElements.getElementsByTagName('li');
-		var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);
+
+		var apppath=appfolder;
+		if(appfolder.startsWith("//")){
+			apppath=appfolder.substring(1, appfolder.length);
+		}
 
 		for (var i = 0; i <= listLIElements.length - 1; i++) {
-			if (appName === listLIElements[i].getElementsByTagName('a')[0].innerHTML) {
+			if (listLIElements[i].getElementsByTagName('a')[0].href.endsWith("dir=" + apppath)) {
 				listLIElements[i].remove();
 			}
 		}
@@ -100,29 +104,40 @@
 		var listLIElements = listULElements.getElementsByTagName('li');
 
 		var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);
+		var apppath=appfolder;
+
+		if(appfolder.startsWith("//")){
+			apppath=appfolder.substring(1, appfolder.length);
+		}
+		var url=OC.generateUrl('/apps/files/?dir=')+apppath;
+
 
 		var innerTagA = document.createElement('A');
-		innerTagA.setAttribute("href", OC.generateUrl('/apps/files/?dir=') + appfolder);
+		innerTagA.setAttribute("href", url);
 		innerTagA.setAttribute("class", "nav-icon-files svg");
 		innerTagA.innerHTML = appName;
 
 		var length = listLIElements.length + 1;
 		var innerTagLI = document.createElement('li');
-		innerTagLI.setAttribute("data-id", OC.generateUrl('/apps/files/?dir=') + appfolder);
+		innerTagLI.setAttribute("data-id", url);
 		innerTagLI.setAttribute("class", "nav-" + appName);
 		innerTagLI.setAttribute("folderpos", length.toString());
 		innerTagLI.appendChild(innerTagA);
 
+		$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/NodeType"),{folderpath: apppath}, function (data, status) {
+				if (data === "dir") {
+					if (listULElements.childElementCount <= 0) {
+						listULElements.appendChild(innerTagLI);
+						var collapsibleButton = document.getElementById(collapsibleButtonId);
+						collapsibleButton.style.display = '';
 
-		if (listULElements.childElementCount <= 0) {
-			listULElements.appendChild(innerTagLI);
-			var collapsibleButton = document.getElementById(collapsibleButtonId);
-			collapsibleButton.style.display = '';
-
-			$("#button-collapse-parent-favorites").addClass('collapsible');
-		} else {
-			listLIElements[listLIElements.length - 1].after(innerTagLI);
-		}
+						$("#button-collapse-parent-favorites").addClass('collapsible');
+					} else {
+						listLIElements[listLIElements.length - 1].after(innerTagLI);
+					}
+				}
+			}
+		);
 	}
 
 	OCA.Files = OCA.Files || {};
@@ -327,6 +342,7 @@
 			});
 		}
 	};
-})(OCA);
+})
+(OCA);
 
 OC.Plugins.register('OCA.Files.FileList', OCA.Files.TagsPlugin);
