@@ -21,7 +21,7 @@
 		 * The downside: anything not ascii is excluded. Not sure how common it is in areas using different
 		 * alphabets… the upside: fake domains with similar looking characters won't be formatted as links
 		 */
-		urlRegex: /(\b(https?:\/\/|([-A-Z0-9+_])*\.([-A-Z])+)[-A-Z0-9+&@#\/%?=~_|!:,.;()]*[-A-Z0-9+&@#\/%=~_|()])/ig,
+		urlRegex: /((\s|^)(https?:\/\/|([-A-Z0-9+_])*\.([-A-Z])+)[-A-Z0-9+&@#\/%?=~_|!:,.;()]*[-A-Z0-9+&@#\/%=~_|()])/ig,
 		protocolRegex: /^https:\/\//,
 
 		plainToRich: function(content) {
@@ -39,7 +39,7 @@
 			return content.replace(this.urlRegex, function(url) {
 				var hasProtocol = (url.indexOf('https://') !== -1) || (url.indexOf('http://') !== -1);
 				if(!hasProtocol) {
-					url = 'https://' + url;
+					url = 'https://' + url.trim();
 				}
 
 				var linkText = url.replace(self.protocolRegex, '');
