@@ -251,7 +251,7 @@ class PersonalInfo implements ISettings {
 			'activelocaleLang' => $userLocaleString,
 			'activelocale' => $userLocale,
 			'locales' => $localeCodes,
-			'localesforlanguage' => $localesForLanguage,
+			'localesForLanguage' => $localesForLanguage,
 		];
 	}
 

@@ -351,7 +351,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 							<?php p($_['activelocale']['name']);?>
 						</option>
 						<optgroup label="––––––––––"></optgroup>
-						<?php foreach($_['localesforlanguage'] as $locale):?>
+						<?php foreach($_['localesForLanguage'] as $locale):?>
 							<option value="<?php p($locale['code']);?>">
 								<?php p($locale['name']);?>
 							</option>
