@@ -72,6 +72,7 @@ OC.L10N.register(
     "Public key" : "Chave pública",
     "RSA private key" : "Chave privada RSA",
     "Private key" : "Chave privada",
+    "Kerberos ticket" : "Ticket Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Cesta",
     "Hostname" : "Nome do Host",
