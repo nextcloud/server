@@ -6,7 +6,6 @@
     "Developer documentation" : "Документация для разработчиков",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Для этого приложения не указана минимальная поддерживаемая версия Nextcloud,  в будущем это будет считаться ошибкой.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Приложение не может быть установлено, следующие зависимости не удовлетворены:",
-    "-licensed" : "Лицензия ",
     "Disable all" : "Отключить все",
     "Enable all" : "Включить все",
     "Download and enable" : "Скачать и включить",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Developer documentation" : "Geliştirici belgeleri",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Bu uygulama için en düşük Nextcloud sürümü belirtilmemiş. Bu durum ileride sorun çıkarır.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Aşağıdaki bağımlılıklar sağlanmadığından bu uygulama kurulamıyor:",
-    "-licensed" : "-lisanslı",
     "Disable all" : "Tümünü devre dışı bırak",
     "Enable all" : "Tümünü Etkinleştir",
     "Download and enable" : "İndir ve etkinleştir",
