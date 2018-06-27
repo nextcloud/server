@@ -55,6 +55,11 @@ class Factory implements IFactory {
 	protected $availableLanguages = [];
 
 	/**
+	 * @var array
+	 */
+	protected $availableLocales = [];
+
+	/**
 	 * @var array Structure: string => callable
 	 */
 	protected $pluralFunctions = [];
@@ -195,8 +200,13 @@ class Factory implements IFactory {
 		return 'en';
 	}
 
-	public function findLocale($lang = null)
-	{
+	/**
+	 * find the best locale
+	 *
+	 * @param string $lang
+	 * @return null|string
+	 */
+	public function findLocale($lang = null) {
 		if ($this->config->getSystemValue('installed', false)) {
 			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
 			$userLocale = null;
@@ -278,10 +288,18 @@ class Factory implements IFactory {
 		return $available;
 	}
 
-	public function findAvailableLocales()
-	{
+	/**
+	 * @return array|mixed
+	 */
+	public function findAvailableLocales() {
+		if (!empty($this->availableLocales)) {
+			return $this->availableLocales;
+		}
+
 		$localeData = file_get_contents(__DIR__ . '/locales.json');
-		return json_decode($localeData, true);
+		$this->availableLocales = \json_decode($localeData, true);
+
+		return $this->availableLocales;
 	}
 
 	/**
@@ -308,7 +326,6 @@ class Factory implements IFactory {
 		}
 
 		$locales = $this->findAvailableLocales();
-
 		$userLocale = array_filter($locales, function($value) use ($locale) {
 			return $locale === $value['code'];
 		});
