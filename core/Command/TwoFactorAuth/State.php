@@ -26,7 +26,6 @@ declare(strict_types = 1);
 
 namespace OC\Core\Command\TwoFactorAuth;
 
-use OC\Core\Command\Base;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
@@ -37,9 +36,6 @@ class State extends Base {
 
 	/** @var IRegistry */
 	private $registry;
-
-	/** @var IUserManager */
-	private $userManager;
 
 	public function __construct(IRegistry $registry, IUserManager $userManager) {
 		parent::__construct('twofactorauth:state');
