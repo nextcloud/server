@@ -197,7 +197,7 @@
 			},
 
 			stableInfoString: function() {
-				return t('updatenotification', '<strong>stable</strong> is the most recent stable version. It is suited for production use and will always update to the latest major version.');
+				return t('updatenotification', '<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version.');
 			},
 
 			betaInfoString: function() {
