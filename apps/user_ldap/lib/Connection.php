@@ -56,6 +56,9 @@ use OC\ServerNotAvailableException;
  * @property string ldapUuidGroupAttribute
  * @property string ldapExpertUUIDUserAttr
  * @property string ldapExpertUUIDGroupAttr
+ * @property string ldapQuotaAttribute
+ * @property string ldapQuotaDefault
+ * @property string ldapEmailAttribute
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
