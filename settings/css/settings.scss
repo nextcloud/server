@@ -405,6 +405,9 @@ table.nostyle {
 		}
 		td {
 			padding: 10px 10px 10px 0;
+			&:first-child {
+				padding: 10px;
+			}
 		}
 	}
 	.token-list td {
