@@ -301,7 +301,7 @@ class Factory implements IFactory {
 			return $this->availableLocales;
 		}
 
-		$localeData = file_get_contents(__DIR__ . '/locales.json');
+		$localeData = file_get_contents(\OC::$SERVERROOT . '/resources/locales.json');
 		$this->availableLocales = \json_decode($localeData, true);
 
 		return $this->availableLocales;
