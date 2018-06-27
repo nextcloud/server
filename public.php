@@ -36,7 +36,7 @@ try {
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
-		OC_Template::printErrorPage('Service unavailable', '', OC_Response::STATUS_SERVICE_UNAVAILABLE);
+		OC_Template::printErrorPage('Service unavailable', '', 503);
 		exit;
 	}
 
@@ -45,7 +45,7 @@ try {
 	$pathInfo = $request->getPathInfo();
 
 	if (!$pathInfo && $request->getParam('service', '') === '') {
-		header('HTTP/1.0 404 Not Found');
+		http_response_code(404);
 		exit;
 	} elseif ($request->getParam('service', '')) {
 		$service = $request->getParam('service', '');
@@ -55,7 +55,7 @@ try {
 	}
 	$file = \OC::$server->getConfig()->getAppValue('core', 'public_' . strip_tags($service));
 	if ($file === null) {
-		header('HTTP/1.0 404 Not Found');
+		http_response_code(404);
 		exit;
 	}
 
@@ -78,10 +78,9 @@ try {
 	require_once OC_App::getAppPath($app) . '/' . $parts[1];
 
 } catch (Exception $ex) {
+	$status = 500;
 	if ($ex instanceof \OC\ServiceUnavailableException) {
-		$status = OC_Response::STATUS_SERVICE_UNAVAILABLE;
-	} else {
-		$status = OC_Response::STATUS_INTERNAL_SERVER_ERROR;
+		$status = 503;
 	}
 	//show the user a detailed error page
 	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
@@ -89,5 +88,5 @@ try {
 } catch (Error $ex) {
 	//show the user a detailed error page
 	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
-	OC_Template::printExceptionErrorPage($ex, OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+	OC_Template::printExceptionErrorPage($ex, 500);
 }

@@ -34,7 +34,7 @@ $revision=(int)$_GET['revision'];
 try {
 	list($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($file);
 } catch(\OCP\Files\NotFoundException $e) {
-	header("HTTP/1.1 404 Not Found");
+	http_response_code(404);
 	$tmpl = new OCP\Template('', '404', 'guest');
 	$tmpl->assign('file', '');
 	$tmpl->printPage();

@@ -88,7 +88,7 @@ class OC_API {
 			} else {
 				header('WWW-Authenticate: Basic realm="Authorisation Required"');
 			}
-			header('HTTP/1.0 401 Unauthorized');
+			http_response_code(401);
 		}
 
 		foreach($result->getHeaders() as $name => $value) {
@@ -101,7 +101,7 @@ class OC_API {
 			$statusCode = self::mapStatusCodes($result->getStatusCode());
 			if (!is_null($statusCode)) {
 				$meta['statuscode'] = $statusCode;
-				OC_Response::setStatus($statusCode);
+				http_response_code($statusCode);
 			}
 		}
 

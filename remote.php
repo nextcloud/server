@@ -59,9 +59,9 @@ function handleException($e) {
 		$server->on('beforeMethod', function () use ($e) {
 			if ($e instanceof RemoteException) {
 				switch ($e->getCode()) {
-					case OC_Response::STATUS_SERVICE_UNAVAILABLE:
+					case 503:
 						throw new ServiceUnavailable($e->getMessage());
-					case OC_Response::STATUS_NOT_FOUND:
+					case 404:
 						throw new \Sabre\DAV\Exception\NotFound($e->getMessage());
 				}
 			}
@@ -71,9 +71,9 @@ function handleException($e) {
 		});
 		$server->exec();
 	} else {
-		$statusCode = OC_Response::STATUS_INTERNAL_SERVER_ERROR;
+		$statusCode = 500;
 		if ($e instanceof \OC\ServiceUnavailableException ) {
-			$statusCode = OC_Response::STATUS_SERVICE_UNAVAILABLE;
+			$statusCode = 503;
 		}
 		if ($e instanceof RemoteException) {
 			// we shall not log on RemoteException
@@ -118,13 +118,13 @@ try {
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
-		throw new RemoteException('Service unavailable', OC_Response::STATUS_SERVICE_UNAVAILABLE);
+		throw new RemoteException('Service unavailable', 503);
 	}
 
 	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
-		throw new RemoteException('Path not found', OC_Response::STATUS_NOT_FOUND);
+		throw new RemoteException('Path not found', 404);
 	}
 	if (!$pos = strpos($pathInfo, '/', 1)) {
 		$pos = strlen($pathInfo);
@@ -134,7 +134,7 @@ try {
 	$file = resolveService($service);
 
 	if(is_null($file)) {
-		throw new RemoteException('Path not found', OC_Response::STATUS_NOT_FOUND);
+		throw new RemoteException('Path not found', 404);
 	}
 
 	$file=ltrim($file, '/');

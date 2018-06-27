@@ -38,7 +38,7 @@ $dir = \OC\Files\Filesystem::normalizePath($dir);
 try {
 	$dirInfo = \OC\Files\Filesystem::getFileInfo($dir);
 	if (!$dirInfo || !$dirInfo->getType() === 'dir') {
-		header("HTTP/1.0 404 Not Found");
+		http_response_code(404);
 		exit();
 	}
 

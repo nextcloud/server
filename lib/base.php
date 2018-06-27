@@ -287,8 +287,7 @@ class OC {
 		// Allow ajax update script to execute without being stopped
 		if (\OC::$server->getSystemConfig()->getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
+			http_response_code(503);
 			header('Retry-After: 120');
 
 			// render error page
@@ -344,8 +343,7 @@ class OC {
 
 		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
 			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
+			http_response_code(503);
 			header('Retry-After: 120');
 
 			// render error page
@@ -434,7 +432,7 @@ class OC {
 		} catch (Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'base']);
 			//show the user a detailed error page
-			OC_Template::printExceptionErrorPage($e, \OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+			OC_Template::printExceptionErrorPage($e, 500);
 			die();
 		}
 
@@ -600,9 +598,7 @@ class OC {
 
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
-				$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
-				$protocol = in_array($claimedProtocol, ['HTTP/1.0', 'HTTP/1.1', 'HTTP/2']) ? $claimedProtocol : 'HTTP/1.1';
-				header($protocol . ' ' . OC_Response::STATUS_SERVICE_UNAVAILABLE);
+				http_response_code(503);
 			}
 			// we can't use the template error page here, because this needs the
 			// DI container which isn't available yet
@@ -689,7 +685,7 @@ class OC {
 					}
 					exit(1);
 				} else {
-					OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+					http_response_code(503);
 					OC_Util::addStyle('guest');
 					OC_Template::printGuestPage('', 'error', array('errors' => $errors));
 					exit;
@@ -778,16 +774,14 @@ class OC {
 			}
 
 			if(substr($request->getRequestUri(), -11) === '/status.php') {
-				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
-				header('Status: 400 Bad Request');
+				http_response_code(400);
 				header('Content-Type: application/json');
 				echo '{"error": "Trusted domain error.", "code": 15}';
 				exit();
 			}
 
 			if (!$isScssRequest) {
-				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
-				header('Status: 400 Bad Request');
+				http_response_code(400);
 
 				\OC::$server->getLogger()->info(
 					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
@@ -997,7 +991,7 @@ class OC {
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
 			} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
-				OC_Response::setStatus(405);
+				http_response_code(405);
 				return;
 			}
 		}
@@ -1007,8 +1001,7 @@ class OC {
 			// not allowed any more to prevent people
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
-			header('HTTP/1.1 405 Method Not Allowed');
-			header('Status: 405 Method Not Allowed');
+			http_response_code(405);
 			return;
 		}
 

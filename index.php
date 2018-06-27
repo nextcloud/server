@@ -45,41 +45,29 @@ try {
 	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 
 	//show the user a detailed error page
-	OC_Template::printExceptionErrorPage($ex, \OC_Response::STATUS_SERVICE_UNAVAILABLE);
+	OC_Template::printExceptionErrorPage($ex, 503);
 } catch (\OC\HintException $ex) {
 	try {
-		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), OC_Response::STATUS_SERVICE_UNAVAILABLE);
+		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), 503);
 	} catch (Exception $ex2) {
 		\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 		\OC::$server->getLogger()->logException($ex2, array('app' => 'index'));
 
 		//show the user a detailed error page
-		OC_Template::printExceptionErrorPage($ex, \OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+		OC_Template::printExceptionErrorPage($ex, 500);
 	}
 } catch (\OC\User\LoginException $ex) {
-	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), OC_Response::STATUS_FORBIDDEN);
+	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), 403);
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 
 	//show the user a detailed error page
-	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
-	OC_Template::printExceptionErrorPage($ex);
+	OC_Template::printExceptionErrorPage($ex, 500);
 } catch (Error $ex) {
 	try {
 		\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
 	} catch (Error $e) {
-
-		$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
-		$validProtocols = [
-			'HTTP/1.0',
-			'HTTP/1.1',
-			'HTTP/2',
-		];
-		$protocol = 'HTTP/1.1';
-		if(in_array($claimedProtocol, $validProtocols, true)) {
-			$protocol = $claimedProtocol;
-		}
-		header($protocol . ' 500 Internal Server Error');
+		http_response_code(500);
 		header('Content-Type: text/plain; charset=utf-8');
 		print("Internal Server Error\n\n");
 		print("The server encountered an internal error and was unable to complete your request.\n");
@@ -88,5 +76,5 @@ try {
 
 		throw $e;
 	}
-	OC_Template::printExceptionErrorPage($ex, \OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+	OC_Template::printExceptionErrorPage($ex, 500);
 }
