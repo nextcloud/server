@@ -40,5 +40,8 @@
 		<collections>
 			<collection>OCA\Files_Versions\Sabre\RootCollection</collection>
 		</collections>
+		<plugins>
+			<plugin>OCA\Files_Versions\Sabre\DownloadPlugin</plugin>
+		</plugins>
 	</sabre>
 </info>

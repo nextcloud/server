@@ -43,8 +43,6 @@
 		'<div class="icon-history"></div>' +
 		'<p>{{emptyResultLabel}}</p>' +
 		'</div></div>' +
-		'<input type="button" class="showMoreVersions hidden" value="{{moreVersionsLabel}}"' +
-		' name="show-more-versions" id="show-more-versions" />' +
 		'<div class="loading hidden" style="height: 50px"></div>';
 
 	/**
@@ -79,14 +77,14 @@
 		},
 
 		nextPage: function() {
-			if (this._loading || !this.collection.hasMoreResults()) {
+			if (this._loading) {
 				return;
 			}
 
 			if (this.collection.getFileInfo() && this.collection.getFileInfo().isDirectory()) {
 				return;
 			}
-			this.collection.fetchNext();
+			this.collection.fetch();
 		},
 
 		_onClickShowMoreVersions: function(ev) {
@@ -115,7 +113,7 @@
 					self.$versionsContainer.empty();
 					self.collection.setFileInfo(fileInfoModel);
 					self.collection.reset([], {silent: true});
-					self.collection.fetchNext();
+					self.collection.fetch();
 
 					self.$el.find('.versions').removeClass('hidden');
 
@@ -163,7 +161,6 @@
 		_onEndRequest: function() {
 			this._toggleLoading(false);
 			this.$el.find('.empty').toggleClass('hidden', !!this.collection.length);
-			this.$el.find('.showMoreVersions').toggleClass('hidden', !this.collection.hasMoreResults());
 		},
 
 		_onAddModel: function(model) {
@@ -202,7 +199,7 @@
 				this.render();
 				this.collection.setFileInfo(fileInfo);
 				this.collection.reset([], {silent: true});
-				this.nextPage();
+				this.collection.fetch();
 			} else {
 				this.render();
 				this.collection.reset();
