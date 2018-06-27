@@ -166,6 +166,7 @@
 			$(function () {
 				if (document.getElementById(scope.$quickAccessListKey.toString()).hasAttribute("draggable")) {
 					$("#sublist-favorites").sortable({
+						axis: "y",
 						update: function (event, ui) {
 							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
 							var string=[];
