@@ -262,8 +262,6 @@ class Manager implements IManager {
 			/** @var ISettings $form */
 			$form = new Admin\Overview($this->config);
 			$forms[$form->getPriority()] = [$form];
-			$form = new Admin\ServerDevNotice();
-			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'server') {
 			/** @var ISettings $form */
@@ -304,6 +302,8 @@ class Manager implements IManager {
 				$this->l10nFactory,
 				$this->l
 			);
+			$forms[$form->getPriority()] = [$form];
+			$form = new Personal\ServerDevNotice();
 			$forms[$form->getPriority()] = [$form];
 		}
 		if($section === 'security') {

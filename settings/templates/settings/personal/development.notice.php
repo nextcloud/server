@@ -1,3 +1,4 @@
+<div class="followupsection">
 	<p>
 		<?php print_unescaped(str_replace(
 			[
@@ -62,3 +63,4 @@
 {newsletteropen}<img width="50" src="{mailimage}" title="{mailtext}" alt="{mailtext}">{linkclose}'
 		)); ?>
 	</p>
+</div>

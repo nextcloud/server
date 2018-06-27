@@ -96,14 +96,14 @@ input {
 #personal-settings-avatar-container {
 	display: inline-grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 2fr 1fr 1fr;
+	grid-template-rows: 2fr 1fr;
 	vertical-align: top;
 }
 
 .profile-settings-container {
 	display: inline-grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 2fr;
 }
 
 .personal-show-container {
@@ -216,7 +216,7 @@ input {
 .personal-settings-container {
 	display: inline-grid;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
 	&:after {
 		clear: both;
 	}
