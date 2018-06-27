@@ -175,7 +175,6 @@
 								string.push(Object);
 							}
 							var resultorder=JSON.stringify(string);
-							console.log(resultorder);
 							$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/CustomSortingOrder"),{
 							order: resultorder}, function (data, status) {});
 						}
@@ -263,9 +262,7 @@
 			} else if (this.$sortingStrategy === 'customorder') {
 				var scope = this;
 				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/CustomSortingOrder"), function (data, status) {
-					console.log("load order:");
-					var ordering=JSON.parse(data)
-					console.log(ordering);
+					var ordering=JSON.parse(data);
 					for (var i = 0; i < ordering.length; i++) {
 						for (var j = 0; j < list.length; j++) {
 							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === ordering[i].name.toLowerCase()) {
