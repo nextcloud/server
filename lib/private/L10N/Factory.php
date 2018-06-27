@@ -207,6 +207,11 @@ class Factory implements IFactory {
 	 * @return null|string
 	 */
 	public function findLocale($lang = null) {
+		$forceLocale = $this->config->getSystemValue('force_locale', false);
+		if (is_string($forceLocale) && $this->localeExists($forceLocale)) {
+			return $forceLocale;
+		}
+
 		if ($this->config->getSystemValue('installed', false)) {
 			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
 			$userLocale = null;
