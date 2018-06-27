@@ -174,6 +174,7 @@
 						opacity: 0.5,
 						delay: 150,
 						tolerance: "pointer",
+						revert: 0.05,
 						start:function(event, ui){
 							//Fix for offset
 							ui.helper[0].style.left ='0px';
