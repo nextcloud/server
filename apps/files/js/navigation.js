@@ -163,11 +163,25 @@
 		 */
 		_setOnDrag: function () {
 			var scope=this;
+			var element = $("#sublist-favorites");
 			$(function () {
 				if (document.getElementById(scope.$quickAccessListKey.toString()).hasAttribute("draggable")) {
-					$("#sublist-favorites").sortable({
+					element.sortable({
 						axis: "y",
 						containment: "parent",
+						scroll: false,
+						zIndex: 0,
+						opacity: 0.5,
+						delay: 150,
+						tolerance: "pointer",
+						start:function(event, ui){
+							//Fix for offset
+							ui.helper[0].style.left ='0px';
+						},
+						stop: function( event, ui ) {
+							//Clean up offset
+							ui.item.removeAttr("style");
+						},
 						update: function (event, ui) {
 							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
 							var string=[];
@@ -340,7 +354,7 @@
 			if (strategy === 'alphabet') {
 				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
 			} else if (strategy === 'date') {
-				return nodes[int].getAttribute('folderPos').toLowerCase();
+				return nodes[int].getAttribute('folderPosition').toLowerCase();
 			} else if (strategy === 'datemodified') {
 				return nodes[int].getAttribute('mtime');
 			}else if (strategy === 'customorder') {
