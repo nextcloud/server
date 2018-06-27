@@ -313,6 +313,7 @@ OC.L10N.register(
     "The password is wrong. Try again." : "La contraseña es incorrecta. Vuelve a intentarlo.",
     "Two-factor authentication" : "Autenticación de dos factores",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "La seguridad mejorada se ha habilitado para tu cuenta. Por favor, autenticar utilizando un segundo factor.",
+    "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "No se pudo cargar al menos uno de sus métodos de autenticación de segundo factor. Por favor, póngase en contacto con un administrador.",
     "Cancel log in" : "Cancelar inicio de sesión",
     "Use backup code" : "Usar código de respaldo",
     "Error while validating your second factor" : "Error al validar su segundo factor",

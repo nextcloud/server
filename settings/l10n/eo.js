@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Official" : "Oficiala",
     "User documentation" : "Uzodokumentaro",
-    "-licensed" : "-permesila",
     "Disable all" : "Malkapabligi ĉiu",
     "Enable all" : "Kapabligi ĉiu",
     "Download and enable" : "Elŝuti kaj kapabligi",
