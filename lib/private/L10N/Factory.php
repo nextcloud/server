@@ -126,7 +126,7 @@ class Factory implements IFactory {
 		}
 
 		if ($locale === null || !$this->localeExists($locale)) {
-			$locale = $this->findLocale($app, $lang);
+			$locale = $this->findLocale($lang);
 		}
 
 		if (!isset($this->instances[$lang][$app])) {

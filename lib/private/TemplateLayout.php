@@ -135,7 +135,7 @@ class TemplateLayout extends \OC_Template {
 		$lang = \OC::$server->getL10NFactory()->findLanguage();
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);
-		$this->assign('locale', \OC::$server->getL10NFactory()->findLocale());
+		$this->assign('locale', \OC::$server->getL10NFactory()->findLocale($lang));
 
 		if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
 			if (empty(self::$versionHash)) {
