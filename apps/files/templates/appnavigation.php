@@ -5,7 +5,7 @@
 
 		$pinned = 0;
 		foreach ($_['navigationItems'] as $item) {
-			$pinned = NavigationListElements($item, $pinned, $l);
+			$pinned = NavigationListElements($item, $l, $pinned);
 		}
 		?>
 
@@ -58,12 +58,12 @@
  * Prints the HTML for a single Entry.
  *
  * @param $item The item to be added
- * @param $pinned IntegerValue to count the pinned entries at the bottom
  * @param $l Translator
+ * @param $pinned IntegerValue to count the pinned entries at the bottom
  *
  * @return int Returns the pinned value
  */
-function NavigationListElements($item, $pinned, $l) {
+function NavigationListElements($item, $l, $pinned) {
 	strpos($item['classes'], 'pinned') !== false ? $pinned++ : '';
 	?>
 	<li <?php if (isset($item['sublist'])){ ?>id="button-collapse-parent-<?php p($item['id']); ?>"<?php } ?>
@@ -79,11 +79,12 @@ function NavigationListElements($item, $pinned, $l) {
 		NavigationElementMenu($item);
 		if (isset($item['sublist'])) {
 			?>
-			<button id="button-collapse-<?php p($item['id']); ?>" class="collapse" <?php if(sizeof($item['sublist']) == 0){ ?> style="display: none" <?php } ?>></button>
+			<button id="button-collapse-<?php p($item['id']); ?>"
+					class="collapse" <?php if (sizeof($item['sublist']) == 0) { ?> style="display: none" <?php } ?>></button>
 			<ul id="sublist-<?php p($item['id']); ?>" <?php if ($item['draggableSublist'] === 'true') { ?> draggable="true" style="resize: none;"<?php } ?>>
 				<?php
 				foreach ($item['sublist'] as $item) {
-					$pinned = NavigationListElements($item, $pinned, $l);
+					$pinned = NavigationListElements($item, $l, $pinned);
 				}
 				?>
 			</ul>

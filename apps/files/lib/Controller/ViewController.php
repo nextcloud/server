@@ -202,9 +202,9 @@ class ViewController extends Controller {
 		}
 
 
-		$defaultExpandedState='true';
-		if(!$this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1)){
-			$defaultExpandedState='false';
+		$defaultExpandedState = 'true';
+		if (!$this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1)) {
+			$defaultExpandedState = 'false';
 		}
 
 		\OCA\Files\App::getNavigationManager()->add(
