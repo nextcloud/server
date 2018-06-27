@@ -6,7 +6,6 @@
     "Developer documentation" : "Developer documentation",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "This app has no minimum Nextcloud version assigned. This will cause an error in the future.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "This app cannot be installed because the following dependencies are not fulfilled:",
-    "-licensed" : "-licensed",
     "Disable all" : "Disable all",
     "Enable all" : "Enable all",
     "Download and enable" : "Download and enable",

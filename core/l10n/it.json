@@ -311,6 +311,7 @@
     "The password is wrong. Try again." : "La password è errata. Prova ancora.",
     "Two-factor authentication" : "Autenticazione a due fattori",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "La sicurezza migliorata è stata abilitata per il tuo account. Autenticati utilizzando un secondo fattore.",
+    "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Impossibile caricare almeno uno dei metodi di autenticazione a due fattori. Contatta il tuo amministratore.",
     "Cancel log in" : "Annulla l'accesso",
     "Use backup code" : "Usa il codice di backup",
     "Error while validating your second factor" : "Errore durante la convalida del tuo secondo fattore",

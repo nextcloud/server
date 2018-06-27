@@ -8,7 +8,6 @@ OC.L10N.register(
     "Developer documentation" : "Documentación de desarrollador",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta app no tiene una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Esta aplicación no puede instalarse porque las siguientes dependencias no están cumplimentadas:",
-    "-licensed" : "-licenciado",
     "Disable all" : "Deshabilitar todos",
     "Enable all" : "Activar todas",
     "Download and enable" : "Descargar y activar",

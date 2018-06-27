@@ -26,6 +26,7 @@ OC.L10N.register(
     "Name" : "Název",
     "Reset to default" : "Obnovit výchozí",
     "Web link" : "Webový odkaz",
+    "https://…" : "https://…",
     "Slogan" : "Slogan",
     "Color" : "Barva",
     "Logo" : "Logo",

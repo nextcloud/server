@@ -313,6 +313,7 @@ OC.L10N.register(
     "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
     "Two-factor authentication" : "Двофакторска провера идентитека",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Повећана сигурност је омогућена за овај налог. Проверите идентитет и другим фактором.",
+    "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Није могуће учитати ниједан метод двофакторске провере идентитета. Контактирајте администратора.",
     "Cancel log in" : "Поништите пријаву",
     "Use backup code" : "Користите резервни кôд",
     "Error while validating your second factor" : "Грешка при провери Вашег другог фактора",
