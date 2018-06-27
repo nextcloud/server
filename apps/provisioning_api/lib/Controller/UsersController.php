@@ -392,19 +392,6 @@ class UsersController extends AUserData {
 			}
 		}
 
-		// Find the data
-		$data['id'] = $targetUserObject->getUID();
-		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
-		$data[AccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
-		$data[AccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
-		$data[AccountManager::PROPERTY_PHONE] = $userAccount[AccountManager::PROPERTY_PHONE]['value'];
-		$data[AccountManager::PROPERTY_ADDRESS] = $userAccount[AccountManager::PROPERTY_ADDRESS]['value'];
-		$data[AccountManager::PROPERTY_WEBSITE] = $userAccount[AccountManager::PROPERTY_WEBSITE]['value'];
-		$data[AccountManager::PROPERTY_TWITTER] = $userAccount[AccountManager::PROPERTY_TWITTER]['value'];
-		$data['groups'] = $gids;
-		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
-		$data['locale'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
-
 		return new DataResponse($permittedFields);
 	}
 

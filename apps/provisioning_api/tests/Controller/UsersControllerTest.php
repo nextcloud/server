@@ -748,10 +748,6 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->will($this->returnValue('Demo User'));
 		$targetUser
-			->expects($this->exactly(5))
-			->method('getUID')
-			->will($this->returnValue('UID'));
-		$targetUser
 			->expects($this->once())
 			->method('getHome')
 			->will($this->returnValue('/var/www/newtcloud/data/UID'));
@@ -763,6 +759,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('Database'));
+		$targetUser
+			->expects($this->exactly(6))
+			->method('getUID')
+			->will($this->returnValue('UID'));
 
 		$expected = [
 			'id' => 'UID',
@@ -1006,7 +1006,7 @@ class UsersControllerTest extends TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@nextcloud.com'));
 		$targetUser
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$targetUser
@@ -1239,7 +1239,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('isAdmin')
 			->with('UID')
 			->will($this->returnValue(true));
@@ -1274,7 +1274,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('isAdmin')
 			->with('UID')
 			->will($this->returnValue(true));
