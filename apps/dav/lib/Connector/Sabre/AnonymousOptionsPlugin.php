@@ -56,6 +56,9 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 			// setup a fake tree for anonymous access
 			$this->server->tree = new Tree(new Directory(''));
 			$corePlugin->httpOptions($request, $response);
+			$this->server->emit('afterMethod', [$request, $response]);
+			$this->server->emit('afterMethod:OPTIONS', [$request, $response]);
+
 			$this->server->sapi->sendResponse($response);
 			return false;
 		}
