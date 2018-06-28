@@ -33,6 +33,12 @@ class Version14000Date20180626223656 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 		if(!$schema->hasTable('whats_new')) {
 			$table = $schema->createTable('whats_new');
+			$table->addColumn('id', 'integer', [
+				'autoincrement' => true,
+				'notnull' => true,
+				'length' => 4,
+				'unsigned' => true,
+			]);
 			$table->addColumn('version', 'string', [
 				'notnull' => true,
 				'length' => 64,
@@ -53,7 +59,8 @@ class Version14000Date20180626223656 extends SimpleMigrationStep {
 				'notnull' => true,
 				'default' => '',
 			]);
-			$table->setPrimaryKey(['version']);
+			$table->setPrimaryKey(['id']);
+			$table->addUniqueIndex(['version']);
 			$table->addIndex(['version', 'etag'], 'version_etag_idx');
 		}
 
