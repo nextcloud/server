@@ -22,7 +22,7 @@
  */
 namespace Tests\Settings\Controller;
 
-use OC\Settings\Admin\ServerDevNotice;
+use OC\Settings\Personal\ServerDevNotice;
 use OC\Settings\Controller\AdminSettingsController;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\INavigationManager;
