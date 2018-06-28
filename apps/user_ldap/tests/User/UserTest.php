@@ -32,14 +32,12 @@ namespace OCA\User_LDAP\Tests\User;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
-use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\User;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -79,15 +77,14 @@ class UserTest extends \Test\TestCase {
 		$log     = $this->createMock(LogWrapper::class);
 		$avaMgr  = $this->createMock(IAvatarManager::class);
 		$image   = $this->createMock(Image::class);
-		$dbc     = $this->createMock(IDBConnection::class);
 		$userMgr  = $this->createMock(IUserManager::class);
 		$notiMgr  = $this->createMock(INotificationManager::class);
 
-		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr);
+		return array($access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 	}
 
 	public function testGetDNandUsername() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr, $notiMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$uid = 'alice';
@@ -101,7 +98,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateEmailProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->connection->expects($this->once())
@@ -135,7 +132,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateEmailNotProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->connection->expects($this->once())
@@ -161,7 +158,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateEmailNotConfigured() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->connection->expects($this->once())
@@ -185,15 +182,15 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaAllProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
+		$this->connection->expects($this->exactly(2))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
-		$this->connection->expects($this->exactly(1))
-			->method('__get');
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '']
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -206,7 +203,7 @@ class UserTest extends \Test\TestCase {
 			->method('setQuota')
 			->with('42 GB');
 
-		$userMgr->expects($this->once())
+		$userMgr->expects($this->atLeastOnce())
 			->method('get')
 			->with('alice')
 			->will($this->returnValue($user));
@@ -221,15 +218,15 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaToDefaultAllProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
+		$this->connection->expects($this->exactly(2))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
-		$this->connection->expects($this->exactly(1))
-			->method('__get');
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '']
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -257,15 +254,15 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaToNoneAllProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
+		$this->connection->expects($this->exactly(2))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
-		$this->connection->expects($this->exactly(1))
-			->method('__get');
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '']
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -293,7 +290,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaDefaultProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->connection->expects($this->at(0))
@@ -333,15 +330,15 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaIndividualProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
+		$this->connection->expects($this->exactly(2))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
-		$this->connection->expects($this->exactly(1))
-			->method('__get');
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '']
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -369,19 +366,15 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaNoneProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
-		$this->connection->expects($this->at(1))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue(''));
 		$this->connection->expects($this->exactly(2))
-			->method('__get');
+			->method('__get')
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '']
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -393,10 +386,9 @@ class UserTest extends \Test\TestCase {
 		$user->expects($this->never())
 			->method('setQuota');
 
-		$userMgr->expects($this->once())
+		$userMgr->expects($this->never())
 			->method('get')
-			->with('alice')
-			->will($this->returnValue($user));
+			->with('alice');
 
 		$config->expects($this->never())
 			->method('setUserValue');
@@ -411,28 +403,22 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaNoneConfigured() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue(''));
-		$this->connection->expects($this->at(1))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue(''));
 		$this->connection->expects($this->exactly(2))
-			->method('__get');
+			->method('__get')
+			->willReturnMap([
+				['ldapQuotaAttribute', ''],
+				['ldapQuotaDefault', '']
+			]);
 
 		$user = $this->createMock('\OCP\IUser');
 		$user->expects($this->never())
 			->method('setQuota');
 
-		$userMgr->expects($this->once())
-			->method('get')
-			->with('alice')
-			->will($this->returnValue($user));
+		$userMgr->expects($this->never())
+			->method('get');
 
 		$this->access->expects($this->never())
 			->method('readAttribute');
@@ -450,14 +436,17 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaFromValue() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$readQuota = '19 GB';
 
-		$this->connection->expects($this->never())
+		$this->connection->expects($this->exactly(2))
 			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'));
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '']
+			]);
 
 		$this->access->expects($this->never())
 			->method('readAttribute');
@@ -485,19 +474,15 @@ class UserTest extends \Test\TestCase {
 	 * Unparseable quota will fallback to use the LDAP default
 	 */
 	public function testUpdateWrongQuotaAllProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
-		$this->connection->expects($this->at(1))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue('23 GB'));
 		$this->connection->expects($this->exactly(2))
-			->method('__get');
+			->method('__get')
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '23 GB']
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -528,19 +513,15 @@ class UserTest extends \Test\TestCase {
 	 * No user quota and wrong default will set 'default' as quota
 	 */
 	public function testUpdateWrongDefaultQuotaProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
-		$this->connection->expects($this->at(1))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue('23 GBwowowo'));
 		$this->connection->expects($this->exactly(2))
-			->method('__get');
+			->method('__get')
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '23 GBwowowo']
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -552,10 +533,8 @@ class UserTest extends \Test\TestCase {
 		$user->expects($this->never())
 			->method('setQuota');
 
-		$userMgr->expects($this->once())
-			->method('get')
-			->with('alice')
-			->will($this->returnValue($user));
+		$userMgr->expects($this->never())
+			->method('get');
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
@@ -570,19 +549,15 @@ class UserTest extends \Test\TestCase {
 	 * Wrong user quota and wrong default will set 'default' as quota
 	 */
 	public function testUpdateWrongQuotaAndDefaultAllProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue('myquota'));
-		$this->connection->expects($this->at(1))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue('23 GBwowowo'));
 		$this->connection->expects($this->exactly(2))
-			->method('__get');
+			->method('__get')
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '23 GBwowowo']
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -594,10 +569,8 @@ class UserTest extends \Test\TestCase {
 		$user->expects($this->never())
 			->method('setQuota');
 
-		$userMgr->expects($this->once())
-			->method('get')
-			->with('alice')
-			->will($this->returnValue($user));
+		$userMgr->expects($this->never())
+			->method('get');
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
@@ -612,19 +585,15 @@ class UserTest extends \Test\TestCase {
 	 * No quota attribute set and wrong default will set 'default' as quota
 	 */
 	public function testUpdateWrongDefaultQuotaNotProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
-		$this->connection->expects($this->at(0))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->will($this->returnValue(''));
-		$this->connection->expects($this->at(1))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->will($this->returnValue('23 GBwowowo'));
 		$this->connection->expects($this->exactly(2))
-			->method('__get');
+			->method('__get')
+			->willReturnMap([
+				['ldapQuotaAttribute', ''],
+				['ldapQuotaDefault', '23 GBwowowo']
+			]);
 
 		$this->access->expects($this->never())
 			->method('readAttribute');
@@ -633,10 +602,8 @@ class UserTest extends \Test\TestCase {
 		$user->expects($this->never())
 			->method('setQuota');
 
-		$userMgr->expects($this->once())
-			->method('get')
-			->with('alice')
-			->will($this->returnValue($user));
+		$userMgr->expects($this->never())
+			->method('get');
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
@@ -649,7 +616,7 @@ class UserTest extends \Test\TestCase {
 
 	//the testUpdateAvatar series also implicitely tests getAvatarImage
 	public function testUpdateAvatarJpegPhotoProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, , $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->access->expects($this->once())
@@ -695,7 +662,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateAvatarThumbnailPhotoProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->access->expects($this->any())
@@ -750,7 +717,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateAvatarNotProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->access->expects($this->any())
@@ -793,7 +760,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateBeforeFirstLogin() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->at(0))
@@ -823,7 +790,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateAfterFirstLogin() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->at(0))
@@ -857,7 +824,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateNoRefresh() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->at(0))
@@ -894,7 +861,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testMarkLogin() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->once())
@@ -915,7 +882,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarImageProvided() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->access->expects($this->once())
@@ -938,7 +905,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testProcessAttributes() {
-		list(, $config, $filesys, $image, $log, $avaMgr, , $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$uid = 'alice';
@@ -954,7 +921,8 @@ class UserTest extends \Test\TestCase {
 			'updateAvatar'
 		);
 
-		$userMock = $this->getMockBuilder('OCA\User_LDAP\User\User')
+		/** @var User|\PHPUnit_Framework_MockObject_MockObject $userMock */
+		$userMock = $this->getMockBuilder(User::class)
 			->setConstructorArgs(array($uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr))
 			->setMethods($requiredMethods)
 			->getMock();
@@ -1002,7 +970,7 @@ class UserTest extends \Test\TestCase {
 	 * @dataProvider emptyHomeFolderAttributeValueProvider
 	 */
 	public function testGetHomePathNotConfigured($attributeValue) {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->connection->expects($this->any())
@@ -1027,7 +995,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testGetHomePathConfiguredNotAvailableAllowed() {
-		list(, $config, $filesys, $image, $log, $avaMgr, , $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->connection->expects($this->any())
@@ -1059,7 +1027,7 @@ class UserTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testGetHomePathConfiguredNotAvailableNotAllowed() {
-		list(, $config, $filesys, $image, $log, $avaMgr, , $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$this->connection->expects($this->any())
@@ -1097,7 +1065,7 @@ class UserTest extends \Test\TestCase {
 	 * @dataProvider displayNameProvider
 	 */
 	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
-		list(, $config, $filesys, $image, $log, $avaMgr, , $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->once())
@@ -1111,7 +1079,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testHandlePasswordExpiryWarningDefaultPolicy() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$uid = 'alice';
@@ -1181,7 +1149,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testHandlePasswordExpiryWarningCustomPolicy() {
-		list(, $config, $filesys, $image, $log, $avaMgr, , $userMgr, $notiMgr) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
 		$uid = 'alice';
