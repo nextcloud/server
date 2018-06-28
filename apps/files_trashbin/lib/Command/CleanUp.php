@@ -29,6 +29,7 @@ use OCP\IUserBackend;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -62,13 +63,22 @@ class CleanUp extends Command {
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-				'remove deleted files of the given user(s), if no user is given all deleted files will be removed'
+				'remove deleted files of the given user(s)'
+			)
+			->addOption(
+				'all-users',
+				null,
+				InputOption::VALUE_NONE,
+				'run action on all users'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$users = $input->getArgument('user_id');
 		if (!empty($users)) {
+			if ($input->getOption('all-users')) {
+				$output->writeln('Option --all-users supplied along with users, restricting to supplied users');
+			}
 			foreach ($users as $user) {
 				if ($this->userManager->userExists($user)) {
 					$output->writeln("Remove deleted files of   <info>$user</info>");
@@ -77,8 +87,8 @@ class CleanUp extends Command {
 					$output->writeln("<error>Unknown user $user</error>");
 				}
 			}
-		} else {
-			$output->writeln('Remove all deleted files');
+		} elseif ($input->getOption('all-users')) {
+			$output->writeln('Remove deleted files for all users');
 			foreach ($this->userManager->getBackends() as $backend) {
 				$name = get_class($backend);
 				if ($backend instanceof IUserBackend) {
