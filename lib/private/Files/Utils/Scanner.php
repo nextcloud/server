@@ -182,15 +182,20 @@ class Scanner extends PublicEmitter {
 
 	/**
 	 * @param string $dir
-	 * @throws \OC\ForbiddenException
-	 * @throws \OCP\Files\NotFoundException
+	 * @param $recursive
+	 * @param callable|null $mountFilter
+	 * @throws ForbiddenException
+	 * @throws NotFoundException
 	 */
-	public function scan($dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE) {
+	public function scan($dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE, callable $mountFilter = null) {
 		if (!Filesystem::isValidPath($dir)) {
 			throw new \InvalidArgumentException('Invalid path to scan');
 		}
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
+			if ($mountFilter && !$mountFilter($mount)) {
+				continue;
+			}
 			$storage = $mount->getStorage();
 			if (is_null($storage)) {
 				continue;
