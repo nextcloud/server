@@ -199,8 +199,14 @@ Feature: sharing
     Then user "user1" should see following elements
       | /FOLDER/ |
       | /PARENT/ |
-      | /CHILD/ |
+      | /PARENT/CHILD/ |
       | /PARENT/parent.txt |
+      | /PARENT/CHILD/child.txt |
+      | /PARENT%20(2)/ |
+      | /PARENT%20(2)/CHILD/ |
+      | /PARENT%20(2)/parent.txt |
+      | /PARENT%20(2)/CHILD/child.txt |
+      | /CHILD/ |
       | /CHILD/child.txt |
     And the HTTP status code should be "200"
 
