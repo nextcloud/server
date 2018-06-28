@@ -341,6 +341,8 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					</a>
 				</form>
 			<?php } ?>
+		</div>
+		<div class="personal-settings-setting-box personal-settings-locale-box">
 			<?php if (isset($_['activelocale'])) { ?>
 				<form id="locale" class="section">
 					<h2>
@@ -366,7 +368,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 							</option>
 						<?php endforeach;?>
 					</select>
-					<div id="localeexample">
+					<div id="localeexample" class="personal-info icon-timezone">
 						<p id="localeexample-time"></p>
 						<p id="localeexample-date"></p>
 						<p id="localeexample-fdow"></p>

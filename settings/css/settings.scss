@@ -103,7 +103,7 @@ input {
 .profile-settings-container {
 	display: inline-grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 2fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 
 .personal-show-container {
@@ -122,10 +122,6 @@ select {
 	&#localeinput {
 		width: 100%;
 	}
-}
-
-#localeexample {
-	text-align: center;
 }
 
 input {
@@ -150,7 +146,8 @@ input {
 	}
 	.personal-info {
 		margin-right: 10%;
-		margin-bottom: 20px;
+		margin-bottom: 12px;
+		margin-top: 12px;
 	}
 	.personal-info[class^='icon-'], .personal-info[class*=' icon-'] {
 		background-position: 0px 2px;
