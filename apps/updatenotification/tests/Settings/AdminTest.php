@@ -32,10 +32,16 @@ use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Util;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $l10nFactory;
 	/** @var Admin */
 	private $admin;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
@@ -54,12 +60,11 @@ class AdminTest extends TestCase {
 		$this->updateChecker = $this->createMock(UpdateChecker::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 
 		$this->admin = new Admin(
-			$this->config,
-			$this->updateChecker,
-			$this->groupManager,
-			$this->dateTimeFormatter
+			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->userSession, $this->l10nFactory
 		);
 	}
 
@@ -99,7 +104,7 @@ class AdminTest extends TestCase {
 				'updateAvailable' => true,
 				'updateVersion' => '8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
-				'changes' => 'https://updates.nextcloud.com/changelog_server/?version=8.1.2',
+				'changes' => [],
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 			]);
@@ -125,7 +130,7 @@ class AdminTest extends TestCase {
 				'channels' => $channels,
 				'newVersionString' => '8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
-				'changesURL' => 'https://updates.nextcloud.com/changelog_server/?version=8.1.2',
+				'changes' => [],
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => true,
