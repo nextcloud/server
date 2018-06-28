@@ -138,6 +138,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Files\\BrowserErrorPagePlugin' => __DIR__ . '/..' . '/../lib/Files/BrowserErrorPagePlugin.php',
         'OCA\\DAV\\Files\\FileSearchBackend' => __DIR__ . '/..' . '/../lib/Files/FileSearchBackend.php',
         'OCA\\DAV\\Files\\FilesHome' => __DIR__ . '/..' . '/../lib/Files/FilesHome.php',
+        'OCA\\DAV\\Files\\LazySearchBackend' => __DIR__ . '/..' . '/../lib/Files/LazySearchBackend.php',
         'OCA\\DAV\\Files\\RootCollection' => __DIR__ . '/..' . '/../lib/Files/RootCollection.php',
         'OCA\\DAV\\Files\\Sharing\\FilesDropPlugin' => __DIR__ . '/..' . '/../lib/Files/Sharing/FilesDropPlugin.php',
         'OCA\\DAV\\Files\\Sharing\\PublicLinkCheckPlugin' => __DIR__ . '/..' . '/../lib/Files/Sharing/PublicLinkCheckPlugin.php',
