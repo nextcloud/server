@@ -50,7 +50,7 @@ abstract class Bitmap extends Provider {
 			$bp = $this->getResizedPreview($tmpPath, $maxX, $maxY);
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
-				'message' => 'Imagick says:',
+				'message' => 'File: ' . $fileview->getAbsolutePath($path) . ' Imagick says:',
 				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
