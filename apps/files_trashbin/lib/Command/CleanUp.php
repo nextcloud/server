@@ -32,6 +32,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 
 class CleanUp extends Command {
 
@@ -75,10 +76,9 @@ class CleanUp extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$users = $input->getArgument('user_id');
-		if (!empty($users)) {
-			if ($input->getOption('all-users')) {
-				$output->writeln('Option --all-users supplied along with users, restricting to supplied users');
-			}
+		if ((!empty($users)) and ($input->getOption('all-users'))) {
+			throw new InvalidOptionException('Either specify a user_id or --all-users');
+		} elseif (!empty($users)) {
 			foreach ($users as $user) {
 				if ($this->userManager->userExists($user)) {
 					$output->writeln("Remove deleted files of   <info>$user</info>");
@@ -106,6 +106,8 @@ class CleanUp extends Command {
 					$offset += $limit;
 				} while (count($users) >= $limit);
 			}
+		} else {
+			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		}
 	}
 
