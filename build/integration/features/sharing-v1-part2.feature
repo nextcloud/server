@@ -69,7 +69,7 @@ Feature: sharing
     And group "group1" exists
     And user "user1" belongs to group "group1"
     And file "textfile0.txt" of user "user0" is shared with group "group1"
-    And User "user1" moved file "/textfile0.txt" to "/FOLDER/textfile0.txt"
+    And User "user1" moved file "/textfile0 (2).txt" to "/FOLDER/textfile0.txt"
     And As an "user0"
     When Updating last share with
       | permissions | 1 |
@@ -199,8 +199,14 @@ Feature: sharing
     Then user "user1" should see following elements
       | /FOLDER/ |
       | /PARENT/ |
-      | /CHILD/ |
+      | /PARENT/CHILD/ |
       | /PARENT/parent.txt |
+      | /PARENT/CHILD/child.txt |
+      | /PARENT%20(2)/ |
+      | /PARENT%20(2)/CHILD/ |
+      | /PARENT%20(2)/parent.txt |
+      | /PARENT%20(2)/CHILD/child.txt |
+      | /CHILD/ |
       | /CHILD/child.txt |
     And the HTTP status code should be "200"
 
@@ -240,7 +246,7 @@ Feature: sharing
     And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
     And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
     And As an "user2"
-    When Downloading file "/textfile0.txt" with range "bytes=10-18"
+    When Downloading file "/textfile0 (2).txt" with range "bytes=10-18"
     Then Downloaded content should be "test text"
     And user "user2" should see following elements
       | /common/sub/textfile0.txt |
@@ -252,7 +258,7 @@ Feature: sharing
     And group "group1" exists
     And user "user1" belongs to group "group1"
     And file "textfile0.txt" of user "user0" is shared with group "group1"
-    And User "user1" moved file "/textfile0.txt" to "/FOLDER/textfile0.txt"
+    And User "user1" moved file "/textfile0 (2).txt" to "/FOLDER/textfile0.txt"
     And As an "user0"
     And Deleting last share
     And As an "user1"
