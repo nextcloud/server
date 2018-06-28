@@ -35,6 +35,7 @@ use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager as ShareManager;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
+use Sabre\DAV\Xml\Property\Href;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -146,6 +147,20 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->assertEquals('#1C4587FF', $color);
 		$this->assertEquals('Example', $calendars[0]['uri']);
 		$this->assertEquals('Example', $calendars[0]['{DAV:}displayname']);
+		$calendarId = $calendars[0]['id'];
+
+		return $calendarId;
+	}
+
+	protected function createTestSubscription() {
+		$this->backend->createSubscription(self::UNIT_TEST_USER, 'Example', [
+			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587FF',
+			'{http://calendarserver.org/ns/}source' => new Href(['foo']),
+		]);
+		$calendars = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(1, count($calendars));
+		$this->assertEquals(self::UNIT_TEST_USER, $calendars[0]['principaluri']);
+		$this->assertEquals('Example', $calendars[0]['uri']);
 		$calendarId = $calendars[0]['id'];
 
 		return $calendarId;

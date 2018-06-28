@@ -30,6 +30,7 @@
 			<step>OCA\DAV\Migration\FixBirthdayCalendarComponent</step>
 			<step>OCA\DAV\Migration\CalDAVRemoveEmptyValue</step>
 			<step>OCA\DAV\Migration\BuildCalendarSearchIndex</step>
+			<step>OCA\DAV\Migration\RefreshWebcalJobRegistrar</step>
 		</post-migration>
 	</repair-steps>
 

@@ -48,6 +48,34 @@ $eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 	}
 );
 
+$eventDispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createSubscription',
+	function(GenericEvent $event) use ($app) {
+		$jobList = $app->getContainer()->getServer()->getJobList();
+		$subscriptionData = $event->getArgument('subscriptionData');
+
+		$jobList->add(\OCA\DAV\BackgroundJob\RefreshWebcalJob::class, [
+			'principaluri' => $subscriptionData['principaluri'],
+			'uri' => $subscriptionData['uri']
+		]);
+	}
+);
+
+$eventDispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteSubscription',
+	function(GenericEvent $event) use ($app) {
+		$jobList = $app->getContainer()->getServer()->getJobList();
+		$subscriptionData = $event->getArgument('subscriptionData');
+
+		$jobList->remove(\OCA\DAV\BackgroundJob\RefreshWebcalJob::class, [
+			'principaluri' => $subscriptionData['principaluri'],
+			'uri' => $subscriptionData['uri']
+		]);
+
+		/** @var \OCA\DAV\CalDAV\CalDavBackend $calDavBackend */
+		$calDavBackend = $app->getContainer()->query(\OCA\DAV\CalDAV\CalDavBackend::class);
+		$calDavBackend->purgeAllCachedEventsForSubscription($subscriptionData['id']);
+	}
+);
+
 $eventHandler = function() use ($app) {
 	try {
 		$job = $app->getContainer()->query(\OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob::class);
