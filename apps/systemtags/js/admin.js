@@ -116,12 +116,16 @@
 			if (tagId > 0) {
 				$('#systemtags').attr('data-systemtag-id', tagId);
 				$('#systemtag_delete').removeClass('hidden');
-				$('#systemtag_submit').val(t('systemtags_manager', 'Update'));
+				$('#systemtag_submit span').text(t('systemtags_manager', 'Update'));
+				$('#systemtag_reset').removeClass('hidden');
+				$('#systemtag_create').addClass('hidden');
 			} else {
 				$('#systemtag').select2('val', '');
 				$('#systemtags').attr('data-systemtag-id', '');
 				$('#systemtag_delete').addClass('hidden');
-				$('#systemtag_submit').val(t('systemtags_manager', 'Create'));
+				$('#systemtag_reset').addClass('hidden');
+				$('#systemtag_submit span').text(t('systemtags_manager', 'Create'));
+				$('#systemtag_create').removeClass('hidden');
 			}
 		},
 
