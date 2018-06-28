@@ -113,7 +113,7 @@ interface IL10N {
 	 * * The code (en_US, fr_CA, ...) of the locale that is used for this IL10N object
 	 *
 	 * @return string locale
-	 * @since 13.0.0
+	 * @since 14.0.0
 	 */
-	public function getLocaleCode();
+	public function getLocaleCode(): string;
 }

@@ -47,7 +47,7 @@ interface IFactory {
 	/**
 	 * @param string|null $lang user language as default locale
 	 * @return string locale If nothing works it returns 'en_US'
-	 * @since 13.0.0
+	 * @since 14.0.0
 	 */
 	public function findLocale($lang = null);
 
@@ -77,7 +77,7 @@ interface IFactory {
 	/**
 	 * @param string $locale
 	 * @return bool
-	 * @since 13.0.0
+	 * @since 14.0.0
 	 */
 	public function localeExists($locale);
 
@@ -86,7 +86,7 @@ interface IFactory {
 	 *
 	 * @param string $string
 	 * @return string Unique function name
-	 * @since 9.0.0
+	 * @since 14.0.0
 	 */
 	public function createPluralFunction($string);
 }

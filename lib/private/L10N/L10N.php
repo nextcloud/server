@@ -86,7 +86,7 @@ class L10N implements IL10N {
 	 *
 	 * @return string locale
 	 */
-	public function getLocaleCode() {
+	public function getLocaleCode(): string {
 		return $this->locale;
 	}
 
