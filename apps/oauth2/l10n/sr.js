@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "Your redirect url needs to be a full url for example: https://yourdomain.com/path" : "Адреса преусмеравања мора бити пуна адреса, на пример:\nhttps://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Дозвољава OAuth2 компатибилну идентификацију са других веб апликација,",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 апликација дозвољава администраторима да подесе уграђени след индетификације тако да дозвољава и OAuth2 компатибилну идентификацију са других веб апликација.",
