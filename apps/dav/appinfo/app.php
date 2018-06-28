@@ -51,7 +51,7 @@ $eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 $eventHandler = function() use ($app) {
 	try {
 		$job = $app->getContainer()->query(\OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob::class);
-		$job->run();
+		$job->run([]);
 		$app->getContainer()->getServer()->getJobList()->setLastRun($job);
 	} catch(\Exception $ex) {
 		$app->getContainer()->getServer()->getLogger()->logException($ex);
