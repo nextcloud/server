@@ -172,16 +172,34 @@
 						scroll: false,
 						zIndex: 0,
 						opacity: 0.5,
-						delay: 150,
 						tolerance: "pointer",
-						revert: 0.05,
+						//revert: 0.05,
+						//delay: 150,
 						start:function(event, ui){
 							//Fix for offset
 							ui.helper[0].style.left ='0px';
+
+							//Change Icon while dragging
+							var list = document.getElementById(scope.$quickAccessListKey).getElementsByTagName('li');
+							for (var j = 0; j < list.length; j++) {
+								if (!(typeof list[j].getElementsByTagName('a')[0] === 'undefined')) {
+									list[j].getElementsByTagName('a')[0].classList.remove("nav-icon-files");
+									list[j].getElementsByTagName('a')[0].classList.add('icon-menu');
+								}
+							}
 						},
 						stop: function( event, ui ) {
 							//Clean up offset
 							ui.item.removeAttr("style");
+
+							//Change Icon back after dragging
+							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
+							for (var j = 0; j < list.length; j++) {
+								if (!(typeof list[j].getElementsByTagName('a')[0] === 'undefined')) {
+									list[j].getElementsByTagName('a')[0].classList.add("nav-icon-files");
+									list[j].getElementsByTagName('a')[0].classList.remove('icon-menu');
+								}
+							}
 						},
 						update: function (event, ui) {
 							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
