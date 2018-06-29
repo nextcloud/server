@@ -124,14 +124,6 @@ select {
 	}
 }
 
-input {
-	&#pass1,
-	&#pass2,
-	&#passwordbutton {
-		width: 100%;
-	}
-}
-
 #personal-settings {
 	display: grid;
 	padding: 20px;
@@ -380,9 +372,7 @@ input#identity {
 	}
 }
 
-.password-state {
-	display: inline-block;
-}
+
 
 table.nostyle {
 	label {
@@ -390,6 +380,33 @@ table.nostyle {
 	}
 	td {
 		padding: 0.2em 0;
+	}
+}
+
+#security-password {
+	#passwordform {
+		display: flex;
+		flex-wrap: wrap;
+		#pass1, .personal-show-container, #passwordbutton {
+			flex-shrink: 1;
+			width: 200px;
+			min-width: 150px;
+		}
+		#pass2 {
+			width: 100%;
+		}
+		.password-state {
+			display: inline-block;
+		}
+		.strengthify-wrapper {
+			position: absolute;
+			left: 0;
+			width: 100%;
+			border-radius: 0 0 2px 2px;
+			margin-top: -6px;
+			overflow: hidden;
+			height: 3px;
+		}
 	}
 }
 
@@ -1243,16 +1260,7 @@ span {
 	}
 }
 
-/* PASSWORD */
-#passwordform .strengthify-wrapper {
-	position: absolute;
-	left: 0;
-	width: 100%;
-	border-radius: 0 0 2px 2px;
-	margin-top: -6px;
-	overflow: hidden;
-	height: 3px;
-}
+
 
 /* OPERA hack for strengthify*/
 doesnotexist:-o-prefocus, .strengthify-wrapper {

@@ -25,16 +25,33 @@ namespace OC\Settings\Personal;
 
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
+
+	private $userManager;
+
+	public function __construct(
+		IUserManager $userManager
+	) {
+		$this->userManager = $userManager;
+	}
 
 	/**
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1
 	 */
 	public function getForm() {
-		return new TemplateResponse('settings', 'settings/personal/security');
+		$user = $this->userManager->get(\OC_User::getUser());
+		$passwordChangeSupported = false;
+		if ($user !== null) {
+			$passwordChangeSupported = $user->canChangePassword();
+		}
+
+		return new TemplateResponse('settings', 'settings/personal/security', [
+			'passwordChangeSupported' => $passwordChangeSupported
+		]);
 	}
 
 	/**
