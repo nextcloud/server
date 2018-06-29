@@ -578,25 +578,32 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 			$qb->execute();
 
-			if ($share['accepted']) {
-				$path = trim($mountpoint, '/');
-			} else {
-				$path = trim($share['name'], '/');
+			// delete all child in case of a group share
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('share_external')
+				->where($qb->expr()->eq('parent', $qb->createNamedParameter((int)$share['id'])));
+			$qb->execute();
+
+			if ((int)$share['share_type'] === Share::SHARE_TYPE_USER) {
+				if ($share['accepted']) {
+					$path = trim($mountpoint, '/');
+				} else {
+					$path = trim($share['name'], '/');
+				}
+				$notification = $this->notificationManager->createNotification();
+				$notification->setApp('files_sharing')
+					->setUser($share['user'])
+					->setObject('remote_share', (int)$share['id']);
+				$this->notificationManager->markProcessed($notification);
+
+				$event = $this->activityManager->generateEvent();
+				$event->setApp('files_sharing')
+					->setType('remote_share')
+					->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path])
+					->setAffectedUser($user)
+					->setObject('remote_share', (int)$share['id'], $path);
+				\OC::$server->getActivityManager()->publish($event);
 			}
-
-			$notification = $this->notificationManager->createNotification();
-			$notification->setApp('files_sharing')
-				->setUser($share['user'])
-				->setObject('remote_share', (int)$share['id']);
-			$this->notificationManager->markProcessed($notification);
-
-			$event = $this->activityManager->generateEvent();
-			$event->setApp('files_sharing')
-				->setType('remote_share')
-				->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path])
-				->setAffectedUser($user)
-				->setObject('remote_share', (int)$share['id'], $path);
-			\OC::$server->getActivityManager()->publish($event);
 		}
 
 		return [];
