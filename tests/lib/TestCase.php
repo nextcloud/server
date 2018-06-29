@@ -299,6 +299,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	static protected function tearDownAfterClassCleanStrayDataFiles($dataDir) {
 		$knownEntries = array(
 			'nextcloud.log' => true,
+			'audit.log' => true,
 			'owncloud.db' => true,
 			'.ocdata' => true,
 			'..' => true,

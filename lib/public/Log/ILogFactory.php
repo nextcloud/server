@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Johannes Ernst <jernst@indiecomputing.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,7 +34,7 @@ use OCP\ILogger;
  */
 interface ILogFactory {
 	/**
-	 * @param string $type - one of: file, errorlog, syslog
+	 * @param string $type - one of: file, errorlog, syslog, systemd
 	 * @return IWriter
 	 * @since 14.0.0
 	 */
