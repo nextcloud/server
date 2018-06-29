@@ -123,7 +123,7 @@ class SvgController extends Controller {
 
 		// Set cache control
 		$ttl = 31536000;
-		$response->addHeader('Cache-Control', 'max-age=' . $ttl . ', immutable');
+		$response->cacheFor($ttl);
 		$response->addHeader('Content-Disposition', 'inline; filename="' . $fileName . '.svg"');
 		$expires = new \DateTime();
 		$expires->setTimestamp($this->timeFactory->getTime());
