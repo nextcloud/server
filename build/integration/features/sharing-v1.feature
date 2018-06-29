@@ -43,6 +43,18 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
+  Scenario: Creating a new room share when Talk is not enabled
+    Given As an "admin"
+    And app "spreed" is not enabled
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | a-room-token |
+      | shareType | 10 |
+    Then the OCS status code should be "403"
+    And the HTTP status code should be "401"
+
   Scenario: Creating a new public share
     Given user "user0" exists
     And As an "user0"
