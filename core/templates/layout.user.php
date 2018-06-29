@@ -105,7 +105,7 @@
 						<?php p($l->t('Search'));?>
 					</label>
 					<input id="searchbox" type="search" name="query"
-						value="" required class="hidden"
+						value="" required class="hidden icon-search-white"
 						autocomplete="off">
 					<button class="icon-close-white" type="reset"><span class="hidden-visually"><?php p($l->t('Reset search'));?></span></button>
 				</form>

@@ -234,6 +234,7 @@ class SCSSCacher {
 		try {
 			$compiledScss = $scss->compile(
 				'$webroot: \'' . \OC::$WEBROOT. '\';'.
+				'@import "functions.scss";' .
 				'@import "variables.scss";' .
 				$this->getInjectedVariables() .
 				'@import "'.$fileNameSCSS.'";');

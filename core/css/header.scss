@@ -322,7 +322,6 @@ nav[role='navigation'] {
 }
 
 /* Apps management */
-
 #apps {
 	max-height: calc(100vh - 100px);
 	overflow: auto;
@@ -336,7 +335,6 @@ nav[role='navigation'] {
 }
 
 /* USER MENU -----------------------------------------------------------------*/
-
 #settings {
 	display: inline-block;
 	height: 100%;
@@ -405,6 +403,7 @@ nav[role='navigation'] {
 	}
 }
 
+/* Settings menu */
 #expanddiv {
 	&.menu {
 		right: 17px;
@@ -438,6 +437,7 @@ nav[role='navigation'] {
 	}
 }
 
+/* Apps menu */
 #appmenu {
 	display: inline-block;
 	width: auto;
@@ -583,5 +583,59 @@ nav[role='navigation'] {
 	&:focus,
 	&:active {
 		top: 50px;
+	}
+}
+
+/* SEARCHBOX --------------------------------------------------------------- */
+.searchbox {
+	position: relative;
+	display: flex;
+	align-items: center;
+	input[type='search'] {
+		position: relative;
+		font-size: 1.2em;
+		padding: 3px;
+		padding-left: 25px;
+		padding-right: 20px;
+		background-color: transparent;
+		color: var(--color-primary-text);
+		border: 0;
+		border-radius: var(--border-radius);
+		height: 34px;
+		width: 0;
+		cursor: pointer;
+		-webkit-transition: all 100ms;
+		transition: all 100ms;
+		opacity: .6;
+		&:focus, &:active, &:valid {
+			background-position-x: 6px;
+			color: var(--color-primary-text);
+			width: 155px;
+			cursor: text;
+			background-color: var(--color-primary) !important;
+			border: 1px solid var(--color-primary-text-dark) !important;
+		}
+		&:hover, &:focus, &:active {
+			opacity: 1;
+		}
+		& ~ .icon-close-white {
+			display: inline;
+			position: absolute;
+			width: 30px;
+			height: 100%;
+			right: 0;
+			top: 0;
+			margin: 0;
+			&, &:focus, &:active, &:hover {
+				border: none;
+				background-color: transparent;
+			}
+		}
+		&:not(:valid) ~ .icon-close-white {
+			display: none;
+		}
+		&::-webkit-search-cancel-button {
+			-webkit-appearance: none;
+		}
 	}
 }

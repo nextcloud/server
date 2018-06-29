@@ -1,14 +1,29 @@
 /**
- * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
- * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- * @copyright Copyright (c) 2016, Vincent Chan <plus.vincchan@gmail.com>
- * @copyright Copyright (c) 2015, Thomas Müller <thomas.mueller@tmit.eu>
- * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
- * @copyright Copyright (c) 2015, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Chan <plus.vincchan@gmail.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  *
  * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -101,549 +116,544 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	}
 }
 
-/* ICONS -------------------------------------------------------------------- */
+/* ICONS ------------------------------------------------------------------- */
 .icon-add {
-	background-image: url('../img/actions/add.svg?v=1');
+	background-image: icon-color('add', 'actions', $color-black, 'core');
 }
 
 .icon-address {
-	background-image: url('../img/actions/address.svg?v=1');
+	background-image: icon-color('address', 'actions', $color-black, 'core');
 }
 .icon-address-white {
-	background-image: url('#{$webroot}/svg/address/fff?v=1');
+	background-image: icon-color('address', 'actions', $color-white, 'core');
 }
 
 .icon-audio {
-	background-image: url('../img/actions/audio.svg?v=1');
+	background-image: icon-color('audio', 'actions', $color-black, 'core');
 }
 
-/* TODO: to be deprecated; use .icon-audio.icon-white.icon-shadow */
 .icon-audio-white {
-	background-image: url('../img/actions/audio.svg?v=2');
-	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
+	background-image: icon-color('audio', 'actions', $color-white, 'core');
+	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-audio-off {
-	background-image: url('../img/actions/audio-off.svg?v=1');
+	background-image: icon-color('audio-off', 'actions', $color-black, 'core');
 }
 
-/* TODO: to be deprecated; use .icon-audio-off.icon-white.icon-shadow */
 .icon-audio-off-white {
-	background-image: url('../img/actions/audio-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
+	background-image: icon-color('audio-off', 'actions', $color-white, 'core');
+	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
+.icon-caret-white,
 .icon-caret {
-	background-image: url('../img/actions/caret.svg?v=1');
+	background-image: icon-color('caret', 'actions', $color-white, 'core');
 }
 
 .icon-caret-dark {
-	background-image: url('../img/actions/caret-dark.svg?v=1');
+	background-image: icon-color('caret', 'actions', $color-black, 'core');
 }
 
 .icon-checkmark {
-	background-image: url('../img/actions/checkmark.svg?v=1');
+	background-image: icon-color('checkmark', 'actions', $color-black, 'core');
 	
 }
 
 .icon-checkmark-white {
-	background-image: url('#{$webroot}/svg/icon-checkmark/fff?v=1');
+	background-image: icon-color('checkmark', 'actions', $color-white, 'core');
 }
 
 .icon-checkmark-color {
-	background-image: url('#{$webroot}/svg/icon-checkmark/#{$color-success}?v=1');
+	background-image: icon-color('checkmark', 'actions', $color-success, 'core');
 }
 
 .icon-clippy {
-	background-image: url('../img/actions/clippy.svg?v=2');
+	background-image: icon-color('clippy', 'actions', $color-black, 'core');
 }
 
 .icon-close {
-	background-image: url('../img/actions/close.svg?v=1');
+	background-image: icon-color('close', 'actions', $color-black, 'core');
 }
 
 .icon-close-white {
-	background-image: url('#{$webroot}/svg/close/fff?v=1');
+	background-image: icon-color('close', 'actions', $color-white, 'core');
 }
 
 .icon-comment {
-	background-image: url('../img/actions/comment.svg?v=1');
+	background-image: icon-color('comment', 'actions', $color-black, 'core');
 }
 
 .icon-confirm {
-	background-image: url('../img/actions/confirm.svg?v=2');
+	background-image: icon-color('confirm', 'actions', $color-black, 'core');
 }
 
 .icon-confirm-fade {
-	background-image: url('../img/actions/confirm-fade.svg?v=2');
+	background-image: icon-color('confirm-fade', 'actions', $color-black, 'core');
 }
 
 .icon-confirm-white {
-	background-image: url('#{$webroot}/svg/icon-confirm/fff?v=1');
+	background-image: icon-color('confirm', 'actions', $color-white, 'core');
 }
 
 .icon-delete {
-	background-image: url('../img/actions/delete.svg?v=1');
+	background-image: icon-color('delete', 'actions', $color-black, 'core');
 	&.no-permission {
 		&:hover,
 		&:focus {
-			background-image: url('../img/actions/delete.svg?v=1');
+			background-image: icon-color('delete', 'actions', $color-black, 'core');
 		}
 	}
 	&:hover,
 	&:focus {
-		background-image: url('#{$webroot}/svg/icon-delete/d40000?v=1');
+		background-image: icon-color('delete', 'actions', $color-error, 'core');
 		filter: initial;
 	}
 }
 
 .icon-delete-white {
-	background-image: url('#{$webroot}/svg/icon-delete/fff?v=1');
+	background-image: icon-color('delete', 'actions', $color-white, 'core');
 	&.no-permission {
 		&:hover,
 		&:focus {
-			background-image: url('#{$webroot}/svg/icon-delete/fff?v=1');
+			background-image: icon-color('delete', 'actions', $color-white, 'core');
 		}
 	}
 	&:hover,
 	&:focus {
-		background-image: url('#{$webroot}/svg/icon-delete/d40000?v=1');
+		background-image: icon-color('delete', 'actions', $color-error, 'core');
 	}
 }
 
 .icon-details {
-	background-image: url('../img/actions/details.svg?v=1');
+	background-image: icon-color('details', 'actions', $color-black, 'core');
 }
 
 .icon-download {
-	background-image: url('../img/actions/download.svg?v=1');
+	background-image: icon-color('download', 'actions', $color-black, 'core');
 }
 
 .icon-download-white {
-	background-image: url('#{$webroot}/svg/icon-download/fff?v=1');
+	background-image: icon-color('download', 'actions', $color-white, 'core');
 }
 
 .icon-edit {
-	background-image: url('../img/actions/edit.svg?v=1');
+	background-image: icon-color('edit', 'actions', $color-black, 'core');
 }
 
 .icon-error {
-	background-image: url('../img/actions/error.svg?v=1');
+	background-image: icon-color('error', 'actions', $color-black, 'core');
 }
 
 .icon-error-white {
-	background-image: url('#{$webroot}/svg/icon-error/fff?v=1');
+	background-image: icon-color('error', 'actions', $color-white, 'core');
 }
 
 .icon-error-color {
-	background-image: url('#{$webroot}/svg/icon-error/d40000?v=1');
+	background-image: icon-color('error', 'actions', $color-error, 'core');
 }
 
 .icon-external {
-	background-image: url('../img/actions/external.svg?v=1');
+	background-image: icon-color('external', 'actions', $color-black, 'core');
 }
 
 .icon-fullscreen {
-	background-image: url('../img/actions/fullscreen.svg?v=1');
+	background-image: icon-color('fullscreen', 'actions', $color-black, 'core');
 }
 
-/* TODO: to be deprecated; use .icon-fullscreen.icon-white.icon-shadow */
 .icon-fullscreen-white {
-	background-image: url('../img/actions/fullscreen.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
+	background-image: icon-color('fullscreen', 'actions', $color-white, 'core');
+	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-history {
-	background-image: url('../img/actions/history.svg?v=1');
+	background-image: icon-color('history', 'actions', $color-black, 'core');
 }
 
 .icon-info {
-	background-image: url('../img/actions/info.svg?v=1');
+	background-image: icon-color('info', 'actions', $color-black, 'core');
 }
 
 .icon-info-white {
-	background-image: url('#{$webroot}/svg/icon-info/fff?v=1');
+	background-image: icon-color('info', 'actions', $color-white, 'core');
 }
 
 .icon-logout {
-	background-image: url('../img/actions/logout.svg?v=1');
+	background-image: icon-color('logout', 'actions', $color-black, 'core');
 }
 
 .icon-mail {
-	background-image: url('../img/actions/mail.svg?v=1');
+	background-image: icon-color('mail', 'actions', $color-black, 'core');
 }
 
 .icon-menu {
-	background-image: url('../img/actions/menu.svg?v=1');
+	background-image: icon-color('menu', 'actions', $color-black, 'core');
 }
 
 .icon-more {
-	background-image: url('../img/actions/more.svg?v=1');
+	background-image: icon-color('more', 'actions', $color-black, 'core');
 }
 
 .icon-more-white {
-	background-image: url('#{$webroot}/svg/more/fff?v=1');
+	background-image: icon-color('more', 'actions', $color-white)
 }
 
 .icon-password {
-	background-image: url('../img/actions/password.svg?v=1');
+	background-image: icon-color('password', 'actions', $color-black, 'core');
 }
 
 .icon-pause {
-	background-image: url('../img/actions/pause.svg?v=1');
+	background-image: icon-color('pause', 'actions', $color-black, 'core');
 }
 
 .icon-play {
-	background-image: url('../img/actions/play.svg?v=1');
+	background-image: icon-color('play', 'actions', $color-black, 'core');
 }
 
 .icon-play-add {
-	background-image: url('../img/actions/play-add.svg?v=1');
+	background-image: icon-color('play-add', 'actions', $color-black, 'core');
 }
 
 .icon-play-next {
-	background-image: url('../img/actions/play-next.svg?v=1');
+	background-image: icon-color('play-next', 'actions', $color-black, 'core');
 }
 
 .icon-play-previous {
-	background-image: url('../img/actions/play-previous.svg?v=1');
+	background-image: icon-color('play-previous', 'actions', $color-black, 'core');
 }
 
 .icon-public {
-	background-image: url('../img/actions/public.svg?v=1');
+	background-image: icon-color('public', 'actions', $color-black, 'core');
 }
 
 .icon-quota {
-	background-image: url('../img/actions/quota.svg?v=1');
+	background-image: icon-color('quota', 'actions', $color-black, 'core');
 }
 
 .icon-rename {
-	background-image: url('../img/actions/rename.svg?v=1');
+	background-image: icon-color('rename', 'actions', $color-black, 'core');
 }
 
 .icon-screen {
-	background-image: url('../img/actions/screen.svg?v=1');
+	background-image: icon-color('screen', 'actions', $color-black, 'core');
 }
 
-/* TODO: to be deprecated; use .icon-screen.icon-white.icon-shadow */
 .icon-screen-white {
-	background-image: url('../img/actions/screen.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
+	background-image: icon-color('screen', 'actions', $color-white, 'core');
+	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-screen-off {
-	background-image: url('../img/actions/screen-off.svg?v=1');
+	background-image: icon-color('screen-off', 'actions', $color-black, 'core');
 }
 
-/* TODO: to be deprecated; use .icon-screen-off.icon-white.icon-shadow */
 .icon-screen-off-white {
-	background-image: url('../img/actions/screen-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
+	background-image: icon-color('screen-off', 'actions', $color-white, 'core');
+	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-search {
-	background-image: url('../img/actions/search.svg?v=1');
+	background-image: icon-color('search', 'actions', $color-black, 'core');
 }
 
 .icon-search-white {
-	background-image: url('#{$webroot}/svg/search/fff?v=1');
+	background-image: icon-color('search', 'actions', $color-white, 'core');
 }
 
+/* default icon have a .5 opacity */
 .icon-settings {
-	background-image: url('../img/actions/settings.svg?v=1');
+	background-image: icon-color('settings', 'actions', $color-black, 'core');
 }
 
 .icon-settings-dark {
-	background-image: url('../img/actions/settings-dark.svg?v=1');
+	background-image: icon-color('settings-dark', 'actions', $color-black, 'core');
 }
 
 .icon-settings-white {
-	background-image: url('#{$webroot}/svg/settings-dark/fff?v=1');
+	background-image: icon-color('settings-dark', 'actions', $color-white, 'core');
 }
 
 /* always use icon-shared, AdBlock blocks icon-share */
 .icon-shared,
 .icon-share {
-	background-image: url('../img/actions/share.svg?v=1');
+	background-image: icon-color('share', 'actions', $color-black, 'core');
 }
 
 .icon-sound {
-	background-image: url('../img/actions/sound.svg?v=1');
+	background-image: icon-color('sound', 'actions', $color-black, 'core');
 }
 
 .icon-sound-off {
-	background-image: url('../img/actions/sound-off.svg?v=1');
+	background-image: icon-color('sound-off', 'actions', $color-black, 'core');
 }
 
 .icon-favorite {
-	background-image: url('../img/actions/star-dark.svg?v=1');
+	background-image: icon-color('star-dark', 'actions', $color-black, 'core');
 }
 
 .icon-star {
-	background-image: url('../img/actions/star.svg?v=1');
+	background-image: icon-color('star', 'actions', $color-black, 'core');
 }
 
 .icon-star-dark {
-	background-image: url('../img/actions/star-dark.svg?v=1');
+	background-image: icon-color('star-dark', 'actions', $color-black, 'core');
 }
 
 .icon-starred {
 	&:hover,
 	&:focus {
-		background-image: url('../img/actions/star.svg?v=1');
+		background-image: icon-color('star', 'actions', $color-black, 'core');
 	}
-	background-image: url('../img/actions/starred.svg?v=1');
+	background-image: icon-color('starred', 'actions', $color-black, 'core');
 }
 
 .icon-star {
 	&:hover,
 	&:focus {
-		background-image: url('../img/actions/starred.svg?v=1');
+		background-image: icon-color('starred', 'actions', $color-black, 'core');
 	}
 }
 
 .icon-tag {
-	background-image: url('../img/actions/tag.svg?v=1');
+	background-image: icon-color('tag', 'actions', $color-black, 'core');
 }
 
 .icon-timezone {
-	background-image: url('../img/actions/timezone.svg?v=1');
+	background-image: icon-color('timezone', 'actions', $color-black, 'core');
 }
 
 .icon-toggle {
-	background-image: url('../img/actions/toggle.svg?v=1');
+	background-image: icon-color('toggle', 'actions', $color-black, 'core');
 }
 
 .icon-toggle-background {
-	background-image: url('../img/actions/toggle-background.svg?v=1');
+	background-image: icon-color('toggle-background', 'actions', $color-black, 'core');
 }
 
 .icon-toggle-pictures {
-	background-image: url('../img/actions/toggle-pictures.svg?v=1');
+	background-image: icon-color('toggle-pictures', 'actions', $color-black, 'core');
 }
 
 .icon-triangle-e {
-	background-image: url('../img/actions/triangle-e.svg?v=1');
+	background-image: icon-color('triangle-e', 'actions', $color-black, 'core');
 }
 
 .icon-triangle-n {
-	background-image: url('../img/actions/triangle-n.svg?v=1');
+	background-image: icon-color('triangle-n', 'actions', $color-black, 'core');
 }
 
 .icon-triangle-s {
-	background-image: url('../img/actions/triangle-s.svg?v=1');
+	background-image: icon-color('triangle-s', 'actions', $color-black, 'core');
 }
 
 .icon-upload {
-	background-image: url('../img/actions/upload.svg?v=1');
+	background-image: icon-color('upload', 'actions', $color-black, 'core');
 }
 
 .icon-upload-white {
-	background-image: url('#{$webroot}/svg/upload/fff?v=1');
+	background-image: icon-color('upload', 'actions', $color-white, 'core');
 }
 
 .icon-user {
-	background-image: url('../img/actions/user.svg?v=1');
+	background-image: icon-color('user', 'actions', $color-black, 'core');
 }
 
 .icon-video {
-	background-image: url('../img/actions/video.svg?v=1');
+	background-image: icon-color('video', 'actions', $color-black, 'core');
 }
 
-/* TODO: to be deprecated; use .icon-video-off.icon-white.icon-shadow */
 .icon-video-white {
-	background-image: url('../img/actions/video.svg?v=2');
-	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
+	background-image: icon-color('video', 'actions', $color-white, 'core');
+	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-video-off {
-	background-image: url('../img/actions/video-off.svg?v=1');
+	background-image: icon-color('video-off', 'actions', $color-black, 'core');
 }
 
-/* TODO: to be deprecated; use .icon-video-off.icon-white.icon-shadow */
 .icon-video-off-white {
-	background-image: url('../img/actions/video-off.svg?v=1');
-	filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
+	background-image: icon-color('video-off', 'actions', $color-white, 'core');
+	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-video-switch {
-	background-image: url('../img/actions/video-switch.svg?v=1');
+	background-image: icon-color('video-switch', 'actions', $color-black, 'core');
 }
 
 .icon-view-close {
-	background-image: url('../img/actions/view-close.svg?v=1');
+	background-image: icon-color('view-close', 'actions', $color-black, 'core');
 }
 
 .icon-view-download {
-	background-image: url('../img/actions/view-download.svg?v=1');
+	background-image: icon-color('view-download', 'actions', $color-black, 'core');
 }
 
 .icon-view-next {
-	background-image: url('../img/actions/arrow-right.svg?v=1');
+	background-image: icon-color('arrow-right', 'actions', $color-black, 'core');
 }
 
 .icon-view-pause {
-	background-image: url('../img/actions/view-pause.svg?v=1');
+	background-image: icon-color('view-pause', 'actions', $color-black, 'core');
 }
 
 .icon-view-play {
-	background-image: url('../img/actions/view-play.svg?v=1');
+	background-image: icon-color('view-play', 'actions', $color-black, 'core');
 }
 
 .icon-view-previous {
-	background-image: url('../img/actions/arrow-left.svg?v=1');
+	background-image: icon-color('arrow-left', 'actions', $color-black, 'core');
 }
 
 .icon-disabled-user {
-	background-image: url('../img/actions/disabled-user.svg?v=1');
+	background-image: icon-color('disabled-user', 'actions', $color-black, 'core');
 }
 
 .icon-disabled-users {
-	background-image: url('../img/actions/disabled-users.svg?v=1');
+	background-image: icon-color('disabled-users', 'actions', $color-black, 'core');
 }
 
 .icon-user-admin {
-	background-image: url('../img/actions/user-admin.svg?v=1');
+	background-image: icon-color('user-admin', 'actions', $color-black, 'core');
 }
 
 /* PLACES ------------------------------------------------------------------- */
 .icon-calendar {
-	background-image: url('../img/places/calendar.svg?v=1');
+	background-image: icon-color('calendar', 'places', $color-white, 'core');
 }
 
 .icon-calendar-dark {
-	background-image: url('../img/places/calendar-dark.svg?v=1');
+	background-image: icon-color('calendar', 'places', $color-black, 'core');
 }
 
 .icon-contacts {
-	background-image: url('../img/places/contacts.svg?v=1');
+	background-image: icon-color('contacts', 'places', $color-white, 'core');
 }
 
 .icon-contacts-dark {
-	background-image: url('../img/places/contacts-dark.svg?v=1');
+	background-image: icon-color('contacts', 'places', $color-black, 'core');
 }
 
 .icon-files {
-	background-image: url('../img/places/files.svg?v=1');
+	background-image: icon-color('files', 'places', $color-white, 'core');
 }
 
 .icon-files-dark {
-	background-image: url('../img/places/files-dark.svg?v=1');
+	background-image: icon-color('files', 'places', $color-black, 'core');
 }
 
 .icon-file,
 .icon-filetype-text {
-	background-image: url('../img/filetypes/text.svg?v=1');
+	background-image: icon-color('text', 'filetypes', $color-black, 'core');
 }
 
 .icon-folder,
 .icon-filetype-folder {
-	background-image: url('../img/filetypes/folder.svg?v=1');
+	background-image: icon-color('folder', 'filetypes', $color-black, 'core');
 }
 
 .icon-filetype-folder-drag-accept {
-	background-image: url('../img/filetypes/folder-drag-accept.svg?v=1') !important;
+	background-image: icon-color('folder-drag-accept', 'filetypes', $color-black) !important;
 }
 
 .icon-home {
-	background-image: url('../img/places/home.svg?v=1');
+	background-image: icon-color('home', 'places', $color-black, 'core');
 }
 
 .icon-link {
-	background-image: url('../img/places/link.svg?v=1');
+	background-image: icon-color('link', 'places', $color-black, 'core');
 }
 
 .icon-music {
-	background-image: url('../img/places/music.svg?v=1');
+	background-image: icon-color('music', 'places', $color-black, 'core');
 }
 
 .icon-picture {
-	background-image: url('../img/places/picture.svg?v=1');
+	background-image: icon-color('picture', 'places', $color-black, 'core');
 }
 
 /* CLIENTS ------------------------------------------------------------------- */
 
 .icon-desktop {
-	background-image: url('../img/clients/desktop.svg?v=1');
+	background-image: icon-color('desktop', 'clients', $color-black, 'core');
 }
 
 .icon-phone {
-	background-image: url('../img/clients/phone.svg?v=1');
+	background-image: icon-color('phone', 'clients', $color-black, 'core');
 }
 
 .icon-tablet {
-	background-image: url('../img/clients/tablet.svg?v=1');
+	background-image: icon-color('tablet', 'clients', $color-black, 'core');
 }
 
 /* APP CATEGORIES ------------------------------------------------------------------- */
 .icon-category-installed {
-	background-image: url('../img/actions/user.svg?v=1');
+	background-image: icon-color('user', 'actions', $color-black, 'core');
 }
 
 .icon-category-enabled {
-	background-image: url('../img/actions/checkmark.svg?v=1');
+	background-image: icon-color('checkmark', 'actions', $color-black, 'core');
 }
 
 .icon-category-disabled {
-	background-image: url('../img/actions/close.svg?v=1');
+	background-image: icon-color('close', 'actions', $color-black, 'core');
 }
 
 .icon-category-app-bundles {
-	background-image: url('../img/categories/bundles.svg?v=1');
+	background-image: icon-color('bundles', 'categories', $color-black, 'core');
 }
 
 .icon-category-updates {
-	background-image: url('../img/actions/download.svg?v=1');
+	background-image: icon-color('download', 'actions', $color-black, 'core');
 }
 
 .icon-category-files {
-	background-image: url('../img/categories/files.svg?v=1');
+	background-image: icon-color('files', 'categories', $color-black, 'core');
 }
 
 .icon-category-social {
-	background-image: url('../img/categories/social.svg?v=1');
+	background-image: icon-color('social', 'categories', $color-black, 'core');
 }
 
 .icon-category-office {
-	background-image: url('../img/categories/office.svg?v=1');
+	background-image: icon-color('office', 'categories', $color-black, 'core');
 }
 
 .icon-category-auth {
-	background-image: url('../img/categories/auth.svg?v=1');
+	background-image: icon-color('auth', 'categories', $color-black, 'core');
 }
 
 .icon-category-monitoring {
-	background-image: url('../img/categories/monitoring.svg?v=1');
+	background-image: icon-color('monitoring', 'categories', $color-black, 'core');
 }
 
 .icon-category-multimedia {
-	background-image: url('../img/categories/multimedia.svg?v=1');
+	background-image: icon-color('multimedia', 'categories', $color-black, 'core');
 }
 
 .icon-category-organization {
-	background-image: url('../img/categories/organization.svg?v=1');
+	background-image: icon-color('organization', 'categories', $color-black, 'core');
 }
 
 .icon-category-customization {
-	background-image: url('../img/categories/customization.svg?v=1');
+	background-image: icon-color('customization', 'categories', $color-black, 'core');
 }
 
 .icon-category-integration {
-	background-image: url('../img/categories/integration.svg?v=1');
+	background-image: icon-color('integration', 'categories', $color-black, 'core');
 }
 
 .icon-category-tools {
-	background-image: url('../img/actions/settings-dark.svg?v=1');
+	background-image: icon-color('settings-dark', 'actions', $color-black, 'core');
 }
 
 .icon-category-games {
-	background-image: url('../img/categories/games.svg?v=1');
+	background-image: icon-color('games', 'categories', $color-black, 'core');
 }
 
 .icon-category-security {
-	background-image: url('../img/actions/password.svg?v=1');
+	background-image: icon-color('password', 'actions', $color-black, 'core');
 }
 
 .icon-category-search {
-	background-image: url('../img/actions/search.svg?v=1');
+	background-image: icon-color('search', 'actions', $color-black, 'core');
 }

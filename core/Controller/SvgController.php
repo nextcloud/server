@@ -55,12 +55,13 @@ class SvgController extends Controller {
 	 *
 	 * Generate svg from filename with the requested color
 	 *
+	 * @param string $folder
 	 * @param string $fileName
 	 * @param string $color
 	 * @return DataDisplayResponse|NotFoundException
 	 */
-	public function getSvgFromCore(string $fileName, string $color = 'ffffff') {
-		$path = $this->serverRoot . "/core/img/actions/$fileName.svg";
+	public function getSvgFromCore(string $folder, string $fileName, string $color = 'ffffff') {
+		$path = $this->serverRoot . "/core/img/$folder/$fileName.svg";
 		return $this->getSvg($path, $color);
 	}
 
@@ -70,11 +71,18 @@ class SvgController extends Controller {
 	 *
 	 * Generate svg from filename with the requested color
 	 *
+	 * @param string $app
 	 * @param string $fileName
 	 * @param string $color
 	 * @return DataDisplayResponse|NotFoundException
 	 */
 	public function getSvgFromApp(string $app, string $fileName, string $color = 'ffffff') {
+
+		if ($app === 'settings') {
+			$path = $this->serverRoot . "/settings/img/$fileName.svg";
+			return $this->getSvg($path, $color);
+		}
+
 		$appPath = \OC_App::getAppWebPath($app);
 		if (!$appPath) {
 			return new NotFoundResponse();
