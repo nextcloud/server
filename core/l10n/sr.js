@@ -281,6 +281,8 @@ OC.L10N.register(
     "Need help?" : "Треба Вам помоћ?",
     "See the documentation" : "Погледајте документацију",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ова апликација захтева Јава скрипт за исправан рад. {linkstart}Омогућите Јава скрипт{linkend} и поново учитајте страницу.",
+    "Skip to main content" : "Прескочи на главни садржај",
+    "Skip to navigation of app" : "Прескочи на навигацију апликације",
     "More apps" : "Још апликација",
     "More apps menu" : "Мени још апликација",
     "Search" : "Претражи",
