@@ -515,28 +515,33 @@ class Manager {
 		$hash = md5($mountPoint);
 
 		$getShare = $this->connection->prepare('
-			SELECT `remote`, `share_token`, `remote_id`
+			SELECT `remote`, `share_token`, `remote_id`, `share_type`, `id`
 			FROM  `*PREFIX*share_external`
 			WHERE `mountpoint_hash` = ? AND `user` = ?');
 		$result = $getShare->execute(array($hash, $this->uid));
 
-		if ($result) {
+		$share = $getShare->fetch();
+		$getShare->closeCursor();
+		if ($result && (int)$share['share_type'] === Share::SHARE_TYPE_USER) {
 			try {
-				$share = $getShare->fetch();
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 			} catch (\Exception $e) {
 				// if we fail to notify the remote (probably cause the remote is down)
 				// we still want the share to be gone to prevent undeletable remotes
 			}
-		}
-		$getShare->closeCursor();
 
-		$query = $this->connection->prepare('
+			$query = $this->connection->prepare('
 			DELETE FROM `*PREFIX*share_external`
-			WHERE `mountpoint_hash` = ?
-			AND `user` = ?
-		');
-		$result = (bool)$query->execute(array($hash, $this->uid));
+			WHERE `id` = ?
+			');
+			$result = (bool)$query->execute(array((int)$share['id']));
+		} else if ($result && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
+			$query = $this->connection->prepare('
+				UPDATE `*PREFIX*share_external`
+				SET `accepted` = ?
+				WHERE `id` = ?');
+			$result = (bool)$query->execute(array(0, (int)$share['id']));
+		}
 
 		if($result) {
 			$this->removeReShares($id);
