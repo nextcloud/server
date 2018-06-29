@@ -308,7 +308,7 @@ class Manager implements IManager {
 		}
 		if($section === 'security') {
 			/** @var ISettings $form */
-			$form = new Personal\Security();
+			$form = new Personal\Security($this->userManager);
 			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'additional') {

@@ -219,7 +219,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetPersonalSettings() {
 		$this->assertEquals([
-			10 => [new Security()],
+			10 => [new Security($this->userManager)],
 		], $this->manager->getPersonalSettings('security'));
 	}
 }

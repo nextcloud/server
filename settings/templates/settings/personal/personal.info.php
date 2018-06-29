@@ -31,8 +31,6 @@ script('settings', [
 	'federationscopemenu',
 	'settings/personalInfo',
 ]);
-vendor_script('strengthify/jquery.strengthify');
-vendor_style('strengthify/strengthify');
 vendor_script('jcrop/js/jquery.Jcrop');
 vendor_style('jcrop/css/jquery.Jcrop');
 
@@ -375,36 +373,6 @@ vendor_style('jcrop/css/jquery.Jcrop');
 					</div>
 				</form>
 			<?php } ?>
-		</div>
-		<div class="personal-settings-setting-box personal-settings-password-box">
-			<?php
-			if($_['passwordChangeSupported']) {
-				script('jquery-showpassword');
-				?>
-				<form id="passwordform" class="section">
-					<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-					<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
-
-					<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
-					<input type="password" id="pass1" name="oldpassword"
-						   placeholder="<?php p($l->t('Current password'));?>"
-						   autocomplete="off" autocapitalize="none" autocorrect="off" />
-
-					<div class="personal-show-container">
-						<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
-						<input type="password" id="pass2" name="newpassword"
-							   placeholder="<?php p($l->t('New password')); ?>"
-							   data-typetoggle="#personal-show"
-							   autocomplete="off" autocapitalize="none" autocorrect="off" />
-						<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
-					</div>
-
-					<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
-
-				</form>
-				<?php
-			}
-			?>
 		</div>
 		<span class="msg"></span>
 	</div>
