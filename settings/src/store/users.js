@@ -39,7 +39,9 @@ const defaults = {
 		id: '',
 		name: '',
 		usercount: 0,
-		disabled: 0
+		disabled: 0,
+		canAdd: true,
+		canRemove: true
 	}
 };
 
