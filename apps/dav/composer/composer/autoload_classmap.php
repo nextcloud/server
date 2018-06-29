@@ -135,6 +135,7 @@ return array(
     'OCA\\DAV\\Files\\BrowserErrorPagePlugin' => $baseDir . '/../lib/Files/BrowserErrorPagePlugin.php',
     'OCA\\DAV\\Files\\FileSearchBackend' => $baseDir . '/../lib/Files/FileSearchBackend.php',
     'OCA\\DAV\\Files\\FilesHome' => $baseDir . '/../lib/Files/FilesHome.php',
+    'OCA\\DAV\\Files\\LazySearchBackend' => $baseDir . '/../lib/Files/LazySearchBackend.php',
     'OCA\\DAV\\Files\\RootCollection' => $baseDir . '/../lib/Files/RootCollection.php',
     'OCA\\DAV\\Files\\Sharing\\FilesDropPlugin' => $baseDir . '/../lib/Files/Sharing/FilesDropPlugin.php',
     'OCA\\DAV\\Files\\Sharing\\PublicLinkCheckPlugin' => $baseDir . '/../lib/Files/Sharing/PublicLinkCheckPlugin.php',
