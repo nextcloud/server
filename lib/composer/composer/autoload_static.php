@@ -824,6 +824,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Log\\LogFactory' => __DIR__ . '/../../..' . '/lib/private/Log/LogFactory.php',
         'OC\\Log\\Rotate' => __DIR__ . '/../../..' . '/lib/private/Log/Rotate.php',
         'OC\\Log\\Syslog' => __DIR__ . '/../../..' . '/lib/private/Log/Syslog.php',
+        'OC\\Log\\Systemdlog' => __DIR__ . '/../../..' . '/lib/private/Log/Systemdlog.php',
         'OC\\Mail\\Attachment' => __DIR__ . '/../../..' . '/lib/private/Mail/Attachment.php',
         'OC\\Mail\\EMailTemplate' => __DIR__ . '/../../..' . '/lib/private/Mail/EMailTemplate.php',
         'OC\\Mail\\Mailer' => __DIR__ . '/../../..' . '/lib/private/Mail/Mailer.php',
