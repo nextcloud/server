@@ -358,9 +358,21 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('requestID', $request->getId());
 			$content->printPage();
 		} catch (\Exception $e) {
-			$logger = \OC::$server->getLogger();
-			$logger->logException($exception, ['app' => 'core']);
-			$logger->logException($e, ['app' => 'core']);
+			try {
+				$logger = \OC::$server->getLogger();
+				$logger->logException($exception, ['app' => 'core']);
+				$logger->logException($e, ['app' => 'core']);
+			} catch (Throwable $e) {
+				// no way to log it properly - but to avoid a white page of death we send some output
+				header('Content-Type: text/plain; charset=utf-8');
+				print("Internal Server Error\n\n");
+				print("The server encountered an internal error and was unable to complete your request.\n");
+				print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+				print("More details can be found in the server log.\n");
+
+				// and then throw it again to log it at least to the web server error log
+				throw $e;
+			}
 
 			header('Content-Type: text/plain; charset=utf-8');
 			print("Internal Server Error\n\n");

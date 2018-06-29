@@ -50,8 +50,12 @@ try {
 	try {
 		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), 503);
 	} catch (Exception $ex2) {
-		\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
-		\OC::$server->getLogger()->logException($ex2, array('app' => 'index'));
+		try {
+			\OC::$server->getLogger()->logException($ex, array('app' => 'index'));
+			\OC::$server->getLogger()->logException($ex2, array('app' => 'index'));
+		} catch (Throwable $e) {
+			// no way to log it properly - but to avoid a white page of death we try harder and ignore this one here
+		}
 
 		//show the user a detailed error page
 		OC_Template::printExceptionErrorPage($ex, 500);
