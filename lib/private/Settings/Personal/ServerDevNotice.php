@@ -18,10 +18,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Settings\Admin;
+namespace OC\Settings\Personal;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
@@ -31,14 +31,14 @@ class ServerDevNotice implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		return new TemplateResponse('settings', 'settings/admin/server.development.notice');
+		return new TemplateResponse('settings', 'settings/personal/development.notice');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return 'server';
+		return 'personal-info';
 	}
 
 	/**
