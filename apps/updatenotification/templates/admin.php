@@ -8,7 +8,7 @@ declare(strict_types=1);
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  */
-script('updatenotification', 'merged');
+script('updatenotification', 'updatenotification');
 style('updatenotification', 'admin');
 /** @var array $_ */
 ?>

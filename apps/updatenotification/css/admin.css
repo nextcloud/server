@@ -3,7 +3,6 @@
 }
 
 #updatenotification div.update,
-#updatenotification ul,
 #updatenotification p:not(.inlineblock) {
 	margin-bottom: 25px;
 }
@@ -43,4 +42,22 @@
 
 #updatenotification .warning {
 	color: #ce3702;
+}
+
+#updatenotification .whatsNew {
+	display: inline-block;
+}
+
+#updatenotification .toggleWhatsNew {
+	position: relative;
+}
+
+#updatenotification .popovermenu p {
+	margin-bottom: 0;
+	width: 100%;
+}
+
+#updatenotification .popovermenu {
+	margin-top: 5px;
+	width: 300px;
 }

@@ -24,7 +24,7 @@ pipeline:
   vue-build-updatenotification:
     image: node
     commands:
-     - ./build/vue-builds.sh ./apps/updatenotification/js/merged.js
+     - ./build/vue-builds.sh ./apps/updatenotification/js/updatenotification.js
     when:
       matrix:
         TESTS: vue-build-updatenotification

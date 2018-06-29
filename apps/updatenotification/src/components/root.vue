@@ -39,6 +39,14 @@
 
 				<a v-if="updaterEnabled" href="#" class="button" @click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
 				<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+				<div class="whatsNew" v-if="whatsNew">
+					<div class="toggleWhatsNew">
+						<span v-click-outside="hideMenu" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</span>
+						<div class="popovermenu" :class="{ 'menu-center': true, open: openedWhatsNew }">
+							<popover-menu :menu="whatsNew" />
+						</div>
+					</div>
+				</div>
 			</template>
 			<template v-else-if="!isUpdateChecked">{{ t('updatenotification', 'The update check is not yet finished. Please refresh the page.') }}</template>
 			<template v-else>
@@ -80,11 +88,17 @@
 
 <script>
 	import vSelect from 'vue-select';
+	import popoverMenu from './popoverMenu';
+	import ClickOutside from 'vue-click-outside';
 
 	export default {
 		name: 'root',
 		components: {
 			vSelect,
+			popoverMenu,
+		},
+		directives: {
+			ClickOutside
 		},
 		data: function () {
 			return {
@@ -96,6 +110,8 @@
 				downloadLink: '',
 				isNewVersionAvailable: false,
 				updateServerURL: '',
+				changelogURL: '',
+				whatsNewData: [],
 				currentChannel: '',
 				channels: [],
 				notifyGroups: '',
@@ -109,7 +125,8 @@
 				appStoreDisabled: false,
 				isListFetched: false,
 				hideMissingUpdates: false,
-				hideAvailableUpdates: true
+				hideAvailableUpdates: true,
+				openedWhatsNew: false,
 			};
 		},
 
@@ -202,6 +219,26 @@
 
 			betaInfoString: function() {
 				return t('updatenotification', '<strong>beta</strong> is a pre-release version only for testing new features, not for production environments.');
+			},
+
+			whatsNew: function () {
+				if(this.whatsNewData.length === 0) {
+					return null;
+				}
+				var whatsNew = [];
+				for (var i in this.whatsNewData) {
+					whatsNew[i] = { icon: 'icon-star-dark', longtext: this.whatsNewData[i] };
+				}
+				if(this.changelogURL) {
+					whatsNew.push({
+						href: this.changelogURL,
+						text: t('updatenotificaiton', 'View changelog'),
+						icon: 'icon-link',
+						target: '_blank',
+						action: ''
+					});
+				}
+				return whatsNew;
 			}
 		},
 
@@ -261,7 +298,13 @@
 			},
 			toggleHideAvailableUpdates: function() {
 				this.hideAvailableUpdates = !this.hideAvailableUpdates;
-			}
+			},
+			toggleMenu: function() {
+				this.openedWhatsNew = !this.openedWhatsNew;
+			},
+			hideMenu: function() {
+				this.openedWhatsNew = false;
+			},
 		},
 		beforeMount: function() {
 			// Parse server data
@@ -279,6 +322,15 @@
 			this.notifyGroups = data.notifyGroups;
 			this.isDefaultUpdateServerURL = data.isDefaultUpdateServerURL;
 			this.versionIsEol = data.versionIsEol;
+			if(data.changes && data.changes.changelogURL) {
+				this.changelogURL = data.changes.changelogURL;
+			}
+			if(data.changes && data.changes.whatsNew) {
+				if(data.changes.whatsNew.admin) {
+					this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.admin);
+				}
+				this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.regular);
+			}
 		},
 		mounted: function () {
 			this._$el = $(this.$el);
