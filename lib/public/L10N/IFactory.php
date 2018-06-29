@@ -62,7 +62,7 @@ interface IFactory {
 
 	/**
 	 * @return array an array of available
-	 * @since 13.0.0
+	 * @since 14.0.0
 	 */
 	public function findAvailableLocales();
 
