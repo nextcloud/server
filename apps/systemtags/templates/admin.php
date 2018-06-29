@@ -50,7 +50,7 @@ style('systemtags', 'settings');
 		</select>
 
 		<a id="systemtag_delete" class="hidden icon-delete"><span class="hidden-visually"><?php p($l->t('Delete')); ?></span></a>
-		<a id="systemtag_reset" class="hidden icon-close"><span class="hidden-visually"><?php p($l->t('Reset')); ?></span></a>
+		<a id="systemtag_reset" class="icon-close"><span class="hidden-visually"><?php p($l->t('Reset')); ?></span></a>
 		<a id="systemtag_submit" class="icon-confirm"><span class="hidden-visually"><?php p($l->t('Create')); ?></span></a>
 	</div>
 
