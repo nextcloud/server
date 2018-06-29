@@ -1,9 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2018, Georg Ehrke
  *
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -20,22 +19,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\DAV\CalDAV;
+namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
-class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
+use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
 
-	function getChildForPrincipal(array $principal) {
-		return new CalendarHome($this->caldavBackend, $principal);
-	}
+Class RoomPrincipalBackendTest extends AbstractPrincipalBackendTest {
+	public function setUp() {
+		parent::setUp();
 
-	function getName() {
-		if ($this->principalPrefix === 'principals/calendar-resources' ||
-			$this->principalPrefix === 'principals/calendar-rooms') {
-			$parts = explode('/', $this->principalPrefix);
-
-			return $parts[1];
-		}
-
-		return parent::getName();
+		$this->principalBackend = new RoomPrincipalBackend($this->dbConnection,
+			$this->userSession, $this->groupManager, $this->logger);
+		$this->expectedDbTable = 'calendar_rooms_cache';
+		$this->principalPrefix = 'principals/calendar-rooms';
 	}
 }

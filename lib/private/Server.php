@@ -174,6 +174,12 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
 		$this->registerAlias('CalendarManager', \OC\Calendar\Manager::class);
 
+		$this->registerAlias(\OCP\Calendar\Resource\IManager::class, \OC\Calendar\Resource\Manager::class);
+		$this->registerAlias('CalendarResourceBackendManager', \OC\Calendar\Resource\Manager::class);
+
+		$this->registerAlias(\OCP\Calendar\Room\IManager::class, \OC\Calendar\Room\Manager::class);
+		$this->registerAlias('CalendarRoomBackendManager', \OC\Calendar\Room\Manager::class);
+
 		$this->registerAlias(\OCP\Contacts\IManager::class, \OC\ContactsManager::class);
 		$this->registerAlias('ContactsManager', \OCP\Contacts\IManager::class);
 
@@ -1161,6 +1167,20 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCalendarManager() {
 		return $this->query('CalendarManager');
+	}
+
+	/**
+	 * @return \OCP\Calendar\Resource\IManager
+	 */
+	public function getCalendarResourceBackendManager() {
+		return $this->query('CalendarResourceBackendManager');
+	}
+
+	/**
+	 * @return \OCP\Calendar\Room\IManager
+	 */
+	public function getCalendarRoomBackendManager() {
+		return $this->query('CalendarRoomBackendManager');
 	}
 
 	private function connectDispatcher() {

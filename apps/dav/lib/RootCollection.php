@@ -27,6 +27,8 @@ namespace OCA\DAV;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
+use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
+use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -43,6 +45,7 @@ class RootCollection extends SimpleCollection {
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();
 		$userManager = \OC::$server->getUserManager();
+		$userSession = \OC::$server->getUserSession();
 		$groupManager = \OC::$server->getGroupManager();
 		$shareManager = \OC::$server->getShareManager();
 		$db = \OC::$server->getDatabaseConnection();
@@ -55,6 +58,8 @@ class RootCollection extends SimpleCollection {
 			$config
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager);
+		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger);
+		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger);
 		// as soon as debug mode is enabled we allow listing of principals
 		$disableListing = !$config->getSystemValue('debug', false);
 
@@ -65,11 +70,25 @@ class RootCollection extends SimpleCollection {
 		$groupPrincipals->disableListing = $disableListing;
 		$systemPrincipals = new Collection(new SystemPrincipalBackend(), 'principals/system');
 		$systemPrincipals->disableListing = $disableListing;
+		$calendarResourcePrincipals = new Collection($calendarResourcePrincipalBackend, 'principals/calendar-resources');
+		$calendarResourcePrincipals->disableListing = $disableListing;
+		$calendarRoomPrincipals = new Collection($calendarRoomPrincipalBackend, 'principals/calendar-rooms');
+		$calendarRoomPrincipals->disableListing = $disableListing;
+
+
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
 		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher);
-		$calendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
-		$calendarRoot->disableListing = $disableListing;
+		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
+		$userCalendarRoot->disableListing = $disableListing;
+
+		$resourceCalendarCaldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher);
+		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources');
+		$resourceCalendarRoot->disableListing = $disableListing;
+		$roomCalendarCaldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher);
+		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $roomCalendarCaldavBackend, 'principals/calendar-rooms');
+		$roomCalendarRoot->disableListing = $disableListing;
+
 		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config);
 		$publicCalendarRoot->disableListing = $disableListing;
 
@@ -111,9 +130,15 @@ class RootCollection extends SimpleCollection {
 				new SimpleCollection('principals', [
 						$userPrincipals,
 						$groupPrincipals,
-						$systemPrincipals]),
+						$systemPrincipals,
+						$calendarResourcePrincipals,
+						$calendarRoomPrincipals]),
 				$filesCollection,
-				$calendarRoot,
+				$userCalendarRoot,
+				new SimpleCollection('system-calendars', [
+					$resourceCalendarRoot,
+					$roomCalendarRoot,
+				]),
 				$publicCalendarRoot,
 				new SimpleCollection('addressbooks', [
 						$usersAddressBookRoot,

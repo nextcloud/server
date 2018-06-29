@@ -76,6 +76,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	const PERSONAL_CALENDAR_URI = 'personal';
 	const PERSONAL_CALENDAR_NAME = 'Personal';
 
+	const RESOURCE_BOOKING_CALENDAR_URI = 'calendar';
+	const RESOURCE_BOOKING_CALENDAR_NAME = 'Calendar';
+
 	/**
 	 * We need to specify a max date, because we need to stop *somewhere*
 	 *
