@@ -228,6 +228,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
+				\OC::$server->getGroupManager(),
+				\OC::$server->getUserManager(),
 				$shareWith
 			);
 
