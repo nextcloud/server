@@ -74,6 +74,7 @@ class MountProvider implements IMountProvider {
 		$shares = $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_USER, null, -1);
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_GROUP, null, -1));
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_CIRCLE, null, -1));
+		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_ROOM, null, -1));
 
 		// filter out excluded shares and group shares that includes self
 		$shares = array_filter($shares, function (\OCP\Share\IShare $share) use ($user) {
