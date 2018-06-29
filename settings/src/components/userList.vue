@@ -221,11 +221,11 @@ export default {
 		},
 		canAddGroups() {
 			// disabled if no permission to add new users to group
-			return this.groups.map((group) => {
+			return this.groups.map(group => {
 				// clone object because we don't want
 				// to edit the original groups
 				group = Object.assign({}, group);
-				group.$isDisabled = group.canAdd !== true;
+				group.$isDisabled = group.canAdd === false;
 				return group;
 			});
 		},
@@ -235,7 +235,7 @@ export default {
 		},
 		quotaOptions() {
 			// convert the preset array into objects
-			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({id:cur, label:cur}), []);
+			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({id: cur, label: cur}), []);
 			// add default presets
 			quotaPreset.unshift(this.unlimitedQuota);
 			quotaPreset.unshift(this.defaultQuota);
@@ -275,7 +275,7 @@ export default {
 	},
 	methods: {
 		onScroll(event) {
-			this.scrolled = event.target.scrollTop>0;
+			this.scrolled = event.target.scrollTo > 0;
 		},
 
 		/**

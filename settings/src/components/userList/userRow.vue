@@ -206,9 +206,9 @@ export default {
 				// 1. user NOT in group but no permission to add
 				// 2. user is in group but no permission to remove
 				groupClone.$isDisabled =
-					(group.canAdd !== true &&
+					(group.canAdd === false &&
 						!this.user.groups.includes(group.id)) ||
-					(group.canRemove !== true &&
+					(group.canRemove === false &&
 						this.user.groups.includes(group.id));
 				return groupClone;
 			});
@@ -405,7 +405,7 @@ export default {
 		 * @returns {Promise}
 		 */
 		addUserGroup(group) {
-			if (!group.canAdd) {
+			if (group.canAdd === false) {
 				return false;
 			}
 			this.loading.groups = true;
@@ -422,7 +422,7 @@ export default {
 		 * @returns {Promise}
 		 */
 		removeUserGroup(group) {
-			if (!group.canRemove) {
+			if (group.canRemove === false) {
 				return false;
 			}
 			this.loading.groups = true;
