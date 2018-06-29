@@ -31,6 +31,7 @@ class Constants {
 
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
+	// const SHARE_TYPE_USERGROUP = 2; // Internal type used by DefaultShareProvider
 	const SHARE_TYPE_LINK = 3;
 	const SHARE_TYPE_EMAIL = 4;
 	const SHARE_TYPE_CONTACT = 5; // ToDo Check if it is still in use otherwise remove it
@@ -39,6 +40,7 @@ class Constants {
 	const SHARE_TYPE_GUEST = 8;
 	const SHARE_TYPE_REMOTE_GROUP = 9;
 	const SHARE_TYPE_ROOM = 10;
+	// const SHARE_TYPE_USERROOM = 11; // Internal type used by RoomShareProvider
 
 	const FORMAT_NONE = -1;
 	const FORMAT_STATUSES = -2;
