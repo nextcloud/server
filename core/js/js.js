@@ -791,6 +791,15 @@ var OCP = {},
 	 * @return {String} locale string
 	 */
 	getLocale: function() {
+		return $('html').data('locale');
+	},
+
+	/**
+	 * Returns the user's language
+	 *
+	 * @returns {String} language string
+	 */
+	getLanguage: function () {
 		return $('html').prop('lang');
 	},
 

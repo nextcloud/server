@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -107,4 +108,12 @@ interface IL10N {
 	 * @since 7.0.0
 	 */
 	public function getLanguageCode(): string ;
+
+	/**
+	 * * The code (en_US, fr_CA, ...) of the locale that is used for this IL10N object
+	 *
+	 * @return string locale
+	 * @since 14.0.0
+	 */
+	public function getLocaleCode(): string;
 }

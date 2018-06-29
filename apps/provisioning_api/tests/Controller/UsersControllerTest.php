@@ -760,7 +760,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackendClassName')
 			->will($this->returnValue('Database'));
 		$targetUser
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 
@@ -780,6 +780,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'groups' => ['group0', 'group1', 'group2'],
 			'language' => 'de',
+			'locale' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -865,7 +866,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackendClassName')
 			->will($this->returnValue('Database'));
 		$targetUser
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$this->accountManager->expects($this->any())->method('getUser')
@@ -895,6 +896,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'groups' => [],
 			'language' => 'da',
+			'locale' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1004,7 +1006,7 @@ class UsersControllerTest extends TestCase {
 			->method('getEMailAddress')
 			->will($this->returnValue('subadmin@nextcloud.com'));
 		$targetUser
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getUID')
 			->will($this->returnValue('UID'));
 		$targetUser
@@ -1050,6 +1052,7 @@ class UsersControllerTest extends TestCase {
 			'twitter' => 'twitter',
 			'groups' => [],
 			'language' => 'ru',
+			'locale' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1236,7 +1239,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('isAdmin')
 			->with('UID')
 			->will($this->returnValue(true));
@@ -1271,7 +1274,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
 		$this->groupManager
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('isAdmin')
 			->with('UID')
 			->will($this->returnValue(true));
