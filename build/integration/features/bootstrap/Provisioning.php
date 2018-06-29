@@ -680,6 +680,30 @@ trait Provisioning {
 	}
 
 	/**
+	 * @Given /^app "([^"]*)" is not enabled$/
+	 *
+	 * Checks that the app is disabled or not installed.
+	 *
+	 * @param string $app
+	 */
+	public function appIsNotEnabled($app) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$this->response = $client->get($fullUrl, $options);
+		$respondedArray = $this->getArrayOfAppsResponded($this->response);
+		Assert::assertNotContains($app, $respondedArray);
+		Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
 	 * @Then /^user "([^"]*)" is disabled$/
 	 * @param string $user
 	 */
