@@ -1213,28 +1213,6 @@ class ApiTest extends TestCase {
 		\OC_Hook::clear('OC_Filesystem', 'post_initMountPoints');
 		\OC_Hook::clear('\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
 	}
-	/**
-	 * @expectedException \Exception
-	 */
-	public function XtestShareNonExisting() {
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		$id = PHP_INT_MAX - 1;
-		\OC\Share\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
-	}
-
-	/**
-	 * @expectedException \Exception
-	 */
-	public function testShareNotOwner() {
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		\OC\Files\Filesystem::file_put_contents('foo.txt', 'bar');
-		$info = \OC\Files\Filesystem::getFileInfo('foo.txt');
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		\OC\Share\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
-	}
 
 	public function datesProvider() {
 		$date = new \DateTime();
