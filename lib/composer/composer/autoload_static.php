@@ -624,6 +624,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Controller\\PreviewController' => __DIR__ . '/../../..' . '/core/Controller/PreviewController.php',
         'OC\\Core\\Controller\\SearchController' => __DIR__ . '/../../..' . '/core/Controller/SearchController.php',
         'OC\\Core\\Controller\\SetupController' => __DIR__ . '/../../..' . '/core/Controller/SetupController.php',
+        'OC\\Core\\Controller\\SvgController' => __DIR__ . '/../../..' . '/core/Controller/SvgController.php',
         'OC\\Core\\Controller\\TwoFactorChallengeController' => __DIR__ . '/../../..' . '/core/Controller/TwoFactorChallengeController.php',
         'OC\\Core\\Controller\\UserController' => __DIR__ . '/../../..' . '/core/Controller/UserController.php',
         'OC\\Core\\Controller\\WalledGardenController' => __DIR__ . '/../../..' . '/core/Controller/WalledGardenController.php',
