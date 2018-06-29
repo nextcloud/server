@@ -62,6 +62,59 @@ Feature: sharing
       | displayname_owner | user0 |
       | mimetype          | text/plain |
 
+  Scenario: getting share info of a group share
+    Given user "user0" exists
+    And user "user1" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And file "textfile0.txt" of user "user0" is shared with group "group1"
+    And As an "user0"
+    When Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | file |
+      | item_source | A_NUMBER |
+      | share_type | 1 |
+      | share_with | group1 |
+      | file_source | A_NUMBER |
+      | file_target | /textfile0.txt |
+      | path | /textfile0.txt |
+      | permissions | 19 |
+      | stime | A_NUMBER |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | home::user0 |
+      | file_parent | A_NUMBER |
+      | share_with_displayname | group1 |
+      | displayname_owner | user0 |
+      | mimetype          | text/plain |
+    And As an "user1"
+    And Getting info of last share
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | file |
+      | item_source | A_NUMBER |
+      | share_type | 1 |
+      | share_with | group1 |
+      | file_source | A_NUMBER |
+      | file_target | /textfile0 (2).txt |
+      | path | /textfile0 (2).txt |
+      | permissions | 19 |
+      | stime | A_NUMBER |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | shared::/textfile0 (2).txt |
+      | file_parent | A_NUMBER |
+      | share_with_displayname | group1 |
+      | displayname_owner | user0 |
+      | mimetype          | text/plain |
+
   Scenario: keep group permissions in sync
     Given As an "admin"
     Given user "user0" exists
@@ -89,6 +142,26 @@ Feature: sharing
       | mail_send | 0 |
       | uid_owner | user0 |
       | storage_id | home::user0 |
+      | file_parent | A_NUMBER |
+      | displayname_owner | user0 |
+      | mimetype          | text/plain |
+    And As an "user1"
+    And Getting info of last share
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | file |
+      | item_source | A_NUMBER |
+      | share_type | 1 |
+      | file_source | A_NUMBER |
+      | file_target | /FOLDER/textfile0.txt |
+      | permissions | 1 |
+      | stime | A_NUMBER |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | shared::/FOLDER/textfile0.txt |
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | mimetype          | text/plain |

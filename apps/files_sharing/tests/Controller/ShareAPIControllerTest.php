@@ -229,7 +229,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareById')
-			->with('ocinternal:42')
+			->with('ocinternal:42', 'currentUser')
 			->will($this->throwException(new \OC\Share20\Exception\ShareNotFound()));
 
 		$expected = new \OC\OCS\Result(null, 404, 'wrong share ID, share doesn\'t exist.');
@@ -457,7 +457,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareById')
-			->with($share->getFullId())
+			->with($share->getFullId(), 'currentUser')
 			->willReturn($share);
 
 		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
@@ -517,7 +517,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareById')
-			->with('ocinternal:42')
+			->with('ocinternal:42', 'currentUser')
 			->willReturn($share);
 
 		$this->ocs->getShare(42);
