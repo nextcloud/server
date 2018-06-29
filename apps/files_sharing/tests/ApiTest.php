@@ -41,6 +41,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IServerContainer;
 
 /**
  * Class ApiTest
@@ -109,6 +110,7 @@ class ApiTest extends TestCase {
 			}));
 		$config = $this->createMock(IConfig::class);
 		$appManager = $this->createMock(IAppManager::class);
+		$serverContainer = $this->createMock(IServerContainer::class);
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -121,7 +123,8 @@ class ApiTest extends TestCase {
 			$userId,
 			$l,
 			$config,
-			$appManager
+			$appManager,
+			$serverContainer
 		);
 	}
 
