@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2016 Joas Schilling <coding@schilljs.com>
  *

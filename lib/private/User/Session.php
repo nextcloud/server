@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017, Sandro Lutz <sandro.lutz@temparus.ch>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
