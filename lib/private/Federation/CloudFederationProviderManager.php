@@ -145,7 +145,8 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 			]);
 
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
-				return true;
+				$result = json_decode($response->getBody(), true);
+				return (is_array($result)) ? $result : [];
 			}
 
 		} catch (\Exception $e) {
