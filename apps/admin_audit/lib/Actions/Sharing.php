@@ -78,6 +78,19 @@ class Sharing extends Action {
 					'id',
 				]
 			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_ROOM) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the room "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
 		}
 	}
 
@@ -113,6 +126,18 @@ class Sharing extends Action {
 		} elseif($params['shareType'] === Share::SHARE_TYPE_GROUP) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been unshared from the group "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_ROOM) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the room "%s" (Share ID: %s)',
 				$params,
 				[
 					'itemType',
