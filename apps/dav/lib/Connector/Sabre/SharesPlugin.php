@@ -124,6 +124,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			\OCP\Share::SHARE_TYPE_LINK,
 			\OCP\Share::SHARE_TYPE_REMOTE,
 			\OCP\Share::SHARE_TYPE_EMAIL,
+			\OCP\Share::SHARE_TYPE_ROOM,
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			// one of each type is enough to find out about the types

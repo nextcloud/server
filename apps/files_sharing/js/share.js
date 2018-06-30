@@ -144,6 +144,8 @@
 								hasShares = true;
 							} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 								hasShares = true;
+							} else if (shareType === OC.Share.SHARE_TYPE_ROOM) {
+								hasShares = true;
 							}
 						});
 						OCA.Sharing.Util._updateFileActionIcon($tr, hasShares, hasLink);
