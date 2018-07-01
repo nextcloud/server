@@ -44,6 +44,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setPublicKey(string $key)
  * @method void setVersion(int $version)
  * @method string getComment()
+ * @method void setComment(string $comment)
  */
 class PublicKeyToken extends Entity implements IToken {
 
@@ -227,7 +228,13 @@ class PublicKeyToken extends Entity implements IToken {
 	 * @return string
 	 */
 	public function getComment(): string {
-		return parent::getComment();
+ 		$comment = parent::getComment();
+ 		is_null($comment) && $comment = "";
+ 		return $comment;
+	}
+
+	public function setComment(string $comment = "") {
+		parent::setComment(substr($comment,0,250));
 	}
 
 }

@@ -39,6 +39,7 @@ use OCP\AppFramework\Db\Entity;
  * @method int getLastActivity()
  * @method void setVersion(int $version)
  * @method string getComment()
+ * @method void setComment(string $comment)
  */
 class DefaultToken extends Entity implements IToken {
 
@@ -217,7 +218,10 @@ class DefaultToken extends Entity implements IToken {
 		$comment = parent::getComment();
 		is_null($comment) && $comment = "";
 		return $comment;
-		// return parent::getComment();
+	}
+
+	public function setComment(string $comment = "") {
+		parent::setComment(substr($comment,0,250));
 	}
 
 }
