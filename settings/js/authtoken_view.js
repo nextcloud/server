@@ -31,7 +31,7 @@
 		+ '<div class="{{icon}}" />'
 		+ '</td>'
 		+ '<td class="has-tooltip" title="{{title}}">'
-		+ '<span class="token-name">{{name}}{{comment}}</span>'
+		+ '<span class="token-name">{{name}}</span>'
 		+ '</td>'
 		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
 		+ '<td class="more">'
