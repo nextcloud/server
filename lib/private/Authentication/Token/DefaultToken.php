@@ -38,6 +38,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setLastActivity(int $lastactivity)
  * @method int getLastActivity()
  * @method void setVersion(int $version)
+ * @method string getComment()
  */
 class DefaultToken extends Entity implements IToken {
 
@@ -79,6 +80,9 @@ class DefaultToken extends Entity implements IToken {
 	/** @var int */
 	protected $version;
 
+	/** @var string */
+	protected $comment;
+
 	public function __construct() {
 		$this->addType('uid', 'string');
 		$this->addType('loginName', 'string');
@@ -92,6 +96,7 @@ class DefaultToken extends Entity implements IToken {
 		$this->addType('scope', 'string');
 		$this->addType('expires', 'int');
 		$this->addType('version', 'int');
+		$this->addType('comment', 'string');
 	}
 
 	public function getId(): int {
@@ -126,7 +131,8 @@ class DefaultToken extends Entity implements IToken {
 			'name' => $this->name,
 			'lastActivity' => $this->lastActivity,
 			'type' => $this->type,
-			'scope' => $this->getScopeAsArray()
+			'scope' => $this->getScopeAsArray(),
+			'comment' => $this->getComment()
 		];
 	}
 
@@ -201,4 +207,17 @@ class DefaultToken extends Entity implements IToken {
 	public function getExpires() {
 		return parent::getExpires();
 	}
+
+	/**
+	 * Get the user-supplied comment of the token
+	 *
+	 * @return string
+	 */
+	public function getComment(): string {
+		$comment = parent::getComment();
+		is_null($comment) && $comment = "";
+		return $comment;
+		// return parent::getComment();
+	}
+
 }

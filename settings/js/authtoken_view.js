@@ -31,7 +31,7 @@
 		+ '<div class="{{icon}}" />'
 		+ '</td>'
 		+ '<td class="has-tooltip" title="{{title}}">'
-		+ '<span class="token-name">{{name}}</span>'
+		+ '<span class="token-name">{{name}}{{comment}}</span>'
 		+ '</td>'
 		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
 		+ '<td class="more">'
@@ -190,7 +190,8 @@
 			}
 			if (viewData.current) {
 				viewData.name = t('settings', 'This session');
-			}
+			};
+			viewData.comment = token.get('comment');
 			return viewData;
 		}
 	});
