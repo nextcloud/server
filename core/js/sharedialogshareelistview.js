@@ -243,6 +243,8 @@
 			} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'email') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
+			} else if (shareType === OC.Share.SHARE_TYPE_ROOM) {
+				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'conversation') + ')';
 			}
 
 			if (shareType === OC.Share.SHARE_TYPE_GROUP) {
@@ -291,7 +293,7 @@
 				shareWithTitle: shareWithTitle,
 				shareType: shareType,
 				shareId: this.model.get('shares')[shareIndex].id,
-				modSeed: shareType !== OC.Share.SHARE_TYPE_USER && (shareType !== OC.Share.SHARE_TYPE_CIRCLE || shareWithAvatar),
+				modSeed: shareWithAvatar || (shareType !== OC.Share.SHARE_TYPE_USER && shareType !== OC.Share.SHARE_TYPE_CIRCLE && shareType !== OC.Share.SHARE_TYPE_ROOM),
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isRemoteGroupShare: shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP,
 				isNoteAvailable: shareType !== OC.Share.SHARE_TYPE_REMOTE && shareType !== OC.Share.SHARE_TYPE_REMOTE_GROUP,
