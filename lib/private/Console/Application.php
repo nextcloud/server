@@ -162,7 +162,7 @@ class Application {
 	 */
 	private function writeMaintenanceModeInfo(
 		InputInterface $input, ConsoleOutputInterface $output
-	): void {
+	) {
 		if ($input->getArgument('command') !== '_completion'
 			&& $input->getArgument('command') !== 'maintenance:mode') {
 			$errOutput = $output->getErrorOutput();
