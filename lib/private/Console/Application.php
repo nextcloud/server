@@ -39,6 +39,7 @@ use OCP\IRequest;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -69,10 +70,13 @@ class Application {
 
 	/**
 	 * @param InputInterface $input
-	 * @param OutputInterface $output
+	 * @param ConsoleOutputInterface $output
 	 * @throws \Exception
 	 */
-	public function loadCommands(InputInterface $input, OutputInterface $output) {
+	public function loadCommands(
+		InputInterface $input,
+		ConsoleOutputInterface $output
+	) {
 		// $application is required to be defined in the register_command scripts
 		$application = $this->application;
 		$inputDefinition = $application->getDefinition();
@@ -99,10 +103,7 @@ class Application {
 				if (\OCP\Util::needUpgrade()) {
 					throw new NeedsUpdateException();
 				} elseif ($this->config->getSystemValue('maintenance', false)) {
-					if ($input->getArgument('command') !== '_completion') {
-						$errOutput = $output->getErrorOutput();
-						$errOutput->writeln('<comment>Nextcloud is in maintenance mode - no apps have been loaded</comment>' . PHP_EOL);
-					}
+					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
 					OC_App::loadApps();
 					foreach (\OC::$server->getAppManager()->getInstalledApps() as $app) {
@@ -147,6 +148,28 @@ class Application {
 				}
 				throw new \Exception("Environment not properly prepared.");
 			}
+		}
+	}
+
+	/**
+	 * Write a maintenance mode info.
+	 * The commands "_completion" and "maintenance:mode" are excluded.
+	 *
+	 * @param InputInterface $input The input implementation for reading inputs.
+	 * @param ConsoleOutputInterface $output The output implementation
+	 * for writing outputs.
+	 * @return void
+	 */
+	private function writeMaintenanceModeInfo(
+		InputInterface $input, ConsoleOutputInterface $output
+	) {
+		if ($input->getArgument('command') !== '_completion'
+			&& $input->getArgument('command') !== 'maintenance:mode') {
+			$errOutput = $output->getErrorOutput();
+			$errOutput->writeln(
+				'<comment>Nextcloud is in maintenance mode - ' .
+				'no apps have been loaded</comment>' . PHP_EOL
+			);
 		}
 	}
 
