@@ -95,7 +95,8 @@ class AuthSettingsControllerTest extends TestCase {
 				'type' => 0,
 				'canDelete' => false,
 				'current' => true,
-				'scope' => ['filesystem' => true]
+				'scope' => ['filesystem' => true],
+				'comment' => ''
 			],
 			[
 				'id' => 200,
@@ -103,7 +104,8 @@ class AuthSettingsControllerTest extends TestCase {
 				'lastActivity' => 0,
 				'type' => 0,
 				'canDelete' => true,
-				'scope' => ['filesystem' => true]
+				'scope' => ['filesystem' => true],
+				'comment' => ''
 			]
 		], $this->controller->index());
 	}
