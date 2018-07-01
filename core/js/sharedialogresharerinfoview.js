@@ -99,6 +99,17 @@
 					undefined,
 					{escape: false}
 				);
+			} else if (this.model.getReshareType() === OC.Share.SHARE_TYPE_ROOM) {
+				sharedByText = t(
+					'core',
+					'Shared with you and the conversation {conversation} by {owner}',
+					{
+						conversation: this.model.getReshareWithDisplayName(),
+						owner: ownerDisplayName
+					},
+					undefined,
+					{escape: false}
+				);
 			} else {
 				sharedByText = t(
 					'core',
