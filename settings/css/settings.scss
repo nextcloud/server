@@ -840,6 +840,11 @@ span.version {
 	}
 	.actions {
 		display: flex;
+		align-items: center;
+
+		.app-groups{
+			padding: 5px;
+		}
 	}
 }
 
@@ -1499,7 +1504,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					line-height: 1.3em;
 					max-height: 2.6em;
 					overflow : hidden;
-					/* not supported by all browsers 
+					/* not supported by all browsers
 					   so we keep the overflow hidden
 					   as a fallback */
 					text-overflow: ellipsis;
