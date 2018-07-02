@@ -552,35 +552,37 @@ class User {
 
 	/**
 	 * @brief attempts to get an image from LDAP and sets it as Nextcloud avatar
-	 * @return null
+	 * @return bool
 	 */
-	public function updateAvatar() {
-		if($this->wasRefreshed('avatar')) {
-			return;
+	public function updateAvatar($force = false) {
+		if(!$force && $this->wasRefreshed('avatar')) {
+			return false;
 		}
 		$avatarImage = $this->getAvatarImage();
 		if($avatarImage === false) {
 			//not set, nothing left to do;
-			return;
+			return false;
 		}
-		$this->image->loadFromBase64(base64_encode($avatarImage));
-		$this->setOwnCloudAvatar();
+		if(!$this->image->loadFromBase64(base64_encode($avatarImage))) {
+			return false;
+		}
+		return $this->setOwnCloudAvatar();
 	}
 
 	/**
 	 * @brief sets an image as Nextcloud avatar
-	 * @return null
+	 * @return bool
 	 */
 	private function setOwnCloudAvatar() {
 		if(!$this->image->valid()) {
 			$this->log->log('jpegPhoto data invalid for '.$this->dn, ILogger::ERROR);
-			return;
+			return false;
 		}
 		//make sure it is a square and not bigger than 128x128
 		$size = min(array($this->image->width(), $this->image->height(), 128));
 		if(!$this->image->centerCrop($size)) {
 			$this->log->log('croping image for avatar failed for '.$this->dn, ILogger::ERROR);
-			return;
+			return false;
 		}
 
 		if(!$this->fs->isLoaded()) {
@@ -590,6 +592,7 @@ class User {
 		try {
 			$avatar = $this->avatarManager->getAvatar($this->uid);
 			$avatar->set($this->image);
+			return true;
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => 'Could not set avatar for ' . $this->dn,
@@ -597,6 +600,7 @@ class User {
 				'app' => 'user_ldap',
 			]);
 		}
+		return false;
 	}
 
 	/**

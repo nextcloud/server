@@ -1312,6 +1312,34 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($this->backend->setPassword('uid', 'password'),'result');
 	}
 
+	public function avatarDataProvider() {
+		return [
+			[ 'validImageData', false ],
+			[ 'corruptImageData', true ],
+			[ false, true]
+		];
+	}
+
+	/** @dataProvider avatarDataProvider */
+	public function testCanChangeAvatar($imageData, $expected) {
+		$isValidImage  = strpos((string)$imageData, 'valid') === 0;
+
+		$user = $this->createMock(User::class);
+		$user->expects($this->once())
+			->method('getAvatarImage')
+			->willReturn($imageData);
+		$user->expects($this->atMost(1))
+			->method('updateAvatar')
+			->willReturn($isValidImage);
+
+		$this->userManager->expects($this->atLeastOnce())
+			->method('get')
+			->willReturn($user);
+
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$this->assertSame($expected, $this->backend->canChangeAvatar('uid'));
+	}
+
 	public function testCanChangeAvatarWithPlugin() {
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')

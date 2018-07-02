@@ -507,6 +507,9 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue(['this is a photo']));
 
 		$this->image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn('imageResource');
+		$this->image->expects($this->once())
 			->method('valid')
 			->will($this->returnValue(true));
 		$this->image->expects($this->once())
@@ -553,6 +556,9 @@ class UserTest extends \Test\TestCase {
 			});
 
 		$this->image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn('imageResource');
+		$this->image->expects($this->once())
 			->method('valid')
 			->will($this->returnValue(true));
 		$this->image->expects($this->once())
@@ -580,6 +586,97 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue($avatar));
 
 		$this->user->updateAvatar();
+	}
+
+	public function testUpdateAvatarCorruptPhotoProvided() {
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->willReturnCallback(function($dn, $attr) {
+				if($dn === $this->dn
+					&& $attr === 'jpegPhoto')
+				{
+					return false;
+				} elseif($dn === $this->dn
+					&& $attr === 'thumbnailPhoto')
+				{
+					return ['this is a photo'];
+				}
+				return null;
+			});
+
+		$this->image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn(false);
+		$this->image->expects($this->never())
+			->method('valid');
+		$this->image->expects($this->never())
+			->method('width');
+		$this->image->expects($this->never())
+			->method('height');
+		$this->image->expects($this->never())
+			->method('centerCrop');
+
+		$this->filesystemhelper->expects($this->never())
+			->method('isLoaded');
+
+		$avatar = $this->createMock(IAvatar::class);
+		$avatar->expects($this->never())
+			->method('set');
+
+		$this->avatarManager->expects($this->never())
+			->method('getAvatar');
+
+		$this->user->updateAvatar();
+	}
+
+	public function testUpdateAvatarUnsupportedThumbnailPhotoProvided() {
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->willReturnCallback(function($dn, $attr) {
+				if($dn === $this->dn
+					&& $attr === 'jpegPhoto')
+				{
+					return false;
+				} elseif($dn === $this->dn
+					&& $attr === 'thumbnailPhoto')
+				{
+					return ['this is a photo'];
+				}
+				return null;
+			});
+
+		$this->image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn('imageResource');
+		$this->image->expects($this->once())
+			->method('valid')
+			->will($this->returnValue(true));
+		$this->image->expects($this->once())
+			->method('width')
+			->will($this->returnValue(128));
+		$this->image->expects($this->once())
+			->method('height')
+			->will($this->returnValue(128));
+		$this->image->expects($this->once())
+			->method('centerCrop')
+			->will($this->returnValue(true));
+
+		$this->filesystemhelper->expects($this->once())
+			->method('isLoaded')
+			->will($this->returnValue(true));
+
+		$avatar = $this->createMock(IAvatar::class);
+		$avatar->expects($this->once())
+			->method('set')
+			->with($this->isInstanceOf($this->image))
+			->willThrowException(new \Exception());
+
+		$this->avatarManager->expects($this->once())
+			->method('getAvatar')
+			->with($this->equalTo($this->uid))
+			->will($this->returnValue($avatar));
+
+		$this->assertFalse($this->user->updateAvatar());
 	}
 
 	public function testUpdateAvatarNotProvided() {
@@ -713,6 +810,14 @@ class UserTest extends \Test\TestCase {
 		//make sure readAttribute is not called again but the already fetched
 		//photo is returned
 		$this->user->getAvatarImage();
+	}
+
+	public function imageDataProvider() {
+		return [
+			[ false, false ],
+			[ 'corruptData', false ],
+			[ 'validData', true ],
+		];
 	}
 
 	public function testProcessAttributes() {
