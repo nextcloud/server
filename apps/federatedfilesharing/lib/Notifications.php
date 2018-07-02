@@ -371,30 +371,6 @@ class Notifications {
 	}
 
 	/**
-	 * check if server supports the new OCM api and ask for the correct end-point
-	 *
-	 * @param string $url
-	 * @return string
-	 */
-	protected function getOCMEndPoint($url) {
-		$client = $this->httpClientService->newClient();
-		try {
-			$response = $client->get($url, ['timeout' => 10, 'connect_timeout' => 10]);
-		} catch (\Exception $e) {
-			return '';
-		}
-
-		$result = $response->getBody();
-		$result = json_decode($result, true);
-
-		if (isset($result['end-point'])) {
-			return $result['end-point'];
-		}
-
-		return '';
-	}
-
-	/**
 	 * send action regarding federated sharing to the remote server using the OCM API
 	 *
 	 * @param $remoteDomain
