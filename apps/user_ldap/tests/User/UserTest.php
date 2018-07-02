@@ -626,6 +626,9 @@ class UserTest extends \Test\TestCase {
 			->will($this->returnValue(array('this is a photo')));
 
 		$image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn('imageResource');
+		$image->expects($this->once())
 			->method('valid')
 			->will($this->returnValue(true));
 		$image->expects($this->once())
@@ -681,6 +684,9 @@ class UserTest extends \Test\TestCase {
 			});
 
 		$image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn('imageResource');
+		$image->expects($this->once())
 			->method('valid')
 			->will($this->returnValue(true));
 		$image->expects($this->once())
@@ -714,6 +720,115 @@ class UserTest extends \Test\TestCase {
 			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$user->updateAvatar();
+	}
+
+	public function testUpdateAvatarCorruptPhotoProvided() {
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
+			$this->getTestInstances();
+
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->willReturnCallback(function($dn, $attr) {
+				if($dn === $dn
+					&& $attr === 'jpegPhoto')
+				{
+					return false;
+				} elseif($dn === $dn
+					&& $attr === 'thumbnailPhoto')
+				{
+					return ['this is a photo'];
+				}
+				return null;
+			});
+
+		$image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn(false);
+		$image->expects($this->never())
+			->method('valid');
+		$image->expects($this->never())
+			->method('width');
+		$image->expects($this->never())
+			->method('height');
+		$image->expects($this->never())
+			->method('centerCrop');
+
+		$filesys->expects($this->never())
+			->method('isLoaded');
+
+		$avatar = $this->createMock(IAvatar::class);
+		$avatar->expects($this->never())
+			->method('set');
+
+		$avaMgr->expects($this->never())
+			->method('getAvatar');
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
+
+		$user->updateAvatar();
+	}
+
+	public function testUpdateAvatarUnsupportedThumbnailPhotoProvided() {
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
+			$this->getTestInstances();
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->willReturnCallback(function($dn, $attr) {
+				if($dn === $dn
+					&& $attr === 'jpegPhoto')
+				{
+					return false;
+				} elseif($dn === $dn
+					&& $attr === 'thumbnailPhoto')
+				{
+					return ['this is a photo'];
+				}
+				return null;
+			});
+
+		$image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn('imageResource');
+		$image->expects($this->once())
+			->method('valid')
+			->will($this->returnValue(true));
+		$image->expects($this->once())
+			->method('width')
+			->will($this->returnValue(128));
+		$image->expects($this->once())
+			->method('height')
+			->will($this->returnValue(128));
+		$image->expects($this->once())
+			->method('centerCrop')
+			->will($this->returnValue(true));
+
+		$filesys->expects($this->once())
+			->method('isLoaded')
+			->will($this->returnValue(true));
+
+		$avatar = $this->createMock(IAvatar::class);
+		$avatar->expects($this->once())
+			->method('set')
+			->with($this->isInstanceOf($image))
+			->willThrowException(new \Exception());
+
+		$avaMgr->expects($this->once())
+			->method('getAvatar')
+			->with($this->equalTo($uid))
+			->will($this->returnValue($avatar));
+
+		$user = new User(
+			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
+
+		$this->assertFalse($user->updateAvatar());
 	}
 
 	public function testUpdateAvatarNotProvided() {
@@ -902,6 +1017,14 @@ class UserTest extends \Test\TestCase {
 		//make sure readAttribute is not called again but the already fetched
 		//photo is returned
 		$photo = $user->getAvatarImage();
+	}
+
+	public function imageDataProvider() {
+		return [
+			[ false, false ],
+			[ 'corruptData', false ],
+			[ 'validData', true ],
+		];
 	}
 
 	public function testProcessAttributes() {
