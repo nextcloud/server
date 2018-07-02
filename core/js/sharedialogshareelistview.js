@@ -198,6 +198,8 @@
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'group') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'remote') + ')';
+			} else if (shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'remote group') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'email') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
@@ -207,7 +209,10 @@
 				shareWithTitle = shareWith + " (" + t('core', 'group') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
 				shareWithTitle = shareWith + " (" + t('core', 'remote') + ')';
-			} else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
+			} else if (shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+				shareWithTitle = shareWith + " (" + t('core', 'remote group') + ')';
+			}
+			else if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				shareWithTitle = shareWith + " (" + t('core', 'email') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 				shareWithTitle = shareWith;
@@ -243,6 +248,7 @@
 				shareId: this.model.get('shares')[shareIndex].id,
 				modSeed: shareType !== OC.Share.SHARE_TYPE_USER && shareType !== OC.Share.SHARE_TYPE_CIRCLE,
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
+				isRemoteGroupShare: shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP,
 				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
 				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
 				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder(),
