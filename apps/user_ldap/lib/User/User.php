@@ -36,9 +36,10 @@ use OCA\User_LDAP\LogWrapper;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\Image;
+use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Util;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Util;
 
 /**
  * User
@@ -144,7 +145,7 @@ class User {
 		$this->userManager         = $userManager;
 		$this->notificationManager = $notificationManager;
 
-		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
+		Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
 
 	/**
@@ -252,7 +253,7 @@ class User {
 				// system must be postponed after the login. It is to ensure
 				// external mounts are mounted properly (e.g. with login
 				// credentials from the session).
-				\OCP\Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
+				Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
 				break;
 			}
 		}
@@ -498,44 +499,39 @@ class User {
 			return;
 		}
 
-		$quota = false;
-		if(is_null($valueFromLDAP)) {
-			$quotaAttribute = $this->connection->ldapQuotaAttribute;
-			if ($quotaAttribute !== '') {
-				$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
-				if($aQuota && (count($aQuota) > 0)) {
-					if ($this->verifyQuotaValue($aQuota[0])) {
-						$quota = $aQuota[0];
-					} else {
-						$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', \OCP\Util::WARN);
-					}
-				}
-			}
-		} else {
-			if ($this->verifyQuotaValue($valueFromLDAP)) {
-				$quota = $valueFromLDAP;
-			} else {
-				$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', \OCP\Util::WARN);
-			}
+		$quotaAttribute = $this->connection->ldapQuotaAttribute;
+		$defaultQuota = $this->connection->ldapQuotaDefault;
+		if($quotaAttribute === '' && $defaultQuota === '') {
+			return;
 		}
 
-		if ($quota === false) {
-			// quota not found using the LDAP attribute (or not parseable). Try the default quota
-			$defaultQuota = $this->connection->ldapQuotaDefault;
-			if ($this->verifyQuotaValue($defaultQuota)) {
-				$quota = $defaultQuota;
+		$quota = false;
+		if(is_null($valueFromLDAP) && $quotaAttribute !== '') {
+			$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
+			if($aQuota && (count($aQuota) > 0) && $this->verifyQuotaValue($aQuota[0])) {
+				$quota = $aQuota[0];
+			} else if(is_array($aQuota) && isset($aQuota[0])) {
+				$this->log->log('no suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', Util::DEBUG);
 			}
+		} else if ($this->verifyQuotaValue($valueFromLDAP)) {
+			$quota = $valueFromLDAP;
+		} else {
+			$this->log->log('no suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', Util::DEBUG);
+		}
+
+		if ($quota === false && $this->verifyQuotaValue($defaultQuota)) {
+			// quota not found using the LDAP attribute (or not parseable). Try the default quota
+			$quota = $defaultQuota;
+		} else if($quota === false) {
+			$this->log->log('no suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', Util::DEBUG);
+			return;
 		}
 
 		$targetUser = $this->userManager->get($this->uid);
-		if ($targetUser) {
-			if($quota !== false) {
-				$targetUser->setQuota($quota);
-			} else {
-				$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', \OCP\Util::WARN);
-			}
+		if ($targetUser instanceof IUser) {
+			$targetUser->setQuota($quota);
 		} else {
-			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', \OCP\Util::ERROR);
+			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', Util::INFO);
 		}
 	}
 
@@ -577,13 +573,13 @@ class User {
 	 */
 	private function setOwnCloudAvatar() {
 		if(!$this->image->valid()) {
-			$this->log->log('jpegPhoto data invalid for '.$this->dn, \OCP\Util::ERROR);
+			$this->log->log('jpegPhoto data invalid for '.$this->dn, Util::ERROR);
 			return;
 		}
 		//make sure it is a square and not bigger than 128x128
 		$size = min(array($this->image->width(), $this->image->height(), 128));
 		if(!$this->image->centerCrop($size)) {
-			$this->log->log('croping image for avatar failed for '.$this->dn, \OCP\Util::ERROR);
+			$this->log->log('croping image for avatar failed for '.$this->dn, Util::ERROR);
 			return;
 		}
 
