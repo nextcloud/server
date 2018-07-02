@@ -54,7 +54,7 @@ class LazySearchBackend implements ISearchBackend {
 
 	public function getPropertyDefinitionsForScope($href, $path) {
 		if ($this->backend) {
-			return $this->backend->getArbiterPath();
+			return $this->backend->getPropertyDefinitionsForScope($href, $path);
 		} else {
 			return [];
 		}
@@ -62,7 +62,7 @@ class LazySearchBackend implements ISearchBackend {
 
 	public function search(Query $query) {
 		if ($this->backend) {
-			return $this->backend->getArbiterPath();
+			return $this->backend->search($query);
 		} else {
 			return [];
 		}
