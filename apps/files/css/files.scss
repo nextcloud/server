@@ -61,6 +61,7 @@
 }
 
 .app-files #app-content {
+	-webkit-overflow-scrolling: touch;
 	transition: background-color 0.3s ease;
 	overflow-x: hidden;
 }
