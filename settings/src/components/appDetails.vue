@@ -55,8 +55,8 @@
 			<div class="app-groups">
 				<div class="groups-enable" v-if="app.active && canLimitToGroups(app)">
 					<input type="checkbox" :value="app.id" v-model="groupCheckedAppsData" v-on:change="setGroupLimit" class="groups-enable__checkbox checkbox" :id="prefix('groups_enable', app.id)">
-					<label :for="prefix('groups_enable', app.id)">Auf Gruppen beschränken</label>
-					<input type="hidden" class="group_select" title="Alle" value="">
+					<label :for="prefix('groups_enable', app.id)">{{ t('settings', 'Limit to groups') }}</label>
+					<input type="hidden" class="group_select" :title="t('settings', 'All')" value="">
 					<multiselect v-if="isLimitedToGroups(app)" :options="groups" :value="appGroups" @select="addGroupLimitation" @remove="removeGroupLimitation" :options-limit="5"
 								 :placeholder="t('settings', 'Limit app usage to groups')"
 								 label="name" track-by="id" class="multiselect-vue"
