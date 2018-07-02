@@ -75,8 +75,9 @@ class IMipPluginTest extends TestCase {
 		$defaults->expects($this->once())
 			->method('getName')
 			->will($this->returnValue('Instance Name 123'));
+		$dispatcher = \OC::$server->getEventDispatcher();
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123', $dispatcher);
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -99,8 +100,17 @@ class IMipPluginTest extends TestCase {
 			->method('setReplyTo')
 			->with(['gandalf@wiz.ard' => null]);
 
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl');
+			
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getAttachment');
+			
 		$plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
+	
 	}
 
 	public function testFailedDelivery() {
@@ -130,8 +140,9 @@ class IMipPluginTest extends TestCase {
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
 		$defaults = $this->createMock(Defaults::class);
+		$dispatcher = \OC::$server->getEventDispatcher();
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123', $dispatcher);
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -154,8 +165,17 @@ class IMipPluginTest extends TestCase {
 			->method('setReplyTo')
 			->with(['gandalf@wiz.ard' => null]);
 
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl');
+			
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getAttachment');
+			
 		$plugin->schedule($message);
 		$this->assertEquals('5.0', $message->getScheduleStatus());
+		
 	}
 
 	/**
@@ -192,8 +212,9 @@ class IMipPluginTest extends TestCase {
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
 		$defaults = $this->createMock(Defaults::class);
-
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123');
+		$dispatcher = \OC::$server->getEventDispatcher();
+		
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, 'user123', $dispatcher);
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -205,6 +226,14 @@ class IMipPluginTest extends TestCase {
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->recipient = 'mailto:frodo@hobb.it';
 
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getMeetingUrl');
+			
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatch')
+			->with('\OCA\DAV\CalDAV\Schedule\IMipPlugin::getAttachment');
+			
 		$plugin->schedule($message);
 
 		if ($expectsMail) {
@@ -212,6 +241,7 @@ class IMipPluginTest extends TestCase {
  		} else {
 			$this->assertEquals(false, $message->getScheduleStatus());
 		}
+		
 	}
 
 	public function dataNoMessageSendForPastEvents() {
