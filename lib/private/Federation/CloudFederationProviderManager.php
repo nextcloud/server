@@ -57,6 +57,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/** @var ILogger */
 	private $logger;
 
+	/** @var array cache OCM end-points */
+	private $ocmEndPoints = [];
+
 	private $supportedAPIVersion = '1.0-proposal1';
 
 	/**
@@ -208,10 +211,16 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @return string
 	 */
 	protected function getOCMEndPoint($url) {
+
+		if (isset($this->ocmEndPoints[$url])) {
+			return $this->ocmEndPoints[$url];
+		}
+
 		$client = $this->httpClientService->newClient();
 		try {
 			$response = $client->get($url . '/ocm-provider/', ['timeout' => 10, 'connect_timeout' => 10]);
 		} catch (\Exception $e) {
+			$this->ocmEndPoints[$url] = '';
 			return '';
 		}
 
@@ -221,9 +230,11 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		$supportedVersion = isset($result['apiVersion']) && $result['apiVersion'] === $this->supportedAPIVersion;
 
 		if (isset($result['endPoint']) && $supportedVersion) {
+			$this->ocmEndPoints[$url] = $result['endPoint'];
 			return $result['endPoint'];
 		}
 
+		$this->ocmEndPoints[$url] = '';
 		return '';
 	}
 
