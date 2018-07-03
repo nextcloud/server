@@ -35,8 +35,13 @@ namespace OCA\User_LDAP;
 
 /**
  * @property int ldapPagingSize holds an integer
+ * @property string ldapUserAvatarRule
  */
 class Configuration {
+	const AVATAR_PREFIX_DEFAULT = 'default';
+	const AVATAR_PREFIX_NONE = 'none';
+	const AVATAR_PREFIX_DATA_ATTRIBUTE = 'data:';
+
 	protected $configPrefix = null;
 	protected $configRead = false;
 	/**
@@ -61,6 +66,7 @@ class Configuration {
 		'ldapIgnoreNamingRules' => null,
 		'ldapUserDisplayName' => null,
 		'ldapUserDisplayName2' => null,
+		'ldapUserAvatarRule' => null,
 		'ldapGidNumber' => null,
 		'ldapUserFilterObjectclass' => null,
 		'ldapUserFilterGroups' => null,
@@ -472,6 +478,7 @@ class Configuration {
 			'ldap_experienced_admin'            => 0,
 			'ldap_dynamic_group_member_url'     => '',
 			'ldap_default_ppolicy_dn'           => '',
+			'ldap_user_avatar_rule'             => 'default',
 		);
 	}
 
@@ -495,6 +502,7 @@ class Configuration {
 			'ldap_userfilter_groups'            => 'ldapUserFilterGroups',
 			'ldap_userlist_filter'              => 'ldapUserFilter',
 			'ldap_user_filter_mode'             => 'ldapUserFilterMode',
+			'ldap_user_avatar_rule'             => 'ldapUserAvatarRule',
 			'ldap_login_filter'                 => 'ldapLoginFilter',
 			'ldap_login_filter_mode'            => 'ldapLoginFilterMode',
 			'ldap_loginfilter_email'            => 'ldapLoginFilterEmail',
@@ -534,6 +542,38 @@ class Configuration {
 			'ldapIgnoreNamingRules'             => 'ldapIgnoreNamingRules',	// sysconfig
 		);
 		return $array;
+	}
+
+	/**
+	 * @param string $rule
+	 * @return array
+	 * @throws \RuntimeException
+	 */
+	public function resolveRule($rule) {
+		if($rule === 'avatar') {
+			return $this->getAvatarAttributes();
+		}
+		throw new \RuntimeException('Invalid rule');
+	}
+
+	public function getAvatarAttributes() {
+		$value = $this->ldapUserAvatarRule ?: self::AVATAR_PREFIX_DEFAULT;
+		$defaultAttributes = ['jpegphoto', 'thumbnailphoto'];
+
+		if($value === self::AVATAR_PREFIX_NONE) {
+			return [];
+		}
+		if(strpos($value, self::AVATAR_PREFIX_DATA_ATTRIBUTE) === 0) {
+			$attribute = trim(substr($value, strlen(self::AVATAR_PREFIX_DATA_ATTRIBUTE)));
+			if($attribute === '') {
+				return $defaultAttributes;
+			}
+			return [$attribute];
+		}
+		if($value !== self::AVATAR_PREFIX_DEFAULT) {
+			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+		}
+		return $defaultAttributes;
 	}
 
 }
