@@ -32,6 +32,8 @@ use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\Federation\ICloudFederationFactory;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
 use Test\Traits\UserTrait;
 
@@ -45,7 +47,7 @@ use Test\Traits\UserTrait;
 class ManagerTest extends TestCase {
 	use UserTrait;
 
-	/** @var Manager **/
+	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject **/
 	private $manager;
 
 	/** @var \OC\Files\Mount\Manager */
@@ -53,6 +55,12 @@ class ManagerTest extends TestCase {
 
 	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
 	private $clientService;
+
+	/** @var ICloudFederationProviderManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $cloudFederationProviderManager;
+
+	/** @var ICloudFederationFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $cloudFederationFactory;
 
 	private $uid;
 
@@ -71,16 +79,24 @@ class ManagerTest extends TestCase {
 		$this->mountManager = new \OC\Files\Mount\Manager();
 		$this->clientService = $this->getMockBuilder(IClientService::class)
 			->disableOriginalConstructor()->getMock();
+		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
+		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 
-		$this->manager = new Manager(
-			\OC::$server->getDatabaseConnection(),
-			$this->mountManager,
-			new StorageFactory(),
-			$this->clientService,
-			\OC::$server->getNotificationManager(),
-			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-			$this->uid
-		);
+		$this->manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs(
+				[
+					\OC::$server->getDatabaseConnection(),
+					$this->mountManager,
+					new StorageFactory(),
+					$this->clientService,
+					\OC::$server->getNotificationManager(),
+					\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+					$this->cloudFederationProviderManager,
+					$this->cloudFederationFactory,
+					$this->uid
+				]
+			)->setMethods(['tryOCMEndPoint'])->getMock();
+
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {
 			return $this->manager;
 		}, new CloudIdManager());
@@ -108,6 +124,9 @@ class ManagerTest extends TestCase {
 		$shareData2['token'] = 'token2';
 		$shareData3 = $shareData1;
 		$shareData3['token'] = 'token3';
+
+		$this->manager->expects($this->at(0))->method('tryOCMEndPoint')->with('http://localhost', 'token1', -1, 'accept')->willReturn(false);
+		$this->manager->expects($this->at(1))->method('tryOCMEndPoint')->with('http://localhost', 'token3', -1, 'decline')->willReturn(false);
 
 		// Add a share for "user"
 		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData1));

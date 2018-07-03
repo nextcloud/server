@@ -25,7 +25,6 @@
 namespace OCP\Share;
 
 use OCP\Files\Folder;
-use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Files\Node;
 
 /**
@@ -46,7 +45,7 @@ interface IShareProvider {
 
 	/**
 	 * Create a share
-	 * 
+	 *
 	 * @param \OCP\Share\IShare $share
 	 * @return \OCP\Share\IShare The share object
 	 * @since 9.0.0

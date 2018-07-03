@@ -107,6 +107,34 @@ $this->create('spreed.pagecontroller.showCall', '/call/{token}')->action(functio
 	}
 });
 
+// OCM routes
+/**
+ * @suppress PhanUndeclaredClassConstant
+ * @suppress PhanUndeclaredClassMethod
+ */
+$this->create('cloud_federation_api.requesthandlercontroller.addShare', '/ocm/shares')->post()->action(function($urlParams) {
+	if (class_exists(\OCA\CloudFederationAPI\AppInfo\Application::class, false)) {
+		$app = new \OCA\CloudFederationAPI\AppInfo\Application($urlParams);
+		$app->dispatch('RequestHandlerController', 'addShare');
+	} else {
+		throw new \OC\HintException('Cloud Federation API not enabled');
+	}
+});
+
+/**
+ * @suppress PhanUndeclaredClassConstant
+ * @suppress PhanUndeclaredClassMethod
+ */
+$this->create('cloud_federation_api.requesthandlercontroller.receiveNotification', '/ocm/notifications')->post()->action(function($urlParams) {
+	if (class_exists(\OCA\CloudFederationAPI\AppInfo\Application::class, false)) {
+		$app = new \OCA\CloudFederationAPI\AppInfo\Application($urlParams);
+		$app->dispatch('RequestHandlerController', 'receiveNotification');
+	} else {
+		throw new \OC\HintException('Cloud Federation API not enabled');
+	}
+});
+
+
 // Sharing routes
 $this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(function($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {

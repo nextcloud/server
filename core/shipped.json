@@ -3,6 +3,7 @@
     "accessibility",
     "activity",
     "admin_audit",
+    "cloud_federation_api",
     "comments",
     "dav",
     "encryption",
@@ -38,6 +39,7 @@
   ],
   "alwaysEnabled": [
     "files",
+    "cloud_federation_api",
     "dav",
     "federatedfilesharing",
     "lookup_server_connector",

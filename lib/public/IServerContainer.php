@@ -45,6 +45,8 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 use OCP\Log\ILogFactory;
+use OCP\Federation\ICloudFederationFactory;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Security\IContentSecurityPolicyManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -552,6 +554,24 @@ interface IServerContainer extends IContainer {
 	 * @since 12.0.0
 	 */
 	public function getCloudIdManager();
+
+	/**
+	 * @return \OCP\GlobalScale\IConfig
+	 * @since 14.0.0
+	 */
+	public function getGlobalScaleConfig();
+
+	/**
+	 * @return ICloudFederationFactory
+	 * @since 14.0.0
+	 */
+	public function getCloudFederationFactory();
+
+	/**
+	 * @return ICloudFederationProviderManager
+	 * @since 14.0.0
+	 */
+	public function getCloudFederationProviderManager();
 
 	/**
 	 * @return \OCP\Remote\Api\IApiFactory
