@@ -245,10 +245,12 @@ class User {
 		$this->connection->writeToCache($cacheKey, $groups);
 
 		//Avatar
-		$attrs = array('jpegphoto', 'thumbnailphoto');
-		foreach ($attrs as $attr)  {
-			if(isset($ldapEntry[$attr])) {
-				$this->avatarImage = $ldapEntry[$attr][0];
+		/** @var Connection $connection */
+		$connection = $this->access->getConnection();
+		$attributes = $connection->resolveRule('avatar');
+		foreach ($attributes as $attribute)  {
+			if(isset($ldapEntry[$attribute])) {
+				$this->avatarImage = $ldapEntry[$attribute][0];
 				// the call to the method that saves the avatar in the file
 				// system must be postponed after the login. It is to ensure
 				// external mounts are mounted properly (e.g. with login
@@ -348,7 +350,9 @@ class User {
 		}
 
 		$this->avatarImage = false;
-		$attributes = array('jpegPhoto', 'thumbnailPhoto');
+		/** @var Connection $connection */
+		$connection = $this->access->getConnection();
+		$attributes = $connection->resolveRule('avatar');
 		foreach($attributes as $attribute) {
 			$result = $this->access->readAttribute($this->dn, $attribute);
 			if($result !== false && is_array($result) && isset($result[0])) {
@@ -575,7 +579,7 @@ class User {
 	 */
 	private function setOwnCloudAvatar() {
 		if(!$this->image->valid()) {
-			$this->log->log('jpegPhoto data invalid for '.$this->dn, Util::ERROR);
+			$this->log->log('avatar image data from LDAP invalid for '.$this->dn, Util::ERROR);
 			return false;
 		}
 		//make sure it is a square and not bigger than 128x128

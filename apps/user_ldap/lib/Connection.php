@@ -47,6 +47,7 @@ use OC\ServerNotAvailableException;
  * @property string ldapUserFilter
  * @property string ldapUserDisplayName
  * @property string ldapUserDisplayName2
+ * @property string ldapUserAvatarRule
  * @property boolean turnOnPasswordChange
  * @property boolean hasPagedResultSupport
  * @property string[] ldapBaseUsers
@@ -166,6 +167,15 @@ class Connection extends LDAPUtility {
 			}
 			$this->validateConfiguration();
 		}
+	}
+
+	/**
+	 * @param string $rule
+	 * @return array
+	 * @throws \RuntimeException
+	 */
+	public function resolveRule($rule) {
+		return $this->configuration->resolveRule($rule);
 	}
 
 	/**
