@@ -32,7 +32,6 @@ use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Exception\ParserException;
 use Leafo\ScssPhp\Formatter\Crunched;
 use Leafo\ScssPhp\Formatter\Expanded;
-use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -43,6 +42,8 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OC\Files\AppData\Factory;
+use OC\Template\IconsCacher;
 
 class SCSSCacher {
 
@@ -73,6 +74,9 @@ class SCSSCacher {
 	/** @var ICacheFactory */
 	private $cacheFactory;
 
+	/** @var IconsCacher */
+	private $iconsCacher;
+
 	/**
 	 * @param ILogger $logger
 	 * @param Factory $appDataFactory
@@ -89,14 +93,20 @@ class SCSSCacher {
 								\OC_Defaults $defaults,
 								$serverRoot,
 								ICacheFactory $cacheFactory) {
-		$this->logger = $logger;
-		$this->appData = $appDataFactory->get('css');
+		$this->logger       = $logger;
+		$this->appData      = $appDataFactory->get('css');
 		$this->urlGenerator = $urlGenerator;
-		$this->config = $config;
-		$this->defaults = $defaults;
-		$this->serverRoot = $serverRoot;
+		$this->config       = $config;
+		$this->defaults     = $defaults;
+		$this->serverRoot   = $serverRoot;
 		$this->cacheFactory = $cacheFactory;
-		$this->depsCache = $cacheFactory->createDistributed('SCSS-' . md5($this->urlGenerator->getBaseUrl()));
+		$this->depsCache    = $cacheFactory->createDistributed('SCSS-' . md5($this->urlGenerator->getBaseUrl()));
+
+		$this->iconsCacher = new IconsCacher(
+			$this->logger,
+			$appDataFactory,
+			$this->urlGenerator
+		);
 	}
 
 	/**
@@ -112,23 +122,34 @@ class SCSSCacher {
 		$path = explode('/', $root . '/' . $file);
 
 		$fileNameSCSS = array_pop($path);
-		$fileNameCSS = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS)), $app);
+		$fileNameCSS  = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS)), $app);
 
-		$path = implode('/', $path);
+		$path   = implode('/', $path);
 		$webDir = $this->getWebDir($path, $app, $this->serverRoot, \OC::$WEBROOT);
 
 		try {
 			$folder = $this->appData->getFolder($app);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// creating css appdata folder
 			$folder = $this->appData->newFolder($app);
 		}
 
-
-		if(!$this->variablesChanged() && $this->isCached($fileNameCSS, $folder)) {
+		if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $folder)) {
+			// Inject icons vars css if any
+			if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
+				$this->iconsCacher->injectCss();
+			}
 			return true;
 		}
-		return $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
+
+		$cached = $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
+
+		// Inject icons vars css if any
+		if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
+			$this->iconsCacher->injectCss();
+		}
+
+		return $cached;
 	}
 
 	/**
@@ -137,8 +158,9 @@ class SCSSCacher {
 	 * @return ISimpleFile
 	 */
 	public function getCachedCSS(string $appName, string $fileName): ISimpleFile {
-		$folder = $this->appData->getFolder($appName);
+		$folder         = $this->appData->getFolder($appName);
 		$cachedFileName = $this->prependVersionPrefix($this->prependBaseurlPrefix($fileName), $appName);
+
 		return $folder->getFile($cachedFileName);
 	}
 
@@ -153,24 +175,26 @@ class SCSSCacher {
 			$cachedFile = $folder->getFile($fileNameCSS);
 			if ($cachedFile->getSize() > 0) {
 				$depFileName = $fileNameCSS . '.deps';
-				$deps = $this->depsCache->get($folder->getName() . '-' . $depFileName);
+				$deps        = $this->depsCache->get($folder->getName() . '-' . $depFileName);
 				if ($deps === null) {
 					$depFile = $folder->getFile($depFileName);
-					$deps = $depFile->getContent();
+					$deps    = $depFile->getContent();
 					//Set to memcache for next run
 					$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 				}
 				$deps = json_decode($deps, true);
 
-				foreach ((array)$deps as $file=>$mtime) {
+				foreach ((array) $deps as $file => $mtime) {
 					if (!file_exists($file) || filemtime($file) > $mtime) {
 						return false;
 					}
 				}
+
 				return true;
 			}
+
 			return false;
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return false;
 		}
 	}
@@ -181,11 +205,13 @@ class SCSSCacher {
 	 */
 	private function variablesChanged(): bool {
 		$injectedVariables = $this->getInjectedVariables();
-		if($this->config->getAppValue('core', 'scss.variables') !== md5($injectedVariables)) {
+		if ($this->config->getAppValue('core', 'scss.variables') !== md5($injectedVariables)) {
 			$this->resetCache();
 			$this->config->setAppValue('core', 'scss.variables', md5($injectedVariables));
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -204,11 +230,12 @@ class SCSSCacher {
 		$scss = new Compiler();
 		$scss->setImportPaths([
 			$path,
-			$this->serverRoot . '/core/css/',
+			$this->serverRoot . '/core/css/'
 		]);
+
 		// Continue after throw
 		$scss->setIgnoreErrors(true);
-		if($this->config->getSystemValue('debug')) {
+		if ($this->config->getSystemValue('debug')) {
 			// Debug mode
 			$scss->setFormatter(Expanded::class);
 			$scss->setLineNumberStyle(Compiler::LINE_COMMENTS);
@@ -219,7 +246,7 @@ class SCSSCacher {
 
 		try {
 			$cachedfile = $folder->getFile($fileNameCSS);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			$cachedfile = $folder->newFile($fileNameCSS);
 		}
 
@@ -233,15 +260,19 @@ class SCSSCacher {
 		// Compile
 		try {
 			$compiledScss = $scss->compile(
-				'$webroot: \'' . \OC::$WEBROOT. '\';'.
-				'@import "functions.scss";' .
+				'$webroot: \'' . \OC::$WEBROOT . '\';' .
 				'@import "variables.scss";' .
+				'@import "functions.scss";' .
 				$this->getInjectedVariables() .
-				'@import "'.$fileNameSCSS.'";');
-		} catch(ParserException $e) {
+				'@import "' . $fileNameSCSS . '";');
+		} catch (ParserException $e) {
 			$this->logger->error($e, ['app' => 'core']);
+
 			return false;
 		}
+
+		// Parse Icons and create related css variables
+		$compiledScss = $this->iconsCacher->setIconsCss($compiledScss);
 
 		// Gzip file
 		try {
@@ -257,10 +288,12 @@ class SCSSCacher {
 			$depFile->putContent($deps);
 			$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 			$gzipFile->putContent(gzencode($data, 9));
-			$this->logger->debug('SCSSCacher: '.$webDir.'/'.$fileNameSCSS.' compiled and successfully cached', ['app' => 'core']);
+			$this->logger->debug('SCSSCacher: ' . $webDir . '/' . $fileNameSCSS . ' compiled and successfully cached', ['app' => 'core']);
+
 			return true;
-		} catch(NotPermittedException $e) {
+		} catch (NotPermittedException $e) {
 			$this->logger->error('SCSSCacher: unable to cache: ' . $fileNameSCSS);
+
 			return false;
 		}
 	}
@@ -277,7 +310,7 @@ class SCSSCacher {
 			foreach ($folder->getDirectoryListing() as $file) {
 				try {
 					$file->delete();
-				} catch(NotPermittedException $e) {
+				} catch (NotPermittedException $e) {
 					$this->logger->logException($e, ['message' => 'SCSSCacher: unable to delete file: ' . $file->getName()]);
 				}
 			}
@@ -315,8 +348,9 @@ class SCSSCacher {
 	 * @return string
 	 */
 	private function rebaseUrls(string $css, string $webDir): string {
-		$re = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
-		$subst = 'url(\''.$webDir.'/$1\')';
+		$re    = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
+		$subst = 'url(\'' . $webDir . '/$1\')';
+
 		return preg_replace($re, $subst, $css);
 	}
 
@@ -328,8 +362,8 @@ class SCSSCacher {
 	 */
 	public function getCachedSCSS(string $appName, string $fileName): string {
 		$tmpfileLoc = explode('/', $fileName);
-		$fileName = array_pop($tmpfileLoc);
-		$fileName = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName)), $appName);
+		$fileName   = array_pop($tmpfileLoc);
+		$fileName   = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName)), $appName);
 
 		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', ['fileName' => $fileName, 'appName' => $appName]), strlen(\OC::$WEBROOT) + 1);
 	}
@@ -341,6 +375,7 @@ class SCSSCacher {
 	 */
 	private function prependBaseurlPrefix(string $cssFile): string {
 		$frontendController = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
+
 		return substr(md5($this->urlGenerator->getBaseUrl() . $frontendController), 0, 4) . '-' . $cssFile;
 	}
 
@@ -356,6 +391,7 @@ class SCSSCacher {
 			return substr(md5($appVersion), 0, 4) . '-' . $cssFile;
 		}
 		$coreVersion = \OC_Util::getVersionString();
+
 		return substr(md5($coreVersion), 0, 4) . '-' . $cssFile;
 	}
 
@@ -369,12 +405,14 @@ class SCSSCacher {
 	 */
 	private function getWebDir(string $path, string $appName, string $serverRoot, string $webRoot): string {
 		// Detect if path is within server root AND if path is within an app path
-		if ( strpos($path, $serverRoot) === false && $appWebPath = \OC_App::getAppWebPath($appName)) {
+		if (strpos($path, $serverRoot) === false && $appWebPath = \OC_App::getAppWebPath($appName)) {
 			// Get the file path within the app directory
 			$appDirectoryPath = explode($appName, $path)[1];
 			// Remove the webroot
-			return str_replace($webRoot, '', $appWebPath.$appDirectoryPath);
+
+			return str_replace($webRoot, '', $appWebPath . $appDirectoryPath);
 		}
-		return $webRoot.substr($path, strlen($serverRoot));
+
+		return $webRoot . substr($path, strlen($serverRoot));
 	}
 }

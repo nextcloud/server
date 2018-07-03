@@ -118,542 +118,543 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 
 /* ICONS ------------------------------------------------------------------- */
 .icon-add {
-	background-image: icon-color('add', 'actions', $color-black, 'core');
+	@include icon-color('add', 'actions', $color-black, true);
 }
 
 .icon-address {
-	background-image: icon-color('address', 'actions', $color-black, 'core');
+	@include icon-color('address', 'actions', $color-black, true);
 }
 .icon-address-white {
-	background-image: icon-color('address', 'actions', $color-white, 'core');
+	@include icon-color('address', 'actions', $color-white, true);
 }
 
 .icon-audio {
-	background-image: icon-color('audio', 'actions', $color-black, 'core');
+	@include icon-color('audio', 'actions', $color-black, true);
 }
 
 .icon-audio-white {
-	background-image: icon-color('audio', 'actions', $color-white, 'core');
+	@include icon-color('audio', 'actions', $color-white, true);
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-audio-off {
-	background-image: icon-color('audio-off', 'actions', $color-black, 'core');
+	@include icon-color('audio-off', 'actions', $color-black, true);
 }
 
 .icon-audio-off-white {
-	background-image: icon-color('audio-off', 'actions', $color-white, 'core');
+	@include icon-color('audio-off', 'actions', $color-white, true);
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-caret-white,
 .icon-caret {
-	background-image: icon-color('caret', 'actions', $color-white, 'core');
+	@include icon-color('caret', 'actions', $color-white, true);
 }
 
 .icon-caret-dark {
-	background-image: icon-color('caret', 'actions', $color-black, 'core');
+	@include icon-color('caret', 'actions', $color-black, true);
 }
 
 .icon-checkmark {
-	background-image: icon-color('checkmark', 'actions', $color-black, 'core');
+	@include icon-color('checkmark', 'actions', $color-black, true);
 	
 }
 
 .icon-checkmark-white {
-	background-image: icon-color('checkmark', 'actions', $color-white, 'core');
+	@include icon-color('checkmark', 'actions', $color-white, true);
 }
 
 .icon-checkmark-color {
-	background-image: icon-color('checkmark', 'actions', $color-success, 'core');
+	@include icon-color('checkmark', 'actions', $color-success, true);
 }
 
 .icon-clippy {
-	background-image: icon-color('clippy', 'actions', $color-black, 'core');
+	@include icon-color('clippy', 'actions', $color-black, true);
 }
 
 .icon-close {
-	background-image: icon-color('close', 'actions', $color-black, 'core');
+	@include icon-color('close', 'actions', $color-black, true);
 }
 
 .icon-close-white {
-	background-image: icon-color('close', 'actions', $color-white, 'core');
+	@include icon-color('close', 'actions', $color-white, true);
 }
 
 .icon-comment {
-	background-image: icon-color('comment', 'actions', $color-black, 'core');
+	@include icon-color('comment', 'actions', $color-black, true);
 }
 
 .icon-confirm {
-	background-image: icon-color('confirm', 'actions', $color-black, 'core');
+	@include icon-color('confirm', 'actions', $color-black, true);
 }
 
 .icon-confirm-fade {
-	background-image: icon-color('confirm-fade', 'actions', $color-black, 'core');
+	@include icon-color('confirm-fade', 'actions', $color-black, true);
 }
 
 .icon-confirm-white {
-	background-image: icon-color('confirm', 'actions', $color-white, 'core');
+	@include icon-color('confirm', 'actions', $color-white, true);
 }
 
 .icon-delete {
-	background-image: icon-color('delete', 'actions', $color-black, 'core');
+	@include icon-color('delete', 'actions', $color-black, true);
 	&.no-permission {
 		&:hover,
 		&:focus {
-			background-image: icon-color('delete', 'actions', $color-black, 'core');
+			@include icon-color('delete', 'actions', $color-black, true);
 		}
 	}
 	&:hover,
 	&:focus {
-		background-image: icon-color('delete', 'actions', $color-error, 'core');
+		@include icon-color('delete', 'actions', $color-error, true);
 		filter: initial;
 	}
 }
 
 .icon-delete-white {
-	background-image: icon-color('delete', 'actions', $color-white, 'core');
+	@include icon-color('delete', 'actions', $color-white, true);
 	&.no-permission {
 		&:hover,
 		&:focus {
-			background-image: icon-color('delete', 'actions', $color-white, 'core');
+			@include icon-color('delete', 'actions', $color-white, true);
 		}
 	}
 	&:hover,
 	&:focus {
-		background-image: icon-color('delete', 'actions', $color-error, 'core');
+		@include icon-color('delete', 'actions', $color-error, true);
 	}
 }
 
 .icon-details {
-	background-image: icon-color('details', 'actions', $color-black, 'core');
+	@include icon-color('details', 'actions', $color-black, true);
 }
 
 .icon-download {
-	background-image: icon-color('download', 'actions', $color-black, 'core');
+	@include icon-color('download', 'actions', $color-black, true);
 }
 
 .icon-download-white {
-	background-image: icon-color('download', 'actions', $color-white, 'core');
+	@include icon-color('download', 'actions', $color-white, true);
 }
 
 .icon-edit {
-	background-image: icon-color('edit', 'actions', $color-black, 'core');
+	@include icon-color('edit', 'actions', $color-black, true);
 }
 
 .icon-error {
-	background-image: icon-color('error', 'actions', $color-black, 'core');
+	@include icon-color('error', 'actions', $color-black, true);
 }
 
 .icon-error-white {
-	background-image: icon-color('error', 'actions', $color-white, 'core');
+	@include icon-color('error', 'actions', $color-white, true);
 }
 
 .icon-error-color {
-	background-image: icon-color('error', 'actions', $color-error, 'core');
+	@include icon-color('error', 'actions', $color-error, true);
 }
 
 .icon-external {
-	background-image: icon-color('external', 'actions', $color-black, 'core');
+	@include icon-color('external', 'actions', $color-black, true);
 }
 
 .icon-fullscreen {
-	background-image: icon-color('fullscreen', 'actions', $color-black, 'core');
+	@include icon-color('fullscreen', 'actions', $color-black, true);
 }
 
 .icon-fullscreen-white {
-	background-image: icon-color('fullscreen', 'actions', $color-white, 'core');
+	@include icon-color('fullscreen', 'actions', $color-white, true);
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-history {
-	background-image: icon-color('history', 'actions', $color-black, 'core');
+	@include icon-color('history', 'actions', $color-black, true);
 }
 
 .icon-info {
-	background-image: icon-color('info', 'actions', $color-black, 'core');
+	@include icon-color('info', 'actions', $color-black, true);
 }
 
 .icon-info-white {
-	background-image: icon-color('info', 'actions', $color-white, 'core');
+	@include icon-color('info', 'actions', $color-white, true);
 }
 
 .icon-logout {
-	background-image: icon-color('logout', 'actions', $color-black, 'core');
+	@include icon-color('logout', 'actions', $color-black, true);
 }
 
 .icon-mail {
-	background-image: icon-color('mail', 'actions', $color-black, 'core');
+	@include icon-color('mail', 'actions', $color-black, true);
 }
 
 .icon-menu {
-	background-image: icon-color('menu', 'actions', $color-black, 'core');
+	@include icon-color('menu', 'actions', $color-black, true);
 }
 
 .icon-more {
-	background-image: icon-color('more', 'actions', $color-black, 'core');
+	@include icon-color('more', 'actions', $color-black, true);
 }
 
 .icon-more-white {
-	background-image: icon-color('more', 'actions', $color-white)
+	@include icon-color('more', 'actions', $color-white)
 }
 
 .icon-password {
-	background-image: icon-color('password', 'actions', $color-black, 'core');
+	@include icon-color('password', 'actions', $color-black, true);
 }
 
 .icon-pause {
-	background-image: icon-color('pause', 'actions', $color-black, 'core');
+	@include icon-color('pause', 'actions', $color-black, true);
 }
 
 .icon-play {
-	background-image: icon-color('play', 'actions', $color-black, 'core');
+	@include icon-color('play', 'actions', $color-black, true);
 }
 
 .icon-play-add {
-	background-image: icon-color('play-add', 'actions', $color-black, 'core');
+	@include icon-color('play-add', 'actions', $color-black, true);
 }
 
 .icon-play-next {
-	background-image: icon-color('play-next', 'actions', $color-black, 'core');
+	@include icon-color('play-next', 'actions', $color-black, true);
 }
 
 .icon-play-previous {
-	background-image: icon-color('play-previous', 'actions', $color-black, 'core');
+	@include icon-color('play-previous', 'actions', $color-black, true);
 }
 
 .icon-public {
-	background-image: icon-color('public', 'actions', $color-black, 'core');
+	@include icon-color('public', 'actions', $color-black, true);
 }
 
 .icon-quota {
-	background-image: icon-color('quota', 'actions', $color-black, 'core');
+	@include icon-color('quota', 'actions', $color-black, true);
 }
 
 .icon-rename {
-	background-image: icon-color('rename', 'actions', $color-black, 'core');
+	@include icon-color('rename', 'actions', $color-black, true);
 }
 
 .icon-screen {
-	background-image: icon-color('screen', 'actions', $color-black, 'core');
+	@include icon-color('screen', 'actions', $color-black, true);
 }
 
 .icon-screen-white {
-	background-image: icon-color('screen', 'actions', $color-white, 'core');
+	@include icon-color('screen', 'actions', $color-white, true);
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-screen-off {
-	background-image: icon-color('screen-off', 'actions', $color-black, 'core');
+	@include icon-color('screen-off', 'actions', $color-black, true);
 }
 
 .icon-screen-off-white {
-	background-image: icon-color('screen-off', 'actions', $color-white, 'core');
+	@include icon-color('screen-off', 'actions', $color-white, true);
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-search {
-	background-image: icon-color('search', 'actions', $color-black, 'core');
+	@include icon-color('search', 'actions', $color-black, true);
 }
 
 .icon-search-white {
-	background-image: icon-color('search', 'actions', $color-white, 'core');
+	@include icon-color('search', 'actions', $color-white, true);
 }
 
 /* default icon have a .5 opacity */
 .icon-settings {
-	background-image: icon-color('settings', 'actions', $color-black, 'core');
+	@include icon-color('settings', 'actions', $color-black, true);
 }
 
 .icon-settings-dark {
-	background-image: icon-color('settings-dark', 'actions', $color-black, 'core');
+	@include icon-color('settings-dark', 'actions', $color-black, true);
 }
 
 .icon-settings-white {
-	background-image: icon-color('settings-dark', 'actions', $color-white, 'core');
+	@include icon-color('settings-dark', 'actions', $color-white, true);
 }
 
 /* always use icon-shared, AdBlock blocks icon-share */
 .icon-shared,
 .icon-share {
-	background-image: icon-color('share', 'actions', $color-black, 'core');
+	@include icon-color('share', 'actions', $color-black, true);
 }
 
 .icon-sound {
-	background-image: icon-color('sound', 'actions', $color-black, 'core');
+	@include icon-color('sound', 'actions', $color-black, true);
 }
 
 .icon-sound-off {
-	background-image: icon-color('sound-off', 'actions', $color-black, 'core');
+	@include icon-color('sound-off', 'actions', $color-black, true);
 }
 
 .icon-favorite {
-	background-image: icon-color('star-dark', 'actions', $color-black, 'core');
+	@include icon-color('star-dark', 'actions', $color-black, true);
 }
 
 .icon-star {
-	background-image: icon-color('star', 'actions', $color-black, 'core');
+	@include icon-color('star', 'actions', $color-black, true);
 }
 
 .icon-star-dark {
-	background-image: icon-color('star-dark', 'actions', $color-black, 'core');
+	@include icon-color('star-dark', 'actions', $color-black, true);
 }
 
 .icon-starred {
 	&:hover,
 	&:focus {
-		background-image: icon-color('star', 'actions', $color-black, 'core');
+		@include icon-color('star', 'actions', $color-black, true);
 	}
-	background-image: icon-color('starred', 'actions', $color-black, 'core');
+	@include icon-color('star-dark', 'actions', 'FC0', true);
 }
 
 .icon-star {
 	&:hover,
 	&:focus {
-		background-image: icon-color('starred', 'actions', $color-black, 'core');
+		@include icon-color('star-dark', 'actions', 'FC0', true);
 	}
 }
 
 .icon-tag {
-	background-image: icon-color('tag', 'actions', $color-black, 'core');
+	@include icon-color('tag', 'actions', $color-black, true);
 }
 
 .icon-timezone {
-	background-image: icon-color('timezone', 'actions', $color-black, 'core');
+	@include icon-color('timezone', 'actions', $color-black, true);
 }
 
 .icon-toggle {
-	background-image: icon-color('toggle', 'actions', $color-black, 'core');
+	@include icon-color('toggle', 'actions', $color-black, true);
 }
 
 .icon-toggle-background {
-	background-image: icon-color('toggle-background', 'actions', $color-black, 'core');
+	@include icon-color('toggle-background', 'actions', $color-black, true);
 }
 
 .icon-toggle-pictures {
-	background-image: icon-color('toggle-pictures', 'actions', $color-black, 'core');
+	@include icon-color('toggle-pictures', 'actions', $color-black, true);
 }
 
 .icon-triangle-e {
-	background-image: icon-color('triangle-e', 'actions', $color-black, 'core');
+	@include icon-color('triangle-e', 'actions', $color-black, true);
 }
 
 .icon-triangle-n {
-	background-image: icon-color('triangle-n', 'actions', $color-black, 'core');
+	@include icon-color('triangle-n', 'actions', $color-black, true);
 }
 
 .icon-triangle-s {
-	background-image: icon-color('triangle-s', 'actions', $color-black, 'core');
+	@include icon-color('triangle-s', 'actions', $color-black, true);
 }
 
 .icon-upload {
-	background-image: icon-color('upload', 'actions', $color-black, 'core');
+	@include icon-color('upload', 'actions', $color-black, true);
 }
 
 .icon-upload-white {
-	background-image: icon-color('upload', 'actions', $color-white, 'core');
+	@include icon-color('upload', 'actions', $color-white, true);
 }
 
 .icon-user {
-	background-image: icon-color('user', 'actions', $color-black, 'core');
+	@include icon-color('user', 'actions', $color-black, true);
 }
 
 .icon-video {
-	background-image: icon-color('video', 'actions', $color-black, 'core');
+	@include icon-color('video', 'actions', $color-black, true);
 }
 
 .icon-video-white {
-	background-image: icon-color('video', 'actions', $color-white, 'core');
+	@include icon-color('video', 'actions', $color-white, true);
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-video-off {
-	background-image: icon-color('video-off', 'actions', $color-black, 'core');
+	@include icon-color('video-off', 'actions', $color-black, true);
 }
 
 .icon-video-off-white {
-	background-image: icon-color('video-off', 'actions', $color-white, 'core');
+	@include icon-color('video-off', 'actions', $color-white, true);
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
 .icon-video-switch {
-	background-image: icon-color('video-switch', 'actions', $color-black, 'core');
+	@include icon-color('video-switch', 'actions', $color-black, true);
 }
 
 .icon-view-close {
-	background-image: icon-color('view-close', 'actions', $color-black, 'core');
+	@include icon-color('view-close', 'actions', $color-black, true);
 }
 
 .icon-view-download {
-	background-image: icon-color('view-download', 'actions', $color-black, 'core');
+	@include icon-color('view-download', 'actions', $color-black, true);
 }
 
 .icon-view-next {
-	background-image: icon-color('arrow-right', 'actions', $color-black, 'core');
+	@include icon-color('arrow-right', 'actions', $color-black, true);
 }
 
 .icon-view-pause {
-	background-image: icon-color('view-pause', 'actions', $color-black, 'core');
+	@include icon-color('view-pause', 'actions', $color-black, true);
 }
 
 .icon-view-play {
-	background-image: icon-color('view-play', 'actions', $color-black, 'core');
+	@include icon-color('view-play', 'actions', $color-black, true);
 }
 
 .icon-view-previous {
-	background-image: icon-color('arrow-left', 'actions', $color-black, 'core');
+	@include icon-color('arrow-left', 'actions', $color-black, true);
 }
 
 .icon-disabled-user {
-	background-image: icon-color('disabled-user', 'actions', $color-black, 'core');
+	@include icon-color('disabled-user', 'actions', $color-black, true);
 }
 
 .icon-disabled-users {
-	background-image: icon-color('disabled-users', 'actions', $color-black, 'core');
+	@include icon-color('disabled-users', 'actions', $color-black, true);
 }
 
 .icon-user-admin {
-	background-image: icon-color('user-admin', 'actions', $color-black, 'core');
+	@include icon-color('user-admin', 'actions', $color-black, true);
 }
 
 /* PLACES ------------------------------------------------------------------- */
 .icon-calendar {
-	background-image: icon-color('calendar', 'places', $color-white, 'core');
+	@include icon-color('calendar', 'places', $color-white, true);
 }
 
 .icon-calendar-dark {
-	background-image: icon-color('calendar', 'places', $color-black, 'core');
+	@include icon-color('calendar', 'places', $color-black, true);
 }
 
 .icon-contacts {
-	background-image: icon-color('contacts', 'places', $color-white, 'core');
+	@include icon-color('contacts', 'places', $color-white, true);
 }
 
 .icon-contacts-dark {
-	background-image: icon-color('contacts', 'places', $color-black, 'core');
+	@include icon-color('contacts', 'places', $color-black, true);
 }
 
 .icon-files {
-	background-image: icon-color('files', 'places', $color-white, 'core');
+	@include icon-color('files', 'places', $color-white, true);
 }
 
 .icon-files-dark {
-	background-image: icon-color('files', 'places', $color-black, 'core');
+	@include icon-color('files', 'places', $color-black, true);
 }
 
 .icon-file,
 .icon-filetype-text {
-	background-image: icon-color('text', 'filetypes', $color-black, 'core');
+	@include icon-color('text', 'filetypes', $color-black, true);
 }
 
 .icon-folder,
 .icon-filetype-folder {
-	background-image: icon-color('folder', 'filetypes', $color-black, 'core');
+	@include icon-color('folder', 'filetypes', $color-black, true);
 }
 
 .icon-filetype-folder-drag-accept {
-	background-image: icon-color('folder-drag-accept', 'filetypes', $color-black) !important;
+	@include icon-color('folder-drag-accept', 'filetypes', $color-black);
 }
 
 .icon-home {
-	background-image: icon-color('home', 'places', $color-black, 'core');
+	@include icon-color('home', 'places', $color-black, true);
 }
 
 .icon-link {
-	background-image: icon-color('link', 'places', $color-black, 'core');
+	@include icon-color('link', 'places', $color-black, true);
 }
 
 .icon-music {
-	background-image: icon-color('music', 'places', $color-black, 'core');
+	@include icon-color('music', 'places', $color-black, true);
 }
 
 .icon-picture {
-	background-image: icon-color('picture', 'places', $color-black, 'core');
+	@include icon-color('picture', 'places', $color-black, true);
 }
 
 /* CLIENTS ------------------------------------------------------------------- */
 
 .icon-desktop {
-	background-image: icon-color('desktop', 'clients', $color-black, 'core');
+	@include icon-color('desktop', 'clients', $color-black, true);
 }
 
 .icon-phone {
-	background-image: icon-color('phone', 'clients', $color-black, 'core');
+	@include icon-color('phone', 'clients', $color-black, true);
 }
 
 .icon-tablet {
-	background-image: icon-color('tablet', 'clients', $color-black, 'core');
+	@include icon-color('tablet', 'clients', $color-black, true);
 }
 
 /* APP CATEGORIES ------------------------------------------------------------------- */
 .icon-category-installed {
-	background-image: icon-color('user', 'actions', $color-black, 'core');
+	@include icon-color('user', 'actions', $color-black, true);
 }
 
 .icon-category-enabled {
-	background-image: icon-color('checkmark', 'actions', $color-black, 'core');
+	@include icon-color('checkmark', 'actions', $color-black, true);
 }
 
 .icon-category-disabled {
-	background-image: icon-color('close', 'actions', $color-black, 'core');
+	@include icon-color('close', 'actions', $color-black, true);
 }
 
 .icon-category-app-bundles {
-	background-image: icon-color('bundles', 'categories', $color-black, 'core');
+	@include icon-color('bundles', 'categories', $color-black, true);
 }
 
 .icon-category-updates {
-	background-image: icon-color('download', 'actions', $color-black, 'core');
+	@include icon-color('download', 'actions', $color-black, true);
 }
 
 .icon-category-files {
-	background-image: icon-color('files', 'categories', $color-black, 'core');
+	@include icon-color('files', 'categories', $color-black, true);
 }
 
 .icon-category-social {
-	background-image: icon-color('social', 'categories', $color-black, 'core');
+	@include icon-color('social', 'categories', $color-black, true);
 }
 
 .icon-category-office {
-	background-image: icon-color('office', 'categories', $color-black, 'core');
+	@include icon-color('office', 'categories', $color-black, true);
 }
 
 .icon-category-auth {
-	background-image: icon-color('auth', 'categories', $color-black, 'core');
+	@include icon-color('auth', 'categories', $color-black, true);
 }
 
 .icon-category-monitoring {
-	background-image: icon-color('monitoring', 'categories', $color-black, 'core');
+	@include icon-color('monitoring', 'categories', $color-black, true);
 }
 
 .icon-category-multimedia {
-	background-image: icon-color('multimedia', 'categories', $color-black, 'core');
+	@include icon-color('multimedia', 'categories', $color-black, true);
 }
 
 .icon-category-organization {
-	background-image: icon-color('organization', 'categories', $color-black, 'core');
+	@include icon-color('organization', 'categories', $color-black, true);
 }
 
 .icon-category-customization {
-	background-image: icon-color('customization', 'categories', $color-black, 'core');
+	@include icon-color('customization', 'categories', $color-black, true);
 }
 
 .icon-category-integration {
-	background-image: icon-color('integration', 'categories', $color-black, 'core');
+	@include icon-color('integration', 'categories', $color-black, true);
 }
 
 .icon-category-tools {
-	background-image: icon-color('settings-dark', 'actions', $color-black, 'core');
+	@include icon-color('settings-dark', 'actions', $color-black, true);
 }
 
 .icon-category-games {
-	background-image: icon-color('games', 'categories', $color-black, 'core');
+	@include icon-color('games', 'categories', $color-black, true);
 }
 
 .icon-category-security {
-	background-image: icon-color('password', 'actions', $color-black, 'core');
+	@include icon-color('password', 'actions', $color-black, true);
 }
 
 .icon-category-search {
-	background-image: icon-color('search', 'actions', $color-black, 'core');
+	@include icon-color('search', 'actions', $color-black, true);
 }
+

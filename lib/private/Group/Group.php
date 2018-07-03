@@ -90,7 +90,7 @@ class Group implements IGroup {
 
 	public function getDisplayName() {
 		if (is_null($this->displayName)) {
-			return $this->gid;
+			return $this->gid.'-name';
 		}
 		return $this->displayName;
 	}

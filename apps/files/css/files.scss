@@ -84,26 +84,26 @@
 
 /* icons for sidebar */
 .nav-icon-files {
-	background-image: icon-color(folder, 'files', $color-black);
+	@include icon-color(folder, 'files', $color-black);
 }
 .nav-icon-recent {
-	background-image: icon-color(recent, 'files', $color-black);
+	@include icon-color(recent, 'files', $color-black);
 }
 .nav-icon-favorites {
-	background-image: icon-color(star, 'files', $color-black);
+	@include icon-color(star, 'files', $color-black);
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout {
-	background-image: icon-color(share, 'files', $color-black);
+	@include icon-color(share, 'files', $color-black);
 }
 .nav-icon-sharinglinks {
-	background-image: icon-color(public, 'files', $color-black);
+	@include icon-color(public, 'files', $color-black);
 }
 .nav-icon-extstoragemounts {
-	background-image: icon-color(external, 'files', $color-black);
+	@include icon-color(external, 'files', $color-black);
 }
 .nav-icon-trashbin {
-	background-image: icon-color(delete, 'files', $color-black);
+	@include icon-color(delete, 'files', $color-black);
 }
 .nav-icon-deletedshares {
 	background-image: url('../img/unshare.svg?v=1');
@@ -667,7 +667,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		background-image: url('../../../core/img/actions/starred.svg?v=1');
+		@include icon-color('star-dark', 'actions', 'FC0', true);
 	}
 }
 

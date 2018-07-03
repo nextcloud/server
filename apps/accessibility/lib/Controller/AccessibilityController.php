@@ -36,6 +36,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OC\Template\SCSSCacher;
 
 class AccessibilityController extends Controller {
 

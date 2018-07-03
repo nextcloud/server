@@ -122,5 +122,5 @@ td.mountPoint, td.backend { width:160px; }
 }
 
 .nav-icon-external-storage {
-	background-image: icon-color('app-dark', 'files_external', $color-black);
+	@include icon-color('app-dark', 'files_external', $color-black);
 }

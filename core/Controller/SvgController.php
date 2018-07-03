@@ -31,6 +31,7 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
+use OC\Template\IconsCacher;
 
 class SvgController extends Controller {
 
@@ -40,13 +41,18 @@ class SvgController extends Controller {
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
+	/** @var IconsCacher */
+	protected $iconsCacher;
+
 	public function __construct(string $appName,
 								IRequest $request,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								IconsCacher $iconsCacher) {
 		parent::__construct($appName, $request);
 
 		$this->serverRoot  = \OC::$SERVERROOT;
 		$this->timeFactory = $timeFactory;
+		$this->iconsCacher = $iconsCacher;
 	}
 
 	/**

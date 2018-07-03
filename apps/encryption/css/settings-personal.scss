@@ -11,5 +11,5 @@
 
 /* icons for sidebar */
 .nav-icon-basic-encryption-module {
-	background-image: icon-color('app', 'encryption', $color-black);
+	@include icon-color('app', 'encryption', $color-black);
 }

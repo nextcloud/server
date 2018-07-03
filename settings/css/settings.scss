@@ -15,23 +15,23 @@ input {
 
 /* icons for sidebar */
 .nav-icon-personal-settings {
-	background-image: icon-color('personal', 'settings', $color-black);
+	@include icon-color('personal', 'settings', $color-black);
 }
 
 .nav-icon-security {
-	background-image: icon-color('toggle-filelist', 'settings', $color-black);
+	@include icon-color('toggle-filelist', 'settings', $color-black);
 }
 
 .nav-icon-clientsbox {
-	background-image: icon-color('change', 'settings', $color-black);
+	@include icon-color('change', 'settings', $color-black);
 }
 
 .nav-icon-federated-cloud {
-	background-image: icon-color('share', 'settings', $color-black);
+	@include icon-color('share', 'settings', $color-black);
 }
 
 .nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
-	background-image: icon-color('password', 'settings', $color-black);
+	@include icon-color('password', 'settings', $color-black);
 }
 
 #avatarform {

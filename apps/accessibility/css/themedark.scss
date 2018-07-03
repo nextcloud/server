@@ -17,10 +17,6 @@ $color-box-shadow: rgba(darken($color-main-background, 70%), 0.5);
 $color-border: lighten($color-main-background, 7%);
 $color-border-dark: lighten($color-main-background, 14%);
 
-// invert svg icons colors
-$color-white: #000;
-$color-black: #fff;
-
 #app-navigation > ul > li > a:first-child,
 #app-navigation > ul > li > ul > li > a:first-child,
 #expanddiv a {

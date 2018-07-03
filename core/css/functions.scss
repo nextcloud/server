@@ -30,14 +30,17 @@
  *
  * @returns string the url to the svg api endpoint
  */
- @function icon-color($icon, $dir, $color, $core: false) {
+@mixin icon-color($icon, $dir, $color, $core: false) {
 	// remove # from color
 	$index: str-index($color, '#');
 	@if $index {
 		$color: str-slice($color, 2);
 	}
+	$varName: "--icon-#{$icon}-#{$color}";
 	@if $core {
-		@return url('#{$webroot}/svg/core/#{$dir}/#{$icon}/#{$color}?v=1');
+		#{$varName}: url('#{$webroot}/svg/core/#{$dir}/#{$icon}/#{$color}?v=1');
+	} @else {
+		#{$varName}: url('#{$webroot}/svg/#{$dir}/#{$icon}/#{$color}?v=1');
 	}
-	@return url('#{$webroot}/svg/#{$dir}/#{$icon}/#{$color}?v=1');
+	background-image: var(#{$varName});
 }
