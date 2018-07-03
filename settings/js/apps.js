@@ -6,7 +6,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			if(response.ocs.meta.status === 'ok') {
 				var addedApps = {};
 				var navEntries = response.ocs.data;
-				var container = $('#apps ul');
+				var container = $('#navigation #apps');
 
 				// remove disabled apps
 				for (var i = 0; i < navEntries.length; i++) {
@@ -43,7 +43,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(img);
 						li.append(a);
 
-						$('#navigation li[data-id=' + previousEntry.id + ']').after(li);
+						// add app icon to the navigation
+						var previousElement = $('#navigation li[data-id=' + previousEntry.id + ']');
+						if (previousElement.length > 0) {
+							previousElement.after(li);
+						} else {
+							$('#navigation #apps').prepend(li);
+						}
 
 						// draw attention to the newly added app entry
 						// by flashing twice the more apps menu
@@ -73,7 +79,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(loading);
 						a.prepend(img);
 						li.append(a);
-						$('#appmenu li[data-id='+ previousEntry.id+']').after(li);
+
+						// add app icon to the navigation
+						var previousElement = $('#appmenu li[data-id=' + previousEntry.id + ']');
+						if (previousElement.length > 0) {
+							previousElement.after(li);
+						} else {
+							$('#appmenu').prepend(li);
+						}
+
 						if(addedApps[entry.id]) {
 							li.animate({opacity: 0.5})
 								.animate({opacity: 1})
