@@ -139,6 +139,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return $this->statCache[$path];
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while getting file info']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -165,6 +166,7 @@ class SMB extends Common implements INotifyStorage {
 				}
 			});
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while getting folder content']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -289,6 +291,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while deleting file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -373,6 +376,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while opening file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -399,6 +403,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while removing folder']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -412,6 +417,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while creating file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -447,6 +453,7 @@ class SMB extends Common implements INotifyStorage {
 			$this->share->mkdir($path);
 			return true;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while creating folder']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		} catch (Exception $e) {
 			return false;
@@ -520,6 +527,7 @@ class SMB extends Common implements INotifyStorage {
 		try {
 			return parent::test();
 		} catch (Exception $e) {
+			\OC::$server->getLogger()->logException($e);
 			return false;
 		}
 	}

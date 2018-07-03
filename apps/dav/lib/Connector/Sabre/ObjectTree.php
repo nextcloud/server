@@ -160,7 +160,7 @@ class ObjectTree extends CachingTree {
 					throw new StorageNotAvailableException();
 				}
 			} catch (StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage is temporarily not available');
+				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage is temporarily not available', 0, $e);
 			} catch (StorageInvalidException $e) {
 				throw new \Sabre\DAV\Exception\NotFound('Storage ' . $path . ' is invalid');
 			} catch (LockedException $e) {
