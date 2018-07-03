@@ -68,7 +68,6 @@ class Systemdlog implements IWriter {
 	 * @param string $app
 	 * @param string $message
 	 * @param int $level
-	 * @suppress PhanUndeclaredMethod
 	 */
 	public function write(string $app, $message, int $level) {
 		$journal_level = $this->levels[$level];
