@@ -52,6 +52,17 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 	\OCA\Files\App::getNavigationManager()->add(function () {
 		$l = \OC::$server->getL10N('files_sharing');
 		return [
+			'id' => 'sharing',
+			'appname' => 'files_sharing',
+			'script' => 'list.php',
+			'order' => 14,
+			'name' => $l->t('Shared'),
+		];
+	});
+
+	\OCA\Files\App::getNavigationManager()->add(function () {
+		$l = \OC::$server->getL10N('files_sharing');
+		return [
 			'id' => 'sharingin',
 			'appname' => 'files_sharing',
 			'script' => 'list.php',
