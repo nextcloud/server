@@ -195,6 +195,10 @@ class File implements \OCP\Share_Backend_File_Dependent {
 			return $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 		}
 
+		if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+			return $this->federatedShareProvider->isOutgoingServer2serverGroupShareEnabled();
+		}
+
 		return true;
 	}
 

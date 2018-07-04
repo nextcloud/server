@@ -276,15 +276,16 @@ class Manager {
 			$mountPoint = Files::buildNotExistingFileName($shareFolder, $share['name']);
 			$mountPoint = Filesystem::normalizePath($mountPoint);
 			$hash = md5($mountPoint);
+			$userShareAccepted = false;
 
-			if($share['share_type'] === Share::SHARE_TYPE_USER) {
+			if((int)$share['share_type'] === Share::SHARE_TYPE_USER) {
 				$acceptShare = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?,
 					`mountpoint` = ?,
 					`mountpoint_hash` = ?
 				WHERE `id` = ? AND `user` = ?');
-				$updated = $acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
+				$userShareAccepted = $acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
 			} else {
 				$result = $this->writeShareToDb(
 					$share['remote'],
@@ -297,9 +298,8 @@ class Manager {
 					$share['remote_id'],
 					$id,
 					$share['share_type']);
-				// TODO group share, add additional row for the user who accepted it
 			}
-			if ($updated === true) {
+			if ($userShareAccepted === true) {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
 				\OC_Hook::emit(Share::class, 'federated_share_added', ['server' => $share['remote']]);
 				$result = true;

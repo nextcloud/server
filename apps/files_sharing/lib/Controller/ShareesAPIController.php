@@ -223,7 +223,13 @@ class ShareesAPIController extends OCSController {
 	}
 
 	protected function isRemoteGroupSharingAllowed(string $itemType): bool {
-		return true;
+		try {
+			// FIXME: static foo makes unit testing unnecessarily difficult
+			$backend = \OC\Share\Share::getBackend($itemType);
+			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE_GROUP);
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 
