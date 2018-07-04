@@ -23,7 +23,7 @@
 	<div id="oauth2" class="section">
 		<h2>{{ t('oauth2', 'OAuth 2.0 clients') }}</h2>
 		<p class="settings-hint">{{ t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName: oc_defaults.name}) }}</p>
-		<table class="grid">
+		<table class="grid" v-if="clients.length > 0">
 			<thead>
 				<tr>
 					<th id="headerName" scope="col">{{ t('oauth2', 'Name') }}</th>
