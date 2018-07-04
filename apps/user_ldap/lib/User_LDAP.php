@@ -92,8 +92,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 	/**
 	 * checks whether the user is allowed to change his avatar in Nextcloud
+	 *
 	 * @param string $uid the Nextcloud user name
 	 * @return boolean either the user can or cannot
+	 * @throws \Exception
 	 */
 	public function canChangeAvatar($uid) {
 		if ($this->userPluginManager->implementsActions(Backend::PROVIDE_AVATAR)) {
@@ -104,11 +106,11 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if(!$user instanceof User) {
 			return false;
 		}
-		if($user->getAvatarImage() === false) {
+		$imageData = $user->getAvatarImage();
+		if($imageData === false) {
 			return true;
 		}
-
-		return false;
+		return !$user->updateAvatar(true);
 	}
 
 	/**

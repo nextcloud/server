@@ -46,6 +46,7 @@ use OC\HintException;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
 use OCA\User_LDAP\User_LDAP;
+use OCA\User_LDAP\UserPluginManager;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -1475,6 +1476,48 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertEquals($ldap->setPassword('uid', 'password'),'result');
 	}	
+
+	public function avatarDataProvider() {
+		return [
+			[ 'validImageData', false ],
+			[ 'corruptImageData', true ],
+			[ false, true]
+		];
+	}
+
+	/** @dataProvider avatarDataProvider */
+	public function testCanChangeAvatar($imageData, $expected) {
+		$isValidImage  = strpos((string)$imageData, 'valid') === 0;
+
+		$user = $this->createMock(User::class);
+		$user->expects($this->once())
+			->method('getAvatarImage')
+			->willReturn($imageData);
+		$user->expects($this->atMost(1))
+			->method('updateAvatar')
+			->willReturn($isValidImage);
+
+		$access = $this->getAccessMock();
+		$access->userManager->expects($this->atLeastOnce())
+			->method('get')
+			->willReturn($user);
+
+		$config = $this->createMock(IConfig::class);
+		$noti = $this->createMock(INotificationManager::class);
+		$session = $this->createMock(Session::class);
+		$pluginManager = $this->createMock(UserPluginManager::class);
+
+		$ldap = new User_LDAP(
+			$access,
+			$config,
+			$noti,
+			$session,
+			$pluginManager
+		);
+
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$this->assertSame($expected, $ldap->canChangeAvatar('uid'));
+	}
 
 	public function testCanChangeAvatarWithPlugin() {
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\UserPluginManager')
