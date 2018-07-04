@@ -54,6 +54,9 @@
 			}
 		},
 		methods: {
+			asyncFindGroup(query) {
+				return this.$store.dispatch('getGroups', {search: query, limit: 5, offset: 0});
+			},
 			isLimitedToGroups(app) {
 				if (this.app.groups.length || this.groupCheckedAppsData) {
 					return true;
