@@ -326,6 +326,7 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 		And apps returned are
 			| accessibility |
+			| cloud_federation_api |
 			| comments |
 			| dav |
 			| federatedfilesharing |
