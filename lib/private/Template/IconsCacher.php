@@ -45,7 +45,7 @@ class IconsCacher {
 	protected $urlGenerator;
 
 	/** @var string */
-	private $iconVarRE = '/--([a-z0-9-]+): url\(["\']([a-z0-9-\/]+)[^;]+;/m';
+	private $iconVarRE = '/--(icon-[a-z0-9-]+): url\(["\']([a-z0-9-\/]+)[^;]+;/m';
 
 	/** @var string */
 	private $fileName = 'icons-vars.css';
@@ -140,7 +140,7 @@ class IconsCacher {
 			}
 		}
 		$linkToCSS = substr($this->urlGenerator->linkToRoute('core.Css.getCss', ['appName' => 'icons', 'fileName' => $this->fileName]), strlen(\OC::$WEBROOT));
-		\OCP\Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS]);
+		\OC_Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS], null, true);
 	}
 
 }

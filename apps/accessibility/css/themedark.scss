@@ -45,7 +45,7 @@ $color-border-dark: lighten($color-main-background, 14%);
 }
 
 // since svg icons are inverted, revert to white for the header
-#header-right > * {
+.header-right > * {
 	[class^='icon-'], [class*=' icon-'] {
 		filter: invert(100%);
 	}

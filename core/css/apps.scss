@@ -693,7 +693,7 @@ kbd {
 	padding: 0;
 	margin: 0;
 	background-color: var(--color-main-background);
-	background-image: url('../img/actions/settings-dark.svg?v=1');
+	@include icon-color('settings-dark', 'actions', $color-black, true);
 	background-position: 14px center;
 	background-repeat: no-repeat;
 	box-shadow: none;
