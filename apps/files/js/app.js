@@ -131,6 +131,8 @@
 			});
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
+
+			OCP.WhatsNew.query(); // for Nextcloud server
 		},
 
 		/**
