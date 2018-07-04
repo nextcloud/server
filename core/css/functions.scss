@@ -32,9 +32,10 @@
  */
 @mixin icon-color($icon, $dir, $color, $core: false) {
 	// remove # from color
-	$index: str-index($color, '#');
+	// inspect cast int to string
+	$index: str-index(inspect($color), '#');
 	@if $index {
-		$color: str-slice($color, 2);
+		$color: str-slice(inspect($color), 2);
 	}
 	$varName: "--icon-#{$icon}-#{$color}";
 	@if $core {

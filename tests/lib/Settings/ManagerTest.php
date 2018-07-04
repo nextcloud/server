@@ -122,7 +122,7 @@ class ManagerTest extends TestCase {
 				['core', 'actions/settings-dark.svg', '1'],
 				['core', 'actions/share.svg', '2'],
 				['core', 'actions/password.svg', '3'],
-				['core', 'places/contacts-dark.svg', '5'],
+				['core', 'places/contacts.svg', '5'],
 				['settings', 'help.svg', '4'],
 			]);
 
@@ -175,7 +175,7 @@ class ManagerTest extends TestCase {
 				['core', 'actions/settings-dark.svg', '1'],
 				['core', 'actions/share.svg', '2'],
 				['core', 'actions/password.svg', '3'],
-				['core', 'places/contacts-dark.svg', '5'],
+				['core', 'places/contacts.svg', '5'],
 				['settings', 'help.svg', '4'],
 			]);
 

@@ -26,6 +26,7 @@ namespace OC\Template;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OC\Files\AppData\Factory;
@@ -85,10 +86,11 @@ class IconsCacher {
 	 */
 	public function setIconsCss(string $css) {
 
-		try {
-			$currentData = $this->folder->getFile($this->fileName)->getContent();
-		} catch (NotFoundException $e) {
+		$cachedFile = $this->getCachedCSS();
+		if (!$cachedFile) {
 			$currentData = '';
+		} else {
+			$currentData = $cachedFile->getContent();
 		}
 
 		// remove :root
@@ -102,16 +104,14 @@ class IconsCacher {
 		}
 
 		if (strlen($data) > 0) {
-			try {
-				$cachedfile = $this->folder->getFile($this->fileName);
-			} catch (NotFoundException $e) {
-				$cachedfile = $this->folder->newFile($this->fileName);
+			if (!$cachedFile) {
+				$cachedFile = $this->folder->newFile($this->fileName);
 			}
 
 			$data = ":root {
 				$data
 			}";
-			$cachedfile->putContent($data);
+			$cachedFile->putContent($data);
 		}
 
 		return preg_replace($this->iconVarRE, '', $css);

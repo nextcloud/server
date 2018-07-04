@@ -85,6 +85,7 @@ class SCSSCacher {
 	 * @param \OC_Defaults $defaults
 	 * @param string $serverRoot
 	 * @param ICacheFactory $cacheFactory
+	 * @param IconsCacher $iconsCacher
 	 */
 	public function __construct(ILogger $logger,
 								Factory $appDataFactory,
@@ -92,7 +93,8 @@ class SCSSCacher {
 								IConfig $config,
 								\OC_Defaults $defaults,
 								$serverRoot,
-								ICacheFactory $cacheFactory) {
+								ICacheFactory $cacheFactory,
+								IconsCacher $iconsCacher) {
 		$this->logger       = $logger;
 		$this->appData      = $appDataFactory->get('css');
 		$this->urlGenerator = $urlGenerator;
@@ -101,12 +103,7 @@ class SCSSCacher {
 		$this->serverRoot   = $serverRoot;
 		$this->cacheFactory = $cacheFactory;
 		$this->depsCache    = $cacheFactory->createDistributed('SCSS-' . md5($this->urlGenerator->getBaseUrl()));
-
-		$this->iconsCacher = new IconsCacher(
-			$this->logger,
-			$appDataFactory,
-			$this->urlGenerator
-		);
+		$this->iconsCacher = $iconsCacher;
 	}
 
 	/**

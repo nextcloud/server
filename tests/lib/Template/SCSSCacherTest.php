@@ -26,6 +26,7 @@ namespace Test\Template;
 use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\SCSSCacher;
+use OC\Template\IconsCacher;
 use OCA\Theming\ThemingDefaults;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -55,11 +56,14 @@ class SCSSCacherTest extends \Test\TestCase {
 	protected $depsCache;
 	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $cacheFactory;
+	/** @var IconsCacher|\PHPUnit_Framework_MockObject_MockObject */
+	protected $iconsCacher;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->logger = $this->createMock(ILogger::class);
 		$this->appData = $this->createMock(AppData::class);
+		$this->iconsCacher = $this->createMock(IconsCacher::class);
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);
@@ -80,6 +84,11 @@ class SCSSCacherTest extends \Test\TestCase {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->themingDefaults->expects($this->any())->method('getScssVariables')->willReturn([]);
 
+		$iconsFile = $this->createMock(ISimpleFile::class);
+		$this->iconsCacher->expects($this->any())
+			->method('getCachedCSS')
+			->willReturn($iconsFile);
+
 		$this->scssCacher = new SCSSCacher(
 			$this->logger,
 			$factory,
@@ -87,7 +96,8 @@ class SCSSCacherTest extends \Test\TestCase {
 			$this->config,
 			$this->themingDefaults,
 			\OC::$SERVERROOT,
-			$this->cacheFactory
+			$this->cacheFactory,
+			$this->iconsCacher
 		);
 	}
 
@@ -126,6 +136,10 @@ class SCSSCacherTest extends \Test\TestCase {
 			->method('getBaseUrl')
 			->willReturn('http://localhost/nextcloud');
 
+		$this->iconsCacher->expects($this->any())
+			->method('setIconsCss')
+			->willReturn('scss {}');
+
 		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
 		$this->assertTrue($actual);
 	}
@@ -158,6 +172,10 @@ class SCSSCacherTest extends \Test\TestCase {
 			->with($filePrefix.'styles.css.deps')
 			->willReturn($fileDeps);
 
+		$this->iconsCacher->expects($this->any())
+			->method('setIconsCss')
+			->willReturn('scss {}');
+
 		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
 		$this->assertTrue($actual);
 	}
@@ -184,6 +202,10 @@ class SCSSCacherTest extends \Test\TestCase {
 				}
 				$this->fail();
 			}));
+
+		$this->iconsCacher->expects($this->any())
+			->method('setIconsCss')
+			->willReturn('scss {}');
 
 		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
 		$this->assertTrue($actual);
@@ -219,6 +241,10 @@ class SCSSCacherTest extends \Test\TestCase {
 				}
 				$this->fail();
 			}));
+
+		$this->iconsCacher->expects($this->any())
+			->method('setIconsCss')
+			->willReturn('scss {}');
 
 		$actual = $this->scssCacher->process(\OC::$SERVERROOT, '/core/css/styles.scss', 'core');
 		$this->assertTrue($actual);
@@ -276,6 +302,10 @@ class SCSSCacherTest extends \Test\TestCase {
 			throw new \Exception();
 		}));
 
+		$this->iconsCacher->expects($this->any())
+			->method('setIconsCss')
+			->willReturn('scss {}');
+
 		$file->expects($this->once())->method('putContent');
 		$depsFile->expects($this->once())->method('putContent');
 		$gzipFile->expects($this->once())->method('putContent');
@@ -310,6 +340,10 @@ class SCSSCacherTest extends \Test\TestCase {
 		$depsFile->expects($this->once())->method('putContent');
 		$gzipFile->expects($this->once())->method('putContent');
 
+		$this->iconsCacher->expects($this->any())
+			->method('setIconsCss')
+			->willReturn('scss {}');
+
 		$actual = self::invokePrivate($this->scssCacher, 'cache', [$path, $fileNameCSS, $fileNameSCSS, $folder, $webDir]);
 		$this->assertTrue($actual);
 	}
@@ -335,6 +369,10 @@ class SCSSCacherTest extends \Test\TestCase {
 			}
 			throw new \Exception();
 		}));
+
+		$this->iconsCacher->expects($this->at(0))
+			->method('setIconsCss')
+			->willReturn('body{background-color:#0082c9}');
 
 		$file->expects($this->at(0))->method('putContent')->with($this->callback(
 			function ($content){
