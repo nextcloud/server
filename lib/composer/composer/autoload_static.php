@@ -501,6 +501,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Collaboration\\Collaborators\\GroupPlugin' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/GroupPlugin.php',
         'OC\\Collaboration\\Collaborators\\LookupPlugin' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/LookupPlugin.php',
         'OC\\Collaboration\\Collaborators\\MailPlugin' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/MailPlugin.php',
+        'OC\\Collaboration\\Collaborators\\RemoteGroupPlugin' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/RemoteGroupPlugin.php',
         'OC\\Collaboration\\Collaborators\\RemotePlugin' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/RemotePlugin.php',
         'OC\\Collaboration\\Collaborators\\Search' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/Search.php',
         'OC\\Collaboration\\Collaborators\\SearchResult' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Collaborators/SearchResult.php',
