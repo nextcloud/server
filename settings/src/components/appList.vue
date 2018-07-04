@@ -24,18 +24,23 @@
 	<div id="app-content-inner">
 		<div id="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
 			<template v-if="useListView">
-				<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
+				<transition-group name="app-list" tag="div" class="apps-list-container">
+					<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
+				</transition-group>
 			</template>
 			<template v-for="bundle in bundles" v-if="useBundleView && bundleApps(bundle.id).length > 0">
-				<div class="apps-header" :key="bundle.id">
-					<div class="app-image"></div>
-					<h2>{{ bundle.name }} <input type="button" :value="bundleToggleText(bundle.id)" v-on:click="toggleBundle(bundle.id)"></h2>
-					<div class="app-version"></div>
-					<div class="app-level"></div>
-					<div class="app-groups"></div>
-					<div class="actions">&nbsp;</div>
-				</div>
-				<app-item v-for="app in bundleApps(bundle.id)" :key="bundle.id + app.id" :app="app" :category="category"/>
+				<transition-group name="app-list" tag="div" class="apps-list-container">
+
+					<div class="apps-header" :key="bundle.id">
+						<div class="app-image"></div>
+						<h2>{{ bundle.name }} <input type="button" :value="bundleToggleText(bundle.id)" v-on:click="toggleBundle(bundle.id)"></h2>
+						<div class="app-version"></div>
+						<div class="app-level"></div>
+						<div class="app-groups"></div>
+						<div class="actions">&nbsp;</div>
+					</div>
+					<app-item v-for="app in bundleApps(bundle.id)" :key="bundle.id + app.id" :app="app" :category="category"/>
+				</transition-group>
 			</template>
 			<template v-if="useAppStoreView">
 				<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" :list-view="false" />
