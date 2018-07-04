@@ -31,7 +31,6 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
-use OC\Template\IconsCacher;
 
 class SvgController extends Controller {
 
@@ -41,18 +40,13 @@ class SvgController extends Controller {
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
-	/** @var IconsCacher */
-	protected $iconsCacher;
-
 	public function __construct(string $appName,
 								IRequest $request,
-								ITimeFactory $timeFactory,
-								IconsCacher $iconsCacher) {
+								ITimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 
 		$this->serverRoot  = \OC::$SERVERROOT;
 		$this->timeFactory = $timeFactory;
-		$this->iconsCacher = $iconsCacher;
 	}
 
 	/**
@@ -68,7 +62,7 @@ class SvgController extends Controller {
 	 */
 	public function getSvgFromCore(string $folder, string $fileName, string $color = 'ffffff') {
 		$path = $this->serverRoot . "/core/img/$folder/$fileName.svg";
-		return $this->getSvg($path, $color);
+		return $this->getSvg($path, $color, $fileName);
 	}
 
 	/**
@@ -94,7 +88,7 @@ class SvgController extends Controller {
 			return new NotFoundResponse();
 		}
 		$path = $this->serverRoot . $appPath ."/img/$fileName.svg";
-		return $this->getSvg($path, $color);
+		return $this->getSvg($path, $color, $fileName);
 	}
 
 
@@ -105,7 +99,7 @@ class SvgController extends Controller {
 	 * @param string $color
 	 * @return DataDisplayResponse|NotFoundException
 	 */
-	private function getSvg(string $path, string $color) {
+	private function getSvg(string $path, string $color, string $fileName) {
 		if (!file_exists($path)) {
 			return new NotFoundResponse();
 		}

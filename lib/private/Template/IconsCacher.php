@@ -45,7 +45,7 @@ class IconsCacher {
 	protected $urlGenerator;
 
 	/** @var string */
-	private $iconVarRE = '/--([a-z-]+): url\("([a-z0-9-\/]+)[^;]+;/m';
+	private $iconVarRE = '/--([a-z0-9-]+): url\(["\']([a-z0-9-\/]+)[^;]+;/m';
 
 	/** @var string */
 	private $fileName = 'icons-vars.css';
@@ -84,12 +84,17 @@ class IconsCacher {
 	 * @param string $css
 	 */
 	public function setIconsCss(string $css) {
+
 		try {
-			$data = $this->folder->getFile($this->fileName)->getContent();
+			$currentData = $this->folder->getFile($this->fileName)->getContent();
 		} catch (NotFoundException $e) {
-			$data = '';
+			$currentData = '';
 		}
-		$icons = $this->getIconsFromCss($data . $css);
+
+		// remove :root
+		$currentData = str_replace([':root {', '}'], '', $currentData);
+
+		$icons = $this->getIconsFromCss($currentData . $css);
 
 		$data = '';
 		foreach ($icons as $icon => $url) {
@@ -127,7 +132,10 @@ class IconsCacher {
 	public function injectCss() {
 		// Only inject once
 		foreach (\OC_Util::$headers as $header) {
-			if (strpos($header['attributes']['href'], $this->fileName) !== false) {
+			if (
+				array_key_exists('attributes', $header) &&
+				array_key_exists('href', $header['attributes']) &&
+				strpos($header['attributes']['href'], $this->fileName) !== false) {
 				return;
 			}
 		}
