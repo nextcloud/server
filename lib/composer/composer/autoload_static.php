@@ -1047,6 +1047,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\TemplateLayout' => __DIR__ . '/../../..' . '/lib/private/TemplateLayout.php',
         'OC\\Template\\Base' => __DIR__ . '/../../..' . '/lib/private/Template/Base.php',
         'OC\\Template\\CSSResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/CSSResourceLocator.php',
+        'OC\\Template\\IconsCacher' => __DIR__ . '/../../..' . '/lib/private/Template/IconsCacher.php',
         'OC\\Template\\JSCombiner' => __DIR__ . '/../../..' . '/lib/private/Template/JSCombiner.php',
         'OC\\Template\\JSConfigHelper' => __DIR__ . '/../../..' . '/lib/private/Template/JSConfigHelper.php',
         'OC\\Template\\JSResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/JSResourceLocator.php',

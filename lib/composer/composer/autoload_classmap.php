@@ -1017,6 +1017,7 @@ return array(
     'OC\\TemplateLayout' => $baseDir . '/lib/private/TemplateLayout.php',
     'OC\\Template\\Base' => $baseDir . '/lib/private/Template/Base.php',
     'OC\\Template\\CSSResourceLocator' => $baseDir . '/lib/private/Template/CSSResourceLocator.php',
+    'OC\\Template\\IconsCacher' => $baseDir . '/lib/private/Template/IconsCacher.php',
     'OC\\Template\\JSCombiner' => $baseDir . '/lib/private/Template/JSCombiner.php',
     'OC\\Template\\JSConfigHelper' => $baseDir . '/lib/private/Template/JSConfigHelper.php',
     'OC\\Template\\JSResourceLocator' => $baseDir . '/lib/private/Template/JSResourceLocator.php',
