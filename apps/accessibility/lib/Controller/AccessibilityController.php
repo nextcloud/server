@@ -155,7 +155,7 @@ class AccessibilityController extends Controller {
 		$appWebRoot = substr($this->appRoot, strlen($this->serverRoot) - strlen(\OC::$WEBROOT));
 		$css        = $this->rebaseUrls($css, $appWebRoot . '/css');
 
-		if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
+		if (in_array('themedark', $userValues) && $this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
 			$iconsCss = $this->invertSvgIconsColor($this->iconsCacher->getCachedCSS()->getContent());
 			$css = $css . $iconsCss;
 		}
