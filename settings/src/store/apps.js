@@ -62,8 +62,13 @@ const mutations = {
 	},
 
 	setError(state, {appId, error}) {
-		let app = state.apps.find(app => app.id === appId);
-		app.error = error;
+		if (!Array.isArray(appId)) {
+			appId = [appId];
+		}
+		appId.forEach((_id) => {
+			let app = state.apps.find(app => app.id === _id);
+			app.error = error;
+		});
 	},
 
 	clearError(state, {appId, error}) {
@@ -199,10 +204,13 @@ const actions = {
 						});
 				})
 				.catch((error) => {
-					context.commit('setError', {appId: apps, error: t('settings', 'Error while enabling app')});
 					context.commit('stopLoading', apps);
 					context.commit('stopLoading', 'install');
-					context.commit('APPS_API_FAILURE', { appId, error })
+					context.commit('setError', {
+						appId: apps,
+						error: error.response.data.data.message
+					});
+					context.commit('APPS_API_FAILURE', { appId, error});
 				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
