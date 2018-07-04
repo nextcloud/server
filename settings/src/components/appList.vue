@@ -101,7 +101,7 @@ export default {
 				return apps.filter(app => app.installed);
 			}
 			if (this.category === 'enabled') {
-				return apps.filter(app => app.active);
+				return apps.filter(app => app.active && app.installed);
 			}
 			if (this.category === 'disabled') {
 				return apps.filter(app => !app.active && app.installed);

@@ -90,6 +90,7 @@ const mutations = {
 		state.apps.find(app => app.id === appId).active = false;
 		state.apps.find(app => app.id === appId).groups = [];
 		state.apps.find(app => app.id === appId).needsDownload = true;
+		state.apps.find(app => app.id === appId).installed = false;
 		state.apps.find(app => app.id === appId).canUnInstall = false;
 		state.apps.find(app => app.id === appId).canInstall = true;
 	},
