@@ -189,6 +189,6 @@ class SettingsControllerTest extends TestCase {
 		$result = $this->settingsController->addClient('test', 'invalidurl');
 
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $result->getStatus());
-		$this->assertSame(['message' => 'Your redirect url needs to be a full url for example: https://yourdomain.com/path'], $result->getData());
+		$this->assertSame(['message' => 'Your redirect URL needs to be a full URL for example: https://yourdomain.com/path'], $result->getData());
 	}
 }
