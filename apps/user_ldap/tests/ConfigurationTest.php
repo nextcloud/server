@@ -112,6 +112,7 @@ class ConfigurationTest extends \Test\TestCase {
 		return [
 			['none', []],
 			['data:selfie', ['selfie']],
+			['data:sELFie', ['selfie']],
 			['data:', ['jpegphoto', 'thumbnailphoto']],
 			['default', ['jpegphoto', 'thumbnailphoto']],
 			['invalid#', ['jpegphoto', 'thumbnailphoto']],
