@@ -567,7 +567,7 @@ class Configuration {
 			if($attribute === '') {
 				return $defaultAttributes;
 			}
-			return [$attribute];
+			return [strtolower($attribute)];
 		}
 		if($value !== self::AVATAR_PREFIX_DEFAULT) {
 			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');

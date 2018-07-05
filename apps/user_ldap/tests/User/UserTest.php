@@ -622,7 +622,7 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->once())
 			->method('readAttribute')
 			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
-				$this->equalTo('jpegPhoto'))
+				$this->equalTo('jpegphoto'))
 			->will($this->returnValue(array('this is a photo')));
 
 		$image->expects($this->once())
@@ -657,6 +657,10 @@ class UserTest extends \Test\TestCase {
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
+		$this->access->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$user = new User(
 			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
@@ -672,11 +676,11 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === 'uid=alice,dc=foo,dc=bar'
-					&& $attr === 'jpegPhoto')
+					&& $attr === 'jpegphoto')
 				{
 					return false;
 				} elseif($dn === 'uid=alice,dc=foo,dc=bar'
-					&& $attr === 'thumbnailPhoto')
+					&& $attr === 'thumbnailphoto')
 				{
 					return ['this is a photo'];
 				}
@@ -715,6 +719,10 @@ class UserTest extends \Test\TestCase {
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
+		$this->access->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$user = new User(
 			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
@@ -730,11 +738,11 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $dn
-					&& $attr === 'jpegPhoto')
+					&& $attr === 'jpegphoto')
 				{
 					return false;
 				} elseif($dn === $dn
-					&& $attr === 'thumbnailPhoto')
+					&& $attr === 'thumbnailphoto')
 				{
 					return ['this is a photo'];
 				}
@@ -765,6 +773,10 @@ class UserTest extends \Test\TestCase {
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
+		$this->access->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$user = new User(
 			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
@@ -783,11 +795,11 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $dn
-					&& $attr === 'jpegPhoto')
+					&& $attr === 'jpegphoto')
 				{
 					return false;
 				} elseif($dn === $dn
-					&& $attr === 'thumbnailPhoto')
+					&& $attr === 'thumbnailphoto')
 				{
 					return ['this is a photo'];
 				}
@@ -824,6 +836,11 @@ class UserTest extends \Test\TestCase {
 			->method('getAvatar')
 			->with($this->equalTo($uid))
 			->will($this->returnValue($avatar));
+
+		$this->access->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$user = new User(
 			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
@@ -867,6 +884,10 @@ class UserTest extends \Test\TestCase {
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
+		$this->access->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$user = new User(
 			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
@@ -931,6 +952,10 @@ class UserTest extends \Test\TestCase {
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
+		$this->access->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$user = new User(
 			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
@@ -1003,8 +1028,12 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->once())
 			->method('readAttribute')
 			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
-				$this->equalTo('jpegPhoto'))
+				$this->equalTo('jpegphoto'))
 			->will($this->returnValue(array('this is a photo')));
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
@@ -1016,7 +1045,28 @@ class UserTest extends \Test\TestCase {
 		$this->assertSame('this is a photo', $photo);
 		//make sure readAttribute is not called again but the already fetched
 		//photo is returned
-		$photo = $user->getAvatarImage();
+		$user->getAvatarImage();
+	}
+
+	public function testGetAvatarImageDisabled() {
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
+			$this->getTestInstances();
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$this->access->expects($this->never())
+			->method('readAttribute')
+			->with($this->equalTo($dn), $this->anything());
+		$this->access->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn([]);
+
+		$user = new User(
+			$uid, $dn, $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
+
+		$this->assertFalse($user->getAvatarImage());
 	}
 
 	public function imageDataProvider() {
@@ -1062,16 +1112,20 @@ class UserTest extends \Test\TestCase {
 				}
 				return $name;
 			}));
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
-		$record = array(
-			strtolower($this->connection->ldapQuotaAttribute) => array('4096'),
-			strtolower($this->connection->ldapEmailAttribute) => array('alice@wonderland.org'),
-			strtolower($this->connection->ldapUserDisplayName) => array('Aaaaalice'),
+		$record = [
+			strtolower($this->connection->ldapQuotaAttribute) => ['4096'],
+			strtolower($this->connection->ldapEmailAttribute) => ['alice@wonderland.org'],
+			strtolower($this->connection->ldapUserDisplayName) => ['Aaaaalice'],
 			'uid' => array($uid),
-			'homedirectory' => array('Alice\'s Folder'),
-			'memberof' => array('cn=groupOne', 'cn=groupTwo'),
-			'jpegphoto' => array('here be an image')
-		);
+			'homedirectory' => ['Alice\'s Folder'],
+			'memberof' => ['cn=groupOne', 'cn=groupTwo'],
+			'jpegphoto' => ['here be an image']
+		];
 
 		foreach($requiredMethods as $method) {
 			$userMock->expects($this->once())

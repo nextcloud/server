@@ -1663,4 +1663,45 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertFalse($ldap->createUser('uid', 'password'));
 	}
+
+	public function actionProvider() {
+		return [
+			[ 'ldapUserAvatarRule', 'default', Backend::PROVIDE_AVATAR, true]	,
+			[ 'ldapUserAvatarRule', 'data:selfiePhoto', Backend::PROVIDE_AVATAR, true],
+			[ 'ldapUserAvatarRule', 'none', Backend::PROVIDE_AVATAR, false],
+			[ 'turnOnPasswordChange', 0, Backend::SET_PASSWORD, false],
+			[ 'turnOnPasswordChange', 1, Backend::SET_PASSWORD, true],
+		];
+	}
+
+	/**
+	 * @dataProvider actionProvider
+	 */
+	public function testImplementsAction($configurable, $value, $actionCode, $expected) {
+		$pluginManager = $this->createMock(UserPluginManager::class);
+		$pluginManager->expects($this->once())
+			->method('getImplementedActions')
+			->willReturn(0);
+
+		$access = $this->getAccessMock();
+		$access->connection->expects($this->any())
+			->method('__get')
+			->willReturnMap([
+				[$configurable, $value],
+			]);
+
+		$config = $this->createMock(IConfig::class);
+		$noti = $this->createMock(INotificationManager::class);
+		$session = $this->createMock(Session::class);
+
+		$backend = new User_LDAP(
+			$access,
+			$config,
+			$noti,
+			$session,
+			$pluginManager
+		);
+
+		$this->assertSame($expected, $backend->implementsActions($actionCode));
+	}
 }
