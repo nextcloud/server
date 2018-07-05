@@ -243,4 +243,16 @@ abstract class LockingProvider extends TestCase {
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_SHARED);
 	}
+
+	public function testReleaseNonExistingShared() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->releaseLock('foo', ILockingProvider::LOCK_SHARED);
+
+		// releasing a lock once to many should not result in a locked state
+		$this->instance->releaseLock('foo', ILockingProvider::LOCK_SHARED);
+
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
+		$this->instance->releaseLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+	}
 }
