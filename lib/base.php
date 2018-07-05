@@ -261,7 +261,7 @@ class OC {
 					[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
 					. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
 					[ $urlGenerator->linkToDocs('admin-config') ] ),
-					\OC_Response::STATUS_SERVICE_UNAVAILABLE
+					503
 				);
 			}
 		}
@@ -749,7 +749,7 @@ class OC {
 			OC_Template::printErrorPage(
 				$l->t('Sample configuration detected'),
 				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
-				\OC_Response::STATUS_SERVICE_UNAVAILABLE
+				503
 			);
 			return;
 		}
