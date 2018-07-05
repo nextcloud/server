@@ -146,4 +146,15 @@ class SimpleFile implements ISimpleFile  {
 	public function getMimeType() {
 		return $this->file->getMimeType();
 	}
+
+	/**
+	 * Open the file as stream, resulting resource can be operated as stream like the result from php's own fopen
+	 *
+	 * @return resource
+	 * @throws \OCP\Files\NotPermittedException
+	 * @since 14.0.0
+	 */
+	public function fopen(string $mode) {
+		return $this->file->fopen($mode);
+	}
 }

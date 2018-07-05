@@ -123,4 +123,12 @@ class SimpleFileTest extends \Test\TestCase  {
 
 		$this->simpleFile->getContent();
 	}
+
+	public function testFopen() {
+		$this->file->expects($this->once())
+			->method('fopen')
+			->with('r+');
+
+		$this->simpleFile->fopen('r+');
+	}
 }
