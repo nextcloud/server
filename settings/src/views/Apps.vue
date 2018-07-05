@@ -73,7 +73,7 @@ export default {
 	beforeMount() {
 		this.$store.dispatch('getCategories');
 		this.$store.dispatch('getAllApps');
-		this.$store.dispatch('getGroups', {offset: 0, limit: -1});
+		this.$store.dispatch('getGroups', {offset: 0, limit: 5});
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 	},
 	mounted() {

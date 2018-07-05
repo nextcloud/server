@@ -74,6 +74,9 @@ const mutations = {
 	},
 	addGroup(state, {gid, displayName}) {
 		try {
+			if (typeof state.groups.find((group) => group.id === gid) !== 'undefined') {
+				return;
+			}
 			// extend group to default values
 			let group = Object.assign({}, defaults.group, {
 				id: gid,
@@ -223,7 +226,8 @@ const actions = {
 
 	getGroups(context, { offset, limit, search }) {
 		search = typeof search === 'string' ? search : '';
-		return api.get(OC.linkToOCS(`cloud/groups?offset=${offset}&limit=${limit}&search=${search}`, 2))
+		let limitParam = limit === -1 ? '' : `&limit=${limit}`;
+		return api.get(OC.linkToOCS(`cloud/groups?offset=${offset}&search=${search}${limitParam}`, 2))
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.groups).length > 0) {
 					response.data.ocs.data.groups.forEach(function(group) {

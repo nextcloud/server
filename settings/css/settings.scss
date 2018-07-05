@@ -989,10 +989,15 @@ span.version {
 	.section {
 		cursor: pointer;
 	}
+	.app-list-move {
+		transition: transform 1s;
+	}
 	&.installed {
-		display: table;
-		width: 100%;
-		height: auto;
+		.apps-list-container {
+			display: table;
+			width: 100%;
+			height: auto;
+		}
 		margin-bottom: 100px;
 		.section {
 			display: table-row;

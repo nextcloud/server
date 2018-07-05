@@ -60,7 +60,8 @@
 					<multiselect v-if="isLimitedToGroups(app)" :options="groups" :value="appGroups" @select="addGroupLimitation" @remove="removeGroupLimitation" :options-limit="5"
 								 :placeholder="t('settings', 'Limit app usage to groups')"
 								 label="name" track-by="id" class="multiselect-vue"
-								 :multiple="true" :close-on-select="false">
+								 :multiple="true" :close-on-select="false"
+								 @search-change="asyncFindGroup">
 						<span slot="noResult">{{t('settings', 'No results')}}</span>
 					</multiselect>
 				</div>
