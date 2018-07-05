@@ -29,6 +29,7 @@ use OC\Updater\ChangesCheck;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -45,6 +46,8 @@ class WhatsNewController extends OCSController {
 	private $whatsNewService;
 	/** @var IFactory */
 	private $langFactory;
+	/** @var Defaults */
+	private $defaults;
 
 	public function __construct(
 		string $appName,
@@ -55,13 +58,15 @@ class WhatsNewController extends OCSController {
 		Manager $keyManager,
 		IConfig $config,
 		ChangesCheck $whatsNewService,
-		IFactory $langFactory
+		IFactory $langFactory,
+		Defaults $defaults
 	) {
 		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->whatsNewService = $whatsNewService;
 		$this->langFactory = $langFactory;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -82,7 +87,11 @@ class WhatsNewController extends OCSController {
 		try {
 			$iterator = $this->langFactory->getLanguageIterator();
 			$whatsNew = $this->whatsNewService->getChangesForVersion($currentVersion);
-			$resultData = ['changelogURL' => $whatsNew['changelogURL']];
+			$resultData = [
+				'changelogURL' => $whatsNew['changelogURL'],
+				'product' => $this->defaults->getName(),
+				'version' => $currentVersion,
+			];
 			do {
 				$lang = $iterator->current();
 				if(isset($whatsNew['whatsNew'][$lang])) {
