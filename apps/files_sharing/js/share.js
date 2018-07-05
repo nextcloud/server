@@ -165,9 +165,9 @@
 				iconClass: 'icon-shared',
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				actionHandler: function(fileName, context) {
-					// do not open sidebar if no permission on the file
+					// do not open sidebar if permission is set and equal to 0
 					var permissions = parseInt(context.$file.data('share-permissions'), 10);
-					if (permissions > 0) {
+					if (isNaN(permissions) || permissions > 0) {
 						fileList.showDetailsView(fileName, 'shareTabView');
 					}
 				},
