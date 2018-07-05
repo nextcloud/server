@@ -73,11 +73,10 @@
 		var collapsibleButtonId = 'button-collapse-favorites';
 		var listULElements = document.getElementById(quickAccessList);
 		var listLIElements = listULElements.getElementsByTagName('li');
-		//var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);
 		var appName = appfolder.substring(1, appfolder.length);
 
 		for (var i = 0; i <= listLIElements.length - 1; i++) {
-			if ( listLIElements[i].getElementsByTagName('a')[0].href.endsWith("dir="+appName)) {
+			if (listLIElements[i].getElementsByTagName('a')[0].href.endsWith("dir=" + appName)) {
 				listLIElements[i].remove();
 			}
 		}
@@ -114,16 +113,23 @@
 		innerTagLI.setAttribute("folderpos", length.toString());
 		innerTagLI.appendChild(innerTagA);
 
+		console.log("fetch: "+appfolder);
+		$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/NodeType"),{folderpath: appfolder}, function (data, status) {
+			console.log(status);
+			console.log(data);
+				if (data !== "file") {
+					if (listULElements.childElementCount <= 0) {
+						listULElements.appendChild(innerTagLI);
+						var collapsibleButton = document.getElementById(collapsibleButtonId);
+						collapsibleButton.style.display = '';
 
-		if (listULElements.childElementCount <= 0) {
-			listULElements.appendChild(innerTagLI);
-			var collapsibleButton = document.getElementById(collapsibleButtonId);
-			collapsibleButton.style.display = '';
-
-			$("#button-collapse-parent-favorites").addClass('collapsible');
-		} else {
-			listLIElements[listLIElements.length - 1].after(innerTagLI);
-		}
+						$("#button-collapse-parent-favorites").addClass('collapsible');
+					} else {
+						listLIElements[listLIElements.length - 1].after(innerTagLI);
+					}
+				}
+			}
+		);
 	}
 
 	OCA.Files = OCA.Files || {};
@@ -328,6 +334,7 @@
 			});
 		}
 	};
-})(OCA);
+})
+(OCA);
 
 OC.Plugins.register('OCA.Files.FileList', OCA.Files.TagsPlugin);
