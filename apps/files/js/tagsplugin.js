@@ -73,10 +73,11 @@
 		var collapsibleButtonId = 'button-collapse-favorites';
 		var listULElements = document.getElementById(quickAccessList);
 		var listLIElements = listULElements.getElementsByTagName('li');
-		var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);
+		//var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);
+		var appName = appfolder.substring(1, appfolder.length);
 
 		for (var i = 0; i <= listLIElements.length - 1; i++) {
-			if (appName === listLIElements[i].getElementsByTagName('a')[0].innerHTML) {
+			if ( listLIElements[i].getElementsByTagName('a')[0].href.endsWith("dir="+appName)) {
 				listLIElements[i].remove();
 			}
 		}
