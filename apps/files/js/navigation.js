@@ -49,7 +49,7 @@
 		 * alphabet
 		 *
 		 */
-		$sortingStrategy: 'customorder',
+		$sortingStrategy: 'alphabet',
 
 		/**
 		 * Key for the quick-acces-list
@@ -66,8 +66,12 @@
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
-			this.setInitialQuickaccessSettings();
 
+			var scope=this;
+			$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/SortingStrategy"), function (data, status) {
+				scope.$sortingStrategy=data;
+				scope.setInitialQuickaccessSettings();
+			});
 
 		},
 

@@ -336,7 +336,7 @@ class ApiController extends Controller {
 	 * @return String
 	 */
 	public function getSortingStrategy() {
-		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'date');
+		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'alphabet');
 	}
 
 	/**
