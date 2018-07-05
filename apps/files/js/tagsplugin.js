@@ -74,11 +74,13 @@
 		var listULElements = document.getElementById(quickAccessList);
 		var listLIElements = listULElements.getElementsByTagName('li');
 
-		for (var i = 0; i <= listLIElements.length - 1; i++) {
-			console.log(listLIElements[i].getElementsByTagName('a')[0].href);
-			if (listLIElements[i].getElementsByTagName('a')[0].href.endsWith("dir=" + appfolder)) {
-				console.log("f "+listLIElements[i].getElementsByTagName('a')[0].href);
+		var apppath=appfolder;
+		if(appfolder.startsWith("//")){
+			apppath=appfolder.substring(1, appfolder.length);
+		}
 
+		for (var i = 0; i <= listLIElements.length - 1; i++) {
+			if (listLIElements[i].getElementsByTagName('a')[0].href.endsWith("dir=" + apppath)) {
 				listLIElements[i].remove();
 			}
 		}
