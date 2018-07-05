@@ -38,6 +38,7 @@ use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
+use OC\Repair\NC14\RepairPendingCronJobs;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -137,6 +138,7 @@ class Repair implements IOutput{
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
+			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 		];
 	}
 
