@@ -38,6 +38,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
@@ -583,6 +584,10 @@ class FederatedShareProvider implements IShareProvider {
 		// shares is a umount of a external storage. This is handled here
 		// apps/files_sharing/lib/external/manager.php
 		// TODO move this code over to this app
+	}
+
+	public function restore(IShare $share, string $recipient): IShare {
+		throw new GenericShareException('not implemented');
 	}
 
 

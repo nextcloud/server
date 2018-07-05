@@ -207,6 +207,17 @@ class ViewControllerTest extends TestCase {
 				'classes' => '',
 			],
 			[
+				'id' => 'deletedshares',
+				'appname' => 'files_sharing',
+				'script' => 'list.php',
+				'order' => 18,
+				'name' => \OC::$server->getL10N('files_sharing')->t('Deleted shares'),
+				'active' => false,
+				'icon' => '',
+				'type' => 'link',
+				'classes' => '',
+			],
+			[
 				'id' => 'systemtagsfilter',
 				'appname' => 'systemtags',
 				'script' => 'list.php',
@@ -267,6 +278,10 @@ class ViewControllerTest extends TestCase {
 					],
 					[
 						'id' => 'sharinglinks',
+						'content' => null,
+					],
+					[
+						'id' => 'deletedshares',
 						'content' => null,
 					],
 					[

@@ -29,6 +29,7 @@ namespace OCP\Share;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 
 /**
@@ -84,6 +85,20 @@ interface IManager {
 	public function deleteFromSelf(IShare $share, $recipientId);
 
 	/**
+	 * Restore the share when it has been deleted
+	 * Certain share types can be restored when they have been deleted
+	 * but the provider should properly handle this\
+	 *
+	 * @param IShare $share The share to restore
+	 * @param string $recipientId The user to restore the share for
+	 * @return IShare The restored share object
+	 * @throws GenericShareException In case restoring the share failed
+	 *
+	 * @since 14.0.0
+	 */
+	public function restoreShare(IShare $share, string $recipientId): IShare;
+
+	/**
 	 * Move the share as a recipient of the share.
 	 * This is updating the share target. So where the recipient has the share mounted.
 	 *
@@ -133,6 +148,20 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
+
+	/**
+	 * Get deleted shares shared with $user.
+	 * Filter by $node if provided
+	 *
+	 * @param string $userId
+	 * @param int $shareType
+	 * @param Node|null $node
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 * @since 14.0.0
+	 */
+	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
 
 	/**
 	 * Retrieve a share by the share id.

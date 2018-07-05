@@ -48,6 +48,9 @@ $eventDispatcher->addListener(
 );
 
 $config = \OC::$server->getConfig();
+$shareManager = \OC::$server->getShareManager();
+$userSession = \OC::$server->getUserSession();
+
 if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 	\OCA\Files\App::getNavigationManager()->add(function () {
 		$l = \OC::$server->getL10N('files_sharing');
@@ -57,6 +60,17 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 			'script' => 'list.php',
 			'order' => 15,
 			'name' => $l->t('Shared with you'),
+		];
+	});
+	
+	\OCA\Files\App::getNavigationManager()->add(function () {
+		$l = \OC::$server->getL10N('files_sharing');
+		return [
+			'id' => 'deletedshares',
+			'appname' => 'files_sharing',
+			'script' => 'list.php',
+			'order' => 18,
+			'name' => $l->t('Deleted shares'),
 		];
 	});
 
