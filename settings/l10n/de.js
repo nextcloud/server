@@ -5,7 +5,7 @@ OC.L10N.register(
     "You changed your password" : "Du hast Dein Passwort geändert",
     "Your password was reset by an administrator" : "Dein Passwort wurde vom Administrator zurückgesetzt",
     "{actor} changed your email address" : "{actor} hat Deine E-Mail-Adresse geändert",
-    "You changed your email address" : "Du hst erfolgreich Deine E-Mail-Adresse geändert",
+    "You changed your email address" : "Du hast erfolgreich Deine E-Mail-Adresse geändert",
     "Your email address was changed by an administrator" : "Deine E-Mail-Adresse wurde von einen Administrator geändert",
     "Security" : "Sicherheit",
     "You successfully logged in using two-factor authentication (%1$s)" : "Du hast Dich erfolgreich mittels Zwei-Faktor-Authentifizierung angemeldet (%1$s)",
