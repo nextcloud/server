@@ -55,6 +55,11 @@ class DefaultShareProvider implements IShareProvider {
 	// Special share type for user modified group shares
 	const SHARE_TYPE_USERGROUP = 2;
 
+	// Acceptend types
+	const SHARE_ACCEPTED = 0;
+	const SHARE_PENDING = 1;
+	const SHARE_DELETED = 2;
+
 	/** @var IDBConnection */
 	private $dbConn;
 
@@ -404,8 +409,11 @@ class DefaultShareProvider implements IShareProvider {
 				throw new ProviderException('Recipient does not match');
 			}
 
-			// We can just delete user and link shares
-			$this->delete($share);
+			// Mark the share as deleted
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->set('accepted', $qb->createNamedParameter(self::SHARE_DELETED))
+				->execute();
 		} else {
 			throw new ProviderException('Invalid shareType');
 		}
