@@ -881,9 +881,14 @@ class DefaultShareProvider implements IShareProvider {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId((int)$data['id'])
 			->setShareType((int)$data['share_type'])
-			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
 			->setMailSend((bool)$data['mail_send']);
+
+		if ((int)$data['accepted'] === self::SHARE_DELETED) {
+			$share->setPermissions(0);
+		} else {
+			$share->setPermissions((int)$data['permissions']);
+		}
 
 		$shareTime = new \DateTime();
 		$shareTime->setTimestamp((int)$data['stime']);
