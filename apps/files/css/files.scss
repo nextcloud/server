@@ -60,6 +60,10 @@
 	min-height: 0%;
 }
 
+#app-content > [id^='app-content-'] {
+	max-height: calc(100vh - $header-height);
+}
+
 .app-files #app-content {
 	transition: background-color 0.3s ease;
 	overflow-x: hidden;
