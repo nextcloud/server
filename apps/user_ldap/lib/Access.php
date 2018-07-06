@@ -62,6 +62,9 @@ use OCP\IUserManager;
 class Access extends LDAPUtility implements IUserTools {
 	const UUID_ATTRIBUTES = ['entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'];
 
+	/** @var Callback */
+	public static $searchTermCallback = null; 
+	
 	/** @var \OCA\User_LDAP\Connection */
 	public $connection;
 	/** @var Manager */
@@ -1519,7 +1522,8 @@ class Access extends LDAPUtility implements IUserTools {
 		if ($term === '') {
 			$result = '*';
 		} else if ($allowEnum !== 'no') {
-			$result = $term . '*';
+			$searchTermCallback = self::$searchTermCallback;
+			$result = (is_null($searchTermCallback) ? $term . '*' : $searchTermCallback($term));
 		}
 		return $result;
 	}

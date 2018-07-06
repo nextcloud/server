@@ -702,5 +702,35 @@ class AccessTest extends TestCase {
 		];
 		$this->access->nextcloudUserNames($records);
 	}
+	
+	public function testCustomSearchTerm() {
+		Access::$searchTermCallback = function($term){
+			return '*' . $term . '*';
+		};
+		// scenario: 1 page search, 1 search base
+		$filter = 'objectClass=nextcloudUser';
+		$base = ['ou=zombies,dc=foobar,dc=nextcloud,dc=com'];
+		
+		$fakeConnection = new \stdClass();
+		$fakeSearchResultResource = new \stdClass();
+		$fakeLdapEntries = [
+				'count' => 2,
+				[
+						'dn' => 'uid=sgarth,' . $base[0],
+				],
+				[
+						'dn' => 'uid=wwilson,' . $base[0],
+				]
+		];
+		
+		$expected = $fakeLdapEntries;
+		
+		$this->prepareMocksForSearchTests($base, $fakeConnection, $fakeSearchResultResource, $fakeLdapEntries);
+		
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$result = $this->access->search($filter, $base);
+		$this->assertSame($expected, $result);
+		Access::$searchTermCallback = null;
+	}
 
 }
