@@ -63,6 +63,10 @@ class Mail implements ISettings {
 			$parameters['mail_smtppassword'] = '********';
 		}
 
+		if ($parameters['mail_smtpmode'] === '' || $parameters['mail_smtpmode'] === 'php') {
+			$parameters['mail_smtpmode'] = 'smtp';
+		}
+
 		return new TemplateResponse('settings', 'settings/admin/additional-mail', $parameters, '');
 	}
 

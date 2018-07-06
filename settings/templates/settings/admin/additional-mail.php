@@ -38,7 +38,6 @@ $mail_smtpsecure = [
 ];
 
 $mail_smtpmode = [
-	['php', 'PHP'],
 	['smtp', 'SMTP'],
 ];
 if ($_['sendmail_is_available']) {

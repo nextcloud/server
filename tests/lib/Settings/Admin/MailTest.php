@@ -59,7 +59,7 @@ class MailTest extends TestCase {
 			->expects($this->at(2))
 			->method('getSystemValue')
 			->with('mail_smtpmode', '')
-			->willReturn('php');
+			->willReturn('smtp');
 		$this->config
 			->expects($this->at(3))
 			->method('getSystemValue')
@@ -103,7 +103,7 @@ class MailTest extends TestCase {
 				'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
 				'mail_domain'           => 'mx.nextcloud.com',
 				'mail_from_address'     => 'no-reply@nextcloud.com',
-				'mail_smtpmode'         => 'php',
+				'mail_smtpmode'         => 'smtp',
 				'mail_smtpsecure'       => true,
 				'mail_smtphost'         => 'smtp.nextcloud.com',
 				'mail_smtpport'         => 25,
