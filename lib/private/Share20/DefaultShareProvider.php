@@ -421,35 +421,39 @@ class DefaultShareProvider implements IShareProvider {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * For now this only works for group shares
-	 * If this gets implemented for normal shares we have to extend it
 	 */
 	public function restore(IShare $share, string $recipient): IShare {
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('permissions')
-			->from('share')
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($share->getId()))
-			);
-		$cursor = $qb->execute();
-		$data = $cursor->fetch();
-		$cursor->closeCursor();
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->set('accepted', $qb->createNamedParameter(self::SHARE_ACCEPTED))
+				->execute();
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->select('permissions')
+				->from('share')
+				->where(
+					$qb->expr()->eq('id', $qb->createNamedParameter($share->getId()))
+				);
+			$cursor = $qb->execute();
+			$data = $cursor->fetch();
+			$cursor->closeCursor();
 
-		$originalPermission = $data['permissions'];
+			$originalPermission = $data['permissions'];
 
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->update('share')
-			->set('permissions', $qb->createNamedParameter($originalPermission))
-			->where(
-				$qb->expr()->eq('parent', $qb->createNamedParameter($share->getParent()))
-			)->andWhere(
-				$qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP))
-			)->andWhere(
-				$qb->expr()->eq('share_with', $qb->createNamedParameter($recipient))
-			);
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->set('permissions', $qb->createNamedParameter($originalPermission))
+				->where(
+					$qb->expr()->eq('parent', $qb->createNamedParameter($share->getParent()))
+				)->andWhere(
+					$qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP))
+				)->andWhere(
+					$qb->expr()->eq('share_with', $qb->createNamedParameter($recipient))
+				);
 
-		$qb->execute();
+			$qb->execute();
+		}
 
 		return $this->getShareById($share->getId(), $recipient);
 	}
