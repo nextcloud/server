@@ -162,6 +162,19 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceVisioTypes() {
+		$updatedMimetypes = [
+			'vsdm' => 'application/vnd.visio',
+			'vsdx' => 'application/vnd.visio',
+			'vssm' => 'application/vnd.visio',
+			'vssx' => 'application/vnd.visio',
+			'vstm' => 'application/vnd.visio',
+			'vstx' => 'application/vnd.visio',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -190,6 +203,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.6', '<') && $this->introduceStreamingTypes()) {
 			$out->info('Fixed streaming mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '14.0.0.8', '<') && $this->introduceVisioTypes()) {
+			$out->info('Fixed visio mime types');
 		}
 	}
 }
