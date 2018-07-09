@@ -32,7 +32,7 @@
     "file-loader": "^1.1.11",
     "vue-loader": "^15.2.4",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.14.0",
+    "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
     "webpack-merge": "^4.1.3"
   }
