@@ -193,6 +193,7 @@ class File extends Node implements IFile {
 			}
 
 		} catch (\Exception $e) {
+			\OC::$server->getLogger()->logException($e);
 			if ($needsPartFile) {
 				$partStorage->unlink($internalPartPath);
 			}
