@@ -34,17 +34,36 @@ class MySqlTools {
 	 * @return bool
 	 */
 	public function supports4ByteCharset(IDBConnection $connection) {
-		foreach (['innodb_file_format' => 'Barracuda', 'innodb_large_prefix' => 'ON', 'innodb_file_per_table' => 'ON'] as $var => $val) {
+		$variables = ['innodb_file_per_table' => 'ON'];
+		if (!$this->isMariaDBWithLargePrefix($connection)) {
+			$variables['innodb_file_format'] = 'Barracuda';
+			$variables['innodb_large_prefix'] = 'ON';
+		}
+
+		foreach ($variables as $var => $val) {
 			$result = $connection->executeQuery("SHOW VARIABLES LIKE '$var'");
-			$rows = $result->fetch();
+			$row = $result->fetch();
 			$result->closeCursor();
-			if ($rows === false) {
+			if ($row === false) {
 				return false;
 			}
-			if (strcasecmp($rows['Value'], $val) !== 0) {
+			if (strcasecmp($row['Value'], $val) !== 0) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	protected function isMariaDBWithLargePrefix(IDBConnection $connection) {
+		$result = $connection->executeQuery('SELECT VERSION()');
+		$row = strtolower($result->fetchColumn());
+		$result->closeCursor();
+
+		if ($row === false) {
+			return false;
+		}
+
+		return strpos($row, 'maria') && version_compare($row, '10.3', '>=') ||
+			strpos($row, 'maria') === false && version_compare($row, '8.0', '>=');
 	}
 }
