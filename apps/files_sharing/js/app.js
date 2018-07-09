@@ -21,6 +21,7 @@ OCA.Sharing.App = {
 
 	_inFileList: null,
 	_outFileList: null,
+	_overviewFileList: null,
 
 	initSharingIn: function($el) {
 		if (this._inFileList) {
@@ -116,6 +117,28 @@ OCA.Sharing.App = {
 		return this._deletedFileList;
 	},
 
+	initShareingOverview: function($el) {
+		if (this._overviewFileList) {
+			return this._overviewFileList;
+		}
+		this._overviewFileList = new OCA.Sharing.FileList(
+			$el,
+			{
+				id: 'shares.overview',
+				scrollContainer: $('#app-content'),
+				config: OCA.Files.App.getFilesConfig(),
+				isOverview: true
+			}
+		);
+
+		this._extendFileList(this._overviewFileList);
+		this._overviewFileList.appName = t('files_sharing', 'Share overview');
+		this._overviewFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>' +
+			'<h2>' + t('files_sharing', 'No shares') + '</h2>' +
+			'<p>' + t('files_sharing', 'Shares will show up here') + '</p>');
+		return this._overviewFileList;
+	},
+
 	removeSharingIn: function() {
 		if (this._inFileList) {
 			this._inFileList.$fileList.empty();
@@ -140,6 +163,12 @@ OCA.Sharing.App = {
 		}
 	},
 
+	removeSharingOverview: function() {
+		if (this._overviewFileList) {
+			this._overviewFileList.$fileList.empty();
+		}
+	},
+
 	/**
 	 * Destroy the app
 	 */
@@ -152,6 +181,7 @@ OCA.Sharing.App = {
 		this._inFileList = null;
 		this._outFileList = null;
 		this._linkFileList = null;
+		this._overviewFileList = null;
 		delete this._globalActionsInitialized;
 	},
 
@@ -251,5 +281,11 @@ $(document).ready(function() {
 	});
 	$('#app-content-deletedshares').on('hide', function() {
 		OCA.Sharing.App.removeSharingDeleted();
+	});
+	$('#app-content-shareoverview').on('show', function(e) {
+		OCA.Sharing.App.initShareingOverview($(e.target));
+	});
+	$('#app-content-shareoverview').on('hide', function() {
+		OCA.Sharing.App.removeSharingOverview();
 	});
 });

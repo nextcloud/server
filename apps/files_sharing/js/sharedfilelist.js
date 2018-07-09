@@ -40,6 +40,7 @@
 		_showDeleted: false,
 		_clientSideSort: true,
 		_allowSelection: false,
+		_isOverview: false,
 
 		/**
 		 * @private
@@ -59,6 +60,9 @@
 			}
 			if (options && options.showDeleted) {
 				this._showDeleted = true;
+			}
+			if (options && options.isOverview) {
+				this._isOverview = true;
 			}
 		},
 
@@ -191,39 +195,92 @@
 			// there is only root
 			this._setCurrentDir('/', false);
 
+			if (!this._isOverview) {
+				if (this._showDeleted) {
+					var shares = $.ajax({
+						url: OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'deletedshares',
+						/* jshint camelcase: false */
+						data: {
+							format: 'json',
+							include_tags: true
+						},
+						type: 'GET',
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+						},
+					});
+				} else {
+					var shares = $.ajax({
+						url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
+						/* jshint camelcase: false */
+						data: {
+							format: 'json',
+							shared_with_me: !!this._sharedWithUser,
+							include_tags: true
+						},
+						type: 'GET',
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+						},
+					});
+				}
+				var promises = [];
+				promises.push(shares);
 
-			if (this._showDeleted) {
-				var shares = $.ajax({
-					url: OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'deletedshares',
-					/* jshint camelcase: false */
-					data: {
-						format: 'json',
-						include_tags: true
-					},
-					type: 'GET',
-					beforeSend: function(xhr) {
-						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
-					},
-				});
+				if (!!this._sharedWithUser) {
+					var remoteShares = $.ajax({
+						url: OC.linkToOCS('apps/files_sharing/api/v1') + 'remote_shares',
+						/* jshint camelcase: false */
+						data: {
+							format: 'json',
+							include_tags: true
+						},
+						type: 'GET',
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+						},
+					});
+					promises.push(remoteShares);
+				} else {
+					//Push empty promise so callback gets called the same way
+					promises.push($.Deferred().resolve());
+				}
+
+				this._reloadCall = $.when.apply($, promises);
+				var callBack = this.reloadCallback.bind(this);
+				return this._reloadCall.then(callBack, callBack);
 			} else {
-				var shares = $.ajax({
+				var promises = [];
+				var sharedWith = $.ajax({
 					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
 					/* jshint camelcase: false */
 					data: {
 						format: 'json',
-						shared_with_me: !!this._sharedWithUser,
+						shared_with_me: true,
 						include_tags: true
 					},
 					type: 'GET',
-					beforeSend: function(xhr) {
+					beforeSend: function (xhr) {
 						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
 					},
 				});
-			}
-			var promises = [];
-			promises.push(shares);
+				promises.push(sharedWith);
 
-			if (!!this._sharedWithUser) {
+				var sharedBy = $.ajax({
+					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
+					/* jshint camelcase: false */
+					data: {
+						format: 'json',
+						shared_with_me: false,
+						include_tags: true
+					},
+					type: 'GET',
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+					},
+				});
+				promises.push(sharedBy);
+
 				var remoteShares = $.ajax({
 					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'remote_shares',
 					/* jshint camelcase: false */
@@ -232,19 +289,23 @@
 						include_tags: true
 					},
 					type: 'GET',
-					beforeSend: function(xhr) {
+					beforeSend: function (xhr) {
 						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
 					},
 				});
 				promises.push(remoteShares);
-			} else {
-				//Push empty promise so callback gets called the same way
-				promises.push($.Deferred().resolve());
-			}
 
-			this._reloadCall = $.when.apply($, promises);
-			var callBack = this.reloadCallback.bind(this);
-			return this._reloadCall.then(callBack, callBack);
+				this._reloadCall = $.when.apply($, promises);
+				var callBack = this.reloadOverviewCallBack().bind(this);
+				return this._reloadCall.then(callBack, callBack, callBack);
+			}
+		},
+
+		reloadOverviewCallBack: function(sharedWith, sharedBy, remote) {
+			delete this._reloadCall;
+			this.hideMask();
+
+			alert('foo');
 		},
 
 		reloadCallback: function(shares, remoteShares) {

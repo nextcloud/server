@@ -62,17 +62,6 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 			'name' => $l->t('Shared with you'),
 		];
 	});
-	
-	\OCA\Files\App::getNavigationManager()->add(function () {
-		$l = \OC::$server->getL10N('files_sharing');
-		return [
-			'id' => 'deletedshares',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 18,
-			'name' => $l->t('Deleted shares'),
-		];
-	});
 
 	if (\OCP\Util::isSharingDisabledForUser() === false) {
 		\OCA\Files\App::getNavigationManager()->add(function () {
@@ -100,4 +89,27 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 			});
 		}
 	}
+
+	\OCA\Files\App::getNavigationManager()->add(function () {
+		$l = \OC::$server->getL10N('files_sharing');
+		return [
+			'id' => 'shareoverview',
+			'appname' => 'files_sharing',
+			'script' => 'list.php',
+			'order' => 18,
+			'name' => $l->t('Share overview'),
+		];
+	});
+
+
+	\OCA\Files\App::getNavigationManager()->add(function () {
+		$l = \OC::$server->getL10N('files_sharing');
+		return [
+			'id' => 'deletedshares',
+			'appname' => 'files_sharing',
+			'script' => 'list.php',
+			'order' => 19,
+			'name' => $l->t('Deleted shares'),
+		];
+	});
 }
