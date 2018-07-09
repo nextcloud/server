@@ -28,7 +28,7 @@
     "vue-select": "^2.4.0"
   },
   "devDependencies": {
-    "css-loader": "^0.28.11",
+    "css-loader": "^1.0.0",
     "file-loader": "^1.1.11",
     "vue-loader": "^15.2.4",
     "vue-template-compiler": "^2.5.16",
