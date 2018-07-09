@@ -414,9 +414,13 @@ class Encryption extends Wrapper {
 					|| $mode === 'wb'
 					|| $mode === 'wb+'
 				) {
-					// don't overwrite encrypted files if encryption is not enabled
+					// if we update a encrypted file with a un-encrypted one we change the db flag
 					if ($targetIsEncrypted && $encryptionEnabled === false) {
-						throw new GenericEncryptionException('Tried to access encrypted file but encryption is not enabled');
+						$cache = $this->storage->getCache();
+						if ($cache) {
+							$entry = $cache->get($path);
+							$cache->update($entry->getId(), ['encrypted' => 0]);
+						}
 					}
 					if ($encryptionEnabled) {
 						// if $encryptionModuleId is empty, the default module will be used
