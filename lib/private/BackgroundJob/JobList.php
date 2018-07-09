@@ -180,6 +180,7 @@ class JobList implements IJobList {
 	 * get the next job in the list
 	 *
 	 * @return IJob|null
+	 * @suppress SqlInjectionChecker
 	 */
 	public function getNext() {
 		$query = $this->connection->getQueryBuilder();

@@ -53,6 +53,9 @@ class RepairPendingCronJobs implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '14.0.0.9', '<');
 	}
 
+	/**
+	 * @suppress SqlInjectionChecker
+	 */
 	private function repair() {
 		$reset = $this->connection->getQueryBuilder();
 		$reset->update('jobs')
