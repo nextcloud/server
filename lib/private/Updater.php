@@ -111,10 +111,14 @@ class Updater extends BasicEmitter {
 			$this->emit('\OC\Updater', 'maintenanceEnabled');
 		}
 
-		$this->waitForCronToFinish();
-
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
+
+		// see https://github.com/nextcloud/server/issues/9992 for potential problem
+		if (version_compare($installedVersion, '14.0.0.9', '>=')) {
+			$this->waitForCronToFinish();
+		}
+
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 
 		$success = true;
