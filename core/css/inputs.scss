@@ -242,7 +242,7 @@ input {
 			cursor: pointer;
 			&:disabled {
 				cursor: default;
-				background-image: url('../img/actions/confirm-fade.svg?v=2') !important;
+				@include icon-color('confirm-fade', 'actions', $color-black, 2, true);
 			}
 		}
 

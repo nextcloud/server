@@ -26,11 +26,12 @@
  * @param string $icon the icon filename
  * @param string $dir the icon folder within /core/img if $core or app name
  * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
  * @param bool [$core] search icon in core
  *
  * @returns string the url to the svg api endpoint
  */
-@mixin icon-color($icon, $dir, $color, $core: false) {
+@mixin icon-color($icon, $dir, $color, $version: 1, $core: false) {
 	// remove # from color
 	// inspect cast int to string
 	$index: str-index(inspect($color), '#');
@@ -39,9 +40,9 @@
 	}
 	$varName: "--icon-#{$icon}-#{$color}";
 	@if $core {
-		#{$varName}: url('#{$webroot}/svg/core/#{$dir}/#{$icon}/#{$color}?v=1');
+		#{$varName}: url('#{$webroot}/svg/core/#{$dir}/#{$icon}/#{$color}?v=#{$version}');
 	} @else {
-		#{$varName}: url('#{$webroot}/svg/#{$dir}/#{$icon}/#{$color}?v=1');
+		#{$varName}: url('#{$webroot}/svg/#{$dir}/#{$icon}/#{$color}?v=#{$version}');
 	}
 	background-image: var(#{$varName});
 }

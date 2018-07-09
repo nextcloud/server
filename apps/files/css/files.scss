@@ -667,7 +667,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		@include icon-color('star-dark', 'actions', 'FC0', true);
+		@include icon-color('star-dark', 'actions', 'FC0', 1, true);
 	}
 }
 
