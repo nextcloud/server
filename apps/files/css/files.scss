@@ -90,7 +90,7 @@
 	@include icon-color('recent', 'files', $color-black);
 }
 .nav-icon-favorites {
-	@include icon-color('star-dark', 'files', $color-black);
+	@include icon-color('star-dark', 'files', $color-black, 2, true);
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout {
@@ -106,7 +106,7 @@
 	@include icon-color('delete', 'files', $color-black);
 }
 .nav-icon-deletedshares {
-	background-image: url('../img/unshare.svg?v=1');
+	@include icon-color('unshare', 'files', $color-black);
 }
 
 #app-navigation .nav-files a.nav-icon-files {
