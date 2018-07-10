@@ -57,6 +57,14 @@ interface IMountProviderCollection {
 	public function registerProvider(IMountProvider $provider);
 
 	/**
+	 * Add a filter for mounts
+	 *
+	 * @param callable $filter (IMountPoint $mountPoint, IUser $user) => boolean
+	 * @since 14.0.0
+	 */
+	public function registerMountFilter(callable $filter);
+
+	/**
 	 * Add a provider for home mount points
 	 *
 	 * @param \OCP\Files\Config\IHomeMountProvider $provider
