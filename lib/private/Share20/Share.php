@@ -63,6 +63,8 @@ class Share implements \OCP\Share\IShare {
 	private $expireDate;
 	/** @var string */
 	private $password;
+	/** @var bool */
+	private $sendPasswordByTalk = false;
 	/** @var string */
 	private $token;
 	/** @var int */
@@ -400,6 +402,21 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getPassword() {
 		return $this->password;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setSendPasswordByTalk(bool $sendPasswordByTalk) {
+		$this->sendPasswordByTalk = $sendPasswordByTalk;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSendPasswordByTalk(): bool {
+		return $this->sendPasswordByTalk;
 	}
 
 	/**
