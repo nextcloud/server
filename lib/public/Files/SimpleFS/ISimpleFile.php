@@ -101,11 +101,20 @@ interface ISimpleFile {
 	public function getMimeType();
 
 	/**
-	 * Open the file as stream, resulting resource can be operated as stream like the result from php's own fopen
+	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @return resource
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 14.0.0
 	 */
-	public function fopen(string $mode);
+	public function read();
+
+	/**
+	 * Open the file as stream for writing, resulting resource can be operated as stream like the result from php's own fopen
+	 *
+	 * @return resource
+	 * @throws \OCP\Files\NotPermittedException
+	 * @since 14.0.0
+	 */
+	public function write();
 }

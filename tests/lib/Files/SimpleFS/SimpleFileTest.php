@@ -124,11 +124,19 @@ class SimpleFileTest extends \Test\TestCase  {
 		$this->simpleFile->getContent();
 	}
 
-	public function testFopen() {
+	public function testRead() {
 		$this->file->expects($this->once())
 			->method('fopen')
-			->with('r+');
+			->with('r');
 
-		$this->simpleFile->fopen('r+');
+		$this->simpleFile->read();
+	}
+
+	public function testWrite() {
+		$this->file->expects($this->once())
+			->method('fopen')
+			->with('w');
+
+		$this->simpleFile->write();
 	}
 }
