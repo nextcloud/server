@@ -17,7 +17,7 @@ OC.L10N.register(
     "Share" : "Dalintis",
     "No expiration date set" : "Dalinimosi pabaigos data yra nenustatyta",
     "Shared by" : "Bendrina",
-    "Sharing" : "Išsiųsta",
+    "Sharing" : "Siuntimas",
     "File shares" : "Bendrinami duomenys",
     "Downloaded via public link" : "Atsisiųsta per viešą nuorodą",
     "Downloaded by {email}" : "Parsisiųsta į {email}",

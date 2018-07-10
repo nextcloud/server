@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (invisible) ",
     "<strong>System tags</strong> for a file have been modified" : "Las <strong>etiquetas del sistema</strong> para un archivo han sido modificadas",
     "Collaborative tags" : "Etiquetas colaborativas",
-    "Create and edit collaborative tags. These tags affect all users." : "Crear y editar etiquetas colaborativas. Estas etiquetas afectan a todos los usuarios. ",
     "Select tag …" : "Seleccionar etiqueta ...",
     "Name" : "Nombre",
-    "Delete" : "Borrar",
     "Public" : "Público",
     "Restricted" : "Restringido",
     "Invisible" : "Invisible",
+    "Delete" : "Borrar",
     "Reset" : "Restaurar",
     "No files in here" : "No hay archivos aquí",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "Modified" : "Modificado",
+    "Create and edit collaborative tags. These tags affect all users." : "Crear y editar etiquetas colaborativas. Estas etiquetas afectan a todos los usuarios. "
 },
 "nplurals=2; plural=(n != 1);");

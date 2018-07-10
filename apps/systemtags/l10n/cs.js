@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (neviditelný)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové tagy</strong> souboru byly upraveny",
     "Collaborative tags" : "Značky pro spolupráci",
-    "Create and edit collaborative tags. These tags affect all users." : "Vytvářejte a upravujte značky pro spolupráci. Tyto značky ovlivní všechny uživatele.",
     "Select tag …" : "Vyberte štítek…",
     "Name" : "Název",
-    "Delete" : "Smazat",
     "Public" : "Veřejné",
     "Restricted" : "Omezené",
     "Invisible" : "Neviditelné",
+    "Delete" : "Smazat",
     "Reset" : "Obnovit",
     "No files in here" : "Žádné soubory",
     "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
     "Size" : "Velikost",
-    "Modified" : "Upraveno"
+    "Modified" : "Upraveno",
+    "Create and edit collaborative tags. These tags affect all users." : "Vytvářejte a upravujte značky pro spolupráci. Tyto značky ovlivní všechny uživatele."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -42,17 +42,18 @@ OC.L10N.register(
     "%s (invisible)" : "%s (näkymätön)",
     "<strong>System tags</strong> for a file have been modified" : "Tiedoston <strong>järjestelmätunnisteita</strong> on muokattu",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
-    "Create and edit collaborative tags. These tags affect all users." : "Luo ja muokkaa yhteisiä tunnisteita. Nämä tunnisteet vaikuttavat kaikkiin käyttäjiin.",
     "Select tag …" : "Valitse tunniste ...",
+    "Create a new tag" : "Luo uusi tunniste",
     "Name" : "Nimi",
-    "Delete" : "Poista",
     "Public" : "Julkinen",
     "Restricted" : "Rajoitettu",
     "Invisible" : "Näkymätön",
+    "Delete" : "Poista",
     "Reset" : "Palauta",
     "No files in here" : "Täällä ei ole tiedostoja",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Size" : "Koko",
-    "Modified" : "Muokattu"
+    "Modified" : "Muokattu",
+    "Create and edit collaborative tags. These tags affect all users." : "Luo ja muokkaa yhteisiä tunnisteita. Nämä tunnisteet vaikuttavat kaikkiin käyttäjiin."
 },
 "nplurals=2; plural=(n != 1);");

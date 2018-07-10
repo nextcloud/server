@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (ósýnilegt)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Kerfismerkjum</strong> á skrá hefur verið breytt",
     "Collaborative tags" : "Samstarfsmerkingar",
-    "Create and edit collaborative tags. These tags affect all users." : "Búðu til og breyttu merkjum fyrir samstarfsupplýsingar. Þessi merki hafa áhrif á alla notendur.",
     "Select tag …" : "Veldu merki ...",
     "Name" : "Heiti",
-    "Delete" : "Eyða",
     "Public" : "Opinbert",
     "Restricted" : "Takmarkað",
     "Invisible" : "Ósýnilegt",
+    "Delete" : "Eyða",
     "Reset" : "Endurstilla",
     "No files in here" : "Engar skrár hér",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Size" : "Stærð",
-    "Modified" : "Breytt"
+    "Modified" : "Breytt",
+    "Create and edit collaborative tags. These tags affect all users." : "Búðu til og breyttu merkjum fyrir samstarfsupplýsingar. Þessi merki hafa áhrif á alla notendur."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

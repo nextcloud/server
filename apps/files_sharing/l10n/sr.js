@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Shared with you" : "Дељено са вама",
+    "Deleted shares" : "Обрисана дељења",
     "Shared with others" : "Дељено са осталима",
     "Shared by link" : "Дељено путем везе",
     "Nothing shared with you yet" : "Још увек се ништа не дели са Вама",
@@ -10,6 +11,10 @@ OC.L10N.register(
     "Files and folders you share will show up here" : "Фајлови и фасцикле које делите појавиће се овде",
     "No shared links" : "Нема веза за дељење",
     "Files and folders you share by link will show up here" : "Фајлови и фасцикле које делите путем везе појавиће се овде",
+    "No deleted shares" : "Нема обрисаних дељења",
+    "Shares you deleted will show up here" : "Дељења која обришете ће се појавити овде",
+    "Restore share" : "Поврати дељење",
+    "Something happened. Unable to restore the share." : "Нешто чудно се десило. Дељење не може да се поврати.",
     "You can upload into this folder" : "Можете да отпремате у ову фасциклу",
     "No compatible server found at {remote}" : "Нема компатибилног сервера на {remote}",
     "Invalid server URL" : "Неисправна адреса сервера",

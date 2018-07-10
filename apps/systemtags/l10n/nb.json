@@ -40,17 +40,17 @@
     "%s (invisible)" : "%s (usynlig)",
     "<strong>System tags</strong> for a file have been modified" : "Endringer av en fils <strong>System-merkelapper</strong>",
     "Collaborative tags" : "Samarbeidsmerkelapper",
-    "Create and edit collaborative tags. These tags affect all users." : "Opprett og rediger samarbeidsmerkelapper. Disse har innvirkning på alle brukere.",
     "Select tag …" : "Velg merkelapp…",
     "Name" : "Navn",
-    "Delete" : "Slett",
     "Public" : "Offentlig",
     "Restricted" : "Begrenset",
     "Invisible" : "Usynlig",
+    "Delete" : "Slett",
     "Reset" : "Tilbakestill",
     "No files in here" : "Ingen filer her",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Size" : "Størrelse",
-    "Modified" : "Endret"
+    "Modified" : "Endret",
+    "Create and edit collaborative tags. These tags affect all users." : "Opprett og rediger samarbeidsmerkelapper. Disse har innvirkning på alle brukere."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

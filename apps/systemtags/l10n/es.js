@@ -44,17 +44,19 @@ OC.L10N.register(
     "Collaborative tags" : "Etiquetas colaborativas",
     "Collaborative tagging functionality which shares tags among users." : "Funcionalidad de etiquetado colaborativo que comparte las etiquetas entre usuarios.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidad de etiquetado colaborativo que comparte las etiquetas entre usuarios. Adecuado para equipos.\n\n(Si eres un proveedor con una instalación en multitenencia), se aconseja desactivar esta app pues las etiquetas se comparten).",
-    "Create and edit collaborative tags. These tags affect all users." : "Crea y edita etiquetas colaborativas. Estas etiquetas afectan a todos los usuarios.",
+    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Las etiquetas colaborativas están disponibles para todos los usuarios. Las etiquetas restringidas son visibles para los usuarios, pero no pueden ser asignadas por ellos. Las etiquetas invisibles son para uso interno, pues los usuarios no pueden verlas ni asignarlas.",
     "Select tag …" : "Selecciona etiqueta...",
+    "Create a new tag" : "Crear una etiqueta nueva",
     "Name" : "Nombre",
-    "Delete" : "Borrar",
     "Public" : "Público",
     "Restricted" : "Restringido",
     "Invisible" : "Invisible",
+    "Delete" : "Borrar",
     "Reset" : "Restablecer",
     "No files in here" : "Aquí no hay archivos",
     "No entries found in this folder" : "No hay entradas en esta carpeta",
     "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "Modified" : "Modificado",
+    "Create and edit collaborative tags. These tags affect all users." : "Crea y edita etiquetas colaborativas. Estas etiquetas afectan a todos los usuarios."
 },
 "nplurals=2; plural=(n != 1);");
