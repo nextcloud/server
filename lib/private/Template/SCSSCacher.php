@@ -257,7 +257,7 @@ class SCSSCacher {
 		// Compile
 		try {
 			$compiledScss = $scss->compile(
-				'$webroot: \'' . \OC::$WEBROOT . '\';' .
+				'$webroot: \'' . $this->getRoutePrefix() . '\';' .
 				'@import "variables.scss";' .
 				'@import "functions.scss";' .
 				$this->getInjectedVariables() .
@@ -371,9 +371,16 @@ class SCSSCacher {
 	 * @return string
 	 */
 	private function prependBaseurlPrefix(string $cssFile): string {
-		$frontendController = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
+		return substr(md5($this->urlGenerator->getBaseUrl() . $this->getRoutePrefix()), 0, 4) . '-' . $cssFile;
+	}
 
-		return substr(md5($this->urlGenerator->getBaseUrl() . $frontendController), 0, 4) . '-' . $cssFile;
+	private function getRoutePrefix() {
+		$frontControllerActive = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
+		$prefix = \OC::$WEBROOT . '/index.php';
+		if ($frontControllerActive) {
+			$prefix = \OC::$WEBROOT;
+		}
+		return $prefix;
 	}
 
 	/**
