@@ -296,6 +296,7 @@ class ShareByMailProviderTest extends TestCase {
 		$permissions = 1;
 		$token = 'token';
 		$password = 'password';
+		$sendPasswordByTalk = true;
 
 
 		$instance = $this->getInstance();
@@ -310,7 +311,8 @@ class ShareByMailProviderTest extends TestCase {
 				$uidOwner,
 				$permissions,
 				$token,
-				$password
+				$password,
+				$sendPasswordByTalk
 			]
 		);
 
@@ -330,6 +332,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($permissions, (int)$result[0]['permissions']);
 		$this->assertSame($token, $result[0]['token']);
 		$this->assertSame($password, $result[0]['password']);
+		$this->assertSame($sendPasswordByTalk, (bool)$result[0]['password_by_talk']);
 
 	}
 
