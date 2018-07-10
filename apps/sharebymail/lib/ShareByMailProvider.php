@@ -454,7 +454,7 @@ class ShareByMailProvider implements IShareProvider {
 		$initiator = $share->getSharedBy();
 		$shareWith = $share->getSharedWith();
 
-		if ($password === '' || $this->settingsManager->sendPasswordByMail() === false) {
+		if ($password === '' || $this->settingsManager->sendPasswordByMail() === false || $share->getSendPasswordByTalk()) {
 			return false;
 		}
 
@@ -707,7 +707,8 @@ class ShareByMailProvider implements IShareProvider {
 		// a real password was given
 		$validPassword = $plainTextPassword !== null && $plainTextPassword !== '';
 
-		if($validPassword && $originalShare->getPassword() !== $share->getPassword()) {
+		if($validPassword && ($originalShare->getPassword() !== $share->getPassword() ||
+								($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()))) {
 			$this->sendPassword($share, $plainTextPassword);
 		}
 		/*

@@ -827,9 +827,19 @@ class Manager implements IManager {
 				$expirationDateUpdated = true;
 			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			// The new password is not set again if it is the same as the old
+			// one, unless when switching from sending by Talk to sending by
+			// mail.
 			$plainTextPassword = $share->getPassword();
-			if (!$this->updateSharePasswordIfNeeded($share, $originalShare)) {
+			if (!empty($plainTextPassword) && !$this->updateSharePasswordIfNeeded($share, $originalShare) &&
+					!($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk())) {
 				$plainTextPassword = null;
+			}
+			if (empty($plainTextPassword) && !$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
+				// If the same password was already sent by mail the recipient
+				// would already have access to the share without having to call
+				// the sharer to verify her identity
+				throw new \InvalidArgumentException('Can’t enable sending the password by Talk without setting a new password');
 			}
 		}
 
