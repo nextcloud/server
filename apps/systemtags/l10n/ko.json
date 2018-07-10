@@ -40,17 +40,17 @@
     "%s (invisible)" : "%s(숨겨짐)",
     "<strong>System tags</strong> for a file have been modified" : "파일의 <strong>시스템 태그</strong>가 수정됨",
     "Collaborative tags" : "협업 태그",
-    "Create and edit collaborative tags. These tags affect all users." : "협업 태그를 만들고 수정합니다. 이 태그는 모든 사용자에게 영향을 줍니다.",
     "Select tag …" : "태그 선택 …",
     "Name" : "이름",
-    "Delete" : "삭제",
     "Public" : "공개",
     "Restricted" : "제한됨",
     "Invisible" : "숨겨짐",
+    "Delete" : "삭제",
     "Reset" : "재설정",
     "No files in here" : "여기에 파일 없음",
     "No entries found in this folder" : "이 폴더에 항목 없음",
     "Size" : "크기",
-    "Modified" : "수정됨"
+    "Modified" : "수정됨",
+    "Create and edit collaborative tags. These tags affect all users." : "협업 태그를 만들고 수정합니다. 이 태그는 모든 사용자에게 영향을 줍니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

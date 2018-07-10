@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (invisible)",
     "<strong>System tags</strong> for a file have been modified" : "Les <strong>Marques de Sistema</strong> d'un fitxer s'han modificat",
     "Collaborative tags" : "Etiquetes col·laboratives",
-    "Create and edit collaborative tags. These tags affect all users." : "Creeu i editeu etiquetes col·laboratives. Aquestes etiquetes afecten a tots els usuaris.",
     "Select tag …" : "Selecciona etiqueta...",
     "Name" : "Nom",
-    "Delete" : "Esborra",
     "Public" : "Públic",
     "Restricted" : "Restringit",
     "Invisible" : "Invisible",
+    "Delete" : "Esborra",
     "Reset" : "Canvia",
     "No files in here" : "No hi ha arxius",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
     "Size" : "Mida",
-    "Modified" : "Modificat"
+    "Modified" : "Modificat",
+    "Create and edit collaborative tags. These tags affect all users." : "Creeu i editeu etiquetes col·laboratives. Aquestes etiquetes afecten a tots els usuaris."
 },
 "nplurals=2; plural=(n != 1);");

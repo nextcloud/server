@@ -152,6 +152,7 @@ OC.L10N.register(
     "Shared with you" : "Дељени са вама",
     "Shared with others" : "Дељени са осталима",
     "Shared by link" : "Дељени путем везе",
+    "Deleted shares" : "Обрисана дељења",
     "Tags" : "Ознаке",
     "Deleted files" : "Обрисани фајлови",
     "Text file" : "Tекстуални фајл",

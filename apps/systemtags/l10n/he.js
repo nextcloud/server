@@ -44,17 +44,17 @@ OC.L10N.register(
     "Collaborative tags" : "תגיות שיתופיות",
     "Collaborative tagging functionality which shares tags among users." : "תכונת התיוג השיתופי שמשתפת תגיות בין משתמשים.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "תכונת התיוג השיתופי שמשתפת תגיות בין משתמשים. מעולה לעבודת צוות.\n\t(אם בבעלותך התקנה עם מגוון מערכות נפרדות, מוטב להשבית את היישומון הזה כיוון שהתגיות משותפות.)",
-    "Create and edit collaborative tags. These tags affect all users." : "יצירה ועריכה של תגיות שיתופיות. תגיות אלו משפיעות על כל המשתמשים.",
     "Select tag …" : "מחיקת תגית…",
     "Name" : "שם",
-    "Delete" : "מחיקה",
     "Public" : "ציבורית",
     "Restricted" : "מוגבלת",
     "Invisible" : "נסתרת",
+    "Delete" : "מחיקה",
     "Reset" : "איפוס",
     "No files in here" : "אין כאן קבצים",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Size" : "גודל",
-    "Modified" : "זמן שינוי"
+    "Modified" : "זמן שינוי",
+    "Create and edit collaborative tags. These tags affect all users." : "יצירה ועריכה של תגיות שיתופיות. תגיות אלו משפיעות על כל המשתמשים."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

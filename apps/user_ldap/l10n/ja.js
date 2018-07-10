@@ -169,7 +169,7 @@ OC.L10N.register(
     "Quota Field" : "クォータ属性",
     "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "ユーザーのデフォルトのクォータを空のままにしてください。 または、LDAP/ADの属性を指定してください。",
     "Quota Default" : "クォータのデフォルト",
-    "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "クォータフィールドでクォータが設定されていないLDAPユーザーのデフォルトクォータを上書きします。",
+    "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "クォータフィールドでクォータが設定されていないLDAPユーザーのデフォルトのクォータを上書きします。",
     "Email Field" : "メール属性",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "LDAP属性からユーザーのメールを設定します。 デフォルト動作では空のままにします。",
     "User Home Folder Naming Rule" : "ユーザーのホームフォルダー命名規則",

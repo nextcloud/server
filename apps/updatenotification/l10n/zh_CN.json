@@ -1,7 +1,14 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
+    "Update notifications" : "升级通知",
+    "Channel updated" : "更新通道",
+    "The update server could not be reached since %d days to check for new updates." : "更新服务器自 1%d 天前起无法访问以检查更新。",
+    "Please check the Nextcloud and server log files for errors." : "请检查 nextcloud 和服务器的日志中的错误。",
+    "Update to %1$s is available." : " 可以更新到 %1$s 。",
+    "Update for %1$s to version %2$s is available." : "可以从 %1$s 版本更新到 %2$s 版本。",
+    "Update for {app} to version %s is available." : "可以将您的 {app} 更新到版本 %s 。",
     "Open updater" : "打开更新器",
-    "Your version is up to date." : "您的版本已是最新。",
+    "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。",
     "A non-default update server is in use to be checked for updates:" : "检查更新使用了一个非默认的服务器：",
     "Update channel:" : "更新通道：",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "您可以随时更新到新版本 / 实验通道。但你永远不能降级到更稳定的通道。",
@@ -11,17 +18,10 @@
     "The selected update channel does not support updates of the server." : "选中的更新通道不支持服务器升级。",
     "A new version is available: <strong>{newVersionString}</strong>" : "有可用的新版本： <strong>{newVersionString}</strong>",
     "Could not start updater, please try the manual update" : "无法启动自动更新，请尝试手动更新",
-    "Update notifications" : "升级通知",
-    "Channel updated" : "更新通道",
-    "The update server could not be reached since %d days to check for new updates." : "更新服务器自 1%d 天前起无法访问以检查更新。",
-    "Please check the Nextcloud and server log files for errors." : "请检查 nextcloud 和服务器的日志中的错误。",
-    "Update to %1$s is available." : " 可以更新到 %1$s 。",
-    "Update for %1$s to version %2$s is available." : "可以从 %1$s 版本更新到 %2$s 版本。",
-    "Update for {app} to version %s is available." : "可以将您的 {app} 更新到版本 %s 。",
     "A new version is available: %s" : "有可用的新版本： %s",
     "Download now" : "开始下载",
+    "Your version is up to date." : "您的版本已是最新。",
     "Checked on %s" : "检查于 %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "被选中的升级通道将会通知未更新的服务器",
-    "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。"
+    "The selected update channel makes dedicated notifications for the server obsolete." : "被选中的升级通道将会通知未更新的服务器"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -40,17 +40,17 @@
     "%s (invisible)" : "%s (osynlig)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systemtaggar</strong> för en fil har blivit ändrade",
     "Collaborative tags" : "Samverkande taggar",
-    "Create and edit collaborative tags. These tags affect all users." : "Skapa och redigera samverkanstaggar. Dessa taggar påverkar alla användare.",
     "Select tag …" : "Välj tagg ...",
     "Name" : "Namn",
-    "Delete" : "Radera",
     "Public" : "Offentlig",
     "Restricted" : "Begränsad",
     "Invisible" : "Osynlig",
+    "Delete" : "Radera",
     "Reset" : "Återställ",
     "No files in here" : "Inga filer här inne",
     "No entries found in this folder" : "Ingenting hittades i denna mapp",
     "Size" : "Storlek",
-    "Modified" : "Modifierad"
+    "Modified" : "Modifierad",
+    "Create and edit collaborative tags. These tags affect all users." : "Skapa och redigera samverkanstaggar. Dessa taggar påverkar alla användare."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

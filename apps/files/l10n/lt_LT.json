@@ -30,7 +30,7 @@
     "Files" : "Duomenys",
     "Details" : "Informacija",
     "Select" : "Pasirinkti",
-    "Pending" : "Laukiantis",
+    "Pending" : "Analizuojama",
     "Unable to determine date" : "Nepavyksta nustatyti datos",
     "This operation is forbidden" : "Ši operacija yra uždrausta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Katalogas neprieinamas, prašome peržiūrėti žurnalo įrašus arba susisiekti su administratoriumi",
@@ -67,7 +67,7 @@
     "_matches '{filter}'_::_match '{filter}'_" : ["atitinka '{filter}'","atitinka '{filter}'","atitinka '{filter}'","atitinka '{filter}'"],
     "View in folder" : "Rodyti aplanke",
     "Copied!" : "Nuoroda nukopijuota",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Nukopijuoti nuorodą",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Nuoroda",
     "Path" : "Kelias",
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų","%n baitų"],
     "Favorited" : "Svarbus",
@@ -136,6 +136,7 @@
     "Tags" : "Žymės",
     "Deleted files" : "Ištrinti",
     "Text file" : "Tekstinis failas",
-    "New text file.txt" : "Naujas tekstinis failas.txt"
+    "New text file.txt" : "Naujas tekstinis failas.txt",
+    "Move" : "Perkelti"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

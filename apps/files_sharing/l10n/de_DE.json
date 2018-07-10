@@ -1,5 +1,6 @@
 { "translations": {
     "Shared with you" : "Mit Ihnen geteilt",
+    "Deleted shares" : "Gelöschte Freigaben",
     "Shared with others" : "Von Ihnen geteilt",
     "Shared by link" : "Geteilt über einen Link",
     "Nothing shared with you yet" : "Bis jetzt wurde nichts mit Ihnen geteilt",
@@ -8,6 +9,10 @@
     "Files and folders you share will show up here" : "Dateien und Ordner, die Sie teilen, werden hier erscheinen",
     "No shared links" : "Keine geteilten Links",
     "Files and folders you share by link will show up here" : "Per Link freigegebene Dateien und Ordner werden hier erscheinen",
+    "No deleted shares" : "Keine gelöschten Freigaben",
+    "Shares you deleted will show up here" : "Von Ihnen gelöschte Freigaben werden hier erscheinen",
+    "Restore share" : "Freigabe wiederherstellen",
+    "Something happened. Unable to restore the share." : "Die Freigabe konnte nicht wiederhergestellt werden.",
     "You can upload into this folder" : "Sie können in diesen Ordner hochladen",
     "No compatible server found at {remote}" : "Keinen kompatiblen Server unter {remote} gefunden",
     "Invalid server URL" : "Falsche Server-URL",

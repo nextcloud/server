@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (neredzams)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistēmas atzīmes</strong> failam tikušas mainītas",
     "Collaborative tags" : "Sadarbības atzīmes",
-    "Create and edit collaborative tags. These tags affect all users." : "Izveido un rediģē sadarbības atzīmes. Šīs atzīmes ietekmē visus lietotājus.",
     "Select tag …" : "Izvēlies atzīmi...",
     "Name" : "Nosaukums",
-    "Delete" : "Dzēst",
     "Public" : "Publisks",
     "Restricted" : "Ierobežots",
     "Invisible" : "Neredzams",
+    "Delete" : "Dzēst",
     "Reset" : "Atiestatīt",
     "No files in here" : "Šeit nav datņu",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Size" : "Izmērs",
-    "Modified" : "Mainīts"
+    "Modified" : "Mainīts",
+    "Create and edit collaborative tags. These tags affect all users." : "Izveido un rediģē sadarbības atzīmes. Šīs atzīmes ietekmē visus lietotājus."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -33,17 +33,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s （隱藏）",
     "<strong>System tags</strong> for a file have been modified" : "一個檔案的<strong>系統標籤</strong>已經被修改",
     "Collaborative tags" : "協作標籤",
-    "Create and edit collaborative tags. These tags affect all users." : "新增和編輯協作標籤，這些標籤將影響所有使用者",
     "Select tag …" : "選擇標籤…",
     "Name" : "名稱",
-    "Delete" : "移除",
     "Public" : "公開",
     "Restricted" : "受限",
     "Invisible" : "隱藏",
+    "Delete" : "移除",
     "Reset" : "重設",
     "No files in here" : "沒有任何檔案",
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
     "Size" : "大小",
-    "Modified" : "修改時間"
+    "Modified" : "修改時間",
+    "Create and edit collaborative tags. These tags affect all users." : "新增和編輯協作標籤，這些標籤將影響所有使用者"
 },
 "nplurals=1; plural=0;");
