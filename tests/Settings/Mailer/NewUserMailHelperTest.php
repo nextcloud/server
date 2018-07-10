@@ -145,7 +145,8 @@ class NewUserMailHelperTest extends TestCase {
 		$this->urlGenerator
 			->expects($this->at(0))
 			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', ['userId' => 'john', 'token' => 'MySuperLongSecureRandomToken'])
+			->with('core.lost.resetform', ['userId' => 'john', 'token' => 'MySuperLongSecureRandomToken', 'register' => true])
+
 			->willReturn('https://example.com/resetPassword/MySuperLongSecureRandomToken');
 		$user
 			->expects($this->at(4))

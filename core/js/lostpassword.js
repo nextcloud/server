@@ -5,7 +5,7 @@ OC.Lostpassword = {
 	sendSuccessMsg : t('core', 'The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator.'),
 
 	encryptedMsg : t('core', "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?")
-			+ ('<br /><input type="checkbox" id="encrypted-continue" value="Yes" />')
+			+ ('<br /><input type="checkbox" id="encrypted-continue" value="Yes" class="checkbox checkbox--white" />')
 			+ '<label for="encrypted-continue">'
 			+ t('core', 'I know what I\'m doing')
 			+ '</label><br />',
@@ -141,18 +141,24 @@ OC.Lostpassword = {
 		return $('#lost-password');
 	},
 
-	resetPassword : function(event){
-		event.preventDefault();
-		if ($('#password').val()){
-			$.post(
-					$('#password').parents('form').attr('action'),
-					{
-						password : $('#password').val(),
-						proceed: $('#encrypted-continue').is(':checked') ? 'true' : 'false'
-					},
-					OC.Lostpassword.resetDone
-			);
+	resetPassword : function(event) {
+		// trigger html5 validation popup on required field but dont do anything else
+		if (!$('#password').val()) {
+			return true;
+		} else {
+			// otherwise preventDefault to not submit form twice (causing csrf issue)
+			event.preventDefault();
 		}
+
+		$.post(
+			$('#password').parents('form').attr('action'),
+			{
+				password : $('#password').val(),
+				proceed: $('#encrypted-continue').is(':checked') ? 'true' : 'false'
+			},
+			OC.Lostpassword.resetDone
+		);
+
 		if($('#encrypted-continue').is(':checked')) {
 			$('#reset-password #submit').hide();
 			$('#reset-password #float-spinner').removeClass('hidden');

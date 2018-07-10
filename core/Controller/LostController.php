@@ -131,10 +131,11 @@ class LostController extends Controller {
 	 *
 	 * @param string $token
 	 * @param string $userId
+	 * @param boolean $register
 	 * @return TemplateResponse
 	 */
-	public function resetform($token, $userId) {
-		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
+	public function resetform($token, $userId, $register = false) {
+		if ($register === false && $this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new TemplateResponse('core', 'error', [
 					'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
 				],
@@ -157,7 +158,11 @@ class LostController extends Controller {
 			'core',
 			'lostpassword/resetpassword',
 			array(
-				'link' => $this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', array('userId' => $userId, 'token' => $token)),
+				'link' => $this->urlGenerator->linkToRouteAbsolute(
+					'core.lost.setPassword', 
+					array('userId' => $userId, 'token' => $token, 'register' => $register)
+				),
+				'register' => $register
 			),
 			'guest'
 		);
@@ -253,14 +258,15 @@ class LostController extends Controller {
 	 * @param string $userId
 	 * @param string $password
 	 * @param boolean $proceed
+	 * @param boolean $register
 	 * @return array
 	 */
-	public function setPassword($token, $userId, $password, $proceed) {
-		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
+	public function setPassword($token, $userId, $password, $proceed, $register = false) {
+		if ($register === false&& $this->config->getSystemValue('lost_password_link', '') !== '') {
 			return $this->error($this->l10n->t('Password reset is disabled'));
 		}
 
-		if ($this->encryptionManager->isEnabled() && !$proceed) {
+		if ($register === false && $this->encryptionManager->isEnabled() && !$proceed) {
 			$encryptionModules = $this->encryptionManager->getEncryptionModules();
 			foreach ($encryptionModules as $module) {
 				/** @var IEncryptionModule $instance */

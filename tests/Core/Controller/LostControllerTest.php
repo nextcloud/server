@@ -241,7 +241,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.setPassword', array('userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword'))
+			->with('core.lost.setPassword', array('userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword', 'register' => false))
 			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
 
 		$response = $this->lostController->resetform('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser');
@@ -249,6 +249,44 @@ class LostControllerTest extends \Test\TestCase {
 			'lostpassword/resetpassword',
 			array(
 				'link' => 'https://example.tld/index.php/lostpassword/',
+				'register' => false
+			),
+			'guest');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testRegisterResetFormValidToken() {
+		$this->existingUser->method('getLastLogin')
+			->willReturn(12344);
+		$this->userManager->method('get')
+			->with('ValidTokenUser')
+			->willReturn($this->existingUser);
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->willReturn(12348);
+
+		$this->config->method('getUserValue')
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
+			->willReturn('encryptedToken');
+
+		$this->crypto->method('decrypt')
+			->with(
+				$this->equalTo('encryptedToken'),
+				$this->equalTo('test@example.comSECRET')
+			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.lost.setPassword', array('userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword', 'register' => true))
+			->will($this->returnValue('https://example.tld/index.php/lostpassword/'));
+
+		$response = $this->lostController->resetform('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', true);
+		$expectedResponse = new TemplateResponse('core',
+			'lostpassword/resetpassword',
+			array(
+				'link' => 'https://example.tld/index.php/lostpassword/',
+				'register' => true
 			),
 			'guest');
 		$this->assertEquals($expectedResponse, $response);

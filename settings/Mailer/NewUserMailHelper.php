@@ -114,7 +114,7 @@ class NewUserMailHelper {
 			$mailAddress = (null !== $user->getEMailAddress()) ? $user->getEMailAddress() : '';
 			$encryptedValue = $this->crypto->encrypt($tokenValue, $mailAddress . $this->config->getSystemValue('secret'));
 			$this->config->setUserValue($user->getUID(), 'core', 'lostpassword', $encryptedValue);
-			$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', ['userId' => $user->getUID(), 'token' => $token]);
+			$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', ['userId' => $user->getUID(), 'token' => $token, 'register' => true]);
 		} else {
 			$link = $this->urlGenerator->getAbsoluteURL('/');
 		}

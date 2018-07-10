@@ -114,7 +114,7 @@ class Hooks {
 					->setSubject(Provider::PASSWORD_CHANGED_SELF);
 			}
 		} else {
-			$text = $this->l->t('Your password on %s was reset by an administrator.', [$instanceUrl]);
+			$text = $this->l->t('Your password on %s was reset.', [$instanceUrl]);
 			$event->setSubject(Provider::PASSWORD_RESET);
 		}
 
