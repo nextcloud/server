@@ -40,17 +40,17 @@
     "%s (invisible)" : "%s (nähtamatu)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Süsteemi sildid</strong> sellele failile on muudetud",
     "Collaborative tags" : "Koostöö sildid",
-    "Create and edit collaborative tags. These tags affect all users." : "Loo ja muuda koostöö silte. Need sildid kohalduvad kõigile kasutajatele.",
     "Select tag …" : "Vali silt ...",
     "Name" : "Nimi",
-    "Delete" : "Kustuta",
     "Public" : "Avalik",
     "Restricted" : "Piiratud",
     "Invisible" : "Nähtamatu",
+    "Delete" : "Kustuta",
     "Reset" : "Lähtesta",
     "No files in here" : "Siin ei ole faile",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
     "Size" : "Suurus",
-    "Modified" : "Muudetud"
+    "Modified" : "Muudetud",
+    "Create and edit collaborative tags. These tags affect all users." : "Loo ja muuda koostöö silte. Need sildid kohalduvad kõigile kasutajatele."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

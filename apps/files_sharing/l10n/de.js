@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Shared with you" : "Mit Dir geteilt",
+    "Deleted shares" : "Gelöschte Freigaben",
     "Shared with others" : "Von Dir geteilt",
     "Shared by link" : "Geteilt über einen Link",
     "Nothing shared with you yet" : "Bis jetzt wurde nichts mit dir geteilt",
@@ -10,6 +11,10 @@ OC.L10N.register(
     "Files and folders you share will show up here" : "Von Dir geteilte Dateien und Ordner werden hier erscheinen",
     "No shared links" : "Keine geteilten Links",
     "Files and folders you share by link will show up here" : "Per Link freigegebene Dateien und Ordner werden hier erscheinen",
+    "No deleted shares" : "Keine gelöschten Freigaben",
+    "Shares you deleted will show up here" : "Von dir gelöschte Freigaben werden hier erscheinen",
+    "Restore share" : "Freigabe wiederherstellen",
+    "Something happened. Unable to restore the share." : "Die Freigabe konnte nicht wiederhergestellt werden.",
     "You can upload into this folder" : "Du kannst in diesen Ordner hochladen",
     "No compatible server found at {remote}" : "Keinen kompatiblen Server unter {remote} gefunden",
     "Invalid server URL" : "Falsche Server-URL",

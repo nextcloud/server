@@ -42,17 +42,19 @@
     "Collaborative tags" : "Метки совместной работы",
     "Collaborative tagging functionality which shares tags among users." : "Совместная функция тегов, которая разделяет теги среди пользователей.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Совместная функция тегов, которая разделяет теги среди пользователей. Отлично подходит для команд.\n(Если вы являетесь поставщиком с многоуровневой установкой, рекомендуется отключить это приложение по мере совместного использования тегов).",
-    "Create and edit collaborative tags. These tags affect all users." : "Создание и изменение меток совместной работы. Действие таких меток распространяется на всех пользователей.",
+    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Совместные теги доступны для всех пользователей. Ограниченные теги видны пользователям, но не могут быть назначены ими. Невидимые теги предназначены для внутреннего использования, поскольку пользователи не могут их видеть или назначать.",
     "Select tag …" : "Выберите метку…",
+    "Create a new tag" : "Создать новый тег",
     "Name" : "Имя",
-    "Delete" : "Удалить",
     "Public" : "Общая",
     "Restricted" : "Ограниченная",
     "Invisible" : "Невидимая",
+    "Delete" : "Удалить",
     "Reset" : "Сбросить",
     "No files in here" : "Здесь нет файлов",
     "No entries found in this folder" : "В этой папке не найдено ни одной записи",
     "Size" : "Размер",
-    "Modified" : "Изменён"
+    "Modified" : "Изменён",
+    "Create and edit collaborative tags. These tags affect all users." : "Создание и изменение меток совместной работы. Действие таких меток распространяется на всех пользователей."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

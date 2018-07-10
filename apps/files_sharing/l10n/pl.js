@@ -105,7 +105,7 @@ OC.L10N.register(
     "Download %s" : "Pobierz %s",
     "Upload files to %s" : "Prześlij pliki do %s",
     "Select or drop files" : "Wybierz lub upuść pliki",
-    "Uploading files…" : "Wysyłanie plików...",
+    "Uploading files…" : "Wysyłanie plików…",
     "Uploaded files:" : "Wysłane pliki:",
     "{actor} removed you from {file}" : "{actor} usunął cie z {file}",
     "%s is publicly shared" : "%s udostępnione/ych publicznie ",

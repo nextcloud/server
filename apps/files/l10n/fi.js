@@ -22,6 +22,7 @@ OC.L10N.register(
     "Uploading …" : "Lähetetään…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize}/{totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "Kyseisen kohteen lähettäminen ei ole tuettu",
     "Target folder does not exist any more" : "Kohdekansiota ei ole enää olemassa",
     "Actions" : "Toiminnot",
     "Rename" : "Nimeä uudelleen",

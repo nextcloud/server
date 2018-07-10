@@ -152,6 +152,7 @@ OC.L10N.register(
     "Shared with you" : "Mit Ihnen geteilt",
     "Shared with others" : "Mit anderen geteilt",
     "Shared by link" : "Über einen Link geteilt",
+    "Deleted shares" : "Gelöschte Freigaben",
     "Tags" : "Schlagworte",
     "Deleted files" : "Gelöschte Dateien",
     "Text file" : "Textdatei",

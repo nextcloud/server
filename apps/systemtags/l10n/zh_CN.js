@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (不可见)",
     "<strong>System tags</strong> for a file have been modified" : "已更改的文件的<strong>系统标签</strong> ",
     "Collaborative tags" : "协同标签",
-    "Create and edit collaborative tags. These tags affect all users." : "创建并编辑协同标签. 这些标签影响全部用户.",
     "Select tag …" : "选择标签...",
     "Name" : "名称",
-    "Delete" : "删除",
     "Public" : "公开",
     "Restricted" : "受限",
     "Invisible" : "不可见",
+    "Delete" : "删除",
     "Reset" : "重置",
     "No files in here" : "无文件",
     "No entries found in this folder" : "此文件夹中无项目",
     "Size" : "大小",
-    "Modified" : "修改日期"
+    "Modified" : "修改日期",
+    "Create and edit collaborative tags. These tags affect all users." : "创建并编辑协同标签. 这些标签影响全部用户."
 },
 "nplurals=1; plural=0;");

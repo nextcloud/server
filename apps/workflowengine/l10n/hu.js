@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Csoport lista üres",
     "Unable to retrieve the group list" : "Csoportlista betöltése sikertelen",
     "Saved" : "Elmentve",
     "Saving failed:" : "Mentés sikertelen:",
