@@ -525,6 +525,10 @@ Raw output
 		return $this->config->getSystemValue('mail_smtpmode', 'php') === 'php';
 	}
 
+	protected function hasOpcacheLoaded(): bool {
+		return extension_loaded('opcache');
+	}
+
 	/**
 	 * @return DataResponse
 	 */
@@ -553,7 +557,7 @@ Raw output
 				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
 				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 				'isOpcacheProperlySetup' => $this->isOpcacheProperlySetup(),
-				'hasOpcacheLoaded' => extension_loaded("opcache"),
+				'hasOpcacheLoaded' => $this->hasOpcacheLoaded(),
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
