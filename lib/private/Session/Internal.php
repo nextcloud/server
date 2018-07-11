@@ -29,6 +29,10 @@
 
 namespace OC\Session;
 
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\IProvider;
+use OC\SystemConfig;
+use OCP\IConfig;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 /**
@@ -110,13 +114,40 @@ class Internal extends Session {
 	 * Wrapper around session_regenerate_id
 	 *
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 * @param bool $updateToken Wheater to update the associated auth token
 	 * @return void
 	 */
-	public function regenerateId($deleteOldSession = true) {
+	public function regenerateId($deleteOldSession = true, $updateToken = false) {
+		$oldId = null;
+
+		if ($updateToken) {
+			// Get the old id to update the token
+			try {
+				$oldId = $this->getId();
+			} catch (SessionNotAvailableException $e) {
+				// We can't update a token if there is no previous id
+				$updateToken = false;
+			}
+		}
+
 		try {
 			@session_regenerate_id($deleteOldSession);
 		} catch (\Error $e) {
 			$this->trapError($e->getCode(), $e->getMessage());
+		}
+
+		if ($updateToken) {
+			// Get the new id to update the token
+			$newId = $this->getId();
+
+			/** @var IProvider $tokenProvider */
+			$tokenProvider = \OC::$server->query(IProvider::class);
+
+			try {
+				$tokenProvider->renewSessionToken($oldId, $newId);
+			} catch (InvalidTokenException $e) {
+				// Just ignore
+			}
 		}
 	}
 
