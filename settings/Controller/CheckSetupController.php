@@ -526,7 +526,7 @@ Raw output
 	}
 
 	protected function hasOpcacheLoaded(): bool {
-		return extension_loaded('opcache');
+		return function_exists('opcache_get_status');
 	}
 
 	/**
