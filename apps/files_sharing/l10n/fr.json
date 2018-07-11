@@ -1,5 +1,6 @@
 { "translations": {
     "Shared with you" : "Partagés avec vous",
+    "Deleted shares" : "Partages supprimés",
     "Shared with others" : "Partagés avec d'autres",
     "Shared by link" : "Partagés par lien",
     "Nothing shared with you yet" : "Aucun fichier n'est partagé avec vous pour l'instant",
@@ -8,6 +9,10 @@
     "Files and folders you share will show up here" : "Les fichiers et dossiers que vous partagez apparaîtront ici",
     "No shared links" : "Aucun partage par lien",
     "Files and folders you share by link will show up here" : "Les fichiers et dossiers que vous partagez par lien apparaîtront ici",
+    "No deleted shares" : "Aucun partage supprimé",
+    "Shares you deleted will show up here" : "Les partages que vous avez supprimés apparaîtront ici",
+    "Restore share" : "Restaurer le partage",
+    "Something happened. Unable to restore the share." : "Quelque chose s'est passé. Impossible de restaurer le partage.",
     "You can upload into this folder" : "Vous pouvez téléverser dans ce dossier",
     "No compatible server found at {remote}" : "Aucun serveur compatible trouvé sur {remote}",
     "Invalid server URL" : "URL serveur invalide",

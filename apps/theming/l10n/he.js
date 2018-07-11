@@ -46,6 +46,7 @@ OC.L10N.register(
     "Upload new header logo" : "העלאת לוגו כותרת",
     "Favicon" : "סמל כותרת",
     "Upload new favicon" : "העלאת סמל כותרת חדש",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "יש להתקין את הרחבת ה־PHP של Imagemagick עם תמיכה בתמונות SVG כדי לייצר תמונות מועדפים אוטומטיות על בסיס הלוגו שהועלה והצבע.",
     "You are already using a custom theme" : "כבר החלת ערכת עיצוב בהתאמה אישית",
     "reset to default" : "איפוס לבררת מחדל",
     "Web address" : "כתובת",
