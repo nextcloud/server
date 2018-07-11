@@ -636,7 +636,7 @@ class Manager {
 
 		$query = 'SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
 		          FROM `*PREFIX*share_external` 
-				  WHERE `user` = ? OR `user` IN (?)';
+				  WHERE (`user` = ? OR `user` IN (?))';
 		$parameters = [$this->uid, implode(',',$userGroups)];
 		if (!is_null($accepted)) {
 			$query .= ' AND `accepted` = ?';
