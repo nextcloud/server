@@ -68,7 +68,7 @@ function NavigationListElements($item, $l, $pinned) {
 	?>
 	<li <?php if (isset($item['sublist'])){ ?>id="button-collapse-parent-<?php p($item['id']); ?>"<?php } ?>
 		data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?> "
-		class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned === 1 ? 'first-pinned' : '') ?> <?php if ($item['defaultExpandedState'] === 'true') { ?> open<?php } ?>"
+		class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned === 1 ? 'first-pinned' : '') ?> <?php if ($item['defaultExpandedState']) { ?> open<?php } ?>"
 		<?php if (isset($item['folderPosition'])) { ?> folderposition="<?php p($item['folderPosition']); ?>" <?php } ?>>
 
 		<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"

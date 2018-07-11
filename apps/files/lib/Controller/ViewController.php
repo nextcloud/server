@@ -202,16 +202,11 @@ class ViewController extends Controller {
 		}
 
 
-		$defaultExpandedState = 'true';
-		if (!$this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1)) {
-			$defaultExpandedState = 'false';
-		}
+		// show_Quick_Access stored as string
+		$defaultExpandedState = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', '0') === '1';
 
-		$quickAccessDraggable = 'false';
-		//See Javascript navigation.js for possible sorting strategies
-		if($this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'alphabet')=='customorder'){
-			$quickAccessDraggable = 'true';
-		}
+		// see Javascript navigation.js for possible sorting strategies
+		$quickAccessDraggable = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'alphabet') === 'customorder';
 
 
 		\OCA\Files\App::getNavigationManager()->add(
