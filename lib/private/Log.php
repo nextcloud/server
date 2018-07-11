@@ -78,6 +78,7 @@ class Log implements ILogger {
 		'validateUserPass',
 		'loginWithToken',
 		'\{closure\}',
+		'createSessionToken',
 
 		// TokenProvider
 		'getToken',
