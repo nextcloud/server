@@ -17,6 +17,7 @@ OC.L10N.register(
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Select all" : "לבחור הכול",
     "Name" : "שם",
+    "Actions" : "פעולולת",
     "Deleted" : "נמחק"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
