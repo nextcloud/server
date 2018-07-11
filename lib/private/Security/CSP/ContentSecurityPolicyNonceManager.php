@@ -67,19 +67,20 @@ class ContentSecurityPolicyNonceManager {
 	/**
 	 * Check if the browser supports CSP v3
 	 *
+	 * In a perfect world all browsers are properly backwards compatible.
+	 * Of course this is no such world.
+	 *
 	 * @return bool
 	 */
 	public function browserSupportsCspV3(): bool {
-		$browserWhitelist = [
-			Request::USER_AGENT_CHROME,
-			// Firefox 45+
-			'/^Mozilla\/5\.0 \([^)]+\) Gecko\/[0-9.]+ Firefox\/(4[5-9]|[5-9][0-9])\.[0-9.]+$/',
+		$browserBlacklist = [
+			Request::USER_AGENT_MS_EDGE,
 		];
 
-		if($this->request->isUserAgent($browserWhitelist)) {
-			return true;
+		if($this->request->isUserAgent($browserBlacklist)) {
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 }

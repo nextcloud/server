@@ -212,7 +212,10 @@ class SecurityMiddleware extends Middleware {
 		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);
 
 		// Always add the nonce this will make newer browsers ignore unsafe-inline
-		$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
+		if ($this->cspNonceManager->browserSupportsCspV3()) {
+			$defaultPolicy->allowInlineScript(true);
+			$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
+		}
 
 		$response->setContentSecurityPolicy($defaultPolicy);
 
