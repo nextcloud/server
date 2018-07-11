@@ -357,6 +357,9 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
 		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
+		$this->registerCoreProvider(Preview\EPUB::class, '/application\/epub\+zip/');
+		$this->registerCoreProvider(Preview\CBR::class, '/application\/comicbook\+rar/');
+		$this->registerCoreProvider(Preview\CBZ::class, '/application\/comicbook\+zip/');
 
 		// SVG, Office and Bitmap require imagick
 		if (extension_loaded('imagick')) {
