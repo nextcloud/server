@@ -21,8 +21,7 @@
 		 * The downside: anything not ascii is excluded. Not sure how common it is in areas using different
 		 * alphabets… the upside: fake domains with similar looking characters won't be formatted as links
 		 */
-		urlRegex: /((\s|^)(https?:\/\/|([-A-Z0-9+_])*\.([-A-Z])+)[-A-Z0-9+&@#\/%?=~_|!:,.;()]*[-A-Z0-9+&@#\/%=~_|()])/ig,
-		protocolRegex: /^https:\/\//,
+		urlRegex: /(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]*\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig,
 
 		plainToRich: function(content) {
 			content = this.formatLinksRich(content);
@@ -35,15 +34,15 @@
 		},
 
 		formatLinksRich: function(content) {
-			var self = this;
-			return content.replace(this.urlRegex, function(url) {
-				var hasProtocol = (url.indexOf('https://') !== -1) || (url.indexOf('http://') !== -1);
-				if(!hasProtocol) {
-					url = 'https://' + url.trim();
+			return content.replace(this.urlRegex, function(_, leadingSpace, protocol, url, trailingSpace) {
+				var linkText = url;
+				if(!protocol) {
+					protocol = 'https://';
+				} else if (protocol === 'http://'){
+					linkText = protocol + url;
 				}
 
-				var linkText = url.replace(self.protocolRegex, '');
-				return '<a class="external" target="_blank" rel="noopener noreferrer" href="' + url + '">' + linkText + '</a>';
+				return leadingSpace + '<a class="external" target="_blank" rel="noopener noreferrer" href="' + protocol + url + '">' + linkText + '</a>' + trailingSpace;
 			});
 		},
 
