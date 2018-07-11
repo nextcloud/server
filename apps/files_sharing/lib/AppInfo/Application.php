@@ -105,6 +105,8 @@ class Application extends App {
 				$server->query(\OCP\OCS\IDiscoveryService::class),
 				$server->getCloudFederationProviderManager(),
 				$server->getCloudFederationFactory(),
+				$server->getGroupManager(),
+				$server->getUserManager(),
 				$uid
 			);
 		});

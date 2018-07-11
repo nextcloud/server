@@ -67,12 +67,14 @@ class ShareesAPIController extends OCSController {
 			'users' => [],
 			'groups' => [],
 			'remotes' => [],
+			'remote_groups' => [],
 			'emails' => [],
 			'circles' => [],
 		],
 		'users' => [],
 		'groups' => [],
 		'remotes' => [],
+		'remote_groups' => [],
 		'emails' => [],
 		'lookup' => [],
 		'circles' => [],
@@ -153,6 +155,10 @@ class ShareesAPIController extends OCSController {
 				$shareTypes[] = Share::SHARE_TYPE_REMOTE;
 			}
 
+			if ($this->isRemoteGroupSharingAllowed($itemType)) {
+				$shareTypes[] = Share::SHARE_TYPE_REMOTE_GROUP;
+			}
+
 			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
 				$shareTypes[] = Share::SHARE_TYPE_EMAIL;
 			}
@@ -211,6 +217,16 @@ class ShareesAPIController extends OCSController {
 			// FIXME: static foo makes unit testing unnecessarily difficult
 			$backend = \OC\Share\Share::getBackend($itemType);
 			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE);
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
+	protected function isRemoteGroupSharingAllowed(string $itemType): bool {
+		try {
+			// FIXME: static foo makes unit testing unnecessarily difficult
+			$backend = \OC\Share\Share::getBackend($itemType);
+			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE_GROUP);
 		} catch (\Exception $e) {
 			return false;
 		}

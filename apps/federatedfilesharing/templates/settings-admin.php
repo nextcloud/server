@@ -23,7 +23,6 @@ script('federatedfilesharing', 'settings-admin');
 			<?php p($l->t('Allow users on this server to send shares to other servers'));?>
 		</label>
 	</p>
-
 	<p>
 		<input type="checkbox" name="incoming_server2server_share_enabled" id="incomingServer2serverShareEnabled" class="checkbox"
 			   value="1" <?php if ($_['incomingServer2serverShareEnabled']) print_unescaped('checked="checked"'); ?> />
@@ -31,6 +30,22 @@ script('federatedfilesharing', 'settings-admin');
 			<?php p($l->t('Allow users on this server to receive shares from other servers'));?>
 		</label><br/>
 	</p>
+	<?php if($_['federatedGroupSharingSupported']): ?>
+	<p>
+		<input type="checkbox" name="outgoing_server2server_group_share_enabled" id="outgoingServer2serverGroupShareEnabled" class="checkbox"
+			   value="1" <?php if ($_['outgoingServer2serverGroupShareEnabled']) print_unescaped('checked="checked"'); ?> />
+		<label for="outgoingServer2serverGroupShareEnabled">
+			<?php p($l->t('Allow users on this server to send shares to groups on other servers'));?>
+		</label>
+	</p>
+	<p>
+		<input type="checkbox" name="incoming_server2server_group_share_enabled" id="incomingServer2serverGroupShareEnabled" class="checkbox"
+			   value="1" <?php if ($_['incomingServer2serverGroupShareEnabled']) print_unescaped('checked="checked"'); ?> />
+		<label for="incomingServer2serverGroupShareEnabled">
+			<?php p($l->t('Allow users on this server to receive group shares from other servers'));?>
+		</label><br/>
+	</p>
+	<?php endif; ?>
 	<p>
 		<input type="checkbox" name="lookupServerEnabled" id="lookupServerEnabled" class="checkbox"
 			   value="1" <?php if ($_['lookupServerEnabled']) print_unescaped('checked="checked"'); ?> />

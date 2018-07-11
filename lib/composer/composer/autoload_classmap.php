@@ -471,6 +471,7 @@ return array(
     'OC\\Collaboration\\Collaborators\\GroupPlugin' => $baseDir . '/lib/private/Collaboration/Collaborators/GroupPlugin.php',
     'OC\\Collaboration\\Collaborators\\LookupPlugin' => $baseDir . '/lib/private/Collaboration/Collaborators/LookupPlugin.php',
     'OC\\Collaboration\\Collaborators\\MailPlugin' => $baseDir . '/lib/private/Collaboration/Collaborators/MailPlugin.php',
+    'OC\\Collaboration\\Collaborators\\RemoteGroupPlugin' => $baseDir . '/lib/private/Collaboration/Collaborators/RemoteGroupPlugin.php',
     'OC\\Collaboration\\Collaborators\\RemotePlugin' => $baseDir . '/lib/private/Collaboration/Collaborators/RemotePlugin.php',
     'OC\\Collaboration\\Collaborators\\Search' => $baseDir . '/lib/private/Collaboration/Collaborators/Search.php',
     'OC\\Collaboration\\Collaborators\\SearchResult' => $baseDir . '/lib/private/Collaboration/Collaborators/SearchResult.php',

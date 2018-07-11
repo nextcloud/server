@@ -37,6 +37,7 @@ class Constants {
 	const SHARE_TYPE_REMOTE = 6;
 	const SHARE_TYPE_CIRCLE = 7;
 	const SHARE_TYPE_GUEST = 8;
+	const SHARE_TYPE_REMOTE_GROUP = 9;
 
 	const FORMAT_NONE = -1;
 	const FORMAT_STATUSES = -2;

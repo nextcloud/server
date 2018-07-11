@@ -88,11 +88,12 @@ class Notifications {
 	 * @param string $ownerFederatedId
 	 * @param string $sharedBy
 	 * @param string $sharedByFederatedId
+	 * @param int $shareType (can be a remote user or group share)
 	 * @return bool
 	 * @throws \OC\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId) {
+	public function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
 
 		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
 
@@ -109,6 +110,7 @@ class Notifications {
 				'sharedBy' => $sharedBy,
 				'sharedByFederatedId' => $sharedByFederatedId,
 				'remote' => $local,
+				'shareType' => $shareType
 			);
 
 			$result = $this->tryHttpPostToShareEndpoint($remote, '', $fields);
@@ -392,7 +394,7 @@ class Notifications {
 					$fields['sharedByFederatedId'],
 					$fields['sharedBy'],
 					$fields['token'],
-					'user',
+					$fields['shareType'],
 					'file'
 				);
 				return $this->federationProviderManager->sendShare($share);
@@ -406,6 +408,7 @@ class Notifications {
 						'sharedSecret' => $fields['token'],
 						'shareWith' => $fields['shareWith'],
 						'senderId' => $fields['localId'],
+						'shareType' => $fields['shareType'],
 						'message' => 'Ask owner to reshare the file'
 					]
 				);
