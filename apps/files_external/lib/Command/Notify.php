@@ -4,6 +4,7 @@
  *
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Frank Rochlitzer <f.rochlitzer@b3-it.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -45,7 +46,7 @@ class Notify extends Base {
 	private $globalService;
 	/** @var IDBConnection */
 	private $connection;
-	/** @var \OCP\DB\QueryBuilder\IQueryBuilder */
+	/** @var \Doctrine\DBAL\Driver\Statement */
 	private $updateQuery;
 
 	function __construct(GlobalStoragesService $globalService, IDBConnection $connection) {
@@ -53,11 +54,11 @@ class Notify extends Base {
 		$this->globalService = $globalService;
 		$this->connection = $connection;
 		// the query builder doesn't really like subqueries with parameters
-		$this->updateQuery = $this->connection->prepare(
-			'UPDATE *PREFIX*filecache SET size = -1
-			WHERE `path` = ?
+		$this->updateQuery =
+			'UPDATE *PREFIX*filecache SET size = -1, etag = null
+			WHERE `path` in (?)
 			AND `storage` IN (SELECT storage_id FROM *PREFIX*mounts WHERE mount_id = ?)'
-		);
+		;
 	}
 
 	protected function configure() {
@@ -143,9 +144,16 @@ class Notify extends Base {
 				$this->logUpdate($change, $output);
 			}
 			if ($change instanceof IRenameChange) {
-				$this->markParentAsOutdated($mount->getId(), $change->getTargetPath());
+				$_result = $this->markParentAsOutdated($mount->getId(), $change->getTargetPath());
+				if ($_result !== true) {
+					$output->writeln("SQL-Error: $_result");
+				}
 			}
-			$this->markParentAsOutdated($mount->getId(), $change->getPath());
+			$_result = $this->markParentAsOutdated($mount->getId(), $change->getPath());
+
+			if ($_result !== true) {
+				$output->writeln("SQL-Error: $_result");
+			}
 		});
 	}
 
@@ -155,11 +163,28 @@ class Notify extends Base {
 	}
 
 	private function markParentAsOutdated($mountId, $path) {
-		$parent = dirname($path);
-		if ($parent === '.') {
-			$parent = '';
+		$parents = $this->getPathAlongParents($path);
+		$values = [$parents, $mountId];
+		$types = [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY, \PDO::PARAM_INT];
+		$stmt = $this->connection->executeQuery(
+			$this->updateQuery,
+			$values,
+			$types
+		);
+		if (((int)$stmt->errorCode()) != 0) {
+			return (string)$stmt->errorCode();
 		}
-		$this->updateQuery->execute([$parent, $mountId]);
+
+		return true;
+	}
+
+	private function getPathAlongParents($path) {
+		$parent = dirname($path);
+		$parent = trim($parent, "\\/");
+		if (empty($parent) || $parent === '.' || $parent === '\\' || $parent === '/') {
+			return array('');
+		}
+		return array_merge($this->getPathAlongParents($parent), array($parent));
 	}
 
 	private function logUpdate(IChange $change, OutputInterface $output) {
