@@ -57,6 +57,9 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 */
 	private $mountCache;
 
+	/** @var callable[] */
+	private $mountFilters = [];
+
 	/**
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 * @param IUserMountCache $mountCache
@@ -80,9 +83,10 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$mounts = array_filter($mounts, function ($result) {
 			return is_array($result);
 		});
-		return array_reduce($mounts, function (array $mounts, array $providerMounts) {
+		$mounts = array_reduce($mounts, function (array $mounts, array $providerMounts) {
 			return array_merge($mounts, $providerMounts);
 		}, array());
+		return $this->filterMounts($user, $mounts);
 	}
 
 	public function addMountForUser(IUser $user, IMountManager $mountManager) {
@@ -101,6 +105,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 				$firstMounts = array_merge($firstMounts, $mounts);
 			}
 		}
+		$firstMounts = $this->filterMounts($user, $firstMounts);
 		array_walk($firstMounts, [$mountManager, 'addMount']);
 
 		$lateMounts = [];
@@ -111,6 +116,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 			}
 		}
 
+		$lateMounts = $this->filterMounts($user, $lateMounts);
 		array_walk($lateMounts, [$mountManager, 'addMount']);
 
 		return array_merge($lateMounts, $firstMounts);
@@ -144,6 +150,21 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$this->providers[] = $provider;
 
 		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
+	}
+
+	public function registerMountFilter(callable $filter) {
+		$this->mountFilters[] = $filter;
+	}
+
+	private function filterMounts(IUser $user, array $mountPoints) {
+		return array_filter($mountPoints, function (IMountPoint $mountPoint) use ($user) {
+			foreach ($this->mountFilters as $filter) {
+				if ($filter($mountPoint, $user) === false) {
+					return false;
+				}
+			}
+			return true;
+		});
 	}
 
 	/**
