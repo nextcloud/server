@@ -1396,4 +1396,31 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertFalse($this->backend->createUser('uid', 'password'));
 	}
+
+	public function actionProvider() {
+		return [
+			[ 'ldapUserAvatarRule', 'default', Backend::PROVIDE_AVATAR, true]	,
+			[ 'ldapUserAvatarRule', 'data:selfiePhoto', Backend::PROVIDE_AVATAR, true],
+			[ 'ldapUserAvatarRule', 'none', Backend::PROVIDE_AVATAR, false],
+			[ 'turnOnPasswordChange', 0, Backend::SET_PASSWORD, false],
+			[ 'turnOnPasswordChange', 1, Backend::SET_PASSWORD, true],
+		];
+	}
+
+	/**
+	 * @dataProvider actionProvider
+	 */
+	public function testImplementsAction($configurable, $value, $actionCode, $expected) {
+		$this->pluginManager->expects($this->once())
+			->method('getImplementedActions')
+			->willReturn(0);
+
+		$this->connection->expects($this->any())
+			->method('__get')
+			->willReturnMap([
+				[$configurable, $value],
+			]);
+
+		$this->assertSame($expected, $this->backend->implementsActions($actionCode));
+	}
 }

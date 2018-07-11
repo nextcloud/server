@@ -163,6 +163,7 @@ class Manager {
 	/**
 	 * returns a list of attributes that will be processed further, e.g. quota,
 	 * email, displayname, or others.
+	 *
 	 * @param bool $minimal - optional, set to true to skip attributes with big
 	 * payload
 	 * @return string[]
@@ -190,10 +191,10 @@ class Manager {
 		if(!$minimal) {
 			// attributes that are not really important but may come with big
 			// payload.
-			$attributes = array_merge($attributes, array(
-				'jpegphoto',
-				'thumbnailphoto'
-			));
+			$attributes = array_merge(
+				$attributes,
+				$this->access->getConnection()->resolveRule('avatar')
+			);
 		}
 
 		return $attributes;
