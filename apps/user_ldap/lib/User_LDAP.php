@@ -102,6 +102,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			return $this->userPluginManager->canChangeAvatar($uid);
 		}
 
+		if(!$this->implementsActions(Backend::PROVIDE_AVATAR)) {
+			return true;
+		}
+
 		$user = $this->access->userManager->get($uid);
 		if(!$user instanceof User) {
 			return false;
@@ -549,7 +553,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		return (bool)((Backend::CHECK_PASSWORD
 			| Backend::GET_HOME
 			| Backend::GET_DISPLAYNAME
-			| Backend::PROVIDE_AVATAR
+			| (($this->access->connection->ldapUserAvatarRule !== 'none') ? Backend::PROVIDE_AVATAR : 0)
 			| Backend::COUNT_USERS
 			| ((intval($this->access->connection->turnOnPasswordChange) === 1)?(Backend::SET_PASSWORD):0)
 			| $this->userPluginManager->getImplementedActions())
