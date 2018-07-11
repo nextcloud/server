@@ -35,6 +35,7 @@ class ExceptionSerializer {
 		'validateUserPass',
 		'loginWithToken',
 		'{closure}',
+		'createSessionToken',
 
 		// TokenProvider
 		'getToken',
