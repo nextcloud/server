@@ -103,36 +103,7 @@ describe('OC.SetupChecks tests', function() {
 		it('should return an error if data directory is not protected', function(done) {
 			var async = OC.SetupChecks.checkDataProtected();
 
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json'
-				},
-				JSON.stringify({
-					hasFileinfoInstalled: true,
-					isGetenvServerWorking: true,
-					isReadOnlyConfig: false,
-					hasWorkingFileLocking: true,
-					hasValidTransactionIsolationLevel: true,
-					suggestedOverwriteCliURL: '',
-					isUrandomAvailable: true,
-					serverHasInternetConnection: false,
-					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
-					forwardedForHeadersWorking: true,
-					isCorrectMemcachedPHPModuleInstalled: true,
-					hasPassedCodeIntegrityCheck: true,
-					isOpcacheProperlySetup: true,
-					hasOpcacheLoaded: false,
-					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true,
-					missingIndexes: [],
-					outdatedCaches: [],
-					cronErrors: [],
-					cronInfo: {
-						diffInSeconds: 0
-					}
-				})
-			);
+			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, '');
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
@@ -604,6 +575,12 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
 					isUrandomAvailable: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
@@ -615,13 +592,19 @@ describe('OC.SetupChecks tests', function() {
 					hasOpcacheLoaded: false,
 					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
-					hasFreeTypeSupport: true
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-						msg: 'The PHP OPcache module is not loaded. <a target="_blank" rel="noreferrer noopener" href="https://example.org/link/to/doc">For better performance it is recommended</a> to load it into your PHP installation.',
+						msg: 'The PHP OPcache module is not loaded. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to load it into your PHP installation.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
