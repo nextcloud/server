@@ -144,23 +144,16 @@ kbd {
 				padding-left: 38px !important;
 			}
 
-			&:hover,
-			&:focus,
-			&:active,
 			&.active,
+			a:hover,
+			a:focus,
+			a:active,
 			a.selected {
 				&,
 				> a {
 					opacity: 1;
 					box-shadow: inset 4px 0 var(--color-primary);
 				}
-			}
-
-			/* a instead of li is focused by keyboards */
-			a:focus,
-			a:active {
-				opacity: 1;
-				box-shadow: inset 4px 0 var(--color-primary);
 			}
 
 			/* align loader */
