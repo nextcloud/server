@@ -53,6 +53,7 @@ use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 use OCP\Util;
 
 class SMB extends Common implements INotifyStorage {
