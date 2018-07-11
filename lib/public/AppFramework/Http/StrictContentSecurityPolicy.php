@@ -42,7 +42,7 @@ namespace OCP\AppFramework\Http;
  */
 class StrictContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var bool Whether inline JS snippets are allowed */
-	protected $inlineScriptAllowed = false;
+	protected $inlineScriptAllowed = true;
 	/** @var bool Whether eval in JS scripts is allowed */
 	protected $evalScriptAllowed = false;
 	/** @var array Domains from which scripts can get loaded */
