@@ -111,33 +111,40 @@
 		 * @param array options "silent" to not trigger event
 		 */
 		setActiveItem: function (itemId, options) {
+			var currentItem = this.$el.find('li[data-id=' + itemId + ']');
+			var itemDir = currentItem.data('dir');
+			var itemView = currentItem.data('view');
 			var oldItemId = this._activeItem;
 			if (itemId === this._activeItem) {
 				if (!options || !options.silent) {
 					this.$el.trigger(
 						new $.Event('itemChanged', {
 							itemId: itemId,
-							previousItemId: oldItemId
+							previousItemId: oldItemId,
+							dir: itemDir,
+							view: itemView
 						})
 					);
 				}
 				return;
 			}
-			this.$el.find('li').removeClass('active');
+			this.$el.find('li a').removeClass('active');
 			if (this.$currentContent) {
 				this.$currentContent.addClass('hidden');
 				this.$currentContent.trigger(jQuery.Event('hide'));
 			}
 			this._activeItem = itemId;
-			this.$el.find('li[data-id=' + itemId + ']').addClass('active');
-			this.$currentContent = $('#app-content-' + itemId);
+			currentItem.children('a').addClass('active');
+			this.$currentContent = $('#app-content-' + (itemView !== '' ? itemView : itemId));
 			this.$currentContent.removeClass('hidden');
 			if (!options || !options.silent) {
 				this.$currentContent.trigger(jQuery.Event('show'));
 				this.$el.trigger(
 					new $.Event('itemChanged', {
 						itemId: itemId,
-						previousItemId: oldItemId
+						previousItemId: oldItemId,
+						dir: itemDir,
+						view: itemView
 					})
 				);
 			}

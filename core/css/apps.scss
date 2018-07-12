@@ -148,7 +148,8 @@ kbd {
 			a:hover,
 			a:focus,
 			a:active,
-			a.selected {
+			a.selected ,
+			a.active {
 				&,
 				> a {
 					opacity: 1;
