@@ -29,6 +29,7 @@
 
 namespace OCA\Files\Tests\Controller;
 
+use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCP\AppFramework\Http;
 use OCP\Files\File;
@@ -71,6 +72,8 @@ class ViewControllerTest extends TestCase {
 	private $appManager;
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
+	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
+	private $activityHelper;
 
 	public function setUp() {
 		parent::setUp();
@@ -89,6 +92,7 @@ class ViewControllerTest extends TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
+		$this->activityHelper = $this->createMock(Helper::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 			'files',
@@ -99,7 +103,8 @@ class ViewControllerTest extends TestCase {
 			$this->eventDispatcher,
 			$this->userSession,
 			$this->appManager,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->activityHelper,
 		])
 		->setMethods([
 			'getStorageInfo',
@@ -120,7 +125,7 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 			]));
-		$this->config->expects($this->exactly(3))
+		$this->config
 			->method('getUserValue')
 			->will($this->returnValueMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
@@ -138,7 +143,7 @@ class ViewControllerTest extends TestCase {
 		$nav->assign('usage', '123 B');
 		$nav->assign('quota', 100);
 		$nav->assign('total_space', '100 B');
-		$nav->assign('webdavurl', '');
+		//$nav->assign('webdavurl', '');
 		$nav->assign('navigationItems', [
 			[
 				'id' => 'files',
@@ -172,6 +177,10 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'sublist' => [],
+				'draggableSublist' => false,
+				'defaultExpandedState' => false,
+				'enableMenuButton' => 0,
 			],
 			[
 			'id' => 'sharingin',
@@ -299,6 +308,14 @@ class ViewControllerTest extends TestCase {
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
 		$expected->setContentSecurityPolicy($policy);
+
+		$this->activityHelper->method('getFavoriteFilePaths')
+			->with($this->user->getUID())
+			->willReturn([
+				'item' => [],
+				'folders' => [],
+			]);
+
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 

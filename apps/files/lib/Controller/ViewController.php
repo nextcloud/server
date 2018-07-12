@@ -28,6 +28,7 @@
 
 namespace OCA\Files\Controller;
 
+use OCA\Files\Activity\Helper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -68,19 +69,10 @@ class ViewController extends Controller {
 	protected $appManager;
 	/** @var IRootFolder */
 	protected $rootFolder;
+	/** @var Helper */
+	protected $activityHelper;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param EventDispatcherInterface $eventDispatcherInterface
-	 * @param IUserSession $userSession
-	 * @param IAppManager $appManager
-	 * @param IRootFolder $rootFolder
-	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								IL10N $l10n,
@@ -88,7 +80,8 @@ class ViewController extends Controller {
 								EventDispatcherInterface $eventDispatcherInterface,
 								IUserSession $userSession,
 								IAppManager $appManager,
-								IRootFolder $rootFolder
+								IRootFolder $rootFolder,
+								Helper $activityHelper
 	) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
@@ -100,6 +93,7 @@ class ViewController extends Controller {
 		$this->userSession = $userSession;
 		$this->appManager = $appManager;
 		$this->rootFolder = $rootFolder;
+		$this->activityHelper = $activityHelper;
 	}
 
 	/**
@@ -162,18 +156,14 @@ class ViewController extends Controller {
 
 		$user = $this->userSession->getUser()->getUID();
 
-		//Get Favorite-Folder
-		$tagger = \OC::$server->getTagManager();
-		$helper = new \OCA\Files\Activity\Helper($tagger);
-
 		try {
-			$favElements = $helper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
+			$favElements = $this->activityHelper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
 		} catch (\RuntimeException $e) {
 			$favElements['folders'] = null;
 		}
 
 		$collapseClasses = '';
-		if (sizeof($favElements['folders']) > 0) {
+		if (count($favElements['folders']) > 0) {
 			$collapseClasses = 'collapsible';
 		}
 
