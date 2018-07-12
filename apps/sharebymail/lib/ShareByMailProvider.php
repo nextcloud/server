@@ -506,6 +506,61 @@ class ShareByMailProvider implements IShareProvider {
 		return true;
 	}
 
+	protected function sendNote(IShare $share) {
+
+		$recipient = $share->getSharedWith();
+
+
+		$filename = $share->getNode()->getName();
+		$initiator = $share->getSharedBy();
+		$note = $share->getNote();
+
+		$initiatorUser = $this->userManager->get($initiator);
+		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+		$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
+
+		$plainBodyPart = $this->l->t("%s shared »%s« with you and want to add:\n", [$initiatorDisplayName, $filename]);
+		$htmlBodyPart = $this->l->t('%s shared »%s« with you and want to add:', [$initiatorDisplayName, $filename]);
+
+		$message = $this->mailer->createMessage();
+
+		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote', [
+			'filename' => $filename,
+			'note' => $note,
+			'initiator' => $initiatorDisplayName,
+			'initiatorEmail' => $initiatorEmailAddress,
+			'shareWith' => $recipient,
+		]);
+
+		$emailTemplate->setSubject($this->l->t('»%s« added a note to a file shared with you', [$initiatorDisplayName]));
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($this->l->t('Note regarding »%s«', [$filename]), false);
+		$emailTemplate->addBodyText(htmlspecialchars($htmlBodyPart), $plainBodyPart);
+		$emailTemplate->addBodyText($note);
+
+		// The "From" contains the sharers name
+		$instanceName = $this->defaults->getName();
+		$senderName = $this->l->t(
+			'%s via %s',
+			[
+				$initiatorDisplayName,
+				$instanceName
+			]
+		);
+		$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
+		if ($initiatorEmailAddress !== null) {
+			$message->setReplyTo([$initiatorEmailAddress => $initiatorDisplayName]);
+			$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
+		} else {
+			$emailTemplate->addFooter();
+		}
+
+		$message->setTo([$recipient]);
+		$message->useTemplate($emailTemplate);
+		$this->mailer->send($message);
+
+	}
+
 	/**
 	 * send auto generated password to the owner. This happens if the admin enforces
 	 * a password for mail shares and forbid to send the password by mail to the recipient
@@ -662,7 +717,12 @@ class ShareByMailProvider implements IShareProvider {
 			->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
 			->set('password', $qb->createNamedParameter($share->getPassword()))
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
+			->set('note', $qb->createNamedParameter($share->getNote()))
 			->execute();
+
+		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
+			$this->sendNote($share);
+		}
 
 		return $share;
 	}

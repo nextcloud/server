@@ -223,6 +223,24 @@ interface IShare {
 	public function getPermissions();
 
 	/**
+	 * Attach a note to a share
+	 *
+	 * @param string $note
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 14.0.0
+	 */
+	public function setNote($note);
+
+	/**
+	 * Get note attached to a share
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function getNote();
+
+
+	/**
 	 * Set the expiration date
 	 *
 	 * @param null|\DateTime $expireDate

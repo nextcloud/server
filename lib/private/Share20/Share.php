@@ -57,6 +57,8 @@ class Share implements \OCP\Share\IShare {
 	private $shareOwner;
 	/** @var int */
 	private $permissions;
+	/** @var string */
+	private $note = '';
 	/** @var \DateTime */
 	private $expireDate;
 	/** @var string */
@@ -306,6 +308,21 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getPermissions() {
 		return $this->permissions;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setNote($note) {
+		$this->note = $note;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNote() {
+		return $this->note;
 	}
 
 	/**

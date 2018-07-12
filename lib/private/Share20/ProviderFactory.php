@@ -81,7 +81,10 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
-				$this->serverContainer->getLazyRootFolder()
+				$this->serverContainer->getLazyRootFolder(),
+				$this->serverContainer->getMailer(),
+				$this->serverContainer->query(Defaults::class),
+				$this->serverContainer->getL10N('sharing')
 			);
 		}
 
