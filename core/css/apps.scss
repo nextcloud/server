@@ -73,10 +73,7 @@ kbd {
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
 #app-navigation {
-	width: 250px;
-	/* header height */
-	height: calc(100vh - #{$header-height});
-	position: fixed;
+	width: $navigation-width;
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
@@ -86,6 +83,8 @@ kbd {
 	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
+	flex-grow: 0;
+	flex-shrink: 0;
 
 	/* 'New' button */
 	.app-navigation-new {
@@ -583,27 +582,21 @@ kbd {
 	box-sizing: border-box;
 	position: relative;
 	overflow-x: hidden;
-	transition: margin-right 300ms ease-in-out;
+	display: flex;
 	/* trick: scroll #app-content and not the body
 	 * to avoid double scrollbar with sidebar
 	 */
 	max-height: 100vh;
-	&.with-app-sidebar {
-		// to force the scrollbar to be visible
-		// and not under the sidebar
-		margin-right: 27vw;
-		max-width: calc(100vw - #{$sidebar-width});
-	}
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 #app-content {
-	margin-left: 250px;
 	z-index: 1000;
 	background-color: var(--color-main-background);
 	position: relative;
 	min-height: calc(100vh - #{$header-height});
+	flex-basis: 100vw;
 	/* no top border for first settings item */
 	> .section:first-child {
 		border-top: none;
@@ -639,34 +632,23 @@ kbd {
 	#app-content will be shrinked properly
 */
 #app-sidebar {
-	position: fixed;
-	top: $header-height;
-	left: auto;
-	bottom: 0;
 	width: 27vw;
 	min-width: $sidebar-width;
 	display: block;
+	position: relative;
 	background: var(--color-main-background);
 	border-left: 1px solid var(--color-border);
 	overflow-x: hidden;
 	overflow-y: auto;
-	z-index: 500;
-	animation: slideAndShow 300ms ease-in-out;
-	animation-fill-mode: both;
+	flex-shrink: 0;
+	transition: 300ms width ease-in-out,
+				300ms min-width ease-in-out;
 	&.disappear {
-		animation: slideAndHide 300ms ease-in-out;
-		animation-fill-mode: both;
+		width: 0;
+		min-width: 0;
 	}
 }
-@keyframes slideAndHide {
-    0%   {right: 0;}
-    99%  {right: -100%;}
-    100% {right: -100%; display: none;}
-}
-@keyframes slideAndShow {
-    0%   {right: -100%;}
-    100% {right: 0;}
-}
+
 
 /* APP-SETTINGS ------------------------------------------------------------ */
 /* settings area */
