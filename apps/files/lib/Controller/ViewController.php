@@ -184,7 +184,7 @@ class ViewController extends Controller {
 		foreach ($favElements['folders'] as $elem) {
 
 			$id = substr($elem, strrpos($elem, '/') + 1, strlen($elem));
-			$link = $this->urlGenerator->linkToRouteAbsolute('files.view.index', ['dir' => $elem]);
+			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $elem, 'view' => 'files']);
 			$sortingValue = ++$currentCount;
 
 			$element = [
