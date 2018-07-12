@@ -28,7 +28,7 @@ use OCP\Calendar\Resource\IBackend;
 class Manager implements \OCP\Calendar\Resource\IManager {
 
 	/** @var IBackend[] holds all registered resource backends */
-	private $backends;
+	private $backends = [];
 
 	/**
 	 * Registers a resource backend
