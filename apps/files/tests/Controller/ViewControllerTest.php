@@ -178,7 +178,6 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => '',
 				'sublist' => [],
-				'draggableSublist' => false,
 				'defaultExpandedState' => false,
 				'enableMenuButton' => 0,
 			],
