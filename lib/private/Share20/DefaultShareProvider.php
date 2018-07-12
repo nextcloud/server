@@ -1318,14 +1318,6 @@ class DefaultShareProvider implements IShareProvider {
 			$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
 			$plainHeading = $this->l->t('%1$s shared »%2$s« with you and want to add:', [$initiatorDisplayName, $filename]);
 			$htmlHeading = $this->l->t('%1$s shared »%2$s« with you and want to add:', [$initiatorDisplayName, $filename]);
-			$link = $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]);
-			if($share->getNode()->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
-				$plainLink = $this->l->t('Direct link to the file: %s', [$link]);
-				$htmlLink = $this->l->t('<a href="%s">Direct link to the file.</a>', [$link]);
-			} else {
-				$plainLink = $this->l->t('Direct link to the folder: %s', [$link]);
-				$htmlLink = $this->l->t('<a href="%s">Direct link to the folder.</a>', [$link]);
-			}
 			$message = $this->mailer->createMessage();
 
 			$emailTemplate = $this->mailer->createEMailTemplate('defaultShareProvider.sendNote');
@@ -1334,7 +1326,13 @@ class DefaultShareProvider implements IShareProvider {
 			$emailTemplate->addHeader();
 			$emailTemplate->addHeading($htmlHeading, $plainHeading);
 			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
-			$emailTemplate->addBodyText($htmlLink, $plainLink);
+
+			$link = $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]);
+			$emailTemplate->addBodyButton(
+				$this->l->t('Open »%s«', [$filename]),
+				$link
+			);
+
 
 			// The "From" contains the sharers name
 			$instanceName = $this->defaults->getName();
