@@ -72,6 +72,9 @@
 		var quickAccessList = 'sublist-favorites';
 		var collapsibleButtonId = 'button-collapse-favorites';
 		var listULElements = document.getElementById(quickAccessList);
+		if (!listULElements) {
+			return;
+		}
 		var listLIElements = listULElements.getElementsByTagName('li');
 
 		var apppath=appfolder;
@@ -101,6 +104,9 @@
 		var quickAccessList = 'sublist-favorites';
 		var collapsibleButtonId = 'button-collapse-favorites';
 		var listULElements = document.getElementById(quickAccessList);
+		if (!listULElements) {
+			return;
+		}
 		var listLIElements = listULElements.getElementsByTagName('li');
 
 		var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);

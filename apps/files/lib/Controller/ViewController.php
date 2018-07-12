@@ -206,10 +206,6 @@ class ViewController extends Controller {
 		// show_Quick_Access stored as string
 		$defaultExpandedState = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', '0') === '1';
 
-		// see Javascript navigation.js for possible sorting strategies
-		$quickAccessDraggable = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'quickaccess_sorting_strategy', 'alphabet') === 'customorder';
-
-
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
@@ -219,7 +215,6 @@ class ViewController extends Controller {
 				'order' => 5,
 				'name' => $this->l10n->t('Favorites'),
 				'sublist' => $favoritesSublistArray,
-				'draggableSublist' => $quickAccessDraggable,
 				'defaultExpandedState' => $defaultExpandedState,
 				'enableMenuButton' => 0,
 			]

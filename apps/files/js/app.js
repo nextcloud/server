@@ -239,7 +239,7 @@
 			var params;
 			if (e && e.itemId) {
 				params = {
-					view: e.view !== '' ? e.view : e.itemId,
+					view: typeof e.view === 'string' && e.view !== '' ? e.view : e.itemId,
 					dir: e.dir ? e.dir : '/'
 				};
 				this._changeUrl(params.view, params.dir);

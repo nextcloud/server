@@ -81,7 +81,7 @@ function NavigationListElements($item, $l, $pinned) {
 			?>
 			<button id="button-collapse-<?php p($item['id']); ?>"
 					class="collapse app-navigation-noclose" <?php if (sizeof($item['sublist']) == 0) { ?> style="display: none" <?php } ?>></button>
-			<ul id="sublist-<?php p($item['id']); ?>" <?php if ($item['draggableSublist'] === 'true') { ?> draggable="true" style="resize: none;"<?php } ?>>
+			<ul id="sublist-<?php p($item['id']); ?>">
 				<?php
 				foreach ($item['sublist'] as $item) {
 					$pinned = NavigationListElements($item, $l, $pinned);
