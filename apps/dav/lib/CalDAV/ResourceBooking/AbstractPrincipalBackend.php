@@ -68,7 +68,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$this->groupManager = $groupManager;
 		$this->logger = $logger;
 		$this->principalPrefix = $principalPrefix;
-		$this->dbTableName = 'calendar_' . $dbPrefix . '_cache';
+		$this->dbTableName = 'calendar_' . $dbPrefix;
 	}
 
 	/**

@@ -72,9 +72,9 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 		$this->roomManager = $roomManager;
 		$this->db = $dbConnection;
 		$this->calDavBackend = $calDavBackend;
-		$this->resourceDbTable = 'calendar_resources_cache';
+		$this->resourceDbTable = 'calendar_resources';
 		$this->resourcePrincipalUri = 'principals/calendar-resources';
-		$this->roomDbTable = 'calendar_rooms_cache';
+		$this->roomDbTable = 'calendar_rooms';
 		$this->roomPrincipalUri = 'principals/calendar-rooms';
 
 		// run once an hour
