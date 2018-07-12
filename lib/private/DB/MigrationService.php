@@ -23,6 +23,7 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
@@ -450,7 +451,9 @@ class MigrationService {
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		if ($toSchema instanceof SchemaWrapper) {
-			$this->connection->migrateToSchema($toSchema->getWrappedSchema());
+			$targetSchema = $toSchema->getWrappedSchema();
+			$this->ensureOracleIdentifierLengthLimit($targetSchema);
+			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
 
@@ -461,6 +464,43 @@ class MigrationService {
 		}
 
 		$this->markAsExecuted($version);
+	}
+
+	public function ensureOracleIdentifierLengthLimit(Schema $schema) {
+		foreach ($schema->getTables() as $table) {
+			if (\strlen($table->getName()) > 30) {
+				throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
+			}
+
+			foreach ($table->getColumns() as $thing) {
+				if (\strlen($thing->getName()) > 30) {
+					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			foreach ($table->getIndexes() as $thing) {
+				if (\strlen($thing->getName()) > 30) {
+					throw new \InvalidArgumentException('Index name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			foreach ($table->getForeignKeys() as $thing) {
+				if (\strlen($thing->getName()) > 30) {
+					throw new \InvalidArgumentException('Foreign key name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			$thing = $table->getPrimaryKey();
+			if ($thing && (\strlen($table->getName()) > 26 || \strlen($thing->getName()) > 30)) {
+				throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+			}
+		}
+
+		foreach ($schema->getSequences() as $sequence) {
+			if (\strlen($sequence->getName()) > 30) {
+				throw new \InvalidArgumentException('Sequence name "'  . $sequence->getName() . '" is too long.');
+			}
+		}
 	}
 
 	private function ensureMigrationsAreLoaded() {
