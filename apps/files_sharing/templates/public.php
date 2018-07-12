@@ -31,6 +31,11 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <input type="hidden" name="maxSizeAnimateGif" value="<?php p($_['maxSizeAnimateGif']); ?>" id="maxSizeAnimateGif">
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
 	<div id="files-public-content">
+		<?php if (isset($_['note']) && $_['note'] !== '') : ?>
+		<div id="note">
+			<?php p($l->t('Note: ')); p($_['note']); ?>
+		</div>
+		<?php endif; ?>
 		<div id="preview">
 			<?php if (isset($_['folder'])): ?>
 				<?php print_unescaped($_['folder']); ?>

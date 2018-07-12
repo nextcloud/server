@@ -262,6 +262,7 @@ class ShareController extends AuthPublicShareController {
 		$shareTmpl['owner'] = $share->getShareOwner();
 		$shareTmpl['filename'] = $share->getNode()->getName();
 		$shareTmpl['directory_path'] = $share->getTarget();
+		$shareTmpl['note'] = $share->getNote();
 		$shareTmpl['mimetype'] = $share->getNode()->getMimetype();
 		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($share->getNode()->getMimetype());
 		$shareTmpl['dirToken'] = $this->getToken();
