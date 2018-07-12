@@ -957,6 +957,7 @@ class ShareByMailProvider implements IShareProvider {
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
 			->setMailSend((bool)$data['mail_send'])
+			->setNote($data['note'])
 			->setToken($data['token']);
 
 		$shareTime = new \DateTime();
