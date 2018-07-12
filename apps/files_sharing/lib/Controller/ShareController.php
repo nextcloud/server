@@ -61,6 +61,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Share\Exceptions\ShareNotFound;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IManager as ShareManager;
 
 /**
@@ -141,6 +142,34 @@ class ShareController extends AuthPublicShareController {
 		$this->l10n = $l10n;
 		$this->defaults = $defaults;
 		$this->shareManager = $shareManager;
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * Show the authentication page
+	 * The form has to submit to the authenticate method route
+	 */
+	public function showAuthenticate(): TemplateResponse {
+		$templateParameters = ['share' => $this->share];
+
+		$event = new GenericEvent(null, $templateParameters);
+		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts::publicShareAuth', $event);
+
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+	}
+
+	/**
+	 * The template to show when authentication failed
+	 */
+	protected function showAuthFailed(): TemplateResponse {
+		$templateParameters = ['share' => $this->share, 'wrongpw' => true];
+
+		$event = new GenericEvent(null, $templateParameters);
+		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts::publicShareAuth', $event);
+
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 	}
 
 	protected function verifyPassword(string $password): bool {

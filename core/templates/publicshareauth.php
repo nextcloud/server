@@ -20,6 +20,7 @@
 				placeholder="<?php p($l->t('Password')); ?>" value=""
 				autocomplete="new-password" autocapitalize="off" autocorrect="off"
 				autofocus />
+			<input type="hidden" name="sharingToken" value="<?php p($_['share']->getToken()) ?>" id="sharingToken">
 			<input type="submit" id="password-submit" 
 				class="svg icon-confirm input-button-inline" value="" disabled="disabled" />
 		</p>
