@@ -531,6 +531,13 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate->addHeading(htmlspecialchars($htmlHeading), $plainHeading);
 		$emailTemplate->addBodyText(htmlspecialchars($note), $note);
 
+		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
+			['token' => $share->getToken()]);
+		$emailTemplate->addBodyButton(
+			$this->l->t('Open »%s«', [$filename]),
+			$link
+		);
+
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
 		$senderName = $this->l->t(
