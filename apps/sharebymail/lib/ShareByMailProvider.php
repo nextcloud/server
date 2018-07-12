@@ -519,24 +519,17 @@ class ShareByMailProvider implements IShareProvider {
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
 
-		$plainBodyPart = $this->l->t("%s shared »%s« with you and want to add:\n", [$initiatorDisplayName, $filename]);
-		$htmlBodyPart = $this->l->t('%s shared »%s« with you and want to add:', [$initiatorDisplayName, $filename]);
+		$plainHeading = $this->l->t('%1s shared »%2s« with you and want to add:', [$initiatorDisplayName, $filename]);
+		$htmlHeading = $this->l->t('%1s shared »%2s« with you and want to add:', [$initiatorDisplayName, $filename]);
 
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote', [
-			'filename' => $filename,
-			'note' => $note,
-			'initiator' => $initiatorDisplayName,
-			'initiatorEmail' => $initiatorEmailAddress,
-			'shareWith' => $recipient,
-		]);
+		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote');
 
 		$emailTemplate->setSubject($this->l->t('»%s« added a note to a file shared with you', [$initiatorDisplayName]));
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('Note regarding »%s«', [$filename]), false);
-		$emailTemplate->addBodyText(htmlspecialchars($htmlBodyPart), $plainBodyPart);
-		$emailTemplate->addBodyText($note);
+		$emailTemplate->addHeading(htmlspecialchars($htmlHeading), $plainHeading);
+		$emailTemplate->addBodyText(htmlspecialchars($note), $note);
 
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
