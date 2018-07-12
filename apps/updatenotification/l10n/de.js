@@ -32,6 +32,7 @@ OC.L10N.register(
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>Produktion</strong> bietet immer die neuesten Patch-Stände an, jedoch nicht sofort die nächste Hauptversion. Diese Aktualisierung erfolgt normalerweise nach der zweiten kleineren Aktualisierung (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stabil</strong> ist die aktuellste stabile Version. Die stabile Version ist für den normalen Gebrauch gedacht und wird jeweils auf die aktuelle Hauptversion aktualisiert.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Beta</strong> bietet eine Vorabversion an und dient zum Testen von neuen Funktionen. Nicht für den Einsatz in Produktivumgebungen geeignet.",
+    "View changelog" : "Liste der Änderungen anschauen",
     "Could not start updater, please try the manual update" : "Der Updater konnte nicht gestartet werden, bitte versuche ein manuelles Update",
     "A new version is available: %s" : "Eine neue Version ist verfügbar: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Deine installierte Version wird nicht mehr unterstützt. Bitte aktualisiere baldmöglichst auf eine unterstützte Version.",
