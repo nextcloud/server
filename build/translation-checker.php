@@ -53,7 +53,16 @@ foreach ($directories as $dir) {
 			echo '  ' . json_last_error_msg() . "\n";
 			$errors[] = $file->getPathname() . "\n" . '  ' . json_last_error_msg() . "\n";
 		} else {
-			echo '[OK]   ' . $file->getPathname() . "\n";
+
+			$matches = [];
+			if (preg_match('/(?:^    )(\"[^\"]*%s[^\"]*%s[^\"]*\")(?: :)/m', $content, $matches)) {
+				echo '[Error] ' . $file->getPathname() . " contains untranslatable string:\n";
+				echo '        ' . $matches[1] . "\n";
+				$errors[] = $file->getPathname() . ' contains untranslatable string:' . "\n    " . $matches[1] . "\n";
+			} else {
+				echo '[OK]   ' . $file->getPathname() . "\n";
+			}
+
 		}
 	}
 }
