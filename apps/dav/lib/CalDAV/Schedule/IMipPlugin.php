@@ -536,7 +536,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$uid = $vevent->{'UID'};
 
 		$query = $this->db->getQueryBuilder();
-		$query->insert('calendar_invitation_tokens')
+		$query->insert('calendar_invitations')
 			->values([
 				'token' => $query->createNamedParameter($token),
 				'attendee' => $query->createNamedParameter($attendee),

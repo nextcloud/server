@@ -45,7 +45,7 @@ class CleanupInvitationTokenJob extends TimedJob {
 
 	public function run($argument) {
 		$query = $this->db->getQueryBuilder();
-		$query->delete('calendar_invitation_tokens')
+		$query->delete('calendar_invitations')
 			->where($query->expr()->lt('expiration',
 				$query->createNamedParameter($this->timeFactory->getTime())))
 			->execute();
