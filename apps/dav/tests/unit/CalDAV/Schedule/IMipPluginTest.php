@@ -96,7 +96,7 @@ class IMipPluginTest extends TestCase {
 			->will($this->returnValue($queryBuilder));
 		$queryBuilder->expects($this->at(0))
 			->method('insert')
-			->with('calendar_invitation_tokens')
+			->with('calendar_invitations')
 			->will($this->returnValue($queryBuilder));
 		$queryBuilder->expects($this->at(8))
 			->method('values')
@@ -176,7 +176,7 @@ class IMipPluginTest extends TestCase {
 			->will($this->returnValue($queryBuilder));
 		$queryBuilder->expects($this->at(0))
 			->method('insert')
-			->with('calendar_invitation_tokens')
+			->with('calendar_invitations')
 			->will($this->returnValue($queryBuilder));
 		$queryBuilder->expects($this->at(8))
 			->method('values')
@@ -264,7 +264,7 @@ class IMipPluginTest extends TestCase {
 				->will($this->returnValue($queryBuilder));
 			$queryBuilder->expects($this->at(0))
 				->method('insert')
-				->with('calendar_invitation_tokens')
+				->with('calendar_invitations')
 				->will($this->returnValue($queryBuilder));
 			$queryBuilder->expects($this->at(8))
 				->method('values')

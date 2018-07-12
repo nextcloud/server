@@ -29,7 +29,7 @@ Class ResourcePrincipalBackendTest extends AbstractPrincipalBackendTest {
 
 		$this->principalBackend = new ResourcePrincipalBackend($this->dbConnection,
 			$this->userSession, $this->groupManager, $this->logger);
-		$this->expectedDbTable = 'calendar_resources_cache';
+		$this->expectedDbTable = 'calendar_resources';
 		$this->principalPrefix = 'principals/calendar-resources';
 	}
 }

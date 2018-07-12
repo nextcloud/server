@@ -27,9 +27,6 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
-/**
- * Auto-generated migration step: Please modify to your needs!
- */
 class Version1005Date20180530124431 extends SimpleMigrationStep {
 
 	/**
@@ -45,8 +42,8 @@ class Version1005Date20180530124431 extends SimpleMigrationStep {
 
 		$types = ['resources', 'rooms'];
 		foreach($types as $type) {
-			if (!$schema->hasTable('calendar_' . $type . '_cache')) {
-				$table = $schema->createTable('calendar_' . $type . '_cache');
+			if (!$schema->hasTable('calendar_' . $type)) {
+				$table = $schema->createTable('calendar_' . $type);
 
 				$table->addColumn('id', Type::BIGINT, [
 					'autoincrement' => true,
@@ -75,10 +72,10 @@ class Version1005Date20180530124431 extends SimpleMigrationStep {
 					'length' => 4000,
 				]);
 
-				$table->setPrimaryKey(['id'], 'calendar_' . $type . '_cache_id_idx');
-				$table->addIndex(['backend_id', 'resource_id'], 'calendar_' . $type . '_cache_backendresource_idx');
-				$table->addIndex(['email'], 'calendar_' . $type . '_cache_email_idx');
-				$table->addIndex(['displayname'], 'calendar_' . $type . '_cache_displayname_idx');
+				$table->setPrimaryKey(['id']);
+				$table->addIndex(['backend_id', 'resource_id'], 'calendar_' . $type . '_bkdrsc');
+				$table->addIndex(['email'], 'calendar_' . $type . '_email');
+				$table->addIndex(['displayname'], 'calendar_' . $type . '_name');
 			}
 		}
 

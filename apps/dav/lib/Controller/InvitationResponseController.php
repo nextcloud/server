@@ -162,7 +162,7 @@ class InvitationResponseController extends Controller {
 	private function getTokenInformation(string $token) {
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
-			->from('calendar_invitation_tokens')
+			->from('calendar_invitations')
 			->where($query->expr()->eq('token', $query->createNamedParameter($token)));
 		$stmt = $query->execute();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);

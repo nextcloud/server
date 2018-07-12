@@ -22,8 +22,8 @@ class Version1006Date20180619154313 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('calendar_invitation_tokens')) {
-			$table = $schema->createTable('calendar_invitation_tokens');
+		if (!$schema->hasTable('calendar_invitations')) {
+			$table = $schema->createTable('calendar_invitations');
 
 			$table->addColumn('id', Type::BIGINT, [
 				'autoincrement' => true,
@@ -62,8 +62,8 @@ class Version1006Date20180619154313 extends SimpleMigrationStep {
 				'unsigned' => true,
 			]);
 
-			$table->setPrimaryKey(['id'], 'calendar_invitation_tokens_id_idx');
-			$table->addIndex(['token'], 'calendar_invitation_tokens_token_idx');
+			$table->setPrimaryKey(['id']);
+			$table->addIndex(['token'], 'calendar_invitation_tokens');
 
 			return $schema;
 		}

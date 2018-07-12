@@ -438,7 +438,7 @@ EOF;
 			->will($this->returnValue($queryBuilder));
 		$queryBuilder->expects($this->at(1))
 			->method('from')
-			->with('calendar_invitation_tokens')
+			->with('calendar_invitations')
 			->will($this->returnValue($queryBuilder));
 		$queryBuilder->expects($this->at(4))
 			->method('where')

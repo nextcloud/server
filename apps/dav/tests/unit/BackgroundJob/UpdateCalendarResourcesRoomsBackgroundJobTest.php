@@ -60,8 +60,8 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 	protected function tearDown() {
 		$query = self::$realDatabase->getQueryBuilder();
-		$query->delete('calendar_resources_cache')->execute();
-		$query->delete('calendar_rooms_cache')->execute();
+		$query->delete('calendar_resources')->execute();
+		$query->delete('calendar_rooms')->execute();
 	}
 
 	/**
@@ -170,7 +170,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$this->backgroundJob->run([]);
 
 		$query = self::$realDatabase->getQueryBuilder();
-		$query->select('*')->from('calendar_resources_cache');
+		$query->select('*')->from('calendar_resources');
 
 		$rows = [];
 		$stmt = $query->execute();
@@ -227,7 +227,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 	protected function createTestResourcesInCache() {
 		$query = self::$realDatabase->getQueryBuilder();
-		$query->insert('calendar_resources_cache')
+		$query->insert('calendar_resources')
 			->values([
 				'backend_id' => $query->createNamedParameter('backend1'),
 				'resource_id' => $query->createNamedParameter('res1'),
@@ -236,7 +236,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
 			->execute();
-		$query->insert('calendar_resources_cache')
+		$query->insert('calendar_resources')
 			->values([
 				'backend_id' => $query->createNamedParameter('backend1'),
 				'resource_id' => $query->createNamedParameter('res2'),
@@ -245,7 +245,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
 			->execute();
-		$query->insert('calendar_resources_cache')
+		$query->insert('calendar_resources')
 			->values([
 				'backend_id' => $query->createNamedParameter('backend2'),
 				'resource_id' => $query->createNamedParameter('res3'),
@@ -254,7 +254,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
 			->execute();
-		$query->insert('calendar_resources_cache')
+		$query->insert('calendar_resources')
 			->values([
 				'backend_id' => $query->createNamedParameter('backend2'),
 				'resource_id' => $query->createNamedParameter('res4'),
@@ -263,7 +263,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
 			->execute();
-		$query->insert('calendar_resources_cache')
+		$query->insert('calendar_resources')
 			->values([
 				'backend_id' => $query->createNamedParameter('backend3'),
 				'resource_id' => $query->createNamedParameter('res5'),
@@ -272,7 +272,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
 			->execute();
-		$query->insert('calendar_resources_cache')
+		$query->insert('calendar_resources')
 			->values([
 				'backend_id' => $query->createNamedParameter('backend3'),
 				'resource_id' => $query->createNamedParameter('res6'),
