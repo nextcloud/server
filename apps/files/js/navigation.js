@@ -172,30 +172,18 @@
 		 */
 		_onClickMenuButton: function (ev) {
 			var $target = $(ev.target);
+			var $menu = $target.parent('li');
 			var itemId = $target.closest('button').attr('id');
 
 			var collapsibleToggles = [];
 			var dotmenuToggles = [];
 
-			// The collapsibleToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
-			// and the parent, which should be toggled at the first arrayindex.
-			collapsibleToggles.push(["#button-collapse-favorites", "#button-collapse-parent-favorites"]);
-
-			// The dotmenuToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
-			// and the parent, which should be toggled at the first arrayindex.
-			dotmenuToggles.push(["#dotmenu-button-favorites", "dotmenu-content-favorites"]);
-
-			collapsibleToggles.forEach(function foundToggle (item) {
-				if (item[0] === ("#" + itemId)) {
-					$(item[1]).toggleClass('open');
-					var show = 1;
-					if (!$(item[1]).hasClass('open')) {
-						show = 0;
-					}
-					$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/showList"), {show: show}, function (data, status) {
-					});
-				}
-			});
+			if ($menu.hasClass('collapsible') && $menu.data('expandedstate')) {
+				$menu.toggleClass('open');
+				var show = $menu.hasClass('open') ? 1 : 0;
+				var key = $menu.data('expandedstate');
+				$.post(OC.generateUrl("/apps/files/api/v1/toggleShowFolder/" + key), {show: show});
+			}
 
 			dotmenuToggles.forEach(function foundToggle (item) {
 				if (item[0] === ("#" + itemId)) {

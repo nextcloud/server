@@ -156,6 +156,7 @@ class ViewController extends Controller {
 
 		$user = $this->userSession->getUser()->getUID();
 
+		// Get all the user favorites to create a submenu
 		try {
 			$favElements = $this->activityHelper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
 		} catch (\RuntimeException $e) {
@@ -193,27 +194,20 @@ class ViewController extends Controller {
 		}
 
 
-		// show_Quick_Access stored as string
-		$defaultExpandedState = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', '0') === '1';
-
-		\OCA\Files\App::getNavigationManager()->add(
-			[
-				'id' => 'favorites',
-				'appname' => 'files',
-				'script' => 'simplelist.php',
-				'classes' => $collapseClasses,
-				'order' => 5,
-				'name' => $this->l10n->t('Favorites'),
-				'sublist' => $favoritesSublistArray,
-				'defaultExpandedState' => $defaultExpandedState,
-				'enableMenuButton' => 0,
-			]
-		);
-
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-		usort($navItems, function ($item1, $item2) {
-			return $item1['order'] - $item2['order'];
-		});
+
+		// transform the favorites entry in menu
+		$navItems['favorites']['sublist'] = $favoritesSublistArray;
+		$navItems['favorites']['classes'] = $collapseClasses;
+
+
+		// parse every menu and add the expandedState user value
+		foreach ($navItems as $key => $item) {
+			if (isset($item['expandedState'])) {
+				$defaultValue = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', $item['expandedState'], '0') === '1';
+				$navItems[$key]['defaultExpandedState'] = $defaultValue;
+			}
+		}
 
 		$nav->assign('navigationItems', $navItems);
 
@@ -235,10 +229,23 @@ class ViewController extends Controller {
 			if (isset($item['script'])) {
 				$content = $this->renderScript($item['appname'], $item['script']);
 			}
-			$contentItem = [];
-			$contentItem['id'] = $item['id'];
-			$contentItem['content'] = $content;
-			$contentItems[] = $contentItem;
+			// parse submenus
+			if (isset($item['sublist'])) {
+				foreach ($item['sublist'] as $subitem) {
+					$subcontent = '';
+					if (isset($subitem['script'])) {
+						$subcontent = $this->renderScript($subitem['appname'], $subitem['script']);
+					}
+					$contentItems[$subitem['id']] = [
+						'id' => $subitem['id'],
+						'content' =>$subcontent
+					];
+				}
+			}
+			$contentItems[$item['id']] = [
+				'id' => $item['id'],
+				'content' =>$content
+			];
 		}
 
 		$event = new GenericEvent(null, ['hiddenFields' => []]);

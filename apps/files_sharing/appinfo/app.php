@@ -50,56 +50,54 @@ $eventDispatcher->addListener(
 $config = \OC::$server->getConfig();
 $shareManager = \OC::$server->getShareManager();
 $userSession = \OC::$server->getUserSession();
+$l = \OC::$server->getL10N('files_sharing');
 
 if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
-	\OCA\Files\App::getNavigationManager()->add(function () {
-		$l = \OC::$server->getL10N('files_sharing');
-		return [
-			'id' => 'sharingin',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 15,
-			'name' => $l->t('Shared with you'),
-		];
-	});
+
+	$sharingSublistArray = [];
+
+	array_push($sharingSublistArray, [
+		'id' => 'sharingin',
+		'appname' => 'files_sharing',
+		'script' => 'list.php',
+		'order' => 15,
+		'name' => $l->t('Shared with you'),
+	]);
 
 	if (\OCP\Util::isSharingDisabledForUser() === false) {
-		\OCA\Files\App::getNavigationManager()->add(function () {
-			$l = \OC::$server->getL10N('files_sharing');
-			return [
-				'id' => 'sharingout',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 16,
-				'name' => $l->t('Shared with others'),
-			];
-		});
+		array_push($sharingSublistArray, [
+			'id' => 'sharingout',
+			'appname' => 'files_sharing',
+			'script' => 'list.php',
+			'order' => 16,
+			'name' => $l->t('Shared with others'),
+		]);
 
 		// Check if sharing by link is enabled
 		if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
-			\OCA\Files\App::getNavigationManager()->add(function () {
-				$l = \OC::$server->getL10N('files_sharing');
-				return [
-					'id' => 'sharinglinks',
-					'appname' => 'files_sharing',
-					'script' => 'list.php',
-					'order' => 17,
-					'name' => $l->t('Shared by link'),
-				];
-			});
+			array_push($sharingSublistArray, [
+				'id' => 'sharinglinks',
+				'appname' => 'files_sharing',
+				'script' => 'list.php',
+				'order' => 17,
+				'name' => $l->t('Shared by link'),
+			]);
 		}
 	}
 
-	\OCA\Files\App::getNavigationManager()->add(function () {
-		$l = \OC::$server->getL10N('files_sharing');
-		return [
-			'id' => 'shareoverview',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 18,
-			'name' => $l->t('Share overview'),
-		];
-	});
+	// show_Quick_Access stored as string
+	$defaultExpandedState = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_sharing_menu', '0') === '1';
+
+	\OCA\Files\App::getNavigationManager()->add([
+		'id' => 'shareoverview',
+		'appname' => 'files_sharing',
+		'script' => 'list.php',
+		'order' => 18,
+		'name' => $l->t('Share overview'),
+		'classes' => 'collapsible',
+		'sublist' => $sharingSublistArray,
+		'expandedState' => 'show_sharing_menu'
+	]);
 
 
 	\OCA\Files\App::getNavigationManager()->add(function () {

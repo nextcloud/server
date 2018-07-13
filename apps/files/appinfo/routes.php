@@ -77,14 +77,9 @@ $application->registerRoutes(
 				'verb' => 'GET',
 			],
 			[
-				'name' => 'API#showQuickAccess',
-				'url' => '/api/v1/quickaccess/set/showList',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#getShowQuickAccess',
-				'url' => '/api/v1/quickaccess/get/showList',
-				'verb' => 'GET',
+				'name' => 'API#toggleShowFolder',
+				'url' => '/api/v1/toggleShowFolder/{key}',
+				'verb' => 'POST'
 			],
 			[
 				'name' => 'API#getShowQuickaccessSettings',

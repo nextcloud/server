@@ -100,7 +100,7 @@ class NavigationManager implements INavigationManager {
 		if(!isset($entry['type'])) {
 			$entry['type'] = 'link';
 		}
-		$this->entries[] = $entry;
+		$this->entries[$entry['id']] = $entry;
 	}
 
 	/**
@@ -133,7 +133,7 @@ class NavigationManager implements INavigationManager {
 	 * @return array
 	 */
 	private function proceedNavigation(array $list): array {
-		usort($list, function($a, $b) {
+		uasort($list, function($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
 			} else if (isset($a['order']) || isset($b['order'])) {
