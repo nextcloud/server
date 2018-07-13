@@ -519,8 +519,8 @@ class ShareByMailProvider implements IShareProvider {
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
 
-		$plainHeading = $this->l->t('%1$s shared »%2$s« with you and want to add:', [$initiatorDisplayName, $filename]);
-		$htmlHeading = $this->l->t('%1$s shared »%2$s« with you and want to add:', [$initiatorDisplayName, $filename]);
+		$plainHeading = $this->l->t('%1$s shared »%2$s« with you and wants to add:', [$initiatorDisplayName, $filename]);
+		$htmlHeading = $this->l->t('%1$s shared »%2$s« with you and wants to add', [$initiatorDisplayName, $filename]);
 
 		$message = $this->mailer->createMessage();
 

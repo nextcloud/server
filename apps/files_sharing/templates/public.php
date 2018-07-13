@@ -33,7 +33,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 	<div id="files-public-content">
 		<?php if (isset($_['note']) && $_['note'] !== '') : ?>
 		<div id="note">
-			<?php p($l->t('Note: ')); p($_['note']); ?>
+			<?php p($l->t('Note:')); p(' ' . $_['note']); ?>
 		</div>
 		<?php endif; ?>
 		<div id="preview">
