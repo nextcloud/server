@@ -53,6 +53,9 @@ class Manager implements IManager {
 	/** @var \Closure[] */
 	protected $notifiersInfoClosures;
 
+	/** @var bool */
+	protected $preparingPushNotification;
+
 	/**
 	 * Manager constructor.
 	 *
@@ -66,6 +69,7 @@ class Manager implements IManager {
 		$this->appsClosures = [];
 		$this->notifiersClosures = [];
 		$this->notifiersInfoClosures = [];
+		$this->preparingPushNotification = false;
 	}
 
 	/**
@@ -169,6 +173,22 @@ class Manager implements IManager {
 	 */
 	public function hasNotifiers() {
 		return !empty($this->notifiersClosures);
+	}
+
+	/**
+	 * @param bool $preparingPushNotification
+	 * @since 14.0.0
+	 */
+	public function setPreparingPushNotification($preparingPushNotification) {
+		$this->preparingPushNotification = $preparingPushNotification;
+	}
+
+	/**
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function isPreparingPushNotification(): bool {
+		return $this->preparingPushNotification;
 	}
 
 	/**
