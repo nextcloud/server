@@ -21,6 +21,7 @@
 
 namespace OC\Core\Migrations;
 
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
@@ -35,10 +36,7 @@ class Version14000Date20180712153140 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('share');
-		$table->addColumn('note', 'text', [
-			'notnull' => true,
-			'default' => ''
-		]);
+		$table->addColumn('note', 'text');
 
 		return $schema;
 	}

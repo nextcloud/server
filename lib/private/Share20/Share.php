@@ -322,7 +322,10 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function getNote() {
-		return $this->note;
+		if (is_string($this->note)) {
+			return $this->note;
+		}
+		return '';
 	}
 
 	/**
