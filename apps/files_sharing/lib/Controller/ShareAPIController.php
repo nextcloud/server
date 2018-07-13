@@ -144,6 +144,7 @@ class ShareAPIController extends OCSController {
 			'expiration' => null,
 			'token' => null,
 			'uid_file_owner' => $share->getShareOwner(),
+			'note' => $share->getNote(),
 			'displayname_file_owner' => $shareOwner !== null ? $shareOwner->getDisplayName() : $share->getShareOwner(),
 		];
 
