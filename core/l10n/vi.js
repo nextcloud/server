@@ -78,6 +78,7 @@ OC.L10N.register(
     "I know what I'm doing" : "Tôi biết tôi đang làm gì",
     "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống.",
     "Reset password" : "Khôi phục mật khẩu",
+    "Sending email …" : "Đang gửi mail...",
     "No" : "Không",
     "Yes" : "Có",
     "No files in here" : "Không có file nào ở đây",
