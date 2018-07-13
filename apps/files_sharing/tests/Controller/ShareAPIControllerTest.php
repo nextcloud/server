@@ -2088,6 +2088,47 @@ class ShareAPIControllerTest extends TestCase {
 			[], $share, [], true
 		];
 
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
+			->setSharedBy('initiator')
+			->setSharedWith('user@server.com')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42)
+			->setPassword('password');
+
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_EMAIL,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'folder',
+				'item_type' => 'folder',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 2,
+				'file_source' => 2,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'user@server.com',
+				'share_with_displayname' => 'mail display name',
+				'mail_send' => 0,
+				'mimetype' => 'myFolderMimeType',
+				'password' => 'password'
+			], $share, [], false
+		];
+
 		return $result;
 	}
 
@@ -2131,15 +2172,28 @@ class ShareAPIControllerTest extends TestCase {
 		$this->overwriteService(\OCP\Contacts\IManager::class, $cm);
 
 		$cm->method('search')
-			->with('user@server.com', ['CLOUD'])
-			->willReturn([
-				[
-					'CLOUD' => [
-						'user@server.com',
+			->will($this->returnValueMap([
+				['user@server.com', ['CLOUD'], [],
+					[
+						[
+							'CLOUD' => [
+								'user@server.com',
+							],
+							'FN' => 'foobar',
+						],
 					],
-					'FN' => 'foobar',
 				],
-			]);
+				['user@server.com', ['EMAIL'], [],
+					[
+						[
+							'EMAIL' => [
+								'user@server.com',
+							],
+							'FN' => 'mail display name',
+						],
+					],
+				],
+			]));
 
 		try {
 			$result = $this->invokePrivate($this->ocs, 'formatShare', [$share]);
