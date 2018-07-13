@@ -112,6 +112,21 @@
 						'    <span class="icon-loading-small hidden"></span>' +
 						'</span>' +
 					'</li>' +
+					'{{#if isTalkEnabled}}' +
+					'<li>' +
+						'<span class="shareOption menuitem">' +
+							'<input id="passwordByTalk-{{cid}}-{{shareId}}" type="checkbox" name="passwordByTalk" class="passwordByTalk checkbox" {{#if isPasswordByTalkSet}}checked="checked"{{/if}} />' +
+							'<label for="passwordByTalk-{{cid}}-{{shareId}}">{{passwordByTalkLabel}}</label>' +
+						'</span>' +
+					'</li>' +
+					'<li class="passwordByTalkMenu-{{cid}}-{{shareId}} {{#unless isPasswordByTalkSet}}hidden{{/unless}}">' +
+						'<span class="passwordByTalkContainer-{{cid}}-{{shareId}} icon-passwordtalk menuitem">' +
+						'    <label for="passwordByTalkField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordByTalkLabel}}</label>' +
+						'    <input id="passwordByTalkField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordByTalkPlaceholder}}" value="{{passwordValue}}" autocomplete="new-password" />' +
+						'    <span class="icon-loading-small hidden"></span>' +
+						'</span>' +
+					'</li>' +
+					'{{/if}}' +
 				'{{/if}}' +
 				'<li>' +
 					'<span class="shareOption menuitem">' +
@@ -183,6 +198,7 @@
 			'click .permissions': 'onPermissionChange',
 			'click .expireDate' : 'onExpireDateChange',
 			'click .password' : 'onMailSharePasswordProtectChange',
+			'click .passwordByTalk' : 'onMailSharePasswordProtectByTalkChange',
 			'click .secureDrop' : 'onSecureDropChange',
 			'keyup input.passwordField': 'onMailSharePasswordKeyUp',
 			'focusout input.passwordField': 'onMailSharePasswordEntered',
@@ -260,7 +276,7 @@
 			var share = this.model.get('shares')[shareIndex];
 			var password = share.password;
 			var hasPassword = password !== null && password !== '';
-
+			var sendPasswordByTalk = share.send_password_by_talk;
 
 			return _.extend(hasPermissionOverride, {
 				cid: this.cid,
@@ -282,12 +298,22 @@
 				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
 				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
 				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder(),
-				isPasswordSet: hasPassword,
+				isPasswordSet: hasPassword && !sendPasswordByTalk,
+				isPasswordByTalkSet: hasPassword && sendPasswordByTalk,
+				isTalkEnabled: oc_appswebroots['spreed'] !== undefined,
 				secureDropMode: !this.model.hasReadPermission(shareIndex),
 				hasExpireDate: this.model.getExpireDate(shareIndex) !== null,
 				shareNote: this.model.getNote(shareIndex),
 				expireDate: moment(this.model.getExpireDate(shareIndex), 'YYYY-MM-DD').format('DD-MM-YYYY'),
+				// The password placeholder does not take into account if
+				// sending the password by Talk is enabled or not; when
+				// switching from sending the password by Talk to sending the
+				// password by email the password is reused and the share
+				// updated, so the placeholder already shows the password in the
+				// brief time between disabling sending the password by email
+				// and receiving the updated share.
 				passwordPlaceholder: hasPassword ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
+				passwordByTalkPlaceholder: (hasPassword && sendPasswordByTalk)? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 			});
 		},
 
@@ -303,6 +329,7 @@
 				secureDropLabel: t('core', 'File drop (upload only)'),
 				expireDateLabel: t('core', 'Set expiration date'),
 				passwordLabel: t('core', 'Password protect'),
+				passwordByTalkLabel: t('core', 'Password protect by Talk'),
 				crudsLabel: t('core', 'Access control'),
 				expirationDatePlaceholder: t('core', 'Expiration date'),
 				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
@@ -674,8 +701,10 @@
 			var inputClass = '#passwordField-' + this.cid + '-' + shareId;
 			var passwordField = $(inputClass);
 			var state = element.prop('checked');
-			if (!state) {
-				this.model.updateShare(shareId, {password: ''});
+			var passwordByTalkElement = $('#passwordByTalk-' + this.cid + '-' + shareId);
+			var passwordByTalkState = passwordByTalkElement.prop('checked');
+			if (!state && !passwordByTalkState) {
+				this.model.updateShare(shareId, {password: '', sendPasswordByTalk: false});
 				passwordField.attr('value', '');
 				passwordField.removeClass('error');
 				passwordField.tooltip('hide');
@@ -683,10 +712,64 @@
 				passwordField.attr('placeholder', PASSWORD_PLACEHOLDER_MESSAGE);
 				// We first need to reset the password field before we hide it
 				passwordContainer.toggleClass('hidden', !state);
-			} else {
+			} else if (state) {
+				if (passwordByTalkState) {
+					// Switching from sending the password by Talk to sending
+					// the password by mail can be done keeping the previous
+					// password sent by Talk.
+					this.model.updateShare(shareId, {sendPasswordByTalk: false});
+
+					var passwordByTalkContainerClass = '.passwordByTalkMenu-' + this.cid + '-' + shareId;
+					var passwordByTalkContainer = $(passwordByTalkContainerClass);
+					passwordByTalkContainer.addClass('hidden');
+					passwordByTalkElement.prop('checked', false);
+				}
+
 				passwordContainer.toggleClass('hidden', !state);
 				passwordField = '#passwordField-' + this.cid + '-' + shareId;
 				this.$(passwordField).focus();
+			}
+		},
+
+		onMailSharePasswordProtectByTalkChange: function(event) {
+			var element = $(event.target);
+			var li = element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var passwordByTalkContainerClass = '.passwordByTalkMenu-' + this.cid + '-' + shareId;
+			var passwordByTalkContainer = $(passwordByTalkContainerClass);
+			var loading = this.$el.find(passwordByTalkContainerClass + ' .icon-loading-small');
+			var inputClass = '#passwordByTalkField-' + this.cid + '-' + shareId;
+			var passwordByTalkField = $(inputClass);
+			var state = element.prop('checked');
+			var passwordElement = $('#password-' + this.cid + '-' + shareId);
+			var passwordState = passwordElement.prop('checked');
+			if (!state) {
+				this.model.updateShare(shareId, {password: '', sendPasswordByTalk: false});
+				passwordByTalkField.attr('value', '');
+				passwordByTalkField.removeClass('error');
+				passwordByTalkField.tooltip('hide');
+				loading.addClass('hidden');
+				passwordByTalkField.attr('placeholder', PASSWORD_PLACEHOLDER_MESSAGE);
+				// We first need to reset the password field before we hide it
+				passwordByTalkContainer.toggleClass('hidden', !state);
+			} else if (state) {
+				if (passwordState) {
+					// Enabling sending the password by Talk requires a new
+					// password to be given (the one sent by mail is not reused,
+					// as it would defeat the purpose of checking the identity
+					// of the sharee by Talk if it was already sent by mail), so
+					// the share is not updated until the user explicitly gives
+					// the new password.
+
+					var passwordContainerClass = '.passwordMenu-' + this.cid + '-' + shareId;
+					var passwordContainer = $(passwordContainerClass);
+					passwordContainer.addClass('hidden');
+					passwordElement.prop('checked', false);
+				}
+
+				passwordByTalkContainer.toggleClass('hidden', !state);
+				passwordByTalkField = '#passwordByTalkField-' + this.cid + '-' + shareId;
+				this.$(passwordByTalkField).focus();
 			}
 		},
 
@@ -700,8 +783,15 @@
 			var passwordField = $(event.target);
 			var li = passwordField.closest('li[data-share-id]');
 			var shareId = li.data('share-id');
-			var passwordContainerClass = '.passwordContainer-' + this.cid + '-' + shareId;
-			var loading = this.$el.find(passwordContainerClass + ' .icon-loading-small');
+			var passwordContainerClass = '.passwordMenu-' + this.cid + '-' + shareId;
+			var passwordByTalkContainerClass = '.passwordByTalkMenu-' + this.cid + '-' + shareId;
+			var sendPasswordByTalk = passwordField.attr('id').startsWith('passwordByTalk');
+			var loading;
+			if (sendPasswordByTalk) {
+				loading = this.$el.find(passwordByTalkContainerClass + ' .icon-loading-small');
+			} else {
+				loading = this.$el.find(passwordContainerClass + ' .icon-loading-small');
+			}
 			if (!loading.hasClass('hidden')) {
 				// still in process
 				return;
@@ -720,7 +810,8 @@
 
 
 			this.model.updateShare(shareId, {
-				password: password
+				password: password,
+				sendPasswordByTalk: sendPasswordByTalk
 			}, {
 				error: function(model, msg) {
 					// destroy old tooltips
