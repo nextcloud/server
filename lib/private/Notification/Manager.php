@@ -99,7 +99,7 @@ class Manager implements IManager {
 	/**
 	 * @return IApp[]
 	 */
-	protected function getApps() {
+	protected function getApps(): array {
 		if (!empty($this->apps)) {
 			return $this->apps;
 		}
@@ -119,7 +119,7 @@ class Manager implements IManager {
 	/**
 	 * @return INotifier[]
 	 */
-	protected function getNotifiers() {
+	protected function getNotifiers(): array {
 		if (!empty($this->notifiers)) {
 			return $this->notifiers;
 		}
@@ -139,7 +139,7 @@ class Manager implements IManager {
 	/**
 	 * @return array[]
 	 */
-	public function listNotifiers() {
+	public function listNotifiers(): array {
 		if (!empty($this->notifiersInfo)) {
 			return $this->notifiersInfo;
 		}
@@ -147,7 +147,7 @@ class Manager implements IManager {
 		$this->notifiersInfo = [];
 		foreach ($this->notifiersInfoClosures as $closure) {
 			$notifier = $closure();
-			if (!is_array($notifier) || count($notifier) !== 2 || !isset($notifier['id']) || !isset($notifier['name'])) {
+			if (!\is_array($notifier) || \count($notifier) !== 2 || !isset($notifier['id'], $notifier['name'])) {
 				throw new \InvalidArgumentException('The given notifier information is invalid');
 			}
 			if (isset($this->notifiersInfo[$notifier['id']])) {
@@ -163,7 +163,7 @@ class Manager implements IManager {
 	 * @return INotification
 	 * @since 8.2.0
 	 */
-	public function createNotification() {
+	public function createNotification(): INotification {
 		return new Notification($this->validator);
 	}
 
@@ -171,7 +171,7 @@ class Manager implements IManager {
 	 * @return bool
 	 * @since 8.2.0
 	 */
-	public function hasNotifiers() {
+	public function hasNotifiers(): bool {
 		return !empty($this->notifiersClosures);
 	}
 
@@ -218,7 +218,7 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
 	 * @since 8.2.0
 	 */
-	public function prepare(INotification $notification, $languageCode) {
+	public function prepare(INotification $notification, $languageCode): INotification {
 		$notifiers = $this->getNotifiers();
 
 		foreach ($notifiers as $notifier) {
@@ -255,7 +255,7 @@ class Manager implements IManager {
 	 * @param INotification $notification
 	 * @return int
 	 */
-	public function getCount(INotification $notification) {
+	public function getCount(INotification $notification): int {
 		$apps = $this->getApps();
 
 		$count = 0;
