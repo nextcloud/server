@@ -2074,6 +2074,131 @@ class ShareAPIControllerTest extends TestCase {
 			], $share, [], false
 		];
 
+		// Circle with id, display name and avatar set by the Circles app
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_CIRCLE)
+			->setSharedBy('initiator')
+			->setSharedWith('Circle (Public circle, circleOwner) [4815162342]')
+			->setSharedWithDisplayName('The display name')
+			->setSharedWithAvatar('path/to/the/avatar')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42);
+
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_CIRCLE,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'folder',
+				'item_type' => 'folder',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 2,
+				'file_source' => 2,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => '4815162342',
+				'share_with_displayname' => 'The display name',
+				'share_with_avatar' => 'path/to/the/avatar',
+				'mail_send' => 0,
+				'mimetype' => 'myFolderMimeType',
+			], $share, [], false
+		];
+
+		// Circle with id set by the Circles app
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_CIRCLE)
+			->setSharedBy('initiator')
+			->setSharedWith('Circle (Public circle, circleOwner) [4815162342]')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42);
+
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_CIRCLE,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'folder',
+				'item_type' => 'folder',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 2,
+				'file_source' => 2,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => '4815162342',
+				'share_with_displayname' => 'Circle (Public circle, circleOwner)',
+				'share_with_avatar' => '',
+				'mail_send' => 0,
+				'mimetype' => 'myFolderMimeType',
+			], $share, [], false
+		];
+
+		// Circle with id not set by the Circles app
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_CIRCLE)
+			->setSharedBy('initiator')
+			->setSharedWith('Circle (Public circle, circleOwner)')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42);
+
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_CIRCLE,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'folder',
+				'item_type' => 'folder',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 2,
+				'file_source' => 2,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'Circle',
+				'share_with_displayname' => 'Circle (Public circle, circleOwner)',
+				'share_with_avatar' => '',
+				'mail_send' => 0,
+				'mimetype' => 'myFolderMimeType',
+			], $share, [], false
+		];
+
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
 			->setSharedBy('initiator')

@@ -48,6 +48,10 @@ class Share implements \OCP\Share\IShare {
 	/** @var string */
 	private $sharedWith;
 	/** @var string */
+	private $sharedWithDisplayName;
+	/** @var string */
+	private $sharedWithAvatar;
+	/** @var string */
 	private $sharedBy;
 	/** @var string */
 	private $shareOwner;
@@ -249,6 +253,42 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getSharedWith() {
 		return $this->sharedWith;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setSharedWithDisplayName($displayName) {
+		if (!is_string($displayName)) {
+			throw new \InvalidArgumentException();
+		}
+		$this->sharedWithDisplayName = $displayName;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSharedWithDisplayName() {
+		return $this->sharedWithDisplayName;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setSharedWithAvatar($src) {
+		if (!is_string($src)) {
+			throw new \InvalidArgumentException();
+		}
+		$this->sharedWithAvatar = $src;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSharedWithAvatar() {
+		return $this->sharedWithAvatar;
 	}
 
 	/**

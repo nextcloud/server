@@ -170,6 +170,40 @@ interface IShare {
 	public function getSharedWith();
 
 	/**
+	 * Set the display name of the receiver of this share.
+	 *
+	 * @param string $displayName
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 14.0.0
+	 */
+	public function setSharedWithDisplayName($displayName);
+
+	/**
+	 * Get the display name of the receiver of this share.
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function getSharedWithDisplayName();
+
+	/**
+	 * Set the avatar of the receiver of this share.
+	 *
+	 * @param string $src
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 14.0.0
+	 */
+	public function setSharedWithAvatar($src);
+
+	/**
+	 * Get the avatar of the receiver of this share.
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function getSharedWithAvatar();
+
+	/**
 	 * Set the permissions.
 	 * See \OCP\Constants::PERMISSION_*
 	 *
