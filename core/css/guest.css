@@ -166,7 +166,8 @@ form #datadirField legend {
 input, textarea, select, button, div[contenteditable=true] {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
-input {
+input,
+input:not([type='range']) {
 	font-size: 20px;
 	margin: 5px;
 	padding: 11px 10px 9px;
