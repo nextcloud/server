@@ -238,7 +238,7 @@ class ShareAPIControllerTest extends TestCase {
 	*/
 
 	public function createShare($id, $shareType, $sharedWith, $sharedBy, $shareOwner, $path, $permissions,
-								$shareTime, $expiration, $parent, $target, $mail_send, $token=null,
+								$shareTime, $expiration, $parent, $target, $mail_send, $note = '', $token=null,
 								$password=null) {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getId')->willReturn($id);
@@ -248,6 +248,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getShareOwner')->willReturn($shareOwner);
 		$share->method('getNode')->willReturn($path);
 		$share->method('getPermissions')->willReturn($permissions);
+		$share->method('getNote')->willReturn($note);
 		$time = new \DateTime();
 		$time->setTimestamp($shareTime);
 		$share->method('getShareTime')->willReturn($time);
@@ -310,7 +311,8 @@ class ShareAPIControllerTest extends TestCase {
 			null,
 			6,
 			'target',
-			0
+			0,
+			'personal note'
 		);
 		$expected = [
 			'id' => 100,
@@ -334,6 +336,7 @@ class ShareAPIControllerTest extends TestCase {
 			'storage' => 101,
 			'mail_send' => 0,
 			'uid_file_owner' => 'ownerId',
+			'note' => 'personal note',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myMimeType',
 		];
@@ -352,7 +355,8 @@ class ShareAPIControllerTest extends TestCase {
 			null,
 			6,
 			'target',
-			0
+			0,
+			'personal note'
 		);
 		$expected = [
 			'id' => 101,
@@ -376,6 +380,7 @@ class ShareAPIControllerTest extends TestCase {
 			'storage' => 101,
 			'mail_send' => 0,
 			'uid_file_owner' => 'ownerId',
+			'note' => 'personal note',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myFolderMimeType',
 		];
@@ -396,6 +401,7 @@ class ShareAPIControllerTest extends TestCase {
 			6,
 			'target',
 			0,
+			'personal note',
 			'token',
 			'password'
 		);
@@ -422,6 +428,7 @@ class ShareAPIControllerTest extends TestCase {
 			'mail_send' => 0,
 			'url' => 'url',
 			'uid_file_owner' => 'ownerId',
+			'note' => 'personal note',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myFolderMimeType',
 		];
@@ -455,7 +462,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn(true);
 
 		$this->shareManager
-			->expects($this->once())
+			->expects($this->any())
 			->method('getShareById')
 			->with($share->getFullId(), 'currentUser')
 			->willReturn($share);
@@ -500,6 +507,8 @@ class ShareAPIControllerTest extends TestCase {
 		$this->groupManager->method('get')->will($this->returnValueMap([
 			['group', $group],
 		]));
+
+		$d = $ocs->getShare($share->getId())->getData()[0];
 
 		$this->assertEquals($result, $ocs->getShare($share->getId())->getData()[0]);
 	}
@@ -1810,6 +1819,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($file)
 			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
 			->setTarget('myTarget')
+			->setNote('personal note')
 			->setId(42);
 
 		/* User backend down */
@@ -1836,6 +1846,7 @@ class ShareAPIControllerTest extends TestCase {
 				'file_target' => 'myTarget',
 				'share_with' => 'recipient',
 				'share_with_displayname' => 'recipient',
+				'note' => 'personal note',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
 			], $share, [], false
@@ -1855,6 +1866,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'ownerDN',
+				'note' => 'personal note',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -1883,6 +1895,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($file)
 			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
 			->setTarget('myTarget')
+			->setNote('personal note')
 			->setId(42);
 
 		/* User backend down */
@@ -1899,6 +1912,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => 'personal note',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -1924,6 +1938,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($file)
 			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
 			->setTarget('myTarget')
+			->setNote('personal note')
 			->setId(42);
 
 		$result[] = [
@@ -1939,6 +1954,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => 'personal note',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -1964,6 +1980,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($file)
 			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
 			->setTarget('myTarget')
+			->setNote('personal note')
 			->setId(42);
 		$result[] = [
 			[
@@ -1978,6 +1995,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => 'personal note',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2004,6 +2022,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setPassword('mypassword')
 			->setExpirationDate(new \DateTime('2001-01-02T00:00:00'))
 			->setToken('myToken')
+			->setNote('personal note')
 			->setId(42);
 
 		$result[] = [
@@ -2019,6 +2038,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => 'myToken',
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => 'personal note',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2044,6 +2064,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($folder)
 			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
 			->setTarget('myTarget')
+			->setNote('personal note')
 			->setId(42);
 
 		$result[] = [
@@ -2059,6 +2080,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => 'personal note',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2207,6 +2229,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
 			->setTarget('myTarget')
+			->setNote('personal note')
 			->setId(42);
 
 		$result[] = [
