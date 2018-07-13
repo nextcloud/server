@@ -176,6 +176,7 @@ input:not([type='range']) {
 	-webkit-appearance: none;
 }
 input[type='submit'],
+input[type='submit'].icon-confirm,
 input[type='button'],
 button, .button,
 select {
@@ -208,6 +209,7 @@ input.login {
 	background-position: right 16px center;
 }
 input[type='submit'],
+input[type='submit'].icon-confirm,
 input.updateButton,
 input.update-continue {
 	padding: 10px 20px; /* larger log in and installation buttons */
