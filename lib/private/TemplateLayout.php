@@ -122,6 +122,7 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('bodyid', 'body-login');
 		} else if ($renderAs == 'guest') {
 			parent::__construct('core', 'layout.guest');
+			\OC_Util::addStyle('guest');
 			$this->assign('bodyid', 'body-login');
 		} else if ($renderAs == 'public') {
 			parent::__construct('core', 'layout.public');
@@ -187,7 +188,7 @@ class TemplateLayout extends \OC_Template {
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
 			&& !preg_match('/^\/login/', $pathInfo)
-			&& $renderAs !== 'error' && $renderAs !== 'guest'
+			&& $renderAs !== 'error'
 		) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
