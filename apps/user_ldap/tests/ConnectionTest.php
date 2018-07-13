@@ -110,7 +110,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('setOption')
 			->will($this->returnValue(true));
 
-		$this->ldap->expects($this->exactly(2))
+		$this->ldap->expects($this->exactly(3))
 			->method('connect')
 			->will($this->returnValue('ldapResource'));
 
@@ -119,7 +119,7 @@ class ConnectionTest extends \Test\TestCase {
 			->will($this->returnValue(0));
 
 		// Not called often enough? Then, the fallback to the backup server is broken.
-		$this->connection->expects($this->exactly(3))
+		$this->connection->expects($this->exactly(4))
 			->method('getFromCache')
 			->with('overrideMainServer')
 			->will($this->onConsecutiveCalls(false, false, true, true));
