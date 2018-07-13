@@ -576,8 +576,8 @@ class Connection extends LDAPUtility {
 				if (!$isOverrideMainServer) {
 					$this->doConnect($this->configuration->ldapHost,
 						$this->configuration->ldapPort);
+					return $this->bind();
 				}
-				return $this->bind();
 			} catch (ServerNotAvailableException $e) {
 				if(!$isBackupHost) {
 					throw $e;
