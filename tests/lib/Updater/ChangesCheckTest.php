@@ -29,11 +29,11 @@ namespace Test\Updater;
 use OC\Updater\ChangesCheck;
 use OC\Updater\ChangesMapper;
 use OC\Updater\ChangesResult;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ILogger;
-use const Solarium\QueryType\Select\Query\Component\Facet\INCLUDE_LOWER;
 use Test\TestCase;
 
 class ChangesCheckTest extends TestCase {
@@ -338,7 +338,42 @@ class ChangesCheckTest extends TestCase {
 	 * @dataProvider versionProvider
 	 */
 	public function testNormalizeVersion(string $input, string $expected) {
-		$normalized = $this->invokePrivate($this->checker, 'normalizeVersion', [$input]);
+		$normalized = $this->checker->normalizeVersion($input);
 		$this->assertSame($expected, $normalized);
+	}
+
+	public function changeDataProvider():array {
+		$testDataFound = $testDataNotFound = $this->versionProvider();
+		array_walk($testDataFound, function(&$params) { $params[] = true; });
+		array_walk($testDataNotFound, function(&$params) { $params[] = false; });
+		return array_merge($testDataFound, $testDataNotFound);
+	}
+
+	/**
+	 * @dataProvider changeDataProvider
+	 *
+	 */
+	public function testGetChangesForVersion(string $inputVersion, string $normalizedVersion, bool $isFound) {
+		$mocker = $this->mapper->expects($this->once())
+			->method('getChanges')
+			->with($normalizedVersion);
+
+		if(!$isFound) {
+			$this->expectException(DoesNotExistException::class);
+			$mocker->willThrowException(new DoesNotExistException('Changes info is not present'));
+		} else {
+			$entry = $this->createMock(ChangesResult::class);
+			$entry->expects($this->once())
+				->method('__call')
+				->with('getData')
+				->willReturn('{"changelogURL":"https:\/\/nextcloud.com\/changelog\/#13-0-0","whatsNew":{"en":{"regular":["Refined user interface","End-to-end Encryption","Video and Text Chat"],"admin":["Changes to the Nginx configuration","Theming: CSS files were consolidated"]},"de":{"regular":["\u00dcberarbeitete Benutzerschnittstelle","Ende-zu-Ende Verschl\u00fcsselung","Video- und Text-Chat"],"admin":["\u00c4nderungen an der Nginx Konfiguration","Theming: CSS Dateien wurden konsolidiert"]}}}');
+
+			$mocker->willReturn($entry);
+		}
+
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$data = $this->checker->getChangesForVersion($inputVersion);
+		$this->assertTrue(isset($data['whatsNew']['en']['regular']));
+		$this->assertTrue(isset($data['changelogURL']));
 	}
 }

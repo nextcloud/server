@@ -48,6 +48,15 @@ class ChangesCheck {
 	}
 
 	/**
+	 * @throws DoesNotExistException
+	 */
+	public function getChangesForVersion(string $version): array {
+		$version = $this->normalizeVersion($version);
+		$changesInfo = $this->mapper->getChanges($version);
+		return json_decode($changesInfo->getData(), true);
+	}
+
+	/**
 	 * @throws \Exception
 	 */
 	public function check(string $uri, string $version): array {
@@ -145,7 +154,7 @@ class ChangesCheck {
 	 * returns a x.y.z form of the provided version. Extra numbers will be
 	 * omitted, missing ones added as zeros.
 	 */
-	protected function normalizeVersion(string $version): string {
+	public function normalizeVersion(string $version): string {
 		$versionNumbers = array_slice(explode('.', $version), 0, 3);
 		$versionNumbers[0] = $versionNumbers[0] ?: '0'; // deal with empty input
 		while(count($versionNumbers) < 3) {

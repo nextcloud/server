@@ -14,6 +14,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\L10N\ILanguageIterator;
 use Test\TestCase;
 
 /**
@@ -594,6 +595,35 @@ class FactoryTest extends TestCase {
 
 		$result = $this->invokePrivate($factory, 'respectDefaultLanguage', ['app', $lang]);
 		$this->assertSame($expected, $result);
+	}
+
+	public function languageIteratorRequestProvider():array {
+		return [
+			[ true, $this->createMock(IUser::class)],
+			[ false, $this->createMock(IUser::class)],
+			[ false, null]
+		];
+	}
+
+	/**
+	 * @dataProvider languageIteratorRequestProvider
+	 */
+	public function testGetLanguageIterator(bool $hasSession, IUser $iUserMock = null) {
+		$factory = $this->getFactory();
+
+		if($iUserMock === null) {
+			$matcher  = $this->userSession->expects($this->once())
+				->method('getUser');
+
+			if($hasSession) {
+				$matcher->willReturn($this->createMock(IUser::class));
+			} else {
+				$this->expectException(\RuntimeException::class);
+			}
+		}
+
+		$iterator = $factory->getLanguageIterator($iUserMock);
+		$this->assertInstanceOf(ILanguageIterator::class, $iterator);
 	}
 
 }

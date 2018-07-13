@@ -35,6 +35,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\L10N\ILanguageIterator;
 
 /**
  * A factory that generates language instances
@@ -322,35 +323,12 @@ class Factory implements IFactory {
 		return array_search($lang, $languages) !== false;
 	}
 
-	public function iterateLanguage(bool $reset = false): string {
-		static $i = 0;
-		if($reset) {
-			$i = 0;
+	public function getLanguageIterator(IUser $user = null): ILanguageIterator {
+		$user = $user ?? $this->userSession->getUser();
+		if($user === null) {
+			throw new \RuntimeException('Failed to get an IUser instance');
 		}
-		switch($i) {
-			/** @noinspection PhpMissingBreakStatementInspection */
-			case 0:
-				$i++;
-				$forcedLang = $this->config->getSystemValue('force_language', false);
-				if(is_string($forcedLang)) {
-					return $forcedLang;
-				}
-			/** @noinspection PhpMissingBreakStatementInspection */
-			case 1:
-				$i++;
-				$user = $this->userSession->getUser();
-				if($user instanceof IUser) {
-					$userLang = $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
-					if(is_string($userLang)) {
-						return $userLang;
-					}
-				}
-			case 2:
-				$i++;
-				return $this->config->getSystemValue('default_language', 'en');
-			default:
-				return 'en';
-		}
+		return new LanguageIterator($user, $this->config);
 	}
 
 	/**
