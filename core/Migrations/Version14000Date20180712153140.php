@@ -36,7 +36,7 @@ class Version14000Date20180712153140 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('share');
-		$table->addColumn('note', 'text');
+		$table->addColumn('note', 'text', ['notnull' => false]);
 
 		return $schema;
 	}
