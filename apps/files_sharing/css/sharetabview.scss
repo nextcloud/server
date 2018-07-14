@@ -131,6 +131,7 @@
 	display: none !important;
 }
 
+form#newNoteForm,
 .linkShareView {
 	margin-top: 16px;
 }
@@ -141,4 +142,24 @@
 
 .shareTabView .icon {
 	background-size: 16px 16px;
+}
+
+
+/* NOTE */
+form#newNoteForm {
+	display: flex;
+	flex-wrap: wrap;
+	.message {
+		flex: 1 1;
+		min-height: 76px;
+		margin-right: 0;
+		border-bottom-right-radius: 0;
+		border-top-right-radius: 0;
+	}
+	input {
+		width: 44px;
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+		margin-left: -1px;
+	}
 }

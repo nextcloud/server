@@ -121,6 +121,9 @@
 					'</span>' +
 				'</li>' +
 				'<li>' +
+					'<a href="#" class="addnote"><span class="icon-loading-small hidden"></span><span class="icon icon-edit"></span><span>{{addNoteLabel}}</span></a>' +
+				'</li>' +
+				'<li>' +
 					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
 				'</li>' +
 			'</ul>' +
@@ -154,8 +157,11 @@
 		/** @type {boolean|number} **/
 		_renderPermissionChange: false,
 
+		_noteView: undefined,
+
 		events: {
 			'click .unshare': 'onUnshare',
+			'click .addnote': 'showNoteForm',
 			'click .icon-more': 'onToggleMenu',
 			'click .permissions': 'onPermissionChange',
 			'click .expireDate' : 'onExpireDateChange',
@@ -178,6 +184,8 @@
 			this.model.on('change:shares', function() {
 				view.render();
 			});
+
+			this._noteView = options.parent.noteView;
 		},
 
 		/**
@@ -269,6 +277,7 @@
 		getShareProperties: function() {
 			return {
 				unshareLabel: t('core', 'Unshare'),
+				addNoteLabel: t('core', 'Set share note'),
 				canShareLabel: t('core', 'Can reshare'),
 				canEditLabel: t('core', 'Can edit'),
 				createPermissionLabel: t('core', 'Can create'),
@@ -470,6 +479,16 @@
 			return this._popoverMenuTemplate(data);
 		},
 
+		showNoteForm(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var self = this;
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			this._noteView.render(shareId);
+		},
+
 		onUnshare: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -493,6 +512,8 @@
 			self.model.removeShare(shareId)
 				.done(function() {
 					$li.remove();
+					// remove note field on sucess
+					self._noteView.hide();
 				})
 				.fail(function() {
 					$loading.addClass('hidden');
