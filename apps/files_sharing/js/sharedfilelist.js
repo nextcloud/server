@@ -274,7 +274,7 @@
 			}
 
 			if (shares.ocs && shares.ocs.data) {
-				files = files.concat(this._makeFilesFromShares(shares.ocs.data));
+				files = files.concat(this._makeFilesFromShares(shares.ocs.data, this._sharedWithUser));
 			}
 
 			if (remoteShares && remoteShares.ocs && remoteShares.ocs.data) {
@@ -282,7 +282,7 @@
 			}
 
 			if (additionnalShares && additionnalShares[0] && additionnalShares[0].ocs && additionnalShares[0].ocs.data) {
-				files = files.concat(this._makeFilesFromShares(additionnalShares[0].ocs.data));
+				files = files.concat(this._makeFilesFromShares(additionnalShares[0].ocs.data, !this._sharedWithUser));
 			}
 
 			this.setFiles(files);
@@ -323,7 +323,7 @@
 		 * @param {Array} data OCS API share array
 		 * @return {Array.<OCA.Sharing.SharedFileInfo>} array of shared file info
 		 */
-		_makeFilesFromShares: function(data) {
+		_makeFilesFromShares: function(data, sharedWithUser) {
 			/* jshint camelcase: false */
 			var self = this;
 			var files = data;
@@ -359,7 +359,7 @@
 						stime: share.stime * 1000,
 						expiration: share.expiration,
 					};
-					if (self._sharedWithUser) {
+					if (sharedWithUser) {
 						file.shareOwner = share.displayname_owner;
 						file.shareOwnerId = share.uid_owner;
 						file.name = OC.basename(share.file_target);
