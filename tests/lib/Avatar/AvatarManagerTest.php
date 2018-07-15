@@ -22,19 +22,19 @@
  *
  */
 
-namespace Test;
+namespace Test\Avatar;
 
-use OC\Avatar;
-use OC\AvatarManager;
-use OC\Files\AppData\AppData;
+use OC\Avatar\GuestAvatar;
+use OC\Avatar\UserAvatar;
+use OC\Avatar\AvatarManager;
 use OC\User\Manager;
+use OC\User\User;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
-use OCP\IUser;
-use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class AvatarManagerTest
@@ -72,60 +72,63 @@ class AvatarManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage user does not exist
+	 * Asserts a GuestAvatar is returned for unknown users.
+	 *
+	 * @return void
 	 */
-	public function testGetAvatarInvalidUser() {
-		$this->userManager
-			->expects($this->once())
-			->method('get')
-			->with('invalidUser')
+	public function testGetGuestAvatar() {
+		$this->userManager->method('get')
+			->with('unknownUser')
 			->willReturn(null);
 
-		$this->avatarManager->getAvatar('invalidUser');
+		$avatar = $this->avatarManager->getAvatar('unknownUser');
+		self::assertInstanceOf(GuestAvatar::class, $avatar);
+		/* @var $avatar GuestAvatar */
+		self::assertEquals('unknownUser', $avatar->getDisplayName());
 	}
 
-	public function testGetAvatarValidUser() {
-		$user = $this->createMock(IUser::class);
-		$user
-			->expects($this->once())
-			->method('getUID')
-			->willReturn('valid-user');
-		$this->userManager
-			->expects($this->once())
-			->method('get')
-			->with('valid-user')
-			->willReturn($user);
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('valid-user')
-			->willReturn($folder);
-
-		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);
-		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
+	/**
+	 * Returns user names / ids test data.
+	 *
+	 * The format is: [0]: requested user name, [1] user id
+	 *
+	 * @return array
+	 */
+	public function getUserNamesAndIds() {
+		return [
+			['valid-user', 'valid-user'],
+			['vaLid-USER', 'valid-user'],
+		];
 	}
 
-	public function testGetAvatarValidUserDifferentCasing() {
-		$user = $this->createMock(IUser::class);
+	/**
+	 * Asserts that an UserAvatar is returned for known users.
+	 *
+	 * @param string $userName The requested user name
+	 * @param string $userId The user id for the requested user
+	 * @return void
+	 * @dataProvider getUserNamesAndIds
+	 */
+	public function testGetUserAvatar(string $userName, string $userId) {
+		/* @var MockObject|User $user */
+		$user = $this->createMock(User::class);
 		$this->userManager->expects($this->once())
 			->method('get')
-			->with('vaLid-USER')
+			->with($userName)
 			->willReturn($user);
-
 		$user->expects($this->once())
 			->method('getUID')
-			->willReturn('valid-user');
+			->willReturn($userId);
 
+		/* @var MockObject|ISimpleFolder $folder */
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
-			->with('valid-user')
+			->with($userId)
 			->willReturn($folder);
 
-		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);
-		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
+		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		$this->assertEquals($expected, $this->avatarManager->getAvatar($userName));
 	}
 }

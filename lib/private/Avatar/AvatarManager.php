@@ -26,9 +26,10 @@ declare(strict_types=1);
  *
  */
 
-namespace OC;
+namespace OC\Avatar;
 
 use OC\User\Manager;
+use OC\User\User;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
@@ -80,19 +81,29 @@ class AvatarManager implements IAvatarManager {
 	}
 
 	/**
-	 * return a user specific instance of \OCP\IAvatar
+	 * Returns an user specific avatar object.
+	 *
 	 * @see \OCP\IAvatar
-	 * @param string $userId the ownCloud user id
+	 * @param string $userId The user id.
 	 * @return \OCP\IAvatar
-	 * @throws \Exception In case the username is potentially dangerous
-	 * @throws NotFoundException In case there is no user folder yet
 	 */
 	public function getAvatar(string $userId) : IAvatar {
 		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			throw new \Exception('user does not exist');
-		}
 
+		if ($user === null) {
+			return new GuestAvatar($userId, $this->logger);
+		} else {
+			return $this->getUserAvatar($user);
+		}
+	}
+
+	/**
+	 * Returns the avatar object for a registered user.
+	 *
+	 * @param User $user The registered user
+	 * @return Avatar
+	 */
+	private function getUserAvatar(User $user): Avatar {
 		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
 		$userId = $user->getUID();
 
@@ -102,6 +113,6 @@ class AvatarManager implements IAvatarManager {
 			$folder = $this->appData->newFolder($userId);
 		}
 
-		return new Avatar($folder, $this->l, $user, $this->logger, $this->config);
+		return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
 	}
 }
