@@ -370,6 +370,14 @@ interface IManager {
 	public function outgoingServer2ServerSharesAllowed();
 
 	/**
+	 * Check if outgoing server2server shares are allowed
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function outgoingServer2ServerGroupSharesAllowed();
+
+
+	/**
 	 * Check if a given share provider exists
 	 * @param int $shareType
 	 * @return bool

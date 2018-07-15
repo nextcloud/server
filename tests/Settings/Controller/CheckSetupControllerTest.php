@@ -134,6 +134,7 @@ class CheckSetupControllerTest extends TestCase {
 				'hasMissingIndexes',
 				'isSqliteUsed',
 				'isPhpMailerUsed',
+				'hasOpcacheLoaded',
 			])->getMock();
 	}
 
@@ -397,6 +398,10 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(true);
 		$this->checkSetupController
 			->expects($this->once())
+			->method('hasOpcacheLoaded')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
 			->method('hasWorkingFileLocking')
 			->willReturn(true);
 		$this->checkSetupController
@@ -451,6 +456,7 @@ class CheckSetupControllerTest extends TestCase {
 				'hasPassedCodeIntegrityCheck' => true,
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'isOpcacheProperlySetup' => false,
+				'hasOpcacheLoaded' => true,
 				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
 				'isSettimelimitAvailable' => true,
 				'hasFreeTypeSupport' => false,

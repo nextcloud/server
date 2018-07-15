@@ -8,6 +8,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
  *
  * @license AGPL-3.0
  *
@@ -27,6 +28,7 @@
 
 namespace OCA\Files\Controller;
 
+use OCA\Files\Activity\Helper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -67,19 +69,10 @@ class ViewController extends Controller {
 	protected $appManager;
 	/** @var IRootFolder */
 	protected $rootFolder;
+	/** @var Helper */
+	protected $activityHelper;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param EventDispatcherInterface $eventDispatcherInterface
-	 * @param IUserSession $userSession
-	 * @param IAppManager $appManager
-	 * @param IRootFolder $rootFolder
-	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								IL10N $l10n,
@@ -87,7 +80,8 @@ class ViewController extends Controller {
 								EventDispatcherInterface $eventDispatcherInterface,
 								IUserSession $userSession,
 								IAppManager $appManager,
-								IRootFolder $rootFolder
+								IRootFolder $rootFolder,
+								Helper $activityHelper
 	) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
@@ -99,6 +93,7 @@ class ViewController extends Controller {
 		$this->userSession = $userSession;
 		$this->appManager = $appManager;
 		$this->rootFolder = $rootFolder;
+		$this->activityHelper = $activityHelper;
 	}
 
 	/**
@@ -159,28 +154,68 @@ class ViewController extends Controller {
 		// FIXME: Make non static
 		$storageInfo = $this->getStorageInfo();
 
+		$user = $this->userSession->getUser()->getUID();
+
+		try {
+			$favElements = $this->activityHelper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
+		} catch (\RuntimeException $e) {
+			$favElements['folders'] = null;
+		}
+
+		$collapseClasses = '';
+		if (count($favElements['folders']) > 0) {
+			$collapseClasses = 'collapsible';
+		}
+
+		$favoritesSublistArray = Array();
+
+		$navBarPositionPosition = 6;
+		$currentCount = 0;
+		foreach ($favElements['folders'] as $dir) {
+
+			$id = substr($dir, strrpos($dir, '/') + 1, strlen($dir));
+			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'view' => 'files']);
+			$sortingValue = ++$currentCount;
+			$element = [
+				'id' => str_replace('/', '-', $dir),
+				'view' => 'files',
+				'href' => $link,
+				'dir' => $dir,
+				'order' => $navBarPositionPosition,
+				'folderPosition' => $sortingValue,
+				'name' => $id,
+				'icon' => 'files',
+				'quickaccesselement' => 'true'
+			];
+
+			array_push($favoritesSublistArray, $element);
+			$navBarPositionPosition++;
+		}
+
+
+		// show_Quick_Access stored as string
+		$defaultExpandedState = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', '0') === '1';
+
 		\OCA\Files\App::getNavigationManager()->add(
 			[
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
+				'classes' => $collapseClasses,
 				'order' => 5,
-				'name' => $this->l10n->t('Favorites')
+				'name' => $this->l10n->t('Favorites'),
+				'sublist' => $favoritesSublistArray,
+				'defaultExpandedState' => $defaultExpandedState,
+				'enableMenuButton' => 0,
 			]
 		);
 
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-		usort($navItems, function($item1, $item2) {
+		usort($navItems, function ($item1, $item2) {
 			return $item1['order'] - $item2['order'];
 		});
-		$nav->assign('navigationItems', $navItems);
 
-		$webdavurl = $this->urlGenerator->linkTo('', 'remote.php') .
-			'/dav/files/' .
-			$this->userSession->getUser()->getUID() .
-			'/';
-		$webdavurl = $this->urlGenerator->getAbsoluteURL($webdavurl);
-		$nav->assign('webdavurl', $webdavurl);
+		$nav->assign('navigationItems', $navItems);
 
 		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -215,10 +250,9 @@ class ViewController extends Controller {
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'];
 		$params['isPublic'] = false;
 		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
-		$user = $this->userSession->getUser()->getUID();
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
-		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
+		$showHidden = (bool)$this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
@@ -233,6 +267,7 @@ class ViewController extends Controller {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
+
 
 		return $response;
 	}

@@ -239,38 +239,38 @@ describe('OCA.Files.App tests', function() {
 				expect(App.navigation.getActiveItem()).toEqual('other');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(true);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(false);
-				expect($('li[data-id=files]').hasClass('active')).toEqual(false);
-				expect($('li[data-id=other]').hasClass('active')).toEqual(true);
+				expect($('li[data-id=files] > a').hasClass('active')).toEqual(false);
+				expect($('li[data-id=other] > a').hasClass('active')).toEqual(true);
 
 				App._onPopState({view: 'files', dir: '/somedir'});
 
 				expect(App.navigation.getActiveItem()).toEqual('files');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(false);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(true);
-				expect($('li[data-id=files]').hasClass('active')).toEqual(true);
-				expect($('li[data-id=other]').hasClass('active')).toEqual(false);
+				expect($('li[data-id=files] > a').hasClass('active')).toEqual(true);
+				expect($('li[data-id=other] > a').hasClass('active')).toEqual(false);
 			});
 			it('clicking on navigation switches the panel visibility', function() {
-				$('li[data-id=other]>a').click();
+				$('li[data-id=other] > a').click();
 				expect(App.navigation.getActiveItem()).toEqual('other');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(true);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(false);
-				expect($('li[data-id=files]').hasClass('active')).toEqual(false);
-				expect($('li[data-id=other]').hasClass('active')).toEqual(true);
+				expect($('li[data-id=files] > a').hasClass('active')).toEqual(false);
+				expect($('li[data-id=other] > a').hasClass('active')).toEqual(true);
 
-				$('li[data-id=files]>a').click();
+				$('li[data-id=files] > a').click();
 				expect(App.navigation.getActiveItem()).toEqual('files');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(false);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(true);
-				expect($('li[data-id=files]').hasClass('active')).toEqual(true);
-				expect($('li[data-id=other]').hasClass('active')).toEqual(false);
+				expect($('li[data-id=files] > a').hasClass('active')).toEqual(true);
+				expect($('li[data-id=other] > a').hasClass('active')).toEqual(false);
 			});
 			it('clicking on navigation sends "show" and "urlChanged" event', function() {
 				var handler = sinon.stub();
 				var showHandler = sinon.stub();
 				$('#app-content-other').on('urlChanged', handler);
 				$('#app-content-other').on('show', showHandler);
-				$('li[data-id=other]>a').click();
+				$('li[data-id=other] > a').click();
 				expect(handler.calledOnce).toEqual(true);
 				expect(handler.getCall(0).args[0].view).toEqual('other');
 				expect(handler.getCall(0).args[0].dir).toEqual('/');
@@ -281,7 +281,7 @@ describe('OCA.Files.App tests', function() {
 				var showHandler = sinon.stub();
 				$('#app-content-files').on('urlChanged', handler);
 				$('#app-content-files').on('show', showHandler);
-				$('li[data-id=files]>a').click();
+				$('li[data-id=files] > a').click();
 				expect(handler.calledOnce).toEqual(true);
 				expect(handler.getCall(0).args[0].view).toEqual('files');
 				expect(handler.getCall(0).args[0].dir).toEqual('/');

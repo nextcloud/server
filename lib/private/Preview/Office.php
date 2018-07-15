@@ -43,24 +43,24 @@ abstract class Office extends Provider {
 
 		$tmpDir = \OC::$server->getTempManager()->getTempBaseDir();
 
-		$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir . '/owncloud-' . \OC_Util::getInstanceId() . '/') . ' --headless --nologo --nofirststartwizard --invisible --norestore --convert-to pdf --outdir ';
+		$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir . '/owncloud-' . \OC_Util::getInstanceId() . '/') . ' --headless --nologo --nofirststartwizard --invisible --norestore --convert-to png --outdir ';
 		$clParameters = \OC::$server->getConfig()->getSystemValue('preview_office_cl_parameters', $defaultParameters);
 
 		$exec = $this->cmd . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
 
 		shell_exec($exec);
 
-		//create imagick object from pdf
-		$pdfPreview = null;
+		//create imagick object from png
+		$pngPreview = null;
 		try {
 			list($dirname, , , $filename) = array_values(pathinfo($absPath));
-			$pdfPreview = $dirname . '/' . $filename . '.pdf';
+			$pngPreview = $dirname . '/' . $filename . '.png';
 
-			$pdf = new \imagick($pdfPreview . '[0]');
-			$pdf->setImageFormat('jpg');
+			$png = new \imagick($pngPreview . '[0]');
+			$png->setImageFormat('jpg');
 		} catch (\Exception $e) {
 			unlink($absPath);
-			unlink($pdfPreview);
+			unlink($pngPreview);
 			\OC::$server->getLogger()->logException($e, [
 				'level' => ILogger::ERROR,
 				'app' => 'core',
@@ -69,10 +69,10 @@ abstract class Office extends Provider {
 		}
 
 		$image = new \OC_Image();
-		$image->loadFromData($pdf);
+		$image->loadFromData($png);
 
 		unlink($absPath);
-		unlink($pdfPreview);
+		unlink($pngPreview);
 
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);

@@ -2,8 +2,8 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Komentarai",
-    "Edit comment" : "Redaguoti komentarą",
-    "Delete comment" : "Ištrinti komentarą",
+    "Edit comment" : "Keisti",
+    "Delete comment" : "Ištrinti",
     "New comment …" : "Komentaras",
     "Post" : "Įrašas",
     "Cancel" : "Atsisakyti",

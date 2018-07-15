@@ -40,17 +40,17 @@
     "%s (invisible)" : "%s (უჩინარი)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>სისტემური ტეგები</strong> ფაილისთვის შეიცვალა",
     "Collaborative tags" : "თანამშრომლობის ტეგები",
-    "Create and edit collaborative tags. These tags affect all users." : "შეგიძლიათ შექმნათ და შეცვალოთ თანამშრომლობის ტეგები. ეს ტეგები ეხება ყველა მომხმარებელს.",
     "Select tag …" : "ტეგის არჩევა …",
     "Name" : "სახელი",
-    "Delete" : "გაუქმება",
     "Public" : "ღია",
     "Restricted" : "აკრძალული",
     "Invisible" : "უჩინარი",
+    "Delete" : "გაუქმება",
     "Reset" : "საწყის მდომგარეობაში დაბრუნება",
     "No files in here" : "აქ ფაილები არაა",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანების მოძებნა ვერ მოხერხდა",
     "Size" : "ზომა",
-    "Modified" : "შეცვლილია"
+    "Modified" : "შეცვლილია",
+    "Create and edit collaborative tags. These tags affect all users." : "შეგიძლიათ შექმნათ და შეცვალოთ თანამშრომლობის ტეგები. ეს ტეგები ეხება ყველა მომხმარებელს."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

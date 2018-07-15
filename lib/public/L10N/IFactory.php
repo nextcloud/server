@@ -21,6 +21,8 @@
  */
 namespace OCP\L10N;
 
+use OCP\IUser;
+
 /**
  * @since 8.2.0
  */
@@ -93,10 +95,16 @@ interface IFactory {
 	/**
 	 * iterate through language settings (if provided) in this order:
 	 * 1. returns the forced language or:
-	 * 2. returns the user language or:
-	 * 3. returns the system default language or:
-	 * 4+∞. returns 'en'
+	 * 2. if applicable, the trunk of 1 (e.g. "fu" instead of "fu_BAR"
+	 * 3. returns the user language or:
+	 * 4. if applicable, the trunk of 3
+	 * 5. returns the system default language or:
+	 * 6. if applicable, the trunk of 5
+	 * 7+∞. returns 'en'
+	 *
+	 * Hint: in most cases findLanguage() suits you fine
+	 *
 	 * @since 14.0.0
 	 */
-	public function iterateLanguage(bool $reset = false): string;
+	public function getLanguageIterator(IUser $user = null): ILanguageIterator;
 }

@@ -85,120 +85,125 @@ class ShareesAPIControllerTest extends TestCase {
 
 	public function dataSearch() {
 		$noRemote = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_EMAIL];
-		$allTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE, Share::SHARE_TYPE_EMAIL];
+		$allTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE, Share::SHARE_TYPE_REMOTE_GROUP, Share::SHARE_TYPE_EMAIL];
 
 		return [
-			[[], '', 'yes', true, true, $noRemote, false, true, true],
+			[[], '', 'yes', true, true, true, $noRemote, false, true, true],
 
 			// Test itemType
 			[[
 				'search' => '',
-			], '', 'yes', true, true, $noRemote, false, true, true],
+			], '', 'yes', true, true, true, $noRemote, false, true, true],
 			[[
 				'search' => 'foobar',
-			], '', 'yes', true, true, $noRemote, false, true, true],
+			], '', 'yes', true, true, true, $noRemote, false, true, true],
 			[[
 				'search' => 0,
-			], '', 'yes', true, true, $noRemote, false, true, true],
+			], '', 'yes', true, true, true, $noRemote, false, true, true],
 
 			// Test itemType
 			[[
 				'itemType' => '',
-			], '', 'yes', true, true, $noRemote, false, true, true],
+			], '', 'yes', true, true, true, $noRemote, false, true, true],
 			[[
 				'itemType' => 'folder',
-			], '', 'yes', true, true, $allTypes, false, true, true],
+			], '', 'yes', true, true, true, $allTypes, false, true, true],
 			[[
 				'itemType' => 0,
-			], '', 'yes', true, true, $noRemote, false, true, true],
-
+			], '', 'yes', true, true , true, $noRemote, false, true, true],
 			// Test shareType
 			[[
 				'itemType' => 'call',
-			], '', 'yes', true, true, $noRemote, false, true, true],
+			], '', 'yes', true, true, true, $noRemote, false, true, true],
 			[[
 				'itemType' => 'folder',
-			], '', 'yes', true, true, $allTypes, false, true, true],
+			], '', 'yes', true, true, true, $allTypes, false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => 0,
-			], '', 'yes', true, false, [0], false, true, true],
+			], '', 'yes', true, true, false, [0], false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => '0',
-			], '', 'yes', true, false, [0], false, true, true],
+			], '', 'yes', true, true, false, [0], false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => 1,
-			], '', 'yes', true, false, [1], false, true, true],
+			], '', 'yes', true, true, false, [1], false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => 12,
-			], '', 'yes', true, false, [], false, true, true],
+			], '', 'yes', true, true, false, [], false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => 'foobar',
-			], '', 'yes', true, true, $allTypes, false, true, true],
+			], '', 'yes', true, true, true, $allTypes, false, true, true],
+
 			[[
 				'itemType' => 'folder',
 				'shareType' => [0, 1, 2],
-			], '', 'yes', false, false, [0, 1], false, true, true],
+			], '', 'yes', false, false, false, [0, 1], false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => [0, 1],
-			], '', 'yes', false, false, [0, 1], false, true, true],
+			], '', 'yes', false, false, false, [0, 1], false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => $allTypes,
-			], '', 'yes', true, true, $allTypes, false, true, true],
+			], '', 'yes', true, true, true, $allTypes, false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => $allTypes,
-			], '', 'yes', false, false, [0, 1], false, true, true],
+			], '', 'yes', false, false, false, [0, 1], false, true, true],
 			[[
 				'itemType' => 'folder',
 				'shareType' => $allTypes,
-			], '', 'yes', true, false, [0, 6], false, true, false],
+			], '', 'yes', true, false, false, [0, 6], false, true, false],
 			[[
 				'itemType' => 'folder',
 				'shareType' => $allTypes,
-			], '', 'yes', false, true, [0, 4], false, true, false],
+			], '', 'yes', false, false, true, [0, 4], false, true, false],
+			[[
+				'itemType' => 'folder',
+				'shareType' => $allTypes,
+			], '', 'yes', true, true, false, [0, 6, 9], false, true, false],
 
 			// Test pagination
 			[[
 				'itemType' => 'folder',
 				'page' => 1,
-			], '', 'yes', true, true, $allTypes, false, true, true],
+			], '', 'yes', true, true, true, $allTypes, false, true, true],
 			[[
 				'itemType' => 'folder',
 				'page' => 10,
-			], '', 'yes', true, true, $allTypes, false, true, true],
+			], '', 'yes', true, true, true, $allTypes, false, true, true],
 
 			// Test perPage
 			[[
 				'itemType' => 'folder',
 				'perPage' => 1,
-			], '', 'yes', true, true, $allTypes, false, true, true],
+			], '', 'yes', true, true, true, $allTypes, false, true, true],
 			[[
 				'itemType' => 'folder',
 				'perPage' => 10,
-			], '', 'yes', true, true, $allTypes, false, true, true],
+			], '', 'yes', true, true, true, $allTypes, false, true, true],
 
 			// Test $shareWithGroupOnly setting
 			[[
 				'itemType' => 'folder',
-			], 'no', 'yes',  true, true, $allTypes, false, true, true],
+			], 'no', 'yes',  true, true, true, $allTypes, false, true, true],
 			[[
 				'itemType' => 'folder',
-			], 'yes', 'yes', true, true, $allTypes, true, true, true],
+			], 'yes', 'yes', true, true, true, $allTypes, true, true, true],
 
 			// Test $shareeEnumeration setting
 			[[
 				'itemType' => 'folder',
-			], 'no', 'yes',  true, true, $allTypes, false, true, true],
+			], 'no', 'yes',  true, true, true, $allTypes, false, true, true],
 			[[
 				'itemType' => 'folder',
-			], 'no', 'no', true, true, $allTypes, false, false, true],
+			], 'no', 'no', true, true, true, $allTypes, false, false, true],
+
 		];
 	}
 
@@ -209,13 +214,15 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param string $apiSetting
 	 * @param string $enumSetting
 	 * @param bool $remoteSharingEnabled
+	 * @param bool $isRemoteGroupSharingEnabled
 	 * @param bool $emailSharingEnabled
 	 * @param array $shareTypes
 	 * @param bool $shareWithGroupOnly
 	 * @param bool $shareeEnumeration
 	 * @param bool $allowGroupSharing
+	 * @throws OCSBadRequestException
 	 */
-	public function testSearch($getData, $apiSetting, $enumSetting, $remoteSharingEnabled, $emailSharingEnabled, $shareTypes, $shareWithGroupOnly, $shareeEnumeration, $allowGroupSharing) {
+	public function testSearch($getData, $apiSetting, $enumSetting, $remoteSharingEnabled, $isRemoteGroupSharingEnabled, $emailSharingEnabled, $shareTypes, $shareWithGroupOnly, $shareeEnumeration, $allowGroupSharing) {
 		$search = isset($getData['search']) ? $getData['search'] : '';
 		$itemType = isset($getData['itemType']) ? $getData['itemType'] : 'irrelevant';
 		$page = isset($getData['page']) ? $getData['page'] : 1;
@@ -251,7 +258,7 @@ class ShareesAPIControllerTest extends TestCase {
 				$this->shareManager,
 				$this->collaboratorSearch
 			])
-			->setMethods(['isRemoteSharingAllowed', 'shareProviderExists'])
+			->setMethods(['isRemoteSharingAllowed', 'shareProviderExists', 'isRemoteGroupSharingAllowed'])
 			->getMock();
 
 		$this->collaboratorSearch->expects($this->once())
@@ -263,6 +270,13 @@ class ShareesAPIControllerTest extends TestCase {
 			->method('isRemoteSharingAllowed')
 			->with($itemType)
 			->willReturn($remoteSharingEnabled);
+
+
+		$sharees->expects($this->any())
+			->method('isRemoteGroupSharingAllowed')
+			->with($itemType)
+			->willReturn($isRemoteGroupSharingEnabled);
+
 
 		$this->shareManager->expects($this->any())
 			->method('shareProviderExists')

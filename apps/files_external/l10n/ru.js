@@ -72,6 +72,7 @@ OC.L10N.register(
     "Public key" : "Открытый ключ",
     "RSA private key" : "RSA частный ключ",
     "Private key" : "Частный ключ",
+    "Kerberos ticket" : "Kerberos тикет",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Корзина",
     "Hostname" : "Имя хоста",

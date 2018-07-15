@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Shared with you" : "Compartido contigo",
+    "Deleted shares" : "Recursos compartidos eliminados",
     "Shared with others" : "Compartido con otros",
     "Shared by link" : "Compartido por enlace",
     "Nothing shared with you yet" : "Todavía nada compartido contigo",
@@ -10,6 +11,10 @@ OC.L10N.register(
     "Files and folders you share will show up here" : "Aquí aparecerán los archivos y carpetas que compartas con otros",
     "No shared links" : "No hay enlaces compartidos",
     "Files and folders you share by link will show up here" : "Aquí aparecerán los archivos y carpetas que compartas mediante un enlace",
+    "No deleted shares" : "No hay recursos compartidos eliminados",
+    "Shares you deleted will show up here" : "Los recursos compartidos que elimines aparecerán aquí",
+    "Restore share" : "Restaurar recurso compartido",
+    "Something happened. Unable to restore the share." : "Algo ha sucedido. No se puede restaurar el recurso compartido.",
     "You can upload into this folder" : "Puedes subir archivos en esta carpeta",
     "No compatible server found at {remote}" : "No se ha encontrado un servidor compatible en {remote}",
     "Invalid server URL" : "URL del servidor inválida",

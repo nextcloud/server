@@ -14,7 +14,8 @@ form fieldset {
 	min-width: 0; /* FF hack for to override default value */
 }
 
-input[type='submit'] {
+input[type='submit'],
+input[type='submit'].icon-confirm {
 	width: 45px;
 	height: 45px;
 	margin-left: 0 !important;

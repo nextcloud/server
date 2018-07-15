@@ -1,8 +1,9 @@
 /*
- * Copyright (c) 2014
+ * @Copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Vincent Petry
- * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
+ *
  *
  * This file is licensed under the Affero General Public License version 3
  * or later.
@@ -11,7 +12,7 @@
  *
  */
 
-(function() {
+(function () {
 
 	/**
 	 * @class OCA.Files.Navigation
@@ -19,7 +20,7 @@
 	 *
 	 * @param $el element containing the navigation
 	 */
-	var Navigation = function($el) {
+	var Navigation = function ($el) {
 		this.initialize($el);
 	};
 
@@ -39,23 +40,47 @@
 		$currentContent: null,
 
 		/**
+		 * Strategy by which the quickaccesslist is sorted
+		 *
+		 * Possible Strategies:
+		 * customorder
+		 * datemodified
+		 * date
+		 * alphabet
+		 *
+		 */
+		$sortingStrategy: 'alphabet',
+
+		/**
+		 * Key for the quick-acces-list
+		 */
+		$quickAccessListKey: 'sublist-favorites',
+		/**
 		 * Initializes the navigation from the given container
 		 *
 		 * @private
 		 * @param $el element containing the navigation
 		 */
-		initialize: function($el) {
+		initialize: function ($el) {
 			this.$el = $el;
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
+
+			var scope=this;
+			$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/SortingStrategy"), function (data, status) {
+				scope.$sortingStrategy=data;
+				scope.setInitialQuickaccessSettings();
+			});
+
 		},
 
 		/**
 		 * Setup UI events
 		 */
-		_setupEvents: function() {
-			this.$el.on('click', 'li a', _.bind(this._onClickItem, this));
+		_setupEvents: function () {
+			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
+			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 		},
 
 		/**
@@ -63,16 +88,16 @@
 		 *
 		 * @return app container
 		 */
-		getActiveContainer: function() {
+		getActiveContainer: function () {
 			return this.$currentContent;
 		},
 
 		/**
 		 * Returns the currently active item
-		 * 
+		 *
 		 * @return item ID
 		 */
-		getActiveItem: function() {
+		getActiveItem: function () {
 			return this._activeItem;
 		},
 
@@ -83,29 +108,42 @@
 		 * @param string itemId id of the navigation item to select
 		 * @param array options "silent" to not trigger event
 		 */
-		setActiveItem: function(itemId, options) {
+		setActiveItem: function (itemId, options) {
+			var currentItem = this.$el.find('li[data-id=' + itemId + ']');
+			var itemDir = currentItem.data('dir');
+			var itemView = currentItem.data('view');
 			var oldItemId = this._activeItem;
 			if (itemId === this._activeItem) {
 				if (!options || !options.silent) {
 					this.$el.trigger(
-						new $.Event('itemChanged', {itemId: itemId, previousItemId: oldItemId})
+						new $.Event('itemChanged', {
+							itemId: itemId,
+							previousItemId: oldItemId,
+							dir: itemDir,
+							view: itemView
+						})
 					);
 				}
 				return;
 			}
-			this.$el.find('li').removeClass('active');
+			this.$el.find('li a').removeClass('active');
 			if (this.$currentContent) {
 				this.$currentContent.addClass('hidden');
 				this.$currentContent.trigger(jQuery.Event('hide'));
 			}
 			this._activeItem = itemId;
-			this.$el.find('li[data-id=' + itemId + ']').addClass('active');
-			this.$currentContent = $('#app-content-' + itemId);
+			currentItem.children('a').addClass('active');
+			this.$currentContent = $('#app-content-' + (typeof itemView === 'string' && itemView !== '' ? itemView : itemId));
 			this.$currentContent.removeClass('hidden');
 			if (!options || !options.silent) {
 				this.$currentContent.trigger(jQuery.Event('show'));
 				this.$el.trigger(
-					new $.Event('itemChanged', {itemId: itemId, previousItemId: oldItemId})
+					new $.Event('itemChanged', {
+						itemId: itemId,
+						previousItemId: oldItemId,
+						dir: itemDir,
+						view: itemView
+					})
 				);
 			}
 		},
@@ -113,23 +151,206 @@
 		/**
 		 * Returns whether a given item exists
 		 */
-		itemExists: function(itemId) {
+		itemExists: function (itemId) {
 			return this.$el.find('li[data-id=' + itemId + ']').length;
 		},
 
 		/**
 		 * Event handler for when clicking on an item.
 		 */
-		_onClickItem: function(ev) {
+		_onClickItem: function (ev) {
 			var $target = $(ev.target);
 			var itemId = $target.closest('li').attr('data-id');
 			if (!_.isUndefined(itemId)) {
 				this.setActiveItem(itemId);
 			}
 			ev.preventDefault();
+		},
+
+		/**
+		 * Event handler for clicking a button
+		 */
+		_onClickMenuButton: function (ev) {
+			var $target = $(ev.target);
+			var itemId = $target.closest('button').attr('id');
+
+			var collapsibleToggles = [];
+			var dotmenuToggles = [];
+
+			// The collapsibleToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
+			// and the parent, which should be toggled at the first arrayindex.
+			collapsibleToggles.push(["#button-collapse-favorites", "#button-collapse-parent-favorites"]);
+
+			// The dotmenuToggles-Array consists of a list of Arrays. Every subarray must contain the Button to listen to at the 0th index,
+			// and the parent, which should be toggled at the first arrayindex.
+			dotmenuToggles.push(["#dotmenu-button-favorites", "dotmenu-content-favorites"]);
+
+			collapsibleToggles.forEach(function foundToggle (item) {
+				if (item[0] === ("#" + itemId)) {
+					$(item[1]).toggleClass('open');
+					var show = 1;
+					if (!$(item[1]).hasClass('open')) {
+						show = 0;
+					}
+					$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/showList"), {show: show}, function (data, status) {
+					});
+				}
+			});
+
+			dotmenuToggles.forEach(function foundToggle (item) {
+				if (item[0] === ("#" + itemId)) {
+					document.getElementById(item[1]).classList.toggle('open');
+				}
+			});
+
+			ev.preventDefault();
+		},
+
+		/**
+		 * Sort initially as setup of sidebar for QuickAccess
+		 */
+		setInitialQuickaccessSettings: function () {
+
+			var quickAccesKey = this.$quickAccessListKey;
+			var list = document.getElementById(quickAccesKey).getElementsByTagName('li');
+
+			var sort = true;
+			var reverse = false;
+			if (this.$sortingStrategy === 'datemodified') {
+				sort = false;
+				reverse = false;
+
+				var scope = this;
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/FavoriteFolders/"), function (data, status) {
+					for (var i = 0; i < data.favoriteFolders.length; i++) {
+						for (var j = 0; j < list.length; j++) {
+							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === data.favoriteFolders[i].name.toLowerCase()) {
+								list[j].setAttribute("mtime", data.favoriteFolders[i].mtime);
+							}
+						}
+					}
+					scope.QuickSort(list, 0, list.length - 1);
+					scope.reverse(list);
+				});
+
+			} else if (this.$sortingStrategy === 'alphabet') {
+				sort = true;
+			} else if (this.$sortingStrategy === 'date') {
+				sort = true;
+			} else if (this.$sortingStrategy === 'customorder') {
+				var scope = this;
+				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/CustomSortingOrder"), function (data, status) {
+					var ordering = JSON.parse(data);
+					for (var i = 0; i < ordering.length; i++) {
+						for (var j = 0; j < list.length; j++) {
+							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === ordering[i].name.toLowerCase()) {
+								list[j].setAttribute("folderPosition", ordering[i].id);
+							}
+						}
+					}
+					scope.QuickSort(list, 0, list.length - 1);
+				});
+				sort = false;
+			}
+
+			if (sort) {
+				this.QuickSort(list, 0, list.length - 1);
+			}
+			if (reverse) {
+				this.reverse(list);
+			}
+
+		},
+
+		/**
+		 * Sorting-Algorithm for QuickAccess
+		 */
+		QuickSort: function (list, start, end) {
+			var lastMatch;
+			if (list.length > 1) {
+				lastMatch = this.quicksort_helper(list, start, end);
+				if (start < lastMatch - 1) {
+					this.QuickSort(list, start, lastMatch - 1);
+				}
+				if (lastMatch < end) {
+					this.QuickSort(list, lastMatch, end);
+				}
+			}
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 */
+		quicksort_helper: function (list, start, end) {
+			var pivot = Math.floor((end + start) / 2);
+			var pivotElement = this.getCompareValue(list, pivot);
+			var i = start;
+			var j = end;
+
+			while (i <= j) {
+				while (this.getCompareValue(list, i) < pivotElement) {
+					i++;
+				}
+				while (this.getCompareValue(list, j) > pivotElement) {
+					j--;
+				}
+				if (i <= j) {
+					this.swap(list, i, j);
+					i++;
+					j--;
+				}
+			}
+			return i;
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 * This method allows easy access to the element which is sorted by.
+		 */
+		getCompareValue: function (nodes, int, strategy) {
+
+			if ((typeof strategy === 'undefined')) {
+				strategy = this.$sortingStrategy;
+			}
+
+			if (strategy === 'alphabet') {
+				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
+			} else if (strategy === 'date') {
+				return nodes[int].getAttribute('folderPosition').toLowerCase();
+			} else if (strategy === 'datemodified') {
+				return nodes[int].getAttribute('mtime');
+			} else if (strategy === 'customorder') {
+				return nodes[int].getAttribute('folderPosition');
+			}
+			return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 * This method allows easy swapping of elements.
+		 */
+		swap: function (list, j, i) {
+			list[i].before(list[j]);
+			list[j].before(list[i]);
+		},
+
+		/**
+		 * Reverse QuickAccess-List
+		 */
+		reverse: function (list) {
+			var len = list.length - 1;
+			for (var i = 0; i < len / 2; i++) {
+				this.swap(list, i, len - i);
+			}
 		}
+
 	};
 
 	OCA.Files.Navigation = Navigation;
 
 })();
+
+
+
+
+

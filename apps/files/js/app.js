@@ -53,6 +53,8 @@
 			this.$showHiddenFiles = $('input#showhiddenfilesToggle');
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
+
+
 			if ($('#fileNotFound').val() === "1") {
 				OC.Notification.show(t('files', 'File could not be found'), {type: 'error'});
 			}
@@ -131,6 +133,8 @@
 			});
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
+
+			OCP.WhatsNew.query(); // for Nextcloud server
 		},
 
 		/**
@@ -219,7 +223,7 @@
 		},
 
 		/**
-		 * Persist show hidden preference on ther server
+		 * Persist show hidden preference on the server
 		 *
 		 * @returns {undefined}
 		 */
@@ -237,8 +241,8 @@
 			var params;
 			if (e && e.itemId) {
 				params = {
-					view: e.itemId,
-					dir: '/'
+					view: typeof e.view === 'string' && e.view !== '' ? e.view : e.itemId,
+					dir: e.dir ? e.dir : '/'
 				};
 				this._changeUrl(params.view, params.dir);
 				OC.Apps.hideAppSidebar($('.detailsView'));

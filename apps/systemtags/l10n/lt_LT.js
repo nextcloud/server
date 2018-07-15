@@ -42,17 +42,18 @@ OC.L10N.register(
     "%s (invisible)" : "%s (nematoma)",
     "<strong>System tags</strong> for a file have been modified" : "Failo <strong>sistemos žymės</strong> buvo pakeistos.",
     "Collaborative tags" : "Žymės",
-    "Create and edit collaborative tags. These tags affect all users." : "Bendrų žymių visiems sistemos vartotojams kūrimas",
     "Select tag …" : "Pasirinkite žymę…",
+    "Create a new tag" : "Sukurti naują žymę",
     "Name" : "Pavadinimas",
-    "Delete" : "Ištrinti",
     "Public" : "Vieša",
     "Restricted" : "Riboto naudojimo",
     "Invisible" : "Nematoma",
+    "Delete" : "Ištrinti",
     "Reset" : "Atstatyti",
     "No files in here" : "Aplankas tuščias",
     "No entries found in this folder" : "Aplankas tuščias",
     "Size" : "Dydis",
-    "Modified" : "Pakeista"
+    "Modified" : "Pakeista",
+    "Create and edit collaborative tags. These tags affect all users." : "Bendrų žymių visiems sistemos vartotojams kūrimas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

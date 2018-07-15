@@ -123,37 +123,16 @@ class Admin implements ISettings {
 			return $filtered;
 		}
 
-		$isFirstCall = true;
+		$iterator = $this->l10nFactory->getLanguageIterator();
 		do {
-			$lang = $this->l10nFactory->iterateLanguage($isFirstCall);
-			if($this->findWhatsNewTranslation($lang, $filtered, $changes['whatsNew'])) {
-				return $filtered;
+			$lang = $iterator->current();
+			if(isset($changes['whatsNew'][$lang])) {
+				return $filtered['whatsNew'][$lang];
 			}
-			$isFirstCall = false;
-		} while($lang !== 'en');
+			$iterator->next();
+		} while($lang !== 'en' && $iterator->valid());
 
 		return $filtered;
-	}
-
-	protected function getLangTrunk(string $lang):string {
-		$pos = strpos($lang, '_');
-		if($pos !== false) {
-			$lang = substr($lang, 0, $pos);
-		}
-		return $lang;
-	}
-
-	protected function findWhatsNewTranslation(string $lang, array &$result, array $whatsNew): bool {
-		if(isset($whatsNew[$lang])) {
-			$result['whatsNew'] = $whatsNew[$lang];
-			return true;
-		}
-		$trunkedLang = $this->getLangTrunk($lang);
-		if($trunkedLang !== $lang && isset($whatsNew[$trunkedLang])) {
-			$result['whatsNew'] = $whatsNew[$trunkedLang];
-			return true;
-		}
-		return false;
 	}
 
 	/**

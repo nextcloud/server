@@ -93,6 +93,9 @@
 			this.configModel.on('change:isRemoteShareAllowed', function() {
 				view.render();
 			});
+			this.configModel.on('change:isRemoteGroupShareAllowed', function() {
+				view.render();
+			});
 			this.model.on('change:permissions', function() {
 				view.render();
 			});
@@ -161,7 +164,7 @@
 				},
 				function (result) {
 					if (result.ocs.meta.statuscode === 100) {
-						var filter = function(users, groups, remotes, emails, circles) {
+						var filter = function(users, groups, remotes, remote_groups, emails, circles) {
 							if (typeof(emails) === 'undefined') {
 								emails = [];
 							}
@@ -172,6 +175,7 @@
 							var usersLength;
 							var groupsLength;
 							var remotesLength;
+							var remoteGroupsLength;
 							var emailsLength;
 							var circlesLength;
 
@@ -228,6 +232,14 @@
 											break;
 										}
 									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+									remoteGroupsLength = remote_groups.length;
+									for (j = 0; j < remoteGroupsLength; j++) {
+										if (remote_groups[j].value.shareWith === share.share_with) {
+											remote_groups.splice(j, 1);
+											break;
+										}
+									}
 								} else if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
 									emailsLength = emails.length;
 									for (j = 0; j < emailsLength; j++) {
@@ -252,6 +264,7 @@
 							result.ocs.data.exact.users,
 							result.ocs.data.exact.groups,
 							result.ocs.data.exact.remotes,
+							result.ocs.data.exact.remote_groups,
 							result.ocs.data.exact.emails,
 							result.ocs.data.exact.circles
 						);
@@ -259,6 +272,7 @@
 						var exactUsers   = result.ocs.data.exact.users;
 						var exactGroups  = result.ocs.data.exact.groups;
 						var exactRemotes = result.ocs.data.exact.remotes;
+						var exactRemoteGroups = result.ocs.data.exact.remote_groups;
 						var exactEmails = [];
 						if (typeof(result.ocs.data.emails) !== 'undefined') {
 							exactEmails = result.ocs.data.exact.emails;
@@ -268,12 +282,13 @@
 							exactCircles = result.ocs.data.exact.circles;
 						}
 
-						var exactMatches = exactUsers.concat(exactGroups).concat(exactRemotes).concat(exactEmails).concat(exactCircles);
+						var exactMatches = exactUsers.concat(exactGroups).concat(exactRemotes).concat(exactRemoteGroups).concat(exactEmails).concat(exactCircles);
 
 						filter(
 							result.ocs.data.users,
 							result.ocs.data.groups,
 							result.ocs.data.remotes,
+							result.ocs.data.remote_groups,
 							result.ocs.data.emails,
 							result.ocs.data.circles
 						);
@@ -281,6 +296,7 @@
 						var users   = result.ocs.data.users;
 						var groups  = result.ocs.data.groups;
 						var remotes = result.ocs.data.remotes;
+						var remoteGroups = result.ocs.data.remote_groups;
 						var lookup = result.ocs.data.lookup;
 						var emails = [];
 						if (typeof(result.ocs.data.emails) !== 'undefined') {
@@ -291,7 +307,7 @@
 							circles = result.ocs.data.circles;
 						}
 
-						var suggestions = exactMatches.concat(users).concat(groups).concat(remotes).concat(emails).concat(circles).concat(lookup);
+						var suggestions = exactMatches.concat(users).concat(groups).concat(remotes).concat(remoteGroups).concat(emails).concat(circles).concat(lookup);
 
 						deferred.resolve(suggestions, exactMatches);
 					} else {
@@ -414,7 +430,9 @@
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
 				text = t('core', '{sharee} (group)', { sharee: text }, undefined, { escape: false });
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
-				text = t('core', '{sharee} (remote)', { sharee: text }, undefined, { escape: false });
+				text = t('core', '{sharee} (remote)', {sharee: text}, undefined, {escape: false});
+			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+				text = t('core', '{sharee} (remote group)', { sharee: text }, undefined, { escape: false });
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				text = t('core', '{sharee} (email)', { sharee: text }, undefined, { escape: false });
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {

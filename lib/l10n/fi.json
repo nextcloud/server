@@ -208,6 +208,7 @@
     "Redis" : "Redis",
     "Tips & tricks" : "Vinkkejä",
     "DB Error: \"%s\"" : "Tietokantavirhe: \"%s\"",
+    "Cannot increase permissions of %s" : "Kohteen %s käyttöoikeuksien lisääminen ei onnistu",
     "App '%s' could not be installed!" : "Sovellusta '%s' ei voitu asentaa!",
     "Sync clients" : "Synkronointisovellukset"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

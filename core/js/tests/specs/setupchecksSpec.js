@@ -162,6 +162,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -208,6 +209,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -255,6 +257,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -300,6 +303,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -343,6 +347,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: false,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -386,6 +391,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -429,6 +435,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					isSettimelimitAvailable: false,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -493,6 +500,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
@@ -536,6 +544,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: false,
+					hasOpcacheLoaded: true,
 					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
@@ -551,6 +560,51 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
 						msg: 'The PHP OPcache is not properly configured. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+						type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					}]);
+				done();
+			});
+		});
+
+		it('should return an info if server has no opcache at all', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isUrandomAvailable: true,
+					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					serverHasInternetConnection: true,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: false,
+					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					}
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+						msg: 'The PHP OPcache module is not loaded. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to load it into your PHP installation.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -580,6 +634,7 @@ describe('OC.SetupChecks tests', function() {
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
 					phpOpcacheDocumentation: 'https://example.org/link/to/doc',
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: false,

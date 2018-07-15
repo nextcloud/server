@@ -39,6 +39,7 @@ use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
+use Icewind\SMB\Exception\InvalidArgumentException;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\IFileInfo;
 use Icewind\SMB\Native\NativeServer;
@@ -210,7 +211,7 @@ class SMB extends Common implements INotifyStorage {
 	 * @param string $target the new name of the path
 	 * @return bool true if the rename is successful, false otherwise
 	 */
-	public function rename($source, $target) {
+	public function rename($source, $target, $retry = true) {
 		if ($this->isRootDir($source) || $this->isRootDir($target)) {
 			return false;
 		}
@@ -220,8 +221,21 @@ class SMB extends Common implements INotifyStorage {
 		try {
 			$result = $this->share->rename($absoluteSource, $absoluteTarget);
 		} catch (AlreadyExistsException $e) {
-			$this->remove($target);
-			$result = $this->share->rename($absoluteSource, $absoluteTarget);
+			if ($retry) {
+				$this->remove($target);
+				$result = $this->share->rename($absoluteSource, $absoluteTarget, false);
+			} else {
+				\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN]);
+				return false;
+			}
+		} catch (InvalidArgumentException $e) {
+			if ($retry) {
+				$this->remove($target);
+				$result = $this->share->rename($absoluteSource, $absoluteTarget, false);
+			} else {
+				\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN]);
+				return false;
+			}
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN]);
 			return false;

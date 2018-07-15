@@ -1,16 +1,5 @@
 @media only screen and (max-width: 768px) {
 
-#body-login #header {
-	padding-top: 10px;
-}
-
-#body-login .wrapper {
-	display: flex;
-	flex-direction: row;
-	align-self: center;
-	align-items: center;
-}
-
 /* do not show update notification on mobile */
 #update-notification {
 	display: none !important;

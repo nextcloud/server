@@ -40,17 +40,17 @@
     "%s (invisible)" : "%s (vô hình)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Nhãn</strong> cho một tập tin đã được sửa đổi",
     "Collaborative tags" : "Thẻ cộng tác",
-    "Create and edit collaborative tags. These tags affect all users." : "Tạo và hiệu chỉnh các thẻ cộng tác. Những thẻ này ảnh hưởng tới toàn bộ người dùng.",
     "Select tag …" : "Lựa chọn thẻ",
     "Name" : "Tên",
-    "Delete" : "Xóa bỏ",
     "Public" : "Công khai",
     "Restricted" : "Bị giới hạn",
     "Invisible" : "Vô hình",
+    "Delete" : "Xóa bỏ",
     "Reset" : "Đặt lại",
     "No files in here" : "Không có tệp ở đây",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Size" : "Kích cỡ",
-    "Modified" : "Thay đổi"
+    "Modified" : "Thay đổi",
+    "Create and edit collaborative tags. These tags affect all users." : "Tạo và hiệu chỉnh các thẻ cộng tác. Những thẻ này ảnh hưởng tới toàn bộ người dùng."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

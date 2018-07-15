@@ -43,6 +43,7 @@
 	 * @property {string} token
 	 * @property {string} share_with
 	 * @property {string} share_with_displayname
+	 * @property {string} share_with_avatar
 	 * @property {string} mail_send
 	 * @property {Date} expiration optional?
 	 * @property {number} stime optional?
@@ -403,6 +404,20 @@
 				throw "Unknown Share";
 			}
 			return share.share_with_displayname;
+		},
+
+
+		/**
+		 * @param shareIndex
+		 * @returns {string}
+		 */
+		getShareWithAvatar: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.share_with_avatar;
 		},
 
 		/**

@@ -152,6 +152,7 @@ OC.L10N.register(
     "Shared with you" : "Доступные для вас",
     "Shared with others" : "Доступные для других",
     "Shared by link" : "Доступные по ссылке",
+    "Deleted shares" : "Удаленная доля",
     "Tags" : "Метки",
     "Deleted files" : "Корзина",
     "Text file" : "Текстовый файл",

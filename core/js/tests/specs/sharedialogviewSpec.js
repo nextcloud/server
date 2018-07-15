@@ -427,7 +427,21 @@ describe('OC.Share.ShareDialogView', function() {
 					share_type: OC.Share.SHARE_TYPE_REMOTE,
 					share_with: 'foo@bar.com/baz',
 					share_with_displayname: 'foo@bar.com/baz'
-
+				},{
+					id: 103,
+					item_source: 123,
+					permissions: 31,
+					share_type: OC.Share.SHARE_TYPE_CIRCLE,
+					share_with: 'circle-0',
+					share_with_displayname: 'Circle (Personal circle, user0)',
+					share_with_avatar: 'path/to/the/avatar'
+				},{
+					id: 104,
+					item_source: 123,
+					permissions: 31,
+					share_type: OC.Share.SHARE_TYPE_CIRCLE,
+					share_with: 'circle-1',
+					share_with_displayname: 'Circle (Public circle, user0)',
 				}]
 			});
 		});
@@ -439,10 +453,10 @@ describe('OC.Share.ShareDialogView', function() {
 			});
 
 			it('test correct function calls', function() {
-				expect(avatarStub.calledTwice).toEqual(true);
+				expect(avatarStub.calledThrice).toEqual(true);
 				expect(placeholderStub.callCount).toEqual(4);
-				expect(dialog.$('.shareWithList').children().length).toEqual(3);
-				expect(dialog.$('.avatar').length).toEqual(4);
+				expect(dialog.$('.shareWithList').children().length).toEqual(5);
+				expect(dialog.$('.avatar').length).toEqual(6);
 			});
 
 			it('test avatar owner', function() {
@@ -469,6 +483,20 @@ describe('OC.Share.ShareDialogView', function() {
 				expect(args.length).toEqual(1);
 				expect(args[0]).toEqual('foo@bar.com/baz ' + OC.Share.SHARE_TYPE_REMOTE);
 			});
+
+			it('test avatar for circle', function() {
+				var avatarElement = dialog.$('.avatar').eq(4);
+				expect(avatarElement.css('background')).toContain('path/to/the/avatar');
+			});
+
+			it('test avatar for circle without avatar', function() {
+				var args = avatarStub.getCall(2).args;
+				expect(args.length).toEqual(6);
+				// Note that "data-username" is set to "circle-{shareIndex}",
+				// not to the "shareWith" field.
+				expect(args[0]).toEqual('circle-4');
+				expect(args[5]).toEqual('Circle (Public circle, user0)');
+			});
 		});
 	});
 	describe('get suggestions', function() {
@@ -489,11 +517,13 @@ describe('OC.Share.ShareDialogView', function() {
 						'exact': {
 							'users': [],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -529,7 +559,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'exact': {
 							'users': [],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [
 							{
@@ -542,6 +573,7 @@ describe('OC.Share.ShareDialogView', function() {
 						],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -589,11 +621,13 @@ describe('OC.Share.ShareDialogView', function() {
 								}
 							],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -651,7 +685,8 @@ describe('OC.Share.ShareDialogView', function() {
 									}
 								}
 							],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [
 							{
@@ -679,6 +714,7 @@ describe('OC.Share.ShareDialogView', function() {
 							}
 						],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -744,11 +780,13 @@ describe('OC.Share.ShareDialogView', function() {
 								}
 							],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -817,11 +855,13 @@ describe('OC.Share.ShareDialogView', function() {
 								}
 							],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -928,7 +968,8 @@ describe('OC.Share.ShareDialogView', function() {
 									}
 								],
 								'groups': [],
-								'remotes': []
+								'remotes': [],
+								'remote_groups': [],
 							},
 							'users': [
 								{
@@ -941,6 +982,7 @@ describe('OC.Share.ShareDialogView', function() {
 							],
 							'groups': [],
 							'remotes': [],
+							'remote_groups': [],
 							'lookup': []
 						}
 					}
@@ -983,7 +1025,8 @@ describe('OC.Share.ShareDialogView', function() {
 										}
 									}
 								],
-								'remotes': []
+								'remotes': [],
+								'remote_groups': [],
 							},
 							'users': [],
 							'groups': [
@@ -996,6 +1039,7 @@ describe('OC.Share.ShareDialogView', function() {
 								}
 							],
 							'remotes': [],
+							'remote_groups': [],
 							'lookup': []
 						}
 					}
@@ -1038,7 +1082,8 @@ describe('OC.Share.ShareDialogView', function() {
 											'shareWith': 'foo@bar.com/baz'
 										}
 									}
-								]
+								],
+								'remote_groups': [],
 							},
 							'users': [],
 							'groups': [],
@@ -1051,6 +1096,7 @@ describe('OC.Share.ShareDialogView', function() {
 									}
 								}
 							],
+							'remote_groups': [],
 							'lookup': []
 						}
 					}
@@ -1086,6 +1132,7 @@ describe('OC.Share.ShareDialogView', function() {
 								'users': [],
 								'groups': [],
 								'remotes': [],
+								'remote_groups': [],
 								'emails': [
 									{
 										'label': 'foo@bar.com',
@@ -1099,6 +1146,7 @@ describe('OC.Share.ShareDialogView', function() {
 							'users': [],
 							'groups': [],
 							'remotes': [],
+							'remote_groups': [],
 							'lookup': [],
 							'emails': [
 								{
@@ -1143,6 +1191,7 @@ describe('OC.Share.ShareDialogView', function() {
 								'users': [],
 								'groups': [],
 								'remotes': [],
+								'remote_groups': [],
 								'circles': [
 									{
 										'label': 'CircleName (type, owner)',
@@ -1163,6 +1212,7 @@ describe('OC.Share.ShareDialogView', function() {
 							'users': [],
 							'groups': [],
 							'remotes': [],
+							'remote_groups': [],
 							'lookup': [],
 							'circles': [
 								{
@@ -1211,7 +1261,8 @@ describe('OC.Share.ShareDialogView', function() {
 							'exact': {
 								'users': [],
 								'groups': [],
-								'remotes': []
+								'remotes': [],
+								'remote_groups': [],
 							},
 							'users': [
 								{
@@ -1231,6 +1282,7 @@ describe('OC.Share.ShareDialogView', function() {
 							],
 							'groups': [],
 							'remotes': [],
+							'remote_groups': [],
 							'lookup': []
 						}
 					}
@@ -1270,7 +1322,8 @@ describe('OC.Share.ShareDialogView', function() {
 							'exact': {
 								'users': [],
 								'groups': [],
-								'remotes': []
+								'remotes': [],
+								'remote_groups': [],
 							},
 							'users': [
 								{
@@ -1290,6 +1343,7 @@ describe('OC.Share.ShareDialogView', function() {
 							],
 							'groups': [],
 							'remotes': [],
+							'remote_groups': [],
 							'lookup': []
 						}
 					}
@@ -1364,7 +1418,8 @@ describe('OC.Share.ShareDialogView', function() {
 								'exact': {
 									'users': [],
 									'groups': [],
-									'remotes': []
+									'remotes': [],
+									'remote_groups': [],
 								},
 								'users': [
 									{
@@ -1384,6 +1439,7 @@ describe('OC.Share.ShareDialogView', function() {
 								],
 								'groups': [],
 								'remotes': [],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -1423,7 +1479,8 @@ describe('OC.Share.ShareDialogView', function() {
 										}
 									],
 									'groups': [],
-									'remotes': []
+									'remotes': [],
+									'remote_groups': [],
 								},
 								'users': [
 									{
@@ -1436,6 +1493,7 @@ describe('OC.Share.ShareDialogView', function() {
 								],
 								'groups': [],
 								'remotes': [],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -1467,7 +1525,8 @@ describe('OC.Share.ShareDialogView', function() {
 								'exact': {
 									'users': [],
 									'groups': [],
-									'remotes': []
+									'remotes': [],
+									'remote_groups': [],
 								},
 								'users': [],
 								'groups': [
@@ -1487,6 +1546,7 @@ describe('OC.Share.ShareDialogView', function() {
 									}
 								],
 								'remotes': [],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -1526,7 +1586,8 @@ describe('OC.Share.ShareDialogView', function() {
 											}
 										}
 									],
-									'remotes': []
+									'remotes': [],
+									'remote_groups': [],
 								},
 								'users': [],
 								'groups': [
@@ -1539,6 +1600,7 @@ describe('OC.Share.ShareDialogView', function() {
 									}
 								],
 								'remotes': [],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -1570,7 +1632,8 @@ describe('OC.Share.ShareDialogView', function() {
 								'exact': {
 									'users': [],
 									'groups': [],
-									'remotes': []
+									'remotes': [],
+									'remote_groups': [],
 								},
 								'users': [],
 								'groups': [],
@@ -1590,6 +1653,7 @@ describe('OC.Share.ShareDialogView', function() {
 										}
 									}
 								],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -1629,7 +1693,8 @@ describe('OC.Share.ShareDialogView', function() {
 												'shareWith': 'foo@bar.com/baz'
 											}
 										}
-									]
+									],
+									'remote_groups': [],
 								},
 								'users': [],
 								'groups': [],
@@ -1642,6 +1707,7 @@ describe('OC.Share.ShareDialogView', function() {
 										}
 									}
 								],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -1674,12 +1740,14 @@ describe('OC.Share.ShareDialogView', function() {
 									'users': [],
 									'groups': [],
 									'remotes': [],
+									'remote_groups': [],
 									'emails': []
 								},
 								'users': [],
 								'groups': [],
 								'remotes': [],
 								'lookup': [],
+								'remote_groups': [],
 								'emails': [
 									{
 										'label': 'foo@bar.com',
@@ -1727,6 +1795,7 @@ describe('OC.Share.ShareDialogView', function() {
 									'users': [],
 									'groups': [],
 									'remotes': [],
+									'remote_groups': [],
 									'emails': [
 										{
 											'label': 'foo@bar.com',
@@ -1740,6 +1809,7 @@ describe('OC.Share.ShareDialogView', function() {
 								'users': [],
 								'groups': [],
 								'remotes': [],
+								'remote_groups': [],
 								'lookup': [],
 								'emails': [
 									{
@@ -1781,11 +1851,13 @@ describe('OC.Share.ShareDialogView', function() {
 									'users': [],
 									'groups': [],
 									'remotes': [],
+									'remote_groups': [],
 									'circles': []
 								},
 								'users': [],
 								'groups': [],
 								'remotes': [],
+								'remote_groups': [],
 								'lookup': [],
 								'circles': [
 									{
@@ -1834,6 +1906,7 @@ describe('OC.Share.ShareDialogView', function() {
 									'users': [],
 									'groups': [],
 									'remotes': [],
+									'remote_groups': [],
 									'circles': [
 										{
 											'label': 'CircleName (type, owner)',
@@ -1854,6 +1927,7 @@ describe('OC.Share.ShareDialogView', function() {
 								'users': [],
 								'groups': [],
 								'remotes': [],
+								'remote_groups': [],
 								'lookup': [],
 								'circles': [
 									{
@@ -2031,11 +2105,13 @@ describe('OC.Share.ShareDialogView', function() {
 						'exact': {
 							'users': [],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -2126,11 +2202,13 @@ describe('OC.Share.ShareDialogView', function() {
 								}
 							],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -2191,11 +2269,13 @@ describe('OC.Share.ShareDialogView', function() {
 								}
 							],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -2248,12 +2328,14 @@ describe('OC.Share.ShareDialogView', function() {
 						'exact': {
 							'users': [],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
-						'lookup': []
+						'lookup': [],
+						'remote_groups': [],
 					}
 				}
 			});
@@ -2292,7 +2374,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'exact': {
 							'users': [],
 							'groups': [],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [
 							{
@@ -2305,6 +2388,7 @@ describe('OC.Share.ShareDialogView', function() {
 						],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
@@ -2356,11 +2440,13 @@ describe('OC.Share.ShareDialogView', function() {
 									}
 								}
 							],
-							'remotes': []
+							'remotes': [],
+							'remote_groups': [],
 						},
 						'users': [],
 						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}

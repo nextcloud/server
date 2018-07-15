@@ -61,6 +61,7 @@ use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\MailPlugin;
+use OC\Collaboration\Collaborators\RemoteGroupPlugin;
 use OC\Collaboration\Collaborators\RemotePlugin;
 use OC\Collaboration\Collaborators\UserPlugin;
 use OC\Command\CronBus;
@@ -1067,6 +1068,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_GROUP', 'class' => GroupPlugin::class]);
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => MailPlugin::class]);
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE', 'class' => RemotePlugin::class]);
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE_GROUP', 'class' => RemoteGroupPlugin::class]);
 
 			return $instance;
 		});
