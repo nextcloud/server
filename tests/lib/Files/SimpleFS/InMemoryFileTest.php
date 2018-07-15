@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Test\File\SimpleFS;
 
 use OC\Files\SimpleFS\InMemoryFile;
+use OCP\Files\NotPermittedException;
 use Test\TestCase;
 
 /**
@@ -99,5 +100,25 @@ class InMemoryFileTest extends TestCase {
 	 */
 	public function testGetMimeType() {
 		self::assertEquals('application/pdf', $this->testPdf->getMimeType());
+	}
+
+	/**
+	 * Asserts that read() raises an NotPermittedException.
+	 *
+	 * @return void
+	 */
+	public function testRead() {
+		self::expectException(NotPermittedException::class);
+		$this->testPdf->read();
+	}
+
+	/**
+	 * Asserts that write() raises an NotPermittedException.
+	 *
+	 * @return void
+	 */
+	public function testWrite() {
+		self::expectException(NotPermittedException::class);
+		$this->testPdf->write();
 	}
 }

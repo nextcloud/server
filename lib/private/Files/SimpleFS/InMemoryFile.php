@@ -102,10 +102,7 @@ class InMemoryFile implements ISimpleFile {
 	}
 
 	/**
-	 * Delete the file
-	 *
-	 * @throws NotPermittedException
-	 * @since 11.0.0
+	 * In memory files can't be deleted.
 	 */
 	public function delete() {
 		// unimplemented for in memory files
@@ -120,5 +117,27 @@ class InMemoryFile implements ISimpleFile {
 	public function getMimeType() {
 		$fileInfo = new \finfo(FILEINFO_MIME_TYPE);
 		return $fileInfo->buffer($this->contents);
+	}
+
+	/**
+	 * Stream reading is unsupported for in memory files.
+	 *
+	 * @throws NotPermittedException
+	 */
+	public function read() {
+		throw new NotPermittedException(
+			'Stream reading is unsupported for in memory files'
+		);
+	}
+
+	/**
+	 * Stream writing isn't available for in memory files.
+	 *
+	 * @throws NotPermittedException
+	 */
+	public function write() {
+		throw new NotPermittedException(
+			'Stream writing is unsupported for in memory files'
+		);
 	}
 }
