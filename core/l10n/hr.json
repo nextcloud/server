@@ -203,7 +203,18 @@
     "Shared with {recipients}" : "Resurs podijeljen s {recipients}",
     "Share with other people by entering a user or group or an email address." : "Podijelite sa ostalim korisnicima tako da unesete korisničko ime ili ime grupe ili adresu e-pošte.",
     "The server encountered an internal error and was unable to complete your request." : "Poslužitelj je naišao na grešku i nije u mogućnosti izvršiti Vaš zahtjev.",
+    "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "Molimo kontaktirajte svojeg administratora poslužitelja ako se ova greška učestalo pojavljuje, molimo da uključite i tehničke detalje ispod u svojem izvješću.",
+    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentation</a>." : "Za više informacije o tome kako podesiti vaš poslužitelj, molimo da proučite <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">priložene upute</a>.",
+    "This action requires you to confirm your password:" : "Za izvršavanje ove radnje potvrdite vašu lozinku:",
+    "Wrong password. Reset it?" : "Pogrešna lozinka. Promijeniti lozinku?",
+    "Stay logged in" : "Ostanite prijavljeni",
     "Alternative Logins" : "Alternativne prijave",
-    "Add \"%s\" as trusted domain" : "Dodajte \"%s\" kao pouzdanu domenu."
+    "You are about to grant \"%s\" access to your %s account." : "Ovim će te dopustiti \"%s\" pristup vašem %s računu.",
+    "Alternative login using app token" : "Alternativna prijava uz pomoću aplikacijskog tokena",
+    "You are accessing the server from an untrusted domain." : "Poslužitelju pristupate iz nepouzdane domene.",
+    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Molimo Vas da kontaktirate vašeg administratora. Ako ste administrator ove trenutne instance, uredite \"trusted domains\" postavku u config/config.php datoteci po primjeru iz datoteke config/config.sample.php.",
+    "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Ovisno o vašoj konfiguraciji, kao administrator možete također koristiti gumb dolje da označite domenu kao sigurnu.",
+    "Add \"%s\" as trusted domain" : "Dodajte \"%s\" kao pouzdanu domenu.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Za pomoć, molimo vidite <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">priložene upute</a>."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }
