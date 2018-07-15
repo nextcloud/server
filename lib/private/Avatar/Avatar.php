@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright 2018 John Molakvoæ <skjnldsv@protonmail.com>
@@ -29,36 +30,22 @@
  *
  */
 
-namespace OC;
+namespace OC\Avatar;
 
+use OC\Color;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAvatar;
-use OCP\IConfig;
-use OCP\IImage;
-use OCP\IL10N;
 use OCP\ILogger;
-use OC\User\User;
 use OC_Image;
 use Imagick;
 
 /**
  * This class gets and sets users avatars.
  */
+abstract class Avatar implements IAvatar {
 
-class Avatar implements IAvatar {
-	/** @var ISimpleFolder */
-	private $folder;
-	/** @var IL10N */
-	private $l;
-	/** @var User */
-	private $user;
 	/** @var ILogger  */
-	private $logger;
-	/** @var IConfig */
-	private $config;
+	protected $logger;
 
 	/**
 	 * https://github.com/sebdesign/cap-height -- for 500px height
@@ -74,24 +61,33 @@ class Avatar implements IAvatar {
 		</svg>';
 
 	/**
-	 * constructor
+	 * The base avatar constructor.
 	 *
-	 * @param ISimpleFolder $folder The folder where the avatars are
-	 * @param IL10N $l
-	 * @param User $user
-	 * @param ILogger $logger
-	 * @param IConfig $config
+	 * @param ILogger $logger The logger
 	 */
-	public function __construct(ISimpleFolder $folder,
-		IL10N $l,
-		$user,
-		ILogger $logger,
-		IConfig $config) {
-		$this->folder = $folder;
-		$this->l = $l;
-		$this->user = $user;
+	public function __construct(ILogger $logger) {
 		$this->logger = $logger;
-		$this->config = $config;
+	}
+
+	/**
+	 * Returns the user display name.
+	 *
+	 * @return string
+	 */
+	abstract public function getDisplayName(): string;
+
+	/**
+	 * Returns the first letter of the display name, or "?" if no name given.
+	 *
+	 * @return string
+	 */
+	private function getAvatarLetter(): string {
+		$displayName = $this->getDisplayName();
+		if (empty($displayName) === true) {
+			return '?';
+		} else {
+			return mb_strtoupper(mb_substr($displayName, 0, 1), 'UTF-8');
+		}
 	}
 
 	/**
@@ -110,189 +106,20 @@ class Avatar implements IAvatar {
 	}
 
 	/**
-	 * Check if an avatar exists for the user
-	 *
-	 * @return bool
-	 */
-	public function exists() {
-
-		return $this->folder->fileExists('avatar.jpg') || $this->folder->fileExists('avatar.png');
-	}
-
-	/**
-	 * sets the users avatar
-	 * @param IImage|resource|string $data An image object, imagedata or path to set a new avatar
-	 * @throws \Exception if the provided file is not a jpg or png image
-	 * @throws \Exception if the provided image is not valid
-	 * @throws NotSquareException if the image is not square
-	 * @return void
-	 */
-	public function set($data) {
-
-		if ($data instanceof IImage) {
-			$img = $data;
-			$data = $img->data();
-		} else {
-			$img = new OC_Image();
-			if (is_resource($data) && get_resource_type($data) === "gd") {
-				$img->setResource($data);
-			} elseif (is_resource($data)) {
-				$img->loadFromFileHandle($data);
-			} else {
-				try {
-					// detect if it is a path or maybe the images as string
-					$result = @realpath($data);
-					if ($result === false || $result === null) {
-						$img->loadFromData($data);
-					} else {
-						$img->loadFromFile($data);
-					}
-				} catch (\Error $e) {
-					$img->loadFromData($data);
-				}
-			}
-		}
-		$type = substr($img->mimeType(), -3);
-		if ($type === 'peg') {
-			$type = 'jpg';
-		}
-		if ($type !== 'jpg' && $type !== 'png') {
-			throw new \Exception($this->l->t('Unknown filetype'));
-		}
-
-		if (!$img->valid()) {
-			throw new \Exception($this->l->t('Invalid image'));
-		}
-
-		if (!($img->height() === $img->width())) {
-			throw new NotSquareException($this->l->t('Avatar image is not square'));
-		}
-
-		$this->remove();
-		$file = $this->folder->newFile('avatar.' . $type);
-		$file->putContent($data);
-
-		try {
-			$generated = $this->folder->getFile('generated');
-			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'false');
-			$generated->delete();
-		} catch (NotFoundException $e) {
-			//
-		}
-		$this->user->triggerChange('avatar', $file);
-	}	
-
-	/**
-	 * remove the users avatar
-	 * @return void
-	 */
-	public function remove() {
-		$avatars = $this->folder->getDirectoryListing();
-
-		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
-			(int) $this->config->getUserValue($this->user->getUID(), 'avatar', 'version', 0) + 1);
-
-		foreach ($avatars as $avatar) {
-			$avatar->delete();
-		}
-		$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
-		$this->user->triggerChange('avatar', '');
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getFile($size) {
-		try {
-			$ext = $this->getExtension();
-		} catch (NotFoundException $e) {
-			if (!$data = $this->generateAvatarFromSvg(1024)) {
-				$data = $this->generateAvatar($this->user->getDisplayName(), 1024);
-			}
-			$avatar = $this->folder->newFile('avatar.png');
-			$avatar->putContent($data);
-			$ext = 'png';
-
-			$this->folder->newFile('generated');
-			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
-		}
-
-		if ($size === -1) {
-			$path = 'avatar.' . $ext;
-		} else {
-			$path = 'avatar.' . $size . '.' . $ext;
-		}
-
-		try {
-			$file = $this->folder->getFile($path);
-		} catch (NotFoundException $e) {
-			if ($size <= 0) {
-				throw new NotFoundException;
-			}
-
-			if ($this->folder->fileExists('generated')) {
-				if (!$data = $this->generateAvatarFromSvg($size)) {
-					$data = $this->generateAvatar($this->user->getDisplayName(), $size);
-				}
-
-			} else {
-				$avatar = new OC_Image();
-				/** @var ISimpleFile $file */
-				$file = $this->folder->getFile('avatar.' . $ext);
-				$avatar->loadFromData($file->getContent());
-				$avatar->resize($size);
-				$data = $avatar->data();
-			}
-
-			try {
-				$file = $this->folder->newFile($path);
-				$file->putContent($data);
-			} catch (NotPermittedException $e) {
-				$this->logger->error('Failed to save avatar for ' . $this->user->getUID());
-				throw new NotFoundException();
-			}
-
-		}
-
-		if ($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {
-			$generated = $this->folder->fileExists('generated') ? 'true' : 'false';
-			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', $generated);
-		}
-
-		return $file;
-	}
-
-	/**
-	 * Get the extension of the avatar. If there is no avatar throw Exception
-	 *
-	 * @return string
-	 * @throws NotFoundException
-	 */
-	private function getExtension() {
-		if ($this->folder->fileExists('avatar.jpg')) {
-			return 'jpg';
-		} elseif ($this->folder->fileExists('avatar.png')) {
-			return 'png';
-		}
-		throw new NotFoundException;
-	}
-	
-	/**
 	 * {size} = 500
 	 * {fill} = hex color to fill
 	 * {letter} = Letter to display
 	 * 
 	 * Generate SVG avatar
+	 *
+	 * @param int $size The requested image size in pixel
 	 * @return string
-	 * 
 	 */
-	private function getAvatarVector(int $size): string {
-		$userDisplayName = $this->user->getDisplayName();
-
+	protected function getAvatarVector(int $size): string {
+		$userDisplayName = $this->getDisplayName();
 		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b);
-		$letter = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
-		
+		$letter = $this->getAvatarLetter();
 		$toReplace = ['{size}', '{fill}', '{letter}'];
 		return str_replace($toReplace, [$size, $bgHEX, $letter], $this->svgTemplate);
 	}
@@ -303,7 +130,7 @@ class Avatar implements IAvatar {
 	 * @param int $size
 	 * @return string|boolean
 	 */
-	private function generateAvatarFromSvg(int $size) {
+	protected function generateAvatarFromSvg(int $size) {
 		if (!extension_loaded('imagick')) {
 			return false;
 		}
@@ -329,22 +156,27 @@ class Avatar implements IAvatar {
 	 * @param int $size
 	 * @return string
 	 */
-	private function generateAvatar($userDisplayName, $size) {
-		$text = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
+	protected function generateAvatar($userDisplayName, $size) {
+		$letter = $this->getAvatarLetter();
 		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
 
 		$im = imagecreatetruecolor($size, $size);
-		$background = imagecolorallocate($im, $backgroundColor->r, $backgroundColor->g, $backgroundColor->b);
+		$background = imagecolorallocate(
+			$im,
+			$backgroundColor->r,
+			$backgroundColor->g,
+			$backgroundColor->b
+		);
 		$white = imagecolorallocate($im, 255, 255, 255);
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
-
+		$font = __DIR__ . '/../../../core/fonts/OpenSans-Semibold.ttf';
 		$fontSize = $size * 0.4;
+		list($x, $y) = $this->imageTTFCenter(
+			$im, $letter, $font, (int)$fontSize
+		);
 
-		list($x, $y) = $this->imageTTFCenter($im, $text, $font, $fontSize);
-
-		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $text);
+		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $letter);
 
 		ob_start();
 		imagepng($im);
@@ -362,9 +194,15 @@ class Avatar implements IAvatar {
 	 * @param string $font font path
 	 * @param int $size font size
 	 * @param int $angle
-	 * @return Array
+	 * @return array
 	 */
-	protected function imageTTFCenter($image, string $text, string $font, int $size, $angle = 0): array {
+	protected function imageTTFCenter(
+		$image,
+		string $text,
+		string $font,
+		int $size,
+		$angle = 0
+	): array {
 		// Image width & height
 		$xi = imagesx($image);
 		$yi = imagesy($image);
@@ -401,10 +239,9 @@ class Avatar implements IAvatar {
 	 * Convert a string to an integer evenly
 	 * @param string $hash the text to parse
 	 * @param int $maximum the maximum range
-	 * @return int between 0 and $maximum
+	 * @return int[] between 0 and $maximum
 	 */
 	private function mixPalette($steps, $color1, $color2) {
-		$count = $steps + 1;
 		$palette = array($color1);
 		$step = $this->stepCalc($steps, [$color1, $color2]);
 		for ($i = 1; $i < $steps; $i++) {
@@ -471,19 +308,4 @@ class Avatar implements IAvatar {
 
 		return $finalPalette[$this->hashToInt($hash, $steps * 3)];
 	}
-
-	public function userChanged($feature, $oldValue, $newValue) {
-		// We only change the avatar on display name changes
-		if ($feature !== 'displayName') {
-			return;
-		}
-
-		// If the avatar is not generated (so an uploaded image) we skip this
-		if (!$this->folder->fileExists('generated')) {
-			return;
-		}
-
-		$this->remove();
-	}
-
 }

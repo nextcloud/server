@@ -28,8 +28,9 @@
 
 namespace OCP;
 
-use OCP\Files\File;
+use OC\Color;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 
 /**
  * This class provides avatar functionality
@@ -73,16 +74,17 @@ interface IAvatar {
 
 	/**
 	 * Get the file of the avatar
+	 *
 	 * @param int $size -1 can be used to not scale the image
-	 * @return File
+	 * @return ISimpleFile
 	 * @throws NotFoundException
-	 * @since 9.0.0
+	 * @since 9.0.0 - switched from File to ISimpleFile since 14.0.0
 	 */
 	public function getFile($size);
 
 	/**
 	 * @param string $text
-	 * @return Color Object containting r g b int in the range [0, 255]
+	 * @return Color Object containing r g b int in the range [0, 255]
 	 * @since 14.0.0
 	 */
 	public function avatarBackgroundColor(string $text);
