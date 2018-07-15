@@ -23,6 +23,7 @@
 namespace Test\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC_Util;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -85,26 +86,26 @@ class TwoFactorChallengeControllerTest extends TestCase {
 
 	public function testSelectChallenge() {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
-		$providers = [
-			'prov1',
-			'prov2',
-		];
+		$p1 = $this->createMock(IProvider::class);
+		$p1->method('getId')->willReturn('p1');
+		$backupProvider = $this->createMock(IProvider::class);
+		$backupProvider->method('getId')->willReturn('backup_codes');
+		$providerSet = new ProviderSet([$p1, $backupProvider], true);
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
 		$this->twoFactorManager->expects($this->once())
-			->method('getProviders')
+			->method('getProviderSet')
 			->with($user)
-			->will($this->returnValue($providers));
-		$this->twoFactorManager->expects($this->once())
-			->method('getBackupProvider')
-			->with($user)
-			->will($this->returnValue('backup'));
+			->will($this->returnValue($providerSet));
 
 		$expected = new TemplateResponse('core', 'twofactorselectchallenge', [
-			'providers' => $providers,
-			'backupProvider' => 'backup',
+			'providers' => [
+				$p1,
+			],
+			'providerMissing' => true,
+			'backupProvider' => $backupProvider,
 			'redirect_url' => '/some/url',
 			'logout_url' => 'logoutAttribute',
 			], 'guest');
@@ -115,20 +116,19 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	public function testShowChallenge() {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
+		$provider->method('getId')->willReturn('myprovider');
 		$backupProvider = $this->createMock(IProvider::class);
+		$backupProvider->method('getId')->willReturn('backup_codes');
 		$tmpl = $this->createMock(Template::class);
+		$providerSet = new ProviderSet([$provider, $backupProvider], true);
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
 		$this->twoFactorManager->expects($this->once())
-			->method('getProvider')
-			->with($user, 'myprovider')
-			->will($this->returnValue($provider));
-		$this->twoFactorManager->expects($this->once())
-			->method('getBackupProvider')
+			->method('getProviderSet')
 			->with($user)
-			->will($this->returnValue($backupProvider));
+			->will($this->returnValue($providerSet));
 		$provider->expects($this->once())
 			->method('getId')
 			->will($this->returnValue('u2f'));
@@ -166,14 +166,15 @@ class TwoFactorChallengeControllerTest extends TestCase {
 
 	public function testShowInvalidChallenge() {
 		$user = $this->createMock(IUser::class);
+		$providerSet = new ProviderSet([], false);
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
 		$this->twoFactorManager->expects($this->once())
-			->method('getProvider')
-			->with($user, 'myprovider')
-			->will($this->returnValue(null));
+			->method('getProviderSet')
+			->with($user)
+			->will($this->returnValue($providerSet));
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.selectChallenge')

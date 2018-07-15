@@ -176,3 +176,10 @@ DOMPurify/**
 # strengthify
 strengthify/examples.html
 strengthify/examples.png
+
+# underscore
+css-vars-ponyfill/**
+!css-vars-ponyfill/dist
+!css-vars-ponyfill/dist/css-vars-ponyfill.min.js
+!css-vars-ponyfill/dist/css-vars-ponyfill.min.js.map
+!css-vars-ponyfill/LICENSE

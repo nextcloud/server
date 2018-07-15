@@ -17,6 +17,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Select all" : "Alle auswählen",
     "Name" : "Name",
+    "Actions" : "Aktionen",
     "Deleted" : "gelöscht"
 },
 "nplurals=2; plural=(n != 1);");

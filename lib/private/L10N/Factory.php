@@ -32,6 +32,7 @@ namespace OC\L10N;
 
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
@@ -53,6 +54,11 @@ class Factory implements IFactory {
 	 * @var array Structure: App => string[]
 	 */
 	protected $availableLanguages = [];
+
+	/**
+	 * @var array
+	 */
+	protected $availableLocales = [];
 
 	/**
 	 * @var array Structure: string => callable
@@ -97,9 +103,10 @@ class Factory implements IFactory {
 	 *
 	 * @param string $app
 	 * @param string|null $lang
+	 * @param string|null $locale
 	 * @return \OCP\IL10N
 	 */
-	public function get($app, $lang = null) {
+	public function get($app, $lang = null, $locale = null) {
 		$app = \OC_App::cleanAppId($app);
 		if ($lang !== null) {
 			$lang = str_replace(array('\0', '/', '\\', '..'), '', (string) $lang);
@@ -110,13 +117,22 @@ class Factory implements IFactory {
 			$lang = $forceLang;
 		}
 
+		$forceLocale = $this->config->getSystemValue('force_locale', false);
+		if (is_string($forceLocale)) {
+			$locale = $forceLocale;
+		}
+
 		if ($lang === null || !$this->languageExists($app, $lang)) {
 			$lang = $this->findLanguage($app);
 		}
 
+		if ($locale === null || !$this->localeExists($locale)) {
+			$locale = $this->findLocale($lang);
+		}
+
 		if (!isset($this->instances[$lang][$app])) {
 			$this->instances[$lang][$app] = new L10N(
-				$this, $app, $lang,
+				$this, $app, $lang, $locale,
 				$this->getL10nFilesForApp($app, $lang)
 			);
 		}
@@ -186,6 +202,48 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * find the best locale
+	 *
+	 * @param string $lang
+	 * @return null|string
+	 */
+	public function findLocale($lang = null) {
+		$forceLocale = $this->config->getSystemValue('force_locale', false);
+		if (is_string($forceLocale) && $this->localeExists($forceLocale)) {
+			return $forceLocale;
+		}
+
+		if ($this->config->getSystemValue('installed', false)) {
+			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
+			$userLocale = null;
+			if (null !== $userId) {
+				$userLocale = $this->config->getUserValue($userId, 'core', 'locale', null);
+			}
+		} else {
+			$userId = null;
+			$userLocale = null;
+		}
+
+		if ($userLocale && $this->localeExists($userLocale)) {
+			return $userLocale;
+		}
+
+		// Default : use system default locale
+		$defaultLocale = $this->config->getSystemValue('default_locale', false);
+		if ($defaultLocale !== false && $this->localeExists($defaultLocale)) {
+			return $defaultLocale;
+		}
+
+		// If no user locale set, use lang as locale
+		if (null !== $lang && $this->localeExists($lang)) {
+			return $lang;
+		}
+
+		// At last, return USA
+		return 'en_US';
+	}
+
+	/**
 	 * Find all available languages for an app
 	 *
 	 * @param string|null $app App id or null for core
@@ -237,6 +295,20 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * @return array|mixed
+	 */
+	public function findAvailableLocales() {
+		if (!empty($this->availableLocales)) {
+			return $this->availableLocales;
+		}
+
+		$localeData = file_get_contents(\OC::$SERVERROOT . '/resources/locales.json');
+		$this->availableLocales = \json_decode($localeData, true);
+
+		return $this->availableLocales;
+	}
+
+	/**
 	 * @param string|null $app App id or null for core
 	 * @param string $lang
 	 * @return bool
@@ -248,6 +320,54 @@ class Factory implements IFactory {
 
 		$languages = $this->findAvailableLanguages($app);
 		return array_search($lang, $languages) !== false;
+	}
+
+	public function iterateLanguage(bool $reset = false): string {
+		static $i = 0;
+		if($reset) {
+			$i = 0;
+		}
+		switch($i) {
+			/** @noinspection PhpMissingBreakStatementInspection */
+			case 0:
+				$i++;
+				$forcedLang = $this->config->getSystemValue('force_language', false);
+				if(is_string($forcedLang)) {
+					return $forcedLang;
+				}
+			/** @noinspection PhpMissingBreakStatementInspection */
+			case 1:
+				$i++;
+				$user = $this->userSession->getUser();
+				if($user instanceof IUser) {
+					$userLang = $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
+					if(is_string($userLang)) {
+						return $userLang;
+					}
+				}
+			case 2:
+				$i++;
+				return $this->config->getSystemValue('default_language', 'en');
+			default:
+				return 'en';
+		}
+	}
+
+	/**
+	 * @param string $locale
+	 * @return bool
+	 */
+	public function localeExists($locale) {
+		if ($locale === 'en') { //english is always available
+			return true;
+		}
+
+		$locales = $this->findAvailableLocales();
+		$userLocale = array_filter($locales, function($value) use ($locale) {
+			return $locale === $value['code'];
+		});
+
+		return !empty($userLocale);
 	}
 
 	/**

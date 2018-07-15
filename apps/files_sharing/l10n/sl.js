@@ -42,9 +42,6 @@ OC.L10N.register(
     "Download" : "Prejmi",
     "Direct link" : "Neposredna povezava",
     "Share API is disabled" : "API za souporabo je izključen",
-    "This share is password-protected" : "To mesto je zaščiteno z geslom.",
-    "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
-    "Password" : "Geslo",
     "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
     "Name" : "Ime",
     "Share time" : "Čas souporabe",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "Upload files to %s" : "Naloži datoteke v %s",
     "Select or drop files" : "Izberi ali povleci datoteke",
     "Uploading files…" : "Nalaganje datotek...",
-    "Uploaded files:" : "Naložene datoteke:"
+    "Uploaded files:" : "Naložene datoteke:",
+    "This share is password-protected" : "To mesto je zaščiteno z geslom.",
+    "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
+    "Password" : "Geslo"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

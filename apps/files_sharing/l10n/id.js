@@ -47,9 +47,6 @@ OC.L10N.register(
     "Direct link" : "Tautan langsung",
     "Add to your Nextcloud" : "Tambahkan ke Nextcloud Anda",
     "Share API is disabled" : "API pembagian dinonaktifkan",
-    "This share is password-protected" : "Berbagi ini dilindungi kata sandi",
-    "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
-    "Password" : "Kata sandi",
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
     "Name" : "Nama",
     "Share time" : "Waktu berbagi",
@@ -64,6 +61,9 @@ OC.L10N.register(
     "Upload files to %s" : "Unggah berkas ke %s",
     "Select or drop files" : "Pilih atau drop berkas",
     "Uploading files…" : "Mengunggah berkas...",
-    "Uploaded files:" : "Berkas terunggah:"
+    "Uploaded files:" : "Berkas terunggah:",
+    "This share is password-protected" : "Berbagi ini dilindungi kata sandi",
+    "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
+    "Password" : "Kata sandi"
 },
 "nplurals=1; plural=0;");

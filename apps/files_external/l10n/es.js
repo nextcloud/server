@@ -70,6 +70,9 @@ OC.L10N.register(
     "User entered, store in database" : "Usuario registrado, almacenar en la base de datos",
     "RSA public key" : "Clave pública RSA",
     "Public key" : "Clave pública",
+    "RSA private key" : "Clave privada RSA",
+    "Private key" : "Clave privada",
+    "Kerberos ticket" : "Ticket de Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Depósito",
     "Hostname" : "Nombre de equipo",
@@ -125,7 +128,6 @@ OC.L10N.register(
     "Advanced settings" : "Configuración avanzada",
     "Delete" : "Eliminar",
     "Allow users to mount external storage" : "Permitir a los usuarios montar un almacenamiento externo",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Fallo al recuperar los tokens de peticiones. Verifica que tu clave de aplicación y secreto son correctos.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Fallo al recuperar los tokens de peticiones. Verifica que tu clave de aplicación y secreto son correctos.",
     "Step 1 failed. Exception: %s" : "El paso 1 ha fallado. Excepción: %s",
@@ -138,6 +140,7 @@ OC.L10N.register(
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, Google Drive, Dropbox, other Nextcloud servers, WebDAV servers, and more. Administrators can choose which types of storage to enable and can mount these storage locations for a user, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows users to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the advanced user with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "Esta aplicación permite a los administradores configurar conexiones a proveedores externos de almacenamiento, como servidores FTP, almacenamientos de objetos S3 o SWIFT, otros servidores Nextcloud, servidores WebDAV y más. Los administradores pueden elegir qué tipos de alacenamiento activar y pueden montar estas localizaciones de almacenamiento para un usuario, un grupo o el sistema entero. Los usuarios verán aparecer una nueva carpeta en su directorio raíz de Nextcloud, a la que pueden acceder y que pueden usar como cualquier otra carpeta. El almacenamiento externo también permite a los usuarios compartir los archivos almacenados en estas localizaciones externas. En estos casos, se usan las credenciales para el dueño del archivos cuando el receptor pide el archivo del almacenamiento externo, asegurando así que el receptor puede acceder al archivo compartido.\n\nEl almacenamiento externo se puede configurar usando la GUI o con la línea de comandos. La segunda opción proporciona al usuario avanzado más flexibilidad para configurar montajes de almacenamientos externos al por mayor y para configurar prioridades de montaje. Más información disponible en la documentación del almacenamiento externo y la documentación del archivo de configuración de almacenamiento externo.",
     "No external storage configured" : "No hay ningún almacenamiento externo configurado",
     "You can add external storages in the personal settings" : "Puede agregar almacenamientos externos en la configuración personal",
+    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
     "Are you sure you want to delete this external storage" : "¿Estás seguro de que quieres eliminar este almacenamiento externo?"
 },
 "nplurals=2; plural=(n != 1);");

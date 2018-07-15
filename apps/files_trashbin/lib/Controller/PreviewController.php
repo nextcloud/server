@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -26,6 +27,7 @@ namespace OCA\Files_Trashbin\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
@@ -48,45 +50,36 @@ class PreviewController extends Controller {
 	/** @var IPreview */
 	private $previewManager;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IRootFolder $rootFolder
-	 * @param $userId
-	 * @param IMimeTypeDetector $mimeTypeDetector
-	 * @param IPreview $previewManager
-	 */
-	public function __construct($appName,
+	/** @var ITimeFactory */
+	private $time;
+
+	public function __construct(string $appName,
 								IRequest $request,
 								IRootFolder $rootFolder,
-								$userId,
+								string $userId,
 								IMimeTypeDetector $mimeTypeDetector,
-								IPreview $previewManager) {
+								IPreview $previewManager,
+								ITimeFactory $time) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
 		$this->userId = $userId;
 		$this->mimeTypeDetector = $mimeTypeDetector;
 		$this->previewManager = $previewManager;
+		$this->time = $time;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @param string $file
-	 * @param int $x
-	 * @param int $y
 	 * @return DataResponse|Http\FileDisplayResponse
 	 */
 	public function getPreview(
-		$file = '',
-		$x = 44,
-		$y = 44
+		int $fileId,
+		int $x = 44,
+		int $y = 44
 	) {
-		if ($file === '') {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
-		}
 
 		if ($x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
@@ -96,23 +89,41 @@ class PreviewController extends Controller {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
 			/** @var Folder $trash */
 			$trash = $userFolder->getParent()->get('files_trashbin/files');
-			$trashFile = $trash->get($file);
+			$trashFiles = $trash->getById($fileId);
+
+			if (empty($trashFiles)) {
+				throw new NotFoundException();
+			}
+
+			$trashFile = array_pop($trashFiles);
 
 			if ($trashFile instanceof Folder) {
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);
 			}
 
-			/** @var File $trashFile */
-			$fileName = $trashFile->getName();
-			$i = strrpos($fileName, '.');
-			if ($i !== false) {
-				$fileName = substr($fileName, 0, $i);
+			/*
+			 * Files in the root of the trashbin are timetamped.
+			 * So we have to strip that in order to properly detect the mimetype of the file.
+			 */
+			if ($trashFile->getParent()->getPath() === $trash->getPath()) {
+				/** @var File $trashFile */
+				$fileName = $trashFile->getName();
+				$i = strrpos($fileName, '.');
+				if ($i !== false) {
+					$fileName = substr($fileName, 0, $i);
+				}
+
+				$mimeType = $this->mimeTypeDetector->detectPath($fileName);
+			} else {
+				$mimeType = $this->mimeTypeDetector->detectPath($trashFile->getName());
 			}
 
-			$mimeType = $this->mimeTypeDetector->detectPath($fileName);
-
 			$f = $this->previewManager->getPreview($trashFile, $x, $y, true, IPreview::MODE_FILL, $mimeType);
-			return new Http\FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$response = new Http\FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+
+			// Cache previews for 24H
+			$response->cacheFor(3600 * 24);
+			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {

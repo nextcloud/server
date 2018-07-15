@@ -54,7 +54,7 @@ table, td, th {
 
 a {
 	border: 0;
-	color: $color-main-text;
+	color: var(--color-main-text);
 	text-decoration: none;
 	cursor: pointer;
 	* {
@@ -83,18 +83,18 @@ ul {
 }
 
 body {
-	background-color: $color-main-background;
-	font-weight: 400;
+	background-color: var(--color-main-background);
+	font-weight: 300;
 	font-size: .8em;
 	line-height: 1.6em;
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
-	color: $color-main-text;
+	font-family: var(--font-face);
+	color: var(--color-main-text);
 	height: auto;
 }
 
 #body-login {
 	text-align: center;
-	background-color: $color-primary;
+	background-color: var(--color-primary);
 	background-image: url('../img/background.png?v=2');
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
@@ -110,14 +110,14 @@ body {
 	width: 258px !important;
 	display: inline-block;
 	margin-bottom: 0 !important;
-	background-color: rgba($color-main-text, 0.3) !important;
+	background-color: var(--color-background-darker) !important;
 	border: none !important;
 }
 
 .two-factor-link {
 	display: inline-block;
 	padding: 12px;
-	color: rgba($color-main-background, 0.75);
+	color: var(--color-text-lighter);
 }
 
 .float-spinner {
@@ -138,8 +138,8 @@ body {
 	width: 100%;
 	z-index: 9000;
 	text-align: center;
-	background-color: rgba($color-main-text, 0.5);
-	color: $color-primary-text;
+	background-color: var(--color-background-darker);
+	color: var(--color-primary-text);
 	line-height: 125%;
 	font-size: 24px;
 	div {
@@ -150,10 +150,10 @@ body {
 		margin: 0px auto;
 	}
 	a {
-		color: $color-primary-text;
-		border-bottom: 2px dotted $color-main-background;
+		color: var(--color-primary-text);
+		border-bottom: 2px dotted var(--color-main-background);
 		&:hover, &:focus {
-			color: nc-lighten($color-main-text, 86%);
+			color: var(--color-primary-text-dark);
 		}
 	}
 }
@@ -170,8 +170,8 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: nc-darken($color-main-background, 14%);
-	border-radius: $border-radius;
+	background: var(--color-background-darker);
+	border-radius: var(--border-radius);
 }
 
 /* Searchbox */
@@ -185,9 +185,9 @@ body {
 		padding-left: 25px;
 		padding-right: 20px;
 		background: transparent url('../img/actions/search-white.svg?v=1') no-repeat center center;
-		color: $color-primary-text;
+		color: var(--color-primary-text);
 		border: 0;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 		margin-top: 9px;
 		width: 0;
 		cursor: pointer;
@@ -196,11 +196,11 @@ body {
 		opacity: .6;
 		&:focus, &:active, &:valid {
 			background-position-x: 6px;
-			color: $color-primary-text;
+			color: var(--color-primary-text);
 			width: 155px;
 			cursor: text;
-			background-color: $color-primary !important;
-			border: 1px solid rgba($color-primary-text, 0.5) !important;
+			background-color: var(--color-primary) !important;
+			border: 1px solid var(--color-primary-text-dark) !important;
 		}
 		&:hover, &:focus, &:active {
 			opacity: 1;
@@ -236,7 +236,7 @@ body {
 	height: 44px;
 	padding: 0;
 	margin: 0;
-	background-color: rgba($color-main-background, 0.95);
+	background-color: var(--color-main-background);
 	z-index: 60;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -299,32 +299,35 @@ body {
 	overflow-x: auto;
 }
 
-#emptycontent, .emptycontent {
-	color: nc-lighten($color-main-text, 53%);
+/* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
+
+#emptycontent,
+.emptycontent {
+	color: var(--color-text-maxcontrast);
 	text-align: center;
 	margin-top: 30vh;
 	width: 100%;
-}
-
-#app-sidebar #emptycontent, #app-sidebar .emptycontent {
-	margin-top: 10vh;
-}
-
-#emptycontent.emptycontent-search, .emptycontent.emptycontent-search {
-	position: static;
-}
-
-#emptycontent h2, .emptycontent h2 {
-	margin-bottom: 10px;
-	line-height: 150%;
-}
-
-#emptycontent [class^='icon-'], .emptycontent [class^='icon-'], #emptycontent [class*=' icon-'], .emptycontent [class*=' icon-'] {
-	background-size: 64px;
-	height: 64px;
-	width: 64px;
-	margin: 0 auto 15px;
-	opacity: .4;
+	#app-sidebar & {
+		margin-top: 10vh;
+	}
+	.emptycontent-search {
+		position: static;
+	}
+	h2 {
+		margin-bottom: 10px;
+		line-height: 150%;
+	}
+	[class^='icon-'],
+	[class*='icon-'] {
+		background-size: 64px;
+		height: 64px;
+		width: 64px;
+		margin: 0 auto 15px;
+		&:not([class^='icon-loading']),
+		&:not([class*='icon-loading']) {
+			opacity: .4;
+		}
+	}
 }
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
@@ -341,16 +344,16 @@ body {
 	/* fix sticky footer */
 	p.info, form fieldset legend, #datadirContent label {
 		text-align: center;
-		color: $color-primary-text;
+		color: var(--color-primary-text);
 	}
 	form {
 		fieldset .warning-info, input[type='checkbox'] + label {
 			text-align: center;
-			color: $color-primary-text;
+			color: var(--color-primary-text);
 		}
 		.warning input[type='checkbox'] {
 			&:hover + label, &:focus + label, + label {
-				color: $color-primary-text !important;
+				color: var(--color-primary-text) !important;
 			}
 		}
 	}
@@ -359,8 +362,8 @@ body {
 			margin: 0 0 20px;
 		}
 		a {
-			color: $color-primary-text;
-			border-bottom: 1px solid nc-darken($color-main-background, 27%);
+			color: var(--color-primary-text);
+			border-bottom: 1px solid var(--color-background-darker);
 		}
 	}
 	.infogroup {
@@ -485,7 +488,6 @@ body {
 	border-top: 0 !important;
 	border-bottom: 0 !important;
 	border-radius: 0 !important;
-	box-shadow: 0 1px 0 rgba($color-main-text, 0.1) inset !important;
 }
 
 #body-login .groupbottom input, .groupbottom input {
@@ -493,7 +495,6 @@ body {
 	border-top: 0 !important;
 	border-top-right-radius: 0 !important;
 	border-top-left-radius: 0 !important;
-	box-shadow: 0 1px 0 rgba($color-main-text, 0.1) inset !important;
 }
 
 #body-login .groupbottom input[type=submit] {
@@ -519,16 +520,14 @@ label.infield {
 			user-select: none;
 		}
 		.errors {
-			background: rgba($color-error, .35);
-			border: 1px solid $color-error;
+			border: 1px solid var(--color-error);
 			list-style-indent: inside;
 			margin: 0 0 2em;
 			padding: 1em;
 		}
 	}
 	.success {
-		background: rgba($color-success, .35);
-		border: 1px solid $color-success;
+		border: 1px solid var(--color-success);
 		width: 35%;
 		margin: 30px auto;
 		padding: 1em;
@@ -539,7 +538,7 @@ label.infield {
 		box-sizing: border-box;
 	}
 	p.info a, #showAdvanced {
-		color: $color-primary-text;
+		color: var(--color-primary-text);
 	}
 	#remember_login {
 		&:hover + label, &:focus + label {
@@ -613,7 +612,6 @@ label.infield {
 }
 
 /* Database selector */
-
 #body-login {
 	form #selectDbType {
 		text-align: center;
@@ -626,27 +624,27 @@ label.infield {
 			position: static;
 			margin: 0 -3px 5px;
 			font-size: 12px;
-			background: nc-darken($color-main-background, 3%);
-			color: nc-lighten($color-main-text, 53%);
+			background: var(--color-background-dark);
+			color: var(--color-text-lighter);
 			cursor: pointer;
-			border: 1px solid nc-darken($color-main-background, 14%);
+			border: 1px solid var(--color-border-dark);
 			span {
 				cursor: pointer;
 				padding: 10px 20px;
 			}
 			&.ui-state-hover, &.ui-state-active {
-				color: $color-main-text;
-				background-color: nc-darken($color-main-background, 8%);
+				color: var(--color-main-text);
+				background-color: var(--color-border);
 			}
 		}
 	}
 	.warning, .update, .error {
 		display: block;
 		padding: 10px;
-		background-color: rgba($color-main-text, 0.3);
-		color: $color-primary-text;
+		background-color: var(--color-background-darker);
+		color: var(--color-primary-text);
 		text-align: left;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 		cursor: default;
 	}
 	.update {
@@ -672,23 +670,22 @@ label.infield {
 #body-user .warning, #body-settings .warning {
 	margin-top: 8px;
 	padding: 5px;
-	background: rgba($color-error, .15);
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 }
 
 .warning {
 	legend, a {
-		color: $color-primary-text !important;
+		color: var(--color-primary-text) !important;
 		font-weight: 600 !important;
 	}
 }
 
 .error {
 	a {
-		color: $color-primary-text !important;
+		color: var(--color-primary-text) !important;
 		font-weight: 600 !important;
 		&.button {
-			color: nc-lighten($color-main-text, 33%) !important;
+			color: var(--color-text-lighter) !important;
 			display: inline-block;
 			text-align: center;
 		}
@@ -708,7 +705,7 @@ label.infield {
 }
 
 .warning-input {
-	border-color: $color-error !important;
+	border-color: var(--color-error) !important;
 }
 
 /* Fixes for log in page, TODO should be removed some time */
@@ -804,7 +801,7 @@ label.infield {
 	#forgot-password {
 		padding: 11px;
 		float: right;
-		color: $color-primary-text;
+		color: var(--color-primary-text);
 	}
 	.wrapper {
 		min-height: 100%;
@@ -844,7 +841,7 @@ td.avatar {
 	margin: 0 auto;
 	max-width: 60%;
 	z-index: 8000;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	border: 0;
 	padding: 1px 8px;
 	display: none;
@@ -919,7 +916,7 @@ tr {
 
 tbody tr {
 	&:hover, &:focus, &:active {
-		background-color: nc-darken($color-main-background, 3%);
+		background-color: var(--color-background-dark);
 	}
 }
 
@@ -955,7 +952,7 @@ code {
 	margin-top: 10px;
 	padding: 4px 8px;
 	width: auto;
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 	border: none;
 
 	.ui-state-default,
@@ -968,8 +965,8 @@ code {
 		padding: 7px;
 		font-size: 13px;
 		border:	none;
-		background-color: $color-main-background;
-		color: $color-main-text;
+		background-color: var(--color-main-background);
+		color: var(--color-main-text);
 
 		.ui-datepicker-title {
 			line-height: 1;
@@ -992,7 +989,7 @@ code {
 	.ui-datepicker-calendar {
 		th {
 			font-weight: normal;
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 			opacity: .8;
 			width: 26px;
 			padding: 2px;
@@ -1002,20 +999,20 @@ code {
 		}
 		td {
 			&.ui-datepicker-today a:not(.ui-state-hover) {
-				background-color: nc-lighten($color-main-text, 86%);
+				background-color: var(--color-background-darker);
 			}
 
 			&.ui-datepicker-current-day a.ui-state-active,
 			.ui-state-hover,
 			.ui-state-focus {
-				background-color: $color-primary;
-				color: $color-primary-text;
+				background-color: var(--color-primary);
+				color: var(--color-primary-text);
 				font-weight: bold;
 			}
 
 			&.ui-datepicker-week-end:not(.ui-state-disabled) :not(.ui-state-hover),
 			.ui-priority-secondary:not(.ui-state-hover) {
-				color: nc-lighten($color-main-text, 33%);
+				color: var(--color-text-lighter);
 				opacity: .8;
 			}
 		}
@@ -1023,8 +1020,8 @@ code {
 }
 
 .ui-datepicker-prev, .ui-datepicker-next {
-	border: nc-darken($color-main-background, 14%);
-	background: $color-main-background;
+	border: var(--color-border-dark);
+	background: var(--color-main-background);
 }
 
 
@@ -1032,7 +1029,7 @@ code {
 .ui-widget.ui-timepicker {
 	margin-top: 10px !important;
 	width: auto !important;
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 
 	.ui-widget-content {
 		border: none !important;
@@ -1048,8 +1045,8 @@ code {
 		padding: 7px;
 		font-size: 13px;
 		border:	none;
-		background-color: $color-main-background;
-		color: $color-main-text;
+		background-color: var(--color-main-background);
+		color: var(--color-main-text);
 
 		.ui-timepicker-title {
 			line-height: 1;
@@ -1063,7 +1060,7 @@ code {
 	.ui-timepicker-table {
 		th {
 			font-weight: normal;
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 			opacity: .8;
 			&.periods {
 				padding: 0;
@@ -1079,17 +1076,17 @@ code {
 			&.ui-timepicker-minute-cell a.ui-state-active,
 			.ui-state-hover,
 			.ui-state-focus {
-				background-color: $color-primary;
-				color: $color-primary-text;
+				background-color: var(--color-primary);
+				color: var(--color-primary-text);
 				font-weight: bold;
 			}
 
 			&.ui-timepicker-minutes:not(.ui-state-hover) {
-				color: nc-lighten($color-main-text, 33%);
+				color: var(--color-text-lighter);
 			}
 
 			&.ui-timepicker-hours {
-				border-right: 1px solid $color-border;
+				border-right: 1px solid var(--color-border);
 			}
 		}
 	}
@@ -1115,7 +1112,7 @@ code {
 				border-radius: 50%;
 				text-align: center;
 				font-weight: normal;
-				color: $color-main-text;
+				color: var(--color-main-text);
 				display: block;
 				line-height: 18px;
 				width: 18px;
@@ -1160,14 +1157,14 @@ code {
 		width: 100%;
 	}
 	.emptycontent {
-		color: nc-lighten($color-main-text, 53%);
+		color: var(--color-text-details);
 		text-align: center;
 		margin-top: 80px;
 		width: 100%;
 		display: none;
 	}
 	.filelist {
-		background-color: $color-main-background;
+		background-color: var(--color-main-background);
 		width: 100%;
 	}
 	#filestable.filelist {
@@ -1178,7 +1175,7 @@ code {
 	.filelist {
 		td {
 			padding: 14px;
-			border-bottom: 1px solid $color-border;
+			border-bottom: 1px solid var(--color-border);
 		}
 		tr:last-child td {
 			border-bottom: none;
@@ -1267,7 +1264,7 @@ span.ui-icon {
 		position: relative;
 		align-items: center;
 		padding: 3px 3px 3px 10px;
-		border-bottom: 1px solid $color-border;
+		border-bottom: 1px solid var(--color-border);
 
 		:last-of-type {
 			border-bottom: none;
@@ -1345,7 +1342,7 @@ span.ui-icon {
 	}
 	.scrollarea {
 		overflow: auto;
-		border: 1px solid nc-darken($color-main-background, 14%);
+		border: 1px solid var(--color-background-darker);
 		width: 100%;
 		height: 240px;
 	}
@@ -1357,7 +1354,7 @@ span.ui-icon {
 		}
 	}
 	.taglist li {
-		background: nc-darken($color-main-background, 3%);
+		background: var(--color-background-dark);
 		padding: .3em .8em;
 		white-space: nowrap;
 		overflow: hidden;
@@ -1365,7 +1362,7 @@ span.ui-icon {
 		-webkit-transition: background-color 500ms;
 		transition: background-color 500ms;
 		&:hover, &:active {
-			background: nc-darken($color-main-background, 8%);
+			background: var(--color-background-darker);
 		}
 	}
 	.addinput {
@@ -1480,12 +1477,12 @@ div.crumb {
 	position: relative;
 	text-align: center;
 	.info {
-		color: nc-lighten($color-main-text, 33%);
+		color: var(--color-text-lighter);
 		text-align: center;
 		margin: 0 auto;
 		padding: 20px 0;
 		a {
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 			font-weight: 600;
 			padding: 13px;
 			margin: -13px;

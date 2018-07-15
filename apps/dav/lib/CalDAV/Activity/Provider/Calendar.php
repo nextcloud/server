@@ -176,6 +176,8 @@ class Calendar extends Base {
 				case self::SUBJECT_DELETE . '_self':
 				case self::SUBJECT_UPDATE:
 				case self::SUBJECT_UPDATE . '_self':
+				case self::SUBJECT_PUBLISH . '_self':
+				case self::SUBJECT_UNPUBLISH . '_self':
 				case self::SUBJECT_SHARE_USER:
 				case self::SUBJECT_UNSHARE_USER:
 				case self::SUBJECT_UNSHARE_USER . '_self':

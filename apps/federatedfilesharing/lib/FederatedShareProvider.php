@@ -38,6 +38,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
@@ -303,7 +304,8 @@ class FederatedShareProvider implements IShareProvider {
 			$shareId,
 			$remote,
 			$shareWith,
-			$share->getPermissions()
+			$share->getPermissions(),
+			$share->getNode()->getName()
 		);
 
 		return [$token, $remoteId];
@@ -505,36 +507,26 @@ class FederatedShareProvider implements IShareProvider {
 	 * Delete a share (owner unShares the file)
 	 *
 	 * @param IShare $share
+	 * @throws ShareNotFound
+	 * @throws \OC\HintException
 	 */
 	public function delete(IShare $share) {
 
 		list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedWith());
 
-		$isOwner = false;
-
-		$this->removeShareFromTable($share);
-
 		// if the local user is the owner we can send the unShare request directly...
 		if ($this->userManager->userExists($share->getShareOwner())) {
 			$this->notifications->sendRemoteUnShare($remote, $share->getId(), $share->getToken());
 			$this->revokeShare($share, true);
-			$isOwner = true;
 		} else { // ... if not we need to correct ID for the unShare request
 			$remoteId = $this->getRemoteId($share);
 			$this->notifications->sendRemoteUnShare($remote, $remoteId, $share->getToken());
 			$this->revokeShare($share, false);
 		}
 
-		// send revoke notification to the other user, if initiator and owner are not the same user
-		if ($share->getShareOwner() !== $share->getSharedBy()) {
-			$remoteId = $this->getRemoteId($share);
-			if ($isOwner) {
-				list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedBy());
-			} else {
-				list(, $remote) = $this->addressHandler->splitUserRemote($share->getShareOwner());
-			}
-			$this->notifications->sendRevokeShare($remote, $remoteId, $share->getToken());
-		}
+		// only remove the share when all messages are send to not lose information
+		// about the share to early
+		$this->removeShareFromTable($share);
 	}
 
 	/**
@@ -592,6 +584,10 @@ class FederatedShareProvider implements IShareProvider {
 		// shares is a umount of a external storage. This is handled here
 		// apps/files_sharing/lib/external/manager.php
 		// TODO move this code over to this app
+	}
+
+	public function restore(IShare $share, string $recipient): IShare {
+		throw new GenericShareException('not implemented');
 	}
 
 
@@ -708,7 +704,7 @@ class FederatedShareProvider implements IShareProvider {
 		$cursor->closeCursor();
 
 		if ($data === false) {
-			throw new ShareNotFound();
+			throw new ShareNotFound('Can not find share with ID: ' . $id);
 		}
 
 		try {

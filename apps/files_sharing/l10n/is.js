@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} deildi {file} með {user}",
     "{actor} removed {user} from {file}" : "{actor} fjarlægði {user} af {file}",
     "{actor} shared {file} with you" : "{actor} deildi {file} með þér",
-    "{actor} removed you from {file}" : "{actor} fjarlægði þig af {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Skrá eða mappa sem deilt var með tölvupósti eða almenningstengli var <strong>sótt</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Skjali eða möppu hefur verið deilt <strong>frá öðrum þjóni</strong>",
     "A file or folder has been <strong>shared</strong>" : "Skjali eða  möppu hefur verið <strong>deilt</strong>",
@@ -93,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Share API is disabled" : "Deilingar-API er óvirkt",
     "File sharing" : "Skráadeiling",
-    "This share is password-protected" : "Þessi sameign er varin með lykilorði",
-    "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
-    "Password" : "Lykilorð",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Name" : "Nafn",
     "Share time" : "Deilingartími",
@@ -111,6 +107,10 @@ OC.L10N.register(
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploading files…" : "Sendi inn skrár…",
     "Uploaded files:" : "Innsendar skrár:",
-    "%s is publicly shared" : "%s er deilt opinberlega"
+    "{actor} removed you from {file}" : "{actor} fjarlægði þig af {file}",
+    "%s is publicly shared" : "%s er deilt opinberlega",
+    "This share is password-protected" : "Þessi sameign er varin með lykilorði",
+    "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
+    "Password" : "Lykilorð"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -1,3 +1,25 @@
+<!--
+  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @license GNU AGPL version 3 or any later version
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+  -->
+
 <template>
 	<div id="app">
 		<app-navigation :menu="menu">
@@ -63,8 +85,8 @@ export default {
 	},
 	data() {
 		return {
-			// default quota is unlimited
-			unlimitedQuota: {id:'default', label:t('settings', 'Unlimited')},
+			// default quota is set to unlimited
+			unlimitedQuota: {id: 'none', label: t('settings', 'Unlimited')},
 			// temporary value used for multiselect change
 			selectedQuota: false,
 			showConfig: {
@@ -268,18 +290,29 @@ export default {
 			let disabledGroup = groups[disabledGroupIndex];
 			if (adminGroup && adminGroup.text) {
 				adminGroup.text = t('settings', 'Admins'); // rename admin group
+				adminGroup.icon = 'icon-user-admin'; // set icon
 			}
 			if (disabledGroup && disabledGroup.text) {
 				disabledGroup.text = t('settings', 'Disabled users'); // rename disabled group
+				disabledGroup.icon = 'icon-disabled-users'; // set icon
 				if (disabledGroup.utils.counter === 0) {
 					groups.splice(disabledGroupIndex, 1); // remove disabled if empty
 				}
 			}
 
+			// Add separator
+			let separator = {
+				caption: true,
+				text: t('settings', 'Groups')
+			};
+			groups.unshift(separator);
+
+
 			// Add everyone group
 			let everyoneGroup = {
 				id: 'everyone',
 				key: 'everyone',
+				icon: 'icon-contacts-dark',
 				router: {name:'users'},
 				text: t('settings', 'Everyone'),
 			};

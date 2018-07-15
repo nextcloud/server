@@ -29,6 +29,8 @@
 
 namespace OCA\Files_External\AppInfo;
 
+use OCA\Files_External\Lib\Auth\PublicKey\RSAPrivateKey;
+use OCA\Files_External\Lib\Auth\SMB\KerberosAuth;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use \OCA\Files_External\Service\BackendService;
@@ -138,6 +140,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 
 			// AuthMechanism::SCHEME_PUBLICKEY mechanisms
 			$container->query(RSA::class),
+			$container->query(RSAPrivateKey::class),
 
 			// AuthMechanism::SCHEME_OPENSTACK mechanisms
 			$container->query(OpenStackV2::class),
@@ -146,6 +149,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 
 			// Specialized mechanisms
 			$container->query(AccessKey::class),
+			$container->query(KerberosAuth::class),
 		];
 	}
 

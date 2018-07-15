@@ -14,6 +14,34 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
+  vue-build-settings:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./settings/js/settings-vue.js
+    when:
+      matrix:
+        TESTS: vue-build-settings
+  vue-build-updatenotification:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/updatenotification/js/updatenotification.js
+    when:
+      matrix:
+        TESTS: vue-build-updatenotification
+  vue-build-oauth2:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/oauth2/js/oauth2.js
+    when:
+      matrix:
+        TESTS: vue-build-oauth2
+  vue-build-accessibility:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/accessibility/js/accessibility.js
+    when:
+      matrix:
+        TESTS: vue-build-accessibility
   checkers:
     image: nextcloudci/php7.0:php7.0-19
     commands:
@@ -39,7 +67,7 @@ pipeline:
       matrix:
         TESTS: syntax-php7.1
   phan:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - composer install
       - composer require --dev "phan/phan:0.11.1"
@@ -180,7 +208,7 @@ pipeline:
         DB: sqlite
         PHP: 7.1
   sqlite-php7.2:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -204,7 +232,7 @@ pipeline:
         DB: mysql
         PHP: 7.1
   mysql-php7.2:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -278,7 +306,7 @@ pipeline:
         DB: mysqlmb4
         PHP: 7.1
   mysqlmb4-php7.2:
-    image: nextcloudci/php7.2:php7.2-11
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
@@ -601,6 +629,13 @@ pipeline:
       when:
         matrix:
           TESTS-ACCEPTANCE: users
+  acceptance-apps:
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
+      commands:
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-apps --selenium-server selenium:4444 allow-git-repository-modifications features/apps.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: apps
   nodb-codecov:
     image: nextcloudci/php7.0:php7.0-19
     commands:
@@ -662,6 +697,10 @@ pipeline:
 matrix:
   include:
     - TESTS: checkers
+    - TESTS: vue-build-settings
+    - TESTS: vue-build-updatenotification
+    - TESTS: vue-build-oauth2
+    - TESTS: vue-build-accessibility
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
     - TESTS: db-codecov
@@ -770,6 +809,8 @@ matrix:
       TESTS-ACCEPTANCE: login
     - TESTS: acceptance
       TESTS-ACCEPTANCE: users
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: apps
     - TESTS: jsunit
     - TESTS: syntax-php7.0
     - TESTS: syntax-php7.1
@@ -782,6 +823,8 @@ matrix:
     - TESTS: carddavtester-old-endpoint
     - TESTS: object-store
       OBJECT_STORE: s3
+    - TESTS: object-store
+      OBJECT_STORE: azure
 #    - TESTS: object-store
 #      OBJECT_STORE: swift
 #      SWIFT-AUTH: v2.0
@@ -883,6 +926,13 @@ services:
       when:
         matrix:
           OBJECT_STORE: s3
+  azurite:
+      image: arafato/azurite
+      environment:
+      - executable=blob
+      when:
+        matrix:
+          OBJECT_STORE: azure
   dockswift:
       image: icewind1991/dockswift:nextcloud-ci
       environment:

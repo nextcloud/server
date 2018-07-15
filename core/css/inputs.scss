@@ -14,10 +14,10 @@
 
  /* Specifically override browser styles */
 input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: var(--font-face)
 }
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !important;
+	font-family: var(--font-face) !important;
 }
 
 /* Simple selector to allow easy overriding */
@@ -32,6 +32,13 @@ div[contenteditable=false] {
 	box-sizing: border-box;
 }
 
+/**
+ * color-text-lighter		normal state
+ * color-text-lighter		active state
+ * color-text-maxcontrast 	disabled state
+ */
+
+
 /* Default global values */
 select,
 button, .button,
@@ -42,28 +49,29 @@ div[contenteditable=true],
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px;
 	font-size: 13px;
-	background-color: $color-main-background;
-	color: nc-lighten($color-main-text, 33%);
-	border: 1px solid nc-darken($color-main-background, 14%);
+	background-color: var(--color-main-background);
+	color: var(--color-text-lighter);
+	border: 1px solid var(--color-border-dark);
 	outline: none;
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 	cursor: text;
 	&:not(:disabled):not(.primary) {
 		&:hover,
 		&:focus,
 		&.active {
 		/* active class used for multiselect */
-			border-color: $color-primary-element;
+			border-color: var(--color-primary-element);
 			outline: none;
 		}
 		&:active {
 			outline: none;
-			background-color: $color-main-background;
+			background-color: var(--color-main-background);
+			color: var(--color-text-light);
 		}
 	}
 	&:disabled {
-		background-color: nc-darken($color-main-background, 8%);
-		color: rgba($color-main-text, 0.4);
+		background-color: var(--color-background-dark);
+		color: var(--color-text-maxcontrast);
 		cursor: default;
 		opacity: 0.5;
 	}
@@ -72,26 +80,28 @@ div[contenteditable=true],
     }
     &:invalid {
         box-shadow: none !important;
-        border-color: $color-error;
+        border-color: var(--color-error);
     }
 	/* Primary action button, use sparingly */
 	&.primary {
-		background-color: $color-primary-element;
-		border: 1px solid $color-primary-text;
-		color: $color-primary-text;
+		background-color: var(--color-primary-element);
+		border: 1px solid var(--color-primary-text);
+		color: var(--color-primary-text);
 		cursor: pointer;
 		&:not(:disabled) {
 			&:hover,
-			&:focus {
-				background-color: rgba($color-primary-element, .85);
+			&:focus,
+			&:active  {
+				background-color: var(--color-primary-element-light)
 			}
 			&:active {
-				background-color: rgba($color-primary-element, .7);
+				color: var(--color-primary-text-dark);
 			}
 		}
 		&:disabled {
-			background-color: rgba($color-primary-element, .7);
-			color: nc-lighten($color-main-text, 73%);
+			// opacity is already defined to .5 if disabled
+			background-color: var(--color-primary-element);
+			color: var(--color-primary-text-dark);
 		}
 	}
 }
@@ -100,15 +110,15 @@ div[contenteditable=false] {
 	margin: 3px 3px 3px 0;
 	padding: 7px 6px;
 	font-size: 13px;
-	background-color: $color-main-background;
-	color: nc-lighten($color-main-text, 33%);
-	border: 1px solid nc-darken($color-main-background, 14%);
+	background-color: var(--color-main-background);
+	color: var(--color-text-lighter);
+	border: 1px solid var(--color-background-darker);
 	outline: none;
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 	cursor: text;
 
-	background-color: nc-darken($color-main-background, 8%);
-	color: rgba($color-main-text, 0.4);
+	background-color: var(--color-background-dark);
+	color: var(--color-text-lighter);
 	cursor: default;
 	opacity: 0.5;
 }
@@ -155,7 +165,7 @@ input[type='reset'] {
 	min-height: 34px;
 	cursor: pointer;
 	box-sizing: border-box;
-	background-color: nc-darken($color-main-background, 3%);
+	background-color: var(--color-background-dark);
 }
 
 /* Buttons */
@@ -182,7 +192,7 @@ button, .button {
 }
 
 textarea, div[contenteditable=true] {
-	color: nc-lighten($color-main-text, 33%);
+	color: var(--color-text-lighter);
 	cursor: text;
 	font-family: inherit;
 	height: auto;
@@ -190,14 +200,14 @@ textarea, div[contenteditable=true] {
 		&:active,
 		&:hover,
 		&:focus {
-			border-color: nc-darken($color-main-background, 14%) !important;
-			background-color: $color-main-background !important;
+			border-color: var(--color-background-darker) !important;
+			background-color: var(--color-main-background) !important;
 		}
 	}
 }
 
 div[contenteditable=false] {
-	color: nc-lighten($color-main-text, 33%);
+	color: var(--color-text-lighter);
 	cursor: text;
 	font-family: inherit;
 	height: auto;
@@ -222,10 +232,10 @@ input {
 		+ .icon-confirm {
 			margin-left: -8px !important;
 			border-left-color: transparent !important;
-			border-radius: 0 $border-radius $border-radius 0 !important;
+			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
 			background-clip: padding-box;
 			/* Avoid background under border */
-			background-color: $color-main-background !important;
+			background-color: var(--color-main-background) !important;
 			opacity: 1;
 			width: 34px;
 			padding: 7px 6px;
@@ -242,10 +252,10 @@ input {
 				&:active,
 				&:hover,
 				&:focus {
-					border-color: $color-primary-element !important;
-					border-radius: $border-radius !important;
+					border-color: var(--color-primary-element) !important;
+					border-radius: var(--border-radius) !important;
 					&:disabled {
-						border-color: nc-darken($color-main-background, 14%) !important;
+						border-color: var(--color-background-darker) !important;
 					}
 				}
 			}
@@ -255,11 +265,11 @@ input {
 		&:focus {
             &:invalid {
                 + .icon-confirm {
-                    border-color: $color-error;
+                    border-color: var(--color-error);
                 }
             }
 			+ .icon-confirm {
-				border-color: $color-primary-element !important;
+				border-color: var(--color-primary-element) !important;
 				border-left-color: transparent !important;
                 /* above previous input */
 				z-index: 2;
@@ -280,9 +290,11 @@ select,
 }
 
 /* Radio & Checkboxes */
+input, label {
+	--color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
+	--color-checkbox-radio-border: nc-darken($color-main-background, 47%);
+}
 input {
-	$color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
-	$color-checkbox-radio-border: nc-darken($color-main-background, 47%);
 	&[type='checkbox'],
 	&[type='radio'] {
 		&.radio,
@@ -309,26 +321,26 @@ input {
 				border-radius: 50%;
 				margin: 3px;
 				margin-top: 1px;
-				border: 1px solid $color-checkbox-radio-border;
+				border: 1px solid var(--color-checkbox-radio-border);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
-				border-color: $color-primary-element;
+				border-color: var(--color-primary-element);
 			}
 			&:checked + label:before,
 			&.checkbox:indeterminate + label:before {
 			/* ^ :indeterminate have a strange behavior on radio,
 			so we respecified the checkbox class again to be safe */
-				box-shadow: inset 0px 0px 0px 2px $color-main-background;
-				background-color: $color-primary-element;
-				border-color: $color-primary-element;
+				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+				background-color: var(--color-primary-element);
+				border-color: var(--color-primary-element);
 			}
 			&:disabled + label:before {
-				border: 1px solid $color-checkbox-radio-border;
-				background-color: $color-checkbox-radio-disabled !important; /* override other status */
+				border: 1px solid var(--color-checkbox-radio-border);
+				background-color: var(--color-checkbox-radio-disabled) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				background-color: $color-checkbox-radio-disabled;
+				background-color: var(--color-checkbox-radio-disabled);
 			}
 		}
 		&.checkbox {
@@ -347,7 +359,7 @@ input {
 			}
 		}
 
-		/* We do not use the nc-darken function as this si not supposed to be changed */
+		/* We do not use the nc-darken function as this is not supposed to be changed */
 		$color-checkbox-radio-white: #fff;
 		&.radio--white,
 		&.checkbox--white {
@@ -359,7 +371,7 @@ input {
 				border-color: $color-checkbox-radio-white;
 			}
 			&:checked + label:before {
-				box-shadow: inset 0px 0px 0px 2px $color-main-background;
+				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
 				background-color: darken($color-checkbox-radio-white, 14%);
 				border-color: darken($color-checkbox-radio-white, 14%);
 			}
@@ -368,7 +380,7 @@ input {
 				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				box-shadow: inset 0px 0px 0px 2px $color-main-background;
+				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
 				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
 				background-color: darken($color-checkbox-radio-white, 27%);
 			}
@@ -393,9 +405,9 @@ input {
 /* Select2 overriding. Merged to core with vendor stylesheet */
 .select2-drop {
 	margin-top: -2px;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	&.select2-drop-active {
-		border-color: nc-darken($color-main-background, 14%);
+		border-color: var(--color-border-dark);
 	}
 	.avatar {
 		display: inline-block;
@@ -430,16 +442,16 @@ input {
 			padding: 12px;
 			background-color: transparent;
 			cursor: pointer;
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 		}
 		.select2-result {
 			&.select2-selected {
-				background-color: nc-darken($color-main-background, 3%);
+				background-color: var(--color-background-dark);
 			}
 		}
 		.select2-highlighted {
-				background-color: nc-darken($color-main-background, 3%);
-				color: $color-main-text;
+				background-color: var(--color-background-dark);
+				color: var(--color-main-text);
 		}
 	}
 }
@@ -456,11 +468,11 @@ input {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		background: $color-main-background;
-		color: nc-lighten($color-main-text, 33%);
+		background: var(--color-main-background);
+		color: var(--color-text-lighter);
 		box-sizing: content-box;
-		border-radius: $border-radius;
-		border: 1px solid nc-darken($color-main-background, 14%);
+		border-radius: var(--border-radius);
+		border: 1px solid var(--color-border-dark);
 		margin: 0;
 		padding: 2px 0;
 		min-height: auto;
@@ -472,9 +484,9 @@ input {
 			&:active,
 			& {
 				background-image: none;
-				background-color: $color-main-background;
-				color: nc-lighten($color-main-text, 33%);
-				border: 1px solid nc-darken($color-main-background, 14%);
+				background-color: var(--color-main-background);
+				color: var(--color-text-lighter);
+				border: 1px solid var(--color-border-dark);
 			}
 			.select2-search-choice-close {
 				display: none;
@@ -501,11 +513,11 @@ input {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		background: $color-main-background;
-		color: nc-lighten($color-main-text, 33%);
+		background: var(--color-main-background);
+		color: var(--color-text-lighter);
 		box-sizing: content-box;
-		border-radius: $border-radius;
-		border: 1px solid nc-darken($color-main-background, 14%);
+		border-radius: var(--border-radius);
+		border: 1px solid var(--color-border-dark);
 		margin: 0;
 		padding: 2px 0;
 		padding-left: 6px;
@@ -514,15 +526,15 @@ input {
 			line-height: 20px;
 			padding-left: 5px;
 			background-image: none;
-			background-color: nc-darken($color-main-background, 3%);
-			border-color: nc-darken($color-main-background, 3%);
+			background-color: var(--color-background-dark);
+			border-color: var(--color-background-dark);
 			.select2-search-choice-close {
 				display: none;
 			}
 			&.select2-search-choice-focus,
 			&:hover {
-				background-color: $color-border;
-				border-color: $color-border;
+				background-color: var(--color-border);
+				border-color: var(--color-border);
 			}
 		}
 		.select2-arrow {
@@ -556,9 +568,9 @@ input {
 			line-height: 20px;
 			padding-left: 5px;
 			background-image: none;
-			background-color: $color-main-background;
-			color: nc-lighten($color-main-text, 33%);
-			border: 1px solid nc-darken($color-main-background, 14%);
+			background-color: var(--color-main-background);
+			color: var(--color-text-lighter);
+			border: 1px solid var(--color-border-dark);
 			display: inline-flex;
 			align-items: center;
 			.close {
@@ -574,7 +586,7 @@ input {
 			display: list-item;
 			background-color: transparent;
 			cursor: pointer;
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 			a {
 				white-space: nowrap;
 				overflow: hidden;
@@ -607,11 +619,11 @@ input {
 				}
 			}
 			&.highlight {
-				color: $color-main-text;
+				color: var(--color-main-text);
 			}
 			&.active > a {
-				background-color: nc-darken($color-main-background, 3%);
-				color: $color-main-text;
+				background-color: var(--color-background-dark);
+				color: var(--color-main-text);
 				&::before {
 					visibility: visible;
 				}
@@ -628,7 +640,7 @@ input {
     display: inline-block;
     width: 160px;
     position: relative;
-    background-color: $color-main-background;
+    background-color: var(--color-main-background);
     &.multiselect--active {
         /* Opened: force display the input */
         input.multiselect__input {
@@ -638,7 +650,7 @@ input {
     }
     &.multiselect--disabled,
     &.multiselect--disabled .multiselect__single {
-        background-color: nc-darken($color-main-background, 8%) !important;
+        background-color: var(--color-background-dark) !important;
     }
     .multiselect__tags {
 		/* space between tags and limit tag */
@@ -647,7 +659,7 @@ input {
         display: flex;
         flex-wrap: nowrap;
         overflow: hidden;
-        border: 1px solid nc-darken($color-main-background, 14%);
+        border: 1px solid var(--color-border-dark);
         cursor: pointer;
         position: relative;
         border-radius: 3px;
@@ -676,8 +688,8 @@ input {
                 line-height: 20px;
                 padding: 1px 5px;
                 background-image: none;
-                color: nc-lighten($color-main-text, 33%);
-                border: 1px solid nc-darken($color-main-background, 14%);
+                color: var(--color-text-lighter);
+                border: 1px solid var(--color-border-dark);
                 display: inline-flex;
                 align-items: center;
 				border-radius: 3px;
@@ -709,7 +721,7 @@ input {
             padding: 8px 10px;
             flex: 0 0 100%;
             z-index: 1; /* above input */
-            background-color: $color-main-background;
+            background-color: var(--color-main-background);
             cursor: pointer;
         }
         /* displayed text if tag limit reached */
@@ -717,7 +729,7 @@ input {
 		.multiselect__limit {
             flex: 0 0 auto;
             line-height: 20px;
-            color: nc-lighten($color-main-text, 33%);
+            color: var(--color-text-lighter);
             display: inline-flex;
             align-items: center;
 			opacity: .7;
@@ -745,8 +757,8 @@ input {
         position: absolute;
         width: 100%;
         margin-top: -1px;
-        border: 1px solid nc-darken($color-main-background, 14%);
-        background: $color-main-background;
+        border: 1px solid var(--color-border-dark);
+        background: var(--color-main-background);
         z-index: 50;
         max-height: 250px;
         overflow-y: auto;
@@ -779,10 +791,10 @@ input {
                 display: inline-flex;
                 align-items: center;
                 background-color: transparent !important;
-                color: nc-lighten($color-main-text, 33%);
+                color: var(--color-text-lighter);
                 width: 100%;
                 /* selected checkmark icon */
-                &:not(.multiselect__option--disabled)::before {
+                &::before {
                     content: ' ';
                     background-image: url('../img/actions/checkmark.svg?v=1');
                     background-repeat: no-repeat;
@@ -790,12 +802,13 @@ input {
                     min-width: 16px;
                     min-height: 16px;
                     display: block;
-                    opacity: 0.5;
+                    opacity: .5;
                     margin-right: 5px;
                     visibility: hidden;
                 }
                 &.multiselect__option--disabled {
-                    background-color: nc-darken($color-main-background, 8%);
+					background-color: var(--color-background-dark);
+					opacity: .5;
                 }
                 /* add the prop tag-placeholder="create" to add the +
 				 * icon on top of an unknown-and-ready-to-be-created entry
@@ -807,13 +820,17 @@ input {
                     }
                 }
                 &.multiselect__option--highlight {
-                    color: $color-main-text;
+                    color: var(--color-main-text);
                 }
-                &.multiselect__option--selected {
-                    &::before {
-                        visibility: visible;
-                    }
-                }
+				&:not(.multiselect__option--disabled):hover::before {
+					opacity: .3;
+				}
+				&.multiselect__option--selected,
+				&:not(.multiselect__option--disabled):hover {
+					&::before {
+						visibility: visible;
+					}
+				}
             }
         }
     }
@@ -825,30 +842,30 @@ progress {
 	width: 100%;
 	padding: 0;
 	border: 0 none;
-	background-color: nc-darken($color-main-background, 10%);
-	border-radius: $border-radius;
+	background-color: var(--color-background-dark);
+	border-radius: var(--border-radius);
 	flex-basis: 100%;
 	height: 5px;
 	overflow: hidden;
 	&.warn {
 		&::-moz-progress-bar {
-			background: $color-error;
+			background: var(--color-error);
 		}
 		&::-webkit-progress-value {
-			background: $color-error;
+			background: var(--color-error);
 		}
 	}
 	&::-webkit-progress-bar {
 		background: transparent;
 	}
 	&::-moz-progress-bar {
-		border-radius: $border-radius;
-		background: $color-primary;
+		border-radius: var(--border-radius);
+		background: var(--color-primary);
 		transition: 250ms all ease-in-out;
 	}
 	&::-webkit-progress-value {
-		border-radius: $border-radius;
-		background: $color-primary;
+		border-radius: var(--border-radius);
+		background: var(--color-primary);
 		transition: 250ms all ease-in-out;
 	}
 }

@@ -70,6 +70,9 @@ OC.L10N.register(
     "User entered, store in database" : "Benutzer eingetragen, in Datenbank gespeichert",
     "RSA public key" : "RSA öffentlicher Schlüssel",
     "Public key" : "Öffentlicher Schlüssel",
+    "RSA private key" : "RSA privater Schlüssel",
+    "Private key" : "Privater Schlüssel",
+    "Kerberos ticket" : "Kerberos-Ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Host-Name",
@@ -102,6 +105,7 @@ OC.L10N.register(
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Die FTP-Unterstützung von PHP ist deaktiviert oder nicht installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich zur Installation an den Systemadministrator.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ist nicht installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich zur Installation an den Administrator.",
     "External storage support" : "Unterstützung für externen Speicher",
+    "Adds basic external storage support" : "Fügt grundlegende Unterstützung für externen Speicher hinzu",
     "No external storage configured or you don't have the permission to configure them" : "Es ist kein externer Speicher eingerichtet oder Du hast keine Berechtigung dies zu tun.",
     "Name" : "Name",
     "Storage type" : "Speichertyp",
@@ -123,7 +127,6 @@ OC.L10N.register(
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Allow users to mount the following external storage" : "Benutzern erlauben, den folgenden externen Speicher einzubinden:",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Abrufen des Anfrage-Tokens fehlgeschlagen. Bitte sicherstellen, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Abrufen des Zugriff-Tokens fehlgeschlagen. Bitte sicherstellen, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
     "Step 1 failed. Exception: %s" : "Schritt 1 fehlgeschlagen. Fehlermeldung: %s",
@@ -135,6 +138,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Kein externer Speicher konfiguriert",
     "You can add external storages in the personal settings" : "Externe Speicher können in den persönlichen Einstellungen hinzugefügt werden",
+    "Allow users to mount the following external storage" : "Benutzern erlauben, den folgenden externen Speicher einzubinden:",
     "Are you sure you want to delete this external storage" : "Möchtest Du wirklich diesen externen Speicher löschen?"
 },
 "nplurals=2; plural=(n != 1);");

@@ -23,6 +23,7 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use PHPUnit\Framework\Assert;
 
 class LDAPContext implements Context {
 	use BasicStructure;
@@ -36,7 +37,7 @@ class LDAPContext implements Context {
 	 */
 	public function theResponseShouldContainATag($arg1) {
 		$configID = simplexml_load_string($this->response->getBody())->data[0]->$arg1;
-		PHPUnit_Framework_Assert::assertInstanceOf(SimpleXMLElement::class, $configID[0]);
+		Assert::assertInstanceOf(SimpleXMLElement::class, $configID[0]);
 	}
 
 	/**
@@ -61,7 +62,7 @@ class LDAPContext implements Context {
 	 */
 	public function theResponseShouldContainATagWithValue($tagName, $expectedValue) {
 		$data = simplexml_load_string($this->response->getBody())->data[0]->$tagName;
-		PHPUnit_Framework_Assert::assertEquals($expectedValue, $data[0]);
+		Assert::assertEquals($expectedValue, $data[0]);
 	}
 
 	/**

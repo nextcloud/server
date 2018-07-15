@@ -790,8 +790,12 @@ class Trashbin {
 			$timestamp = $file['mtime'];
 			$filename = $file['name'];
 			if ($expiration->isExpired($timestamp)) {
-				$count++;
-				$size += self::delete($filename, $user, $timestamp);
+				try {
+					$size += self::delete($filename, $user, $timestamp);
+					$count++;
+				} catch (\OCP\Files\NotPermittedException $e) {
+					\OC::$server->getLogger()->logException($e, ['app' => 'files_trashbin', 'level' => \OCP\ILogger::WARN, 'message' => 'Removing "' . $filename . '" from trashbin failed.']);
+				}
 				\OC::$server->getLogger()->info(
 					'Remove "' . $filename . '" from trashbin because it exceeds max retention obligation term.',
 					['app' => 'files_trashbin']

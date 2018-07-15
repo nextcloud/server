@@ -231,8 +231,8 @@ class Manager implements IManager {
 			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
 			10 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
 			45 => [new Section('encryption', $this->l->t('Encryption'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
+			50 => [new Section('groupware', $this->l->t('Groupware'), 0, $this->url->imagePath('core', 'places/contacts-dark.svg'))],
 			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
-			99 => [new Section('tips-tricks', $this->l->t('Tips & tricks'), 0, $this->url->imagePath('settings', 'help.svg'))],
 		];
 
 		$appSections = $this->getSections('admin');
@@ -260,9 +260,7 @@ class Manager implements IManager {
 
 		if ($section === 'overview') {
 			/** @var ISettings $form */
-			$form = new Admin\Overview($this->dbc, $this->request, $this->config, $this->lockingProvider, $this->l);
-			$forms[$form->getPriority()] = [$form];
-			$form = new Admin\ServerDevNotice();
+			$form = new Admin\Overview($this->config);
 			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'server') {
@@ -280,11 +278,6 @@ class Manager implements IManager {
 		if ($section === 'sharing') {
 			/** @var ISettings $form */
 			$form = new Admin\Sharing($this->config, $this->l);
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'tips-tricks') {
-			/** @var ISettings $form */
-			$form = new Admin\TipsTricks($this->config);
 			$forms[$form->getPriority()] = [$form];
 		}
 
@@ -310,10 +303,12 @@ class Manager implements IManager {
 				$this->l
 			);
 			$forms[$form->getPriority()] = [$form];
+			$form = new Personal\ServerDevNotice();
+			$forms[$form->getPriority()] = [$form];
 		}
 		if($section === 'security') {
 			/** @var ISettings $form */
-			$form = new Personal\Security();
+			$form = new Personal\Security($this->userManager);
 			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'additional') {

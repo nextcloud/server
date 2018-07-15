@@ -38,7 +38,7 @@ use OCA\User_LDAP\ILDAPWrapper;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper  */
+	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject  */
 	protected $ldap;
 
 	/** @var  Connection */
@@ -110,7 +110,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('setOption')
 			->will($this->returnValue(true));
 
-		$this->ldap->expects($this->exactly(3))
+		$this->ldap->expects($this->exactly(2))
 			->method('connect')
 			->will($this->returnValue('ldapResource'));
 
@@ -119,7 +119,7 @@ class ConnectionTest extends \Test\TestCase {
 			->will($this->returnValue(0));
 
 		// Not called often enough? Then, the fallback to the backup server is broken.
-		$this->connection->expects($this->exactly(4))
+		$this->connection->expects($this->exactly(3))
 			->method('getFromCache')
 			->with('overrideMainServer')
 			->will($this->onConsecutiveCalls(false, false, true, true));
@@ -142,6 +142,53 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 		$this->connection->resetConnectionResource();
 		// with the second init() we test whether caching works
+		$this->connection->init();
+	}
+
+	public function testDontUseBackupServerOnFailedAuth() {
+		$mainHost = 'ldap://nixda.ldap';
+		$backupHost = 'ldap://fallback.ldap';
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $mainHost,
+			'ldapPort' => 389,
+			'ldapBackupHost' => $backupHost,
+			'ldapBackupPort' => 389,
+			'ldapAgentName' => 'uid=agent',
+			'ldapAgentPassword' => 'SuchASecret'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->once())
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		$this->ldap->expects($this->any())
+			->method('errno')
+			->will($this->returnValue(49));
+
+		$this->connection->expects($this->any())
+			->method('getFromCache')
+			->with('overrideMainServer')
+			->willReturn(false);
+
+		$this->connection->expects($this->never())
+			->method('writeToCache');
+
+		$this->ldap->expects($this->exactly(1))
+			->method('bind')
+			->willReturn(false);
+
 		$this->connection->init();
 	}
 

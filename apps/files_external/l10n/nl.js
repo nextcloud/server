@@ -122,7 +122,6 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Binnenhalen van de aanvraag token is mislukt. Controleer dat je app sleutel en geheim correct zijn.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Binnenhalen van de toegangstoken is mislukt. Controleer dat je app sleutel en geheim correct zijn.",
     "Step 1 failed. Exception: %s" : "Stap 1 mislukt. Uitzondering: %s",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Geen externe opslag geconfigureerd",
     "You can add external storages in the personal settings" : "Je kunt externe opslag toevoegen in persoonlijke instellingen",
+    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
     "Are you sure you want to delete this external storage" : "Weet je zeker dat je de externe opslag wilt verwijderen"
 },
 "nplurals=2; plural=(n != 1);");

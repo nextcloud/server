@@ -22,14 +22,50 @@
  */
 
 script('settings', [
+	'security_password',
 	'authtoken',
 	'authtoken_collection',
 	'authtoken_view',
 	'settings/authtoken-init'
 ]);
 
+if($_['passwordChangeSupported']) {
+	script('jquery-showpassword');
+	vendor_script('strengthify/jquery.strengthify');
+	vendor_style('strengthify/strengthify');
+}
+
 ?>
 
+<div id="security-password" class="section">
+	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
+	<span id="password-error-msg" class="msg success hidden">Saved</span>
+	<div class="personal-settings-setting-box personal-settings-password-box">
+		<?php if($_['passwordChangeSupported']) { ?>
+			<form id="passwordform">
+				<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
+				<input type="password" id="pass1" name="oldpassword"
+					   placeholder="<?php p($l->t('Current password'));?>"
+					   autocomplete="off" autocapitalize="none" autocorrect="off" />
+
+				<div class="personal-show-container">
+					<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
+					<input type="password" id="pass2" name="newpassword"
+						   placeholder="<?php p($l->t('New password')); ?>"
+						   data-typetoggle="#personal-show"
+						   autocomplete="off" autocapitalize="none" autocorrect="off" />
+					<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
+				</div>
+
+				<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
+
+			</form>
+			<?php
+		}
+		?>
+	</div>
+	<span class="msg"></span>
+</div>
 
 <div id="security" class="section">
 	<h2><?php p($l->t('Devices & sessions'));?></h2>

@@ -33,6 +33,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\IPreview;
 use Sabre\DAV\Exception\Forbidden;
@@ -57,6 +58,7 @@ class FilesPlugin extends ServerPlugin {
 	const INTERNAL_FILEID_PROPERTYNAME = '{http://owncloud.org/ns}fileid';
 	const PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}permissions';
 	const SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-collaboration-services.org/ns}share-permissions';
+	const OCM_SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-cloud-mesh.org/ns}share-permissions';
 	const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
 	const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
@@ -149,6 +151,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::INTERNAL_FILEID_PROPERTYNAME;
 		$server->protectedProperties[] = self::PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_PERMISSIONS_PROPERTYNAME;
+		$server->protectedProperties[] = self::OCM_SHARE_PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::SIZE_PROPERTYNAME;
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
@@ -318,6 +321,14 @@ class FilesPlugin extends ServerPlugin {
 				);
 			});
 
+			$propFind->handle(self::OCM_SHARE_PERMISSIONS_PROPERTYNAME, function() use ($node, $httpRequest) {
+				$ncPermissions = $node->getSharePermissions(
+					$httpRequest->getRawServerValue('PHP_AUTH_USER')
+				);
+				$ocmPermissions = $this->ncPermissions2ocmPermissions($ncPermissions);
+				return json_encode($ocmPermissions);
+			});
+
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function() use ($node) {
 				return $node->getETag();
 			});
@@ -392,6 +403,33 @@ class FilesPlugin extends ServerPlugin {
 				return $node->getFileInfo()->isEncrypted() ? '1' : '0';
 			});
 		}
+	}
+
+	/**
+	 * translate Nextcloud permissions to OCM Permissions
+	 *
+	 * @param $ncPermissions
+	 * @return array
+	 */
+	protected function ncPermissions2ocmPermissions($ncPermissions) {
+
+		$ocmPermissions = [];
+
+		if ($ncPermissions & Constants::PERMISSION_SHARE) {
+			$ocmPermissions[] = 'share';
+		}
+
+		if ($ncPermissions & Constants::PERMISSION_READ) {
+			$ocmPermissions[] = 'read';
+		}
+
+		if (($ncPermissions & Constants::PERMISSION_CREATE) ||
+			($ncPermissions & Constants::PERMISSION_UPDATE)) {
+			$ocmPermissions[] = 'write';
+		}
+
+		return $ocmPermissions;
+
 	}
 
 	/**

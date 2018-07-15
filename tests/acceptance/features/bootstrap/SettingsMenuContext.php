@@ -54,6 +54,13 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function usersAppsItem() {
+		return self::menuItemFor("Apps");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function logOutMenuItem() {
 		return self::menuItemFor("Log out");
 	}
@@ -72,7 +79,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function settingsPanelFor($itemText) {
-		return Locator::forThe()->xpath("//div[@id = 'app-navigation']//ul//li[@class = 'settings-caption' and normalize-space() = '$itemText']")->
+		return Locator::forThe()->xpath("//div[@id = 'app-navigation']//ul//li[@class = 'app-navigation-caption' and normalize-space() = '$itemText']")->
 		describedAs($itemText . " item in Settings panel");
 	}
 
@@ -98,6 +105,15 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 		$this->iOpenTheSettingsMenu();
 
 		$this->actor->find(self::usersMenuItem(), 2)->click();
+	}
+
+	/**
+	 * @When I open the Apps management
+	 */
+	public function iOpenTheAppsManagement() {
+		$this->iOpenTheSettingsMenu();
+
+		$this->actor->find(self::usersAppsItem(), 2)->click();
 	}
 
 	/**

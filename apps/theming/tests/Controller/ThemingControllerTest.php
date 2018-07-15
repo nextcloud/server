@@ -86,18 +86,21 @@ class ThemingControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(L10N::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->util = new Util($this->config, $this->appManager, $this->appData);
-		$this->timeFactory->expects($this->any())
-			->method('getTime')
-			->willReturn(123);
 		$this->tempManager = \OC::$server->getTempManager();
 		$this->scssCacher = $this->createMock(SCSSCacher::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
+
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->timeFactory->expects($this->any())
+			->method('getTime')
+			->willReturn(123);
+
+		$this->overwriteService(ITimeFactory::class, $this->timeFactory);
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -105,7 +108,6 @@ class ThemingControllerTest extends TestCase {
 			$this->config,
 			$this->themingDefaults,
 			$this->util,
-			$this->timeFactory,
 			$this->l10n,
 			$this->tempManager,
 			$this->appData,
@@ -149,20 +151,20 @@ class ThemingControllerTest extends TestCase {
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
-			->with('core', '/core/css/server.scss')
-			->willReturn('/core/css/someHash-server.scss');
+			->with('core', '/core/css/css-variables.scss')
+			->willReturn('/core/css/someHash-css-variables.scss');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkTo')
-			->with('', '/core/css/someHash-server.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
+			->with('', '/core/css/someHash-css-variables.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 
 		$expected = new DataResponse(
 			[
 				'data' =>
 					[
 						'message' => $message,
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
 					],
 				'status' => 'success',
 			]
@@ -602,13 +604,13 @@ class ThemingControllerTest extends TestCase {
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
-			->with('core', '/core/css/server.scss')
-			->willReturn('/core/css/someHash-server.scss');
+			->with('core', '/core/css/css-variables.scss')
+			->willReturn('/core/css/someHash-css-variables.scss');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkTo')
-			->with('', '/core/css/someHash-server.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
+			->with('', '/core/css/someHash-css-variables.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 
 		$expected = new DataResponse(
 			[
@@ -616,7 +618,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => 'MyValue',
 						'message' => 'Saved',
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
 					],
 				'status' => 'success'
 			]
@@ -646,13 +648,13 @@ class ThemingControllerTest extends TestCase {
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
-			->with('core', '/core/css/server.scss')
-			->willReturn('/core/css/someHash-server.scss');
+			->with('core', '/core/css/css-variables.scss')
+			->willReturn('/core/css/someHash-css-variables.scss');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkTo')
-			->with('', '/core/css/someHash-server.scss')
-			->willReturn('/nextcloudWebroot/core/css/someHash-server.scss');
+			->with('', '/core/css/someHash-css-variables.scss')
+			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
 		$this->imageManager->expects($this->once())
 			->method('delete')
 			->with($filename);
@@ -663,7 +665,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'value' => $value,
 						'message' => 'Saved',
-						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-server.scss',
+						'serverCssUrl' => '/nextcloudWebroot/core/css/someHash-css-variables.scss',
 					],
 				'status' => 'success'
 			]
@@ -688,18 +690,13 @@ class ThemingControllerTest extends TestCase {
 			->method('getImage')
 			->willReturn($file);
 		$this->config
-			->expects($this->once())
+			->expects($this->any())
 			->method('getAppValue')
 			->with('theming', 'logoMime', '')
 			->willReturn('text/svg');
 
 		@$expected = new Http\FileDisplayResponse($file);
 		$expected->cacheFor(3600);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'text/svg');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
 		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
@@ -721,18 +718,13 @@ class ThemingControllerTest extends TestCase {
 			->willReturn($file);
 
 		$this->config
-			->expects($this->once())
+			->expects($this->any())
 			->method('getAppValue')
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
 		@$expected = new Http\FileDisplayResponse($file);
 		$expected->cacheFor(3600);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$expected->addHeader('Content-Type', 'image/png');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="background"');
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
@@ -749,11 +741,6 @@ class ThemingControllerTest extends TestCase {
 
 		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$response->addHeader('Pragma', 'cache');
 
 		$actual = $this->themingController->getStylesheet();
 		$this->assertEquals($response, $actual);
@@ -782,11 +769,6 @@ class ThemingControllerTest extends TestCase {
 
 		$response = new Http\FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$response->addHeader('Pragma', 'cache');
 
 		$actual = $this->themingController->getStylesheet();
 		$this->assertEquals($response, $actual);
@@ -824,8 +806,6 @@ class ThemingControllerTest extends TestCase {
 	};
 })();';
 		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$expected->addHeader('Pragma', 'cache');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
@@ -860,8 +840,6 @@ class ThemingControllerTest extends TestCase {
 	};
 })();';
 		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
-		$expected->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$expected->addHeader('Pragma', 'cache');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
@@ -908,8 +886,6 @@ class ThemingControllerTest extends TestCase {
 				],
 			'display' => 'standalone'
 		]);
-		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
-		$response->addHeader('Pragma', 'cache');
 		$response->cacheFor(3600);
 		$this->assertEquals($response, $this->themingController->getManifest('core'));
 	}

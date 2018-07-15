@@ -151,7 +151,6 @@ class ShareAPIController extends OCSController {
 			$node = $recipientNode;
 		} else {
 			$nodes = $userFolder->getById($share->getNodeId());
-
 			if (empty($nodes)) {
 				// fallback to guessing the path
 				$node = $userFolder->get($share->getTarget());
@@ -908,7 +907,7 @@ class ShareAPIController extends OCSController {
 
 		// First check if it is an internal share.
 		try {
-			$share = $this->shareManager->getShareById('ocinternal:' . $id);
+			$share = $this->shareManager->getShareById('ocinternal:' . $id, $this->currentUser);
 			return $share;
 		} catch (ShareNotFound $e) {
 			// Do nothing, just try the other share type
@@ -917,7 +916,7 @@ class ShareAPIController extends OCSController {
 
 		try {
 			if ($this->shareManager->shareProviderExists(\OCP\Share::SHARE_TYPE_CIRCLE)) {
-				$share = $this->shareManager->getShareById('ocCircleShare:' . $id);
+				$share = $this->shareManager->getShareById('ocCircleShare:' . $id, $this->currentUser);
 				return $share;
 			}
 		} catch (ShareNotFound $e) {
@@ -926,7 +925,7 @@ class ShareAPIController extends OCSController {
 
 		try {
 			if ($this->shareManager->shareProviderExists(\OCP\Share::SHARE_TYPE_EMAIL)) {
-				$share = $this->shareManager->getShareById('ocMailShare:' . $id);
+				$share = $this->shareManager->getShareById('ocMailShare:' . $id, $this->currentUser);
 				return $share;
 			}
 		} catch (ShareNotFound $e) {
@@ -936,7 +935,7 @@ class ShareAPIController extends OCSController {
 		if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			throw new ShareNotFound();
 		}
-		$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
+		$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id, $this->currentUser);
 
 		return $share;
 	}

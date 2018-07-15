@@ -57,13 +57,13 @@ class CalDAVSettings implements ISettings {
 	 * @return string
 	 */
 	public function getSection() {
-		return 'server';
+		return 'groupware';
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getPriority() {
-		return 20;
+		return 10;
 	}
 }

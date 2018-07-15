@@ -12,6 +12,7 @@
 
 # ignore all apps except core ones
 /apps*/*
+!/apps/accessibility
 !/apps/comments
 !/apps/dav
 !/apps/files
@@ -31,11 +32,6 @@
 !/apps/testing
 !/apps/admin_audit
 !/apps/updatenotification
-/apps/updatenotification/build
-/apps/updatenotification/js/merged.js
-/apps/updatenotification/js/merged.js.map
-/apps/updatenotification/js/*.hot-update.*
-/apps/updatenotification/node_modules
 !/apps/theming
 !/apps/twofactor_backupcodes
 !/apps/workflowengine
@@ -45,6 +41,9 @@
 /apps/files_external/3rdparty/irodsphp/prods/tutorials
 /apps/files_external/3rdparty/irodsphp/prods/test*
 /apps/files_external/tests/config.*.php
+
+# apps modules
+/apps/*/node_modules
 
 
 # ignore themes except the example and the README

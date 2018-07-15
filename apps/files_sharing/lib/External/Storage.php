@@ -36,6 +36,7 @@ use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\AppFramework\Http;
+use OCP\Constants;
 use OCP\Federation\ICloudId;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageInvalidException;
@@ -347,20 +348,20 @@ class Storage extends DAV implements ISharedStorage {
 		if (\OCP\Util::isSharingDisabledForUser() || !\OC\Share\Share::isResharingAllowed()) {
 			return false;
 		}
-		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
+		return ($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
 	public function getPermissions($path) {
 		$response = $this->propfind($path);
+		// old federated sharing permissions
 		if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
 			$permissions = $response['{http://open-collaboration-services.org/ns}share-permissions'];
+		} else if (isset($response['{http://open-cloud-mesh.org/ns}share-permissions'])) {
+			// permissions provided by the OCM API
+			$permissions = $this->ocmPermissions2ncPermissions($response['{http://open-collaboration-services.org/ns}share-permissions']);
 		} else {
 			// use default permission if remote server doesn't provide the share permissions
-			if ($this->is_dir($path)) {
-				$permissions = \OCP\Constants::PERMISSION_ALL;
-			} else {
-				$permissions = \OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_CREATE;
-			}
+			$permissions = $this->getDefaultPermissions($path);
 		}
 
 		return $permissions;
@@ -368,5 +369,54 @@ class Storage extends DAV implements ISharedStorage {
 
 	public function needsPartFile() {
 		return false;
+	}
+
+	/**
+	 * translate OCM Permissions to Nextcloud permissions
+	 *
+	 * @param string $ocmPermissions json encoded OCM permissions
+	 * @param string $path path to file
+	 * @return int
+	 */
+	protected function ocmPermissions2ncPermissions($ocmPermissions, $path) {
+		try {
+			$ocmPermissions = json_decode($ocmPermissions);
+			$ncPermissions = 0;
+			foreach($ocmPermissions as $permission) {
+				switch (strtolower($permission)) {
+					case 'read':
+						$ncPermissions += Constants::PERMISSION_READ;
+						break;
+					case 'write':
+						$ncPermissions += Constants::PERMISSION_CREATE + Constants::PERMISSION_UPDATE;
+						break;
+					case 'share':
+						$ncPermissions += Constants::PERMISSION_SHARE;
+						break;
+					default:
+						throw new \Exception();
+				}
+			}
+		} catch (\Exception $e) {
+			$ncPermissions = $this->getDefaultPermissions($path);
+		}
+
+		return $ncPermissions;
+	}
+
+	/**
+	 * calculate default permissions in case no permissions are provided
+	 *
+	 * @param $path
+	 * @return int
+	 */
+	protected function getDefaultPermissions($path) {
+		if ($this->is_dir($path)) {
+			$permissions = Constants::PERMISSION_ALL;
+		} else {
+			$permissions = Constants::PERMISSION_ALL & ~Constants::PERMISSION_CREATE;
+		}
+
+		return $permissions;
 	}
 }

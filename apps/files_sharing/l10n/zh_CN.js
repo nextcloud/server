@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} 共享 {file} 与 {user}",
     "{actor} removed {user} from {file}" : "{actor} 移除 {user} 从 {file}",
     "{actor} shared {file} with you" : "{actor} 与您共享了 {file} ",
-    "{actor} removed you from {file}" : "{actor} 将您从 {file} 移除",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "通过邮件或公共链接分享的文件或文件夹<strong>已下载</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>其它服务器</strong> 中一个文件或者文件夹被共享 ",
     "A file or folder has been <strong>shared</strong>" : "一个文件或文件夹已<strong>共享</strong>。",
@@ -93,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "添加到你的 Nextcloud",
     "Share API is disabled" : "共享 API 已被禁用",
     "File sharing" : "文件共享",
-    "This share is password-protected" : "这是一个密码保护的共享",
-    "The password is wrong. Try again." : "用户名或密码错误！请重试",
-    "Password" : "密码",
     "No entries found in this folder" : "此文件夹中无项目",
     "Name" : "名称",
     "Share time" : "分享时间",
@@ -111,6 +107,10 @@ OC.L10N.register(
     "Select or drop files" : "选择或删除文件",
     "Uploading files…" : "上传文件 … ",
     "Uploaded files:" : "上传的文件： ",
-    "%s is publicly shared" : "%s 是公开共享"
+    "{actor} removed you from {file}" : "{actor} 将您从 {file} 移除",
+    "%s is publicly shared" : "%s 是公开共享",
+    "This share is password-protected" : "这是一个密码保护的共享",
+    "The password is wrong. Try again." : "用户名或密码错误！请重试",
+    "Password" : "密码"
 },
 "nplurals=1; plural=0;");

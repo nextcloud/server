@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} delete {file} med {user}",
     "{actor} removed {user} from {file}" : "{actor} fjernet {user} fra {file}",
     "{actor} shared {file} with you" : "{actor} delte {file} med deg",
-    "{actor} removed you from {file}" : "{actor} fjernet deg fra {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Ei fil eller mappe delt via e-post eller offentlig lenke ble <strong>lastet ned</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mappe ble delt fra <strong>en annen tjener</strong>",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mappe ble <strong>delt</strong>",
@@ -93,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Share API is disabled" : "Deling API er deaktivert",
     "File sharing" : "Fildeling",
-    "This share is password-protected" : "Denne delingen er passordbeskyttet",
-    "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
-    "Password" : "Passord",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Name" : "Navn",
     "Share time" : "Delingstidspunkt",
@@ -111,6 +107,10 @@ OC.L10N.register(
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files…" : "Laster opp filer…",
     "Uploaded files:" : "Opplastede filer:",
-    "%s is publicly shared" : "%s er delt offentlig"
+    "{actor} removed you from {file}" : "{actor} fjernet deg fra {file}",
+    "%s is publicly shared" : "%s er delt offentlig",
+    "This share is password-protected" : "Denne delingen er passordbeskyttet",
+    "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
+    "Password" : "Passord"
 },
 "nplurals=2; plural=(n != 1);");

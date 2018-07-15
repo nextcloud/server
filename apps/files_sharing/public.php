@@ -30,14 +30,13 @@ $route = isset($_GET['download']) ? 'files_sharing.sharecontroller.downloadShare
 if($token !== '') {
 	$protocol = \OC::$server->getRequest()->getHttpProtocol();
 	if ($protocol == 'HTTP/1.0') {
-		$status = '302 Found';
+		http_response_code(302);
 	} else {
-		$status = '307 Temporary Redirect';
+		http_response_code(307);
 	}
-	header($protocol.' ' . $status);
 	header('Location: ' . $urlGenerator->linkToRoute($route, array('token' => $token)));
 } else {
-	header('HTTP/1.0 404 Not Found');
+	http_response_code(404);
 	$tmpl = new OCP\Template('', '404', 'guest');
 	print_unescaped($tmpl->fetchPage());
 }

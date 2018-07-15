@@ -28,6 +28,7 @@ use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -53,7 +54,7 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 				$answeredValue = $answeredValue->{$path_to_element[$i]};
 			}
 			$answeredValue = (string)$answeredValue;
-			PHPUnit_Framework_Assert::assertEquals(
+			Assert::assertEquals(
 				$row['value']==="EMPTY" ? '' : $row['value'],
 				$answeredValue,
 				"Failed field " . $row['capability'] . " " . $row['path_to_element']

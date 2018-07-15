@@ -126,7 +126,11 @@
 		 * @type OCA.Files.FileActions
 		 */
 		fileActions: null,
-
+		/**
+		 * File selection menu, defaults to OCA.Files.FileSelectionMenu
+		 * @type OCA.Files.FileSelectionMenu
+		 */
+		fileMultiSelectMenu: null,
 		/**
 		 * Whether selection is allowed, checkboxes and selection overlay will
 		 * be rendered
@@ -288,6 +292,12 @@
 
 			this.fileSummary = this._createSummary();
 
+			if (options.multiSelectMenu) {
+				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(options.multiSelectMenu);
+				this.fileMultiSelectMenu.render();
+				this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
+			}
+
 			if (options.sorting) {
 				this.setSort(options.sorting.mode, options.sorting.direction, false, false);
 			} else {
@@ -336,11 +346,10 @@
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
-			this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
-			this.$el.find('.copy-move').click(_.bind(this._onClickCopyMoveSelected, this));
-			this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
-
-			this.$el.find('.selectedActions a').tooltip({placement:'top'});
+			this.$el.find('.actions-selected').click(function () {
+				self.fileMultiSelectMenu.show(self);
+				return false;
+			});
 
 			this.$container.on('scroll', _.bind(this._onScroll, this));
 
@@ -365,6 +374,7 @@
 				}
 			}
 
+
 			OC.Plugins.attach('OCA.Files.FileList', this);
 		},
 
@@ -388,6 +398,22 @@
 			$('#app-content').off('appresized', this._onResize);
 		},
 
+		multiSelectMenuClick: function (ev, action) {
+				switch (action) {
+					case 'delete':
+						this._onClickDeleteSelected(ev)
+						break;
+					case 'download':
+						this._onClickDownloadSelected(ev);
+						break;
+					case 'copyMove':
+						this._onClickCopyMoveSelected(ev);
+						break;
+					case 'restore':
+						this._onClickRestoreSelected(ev);
+						break;
+				}
+		},
 		/**
 		 * Initializes the file actions, set up listeners.
 		 *
@@ -722,15 +748,43 @@
 		 */
 		_onClickSelectAll: function(e) {
 			var checked = $(e.target).prop('checked');
-			this.$fileList.find('td.selection>.selectCheckBox').prop('checked', checked)
+			// Select only visible checkboxes to filter out unmatched file in search
+			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
-			this._selectedFiles = {};
-			this._selectionSummary.clear();
+
 			if (checked) {
 				for (var i = 0; i < this.files.length; i++) {
+					// a search will automatically hide the unwanted rows
+					// let's only select the matches
 					var fileData = this.files[i];
-					this._selectedFiles[fileData.id] = fileData;
-					this._selectionSummary.add(fileData);
+					var fileRow = this.$fileList.find('[data-id=' + fileData.id + ']');
+					// do not select already selected ones
+					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id])) {
+						this._selectedFiles[fileData.id] = fileData;
+						this._selectionSummary.add(fileData);
+					}
+				}
+			} else {
+				// if we have some hidden row, then we're in a search
+				// Let's only deselect the visible ones
+				var hiddenFiles = this.$fileList.find('tr.hidden');
+				if (hiddenFiles.length > 0) {
+					var visibleFiles = this.$fileList.find('tr:not(.hidden)');
+					var self = this;
+					visibleFiles.each(function() {
+						var id = parseInt($(this).data('id'));
+						// do not deselect already deselected ones
+						if (!_.isUndefined(self._selectedFiles[id])) {
+							// a search will automatically hide the unwanted rows
+							// let's only select the matches
+							var fileData = self._selectedFiles[id];
+							delete self._selectedFiles[fileData.id];
+							self._selectionSummary.remove(fileData);
+						}
+					});
+				} else {
+					this._selectedFiles = {};
+					this._selectionSummary.clear();
 				}
 			}
 			this.updateSelectionSummary();
@@ -745,7 +799,9 @@
 		 */
 		_onClickDownloadSelected: function(event) {
 			var files;
+			var self = this;
 			var dir = this.getCurrentDirectory();
+
 			if (this.isAllSelected() && this.getSelectedFiles().length > 1) {
 				files = OC.basename(dir);
 				dir = OC.dirname(dir) || '/';
@@ -754,19 +810,16 @@
 				files = _.pluck(this.getSelectedFiles(), 'name');
 			}
 
-			var downloadFileaction = $('#selectedActionsList').find('.download');
-
 			// don't allow a second click on the download action
-			if(downloadFileaction.hasClass('disabled')) {
-				event.preventDefault();
-				return;
+			if(this.fileMultiSelectMenu.isDisabled('download')) {
+				return false;
 			}
 
+			this.fileMultiSelectMenu.toggleLoading('download', true);
 			var disableLoadingState = function(){
-				OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, false);
+				self.fileMultiSelectMenu.toggleLoading('download', false);
 			};
 
-			OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, true);
 			if(this.getSelectedFiles().length > 1) {
 				OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState);
 			}
@@ -774,7 +827,7 @@
 				var first = this.getSelectedFiles()[0];
 				OCA.Files.Files.handleDownload(this.getDownloadUrl(first.name, dir, true), disableLoadingState);
 			}
-			return false;
+			event.preventDefault();
 		},
 
 		/**
@@ -786,20 +839,18 @@
 
 			files = _.pluck(this.getSelectedFiles(), 'name');
 
-			var moveFileAction = $('#selectedActionsList').find('.move');
-
 			// don't allow a second click on the download action
-			if(moveFileAction.hasClass('disabled')) {
-				event.preventDefault();
-				return;
+			if(this.fileMultiSelectMenu.isDisabled('copyMove')) {
+				return false;
 			}
 
 			var disableLoadingState = function(){
-				OCA.Files.FileActions.updateFileActionSpinner(moveFileAction, false);
+				self.fileMultiSelectMenu.toggleLoading('copyMove', false);
 			};
 
 			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
 			OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
+				self.fileMultiSelectMenu.toggleLoading('copyMove', true);
 				if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 					self.copy(files, targetPath, disableLoadingState);
 				}
@@ -807,7 +858,7 @@
 					self.move(files, targetPath, disableLoadingState);
 				}
 			}, false, "httpd/unix-directory", true, actions);
-			return false;
+			event.preventDefault();
 		},
 
 		/**
@@ -820,7 +871,6 @@
 			}
 			this.do_delete(files);
 			event.preventDefault();
-			return false;
 		},
 
 		/**
@@ -2885,19 +2935,20 @@
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
-				this.$el.find('.selectedActions .download').toggleClass('hidden', !this.isSelectedDownloadable());
-				this.$el.find('.delete-selected').toggleClass('hidden', !this.isSelectedDeletable());
 
-				var $copyMove = this.$el.find('.selectedActions .copy-move');
-				if (this.isSelectedCopiable()) {
-					$copyMove.toggleClass('hidden', false);
-					if (this.isSelectedMovable()) {
-						$copyMove.find('.label').text(t('files', 'Move or copy'));
+				if (this.fileMultiSelectMenu) {
+					this.fileMultiSelectMenu.toggleItemVisibility('download', this.isSelectedDownloadable());
+					this.fileMultiSelectMenu.toggleItemVisibility('delete', this.isSelectedDeletable());
+					this.fileMultiSelectMenu.toggleItemVisibility('copyMove', this.isSelectedCopiable());
+					if (this.isSelectedCopiable()) {
+						if (this.isSelectedMovable()) {
+							this.fileMultiSelectMenu.updateItemText('copyMove', t('files', 'Move or copy'));
+						} else {
+							this.fileMultiSelectMenu.updateItemText('copyMove', t('files', 'Copy'));
+						}
 					} else {
-						$copyMove.find('.label').text(t('files', 'Copy'));
+						this.fileMultiSelectMenu.toggleItemVisibility('copyMove', false);
 					}
-				} else {
-					$copyMove.toggleClass('hidden', true);
 				}
 			}
 		},

@@ -38,7 +38,7 @@ class L10nTest extends TestCase {
 
 	public function testGermanPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
-		$l = new L10N($this->getFactory(), 'test', 'de', [$transFile]);
+		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
 
 		$this->assertEquals('1 Datei', (string) $l->n('%n file', '%n files', 1));
 		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
@@ -46,7 +46,7 @@ class L10nTest extends TestCase {
 
 	public function testRussianPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
-		$l = new L10N($this->getFactory(), 'test', 'ru', [$transFile]);
+		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA',[$transFile]);
 
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
 		$this->assertEquals('2 файла', (string)$l->n('%n file', '%n files', 2));
@@ -70,7 +70,7 @@ class L10nTest extends TestCase {
 
 	public function testCzechPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/cs.json';
-		$l = new L10N($this->getFactory(), 'test', 'cs', [$transFile]);
+		$l = new L10N($this->getFactory(), 'test', 'cs', 'cs_CZ', [$transFile]);
 
 		$this->assertEquals('1 okno', (string)$l->n('%n window', '%n windows', 1));
 		$this->assertEquals('2 okna', (string)$l->n('%n window', '%n windows', 2));
@@ -80,51 +80,51 @@ class L10nTest extends TestCase {
 	public function localizationData() {
 		return array(
 			// timestamp as string
-			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'datetime', '1234567890'),
-			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'datetime', '1234567890'),
-			array('February 13, 2009', 'en', 'date', '1234567890'),
-			array('13. Februar 2009', 'de', 'date', '1234567890'),
-			array('11:31:30 PM GMT+0', 'en', 'time', '1234567890'),
-			array('23:31:30 GMT+0', 'de', 'time', '1234567890'),
+			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', '1234567890'),
+			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', '1234567890'),
+			array('February 13, 2009', 'en', 'en_US', 'date', '1234567890'),
+			array('13. Februar 2009', 'de', 'de_DE', 'date', '1234567890'),
+			array('11:31:30 PM GMT+0', 'en', 'en_US', 'time', '1234567890'),
+			array('23:31:30 GMT+0', 'de', 'de_DE', 'time', '1234567890'),
 
 			// timestamp as int
-			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'datetime', 1234567890),
-			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'datetime', 1234567890),
-			array('February 13, 2009', 'en', 'date', 1234567890),
-			array('13. Februar 2009', 'de', 'date', 1234567890),
-			array('11:31:30 PM GMT+0', 'en', 'time', 1234567890),
-			array('23:31:30 GMT+0', 'de', 'time', 1234567890),
+			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', 1234567890),
+			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', 1234567890),
+			array('February 13, 2009', 'en', 'en_US', 'date', 1234567890),
+			array('13. Februar 2009', 'de', 'de_DE', 'date', 1234567890),
+			array('11:31:30 PM GMT+0', 'en', 'en_US', 'time', 1234567890),
+			array('23:31:30 GMT+0', 'de', 'de_DE', 'time', 1234567890),
 
 			// DateTime object
-			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'datetime', new DateTime('@1234567890')),
-			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'datetime', new DateTime('@1234567890')),
-			array('February 13, 2009', 'en', 'date', new DateTime('@1234567890')),
-			array('13. Februar 2009', 'de', 'date', new DateTime('@1234567890')),
-			array('11:31:30 PM GMT+0', 'en', 'time', new DateTime('@1234567890')),
-			array('23:31:30 GMT+0', 'de', 'time', new DateTime('@1234567890')),
+			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'en_US', 'datetime', new DateTime('@1234567890')),
+			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', new DateTime('@1234567890')),
+			array('February 13, 2009', 'en', 'en_US', 'date', new DateTime('@1234567890')),
+			array('13. Februar 2009', 'de', 'de_DE', 'date', new DateTime('@1234567890')),
+			array('11:31:30 PM GMT+0', 'en', 'en_US', 'time', new DateTime('@1234567890')),
+			array('23:31:30 GMT+0', 'de', 'de_DE', 'time', new DateTime('@1234567890')),
 
 			// en_GB
-			array('13 February 2009 at 23:31:30 GMT+0', 'en_GB', 'datetime', new DateTime('@1234567890')),
-			array('13 February 2009', 'en_GB', 'date', new DateTime('@1234567890')),
-			array('23:31:30 GMT+0', 'en_GB', 'time', new DateTime('@1234567890')),
-			array('13 February 2009 at 23:31:30 GMT+0', 'en-GB', 'datetime', new DateTime('@1234567890')),
-			array('13 February 2009', 'en-GB', 'date', new DateTime('@1234567890')),
-			array('23:31:30 GMT+0', 'en-GB', 'time', new DateTime('@1234567890')),
+			array('13 February 2009 at 23:31:30 GMT+0', 'en_GB', 'en_GB', 'datetime', new DateTime('@1234567890')),
+			array('13 February 2009', 'en_GB', 'en_GB', 'date', new DateTime('@1234567890')),
+			array('23:31:30 GMT+0', 'en_GB', 'en_GB', 'time', new DateTime('@1234567890')),
+			array('13 February 2009 at 23:31:30 GMT+0', 'en-GB', 'en_GB', 'datetime', new DateTime('@1234567890')),
+			array('13 February 2009', 'en-GB', 'en_GB', 'date', new DateTime('@1234567890')),
+			array('23:31:30 GMT+0', 'en-GB', 'en_GB', 'time', new DateTime('@1234567890')),
 		);
 	}
 
 	/**
 	 * @dataProvider localizationData
 	 */
-	public function testNumericStringLocalization($expectedDate, $lang, $type, $value) {
-		$l = new L10N($this->getFactory(), 'test', $lang, []);
+	public function testNumericStringLocalization($expectedDate, $lang, $locale, $type, $value) {
+		$l = new L10N($this->getFactory(), 'test', $lang, $locale, []);
 		$this->assertSame($expectedDate, $l->l($type, $value));
 	}
 
 	public function firstDayData() {
 		return array(
-			array(1, 'de'),
-			array(0, 'en'),
+			array(1, 'de', 'de_DE'),
+			array(0, 'en', 'en_US'),
 		);
 	}
 
@@ -132,16 +132,17 @@ class L10nTest extends TestCase {
 	 * @dataProvider firstDayData
 	 * @param $expected
 	 * @param $lang
+	 * @param $locale
 	 */
-	public function testFirstWeekDay($expected, $lang) {
-		$l = new L10N($this->getFactory(), 'test', $lang, []);
+	public function testFirstWeekDay($expected, $lang, $locale) {
+		$l = new L10N($this->getFactory(), 'test', $lang, $locale, []);
 		$this->assertSame($expected, $l->l('firstday', 'firstday'));
 	}
 
 	public function jsDateData() {
 		return array(
-			array('dd.MM.yy', 'de'),
-			array('M/d/yy', 'en'),
+			array('dd.MM.yy', 'de', 'de_DE'),
+			array('M/d/yy', 'en', 'en_US'),
 		);
 	}
 
@@ -149,9 +150,10 @@ class L10nTest extends TestCase {
 	 * @dataProvider jsDateData
 	 * @param $expected
 	 * @param $lang
+	 * @param $locale
 	 */
-	public function testJSDate($expected, $lang) {
-		$l = new L10N($this->getFactory(), 'test', $lang, []);
+	public function testJSDate($expected, $lang, $locale) {
+		$l = new L10N($this->getFactory(), 'test', $lang, $locale, []);
 		$this->assertSame($expected, $l->l('jsdate', 'jsdate'));
 	}
 

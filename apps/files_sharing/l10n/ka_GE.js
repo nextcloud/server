@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} მომხმარებელმა გააზიარა ფაილი {file} მომხმარებელთან {user}",
     "{actor} removed {user} from {file}" : "{actor} მომხმარებელმა ჩამოაშორა მომხმარებელი {user} ფაილს {file}",
     "{actor} shared {file} with you" : "{actor} მომხმარებელმა თქვენთან გააზიარა {file}",
-    "{actor} removed you from {file}" : "{actor} ჩამოგაშორათ ფაილს {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "ელ-ფოსტით ან საზოგადო ბმულით გაზიარბული ფაილი ან დირექტორია  <strong>გადმოწერილ იქნა</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "ფაილი ან დირექტორია გაზიარდა <strong>სხვა სერვერიდან</strong>",
     "A file or folder has been <strong>shared</strong>" : "ფაილი ან დირექტორია <strong>გაზიარებულ იქნა</strong>",
@@ -93,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "Share API is disabled" : "გაზიარების API არაა მოქმედი",
     "File sharing" : "ფაილების გაზიარება",
-    "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
-    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან",
-    "Password" : "პაროლი",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანები ვერ მოიძებნა",
     "Name" : "სახელი",
     "Share time" : "გაზიარების დრო",
@@ -111,6 +107,10 @@ OC.L10N.register(
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploading files…" : "ფაილების ატვირთვა...",
     "Uploaded files:" : "ფაილების ატვირთვა:",
-    "%s is publicly shared" : "%s საზოგადოდ გაზიარებულია"
+    "{actor} removed you from {file}" : "{actor} ჩამოგაშორათ ფაილს {file}",
+    "%s is publicly shared" : "%s საზოგადოდ გაზიარებულია",
+    "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
+    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან",
+    "Password" : "პაროლი"
 },
 "nplurals=2; plural=(n!=1);");

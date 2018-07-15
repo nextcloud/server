@@ -37,6 +37,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Files_Sharing\\Collaboration\\ShareRecipientSorter' => __DIR__ . '/..' . '/../lib/Collaboration/ShareRecipientSorter.php',
         'OCA\\Files_Sharing\\Command\\CleanupRemoteStorages' => __DIR__ . '/..' . '/../lib/Command/CleanupRemoteStorages.php',
+        'OCA\\Files_Sharing\\Controller\\DeletedShareAPIController' => __DIR__ . '/..' . '/../lib/Controller/DeletedShareAPIController.php',
         'OCA\\Files_Sharing\\Controller\\ExternalSharesController' => __DIR__ . '/..' . '/../lib/Controller/ExternalSharesController.php',
         'OCA\\Files_Sharing\\Controller\\PublicPreviewController' => __DIR__ . '/..' . '/../lib/Controller/PublicPreviewController.php',
         'OCA\\Files_Sharing\\Controller\\RemoteController' => __DIR__ . '/..' . '/../lib/Controller/RemoteController.php',

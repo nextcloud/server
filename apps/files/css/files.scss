@@ -41,8 +41,8 @@
 .newFileMenu .error,
 .newFileMenu .error + .icon-confirm,
 #fileList .error {
-	color: $color-error;
-	border-color: $color-error;
+	color: var(--color-error);
+	border-color: var(--color-error);
 }
 
 /* FILE TABLE */
@@ -71,7 +71,7 @@
 }
 
 .app-files #app-content.dir-drop {
-	background-color: $color-main-background !important;
+	background-color: var(--color-main-background) !important;
 }
 
 .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover{
@@ -104,6 +104,9 @@
 }
 .nav-icon-trashbin {
 	background-image: url('../img/delete.svg?v=1');
+}
+.nav-icon-deletedshares {
+	background-image: url('../img/unshare.svg?v=1');
 }
 
 #app-navigation .nav-files a.nav-icon-files {
@@ -140,12 +143,12 @@
 #filestable tbody tr.searchresult,
 table tr.mouseOver td {
 	transition: background-color 0.3s ease;
-	background-color: nc-darken($color-main-background, 3%);
+	background-color: var(--color-background-dark);
 }
-tbody a { color: $color-main-text; }
+tbody a { color: var(--color-main-text); }
 
 span.conflict-path, span.extension, span.uploading, td.date {
-	color: $color-text-details;
+	color: var(--color-text-maxcontrast);
 }
 span.conflict-path, span.extension {
 	-webkit-transition: opacity 300ms;
@@ -159,11 +162,11 @@ tr:focus span.conflict-path,
 tr:hover span.extension,
 tr:focus span.extension {
 	opacity: 1;
-	color: $color-text-details;
+	color: var(--color-text-maxcontrast);
 }
 
 table th, table th a {
-	color: $color-text-details;
+	color: var(--color-text-maxcontrast);
 }
 table.multiselect th a {
 	color: #000;
@@ -176,9 +179,11 @@ table th .columntitle {
 	-moz-box-sizing: border-box;
 	vertical-align: middle;
 }
+table.multiselect th .columntitle {
+    display: inline-block;
+}
 table th .columntitle.name {
 	padding-left: 5px;
-	padding-right: 80px;
 	margin-left: 50px;
 }
 
@@ -206,7 +211,7 @@ table th:focus .sort-indicator.hidden {
 
 table th,
 table td {
-	border-bottom: 1px solid $color-border;
+	border-bottom: 1px solid var(--color-border);
 	text-align: left;
 	font-weight: normal;
 }
@@ -246,7 +251,7 @@ table th.column-last, table td.column-last {
 }
 table.multiselect thead {
 	position: fixed;
-	top: 89px;
+	top: 94px;
 	z-index: 55;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -474,19 +479,19 @@ a.action > img {
 
 /* Actions for selected files */
 .selectedActions {
-	position: absolute;
-	top: 0;
-	right: 0;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.selectedActions.hidden {
+    display: none;
 }
 .selectedActions a {
 	display: inline;
-	font-size: 11px;
 	line-height: 50px;
-	padding: 18px 5px;
+	padding: 16px 5px;
 }
-.selectedActions a.delete-selected {
-	padding-right: 15px;
-}
+
 .selectedActions a.hidden {
 	display: none;
 }
@@ -495,9 +500,9 @@ a.action > img {
 	vertical-align: text-bottom;
 	margin-bottom: -1px;
 }
-/* hide the delete icon in name column normal resolutions */
-table th#headerName .selectedActions .delete-selected {
-	display: none;
+
+.selectedActions .actions-selected .icon-more {
+	margin-top: -3px;
 }
 
 #fileList td a {
@@ -601,7 +606,7 @@ table tr.summary td {
 	padding-top: 20px;
 }
 .summary .info {
-	margin-left: 40px;
+	margin-left: 35px; /* td has padding of 15, col width is 50 */
 }
 
 table.dragshadow {
@@ -623,7 +628,7 @@ table.dragshadow td.size {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	background-repeat: no-repeat no-repeat;
 	background-position: 50%;
 	opacity: 0.7;
@@ -701,11 +706,11 @@ table.dragshadow td.size {
 
 	.quota-container {
 		height: 5px;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 
 		div {
 			height: 100%;
-			background-color: $color-primary;
+			background-color: var(--color-primary);
 		}
 	}
 }

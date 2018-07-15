@@ -113,3 +113,12 @@ Feature: users
     # When I set the user user0 quota to 1GB
     # And I see that the quota cell for user user0 is done loading
     # Then I see that the user quota of user0 is "1 GB"
+    # When I set the user user0 quota to Unlimited
+    # And I see that the quota cell for user user0 is done loading
+    # Then I see that the user quota of user0 is Unlimited
+    # When I set the user user0 quota to 0
+    # And I see that the quota cell for user user0 is done loading
+    # Then I see that the user quota of user0 is "0 B"
+    # When I set the user user0 quota to Default
+    # And I see that the quota cell for user user0 is done loading
+    # Then I see that the user quota of user0 is "Default quota"

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Lista grup jest pusta",
     "Unable to retrieve the group list" : "Nie można pobrać listy grup",
     "Saved" : "Zapisano",
     "Saving failed:" : "Zapis się nie udał:",
@@ -18,7 +19,7 @@ OC.L10N.register(
     "File system tag" : "Etykieta systemu plików",
     "is tagged with" : "jest oznaczony",
     "is not tagged with" : "Nie jest oznaczony",
-    "Select tag…" : "Wybierz etykietę...",
+    "Select tag…" : "Wybierz etykietę…",
     "Request remote address" : "Uzyskaj zdalny adres",
     "matches IPv4" : "pasuje IPv4",
     "does not match IPv4" : "nie pasuje IPv4",
@@ -29,7 +30,7 @@ OC.L10N.register(
     "not between" : "nie pomiędzy",
     "Start" : "Start",
     "End" : "Koniec",
-    "Select timezone…" : "Wybierz strefę czasową...",
+    "Select timezone…" : "Wybierz strefę czasową…",
     "Request URL" : "Żądanie URL",
     "Predefined URLs" : "Przedefiniowanie URLs",
     "Files WebDAV" : "Pliki WebDAV",
@@ -67,7 +68,7 @@ OC.L10N.register(
     "Add rule" : "Dodaj regułę",
     "Reset" : "Zresetuj",
     "Save" : "Zapisz",
-    "Saving…" : "Zapisywanie...",
-    "Loading…" : "Wczytywanie..."
+    "Saving…" : "Zapisywanie…",
+    "Loading…" : "Wczytywanie…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

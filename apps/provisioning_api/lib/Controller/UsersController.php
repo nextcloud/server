@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -430,6 +431,11 @@ class UsersController extends AUserData {
 				$permittedFields[] = 'language';
 			}
 
+			if ($this->config->getSystemValue('force_locale', false) === false ||
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+				$permittedFields[] = 'locale';
+			}
+
 			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 				$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
 				$shareProvider = $federatedFileSharing->getFederatedShareProvider();
@@ -456,6 +462,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
 				$permittedFields[] = 'password';
 				$permittedFields[] = 'language';
+				$permittedFields[] = 'locale';
 				$permittedFields[] = AccountManager::PROPERTY_PHONE;
 				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
@@ -487,9 +494,7 @@ class UsersController extends AUserData {
 					if ($quota === false) {
 						throw new OCSException('Invalid quota value '.$value, 103);
 					}
-					if ($quota === 0) {
-						$quota = 'default';
-					}else if ($quota === -1) {
+					if ($quota === -1) {
 						$quota = 'none';
 					} else {
 						$quota = \OCP\Util::humanFileSize($quota);
@@ -506,6 +511,12 @@ class UsersController extends AUserData {
 					throw new OCSException('Invalid language', 102);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
+				break;
+			case 'locale':
+				if (!$this->l10nFactory->localeExists($value)) {
+					throw new OCSException('Invalid locale', 102);
+				}
+				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
 			case AccountManager::PROPERTY_EMAIL:
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {

@@ -7,6 +7,9 @@ OC.L10N.register(
     "All files" : "Tất cả tệp tin",
     "Recent" : "Gần đây",
     "File could not be found" : "Tệp tin không tồn tại",
+    "Move or copy" : "Di chuyển hoặc sao chép",
+    "Download" : "Tải về",
+    "Delete" : "Xóa",
     "Home" : "Nhà",
     "Close" : "Đóng",
     "Favorites" : "Ưa thích",
@@ -18,11 +21,8 @@ OC.L10N.register(
     "Not enough free space" : "Không đủ dung lượng trống",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} trong tổng số {totalSize} ({bitrate})",
     "Actions" : "Actions",
-    "Download" : "Tải về",
     "Rename" : "Sửa tên",
-    "Move or copy" : "Di chuyển hoặc sao chép",
     "Target folder" : "Thư mục đích",
-    "Delete" : "Xóa",
     "Disconnect storage" : "Bộ lưu trữ đã ngắt kết nối",
     "Unshare" : "Bỏ chia sẻ",
     "Could not load info for file \"{file}\"" : "Không thể tải thông tin cho tệp \"{file}\"",
@@ -124,6 +124,7 @@ OC.L10N.register(
     "Shared by link" : "Được chia sẻ bởi liên kết",
     "Tags" : "Nhãn",
     "Deleted files" : "Thùng rác",
-    "Text file" : "Tập tin văn bản"
+    "Text file" : "Tập tin văn bản",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> để truy cập các Tập tin của bạn qua WebDAV</a>"
 },
 "nplurals=1; plural=0;");

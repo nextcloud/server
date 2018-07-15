@@ -17,8 +17,8 @@
     "Library %s with a version higher than %s is required - available version %s." : "Zahtevana je knjižnica %s z različico, višjo od %s – na voljo je različica %s.",
     "Library %s with a version lower than %s is required - available version %s." : "Zahtevana je knjižnica %s z različico, manjšo od %s – na voljo je različica %s.",
     "Following platforms are supported: %s" : "Podprta so okolja: %s",
-    "Server version %s or higher is required." : "Zaželena verzija strežnika je %s ali višja.",
-    "Server version %s or lower is required." : "Zaželena verzija strežnika je %s ali nižja.",
+    "Server version %s or higher is required." : "Zahtevana je različica strežnika %s ali višja.",
+    "Server version %s or lower is required." : "Zahtevana je različica strežnika %s ali nižja.",
     "Unknown filetype" : "Neznana vrsta datoteke",
     "Invalid image" : "Neveljavna slika",
     "today" : "danes",
@@ -37,14 +37,13 @@
     "Dot files are not allowed" : "Skrite datoteke niso dovoljene",
     "Empty filename is not allowed" : "Prazno polje imena datoteke ni dovoljeno.",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Programa \\\"%s\\\" ni mogoče namestiti, ker ni mogoče brati datoteke appinfo.",
-    "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Aplikacije \"%s\" ni mogoče namestiti, ker ni združljiva s trenutno verzijo strežnika",
+    "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Programa »%s« ni mogoče namestiti, ker ni združljiv z nameščeno različico strežnika.",
     "__language_name__" : "Slovenščina",
     "Apps" : "Programi",
     "Users" : "Uporabniki",
     "Unknown user" : "Neznan uporabnik",
     "Basic settings" : "Osnovne nastavitve",
     "Security" : "Varnost",
-    "Tips & tricks" : "Triki in nasveti",
     "%s enter the database username and name." : "%s - vnos uporabniškega imena in imena podatkovne zbirke.",
     "%s enter the database username." : "%s - vnos uporabniškega imena podatkovne zbirke.",
     "%s enter the database name." : "%s - vnos imena podatkovne zbirke.",
@@ -128,6 +127,7 @@
     "Storage unauthorized. %s" : "Dostop do shrambe ni overjen. %s",
     "Storage incomplete configuration. %s" : "Nepopolna nastavitev shrambe. %s",
     "Storage connection error. %s" : "Napaka povezave do shrambe. %s",
-    "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s"
+    "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s",
+    "Tips & tricks" : "Triki in nasveti"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

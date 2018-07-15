@@ -60,7 +60,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} {file} dosyasını {user} kullanıcısı ile paylaştı",
     "{actor} removed {user} from {file}" : "{actor} {file} dosyasının {user} kullanıcısıyla paylaşımını kaldırdı",
     "{actor} shared {file} with you" : "{actor} {file} dosyasını sizinle paylaştı",
-    "{actor} removed you from {file}" : "{actor} {file} dosyasının sizinle paylaşımını kaldırdı",
+    "{actor} removed you from the share named {file}" : "{actor} {file} dosyasının sizinle paylaşımını kaldırdı",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "E-posta ya da herkese açık bağlantı ile paylaşılan bir dosya ya da klasör <strong>indirildi</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>Başka bir sunucudan</strong> bir dosya ya da klasör paylaşıldı",
     "A file or folder has been <strong>shared</strong>" : "Bir dosya ya da klasör <strong>paylaşıldı</strong>",
@@ -94,9 +94,6 @@ OC.L10N.register(
     "Share API is disabled" : "Paylaşım API arayüzü devre dışı",
     "File sharing" : "Dosya paylaşımı",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Bu uygulama kullanıcıların Nextcloud üzerinde dosya paylaşabilmesini sağlar. Etkinleştirildiğinde, yöneticiler dosya paylaşabilecek grupları belirleyebilir. Seçilmiş gruplardaki kullanıcılar Nextcloud üzerindeki diğer kullanıcı ve gruplar ile dosya ve klasör paylaşabilir. Ek olarak, yönetici bağlantı paylaşımı özelliğini etkinleştirmiş ise, Nextcloud üzerinde olmayan kullanıcılar ile dosya paylaşımı bağlantıları kullanılabilir. Yöneticiler ayrıca parola ve son kullanma tarihi kullanımını zorunlu kılmanın yanında, paylaşım bağlantıları ile sunucudan sunucuya paylaşım ve mobil aygıtlar ile paylaşım gibi özellikleri etkinleştirebilir.\nBu özellik devre dışı bırakıldığında, sunucu, eşitleme istemcileri ve mobil uygulamalar üzerinden alıcılar ile paylaşılmış dosya ve klasörler kaldırılır. Ayrıntılı bilgi almak için Nextcloud belgelerine bakabilirsiniz.",
-    "This share is password-protected" : "Bu paylaşım parola korumalı",
-    "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
-    "Password" : "Parola",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt yok",
     "Name" : "Ad",
     "Share time" : "Paylaşma zamanı",
@@ -112,6 +109,10 @@ OC.L10N.register(
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
     "Uploading files…" : "Dosyalar yükleniyor...",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
-    "%s is publicly shared" : "%s herkese açık olarak paylaşıldı"
+    "{actor} removed you from {file}" : "{actor} {file} dosyasının sizinle paylaşımını kaldırdı",
+    "%s is publicly shared" : "%s herkese açık olarak paylaşıldı",
+    "This share is password-protected" : "Bu paylaşım parola korumalı",
+    "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
+    "Password" : "Parola"
 },
 "nplurals=2; plural=(n > 1);");

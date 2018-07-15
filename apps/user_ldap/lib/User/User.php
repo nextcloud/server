@@ -37,8 +37,8 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Image;
+use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Util;
 use OCP\Notification\IManager as INotificationManager;
 
 /**
@@ -499,44 +499,39 @@ class User {
 			return;
 		}
 
-		$quota = false;
-		if(is_null($valueFromLDAP)) {
-			$quotaAttribute = $this->connection->ldapQuotaAttribute;
-			if ($quotaAttribute !== '') {
-				$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
-				if($aQuota && (count($aQuota) > 0)) {
-					if ($this->verifyQuotaValue($aQuota[0])) {
-						$quota = $aQuota[0];
-					} else {
-						$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', ILogger::WARN);
-					}
-				}
-			}
-		} else {
-			if ($this->verifyQuotaValue($valueFromLDAP)) {
-				$quota = $valueFromLDAP;
-			} else {
-				$this->log->log('not suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', ILogger::WARN);
-			}
+		$quotaAttribute = $this->connection->ldapQuotaAttribute;
+		$defaultQuota = $this->connection->ldapQuotaDefault;
+		if($quotaAttribute === '' && $defaultQuota === '') {
+			return;
 		}
 
-		if ($quota === false) {
-			// quota not found using the LDAP attribute (or not parseable). Try the default quota
-			$defaultQuota = $this->connection->ldapQuotaDefault;
-			if ($this->verifyQuotaValue($defaultQuota)) {
-				$quota = $defaultQuota;
+		$quota = false;
+		if(is_null($valueFromLDAP) && $quotaAttribute !== '') {
+			$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
+			if($aQuota && (count($aQuota) > 0) && $this->verifyQuotaValue($aQuota[0])) {
+				$quota = $aQuota[0];
+			} else if(is_array($aQuota) && isset($aQuota[0])) {
+				$this->log->log('no suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', ILogger::DEBUG);
 			}
+		} else if ($this->verifyQuotaValue($valueFromLDAP)) {
+			$quota = $valueFromLDAP;
+		} else {
+			$this->log->log('no suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', ILogger::DEBUG);
+		}
+
+		if ($quota === false && $this->verifyQuotaValue($defaultQuota)) {
+			// quota not found using the LDAP attribute (or not parseable). Try the default quota
+			$quota = $defaultQuota;
+		} else if($quota === false) {
+			$this->log->log('no suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', ILogger::DEBUG);
+			return;
 		}
 
 		$targetUser = $this->userManager->get($this->uid);
-		if ($targetUser) {
-			if($quota !== false) {
-				$targetUser->setQuota($quota);
-			} else {
-				$this->log->log('not suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', ILogger::WARN);
-			}
+		if ($targetUser instanceof IUser) {
+			$targetUser->setQuota($quota);
 		} else {
-			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', ILogger::ERROR);
+			$this->log->log('trying to set a quota for user ' . $this->uid . ' but the user is missing', ILogger::INFO);
 		}
 	}
 
@@ -557,35 +552,37 @@ class User {
 
 	/**
 	 * @brief attempts to get an image from LDAP and sets it as Nextcloud avatar
-	 * @return null
+	 * @return bool
 	 */
-	public function updateAvatar() {
-		if($this->wasRefreshed('avatar')) {
-			return;
+	public function updateAvatar($force = false) {
+		if(!$force && $this->wasRefreshed('avatar')) {
+			return false;
 		}
 		$avatarImage = $this->getAvatarImage();
 		if($avatarImage === false) {
 			//not set, nothing left to do;
-			return;
+			return false;
 		}
-		$this->image->loadFromBase64(base64_encode($avatarImage));
-		$this->setOwnCloudAvatar();
+		if(!$this->image->loadFromBase64(base64_encode($avatarImage))) {
+			return false;
+		}
+		return $this->setOwnCloudAvatar();
 	}
 
 	/**
 	 * @brief sets an image as Nextcloud avatar
-	 * @return null
+	 * @return bool
 	 */
 	private function setOwnCloudAvatar() {
 		if(!$this->image->valid()) {
 			$this->log->log('jpegPhoto data invalid for '.$this->dn, ILogger::ERROR);
-			return;
+			return false;
 		}
 		//make sure it is a square and not bigger than 128x128
 		$size = min(array($this->image->width(), $this->image->height(), 128));
 		if(!$this->image->centerCrop($size)) {
 			$this->log->log('croping image for avatar failed for '.$this->dn, ILogger::ERROR);
-			return;
+			return false;
 		}
 
 		if(!$this->fs->isLoaded()) {
@@ -595,6 +592,7 @@ class User {
 		try {
 			$avatar = $this->avatarManager->getAvatar($this->uid);
 			$avatar->set($this->image);
+			return true;
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => 'Could not set avatar for ' . $this->dn,
@@ -602,6 +600,7 @@ class User {
 				'app' => 'user_ldap',
 			]);
 		}
+		return false;
 	}
 
 	/**

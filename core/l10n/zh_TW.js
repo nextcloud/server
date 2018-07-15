@@ -126,8 +126,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的資料目錄和檔案看來可以被公開存取，這表示 .htaccess 設定檔並未生效，我們強烈建議您設定網頁伺服器，拒絕公開存取資料目錄，或者將您的資料目錄移出網頁伺服器根目錄。",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "目前 HTTP 的 {header} 標頭設定並不是 \"{expected}\" ，這是一個潛在的安全性和隱私風險，我們建議調整此項設定。",
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "目前 HTTP 的 {header} 標頭設定並不是 \"{expected}\" ，這將讓某些功能無法正常運作，我們建議修正此項設定。",
-    "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "HTTP \"Strict-Transport-Security\" 標頭並未被設定持續至少 {seconds} 秒。為了提高安全性，我們在<a href=\"{docUrl}\" rel=\"noreferrer\">安全建議</a>中有詳述並建議啟用 HSTS。",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "正在透過不安全的 HTTP 存取站台，強烈建議您設定伺服器啟用 HTTPS ，更多資訊請查閱<a href=\"{docUrl}\">安全建議</a>。",
     "Shared" : "已分享",
     "Shared with" : "分享給",
     "Shared by" : "分享自",
@@ -335,6 +333,8 @@ OC.L10N.register(
     "Alternative login using app token" : "透過應用程式憑證的方式登入",
     "You are accessing the server from an untrusted domain." : "你正在從一個未信任的網域存取伺服器",
     "Add \"%s\" as trusted domain" : "將 %s 加入到信任的網域",
+    "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "HTTP \"Strict-Transport-Security\" 標頭並未被設定持續至少 {seconds} 秒。為了提高安全性，我們在<a href=\"{docUrl}\" rel=\"noreferrer\">安全建議</a>中有詳述並建議啟用 HSTS。",
+    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "正在透過不安全的 HTTP 存取站台，強烈建議您設定伺服器啟用 HTTPS ，更多資訊請查閱<a href=\"{docUrl}\">安全建議</a>。",
     "Back to log in" : "回到登入頁面",
     "Depending on your configuration, this button could also work to trust the domain:" : "根據你的設定值，此按鈕也可用於信任以下網域："
 },

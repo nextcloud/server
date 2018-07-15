@@ -75,7 +75,9 @@ class RetryJob extends Job {
 				$addressHandler,
 				\OC::$server->getHTTPClientService(),
 				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-				\OC::$server->getJobList()
+				\OC::$server->getJobList(),
+				\OC::$server->getCloudFederationProviderManager(),
+				\OC::$server->getCloudFederationFactory()
 			);
 		}
 

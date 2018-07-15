@@ -78,7 +78,7 @@ interface ISimpleFile {
 	/**
 	 * Overwrite the file
 	 *
-	 * @param string $data
+	 * @param string|resource $data
 	 * @throws NotPermittedException
 	 * @since 11.0.0
 	 */

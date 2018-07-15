@@ -158,7 +158,7 @@ class Client implements IClient {
 	 */
 	public function get(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
-		$response = $this->client->request('get', $uri, array_merge($options, $this->getRequestOptions()));
+		$response = $this->client->request('get', $uri, array_merge($this->getRequestOptions(), $options));
 		$isStream = isset($options['stream']) && $options['stream'];
 		return new Response($response, $isStream);
 	}
@@ -189,7 +189,7 @@ class Client implements IClient {
 	 */
 	public function head(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
-		$response = $this->client->request('head', $uri, array_merge($options, $this->getRequestOptions()));
+		$response = $this->client->request('head', $uri, array_merge($this->getRequestOptions(), $options));
 		return new Response($response);
 	}
 
@@ -228,7 +228,7 @@ class Client implements IClient {
 			$options['form_params'] = $options['body'];
 			unset($options['body']);
 		}
-		$response = $this->client->request('post', $uri, array_merge($options, $this->getRequestOptions()));
+		$response = $this->client->request('post', $uri, array_merge($this->getRequestOptions(), $options));
 		return new Response($response);
 	}
 
@@ -263,7 +263,7 @@ class Client implements IClient {
 	 */
 	public function put(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
-		$response = $this->client->request('put', $uri, array_merge($options, $this->getRequestOptions()));
+		$response = $this->client->request('put', $uri, array_merge($this->getRequestOptions(), $options));
 		return new Response($response);
 	}
 
@@ -298,7 +298,7 @@ class Client implements IClient {
 	 */
 	public function delete(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
-		$response = $this->client->request('delete', $uri, array_merge($options, $this->getRequestOptions()));
+		$response = $this->client->request('delete', $uri, array_merge($this->getRequestOptions(), $options));
 		return new Response($response);
 	}
 
@@ -334,7 +334,7 @@ class Client implements IClient {
 	 */
 	public function options(string $uri, array $options = []): IResponse {
 		$this->setDefaultOptions();
-		$response = $this->client->request('options', $uri, array_merge($options, $this->getRequestOptions()));
+		$response = $this->client->request('options', $uri, array_merge($this->getRequestOptions(), $options));
 		return new Response($response);
 	}
 }

@@ -32,6 +32,7 @@ use Doctrine\DBAL\Connection;
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\ForbiddenException;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
@@ -97,6 +98,16 @@ class Scan extends Base {
 				null,
 				InputOption::VALUE_NONE,
 				'only scan files which are marked as not fully scanned'
+			)->addOption(
+				'shallow',
+				null,
+				InputOption::VALUE_NONE,
+				'do not scan folders recursively'
+			)->addOption(
+				'home-only',
+				null,
+				InputOption::VALUE_NONE,
+				'only scan the home storage, ignoring any mounted external storage or share'
 			);
 	}
 
@@ -109,7 +120,7 @@ class Scan extends Base {
 		}
 	}
 
-	protected function scanFiles($user, $path, $verbose, OutputInterface $output, $backgroundScan = false) {
+	protected function scanFiles($user, $path, $verbose, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new \OC\Files\Utils\Scanner($user, $connection, \OC::$server->getLogger());
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
@@ -158,7 +169,7 @@ class Scan extends Base {
 			if ($backgroundScan) {
 				$scanner->backgroundScan($path);
 			} else {
-				$scanner->scan($path);
+				$scanner->scan($path, $recursive, $homeOnly ? [$this, 'filterHomeMount'] : null);
 			}
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable</error>");
@@ -174,6 +185,10 @@ class Scan extends Base {
 		}
 	}
 
+	public function filterHomeMount(IMountPoint $mountPoint) {
+		// any mountpoint inside '/$user/files/'
+		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
+	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$inputPath = $input->getOption('path');
@@ -231,7 +246,7 @@ class Scan extends Base {
 				}
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
 				# full: printout data if $verbose was set
-				$this->scanFiles($user, $path, $verbose, $output, $input->getOption('unscanned'));
+				$this->scanFiles($user, $path, $verbose, $output, $input->getOption('unscanned'), ! $input->getOption('shallow'), $input->getOption('home-only'));
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
 			}

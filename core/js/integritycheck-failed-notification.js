@@ -24,7 +24,7 @@ $(document).ready(function(){
 			'core',
 			'<a href="{docUrl}">There were problems with the code integrity check. More information…</a>',
 			{
-				docUrl: OC.generateUrl('/settings/admin#security-warning')
+				docUrl: OC.generateUrl('/settings/admin/overview#security-warning')
 			}
 	);
 

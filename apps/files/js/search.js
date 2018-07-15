@@ -139,7 +139,7 @@
 				this.fileList = fileList;
 			};
 
-			OC.Plugins.register('OCA.Search', this);
+			OC.Plugins.register('OCA.Search.Core', this);
 		},
 		attach: function(search) {
 			var self = this;

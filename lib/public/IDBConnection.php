@@ -47,6 +47,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 interface IDBConnection {
 
 	const ADD_MISSING_INDEXES_EVENT = self::class . '::ADD_MISSING_INDEXES';
+	const CHECK_MISSING_INDEXES_EVENT = self::class . '::CHECK_MISSING_INDEXES';
 
 	/**
 	 * Gets the QueryBuilder for the connection.

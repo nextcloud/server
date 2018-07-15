@@ -34,14 +34,16 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\SMB\BasicAuth;
 use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\IFileInfo;
-use Icewind\SMB\NativeServer;
-use Icewind\SMB\Server;
+use Icewind\SMB\Native\NativeServer;
+use Icewind\SMB\ServerFactory;
+use Icewind\SMB\System;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
@@ -53,16 +55,15 @@ use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
-use OCP\Util;
 
 class SMB extends Common implements INotifyStorage {
 	/**
-	 * @var \Icewind\SMB\Server
+	 * @var \Icewind\SMB\IServer
 	 */
 	protected $server;
 
 	/**
-	 * @var \Icewind\SMB\Share
+	 * @var \Icewind\SMB\IShare
 	 */
 	protected $share;
 
@@ -72,27 +73,44 @@ class SMB extends Common implements INotifyStorage {
 	protected $root;
 
 	/**
-	 * @var \Icewind\SMB\FileInfo[]
+	 * @var \Icewind\SMB\IFileInfo[]
 	 */
 	protected $statCache;
 
 	public function __construct($params) {
-		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
-			if (Server::NativeAvailable()) {
-				$this->server = new NativeServer($params['host'], $params['user'], $params['password']);
-			} else {
-				$this->server = new Server($params['host'], $params['user'], $params['password']);
-			}
-			$this->share = $this->server->getShare(trim($params['share'], '/'));
-
-			$this->root = $params['root'] ?? '/';
-			$this->root = '/' . ltrim($this->root, '/');
-			$this->root = rtrim($this->root, '/') . '/';
-		} else {
-			throw new \Exception('Invalid configuration');
+		if (!isset($params['host'])) {
+			throw new \Exception('Invalid configuration, no host provided');
 		}
+
+		if (isset($params['auth'])) {
+			$auth = $params['auth'];
+		} else if (isset($params['user']) && isset($params['password']) && isset($params['share'])) {
+			list($workgroup, $user) = $this->splitUser($params['user']);
+			$auth = new BasicAuth($user, $workgroup, $params['password']);
+		} else {
+			throw new \Exception('Invalid configuration, no credentials provided');
+		}
+
+		$serverFactory = new ServerFactory();
+		$this->server = $serverFactory->createServer($params['host'], $auth);
+		$this->share = $this->server->getShare(trim($params['share'], '/'));
+
+		$this->root = $params['root'] ?? '/';
+		$this->root = '/' . ltrim($this->root, '/');
+		$this->root = rtrim($this->root, '/') . '/';
+
 		$this->statCache = new CappedMemoryCache();
 		parent::__construct($params);
+	}
+
+	private function splitUser($user) {
+		if (strpos($user, '/')) {
+			return explode('/', $user, 2);
+		} elseif (strpos($user, '\\')) {
+			return explode('\\', $user);
+		} else {
+			return [null, $user];
+		}
 	}
 
 	/**
@@ -102,7 +120,7 @@ class SMB extends Common implements INotifyStorage {
 		// FIXME: double slash to keep compatible with the old storage ids,
 		// failure to do so will lead to creation of a new storage id and
 		// loss of shares from the storage
-		return 'smb::' . $this->server->getUser() . '@' . $this->server->getHost() . '//' . $this->share->getName() . '/' . $this->root;
+		return 'smb::' . $this->server->getAuth()->getUsername() . '@' . $this->server->getHost() . '//' . $this->share->getName() . '/' . $this->root;
 	}
 
 	/**
@@ -136,6 +154,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return $this->statCache[$path];
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while getting file info']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -162,6 +181,7 @@ class SMB extends Common implements INotifyStorage {
 				}
 			});
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while getting folder content']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -286,6 +306,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while deleting file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -370,6 +391,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while opening file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -396,6 +418,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while removing folder']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -409,6 +432,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while creating file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -444,6 +468,7 @@ class SMB extends Common implements INotifyStorage {
 			$this->share->mkdir($path);
 			return true;
 		} catch (ConnectException $e) {
+			\OC::$server->getLogger()->logException($e, ['message' => 'Error while creating folder']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		} catch (Exception $e) {
 			return false;
@@ -504,7 +529,7 @@ class SMB extends Common implements INotifyStorage {
 	public static function checkDependencies() {
 		return (
 			(bool)\OC_Helper::findBinaryPath('smbclient')
-			|| Server::NativeAvailable()
+			|| NativeServer::available(new System())
 		) ? true : ['smbclient'];
 	}
 
@@ -517,6 +542,7 @@ class SMB extends Common implements INotifyStorage {
 		try {
 			return parent::test();
 		} catch (Exception $e) {
+			\OC::$server->getLogger()->logException($e);
 			return false;
 		}
 	}

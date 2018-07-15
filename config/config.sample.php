@@ -179,6 +179,29 @@ $CONFIG = array(
 'force_language' => 'en',
 
 /**
+ * This sets the default locale on your Nextcloud server, using ISO_639
+ * language codes such as ``en`` for English, ``de`` for German, and ``fr`` for
+ * French, and ISO-3166 country codes such as ``GB``, ``US``, ``CA``, as defined
+ * in RFC 5646. It overrides automatic locale detection on public pages like
+ * login or shared items. User's locale preferences configured under "personal
+ * -> locale" override this setting after they have logged in.
+ *
+ * Defaults to ``en``
+ */
+'default_locale' => 'en_US',
+
+/**
+ * With this setting a locale can be forced for all users. If a locale is
+ * forced, the users are also unable to change their locale in the personal
+ * settings. If users shall be unable to change their locale, but users have
+ * different languages, this value can be set to ``true`` instead of a locale
+ * code.
+ *
+ * Defaults to ``false``
+ */
+'force_locale' => 'en_US',
+
+/**
  * Set the default app to open on login. Use the app names as they appear in the
  * URL after clicking them in the Apps menu, such as documents, calendar, and
  * gallery. You can use a comma-separated list of app names, so if the first
@@ -305,14 +328,9 @@ $CONFIG = array(
 'mail_smtpdebug' => false,
 
 /**
- * Which mode to use for sending mail: ``sendmail``, ``smtp``, ``qmail`` or
- * ``php``.
+ * Which mode to use for sending mail: ``sendmail``, ``smtp`` or ``qmail``.
  *
  * If you are using local or remote SMTP, set this to ``smtp``.
- *
- * If you are using PHP mail you must have an installed and working email system
- * on the server. The program used to send email is defined in the ``php.ini``
- * file.
  *
  * For the ``sendmail`` option you need an installed and working email system on
  * the server, with ``/usr/sbin/sendmail`` installed on your Unix system.
@@ -320,9 +338,9 @@ $CONFIG = array(
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
  *
- * Defaults to ``php``
+ * Defaults to ``smtp``
  */
-'mail_smtpmode' => 'php',
+'mail_smtpmode' => 'smtp',
 
 /**
  * This depends on ``mail_smtpmode``. Specify the IP address of your mail
@@ -687,18 +705,24 @@ $CONFIG = array(
  */
 
 /**
- * By default the Nextcloud logs are sent to the ``nextcloud.log`` file in the
- * default Nextcloud data directory.
- * If syslogging is desired, set this parameter to ``syslog``.
- * Setting this parameter to ``errorlog`` will use the PHP error_log function
- * for logging.
+ * This parameter determines where the Nextcloud logs are sent.
+ * ``file``: the logs are written to file ``nextcloud.log`` in the default
+ * Nextcloud data directory. The log file can be changed with parameter
+ * ``logfile``.
+ * ``syslog``: the logs are sent to the system log. This requires a syslog daemon
+ * to be active.
+ * ``errorlog``: the logs are sent to the PHP ``error_log`` function.
+ * ``systemd``: the logs are sent to the Systemd journal. This requires a system
+ * that runs Systemd and the Systemd journal. The PHP extension ``systemd``
+ * must be installed and active.
  *
  * Defaults to ``file``
  */
 'log_type' => 'file',
 
 /**
- * Log file path for the Nextcloud logging type.
+ * Name of the file to which the Nextcloud logs are written if parameter
+ * ``log_type`` is set to ``file``.
  *
  * Defaults to ``[datadirectory]/nextcloud.log``
  */
@@ -715,7 +739,9 @@ $CONFIG = array(
 /**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
- * with a unique id. Only available if ``log_type`` is set to ``syslog``.
+ * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
+ * ``systemd``.
+ *
  * The default value is ``Nextcloud``.
  */
 'syslog_tag' => 'Nextcloud',
@@ -1594,5 +1620,17 @@ $CONFIG = array(
  * If you want to allow federation outside of your environment set it to 'global'
  */
 'gs.federation' => 'internal',
+
+/**
+ * List of incompatible user agents opted out from Same Site Cookie Protection.
+ * Some user agents are notorious and don't really properly follow HTTP
+ * specifications. For those, have an opt-out.
+ *
+ * WARNING: only use this if you know what you are doing
+ */
+'csrf.optout' => array(
+	'/^WebDAVFS/', // OS X Finder
+	'/^Microsoft-WebDAV-MiniRedir/', // Windows webdav drive
+),
 
 );

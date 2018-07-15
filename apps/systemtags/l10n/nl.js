@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (onzichtbaar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systeemmarkeringen</strong> voor een bestand zijn gewijzigd",
     "Collaborative tags" : "Systeemtags",
-    "Create and edit collaborative tags. These tags affect all users." : "Maak en bewerk systeemtags. Deze tags raken alle gebruikers.",
     "Select tag …" : "Selecteer tag …",
     "Name" : "Tag",
-    "Delete" : "Verwijder",
     "Public" : "Standaard",
     "Restricted" : "Beschermd",
     "Invisible" : "Verborgen",
+    "Delete" : "Verwijder",
     "Reset" : "Herstellen",
     "No files in here" : "Hier geen bestanden",
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Size" : "Grootte",
-    "Modified" : "Aangepast"
+    "Modified" : "Aangepast",
+    "Create and edit collaborative tags. These tags affect all users." : "Maak en bewerk systeemtags. Deze tags raken alle gebruikers."
 },
 "nplurals=2; plural=(n != 1);");

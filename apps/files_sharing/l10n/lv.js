@@ -32,7 +32,6 @@ OC.L10N.register(
     "Shared by {actor}" : "Koplietoja {actor}",
     "{actor} removed {user} from {file}" : "{actor} noņemts {user} no {file}",
     "{actor} shared {file} with you" : "{actor} koplietots {file} ar jums",
-    "{actor} removed you from {file}" : "{actor} noņēma jūs no {file}",
     "A file or folder was shared from <strong>another server</strong>" : "Datne vai mape tika koplietota no <strong>cita servera</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Koplietota</strong> datne vai mape",
     "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
@@ -58,9 +57,6 @@ OC.L10N.register(
     "Direct link" : "Tiešā saite",
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "Share API is disabled" : "Koplietošanas API ir atslēgta",
-    "This share is password-protected" : "Šī koplietotne ir aizsargāta ar paroli",
-    "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz.",
-    "Password" : "Parole",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Name" : "Nosaukums",
     "Share time" : "Koplietošanas laiks",
@@ -73,6 +69,10 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Vairāk informācijas vaicā personai, kas nosūtīja šo saiti.",
     "Download %s" : "Lejupielādēt %s",
     "Uploading files…" : "Augšupielādē datnes",
-    "Uploaded files:" : "Augšupielādēti faili:"
+    "Uploaded files:" : "Augšupielādēti faili:",
+    "{actor} removed you from {file}" : "{actor} noņēma jūs no {file}",
+    "This share is password-protected" : "Šī koplietotne ir aizsargāta ar paroli",
+    "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz.",
+    "Password" : "Parole"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

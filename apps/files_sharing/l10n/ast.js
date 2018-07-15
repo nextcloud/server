@@ -48,7 +48,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} compartió {file} con {user}",
     "{actor} removed {user} from {file}" : "{actor} desanició {user} de {file}",
     "{actor} shared {file} with you" : "{actor} compartió {file} contigo",
-    "{actor} removed you from {file}" : "{actor} desanicióte de {file}",
     "A file or folder was shared from <strong>another server</strong>" : "Compartióse un ficheru o carpeta dende <strong>otru sirvidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartióse</strong> un ficheru o direutoriu",
     "could not delete share" : "nun pudo desaniciase la compartición",
@@ -67,9 +66,6 @@ OC.L10N.register(
     "Download" : "Baxar",
     "Direct link" : "Enllaz direutu",
     "Share API is disabled" : "L'API de compartición ta desactivada",
-    "This share is password-protected" : "Esta compartición tien contraseña protexida",
-    "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
-    "Password" : "Contraseña",
     "No entries found in this folder" : "Nenguna entrada en esta carpeta",
     "Name" : "Nome",
     "Share time" : "Compartir hora",
@@ -83,6 +79,10 @@ OC.L10N.register(
     "Download %s" : "Descargar %s",
     "Select or drop files" : "Esbilla o suelta ficheros",
     "Uploading files…" : "Xubiendo ficheros...",
-    "Uploaded files:" : "Ficheros xubíos:"
+    "Uploaded files:" : "Ficheros xubíos:",
+    "{actor} removed you from {file}" : "{actor} desanicióte de {file}",
+    "This share is password-protected" : "Esta compartición tien contraseña protexida",
+    "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
+    "Password" : "Contraseña"
 },
 "nplurals=2; plural=(n != 1);");

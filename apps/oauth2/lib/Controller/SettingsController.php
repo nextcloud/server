@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -26,14 +27,13 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
 class SettingsController extends Controller {
-	/** @var IURLGenerator */
-	private $urlGenerator;
 	/** @var ClientMapper */
 	private $clientMapper;
 	/** @var ISecureRandom */
@@ -42,59 +42,83 @@ class SettingsController extends Controller {
 	private $accessTokenMapper;
 	/** @var  DefaultTokenMapper */
 	private $defaultTokenMapper;
+	/** @var IL10N */
+	private $l;
 
 	const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param IURLGenerator $urlGenerator
 	 * @param ClientMapper $clientMapper
 	 * @param ISecureRandom $secureRandom
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param DefaultTokenMapper $defaultTokenMapper
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
-								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
 								ISecureRandom $secureRandom,
 								AccessTokenMapper $accessTokenMapper,
-								DefaultTokenMapper $defaultTokenMapper
+								DefaultTokenMapper $defaultTokenMapper,
+								IL10N $l
 	) {
 		parent::__construct($appName, $request);
-		$this->urlGenerator = $urlGenerator;
 		$this->secureRandom = $secureRandom;
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->defaultTokenMapper = $defaultTokenMapper;
+		$this->l = $l;
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $redirectUri
-	 * @return RedirectResponse
-	 */
-	public function addClient($name,
-							  $redirectUri) {
+	public function addClient(string $name,
+							  string $redirectUri): JSONResponse {
+
+		if (filter_var($redirectUri, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED|FILTER_FLAG_HOST_REQUIRED) === false) {
+			return new JSONResponse(['message' => $this->l->t('Your redirect URL needs to be a full URL for example: https://yourdomain.com/path')], Http::STATUS_BAD_REQUEST);
+		}
+
 		$client = new Client();
 		$client->setName($name);
 		$client->setRedirectUri($redirectUri);
 		$client->setSecret($this->secureRandom->generate(64, self::validChars));
 		$client->setClientIdentifier($this->secureRandom->generate(64, self::validChars));
-		$this->clientMapper->insert($client);
-		return new RedirectResponse($this->urlGenerator->getAbsoluteURL('/index.php/settings/admin/security'));
+		$client = $this->clientMapper->insert($client);
+
+		$result = [
+			'id' => $client->getId(),
+			'name' => $client->getName(),
+			'redirectUri' => $client->getRedirectUri(),
+			'clientId' => $client->getClientIdentifier(),
+			'clientSecret' => $client->getSecret(),
+		];
+
+		return new JSONResponse($result);
 	}
 
-	/**
-	 * @param int $id
-	 * @return RedirectResponse
-	 */
-	public function deleteClient($id) {
+	public function deleteClient(int $id): JSONResponse {
 		$client = $this->clientMapper->getByUid($id);
 		$this->accessTokenMapper->deleteByClientId($id);
 		$this->defaultTokenMapper->deleteByName($client->getName());
 		$this->clientMapper->delete($client);
-		return new RedirectResponse($this->urlGenerator->getAbsoluteURL('/index.php/settings/admin/security'));
+		return new JSONResponse([]);
+	}
+
+	public function getClients(): JSONResponse {
+		$clients = $this->clientMapper->getClients();
+
+		$result = [];
+
+		foreach ($clients as $client) {
+			$result[] = [
+				'id' => $client->getId(),
+				'name' => $client->getName(),
+				'redirectUri' => $client->getRedirectUri(),
+				'clientId' => $client->getClientIdentifier(),
+				'clientSecret' => $client->getSecret(),
+			];
+		}
+
+		return new JSONResponse($result);
 	}
 }

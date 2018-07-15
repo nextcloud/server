@@ -94,7 +94,7 @@
 @if variable_exists('theming-logo-mime') and $theming-logo-mime != '' {
 	#theming-preview-logo,
 	#header .logo {
-		background-image: url(#{$image-logo});
+		background-image: $image-logo;
 		background-size: contain;
 	}
 	#body-login #header .logo {
@@ -102,7 +102,7 @@
 	}
 } @else {
 	#theming-preview-logo {
-		background-image: url(#{$image-logo});
+		background-image: $image-logo;
 	}
 }
 
@@ -110,12 +110,12 @@
 	#body-login,
 	#firstrunwizard .firstrunwizard-header,
 	#theming-preview {
-		background-image: url(#{$image-login-background});
+		background-image: $image-login-background;
 		background-color: $color-primary;
 	}
 } @else {
 	  #theming-preview {
-		  background-image: url(#{$image-login-background});
+		  background-image: $image-login-background;
 		  background-color: $color-primary;
 	  }
 }

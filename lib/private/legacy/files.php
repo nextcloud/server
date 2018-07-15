@@ -83,7 +83,7 @@ class OC_Files {
 		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 		if ($fileSize > -1) {
 			if (!empty($rangeArray)) {
-			    header('HTTP/1.1 206 Partial Content', true);
+			    http_response_code(206);
 			    header('Accept-Ranges: bytes', true);
 			    if (count($rangeArray) > 1) {
 				$type = 'multipart/byteranges; boundary='.self::getBoundary();
@@ -198,18 +198,18 @@ class OC_Files {
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
-			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint);
+			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint, 200);
 		} catch (\OCP\Files\ForbiddenException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
-			\OC_Template::printErrorPage($l->t('Can\'t read file'), $ex->getMessage());
+			\OC_Template::printErrorPage($l->t('Can\'t read file'), $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
-			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint);
+			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint, 200);
 		}
 	}
 
@@ -286,12 +286,12 @@ class OC_Files {
 		if (\OC\Files\Filesystem::isReadable($filename)) {
 			self::sendHeaders($filename, $name, $rangeArray);
 		} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
-			header("HTTP/1.1 404 Not Found");
+			http_response_code(404);
 			$tmpl = new OC_Template('', '404', 'guest');
 			$tmpl->printPage();
 			exit();
 		} else {
-			header("HTTP/1.1 403 Forbidden");
+			http_response_code(403);
 			die('403 Forbidden');
 		}
 		if (isset($params['head']) && $params['head']) {
@@ -321,7 +321,7 @@ class OC_Files {
 			    // file is unseekable
 			    header_remove('Accept-Ranges');
 			    header_remove('Content-Range');
-			    header("HTTP/1.1 200 OK");
+			    http_response_code(200);
 			    self::sendHeaders($filename, $name, array());
 			    $view->readfile($filename);
 			}

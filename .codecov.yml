@@ -8,7 +8,8 @@ coverage:
   precision: 2
   round: down
   range: "70...100"
+  status:
+    project: off
+    patch: off
 
-comment:
-  layout: "header, diff, changes, uncovered, tree"
-  behavior: default
+comment: off

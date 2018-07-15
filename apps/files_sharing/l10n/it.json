@@ -1,5 +1,6 @@
 { "translations": {
     "Shared with you" : "Condivisi con te",
+    "Deleted shares" : "Condivisioni eliminate",
     "Shared with others" : "Condivisi con altri",
     "Shared by link" : "Condivisi tramite collegamento",
     "Nothing shared with you yet" : "Non è stato condiviso ancora niente con te",
@@ -8,6 +9,10 @@
     "Files and folders you share will show up here" : "I file e le cartelle che condividi saranno mostrati qui",
     "No shared links" : "Nessun collegamento condiviso",
     "Files and folders you share by link will show up here" : "I file e le cartelle che condividi tramite collegamento saranno mostrati qui",
+    "No deleted shares" : "Nessuna condivisione eliminata",
+    "Shares you deleted will show up here" : "Qui saranno mostrate le condivisioni che hai eliminato",
+    "Restore share" : "Ripristina condivisione",
+    "Something happened. Unable to restore the share." : "Qualcosa non ha funzionato. Impossible ripristinare la condivisione.",
     "You can upload into this folder" : "Puoi caricare in questa cartella",
     "No compatible server found at {remote}" : "Nessun server compatibile trovato su {remote}",
     "Invalid server URL" : "URL del server non valido",
@@ -58,7 +63,7 @@
     "{actor} shared {file} with {user}" : "{actor} ha condiviso {file} con {user}",
     "{actor} removed {user} from {file}" : "{actor} ha rimosso {user} da {file}",
     "{actor} shared {file} with you" : "{actor} ha condiviso {file} con te",
-    "{actor} removed you from {file}" : "{actor} ha ti rimosso da {file}",
+    "{actor} removed you from the share named {file}" : "{actor} ha ti rimosso dalla condivisione con nome {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un file o una cartella condiviso via posta elettronica o collegamento pubblico è stato <strong>scaricato</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un file o una cartella è stato condiviso da <strong>un altro server</strong>",
     "A file or folder has been <strong>shared</strong>" : "Un file o una cartella è stato <strong>condiviso</strong>",
@@ -91,9 +96,7 @@
     "Add to your Nextcloud" : "Aggiungi al tuo Nextcloud",
     "Share API is disabled" : "API di condivisione disabilitate",
     "File sharing" : "Condivisione di file",
-    "This share is password-protected" : "Questa condivisione è protetta da password",
-    "The password is wrong. Try again." : "La password è errata. Prova ancora.",
-    "Password" : "Password",
+    "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Questa applicazione consente agli utenti di condividere file all'interno di Nextcloud. Se abilitata, l'amministratore può scegliere quali gruppi possono condividere file. Gli utenti ai quali si applica possono quindi condividere file e cartelle con altri utenti e gruppi all'interno di Nextcloud. In aggiunta, se l'amministratore abilita la funzionalità di condivisione dei collegamenti, un collegamento esterno può essere utilizzato per condividere file con altri utenti all'esterno di Nextcloud. Gli amministratori possono inoltre forzare le password, le date di scadenza e abilitare la condivisione tra server tramite collegamenti di condivisione, così come la condivisione tra dispositivi mobili.\nLa disattivazione della funzionalità rimuove i file condivisi e le cartelle sul server per tutti i destinatari della condivisione, e anche sui client di sincronizzazione e sulle applicazioni mobili. Altre informazioni sono disponibili nella documentazione di Nextcloud.",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
     "Name" : "Nome",
     "Share time" : "Tempo di condivisione",
@@ -109,6 +112,10 @@
     "Select or drop files" : "Seleziona o deseleziona file",
     "Uploading files…" : "Caricamento file in corso...",
     "Uploaded files:" : "File caricati:",
-    "%s is publicly shared" : "%s è condiviso pubblicamente"
+    "{actor} removed you from {file}" : "{actor} ha ti rimosso da {file}",
+    "%s is publicly shared" : "%s è condiviso pubblicamente",
+    "This share is password-protected" : "Questa condivisione è protetta da password",
+    "The password is wrong. Try again." : "La password è errata. Prova ancora.",
+    "Password" : "Password"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

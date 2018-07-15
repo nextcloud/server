@@ -25,15 +25,27 @@ namespace OCA\DAV\CalDAV;
 
 class Plugin extends \Sabre\CalDAV\Plugin {
 
+	const SYSTEM_CALENDAR_ROOT = 'system-calendars';
+
 	/**
 	 * @inheritdoc
 	 */
-	function getCalendarHomeForPrincipal($principalUrl) {
+	function getCalendarHomeForPrincipal($principalUrl):string {
 
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
 			list(, $principalId) = \Sabre\Uri\split($principalUrl);
-			return self::CALENDAR_ROOT .'/' . $principalId;
+			return self::CALENDAR_ROOT . '/' . $principalId;
 		}
+		if (strrpos($principalUrl, 'principals/calendar-resources', -strlen($principalUrl)) !== false) {
+			list(, $principalId) = \Sabre\Uri\split($principalUrl);
+			return self::SYSTEM_CALENDAR_ROOT . '/calendar-resources/' . $principalId;
+		}
+		if (strrpos($principalUrl, 'principals/calendar-rooms', -strlen($principalUrl)) !== false) {
+			list(, $principalId) = \Sabre\Uri\split($principalUrl);
+			return self::SYSTEM_CALENDAR_ROOT . '/calendar-rooms/' . $principalId;
+		}
+
+		throw new \LogicException('This is not supposed to happen');
 	}
 
 }

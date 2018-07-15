@@ -40,17 +40,19 @@
     "%s (invisible)" : "%s (invisible)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System tags</strong> for a file have been modified",
     "Collaborative tags" : "Collaborative tags",
-    "Create and edit collaborative tags. These tags affect all users." : "Create and edit collaborative tags. These tags affect all users.",
+    "Collaborative tagging functionality which shares tags among users." : "Collaborative tagging functionality which shares tags among users.",
+    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)",
     "Select tag …" : "Select tag …",
     "Name" : "Name",
-    "Delete" : "Delete",
     "Public" : "Public",
     "Restricted" : "Restricted",
     "Invisible" : "Invisible",
+    "Delete" : "Delete",
     "Reset" : "Reset",
     "No files in here" : "No files in here",
     "No entries found in this folder" : "No entries found in this folder",
     "Size" : "Size",
-    "Modified" : "Modified"
+    "Modified" : "Modified",
+    "Create and edit collaborative tags. These tags affect all users." : "Create and edit collaborative tags. These tags affect all users."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

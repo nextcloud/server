@@ -59,6 +59,6 @@ try {
 	}
 
 } catch (Exception $ex) {
-	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+	http_response_code(500);
 	\OC::$server->getLogger()->logException($ex, ['app' => 'remote']);
 }

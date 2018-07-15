@@ -45,6 +45,13 @@ interface IFactory {
 	public function findLanguage($app = null);
 
 	/**
+	 * @param string|null $lang user language as default locale
+	 * @return string locale If nothing works it returns 'en_US'
+	 * @since 14.0.0
+	 */
+	public function findLocale($lang = null);
+
+	/**
 	 * Find all available languages for an app
 	 *
 	 * @param string|null $app App id or null for core
@@ -54,10 +61,42 @@ interface IFactory {
 	public function findAvailableLanguages($app = null);
 
 	/**
+	 * @return array an array of available
+	 * @since 14.0.0
+	 */
+	public function findAvailableLocales();
+
+	/**
 	 * @param string|null $app App id or null for core
 	 * @param string $lang
 	 * @return bool
 	 * @since 9.0.0
 	 */
 	public function languageExists($app, $lang);
+
+	/**
+	 * @param string $locale
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function localeExists($locale);
+
+	/**
+	 * Creates a function from the plural string
+	 *
+	 * @param string $string
+	 * @return string Unique function name
+	 * @since 14.0.0
+	 */
+	public function createPluralFunction($string);
+
+	/**
+	 * iterate through language settings (if provided) in this order:
+	 * 1. returns the forced language or:
+	 * 2. returns the user language or:
+	 * 3. returns the system default language or:
+	 * 4+∞. returns 'en'
+	 * @since 14.0.0
+	 */
+	public function iterateLanguage(bool $reset = false): string;
 }

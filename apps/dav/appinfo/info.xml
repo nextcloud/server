@@ -5,7 +5,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.5.3</version>
+	<version>1.5.4</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -21,6 +21,7 @@
 
 	<background-jobs>
 		<job>OCA\DAV\BackgroundJob\CleanupDirectLinksJob</job>
+		<job>OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob</job>
 	</background-jobs>
 
 	<repair-steps>

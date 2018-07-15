@@ -1,7 +1,7 @@
 {
   "name": "settings",
   "description": "Nextcloud settings",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>",
   "license": "AGPL3",
   "private": true,
@@ -13,7 +13,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
-    "v-tooltip": "^2.0.0-rc.32",
+    "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.5.16",
     "vue-click-outside": "^1.0.7",
     "vue-infinite-loading": "^2.3.1",
@@ -29,15 +29,15 @@
   ],
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
+    "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
-    "css-loader": "^0.28.11",
+    "css-loader": "^1.0.0",
     "file-loader": "^1.1.11",
-    "vue-loader": "^14.2.2",
+    "vue-loader": "^15.2.4",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.8.3",
-    "webpack-cli": "^2.1.4",
-    "webpack-merge": "^4.1.2"
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-merge": "^4.1.3"
   }
 }

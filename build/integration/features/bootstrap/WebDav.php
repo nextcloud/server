@@ -31,6 +31,7 @@
 
 use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Message\ResponseInterface;
+use PHPUnit\Framework\Assert;
 use Sabre\DAV\Client as SClient;
 use Sabre\DAV\Xml\Property\ResourceType;
 
@@ -111,7 +112,7 @@ trait WebDav {
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user);
 		$headers['Destination'] = $fullUrl . $fileDestination;
 		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
-		PHPUnit_Framework_Assert::assertEquals(201, $this->response->getStatusCode());
+		Assert::assertEquals(201, $this->response->getStatusCode());
 	}
 
 	/**
@@ -199,7 +200,7 @@ trait WebDav {
 	 * @param string $content
 	 */
 	public function downloadedContentShouldBe($content) {
-		PHPUnit_Framework_Assert::assertEquals($content, (string)$this->response->getBody());
+		Assert::assertEquals($content, (string)$this->response->getBody());
 	}
 
 	/**
@@ -457,7 +458,7 @@ trait WebDav {
 			foreach ($elementsSimplified as $expectedElement) {
 				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
 				if (!array_key_exists($webdavPath, $elementList)) {
-					PHPUnit_Framework_Assert::fail("$webdavPath" . " is not in propfind answer");
+					Assert::fail("$webdavPath" . " is not in propfind answer");
 				}
 			}
 		}
@@ -488,7 +489,7 @@ trait WebDav {
 	public function userAddsAFileTo($user, $bytes, $destination) {
 		$filename = "filespecificSize.txt";
 		$this->createFileSpecificSize($filename, $bytes);
-		PHPUnit_Framework_Assert::assertEquals(1, file_exists("work/$filename"));
+		Assert::assertEquals(1, file_exists("work/$filename"));
 		$this->userUploadsAFileTo($user, "work/$filename", $destination);
 		$this->removeFile("work/", $filename);
 		$expectedElements = new \Behat\Gherkin\Node\TableNode([["$destination"]]);
@@ -675,7 +676,7 @@ trait WebDav {
 	public function checkIfETAGHasNotChanged($path, $user) {
 		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
-		PHPUnit_Framework_Assert::assertEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
+		Assert::assertEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
 	}
 
 	/**
@@ -684,7 +685,7 @@ trait WebDav {
 	public function checkIfETAGHasChanged($path, $user) {
 		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{DAV:}getetag']]);
 		$this->asGetsPropertiesOfFolderWith($user, 'entry', $path, $propertiesTable);
-		PHPUnit_Framework_Assert::assertNotEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
+		Assert::assertNotEquals($this->response['{DAV:}getetag'], $this->storedETAG[$user][$path]);
 	}
 
 	/**
@@ -728,7 +729,7 @@ trait WebDav {
 			foreach ($elementsSimplified as $expectedElement) {
 				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
 				if (!array_key_exists($webdavPath, $elementList)) {
-					PHPUnit_Framework_Assert::fail("$webdavPath" . " is not in report answer");
+					Assert::fail("$webdavPath" . " is not in report answer");
 				}
 			}
 		}
@@ -780,6 +781,6 @@ trait WebDav {
 	 */
 	public function userChecksFileIdForPath($user, $path) {
 		$currentFileID = $this->getFileIdForPath($user, $path);
-		PHPUnit_Framework_Assert::assertEquals($currentFileID, $this->storedFileID);
+		Assert::assertEquals($currentFileID, $this->storedFileID);
 	}
 }

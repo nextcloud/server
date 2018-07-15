@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} deelde {file} met {user}",
     "{actor} removed {user} from {file}" : "{actor} verwijderde {user} van {file}",
     "{actor} shared {file} with you" : "{actor} heeft {file} met je gedeeld",
-    "{actor} removed you from {file}" : "{actor} heeft je van {file} verwijderd",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Een bestand of map gedeeld via mail of publieke link werd <strong>gedownload</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Een bestand of map werd gedeeld vanaf <strong>een andere server</strong>",
     "A file or folder has been <strong>shared</strong>" : "Een bestand of map is <strong>gedeeld</strong>",
@@ -93,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
     "Share API is disabled" : "Delen API is uitgeschakeld",
     "File sharing" : "Bestand delen",
-    "This share is password-protected" : "Deze gedeelde folder is met een wachtwoord beveiligd",
-    "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
-    "Password" : "Wachtwoord",
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Name" : "Naam",
     "Share time" : "Deel tijd",
@@ -111,6 +107,10 @@ OC.L10N.register(
     "Select or drop files" : "Selecteer bestanden of sleep ze naar dit venster",
     "Uploading files…" : "Uploaden bestanden...",
     "Uploaded files:" : "Geüploade bestanden",
-    "%s is publicly shared" : "%s is openbaar gedeeld"
+    "{actor} removed you from {file}" : "{actor} heeft je van {file} verwijderd",
+    "%s is publicly shared" : "%s is openbaar gedeeld",
+    "This share is password-protected" : "Deze gedeelde folder is met een wachtwoord beveiligd",
+    "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
+    "Password" : "Wachtwoord"
 },
 "nplurals=2; plural=(n != 1);");

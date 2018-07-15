@@ -27,6 +27,8 @@ class ClientTest extends \Test\TestCase {
 	private $client;
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
+	/** @var array */
+	private $defaultRequestOptions;
 
 	public function setUp() {
 		parent::setUp();
@@ -85,40 +87,165 @@ class ClientTest extends \Test\TestCase {
 		$this->assertSame('username:password@foo', self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
+	private function setUpDefaultRequestOptions() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('proxy', null)
+			->willReturn('foo');
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('proxyuserpwd', null)
+			->willReturn(null);
+		$this->certificateManager
+			->expects($this->once())
+			->method('getAbsoluteBundlePath')
+			->with(null)
+			->willReturn('/my/path.crt');
+
+		$this->defaultRequestOptions = [
+			'verify' => '/my/path.crt',
+			'proxy' => 'foo'
+		];
+	}
+
 	public function testGet() {
+		$this->setUpDefaultRequestOptions();
+
 		$this->guzzleClient->method('request')
+			->with('get', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->get('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testPost() {
+	public function testGetWithOptions() {
+		$this->setUpDefaultRequestOptions();
+
+		$options = [
+			'verify' => false,
+			'proxy' => 'bar'
+		];
+
 		$this->guzzleClient->method('request')
+			->with('get', 'http://localhost/', $options)
+			->willReturn(new Response(1337));
+		$this->assertEquals(1337, $this->client->get('http://localhost/', $options)->getStatusCode());
+	}
+
+	public function testPost() {
+		$this->setUpDefaultRequestOptions();
+
+		$this->guzzleClient->method('request')
+			->with('post', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->post('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testPut() {
+	public function testPostWithOptions() {
+		$this->setUpDefaultRequestOptions();
+
+		$options = [
+			'verify' => false,
+			'proxy' => 'bar'
+		];
+
 		$this->guzzleClient->method('request')
+			->with('post', 'http://localhost/', $options)
+			->willReturn(new Response(1337));
+		$this->assertEquals(1337, $this->client->post('http://localhost/', $options)->getStatusCode());
+	}
+
+	public function testPut() {
+		$this->setUpDefaultRequestOptions();
+
+		$this->guzzleClient->method('request')
+			->with('put', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->put('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testDelete() {
+	public function testPutWithOptions() {
+		$this->setUpDefaultRequestOptions();
+
+		$options = [
+			'verify' => false,
+			'proxy' => 'bar'
+		];
+
 		$this->guzzleClient->method('request')
+			->with('put', 'http://localhost/', $options)
+			->willReturn(new Response(1337));
+		$this->assertEquals(1337, $this->client->put('http://localhost/', $options)->getStatusCode());
+	}
+
+	public function testDelete() {
+		$this->setUpDefaultRequestOptions();
+
+		$this->guzzleClient->method('request')
+			->with('delete', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->delete('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testOptions() {
+	public function testDeleteWithOptions() {
+		$this->setUpDefaultRequestOptions();
+
+		$options = [
+			'verify' => false,
+			'proxy' => 'bar'
+		];
+
 		$this->guzzleClient->method('request')
+			->with('delete', 'http://localhost/', $options)
+			->willReturn(new Response(1337));
+		$this->assertEquals(1337, $this->client->delete('http://localhost/', $options)->getStatusCode());
+	}
+
+	public function testOptions() {
+		$this->setUpDefaultRequestOptions();
+
+		$this->guzzleClient->method('request')
+			->with('options', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->options('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testHead() {
+	public function testOptionsWithOptions() {
+		$this->setUpDefaultRequestOptions();
+
+		$options = [
+			'verify' => false,
+			'proxy' => 'bar'
+		];
+
 		$this->guzzleClient->method('request')
+			->with('options', 'http://localhost/', $options)
+			->willReturn(new Response(1337));
+		$this->assertEquals(1337, $this->client->options('http://localhost/', $options)->getStatusCode());
+	}
+
+	public function testHead() {
+		$this->setUpDefaultRequestOptions();
+
+		$this->guzzleClient->method('request')
+			->with('head', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(1337));
 		$this->assertEquals(1337, $this->client->head('http://localhost/', [])->getStatusCode());
+	}
+
+	public function testHeadWithOptions() {
+		$this->setUpDefaultRequestOptions();
+
+		$options = [
+			'verify' => false,
+			'proxy' => 'bar'
+		];
+
+		$this->guzzleClient->method('request')
+			->with('head', 'http://localhost/', $options)
+			->willReturn(new Response(1337));
+		$this->assertEquals(1337, $this->client->head('http://localhost/', $options)->getStatusCode());
 	}
 
 	public function testSetDefaultOptionsWithNotInstalled() {

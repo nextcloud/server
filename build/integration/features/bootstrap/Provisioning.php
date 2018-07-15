@@ -29,6 +29,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -61,7 +62,7 @@ trait Provisioning {
 			$this->currentUser = $previous_user;
 		}
 		$this->userExists($user);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -73,7 +74,7 @@ trait Provisioning {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
-			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
+			Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 			return;
 		}
 		$previous_user = $this->currentUser;
@@ -84,7 +85,7 @@ trait Provisioning {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
-			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
+			Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 		}
 	}
 
@@ -141,9 +142,9 @@ trait Provisioning {
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
 			if (isset($value[0])) {
-				PHPUnit_Framework_Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
 			} else {
-				PHPUnit_Framework_Assert::assertEquals('', $setting[1]);
+				Assert::assertEquals('', $setting[1]);
 			}
 		}
 	}
@@ -211,8 +212,8 @@ trait Provisioning {
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 		sort($respondedArray);
-		PHPUnit_Framework_Assert::assertContains($group, $respondedArray);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertContains($group, $respondedArray);
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	public function userBelongsToGroup($user, $group) {
@@ -272,8 +273,8 @@ trait Provisioning {
 		$this->response = $client->get($fullUrl, $options);
 		$groups = array($group);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-		PHPUnit_Framework_Assert::assertNotEquals($groups, $respondedArray, "", 0.0, 10, true);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertNotEquals($groups, $respondedArray, "", 0.0, 10, true);
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -428,7 +429,7 @@ trait Provisioning {
 			$this->currentUser = $previous_user;
 		}
 		$this->groupExists($group);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -440,7 +441,7 @@ trait Provisioning {
 			$this->groupExists($group);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
-			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
+			Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 			return;
 		}
 		$previous_user = $this->currentUser;
@@ -451,7 +452,7 @@ trait Provisioning {
 			$this->groupExists($group);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
-			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
+			Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 		}
 	}
 
@@ -474,8 +475,8 @@ trait Provisioning {
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
 		sort($respondedArray);
-		PHPUnit_Framework_Assert::assertContains($user, $respondedArray);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertContains($user, $respondedArray);
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -497,7 +498,7 @@ trait Provisioning {
 			'OCS-APIREQUEST' => 'true',
 		];
 		$this->response = $client->post($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -519,8 +520,8 @@ trait Provisioning {
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
 		sort($respondedArray);
-		PHPUnit_Framework_Assert::assertNotContains($user, $respondedArray);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertNotContains($user, $respondedArray);
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -532,7 +533,7 @@ trait Provisioning {
 			$users = $usersList->getRows();
 			$usersSimplified = $this->simplifyArray($users);
 			$respondedArray = $this->getArrayOfUsersResponded($this->response);
-			PHPUnit_Framework_Assert::assertEquals($usersSimplified, $respondedArray, "", 0.0, 10, true);
+			Assert::assertEquals($usersSimplified, $respondedArray, "", 0.0, 10, true);
 		}
 
 	}
@@ -546,7 +547,7 @@ trait Provisioning {
 			$groups = $groupsList->getRows();
 			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-			PHPUnit_Framework_Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
+			Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
 
 	}
@@ -560,7 +561,7 @@ trait Provisioning {
 			$groups = $groupsList->getRows();
 			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
-			PHPUnit_Framework_Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
+			Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
 
 	}
@@ -574,7 +575,7 @@ trait Provisioning {
 			$apps = $appList->getRows();
 			$appsSimplified = $this->simplifyArray($apps);
 			$respondedArray = $this->getArrayOfAppsResponded($this->response);
-			PHPUnit_Framework_Assert::assertEquals($appsSimplified, $respondedArray, "", 0.0, 10, true);
+			Assert::assertEquals($appsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
 
 	}
@@ -653,8 +654,8 @@ trait Provisioning {
 
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfAppsResponded($this->response);
-		PHPUnit_Framework_Assert::assertContains($app, $respondedArray);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertContains($app, $respondedArray);
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -674,8 +675,8 @@ trait Provisioning {
 
 		$this->response = $client->get($fullUrl, $options);
 		$respondedArray = $this->getArrayOfAppsResponded($this->response);
-		PHPUnit_Framework_Assert::assertContains($app, $respondedArray);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertContains($app, $respondedArray);
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -695,7 +696,7 @@ trait Provisioning {
 
 		$this->response = $client->get($fullUrl, $options);
 		// false in xml is empty
-		PHPUnit_Framework_Assert::assertTrue(empty(simplexml_load_string($this->response->getBody())->data[0]->enabled));
+		Assert::assertTrue(empty(simplexml_load_string($this->response->getBody())->data[0]->enabled));
 	}
 
 	/**
@@ -715,7 +716,7 @@ trait Provisioning {
 
 		$this->response = $client->get($fullUrl, $options);
 		// boolean to string is integer
-		PHPUnit_Framework_Assert::assertEquals("1", simplexml_load_string($this->response->getBody())->data[0]->enabled);
+		Assert::assertEquals("1", simplexml_load_string($this->response->getBody())->data[0]->enabled);
 	}
 
 	/**

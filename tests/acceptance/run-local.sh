@@ -160,9 +160,9 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 fi
 
 # Due to a bug in the Mink Extension for Behat it is not possible to use the
-# "paths.base" parameter in the path to the custom Firefox profile. Thus, the
+# "paths.base" variable in the path to the custom Firefox profile. Thus, the
 # default "behat.yml" configuration file has to be adjusted to replace the
-# parameter by its value before the configuration file is parsed by Behat.
+# variable by its value before the configuration file is parsed by Behat.
 ORIGINAL="profile: %paths.base%"
 REPLACEMENT="profile: $ACCEPTANCE_TESTS_CONFIG_DIR"
 # As the substitution does not involve regular expressions or multilines it can
@@ -171,34 +171,19 @@ REPLACEMENT="profile: $ACCEPTANCE_TESTS_CONFIG_DIR"
 FILE_CONTENTS=$(<$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml)
 echo "${FILE_CONTENTS//$ORIGINAL/$REPLACEMENT}" > $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 
-if [ "$SELENIUM_SERVER" != "$DEFAULT_SELENIUM_SERVER" ]; then
-	# Set the Selenium server to be used by Mink; this extends the default
-	# configuration from "config/behat.yml".
-	export BEHAT_PARAMS='
-{
-    "extensions": {
-        "Behat\\MinkExtension": {
-            "sessions": {
-                "default": {
-                    "selenium2": {
-                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
-                    }
-                },
-                "John": {
-                    "selenium2": {
-                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
-                    }
-                },
-                "Jane": {
-                    "selenium2": {
-                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
-                    }
-                }
-            }
-        }
-    }
-}'
-fi
+# Set the Selenium server to be used by Mink. Although Mink sessions can be
+# extended through BEHAT_PARAMS this would require adding here too each new
+# session added to "behat.yml", including those added in the acceptance
+# tests of apps. Instead, the default "behat.yml" configuration file is
+# adjusted to replace the simulated "selenium.server" variable by its value
+# before the configuration file is parsed by Behat.
+ORIGINAL="wd_host: %selenium.server%"
+REPLACEMENT="wd_host: http://$SELENIUM_SERVER/wd/hub"
+# As the substitution does not involve regular expressions or multilines it
+# can be done just with Bash. Moreover, this does not require escaping the
+# regular expression characters that may appear in the URL, like "/".
+FILE_CONTENTS=$(<$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml)
+echo "${FILE_CONTENTS//$ORIGINAL/$REPLACEMENT}" > $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 
 composer install
 

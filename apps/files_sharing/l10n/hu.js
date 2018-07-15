@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} megosztotta ezt: {file} vele: {user}",
     "{actor} removed {user} from {file}" : "{actor} eltávolította ezt: {user} innen: {file}",
     "{actor} shared {file} with you" : "{actor} megosztotta veled ezt: {file}",
-    "{actor} removed you from {file}" : "{actor} eltávolított innen: {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Egy e-mailben vagy nyilvános hivatkozással megosztott fájl vagy mappa <strong>letöltve</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Egy fájl vagy mappa meg lett osztva egy <strong>másik szerverről</strong>",
     "A file or folder has been <strong>shared</strong>" : "Egy fájl vagy mappa <strong>megosztva</strong>",
@@ -93,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Add hozzá a Nextcloudodhoz",
     "Share API is disabled" : "Megosztás API letiltva",
     "File sharing" : "Fájlmegosztás",
-    "This share is password-protected" : "Ez egy jelszóval védett megosztás",
-    "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
-    "Password" : "Jelszó",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Name" : "Név",
     "Share time" : "A megosztás időpontja",
@@ -111,6 +107,10 @@ OC.L10N.register(
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploading files…" : "Fájlok feltöltése...",
     "Uploaded files:" : "Felöltött fájlok:",
-    "%s is publicly shared" : "%s nyilvánosan megosztva"
+    "{actor} removed you from {file}" : "{actor} eltávolított innen: {file}",
+    "%s is publicly shared" : "%s nyilvánosan megosztva",
+    "This share is password-protected" : "Ez egy jelszóval védett megosztás",
+    "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
+    "Password" : "Jelszó"
 },
 "nplurals=2; plural=(n != 1);");

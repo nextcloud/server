@@ -62,6 +62,7 @@ class VersionCheckTest extends \Test\TestCase {
 			'versionstring' => 'ownCloud 8.0.4',
 			'url' => 'https://download.example.org/community/owncloud-8.0.4.zip',
 			'web' => 'http://doc.example.org/server/8.0/admin_manual/maintenance/upgrade.html',
+			'changes' => '',
 		];
 
 		$this->config
@@ -84,6 +85,7 @@ class VersionCheckTest extends \Test\TestCase {
 			'versionstring' => 'ownCloud 8.0.4',
 			'url' => 'https://download.example.org/community/owncloud-8.0.4.zip',
 			'web' => 'http://doc.example.org/server/8.0/admin_manual/maintenance/upgrade.html',
+			'changes' => '',
 			'autoupdater' => '0',
 			'eol' => '1',
 		];
@@ -181,6 +183,7 @@ class VersionCheckTest extends \Test\TestCase {
 			'versionstring' => '',
 			'url' => '',
 			'web' => '',
+			'changes' => '',
 			'autoupdater' => '',
 			'eol' => '0',
 		];
@@ -275,6 +278,7 @@ class VersionCheckTest extends \Test\TestCase {
 			'versionstring' => '',
 			'url' => '',
 			'web' => '',
+			'changes' => '',
 			'autoupdater' => '',
 			'eol' => '0',
 		];

@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{aktori} ndau {skedarë} me {përdoruesin}",
     "{actor} removed {user} from {file}" : "{actor} hoqi {user} nga {file}",
     "{actor} shared {file} with you" : "{actor} ndau {skedarë} me ju",
-    "{actor} removed you from {file}" : "{actor} iu hoqi nga {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Një skedar ose dosje e ndarë nga posta ose lidhja publike ishte <strong> shkarkuar</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Një kartelë ose dosje u nda prej një <strong>shërbyesi tjetër</strong>",
     "A file or folder has been <strong>shared</strong>" : "U <strong>nda me të tjerë</strong> një kartelë ose dosje",
@@ -92,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "Lidhje e drejtpërdrejtë",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",
-    "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
-    "The password is wrong. Try again." : "Fjalëkalimi është i gabuar. Riprovoni.",
-    "Password" : "Fjalëkalim",
     "No entries found in this folder" : "S’u gjetën zëra në këtë dosje",
     "Name" : "Emër",
     "Share time" : "Kohë ndarjeje",
@@ -109,6 +105,10 @@ OC.L10N.register(
     "Upload files to %s" : "Ngrako skedarët tek %s",
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploading files…" : "Skedarët po ngarkohen...",
-    "Uploaded files:" : "Skedarët e ngarkuar:"
+    "Uploaded files:" : "Skedarët e ngarkuar:",
+    "{actor} removed you from {file}" : "{actor} iu hoqi nga {file}",
+    "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
+    "The password is wrong. Try again." : "Fjalëkalimi është i gabuar. Riprovoni.",
+    "Password" : "Fjalëkalim"
 },
 "nplurals=2; plural=(n != 1);");

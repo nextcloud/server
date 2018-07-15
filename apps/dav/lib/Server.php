@@ -53,6 +53,7 @@ use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
+use OCA\DAV\Files\LazySearchBackend;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCP\IRequest;
@@ -132,13 +133,15 @@ class Server {
 		// acl
 		$acl = new DavAclPlugin();
 		$acl->principalCollectionSet = [
-			'principals/users', 'principals/groups'
+			'principals/users', 'principals/groups',
+			'principals/calendar-resources',
+			'principals/calendar-rooms',
 		];
 		$acl->defaultUsernamePath = 'principals/users';
 		$this->server->addPlugin($acl);
 
 		// calendar plugins
-		if ($this->requestIsForSubtree(['calendars', 'principals'])) {
+		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
@@ -195,8 +198,11 @@ class Server {
 			$this->server->addPlugin(new BrowserErrorPagePlugin());
 		}
 
+		$lazySearchBackend = new LazySearchBackend();
+		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
+
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod', function () use ($root) {
+		$this->server->on('beforeMethod', function () use ($root, $lazySearchBackend) {
 			// custom properties plugin must be the last one
 			$userSession = \OC::$server->getUserSession();
 			$user = $userSession->getUser();
@@ -255,13 +261,13 @@ class Server {
 						\OC::$server->getGroupManager(),
 						$userFolder
 					));
-					$this->server->addPlugin(new SearchPlugin(new \OCA\DAV\Files\FileSearchBackend(
+					$lazySearchBackend->setBackend(new \OCA\DAV\Files\FileSearchBackend(
 						$this->server->tree,
 						$user,
 						\OC::$server->getRootFolder(),
 						\OC::$server->getShareManager(),
 						$view
-					)));
+					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),

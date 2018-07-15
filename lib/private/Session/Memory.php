@@ -91,7 +91,7 @@ class Memory extends Session {
 	 *
 	 * @param bool $deleteOldSession
 	 */
-	public function regenerateId(bool $deleteOldSession = true) {}
+	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {}
 
 	/**
 	 * Wrapper around session_id

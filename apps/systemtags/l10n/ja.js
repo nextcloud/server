@@ -42,17 +42,19 @@ OC.L10N.register(
     "%s (invisible)" : "%s (不可視)",
     "<strong>System tags</strong> for a file have been modified" : "ファイルの<strong>タグ</strong>が変更されたとき",
     "Collaborative tags" : "コラボタグ",
-    "Create and edit collaborative tags. These tags affect all users." : "共同作業タグを削除編集する。このタグは全てのユーザーに影響します",
+    "Collaborative tagging functionality which shares tags among users." : "ユーザー間でタグを共有するコラボタグ機能",
+    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "コラボタグはすべてのユーザーで利用できます。制限付きタグは、ユーザーから見えますが、ユーザが割り当てることはできません。不可視タグは、ユーザが見ることも割り当てることもできないので、内部利用のためのものです。",
     "Select tag …" : "タグを選択...",
     "Name" : "名前",
-    "Delete" : "削除",
     "Public" : "公開",
     "Restricted" : "制限付き",
     "Invisible" : "不可視",
+    "Delete" : "削除",
     "Reset" : "リセット",
     "No files in here" : "ファイルがありません",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Size" : "サイズ",
-    "Modified" : "更新日時"
+    "Modified" : "更新日時",
+    "Create and edit collaborative tags. These tags affect all users." : "コラボタグの作成と編集をします。このタグはすべてのユーザーに影響します。"
 },
 "nplurals=1; plural=0;");

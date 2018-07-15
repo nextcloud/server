@@ -1,5 +1,5 @@
 { "translations": {
-    "Loading preview…" : "Ładowanie podglądu...",
+    "Loading preview…" : "Ładowanie podglądu…",
     "Saved" : "Zapisano",
     "Admin" : "Admin",
     "a safe home for all your data" : "bezpieczna schowek dla wszystkich twoich danych",
@@ -17,6 +17,7 @@
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motywy pozwalają na łatwą personalizację wyglądu Twojej instancji i wspieranych klientów. Efekty będą widoczne dla wszystkich użytkowników.",
     "Name" : "Nazwa",
     "Reset to default" : "Przywróć domyślne",
+    "https://…" : "https://…",
     "Slogan" : "Slogan",
     "Color" : "Kolor",
     "Logo" : "Logo",
@@ -28,7 +29,7 @@
     "You are already using a custom theme" : "Używasz już motywu niestandarowego",
     "reset to default" : "przywróć domyślne",
     "Web address" : "adres internetowy",
-    "Web address https://…" : "adres internetowy https://...",
+    "Web address https://…" : "adres internetowy https://…",
     "There is no error, the file uploaded with success" : "Brak błędów, plik wysłano poprawnie.",
     "The uploaded file was only partially uploaded" : "Załadowany plik został wysłany tylko częściowo.",
     "Failed to write file to disk." : "Błąd zapisu na dysk.",

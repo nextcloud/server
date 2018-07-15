@@ -122,6 +122,7 @@ class ManagerTest extends TestCase {
 				['core', 'actions/settings-dark.svg', '1'],
 				['core', 'actions/share.svg', '2'],
 				['core', 'actions/password.svg', '3'],
+				['core', 'places/contacts-dark.svg', '5'],
 				['settings', 'help.svg', '4'],
 			]);
 
@@ -131,9 +132,9 @@ class ManagerTest extends TestCase {
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
 			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
+			50 => [new Section('groupware', 'Groupware', 0, '5')],
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
 			98 => [new Section('additional', 'Additional settings', 0, '1')],
-			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '4')],
 		], $this->manager->getAdminSections());
 	}
 
@@ -174,6 +175,7 @@ class ManagerTest extends TestCase {
 				['core', 'actions/settings-dark.svg', '1'],
 				['core', 'actions/share.svg', '2'],
 				['core', 'actions/password.svg', '3'],
+				['core', 'places/contacts-dark.svg', '5'],
 				['settings', 'help.svg', '4'],
 			]);
 
@@ -183,8 +185,8 @@ class ManagerTest extends TestCase {
 			5 => [new Section('sharing', 'Sharing', 0, '2')],
 			10 => [new Section('security', 'Security', 0, '3')],
 			45 => [new Section('encryption', 'Encryption', 0, '3')],
+			50 => [new Section('groupware', 'Groupware', 0, '5')],
 			98 => [new Section('additional', 'Additional settings', 0, '1')],
-			99 => [new Section('tips-tricks', 'Tips & tricks', 0, '4')],
 		], $this->manager->getAdminSections());
 	}
 
@@ -217,7 +219,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetPersonalSettings() {
 		$this->assertEquals([
-			10 => [new Security()],
+			10 => [new Security($this->userManager)],
 		], $this->manager->getPersonalSettings('security'));
 	}
 }

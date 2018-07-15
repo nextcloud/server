@@ -97,7 +97,7 @@ class SimpleFile implements ISimpleFile  {
 	/**
 	 * Overwrite the file
 	 *
-	 * @param string $data
+	 * @param string|resource $data
 	 * @throws NotPermittedException
 	 */
 	public function putContent($data) {

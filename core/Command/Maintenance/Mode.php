@@ -59,14 +59,23 @@ class Mode extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$maintenanceMode = $this->config->getSystemValue('maintenance', false);
 		if ($input->getOption('on')) {
-			$this->config->setSystemValue('maintenance', true);
-			$output->writeln('Maintenance mode enabled');
+			if ($maintenanceMode === false) {
+				$this->config->setSystemValue('maintenance', true);
+				$output->writeln('Maintenance mode enabled');
+			} else {
+				$output->writeln('Maintenance mode already enabled');
+			}
 		} elseif ($input->getOption('off')) {
-			$this->config->setSystemValue('maintenance', false);
-			$output->writeln('Maintenance mode disabled');
+			if ($maintenanceMode === true) {
+				$this->config->setSystemValue('maintenance', false);
+				$output->writeln('Maintenance mode disabled');
+			} else {
+				$output->writeln('Maintenance mode already disabled');
+			}
 		} else {
-			if ($this->config->getSystemValue('maintenance', false)) {
+			if ($maintenanceMode) {
 				$output->writeln('Maintenance mode is currently enabled');
 			} else {
 				$output->writeln('Maintenance mode is currently disabled');

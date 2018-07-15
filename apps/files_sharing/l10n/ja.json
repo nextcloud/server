@@ -58,8 +58,7 @@
     "{actor} shared {file} with {user}" : "{actor} が {file} を {user} に共有しました",
     "{actor} removed {user} from {file}" : "{actor} が {file} の {user} との共有を削除しました",
     "{actor} shared {file} with you" : "{actor} が {file} を共有しました",
-    "{actor} removed you from {file}" : "{actor} が {file} の共有を削除しました",
-    "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "メールまたは公開リンクにより共有されたファイルまたはフォルダが<strong>ダウンロード</strong>されたとき",
+    "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "メールまたは公開リンクにより共有されたファイルまたはフォルダーが<strong>ダウンロード</strong>されたとき",
     "A file or folder was shared from <strong>another server</strong>" : "ファイルまたはフォルダーが<strong>他のサーバー</strong>から共有されたとき",
     "A file or folder has been <strong>shared</strong>" : "ファイルまたはフォルダーが<strong>共有</strong>されたとき",
     "Wrong share ID, share doesn't exist" : "共有IDが間違っています。共有がありません。",
@@ -82,7 +81,7 @@
     "Unknown share type" : "不明な共有タイプ",
     "Not a directory" : "ディレクトリではありません",
     "Could not lock path" : "パスをロックできませんでした",
-    "Wrong or no update parameter given" : "間違っている、もしくはパラメータが更新されていません",
+    "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Cannot increase permissions" : "パーミッションを追加できません",
     "shared by %s" : "%s が共有",
@@ -91,9 +90,6 @@
     "Add to your Nextcloud" : "あなたのNextcloudに追加",
     "Share API is disabled" : "共有APIが無効です。",
     "File sharing" : "ファイル共有",
-    "This share is password-protected" : "この共有はパスワードで保護されています",
-    "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
-    "Password" : "パスワード",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Name" : "名前",
     "Share time" : "共有した時刻",
@@ -109,6 +105,10 @@
     "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
     "Uploading files…" : "ファイルをアップロード中...",
     "Uploaded files:" : "アップロード済ファイル:",
-    "%s is publicly shared" : "%s が公開共有されました"
+    "{actor} removed you from {file}" : "{actor} が {file} の共有を削除しました",
+    "%s is publicly shared" : "%s が公開共有されました",
+    "This share is password-protected" : "この共有はパスワードで保護されています",
+    "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
+    "Password" : "パスワード"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

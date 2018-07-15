@@ -60,7 +60,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} a partagé {file} avec {user}",
     "{actor} removed {user} from {file}" : "{actor} a supprimé {user} de {file}",
     "{actor} shared {file} with you" : "{actor} a partagé {file} avec vous",
-    "{actor} removed you from {file}" : "{actor} vous a supprimé de {file}",
+    "{actor} removed you from the share named {file}" : "{actor} vous a supprimé du partage du nom de {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un fichier ou un dossier partagé par mail ou par lien public a été <strong>téléchargé</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un fichier ou un répertoire a été partagé depuis <strong>un autre serveur</strong>",
     "A file or folder has been <strong>shared</strong>" : "Un fichier ou un répertoire a été <strong>partagé</strong>",
@@ -94,9 +94,6 @@ OC.L10N.register(
     "Share API is disabled" : "l'API de partage est désactivée",
     "File sharing" : "Partage de fichier",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Cette application permet aux utilisateurs de partager des fichiers au sein de Nextcloud. Lorsqu'elle est activée, l'administrateur peut choisir quels groupes peuvent partager des fichiers. Les utilisateurs concernés peuvent alors partager des fichiers et des dossiers avec d'autres utilisateurs et d'autres groupes au sein de Nextcloud. De plus, si l'administrateur active la fonctionnalité de partage par lien, un lien externe peut être utilisé pour partager des fichiers avec d'autres utilisateurs en dehors de Nextcloud. Les administrateurs peuvent aussi forcer l'utilisation de mots de passe et de dates d'expiration, et activer le partage de serveur à serveur au moyen de liens de partage, ainsi que le partage depuis un appareil mobile.\nDésactiver la fonctionnalité supprime les fichiers et les dossiers partagés sur le serveur pour tous les destinataires, et aussi dans les clients de synchronisation et les applications mobiles. Plus d'informations sont disponibles dans la documentation Nextcloud.",
-    "This share is password-protected" : "Ce partage est protégé par un mot de passe",
-    "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
-    "Password" : "Mot de passe",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Name" : "Nom",
     "Share time" : "Date de partage",
@@ -112,6 +109,10 @@ OC.L10N.register(
     "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",
     "Uploading files…" : "Téléversement des fichiers...",
     "Uploaded files:" : "Fichiers téléversés :",
-    "%s is publicly shared" : "%s a été partagé publiquement"
+    "{actor} removed you from {file}" : "{actor} vous a supprimé de {file}",
+    "%s is publicly shared" : "%s a été partagé publiquement",
+    "This share is password-protected" : "Ce partage est protégé par un mot de passe",
+    "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
+    "Password" : "Mot de passe"
 },
 "nplurals=2; plural=(n > 1);");

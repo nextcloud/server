@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} s {user} sdílel(a) {file}",
     "{actor} removed {user} from {file}" : "{actor} odstranil(a) uživatele {user} z {file}",
     "{actor} shared {file} with you" : "{actor} s vámi sdílel(a) soubor {file}",
-    "{actor} removed you from {file}" : "{actor} vás odstranil(a) ze souboru {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Byl <strong>stažen</strong> soubor nebo adresář sdílený jako veřejný odkaz",
     "A file or folder was shared from <strong>another server</strong>" : "Soubor nebo adresář byl nasdílen z <strong>jiného serveru</strong>",
     "A file or folder has been <strong>shared</strong>" : "Soubor nebo adresář byl <strong>nasdílen</strong>",
@@ -93,9 +92,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Přidat do Nextcloud",
     "Share API is disabled" : "Sdílení API je zakázané",
     "File sharing" : "Sdílení souborů",
-    "This share is password-protected" : "Toto sdílení je chráněno heslem",
-    "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
-    "Password" : "Heslo",
     "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
     "Name" : "Název",
     "Share time" : "Čas sdílení",
@@ -111,6 +107,10 @@ OC.L10N.register(
     "Select or drop files" : "Vyberte nebo přetáhněte soubory",
     "Uploading files…" : "Probíhá nahrávání souborů...",
     "Uploaded files:" : "Nahrané soubory:",
-    "%s is publicly shared" : "%s je veřejně sdíleno"
+    "{actor} removed you from {file}" : "{actor} vás odstranil(a) ze souboru {file}",
+    "%s is publicly shared" : "%s je veřejně sdíleno",
+    "This share is password-protected" : "Toto sdílení je chráněno heslem",
+    "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
+    "Password" : "Heslo"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -2,7 +2,7 @@
 	.header-right {
 
 		#header-primary-action a {
-			color: $color-primary-text;
+			color: var(--color-primary-text);
 		}
 
 		.menutoggle,
@@ -10,7 +10,7 @@
 			padding: 14px;
 			padding-right: 40px;
 			background-position: right 15px center;
-			color: $color-primary-text;
+			color: var(--color-primary-text);
 			cursor: pointer;
 		}
 

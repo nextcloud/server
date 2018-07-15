@@ -258,7 +258,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			if ($storage) {
 				$cache = $storage->getCache('');
 
-				$relativeMountPoint = substr($mount->getMountPoint(), $rootLength);
+				$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
 				$results = call_user_func_array(array($cache, $method), $args);
 				foreach ($results as $result) {
 					$result['internalPath'] = $result['path'];

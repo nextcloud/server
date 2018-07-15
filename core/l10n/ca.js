@@ -110,7 +110,6 @@ OC.L10N.register(
     "Good password" : "Contrasenya bona",
     "Strong password" : "Contrasenya forta",
     "Error occurred while checking server setup" : "Hi ha hagut un error en comprovar la configuració del servidor",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "S'està accedint de manera no segura mitjançant HTTP. Es recomana utilitzar HTTPS, tal i com detallen els <a href=\"{docUrl}\">consells de seguretat</a>.",
     "Shared" : "Compartit",
     "Shared with" : "Compartit amb",
     "Shared by" : "Compartit per",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "Alternative Logins" : "Acreditacions alternatives",
     "Alternative login using app token" : "Acreditació alternativa utilitzat testimoni d'aplicació",
     "Add \"%s\" as trusted domain" : "Afegeix \"%s\" com a domini de confiança",
+    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "S'està accedint de manera no segura mitjançant HTTP. Es recomana utilitzar HTTPS, tal i com detallen els <a href=\"{docUrl}\">consells de seguretat</a>.",
     "Back to log in" : "Torna a l'accés",
     "Depending on your configuration, this button could also work to trust the domain:" : "Depenent de la teva configuració, aquest botó també podria funcionar per confiar en el domini:"
 },

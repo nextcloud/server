@@ -1,10 +1,14 @@
 OC.L10N.register(
     "federation",
     {
-    "Server added to the list of trusted ownClouds" : "Servilo aldoniĝis al la listo de fidataj ownCloud-oj.",
+    "Added to the list of trusted servers" : "Aldoni al la listo de fidataj serviloj",
     "Server is already in the list of trusted servers." : "Servilo jam estas en la listo de fidataj serviloj.",
-    "No ownCloud server found" : "Ne troviĝis ownCloud-servilo",
+    "No server to federate with found" : "Neniu servilon por federadi kun trovis",
     "Could not add server" : "Ne eblas aldoni servilon",
-    "Federation" : "Federado"
+    "Federation" : "Federado",
+    "Trusted servers" : "Fidaj serviloj",
+    "+ Add trusted server" : "+ Aldoni fidan servilon",
+    "Trusted server" : "Fida servilo",
+    "Add" : "Aldoni"
 },
 "nplurals=2; plural=(n != 1);");

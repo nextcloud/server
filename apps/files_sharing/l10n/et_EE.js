@@ -60,7 +60,6 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} jagas {file} kasutajaga {user}",
     "{actor} removed {user} from {file}" : "{actor} eemaldas {user} jagamise faililt {file}",
     "{actor} shared {file} with you" : "{actor} jagas singuga {file}",
-    "{actor} removed you from {file}" : "{actor} eemaldas sind {file} jagamisest",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Fail või kaust mis on jagatud e-posti või avaliku lingiga  <strong>laeti alla</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Fail või kaust jagati <strong>teisest serverist</strong>",
     "A file or folder has been <strong>shared</strong>" : "Fail või kataloog on <strong>jagatud</strong>",
@@ -92,9 +91,6 @@ OC.L10N.register(
     "Direct link" : "Otsene link",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Share API is disabled" : "Jagamise API on keelatud",
-    "This share is password-protected" : "See jagamine on parooliga kaitstud",
-    "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
-    "Password" : "Parool",
     "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
     "Name" : "Nimi",
     "Share time" : "Jagamise aeg",
@@ -110,6 +106,10 @@ OC.L10N.register(
     "Select or drop files" : "Vali või lohista failid",
     "Uploading files…" : "Failide üleslaadimine...",
     "Uploaded files:" : "Üleslaetud failid:",
-    "%s is publicly shared" : "%s on avalikult jagatud"
+    "{actor} removed you from {file}" : "{actor} eemaldas sind {file} jagamisest",
+    "%s is publicly shared" : "%s on avalikult jagatud",
+    "This share is password-protected" : "See jagamine on parooliga kaitstud",
+    "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
+    "Password" : "Parool"
 },
 "nplurals=2; plural=(n != 1);");

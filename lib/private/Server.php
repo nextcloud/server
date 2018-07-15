@@ -68,6 +68,8 @@ use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Federation\CloudFederationFactory;
+use OC\Federation\CloudFederationProviderManager;
 use OC\Federation\CloudIdManager;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
@@ -124,9 +126,12 @@ use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Defaults;
 use OCA\Theming\Util;
+use OCP\Federation\ICloudFederationFactory;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Files\NotFoundException;
+use OCP\GlobalScale\IConfig;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -173,6 +178,12 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
 		$this->registerAlias('CalendarManager', \OC\Calendar\Manager::class);
+
+		$this->registerAlias(\OCP\Calendar\Resource\IManager::class, \OC\Calendar\Resource\Manager::class);
+		$this->registerAlias('CalendarResourceBackendManager', \OC\Calendar\Resource\Manager::class);
+
+		$this->registerAlias(\OCP\Calendar\Room\IManager::class, \OC\Calendar\Room\Manager::class);
+		$this->registerAlias('CalendarRoomBackendManager', \OC\Calendar\Room\Manager::class);
 
 		$this->registerAlias(\OCP\Contacts\IManager::class, \OC\ContactsManager::class);
 		$this->registerAlias('ContactsManager', \OCP\Contacts\IManager::class);
@@ -339,15 +350,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$dbConnection = $c->getDatabaseConnection();
 			return new Authentication\Token\DefaultTokenMapper($dbConnection);
 		});
-		$this->registerService(Authentication\Token\DefaultTokenProvider::class, function (Server $c) {
-			$mapper = $c->query(Authentication\Token\DefaultTokenMapper::class);
-			$crypto = $c->getCrypto();
-			$config = $c->getConfig();
-			$logger = $c->getLogger();
-			$timeFactory = new TimeFactory();
-			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger, $timeFactory);
-		});
-		$this->registerAlias(IProvider::class, Authentication\Token\DefaultTokenProvider::class);
+		$this->registerAlias(IProvider::class, Authentication\Token\Manager::class);
 
 		$this->registerService(\OCP\IUserSession::class, function (Server $c) {
 			$manager = $c->getUserManager();
@@ -420,18 +423,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('UserSession', \OCP\IUserSession::class);
 
-		$this->registerService(\OC\Authentication\TwoFactorAuth\Manager::class, function (Server $c) {
-			return new \OC\Authentication\TwoFactorAuth\Manager(
-				$c->getAppManager(),
-				$c->getSession(),
-				$c->getConfig(),
-				$c->getActivityManager(),
-				$c->getLogger(),
-				$c->query(IProvider::class),
-				$c->query(ITimeFactory::class),
-				$c->query(EventDispatcherInterface::class)
-			);
-		});
+		$this->registerAlias(\OCP\Authentication\TwoFactorAuth\IRegistry::class, \OC\Authentication\TwoFactorAuth\Registry::class);
 
 		$this->registerAlias(\OCP\INavigationManager::class, \OC\NavigationManager::class);
 		$this->registerAlias('NavigationManager', \OCP\INavigationManager::class);
@@ -954,7 +946,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getURLGenerator(),
 					$c->getMemCacheFactory(),
 					new Util($c->getConfig(), $this->getAppManager(), $c->getAppDataDir('theming')),
-					new ImageManager($c->getConfig(), $c->getAppDataDir('theming'), $c->getURLGenerator()),
+					new ImageManager($c->getConfig(), $c->getAppDataDir('theming'), $c->getURLGenerator(), $this->getMemCacheFactory(), $this->getLogger()),
 					$c->getAppManager()
 				);
 			}
@@ -1120,6 +1112,18 @@ class Server extends ServerContainer implements IServerContainer {
 			return new CloudIdManager();
 		});
 
+		$this->registerService(IConfig::class, function (Server $c) {
+			return new GlobalScale\Config($c->getConfig());
+		});
+
+		$this->registerService(ICloudFederationProviderManager::class, function (Server $c) {
+			return new CloudFederationProviderManager($c->getAppManager(), $c->getHTTPClientService(), $c->getCloudIdManager(), $c->getLogger());
+		});
+
+		$this->registerService(ICloudFederationFactory::class, function (Server $c) {
+			return new CloudFederationFactory();
+		});
+
 		$this->registerAlias(\OCP\AppFramework\Utility\IControllerMethodReflector::class, \OC\AppFramework\Utility\ControllerMethodReflector::class);
 		$this->registerAlias('ControllerMethodReflector', \OCP\AppFramework\Utility\IControllerMethodReflector::class);
 
@@ -1180,6 +1184,20 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCalendarManager() {
 		return $this->query('CalendarManager');
+	}
+
+	/**
+	 * @return \OCP\Calendar\Resource\IManager
+	 */
+	public function getCalendarResourceBackendManager() {
+		return $this->query('CalendarResourceBackendManager');
+	}
+
+	/**
+	 * @return \OCP\Calendar\Room\IManager
+	 */
+	public function getCalendarRoomBackendManager() {
+		return $this->query('CalendarRoomBackendManager');
 	}
 
 	private function connectDispatcher() {
@@ -1973,10 +1991,31 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
+	 * @return \OCP\GlobalScale\IConfig
+	 */
+	public function getGlobalScaleConfig() {
+		return $this->query(IConfig::class);
+	}
+
+	/**
+	 * @return \OCP\Federation\ICloudFederationProviderManager
+	 */
+	public function getCloudFederationProviderManager() {
+		return $this->query(ICloudFederationProviderManager::class);
+	}
+
+	/**
 	 * @return \OCP\Remote\Api\IApiFactory
 	 */
 	public function getRemoteApiFactory() {
 		return $this->query(IApiFactory::class);
+	}
+
+	/**
+	 * @return \OCP\Federation\ICloudFederationFactory
+	 */
+	public function getCloudFederationFactory() {
+		return $this->query(ICloudFederationFactory::class);
 	}
 
 	/**

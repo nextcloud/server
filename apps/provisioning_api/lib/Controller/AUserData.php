@@ -105,7 +105,7 @@ abstract class AUserData extends OCSController {
 		$groups = $this->groupManager->getUserGroups($targetUserObject);
 		$gids = [];
 		foreach ($groups as $group) {
-			$gids[] = $group->getDisplayName();
+			$gids[] = $group->getGID();
 		}
 
 		// Find the data
@@ -123,6 +123,7 @@ abstract class AUserData extends OCSController {
 		$data[AccountManager::PROPERTY_TWITTER] = $userAccount[AccountManager::PROPERTY_TWITTER]['value'];
 		$data['groups'] = $gids;
 		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
+		$data['locale'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
 
 		return $data;
     }
@@ -174,9 +175,12 @@ abstract class AUserData extends OCSController {
 			if ($user === null) {
 				throw new OCSException('User does not exist', 101);
 			}
-			$quota = OC_Helper::computerFileSize($user->getQuota());
+			$quota = $user->getQuota();
+			if ($quota !== 'none') {
+				$quota = OC_Helper::computerFileSize($quota);
+			}
 			$data = [
-				'quota' => $quota ? $quota : 'none',
+				'quota' => $quota !== false ? $quota : 'none',
 				'used' => 0
 			];
 		}

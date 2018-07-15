@@ -34,15 +34,12 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 class IconController extends Controller {
 	/** @var ThemingDefaults */
 	private $themingDefaults;
-	/** @var ITimeFactory */
-	private $timeFactory;
 	/** @var IconBuilder */
 	private $iconBuilder;
 	/** @var ImageManager */
@@ -56,7 +53,6 @@ class IconController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param ThemingDefaults $themingDefaults
-	 * @param ITimeFactory $timeFactory
 	 * @param IconBuilder $iconBuilder
 	 * @param ImageManager $imageManager
 	 * @param FileAccessHelper $fileAccessHelper
@@ -65,7 +61,6 @@ class IconController extends Controller {
 		$appName,
 		IRequest $request,
 		ThemingDefaults $themingDefaults,
-		ITimeFactory $timeFactory,
 		IconBuilder $iconBuilder,
 		ImageManager $imageManager,
 		FileAccessHelper $fileAccessHelper
@@ -73,7 +68,6 @@ class IconController extends Controller {
 		parent::__construct($appName, $request);
 
 		$this->themingDefaults = $themingDefaults;
-		$this->timeFactory = $timeFactory;
 		$this->iconBuilder = $iconBuilder;
 		$this->imageManager = $imageManager;
 		$this->fileAccessHelper = $fileAccessHelper;
@@ -101,11 +95,6 @@ class IconController extends Controller {
 		if ($iconFile !== false) {
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 			$response->cacheFor(86400);
-			$expires = new \DateTime();
-			$expires->setTimestamp($this->timeFactory->getTime());
-			$expires->add(new \DateInterval('PT24H'));
-			$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-			$response->addHeader('Pragma', 'cache');
 			return $response;
 		}
 
@@ -130,7 +119,7 @@ class IconController extends Controller {
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		} catch (NotFoundException $e) {
 		}
-		if ($iconFile === null && $this->themingDefaults->shouldReplaceIcons()) {
+		if ($iconFile === null && $this->imageManager->shouldReplaceIcons()) {
 			try {
 				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app);
 			} catch (NotFoundException $exception) {
@@ -146,11 +135,6 @@ class IconController extends Controller {
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
 		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
 
@@ -171,7 +155,7 @@ class IconController extends Controller {
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		} catch (NotFoundException $e) {
 		}
-		if ($this->themingDefaults->shouldReplaceIcons()) {
+		if ($this->imageManager->shouldReplaceIcons()) {
 			try {
 				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app);
 			} catch (NotFoundException $exception) {
@@ -187,11 +171,6 @@ class IconController extends Controller {
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}
 		$response->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$response->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$response->addHeader('Pragma', 'cache');
 		return $response;
 	}
 }

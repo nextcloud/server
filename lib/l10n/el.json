@@ -59,8 +59,6 @@
     "Log out" : "Έξοδος",
     "Users" : "Χρήστες",
     "Unknown user" : "Άγνωστος χρήστης",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
     "Create" : "Δημιουργία",
     "Delete" : "Διαγραφή",
     "Basic settings" : "Βασικές ρυθμίσεις",
@@ -68,7 +66,6 @@
     "Security" : "Ασφάλεια",
     "Encryption" : "Κρυπτογράφηση",
     "Additional settings" : "Επιπρόσθετες ρυθμίσεις",
-    "Tips & tricks" : "Συμβουλές & κόλπα",
     "Personal info" : "Προσωπικές πληροφορίες",
     "Unlimited" : "Απεριόριστα",
     "Verifying" : "Γίνεται επαλήθευση",
@@ -219,6 +216,12 @@
     "Storage connection error. %s" : "Σφάλμα σύνδεσης με αποθηκευτικό χώρο. %s",
     "Storage is temporarily not available" : "Μη διαθέσιμος χώρος αποθήκευσης προσωρινά",
     "Storage connection timeout. %s" : "Λήξη χρονικού ορίου σύνδεσης με αποθηκευτικό χώρο.%s",
+    "Personal" : "Προσωπικά",
+    "Admin" : "Διαχειριστής",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Tips & tricks" : "Συμβουλές & κόλπα",
+    "DB Error: \"%s\"" : "Σφάλμα βάσης δεδομένων: \"%s\"",
     "Sync clients" : "Εφαρμογές συγχρονισμού"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

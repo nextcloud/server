@@ -249,14 +249,19 @@ class OC {
 			if (self::$CLI) {
 				echo $l->t('Cannot write into "config" directory!')."\n";
 				echo $l->t('This can usually be fixed by giving the webserver write access to the config directory')."\n";
-				echo "\n";
 				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-dir_permissions') ])."\n";
+				echo "\n";
+				echo $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.')."\n";
+				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ])."\n";
 				exit;
 			} else {
 				OC_Template::printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
 					$l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
-					 [ $urlGenerator->linkToDocs('admin-dir_permissions') ])
+					[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
+					. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
+					[ $urlGenerator->linkToDocs('admin-config') ] ),
+					503
 				);
 			}
 		}
@@ -282,8 +287,7 @@ class OC {
 		// Allow ajax update script to execute without being stopped
 		if (\OC::$server->getSystemConfig()->getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
+			http_response_code(503);
 			header('Retry-After: 120');
 
 			// render error page
@@ -339,8 +343,7 @@ class OC {
 
 		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
 			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
+			http_response_code(503);
 			header('Retry-After: 120');
 
 			// render error page
@@ -429,8 +432,7 @@ class OC {
 		} catch (Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'base']);
 			//show the user a detailed error page
-			OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
-			OC_Template::printExceptionErrorPage($e);
+			OC_Template::printExceptionErrorPage($e, 500);
 			die();
 		}
 
@@ -523,11 +525,18 @@ class OC {
 		// specifications. For those, have an automated opt-out. Since the protection
 		// for remote.php is applied in base.php as starting point we need to opt out
 		// here.
-		$incompatibleUserAgents = [
-			// OS X Finder
-			'/^WebDAVFS/',
-			'/^Microsoft-WebDAV-MiniRedir/',
-		];
+		$incompatibleUserAgents = \OC::$server->getConfig()->getSystemValue('csrf.optout');
+
+		// Fallback, if csrf.optout is unset
+		if (!is_array($incompatibleUserAgents)) {
+			$incompatibleUserAgents = [
+				// OS X Finder
+				'/^WebDAVFS/',
+				// Windows webdav drive
+				'/^Microsoft-WebDAV-MiniRedir/',
+			];
+		}
+
 		if($request->isUserAgent($incompatibleUserAgents)) {
 			return;
 		}
@@ -589,9 +598,7 @@ class OC {
 
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
-				$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
-				$protocol = in_array($claimedProtocol, ['HTTP/1.0', 'HTTP/1.1', 'HTTP/2']) ? $claimedProtocol : 'HTTP/1.1';
-				header($protocol . ' ' . OC_Response::STATUS_SERVICE_UNAVAILABLE);
+				http_response_code(503);
 			}
 			// we can't use the template error page here, because this needs the
 			// DI container which isn't available yet
@@ -678,7 +685,7 @@ class OC {
 					}
 					exit(1);
 				} else {
-					OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+					http_response_code(503);
 					OC_Util::addStyle('guest');
 					OC_Template::printGuestPage('', 'error', array('errors' => $errors));
 					exit;
@@ -739,11 +746,10 @@ class OC {
 		// Check whether the sample configuration has been copied
 		if($systemConfig->getValue('copied_sample_config', false)) {
 			$l = \OC::$server->getL10N('lib');
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
 			OC_Template::printErrorPage(
 				$l->t('Sample configuration detected'),
-				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php')
+				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
+				503
 			);
 			return;
 		}
@@ -768,16 +774,14 @@ class OC {
 			}
 
 			if(substr($request->getRequestUri(), -11) === '/status.php') {
-				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
-				header('Status: 400 Bad Request');
+				http_response_code(400);
 				header('Content-Type: application/json');
 				echo '{"error": "Trusted domain error.", "code": 15}';
 				exit();
 			}
 
 			if (!$isScssRequest) {
-				OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
-				header('Status: 400 Bad Request');
+				http_response_code(400);
 
 				\OC::$server->getLogger()->info(
 					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
@@ -987,7 +991,7 @@ class OC {
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
 			} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
-				OC_Response::setStatus(405);
+				http_response_code(405);
 				return;
 			}
 		}
@@ -997,8 +1001,7 @@ class OC {
 			// not allowed any more to prevent people
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
-			header('HTTP/1.1 405 Method Not Allowed');
-			header('Status: 405 Method Not Allowed');
+			http_response_code(405);
 			return;
 		}
 

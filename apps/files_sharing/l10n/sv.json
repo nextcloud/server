@@ -58,7 +58,6 @@
     "{actor} shared {file} with {user}" : "{actor} delade {file} med {user}",
     "{actor} removed {user} from {file}" : "{actor} tog bort {user} från {file}",
     "{actor} shared {file} with you" : "{actor} delade {file} med dig",
-    "{actor} removed you from {file}" : "{actor} tog bort dig från {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "En fil eller mapp som delats via mejl eller offentlig länk har blivit <strong>nedladdad</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mapp delades från <strong>en annan server</strong>",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mapp har <strong>delats</strong>",
@@ -90,9 +89,6 @@
     "Direct link" : "Direktlänk",
     "Add to your Nextcloud" : "Lägg till i molnet",
     "Share API is disabled" : "Delning av API är inaktiverad",
-    "This share is password-protected" : "Den här delningen är lösenordsskyddad",
-    "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
-    "Password" : "Lösenord",
     "No entries found in this folder" : "Inga filer hittades i denna mapp",
     "Name" : "Namn",
     "Share time" : "Delningstid",
@@ -107,6 +103,10 @@
     "Upload files to %s" : "Ladda upp filer till %s",
     "Select or drop files" : "Välj eller dra filer hit",
     "Uploading files…" : "Laddar upp filer...",
-    "Uploaded files:" : "Uppladdade filer:"
+    "Uploaded files:" : "Uppladdade filer:",
+    "{actor} removed you from {file}" : "{actor} tog bort dig från {file}",
+    "This share is password-protected" : "Den här delningen är lösenordsskyddad",
+    "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
+    "Password" : "Lösenord"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

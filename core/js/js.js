@@ -791,6 +791,15 @@ var OCP = {},
 	 * @return {String} locale string
 	 */
 	getLocale: function() {
+		return $('html').data('locale');
+	},
+
+	/**
+	 * Returns the user's language
+	 *
+	 * @returns {String} language string
+	 */
+	getLanguage: function () {
 		return $('html').prop('lang');
 	},
 
@@ -1340,6 +1349,11 @@ function initCore() {
 	} else if (edge > 0) {
 		// for edge
 		$('html').addClass('edge');
+	}
+
+	// css variables fallback for IE
+	if (msie > 0 || trident > 0) {
+		cssVars();
 	}
 
 	$(window).on('unload.main', function() {

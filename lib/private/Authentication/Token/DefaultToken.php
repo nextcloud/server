@@ -37,8 +37,11 @@ use OCP\AppFramework\Db\Entity;
  * @method void setRemember(int $remember)
  * @method void setLastActivity(int $lastactivity)
  * @method int getLastActivity()
+ * @method void setVersion(int $version)
  */
 class DefaultToken extends Entity implements IToken {
+
+	const VERSION = 1;
 
 	/** @var string user UID */
 	protected $uid;
@@ -73,6 +76,9 @@ class DefaultToken extends Entity implements IToken {
 	/** @var int */
 	protected $expires;
 
+	/** @var int */
+	protected $version;
+
 	public function __construct() {
 		$this->addType('uid', 'string');
 		$this->addType('loginName', 'string');
@@ -85,6 +91,7 @@ class DefaultToken extends Entity implements IToken {
 		$this->addType('lastCheck', 'int');
 		$this->addType('scope', 'string');
 		$this->addType('expires', 'int');
+		$this->addType('version', 'int');
 	}
 
 	public function getId(): int {

@@ -90,14 +90,20 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 	 */
 	public function releaseLock(string $path, int $type) {
 		if ($type === self::LOCK_SHARED) {
+			$newValue = 0;
 			if ($this->getOwnSharedLockCount($path) === 1) {
 				$removed = $this->memcache->cad($path, 1); // if we're the only one having a shared lock we can remove it in one go
 				if (!$removed) { //someone else also has a shared lock, decrease only
-					$this->memcache->dec($path);
+					$newValue = $this->memcache->dec($path);
 				}
 			} else {
 				// if we own more than one lock ourselves just decrease
-				$this->memcache->dec($path);
+				$newValue = $this->memcache->dec($path);
+			}
+
+			// if we somehow release more locks then exists, reset the lock
+			if ($newValue < 0) {
+				$this->memcache->cad($path, $newValue);
 			}
 		} else if ($type === self::LOCK_EXCLUSIVE) {
 			$this->memcache->cad($path, 'exclusive');

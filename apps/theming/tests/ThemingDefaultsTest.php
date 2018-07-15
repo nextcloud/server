@@ -604,7 +604,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('theming.Theming.getImage')
-			->willReturn('custom-logo');
+			->willReturn('custom-logo?v=0');
 		$this->assertEquals('custom-logo' . '?v=0', $this->template->getLogo());
 	}
 
@@ -645,8 +645,8 @@ class ThemingDefaultsTest extends TestCase {
 			'theming-cachebuster' => '\'0\'',
 			'theming-logo-mime' => '\'jpeg\'',
 			'theming-background-mime' => '\'jpeg\'',
-			'image-logo' => "'custom-logo?v=0'",
-			'image-login-background' => "'custom-background?v=0'",
+			'image-logo' => "url('custom-logo?v=0')",
+			'image-login-background' => "url('custom-background?v=0')",
 			'color-primary' => $this->defaults->getColorPrimary(),
 			'color-primary-text' => '#ffffff',
 			'image-login-plain' => 'false',

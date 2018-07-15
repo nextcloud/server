@@ -31,19 +31,29 @@
 namespace OC\Settings\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use GuzzleHttp\Exception\ClientException;
 use OC\AppFramework\Http;
+use OC\DB\Connection;
+use OC\DB\MissingIndexInformation;
 use OC\IntegrityCheck\Checker;
+use OC\Lock\NoopLockingProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IDateTimeFormatter;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Lock\ILockingProvider;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @package OC\Settings\Controller
@@ -63,18 +73,15 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var ILogger */
 	private $logger;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+	/** @var IDBConnection|Connection */
+	private $db;
+	/** @var ILockingProvider */
+	private $lockingProvider;
+	/** @var IDateTimeFormatter */
+	private $dateTimeFormatter;
 
-	/**
-	 * @param string $AppName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IClientService $clientService
-	 * @param IURLGenerator $urlGenerator
-	 * @param \OC_Util $util
-	 * @param IL10N $l10n
-	 * @param Checker $checker
-	 * @param ILogger $logger
-	 */
 	public function __construct($AppName,
 								IRequest $request,
 								IConfig $config,
@@ -83,7 +90,11 @@ class CheckSetupController extends Controller {
 								\OC_Util $util,
 								IL10N $l10n,
 								Checker $checker,
-								ILogger $logger) {
+								ILogger $logger,
+								EventDispatcherInterface $dispatcher,
+								IDBConnection $db,
+								ILockingProvider $lockingProvider,
+								IDateTimeFormatter $dateTimeFormatter) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -92,6 +103,10 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
+		$this->dispatcher = $dispatcher;
+		$this->db = $db;
+		$this->lockingProvider = $lockingProvider;
+		$this->dateTimeFormatter = $dateTimeFormatter;
 	}
 
 	/**
@@ -418,12 +433,115 @@ Raw output
 		return function_exists('imagettfbbox') && function_exists('imagettftext');
 	}
 
+	protected function hasMissingIndexes(): array {
+		$indexInfo = new MissingIndexInformation();
+		// Dispatch event so apps can also hint for pending index updates if needed
+		$event = new GenericEvent($indexInfo);
+		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_INDEXES_EVENT, $event);
+
+		return $indexInfo->getListOfMissingIndexes();
+	}
+
+	/**
+	 * warn if outdated version of a memcache module is used
+	 */
+	protected function getOutdatedCaches(): array {
+		$caches = [
+			'apcu'	=> ['name' => 'APCu', 'version' => '4.0.6'],
+			'redis'	=> ['name' => 'Redis', 'version' => '2.2.5'],
+		];
+		$outdatedCaches = [];
+		foreach ($caches as $php_module => $data) {
+			$isOutdated = extension_loaded($php_module) && version_compare(phpversion($php_module), $data['version'], '<');
+			if ($isOutdated) {
+				$outdatedCaches[] = $data;
+			}
+		}
+
+		return $outdatedCaches;
+	}
+
+	protected function isSqliteUsed() {
+		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
+	}
+
+	protected function isReadOnlyConfig(): bool {
+		return \OC_Helper::isReadOnlyConfigEnabled();
+	}
+
+	protected function hasValidTransactionIsolationLevel(): bool {
+		try {
+			if ($this->db->getDatabasePlatform() instanceof SqlitePlatform) {
+				return true;
+			}
+
+			return $this->db->getTransactionIsolation() === Connection::TRANSACTION_READ_COMMITTED;
+		} catch (DBALException $e) {
+			// ignore
+		}
+
+		return true;
+	}
+
+	protected function hasFileinfoInstalled(): bool {
+		return \OC_Util::fileInfoLoaded();
+	}
+
+	protected function hasWorkingFileLocking(): bool {
+		return !($this->lockingProvider instanceof NoopLockingProvider);
+	}
+
+	protected function getSuggestedOverwriteCliURL(): string {
+		$suggestedOverwriteCliUrl = '';
+		if ($this->config->getSystemValue('overwrite.cli.url', '') === '') {
+			$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
+			if (!$this->config->getSystemValue('config_is_read_only', false)) {
+				// Set the overwrite URL when it was not set yet.
+				$this->config->setSystemValue('overwrite.cli.url', $suggestedOverwriteCliUrl);
+				$suggestedOverwriteCliUrl = '';
+			}
+		}
+		return $suggestedOverwriteCliUrl;
+	}
+
+	protected function getLastCronInfo(): array {
+		$lastCronRun = $this->config->getAppValue('core', 'lastcron', 0);
+		return [
+			'diffInSeconds' => time() - $lastCronRun,
+			'relativeTime' => $this->dateTimeFormatter->formatTimeSpan($lastCronRun),
+			'backgroundJobsUrl' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'server']) . '#backgroundjobs',
+		];
+	}
+
+	protected function getCronErrors() {
+		$errors = json_decode($this->config->getAppValue('core', 'cronErrors', ''), true);
+
+		if (is_array($errors)) {
+			return $errors;
+		}
+
+		return [];
+	}
+
+	protected function isPhpMailerUsed(): bool {
+		return $this->config->getSystemValue('mail_smtpmode', 'php') === 'php';
+	}
+
 	/**
 	 * @return DataResponse
 	 */
 	public function check() {
 		return new DataResponse(
 			[
+				'isGetenvServerWorking' => !empty(getenv('PATH')),
+				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
+				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
+				'outdatedCaches' => $this->getOutdatedCaches(),
+				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
+				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
+				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
+				'cronInfo' => $this->getLastCronInfo(),
+				'cronErrors' => $this->getCronErrors(),
 				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
@@ -440,6 +558,11 @@ Raw output
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
+				'missingIndexes' => $this->hasMissingIndexes(),
+				'isSqliteUsed' => $this->isSqliteUsed(),
+				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
+				'isPhpMailerUsed' => $this->isPhpMailerUsed(),
+				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin')
 			]
 		);
 	}

@@ -323,6 +323,7 @@ class AppManager implements IAppManager {
 	public function clearAppsCache() {
 		$settingsMemCache = $this->memCacheFactory->createDistributed('settings');
 		$settingsMemCache->clear('listApps');
+		$this->appInfos = [];
 	}
 
 	/**

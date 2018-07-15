@@ -1,3 +1,25 @@
+<!--
+  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @license GNU AGPL version 3 or any later version
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+  -->
+  
 <template>
 	<div id="app-content" class="user-list-grid" v-on:scroll.passive="onScroll">
 		<div class="row" id="grid-header" :class="{'sticky': scrolled && !showConfig.showNewUserForm}">
@@ -53,7 +75,7 @@
 				<!-- hidden input trick for vanilla html5 form validation -->
 				<input type="text" :value="newUser.groups" v-if="!settings.isAdmin"
 					   tabindex="-1" id="newgroups" :required="!settings.isAdmin" />
-				<multiselect :options="groups" v-model="newUser.groups"
+				<multiselect :options="canAddGroups" v-model="newUser.groups"
 							 :placeholder="t('settings', 'Add user in group')"
 							 label="name" track-by="id" class="multiselect-vue"
 							 :multiple="true" :close-on-select="false"
@@ -135,6 +157,7 @@ export default {
 			defaultQuota: defaultQuota,
 			loading: false,
 			scrolled: false,
+			searchQuery: '',
 			newUser: {
 				id:'',
 				displayName:'',
@@ -164,6 +187,11 @@ export default {
 		 * the watch won't be triggered. We need to initialize it.
 		 */
 		this.setNewUserDefaultGroup(this.$route.params.selectedGroup);
+
+		/** 
+		 * Register search
+		 */
+		this.userSearch = new OCA.Search(this.search, this.resetSearch);
 	},
 	computed: {
 		settings() {
@@ -179,8 +207,8 @@ export default {
 				}
 				return disabledUsers;
 			}
-			if (!settings.isAdmin) {
-				// We don't want subadmins to edit themselves
+			if (!this.settings.isAdmin) {
+				// we don't want subadmins to edit themselves
 				return this.users.filter(user => user.enabled !== false && user.id !== oc_current_user);
 			}
 			return this.users.filter(user => user.enabled !== false);
@@ -191,13 +219,23 @@ export default {
 				.filter(group => group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name));
 		},
+		canAddGroups() {
+			// disabled if no permission to add new users to group
+			return this.groups.map(group => {
+				// clone object because we don't want
+				// to edit the original groups
+				group = Object.assign({}, group);
+				group.$isDisabled = group.canAdd === false;
+				return group;
+			});
+		},
 		subAdminsGroups() {
 			// data provided php side
 			return this.$store.getters.getSubadminGroups;
 		},
 		quotaOptions() {
 			// convert the preset array into objects
-			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({id:cur, label:cur}), []);
+			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({id: cur, label: cur}), []);
 			// add default presets
 			quotaPreset.unshift(this.unlimitedQuota);
 			quotaPreset.unshift(this.defaultQuota);
@@ -237,7 +275,7 @@ export default {
 	},
 	methods: {
 		onScroll(event) {
-			this.scrolled = event.target.scrollTop>0;
+			this.scrolled = event.target.scrollTo > 0;
 		},
 
 		/**
@@ -249,7 +287,7 @@ export default {
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
 			let validQuota = OC.Util.computerFileSize(quota);
-			if (validQuota !== null && validQuota > 0) {
+			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota));
 				return this.newUser.quota = {id: quota, label: quota};
@@ -262,9 +300,20 @@ export default {
 			this.$store.dispatch('getUsers', {
 				offset: this.usersOffset,
 				limit: this.usersLimit,
-				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : ''
+				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : '',
+				search: this.searchQuery
 			})
 			.then((response) => { response ? $state.loaded() : $state.complete() });
+		},
+
+		/* SEARCH */
+		search(query) {
+			this.searchQuery = query;
+			this.$store.commit('resetUsers');
+			this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+		},
+		resetSearch() {
+			this.search('');
 		},
 
 		resetForm() {

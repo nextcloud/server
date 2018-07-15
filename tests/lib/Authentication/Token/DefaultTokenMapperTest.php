@@ -135,6 +135,7 @@ class DefaultTokenMapperTest extends TestCase {
 		$token->setRemember(IToken::DO_NOT_REMEMBER);
 		$token->setLastActivity($this->time - 60 * 60 * 24 * 3);
 		$token->setLastCheck($this->time - 10);
+		$token->setVersion(DefaultToken::VERSION);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 
@@ -164,6 +165,7 @@ class DefaultTokenMapperTest extends TestCase {
 		$token->setRemember(IToken::DO_NOT_REMEMBER);
 		$token->setLastActivity($this->time - 60 * 60 * 24 * 3);
 		$token->setLastCheck($this->time - 10);
+		$token->setVersion(DefaultToken::VERSION);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 		$token->setId($dbToken->getId()); // We don't know the ID
@@ -190,23 +192,11 @@ class DefaultTokenMapperTest extends TestCase {
 	}
 
 	public function testGetTokenByUser() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user1'));
-
-		$this->assertCount(2, $this->mapper->getTokenByUser($user));
+		$this->assertCount(2, $this->mapper->getTokenByUser('user1'));
 	}
 
 	public function testGetTokenByUserNotFound() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user1000'));
-
-		$this->assertCount(0, $this->mapper->getTokenByUser($user));
+		$this->assertCount(0, $this->mapper->getTokenByUser('user1000'));
 	}
 
 	public function testDeleteById() {
@@ -218,23 +208,15 @@ class DefaultTokenMapperTest extends TestCase {
 			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
 		$result = $qb->execute();
 		$id = $result->fetch()['id'];
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user1'));
 
-		$this->mapper->deleteById($user, $id);
+		$this->mapper->deleteById('user1', $id);
 		$this->assertEquals(2, $this->getNumberOfTokens());
 	}
 
 	public function testDeleteByIdWrongUser() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock(IUser::class);
 		$id = 33;
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user10000'));
 
-		$this->mapper->deleteById($user, $id);
+		$this->mapper->deleteById('user1000', $id);
 		$this->assertEquals(3, $this->getNumberOfTokens());
 	}
 

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>accessibility</id>
+    <name>Accessibility</name>
+    <summary>Accessibility options for nextcloud</summary>
+    <description><![CDATA[Provides multiple accessibilities options to ease your use of nextcloud]]></description>
+    <version>1.0.1</version>
+    <licence>agpl</licence>
+    <author>John Molakvoæ</author>
+    <namespace>Accessibility</namespace>
+    <category>accessibility</category>
+    <default_enable/>
+    <dependencies>
+        <nextcloud min-version="14" max-version="14"/>
+    </dependencies>
+    <default_enable/>
+    <bugs>https://github.com/nextcloud/server/issues</bugs>
+    <settings>
+        <personal>OCA\Accessibility\Settings\Personal</personal>
+        <personal-section>OCA\Accessibility\Settings\PersonalSection</personal-section>
+    </settings>
+</info>

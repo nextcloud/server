@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,8 +31,6 @@ script('settings', [
 	'federationscopemenu',
 	'settings/personalInfo',
 ]);
-vendor_script('strengthify/jquery.strengthify');
-vendor_style('strengthify/strengthify');
 vendor_script('jcrop/js/jquery.Jcrop');
 vendor_style('jcrop/css/jquery.Jcrop');
 
@@ -78,7 +77,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<div class="personal-settings-setting-box personal-settings-group-box section">
 			<h2><?php p($l->t('Details')); ?></h2>
 			<div id="groups" class="personal-info icon-user">
-				<p class="icon-groups"><?php p($l->t('You are member of the following groups:')); ?></p>
+				<p><?php p($l->t('You are a member of the following groups:')); ?></p>
 				<p id="groups-groups">
 					<strong><?php p(implode(', ', $_['groups'])); ?></strong>
 				</p>
@@ -341,35 +340,39 @@ vendor_style('jcrop/css/jquery.Jcrop');
 				</form>
 			<?php } ?>
 		</div>
-		<div class="personal-settings-setting-box personal-settings-password-box">
-			<?php
-			if($_['passwordChangeSupported']) {
-				script('jquery-showpassword');
-				?>
-				<form id="passwordform" class="section">
-					<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-					<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
-
-					<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
-					<input type="password" id="pass1" name="oldpassword"
-						   placeholder="<?php p($l->t('Current password'));?>"
-						   autocomplete="off" autocapitalize="none" autocorrect="off" />
-
-					<div class="personal-show-container">
-						<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
-						<input type="password" id="pass2" name="newpassword"
-							   placeholder="<?php p($l->t('New password')); ?>"
-							   data-typetoggle="#personal-show"
-							   autocomplete="off" autocapitalize="none" autocorrect="off" />
-						<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
+		<div class="personal-settings-setting-box personal-settings-locale-box">
+			<?php if (isset($_['activelocale'])) { ?>
+				<form id="locale" class="section">
+					<h2>
+						<label for="localeinput"><?php p($l->t('Locale'));?></label>
+					</h2>
+					<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale'));?>">
+						<option value="<?php p($_['activelocale']['code']);?>">
+							<?php p($_['activelocale']['name']);?>
+						</option>
+						<optgroup label="––––––––––"></optgroup>
+						<?php foreach($_['localesForLanguage'] as $locale):?>
+							<option value="<?php p($locale['code']);?>">
+								<?php p($locale['name']);?>
+							</option>
+						<?php endforeach;?>
+						<optgroup label="––––––––––"></optgroup>
+						<option value="<?php p($_['activelocale']['code']);?>">
+							<?php p($_['activelocale']['name']);?>
+						</option>
+						<?php foreach($_['locales'] as $locale):?>
+							<option value="<?php p($locale['code']);?>">
+								<?php p($locale['name']);?>
+							</option>
+						<?php endforeach;?>
+					</select>
+					<div id="localeexample" class="personal-info icon-timezone">
+						<p id="localeexample-time"></p>
+						<p id="localeexample-date"></p>
+						<p id="localeexample-fdow"></p>
 					</div>
-
-					<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
-
 				</form>
-				<?php
-			}
-			?>
+			<?php } ?>
 		</div>
 		<span class="msg"></span>
 	</div>
