@@ -47,11 +47,14 @@ class Config {
 	 *
 	 * @param string $resourceType
 	 * @return array
-	 * @throws \OCP\Federation\Exceptions\ProviderDoesNotExistsException
 	 */
 	public function getSupportedShareTypes($resourceType) {
-		$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-		return $provider->getSupportedShareTypes();
+		try {
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
+			return $provider->getSupportedShareTypes();
+		} catch (\Exception $e) {
+			return [];
+		}
 	}
 
 }

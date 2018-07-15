@@ -238,7 +238,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertNull($user);
 	}
 
-	public function testGetAttributesAll() {
+	public function attributeRequestProvider() {
+		return [
+			[ false ],
+			[ true ],
+		];
+	}
+
+	/**
+	 * @dataProvider attributeRequestProvider
+	 */
+	public function testGetAttributes($minimal) {
 		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
@@ -246,28 +256,14 @@ class ManagerTest extends \Test\TestCase {
 		$manager->setLdapAccess($access);
 
 		$connection = $access->getConnection();
-		$connection->setConfiguration(array('ldapEmailAttribute' => 'mail'));
+		$connection->setConfiguration(['ldapEmailAttribute' => 'mail', 'ldapUserAvatarRule' => 'default']);
 
-		$attributes = $manager->getAttributes();
+		$attributes = $manager->getAttributes($minimal);
 
 		$this->assertTrue(in_array('dn', $attributes));
 		$this->assertTrue(in_array($access->getConnection()->ldapEmailAttribute, $attributes));
-		$this->assertTrue(in_array('jpegphoto', $attributes));
-		$this->assertTrue(in_array('thumbnailphoto', $attributes));
-	}
-
-	public function testGetAttributesMinimal() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
-			$this->getTestInstances();
-
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr, $notiMgr);
-		$manager->setLdapAccess($access);
-
-		$attributes = $manager->getAttributes(true);
-
-		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(!in_array('jpegphoto', $attributes));
-		$this->assertTrue(!in_array('thumbnailphoto', $attributes));
+		$this->assertSame(!$minimal, in_array('jpegphoto', $attributes));
+		$this->assertSame(!$minimal, in_array('thumbnailphoto', $attributes));
 	}
 
 }

@@ -31,8 +31,8 @@ $('#caldavGenerateBirthdayCalendar').change(function() {
 	var val = $(this)[0].checked;
 
 	if (val) {
-		$.post(OC.generateUrl(OC.linkTo("dav", "enableBirthdayCalendar")));
+		$.post(OC.generateUrl('/apps/dav/enableBirthdayCalendar'));
 	} else {
-		$.post(OC.generateUrl(OC.linkTo("dav", "disableBirthdayCalendar")));
+		$.post(OC.generateUrl('/apps/dav/disableBirthdayCalendar'));
 	}
 });

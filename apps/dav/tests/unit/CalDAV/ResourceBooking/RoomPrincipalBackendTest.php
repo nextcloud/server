@@ -29,7 +29,7 @@ Class RoomPrincipalBackendTest extends AbstractPrincipalBackendTest {
 
 		$this->principalBackend = new RoomPrincipalBackend($this->dbConnection,
 			$this->userSession, $this->groupManager, $this->logger);
-		$this->expectedDbTable = 'calendar_rooms_cache';
+		$this->expectedDbTable = 'calendar_rooms';
 		$this->principalPrefix = 'principals/calendar-rooms';
 	}
 }

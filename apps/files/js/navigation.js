@@ -81,8 +81,6 @@
 		_setupEvents: function () {
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
-			this._setOnDrag();
-
 		},
 
 		/**
@@ -111,33 +109,40 @@
 		 * @param array options "silent" to not trigger event
 		 */
 		setActiveItem: function (itemId, options) {
+			var currentItem = this.$el.find('li[data-id=' + itemId + ']');
+			var itemDir = currentItem.data('dir');
+			var itemView = currentItem.data('view');
 			var oldItemId = this._activeItem;
 			if (itemId === this._activeItem) {
 				if (!options || !options.silent) {
 					this.$el.trigger(
 						new $.Event('itemChanged', {
 							itemId: itemId,
-							previousItemId: oldItemId
+							previousItemId: oldItemId,
+							dir: itemDir,
+							view: itemView
 						})
 					);
 				}
 				return;
 			}
-			this.$el.find('li').removeClass('active');
+			this.$el.find('li a').removeClass('active');
 			if (this.$currentContent) {
 				this.$currentContent.addClass('hidden');
 				this.$currentContent.trigger(jQuery.Event('hide'));
 			}
 			this._activeItem = itemId;
-			this.$el.find('li[data-id=' + itemId + ']').addClass('active');
-			this.$currentContent = $('#app-content-' + itemId);
+			currentItem.children('a').addClass('active');
+			this.$currentContent = $('#app-content-' + (typeof itemView === 'string' && itemView !== '' ? itemView : itemId));
 			this.$currentContent.removeClass('hidden');
 			if (!options || !options.silent) {
 				this.$currentContent.trigger(jQuery.Event('show'));
 				this.$el.trigger(
 					new $.Event('itemChanged', {
 						itemId: itemId,
-						previousItemId: oldItemId
+						previousItemId: oldItemId,
+						dir: itemDir,
+						view: itemView
 					})
 				);
 			}
@@ -160,74 +165,6 @@
 				this.setActiveItem(itemId);
 			}
 			ev.preventDefault();
-		},
-
-		/**
-		 * Event handler for when dragging an item
-		 */
-		_setOnDrag: function () {
-			var scope = this;
-			var element = $("#sublist-favorites");
-			$(function () {
-				if (document.getElementById(scope.$quickAccessListKey.toString()).hasAttribute("draggable")) {
-					element.sortable({
-						axis: "y",
-						containment: "parent",
-						scroll: false,
-						zIndex: 0,
-						opacity: 0.5,
-						tolerance: "pointer",
-						//revert: 0.05,
-						//delay: 150,
-						start: function (event, ui) {
-							//Fix for offset
-							ui.helper[0].style.left = '0px';
-
-							//Change Icon while dragging
-							var list = document.getElementById(scope.$quickAccessListKey).getElementsByTagName('li');
-							for (var j = 0; j < list.length; j++) {
-								if (!(typeof list[j].getElementsByTagName('a')[0] === 'undefined')) {
-									list[j].getElementsByTagName('a')[0].classList.remove("nav-icon-files");
-									list[j].getElementsByTagName('a')[0].classList.add('icon-menu');
-								}
-							}
-						},
-						stop: function (event, ui) {
-							//Clean up offset
-							ui.item.removeAttr("style");
-
-							//Change Icon back after dragging
-							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
-							for (var j = 0; j < list.length; j++) {
-								if (!(typeof list[j].getElementsByTagName('a')[0] === 'undefined')) {
-									list[j].getElementsByTagName('a')[0].classList.add("nav-icon-files");
-									list[j].getElementsByTagName('a')[0].classList.remove('icon-menu');
-								}
-							}
-						},
-						update: function (event, ui) {
-							var list = document.getElementById(scope.$quickAccessListKey.toString()).getElementsByTagName('li');
-							var string = [];
-							for (var j = 0; j < list.length; j++) {
-								var Object = {
-									id: j,
-									name: scope.getCompareValue(list, j, 'alphabet')
-								};
-								string.push(Object);
-							}
-							var resultorder = JSON.stringify(string);
-							$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/set/CustomSortingOrder"), {
-								order: resultorder
-							}, function (data, status) {
-							});
-						}
-					});
-				} else {
-					if (scope.$sortingStrategy === 'customorder') {
-						scope.$sortingStrategy = 'datemodified';
-					}
-				}
-			});
 		},
 
 		/**

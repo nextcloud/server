@@ -67,8 +67,8 @@ function NavigationListElements($item, $l, $pinned) {
 	strpos($item['classes'], 'pinned') !== false ? $pinned++ : '';
 	?>
 	<li <?php if (isset($item['sublist'])){ ?>id="button-collapse-parent-<?php p($item['id']); ?>"<?php } ?>
-		data-id="<?php p(isset($item['href']) ? $item['href'] : $item['id']) ?> "
-		class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned === 1 ? 'first-pinned' : '') ?> <?php if ($item['defaultExpandedState'] === 'true') { ?> open<?php } ?>"
+		data-id="<?php p($item['id']) ?>" data-dir="<?php p($item['dir']) ?>" data-view="<?php p($item['view']) ?>"
+		class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned === 1 ? 'first-pinned' : '') ?> <?php if ($item['defaultExpandedState']) { ?> open<?php } ?>"
 		<?php if (isset($item['folderPosition'])) { ?> folderposition="<?php p($item['folderPosition']); ?>" <?php } ?>>
 
 		<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
@@ -81,7 +81,7 @@ function NavigationListElements($item, $l, $pinned) {
 			?>
 			<button id="button-collapse-<?php p($item['id']); ?>"
 					class="collapse app-navigation-noclose" <?php if (sizeof($item['sublist']) == 0) { ?> style="display: none" <?php } ?>></button>
-			<ul id="sublist-<?php p($item['id']); ?>" <?php if ($item['draggableSublist'] === 'true') { ?> draggable="true" style="resize: none;"<?php } ?>>
+			<ul id="sublist-<?php p($item['id']); ?>">
 				<?php
 				foreach ($item['sublist'] as $item) {
 					$pinned = NavigationListElements($item, $l, $pinned);

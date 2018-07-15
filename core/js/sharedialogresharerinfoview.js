@@ -84,7 +84,18 @@
 					undefined,
 					{escape: false}
 				);
-			}  else {
+			} else if (this.model.getReshareType() === OC.Share.SHARE_TYPE_CIRCLE) {
+				sharedByText = t(
+					'core',
+					'Shared with you and {circle} by {owner}',
+					{
+						circle: this.model.getReshareWithDisplayName(),
+						owner: ownerDisplayName
+					},
+					undefined,
+					{escape: false}
+				);
+			} else {
 				sharedByText = t(
 					'core',
 					'Shared with you by {owner}',

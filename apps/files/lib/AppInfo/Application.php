@@ -26,6 +26,7 @@
  */
 namespace OCA\Files\AppInfo;
 
+use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ApiController;
 use OCP\AppFramework\App;
 use \OCA\Files\Service\TagService;
@@ -65,7 +66,8 @@ class Application extends App {
 				$server->getEventDispatcher(),
 				$server->getUserSession(),
 				$server->getAppManager(),
-				$server->getRootFolder()
+				$server->getRootFolder(),
+				$c->query(Helper::class)
 			);
 		});
 

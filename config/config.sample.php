@@ -917,7 +917,7 @@ $CONFIG = array(
  */
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
-	'--convert-to pdf --outdir ',
+	'--convert-to png --outdir ',
 
 /**
  * Only register providers that have been explicitly enabled

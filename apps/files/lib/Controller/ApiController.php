@@ -313,7 +313,7 @@ class ApiController extends Controller {
 	 */
 	public function getShowQuickAccess() {
 
-		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 1);
+		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 0);
 	}
 
 	/**

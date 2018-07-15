@@ -46,6 +46,6 @@ class StrictEvalContentSecurityPolicy extends ContentSecurityPolicy {
 	 * @since 14.0.0
 	 */
 	public function __construct() {
-		$this->inlineStyleAllowed = false;
+		$this->evalScriptAllowed = false;
 	}
 }

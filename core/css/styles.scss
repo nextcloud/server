@@ -92,15 +92,6 @@ body {
 	height: auto;
 }
 
-#body-login {
-	text-align: center;
-	background-color: var(--color-primary);
-	background-image: url('../img/background.png?v=2');
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	background-size: cover;
-}
-
 .two-factor-header {
 	text-align: center;
 }
@@ -123,11 +114,6 @@ body {
 .float-spinner {
 	height: 32px;
 	display: none;
-}
-
-#body-login .float-spinner {
-	margin-top: -32px;
-	padding-top: 32px;
 }
 
 #nojavascript {
@@ -332,133 +318,8 @@ body {
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
 
-/* Some whitespace to the top */
-
-#body-login {
-	#header {
-		padding-top: 100px;
-	}
-	background-attachment: fixed;
-	/* fix background gradient */
-	height: 100%;
-	/* fix sticky footer */
-	p.info, form fieldset legend, #datadirContent label {
-		text-align: center;
-		color: var(--color-primary-text);
-	}
-	form {
-		fieldset .warning-info, input[type='checkbox'] + label {
-			text-align: center;
-			color: var(--color-primary-text);
-		}
-		.warning input[type='checkbox'] {
-			&:hover + label, &:focus + label, + label {
-				color: var(--color-primary-text) !important;
-			}
-		}
-	}
-	.update {
-		h2 {
-			margin: 0 0 20px;
-		}
-		a {
-			color: var(--color-primary-text);
-			border-bottom: 1px solid var(--color-background-darker);
-		}
-	}
-	.infogroup {
-		margin-bottom: 15px;
-	}
-	p#message img {
-		vertical-align: middle;
-		padding: 5px;
-	}
-	div.buttons {
-		text-align: center;
-	}
-	p.info {
-		margin: 0 auto;
-		padding-top: 20px;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		a {
-			font-weight: 600;
-			padding: 13px;
-			margin: -13px;
-		}
-	}
-	form {
-		position: relative;
-		width: 280px;
-		margin: 16px auto;
-		padding: 0;
-		fieldset {
-			margin-bottom: 20px;
-			text-align: left;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-		#sqliteInformation {
-			margin-top: -20px;
-			margin-bottom: 20px;
-		}
-		#adminaccount {
-			margin-bottom: 15px;
-		}
-		fieldset legend {
-			width: 100%;
-		}
-	}
-}
-
-/* Dark subtle label text */
-
-/* overrides another !important statement that sets this to unreadable black */
-
 #datadirContent label {
 	width: 100%;
-}
-
-#body-login {
-	#datadirContent label {
-		display: block;
-		margin: 0;
-	}
-	form #datadirField legend {
-		margin-bottom: 15px;
-	}
-	#showAdvanced {
-		padding: 13px;
-		/* increase clickable area of Advanced dropdown */
-		img {
-			vertical-align: bottom;
-			/* adjust position of Advanced dropdown arrow */
-			margin-left: -4px;
-		}
-	}
-	.icon-info-white {
-		padding: 10px;
-	}
-	.strengthify-wrapper {
-		display: inline-block;
-		position: relative;
-		left: 5px;
-		top: -20px;
-		width: 269px;
-		border-radius: 0 0 2px 2px;
-		overflow: hidden;
-		height: 3px;
-	}
-	input {
-		&[type='text'], &[type='password'], &[type='email'] {
-			border: none;
-			font-weight: 300;
-		}
-	}
 }
 
 /* strengthify wrapper */
@@ -475,86 +336,10 @@ body {
 	user-select: none;
 }
 
-#body-login .grouptop input, .grouptop input {
-	margin-bottom: 0 !important;
-	border-bottom: 0 !important;
-	border-bottom-left-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
-}
-
-#body-login .groupmiddle input, .groupmiddle input {
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
-	border-top: 0 !important;
-	border-bottom: 0 !important;
-	border-radius: 0 !important;
-}
-
-#body-login .groupbottom input, .groupbottom input {
-	margin-top: 0 !important;
-	border-top: 0 !important;
-	border-top-right-radius: 0 !important;
-	border-top-left-radius: 0 !important;
-}
-
-#body-login .groupbottom input[type=submit] {
-	box-shadow: none !important;
-}
-
 /* keep the labels for screen readers but hide them since we use placeholders */
 
 label.infield {
 	display: none;
-}
-
-#body-login {
-	form {
-		input[type='checkbox'] + label {
-			position: relative;
-			margin: 0;
-			padding: 14px;
-			vertical-align: middle;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-		.errors {
-			border: 1px solid var(--color-error);
-			list-style-indent: inside;
-			margin: 0 0 2em;
-			padding: 1em;
-		}
-	}
-	.success {
-		border: 1px solid var(--color-success);
-		width: 35%;
-		margin: 30px auto;
-		padding: 1em;
-		text-align: center;
-	}
-	#showAdvanced > img {
-		padding: 4px;
-		box-sizing: border-box;
-	}
-	p.info a, #showAdvanced {
-		color: var(--color-primary-text);
-	}
-	#remember_login {
-		&:hover + label, &:focus + label {
-			opacity: .6;
-		}
-	}
-	#forgot-password {
-		&:hover, &:focus {
-			opacity: .6;
-		}
-	}
-	p.info a {
-		&:hover, &:focus {
-			opacity: .6;
-		}
-	}
 }
 
 /* Show password toggle */
@@ -611,60 +396,6 @@ label.infield {
     padding: 6px 4px;
 }
 
-/* Database selector */
-#body-login {
-	form #selectDbType {
-		text-align: center;
-		white-space: nowrap;
-		margin: 0;
-		.info {
-			white-space: normal;
-		}
-		label {
-			position: static;
-			margin: 0 -3px 5px;
-			font-size: 12px;
-			background: var(--color-background-dark);
-			color: var(--color-text-lighter);
-			cursor: pointer;
-			border: 1px solid var(--color-border-dark);
-			span {
-				cursor: pointer;
-				padding: 10px 20px;
-			}
-			&.ui-state-hover, &.ui-state-active {
-				color: var(--color-main-text);
-				background-color: var(--color-border);
-			}
-		}
-	}
-	.warning, .update, .error {
-		display: block;
-		padding: 10px;
-		background-color: var(--color-background-darker);
-		color: var(--color-primary-text);
-		text-align: left;
-		border-radius: var(--border-radius);
-		cursor: default;
-	}
-	.update {
-		width: inherit;
-		text-align: center;
-		.appList {
-			list-style: disc;
-			text-align: left;
-			margin-left: 25px;
-			margin-right: 25px;
-		}
-	}
-	.v-align {
-		width: inherit;
-	}
-	.update img.float-spinner {
-		float: left;
-	}
-}
-
 /* Warnings and errors are the same */
 
 #body-user .warning, #body-settings .warning {
@@ -708,27 +439,6 @@ label.infield {
 	border-color: var(--color-error) !important;
 }
 
-/* Fixes for log in page, TODO should be removed some time */
-
-#body-login {
-	ul.error-wide {
-		margin-top: 35px;
-	}
-	.warning {
-		margin: 0 7px 5px 4px;
-		legend {
-			opacity: 1;
-		}
-	}
-	a.warning {
-		cursor: pointer;
-	}
-	.updateProgress .error {
-		margin-top: 10px;
-		margin-bottom: 10px;
-	}
-}
-
 /* fixes for update page TODO should be fixed some time in a proper way */
 /* this is just for an error while updating the ownCloud instance */
 
@@ -747,70 +457,8 @@ label.infield {
 
 /* Log in and install button */
 
-#body-login #submit-wrapper {
-	position: relative; /* Make the wrapper the containing block of its
-						   absolutely positioned descendant icons */
-
-	.icon-confirm-white {
-		position: absolute;
-		top: 23px;
-		right: 23px;
-	}
-	.icon-loading-small {
-		position: absolute;
-		top: 22px;
-		right: 24px;
-	}
-
-	#submit-icon {
-		pointer-events: none; /* The submit icon is positioned on the submit
-								 button. From the user point of view the icon is
-								 part of the button, so the clicks on the icon
-								 have to be applied to the button instead. */
-	}
-}
-
-#body-login input {
-	font-size: 20px;
-	margin: 5px;
-	padding: 10px 10px 8px;
-	&[type='text'], &[type='password'] {
-		width: calc(100% - 10px); /* 5px margin */
-	}
-	&.login {
-		width: 269px;
-		background-position: right 16px center;
-	}
-	&[type='submit'] {
-		padding: 10px 20px;
-		/* larger log in and installation buttons */
-	}
-}
-
 #remember_login {
 	margin: 18px 5px 0 16px !important;
-}
-
-#body-login {
-	.remember-login-container {
-		display: inline-block;
-		margin: 10px 0;
-		text-align: center;
-		width: 100%;
-	}
-	#forgot-password {
-		padding: 11px;
-		float: right;
-		color: var(--color-primary-text);
-	}
-	.wrapper {
-		min-height: 100%;
-		margin: 0 auto -70px;
-		width: 300px;
-	}
-	footer, .push {
-		height: 70px;
-	}
 }
 
 /* Sticky footer */

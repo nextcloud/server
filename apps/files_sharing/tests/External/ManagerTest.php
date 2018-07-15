@@ -35,6 +35,8 @@ use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 use Test\Traits\UserTrait;
 
 /**
@@ -62,6 +64,12 @@ class ManagerTest extends TestCase {
 	/** @var ICloudFederationFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $cloudFederationFactory;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IGroupManager */
+	private $groupManager;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IUserManager */
+	private $userManager;
+
 	private $uid;
 
 	/**
@@ -81,6 +89,8 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
@@ -93,6 +103,8 @@ class ManagerTest extends TestCase {
 					\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 					$this->cloudFederationProviderManager,
 					$this->cloudFederationFactory,
+					$this->groupManager,
+					$this->userManager,
 					$this->uid
 				]
 			)->setMethods(['tryOCMEndPoint'])->getMock();
@@ -117,6 +129,7 @@ class ManagerTest extends TestCase {
 			'password' => '',
 			'name' => '/SharedFolder',
 			'owner' => 'foobar',
+			'shareType' => \OCP\Share::SHARE_TYPE_USER,
 			'accepted' => false,
 			'user' => $this->uid,
 		];
@@ -124,6 +137,9 @@ class ManagerTest extends TestCase {
 		$shareData2['token'] = 'token2';
 		$shareData3 = $shareData1;
 		$shareData3['token'] = 'token3';
+
+		$this->userManager->expects($this->any())->method('get')->willReturn($this->user);
+		$this->groupManager->expects($this->any())->method(('getUserGroups'))->willReturn([]);
 
 		$this->manager->expects($this->at(0))->method('tryOCMEndPoint')->with('http://localhost', 'token1', -1, 'accept')->willReturn(false);
 		$this->manager->expects($this->at(1))->method('tryOCMEndPoint')->with('http://localhost', 'token3', -1, 'decline')->willReturn(false);

@@ -503,7 +503,7 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->once())
 			->method('readAttribute')
 			->with($this->equalTo($this->dn),
-				$this->equalTo('jpegPhoto'))
+				$this->equalTo('jpegphoto'))
 			->will($this->returnValue(['this is a photo']));
 
 		$this->image->expects($this->once())
@@ -536,6 +536,11 @@ class UserTest extends \Test\TestCase {
 			->with($this->equalTo($this->uid))
 			->will($this->returnValue($avatar));
 
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
+
 		$this->user->updateAvatar();
 	}
 
@@ -544,11 +549,11 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $this->dn
-					&& $attr === 'jpegPhoto')
+					&& $attr === 'jpegphoto')
 				{
 					return false;
 				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailPhoto')
+					&& $attr === 'thumbnailphoto')
 				{
 					return ['this is a photo'];
 				}
@@ -585,6 +590,11 @@ class UserTest extends \Test\TestCase {
 			->with($this->equalTo($this->uid))
 			->will($this->returnValue($avatar));
 
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
+
 		$this->user->updateAvatar();
 	}
 
@@ -593,11 +603,11 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $this->dn
-					&& $attr === 'jpegPhoto')
+					&& $attr === 'jpegphoto')
 				{
 					return false;
 				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailPhoto')
+					&& $attr === 'thumbnailphoto')
 				{
 					return ['this is a photo'];
 				}
@@ -626,6 +636,11 @@ class UserTest extends \Test\TestCase {
 		$this->avatarManager->expects($this->never())
 			->method('getAvatar');
 
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
+
 		$this->user->updateAvatar();
 	}
 
@@ -634,11 +649,11 @@ class UserTest extends \Test\TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $this->dn
-					&& $attr === 'jpegPhoto')
+					&& $attr === 'jpegphoto')
 				{
 					return false;
 				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailPhoto')
+					&& $attr === 'thumbnailphoto')
 				{
 					return ['this is a photo'];
 				}
@@ -676,6 +691,11 @@ class UserTest extends \Test\TestCase {
 			->with($this->equalTo($this->uid))
 			->will($this->returnValue($avatar));
 
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
+
 		$this->assertFalse($this->user->updateAvatar());
 	}
 
@@ -709,6 +729,11 @@ class UserTest extends \Test\TestCase {
 
 		$this->avatarManager->expects($this->never())
 			->method('getAvatar');
+
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$this->user->updateAvatar();
 	}
@@ -756,6 +781,11 @@ class UserTest extends \Test\TestCase {
 				$this->anything())
 			->will($this->returnValue(true));
 
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
+
 		$this->user->update();
 	}
 
@@ -802,14 +832,30 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->once())
 			->method('readAttribute')
 			->with($this->equalTo($this->dn),
-				$this->equalTo('jpegPhoto'))
+				$this->equalTo('jpegphoto'))
 			->will($this->returnValue(['this is a photo']));
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$photo = $this->user->getAvatarImage();
 		$this->assertSame('this is a photo', $photo);
 		//make sure readAttribute is not called again but the already fetched
 		//photo is returned
 		$this->user->getAvatarImage();
+	}
+
+	public function testGetAvatarImageDisabled() {
+		$this->access->expects($this->never())
+			->method('readAttribute')
+			->with($this->equalTo($this->dn), $this->anything());
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn([]);
+
+		$this->assertFalse($this->user->getAvatarImage());
 	}
 
 	public function imageDataProvider() {
@@ -859,16 +905,20 @@ class UserTest extends \Test\TestCase {
 				}
 				return $name;
 			}));
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
-		$record = array(
-			strtolower($this->connection->ldapQuotaAttribute) => array('4096'),
-			strtolower($this->connection->ldapEmailAttribute) => array('alice@wonderland.org'),
-			strtolower($this->connection->ldapUserDisplayName) => array('Aaaaalice'),
+		$record = [
+			strtolower($this->connection->ldapQuotaAttribute) => ['4096'],
+			strtolower($this->connection->ldapEmailAttribute) => ['alice@wonderland.org'],
+			strtolower($this->connection->ldapUserDisplayName) => ['Aaaaalice'],
 			'uid' => [$this->uid],
-			'homedirectory' => array('Alice\'s Folder'),
-			'memberof' => array('cn=groupOne', 'cn=groupTwo'),
-			'jpegphoto' => array('here be an image')
-		);
+			'homedirectory' => ['Alice\'s Folder'],
+			'memberof' => ['cn=groupOne', 'cn=groupTwo'],
+			'jpegphoto' => ['here be an image']
+		];
 
 		foreach($requiredMethods as $method) {
 			$userMock->expects($this->once())
