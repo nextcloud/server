@@ -64,6 +64,7 @@ OC.L10N.register(
     "Technical details" : "Technische Details",
     "Remote Address: %s" : "Entfernte Adresse: %s",
     "Request ID: %s" : "Anfragekennung: %s",
+    "There was an error updating your attendance status." : "Es ist ein Fehler beim Aktualisieren Deines Teilnehmerstatus aufgetreten.",
     "Please contact the organizer directly." : "Bitte den Organisator direkt kontaktieren.",
     "Are you accepting the invitation?" : "Die Einladung annehmen?",
     "Tentative" : "Vorläufig",
