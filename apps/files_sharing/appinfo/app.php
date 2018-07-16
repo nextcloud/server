@@ -56,6 +56,16 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 
 	$sharingSublistArray = [];
 
+	if (\OCP\Util::isSharingDisabledForUser() === false) {
+		array_push($sharingSublistArray, [
+			'id' => 'sharingout',
+			'appname' => 'files_sharing',
+			'script' => 'list.php',
+			'order' => 16,
+			'name' => $l->t('Shared with others'),
+		]);
+	}
+
 	array_push($sharingSublistArray, [
 		'id' => 'sharingin',
 		'appname' => 'files_sharing',
@@ -65,14 +75,6 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 	]);
 
 	if (\OCP\Util::isSharingDisabledForUser() === false) {
-		array_push($sharingSublistArray, [
-			'id' => 'sharingout',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 16,
-			'name' => $l->t('Shared with others'),
-		]);
-
 		// Check if sharing by link is enabled
 		if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
 			array_push($sharingSublistArray, [
