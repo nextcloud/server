@@ -93,7 +93,7 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 		'appname' => 'files_sharing',
 		'script' => 'list.php',
 		'order' => 18,
-		'name' => $l->t('Share overview'),
+		'name' => $l->t('Shares'),
 		'classes' => 'collapsible',
 		'sublist' => $sharingSublistArray,
 		'expandedState' => 'show_sharing_menu'
