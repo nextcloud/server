@@ -54,4 +54,6 @@ module.exports = {
 	 */
 	headless: true,
 
+	slowMo: 0,
+
 };

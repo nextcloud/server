@@ -62,11 +62,17 @@ describe('login', function () {
 			this.timeout(30000);
 			await helper.resetBrowser();
 			return helper.takeAndCompare(this, '/', async function (page) {
+				await page.waitForSelector('input#user');
 				await page.type('#user', 'admin');
 				await page.type('#password', 'admin');
 				const inputElement = await page.$('input[type=submit]');
 				await inputElement.click();
-				await page.waitForNavigation({waitUntil: 'networkidle0'});
+				await page.waitForNavigation({waitUntil: 'networkidle2'});
+				await page.waitForSelector('#header');
+				await page.$eval('body', function (e) {
+					// force relative timestamp to fixed value, since it breaks screenshot diffing
+					$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
+				});
 				return await helper.delay(100);
 			}, {viewport: resolution});
 		})

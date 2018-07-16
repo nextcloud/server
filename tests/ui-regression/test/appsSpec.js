@@ -39,7 +39,7 @@ describe('apps', function () {
 			}, {viewport: resolution, waitUntil: 'networkidle2'});
 		});
 
-		['installed', 'enabled', 'disabled', 'app-bundles'].forEach(function(endpoint) {
+		['your-apps', 'enabled', 'disabled', 'app-bundles'].forEach(function(endpoint) {
 			it('apps.' + endpoint + '.' + resolution.title, async function () {
 				return helper.takeAndCompare(this, undefined, async function (page) {
 					try {

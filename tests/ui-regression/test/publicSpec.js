@@ -37,7 +37,7 @@ describe('public', function () {
 	 */
 	config.resolutions.forEach(function (resolution) {
 		it('file-share-invalid.' + resolution.title, async function () {
-			return helper.takeAndCompare(this, '/index.php/s/invalid', async function () {
+			return helper.takeAndCompare(this, 'index.php/s/invalid', async function () {
 			}, {waitUntil: 'networkidle2', viewport: resolution});
 		});
 	});
@@ -48,7 +48,7 @@ describe('public', function () {
 
 	var shareLink = {};
 	it('file-share-link', async function () {
-		return helper.takeAndCompare(this, '/index.php/apps/files', async function (page) {
+		return helper.takeAndCompare(this, 'index.php/apps/files', async function (page) {
 			const element = await page.$('[data-file="welcome.txt"] .action-share');
 			await element.click('[data-file="welcome.txt"] .action-share');
 			await page.waitForSelector('input.linkCheckbox');
@@ -71,7 +71,7 @@ describe('public', function () {
 
 	config.resolutions.forEach(function (resolution) {
 		it('file-share-valid.' + resolution.title, async function () {
-			return helper.takeAndCompare(this, '/index.php/apps/files', async function (page) {
+			return helper.takeAndCompare(this, 'index.php/apps/files', async function (page) {
 				await page.goto(shareLink[page.url()]);
 				await helper.delay(500);
 			}, {waitUntil: 'networkidle2', viewport: resolution});
@@ -89,7 +89,7 @@ describe('public', function () {
 	});
 
 	it('file-unshare', async function () {
-		return helper.takeAndCompare(this, '/index.php/apps/files', async function (page) {
+		return helper.takeAndCompare(this, 'index.php/apps/files', async function (page) {
 			const element = await page.$('[data-file="welcome.txt"] .action-share');
 			await element.click('[data-file="welcome.txt"] .action-share');
 			await page.waitForSelector('input.linkCheckbox');

@@ -31,7 +31,7 @@ describe('install', function () {
 	config.resolutions.forEach(function (resolution) {
 		it('show-page.' + resolution.title, async function () {
 			// (test, route, prepare, action, options
-			return helper.takeAndCompare(this, '/index.php', async (page) => {
+			return helper.takeAndCompare(this, 'index.php', async (page) => {
 				await helper.delay(100);
 				await page.$eval('body', function (e) {
 					$('#adminlogin').blur();
@@ -61,7 +61,7 @@ describe('install', function () {
 		helper.pageBase.setDefaultNavigationTimeout(5*60*1000);
 		helper.pageCompare.setDefaultNavigationTimeout(5*60*1000);
 		// just run for one resolution since we can only install once
-		return helper.takeAndCompare(this, '/index.php',  async function (page) {
+		return helper.takeAndCompare(this, 'index.php',  async function (page) {
 			const login = await page.type('#adminlogin', 'admin');
 			const password = await page.type('#adminpass', 'admin');
 			const inputElement = await page.$('input[type=submit]');

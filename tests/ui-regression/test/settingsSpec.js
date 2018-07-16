@@ -33,24 +33,24 @@ describe('settings', function () {
 
 	config.resolutions.forEach(function (resolution) {
 		it('personal.' + resolution.title, async function () {
-			return helper.takeAndCompare(this, '/index.php/settings/user', async function (page) {
+			return helper.takeAndCompare(this, 'index.php/settings/user', async function (page) {
 			}, {viewport: resolution});
 		});
 
 		it('admin.' + resolution.title, async function () {
-			return helper.takeAndCompare(this, '/index.php/settings/admin', async function (page) {
+			return helper.takeAndCompare(this, 'index.php/settings/admin', async function (page) {
 			}, {viewport: resolution});
 		});
 
 		['sharing', 'security', 'theming', 'encryption', 'additional', 'tips-tricks'].forEach(function(endpoint) {
 			it('admin.' + endpoint + '.' + resolution.title, async function () {
-				return helper.takeAndCompare(this, '/index.php/settings/admin/' + endpoint, async function (page) {
+				return helper.takeAndCompare(this, 'index.php/settings/admin/' + endpoint, async function (page) {
 				}, {viewport: resolution, waitUntil: 'networkidle2'});
 			});
 		});
 
 		it('usermanagement.' + resolution.title, async function () {
-			return helper.takeAndCompare(this, '/index.php/settings/users', async function (page) {
+			return helper.takeAndCompare(this, 'index.php/settings/users', async function (page) {
 			}, {viewport: resolution});
 		});
 
