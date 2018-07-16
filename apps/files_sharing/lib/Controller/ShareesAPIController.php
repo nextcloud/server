@@ -70,6 +70,7 @@ class ShareesAPIController extends OCSController {
 			'remote_groups' => [],
 			'emails' => [],
 			'circles' => [],
+			'rooms' => [],
 		],
 		'users' => [],
 		'groups' => [],
@@ -78,6 +79,7 @@ class ShareesAPIController extends OCSController {
 		'emails' => [],
 		'lookup' => [],
 		'circles' => [],
+		'rooms' => [],
 	];
 
 	protected $reachedEndFor = [];
@@ -161,6 +163,10 @@ class ShareesAPIController extends OCSController {
 
 			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
 				$shareTypes[] = Share::SHARE_TYPE_EMAIL;
+			}
+
+			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_ROOM)) {
+				$shareTypes[] = Share::SHARE_TYPE_ROOM;
 			}
 		} else {
 			$shareTypes[] = Share::SHARE_TYPE_GROUP;
