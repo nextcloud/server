@@ -85,6 +85,14 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 		}
 	}
 
+	array_push($sharingSublistArray, [
+		'id' => 'deletedshares',
+		'appname' => 'files_sharing',
+		'script' => 'list.php',
+		'order' => 19,
+		'name' => $l->t('Deleted shares'),
+	]);
+
 	// show_Quick_Access stored as string
 	$defaultExpandedState = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_sharing_menu', '0') === '1';
 
@@ -98,16 +106,4 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 		'sublist' => $sharingSublistArray,
 		'expandedState' => 'show_sharing_menu'
 	]);
-
-
-	\OCA\Files\App::getNavigationManager()->add(function () {
-		$l = \OC::$server->getL10N('files_sharing');
-		return [
-			'id' => 'deletedshares',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 19,
-			'name' => $l->t('Deleted shares'),
-		];
-	});
 }
