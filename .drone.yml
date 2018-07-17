@@ -718,7 +718,7 @@ pipeline:
         TESTS: ui-regression
   publish-s3:
     image: plugins/s3
-    endpoint: https://ci-assets.nextcloud.com.weasel.rocks
+    endpoint: https://ci-assets.nextcloud.com
     bucket: nextcloud-ui-regression
     path_style: true
     source: tests/ui-regression/out/**/*
