@@ -32,6 +32,10 @@
 	background-image: linear-gradient(rgba(255, 255, 255, 0.0), var(--color-main-background));
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
+	clear: both;
+	button {
+		display: inline-block;
+	}
 }
 /* align primary button to right, other buttons to left */
 .oc-dialog-buttonrow.twobuttons button:nth-child(1) {
@@ -46,14 +50,6 @@
 
 .oc-dialog-buttonrow.onebutton button {
 	float: right;
-}
-.oc-dialog-buttonrow:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
 }
 
 .oc-dialog-close {
