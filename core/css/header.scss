@@ -490,7 +490,8 @@ nav[role='navigation'] {
 	}
 
 	li:hover span,
-	li:focus span {
+	li:focus span,
+	li a:focus span {
 		display: inline-block;
 	}
 
