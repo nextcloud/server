@@ -291,29 +291,28 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Toggle default for showing/hiding QuickAccess folder
+	 * Toggle default for showing/hiding xxx folder
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param bool $show
+	 * @param bool $show 
+	 * @param bool $key the key of the folder
 	 *
 	 * @return Response
 	 */
-	public function showQuickAccess($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', (int)$show);
-		return new Response();
-	}
-
-	/**
-	 * Toggle default for showing/hiding QuickAccess folder
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @return String
-	 */
-	public function getShowQuickAccess() {
-
-		return $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_Quick_Access', 0);
+	public function toggleShowFolder(int $show, string $key) {
+		// ensure the edited key exists
+		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
+		foreach ($navItems as $item) {
+			// check if data is valid
+			if (($show === 0 || $show === 1) && isset($item['expandedState']) && $key === $item['expandedState']) {
+				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, (int)$show);
+				return new Response();
+			}
+		}
+		$response = new Response();
+		$response->setStatus(Http::STATUS_FORBIDDEN);
+		return $response;
 	}
 
 	/**

@@ -39,24 +39,29 @@ $templateManager->registerTemplate('application/vnd.oasis.opendocument.presentat
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.text', 'core/templates/filetemplates/template.odt');
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
 
-\OCA\Files\App::getNavigationManager()->add(function () use ($l) {
-	return [
-		'id' => 'files',
-		'appname' => 'files',
-		'script' => 'list.php',
-		'order' => 0,
-		'name' => $l->t('All files'),
-	];
-});
+\OCA\Files\App::getNavigationManager()->add([
+	'id'      => 'files',
+	'appname' => 'files',
+	'script'  => 'list.php',
+	'order'   => 0,
+	'name'    => $l->t('All files')
+]);
 
-\OCA\Files\App::getNavigationManager()->add(function () use ($l) {
-	return [
-		'id' => 'recent',
-		'appname' => 'files',
-		'script' => 'recentlist.php',
-		'order' => 2,
-		'name' => $l->t('Recent'),
-	];
-});
+\OCA\Files\App::getNavigationManager()->add([
+	'id'      => 'recent',
+	'appname' => 'files',
+	'script'  => 'recentlist.php',
+	'order'   => 2,
+	'name'    => $l->t('Recent')
+]);
+
+\OCA\Files\App::getNavigationManager()->add([
+	'id'            => 'favorites',
+	'appname'       => 'files',
+	'script'        => 'simplelist.php',
+	'order'         => 5,
+	'name'          => $l->t('Favorites'),
+	'expandedState' => 'show_Quick_Access'
+]);
 
 \OCP\Util::connectHook('\OCP\Config', 'js', '\OCA\Files\App', 'extendJsConfig');

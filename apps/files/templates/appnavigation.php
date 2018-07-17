@@ -66,21 +66,26 @@
 function NavigationListElements($item, $l, $pinned) {
 	strpos($item['classes'], 'pinned') !== false ? $pinned++ : '';
 	?>
-	<li <?php if (isset($item['sublist'])){ ?>id="button-collapse-parent-<?php p($item['id']); ?>"<?php } ?>
-		data-id="<?php p($item['id']) ?>" data-dir="<?php p($item['dir']) ?>" data-view="<?php p($item['view']) ?>"
-		class="nav-<?php p($item['id']) ?> <?php p($item['classes']) ?> <?php p($pinned === 1 ? 'first-pinned' : '') ?> <?php if ($item['defaultExpandedState']) { ?> open<?php } ?>"
+	<li
+		data-id="<?php p($item['id']) ?>"
+		<?php if (isset($item['dir'])) { ?> data-dir="<?php p($item['dir']); ?>" <?php } ?>
+		<?php if (isset($item['view'])) { ?> data-view="<?php p($item['view']); ?>" <?php } ?>
+		<?php if (isset($item['expandedState'])) { ?> data-expandedstate="<?php p($item['expandedState']); ?>" <?php } ?>
+		class="nav-<?php p($item['id']) ?>
+		<?php if (isset($item['classes'])) { p($item['classes']); } ?>
+		<?php p($pinned === 1 ? 'first-pinned' : '') ?>
+		<?php if (isset($item['defaultExpandedState']) && $item['defaultExpandedState']) { ?> open<?php } ?>"
 		<?php if (isset($item['folderPosition'])) { ?> folderposition="<?php p($item['folderPosition']); ?>" <?php } ?>>
 
 		<a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"
-		   class="nav-icon-<?php p($item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']); ?></a>
+		   class="nav-icon-<?php p(isset($item['icon']) && $item['icon'] !== '' ? $item['icon'] : $item['id']) ?> svg"><?php p($item['name']); ?></a>
 
 
 		<?php
 		NavigationElementMenu($item);
 		if (isset($item['sublist'])) {
 			?>
-			<button id="button-collapse-<?php p($item['id']); ?>"
-					class="collapse app-navigation-noclose" <?php if (sizeof($item['sublist']) == 0) { ?> style="display: none" <?php } ?>></button>
+			<button class="collapse app-navigation-noclose" <?php if (sizeof($item['sublist']) == 0) { ?> style="display: none" <?php } ?>></button>
 			<ul id="sublist-<?php p($item['id']); ?>">
 				<?php
 				foreach ($item['sublist'] as $item) {
@@ -104,10 +109,10 @@ function NavigationListElements($item, $l, $pinned) {
  * @return void
  */
 function NavigationElementMenu($item) {
-	if ($item['menubuttons'] === 'true') {
+	if (isset($item['menubuttons']) && $item['menubuttons'] === 'true') {
 		?>
 		<div id="dotmenu-<?php p($item['id']); ?>"
-			 class="app-navigation-entry-utils" <?php if ($item['enableMenuButton'] === 0) { ?> style="display: none"<?php } ?>>
+			 class="app-navigation-entry-utils" <?php if (isset($item['enableMenuButton']) && $item['enableMenuButton'] === 0) { ?> style="display: none"<?php } ?>>
 			<ul>
 				<li class="app-navigation-entry-utils-menu-button svg">
 					<button id="dotmenu-button-<?php p($item['id']) ?>"></button>

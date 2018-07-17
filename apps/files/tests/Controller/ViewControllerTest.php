@@ -145,7 +145,7 @@ class ViewControllerTest extends TestCase {
 		$nav->assign('total_space', '100 B');
 		//$nav->assign('webdavurl', '');
 		$nav->assign('navigationItems', [
-			[
+			'files' => [
 				'id' => 'files',
 				'appname' => 'files',
 				'script' => 'list.php',
@@ -156,7 +156,7 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => '',
 			],
-			[
+			'recent' => [
 				'id' => 'recent',
 				'appname' => 'files',
 				'script' => 'recentlist.php',
@@ -167,65 +167,21 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => '',
 			],
-			[
+			'favorites' => [
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
 				'order' => 5,
-				'name' => null,
+				'name' => \OC::$server->getL10N('files')->t('Favorites'),
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
 				'sublist' => [],
 				'defaultExpandedState' => false,
-				'enableMenuButton' => 0,
+				'expandedState' => 'show_Quick_Access'
 			],
-			[
-			'id' => 'sharingin',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 15,
-				'name' => \OC::$server->getL10N('files_sharing')->t('Shared with you'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-			],
-			[
-			'id' => 'sharingout',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 16,
-				'name' => \OC::$server->getL10N('files_sharing')->t('Shared with others'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-			],
-			[
-				'id' => 'sharinglinks',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 17,
-				'name' => \OC::$server->getL10N('files_sharing')->t('Shared by link', []),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-			],
-			[
-				'id' => 'deletedshares',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 18,
-				'name' => \OC::$server->getL10N('files_sharing')->t('Deleted shares'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-			],
-			[
+			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
 				'appname' => 'systemtags',
 				'script' => 'list.php',
@@ -236,7 +192,7 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => '',
 			],
-			[
+			'trashbin' => [
 				'id' => 'trashbin',
 				'appname' => 'files_trashbin',
 				'script' => 'list.php',
@@ -264,39 +220,23 @@ class ViewControllerTest extends TestCase {
 				'allowShareWithLink' => 'yes',
 				'appNavigation' => $nav,
 				'appContents' => [
-					[
+					'files' => [
 						'id' => 'files',
 						'content' => null,
 					],
-					[
+					'recent' => [
 						'id' => 'recent',
 						'content' => null,
 					],
-					[
+					'favorites' => [
 						'id' => 'favorites',
 						'content' => null,
 					],
-					[
-						'id' => 'sharingin',
-						'content' => null,
-					],
-					[
-						'id' => 'sharingout',
-						'content' => null,
-					],
-					[
-						'id' => 'sharinglinks',
-						'content' => null,
-					],
-					[
-						'id' => 'deletedshares',
-						'content' => null,
-					],
-					[
+					'systemtagsfilter' => [
 						'id' => 'systemtagsfilter',
 						'content' => null,
 					],
-					[
+					'trashbin' => [
 						'id' => 'trashbin',
 						'content' => null,
 					],

@@ -68,29 +68,22 @@
 	 * @param {String} appfolder folder to be removed
 	 */
 	function removeFavoriteFromList (appfolder) {
-
 		var quickAccessList = 'sublist-favorites';
-		var collapsibleButtonId = 'button-collapse-favorites';
 		var listULElements = document.getElementById(quickAccessList);
 		if (!listULElements) {
 			return;
 		}
-		var listLIElements = listULElements.getElementsByTagName('li');
 
 		var apppath=appfolder;
 		if(appfolder.startsWith("//")){
 			apppath=appfolder.substring(1, appfolder.length);
 		}
 
-		for (var i = 0; i <= listLIElements.length - 1; i++) {
-			if (listLIElements[i].getElementsByTagName('a')[0].href.endsWith("dir=" + apppath)) {
-				listLIElements[i].remove();
-			}
-		}
+		$(listULElements).find('[data-dir="' + apppath + '"]').remove();
 
 		if (listULElements.childElementCount === 0) {
-			var collapsibleButton = document.getElementById("button-collapse-favorites");
-			collapsibleButton.style.display = 'none';
+			var collapsibleButton = $(listULElements).parent().find('button.collapse');
+			collapsibleButton.hide();
 			$("#button-collapse-parent-favorites").removeClass('collapsible');
 		}
 	}
@@ -102,7 +95,6 @@
 	 */
 	function addFavoriteToList (appfolder) {
 		var quickAccessList = 'sublist-favorites';
-		var collapsibleButtonId = 'button-collapse-favorites';
 		var listULElements = document.getElementById(quickAccessList);
 		if (!listULElements) {
 			return;
@@ -110,13 +102,13 @@
 		var listLIElements = listULElements.getElementsByTagName('li');
 
 		var appName = appfolder.substring(appfolder.lastIndexOf("/") + 1, appfolder.length);
-		var apppath=appfolder;
+		var apppath = appfolder;
 
 		if(appfolder.startsWith("//")){
-			apppath=appfolder.substring(1, appfolder.length);
+			apppath = appfolder.substring(1, appfolder.length);
 		}
-		var url=OC.generateUrl('/apps/files/?dir=')+apppath;
-
+		var url = OC.generateUrl('/apps/files/?dir=' + apppath + '&view=files');
+		
 
 		var innerTagA = document.createElement('A');
 		innerTagA.setAttribute("href", url);
@@ -125,7 +117,9 @@
 
 		var length = listLIElements.length + 1;
 		var innerTagLI = document.createElement('li');
-		innerTagLI.setAttribute("data-id", url);
+		innerTagLI.setAttribute("data-id", apppath.replace('/', '-'));
+		innerTagLI.setAttribute("data-dir", apppath);
+		innerTagLI.setAttribute("data-view", 'files');
 		innerTagLI.setAttribute("class", "nav-" + appName);
 		innerTagLI.setAttribute("folderpos", length.toString());
 		innerTagLI.appendChild(innerTagA);
@@ -134,10 +128,9 @@
 				if (data === "dir") {
 					if (listULElements.childElementCount <= 0) {
 						listULElements.appendChild(innerTagLI);
-						var collapsibleButton = document.getElementById(collapsibleButtonId);
-						collapsibleButton.style.display = '';
-
-						$("#button-collapse-parent-favorites").addClass('collapsible');
+						var collapsibleButton = $(listULElements).parent().find('button.collapse');
+						collapsibleButton.show();
+						$(listULElements).parent().addClass('collapsible');
 					} else {
 						listLIElements[listLIElements.length - 1].after(innerTagLI);
 					}

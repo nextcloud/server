@@ -40,6 +40,7 @@
 		_showDeleted: false,
 		_clientSideSort: true,
 		_allowSelection: false,
+		_isOverview: false,
 
 		/**
 		 * @private
@@ -59,6 +60,9 @@
 			}
 			if (options && options.showDeleted) {
 				this._showDeleted = true;
+			}
+			if (options && options.isOverview) {
+				this._isOverview = true;
 			}
 		},
 
@@ -191,55 +195,62 @@
 			// there is only root
 			this._setCurrentDir('/', false);
 
-
-			if (this._showDeleted) {
-				var shares = $.ajax({
-					url: OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'deletedshares',
-					/* jshint camelcase: false */
-					data: {
-						format: 'json',
-						include_tags: true
-					},
-					type: 'GET',
-					beforeSend: function(xhr) {
-						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
-					},
-				});
-			} else {
-				var shares = $.ajax({
-					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
-					/* jshint camelcase: false */
-					data: {
-						format: 'json',
-						shared_with_me: !!this._sharedWithUser,
-						include_tags: true
-					},
-					type: 'GET',
-					beforeSend: function(xhr) {
-						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
-					},
-				});
-			}
 			var promises = [];
-			promises.push(shares);
 
-			if (!!this._sharedWithUser) {
-				var remoteShares = $.ajax({
-					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'remote_shares',
-					/* jshint camelcase: false */
-					data: {
-						format: 'json',
-						include_tags: true
-					},
-					type: 'GET',
-					beforeSend: function(xhr) {
-						xhr.setRequestHeader('OCS-APIREQUEST', 'true');
-					},
-				});
-				promises.push(remoteShares);
+			var deletedShares = {
+				url: OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'deletedshares',
+				/* jshint camelcase: false */
+				data: {
+					format: 'json',
+					include_tags: true
+				},
+				type: 'GET',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+				},
+			};
+
+			var shares = {
+				url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
+				/* jshint camelcase: false */
+				data: {
+					format: 'json',
+					shared_with_me: this._sharedWithUser !== false,
+					include_tags: true
+				},
+				type: 'GET',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+				},
+			};
+
+			var remoteShares = {
+				url: OC.linkToOCS('apps/files_sharing/api/v1') + 'remote_shares',
+				/* jshint camelcase: false */
+				data: {
+					format: 'json',
+					include_tags: true
+				},
+				type: 'GET',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('OCS-APIREQUEST', 'true');
+				},
+			};
+
+			// Add the proper ajax requests to the list and run them
+			// and make sure we have 2 promises
+			if (this._showDeleted) {
+				promises.push($.ajax(deletedShares));
 			} else {
-				//Push empty promise so callback gets called the same way
-				promises.push($.Deferred().resolve());
+				promises.push($.ajax(shares));
+
+				if (this._sharedWithUser !== false || this._isOverview) {
+					promises.push($.ajax(remoteShares));
+				}
+				if (this._isOverview) {
+					shares.data.shared_with_me = !shares.data.shared_with_me
+					promises.push($.ajax(shares));
+				}
 			}
 
 			this._reloadCall = $.when.apply($, promises);
@@ -247,7 +258,7 @@
 			return this._reloadCall.then(callBack, callBack);
 		},
 
-		reloadCallback: function(shares, remoteShares) {
+		reloadCallback: function(shares, remoteShares, additionnalShares) {
 			delete this._reloadCall;
 			this.hideMask();
 
@@ -257,13 +268,29 @@
 
 			var files = [];
 
-			if (shares[0].ocs && shares[0].ocs.data) {
-				files = files.concat(this._makeFilesFromShares(shares[0].ocs.data));
+			// make sure to use the same format
+			if (shares[0] && shares[0].ocs) {
+				shares = shares[0];
+			}
+			if (remoteShares && remoteShares[0] && remoteShares[0].ocs) {
+				remoteShares = remoteShares[0];
+			}
+			if (additionnalShares && additionnalShares[0] && additionnalShares[0].ocs) {
+				additionnalShares = additionnalShares[0];
 			}
 
-			if (remoteShares && remoteShares[0].ocs && remoteShares[0].ocs.data) {
-				files = files.concat(this._makeFilesFromRemoteShares(remoteShares[0].ocs.data));
+			if (shares.ocs && shares.ocs.data) {
+				files = files.concat(this._makeFilesFromShares(shares.ocs.data, this._sharedWithUser));
 			}
+
+			if (remoteShares && remoteShares.ocs && remoteShares.ocs.data) {
+				files = files.concat(this._makeFilesFromRemoteShares(remoteShares.ocs.data));
+			}
+
+			if (additionnalShares && additionnalShares && additionnalShares.ocs && additionnalShares.ocs.data) {
+				files = files.concat(this._makeFilesFromShares(additionnalShares.ocs.data, !this._sharedWithUser));
+			}
+
 
 			this.setFiles(files);
 			return true;
@@ -303,7 +330,7 @@
 		 * @param {Array} data OCS API share array
 		 * @return {Array.<OCA.Sharing.SharedFileInfo>} array of shared file info
 		 */
-		_makeFilesFromShares: function(data) {
+		_makeFilesFromShares: function(data, sharedWithUser) {
 			/* jshint camelcase: false */
 			var self = this;
 			var files = data;
@@ -339,7 +366,7 @@
 						stime: share.stime * 1000,
 						expiration: share.expiration,
 					};
-					if (self._sharedWithUser) {
+					if (sharedWithUser) {
 						file.shareOwner = share.displayname_owner;
 						file.shareOwnerId = share.uid_owner;
 						file.name = OC.basename(share.file_target);
