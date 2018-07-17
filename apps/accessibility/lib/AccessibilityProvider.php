@@ -58,13 +58,13 @@ class AccessibilityProvider {
 			[
 				'id'    => 'themehighcontrast',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-highcontrast.jpg'),
-				'title' => $this->l->t('High Contrast theme'),
+				'title' => $this->l->t('High contrast theme'),
 				'text'  => $this->l->t('A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased.')
 			], [
 				'id'    => 'themedark',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-dark.jpg'),
-				'title' => $this->l->t('Dark theme'),
-				'text'  => $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness of your navigation. This is suitable for people who use computes a lot or in low luminosity spaces.')
+				'title' => $this->l->t('Dark theme (beta)'),
+				'text'  => $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.')
 			]
 		);
 	}
