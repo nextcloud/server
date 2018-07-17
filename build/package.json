@@ -18,13 +18,13 @@
     "jsdoc": "~3.5.5",
     "karma": "^2.0.2",
     "karma-coverage": "*",
-    "karma-jasmine": "^1.1.0",
+    "karma-jasmine": "^1.1.2",
     "karma-jasmine-sinon": "^1.0.4",
-    "karma-junit-reporter": "*",
-    "karma-phantomjs-launcher": "*",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-phantomjs-launcher": "^1.0.4",
     "karma-viewport": "^1.0.2",
-    "phantomjs-prebuilt": "*",
     "node-sass": "~4.9.0",
+    "phantomjs-prebuilt": "*",
     "sinon": "<= 5.0.7"
   },
   "engine": "node >= 6.9"
