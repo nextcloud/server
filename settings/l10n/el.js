@@ -174,6 +174,7 @@ OC.L10N.register(
     "Start migration" : "Έναρξη μετάβασης",
     "Security & setup warnings" : "Προειδοποιήσεις ασφάλειας & ρυθμίσεων",
     "All checks passed." : "Όλοι οι έλεγχοι επιτυχείς.",
+    "There are some errors regarding your setup." : "Υπάρχουν μερικά σφάλματα σχετικά με τις ρυθμίσεις σας.",
     "Version" : "Έκδοση",
     "Background jobs" : "Εργασίες παρασκηνίου",
     "Execute one task with each page loaded" : "Εκτελεί μια διεργασία κάθε φορά που φορτώνεται μια σελίδα",

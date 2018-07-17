@@ -261,6 +261,7 @@
     "Redirecting …" : "Γίνεται ανακατεύθυνση ...",
     "New password" : "Νέο συνθηματικό",
     "New Password" : "Νέο Συνθηματικό",
+    "The password is wrong. Try again." : "Το συνθηματικό είναι λανθασμένο. Δοκιμάστε ξανά.",
     "Two-factor authentication" : "Πιστοποίηση Δύο-Παραγόντων",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Έχει ενεργοποιηθεί βελτιωμένη ασφάλεια για τον λογαριασμό σας. Παρακαλώ πιστοποιήστε με την χρήση δεύτερου παράγοντα",
     "Cancel log in" : "Ακύρωση εισόδου",
