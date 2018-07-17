@@ -151,12 +151,13 @@ class NodeTest extends \Test\TestCase {
 
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
-			->setMethods(['getStorage', 'getType', 'getMountPoint'])
+			->setMethods(['getStorage', 'getType', 'getMountPoint', 'getPermissions'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn($type);
 		$info->method('getMountPoint')->willReturn($mountpoint);
+		$info->method('getPermissions')->willReturn($permissions);
 
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()

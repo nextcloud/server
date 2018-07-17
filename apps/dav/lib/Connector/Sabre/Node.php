@@ -38,6 +38,7 @@ use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\FileInfo;
+use OCP\Files\StorageNotAvailableException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
@@ -250,15 +251,17 @@ abstract class Node implements \Sabre\DAV\INode {
 			}
 		}
 
-		$storage = $this->info->getStorage();
+		try {
+			$storage = $this->info->getStorage();
+		} catch (StorageNotAvailableException $e) {
+			$storage = null;
+		}
 
-		$path = $this->info->getInternalPath();
-
-		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+		if ($storage && $storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
 			/** @var \OCA\Files_Sharing\SharedStorage $storage */
 			$permissions = (int)$storage->getShare()->getPermissions();
 		} else {
-			$permissions = $storage->getPermissions($path);
+			$permissions = $this->info->getPermissions();
 		}
 
 		/*
