@@ -82,7 +82,7 @@
 				menuItem.className = "menuitem";
 
 				icon = document.createElement('span');
-				icon.className = 'icon-star-dark';
+				icon.className = 'icon-checkmark';
 				menuItem.appendChild(icon);
 
 				text = document.createElement('p');

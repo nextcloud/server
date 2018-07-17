@@ -227,7 +227,7 @@
 				}
 				var whatsNew = [];
 				for (var i in this.whatsNewData) {
-					whatsNew[i] = { icon: 'icon-star-dark', longtext: this.whatsNewData[i] };
+					whatsNew[i] = { icon: 'icon-checkmark', longtext: this.whatsNewData[i] };
 				}
 				if(this.changelogURL) {
 					whatsNew.push({
