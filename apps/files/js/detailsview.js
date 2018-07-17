@@ -118,8 +118,11 @@
 		 */
 		render: function() {
 			// remove old instances
-			$('#app-sidebar').remove();
-			this.$el.insertAfter($('#app-content'));
+			if ($('#app-sidebar').length === 0) {
+				this.$el.insertAfter($('#app-content'));
+			} else {
+				$('#app-sidebar').replaceWith(this.$el)
+			}
 			
 			var templateVars = {
 				closeLabel: t('files', 'Close')

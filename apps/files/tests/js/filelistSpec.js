@@ -2491,7 +2491,8 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
 			fileList.remove('One.txt');
-			expect($('#app-sidebar').hasClass('disappear')).toEqual(true);
+			// sidebar is removed on close before being
+			expect($('#app-sidebar').length).toEqual(0);
 			jQuery.fx.off = false;
 		});
 		it('returns the currently selected model instance when calling getModelForFile', function() {
@@ -2515,7 +2516,7 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
 			fileList.changeDirectory('/another');
-			expect($('#app-sidebar').hasClass('disappear')).toEqual(true);
+			expect($('#app-sidebar').length).toEqual(0);
 			jQuery.fx.off = false;
 		});
 	});
