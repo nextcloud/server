@@ -633,7 +633,8 @@ kbd {
 */
 #app-sidebar {
 	width: 27vw;
-	min-width: $sidebar-width;
+	min-width: $sidebar-min-width;
+	max-width: $sidebar-max-width;
 	display: block;
 	position: relative;
 	background: var(--color-main-background);
@@ -670,8 +671,6 @@ kbd {
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-	border-right: 1px solid var(--color-border);
-	width: 250px;
 	box-sizing: border-box;
 
 	/* display input fields at full width */
@@ -699,8 +698,6 @@ kbd {
 }
 
 #app-settings-header {
-	border-right: 1px solid var(--color-border);
-	width: 250px;
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 }
@@ -1026,7 +1023,7 @@ $popovericon-size: 16px;
 
 	}
 }
-	
+
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	width: 300px;
@@ -1179,4 +1176,3 @@ $popovericon-size: 16px;
 		}
 	}
 }
-
