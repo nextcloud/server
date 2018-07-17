@@ -269,8 +269,14 @@
 			var files = [];
 
 			// make sure to use the same format
-			if(shares[0] && shares[0].ocs) {
+			if (shares[0] && shares[0].ocs) {
 				shares = shares[0];
+			}
+			if (remoteShares && remoteShares[0] && remoteShares[0].ocs) {
+				remoteShares = remoteShares[0];
+			}
+			if (additionnalShares && additionnalShares[0] && additionnalShares[0].ocs) {
+				additionnalShares = additionnalShares[0];
 			}
 
 			if (shares.ocs && shares.ocs.data) {
@@ -281,9 +287,10 @@
 				files = files.concat(this._makeFilesFromRemoteShares(remoteShares.ocs.data));
 			}
 
-			if (additionnalShares && additionnalShares[0] && additionnalShares[0].ocs && additionnalShares[0].ocs.data) {
-				files = files.concat(this._makeFilesFromShares(additionnalShares[0].ocs.data, !this._sharedWithUser));
+			if (additionnalShares && additionnalShares && additionnalShares.ocs && additionnalShares.ocs.data) {
+				files = files.concat(this._makeFilesFromShares(additionnalShares.ocs.data, !this._sharedWithUser));
 			}
+
 
 			this.setFiles(files);
 			return true;
