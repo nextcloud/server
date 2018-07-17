@@ -69,6 +69,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Die Einladung annehmen?",
     "Tentative" : "Vorläufig",
     "Save" : "Speichern",
+    "Your attendance was updated successfully." : "Dein Anwesenheits-Status wurde aktualisiert.",
     "CalDAV server" : "CalDAV-Server",
     "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden",
     "Please make sure to properly set up the email settings above." : "Bitte sicherstellen, dass die E-Mail Einstellungen oben korrekt angegeben sind.",
