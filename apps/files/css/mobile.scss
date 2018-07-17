@@ -9,7 +9,7 @@
 
 /* don’t require a minimum width for files table */
 #body-user #filestable {
-	min-width: initial !important;
+	min-width: 300px;
 }
 
 table th#headerSize,

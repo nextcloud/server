@@ -597,6 +597,7 @@ kbd {
 	position: relative;
 	min-height: calc(100vh - #{$header-height});
 	flex-basis: 100vw;
+	overflow: auto;
 	/* no top border for first settings item */
 	> .section:first-child {
 		border-top: none;
