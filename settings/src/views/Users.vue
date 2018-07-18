@@ -301,11 +301,16 @@ export default {
 			}
 
 			// Add separator
-			let separator = {
-				caption: true,
-				text: t('settings', 'Groups')
-			};
-			groups.unshift(separator);
+			let realGroups = groups.find((group) => {return group.id !== 'disabled' && group.id !== 'admin'});
+			realGroups = typeof realGroups === 'undefined' ? [] : realGroups;
+			realGroups = Array.isArray(realGroups) ? realGroups : [realGroups];
+			if (realGroups.length > 0) {
+				let separator = {
+					caption: true,
+					text: t('settings', 'Groups')
+				};
+				groups.unshift(separator);
+			}
 
 
 			// Add everyone group
