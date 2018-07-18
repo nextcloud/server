@@ -28,7 +28,6 @@
 		'<div class="shareeListView subView"></div>' +
 		'<div class="linkShareView subView"></div>' +
 		'<div class="expirationView subView"></div>' +
-		'<div class="noteView subView"></div>' +
 		'<div class="loading hidden" style="height: 50px"></div>';
 
 	/**
@@ -62,10 +61,7 @@
 
 		/** @type {object} **/
 		expirationView: undefined,
-
-		/** @type {object} **/
-		noteView: undefined,
-
+		
 		/** @type {object} **/
 		shareeListView: undefined,
 
@@ -117,7 +113,6 @@
 				resharerInfoView: 'ShareDialogResharerInfoView',
 				linkShareView: 'ShareDialogLinkShareView',
 				expirationView: 'ShareDialogExpirationView',
-				noteView: 'ShareDialogNoteView',
 				shareeListView: 'ShareDialogShareeListView'
 			};
 
@@ -679,9 +674,6 @@
 
 			this.expirationView.$el = this.$el.find('.expirationView');
 			this.expirationView.render();
-
-			this.noteView.$el = this.$el.find('.noteView');
-			this.noteView.render();
 
 			this.shareeListView.$el = this.$el.find('.shareeListView');
 			this.shareeListView.render();

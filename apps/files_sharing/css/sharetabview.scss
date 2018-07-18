@@ -2,164 +2,183 @@
 	min-height: 100px;
 }
 
-.shareTabView .oneline {
-	white-space: nowrap;
-	position: relative;
-}
-
-.shareTabView .shareWithLoading {
-	padding-left: 10px;
-	right: 35px;
-	top: 0px;
-}
-
-.shareTabView .shareWithConfirm,
-.shareTabView .clipboardButton,
-.shareTabView .linkPass .icon-loading-small {
-	position: absolute;
-	right: -7px;
-	top: -2px;
-	padding: 14px;
-}
-
-.shareTabView .shareWithConfirm {
-	opacity: .5;
-}
-
-.shareTabView .shareWithField:focus ~ .shareWithConfirm {
-	opacity: 1;
-}
-
-.shareTabView .linkMore {
-	position: absolute;
-	right: -7px;
-	top: -4px;
-	padding: 14px;
+.shareTabView {
+	.oneline {
+		white-space: nowrap;
+		position: relative;
+	}
+	.shareWithLoading {
+		padding-left: 10px;
+		right: 35px;
+		top: 0px;
+	}
+	.shareWithConfirm,
+	.clipboardButton,
+	.linkPass .icon-loading-small {
+		position: absolute;
+		right: -7px;
+		top: -2px;
+		padding: 14px;
+	}
+	.shareWithConfirm {
+		opacity: 0.5;
+	}
+	.shareWithField:focus ~ .shareWithConfirm {
+		opacity: 1;
+	}
+	.linkMore {
+		position: absolute;
+		right: -7px;
+		top: -4px;
+		padding: 14px;
+	}
+	.popovermenu {
+		&.socialSharingMenu {
+			right: -7px;
+		}
+		.clipboardButton {
+			position: relative;
+			top: initial;
+			right: initial;
+			padding: 0;
+		}
+		.share-add {
+			input.share-note-delete {
+				display: none;
+				border: none;
+				background-color: transparent;
+				width: 44px !important;
+				padding: 0;
+				flex: 0 0 44px;
+				margin-left: auto;
+			}
+		}
+		// note
+		.share-note-form {
+			span.icon-note {
+				position: relative;
+			}
+			textarea.share-note {
+				margin: 0;
+				width: 200px;
+				min-height: 70px;
+				resize: none;
+				+ input.share-note-submit {
+					position: absolute;
+					width: 44px !important;
+					height: 44px;
+					bottom: 0px;
+					right: 10px;
+					margin: 0;
+					background-color: transparent;
+					border: none;
+					opacity: .7;
+					&:hover,
+					&:focus,
+					&:active {
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+	label {
+		white-space: nowrap;
+	}
+	input {
+		&[type='checkbox'] {
+			margin: 0 3px 0 8px;
+			vertical-align: middle;
+		}
+		&[type='text'] {
+			&.shareWithField,
+			&.emailField,
+			&.linkText {
+				width: 100%;
+				box-sizing: border-box;
+				padding-right: 32px;
+				text-overflow: ellipsis;
+			}
+		}
+		&[type='password'] {
+			width: 100%;
+			box-sizing: border-box;
+			padding-right: 32px;
+			text-overflow: ellipsis;
+		}
+	}
+	form {
+		font-size: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
 }
 
 /* fix the popup menu because the button is shifted and then the menu is not aligned */
-.shareTabView .popovermenu.socialSharingMenu {
-	right: -7px;
-}
-
-.shareTabView .popovermenu .clipboardButton {
-	position: relative;
-	top: initial;
-	right: initial;
-	padding: 0;
-}
-
-.shareTabView label {
-	white-space: nowrap;
-}
-
-.shareTabView input[type="checkbox"] {
-	margin: 0 3px 0 8px;
-	vertical-align: middle;
-}
-
-.shareTabView input[type="text"].shareWithField,
-.shareTabView input[type="text"].emailField,
-.shareTabView input[type="text"].linkText,
-.shareTabView input[type="password"] {
-	width: 100%;
-	box-sizing: border-box;
-	padding-right: 32px;
-	text-overflow: ellipsis;
-}
-
-.shareTabView form {
-	font-size: 100%;
-	margin-left: 0;
-	margin-right: 0;
-}
 
 #shareWithList {
 	list-style-type: none;
 	padding: 0 0 16px;
+	> li {
+		padding-top: 5px;
+		padding-bottom: 5px;
+		white-space: normal;
+		display: inline-flex;
+		align-items: center;
+	}
+	.unshare img {
+		vertical-align: text-bottom;
+		/* properly align icons */
+	}
+	.sharingOptionsGroup {
+		> a .icon {
+			padding: 7px;
+			vertical-align: middle;
+			opacity: 0.5;
+		}
+		.popovermenu:after {
+			right: 3px;
+		}
+	}
+	label input[type='checkbox'] {
+		margin-left: 0;
+		position: relative;
+	}
+	.username {
+		padding-right: 8px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: middle;
+	}
+	li .sharingOptionsGroup > .shareOption > label {
+		padding: 6px;
+		margin-right: 8px;
+		vertical-align: text-top;
+	}
 }
 
-#shareWithList > li {
-	padding-top: 5px;
-	padding-bottom: 5px;
-	white-space: normal;
-	display: inline-flex;
-	align-items: center;
-}
-
-#shareWithList .unshare img {
-	vertical-align: text-bottom; /* properly align icons */
-}
-
-#shareWithList .sharingOptionsGroup > a .icon {
-	padding: 7px;
-	vertical-align: middle;
-	opacity: .5;
-}
-
-#shareWithList .sharingOptionsGroup .popovermenu:after {
-	right: 3px;
-}
-
-#shareWithList label input[type=checkbox] {
-	margin-left: 0;
-	position: relative;
-}
-#shareWithList .username {
-	padding-right: 8px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	display: inline-block;
-	overflow: hidden;
-	vertical-align: middle;
-}
-#shareWithList li .sharingOptionsGroup > .shareOption > label {
-	padding: 6px;
-	margin-right: 8px;
-	vertical-align: text-top;
-}
-
-.shareTabView .icon-loading-small {
-	display: inline-block;
-	z-index: 1;
-	vertical-align: text-top;
-}
-
-.shareTabView .shareWithList .icon-loading-small:not(.hidden) + span,
-.shareTabView .linkShareView .icon-loading-small:not(.hidden) + input + label:before {
-	/* Hide if loader is visible */
-	display: none !important;
-}
-
-form#newNoteForm,
 .linkShareView {
 	margin-top: 16px;
 }
 
-.shareTabView .linkPass .icon-loading-small {
-	margin-right: 0px;
-}
-
-.shareTabView .icon {
-	background-size: 16px 16px;
-}
-
-
-/* NOTE */
-form#newNoteForm {
-	display: flex;
-	flex-wrap: wrap;
-	.message {
-		flex: 1 1;
-		min-height: 76px;
-		margin-right: 0;
-		border-bottom-right-radius: 0;
-		border-top-right-radius: 0;
+.shareTabView {
+	.linkPass .icon-loading-small {
+		margin-right: 0px;
 	}
-	input {
-		width: 44px;
-		border-bottom-left-radius: 0;
-		border-top-left-radius: 0;
-		margin-left: -1px;
+	.icon {
+		background-size: 16px 16px;
+	}
+	.icon-loading-small {
+		display: inline-block;
+		z-index: 1;
+		vertical-align: text-top;
+	}
+	.shareWithList .icon-loading-small:not(.hidden) + span,
+	.linkShareView .icon-loading-small:not(.hidden) + input + label:before {
+		/* Hide if loader is visible */
+		display: none !important;
 	}
 }
+

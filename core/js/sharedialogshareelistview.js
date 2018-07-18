@@ -121,7 +121,17 @@
 					'</span>' +
 				'</li>' +
 				'<li>' +
-					'<a href="#" class="addnote"><span class="icon-loading-small hidden"></span><span class="icon icon-edit"></span><span>{{addNoteLabel}}</span></a>' +
+					'<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>' +
+					'	<span class="icon icon-edit"></span>' +
+					'	<span>{{addNoteLabel}}</span>' +
+					'	<input type="button" class="share-note-delete icon-delete">' +
+					'</a>' +
+				'</li>' +
+				'<li class="share-note-form hidden">' +
+					'<span class="menuitem icon-note">' +
+					'	<textarea class="share-note">{{shareNote}}</textarea>' +
+					'	<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />' +
+					'</span>' +
 				'</li>' +
 				'<li>' +
 					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
@@ -161,7 +171,9 @@
 
 		events: {
 			'click .unshare': 'onUnshare',
-			'click .addnote': 'showNoteForm',
+			'click .share-add': 'showNoteForm',
+			'click .share-note-delete': 'deleteNote',
+			'click .share-note-submit': 'updateNote',
 			'click .icon-more': 'onToggleMenu',
 			'click .permissions': 'onPermissionChange',
 			'click .expireDate' : 'onExpireDateChange',
@@ -269,6 +281,7 @@
 				isPasswordSet: hasPassword,
 				secureDropMode: !this.model.hasReadPermission(shareIndex),
 				hasExpireDate: this.model.getExpireDate(shareIndex) !== null,
+				shareNote: this.model.getNote(shareIndex),
 				expireDate: moment(this.model.getExpireDate(shareIndex), 'YYYY-MM-DD').format('DD-MM-YYYY'),
 				passwordPlaceholder: hasPassword ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 			});
@@ -486,7 +499,78 @@
 			var $element = $(event.target);
 			var $li = $element.closest('li[data-share-id]');
 			var shareId = $li.data('share-id');
-			this._noteView.render(shareId);
+			var $menu = $element.closest('li');
+			var $form = $menu.next('li.share-note-form');
+			
+			// show elements
+			$menu.find('.share-note-delete').toggle();
+			$form.toggleClass('hidden');
+		},
+
+		deleteNote(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var self = this;
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			var $menu = $element.closest('li');
+			var $form = $menu.next('li.share-note-form');
+
+			console.log($form.find('.share-note'));
+			$form.find('.share-note').val('');
+			
+			self.sendNote('', shareId, $menu);
+		},
+
+		updateNote(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var self = this;
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			var $form = $element.closest('li.share-note-form');
+			var $menu = $form.prev('li');
+			var message = $form.find('.share-note').val().trim();
+
+			if (message.length < 1) {
+				return;
+			}
+
+			self.sendNote(message, shareId, $menu);
+
+		},
+
+		sendNote(note, shareId, $menu) {
+			var $form = $menu.next('li.share-note-form');
+			var $submit = $form.find('input.share-note-submit');
+			var $error = $form.find('input.share-note-error');
+
+			$submit.prop('disabled', true);
+			$menu.find('.icon-loading-small').removeClass('hidden');
+			$menu.find('.icon-edit').hide();
+
+			var complete = function() {
+				$submit.prop('disabled', false);
+				$menu.find('.icon-loading-small').addClass('hidden');
+				$menu.find('.icon-edit').show();
+			};
+			var error = function() {
+				$error.show();
+				setTimeout(function() {
+					$error.hide();
+				}, 3000);
+			};
+
+			// send data
+			$.ajax({
+				method: 'PUT',
+				url: OC.generateUrl('/ocs/v2.php/apps/files_sharing/api/v1/shares/' + shareId),
+				data: { note: note },
+				complete : complete,
+				error: error
+			});
 		},
 
 		onUnshare: function(event) {

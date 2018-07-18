@@ -998,6 +998,11 @@ $popovericon-size: 16px;
 				}
 			}
 		}
+
+		&.hidden {
+			display: none;
+		}
+
 		/* css hack, only first not hidden*/
 		&:not(.hidden):not([style*='display:none']) {
 			&:first-of-type {

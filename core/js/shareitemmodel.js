@@ -366,6 +366,10 @@
 			return this._shareExpireDate(shareIndex);
 		},
 
+		getNote: function(shareIndex) {
+			return this._shareNote(shareIndex);
+		},
+
 		/**
 		 * Returns all share entries that only apply to the current item
 		 * (file/folder)
@@ -500,6 +504,15 @@
 			}
 			var date2 = share.expiration;
 			return date2;
+		},
+
+
+		_shareNote: function(shareIndex) {
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.note;
 		},
 
 		/**
