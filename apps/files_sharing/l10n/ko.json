@@ -1,6 +1,6 @@
 { "translations": {
-    "Shared with you" : "나와 공유됨",
     "Shared with others" : "다른 사람과 공유됨",
+    "Shared with you" : "나와 공유됨",
     "Shared by link" : "링크로 공유됨",
     "Nothing shared with you yet" : "나와 공유된 항목 없음",
     "Files and folders others share with you will show up here" : "다른 사람이 공유한 파일과 폴더가 여기에 나타납니다",

@@ -1,10 +1,10 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "שיתף/שיתפה אתך",
-    "Deleted shares" : "שיתופים שנמחקו",
     "Shared with others" : "משותף עם אחרים",
+    "Shared with you" : "שיתף/שיתפה אתך",
     "Shared by link" : "משותף עם קישור",
+    "Deleted shares" : "שיתופים שנמחקו",
     "Nothing shared with you yet" : "עדיין לא שיתפו אתך דבר",
     "Files and folders others share with you will show up here" : "קבצים ותיקיות שאחרים שיתפו אתך יוצגו כאן",
     "Nothing shared yet" : "עדיין לא שותף דבר",
@@ -43,6 +43,8 @@ OC.L10N.register(
     "You shared {file} as public link" : "שיתפת את {file} כקישור ציבורי",
     "You removed public link for {file}" : "הסרת קישור ציבורי עבור {file}",
     "Public link expired for {file}" : "תוקף הקישור הציבורי עבור {file} פג",
+    "Shared with {user}" : "שותף עם {user}",
+    "Removed share for {user}" : "הוסר השיתוף עבור {user}",
     "A file or folder was shared from <strong>another server</strong>" : "קובץ או תיקייה שותפו מ- <strong>שרת אחר</strong>",
     "A file or folder has been <strong>shared</strong>" : "קובץ או תיקייה <strong>שותפו<strong/>",
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",

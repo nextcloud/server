@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Διαμοιρασμένα με εσάς",
     "Shared with others" : "Διαμοιρασμένα με άλλους",
+    "Shared with you" : "Διαμοιρασμένα με εσάς",
     "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
     "Nothing shared with you yet" : "Κανένα αρχείο δεν έχει διαμοιραστεί ακόμα με εσάς.",
     "Files and folders others share with you will show up here" : "Τα αρχεία και οι φάκελοι που άλλοι διαμοιράζονται με εσάς θα εμφανιστούν εδώ",

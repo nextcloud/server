@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Jaettu kanssasi",
     "Shared with others" : "Jaettu muiden kanssa",
+    "Shared with you" : "Jaettu kanssasi",
     "Shared by link" : "Jaettu linkin kautta",
     "Nothing shared with you yet" : "Kanssasi ei ole vielä jaettu mitään",
     "Files and folders others share with you will show up here" : "Kanssasi jaetut tiedostot ja kansiot näkyvät täällä",

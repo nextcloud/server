@@ -4,13 +4,13 @@
     "Unknown error" : "Ukjent feil",
     "All files" : "Alle filer",
     "Recent" : "Nylig",
+    "Favorites" : "Favoritter",
     "File could not be found" : "Filen ble ikke funnet",
     "Move or copy" : "Flytt eller kopier",
     "Download" : "Last ned",
     "Delete" : "Slett",
     "Home" : "Hjem",
     "Close" : "Lukk",
-    "Favorites" : "Favoritter",
     "Could not create folder \"{dir}\"" : "Klarete ikke å opprette mappe \"{dir}\"",
     "Upload cancelled." : "Opplasting avbrutt.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan ikke laste opp {filename} fordi det er en mappe eller har 0 Byte",
@@ -146,9 +146,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å laste opp er for store til å laste opp til denne tjeneren.",
     "No favorites yet" : "Ingen favoritter enda",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du gjør til favoritter vises her",
-    "Shared with you" : "Delt med deg",
-    "Shared with others" : "Delt med andre",
-    "Shared by link" : "Delt med lenke",
     "Tags" : "Merkelapper",
     "Deleted files" : "Slettede filer",
     "Text file" : "Tekstfil",
@@ -156,6 +153,9 @@
     "Move" : "Flytt",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe har blitt <strong>slettet</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe har blitt <strong>gjenopprettet</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk denne adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til dine filer via WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk denne adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til dine filer via WebDAV</a>",
+    "Shared with you" : "Delt med deg",
+    "Shared with others" : "Delt med andre",
+    "Shared by link" : "Delt med lenke"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

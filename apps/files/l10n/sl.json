@@ -4,13 +4,13 @@
     "Unknown error" : "Neznana napaka",
     "All files" : "Vse datoteke",
     "Recent" : "Nedavno",
+    "Favorites" : "Priljubljene",
     "File could not be found" : "Datoteke ne najdem",
     "Move or copy" : "Premakni ali kopiraj",
     "Download" : "Prejmi",
     "Delete" : "Izbriši",
     "Home" : "Domači naslov",
     "Close" : "Zapri",
-    "Favorites" : "Priljubljene",
     "Could not create folder \"{dir}\"" : "Ni mogoče ustvariti mape \"{dir}\"",
     "Upload cancelled." : "Pošiljanje je preklicano.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Ni mogoče poslati datoteke {filename}, saj je to ali mapa ali pa je velikost datoteke 0 bajtov.",
@@ -140,9 +140,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
     "No favorites yet" : "Še ni priljubljena",
     "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo zbrane na tem mestu.",
-    "Shared with you" : "V skupni rabi z vami",
-    "Shared with others" : "V skupni rabi z ostalimi",
-    "Shared by link" : "Deljeno s povezavo",
     "Tags" : "Oznake",
     "Deleted files" : "Izbrisane datoteke",
     "Text file" : "Besedilna datoteka",
@@ -150,6 +147,9 @@
     "Move" : "Premakni",
     "A new file or folder has been <strong>deleted</strong>" : "Nova datoteka ali mapa je bila <strong>izbrisana</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nova datoteka ali mapa je bila <strong>obnovljena</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Uporabite povezavo za<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dostop do datotek preko WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Uporabite povezavo za<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dostop do datotek preko WebDAV</a>",
+    "Shared with you" : "V skupni rabi z vami",
+    "Shared with others" : "V skupni rabi z ostalimi",
+    "Shared by link" : "Deljeno s povezavo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

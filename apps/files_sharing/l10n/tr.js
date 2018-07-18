@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Sizinle paylaşılmış",
     "Shared with others" : "Diğerleri ile paylaşılmış",
+    "Shared with you" : "Sizinle paylaşılmış",
     "Shared by link" : "Bağlantı ile paylaşılmış",
     "Nothing shared with you yet" : "Sizinle henüz herhangi bir şey paylaşılmamış",
     "Files and folders others share with you will show up here" : "Diğerlerinin sizinle paylaştığı dosya ve klasörler burada görüntülenir",

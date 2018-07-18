@@ -4,13 +4,13 @@
     "Unknown error" : "Lỗi chưa biết",
     "All files" : "Tất cả tệp tin",
     "Recent" : "Gần đây",
+    "Favorites" : "Ưa thích",
     "File could not be found" : "Tệp tin không tồn tại",
     "Move or copy" : "Di chuyển hoặc sao chép",
     "Download" : "Tải về",
     "Delete" : "Xóa",
     "Home" : "Nhà",
     "Close" : "Đóng",
-    "Favorites" : "Ưa thích",
     "Could not create folder \"{dir}\"" : "Không thể tạo thư mục “{dir}”",
     "Upload cancelled." : "Hủy tải lên",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "không thể tải {filename} lên do nó là một thư mục hoặc có kích thước bằng 0 byte",
@@ -117,12 +117,12 @@
     "Upload too large" : "Tập tin tải lên quá lớn",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
     "Files and folders you mark as favorite will show up here" : "Các tệp và thư mục mà bạn đánh dấu là yêu thích sẽ hiển thị ở đây",
-    "Shared with you" : "Đã chia sẻ với bạn",
-    "Shared with others" : "Chia sẻ với người khác",
-    "Shared by link" : "Được chia sẻ bởi liên kết",
     "Tags" : "Nhãn",
     "Deleted files" : "Thùng rác",
     "Text file" : "Tập tin văn bản",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> để truy cập các Tập tin của bạn qua WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> để truy cập các Tập tin của bạn qua WebDAV</a>",
+    "Shared with you" : "Đã chia sẻ với bạn",
+    "Shared with others" : "Chia sẻ với người khác",
+    "Shared by link" : "Được chia sẻ bởi liên kết"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

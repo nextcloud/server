@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "თქვენთან გაზიარებული",
     "Shared with others" : "სხვასთან გაზიარებული",
+    "Shared with you" : "თქვენთან გაზიარებული",
     "Shared by link" : "ბმულით გაზიარებული",
     "Nothing shared with you yet" : "თქვენთან ჯერ არაფერია გაზიარებული",
     "Files and folders others share with you will show up here" : "აქ გამოჩნდება ფაილები და დირექტორიები, რომლებსაც სხვები თქვენთან აზიარებენ",
