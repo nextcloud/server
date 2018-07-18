@@ -124,7 +124,7 @@
 				  :groups="groups" :subAdminsGroups="subAdminsGroups" :quotaOptions="quotaOptions" :languages="languages" />
 		<infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
 			<div slot="spinner"><div class="users-icon-loading icon-loading"></div></div>
-			<div slot="no-more"><div class="users-list-end">— {{t('settings', 'no more results')}} —</div></div>
+			<div slot="no-more"><div class="users-list-end"></div></div>
 			<div slot="no-results">
 				<div id="emptycontent">
 					<div class="icon-contacts-dark"></div>
