@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Koplietots ar tevi",
     "Shared with others" : "Koplietots ar citiem",
+    "Shared with you" : "Koplietots ar tevi",
     "Shared by link" : "Koplietots ar saiti",
     "Nothing shared with you yet" : "Nekas vēl nav koplietots",
     "Files and folders others share with you will show up here" : "Datnes un mapes, ko citi koplietos ar tevi, tiks rādīti šeit",

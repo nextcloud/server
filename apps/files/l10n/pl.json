@@ -4,13 +4,13 @@
     "Unknown error" : "Nieznany błąd",
     "All files" : "Wszystkie pliki",
     "Recent" : "Ostatnie",
+    "Favorites" : "Ulubione",
     "File could not be found" : "Nie można odnaleźć pliku",
     "Move or copy" : "Przenieś lub kopiuj",
     "Download" : "Pobierz",
     "Delete" : "Usuń",
     "Home" : "Start",
     "Close" : "Zamknij",
-    "Favorites" : "Ulubione",
     "Could not create folder \"{dir}\"" : "Nie można utworzyć folderu „{dir}”",
     "Upload cancelled." : "Wysyłanie anulowane.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nie można przesłać {filename} być może jest katalogiem lub posiada 0 bajtów",
@@ -145,9 +145,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",
     "No favorites yet" : "Brak jeszcze ulubionych",
     "Files and folders you mark as favorite will show up here" : "Pliki i katalogi, które oznaczysz jako ulubione wyświetlą się tutaj",
-    "Shared with you" : "Udostępnione dla Ciebie",
-    "Shared with others" : "Udostępnione przez Ciebie",
-    "Shared by link" : "Udostępnione przez link",
     "Tags" : "Tagi",
     "Deleted files" : "Usunięte pliki",
     "Text file" : "Plik tekstowy",
@@ -155,6 +152,9 @@
     "Move" : "Przenieś",
     "A new file or folder has been <strong>deleted</strong>" : "Nowy plik lub folder został <strong>usunięty</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nowy plik lub folder został <strong>odtworzony</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Użyj swojego adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">aby mieć dostęp do Plików przez WebDAV"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Użyj swojego adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">aby mieć dostęp do Plików przez WebDAV",
+    "Shared with you" : "Udostępnione dla Ciebie",
+    "Shared with others" : "Udostępnione przez Ciebie",
+    "Shared by link" : "Udostępnione przez link"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

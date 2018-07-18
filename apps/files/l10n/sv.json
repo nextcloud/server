@@ -4,13 +4,13 @@
     "Unknown error" : "Okänt fel",
     "All files" : "Alla filer",
     "Recent" : "Senaste",
+    "Favorites" : "Favoriter",
     "File could not be found" : "Fil kunde inte hittas",
     "Move or copy" : "Flytta eller kopiera",
     "Download" : "Ladda ned",
     "Delete" : "Radera",
     "Home" : "Hem",
     "Close" : "Stäng",
-    "Favorites" : "Favoriter",
     "Could not create folder \"{dir}\"" : "Kunde inte skapa mapp \"{dir}\"",
     "Upload cancelled." : "Uppladdning avbruten.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan inte ladda upp {filename} eftersom den antingen är en mapp eller har 0 bytes.",
@@ -137,12 +137,12 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
     "No favorites yet" : "Inga favoriter ännu",
     "Files and folders you mark as favorite will show up here" : "Filer och mappar markerade som favoriter kommer att visas här",
-    "Shared with you" : "Delad med dig",
-    "Shared with others" : "Delad med andra",
-    "Shared by link" : "Delad via länk",
     "Tags" : "Taggar",
     "Deleted files" : "Raderade filer",
     "Text file" : "Textfil",
-    "New text file.txt" : "nytextfil.txt"
+    "New text file.txt" : "nytextfil.txt",
+    "Shared with you" : "Delad med dig",
+    "Shared with others" : "Delad med andra",
+    "Shared by link" : "Delad via länk"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

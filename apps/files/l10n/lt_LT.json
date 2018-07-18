@@ -4,13 +4,13 @@
     "Unknown error" : "Nežinoma klaida",
     "All files" : "Visi",
     "Recent" : "Naujausi",
+    "Favorites" : "Svarbūs",
     "File could not be found" : "Nepavyko rasti rinkmenos",
     "Move or copy" : "Kopijuoti/Perkelti",
     "Download" : "Atsisiųsti",
     "Delete" : "Ištrinti",
     "Home" : "Pagrindinis",
     "Close" : "Užverti",
-    "Favorites" : "Svarbūs",
     "Could not create folder \"{dir}\"" : "Nepavyko sukurti aplanko \"{dir}\"",
     "Upload cancelled." : "Įkėlimo atsisakyta.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nepavyksta įkelti {filename}, nes tai yra katalogas arba šio failo dydis yra 0 baitų",
@@ -130,13 +130,13 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Bandomų įkelti failų dydis viršija maksimalų, šiame serveryje leidžiamų įkelti failų dydį.",
     "No favorites yet" : "Aplankas tuščias",
     "Files and folders you mark as favorite will show up here" : "Čia rodomi svarbūs duomenys",
-    "Shared with you" : "Gauti",
-    "Shared with others" : "Išsiųsti",
-    "Shared by link" : "Išsiųsti per nuorodą",
     "Tags" : "Žymės",
     "Deleted files" : "Ištrinti",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Move" : "Perkelti"
+    "Move" : "Perkelti",
+    "Shared with you" : "Gauti",
+    "Shared with others" : "Išsiųsti",
+    "Shared by link" : "Išsiųsti per nuorodą"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

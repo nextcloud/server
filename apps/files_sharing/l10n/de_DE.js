@@ -1,10 +1,10 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Mit Ihnen geteilt",
-    "Deleted shares" : "Gelöschte Freigaben",
     "Shared with others" : "Von Ihnen geteilt",
+    "Shared with you" : "Mit Ihnen geteilt",
     "Shared by link" : "Geteilt über einen Link",
+    "Deleted shares" : "Gelöschte Freigaben",
     "Nothing shared with you yet" : "Bis jetzt wurde nichts mit Ihnen geteilt",
     "Files and folders others share with you will show up here" : "Mit Ihnen geteilte Dateien und Ordner anderer werden hier erscheinen",
     "Nothing shared yet" : "Noch nichts geteilt",

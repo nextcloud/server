@@ -4,12 +4,12 @@
     "Unknown error" : "Неизвестна грешка",
     "All files" : "Всички файлове",
     "Recent" : "Скорошен",
+    "Favorites" : "Любими",
     "File could not be found" : "Файлът не може да бъде открит",
     "Download" : "Изтегли",
     "Delete" : "Изтриване",
     "Home" : "Домашен",
     "Close" : "Затвори",
-    "Favorites" : "Любими",
     "Could not create folder \"{dir}\"" : "Папката \"{dir}\" не може да бъде създадена",
     "Upload cancelled." : "Качването е прекъснато.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Неуспешно качване на {filename}, защото е директория или с размер 0 байта.",
@@ -108,12 +108,12 @@
     "Upload too large" : "Прекалено голям файл за качване.",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитвате да качите са по-големи от позволеното на сървъра.",
     "Files and folders you mark as favorite will show up here" : "Файловете и папките които отбелязваш като любими ще се показват тук",
-    "Shared with you" : "Споделено с вас",
-    "Shared with others" : "Споделено с други",
-    "Shared by link" : "Споделено с връзка",
     "Tags" : "Етикети",
     "Deleted files" : "Изтрити файлове",
     "Text file" : "Текстов файл",
-    "New text file.txt" : "Нов текст file.txt"
+    "New text file.txt" : "Нов текст file.txt",
+    "Shared with you" : "Споделено с вас",
+    "Shared with others" : "Споделено с други",
+    "Shared by link" : "Споделено с връзка"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

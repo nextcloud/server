@@ -4,13 +4,13 @@
     "Unknown error" : "Үл мэдэгдэх алдаа",
     "All files" : "Бүх файлууд",
     "Recent" : "Сүүлийн үеийн",
+    "Favorites" : "Онцолсон",
     "File could not be found" : "Файл олдсонгүй",
     "Move or copy" : "Зөөх эсвэл хуулах",
     "Download" : "Татаж авах ",
     "Delete" : "Устгах",
     "Home" : "Нүүр хуудас",
     "Close" : "Хаах",
-    "Favorites" : "Онцолсон",
     "Could not create folder \"{dir}\"" : "\"{dir}\" ийм хавтас үүсгэж болохгүй байна",
     "Upload cancelled." : "Байршуулалт цуцлагдсан. ",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "{filename} нь 0kb хэмжээтэй эсвэл ижил нэр бүхий хавтас байгаа тул байршуулах боломжгүй",
@@ -105,11 +105,11 @@
     "Select all" : "бүгдийг сонгох",
     "Upload too large" : "маш том байршуулалт",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч.",
-    "Shared with others" : "Бусдад түгээсэн",
-    "Shared by link" : "Холбоосоор түгээсэн",
     "Tags" : "Тэгүүд",
     "Deleted files" : "Устгасан файлууд",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt"
+    "New text file.txt" : "шинэ текст file.txt",
+    "Shared with others" : "Бусдад түгээсэн",
+    "Shared by link" : "Холбоосоор түгээсэн"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

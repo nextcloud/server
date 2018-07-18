@@ -4,13 +4,13 @@
     "Unknown error" : "Erro desconhecido",
     "All files" : "Todos os arquivos",
     "Recent" : "Recentes",
+    "Favorites" : "Favoritos",
     "File could not be found" : "O arquivo não foi encontrado",
     "Move or copy" : "Mover ou copiar",
     "Download" : "Baixar",
     "Delete" : "Excluir",
     "Home" : "Início",
     "Close" : "Fechar",
-    "Favorites" : "Favoritos",
     "Could not create folder \"{dir}\"" : "Não foi possível criar a pasta \"{dir}\"",
     "Upload cancelled." : "Envio cancelado.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Não foi possível fazer o envio de {filename}, pois é um diretório ou tem 0 bytes",
@@ -147,10 +147,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os arquivos que você está tentando enviar excederam o tamanho máximo para arquivos no servidor.",
     "No favorites yet" : "Você não possui favoritos!",
     "Files and folders you mark as favorite will show up here" : "Suas pastas e arquivos favoritos serão exibidos aqui.",
-    "Shared with you" : "Compartilhado com você",
-    "Shared with others" : "Compartilhado com outros",
-    "Shared by link" : "Compartilhado via link",
-    "Deleted shares" : "Compartilhamentos excluídos",
     "Tags" : "Etiquetas",
     "Deleted files" : "Arquivos excluídos",
     "Text file" : "Arquivo texto",
@@ -158,6 +154,9 @@
     "Move" : "Mover",
     "A new file or folder has been <strong>deleted</strong>" : "Um novo arquivo ou pasta foi <strong>excluído</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Um novo arquivo ou pasta foi <strong>restaurado</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">acessar seus Arquivos via WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">acessar seus Arquivos via WebDAV</a>",
+    "Shared with you" : "Compartilhado com você",
+    "Shared with others" : "Compartilhado com outros",
+    "Shared by link" : "Compartilhado via link"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -4,13 +4,13 @@
     "Unknown error" : "Ukendt fejl",
     "All files" : "Alle filer",
     "Recent" : "Seneste",
+    "Favorites" : "Foretrukne",
     "File could not be found" : "Filen kunne ikke findes",
     "Move or copy" : "Flyt eller kopier",
     "Download" : "Hent",
     "Delete" : "Slet",
     "Home" : "Hjem",
     "Close" : "Luk",
-    "Favorites" : "Foretrukne",
     "Could not create folder \"{dir}\"" : "Kunne ikke oprette mappen \"{dir}\"",
     "Upload cancelled." : "Upload afbrudt.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan ikke upload {filename} da det er enten en mappe eller indholder 0 bytes.",
@@ -146,9 +146,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
     "No favorites yet" : "Ingen foretrukne endnu",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som foretrukne, vil blive vist her",
-    "Shared with you" : "Delt med dig",
-    "Shared with others" : "Delt med andre",
-    "Shared by link" : "Delt via link",
     "Tags" : "Mærker",
     "Deleted files" : "Slettede filer",
     "Text file" : "Tekstfil",
@@ -156,6 +153,9 @@
     "Move" : "Flyt",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe er blevet <strong>slettet</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe er blevet <strong>gendannet</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">tilgå dine filer gennem WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">tilgå dine filer gennem WebDAV</a>",
+    "Shared with you" : "Delt med dig",
+    "Shared with others" : "Delt med andre",
+    "Shared by link" : "Delt via link"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

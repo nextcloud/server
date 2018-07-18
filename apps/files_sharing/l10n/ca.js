@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Us han compartit",
     "Shared with others" : "Heu compartit",
+    "Shared with you" : "Us han compartit",
     "Shared by link" : "Compartit amb enllaç",
     "Nothing shared with you yet" : "No s'ha compartit res amb vosté, encara",
     "Files and folders others share with you will show up here" : "Els arxius i carpetes que altres comparteixin amb vosté es mostraran aquí",

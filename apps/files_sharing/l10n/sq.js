@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Të ndara me ju",
     "Shared with others" : "Të ndara me të tjerët",
+    "Shared with you" : "Të ndara me ju",
     "Shared by link" : "Të ndara me lidhje",
     "Nothing shared with you yet" : "Ende pa ndarë gjë me ju",
     "Files and folders others share with you will show up here" : "Këtu do të shfaqen kartelat dhe dosjet që të jerët ndajnë me ju",

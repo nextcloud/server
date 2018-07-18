@@ -4,13 +4,13 @@
     "Unknown error" : "Neznámá chyba",
     "All files" : "Všechny soubory",
     "Recent" : "Nedávné",
+    "Favorites" : "Oblíbené",
     "File could not be found" : "Soubor nelze nalézt",
     "Move or copy" : "Přesunout nebo zkopírovat",
     "Download" : "Stáhnout",
     "Delete" : "Smazat",
     "Home" : "Domů",
     "Close" : "Zavřít",
-    "Favorites" : "Oblíbené",
     "Could not create folder \"{dir}\"" : "Nelze vytvořit adresář \"{dir}\"",
     "Upload cancelled." : "Odesílání zrušeno.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nelze nahrát soubor {filename}, protože je to buď adresář nebo má velikost 0 bytů",
@@ -146,9 +146,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
     "No favorites yet" : "Zatím nic oblíbeného",
     "Files and folders you mark as favorite will show up here" : "Zde budou zobrazeny soubory a adresáře označené jako oblíbené",
-    "Shared with you" : "Sdíleno s vámi",
-    "Shared with others" : "Sdíleno s ostatními",
-    "Shared by link" : "Sdíleno pomocí odkazu",
     "Tags" : "Značky",
     "Deleted files" : "Odstraněné soubory",
     "Text file" : "Textový soubor",
@@ -156,6 +153,9 @@
     "Move" : "Přesunout",
     "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo adresář byl <strong>smazán</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo adresář byl <strong>obnoven</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použít tuto adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> pro přístup k souborům přes WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použít tuto adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> pro přístup k souborům přes WebDAV</a>",
+    "Shared with you" : "Sdíleno s vámi",
+    "Shared with others" : "Sdíleno s ostatními",
+    "Shared by link" : "Sdíleno pomocí odkazu"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

@@ -4,12 +4,12 @@
     "Unknown error" : "Gabim i panjohur",
     "All files" : "Të gjithë skedarët",
     "Recent" : "Të fundit",
+    "Favorites" : "Të parapëlqyera",
     "File could not be found" : "Skedari s’u gjet dot",
     "Download" : "Shkarkoje",
     "Delete" : "Fshije",
     "Home" : "Kreu",
     "Close" : "Mbylle",
-    "Favorites" : "Të parapëlqyera",
     "Could not create folder \"{dir}\"" : "S’u krijua dot dosja \"{dir}\"",
     "Upload cancelled." : "Ngarkimi u anulua.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "S’arrihet të ngarkohet {filename}, ngaqë është drejtori ose ka 0 bajte",
@@ -122,12 +122,12 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Kartelat që po rrekeni të ngarkoni e tejkalojnë madhësinë maksimale për ngarkime kartelash në këtë shërbyes.",
     "No favorites yet" : "Asnjë preferencë akoma",
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
-    "Shared with you" : "E ndarë me ju",
-    "Shared with others" : "E ndarë me të tjerët",
-    "Shared by link" : "E ndarë me lidhje",
     "Tags" : "Etiketë",
     "Deleted files" : "Skedar të fshirë",
     "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt"
+    "New text file.txt" : "Kartelë e re file.txt",
+    "Shared with you" : "E ndarë me ju",
+    "Shared with others" : "E ndarë me të tjerët",
+    "Shared by link" : "E ndarë me lidhje"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

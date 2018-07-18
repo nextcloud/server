@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Gauti",
     "Shared with others" : "Išsiųsti",
+    "Shared with you" : "Gauti",
     "Shared by link" : "Išsiųsti per nuorodą",
     "Nothing shared with you yet" : "Aplankas tuščias",
     "Files and folders others share with you will show up here" : "Čia rodomi gauti duomenys iš kitų naudotojų",
