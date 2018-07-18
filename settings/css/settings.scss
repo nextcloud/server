@@ -1404,8 +1404,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			align-items: center;
 			/* let's define the column until storage path,
 			   what follows will be manually defined  */
-			grid-template-columns: 44px;
-			grid-auto-columns: min-content;
+			grid-template-columns: 44px minmax(150px, 1fr) repeat(auto-fit, minmax(120px, 1fr)) 44px;
 			border-top: var(--color-border) 1px solid;
 			&.disabled {
 				opacity: .5;
@@ -1414,30 +1413,23 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			/* grid col width */
 			.name,
 			.displayName,
-			.password {
-				width: 150px;
-			}
+			.password,
 			.mailAddress,
 			.groups,
-			.subadmins {
-				width: 200px;
-			}
-			.quota {
-				width: 150px;
-			}
-			.languages {
-				width: 200px;
-			}
-			.storageLocation {
-				width: 250px;
-			}
+			.subadmins,
+			.quota,
+			.languages,
+			.storageLocation,
 			.userBackend,
 			.lastLogin {
-				width: 100px;
+				min-width: 120px;
 			}
 			.obfuscated {
 				width: 400px;
 				opacity: .7;
+			}
+			.userActions {
+				min-width: 44px;
 			}
 
 			/* various */
