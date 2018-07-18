@@ -82,7 +82,9 @@ class ExceptionSerializer {
 			return $traceLine;
 		}, $trace);
 		return array_map(function (array $traceLine) use ($sensitiveValues) {
-			$traceLine['args'] = $this->removeValuesFromArgs($traceLine['args'], $sensitiveValues);
+			if (isset($traceLine['args'])) {
+				$traceLine['args'] = $this->removeValuesFromArgs($traceLine['args'], $sensitiveValues);
+			}
 			return $traceLine;
 		}, $trace);
 	}
@@ -101,7 +103,9 @@ class ExceptionSerializer {
 	private function encodeTrace($trace) {
 		$filteredTrace = $this->filterTrace($trace);
 		return array_map(function (array $line) {
-			$line['args'] = array_map([$this, 'encodeArg'], $line['args']);
+			if (isset($line['args'])) {
+				$line['args'] = array_map([$this, 'encodeArg'], $line['args']);
+			}
 			return $line;
 		}, $filteredTrace);
 	}
