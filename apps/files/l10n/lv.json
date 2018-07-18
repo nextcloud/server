@@ -4,12 +4,12 @@
     "Unknown error" : "Nezināma kļūda",
     "All files" : "Visas datnes",
     "Recent" : "Nesenās",
+    "Favorites" : "Iecienītie",
     "File could not be found" : "Datni nevar atrast",
     "Download" : "Lejupielādēt",
     "Delete" : "Dzēst",
     "Home" : "Mājas",
     "Close" : "Aizvērt",
-    "Favorites" : "Iecienītie",
     "Could not create folder \"{dir}\"" : "Nevarēja izveidot mapi \"{dir}\"",
     "Upload cancelled." : "Augšupielāde ir atcelta.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Neizdodas augšupielādēt {filename}, jo tā ir vai nu mape vai 0 baitu saturoša datne.",
@@ -109,12 +109,12 @@
     "Upload too large" : "Datne ir par lielu, lai to augšupielādētu",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
-    "Shared with you" : "Koplietots ar tevi",
-    "Shared with others" : "Koplietots ar citiem",
-    "Shared by link" : "Koplietots ar saiti",
     "Tags" : "Atzīmes",
     "Deleted files" : "Dzēstās datnes",
     "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt"
+    "New text file.txt" : "Jauna teksta datne.txt",
+    "Shared with you" : "Koplietots ar tevi",
+    "Shared with others" : "Koplietots ar citiem",
+    "Shared by link" : "Koplietots ar saiti"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

@@ -4,13 +4,13 @@
     "Unknown error" : "Неизвестная ошибка",
     "All files" : "Все файлы",
     "Recent" : "Недавно изменённые",
+    "Favorites" : "Избранные",
     "File could not be found" : "Невозможно найти файл",
     "Move or copy" : "Переместить или копировать",
     "Download" : "Скачать",
     "Delete" : "Удалить",
     "Home" : "Главная",
     "Close" : "Закрыть",
-    "Favorites" : "Избранные",
     "Could not create folder \"{dir}\"" : "Невозможно создать каталог «{dir}»",
     "Upload cancelled." : "Выгрузка отменена.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Невозможно загрузить «{filename}», так как это либо каталог, либо файл нулевого размера",
@@ -147,10 +147,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь загрузить, превышают лимит максимального размера на этом сервере.",
     "No favorites yet" : "В избранное ещё ничего не добавлено ",
     "Files and folders you mark as favorite will show up here" : "Здесь будут показаны файлы и каталоги, отмеченные как избранные",
-    "Shared with you" : "Доступные для вас",
-    "Shared with others" : "Доступные для других",
-    "Shared by link" : "Доступные по ссылке",
-    "Deleted shares" : "Удаленная доля",
     "Tags" : "Метки",
     "Deleted files" : "Корзина",
     "Text file" : "Текстовый файл",
@@ -158,6 +154,9 @@
     "Move" : "Переместить",
     "A new file or folder has been <strong>deleted</strong>" : "Новый файл или каталог был <strong>удален</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Новый файл или каталог был <strong>восстановлен</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Используйте этот адрес <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">для доступа по WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Используйте этот адрес <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">для доступа по WebDAV</a>",
+    "Shared with you" : "Доступные для вас",
+    "Shared with others" : "Доступные для других",
+    "Shared by link" : "Доступные по ссылке"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

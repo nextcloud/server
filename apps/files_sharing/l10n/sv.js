@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Delat med dig",
     "Shared with others" : "Delat med andra",
+    "Shared with you" : "Delat med dig",
     "Shared by link" : "Delat som länk",
     "Nothing shared with you yet" : "Inget delat med dig ännu",
     "Files and folders others share with you will show up here" : "Filer och mappar som andra delar med dig kommer visas här",

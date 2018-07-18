@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Dibagikan dengan Anda",
     "Shared with others" : "Dibagikan dengan lainnya",
+    "Shared with you" : "Dibagikan dengan Anda",
     "Shared by link" : "Dibagikan dengan tautan",
     "Nothing shared with you yet" : "Tidak ada yang dibagikan kepada Anda",
     "Files and folders others share with you will show up here" : "Berkas dan folder lainnya yang dibagikan kepada Anda akan ditampilkan disini",

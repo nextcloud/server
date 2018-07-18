@@ -4,13 +4,13 @@
     "Unknown error" : "Onbekende fout",
     "All files" : "Alle bestanden",
     "Recent" : "Recent",
+    "Favorites" : "Favorieten",
     "File could not be found" : "Bestand kon niet worden gevonden",
     "Move or copy" : "Verplaats of kopieer",
     "Download" : "Downloaden",
     "Delete" : "Verwijderen",
     "Home" : "Thuis",
     "Close" : "Sluiten",
-    "Favorites" : "Favorieten",
     "Could not create folder \"{dir}\"" : "Kon map \"{dir}\" niet aanmaken",
     "Upload cancelled." : "Uploaden geannuleerd.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan {filename} niet uploaden omdat het een map is of 0 bytes groot is",
@@ -145,9 +145,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
     "No favorites yet" : "Nog geen favorieten",
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die je als favoriet aanmerkt, worden hier getoond",
-    "Shared with you" : "Gedeeld met jou",
-    "Shared with others" : "Gedeeld met anderen",
-    "Shared by link" : "Gedeeld via link",
     "Tags" : "Tags",
     "Deleted files" : "Verwijderde bestanden",
     "Text file" : "Tekstbestand",
@@ -155,6 +152,9 @@
     "Move" : "Verplaatsen",
     "A new file or folder has been <strong>deleted</strong>" : "Een nieuw bestand of nieuwe map is <strong>verwijderd</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Een nieuw bestand of een nieuwe map is <strong>hersteld</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Gebruik deze link om je <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bestanden via WebDAV te benaderen</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Gebruik deze link om je <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bestanden via WebDAV te benaderen</a>",
+    "Shared with you" : "Gedeeld met jou",
+    "Shared with others" : "Gedeeld met anderen",
+    "Shared by link" : "Gedeeld via link"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

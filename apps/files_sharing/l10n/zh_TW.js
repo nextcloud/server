@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "與您分享",
     "Shared with others" : "與其他人分享",
+    "Shared with you" : "與您分享",
     "Shared by link" : "由連結分享",
     "Nothing shared with you yet" : "目前沒有任何與您分享的內容",
     "Files and folders others share with you will show up here" : "與您分享的檔案與資料夾將會顯示在這裡",

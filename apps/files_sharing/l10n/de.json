@@ -1,8 +1,8 @@
 { "translations": {
-    "Shared with you" : "Mit Dir geteilt",
-    "Deleted shares" : "Gelöschte Freigaben",
     "Shared with others" : "Von Dir geteilt",
+    "Shared with you" : "Mit Dir geteilt",
     "Shared by link" : "Geteilt über einen Link",
+    "Deleted shares" : "Gelöschte Freigaben",
     "Nothing shared with you yet" : "Bis jetzt wurde nichts mit dir geteilt",
     "Files and folders others share with you will show up here" : "Mit dir geteilte Dateien und Ordner anderer werden hier erscheinen",
     "Nothing shared yet" : "Noch nichts geteilt",

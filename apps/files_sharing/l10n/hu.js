@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Megosztva veled",
     "Shared with others" : "Megosztva másokkal",
+    "Shared with you" : "Megosztva veled",
     "Shared by link" : "Megosztva hivatkozással",
     "Nothing shared with you yet" : "Nincs még semmi megosztva veled",
     "Files and folders others share with you will show up here" : "Mások által megosztott fájlok és mappák itt jelennek meg",

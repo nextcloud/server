@@ -4,13 +4,13 @@
     "Unknown error" : "Error desconegut",
     "All files" : "Tots els fitxers",
     "Recent" : "Recent",
+    "Favorites" : "Preferits",
     "File could not be found" : "No s'ha pogut trobar el fitxer",
     "Move or copy" : "Moure o copiar",
     "Download" : "Baixa",
     "Delete" : "Esborra",
     "Home" : "Casa",
     "Close" : "Tanca",
-    "Favorites" : "Preferits",
     "Could not create folder \"{dir}\"" : "No s'ha pogut crear la carpeta \"{dir}\"",
     "Upload cancelled." : "La pujada s'ha cancel·lat.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "No es pot pujar {filename} perquè és una carpeta o té 0 bytes",
@@ -138,9 +138,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
     "No favorites yet" : "Sense preferits",
     "Files and folders you mark as favorite will show up here" : "Aquí apareixeran els arxius i carpetes que vostè marqui com favorits",
-    "Shared with you" : "Compartit amb tu",
-    "Shared with others" : "Compartit amb altres",
-    "Shared by link" : "Comparteix per link",
     "Tags" : "Etiquetes",
     "Deleted files" : "Fitxers esborrats",
     "Text file" : "Fitxer de text",
@@ -148,6 +145,9 @@
     "Move" : "Moure",
     "A new file or folder has been <strong>deleted</strong>" : "S'ha <strong>eliminat</strong> un nou fitxer o carpeta",
     "A new file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un nou fitxer o carpeta",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedir als vostres fitxers a través de WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedir als vostres fitxers a través de WebDAV</a>",
+    "Shared with you" : "Compartit amb tu",
+    "Shared with others" : "Compartit amb altres",
+    "Shared by link" : "Comparteix per link"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

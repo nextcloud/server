@@ -4,13 +4,13 @@
     "Unknown error" : "Errore ezezaguna",
     "All files" : "Fitxategi guztiak",
     "Recent" : "Duela gutxi",
+    "Favorites" : "Gogokoak",
     "File could not be found" : "Fitxategia ezin izan da aurkitu",
     "Move or copy" : "Mugitu edo kopiatu",
     "Download" : "Deskargatu",
     "Delete" : "Ezabatu",
     "Home" : "Etxekoa",
     "Close" : "Itxi",
-    "Favorites" : "Gogokoak",
     "Could not create folder \"{dir}\"" : "Ezin izan da \"{dir}\" karpeta sortu",
     "Upload cancelled." : "Igoera ezeztatuta",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Ezin da {filename} igo karpeta bat delako edo 0 byte dituelako",
@@ -132,12 +132,12 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
     "No favorites yet" : "Gogokorik ez oraindik",
     "Files and folders you mark as favorite will show up here" : "Gogokotzat markatutako fitxategi eta karpeta hemen agertuko dira",
-    "Shared with you" : "Zurekin partekatuta",
-    "Shared with others" : "Besteekin partekatuta",
-    "Shared by link" : "Partekatua link bidez",
     "Tags" : "Etiketak",
     "Deleted files" : "Ezabatutako fitxategiak",
     "Text file" : "Testu fitxategia",
-    "New text file.txt" : ".txt testu fitxategi berria"
+    "New text file.txt" : ".txt testu fitxategi berria",
+    "Shared with you" : "Zurekin partekatuta",
+    "Shared with others" : "Besteekin partekatuta",
+    "Shared by link" : "Partekatua link bidez"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

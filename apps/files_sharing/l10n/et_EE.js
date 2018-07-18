@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Sinuga jagatud",
     "Shared with others" : "Teistega jagatud",
+    "Shared with you" : "Sinuga jagatud",
     "Shared by link" : "Jagatud lingiga",
     "Nothing shared with you yet" : "Sinuga pole veel midagi jagatud",
     "Files and folders others share with you will show up here" : "Siin näidatakse faile ja kaustasid, mida teised on sulle jaganud",

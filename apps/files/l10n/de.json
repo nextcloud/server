@@ -4,13 +4,13 @@
     "Unknown error" : "Unbekannter Fehler",
     "All files" : "Alle Dateien",
     "Recent" : "Aktuelle",
+    "Favorites" : "Favoriten",
     "File could not be found" : "Datei konnte nicht gefunden werden",
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
     "Delete" : "Löschen",
     "Home" : "Home",
     "Close" : "Schließen",
-    "Favorites" : "Favoriten",
     "Could not create folder \"{dir}\"" : "Der Ordner konnte nicht erstellt werden \"{dir}\"",
     "Upload cancelled." : "Hochladen abgebrochen.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Die Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist",
@@ -147,10 +147,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
     "No favorites yet" : "Noch keine Favoriten vorhanden",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die als Favoriten markiert werden, erscheinen hier",
-    "Shared with you" : "Mit Dir geteilt",
-    "Shared with others" : "Mit anderen geteilt",
-    "Shared by link" : "Über einen Link geteilt",
-    "Deleted shares" : "Gelöschte Freigaben",
     "Tags" : "Schlagworte",
     "Deleted files" : "Gelöschte Dateien",
     "Text file" : "Textdatei",
@@ -158,6 +154,9 @@
     "Move" : "Verschieben",
     "A new file or folder has been <strong>deleted</strong>" : "Eine neue Datei oder Ordner wurde  <strong>gelöscht</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Eine neue Datei oder ein Ordner wurde <strong>wiederhergestellt</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">über WebDAV auf Deine Dateien zuzugreifen</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">über WebDAV auf Deine Dateien zuzugreifen</a>",
+    "Shared with you" : "Mit Dir geteilt",
+    "Shared with others" : "Mit anderen geteilt",
+    "Shared by link" : "Über einen Link geteilt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
