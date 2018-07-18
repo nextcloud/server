@@ -115,8 +115,6 @@
 			<div class="userActions">
 				<input type="submit" id="newsubmit" class="button primary icon-checkmark-white has-tooltip"
 					   value="" :title="t('settings', 'Add a new user')">
-				<input type="reset" id="newreset" class="button icon-close has-tooltip" @click="resetForm"
-					   value="" :title="t('settings', 'Cancel and reset the form')">
 			</div>
 		</form>
 
