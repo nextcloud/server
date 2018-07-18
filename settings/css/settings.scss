@@ -1465,7 +1465,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				top: $grid-row-height;
 			}
 			&#grid-header {
-				color: var(--color-background-darker);
+				color: var(--color-text-light);
 				z-index: 60; /* above new-user */
 			}
 			&:hover {
@@ -1478,7 +1478,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				grid-row: 1;
 				display: inline-flex;
 				align-items: center;
-				color: var(--color-text-lighter);
+				color: var(--color-text);
 				position: relative;
 				> input:not(:focus):not(:active) {
 					border-color: transparent;
