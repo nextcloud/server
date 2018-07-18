@@ -44,8 +44,8 @@
 				<li v-if="Number.isInteger(item.utils.counter)"
 					class="app-navigation-entry-utils-counter">{{item.utils.counter}}</li>
 
-				<!-- first action if only one action and counter -->
-				<li v-if="item.utils.actions && item.utils.actions.length === 1 && Number.isInteger(item.utils.counter)"
+				<!-- first action if only one action -->
+				<li v-if="item.utils.actions && item.utils.actions.length === 1"
 					class="app-navigation-entry-utils-menu-button">
 					<button @click="item.utils.actions[0].action" :class="item.utils.actions[0].icon" :title="item.utils.actions[0].text"></button>
 				</li>
