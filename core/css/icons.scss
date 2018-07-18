@@ -396,7 +396,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-star-dark {
-	@include icon-color('star-dark', 'actions', $color-black, 1, true);
+	@include icon-color('star', 'actions', $color-black, 1, true);
 }
 
 .icon-starred {
