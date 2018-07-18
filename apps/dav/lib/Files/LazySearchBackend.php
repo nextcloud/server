@@ -24,7 +24,7 @@
 namespace OCA\DAV\Files;
 
 use SearchDAV\Backend\ISearchBackend;
-use SearchDAV\Query\Query;
+use SearchDAV\XML\BasicSearch;
 
 class LazySearchBackend implements ISearchBackend {
 	/**
@@ -60,7 +60,7 @@ class LazySearchBackend implements ISearchBackend {
 		}
 	}
 
-	public function search(Query $query) {
+	public function search(BasicSearch $query) {
 		if ($this->backend) {
 			return $this->backend->search($query);
 		} else {
