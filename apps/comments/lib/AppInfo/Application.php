@@ -24,9 +24,13 @@
 namespace OCA\Comments\AppInfo;
 
 use OCA\Comments\Controller\Notifications;
+use OCA\Comments\EventHandler;
 use OCA\Comments\JSSettingsHelper;
+use OCA\Comments\Notification\Notifier;
 use OCP\AppFramework\App;
+use OCP\Comments\CommentsEntityEvent;
 use OCP\Util;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App {
 
@@ -38,5 +42,52 @@ class Application extends App {
 
 		$jsSettingsHelper = new JSSettingsHelper($container->getServer());
 		Util::connectHook('\OCP\Config', 'js', $jsSettingsHelper, 'extend');
+	}
+
+	public function register() {
+		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$this->registerSidebarScripts($dispatcher);
+		$this->registerDavEntity($dispatcher);
+		$this->registerNotifier();
+		$this->registerCommentsEventHandler();
+	}
+
+	protected function registerSidebarScripts(EventDispatcherInterface $dispatcher) {
+		$dispatcher->addListener(
+			'OCA\Files::loadAdditionalScripts',
+			function() {
+				Util::addScript('oc-backbone-webdav');
+				Util::addScript('comments', 'merged');
+				Util::addStyle('comments', 'autocomplete');
+				Util::addStyle('comments', 'comments');
+			}
+		);
+	}
+
+	protected function registerDavEntity(EventDispatcherInterface $dispatcher) {
+		$dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
+			$event->addEntityCollection('files', function($name) {
+				$nodes = \OC::$server->getUserFolder()->getById((int)$name);
+				return !empty($nodes);
+			});
+		});
+	}
+
+	protected function registerNotifier() {
+		$this->getContainer()->getServer()->getNotificationManager()->registerNotifier(
+			function() {
+				return $this->getContainer()->query(Notifier::class);
+			},
+			function () {
+				$l = $this->getContainer()->getServer()->getL10NFactory()->get('comments');
+				return ['id' => 'comments', 'name' => $l->t('Comments')];
+			}
+		);
+	}
+
+	protected function registerCommentsEventHandler() {
+		$this->getContainer()->getServer()->getCommentsManager()->registerEventHandler(function () {
+			return $this->getContainer()->query(EventHandler::class);
+		});
 	}
 }
