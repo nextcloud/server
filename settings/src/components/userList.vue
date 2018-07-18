@@ -25,7 +25,7 @@
 		<div class="row" id="grid-header" :class="{'sticky': scrolled && !showConfig.showNewUserForm}">
 			<div id="headerAvatar" class="avatar"></div>
 			<div id="headerName" class="name">{{ t('settings', 'Username') }}</div>
-			<div id="headerDisplayName" class="displayName">{{ t('settings',  'Full name') }}</div>
+			<div id="headerDisplayName" class="displayName">{{ t('settings',  'Display name') }}</div>
 			<div id="headerPassword" class="password">{{ t('settings',  'Password') }}</div>
 			<div id="headerAddress" class="mailAddress">{{ t('settings',  'Email') }}</div>
 			<div id="headerGroups" class="groups">{{ t('settings',  'Groups') }}</div>
@@ -33,7 +33,7 @@
 				 v-if="subAdminsGroups.length>0 && settings.isAdmin">{{ t('settings', 'Group admin for') }}</div>
 			<div id="headerQuota" class="quota">{{ t('settings', 'Quota') }}</div>
 			<div id="headerLanguages" class="languages"
-				 v-if="showConfig.showLanguages">{{ t('settings', 'Languages') }}</div>
+				 v-if="showConfig.showLanguages">{{ t('settings', 'Language') }}</div>
 			<div class="headerStorageLocation storageLocation"
 				 v-if="showConfig.showStoragePath">{{ t('settings', 'Storage location') }}</div>
 			<div class="headerUserBackend userBackend"
@@ -49,7 +49,7 @@
 			<div :class="loading?'icon-loading-small':'icon-add'"></div>
 			<div class="name">
 				<input id="newusername" type="text" required v-model="newUser.id"
-					   :placeholder="t('settings', 'User name')" name="username"
+					   :placeholder="t('settings', 'Username')" name="username"
 					   autocomplete="off" autocapitalize="none" autocorrect="off"
 					   pattern="[a-zA-Z0-9 _\.@\-']+">
 			</div>
@@ -68,7 +68,7 @@
 			<div class="mailAddress">
 				<input id="newemail" type="email" v-model="newUser.mailAddress"
 					   :required="newUser.password===''"
-					   :placeholder="t('settings', 'Mail address')" name="email"
+					   :placeholder="t('settings', 'Email')" name="email"
 					   autocomplete="off" autocapitalize="none" autocorrect="off">
 			</div>
 			<div class="groups">
