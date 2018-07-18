@@ -112,6 +112,18 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSectionHasACountOf($section, $count) {
 		PHPUnit_Framework_Assert::assertEquals($this->actor->find(self::counterForTheSection($section), 10)->getText(), $count);
-	}	
+	}
+
+	/**
+	 * @Then I see that the section :section does not have a count
+	 */
+	public function iSeeThatTheSectionDoesNotHaveACount($section) {
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::counterForTheSection($section),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The counter for section $section is still shown after $timeout seconds");
+		}
+	}
 
 }
