@@ -457,6 +457,9 @@
 
 			this._renderPermissionChange = false;
 
+			// new note autosize
+			autosize(this.$el.find('.share-note-form .share-note'));
+
 			this.delegateEvents();
 
 			return this;
