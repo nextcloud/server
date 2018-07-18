@@ -80,7 +80,7 @@ class SvgController extends Controller {
 
 		if ($app === 'settings') {
 			$path = $this->serverRoot . "/settings/img/$fileName.svg";
-			return $this->getSvg($path, $color);
+			return $this->getSvg($path, $color, $fileName);
 		}
 
 		$appPath = \OC_App::getAppWebPath($app);
