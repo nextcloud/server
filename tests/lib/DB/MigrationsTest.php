@@ -10,7 +10,12 @@
 
 namespace Test\DB;
 
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Sequence;
+use Doctrine\DBAL\Schema\Table;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
@@ -94,10 +99,18 @@ class MigrationsTest extends \Test\TestCase {
 		$this->db->expects($this->once())
 			->method('migrateToSchema');
 
+		$wrappedSchema = $this->createMock(Schema::class);
+		$wrappedSchema->expects($this->once())
+			->method('getTables')
+			->willReturn([]);
+		$wrappedSchema->expects($this->once())
+			->method('getSequences')
+			->willReturn([]);
+
 		$schemaResult = $this->createMock(SchemaWrapper::class);
 		$schemaResult->expects($this->once())
 			->method('getWrappedSchema')
-			->willReturn($this->createMock(Schema::class));
+			->willReturn($wrappedSchema);
 
 		$step = $this->createMock(IMigrationStep::class);
 		$step->expects($this->at(0))
@@ -204,5 +217,284 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->expects($this->exactly(2))->method('executeStep')
 			->withConsecutive(['20170130180002'], ['20170130180003']);
 		$this->migrationService->migrate();
+	}
+
+	public function testEnsureOracleIdentifierLengthLimitValid() {
+		$column = $this->createMock(Column::class);
+		$column->expects($this->once())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$index = $this->createMock(Index::class);
+		$index->expects($this->once())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$foreignKey = $this->createMock(ForeignKeyConstraint::class);
+		$foreignKey->expects($this->once())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->once())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$sequence = $this->createMock(Sequence::class);
+		$sequence->expects($this->once())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([$column]);
+		$table->expects($this->once())
+			->method('getIndexes')
+			->willReturn([$index]);
+		$table->expects($this->once())
+			->method('getForeignKeys')
+			->willReturn([$foreignKey]);
+		$table->expects($this->once())
+			->method('getPrimaryKey')
+			->willReturn(null);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects($this->once())
+			->method('getSequences')
+			->willReturn([$sequence]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	public function testEnsureOracleIdentifierLengthLimitValidWithPrimaryKey() {
+		$index = $this->createMock(Index::class);
+		$index->expects($this->once())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->exactly(2))
+			->method('getName')
+			->willReturn(\str_repeat('a', 26));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getForeignKeys')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getPrimaryKey')
+			->willReturn($index);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects($this->once())
+			->method('getSequences')
+			->willReturn([]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testEnsureOracleIdentifierLengthLimitTooLongTableName() {
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 31));
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testEnsureOracleIdentifierLengthLimitTooLongPrimaryWithDefault() {
+		$index = $this->createMock(Index::class);
+		$index->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 27));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getForeignKeys')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getPrimaryKey')
+			->willReturn($index);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testEnsureOracleIdentifierLengthLimitTooLongPrimaryWithName() {
+		$index = $this->createMock(Index::class);
+		$index->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 31));
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 26));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getForeignKeys')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getPrimaryKey')
+			->willReturn($index);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testEnsureOracleIdentifierLengthLimitTooLongColumnName() {
+		$column = $this->createMock(Column::class);
+		$column->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 31));
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([$column]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testEnsureOracleIdentifierLengthLimitTooLongIndexName() {
+		$index = $this->createMock(Index::class);
+		$index->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 31));
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getIndexes')
+			->willReturn([$index]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testEnsureOracleIdentifierLengthLimitTooLongForeignKeyName() {
+		$foreignKey = $this->createMock(ForeignKeyConstraint::class);
+		$foreignKey->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 31));
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getForeignKeys')
+			->willReturn([$foreignKey]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testEnsureOracleIdentifierLengthLimitTooLongSequenceName() {
+		$sequence = $this->createMock(Sequence::class);
+		$sequence->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 31));
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([]);
+		$schema->expects($this->once())
+			->method('getSequences')
+			->willReturn([$sequence]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
 	}
 }
