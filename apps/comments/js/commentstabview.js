@@ -383,7 +383,11 @@
 
 		_postRenderItem: function($el, editionMode) {
 			$el.find('.has-tooltip').tooltip();
-			$el.find('.avatar').each(function() {
+			$el.find('.avatar').each(function () {
+				var $this = $(this);
+				$this.avatar($this.attr('data-username'), 16);
+			});
+			$el.find('.authorRow .avatar').each(function () {
 				var $this = $(this);
 				$this.avatar($this.attr('data-username'), 32);
 			});

@@ -155,8 +155,27 @@
 	cursor: pointer;
 }
 
-#commentsTabView .comments li .message .atwho-inserted {
-	margin-left: 5px;
+#commentsTabView .comments li .message .atwho-inserted,
+#commentsTabView .newCommentForm .atwho-inserted {
+	.avatar-name-wrapper {
+		display: inline;
+		vertical-align: top;
+		background-color: var(--color-background-dark);
+		border-radius: 50vh;
+		padding: 1px 7px 1px 1px;
+		.avatar {
+			img {
+				vertical-align: top;
+			}
+			height: 16px;
+			width: 16px;
+			vertical-align: middle;
+			padding: 1px;
+			margin-top: -3px;
+			margin-left: 0;
+			margin-right: 2px;
+		}
+	}
 }
 
 .atwho-view-ul * .avatar-name-wrapper {
