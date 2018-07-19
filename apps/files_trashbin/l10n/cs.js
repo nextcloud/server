@@ -17,6 +17,7 @@ OC.L10N.register(
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Select all" : "Vybrat vše",
     "Name" : "Název",
+    "Actions" : "Akce",
     "Deleted" : "Smazáno"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
