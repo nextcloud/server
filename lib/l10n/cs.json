@@ -229,6 +229,7 @@
     "Storage is temporarily not available" : "Úložiště je dočasně nedostupné",
     "Storage connection timeout. %s" : "Vypršení připojení k úložišti. %s",
     "Personal" : "Osobní",
+    "Admin" : "Správce",
     "APCu" : "APCu",
     "Redis" : "Redis",
     "Tips & tricks" : "Tipy a triky",

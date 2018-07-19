@@ -49,6 +49,7 @@ OC.L10N.register(
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\"> Bilo je problema sa provjerom integriteta podataka. Više informacija...</a>",
     "No action available" : "Nikakve radnje trenutno nisu moguće",
     "Settings" : "Postavke",
+    "Connection to server lost" : "Izgubljena veza sa poslužiteljem",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Greška pri učitavanju stranice, ponovno učitavanje za %n sekundu","Greška pri učitavanju stranice, ponovno učitavanje za %n sekunde","Greška pri učitavanju stranice, ponovno učitavanje za %n sekundi"],
     "Saving..." : "Spremanje...",
     "Dismiss" : "Odpusti",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Yönlendirme adresi https://websitem.com/yol gibi tam bir adres olmalıdır",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Diğer web uygulamaları için OAuth2 uyumlu kimlik doğrulaması sağlar.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 uygulaması, yöneticilerin iç kimlik doğrulama iş akışını yapılandırabilmesini ve diğer web uygulamaları için OAuth2 uyumlu kimlik doğrulaması kullanılabilmesini sağlar.",
