@@ -116,6 +116,7 @@ use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
+use OC\Template\IconsCacher;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
 use OCA\Theming\ImageManager;
@@ -963,7 +964,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig(),
 				$c->getThemingDefaults(),
 				\OC::$SERVERROOT,
-				$this->getMemCacheFactory()
+				$this->getMemCacheFactory(),
+				$c->query(IconsCacher::class)
 			);
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {

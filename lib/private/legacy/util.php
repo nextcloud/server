@@ -687,13 +687,20 @@ class OC_Util {
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
+	 * @param bool $prepend prepend the header to the beginning of the list
 	 */
-	public static function addHeader($tag, $attributes, $text=null) {
-		self::$headers[] = array(
+	public static function addHeader($tag, $attributes, $text = null, $prepend = false) {
+		$header = array(
 			'tag' => $tag,
 			'attributes' => $attributes,
 			'text' => $text
 		);
+		if ($prepend === true) {
+			array_unshift (self::$headers, $header);
+
+		} else {
+			self::$headers[] = $header;
+		}
 	}
 
 	/**

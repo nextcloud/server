@@ -13,7 +13,7 @@
 }
 
 .nav-icon-systemtagsfilter {
-	background-image: url('../img/tag.svg');
+	@include icon-color('tag', 'systemtags', $color-black);
 }
 
 #app-sidebar .mainFileInfoView .tag-label {

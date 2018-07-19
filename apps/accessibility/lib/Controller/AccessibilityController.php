@@ -36,6 +36,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OC\Template\IconsCacher;
 
 class AccessibilityController extends Controller {
 
@@ -66,6 +67,9 @@ class AccessibilityController extends Controller {
 	/** @var IAppManager */
 	private $appManager;
 
+	/** @var IconsCacher */
+	protected $iconsCacher;
+
 	/**
 	 * Account constructor.
 	 *
@@ -87,7 +91,8 @@ class AccessibilityController extends Controller {
 								IURLGenerator $urlGenerator,
 								ITimeFactory $timeFactory,
 								IUserSession $userSession,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								IconsCacher $iconsCacher) {
 		parent::__construct($appName, $request);
 		$this->appName      = $appName;
 		$this->config       = $config;
@@ -97,6 +102,7 @@ class AccessibilityController extends Controller {
 		$this->timeFactory  = $timeFactory;
 		$this->userSession  = $userSession;
 		$this->appManager   = $appManager;
+		$this->iconsCacher  = $iconsCacher;
 
 		$this->serverRoot = \OC::$SERVERROOT;
 		$this->appRoot    = $this->appManager->getAppPath($this->appName);
@@ -147,7 +153,12 @@ class AccessibilityController extends Controller {
 
 		// Rebase all urls
 		$appWebRoot = substr($this->appRoot, strlen($this->serverRoot) - strlen(\OC::$WEBROOT));
-		$css = $this->rebaseUrls($css, $appWebRoot . '/css');
+		$css        = $this->rebaseUrls($css, $appWebRoot . '/css');
+
+		if (in_array('themedark', $userValues) && $this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
+			$iconsCss = $this->invertSvgIconsColor($this->iconsCacher->getCachedCSS()->getContent());
+			$css = $css . $iconsCss;
+		}
 
 		$response = new DataDisplayResponse($css, Http::STATUS_OK, ['Content-Type' => 'text/css']);
 
@@ -198,5 +209,15 @@ class AccessibilityController extends Controller {
 		$subst = 'url(\'' . $webDir . '/$1\')';
 
 		return preg_replace($re, $subst, $css);
+	}
+
+	/**
+	 * Remove all matches from the $rule regex
+	 *
+	 * @param string $css string to parse
+	 * @return string
+	 */
+	private function invertSvgIconsColor(string $css) {
+		return str_replace(['/000', '/fff', '/***'], ['/***', '/000', '/fff'], $css);
 	}
 }

@@ -31,6 +31,7 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IConfig;
 use OCA\Theming\ThemingDefaults;
+use OC\Template\IconsCacher;
 use OC\Template\SCSSCacher;
 use OC\Template\CSSResourceLocator;
 
@@ -47,6 +48,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 	protected $cacheFactory;
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	/** @var IconsCacher|\PHPUnit_Framework_MockObject_MockObject */
+	protected $iconsCacher;
 
 	protected function setUp() {
 		parent::setUp();
@@ -57,6 +60,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->iconsCacher = $this->createMock(IconsCacher::class);
 	}
 
 	private function cssResourceLocator() {
@@ -70,7 +74,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 			$this->config,
 			$this->themingDefaults,
 			\OC::$SERVERROOT,
-			$this->cacheFactory
+			$this->cacheFactory,
+			$this->iconsCacher
 		);
 		return new CSSResourceLocator(
 			$this->logger,

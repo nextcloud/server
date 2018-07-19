@@ -84,30 +84,29 @@
 
 /* icons for sidebar */
 .nav-icon-files {
-	background-image: url('../img/folder.svg?v=1');
+	@include icon-color('folder', 'files', $color-black);
 }
 .nav-icon-recent {
-	background-image: url('../img/recent.svg?v=1');
+	@include icon-color('recent', 'files', $color-black);
 }
 .nav-icon-favorites {
-	background-image: url('../img/star.svg?v=1');
+	@include icon-color('star-dark', 'files', $color-black, 2, true);
 }
 .nav-icon-sharingin,
-.nav-icon-sharingout,
-.nav-icon-shareoverview {
-	background-image: url('../img/share.svg?v=1');
+.nav-icon-sharingout {
+	@include icon-color('share', 'files', $color-black);
 }
 .nav-icon-sharinglinks {
-	background-image: url('../img/public.svg?v=1');
+	@include icon-color('public', 'files', $color-black);
 }
 .nav-icon-extstoragemounts {
-	background-image: url('../img/external.svg?v=1');
+	@include icon-color('external', 'files', $color-black);
 }
 .nav-icon-trashbin {
-	background-image: url('../img/delete.svg?v=1');
+	@include icon-color('delete', 'files', $color-black);
 }
 .nav-icon-deletedshares {
-	background-image: url('../img/unshare.svg?v=1');
+	@include icon-color('unshare', 'files', $color-black);
 }
 
 #app-navigation .nav-files a.nav-icon-files {
@@ -668,7 +667,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		background-image: url('../../../core/img/actions/starred.svg?v=1');
+		@include icon-color('star-dark', 'actions', 'FC0', 1, true);
 	}
 }
 

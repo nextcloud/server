@@ -231,7 +231,7 @@ class Manager implements IManager {
 			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
 			10 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
 			45 => [new Section('encryption', $this->l->t('Encryption'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
-			50 => [new Section('groupware', $this->l->t('Groupware'), 0, $this->url->imagePath('core', 'places/contacts-dark.svg'))],
+			50 => [new Section('groupware', $this->l->t('Groupware'), 0, $this->url->imagePath('core', 'places/contacts.svg'))],
 			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
 		];
 
