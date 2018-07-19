@@ -125,6 +125,7 @@
 					'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
 					'</span>' +
 				'</li>' +
+				'{{#if isNoteAvailable}}' +
 				'<li>' +
 					'<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>' +
 					'	<span class="icon icon-edit"></span>' +
@@ -138,6 +139,7 @@
 					'	<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />' +
 					'</span>' +
 				'</li>' +
+				'{{/if}}' +
 				'<li>' +
 					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
 				'</li>' +
@@ -276,6 +278,7 @@
 				modSeed: shareType !== OC.Share.SHARE_TYPE_USER && (shareType !== OC.Share.SHARE_TYPE_CIRCLE || shareWithAvatar),
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isRemoteGroupShare: shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP,
+				isNoteAvailable: shareType !== OC.Share.SHARE_TYPE_REMOTE && shareType !== OC.Share.SHARE_TYPE_REMOTE_GROUP,
 				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
 				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
 				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder(),
