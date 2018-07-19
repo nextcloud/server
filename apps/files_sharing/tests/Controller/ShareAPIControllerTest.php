@@ -1822,7 +1822,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setNote('personal note')
 			->setId(42);
 
-		/* User backend down */
+		// User backend down
 		$result[] = [
 			[
 				'id' => 42,
@@ -1851,8 +1851,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mimetype' => 'myMimeType',
 			], $share, [], false
 		];
-
-		/* User backend up */
+		// User backend up
 		$result[] = [
 			[
 				'id' => 42,
@@ -1897,8 +1896,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setTarget('myTarget')
 			->setNote('personal note')
 			->setId(42);
-
-		/* User backend down */
+		// User backend down
 		$result[] = [
 			[
 				'id' => 42,
@@ -1929,6 +1927,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		// with existing group
+
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
 			->setSharedWith('recipientGroup')
@@ -2123,6 +2122,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2164,6 +2164,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2205,6 +2206,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2261,6 +2263,7 @@ class ShareAPIControllerTest extends TestCase {
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
+				'note' => '',
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
