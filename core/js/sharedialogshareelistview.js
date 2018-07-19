@@ -504,7 +504,7 @@
 			var shareId = $li.data('share-id');
 			var $menu = $element.closest('li');
 			var $form = $menu.next('li.share-note-form');
-			
+
 			// show elements
 			$menu.find('.share-note-delete').toggle();
 			$form.toggleClass('hidden');
@@ -522,7 +522,7 @@
 
 			console.log($form.find('.share-note'));
 			$form.find('.share-note').val('');
-			
+
 			self.sendNote('', shareId, $menu);
 		},
 
@@ -569,7 +569,7 @@
 			// send data
 			$.ajax({
 				method: 'PUT',
-				url: OC.generateUrl('/ocs/v2.php/apps/files_sharing/api/v1/shares/' + shareId),
+				url: OC.linkToOCS('apps/files_sharing/api/v1/shares',2) + shareId + '?' + OC.buildQueryString({format: 'json'}),
 				data: { note: note },
 				complete : complete,
 				error: error
