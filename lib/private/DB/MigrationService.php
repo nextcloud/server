@@ -23,6 +23,10 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use OC\IntegrityCheck\Helpers\AppLocator;
@@ -490,9 +494,25 @@ class MigrationService {
 				}
 			}
 
-			$thing = $table->getPrimaryKey();
-			if ($thing && (\strlen($table->getName()) > 26 || \strlen($thing->getName()) > 30)) {
-				throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+			$primaryKey = $table->getPrimaryKey();
+			if ($primaryKey instanceof Index) {
+				$indexName = strtolower($primaryKey->getName());
+				$isUsingDefaultName = $indexName === 'primary';
+
+				if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+					$defaultName = $table->getName() . '_' . implode('_', $primaryKey->getColumns()) . '_seq';
+					$isUsingDefaultName = strtolower($defaultName) === $indexName;
+				} else if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+					$defaultName = $table->getName() . '_seq';
+					$isUsingDefaultName = strtolower($defaultName) === $indexName;
+				}
+
+				if (!$isUsingDefaultName && \strlen($indexName) > 30) {
+					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+				}
+				if ($isUsingDefaultName && \strlen($table->getName()) > 26) {
+					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+				}
 			}
 		}
 

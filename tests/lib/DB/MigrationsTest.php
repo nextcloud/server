@@ -10,6 +10,8 @@
 
 namespace Test\DB;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
@@ -271,12 +273,57 @@ class MigrationsTest extends \Test\TestCase {
 
 	public function testEnsureOracleIdentifierLengthLimitValidWithPrimaryKey() {
 		$index = $this->createMock(Index::class);
-		$index->expects($this->once())
+		$index->expects($this->any())
 			->method('getName')
 			->willReturn(\str_repeat('a', 30));
 
 		$table = $this->createMock(Table::class);
-		$table->expects($this->exactly(2))
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 26));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getForeignKeys')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getPrimaryKey')
+			->willReturn($index);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects($this->once())
+			->method('getSequences')
+			->willReturn([]);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+	}
+
+	public function testEnsureOracleIdentifierLengthLimitValidWithPrimaryKeyDefault() {
+		$defaultName = 'PRIMARY';
+		if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+			$defaultName = \str_repeat('a', 26) . '_' . \str_repeat('b', 30) . '_seq';
+		} else if ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+			$defaultName = \str_repeat('a', 26) . '_seq';
+		}
+
+		$index = $this->createMock(Index::class);
+		$index->expects($this->any())
+			->method('getName')
+			->willReturn($defaultName);
+		$index->expects($this->any())
+			->method('getColumns')
+			->willReturn([\str_repeat('b', 30)]);
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
 			->method('getName')
 			->willReturn(\str_repeat('a', 26));
 
@@ -325,10 +372,20 @@ class MigrationsTest extends \Test\TestCase {
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testEnsureOracleIdentifierLengthLimitTooLongPrimaryWithDefault() {
+		$defaultName = 'PRIMARY';
+		if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+			$defaultName = \str_repeat('a', 27) . '_' . \str_repeat('b', 30) . '_seq';
+		} else if ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+			$defaultName = \str_repeat('a', 27) . '_seq';
+		}
+
 		$index = $this->createMock(Index::class);
 		$index->expects($this->any())
 			->method('getName')
-			->willReturn(\str_repeat('a', 30));
+			->willReturn($defaultName);
+		$index->expects($this->any())
+			->method('getColumns')
+			->willReturn([\str_repeat('b', 30)]);
 
 		$table = $this->createMock(Table::class);
 		$table->expects($this->any())
