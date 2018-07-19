@@ -2,6 +2,19 @@
 	min-height: 100px;
 }
 
+.share-autocomplete-item {
+	display: flex;
+	.autocomplete-item-text {
+		margin-left: 10px;
+		margin-right: 10px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		line-height: 32px;
+		vertical-align: middle;
+	}
+}
+
 .shareTabView {
 	.oneline {
 		white-space: nowrap;
@@ -33,6 +46,9 @@
 		padding: 14px;
 	}
 	.popovermenu {
+		.datepicker {
+			margin-left: 35px;
+		}
 		.clipboardButton {
 			position: relative;
 			top: initial;
@@ -109,7 +125,8 @@
 			}
 		}
 		&[type='text'].linkText
-		&[type='password'].linkPassText {
+		&[type='password'].linkPassText,
+		&[type='password'].passwordField {
 			width: 180px !important;
 		}
 	}
@@ -175,3 +192,30 @@
 	}
 }
 
+.ui-autocomplete {
+	/* limit dropdown height to 4 1/2 entries */
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.notCreatable {
+	padding-left: 12px;
+	padding-top: 12px;
+	color: var(--color-text-lighter);
+}
+
+.contactsmenu-popover {
+	left: -6px;
+	right: auto;
+	padding: 3px 6px;
+	top: 100%;
+	margin-top: 0;
+	li.hidden {
+		display: none !important;
+	}
+	&:after {
+		left: 8px;
+		right: auto;
+	}
+}

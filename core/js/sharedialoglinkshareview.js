@@ -120,7 +120,7 @@
 					'<li>' +
 						'<a href="#" class="shareOption menuitem pop-up" data-url="{{url}}" data-window="{{newWindow}}">' +
 							'<span class="icon {{iconClass}}"' +
-								'></inpu><span>{{label}}' +
+								'></span><span>{{label}}' +
 							'</span>' +
 						'</a>' +
 					'</li>' +
@@ -376,6 +376,7 @@
 			// show elements
 			$menu.find('.share-note-delete').toggle();
 			$form.toggleClass('hidden');
+			$form.find('textarea').focus();
 		},
 
 		deleteNote(event) {
@@ -517,6 +518,7 @@
 				});
 			});
 
+			var defaultExpireDays = this.configModel.get('defaultExpireDate');
 			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
 			var hasExpireDate = !!this.model.get('linkShare').expiration || isExpirationEnforced;
 
@@ -524,6 +526,33 @@
 			if (hasExpireDate) {
 				expireDate = moment(this.model.get('linkShare').expiration, 'YYYY-MM-DD').format('DD-MM-YYYY');
 			}
+
+			// what if there is another date picker on that page?
+			var minDate = new Date();
+			var maxDate = null;
+			// min date should always be the next day
+			minDate.setDate(minDate.getDate()+1);
+
+			if(hasExpireDate) {
+				if(isExpirationEnforced) {
+					// TODO: hack: backend returns string instead of integer
+					var shareTime = this.model.get('linkShare').stime;
+					if (_.isNumber(shareTime)) {
+						shareTime = new Date(shareTime * 1000);
+					}
+					if (!shareTime) {
+						shareTime = new Date(); // now
+					}
+					shareTime = OC.Util.stripTime(shareTime).getTime();
+					maxDate = new Date(shareTime + defaultExpireDays * 24 * 3600 * 1000);
+				}
+			}
+			$.datepicker.setDefaults({
+				minDate: minDate,
+				maxDate: maxDate
+			});
+
+			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
 
 			var popover = this.popoverMenuTemplate({
 				cid: this.model.get('linkShare').id,
@@ -574,6 +603,9 @@
 			}));
 
 			this.delegateEvents();
+
+			// new note autosize
+			autosize(this.$el.find('.share-note-form .share-note'));
 
 			return this;
 		},
@@ -636,8 +668,10 @@
 
 		onExpireDateChange: function(event) {
 			var $element = $(event.target);
-			var datePickerClass = '.expirationDateContainer-' + this.cid;
-			var datePicker = $(datePickerClass);
+			var li = $element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var expirationDatePicker = '#expirationDateContainer-' + shareId;
+			var datePicker = $(expirationDatePicker);
 			var state = $element.prop('checked');
 			datePicker.toggleClass('hidden', !state);
 			
@@ -655,7 +689,10 @@
 		},
 
 		showDatePicker: function(event) {
-			var expirationDatePicker = '#expirationDatePicker-' + this.cid;
+			var $element = $(event.target);
+			var li = $element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var expirationDatePicker = '#expirationDatePicker-' + shareId;
 			var self = this;
 
 			$(expirationDatePicker).datepicker({
@@ -664,6 +701,8 @@
 					self.setExpirationDate(expireDate);
 				}
 			});
+			console.log(event, $(expirationDatePicker));
+			$(expirationDatePicker).datepicker('show');
 			$(expirationDatePicker).focus();
 
 		},
