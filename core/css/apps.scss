@@ -963,6 +963,7 @@ $popovericon-size: 16px;
 			> input.checkbox + label {
 				padding: 0 !important;
 				width: 100%;
+				white-space: nowrap;
 			}
 			> input.checkbox + label::before {
 				margin: -2px 13px 0;

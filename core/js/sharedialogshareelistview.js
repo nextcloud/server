@@ -34,8 +34,9 @@
 							'<label for="canEdit-{{cid}}-{{shareId}}">{{canEditLabel}}</label>' +
 						'</span>' +
 						'{{/if}}' +
-						'<a href="#"><span class="icon icon-more"></span></a>' +
-						'{{{popoverMenu}}}' +
+						'<div tabindex="0" class="share-menu"><span class="icon icon-more"></span>' +
+							'{{{popoverMenu}}}' +
+						'</div>' +
 					'</span>' +
 				'</li>' +
 			'{{/each}}' +
@@ -167,14 +168,12 @@
 		/** @type {boolean|number} **/
 		_renderPermissionChange: false,
 
-		_noteView: undefined,
-
 		events: {
 			'click .unshare': 'onUnshare',
 			'click .share-add': 'showNoteForm',
 			'click .share-note-delete': 'deleteNote',
 			'click .share-note-submit': 'updateNote',
-			'click .icon-more': 'onToggleMenu',
+			'click .share-menu .icon-more': 'onToggleMenu',
 			'click .permissions': 'onPermissionChange',
 			'click .expireDate' : 'onExpireDateChange',
 			'click .password' : 'onMailSharePasswordProtectChange',
@@ -196,8 +195,6 @@
 			this.model.on('change:shares', function() {
 				view.render();
 			});
-
-			this._noteView = options.parent.noteView;
 		},
 
 		/**
@@ -498,10 +495,8 @@
 		showNoteForm(event) {
 			event.preventDefault();
 			event.stopPropagation();
-			var self = this;
 			var $element = $(event.target);
 			var $li = $element.closest('li[data-share-id]');
-			var shareId = $li.data('share-id');
 			var $menu = $element.closest('li');
 			var $form = $menu.next('li.share-note-form');
 
@@ -522,6 +517,9 @@
 
 			console.log($form.find('.share-note'));
 			$form.find('.share-note').val('');
+			
+			$form.addClass('hidden');
+			$menu.find('.share-note-delete').hide();
 
 			self.sendNote('', shareId, $menu);
 		},
@@ -599,8 +597,6 @@
 			self.model.removeShare(shareId)
 				.done(function() {
 					$li.remove();
-					// remove note field on sucess
-					self._noteView.hide();
 				})
 				.fail(function() {
 					$loading.addClass('hidden');
