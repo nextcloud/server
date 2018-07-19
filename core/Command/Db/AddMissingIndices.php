@@ -100,6 +100,17 @@ class AddMissingIndices extends Command {
 			}
 		}
 
+		if ($schema->hasTable('filecache')) {
+			$table = $schema->getTable('filecache');
+			if (!$table->hasIndex('fs_mtime')) {
+				$output->writeln('<info>Adding additional mtime index to the filecache table, this can take some time...</info>');
+				$table->addIndex(['mtime'], 'fs_mtime');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Filecache table updated successfully.</info>');
+			}
+		}
+
 		if (!$updated) {
 			$output->writeln('<info>Done.</info>');
 		}
