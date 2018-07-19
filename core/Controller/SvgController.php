@@ -30,6 +30,7 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
+use OCP\App\IAppManager;
 use OCP\IRequest;
 
 class SvgController extends Controller {
@@ -40,13 +41,18 @@ class SvgController extends Controller {
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
+	/** @var IAppManager */
+	protected $appManager;
+
 	public function __construct(string $appName,
 								IRequest $request,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								IAppManager $appManager) {
 		parent::__construct($appName, $request);
 
 		$this->serverRoot  = \OC::$SERVERROOT;
 		$this->timeFactory = $timeFactory;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -58,7 +64,7 @@ class SvgController extends Controller {
 	 * @param string $folder
 	 * @param string $fileName
 	 * @param string $color
-	 * @return DataDisplayResponse|NotFoundException
+	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	public function getSvgFromCore(string $folder, string $fileName, string $color = 'ffffff') {
 		$path = $this->serverRoot . "/core/img/$folder/$fileName.svg";
@@ -74,7 +80,7 @@ class SvgController extends Controller {
 	 * @param string $app
 	 * @param string $fileName
 	 * @param string $color
-	 * @return DataDisplayResponse|NotFoundException
+	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	public function getSvgFromApp(string $app, string $fileName, string $color = 'ffffff') {
 
@@ -83,7 +89,9 @@ class SvgController extends Controller {
 			return $this->getSvg($path, $color, $fileName);
 		}
 
-		$appPath = \OC_App::getAppWebPath($app);
+		$appRootPath = $this->appManager->getAppPath($app);
+		$appPath = substr($appRootPath, strlen($this->serverRoot));
+		
 		if (!$appPath) {
 			return new NotFoundResponse();
 		}
@@ -97,7 +105,7 @@ class SvgController extends Controller {
 	 *
 	 * @param string $path
 	 * @param string $color
-	 * @return DataDisplayResponse|NotFoundException
+	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	private function getSvg(string $path, string $color, string $fileName) {
 		if (!file_exists($path)) {
