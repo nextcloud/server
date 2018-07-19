@@ -71,6 +71,14 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'parent_index');
 					}
 				}
+
+				if ($schema->hasTable('filecache')) {
+					$table = $schema->getTable('filecache');
+
+					if (!$table->hasIndex('fs_mtime')) {
+						$subject->addHintForMissingSubject($table->getName(), 'fs_mtime');
+					}
+				}
 			}
 		);
 	}
