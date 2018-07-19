@@ -43,6 +43,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové tagy</strong> souboru byly upraveny",
     "Collaborative tags" : "Značky pro spolupráci",
     "Select tag …" : "Vyberte štítek…",
+    "Create a new tag" : "Vytvořit nový  štítek",
     "Name" : "Název",
     "Public" : "Veřejné",
     "Restricted" : "Omezené",

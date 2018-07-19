@@ -59,6 +59,8 @@ OC.L10N.register(
     "Technical details" : "Szczegóły techniczne",
     "Remote Address: %s" : "Adres zdalny: %s",
     "Request ID: %s" : "ID żądania: %s",
+    "Are you accepting the invitation?" : "Czy akceptujesz zaproszenie?",
+    "Save" : "Zapisz",
     "CalDAV server" : "Serwer CalDAV",
     "Send invitations to attendees" : "Wyślij uczestnikom zaproszenia",
     "Please make sure to properly set up the email settings above." : "Upewnij się, że dobrze skonfigurowano powyżej ustawienia poczty e-mail.",
