@@ -113,7 +113,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
 		$filePrefix = substr(md5(\OC_Util::getVersionString('core')), 0, 4) . '-' .
-					  substr(md5('http://localhost/nextcloud'), 0, 4) . '-';
+					  substr(md5('http://localhost/nextcloud/index.php'), 0, 4) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $gzfile, $filePrefix) {
@@ -153,7 +153,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
 		$filePrefix = substr(md5(\OC_Util::getVersionString('core')), 0, 4) . '-' .
-					  substr(md5('http://localhost/nextcloud'), 0, 4) . '-';
+					  substr(md5('http://localhost/nextcloud/index.php'), 0, 4) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($path) use ($file, $gzfile, $filePrefix) {
@@ -189,7 +189,7 @@ class SCSSCacherTest extends \Test\TestCase {
 		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
 		$gzFile = $this->createMock(ISimpleFile::class);
 		$filePrefix = substr(md5(\OC_Util::getVersionString('core')), 0, 4) . '-' .
-					  substr(md5('http://localhost/nextcloud'), 0, 4) . '-';
+					  substr(md5('http://localhost/nextcloud/index.php'), 0, 4) . '-';
 
 		$folder->method('getFile')
 			->will($this->returnCallback(function($name) use ($file, $fileDeps, $gzFile, $filePrefix) {
@@ -227,9 +227,8 @@ class SCSSCacherTest extends \Test\TestCase {
 		$fileDeps->expects($this->any())->method('getSize')->willReturn(1);
 
 		$gzFile = $this->createMock(ISimpleFile::class);
-		$filePrefix = substr(md5('http://localhost/nextcloud'), 0, 8) . '-';
 		$filePrefix = substr(md5(\OC_Util::getVersionString('core')), 0, 4) . '-' .
-					  substr(md5('http://localhost/nextcloud'), 0, 4) . '-';
+					  substr(md5('http://localhost/nextcloud/index.php'), 0, 4) . '-';
 		$folder->method('getFile')
 			->will($this->returnCallback(function($name) use ($file, $fileDeps, $gzFile, $filePrefix) {
 				if ($name === $filePrefix.'styles.css') {
@@ -447,7 +446,7 @@ class SCSSCacherTest extends \Test\TestCase {
 			->method('linkToRoute')
 			->with('core.Css.getCss', [
 				'fileName' => substr(md5($version), 0, 4) . '-' .
-							  substr(md5('http://localhost/nextcloud'), 0, 4) . '-styles.css',
+							  substr(md5('http://localhost/nextcloud/index.php'), 0, 4) . '-styles.css',
 				'appName' => $appName
 			])
 			->willReturn(\OC::$WEBROOT . $result);
