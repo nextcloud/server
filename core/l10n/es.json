@@ -371,7 +371,7 @@
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentation</a>." : "Para información sobre cómo configurar correctamente tu servidor, consulta por favor la <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">documentación</a>.",
     "This action requires you to confirm your password:" : "Esta acción requiere que confirmes tu contraseña:",
     "Wrong password. Reset it?" : "Contraseña errónea. ¿Restablecerla?",
-    "Stay logged in" : "Permanecer autenticado",
+    "Stay logged in" : "Mantenerse conectado.",
     "Alternative Logins" : "Inicios de sesión alternativos",
     "You are about to grant \"%s\" access to your %s account." : "Vas a conceder acceso a \"%s\" a tu cuenta %s.",
     "Alternative login using app token" : "Inicio de sesión alternativo usando el token de la aplicación",
