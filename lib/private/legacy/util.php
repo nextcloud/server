@@ -1378,7 +1378,7 @@ class OC_Util {
 			}
 			// Zend OpCache >= 7.0.0, PHP >= 5.5.0
 			if (function_exists('opcache_invalidate')) {
-				$ret = opcache_invalidate($path);
+				$ret = @opcache_invalidate($path);
 			}
 		}
 		return $ret;
@@ -1412,7 +1412,7 @@ class OC_Util {
 		}
 		// Opcache (PHP >= 5.5)
 		if (function_exists('opcache_reset')) {
-			opcache_reset();
+			@opcache_reset();
 		}
 	}
 
