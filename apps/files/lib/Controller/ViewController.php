@@ -321,9 +321,9 @@ class ViewController extends Controller {
 	 */
 	private function reduceStorageSizeBySensibleBoundaries($storage) {
 		$reducedStorageSize = \OC_Helper::humanFileSize($storage);
-		if ($storage > 104857600 && $storage < 1073741824) { //Over 100MB under 1GB
+		if ($storage > 10485760 && $storage < 1073741824) { //Over 10MB under 1GB
 			$reducedStorageSize = round($reducedStorageSize);
-		} else if ($storage > 107374182400 && $storage < 1099511531399) { //Over 100GB under 1TB
+		} else if ($storage > 10737418240 && $storage < 1099511531399) { //Over 10GB under 1TB
 			$reducedStorageSize = round($reducedStorageSize);
 		}
 		return $reducedStorageSize;
