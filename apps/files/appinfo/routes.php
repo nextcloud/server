@@ -81,56 +81,6 @@ $application->registerRoutes(
 				'url' => '/api/v1/toggleShowFolder/{key}',
 				'verb' => 'POST'
 			],
-			[
-				'name' => 'API#getShowQuickaccessSettings',
-				'url' => '/api/v1/quickaccess/showsettings',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#setShowQuickaccessSettings',
-				'url' => '/api/v1/quickaccess/set/showsettings',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#setSortingStrategy',
-				'url' => '/api/v1/quickaccess/set/SortingStrategy',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#setReverseQuickaccess',
-				'url' => '/api/v1/quickaccess/set/ReverseList',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#getSortingStrategy',
-				'url' => '/api/v1/quickaccess/get/SortingStrategy',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#getReverseQuickaccess',
-				'url' => '/api/v1/quickaccess/get/ReverseList',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#getFavoritesFolder',
-				'url' => '/api/v1/quickaccess/get/FavoriteFolders/',
-				'verb' => 'GET'
-			],
-			[
-				'name' => 'API#setSortingOrder',
-				'url' => '/api/v1/quickaccess/set/CustomSortingOrder',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#getSortingOrder',
-				'url' => '/api/v1/quickaccess/get/CustomSortingOrder',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'API#getNodeType',
-				'url' => '/api/v1/quickaccess/get/NodeType',
-				'verb' => 'GET',
-			],
 		]
 	]
 );

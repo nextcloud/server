@@ -40,18 +40,6 @@
 		$currentContent: null,
 
 		/**
-		 * Strategy by which the quickaccesslist is sorted
-		 *
-		 * Possible Strategies:
-		 * customorder
-		 * datemodified
-		 * date
-		 * alphabet
-		 *
-		 */
-		$sortingStrategy: 'alphabet',
-
-		/**
 		 * Key for the quick-acces-list
 		 */
 		$quickAccessListKey: 'sublist-favorites',
@@ -67,12 +55,7 @@
 			this.$currentContent = null;
 			this._setupEvents();
 
-			var scope=this;
-			$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/SortingStrategy"), function (data, status) {
-				scope.$sortingStrategy=data;
-				scope.setInitialQuickaccessSettings();
-			});
-
+			this.setInitialQuickaccessSettings();
 		},
 
 		/**
@@ -198,56 +181,9 @@
 		 * Sort initially as setup of sidebar for QuickAccess
 		 */
 		setInitialQuickaccessSettings: function () {
-
 			var quickAccesKey = this.$quickAccessListKey;
 			var list = document.getElementById(quickAccesKey).getElementsByTagName('li');
-
-			var sort = true;
-			var reverse = false;
-			if (this.$sortingStrategy === 'datemodified') {
-				sort = false;
-				reverse = false;
-
-				var scope = this;
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/FavoriteFolders/"), function (data, status) {
-					for (var i = 0; i < data.favoriteFolders.length; i++) {
-						for (var j = 0; j < list.length; j++) {
-							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === data.favoriteFolders[i].name.toLowerCase()) {
-								list[j].setAttribute("mtime", data.favoriteFolders[i].mtime);
-							}
-						}
-					}
-					scope.QuickSort(list, 0, list.length - 1);
-					scope.reverse(list);
-				});
-
-			} else if (this.$sortingStrategy === 'alphabet') {
-				sort = true;
-			} else if (this.$sortingStrategy === 'date') {
-				sort = true;
-			} else if (this.$sortingStrategy === 'customorder') {
-				var scope = this;
-				$.get(OC.generateUrl("/apps/files/api/v1/quickaccess/get/CustomSortingOrder"), function (data, status) {
-					var ordering = JSON.parse(data);
-					for (var i = 0; i < ordering.length; i++) {
-						for (var j = 0; j < list.length; j++) {
-							if (scope.getCompareValue(list, j, 'alphabet').toLowerCase() === ordering[i].name.toLowerCase()) {
-								list[j].setAttribute("folderPosition", ordering[i].id);
-							}
-						}
-					}
-					scope.QuickSort(list, 0, list.length - 1);
-				});
-				sort = false;
-			}
-
-			if (sort) {
-				this.QuickSort(list, 0, list.length - 1);
-			}
-			if (reverse) {
-				this.reverse(list);
-			}
-
+			this.QuickSort(list, 0, list.length - 1);
 		},
 
 		/**
@@ -296,21 +232,7 @@
 		 * This method allows easy access to the element which is sorted by.
 		 */
 		getCompareValue: function (nodes, int, strategy) {
-
-			if ((typeof strategy === 'undefined')) {
-				strategy = this.$sortingStrategy;
-			}
-
-			if (strategy === 'alphabet') {
 				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
-			} else if (strategy === 'date') {
-				return nodes[int].getAttribute('folderPosition').toLowerCase();
-			} else if (strategy === 'datemodified') {
-				return nodes[int].getAttribute('mtime');
-			} else if (strategy === 'customorder') {
-				return nodes[int].getAttribute('folderPosition');
-			}
-			return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
 		},
 
 		/**
@@ -320,16 +242,6 @@
 		swap: function (list, j, i) {
 			list[i].before(list[j]);
 			list[j].before(list[i]);
-		},
-
-		/**
-		 * Reverse QuickAccess-List
-		 */
-		reverse: function (list) {
-			var len = list.length - 1;
-			for (var i = 0; i < len / 2; i++) {
-				this.swap(list, i, len - i);
-			}
 		}
 
 	};
