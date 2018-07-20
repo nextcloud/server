@@ -348,17 +348,13 @@ nav[role='navigation'] {
 		opacity: 1; /* override icon opacity */
 		padding-right: 12px;
 
-		img {
-			opacity: .7;
-			margin-bottom: -2px;
-		}
 		&:hover,
 		&:focus,
 		&:active {
 			color: var(--color-primary-text);
 
 			img, #expandDisplayName {
-				opacity: 1;
+				opacity: .57 !important;
 			}
 		}
 
