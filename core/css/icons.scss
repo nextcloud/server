@@ -110,9 +110,8 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 }
 
 .icon-white {
-	filter: invert(100%);
 	&.icon-shadow {
-		filter: invert(100%) drop-shadow(1px 1px 4px var(--color-box-shadow));
+		filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 	}
 }
 
@@ -172,13 +171,14 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	@include icon-color('clippy', 'actions', $color-black, 2, true);
 }
 
-.icon-close {
-	@include icon-color('close', 'actions', $color-black, 1, true);
-}
-
-.icon-close-white {
-	@include icon-color('close', 'actions', $color-white, 1, true);
-}
+/**
+ * These icon classes are generated automatically with the following pattern
+ * for icon-black-white('close', ...)
+ * .icon-close
+ * .icon-close-white
+ * .icon-close.icon-white
+ */
+@include icon-black-white('close', 'actions', $color-black, 1, true);
 
 .icon-comment {
 	@include icon-color('comment', 'actions', $color-black, 1, true);

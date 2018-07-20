@@ -46,3 +46,17 @@
 	}
 	background-image: var(#{$varName});
 }
+
+/**
+ * Create black and white icons
+ * This will add a default black version of and an additional white version when .icon-white is applied
+ */
+@mixin icon-black-white($icon, $dir, $version, $core: false) {
+	.icon-#{$icon} {
+		@include icon-color($icon, $dir, $color-black, $version, $core);
+	}
+	.icon-#{$icon}-white,
+	.icon-#{$icon}.icon-white {
+		@include icon-color($icon, $dir, $color-white, $version, $core);
+	}
+}
