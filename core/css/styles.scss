@@ -1103,6 +1103,8 @@ div.crumb {
 		}
 	}
 	&:hover, &:focus, a:focus, &:active {
+		opacity: 1;
+
 		> a,
 		> span {
 			opacity: .7;
