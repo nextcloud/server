@@ -29,6 +29,7 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\DBAL\Schema\Sequence;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
@@ -471,6 +472,8 @@ class MigrationService {
 	}
 
 	public function ensureOracleIdentifierLengthLimit(Schema $schema) {
+		$sequences = $schema->getSequences();
+
 		foreach ($schema->getTables() as $table) {
 			if (\strlen($table->getName()) > 30) {
 				throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
@@ -502,6 +505,12 @@ class MigrationService {
 				if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
 					$defaultName = $table->getName() . '_' . implode('_', $primaryKey->getColumns()) . '_seq';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
+
+					if ($isUsingDefaultName) {
+						$sequences = array_filter($sequences, function(Sequence $sequence) use ($indexName) {
+							return $sequence->getName() !== $indexName;
+						});
+					}
 				} else if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 					$defaultName = $table->getName() . '_seq';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
@@ -516,7 +525,7 @@ class MigrationService {
 			}
 		}
 
-		foreach ($schema->getSequences() as $sequence) {
+		foreach ($sequences as $sequence) {
 			if (\strlen($sequence->getName()) > 30) {
 				throw new \InvalidArgumentException('Sequence name "'  . $sequence->getName() . '" is too long.');
 			}
