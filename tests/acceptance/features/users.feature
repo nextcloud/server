@@ -78,7 +78,7 @@ Feature: users
     And I open the settings
     And I see that the settings are opened
     When I toggle the showLanguages checkbox in the settings
-    Then I see that the "Languages" column is shown
+    Then I see that the "Language" column is shown
     When I toggle the showLastLogin checkbox in the settings
     Then I see that the "Last login" column is shown
     When I toggle the showStoragePath checkbox in the settings
