@@ -78,7 +78,7 @@ class Cache extends CacheJail {
 			// in the case where a folder is shared from a Jail we need to ensure that the share Jail
 			// has it's root set relative to the source Jail
 			$currentStorage = $this->storage->getSourceStorage();
-			if ($currentStorage->instanceOfStorage(Jail::class)) {
+			if ($currentStorage!== NULL && $currentStorage->instanceOfStorage(Jail::class)) {
 				/** @var Jail $currentStorage */
 				$absoluteRoot = $currentStorage->getJailedPath($absoluteRoot);
 			}
