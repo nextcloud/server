@@ -214,8 +214,10 @@ class ViewController extends Controller {
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 			$totalSpace = $this->l10n->t('Unlimited');
 		} else {
-			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
+			$totalSpace = $this->reduceStorageSizeBySensibleBoundaries($storageInfo['total']);
 		}
+
+
 		$nav->assign('total_space', $totalSpace);
 		$nav->assign('quota', $storageInfo['quota']);
 		$nav->assign('usage_relative', $storageInfo['relative']);
@@ -311,5 +313,25 @@ class ViewController extends Controller {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
 		}
 		throw new \OCP\Files\NotFoundException();
+	}
+
+
+	/**
+	 * Cuts of an int containing the amount of bytes of a given size, to a sensible way. It converts the bytecount to a human readable size, and then cuts it down under a certain threshhold.
+	 *
+	 * @param int $storage storagevalue to be cut off
+	 * @return int human readable filesize which is reduced to a sensible value.
+	 */
+	private function reduceStorageSizeBySensibleBoundaries($storage) {
+
+		$reducedStorageSize = \OC_Helper::humanFileSize($storage);
+
+		if ($storage > 104857600 && $storage < 1073741824) { //Over 100MB under 1GB
+			$reducedStorageSize = round($reducedStorageSize);
+		} else if ($storage > 107374182400 && $storage < 1099511531399) { //Over 100GB under 1TB
+			$reducedStorageSize = round($reducedStorageSize);
+		}
+
+		return $reducedStorageSize;
 	}
 }
