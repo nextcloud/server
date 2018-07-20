@@ -15,7 +15,7 @@
 	var TEMPLATE_MENU =
 		'<ul>' +
 		'<li>' +
-		'<label for="file_upload_start" class="menuitem" data-action="upload" title="{{uploadMaxHumanFilesize}}"><span class="svg icon icon-upload"></span><span class="displayname">{{uploadLabel}}</span></label>' +
+		'<label for="file_upload_start" class="menuitem" data-action="upload" title="{{uploadMaxHumanFilesize}}" tabindex="0"><span class="svg icon icon-upload"></span><span class="displayname">{{uploadLabel}}</span></label>' +
 		'</li>' +
 		'{{#each items}}' +
 		'<li>' +
