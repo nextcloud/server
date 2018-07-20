@@ -499,7 +499,7 @@
 			return this._popoverMenuTemplate(data);
 		},
 
-		showNoteForm(event) {
+		showNoteForm: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			var $element = $(event.target);
@@ -512,7 +512,7 @@
 			$form.find('textarea').focus();
 		},
 
-		deleteNote(event) {
+		deleteNote: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			var self = this;
@@ -531,7 +531,7 @@
 			self.sendNote('', shareId, $menu);
 		},
 
-		updateNote(event) {
+		updateNote: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			var self = this;
@@ -550,7 +550,7 @@
 
 		},
 
-		sendNote(note, shareId, $menu) {
+		sendNote: function(note, shareId, $menu) {
 			var $form = $menu.next('li.share-note-form');
 			var $submit = $form.find('input.share-note-submit');
 			var $error = $form.find('input.share-note-error');
