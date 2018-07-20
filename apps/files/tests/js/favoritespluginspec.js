@@ -14,6 +14,7 @@ describe('OCA.Files.FavoritesPlugin tests', function() {
 
 	beforeEach(function() {
 		$('#testArea').append(
+			'<div id="content">' +
 			'<div id="app-navigation">' +
 			'<ul><li data-id="files"><a>Files</a></li>' +
 			'<li data-id="sharingin"><a></a></li>' +
@@ -23,6 +24,7 @@ describe('OCA.Files.FavoritesPlugin tests', function() {
 			'<div id="app-content-files" class="hidden">' +
 			'</div>' +
 			'<div id="app-content-favorites" class="hidden">' +
+			'</div>' +
 			'</div>' +
 			'</div>' +
 			'</div>'

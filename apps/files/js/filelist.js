@@ -99,11 +99,12 @@
 
 		/**
 		 * Number of files per page
+		 * Always show a minimum of 1
 		 *
 		 * @return {int} page size
 		 */
 		pageSize: function() {
-			return Math.ceil(this.$container.height() / 50);
+			return Math.max(Math.ceil(this.$container.height() / 50), 1);
 		},
 
 		/**
@@ -274,7 +275,6 @@
 
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
-				this._detailsView.$el.insertBefore(this.$el);
 				this._detailsView.$el.addClass('disappear');
 			}
 

@@ -16,7 +16,7 @@
  *
  */
 
-/* BASE STYLING ---------------------------------------------------------- */
+/* BASE STYLING ------------------------------------------------------------ */
 
 h2 {
 	font-size: 20px;
@@ -64,24 +64,16 @@ kbd {
 }
 
 
-/* APP STYLING -------------------------------------------------------------- */
+/* APP STYLING ------------------------------------------------------------ */
 
-#app {
-	height: 100%;
-	width: 100%;
-	* {
-		box-sizing: border-box;
-	}
+#content[class*='app-'] * {
+	box-sizing: border-box;
 }
 
-/* APP-NAVIGATION ------------------------------------------------------------*/
-
+/* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
-
 #app-navigation {
-	width: 250px;
-	height: 100%;
-	float: left;
+	width: $navigation-width;
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
@@ -91,6 +83,8 @@ kbd {
 	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
+	flex-grow: 0;
+	flex-shrink: 0;
 
 	/* 'New' button */
 	.app-navigation-new {
@@ -580,57 +574,85 @@ kbd {
 	}
 }
 
-/* APP-CONTENT ---------------------------------------------------------------*/
+
+/* CONTENT  --------------------------------------------------------- */
+#content {
+	/* header height */
+	padding-top: $header-height;
+	box-sizing: border-box;
+	position: relative;
+	overflow-x: hidden;
+	display: flex;
+	/* trick: scroll #app-content and not the body
+	 * to avoid double scrollbar with sidebar
+	 */
+	max-height: 100vh;
+}
+
+/* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 #app-content {
+	z-index: 1000;
+	background-color: var(--color-main-background);
 	position: relative;
-	height: 100%;
-	overflow-y: auto;
+	min-height: calc(100vh - #{$header-height});
+	flex-basis: 100vw;
+	overflow: auto;
 	/* no top border for first settings item */
 	> .section:first-child {
 		border-top: none;
 	}
-	&.with-app-sidebar {
-		margin-right: 27%;
+
+	/* if app-content-list is present */
+	#app-content-wrapper {
+		display: flex;
+		position: relative;
+		align-items: start;
+		.app-content-list,
+		.app-content-detail {
+			min-height: calc(100vh - #{$header-height});
+			max-height: calc(100vh - #{$header-height});
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+
+		/* CONTENT DETAILS AFTER LIST*/
+		.app-content-detail {
+			/* grow full width */
+			flex-grow: 1;
+			#app-navigation-toggle-back {
+				display: none;
+			}
+		}
 	}
 }
 
-#app-content-wrapper {
-	min-width: 100%;
-	min-height: 100%;
-}
-
-/* APP-SIDEBAR ----------------------------------------------------------------*/
-
+/* APP-SIDEBAR ------------------------------------------------------------ */
 /*
-	Sidebar: a sidebar to be used within #app-content
-	 have it as first element within app-content in order to shrink other
-	 sibling containers properly. Compare Files app for example.
+	Sidebar: a sidebar to be used within #content
+	#app-content will be shrinked properly
 */
 #app-sidebar {
-	position: fixed;
-	top: 50px;
-	right: 0;
-	left: auto;
-	bottom: 0;
-	width: 27%;
-	min-width: 300px;
+	width: 27vw;
+	min-width: $sidebar-min-width;
+	max-width: $sidebar-max-width;
 	display: block;
+	position: relative;
 	background: var(--color-main-background);
 	border-left: 1px solid var(--color-border);
-	-webkit-transition: margin-right 300ms;
-	transition: margin-right 300ms;
 	overflow-x: hidden;
 	overflow-y: auto;
-	visibility: visible;
-	z-index: 500;
+	flex-shrink: 0;
+	transition: 300ms width ease-in-out,
+				300ms min-width ease-in-out;
 	&.disappear {
-		visibility: hidden;
+		width: 0;
+		min-width: 0;
 	}
 }
 
-/* APP-SETTINGS ---------------------------------------------------------------*/
 
+/* APP-SETTINGS ------------------------------------------------------------ */
 /* settings area */
 #app-settings {
 	// To the bottom w/ flex
@@ -650,8 +672,6 @@ kbd {
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-	border-right: 1px solid var(--color-border);
-	width: 250px;
 	box-sizing: border-box;
 
 	/* display input fields at full width */
@@ -679,8 +699,6 @@ kbd {
 }
 
 #app-settings-header {
-	border-right: 1px solid var(--color-border);
-	width: 250px;
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 }
@@ -716,7 +734,7 @@ kbd {
 	}
 }
 
-/* GENERAL SECTION ---------------------------------------------------------- */
+/* GENERAL SECTION ------------------------------------------------------------ */
 .section {
 	display: block;
 	padding: 30px;
@@ -753,7 +771,7 @@ kbd {
 	}
 }
 
-/* TABS --------------------------------------------------------------------- */
+/* TABS ------------------------------------------------------------ */
 .tabHeaders {
 	display: inline-block;
 	margin: 15px;
@@ -786,7 +804,7 @@ kbd {
 	}
 }
 
-/* POPOVER MENU ------------------------------------------------------------- */
+/* POPOVER MENU ------------------------------------------------------------ */
 $popoveritem-height: 38px;
 $popovericon-size: 16px;
 
@@ -1007,23 +1025,7 @@ $popovericon-size: 16px;
 	}
 }
 
-/* CONTENT WRAPPER  --------------------------------------------------------- */
-#app-content-wrapper {
-	display: flex;
-	position: relative;
-	align-items: start;
-	height: 100%;
-	width: 100%;
-	.app-content-list,
-	.app-content-detail {
-		min-height: 100%;
-		max-height: 100%;
-		overflow-x: hidden;
-		overflow-y: auto;
-	}
-}
-
-/* CONTENT LIST ------------------------------------------------------------- */
+/* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	width: 300px;
 	border-right: 1px solid var(--color-border);
@@ -1174,63 +1176,4 @@ $popovericon-size: 16px;
 			}
 		}
 	}
-}
-
-/* CONTENT ------------------------------------------------------------------ */
-.app-content-detail {
-	/* grow full width */
-	flex-grow: 1;
-
-	#app-navigation-toggle-back {
-		display: none;
-	}
-}
-
-/* MOBILE ------------------------------------------------------------------- */
-/* Mobile width < 768px */
-@media only screen and (max-width: 768px) {
-
-	/* full width for message list on mobile */
-	.app-content-list {
-		width: 100%;
-		background: var(--color-main-background);
-		position: relative;
-		z-index: 100;
-	}
-
-	/* overlay message detail on top of message list */
-	.app-content-detail {
-		background: var(--color-main-background);
-		width: 100%;
-		left: 0;
-		height: 100%;
-		top: 0;
-		box-shadow: 0 0 100px rgba(100, 100, 100, .9);
-		position: absolute;
-	}
-
-	/* Show app details page */
-	#app-content.showdetails {
-		#app-navigation-toggle {
-			transform: translateX(-44px);
-		}
-		#app-navigation-toggle-back {
-			position: fixed;
-			display: inline-block !important;
-			top: 45px;
-			left: 0;
-			width: 44px;
-			height: 44px;
-			z-index: 149;
-			background-color: rgba(255, 255, 255, .7);
-			cursor: pointer;
-			opacity: .6;
-			transform: rotate(90deg);
-		}
-		.app-content-list {
-			transform: translateX(-100%);
-		}
-	}
-
-	/* end of media query */
 }

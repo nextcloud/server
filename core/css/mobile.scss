@@ -1,124 +1,147 @@
 @media only screen and (max-width: 768px) {
 
-/* do not show update notification on mobile */
-#update-notification {
-	display: none !important;
+	/* position share dropdown */
+	#dropdown {
+		margin-right: 10% !important;
+		width: 80% !important;
+	}
+
+	/* fix name autocomplete not showing on mobile */
+	.ui-autocomplete {
+		z-index: 1000 !important;
+	}
+
+	/* fix error display on smaller screens */
+	.error-wide {
+		width: 100%;
+		margin-left: 0 !important;
+		box-sizing: border-box;
+	}
+
+	/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
+	#app-navigation {
+		transform: translateX(-250px);
+	}
+	.snapjs-left {
+		#app-navigation {
+			transform: translateX(0);
+		}
+	}
+
+	#app-content {
+		margin-left: -$navigation-width;
+	}
+
+
+	/* full width for message list on mobile */
+	.app-content-list {
+		width: 100%;
+		background: var(--color-main-background);
+		position: relative;
+		z-index: 100;
+	}
+	
+	/* since list and content are only displayed full window size
+	 * we don't ant inner scrolling
+	 */
+	#app-content-wrapper {
+		.app-content-list,
+		.app-content-detail {
+			max-height: unset;
+		}
+	}
+
+	/* Show app details page */
+	#app-content.showdetails {
+		#app-navigation-toggle {
+			transform: translateX(-44px);
+		}
+		#app-navigation-toggle-back {
+			position: fixed;
+			display: inline-block !important;
+			top: 45px;
+			left: 0;
+			width: 44px;
+			height: 44px;
+			z-index: 149;
+			background-color: rgba(255, 255, 255, .7);
+			cursor: pointer;
+			opacity: .6;
+			transform: rotate(90deg);
+		}
+		.app-content-list {
+			transform: translateX(-100%);
+		}
+
+	/* end of media query */
 }
-
-/* position share dropdown */
-#dropdown {
-	margin-right: 10% !important;
-	width: 80% !important;
-}
-
-/* fix name autocomplete not showing on mobile */
-.ui-autocomplete {
-	z-index: 1000 !important;
-}
-
-/* fix error display on smaller screens */
-.error-wide {
-	width: 100%;
-	margin-left: 0 !important;
-	box-sizing: border-box;
-}
-
-
-/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
-
-#app-navigation,
-#app-content {
-	position: absolute !important;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-}
-
-#app-navigation {
-	width: 250px !important;
-}
-
-#app-content {
-	width: 100% !important;
-	left: 0 !important;
-	background-color: var(--color-main-background);
-	overflow-x: hidden !important;
-	z-index: 1000;
-}
-
-/* allow horizontal scrollbar in settings
+	/* allow horizontal scrollbar in settings
 	otherwise user management is not usable on mobile */
-#body-settings #app-content {
-	overflow-x: auto !important;
-}
+	#body-settings #app-content {
+		overflow-x: auto !important;
+	}
 
-#app-navigation-toggle {
-	position: fixed;
-	display: inline-block !important;
-	top: 50px;
-	left: 0;
-	width: 44px;
-	height: 44px;
-	z-index: 149;
-	background-color: var(--color-main-background-darker);
-	cursor: pointer;
-	opacity: .6;
-}
-#app-navigation-toggle:hover,
-#app-navigation-toggle:focus {
-	opacity: 1;
-}
+	#app-navigation-toggle {
+		position: fixed;
+		display: inline-block !important;
+		top: $header-height;
+		left: 0;
+		width: 44px;
+		height: 44px;
+		z-index: 149;
+		background-color: var(--color-main-background-darker);
+		cursor: pointer;
+		opacity: 0.6;
+	}
+	#app-navigation-toggle:hover,
+	#app-navigation-toggle:focus {
+		opacity: 1;
+	}
 
-/* position controls for apps with app-navigation */
-#app-navigation+#app-content #controls {
-	padding-left: 44px;
-}
+	/* position controls for apps with app-navigation */
+	#app-navigation + #app-content #controls {
+		padding-left: 44px;
+	}
 
-/* .viewer-mode is when text editor, PDF viewer, etc is open */
-#body-user .app-files.viewer-mode #controls {
-	padding-left: 0 !important;
-}
-.app-files.viewer-mode #app-navigation-toggle {
-	display: none !important;
-}
+	/* .viewer-mode is when text editor, PDF viewer, etc is open */
+	#body-user .app-files.viewer-mode #controls {
+		padding-left: 0 !important;
+	}
+	.app-files.viewer-mode #app-navigation-toggle {
+		display: none !important;
+	}
 
-table.multiselect thead {
-	left: 0 !important;
-}
+	table.multiselect thead {
+		left: 0 !important;
+	}
 
+	/* prevent overflow in user management controls bar */
+	#usersearchform {
+		display: none;
+	}
+	#body-settings #controls {
+		min-width: 768px !important;
+	}
 
-/* prevent overflow in user management controls bar */
-#usersearchform {
-	display: none;
-}
-#body-settings #controls {
-	min-width: 768px !important;
-}
+	/* do not show dates in filepicker */
+	#oc-dialog-filepicker-content .filelist .filesize,
+	#oc-dialog-filepicker-content .filelist .date {
+		display: none;
+	}
+	#oc-dialog-filepicker-content .filelist .filename {
+		max-width: 80%;
+	}
 
+	/* fix controls bar jumping when navigation is slid out */
+	.snapjs-left #app-navigation-toggle,
+	.snapjs-left #controls {
+		top: 0;
+	}
+	.snapjs-left table.multiselect thead {
+		top: 44px;
+	}
 
-/* do not show dates in filepicker */
-#oc-dialog-filepicker-content .filelist .filesize,
-#oc-dialog-filepicker-content .filelist .date {
-	display: none;
-}
-#oc-dialog-filepicker-content .filelist .filename {
-	max-width: 80%;
-}
-
-
-/* fix controls bar jumping when navigation is slid out */
-.snapjs-left #app-navigation-toggle,
-.snapjs-left #controls {
-	top: 0;
-}
-.snapjs-left table.multiselect thead {
-	top: 44px;
-}
-
-
-
-/* end of media query */
+	/* end of media query */
 }
 
 @media only screen and (max-width: 480px) {
@@ -131,7 +154,7 @@ table.multiselect thead {
 	}
 	/* Arrow directly child of menutoggle */
 	#header .header-right > div {
-		&.openedMenu{
+		&.openedMenu {
 			&::after {
 				display: block;
 			}

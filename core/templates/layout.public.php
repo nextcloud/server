@@ -27,8 +27,7 @@
 </head>
 <body id="<?php p($_['bodyid']);?>">
 <?php include('layout.noscript.warning.php'); ?>
-<header>
-	<div id="header" class="<?php p($_['header-classes']); ?>">
+	<header id="header" class="<?php p($_['header-classes']); ?>">
 		<div class="header-left">
 			<span id="nextcloud">
 				<div class="logo logo-icon svg"></div>
@@ -70,9 +69,7 @@
 			<?php } ?>
 		</div>
 		<?php } ?>
-	</div>
-</header>
-<div id="content-wrapper">
+	</header>
 	<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
 		<?php print_unescaped($_['content']); ?>
 	</div>
@@ -81,7 +78,6 @@
 		<p class="info"><?php print_unescaped($theme->getLongFooter()); ?></p>
 	</footer>
 	<?php } ?>
-</div>
 
 </body>
 </html>
