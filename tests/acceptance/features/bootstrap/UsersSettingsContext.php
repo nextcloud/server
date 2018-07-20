@@ -178,7 +178,10 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * Assigning/withdrawing is the same action (it toggles).
+	 *
 	 * @When I assign the user :user to the group :group
+	 * @When I withdraw the user :user from the group :group
 	 */
 	public function iAssignTheUserToTheGroup($user, $group) {
 		$this->actor->find(self::inputForUserInCell('groups', $user))->setValue($group);
