@@ -99,11 +99,12 @@
 
 		/**
 		 * Number of files per page
+		 * Always show a minimum of 1
 		 *
 		 * @return {int} page size
 		 */
 		pageSize: function() {
-			return Math.ceil(this.$container.height() / 50);
+			return Math.max(Math.ceil(this.$container.height() / 50), 1);
 		},
 
 		/**
