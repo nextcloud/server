@@ -21,7 +21,7 @@
 
 	var TEMPLATE =
 			'{{#if shareAllowed}}' +
-			'<ul id="shareWithList" class="shareWithList">' +
+			'<ul id="shareLink" class="shareWithList">' +
 			'	<li data-share-id="{{cid}}">' +
 			'		<div class="avatar icon-public-white"></div><span class="username" title="{{linkShareLabel}}">{{linkShareLabel}}</span>' +
 			'		<span class="sharingOptionsGroup">' +

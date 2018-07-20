@@ -343,6 +343,13 @@
 		/**
 		 * @returns {string}
 		 */
+		getReshareNote: function() {
+			return this.get('reshare').note;
+		},
+
+		/**
+		 * @returns {string}
+		 */
 		getReshareWith: function() {
 			return this.get('reshare').share_with;
 		},

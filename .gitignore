@@ -121,6 +121,7 @@ nbproject
 /build/jsdocs/
 /npm-debug.log
 /PhantomJS_*
+/build/package-lock.json
 
 # puphpet
 puphpet

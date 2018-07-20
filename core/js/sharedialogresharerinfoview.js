@@ -19,7 +19,8 @@
 		'<span class="reshare">' +
 		'    <div class="avatar" data-userName="{{reshareOwner}}"></div>' +
 		'    {{sharedByText}}' +
-		'</span><br/>'
+		'</span>' +
+		'{{#if hasShareNote}}<div class="share-note">{{shareNote}}</div>{{/if}}'
 		;
 
 	/**
@@ -72,7 +73,10 @@
 
 			var reshareTemplate = this.template();
 			var ownerDisplayName = this.model.getReshareOwnerDisplayname();
+			var shareNote = this.model.getReshareNote();
+			
 			var sharedByText = '';
+
 			if (this.model.getReshareType() === OC.Share.SHARE_TYPE_GROUP) {
 				sharedByText = t(
 					'core',
@@ -105,9 +109,13 @@
 				);
 			}
 
+
+
 			this.$el.html(reshareTemplate({
 				reshareOwner: this.model.getReshareOwner(),
-				sharedByText: sharedByText
+				sharedByText: sharedByText,
+				shareNote: shareNote,
+				hasShareNote: shareNote !== ''
 			}));
 
 			this.$el.find('.avatar').each(function() {

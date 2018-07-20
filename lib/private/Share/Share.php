@@ -86,7 +86,6 @@ class Share extends Constants {
 				);
 				if(count(self::$backendTypes) === 1) {
 					Util::addScript('core', 'merged-share-backend');
-					\OC_Util::addStyle('core', 'share');
 				}
 				return true;
 			}
