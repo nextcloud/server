@@ -678,7 +678,7 @@
 				this.updateSelectionSummary();
 			} else {
 				// clicked directly on the name
-				if (!this._detailsView || $(event.target).is('.nametext') || $(event.target).closest('.nametext').length) {
+				if (!this._detailsView || $(event.target).is('.nametext, .name') || $(event.target).closest('.nametext').length) {
 					var filename = $tr.attr('data-file');
 					var renaming = $tr.data('renaming');
 					if (!renaming) {
