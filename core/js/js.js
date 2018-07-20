@@ -684,9 +684,14 @@ var OCP = {},
 	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
-		$toggle.on('click.menu', function(event) {
+		$toggle.on('click.menu keypress.menu', function(event) {
 			// prevent the link event (append anchor to URL)
 			event.preventDefault();
+
+			// allow enter key as a trigger
+			if (event.keyCode && event.keyCode !== 13) {
+				return;
+			}
 
 			if ($menuEl.is(OC._currentMenu)) {
 				self.hideMenus();
@@ -1422,7 +1427,14 @@ function initCore() {
 	OC.registerMenu($('#expand'), $('#expanddiv'), false, true);
 
 	// toggle for menus
+	//$(document).on('mouseup.closemenus keyup', function(event) {
 	$(document).on('mouseup.closemenus', function(event) {
+
+		// allow enter as a trigger
+		// if (event.keyCode && event.keyCode !== 13) {
+		// 	return;
+		// }
+
 		var $el = $(event.target);
 		if ($el.closest('.menu').length || $el.closest('.menutoggle').length) {
 			// don't close when clicking on the menu directly or a menu toggle
