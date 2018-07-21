@@ -172,6 +172,7 @@
 			this.$el.find('.message').on('keydown input change', this._onTypeComment);
 
 			autosize(this.$el.find('.newCommentRow .message'))
+			this.$el.find('.newCommentForm .message').focus();	
 		},
 
 		_initAutoComplete: function($target) {
@@ -303,6 +304,8 @@
 					}
 				);
 			}
+			this.$el.find('.newCommentForm .message').focus();	
+			
 		},
 
 		/**
