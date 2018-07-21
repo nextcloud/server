@@ -14,37 +14,35 @@
 
 #commentsTabView .newCommentForm {
 	margin-left: 36px;
+	position: relative;
 }
 
 #commentsTabView .newCommentForm .message {
-	/* width = 100% - (width of submit button (44px) + margin (3px) + border (1px)) */
-	width: calc(100% - 48px);
-	/* Need to use float left instead of display inline-block because Safari shows a big cursor */
-	float: left;
-	/* To align it to the button on the side */
-	margin-top: 5px;
+	width: 100%;
+	padding: 10px;
+	min-height: 44px;
+	margin: 0;
 }
 
-#commentsTabView .newCommentForm .submit {
-	width: 44px;
-	margin: 0;
-	padding: 13px;
-	background-color: transparent;
-	border: none;
-	opacity: .3;
-	vertical-align: bottom;
+#commentsTabView .newCommentForm {
+	.submit,
+	.submitLoading {
+		width: 44px;
+		height: 44px;
+		margin: 0;
+		padding: 13px;
+		background-color: transparent;
+		border: none;
+		opacity: .3;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
 }
 
 #commentsTabView .deleteLoading {
-	float: right;
 	padding: 14px;
 	vertical-align: middle;
-}
-
-#commentsTabView .submitLoading {
-	vertical-align: bottom;
-	display: inline-block;
-	padding: 14px;
 }
 
 #commentsTabView .newCommentForm .submit:not(:disabled):hover,
@@ -65,9 +63,6 @@
 	position: relative;
 	/** padding bottom is little more so that the top and bottom gap look uniform **/
 	padding: 10px 0px 15px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	overflow: hidden;
 }
 
 #commentsTabView .comments .comment {
@@ -201,6 +196,9 @@
 
 #commentsTabView .comments > li:not(.newCommentRow) .message {
 	padding-left: 40px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	overflow: hidden;
 }
 
 #commentsTabView .comment .action {
