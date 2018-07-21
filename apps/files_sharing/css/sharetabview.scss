@@ -29,8 +29,8 @@
 	.clipboardButton,
 	.linkPass .icon-loading-small {
 		position: absolute;
-		right: -7px;
-		top: -2px;
+		right: 2px;
+		top: 6px;
 		padding: 14px;
 	}
 	.shareWithConfirm {
@@ -153,6 +153,7 @@
 		white-space: normal;
 		display: inline-flex;
 		align-items: center;
+		position: relative;
 		.avatar {
 			width: 32px;
 			height: 32px;
@@ -203,6 +204,7 @@
 	max-height: 200px;
 	overflow-y: auto;
 	overflow-x: hidden;
+	z-index: 1550 !important;
 }
 
 .notCreatable {
