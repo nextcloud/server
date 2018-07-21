@@ -237,8 +237,10 @@
 			OC.Util.scaleFixForIE8(this.$('.svg'));
 
 			// Trigger upload action also with keyboard navigation on enter
-			this.$el.find('[for="file_upload_start"]').on('keypress', function() {
-				$('#file_upload_start').trigger('click');
+			this.$el.find('[for="file_upload_start"]').on('keyup', function(event) {
+				if (event.key === " " || event.key === "Enter") {
+					$('#file_upload_start').trigger('click');
+				}
 			});
 		},
 
