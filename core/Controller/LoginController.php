@@ -58,6 +58,10 @@ use OC\Hooks\PublicEmitter;
 use OCP\Util;
 
 class LoginController extends Controller {
+
+	const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
+	const LOGIN_MSG_USERDISABLED = 'userdisabled';
+
 	/** @var IUserManager */
 	private $userManager;
 	/** @var IConfig */
@@ -171,19 +175,7 @@ class LoginController extends Controller {
 			$parameters['redirect_url'] = $redirect_url;
 		}
 
-		$parameters['canResetPassword'] = true;
-		$parameters['resetPasswordLink'] = $this->config->getSystemValue('lost_password_link', '');
-		if (!$parameters['resetPasswordLink']) {
-			if ($user !== null && $user !== '') {
-				$userObj = $this->userManager->get($user);
-				if ($userObj instanceof IUser) {
-					$parameters['canResetPassword'] = $userObj->canChangePassword();
-				}
-			}
-		} elseif ($parameters['resetPasswordLink'] === 'disabled') {
-			$parameters['canResetPassword'] = false;
-		}
-
+		$parameters = $this->setPasswordResetParameters($user, $parameters);
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 
 		if ($user !== null && $user !== '') {
@@ -207,6 +199,40 @@ class LoginController extends Controller {
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'
 		);
+	}
+
+	/**
+	 * Sets the password reset params.
+	 *
+	 * Users may not change their passwords if:
+	 * - The account is disabled
+	 * - The backend doesn't support password resets
+	 * - The password reset function is disabled
+	 *
+	 * @param string $user
+	 * @param array $parameters
+	 * @return array
+	 */
+	private function setPasswordResetParameters(
+		string $user = null, array $parameters): array {
+		if ($user !== null && $user !== '') {
+			$userObj = $this->userManager->get($user);
+		} else {
+			$userObj = null;
+		}
+
+		$parameters['resetPasswordLink'] = $this->config
+			->getSystemValue('lost_password_link', '');
+
+		if (!$parameters['resetPasswordLink'] && $userObj !== null) {
+			$parameters['canResetPassword'] = $userObj->canChangePassword();
+		} else if ($userObj !== null && $userObj->isEnabled() === false) {
+			$parameters['canResetPassword'] = false;
+		} else {
+			$parameters['canResetPassword'] = true;
+		}
+
+		return $parameters;
 	}
 
 	/**
@@ -256,6 +282,17 @@ class LoginController extends Controller {
 		}
 
 		$originalUser = $user;
+
+		$userObj = $this->userManager->get($user);
+
+		if ($userObj !== null && $userObj->isEnabled() === false) {
+			$this->logger->warning('Login failed: \''. $user . '\' disabled' .
+				' (Remote IP: \''. $this->request->getRemoteAddress(). '\')',
+				['app' => 'core']);
+			return $this->createLoginFailedResponse($user, $originalUser,
+				$redirect_url, self::LOGIN_MSG_USERDISABLED);
+		}
+
 		// TODO: Add all the insane error handling
 		/* @var $loginResult IUser */
 		$loginResult = $this->userManager->checkPasswordNoLogging($user, $password);
@@ -270,20 +307,15 @@ class LoginController extends Controller {
 				}
 			}
 		}
+
 		if ($loginResult === false) {
-			$this->logger->warning('Login failed: \''. $user .'\' (Remote IP: \''. $this->request->getRemoteAddress(). '\')', ['app' => 'core']);
-			// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
-			$args = !is_null($user) ? ['user' => $originalUser] : [];
-			if (!is_null($redirect_url)) {
-				$args['redirect_url'] = $redirect_url;
-			}
-			$response = new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
-			$response->throttle(['user' => $user]);
-			$this->session->set('loginMessages', [
-				['invalidpassword'], []
-			]);
-			return $response;
+			$this->logger->warning('Login failed: \''. $user .
+				'\' (Remote IP: \''. $this->request->getRemoteAddress(). '\')',
+				['app' => 'core']);
+			return $this->createLoginFailedResponse($user, $originalUser,
+				$redirect_url, self::LOGIN_MSG_INVALIDPASSWORD);
 		}
+
 		// TODO: remove password checks from above and let the user session handle failures
 		// requires https://github.com/owncloud/core/pull/24616
 		$this->userSession->completeLogin($loginResult, ['loginName' => $user, 'password' => $password]);
@@ -328,6 +360,33 @@ class LoginController extends Controller {
 		}
 
 		return $this->generateRedirect($redirect_url);
+	}
+
+	/**
+	 * Creates a login failed response.
+	 *
+	 * @param string $user
+	 * @param string $originalUser
+	 * @param string $redirect_url
+	 * @param string $loginMessage
+	 * @return RedirectResponse
+	 */
+	private function createLoginFailedResponse(
+		$user, $originalUser, $redirect_url, string $loginMessage) {
+		// Read current user and append if possible we need to
+		// return the unmodified user otherwise we will leak the login name
+		$args = !is_null($user) ? ['user' => $originalUser] : [];
+		if (!is_null($redirect_url)) {
+			$args['redirect_url'] = $redirect_url;
+		}
+		$response = new RedirectResponse(
+			$this->urlGenerator->linkToRoute('core.login.showLoginForm', $args)
+		);
+		$response->throttle(['user' => $user]);
+		$this->session->set('loginMessages', [
+			[$loginMessage], []
+		]);
+		return $response;
 	}
 
 	/**
