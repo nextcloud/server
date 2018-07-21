@@ -74,6 +74,13 @@ kbd {
 /* Navigation: folder like structure */
 #app-navigation {
 	width: $navigation-width;
+	position: sticky;
+	top: $header-height;
+	left: 0;
+	z-index: 1500;
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: calc(100vh - #{$header-height});
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
@@ -319,9 +326,6 @@ kbd {
 	}
 	&.hidden {
 		display: none;
-	}
-	&.without-app-settings {
-		padding-bottom: 0;
 	}
 
 	/**
@@ -581,12 +585,7 @@ kbd {
 	padding-top: $header-height;
 	box-sizing: border-box;
 	position: relative;
-	overflow-x: hidden;
 	display: flex;
-	/* trick: scroll #app-content and not the body
-	 * to avoid double scrollbar with sidebar
-	 */
-	max-height: 100vh;
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
@@ -637,17 +636,19 @@ kbd {
 	min-width: $sidebar-min-width;
 	max-width: $sidebar-max-width;
 	display: block;
-	position: relative;
+	position: sticky;
+	top: $header-height;
+	right:0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index: 1500;
+	height: calc(100vh - #{$header-height});
 	background: var(--color-main-background);
 	border-left: 1px solid var(--color-border);
-	overflow-x: hidden;
-	overflow-y: auto;
 	flex-shrink: 0;
-	transition: 300ms width ease-in-out,
-				300ms min-width ease-in-out;
+	// no animations possible, use OC.Apps.showAppSidebar
 	&.disappear {
-		width: 0;
-		min-width: 0;
+		display: none;
 	}
 }
 
@@ -880,6 +881,11 @@ $popovericon-size: 16px;
 	li {
 		display: flex;
 		flex: 0 0 auto;
+
+		&.hidden {
+			display: none;
+		}
+
 		> button,
 		> a,
 		> .menuitem {
@@ -895,6 +901,7 @@ $popovericon-size: 16px;
 			box-shadow: none;
 			width: 100%;
 			color: var(--color-main-text);
+			white-space: nowrap;
 			/* Override the app-navigation li opacity */
 			opacity: .7 !important;
 			span[class^='icon-'],
@@ -943,6 +950,7 @@ $popovericon-size: 16px;
 				width: 150px;
 				line-height: 1.6em;
 				padding: 8px 0;
+				white-space: normal;
 			}
 			> select {
 				margin: 0;
@@ -963,7 +971,6 @@ $popovericon-size: 16px;
 			> input.checkbox + label {
 				padding: 0 !important;
 				width: 100%;
-				white-space: nowrap;
 			}
 			> input.checkbox + label::before {
 				margin: -2px 13px 0;
@@ -999,11 +1006,6 @@ $popovericon-size: 16px;
 				}
 			}
 		}
-
-		&.hidden {
-			display: none;
-		}
-
 		/* css hack, only first not hidden*/
 		&:not(.hidden):not([style*='display:none']) {
 			&:first-of-type {

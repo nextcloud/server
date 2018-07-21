@@ -27,8 +27,9 @@
 	 */
 	exports.Apps.showAppSidebar = function($el) {
 		var $appSidebar = $el || $('#app-sidebar');
-		$appSidebar.removeClass('disappear');
-		$('#content').addClass('with-app-sidebar').trigger(new $.Event('appresized'));
+		$appSidebar.removeClass('disappear')
+			.show('slide', { direction: 'right' }, 300);
+		$('#app-content').trigger(new $.Event('appresized'));
 	};
 
 	/**
@@ -39,8 +40,11 @@
 	 */
 	exports.Apps.hideAppSidebar = function($el) {
 		var $appSidebar = $el || $('#app-sidebar');
-		$appSidebar.addClass('disappear');
-		$('#content').removeClass('with-app-sidebar').trigger(new $.Event('appresized'));
+		$appSidebar.hide('slide', { direction: 'right' }, 300,
+			function() {
+				$appSidebar.addClass('disappear');
+			});
+		$('#app-content').trigger(new $.Event('appresized'));
 	};
 
 	/**

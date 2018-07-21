@@ -558,4 +558,13 @@ class Util {
 		}		
 		return self::$needUpgradeCache;
 	}
+
+	/**
+	 * is this Internet explorer ?
+	 *
+	 * @return boolean
+	 */
+	public static function isIe() {
+		return \OC_Util::isIe();
+	}
 }

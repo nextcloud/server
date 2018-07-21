@@ -42,6 +42,7 @@ use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
 use OCP\Defaults;
+use OC\AppFramework\Http\Request;
 
 class TemplateLayout extends \OC_Template {
 
@@ -61,6 +62,9 @@ class TemplateLayout extends \OC_Template {
 		// yes - should be injected ....
 		$this->config = \OC::$server->getConfig();
 
+		if(\OCP\Util::isIE()) {
+			\OC_Util::addStyle('ie');
+		}
 
 		// Decide which page we show
 		if($renderAs == 'user') {
