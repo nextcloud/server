@@ -121,6 +121,7 @@ OC.L10N.register(
     "Authentication" : "Tunnistautuminen",
     "Configuration" : "Asetukset",
     "Available for" : "Saatavuus",
+    "Click to recheck the configuration" : "Napsauta tarkistaaksesi uudelleen määritykset",
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
     "Delete" : "Poista",

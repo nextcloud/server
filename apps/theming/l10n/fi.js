@@ -29,6 +29,7 @@ OC.L10N.register(
     "Name" : "Nimi",
     "Reset to default" : "Palauta oletukseksi",
     "Web link" : "Verkkolinkki",
+    "https://…" : "https://…",
     "Slogan" : "Slogani",
     "Color" : "Väri",
     "Logo" : "Logo",
