@@ -229,11 +229,10 @@ class PublicKeyToken extends Entity implements IToken {
 	 */
 	public function getComment(): string {
  		$comment = parent::getComment();
- 		is_null($comment) && $comment = "";
  		return $comment;
 	}
 
-	public function setComment(string $comment = "") {
+	public function setComment(string $comment = '') {
 		parent::setComment(substr($comment,0,250));
 	}
 

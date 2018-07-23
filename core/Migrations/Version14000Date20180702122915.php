@@ -31,15 +31,6 @@ class Version14000Date20180702122915 extends SimpleMigrationStep {
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @since 13.0.0
-	 */
-	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
-	}
-
-	/**
-	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
@@ -49,19 +40,10 @@ class Version14000Date20180702122915 extends SimpleMigrationStep {
 
 		$table = $schema->getTable('authtoken');
 		$table->addColumn('comment', 'string', [
-			'notnull' => true,
+			'notnull' => false,
 			'length' => 250,
 			'default' => '',
 		]);
 		return $schema;
-	}
-
-	/**
-	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 * @since 13.0.0
-	 */
-	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 	}
 }

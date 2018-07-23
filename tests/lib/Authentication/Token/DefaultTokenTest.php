@@ -40,23 +40,11 @@ class DefaultTokenTest extends TestCase {
 	}
 
 	public function testComment() {
-		$tComment = $this->generateRandomString(300);
+		$tComment = $this->getUniqueID(300);
 		$token = new DefaultToken();
 		$token->setComment($tComment);
 		$this->assertEquals(
 			substr($tComment,0,250),$token->getComment());
-	}
-
-// with credit to Stephen Watkins on StackOVerflow
-// https://stackoverflow.com/a/4356295/3436542
-	private function generateRandomString($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ {}();:/\\,.!@#$%^&*-_=+~`\'"';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-      $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
 	}
 
 }
