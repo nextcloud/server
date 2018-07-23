@@ -684,12 +684,12 @@ var OCP = {},
 	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
-		$toggle.on('click.menu keypress.menu', function(event) {
+		$toggle.on('click.menu keyup.menu', function(event) {
 			// prevent the link event (append anchor to URL)
 			event.preventDefault();
 
 			// allow enter key as a trigger
-			if (event.keyCode && event.keyCode !== 13) {
+			if (event.key && event.key !== "Enter") {
 				return;
 			}
 
@@ -1431,7 +1431,7 @@ function initCore() {
 	$(document).on('mouseup.closemenus', function(event) {
 
 		// allow enter as a trigger
-		// if (event.keyCode && event.keyCode !== 13) {
+		// if (event.key && event.key !== "Enter") {
 		// 	return;
 		// }
 
