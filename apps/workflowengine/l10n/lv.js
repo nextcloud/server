@@ -1,6 +1,8 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Grupu saraksts ir tukšš",
+    "Unable to retrieve the group list" : "Nevarēja saņemt grupu sarakstu",
     "Saved" : "Saglabāts",
     "Saving failed:" : "Saglabāšana neizdevās:",
     "File MIME type" : "Datnes MIME tips",
