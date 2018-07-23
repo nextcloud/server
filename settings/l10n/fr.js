@@ -130,6 +130,7 @@ OC.L10N.register(
     "Enable user" : "Activer l'utilisateur",
     "Resend welcome email" : "Renvoyer l'e-mail de bienvenue",
     "Welcome mail sent!" : "E-mail de bienvenue envoyé !",
+    "Display name" : "Nom affiché",
     "Email" : "Adresse e-mail",
     "Group admin for" : "Administrateur de groupe pour",
     "Language" : "Langue",

@@ -227,6 +227,7 @@
     "Your data directory is invalid" : "Votre répertoire n'est pas valide",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assurez-vous que le répertoire de données contient un fichier \".ocdata\" à sa racine.",
     "Action \"%s\" not supported or implemented." : "Action \"%s\" non supportée ou implémentée.",
+    "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Paramètres manquants pour compléter la requête. Paramètres manquants : \"%s\"",
     "Could not obtain lock type %d on \"%s\"." : "Impossible d'obtenir le verrouillage de type %d sur \"%s\".",
     "Storage unauthorized. %s" : "Espace de stockage non autorisé. %s",
     "Storage incomplete configuration. %s" : "Configuration de l'espace de stockage incomplète. %s",
