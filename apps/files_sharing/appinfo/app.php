@@ -96,7 +96,11 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 	]);
 
 	// show_Quick_Access stored as string
-	$defaultExpandedState = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_sharing_menu', '0') === '1';
+	$user = $userSession->getUser();
+	$defaultExpandedState = true;
+	if ($user instanceof \OCP\IUser) {
+		$defaultExpandedState = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_sharing_menu', '0') === '1';
+	}
 
 	\OCA\Files\App::getNavigationManager()->add([
 		'id' => 'shareoverview',
