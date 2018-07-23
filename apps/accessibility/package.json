@@ -24,7 +24,7 @@
 		"babel-preset-env": "^1.7.0",
 		"css-loader": "^1.0.0",
 		"file-loader": "^1.1.11",
-		"vue-loader": "^15.2.4",
+		"vue-loader": "^15.2.6",
 		"vue-template-compiler": "^2.5.16",
 		"webpack": "^4.16.1",
 		"webpack-cli": "^3.0.8",
