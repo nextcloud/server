@@ -46,8 +46,7 @@
 	display: inline-flex;
 	position: fixed;
 	top: 0;
-	left: 0;
-	right: 0;
+	width: 100%;
 	z-index: 2000;
 	height: $header-height;
 	background-color: var(--color-primary);

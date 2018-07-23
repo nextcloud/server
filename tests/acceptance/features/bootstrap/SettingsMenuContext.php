@@ -31,8 +31,17 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function settingsMenuButton() {
+	public static function settingsSectionInHeader() {
 		return Locator::forThe()->xpath("//*[@id = 'header']//*[@id = 'settings']")->
+				describedAs("Settings menu section in the header");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function settingsMenuButton() {
+		return Locator::forThe()->id("expand")->
+				descendantOf(self::settingsSectionInHeader())->
 				describedAs("Settings menu button");
 	}
 
@@ -40,7 +49,8 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function settingsMenu() {
-		return Locator::forThe()->id("expanddiv")->descendantOf(self::settingsMenuButton())->
+		return Locator::forThe()->id("expanddiv")->
+				descendantOf(self::settingsSectionInHeader())->
 				describedAs("Settings menu");
 	}
 

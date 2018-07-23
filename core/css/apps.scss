@@ -74,13 +74,15 @@ kbd {
 /* Navigation: folder like structure */
 #app-navigation {
 	width: $navigation-width;
-	position: sticky;
+	position: fixed;
 	top: $header-height;
 	left: 0;
-	z-index: 1500;
+	z-index: 500;
 	overflow-y: auto;
 	overflow-x: hidden;
-	height: calc(100vh - #{$header-height});
+	// Do not use vh because of mobile headers
+	// are included in the calculation
+	height: calc(100% - #{$header-height});
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
@@ -170,6 +172,7 @@ kbd {
 				> ul {
 					opacity: 0;
 					max-height: 0;
+					overflow-y: hidden;
 					/* bezier override the hide/slow effect due to the 2000 max-height */
 					transition: max-height 1000ms cubic-bezier(0, 1, 0, 1),
 								opacity 250ms ease-in-out;
@@ -523,7 +526,7 @@ kbd {
 	.app-navigation-entry-deleted {
 		display: inline-flex;
 		padding-left: 44px;
-		transform: translateX(250px);
+		transform: translateX(#{$navigation-width});
 		.app-navigation-entry-deleted-description {
 			position: relative;
 			white-space: nowrap;
@@ -580,12 +583,17 @@ kbd {
 
 
 /* CONTENT  --------------------------------------------------------- */
+#content-wrapper {
+	// everything not related to content but needs to be on the window
+	// goes here (popups, tooltips...)
+	position: relative;
+}
 #content {
-	/* header height */
-	padding-top: $header-height;
 	box-sizing: border-box;
 	position: relative;
 	display: flex;
+	margin-left: $navigation-width;
+	margin-top: $header-height;
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
@@ -594,7 +602,7 @@ kbd {
 	z-index: 1000;
 	background-color: var(--color-main-background);
 	position: relative;
-	min-height: calc(100vh - #{$header-height});
+	min-height: 100%;
 	flex-basis: 100vw;
 	overflow: auto;
 	/* no top border for first settings item */
