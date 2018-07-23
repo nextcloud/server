@@ -259,7 +259,8 @@ class TransferOwnership extends Command {
 
 		foreach($this->shares as $share) {
 			try {
-				if ($share->getSharedWith() === $this->destinationUser) {
+				if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
+						$share->getSharedWith() === $this->destinationUser) {
 					// Unmount the shares before deleting, so we don't try to get the storage later on.
 					$shareMountPoint = $this->mountManager->find('/' . $this->destinationUser . '/files' . $share->getTarget());
 					if ($shareMountPoint) {
