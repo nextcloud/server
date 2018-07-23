@@ -144,6 +144,9 @@ class File {
 			error_log($entry);
 		}
 		if (php_sapi_name() === 'cli-server') {
+			if (!\is_string($message)) {
+				$message = json_encode($message);
+			}
 			error_log($message, 4);
 		}
 	}
