@@ -67,7 +67,6 @@
 			return new OCA.Files.FavoritesFileList(
 				$el, {
 					fileActions: fileActions,
-					scrollContainer: $('#app-content')
 				}
 			);
 		},

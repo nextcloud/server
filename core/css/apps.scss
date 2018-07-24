@@ -587,13 +587,15 @@ kbd {
 	// everything not related to content but needs to be on the window
 	// goes here (popups, tooltips...)
 	position: relative;
+	min-height: 100%;
+	display: unset;
 }
 #content {
 	box-sizing: border-box;
 	position: relative;
 	display: flex;
-	margin-left: $navigation-width;
 	margin-top: $header-height;
+	min-height: 100%;
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
@@ -605,6 +607,10 @@ kbd {
 	min-height: 100%;
 	flex-basis: 100vw;
 	overflow: auto;
+	/* margin if navigation element is here */
+	#app-navigation  + & {
+		margin-left: $navigation-width;
+	}
 	/* no top border for first settings item */
 	> .section:first-child {
 		border-top: none;
