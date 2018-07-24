@@ -63,12 +63,11 @@
 
 .app-files #app-content {
 	transition: background-color 0.3s ease;
-	overflow-x: hidden;
 }
 
 .file-drag, .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover {
 	transition: background-color 0.3s ease!important;
-	background-color: rgb(179, 230, 255)!important;
+	background-color: rgb(179, 230, 255) !important;
 }
 
 .app-files #app-content.dir-drop {
@@ -91,7 +90,7 @@
 	@include icon-color('recent', 'files', $color-black);
 }
 .nav-icon-favorites {
-	@include icon-color('star-dark', 'files', $color-black, 2, true);
+	@include icon-color('star-dark', 'actions', $color-black, 2, true);
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout,

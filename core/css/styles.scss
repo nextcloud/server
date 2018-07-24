@@ -175,7 +175,7 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 	display: flex;
-	top: 0;
+	top: $header-height;
 }
 
 /* position controls for apps with app-navigation */
