@@ -376,13 +376,14 @@ class MigrationService {
 	 * Applies all not yet applied versions up to $to
 	 *
 	 * @param string $to
+	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function migrate($to = 'latest') {
+	public function migrate($to = 'latest', $schemaOnly = false) {
 		// read known migrations
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 		foreach ($toBeExecuted as $version) {
-			$this->executeStep($version);
+			$this->executeStep($version, $schemaOnly);
 		}
 	}
 
@@ -432,14 +433,17 @@ class MigrationService {
 	 * Executes one explicit version
 	 *
 	 * @param string $version
+	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function executeStep($version) {
+	public function executeStep($version, $schemaOnly = false) {
 		$instance = $this->createInstance($version);
 
-		$instance->preSchemaChange($this->output, function() {
-			return new SchemaWrapper($this->connection);
-		}, ['tablePrefix' => $this->connection->getPrefix()]);
+		if (!$schemaOnly) {
+			$instance->preSchemaChange($this->output, function() {
+				return new SchemaWrapper($this->connection);
+			}, ['tablePrefix' => $this->connection->getPrefix()]);
+		}
 
 		$toSchema = $instance->changeSchema($this->output, function() {
 			return new SchemaWrapper($this->connection);
@@ -450,9 +454,11 @@ class MigrationService {
 			$toSchema->performDropTableCalls();
 		}
 
-		$instance->postSchemaChange($this->output, function() {
-			return new SchemaWrapper($this->connection);
-		}, ['tablePrefix' => $this->connection->getPrefix()]);
+		if (!$schemaOnly) {
+			$instance->postSchemaChange($this->output, function() {
+				return new SchemaWrapper($this->connection);
+			}, ['tablePrefix' => $this->connection->getPrefix()]);
+		}
 
 		$this->markAsExecuted($version);
 	}
