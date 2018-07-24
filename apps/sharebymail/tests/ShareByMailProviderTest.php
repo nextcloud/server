@@ -342,15 +342,17 @@ class ShareByMailProviderTest extends TestCase {
 		$uidOwner = 'user2';
 		$permissions = 1;
 		$token = 'token';
+		$note = 'personal note';
 
 
 		$instance = $this->getInstance();
 
-		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
+		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note);
 
 		$this->share->expects($this->once())->method('getPermissions')->willReturn($permissions + 1);
 		$this->share->expects($this->once())->method('getShareOwner')->willReturn($uidOwner);
 		$this->share->expects($this->once())->method('getSharedBy')->willReturn($sharedBy);
+		$this->share->expects($this->any())->method('getNote')->willReturn($note);
 		$this->share->expects($this->atLeastOnce())->method('getId')->willReturn($id);
 
 		$this->assertSame($this->share,
@@ -372,6 +374,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($uidOwner, $result[0]['uid_owner']);
 		$this->assertSame($permissions + 1, (int)$result[0]['permissions']);
 		$this->assertSame($token, $result[0]['token']);
+		$this->assertSame($note, $result[0]['note']);
 	}
 
 	public function testDelete() {
@@ -478,7 +481,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['createShareObject']);
 
 		$idMail = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
-		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, \OCP\Share::SHARE_TYPE_LINK);
+		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, '', \OCP\Share::SHARE_TYPE_LINK);
 
 		$this->assertTrue($idMail !== $idPublic);
 
@@ -490,9 +493,9 @@ class ShareByMailProviderTest extends TestCase {
 				}
 			);
 
-		$this->assertInstanceOf('OCP\Share\IShare',
-			$instance->getShareByToken('token')
-		);
+		$result = $instance->getShareByToken('token');
+
+		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
 
 	/**
@@ -511,7 +514,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['createShareObject']);
 
 		$idMail = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
-		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, "token2", \OCP\Share::SHARE_TYPE_LINK);
+		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, "token2", '', \OCP\Share::SHARE_TYPE_LINK);
 
 		$this->assertTrue($idMail !== $idPublic);
 
@@ -631,7 +634,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->invokePrivate($instance, 'getRawShare', [$id+1]);
 	}
 
-	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $shareType = \OCP\Share::SHARE_TYPE_EMAIL) {
+	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note='', $shareType = \OCP\Share::SHARE_TYPE_EMAIL) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter($shareType))
@@ -643,6 +646,7 @@ class ShareByMailProviderTest extends TestCase {
 			->setValue('uid_initiator', $qb->createNamedParameter($sharedBy))
 			->setValue('permissions', $qb->createNamedParameter($permissions))
 			->setValue('token', $qb->createNamedParameter($token))
+			->setValue('note', $qb->createNamedParameter($note))
 			->setValue('stime', $qb->createNamedParameter(time()));
 
 		/*

@@ -187,21 +187,49 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function shareLinkCheckbox() {
-		// forThe()->checkbox("Share link") can not be used here; that would
-		// return the checkbox itself, but the element that the user interacts
-		// with is the label.
-		return Locator::forThe()->xpath("//label[normalize-space() = 'Share link']")->
+	public static function shareLinkRow() {
+		return Locator::forThe()->id("shareLink")->
 				descendantOf(self::detailsView())->
+				describedAs("Share link row in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function shareLinkCheckbox() {
+		// forThe()->checkbox("Enable") can not be used here; that would return
+		// the checkbox itself, but the element that the user interacts with is
+		// the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Enable']")->
+				descendantOf(self::shareLinkRow())->
 				describedAs("Share link checkbox in the details view in Files app");
 	}
 
 	/**
 	 * @return Locator
 	 */
-	public static function shareLinkField() {
-		return Locator::forThe()->css(".linkText")->descendantOf(self::detailsView())->
-				describedAs("Share link field in the details view in Files app");
+	public static function shareLinkMenuButton() {
+		return Locator::forThe()->css(".share-menu > .icon")->
+				descendantOf(self::shareLinkRow())->
+				describedAs("Share link menu button in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function shareLinkMenu() {
+		return Locator::forThe()->css(".share-menu > .menu")->
+				descendantOf(self::shareLinkRow())->
+				describedAs("Share link menu in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function copyUrlMenuItem() {
+		return Locator::forThe()->xpath("//a[normalize-space() = 'Copy URL']")->
+				descendantOf(self::shareLinkMenu())->
+				describedAs("Copy URL menu item in the share link menu in the details view in Files app");
 	}
 
 	/**
@@ -212,7 +240,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		// that would return the radio button itself, but the element that the
 		// user interacts with is the label.
 		return Locator::forThe()->xpath("//label[normalize-space() = 'Allow upload and editing']")->
-				descendantOf(self::detailsView())->
+				descendantOf(self::shareLinkMenu())->
 				describedAs("Allow upload and editing radio button in the details view in Files app");
 	}
 
@@ -224,7 +252,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		// would return the checkbox itself, but the element that the user
 		// interacts with is the label.
 		return Locator::forThe()->xpath("//label[normalize-space() = 'Password protect']")->
-				descendantOf(self::detailsView())->
+				descendantOf(self::shareLinkMenu())->
 				describedAs("Password protect checkbox in the details view in Files app");
 	}
 
@@ -232,7 +260,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function passwordProtectField() {
-		return Locator::forThe()->css(".linkPassText")->descendantOf(self::detailsView())->
+		return Locator::forThe()->css(".linkPassText")->descendantOf(self::shareLinkMenu())->
 				describedAs("Password protect field in the details view in Files app");
 	}
 
@@ -240,7 +268,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function passwordProtectWorkingIcon() {
-		return Locator::forThe()->css(".linkPass .icon-loading-small")->descendantOf(self::detailsView())->
+		return Locator::forThe()->css(".linkPassMenu .icon-loading-small")->descendantOf(self::shareLinkMenu())->
 				describedAs("Password protect working icon in the details view in Files app");
 	}
 
@@ -278,17 +306,14 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Given I write down the shared link
 	 */
 	public function iWriteDownTheSharedLink() {
-		// The shared link field always exists in the DOM (once the "Sharing"
-		// tab is loaded), but its value is the actual shared link only when it
-		// is visible.
-		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor,
-				self::shareLinkField(),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The shared link was not shown yet after $timeout seconds");
-		}
+		$this->showShareLinkMenuIfNeeded();
 
-		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::shareLinkField())->getValue();
+		$this->actor->find(self::copyUrlMenuItem(), 2)->click();
+
+		// Clicking on the menu item copies the link to the clipboard, but it is
+		// not possible to access that value from the acceptance tests. Due to
+		// this the value of the attribute that holds the URL is used instead.
+		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::copyUrlMenuItem(), 2)->getWrappedElement()->getAttribute("data-clipboard-text");
 	}
 
 	/**
@@ -313,14 +338,18 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @When I set the shared link as editable
 	 */
 	public function iSetTheSharedLinkAsEditable() {
-		$this->actor->find(self::allowUploadAndEditingRadioButton(), 10)->click();
+		$this->showShareLinkMenuIfNeeded();
+
+		$this->actor->find(self::allowUploadAndEditingRadioButton(), 2)->click();
 	}
 
 	/**
 	 * @When I protect the shared link with the password :password
 	 */
 	public function iProtectTheSharedLinkWithThePassword($password) {
-		$this->actor->find(self::passwordProtectCheckbox(), 10)->click();
+		$this->showShareLinkMenuIfNeeded();
+
+		$this->actor->find(self::passwordProtectCheckbox(), 2)->click();
 
 		$this->actor->find(self::passwordProtectField(), 2)->setValue($password . "\r");
 	}
@@ -458,6 +487,19 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iProtectTheSharedLinkWithThePassword($password);
 		$this->iSeeThatTheWorkingIconForPasswordProtectIsShown();
 		$this->iSeeThatTheWorkingIconForPasswordProtectIsEventuallyNotShown();
+	}
+
+	private function showShareLinkMenuIfNeeded() {
+		// In some cases the share menu is hidden after clicking on an action of
+		// the menu. Therefore, if the menu is visible, wait a little just in
+		// case it is in the process of being hidden due to a previous action,
+		// in which case it is shown again.
+		if (WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::shareLinkMenu(),
+				$timeout = 2 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor->find(self::shareLinkMenuButton(), 10)->click();
+		}
 	}
 
 }

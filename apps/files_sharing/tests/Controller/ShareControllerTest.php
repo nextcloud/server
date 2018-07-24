@@ -192,6 +192,9 @@ class ShareControllerTest extends \Test\TestCase {
 
 
 	public function testShowShare() {
+
+		$note = 'personal note';
+
 		$this->shareController->setToken('token');
 
 		$owner = $this->getMockBuilder(IUser::class)->getMock();
@@ -210,6 +213,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$share->setPassword('password')
 			->setShareOwner('ownerUID')
 			->setNode($file)
+			->setNote($note)
 			->setTarget('/file1.txt');
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
@@ -283,6 +287,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'shareUrl' => null,
 			'previewImage' => null,
 			'previewURL' => 'downloadURL',
+			'note' => $note
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();

@@ -343,6 +343,13 @@
 		/**
 		 * @returns {string}
 		 */
+		getReshareNote: function() {
+			return this.get('reshare').note;
+		},
+
+		/**
+		 * @returns {string}
+		 */
 		getReshareWith: function() {
 			return this.get('reshare').share_with;
 		},
@@ -364,6 +371,10 @@
 
 		getExpireDate: function(shareIndex) {
 			return this._shareExpireDate(shareIndex);
+		},
+
+		getNote: function(shareIndex) {
+			return this._shareNote(shareIndex);
 		},
 
 		/**
@@ -500,6 +511,15 @@
 			}
 			var date2 = share.expiration;
 			return date2;
+		},
+
+
+		_shareNote: function(shareIndex) {
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.note;
 		},
 
 		/**

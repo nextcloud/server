@@ -144,6 +144,7 @@ class ShareAPIController extends OCSController {
 			'expiration' => null,
 			'token' => null,
 			'uid_file_owner' => $share->getShareOwner(),
+			'note' => $share->getNote(),
 			'displayname_file_owner' => $shareOwner !== null ? $shareOwner->getDisplayName() : $share->getShareOwner(),
 		];
 
@@ -698,17 +699,21 @@ class ShareAPIController extends OCSController {
 	 * @param string $password
 	 * @param string $publicUpload
 	 * @param string $expireDate
+	 * @param string $note
 	 * @return DataResponse
-	 * @throws OCSNotFoundException
+	 * @throws LockedException
+	 * @throws NotFoundException
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
+	 * @throws OCSNotFoundException
 	 */
 	public function updateShare(
 		string $id,
 		int $permissions = null,
 		string $password = null,
 		string $publicUpload = null,
-		string $expireDate = null
+		string $expireDate = null,
+		string $note = null
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -722,8 +727,12 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
-		if ($permissions === null && $password === null && $publicUpload === null && $expireDate === null) {
+		if ($permissions === null && $password === null && $publicUpload === null && $expireDate === null && $note === null) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
+		}
+
+		if($note !== null) {
+			$share->setNote($note);
 		}
 
 		/*

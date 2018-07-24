@@ -530,6 +530,7 @@ code {
 	width: auto;
 	border-radius: var(--border-radius);
 	border: none;
+	z-index: 500 !important;
 
 	.ui-state-default,
 	.ui-widget-content .ui-state-default,

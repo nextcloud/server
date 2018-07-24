@@ -34,8 +34,9 @@
 							'<label for="canEdit-{{cid}}-{{shareId}}">{{canEditLabel}}</label>' +
 						'</span>' +
 						'{{/if}}' +
-						'<a href="#"><span class="icon icon-more"></span></a>' +
-						'{{{popoverMenu}}}' +
+						'<div tabindex="0" class="share-menu"><span class="icon icon-more"></span>' +
+							'{{{popoverMenu}}}' +
+						'</div>' +
 					'</span>' +
 				'</li>' +
 			'{{/each}}' +
@@ -102,11 +103,13 @@
 						'<span class="shareOption menuitem">' +
 							'<input id="password-{{cid}}-{{shareId}}" type="checkbox" name="password" class="password checkbox" {{#if isPasswordSet}}checked="checked"{{/if}}{{#if isPasswordSet}}{{#if isPasswordForMailSharesRequired}}disabled=""{{/if}}{{/if}}" />' +
 							'<label for="password-{{cid}}-{{shareId}}">{{passwordLabel}}</label>' +
-							'<div class="passwordContainer-{{cid}}-{{shareId}} {{#unless isPasswordSet}}hidden{{/unless}}">' +
-							'    <label for="passwordField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordLabel}}</label>' +
-							'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" autocomplete="new-password" />' +
-							'    <span class="icon-loading-small hidden"></span>' +
-							'</div>' +
+						'</span>' +
+					'</li>' +
+					'<li class="passwordMenu-{{cid}}-{{shareId}} {{#unless isPasswordSet}}hidden{{/unless}}">' +
+						'<span class="passwordContainer-{{cid}}-{{shareId}} icon-passwordmail menuitem">' +
+						'    <label for="passwordField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordLabel}}</label>' +
+						'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" autocomplete="new-password" />' +
+						'    <span class="icon-loading-small hidden"></span>' +
 						'</span>' +
 					'</li>' +
 				'{{/if}}' +
@@ -114,12 +117,29 @@
 					'<span class="shareOption menuitem">' +
 						'<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />' +
 						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
-						'<div class="expirationDateContainer-{{cid}}-{{shareId}} {{#unless hasExpireDate}}hidden{{/unless}}">' +
-						'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-						'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
-						'</div>' +
 					'</span>' +
 				'</li>' +
+				'<li class="expirationDateMenu-{{cid}}-{{shareId}} {{#unless hasExpireDate}}hidden{{/unless}}">' +
+					'<span class="expirationDateContainer-{{cid}}-{{shareId}} icon-expiredate menuitem">' +
+					'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
+					'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
+					'</span>' +
+				'</li>' +
+				'{{#if isNoteAvailable}}' +
+				'<li>' +
+					'<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>' +
+					'	<span class="icon icon-edit"></span>' +
+					'	<span>{{addNoteLabel}}</span>' +
+					'	<input type="button" class="share-note-delete icon-delete">' +
+					'</a>' +
+				'</li>' +
+				'<li class="share-note-form hidden">' +
+					'<span class="menuitem icon-note">' +
+					'	<textarea class="share-note">{{shareNote}}</textarea>' +
+					'	<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />' +
+					'</span>' +
+				'</li>' +
+				'{{/if}}' +
 				'<li>' +
 					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
 				'</li>' +
@@ -156,7 +176,10 @@
 
 		events: {
 			'click .unshare': 'onUnshare',
-			'click .icon-more': 'onToggleMenu',
+			'click .share-add': 'showNoteForm',
+			'click .share-note-delete': 'deleteNote',
+			'click .share-note-submit': 'updateNote',
+			'click .share-menu .icon-more': 'onToggleMenu',
 			'click .permissions': 'onPermissionChange',
 			'click .expireDate' : 'onExpireDateChange',
 			'click .password' : 'onMailSharePasswordProtectChange',
@@ -255,12 +278,14 @@
 				modSeed: shareType !== OC.Share.SHARE_TYPE_USER && (shareType !== OC.Share.SHARE_TYPE_CIRCLE || shareWithAvatar),
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isRemoteGroupShare: shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP,
+				isNoteAvailable: shareType !== OC.Share.SHARE_TYPE_REMOTE && shareType !== OC.Share.SHARE_TYPE_REMOTE_GROUP,
 				isMailShare: shareType === OC.Share.SHARE_TYPE_EMAIL,
 				isCircleShare: shareType === OC.Share.SHARE_TYPE_CIRCLE,
 				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder(),
 				isPasswordSet: hasPassword,
 				secureDropMode: !this.model.hasReadPermission(shareIndex),
 				hasExpireDate: this.model.getExpireDate(shareIndex) !== null,
+				shareNote: this.model.getNote(shareIndex),
 				expireDate: moment(this.model.getExpireDate(shareIndex), 'YYYY-MM-DD').format('DD-MM-YYYY'),
 				passwordPlaceholder: hasPassword ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 			});
@@ -269,6 +294,7 @@
 		getShareProperties: function() {
 			return {
 				unshareLabel: t('core', 'Unshare'),
+				addNoteLabel: t('core', 'Set share note'),
 				canShareLabel: t('core', 'Can reshare'),
 				canEditLabel: t('core', 'Can edit'),
 				createPermissionLabel: t('core', 'Can create'),
@@ -435,6 +461,9 @@
 
 			this._renderPermissionChange = false;
 
+			// new note autosize
+			autosize(this.$el.find('.share-note-form .share-note'));
+
 			this.delegateEvents();
 
 			return this;
@@ -468,6 +497,88 @@
 				this._popoverMenuTemplate = Handlebars.compile(TEMPLATE_POPOVER_MENU);
 			}
 			return this._popoverMenuTemplate(data);
+		},
+
+		showNoteForm: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var $element = $(event.target);
+			var $menu = $element.closest('li');
+			var $form = $menu.next('li.share-note-form');
+
+			// show elements
+			$menu.find('.share-note-delete').toggle();
+			$form.toggleClass('hidden');
+			$form.find('textarea').focus();
+		},
+
+		deleteNote: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var self = this;
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			var $menu = $element.closest('li');
+			var $form = $menu.next('li.share-note-form');
+
+			console.log($form.find('.share-note'));
+			$form.find('.share-note').val('');
+			
+			$form.addClass('hidden');
+			$menu.find('.share-note-delete').hide();
+
+			self.sendNote('', shareId, $menu);
+		},
+
+		updateNote: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var self = this;
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			var $form = $element.closest('li.share-note-form');
+			var $menu = $form.prev('li');
+			var message = $form.find('.share-note').val().trim();
+
+			if (message.length < 1) {
+				return;
+			}
+
+			self.sendNote(message, shareId, $menu);
+
+		},
+
+		sendNote: function(note, shareId, $menu) {
+			var $form = $menu.next('li.share-note-form');
+			var $submit = $form.find('input.share-note-submit');
+			var $error = $form.find('input.share-note-error');
+
+			$submit.prop('disabled', true);
+			$menu.find('.icon-loading-small').removeClass('hidden');
+			$menu.find('.icon-edit').hide();
+
+			var complete = function() {
+				$submit.prop('disabled', false);
+				$menu.find('.icon-loading-small').addClass('hidden');
+				$menu.find('.icon-edit').show();
+			};
+			var error = function() {
+				$error.show();
+				setTimeout(function() {
+					$error.hide();
+				}, 3000);
+			};
+
+			// send data
+			$.ajax({
+				method: 'PUT',
+				url: OC.linkToOCS('apps/files_sharing/api/v1/shares',2) + shareId + '?' + OC.buildQueryString({format: 'json'}),
+				data: { note: note },
+				complete : complete,
+				error: error
+			});
 		},
 
 		onUnshare: function(event) {
@@ -513,16 +624,21 @@
 		},
 
 		onExpireDateChange: function(event) {
-			var element = $(event.target);
-			var li = element.closest('li[data-share-id]');
+			var $element = $(event.target);
+			var li = $element.closest('li[data-share-id]');
 			var shareId = li.data('share-id');
 			var datePickerClass = '.expirationDateContainer-' + this.cid + '-' + shareId;
 			var datePicker = $(datePickerClass);
-			var state = element.prop('checked');
+			var state = $element.prop('checked');
 			datePicker.toggleClass('hidden', !state);
 			if (!state) {
+				// disabled, let's hide the input and
+				// set the expireDate to nothing
+				$element.closest('li').next('li').addClass('hidden');
 				this.setExpirationDate(shareId, '');
 			} else {
+				// enabled, show the input and the datepicker
+				$element.closest('li').next('li').removeClass('hidden');
 				this.showDatePicker(event);
 
 			}
@@ -552,7 +668,7 @@
 			var element = $(event.target);
 			var li = element.closest('li[data-share-id]');
 			var shareId = li.data('share-id');
-			var passwordContainerClass = '.passwordContainer-' + this.cid + '-' + shareId;
+			var passwordContainerClass = '.passwordMenu-' + this.cid + '-' + shareId;
 			var passwordContainer = $(passwordContainerClass);
 			var loading = this.$el.find(passwordContainerClass + ' .icon-loading-small');
 			var inputClass = '#passwordField-' + this.cid + '-' + shareId;

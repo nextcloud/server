@@ -64,6 +64,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
+use OC\AppFramework\Http\Request;
 
 class OC_Util {
 	public static $scripts = array();
@@ -1526,6 +1527,15 @@ class OC_Util {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * is this Internet explorer ?
+	 *
+	 * @return boolean
+	 */
+	public static function isIe() {
+		return preg_match(Request::USER_AGENT_IE, $_SERVER['HTTP_USER_AGENT']) === 1;
 	}
 
 }

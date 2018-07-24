@@ -92,7 +92,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 
 			var $passwordDiv = view.$el.find('#linkPass');
 			$passwordText = view.$el.find('.linkPassText');
-			$workingIcon = view.$el.find('.linkPass .icon-loading-small');
+			$workingIcon = view.$el.find('.linkPassMenu .icon-loading-small');
 
 			sinon.stub(shareModel, 'saveLinkShare');
 

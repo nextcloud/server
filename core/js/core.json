@@ -37,7 +37,6 @@
 		"shareconfigmodel.js",
 		"shareitemmodel.js",
 		"sharedialogview.js",
-		"sharedialogexpirationview.js",
 		"sharedialoglinkshareview.js",
 		"sharedialogresharerinfoview.js",
 		"sharedialogshareelistview.js",

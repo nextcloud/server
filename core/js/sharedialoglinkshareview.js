@@ -21,70 +21,100 @@
 
 	var TEMPLATE =
 			'{{#if shareAllowed}}' +
-			'<span class="icon-loading-small hidden"></span>' +
-			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox-{{cid}}" class="checkbox linkCheckbox" value="1" {{#if isLinkShare}}checked="checked"{{/if}} />' +
-			'<label for="linkCheckbox-{{cid}}">{{linkShareLabel}}</label>' +
-			'<br />' +
-			'<div class="oneline">' +
-			'<label for="linkText-{{cid}}" class="hidden-visually">{{urlLabel}}</label>' +
-			'<input id="linkText-{{cid}}" class="linkText {{#unless isLinkShare}}hidden{{/unless}}" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
-			'{{#if singleAction}}' +
-				'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}} clipboardButton icon icon-clippy" data-clipboard-target="#linkText-{{cid}}"></a>' +
-			'{{else}}' +
-				'<a class="{{#unless isLinkShare}}hidden-visually{{/unless}}" href="#"><span class="linkMore icon icon-more"></span></a>' +
-				'{{{popoverMenu}}}' +
-			'{{/if}}' +
-			'</div>' +
-			'{{#if publicUpload}}' +
-				'<div>' +
-					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRChecked}}} />' +
-					'<label for="sharingDialogAllowPublicUpload-r-{{cid}}">{{publicUploadRLabel}}</label>' +
-				'</div>' +
-				'<div>' +
-					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRWChecked}}} />' +
-					'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRWLabel}}</label>' +
-				'</div>' +
-				'<div>' +
-					'<span class="icon-loading-small hidden"></span>' +
-					'<input type="radio" name="publicUpload" value="{{publicUploadWValue}}" id="sharingDialogAllowPublicUpload-w-{{cid}}" class="radio publicUploadRadio" {{{publicUploadWChecked}}} />' +
-					'<label for="sharingDialogAllowPublicUpload-w-{{cid}}">{{publicUploadWLabel}}</label>' +
-				'</div>' +
-			'{{/if}}' +
-			'     {{#if publicEditing}}' +
-			'<div id="allowPublicEditingWrapper">' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" value="1" name="allowPublicEditing" id="sharingDialogAllowPublicEditing-{{cid}}" class="checkbox publicEditingCheckbox" {{{publicEditingChecked}}} />' +
-			'<label for="sharingDialogAllowPublicEditing-{{cid}}">{{publicEditingLabel}}</label>' +
-			'</div>' +
-			'    {{/if}}' +
-			'    {{#if showPasswordCheckBox}}' +
-			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
-			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-			'    {{/if}}' +
-			'<div id="linkPass" class="oneline linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
-			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
-			'    {{#if showPasswordCheckBox}}' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
-			'    {{else}}' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholderInitial}}" autocomplete="new-password" />' +
-			'    {{/if}}' +
-			'    <span class="icon icon-loading-small hidden"></span>' +
-			'</div>' +
+			'<ul id="shareLink" class="shareWithList">' +
+			'	<li data-share-id="{{cid}}">' +
+			'		<div class="avatar icon-public-white"></div><span class="username" title="{{linkShareLabel}}">{{linkShareLabel}}</span>' +
+			'		<span class="sharingOptionsGroup">' +
+			'			<span class="shareOption"> ' +
+			'				<span class="icon-loading-small hidden"></span>' +
+			'				<input id="linkCheckbox-{{cid}}" {{#if isLinkShare}}checked="checked"{{/if}} type="checkbox" name="linkCheckbox" class="linkCheckbox permissions checkbox">' +
+			'				<label for="linkCheckbox-{{cid}}">{{linkShareEnableLabel}}</label>' +
+			'			</span>' +
+			'			{{#if isLinkShare}}' +
+			'			<div class="share-menu" tabindex="0"><span class="icon icon-more"></span>' +
+			'				{{{popoverMenu}}}' +
+			'			</div>' +
+			'			{{/if}}' +
+			'		</span>' +
+			'	</li>' +
+			'</ul>' +
 			'{{else}}' +
 			// FIXME: this doesn't belong in this view
 			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
 			'{{/if}}'
 		;
 	var TEMPLATE_POPOVER_MENU =
-		'<div class="popovermenu bubble hidden menu socialSharingMenu">' +
+		'<div class="popovermenu menu">' +
 			'<ul>' +
 				'<li>' +
-					'<a href="#" class="shareOption menuitem clipboardButton" data-clipboard-target="#linkText-{{cid}}">' +
+					'<a href="#" class="menuitem clipboardButton" data-clipboard-text="{{shareLinkURL}}">' +
 						'<span class="icon icon-clippy" ></span>' +
 						'<span>{{copyLabel}}</span>' +
 					'</a>' +
+				'</li>' +
+				'<li class="hidden linkTextMenu">' +
+					'<span class="menuitem icon-link-text">' +
+						'<input id="linkText-{{cid}}" class="linkText" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
+					'</span>' +
+				'</li>' +
+				'{{#if publicUpload}}' +
+					'<li><span class="shareOption menuitem">' +
+						'<span class="icon-loading-small hidden"></span>' +
+						'<input type="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRChecked}}} />' +
+						'<label for="sharingDialogAllowPublicUpload-r-{{cid}}">{{publicUploadRLabel}}</label>' +
+					'</span></li>' +
+					'<li><span class="shareOption menuitem">' +
+						'<span class="icon-loading-small hidden"></span>' +
+						'<input type="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRWChecked}}} />' +
+						'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRWLabel}}</label>' +
+					'</span></li>' +
+					'<li><span class="shareOption menuitem">' +
+						'<span class="icon-loading-small hidden"></span>' +
+						'<input type="radio" name="publicUpload" value="{{publicUploadWValue}}" id="sharingDialogAllowPublicUpload-w-{{cid}}" class="radio publicUploadRadio" {{{publicUploadWChecked}}} />' +
+						'<label for="sharingDialogAllowPublicUpload-w-{{cid}}">{{publicUploadWLabel}}</label>' +
+					'</span></li>' +
+				'{{/if}}' +
+				'{{#if publicEditing}}' +
+				'	<li id="allowPublicEditingWrapper"><span class="shareOption menuitem">' +
+				'		<span class="icon-loading-small hidden"></span>' +
+				'		<input type="checkbox" name="allowPublicEditing" id="sharingDialogAllowPublicEditing-{{cid}}" class="checkbox publicEditingCheckbox" {{{publicEditingChecked}}} />' +
+				'		<label for="sharingDialogAllowPublicEditing-{{cid}}">{{publicEditingLabel}}</label>' +
+				'	</span></li>' +
+				'{{/if}}' +
+				'{{#if showPasswordCheckBox}}' +
+				'	<li><span class="shareOption menuitem">' +
+				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
+				'		<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
+				'	</span></li>' +
+				'	<li class="{{#unless isPasswordSet}}hidden{{/unless}} linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
+				'    	<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
+				'    <span class="icon icon-loading-small hidden"></span>' +
+				'	</span></li>' +
+				'{{/if}}' +
+				'<li>' +
+					'<span class="shareOption menuitem">' +
+						'<input id="expireDate-{{cid}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />' +
+						'<label for="expireDate-{{cid}}">{{expireDateLabel}}</label>' +
+				'</li>' +
+				'<li class="{{#unless hasExpireDate}}hidden{{/unless}}">' +
+						'<span class="menuitem icon-expiredate expirationDateContainer-{{cid}}">' +
+						'    <label for="expirationDatePicker-{{cid}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
+						'    <input id="expirationDatePicker-{{cid}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
+						'</span>' +
+					'</span>' +
+				'</li>' +
+				'<li>' +
+					'<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>' +
+					'	<span class="icon icon-edit"></span>' +
+					'	<span>{{addNoteLabel}}</span>' +
+					'	<input type="button" class="share-note-delete icon-delete">' +
+					'</a>' +
+				'</li>' +
+				'<li class="share-note-form share-note-link hidden">' +
+					'<span class="menuitem icon-note">' +
+					'	<textarea class="share-note">{{shareNote}}</textarea>' +
+					'	<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />' +
+					'</span>' +
 				'</li>' +
 				'{{#each social}}' +
 					'<li>' +
@@ -131,9 +161,15 @@
 			'click .linkText': 'onLinkTextClick',
 			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
 			'click .showPasswordCheckbox': 'onShowPasswordClick',
-			'click .icon-more': 'onToggleMenu',
+			'click .share-menu .icon-more': 'onToggleMenu',
 			'click .pop-up': 'onPopUpClick',
-			'change .publicUploadRadio': 'onPublicUploadChange'
+			'change .publicUploadRadio': 'onPublicUploadChange',
+			'click .expireDate' : 'onExpireDateChange',
+			'change .datepicker': 'onChangeExpirationDate',
+			'click .datepicker' : 'showDatePicker',
+			'click .share-add': 'showNoteForm',
+			'click .share-note-delete': 'deleteNote',
+			'click .share-note-submit': 'updateNote'
 		},
 
 		initialize: function(options) {
@@ -165,37 +201,26 @@
 				throw 'missing OC.Share.ShareConfigModel';
 			}
 
-			_.bindAll(
-				this,
-				'onLinkCheckBoxChange',
-				'onPasswordEntered',
-				'onPasswordKeyUp',
-				'onLinkTextClick',
-				'onShowPasswordClick',
-				'onAllowPublicEditingChange',
-				'onPublicUploadChange'
-			);
-
 			var clipboard = new Clipboard('.clipboardButton');
 			clipboard.on('success', function(e) {
-				var $input = $(e.trigger);
-				$input.tooltip('hide')
+				var $menu = $(e.trigger);
+				var $linkTextMenu = $menu.parent().next('li.linkTextMenu')
+
+				$menu.tooltip('hide')
 					.attr('data-original-title', t('core', 'Copied!'))
 					.tooltip('fixTitle')
 					.tooltip({placement: 'bottom', trigger: 'manual'})
 					.tooltip('show');
 				_.delay(function() {
-					$input.tooltip('hide');
-					if (OC.Share.Social.Collection.size() == 0) {
-						$input.attr('data-original-title', t('core', 'Copy'))
-							.tooltip('fixTitle');
-					} else {
-						$input.tooltip("destroy");
-					}
+					$menu.tooltip('hide');
+					$menu.tooltip('destroy');
 				}, 3000);
 			});
 			clipboard.on('error', function (e) {
-				var $input = $(e.trigger);
+				var $menu = $(e.trigger);
+				var $linkTextMenu = $menu.parent().next('li.linkTextMenu')
+				var $input = $linkTextMenu.find('.linkText');
+
 				var actionMsg = '';
 				if (/iPhone|iPad/i.test(navigator.userAgent)) {
 					actionMsg = t('core', 'Not supported!');
@@ -205,6 +230,8 @@
 					actionMsg = t('core', 'Press Ctrl-C to copy.');
 				}
 
+				$linkTextMenu.removeClass('hidden');
+				$input.select();
 				$input.tooltip('hide')
 					.attr('data-original-title', actionMsg)
 					.tooltip('fixTitle')
@@ -212,15 +239,10 @@
 					.tooltip('show');
 				_.delay(function () {
 					$input.tooltip('hide');
-					if (OC.Share.Social.Collection.size() == 0) {
-						$input.attr('data-original-title', t('core', 'Copy'))
-							.tooltip('fixTitle');
-					} else {
-						$input.tooltip("destroy");
-					}
+					$input.attr('data-original-title', t('core', 'Copy'))
+						  .tooltip('fixTitle');
 				}, 3000);
 			});
-
 		},
 
 		onLinkCheckBoxChange: function() {
@@ -257,6 +279,7 @@
 
 		onShowPasswordClick: function() {
 			this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
+			this.$el.find('.linkPassMenu').toggleClass('hidden');
 			if(!this.$el.find('.showPasswordCheckbox').is(':checked')) {
 				this.model.saveLinkShare({
 					password: ''
@@ -275,7 +298,7 @@
 		},
 
 		onPasswordEntered: function() {
-			var $loading = this.$el.find('.linkPass .icon-loading-small');
+			var $loading = this.$el.find('.linkPassMenu .icon-loading-small');
 			if (!$loading.hasClass('hidden')) {
 				// still in process
 				return;
@@ -334,10 +357,93 @@
 		},
 
 
-	onPublicUploadChange: function(e) {
+		onPublicUploadChange: function(e) {
 			var permissions = e.currentTarget.value;
 			this.model.saveLinkShare({
 				permissions: permissions
+			});
+		},
+		
+		showNoteForm: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var self = this;
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var $menu = $element.closest('li');
+			var $form = $menu.next('li.share-note-form');
+
+			// show elements
+			$menu.find('.share-note-delete').toggle();
+			$form.toggleClass('hidden');
+			$form.find('textarea').focus();
+		},
+
+		deleteNote: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var self = this;
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			var $menu = $element.closest('li');
+			var $form = $menu.next('li.share-note-form');
+
+			console.log($form.find('.share-note'));
+			$form.find('.share-note').val('');
+			
+			$form.addClass('hidden');
+			$menu.find('.share-note-delete').hide();
+
+			self.sendNote('', shareId, $menu);
+		},
+
+		updateNote: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var self = this;
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			var $form = $element.closest('li.share-note-form');
+			var $menu = $form.prev('li');
+			var message = $form.find('.share-note').val().trim();
+
+			if (message.length < 1) {
+				return;
+			}
+
+			self.sendNote(message, shareId, $menu);
+		},
+
+		sendNote: function(note, shareId, $menu) {
+			var $form = $menu.next('li.share-note-form');
+			var $submit = $form.find('input.share-note-submit');
+			var $error = $form.find('input.share-note-error');
+
+			$submit.prop('disabled', true);
+			$menu.find('.icon-loading-small').removeClass('hidden');
+			$menu.find('.icon-edit').hide();
+
+			var complete = function() {
+				$submit.prop('disabled', false);
+				$menu.find('.icon-loading-small').addClass('hidden');
+				$menu.find('.icon-edit').show();
+			};
+			var error = function() {
+				$error.show();
+				setTimeout(function() {
+					$error.hide();
+				}, 3000);
+			};
+
+			// send data
+			$.ajax({
+				method: 'PUT',
+				url: OC.linkToOCS('apps/files_sharing/api/v1/shares',2) + shareId + '?' + OC.buildQueryString({format: 'json'}),
+				data: { note: note },
+				complete : complete,
+				error: error
 			});
 		},
 
@@ -412,18 +518,48 @@
 				});
 			});
 
-			var popover = this.popoverMenuTemplate({
-				cid: this.cid,
-				copyLabel: t('core', 'Copy'),
-				social: social
+			var defaultExpireDays = this.configModel.get('defaultExpireDate');
+			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
+			var hasExpireDate = !!this.model.get('linkShare').expiration || isExpirationEnforced;
+
+			var expireDate;
+			if (hasExpireDate) {
+				expireDate = moment(this.model.get('linkShare').expiration, 'YYYY-MM-DD').format('DD-MM-YYYY');
+			}
+
+			// what if there is another date picker on that page?
+			var minDate = new Date();
+			var maxDate = null;
+			// min date should always be the next day
+			minDate.setDate(minDate.getDate()+1);
+
+			if(hasExpireDate) {
+				if(isExpirationEnforced) {
+					// TODO: hack: backend returns string instead of integer
+					var shareTime = this.model.get('linkShare').stime;
+					if (_.isNumber(shareTime)) {
+						shareTime = new Date(shareTime * 1000);
+					}
+					if (!shareTime) {
+						shareTime = new Date(); // now
+					}
+					shareTime = OC.Util.stripTime(shareTime).getTime();
+					maxDate = new Date(shareTime + defaultExpireDays * 24 * 3600 * 1000);
+				}
+			}
+			$.datepicker.setDefaults({
+				minDate: minDate,
+				maxDate: maxDate
 			});
 
-			this.$el.html(linkShareTemplate({
-				cid: this.cid,
-				shareAllowed: true,
-				isLinkShare: isLinkShare,
+			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
+
+			var popover = this.popoverMenuTemplate({
+				cid: this.model.get('linkShare').id,
+				copyLabel: t('core', 'Copy URL'),
+				social: social,
+
 				shareLinkURL: this.model.get('linkShare').link,
-				linkShareLabel: t('core', 'Share link'),
 				urlLabel: t('core', 'Link'),
 				enablePasswordLabel: t('core', 'Password protect'),
 				passwordLabel: t('core', 'Password'),
@@ -437,8 +573,6 @@
 				publicEditingLabel: t('core', 'Allow editing'),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send'),
-				singleAction: OC.Share.Social.Collection.size() == 0,
-				popoverMenu: popover,
 				publicUploadRWLabel: t('core', 'Allow upload and editing'),
 				publicUploadRLabel: t('core', 'Read only'),
 				publicUploadWLabel: t('core', 'File drop (upload only)'),
@@ -447,18 +581,31 @@
 				publicUploadWValue: OC.PERMISSION_CREATE,
 				publicUploadRWChecked: publicUploadRWChecked,
 				publicUploadRChecked: publicUploadRChecked,
-				publicUploadWChecked: publicUploadWChecked
+				publicUploadWChecked: publicUploadWChecked,
+				expireDateLabel: t('core', 'Set expiration date'),
+				expirationLabel: t('core', 'Expiration'),
+				expirationDatePlaceholder: t('core', 'Expiration date'),
+				hasExpireDate: hasExpireDate,
+				isExpirationEnforced: isExpirationEnforced,
+				expireDate: expireDate,
+				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
+				shareNote: this.model.get('linkShare').note,
+				addNoteLabel: t('core', 'Set share note'),
+			});
+
+			this.$el.html(linkShareTemplate({
+				cid: this.model.get('linkShare').id,
+				shareAllowed: true,
+				isLinkShare: isLinkShare,
+				linkShareLabel: t('core', 'Share link'),
+				linkShareEnableLabel: t('core', 'Enable'),
+				popoverMenu: popover,
 			}));
 
-			if (OC.Share.Social.Collection.size() == 0) {
-				this.$el.find('.clipboardButton').tooltip({
-					placement: 'bottom',
-					title: t('core', 'Copy'),
-					trigger: 'hover'
-				});
-			}
-
 			this.delegateEvents();
+
+			// new note autosize
+			autosize(this.$el.find('.share-note-form .share-note'));
 
 			return this;
 		},
@@ -467,8 +614,8 @@
 			event.preventDefault();
 			event.stopPropagation();
 			var $element = $(event.target);
-			var $li = $element.closest('.oneline');
-			var $menu = $li.find('.popovermenu');
+			var $li = $element.closest('li[data-share-id]');
+			var $menu = $li.find('.sharingOptionsGroup .popovermenu');
 
 			OC.showMenu(null, $menu);
 			this._menuOpen = $li.data('share-id');
@@ -517,7 +664,52 @@
 					window.location.href = url;
 				}
 			}
-		}
+		},
+
+		onExpireDateChange: function(event) {
+			var $element = $(event.target);
+			var li = $element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var expirationDatePicker = '#expirationDateContainer-' + shareId;
+			var datePicker = $(expirationDatePicker);
+			var state = $element.prop('checked');
+			datePicker.toggleClass('hidden', !state);
+			
+			if (!state) {
+				// disabled, let's hide the input and
+				// set the expireDate to nothing
+				$element.closest('li').next('li').addClass('hidden');
+				this.setExpirationDate('');
+			} else {
+				// enabled, show the input and the datepicker
+				$element.closest('li').next('li').removeClass('hidden');
+				this.showDatePicker(event);
+
+			}
+		},
+
+		showDatePicker: function(event) {
+			var $element = $(event.target);
+			var li = $element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var expirationDatePicker = '#expirationDatePicker-' + shareId;
+			var self = this;
+
+			$(expirationDatePicker).datepicker({
+				dateFormat : 'dd-mm-yy',
+				onSelect: function (expireDate) {
+					self.setExpirationDate(expireDate);
+				}
+			});
+			console.log(event, $(expirationDatePicker));
+			$(expirationDatePicker).datepicker('show');
+			$(expirationDatePicker).focus();
+
+		},
+
+		setExpirationDate: function(expireDate) {
+			this.model.saveLinkShare({expireDate: expireDate});
+		},
 
 	});
 

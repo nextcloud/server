@@ -2,143 +2,242 @@
 	min-height: 100px;
 }
 
-.shareTabView .oneline {
-	white-space: nowrap;
-	position: relative;
+.share-autocomplete-item {
+	display: flex;
+	.autocomplete-item-text {
+		margin-left: 10px;
+		margin-right: 10px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		line-height: 32px;
+		vertical-align: middle;
+	}
 }
 
-.shareTabView .shareWithLoading {
-	padding-left: 10px;
-	right: 35px;
-	top: 0px;
+.shareTabView {
+	.oneline {
+		white-space: nowrap;
+		position: relative;
+	}
+	.shareWithLoading {
+		padding-left: 10px;
+		right: 35px;
+		top: 0px;
+	}
+	.shareWithConfirm,
+	.clipboardButton,
+	.linkPass .icon-loading-small {
+		position: absolute;
+		right: 2px;
+		top: 6px;
+		padding: 14px;
+	}
+	.shareWithConfirm {
+		opacity: 0.5;
+	}
+	.shareWithField:focus ~ .shareWithConfirm {
+		opacity: 1;
+	}
+	.linkMore {
+		position: absolute;
+		right: -7px;
+		top: -4px;
+		padding: 14px;
+	}
+	.popovermenu {
+		.datepicker {
+			margin-left: 35px;
+		}
+		.clipboardButton {
+			position: relative;
+			top: initial;
+			right: initial;
+			padding: 0;
+		}
+		.share-add {
+			input.share-note-delete {
+				display: none;
+				border: none;
+				background-color: transparent;
+				width: 44px !important;
+				padding: 0;
+				flex: 0 0 44px;
+				margin-left: auto;
+			}
+		}
+		// note
+		.share-note-form {
+			span.icon-note {
+				position: relative;
+			}
+			textarea.share-note {
+				margin: 0;
+				width: 200px;
+				min-height: 70px;
+				resize: none;
+				+ input.share-note-submit {
+					position: absolute;
+					width: 44px !important;
+					height: 44px;
+					bottom: 0px;
+					right: 10px;
+					margin: 0;
+					background-color: transparent;
+					border: none;
+					opacity: .7;
+					&:hover,
+					&:focus,
+					&:active {
+						opacity: 1;
+					}
+				}
+			}
+			// fix for popover link share
+			&.share-note-link {
+				margin-bottom: 10px;
+			}
+		}
+	}
+	.linkPass .icon-loading-small {
+		margin-right: 0px;
+	}
+	.icon {
+		background-size: 16px 16px;
+	}
+	.shareWithList .icon-loading-small:not(.hidden) + span,
+	.linkShareView .icon-loading-small:not(.hidden) + input + label:before {
+		/* Hide if loader is visible */
+		display: none !important;
+	}
+	input {
+		&[type='checkbox'] {
+			margin: 0 3px 0 8px;
+			vertical-align: middle;
+		}
+		&[type='text'] {
+			&.shareWithField,
+			&.emailField {
+				width: 100%;
+				box-sizing: border-box;
+				padding-right: 32px;
+				text-overflow: ellipsis;
+			}
+		}
+		&[type='text'].linkText
+		&[type='password'].linkPassText,
+		&[type='password'].passwordField {
+			width: 180px !important;
+		}
+	}
+	form {
+		font-size: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	// share note on the sidebar
+	.share-note {
+		border-radius: var(--border-radius);
+		margin-bottom: 10px;
+		margin-left: 37px;
+	}
 }
 
-.shareTabView .shareWithConfirm,
-.shareTabView .clipboardButton,
-.shareTabView .linkPass .icon-loading-small {
-	position: absolute;
-	right: -7px;
-	top: -2px;
-	padding: 14px;
-}
-
-.shareTabView .shareWithConfirm {
-	opacity: .5;
-}
-
-.shareTabView .shareWithField:focus ~ .shareWithConfirm {
-	opacity: 1;
-}
-
-.shareTabView .linkMore {
-	position: absolute;
-	right: -7px;
-	top: -4px;
-	padding: 14px;
-}
-
-/* fix the popup menu because the button is shifted and then the menu is not aligned */
-.shareTabView .popovermenu.socialSharingMenu {
-	right: -7px;
-}
-
-.shareTabView .popovermenu .clipboardButton {
-	position: relative;
-	top: initial;
-	right: initial;
-	padding: 0;
-}
-
-.shareTabView label {
-	white-space: nowrap;
-}
-
-.shareTabView input[type="checkbox"] {
-	margin: 0 3px 0 8px;
-	vertical-align: middle;
-}
-
-.shareTabView input[type="text"].shareWithField,
-.shareTabView input[type="text"].emailField,
-.shareTabView input[type="text"].linkText,
-.shareTabView input[type="password"] {
-	width: 100%;
-	box-sizing: border-box;
-	padding-right: 32px;
-	text-overflow: ellipsis;
-}
-
-.shareTabView form {
-	font-size: 100%;
-	margin-left: 0;
-	margin-right: 0;
-}
-
-#shareWithList {
+// Sharing tab users list
+.shareWithList {
 	list-style-type: none;
-	padding: 0 0 16px;
+	display: flex;
+	flex-direction: column;
+	> li {
+		height: 44px;
+		white-space: normal;
+		display: inline-flex;
+		align-items: center;
+		position: relative;
+		.avatar {
+			width: 32px;
+			height: 32px;
+			background-color: var(--color-background-darker);
+		}
+	}
+	.unshare img {
+		vertical-align: text-bottom;
+		/* properly align icons */
+	}
+	.sharingOptionsGroup {
+		margin-left: auto;
+		display: flex;
+		align-items: center;
+		// can edit label
+		> .shareOption > label {
+			padding: 13px;
+			padding-right: 0;
+		}
+		// more menu
+		> .share-menu  {
+			position: relative;
+			display: block;
+			.icon-more {
+				padding: 14px;
+				height: 16px;
+				width: 16px;
+				opacity: .5;
+				display: block;
+				cursor: pointer;
+			}
+			&:hover,
+			&:focus,
+			&:active {
+				.icon-more {
+					opacity: .7;;
+				}
+			}
+		}
+	}
+	.username {
+		padding: 0 8px;
+	}
 }
 
-#shareWithList > li {
-	padding-top: 5px;
-	padding-bottom: 5px;
-	white-space: normal;
+.ui-autocomplete {
+	/* limit dropdown height to 4 1/2 entries */
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index: 1550 !important;
+}
+
+.notCreatable {
+	padding-left: 12px;
+	padding-top: 12px;
+	color: var(--color-text-lighter);
+}
+
+.contactsmenu-popover {
+	left: -6px;
+	right: auto;
+	padding: 3px 6px;
+	top: 100%;
+	margin-top: 0;
+	li.hidden {
+		display: none !important;
+	}
+	&:after {
+		left: 8px;
+		right: auto;
+	}
+}
+
+.reshare,
+#link label,
+#expiration label {
 	display: inline-flex;
 	align-items: center;
+	.avatar {
+		margin-right: 5px;
+	}
 }
 
-#shareWithList .unshare img {
-	vertical-align: text-bottom; /* properly align icons */
-}
-
-#shareWithList .sharingOptionsGroup > a .icon {
-	padding: 7px;
-	vertical-align: middle;
-	opacity: .5;
-}
-
-#shareWithList .sharingOptionsGroup .popovermenu:after {
-	right: 3px;
-}
-
-#shareWithList label input[type=checkbox] {
-	margin-left: 0;
+.resharerInfoView.subView {
 	position: relative;
-}
-#shareWithList .username {
-	padding-right: 8px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	display: inline-block;
-	overflow: hidden;
-	vertical-align: middle;
-}
-#shareWithList li .sharingOptionsGroup > .shareOption > label {
-	padding: 6px;
-	margin-right: 8px;
-	vertical-align: text-top;
-}
-
-.shareTabView .icon-loading-small {
-	display: inline-block;
-	z-index: 1;
-	vertical-align: text-top;
-}
-
-.shareTabView .shareWithList .icon-loading-small:not(.hidden) + span,
-.shareTabView .linkShareView .icon-loading-small:not(.hidden) + input + label:before {
-	/* Hide if loader is visible */
-	display: none !important;
-}
-
-.linkShareView {
-	margin-top: 16px;
-}
-
-.shareTabView .linkPass .icon-loading-small {
-	margin-right: 0px;
-}
-
-.shareTabView .icon {
-	background-size: 16px 16px;
 }

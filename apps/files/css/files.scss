@@ -94,7 +94,8 @@
 	@include icon-color('star-dark', 'files', $color-black, 2, true);
 }
 .nav-icon-sharingin,
-.nav-icon-sharingout {
+.nav-icon-sharingout,
+.nav-icon-shareoverview {
 	@include icon-color('share', 'files', $color-black);
 }
 .nav-icon-sharinglinks {
