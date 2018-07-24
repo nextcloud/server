@@ -28,6 +28,7 @@ use OC\Files\AppData\Factory;
 use OC\Template\SCSSCacher;
 use OC\Template\IconsCacher;
 use OCA\Theming\ThemingDefaults;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -58,12 +59,15 @@ class SCSSCacherTest extends \Test\TestCase {
 	protected $cacheFactory;
 	/** @var IconsCacher|\PHPUnit_Framework_MockObject_MockObject */
 	protected $iconsCacher;
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $timeFactory;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->logger = $this->createMock(ILogger::class);
 		$this->appData = $this->createMock(AppData::class);
 		$this->iconsCacher = $this->createMock(IconsCacher::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);
@@ -97,7 +101,8 @@ class SCSSCacherTest extends \Test\TestCase {
 			$this->themingDefaults,
 			\OC::$SERVERROOT,
 			$this->cacheFactory,
-			$this->iconsCacher
+			$this->iconsCacher,
+			$this->timeFactory
 		);
 	}
 

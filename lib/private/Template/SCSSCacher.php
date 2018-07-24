@@ -32,6 +32,7 @@ use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Exception\ParserException;
 use Leafo\ScssPhp\Formatter\Crunched;
 use Leafo\ScssPhp\Formatter\Expanded;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -77,6 +78,12 @@ class SCSSCacher {
 	/** @var IconsCacher */
 	private $iconsCacher;
 
+	/** @var ICache */
+	private $isCachedCache;
+
+	/** @var ITimeFactory */
+	private $timeFactory;
+
 	/**
 	 * @param ILogger $logger
 	 * @param Factory $appDataFactory
@@ -86,6 +93,7 @@ class SCSSCacher {
 	 * @param string $serverRoot
 	 * @param ICacheFactory $cacheFactory
 	 * @param IconsCacher $iconsCacher
+	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(ILogger $logger,
 								Factory $appDataFactory,
@@ -94,7 +102,8 @@ class SCSSCacher {
 								\OC_Defaults $defaults,
 								$serverRoot,
 								ICacheFactory $cacheFactory,
-								IconsCacher $iconsCacher) {
+								IconsCacher $iconsCacher,
+								ITimeFactory $timeFactory) {
 		$this->logger       = $logger;
 		$this->appData      = $appDataFactory->get('css');
 		$this->urlGenerator = $urlGenerator;
@@ -103,7 +112,9 @@ class SCSSCacher {
 		$this->serverRoot   = $serverRoot;
 		$this->cacheFactory = $cacheFactory;
 		$this->depsCache    = $cacheFactory->createDistributed('SCSS-' . md5($this->urlGenerator->getBaseUrl()));
+		$this->isCachedCache = $cacheFactory->createLocal('SCSS-cached-' . md5($this->urlGenerator->getBaseUrl()));
 		$this->iconsCacher = $iconsCacher;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -124,19 +135,19 @@ class SCSSCacher {
 		$path   = implode('/', $path);
 		$webDir = $this->getWebDir($path, $app, $this->serverRoot, \OC::$WEBROOT);
 
-		try {
-			$folder = $this->appData->getFolder($app);
-		} catch (NotFoundException $e) {
-			// creating css appdata folder
-			$folder = $this->appData->newFolder($app);
-		}
-
-		if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $folder)) {
+		if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
 			// Inject icons vars css if any
 			if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
 				$this->iconsCacher->injectCss();
 			}
 			return true;
+		}
+
+		try {
+			$folder = $this->appData->getFolder($app);
+		} catch (NotFoundException $e) {
+			// creating css appdata folder
+			$folder = $this->appData->newFolder($app);
 		}
 
 		$cached = $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
@@ -164,10 +175,24 @@ class SCSSCacher {
 	/**
 	 * Check if the file is cached or not
 	 * @param string $fileNameCSS
-	 * @param ISimpleFolder $folder
+	 * @param string $app
 	 * @return boolean
 	 */
-	private function isCached(string $fileNameCSS, ISimpleFolder $folder) {
+	private function isCached(string $fileNameCSS, string $app) {
+		$key = $this->config->getSystemValue('version') . '/' . $app . '/' . $fileNameCSS;
+		if (!$this->config->getSystemValue('debug') && $cacheValue = $this->isCachedCache->get($key)) {
+			if ($cacheValue > $this->timeFactory->getTime()) {
+				return true;
+			}
+		}
+
+		try {
+			$folder = $this->appData->getFolder($app);
+		} catch (NotFoundException $e) {
+			// creating css appdata folder
+			$folder = $this->appData->newFolder($app);
+		}
+
 		try {
 			$cachedFile = $folder->getFile($fileNameCSS);
 			if ($cachedFile->getSize() > 0) {
@@ -187,6 +212,7 @@ class SCSSCacher {
 					}
 				}
 
+				$this->isCachedCache->set($key, $this->timeFactory->getTime() + 5 * 60);
 				return true;
 			}
 
