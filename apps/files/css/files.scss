@@ -257,7 +257,7 @@ table.multiselect thead {
 	z-index: 55;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	left: 250px; /* sidebar */
+	left: $navigation-width;
 }
 
 table.multiselect thead th {
