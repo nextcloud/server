@@ -322,6 +322,7 @@ nav[role='navigation'] {
 
 /* Apps management */
 #apps {
+	-webkit-overflow-scrolling: touch;
 	max-height: calc(100vh - 100px);
 	overflow: auto;
 	.in-header {
