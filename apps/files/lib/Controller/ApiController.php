@@ -430,5 +430,4 @@ class ApiController extends Controller {
 		return $node->getType();
 	}
 
-
 }
