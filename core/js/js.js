@@ -1614,7 +1614,7 @@ function initCore() {
 		var snapper = new Snap({
 			element: document.getElementById('app-content'),
 			disable: 'right',
-			maxPosition: 250,
+			maxPosition: 300, // $navigation-width
 			minDragDistance: 100
 		});
 		$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;"></div>');

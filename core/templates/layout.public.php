@@ -70,9 +70,11 @@
 		</div>
 		<?php } ?>
 	</header>
-	<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
-		<?php print_unescaped($_['content']); ?>
-	</div>
+	<div id="content-wrapper">
+		<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
+			<?php print_unescaped($_['content']); ?>
+		</div>
+	</div
 	<?php if($template->getFooterVisible()) { ?>
 	<footer>
 		<p class="info"><?php print_unescaped($theme->getLongFooter()); ?></p>

@@ -29,7 +29,6 @@ OCA.External.App = {
 		this.fileList = new OCA.External.FileList(
 			$el,
 			{
-				scrollContainer: $('#app-content'),
 				fileActions: this._createFileActions()
 			}
 		);

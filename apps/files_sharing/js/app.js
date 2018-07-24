@@ -32,7 +32,6 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.self',
-				scrollContainer: $('#app-content'),
 				sharedWithUser: true,
 				fileActions: this._createFileActions(),
 				config: OCA.Files.App.getFilesConfig()
@@ -55,7 +54,6 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.others',
-				scrollContainer: $('#app-content'),
 				sharedWithUser: false,
 				fileActions: this._createFileActions(),
 				config: OCA.Files.App.getFilesConfig()
@@ -78,7 +76,6 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.link',
-				scrollContainer: $('#app-content'),
 				linksOnly: true,
 				fileActions: this._createFileActions(),
 				config: OCA.Files.App.getFilesConfig()
@@ -101,7 +98,6 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.deleted',
-				scrollContainer: $('#app-content'),
 				showDeleted: true,
 				sharedWithUser: true,
 				fileActions: this._restoreShareAction(),
@@ -125,7 +121,6 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.overview',
-				scrollContainer: $('#app-content'),
 				config: OCA.Files.App.getFilesConfig(),
 				isOverview: true
 			}

@@ -2,7 +2,7 @@
 /** @var $l \OCP\IL10N */
 /** @var $_ array */
 ?>
-
+<div id="app-content">
 <?php if ($_['previewSupported']): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
 	<link rel="image_src" href="<?php p($_['previewImage']); ?>" />
 <?php endif; ?>
@@ -90,3 +90,4 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			   data-url="<?php p(\OC::$server->getURLGenerator()->linkTo('files', 'ajax/upload.php')); ?>" />
 	</div>
 <?php endif; ?>
+</div>

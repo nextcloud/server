@@ -67,7 +67,6 @@
 			return new OCA.Files.RecentFileList(
 				$el, {
 					fileActions: fileActions,
-					scrollContainer: $('#app-content')
 				}
 			);
 		},

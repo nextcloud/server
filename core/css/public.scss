@@ -44,4 +44,19 @@
 	.ie #content {
 		display: inline-block;
 	}
+
+
+	p.info {
+		margin: 20px auto;
+		text-shadow: 0 0 2px rgba(0, 0, 0, .4);
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	p.info, form fieldset legend,
+	#datadirContent label,
+	form fieldset .warning-info,
+	form input[type='checkbox']+label {
+		text-align: center;
+	}
 }

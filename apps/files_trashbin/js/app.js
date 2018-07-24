@@ -26,7 +26,6 @@ OCA.Trashbin.App = {
 		var urlParams = OC.Util.History.parseUrlQuery();
 		this.fileList = new OCA.Trashbin.FileList(
 			$('#app-content-trashbin'), {
-				scrollContainer: $('#app-content'),
 				fileActions: this._createFileActions(),
 				detailsViewEnabled: false,
 				scrollTo: urlParams.scrollto,

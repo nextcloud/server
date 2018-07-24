@@ -20,7 +20,7 @@
 
 	/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
 	#app-navigation {
-		transform: translateX(-250px);
+		transform: translateX(-#{$navigation-width});
 	}
 	.snapjs-left {
 		#app-navigation {
@@ -28,8 +28,8 @@
 		}
 	}
 
-	#app-content {
-		margin-left: -$navigation-width;
+	#app-navigation + #app-content {
+		margin-left: 0;
 	}
 
 

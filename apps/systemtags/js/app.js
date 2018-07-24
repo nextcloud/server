@@ -27,7 +27,6 @@
 				$el,
 				{
 					id: 'systemtags',
-					scrollContainer: $('#app-content'),
 					fileActions: this._createFileActions(),
 					config: OCA.Files.App.getFilesConfig()
 				}
