@@ -14,6 +14,7 @@ OC.L10N.register(
     "Backup code" : "Öryggisafritunarkóði",
     "Use backup code" : "Nota öryggisafritunarkóða",
     "Two factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
+    "A two-factor auth backup codes provider" : "Útgefandi tveggja-þrepa öryggisafritunarkóða",
     "Second-factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
