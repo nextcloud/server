@@ -203,6 +203,49 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => 'pinned',
 			],
+			'shareoverview' => [
+				'id' => 'shareoverview',
+				'appname' => 'files_sharing',
+				'script' => 'list.php',
+				'order' => 18,
+				'name' => \OC::$server->getL10N('files_sharing')->t('Shares'),
+				'classes' => 'collapsible',
+				'sublist' => [
+					[
+					'id' => 'sharingout',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 16,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Shared with others'),
+					],
+					[
+					'id' => 'sharingin',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 15,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Shared with you'),
+					],
+					[
+						'id' => 'sharinglinks',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 17,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Shared by link', []),
+					],
+					[
+						'id' => 'deletedshares',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 19,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Deleted shares'),
+					],
+				],
+				'active' => false,
+				'icon' => '',
+				'type' => 'link',
+				'expandedState' => 'show_sharing_menu',
+				'defaultExpandedState' => false,
+			]
 		]);
 
 		$expected = new Http\TemplateResponse(
@@ -238,6 +281,26 @@ class ViewControllerTest extends TestCase {
 					],
 					'trashbin' => [
 						'id' => 'trashbin',
+						'content' => null,
+					],
+					'sharingout' => [
+						'id' => 'sharingout',
+						'content' => null,
+					],
+					'sharingin' => [
+						'id' => 'sharingin',
+						'content' => null,
+					],
+					'sharinglinks' => [
+						'id' => 'sharinglinks',
+						'content' => null,
+					],
+					'deletedshares' => [
+						'id' => 'deletedshares',
+						'content' => null,
+					],
+					'shareoverview' => [
+						'id' => 'shareoverview',
 						'content' => null,
 					],
 				],
