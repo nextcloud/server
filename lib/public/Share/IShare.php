@@ -312,6 +312,29 @@ interface IShare {
 	 */
 	public function getPassword();
 
+
+	/**
+	 * Set if the recipient can start a conversation with the owner to get the
+	 * password using Nextcloud Talk.
+	 *
+	 * @param bool $sendPasswordByTalk
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 14.0.0
+	 */
+	public function setSendPasswordByTalk(bool $sendPasswordByTalk);
+
+	/**
+	 * Get if the recipient can start a conversation with the owner to get the
+	 * password using Nextcloud Talk.
+	 * The returned value does not take into account other factors, like Talk
+	 * being enabled for the owner of the share or not; it just cover whether
+	 * the option is enabled for the share itself or not.
+	 *
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function getSendPasswordByTalk(): bool;
+
 	/**
 	 * Set the public link token.
 	 *
