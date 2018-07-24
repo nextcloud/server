@@ -150,11 +150,6 @@ class Scanner extends PublicEmitter {
 				continue;
 			}
 
-			// don't scan the root storage
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Local') && $mount->getMountPoint() === '/') {
-				continue;
-			}
-
 			// don't scan received local shares, these can be scanned when scanning the owner's storage
 			if ($storage->instanceOfStorage(SharedStorage::class)) {
 				continue;
