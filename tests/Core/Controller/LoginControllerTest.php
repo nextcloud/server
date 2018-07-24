@@ -286,7 +286,52 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('LdapUser', '', ''));
 	}
 
-	public function testShowLoginFormForUserNamedNull() {
+	/**
+	 * Asserts that a disabled user can't login and gets the expected response.
+	 */
+	public function testLoginForDisabledUser() {
+		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('uid');
+		$user->method('isEnabled')
+			->willReturn(false);
+
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(true);
+
+		$this->userSession
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		$loginName = 'iMDisabled';
+		$password = 'secret';
+
+		$this->session
+			->expects($this->once())
+			->method('set')
+			->with('loginMessages', [
+				[LoginController::LOGIN_MSG_USERDISABLED], []
+			]);
+
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with($loginName)
+			->willReturn($user);
+
+		$expected = new RedirectResponse('');
+		$expected->throttle(['user' => $loginName]);
+
+		$response =	$this->loginController->tryLogin(
+			$loginName, $password, null, false, 'Europe/Berlin', '1'
+		);
+		$this->assertEquals($expected, $response);
+	}
+
+	public function testShowLoginFormForUserNamed0() {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -297,8 +342,7 @@ class LoginControllerTest extends TestCase {
 			->with('lost_password_link')
 			->willReturn(false);
 		$user = $this->createMock(IUser::class);
-		$user
-			->expects($this->once())
+		$user->expects($this->once())
 			->method('canChangePassword')
 			->willReturn(false);
 		$this->userManager

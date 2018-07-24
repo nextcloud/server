@@ -2,6 +2,8 @@
 <?php
 vendor_script('jsTimezoneDetect/jstz');
 script('core', 'merged-login');
+
+use OC\Core\Controller\LoginController;
 ?>
 
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
@@ -34,7 +36,7 @@ script('core', 'merged-login');
 			<!-- the following div ensures that the spinner is always inside the #message div -->
 			<div style="clear: both;"></div>
 		</div>
-		<p class="grouptop<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
+		<p class="grouptop<?php if (!empty($_[LoginController::LOGIN_MSG_INVALIDPASSWORD])) { ?> shake<?php } ?>">
 			<input type="text" name="user" id="user"
 				placeholder="<?php p($l->t('Username or email')); ?>"
 				aria-label="<?php p($l->t('Username or email')); ?>"
@@ -44,7 +46,7 @@ script('core', 'merged-login');
 			<label for="user" class="infield"><?php p($l->t('Username or email')); ?></label>
 		</p>
 
-		<p class="groupbottom<?php if (!empty($_['invalidpassword'])) { ?> shake<?php } ?>">
+		<p class="groupbottom<?php if (!empty($_[LoginController::LOGIN_MSG_INVALIDPASSWORD])) { ?> shake<?php } ?>">
 			<input type="password" name="password" id="password" value=""
 				placeholder="<?php p($l->t('Password')); ?>"
 				aria-label="<?php p($l->t('Password')); ?>"
@@ -58,9 +60,13 @@ script('core', 'merged-login');
 			<div class="submit-icon icon-confirm-white"></div>
 		</div>
 
-		<?php if (!empty($_['invalidpassword'])) { ?>
+		<?php if (!empty($_[LoginController::LOGIN_MSG_INVALIDPASSWORD])) { ?>
 			<p class="warning wrongPasswordMsg">
 				<?php p($l->t('Wrong password.')); ?>
+			</p>
+		<?php } else if (!empty($_[LoginController::LOGIN_MSG_USERDISABLED])) { ?>
+			<p class="warning userDisabledMsg">
+				<?php p(\OC::$server->getL10N('lib')->t('User disabled')); ?>
 			</p>
 		<?php } ?>
 

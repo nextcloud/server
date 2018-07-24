@@ -28,6 +28,12 @@ Feature: login
     Then I see that the current page is the Login page
     And I see that a wrong password message is shown
 
+  Scenario: try to log in as disabled user
+    Given I visit the Home page
+    When I log in with user disabledUser and password 123456acb
+    Then I see that the current page is the Login page
+    And I see that the disabled user message is shown
+
   Scenario: log in with invalid user once fixed by admin
     Given I act as John
     And I can not log in with user unknownUser and password 123456acb
