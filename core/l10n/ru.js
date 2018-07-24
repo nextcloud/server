@@ -105,6 +105,7 @@ OC.L10N.register(
     "Pending" : "Ожидание",
     "Copy to {folder}" : "Копировать в {folder}",
     "Move to {folder}" : "Переместить в {folder}",
+    "View changelog" : "Смотреть изменения",
     "Very weak password" : "Очень слабый пароль",
     "Weak password" : "Слабый пароль",
     "So-so password" : "Так себе пароль",

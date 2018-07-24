@@ -1,4 +1,8 @@
 { "translations": {
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "URL pro přesměrování musí být uvedeno celé, např. https://yourdomain.com/path",
+    "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "Umožňuje OAuth2 autentikaci jiným webovým aplikacím.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Aplikace OAuth2 umožňuje administrátorům nastavit zabudované autentizační workflow tak, aby OAuth2 kompatibilní webové aplikace mohy autentizovat.",
     "OAuth 2.0 clients" : "OAuth 2.0 klienti",
     "Name" : "Název",
     "Client Identifier" : "Identifikátor klienta",
