@@ -80,7 +80,7 @@ class IconsCacherTest extends \Test\TestCase {
 	public function testGetIconsFromValidCss() {
 		$css = "
 			icon.test {
-				--icon-test: url('/svg/core/actions/add/000');
+				--icon-test: url('/svg/core/actions/add/000?v=1');
 				background-image: var(--icon-test);
 			}
 		";
@@ -104,7 +104,7 @@ class IconsCacherTest extends \Test\TestCase {
 	public function testSetIconsFromValidCss() {
 		$css = "
 			icon.test {
-				--icon-test: url('/svg/core/actions/add/000');
+				--icon-test: url('/svg/core/actions/add/000?v=1');
 				background-image: var(--icon-test);
 			}
 		";
@@ -121,6 +121,31 @@ class IconsCacherTest extends \Test\TestCase {
 			->willReturn($iconsFile);
 		
 		$actual = $this->iconsCacher->setIconsCss($css);
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testSetIconsFromValidCssMultipleTimes() {
+		$css = "
+			icon.test {
+				--icon-test: url('/svg/core/actions/add/000?v=1');
+				background-image: var(--icon-test);
+			}
+		";
+		$expected = "
+			icon.test {
+				
+				background-image: var(--icon-test);
+			}
+		";
+
+		$iconsFile = $this->createMock(ISimpleFile::class);
+		$this->folder->expects($this->exactly(3))
+			->method('getFile')
+			->willReturn($iconsFile);
+		
+		$actual = $this->iconsCacher->setIconsCss($css);
+		$actual = $this->iconsCacher->setIconsCss($actual);
+		$actual = $this->iconsCacher->setIconsCss($actual);
 		$this->assertEquals($expected, $actual);
 	}
 
