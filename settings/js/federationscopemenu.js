@@ -55,7 +55,7 @@
 					name: 'contacts',
 					displayName: t('settings', 'Contacts'),
 					tooltip: t('settings', 'Visible to local users and to trusted servers'),
-					icon: OC.imagePath('core', 'places/contacts-dark'),
+					icon: OC.imagePath('core', 'places/contacts'),
 					active: false
 				},
 				{

@@ -186,7 +186,7 @@ function addSelect2 ($elements, userListLimit) {
 				.attr('data-name', element.name)
 				.attr('data-displayname', element.displayname);
 			if (element.type === 'group') {
-				var url = OC.imagePath('core','places/contacts-dark'); // TODO better group icon
+				var url = OC.imagePath('core','actions/group');
 				$div.html('<img width="32" height="32" src="'+url+'">');
 			}
 			return $result.get(0).outerHTML;

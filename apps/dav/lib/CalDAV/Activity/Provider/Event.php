@@ -87,7 +87,7 @@ class Event extends Base {
 		if ($this->activityManager->getRequirePNG()) {
 			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.png')));
 		} else {
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.svg')));
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar.svg')));
 		}
 
 		if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_event') {
