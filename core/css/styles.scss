@@ -794,7 +794,12 @@ span.ui-icon {
 		background-size: 16px 16px;
 		padding: 14px;
 		cursor: pointer;
-		opacity: .6;
+
+		&:hover,
+		&:focus,
+		&:active {
+			opacity: 1 !important;
+		}
 	}
 }
 
@@ -1026,6 +1031,8 @@ div.crumb {
 		}
 	}
 	&:hover, &:focus, a:focus, &:active {
+		opacity: 1;
+
 		> a,
 		> span {
 			opacity: .7;

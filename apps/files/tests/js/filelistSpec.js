@@ -2429,7 +2429,7 @@ describe('OCA.Files.FileList tests', function() {
 			);
 			fileList.fileActions.setDefault('text/plain', 'Test');
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 			expect(actionStub.calledOnce).toEqual(true);
 			expect(updateDetailsViewStub.notCalled).toEqual(true);
 			updateDetailsViewStub.restore();
@@ -2437,14 +2437,14 @@ describe('OCA.Files.FileList tests', function() {
 		it('highlights current file when clicked and updates sidebar', function() {
 			fileList.fileActions.setDefault('text/plain', 'Test');
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 			expect($tr.hasClass('highlighted')).toEqual(true);
 
 			expect(fileList._detailsView.getFileInfo().id).toEqual(1);
 		});
 		it('keeps the last highlighted file when clicking outside', function() {
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 
 			fileList.$el.find('tfoot').click();
 
@@ -2455,12 +2455,12 @@ describe('OCA.Files.FileList tests', function() {
 			var $tr = fileList.findFileEl('One.txt');
 
 			// select
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 			$tr.find('input:checkbox').click();
 			expect($tr.hasClass('highlighted')).toEqual(false);
 
 			// deselect
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 			$tr.find('input:checkbox').click();
 			expect($tr.hasClass('highlighted')).toEqual(false);
 
@@ -2470,12 +2470,12 @@ describe('OCA.Files.FileList tests', function() {
 			var $tr = fileList.findFileEl('One.txt');
 
 			// select
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 			fileList.$el.find('.select-all.checkbox').click();
 			expect($tr.hasClass('highlighted')).toEqual(false);
 
 			// deselect
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 			fileList.$el.find('.select-all.checkbox').click();
 			expect($tr.hasClass('highlighted')).toEqual(false);
 
@@ -2484,7 +2484,7 @@ describe('OCA.Files.FileList tests', function() {
 		it('closes sidebar whenever the currently highlighted file was removed from the list', function() {
 			jQuery.fx.off = true;
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 			expect($tr.hasClass('highlighted')).toEqual(true);
 
 			expect(fileList._detailsView.getFileInfo().id).toEqual(1);
@@ -2497,7 +2497,7 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('returns the currently selected model instance when calling getModelForFile', function() {
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 
 			var model1 = fileList.getModelForFile('One.txt');
 			var model2 = fileList.getModelForFile('One.txt');
@@ -2512,7 +2512,7 @@ describe('OCA.Files.FileList tests', function() {
 		it('closes the sidebar when switching folders', function() {
 			jQuery.fx.off = true;
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filesize').click();
 
 			expect($('#app-sidebar').hasClass('disappear')).toEqual(false);
 			fileList.changeDirectory('/another');
@@ -2561,7 +2561,7 @@ describe('OCA.Files.FileList tests', function() {
 			// not set.
 			fileList.fileActions.currentFile = null;
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('td.filename a.name').click();
+			$tr.find('td.filesize').click();
 			expect(detailsActionStub.calledOnce).toEqual(true);
 			expect(detailsActionStub.getCall(0).args[0]).toEqual('One.txt');
 			var context = detailsActionStub.getCall(0).args[1];

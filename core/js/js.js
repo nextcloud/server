@@ -684,9 +684,14 @@ var OCP = {},
 	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
-		$toggle.on('click.menu', function(event) {
+		$toggle.on('click.menu keyup.menu', function(event) {
 			// prevent the link event (append anchor to URL)
 			event.preventDefault();
+
+			// allow enter key as a trigger
+			if (event.key && event.key !== "Enter") {
+				return;
+			}
 
 			if ($menuEl.is(OC._currentMenu)) {
 				self.hideMenus();
@@ -1422,7 +1427,14 @@ function initCore() {
 	OC.registerMenu($('#expand'), $('#expanddiv'), false, true);
 
 	// toggle for menus
+	//$(document).on('mouseup.closemenus keyup', function(event) {
 	$(document).on('mouseup.closemenus', function(event) {
+
+		// allow enter as a trigger
+		// if (event.key && event.key !== "Enter") {
+		// 	return;
+		// }
+
 		var $el = $(event.target);
 		if ($el.closest('.menu').length || $el.closest('.menutoggle').length) {
 			// don't close when clicking on the menu directly or a menu toggle
@@ -1617,14 +1629,27 @@ function initCore() {
 			maxPosition: 300, // $navigation-width
 			minDragDistance: 100
 		});
-		$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;"></div>');
-		$('#app-navigation-toggle').click(function(){
+
+		$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;" tabindex="0"></div>');
+
+		var toggleSnapperOnButton = function(){
 			if(snapper.state().state == 'left'){
 				snapper.close();
 			} else {
 				snapper.open('left');
 			}
+		};
+
+		$('#app-navigation-toggle').click(function(){
+			toggleSnapperOnButton();
 		});
+
+		$('#app-navigation-toggle').keypress(function(e) {
+			if(e.which == 13) {
+				toggleSnapperOnButton();
+			}
+		});
+
 		// close sidebar when switching navigation entry
 		var $appNavigation = $('#app-navigation');
 		$appNavigation.delegate('a, :button', 'click', function(event) {
