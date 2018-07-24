@@ -86,6 +86,9 @@ class DeletedShareAPIController extends OCSController {
 		$this->serverContainer = $serverContainer;
 	}
 
+	/**
+	 * @suppress PhanUndeclaredClassMethod
+	 */
 	private function formatShare(IShare $share): array {
 
 		$result = [

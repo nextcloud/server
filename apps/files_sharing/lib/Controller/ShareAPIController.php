@@ -141,6 +141,8 @@ class ShareAPIController extends OCSController {
 	 * @param Node|null $recipientNode
 	 * @return array
 	 * @throws NotFoundException In case the node can't be resolved.
+	 *
+	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function formatShare(\OCP\Share\IShare $share, Node $recipientNode = null): array {
 		$sharedBy = $this->userManager->get($share->getSharedBy());
@@ -914,6 +916,9 @@ class ShareAPIController extends OCSController {
 		return new DataResponse($this->formatShare($share));
 	}
 
+	/**
+	 * @suppress PhanUndeclaredClassMethod
+	 */
 	protected function canAccessShare(\OCP\Share\IShare $share, bool $checkGroups = true): bool {
 		// A file with permissions 0 can't be accessed by us. So Don't show it
 		if ($share->getPermissions() === 0) {
