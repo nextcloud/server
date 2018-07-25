@@ -391,7 +391,7 @@ kbd {
 		}
 		&:before,
 		> a {
-			transition: background 100ms ease-in-out,
+			transition: background-position 100ms ease-in-out,
 						transform 250ms ease-in-out,
 						opacity 100ms ease-in-out;
 		}
