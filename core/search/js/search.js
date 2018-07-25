@@ -52,10 +52,13 @@
 			var self = this;
 
 			if (typeof searchCallback !== 'function') {
-				throw 'searchCallback must be a function';
+				throw new Error('searchCallback must be a function');
 			}
 			if (typeof resetCallback !== 'function') {
-				throw 'resetCallback must be a function';
+				throw new Error('resetCallback must be a function');
+			}
+			if (!document.getElementById('searchbox')) {
+				throw new Error('searchBox not available');
 			}
 
 			this.searchCallback = searchCallback;
