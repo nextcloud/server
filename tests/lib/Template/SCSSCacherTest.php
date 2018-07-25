@@ -259,7 +259,10 @@ class SCSSCacherTest extends \Test\TestCase {
 		$folder = $this->createMock(ISimpleFolder::class);
 
 		$folder->expects($this->at(0))->method('getFile')->with($fileNameCSS)->willThrowException(new NotFoundException());
-		$actual = self::invokePrivate($this->scssCacher, 'isCached', [$fileNameCSS, $folder]);
+		$this->appData->expects($this->any())
+			->method('getFolder')
+			->willReturn($folder);
+		$actual = self::invokePrivate($this->scssCacher, 'isCached', [$fileNameCSS, 'core']);
 		$this->assertFalse($actual);
 	}
 
@@ -280,7 +283,10 @@ class SCSSCacherTest extends \Test\TestCase {
 				}
 			}));
 
-		$actual = self::invokePrivate($this->scssCacher, 'isCached', [$fileNameCSS, $folder]);
+		$this->appData->expects($this->any())
+			->method('getFolder')
+			->willReturn($folder);
+		$actual = self::invokePrivate($this->scssCacher, 'isCached', [$fileNameCSS, 'core']);
 		$this->assertFalse($actual);
 	}
 	public function testCacheNoFile() {
