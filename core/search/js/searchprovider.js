@@ -413,26 +413,27 @@
 
 $(document).ready(function() {
 	var $searchResults = $('#searchresults');
-	if ($searchResults.length > 0) {
+	var $searchBox = $('#searchbox');
+	if ($searchResults.length > 0 && $searchBox.length > 0) {
 		$searchResults.addClass('hidden');
-		$('#app-content')
-			.find('.viewcontainer')
-			.css('min-height', 'initial');
 		$searchResults.load(
 			OC.webroot + '/core/search/templates/part.results.html',
 			function() {
 				OC.Search = new OCA.Search.Core(
-					$('#searchbox'),
-					$('#searchresults')
+					$searchBox,
+					$searchResults
 				);
 			}
 		);
 	} else {
+		// check again later
 		_.defer(function() {
-			OC.Search = new OCA.Search.Core(
-				$('#searchbox'),
-				$('#searchresults')
-			);
+			if ($searchResults.length > 0 && $searchBox.length > 0) {
+				OC.Search = new OCA.Search.Core(
+					$searchBox,
+					$searchResults
+				);
+			}
 		});
 	}
 });
