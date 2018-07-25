@@ -149,14 +149,14 @@
     "Files and folders you mark as favorite will show up here" : "Aquí aparecerán los archivos y carpetas que usted marque como favoritos",
     "Tags" : "Etiquetas",
     "Deleted files" : "Archivos eliminados",
+    "Shared with others" : "Compartido con otros",
+    "Shared with you" : "Compartido contigo",
+    "Shared by link" : "Compartido por enlace",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo de texto.txt",
     "Move" : "Mover",
     "A new file or folder has been <strong>deleted</strong>" : "Se ha <strong>borrado</strong> un nuevo archivo o carpeta",
     "A new file or folder has been <strong>restored</strong>" : "Se ha <strong>restaurado</strong> un nuevo archivo o carpeta",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utiliza esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">acceder a tus archivos vía WebDAV</a>",
-    "Shared with you" : "Compartido contigo",
-    "Shared with others" : "Compartido con otros",
-    "Shared by link" : "Compartido por enlace"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utiliza esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">acceder a tus archivos vía WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

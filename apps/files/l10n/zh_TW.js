@@ -149,14 +149,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "您標記為最愛的檔案與資料夾將會顯示在這裡",
     "Tags" : "標籤",
     "Deleted files" : "回收桶",
+    "Shared with others" : "與其他人分享",
+    "Shared with you" : "與您分享",
+    "Shared by link" : "由連結分享",
     "Text file" : "文字檔",
     "New text file.txt" : "新文字檔.txt",
     "Move" : "移動",
     "A new file or folder has been <strong>deleted</strong>" : "一個新的檔案或資料夾已經被<strong>刪除</strong>",
     "A new file or folder has been <strong>restored</strong>" : "一個新的檔案或資料夾已經被<strong>還原</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用這個地址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">透過 WebDAV 存取您的檔案</a>",
-    "Shared with you" : "與您分享",
-    "Shared with others" : "與其他人分享",
-    "Shared by link" : "由連結分享"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用這個地址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">透過 WebDAV 存取您的檔案</a>"
 },
 "nplurals=1; plural=0;");

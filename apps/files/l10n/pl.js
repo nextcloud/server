@@ -149,14 +149,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Pliki i katalogi, które oznaczysz jako ulubione wyświetlą się tutaj",
     "Tags" : "Tagi",
     "Deleted files" : "Usunięte pliki",
+    "Shared with others" : "Udostępnione przez Ciebie",
+    "Shared with you" : "Udostępnione dla Ciebie",
+    "Shared by link" : "Udostępnione przez link",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "Move" : "Przenieś",
     "A new file or folder has been <strong>deleted</strong>" : "Nowy plik lub folder został <strong>usunięty</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nowy plik lub folder został <strong>odtworzony</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Użyj swojego adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">aby mieć dostęp do Plików przez WebDAV",
-    "Shared with you" : "Udostępnione dla Ciebie",
-    "Shared with others" : "Udostępnione przez Ciebie",
-    "Shared by link" : "Udostępnione przez link"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Użyj swojego adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">aby mieć dostęp do Plików przez WebDAV"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

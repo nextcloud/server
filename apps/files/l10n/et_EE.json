@@ -140,14 +140,14 @@
     "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
     "Tags" : "Sildid",
     "Deleted files" : "Kustutatud failid",
+    "Shared with others" : "Teistega jagatud",
+    "Shared with you" : "Sinuga jagatud",
+    "Shared by link" : "Jagatud lingiga",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
     "Move" : "Liiguta",
     "A new file or folder has been <strong>deleted</strong>" : "Uus fail või kaust on <strong>kustutatud</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Uus fail või kaust on <strong>taastatud</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">oma failidele WebDAVi kaudu ligi pääseda</a>",
-    "Shared with you" : "Sinuga jagatud",
-    "Shared with others" : "Teistega jagatud",
-    "Shared by link" : "Jagatud lingiga"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">oma failidele WebDAVi kaudu ligi pääseda</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -144,11 +144,11 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "收藏的文件和文件夹会在这里显示",
     "Tags" : "标签",
     "Deleted files" : "已删除的文件",
+    "Shared with others" : "与他人共享",
+    "Shared with you" : "与您共享",
+    "Shared by link" : "通过链接共享",
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文件.txt",
-    "Move" : "移动",
-    "Shared with you" : "与您共享",
-    "Shared with others" : "与他人共享",
-    "Shared by link" : "通过链接共享"
+    "Move" : "移动"
 },
 "nplurals=1; plural=0;");

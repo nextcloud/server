@@ -139,10 +139,10 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Los archivos y carpetas que marques como favoritos se mostrarán aquí. ",
     "Tags" : "Etiquetas",
     "Deleted files" : "Archivos borrados",
-    "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "Shared with you" : "Compartido con usted",
     "Shared with others" : "Compartido con otros",
-    "Shared by link" : "Compartido por liga"
+    "Shared with you" : "Compartido con usted",
+    "Shared by link" : "Compartido por liga",
+    "Text file" : "Archivo de texto",
+    "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
 },
 "nplurals=2; plural=(n != 1);");

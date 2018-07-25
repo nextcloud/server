@@ -94,11 +94,11 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Dosieroj kaj dosierujoj, kiujn vi markas, kiel pliŝatoj, aperos ĉi tie",
     "Tags" : "Etikedoj",
     "Deleted files" : "Forigitaj dosieroj",
+    "Shared with others" : "Kunhavata kun aliaj",
+    "Shared with you" : "Kunhavata kun vi",
+    "Shared by link" : "Kunhavata per ligilo",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "Move" : "Movi",
-    "Shared with you" : "Kunhavata kun vi",
-    "Shared with others" : "Kunhavata kun aliaj",
-    "Shared by link" : "Kunhavata per ligilo"
+    "Move" : "Movi"
 },
 "nplurals=2; plural=(n != 1);");

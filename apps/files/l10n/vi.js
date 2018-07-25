@@ -121,10 +121,10 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Các tệp và thư mục mà bạn đánh dấu là yêu thích sẽ hiển thị ở đây",
     "Tags" : "Nhãn",
     "Deleted files" : "Thùng rác",
-    "Text file" : "Tập tin văn bản",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> để truy cập các Tập tin của bạn qua WebDAV</a>",
-    "Shared with you" : "Đã chia sẻ với bạn",
     "Shared with others" : "Chia sẻ với người khác",
-    "Shared by link" : "Được chia sẻ bởi liên kết"
+    "Shared with you" : "Đã chia sẻ với bạn",
+    "Shared by link" : "Được chia sẻ bởi liên kết",
+    "Text file" : "Tập tin văn bản",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> để truy cập các Tập tin của bạn qua WebDAV</a>"
 },
 "nplurals=1; plural=0;");

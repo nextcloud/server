@@ -147,14 +147,14 @@
     "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem eftirlæti birtast hér",
     "Tags" : "Merki",
     "Deleted files" : "Eyddar skrár",
+    "Shared with others" : "Deilt með öðrum",
+    "Shared with you" : "Deilt með þér",
+    "Shared by link" : "Deilt með tengli",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
     "Move" : "Færa",
     "A new file or folder has been <strong>deleted</strong>" : "Nýrri skrá eða möppu hefur verið  <strong>eytt</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Ný skrá eða mappa hefur verið <strong>endurheimt</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>",
-    "Shared with you" : "Deilt með þér",
-    "Shared with others" : "Deilt með öðrum",
-    "Shared by link" : "Deilt með tengli"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

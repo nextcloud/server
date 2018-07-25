@@ -136,10 +136,10 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Gogokotzat markatutako fitxategi eta karpeta hemen agertuko dira",
     "Tags" : "Etiketak",
     "Deleted files" : "Ezabatutako fitxategiak",
-    "Text file" : "Testu fitxategia",
-    "New text file.txt" : ".txt testu fitxategi berria",
-    "Shared with you" : "Zurekin partekatuta",
     "Shared with others" : "Besteekin partekatuta",
-    "Shared by link" : "Partekatua link bidez"
+    "Shared with you" : "Zurekin partekatuta",
+    "Shared by link" : "Partekatua link bidez",
+    "Text file" : "Testu fitxategia",
+    "New text file.txt" : ".txt testu fitxategi berria"
 },
 "nplurals=2; plural=(n != 1);");

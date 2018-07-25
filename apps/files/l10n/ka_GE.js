@@ -149,14 +149,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "აქ გამოჩნდებიან ფაილები და დირექტორიები, რომლებსაც მონიშნავთ რჩეულებად",
     "Tags" : "ტეგები",
     "Deleted files" : "გაუქმებული ფაილები",
+    "Shared with others" : "გაზიარდა სხვებთან",
+    "Shared with you" : "გაზიარდა თქვენთან",
+    "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
     "Move" : "გადატანა",
     "A new file or folder has been <strong>deleted</strong>" : "ახალი ფაილი ან დირექტორია <strong>გაუქმდა</strong>",
     "A new file or folder has been <strong>restored</strong>" : "ახალი ფაილი ან დირექტორია <strong>აღდგენილ იქნა</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "გამოიყენეთ ეს მისამართი რომ <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">წვდომა იქოინოთ თქვენს ფაილებთან WebDAV-ით</a>",
-    "Shared with you" : "გაზიარდა თქვენთან",
-    "Shared with others" : "გაზიარდა სხვებთან",
-    "Shared by link" : "გაზიარდა ბმულით"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "გამოიყენეთ ეს მისამართი რომ <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">წვდომა იქოინოთ თქვენს ფაილებთან WebDAV-ით</a>"
 },
 "nplurals=2; plural=(n!=1);");

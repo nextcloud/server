@@ -149,14 +149,14 @@
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "Tags" : "תגיות",
     "Deleted files" : "קבצים שנמחקו",
+    "Shared with others" : "משותף עם אחרים",
+    "Shared with you" : "משותף אתך",
+    "Shared by link" : "משותף על ידי קישור",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Move" : "העברה",
     "A new file or folder has been <strong>deleted</strong>" : "קובץ או תיקייה חדשים <strong>נמחקו</strong>",
     "A new file or folder has been <strong>restored</strong>" : "קובץ או תיקייה חדשים <strong>שוחזרו</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">לגשת לקבצים שלך דרך WebDAV</a>",
-    "Shared with you" : "משותף אתך",
-    "Shared with others" : "משותף עם אחרים",
-    "Shared by link" : "משותף על ידי קישור"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">לגשת לקבצים שלך דרך WebDAV</a>"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

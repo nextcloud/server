@@ -141,10 +141,10 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Filer och mappar markerade som favoriter kommer att visas här",
     "Tags" : "Taggar",
     "Deleted files" : "Raderade filer",
-    "Text file" : "Textfil",
-    "New text file.txt" : "nytextfil.txt",
-    "Shared with you" : "Delad med dig",
     "Shared with others" : "Delad med andra",
-    "Shared by link" : "Delad via länk"
+    "Shared with you" : "Delad med dig",
+    "Shared by link" : "Delad via länk",
+    "Text file" : "Textfil",
+    "New text file.txt" : "nytextfil.txt"
 },
 "nplurals=2; plural=(n != 1);");

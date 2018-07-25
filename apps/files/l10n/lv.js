@@ -113,10 +113,10 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
     "Tags" : "Atzīmes",
     "Deleted files" : "Dzēstās datnes",
-    "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt",
-    "Shared with you" : "Koplietots ar tevi",
     "Shared with others" : "Koplietots ar citiem",
-    "Shared by link" : "Koplietots ar saiti"
+    "Shared with you" : "Koplietots ar tevi",
+    "Shared by link" : "Koplietots ar saiti",
+    "Text file" : "Teksta datne",
+    "New text file.txt" : "Jauna teksta datne.txt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
