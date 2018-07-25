@@ -254,6 +254,7 @@ class Updater extends BasicEmitter {
 
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
+		$this->upgradeAppStoreApps(\OC_App::$autoDisabledApps, true);
 
 		// install new shipped apps on upgrade
 		OC_App::loadApps(['authentication']);
@@ -434,9 +435,10 @@ class Updater extends BasicEmitter {
 
 	/**
 	 * @param array $disabledApps
+	 * @param bool $reenable
 	 * @throws \Exception
 	 */
-	private function upgradeAppStoreApps(array $disabledApps) {
+	private function upgradeAppStoreApps(array $disabledApps, $reenable = false) {
 		foreach($disabledApps as $app) {
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
@@ -445,6 +447,11 @@ class Updater extends BasicEmitter {
 					$this->installer->updateAppstoreApp($app);
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
+
+				if ($reenable) {
+					$ocApp = new \OC_App();
+					$ocApp->enable($app);
+				}
 			} catch (\Exception $ex) {
 				$this->log->logException($ex, ['app' => 'core']);
 			}
