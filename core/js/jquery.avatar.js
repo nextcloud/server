@@ -133,7 +133,11 @@
 			}
 		};
 
-		$div.addClass('icon-loading');
+		if (size < 32) {
+			$div.addClass('icon-loading-small');
+		} else {
+			$div.addClass('icon-loading');
+		}
 		img.width = size;
 		img.height = size;
 		img.src = url;
