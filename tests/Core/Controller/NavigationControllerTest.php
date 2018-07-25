@@ -69,7 +69,7 @@ class NavigationControllerTest extends TestCase {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('link')
-			->willReturn([ ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ]);
+			->willReturn(['files' => ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ]);
 		if ($absolute) {
 			$this->urlGenerator->expects($this->any())
 				->method('getBaseURL')
@@ -102,7 +102,7 @@ class NavigationControllerTest extends TestCase {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('settings')
-			->willReturn([ ['id' => 'settings', 'href' => '/index.php/settings/user', 'icon' => '/core/img/settings.svg'] ]);
+			->willReturn(['settings' => ['id' => 'settings', 'href' => '/index.php/settings/user', 'icon' => '/core/img/settings.svg'] ]);
 		if ($absolute) {
 			$this->urlGenerator->expects($this->any())
 				->method('getBaseURL')

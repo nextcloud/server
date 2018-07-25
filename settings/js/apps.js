@@ -6,7 +6,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			if(response.ocs.meta.status === 'ok') {
 				var addedApps = {};
 				var navEntries = response.ocs.data;
-				var container = $('#navigation #apps');
+				var container = $('#navigation #apps ul');
 
 				// remove disabled apps
 				for (var i = 0; i < navEntries.length; i++) {
