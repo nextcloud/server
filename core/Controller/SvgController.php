@@ -56,7 +56,7 @@ class SvgController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
 	 * Generate svg from filename with the requested color
@@ -72,7 +72,7 @@ class SvgController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
 	 * Generate svg from filename with the requested color
