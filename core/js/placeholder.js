@@ -169,5 +169,6 @@
 		this.css('font-size', '');
 		this.html('');
 		this.removeClass('icon-loading');
+		this.removeClass('icon-loading-small');
 	};
 }(jQuery));
