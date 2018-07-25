@@ -151,14 +151,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die als Favoriten markiert werden, erscheinen hier",
     "Tags" : "Schlagworte",
     "Deleted files" : "Gelöschte Dateien",
+    "Shared with others" : "Mit anderen geteilt",
+    "Shared with you" : "Mit Dir geteilt",
+    "Shared by link" : "Über einen Link geteilt",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Move" : "Verschieben",
     "A new file or folder has been <strong>deleted</strong>" : "Eine neue Datei oder Ordner wurde  <strong>gelöscht</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Eine neue Datei oder ein Ordner wurde <strong>wiederhergestellt</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">über WebDAV auf Deine Dateien zuzugreifen</a>",
-    "Shared with you" : "Mit Dir geteilt",
-    "Shared with others" : "Mit anderen geteilt",
-    "Shared by link" : "Über einen Link geteilt"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">über WebDAV auf Deine Dateien zuzugreifen</a>"
 },
 "nplurals=2; plural=(n != 1);");

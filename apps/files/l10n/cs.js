@@ -150,14 +150,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Zde budou zobrazeny soubory a adresáře označené jako oblíbené",
     "Tags" : "Značky",
     "Deleted files" : "Odstraněné soubory",
+    "Shared with others" : "Sdíleno s ostatními",
+    "Shared with you" : "Sdíleno s vámi",
+    "Shared by link" : "Sdíleno pomocí odkazu",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
     "Move" : "Přesunout",
     "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo adresář byl <strong>smazán</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo adresář byl <strong>obnoven</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použít tuto adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> pro přístup k souborům přes WebDAV</a>",
-    "Shared with you" : "Sdíleno s vámi",
-    "Shared with others" : "Sdíleno s ostatními",
-    "Shared by link" : "Sdíleno pomocí odkazu"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použít tuto adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> pro přístup k souborům přes WebDAV</a>"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

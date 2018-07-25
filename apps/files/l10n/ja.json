@@ -138,11 +138,11 @@
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "Tags" : "タグ",
     "Deleted files" : "ゴミ箱",
+    "Shared with others" : "他ユーザーと共有中",
+    "Shared with you" : "他ユーザーがあなたと共有中",
+    "Shared by link" : "URLリンクで共有中",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
-    "Move" : "移動",
-    "Shared with you" : "他ユーザーがあなたと共有中",
-    "Shared with others" : "他ユーザーと共有中",
-    "Shared by link" : "URLリンクで共有中"
+    "Move" : "移動"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

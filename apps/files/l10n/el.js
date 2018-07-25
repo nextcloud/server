@@ -138,11 +138,11 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα  θα εμφανιστούν εδώ ",
     "Tags" : "Ετικέτες",
     "Deleted files" : "Διεγραμμένα αρχεία",
+    "Shared with others" : "Διαμοιρασμένα με άλλους",
+    "Shared with you" : "Διαμοιρασμένα με εσάς",
+    "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "Move" : "Μετακίνηση",
-    "Shared with you" : "Διαμοιρασμένα με εσάς",
-    "Shared with others" : "Διαμοιρασμένα με άλλους",
-    "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου"
+    "Move" : "Μετακίνηση"
 },
 "nplurals=2; plural=(n != 1);");

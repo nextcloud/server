@@ -150,14 +150,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som foretrukne, vil blive vist her",
     "Tags" : "Mærker",
     "Deleted files" : "Slettede filer",
+    "Shared with others" : "Delt med andre",
+    "Shared with you" : "Delt med dig",
+    "Shared by link" : "Delt via link",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
     "Move" : "Flyt",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe er blevet <strong>slettet</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe er blevet <strong>gendannet</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">tilgå dine filer gennem WebDAV</a>",
-    "Shared with you" : "Delt med dig",
-    "Shared with others" : "Delt med andre",
-    "Shared by link" : "Delt via link"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">tilgå dine filer gennem WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

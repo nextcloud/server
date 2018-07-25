@@ -144,14 +144,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo zbrane na tem mestu.",
     "Tags" : "Oznake",
     "Deleted files" : "Izbrisane datoteke",
+    "Shared with others" : "V skupni rabi z ostalimi",
+    "Shared with you" : "V skupni rabi z vami",
+    "Shared by link" : "Deljeno s povezavo",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt",
     "Move" : "Premakni",
     "A new file or folder has been <strong>deleted</strong>" : "Nova datoteka ali mapa je bila <strong>izbrisana</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nova datoteka ali mapa je bila <strong>obnovljena</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Uporabite povezavo za<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dostop do datotek preko WebDAV</a>",
-    "Shared with you" : "V skupni rabi z vami",
-    "Shared with others" : "V skupni rabi z ostalimi",
-    "Shared by link" : "Deljeno s povezavo"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Uporabite povezavo za<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dostop do datotek preko WebDAV</a>"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

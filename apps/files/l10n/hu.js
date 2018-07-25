@@ -149,14 +149,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találod meg",
     "Tags" : "Címkék",
     "Deleted files" : "Törölt fájlok",
+    "Shared with others" : "Megosztva másokkal",
+    "Shared with you" : "Megosztva veled",
+    "Shared by link" : "Megosztva hivatkozással",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
     "Move" : "Áthelyezés",
     "A new file or folder has been <strong>deleted</strong>" : "Egy új fájl vagy mappa <strong>törölve</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Egy új fájl vagy mappa <strong>visszaállítva</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Használja ezt a címet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">a Fájlok eléréséhez WebDAV-on keresztül</a>.",
-    "Shared with you" : "Megosztva veled",
-    "Shared with others" : "Megosztva másokkal",
-    "Shared by link" : "Megosztva hivatkozással"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Használja ezt a címet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">a Fájlok eléréséhez WebDAV-on keresztül</a>."
 },
 "nplurals=2; plural=(n != 1);");

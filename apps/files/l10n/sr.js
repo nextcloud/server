@@ -151,14 +151,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Фајлови и фасцикле које обележите као омиљене појавиће се овде",
     "Tags" : "Ознаке",
     "Deleted files" : "Обрисани фајлови",
+    "Shared with others" : "Дељени са осталима",
+    "Shared with you" : "Дељени са вама",
+    "Shared by link" : "Дељени путем везе",
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Move" : "Премести",
     "A new file or folder has been <strong>deleted</strong>" : "Нови фајл или фасцикла су <strong>обрисани</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Нови фајл или фасцикла су <strong>враћени</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">приступате Вашим фајловима преко ВебДАВа</a>",
-    "Shared with you" : "Дељени са вама",
-    "Shared with others" : "Дељени са осталима",
-    "Shared by link" : "Дељени путем везе"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">приступате Вашим фајловима преко ВебДАВа</a>"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
