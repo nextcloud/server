@@ -55,7 +55,7 @@ class NavigationController extends OCSController {
 		if ($absolute) {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
-
+		$navigation = array_values($navigation);
 		$etag = $this->generateETag($navigation);
 		if ($this->request->getHeader('If-None-Match') === $etag) {
 			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
@@ -77,6 +77,7 @@ class NavigationController extends OCSController {
 		if ($absolute) {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
+		$navigation = array_values($navigation);
 		$etag = $this->generateETag($navigation);
 		if ($this->request->getHeader('If-None-Match') === $etag) {
 			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
