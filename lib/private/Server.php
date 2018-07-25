@@ -965,7 +965,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getThemingDefaults(),
 				\OC::$SERVERROOT,
 				$this->getMemCacheFactory(),
-				$c->query(IconsCacher::class)
+				$c->query(IconsCacher::class),
+				new TimeFactory()
 			);
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {
