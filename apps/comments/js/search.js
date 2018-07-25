@@ -88,7 +88,9 @@
 				$row.find('td.info div.name').after($pathDiv).text(result.comment).prepend($('<span>').addClass('path').css('margin-right', '5px').text(result.authorName)).prepend($avatar);
 				$row.find('td.result a').attr('href', result.link);
 
-				$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'actions/comment') + ')');
+				$row.find('td.icon')
+					.css('background-image', 'url(' + OC.imagePath('core', 'actions/comment') + ')')
+					.css('opacity', '.4');
 				var dir = OC.dirname(result.path);
 				if (dir === '') {
 					dir = '/';
