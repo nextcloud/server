@@ -386,7 +386,11 @@
 
 		_postRenderItem: function($el, editionMode) {
 			$el.find('.has-tooltip').tooltip();
-			$el.find('.avatar').each(function () {
+			var inlineAvatars = $el.find('.message .avatar');
+			if ($($el.context).hasClass('message')) {
+				inlineAvatars = $el.find('.avatar');
+			}
+			inlineAvatars.each(function () {
 				var $this = $(this);
 				$this.avatar($this.attr('data-username'), 16);
 			});
