@@ -151,14 +151,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Sık kullanılanlara eklediğiniz dosya ve klasörler burada görüntülenir",
     "Tags" : "Etiketler",
     "Deleted files" : "Silinmiş dosyalar",
+    "Shared with others" : "Diğerleri ile paylaşılan",
+    "Shared with you" : "Sizinle paylaşılan",
+    "Shared by link" : "Paylaşım bağlantısı",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "Move" : "Taşı",
     "A new file or folder has been <strong>deleted</strong>" : "Yeni bir dosya ya da klasör <strong>silindi</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Yeni bir dosya ya da klasör <strong>geri yüklendi</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bu adresi kullanın</a>",
-    "Shared with you" : "Sizinle paylaşılan",
-    "Shared with others" : "Diğerleri ile paylaşılan",
-    "Shared by link" : "Paylaşım bağlantısı"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bu adresi kullanın</a>"
 },
 "nplurals=2; plural=(n > 1);");

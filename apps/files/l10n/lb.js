@@ -115,10 +115,10 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Hei gesais du deng Favoriten",
     "Tags" : "Tags",
     "Deleted files" : "Geläschten Dateien",
-    "Text file" : "Text Fichier",
-    "New text file.txt" : "Neien Text file.txt",
-    "Shared with you" : "Mat dir gedeelt",
     "Shared with others" : "Mat aaneren gedeelt",
-    "Shared by link" : "Mat engem Link gedeelt"
+    "Shared with you" : "Mat dir gedeelt",
+    "Shared by link" : "Mat engem Link gedeelt",
+    "Text file" : "Text Fichier",
+    "New text file.txt" : "Neien Text file.txt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -150,14 +150,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Files and folders you mark as favourite will show up here",
     "Tags" : "Tags",
     "Deleted files" : "Deleted files",
+    "Shared with others" : "Shared with others",
+    "Shared with you" : "Shared with you",
+    "Shared by link" : "Shared by link",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
     "Move" : "Move",
     "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
     "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>",
-    "Shared with you" : "Shared with you",
-    "Shared with others" : "Shared with others",
-    "Shared by link" : "Shared by link"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

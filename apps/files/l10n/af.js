@@ -120,13 +120,13 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Lêers en gidse wat u as gunsteling merk sal hier vertoon word",
     "Tags" : "Merkers",
     "Deleted files" : "Geskrapte lêers",
+    "Shared with others" : "Gedeel met ander",
+    "Shared with you" : "Met u gedeel",
+    "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
     "Move" : "Skuif",
     "A new file or folder has been <strong>deleted</strong>" : "'n Nuwe lêer of gids is <strong>geskrap</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "'n Nuwe lêer of gids is <strong>herstel</strong>",
-    "Shared with you" : "Met u gedeel",
-    "Shared with others" : "Gedeel met ander",
-    "Shared by link" : "Gedeel per skakel"
+    "A new file or folder has been <strong>restored</strong>" : "'n Nuwe lêer of gids is <strong>herstel</strong>"
 },
 "nplurals=2; plural=(n != 1);");

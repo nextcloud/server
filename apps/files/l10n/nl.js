@@ -149,14 +149,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die je als favoriet aanmerkt, worden hier getoond",
     "Tags" : "Tags",
     "Deleted files" : "Verwijderde bestanden",
+    "Shared with others" : "Gedeeld met anderen",
+    "Shared with you" : "Gedeeld met jou",
+    "Shared by link" : "Gedeeld via link",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Move" : "Verplaatsen",
     "A new file or folder has been <strong>deleted</strong>" : "Een nieuw bestand of nieuwe map is <strong>verwijderd</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Een nieuw bestand of een nieuwe map is <strong>hersteld</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Gebruik deze link om je <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bestanden via WebDAV te benaderen</a>",
-    "Shared with you" : "Gedeeld met jou",
-    "Shared with others" : "Gedeeld met anderen",
-    "Shared by link" : "Gedeeld via link"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Gebruik deze link om je <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bestanden via WebDAV te benaderen</a>"
 },
 "nplurals=2; plural=(n != 1);");

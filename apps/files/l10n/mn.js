@@ -109,9 +109,9 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч.",
     "Tags" : "Тэгүүд",
     "Deleted files" : "Устгасан файлууд",
-    "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt",
     "Shared with others" : "Бусдад түгээсэн",
-    "Shared by link" : "Холбоосоор түгээсэн"
+    "Shared by link" : "Холбоосоор түгээсэн",
+    "Text file" : "текст файл",
+    "New text file.txt" : "шинэ текст file.txt"
 },
 "nplurals=2; plural=(n != 1);");

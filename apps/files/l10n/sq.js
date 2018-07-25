@@ -126,10 +126,10 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
     "Tags" : "Etiketë",
     "Deleted files" : "Skedar të fshirë",
-    "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt",
-    "Shared with you" : "E ndarë me ju",
     "Shared with others" : "E ndarë me të tjerët",
-    "Shared by link" : "E ndarë me lidhje"
+    "Shared with you" : "E ndarë me ju",
+    "Shared by link" : "E ndarë me lidhje",
+    "Text file" : "Kartelë tekst",
+    "New text file.txt" : "Kartelë e re file.txt"
 },
 "nplurals=2; plural=(n != 1);");

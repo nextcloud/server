@@ -112,10 +112,10 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Файловете и папките които отбелязваш като любими ще се показват тук",
     "Tags" : "Етикети",
     "Deleted files" : "Изтрити файлове",
-    "Text file" : "Текстов файл",
-    "New text file.txt" : "Нов текст file.txt",
-    "Shared with you" : "Споделено с вас",
     "Shared with others" : "Споделено с други",
-    "Shared by link" : "Споделено с връзка"
+    "Shared with you" : "Споделено с вас",
+    "Shared by link" : "Споделено с връзка",
+    "Text file" : "Текстов файл",
+    "New text file.txt" : "Нов текст file.txt"
 },
 "nplurals=2; plural=(n != 1);");
