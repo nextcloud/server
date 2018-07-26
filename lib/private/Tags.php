@@ -624,6 +624,10 @@ class Tags implements \OCP\ITags {
 	* @return array|false An array of object ids.
 	*/
 	public function getFavorites() {
+		if(!$this->userHasTag(self::TAG_FAVORITE, $this->user)) {
+			return [];
+		}
+
 		try {
 			return $this->getIdsForTag(self::TAG_FAVORITE);
 		} catch(\Exception $e) {
