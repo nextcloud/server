@@ -86,7 +86,7 @@ class IconsCacherTest extends \Test\TestCase {
 		";
 		$actual = self::invokePrivate($this->iconsCacher, 'getIconsFromCss', [$css]);
 		$expected = array(
-			'icon-test' => '/svg/core/actions/add/000'
+			'icon-test' => '/svg/core/actions/add/000?v=1'
 		);
 		$this->assertEquals($expected, $actual);
 	}
