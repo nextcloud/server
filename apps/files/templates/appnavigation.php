@@ -64,7 +64,7 @@
  * @return int Returns the pinned value
  */
 function NavigationListElements($item, $l, $pinned) {
-	strpos($item['classes'], 'pinned') !== false ? $pinned++ : '';
+	strpos($item['classes'] ?? '', 'pinned') !== false ? $pinned++ : '';
 	?>
 	<li
 		data-id="<?php p($item['id']) ?>"
