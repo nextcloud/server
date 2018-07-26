@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "ความคิดเห็น",
     "Edit comment" : "แก้ไขความคิดเห็น",
     "Delete comment" : "ลบความคิดเห็น",
     "New comment …" : "ความคิดเห็นใหม่ ...",
     "Post" : "โพสต์",
     "Cancel" : "ยกเลิก",
     "[Deleted user]" : "[ผู้ใช้ถูกลบไปแล้ว]",
+    "Comments" : "ความคิดเห็น",
     "No comments yet, start the conversation!" : "ยังไม่มีความคิดเห็น เพิ่มความเห็นเลย",
     "More comments …" : "ความคิดเห็นอื่นๆ ...",
     "Save" : "บันทึก",

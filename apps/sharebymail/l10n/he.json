@@ -9,6 +9,7 @@
     "You shared %1$s with %2$s by mail" : "שיתפת את %1$s עם %2$s בדוא״ל",
     "You shared {file} with {email} by mail" : "שיתפת את {file} עם {email} בדוא״ל",
     "%3$s shared %1$s with %2$s by mail" : "%1$s שותף עם %2$s על ידי %3$s בדוא״ל",
+    "{actor} shared {file} with {email} by mail" : "{file} שותף עם {email} בדוא״ל על ידי {actor}",
     "Password to access %1$s was sent to %2s" : "ססמת הגישה אל %1$s נשלחה אל %2s",
     "Password to access {file} was sent to {email}" : "ססמת הגישה אל {file} נשלחה אל {email}",
     "Password to access %1$s was sent to you" : "ססמת הגישה אל %1$s נשלחה אליך",

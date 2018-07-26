@@ -104,6 +104,7 @@ OC.L10N.register(
     "Pending" : "等待",
     "Copy to {folder}" : "复制{文件夹}",
     "Move to {folder}" : "移动{文件夹}",
+    "View changelog" : "查看更新记录",
     "Very weak password" : "非常弱的密码",
     "Weak password" : "弱密码",
     "So-so password" : "一般强度的密码",

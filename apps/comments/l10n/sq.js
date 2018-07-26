@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Komente",
     "Edit comment" : "Përpunoni komentin",
     "Delete comment" : "Fshije komentin",
     "New comment …" : "Koment i ri ...",
     "Post" : "Postoje",
     "Cancel" : "Anuloje",
     "[Deleted user]" : "[Përdorues i fshirë]",
+    "Comments" : "Komente",
     "No comments yet, start the conversation!" : "Akoma asnjë koment, fillo një bisedë!",
     "More comments …" : "Më shumë komente ...",
     "Save" : "Ruaje",
