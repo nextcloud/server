@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "კომენტარები",
     "Edit comment" : "კომენტარის ცვლილება",
     "Delete comment" : "კომენტარის გაუქმება",
     "New comment …" : "ახალი კომენტარი ...",
     "Post" : "პოსტი",
     "Cancel" : "უარყოფა",
     "[Deleted user]" : "[გაუქმებული მომხმარებელი]",
+    "Comments" : "კომენტარები",
     "No comments yet, start the conversation!" : "ჯერ კომენტარები არაა, დაიწყეთ საუბარი! ",
     "More comments …" : "მეტი კომენტარი ...",
     "Save" : "შენახვა",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "අදහස් දැක්වීම්",
     "Edit comment" : "අදහස වෙනස් කරන්න",
     "Delete comment" : "අදහස් දැක්වීම මකන්න",
     "New comment …" : "අලුත් අදහස් දැක්වීමක් ...",
     "Post" : "ලිපියක්",
     "Cancel" : "එපා",
     "[Deleted user]" : "[ඉවත්කළ සේවාදායකයා]",
+    "Comments" : "අදහස් දැක්වීම්",
     "No comments yet, start the conversation!" : "තවම අදහස් නැත. ආරම්බක අදහස ඇතුළු කරන්න !",
     "More comments …" : "තවත් අදහස් ...",
     "Save" : "සුරකින්න",

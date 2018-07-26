@@ -1,11 +1,11 @@
 { "translations": {
-    "Comments" : "Σχόλια",
     "Edit comment" : "Επεξεργασία σχολίου",
     "Delete comment" : "Διαγραφή σχολίου",
     "New comment …" : "Νέο σχόλιο ...",
     "Post" : "Δημοσίευση",
     "Cancel" : "Ακύρωση",
     "[Deleted user]" : "[Διαγραμμένος χρήστης]",
+    "Comments" : "Σχόλια",
     "No comments yet, start the conversation!" : "Δεν υπάρχουν σχόλια, ξεκινήστε την συζήτηση!",
     "More comments …" : "Περισσότερα σχόλια ...",
     "Save" : "Αποθήκευση",

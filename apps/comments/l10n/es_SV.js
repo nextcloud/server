@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Comentarios",
     "Edit comment" : "Editar comentario",
     "Delete comment" : "Borrar comentario",
     "New comment …" : "Comentario nuevo ...",
     "Post" : "Publicar",
     "Cancel" : "Cancelar",
     "[Deleted user]" : "[Usuario borrado]",
+    "Comments" : "Comentarios",
     "No comments yet, start the conversation!" : "¡Aún no hay comentarios, inicia la conversación!",
     "More comments …" : "Más comentarios ...",
     "Save" : "Guardar",

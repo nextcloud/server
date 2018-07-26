@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Các bình luận",
     "Edit comment" : "Sửa bình luận",
     "Delete comment" : "Xóa bình luận",
     "New comment …" : "Tạo bình luận mới",
     "Post" : "Đăng",
     "Cancel" : "Hủy",
     "[Deleted user]" : "[Người dùng bị xoá]",
+    "Comments" : "Các bình luận",
     "No comments yet, start the conversation!" : "Không có bình luận nào, bắt đầu cuộc hội thoại!",
     "More comments …" : "Xem thêm các bình luận...",
     "Save" : "Lưu",

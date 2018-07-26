@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Komentāri",
     "Edit comment" : "Rediģēt komentāru",
     "Delete comment" : "Dzēst komentāru",
     "New comment …" : "Jauns komentārs...",
     "Post" : "Pievienot",
     "Cancel" : "Atcelt",
     "[Deleted user]" : "[Dzēsts lietotājs]",
+    "Comments" : "Komentāri",
     "No comments yet, start the conversation!" : "Vēl nav komentāru, uzsāciet sarunu!",
     "More comments …" : "Vairāk komentāri...",
     "Save" : "Saglabāt",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Yorumlar",
     "Edit comment" : "Yorumu düzenle",
     "Delete comment" : "Yorumu sil",
     "New comment …" : "Yorum ekle ...",
     "Post" : "Gönder",
     "Cancel" : "İptal",
     "[Deleted user]" : "[Silinmiş kullanıcı]",
+    "Comments" : "Yorumlar",
     "No comments yet, start the conversation!" : "Henüz bir yorum yapılmamış! Bir konuşma başlatın!",
     "More comments …" : "Diğer yorumlar ...",
     "Save" : "Kaydet",
