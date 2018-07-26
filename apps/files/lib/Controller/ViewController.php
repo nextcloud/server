@@ -162,7 +162,7 @@ class ViewController extends Controller {
 		try {
 			$favElements = $this->activityHelper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
 		} catch (\RuntimeException $e) {
-			$favElements['folders'] = null;
+			$favElements['folders'] = [];
 		}
 
 		$collapseClasses = '';
