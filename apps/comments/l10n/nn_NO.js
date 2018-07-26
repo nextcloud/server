@@ -1,12 +1,12 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Kommentarar",
     "Edit comment" : "Rediger kommentar",
     "Delete comment" : "Slett kommentar",
     "New comment …" : "Ny kommentar...",
     "Post" : "Publiser",
     "Cancel" : "Avbryt",
+    "Comments" : "Kommentarar",
     "No comments yet, start the conversation!" : "Ingen kommetarar enno, start samtala!",
     "More comments …" : "Fleire kommentarar...",
     "Save" : "Lagra",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Kommentit",
     "Edit comment" : "Muokkaa kommenttia",
     "Delete comment" : "Poista kommentti",
     "New comment …" : "Uusi kommentti…",
     "Post" : "Lähetä",
     "Cancel" : "Peruuta",
     "[Deleted user]" : "[Poistettu käyttäjä]",
+    "Comments" : "Kommentit",
     "No comments yet, start the conversation!" : "Ei kommentteja vielä. Aloita keskustelu!",
     "More comments …" : "Lisää kommentteja…",
     "Save" : "Tallenna",

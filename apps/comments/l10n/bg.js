@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "Коментари",
     "Edit comment" : "Редактирай коментра",
     "Delete comment" : "Изтрий коментар",
     "New comment …" : "Нов коментар...",
     "Post" : "Публикация",
     "Cancel" : "Отказ",
     "[Deleted user]" : "[Изтрит потребител]",
+    "Comments" : "Коментари",
     "No comments yet, start the conversation!" : "Все-още няма коментари, започни разговор!",
     "More comments …" : "Още коментари...",
     "Save" : "Запазване",

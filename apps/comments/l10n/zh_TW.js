@@ -1,13 +1,13 @@
 OC.L10N.register(
     "comments",
     {
-    "Comments" : "留言",
     "Edit comment" : "編輯留言",
     "Delete comment" : "刪除留言",
     "New comment …" : "新留言…",
     "Post" : "送出",
     "Cancel" : "取消",
     "[Deleted user]" : "[已刪除的使用者]",
+    "Comments" : "留言",
     "No comments yet, start the conversation!" : "尚無留言，開始討論 !",
     "More comments …" : "其他留言…",
     "Save" : "儲存",
