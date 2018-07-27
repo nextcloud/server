@@ -238,7 +238,7 @@ OC.L10N.register(
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "A atualização não foi realizada com sucesso. Para mais informações <a href=\"{url}\">verifique nosso post no fórum</a> que abrange esta questão.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "A atualização não foi realizada com sucesso. Por favor, informe este problema para  a <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunidade Nextcloud</a>.",
     "Continue to Nextcloud" : "Prosseguir para Nextcloud",
-    "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["A atualização terminou com sucesso. Redirecionando você para Nextcloud em %n segundos.","A atualização terminou com sucesso. Redirecionando você para Nextcloud em %n segundos."],
+    "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["A atualização terminou com sucesso. Redirecionando você para Nextcloud em %n segundo.","A atualização terminou com sucesso. Redirecionando você para Nextcloud em %n segundos."],
     "Searching other places" : "Pesquisando em outros lugares",
     "No search results in other folders for {tag}{filter}{endtag}" : "Pesquisa sem resultados em outras pastas para {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado da pesquisa em outras pastas","{count} resultados da pesquisa em outras pastas"],

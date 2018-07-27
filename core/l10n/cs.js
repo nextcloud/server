@@ -269,6 +269,8 @@ OC.L10N.register(
     "Need help?" : "Potřebujete pomoc?",
     "See the documentation" : "Shlédnout dokumentaci",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Tato aplikace potřebuje pro správnou funkčnost JavaScript. Prosím {linkstart}povolte JavaScript{linkend} a znovu načtěte stránku.",
+    "Skip to main content" : "Přejít k hlavnímu obsahu",
+    "Skip to navigation of app" : "Přejít na navigaci aplikace",
     "More apps" : "Více aplikací",
     "More apps menu" : "Nabídka dalších aplikací",
     "Search" : "Hledat",

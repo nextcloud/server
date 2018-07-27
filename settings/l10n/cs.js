@@ -273,6 +273,7 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Twitter handle @…" : "Přezdívka na Twitteru @…",
     "Help translate" : "Pomoci s překladem",
+    "Locale" : "Lokalizace",
     "Password" : "Heslo",
     "Current password" : "Současné heslo",
     "New password" : "Nové heslo",
