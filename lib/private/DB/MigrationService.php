@@ -457,7 +457,7 @@ class MigrationService {
 
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
-			$this->ensureOracleIdentifierLengthLimit($targetSchema);
+			$this->ensureOracleIdentifierLengthLimit($targetSchema, strlen($this->connection->getPrefix()));
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
@@ -471,28 +471,28 @@ class MigrationService {
 		$this->markAsExecuted($version);
 	}
 
-	public function ensureOracleIdentifierLengthLimit(Schema $schema) {
+	public function ensureOracleIdentifierLengthLimit(Schema $schema, int $prefixLength) {
 		$sequences = $schema->getSequences();
 
 		foreach ($schema->getTables() as $table) {
-			if (\strlen($table->getName()) > 30) {
+			if (\strlen($table->getName()) - $prefixLength > 27) {
 				throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
 			}
 
 			foreach ($table->getColumns() as $thing) {
-				if (\strlen($thing->getName()) > 30) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
 					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
 
 			foreach ($table->getIndexes() as $thing) {
-				if (\strlen($thing->getName()) > 30) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
 					throw new \InvalidArgumentException('Index name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
 
 			foreach ($table->getForeignKeys() as $thing) {
-				if (\strlen($thing->getName()) > 30) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
 					throw new \InvalidArgumentException('Foreign key name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
@@ -516,17 +516,17 @@ class MigrationService {
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 				}
 
-				if (!$isUsingDefaultName && \strlen($indexName) > 30) {
+				if (!$isUsingDefaultName && \strlen($indexName) - $prefixLength > 27) {
 					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
 				}
-				if ($isUsingDefaultName && \strlen($table->getName()) > 26) {
+				if ($isUsingDefaultName && \strlen($table->getName()) - $prefixLength > 23) {
 					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
 				}
 			}
 		}
 
 		foreach ($sequences as $sequence) {
-			if (\strlen($sequence->getName()) > 30) {
+			if (\strlen($sequence->getName()) - $prefixLength > 27) {
 				throw new \InvalidArgumentException('Sequence name "'  . $sequence->getName() . '" is too long.');
 			}
 		}

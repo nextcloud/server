@@ -268,7 +268,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getSequences')
 			->willReturn([$sequence]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	public function testEnsureOracleIdentifierLengthLimitValidWithPrimaryKey() {
@@ -303,7 +303,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getSequences')
 			->willReturn([]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	public function testEnsureOracleIdentifierLengthLimitValidWithPrimaryKeyDefault() {
@@ -348,7 +348,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getSequences')
 			->willReturn([]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	/**
@@ -365,7 +365,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getTables')
 			->willReturn([$table]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	/**
@@ -410,7 +410,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getTables')
 			->willReturn([$table]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	/**
@@ -445,7 +445,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getTables')
 			->willReturn([$table]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	/**
@@ -471,7 +471,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getTables')
 			->willReturn([$table]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	/**
@@ -500,7 +500,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getTables')
 			->willReturn([$table]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	/**
@@ -532,7 +532,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getTables')
 			->willReturn([$table]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 
 	/**
@@ -552,6 +552,6 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getSequences')
 			->willReturn([$sequence]);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema]);
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$schema, 3]);
 	}
 }
