@@ -6,6 +6,7 @@ OC.L10N.register(
     "No server to federate with found" : "Nenalezen žádný server ke sdružování",
     "Could not add server" : "Nepodařilo se přidat server",
     "Federation" : "Federování",
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federace vám umožňuje spojit se s ostatními důvěryhodnými servery a vyměňovat si adresář uživatelů.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Sdružování vám umožňuje se připojit k dalším důvěryhodným serverům za účelem výměny uživatelských adresářů. Používá se to např. pro automatické doplňování uživatelů při sdruženém sdílení.",
     "Trusted servers" : "Důvěryhodné servery",
     "Add server automatically once a federated share was created successfully" : "Přidat server automaticky jakmile je úspěšně vytvořeno sdružené sdílení",

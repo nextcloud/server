@@ -107,6 +107,7 @@
     "the link expired" : "истёк срок действия ссылки",
     "sharing is disabled" : "закрыт общий доступ",
     "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
+    "Note:" : "Примечание:",
     "Download %s" : "Скачать %s",
     "Upload files to %s" : "Загрузка файлов пользователю %s",
     "Select or drop files" : "Выберите или перетащите файлы",

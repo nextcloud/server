@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Almacenamientos externos",
+    "External storages" : "Almacenamiento externo",
     "Personal" : "Personal",
     "System" : "Sistema",
     "Grant access" : "Conceder acceso",
