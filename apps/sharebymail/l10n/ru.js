@@ -29,6 +29,7 @@ OC.L10N.register(
     "Password to access »%s« shared to you by %s" : "Пароль для  «%s»,  общий доступ к которому предоставлен Вам пользователем %s",
     "Password to access »%s«" : "Пароль для доступа к «%s»",
     "It is protected with the following password: %s" : "Доступ защищён следующим паролем: %s",
+    "%1$s via %2$s" : "%1$s через %2$s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Вы только что предоставили общий доступ к «%s» пользователю %s. Уведомление о предоставлении доступа было отправлено получателю. В соответствии с политиками безопасности, заданными администратором %s, каждый общий ресурс должен быть защищён паролем, а так же не допускается непосредственное отправление пароля получателю, поэтому Вам потребуется самостоятельно перенаправить получателю пароль для доступа.",
     "Password to access »%s« shared with %s" : "Паролем для доступа к «%s» поделились с %s",
     "This is the password: %s" : "Пароль: %s",

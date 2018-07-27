@@ -125,6 +125,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Не удалось поделиться %s, бэкенд общего доступа не нашел путь до %s",
     "Sharing %s failed, because the file could not be found in the file cache" : "Не удалось поделиться %s, элемент не найден в файловом кеше.",
     "Open »%s«" : "Открыть «%s»",
+    "%1$s via %2$s" : "%1$s через %2$s",
     "Can’t increase permissions of %s" : "Невозможно увеличить права доступа для %s",
     "Files can’t be shared with delete permissions" : "Файлы не могут иметь общий доступ с правами на удаление",
     "Files can’t be shared with create permissions" : "Файлы не могут иметь общий доступ с правами на создание",
