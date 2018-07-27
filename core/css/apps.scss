@@ -77,7 +77,7 @@ kbd {
 	position: fixed;
 	top: $header-height;
 	left: 0;
-	z-index: 500;
+	z-index: 1000;
 	overflow-y: auto;
 	overflow-x: hidden;
 	// Do not use vh because of mobile headers
@@ -589,19 +589,20 @@ kbd {
 	display: flex;
 	// padding is included in height
 	padding-top: $header-height;
+	overflow-y: auto;
 	min-height: 100%;
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 #app-content {
-	z-index: 1000;
+	z-index: 500;
 	background-color: var(--color-main-background);
 	position: relative;
-	min-height: 100%;
 	flex-basis: 100vw;
+	min-height: 100%;
 	/* margin if navigation element is here */
-	#app-navigation  + & {
+	#app-navigation + & {
 		margin-left: $navigation-width;
 	}
 	/* no top border for first settings item */

@@ -35,19 +35,16 @@
 
 	/* full width for message list on mobile */
 	.app-content-list {
-		width: 100%;
 		background: var(--color-main-background);
-		position: relative;
-		z-index: 100;
-	}
-	
-	/* since list and content are only displayed full window size
-	 * we don't ant inner scrolling
-	 */
-	#app-content-wrapper {
-		.app-content-list,
-		.app-content-detail {
-			max-height: unset;
+		flex: 1 1 100%;
+		+ .app-content-detail {
+			display: none;
+		}
+		&.showdetails {
+			display: none;
+			+ .app-content-detail {
+				display: initial;
+			}
 		}
 	}
 
@@ -59,7 +56,7 @@
 		#app-navigation-toggle-back {
 			position: fixed;
 			display: inline-block !important;
-			top: 45px;
+			top: $header-height;
 			left: 0;
 			width: 44px;
 			height: 44px;
@@ -73,18 +70,11 @@
 			transform: translateX(-100%);
 		}
 
-	/* end of media query */
-}
-	/* allow horizontal scrollbar in settings
-	otherwise user management is not usable on mobile */
-	#body-settings #app-content {
-		overflow-x: auto !important;
 	}
 
 	#app-navigation-toggle {
 		position: fixed;
 		display: inline-block !important;
-		top: $header-height;
 		left: 0;
 		width: 44px;
 		height: 44px;
@@ -132,11 +122,6 @@
 		max-width: 80%;
 	}
 
-	/* fix controls bar jumping when navigation is slid out */
-	.snapjs-left #app-navigation-toggle,
-	.snapjs-left #controls {
-		top: 0;
-	}
 	.snapjs-left table.multiselect thead {
 		top: 44px;
 	}
