@@ -613,14 +613,7 @@ kbd {
 	#app-content-wrapper {
 		display: flex;
 		position: relative;
-		align-items: start;
-		.app-content-list,
-		.app-content-detail {
-			min-height: calc(100vh - #{$header-height});
-			max-height: calc(100vh - #{$header-height});
-			overflow-x: hidden;
-			overflow-y: auto;
-		}
+		align-items: stretch;
 
 		/* CONTENT DETAILS AFTER LIST*/
 		.app-content-detail {
@@ -1043,10 +1036,17 @@ $popovericon-size: 16px;
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	width: 300px;
+	position: sticky;
+	top: $header-height;
 	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 	transition: transform 250ms ease-in-out;
+	min-height: calc(100vh - #{$header-height});
+	max-height: calc(100vh - #{$header-height});
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex: 0 0 300px;
 
 	/* Default item */
 	.app-content-list-item {
