@@ -75,7 +75,7 @@ kbd {
 #app-navigation {
 	width: $navigation-width;
 	min-width: $navigation-width-min;
-	max-width: 300px;
+	max-width: $navigation-width-max;
 	position: fixed; /* IE11 fallback for sticky */
 	position: sticky;
 	top: $header-height;
