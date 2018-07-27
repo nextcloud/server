@@ -587,7 +587,8 @@ kbd {
 	box-sizing: border-box;
 	position: relative;
 	display: flex;
-	margin-top: $header-height;
+	// padding is included in height
+	padding-top: $header-height;
 	min-height: 100%;
 }
 
