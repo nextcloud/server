@@ -74,7 +74,10 @@ kbd {
 /* Navigation: folder like structure */
 #app-navigation {
 	width: $navigation-width;
-	position: fixed;
+	min-width: $navigation-width-min;
+	max-width: $navigation-width-max;
+	position: fixed; /* IE11 fallback for sticky */
+	position: sticky;
 	top: $header-height;
 	left: 0;
 	z-index: 500;
@@ -82,7 +85,7 @@ kbd {
 	overflow-x: hidden;
 	// Do not use vh because of mobile headers
 	// are included in the calculation
-	height: calc(100% - #{$header-height});
+	height: calc(100vh - #{$header-height});
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
@@ -116,7 +119,6 @@ kbd {
 	> ul {
 		position: relative;
 		height: 100%;
-		width: inherit;
 		overflow-x: hidden;
 		overflow-y: auto;
 		box-sizing: border-box;
@@ -606,10 +608,7 @@ kbd {
 	position: relative;
 	min-height: 100%;
 	flex-basis: 100vw;
-	/* margin if navigation element is here */
-	#app-navigation  + & {
-		margin-left: $navigation-width;
-	}
+
 	/* no top border for first settings item */
 	> .section:first-child {
 		border-top: none;
@@ -829,6 +828,17 @@ $popovericon-size: 16px;
 	#app-navigation .app-navigation-entry-menu,
 	#app-navigation .app-navigation-entry-menu:after {
 		border: 1px solid var(--color-border);
+	}
+	#app-navigation {
+		width: $navigation-width-min;
+	}
+	/* add margin, since IE11 uses fixed positioning instead of sticky */
+	#app-navigation + #app-content {
+		margin-left: $navigation-width-min;
+	}
+	#app-sidebar {
+		position: fixed;
+		width: $sidebar-max-width;
 	}
 }
 

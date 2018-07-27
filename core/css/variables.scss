@@ -79,6 +79,8 @@ $font-face: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !de
 
 // various structure data
 $header-height: 50px;
-$navigation-width: 300px;
+$navigation-width: 17vw;
+$navigation-width-min: 220px;
+$navigation-width-max: 300px;
 $sidebar-min-width: 300px;
 $sidebar-max-width: 500px;

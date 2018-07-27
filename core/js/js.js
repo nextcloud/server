@@ -1626,7 +1626,7 @@ function initCore() {
 		var snapper = new Snap({
 			element: document.getElementById('app-content'),
 			disable: 'right',
-			maxPosition: 300, // $navigation-width
+			maxPosition: 250, // $navigation-width-min
 			minDragDistance: 100
 		});
 

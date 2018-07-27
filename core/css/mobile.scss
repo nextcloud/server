@@ -20,7 +20,8 @@
 
 	/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
 	#app-navigation {
-		transform: translateX(-#{$navigation-width});
+		transform: translateX(-#{$navigation-width-min});
+		position: fixed;
 	}
 	.snapjs-left {
 		#app-navigation {
@@ -32,6 +33,19 @@
 		margin-left: 0;
 	}
 
+	/* add margin, since IE11 uses fixed positioning instead of sticky */
+	.ie {
+		#app-navigation + #app-content {
+			margin-left: 0;
+		}
+		.snapjs-left #app-navigation + #app-content {
+			margin-right: $sidebar-min-width;
+		}
+		#app-sidebar {
+			position: fixed;
+			width: $sidebar-min-width;
+		}
+	}
 
 	/* full width for message list on mobile */
 	.app-content-list {
