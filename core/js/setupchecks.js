@@ -183,10 +183,10 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
-					if(!data.isUrandomAvailable) {
+					if(!data.isRandomnessSecure) {
 						messages.push({
-							msg: t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.securityDocs}),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+							msg: t('core', 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.securityDocs}),
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
 					if(data.isUsedTlsLibOutdated) {
