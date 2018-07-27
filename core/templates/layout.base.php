@@ -18,10 +18,8 @@
 	</head>
 	<body id="body-public">
 		<?php include 'layout.noscript.warning.php'; ?>
-		<div id="content-wrapper">
-			<div id="content" class="app-public" role="main">
-				<?php print_unescaped($_['content']); ?>
-			</div>
+		<div id="content" class="app-public" role="main">
+			<?php print_unescaped($_['content']); ?>
 		</div>
 	</body>
 </html>

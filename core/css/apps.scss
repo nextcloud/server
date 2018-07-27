@@ -583,13 +583,6 @@ kbd {
 
 
 /* CONTENT  --------------------------------------------------------- */
-#content-wrapper {
-	// everything not related to content but needs to be on the window
-	// goes here (popups, tooltips...)
-	position: relative;
-	min-height: 100%;
-	display: unset;
-}
 #content {
 	box-sizing: border-box;
 	position: relative;
