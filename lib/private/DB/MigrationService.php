@@ -503,12 +503,13 @@ class MigrationService {
 				$isUsingDefaultName = $indexName === 'primary';
 
 				if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-					$defaultName = $table->getName() . '_' . implode('_', $primaryKey->getColumns()) . '_seq';
+					$defaultName = $table->getName() . '_pkey';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 
 					if ($isUsingDefaultName) {
-						$sequences = array_filter($sequences, function(Sequence $sequence) use ($indexName) {
-							return $sequence->getName() !== $indexName;
+						$sequenceName = $table->getName() . '_' . implode('_', $primaryKey->getColumns()) . '_seq';
+						$sequences = array_filter($sequences, function(Sequence $sequence) use ($sequenceName) {
+							return $sequence->getName() !== $sequenceName;
 						});
 					}
 				} else if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
