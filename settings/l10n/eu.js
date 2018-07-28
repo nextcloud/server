@@ -230,7 +230,7 @@ OC.L10N.register(
     "Your phone number" : "Zure telefono zenbakia",
     "Address" : "Helbidea",
     "Your postal address" : "Zure helbidea",
-    "Website" : "Web orria",
+    "Website" : "Webgunea",
     "It can take up to 24 hours before the account is displayed as verified." : "24 ordu pasa daitezke kontua ziurtatua bezala agertu baino lehen",
     "Link https://…" : "https://... esteka",
     "Twitter" : "Twitter",

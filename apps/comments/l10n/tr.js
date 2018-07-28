@@ -8,7 +8,7 @@ OC.L10N.register(
     "Cancel" : "İptal",
     "[Deleted user]" : "[Silinmiş kullanıcı]",
     "Comments" : "Yorumlar",
-    "No comments yet, start the conversation!" : "Henüz bir yorum yapılmamış! Bir konuşma başlatın!",
+    "No comments yet, start the conversation!" : "Henüz bir yorum yapılmamış! Bir görüşme başlatın!",
     "More comments …" : "Diğer yorumlar ...",
     "Save" : "Kaydet",
     "Allowed characters {count} of {max}" : "Yazılabilecek karakter sayısı {count}/{max}",
