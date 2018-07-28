@@ -131,6 +131,7 @@ OC.L10N.register(
     "Enable user" : "Kullanıcıyı etkinleştir",
     "Resend welcome email" : "Karşılama e-postasını yeniden gönder",
     "Welcome mail sent!" : "Karşılama e-postası gönderildi!",
+    "Display name" : "Görüntülenecek ad",
     "Email" : "E-posta",
     "Group admin for" : "Şunun grup yöneticisi",
     "Language" : "Dil",
