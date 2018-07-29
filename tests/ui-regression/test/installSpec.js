@@ -44,15 +44,15 @@ describe('install', function () {
 			// (test, route, prepare, action, options
 			return helper.takeAndCompare(this, undefined, async (page) => {
 				await page.click('#showAdvanced');
-				await helper.delay(500);
-			});
+				await helper.delay(300);
+			}, { waitUntil: 'networkidle0', viewport: resolution});
 		});
 		it('show-advanced-mysql.' + resolution.title, async function () {
 			// (test, route, prepare, action, options
 			return helper.takeAndCompare(this, undefined, async (page) => {
 				await page.click('label.mysql');
-				await helper.delay(500);
-			});
+				await helper.delay(300);
+			}, { waitUntil: 'networkidle0', viewport: resolution});
 		});
 	});
 

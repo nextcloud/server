@@ -31,7 +31,6 @@ module.exports = {
 		{title: 'normal', w: 1024, h: 768},
 		{title: 'wide', w: 1920, h: 1080},
 		{title: 'qhd', w: 2560, h: 1440},
-		{title: 'uhd', w: 3840, h: 2160},
 	],
 
 	/**

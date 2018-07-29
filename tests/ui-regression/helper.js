@@ -138,15 +138,6 @@ module.exports = {
 			]);
 		}
 
-		await this.pageBase.$eval('body', function (e) {
-			// force relative timestamp to fixed value, since it breaks screenshot diffing
-			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
-		});
-		await this.pageCompare.$eval('body', function (e) {
-			// force relative timestamp to fixed value, since it breaks screenshot diffing
-			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
-		});
-
 		var failed = null;
 		try {
 			await this.pageBase.bringToFront();
@@ -156,7 +147,6 @@ module.exports = {
 		} catch (err) {
 			failed = err;
 		}
-		await this.awaitNetworkIdle(3);
 		await this.pageBase.$eval('body', function (e) {
 			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
 			$(':focus').blur();
@@ -165,6 +155,7 @@ module.exports = {
 			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
 			$(':focus').blur();
 		});
+		await this.awaitNetworkIdle(3);
 		await Promise.all([
 			this.pageBase.screenshot({
 				path: `${this._outputDirectory}/${fileName}.base.png`,
