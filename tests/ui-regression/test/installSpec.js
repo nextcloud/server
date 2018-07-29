@@ -66,7 +66,8 @@ describe('install', function () {
 			const password = await page.type('#adminpass', 'admin');
 			const inputElement = await page.$('input[type=submit]');
 			await inputElement.click();
-			await page.waitForNavigation({waitUntil: 'networkidle0'});
+			await page.waitForNavigation({waitUntil: 'networkidle2'});
+			await page.waitForSelector('#header');
 			helper.pageBase.setDefaultNavigationTimeout(60000);
 			helper.pageCompare.setDefaultNavigationTimeout(60000);
 		}, { waitUntil: 'networkidle0', viewport: {w: 1920, h: 1080}});

@@ -32,6 +32,8 @@ module.exports = {
 	browser: null,
 	pageBase: null,
 	pageCompare: null,
+	lastBase: 0,
+	lastCompare: 0,
 	init: async function (test) {
 		this._outputDirectory = `${config.outputDirectory}/${test.title}`;
 		if (!fs.existsSync(config.outputDirectory)) fs.mkdirSync(config.outputDirectory);
@@ -54,6 +56,33 @@ module.exports = {
 		this.pageCompare = await this.browser.newPage();
 		this.pageBase.setDefaultNavigationTimeout(60000);
 		this.pageCompare.setDefaultNavigationTimeout(60000);
+
+		const self = this;
+		this.pageCompare.on('requestfinished', function() {
+			self.lastCompare = Date.now();
+		});
+		this.pageBase.on('requestfinished', function() {
+			self.lastBase = Date.now();
+		});
+	},
+
+	awaitNetworkIdle: async function (seconds) {
+		var self = this;
+		return new Promise(function (resolve, reject) {
+			const timeout = setTimeout(function() {
+				reject();
+			}, 10000)
+			const waitForFoo = function() {
+				const currentTime = Date.now() - seconds*1000;
+				if (self.lastBase < currentTime && self.lastCompare < currentTime) {
+					clearTimeout(timeout);
+					return resolve();
+				}
+				setTimeout(waitForFoo, 100);
+			};
+			waitForFoo();
+
+		});
 	},
 
 	login: async function (test) {
@@ -71,8 +100,9 @@ module.exports = {
 		await page.type('#user', 'admin');
 		await page.type('#password', 'admin');
 		const inputElement = await page.$('input[type=submit]');
-		inputElement.click();
-		return await page.waitForNavigation({waitUntil: 'networkidle0'});
+		await inputElement.click();
+		await page.waitForNavigation({waitUntil: 'networkidle2'});
+		return await page.waitForSelector('#header');
 	},
 
 	takeAndCompare: async function (test, route, action, options) {
@@ -107,16 +137,34 @@ module.exports = {
 				this.pageCompare.goto(`${config.urlChange}${route}`, {waitUntil: options.waitUntil})
 			]);
 		}
+
+		await this.pageBase.$eval('body', function (e) {
+			// force relative timestamp to fixed value, since it breaks screenshot diffing
+			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
+		});
+		await this.pageCompare.$eval('body', function (e) {
+			// force relative timestamp to fixed value, since it breaks screenshot diffing
+			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
+		});
+
 		var failed = null;
 		try {
-			await Promise.all([
-				action(this.pageBase),
-				action(this.pageCompare)
-			]);
+			await this.pageBase.bringToFront();
+			await action(this.pageBase);
+			await this.pageCompare.bringToFront();
+			await action(this.pageCompare);
 		} catch (err) {
 			failed = err;
 		}
-		await this.delay(100);
+		await this.awaitNetworkIdle(3);
+		await this.pageBase.$eval('body', function (e) {
+			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
+			$(':focus').blur();
+		});
+		await this.pageCompare.$eval('body', function (e) {
+			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
+			$(':focus').blur();
+		});
 		await Promise.all([
 			this.pageBase.screenshot({
 				path: `${this._outputDirectory}/${fileName}.base.png`,

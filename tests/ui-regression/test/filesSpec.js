@@ -41,43 +41,44 @@ describe('files', function () {
 				await page.waitForSelector('.shareWithField');
 				await helper.delay(500);
 				await page.$eval('body', e => { $('.shareWithField').blur() });
-			}, {viewport: resolution, waitUntil: 'networkidle2'});
+			}, {viewport: resolution});
 		});
 		it('file-popover.' + resolution.title, async function () {
 			return helper.takeAndCompare(this, 'index.php/apps/files', async function (page) {
 				await page.click('[data-file=\'welcome.txt\'] .action-menu');
 				await page.waitForSelector('.fileActionsMenu');
-			}, {viewport: resolution, waitUntil: 'networkidle2'});
+			}, {viewport: resolution});
 		});
 		it('file-sidebar-details.' + resolution.title, async function() {
 			return helper.takeAndCompare(this, undefined, async function (page) {
 				await page.click('[data-file=\'welcome.txt\'] .fileActionsMenu [data-action=\'Details\']');
-				await page.waitForSelector('#commentsTabView');
+				await page.waitForSelector('[data-tabid=\'commentsTabView\']');
+				await page.$eval('body', e => { $('.shareWithField').blur() });
 				await helper.delay(500); // wait for animation
-			});
+			}, {viewport: resolution});
 		});
 		it('file-sidebar-details-sharing.' + resolution.title, async function() {
 			return helper.takeAndCompare(this, undefined, async function (page) {
 				let tab = await helper.childOfClassByText(page, 'tabHeaders', 'Sharing');
 				tab[0].click();
 				await page.waitForSelector('input.shareWithField');
-				await helper.delay(500); // wait for animation
 				await page.$eval('body', e => { $('.shareWithField').blur() });
-			});
+				await helper.delay(500); // wait for animation
+			}, {viewport: resolution});
 		});
 		it('file-sidebar-details-versions.' + resolution.title, async function() {
 			return helper.takeAndCompare(this, undefined, async function (page) {
 				let tab = await helper.childOfClassByText(page, 'tabHeaders', 'Versions');
 				tab[0].click();
 				await helper.delay(100); // wait for animation
-			});
+			}, {viewport: resolution});
 		});
 		it('file-popover.favorite.' + resolution.title, async function () {
 			return helper.takeAndCompare(this, 'index.php/apps/files', async function (page) {
 				await page.click('[data-file=\'welcome.txt\'] .action-menu');
 				await page.waitForSelector('.fileActionsMenu')
 				await page.click('[data-file=\'welcome.txt\'] .fileActionsMenu [data-action=\'Favorite\']');;
-			}, {viewport: resolution, waitUntil: 'networkidle2'});
+			}, {viewport: resolution});
 		});
 
 		it('file-favorites.' + resolution.title, async function () {
@@ -90,7 +91,7 @@ describe('files', function () {
 				} catch (err) {}
 				await page.click('#app-navigation [data-id=\'favorites\'] a');
 				await helper.delay(500); // wait for animation
-			}, {viewport: resolution, waitUntil: 'networkidle2'});
+			}, {viewport: resolution});
 		});
 
 
