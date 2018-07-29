@@ -454,13 +454,14 @@ form #selectDbType {
 	text-align:center;
 	white-space: nowrap;
 	margin: 0;
+	display: flex;
 }
 form #selectDbType .info {
 	white-space: normal;
 }
 form #selectDbType label {
-	position: static;
-	margin: 0 -3px 5px;
+	flex-grow: 1;
+	margin: 0 -1px 5px;
 	font-size: 12px;
 	background:#f8f8f8;
 	color:#888;
@@ -469,7 +470,7 @@ form #selectDbType label {
 }
 form #selectDbType label span {
 	cursor: pointer;
-	padding: 10px 20px;
+	padding: 10px 17px;
 }
 form #selectDbType label.ui-state-hover,
 form #selectDbType label.ui-state-active {
