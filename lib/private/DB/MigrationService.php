@@ -23,7 +23,13 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\DBAL\Schema\Sequence;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
@@ -450,7 +456,9 @@ class MigrationService {
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		if ($toSchema instanceof SchemaWrapper) {
-			$this->connection->migrateToSchema($toSchema->getWrappedSchema());
+			$targetSchema = $toSchema->getWrappedSchema();
+			$this->ensureOracleIdentifierLengthLimit($targetSchema, strlen($this->connection->getPrefix()));
+			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
 
@@ -461,6 +469,68 @@ class MigrationService {
 		}
 
 		$this->markAsExecuted($version);
+	}
+
+	public function ensureOracleIdentifierLengthLimit(Schema $schema, int $prefixLength) {
+		$sequences = $schema->getSequences();
+
+		foreach ($schema->getTables() as $table) {
+			if (\strlen($table->getName()) - $prefixLength > 27) {
+				throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
+			}
+
+			foreach ($table->getColumns() as $thing) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			foreach ($table->getIndexes() as $thing) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Index name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			foreach ($table->getForeignKeys() as $thing) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Foreign key name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			$primaryKey = $table->getPrimaryKey();
+			if ($primaryKey instanceof Index) {
+				$indexName = strtolower($primaryKey->getName());
+				$isUsingDefaultName = $indexName === 'primary';
+
+				if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+					$defaultName = $table->getName() . '_pkey';
+					$isUsingDefaultName = strtolower($defaultName) === $indexName;
+
+					if ($isUsingDefaultName) {
+						$sequenceName = $table->getName() . '_' . implode('_', $primaryKey->getColumns()) . '_seq';
+						$sequences = array_filter($sequences, function(Sequence $sequence) use ($sequenceName) {
+							return $sequence->getName() !== $sequenceName;
+						});
+					}
+				} else if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+					$defaultName = $table->getName() . '_seq';
+					$isUsingDefaultName = strtolower($defaultName) === $indexName;
+				}
+
+				if (!$isUsingDefaultName && \strlen($indexName) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+				}
+				if ($isUsingDefaultName && \strlen($table->getName()) - $prefixLength > 23) {
+					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+				}
+			}
+		}
+
+		foreach ($sequences as $sequence) {
+			if (\strlen($sequence->getName()) - $prefixLength > 27) {
+				throw new \InvalidArgumentException('Sequence name "'  . $sequence->getName() . '" is too long.');
+			}
+		}
 	}
 
 	private function ensureMigrationsAreLoaded() {
