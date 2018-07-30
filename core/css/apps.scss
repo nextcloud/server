@@ -77,7 +77,7 @@ kbd {
 	position: fixed;
 	top: $header-height;
 	left: 0;
-	z-index: 500;
+	z-index: 1000;
 	overflow-y: auto;
 	overflow-x: hidden;
 	// Do not use vh because of mobile headers
@@ -583,31 +583,25 @@ kbd {
 
 
 /* CONTENT  --------------------------------------------------------- */
-#content-wrapper {
-	// everything not related to content but needs to be on the window
-	// goes here (popups, tooltips...)
-	position: relative;
-	min-height: 100%;
-	display: unset;
-}
 #content {
 	box-sizing: border-box;
 	position: relative;
 	display: flex;
-	margin-top: $header-height;
+	// padding is included in height
+	padding-top: $header-height;
 	min-height: 100%;
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 #app-content {
-	z-index: 1000;
+	z-index: 500;
 	background-color: var(--color-main-background);
 	position: relative;
-	min-height: 100%;
 	flex-basis: 100vw;
+	min-height: 100%;
 	/* margin if navigation element is here */
-	#app-navigation  + & {
+	#app-navigation + & {
 		margin-left: $navigation-width;
 	}
 	/* no top border for first settings item */
@@ -619,17 +613,10 @@ kbd {
 	#app-content-wrapper {
 		display: flex;
 		position: relative;
-		align-items: start;
-		.app-content-list,
-		.app-content-detail {
-			min-height: calc(100vh - #{$header-height});
-			max-height: calc(100vh - #{$header-height});
-			overflow-x: hidden;
-			overflow-y: auto;
-		}
+		align-items: stretch;
 
 		/* CONTENT DETAILS AFTER LIST*/
-		.app-content-detail {
+		.app-content-details {
 			/* grow full width */
 			flex-grow: 1;
 			#app-navigation-toggle-back {
@@ -1049,10 +1036,17 @@ $popovericon-size: 16px;
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	width: 300px;
+	position: sticky;
+	top: $header-height;
 	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 	transition: transform 250ms ease-in-out;
+	min-height: calc(100vh - #{$header-height});
+	max-height: calc(100vh - #{$header-height});
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex: 0 0 300px;
 
 	/* Default item */
 	.app-content-list-item {

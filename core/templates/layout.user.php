@@ -159,10 +159,8 @@
 			<input class="confirm" value="<?php p($l->t('Confirm')); ?>" type="submit">
 		</form>
 
-		<div id="content-wrapper">
-			<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
-				<?php print_unescaped($_['content']); ?>
-			</div>
+		<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
+			<?php print_unescaped($_['content']); ?>
 		</div>
 
 	</body>
