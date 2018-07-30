@@ -37,12 +37,14 @@
 	.app-content-list {
 		background: var(--color-main-background);
 		flex: 1 1 100%;
-		+ .app-content-detail {
+		// make full height scroll since app-content-details is hidden
+		max-height: unset;
+		+ .app-content-details {
 			display: none;
 		}
 		&.showdetails {
 			display: none;
-			+ .app-content-detail {
+			+ .app-content-details {
 				display: initial;
 			}
 		}

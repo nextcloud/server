@@ -589,7 +589,6 @@ kbd {
 	display: flex;
 	// padding is included in height
 	padding-top: $header-height;
-	overflow-y: auto;
 	min-height: 100%;
 }
 
@@ -617,7 +616,7 @@ kbd {
 		align-items: stretch;
 
 		/* CONTENT DETAILS AFTER LIST*/
-		.app-content-detail {
+		.app-content-details {
 			/* grow full width */
 			flex-grow: 1;
 			#app-navigation-toggle-back {
