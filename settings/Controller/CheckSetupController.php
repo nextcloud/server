@@ -42,7 +42,6 @@ use OC\DB\MissingIndexInformation;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\MemoryInfo;
-use OC\Security\SecureRandom;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -56,6 +55,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
+use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -87,7 +87,7 @@ class CheckSetupController extends Controller {
 	private $dateTimeFormatter;
 	/** @var MemoryInfo */
 	private $memoryInfo;
-	/** @var SecureRandom */
+	/** @var ISecureRandom */
 	private $secureRandom;
 
 	public function __construct($AppName,
@@ -104,7 +104,7 @@ class CheckSetupController extends Controller {
 								ILockingProvider $lockingProvider,
 								IDateTimeFormatter $dateTimeFormatter,
 								MemoryInfo $memoryInfo,
-								SecureRandom $secureRandom) {
+								ISecureRandom $secureRandom) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
