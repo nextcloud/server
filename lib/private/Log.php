@@ -220,6 +220,8 @@ class Log implements ILogger {
 	}
 
 	private function getLogLevel($context) {
+		$logCondition = $this->config->getValue('log.condition', []);
+
 		/**
 		 * check for a special log condition - this enables an increased log on
 		 * a per request/user base
@@ -265,7 +267,6 @@ class Log implements ILogger {
 		}
 
 		if (isset($context['app'])) {
-			$logCondition = $this->config->getValue('log.condition', []);
 			$app = $context['app'];
 
 			/**
