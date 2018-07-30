@@ -501,7 +501,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			'token' => $token,
 		]);
 		$html = vsprintf('<small><a href="%s">%s</a></small>', [
-			$moreOptionsURL, $l10n->t('More options…')
+			$moreOptionsURL, $l10n->t('More options …')
 		]);
 		$text = $l10n->t('More options at %s', [$moreOptionsURL]);
 		
