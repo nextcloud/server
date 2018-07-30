@@ -137,7 +137,14 @@ module.exports = {
 				this.pageCompare.goto(`${config.urlChange}${route}`, {waitUntil: options.waitUntil})
 			]);
 		}
-
+		await this.pageBase.$eval('body', function (e) {
+			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
+			$(':focus').blur();
+		});
+		await this.pageCompare.$eval('body', function (e) {
+			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
+			$(':focus').blur();
+		});
 		var failed = null;
 		try {
 			await this.pageBase.bringToFront();
@@ -147,6 +154,7 @@ module.exports = {
 		} catch (err) {
 			failed = err;
 		}
+		await this.awaitNetworkIdle(3);
 		await this.pageBase.$eval('body', function (e) {
 			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
 			$(':focus').blur();
@@ -155,7 +163,6 @@ module.exports = {
 			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
 			$(':focus').blur();
 		});
-		await this.awaitNetworkIdle(3);
 		await Promise.all([
 			this.pageBase.screenshot({
 				path: `${this._outputDirectory}/${fileName}.base.png`,
