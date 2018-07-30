@@ -818,7 +818,7 @@ span.ui-icon {
 	}
 
 	.content {
-		max-height: calc(100% - $header-height);
+		max-height: calc(100% - #{$header-height});
 		height: 100%;
 		overflow-y: auto;
 
