@@ -590,7 +590,7 @@
 				expireDate: expireDate,
 				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
 				shareNote: this.model.get('linkShare').note,
-				addNoteLabel: t('core', 'Set share note'),
+				addNoteLabel: t('core', 'Note to recipient'),
 			});
 
 			this.$el.html(linkShareTemplate({
