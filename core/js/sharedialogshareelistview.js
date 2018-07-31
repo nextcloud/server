@@ -320,7 +320,7 @@
 		getShareProperties: function() {
 			return {
 				unshareLabel: t('core', 'Unshare'),
-				addNoteLabel: t('core', 'Set share note'),
+				addNoteLabel: t('core', 'Note to recipient'),
 				canShareLabel: t('core', 'Can reshare'),
 				canEditLabel: t('core', 'Can edit'),
 				createPermissionLabel: t('core', 'Can create'),
