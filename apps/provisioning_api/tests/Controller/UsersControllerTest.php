@@ -247,7 +247,7 @@ class UsersControllerTest extends TestCase {
 			->with('adminUser')
 			->willReturn(true);
 
-		$this->api->addUser('AlreadyExistingUser', 'password', '', []);
+		$this->api->addUser('AlreadyExistingUser', 'password', '', '', []);
 	}
 
 	/**
@@ -283,7 +283,7 @@ class UsersControllerTest extends TestCase {
 			->with('NonExistingGroup')
 			->willReturn(false);
 
-		$this->api->addUser('NewUser', 'pass', '', ['NonExistingGroup']);
+		$this->api->addUser('NewUser', 'pass', '', '', ['NonExistingGroup']);
 	}
 
 	/**
@@ -325,7 +325,7 @@ class UsersControllerTest extends TestCase {
 				['NonExistingGroup', false]
 			]));
 
-		$this->api->addUser('NewUser', 'pass', '', ['ExistingGroup', 'NonExistingGroup']);
+		$this->api->addUser('NewUser', 'pass', '', '', ['ExistingGroup', 'NonExistingGroup']);
 	}
 
 	public function testAddUserSuccessful() {
@@ -360,6 +360,63 @@ class UsersControllerTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser')->getData());
+	}
+
+	public function testAddUserSuccessfulWithDisplayName() {
+		$api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
+			->setConstructorArgs([
+				'provisioning_api',
+				$this->request,
+				$this->userManager,
+				$this->config,
+				$this->appManager,
+				$this->groupManager,
+				$this->userSession,
+				$this->accountManager,
+				$this->logger,
+				$this->l10nFactory,
+				$this->newUserMailHelper,
+				$this->federatedFileSharingFactory,
+				$this->secureRandom
+			])
+			->setMethods(['editUser'])
+			->getMock();
+
+		$this->userManager
+			->expects($this->once())
+			->method('userExists')
+			->with('NewUser')
+			->will($this->returnValue(false));
+		$this->userManager
+			->expects($this->once())
+			->method('createUser')
+			->with('NewUser', 'PasswordOfTheNewUser');
+		$this->logger
+			->expects($this->once())
+			->method('info')
+			->with('Successful addUser call with userid: NewUser', ['app' => 'ocs_api']);
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('adminUser'));
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+		$api
+			->expects($this->once())
+			->method('editUser')
+			->with('NewUser', 'display', 'DisplayNameOfTheNewUser');
+
+		$this->assertEquals([], $api->addUser('NewUser', 'PasswordOfTheNewUser', 'DisplayNameOfTheNewUser')->getData());
 	}
 
 	public function testAddUserExistingGroup() {
@@ -417,7 +474,7 @@ class UsersControllerTest extends TestCase {
 				['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']]
 			);
 
-		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', ['ExistingGroup'])->getData());
+		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData());
 	}
 
 	/**
@@ -495,7 +552,7 @@ class UsersControllerTest extends TestCase {
 			->with()
 			->willReturn($subAdminManager);
 
-		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', []);
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', []);
 	}
 
 	/**
@@ -544,7 +601,7 @@ class UsersControllerTest extends TestCase {
 			->with('ExistingGroup')
 			->willReturn(true);
 
-		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', ['ExistingGroup'])->getData();
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData();
 	}
 
 	public function testAddUserAsSubAdminExistingGroups() {
@@ -635,7 +692,7 @@ class UsersControllerTest extends TestCase {
 			)
 			->willReturn(true);
 
-		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', ['ExistingGroup1', 'ExistingGroup2'])->getData());
+		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup1', 'ExistingGroup2'])->getData());
 	}
 
 	/**
