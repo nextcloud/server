@@ -93,4 +93,23 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->assertCount(1, $data);
 	}
 
+	public function testPersistTwice() {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$this->dao->persist('twofactor_totp', 'user123', 0);
+		$this->dao->persist('twofactor_totp', 'user123', 1);
+
+		$q = $qb
+			->select('*')
+			->from(ProviderUserAssignmentDao::TABLE_NAME)
+			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter('twofactor_totp')))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter('user123')))
+			->andWhere($qb->expr()->eq('enabled', $qb->createNamedParameter(1)));
+		$res = $q->execute();
+		$data = $res->fetchAll();
+		$res->closeCursor();
+
+		$this->assertCount(1, $data);
+	}
+
 }

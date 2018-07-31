@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -59,7 +59,7 @@ class ProviderUserAssignmentDao {
 		$result = $query->execute();
 		$providers = [];
 		foreach ($result->fetchAll() as $row) {
-			$providers[$row['provider_id']] = 1 === (int) $row['enabled'];
+			$providers[$row['provider_id']] = 1 === (int)$row['enabled'];
 		}
 		$result->closeCursor();
 
@@ -72,15 +72,23 @@ class ProviderUserAssignmentDao {
 	public function persist(string $providerId, string $uid, int $enabled) {
 		$qb = $this->conn->getQueryBuilder();
 
-		// TODO: concurrency? What if (providerId, uid) private key is inserted
-		//       twice at the same time?
-		$query = $qb->insert(self::TABLE_NAME)->values([
-			'provider_id' => $qb->createNamedParameter($providerId),
-			'uid' => $qb->createNamedParameter($uid),
-			'enabled' => $qb->createNamedParameter($enabled, IQueryBuilder::PARAM_INT),
-		]);
+		// First, try to update an existing entry
+		$updateQuery = $qb->update(self::TABLE_NAME)
+			->set('enabled', $qb->createNamedParameter($enabled))
+			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
+		$updatedRows = $updateQuery->execute();
 
-		$query->execute();
+		// If this (providerId, UID) key tuple is new, we have to insert it
+		if (0 === (int)$updatedRows) {
+			$insertQuery = $qb->insert(self::TABLE_NAME)->values([
+				'provider_id' => $qb->createNamedParameter($providerId),
+				'uid' => $qb->createNamedParameter($uid),
+				'enabled' => $qb->createNamedParameter($enabled, IQueryBuilder::PARAM_INT),
+			]);
+
+			$insertQuery->execute();
+		}
 	}
 
 }
