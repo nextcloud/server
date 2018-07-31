@@ -43,6 +43,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "<strong>Kerfismerkjum</strong> á skrá hefur verið breytt",
     "Collaborative tags" : "Samstarfsmerkingar",
     "Select tag …" : "Veldu merki ...",
+    "Create a new tag" : "Búa til nýtt merki",
     "Name" : "Heiti",
     "Public" : "Opinbert",
     "Restricted" : "Takmarkað",

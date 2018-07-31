@@ -56,7 +56,6 @@ OC.L10N.register(
     "Link:" : "Веза:",
     "Accept" : "Прихвати",
     "Decline" : "Одбиј",
-    "More options ..." : "Још опција...",
     "More options at %s" : "Још опција на %s",
     "Contacts" : "Контакти",
     "WebDAV" : "ВебДАВ",
