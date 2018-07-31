@@ -1,17 +1,15 @@
 .systemtag-input {
 	display: flex;
-	max-width: 500px;
+	flex-wrap: wrap;
 }
 #systemtags .select2-container {
 	width: 100%;
-	max-width: 500px;
+	max-width: 400px;
+}
+#systemtags .select2-container .select2-choice {
+	height: auto;
 }
 #systemtag_name {
-	flex-grow: 1;
-}
-
-#systemtag_delete,
-#systemtag_reset,
-#systemtag_submit {
-	padding: 8px;
+	width: 100%;
+	max-width: 400px;
 }

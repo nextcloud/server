@@ -49,9 +49,9 @@ style('systemtags', 'settings');
 			<option value="0"><?php p($l->t('Invisible')); ?></option>
 		</select>
 
-		<a id="systemtag_delete" class="hidden icon-delete"><span class="hidden-visually"><?php p($l->t('Delete')); ?></span></a>
-		<a id="systemtag_reset" class="icon-close"><span class="hidden-visually"><?php p($l->t('Reset')); ?></span></a>
-		<a id="systemtag_submit" class="icon-confirm"><span class="hidden-visually"><?php p($l->t('Create')); ?></span></a>
+		<a id="systemtag_delete" class="hidden button"><span><?php p($l->t('Delete')); ?></span></a>
+		<a id="systemtag_reset" class="button"><span><?php p($l->t('Reset')); ?></span></a>
+		<a id="systemtag_submit" class="button"><span><?php p($l->t('Create')); ?></span></a>
 	</div>
 
 </form>
