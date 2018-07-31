@@ -367,8 +367,9 @@ vendor_style('jcrop/css/jquery.Jcrop');
 						<?php endforeach;?>
 					</select>
 					<div id="localeexample" class="personal-info icon-timezone">
-						<p id="localeexample-time"></p>
-						<p id="localeexample-date"></p>
+						<p>
+							<span id="localeexample-date"></span> <span id="localeexample-time"></span>
+						</p>
 						<p id="localeexample-fdow"></p>
 					</div>
 				</form>
