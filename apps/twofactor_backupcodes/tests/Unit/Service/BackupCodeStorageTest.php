@@ -24,14 +24,13 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Service;
 
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
+use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
-use OCP\Activity\IEvent;
-use OCP\Activity\IManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use PHPUnit_Framework_MockObject_MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class BackupCodeStorageTest extends TestCase {
@@ -45,11 +44,8 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var IHasher|PHPUnit_Framework_MockObject_MockObject */
 	private $hasher;
 
-	/** @var IManager|PHPUnit_Framework_MockObject_MockObject */
-	private $activityManager;
-
-	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
-	private $logger;
+	/** @var EventDispatcherInterface|PHPUnit_Framework_MockObject_MockObject */
+	private $eventDispatcher;
 
 	/** @var BackupCodeStorage */
 	private $storage;
@@ -60,20 +56,15 @@ class BackupCodeStorageTest extends TestCase {
 		$this->mapper = $this->createMock(BackupCodeMapper::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->hasher = $this->createMock(IHasher::class);
-		$this->activityManager = $this->createMock(IManager::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
-		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->activityManager, $this->logger);
+		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->eventDispatcher);
 	}
 
 	public function testCreateCodes() {
 		$user = $this->createMock(IUser::class);
 		$number = 5;
-		$event = $this->createMock(IEvent::class);
-
-		$user->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue('fritz'));
+		$user->method('getUID')->willReturn('fritz');
 		$this->random->expects($this->exactly($number))
 			->method('generate')
 			->with(16, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
@@ -89,28 +80,12 @@ class BackupCodeStorageTest extends TestCase {
 		$this->mapper->expects($this->exactly($number))
 			->method('insert')
 			->with($this->equalTo($row));
-		$this->activityManager->expects($this->once())
-			->method('generateEvent')
-			->will($this->returnValue($event));
-		$event->expects($this->once())
-			->method('setApp')
-			->with('twofactor_backupcodes')
-			->will($this->returnSelf());
-		$event->expects($this->once())
-			->method('setType')
-			->with('security')
-			->will($this->returnSelf());
-		$event->expects($this->once())
-			->method('setAuthor')
-			->with('fritz')
-			->will($this->returnSelf());
-		$event->expects($this->once())
-			->method('setAffectedUser')
-			->with('fritz')
-			->will($this->returnSelf());
-		$this->activityManager->expects($this->once())
-			->method('publish')
-			->will($this->returnValue($event));
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo(CodesGenerated::class),
+				$this->equalTo(new CodesGenerated($user))
+			);
 
 		$codes = $this->storage->createCodes($user, $number);
 		$this->assertCount($number, $codes);
