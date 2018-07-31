@@ -21,7 +21,7 @@
 		 * The downside: anything not ascii is excluded. Not sure how common it is in areas using different
 		 * alphabets… the upside: fake domains with similar looking characters won't be formatted as links
 		 */
-		urlRegex: /(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]*\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig,
+		urlRegex: /(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig,
 
 		plainToRich: function(content) {
 			content = this.formatLinksRich(content);
