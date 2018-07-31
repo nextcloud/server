@@ -819,7 +819,14 @@ span.version {
 		}
 	}
 	.app-level {
-		margin-bottom: 10px;
+		clear: right;
+		width: 100%;
+		.official {
+			vertical-align: top;
+		}
+		.app-score-image {
+			float: right;
+		}
 	}
 	.app-author, .app-licence {
 		color: var(--color-text-maxcontrast);
@@ -837,6 +844,8 @@ span.version {
 		padding: 14px;
 		opacity: 0.5;
 		z-index: 1;
+		width: 44px;
+		height: 44px;
 	}
 	.actions {
 		display: flex;
@@ -845,6 +854,17 @@ span.version {
 		.app-groups{
 			padding: 5px;
 		}
+	}
+	.appslink {
+		text-decoration: underline;
+		margin-right: 5px;
+	}
+	.app-level,
+	.actions,
+	.documentation,
+	.app-dependencies,
+	.app-description {
+		margin: 20px 0;
 	}
 }
 
@@ -978,10 +998,6 @@ span.version {
 	list-style: initial;
 	list-style-type: initial;
 	list-style-position: inside;
-}
-
-.appslink {
-	text-decoration: underline;
 }
 
 
