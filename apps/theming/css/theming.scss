@@ -27,16 +27,19 @@
 		filter: none;
 	}
 	.searchbox input[type="search"] {
-		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
+		background-repeat: no-repeat;
+		background-position: 6px center;
+		background-color: transparent;
+		@include icon-color('search', 'actions', $color-black, 1, true);
 	}
 	#contactsmenu .icon-contacts {
-		background-image: url('../../../core/img/places/contacts-dark.svg');
+		@include icon-color('contacts', 'places', $color-black, 1, true);
 	}
 	#settings .icon-settings-white {
-		background-image: url('../../../core/img/actions/settings-dark.svg');
+		@include icon-color('settings', 'actions', $color-black, 1, true);
 	}
 	#appmenu .icon-more-white {
-		background-image: url('../../../core/img/actions/more.svg');
+		@include icon-color('more', 'actions', $color-black, 1, true);
 	}
 
 	#body-login {
@@ -64,8 +67,8 @@
 		}
 		input[type='checkbox'].checkbox--white:checked + label:before {
 			border-color: nc-darken($color-primary-element, 30%) !important;
-			background-image: url('../../../core/img/actions/checkbox-mark.svg');
 			background-color: nc-darken($color-primary-element, 30%) !important;
+			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
 		}
 	}
 } @else {
