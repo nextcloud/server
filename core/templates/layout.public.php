@@ -27,6 +27,9 @@
 </head>
 <body id="<?php p($_['bodyid']);?>">
 <?php include('layout.noscript.warning.php'); ?>
+	<div id="notification-container">
+		<div id="notification"></div>
+	</div>
 	<header id="header" class="<?php p($_['header-classes']); ?>">
 		<div class="header-left">
 			<span id="nextcloud">
