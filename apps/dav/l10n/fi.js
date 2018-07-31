@@ -55,7 +55,6 @@ OC.L10N.register(
     "Link:" : "Linkki:",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
-    "More options ..." : "Lisää valintoja...",
     "Contacts" : "Yhteystiedot",
     "WebDAV" : "WebDAV",
     "Technical details" : "Tekniset yksityiskohdat",
