@@ -1104,20 +1104,25 @@ $popovericon-size: 16px;
 			width: 40px;
 			display: flex;
 			z-index: 50;
-			+ .app-content-list-item-icon {
-				opacity: .7;
-			}
 		}
 
-		.app-content-list-item-checkbox.checkbox + label {
-			top: 14px;
-			left: 7px;
-			&::before {
-				margin: 0;
+		.app-content-list-item-checkbox.checkbox {
+			&:checked {
+				// if checked, lower the opacity of the avatar
+				+ label + .app-content-list-item-icon {
+					opacity: .7;
+				}
 			}
-			/* Hide the star, priority to the checkbox */
-			~ .app-content-list-item-star {
-				display: none;
+			+ label {
+				top: 14px;
+				left: 7px;
+				&::before {
+					margin: 0;
+				}
+				/* Hide the star, priority to the checkbox */
+				~ .app-content-list-item-star {
+					display: none;
+				}
 			}
 		}
 
