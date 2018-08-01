@@ -58,7 +58,7 @@
 				$(window).off('beforeunload.inprogress');
 				self.setErrorMessage(message);
 				message = t('core', 'Please reload the page.');
-				$('<span>').addClass('error').append('<a href=".">'+message+'</a><br />').appendTo($el);
+				$('<p>').append('<a href=".">'+message+'</a>').appendTo($el);
 				updateEventSource.close();
 			});
 			updateEventSource.listen('failure', function(message) {
