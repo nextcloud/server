@@ -1095,6 +1095,10 @@ $popovericon-size: 16px;
 		&:focus,
 		&.active {
 			background-color: var(--color-background-dark);
+			// display checkbox on hover/focus/active
+			.app-content-list-item-checkbox.checkbox + label {
+				display: flex;
+			}
 		}
 
 		.app-content-list-item-checkbox.checkbox + label,
@@ -1102,20 +1106,28 @@ $popovericon-size: 16px;
 			position: absolute;
 			height: 40px;
 			width: 40px;
-			display: flex;
 			z-index: 50;
 		}
 
 		.app-content-list-item-checkbox.checkbox {
-			&:checked {
-				// if checked, lower the opacity of the avatar
-				+ label + .app-content-list-item-icon {
-					opacity: .7;
+			&:checked,
+			&:hover,
+			&:focus,
+			&.active {
+				+ label {
+					// display checkbox if checked
+					display: flex;
+					// if checked, lower the opacity of the avatar
+					+ .app-content-list-item-icon {
+						opacity: .7;
+					}
 				}
 			}
 			+ label {
 				top: 14px;
 				left: 7px;
+				// hidden by default, only chown on hover-focus or if checked
+				display: none;
 				&::before {
 					margin: 0;
 				}
@@ -1127,6 +1139,7 @@ $popovericon-size: 16px;
 		}
 
 		.app-content-list-item-star {
+			display: flex;
 			top: 10px;
 			left: 32px;
 			background-size: 16px;
