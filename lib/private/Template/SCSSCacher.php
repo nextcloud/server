@@ -388,7 +388,11 @@ class SCSSCacher {
 		$fileName   = array_pop($tmpfileLoc);
 		$fileName   = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName)), $appName);
 
-		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', ['fileName' => $fileName, 'appName' => $appName]), strlen(\OC::$WEBROOT) + 1);
+		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', [
+			'fileName' => $fileName,
+			'appName' => $appName,
+			'v' => $this->config->getAppValue('core', 'scss.variables', '0')
+		]), \strlen(\OC::$WEBROOT) + 1);
 	}
 
 	/**
