@@ -458,7 +458,8 @@ class SCSSCacherTest extends \Test\TestCase {
 			->with('core.Css.getCss', [
 				'fileName' => substr(md5($version), 0, 4) . '-' .
 							  substr(md5('http://localhost/nextcloud/index.php'), 0, 4) . '-styles.css',
-				'appName' => $appName
+				'appName' => $appName,
+				'v' => 0,
 			])
 			->willReturn(\OC::$WEBROOT . $result);
 		$actual = $this->scssCacher->getCachedSCSS($appName, $fileName);
