@@ -29,7 +29,7 @@ script('dav', [
 /** @var array $_ */
 ?>
 <form id="CalDAV" class="section">
-	<h2><?php p($l->t('CalDAV server')); ?></h2>
+	<h2><?php p($l->t('Calendar server')); ?></h2>
 	<p>
 		<input type="checkbox" name="caldav_send_invitations" id="caldavSendInvitations" class="checkbox"
 			<?php ($_['send_invitations'] === 'yes') ? print_unescaped('checked="checked"') : null ?>/>
