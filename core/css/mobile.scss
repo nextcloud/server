@@ -28,7 +28,7 @@
 		}
 	}
 
-	#app-navigation + #app-content {
+	#app-navigation:not(.hidden) + #app-content {
 		margin-left: 0;
 	}
 
