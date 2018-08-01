@@ -193,6 +193,11 @@ var OCdialogs = {
 			type = this.FILEPICKER_TYPE_CHOOSE;
 		}
 
+		var emptyText = t('core', 'No files in here');
+		if (type === this.FILEPICKER_TYPE_COPY || type === this.FILEPICKER_TYPE_MOVE || type === this.FILEPICKER_TYPE_COPY_MOVE) {
+			emptyText = t('core', 'No more subfolders in here');
+		}
+
 		this.filepicker.loading = true;
 		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
@@ -204,7 +209,7 @@ var OCdialogs = {
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialogName,
 				title: title,
-				emptytext: t('core', 'No files in here')
+				emptytext: emptyText
 			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetypeFilter);
 
 			if (modal === undefined) {
