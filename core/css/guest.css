@@ -522,6 +522,7 @@ form #selectDbType label.ui-state-active {
 	background-color: rgba(0,0,0,.3);
 	color: #fff;
 	text-align: left;
+	word-wrap: break-word;
 	border-radius: 3px;
 	cursor: default;
 	-moz-user-select: text;
