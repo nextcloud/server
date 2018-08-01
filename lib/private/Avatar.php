@@ -120,6 +120,15 @@ class Avatar implements IAvatar {
 	}
 
 	/**
+	 * Check if the avatar of a user is a custom uploaded one
+	 *
+	 * @return bool
+	 */
+	public function isCustomAvatar(): bool {
+		return !$this->folder->fileExists('generated');
+	}
+
+	/**
 	 * sets the users avatar
 	 * @param IImage|resource|string $data An image object, imagedata or path to set a new avatar
 	 * @throws \Exception if the provided file is not a jpg or png image
@@ -362,7 +371,7 @@ class Avatar implements IAvatar {
 	 * @param string $font font path
 	 * @param int $size font size
 	 * @param int $angle
-	 * @return Array
+	 * @return array
 	 */
 	protected function imageTTFCenter($image, string $text, string $font, int $size, $angle = 0): array {
 		// Image width & height

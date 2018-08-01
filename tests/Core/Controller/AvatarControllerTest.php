@@ -34,7 +34,7 @@ namespace Tests\Core\Controller;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
 use OCP\AppFramework\Http;
-use OCP\Files\Cache\ICache;
+use OCP\ICache;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -143,10 +143,29 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testGetAvatar() {
 		$this->avatarMock->method('getFile')->willReturn($this->avatarFile);
 		$this->avatarManager->method('getAvatar')->with('userId')->willReturn($this->avatarMock);
+		$this->avatarMock->expects($this->once())
+			->method('isCustomAvatar')
+			->willReturn(true);
 
 		$response = $this->avatarController->getAvatar('userId', 32);
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
+		$this->assertArrayHasKey('Content-Type', $response->getHeaders());
+		$this->assertEquals('image type', $response->getHeaders()['Content-Type']);
+
+		$this->assertEquals('my etag', $response->getETag());
+	}
+
+	/**
+	 * Fetch the user's avatar
+	 */
+	public function testGetGeneratedAvatar() {
+		$this->avatarMock->method('getFile')->willReturn($this->avatarFile);
+		$this->avatarManager->method('getAvatar')->with('userId')->willReturn($this->avatarMock);
+
+		$response = $this->avatarController->getAvatar('userId', 32);
+
+		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
 		$this->assertArrayHasKey('Content-Type', $response->getHeaders());
 		$this->assertEquals('image type', $response->getHeaders()['Content-Type']);
 
