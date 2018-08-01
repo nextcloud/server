@@ -56,6 +56,7 @@ OC.L10N.register(
     "Link:" : "Bağlantı:",
     "Accept" : "Onayla",
     "Decline" : "Reddet",
+    "More options …" : "Diğer seçenekler…",
     "More options at %s" : "%s üzerindeki diğer seçenekler",
     "Contacts" : "Kişiler",
     "WebDAV" : "WebDAV",

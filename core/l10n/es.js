@@ -173,7 +173,6 @@ OC.L10N.register(
     "Set expiration date" : "Establecer fecha de caducidad",
     "Expiration" : "Expira en:",
     "Expiration date" : "Fecha de caducidad",
-    "Set share note" : "Crear nota en el compartido",
     "Share link" : "Compartir enlace",
     "Enable" : "Habilitar",
     "Shared with you and the group {group} by {owner}" : "Compartido contigo y el grupo {group} por {owner}",

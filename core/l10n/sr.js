@@ -173,7 +173,6 @@ OC.L10N.register(
     "Set expiration date" : "Постави датум истека",
     "Expiration" : "Истиче",
     "Expiration date" : "Датум истека",
-    "Set share note" : "Постави белешку дељења",
     "Share link" : "Веза дељења",
     "Enable" : "Укључи",
     "Shared with you and the group {group} by {owner}" : "{owner} дели са вама и са групом {group}.",
