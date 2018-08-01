@@ -150,11 +150,8 @@
 					</td>
 				<?php endif; ?>
 				<td class="mountOptionsToggle hidden">
-					<div class="icon-settings-dark" title="<?php p($l->t('Advanced settings')); ?>"></div>
+					<div class="icon-more" title="<?php p($l->t('Advanced settings')); ?>"></div>
 					<input type="hidden" class="mountOptions" value="" />
-				</td>
-				<td class="remove hidden">
-					<div class="icon-delete" title="<?php p($l->t('Delete')); ?>"></div>
 				</td>
 				<td class="save hidden">
 					<div class="icon-checkmark" title="<?php p($l->t('Save')); ?>"></div>

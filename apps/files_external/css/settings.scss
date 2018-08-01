@@ -6,6 +6,12 @@
 	margin: 15px 0 20px 0;
 }
 
+#externalStorage td {
+	& > input, & > select {
+		width: 100%;
+	}
+}
+
 #externalStorage td.status {
 	/* overwrite conflicting core styles */
 	display: table-cell;
@@ -20,8 +26,12 @@
 	border-radius: 50%;
 	cursor: pointer;
 }
-
-td.mountPoint, td.backend { width:160px; }
+#externalStorage {
+	td.mountPoint, td.backend, td.authentication, td.configuration {
+		min-width: 160px;
+		width: 15%;
+	}
+}
 #externalStorage td>img { padding-top:7px; opacity: 0.5; }
 #externalStorage td>img:hover { padding-top:7px; cursor:pointer; opacity: 1; }
 #addMountPoint>td { border:none; }
@@ -84,6 +94,10 @@ td.mountPoint, td.backend { width:160px; }
 #externalStorage td.applicable div.chzn-container {
 	position: relative;
 	top: 3px;
+}
+
+#externalStorage .select2-container.applicableUsers {
+	width: 100% !important;
 }
 
 #userMountingBackends {
