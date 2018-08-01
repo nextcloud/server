@@ -132,12 +132,13 @@ class AvatarController extends Controller {
 		}
 
 		try {
-			$avatar = $this->avatarManager->getAvatar($userId)->getFile($size);
+			$avatar = $this->avatarManager->getAvatar($userId);
+			$avatarFile = $avatar->getFile($size);
 			$resp = new FileDisplayResponse(
-				$avatar,
-				Http::STATUS_OK,
-				['Content-Type' => $avatar->getMimeType()
-			]);
+				$avatarFile,
+				$avatar->isCustomAvatar() ? Http::STATUS_OK : Http::STATUS_CREATED,
+				['Content-Type' => $avatarFile->getMimeType()]
+			);
 		} catch (\Exception $e) {
 			$resp = new Http\Response();
 			$resp->setStatus(Http::STATUS_NOT_FOUND);
