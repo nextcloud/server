@@ -601,7 +601,7 @@ kbd {
 	flex-basis: 100vw;
 	min-height: 100%;
 	/* margin if navigation element is here */
-	#app-navigation + & {
+	#app-navigation:not(.hidden) + & {
 		margin-left: $navigation-width;
 	}
 	/* no top border for first settings item */
