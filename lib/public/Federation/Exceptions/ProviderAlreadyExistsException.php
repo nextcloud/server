@@ -42,8 +42,8 @@ class ProviderAlreadyExistsException extends HintException {
 	 */
 	public function __construct($newProviderId, $existingProviderName) {
 		$l = \OC::$server->getL10N('federation');
-		$message = 'Id "' . $newProviderId . '" already used by cloud federation provider "' . $existingProviderName . '"';
-		$hint = $l->t('Id "%s" already used by cloud federation provider "%s"', [$newProviderId, $existingProviderName]);
+		$message = 'ID "' . $newProviderId . '" already used by cloud federation provider "' . $existingProviderName . '"';
+		$hint = $l->t('ID "%s" already used by cloud federation provider "%s"', [$newProviderId, $existingProviderName]);
 		parent::__construct($message, $hint);
 	}
 
