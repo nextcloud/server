@@ -38,6 +38,7 @@ describe('OCP.Comments tests', function() {
 			{input: 'hi noreply@nextcloud.com', expected: 'hi noreply@nextcloud.com'},
 			{input: 'hi <noreply@nextcloud.com>', expected: 'hi <noreply@nextcloud.com>'},
 			{input: 'FirebaseInstanceId.getInstance().deleteInstanceId()', expected: 'FirebaseInstanceId.getInstance().deleteInstanceId()'},
+			{input: 'I mean...it', expected: 'I mean...it'},
 		];
 	}
 
