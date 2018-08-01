@@ -56,6 +56,7 @@ OC.L10N.register(
     "Link:" : "Link:",
     "Accept" : "Aceitar",
     "Decline" : "Rejeitar",
+    "More options …" : "Mais opções...",
     "More options at %s" : "Mais opções em %s",
     "Contacts" : "Contatos",
     "WebDAV" : "WebDAV",

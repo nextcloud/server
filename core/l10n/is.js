@@ -168,7 +168,6 @@ OC.L10N.register(
     "Set expiration date" : "Setja gildistíma",
     "Expiration" : "Rennur út",
     "Expiration date" : "Gildir til",
-    "Set share note" : "Setja minnispunkt á sameign",
     "Share link" : "Deila tengli",
     "Enable" : "Virkja",
     "Shared with you and the group {group} by {owner}" : "Deilt með þér og hópnum {group} af {owner}",

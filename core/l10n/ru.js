@@ -173,7 +173,6 @@ OC.L10N.register(
     "Set expiration date" : "Установить срок действия",
     "Expiration" : "Срок действия",
     "Expiration date" : "Дата окончания",
-    "Set share note" : "Примечание",
     "Share link" : "Поделиться ссылкой",
     "Enable" : "Включить",
     "Shared with you and the group {group} by {owner}" : "{owner} предоставил(а) доступ Вам и группе {group}",
