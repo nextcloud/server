@@ -16,13 +16,10 @@
 		'{{#each items}}' +
 		'<li>' +
 		'<a href="#" class="menuitem action action-{{name}} permanent {{#if active}}active{{/if}}" data-action="{{name}}">' +
-			'{{#if icon}}<img class="icon" src="{{icon}}"/>' +
-			'{{else}}'+
-				'{{#if iconClass}}' +
-				'<span class="icon {{iconClass}}"></span>' +
-				'{{else}}' +
-				'<span class="no-icon"></span>' +
-				'{{/if}}' +
+			'{{#if iconClass}}' +
+			'<span class="icon {{iconClass}}"></span>' +
+			'{{else}}' +
+			'<span class="no-icon"></span>' +
 			'{{/if}}' +
 			'<p><strong class="menuitem-text">{{displayName}}</strong><br>' +
 			'<span class="menuitem-text-detail">{{tooltip}}</span></p></a>' +
@@ -48,21 +45,21 @@
 					name: 'private',
 					displayName: (this.field === 'avatar' || this.field === 'displayname') ? t('settings', 'Local') : t('settings', 'Private'),
 					tooltip: (this.field === 'avatar' || this.field === 'displayname') ? t('settings', 'Only visible to local users') : t('settings', 'Only visible to you'),
-					icon: OC.imagePath('core', 'actions/password'),
+					iconClass: 'icon-password',
 					active: false
 				},
 				{
 					name: 'contacts',
 					displayName: t('settings', 'Contacts'),
 					tooltip: t('settings', 'Visible to local users and to trusted servers'),
-					icon: OC.imagePath('core', 'places/contacts'),
+					iconClass: 'icon-contacts-dark',
 					active: false
 				},
 				{
 					name: 'public',
 					displayName: t('settings', 'Public'),
 					tooltip: t('settings', 'Will be synced to a global and public address book'),
-					icon: OC.imagePath('core', 'places/link'),
+					iconClass: 'icon-link',
 					active: false
 				}
 			];
