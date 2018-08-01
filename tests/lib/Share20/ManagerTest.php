@@ -2165,6 +2165,56 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($share, $ret);
 	}
 
+	public function testGetShareByTokenRoom() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->willReturn('no');
+
+		$factory = $this->createMock(IProviderFactory::class);
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$this->l10nFactory,
+			$factory,
+			$this->userManager,
+			$this->rootFolder,
+			$this->eventDispatcher,
+			$this->mailer,
+			$this->urlGenerator,
+			$this->defaults
+		);
+
+		$share = $this->createMock(IShare::class);
+
+		$roomShareProvider = $this->createMock(IShareProvider::class);
+
+		$factory->expects($this->any())
+			->method('getProviderForType')
+			->will($this->returnCallback(function($shareType) use ($roomShareProvider) {
+				if ($shareType !== \OCP\Share::SHARE_TYPE_ROOM) {
+					throw new Exception\ProviderException();
+				}
+
+				return $roomShareProvider;
+			}));
+
+		$roomShareProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$ret = $manager->getShareByToken('token');
+		$this->assertSame($share, $ret);
+	}
+
 	public function testGetShareByTokenWithException() {
 		$this->config
 			->expects($this->once())
