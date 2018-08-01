@@ -54,6 +54,14 @@ interface IAvatar {
 	public function exists();
 
 	/**
+	 * Check if the avatar of a user is a custom uploaded one
+	 *
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function isCustomAvatar(): bool;
+
+	/**
 	 * sets the users avatar
 	 * @param \OCP\IImage|resource|string $data An image object, imagedata or path to set a new avatar
 	 * @throws \Exception if the provided file is not a jpg or png image
