@@ -256,7 +256,7 @@ class AppSettingsController extends Controller {
 			$appData['category'] = $appstoreData['categories'];
 
 			$newVersion = $this->installer->isUpdateAvailable($appData['id']);
-			if($newVersion && $this->appManager->isInstalled($appData['id'])) {
+			if($newVersion) {
 				$appData['update'] = $newVersion;
 			}
 
