@@ -58,7 +58,7 @@
     "Could not load your contacts" : "Ошибка получения контактов",
     "Loading your contacts …" : "Загрузка контактов…",
     "Looking for {term} …" : "Поиск {term}…",
-    "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\"> Были обнаружены проблемы с проверкой целостности кода. Подробнее…",
+    "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\"> Обнаружены нарушения целостности кода. Подробнее…</a>",
     "No action available" : "Нет доступных действий",
     "Error fetching contact actions" : "Ошибка получения действий контакта",
     "Settings" : "Настройки",

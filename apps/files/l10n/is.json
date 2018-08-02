@@ -20,6 +20,7 @@
     "Uploading …" : "Sendi inn …",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} af {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "Innsending á þessu atriði er ekki studd",
     "Target folder does not exist any more" : "Markmappan er ekki lengur til",
     "Error when assembling chunks, status code {status}" : "Villa við að setja búta saman, stöðukóði {status}",
     "Actions" : "Aðgerðir",
