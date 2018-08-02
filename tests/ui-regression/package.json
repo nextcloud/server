@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "mocha test/",
-	"danger": "danger pr"
+	"danger": "danger"
     },
     "author": "",
     "dependencies": {
