@@ -92,10 +92,10 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetSection() {
-		$this->assertSame('encryption', $this->admin->getSection());
+		$this->assertSame('security', $this->admin->getSection());
 	}
 
 	public function testGetPriority() {
-		$this->assertSame(5, $this->admin->getPriority());
+		$this->assertSame(11, $this->admin->getPriority());
 	}
 }

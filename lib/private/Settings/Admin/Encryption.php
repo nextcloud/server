@@ -77,7 +77,7 @@ class Encryption implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return 'encryption';
+		return 'security';
 	}
 
 	/**
@@ -88,6 +88,6 @@ class Encryption implements ISettings {
 	 * E.g.: 70
 	 */
 	public function getPriority() {
-		return 0;
+		return 10;
 	}
 }

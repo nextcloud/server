@@ -54,6 +54,11 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'				<label for="mountOptionsReadOnly">{{t "files_external" "Read only"}}</label>' +
 	'			</span>' +
 	'		</li>' +
+	'		<li class="optionRow persistent">' +
+	'			<a href="#" class="menuitem remove icon-delete">' +
+	'				<span>{{t "files_external" "Delete"}}</span>' +
+	'			</a>' +
+	'		</li>' +
 	'	</ul>'+
 	'</div>';
 
@@ -584,7 +589,7 @@ MountOptionsDropdown.prototype = {
 		$el.find('.optionRow').each(function(i, row){
 			var $row = $(row);
 			var optionId = $row.find('input, select').attr('name');
-			if (visibleOptions.indexOf(optionId) === -1) {
+			if (visibleOptions.indexOf(optionId) === -1 && !$row.hasClass('persistent')) {
 				$row.hide();
 			} else {
 				$row.show();
@@ -734,7 +739,7 @@ MountConfigListView.prototype = _.extend({
 			self.recheckStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.remove>.icon-delete', function() {
+		this.$el.on('click', 'td.mountOptionsToggle .icon-delete', function() {
 			self.deleteStorageConfig($(this).closest('tr'));
 		});
 
@@ -742,7 +747,7 @@ MountConfigListView.prototype = _.extend({
 			self.saveStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.mountOptionsToggle>.icon-settings-dark', function() {
+		this.$el.on('click', 'td.mountOptionsToggle>.icon-more', function() {
 			self._showMountOptionsDropdown($(this).closest('tr'));
 		});
 
@@ -1311,7 +1316,8 @@ MountConfigListView.prototype = _.extend({
 			'filesystem_check_changes',
 			'enable_sharing',
 			'encoding_compatibility',
-			'readonly'
+			'readonly',
+			'delete'
 		];
 		if (this._encryptionEnabled) {
 			visibleOptions.push('encrypt');

@@ -129,10 +129,10 @@ class EncryptionTest extends TestCase {
 	}
 
 	public function testGetSection() {
-		$this->assertSame('encryption', $this->admin->getSection());
+		$this->assertSame('security', $this->admin->getSection());
 	}
 
 	public function testGetPriority() {
-		$this->assertSame(0, $this->admin->getPriority());
+		$this->assertSame(10, $this->admin->getPriority());
 	}
 }

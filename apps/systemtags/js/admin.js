@@ -40,6 +40,12 @@
 				}
 			});
 
+			var self = this;
+			$('#systemtag_name').on('keyup', function(e) {
+				if (e.which === 13) {
+					_.bind(self._onClickSubmit, self)();
+				}
+			});
 			$('#systemtag_submit').on('click', _.bind(this._onClickSubmit, this));
 			$('#systemtag_delete').on('click', _.bind(this._onClickDelete, this));
 			$('#systemtag_reset').on('click', _.bind(this._onClickReset, this));
