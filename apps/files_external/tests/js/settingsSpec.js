@@ -46,11 +46,8 @@ describe('OCA.External.Settings tests', function() {
 			'<input type="hidden" class="applicableUsers">' +
 			'</td>' +
 			'<td class="mountOptionsToggle">'+
-			'<div class="icon-settings-dark" title="Advanced settings" deluminate_imagetype="unknown"></div>'+
+			'<div class="icon-more" title="Advanced settings" deluminate_imagetype="unknown"></div>'+
 			'<input type="hidden" class="mountOptions"/>'+
-			'</td>'+
-			'<td class="remove">'+
-			'<div class="icon-delete" title="Delete" deluminate_imagetype="unknown"></div>'+
 			'</td>'+
 			'<td class="save">'+
 			'<div class="icon-checkmark" title="Save" deluminate_imagetype="unknown"></div>'+
@@ -239,7 +236,7 @@ describe('OCA.External.Settings tests', function() {
 				// TODO: respond and check data-id
 			});
 			it('saves storage after closing mount options popovermenu', function() {
-				$tr.find('.mountOptionsToggle .icon-settings-dark').click();
+				$tr.find('.mountOptionsToggle .icon-more').click();
 				$tr.find('[name=previews]').trigger(new $.Event('keyup', {keyCode: 97}));
 				$tr.find('input[data-parameter=field1]').val('test');
 
@@ -331,7 +328,7 @@ describe('OCA.External.Settings tests', function() {
 			});
 
 			it('shows popovermenu when clicking on toggle button, hides when clicking outside', function() {
-				$td.find('.icon-settings-dark').click();
+				$td.find('.icon-more').click();
 
 				expect($td.find('.popovermenu.open').length).toEqual(1);
 
@@ -342,7 +339,7 @@ describe('OCA.External.Settings tests', function() {
 
 			it('doesnt show the encryption option when encryption is disabled', function () {
 				view._encryptionEnabled = false;
-				$td.find('.icon-settings-dark').click();
+				$td.find('.icon-more').click();
 
 				expect($td.find('.popovermenu [name=encrypt]:visible').length).toEqual(0);
 
@@ -354,17 +351,17 @@ describe('OCA.External.Settings tests', function() {
 			it('reads config from mountOptions field', function() {
 				$tr.find('input.mountOptions').val(JSON.stringify({previews:false}));
 
-				$td.find('.icon-settings-dark').click();
+				$td.find('.icon-more').click();
 				expect($td.find('.popovermenu [name=previews]').prop('checked')).toEqual(false);
 				$('body').mouseup();
 
 				$tr.find('input.mountOptions').val(JSON.stringify({previews:true}));
-				$td.find('.icon-settings-dark').click();
+				$td.find('.icon-more').click();
 				expect($td.find('.popovermenu [name=previews]').prop('checked')).toEqual(true);
 			});
 
 			it('writes config into mountOptions field', function() {
-				$td.find('.icon-settings-dark').click();
+				$td.find('.icon-more').click();
 				// defaults to true
 				var $field = $td.find('.popovermenu [name=previews]');
 				expect($field.prop('checked')).toEqual(true);
