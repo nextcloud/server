@@ -173,6 +173,7 @@ OC.L10N.register(
     "Set expiration date" : "Definir data de expiração",
     "Expiration" : "Expiração",
     "Expiration date" : "Data de expiração",
+    "Note to recipient" : "Nota para o destinatário",
     "Share link" : "Compartilhar link",
     "Enable" : "Ativar",
     "Shared with you and the group {group} by {owner}" : "Compartilhado com você e com o grupo {group} por {owner}",
