@@ -389,7 +389,7 @@ class Installer {
 			if($app['id'] === $appId) {
 				$currentVersion = OC_App::getAppVersion($appId);
 				$newestVersion = $app['releases'][0]['version'];
-				if (version_compare($newestVersion, $currentVersion, '>')) {
+				if ($currentVersion !== '0' && version_compare($newestVersion, $currentVersion, '>')) {
 					return $newestVersion;
 				} else {
 					return false;
