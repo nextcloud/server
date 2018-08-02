@@ -1209,4 +1209,7 @@ $popovericon-size: 16px;
 			}
 		}
 	}
+	&.selection .app-content-list-item-checkbox.checkbox + label {
+		display: flex;
+	}
 }
