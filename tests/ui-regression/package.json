@@ -4,12 +4,16 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "mocha test/"
+        "test": "mocha test/",
+	"danger": "danger pr"
     },
     "author": "",
     "dependencies": {
+        "babel": "^6.23.0",
         "chai": "^4.1.2",
+        "danger": "^3.8.3",
         "fs": "0.0.1-security",
+        "lodash": "^4.17.10",
         "mocha": "^5.2.0",
         "mocha-json-report": "0.0.2",
         "pixelmatch": "^4.0.2",
