@@ -173,6 +173,7 @@ OC.L10N.register(
     "Set expiration date" : "Son kullanma tarihini ayarla",
     "Expiration" : "Son kullanma",
     "Expiration date" : "Son kullanma tarihi",
+    "Note to recipient" : "Alıcıya not",
     "Share link" : "Paylaşma bağlantısı",
     "Enable" : "Etkinleştir",
     "Shared with you and the group {group} by {owner}" : "{owner} tarafından sizinle ve {group} ile paylaşılmış",
