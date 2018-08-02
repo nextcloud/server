@@ -1,8 +1,10 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,11 +26,16 @@
 namespace OCA\TwoFactorBackupCodes\AppInfo;
 
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
+use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
+use OCA\TwoFactorBackupCodes\Listener\ActivityPublisher;
+use OCA\TwoFactorBackupCodes\Listener\IListener;
+use OCA\TwoFactorBackupCodes\Listener\RegistryUpdater;
 use OCP\AppFramework\App;
 use OCP\Util;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App {
-	public function __construct () {
+	public function __construct() {
 		parent::__construct('twofactor_backupcodes');
 	}
 
@@ -44,6 +51,21 @@ class Application extends App {
 	 */
 	public function registerHooksAndEvents() {
 		Util::connectHook('OC_User', 'post_deleteUser', $this, 'deleteUser');
+
+		$container = $this->getContainer();
+		/** @var EventDispatcherInterface $eventDispatcher */
+		$eventDispatcher = $container->query(EventDispatcherInterface::class);
+		$eventDispatcher->addListener(CodesGenerated::class, function (CodesGenerated $event) use ($container) {
+			/** @var IListener[] $listeners */
+			$listeners = [
+				$container->query(ActivityPublisher::class),
+				$container->query(RegistryUpdater::class),
+			];
+
+			foreach ($listeners as $listener) {
+				$listener->handle($event);
+			}
+		});
 	}
 
 	public function deleteUser($params) {
