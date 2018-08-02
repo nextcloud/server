@@ -72,6 +72,7 @@ OC.L10N.register(
     "Public key" : "Dreifilykill",
     "RSA private key" : "RSA-einkalykill",
     "Private key" : "Einkalykill",
+    "Kerberos ticket" : "Kerberos aðgöngumerki",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Vélarheiti",
