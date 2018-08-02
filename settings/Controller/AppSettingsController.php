@@ -214,7 +214,7 @@ class AppSettingsController extends Controller {
 			if (!array_key_exists($app['id'], $this->allApps)) {
 				$this->allApps[$app['id']] = $app;
 			} else {
-				$this->allApps[$app['id']] = array_merge($this->allApps[$app['id']], $app);
+				$this->allApps[$app['id']] = array_merge($app, $this->allApps[$app['id']]);
 			}
 		}
 
