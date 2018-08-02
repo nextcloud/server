@@ -251,9 +251,11 @@ class AppSettingsController extends Controller {
 
 		// Extend existing app details
 		$apps = array_map(function($appData) use ($dependencyAnalyzer) {
-			$appstoreData = $appData['appstoreData'];
-			$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($appstoreData['screenshots'][0]['url']) : '';
-			$appData['category'] = $appstoreData['categories'];
+			if (isset($appData['appstoreData'])) {
+				$appstoreData = $appData['appstoreData'];
+				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';
+				$appData['category'] = $appstoreData['categories'];
+			}
 
 			$newVersion = $this->installer->isUpdateAvailable($appData['id']);
 			if($newVersion && $this->appManager->isInstalled($appData['id'])) {
