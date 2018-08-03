@@ -1,15 +1,23 @@
 Feature: app-files
 
-  Scenario: viewing a favorite file in its folder closes the details view
+  Scenario: viewing a favorite file in its folder shows the correct sidebar view
     Given I am logged in
+    And I create a new folder named "other"
+    And I mark "other" as favorite
     And I mark "welcome.txt" as favorite
+    And I see that "other" is marked as favorite
     And I see that "welcome.txt" is marked as favorite
     And I open the "Favorites" section
-    And I open the details view for "welcome.txt"
+    And I open the details view for "other"
     And I see that the details view is open
+    And I see that the file name shown in the details view is "other"
     When I view "welcome.txt" in folder
     Then I see that the current section is "All files"
-    And I see that the details view is closed
+    And I see that the details view is open
+    And I see that the file name shown in the details view is "welcome.txt"
+    When I open the details view for "other"
+    And I see that the file name shown in the details view is "other"
+
 
   Scenario: viewing a favorite file in its folder does not prevent opening the details view in "All files" section
     Given I am logged in
