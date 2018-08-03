@@ -49,7 +49,7 @@
 		<p id="update-progress-message-error" class="hidden"></p>
 		<ul id="update-progress-message-warnings" class="hidden"></ul>
 		<p id="update-progress-message"></p>
-		<a class="update-show-detailed"><?php p($l->t( 'Detailed logs' )); ?> ⏷</a>
+		<a class="update-show-detailed"><?php p($l->t( 'Detailed logs' )); ?> <span class="icon-caret-white"></span></a>
 		<div id="update-progress-detailed" class="hidden"></div>
 	</div>
 </div>
