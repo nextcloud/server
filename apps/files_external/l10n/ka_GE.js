@@ -119,7 +119,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "დააწკაპუნეთ კონფიგურაციის ხელახალი შემოწმებისთვის",
     "Add storage" : "საცავის დამატება",
     "Advanced settings" : "დამატებითი პარამეტრები",
-    "Delete" : "წაშლა",
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "მოთხოვნის ტოკენების მიღება ვერ მოხერხდა. დარწმუნდით რომ თქვენი აპლიკაციის გასაღები საიდუმლოა და სწორია.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "მოთხოვნის ტოკენების მიღება ვერ მოხერხდა. დარწმუნდით რომ თქვენი აპლიკაციის გასაღები საიდუმლოა და სწორია.",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive-ი",
     "No external storage configured" : "გარე საცავი არაა კონფიგურირებული",
     "You can add external storages in the personal settings" : "გარე საცავები შეგიძლიათ დაამატოთ პირად პარამეტრებში",
+    "Delete" : "წაშლა",
     "Allow users to mount the following external storage" : "მივცეთ მომხმარებლებს შემდეგი გარე საცავების მონტაჟის უფლება",
     "Are you sure you want to delete this external storage" : "დარწმუნებული ხართ, რომ გსურთ ამ გარე საცავის გაუქმება?"
 },

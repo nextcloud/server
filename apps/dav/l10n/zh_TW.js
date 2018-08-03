@@ -41,7 +41,7 @@ OC.L10N.register(
     "Technical details" : "技術細節",
     "Remote Address: %s" : "遠端位置：%s",
     "Request ID: %s" : "請求編號：%s",
-    "CalDAV server" : "網路行事曆伺服器",
-    "Send invitations to attendees" : "發送邀請函給參加者"
+    "Send invitations to attendees" : "發送邀請函給參加者",
+    "CalDAV server" : "網路行事曆伺服器"
 },
 "nplurals=1; plural=0;");

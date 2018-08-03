@@ -112,11 +112,11 @@ OC.L10N.register(
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
-    "Delete" : "Fshije",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Pa depozita të jashtme të formësuara",
     "You can add external storages in the personal settings" : "Depozita të jashtme mund të shtoni që prej rregullimeve personale",
+    "Delete" : "Fshije",
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
 },
 "nplurals=2; plural=(n != 1);");

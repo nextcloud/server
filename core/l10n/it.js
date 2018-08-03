@@ -84,6 +84,7 @@ OC.L10N.register(
     "No" : "No",
     "Yes" : "Sì",
     "No files in here" : "Qui non c'è alcun file",
+    "No more subfolders in here" : "Qui non ci sono altre sottocartelle",
     "Choose" : "Scegli",
     "Copy" : "Copia",
     "Move" : "Sposta",

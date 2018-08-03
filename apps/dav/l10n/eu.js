@@ -54,8 +54,8 @@ OC.L10N.register(
     "Technical details" : "Xehetasun teknikoak",
     "Remote Address: %s" : "Urruneko helbidea: 1%s",
     "Request ID: %s" : "Eskatutako ID: 1%s",
-    "CalDAV server" : "CalDAV zerbitzaria",
     "Send invitations to attendees" : "Gonbidatutakoei gonbidapenak bidali",
-    "Please make sure to properly set up the email settings above." : "Mesedez, eposta ezarpenak ondo zehaztuta daudela ziurta ezazu"
+    "Please make sure to properly set up the email settings above." : "Mesedez, eposta ezarpenak ondo zehaztuta daudela ziurta ezazu",
+    "CalDAV server" : "CalDAV zerbitzaria"
 },
 "nplurals=2; plural=(n != 1);");
