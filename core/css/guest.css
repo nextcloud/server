@@ -626,18 +626,26 @@ p.info {
 	display: block;
 	opacity: .75;
 }
+.update-show-detailed .icon-caret-white {
+	display: inline-block;
+	vertical-align: middle;
+}
 #update-progress-icon {
 	height: 32px;
 	margin: 10px;
 	background-size: 32px;
 }
-#update-progress-icon.icon-error-white {
-	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewbox="0 0 16 16" width="16" height="16"><path d="M5.516 2L2 5.516v4.968L5.516 14h4.968L14 10.484V5.516L10.484 2H5.516zM7 4h2v5H7V4zm0 6h2v2H7v-2z" fill="%23fff"/></svg>');
-}
+
 
 /* Icons */
 .icon-info-white {
 	background-image: url('../img/actions/info-white.svg?v=2');
+}
+.icon-error-white {
+	background-image: url('../img/actions/error-white.svg?v=1');
+}
+.icon-caret-white {
+	background-image: url('../img/actions/caret-white.svg?v=1');
 }
 .icon-confirm {
 	background-image: url('../img/actions/confirm.svg?v=2');
