@@ -564,7 +564,7 @@
 			}
 
 			this._currentFileModel = model;
-
+			this._detailsView.render();
 			this._detailsView.setFileInfo(model);
 			this._detailsView.$el.scrollTop(0);
 		},
@@ -1623,7 +1623,7 @@
 
 			// discard finished uploads list, we'll get it through a regular reload
 			this._uploads = {};
-			this.reload().then(function(success){
+			return this.reload().then(function(success){
 				if (!success) {
 					self.changeDirectory(currentDir, true);
 				}
