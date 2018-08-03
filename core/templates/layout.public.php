@@ -30,7 +30,7 @@
 	<div id="notification-container">
 		<div id="notification"></div>
 	</div>
-	<header id="header" class="<?php p($_['header-classes']); ?>">
+	<header id="header">
 		<div class="header-left">
 			<span id="nextcloud">
 				<div class="logo logo-icon svg"></div>
