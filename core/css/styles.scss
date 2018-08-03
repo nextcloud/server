@@ -523,7 +523,7 @@ code {
 	width: auto;
 	border-radius: var(--border-radius);
 	border: none;
-	z-index: 500 !important;
+	z-index: 1600 !important; // above sidebar
 
 	.ui-state-default,
 	.ui-widget-content .ui-state-default,
