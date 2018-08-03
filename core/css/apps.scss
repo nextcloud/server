@@ -614,6 +614,9 @@ kbd {
 		display: flex;
 		position: relative;
 		align-items: stretch;
+		/* make sure we have at least full height for loaders or such
+		   no need for list/details since we have a flex stretch */
+		min-height: 100%;
 
 		/* CONTENT DETAILS AFTER LIST*/
 		.app-content-details {
