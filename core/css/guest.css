@@ -620,9 +620,10 @@ p.info {
 }
 #update-progress-detailed {
 	text-align: left;
+	margin-bottom: 12px;
 }
 .update-show-detailed {
-	padding: 13px;
+	padding: 12px;
 	display: block;
 	opacity: .75;
 }
