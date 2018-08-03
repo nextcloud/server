@@ -46,7 +46,6 @@
     "Unknown user" : "Usuariu desconocíu",
     "Basic settings" : "Axustes básicos",
     "Security" : "Seguranza",
-    "Encryption" : "Cifráu",
     "Additional settings" : "Axustes adicionales",
     "%s enter the database username and name." : "%s introducir el nome d'usuariu y el nome de la base de datos .",
     "%s enter the database username." : "%s introducir l'usuariu de la base de datos.",
@@ -170,6 +169,7 @@
     "Storage is temporarily not available" : "L'almacenamientu ta temporalmente non disponible",
     "Storage connection timeout. %s" : "Tiempu escosao de conexón al almacenamientu. %s",
     "APCu" : "APCu",
+    "Encryption" : "Cifráu",
     "Tips & tricks" : "Conseyos y trucos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

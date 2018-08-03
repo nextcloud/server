@@ -64,7 +64,6 @@
     "Basic settings" : "Βασικές ρυθμίσεις",
     "Sharing" : "Διαμοιρασμός",
     "Security" : "Ασφάλεια",
-    "Encryption" : "Κρυπτογράφηση",
     "Additional settings" : "Επιπρόσθετες ρυθμίσεις",
     "Personal info" : "Προσωπικές πληροφορίες",
     "Unlimited" : "Απεριόριστα",
@@ -220,6 +219,7 @@
     "Admin" : "Διαχειριστής",
     "APCu" : "APCu",
     "Redis" : "Redis",
+    "Encryption" : "Κρυπτογράφηση",
     "Tips & tricks" : "Συμβουλές & κόλπα",
     "DB Error: \"%s\"" : "Σφάλμα βάσης δεδομένων: \"%s\"",
     "Sync clients" : "Εφαρμογές συγχρονισμού"

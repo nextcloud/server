@@ -40,7 +40,6 @@
     "Users" : "Erabiltzaileak",
     "Unknown user" : "Erabiltzaile ezezaguna",
     "Sharing" : "Partekatze",
-    "Encryption" : "Enkriptazio",
     "Additional settings" : "Ezarpen gehiago",
     "%s enter the database username and name." : "%s sartu datu-basearen erabiltzaile-izena eta izena.",
     "%s enter the database username." : "%s sartu datu basearen erabiltzaile izena.",
@@ -147,6 +146,7 @@
     "Could not obtain lock type %d on \"%s\"." : "Ezin da lortu sarraia mota %d \"%s\"-an.",
     "APCu" : "APCu",
     "Redis" : "Redis",
+    "Encryption" : "Enkriptazio",
     "Tips & tricks" : "Aholkuak eta trikimailuak"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

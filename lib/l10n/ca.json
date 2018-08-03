@@ -63,7 +63,6 @@
     "Basic settings" : "Configuració bàsica",
     "Sharing" : "Compartir",
     "Security" : "Seguretat",
-    "Encryption" : "Xifrat",
     "Additional settings" : "Configuració addicional",
     "Personal info" : "Informació personal",
     "Unlimited" : "Il·limitat",
@@ -185,6 +184,7 @@
     "Personal" : "Personal",
     "APCu" : "APCu",
     "Redis" : "Redis",
+    "Encryption" : "Xifrat",
     "Tips & tricks" : "Consells i trucs",
     "Sync clients" : "Aplicacions per sincronitzar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -83,10 +83,10 @@ OC.L10N.register(
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
-    "Delete" : "Kustuta",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Välist salvestuskohta pole seadistatud",
     "You can add external storages in the personal settings" : "Sa võid lisada välise salvestuskoha isiklikes seadetes",
+    "Delete" : "Kustuta",
     "Allow users to mount the following external storage" : "Võimalda kasutajatel ühendada järgmist välist andmehoidlat"
 },
 "nplurals=2; plural=(n != 1);");

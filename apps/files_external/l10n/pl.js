@@ -121,7 +121,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Kliknij aby ponownie sprawdzić konfigurację",
     "Add storage" : "Dodaj zewnętrzne magazyny",
     "Advanced settings" : "Ustawienia zaawansowane",
-    "Delete" : "Usuń",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Otrzymano błędne żądanie tokenów. Sprawdź, czy klucz aplikacji oraz klucz poufny są poprawne.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Otrzymano błędne żądanie tokenów. Sprawdź, czy klucz aplikacji oraz klucz poufny są poprawne.",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Google Drive" : "Dysk Google",
     "No external storage configured" : "Nie skonfigurowano żadnego zewnętrznego nośnika",
     "You can add external storages in the personal settings" : "W ustawieniach osobistych możesz dodać zewnętrzne magazyny przechowywania",
+    "Delete" : "Usuń",
     "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe",
     "Are you sure you want to delete this external storage" : "Czy na pewno chcesz usunąć zewnętrzny magazyn?"
 },

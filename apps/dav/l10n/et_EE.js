@@ -55,8 +55,8 @@ OC.L10N.register(
     "Technical details" : "Tehnilised detailid",
     "Remote Address: %s" : "Kaugaadress: %s",
     "Request ID: %s" : "Päringu ID: %s",
-    "CalDAV server" : "CalDAV server",
     "Send invitations to attendees" : "Saada osalejatele kutsed",
-    "Please make sure to properly set up the email settings above." : "Veendu, et e-posti seaded oleksid eespool õigesti seadistatud."
+    "Please make sure to properly set up the email settings above." : "Veendu, et e-posti seaded oleksid eespool õigesti seadistatud.",
+    "CalDAV server" : "CalDAV server"
 },
 "nplurals=2; plural=(n != 1);");

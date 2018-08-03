@@ -120,7 +120,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Kattints ide a konfiguráció újraellenőrzéséhez",
     "Add storage" : "Tároló becsatolása",
     "Advanced settings" : "Haladó beállítások",
-    "Delete" : "Törlés",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a kérési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a hozzáférési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Nincs külső tároló beállítva.",
     "You can add external storages in the personal settings" : "Hozzáadhatsz külső tárolókat a személyes beállítások közt.",
+    "Delete" : "Törlés",
     "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:",
     "Are you sure you want to delete this external storage" : "Biztosan törlöd ezt a külső tárolót"
 },

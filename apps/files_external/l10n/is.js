@@ -125,7 +125,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Smelltu til að yfirfara aftur uppsetninguna",
     "Add storage" : "Bæta við gagnahirslu",
     "Advanced settings" : "Ítarlegri valkostir",
-    "Delete" : "Eyða",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Mistókst að ná í beiðniteikn (request token). Gakktu úr skugga um að forritslykill og leynilykill séu réttir.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Mistókst að ná í aðgangsteikn (access token). Gakktu úr skugga um að forritslykill og leynilykill séu réttir.",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Engin ytri-gagnageymsla stillt",
     "You can add external storages in the personal settings" : "Þú getur bætt við ytri gagnageymslum í einkastillingunum þínum",
+    "Delete" : "Eyða",
     "Allow users to mount the following external storage" : "Leyfa notendum að tengja eftirfarandi ytri gagnageymslu í skráakerfi",
     "Are you sure you want to delete this external storage" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?"
 },
