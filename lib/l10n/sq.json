@@ -57,7 +57,6 @@
     "Basic settings" : "Konfigurime bazike",
     "Sharing" : "Ndarja",
     "Security" : "Siguria",
-    "Encryption" : "Enkriptimi",
     "Additional settings" : "Konfigurime shtesë",
     "Personal info" : "Informacion personal",
     "Unlimited" : "E palimituar",
@@ -214,6 +213,7 @@
     "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
     "APCu" : "APCu",
     "Redis" : "Redis",
+    "Encryption" : "Enkriptimi",
     "Tips & tricks" : "Këshilla dhe rrengje",
     "Sync clients" : "Klientë të sikronizuar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

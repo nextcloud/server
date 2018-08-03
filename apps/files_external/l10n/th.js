@@ -97,11 +97,11 @@ OC.L10N.register(
     "Available for" : "สามารถใช้ได้สำหรับ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
-    "Delete" : "ลบ",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "ไม่มีการกำหนดค่าจัดเก็บข้อมูลภายนอก",
     "You can add external storages in the personal settings" : "คุณสามารถเพิ่มการเก็บรักษาภายนอกในการตั้งค่าส่วนบุคคล",
+    "Delete" : "ลบ",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้"
 },
 "nplurals=1; plural=0;");

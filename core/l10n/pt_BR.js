@@ -84,6 +84,7 @@ OC.L10N.register(
     "No" : "Não",
     "Yes" : "Sim",
     "No files in here" : "Nenhum arquivos aqui",
+    "No more subfolders in here" : "Não há mais subpastas aqui",
     "Choose" : "Escolher",
     "Copy" : "Copiar",
     "Move" : "Mover",

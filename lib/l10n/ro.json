@@ -42,7 +42,6 @@
     "Basic settings" : "Setări de bază",
     "Sharing" : "Partajare",
     "Security" : "Securitate",
-    "Encryption" : "Încriptare",
     "Additional settings" : "Setări adiționale",
     "Personal info" : "Informații personale",
     "Verifying …" : "Se verifică ...",
@@ -137,6 +136,7 @@
     "PHP modules have been installed, but they are still listed as missing?" : "Modulele PHP au fost instalate, dar apar ca lipsind?",
     "PostgreSQL >= 9 required" : "Este necesară versiunea 9 sau mai mare a PostgreSQL",
     "Please upgrade your database version" : "Actualizați baza de date la o versiune mai nouă",
+    "Encryption" : "Încriptare",
     "Tips & tricks" : "Sfaturi & trucuri"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

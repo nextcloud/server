@@ -74,9 +74,9 @@
     "Available for" : "Pieejams",
     "Add storage" : "Pievienot krātuvi",
     "Advanced settings" : "Paplašināti iestatījumi",
-    "Delete" : "Dzēst",
     "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
     "OpenStack" : "OpenStack",
-    "No external storage configured" : "Nav konfigurēta ārējā krātuve"
+    "No external storage configured" : "Nav konfigurēta ārējā krātuve",
+    "Delete" : "Dzēst"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
