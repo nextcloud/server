@@ -45,7 +45,6 @@
     "Basic settings" : "الإعدادات الأساسية",
     "Sharing" : "المشاركة",
     "Security" : "الأمان",
-    "Encryption" : "التعمية",
     "Additional settings" : "الإعدادات المتقدمة",
     "Personal info" : "المعلومات الشخصية",
     "Unlimited" : "غير محدود",
@@ -134,6 +133,7 @@
     "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
     "Personal" : "الحساب الشخصي",
     "Admin" : "المدير",
+    "Encryption" : "التعمية",
     "Tips & tricks" : "نصائح و تلميحات",
     "Sync clients" : "مزامنة العملاء"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"

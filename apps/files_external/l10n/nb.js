@@ -119,7 +119,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Klikk for å sjekke oppsettet igjen",
     "Add storage" : "Legg til lagringsplass",
     "Advanced settings" : "Avanserte innstillinger",
-    "Delete" : "Slett",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Henting av henvendelsessymboler mislyktes. Sjekk at programnøkkelen og hemmeligheten din stemmer. ",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Henting av adgangssymboler mislyktes. Sjekk at programnøkkelen og hemmeligheten din stemmer.",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Google Drive" : "Google Drive",
     "No external storage configured" : "Eksternt lager er ikke konfigurert",
     "You can add external storages in the personal settings" : "Du kan legge til eksterne lagre i personlige innstillinger",
+    "Delete" : "Slett",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
     "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lagringsplassen?"
 },

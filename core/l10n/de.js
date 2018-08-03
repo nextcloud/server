@@ -84,6 +84,7 @@ OC.L10N.register(
     "No" : "Nein",
     "Yes" : "Ja",
     "No files in here" : "Keine Dateien vorhanden",
+    "No more subfolders in here" : "Keine weiteren Unterordner vorhanden",
     "Choose" : "Auswählen",
     "Copy" : "Kopieren",
     "Move" : "Verschieben",

@@ -113,11 +113,11 @@ OC.L10N.register(
     "Available for" : "Tilgængelig for",
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
-    "Delete" : "Slet",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Der er ingen konfigurerede eksterne lagre",
     "You can add external storages in the personal settings" : "Du kan tilføje eksterne lagerenheder i de personlige indstillinger",
+    "Delete" : "Slet",
     "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
     "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lager?"
 },
