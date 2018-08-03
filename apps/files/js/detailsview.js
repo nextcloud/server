@@ -118,10 +118,13 @@
 		 */
 		render: function() {
 			// remove old instances
-			if ($('#app-sidebar').length === 0) {
+			var $appSidebar = $('#app-sidebar');
+			if ($appSidebar.length === 0) {
 				this.$el.insertAfter($('#app-content'));
 			} else {
-				$('#app-sidebar').replaceWith(this.$el)
+				if ($appSidebar[0] !== this.el) {
+					$appSidebar.replaceWith(this.$el)
+				}
 			}
 			
 			var templateVars = {
