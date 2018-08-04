@@ -39,6 +39,7 @@ use OC\DB\Connection;
 use OC\DB\MissingIndexInformation;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
+use OC\MemoryInfo;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -81,6 +82,8 @@ class CheckSetupController extends Controller {
 	private $lockingProvider;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
+	/** @var MemoryInfo */
+	private $memoryInfo;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -94,7 +97,8 @@ class CheckSetupController extends Controller {
 								EventDispatcherInterface $dispatcher,
 								IDBConnection $db,
 								ILockingProvider $lockingProvider,
-								IDateTimeFormatter $dateTimeFormatter) {
+								IDateTimeFormatter $dateTimeFormatter,
+								MemoryInfo $memoryInfo) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -107,6 +111,7 @@ class CheckSetupController extends Controller {
 		$this->db = $db;
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
+		$this->memoryInfo = $memoryInfo;
 	}
 
 	/**
@@ -530,6 +535,16 @@ Raw output
 	}
 
 	/**
+	 * Tests if the php memory limit is high enough.
+	 *
+	 * @return bool True if more than 512 MB available, else false.
+	 */
+	protected function isTheMemoryLimitHighEnough(): bool {
+		$memoryLimit = $this->memoryInfo->getMemoryLimit();
+		return $memoryLimit === -1 || $memoryLimit >= 512 * 1024 * 1024;
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -565,7 +580,8 @@ Raw output
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'isPhpMailerUsed' => $this->isPhpMailerUsed(),
-				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin')
+				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
+				'isTheMemoryLimitHighEnough' => $this->isTheMemoryLimitHighEnough(),
 			]
 		);
 	}

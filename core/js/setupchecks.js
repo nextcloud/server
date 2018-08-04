@@ -316,6 +316,15 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
+					if (!data.isTheMemoryLimitHighEnough) {
+						messages.push({
+							msg: t(
+								'core',
+								'The PHP memory limit is below the recommended value of 512MB.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
 				} else {
 					messages.push({
 						msg: t('core', 'Error occurred while checking server setup'),
