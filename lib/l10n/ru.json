@@ -232,6 +232,7 @@
     "Action \"%s\" not supported or implemented." : "Действие \"%s\" не поддерживается или не реализовано.",
     "Authentication failed, wrong token or provider ID given" : "Ошибка аутентификации, неверный токен или идентификатор провайдера",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Отсутствуют параметры для завершения запроса. Отсутствующие параметры: \"%s\"",
+    "ID \"%s\" already used by cloud federation provider \"%s\"" : "ID \"%s\" уже используется федеративным облачным провайдером \"%s\"",
     "Cloud Federation Provider with ID: \"%s\" does not exist." : "Провайдер облачной федерации с идентификатором: \"%s\" не существует.",
     "Could not obtain lock type %d on \"%s\"." : "Не удалось получить блокировку типа %d для «%s»",
     "Storage unauthorized. %s" : "Хранилище неавторизовано. %s",
