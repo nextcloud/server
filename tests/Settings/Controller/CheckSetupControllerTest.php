@@ -78,13 +78,6 @@ class CheckSetupControllerTest extends TestCase {
 	/** @var MemoryInfo|MockObject */
 	private $memoryInfo;
 
-	/**
-	 * Backup of the "memory_limit" ini value before tests.
-	 *
-	 * @var string
-	 */
-	private $memoryLimitIniValueBeforeTest;
-
 	public function setUp() {
 		parent::setUp();
 
@@ -115,7 +108,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
 		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
-			->setMethods(['getMemoryLimit',])
+			->setMethods(['isMemoryLimitSufficient',])
 			->getMock();
 		$this->checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
@@ -440,8 +433,8 @@ class CheckSetupControllerTest extends TestCase {
 			->method('hasPassedCheck')
 			->willReturn(true);
 		$this->memoryInfo
-			->method('getMemoryLimit')
-			->willReturn(512 * 1024 * 1024);
+			->method('isMemoryLimitSufficient')
+			->willReturn(true);
 
 		$expected = new DataResponse(
 			[
@@ -483,7 +476,7 @@ class CheckSetupControllerTest extends TestCase {
 				'missingIndexes' => [],
 				'isPhpMailerUsed' => false,
 				'mailSettingsDocumentation' => 'https://server/index.php/settings/admin',
-				'isTheMemoryLimitHighEnough' => true,
+				'isMemoryLimitSufficient' => true,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -1179,38 +1172,5 @@ Array
 				]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
-	}
-
-	/**
-	 * This function returns test values for the memory limit check.
-	 * 1. the memory limit
-	 * 2. the expected check value
-	 *
-	 * @return array
-	 */
-	public function getMemoryLimitTestData(): array {
-		return [
-			'unlimited' => [-1, true,],
-			'512M' => [512 * 1024 * 1024, true,],
-			'1G' => [1024 * 1024 * 1024, true,],
-			'64M' => [64 * 1024 * 1024, false,],
-		];
-	}
-
-	/**
-	 * Tests that if the memory limit is high enough, there is no message.
-	 *
-	 * @param string $memoryLimit The memory limit reported by MemoryInfo.
-	 * @param bool $expected The expected memory check return value.
-	 * @dataProvider getMemoryLimitTestData
-	 */
-	public function testMemoryLimit(string $memoryLimit, bool $expected) {
-		$this->memoryInfo
-			->method('getMemoryLimit')
-			->willReturn($memoryLimit);
-		$this->assertSame(
-			$expected,
-			$this->invokePrivate($this->checkSetupController, 'isTheMemoryLimitHighEnough')
-		);
 	}
 }

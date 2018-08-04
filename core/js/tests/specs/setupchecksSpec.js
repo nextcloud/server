@@ -171,7 +171,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -219,7 +219,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -268,7 +268,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -315,7 +315,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -360,7 +360,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -405,7 +405,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -450,7 +450,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -463,7 +463,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		it('should return a warning if the memory limit is too small', function(done) {
+		it('should return a warning if the memory limit is below the recommended value', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
 			suite.server.requests[0].respond(
@@ -495,7 +495,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: false
+					isMemoryLimitSufficient: false
 				})
 			);
 
@@ -561,7 +561,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -607,7 +607,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -653,7 +653,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 
@@ -699,7 +699,7 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
-					isTheMemoryLimitHighEnough: true
+					isMemoryLimitSufficient: true
 				})
 			);
 

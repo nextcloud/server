@@ -3,16 +3,12 @@
 namespace Test;
 
 use OC\MemoryInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * This class provides tests for the MemoryInfo class.
  */
 class MemoryInfoTest extends TestCase {
-	/**
-	 * @var MemoryInfo
-	 */
-	private $memoryInfo;
-
 	/**
 	 * The "memory_limit" value before tests.
 	 *
@@ -32,15 +28,6 @@ class MemoryInfoTest extends TestCase {
 	 */
 	public function restoreMemoryInfoIniSetting() {
 		ini_set('memory_limit', $this->iniSettingBeforeTest);
-	}
-
-	/**
-	 * Setups a MemoryInfo instance for tests.
-	 *
-	 * @before
-	 */
-	public function setupMemoryInfo() {
-		$this->memoryInfo = new MemoryInfo();
 	}
 
 	/**
@@ -66,8 +53,45 @@ class MemoryInfoTest extends TestCase {
 	 * @param int $expected The expected detected memory limit.
 	 * @dataProvider getMemoryLimitTestData
 	 */
-	public function testMemoryLimit($iniValue, $expected) {
+	public function testMemoryLimit($iniValue, int $expected) {
 		ini_set('memory_limit', $iniValue);
-		self::assertEquals($expected, $this->memoryInfo->getMemoryLimit());
+		$memoryInfo = new MemoryInfo();
+		self::assertEquals($expected, $memoryInfo->getMemoryLimit());
+	}
+
+	/**
+	 * Provides sufficient memory limit test data.
+	 *
+	 * @return array
+	 */
+	public function getSufficientMemoryTestData(): array {
+		return [
+			'unlimited' => [-1, true,],
+			'512M' => [512 * 1024 * 1024, true,],
+			'1G' => [1024 * 1024 * 1024, true,],
+			'256M' => [256 * 1024 * 1024, false,],
+		];
+	}
+
+	/**
+	 * Tests that isMemoryLimitSufficient returns the correct values.
+	 *
+	 * @param int $memoryLimit The memory limit
+	 * @param bool $expected If the memory limit is sufficient.
+	 * @dataProvider getSufficientMemoryTestData
+	 * @return void
+	 */
+	public function testIsMemoryLimitSufficient(int $memoryLimit, bool $expected) {
+		/* @var MemoryInfo|MockObject $memoryInfo */
+		$memoryInfo = $this->getMockBuilder(MemoryInfo::class)
+			->setMethods(['getMemoryLimit',])
+			->getMock();
+
+		$memoryInfo
+			->method('getMemoryLimit')
+			->willReturn($memoryLimit);
+
+		$isMemoryLimitSufficient = $memoryInfo->isMemoryLimitSufficient();
+		self::assertEquals($expected, $isMemoryLimitSufficient);
 	}
 }
