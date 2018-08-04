@@ -399,6 +399,7 @@ class ShareController extends AuthPublicShareController {
 			\OCP\Util::addScript('files', 'fileinfomodel');
 			\OCP\Util::addScript('files', 'newfilemenu');
 			\OCP\Util::addScript('files', 'files');
+			\OCP\Util::addScript('files', 'filemultiselectmenu');
 			\OCP\Util::addScript('files', 'filelist');
 			\OCP\Util::addScript('files', 'keyboardshortcuts');
 		}
