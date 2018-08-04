@@ -84,6 +84,7 @@ OC.L10N.register(
     "No" : "Hayır",
     "Yes" : "Evet",
     "No files in here" : "Burada herhangi bir dosya yok",
+    "No more subfolders in here" : "Burada başka bir alt klasör yok",
     "Choose" : "Seçin",
     "Copy" : "Kopyala",
     "Move" : "Taşı",

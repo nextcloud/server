@@ -232,6 +232,7 @@
     "Action \"%s\" not supported or implemented." : "La acción \"%s\" no está soportada o implementada.",
     "Authentication failed, wrong token or provider ID given" : "La autenticación ha fallado. Se ha dado un token o una ID de proveedor erróneos.",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Faltan parámetros para completar la petición. Parámetros que faltan: \"%s\"",
+    "ID \"%s\" already used by cloud federation provider \"%s\"" : "La ID \"%s\" ya es usada por el proveedor de federación en la nube \"%s\"",
     "Cloud Federation Provider with ID: \"%s\" does not exist." : "El proveedor de nube federada con ID \"%s\" no existe.",
     "Could not obtain lock type %d on \"%s\"." : "No se pudo realizar el bloqueo %d en \"%s\".",
     "Storage unauthorized. %s" : "Almacenamiento no autorizado. %s",
