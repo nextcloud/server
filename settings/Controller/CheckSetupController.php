@@ -31,9 +31,11 @@
 namespace OC\Settings\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use DirectoryIterator;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use GuzzleHttp\Exception\ClientException;
+use OC;
 use OC\AppFramework\Http;
 use OC\DB\Connection;
 use OC\DB\MissingIndexInformation;
@@ -530,6 +532,34 @@ Raw output
 	}
 
 	/**
+	 * Iterates through the configured app roots and
+	 * tests if the subdirectories are owned by the same user than the current user.
+	 *
+	 * @return array
+	 */
+	protected function getAppDirsWithDifferentOwner(): array {
+		$currentUser = posix_getpwuid(posix_getuid());
+		$appDirsWithDifferentOwner = [];
+
+		foreach (OC::$APPSROOTS as $appRoot) {
+			$appsPath = $appRoot['path'];
+			$appsDir = new DirectoryIterator($appRoot['path']);
+			foreach ($appsDir as $fileInfo) {
+				if ($fileInfo->isDir() && !$fileInfo->isDot()) {
+					$absAppPath = $appsPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+					$appDirUser = posix_getpwuid(fileowner($absAppPath));
+					if ($appDirUser !== $currentUser) {
+						$appDirsWithDifferentOwner[] = $absAppPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+					}
+				}
+			}
+		}
+
+		sort($appDirsWithDifferentOwner);
+		return $appDirsWithDifferentOwner;
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -565,7 +595,8 @@ Raw output
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'isPhpMailerUsed' => $this->isPhpMailerUsed(),
-				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin')
+				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
+				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 			]
 		);
 	}
