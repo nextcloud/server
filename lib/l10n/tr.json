@@ -232,6 +232,7 @@
     "Action \"%s\" not supported or implemented." : "\"%s\" işlemi desteklenmiyor ya da henüz kullanılamıyor.",
     "Authentication failed, wrong token or provider ID given" : "Kimlik doğrulanamadı. Belirtilen kod ya da hizmet sağlayıcı kodu hatalı",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "İsteğin tamamlanması için gerekli parametreler eksik: \"%s\"",
+    "ID \"%s\" already used by cloud federation provider \"%s\"" : "\"%s\" kodu zaten \"%s\" birleşmiş hizmet sağlayıcısı tarafından kullanılıyor",
     "Cloud Federation Provider with ID: \"%s\" does not exist." : "\"%s\" kodlu Birleşmiş Bulut Hizmeti Sağlayıcısı bulunamadı.",
     "Could not obtain lock type %d on \"%s\"." : "\"%s\" için %d kilit türü alınamadı.",
     "Storage unauthorized. %s" : "Depolamaya erişim izni yok. %s",

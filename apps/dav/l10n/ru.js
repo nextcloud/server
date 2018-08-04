@@ -70,6 +70,7 @@ OC.L10N.register(
     "Tentative" : "Под вопросом",
     "Save" : "Сохранить",
     "Your attendance was updated successfully." : "Статус участия обновлён.",
+    "Calendar server" : "Сервер календаря",
     "Send invitations to attendees" : "Отправить приглашения",
     "Please make sure to properly set up the email settings above." : "Проверьте правильность заданных выше параметров электронной почты.",
     "Automatically generate a birthday calendar" : "Создавать календарь дней рождения автоматически",

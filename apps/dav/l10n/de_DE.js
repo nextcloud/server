@@ -70,6 +70,7 @@ OC.L10N.register(
     "Tentative" : "Vorläufig",
     "Save" : "Speichern",
     "Your attendance was updated successfully." : "Ihr Teilnehmerstatus wurde aktualisiert.",
+    "Calendar server" : "Kalender-Server",
     "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden",
     "Please make sure to properly set up the email settings above." : "Stellen Sie sicher, dass die obigen E-Mail-Einstellungen korrekt sind.",
     "Automatically generate a birthday calendar" : "Automatischen einen Kalender für Geburtstage erstellen",
