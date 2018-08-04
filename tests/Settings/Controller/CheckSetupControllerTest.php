@@ -22,6 +22,7 @@
 namespace Tests\Settings\Controller;
 
 use OC\DB\Connection;
+use OC\MemoryInfo;
 use OC\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -36,6 +37,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OC_Util;
 use OCP\Lock\ILockingProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
@@ -73,6 +75,15 @@ class CheckSetupControllerTest extends TestCase {
 	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
 	private $dateTimeFormatter;
+	/** @var MemoryInfo|MockObject */
+	private $memoryInfo;
+
+	/**
+	 * Backup of the "memory_limit" ini value before tests.
+	 *
+	 * @var string
+	 */
+	private $memoryLimitIniValueBeforeTest;
 
 	public function setUp() {
 		parent::setUp();
@@ -103,6 +114,9 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
+		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
+			->setMethods(['getMemoryLimit',])
+			->getMock();
 		$this->checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',
@@ -118,6 +132,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->db,
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
+				$this->memoryInfo,
 				])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -424,6 +439,9 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('hasPassedCheck')
 			->willReturn(true);
+		$this->memoryInfo
+			->method('getMemoryLimit')
+			->willReturn(512 * 1024 * 1024);
 
 		$expected = new DataResponse(
 			[
@@ -465,6 +483,7 @@ class CheckSetupControllerTest extends TestCase {
 				'missingIndexes' => [],
 				'isPhpMailerUsed' => false,
 				'mailSettingsDocumentation' => 'https://server/index.php/settings/admin',
+				'isTheMemoryLimitHighEnough' => true,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -486,6 +505,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->db,
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
+				$this->memoryInfo,
 			])
 			->setMethods(null)->getMock();
 
@@ -1159,5 +1179,38 @@ Array
 				]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
+	}
+
+	/**
+	 * This function returns test values for the memory limit check.
+	 * 1. the memory limit
+	 * 2. the expected check value
+	 *
+	 * @return array
+	 */
+	public function getMemoryLimitTestData(): array {
+		return [
+			'unlimited' => [-1, true,],
+			'512M' => [512 * 1024 * 1024, true,],
+			'1G' => [1024 * 1024 * 1024, true,],
+			'64M' => [64 * 1024 * 1024, false,],
+		];
+	}
+
+	/**
+	 * Tests that if the memory limit is high enough, there is no message.
+	 *
+	 * @param string $memoryLimit The memory limit reported by MemoryInfo.
+	 * @param bool $expected The expected memory check return value.
+	 * @dataProvider getMemoryLimitTestData
+	 */
+	public function testMemoryLimit(string $memoryLimit, bool $expected) {
+		$this->memoryInfo
+			->method('getMemoryLimit')
+			->willReturn($memoryLimit);
+		$this->assertSame(
+			$expected,
+			$this->invokePrivate($this->checkSetupController, 'isTheMemoryLimitHighEnough')
+		);
 	}
 }

@@ -170,7 +170,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -217,7 +218,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -265,7 +267,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -311,7 +314,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -355,7 +359,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -399,7 +404,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -443,13 +449,59 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
 					msg: 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
+				done();
+			});
+		});
+
+		it('should return a warning if the memory limit is too small', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isUrandomAvailable: true,
+					serverHasInternetConnection: true,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					outdatedCaches: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isTheMemoryLimitHighEnough: false
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The PHP memory limit is below the recommended value of 512MB.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -508,7 +560,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -553,7 +606,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -598,7 +652,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
@@ -643,7 +698,8 @@ describe('OC.SetupChecks tests', function() {
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
-					}
+					},
+					isTheMemoryLimitHighEnough: true
 				})
 			);
 
