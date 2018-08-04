@@ -316,7 +316,7 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if (!data.isTheMemoryLimitHighEnough) {
+					if (!data.isMemoryLimitSufficient) {
 						messages.push({
 							msg: t(
 								'core',

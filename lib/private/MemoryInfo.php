@@ -6,6 +6,19 @@ namespace OC;
  * Helper class that covers memory info.
  */
 class MemoryInfo {
+
+	const RECOMMENDED_MEMORY_LIMIT = 512 * 1024 * 1024;
+
+	/**
+	 * Tests if the memory limit is greater or equal the recommended value.
+	 *
+	 * @return bool
+	 */
+	public function isMemoryLimitSufficient(): bool {
+		$memoryLimit = $this->getMemoryLimit();
+		return $memoryLimit === -1 || $memoryLimit >= self::RECOMMENDED_MEMORY_LIMIT;
+	}
+
 	/**
 	 * Returns the php memory limit.
 	 *

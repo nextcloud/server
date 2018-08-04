@@ -535,16 +535,6 @@ Raw output
 	}
 
 	/**
-	 * Tests if the php memory limit is high enough.
-	 *
-	 * @return bool True if more than 512 MB available, else false.
-	 */
-	protected function isTheMemoryLimitHighEnough(): bool {
-		$memoryLimit = $this->memoryInfo->getMemoryLimit();
-		return $memoryLimit === -1 || $memoryLimit >= 512 * 1024 * 1024;
-	}
-
-	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -581,7 +571,7 @@ Raw output
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'isPhpMailerUsed' => $this->isPhpMailerUsed(),
 				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
-				'isTheMemoryLimitHighEnough' => $this->isTheMemoryLimitHighEnough(),
+				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 			]
 		);
 	}
