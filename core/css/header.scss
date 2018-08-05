@@ -322,7 +322,7 @@ nav[role='navigation'] {
 
 /* Apps management */
 #apps {
-	max-height: calc(100vh - 100px);
+	max-height: 80vh;
 	overflow: auto;
 	.in-header {
 		display: none;
