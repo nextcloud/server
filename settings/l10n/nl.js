@@ -105,6 +105,7 @@ OC.L10N.register(
     "Strong password" : "Sterk wachtwoord",
     "An error occured while changing your language. Please reload the page and try again." : "Er trad een fout op bij het aanpassen van de taal. Ververs de pagina en probeer het opnieuw.",
     "Select a profile picture" : "Kies een profielafbeelding",
+    "Week starts on {fdow}" : "Week begint op {fdow}",
     "Groups" : "Groepen",
     "Official" : "Officieel",
     "No results" : "Geen resultaten",
