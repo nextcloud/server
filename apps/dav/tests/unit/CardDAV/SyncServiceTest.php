@@ -106,6 +106,7 @@ class SyncServiceTest extends TestCase {
 		$user->method('getUID')->willReturn('test-user');
 		$user->method('getCloudId')->willReturn('cloudId');
 		$user->method('getDisplayName')->willReturn('test-user');
+		$user->method('isEnabled')->willReturn(true);
 		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
 		$accountManager->expects($this->any())->method('getUser')
 			->willReturn([
