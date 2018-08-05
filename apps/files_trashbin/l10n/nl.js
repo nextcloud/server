@@ -16,6 +16,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Select all" : "Alles selecteren",
     "Name" : "Naam",
+    "Actions" : "Acties",
     "Deleted" : "Verwijderd"
 },
 "nplurals=2; plural=(n != 1);");
