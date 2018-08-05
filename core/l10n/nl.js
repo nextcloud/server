@@ -104,6 +104,7 @@ OC.L10N.register(
     "Pending" : "Onderhanden",
     "Copy to {folder}" : "Kopieer naar {folder}",
     "Move to {folder}" : "Verplaats naar {folder}",
+    "New in" : "Nieuw in",
     "Very weak password" : "Zeer zwak wachtwoord",
     "Weak password" : "Zwak wachtwoord",
     "So-so password" : "Matig wachtwoord",
