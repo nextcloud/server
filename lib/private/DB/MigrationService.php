@@ -30,6 +30,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
+use OC\App\InfoParser;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
@@ -51,6 +52,8 @@ class MigrationService {
 	private $connection;
 	/** @var string */
 	private $appName;
+	/** @var bool */
+	private $checkOracle;
 
 	/**
 	 * MigrationService constructor.
@@ -72,6 +75,7 @@ class MigrationService {
 		if ($appName === 'core') {
 			$this->migrationsPath = \OC::$SERVERROOT . '/core/Migrations';
 			$this->migrationsNamespace = 'OC\\Core\\Migrations';
+			$this->checkOracle = true;
 		} else {
 			if (null === $appLocator) {
 				$appLocator = new AppLocator();
@@ -80,6 +84,21 @@ class MigrationService {
 			$namespace = App::buildAppNamespace($appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
+
+			$infoParser = new InfoParser();
+			$info = $infoParser->parse($appPath . '/appinfo/info.xml');
+			if (!isset($info['dependencies']['database'])) {
+				$this->checkOracle = true;
+			} else {
+				$this->checkOracle = false;
+				foreach ($info['dependencies']['database'] as $database) {
+					if (\is_string($database) && $database === 'oci') {
+						$this->checkOracle = true;
+					} else if (\is_array($database) && isset($database['@value']) && $database['@value'] === 'oci') {
+						$this->checkOracle = true;
+					}
+				}
+			}
 		}
 	}
 
@@ -456,9 +475,11 @@ class MigrationService {
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		if ($toSchema instanceof SchemaWrapper) {
-			$sourceSchema = $this->connection->createSchema();
 			$targetSchema = $toSchema->getWrappedSchema();
-			$this->ensureOracleIdentifierLengthLimit($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
+			if ($this->checkOracle) {
+				$sourceSchema = $this->connection->createSchema();
+				$this->ensureOracleIdentifierLengthLimit($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
+			}
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
