@@ -50,7 +50,7 @@ class SyncJob extends TimedJob {
 			if ($ex instanceof \Exception) {
 				$this->logger->logException($ex, [
 					'message' => "Error while syncing $url.",
-					'level' => ILogger::ERROR,
+					'level' => ILogger::INFO,
 					'app' => 'fed-sync',
 				]);
 			}
