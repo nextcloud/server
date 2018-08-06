@@ -117,6 +117,7 @@
     "Expiration date is in the past" : "Η ημερομηνία λήξης είναι στο παρελθόν",
     "Can’t set expiration date more than %s days in the future" : "Δεν είναι δυνατό να τεθεί η ημερομηνία λήξης σε περισσότερες από %s ημέρες στο μέλλον",
     "%s shared »%s« with you" : "Ο %s διαμοιράστηκε μαζί σας το »%s«",
+    "Click the button below to open it." : "Κάντε κλικ στο παρακάτω κουμπί για να το ανοίξετε.",
     "%s via %s" : "%s μέσω %s",
     "The requested share does not exist anymore" : "Το διαμοιρασμένο που ζητήθηκε δεν υπάρχει πλέον",
     "Could not find category \"%s\"" : "Αδυναμία εύρεσης κατηγορίας \"%s\"",
