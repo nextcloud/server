@@ -522,6 +522,7 @@ form #selectDbType label.ui-state-active {
 	background-color: rgba(0,0,0,.3);
 	color: #fff;
 	text-align: left;
+	word-wrap: break-word;
 	border-radius: 3px;
 	cursor: default;
 	-moz-user-select: text;
@@ -619,11 +620,16 @@ p.info {
 }
 #update-progress-detailed {
 	text-align: left;
+	margin-bottom: 12px;
 }
 .update-show-detailed {
-	padding: 13px;
+	padding: 12px;
 	display: block;
 	opacity: .75;
+}
+.update-show-detailed .icon-caret-white {
+	display: inline-block;
+	vertical-align: middle;
 }
 #update-progress-icon {
 	height: 32px;
@@ -631,9 +637,16 @@ p.info {
 	background-size: 32px;
 }
 
+
 /* Icons */
 .icon-info-white {
 	background-image: url('../img/actions/info-white.svg?v=2');
+}
+.icon-error-white {
+	background-image: url('../img/actions/error-white.svg?v=1');
+}
+.icon-caret-white {
+	background-image: url('../img/actions/caret-white.svg?v=1');
 }
 .icon-confirm {
 	background-image: url('../img/actions/confirm.svg?v=2');

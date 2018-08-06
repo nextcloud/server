@@ -58,7 +58,7 @@
 				$(window).off('beforeunload.inprogress');
 				self.setErrorMessage(message);
 				message = t('core', 'Please reload the page.');
-				$('<span>').addClass('error').append('<a href=".">'+message+'</a><br />').appendTo($el);
+				$('<p>').append('<a href=".">'+message+'</a>').appendTo($el);
 				updateEventSource.close();
 			});
 			updateEventSource.listen('failure', function(message) {
@@ -69,16 +69,15 @@
 					.removeClass('icon-loading-dark');
 
 				self.setErrorMessage(message);
-				var span = $('<span>')
-					.addClass('bold');
+				var updateUnsuccessful = $('<p>');
 				if(message === 'Exception: Updates between multiple major versions and downgrades are unsupported.') {
-					span.append(t('core', 'The update was unsuccessful. For more information <a href="{url}">check our forum post</a> covering this issue.', {'url': 'https://help.nextcloud.com/t/updates-between-multiple-major-versions-are-unsupported/7094'}));
+					updateUnsuccessful.append(t('core', 'The update was unsuccessful. For more information <a href="{url}">check our forum post</a> covering this issue.', {'url': 'https://help.nextcloud.com/t/updates-between-multiple-major-versions-are-unsupported/7094'}));
 				} else {
-					span.append(t('core', 'The update was unsuccessful. ' +
+					updateUnsuccessful.append(t('core', 'The update was unsuccessful. ' +
 						'Please report this issue to the ' +
 						'<a href="https://github.com/nextcloud/server/issues" target="_blank">Nextcloud community</a>.'));
 				}
-				span.appendTo($el);
+				updateUnsuccessful.appendTo($el);
 			});
 			updateEventSource.listen('done', function() {
 				$(window).off('beforeunload.inprogress');
@@ -123,9 +122,7 @@
 		setMessage: function(message) {
 			$('#update-progress-message').html(message);
 			$('#update-progress-detailed')
-				.append($('<span>'))
-				.append(message)
-				.append($('<br>'));
+				.append('<p>' + message + '</p>');
 		},
 
 		setPermanentMessage: function(message) {
@@ -134,9 +131,7 @@
 				.show()
 				.append($('<ul>').append(message));
 			$('#update-progress-detailed')
-				.append($('<span>'))
-				.append(message)
-				.append($('<br>'));
+				.append('<p>' + message + '</p>');
 		},
 
 		setErrorMessage: function (message) {
@@ -144,9 +139,7 @@
 				.show()
 				.html(message);
 			$('#update-progress-detailed')
-				.append($('<span>'))
-				.append(message)
-				.append($('<br>'));
+				.append('<p>' + message + '</p>');
 		}
 	};
 
