@@ -25,9 +25,10 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use OC\IntegrityCheck\Helpers\AppLocator;
@@ -457,7 +458,10 @@ class MigrationService {
 
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
-			$this->ensureOracleIdentifierLengthLimit($targetSchema, strlen($this->connection->getPrefix()));
+
+			$comparator = new Comparator();
+			$diff = $comparator->compare($this->connection->createSchema(), $targetSchema);
+			$this->ensureOracleIdentifierLengthLimit($diff, $targetSchema, strlen($this->connection->getPrefix()));
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
@@ -471,10 +475,13 @@ class MigrationService {
 		$this->markAsExecuted($version);
 	}
 
-	public function ensureOracleIdentifierLengthLimit(Schema $schema, int $prefixLength) {
-		$sequences = $schema->getSequences();
+	public function ensureOracleIdentifierLengthLimit(SchemaDiff $schema, Schema $targetSchema, int $prefixLength) {
+		$sequences = $schema->changedSequences;
 
-		foreach ($schema->getTables() as $table) {
+		/** @var \Doctrine\DBAL\Schema\TableDiff[] $tables */
+		$tables = array_merge($schema->changedTables, $schema->newTables);
+		foreach ($tables as $tableDiff) {
+			$table = $targetSchema->getTable($tableDiff->name);
 			if (\strlen($table->getName()) - $prefixLength > 27) {
 				throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
 			}
