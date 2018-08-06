@@ -89,7 +89,7 @@ class UserPluginTest extends TestCase {
 		);
 	}
 
-	public function getUserMock($uid, $displayName) {
+	public function getUserMock($uid, $displayName, $enabled = true) {
 		$user = $this->createMock(IUser::class);
 
 		$user->expects($this->any())
@@ -99,6 +99,10 @@ class UserPluginTest extends TestCase {
 		$user->expects($this->any())
 			->method('getDisplayName')
 			->willReturn($displayName);
+
+		$user->expects($this->any())
+			->method('isEnabled')
+			->willReturn($enabled);
 
 		return $user;
 	}
