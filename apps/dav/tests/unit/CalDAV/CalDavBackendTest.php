@@ -562,8 +562,84 @@ EOD;
 		$this->assertCount(0, $subscriptions);
 	}
 
-	public function testScheduling() {
-		$this->backend->createSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule', '');
+	public function providesSchedulingData() {
+		$data =<<<EOS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:Europe/Warsaw
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20170320T131655Z
+LAST-MODIFIED:20170320T135019Z
+DTSTAMP:20170320T135019Z
+UID:7e908a6d-4c4e-48d7-bd62-59ab80fbf1a3
+SUMMARY:TEST Z pg_escape_bytea
+ORGANIZER;RSVP=TRUE;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:k.klimczak@gromar.e
+ u
+ATTENDEE;RSVP=TRUE;CN=Zuzanna Leszek;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICI
+ PANT:mailto:z.leszek@gromar.eu
+ATTENDEE;RSVP=TRUE;CN=Marcin Pisarski;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTIC
+ IPANT:mailto:m.pisarski@gromar.eu
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:klimcz
+ ak.k@gmail.com
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:k_klim
+ czak@tlen.pl
+DTSTART;TZID=Europe/Warsaw:20170325T150000
+DTEND;TZID=Europe/Warsaw:20170325T160000
+TRANSP:OPAQUE
+DESCRIPTION:Magiczna treść uzyskana za pomocą magicznego proszku.\n\nę
+ żźćńłóÓŻŹĆŁĘ€śśśŚŚ\n               \,\,))))))))\;\,\n  
+           __))))))))))))))\,\n \\|/       -\\(((((''''((((((((.\n -*-==///
+ ///((''  .     `))))))\,\n /|\\      ))| o    \;-.    '(((((              
+                     \,(\,\n          ( `|    /  )    \;))))'              
+                  \,_))^\;(~\n             |   |   |   \,))((((_     _____-
+ -----~~~-.        %\,\;(\;(>'\;'~\n             o_)\;   \;    )))(((` ~---
+ ~  `::           \\      %%~~)(v\;(`('~\n                   \;    ''''````
+          `:       `:::|\\\,__\,%%    )\;`'\; ~\n                  |   _   
+              )     /      `:|`----'     `-'\n            ______/\\/~    | 
+                 /        /\n          /~\;\;.____/\;\;'  /          ___--\
+ ,-(   `\;\;\;/\n         / //  _\;______\;'------~~~~~    /\;\;/\\    /\n 
+        //  | |                        / \;   \\\;\;\,\\\n       (<_  | \; 
+                      /'\,/-----'  _>\n        \\_| ||_                    
+  //~\;~~~~~~~~~\n            `\\_|                   (\,~~  -Tua Xiong\n  
+                                   \\~\\\n                                 
+     ~~\n\n
+SEQUENCE:1
+X-MOZ-GENERATION:1
+END:VEVENT
+END:VCALENDAR
+EOS;
+
+		return [
+			'no data' => [''],
+			'failing on postgres' => [$data]
+		];
+	}
+
+	/**
+	 * @dataProvider providesSchedulingData
+	 * @param $objectData
+	 */
+	public function testScheduling($objectData) {
+		$this->backend->createSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule', $objectData);
 
 		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
 		$this->assertCount(1, $sos);
