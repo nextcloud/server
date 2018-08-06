@@ -36,13 +36,17 @@
 		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
 		+ '<td class="more">'
 		+ '{{#if showMore}}<a class="icon icon-more"/>{{/if}}'
-		+ '<div class="popovermenu bubble open menu configure">'
+		+ '<div class="popovermenu menu">'
 		+ '{{#if canScope}}'
+		+ '<li><span class="menuitem">'
 		+ '<input class="filesystem checkbox" type="checkbox" id="{{id}}_filesystem" {{#if scope.filesystem}}checked{{/if}}/>'
 		+ '<label for="{{id}}_filesystem">' + t('settings', 'Allow filesystem access') + '</label><br/>'
+		+ '</span></li>'
 		+ '{{/if}}'
 		+ '{{#if canDelete}}'
+		+ '<li>'
 		+ '<a class="icon icon-delete has-tooltip" title="' + t('settings', 'Disconnect') + '">' + t('settings', 'Revoke') +'</a>'
+		+ '</li>'
 		+ '{{/if}}'
 		+ '</div>'
 		+ '</td>'
@@ -376,11 +380,13 @@
 			var $target = $(event.target);
 			var $row = $target.closest('tr');
 			$row.toggleClass('active');
+			$row.find('.popovermenu').toggleClass('open');
 			var id = $row.data('id');
 		},
 
 		_hideConfigureToken: function() {
 			$('.token-list tr').removeClass('active');
+			$('.token-list tr .popovermenu').removeClass('open');
 		},
 
 		_onDeleteToken: function (event) {

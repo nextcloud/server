@@ -410,6 +410,7 @@ table.nostyle {
 	}
 }
 
+/* Devices & sessions access & tokens */
 #security {
 	table {
 		width: 100%;
@@ -419,12 +420,6 @@ table.nostyle {
 		th {
 			opacity: .5;
 			padding: 10px 10px 10px 0;
-		}
-		td {
-			padding: 10px 10px 10px 0;
-			&:first-child {
-				padding: 10px;
-			}
 		}
 	}
 	.token-list td {
@@ -441,8 +436,8 @@ table.nostyle {
 
 			div {
 				opacity: 0.57;
-				width: inherit;
-				padding-top: 5px;
+				width: 44px;
+				height: 44px;
 			}
 		}
 		border-top: 1px solid var(--color-border);
@@ -450,48 +445,27 @@ table.nostyle {
 		max-width: 200px;
 		white-space: nowrap;
 		overflow: hidden;
-		vertical-align: top;
+		vertical-align: middle;
 		position: relative;
 	}
 	tr > *:nth-child(3) {
 		text-align: right;
 	}
 	.token-list {
-		td > a.icon {
-
+		td > a.icon-more {
 			transition: opacity 0.5s;
 		}
-		a.icon {
-			margin-top: 4px;
+		a.icon-more {
+			padding: 14px;
 			display: block;
+			width: 44px;
+			height: 44px;
+			opacity: .5;
 		}
 		tr {
-			&:hover td > a.icon, &.active td > a.icon {
-				opacity: 0.6;
-			}
-		}
-		td div.configure {
-			display: none;
-		}
-		tr.active div.configure {
-			display: block;
-			position: absolute;
-			top: 45px;
-			right: -5px;
-			padding: 10px;
-		}
-		div.configure:after {
-			right: 13px;
-		}
-		tr.active {
-			div.configure > * {
-				margin-top: 5px;
-				margin-bottom: 5px;
-				display: inline-block;
-			}
-			a.icon-delete {
-				background-position: left;
-				padding-left: 20px;
+			&:hover td > a.icon,
+			&.active td > a.icon {
+				opacity: 0.7;
 			}
 		}
 	}
