@@ -909,9 +909,16 @@ span.version {
 		width: 50%;
 	}
 }
+
+@media only screen and (max-width: 480px) {
+	.store .section {
+		width: 100%;
+	}
+}
+
 /* hide app version and level on narrower screens */
 @media only screen and (max-width: 900px) {
-	#apps-list.installed {
+	.apps-list.installed {
 		.app-version, .app-level {
 			display: none !important;
 		}
@@ -919,7 +926,7 @@ span.version {
 }
 
 @media only screen and (max-width: 500px) {
-	#apps-list.installed .app-groups {
+	.apps-list.installed .app-groups {
 		display: none !important;
 	}
 }
@@ -1000,8 +1007,7 @@ span.version {
 	list-style-position: inside;
 }
 
-
-#apps-list, #apps-list-search {
+.apps-list {
 	.section {
 		cursor: pointer;
 	}
@@ -1130,6 +1136,14 @@ span.version {
 			+ .section {
 				margin-top: 50px;
 			}
+		}
+	}
+}
+
+#apps-list-search {
+	.section {
+		h2 {
+			margin-bottom: 0;
 		}
 	}
 }

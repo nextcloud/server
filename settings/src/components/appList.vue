@@ -22,7 +22,7 @@
 
 <template>
 	<div id="app-content-inner">
-		<div id="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
+		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
 			<template v-if="useListView">
 				<transition-group name="app-list" tag="div" class="apps-list-container">
 					<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
@@ -48,14 +48,18 @@
 
 		</div>
 
-		<div id="apps-list-search" class="installed">
-			<template v-if="search !== '' && searchApps.length > 0">
-				<div class="section">
-					<div></div>
-					<h2>{{ t('settings', 'Results from other categories') }}</h2>
-				</div>
-				<app-item v-for="app in searchApps" :key="app.id" :app="app" :category="category" :list-view="true" />
-			</template>
+		<div id="apps-list-search" class="apps-list installed">
+			<div class="apps-list-container">
+				<template v-if="search !== '' && searchApps.length > 0">
+					<div class="section">
+						<div></div>
+						<td colspan="5">
+							<h2>{{ t('settings', 'Results from other categories') }}</h2>
+						</td>
+					</div>
+					<app-item v-for="app in searchApps" :key="app.id" :app="app" :category="category" :list-view="true" />
+				</template>
+			</div>
 		</div>
 
 		<div id="apps-list-empty" class="emptycontent emptycontent-search" v-if="!loading && searchApps.length === 0 && apps.length === 0">
