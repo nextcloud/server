@@ -25,11 +25,11 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
+use Doctrine\DBAL\Schema\Table;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
@@ -456,9 +456,9 @@ class MigrationService {
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		if ($toSchema instanceof SchemaWrapper) {
+			$sourceSchema = $this->connection->createSchema();
 			$targetSchema = $toSchema->getWrappedSchema();
-			// TODO re-enable once stable14 is branched of: https://github.com/nextcloud/server/issues/10518
-			// $this->ensureOracleIdentifierLengthLimit($targetSchema, strlen($this->connection->getPrefix()));
+			$this->ensureOracleIdentifierLengthLimit($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
@@ -472,34 +472,39 @@ class MigrationService {
 		$this->markAsExecuted($version);
 	}
 
-	public function ensureOracleIdentifierLengthLimit(Schema $schema, int $prefixLength) {
-		$sequences = $schema->getSequences();
+	public function ensureOracleIdentifierLengthLimit(Schema $sourceSchema, Schema $targetSchema, int $prefixLength) {
+		$sequences = $targetSchema->getSequences();
 
-		foreach ($schema->getTables() as $table) {
-			if (\strlen($table->getName()) - $prefixLength > 27) {
-				throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
+		foreach ($targetSchema->getTables() as $table) {
+			try {
+				$sourceTable = $sourceSchema->getTable($table->getName());
+			} catch (SchemaException $e) {
+				if (\strlen($table->getName()) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
+				}
+				$sourceTable = null;
 			}
 
 			foreach ($table->getColumns() as $thing) {
-				if (\strlen($thing->getName()) - $prefixLength > 27) {
+				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && \strlen($thing->getName()) - $prefixLength > 27) {
 					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
 
 			foreach ($table->getIndexes() as $thing) {
-				if (\strlen($thing->getName()) - $prefixLength > 27) {
+				if ((!$sourceTable instanceof Table || !$sourceTable->hasIndex($thing->getName())) && \strlen($thing->getName()) - $prefixLength > 27) {
 					throw new \InvalidArgumentException('Index name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
 
 			foreach ($table->getForeignKeys() as $thing) {
-				if (\strlen($thing->getName()) - $prefixLength > 27) {
+				if ((!$sourceTable instanceof Table || !$sourceTable->hasForeignKey($thing->getName())) && \strlen($thing->getName()) - $prefixLength > 27) {
 					throw new \InvalidArgumentException('Foreign key name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
 
 			$primaryKey = $table->getPrimaryKey();
-			if ($primaryKey instanceof Index) {
+			if ($primaryKey instanceof Index && (!$sourceTable instanceof Table || !$sourceTable->hasPrimaryKey())) {
 				$indexName = strtolower($primaryKey->getName());
 				$isUsingDefaultName = $indexName === 'primary';
 
@@ -528,7 +533,7 @@ class MigrationService {
 		}
 
 		foreach ($sequences as $sequence) {
-			if (\strlen($sequence->getName()) - $prefixLength > 27) {
+			if (!$sourceSchema->hasSequence($sequence->getName()) && \strlen($sequence->getName()) - $prefixLength > 27) {
 				throw new \InvalidArgumentException('Sequence name "'  . $sequence->getName() . '" is too long.');
 			}
 		}
