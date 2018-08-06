@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" >
-<head data-user="<?php p($_['user_uid']); ?>" data-user-displayname="<?php p($_['user_displayname']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
+<head data-requesttoken="<?php p($_['requesttoken']); ?>">
 	<meta charset="utf-8">
 	<title>
 		<?php
@@ -14,7 +14,7 @@
 	<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid']!='files')? $_['application']:$theme->getTitle()); ?>">
+	<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid']!=='files')? $_['application']:$theme->getTitle()); ?>">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
 	<link rel="icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon.ico')); /* IE11+ supports png */ ?>">
@@ -30,22 +30,22 @@
 	<div id="notification-container">
 		<div id="notification"></div>
 	</div>
-	<header id="header" class="<?php p($_['header-classes']); ?>">
+	<header id="header">
 		<div class="header-left">
 			<span id="nextcloud">
 				<div class="logo logo-icon svg"></div>
 				<h1 class="header-appname">
-					<?php p($template->getHeaderTitle()); ?>
+					<?php if (isset($template)) { p($template->getHeaderTitle()); } else { p($theme->getName());} ?>
 				</h1>
 				<div class="header-shared-by">
-					<?php p($template->getHeaderDetails()) ?>
+					<?php if (isset($template)) { p($template->getHeaderDetails()); } ?>
 				</div>
 			</span>
 		</div>
 
 		<?php
 		/** @var \OCP\AppFramework\Http\Template\PublicTemplateResponse $template */
-		if($template->getActionCount() !== 0) {
+		if(isset($template) && $template->getActionCount() !== 0) {
 			$primary = $template->getPrimaryAction();
 			$others = $template->getOtherActions();
 			?>
@@ -76,7 +76,7 @@
 	<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
 		<?php print_unescaped($_['content']); ?>
 	</div>
-	<?php if($template->getFooterVisible()) { ?>
+	<?php if(isset($template) && $template->getFooterVisible()) { ?>
 	<footer>
 		<p class="info"><?php print_unescaped($theme->getLongFooter()); ?></p>
 	</footer>
