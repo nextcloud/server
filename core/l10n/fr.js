@@ -84,6 +84,7 @@ OC.L10N.register(
     "No" : "Non",
     "Yes" : "Oui",
     "No files in here" : "Aucun fichier",
+    "No more subfolders in here" : "Plus aucun sous-dossier ici",
     "Choose" : "Choisir",
     "Copy" : "Copier",
     "Move" : "Déplacer",
