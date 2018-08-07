@@ -103,6 +103,9 @@ class Manager {
 			return false;
 		}
 
+		// Trigger provider registering
+		$this->getProviderSet($user);
+
 		$providerStates = $this->providerRegistry->getProviderStates($user);
 		$enabled = array_filter($providerStates);
 
