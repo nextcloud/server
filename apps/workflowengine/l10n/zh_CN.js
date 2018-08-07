@@ -1,8 +1,8 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Group list is empty" : "分组列表为空",
-    "Unable to retrieve the group list" : "无法获取用户分组列表",
+    "Group list is empty" : "用户群组列表空",
+    "Unable to retrieve the group list" : "无法获取用户群组列表",
     "Saved" : "已保存",
     "Saving failed:" : "保存失败:",
     "File MIME type" : "文件MIME类型",
