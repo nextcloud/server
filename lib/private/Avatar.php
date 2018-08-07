@@ -125,7 +125,7 @@ class Avatar implements IAvatar {
 	 * @return bool
 	 */
 	public function isCustomAvatar(): bool {
-		return !$this->folder->fileExists('generated');
+		return $this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', 'false') !== 'true';
 	}
 
 	/**
