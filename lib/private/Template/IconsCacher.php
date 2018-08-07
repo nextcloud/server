@@ -140,7 +140,7 @@ class IconsCacher {
 				return;
 			}
 		}
-		$linkToCSS = substr($this->urlGenerator->linkToRoute('core.Css.getCss', ['appName' => 'icons', 'fileName' => $this->fileName]), strlen(\OC::$WEBROOT));
+		$linkToCSS = $this->urlGenerator->linkToRoute('core.Css.getCss', ['appName' => 'icons', 'fileName' => $this->fileName]);
 		\OC_Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS], null, true);
 	}
 
