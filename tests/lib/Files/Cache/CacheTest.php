@@ -776,6 +776,15 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
+	public function testMutateRootEntry() {
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder', 'etag' => 'asd');
+		$this->cache->put('', $data1);
+		$entry = $this->cache->get('');
+		$entry['etag'] = 'foobar';
+		$newEntry = $this->cache->get('');
+		$this->assertNotEquals('foobar', $newEntry->getEtag());
+	}
+
 	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();

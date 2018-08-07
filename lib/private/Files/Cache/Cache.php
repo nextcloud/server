@@ -86,6 +86,9 @@ class Cache implements ICache {
 	/** @var QuerySearchHelper */
 	protected $querySearchHelper;
 
+	/** @var array|null */
+	private $rootData = null;
+
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
 	 */
@@ -121,6 +124,10 @@ class Cache implements ICache {
 	 * @return ICacheEntry|false the cache entry as array of false if the file is not found in the cache
 	 */
 	public function get($file) {
+		if ($file === '' && $this->rootData !== null) {
+			return new CacheEntry($this->rootData);
+		}
+
 		if (is_string($file) or $file == '') {
 			// normalize file
 			$file = $this->normalize($file);
@@ -150,7 +157,11 @@ class Cache implements ICache {
 			}
 			return $data;
 		} else {
-			return self::cacheEntryFromData($data, $this->mimetypeLoader);
+			$entry = self::cacheEntryFromData($data, $this->mimetypeLoader);
+			if ($file === '') {
+				$this->rootData = $entry->getData();
+			}
+			return $entry;
 		}
 	}
 
@@ -240,6 +251,8 @@ class Cache implements ICache {
 	 * @throws \RuntimeException
 	 */
 	public function insert($file, array $data) {
+		$this->rootData = null;
+
 		// normalize file
 		$file = $this->normalize($file);
 
@@ -292,6 +305,7 @@ class Cache implements ICache {
 	 * @param array $data [$key => $value] the metadata to update, only the fields provided in the array will be updated, non-provided values will remain unchanged
 	 */
 	public function update($id, array $data) {
+		$this->rootData = null;
 
 		if (isset($data['path'])) {
 			// normalize path
@@ -382,6 +396,15 @@ class Cache implements ICache {
 	 * @return int
 	 */
 	public function getId($file) {
+		if ($file === '') {
+			$entry = $this->get($file);
+			if (!$entry instanceof ICacheEntry) {
+				return -1;
+			} else {
+				return $entry->getId();
+			}
+		}
+
 		// normalize file
 		$file = $this->normalize($file);
 
@@ -437,6 +460,7 @@ class Cache implements ICache {
 	 * @param string $file
 	 */
 	public function remove($file) {
+		$this->rootData = null;
 		$entry = $this->get($file);
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		$this->connection->executeQuery($sql, array($entry['fileid']));
@@ -480,6 +504,7 @@ class Cache implements ICache {
 	 * @param string $target
 	 */
 	public function move($source, $target) {
+		$this->rootData = null;
 		$this->moveFromCache($this, $source, $target);
 	}
 
@@ -504,6 +529,7 @@ class Cache implements ICache {
 	 * @suppress SqlInjectionChecker
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
+		$this->rootData = null;
 		if ($sourceCache instanceof Cache) {
 			// normalize source and target
 			$sourcePath = $this->normalize($sourcePath);
@@ -561,6 +587,7 @@ class Cache implements ICache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
+		$this->rootData = null;
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?';
 		$this->connection->executeQuery($sql, array($this->getNumericStorageId()));
 
