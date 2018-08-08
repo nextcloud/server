@@ -637,27 +637,25 @@ p.info {
 	background-size: 32px;
 }
 
-
 /* Icons */
 .icon-info-white {
-	background-image: url('../img/actions/info-white.svg?v=2');
+	background-image: url('../../svg/core/actions/info/fff?v=1');
 }
 .icon-error-white {
-	background-image: url('../img/actions/error-white.svg?v=1');
+	background-image: url('../../svg/core/actions/error/fff?v=1');
 }
 .icon-caret-white {
-	background-image: url('../img/actions/caret-white.svg?v=1');
+	background-image: url('../../svg/core/actions/caret/fff?v=1');
 }
 .icon-confirm {
-	background-image: url('../img/actions/confirm.svg?v=2');
+	background-image: url('../../svg/core/actions/confirm/000?v=1');
 }
 .icon-confirm-white {
-	background-image: url('../img/actions/confirm-white.svg?v=2');
+	background-image: url('../../svg/core/actions/confirm/fff?v=1');
 }
 .icon-checkmark-white {
-	background-image: url('../img/actions/checkmark-white.svg?v=1');
+	background-image: url('../../svg/core/actions/checkmark/fff?v=1');
 }
-
 
 /* Loading */
 .float-spinner {
