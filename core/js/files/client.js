@@ -330,12 +330,10 @@
 			}
 
 			var resType = props[Client.PROPERTY_RESOURCETYPE];
-			var isFile = true;
 			if (!data.mimetype && resType) {
 				var xmlvalue = resType[0];
 				if (xmlvalue.namespaceURI === Client.NS_DAV && xmlvalue.nodeName.split(':')[1] === 'collection') {
 					data.mimetype = 'httpd/unix-directory';
-					isFile = false;
 				}
 			}
 
