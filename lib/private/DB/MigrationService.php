@@ -457,7 +457,8 @@ class MigrationService {
 
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
-			$this->ensureOracleIdentifierLengthLimit($targetSchema, strlen($this->connection->getPrefix()));
+			// TODO re-enable once stable14 is branched of: https://github.com/nextcloud/server/issues/10518
+			// $this->ensureOracleIdentifierLengthLimit($targetSchema, strlen($this->connection->getPrefix()));
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
