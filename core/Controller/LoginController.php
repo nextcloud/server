@@ -334,7 +334,7 @@ class LoginController extends Controller {
 		if ($this->twoFactorManager->isTwoFactorAuthenticated($loginResult)) {
 			$this->twoFactorManager->prepareTwoFactorLogin($loginResult, $remember_login);
 
-			$providers = $this->twoFactorManager->getProviderSet($loginResult)->get3rdPartyProviders();
+			$providers = $this->twoFactorManager->getProviderSet($loginResult)->getPrimaryProviders();
 			if (count($providers) === 1) {
 				// Single provider, hence we can redirect to that provider's challenge page directly
 				/* @var $provider IProvider */
