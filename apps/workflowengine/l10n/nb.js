@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Gruppeliste er tom",
     "Unable to retrieve the group list" : "Kunne ikke hente gruppelisten",
     "Saved" : "Lagret",
     "Saving failed:" : "Lagring mislyktes:",
