@@ -181,9 +181,12 @@
 		 * Sort initially as setup of sidebar for QuickAccess
 		 */
 		setInitialQuickaccessSettings: function () {
-			var quickAccesKey = this.$quickAccessListKey;
-			var list = document.getElementById(quickAccesKey).getElementsByTagName('li');
-			this.QuickSort(list, 0, list.length - 1);
+			var quickAccessKey = this.$quickAccessListKey;
+			var quickAccessMenu = document.getElementById(quickAccessKey)
+			if (quickAccessMenu) {
+				var list = quickAccessMenu.getElementsByTagName('li');
+				this.QuickSort(list, 0, list.length - 1);
+			}
 		},
 
 		/**
