@@ -102,12 +102,13 @@ class MigrationsTest extends \Test\TestCase {
 			->method('migrateToSchema');
 
 		$wrappedSchema = $this->createMock(Schema::class);
-		$wrappedSchema->expects($this->once())
+		// TODO re-enable once stable14 is branched of: https://github.com/nextcloud/server/issues/10518
+		/*$wrappedSchema->expects($this->once())
 			->method('getTables')
 			->willReturn([]);
 		$wrappedSchema->expects($this->once())
 			->method('getSequences')
-			->willReturn([]);
+			->willReturn([]);*/
 
 		$schemaResult = $this->createMock(SchemaWrapper::class);
 		$schemaResult->expects($this->once())
