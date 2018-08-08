@@ -124,9 +124,11 @@
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
     "Tags" : "Etiketë",
     "Deleted files" : "Skedar të fshirë",
+    "Shares" : "Shpërndarjet",
     "Shared with others" : "E ndarë me të tjerët",
     "Shared with you" : "E ndarë me ju",
     "Shared by link" : "E ndarë me lidhje",
+    "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
