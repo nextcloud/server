@@ -14,6 +14,7 @@ OC.L10N.register(
     "Backup code" : "Sikkerhetskopi-kode",
     "Use backup code" : "Bruker sikkerhetskopi-kode",
     "Two factor backup codes" : "Sikkerhetskopikoder for tofaktor",
+    "A two-factor auth backup codes provider" : "En leverandør av sikkerhetskopi av to-faktor koder",
     "Second-factor backup codes" : "To-trinns bekreftelse sikkerhetskopi-koder"
 },
 "nplurals=2; plural=(n != 1);");
