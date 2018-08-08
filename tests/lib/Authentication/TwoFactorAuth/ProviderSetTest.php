@@ -64,7 +64,7 @@ class ProviderSetTest extends TestCase {
 
 		$set = new ProviderSet([$p2, $p1], false);
 
-		$this->assertEquals($expected, $set->get3rdPartyProviders());
+		$this->assertEquals($expected, $set->getPrimaryProviders());
 	}
 
 	public function testGetProvider() {
