@@ -245,7 +245,7 @@
 				if (event.which === 13) {
 					this._addAppPassword();
 				}
-			});
+			}.bind(this));
 
 			this._result = $('#app-password-result');
 			this._newAppLoginName = $('#new-app-login-name');
