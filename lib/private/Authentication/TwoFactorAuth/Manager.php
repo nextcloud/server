@@ -104,7 +104,9 @@ class Manager {
 		}
 
 		$providerStates = $this->providerRegistry->getProviderStates($user);
-		$enabled = array_filter($providerStates);
+		$providers = $this->providerLoader->getProviders($user);
+		$fixedStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
+		$enabled = array_filter($fixedStates);
 
 		return $twoFactorEnabled && !empty($enabled);
 	}

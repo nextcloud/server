@@ -108,7 +108,6 @@ class ManagerTest extends TestCase {
 
 		$this->fakeProvider = $this->createMock(IProvider::class);
 		$this->fakeProvider->method('getId')->willReturn('email');
-		$this->fakeProvider->method('isTwoFactorAuthEnabledForUser')->willReturn(true);
 
 		$this->backupProvider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
 		$this->backupProvider->method('getId')->willReturn('backup_codes');
@@ -143,7 +142,25 @@ class ManagerTest extends TestCase {
 			]);
 	}
 
-	public function testIsTwoFactorAuthenticated() {
+	public function testIsTwoFactorAuthenticatedNoProviders() {
+		$this->user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', 'core', 'two_factor_auth_disabled', 0)
+			->willReturn(0);
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->willReturn([]); // No providers registered
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([]); // No providers loadable
+
+		$this->assertFalse($this->manager->isTwoFactorAuthenticated($this->user));
+	}
+
+	public function testIsTwoFactorAuthenticatedFailingProviders() {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('user123'));
@@ -156,9 +173,68 @@ class ManagerTest extends TestCase {
 			->willReturn([
 				'twofactor_totp' => true,
 				'twofactor_u2f' => false,
-			]);
+			]); // Two providers registered, but …
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([]); // … none of them is able to load, however …
 
+		// … 2FA is still enforced
 		$this->assertTrue($this->manager->isTwoFactorAuthenticated($this->user));
+	}
+
+	public function providerStatesFixData(): array {
+		return [
+			[false, false],
+			[true, true],
+		];
+	}
+
+	/**
+	 * If the 2FA registry has not been populated when a user logs in,
+	 * the 2FA manager has to first fix the state before it checks for
+	 * enabled providers.
+	 *
+	 * If any of these providers is active, 2FA is enabled
+	 *
+	 * @dataProvider providerStatesFixData
+	 */
+	public function testIsTwoFactorAuthenticatedFixesProviderStates(bool $providerEnabled, bool $expected) {
+		$this->user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', 'core', 'two_factor_auth_disabled', 0)
+			->willReturn(0);
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->willReturn([]); // Nothing registered yet
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([
+				$this->fakeProvider
+			]);
+		$this->fakeProvider->expects($this->once())
+			->method('isTwoFactorAuthEnabledForUser')
+			->with($this->user)
+			->willReturn($providerEnabled);
+		if ($providerEnabled) {
+			$this->providerRegistry->expects($this->once())
+				->method('enableProviderFor')
+				->with(
+					$this->fakeProvider,
+					$this->user
+				);
+		} else {
+			$this->providerRegistry->expects($this->once())
+				->method('disableProviderFor')
+				->with(
+					$this->fakeProvider,
+					$this->user
+				);
+		}
+
+		$this->assertEquals($expected, $this->manager->isTwoFactorAuthenticated($this->user));
 	}
 
 	public function testGetProvider() {
