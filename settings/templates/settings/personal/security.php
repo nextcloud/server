@@ -22,7 +22,6 @@
  */
 
 script('settings', [
-	'security_password',
 	'authtoken',
 	'authtoken_collection',
 	'authtoken_view',
@@ -30,18 +29,18 @@ script('settings', [
 ]);
 
 if($_['passwordChangeSupported']) {
+	script('settings', 'security_password');
 	script('jquery-showpassword');
 	vendor_script('strengthify/jquery.strengthify');
 	vendor_style('strengthify/strengthify');
 }
 
 ?>
-
+<?php if($_['passwordChangeSupported']) { ?>
 <div id="security-password" class="section">
 	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
 	<span id="password-error-msg" class="msg success hidden">Saved</span>
 	<div class="personal-settings-setting-box personal-settings-password-box">
-		<?php if($_['passwordChangeSupported']) { ?>
 			<form id="passwordform">
 				<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
 				<input type="password" id="pass1" name="oldpassword"
@@ -60,12 +59,10 @@ if($_['passwordChangeSupported']) {
 				<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
 
 			</form>
-			<?php
-		}
-		?>
 	</div>
 	<span class="msg"></span>
 </div>
+<?php } ?>
 
 <div id="security" class="section">
 	<h2><?php p($l->t('Devices & sessions'));?></h2>
