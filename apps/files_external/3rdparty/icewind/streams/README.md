@@ -1,4 +1,4 @@
-#Streams#
+# Streams #
 
 [![Build Status](https://travis-ci.org/icewind1991/Streams.svg?branch=master)](https://travis-ci.org/icewind1991/Streams)
 [![Coverage Status](https://img.shields.io/coveralls/icewind1991/Streams.svg)](https://coveralls.io/r/icewind1991/Streams?branch=master)
@@ -6,7 +6,7 @@
 
 Generic stream wrappers for php.
 
-##CallBackWrapper##
+## CallBackWrapper ##
 
 A `CallBackWrapper` can be used to register callbacks on read, write and closing of the stream,
 it wraps an existing stream and can thus be used for any stream in php
