@@ -1535,6 +1535,10 @@ class OC_Util {
 	 * @return boolean
 	 */
 	public static function isIe() {
+		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+			return false;
+		}
+
 		return preg_match(Request::USER_AGENT_IE, $_SERVER['HTTP_USER_AGENT']) === 1;
 	}
 
