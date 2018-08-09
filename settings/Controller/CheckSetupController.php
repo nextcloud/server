@@ -542,20 +542,40 @@ Raw output
 		$appDirsWithDifferentOwner = [];
 
 		foreach (OC::$APPSROOTS as $appRoot) {
-			$appsPath = $appRoot['path'];
-			$appsDir = new DirectoryIterator($appRoot['path']);
-			foreach ($appsDir as $fileInfo) {
-				if ($fileInfo->isDir() && !$fileInfo->isDot()) {
-					$absAppPath = $appsPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
-					$appDirUser = posix_getpwuid(fileowner($absAppPath));
-					if ($appDirUser !== $currentUser) {
-						$appDirsWithDifferentOwner[] = $absAppPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
-					}
-				}
+			if ($appRoot['writable'] === true) {
+				$appDirsWithDifferentOwner = array_merge(
+					$appDirsWithDifferentOwner,
+					$this->getAppDirsWithDifferentOwnerForAppRoot($currentUser, $appRoot)
+				);
 			}
 		}
 
 		sort($appDirsWithDifferentOwner);
+		return $appDirsWithDifferentOwner;
+	}
+
+	/**
+	 * Tests if the directories for one apps directory are writable by the current user.
+	 *
+	 * @param array $currentUser The current user
+	 * @param array $appRoot The app root config
+	 * @return string[] The none writable directory paths inside the app root
+	 */
+	private function getAppDirsWithDifferentOwnerForAppRoot(array $currentUser, array $appRoot): array {
+		$appDirsWithDifferentOwner = [];
+		$appsPath = $appRoot['path'];
+		$appsDir = new DirectoryIterator($appRoot['path']);
+
+		foreach ($appsDir as $fileInfo) {
+			if ($fileInfo->isDir() && !$fileInfo->isDot()) {
+				$absAppPath = $appsPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+				$appDirUser = posix_getpwuid(fileowner($absAppPath));
+				if ($appDirUser !== $currentUser) {
+					$appDirsWithDifferentOwner[] = $absAppPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+				}
+			}
+		}
+
 		return $appDirsWithDifferentOwner;
 	}
 
