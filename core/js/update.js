@@ -107,7 +107,7 @@
 					}
 
 					setTimeout(function () {
-						OC.redirect(OC.webroot + '/');
+						OC.redirect(window.location.href);
 					}, 3000);
 				}
 			});
