@@ -115,8 +115,8 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 	public function testPersistSameStateTwice() {
 		$qb = $this->dbConn->getQueryBuilder();
 
-		$this->dao->persist('twofactor_totp', 'user123', 0);
-		$this->dao->persist('twofactor_totp', 'user123', 0);
+		$this->dao->persist('twofactor_totp', 'user123', 1);
+		$this->dao->persist('twofactor_totp', 'user123', 1);
 
 		$q = $qb
 			->select('*')
