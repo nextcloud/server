@@ -67,7 +67,6 @@ OCA.Trashbin.App = {
 				var tr = fileList.findFileEl(filename);
 				var deleteAction = tr.children("td.date").children(".action.delete");
 				deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
-				fileList.disableActions();
 				$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'), {
 						files: JSON.stringify([filename]),
 						dir: fileList.getCurrentDirectory()
@@ -96,7 +95,6 @@ OCA.Trashbin.App = {
 				var tr = fileList.findFileEl(filename);
 				var deleteAction = tr.children("td.date").children(".action.delete");
 				deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
-				fileList.disableActions();
 				$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'), {
 						files: JSON.stringify([filename]),
 						dir: fileList.getCurrentDirectory()
