@@ -27,6 +27,7 @@ use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\LoginController;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
@@ -594,7 +595,10 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue('john'));
 		$password = 'secret';
 		$challengeUrl = 'challenge/url';
-		$provider = $this->createMock(IProvider::class);
+		$provider1 = $this->createMock(IProvider::class);
+		$provider1->method('getId')->willReturn('u2f');
+		$provider2 = $this->createMock(BackupCodesProvider::class);
+		$provider2->method('getId')->willReturn('backup');
 
 		$this->request
 			->expects($this->once())
@@ -616,14 +620,11 @@ class LoginControllerTest extends TestCase {
 		$this->twoFactorManager->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with($user);
-		$providerSet = new ProviderSet([$provider], false);
+		$providerSet = new ProviderSet([$provider1, $provider2], false);
 		$this->twoFactorManager->expects($this->once())
 			->method('getProviderSet')
 			->with($user)
 			->willReturn($providerSet);
-		$provider->expects($this->once())
-			->method('getId')
-			->will($this->returnValue('u2f'));
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.showChallenge', [

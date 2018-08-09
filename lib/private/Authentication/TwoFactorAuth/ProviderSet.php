@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace OC\Authentication\TwoFactorAuth;
 
+use function array_filter;
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 
 /**
@@ -63,6 +65,15 @@ class ProviderSet {
 	 */
 	public function getProviders(): array {
 		return $this->providers;
+	}
+
+	/**
+	 * @return IProvider[]
+	 */
+	public function getPrimaryProviders(): array {
+		return array_filter($this->providers, function(IProvider $provider) {
+			return !($provider instanceof BackupCodesProvider);
+		});
 	}
 
 	public function isProviderMissing(): bool {
