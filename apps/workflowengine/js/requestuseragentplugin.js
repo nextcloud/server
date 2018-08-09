@@ -44,7 +44,7 @@
 
 			var placeholder = 'Mozilla/5.0 User Agent';
 
-			if (check['operator'] === 'matches' || check['operator'] === '!matches') {
+			if (check.operator === 'matches' || check.operator === '!matches') {
 				placeholder = '/^Mozilla\\/5\\.0 (.*)$/i';
 			}
 
@@ -56,8 +56,8 @@
 					placement: 'bottom'
 				});
 
-			if (check['operator'] === 'matches' || check['operator'] === '!matches') {
-				if (this._validateRegex(check['value'])) {
+			if (check.operator === 'matches' || check.operator === '!matches') {
+				if (this._validateRegex(check.value)) {
 					$(element).removeClass('invalid-input');
 				} else {
 					$(element).addClass('invalid-input');
@@ -70,21 +70,22 @@
 						children: [
 							{id: 'android', text: t('workflowengine', 'Android client')},
 							{id: 'ios', text: t('workflowengine', 'iOS client')},
-							{id: 'desktop', text: t('workflowengine', 'Desktop client')}
+							{id: 'desktop', text: t('workflowengine', 'Desktop client')},
+							{id: 'mail', text: t('workflowengine', 'Thunderbird & Outlook addons')}
 						]
 					}
 				];
-				if (this.predefinedValues.indexOf(check['value']) === -1) {
+				if (this.predefinedValues.indexOf(check.value) === -1) {
 					data.unshift({
-						id: check['value'],
-						text: check['value']
-					})
+						id: check.value,
+						text: check.value
+					});
 				}
 
 				$(element).select2({
 					data: data,
 					createSearchChoice: function(term) {
-						if (self.predefinedValues.indexOf(check['value']) === -1) {
+						if (self.predefinedValues.indexOf(check.value) === -1) {
 							return {
 								id: term,
 								text: term
