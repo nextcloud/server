@@ -82,7 +82,7 @@ class CodeChecker extends BasicEmitter {
 	public function analyseFolder(string $appId, string $folder): array {
 		$errors = [];
 
-		$excludedDirectories = ['vendor', '3rdparty', '.git', 'l10n', 'tests', 'test'];
+		$excludedDirectories = ['vendor', '3rdparty', '.git', 'l10n', 'tests', 'test', 'build'];
 		if ($appId === 'password_policy') {
 			$excludedDirectories[] = 'lists';
 		}
