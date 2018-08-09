@@ -92,7 +92,7 @@
 		 * @param array options "silent" to not trigger event
 		 */
 		setActiveItem: function (itemId, options) {
-			var currentItem = this.$el.find('li[data-id=' + itemId + ']');
+			var currentItem = this.$el.find('li[data-id="' + itemId + '"]');
 			var itemDir = currentItem.data('dir');
 			var itemView = currentItem.data('view');
 			var oldItemId = this._activeItem;
@@ -135,7 +135,7 @@
 		 * Returns whether a given item exists
 		 */
 		itemExists: function (itemId) {
-			return this.$el.find('li[data-id=' + itemId + ']').length;
+			return this.$el.find('li[data-id="' + itemId + '"]').length;
 		},
 
 		/**
