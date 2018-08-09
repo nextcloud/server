@@ -629,6 +629,27 @@ class CheckSetupControllerTest extends TestCase {
 		);
 	}
 
+	/**
+	 * Calls the check for a none existing app root that is marked as not writable.
+	 * It's expected that no error happens since the check shouldn't apply.
+	 *
+	 * @return void
+	 */
+	public function testAppDirectoryOwnersNotWritable() {
+		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
+		OC::$APPSROOTS = [
+			[
+				'path' => $tempDir,
+				'url' => '/apps',
+				'writable' => false,
+			],
+		];
+		$this->assertSame(
+			[],
+			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
+		);
+	}
+
 	public function testIsBuggyNss400() {
 		$this->config->expects($this->any())
 			->method('getSystemValue')
