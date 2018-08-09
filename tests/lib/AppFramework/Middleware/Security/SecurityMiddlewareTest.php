@@ -568,7 +568,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			'test',
 			$exception
 		);
-		$expected = new TemplateResponse('core', '403', ['file' => $exception->getMessage()], 'guest');
+		$expected = new TemplateResponse('core', '403', ['message' => $exception->getMessage()], 'guest');
 		$expected->setStatus($exception->getCode());
 		$this->assertEquals($expected , $response);
 	}

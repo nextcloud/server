@@ -249,7 +249,7 @@ class SecurityMiddleware extends Middleware {
 					$url = $this->urlGenerator->linkToRoute('core.login.showLoginForm', $params);
 					$response = new RedirectResponse($url);
 				} else {
-					$response = new TemplateResponse('core', '403', ['file' => $exception->getMessage()], 'guest');
+					$response = new TemplateResponse('core', '403', ['message' => $exception->getMessage()], 'guest');
 					$response->setStatus($exception->getCode());
 				}
 			}
