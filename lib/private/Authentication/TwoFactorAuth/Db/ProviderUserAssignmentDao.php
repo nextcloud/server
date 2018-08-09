@@ -72,15 +72,26 @@ class ProviderUserAssignmentDao {
 	public function persist(string $providerId, string $uid, int $enabled) {
 		$qb = $this->conn->getQueryBuilder();
 
-		// First, try to update an existing entry
-		$updateQuery = $qb->update(self::TABLE_NAME)
-			->set('enabled', $qb->createNamedParameter($enabled))
+		$this->conn->beginTransaction();
+		// To prevent duplicate primary key, we have to first check if an INSERT
+		// or UPDATE is required
+		$query = $qb->select('*')
+			->from(self::TABLE_NAME)
 			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-		$updatedRows = $updateQuery->execute();
+		$result = $query->execute();
+		$rowCount = count($result->fetchAll());
+		$result->closeCursor();
 
-		// If this (providerId, UID) key tuple is new, we have to insert it
-		if (0 === (int)$updatedRows) {
+		if ($rowCount > 0) {
+			// There is an entry -> update it
+			$updateQuery = $qb->update(self::TABLE_NAME)
+				->set('enabled', $qb->createNamedParameter($enabled))
+				->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
+				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
+			$updateQuery->execute();
+		} else {
+			// Insert a new entry
 			$insertQuery = $qb->insert(self::TABLE_NAME)->values([
 				'provider_id' => $qb->createNamedParameter($providerId),
 				'uid' => $qb->createNamedParameter($uid),
@@ -89,6 +100,8 @@ class ProviderUserAssignmentDao {
 
 			$insertQuery->execute();
 		}
+		$this->conn->commit();
+
 	}
 
 }
