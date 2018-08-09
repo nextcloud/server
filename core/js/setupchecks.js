@@ -316,6 +316,23 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
+
+					if(data.appDirsWithDifferentOwner.length > 0) {
+						var appDirsWithDifferentOwner = data.appDirsWithDifferentOwner.reduce(
+							function(appDirsWithDifferentOwner, directory) {
+								return appDirsWithDifferentOwner + '<li>' + directory + '</li>';
+							},
+							''
+						);
+						messages.push({
+							msg: t('core', 'Some app directories are owned by a different user than the web server one. ' +
+									'This may be the case if apps have been installed manually. ' +
+									'Check the permissions of the following app directories:')
+									+ '<ul>' + appDirsWithDifferentOwner + '</ul>',
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
+					}
+
 				} else {
 					messages.push({
 						msg: t('core', 'Error occurred while checking server setup'),
