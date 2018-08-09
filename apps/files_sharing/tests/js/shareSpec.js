@@ -108,6 +108,26 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
 		});
+		it('shows simple share text with share icon when shared to a room', function() {
+			var $action, $tr;
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: OC.PERMISSION_ALL,
+				etag: 'abc',
+				shareTypes: [OC.Share.SHARE_TYPE_ROOM]
+			}]);
+			$tr = fileList.$el.find('tbody tr:first');
+			$action = $tr.find('.action-share');
+			expect($action.find('>span').text().trim()).toEqual('Shared');
+			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
+			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
+		});
 		it('shows simple share text with public icon when shared with link', function() {
 			var $action, $tr;
 			OC.Share.statuses = {1: {link: true, path: '/subdir'}};
