@@ -421,5 +421,17 @@ class PreviewManager implements IPreview {
 				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/');
 			}
 		}
+
+		// Register any preview providers provided by installed apps
+		foreach ($this->getEnabledDefaultProvider() as $provider) {
+			$p = explode('\\', $provider);
+			if (count($p) > 2 && $p[0] == 'OCA') {
+				$i = new $provider();
+				$this->registerProvider($i->getMimeType(), function () use ($provider) {
+					$result = new $provider();
+					return $result;
+				});
+			}
+		}
 	}
 }
