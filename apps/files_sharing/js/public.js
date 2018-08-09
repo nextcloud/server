@@ -72,7 +72,24 @@ OCA.Sharing.PublicApp = {
 					fileActions: fileActions,
 					detailsViewEnabled: false,
 					filesClient: filesClient,
-					enableUpload: true
+					enableUpload: true,
+					multiSelectMenu: [
+						{
+								name: 'copyMove',
+								displayName:  t('files', 'Move or copy'),
+								iconClass: 'icon-external',
+						},
+						{
+								name: 'download',
+								displayName:  t('files', 'Download'),
+								iconClass: 'icon-download',
+						},
+						{
+								name: 'delete',
+								displayName: t('files', 'Delete'),
+								iconClass: 'icon-delete',
+						}
+					] 
 				}
 			);
 			this.files = OCA.Files.Files;
