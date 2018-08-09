@@ -152,6 +152,8 @@
 
 	#header-right, .header-right {
 		justify-content: flex-end;
+		flex-basis: 210px;
+		flex-shrink: 1;
 	}
 
 	/* Right header standard */
