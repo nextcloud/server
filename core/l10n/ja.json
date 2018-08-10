@@ -111,7 +111,7 @@
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "PHP OPcacheが適切に設定されていません。<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">よりパフォーマンスを向上させる</a>には、<code>php.ini</code>で以下の設定を推奨します:",
     "Error occurred while checking server setup" : "サーバー設定のチェック中にエラーが発生しました",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips ↗</a>." : "\"Strict-Transport-Security\" HTTPヘッダが最低でも \"{seconds}\" 秒に設定されていません。セキュリティを強化するには、<a href=\"{docUrl}\" rel=\"noreferrer noopener\">セキュリティTips ↗</a>で解説しているHSTSを有効にすることを推奨します。",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips ↗</a>で述べているように、代わりにHTTPSを必要とするようサーバを設定することを強くおすすめします。",
+    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips ↗</a>で述べているように、代わりにHTTPSを必要とするようサーバーを設定することを強くおすすめします。",
     "Shared" : "共有中",
     "Choose a password for the public link" : "URLによる共有のパスワードを入力",
     "Choose a password for the public link or press the \"Enter\" key" : "公開リンクのパスワードを入力、または、\"エンター\"のみを叩く",
@@ -282,7 +282,7 @@
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "メモリキャッシュが設定されていません。可能であれば、パフォーマンスを向上するため、memcacheを設定してください。より詳しい情報は<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">ドキュメント</a>で参照できます。",
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">For better performance we recommend</a> to use following settings in the <code>php.ini</code>:" : "PHP OPcacheが適切に設定されていません。<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">よりパフォーマンスを向上させる</a>には、<code>php.ini</code>で以下の設定を推奨します:",
     "The \"Strict-Transport-Security\" HTTP header is not configured to at least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\" rel=\"noreferrer\">security tips</a>." : "\"Strict-Transport-Security\" HTTPヘッダが、最低でも \"{seconds}\" 秒に設定されていません。セキュリティを強化するには、<a href=\"{docUrl}\" rel=\"noreferrer\">セキュリティTips</a>で解説しているHSTSを有効にすることを推奨します。",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips</a>で述べているように、代わりにHTTPSを必要とするようサーバを設定することを強くおすすめします。",
+    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips</a>で述べているように、代わりにHTTPSを必要とするようサーバーを設定することを強くおすすめします。",
     "Error setting expiration date" : "有効期限の設定でエラー発生",
     "The public link will expire no later than {days} days after it is created" : "URLによる共有は、作成してから {days} 日以内に有効期限切れになります",
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "ユーザー名、グループ、クラウド統合ID、メールアドレスで共有",
@@ -293,6 +293,6 @@
     "Alternative login using app token" : "アプリトークンを使って代替ログイン",
     "Add \"%s\" as trusted domain" : "\"%s\" を信頼するドメイン名に追加",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "\"Strict-Transport-Security\" HTTPヘッダが、最低でも \"{seconds}\" 秒に設定されていません。セキュリティを強化するには、<a href=\"{docUrl}\" rel=\"noreferrer noopener\">セキュリティTips</a>で解説しているHSTSを有効にすることを推奨します。",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips</a>で述べているように、代わりにHTTPSを必要とするようサーバを設定することを強くおすすめします。"
+    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips</a>で述べているように、代わりにHTTPSを必要とするようサーバーを設定することを強くおすすめします。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
