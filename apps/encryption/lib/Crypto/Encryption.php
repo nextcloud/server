@@ -254,7 +254,6 @@ class Encryption implements IEncryptionModule {
 	public function end($path, $position = 0) {
 		$result = '';
 		if ($this->isWriteOperation) {
-			$this->keyManager->setVersion($path, $this->version + 1, new View());
 			// in case of a part file we remember the new signature versions
 			// the version will be set later on update.
 			// This way we make sure that other apps listening to the pre-hooks
