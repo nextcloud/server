@@ -160,6 +160,32 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->isTwoFactorAuthenticated($this->user));
 	}
 
+	public function testIsTwoFactorAuthenticatedOnlyBackupCodes() {
+		$this->user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', 'core', 'two_factor_auth_disabled', 0)
+			->willReturn(0);
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->willReturn([
+				'backup_codes' => true,
+			]);
+		$backupCodesProvider = $this->createMock(IProvider::class);
+		$backupCodesProvider
+			->method('getId')
+			->willReturn('backup_codes');
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([
+				$backupCodesProvider,
+			]);
+
+		$this->assertFalse($this->manager->isTwoFactorAuthenticated($this->user));
+	}
+
 	public function testIsTwoFactorAuthenticatedFailingProviders() {
 		$this->user->expects($this->once())
 			->method('getUID')
