@@ -270,18 +270,22 @@ class SyncService {
 
 		$cardId = "$name:$userId.vcf";
 		$card = $this->backend->getCard($addressBookId, $cardId);
-		if ($card === false) {
-			$vCard = $converter->createCardFromUser($user);
-			if ($vCard !== null) {
-				$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
+		if ($user->isEnabled()) {
+			if ($card === false) {
+				$vCard = $converter->createCardFromUser($user);
+				if ($vCard !== null) {
+					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
+				}
+			} else {
+				$vCard = $converter->createCardFromUser($user);
+				if (is_null($vCard)) {
+					$this->backend->deleteCard($addressBookId, $cardId);
+				} else {
+					$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
+				}
 			}
 		} else {
-			$vCard = $converter->createCardFromUser($user);
-			if (is_null($vCard)) {
-				$this->backend->deleteCard($addressBookId, $cardId);
-			} else {
-				$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
-			}
+			$this->backend->deleteCard($addressBookId, $cardId);
 		}
 	}
 

@@ -79,7 +79,9 @@ class UserPlugin implements ISearchPlugin {
 			$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
 
 			foreach ($usersTmp as $user) {
-				$users[$user->getUID()] = $user->getDisplayName();
+				if ($user->isEnabled()) { // Don't keep deactivated users
+					$users[$user->getUID()] = $user->getDisplayName();
+				}
 			}
 		}
 
