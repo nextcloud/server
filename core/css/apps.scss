@@ -829,6 +829,7 @@ $popovericon-size: 16px;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
 	border-radius: var(--border-radius);
+	border: 1px solid transparent;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
@@ -838,9 +839,11 @@ $popovericon-size: 16px;
 
 	&:after {
 		bottom: 100%;
-	 /* Min-width of popover is 36px and arrow width is 20px
-		wich leaves us 8px right and 8px left */
-		right: 8px;
+		// Required right-distance is half menu icon size + right padding
+		// = 16px/2 + 14px = 22px
+		// popover right margin is 5px, arrow width is 9px to center and border is 1px
+		// 22px - 9px - 5px - 1px = 7px 
+		right: 7px;
 		/* change this to adjust the arrow position */
 		border: solid transparent;
 		content: ' ';
@@ -849,7 +852,7 @@ $popovericon-size: 16px;
 		position: absolute;
 		pointer-events: none;
 		border-bottom-color: var(--color-main-background);
-		border-width: 10px;
+		border-width: 9px;
 	}
 	/* Center the popover */
 	&.menu-center {
