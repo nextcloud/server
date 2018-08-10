@@ -92,13 +92,9 @@ export default {
 			let apps = this.$store.getters.getAllApps
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function (a, b) {
-					if (a.active !== b.active) {
-						return (a.active ? -1 : 1)
-					}
-					if (a.update !== b.update) {
-						return (a.update ? -1 : 1)
-					}
-					return OC.Util.naturalSortCompare(a.name, b.name);
+					const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1) + a.name;
+					const sortStringB = '' + (b.active ? 0 : 1) + (b.update ? 0 : 1) + b.name;
+					return OC.Util.naturalSortCompare(sortStringA, sortStringB);
 				});
 
 			if (this.category === 'installed') {
