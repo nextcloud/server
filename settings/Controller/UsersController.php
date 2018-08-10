@@ -43,6 +43,7 @@ use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\ForbiddenException;
 use OC\Security\IdentityProof\Manager;
+use OCA\User_LDAP\User_Proxy;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -53,7 +54,6 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -153,14 +153,13 @@ class UsersController extends Controller {
 				
 		/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
 		$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
+		$isLDAPUsed = false;
 		if ($this->config->getSystemValue('sort_groups_by_name', false)) {
 			$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
 		} else {
-			$isLDAPUsed = false;
 			if ($this->appManager->isEnabledForUser('user_ldap')) {
 				$isLDAPUsed =
-					$this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_LDAP')
-					|| $this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
+					$this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
 				if ($isLDAPUsed) {
 					// LDAP user count can be slow, so we sort by group name here
 					$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
@@ -185,10 +184,16 @@ class UsersController extends Controller {
 		
 		$groupsInfo->setSorting($sortGroupsBy);
 		list($adminGroup, $groups) = $groupsInfo->get();
+
+		if(!$isLDAPUsed && $this->appManager->isEnabledForUser('user_ldap')) {
+			$isLDAPUsed = (bool)array_reduce($this->userManager->getBackends(), function ($ldapFound, $backend) {
+				return $ldapFound || $backend instanceof User_Proxy;
+			});
+		}
 		
 		if ($this->isAdmin) {
 			$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsers();
-			$userCount = array_reduce($this->userManager->countUsers(), function($v, $w) {
+			$userCount = $isLDAPUsed ? 0 : array_reduce($this->userManager->countUsers(), function($v, $w) {
 				return $v + (int)$w;
 			}, 0);
 		} else {
@@ -208,7 +213,7 @@ class UsersController extends Controller {
 					$userCount = -1; // we also lower from one the total count
 				}
 			};
-			$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
+			$userCount += $isLDAPUsed ? 0 : $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
 			$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsersOfGroups($groupsNames);
 		}
 		$disabledUsersGroup = [
