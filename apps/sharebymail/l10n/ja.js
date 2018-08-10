@@ -35,7 +35,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "共有ダイアログからいつでも違うパスワードに変更できます。",
     "Could not find share" : "共有が見つかりませんでした",
     "Share by mail" : "メールで共有",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可する",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
     "Enforce password protection" : "常にパスワード保護を有効にする",
     "Failed to send share by E-mail" : "メールで共有の送信に失敗しました"
