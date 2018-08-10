@@ -27,7 +27,6 @@ use OC;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
-use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
