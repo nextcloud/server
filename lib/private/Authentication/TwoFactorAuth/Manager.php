@@ -27,6 +27,8 @@ declare(strict_types = 1);
 
 namespace OC\Authentication\TwoFactorAuth;
 
+use function array_diff;
+use function array_filter;
 use BadMethodCallException;
 use Exception;
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -47,6 +49,7 @@ class Manager {
 	const SESSION_UID_KEY = 'two_factor_auth_uid';
 	const SESSION_UID_DONE = 'two_factor_auth_passed';
 	const REMEMBER_LOGIN = 'two_factor_remember_login';
+	const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
 	/** @var ProviderLoader */
 	private $providerLoader;
@@ -76,9 +79,9 @@ class Manager {
 	private $dispatcher;
 
 	public function __construct(ProviderLoader $providerLoader,
-		IRegistry $providerRegistry, ISession $session, IConfig $config,
-		IManager $activityManager, ILogger $logger, TokenProvider $tokenProvider,
-		ITimeFactory $timeFactory, EventDispatcherInterface $eventDispatcher) {
+								IRegistry $providerRegistry, ISession $session, IConfig $config,
+								IManager $activityManager, ILogger $logger, TokenProvider $tokenProvider,
+								ITimeFactory $timeFactory, EventDispatcherInterface $eventDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->session = $session;
 		$this->config = $config;
@@ -107,8 +110,10 @@ class Manager {
 		$providers = $this->providerLoader->getProviders($user);
 		$fixedStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
 		$enabled = array_filter($fixedStates);
+		$providerIds = array_keys($enabled);
+		$providerIdsWithoutBackupCodes = array_diff($providerIds, [self::BACKUP_CODES_PROVIDER_ID]);
 
-		return $twoFactorEnabled && !empty($enabled);
+		return $twoFactorEnabled && !empty($providerIdsWithoutBackupCodes);
 	}
 
 	/**

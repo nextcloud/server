@@ -27,6 +27,7 @@ use OC;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -156,6 +157,32 @@ class ManagerTest extends TestCase {
 		$this->providerLoader->expects($this->once())
 			->method('getProviders')
 			->willReturn([]); // No providers loadable
+
+		$this->assertFalse($this->manager->isTwoFactorAuthenticated($this->user));
+	}
+
+	public function testIsTwoFactorAuthenticatedOnlyBackupCodes() {
+		$this->user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', 'core', 'two_factor_auth_disabled', 0)
+			->willReturn(0);
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->willReturn([
+				'backup_codes' => true,
+			]);
+		$backupCodesProvider = $this->createMock(IProvider::class);
+		$backupCodesProvider
+			->method('getId')
+			->willReturn('backup_codes');
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([
+				$backupCodesProvider,
+			]);
 
 		$this->assertFalse($this->manager->isTwoFactorAuthenticated($this->user));
 	}
