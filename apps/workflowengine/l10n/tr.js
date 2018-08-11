@@ -39,6 +39,7 @@ OC.L10N.register(
     "Android client" : "Android istemcisi",
     "iOS client" : "iOS istemcisi",
     "Desktop client" : "Masaüstü istemcisi",
+    "Thunderbird & Outlook addons" : "Thunderbird ve Outlook eklentileri",
     "User group membership" : "Kullanıcı grubu üyeliği",
     "is member of" : "şunun üyesi olan",
     "is not member of" : "şunun üyesi olmayan",
