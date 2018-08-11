@@ -186,6 +186,7 @@ OC.L10N.register(
     "remote" : "Entfernte Freigabe",
     "remote group" : "Externe Gruppe",
     "email" : "E-Mail",
+    "conversation" : "Unterhaltung",
     "shared by {sharer}" : "Geteilt von {sharer}",
     "Unshare" : "Freigabe aufheben",
     "Can reshare" : "kann weiterteilen",
