@@ -183,7 +183,7 @@ class LDAPContext implements Context {
 	public function theRecordFieldsShouldMatch(TableNode $expectations) {
 		foreach($expectations->getRowsHash() as $k => $v) {
 			$value = (string)simplexml_load_string($this->response->getBody())->data[0]->$k;
-			Assert::assertEquals($v, $value);
+			Assert::assertEquals($v, $value, "got $value");
 		}
 
 		$backend = (string)simplexml_load_string($this->response->getBody())->data[0]->backend;
