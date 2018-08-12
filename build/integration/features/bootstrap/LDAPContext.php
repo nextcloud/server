@@ -32,6 +32,14 @@ class LDAPContext implements Context {
 
 	protected $apiUrl;
 
+	/** @AfterScenario */
+	public function teardown() {
+		if($this->configID === null) {
+			return;
+		}
+		$this->sendingTo('DELETE', $this->apiUrl . '/' . $this->configID);
+	}
+
 	/**
 	 * @Given /^the response should contain a tag "([^"]*)"$/
 	 */
@@ -173,7 +181,6 @@ class LDAPContext implements Context {
 				$uidsFound++;
 			}
 		}
-		error_log('result array ' . json_encode($extractedIDsArray)); ## TODO remove debug statement
 		Assert::assertSame((int)$expectedCount, $uidsFound);
 	}
 

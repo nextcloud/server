@@ -75,7 +75,6 @@ Feature: LDAP
     Given modify LDAP configuration
       | ldapBaseUsers  | ou=PagingTest,dc=nextcloud,dc=ci |
       | ldapPagingSize | 2                                |
-      | ldapCacheTTL   | 0                                |
     And As an "admin"
     And sending "GET" to "/cloud/users?limit=10&offset=2"
     Then the OCS status code should be "200"
