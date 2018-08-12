@@ -1403,14 +1403,6 @@ class OC_Util {
 		if (function_exists('accelerator_reset')) {
 			accelerator_reset();
 		}
-		// XCache
-		if (function_exists('xcache_clear_cache')) {
-			if (\OC::$server->getIniWrapper()->getBool('xcache.admin.enable_auth')) {
-				\OCP\Util::writeLog('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', ILogger::WARN);
-			} else {
-				@xcache_clear_cache(XC_TYPE_PHP, 0);
-			}
-		}
 		// Opcache (PHP >= 5.5)
 		if (function_exists('opcache_reset')) {
 			@opcache_reset();

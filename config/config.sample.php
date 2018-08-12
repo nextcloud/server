@@ -1059,7 +1059,6 @@ $CONFIG = array(
  * * ``\OC\Memcache\ArrayCache`` In-memory array-based backend (not recommended)
  * * ``\OC\Memcache\Memcached``  Memcached backend
  * * ``\OC\Memcache\Redis``      Redis backend
- * * ``\OC\Memcache\XCache``     XCache backend
  *
  * Advice on choosing between the various backends:
  *
