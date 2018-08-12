@@ -860,7 +860,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Memcache\\Memcached' => __DIR__ . '/../../..' . '/lib/private/Memcache/Memcached.php',
         'OC\\Memcache\\NullCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/NullCache.php',
         'OC\\Memcache\\Redis' => __DIR__ . '/../../..' . '/lib/private/Memcache/Redis.php',
-        'OC\\Memcache\\XCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/XCache.php',
         'OC\\Migration\\BackgroundRepair' => __DIR__ . '/../../..' . '/lib/private/Migration/BackgroundRepair.php',
         'OC\\Migration\\ConsoleOutput' => __DIR__ . '/../../..' . '/lib/private/Migration/ConsoleOutput.php',
         'OC\\Migration\\SimpleOutput' => __DIR__ . '/../../..' . '/lib/private/Migration/SimpleOutput.php',
