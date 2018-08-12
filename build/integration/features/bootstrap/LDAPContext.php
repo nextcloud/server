@@ -141,9 +141,9 @@ class LDAPContext implements Context {
 		$extractedIDsArray = json_decode(json_encode($listReturnedElements), 1);
 		foreach($expectations->getRows() as $expectation) {
 			if((int)$expectation[1] === 1) {
-				PHPUnit_Framework_Assert::assertContains($expectation[0], $extractedIDsArray);
+				Assert::assertContains($expectation[0], $extractedIDsArray);
 			} else {
-				PHPUnit_Framework_Assert::assertNotContains($expectation[0], $extractedIDsArray);
+				Assert::assertNotContains($expectation[0], $extractedIDsArray);
 			}
 		}
 	}
@@ -155,10 +155,10 @@ class LDAPContext implements Context {
 		try {
 			$this->loggingInUsingWebAs($login);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			PHPUnit_Framework_Assert::assertEquals(500, $e->getResponse()->getStatusCode());
+			Assert::assertEquals(500, $e->getResponse()->getStatusCode());
 			return;
 		}
-		PHPUnit_Framework_Assert::assertTrue(false, 'expected Exception not received');
+		Assert::assertTrue(false, 'expected Exception not received');
 	}
 
 	/**
@@ -174,7 +174,7 @@ class LDAPContext implements Context {
 			}
 		}
 		error_log('result array ' . json_encode($extractedIDsArray)); ## TODO remove debug statement
-		PHPUnit_Framework_Assert::assertSame((int)$expectedCount, $uidsFound);
+		Assert::assertSame((int)$expectedCount, $uidsFound);
 	}
 
 	/**
@@ -183,10 +183,10 @@ class LDAPContext implements Context {
 	public function theRecordFieldsShouldMatch(TableNode $expectations) {
 		foreach($expectations->getRowsHash() as $k => $v) {
 			$value = (string)simplexml_load_string($this->response->getBody())->data[0]->$k;
-			PHPUnit_Framework_Assert::assertEquals($v, $value);
+			Assert::assertEquals($v, $value);
 		}
 
 		$backend = (string)simplexml_load_string($this->response->getBody())->data[0]->backend;
-		PHPUnit_Framework_Assert::assertEquals('LDAP', $backend);
+		Assert::assertEquals('LDAP', $backend);
 	}
 }
