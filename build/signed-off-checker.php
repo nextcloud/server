@@ -60,9 +60,9 @@ if(!is_string($githubToken) || $githubToken === '') {
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/'.$repoOwner.'/'.$repoName.'/pulls/'.$pullRequestNumber.'/commits');
+curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/' . $repoOwner . '/' . $repoName . '/pulls/' . $pullRequestNumber . '/commits');
 curl_setopt($ch, CURLOPT_USERAGENT, 'CI for Nextcloud (https://github.com/nextcloud/server)');
-curl_setopt($ch, CURLOPT_HTTPHEADER, 'Authorization: token ' . $githubToken);
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: token ' . $githubToken]);
 $response = curl_exec($ch);
 curl_close($ch);
 
