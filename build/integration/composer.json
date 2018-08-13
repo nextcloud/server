@@ -1,7 +1,7 @@
 {
   "require-dev": {
     "phpunit/phpunit": "~6.5",
-    "behat/behat": "~3.3.0",
+    "behat/behat": "~3.5.0",
     "guzzlehttp/guzzle": "6.3.3",
     "jarnaiz/behat-junit-formatter": "^1.3",
     "sabre/dav": "3.2.2"
