@@ -36,6 +36,7 @@ class EnterpriseBundleTest extends BundleBase {
 			'files_automatedtagging',
 			'user_saml',
 			'files_accesscontrol',
+			'terms_of_service',
 		];
 	}
 }
