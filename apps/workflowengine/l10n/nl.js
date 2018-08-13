@@ -1,6 +1,7 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "Groepenlijst is leeg",
     "Unable to retrieve the group list" : "Kan groepsoverzicht niet ophalen",
     "Saved" : "Bewaard",
     "Saving failed:" : "Opslaan mislukt:",
@@ -38,6 +39,7 @@ OC.L10N.register(
     "Android client" : "Android client",
     "iOS client" : "iOS client",
     "Desktop client" : "Desktop client",
+    "Thunderbird & Outlook addons" : "Thunderbird & Outlook addons",
     "User group membership" : "Gebruikersgroep lidmaatschap",
     "is member of" : "is lid van",
     "is not member of" : "is geen lid van",

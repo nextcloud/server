@@ -179,6 +179,7 @@ OC.L10N.register(
     "Enable" : "Aktivieren",
     "Shared with you and the group {group} by {owner}" : "Von {owner} mit Ihnen und der Gruppe {group} geteilt.",
     "Shared with you and {circle} by {owner}" : "Von {owner} mit Ihnen und {circle} geteilt",
+    "Shared with you and the conversation {conversation} by {owner}" : "Von {owner} mit Ihnen und der Unterhaltung {conversation} geteilt",
     "Shared with you by {owner}" : "Von {owner} mit Ihnen geteilt.",
     "Choose a password for the mail share" : "Wählen Sie ein Passwort für das Teilen via E-Mail",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} mittels Link geteilt",
