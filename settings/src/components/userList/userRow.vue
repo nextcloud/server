@@ -22,7 +22,7 @@
 
 <template>
 	<!-- Obfuscated user: Logged in user does not have permissions to see all of the data -->
-	<div class="row" v-if="Object.keys(user).length ===1">
+	<div class="row" v-if="Object.keys(user).length ===1" :data-id="user.id">
 		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable}">
 			<img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)"
 				 :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
@@ -33,7 +33,7 @@
 	</div>
 
 	<!-- User full data -->
-	<div class="row" v-else :class="{'disabled': loading.delete || loading.disable}">
+	<div class="row" v-else :class="{'disabled': loading.delete || loading.disable}" :data-id="user.id">
 		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable}">
 			<img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)"
 				 :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
@@ -133,7 +133,7 @@ Vue.use(VTooltip)
 
 export default {
 	name: 'userRow',
-	props: ['user', 'settings', 'groups', 'subAdminsGroups', 'quotaOptions', 'showConfig', 'languages'],
+	props: ['user', 'settings', 'groups', 'subAdminsGroups', 'quotaOptions', 'showConfig', 'languages', 'externalActions'],
 	components: {
 		popoverMenu,
 		Multiselect
@@ -184,7 +184,7 @@ export default {
 					action: this.sendWelcomeMail
 				})
 			}
-			return actions;
+			return actions.concat(this.externalActions);
 		},
 
 		/* GROUPS MANAGEMENT */
@@ -538,6 +538,7 @@ export default {
 					this.loading.all = false;
 				});
 		}
+
 	}
 }
 </script>

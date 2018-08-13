@@ -52,7 +52,7 @@
 				</div>
 			</template>
 		</app-navigation>
-		<user-list :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" />
+		<user-list :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" :externalActions="externalActions" />
 	</div>
 </template>
 
@@ -83,12 +83,24 @@ export default {
 		});
 		this.$store.dispatch('getPasswordPolicyMinLength');
 	},
+	created() {
+		// init the OCA.Settings.UserList object
+		// and add the registerAction method
+		Object.assign(OCA, {
+			Settings: {
+				UserList: {
+					registerAction: this.registerAction
+				}
+			}
+		});
+	},
 	data() {
 		return {
 			// default quota is set to unlimited
 			unlimitedQuota: {id: 'none', label: t('settings', 'Unlimited')},
 			// temporary value used for multiselect change
 			selectedQuota: false,
+			externalActions: [],
 			showConfig: {
 				showStoragePath: false,
 				showUserBackend: false,
@@ -171,6 +183,22 @@ export default {
 			// if no valid do not change
 			return false;
 		},
+
+		/**
+		 * Register a new action for the user menu
+		 * 
+		 * @param {string} icon the icon class
+		 * @param {string} text the text to display
+		 * @param {function} action the function to run
+		 */
+		registerAction(icon, text, action) {
+			this.externalActions.push({
+				icon: icon,
+				text: text,
+				action: action
+			});
+			return this.externalActions;
+		}
 	},
 	computed: {
 		users() {

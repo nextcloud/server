@@ -119,7 +119,8 @@
 		</form>
 
 		<user-row v-for="(user, key) in filteredUsers" :user="user" :key="key" :settings="settings" :showConfig="showConfig"
-				  :groups="groups" :subAdminsGroups="subAdminsGroups" :quotaOptions="quotaOptions" :languages="languages" />
+				  :groups="groups" :subAdminsGroups="subAdminsGroups" :quotaOptions="quotaOptions" :languages="languages"
+				  :externalActions="externalActions" />
 		<infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
 			<div slot="spinner"><div class="users-icon-loading icon-loading"></div></div>
 			<div slot="no-more"><div class="users-list-end"></div></div>
@@ -141,7 +142,7 @@ import Vue from 'vue';
 
 export default {
 	name: 'userList',
-	props: ['users', 'showConfig', 'selectedGroup'],
+	props: ['users', 'showConfig', 'selectedGroup', 'externalActions'],
 	components: {
 		userRow,
 		Multiselect,
