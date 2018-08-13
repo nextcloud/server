@@ -10,6 +10,7 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
     "Update for {app} to version %s is available." : "Update voor {app} naar versie %s is beschikbaar.",
     "Update notification" : "Bijwerkmelding",
+    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Toont updatemeldingen voor Nextcloud en zorgt voor SSO voor de updater.",
     "Apps with available updates" : "Apps met beschikbare updates",
     "Open updater" : "Open updater",
     "What's new?" : "Wat is nieuw?",

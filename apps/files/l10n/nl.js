@@ -22,6 +22,7 @@ OC.L10N.register(
     "Uploading …" : "Uploaden …",
     "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} van {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "Uploaden van dat object is niet ondersteund",
     "Target folder does not exist any more" : "Doelmap bestaat niet meer",
     "Error when assembling chunks, status code {status}" : "Fout tijdens samenvoegen van brokken, status code {status}",
     "Actions" : "Acties",

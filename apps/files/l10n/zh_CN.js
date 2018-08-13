@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "库文件 %s 不可用",
+    "Storage is temporarily not available" : "存储暂时不可用",
     "Storage invalid" : "存储空间无效",
     "Unknown error" : "未知错误",
     "All files" : "全部文件",
@@ -22,6 +22,7 @@ OC.L10N.register(
     "Uploading …" : "上传中…",
     "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
+    "Uploading that item is not supported" : "不支持上传此项目",
     "Target folder does not exist any more" : "目标文件夹不存在",
     "Error when assembling chunks, status code {status}" : "组装块时发生错误，状态码 {status}",
     "Actions" : "操作",
@@ -122,6 +123,7 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "文件/文件夹已恢复",
     "Unlimited" : "无限制",
     "Upload (max. %s)" : "上传 (最大 %s)",
+    "File Management" : "文件管理",
     "File handling" : "文件处理",
     "Maximum upload size" : "最大上传大小",
     "max. possible: " : "最大允许: ",
@@ -133,6 +135,7 @@ OC.L10N.register(
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">通过 WebDAV 访问您的文件</a>",
     "Cancel upload" : "取消上传",
     "No files in here" : "无文件",
     "Upload some content or sync with your devices!" : "上传或从您的设备中同步!",
@@ -144,11 +147,14 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "收藏的文件和文件夹会在这里显示",
     "Tags" : "标签",
     "Deleted files" : "已删除的文件",
+    "Shares" : "共享",
     "Shared with others" : "与他人共享",
     "Shared with you" : "与您共享",
     "Shared by link" : "通过链接共享",
+    "Deleted shares" : "已删除的共享",
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文件.txt",
-    "Move" : "移动"
+    "Move" : "移动",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">通过 WebDAV 访问您的文件</a>"
 },
 "nplurals=1; plural=0;");

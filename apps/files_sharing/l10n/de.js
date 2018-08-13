@@ -93,6 +93,7 @@ OC.L10N.register(
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "%s Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist",
     "You cannot share to a Circle if the app is not enabled" : "Du kannst nichts mit einem Kreis teilen, wenn die App nicht aktiviert ist",
     "Please specify a valid circle" : "Bitte einen gültigen Kreis angeben",
+    "Sharing %s failed because the back end does not support room shares" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe von Räumen nicht unterstützt",
     "Unknown share type" : "Unbekannter Freigabetyp",
     "Not a directory" : "Kein Verzeichnis",
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",
