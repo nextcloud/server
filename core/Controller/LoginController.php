@@ -382,7 +382,7 @@ class LoginController extends Controller {
 		$response = new RedirectResponse(
 			$this->urlGenerator->linkToRoute('core.login.showLoginForm', $args)
 		);
-		$response->throttle(['user' => $user]);
+		$response->throttle(['user' => substr($user, 0, 64)]);
 		$this->session->set('loginMessages', [
 			[$loginMessage], []
 		]);
