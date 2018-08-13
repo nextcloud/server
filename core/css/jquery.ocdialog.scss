@@ -21,7 +21,7 @@
 }
 .oc-dialog-buttonrow {
 	position: relative;
-	display: block;
+	display: flex;
 	background: transparent;
 	right: 0;
 	bottom: 0;
@@ -32,24 +32,15 @@
 	background-image: linear-gradient(rgba(255, 255, 255, 0.0), var(--color-main-background));
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
-	clear: both;
-	button {
-		display: inline-block;
-	}
-}
-/* align primary button to right, other buttons to left */
-.oc-dialog-buttonrow.twobuttons button:nth-child(1) {
-	float: left;
-}
-.oc-dialog-buttonrow.twobuttons.aside button:nth-child(1) {
-	float: none;
-}
-.oc-dialog-buttonrow.twobuttons button:nth-child(2) {
-	float: right;
-}
 
-.oc-dialog-buttonrow.onebutton button {
-	float: right;
+	&.twobuttons {
+		justify-content: space-between;
+	}
+
+	&.onebutton,
+	&.twobuttons.aside {
+		justify-content: flex-end;
+	}
 }
 
 .oc-dialog-close {
