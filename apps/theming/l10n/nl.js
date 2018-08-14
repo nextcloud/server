@@ -40,6 +40,7 @@ OC.L10N.register(
     "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
     "Remove background image" : "Achtergrond beeld verwijderen",
     "Advanced options" : "Geavanceerde opties",
+    "Legal notice link" : "Link naar juridische bepalingen",
     "Privacy policy link" : "Privacybeleid link",
     "Header logo" : "Top logo",
     "Upload new header logo" : "Upload een nieuwe top afbeelding",
