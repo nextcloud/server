@@ -43,6 +43,20 @@ Feature: users
     When I open the "Disabled users" section
     Then I see that the list of users contains the user user0
 
+  Scenario: users navigation without disabled users
+    Given I act as Jane
+    And I am logged in as the admin
+    And I open the User settings
+    And I open the "Disabled users" section
+    And I see that the list of users contains the user disabledUser
+    And I open the actions menu for the user disabledUser
+    And I see that the "Enable user" action in the disabledUser actions menu is shown
+    When I click the "Enable user" action in the disabledUser actions menu
+    Then I see that the section "Disabled users" is not shown
+    # check again after reloading the settings
+    When I open the User settings
+    Then I see that the section "Disabled users" is not shown
+
   Scenario: assign user to a group
     Given I act as Jane
     And I am logged in as the admin
