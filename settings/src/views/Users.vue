@@ -21,8 +21,22 @@
   -->
 
 <template>
-	<div id="app">
+	<div id="content" class="app-settings">
 		<app-navigation :menu="menu">
+
+			<template slot="pinned-content">
+
+					<li id="quota" class="pinned first-pinned" has-tooltip title="Server-Diskusage">
+						<a href="#" class="icon-quota svg">
+							<p id="quotatext">{{t('settings', 'Serverstorage-Usage')}}</p>
+
+							<div id="progress" value="50" unavailable="10">
+								<div id="progress-used" class="progress-used"></div><div id="progress-unused" class="progress-unused" style="width:100%;"></div><div id="progress-blocked" class="progress-blocked"></div>
+							</div>
+						</a>
+					</li>
+			</template>
+
 			<template slot="settings-content">
 				<div>
 					<p>{{t('settings', 'Default quota :')}}</p>
@@ -32,8 +46,7 @@
 								:allowEmpty="false" :taggable="true"
 								@tag="validateQuota" @input="setDefaultQuota">
 					</multiselect>
-
-				</div>
+				</div>setQuotaListener
 				<div>
 					<input type="checkbox" id="showLanguages" class="checkbox" v-model="showLanguages">
 					<label for="showLanguages">{{t('settings', 'Show Languages')}}</label>
@@ -82,6 +95,7 @@ export default {
 			userCount: this.$store.getters.getServerData.userCount
 		});
 		this.$store.dispatch('getPasswordPolicyMinLength');
+		this.getServerDiskUsage();
 	},
 	data() {
 		return {
@@ -171,6 +185,70 @@ export default {
 			// if no valid do not change
 			return false;
 		},
+
+		getServerDiskUsage(){
+			console.log("getstorage");
+
+
+			api.get(OC.generateUrl('settings/storage/get'))
+				.then((response) => {
+
+					console.log(response.data);
+
+					/*$('#progressbar').attr("value", response.data['used-relative']);
+
+					var overlaystring=t('settings', 'Current Serverusage:')+"\n";
+					overlaystring+=t('settings', 'Usage relative:')+"\n";
+					overlaystring+=response.data['used-relative']+"\n";
+					overlaystring+=t('settings', 'Usage absolute:')+"\n";
+					overlaystring+=response.data['used-absolute']+"\n";
+
+					$('#quota').attr("title", overlaystring);
+					*/
+					this.setQuotaListener(true);
+
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+
+		},
+
+		setQuotaListener(trigger) {
+			var progressbar = $('#progress');
+			progressbar.change("change", function () {
+
+				//progressbar.empty();
+
+				var percentUnavailable = progressbar.attr('unavailable');
+				var widthUsed = progressbar.attr('value');
+
+				var overflow = (+percentUnavailable + +widthUsed);
+				if (overflow > 100) {
+					percentUnavailable = +percentUnavailable - (+overflow - 100);
+				}
+
+				var widthUnusedAfterUnavailable = 100.00 - percentUnavailable;
+				var widthUnused = widthUnusedAfterUnavailable - widthUsed;
+
+				$('#progress-used').css("width", widthUsed+"%");
+				$('#progress-blocked').css("width", percentUnavailable+"%");
+
+				var progressUnusedSelector=$('#progress-unused');
+				progressUnusedSelector.css("width", widthUnused+"%");
+				if(widthUsed>0){
+					progressUnusedSelector.css("margin-left", -2);
+				}
+				if(widthUsed>0){
+					progressUnusedSelector.css("margin-right", -2);
+				}
+				progressUnusedSelector.css("width", widthUnused+"%");
+
+			});
+			if(trigger){
+				progressbar.trigger('change');
+			}
+		}
 	},
 	computed: {
 		users() {

@@ -73,27 +73,27 @@ class ViewController extends Controller {
 	protected $activityHelper;
 
 	public function __construct(string $appName,
-		IRequest $request,
-		IURLGenerator $urlGenerator,
-		IL10N $l10n,
-		IConfig $config,
-		EventDispatcherInterface $eventDispatcherInterface,
-		IUserSession $userSession,
-		IAppManager $appManager,
-		IRootFolder $rootFolder,
-		Helper $activityHelper
+								IRequest $request,
+								IURLGenerator $urlGenerator,
+								IL10N $l10n,
+								IConfig $config,
+								EventDispatcherInterface $eventDispatcherInterface,
+								IUserSession $userSession,
+								IAppManager $appManager,
+								IRootFolder $rootFolder,
+								Helper $activityHelper
 	) {
 		parent::__construct($appName, $request);
-		$this->appName         = $appName;
-		$this->request         = $request;
-		$this->urlGenerator    = $urlGenerator;
-		$this->l10n            = $l10n;
-		$this->config          = $config;
+		$this->appName = $appName;
+		$this->request = $request;
+		$this->urlGenerator = $urlGenerator;
+		$this->l10n = $l10n;
+		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcherInterface;
-		$this->userSession     = $userSession;
-		$this->appManager      = $appManager;
-		$this->rootFolder      = $rootFolder;
-		$this->activityHelper  = $activityHelper;
+		$this->userSession = $userSession;
+		$this->appManager = $appManager;
+		$this->rootFolder = $rootFolder;
+		$this->activityHelper = $activityHelper;
 	}
 
 	/**
@@ -102,8 +102,8 @@ class ViewController extends Controller {
 	 * @return string
 	 */
 	protected function renderScript($appName, $scriptName) {
-		$content    = '';
-		$appPath    = \OC_App::getAppPath($appName);
+		$content = '';
+		$appPath = \OC_App::getAppPath($appName);
 		$scriptPath = $appPath . '/' . $scriptName;
 		if (file_exists($scriptPath)) {
 			// TODO: sanitize path / script name ?
@@ -173,21 +173,21 @@ class ViewController extends Controller {
 		$favoritesSublistArray = Array();
 
 		$navBarPositionPosition = 6;
-		$currentCount           = 0;
+		$currentCount = 0;
 		foreach ($favElements['folders'] as $dir) {
 
-			$id           = substr($dir, strrpos($dir, '/') + 1, strlen($dir));
-			$link         = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'view' => 'files']);
+			$id = substr($dir, strrpos($dir, '/') + 1, strlen($dir));
+			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'view' => 'files']);
 			$sortingValue = ++$currentCount;
-			$element      = [
-				'id'                 => str_replace('/', '-', $dir),
-				'view'               => 'files',
-				'href'               => $link,
-				'dir'                => $dir,
-				'order'              => $navBarPositionPosition,
-				'folderPosition'     => $sortingValue,
-				'name'               => $id,
-				'icon'               => 'files',
+			$element = [
+				'id' => str_replace('/', '-', $dir),
+				'view' => 'files',
+				'href' => $link,
+				'dir' => $dir,
+				'order' => $navBarPositionPosition,
+				'folderPosition' => $sortingValue,
+				'name' => $id,
+				'icon' => 'files',
 				'quickaccesselement' => 'true'
 			];
 
@@ -210,9 +210,10 @@ class ViewController extends Controller {
 
 		$nav->assign('navigationItems', $navItems);
 
-		$nav->assign('usage', $this->reduceStorageSizeBySensibleBoundaries($storageInfo['used']));
+		$nav->assign('usage', $this->showAsPartsOfUnit($storageInfo['used'],  $this->getEnding($storageInfo['total'])));
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 			$totalSpace = $this->l10n->t('Unlimited');
+			$nav->assign('usage', $this->reduceStorageSizeBySensibleBoundaries($storageInfo['used']));
 		} else {
 			$totalSpace = $this->reduceStorageSizeBySensibleBoundaries($storageInfo['total']);
 		}
@@ -236,13 +237,13 @@ class ViewController extends Controller {
 						$subcontent = $this->renderScript($subitem['appname'], $subitem['script']);
 					}
 					$contentItems[$subitem['id']] = [
-						'id'      => $subitem['id'],
+						'id' => $subitem['id'],
 						'content' => $subcontent
 					];
 				}
 			}
 			$contentItems[$item['id']] = [
-				'id'      => $item['id'],
+				'id' => $item['id'],
 				'content' => $content
 			];
 		}
@@ -250,20 +251,20 @@ class ViewController extends Controller {
 		$event = new GenericEvent(null, ['hiddenFields' => []]);
 		$this->eventDispatcher->dispatch('OCA\Files::loadAdditionalScripts', $event);
 
-		$params                                = [];
-		$params['usedSpacePercent']            = (int) $storageInfo['relative'];
-		$params['owner']                       = $storageInfo['owner'];
-		$params['ownerDisplayName']            = $storageInfo['ownerDisplayName'];
-		$params['isPublic']                    = false;
-		$params['allowShareWithLink']          = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
-		$params['defaultFileSorting']          = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
+		$params = [];
+		$params['usedSpacePercent'] = (int)$storageInfo['relative'];
+		$params['owner'] = $storageInfo['owner'];
+		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'];
+		$params['isPublic'] = false;
+		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
+		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
-		$showHidden                            = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
-		$params['showHiddenFiles']             = $showHidden ? 1 : 0;
-		$params['fileNotFound']                = $fileNotFound ? 1 : 0;
-		$params['appNavigation']               = $nav;
-		$params['appContents']                 = $contentItems;
-		$params['hiddenFields']                = $event->getArgument('hiddenFields');
+		$showHidden = (bool)$this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
+		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
+		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
+		$params['appNavigation'] = $nav;
+		$params['appContents'] = $contentItems;
+		$params['hiddenFields'] = $event->getArgument('hiddenFields');
 
 		$response = new TemplateResponse(
 			$this->appName,
@@ -285,14 +286,14 @@ class ViewController extends Controller {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	private function showFile($fileId) {
-		$uid        = $this->userSession->getUser()->getUID();
+		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$files      = $baseFolder->getById($fileId);
-		$params     = [];
+		$files = $baseFolder->getById($fileId);
+		$params = [];
 
 		if (empty($files) && $this->appManager->isEnabledForUser('files_trashbin')) {
-			$baseFolder     = $this->rootFolder->get($uid . '/files_trashbin/files/');
-			$files          = $baseFolder->getById($fileId);
+			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
+			$files = $baseFolder->getById($fileId);
 			$params['view'] = 'trashbin';
 		}
 
@@ -321,8 +322,7 @@ class ViewController extends Controller {
 	 */
 	private function reduceStorageSizeBySensibleBoundaries($storage) {
 		$reducedStorageSize = \OC_Helper::humanFileSize($storage);
-		$ending = substr($reducedStorageSize, (strrpos($reducedStorageSize, "B") - 1), strlen($reducedStorageSize));
-		$ending = trim($ending);
+		$ending = $this->getEnding($storage);
 
 		if ($storage > 10485760 && $storage < 1073741824) { //Over 10MB under 1GB
 			$reducedStorageSize = round($reducedStorageSize);
@@ -334,4 +334,63 @@ class ViewController extends Controller {
 
 		return $reducedStorageSize . " " . $ending;
 	}
+
+	/**
+	 * Returns either '<0.1' or a readable Size, depending on the unit. If the given size is smaller than 10% of the given unit, '<0.1' is returned.
+	 *
+	 * @param $bytes bytes of the used space
+	 * @param $unit unit of the total assigned space
+	 * @return String Size
+	 */
+	private function showAsPartsOfUnit($bytes,$unit) {
+
+		if ($unit == "KB") {
+			if ($bytes < 102) {
+				return "<0.1";
+			}
+		}
+
+		if ($unit == "MB") {
+			if ($bytes < 104857) {
+				return "<0.1";
+			}
+		}
+
+		if ($unit == "GB") {
+			if ($bytes < 107374182) {
+				return "<0.1";
+			}
+		}
+
+		if ($unit == "TB") {
+			if ($bytes < 109951162777) {
+				return "<0.1";
+			}
+		}
+
+		return $this->stripEnding($bytes);
+	}
+
+	/**
+	 * Returns the humanFileSize, but without the unit.
+	 *
+	 * @param $bytes bytes
+	 * @return String Size
+	 */
+	private function stripEnding($bytes) {
+		$sizeHuman = \OC_Helper::humanFileSize($bytes);
+		return trim(substr($sizeHuman, 0, (strrpos($sizeHuman, "B") - 1)));
+	}
+
+	/**
+	 * Returns the unit of humanFileSize
+	 *
+	 * @param $bytes bytes
+	 * @return String Unit
+	 */
+	private function getEnding($bytes) {
+		$sizeHuman = \OC_Helper::humanFileSize($bytes);
+		return trim(substr($sizeHuman, (strrpos($sizeHuman, "B") - 1), strlen($sizeHuman)));
+	}
+
 }
