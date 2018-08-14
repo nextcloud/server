@@ -272,42 +272,6 @@ select {
 		font-weight: normal;
 		white-space: nowrap;
 	}
-
-}
-#progress {
-	height: 5px;
-
-	.progress-states {
-		display: inline-block;
-		vertical-align: top;
-		height: 5px;
-		border-radius: $border-radius;
-		position: relative;
-	}
-	.progress-used {
-		@extend .progress-states;
-		z-index: 3;
-		background-color: $color-primary;
-	}
-	.progress-unused {
-		@extend .progress-states;
-		z-index: 1;
-		background-color: #e6e6e6;
-	}
-	.progress-blocked {
-		@extend .progress-states;
-		z-index: 2;
-		$color-stripe-light: #b8b8b8;
-		$color-stripe-dark: #767676;
-		background-image: linear-gradient(
-										121deg,
-										$color-stripe-dark 32.65%,
-										$color-stripe-light 32.65%,
-										$color-stripe-light 60%,
-										$color-stripe-dark 60%
-		);
-		background-size: 23px 30px;
-	}
 }
 
 
