@@ -22,6 +22,7 @@ else
         exit 1
     fi
 fi
+NC_DATADIR=$($OCC config:system:get datadirectory)
 
 composer install
 
@@ -48,6 +49,7 @@ if [ "$INSTALLED" == "true" ]; then
 
     #Enable external storage app
     $OCC app:enable files_external
+    $OCC app:enable user_ldap
 
     mkdir -p work/local_storage
     OUTPUT_CREATE_STORAGE=`$OCC files_external:create local_storage local null::null -c datadir=$PWD/work/local_storage`
@@ -70,10 +72,11 @@ if [ "$INSTALLED" == "true" ]; then
 
     #Disable external storage app
     $OCC app:disable files_external
+    $OCC app:disable user_ldap
 fi
 
 if [ -z $HIDE_OC_LOGS ]; then
-	tail "${OC_PATH}/data/nextcloud.log"
+	tail "${NC_DATADIR}/nextcloud.log"
 fi
 
 echo "runsh: Exit code: $RESULT"

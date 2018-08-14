@@ -342,6 +342,7 @@ Feature: provisioning
 			| theming |
 			| twofactor_backupcodes |
 			| updatenotification |
+			| user_ldap |
 			| workflowengine |
 			| files_external |
 			| oauth2 |

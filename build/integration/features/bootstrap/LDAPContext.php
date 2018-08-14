@@ -32,6 +32,14 @@ class LDAPContext implements Context {
 
 	protected $apiUrl;
 
+	/** @AfterScenario */
+	public function teardown() {
+		if($this->configID === null) {
+			return;
+		}
+		$this->sendingTo('DELETE', $this->apiUrl . '/' . $this->configID);
+	}
+
 	/**
 	 * @Given /^the response should contain a tag "([^"]*)"$/
 	 */
@@ -81,5 +89,111 @@ class LDAPContext implements Context {
 	 */
 	public function settingTheLDAPConfigurationTo(TableNode $configData) {
 		$this->sendingToWith('PUT', $this->apiUrl . '/' . $this->configID, $configData);
+	}
+
+	/**
+	 * @Given /^having a valid LDAP configuration$/
+	 */
+	public function havingAValidLDAPConfiguration() {
+		$this->asAn('admin');
+		$this->creatingAnLDAPConfigurationAt('/apps/user_ldap/api/v1/config');
+		$data = new TableNode([
+			['configData[ldapHost]', 'openldap'],
+			['configData[ldapPort]', '389'],
+			['configData[ldapBase]', 'dc=nextcloud,dc=ci'],
+			['configData[ldapAgentName]', 'cn=admin,dc=nextcloud,dc=ci'],
+			['configData[ldapAgentPassword]', 'admin'],
+			['configData[ldapUserFilter]', '(&(objectclass=inetorgperson))'],
+			['configData[ldapLoginFilter]', '(&(objectclass=inetorgperson)(uid=%uid))'],
+			['configData[ldapUserDisplayName]', 'displayname'],
+			['configData[ldapGroupDisplayName]', 'cn'],
+			['configData[ldapEmailAttribute]', 'mail'],
+			['configData[ldapConfigurationActive]', '1'],
+		]);
+		$this->settingTheLDAPConfigurationTo($data);
+		$this->asAn('');
+	}
+
+	/**
+	 * @Given /^looking up details for the first result matches expectations$/
+	 * @param TableNode $expectations
+	 */
+	public function lookingUpDetailsForTheFirstResult(TableNode $expectations) {
+		$userResultElements = simplexml_load_string($this->response->getBody())->data[0]->users[0]->element;
+		$userResults = json_decode(json_encode($userResultElements), 1);
+		$userId = array_shift($userResults);
+
+		$this->sendingTo('GET', '/cloud/users/' . $userId);
+		$this->theRecordFieldsShouldMatch($expectations);
+	}
+
+	/**
+	 * @Given /^modify LDAP configuration$/
+	 */
+	public function modifyLDAPConfiguration(TableNode $table) {
+		$originalAsAn = $this->currentUser;
+		$this->asAn('admin');
+		$configData = $table->getRows();
+		foreach($configData as &$row) {
+			$row[0] = 'configData[' . $row[0] . ']';
+		}
+		$this->settingTheLDAPConfigurationTo(new TableNode($configData));
+		$this->asAn($originalAsAn);
+	}
+
+	/**
+	 * @Given /^the "([^"]*)" result should match$/
+	 */
+	public function theGroupResultShouldMatch(string $type, TableNode $expectations) {
+		$listReturnedElements = simplexml_load_string($this->response->getBody())->data[0]->$type[0]->element;
+		$extractedIDsArray = json_decode(json_encode($listReturnedElements), 1);
+		foreach($expectations->getRows() as $expectation) {
+			if((int)$expectation[1] === 1) {
+				Assert::assertContains($expectation[0], $extractedIDsArray);
+			} else {
+				Assert::assertNotContains($expectation[0], $extractedIDsArray);
+			}
+		}
+	}
+
+	/**
+	 * @Given /^Expect ServerException on failed web login as "([^"]*)"$/
+	 */
+	public function expectServerExceptionOnFailedWebLoginAs($login) {
+		try {
+			$this->loggingInUsingWebAs($login);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			Assert::assertEquals(500, $e->getResponse()->getStatusCode());
+			return;
+		}
+		Assert::assertTrue(false, 'expected Exception not received');
+	}
+
+	/**
+	 * @Given /^the "([^"]*)" result should contain "([^"]*)" of$/
+	 */
+	public function theResultShouldContainOf($type, $expectedCount, TableNode $expectations) {
+		$listReturnedElements = simplexml_load_string($this->response->getBody())->data[0]->$type[0]->element;
+		$extractedIDsArray = json_decode(json_encode($listReturnedElements), 1);
+		$uidsFound = 0;
+		foreach($expectations->getRows() as $expectation) {
+			if(in_array($expectation[0], $extractedIDsArray)) {
+				$uidsFound++;
+			}
+		}
+		Assert::assertSame((int)$expectedCount, $uidsFound);
+	}
+
+	/**
+	 * @Given /^the record's fields should match$/
+	 */
+	public function theRecordFieldsShouldMatch(TableNode $expectations) {
+		foreach($expectations->getRowsHash() as $k => $v) {
+			$value = (string)simplexml_load_string($this->response->getBody())->data[0]->$k;
+			Assert::assertEquals($v, $value, "got $value");
+		}
+
+		$backend = (string)simplexml_load_string($this->response->getBody())->data[0]->backend;
+		Assert::assertEquals('LDAP', $backend);
 	}
 }

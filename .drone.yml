@@ -562,6 +562,26 @@ pipeline:
       when:
         matrix:
           TESTS: integration-ldap-features
+  integration-ldap-openldap-features:
+      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      commands:
+        - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+        - ./occ app:enable user_ldap
+        - cd build/integration
+        - ./run.sh ldap_features/ldap-openldap.feature
+      when:
+        matrix:
+          TESTS: integration-ldap-openldap-features
+  integration-ldap-openldap-uid-features:
+        image: nextcloudci/integration-php7.0:integration-php7.0-6
+        commands:
+          - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+          - ./occ app:enable user_ldap
+          - cd build/integration
+          - ./run.sh ldap_features/openldap-uid-username.feature
+        when:
+          matrix:
+            TESTS: integration-ldap-openldap-uid-features
   integration-trashbin:
     image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
@@ -828,6 +848,10 @@ matrix:
     - TESTS: integration-filesdrop-features
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
+    - TESTS: integration-ldap-openldap-features
+      ENABLE_OPENLDAP: true
+    - TESTS: integration-ldap-openldap-uid-features
+      ENABLE_OPENLDAP: true
     - TESTS: integration-trashbin
     - TESTS: integration-remote-api
     - TESTS: integration-download
@@ -1007,5 +1031,15 @@ services:
     when:
       matrix:
         TESTS: acceptance
+  openldap:
+    image: nextcloudci/openldap:openldap-4
+    environment:
+      - SLAPD_DOMAIN=nextcloud.ci
+      - SLAPD_ORGANIZATION=Nextcloud
+      - SLAPD_PASSWORD=admin
+      - SLAPD_ADDITIONAL_MODULES=memberof
+    when:
+      matrix:
+        ENABLE_OPENLDAP: true
 
 branches: [ master, stable* ]

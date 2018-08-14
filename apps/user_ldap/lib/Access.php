@@ -609,23 +609,23 @@ class Access extends LDAPUtility implements IUserTools {
 		//NOTE: mind, disabling cache affects only this instance! Using it
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
-		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
+		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
 		if(($isUser && $intName !== '' && !$this->ncUserManager->userExists($intName))
 			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
 			if($mapper->map($fdn, $intName, $uuid)) {
-				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
-				if($this->ncUserManager instanceof PublicEmitter) {
+				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
+				if($this->ncUserManager instanceof PublicEmitter && $isUser) {
 					$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$intName]);
 				}
 				$newlyMapped = true;
 				return $intName;
 			}
 		}
-		$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
+		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
 		if(is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
-			if($this->ncUserManager instanceof PublicEmitter) {
+			if($this->ncUserManager instanceof PublicEmitter && $isUser) {
 				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$intName]);
 			}
 			$newlyMapped = true;
