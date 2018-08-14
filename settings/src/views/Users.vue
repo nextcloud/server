@@ -323,7 +323,7 @@ export default {
 			if (disabledGroup && disabledGroup.text) {
 				disabledGroup.text = t('settings', 'Disabled users'); // rename disabled group
 				disabledGroup.icon = 'icon-disabled-users'; // set icon
-				if (disabledGroup.utils.counter === 0) {
+				if (!disabledGroup.utils.counter) {
 					groups.splice(disabledGroupIndex, 1); // remove disabled if empty
 				}
 			}
