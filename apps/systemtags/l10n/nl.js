@@ -43,6 +43,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systeemmarkeringen</strong> voor een bestand zijn gewijzigd",
     "Collaborative tags" : "Systeemtags",
     "Select tag …" : "Selecteer tag …",
+    "Create a new tag" : "Creëren nieuw tag",
     "Name" : "Tag",
     "Public" : "Standaard",
     "Restricted" : "Beschermd",
