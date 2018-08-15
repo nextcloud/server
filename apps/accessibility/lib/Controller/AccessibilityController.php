@@ -70,6 +70,12 @@ class AccessibilityController extends Controller {
 	/** @var IconsCacher */
 	protected $iconsCacher;
 
+	/** @var \OC_Defaults */
+	private $defaults;
+
+	/** @var null|string */
+	private $injectedVariables;
+
 	/**
 	 * Account constructor.
 	 *
@@ -82,6 +88,7 @@ class AccessibilityController extends Controller {
 	 * @param ITimeFactory $timeFactory
 	 * @param IUserSession $userSession
 	 * @param IAppManager $appManager
+	 * @param \OC_Defaults $defaults
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -92,7 +99,8 @@ class AccessibilityController extends Controller {
 								ITimeFactory $timeFactory,
 								IUserSession $userSession,
 								IAppManager $appManager,
-								IconsCacher $iconsCacher) {
+								IconsCacher $iconsCacher,
+								\OC_Defaults $defaults) {
 		parent::__construct($appName, $request);
 		$this->appName      = $appName;
 		$this->config       = $config;
@@ -103,6 +111,7 @@ class AccessibilityController extends Controller {
 		$this->userSession  = $userSession;
 		$this->appManager   = $appManager;
 		$this->iconsCacher  = $iconsCacher;
+		$this->defaults     = $defaults;
 
 		$this->serverRoot = \OC::$SERVERROOT;
 		$this->appRoot    = $this->appManager->getAppPath($this->appName);
@@ -141,6 +150,7 @@ class AccessibilityController extends Controller {
 				$css .= $scss->compile(
 					$imports .
 					'@import "variables.scss";' .
+					$this->getInjectedVariables() .
 					'@import "css-variables.scss";'
 				);
 			} catch (ParserException $e) {
@@ -219,5 +229,28 @@ class AccessibilityController extends Controller {
 	 */
 	private function invertSvgIconsColor(string $css) {
 		return str_replace(['/000', '/fff', '/***'], ['/***', '/000', '/fff'], $css);
+	}
+
+	/**
+	 * @return string SCSS code for variables from OC_Defaults
+	 */
+	private function getInjectedVariables(): string {
+		if ($this->injectedVariables !== null) {
+			return $this->injectedVariables;
+		}
+		$variables = '';
+		foreach ($this->defaults->getScssVariables() as $key => $value) {
+			$variables .= '$' . $key . ': ' . $value . ';';
+		}
+
+		// check for valid variables / otherwise fall back to defaults
+		try {
+			$scss = new Compiler();
+			$scss->compile($variables);
+			$this->injectedVariables = $variables;
+		} catch (ParserException $e) {
+			$this->logger->error($e, ['app' => 'core']);
+		}
+		return $variables;
 	}
 }
