@@ -42,14 +42,16 @@
 			var fileActions = fileList.fileActions;
 			var oldCreateRow = fileList._createRow;
 			fileList._createRow = function(fileData) {
-				
-				if (fileData.permissions === 0) {
-					// no permission, disabling sidebar
-					delete fileActions.actions.all.Details;
-				}
 
 				var tr = oldCreateRow.apply(this, arguments);
 				var sharePermissions = OCA.Sharing.Util.getSharePermissions(fileData);
+				
+				if (fileData.permissions === 0) {
+					// no permission, disabling sidebar
+					delete fileActions.actions.all.Comment;
+					delete fileActions.actions.all.Details;
+					delete fileActions.actions.all.Goto;
+				}
 				tr.attr('data-share-permissions', sharePermissions);
 				if (fileData.shareOwner) {
 					tr.attr('data-share-owner', fileData.shareOwner);
