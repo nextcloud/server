@@ -173,6 +173,7 @@
 		.ui-menu-item a {
 			&.ui-state-focus, &.ui-state-active {
 				font-weight: inherit;
+				box-shadow: inset 4px 0 var(--color-primary);
 			}
 		}
 	}
@@ -184,14 +185,24 @@
 
 	&.ui-corner-all {
 		border-radius: 0;
-		border-bottom-left-radius: 3px;
-		border-bottom-right-radius: 3px;
+		border-bottom-left-radius: var(--border-radius);
+		border-bottom-right-radius: var(--border-radius);
 	}
 
-	.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+	.ui-state-hover, .ui-widget-content .ui-state-hover,
+	.ui-widget-header .ui-state-hover,
+	.ui-state-focus,
+	.ui-widget-content .ui-state-focus,
+	.ui-widget-header .ui-state-focus {
 		border: 1px solid transparent;
 		background: inherit;
 		color: var(--color-primary-element);
+	}
+
+	.ui-menu-item {
+		a {
+			border-radius: 0 !important;
+		}
 	}
 }
 
