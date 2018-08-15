@@ -30,9 +30,13 @@
 			'				<input id="linkCheckbox-{{cid}}" {{#if isLinkShare}}checked="checked"{{/if}} type="checkbox" name="linkCheckbox" class="linkCheckbox permissions checkbox">' +
 			'				<label for="linkCheckbox-{{cid}}">{{linkShareEnableLabel}}</label>' +
 			'			</span>' +
-			'			{{#if isLinkShare}}' +
+			'			{{#if showMenu}}' +
 			'			<div class="share-menu" tabindex="0"><span class="icon icon-more"></span>' +
-			'				{{{popoverMenu}}}' +
+			'				{{#if showPending}}' +
+			'					{{{pendingPopoverMenu}}}' +
+			'				{{else}}' +
+			'					{{{popoverMenu}}}' +
+			'				{{/if}}' +
 			'			</div>' +
 			'			{{/if}}' +
 			'		</span>' +
@@ -128,6 +132,23 @@
 			'</ul>' +
 		'</div>';
 
+	// popovermenu waiting for password or expiration date before saving the share
+	var TEMPLATE_POPOVER_MENU_PENDING =
+		'<div class="popovermenu pendingpopover menu">' +
+			'<ul>' +
+				'{{#if isPasswordEnforced}}' +
+				'	<li><span class="shareOption menuitem">' +
+				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" checked="checked" class="checkbox showPasswordCheckbox" value="1" />' +
+				'		<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
+				'	</span></li>' +
+				'	<li class="linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
+				'    	<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
+				'    <span class="icon icon-loading-small hidden"></span>' +
+				'	</span></li>' +
+				'{{/if}}' +
+			'</ul>' +
+		'</div>';
+
 	/**
 	 * @class OCA.Share.ShareDialogLinkShareView
 	 * @member {OC.Share.ShareItemModel} model
@@ -151,22 +172,36 @@
 		/** @type {Function} **/
 		_popoverMenuTemplate: undefined,
 
+		/** @type {Function} **/
+		_pendingPopoverMenuTemplate: undefined,
+
 		/** @type {boolean} **/
 		showLink: true,
 
+		/** @type {boolean} **/
+		showPending: false,
+
 		events: {
+			// enable/disable
+			'change .linkCheckbox': 'onLinkCheckBoxChange',
+			// open menu
+			'click .share-menu .icon-more': 'onToggleMenu',
+			// password
 			'focusout input.linkPassText': 'onPasswordEntered',
 			'keyup input.linkPassText': 'onPasswordKeyUp',
-			'click .linkCheckbox': 'onLinkCheckBoxChange',
-			'click .linkText': 'onLinkTextClick',
-			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
 			'click .showPasswordCheckbox': 'onShowPasswordClick',
-			'click .share-menu .icon-more': 'onToggleMenu',
+			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
+			// copy link url
+			'click .linkText': 'onLinkTextClick',
+			// social
 			'click .pop-up': 'onPopUpClick',
+			// permission change
 			'change .publicUploadRadio': 'onPublicUploadChange',
+			// expire date
 			'click .expireDate' : 'onExpireDateChange',
 			'change .datepicker': 'onChangeExpirationDate',
 			'click .datepicker' : 'showDatePicker',
+			// note
 			'click .share-add': 'showNoteForm',
 			'click .share-note-delete': 'deleteNote',
 			'click .share-note-submit': 'updateNote'
@@ -253,20 +288,26 @@
 			}
 
 			if($checkBox.is(':checked')) {
-				if(this.configModel.get('enforcePasswordForPublicLink') === false && this.configModel.get('enableLinkPasswordByDefault') === false) {
+				if(this.configModel.get('enforcePasswordForPublicLink') === false) {
 					$loading.removeClass('hidden');
 					// this will create it
 					this.model.saveLinkShare();
+					$('.share-menu .icon-more').click();
+					$('.share-menu .icon-more + .popovermenu .clipboardButton').click();
 				} else {
-					this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
-					this.$el.find('.linkPassText').focus();
+					// force the rendering of the menu
+					this.showPending = true;
+					this.render()
+					$('.share-menu .icon-more').click();
+					$('.share-menu .icon-more + .popovermenu input:eq(1)').focus()
 				}
 			} else {
 				if (this.model.get('linkShare').isLinkShare) {
 					$loading.removeClass('hidden');
 					this.model.removeLinkShare();
 				} else {
-					this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
+					this.showPending = false;
+					this.render()
 				}
 			}
 		},
@@ -388,8 +429,7 @@
 			var shareId = $li.data('share-id');
 			var $menu = $element.closest('li');
 			var $form = $menu.next('li.share-note-form');
-
-			console.log($form.find('.share-note'));
+	
 			$form.find('.share-note').val('');
 			
 			$form.addClass('hidden');
@@ -492,6 +532,8 @@
 
 			var isLinkShare = this.model.get('linkShare').isLinkShare;
 			var isPasswordSet = !!this.model.get('linkShare').password;
+			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink')
+			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true
 			var showPasswordCheckBox = isLinkShare
 				&& (   !this.configModel.get('enforcePasswordForPublicLink')
 					|| !this.model.get('linkShare').password);
@@ -565,7 +607,7 @@
 				passwordLabel: t('core', 'Password'),
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				passwordPlaceholderInitial: passwordPlaceholderInitial,
-				isPasswordSet: isPasswordSet,
+				isPasswordSet: isPasswordSet || isPasswordEnabledByDefault,
 				showPasswordCheckBox: showPasswordCheckBox,
 				publicUpload: publicUpload && isLinkShare,
 				publicEditing: publicEditable,
@@ -593,6 +635,23 @@
 				addNoteLabel: t('core', 'Note to recipient'),
 			});
 
+			var pendingPopover = this.pendingPopoverMenuTemplate({
+				cid: this.model.get('linkShare').id,
+				enablePasswordLabel: t('core', 'Password protect'),
+				passwordLabel: t('core', 'Password'),
+				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
+				passwordPlaceholderInitial: passwordPlaceholderInitial,
+				showPasswordCheckBox: showPasswordCheckBox,
+				expireDateLabel: t('core', 'Set expiration date'),
+				expirationLabel: t('core', 'Expiration'),
+				expirationDatePlaceholder: t('core', 'Expiration date'),
+				hasExpireDate: hasExpireDate,
+				isExpirationEnforced: isExpirationEnforced,
+				isPasswordEnforced: isPasswordEnforced,
+				expireDate: expireDate,
+				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
+			});
+
 			this.$el.html(linkShareTemplate({
 				cid: this.model.get('linkShare').id,
 				shareAllowed: true,
@@ -600,6 +659,9 @@
 				linkShareLabel: t('core', 'Share link'),
 				linkShareEnableLabel: t('core', 'Enable'),
 				popoverMenu: popover,
+				pendingPopoverMenu: pendingPopover,
+				showMenu: isLinkShare || this.showPending,
+				showPending: this.showPending && !isLinkShare
 			}));
 
 			this.delegateEvents();
@@ -643,6 +705,19 @@
 				this._popoverMenuTemplate = Handlebars.compile(TEMPLATE_POPOVER_MENU);
 			}
 			return this._popoverMenuTemplate(data);
+		},
+
+		/**
+		 * renders the pending popover template and returns the resulting HTML
+		 *
+		 * @param {Object} data
+		 * @returns {string}
+		 */
+		pendingPopoverMenuTemplate: function(data) {
+			if(!this._pendingPopoverMenuTemplate) {
+				this._pendingPopoverMenuTemplate = Handlebars.compile(TEMPLATE_POPOVER_MENU_PENDING);
+			}
+			return this._pendingPopoverMenuTemplate(data);
 		},
 
 		onPopUpClick: function(event) {
@@ -701,7 +776,6 @@
 					self.setExpirationDate(expireDate);
 				}
 			});
-			console.log(event, $(expirationDatePicker));
 			$(expirationDatePicker).datepicker('show');
 			$(expirationDatePicker).focus();
 
