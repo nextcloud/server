@@ -39,6 +39,7 @@ OC.L10N.register(
     "Android client" : "Client Android",
     "iOS client" : "Client iOS",
     "Desktop client" : "Client de bureau",
+    "Thunderbird & Outlook addons" : "Modules complémentaires Thunderbird & Outlook",
     "User group membership" : "Membre du groupe d'utilisateur",
     "is member of" : "est membre de",
     "is not member of" : "n'est pas membre de",
