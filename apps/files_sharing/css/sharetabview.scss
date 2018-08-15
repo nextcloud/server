@@ -168,6 +168,7 @@
 		margin-left: auto;
 		display: flex;
 		align-items: center;
+		white-space: nowrap;
 		// can edit label
 		> .shareOption > label {
 			padding: 13px;
@@ -196,12 +197,15 @@
 	}
 	.username {
 		padding: 0 8px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 }
 
 .ui-autocomplete {
 	/* limit dropdown height to 4 1/2 entries */
-	max-height: 200px;
+	max-height: calc(36px * 4.5);;
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1550 !important;

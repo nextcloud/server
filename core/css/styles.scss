@@ -1049,25 +1049,6 @@ div.crumb {
 	}
 }
 
-/* public footer */
-
-#body-public footer {
-	position: relative;
-	text-align: center;
-	.info {
-		color: var(--color-text-lighter);
-		text-align: center;
-		margin: 0 auto;
-		padding: 20px 0;
-		a {
-			color: var(--color-text-lighter);
-			font-weight: 600;
-			padding: 13px;
-			margin: -13px;
-		}
-	}
-}
-
 /* LEGACY FIX only - do not use fieldsets for settings */
 
 fieldset {

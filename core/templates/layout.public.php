@@ -78,7 +78,7 @@
 	</div>
 	<?php if(isset($template) && $template->getFooterVisible()) { ?>
 	<footer>
-		<p class="info"><?php print_unescaped($theme->getLongFooter()); ?></p>
+		<p><?php print_unescaped($theme->getLongFooter()); ?></p>
 	</footer>
 	<?php } ?>
 

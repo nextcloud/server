@@ -1,3 +1,5 @@
+$footer-height: 60px;
+
 #body-public {
 	.header-right {
 
@@ -36,8 +38,9 @@
 	}
 
 	#content {
-		height: initial;
-		min-height: calc(100vh - 160px);
+		// 100% - footer
+		min-height: calc(100% - #{$footer-height});
+
 	}
 
 	/** don't apply content header padding on the base layout */
@@ -63,5 +66,23 @@
 	form fieldset .warning-info,
 	form input[type='checkbox']+label {
 		text-align: center;
+	}
+
+	/* public footer */
+	footer {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: $footer-height;
+		p {
+			color: var(--color-text-lighter);
+			a {
+				color: var(--color-text-lighter);
+				font-weight: 600;
+				padding: 13px;
+				margin: -13px;
+			}
+		}
 	}
 }
