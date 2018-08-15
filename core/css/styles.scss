@@ -601,6 +601,7 @@ code {
 	margin-top: 10px !important;
 	width: auto !important;
 	border-radius: var(--border-radius);
+	z-index: 1600 !important;
 
 	.ui-widget-content {
 		border: none !important;
