@@ -37,6 +37,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
+use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
@@ -259,7 +260,15 @@ class LostController extends Controller {
 		}
 
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
-			return $this->error('', array('encryption' => true));
+			$encryptionModules = $this->encryptionManager->getEncryptionModules();
+			foreach ($encryptionModules as $module) {
+				/** @var IEncryptionModule $instance */
+				$instance = call_user_func($module['callback']);
+				// this way we can find out whether per-user keys are used or a system wide encryption key
+				if ($instance->needDetailedAccessList()) {
+					return $this->error('', array('encryption' => true));
+				}
+			}
 		}
 
 		try {
