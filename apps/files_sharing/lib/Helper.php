@@ -237,6 +237,10 @@ class Helper {
 		return $path;
 	}
 
+	public static function isUsingShareFolder() {
+		return \OC::$server->getConfig()->getSystemValue('share_folder', '/') !== '/';
+	}
+
 	/**
 	 * get default share folder
 	 *
