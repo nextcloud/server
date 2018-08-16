@@ -60,19 +60,19 @@ class SharedMount extends MountPoint implements MoveableMount {
 	/**
 	 * @param string $storage
 	 * @param SharedMount[] $mountpoints
-	 * @param array|null $arguments
+	 * @param array $arguments
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @param View $recipientView
 	 */
-	public function __construct($storage, array $mountpoints, $arguments = null, $loader = null) {
+	public function __construct($storage, array $mountpoints, $arguments, $loader, $recipientView) {
 		$this->user = $arguments['user'];
-		$this->recipientView = new View('/' . $this->user . '/files');
+		$this->recipientView = $recipientView;
 
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
 
 		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints);
 		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
-		$arguments['ownerView'] = new View('/' . $this->superShare->getShareOwner() . '/files');
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
 
