@@ -87,7 +87,8 @@
 				'{{/if}}' +
 				'{{#if showPasswordCheckBox}}' +
 				'	<li><span class="shareOption menuitem">' +
-				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
+				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox"' +
+				'			{{#if isPasswordSet}}checked="checked"{{/if}} {{#if isPasswordEnforced}}disabled="disabled"{{/if}} value="1" />' +
 				'		<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
 				'	</span></li>' +
 				'	<li class="{{#unless isPasswordSet}}hidden{{/unless}} linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
@@ -96,16 +97,17 @@
 				'	</span></li>' +
 				'{{/if}}' +
 				'<li>' +
-					'<span class="shareOption menuitem">' +
-						'<input id="expireDate-{{cid}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />' +
-						'<label for="expireDate-{{cid}}">{{expireDateLabel}}</label>' +
+				'	<span class="shareOption menuitem">' +
+				'		<input id="expireDate-{{cid}}" type="checkbox" name="expirationDate" class="expireDate checkbox"' +
+				'			{{#if hasExpireDate}}checked="checked"{{/if}} {{#if isExpirationEnforced}}disabled="disabled"{{/if}}" />' +
+				'		<label for="expireDate-{{cid}}">{{expireDateLabel}}</label>' +
+				'	</span>' +
 				'</li>' +
 				'<li class="{{#unless hasExpireDate}}hidden{{/unless}}">' +
-						'<span class="menuitem icon-expiredate expirationDateContainer-{{cid}}">' +
-						'    <label for="expirationDatePicker-{{cid}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-						'    <input id="expirationDatePicker-{{cid}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
-						'</span>' +
-					'</span>' +
+				'	<span class="menuitem icon-expiredate expirationDateContainer-{{cid}}">' +
+				'    	<label for="expirationDatePicker-{{cid}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
+				'    	<input id="expirationDatePicker-{{cid}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
+				'	</span>' +
 				'</li>' +
 				'<li>' +
 					'<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>' +
@@ -138,7 +140,7 @@
 			'<ul>' +
 				'{{#if isPasswordEnforced}}' +
 				'	<li><span class="shareOption menuitem">' +
-				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" checked="checked" class="checkbox showPasswordCheckbox" value="1" />' +
+				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" checked="checked" disabled class="checkbox showPasswordCheckbox" value="1" />' +
 				'		<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
 				'	</span></li>' +
 				'	<li class="linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
@@ -189,7 +191,7 @@
 			// password
 			'focusout input.linkPassText': 'onPasswordEntered',
 			'keyup input.linkPassText': 'onPasswordKeyUp',
-			'click .showPasswordCheckbox': 'onShowPasswordClick',
+			'change .showPasswordCheckbox': 'onShowPasswordClick',
 			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
 			// copy link url
 			'click .linkText': 'onLinkTextClick',
@@ -607,7 +609,7 @@
 				passwordLabel: t('core', 'Password'),
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				passwordPlaceholderInitial: passwordPlaceholderInitial,
-				isPasswordSet: isPasswordSet || isPasswordEnabledByDefault,
+				isPasswordSet: isPasswordSet || isPasswordEnabledByDefault || isPasswordEnforced,
 				showPasswordCheckBox: showPasswordCheckBox,
 				publicUpload: publicUpload && isLinkShare,
 				publicEditing: publicEditable,
@@ -629,6 +631,7 @@
 				expirationDatePlaceholder: t('core', 'Expiration date'),
 				hasExpireDate: hasExpireDate,
 				isExpirationEnforced: isExpirationEnforced,
+				isPasswordEnforced: isPasswordEnforced,
 				expireDate: expireDate,
 				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
 				shareNote: this.model.get('linkShare').note,
@@ -642,14 +645,7 @@
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				passwordPlaceholderInitial: passwordPlaceholderInitial,
 				showPasswordCheckBox: showPasswordCheckBox,
-				expireDateLabel: t('core', 'Set expiration date'),
-				expirationLabel: t('core', 'Expiration'),
-				expirationDatePlaceholder: t('core', 'Expiration date'),
-				hasExpireDate: hasExpireDate,
-				isExpirationEnforced: isExpirationEnforced,
 				isPasswordEnforced: isPasswordEnforced,
-				expireDate: expireDate,
-				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
 			});
 
 			this.$el.html(linkShareTemplate({
