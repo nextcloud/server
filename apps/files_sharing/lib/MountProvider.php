@@ -85,7 +85,7 @@ class MountProvider implements IMountProvider {
 		$mounts = [];
 		foreach ($superShares as $share) {
 			try {
-				$mounts[] = new SharedMount(
+				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
 					$mounts,
 					[
@@ -97,6 +97,7 @@ class MountProvider implements IMountProvider {
 					],
 					$storageFactory
 				);
+				$mounts[$mount->getMountPoint()] = $mount;
 			} catch (\Exception $e) {
 				$this->logger->logException($e);
 				$this->logger->error('Error while trying to create shared mount');
@@ -104,7 +105,7 @@ class MountProvider implements IMountProvider {
 		}
 
 		// array_filter removes the null values from the array
-		return array_filter($mounts);
+		return array_values(array_filter($mounts));
 	}
 
 	/**
