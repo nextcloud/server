@@ -140,11 +140,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 		while ($view->file_exists($path) || isset($mountpoints[$absolutePath])) {
 			$path = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
 			$absolutePath = $this->recipientView->getAbsolutePath($path) . '/';
-			var_dump($absolutePath);
 			$i++;
-			if ($i > 10) {
-				return $path;
-			}
 		}
 
 		return $path;
