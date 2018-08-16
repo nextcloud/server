@@ -84,6 +84,7 @@ class MountProvider implements IMountProvider {
 		$mounts = [];
 		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
+		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
 		foreach ($superShares as $share) {
 			try {
 				/** @var \OCP\Share\IShare $parentShare */
@@ -101,7 +102,8 @@ class MountProvider implements IMountProvider {
 						'superShare' => $parentShare,
 						// children/component of the superShare
 						'groupedShares' => $share[1],
-						'ownerView' => $ownerViews[$owner]
+						'ownerView' => $ownerViews[$owner],
+						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
 					$storageFactory,
 					$view
