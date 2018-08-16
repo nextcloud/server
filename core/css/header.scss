@@ -98,7 +98,7 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 10px;
+			right: 22px;
 		}
 	}
 	.logo {
@@ -226,9 +226,10 @@
 /* NAVIGATION --------------------------------------------------------------- */
 nav[role='navigation'] {
 	display: inline-block;
-	width: $header-height;
+	width: 0;
 	height: $header-height;
 	margin-left: -$header-height;
+	position: relative;
 }
 
 .header-left #navigation {
