@@ -15,7 +15,7 @@
 		+ '</li>';
 
 	var LIST = ''
-		+ '<div class="menu popovermenu bubble hidden contactsmenu-popover">'
+		+ '<div class="menu popovermenu menu-left hidden contactsmenu-popover">'
 		+ '    <ul>'
 		+ '        <li>'
 		+ '            <a>'
