@@ -1433,16 +1433,21 @@ class View {
 			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
 			$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
+
+			$fileNames = array_map(function(ICacheEntry $content) {
+				return $content->getName();
+			}, $contents);
 			/**
-			 * @var \OC\Files\FileInfo[] $files
+			 * @var \OC\Files\FileInfo[] $fileInfos
 			 */
-			$files = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
+			$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
 				if ($sharingDisabled) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
 				$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
 				return new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
 			}, $contents);
+			$files = array_combine($fileNames, $fileInfos);
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 			$mounts = Filesystem::getMountManager()->findIn($path);
@@ -1496,13 +1501,6 @@ class View {
 								$rootEntry['permissions'] = $permissions & (\OCP\Constants::PERMISSION_ALL - (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE));
 							}
 
-							//remove any existing entry with the same name
-							foreach ($files as $i => $file) {
-								if ($file['name'] === $rootEntry['name']) {
-									unset($files[$i]);
-									break;
-								}
-							}
 							$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
 
 							// if sharing was disabled for the user we remove the share permissions
@@ -1511,7 +1509,7 @@ class View {
 							}
 
 							$owner = $this->getUserObjectForOwner($subStorage->getOwner(''));
-							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
+							$files[$rootEntry->getName()] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
 						}
 					}
 				}
@@ -1527,7 +1525,7 @@ class View {
 				});
 			}
 
-			return $files;
+			return array_values($files);
 		} else {
 			return [];
 		}
