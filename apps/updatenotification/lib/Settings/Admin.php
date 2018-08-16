@@ -114,7 +114,7 @@ class Admin implements ISettings {
 		return new TemplateResponse('updatenotification', 'admin', $params, '');
 	}
 
-	protected function filterChanges(array $changes) {
+	protected function filterChanges(array $changes): array {
 		$filtered = [];
 		if(isset($changes['changelogURL'])) {
 			$filtered['changelogURL'] = $changes['changelogURL'];
@@ -127,7 +127,8 @@ class Admin implements ISettings {
 		do {
 			$lang = $iterator->current();
 			if(isset($changes['whatsNew'][$lang])) {
-				return $filtered['whatsNew'][$lang];
+				$filtered['whatsNew'] = $changes['whatsNew'][$lang];
+				return $filtered;
 			}
 			$iterator->next();
 		} while($lang !== 'en' && $iterator->valid());
