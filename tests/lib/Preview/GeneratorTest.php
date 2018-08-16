@@ -150,16 +150,24 @@ class GeneratorTest extends \Test\TestCase {
 			}));
 
 		$invalidProvider = $this->createMock(IProvider::class);
+		$invalidProvider->method('isAvailable')
+			->willReturn(true);
+		$unavailableProvider = $this->createMock(IProvider::class);
+		$unavailableProvider->method('isAvailable')
+			->willReturn(false);
 		$validProvider = $this->createMock(IProvider::class);
+		$validProvider->method('isAvailable')
+			->with($file)
+			->willReturn(true);
 
 		$this->previewManager->method('getProviders')
 			->willReturn([
 				'/image\/png/' => ['wrongProvider'],
-				'/myMimeType/' => ['brokenProvider', 'invalidProvider', 'validProvider'],
+				'/myMimeType/' => ['brokenProvider', 'invalidProvider', 'unavailableProvider', 'validProvider'],
 			]);
 
 		$this->helper->method('getProvider')
-			->will($this->returnCallback(function($provider) use ($invalidProvider, $validProvider) {
+			->will($this->returnCallback(function($provider) use ($invalidProvider, $validProvider, $unavailableProvider) {
 				if ($provider === 'wrongProvider') {
 					$this->fail('Wrongprovider should not be constructed!');
 				} else if ($provider === 'brokenProvider') {
@@ -168,6 +176,8 @@ class GeneratorTest extends \Test\TestCase {
 					return $invalidProvider;
 				} else if ($provider === 'validProvider') {
 					return $validProvider;
+				} else if ($provider === 'unavailableProvider') {
+					return $unavailableProvider;
 				}
 				$this->fail('Unexpected provider requested');
 			}));
