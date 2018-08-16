@@ -558,7 +558,27 @@
 				}
 			});
 
-			this._renderMenuTrigger($tr, context);
+			function objectValues(obj) {
+				var res = [];
+				for (var i in obj) {
+					if (obj.hasOwnProperty(i)) {
+						res.push(obj[i]);
+					}
+				}
+				return res;
+			}
+			// polyfill
+			if (!Object.values) {
+				Object.values = objectValues;
+			}
+
+			var menuActions = Object.values(this.actions.all).filter(function (action) {
+				return action.type !== OCA.Files.FileActions.TYPE_INLINE;
+			});
+			// do not render the menu if nothing is in it
+			if (menuActions.length > 0) {
+				this._renderMenuTrigger($tr, context);
+			}
 
 			if (triggerEvent){
 				fileList.$fileList.trigger(jQuery.Event("fileActionsReady", {fileList: fileList, $files: $tr}));
