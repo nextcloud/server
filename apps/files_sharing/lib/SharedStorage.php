@@ -79,6 +79,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	private $options;
 
+	/** @var boolean */
+	private $sharingDisabledForUser;
+
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
 		$this->logger = \OC::$server->getLogger();
@@ -87,6 +90,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$this->groupedShares = $arguments['groupedShares'];
 
 		$this->user = $arguments['user'];
+		if (isset($arguments['sharingDisabledForUser'])) {
+			$this->sharingDisabledForUser = $arguments['sharingDisabledForUser'];
+		} else {
+			$this->sharingDisabledForUser = false;
+		}
 
 		parent::__construct([
 			'storage' => null,
@@ -193,7 +201,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
-		if (\OCP\Util::isSharingDisabledForUser()) {
+		if ($this->sharingDisabledForUser) {
 			$permissions &= ~\OCP\Constants::PERMISSION_SHARE;
 		}
 
