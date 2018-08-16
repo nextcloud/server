@@ -70,23 +70,24 @@ class Manager implements IMountManager {
 	 */
 	public function find($path) {
 		\OC_Util::setupFS();
-		$path = $this->formatPath($path);
-		if (isset($this->mounts[$path])) {
-			return $this->mounts[$path];
-		}
+		$path = Filesystem::normalizePath($path);
 
-		\OC_Hook::emit('OC_Filesystem', 'get_mountpoint', array('path' => $path));
-		$foundMountPoint = '';
-		$mountPoints = array_keys($this->mounts);
-		foreach ($mountPoints as $mountpoint) {
-			if (strpos($path, $mountpoint) === 0 and strlen($mountpoint) > strlen($foundMountPoint)) {
-				$foundMountPoint = $mountpoint;
+		$current = $path;
+		while(true) {
+			$mountPoint = $current . '/';
+			if (isset($this->mounts[$mountPoint])) {
+				$this->pathCache[$path] = $this->mounts[$mountPoint];
+				return $this->mounts[$mountPoint];
 			}
-		}
-		if (isset($this->mounts[$foundMountPoint])) {
-			return $this->mounts[$foundMountPoint];
-		} else {
-			return null;
+
+			if ($current === '') {
+				return null;
+			}
+
+			$current = dirname($current);
+			if ($current === '.' || $current === '/') {
+				$current = '';
+			}
 		}
 	}
 
