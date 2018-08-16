@@ -25,6 +25,7 @@
 
 namespace OCA\Files_Sharing;
 
+use OC\Cache\CappedMemoryCache;
 use OC\Files\View;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
@@ -85,6 +86,7 @@ class MountProvider implements IMountProvider {
 		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
+		$foldersExistCache = new CappedMemoryCache();
 		foreach ($superShares as $share) {
 			try {
 				/** @var \OCP\Share\IShare $parentShare */
@@ -106,7 +108,8 @@ class MountProvider implements IMountProvider {
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
 					$storageFactory,
-					$view
+					$view,
+					$foldersExistCache
 				);
 				$mounts[$mount->getMountPoint()] = $mount;
 			} catch (\Exception $e) {

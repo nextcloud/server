@@ -27,10 +27,12 @@
 
 namespace OCA\Files_Sharing;
 
+use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCP\Files\Storage\IStorageFactory;
 
 /**
  * Shared mount points can be moved by the user
@@ -61,17 +63,17 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @param string $storage
 	 * @param SharedMount[] $mountpoints
 	 * @param array $arguments
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @param IStorageFactory $loader
 	 * @param View $recipientView
 	 */
-	public function __construct($storage, array $mountpoints, $arguments, $loader, $recipientView) {
+	public function __construct($storage, array $mountpoints, $arguments, IStorageFactory $loader, View $recipientView, CappedMemoryCache $folderExistCache) {
 		$this->user = $arguments['user'];
 		$this->recipientView = $recipientView;
 
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
 
-		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints);
+		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
 		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
@@ -83,12 +85,18 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @param SharedMount[] $mountpoints
 	 * @return string
 	 */
-	private function verifyMountPoint(\OCP\Share\IShare $share, array $mountpoints) {
+	private function verifyMountPoint(\OCP\Share\IShare $share, array $mountpoints, CappedMemoryCache $folderExistCache) {
 
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
-		if (Helper::isUsingShareFolder() && !$this->recipientView->is_dir($parent)) {
+		if ($folderExistCache->hasKey($parent)) {
+			$parentExists = $folderExistCache->get($parent);
+		} else {
+			$parentExists = $this->recipientView->is_dir($parent);
+			$folderExistCache->set($parent, $parentExists);
+		}
+		if (!$parentExists) {
 			$parent = Helper::getShareFolder($this->recipientView);
 		}
 
