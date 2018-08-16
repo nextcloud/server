@@ -9,6 +9,7 @@ return array(
     'OCA\\Encryption\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Encryption\\Command\\DisableMasterKey' => $baseDir . '/../lib/Command/DisableMasterKey.php',
     'OCA\\Encryption\\Command\\EnableMasterKey' => $baseDir . '/../lib/Command/EnableMasterKey.php',
+    'OCA\\Encryption\\Command\\RecoverUser' => $baseDir . '/../lib/Command/RecoverUser.php',
     'OCA\\Encryption\\Controller\\RecoveryController' => $baseDir . '/../lib/Controller/RecoveryController.php',
     'OCA\\Encryption\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Encryption\\Controller\\StatusController' => $baseDir . '/../lib/Controller/StatusController.php',
