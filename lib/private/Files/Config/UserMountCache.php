@@ -101,17 +101,31 @@ class UserMountCache implements IUserMountCache {
 			}
 		}, $mounts);
 		$newMounts = array_values(array_filter($newMounts));
+		$newMountRootIds = array_map(function (ICachedMountInfo $mount) {
+			return $mount->getRootId();
+		}, $newMounts);
+		$newMounts = array_combine($newMountRootIds, $newMounts);
 
 		$cachedMounts = $this->getMountsForUser($user);
-		$mountDiff = function (ICachedMountInfo $mount1, ICachedMountInfo $mount2) {
-			// since we are only looking for mounts for a specific user comparing on root id is enough
-			return $mount1->getRootId() - $mount2->getRootId();
-		};
+		$cachedMountRootIds = array_map(function (ICachedMountInfo $mount) {
+			return $mount->getRootId();
+		}, $cachedMounts);
+		$cachedMounts = array_combine($cachedMountRootIds, $cachedMounts);
 
-		/** @var ICachedMountInfo[] $addedMounts */
-		$addedMounts = array_udiff($newMounts, $cachedMounts, $mountDiff);
-		/** @var ICachedMountInfo[] $removedMounts */
-		$removedMounts = array_udiff($cachedMounts, $newMounts, $mountDiff);
+		$addedMounts = [];
+		$removedMounts = [];
+
+		foreach ($newMounts as $rootId => $newMount) {
+			if (!isset($cachedMounts[$rootId])) {
+				$addedMounts[] = $newMount;
+			}
+		}
+
+		foreach ($cachedMounts as $rootId => $cachedMount) {
+			if (!isset($newMounts[$rootId])) {
+				$removedMounts[] = $cachedMount;
+			}
+		}
 
 		$changedMounts = $this->findChangedMounts($newMounts, $cachedMounts);
 
