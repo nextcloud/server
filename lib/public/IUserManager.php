@@ -131,7 +131,7 @@ interface IUserManager {
 	 * @param string $uid
 	 * @param string $password
 	 * @throws \InvalidArgumentException
-	 * @return bool|\OCP\IUser the created user of false
+	 * @return bool|\OCP\IUser the created user or false
 	 * @since 8.0.0
 	 */
 	public function createUser($uid, $password);
