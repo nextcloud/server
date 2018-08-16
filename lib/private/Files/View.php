@@ -1721,6 +1721,9 @@ class View {
 			 */
 			if ($mount->getStorage()) {
 				$cache = $mount->getStorage()->getCache();
+				if (!$cache) {
+					throw new NotFoundException(sprintf('File with id "%s" has not been found.', $id));
+				}
 				$internalPath = $cache->getPathById($id);
 				if (is_string($internalPath)) {
 					$fullPath = $mount->getMountPoint() . $internalPath;
