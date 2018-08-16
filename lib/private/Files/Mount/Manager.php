@@ -30,16 +30,22 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 
 class Manager implements IMountManager {
-	/**
-	 * @var MountPoint[]
-	 */
-	private $mounts = array();
+	/** @var MountPoint[] */
+	private $mounts = [];
+
+	/** @var CappedMemoryCache */
+	private $inPathCache;
+
+	public function __construct() {
+		$this->inPathCache = new CappedMemoryCache();
+	}
 
 	/**
 	 * @param IMountPoint $mount
 	 */
 	public function addMount(IMountPoint $mount) {
 		$this->mounts[$mount->getMountPoint()] = $mount;
+		$this->inPathCache->clear();
 	}
 
 	/**
@@ -51,15 +57,17 @@ class Manager implements IMountManager {
 			$mountPoint .= '/';
 		}
 		unset($this->mounts[$mountPoint]);
+		$this->inPathCache->clear();
 	}
 
 	/**
 	 * @param string $mountPoint
 	 * @param string $target
 	 */
-	public function moveMount($mountPoint, $target){
+	public function moveMount($mountPoint, $target) {
 		$this->mounts[$target] = $this->mounts[$mountPoint];
 		unset($this->mounts[$mountPoint]);
+		$this->inPathCache->clear();
 	}
 
 	/**
@@ -73,7 +81,7 @@ class Manager implements IMountManager {
 		$path = Filesystem::normalizePath($path);
 
 		$current = $path;
-		while(true) {
+		while (true) {
 			$mountPoint = $current . '/';
 			if (isset($this->mounts[$mountPoint])) {
 				$this->pathCache[$path] = $this->mounts[$mountPoint];
@@ -108,11 +116,14 @@ class Manager implements IMountManager {
 				$result[] = $this->mounts[$mountPoint];
 			}
 		}
+
+		$this->inPathCache[$path] = $result;
 		return $result;
 	}
 
 	public function clear() {
-		$this->mounts = array();
+		$this->mounts = [];
+		$this->inPathCache->clear();
 	}
 
 	/**
