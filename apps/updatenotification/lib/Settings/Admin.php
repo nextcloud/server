@@ -114,7 +114,7 @@ class Admin implements ISettings {
 		return new TemplateResponse('updatenotification', 'admin', $params, '');
 	}
 
-	protected function filterChanges(array $changes) {
+	protected function filterChanges(array $changes): array {
 		$filtered = [];
 		if(isset($changes['changelogURL'])) {
 			$filtered['changelogURL'] = $changes['changelogURL'];
