@@ -127,7 +127,8 @@ class Admin implements ISettings {
 		do {
 			$lang = $iterator->current();
 			if(isset($changes['whatsNew'][$lang])) {
-				return $filtered['whatsNew'][$lang];
+				$filtered['whatsNew'] = $changes['whatsNew'][$lang];
+				return $filtered;
 			}
 			$iterator->next();
 		} while($lang !== 'en' && $iterator->valid());

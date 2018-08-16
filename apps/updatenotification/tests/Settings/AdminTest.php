@@ -34,6 +34,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\L10N\ILanguageIterator;
 use OCP\Util;
 use Test\TestCase;
 
@@ -152,5 +153,79 @@ class AdminTest extends TestCase {
 
 	public function testGetPriority() {
 		$this->assertSame(11, $this->admin->getPriority());
+	}
+
+	public function changesProvider() {
+		return [
+			[ #0, all info, en
+				[
+					'changelogURL' => 'https://go.to.changelog',
+					'whatsNew' => [
+						'en' => [
+							'regular' => ['content'],
+						],
+						'de' => [
+							'regular' => ['inhalt'],
+						]
+					],
+				],
+				'en',
+				[
+					'changelogURL' => 'https://go.to.changelog',
+					'whatsNew' => [
+						'regular' => ['content'],
+					],
+				]
+			],
+			[ #1, all info, de
+				[
+					'changelogURL' => 'https://go.to.changelog',
+					'whatsNew' => [
+						'en' => [
+							'regular' => ['content'],
+						],
+						'de' => [
+							'regular' => ['inhalt'],
+						]
+					],
+				],
+				'de',
+				[
+					'changelogURL' => 'https://go.to.changelog',
+					'whatsNew' => [
+						'regular' => ['inhalt'],
+					]
+				],
+			],
+			[ #2, just changelog
+				[ 'changelogURL' => 'https://go.to.changelog' ],
+				'en',
+				[ 'changelogURL' => 'https://go.to.changelog' ],
+			],
+			[ #3 nothing
+				[],
+				'ru',
+				[]
+			]
+		];
+	}
+
+	/**
+	 * @dataProvider changesProvider
+	 */
+	public function testFilterChanges($changes, $userLang, $expectation) {
+		$iterator = $this->createMock(ILanguageIterator::class);
+		$iterator->expects($this->any())
+			->method('current')
+			->willReturnOnConsecutiveCalls('es', $userLang, 'it', 'en');
+		$iterator->expects($this->any())
+			->method('valid')
+			->willReturn(true);
+
+		$this->l10nFactory->expects($this->atMost(1))
+			->method('getLanguageIterator')
+			->willReturn($iterator);
+		$result = $this->invokePrivate($this->admin, 'filterChanges', [$changes]);
+		$this->assertSame($expectation, $result);
 	}
 }
