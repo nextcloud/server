@@ -32,7 +32,8 @@ class GroupwareBundleTest extends BundleBase {
 		$this->bundleAppIds = [
 			'calendar',
 			'contacts',
-			'spreed',
+			'deck',
+			'mail'
 		];
 	}
 }
