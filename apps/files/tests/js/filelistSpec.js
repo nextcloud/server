@@ -2615,11 +2615,17 @@ describe('OCA.Files.FileList tests', function() {
 	});
 	describe('Sorting files', function() {
 
-		/**
-		 * Set any user id before tests.
-		 */
+		var getCurrentUserStub;
+
 		beforeEach(function() {
-			OC.currentUser = 1;
+			getCurrentUserStub = sinon.stub(OC, 'getCurrentUser').returns({
+				uid: 1,
+				displayName: 'user1'
+			});
+		});
+
+		afterEach(function() {
+			getCurrentUserStub.restore();
 		});
 
 		it('Toggles the sort indicator when clicking on a column header', function() {
@@ -2748,11 +2754,20 @@ describe('OCA.Files.FileList tests', function() {
 			sortStub.restore();
 		});
 
-		it('doesn\'t send a sort update request if there is no user logged in', function() {
-			OC.currentUser = false;
-			fileList.$el.find('.column-size .columntitle').click();
-			// check if there was no request
-			expect(fakeServer.requests.length).toEqual(0);
+		describe('if no user logged in', function() {
+			beforeEach(function() {
+				getCurrentUserStub.returns({
+					uid: null,
+					displayName: 'Guest'
+				});
+			});
+
+			it('shouldn\'t send an update sort order request', function() {
+				OC.currentUser = false;
+				fileList.$el.find('.column-size .columntitle').click();
+				// check if there was no request
+				expect(fakeServer.requests.length).toEqual(0);
+			});
 		});
 
 		describe('with favorites', function() {
