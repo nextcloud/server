@@ -29,4 +29,12 @@ class HEIC extends Bitmap {
 	public function getMimeType() {
 		return '/image\/hei(f|c)/';
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isAvailable(\OCP\Files\FileInfo $file) {
+		return in_array("HEIC", \Imagick::queryFonts("HEI*") );
+	}
+
 }

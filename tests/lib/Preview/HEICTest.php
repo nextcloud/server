@@ -31,12 +31,18 @@ namespace Test\Preview;
 class HEICTest extends Provider {
 
 	public function setUp() {
-		parent::setUp();
+		if ( !in_array("HEIC", \Imagick::queryFormats("HEI*")) ) {
+			$this->markTestSkipped('ImageMagick is not HEIC aware. Skipping tests');
+		} else {
+			parent::setUp();
 
-		$fileName = 'testimage.heic';
-		$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
-		$this->width = 1680;
-		$this->height = 1050;
-		$this->provider = new \OC\Preview\HEIC;
+			$fileName = 'testimage.heic';
+			$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
+			$this->width = 1680;
+			$this->height = 1050;
+			$this->provider = new \OC\Preview\HEIC;
+		}
+
 	}
+
 }
