@@ -98,7 +98,7 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 22px;
+			right: 10px;
 		}
 	}
 	.logo {
@@ -226,7 +226,7 @@
 /* NAVIGATION --------------------------------------------------------------- */
 nav[role='navigation'] {
 	display: inline-block;
-	width: 0;
+	width: $header-height;
 	height: $header-height;
 	margin-left: -$header-height;
 	position: relative;
@@ -400,6 +400,10 @@ nav[role='navigation'] {
 			display: block;
 		}
 	}
+
+	#expanddiv:after {
+		right: 22px;
+	}
 }
 
 /* Settings menu */
@@ -456,6 +460,7 @@ nav[role='navigation'] {
 			opacity: .6;
 		}
 	}
+
 	.app-loading {
 		> svg {
 			display: none;
@@ -555,6 +560,10 @@ nav[role='navigation'] {
 
 	li.hidden {
 		display: none;
+	}
+
+	#more-apps {
+		z-index: 2;
 	}
 }
 
