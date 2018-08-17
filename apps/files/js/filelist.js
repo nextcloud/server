@@ -1738,7 +1738,7 @@
 				}
 			}
 
-			if (persist) {
+			if (persist && OC.getCurrentUser().uid) {
 				$.post(OC.generateUrl('/apps/files/api/v1/sorting'), {
 					mode: sort,
 					direction: direction
