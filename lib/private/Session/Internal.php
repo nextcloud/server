@@ -53,6 +53,26 @@ class Internal extends Session {
 		$this->invoke('session_name', [$name]);
 		try {
 			$this->invoke('session_start');
+
+			$id = $this->getId();
+
+			$secure = \OC::$server->getRequest()->getServerProtocol() === 'https';
+			$webRoot = \OC::$WEBROOT;
+			if($webRoot === '') {
+				$webRoot = '/';
+			}
+			$header = sprintf(
+				'Set-Cookie: %s=%s; path=%s',
+				$name,
+				$id,
+				$webRoot
+			);
+			if ($secure) {
+				$header .= '; Secure';
+			}
+			$header .= '; HttpOnly';
+			$header .= '; SameSite=Lax';
+			header($header, true);
 		} catch (\Exception $e) {
 			setcookie($this->invoke('session_name'), null, -1, \OC::$WEBROOT ?: '/');
 		}
