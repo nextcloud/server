@@ -28,6 +28,7 @@ namespace OCA\Encryption\Hooks;
 
 
 use OC\Files\Filesystem;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IUserManager;
 use OCP\Util as OCUtil;
 use OCA\Encryption\Hooks\Contracts\IHook;
@@ -252,11 +253,12 @@ class UserHooks implements IHook {
 		}
 
 		// Get existing decrypted private key
-		$privateKey = $this->session->getPrivateKey();
 		$user = $this->user->getUser();
 
 		// current logged in user changes his own password
-		if ($user && $params['uid'] === $user->getUID() && $privateKey) {
+		if ($user && $params['uid'] === $user->getUID()) {
+
+			$privateKey = $this->session->getPrivateKey();
 
 			// Encrypt private key with new user pwd as passphrase
 			$encryptedPrivateKey = $this->crypt->encryptPrivateKey($privateKey, $params['password'], $params['uid']);
@@ -276,6 +278,18 @@ class UserHooks implements IHook {
 			$user = $params['uid'];
 			$this->initMountPoints($user);
 			$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
+
+			$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
+			$recoveryKey = $this->keyManager->getSystemPrivateKey($recoveryKeyId);
+			try {
+				$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $recoveryPassword);
+			} catch (\Exception $e) {
+				$decryptedRecoveryKey = false;
+			}
+			if ($decryptedRecoveryKey === false) {
+				$message = 'Can not decrypt the recovery key. Maybe you provided the wrong password. Try again.';
+				throw new GenericEncryptionException($message, $message);
+			}
 
 			// we generate new keys if...
 			// ...we have a recovery password and the user enabled the recovery key
