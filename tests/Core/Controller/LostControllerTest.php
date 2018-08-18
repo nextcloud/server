@@ -759,4 +759,88 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
+	public function testTwoUsersWithSameEmail() {
+		$user1 = $this->createMock(IUser::class);
+		$user1->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+		$user1->expects($this->any())
+			->method('getUID')
+			->willReturn('User1');
+		$user1->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+		$user2->expects($this->any())
+			->method('getUID')
+			->willReturn('User2');
+		$user2->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$this->userManager
+			->method('get')
+			->willReturn(null);
+
+		$this->userManager
+			->method('getByEmail')
+			->willReturn([$user1, $user2]);
+
+		// request password reset for test@example.com
+		$response = $this->lostController->email('test@example.com');
+
+		$expectedResponse = new JSONResponse([
+			'status' => 'error',
+			'msg' => 'Couldn\'t send reset email. Please make sure your username is correct.'
+		]);
+		$expectedResponse->throttle();
+
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testTwoUsersWithSameEmailOneDisabled() {
+		$user1 = $this->createMock(IUser::class);
+		$user1->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+		$user1->expects($this->any())
+			->method('getUID')
+			->willReturn('User1');
+		$user1->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+		$user2->expects($this->any())
+			->method('getUID')
+			->willReturn('User2');
+		$user2->expects($this->any())
+			->method('isEnabled')
+			->willReturn(false);
+
+		$this->userManager
+			->method('get')
+			->willReturn(null);
+
+		$this->userManager
+			->method('getByEmail')
+			->willReturn([$user1, $user2]);
+
+		// request password reset for test@example.com
+		$response = $this->lostController->email('test@example.com');
+
+		$expectedResponse = new JSONResponse([
+			'status' => 'success'
+		]);
+		$expectedResponse->throttle();
+
+		$this->assertEquals($expectedResponse, $response);
+	}
 }
