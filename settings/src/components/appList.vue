@@ -64,7 +64,7 @@
 
 		<div id="apps-list-empty" class="emptycontent emptycontent-search" v-if="!loading && searchApps.length === 0 && apps.length === 0">
 			<div id="app-list-empty-icon" class="icon-settings-dark"></div>
-			<h2>{{ t('settings', 'No apps found for your versoin')}}</h2>
+			<h2>{{ t('settings', 'No apps found for your version')}}</h2>
 		</div>
 
 		<div id="searchresults"></div>
