@@ -632,7 +632,7 @@ span.usersLastLoginTooltip {
 	thead tr {
 		z-index: 100;
 		background-color: var(--color-main-background);
-		position: sticky;
+		@include position('sticky');
 		// positional attribute is required for position to take affect.
 		top: 0;
 	}
@@ -1439,7 +1439,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			/* various */
 			&#grid-header,
 			&#new-user {
-				position: sticky;
+				@include position('sticky');
 				align-self: normal;
 				background-color: var(--color-main-background);
 				z-index: 55; /* above multiselect */

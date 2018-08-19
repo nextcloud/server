@@ -639,7 +639,7 @@ kbd {
 	min-width: $sidebar-min-width;
 	max-width: $sidebar-max-width;
 	display: block;
-	position: sticky;
+	@include position('sticky');
 	top: $header-height;
 	right:0;
 	overflow-y: auto;
@@ -1046,7 +1046,7 @@ $popovericon-size: 16px;
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	width: 300px;
-	position: sticky;
+	@include position('sticky');
 	top: $header-height;
 	border-right: 1px solid var(--color-border);
 	display: flex;

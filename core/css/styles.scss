@@ -163,8 +163,7 @@ body {
 
 #controls {
 	box-sizing: border-box;
-	position: -webkit-sticky;
-	position: sticky;
+	@include position('sticky');
 	height: 44px;
 	padding: 0;
 	margin: 0;
