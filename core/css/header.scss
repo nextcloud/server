@@ -229,6 +229,7 @@ nav[role='navigation'] {
 	width: $header-height;
 	height: $header-height;
 	margin-left: -$header-height;
+	position: relative;
 }
 
 .header-left #navigation {
@@ -399,13 +400,14 @@ nav[role='navigation'] {
 			display: block;
 		}
 	}
+
+	#expanddiv:after {
+		right: 22px;
+	}
 }
 
 /* Settings menu */
 #expanddiv {
-	&.menu {
-		right: 17px;
-	}
 	a {
 		display: inline-flex;
 		align-items: center;
@@ -455,6 +457,7 @@ nav[role='navigation'] {
 			opacity: .6;
 		}
 	}
+
 	.app-loading {
 		> svg {
 			display: none;
@@ -554,6 +557,10 @@ nav[role='navigation'] {
 
 	li.hidden {
 		display: none;
+	}
+
+	#more-apps {
+		z-index: 2;
 	}
 }
 
