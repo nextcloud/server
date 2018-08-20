@@ -184,6 +184,10 @@ class Generator {
 					continue;
 				}
 
+				if (!$provider->isAvailable($file)) {
+					continue;
+				}
+
 				$maxWidth = (int)$this->config->getSystemValue('preview_max_x', 4096);
 				$maxHeight = (int)$this->config->getSystemValue('preview_max_y', 4096);
 
