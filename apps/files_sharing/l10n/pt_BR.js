@@ -21,7 +21,7 @@ OC.L10N.register(
     "Move or copy" : "Mover ou copiar",
     "Download" : "Baixar",
     "Delete" : "Excluir",
-    "You can upload into this folder" : "Você não pode enviar arquivos para esta pasta",
+    "You can upload into this folder" : "Você pode enviar arquivos para esta pasta",
     "No compatible server found at {remote}" : "Nenhum servidor compativel encontrado em {remote}",
     "Invalid server URL" : "URL do servidor inválida",
     "Failed to add the public link to your Nextcloud" : "Ocorreu uma falha ao adicionar o link público ao seu Nextcloud",
