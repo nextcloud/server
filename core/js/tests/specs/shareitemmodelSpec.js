@@ -345,7 +345,7 @@ describe('OC.Share.ShareItemModel', function() {
 			}]));
 			fetchSharesDeferred.resolve(makeOcsResponse([]));
 
-			model.set('possiblePermissions', OC.PERMISSION_READ);
+			model.fileInfoModel.set('permissions', OC.PERMISSION_READ);
 			model.fetch();
 
 			// no resharing allowed

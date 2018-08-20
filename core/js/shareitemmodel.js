@@ -777,7 +777,7 @@
 				return {};
 			}
 
-			var permissions = this.get('possiblePermissions');
+			var permissions = this.fileInfoModel.get('permissions');
 			if(!_.isUndefined(data.reshare) && !_.isUndefined(data.reshare.permissions) && data.reshare.uid_owner !== OC.currentUser) {
 				permissions = permissions & data.reshare.permissions;
 			}

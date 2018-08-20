@@ -166,24 +166,7 @@
 		},
 
 		updateRow: function($tr, fileInfo, options) {
-			if(!fileInfo instanceof OCA.Sharing.SharedFileInfo) {
-				// recycle SharedFileInfo values if something tries to overwrite it
-				var oldModel = this.getModelForFile($tr);
-
-				if(_.isUndefined(fileInfo.recipientData) && oldModel.recipientData) {
-					fileInfo.recipientData = oldModel.recipientData;
-				}
-				if(_.isUndefined(fileInfo.recipients) && oldModel.recipientData) {
-					fileInfo.recipientData = oldModel.recipientData;
-				}
-				if(_.isUndefined(fileInfo.shares) && oldModel.shares) {
-					fileInfo.shares = oldModel.shares;
-				}
-				if(_.isUndefined(fileInfo.shareOwner) && oldModel.shareOwner) {
-					fileInfo.shareOwner = oldModel.shareOwner;
-				}
-			}
-			OCA.Files.FileList.prototype._createRow.updateRow(this, arguments);
+			// no-op, suppress re-rendering
 		},
 
 		reload: function() {
@@ -328,11 +311,11 @@
 		 * Converts the OCS API share response data to a file info
 		 * list
 		 * @param {Array} data OCS API share array
+		 * @param {bool} sharedWithUser
 		 * @return {Array.<OCA.Sharing.SharedFileInfo>} array of shared file info
 		 */
 		_makeFilesFromShares: function(data, sharedWithUser) {
 			/* jshint camelcase: false */
-			var self = this;
 			var files = data;
 
 			if (this._linksOnly) {
@@ -447,8 +430,8 @@
 					// array of sorted names
 					data.mountType = 'shared';
 					delete data.recipientsCount;
-					if (self._sharedWithUser) {
-						// only for outgoing shres
+					if (sharedWithUser) {
+						// only for outgoing shares
 						delete data.shareTypes;
 					} else {
 						data.shareTypes = _.keys(data.shareTypes);
