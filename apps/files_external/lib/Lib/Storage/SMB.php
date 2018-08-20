@@ -78,6 +78,9 @@ class SMB extends Common implements INotifyStorage {
 	 */
 	protected $statCache;
 
+	/** @var ILogger */
+	protected $logger;
+
 	public function __construct($params) {
 		if (!isset($params['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
@@ -90,6 +93,12 @@ class SMB extends Common implements INotifyStorage {
 			$auth = new BasicAuth($user, $workgroup, $params['password']);
 		} else {
 			throw new \Exception('Invalid configuration, no credentials provided');
+		}
+
+		if (isset($params['logger'])) {
+			$this->logger = $params['logger'];
+		} else {
+			$this->logger = \OC::$server->getLogger();
 		}
 
 		$serverFactory = new ServerFactory();
@@ -155,7 +164,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return $this->statCache[$path];
 		} catch (ConnectException $e) {
-			\OC::$server->getLogger()->logException($e, ['message' => 'Error while getting file info']);
+			$this->logger->logException($e, ['message' => 'Error while getting file info']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -174,15 +183,20 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return array_filter($files, function (IFileInfo $file) {
 				try {
+					if ($file->isHidden()) {
+						$this->logger->debug('hiding hidden file ' . $file->getName());
+					}
 					return !$file->isHidden();
 				} catch (ForbiddenException $e) {
+					$this->logger->logException($e, ['level' => ILogger::DEBUG, 'message' => 'Hiding forbidden entry ' . $file->getName()]);
 					return false;
 				} catch (NotFoundException $e) {
+					$this->logger->logException($e, ['level' => ILogger::DEBUG, 'message' => 'Hiding not found entry ' . $file->getName()]);
 					return false;
 				}
 			});
 		} catch (ConnectException $e) {
-			\OC::$server->getLogger()->logException($e, ['message' => 'Error while getting folder content']);
+			$this->logger->logException($e, ['message' => 'Error while getting folder content']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -225,7 +239,7 @@ class SMB extends Common implements INotifyStorage {
 				$this->remove($target);
 				$result = $this->share->rename($absoluteSource, $absoluteTarget, false);
 			} else {
-				\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN]);
+				$this->logger->logException($e, ['level' => ILogger::WARN]);
 				return false;
 			}
 		} catch (InvalidArgumentException $e) {
@@ -233,11 +247,11 @@ class SMB extends Common implements INotifyStorage {
 				$this->remove($target);
 				$result = $this->share->rename($absoluteSource, $absoluteTarget, false);
 			} else {
-				\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN]);
+				$this->logger->logException($e, ['level' => ILogger::WARN]);
 				return false;
 			}
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN]);
+			$this->logger->logException($e, ['level' => ILogger::WARN]);
 			return false;
 		}
 		unset($this->statCache[$absoluteSource], $this->statCache[$absoluteTarget]);
@@ -320,7 +334,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
-			\OC::$server->getLogger()->logException($e, ['message' => 'Error while deleting file']);
+			$this->logger->logException($e, ['message' => 'Error while deleting file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -405,7 +419,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
-			\OC::$server->getLogger()->logException($e, ['message' => 'Error while opening file']);
+			$this->logger->logException($e, ['message' => 'Error while opening file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -432,7 +446,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
-			\OC::$server->getLogger()->logException($e, ['message' => 'Error while removing folder']);
+			$this->logger->logException($e, ['message' => 'Error while removing folder']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -446,7 +460,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (ConnectException $e) {
-			\OC::$server->getLogger()->logException($e, ['message' => 'Error while creating file']);
+			$this->logger->logException($e, ['message' => 'Error while creating file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
@@ -482,7 +496,7 @@ class SMB extends Common implements INotifyStorage {
 			$this->share->mkdir($path);
 			return true;
 		} catch (ConnectException $e) {
-			\OC::$server->getLogger()->logException($e, ['message' => 'Error while creating folder']);
+			$this->logger->logException($e, ['message' => 'Error while creating folder']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		} catch (Exception $e) {
 			return false;
@@ -556,7 +570,7 @@ class SMB extends Common implements INotifyStorage {
 		try {
 			return parent::test();
 		} catch (Exception $e) {
-			\OC::$server->getLogger()->logException($e);
+			$this->logger->logException($e);
 			return false;
 		}
 	}
