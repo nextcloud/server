@@ -97,14 +97,25 @@ class UserManagement extends Action {
 	 * @param array $params
 	 */
 	public function change(array $params) {
-		if ($params['feature'] === 'enabled') {
-			$this->log(
-				$params['value'] === 'true' ? 'User enabled: "%s"' : 'User disabled: "%s"',
-				['user' => $params['user']->getUID()],
-				[
-					'user',
-				]
-			);
+		switch($params['feature']) {
+			case 'enabled':
+				$this->log(
+					$params['value'] === 'true' ? 'User enabled: "%s"' : 'User disabled: "%s"',
+					['user' => $params['user']->getUID()],
+					[
+						'user',
+					]
+				);
+				break;
+			case 'eMailAddress':
+				$this->log(
+					'Email address changed for user %s',
+					['user' => $params['user']->getUID()],
+					[
+						'user',
+					]
+				);
+				break;
 		}
 	}
 
