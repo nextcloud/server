@@ -13,7 +13,7 @@ OC.Lostpassword = {
 	resetErrorMsg : t('core', 'Password can not be changed. Please contact your administrator.'),
 
 	init : function() {
-		$('#lost-password').click(OC.Lostpassword.resetLink);
+		$('#lost-password[href=""]').click(OC.Lostpassword.resetLink);
 		$('#lost-password-back').click(OC.Lostpassword.backToLogin);
 		$('form[name=login]').submit(OC.Lostpassword.onSendLink);
 		$('#reset-password #submit').click(OC.Lostpassword.resetPassword);
