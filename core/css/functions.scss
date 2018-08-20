@@ -60,3 +60,12 @@
 		@include icon-color($icon, $dir, $color-white, $version, $core);
 	}
 }
+
+@mixin position($value) {
+	@if $value == 'sticky' {
+		position: -webkit-sticky; // Safari support
+		position: sticky;
+	} @else {
+		position: $value;
+	}
+}
