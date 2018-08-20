@@ -2614,6 +2614,20 @@ describe('OCA.Files.FileList tests', function() {
 		});
 	});
 	describe('Sorting files', function() {
+
+		var getCurrentUserStub;
+
+		beforeEach(function() {
+			getCurrentUserStub = sinon.stub(OC, 'getCurrentUser').returns({
+				uid: 1,
+				displayName: 'user1'
+			});
+		});
+
+		afterEach(function() {
+			getCurrentUserStub.restore();
+		});
+
 		it('Toggles the sort indicator when clicking on a column header', function() {
 			var ASC_CLASS = fileList.SORT_INDICATOR_ASC_CLASS;
 			var DESC_CLASS = fileList.SORT_INDICATOR_DESC_CLASS;
@@ -2739,6 +2753,23 @@ describe('OCA.Files.FileList tests', function() {
 
 			sortStub.restore();
 		});
+
+		describe('if no user logged in', function() {
+			beforeEach(function() {
+				getCurrentUserStub.returns({
+					uid: null,
+					displayName: 'Guest'
+				});
+			});
+
+			it('shouldn\'t send an update sort order request', function() {
+				OC.currentUser = false;
+				fileList.$el.find('.column-size .columntitle').click();
+				// check if there was no request
+				expect(fakeServer.requests.length).toEqual(0);
+			});
+		});
+
 		describe('with favorites', function() {
 			it('shows favorite files on top', function() {
 				testFiles.push(new FileInfo({
