@@ -7,6 +7,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtů","%n bajtů"],
     "Restore" : "Obnovit",
     "No earlier versions available" : "Nejsou dostupné dřívější verze",
-    "More versions …" : "Více verzí…"
+    "More versions …" : "Více verzí…",
+    "This application automatically maintains older versions of files that are changed." : "Tato aplikace automaticky uchovává starší verze souborů, které se mění."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
