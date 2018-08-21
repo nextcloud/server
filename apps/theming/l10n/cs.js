@@ -36,6 +36,7 @@ OC.L10N.register(
     "Upload new login background" : "Nahrát nové přihlašovací pozadí",
     "Remove background image" : "Odebrat obrázek pozadí",
     "Advanced options" : "Pokročilé předvolby",
+    "Privacy policy link" : "Odkaz na zásady ochrany osobních údajů",
     "Header logo" : "Logo v záhlaví",
     "Upload new header logo" : "Nahrát nové logo do hlavičky",
     "Favicon" : "Favicon",
