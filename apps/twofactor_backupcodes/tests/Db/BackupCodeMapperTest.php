@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Tests\Integration\Db;
+namespace OCA\TwoFactorBackupCodes\Tests\Db;
 
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
@@ -107,6 +107,15 @@ class BackupCodeMapperTest extends TestCase {
 		$this->mapper->deleteCodes($user);
 
 		$this->assertCount(0, $this->mapper->getBackupCodes($user));
+	}
+
+	public function testInsertArgonEncryptedCodes() {
+		$code = new BackupCode();
+		$code->setUserId($this->testUID);
+		$code->setCode('2|$argon2i$v=19$m=1024,t=2,p=2$MjJWUjRFWndtMm5BWGxOag$BusVxLeFyiLLWtaVvX/JRFBiPdZcjRrzpQ/rAhn6vqY');
+		$code->setUsed(1);
+
+		$this->mapper->insert($code);
 	}
 
 }

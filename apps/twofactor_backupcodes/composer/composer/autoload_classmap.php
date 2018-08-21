@@ -19,6 +19,7 @@ return array(
     'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170607113030' => $baseDir . '/../lib/Migration/Version1002Date20170607113030.php',
     'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170919123342' => $baseDir . '/../lib/Migration/Version1002Date20170919123342.php',
     'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170926101419' => $baseDir . '/../lib/Migration/Version1002Date20170926101419.php',
+    'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20180821043638' => $baseDir . '/../lib/Migration/Version1002Date20180821043638.php',
     'OCA\\TwoFactorBackupCodes\\Provider\\BackupCodesProvider' => $baseDir . '/../lib/Provider/BackupCodesProvider.php',
     'OCA\\TwoFactorBackupCodes\\Service\\BackupCodeStorage' => $baseDir . '/../lib/Service/BackupCodeStorage.php',
     'OCA\\TwoFactorBackupCodes\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
