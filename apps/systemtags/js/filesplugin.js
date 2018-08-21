@@ -49,10 +49,10 @@
 						systemTagsInfoViewToggleView.$el.detach();
 					});
 					systemTagsInfoViewToggleView.listenTo(detailView, 'post-render', function() {
+						var clicker = _.bind(systemTagsInfoViewToggleView.click, systemTagsInfoViewToggleView);
+						systemTagsInfoViewToggleView.$el.click(clicker);
 						detailView.$el.find('.file-details').append(systemTagsInfoViewToggleView.$el);
 					});
-
-					return;
 				}
 			});
 		}
