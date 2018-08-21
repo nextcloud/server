@@ -23,6 +23,7 @@ namespace Tests\Settings\Controller;
 
 use OC;
 use OC\DB\Connection;
+use OC\MemoryInfo;
 use OC\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -37,6 +38,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OC_Util;
 use OCP\Lock\ILockingProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
@@ -75,6 +77,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $lockingProvider;
 	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
 	private $dateTimeFormatter;
+	/** @var MemoryInfo|MockObject */
+	private $memoryInfo;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -112,6 +116,9 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
 		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
+		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
+			->setMethods(['isMemoryLimitSufficient',])
+			->getMock();
 		$this->checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',
@@ -127,6 +134,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->db,
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
+				$this->memoryInfo,
 				])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -447,6 +455,9 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('hasPassedCheck')
 			->willReturn(true);
+		$this->memoryInfo
+			->method('isMemoryLimitSufficient')
+			->willReturn(true);
 
 		$this->checkSetupController
 			->expects($this->once())
@@ -493,6 +504,7 @@ class CheckSetupControllerTest extends TestCase {
 				'missingIndexes' => [],
 				'isPhpMailerUsed' => false,
 				'mailSettingsDocumentation' => 'https://server/index.php/settings/admin',
+				'isMemoryLimitSufficient' => true,
 				'appDirsWithDifferentOwner' => [],
 			]
 		);
@@ -515,6 +527,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->db,
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
+				$this->memoryInfo,
 			])
 			->setMethods(null)->getMock();
 

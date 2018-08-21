@@ -29,6 +29,7 @@
  */
 namespace OC\Console;
 
+use OC\MemoryInfo;
 use OC\NeedsUpdateException;
 use OC_App;
 use OCP\AppFramework\QueryException;
@@ -52,20 +53,28 @@ class Application {
 	private $request;
 	/** @var ILogger  */
 	private $logger;
+	/** @var MemoryInfo */
+	private $memoryInfo;
 
 	/**
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $dispatcher
 	 * @param IRequest $request
 	 * @param ILogger $logger
+	 * @param MemoryInfo $memoryInfo
 	 */
-	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher, IRequest $request, ILogger $logger) {
+	public function __construct(IConfig $config,
+								EventDispatcherInterface $dispatcher,
+								IRequest $request,
+								ILogger $logger,
+								MemoryInfo $memoryInfo) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
 		$this->dispatcher = $dispatcher;
 		$this->request = $request;
 		$this->logger = $logger;
+		$this->memoryInfo = $memoryInfo;
 	}
 
 	/**
@@ -97,6 +106,14 @@ class Application {
 		if ($input->getOption('no-warnings')) {
 			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 		}
+
+		if ($this->memoryInfo->isMemoryLimitSufficient() === false) {
+			$output->getErrorOutput()->writeln(
+				'<comment>The current PHP memory limit ' .
+				'is below the recommended value of 512MB.</comment>'
+			);
+		}
+
 		try {
 			require_once __DIR__ . '/../../../core/register_command.php';
 			if ($this->config->getSystemValue('installed', false)) {

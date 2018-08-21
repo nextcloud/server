@@ -830,6 +830,7 @@ return array(
     'OC\\Memcache\\Memcached' => $baseDir . '/lib/private/Memcache/Memcached.php',
     'OC\\Memcache\\NullCache' => $baseDir . '/lib/private/Memcache/NullCache.php',
     'OC\\Memcache\\Redis' => $baseDir . '/lib/private/Memcache/Redis.php',
+    'OC\\MemoryInfo' => $baseDir . '/lib/private/MemoryInfo.php',
     'OC\\Migration\\BackgroundRepair' => $baseDir . '/lib/private/Migration/BackgroundRepair.php',
     'OC\\Migration\\ConsoleOutput' => $baseDir . '/lib/private/Migration/ConsoleOutput.php',
     'OC\\Migration\\SimpleOutput' => $baseDir . '/lib/private/Migration/SimpleOutput.php',

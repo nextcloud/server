@@ -41,6 +41,7 @@ use OC\DB\Connection;
 use OC\DB\MissingIndexInformation;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
+use OC\MemoryInfo;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -83,6 +84,8 @@ class CheckSetupController extends Controller {
 	private $lockingProvider;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
+	/** @var MemoryInfo */
+	private $memoryInfo;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -96,7 +99,8 @@ class CheckSetupController extends Controller {
 								EventDispatcherInterface $dispatcher,
 								IDBConnection $db,
 								ILockingProvider $lockingProvider,
-								IDateTimeFormatter $dateTimeFormatter) {
+								IDateTimeFormatter $dateTimeFormatter,
+								MemoryInfo $memoryInfo) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -109,6 +113,7 @@ class CheckSetupController extends Controller {
 		$this->db = $db;
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
+		$this->memoryInfo = $memoryInfo;
 	}
 
 	/**
@@ -616,6 +621,7 @@ Raw output
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'isPhpMailerUsed' => $this->isPhpMailerUsed(),
 				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
+				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 			]
 		);
