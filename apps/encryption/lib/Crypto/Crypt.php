@@ -457,6 +457,10 @@ class Crypt {
 	 * @throws DecryptionFailedException
 	 */
 	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER, $version = 0, $position = 0) {
+		if ($keyFileContents == '') {
+			return '';
+		}
+
 		$catFile = $this->splitMetaData($keyFileContents, $cipher);
 
 		if ($catFile['signature'] !== false) {
