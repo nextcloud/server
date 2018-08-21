@@ -62,7 +62,6 @@
 		 * references the SystemTagsInfoView to associate to this toggle view.
 		 */
 		initialize: function(options) {
-			var self = this;
 			options = options || {};
 
 			this._systemTagsInfoView = options.systemTagsInfoView;
