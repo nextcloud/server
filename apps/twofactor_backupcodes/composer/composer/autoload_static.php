@@ -34,6 +34,7 @@ class ComposerStaticInitTwoFactorBackupCodes
         'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170607113030' => __DIR__ . '/..' . '/../lib/Migration/Version1002Date20170607113030.php',
         'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170919123342' => __DIR__ . '/..' . '/../lib/Migration/Version1002Date20170919123342.php',
         'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170926101419' => __DIR__ . '/..' . '/../lib/Migration/Version1002Date20170926101419.php',
+        'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20180821043638' => __DIR__ . '/..' . '/../lib/Migration/Version1002Date20180821043638.php',
         'OCA\\TwoFactorBackupCodes\\Provider\\BackupCodesProvider' => __DIR__ . '/..' . '/../lib/Provider/BackupCodesProvider.php',
         'OCA\\TwoFactorBackupCodes\\Service\\BackupCodeStorage' => __DIR__ . '/..' . '/../lib/Service/BackupCodeStorage.php',
         'OCA\\TwoFactorBackupCodes\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
