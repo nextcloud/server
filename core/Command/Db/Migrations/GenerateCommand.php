@@ -55,7 +55,6 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @since 13.0.0
 	 */
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 	}
@@ -65,7 +64,6 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
-	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 {{schemabody}}
@@ -75,7 +73,6 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @since 13.0.0
 	 */
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 	}
