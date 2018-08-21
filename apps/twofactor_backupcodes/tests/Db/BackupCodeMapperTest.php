@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Tests\Integration\Db;
+namespace OCA\TwoFactorBackupCodes\Tests\Db;
 
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
