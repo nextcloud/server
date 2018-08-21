@@ -108,7 +108,10 @@ class Application {
 		}
 
 		if ($this->memoryInfo->isMemoryLimitSufficient() === false) {
-			$this->writeMemoryLimitInfo($output);
+			$output->getErrorOutput()->writeln(
+				'<comment>The current PHP memory limit ' .
+				'is below the recommended value of 512MB.</comment>'
+			);
 		}
 
 		try {
@@ -185,20 +188,6 @@ class Application {
 				'no apps have been loaded</comment>' . PHP_EOL
 			);
 		}
-	}
-
-	/**
-	 * Write a memory info output if the limit is below the recommended value.
-	 *
-	 * @param ConsoleOutputInterface $output
-	 * @return void
-	 */
-	private function writeMemoryLimitInfo(ConsoleOutputInterface $output) {
-		$errOutput = $output->getErrorOutput();
-		$errOutput->writeln(
-			'<comment>The current PHP memory limit ' .
-			'is below the recommended value of 512MB.</comment>'
-		);
 	}
 
 	/**
