@@ -110,7 +110,7 @@ class Scan extends Base {
 		}
 	}
 
-	protected function scanFiles($user, $path, $verbose, OutputInterface $output, $backgroundScan = false) {
+	protected function scanFiles($user, $path, $verbose, OutputInterface $output, $quiet, $backgroundScan = false) {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new \OC\Files\Utils\Scanner($user, $connection, \OC::$server->getLogger());
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
@@ -149,6 +149,14 @@ class Scan extends Base {
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function () use ($output) {
 				$this->foldersCounter += 1;
+				if ($this->hasBeenInterrupted()) {
+					throw new InterruptedException();
+				}
+			});
+		}
+		if (!$quiet) {
+			$scanner->listen('\OC\Files\Utils\Scanner', 'warning', function ($message) use ($output) {
+				$output->writeln("\t<error>$message</error>");
 				if ($this->hasBeenInterrupted()) {
 					throw new InterruptedException();
 				}
@@ -238,7 +246,7 @@ class Scan extends Base {
 				}
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
 				# full: printout data if $verbose was set
-				$this->scanFiles($user, $path, $verbose, $output, $input->getOption('unscanned'));
+				$this->scanFiles($user, $path, $verbose, $output, $quiet, $input->getOption('unscanned'));
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
 			}

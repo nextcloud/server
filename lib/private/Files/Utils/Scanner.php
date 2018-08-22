@@ -188,11 +188,13 @@ class Scanner extends PublicEmitter {
 			$this->emit('\OC\Files\Utils\Scanner', 'scanMount', [$mount]);
 			$storage = $mount->getStorage();
 			if (is_null($storage)) {
+				$this->emit('\OC\Files\Utils\Scanner', 'warning', ["Skipping mount with no valid storage set"]);
 				continue;
 			}
 
 			// don't bother scanning failed storages (shortcut for same result)
 			if ($storage->instanceOfStorage('OC\Files\Storage\FailedStorage')) {
+				$this->emit('\OC\Files\Utils\Scanner', 'warning', ["Skipping mount with failed storage"]);
 				continue;
 			}
 
@@ -201,8 +203,10 @@ class Scanner extends PublicEmitter {
 				(!$storage->isCreatable('') or !$storage->isCreatable('files'))
 			) {
 				if ($storage->file_exists('') or $storage->getCache()->inCache('')) {
+					$this->emit('\OC\Files\Utils\Scanner', 'warning', ["Home setup, but not writable"]);
 					throw new ForbiddenException();
 				} else {// if the root exists in neither the cache nor the storage the user isn't setup yet
+					$this->emit('\OC\Files\Utils\Scanner', 'warning', ["Skipping non setup user"]);
 					break;
 				}
 
@@ -210,6 +214,7 @@ class Scanner extends PublicEmitter {
 
 			// don't scan received local shares, these can be scanned when scanning the owner's storage
 			if ($storage->instanceOfStorage(SharedStorage::class)) {
+				$this->emit('\OC\Files\Utils\Scanner', 'warning', ["Skipping local share"]);
 				continue;
 			}
 			$relativePath = $mount->getInternalPath($dir);
@@ -228,6 +233,7 @@ class Scanner extends PublicEmitter {
 			});
 
 			if (!$storage->file_exists($relativePath)) {
+				$this->emit('\OC\Files\Utils\Scanner', 'warning', ["Path not found in mount"]);
 				throw new NotFoundException($dir);
 			}
 
