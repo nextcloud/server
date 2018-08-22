@@ -558,13 +558,16 @@ class User_LDAPTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
 	public function testUserExistsForDeleted() {
 		$access = $this->getAccessMock();
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		$this->prepareMockForUserExists($access);
+
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->any())
+			->method('getUUIDByDN')
+			->with('dnOfFormerUser,dc=test')
+			->willReturn('45673458748');
 
 		$access->expects($this->any())
 			->method('readAttribute')
@@ -574,14 +577,25 @@ class User_LDAPTest extends TestCase {
 				}
 				return false;
 			}));
+		$access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($mapper);
+		$access->expects($this->once())
+			->method('getUserDnByUuid')
+			->willThrowException(new \Exception());
+
+		$user = $this->createMock(User::class);
+		$user->expects($this->any())
+			->method('getDN')
+			->willReturn('dnOfFormerUser,dc=test');
 
 		$access->userManager = $this->createMock(Manager::class);
 		$access->userManager->expects($this->atLeastOnce())
 			->method('get')
-			->willReturn($this->createMock(User::class));
+			->willReturn($user);
 
 		//test for deleted user
-		$backend->userExists('formerUser');
+		$this->assertFalse($backend->userExists('formerUser'));
 	}
 
 	public function testUserExistsForNeverExisting() {
@@ -634,14 +648,17 @@ class User_LDAPTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
 	public function testUserExistsPublicAPIForDeleted() {
 		$access = $this->getAccessMock();
 		$backend = new UserLDAP($access, $this->createMock(IConfig::class), $this->createMock(INotificationManager::class), $this->createMock(Session::class), $this->getDefaultPluginManagerMock());
 		$this->prepareMockForUserExists($access);
 		\OC_User::useBackend($backend);
+
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->any())
+			->method('getUUIDByDN')
+			->with('dnOfFormerUser,dc=test')
+			->willReturn('45673458748');
 
 		$access->expects($this->any())
 			->method('readAttribute')
@@ -651,13 +668,24 @@ class User_LDAPTest extends TestCase {
 				}
 				return false;
 			}));
-		$access->userManager = $this->createMock(Manager::class);
+		$access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($mapper);
+		$access->expects($this->once())
+			->method('getUserDnByUuid')
+			->willThrowException(new \Exception());
+
+		$user = $this->createMock(User::class);
+		$user->expects($this->any())
+			->method('getDN')
+			->willReturn('dnOfFormerUser,dc=test');
+
 		$access->userManager->expects($this->atLeastOnce())
 			->method('get')
-			->willReturn($this->createMock(User::class));
+			->willReturn($user);
 
 		//test for deleted user
-		\OCP\User::userExists('formerUser');
+		$this->assertFalse(\OC::$server->getUserManager()->userExists('formerUser'));
 	}
 
 	public function testUserExistsPublicAPIForNeverExisting() {
@@ -818,6 +846,14 @@ class User_LDAPTest extends TestCase {
 						return false;
 				}
 			}));
+		$access->connection->expects($this->any())
+			->method('getFromCache')
+			->willReturnCallback(function($key) {
+				if($key === 'userExistsnewyorker') {
+					return true;
+				}
+				return null;
+			});
 
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
