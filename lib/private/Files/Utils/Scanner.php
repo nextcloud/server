@@ -185,6 +185,7 @@ class Scanner extends PublicEmitter {
 		}
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
+			$this->emit('\OC\Files\Utils\Scanner', 'scanMount', [$mount]);
 			$storage = $mount->getStorage();
 			if (is_null($storage)) {
 				continue;

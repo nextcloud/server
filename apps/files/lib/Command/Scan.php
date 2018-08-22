@@ -32,6 +32,7 @@ use Doctrine\DBAL\Connection;
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\ForbiddenException;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
@@ -115,6 +116,12 @@ class Scan extends Base {
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 		# printout and count
 		if ($verbose) {
+			$scanner->listen('\OC\Files\Utils\Scanner', 'scanMount', function (IMountPoint $mount) use ($output) {
+				$output->writeln("\tEntering mount   <info>" . $mount->getMountPoint() . "</info>");
+				if ($this->hasBeenInterrupted()) {
+					throw new InterruptedException();
+				}
+			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 				$output->writeln("\tFile   <info>$path</info>");
 				$this->filesCounter += 1;
