@@ -166,6 +166,7 @@ OC.L10N.register(
     "Valid until %s" : "%s tarihine kadar geçerli",
     "Import root certificate" : "Kök sertifikasını içe aktar",
     "Administrator documentation" : "Yönetici belgeleri",
+    "Documentation" : "Belgeler",
     "Forum" : "Forum",
     "None" : "Yok",
     "Login" : "Oturum Açın",

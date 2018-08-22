@@ -131,7 +131,7 @@ OC.L10N.register(
     "Configuration Active" : "Nastavení aktivní",
     "When unchecked, this configuration will be skipped." : "Pokud není zaškrtnuto, bude toto nastavení přeskočeno.",
     "Backup (Replica) Host" : "Záložní (kopie) hostitel",
-    "Give an optional backup host. It must be a replica of the main LDAP/AD server." : "Zadejte volitelného záložního hostitele. Musí to být kopie hlavního serveru LDAP/AD.",
+    "Give an optional backup host. It must be a replica of the main LDAP/AD server." : "Zadejte volitelného záložního hostitele. Je třeba, aby byla kopie hlavního LDAP/AD serveru.",
     "Backup (Replica) Port" : "Záložní (kopie) port",
     "Disable Main Server" : "Zakázat hlavní server",
     "Only connect to the replica server." : "Připojit jen k záložnímu serveru.",
