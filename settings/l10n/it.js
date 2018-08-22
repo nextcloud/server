@@ -166,6 +166,7 @@ OC.L10N.register(
     "Valid until %s" : "Valido fino al %s",
     "Import root certificate" : "Importa certificato radice",
     "Administrator documentation" : "Documentazione amministratore",
+    "Documentation" : "Documentazione",
     "Forum" : "Forum",
     "None" : "Nessuno",
     "Login" : "Accesso",
