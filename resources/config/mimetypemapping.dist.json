@@ -62,6 +62,8 @@
 	"gz": ["application/x-gzip"],
 	"gzip": ["application/x-gzip"],
 	"h": ["text/x-h"],
+	"heic": ["image/heic"],
+	"heif": ["image/heif"],
 	"hh": ["text/x-h"],
 	"hpp": ["text/x-h"],
 	"htaccess": ["text/plain"],
