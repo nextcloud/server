@@ -155,6 +155,7 @@
 
 		updateRow: function($tr, fileInfo, options) {
 			// no-op, suppress re-rendering
+			return $tr;
 		},
 
 		reload: function() {
