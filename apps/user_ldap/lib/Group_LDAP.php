@@ -828,7 +828,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			if($isMemberUid) {
 				//we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->access->combineFilterWithAnd(array(
-					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
+					str_replace('%uid', trim($member), $this->access->connection->ldapLoginFilter),
 					$this->access->getFilterPartForUserSearch($search)
 				));
 				$ldap_users = $this->access->fetchListOfUsers($filter, $attrs, 1);
