@@ -41,7 +41,10 @@ class TimeZoneProvider {
 					escapeshellarg($this->host)
 				);
 				$this->timeZone = exec($command);
-			} else { // fallback to server timezone
+			}
+
+			if (!$this->timeZone) {
+				// fallback to server timezone
 				$this->timeZone = date_default_timezone_get();
 			}
 		}
