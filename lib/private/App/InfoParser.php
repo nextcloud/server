@@ -174,6 +174,9 @@ class InfoParser {
 		if (isset($array['commands']['command']) && is_array($array['commands']['command'])) {
 			$array['commands'] = $array['commands']['command'];
 		}
+		if (isset($array['two-factor-providers']['provider']) && is_array($array['two-factor-providers']['provider'])) {
+			$array['two-factor-providers'] = $array['two-factor-providers']['provider'];
+		}
 		if (isset($array['activity']['filters']['filter']) && is_array($array['activity']['filters']['filter'])) {
 			$array['activity']['filters'] = $array['activity']['filters']['filter'];
 		}
