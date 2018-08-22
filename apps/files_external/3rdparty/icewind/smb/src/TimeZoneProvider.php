@@ -35,7 +35,8 @@ class TimeZoneProvider {
 	public function get() {
 		if (!$this->timeZone) {
 			$net = $this->system->getNetPath();
-			if ($net) {
+			// for local domain names we can assume same timezone
+			if ($net && strpos($this->host, '.') !== false) {
 				$command = sprintf('%s time zone -S %s',
 					$net,
 					escapeshellarg($this->host)
