@@ -441,6 +441,7 @@ nav[role='navigation'] {
 #appmenu {
 	display: inline-flex;
 	min-width: $header-height;
+	z-index: 2;
 
 	li {
 		position: relative;
@@ -560,7 +561,7 @@ nav[role='navigation'] {
 	}
 
 	#more-apps {
-		z-index: 2;
+		z-index: 3;
 	}
 }
 
