@@ -684,7 +684,12 @@ var OCP = {},
 	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
-		$toggle.on('click.menu keyup.menu', function(event) {
+		
+		// On link, the enter key trigger a click event
+		// Only use the click to avoid two fired events
+		$toggle.on($toggle.prop('tagName') === 'A'
+			? 'click.menu'
+			: 'click.menu keyup.menu', function(event) {
 			// prevent the link event (append anchor to URL)
 			event.preventDefault();
 
@@ -1452,7 +1457,7 @@ function initCore() {
 	function setupMainMenu() {
 
 		// init the more-apps menu
-		OC.registerMenu($('#more-apps'), $('#navigation'));
+		OC.registerMenu($('#more-apps > a'), $('#navigation'));
 
 		// toggle the navigation
 		var $toggle = $('#header .header-appname-container');
