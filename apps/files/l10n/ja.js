@@ -140,6 +140,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "Tags" : "タグ",
     "Deleted files" : "ゴミ箱",
+    "Shares" : "共有",
     "Shared with others" : "他ユーザーと共有中",
     "Shared with you" : "他ユーザーがあなたと共有中",
     "Shared by link" : "URLリンクで共有中",

@@ -60,7 +60,6 @@ OC.L10N.register(
     "More options at %s" : "Další volby viz %s",
     "Contacts" : "Kontakty",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "Adresa pro WebDAV",
     "Technical details" : "Technické detaily",
     "Remote Address: %s" : "Vzdálená adresa: %s",
     "Request ID: %s" : "ID požadavku: %s",

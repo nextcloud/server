@@ -59,7 +59,6 @@ OC.L10N.register(
     "More options at %s" : "Fleiri valkostir á %s",
     "Contacts" : "Tengiliðir",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "WebDAV-endapunktur",
     "Technical details" : "Tæknilegar upplýsingar",
     "Remote Address: %s" : "Fjartengt vistfang: %s",
     "Request ID: %s" : "Beiðni um auðkenni: %s",

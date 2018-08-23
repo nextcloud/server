@@ -6,7 +6,6 @@ OC.L10N.register(
     "No server to federate with found" : "Enginn þjónn sem hæfur er til skýjasambands fannst",
     "Could not add server" : "Gat ekki bætt við þjóni",
     "Federation" : "Deilt milli þjóna",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Þjónasamband (federation) gerir þér kleift að tengjast öðrum treystum skýjum til að skiptast á notendaskrám.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Þjónasamband (federation) gerir þér kleift að tengjast öðrum treystum skýjum til að skiptast á notendaskrám. Þetta er til dæmis notað til að sjálfklára nöfn ytri notenda við deilingu sambandssameigna.",
     "Trusted servers" : "Treystir þjónar",
     "Add server automatically once a federated share was created successfully" : "Bæta þjóni við sjálfkrafa, hafi tekist að búa til sambandssameign",
