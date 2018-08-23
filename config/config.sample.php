@@ -1632,4 +1632,11 @@ $CONFIG = array(
 	'/^Microsoft-WebDAV-MiniRedir/', // Windows webdav drive
 ),
 
+/**
+ * By default there is on public pages a link shown that allows users to
+ * learn about the "simple sign up" - see https://nextcloud.com/signup/
+ *
+ * If this is set to "false" it will not show the link.
+ */
+'simpleSignUpLink.shown' => true,
 );
