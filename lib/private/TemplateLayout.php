@@ -132,6 +132,7 @@ class TemplateLayout extends \OC_Template {
 			parent::__construct('core', 'layout.public');
 			$this->assign( 'appid', $appId );
 			$this->assign('bodyid', 'body-public');
+			$this->assign('showSimpleSignUpLink', $this->config->getSystemValue('simpleSignUpLink.shown', true) !== false);
 		} else {
 			parent::__construct('core', 'layout.base');
 

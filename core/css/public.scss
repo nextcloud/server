@@ -1,4 +1,4 @@
-$footer-height: 60px;
+$footer-height: 65px;
 
 #body-public {
 	.header-right {
@@ -75,7 +75,9 @@ $footer-height: 60px;
 		align-items: center;
 		justify-content: center;
 		height: $footer-height;
+		flex-direction: column;
 		p {
+			text-align: center;
 			color: var(--color-text-lighter);
 			a {
 				color: var(--color-text-lighter);
