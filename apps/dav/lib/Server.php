@@ -54,6 +54,8 @@ use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
+use OCA\DAV\Files\LazySearchBackend;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCP\IRequest;
@@ -101,6 +103,7 @@ class Server {
 		$this->server->setBaseUri($this->baseUri);
 
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
+		$this->server->addPlugin(new AnonymousOptionsPlugin());
 		$authPlugin = new Plugin();
 		$authPlugin->addBackend(new PublicAuth());
 		$this->server->addPlugin($authPlugin);
@@ -195,8 +198,11 @@ class Server {
 			$this->server->addPlugin(new BrowserErrorPagePlugin());
 		}
 
+		$lazySearchBackend = new LazySearchBackend();
+		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
+
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod', function () use ($root) {
+		$this->server->on('beforeMethod', function () use ($root, $lazySearchBackend) {
 			// custom properties plugin must be the last one
 			$userSession = \OC::$server->getUserSession();
 			$user = $userSession->getUser();
@@ -255,13 +261,13 @@ class Server {
 						\OC::$server->getGroupManager(),
 						$userFolder
 					));
-					$this->server->addPlugin(new SearchPlugin(new \OCA\DAV\Files\FileSearchBackend(
+					$lazySearchBackend->setBackend(new \OCA\DAV\Files\FileSearchBackend(
 						$this->server->tree,
 						$user,
 						\OC::$server->getRootFolder(),
 						\OC::$server->getShareManager(),
 						$view
-					)));
+					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),
