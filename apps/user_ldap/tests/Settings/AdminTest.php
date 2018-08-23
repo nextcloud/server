@@ -56,10 +56,8 @@ class AdminTest extends TestCase {
 	 * @UseDB
 	 */
 	public function testGetForm() {
-
-		$helper = new Helper(\OC::$server->getConfig());
-		$prefixes = $helper->getServerConfigurationPrefixes();
-		$hosts = $helper->getServerConfigurationHosts();
+		$prefixes = ['s01'];
+		$hosts = ['s01' => ''];
 
 		$wControls = new Template('user_ldap', 'part.wizardcontrols');
 		$wControls = $wControls->fetchPage();

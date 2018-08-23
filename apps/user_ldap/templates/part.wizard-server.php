@@ -1,18 +1,13 @@
 <fieldset id="ldapWizard1">
 		<p>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
-		<?php if(count($_['serverConfigurationPrefixes']) === 0 ) {
+		<?php
+		$i = 1;
+		$sel = ' selected';
+		foreach($_['serverConfigurationPrefixes'] as $prefix) {
 			?>
-				<option value="" selected><?php p($l->t('1. Server'));?></option>');
+			<option value="<?php p($prefix); ?>"<?php p($sel); $sel = ''; ?>><?php p($l->t('%s. Server:', array($i++)));?> <?php p(' '.$_['serverConfigurationHosts'][$prefix]); ?></option>
 			<?php
-		} else {
-			$i = 1;
-			$sel = ' selected';
-			foreach($_['serverConfigurationPrefixes'] as $prefix) {
-				?>
-				<option value="<?php p($prefix); ?>"<?php p($sel); $sel = ''; ?>><?php p($l->t('%s. Server:', array($i++)));?> <?php p(' '.$_['serverConfigurationHosts'][$prefix]); ?></option>
-				<?php
-			}
 		}
 		?>
 		</select>
