@@ -6,7 +6,6 @@ OC.L10N.register(
     "No server to federate with found" : "Није нађен сервер за здруживање",
     "Could not add server" : "Неуспело додавање сервера",
     "Federation" : "Здруживање",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Здруживање омогућава да се повежете са другим серверима од поверења и да размењујете корисничке директоријуме.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Здруживање омогућава да се повежете са другим серверима од поверења и да мењате корисничке директоријуме.",
     "Trusted servers" : "Сервери од поверења",
     "Add server automatically once a federated share was created successfully" : "Додај сервер аутоматски по успешном прављењу здруженог дељења",

@@ -39,7 +39,6 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "İstediğiniz zaman paylaşım bölümünden farklı bir parola belirtebilirsiniz.",
     "Could not find share" : "Paylaşım bulunamadı",
     "Share by mail" : "E-posta ile paylaş",
-    "Share provider which allows you to share files by mail" : "Dosyaların e-posta ile paylaşılması için kullanılacak paylaşım hizmeti sağlayıcısı",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parolayı e-posta ile gönder",
     "Enforce password protection" : "Parola koruması dayatılsın",

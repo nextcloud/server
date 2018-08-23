@@ -6,7 +6,6 @@ OC.L10N.register(
     "No server to federate with found" : "Nerasta tinkama saugykla",
     "Could not add server" : "Nepavyko prijungti saugyklos",
     "Federation" : "Išorinė saugykla",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Išorinės saugyklos leidžia naudotojams dalintis duomenimis ir adresatais tarpusavyje",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Išorinės saugyklos leidžia naudotojams dalintis duomenimis ir adresatais tarpusavyje",
     "Trusted servers" : "Saugyklos",
     "Add server automatically once a federated share was created successfully" : "Prijungti automatiškai užmezgus ryšį",

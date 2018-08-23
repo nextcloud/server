@@ -7,7 +7,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n baiti","%n baiti","%n baiti"],
     "Restore" : "Atjaunot",
     "No earlier versions available" : "Vecākas versijas nav pieejamas",
-    "More versions …" : "Vairāk versiju...",
-    "This application automatically maintains older versions of files that are changed." : "Šī lietotne automātiski uztur vecākas versijas datnēm, kas tiek izmainītas."
+    "More versions …" : "Vairāk versiju..."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

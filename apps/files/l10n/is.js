@@ -127,7 +127,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Skjal eða mappa hefur verið <strong>endurheimt</strong>",
     "Unlimited" : "Ótakmarkað",
     "Upload (max. %s)" : "Senda inn (hám. %s)",
-    "File Management" : "Skráastjórnun",
     "File handling" : "Meðhöndlun skráar",
     "Maximum upload size" : "Hámarksstærð innsendingar",
     "max. possible: " : "hámark mögulegt: ",

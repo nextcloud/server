@@ -34,7 +34,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partagez avec moi grâce à mon identifiant de Cloud Fédéré #Nextcloud",
     "Sharing" : "Partage",
     "Federated file sharing" : "Partage de fichiers fédéré",
-    "Provide federated file sharing across servers" : "Fournir un partage de fichiers fédéré entre plusieurs serveurs",
     "Federated Cloud Sharing" : "Partage Cloud Fédéré",
     "Open documentation" : "Voir la documentation",
     "Adjust how people can share between servers." : "Réglez comment les personnes peuvent partager entre les serveurs.",

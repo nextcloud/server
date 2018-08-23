@@ -40,7 +40,6 @@
     "%s (invisible)" : "%s (不可視)",
     "<strong>System tags</strong> for a file have been modified" : "ファイルの<strong>タグ</strong>が変更されたとき",
     "Collaborative tags" : "コラボタグ",
-    "Collaborative tagging functionality which shares tags among users." : "ユーザー間でタグを共有するコラボタグ機能",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "コラボタグはすべてのユーザーで利用できます。制限付きタグは、ユーザーから見えますが、ユーザーが割り当てることはできません。不可視タグは、ユーザーが見ることも割り当てることもできず、内部利用のためのものです。",
     "Select tag …" : "タグを選択...",
     "Name" : "名前",

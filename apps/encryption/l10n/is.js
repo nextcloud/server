@@ -31,7 +31,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Get ekki afkóðað þessa skrá, hugsanlega er þetta deild skrá. Biddu eiganda skrárinnar að deila henni aftur til þín.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Get ekki lesið þessa skrá, hugsanlega er þetta deild skrá. Biddu eiganda skrárinnar að deila henni aftur til þín.",
     "Default encryption module" : "Sjálfgefin dulritunareining",
-    "Default encryption module for server-side encryption" : "Sjálfgefin dulritunareining fyrir dulritun á vefþjóni",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hæ,\n\nkerfisstjórinn virkjaði dulritun á vefþjóni. Skrárnar þínar voru dulritaðar með lykilorðinu '%s'.\n\nSkráðu þig inn í vefviðmótinu, farðu í hlutann 'Grunn-dulritunareining' (basic encryption module) í persónulegu stillingunum þínum og uppfærðu dulritunarlykilorðið þitt með því að setja þetta lykilorð inn í reitinn 'Gamla innskráningarlykilorðið' ásamt núverandi innskráningarlykilorði.\n\n",
     "The share will expire on %s." : "Gildistími deilingar rennur út %s.",
     "Cheers!" : "Til hamingju!",
