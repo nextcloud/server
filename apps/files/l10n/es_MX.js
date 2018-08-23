@@ -126,7 +126,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Un archivo o carpeta ha sido <strong>restaurado</strong>",
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Cargar (max. %s)",
-    "File Management" : "Administración de Archivos",
     "File handling" : "Manejo de archivos",
     "Maximum upload size" : "Tamaño máximo de carga",
     "max. possible: " : "max. posible:",

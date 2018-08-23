@@ -34,7 +34,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud Birleşmiş Bulut kimliğim üzerinden benimle paylaş",
     "Sharing" : "Paylaşım",
     "Federated file sharing" : "Birleşmiş dosya paylaşımı",
-    "Provide federated file sharing across servers" : "Sunucular arasında birleşmiş dosya paylaşımı sağlar",
     "Federated Cloud Sharing" : "Birleşmiş Bulut Paylaşımı",
     "Open documentation" : "Belgeleri aç",
     "Adjust how people can share between servers." : "Kişilerin sunucular arasında nasıl paylaşım yapabileceğini ayarlayın.",

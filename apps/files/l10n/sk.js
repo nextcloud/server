@@ -126,7 +126,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Súbor alebo priečinok bol <strong>obnovený</strong>",
     "Unlimited" : "Neobmedzené",
     "Upload (max. %s)" : "Nahrať (max. %s)",
-    "File Management" : "Správa súborov",
     "File handling" : "Nastavenie správania sa k súborom",
     "Maximum upload size" : "Maximálna veľkosť odosielaného súboru",
     "max. possible: " : "najväčšie možné:",

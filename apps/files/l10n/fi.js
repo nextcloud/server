@@ -118,7 +118,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Tiedosto tai kansio on <strong>palautettu</strong>",
     "Unlimited" : "Rajoittamaton",
     "Upload (max. %s)" : "Lähetys (enintään %s)",
-    "File Management" : "Tiedostohallinta",
     "File handling" : "Tiedostonhallinta",
     "Maximum upload size" : "Lähetettävän tiedoston suurin sallittu koko",
     "max. possible: " : "suurin mahdollinen:",

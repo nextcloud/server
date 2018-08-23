@@ -101,7 +101,6 @@ OC.L10N.register(
     "Service name" : "שם שירות",
     "Request timeout (seconds)" : "פסק זמן מבוקש (שניות)",
     "External storage support" : "תמיכה באחסון חיצוני",
-    "Adds basic external storage support" : "מוסיף תמיכה בסיסית בהתקן חיצוני",
     "No external storage configured or you don't have the permission to configure them" : "לא הוגדר התקן חיצוני או שאין לך הרשאות להגדיר כאלה",
     "Name" : "שם",
     "Storage type" : "סוג אחסון",

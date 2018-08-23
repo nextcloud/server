@@ -126,7 +126,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "En fil eller mappe er blevet <strong>gendannet</strong>",
     "Unlimited" : "Ubegrænset",
     "Upload (max. %s)" : "Upload (max. %s)",
-    "File Management" : "Filhåndtering",
     "File handling" : "Filhåndtering",
     "Maximum upload size" : "Maksimal upload-størrelse",
     "max. possible: " : "max. mulige: ",

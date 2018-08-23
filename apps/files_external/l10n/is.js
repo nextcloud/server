@@ -105,7 +105,6 @@ OC.L10N.register(
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Stuðningur við FTP í PHP er ekki virkjaður eða ekki uppsettur. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ekki uppsett. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
     "External storage support" : "Stuðningur við utanaðkomandi gagnageymslur",
-    "Adds basic external storage support" : "Bætir við grunnstuðningi fyrir utanaðkomandi gagnageymslur",
     "No external storage configured or you don't have the permission to configure them" : "Engin utanaðkomandi gagnageymsla er uppsett eða að þú hefur ekki heimild til að stilla slíkt",
     "Name" : "Nafn",
     "Storage type" : "Tegund gagnageymslu",

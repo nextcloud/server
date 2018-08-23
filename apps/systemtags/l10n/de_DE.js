@@ -42,8 +42,6 @@ OC.L10N.register(
     "%s (invisible)" : "%s (unsichtbar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System-Tag</strong> für eine Datei wurden geändert",
     "Collaborative tags" : "Kollaborative Tags",
-    "Collaborative tagging functionality which shares tags among users." : "Kollaborative Tags-Funktionalität, welche Tags unter den Benutzern teilt.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Kollaborative Tags-Funktionalität, welche Tags unter den Benutzern teilt. Sehr gut für Gruppen.\n\t(Wenn Sie ein Anbieter mit einer Mehrkundeninstallation sind, so ist angeraten diese App zu deaktiveren, da die Tags mit allen Kunden geteilt werden.)",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Gemeinschaftliche Schlagworte sind für alle Benutzer verfügbar. Eingeschränkte Schlagworte sind für alle Benutzer sichtbar, können jedoch nicht zugewiesen werden. Nichtsichtbare Schlagworte sind für interne Verwendung und können vom Benutzer nicht eingesehen und nicht zugewiesen werden.",
     "Select tag …" : "Tag wählen …",
     "Create a new tag" : "Neues Schlagwort erstellen",

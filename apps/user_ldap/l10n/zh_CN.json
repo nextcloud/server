@@ -63,8 +63,6 @@
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "无法检测到用户的显示名称属性。请在高级LDAP设置中指定。",
     "Could not find the desired feature" : "无法找到所需的功能",
     "Invalid Host" : "无效的主机",
-    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "本应用使 Nextcloud 能够连接使用 LDAP 协议的用户库",
-    "This application enables administrators to connect Nextcloud to an LDAP-based user directory for authentication and provisioning users, groups and user attributes. Admins can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into Nextcloud from a directory with the appropriate queries and filters.\n\nA user logs into Nextcloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. Nextcloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then Nextcloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation." : "本应用能让管理员启用 LDAP 用户库，完成验证并提取用户、群组和用户信息。管理员能够配置本应用通过 LDAP 接口连接到一个或多个 LDAP目录或者活动目录(AD)。一些目录中的属性，比如用户配额， Email， 用户头像，群组成员以及更多信息，都可以通过设置适当的查询条件，被提取到 Nextcloud 中。\n\n通过LDAP或者AD验证的Nextcloud 用户，基信息验证通过 LDAP或AD 服务器完成。Nextcloud 不会保存用户的密码，这些信息只是LDAP或AD服务器用来验证用户，然后Nextcloud 使用该用户的会话信息。更多信息可以在查阅  用户和群组 LDAP 后端 文档。",
     "Test Configuration" : "测试配置",
     "Help" : "帮助",
     "Groups meeting these criteria are available in %s:" : "满足这些条件组在%s可供选择：",

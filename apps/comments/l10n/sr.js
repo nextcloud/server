@@ -29,7 +29,6 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Поменути сте на фајлу \"{file}\", у коментару који је оставио корисник који је од тада избрисан",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s Вас је поменуо у коментару на \"%2$s\"",
     "{user} mentioned you in a comment on “{file}”" : "{user} Вас је поменуо у коментару на “{file}”",
-    "Files app plugin to add comments to files" : "Додатак апликацији за фајлове да додајете коментаре на фајлове",
     "Unknown user" : "Непознат корисник",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(Сада) обрисани корисник Вас је поменуо у коментару на “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "(Сада) обрисани корисник Вас је поменуо у коментару на “{file}”"

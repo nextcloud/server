@@ -123,7 +123,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "文件/文件夹已恢复",
     "Unlimited" : "无限制",
     "Upload (max. %s)" : "上传 (最大 %s)",
-    "File Management" : "文件管理",
     "File handling" : "文件处理",
     "Maximum upload size" : "最大上传大小",
     "max. possible: " : "最大允许: ",
