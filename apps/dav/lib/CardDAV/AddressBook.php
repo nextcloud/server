@@ -23,6 +23,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\IL10N;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Card;
@@ -218,5 +219,13 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 			return !$this->addressBookInfo['{http://owncloud.org/ns}read-only'];
 		}
 		return true;
+	}
+
+	public function getChanges($syncToken, $syncLevel, $limit = null) {
+		if (!$syncToken && $limit) {
+			throw new UnsupportedLimitOnInitialSyncException();
+		}
+
+		return parent::getChanges($syncToken, $syncLevel, $limit);
 	}
 }

@@ -162,6 +162,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Direct\\DirectHome' => __DIR__ . '/..' . '/../lib/Direct/DirectHome.php',
         'OCA\\DAV\\Direct\\Server' => __DIR__ . '/..' . '/../lib/Direct/Server.php',
         'OCA\\DAV\\Direct\\ServerFactory' => __DIR__ . '/..' . '/../lib/Direct/ServerFactory.php',
+        'OCA\\DAV\\Exception\\UnsupportedLimitOnInitialSyncException' => __DIR__ . '/..' . '/../lib/Exception/UnsupportedLimitOnInitialSyncException.php',
         'OCA\\DAV\\Files\\BrowserErrorPagePlugin' => __DIR__ . '/..' . '/../lib/Files/BrowserErrorPagePlugin.php',
         'OCA\\DAV\\Files\\FileSearchBackend' => __DIR__ . '/..' . '/../lib/Files/FileSearchBackend.php',
         'OCA\\DAV\\Files\\FilesHome' => __DIR__ . '/..' . '/../lib/Files/FilesHome.php',
