@@ -30,8 +30,15 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php endif; ?>
 <input type="hidden" name="maxSizeAnimateGif" value="<?php p($_['maxSizeAnimateGif']); ?>" id="maxSizeAnimateGif">
 <?php if (isset($_['note']) && $_['note'] !== '') : ?>
-	<div id="note">
-		<?php p($l->t('Note:')); p(' ' . $_['note']); ?>
+	<div id="notemenu" class="hidden">
+		<div class="icon-comment-white menutoggle" tabindex="0" role="button" aria-haspopup="true" aria-controls="note-content" aria-expanded="false">
+			<span class="hidden-visually"><?php p($l->t('Share note'))?></span>
+		</div>
+		<div id="note-content" class="menu" aria-label="Note content">
+			<div class="content">
+				<?php p($_['note']); ?>
+			</div>
+		</div>
 	</div>
 <?php endif; ?>
 

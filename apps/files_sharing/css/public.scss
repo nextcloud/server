@@ -167,11 +167,15 @@ thead {
 	opacity: .57;
 }
 
-#note {
-	text-align: center;
-	padding: 10px;
+#note-content {
+	padding: 5px;
+	display:inline-block;
+	width: 350px;
+	.content {
+		overflow: auto;
+		max-height: 200px;
+	}
 }
-
 
 // hide the primary on public share on mobile
 @media only screen and (max-width: 768px) {
