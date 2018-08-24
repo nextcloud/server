@@ -113,8 +113,12 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 
 		foreach($sortedResources['new'] as $backendId => $newResources) {
 			foreach ($newResources as $newResource) {
-				$resource = $this->resourceManager->getBackend($backendId)
-					->getResource($newResource);
+				$backend = $this->resourceManager->getBackend($backendId);
+				if ($backend === null) {
+					continue;
+				}
+
+				$resource = $backend->getResource($newResource);
 				$this->addToCache($this->resourceDbTable, $resource);
 			}
 		}
@@ -126,8 +130,12 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 		}
 		foreach($sortedResources['edited'] as $backendId => $editedResources) {
 			foreach ($editedResources as $editedResource) {
-				$resource = $this->resourceManager->getBackend($backendId)
-					->getResource($editedResource);
+				$backend = $this->resourceManager->getBackend($backendId);
+				if ($backend === null) {
+					continue;
+				}
+
+				$resource = $backend->getResource($editedResource);
 				$this->updateCache($this->resourceDbTable, $resource);
 			}
 		}
@@ -157,8 +165,12 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 
 		foreach($sortedRooms['new'] as $backendId => $newRooms) {
 			foreach ($newRooms as $newRoom) {
-				$resource = $this->roomManager->getBackend($backendId)
-					->getRoom($newRoom);
+				$backend = $this->roomManager->getBackend($backendId);
+				if ($backend === null) {
+					continue;
+				}
+
+				$resource = $backend->getRoom($newRoom);
 				$this->addToCache($this->roomDbTable, $resource);
 			}
 		}
@@ -170,8 +182,12 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 		}
 		foreach($sortedRooms['edited'] as $backendId => $editedRooms) {
 			foreach ($editedRooms as $editedRoom) {
-				$resource = $this->roomManager->getBackend($backendId)
-					->getRoom($editedRoom);
+				$backend = $this->roomManager->getBackend($backendId);
+				if ($backend === null) {
+					continue;
+				}
+
+				$resource = $backend->getRoom($editedRoom);
 				$this->updateCache($this->roomDbTable, $resource);
 			}
 		}
