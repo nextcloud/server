@@ -41,6 +41,7 @@ use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\InvalidArgumentException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\Exception\TimedOutException;
 use Icewind\SMB\IFileInfo;
 use Icewind\SMB\Native\NativeServer;
 use Icewind\SMB\ServerFactory;
@@ -258,13 +259,19 @@ class SMB extends Common implements INotifyStorage {
 		return $result;
 	}
 
-	public function stat($path) {
+	public function stat($path, $retry = true) {
 		try {
 			$result = $this->formatInfo($this->getFileInfo($path));
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (NotFoundException $e) {
 			return false;
+		} catch (TimedOutException $e) {
+			if ($retry) {
+				return $this->stat($path, false);
+			} else {
+				throw $e;
+			}
 		}
 		if ($this->remoteIsShare() && $this->isRootDir($path)) {
 			$result['mtime'] = $this->shareMTime();
