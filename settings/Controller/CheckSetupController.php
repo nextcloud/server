@@ -55,6 +55,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
+use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -86,6 +87,8 @@ class CheckSetupController extends Controller {
 	private $dateTimeFormatter;
 	/** @var MemoryInfo */
 	private $memoryInfo;
+	/** @var ISecureRandom */
+	private $secureRandom;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -100,7 +103,8 @@ class CheckSetupController extends Controller {
 								IDBConnection $db,
 								ILockingProvider $lockingProvider,
 								IDateTimeFormatter $dateTimeFormatter,
-								MemoryInfo $memoryInfo) {
+								MemoryInfo $memoryInfo,
+								ISecureRandom $secureRandom) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -114,6 +118,7 @@ class CheckSetupController extends Controller {
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->memoryInfo = $memoryInfo;
+		$this->secureRandom = $secureRandom;
 	}
 
 	/**
@@ -167,20 +172,17 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Whether /dev/urandom is available to the PHP controller
+	 * Whether PHP can generate "secure" pseudorandom integers
 	 *
 	 * @return bool
 	 */
-	private function isUrandomAvailable() {
-		if(@file_exists('/dev/urandom')) {
-			$file = fopen('/dev/urandom', 'rb');
-			if($file) {
-				fclose($file);
-				return true;
-			}
+	private function isRandomnessSecure() {
+		try {
+			$this->secureRandom->generate(1);
+		} catch (\Exception $ex) {
+			return false;
 		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -602,7 +604,7 @@ Raw output
 				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
-				'isUrandomAvailable' => $this->isUrandomAvailable(),
+				'isRandomnessSecure' => $this->isRandomnessSecure(),
 				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'phpSupported' => $this->isPhpSupported(),
