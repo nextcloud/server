@@ -56,10 +56,15 @@
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-	padding: 8px 12px;
+	padding: 7px 12px;
+	padding-left: 86px; // logo width + 2* pa
+	position: relative;
 	height: 100%;
 	box-sizing: border-box;
 	opacity: 1;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
 	&:focus {
 		opacity: .75;
 	}
@@ -107,12 +112,10 @@
 		background-repeat: no-repeat;
 		background-size: contain;
 		background-position: center;
-		width: 256px;
-		height: 128px;
-		margin: 0 auto;
-		&.logo-icon {
-			width: 62px;
-			height: 34px;
+		width: 62px;
+		height: 100%;
+		position: absolute;
+		left: 12px;
 
 		img {
 			opacity: 0;
@@ -121,10 +124,8 @@
 		}
 	}
 
-	}
 	.header-appname-container {
 		display: none;
-		padding-top: 22px;
 		padding-right: 10px;
 		flex-shrink: 0;
 	}
@@ -153,7 +154,6 @@
 
 	#header-right, .header-right {
 		justify-content: flex-end;
-		flex-basis: 210px;
 		flex-shrink: 1;
 	}
 
@@ -207,15 +207,12 @@
 
 /* show appname next to logo */
 .header-appname {
-	display: inline-block;
-	position: relative;
 	color: var(--color-primary-text);
 	font-size: 16px;
 	font-weight: 300;
 	margin: 0;
-	margin-top: -26px;
-	padding: 7px 0 7px 5px;
-	vertical-align: middle;
+	padding: 0;
+	padding-right: 5px;
 }
 
 /* do not show menu toggle on public share links as there is no menu */
