@@ -51,8 +51,7 @@ body {
 	font-weight: 400;
 }
 
-// Opacity trick
-* {
+[class^='icon-'], [class*=' icon-'],
+.action {
 	opacity: 1 !important;
 }
-

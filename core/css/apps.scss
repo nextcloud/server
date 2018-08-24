@@ -369,7 +369,7 @@ kbd {
 			margin: 0;
 			padding: 0;
 			background: none;
-			background-image: url('../img/actions/triangle-s.svg?v=1');
+			@include icon-color('triangle-s', 'actions', $color-black, 1, true);
 			background-size: 16px;
 			background-repeat: no-repeat;
 			background-position: center;
