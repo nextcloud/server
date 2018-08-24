@@ -24,8 +24,8 @@
 		'    <span class="shareWithLoading icon-loading-small hidden"></span>'+
 		'    <span class="shareWithConfirm icon icon-confirm"></span>' +
 		'</div>' +
-		'<div class="linkShareView subView"></div>' +
 		'{{/if}}' +
+		'<div class="linkShareView subView"></div>' +
 		'<div class="shareeListView subView"></div>' +
 		'<div class="loading hidden" style="height: 50px"></div>';
 
