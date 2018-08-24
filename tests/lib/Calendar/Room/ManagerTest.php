@@ -41,18 +41,24 @@ class ManagerTest extends TestCase {
 	public function testRegisterUnregisterBackend() {
 		$backend1 = $this->createMock(IBackend::class);
 		$backend1->method('getBackendIdentifier')->will($this->returnValue('backend_1'));
+		\OC::$server->registerService('calendar_room_backend1', function () use ($backend1) {
+			return $backend1;
+		});
 
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->will($this->returnValue('backend_2'));
+		\OC::$server->registerService('calendar_room_backend2', function () use ($backend2) {
+			return $backend2;
+		});
 
-		$this->manager->registerBackend($backend1);
-		$this->manager->registerBackend($backend2);
+		$this->manager->registerBackend('calendar_room_backend1');
+		$this->manager->registerBackend('calendar_room_backend2');
 
 		$this->assertEquals([
 			$backend1, $backend2
 		], $this->manager->getBackends());
 
-		$this->manager->unregisterBackend($backend1);
+		$this->manager->unregisterBackend('calendar_room_backend1');
 
 		$this->assertEquals([
 			$backend2
@@ -62,12 +68,18 @@ class ManagerTest extends TestCase {
 	public function testGetBackend() {
 		$backend1 = $this->createMock(IBackend::class);
 		$backend1->method('getBackendIdentifier')->will($this->returnValue('backend_1'));
+		\OC::$server->registerService('calendar_room_backend1', function () use ($backend1) {
+			return $backend1;
+		});
 
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->will($this->returnValue('backend_2'));
+		\OC::$server->registerService('calendar_room_backend2', function () use ($backend2) {
+			return $backend2;
+		});
 
-		$this->manager->registerBackend($backend1);
-		$this->manager->registerBackend($backend2);
+		$this->manager->registerBackend('calendar_room_backend1');
+		$this->manager->registerBackend('calendar_room_backend2');
 
 		$this->assertEquals($backend1, $this->manager->getBackend('backend_1'));
 		$this->assertEquals($backend2, $this->manager->getBackend('backend_2'));
@@ -76,12 +88,18 @@ class ManagerTest extends TestCase {
 	public function testClear() {
 		$backend1 = $this->createMock(IBackend::class);
 		$backend1->method('getBackendIdentifier')->will($this->returnValue('backend_1'));
+		\OC::$server->registerService('calendar_room_backend1', function () use ($backend1) {
+			return $backend1;
+		});
 
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->will($this->returnValue('backend_2'));
+		\OC::$server->registerService('calendar_room_backend2', function () use ($backend2) {
+			return $backend2;
+		});
 
-		$this->manager->registerBackend($backend1);
-		$this->manager->registerBackend($backend2);
+		$this->manager->registerBackend('calendar_room_backend1');
+		$this->manager->registerBackend('calendar_room_backend2');
 
 		$this->assertEquals([
 			$backend1, $backend2
