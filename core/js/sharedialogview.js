@@ -159,12 +159,15 @@
 				},
 				function (result) {
 					if (result.ocs.meta.statuscode === 100) {
-						var filter = function(users, groups, remotes, remote_groups, emails, circles) {
+						var filter = function(users, groups, remotes, remote_groups, emails, circles, rooms) {
 							if (typeof(emails) === 'undefined') {
 								emails = [];
 							}
 							if (typeof(circles) === 'undefined') {
 								circles = [];
+							}
+							if (typeof(rooms) === 'undefined') {
+								rooms = [];
 							}
 
 							var usersLength;
@@ -173,6 +176,7 @@
 							var remoteGroupsLength;
 							var emailsLength;
 							var circlesLength;
+							var roomsLength;
 
 							var i, j;
 
@@ -251,6 +255,14 @@
 											break;
 										}
 									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_ROOM) {
+									roomsLength = rooms.length;
+									for (j = 0; j < roomsLength; j++) {
+										if (rooms[j].value.shareWith === share.share_with) {
+											rooms.splice(j, 1);
+											break;
+										}
+									}
 								}
 							}
 						};
@@ -261,7 +273,8 @@
 							result.ocs.data.exact.remotes,
 							result.ocs.data.exact.remote_groups,
 							result.ocs.data.exact.emails,
-							result.ocs.data.exact.circles
+							result.ocs.data.exact.circles,
+							result.ocs.data.exact.rooms
 						);
 
 						var exactUsers   = result.ocs.data.exact.users;
@@ -276,8 +289,12 @@
 						if (typeof(result.ocs.data.circles) !== 'undefined') {
 							exactCircles = result.ocs.data.exact.circles;
 						}
+						var exactRooms = [];
+						if (typeof(result.ocs.data.rooms) !== 'undefined') {
+							exactRooms = result.ocs.data.exact.rooms;
+						}
 
-						var exactMatches = exactUsers.concat(exactGroups).concat(exactRemotes).concat(exactRemoteGroups).concat(exactEmails).concat(exactCircles);
+						var exactMatches = exactUsers.concat(exactGroups).concat(exactRemotes).concat(exactRemoteGroups).concat(exactEmails).concat(exactCircles).concat(exactRooms);
 
 						filter(
 							result.ocs.data.users,
@@ -285,7 +302,8 @@
 							result.ocs.data.remotes,
 							result.ocs.data.remote_groups,
 							result.ocs.data.emails,
-							result.ocs.data.circles
+							result.ocs.data.circles,
+							result.ocs.data.rooms
 						);
 
 						var users   = result.ocs.data.users;
@@ -301,8 +319,12 @@
 						if (typeof(result.ocs.data.circles) !== 'undefined') {
 							circles = result.ocs.data.circles;
 						}
+						var rooms = [];
+						if (typeof(result.ocs.data.rooms) !== 'undefined') {
+							rooms = result.ocs.data.rooms;
+						}
 
-						var suggestions = exactMatches.concat(users).concat(groups).concat(remotes).concat(remoteGroups).concat(emails).concat(circles).concat(lookup);
+						var suggestions = exactMatches.concat(users).concat(groups).concat(remotes).concat(remoteGroups).concat(emails).concat(circles).concat(rooms).concat(lookup);
 
 						deferred.resolve(suggestions, exactMatches);
 					} else {
@@ -432,6 +454,8 @@
 				text = t('core', '{sharee} (email)', { sharee: text }, undefined, { escape: false });
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 				text = t('core', '{sharee} ({type}, {owner})', {sharee: text, type: item.value.circleInfo, owner: item.value.circleOwner}, undefined, {escape: false});
+			} else if (item.value.shareType === OC.Share.SHARE_TYPE_ROOM) {
+				text = t('core', '{sharee} (conversation)', { sharee: text }, undefined, { escape: false });
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
 			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
