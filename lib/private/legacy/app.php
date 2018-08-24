@@ -152,7 +152,7 @@ class OC_App {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			try {
 				self::requireAppFile($app);
-			} catch (Error $ex) {
+			} catch (Throwable $ex) {
 				\OC::$server->getLogger()->logException($ex);
 				if (!\OC::$server->getAppManager()->isShipped($app)) {
 					// Only disable apps which are not shipped
