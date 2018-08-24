@@ -28,10 +28,12 @@
 
 namespace OCA\Files_Sharing;
 
+use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCP\Files\Storage\IStorageFactory;
 
 /**
  * Shared mount points can be moved by the user
@@ -61,19 +63,19 @@ class SharedMount extends MountPoint implements MoveableMount {
 	/**
 	 * @param string $storage
 	 * @param SharedMount[] $mountpoints
-	 * @param array|null $arguments
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @param array $arguments
+	 * @param IStorageFactory $loader
+	 * @param View $recipientView
 	 */
-	public function __construct($storage, array $mountpoints, $arguments = null, $loader = null) {
+	public function __construct($storage, array $mountpoints, $arguments, IStorageFactory $loader, View $recipientView, CappedMemoryCache $folderExistCache) {
 		$this->user = $arguments['user'];
-		$this->recipientView = new View('/' . $this->user . '/files');
+		$this->recipientView = $recipientView;
 
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
 
-		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints);
+		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
 		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
-		$arguments['ownerView'] = new View('/' . $this->superShare->getShareOwner() . '/files');
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
 
@@ -84,12 +86,18 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @param SharedMount[] $mountpoints
 	 * @return string
 	 */
-	private function verifyMountPoint(\OCP\Share\IShare $share, array $mountpoints) {
+	private function verifyMountPoint(\OCP\Share\IShare $share, array $mountpoints, CappedMemoryCache $folderExistCache) {
 
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
-		if (!$this->recipientView->is_dir($parent)) {
+		if ($folderExistCache->hasKey($parent)) {
+			$parentExists = $folderExistCache->get($parent);
+		} else {
+			$parentExists = $this->recipientView->is_dir($parent);
+			$folderExistCache->set($parent, $parentExists);
+		}
+		if (!$parentExists) {
 			$parent = Helper::getShareFolder($this->recipientView);
 		}
 
@@ -135,19 +143,11 @@ class SharedMount extends MountPoint implements MoveableMount {
 		$name = $pathinfo['filename'];
 		$dir = $pathinfo['dirname'];
 
-		// Helper function to find existing mount points
-		$mountpointExists = function ($path) use ($mountpoints) {
-			foreach ($mountpoints as $mountpoint) {
-				if ($mountpoint->getShare()->getTarget() === $path) {
-					return true;
-				}
-			}
-			return false;
-		};
-
 		$i = 2;
-		while ($view->file_exists($path) || $mountpointExists($path)) {
+		$absolutePath = $this->recipientView->getAbsolutePath($path) . '/';
+		while ($view->file_exists($path) || isset($mountpoints[$absolutePath])) {
 			$path = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
+			$absolutePath = $this->recipientView->getAbsolutePath($path) . '/';
 			$i++;
 		}
 
