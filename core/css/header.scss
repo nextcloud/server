@@ -573,7 +573,8 @@ nav[role='navigation'] {
 	background: var(--color-primary) !important;
 
 	&.skip-content {
-		left: 253px;
+		left: $navigation-width;
+		margin-left: 3px;
 	}
 
 	&:focus,
