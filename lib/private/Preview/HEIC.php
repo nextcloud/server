@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -22,6 +23,8 @@
 
 namespace OC\Preview;
 
+use OCP\ILogger;
+
 /**
  * Creates a JPG preview using ImageMagick via the PECL extension
  *
@@ -31,15 +34,15 @@ class HEIC extends Provider {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return '/image\/hei(f|c)/';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file) {
-		return in_array("HEIC", \Imagick::queryFormats("HEI*") );
+	public function isAvailable(\OCP\Files\FileInfo $file): bool {
+		return in_array('HEIC', \Imagick::queryFormats("HEI*"));
 	}
 
 	/**
@@ -88,7 +91,7 @@ class HEIC extends Provider {
 	 * @return \Imagick
 	 */
 	private function getResizedPreview($tmpPath, $maxX, $maxY) {
-		$bp = new Imagick();
+		$bp = new \Imagick();
 
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
 		$bp->readImage($tmpPath . '[0]');
@@ -127,7 +130,7 @@ class HEIC extends Provider {
 				// the catrom filter is almost identical to Lanczos2, but according
 				// to http://php.net/manual/en/imagick.resizeimage.php it is
 				// significantly faster
-				$bp->resizeImage($maxX, $maxY, imagick::FILTER_CATROM, 1, true);
+				$bp->resizeImage($maxX, $maxY, \Imagick::FILTER_CATROM, 1, true);
 			}
 		}
 
