@@ -303,7 +303,7 @@ describe('OC.Share.ShareDialogView', function() {
 			});
 
 			it('test avatar for circle', function() {
-				var avatarElement = dialog.$('.avatar').eq(4);
+				var avatarElement = dialog.$('.avatar').eq(5);
 				expect(avatarElement.css('background')).toContain('path/to/the/avatar');
 			});
 

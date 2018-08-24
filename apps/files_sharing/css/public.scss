@@ -160,17 +160,30 @@ thead {
 }
 
 #header .header-shared-by  {
-	display: inline-block;
 	color: var(--color-primary-text);
 	position: relative;
-	top: -10px;
 	font-weight: 300;
 	font-size: 11px;
 	opacity: .57;
-	margin-top: 10px;
 }
 
-#note {
-	text-align: center;
-	padding: 10px;
+#note-content {
+	padding: 5px;
+	display:inline-block;
+	width: 350px;
+	.content {
+		overflow: auto;
+		max-height: 200px;
+	}
+}
+
+// hide the primary on public share on mobile
+@media only screen and (max-width: 768px) {
+	#body-public {
+		.header-right {
+			#header-primary-action {
+				display: none;
+			}
+		}
+	}
 }
