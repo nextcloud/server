@@ -154,6 +154,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 
+	$application->add(new OC\Core\Command\Group\Add(\OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\Group\Delete(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\ListCommand(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\AddUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\RemoveUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
