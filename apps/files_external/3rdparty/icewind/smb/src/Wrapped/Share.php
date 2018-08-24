@@ -13,6 +13,7 @@ use Icewind\SMB\Exception\DependencyException;
 use Icewind\SMB\Exception\FileInUseException;
 use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\IFileInfo;
 use Icewind\SMB\INotifyHandler;
 use Icewind\SMB\IServer;
 use Icewind\SMB\System;
