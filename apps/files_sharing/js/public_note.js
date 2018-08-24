@@ -21,8 +21,11 @@
  */
 
  $(document).ready(function() {
-	 var noteHtml = document.getElementById('notemenu').outerHTML
-	 $(noteHtml).insertBefore('#header-primary-action');
-	 $('#notemenu').removeClass('hidden');
-	 OC.registerMenu($('#notemenu .menutoggle'), $('#notemenu .menu'))
+	 var noteElmt = document.getElementById('notemenu')
+	 if	(noteElmt) {
+		var noteHtml = noteElmt.outerHTML
+		$(noteHtml).insertBefore('#header-primary-action');
+		$('#notemenu').removeClass('hidden');
+		OC.registerMenu($('#notemenu .menutoggle'), $('#notemenu .menu'))
+	 }
  })
