@@ -61,7 +61,6 @@ OC.L10N.register(
     "Other Attributes:" : "Drugi atributi:",
     "Test Loginname" : "Preizkusi prijavno ime",
     "Verify settings" : "Preveri nastavitve",
-    "1. Server" : "1. strežnik",
     "%s. Server:" : "%s. strežnik:",
     "Copy current configuration into new directory binding" : "Kopiraj trenutne nastavitve v vezi nove mape.",
     "Delete the current configuration" : "Izbriši trenutne nastavitve",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
     " entries available within the provided Base DN" : "vnosi, ki so na voljo znotraj razpoložljivega osnovnega enoznačnega imena (Base DN)",
+    "1. Server" : "1. strežnik",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Opozorilo:</b> določili user_ldap in user_webdavauth sta  neskladni, kar lahko vpliva na delovanje sistema. O napaki pošljite poročilo skrbniku sistema in opozorite, da je treba eno izmed možnosti onemogočiti."
 },

@@ -209,7 +209,7 @@ OC.L10N.register(
     "An error occurred (\"{message}\"). Please try again" : "Es ist ein Fehler aufgetreten (\"{message}\"). Bitte erneut versuchen.",
     "An error occurred. Please try again" : "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es noch einmal",
     "{sharee} (group)" : "{sharee} (Gruppe)",
-    "{sharee} (remote)" : "{sharee} (entfernt)",
+    "{sharee} (remote)" : "{sharee} (remote)",
     "{sharee} (remote group)" : "{sharee} (Externe Gruppe)",
     "{sharee} (email)" : "{sharee} (E-Mail)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",

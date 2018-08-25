@@ -117,7 +117,6 @@ OC.L10N.register(
     "the link expired" : "il collegamento è scaduto",
     "sharing is disabled" : "la condivisione è disabilitata",
     "For more info, please ask the person who sent this link." : "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento.",
-    "Note:" : "Nota:",
     "Download %s" : "Scarica %s",
     "Upload files to %s" : "Carica file su %s",
     "Select or drop files" : "Seleziona o deseleziona file",
