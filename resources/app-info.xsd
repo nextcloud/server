@@ -522,6 +522,7 @@
             <xs:enumeration value="SHARE_TYPE_REMOTE"/>
             <xs:enumeration value="SHARE_TYPE_CIRCLE"/>
             <xs:enumeration value="SHARE_TYPE_GUEST"/>
+            <xs:enumeration value="SHARE_TYPE_ROOM"/>
         </xs:restriction>
     </xs:simpleType>
 
