@@ -115,7 +115,6 @@ OC.L10N.register(
     "the link expired" : "le lien a expiré",
     "sharing is disabled" : "le partage est désactivé",
     "For more info, please ask the person who sent this link." : "Pour plus d'informations, veuillez contacter la personne qui a envoyé ce lien.",
-    "Note:" : "Note :",
     "Download %s" : "Télécharger %s",
     "Upload files to %s" : "Téléversement des fichiers vers %s",
     "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",

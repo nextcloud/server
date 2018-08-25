@@ -111,7 +111,6 @@ OC.L10N.register(
     "the link expired" : "tengillinn er útrunninn",
     "sharing is disabled" : "slökkt er á skráadeilingu",
     "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil.",
-    "Note:" : "Athugaðu:",
     "Download %s" : "Sækja %s",
     "Upload files to %s" : "Senda inn skrár á %s",
     "Select or drop files" : "Veldu eða slepptu skrám",

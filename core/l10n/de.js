@@ -209,7 +209,7 @@ OC.L10N.register(
     "An error occurred (\"{message}\"). Please try again" : "Benötigt keine Übersetzung. Für iOS wird nur die formelle Übersetzung verwendet (de_DE). ",
     "An error occurred. Please try again" : "Es ist ein Fehler aufgetreten. Bitte versuche es noch einmal",
     "{sharee} (group)" : "{sharee} (Gruppe)",
-    "{sharee} (remote)" : "{sharee} (entfernt)",
+    "{sharee} (remote)" : "{sharee} (remote)",
     "{sharee} (remote group)" : "{sharee} (externe Gruppe)",
     "{sharee} (email)" : "{sharee} (E-Mail)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",

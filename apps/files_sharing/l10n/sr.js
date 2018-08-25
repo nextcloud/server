@@ -116,7 +116,6 @@ OC.L10N.register(
     "the link expired" : "веза је истекла",
     "sharing is disabled" : "дељење је искључено",
     "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
-    "Note:" : "Белешка:",
     "Download %s" : "Преузми %s",
     "Upload files to %s" : "Отпремите фајлове на%s",
     "Select or drop files" : "Одаберите или превуците фајлове",

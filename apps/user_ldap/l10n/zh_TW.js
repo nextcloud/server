@@ -36,6 +36,7 @@ OC.L10N.register(
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "連線到 LDAP/AD出現錯誤，請檢查主機，連接阜和驗證資訊",
     "Please provide a login name to test against" : "請提供登入姓名以便再次測試",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "群組盒已經停用，LDAP/AD 伺服器並不支援",
+    "LDAP / AD integration" : "LDAP /AD 整合",
     "_%s group found_::_%s groups found_" : ["找到 %s 群組"],
     "_%s user found_::_%s users found_" : ["找到 %s 使用者"],
     "Could not find the desired feature" : "無法找到所需的功能",
@@ -54,7 +55,6 @@ OC.L10N.register(
     "Other Attributes:" : "其他屬性:",
     "Test Loginname" : "測試登入姓名",
     "Verify settings" : "驗證設定",
-    "1. Server" : "1. 伺服器",
     "%s. Server:" : "%s. 伺服器:",
     "Copy current configuration into new directory binding" : "複製目前的設定檔到新目錄",
     "Delete the current configuration" : "刪除目前的設定檔",
@@ -116,6 +116,7 @@ OC.L10N.register(
     "Override UUID detection" : "偵測覆寫UUID",
     "UUID Attribute for Users:" : "使用者的UUID值:",
     "UUID Attribute for Groups:" : "群組的UUID值:",
+    "1. Server" : "1. 伺服器",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> 應用程式user_ldap和user_webdavauth互不相容。可能會造成無法預期的結果。請要求您的系統管理員將兩者其中之一停用。"
 },

@@ -75,7 +75,6 @@
     "Verify settings and count the groups" : "Comprova la configuració i compta els grups",
     "Other Attributes:" : "Altres atributs:",
     "Verify settings" : "Comprova la configuració",
-    "1. Server" : "1. Servidor",
     "%s. Server:" : "%s. Servidor:",
     "Delete the current configuration" : "Esborra la configuració actual",
     "Host" : "Equip remot",
@@ -142,6 +141,7 @@
     "Clear Username-LDAP User Mapping" : "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Elimina el mapatge de grup Nom de grup-LDAP",
     " entries available within the provided Base DN" : "les entrades disponibles a la Base DN proporcionada",
+    "1. Server" : "1. Servidor",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avís:</b> Les aplicacions user_ldap i user_webdavauth són incompatibles. Podeu experimentar comportaments inesperats. Demaneu a l'administrador del sistema que en desactivi una."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

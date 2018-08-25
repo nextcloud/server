@@ -57,7 +57,6 @@ OC.L10N.register(
     "Other Attributes:" : "Önnur eigindi:",
     "Test Loginname" : "Prófa innskráningarnafn",
     "Verify settings" : "Sannprófa stillingar",
-    "1. Server" : "1. Þjónn",
     "%s. Server:" : "%s. Þjónn:",
     "Add a new configuration" : "Bæta við nýrri uppsetningu",
     "Delete the current configuration" : "Eyða núgildandi uppsetningu",
@@ -97,6 +96,7 @@ OC.L10N.register(
     "Quota Default" : "Sjálfgefinn kvóti",
     "Email Field" : "Gagnasvið fyrir netfang",
     "Internal Username" : "Innra notandanafn",
+    "1. Server" : "1. Þjónn",
     "Wrong password. Reset it?" : "Rangt lykilorð. Endursetja?",
     "LDAP" : "LDAP"
 },
