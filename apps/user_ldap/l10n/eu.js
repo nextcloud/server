@@ -46,7 +46,6 @@ OC.L10N.register(
     "Other Attributes:" : "Bestelako atributuak:",
     "Test Loginname" : "Egiaztatu Saioa hasteko izena",
     "Verify settings" : "Egiaztatu ezarpenak",
-    "1. Server" : "1. Zerbitzaria",
     "%s. Server:" : "%s. Zerbitzaria:",
     "Copy current configuration into new directory binding" : "Kopiatu uneko konfigurazioa direktorio lotura berrian",
     "Delete the current configuration" : "Ezabatu uneko konfigurazioa",
@@ -117,6 +116,7 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
     "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
     " entries available within the provided Base DN" : "sarrera eskuragarri emandako Oinarrizko DNarekin",
+    "1. Server" : "1. Zerbitzaria",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Abisua:</b> user_ldap eta user_webdavauth aplikazioak bateraezinak dira. Portaera berezia izan dezakezu. Mesedez eskatu zure sistema kudeatzaileari bietako bat desgaitzeko."
 },

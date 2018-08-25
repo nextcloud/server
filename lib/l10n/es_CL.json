@@ -56,7 +56,7 @@
     "Empty filename is not allowed" : "El uso de nombres de archivo vacíos no está permitido",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "La aplicación \"%s\" no puede ser instalada porque el archivo appinfo no se puede leer. ",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "La aplicación \"%s\" no puede ser instalada porque no es compatible con esta versión del servidor. ",
-    "__language_name__" : "Español (México)",
+    "__language_name__" : "Español (Chile)",
     "This is an automatically sent email, please do not reply." : "Este es un correo enviado automáticamente, por favor no lo contestes. ",
     "Help" : "Ayuda",
     "Apps" : "Aplicaciones",
