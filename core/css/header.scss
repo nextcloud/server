@@ -229,14 +229,14 @@ nav[role='navigation'] {
 	position: relative;
 }
 
-.header-left #navigation {
+#header .header-left > nav > #navigation {
 	position: relative;
 	left: 25px; /* half the togglemenu */
 	transform: translateX(-50%);
 	width: 160px;
 }
 
-.header-left #navigation,
+#header .header-left > nav > #navigation,
 .ui-datepicker,
 .ui-timepicker.ui-widget {
 	background-color: var(--color-main-background);
