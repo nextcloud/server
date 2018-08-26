@@ -77,6 +77,8 @@ body {
 	min-height: 128px;
 	max-height: 200px;
 	margin: 0 auto;
+	position: relative;
+	left: unset;
 }
 
 #header .logo img {
