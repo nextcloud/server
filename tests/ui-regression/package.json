@@ -8,6 +8,8 @@
     },
     "author": "",
     "dependencies": {
+        "axe": "^1.0.0",
+        "axe-core": "^3.0.3",
         "chai": "^4.1.2",
         "fs": "0.0.1-security",
         "mocha": "^5.2.0",
@@ -16,6 +18,6 @@
         "png-js": "^0.1.1",
         "pngjs2": "^2.0.0",
         "polyserve": "^0.23.0",
-        "puppeteer": "^1.6.1"
+        "puppeteer": "^1.7.0"
     }
 }

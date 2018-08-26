@@ -26,7 +26,12 @@ const expect = require('chai').expect;
 const PNG = require('pngjs2').PNG;
 const fs = require('fs');
 const config = require('./config.js');
+const util = require('util')
 
+
+function log (obj) {
+	return util.inspect(obj, { showHidden: false, depth: null })
+}
 
 module.exports = {
 	browser: null,
@@ -105,6 +110,23 @@ module.exports = {
 		return await page.waitForSelector('#header');
 	},
 
+	runAxe: async function () {
+		await this.pageCompare.evaluate(fs.readFileSync('node_modules/axe-core/axe.js', 'utf8'));
+		const initial = await this.pageCompare.evaluate(async () => axe.run());
+		if (initial.violations.length) {
+			console.log('====> aXe violations');
+			for(let i = 0; i<initial.violations.length; i++) {
+				let violation = initial.violations[i];
+				console.log('' + (i+1) + ') ' + violation.id + ' - ' + violation.description);
+				for (let node of violation.nodes) {
+					console.log( '\t' + node.failureSummary );
+					console.log( '\t' + node.html );
+				}
+			}
+		}
+		// TODO: store json and add it to s3 results page
+	},
+
 	takeAndCompare: async function (test, route, action, options) {
 		// use Promise.all
 		if (options === undefined)
@@ -173,6 +195,8 @@ module.exports = {
 				fullPage: false
 			})
 		]);
+
+		await this.runAxe();
 
 		if (options.runOnly === true) {
 			fs.unlinkSync(`${this._outputDirectory}/${fileName}.base.png`);
