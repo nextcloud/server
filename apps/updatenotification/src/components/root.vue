@@ -88,14 +88,14 @@
 
 <script>
 	import vSelect from 'vue-select';
-	import popoverMenu from './popoverMenu';
+	import PopoverMenu from 'vue-components';
 	import ClickOutside from 'vue-click-outside';
 
 	export default {
 		name: 'root',
 		components: {
+			PopoverMenu,
 			vSelect,
-			popoverMenu,
 		},
 		directives: {
 			ClickOutside
