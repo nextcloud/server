@@ -469,7 +469,7 @@ input {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		background: var(--color-main-background);
-		color: var(--color-text-lighter);
+		color: var(--color-text-lighter) !important;
 		box-sizing: content-box;
 		border-radius: var(--border-radius);
 		border: 1px solid var(--color-border-dark);
@@ -514,7 +514,7 @@ input {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		background: var(--color-main-background);
-		color: var(--color-text-lighter);
+		color: var(--color-text-lighter) !important;
 		box-sizing: content-box;
 		border-radius: var(--border-radius);
 		border: 1px solid var(--color-border-dark);
