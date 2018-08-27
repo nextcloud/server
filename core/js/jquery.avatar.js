@@ -141,5 +141,6 @@
 		img.width = size;
 		img.height = size;
 		img.src = url;
+		img.alt = '';
 	};
 }(jQuery));
