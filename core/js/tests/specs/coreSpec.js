@@ -573,6 +573,10 @@ describe('Core base tests', function() {
 		});
 		it('Clicking menu toggle toggles navigation in', function() {
 			window.initCore();
+			// fore show more apps icon since otherwise it would be hidden since no icons are available
+			clock.tick(1 * 1000);
+			$('#more-apps').show();
+			
 			expect($navigation.is(':visible')).toEqual(false);
 			$toggle.click();
 			clock.tick(1 * 1000);
