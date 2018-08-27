@@ -81,6 +81,11 @@ $application->registerRoutes(
 				'url' => '/api/v1/toggleShowFolder/{key}',
 				'verb' => 'POST'
 			],
+			[
+				'name' => 'API#getNodeType',
+				'url' => '/api/v1/quickaccess/get/NodeType',
+				'verb' => 'GET',
+			],
 		]
 	]
 );
