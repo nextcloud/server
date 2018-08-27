@@ -59,7 +59,7 @@ OC.L10N.register(
     "{actor} removed share" : "{actor} fjernet deling",
     "You shared {file} with {user}" : "Du delte {file} med {user}",
     "You removed {user} from {file}" : "Du fjernet {user} fra {file}",
-    "{actor} shared {file} with {user}" : "{actor} delete {file} med {user}",
+    "{actor} shared {file} with {user}" : "{actor} delete {file} med {user}",
     "{actor} removed {user} from {file}" : "{actor} fjernet {user} fra {file}",
     "{actor} shared {file} with you" : "{actor} delte {file} med deg",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Ei fil eller mappe delt via e-post eller offentlig lenke ble <strong>lastet ned</strong>",

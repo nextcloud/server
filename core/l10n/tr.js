@@ -213,6 +213,7 @@ OC.L10N.register(
     "{sharee} (remote group)" : "{sharee} (uzak grup)",
     "{sharee} (email)" : "{sharee} (e-posta)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
+    "{sharee} (conversation)" : "{sharee} (görüşme)",
     "Share" : "Paylaş",
     "Name or email address..." : "Ad ya da e-posta adresi...",
     "Name or federated cloud ID..." : "Ad ya da birleşmiş bulut kodu...",
