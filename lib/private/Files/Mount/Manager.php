@@ -25,6 +25,7 @@
 
 namespace OC\Files\Mount;
 
+use OC\Cache\CappedMemoryCache;
 use \OC\Files\Filesystem;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
