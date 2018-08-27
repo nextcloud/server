@@ -151,9 +151,13 @@ class ThemingDefaults extends \OC_Defaults {
 
 	public function getShortFooter() {
 		$slogan = $this->getSlogan();
-		$footer = '<a href="'. $this->getBaseUrl() . '" target="_blank"' .
-			' rel="noreferrer noopener">' .$this->getEntity() . '</a>'.
-			($slogan !== '' ? ' – ' . $slogan : '');
+		if ($this->getBaseUrl() !== '') {
+			$footer = '<a href="' . $this->getBaseUrl() . '" target="_blank"' .
+				' rel="noreferrer noopener" class="entity-name">' . $this->getEntity() . '</a>';
+		} else {
+			$footer = '<span class="entity-name">' .$this->getEntity() . '</span>';
+		}
+		$footer .= ($slogan !== '' ? ' – ' . $slogan : '');
 
 		$links = [
 			[
