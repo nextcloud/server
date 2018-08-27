@@ -262,7 +262,22 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'privacyUrl', '', ''],
 			]);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
+	}
+
+	public function testGetShortFooterEmptyUrl() {
+		$this->config
+			->expects($this->exactly(5))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'url', $this->defaults->getBaseUrl(), ''],
+				['theming', 'name', 'Nextcloud', 'Name'],
+				['theming', 'slogan', $this->defaults->getSlogan(), 'Slogan'],
+				['theming', 'imprintUrl', '', ''],
+				['theming', 'privacyUrl', '', ''],
+			]);
+
+		$this->assertEquals('<span class="entity-name">Name</span> – Slogan', $this->template->getShortFooter());
 	}
 
 	public function testGetShortFooterEmptySlogan() {
@@ -277,7 +292,7 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'privacyUrl', '', ''],
 			]);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a>', $this->template->getShortFooter());
 	}
 
 	public function testGetShortFooterImprint() {
@@ -297,7 +312,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a>', $this->template->getShortFooter());
 	}
 
 	public function testGetShortFooterPrivacy() {
@@ -317,7 +332,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan<br/><a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
 	}
 
 	public function testGetShortFooterAllLegalLinks() {
@@ -337,7 +352,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
 	}
 
 	public function invalidLegalUrlProvider() {
@@ -363,7 +378,7 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'privacyUrl', '', ''],
 			]);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
 	/**
@@ -382,7 +397,7 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'privacyUrl', '', $invalidPrivacyUrl],
 			]);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener">Name</a> – Slogan', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
 	public function testgetColorPrimaryWithDefault() {
