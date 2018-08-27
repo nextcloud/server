@@ -31,7 +31,7 @@ OC.L10N.register(
     "%1$s updated system tag %3$s to %2$s" : "%1$s oppdaterte system-merkelapp %3$s til %2$s",
     "{actor} updated system tag {oldsystemtag} to {newsystemtag}" : "{actor} oppdaterte system-merkelapp {oldsystemtag} til {newsystemtag}",
     "You added system tag %2$s to %1$s" : "Du la til system-merkelapp %2$s til %1$s",
-    "You added system tag {systemtag} to {file}" : "Du la til system-merkelapp {systemtag} til {file}",
+    "You added system tag {systemtag} to {file}" : "Du la til system merkelapp {systemtag} til {file}",
     "%1$s added system tag %3$s to %2$s" : "%1$s la til system-merkelapp %3$s til %2$s",
     "{actor} added system tag {systemtag} to {file}" : "{actor} la til system-merkelapp {systemtag} til {file}",
     "You removed system tag %2$s from %1$s" : "Du fjernet system-merkelapp %2$s fra %1$s",
