@@ -25,7 +25,7 @@
 		<app-navigation :menu="menu">
 			<template slot="settings-content">
 				<div>
-					<p>{{t('settings', 'Default quota :')}}</p>
+					<p>{{t('settings', 'Default quota:')}}</p>
 					<multiselect :value="defaultQuota" :options="quotaOptions"
 								tag-placeholder="create" :placeholder="t('settings', 'Select default quota')"
 								label="label" track-by="id" class="multiselect-vue"
