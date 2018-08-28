@@ -91,7 +91,7 @@ class SvgController extends Controller {
 
 		$appRootPath = $this->appManager->getAppPath($app);
 		$appPath = substr($appRootPath, strlen($this->serverRoot));
-		
+
 		if (!$appPath) {
 			return new NotFoundResponse();
 		}
@@ -119,8 +119,7 @@ class SvgController extends Controller {
 		}
 
 		// add fill (fill is not present on black elements)
-		$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;])+)\/>/mi';
-
+		$fillRe = '/<((circle|rect|path)((!fill)[a-z0-9 =".\-#():;])+)\/>/mi';
 		$svg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
 
 		// replace any fill or stroke colors

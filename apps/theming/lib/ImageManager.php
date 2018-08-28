@@ -80,12 +80,13 @@ class ImageManager {
 		}
 
 		switch ($key) {
+			case 'logo-blue':
+				// the blue logo is only available as svg
+				return $this->urlGenerator->getAbsoluteURL('svg/core/logo/logo/0082C9') . '?v=' . $cacheBusterCounter;
 			case 'logo':
 			case 'logoheader':
 			case 'favicon':
-				return $this->urlGenerator->imagePath('core', 'logo.png') . '?v=' . $cacheBusterCounter;
-			case 'logo-blue':
-				return $this->urlGenerator->imagePath('core', 'logo-blue.png') . '?v=' . $cacheBusterCounter;
+				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
 			case 'background':
 				return $this->urlGenerator->imagePath('core', 'background.png') . '?v=' . $cacheBusterCounter;
 		}

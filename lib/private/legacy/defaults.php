@@ -315,9 +315,9 @@ class OC_Defaults {
 		}
 
 		if($useSvg) {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo.svg');
+			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.svg');
 		} else {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo.png');
+			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.png');
 		}
 	    return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
 	}

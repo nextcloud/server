@@ -12,7 +12,7 @@
    width="256"
    viewBox="0 0 256 128"
    id="svg10"
-   sodipodi:docname="logo-blue.svg"
+   sodipodi:docname="logo.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <metadata
      id="metadata16">
@@ -22,7 +22,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -43,7 +42,7 @@
      showgrid="false"
      inkscape:zoom="1.4296875"
      inkscape:cx="128"
-     inkscape:cy="64"
+     inkscape:cy="91.978142"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -52,25 +51,21 @@
      stroke="#fff"
      stroke-width="22"
      fill="none"
-     id="g8"
-     style="stroke:#0082c9;stroke-opacity:1">
+     id="g8">
     <circle
        cy="64"
        cx="40"
        r="26"
-       id="circle2"
-       style="stroke:#0082c9;stroke-opacity:1" />
+       id="circle2" />
     <circle
        cy="64"
        cx="216"
        r="26"
-       id="circle4"
-       style="stroke:#0082c9;stroke-opacity:1" />
+       id="circle4" />
     <circle
        cy="64"
        cx="128"
        r="46"
-       id="circle6"
-       style="stroke:#0082c9;stroke-opacity:1" />
+       id="circle6" />
   </g>
 </svg>

@@ -142,7 +142,7 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::mount($storage2, array(), $root . '/substorage');
 		Filesystem::mount($storage3, array(), $root . '/folder/anotherstorage');
 		$textSize = strlen("dummy file data\n");
-		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$storageSize = $textSize * 2 + $imageSize;
 
 		$storageInfo = $storage3->getCache()->get('');
@@ -658,7 +658,7 @@ class ViewTest extends \Test\TestCase {
 		 */
 		$storage = new $class(array());
 		$textData = "dummy file data\n";
-		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$storage->mkdir('folder');
 		$storage->file_put_contents('foo.txt', $textData);
 		$storage->file_put_contents('foo.png', $imgData);

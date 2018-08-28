@@ -217,9 +217,9 @@ class ThemingDefaults extends \OC_Defaults {
 
 		if(!$logo || !$logoExists) {
 			if($useSvg) {
-				$logo = $this->urlGenerator->imagePath('core', 'logo.svg');
+				$logo = $this->urlGenerator->imagePath('core', 'logo/logo.svg');
 			} else {
-				$logo = $this->urlGenerator->imagePath('core', 'logo.png');
+				$logo = $this->urlGenerator->imagePath('core', 'logo/logo.png');
 			}
 			return $logo . '?v=' . $cacheBusterCounter;
 		}
@@ -312,9 +312,9 @@ class ThemingDefaults extends \OC_Defaults {
 		$primaryColor = $this->getColorPrimary();
 		$luminance = $this->util->calculateLuminance($primaryColor);
 		if ($logoMime === '' & $luminance > 0.8) {
-			return $this->imageManager->getImageUrl('logo-blue');
+			return $this->imageManager->getImageUrl('logo-blue', true);
 		} else {
-			return $this->imageManager->getImageUrl('logo');
+			return $this->imageManager->getImageUrl('logo', true);
 		}
 	}
 

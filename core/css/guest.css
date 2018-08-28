@@ -69,7 +69,7 @@ body {
 }
 
 #header .logo {
-	background-image: url('../img/logo.svg?v=1');
+	background-image: url('../img/logo/logo.svg?v=1');
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center;

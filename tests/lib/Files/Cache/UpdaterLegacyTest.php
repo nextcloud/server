@@ -42,7 +42,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$textData = "dummy file data\n";
-		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$this->storage->mkdir('folder');
 		$this->storage->file_put_contents('foo.txt', $textData);
 		$this->storage->file_put_contents('foo.png', $imgData);
@@ -84,7 +84,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 	public function testWrite() {
 		$textSize = strlen("dummy file data\n");
-		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$this->cache->put('foo.txt', array('mtime' => 100, 'storage_mtime' => 150));
 		$rootCachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
@@ -145,7 +145,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 	public function testDelete() {
 		$textSize = strlen("dummy file data\n");
-		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$rootCachedData = $this->cache->get('');
 		$oldEtag = $rootCachedData['etag'];
 		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
@@ -206,7 +206,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 	public function testRename() {
 		$textSize = strlen("dummy file data\n");
-		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$rootCachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
 
