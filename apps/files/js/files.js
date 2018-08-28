@@ -392,7 +392,8 @@ var createDragShadow = function(event) {
 		var newtr = $('<tr/>')
 			.attr('data-dir', dir)
 			.attr('data-file', elem.name)
-			.attr('data-origin', elem.origin);
+			.attr('data-origin', elem.origin)
+			.attr('data-favorite', elem.tags.includes("_$!<Favorite>!$_"));
 		newtr.append($('<td class="filename" />').text(elem.name).css('background-size', 32));
 		newtr.append($('<td class="size" />').text(OC.Util.humanFileSize(elem.size)));
 		tbody.append(newtr);

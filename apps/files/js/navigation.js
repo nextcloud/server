@@ -193,6 +193,9 @@
 					var $selectedFiles = $(ui.draggable);
 					if (ui.helper.find("tr").size()===1) {
 						var $tr = $selectedFiles.closest('tr');
+						if($tr.attr("data-favorite")){
+							return;
+						}
 						$selectedFiles.trigger("droppedOnFavorites", $tr.attr("data-file"));
 					}else{
 						OC.Notification.showTemporary(t('files', 'You can only add single Folders to the Favorites'));
