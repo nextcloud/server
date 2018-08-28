@@ -342,6 +342,12 @@
 
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
+			$.event.trigger({type: "droppedOnFavorites"});
+			var self=this;
+			this.$fileList.on("droppedOnFavorites", function (event, file) {
+				self.fileActions.triggerAction('Favorite', self.getModelForFile(file), self);
+			});
+
 			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));

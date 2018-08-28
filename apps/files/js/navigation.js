@@ -187,6 +187,18 @@
 				var list = quickAccessMenu.getElementsByTagName('li');
 				this.QuickSort(list, 0, list.length - 1);
 			}
+
+			$(quickAccessMenu).parent().droppable({
+				drop: function( event, ui ) {
+					var $selectedFiles = $(ui.draggable);
+					if (ui.helper.find("tr").size()===1) {
+						var $tr = $selectedFiles.closest('tr');
+						$selectedFiles.trigger("droppedOnFavorites", $tr.attr("data-file"));
+					}else{
+						OC.Notification.showTemporary(t('files', 'You can only add single Folders to the Favorites'));
+					}
+				}
+			});
 		},
 
 		/**
