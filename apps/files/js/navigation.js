@@ -64,6 +64,23 @@
 		_setupEvents: function () {
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
+
+			$(".nav-trashbin").droppable({
+				drop: function( event, ui ) {
+
+					var $selectedFiles = $(ui.draggable);
+
+					if (ui.helper.find("tr").size()===1) {
+						var $tr = $selectedFiles.closest('tr');
+						$selectedFiles.trigger("droppedOnTrash", $tr.attr("data-file"), $tr.attr('data-dir'));
+					}else{
+						var item = ui.helper.find("tr");
+						for(var i=0; i<item.length;i++){
+							$selectedFiles.trigger("droppedOnTrash", item[i].getAttribute("data-file"), item[i].getAttribute("data-dir"));
+						}
+					}
+				}
+			});
 		},
 
 		/**
