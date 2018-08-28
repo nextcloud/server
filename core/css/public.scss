@@ -62,14 +62,20 @@ $footer-height: 65px;
 	/* public footer */
 	footer {
 		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		text-align: center;
 		height: $footer-height;
-		flex-direction: column;
 		p {
 			text-align: center;
 			color: var(--color-text-lighter);
+			padding: 3px 0;
+
+			&:not(.slogan) {
+				display: inline-block;
+				a {
+					font-weight: normal;
+				}
+			}
+
 			a {
 				color: var(--color-text-lighter);
 				font-weight: 600;

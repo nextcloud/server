@@ -78,7 +78,7 @@
 	</div>
 	<?php if(isset($template) && $template->getFooterVisible()) { ?>
 	<footer>
-		<p><?php print_unescaped($theme->getLongFooter()); ?></p>
+		<?php print_unescaped($theme->getLongFooter()); ?>
 		<?php
 		if ($_['showSimpleSignUpLink']) {
 			?>

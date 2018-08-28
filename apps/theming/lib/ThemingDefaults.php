@@ -151,9 +151,9 @@ class ThemingDefaults extends \OC_Defaults {
 
 	public function getShortFooter() {
 		$slogan = $this->getSlogan();
-		$footer = '<a href="'. $this->getBaseUrl() . '" target="_blank"' .
+		$footer = '<p class="slogan"><a href="'. $this->getBaseUrl() . '" target="_blank"' .
 			' rel="noreferrer noopener">' .$this->getEntity() . '</a>'.
-			($slogan !== '' ? ' – ' . $slogan : '');
+			($slogan !== '' ? ' – ' . $slogan : '') . '</p>';
 
 		$links = [
 			[
@@ -178,8 +178,11 @@ class ThemingDefaults extends \OC_Defaults {
 				$divider = ' · ';
 			}
 		}
+		if ($this->config->getSystemValue('simpleSignUpLink.shown', true)) {
+			$legalLinks .= $divider;
+		}
 		if($legalLinks !== '' ) {
-			$footer .= '<br/>' . $legalLinks;
+			$footer .= '<p>' . $legalLinks . '</p>';
 		}
 
 		return $footer;
