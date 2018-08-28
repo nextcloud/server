@@ -399,16 +399,17 @@ td.avatar {
 }
 
 #notification-container {
+	left: 50%;
+	max-width: 60%;
 	position: fixed;
 	top: 0;
-	width: 100%;
 	text-align: center;
+	transform: translateX(-50%);
 	z-index: 8000;
 }
 
 #notification {
 	margin: 0 auto;
-	max-width: 60%;
 	z-index: 8000;
 	background-color: var(--color-main-background);
 	border: 0;
