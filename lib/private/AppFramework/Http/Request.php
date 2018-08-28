@@ -358,7 +358,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return array the array with all parameters
 	 */
 	public function getParams(): array {
-		return $this->parameters;
+		return is_array($this->parameters) ? $this->parameters : [];
 	}
 
 	/**
