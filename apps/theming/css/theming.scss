@@ -98,19 +98,20 @@
 	background-image: url(./img/core/filetypes/folder-drag-accept.svg?v=#{$theming-cachebuster}) !important;
 }
 
+#theming-preview-logo,
+#header .logo {
+	background-image: $image-logo;
+}
+
 /* override styles for login screen in guest.css */
 @if variable_exists('theming-logo-mime') and $theming-logo-mime != '' {
 	#theming-preview-logo,
 	#header .logo {
-		background-image: $image-logo;
 		background-size: contain;
 	}
+
 	#body-login #header .logo {
 		margin-bottom: 22px;
-	}
-} @else {
-	#theming-preview-logo {
-		background-image: $image-logo;
 	}
 }
 

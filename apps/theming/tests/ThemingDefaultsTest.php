@@ -632,6 +632,66 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals(['foo'=>'bar'], $this->template->getScssVariables());
 	}
 
+	/**
+	 * Provides test data for the get logo scss variable test.
+	 *
+	 * @return array
+	 */
+	public function provideTestGetImageLogoScssVariableTestData(): array {
+		return [
+			// default logo
+			['', '#000000', 0.0, 'logo'],
+			['', '#cccccc', 0.8, 'logo'],
+			['', '#dddddd', 0.81, 'logo-blue'],
+			['', '#ffffff', 1.0, 'logo-blue'],
+
+			// custom logo
+			['image/png', '#000000', 0.0, 'logo'],
+			['image/png', '#cccccc', 0.8, 'logo'],
+			['image/png', '#dddddd', 0.81, 'logo'],
+			['image/png', '#ffffff', 1.0, 'logo'],
+		];
+	}
+
+	/**
+	 * Tests chat the logo url scss variable has the expected value
+	 * depending on color and custom logo presence.
+	 *
+	 * @dataProvider provideTestGetImageLogoScssVariableTestData
+	 * @param string $themingLogoMime The custom logo mime type
+	 * @param string $primaryColor The primary theme color
+	 * @param float $luminance The calculated luminance
+	 * @param string $expected The expected requested logo
+	 * @return void
+	 */
+	public function testGetImageLogoScssVariable(
+		string $themingLogoMime,
+		string $primaryColor,
+		float $luminance,
+		string $expected
+	) {
+		$this->config->expects($this->at(5))
+			->method('getAppValue')
+			->with('theming', 'logoMime')
+			->willReturn($themingLogoMime);
+		$this->config->expects($this->at(6))
+			->method('getAppValue')
+			->with('theming', 'color', $this->defaults->getColorPrimary())
+			->willReturn($primaryColor);
+
+		$this->util
+			->method('calculateLuminance')
+			->with($primaryColor)
+			->willReturn($luminance);
+
+		$this->imageManager->expects($this->at(0))
+			->method('getImageUrl')
+			->with($expected)
+			->willReturn('custom-logo?v=0');
+
+		$this->template->getScssVariables();
+	}
+
 	public function testGetScssVariables() {
 		$this->config->expects($this->at(0))->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('0');
 		$this->config->expects($this->at(1))->method('getAppValue')->with('theming', 'logoMime', false)->willReturn('jpeg');
@@ -639,10 +699,13 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config->expects($this->at(3))->method('getAppValue')->with('theming', 'logoheaderMime', false)->willReturn('jpeg');
 		$this->config->expects($this->at(4))->method('getAppValue')->with('theming', 'faviconMime', false)->willReturn('jpeg');
 
-		$this->config->expects($this->at(5))->method('getAppValue')->with('theming', 'color', null)->willReturn($this->defaults->getColorPrimary());
+		$this->config->expects($this->at(5))->method('getAppValue')->with('theming', 'logoMime', false)->willReturn('jpeg');
 		$this->config->expects($this->at(6))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
-		$this->config->expects($this->at(7))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
+
+		$this->config->expects($this->at(7))->method('getAppValue')->with('theming', 'color', null)->willReturn($this->defaults->getColorPrimary());
 		$this->config->expects($this->at(8))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
+		$this->config->expects($this->at(9))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
+		$this->config->expects($this->at(10))->method('getAppValue')->with('theming', 'color', $this->defaults->getColorPrimary())->willReturn($this->defaults->getColorPrimary());
 
 		$this->util->expects($this->any())->method('invertTextColor')->with($this->defaults->getColorPrimary())->willReturn(false);
 		$this->util->expects($this->any())->method('elementColor')->with($this->defaults->getColorPrimary())->willReturn('#aaaaaa');
