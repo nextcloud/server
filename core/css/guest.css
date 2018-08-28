@@ -746,7 +746,7 @@ footer {
 	margin-top: auto;
 }
 
-footer .info a {
+footer .info .entity-name {
 	font-weight: 600;
 }
 
