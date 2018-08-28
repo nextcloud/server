@@ -612,12 +612,15 @@ table tr.summary td {
 
 table.dragshadow {
 	width:auto;
-	z-index: 100;
+	z-index: 2000;
 }
 table.dragshadow td.filename {
 	padding-left:60px;
 	padding-right:16px;
 	height: 36px;
+
+	/* Override "max-width: 0" to prevent file name and size from overlapping */
+	max-width: unset;
 }
 table.dragshadow td.size {
 	padding-right:8px;
