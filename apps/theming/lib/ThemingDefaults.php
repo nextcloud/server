@@ -33,7 +33,6 @@
 
 namespace OCA\Theming;
 
-
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\NotFoundException;
@@ -275,7 +274,7 @@ class ThemingDefaults extends \OC_Defaults {
 			'theming-favicon-mime' => "'" . $this->config->getAppValue('theming', 'faviconMime') . "'"
 		];
 
-		$variables['image-logo'] = "url('". $this->getLogoUrl() ."')";
+		$variables['image-logo'] = "url('".$this->imageManager->getImageUrl('logo')."')";
 		$variables['image-logoheader'] = "'".$this->imageManager->getImageUrl('logoheader')."'";
 		$variables['image-favicon'] = "'".$this->imageManager->getImageUrl('favicon')."'";
 		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
@@ -298,24 +297,6 @@ class ThemingDefaults extends \OC_Defaults {
 
 		$cache->set('getScssVariables', $variables);
 		return $variables;
-	}
-
-	/**
-	 * Returns the logo url.
-	 * If there is a custom logo, it just returns it.
-	 * For the default logo it returns the white or blue one depending on the color luminance.
-	 *
-	 * @return string
-	 */
-	private function getLogoUrl() {
-		$logoMime = $this->config->getAppValue('theming', 'logoMime');
-		$primaryColor = $this->getColorPrimary();
-		$luminance = $this->util->calculateLuminance($primaryColor);
-		if ($logoMime === '' & $luminance > 0.8) {
-			return $this->imageManager->getImageUrl('logo-blue', true);
-		} else {
-			return $this->imageManager->getImageUrl('logo', true);
-		}
 	}
 
 	/**

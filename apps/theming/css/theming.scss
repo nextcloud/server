@@ -7,6 +7,17 @@
 	@return (0.2126 * $-local-red  + 0.7152 * $-local-green + 0.0722 * $-local-blue) / 255;
 }
 
+$has-custom-logo: variable_exists('theming-logo-mime') and $theming-logo-mime != '';
+$invert: luma($color-primary) > 0.6;
+
+@if ($has-custom-logo == false) {
+	@if ($invert) {
+		$image-logo: url('../../../../svg/core/logo/logo/000000?v=1');
+	} @else {
+		$image-logo: url('../../../../svg/core/logo/logo/ffffff?v=1');
+	}
+}
+
 .nc-theming-main-background {
 	background-color: $color-primary;
 }
@@ -19,7 +30,7 @@
 	color: $color-primary-text;
 }
 
-@if (luma($color-primary) > 0.6) {
+@if ($invert) {
 	#appmenu:not(.inverted) svg {
 		filter: invert(1);
 	}
@@ -104,7 +115,8 @@
 }
 
 /* override styles for login screen in guest.css */
-@if variable_exists('theming-logo-mime') and $theming-logo-mime != '' {
+@if ($has-custom-logo) {
+	// custom logo
 	#theming-preview-logo,
 	#header .logo {
 		background-size: contain;
@@ -112,6 +124,14 @@
 
 	#body-login #header .logo {
 		margin-bottom: 22px;
+	}
+} @else {
+	// default logo
+	@if ($invert) {
+		#theming-preview-logo,
+		#header .logo {
+			opacity: .6;
+		}
 	}
 }
 
@@ -157,7 +177,7 @@ input.primary,
 	color: $color-primary-text;
 }
 
-@if (luma($color-primary) > 0.6) {
+@if ($invert) {
 	#body-login #submit-wrapper .icon-confirm-white {
 		background-image: url('../../../core/img/actions/confirm.svg');
 	}
