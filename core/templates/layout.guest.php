@@ -43,9 +43,7 @@
 			</div>
 		</div>
 		<footer role="contentinfo">
-			<p class="info">
-				<?php print_unescaped($theme->getLongFooter()); ?>
-			</p>
+			<?php print_unescaped($theme->getLongFooter()); ?>
 		</footer>
 	</body>
 </html>
