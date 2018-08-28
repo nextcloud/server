@@ -49,6 +49,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{http://owncloud.org/ns}downloadURL',
 		'{http://owncloud.org/ns}dDC',
 		'{http://owncloud.org/ns}size',
+		'{http://nextcloud.org/ns}is-encrypted',
 	);
 
 	/**
