@@ -189,6 +189,7 @@
 			}
 
 			var favListElement=$(quickAccessMenu).parent();
+			favListElement.append("<div class='nav-icon-favorites-starred'></div>")
 			favListElement.droppable({
 				over: function( event, ui ) {
 					favListElement.addClass('dropzone-background')
