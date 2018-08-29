@@ -46,13 +46,17 @@ class Manager implements IMountManager {
 		$this->inPathCache = new CappedMemoryCache();
 	}
 
+	private function invalidateCaches() {
+		$this->pathCache->clear();
+		$this->inPathCache->clear();
+	}
+
 	/**
 	 * @param IMountPoint $mount
 	 */
 	public function addMount(IMountPoint $mount) {
 		$this->mounts[$mount->getMountPoint()] = $mount;
-		$this->pathCache->clear();
-		$this->inPathCache->clear();
+		$this->invalidateCaches();
 	}
 
 	/**
@@ -64,8 +68,7 @@ class Manager implements IMountManager {
 			$mountPoint .= '/';
 		}
 		unset($this->mounts[$mountPoint]);
-		$this->pathCache->clear();
-		$this->inPathCache->clear();
+		$this->invalidateCaches();
 	}
 
 	/**
@@ -75,8 +78,7 @@ class Manager implements IMountManager {
 	public function moveMount(string $mountPoint, string $target) {
 		$this->mounts[$target] = $this->mounts[$mountPoint];
 		unset($this->mounts[$mountPoint]);
-		$this->pathCache->clear();
-		$this->inPathCache->clear();
+		$this->invalidateCaches();
 	}
 
 	/**
@@ -141,8 +143,7 @@ class Manager implements IMountManager {
 
 	public function clear() {
 		$this->mounts = [];
-		$this->pathCache->clear();
-		$this->inPathCache->clear();
+		$this->invalidateCaches();
 	}
 
 	/**
@@ -156,13 +157,10 @@ class Manager implements IMountManager {
 		if (\strlen($id) > 64) {
 			$id = md5($id);
 		}
-		$result = [];
-		foreach ($this->mounts as $mount) {
-			if ($mount->getStorageId() === $id) {
-				$result[] = $mount;
-			}
-		}
-		return $result;
+		$mounts = array_filter($this->mounts, function(IMountPoint $mountPoint) use ($id) {
+			return $mountPoint->getStorageId() === $id;
+		});
+		return array_values($mounts);
 	}
 
 	/**
@@ -179,8 +177,11 @@ class Manager implements IMountManager {
 	 * @return MountPoint[]
 	 */
 	public function findByNumericId(int $id): array {
-		$storageId = \OC\Files\Cache\Storage::getStorageId($id);
-		return $this->findByStorageId($storageId);
+		\OC_Util::setupFS();
+		$mounts = array_filter($this->mounts, function(IMountPoint $mountPoint) use ($id) {
+			return $mountPoint->getNumericStorageId() === $id;
+		});
+		return array_values($mounts);
 	}
 
 	/**
