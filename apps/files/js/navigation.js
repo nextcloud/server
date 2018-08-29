@@ -66,7 +66,9 @@
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 
 			var favListElement=$(".nav-trashbin");
-			console.log(favListElement);
+
+			//this div is required to prefetch the icon, otherwise it takes a second to show up
+			favListElement.append("<div class='nav-icon-trashbin-starred'></div>")
 			favListElement.droppable({
 				over: function( event, ui ) {
 					favListElement.addClass('dropzone-background')
