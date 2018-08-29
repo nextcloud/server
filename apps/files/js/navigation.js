@@ -188,7 +188,22 @@
 				this.QuickSort(list, 0, list.length - 1);
 			}
 
-			$(quickAccessMenu).parent().droppable({
+			var favListElement=$(quickAccessMenu).parent();
+			favListElement.droppable({
+				over: function( event, ui ) {
+					favListElement.addClass('dropzone-background')
+				},
+				out: function( event, ui ) {
+					favListElement.removeClass('dropzone-background');
+				},
+				activate: function( event, ui ) {
+					var elem=favListElement.find("a").first();
+					elem.addClass('nav-icon-favorites-starred').removeClass('nav-icon-favorites');
+				},
+				deactivate: function( event, ui ) {
+					var elem=favListElement.find("a").first();
+					elem.addClass('nav-icon-favorites').removeClass('nav-icon-favorites-starred');
+				},
 				drop: function( event, ui ) {
 					var $selectedFiles = $(ui.draggable);
 					if (ui.helper.find("tr").size()===1) {

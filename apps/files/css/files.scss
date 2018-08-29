@@ -88,6 +88,11 @@
 .nav-icon-favorites {
 	@include icon-color('star-dark', 'actions', $color-black, 2, true);
 }
+
+.nav-icon-favorites-starred {
+	@include icon-color('star-dark', 'actions', $color-yellow, 2, true);
+}
+
 .nav-icon-sharingin,
 .nav-icon-sharingout,
 .nav-icon-shareoverview {
@@ -694,6 +699,10 @@ table.dragshadow td.size {
 .breadcrumb .canDrop > a,
 #filestable tbody tr.canDrop {
 	background-color: rgb(179, 230, 255);
+}
+
+.dropzone-background {
+	background-color: rgba( $color-primary, .3 );
 }
 
 
