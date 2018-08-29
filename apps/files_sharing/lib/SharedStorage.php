@@ -126,11 +126,17 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			Filesystem::initMountPoints($this->superShare->getShareOwner());
 			$this->rootPath = $this->getSourceRootInfo()->getPath();
 			$mounts = $this->ownerView->getMountByNumericId($this->getSourceRootInfo()->getStorageId());
-			$this->nonMaskedStorage = $mounts[0]->getStorage();
-			$this->storage = new PermissionsMask([
-				'storage' => $this->nonMaskedStorage,
-				'mask' => $this->superShare->getPermissions()
-			]);
+			if(!$mounts) {
+				$this->storage = new FailedStorage(['exception' => new \Exception('Mount for source storage not found')]);
+				$this->cache = new FailedCache();
+				$this->rootPath = '';
+			} else {
+				$this->nonMaskedStorage = $mounts[0]->getStorage();
+				$this->storage = new PermissionsMask([
+					'storage' => $this->nonMaskedStorage,
+					'mask' => $this->superShare->getPermissions()
+				]);
+			}
 		} catch (NotFoundException $e) {
 			// original file not accessible or deleted, set FailedStorage
 			$this->storage = new FailedStorage(['exception' => $e]);
