@@ -71,6 +71,11 @@
 			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
 		}
 	}
+	#body-user {
+		.primary {
+			border: 1px solid transparent;
+		}
+	}
 } @else {
 	#appmenu:not(.inverted) svg {
 		filter: none;
