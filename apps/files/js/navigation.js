@@ -65,23 +65,23 @@
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 
-			var favListElement=$(".nav-trashbin");
+			var trashElement=$(".nav-trashbin");
 
 			//this div is required to prefetch the icon, otherwise it takes a second to show up
-			favListElement.append("<div class='nav-icon-trashbin-starred'></div>")
-			favListElement.droppable({
+			trashElement.append("<div class='nav-icon-trashbin-starred'></div>")
+			trashElement.droppable({
 				over: function( event, ui ) {
-					favListElement.addClass('dropzone-background')
+					trashElement.addClass('dropzone-background')
 				},
 				out: function( event, ui ) {
-					favListElement.removeClass('dropzone-background');
+					trashElement.removeClass('dropzone-background');
 				},
 				activate: function( event, ui ) {
-					var elem=favListElement.find("a").first();
+					var elem=trashElement.find("a").first();
 					elem.addClass('nav-icon-trashbin-starred').removeClass('nav-icon-trashbin');
 				},
 				deactivate: function( event, ui ) {
-					var elem=favListElement.find("a").first();
+					var elem=trashElement.find("a").first();
 					elem.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
 				},
 				drop: function( event, ui ) {
