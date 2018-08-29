@@ -214,6 +214,17 @@ class View {
 	}
 
 	/**
+	 * @param int $id
+	 * @return IMountPoint[]
+	 */
+	public function getMountByNumericId($id) {
+		$mounts = Filesystem::getMountByNumericId($id);
+		return array_values(array_filter($mounts, function(IMountPoint $mountPoint) {
+			return $this->getRelativePath($mountPoint->getMountPoint()) || $mountPoint->getInternalPath($this->fakeRoot);
+		}));
+	}
+
+	/**
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
