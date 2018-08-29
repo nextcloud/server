@@ -284,9 +284,9 @@ class SCSSCacher {
 		try {
 			$compiledScss = $scss->compile(
 				'$webroot: \'' . $this->getRoutePrefix() . '\';' .
+				$this->getInjectedVariables() .
 				'@import "variables.scss";' .
 				'@import "functions.scss";' .
-				$this->getInjectedVariables() .
 				'@import "' . $fileNameSCSS . '";');
 		} catch (ParserException $e) {
 			$this->logger->error($e, ['app' => 'core']);
@@ -349,7 +349,7 @@ class SCSSCacher {
 		}
 		$variables = '';
 		foreach ($this->defaults->getScssVariables() as $key => $value) {
-			$variables .= '$' . $key . ': ' . $value . ';';
+			$variables .= '$' . $key . ': ' . $value . ' !default;';
 		}
 
 		// check for valid variables / otherwise fall back to defaults
