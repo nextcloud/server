@@ -260,15 +260,10 @@ class Cache implements ICache {
 		$data['parent'] = $this->getParentId($file);
 		$data['name'] = basename($file);
 
-		list($queryParts, $params) = $this->buildParts($data);
-		$queryParts[] = '`storage`';
-		$params[] = $this->getNumericStorageId();
+		$params = $this->buildParts($data);
+		$params['storage'] = $this->getNumericStorageId();
 
-		$queryParts = array_map(function ($item) {
-			return trim($item, "`");
-		}, $queryParts);
-		$values = array_combine($queryParts, $params);
-		if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values, [
+		if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $params, [
 			'storage',
 			'path_hash',
 		])
@@ -303,35 +298,39 @@ class Cache implements ICache {
 			$data['name'] = $this->normalize($data['name']);
 		}
 
-		list($queryParts, $params) = $this->buildParts($data);
-		// duplicate $params because we need the parts twice in the SQL statement
-		// once for the SET part, once in the WHERE clause
-		$params = array_merge($params, $params);
-		$params[] = $id;
+		$params = $this->buildParts($data);
 
-		// don't update if the data we try to set is the same as the one in the record
-		// some databases (Postgres) don't like superfluous updates
-		$sql = 'UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=? ' .
-			'WHERE (' .
-			implode(' <> ? OR ', $queryParts) . ' <> ? OR ' .
-			implode(' IS NULL OR ', $queryParts) . ' IS NULL' .
-			') AND `fileid` = ? ';
-		$this->connection->executeQuery($sql, $params);
-
+		$keys = array_keys($params);
+		$query = $this->connection->getQueryBuilder();
+		$query->update('filecache');
+		foreach ($keys as $key) {
+			$query->set($key, $query->createParameter($key));
+		}
+		$query->where($query->expr()->eq('fileid', $query->createParameter('fileid')))
+			->andWhere($query->expr()->orX(
+				$query->expr()->orX(...array_map(function($key) use ($query) {
+					return $query->expr()->neq($key, $query->createParameter($key));
+				}, $keys)),
+				$query->expr()->orX(...array_map(function($key) use ($query) {
+					return $query->expr()->isNull($key);
+				}, $keys))
+			));
+		$query->setParameters($params);
+		$query->setParameter('fileid', $id, IQueryBuilder::PARAM_INT);
+		$query->execute();
 	}
 
 	/**
 	 * extract query parts and params array from data array
 	 *
 	 * @param array $data
-	 * @return array [$queryParts, $params]
-	 *        $queryParts: string[], the (escaped) column names to be set in the query
-	 *        $params: mixed[], the new values for the columns, to be passed as params to the query
+	 * @return array [$key => $value]
 	 */
 	protected function buildParts(array $data) {
-		$fields = array(
+		$fields = [
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
-			'etag', 'permissions', 'checksum', 'storage');
+			'etag', 'permissions', 'checksum', 'storage', 'content_md5'
+		];
 
 		$doNotCopyStorageMTime = false;
 		if (array_key_exists('mtime', $data) && $data['mtime'] === null) {
@@ -340,21 +339,18 @@ class Cache implements ICache {
 			$doNotCopyStorageMTime = true;
 		}
 
-		$params = array();
-		$queryParts = array();
+		$params = [];
 		foreach ($data as $name => $value) {
 			if (array_search($name, $fields) !== false) {
 				if ($name === 'path') {
-					$params[] = md5($value);
-					$queryParts[] = '`path_hash`';
+					$params['path_hash'] = md5($value);
 				} elseif ($name === 'mimetype') {
-					$params[] = $this->mimetypeLoader->getId(substr($value, 0, strpos($value, '/')));
-					$queryParts[] = '`mimepart`';
+					$mimePart = $this->mimetypeLoader->getId(substr($value, 0, strpos($value, '/')));
+					$params['mimepart'] = $mimePart;
 					$value = $this->mimetypeLoader->getId($value);
 				} elseif ($name === 'storage_mtime') {
 					if (!$doNotCopyStorageMTime && !isset($data['mtime'])) {
-						$params[] = $value;
-						$queryParts[] = '`mtime`';
+						$params['mtime'] =$value;
 					}
 				} elseif ($name === 'encrypted') {
 					if (isset($data['encryptedVersion'])) {
@@ -364,11 +360,10 @@ class Cache implements ICache {
 						$value = $value ? 1 : 0;
 					}
 				}
-				$params[] = $value;
-				$queryParts[] = '`' . $name . '`';
+				$params[$name] = $value;
 			}
 		}
-		return array($queryParts, $params);
+		return $params;
 	}
 
 	/**
