@@ -698,7 +698,7 @@ table.dragshadow td.size {
 
 .breadcrumb .canDrop > a,
 #filestable tbody tr.canDrop {
-	background-color: rgb(179, 230, 255);
+	background-color: rgba( $color-primary, .3 );
 }
 
 .dropzone-background {
