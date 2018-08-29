@@ -26,8 +26,6 @@
         vertical-align: top;
         display: inline-block;
         visibility: hidden;
-        height: 32px;
-        width: 32px;
     }
     form.uploadButton {
         width: 411px;
@@ -44,6 +42,8 @@
         top: 4px;
         right: 0px;
         visibility: visible;
+        height: 32px;
+        width: 32px;
     }
     input[type='text']:hover + .theme-undo,
     input[type='text'] + .theme-undo:hover,
