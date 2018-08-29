@@ -79,7 +79,7 @@ class Util {
 	public function elementColor($color) {
 		$l = $this->calculateLuminance($color);
 		if($l>0.8) {
-			return '#555555';
+			return '#dddddd';
 		}
 		return $color;
 	}
