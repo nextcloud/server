@@ -65,7 +65,23 @@
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 
-			$(".nav-trashbin").droppable({
+			var favListElement=$(".nav-trashbin");
+			console.log(favListElement);
+			favListElement.droppable({
+				over: function( event, ui ) {
+					favListElement.addClass('dropzone-background')
+				},
+				out: function( event, ui ) {
+					favListElement.removeClass('dropzone-background');
+				},
+				activate: function( event, ui ) {
+					var elem=favListElement.find("a").first();
+					elem.addClass('nav-icon-trashbin-starred').removeClass('nav-icon-trashbin');
+				},
+				deactivate: function( event, ui ) {
+					var elem=favListElement.find("a").first();
+					elem.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
+				},
 				drop: function( event, ui ) {
 
 					var $selectedFiles = $(ui.draggable);

@@ -102,6 +102,9 @@
 .nav-icon-trashbin {
 	@include icon-color('delete', 'files', $color-black);
 }
+.nav-icon-trashbin-starred {
+	@include icon-color('delete', 'files', #ff0000);
+}
 .nav-icon-deletedshares {
 	@include icon-color('unshare', 'files', $color-black);
 }
