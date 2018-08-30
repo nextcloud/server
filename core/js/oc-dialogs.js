@@ -206,6 +206,14 @@ var OCdialogs = {
 			if(self.$filePicker) {
 				self.$filePicker.ocdialog('close');
 			}
+
+			if (mimetypeFilter === undefined || mimetypeFilter === null) {
+				mimetypeFilter = [];
+			}
+			if (typeof(mimetypeFilter) === "string") {
+				mimetypeFilter = [mimetypeFilter];
+			}
+
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialogName,
 				title: title,
@@ -217,9 +225,6 @@ var OCdialogs = {
 			}
 			if (multiselect === undefined) {
 				multiselect = false;
-			}
-			if (mimetypeFilter === undefined) {
-				mimetypeFilter = '';
 			}
 
 			$('body').append(self.$filePicker);
@@ -315,7 +320,7 @@ var OCdialogs = {
 			// Hence this is one of the approach to get the choose button.
 			var getOcDialog = self.$filePicker.closest('.oc-dialog');
 			var buttonEnableDisable = getOcDialog.find('.primary');
-			if (self.$filePicker.data('mimetype') === "httpd/unix-directory") {
+			if (self.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);
@@ -939,7 +944,7 @@ var OCdialogs = {
 		var getOcDialog = (event.target).closest('.oc-dialog');
 		var buttonEnableDisable = $('.primary', getOcDialog);
 		this._changeButtonsText(type, dir.split(/[/]+/).pop());
-		if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
+		if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 			buttonEnableDisable.prop("disabled", false);
 		} else {
 			buttonEnableDisable.prop("disabled", true);
@@ -960,7 +965,7 @@ var OCdialogs = {
 		} else if ( $element.data('type') === 'dir' ) {
 			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
 			this._changeButtonsText(type, $element.data('entryname'));
-			if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
+			if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);
