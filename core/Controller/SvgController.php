@@ -29,7 +29,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\NotFoundException;
 use OCP\App\IAppManager;
 use OCP\IRequest;
 
@@ -99,7 +98,6 @@ class SvgController extends Controller {
 		return $this->getSvg($path, $color, $fileName);
 	}
 
-
 	/**
 	 * Generate svg from filename with the requested color
 	 *
@@ -119,7 +117,7 @@ class SvgController extends Controller {
 		}
 
 		// add fill (fill is not present on black elements)
-		$fillRe = '/<((circle|rect|path)((!fill)[a-z0-9 =".\-#():;])+)\/>/mi';
+		$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;])+)\/>/mi';
 		$svg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
 
 		// replace any fill or stroke colors

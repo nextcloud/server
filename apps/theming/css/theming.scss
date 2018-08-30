@@ -12,9 +12,9 @@ $invert: luma($color-primary) > 0.6;
 
 @if ($has-custom-logo == false) {
 	@if ($invert) {
-		$image-logo: url('../../../../svg/core/logo/logo/000000?v=1');
+		$image-logo: url(icon-color-path('logo', 'logo', #000000, 1, true));
 	} @else {
-		$image-logo: url('../../../../svg/core/logo/logo/ffffff?v=1');
+		$image-logo: url(icon-color-path('logo', 'logo', #ffffff, 1, true));
 	}
 }
 
