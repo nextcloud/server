@@ -115,6 +115,7 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Έγινε <strong>επαναφορά</strong> ενός αρχείου ή φακέλου",
     "Unlimited" : "Απεριόριστο",
     "Upload (max. %s)" : "Διαμοιρασμός (max. %s)",
+    "File Management" : "Διαχείριση αρχείων",
     "File handling" : "Διαχείριση αρχείων",
     "Maximum upload size" : "Μέγιστο μέγεθος αποστολής",
     "max. possible: " : "μέγιστο δυνατό:",
