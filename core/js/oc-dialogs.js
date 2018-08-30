@@ -175,6 +175,14 @@ var OCdialogs = {
 	},
 	/**
 	 * show a file picker to pick a file from
+	 *
+	 * In order to pick several types of mime types they need to be passed as an
+	 * array of strings.
+	 *
+	 * When no mime type filter is given only files can be selected. In order to
+	 * be able to select both files and folders "['*', 'httpd/unix-directory']"
+	 * should be used instead.
+	 *
 	 * @param title dialog title
 	 * @param callback which will be triggered when user presses Choose
 	 * @param multiselect whether it should be possible to select multiple files
@@ -846,7 +854,7 @@ var OCdialogs = {
 			filter = [filter];
 		}
 		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
-			if (filter && filter.length > 0) {
+			if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
 				files = files.filter(function (file) {
 					return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
 				});
