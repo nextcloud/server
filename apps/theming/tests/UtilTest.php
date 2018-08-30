@@ -105,7 +105,7 @@ class UtilTest extends TestCase {
 
 	public function testElementColorOnBrightBackground() {
 		$elementColor = $this->util->elementColor('#ffffff');
-		$this->assertEquals('#555555', $elementColor);
+		$this->assertEquals('#dddddd', $elementColor);
 	}
 
 	public function testGenerateRadioButtonWhite() {

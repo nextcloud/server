@@ -149,8 +149,8 @@ class AccessibilityController extends Controller {
 			try {
 				$css .= $scss->compile(
 					$imports .
-					'@import "variables.scss";' .
 					$this->getInjectedVariables() .
+					'@import "variables.scss";' .
 					'@import "css-variables.scss";'
 				);
 			} catch (ParserException $e) {
