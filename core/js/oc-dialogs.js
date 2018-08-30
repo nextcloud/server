@@ -841,9 +841,9 @@ var OCdialogs = {
 			filter = [filter];
 		}
 		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
-			if (filter) {
+			if (filter && filter.length > 0) {
 				files = files.filter(function (file) {
-					return filter == [] || file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
+					return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
 				});
 			}
 			files = files.sort(function(a, b) {
