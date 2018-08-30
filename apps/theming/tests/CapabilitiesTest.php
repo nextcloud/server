@@ -74,7 +74,7 @@ class CapabilitiesTest extends TestCase  {
 				'slogan' => 'slogan',
 				'color' => '#FFFFFF',
 				'color-text' => '#000000',
-				'color-element' => '#555555',
+				'color-element' => '#dddddd',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
 				'background-plain' => false,
