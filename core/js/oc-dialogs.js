@@ -175,6 +175,14 @@ var OCdialogs = {
 	},
 	/**
 	 * show a file picker to pick a file from
+	 *
+	 * In order to pick several types of mime types they need to be passed as an
+	 * array of strings.
+	 *
+	 * When no mime type filter is given only files can be selected. In order to
+	 * be able to select both files and folders "['*', 'httpd/unix-directory']"
+	 * should be used instead.
+	 *
 	 * @param title dialog title
 	 * @param callback which will be triggered when user presses Choose
 	 * @param multiselect whether it should be possible to select multiple files
@@ -206,6 +214,14 @@ var OCdialogs = {
 			if(self.$filePicker) {
 				self.$filePicker.ocdialog('close');
 			}
+
+			if (mimetypeFilter === undefined || mimetypeFilter === null) {
+				mimetypeFilter = [];
+			}
+			if (typeof(mimetypeFilter) === "string") {
+				mimetypeFilter = [mimetypeFilter];
+			}
+
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialogName,
 				title: title,
@@ -217,9 +233,6 @@ var OCdialogs = {
 			}
 			if (multiselect === undefined) {
 				multiselect = false;
-			}
-			if (mimetypeFilter === undefined) {
-				mimetypeFilter = '';
 			}
 
 			$('body').append(self.$filePicker);
@@ -315,7 +328,7 @@ var OCdialogs = {
 			// Hence this is one of the approach to get the choose button.
 			var getOcDialog = self.$filePicker.closest('.oc-dialog');
 			var buttonEnableDisable = getOcDialog.find('.primary');
-			if (self.$filePicker.data('mimetype') === "httpd/unix-directory") {
+			if (self.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);
@@ -841,9 +854,9 @@ var OCdialogs = {
 			filter = [filter];
 		}
 		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
-			if (filter) {
+			if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
 				files = files.filter(function (file) {
-					return filter == [] || file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
+					return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
 				});
 			}
 			files = files.sort(function(a, b) {
@@ -939,7 +952,7 @@ var OCdialogs = {
 		var getOcDialog = (event.target).closest('.oc-dialog');
 		var buttonEnableDisable = $('.primary', getOcDialog);
 		this._changeButtonsText(type, dir.split(/[/]+/).pop());
-		if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
+		if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 			buttonEnableDisable.prop("disabled", false);
 		} else {
 			buttonEnableDisable.prop("disabled", true);
@@ -960,7 +973,7 @@ var OCdialogs = {
 		} else if ( $element.data('type') === 'dir' ) {
 			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
 			this._changeButtonsText(type, $element.data('entryname'));
-			if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
+			if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);
