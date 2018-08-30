@@ -544,18 +544,17 @@ Raw output
 	 */
 	protected function getAppDirsWithDifferentOwner(): array {
 		$currentUser = posix_getpwuid(posix_getuid());
-		$appDirsWithDifferentOwner = [];
+		$appDirsWithDifferentOwner = [[]];
 
 		foreach (OC::$APPSROOTS as $appRoot) {
 			if ($appRoot['writable'] === true) {
-				$appDirsWithDifferentOwner = array_merge(
-					$appDirsWithDifferentOwner,
-					$this->getAppDirsWithDifferentOwnerForAppRoot($currentUser, $appRoot)
-				);
+				$appDirsWithDifferentOwner[] = $this->getAppDirsWithDifferentOwnerForAppRoot($currentUser, $appRoot);
 			}
 		}
 
+		$appDirsWithDifferentOwner = array_merge(...$appDirsWithDifferentOwner);
 		sort($appDirsWithDifferentOwner);
+
 		return $appDirsWithDifferentOwner;
 	}
 
@@ -576,7 +575,7 @@ Raw output
 				$absAppPath = $appsPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
 				$appDirUser = posix_getpwuid(fileowner($absAppPath));
 				if ($appDirUser !== $currentUser) {
-					$appDirsWithDifferentOwner[] = $absAppPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+					$appDirsWithDifferentOwner[] = $absAppPath;
 				}
 			}
 		}
