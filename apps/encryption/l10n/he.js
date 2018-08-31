@@ -31,6 +31,7 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "לא ניתן להסיר את ההצפנה לקובץ זה, ייתכן ומדובר בקובץ משותף. יש לבקש מהבעלים של הקובץ לשתף מחדש את הקובץ אתך.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "לא ניתן לקרוא קובץ זה, ייתכן ומדובר בקובץ משותף. יש לבקש מהבעלים של הקובץ לשתף מחדש את הקובץ אתך.",
     "Default encryption module" : "מודול ההצפנה כבררת מחדל",
+    "Default encryption module for server-side encryption" : "מודול הצפנה כבררת מחדל להצפנה מצד השרת",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "שלום,\n\nהמנהל אפשר את ההצפנה בצד השרת. הקבצים שלך הוצפנו על בסיס הסיסמא '%s'.\n\nיש להתחבר לממשק האינטרנט, ולגשת אל 'מודול הצפנה בסיסי של' בהגדרות הבסיסיות ולעדכן את סיסמת ההצפנה שלך על ידי הכנסת הסיסמא אל שדה 'סיסמת ההתחברות הישנה' ואת סיסמת ההתחברות הנוכחית.\n\n",
     "The share will expire on %s." : "השיתוף יפוג תוקף ב- %s.",
     "Cheers!" : "לחיים!",
