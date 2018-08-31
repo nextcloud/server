@@ -1078,10 +1078,10 @@ $popovericon-size: 16px;
 				order: 4;
 				width: 24px;
 				height: 24px;
-				margin: -10px;
+				margin: -7px; // right padding of item
 				padding: 22px;
 				opacity: .3;
-					cursor: pointer;
+				cursor: pointer;
 				&:hover,
 				&:focus {
 					opacity: .7;
@@ -1196,7 +1196,7 @@ $popovericon-size: 16px;
 			opacity: .5;
 			order: 3;
 			flex: 1 0;
-			flex-basis: calc(100% - 24px);
+			flex-basis: calc(100% - 44px);
 		}
 
 		.app-content-list-item-details {
