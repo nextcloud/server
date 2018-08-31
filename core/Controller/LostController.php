@@ -187,7 +187,7 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
-		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*12) ||
+		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*24*7) ||
 			$user->getLastLogin() > $splittedToken[0]) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
 		}
