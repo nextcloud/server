@@ -72,6 +72,7 @@ OC.L10N.register(
     "Public key" : "מפתח ציבורי",
     "RSA private key" : "מפתח RSA פרט",
     "Private key" : "מפתח פרט",
+    "Kerberos ticket" : "כרטיס Kerberos",
     "Amazon S3" : "אמזון S3",
     "Bucket" : "סל",
     "Hostname" : "שם מארח",

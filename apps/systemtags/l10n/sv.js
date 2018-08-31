@@ -43,6 +43,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systemtaggar</strong> för en fil har blivit ändrade",
     "Collaborative tags" : "Samverkande taggar",
     "Select tag …" : "Välj tagg ...",
+    "Create a new tag" : "Skapa en ny tagg",
     "Name" : "Namn",
     "Public" : "Offentlig",
     "Restricted" : "Begränsad",

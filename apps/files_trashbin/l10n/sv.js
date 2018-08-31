@@ -16,6 +16,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Inga filer hittades i denna mapp",
     "Select all" : "Välj allt",
     "Name" : "Namn",
+    "Actions" : "Åtgärder",
     "Deleted" : "Raderad"
 },
 "nplurals=2; plural=(n != 1);");
