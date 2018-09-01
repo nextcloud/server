@@ -14,6 +14,7 @@
     "__language_name__" : "Tiếng Việt",
     "Apps" : "Ứng dụng",
     "Users" : "Người dùng",
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Hãy xóa thiết lập open_basedir tại tập tin cấu hình php.ini hoặc chuyển sang dùng PHP 64-bit.",
     "%s shared »%s« with you" : "%s đã chia sẻ »%s« với bạn",
     "Could not find category \"%s\"" : "không thể tìm thấy mục \"%s\"",
     "Application is not enabled" : "Ứng dụng không được BẬT",
