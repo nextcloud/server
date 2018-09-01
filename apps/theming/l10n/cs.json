@@ -38,6 +38,7 @@
     "Header logo" : "Logo v záhlaví",
     "Upload new header logo" : "Nahrát nové logo do hlavičky",
     "Favicon" : "Favicon",
+    "Upload new favicon" : "Nahrát novou ikonu webu",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy.",
     "You are already using a custom theme" : "Již používáte vlastní motiv",
     "reset to default" : "obnovit výchozí",
