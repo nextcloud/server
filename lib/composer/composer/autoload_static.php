@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Settings\\' => 12,
             'OC\\Core\\' => 8,
@@ -17,19 +17,19 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Settings\\' => 
+        'OC\\Settings\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/settings',
         ),
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -80,6 +80,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\Http\\Template\\LinkMenuAction' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Template/LinkMenuAction.php',
         'OCP\\AppFramework\\Http\\Template\\PublicTemplateResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Template/PublicTemplateResponse.php',
         'OCP\\AppFramework\\Http\\Template\\SimpleMenuAction' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Template/SimpleMenuAction.php',
+        'OCP\\AppFramework\\Http\\ZipResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ZipResponse.php',
         'OCP\\AppFramework\\IAppContainer' => __DIR__ . '/../../..' . '/lib/public/AppFramework/IAppContainer.php',
         'OCP\\AppFramework\\Middleware' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Middleware.php',
         'OCP\\AppFramework\\OCSController' => __DIR__ . '/../../..' . '/lib/public/AppFramework/OCSController.php',
