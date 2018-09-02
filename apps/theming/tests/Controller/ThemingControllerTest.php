@@ -246,6 +246,61 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
+	/**
+	 * Checks that trying to upload an SVG favicon without imagemagick
+	 * results in an unsupported media type response.
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function testUploadSVGFaviconWithoutImagemagick() {
+		$this->imageManager
+			->method('shouldReplaceIcons')
+			->willReturn(false);
+
+		$this->request
+			->expects($this->at(0))
+			->method('getParam')
+			->with('key')
+			->willReturn('favicon');
+		$this->request
+			->expects($this->at(1))
+			->method('getUploadedFile')
+			->with('image')
+			->willReturn([
+				'tmp_name' => __DIR__  . '/../../../../tests/data/testimagelarge.svg',
+				'type' => 'image/svg',
+				'name' => 'testimagelarge.svg',
+				'error' => 0,
+			]);
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function($str) {
+				return $str;
+			}));
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('images')
+			->willReturn($folder);
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => 'Unsupported image type',
+					],
+				'status' => 'failure'
+			],
+			Http::STATUS_UNPROCESSABLE_ENTITY
+		);
+
+		$this->assertEquals($expected, $this->themingController->uploadImage());
+	}
+
 	public function testUpdateLogoInvalidMimeType() {
 		$this->request
 			->expects($this->at(0))

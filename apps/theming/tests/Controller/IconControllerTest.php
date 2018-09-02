@@ -117,7 +117,7 @@ class IconControllerTest extends TestCase {
 		}
 		$file = $this->iconFileMock('filename', 'filecontent');
 		$this->imageManager->expects($this->once())
-			->method('getImage')
+			->method('getImage', false)
 			->with('favicon')
 			->will($this->throwException(new NotFoundException()));
 		$this->imageManager->expects($this->any())
@@ -142,7 +142,7 @@ class IconControllerTest extends TestCase {
 	public function testGetFaviconFail() {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
-			->with('favicon')
+			->with('favicon', false)
 			->will($this->throwException(new NotFoundException()));
 		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')

@@ -265,7 +265,7 @@ class ThemingController extends Controller {
 		$this->imageManager->delete($key);
 
 		$target = $folder->newFile($key);
-		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/svg'];
+		$supportedFormats = $this->getSupportedUploadImageFormats($key);
 		$detectedMimeType = mime_content_type($image['tmp_name']);
 		if (!in_array($image['type'], $supportedFormats) || !in_array($detectedMimeType, $supportedFormats)) {
 			return new DataResponse(
@@ -316,6 +316,24 @@ class ThemingController extends Controller {
 				'status' => 'success'
 			]
 		);
+	}
+
+	/**
+	 * Returns a list of supported mime types for image uploads.
+	 * "favicon" images are only allowed to be SVG when imagemagick with SVG support is available.
+	 *
+	 * @param string $key The image key, e.g. "favicon"
+	 * @return array
+	 */
+	private function getSupportedUploadImageFormats(string $key): array {
+		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif',];
+
+		if ($key !== 'favicon' || $this->imageManager->shouldReplaceIcons() === true) {
+			$supportedFormats[] = 'image/svg+xml';
+			$supportedFormats[] = 'image/svg';
+		}
+
+		return $supportedFormats;
 	}
 
 	/**
