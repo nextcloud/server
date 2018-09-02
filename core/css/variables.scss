@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
+
  // SCSS darken/lighten function override
 @function nc-darken($color, $value) {
 	@return darken($color, $value);
@@ -60,8 +60,8 @@ $color-text-maxcontrast: nc-lighten($color-main-text, 46.2%) !default;
 $color-text-light: nc-lighten($color-main-text, 15%) !default;
 $color-text-lighter: nc-lighten($color-main-text, 30%) !default;
 
-$image-logo: url('../img/logo.svg?v=1');
-$image-login-background: url('../img/background.png?v=2');
+$image-logo: url('../img/logo.svg?v=1') !default;
+$image-login-background: url('../img/background.png?v=2') !default;
 
 $color-loading-light: #ccc !default;
 $color-loading-dark: #777 !default;
