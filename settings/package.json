@@ -14,7 +14,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "v-tooltip": "^2.0.0-rc.33",
-    "vue": "^2.5.16",
+    "vue": "^2.5.17",
     "vue-click-outside": "^1.0.7",
     "vue-infinite-loading": "^2.3.1",
     "vue-localstorage": "^0.6.2",
