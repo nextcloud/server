@@ -33,7 +33,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
     "css-loader": "^1.0.0",
-    "file-loader": "^1.1.11",
+    "file-loader": "^2.0.0",
     "vue-loader": "^15.2.6",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.16.1",
