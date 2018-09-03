@@ -396,7 +396,7 @@
 			$shareWithField.removeClass('error')
 				.tooltip('hide');
 
-			var perPage = 200;
+			var perPage = parseInt(oc_config['sharing.maxAutocompleteResults'], 10) || 200;
 			this._getSuggestions(
 				search.term.trim(),
 				perPage,
@@ -570,7 +570,7 @@
 				$shareWithField.focus();
 			};
 
-			var perPage = 200;
+			var perPage = parseInt(oc_config['sharing.maxAutocompleteResults'], 10) || 200;
 			var onlyExactMatches = true;
 			this._getSuggestions(
 				$shareWithField.val(),
