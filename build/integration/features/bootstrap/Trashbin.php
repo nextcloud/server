@@ -51,13 +51,17 @@ trait Trashbin {
 	 */
 	public function listTrashbinFolder($user, $path){
 		$this->asAn($user);
-		$params = '?dir=' . rawurlencode('/' . trim($path, '/'));
-		$this->sendingToWithDirectUrl('GET', '/index.php/apps/files_trashbin/ajax/list.php' . $params, null);
+		$this->sendingToWithDirectUrl('PROPFIND', "/remote.php/dav/trashbin/$user/$path", null);
 		$this->theHTTPStatusCodeShouldBe('200');
 
-		$response = json_decode($this->response->getBody(), true);
-
-		return $response['data']['files'];
+		$body = $this->response->getBody();
+		if($body && substr($body, 0, 1) === '<') {
+			$reader = new Sabre\Xml\Reader();
+			$reader->xml($body);
+			return $reader->parse();
+		} else {
+			return [];
+		}
 	}
 
 	/**
