@@ -22,6 +22,7 @@
 /* global oc_appconfig, sinon */
 describe('OC.Share.ShareDialogView', function() {
 	var $container;
+	var oldConfig;
 	var oldAppConfig;
 	var autocompleteStub;
 	var avatarStub;
@@ -40,6 +41,9 @@ describe('OC.Share.ShareDialogView', function() {
 		// horrible parameters
 		$('#testArea').append('<input id="allowShareWithLink" type="hidden" value="yes">');
 		$container = $('#shareContainer');
+		oldConfig = window.oc_config;
+		window.oc_config = window.oc_config || {};
+		window.oc_config['sharing.maxAutocompleteResults'] = 0;
 		/* jshint camelcase:false */
 		oldAppConfig = _.extend({}, oc_appconfig.core);
 		oc_appconfig.core.enforcePasswordForPublicLink = false;
@@ -108,6 +112,7 @@ describe('OC.Share.ShareDialogView', function() {
 	});
 	afterEach(function() {
 		OC.currentUser = oldCurrentUser;
+		window.oc_config = oldConfig;
 		/* jshint camelcase:false */
 		oc_appconfig.core = oldAppConfig;
 
@@ -357,9 +362,10 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly([], [])).toEqual(true);
+			expect(doneStub.calledWithExactly([], [], false)).toEqual(true);
 			expect(failStub.called).toEqual(false);
 		});
+
 		it('single partial match', function() {
 			var doneStub = sinon.stub();
 			var failStub = sinon.stub();
@@ -407,11 +413,14 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly([{
-				'label': 'bobby',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
-			}], [
-			])).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bobby',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				}],
+				[],
+				false
+			)).toEqual(true);
 			expect(failStub.called).toEqual(false);
 		});
 		it('single exact match', function() {
@@ -461,13 +470,17 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly([{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}], [{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}])).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
 			expect(failStub.called).toEqual(false);
 		});
 		it('mixed matches', function() {
@@ -548,28 +561,140 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly([{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}, {
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
-			}, {
-				'label': 'bobby',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
-			}, {
-				'label': 'bob the second',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user2'}
-			}, {
-				'label': 'bobfans',
-				'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
-			}], [{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}, {
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
-			}])).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
+				}, {
+					'label': 'bobby',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				}, {
+					'label': 'bob the second',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user2'}
+				}, {
+					'label': 'bobfans',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
+				}],
+				false
+			)).toEqual(true);
+			expect(failStub.called).toEqual(false);
+		});
+
+		it('capped mixed matches', function() {
+			window.oc_config['sharing.maxAutocompleteResults'] = 3;
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_GROUP,
+										'shareWith': 'group1'
+									}
+								}
+							],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [
+							{
+								'label': 'bobby',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'imbob'
+								}
+							},
+							{
+								'label': 'bob the second',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'user2'
+								}
+							}
+						],
+						'groups': [
+							{
+								'label': 'bobfans',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_GROUP,
+									'shareWith': 'fans'
+								}
+							}
+						],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
+				}, {
+					'label': 'bobby',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				}, {
+					'label': 'bob the second',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user2'}
+				}, {
+					'label': 'bobfans',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
+				}],
+				true
+			)).toEqual(true);
 			expect(failStub.called).toEqual(false);
 		});
 
@@ -620,13 +745,16 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly([{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}], [{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}])).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}], [{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
 			expect(failStub.called).toEqual(false);
 
 			var done2Stub = sinon.stub();
@@ -638,13 +766,17 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(failStub.called).toEqual(false);
 
 			expect(done2Stub.calledOnce).toEqual(true);
-			expect(done2Stub.calledWithExactly([{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}], [{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}])).toEqual(true);
+			expect(done2Stub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
 			expect(fail2Stub.called).toEqual(false);
 		});
 
@@ -695,13 +827,17 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly([{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}], [{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}])).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
 			expect(failStub.called).toEqual(false);
 
 			var done2Stub = sinon.stub();
@@ -741,13 +877,17 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(fail2Stub.called).toEqual(false);
 
 			expect(done3Stub.calledOnce).toEqual(true);
-			expect(done3Stub.calledWithExactly([{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}], [{
-				'label': 'bob',
-				'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-			}])).toEqual(true);
+			expect(done3Stub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
 			expect(fail3Stub.called).toEqual(false);
 		});
 	});
