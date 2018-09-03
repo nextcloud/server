@@ -315,6 +315,7 @@ class EmptyContentSecurityPolicy {
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 8.1.0
+	 * @deprecated 15.0.0 use addAllowedWorkerSrcDomains or addAllowedFrameDomain
 	 */
 	public function addAllowedChildSrcDomain($domain) {
 		$this->allowedChildSrcDomains[] = $domain;
@@ -327,6 +328,7 @@ class EmptyContentSecurityPolicy {
 	 * @param string $domain
 	 * @return $this
 	 * @since 8.1.0
+	 * @deprecated 15.0.0 use the WorkerSrcDomains or FrameDomain
 	 */
 	public function disallowChildSrcDomain($domain) {
 		$this->allowedChildSrcDomains = array_diff($this->allowedChildSrcDomains, [$domain]);
