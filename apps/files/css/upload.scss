@@ -44,6 +44,10 @@
 	height: 36px;
 	display:inline-block;
 	text-align: center;
+
+	.ui-progressbar-value {
+		margin: 0;
+	}
 }
 #uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
 	height: 100%;
