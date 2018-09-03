@@ -49,7 +49,7 @@ class Registry implements IRegistry {
 	 * @param string $category
 	 * @param array $context
 	 *
-	 * @since 13.0.0
+	 * @since 15.0.0
 	 */
 	public function delegateBreadcrumb(string $message, string $category, array $context = []) {
 		foreach ($this->reporters as $reporter) {
