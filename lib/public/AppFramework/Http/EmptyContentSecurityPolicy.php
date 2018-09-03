@@ -73,6 +73,8 @@ class EmptyContentSecurityPolicy {
 	protected $allowedChildSrcDomains = null;
 	/** @var array Domains which can embed this Nextcloud instance */
 	protected $allowedFrameAncestors = null;
+	/** @var array Domains from which web-workers can be loaded */
+	protected $allowedWorkerSrcDomains = null;
 
 	/**
 	 * Whether inline JavaScript snippets are allowed or forbidden
@@ -356,6 +358,30 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
+	 * Domain from which workers can be loaded
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 15.0.0
+	 */
+	public function addAllowedWorkerSrcDomain(string $domain) {
+		$this->allowedWorkerSrcDomains[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Remove domain from which workers can be loaded
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 15.0.0
+	 */
+	public function disallowWorkerSrcDomain(string $domain) {
+		$this->allowedWorkerSrcDomains = array_diff($this->allowedWorkerSrcDomains, [$domain]);
+		return $this;
+	}
+
+	/**
 	 * Get the generated Content-Security-Policy as a string
 	 * @return string
 	 * @since 8.1.0
@@ -436,6 +462,11 @@ class EmptyContentSecurityPolicy {
 
 		if(!empty($this->allowedFrameAncestors)) {
 			$policy .= 'frame-ancestors ' . implode(' ', $this->allowedFrameAncestors);
+			$policy .= ';';
+		}
+
+		if (!empty($this->allowedWorkerSrcDomains)) {
+			$policy .= 'worker-src ' . implode(' ', $this->allowedWorkerSrcDomains);
 			$policy .= ';';
 		}
 

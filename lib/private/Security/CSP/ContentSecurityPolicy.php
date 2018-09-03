@@ -213,4 +213,12 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 		$this->allowedFrameAncestors = $allowedFrameAncestors;
 	}
 
+	public function getAllowedWorkerSrcDomains(): array {
+		return $this->allowedWorkerSrcDomains;
+	}
+
+	public function setAllowedWorkerSrcDomains(array $allowedWorkerSrcDomains) {
+		$this->allowedWorkerSrcDomains = $allowedWorkerSrcDomains;
+	}
+
 }
