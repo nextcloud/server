@@ -390,7 +390,7 @@
 
 			// extend the parsed data using the custom parsers
 			_.each(this._fileInfoParsers, function(parserFunction) {
-				_.extend(data, parserFunction(response) || {});
+				_.extend(data, parserFunction(response, data) || {});
 			});
 
 			return new FileInfo(data);
