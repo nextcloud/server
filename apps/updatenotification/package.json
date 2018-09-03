@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/nextcloud/notifications#readme",
   "dependencies": {
-    "vue": "^2.5.16",
+    "vue": "^2.5.17",
     "vue-click-outside": "^1.0.7",
     "vue-select": "^2.4.0"
   },
