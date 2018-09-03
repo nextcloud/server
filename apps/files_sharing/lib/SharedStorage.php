@@ -195,7 +195,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$this->isValid()) {
 			return 0;
 		}
-		$permissions = $this->superShare->getPermissions();
+		$permissions = parent::getPermissions($target) & $this->superShare->getPermissions();
+
 		// part files and the mount point always have delete permissions
 		if ($target === '' || pathinfo($target, PATHINFO_EXTENSION) === 'part') {
 			$permissions |= \OCP\Constants::PERMISSION_DELETE;
