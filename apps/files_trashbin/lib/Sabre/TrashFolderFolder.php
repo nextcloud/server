@@ -28,16 +28,13 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
-class TrashFolderFolder implements ICollection, ITrash {
+class TrashFolderFolder extends AbstractTrash implements ICollection, ITrash {
 
 	/** @var string */
 	private $root;
 
 	/** @var string */
 	private $userId;
-
-	/** @var FileInfo */
-	private $data;
 
 	/** @var string */
 	private $location;
@@ -48,8 +45,8 @@ class TrashFolderFolder implements ICollection, ITrash {
 								string $location) {
 		$this->root = $root;
 		$this->userId = $userId;
-		$this->data = $data;
 		$this->location = $location;
+		parent::__construct($data);
 	}
 
 	public function createFile($name, $data = null) {
@@ -104,40 +101,15 @@ class TrashFolderFolder implements ICollection, ITrash {
 		\OCA\Files_Trashbin\Trashbin::delete($this->root . '/' . $this->getName(), $this->userId, null);
 	}
 
-	public function getName(): string {
-		return $this->data->getName();
-
-	}
-
 	public function setName($name) {
 		throw new Forbidden();
-	}
-
-	public function getLastModified(): int {
-		return $this->data->getMtime();
 	}
 
 	public function restore(): bool {
 		return \OCA\Files_Trashbin\Trashbin::restore($this->root . '/' . $this->getName(), $this->data->getName(), null);
 	}
 
-	public function getFilename(): string {
-		return $this->data->getName();
-	}
-
 	public function getOriginalLocation(): string {
 		return $this->location . '/' . $this->getFilename();
-	}
-
-	public function getDeletionTime(): int {
-		return $this->getLastModified();
-	}
-
-	public function getSize(): int {
-		return $this->data->getSize();
-	}
-
-	public function getFileId(): int {
-		return $this->data->getId();
 	}
 }

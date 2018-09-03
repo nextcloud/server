@@ -25,6 +25,8 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCP\Constants;
+use OCP\IPreview;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -39,7 +41,13 @@ class PropfindPlugin extends ServerPlugin {
 	/** @var Server */
 	private $server;
 
-	public function __construct() {
+	/** @var IPreview */
+	private $previewManager;
+
+	public function __construct(
+		IPreview $previewManager
+	) {
+		$this->previewManager = $previewManager;
 	}
 
 	public function initialize(Server $server) {
@@ -54,11 +62,11 @@ class PropfindPlugin extends ServerPlugin {
 			return;
 		}
 
-		$propFind->handle(self::TRASHBIN_FILENAME, function() use ($node) {
+		$propFind->handle(self::TRASHBIN_FILENAME, function () use ($node) {
 			return $node->getFilename();
 		});
 
-		$propFind->handle(self::TRASHBIN_ORIGINAL_LOCATION, function() use ($node) {
+		$propFind->handle(self::TRASHBIN_ORIGINAL_LOCATION, function () use ($node) {
 			return $node->getOriginalLocation();
 		});
 
@@ -72,6 +80,28 @@ class PropfindPlugin extends ServerPlugin {
 
 		$propFind->handle(FilesPlugin::FILEID_PROPERTYNAME, function () use ($node) {
 			return $node->getFileId();
+		});
+
+		$propFind->handle(FilesPlugin::PERMISSIONS_PROPERTYNAME, function () {
+			return 'GD'; // read + delete
+		});
+
+		$propFind->handle(FilesPlugin::GETETAG_PROPERTYNAME, function () use ($node) {
+			// add fake etag, it is only needed to identify the preview image
+			return $node->getLastModified();
+		});
+
+		$propFind->handle(FilesPlugin::INTERNAL_FILEID_PROPERTYNAME, function () use ($node) {
+			// add fake etag, it is only needed to identify the preview image
+			return $node->getFileId();
+		});
+
+		$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
+			return $this->previewManager->isAvailable($node->getFileInfo());
+		});
+
+		$propFind->handle(FilesPlugin::MOUNT_TYPE_PROPERTYNAME, function () {
+			return '';
 		});
 	}
 
