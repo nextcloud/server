@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"axios": "^0.18.0",
-		"vue": "^2.5.16"
+		"vue": "^2.5.17"
 	},
 	"browserslist": [
 		"last 2 versions",
