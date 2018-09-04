@@ -122,18 +122,6 @@ class Util {
 	}
 
 	/**
-	 * write exception into the log
-	 * @param string $app app name
-	 * @param \Exception $ex exception to log
-	 * @param int $level log level, defaults to \OCP\Util::FATAL
-	 * @since ....0.0 - parameter $level was added in 7.0.0
-	 * @deprecated 8.2.0 use logException of \OCP\ILogger
-	 */
-	public static function logException( $app, \Exception $ex, $level = ILogger::FATAL) {
-		\OC::$server->getLogger()->logException($ex, ['app' => $app]);
-	}
-
-	/**
 	 * check if sharing is disabled for the current user
 	 *
 	 * @return boolean
@@ -423,38 +411,6 @@ class Util {
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
 		return \OC_Helper::mb_array_change_key_case($input, $case, $encoding);
-	}
-
-	/**
-	 * replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
-	 *
-	 * @param string $string The input string. Opposite to the PHP build-in function does not accept an array.
-	 * @param string $replacement The replacement string.
-	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	 * @param int $length Length of the part to be replaced
-	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	 * @return string
-	 * @since 4.5.0
-	 * @deprecated 8.2.0 Use substr_replace() instead.
-	 */
-	public static function mb_substr_replace($string, $replacement, $start, $length = null, $encoding = 'UTF-8') {
-		return substr_replace($string, $replacement, $start, $length);
-	}
-
-	/**
-	 * Replace all occurrences of the search string with the replacement string
-	 *
-	 * @param string $search The value being searched for, otherwise known as the needle. String.
-	 * @param string $replace The replacement string.
-	 * @param string $subject The string or array being searched and replaced on, otherwise known as the haystack.
-	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	 * @param int $count If passed, this will be set to the number of replacements performed.
-	 * @return string
-	 * @since 4.5.0
-	 * @deprecated 8.2.0 Use str_replace() instead.
-	 */
-	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
-		return str_replace($search, $replace, $subject, $count);
 	}
 
 	/**
