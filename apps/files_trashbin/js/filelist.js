@@ -38,6 +38,7 @@
 	 * @param [options] map of options
 	 */
 	var FileList = function($el, options) {
+		this.client = options.client;
 		this.initialize($el, options);
 	};
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
@@ -51,12 +52,6 @@
 		 * @private
 		 */
 		initialize: function() {
-			this.client = new OC.Files.Client({
-				host: OC.getHost(),
-				port: OC.getPort(),
-				root: OC.linkToRemoteBase('dav') + '/trashbin/' + OC.getCurrentUser().uid,
-				useHTTPS: OC.getProtocol() === 'https'
-			});
 			this.client.addFileInfoParser(function(response, data) {
 				var props = response.propStat[0].properties;
 				return {
@@ -143,15 +138,10 @@
 			this.$el.find('#filestable th').toggleClass('hidden', !exists);
 		},
 
-		_removeCallback: function(result) {
-			if (result.status !== 'success') {
-				OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
-			}
-
-			var files = result.data.success;
+		_removeCallback: function(files) {
 			var $el;
 			for (var i = 0; i < files.length; i++) {
-				$el = this.remove(OC.basename(files[i].filename), {updateSummary: false});
+				$el = this.remove(OC.basename(files[i]), {updateSummary: false});
 				this.fileSummary.remove({type: $el.attr('data-type'), size: $el.attr('data-size')});
 			}
 			this.fileSummary.update();
@@ -208,50 +198,42 @@
 			event.preventDefault();
 			var self = this;
 			var allFiles = this.$el.find('.select-all').is(':checked');
-			var files = [];
-			var params = {};
-			if (allFiles) {
-				params = {
-					allfiles: true,
-					dir: this.getCurrentDirectory()
-				};
-			}
-			else {
-				files = _.pluck(this.getSelectedFiles(), 'name');
-				params = {
-					files: JSON.stringify(files),
-					dir: this.getCurrentDirectory()
-				};
+			var files = _.pluck(this.getSelectedFiles(), 'name');
+			for (var i = 0; i < files.length; i++) {
+				var tr = this.findFileEl(files[i]);
+				this.showFileBusyState(tr, true);
 			}
 
-			this.fileMultiSelectMenu.toggleLoading('delete', true);
 			if (allFiles) {
-				this.showMask();
-			}
-			else {
-				for (var i = 0; i < files.length; i++) {
-					var deleteAction = this.findFileEl(files[i]).children("td.date").children(".action.delete");
-					deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
-				}
-			}
-
-			$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'),
-					params,
-					function(result) {
-						if (allFiles) {
-							if (result.status !== 'success') {
-								OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
-							}
+				return this.client.remove('trash/' + this.getCurrentDirectory())
+					.then(
+						function() {
 							self.hideMask();
-							// simply remove all files
 							self.setFiles([]);
+						},
+						function() {
+							OC.Notification.show(t('files_trashbin', 'Error while emptying trashbin'));
 						}
-						else {
-							self._removeCallback(result);
-						}
+					);
+			} else {
+				this.fileMultiSelectMenu.toggleLoading('delete', true);
+				var deletePromises = files.map(function(file) {
+					return self.client.remove('trash/' + self.getCurrentDirectory() + '/' + file)
+						.then(
+							function() {
+								self._removeCallback([file]);
+							}
+						);
+				});
+				return Promise.all(deletePromises).then(
+					function() {
 						self.fileMultiSelectMenu.toggleLoading('delete', false);
+					},
+					function() {
+						OC.Notification.show(t('files_trashbin', 'Error while removing files from trashbin'));
 					}
-			);
+				);
+			}
 		},
 
 		_onClickFile: function(event) {
