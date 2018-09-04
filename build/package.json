@@ -16,7 +16,7 @@
     "jasmine-core": "~2.5.2",
     "jasmine-sinon": "^0.4.0",
     "jsdoc": "~3.5.5",
-    "karma": "^2.0.2",
+    "karma": "^3.0.0",
     "karma-coverage": "*",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-sinon": "^1.0.4",
