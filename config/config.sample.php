@@ -1506,7 +1506,7 @@ $CONFIG = array(
  * If set incorrectly, a client can spoof their IP address as visible to
  * Nextcloud, bypassing access controls and making logs useless!
  *
- * Defaults to ``'HTTP_X_FORWARED_FOR'``
+ * Defaults to ``'HTTP_X_FORWARDED_FOR'``
  */
 'forwarded_for_headers' => array('HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'),
 
