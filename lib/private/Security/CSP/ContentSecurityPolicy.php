@@ -187,6 +187,7 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 
 	/**
 	 * @return array
+	 * @deprecated 15.0.0 use FrameDomains and WorkerSrcDomains
 	 */
 	public function getAllowedChildSrcDomains(): array {
 		return $this->allowedChildSrcDomains;
@@ -194,6 +195,7 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 
 	/**
 	 * @param array $allowedChildSrcDomains
+	 * @deprecated 15.0.0 use FrameDomains and WorkerSrcDomains
 	 */
 	public function setAllowedChildSrcDomains($allowedChildSrcDomains) {
 		$this->allowedChildSrcDomains = $allowedChildSrcDomains;
@@ -211,6 +213,14 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	 */
 	public function setAllowedFrameAncestors($allowedFrameAncestors) {
 		$this->allowedFrameAncestors = $allowedFrameAncestors;
+	}
+
+	public function getAllowedWorkerSrcDomains(): array {
+		return $this->allowedWorkerSrcDomains;
+	}
+
+	public function setAllowedWorkerSrcDomains(array $allowedWorkerSrcDomains) {
+		$this->allowedWorkerSrcDomains = $allowedWorkerSrcDomains;
 	}
 
 }

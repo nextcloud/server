@@ -73,6 +73,8 @@ class EmptyContentSecurityPolicy {
 	protected $allowedChildSrcDomains = null;
 	/** @var array Domains which can embed this Nextcloud instance */
 	protected $allowedFrameAncestors = null;
+	/** @var array Domains from which web-workers can be loaded */
+	protected $allowedWorkerSrcDomains = null;
 
 	/**
 	 * Whether inline JavaScript snippets are allowed or forbidden
@@ -313,6 +315,7 @@ class EmptyContentSecurityPolicy {
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 8.1.0
+	 * @deprecated 15.0.0 use addAllowedWorkerSrcDomains or addAllowedFrameDomain
 	 */
 	public function addAllowedChildSrcDomain($domain) {
 		$this->allowedChildSrcDomains[] = $domain;
@@ -325,6 +328,7 @@ class EmptyContentSecurityPolicy {
 	 * @param string $domain
 	 * @return $this
 	 * @since 8.1.0
+	 * @deprecated 15.0.0 use the WorkerSrcDomains or FrameDomain
 	 */
 	public function disallowChildSrcDomain($domain) {
 		$this->allowedChildSrcDomains = array_diff($this->allowedChildSrcDomains, [$domain]);
@@ -352,6 +356,30 @@ class EmptyContentSecurityPolicy {
 	 */
 	public function disallowFrameAncestorDomain($domain) {
 		$this->allowedFrameAncestors = array_diff($this->allowedFrameAncestors, [$domain]);
+		return $this;
+	}
+
+	/**
+	 * Domain from which workers can be loaded
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 15.0.0
+	 */
+	public function addAllowedWorkerSrcDomain(string $domain) {
+		$this->allowedWorkerSrcDomains[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Remove domain from which workers can be loaded
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 15.0.0
+	 */
+	public function disallowWorkerSrcDomain(string $domain) {
+		$this->allowedWorkerSrcDomains = array_diff($this->allowedWorkerSrcDomains, [$domain]);
 		return $this;
 	}
 
@@ -436,6 +464,11 @@ class EmptyContentSecurityPolicy {
 
 		if(!empty($this->allowedFrameAncestors)) {
 			$policy .= 'frame-ancestors ' . implode(' ', $this->allowedFrameAncestors);
+			$policy .= ';';
+		}
+
+		if (!empty($this->allowedWorkerSrcDomains)) {
+			$policy .= 'worker-src ' . implode(' ', $this->allowedWorkerSrcDomains);
 			$policy .= ';';
 		}
 
