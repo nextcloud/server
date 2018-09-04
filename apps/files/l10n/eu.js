@@ -140,6 +140,6 @@ OC.L10N.register(
     "Shared with you" : "Zurekin partekatuta",
     "Shared by link" : "Partekatua link bidez",
     "Text file" : "Testu fitxategia",
-    "New text file.txt" : ".txt testu fitxategi berria"
+    "New text file.txt" : "TXT berria.txt"
 },
 "nplurals=2; plural=(n != 1);");
