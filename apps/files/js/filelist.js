@@ -254,7 +254,7 @@
 				this.id = options.id;
 			}
 			this.$container = options.scrollContainer || $(window);
-			this.$table = $el.find('table:first');
+			this.$table = $el.find('#filestable:first');
 			this.$fileList = $el.find('#fileList');
 
 			if (!_.isUndefined(this._filesConfig)) {
@@ -314,10 +314,10 @@
 			if (this._folderDropOptions) {
 				breadcrumbOptions.onDrop = _.bind(this._onDropOnBreadCrumb, this);
 				breadcrumbOptions.onOver = function() {
-					self.$el.find('td.filename.ui-droppable').droppable('disable');
+					self.$el.find('.filename.ui-droppable').droppable('disable');
 				}
 				breadcrumbOptions.onOut = function() {
-					self.$el.find('td.filename.ui-droppable').droppable('enable');
+					self.$el.find('.filename.ui-droppable').droppable('enable');
 				}
 			}
 			this.breadcrumb = new OCA.Files.BreadCrumb(breadcrumbOptions);
@@ -330,7 +330,7 @@
 
 			this._renderNewButton();
 
-			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
+			this.$el.find('.list-header .columntitle').click(_.bind(this._onClickHeader, this));
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
@@ -340,9 +340,9 @@
 
 			this.updateSearch();
 
-			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
+			this.$fileList.on('click','.filename>a.name, .filesize, .date', _.bind(this._onClickFile, this));
 
-			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
+			this.$fileList.on('change', '.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
@@ -617,7 +617,7 @@
 		 * @param {bool} state true to select, false to deselect
 		 */
 		_selectFileEl: function($tr, state, showDetailsView) {
-			var $checkbox = $tr.find('td.selection>.selectCheckBox');
+			var $checkbox = $tr.find('.selection>.selectCheckBox');
 			var oldData = !!this._selectedFiles[$tr.data('id')];
 			var data;
 			$checkbox.prop('checked', state);
@@ -646,7 +646,7 @@
 		 * Event handler for when clicking on files to select them
 		 */
 		_onClickFile: function(event) {
-			var $tr = $(event.target).closest('tr');
+			var $tr = $(event.target).closest('.list-element');
 			if ($tr.hasClass('dragging')) {
 				return;
 			}
@@ -656,7 +656,7 @@
 					var $lastTr = $(this._lastChecked);
 					var lastIndex = $lastTr.index();
 					var currentIndex = $tr.index();
-					var $rows = this.$fileList.children('tr');
+					var $rows = this.$fileList.children('.list-element');
 
 					// last clicked checkbox below current one ?
 					if (lastIndex > currentIndex) {
@@ -673,7 +673,7 @@
 				else {
 					this._lastChecked = $tr;
 				}
-				var $checkbox = $tr.find('td.selection>.selectCheckBox');
+				var $checkbox = $tr.find('.selection>.selectCheckBox');
 				this._selectFileEl($tr, !$checkbox.prop('checked'));
 				this.updateSelectionSummary();
 			} else {
@@ -682,7 +682,7 @@
 					var filename = $tr.attr('data-file');
 					var renaming = $tr.data('renaming');
 					if (!renaming) {
-						this.fileActions.currentFile = $tr.find('td');
+						this.fileActions.currentFile = $tr.find('.filename');
 						var mime = this.fileActions.getCurrentMimeType();
 						var type = this.fileActions.getCurrentType();
 						var permissions = this.fileActions.getCurrentPermissions();
@@ -709,7 +709,7 @@
 					// the details to be shown.
 					event.preventDefault();
 					var filename = $tr.attr('data-file');
-					this.fileActions.currentFile = $tr.find('td');
+					this.fileActions.currentFile = $tr.find('.filename');
 					var mime = this.fileActions.getCurrentMimeType();
 					var type = this.fileActions.getCurrentType();
 					var permissions = this.fileActions.getCurrentPermissions();
@@ -732,7 +732,7 @@
 		 * Event handler for when clicking on a file's checkbox
 		 */
 		_onClickFileCheckbox: function(e) {
-			var $tr = $(e.target).closest('tr');
+			var $tr = $(e.target).closest('.list-element');
 			var state = !$tr.hasClass('selected');
 			this._selectFileEl($tr, state);
 			this._lastChecked = $tr;
@@ -749,8 +749,8 @@
 		_onClickSelectAll: function(e) {
 			var checked = $(e.target).prop('checked');
 			// Select only visible checkboxes to filter out unmatched file in search
-			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
-				.closest('tr').toggleClass('selected', checked);
+			this.$fileList.find('.selection > .selectCheckBox:visible').prop('checked', checked)
+				.closest('.list-element').toggleClass('selected', checked);
 
 			if (checked) {
 				for (var i = 0; i < this.files.length; i++) {
@@ -767,9 +767,9 @@
 			} else {
 				// if we have some hidden row, then we're in a search
 				// Let's only deselect the visible ones
-				var hiddenFiles = this.$fileList.find('tr.hidden');
+				var hiddenFiles = this.$fileList.find('.list-element.hidden');
 				if (hiddenFiles.length > 0) {
-					var visibleFiles = this.$fileList.find('tr:not(.hidden)');
+					var visibleFiles = this.$fileList.find('.list-element:not(.hidden)');
 					var self = this;
 					visibleFiles.each(function() {
 						var id = parseInt($(this).data('id'));
@@ -952,7 +952,7 @@
 			var files = this.getSelectedFiles();
 			if (files.length === 0) {
 				// single one selected without checkbox?
-				files = _.map(ui.helper.find('tr'), function(el) {
+				files = _.map(ui.helper.find('.list-element'), function(el) {
 					return self.elementToFile($(el));
 				});
 			}
@@ -963,7 +963,7 @@
 			// sometimes the filename drop handler is still called after re-enable,
 			// it seems that waiting for a short time before re-enabling solves the problem
 			setTimeout(function() {
-				self.$el.find('td.filename.ui-droppable').droppable('enable');
+				self.$el.find('.filename.ui-droppable').droppable('enable');
 			}, 10);
 		},
 
@@ -1003,7 +1003,7 @@
 		 */
 		findFileEl: function(fileName){
 			// use filterAttr to avoid escaping issues
-			return this.$fileList.find('tr').filterAttr('data-file', fileName);
+			return this.$fileList.find('.list-element').filterAttr('data-file', fileName);
 		},
 
 		/**
@@ -1109,13 +1109,13 @@
 		 */
 		_onFileActionsUpdated: function() {
 			var self = this;
-			var $files = this.$fileList.find('tr');
+			var $files = this.$fileList.find('.list-element');
 			if (!$files.length) {
 				return;
 			}
 
 			$files.each(function() {
-				self.fileActions.display($(this).find('td.filename'), false, self);
+				self.fileActions.display($(this).find('.filename'), false, self);
 			});
 			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: $files}));
 
@@ -1239,7 +1239,7 @@
 			}
 
 			//containing tr
-			var tr = $('<tr></tr>').attr({
+			var tr = $('<div class="list-element"></div>').attr({
 				"data-id" : fileData.id,
 				"data-type": type,
 				"data-size": fileData.size,
@@ -1281,7 +1281,7 @@
 
 			// selection td
 			if (this._allowSelection) {
-				td = $('<td class="selection"></td>');
+				td = $('<div class="selection"></div>');
 
 				td.append(
 					'<input id="select-' + this.id + '-' + fileData.id +
@@ -1294,7 +1294,7 @@
 			}
 
 			// filename td
-			td = $('<td class="filename"></td>');
+			td = $('<div class="filename"></div>');
 
 
 			// linkUrl
@@ -1340,7 +1340,7 @@
 						firstConflictPath = firstConflictPath.substr(1);
 					}
 					if (firstConflictPath && firstConflictPath !== '/') {
-						$firstConflict.find('td.filename span.innernametext').prepend($('<span></span>').addClass('conflict-path').text(firstConflictPath));
+						$firstConflict.find('.filename span.innernametext').prepend($('<span></span>').addClass('conflict-path').text(firstConflictPath));
 					}
 				}
 
@@ -1385,7 +1385,7 @@
 				simpleSize = t('files', 'Pending');
 			}
 
-			td = $('<td></td>').attr({
+			td = $('<div></div>').attr({
 				"class": "filesize",
 				"style": 'color:rgb(' + sizeColor + ',' + sizeColor + ',' + sizeColor + ')'
 			}).text(simpleSize);
@@ -1409,7 +1409,7 @@
 				formatted = t('files', 'Unable to determine date');
 				text = '?';
 			}
-			td = $('<td></td>').attr({ "class": "date" });
+			td = $('<div></div>').attr({ "class": "date" });
 			td.append($('<span></span>').attr({
 				"class": "modified live-relative-timestamp",
 				"title": formatted,
@@ -1539,7 +1539,7 @@
 				fileData,
 				options
 			);
-			var filenameTd = tr.find('td.filename');
+			var filenameTd = tr.find('.filename');
 
 			// TODO: move dragging to FileActions ?
 			// enable drag only for deletable files
@@ -2134,7 +2134,7 @@
 							var oldSize = oldFile.data('size');
 							var newSize = oldSize + newFile.data('size');
 							oldFile.data('size', newSize);
-							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+							oldFile.find('.filesize').text(OC.Util.humanFileSize(newSize));
 
 							// TODO: also update entry in FileList.files
 							self.remove(fileName);
@@ -2203,7 +2203,7 @@
 							var oldSize = oldFile.data('size');
 							var newSize = oldSize + newFile.data('size');
 							oldFile.data('size', newSize);
-							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+							oldFile.find('.filesize').text(OC.Util.humanFileSize(newSize));
 						}
 					})
 					.fail(function(status) {
@@ -2300,7 +2300,7 @@
 			tr = this.findFileEl(oldName);
 			var oldFileInfo = this.files[tr.index()];
 			tr.data('renaming',true);
-			td = tr.children('td.filename');
+			td = tr.children('.filename');
 			input = $('<input type="text" class="filename"/>').val(oldName);
 			form = $('<form></form>');
 			form.append(input);
@@ -2744,7 +2744,7 @@
 			if (this._allowSelection) {
 				// Dummy column for selection, as all rows must have the same
 				// number of columns.
-				$tr.append('<td></td>');
+				$tr.append('<div></div>');
 			}
 
 			this.$el.find('tfoot').append($tr);
@@ -2756,7 +2756,7 @@
 			var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
 			this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
 			this.$el.find('#emptycontent .uploadmessage').toggleClass('hidden', !isCreatable || !this.isEmpty);
-			this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
+			this.$el.find('#filestable .list-header').toggleClass('hidden', this.isEmpty);
 		},
 		/**
 		 * Shows the loading mask.
@@ -2844,7 +2844,7 @@
 				}
 			}
 
-			var $trs = this.$fileList.find('tr');
+			var $trs = this.$fileList.find('.list-element');
 			do {
 				_.each($trs, filterRows);
 				if (visibleCount < total) {
@@ -2856,7 +2856,7 @@
 		},
 		hideIrrelevantUIWhenNoFilesMatch:function() {
 			if (this._filter && this.fileSummary.summary.totalDirs + this.fileSummary.summary.totalFiles === 0) {
-				this.$el.find('#filestable thead th').addClass('hidden');
+				this.$el.find('#filestable .list-header').addClass('hidden');
 				this.$el.find('#emptycontent').addClass('hidden');
 				$('#searchresults').addClass('filter-empty');
 				$('#searchresults .emptycontent').addClass('emptycontent-search');
@@ -2868,7 +2868,7 @@
 			} else {
 				$('#searchresults').removeClass('filter-empty');
 				$('#searchresults .emptycontent').removeClass('emptycontent-search');
-				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
+				this.$el.find('#filestable .list-header').toggleClass('hidden', this.isEmpty);
 				if (!this.$el.find('.mask').exists()) {
 					this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
 				}
@@ -2905,7 +2905,7 @@
 				this.$el.find('#headerName a.name>span:first').text(t('files','Name'));
 				this.$el.find('#headerSize a>span:first').text(t('files','Size'));
 				this.$el.find('#modified a>span:first').text(t('files','Modified'));
-				this.$el.find('table').removeClass('multiselect');
+				this.$el.find('#filestable').removeClass('multiselect');
 				this.$el.find('.selectedActions').addClass('hidden');
 			}
 			else {
@@ -2934,7 +2934,7 @@
 
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
-				this.$el.find('table').addClass('multiselect');
+				this.$el.find('#filestable').addClass('multiselect');
 
 				if (this.fileMultiSelectMenu) {
 					this.fileMultiSelectMenu.toggleItemVisibility('download', this.isSelectedDownloadable());
@@ -3137,7 +3137,7 @@
 
 					var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 					if (currentUploads === 1) {
-						self.showFileBusyState(uploadText.closest('tr'), true);
+						self.showFileBusyState(uploadText.closest('.list-element'), true);
 						uploadText.text(translatedText);
 						uploadText.show();
 					} else {
@@ -3174,7 +3174,7 @@
 				}
 
 				var uploadText = self.$fileList.find('tr .uploadtext');
-				self.showFileBusyState(uploadText.closest('tr'), false);
+				self.showFileBusyState(uploadText.closest('.list-element'), false);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
 
@@ -3200,7 +3200,7 @@
 				});
 
 				var uploadText = self.$fileList.find('tr .uploadtext');
-				self.showFileBusyState(uploadText.closest('tr'), false);
+				self.showFileBusyState(uploadText.closest('.list-element'), false);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
 			});
@@ -3211,7 +3211,7 @@
 				//if user pressed cancel hide upload chrome
 				//cleanup uploading to a dir
 				var uploadText = self.$fileList.find('tr .uploadtext');
-				self.showFileBusyState(uploadText.closest('tr'), false);
+				self.showFileBusyState(uploadText.closest('.list-element'), false);
 				uploadText.fadeOut();
 				uploadText.attr('currentUploads', 0);
 				self.updateStorageStatistics();
