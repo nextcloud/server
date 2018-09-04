@@ -120,6 +120,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getL10N($c->query('AppName'));
 		});
 
+		// Log wrapper
+		$this->registerService(ILogger::class, function ($c) {
+			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->query('AppName'));
+		});
+
 		$this->registerAlias(\OCP\AppFramework\Utility\IControllerMethodReflector::class, \OC\AppFramework\Utility\ControllerMethodReflector::class);
 		$this->registerAlias('ControllerMethodReflector', \OCP\AppFramework\Utility\IControllerMethodReflector::class);
 
