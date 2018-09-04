@@ -400,6 +400,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\AppFramework\\Http\\Dispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Dispatcher.php',
         'OC\\AppFramework\\Http\\Output' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Output.php',
         'OC\\AppFramework\\Http\\Request' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Request.php',
+        'OC\\AppFramework\\Logger' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Logger.php',
         'OC\\AppFramework\\Middleware\\MiddlewareDispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/MiddlewareDispatcher.php',
         'OC\\AppFramework\\Middleware\\OCSMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/OCSMiddleware.php',
         'OC\\AppFramework\\Middleware\\PublicShare\\Exceptions\\NeedAuthenticationException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/PublicShare/Exceptions/NeedAuthenticationException.php',
