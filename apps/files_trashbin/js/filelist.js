@@ -151,47 +151,29 @@
 		_onClickRestoreSelected: function(event) {
 			event.preventDefault();
 			var self = this;
-			var allFiles = this.$el.find('.select-all').is(':checked');
-			var files = [];
-			var params = {};
-			this.fileMultiSelectMenu.toggleLoading('restore', true);
-			if (allFiles) {
-				this.showMask();
-				params = {
-					allfiles: true,
-					dir: this.getCurrentDirectory()
-				};
-			}
-			else {
-				files = _.pluck(this.getSelectedFiles(), 'name');
-				for (var i = 0; i < files.length; i++) {
-					var deleteAction = this.findFileEl(files[i]).children("td.date").children(".action.delete");
-					deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
-				}
-				params = {
-					files: JSON.stringify(files),
-					dir: this.getCurrentDirectory()
-				};
+			var files = _.pluck(this.getSelectedFiles(), 'name');
+			for (var i = 0; i < files.length; i++) {
+				var tr = this.findFileEl(files[i]);
+				this.showFileBusyState(tr, true);
 			}
 
-			$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'),
-				params,
-				function(result) {
-					if (allFiles) {
-						if (result.status !== 'success') {
-							OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
+			this.fileMultiSelectMenu.toggleLoading('restore', true);
+			var restorePromises = files.map(function(file) {
+				return self.client.move(OC.joinPaths('trash', self.getCurrentDirectory(), file), OC.joinPaths('restore', file), true)
+					.then(
+						function() {
+							self._removeCallback([file]);
 						}
-						self.hideMask();
-						// simply remove all files
-						self.setFiles([]);
-					}
-					else {
-						self._removeCallback(result);
-					}
+					);
+			});
+			return Promise.all(restorePromises).then(
+				function() {
 					self.fileMultiSelectMenu.toggleLoading('restore', false);
+				},
+				function() {
+					OC.Notification.show(t('files_trashbin', 'Error while restoring files from trashbin'));
 				}
 			);
-			event.preventDefault();
 		},
 
 		_onClickDeleteSelected: function(event) {
@@ -205,7 +187,7 @@
 			}
 
 			if (allFiles) {
-				return this.client.remove('trash/' + this.getCurrentDirectory())
+				return this.client.remove(OC.joinPaths('trash', this.getCurrentDirectory()))
 					.then(
 						function() {
 							self.hideMask();
@@ -218,7 +200,7 @@
 			} else {
 				this.fileMultiSelectMenu.toggleLoading('delete', true);
 				var deletePromises = files.map(function(file) {
-					return self.client.remove('trash/' + self.getCurrentDirectory() + '/' + file)
+					return self.client.remove(OC.joinPaths('trash', self.getCurrentDirectory(), file))
 						.then(
 							function() {
 								self._removeCallback([file]);

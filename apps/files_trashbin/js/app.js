@@ -76,14 +76,16 @@ OCA.Trashbin.App = {
 			actionHandler: function (filename, context) {
 				var fileList = context.fileList;
 				var tr = fileList.findFileEl(filename);
-				var deleteAction = tr.children("td.date").children(".action.delete");
-				deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
-				$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'), {
-						files: JSON.stringify([filename]),
-						dir: fileList.getCurrentDirectory()
-					},
-					_.bind(fileList._removeCallback, fileList)
-				);
+				fileList.showFileBusyState(tr, true);
+				var dir = context.fileList.getCurrentDirectory();
+				client.move(OC.joinPaths('trash', dir, filename), OC.joinPaths('restore', filename), true)
+					.then(
+						fileList._removeCallback.bind(fileList, [filename]),
+						function () {
+							fileList.showFileBusyState(tr, false);
+							OC.Notification.show(t('files_trashbin', 'Error while restoring file from trashbin'));
+						}
+					);
 			}
 		});
 
@@ -104,12 +106,13 @@ OCA.Trashbin.App = {
 				var fileList = context.fileList;
 				$('.tipsy').remove();
 				var tr = fileList.findFileEl(filename);
-				var deleteAction = tr.children("td.date").children(".action.delete");
-				deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
-				client.remove('trash/' + filename)
+				fileList.showFileBusyState(tr, true);
+				var dir = context.fileList.getCurrentDirectory();
+				client.remove(OC.joinPaths('trash', dir, filename))
 					.then(
 						fileList._removeCallback.bind(fileList, [filename]),
 						function () {
+							fileList.showFileBusyState(tr, false);
 							OC.Notification.show(t('files_trashbin', 'Error while removing file from trashbin'));
 						}
 					);
