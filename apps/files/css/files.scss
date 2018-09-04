@@ -52,10 +52,71 @@
 	min-width: 500px;
 }
 
+#filestable #fileList {
+	display: flex;
+	flex-direction: column;
+}
+
 #filestable .list-element {
 	height: 51px;
 	display: flex;
 	flex-direction: row;
+}
+
+#filestable.view-grid {
+	#fileList {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+
+		.list-element {
+			position: relative;
+			display: inline-block;
+			height: 200px;
+			width: 200px;
+			border-bottom: none;
+
+			.filename a.name {
+				flex-direction: column;
+				height: 100%;
+
+				.thumbnail-wrapper {
+					width: 100%;
+					max-width: 100%;
+					height: 150px;
+
+					.thumbnail {
+						width: 150px;
+						height: 150px;
+						background-size: 150px;
+						border-radius: 10px;
+					}
+				}
+
+				.nametext {
+					width: auto;
+					max-width: 100%;
+					margin: auto;
+				}
+			}
+
+			.selection {
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 100;
+			}
+
+			.fileactions {
+
+			}
+
+			.filesize,
+			.date {
+				display: none;
+			}
+		}
+	}
 }
 
 /* fit app list view heights */

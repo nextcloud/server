@@ -24,6 +24,7 @@
 	<?php endif;?>
 	<input type="hidden" class="max_human_file_size"
 		   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
+	<button id="view-button" class="button view-switcher icon-toggle-pictures"><span class="hidden-visually"><?php p($l->t('Toggle grid view'))?></button>
 </div>
 
 <div id="emptycontent" class="hidden">
@@ -38,7 +39,7 @@
 	<p></p>
 </div>
 
-<div id="filestable" class="list-container" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
+<div id="filestable" class="view-grid list-container" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
 	<div class="list-header">
 		<div>
 			<div id="headerSelection" class="hidden list-column column-selection">

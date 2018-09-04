@@ -332,6 +332,9 @@
 
 			this.$el.find('.list-header .columntitle').click(_.bind(this._onClickHeader, this));
 
+			// Toggle for grid view
+			$('#view-button').on('click', this._onGridToggle);
+
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
 			$(window).resize(this._onResize);
@@ -582,6 +585,13 @@
 			this.breadcrumb._resize();
 
 			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
+		},
+
+		/**
+		 * Event handler for grid view toggle
+		 */
+		_onGridToggle: function() {
+			$('.list-container').toggleClass('view-grid');
 		},
 
 		/**
