@@ -196,24 +196,26 @@
 					sorter: function (q, items) { return items; }
 				},
 				displayTpl: function (item) {
-					return '<li>'
-						+ '<span class="avatar-name-wrapper">'
-						+ '<span class="avatar" '
-						+ ' data-username="' + escapeHTML(item.id) + '"'	// for avatars
-						+ ' data-user="' + escapeHTML(item.id) + '"'		// for contactsmenu
-						+ ' data-user-display-name="' + escapeHTML(item.label) + '"></span>'
-						+ '<strong>' + escapeHTML(item.label) + '</strong>'
-						+ '</span></li>';
+					return '<li>' +
+						'<span class="avatar-name-wrapper">' +
+							'<span class="avatar" ' +
+									'data-username="' + escapeHTML(item.id) + '" ' + // for avatars
+									'data-user="' + escapeHTML(item.id) + '" ' + // for contactsmenu
+									'data-user-display-name="' + escapeHTML(item.label) + '">' +
+							'</span>' +
+							'<strong>' + escapeHTML(item.label) + '</strong>' +
+						'</span></li>';
 				},
 				insertTpl: function (item) {
-					return ''
-						+ '<span class="avatar-name-wrapper">'
-						+ '<span class="avatar" '
-						+ ' data-username="' + escapeHTML(item.id) + '"'	// for avatars
-						+ ' data-user="' + escapeHTML(item.id) + '"'		// for contactsmenu
-						+ ' data-user-display-name="' + escapeHTML(item.label) + '"></span>'
-						+ '<strong>' + escapeHTML(item.label) + '</strong>'
-						+ '</span>';
+					return '' +
+						'<span class="avatar-name-wrapper">' +
+							'<span class="avatar" ' +
+									'data-username="' + escapeHTML(item.id) + '" ' + // for avatars
+									'data-user="' + escapeHTML(item.id) + '" ' + // for contactsmenu
+									'data-user-display-name="' + escapeHTML(item.label) + '">' +
+							'</span>' +
+							'<strong>' + escapeHTML(item.label) + '</strong>' +
+						'</span>';
 				},
 				searchKey: "label"
 			});
@@ -486,20 +488,22 @@
 		},
 
 		_composeHTMLMention: function(uid, displayName) {
-			var avatar = '<span class="avatar" '
-				+ 'data-username="' + _.escape(uid) + '"'
-				+ ' data-user="' + _.escape(uid) + '"'
-				+ ' data-user-display-name="'
-				+ _.escape(displayName) + '"></span>';
+			var avatar = '' +
+				'<span class="avatar" ' +
+						'data-username="' + _.escape(uid) + '" ' +
+						'data-user="' + _.escape(uid) + '" ' +
+						'data-user-display-name="' + _.escape(displayName) + '">' +
+				'</span>';
 
 			var isCurrentUser = (uid === OC.getCurrentUser().uid);
 
-			return ''
-				+ '<span class="atwho-inserted" contenteditable="false">'
-				+ '<span class="avatar-name-wrapper' + (isCurrentUser ? ' currentUser' : '') + '">'
-				+ avatar + '<strong>'+ _.escape(displayName)+'</strong>'
-				+ '</span>'
-				+ '</span>';
+			return '' +
+				'<span class="atwho-inserted" contenteditable="false">' +
+					'<span class="avatar-name-wrapper' + (isCurrentUser ? ' currentUser' : '') + '">' +
+						avatar +
+						'<strong>' + _.escape(displayName) + '</strong>' +
+					'</span>' +
+				'</span>';
 		},
 
 		nextPage: function() {
