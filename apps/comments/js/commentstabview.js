@@ -202,7 +202,7 @@
 						+ ' data-username="' + escapeHTML(item.id) + '"'	// for avatars
 						+ ' data-user="' + escapeHTML(item.id) + '"'		// for contactsmenu
 						+ ' data-user-display-name="' + escapeHTML(item.label) + '"></span>'
-						+ ' <strong>' + escapeHTML(item.label) + '</strong>'
+						+ '<strong>' + escapeHTML(item.label) + '</strong>'
 						+ '</span></li>';
 				},
 				insertTpl: function (item) {
@@ -212,7 +212,7 @@
 						+ ' data-username="' + escapeHTML(item.id) + '"'	// for avatars
 						+ ' data-user="' + escapeHTML(item.id) + '"'		// for contactsmenu
 						+ ' data-user-display-name="' + escapeHTML(item.label) + '"></span>'
-						+ ' <strong>' + escapeHTML(item.label) + '</strong>'
+						+ '<strong>' + escapeHTML(item.label) + '</strong>'
 						+ '</span>';
 				},
 				searchKey: "label"
@@ -497,7 +497,7 @@
 			return ''
 				+ '<span class="atwho-inserted" contenteditable="false">'
 				+ '<span class="avatar-name-wrapper' + (isCurrentUser ? ' currentUser' : '') + '">'
-				+ avatar + ' <strong>'+ _.escape(displayName)+'</strong>'
+				+ avatar + '<strong>'+ _.escape(displayName)+'</strong>'
 				+ '</span>'
 				+ '</span>';
 		},
