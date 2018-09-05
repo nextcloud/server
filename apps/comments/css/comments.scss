@@ -165,6 +165,10 @@
 		background-color: var(--color-background-dark);
 		border-radius: 50vh;
 		padding: 1px 7px 1px 1px;
+
+		/* Ensure that the avatar and the user name will be kept together. */
+		white-space: nowrap;
+
 		.avatar {
 			img {
 				vertical-align: top;
