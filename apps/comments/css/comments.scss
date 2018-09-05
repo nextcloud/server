@@ -130,7 +130,7 @@
 	 adding this brings them closer to the element**/
 	margin-top: 5px;
 }
-#commentsTabView .comments li .message .avatar-name-wrapper,
+
 .atwho-view-ul * .avatar-name-wrapper,
 #commentsTabView .comment .authorRow {
 	position: relative;
@@ -156,6 +156,10 @@
 #commentsTabView .comments li .message .atwho-inserted,
 #commentsTabView .newCommentForm .atwho-inserted {
 	.avatar-name-wrapper {
+		/* Make the wrapper the positioning context of its child contacts
+		 * menu. */
+		position: relative;
+
 		display: inline;
 		vertical-align: top;
 		background-color: var(--color-background-dark);
