@@ -23,4 +23,8 @@
 	<settings>
 		<admin>OCA\UpdateNotification\Settings\Admin</admin>
 	</settings>
+
+	<commands>
+		<command>OCA\UpdateNotification\Command\Check</command>
+	</commands>
 </info>
