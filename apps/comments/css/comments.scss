@@ -141,13 +141,15 @@
 
 #commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser),
 #commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser) .avatar,
+#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser) .avatar img,
 #commentsTabView .comment .authorRow .avatar:not(.currentUser),
 #commentsTabView .comment .authorRow .author:not(.currentUser) {
 	cursor: pointer;
 }
 
 .atwho-view-ul .avatar-name-wrapper,
-.atwho-view-ul .avatar-name-wrapper .avatar {
+.atwho-view-ul .avatar-name-wrapper .avatar,
+.atwho-view-ul .avatar-name-wrapper .avatar img {
 	cursor: pointer;
 }
 
