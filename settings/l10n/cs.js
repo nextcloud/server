@@ -148,7 +148,6 @@ OC.L10N.register(
     "Disabled apps" : "Zakázané aplikace",
     "Updates" : "Aktualizace",
     "App bundles" : "Balíčky aplikací",
-    "Default quota :" : "Výchozí kvóta:",
     "Please confirm the group removal " : "Potvrďte prosím odstranění skupiny",
     "Remove group" : "Odebrat skupinu",
     "Admins" : "Správci",
