@@ -30,16 +30,16 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Trashbin functions
  */
 trait Trashbin {
+	use WebDav;
 
 	/**
 	 * @When User :user empties trashbin
 	 * @param string $user user
 	 */
 	public function emptyTrashbin($user) {
-		$this->asAn($user);
-		$body = new \Behat\Gherkin\Node\TableNode([['allfiles', 'true'], ['dir', '%2F']]);
-		$this->sendingToWithDirectUrl('POST', "/index.php/apps/files_trashbin/ajax/delete.php", $body);
-		$this->theHTTPStatusCodeShouldBe('200');
+		$client = $this->getSabreClient($user);
+		$response = $client->request('DELETE', $this->makeSabrePath($user, 'trash', 'trashbin'));
+		Assert::assertEquals(204, $response['statusCode']);
 	}
 
 	/**
@@ -49,78 +49,76 @@ trait Trashbin {
 	 * @param string $path path
 	 * @return array response
 	 */
-	public function listTrashbinFolder($user, $path){
-		$this->asAn($user);
-		$this->sendingToWithDirectUrl('PROPFIND', "/remote.php/dav/trashbin/$user/$path", null);
-		$this->theHTTPStatusCodeShouldBe('200');
+	public function listTrashbinFolder($user, $path) {
+		$client = $this->getSabreClient($user);
 
-		$body = $this->response->getBody();
-		if($body && substr($body, 0, 1) === '<') {
-			$reader = new Sabre\Xml\Reader();
-			$reader->xml($body);
-			return $reader->parse();
-		} else {
-			return [];
-		}
+		return $client->propfind($this->makeSabrePath($user, 'trash' . $path, 'trashbin'), [
+			'{http://nextcloud.org/ns}trashbin-filename',
+			'{http://nextcloud.org/ns}trashbin-original-location',
+			'{http://nextcloud.org/ns}trashbin-deletion-time'
+		], 1);
 	}
 
 	/**
-	 * @Then /^as "([^"]*)" the (file|folder|entry) "([^"]*)" exists in trash$/
+	 * @Then /^user "([^"]*)" in trash folder "([^"]*)" should have the following elements$/
 	 * @param string $user
-	 * @param string $entryText
-	 * @param string $path
+	 * @param string $folder
+	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
-	public function asTheFileOrFolderExistsInTrash($user, $entryText, $path) {
-		$path = trim($path, '/');
-		$sections = explode('/', $path, 2);
-
-		$firstEntry = $this->findFirstTrashedEntry($user, trim($sections[0], '/'));
-
-		Assert::assertNotNull($firstEntry);
-
-		// query was on the main element ?
-		if (count($sections) === 1) {
-			// already found, return
-			return;
-		}
-
-		$subdir = trim(dirname($sections[1]), '/');
-		if ($subdir !== '' && $subdir !== '.') {
-			$subdir = $firstEntry . '/' . $subdir;
-		} else {
-			$subdir = $firstEntry;
-		}
-
-		$listing = $this->listTrashbinFolder($user, $subdir);
-		$checkedName = basename($path);
-
-		$found = false;
-		foreach ($listing as $entry) {
-			if ($entry['name'] === $checkedName) {
-				$found = true;
-				break;
+	public function checkTrashContents($user, $folder, $expectedElements) {
+		$elementList = $this->listTrashbinFolder($user, $folder);
+		$trashContent = array_filter(array_map(function(array $item) {
+			return $item['{http://nextcloud.org/ns}trashbin-filename'];
+		}, $elementList));
+		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
+			$elementRows = $expectedElements->getRows();
+			$elementsSimplified = $this->simplifyArray($elementRows);
+			foreach ($elementsSimplified as $expectedElement) {
+				$expectedElement = ltrim($expectedElement, '/');
+				if (array_search($expectedElement, $trashContent) === false) {
+					Assert::fail("$expectedElement" . " is not in trash listing");
+				}
 			}
 		}
-
-		Assert::assertTrue($found);
 	}
 
 	/**
-	 * Finds the first trashed entry matching the given name
-	 *
-	 * @param string $name
-	 * @return string|null real entry name with timestamp suffix or null if not found
+	 * @Then /^user "([^"]*)" in trash folder "([^"]*)" should have (\d+) elements?$/
+	 * @param string $user
+	 * @param string $folder
+	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
-	private function findFirstTrashedEntry($user, $name) {
-		$listing = $this->listTrashbinFolder($user, '/');
+	public function checkTrashSize($user, $folder, $expectedCount) {
+		$elementList = $this->listTrashbinFolder($user, $folder);
+		// first item is listed folder
+		Assert::assertEquals($expectedCount, count($elementList) - 1);
+	}
 
-		foreach ($listing as $entry) {
-			if ($entry['name'] === $name) {
-				return $entry['name'] . '.d' . ((int)$entry['mtime'] / 1000);
+	/**
+	 * @When /^user "([^"]*)" in restores "([^"]*)" from trash$/
+	 * @param string $user
+	 * @param string $file
+	 */
+	public function restoreFromTrash($user, $file) {
+		// find the full name in trashbin
+		$file = ltrim($file, '/');
+		$parent = dirname($file);
+		if ($parent === '.') {
+			$parent = '';
+		}
+		$elementList = $this->listTrashbinFolder($user, $parent);
+		$name = basename($file);
+		foreach($elementList as $href => $item) {
+			if ($item['{http://nextcloud.org/ns}trashbin-filename'] === $name) {
+				$client = $this->getSabreClient($user);
+				$response = $client->request('MOVE', $href, null, [
+					'Destination' => $this->makeSabrePath($user, 'restore/' . $name, 'trashbin'),
+				]);
+				Assert::assertEquals(201, $response['statusCode']);
+				return;
 			}
 		}
-
-		return null;
+		Assert::fail("$file" . " is not in trash listing");
 	}
 }
 

@@ -423,8 +423,12 @@ trait WebDav {
 		return $parsedResponse;
 	}
 
-	public function makeSabrePath($user, $path) {
-		return $this->encodePath($this->getDavFilesPath($user) . $path);
+	public function makeSabrePath($user, $path, $type = 'files') {
+		if ($type === 'files') {
+			return $this->encodePath($this->getDavFilesPath($user) . $path);
+		} else {
+			return $this->encodePath($this->davPath . '/' . $type .  '/' . $user . '/' . $path);
+		}
 	}
 
 	public function getSabreClient($user) {
