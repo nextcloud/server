@@ -171,6 +171,11 @@
 			margin-left: 0;
 			margin-right: 2px;
 		}
+		strong {
+			/* Ensure that the user name is shown in bold, as different browsers
+			 * use different font weights for strong elements. */
+			font-weight: bold;
+		}
 	}
 }
 
