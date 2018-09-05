@@ -328,6 +328,7 @@ return array(
     'OCP\\Share_Backend' => $baseDir . '/lib/public/Share_Backend.php',
     'OCP\\Share_Backend_Collection' => $baseDir . '/lib/public/Share_Backend_Collection.php',
     'OCP\\Share_Backend_File_Dependent' => $baseDir . '/lib/public/Share_Backend_File_Dependent.php',
+    'OCP\\Support\\CrashReport\\ICollectBreadcrumbs' => $baseDir . '/lib/public/Support/CrashReport/ICollectBreadcrumbs.php',
     'OCP\\Support\\CrashReport\\IRegistry' => $baseDir . '/lib/public/Support/CrashReport/IRegistry.php',
     'OCP\\Support\\CrashReport\\IReporter' => $baseDir . '/lib/public/Support/CrashReport/IReporter.php',
     'OCP\\SystemTag\\ISystemTag' => $baseDir . '/lib/public/SystemTag/ISystemTag.php',
