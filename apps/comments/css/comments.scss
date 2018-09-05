@@ -177,6 +177,10 @@
 			font-weight: bold;
 		}
 	}
+	.avatar-name-wrapper.currentUser {
+		background-color: var(--color-primary);
+		color: var(--color-primary-text);
+	}
 }
 
 .atwho-view-ul * .avatar-name-wrapper {
