@@ -198,20 +198,20 @@
 				displayTpl: function (item) {
 					return '<li>'
 						+ '<span class="avatar-name-wrapper">'
-						+ '<div class="avatar" '
+						+ '<span class="avatar" '
 						+ ' data-username="' + escapeHTML(item.id) + '"'	// for avatars
 						+ ' data-user="' + escapeHTML(item.id) + '"'		// for contactsmenu
-						+ ' data-user-display-name="' + escapeHTML(item.label) + '"></div>'
+						+ ' data-user-display-name="' + escapeHTML(item.label) + '"></span>'
 						+ ' <strong>' + escapeHTML(item.label) + '</strong>'
 						+ '</span></li>';
 				},
 				insertTpl: function (item) {
 					return ''
 						+ '<span class="avatar-name-wrapper">'
-						+ '<div class="avatar" '
+						+ '<span class="avatar" '
 						+ ' data-username="' + escapeHTML(item.id) + '"'	// for avatars
 						+ ' data-user="' + escapeHTML(item.id) + '"'		// for contactsmenu
-						+ ' data-user-display-name="' + escapeHTML(item.label) + '"></div>'
+						+ ' data-user-display-name="' + escapeHTML(item.label) + '"></span>'
 						+ ' <strong>' + escapeHTML(item.label) + '</strong>'
 						+ '</span>';
 				},
@@ -224,7 +224,7 @@
 					// passing the whole comments form would re-apply and request
 					// avatars from the server
 					$(je.target).find(
-						'div[data-username="' + $el.find('[data-username]').data('username') + '"]'
+						'span[data-username="' + $el.find('[data-username]').data('username') + '"]'
 					).parent(),
 					editionMode
 				);
@@ -486,11 +486,11 @@
 		},
 
 		_composeHTMLMention: function(uid, displayName) {
-			var avatar = '<div class="avatar" '
+			var avatar = '<span class="avatar" '
 				+ 'data-username="' + _.escape(uid) + '"'
 				+ ' data-user="' + _.escape(uid) + '"'
 				+ ' data-user-display-name="'
-				+ _.escape(displayName) + '"></div>';
+				+ _.escape(displayName) + '"></span>';
 
 			var isCurrentUser = (uid === OC.getCurrentUser().uid);
 
