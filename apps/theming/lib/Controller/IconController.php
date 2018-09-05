@@ -115,7 +115,7 @@ class IconController extends Controller {
 		$response = null;
 		$iconFile = null;
 		try {
-			$iconFile = $this->imageManager->getImage('favicon');
+			$iconFile = $this->imageManager->getImage('favicon', false);
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		} catch (NotFoundException $e) {
 		}
