@@ -39,10 +39,9 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 	 * Returns the addressbook home for a given principal
 	 *
 	 * @param string $principal
-	 * @return string
+	 * @return string|null
 	 */
 	protected function getAddressbookHomeForPrincipal($principal) {
-
 		if (strrpos($principal, 'principals/users', -strlen($principal)) !== false) {
 			list(, $principalId) = \Sabre\Uri\split($principal);
 			return self::ADDRESSBOOK_ROOT . '/users/' . $principalId;
@@ -55,8 +54,6 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 			list(, $principalId) = \Sabre\Uri\split($principal);
 			return self::ADDRESSBOOK_ROOT . '/system/' . $principalId;
 		}
-
-		throw new \LogicException('This is not supposed to happen');
 	}
 
 	/**

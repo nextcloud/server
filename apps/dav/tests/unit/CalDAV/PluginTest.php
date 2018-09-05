@@ -63,11 +63,7 @@ class PluginTest extends TestCase  {
 		$this->assertSame($expected, $this->plugin->getCalendarHomeForPrincipal($input));
 	}
 
-	/**
-	 * @expectedException        \LogicException
-	 * @expectedExceptionMessage This is not supposed to happen
-	 */
 	public function testGetCalendarHomeForUnknownPrincipal() {
-		$this->plugin->getCalendarHomeForPrincipal('FOO/BAR/BLUB');
+		$this->assertNull($this->plugin->getCalendarHomeForPrincipal('FOO/BAR/BLUB'));
 	}
 }

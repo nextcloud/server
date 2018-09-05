@@ -28,10 +28,16 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 	const SYSTEM_CALENDAR_ROOT = 'system-calendars';
 
 	/**
-	 * @inheritdoc
+	 * Returns the path to a principal's calendar home.
+	 *
+	 * The return url must not end with a slash.
+	 * This function should return null in case a principal did not have
+	 * a calendar home.
+	 *
+	 * @param string $principalUrl
+	 * @return string|null
 	 */
-	function getCalendarHomeForPrincipal($principalUrl):string {
-
+	function getCalendarHomeForPrincipal($principalUrl) {
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
 			list(, $principalId) = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT . '/' . $principalId;
@@ -44,8 +50,6 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 			list(, $principalId) = \Sabre\Uri\split($principalUrl);
 			return self::SYSTEM_CALENDAR_ROOT . '/calendar-rooms/' . $principalId;
 		}
-
-		throw new \LogicException('This is not supposed to happen');
 	}
 
 }
