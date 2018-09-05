@@ -151,7 +151,6 @@ OC.L10N.register(
     "Disabled apps" : "Devre Dışı Uygulamalar",
     "Updates" : "Güncellemeler",
     "App bundles" : "Uygulama Paketleri",
-    "Default quota :" : "Varsayılan kota : ",
     "You are about to remove the group {group}. The users will NOT be deleted." : "{group} grubunu silmek üzeresiniz. Kullanıcılar SİLİNMEYECEK.",
     "Please confirm the group removal " : "Grubu silme işlemini onaylayın",
     "Remove group" : "Grubu Sil",
