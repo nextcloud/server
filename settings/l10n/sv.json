@@ -362,7 +362,7 @@
     "set new password" : "ange nytt lösenord",
     "change email address" : "ändra e-postadress",
     "Default" : "Förvald",
-    "App up to date" : "Appen är uppdaterad",
+    "App up to date" : "Alla appar är uppdaterade",
     "Could not remove app" : "Kunde inte ta bort app",
     "{size} used" : "{size} använt",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Tricks section and the documentation for more information." : "Det är viktigt för säkerhet och prestanda av din instans att allting är konfigurerat korrekt. För att hjälpa dig gör vi några automatiska kontroller. Vänligen se Tips & Tricks och dokumentationen för mer information.",
