@@ -23,6 +23,7 @@
 namespace OC\Support\CrashReport;
 
 use Exception;
+use OCP\Support\CrashReport\ICollectBreadcrumbs;
 use OCP\Support\CrashReport\IRegistry;
 use OCP\Support\CrashReport\IReporter;
 use Throwable;
@@ -39,6 +40,23 @@ class Registry implements IRegistry {
 	 */
 	public function register(IReporter $reporter) {
 		$this->reporters[] = $reporter;
+	}
+
+	/**
+	 * Delegate breadcrumb collection to all registered reporters
+	 *
+	 * @param string $message
+	 * @param string $category
+	 * @param array $context
+	 *
+	 * @since 15.0.0
+	 */
+	public function delegateBreadcrumb(string $message, string $category, array $context = []) {
+		foreach ($this->reporters as $reporter) {
+			if ($reporter instanceof ICollectBreadcrumbs) {
+				$reporter->collect($message, $category, $context);
+			}
+		}
 	}
 
 	/**

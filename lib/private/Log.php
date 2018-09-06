@@ -217,6 +217,10 @@ class Log implements ILogger {
 		if ($level >= $minLevel) {
 			$this->writeLog($app, $message, $level);
 		}
+
+		if (!is_null($this->crashReporters)) {
+			$this->crashReporters->delegateBreadcrumb($message, 'log', $context);
+		}
 	}
 
 	private function getLogLevel($context) {

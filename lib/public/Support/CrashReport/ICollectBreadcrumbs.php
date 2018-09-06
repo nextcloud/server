@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -22,24 +24,13 @@
 
 namespace OCP\Support\CrashReport;
 
-use Exception;
-use Throwable;
-
 /**
- * @since 13.0.0
+ * @since 15.0.0
  */
-interface IRegistry {
+interface ICollectBreadcrumbs extends IReporter {
 
 	/**
-	 * Register a reporter instance
-	 *
-	 * @since 13.0.0
-	 * @param IReporter $reporter
-	 */
-	public function register(IReporter $reporter);
-
-	/**
-	 * Delegate breadcrumb collection to all registered reporters
+	 * Collect breadcrumbs for crash reports
 	 *
 	 * @param string $message
 	 * @param string $category
@@ -47,14 +38,6 @@ interface IRegistry {
 	 *
 	 * @since 15.0.0
 	 */
-	public function delegateBreadcrumb(string $message, string $category, array $context = []);
+	public function collect(string $message, string $category, array $context = []);
 
-	/**
-	 * Delegate crash reporting to all registered reporters
-	 *
-	 * @since 13.0.0
-	 * @param Exception|Throwable $exception
-	 * @param array $context
-	 */
-	public function delegateReport($exception, array $context = []);
 }
