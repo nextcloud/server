@@ -149,6 +149,7 @@
     "Disabled apps" : "Applicazioni disabilitate",
     "Updates" : "Aggiornamenti",
     "App bundles" : "Pacchetti di applicazioni",
+    "Default quota:" : "Quota predefinita:",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Stai per rimuovere il gruppo {group}. Gli utenti NON saranno eliminati.",
     "Please confirm the group removal " : "Conferma la rimozione del gruppo",
     "Remove group" : "Rimuovi gruppo",
