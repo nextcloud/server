@@ -149,6 +149,7 @@
     "Disabled apps" : "Искључене апликације",
     "Updates" : "Ажурирања",
     "App bundles" : "Пакети апликација",
+    "Default quota:" : "Подразумевана квота:",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Управо ћете уклонити групу {group}. Корисници НЕЋЕ бити избрисани.",
     "Please confirm the group removal " : "Потврдите уклањање групе",
     "Remove group" : "Уклони групу",
