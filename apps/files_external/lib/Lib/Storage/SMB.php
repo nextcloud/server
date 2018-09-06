@@ -381,6 +381,11 @@ class SMB extends Common implements INotifyStorage {
 					return $this->share->read($fullPath);
 				case 'w':
 				case 'wb':
+					try {
+						$this->unlink($path);
+					} catch (Exception $e) {
+						$this->logger->logException($e, ['message' => 'error while deleting file before write']);
+					}
 					$source = $this->share->write($fullPath);
 					return CallBackWrapper::wrap($source, null, null, function () use ($fullPath) {
 						unset($this->statCache[$fullPath]);
