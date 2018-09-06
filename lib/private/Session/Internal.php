@@ -54,7 +54,7 @@ class Internal extends Session {
 		try {
 			$this->invoke('session_start');
 		} catch (\Exception $e) {
-			setcookie($this->invoke('session_name'), null, -1, \OC::$WEBROOT ?: '/');
+			setcookie($this->invoke('session_name'), '', -1, \OC::$WEBROOT ?: '/');
 		}
 		restore_error_handler();
 		if (!isset($_SESSION)) {

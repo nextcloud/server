@@ -441,7 +441,7 @@ class OC {
 		// session timeout
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
 			if (isset($_COOKIE[session_name()])) {
-				setcookie(session_name(), null, -1, self::$WEBROOT ? : '/');
+				setcookie(session_name(), '', -1, self::$WEBROOT ? : '/');
 			}
 			\OC::$server->getUserSession()->logout();
 		}
