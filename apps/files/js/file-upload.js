@@ -402,6 +402,13 @@ OC.Uploader.prototype = _.extend({
 	_uploads: {},
 
 	/**
+	 * Count of upload done promises that have not finished yet.
+	 *
+	 * @type int
+	 */
+	_pendingUploadDoneCount: 0,
+
+	/**
 	 * List of directories known to exist.
 	 *
 	 * Key is the fullpath and value is boolean, true meaning that the directory
@@ -743,6 +750,27 @@ OC.Uploader.prototype = _.extend({
 		$('#uploadprogressbar').fadeOut(function() {
 			self.$uploadEl.trigger(new $.Event('resized'));
 		});
+	},
+
+	_updateProgressBarOnUploadStop: function() {
+		if (this._pendingUploadDoneCount === 0) {
+			// All the uploads ended and there is no pending operation, so hide
+			// the progress bar.
+			// Note that this happens here only with non-chunked uploads; if the
+			// upload was chunked then this will have been executed after all
+			// the uploads ended but before the upload done handler that reduces
+			// the pending operation count was executed.
+			this._hideProgressBar();
+
+			return;
+		}
+
+		$('#uploadprogressbar .label .mobile').text(t('core', '…'));
+		$('#uploadprogressbar .label .desktop').text(t('core', 'Processing files …'));
+
+		// Nothing is being uploaded at this point, and the pending operations
+		// can not be cancelled, so the cancel button should be hidden.
+		$('#uploadprogresswrapper .stop').fadeOut();
 	},
 
 	_showProgressBar: function() {
@@ -1126,7 +1154,7 @@ OC.Uploader.prototype = _.extend({
 					self.log('progress handle fileuploadstop', e, data);
 
 					self.clear();
-					self._hideProgressBar();
+					self._updateProgressBarOnUploadStop();
 					self.trigger('stop', e, data);
 				});
 				fileupload.on('fileuploadfail', function(e, data) {
@@ -1194,7 +1222,26 @@ OC.Uploader.prototype = _.extend({
 				});
 				fileupload.on('fileuploaddone', function(e, data) {
 					var upload = self.getUpload(data);
+
+					self._pendingUploadDoneCount++;
+
 					upload.done().then(function() {
+						self._pendingUploadDoneCount--;
+						if (Object.keys(self._uploads).length === 0 && self._pendingUploadDoneCount === 0) {
+							// All the uploads ended and there is no pending
+							// operation, so hide the progress bar.
+							// Note that this happens here only with chunked
+							// uploads; if the upload was non-chunked then this
+							// handler is immediately executed, before the
+							// jQuery upload done handler that removes the
+							// upload from the list, and thus at this point
+							// there is still at least one upload that has not
+							// ended (although the upload stop handler is always
+							// executed after all the uploads have ended, which
+							// hides the progress bar in that case).
+							self._hideProgressBar();
+						}
+
 						self.trigger('done', e, upload);
 					}).fail(function(status, response) {
 						var message = response.message;
