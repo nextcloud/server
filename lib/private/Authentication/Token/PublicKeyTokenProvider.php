@@ -80,7 +80,7 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException();
 		}
 
-		if ($token->getExpires() !== null && $token->getExpires() < $this->time->getTime()) {
+		if ($token->getExpires() !== null && $token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
 			throw new ExpiredTokenException($token);
 		}
 
