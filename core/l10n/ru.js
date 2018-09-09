@@ -213,6 +213,7 @@ OC.L10N.register(
     "{sharee} (remote group)" : "{sharee} (группа на другом сервере)",
     "{sharee} (email)" : "{sharee} (email)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
+    "{sharee} (conversation)" : "{sharee} (разговор)",
     "Share" : "Поделиться",
     "Name or email address..." : "Имя или адрес email…",
     "Name or federated cloud ID..." : "Имя или ID федеративного облачного хранилища…",
