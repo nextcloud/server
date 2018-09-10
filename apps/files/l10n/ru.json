@@ -125,6 +125,7 @@
     "A file or folder has been <strong>restored</strong>" : "Файл или каталог был <strong>восстановлен</strong>",
     "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Загрузка (максимум %s)",
+    "File Management" : "Управление файлами",
     "File handling" : "Управление файлами",
     "Maximum upload size" : "Максимальный размер загружаемого файла",
     "max. possible: " : "макс. возможно: ",

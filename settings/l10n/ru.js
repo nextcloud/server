@@ -56,6 +56,7 @@ OC.L10N.register(
     "Set your password" : "Задайте свой пароль",
     "Go to %s" : "Перейти к %s",
     "Install Client" : "Установить программу-клиент",
+    "Logged in user must be a subadmin" : "Вошедший в систему пользователь должен обладать правами суб-администратора",
     "Migration in progress. Please wait until the migration is finished" : "Перенос выполняется,  дождитесь завершения",
     "Migration started …" : "Перенос начат…",
     "Not saved" : "Не сохранено",
