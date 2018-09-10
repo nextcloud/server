@@ -67,7 +67,7 @@ interface ICloudFederationProviderManager {
 	 *
 	 * @param string $resourceType
 	 * @return ICloudFederationProvider
-	 * @throws Exceptions\ProviderDoesNotExistsException;
+	 * @throws Exceptions\ProviderDoesNotExistsException
 	 *
 	 * @since 14.0.0
 	 */
