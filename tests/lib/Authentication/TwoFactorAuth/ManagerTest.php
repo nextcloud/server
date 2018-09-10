@@ -143,13 +143,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testIsTwoFactorAuthenticatedNoProviders() {
-		$this->user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with('user123', 'core', 'two_factor_auth_disabled', 0)
-			->willReturn(0);
 		$this->providerRegistry->expects($this->once())
 			->method('getProviderStates')
 			->willReturn([]); // No providers registered
@@ -161,13 +154,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testIsTwoFactorAuthenticatedOnlyBackupCodes() {
-		$this->user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with('user123', 'core', 'two_factor_auth_disabled', 0)
-			->willReturn(0);
 		$this->providerRegistry->expects($this->once())
 			->method('getProviderStates')
 			->willReturn([
@@ -187,13 +173,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testIsTwoFactorAuthenticatedFailingProviders() {
-		$this->user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with('user123', 'core', 'two_factor_auth_disabled', 0)
-			->willReturn(0);
 		$this->providerRegistry->expects($this->once())
 			->method('getProviderStates')
 			->willReturn([
@@ -225,13 +204,6 @@ class ManagerTest extends TestCase {
 	 * @dataProvider providerStatesFixData
 	 */
 	public function testIsTwoFactorAuthenticatedFixesProviderStates(bool $providerEnabled, bool $expected) {
-		$this->user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with('user123', 'core', 'two_factor_auth_disabled', 0)
-			->willReturn(0);
 		$this->providerRegistry->expects($this->once())
 			->method('getProviderStates')
 			->willReturn([]); // Nothing registered yet

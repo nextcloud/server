@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -24,35 +24,43 @@ declare(strict_types = 1);
  *
  */
 
-namespace OC\Authentication\TwoFactorAuth;
+namespace Core\Command\TwoFactorAuth;
 
-use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
-use OCP\Authentication\TwoFactorAuth\IProvider;
+use OC\Core\Command\TwoFactorAuth\Cleanup;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
-use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Tester\CommandTester;
+use Test\TestCase;
 
-class Registry implements IRegistry {
+class CleanupTest extends TestCase {
 
-	/** @var ProviderUserAssignmentDao */
-	private $assignmentDao;
+	/** @var IRegistry|MockObject */
+	private $registry;
 
-	public function __construct(ProviderUserAssignmentDao $assignmentDao) {
-		$this->assignmentDao = $assignmentDao;
+	/** @var CommandTester */
+	private $cmd;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->registry = $this->createMock(IRegistry::class);
+
+		$cmd = new Cleanup($this->registry);
+		$this->cmd = new CommandTester($cmd);
 	}
 
-	public function getProviderStates(IUser $user): array {
-		return $this->assignmentDao->getState($user->getUID());
+	public function testCleanup() {
+		$this->registry->expects($this->once())
+			->method('cleanUp')
+			->with('u2f');
+
+		$rc = $this->cmd->execute([
+			'provider-id' => 'u2f',
+		]);
+
+		$this->assertEquals(0, $rc);
+		$output = $this->cmd->getDisplay();
+		$this->assertContains("All user-provider associations for provider u2f have been removed", $output);
 	}
 
-	public function enableProviderFor(IProvider $provider, IUser $user) {
-		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 1);
-	}
-
-	public function disableProviderFor(IProvider $provider, IUser $user) {
-		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 0);
-	}
-
-	public function cleanUp(string $providerId) {
-		$this->assignmentDao->deleteAll($providerId);
-	}
 }
