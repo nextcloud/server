@@ -251,7 +251,7 @@ class Factory implements IFactory {
 	 * @param string $locale
 	 * @return null|string
 	 */
-	public function findLanguageFromLocale($app = 'core', $locale = null) {
+	public function findLanguageFromLocale(string $app = 'core', string $locale = null) {
 		if ($this->languageExists($app, $locale)) {
 			return $locale;
 		}
@@ -261,7 +261,6 @@ class Factory implements IFactory {
 		if ($this->languageExists($app, $locale)) {
 			return $locale;
 		}
-
 	}
 
 	/**

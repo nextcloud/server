@@ -61,7 +61,7 @@ interface IFactory {
 	 * @return null|string
 	 * @since 15.0.0
 	 */
-	public function findLanguageFromLocale($app = 'core', $locale = null);
+	public function findLanguageFromLocale(string $app = 'core', string $locale = null);
 
 	/**
 	 * Find all available languages for an app
