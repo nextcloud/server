@@ -99,6 +99,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Authentication\\IApacheBackend' => __DIR__ . '/../../..' . '/lib/public/Authentication/IApacheBackend.php',
         'OCP\\Authentication\\LoginCredentials\\ICredentials' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
         'OCP\\Authentication\\LoginCredentials\\IStore' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/IStore.php',
+        'OCP\\Authentication\\TwoFactorAuth\\IActivatableByAdmin' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IActivatableByAdmin.php',
+        'OCP\\Authentication\\TwoFactorAuth\\IDeactivatableByAdmin' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IDeactivatableByAdmin.php',
         'OCP\\Authentication\\TwoFactorAuth\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IProvider.php',
         'OCP\\Authentication\\TwoFactorAuth\\IProvidesCustomCSP' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IProvidesCustomCSP.php',
         'OCP\\Authentication\\TwoFactorAuth\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IRegistry.php',
