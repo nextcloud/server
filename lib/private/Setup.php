@@ -43,6 +43,7 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
+use InvalidArgumentException;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Authentication\Token\DefaultTokenCleanupJob;
 use OC\Authentication\Token\DefaultTokenProvider;
@@ -434,18 +435,19 @@ class Setup {
 	 * Find webroot from config
 	 *
 	 * @param SystemConfig $config
-	 * @return bool|string
+	 * @return string
+	 * @throws InvalidArgumentException when invalid value for overwrite.cli.url
 	 */
-	public static function findWebRoot(SystemConfig $config) {
+	public static function findWebRoot(SystemConfig $config): string {
 		// For CLI read the value from overwrite.cli.url
 		if (\OC::$CLI) {
 			$webRoot = $config->getValue('overwrite.cli.url', '');
 			if ($webRoot === '') {
-				return false;
+				throw new InvalidArgumentException('overwrite.cli.url is empty');
 			}
 			$webRoot = parse_url($webRoot, PHP_URL_PATH);
 			if ($webRoot === null) {
-				return false;
+				throw new InvalidArgumentException('invalid value for overwrite.cli.url');
 			}
 			$webRoot = rtrim($webRoot, '/');
 		} else {
@@ -463,7 +465,12 @@ class Setup {
 	 */
 	public static function updateHtaccess() {
 		$config = \OC::$server->getSystemConfig();
-		$webRoot = self::findWebRoot($config);
+
+		try {
+			$webRoot = self::findWebRoot($config);
+		} catch (InvalidArgumentException $e) {
+			return false;
+		}
 
 		$setupHelper = new \OC\Setup(
 			$config,

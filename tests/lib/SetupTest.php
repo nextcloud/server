@@ -134,18 +134,23 @@ class SetupTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider findWebRootProvider
+	 * @param $url
+	 * @param $expected
 	 */
-	public function testFindWebRootCli($url, $webRoot) {
+	public function testFindWebRootCli($url, $expected) {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
 			->will($this->returnValue($url));
 		\OC::$CLI = true;
 
-		$this->assertEquals(
-			$webRoot,
-			$this->setupClass::findWebRoot($this->config)
-		);
+		try {
+			$webRoot = $this->setupClass::findWebRoot($this->config);
+		} catch (\InvalidArgumentException $e) {
+			$webRoot = false;
+		}
+
+		$this->assertEquals($webRoot, $expected);
 	}
 
 	public function findWebRootProvider(): array {
