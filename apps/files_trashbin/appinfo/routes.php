@@ -34,11 +34,3 @@ $application->registerRoutes($this, [
 		],
 	],
 ]);
-
-$this->create('files_trashbin_ajax_delete', 'ajax/delete.php')
-	->actionInclude('files_trashbin/ajax/delete.php');
-$this->create('files_trashbin_ajax_isEmpty', 'ajax/isEmpty.php')
-	->actionInclude('files_trashbin/ajax/isEmpty.php');
-$this->create('files_trashbin_ajax_undelete', 'ajax/undelete.php')
-	->actionInclude('files_trashbin/ajax/undelete.php');
-
