@@ -56,10 +56,11 @@ interface IFactory {
 	/**
 	 * find the matching lang from the locale
 	 *
+	 * @param string $app
 	 * @param string $locale
 	 * @return null|string
 	 */
-	public function findLanguageFromLocale($locale = null);
+	public function findLanguageFromLocale($app = 'core', $locale = null);
 
 	/**
 	 * Find all available languages for an app
