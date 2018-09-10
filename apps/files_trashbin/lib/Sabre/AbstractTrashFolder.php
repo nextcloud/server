@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,57 +19,24 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\Files_Trashbin\Trash\ITrashItem;
-use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\FileInfo;
-use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
-class TrashRoot implements ICollection {
-
-	/** @var IUser */
-	private $user;
-
-	/** @var ITrashManager  */
-	private $trashManager;
-
-	public function __construct(IUser $user, ITrashManager $trashManager) {
-		$this->user = $user;
-		$this->trashManager = $trashManager;
-	}
-
-	public function delete() {
-		\OCA\Files_Trashbin\Trashbin::deleteAll();
-	}
-
-	public function getName(): string {
-		return 'trash';
-	}
-
-	public function setName($name) {
-		throw new Forbidden('Permission denied to rename this trashbin');
-	}
-
-	public function createFile($name, $data = null) {
-		throw new Forbidden('Not allowed to create files in the trashbin');
-	}
-
-	public function createDirectory($name) {
-		throw new Forbidden('Not allowed to create folders in the trashbin');
-	}
-
+abstract class AbstractTrashFolder extends AbstractTrash implements ICollection, ITrash {
 	public function getChildren(): array {
-		$entries = $this->trashManager->listTrashRoot($this->user);
+		$entries = $this->trashManager->listTrashFolder($this->user, $this->data);
 
 		$children = array_map(function (ITrashItem $entry) {
 			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-				return new TrashFolder($this->trashManager, $this->user, $entry);
+				return new TrashFolderFolder($this->trashManager, $this->user, $entry);
 			}
-			return new TrashFile($this->trashManager, $this->user, $entry);
+			return new TrashFolderFile($this->trashManager, $this->user, $entry);
 		}, $entries);
 
 		return $children;
@@ -98,7 +63,15 @@ class TrashRoot implements ICollection {
 		}
 	}
 
-	public function getLastModified(): int {
-		return 0;
+	public function setName($name) {
+		throw new Forbidden();
+	}
+
+	public function createFile($name, $data = null) {
+		throw new Forbidden();
+	}
+
+	public function createDirectory($name) {
+		throw new Forbidden();
 	}
 }

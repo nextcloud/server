@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
@@ -21,13 +22,24 @@
 
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\Files_Trashbin\Trash\ITrashItem;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\FileInfo;
+use OCP\IUser;
 
 abstract class AbstractTrash implements ITrash {
-	/** @var FileInfo */
+	/** @var ITrashItem */
 	protected $data;
 
-	public function __construct(FileInfo $data) {
+	/** @var ITrashManager */
+	protected $trashManager;
+
+	/** @var IUser */
+	protected $user;
+
+	public function __construct(ITrashManager $trashManager, IUser $user, ITrashItem $data) {
+		$this->trashManager = $trashManager;
+		$this->user = $user;
 		$this->data = $data;
 	}
 
@@ -36,7 +48,7 @@ abstract class AbstractTrash implements ITrash {
 	}
 
 	public function getDeletionTime(): int {
-		return $this->data->getMtime();
+		return $this->data->getDeletedTime();
 	}
 
 	public function getFileId(): int {
@@ -65,5 +77,18 @@ abstract class AbstractTrash implements ITrash {
 
 	public function getName(): string {
 		return $this->data->getName();
+	}
+
+	public function getOriginalLocation(): string {
+		return $this->data->getOriginalLocation($this->user);
+	}
+
+	public function delete() {
+		$this->trashManager->removeItem($this->user, $this->data);
+	}
+
+	public function restore(): bool {
+		$this->trashManager->restoreItem($this->data);
+		return true;
 	}
 }
