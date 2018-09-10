@@ -431,16 +431,16 @@ class Setup {
 	}
 
 	/**
-	 * Append the correct ErrorDocument path for Apache hosts
-	 * @return bool True when success, False otherwise
+	 * Find webroot from config
+	 *
+	 * @param SystemConfig $config
+	 * @return bool|string
 	 */
-	public static function updateHtaccess() {
-		$config = \OC::$server->getSystemConfig();
-
+	public static function findWebRoot(SystemConfig $config) {
 		// For CLI read the value from overwrite.cli.url
-		if(\OC::$CLI) {
+		if (\OC::$CLI) {
 			$webRoot = $config->getValue('overwrite.cli.url', '');
-			if($webRoot === '') {
+			if ($webRoot === '') {
 				return false;
 			}
 			$webRoot = parse_url($webRoot, PHP_URL_PATH);
@@ -451,6 +451,19 @@ class Setup {
 		} else {
 			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
 		}
+
+		return $webRoot;
+	}
+
+	/**
+	 * Append the correct ErrorDocument path for Apache hosts
+	 *
+	 * @return bool True when success, False otherwise
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public static function updateHtaccess() {
+		$config = \OC::$server->getSystemConfig();
+		$webRoot = self::findWebRoot($config);
 
 		$setupHelper = new \OC\Setup(
 			$config,
@@ -467,10 +480,10 @@ class Setup {
 		$htaccessContent = explode($content, $htaccessContent, 2)[0];
 
 		//custom 403 error page
-		$content.= "\nErrorDocument 403 ".$webRoot."/";
+		$content .= "\nErrorDocument 403 " . $webRoot . '/';
 
 		//custom 404 error page
-		$content.= "\nErrorDocument 404 ".$webRoot."/";
+		$content .= "\nErrorDocument 404 " . $webRoot . '/';
 
 		// Add rewrite rules if the RewriteBase is configured
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');
