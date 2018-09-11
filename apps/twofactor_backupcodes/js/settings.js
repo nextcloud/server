@@ -1,16 +1,9 @@
-/* global OC */
+import Vue from 'vue';
+import PersonalSettings from './views/PersonalSettings';
 
-(function (OC) {
-    'use strict';
+Vue.prototype.t = t;
 
-    OC.Settings = OC.Settings || {};
-    OC.Settings.TwoFactorBackupCodes = OC.Settings.TwoFactorBackupCodes || {};
-
-    $(function () {
-        var view = new OC.Settings.TwoFactorBackupCodes.View({
-            el: $('#twofactor-backupcodes-settings')
-        });
-        view.render();
-    });
-})(OC);
-
+export default new Vue({
+	el: '#twofactor-backupcodes-settings',
+	render: h => h(PersonalSettings)
+});

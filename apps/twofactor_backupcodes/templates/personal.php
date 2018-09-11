@@ -1,7 +1,6 @@
 <?php
 
-script('twofactor_backupcodes', 'settingsview');
-script('twofactor_backupcodes', 'settings');
+script('twofactor_backupcodes', 'build/settings');
 style('twofactor_backupcodes', 'style');
 
 ?>
