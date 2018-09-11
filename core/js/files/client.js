@@ -61,6 +61,7 @@
 		}
 		this._client = new dav.Client(clientOptions);
 		this._client.xhrProvider = _.bind(this._xhrProvider, this);
+		this._fileInfoParsers = [];
 	};
 
 	Client.NS_OWNCLOUD = 'http://owncloud.org/ns';
