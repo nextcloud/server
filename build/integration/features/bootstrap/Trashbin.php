@@ -20,8 +20,6 @@
  *
  */
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -42,6 +40,36 @@ trait Trashbin {
 		Assert::assertEquals(204, $response['statusCode']);
 	}
 
+	private function findFullTrashname($user, $name) {
+		$rootListing = $this->listTrashbinFolder($user, '/');
+
+		foreach ($rootListing as $href => $rootItem) {
+			if ($rootItem['{http://nextcloud.org/ns}trashbin-filename'] === $name) {
+				return basename($href);
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get the full /startofpath.dxxxx/rest/of/path from /startofpath/rest/of/path
+	 */
+	private function getFullTrashPath($user, $path) {
+		if ($path !== '' && $path !== '/') {
+			$parts = explode('/', $path);
+			$fullName = $this->findFullTrashname($user, $parts[1]);
+			if ($fullName === null) {
+				Assert::fail("cant find $path in trash");
+				return '/dummy_full_path_not_found';
+			}
+			$parts[1] = $fullName;
+
+			$path = implode('/', $parts);
+		}
+		return $path;
+	}
+
 	/**
 	 * List trashbin folder
 	 *
@@ -50,13 +78,21 @@ trait Trashbin {
 	 * @return array response
 	 */
 	public function listTrashbinFolder($user, $path) {
+		$path = $this->getFullTrashPath($user, $path);
 		$client = $this->getSabreClient($user);
 
-		return $client->propfind($this->makeSabrePath($user, 'trash' . $path, 'trashbin'), [
+		$results = $client->propfind($this->makeSabrePath($user, 'trash' . $path, 'trashbin'), [
 			'{http://nextcloud.org/ns}trashbin-filename',
 			'{http://nextcloud.org/ns}trashbin-original-location',
 			'{http://nextcloud.org/ns}trashbin-deletion-time'
 		], 1);
+		$results = array_filter($results, function (array $item) {
+			return isset($item['{http://nextcloud.org/ns}trashbin-filename']);
+		});
+		if ($path !== '' && $path !== '/') {
+			array_shift($results);
+		}
+		return $results;
 	}
 
 	/**
@@ -67,7 +103,7 @@ trait Trashbin {
 	 */
 	public function checkTrashContents($user, $folder, $expectedElements) {
 		$elementList = $this->listTrashbinFolder($user, $folder);
-		$trashContent = array_filter(array_map(function(array $item) {
+		$trashContent = array_filter(array_map(function (array $item) {
 			return $item['{http://nextcloud.org/ns}trashbin-filename'];
 		}, $elementList));
 		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
@@ -90,8 +126,7 @@ trait Trashbin {
 	 */
 	public function checkTrashSize($user, $folder, $expectedCount) {
 		$elementList = $this->listTrashbinFolder($user, $folder);
-		// first item is listed folder
-		Assert::assertEquals($expectedCount, count($elementList) - 1);
+		Assert::assertEquals($expectedCount, count($elementList));
 	}
 
 	/**
@@ -100,25 +135,14 @@ trait Trashbin {
 	 * @param string $file
 	 */
 	public function restoreFromTrash($user, $file) {
-		// find the full name in trashbin
-		$file = ltrim($file, '/');
-		$parent = dirname($file);
-		if ($parent === '.') {
-			$parent = '';
-		}
-		$elementList = $this->listTrashbinFolder($user, $parent);
-		$name = basename($file);
-		foreach($elementList as $href => $item) {
-			if ($item['{http://nextcloud.org/ns}trashbin-filename'] === $name) {
-				$client = $this->getSabreClient($user);
-				$response = $client->request('MOVE', $href, null, [
-					'Destination' => $this->makeSabrePath($user, 'restore/' . $name, 'trashbin'),
-				]);
-				Assert::assertEquals(201, $response['statusCode']);
-				return;
-			}
-		}
-		Assert::fail("$file" . " is not in trash listing");
+		$file = $this->getFullTrashPath($user, $file);
+		$url = $this->makeSabrePath($user, 'trash' . $file, 'trashbin');
+		$client = $this->getSabreClient($user);
+		$response = $client->request('MOVE', $url, null, [
+			'Destination' => $this->makeSabrePath($user, 'restore/' . basename($file), 'trashbin'),
+		]);
+		Assert::assertEquals(201, $response['statusCode']);
+		return;
 	}
 }
 
