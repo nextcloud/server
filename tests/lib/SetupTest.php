@@ -138,6 +138,8 @@ class SetupTest extends \Test\TestCase {
 	 * @param $expected
 	 */
 	public function testFindWebRootCli($url, $expected) {
+		$cliState = \OC::$CLI;
+
 		$this->config
 			->expects($this->once())
 			->method('getValue')
@@ -150,6 +152,7 @@ class SetupTest extends \Test\TestCase {
 			$webRoot = false;
 		}
 
+		\OC::$CLI = $cliState;
 		$this->assertEquals($webRoot, $expected);
 	}
 
