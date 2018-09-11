@@ -177,7 +177,7 @@ class UsersController extends AUserData {
 		$users = array_keys($users);
 		$usersDetails = [];
 		foreach ($users as $key => $userId) {
-			$userData = $this->getUserData($userId);
+			$userData = $this->getUserData((string)$userId);
 			// Do not insert empty entry
 			if (!empty($userData)) {
 				$usersDetails[$userId] = $userData;
