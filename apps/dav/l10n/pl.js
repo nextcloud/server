@@ -54,6 +54,7 @@ OC.L10N.register(
     "Where:" : "Gdzie: ",
     "Description:" : "Opis:",
     "Link:" : "Link: ",
+    "Accept" : "Akceptuj",
     "Contacts" : "Kontakty",
     "WebDAV" : "WebDAV",
     "Technical details" : "Szczegóły techniczne",
