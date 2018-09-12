@@ -74,7 +74,7 @@ abstract class AUserData extends OCSController {
 	/**
 	 * creates a array with all user data
 	 *
-	 * @param $userId
+	 * @param string $userId
 	 * @return array
 	 * @throws OCSException
 	 */

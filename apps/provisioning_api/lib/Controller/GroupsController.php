@@ -186,26 +186,25 @@ class GroupsController extends AUserData {
 	 * @throws OCSException
 	 */
 	public function getGroupUsersDetails(string $groupId, string $search = '', int $limit = null, int $offset = 0): DataResponse {
-		$user = $this->userSession->getUser();
-		$isSubadminOfGroup = false;
+		$currentUser = $this->userSession->getUser();
 
 		// Check the group exists
 		$group = $this->groupManager->get($groupId);
 		if ($group !== null) {
-			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminOfGroup($user, $group);
+			$isSubadminOfGroup = $this->groupManager->getSubAdmin()->isSubAdminOfGroup($currentUser, $group);
 		} else {
 			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
 		}
 
 		// Check subadmin has access to this group
-		if($this->groupManager->isAdmin($user->getUID())
-		   || $isSubadminOfGroup) {
-			$users = $this->groupManager->get($groupId)->searchUsers($search, $limit, $offset);
+		if($this->groupManager->isAdmin($currentUser->getUID()) || $isSubadminOfGroup) {
+			$users = $group->searchUsers($search, $limit, $offset);
 
 			// Extract required number
-			$users = array_keys($users);
 			$usersDetails = [];
-			foreach ($users as $userId) {
+			foreach ($users as $user) {
+				/** @var IUser $user */
+				$userId = (string) $user->getUID();
 				$userData = $this->getUserData($userId);
 				// Do not insert empty entry
 				if(!empty($userData)) {
