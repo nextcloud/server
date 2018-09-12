@@ -46,6 +46,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -154,29 +155,31 @@ class UsersController extends AUserData {
 	 * returns a list of users and their data
 	 */
 	public function getUsersDetails(string $search = '', $limit = null, $offset = 0): DataResponse {
-		$user = $this->userSession->getUser();
+		$currentUser = $this->userSession->getUser();
 		$users = [];
 
 		// Admin? Or SubAdmin?
-		$uid = $user->getUID();
+		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if ($this->groupManager->isAdmin($uid)){
 			$users = $this->userManager->search($search, $limit, $offset);
-		} else if ($subAdminManager->isSubAdmin($user)) {
-			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($user);
+			$users = array_keys($users);
+		} else if ($subAdminManager->isSubAdmin($currentUser)) {
+			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
 			foreach ($subAdminOfGroups as $key => $group) {
 				$subAdminOfGroups[$key] = $group->getGID();
 			}
 
 			$users = [];
 			foreach ($subAdminOfGroups as $group) {
-				$users = array_merge($users, $this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
+				$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
 			}
+			$users = array_merge(...$users);
 		}
 
-		$users = array_keys($users);
 		$usersDetails = [];
-		foreach ($users as $key => $userId) {
+		foreach ($users as $userId) {
+			$userId = (string) $userId;
 			$userData = $this->getUserData($userId);
 			// Do not insert empty entry
 			if (!empty($userData)) {
