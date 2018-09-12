@@ -565,7 +565,7 @@ Raw output
 	 * @param array $appRoot The app root config
 	 * @return string[] The none writable directory paths inside the app root
 	 */
-	private function getAppDirsWithDifferentOwnerForAppRoot($currentUser, array $appRoot): array {
+	private function getAppDirsWithDifferentOwnerForAppRoot(int $currentUser, array $appRoot): array {
 		$appDirsWithDifferentOwner = [];
 		$appsPath = $appRoot['path'];
 		$appsDir = new DirectoryIterator($appRoot['path']);
