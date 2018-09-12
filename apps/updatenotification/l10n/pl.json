@@ -16,6 +16,7 @@
     "Notify members of the following groups about available updates:" : "Powiadom członków następujących grup o dostępnych aktualizacjach: ",
     "Only notification for app updates are available." : "Tylko powiadomienia o aktualizacjach aplikacji są dostępne.",
     "The selected update channel does not support updates of the server." : "Wybrany kanał aktualizacji nie obsługuje danego serwera.",
+    "View changelog" : "Zobacz listę zmian",
     "Could not start updater, please try the manual update" : "Nie można uruchomić aktualizacji, spróbuj z aktualizować ręcznie",
     "A new version is available: %s" : "Dostępna jest nowa wersja: %s",
     "Download now" : "Pobierz teraz",
