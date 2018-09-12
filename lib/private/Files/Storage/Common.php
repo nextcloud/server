@@ -531,6 +531,11 @@ abstract class Common implements Storage, ILockingStorage {
 			}
 		}
 
+		// Do not allow RTLO char
+		if (mb_strpos($fileName,  mb_chr(8238, 'utf8')) !== false) {
+			throw new InvalidCharacterInPathException('RTLO not allowed');
+		}
+
 		if (isset($fileName[255])) {
 			throw new FileNameTooLongException();
 		}

@@ -105,6 +105,23 @@ class PathVerificationTest extends \Test\TestCase {
 		];
 	}
 
+
+	/**
+	 * @dataProvider providesInvalidUnicode
+	 */
+	public function testPathVerificationInvalidUnicode(string $fileName) {
+		$this->expectException(InvalidPathException::class);
+		$this->expectExceptionMessage('File name contains at least one invalid character');
+
+		$this->view->verifyPath('', $fileName);
+	}
+
+	public function providesInvalidUnicode() {
+		return [
+			['foo' . mb_chr(8238, 'utf8') . 'txt.html'], //RTLO
+		];
+	}
+
 	/**
 	 * @dataProvider providesInvalidCharsPosix
 	 * @expectedException \OCP\Files\InvalidCharacterInPathException
