@@ -119,6 +119,26 @@ trait Trashbin {
 	}
 
 	/**
+	 * @Then /^as "([^"]*)" the (file|folder) "([^"]*)" exists in trash$/
+	 * @param string $user
+	 * @param string $type
+	 * @param string $file
+	 */
+	public function checkTrashContains($user, $type, $file) {
+		$parent = dirname($file);
+		if ($parent === '.') {
+			$parent = '/';
+		}
+		$name = basename($file);
+		$elementList = $this->listTrashbinFolder($user, $parent);
+		$trashContent = array_filter(array_map(function (array $item) {
+			return $item['{http://nextcloud.org/ns}trashbin-filename'];
+		}, $elementList));
+
+		Assert::assertArraySubset([$name], array_values($trashContent));
+	}
+
+	/**
 	 * @Then /^user "([^"]*)" in trash folder "([^"]*)" should have (\d+) elements?$/
 	 * @param string $user
 	 * @param string $folder
