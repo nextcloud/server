@@ -67,6 +67,7 @@ class Install extends Command {
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'User name of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
+			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
 			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT."/data");
 	}
 
@@ -141,6 +142,7 @@ class Install extends Command {
 		}
 		$adminLogin = $input->getOption('admin-user');
 		$adminPassword = $input->getOption('admin-pass');
+		$adminEmail = $input->getOption('admin-email');
 		$dataDir = $input->getOption('data-dir');
 
 		if ($db !== 'sqlite') {
@@ -179,6 +181,7 @@ class Install extends Command {
 			'dbtableprefix' => $dbTablePrefix,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
+			'adminemail' => $adminEmail,
 			'directory' => $dataDir
 		];
 		if ($db === 'oci') {
