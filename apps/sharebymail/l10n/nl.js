@@ -31,6 +31,7 @@ OC.L10N.register(
     "It is protected with the following password: %s" : "Het is beveiligd met het volgende wachtwoord: %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s deelde »%2$s« met jou en wil toevoegen:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s deelde »%2$s« met jou en wil toevoegen",
+    "%1$s via %2$s" : "%1$s via %2$s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Je deelde  »%s« met %s. De link is al gestuurd naar de geadresseerde. Vanwege de beveiligingsinstellingen, zoals ingesteld door de beheerder van %s, moet het delen worden beveiligd met een wachtwoord en is het niet toegestaan het wachtwoord rechtstreeks naar de ontvanger te versturen. Hierdoor moet je het wachtwoord zelf handmatig naar de ontvanger sturen.",
     "Password to access »%s« shared with %s" : "Wachtwoord voor toegang »%s« gedeeld met %s",
     "This is the password: %s" : "Dit is het wachtwoord: %s",

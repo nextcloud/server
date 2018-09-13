@@ -32,6 +32,6 @@ OC.L10N.register(
     "Files app plugin to add comments to files" : "Zásuvný modul do aplikace Soubory pro přidávání komentářů k souborům",
     "Unknown user" : "Neznámý uživatel",
     "A (now) deleted user mentioned you in a comment on “%s”" : "A (now) deleted user mentioned you in a comment on “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Nyní již smazaný uživatel vás zmínil v komentáři u \"{file}\""
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Nyní už smazaný uživatel vás zmínil v komentáři u „{file}“"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
