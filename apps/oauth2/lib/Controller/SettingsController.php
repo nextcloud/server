@@ -74,7 +74,7 @@ class SettingsController extends Controller {
 	public function addClient(string $name,
 							  string $redirectUri): JSONResponse {
 
-		if (filter_var($redirectUri, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED|FILTER_FLAG_HOST_REQUIRED) === false) {
+		if (filter_var($redirectUri, FILTER_VALIDATE_URL) === false) {
 			return new JSONResponse(['message' => $this->l->t('Your redirect URL needs to be a full URL for example: https://yourdomain.com/path')], Http::STATUS_BAD_REQUEST);
 		}
 
