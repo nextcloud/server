@@ -326,7 +326,23 @@
 
 						var suggestions = exactMatches.concat(users).concat(groups).concat(remotes).concat(remoteGroups).concat(emails).concat(circles).concat(rooms).concat(lookup);
 
-						deferred.resolve(suggestions, exactMatches);
+						var moreResultsAvailable =
+							(
+								oc_config['sharing.maxAutocompleteResults'] > 0
+								&& Math.min(perPage, oc_config['sharing.maxAutocompleteResults'])
+									<= Math.max(
+										users.length + exactUsers.length,
+										groups.length + exactGroups.length,
+										remoteGroups.length + exactRemoteGroups.length,
+										remotes.length + exactRemotes.length,
+										emails.length + exactEmails.length,
+										circles.length + exactCircles.length,
+										rooms.length + exactRooms.length,
+										lookup.length
+									)
+							);
+
+						deferred.resolve(suggestions, exactMatches, moreResultsAvailable);
 					} else {
 						deferred.reject(result.ocs.meta.message);
 					}
@@ -380,12 +396,12 @@
 			$shareWithField.removeClass('error')
 				.tooltip('hide');
 
-			var perPage = 200;
+			var perPage = parseInt(oc_config['sharing.maxAutocompleteResults'], 10) || 200;
 			this._getSuggestions(
 				search.term.trim(),
 				perPage,
 				view.model
-			).done(function(suggestions) {
+			).done(function(suggestions, exactMatches, moreResultsAvailable) {
 				view._pendingOperationsCount--;
 				if (view._pendingOperationsCount === 0) {
 					$loading.addClass('hidden');
@@ -401,10 +417,7 @@
 
 					// show a notice that the list is truncated
 					// this is the case if one of the search results is at least as long as the max result config option
-					if(oc_config['sharing.maxAutocompleteResults'] > 0 &&
-						Math.min(perPage, oc_config['sharing.maxAutocompleteResults'])
-						<= Math.max(users.length, groups.length, remotes.length, emails.length, lookup.length)) {
-
+					if(moreResultsAvailable) {
 						var message = t('core', 'This list is maybe truncated - please refine your search term to see more results.');
 						$('.ui-autocomplete').append('<li class="autocomplete-note">' + message + '</li>');
 					}
@@ -557,7 +570,7 @@
 				$shareWithField.focus();
 			};
 
-			var perPage = 200;
+			var perPage = parseInt(oc_config['sharing.maxAutocompleteResults'], 10) || 200;
 			var onlyExactMatches = true;
 			this._getSuggestions(
 				$shareWithField.val(),
