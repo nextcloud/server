@@ -115,6 +115,7 @@ OC.L10N.register(
     "Check for changes" : "Controleren op wijzigingen",
     "Never" : "Nooit",
     "Once every direct access" : "Een keer bij elke directe toegang",
+    "Read only" : "Alleen lezen",
     "Folder name" : "Mapnaam",
     "External storage" : "Externe opslag",
     "Authentication" : "Authenticatie",

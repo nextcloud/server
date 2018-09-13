@@ -232,6 +232,7 @@
     "Redis" : "Redis",
     "Encryption" : "Kryptering",
     "Tips & tricks" : "Tips & tricks",
+    "Cannot set expiration date more than %s days in the future" : "Kan inte sätta ett utgångsdatum längre fram än %s dagar",
     "Sync clients" : "Synkklienter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

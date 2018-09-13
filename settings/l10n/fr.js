@@ -156,7 +156,7 @@ OC.L10N.register(
     "Please confirm the group removal " : "Veuillez confirmer la suppression du groupe",
     "Remove group" : "Supprimer le groupe",
     "Admins" : "Administrateurs",
-    "Disabled users" : "Désactiver les utilisateurs",
+    "Disabled users" : "Utilisateurs désactivés",
     "Everyone" : "Tout le monde",
     "New user" : "Nouvel utilisateur",
     "SSL Root Certificates" : "Certificats Racines SSL",
