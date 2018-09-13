@@ -127,6 +127,7 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Een bestand of een map is <strong>hersteld</strong>",
     "Unlimited" : "Ongelimiteerd",
     "Upload (max. %s)" : "Upload (max. %s)",
+    "File Management" : "Bestandsbeheer",
     "File handling" : "Bestand afhandeling",
     "Maximum upload size" : "Maximale bestandsgrootte voor uploads",
     "max. possible: " : "max. mogelijk: ",
