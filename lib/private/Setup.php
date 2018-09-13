@@ -438,7 +438,7 @@ class Setup {
 	 * @return string
 	 * @throws InvalidArgumentException when invalid value for overwrite.cli.url
 	 */
-	public static function findWebRoot(SystemConfig $config): string {
+	private static function findWebRoot(SystemConfig $config): string {
 		// For CLI read the value from overwrite.cli.url
 		if (\OC::$CLI) {
 			$webRoot = $config->getValue('overwrite.cli.url', '');

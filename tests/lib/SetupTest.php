@@ -147,7 +147,7 @@ class SetupTest extends \Test\TestCase {
 		\OC::$CLI = true;
 
 		try {
-			$webRoot = $this->setupClass::findWebRoot($this->config);
+			$webRoot = self::invokePrivate($this->setupClass, 'findWebRoot', [$this->config]);
 		} catch (\InvalidArgumentException $e) {
 			$webRoot = false;
 		}
