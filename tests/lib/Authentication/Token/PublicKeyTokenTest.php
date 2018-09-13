@@ -41,4 +41,13 @@ class PublicKeyTokenTest extends TestCase {
 		$token = new PublicKeyToken();
 		$this->assertEquals($scope, $token->getScopeAsArray());
 	}
+
+	public function testComment() {
+		$tComment = $this->getUniqueID(300);
+		$token = new PublicKeyToken();
+		$token->setComment($tComment);
+		$this->assertEquals(
+			substr($tComment,0,250),$token->getComment());
+	}
+
 }

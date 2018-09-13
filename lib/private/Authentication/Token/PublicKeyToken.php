@@ -43,6 +43,8 @@ use OCP\AppFramework\Db\Entity;
  * @method string getPublicKey()
  * @method void setPublicKey(string $key)
  * @method void setVersion(int $version)
+ * @method string getComment()
+ * @method void setComment(string $comment)
  */
 class PublicKeyToken extends Entity implements IToken {
 
@@ -90,6 +92,9 @@ class PublicKeyToken extends Entity implements IToken {
 	/** @var int */
 	protected $version;
 
+	/** @var string */
+	protected $comment;
+
 	public function __construct() {
 		$this->addType('uid', 'string');
 		$this->addType('loginName', 'string');
@@ -105,6 +110,7 @@ class PublicKeyToken extends Entity implements IToken {
 		$this->addType('publicKey', 'string');
 		$this->addType('privateKey', 'string');
 		$this->addType('version', 'int');
+		$this->addType('comment', 'string');
 	}
 
 	public function getId(): int {
@@ -139,7 +145,8 @@ class PublicKeyToken extends Entity implements IToken {
 			'name' => $this->name,
 			'lastActivity' => $this->lastActivity,
 			'type' => $this->type,
-			'scope' => $this->getScopeAsArray()
+			'scope' => $this->getScopeAsArray(),
+			'comment' => $this->getComment()
 		];
 	}
 
@@ -214,4 +221,19 @@ class PublicKeyToken extends Entity implements IToken {
 	public function getExpires() {
 		return parent::getExpires();
 	}
+
+	/**
+	 * Get the user-supplied comment of the token
+	 *
+	 * @return string
+	 */
+	public function getComment(): string {
+ 		$comment = parent::getComment();
+ 		return $comment;
+	}
+
+	public function setComment(string $comment = '') {
+		parent::setComment(substr($comment,0,250));
+	}
+
 }

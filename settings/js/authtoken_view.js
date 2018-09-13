@@ -194,7 +194,8 @@
 			}
 			if (viewData.current) {
 				viewData.name = t('settings', 'This session');
-			}
+			};
+			viewData.comment = token.get('comment');
 			return viewData;
 		}
 	});

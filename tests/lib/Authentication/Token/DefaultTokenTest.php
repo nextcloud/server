@@ -38,4 +38,13 @@ class DefaultTokenTest extends TestCase {
 		$token = new DefaultToken();
 		$this->assertEquals($scope, $token->getScopeAsArray());
 	}
+
+	public function testComment() {
+		$tComment = $this->getUniqueID(300);
+		$token = new DefaultToken();
+		$token->setComment($tComment);
+		$this->assertEquals(
+			substr($tComment,0,250),$token->getComment());
+	}
+
 }
