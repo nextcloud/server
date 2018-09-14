@@ -39,6 +39,7 @@ OC.L10N.register(
     "Android client" : "Android klient",
     "iOS client" : "iOS klient",
     "Desktop client" : "Desktopový klient",
+    "Thunderbird & Outlook addons" : "Doplňky pro Thunderbird a Outlook",
     "User group membership" : "Členství ve skupině uživatelů",
     "is member of" : "je členem",
     "is not member of" : "není členem",
