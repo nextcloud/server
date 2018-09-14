@@ -176,8 +176,53 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
-				'classes' => '',
-				'sublist' => [],
+				'classes' => 'collapsible',
+				'sublist' => [
+					[
+						'id' => '-test1',
+						'view' => 'files',
+						'href' => '',
+						'dir' => '/test1',
+						'order' => 6,
+						'folderPosition' => 1,
+						'name' => 'test1',
+						'icon' => 'files',
+						'quickaccesselement' => 'true',
+					],
+					[
+						'name' => 'test2',
+						'id' => '-test2-',
+						'view' => 'files',
+						'href' => '',
+						'dir' => '/test2/',
+						'order' => 7,
+						'folderPosition' => 2,
+						'icon' => 'files',
+						'quickaccesselement' => 'true',
+					],
+					[
+						'name' => 'sub4',
+						'id' => '-test3-sub4',
+						'view' => 'files',
+						'href' => '',
+						'dir' => '/test3/sub4',
+						'order' => 8,
+						'folderPosition' => 3,
+						'icon' => 'files',
+						'quickaccesselement' => 'true',
+					],
+					[
+						'name' => 'sub6',
+						'id' => '-test5-sub6-',
+						'view' => 'files',
+						'href' => '',
+						'dir' => '/test5/sub6/',
+						'order' => 9,
+						'folderPosition' => 4,
+						'icon' => 'files',
+						'quickaccesselement' => 'true',
+					],
+				],
 				'defaultExpandedState' => false,
 				'expandedState' => 'show_Quick_Access'
 			],
@@ -303,6 +348,22 @@ class ViewControllerTest extends TestCase {
 						'id' => 'shareoverview',
 						'content' => null,
 					],
+					'-test1' => [
+						'id' => '-test1',
+						'content' => '',
+					],
+					'-test2-' => [
+						'id' => '-test2-',
+						'content' => '',
+					],
+					'-test3-sub4' => [
+						'id' => '-test3-sub4',
+						'content' => '',
+					],
+					'-test5-sub6-' => [
+						'id' => '-test5-sub6-',
+						'content' => '',
+					],
 				],
 				'hiddenFields' => [],
 			]
@@ -315,7 +376,12 @@ class ViewControllerTest extends TestCase {
 			->with($this->user->getUID())
 			->willReturn([
 				'item' => [],
-				'folders' => [],
+				'folders' => [
+					'/test1',
+					'/test2/',
+					'/test3/sub4',
+					'/test5/sub6/',
+				],
 			]);
 
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
