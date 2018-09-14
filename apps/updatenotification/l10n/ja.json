@@ -7,6 +7,7 @@
     "Update to %1$s is available." : "%1$s への更新が利用可能です。",
     "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。",
     "Update for {app} to version %s is available." : " {app} に対するバージョン %s へアップデートが利用可能です。",
+    "Update notification" : "アップデート通知",
     "Apps with available updates" : "アップデート可能なアプリ",
     "Open updater" : "アップデーターを開く",
     "The update check is not yet finished. Please refresh the page." : "アップデートチェックが完了していません。ページを更新してください。",

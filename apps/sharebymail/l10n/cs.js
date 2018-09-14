@@ -29,6 +29,8 @@ OC.L10N.register(
     "Password to access »%s« shared to you by %s" : "Heslo pro přístup k »%s« (vám nasdílel(a) %s)",
     "Password to access »%s«" : "Heslo pro přístup k »%s«",
     "It is protected with the following password: %s" : "Je chráněn následujícím heslem: %s",
+    "%1$s shared »%2$s« with you and wants to add:" : "%1$s s vámi sdílí „%2$s“ a chce přidat:",
+    "»%s« added a note to a file shared with you" : "„%s“ přidal(a) poznámku k souboru, který je s vámi sdílený",
     "%1$s via %2$s" : "%1$s prostřednictvím %2$s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Právě jste s »%s» nasdílel(a) %s. Sdílení bylo již příjemci zasláno. Kvůli bezpečnostní politice nastavené administrátorem %s musí být každé sdílení chráněno heslem a toto heslo nemůže být příjemci zasláno přímo. Kvůli tomu ho budete muset manuálně přeposlat.",
     "Password to access »%s« shared with %s" : "Heslo pro přístup k »%s« sdíleno s %s",
