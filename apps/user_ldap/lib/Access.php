@@ -1451,6 +1451,11 @@ class Access extends LDAPUtility implements IUserTools {
 			throw new \Exception('searchAttributes must be an array with at least two string');
 		}
 		$searchWords = explode(' ', trim($search));
+		// insert * among words
+		$trimmedArray = array_map('trim', $searchWords);
+		$onlyValuesArray = array_filter($trimmedArray);
+		$searchWords = array();
+		$searchWords[] = implode('*', $onlyValuesArray);
 		$wordFilters = array();
 		foreach($searchWords as $word) {
 			$word = $this->prepareSearchTerm($word);
