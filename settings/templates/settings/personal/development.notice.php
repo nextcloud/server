@@ -57,7 +57,7 @@
 				$l->t('Follow us on Google+'),
 				$l->t('Like our Facebook page'),
 				$l->t('Follow us on Twitter'),
-				$l->t('(Remote-)Follow us on Mastodon'),
+				$l->t('Follow us on Mastodon'),
 				$l->t('Check out our blog'),
 				$l->t('Subscribe to our newsletter'),
 
