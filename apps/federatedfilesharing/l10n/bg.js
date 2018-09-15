@@ -20,6 +20,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Не е позволено създаване на федерално споделяне със същият потребител",
     "File is already shared with %s" : "Файлът е вече споделен с %s",
     "Accept" : "Приемам",
+    "Sharing" : "Споделяне",
     "Open documentation" : "Отвори документацията",
     "Allow users on this server to send shares to other servers" : "Позволи на потребители от този сървър да споделят папки  с други сървъри",
     "Allow users on this server to receive shares from other servers" : "Позволи на потребители на този сървър да получават споделени папки от други сървъри",
