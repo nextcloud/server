@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "保存済み",
     "Admin" : "管理者",
     "a safe home for all your data" : "あなたのデータを安全に保管するプラットフォーム",
+    "Name cannot be empty" : "名前は空にできません",
     "The given name is too long" : "名前が長すぎます",
     "The given web address is too long" : "Webアドレスが長すぎます",
     "The given slogan is too long" : "スローガンが長すぎます",

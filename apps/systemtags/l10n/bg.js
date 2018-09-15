@@ -6,7 +6,7 @@ OC.L10N.register(
     "Create" : "Създай",
     "Select tag…" : "Изберете етикет...",
     "Tagged files" : "Отбелязани файлове",
-    "Select tags to filter by" : "Моля изберете таг по който да филтрирате",
+    "Select tags to filter by" : "Филтриране по етикет",
     "No tags found" : "Няма открити етикети",
     "Please select tags to filter by" : "Моля изберете таг за филтриране",
     "No files found for the selected tags" : "Няма намерени файлове за избраните тагове",
