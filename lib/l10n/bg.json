@@ -66,15 +66,16 @@
     "Sharing %s failed, because sharing with links is not allowed" : "Неуспешно споделяне на %s, защото споделянето посредством връзки не е разрешено.",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Неуспешно споделяне на на %s, не може бъде намерено %s. Може би сървъра в момента е недостъпен.",
     "Share type %s is not valid for %s" : "Споделянето на тип %s не валидно за %s.",
-    "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "Неуспешно задаване на дата на изтичане. Споделни папки или файлове не могат да изтичат по-късно от %s след като са били споделени",
-    "Cannot set expiration date. Expiration date is in the past" : "Неуспешно задаване на дата на изтичане. Датата на изтичане е в миналото",
+    "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "Неуспешно задаване на срок на валидност. Споделянията не могат да изтичат по-късно от %s след като са били споделени",
+    "Cannot set expiration date. Expiration date is in the past" : "Неуспешно задаване на срок на валидност. Датата на изтичане е в миналото",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Споделянето на сървърния %s трябва да поддържа OCP\\Share_Backend интерфейс.",
     "Sharing backend %s not found" : "Споделянето на сървърния %s не е открито.",
     "Sharing backend for %s not found" : "Споделянето на сървъра за %s не е открито.",
     "Sharing %s failed, because the permissions exceed permissions granted to %s" : "Неуспешно споделяне на %s, защото промените надвишават правата на достъп дадени на %s.",
-    "Sharing %s failed, because resharing is not allowed" : "Неуспешно споделяне на %s, защото повторно споделяне не е разрешено.",
+    "Sharing %s failed, because resharing is not allowed" : "Неуспешно споделяне на %s, защото повторното споделяне е забранено",
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Неуспешно споделяне на %s, защото не е открит първоизточникът на %s, за да бъде споделяне по сървъра.",
     "Sharing %s failed, because the file could not be found in the file cache" : "Неуспешно споделяне на %s, защото файлът не може да бъде намерен в кеша.",
+    "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето",
     "%s shared »%s« with you" : "%s сподели »%s« с теб",
     "%s via %s" : "%s чрез %s",
     "Could not find category \"%s\"" : "Невъзможно откриване на категорията \"%s\".",
@@ -147,6 +148,7 @@
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Моля, променете правата за достъп на 0770, за да не може директорията да бъде видяна от други потребители.",
     "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\".",
     "APCu" : "APCu",
-    "Redis" : "Redis"
+    "Redis" : "Redis",
+    "Cannot set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
