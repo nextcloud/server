@@ -54,6 +54,7 @@ OC.L10N.register(
     "Saving" : "Записване",
     "Back" : "Назад",
     "Continue" : "Продължи",
+    "An internal error occurred." : "Възникна вътрешно сървърна грешка.",
     "Server" : "Сървър",
     "Users" : "Потребители",
     "Groups" : "Групи",
