@@ -287,10 +287,10 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
 
-		$config = [
+		$config = array_merge([
 			'digest_alg' => 'sha512',
 			'private_key_bits' => 2048,
-		];
+		], $this->config->getSystemValue('openssl', []));
 
 		// Generate new key
 		$res = openssl_pkey_new($config);
