@@ -419,6 +419,7 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Znovu zobrazit průvodce prvním spuštěním",
     "Web, desktop, mobile clients and app specific passwords that currently have access to your account." : "Weboví, desktopoví a mobilní klienti a hesla v aplikacích, která aktuálně mají přístup k vašemu účtu.",
     "App passwords" : "Hesla aplikace",
+    "Here you can generate individual passwords for apps so you don’t have to give out your password. You can revoke them individually too." : "Zde je možné vytvořit hesla pro jednotlivé aplikace, abyste v nich nemuseli používat své osobní heslo. Tím aplikacím můžete také jednotlivě rušit.",
     "Follow us on Google+!" : "Následujte nás na Google+!",
     "Like our facebook page!" : "Označte naši facebookovou stránku jako „To se mi líbí“!",
     "Follow us on Twitter!" : "Následujte nás na Twitteru!",

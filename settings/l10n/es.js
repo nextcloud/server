@@ -151,6 +151,7 @@ OC.L10N.register(
     "Disabled apps" : "Apps deshabilitadas",
     "Updates" : "Actualizaciones",
     "App bundles" : "Lotes de apps",
+    "Default quota:" : "Espacio predeterminado:",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Vas a eliminar el grupo {group}. Los usuarios NO serán eliminados.",
     "Please confirm the group removal " : "Por favor, confirma la eliminación del grupo",
     "Remove group" : "Eliminar grupo",
