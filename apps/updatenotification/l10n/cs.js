@@ -10,6 +10,7 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Je dostupná aktualizace pro %1$s na verzi %2$s.",
     "Update for {app} to version %s is available." : "Pro {app} je dostupná aktualizace na verzi %s.",
     "Update notification" : "Upozornění na aktualizaci",
+    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí oznámení o aktualizacích pro Nextcloud a poskytuje sjednocené přihlašování pro aktualizace.",
     "Apps with available updates" : "Aplikace s dostupnými aktualizacemi",
     "Open updater" : "Otevřít aktualizátor",
     "What's new?" : "Co je nového?",

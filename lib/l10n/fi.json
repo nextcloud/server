@@ -197,6 +197,7 @@
     "Your data directory must be an absolute path" : "Data-hakemiston tulee olla absoluuttinen polku",
     "Check the value of \"datadirectory\" in your configuration" : "Tarkista \"datadirectory\"-arvo asetuksistasi",
     "Your data directory is invalid" : "Datahakemistosi on virheellinen",
+    "Action \"%s\" not supported or implemented." : "Toiminto \"%s\" ei ole tuettu tai sitä ei ole toteutettu.",
     "Could not obtain lock type %d on \"%s\"." : "Lukitustapaa %d ei saatu kohteelle \"%s\".",
     "Storage unauthorized. %s" : "Tallennustila ei ole valtuutettu. %s",
     "Storage incomplete configuration. %s" : "Tallennustilan puutteellinen määritys. %s",

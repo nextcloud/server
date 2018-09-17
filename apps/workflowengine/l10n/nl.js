@@ -2,7 +2,7 @@ OC.L10N.register(
     "workflowengine",
     {
     "Group list is empty" : "Groepenlijst is leeg",
-    "Unable to retrieve the group list" : "Kan groepsoverzicht niet ophalen",
+    "Unable to retrieve the group list" : "Kan groepenoverzicht niet ophalen",
     "Saved" : "Bewaard",
     "Saving failed:" : "Opslaan mislukt:",
     "File MIME type" : "Mimetype bestand",

@@ -76,7 +76,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Неуспешно споделяне на %s, защото не е открит първоизточникът на %s, за да бъде споделяне по сървъра.",
     "Sharing %s failed, because the file could not be found in the file cache" : "Неуспешно споделяне на %s, защото файлът не може да бъде намерен в кеша.",
     "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето",
-    "%s shared »%s« with you" : "%s сподели »%s« с теб",
+    "%s shared »%s« with you" : "%s сподели »%s« с вас",
     "%s via %s" : "%s чрез %s",
     "Could not find category \"%s\"" : "Невъзможно откриване на категорията \"%s\".",
     "Sunday" : "неделя",

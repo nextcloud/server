@@ -85,7 +85,7 @@ OC.L10N.register(
     "New folder" : "Nieuwe map",
     "Upload file" : "Bestand uploaden",
     "Not favorited" : "Niet in favorieten",
-    "Remove from favorites" : "Verwijder van favorieten",
+    "Remove from favorites" : "Verwijderen uit favorieten",
     "Add to favorites" : "Aan favorieten toevoegen",
     "An error occurred while trying to update the tags" : "Er trad een fout op bij je poging om de tags bij te werken",
     "Added to favorites" : "Toevoegen aan favorieten",

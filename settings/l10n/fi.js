@@ -99,6 +99,7 @@ OC.L10N.register(
     "Good password" : "Hyvä salasana",
     "Strong password" : "Vahva salasana",
     "An error occured while changing your language. Please reload the page and try again." : "Kieltä vaihtaessa tapahtui virhe. Lataa sivu uudelleen ja yritä uudelleen.",
+    "An error occured while changing your locale. Please reload the page and try again." : "Maa-asetustoa vaihtaessa tapahtui virhe. Päivitä sivu ja yritä uudelleen.",
     "Select a profile picture" : "Valitse profiilikuva",
     "Week starts on {fdow}" : "Viikon ensimmäinen päivä on {fdow}",
     "Groups" : "Ryhmät",

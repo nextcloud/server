@@ -39,6 +39,7 @@ OC.L10N.register(
     "Android client" : "Android-sovellus",
     "iOS client" : "iOS-sovellus",
     "Desktop client" : "Työpöytäsovellus",
+    "Thunderbird & Outlook addons" : "Thunderbird- & Outlook-lisäosat",
     "User group membership" : "Käyttäjäryhmä jäsenyys",
     "is member of" : "on jäsen",
     "is not member of" : "ei ole jäsen",
