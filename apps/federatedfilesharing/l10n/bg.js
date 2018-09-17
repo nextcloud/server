@@ -27,7 +27,7 @@ OC.L10N.register(
     "HTML Code:" : "HTML код:",
     "The mountpoint name contains invalid characters." : "Името на mountpoint-a съдържа невалидни символи.",
     "Not allowed to create a federated share with the owner." : "Не е позволено създаване на федерално споделяне със собственика.",
-    "Invalid or untrusted SSL certificate" : "Невалиден или ненадежден SSL сертификат",
+    "Invalid or untrusted SSL certificate" : "Невалиден или недоверен SSL сертификат",
     "Could not authenticate to remote share, password might be wrong" : "Неуспешно удостоверяване на отдалеченото споделяне, възможно е паролата да е грешна",
     "Storage not valid" : "Невалидно хранилище",
     "Couldn't add remote share" : "Неуспешно добавяне на отдалечена споделена директория."

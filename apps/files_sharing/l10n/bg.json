@@ -29,6 +29,7 @@
     "Downloaded by {email}" : "Изтеглен от {email}",
     "Shared as public link" : "Споделено с публична връзка",
     "Removed public link" : "Премахни публичната връзка",
+    "You removed public link for {file}" : "Премахнахте публична връзка към файла {file}",
     "Shared with {user}" : "Споделен с {user}",
     "{actor} shared with {user}" : "{actor} сподели с {user}",
     "Shared by {actor}" : "Споделено от {actor}",
