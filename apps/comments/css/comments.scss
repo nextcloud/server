@@ -22,6 +22,9 @@
 	padding: 10px;
 	min-height: 44px;
 	margin: 0;
+
+	/* Prevent the text from overlapping with the submit button. */
+	padding-right: 30px;
 }
 
 #commentsTabView .newCommentForm {
