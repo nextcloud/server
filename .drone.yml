@@ -284,7 +284,7 @@ pipeline:
     image: nextcloudci/php7.1:php7.1-16
     commands:
       - sleep 10 # gives the database enough time to initialize
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+      - POSTGRES=${POSTGRES} NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
     when:
       matrix:
         DB: postgres
@@ -936,6 +936,7 @@ services:
     image: postgres:9
     environment:
       - POSTGRES_USER=oc_autotest
+      - POSTGRES_DB=oc_autotest_dummy
       - POSTGRES_PASSWORD=owncloud
     tmpfs:
       - /var/lib/postgresql/data
@@ -947,6 +948,7 @@ services:
       image: postgres:10
       environment:
         - POSTGRES_USER=oc_autotest
+        - POSTGRES_DB=oc_autotest_dummy
         - POSTGRES_PASSWORD=owncloud
       tmpfs:
         - /var/lib/postgresql/data
