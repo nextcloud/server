@@ -124,6 +124,7 @@
     "Add storage" : "Toevoegen opslag",
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Binnenhalen van de aanvraag token is mislukt. Controleer dat je app sleutel en geheim correct zijn.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Binnenhalen van de toegangstoken is mislukt. Controleer dat je app sleutel en geheim correct zijn.",
     "Step 1 failed. Exception: %s" : "Stap 1 mislukt. Uitzondering: %s",
