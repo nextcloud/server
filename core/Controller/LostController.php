@@ -262,7 +262,7 @@ class LostController extends Controller {
 	 * @return array
 	 */
 	public function setPassword($token, $userId, $password, $proceed, $register = false) {
-		if ($register === false&& $this->config->getSystemValue('lost_password_link', '') !== '') {
+		if ($register === false && $this->config->getSystemValue('lost_password_link', '') !== '') {
 			return $this->error($this->l10n->t('Password reset is disabled'));
 		}
 
