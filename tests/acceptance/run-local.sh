@@ -206,6 +206,8 @@ su --shell /bin/bash --login www-data --command "cd $NEXTCLOUD_DIR && $ACCEPTANC
 
 echo "Saving the default state so acceptance tests can reset to it"
 find . -name ".gitignore" -exec rm --force {} \;
+# Create dummy files in empty directories to force Git to save the directories.
+find . -not -path "*.git*" -type d -empty -exec touch {}/.keep \;
 git add --all && echo 'Default state' | git -c user.name='John Doe' -c user.email='john@doe.org' commit --quiet --file=-
 
 cd tests/acceptance
