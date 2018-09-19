@@ -76,9 +76,9 @@ class TrashManager implements ITrashManager {
 	 */
 	public function getBackendForStorage(IStorage $storage): ITrashBackend {
 		$fullType = get_class($storage);
-		$foundType = array_reduce(array_keys($this->backends), function ($type, $registeredType) use ($fullType) {
+		$foundType = array_reduce(array_keys($this->backends), function ($type, $registeredType) use ($storage) {
 			if (
-				is_subclass_of($fullType, $registeredType) &&
+				$storage->instanceOfStorage($registeredType) &&
 				($type === '' || is_subclass_of($registeredType, $type))
 			) {
 				return $registeredType;
@@ -93,7 +93,7 @@ class TrashManager implements ITrashManager {
 		}
 	}
 
-	public function moveToTrash(IStorage $storage, string $internalPath) {
+	public function moveToTrash(IStorage $storage, string $internalPath): bool {
 		if ($this->trashPaused) {
 			return false;
 		}
@@ -103,6 +103,16 @@ class TrashManager implements ITrashManager {
 		} catch (BackendNotFoundException $e) {
 			return false;
 		}
+	}
+
+	public function getTrashNodeById(IUser $user, int $fileId) {
+		foreach ($this->backends as $backend) {
+			$item = $backend->getTrashNodeById($user, $fileId);
+			if ($item !== null) {
+				return $item;
+			}
+		}
+		return null;
 	}
 
 	public function pauseTrash() {

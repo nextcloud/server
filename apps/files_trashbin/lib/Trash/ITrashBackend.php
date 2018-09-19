@@ -22,6 +22,8 @@
 namespace OCA\Files_Trashbin\Trash;
 
 use OCP\Files\FileInfo;
+use OCP\Files\Node;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
@@ -61,7 +63,6 @@ interface ITrashBackend {
 	 *
 	 * @param IUser $user
 	 * @param ITrashItem $item
-	 * @return
 	 * @since 15.0.0
 	 */
 	public function removeItem(IUser $user, ITrashItem $item);
@@ -74,5 +75,12 @@ interface ITrashBackend {
 	 * @return boolean whether or not the file was moved to trash, if false then the file should be deleted normally
 	 * @since 15.0.0
 	 */
-	public function moveToTrash(IStorage $storage, string $internalPath);
+	public function moveToTrash(IStorage $storage, string $internalPath): bool;
+
+	/**
+	 * @param IUser $user
+	 * @param int $fileId
+	 * @return Node|null
+	 */
+	public function getTrashNodeById(IUser $user, int $fileId);
 }

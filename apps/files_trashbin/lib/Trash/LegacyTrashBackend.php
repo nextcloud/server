@@ -27,12 +27,21 @@ use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
 class LegacyTrashBackend implements ITrashBackend {
 	/** @var array */
 	private $deletedFiles = [];
+
+	/** @var IRootFolder */
+	private $rootFolder;
+
+	public function __construct(IRootFolder $rootFolder) {
+		$this->rootFolder = $rootFolder;
+	}
 
 	/**
 	 * @param array $items
@@ -78,7 +87,7 @@ class LegacyTrashBackend implements ITrashBackend {
 
 	}
 
-	public function moveToTrash(IStorage $storage, string $internalPath) {
+	public function moveToTrash(IStorage $storage, string $internalPath): bool {
 		if (!$storage instanceof Storage) {
 			return false;
 		}
@@ -98,5 +107,19 @@ class LegacyTrashBackend implements ITrashBackend {
 		}
 
 		return $result;
+	}
+
+	public function getTrashNodeById(IUser $user, int $fileId) {
+		try {
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+			$trash = $userFolder->getParent()->get('files_trashbin/files');
+			$trashFiles = $trash->getById($fileId);
+			if (!$trashFiles) {
+				return null;
+			}
+			return $trashFiles ? array_pop($trashFiles) : null;
+		} catch (NotFoundException $e) {
+			return null;
+		}
 	}
 }
