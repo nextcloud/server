@@ -251,6 +251,7 @@ OC.L10N.register(
     "Follow us on Google+" : "Folgen Sie uns auf Google+",
     "Like our Facebook page" : "Liken Sie uns auf unserer Facebook-Seite",
     "Follow us on Twitter" : "Folgen Sie uns auf Twitter",
+    "Follow us on Mastodon" : "Folgen Sie uns auf Mastodon",
     "Check out our blog" : "Sehen Sie sich unseren Blog an",
     "Subscribe to our newsletter" : "Abonnieren Sie unseren Newsletter",
     "Profile picture" : "Profilbild",
