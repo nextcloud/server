@@ -39,6 +39,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Je kunt in de Delen-dialoog altijd een ander wachtwoord kiezen.",
     "Could not find share" : "Kon gedeeld niet vinden",
     "Share by mail" : "Delen via email",
+    "Share provider which allows you to share files by mail" : "Share provider waarmee je bestanden via de mail kunt delen",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven.",
     "Send password by mail" : "Wachtwoord per email verzenden",
     "Enforce password protection" : "Wachtwoord-beveiliging afdwingen",
