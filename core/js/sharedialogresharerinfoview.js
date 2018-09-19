@@ -100,16 +100,28 @@
 					{escape: false}
 				);
 			} else if (this.model.getReshareType() === OC.Share.SHARE_TYPE_ROOM) {
-				sharedByText = t(
-					'core',
-					'Shared with you and the conversation {conversation} by {owner}',
-					{
-						conversation: this.model.getReshareWithDisplayName(),
-						owner: ownerDisplayName
-					},
-					undefined,
-					{escape: false}
-				);
+				if (this.model.get('reshare').share_with_displayname) {
+					sharedByText = t(
+						'core',
+						'Shared with you and the conversation {conversation} by {owner}',
+						{
+							conversation: this.model.getReshareWithDisplayName(),
+							owner: ownerDisplayName
+						},
+						undefined,
+						{escape: false}
+					);
+				} else {
+					sharedByText = t(
+						'core',
+						'Shared with you in a conversation by {owner}',
+						{
+							owner: ownerDisplayName
+						},
+						undefined,
+						{escape: false}
+					);
+				}
 			} else {
 				sharedByText = t(
 					'core',
