@@ -108,7 +108,7 @@ class Notifier implements INotifier {
 			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
 
 			if ($this->isAdmin()) {
-				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index') . '#updater');
+				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
 			}
 		} else {
 			$appInfo = $this->getAppInfo($notification->getObjectType());
