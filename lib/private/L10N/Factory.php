@@ -245,6 +245,25 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * find the matching lang from the locale
+	 *
+	 * @param string $app
+	 * @param string $locale
+	 * @return null|string
+	 */
+	public function findLanguageFromLocale(string $app = 'core', string $locale = null) {
+		if ($this->languageExists($app, $locale)) {
+			return $locale;
+		}
+		
+		// Try to split e.g: fr_FR => fr
+		$locale = explode('_', $locale)[0];
+		if ($this->languageExists($app, $locale)) {
+			return $locale;
+		}
+	}
+
+	/**
 	 * Find all available languages for an app
 	 *
 	 * @param string|null $app App id or null for core
