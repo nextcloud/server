@@ -251,6 +251,7 @@ OC.L10N.register(
     "Follow us on Google+" : "Пратите нас на Google+",
     "Like our Facebook page" : "Лајкујте нашу Фејсбук страну",
     "Follow us on Twitter" : "Пратите нас на Твитеру",
+    "Follow us on Mastodon" : "Запратите нас на Мастадонту",
     "Check out our blog" : "Баците поглед на наш блог",
     "Subscribe to our newsletter" : "Пријавите се на наше новине",
     "Profile picture" : "Слика профила",
