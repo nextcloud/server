@@ -134,14 +134,14 @@ class PermissionsTest extends TestCase {
 	 * Test that the permissions of shared directory are returned correctly
 	 */
 	function testGetPermissions() {
-		$sharedDirPerms = $this->sharedStorage->getPermissions('shareddir');
+		$sharedDirPerms = $this->sharedStorage->getPermissions('');
 		$this->assertEquals(31, $sharedDirPerms);
-		$sharedDirPerms = $this->sharedStorage->getPermissions('shareddir/textfile.txt');
-		$this->assertEquals(31, $sharedDirPerms);
-		$sharedDirRestrictedPerms = $this->sharedStorageRestrictedShare->getPermissions('shareddirrestricted');
-		$this->assertEquals(7, $sharedDirRestrictedPerms);
-		$sharedDirRestrictedPerms = $this->sharedStorageRestrictedShare->getPermissions('shareddirrestricted/textfile.txt');
-		$this->assertEquals(7, $sharedDirRestrictedPerms);
+		$sharedDirPerms = $this->sharedStorage->getPermissions('textfile.txt');
+		$this->assertEquals(27, $sharedDirPerms);
+		$sharedDirRestrictedPerms = $this->sharedStorageRestrictedShare->getPermissions('');
+		$this->assertEquals(15, $sharedDirRestrictedPerms);
+		$sharedDirRestrictedPerms = $this->sharedStorageRestrictedShare->getPermissions('textfile1.txt');
+		$this->assertEquals(3, $sharedDirRestrictedPerms);
 	}
 
 	/**
