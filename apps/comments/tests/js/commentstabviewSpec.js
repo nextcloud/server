@@ -309,7 +309,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 			expect(createStub.calledOnce).toEqual(false);
 			expect($newCommentForm.find('.message').html()).toContain('Mention to <span');
-			expect($newCommentForm.find('.message').html()).toContain('<div class="avatar"');
+			expect($newCommentForm.find('.message').html()).toContain('<span class="avatar"');
 			expect($newCommentForm.find('.message').html()).toContain('<strong>User Name</strong>');
 			expect($newCommentForm.find('.message').text()).not.toContain('@');
 			// In this case the default behaviour is prevented by the
