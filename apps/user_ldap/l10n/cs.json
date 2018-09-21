@@ -1,7 +1,7 @@
 { "translations": {
-    "Failed to clear the mappings." : "Selhalo zrušení mapování.",
+    "Failed to clear the mappings." : "Mapování se nepodařilo zrušit.",
     "Failed to delete the server configuration" : "Nepodařilo se smazat nastavení serveru",
-    "Invalid configuration: Anonymous binding is not allowed." : "Neplatná konfigurace: Anonymní navázání není povoleno.",
+    "Invalid configuration: Anonymous binding is not allowed." : "Neplatné nastavení: Anonymní navázání není umožněno.",
     "Valid configuration, connection established!" : "Nastavení je v pořádku a spojení bylo navázáno.",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Konfigurace je v pořádku, ale spojení selhalo. Zkontrolujte prosím nastavení serveru a přihlašovací údaje.",
     "Invalid configuration. Please have a look at the logs for further details." : "Konfigurace je neplatná. Pro bližší informace se podívejte do logu.",
@@ -31,6 +31,7 @@
     "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "V zadané Base DN nebyl objekt nalezen. Ověřte.",
     "More than 1,000 directory entries available." : "Je dostupných více než 1000 adresářů.",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} položka k dispozici v rámci poskytnuté Base DN","{objectsFound} položky k dispozici v rámci poskytnuté Base DN","{objectsFound} položek k dispozici v rámci poskytnuté Base DN","{objectsFound} položky k dispozici v rámci poskytnuté Base DN"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Došlo k chybě. Ověře prosím Base DN společně s nastavením připojení a přihlašovacími údaji.",
     "Do you really want to delete the current Server Configuration?" : "Opravdu si přejete smazat současné nastavení serveru?",
     "Confirm Deletion" : "Potvrdit smazání",

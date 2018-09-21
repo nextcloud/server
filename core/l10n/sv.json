@@ -140,6 +140,7 @@
     "Shared with you and the group {group} by {owner}" : "Delad med dig och gruppen {group} av {owner}",
     "Shared with you and {circle} by {owner}" : "Delad med dig och {circle} av {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Delad med dig och konversation {conversation} av {owner}",
+    "Shared with you in a conversation by {owner}" : "Delad med dig i en konversation av {owner}",
     "Shared with you by {owner}" : "Delad med dig av {owner}",
     "Choose a password for the mail share" : "Välj ett lösenord för delning via e-post",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} delad via länk",

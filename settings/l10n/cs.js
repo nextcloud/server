@@ -2,8 +2,8 @@ OC.L10N.register(
     "settings",
     {
     "{actor} changed your password" : "{actor} změnil(a) vaše heslo",
-    "You changed your password" : "Změnil(a) jste vaše heslo",
-    "Your password was reset by an administrator" : "Vaše heslo bylo resetováno administrátorem",
+    "You changed your password" : "Změnil(a) jste své heslo",
+    "Your password was reset by an administrator" : "Vaše heslo bylo resetováno správcem",
     "{actor} changed your email address" : "{actor} změnil(a) vaši e-mailovou adresu",
     "You changed your email address" : "Změnil(a) jste vaši e-mailovou adresu",
     "Your email address was changed by an administrator" : "Vaše e-mailová adresa byla změněna administrátorem",
