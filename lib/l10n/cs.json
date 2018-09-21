@@ -1,7 +1,8 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "Nelze zapisovat do složky „config“!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "To lze obvykle vyřešit povolením zápisu webovému serveru do konfiguračního adresáře",
+    "Cannot write into \"config\" directory!" : "Nedaří se zapisovat do adresáře „config“!",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "To obvykle lze opravit umožněním webovému serveru zapisovat do adresáře s nastaveními",
     "See %s" : "Viz %s",
+    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Nebo, pokud chcete mít soubor config.php pouze pro čtení, nastavte  v něm volbu „config_is_read_only“ na hodnotu true.",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "To lze obvykle vyřešit povolením zápisu webovému serveru do konfiguračního adresáře. Viz %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Nebo, pokud chcete mít soubor config.php pouze pro čtení, nastavte v něm volbu „config_is_read_only“. Viz %s",
     "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Soubory aplikace %$1s nebyly řádně nahrazeny. Ujistěte se, že je to verze kompatibilní se serverem.",

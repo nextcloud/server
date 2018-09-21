@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Vnější úložiště",
+    "External storages" : "Externí úložiště",
     "Personal" : "Osobní",
     "System" : "Systém",
     "Grant access" : "Povolit přístup",
@@ -106,6 +106,7 @@ OC.L10N.register(
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ není nainstalováno. Není možné připojit %s. Požádejte správce systému o instalaci.",
     "External storage support" : "Podpora Externího úložiště",
     "Adds basic external storage support" : "Přidá základní podporu vnějšího úložiště",
+    "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administrators can choose which types of storage to enable and can mount these storage locations for a user, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows users to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the advanced user with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "Tato aplikace umožňuje správcům nastavit propojení na poskytovatele vnějších úložišť, jako například FTP servery, S3 nebo SWIFT objektová úložiště, Google Drive, Dropbox, ostatní Nextcloud servery, WebDAV servery a další. Správci mohou zvolit které typy úložiště zapnout a mohou je připojit pro uživatele, skupinu nebo celý systém. Uživatelé uvidí novou složku v jejich kořenové Nextcloud složce, do které mohou přistupovat a používat jako kteroukoli jinou Nextcloud složku. Vnější úložiště také umožňuje uživatelům sdílet na něm uložené soubory. V takových případech jsou použity přihlašovací údaje vlastníka souboru když si příjemce vyžádá soubor z vnějšího úložiště, čímž je zajištěno že příjemce může přistupovat ke sdílenému souboru.\n\nVnější úložiště je možné nastavit pomocí webového rozhraní nebo z příkazového řádku. Tato druhá možnost poskytuje pokročilému uživateli více přizpůsobivosti pro nastavování vícero připojení vnějších úložišť a nastavení priorit připojování. Další informace jsou k dispozici v dokumentaci k vnějším úložištím ve webovém rozhraní a dokumentaci k souboru s nastaveními pro vnější úložiště.",
     "No external storage configured or you don't have the permission to configure them" : "Nemáte oprávněni pro nastavení externího úložiště",
     "Name" : "Název",
     "Storage type" : "Typ úložiště",

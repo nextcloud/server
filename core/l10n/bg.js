@@ -132,6 +132,7 @@ OC.L10N.register(
     "Share link" : "Връзка за споделяне",
     "Enable" : "Включена",
     "Shared with you and the group {group} by {owner}" : "Споделено от {owner} с вас и групата {group}",
+    "Shared with you in a conversation by {owner}" : "Споделено с вас в разговор от {owner}",
     "Shared with you by {owner}" : "Споделено с вас от {owner}",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} споделен с връзка",
     "group" : "група",

@@ -1,8 +1,8 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Je dostupná {version}. Přečtěte si více informací jak aktualizovat.",
-    "Update notifications" : "Aktualizovat upozornění",
+    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte informace o tom, jak aktualizovat.",
+    "Update notifications" : "Aktualizovat oznámení",
     "Channel updated" : "Kanál aktualizován",
     "The update server could not be reached since %d days to check for new updates." : "Aktualizační server nebyl dosažen %d dní pro kontrolu aktualizací.",
     "Please check the Nextcloud and server log files for errors." : "Po chybách se podívejte v protokolech Nextcloudu a webového serveru.",
@@ -26,8 +26,10 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Zkontrolováno {lastCheckedDate}",
     "Checking apps for compatible updates" : "Zjišťuje se dostupnost kompatibilních aktualizací aplikací",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ověřte, že v souboru s nastaveními config.php není volba <samp>appstoreenabled</samp> nastavena na hodnotu false.",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nedaří se spojit s katalogem aplikací nebo tento nevrátil vůbec žádné aktualizace. Vyhledejte aktualizace ručně nebo ověřte, zda má váš server přístup k Internetu a může se spojit s katalogem.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Všehny</strong> aplikace mají k dispozici aktualizaci pro tuto verzi",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikace nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong>  aplikace nemají k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikací nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikace nemají k dispozici aktualizaci na tuto verzi"],
+    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produkční</strong> vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> je nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> je pouze předprodukční verze pro zkoušení nových funkcí, ne pro produkční nasazení.",
     "View changelog" : "Zobrazit souhrn změn",
