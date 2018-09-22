@@ -84,7 +84,7 @@ OC.L10N.register(
     "Upload file" : "Naloži datoteko",
     "Not favorited" : "Ni priljubljeno",
     "Remove from favorites" : "Odstrani iz priljubljenega",
-    "Add to favorites" : "Dodaj v priljubljeno",
+    "Add to favorites" : "Dodaj med priljubljene",
     "An error occurred while trying to update the tags" : "Prišlo je do napake med posodabljanjem oznak",
     "Added to favorites" : "Dodano med priljubljene",
     "Removed from favorites" : "Odstranjeno iz priljubljenih",

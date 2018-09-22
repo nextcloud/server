@@ -88,7 +88,7 @@ OC.L10N.register(
     "Groups" : "Skupine",
     "Expert" : "Napredno",
     "Advanced" : "Napredne možnosti",
-    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Opozorilo:</b> modul PHP LDAP mora biti nameščen, sicer vmesnik ne bo deloval. Paket je treba namestiti.",
+    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Opozorilo:</b> modul PHP LDAP mora biti nameščen, sicer vmesnik ne bo deloval. Za pravilno delovanje je paket treba namestiti.",
     "Connection Settings" : "Nastavitve povezave",
     "Configuration Active" : "Dejavna nastavitev",
     "When unchecked, this configuration will be skipped." : "Neizbrana možnost preskoči nastavitev.",
