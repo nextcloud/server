@@ -182,6 +182,7 @@ OC.L10N.register(
     "Shared with you and the group {group} by {owner}" : "{owner} tarafından sizinle ve {group} ile paylaşılmış",
     "Shared with you and {circle} by {owner}" : "{owner} tarafından sizinle ve {circle} ile paylaşılmış",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} tarafından sizinle ve {conversation} görüşmesi ile paylaştırılmış",
+    "Shared with you in a conversation by {owner}" : "{owner} tarafından sizinle {conversation} görüşmesinde paylaşılmış",
     "Shared with you by {owner}" : "{owner} tarafından sizinle paylaşılmış",
     "Choose a password for the mail share" : "E-posta ile paylaşmak için bir parola seçin",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} bağlantı ile paylaşılmış",
