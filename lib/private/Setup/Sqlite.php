@@ -44,8 +44,13 @@ class Sqlite extends AbstractDatabase {
 		 * in connection factory configuration is obtained from config.php.
 		 */
 
-		$this->dbName = $config['dbname'] ?? ConnectionFactory::DEFAULT_DBNAME;
-		$this->tablePrefix = $config['dbtableprefix'] ?? ConnectionFactory::DEFAULT_DBTABLEPREFIX;
+		$this->dbName = empty($config['dbname'])
+			? ConnectionFactory::DEFAULT_DBNAME
+			: $config['dbname'];
+
+		$this->tablePrefix = empty($config['dbtableprefix'])
+			? ConnectionFactory::DEFAULT_DBTABLEPREFIX
+			: $config['dbtableprefix'];
 
 		if ($this->dbName !== ConnectionFactory::DEFAULT_DBNAME) {
 			$this->config->setValue('dbname', $this->dbName);
