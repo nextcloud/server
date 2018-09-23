@@ -38,6 +38,12 @@ use OC\SystemConfig;
  * Takes care of creating and configuring Doctrine connections.
  */
 class ConnectionFactory {
+	/** @var string default database name */
+	const DEFAULT_DBNAME = 'owncloud';
+
+	/** @var string default database table prefix */
+	const DEFAULT_DBTABLEPREFIX = 'oc_';
+
 	/**
 	 * @var array
 	 *
@@ -186,7 +192,7 @@ class ConnectionFactory {
 			'user' => $this->config->getValue('dbuser', ''),
 			'password' => $this->config->getValue('dbpassword', ''),
 		];
-		$name = $this->config->getValue('dbname', 'owncloud');
+		$name = $this->config->getValue('dbname', self::DEFAULT_DBNAME);
 
 		if ($this->normalizeType($type) === 'sqlite3') {
 			$dataDir = $this->config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
@@ -197,7 +203,7 @@ class ConnectionFactory {
 			$connectionParams['dbname'] = $name;
 		}
 
-		$connectionParams['tablePrefix'] = $this->config->getValue('dbtableprefix', 'oc_');
+		$connectionParams['tablePrefix'] = $this->config->getValue('dbtableprefix', self::DEFAULT_DBTABLEPREFIX);
 		$connectionParams['sqlite.journal_mode'] = $this->config->getValue('sqlite.journal_mode', 'WAL');
 
 		//additional driver options, eg. for mysql ssl
