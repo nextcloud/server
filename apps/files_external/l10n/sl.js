@@ -22,7 +22,7 @@ OC.L10N.register(
     "There was an error with message: " : "Prišlo je do napake s sporočilom:",
     "External mount error" : "Notranja napaka priklopa",
     "external-storage" : "zunanja-shramba",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Nekatere izmed nastavljenih zunanjih priklopnih točk niso povezane. Več podrobnosti je na voljo s klikom na rdeče vrstice.",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Nekatere izmed nastavljenih zunanjih priklopnih točk niso povezane. Več podrobnosti se pokaže s klikom na rdeče vrstice.",
     "Please enter the credentials for the {mount} mount" : "Vpišite poverila za priklopno točko {mount}",
     "Username" : "Uporabniško ime",
     "Password" : "Geslo",
