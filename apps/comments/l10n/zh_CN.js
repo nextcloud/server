@@ -29,6 +29,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "您在 “{file}” 上一名用户的评论中被提到过，该用户在那之后被删除了",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s 在 “%2$s” 的评论中提到了您",
     "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您",
+    "Files app plugin to add comments to files" : "文件应用插件用于为文件添加注释",
     "Unknown user" : "未知用户",
     "A (now) deleted user mentioned you in a comment on “%s”" : "一个(已)被删除的用户在 “%s” 的评论中提到了您",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "一个(已)被删除的用户在 “{file}” 的评论中提到了您"
