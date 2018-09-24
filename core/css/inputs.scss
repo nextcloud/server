@@ -723,6 +723,7 @@ input {
 			z-index: 1; /* above input */
 			background-color: var(--color-main-background);
 			cursor: pointer;
+			line-height: 17px;
 		}
 		/* displayed text if tag limit reached */
 		.multiselect__strong,
