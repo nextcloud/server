@@ -127,6 +127,18 @@ class AssemblyStream implements \Icewind\Streams\File {
 
 		// update position
 		$this->pos += $read;
+		if ($read === 0 && !$this->stream_eof()) {
+			\OC::$server->getLogger()->error(
+				'No data from assembly stream while not at eof, at node {current_node} out of {node_count} and byte {pos} out of {size}',
+				[
+					'app' => 'assemblystream',
+					'current_node' => $this->currentNode,
+					'node_count' => count($this->nodes),
+					'pos' => $this->pos,
+					'size' => $this->size
+				]
+			);
+		}
 		return $data;
 	}
 
