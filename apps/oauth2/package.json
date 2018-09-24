@@ -22,7 +22,7 @@
   "devDependencies": {
     "css-loader": "^1.0.0",
     "file-loader": "^1.1.11",
-    "vue-loader": "^15.2.6",
+    "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
