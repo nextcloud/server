@@ -171,4 +171,31 @@ class L10nTest extends TestCase {
 		$l = \OC::$server->getL10N('lib', 'de');
 		$this->assertEquals('Mo.', $l->l('weekdayName', new \DateTime('2017-11-6'), ['width' => 'abbreviated']));
 	}
+
+	/**
+	 * @dataProvider findLanguageFromLocaleData
+	 * @param $locale
+	 * @param $language
+	 */
+	public function testFindLanguageFromLocale($locale, $language) {
+		$this->assertEquals(
+			$language,
+			\OC::$server->getL10NFactory()->findLanguageFromLocale('lib', $locale)
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function findLanguageFromLocaleData(): array {
+		return [
+			'en_US' => ['en_US', 'en'],
+			'en_UK' => ['en_UK', 'en'],
+			'de_DE' => ['de_DE', 'de_DE'],
+			'de_AT' => ['de_AT', 'de'],
+			'es_EC' => ['es_EC', 'es_EC'],
+			'fi_FI' => ['fi_FI', 'fi'],
+			'zh_CN' => ['zh_CN', 'zh_CN'],
+		];
+	}
 }
