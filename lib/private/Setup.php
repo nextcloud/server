@@ -369,14 +369,6 @@ class Setup {
 			if (!$user) {
 				$error[] = "User <$username> could not be created.";
 			}
-			if ($user instanceof IUser && !empty($options['adminemail'])) {
-				$adminEmail = htmlspecialchars_decode($options['adminemail']);
-				if (filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
-					$user->setEMailAddress($adminEmail);
-				} else {
-					$error[] = "Invalid e-mail-address <$adminEmail> for <$username>.";
-				}
-			}
 		} catch(Exception $exception) {
 			$error[] = $exception->getMessage();
 		}
@@ -421,6 +413,16 @@ class Setup {
 			$userSession->setTokenProvider($defaultTokenProvider);
 			$userSession->login($username, $password);
 			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
+
+			// Set email for admin
+			if (!empty($options['adminemail'])) {
+				$adminEmail = htmlspecialchars_decode($options['adminemail']);
+				if (filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+					$config->setUserValue($user->getUID(), 'settings', 'email', $adminEmail);
+				} else {
+					$error[] = "Invalid e-mail-address <$adminEmail> for <$username>.";
+				}
+			}
 		}
 
 		return $error;
