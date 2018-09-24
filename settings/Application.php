@@ -100,7 +100,7 @@ class Application extends App {
 			return new NewUserMailHelper(
 				$defaults,
 				$server->getURLGenerator(),
-				$server->getL10N('settings'),
+				$server->getL10NFactory(),
 				$server->getMailer(),
 				$server->getSecureRandom(),
 				new TimeFactory(),

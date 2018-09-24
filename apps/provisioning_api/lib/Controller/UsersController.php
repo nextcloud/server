@@ -894,16 +894,8 @@ class UsersController extends AUserData {
 		if ($email === '' || $email === null) {
 			throw new OCSException('Email address not available', 101);
 		}
-		$username = $targetUser->getUID();
-		$lang = $this->config->getUserValue($username, 'core', 'lang', 'en');
-		if (!$this->l10nFactory->languageExists('settings', $lang)) {
-			$lang = 'en';
-		}
-
-		$l10n = $this->l10nFactory->get('settings', $lang);
 
 		try {
-			$this->newUserMailHelper->setL10N($l10n);
 			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
 			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
 		} catch(\Exception $e) {
