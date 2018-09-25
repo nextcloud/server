@@ -24,35 +24,38 @@ declare(strict_types = 1);
  *
  */
 
-namespace OC\Authentication\TwoFactorAuth;
+namespace OC\Core\Command\TwoFactorAuth;
 
-use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
-use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
-use OCP\IUser;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class Registry implements IRegistry {
+class Cleanup extends Base {
 
-	/** @var ProviderUserAssignmentDao */
-	private $assignmentDao;
+	/** @var IRegistry */
+	private $registry;
 
-	public function __construct(ProviderUserAssignmentDao $assignmentDao) {
-		$this->assignmentDao = $assignmentDao;
+	public function __construct(IRegistry $registry) {
+		parent::__construct();
+
+		$this->registry = $registry;
 	}
 
-	public function getProviderStates(IUser $user): array {
-		return $this->assignmentDao->getState($user->getUID());
+	protected function configure() {
+		parent::configure();
+
+		$this->setName('twofactorauth:cleanup');
+		$this->setDescription('Clean up the two-factor user-provider association of an uninstalled/removed provider');
+		$this->addArgument('provider-id', InputArgument::REQUIRED);
 	}
 
-	public function enableProviderFor(IProvider $provider, IUser $user) {
-		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 1);
+	protected function execute(InputInterface $input, OutputInterface $output) {
+		$providerId = $input->getArgument('provider-id');
+
+		$this->registry->cleanUp($providerId);
+
+		$output->writeln("<info>All user-provider associations for provider <options=bold>$providerId</> have been removed.</info>");
 	}
 
-	public function disableProviderFor(IProvider $provider, IUser $user) {
-		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 0);
-	}
-
-	public function cleanUp(string $providerId) {
-		$this->assignmentDao->deleteAll($providerId);
-	}
 }

@@ -82,4 +82,12 @@ class RegistryTest extends TestCase {
 		$this->registry->disableProviderFor($provider, $user);
 	}
 
+	public function testCleanUp() {
+		$this->dao->expects($this->once())
+			->method('deleteAll')
+			->with('twofactor_u2f');
+
+		$this->registry->cleanUp('twofactor_u2f');
+	}
+
 }

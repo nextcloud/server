@@ -66,12 +66,9 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
 
-	$application->add(new OC\Core\Command\TwoFactorAuth\Enable(
-		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
-	));
-	$application->add(new OC\Core\Command\TwoFactorAuth\Disable(
-		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
-	));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Cleanup::class));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enable::class));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Disable::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\State::class));
 
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
