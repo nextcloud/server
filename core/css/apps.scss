@@ -1066,7 +1066,7 @@ $popovericon-size: 16px;
 
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
-	width: 300px;
+	max-width: 300px;
 	@include position('sticky');
 	top: $header-height;
 	border-right: 1px solid var(--color-border);
@@ -1077,7 +1077,7 @@ $popovericon-size: 16px;
 	max-height: calc(100vh - #{$header-height});
 	overflow-y: auto;
 	overflow-x: hidden;
-	flex: 0 0 300px;
+	flex: 0 1 300px;
 
 	/* Default item */
 	.app-content-list-item {
