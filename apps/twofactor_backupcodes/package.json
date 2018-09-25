@@ -8,8 +8,8 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "webpack --progress --hide-modules --config js/webpack.prod.js",
-    "dev": "webpack --progress --watch --config js/webpack.dev.js",
+    "build": "webpack --progress --hide-modules --config webpack.prod.js",
+    "dev": "webpack --progress --watch --config webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
