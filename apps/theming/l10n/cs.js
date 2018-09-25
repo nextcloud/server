@@ -52,8 +52,8 @@ OC.L10N.register(
     "Web address" : "Webová adresa",
     "Web address https://…" : "Webová adresa https://",
     "There is no error, the file uploaded with success" : "Nenastala žádná chyba, soubor byl úspěšně nahrán",
-    "The uploaded file was only partially uploaded" : "Nahraný soubor byl nahrán pouze částečně",
-    "Failed to write file to disk." : "Selhal zápis na disk",
+    "The uploaded file was only partially uploaded" : "Soubor byl nahrán pouze částečně",
+    "Failed to write file to disk." : "Zápis na disk se nezdařil.",
     "A PHP extension stopped the file upload." : "Rozšíření PHP zastavilo nahrávání souboru."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
