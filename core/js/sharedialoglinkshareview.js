@@ -238,8 +238,8 @@
 				throw 'missing OC.Share.ShareConfigModel';
 			}
 
-			var clipboard = new Clipboard('.clipboardButton');
-			clipboard.on('success', function(e) {
+			this.clipboard = new Clipboard('.clipboardButton');
+			this.clipboard.on('success', function(e) {
 				var $menu = $(e.trigger);
 				var $linkTextMenu = $menu.parent().next('li.linkTextMenu')
 
@@ -253,7 +253,7 @@
 					$menu.tooltip('destroy');
 				}, 3000);
 			});
-			clipboard.on('error', function (e) {
+			this.clipboard.on('error', function (e) {
 				var $menu = $(e.trigger);
 				var $linkTextMenu = $menu.parent().next('li.linkTextMenu')
 				var $input = $linkTextMenu.find('.linkText');
@@ -291,11 +291,22 @@
 
 			if($checkBox.is(':checked')) {
 				if(this.configModel.get('enforcePasswordForPublicLink') === false) {
+					var self = this;
 					$loading.removeClass('hidden');
 					// this will create it
-					this.model.saveLinkShare();
-					$('.share-menu .icon-more').click();
-					$('.share-menu .icon-more + .popovermenu .clipboardButton').click();
+					this.model.saveLinkShare().done(function(response) {
+						// wait for the menu to be displayed
+						var checkExist = setInterval(function() {
+							if (self.$el.find('.share-menu .icon-more').length) {
+								self.$el.find('.share-menu .icon-more').click();
+								document.querySelector('.clipboardButton').click();
+								clearInterval(checkExist);
+							}
+						}, 100);
+						setTimeout(function() {
+							clearInterval(checkExist);
+						}, 500);
+					})
 				} else {
 					// force the rendering of the menu
 					this.showPending = true;
