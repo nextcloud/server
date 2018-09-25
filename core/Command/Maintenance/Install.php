@@ -171,6 +171,10 @@ class Install extends Command {
 			$adminPassword = $helper->ask($input, $output, $question);
 		}
 
+		if ($adminEmail !== null && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+			throw new InvalidArgumentException('Invalid e-mail-address <' . $adminEmail . '> for <' . $adminLogin . '>.');
+		}
+
 		$options = [
 			'dbtype' => $db,
 			'dbuser' => $dbUser,

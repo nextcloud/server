@@ -416,12 +416,7 @@ class Setup {
 
 			// Set email for admin
 			if (!empty($options['adminemail'])) {
-				$adminEmail = htmlspecialchars_decode($options['adminemail']);
-				if (filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
-					$config->setUserValue($user->getUID(), 'settings', 'email', $adminEmail);
-				} else {
-					$error[] = "Invalid e-mail-address <$adminEmail> for <$username>.";
-				}
+				$config->setUserValue($user->getUID(), 'settings', 'email', $options['adminemail']);
 			}
 		}
 
