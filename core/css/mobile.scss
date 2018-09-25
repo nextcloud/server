@@ -39,6 +39,8 @@
 		flex: 1 1 100%;
 		// make full height scroll since app-content-details is hidden
 		max-height: unset;
+		// ignore 300px default max width
+		max-width: 100%;
 		+ .app-content-details {
 			display: none;
 		}
