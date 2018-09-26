@@ -471,6 +471,26 @@ table.nostyle {
 	}
 }
 
+
+
+/* Two-Factor Authentication (2FA) */
+
+#two-factor-auth {
+	h3 {
+		margin-top: 24px;
+	}
+
+	li > div {
+    	margin-left: 20px;
+	}
+
+	.two-factor-provider-settings-icon {
+		width: 16px;
+		height: 16px;
+	}
+}
+
+
 #new-app-login-name,
 #new-app-password {
 	width: 245px;

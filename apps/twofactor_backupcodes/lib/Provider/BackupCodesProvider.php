@@ -25,12 +25,15 @@ namespace OCA\TwoFactorBackupCodes\Provider;
 
 use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCA\TwoFactorBackupCodes\Settings\Personal;
+use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Template;
 
-class BackupCodesProvider implements IProvider {
+class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 
 	/** @var string */
 	private $appName;
@@ -139,4 +142,14 @@ class BackupCodesProvider implements IProvider {
 		return false;
 	}
 
+	/**
+	 * @param IUser $user
+	 *
+	 * @return IPersonalProviderSettings
+	 */
+	public function getPersonalSettings(IUser $user): IPersonalProviderSettings {
+		return new Personal();
+	}
+
 }
+

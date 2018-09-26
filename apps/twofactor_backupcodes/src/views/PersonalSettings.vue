@@ -14,7 +14,7 @@
 					<li v-for="code in codes" class="backup-code">{{code}}</li>
 					</ul>
 					<a :href="downloadUrl"
-					   class="button"
+					   class="button primary"
 					   download="Nextcloud-backup-codes.txt">{{ t('twofactor_backupcodes', 'Save backup codes') }}</a>
 					<button class="button"
 							v-on:click="printCodes">{{ t('twofactor_backupcodes', 'Print backup codes') }}</button>
@@ -25,9 +25,9 @@
 						:class="{'icon-loading-small': generatingCodes}"
 						v-on:click="generateBackupCodes">{{ t('twofactor_backupcodes', 'Regenerate backup codes') }}</button>
 			</p>
-			<p>
+			<p><em>
 				{{ t('twofactor_backupcodes', 'If you regenerate backup codes, you automatically invalidate old codes.') }}
-			</p>
+			</em></p>
 		</template>
 	</div>
 </template>
