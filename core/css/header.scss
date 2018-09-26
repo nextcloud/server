@@ -341,7 +341,7 @@ nav[role='navigation'] {
 	height: 100%;
 	cursor: pointer;
 	flex: 0 0 auto;
-
+        opacity: .5;
 	/* User menu on the right */
 	#expand {
 		opacity: 1; /* override icon opacity */
@@ -353,7 +353,7 @@ nav[role='navigation'] {
 			color: var(--color-primary-text);
 
 			img, #expandDisplayName {
-				opacity: .57 !important;
+				opacity: 1 !important;
 			}
 		}
 
