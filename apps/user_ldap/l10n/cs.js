@@ -2,7 +2,7 @@ OC.L10N.register(
     "user_ldap",
     {
     "Failed to clear the mappings." : "Mapování se nepodařilo zrušit.",
-    "Failed to delete the server configuration" : "Nepodařilo se smazat nastavení serveru",
+    "Failed to delete the server configuration" : "Nastavení serveru se nepodařilo smazat",
     "Invalid configuration: Anonymous binding is not allowed." : "Neplatné nastavení: Anonymní navázání není umožněno.",
     "Valid configuration, connection established!" : "Nastavení je v pořádku a spojení bylo navázáno.",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Nastavení je v pořádku, ale spojení se nezdařilo. Zkontrolujte nastavení serveru a přihlašovací údaje.",

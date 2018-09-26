@@ -7,7 +7,7 @@ OC.L10N.register(
     "All files" : "Všechny soubory",
     "Recent" : "Nedávné",
     "Favorites" : "Oblíbené",
-    "File could not be found" : "Soubor nelze nalézt",
+    "File could not be found" : "Soubor se nedaří nalézt",
     "Move or copy" : "Přesunout nebo zkopírovat",
     "Download" : "Stáhnout",
     "Delete" : "Smazat",

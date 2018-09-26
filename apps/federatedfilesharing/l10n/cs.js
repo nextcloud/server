@@ -1,10 +1,10 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Propojené sdílení",
+    "Federated sharing" : "Federované sdílení",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
     "Remote share" : "Vzdálené sdílení",
-    "Remote share password" : "Heslo vzdáleného sdílení",
+    "Remote share password" : "Heslo ke vzdálenému sdílení",
     "Cancel" : "Storno",
     "Add remote share" : "Přidat propojené sdílení",
     "Copy" : "Kopie",

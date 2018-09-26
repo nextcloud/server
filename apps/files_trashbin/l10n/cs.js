@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "%s se nedaří natrvalo odstranit",
+    "Couldn't delete %s permanently" : "%s se nedaří natrvalo smazat",
     "Couldn't restore %s" : "%s se nedaří obnovit",
     "Deleted files" : "Odstraněné soubory",
     "Restore" : "Obnovit",

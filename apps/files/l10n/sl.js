@@ -134,7 +134,7 @@ OC.L10N.register(
     "Show hidden files" : "Pokaži skrite datoteke",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Naslov omogoča dostop do datotek prek <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV</a>.",
-    "Cancel upload" : "Prekini nalaganje",
+    "Cancel upload" : "Prekliči pošiljanje",
     "No files in here" : "V mapi ni datotek",
     "Upload some content or sync with your devices!" : "Uvozite vsebino ali pa omogočite usklajevanje z napravami!",
     "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",

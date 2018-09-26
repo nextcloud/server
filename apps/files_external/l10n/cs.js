@@ -6,7 +6,7 @@ OC.L10N.register(
     "System" : "Systém",
     "Grant access" : "Povolit přístup",
     "Error configuring OAuth1" : "Chyba nastavení OAuth1",
-    "Please provide a valid app key and secret." : "Zadejte platný klíč a tajné heslo aplikace.",
+    "Please provide a valid app key and secret." : "Zadejte platný klíč aplikace a tajné heslo.",
     "Error configuring OAuth2" : "Chyba nastavení OAuth2",
     "Generate keys" : "Vytvořit klíče",
     "Error generating key pair" : "Chyba při vytváření páru klíčů",
