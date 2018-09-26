@@ -75,7 +75,7 @@
 
 #header {
 	/* Header menu */
-	.header-left > nav > .menu, 
+	.header-left > nav > .menu,
 	.header-right > div > .menu {
 		background-color: var(--color-main-background);
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
@@ -113,10 +113,10 @@
 		background-size: contain;
 		background-position: center;
 		width: 62px;
-		height: 100%;
 		position: absolute;
 		left: 12px;
 		top: 1px;
+		bottom: 1px;
 
 		img {
 			opacity: 0;
