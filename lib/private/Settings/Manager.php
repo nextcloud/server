@@ -30,7 +30,6 @@
 namespace OC\Settings;
 
 use OCP\AppFramework\QueryException;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
@@ -44,9 +43,6 @@ class Manager implements IManager {
 	/** @var ILogger */
 	private $log;
 
-	/** @var IDBConnection */
-	private $dbc;
-
 	/** @var IL10N */
 	private $l;
 
@@ -58,13 +54,11 @@ class Manager implements IManager {
 
 	public function __construct(
 		ILogger $log,
-		IDBConnection $dbc,
 		IL10N $l10n,
 		IURLGenerator $url,
 		IServerContainer $container
 	) {
 		$this->log = $log;
-		$this->dbc = $dbc;
 		$this->l = $l10n;
 		$this->url = $url;
 		$this->container = $container;

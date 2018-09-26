@@ -42,8 +42,6 @@ class ManagerTest extends TestCase {
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
-	private $dbConnection;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $url;
@@ -54,14 +52,12 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->logger = $this->createMock(ILogger::class);
-		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->url = $this->createMock(IURLGenerator::class);
 		$this->container = $this->createMock(IServerContainer::class);
 
 		$this->manager = new Manager(
 			$this->logger,
-			$this->dbConnection,
 			$this->l10n,
 			$this->url,
 			$this->container
