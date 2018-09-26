@@ -442,14 +442,13 @@
 				return;
 			}
 
-			$el.find('.avatar').each(function() {
-				var avatar = $(this);
-				var strong = $(this).next();
-				var appendTo = $(this).parent();
+			$el.find('.avatar-name-wrapper').each(function() {
+				var $this = $(this);
+				var $avatar = $this.find('.avatar');
 
-				var username = $(this).data('username');
-				if (username !== oc_current_user) {
-					$.merge(avatar, strong).contactsMenu(avatar.data('user'), 0, appendTo);
+				var user = $avatar.data('user');
+				if (user !== OC.getCurrentUser().uid) {
+					$this.contactsMenu(user, 0, $this);
 				}
 			});
 		},
