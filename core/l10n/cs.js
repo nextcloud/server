@@ -6,7 +6,7 @@ OC.L10N.register(
     "The selected file is not an image." : "Vybraný soubor není obrázek.",
     "The selected file cannot be read." : "Vybraný soubor nelze přečíst.",
     "Invalid file provided" : "Zadán neplatný soubor",
-    "No image or file provided" : "Soubor nebo obrázek nebyl zadán",
+    "No image or file provided" : "Nebyl poskytnut žádný obrázek nebo soubor",
     "Unknown filetype" : "Neznámý typ souboru",
     "Invalid image" : "Neplatný obrázek",
     "An error occurred. Please contact your admin." : "Došlo k chybě. Kontaktujte svého správce.",

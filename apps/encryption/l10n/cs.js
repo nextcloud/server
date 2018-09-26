@@ -1,13 +1,13 @@
 OC.L10N.register(
     "encryption",
     {
-    "Missing recovery key password" : "Chybí heslo klíče pro obnovu",
+    "Missing recovery key password" : "Chybí heslo ke klíče pro obnovu",
     "Please repeat the recovery key password" : "Zopakujte zadání hesla ke klíči, sloužícímu pro obnovu",
-    "Repeated recovery key password does not match the provided recovery key password" : "Zadání hesla ke klíči, sloužícímu pro obnovu, se neshodují",
+    "Repeated recovery key password does not match the provided recovery key password" : "Zopakované zadání hesla ke klíči, sloužícímu pro obnovu, se neshoduje",
     "Recovery key successfully enabled" : "Záchranný klíč byl úspěšně povolen",
-    "Could not enable recovery key. Please check your recovery key password!" : "Nepodařilo se povolit záchranný klíč. Zkontrolujte prosím vaše heslo záchranného klíče!",
-    "Recovery key successfully disabled" : "Záchranný klíč byl úspěšně zakázán",
-    "Could not disable recovery key. Please check your recovery key password!" : "Nelze zakázat záchranný klíč. Zkontrolujte prosím heslo svého záchranného klíče!",
+    "Could not enable recovery key. Please check your recovery key password!" : "Nepodařilo se povolit záchranný klíč. Zkontrolujte své heslo k záchrannému klíči!",
+    "Recovery key successfully disabled" : "Záchranný klíč úspěšně zakázán",
+    "Could not disable recovery key. Please check your recovery key password!" : "Nedaří se zakázat záchranný klíč. Zkontrolujte zadání hesla k němu.",
     "Missing parameters" : "Chybějící parametry",
     "Please provide the old recovery password" : "Zadejte prosím staré heslo pro obnovu",
     "Please provide a new recovery password" : "Zadejte prosím nové heslo pro obnovu",
