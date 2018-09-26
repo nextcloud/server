@@ -1,31 +1,34 @@
 <template>
 	<div>
 		<button v-if="!enabled"
-				id="generate-backup-codes">{{ t('twofactor_backupcodes', 'Generate backup codes') }}</button>
-		<p v-else>
-			<template v-if="!codes">
-				{{ t('twofactor_backupcodes', 'Backup codes have been generated. {used} of {total} codes have been used.', {used, total}) }}
-			</template>
-			<template v-else>
-				{{ t('twofactor_backupcodes', 'These are your backup codes. Please save and/or print them as you will not be able to read the codes again later') }}
-				<ul>
-				<li v-for="code in codes" class="backup-code">{{code}}</li>
-				</ul>
-				<a :href="downloadUrl"
-				   class="button"
-				   download="Nextcloud-backup-codes.txt">{{ t('twofactor_backupcodes', 'Save backup codes') }}</a>
-				<button class="button"
-						v-on:click="printCodes">{{ t('twofactor_backupcodes', 'Print backup codes') }}</button>
-			</template>
-		</p>
-		<p>
-			<button id="generate-backup-codes"
-					:class="{'icon-loading-small': generatingCodes}"
-					v-on:click="generateBackupCodes">{{ t('twofactor_backupcodes', 'Regenerate backup codes') }}</button>
-		</p>
-		<p>
-			{{ t('twofactor_backupcodes', 'If you regenerate backup codes, you automatically invalidate old codes.') }}
-		</p>
+				id="generate-backup-codes"
+				v-on:click="generateBackupCodes">{{ t('twofactor_backupcodes', 'Generate backup codes') }}</button>
+		<template v-else>
+			<p>
+				<template v-if="!codes">
+					{{ t('twofactor_backupcodes', 'Backup codes have been generated. {used} of {total} codes have been used.', {used, total}) }}
+				</template>
+				<template v-else>
+					{{ t('twofactor_backupcodes', 'These are your backup codes. Please save and/or print them as you will not be able to read the codes again later') }}
+					<ul>
+					<li v-for="code in codes" class="backup-code">{{code}}</li>
+					</ul>
+					<a :href="downloadUrl"
+					   class="button"
+					   download="Nextcloud-backup-codes.txt">{{ t('twofactor_backupcodes', 'Save backup codes') }}</a>
+					<button class="button"
+							v-on:click="printCodes">{{ t('twofactor_backupcodes', 'Print backup codes') }}</button>
+				</template>
+			</p>
+			<p>
+				<button id="generate-backup-codes"
+						:class="{'icon-loading-small': generatingCodes}"
+						v-on:click="generateBackupCodes">{{ t('twofactor_backupcodes', 'Regenerate backup codes') }}</button>
+			</p>
+			<p>
+				{{ t('twofactor_backupcodes', 'If you regenerate backup codes, you automatically invalidate old codes.') }}
+			</p>
+		</template>
 	</div>
 </template>
 
