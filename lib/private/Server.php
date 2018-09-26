@@ -1083,16 +1083,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getLogger(),
 				$c->getDatabaseConnection(),
 				$c->getL10N('lib'),
-				$c->getConfig(),
-				$c->getEncryptionManager(),
-				$c->getUserManager(),
-				$c->getLockingProvider(),
-				$c->getRequest(),
 				$c->getURLGenerator(),
-				$c->query(AccountManager::class),
-				$c->getGroupManager(),
-				$c->getL10NFactory(),
-				$c->getAppManager()
+				$c
 			);
 			return $manager;
 		});
