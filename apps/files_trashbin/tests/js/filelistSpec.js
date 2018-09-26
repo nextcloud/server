@@ -1,30 +1,37 @@
 /**
-* ownCloud
-*
-* @author Vincent Petry
-* @copyright 2014 Vincent Petry <pvince81@owncloud.com>
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * ownCloud
+ *
+ * @author Vincent Petry
+ * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
-describe('OCA.Trashbin.FileList tests', function() {
-	var testFiles, alertStub, notificationStub, fileList;
+describe('OCA.Trashbin.FileList tests', function () {
+	var testFiles, alertStub, notificationStub, fileList, client;
 
-	beforeEach(function() {
+	beforeEach(function () {
 		alertStub = sinon.stub(OC.dialogs, 'alert');
 		notificationStub = sinon.stub(OC.Notification, 'show');
+
+		client = new OC.Files.Client({
+			host: 'localhost',
+			port: 80,
+			root: '/remote.php/dav/trashbin/user',
+			useHTTPS: OC.getProtocol() === 'https'
+		});
 
 		// init parameters and test table elements
 		$('#testArea').append(
@@ -59,21 +66,24 @@ describe('OCA.Trashbin.FileList tests', function() {
 		testFiles = [{
 			id: 1,
 			type: 'file',
-			name: 'One.txt',
+			name: 'One.txt.d11111',
+			displayName: 'One.txt',
 			mtime: 11111000,
 			mimetype: 'text/plain',
 			etag: 'abc'
 		}, {
 			id: 2,
 			type: 'file',
-			name: 'Two.jpg',
+			name: 'Two.jpg.d22222',
+			displayName: 'Two.jpg',
 			mtime: 22222000,
 			mimetype: 'image/jpeg',
 			etag: 'def',
 		}, {
 			id: 3,
 			type: 'file',
-			name: 'Three.pdf',
+			name: 'Three.pdf.d33333',
+			displayName: 'Three.pdf',
 			mtime: 33333000,
 			mimetype: 'application/pdf',
 			etag: '123',
@@ -81,7 +91,8 @@ describe('OCA.Trashbin.FileList tests', function() {
 			id: 4,
 			type: 'dir',
 			mtime: 99999000,
-			name: 'somedir',
+			name: 'somedir.d99999',
+			displayName: 'somedir',
 			mimetype: 'httpd/unix-directory',
 			etag: '456'
 		}];
@@ -92,20 +103,21 @@ describe('OCA.Trashbin.FileList tests', function() {
 			$('#app-content-trashbin'), {
 				fileActions: fileActions,
 				multiSelectMenu: [{
-						name: 'restore',
-						displayName:  t('files', 'Restore'),
-						iconClass: 'icon-history',
-					},
+					name: 'restore',
+					displayName: t('files', 'Restore'),
+					iconClass: 'icon-history',
+				},
 					{
 						name: 'delete',
 						displayName: t('files', 'Delete'),
 						iconClass: 'icon-delete',
 					}
-				]
+				],
+				client: client
 			}
 		);
 	});
-	afterEach(function() {
+	afterEach(function () {
 		testFiles = undefined;
 		fileList.destroy();
 		fileList = undefined;
@@ -114,17 +126,17 @@ describe('OCA.Trashbin.FileList tests', function() {
 		notificationStub.restore();
 		alertStub.restore();
 	});
-	describe('Initialization', function() {
-		it('Sorts by mtime by default', function() {
+	describe('Initialization', function () {
+		it('Sorts by mtime by default', function () {
 			expect(fileList._sort).toEqual('mtime');
 			expect(fileList._sortDirection).toEqual('desc');
 		});
-		it('Always returns read and delete permission', function() {
+		it('Always returns read and delete permission', function () {
 			expect(fileList.getDirectoryPermissions()).toEqual(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
 		});
 	});
-	describe('Breadcrumbs', function() {
-		beforeEach(function() {
+	describe('Breadcrumbs', function () {
+		beforeEach(function () {
 			var data = {
 				status: 'success',
 				data: {
@@ -133,13 +145,13 @@ describe('OCA.Trashbin.FileList tests', function() {
 				}
 			};
 			fakeServer.respondWith(/\/index\.php\/apps\/files_trashbin\/ajax\/list.php\?dir=%2Fsubdir/, [
-					200, {
-						"Content-Type": "application/json"
-					},
-					JSON.stringify(data)
+				200, {
+					"Content-Type": "application/json"
+				},
+				JSON.stringify(data)
 			]);
 		});
-		it('links the breadcrumb to the trashbin view', function() {
+		it('links the breadcrumb to the trashbin view', function () {
 			fileList.changeDirectory('/subdir', false, true);
 			fakeServer.respond();
 			var $crumbs = fileList.$el.find('#controls .crumb');
@@ -152,8 +164,8 @@ describe('OCA.Trashbin.FileList tests', function() {
 				.toEqual(OC.webroot + '/index.php/apps/files?view=trashbin&dir=/subdir');
 		});
 	});
-	describe('Rendering rows', function() {
-		it('renders rows with the correct data when in root', function() {
+	describe('Rendering rows', function () {
+		it('renders rows with the correct data when in root', function () {
 			// dir listing is false when in root
 			$('#dir').val('/');
 			fileList.setFiles(testFiles);
@@ -174,7 +186,7 @@ describe('OCA.Trashbin.FileList tests', function() {
 
 			expect(fileList.findFileEl('One.txt.d11111')[0]).toEqual($tr[0]);
 		});
-		it('renders rows with the correct data when in root after calling setFiles with the same data set', function() {
+		it('renders rows with the correct data when in root after calling setFiles with the same data set', function () {
 			// dir listing is false when in root
 			$('#dir').val('/');
 			fileList.setFiles(testFiles);
@@ -196,11 +208,14 @@ describe('OCA.Trashbin.FileList tests', function() {
 
 			expect(fileList.findFileEl('One.txt.d11111')[0]).toEqual($tr[0]);
 		});
-		it('renders rows with the correct data when in subdirectory', function() {
+		it('renders rows with the correct data when in subdirectory', function () {
 			// dir listing is true when in a subdir
 			$('#dir').val('/subdir');
 
-			fileList.setFiles(testFiles);
+			fileList.setFiles(testFiles.map(function (file) {
+				file.name = file.displayName;
+				return file;
+			}));
 			var $rows = fileList.$el.find('tbody tr');
 			var $tr = $rows.eq(0);
 			expect($rows.length).toEqual(4);
@@ -218,42 +233,42 @@ describe('OCA.Trashbin.FileList tests', function() {
 
 			expect(fileList.findFileEl('One.txt')[0]).toEqual($tr[0]);
 		});
-		it('does not render a size column', function() {
+		it('does not render a size column', function () {
 			expect(fileList.$el.find('tbody tr .filesize').length).toEqual(0);
 		});
 	});
-	describe('File actions', function() {
-		describe('Deleting single files', function() {
+	describe('File actions', function () {
+		describe('Deleting single files', function () {
 			// TODO: checks ajax call
 			// TODO: checks spinner
 			// TODO: remove item after delete
 			// TODO: bring back item if delete failed
 		});
-		describe('Restoring single files', function() {
+		describe('Restoring single files', function () {
 			// TODO: checks ajax call
 			// TODO: checks spinner
 			// TODO: remove item after restore
 			// TODO: bring back item if restore failed
 		});
 	});
-	describe('file previews', function() {
+	describe('file previews', function () {
 		// TODO: check that preview URL is going through files_trashbin
 	});
-	describe('loading file list', function() {
+	describe('loading file list', function () {
 		// TODO: check that ajax URL is going through files_trashbin
 	});
-	describe('breadcrumbs', function() {
+	describe('breadcrumbs', function () {
 		// TODO: test label + URL
 	});
-	describe('elementToFile', function() {
+	describe('elementToFile', function () {
 		var $tr;
 
-		beforeEach(function() {
+		beforeEach(function () {
 			fileList.setFiles(testFiles);
 			$tr = fileList.findFileEl('One.txt.d11111');
 		});
 
-		it('converts data attributes to file info structure', function() {
+		it('converts data attributes to file info structure', function () {
 			var fileInfo = fileList.elementToFile($tr);
 			expect(fileInfo.id).toEqual(1);
 			expect(fileInfo.name).toEqual('One.txt.d11111');
@@ -265,8 +280,8 @@ describe('OCA.Trashbin.FileList tests', function() {
 			expect(fileInfo.type).toEqual('file');
 		});
 	});
-	describe('Global Actions', function() {
-		beforeEach(function() {
+	describe('Global Actions', function () {
+		beforeEach(function () {
 			fileList.setFiles(testFiles);
 			fileList.findFileEl('One.txt.d11111').find('input:checkbox').click();
 			fileList.findFileEl('Three.pdf.d33333').find('input:checkbox').click();
@@ -274,12 +289,12 @@ describe('OCA.Trashbin.FileList tests', function() {
 			fileList.$el.find('.actions-selected').click();
 		});
 
-		afterEach(function() {
+		afterEach(function () {
 			fileList.$el.find('.actions-selected').click();
 		});
 
-		describe('Delete', function() {
-			it('Shows trashbin actions', function() {
+		describe('Delete', function () {
+			it('Shows trashbin actions', function () {
 				// visible because a few files were selected
 				expect($('.selectedActions').is(':visible')).toEqual(true);
 				expect($('.selectedActions .item-delete').is(':visible')).toEqual(true);
@@ -301,99 +316,82 @@ describe('OCA.Trashbin.FileList tests', function() {
 				expect($('.selectedActions .item-delete').is(':visible')).toEqual(false);
 				expect($('.selectedActions .item-restore').is(':visible')).toEqual(false);
 			});
-			it('Deletes selected files when "Delete" clicked', function() {
+			it('Deletes selected files when "Delete" clicked', function () {
 				var request;
-				var $deleteLink = $('.selectedActions .filesSelectMenu .delete');
-				$deleteLink.click();
-				expect($deleteLink.find('.icon-loading-small').length).toEqual(1);
-				expect(fakeServer.requests.length).toEqual(1);
-				request = fakeServer.requests[0];
-				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/delete.php');
-				expect(OC.parseQueryString(request.requestBody))
-					.toEqual({'dir': '/', files: '["One.txt.d11111","Three.pdf.d33333","somedir.d99999"]'});
-				fakeServer.requests[0].respond(
-					200,
-					{ 'Content-Type': 'application/json' },
-					JSON.stringify({
-						status: 'success',
-						data: {
-							success: [
-								{filename: 'One.txt.d11111'},
-								{filename: 'Three.pdf.d33333'},
-								{filename: 'somedir.d99999'}
-							]
-						}
-					})
-				);
-				expect($deleteLink.find('.icon-loading-small').length).toEqual(0);
-				expect(fileList.findFileEl('One.txt.d11111').length).toEqual(0);
-				expect(fileList.findFileEl('Three.pdf.d33333').length).toEqual(0);
-				expect(fileList.findFileEl('somedir.d99999').length).toEqual(0);
-				expect(fileList.findFileEl('Two.jpg.d22222').length).toEqual(1);
+				var promise = fileList._onClickDeleteSelected({
+					preventDefault: function () {
+					}
+				});
+				var files = ["One.txt.d11111", "Three.pdf.d33333", "somedir.d99999"];
+				expect(fakeServer.requests.length).toEqual(files.length);
+				for (var i = 0; i < files.length; i++) {
+					request = fakeServer.requests[i];
+					expect(request.url).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/trash/' + files[i]);
+					request.respond(200);
+				}
+				return promise.then(function () {
+					expect(fileList.findFileEl('One.txt.d11111').length).toEqual(0);
+					expect(fileList.findFileEl('Three.pdf.d33333').length).toEqual(0);
+					expect(fileList.findFileEl('somedir.d99999').length).toEqual(0);
+					expect(fileList.findFileEl('Two.jpg.d22222').length).toEqual(1);
+				});
 			});
-			it('Deletes all files when all selected when "Delete" clicked', function() {
+			it('Deletes all files when all selected when "Delete" clicked', function () {
 				var request;
 				$('.select-all').click();
-				$('.selectedActions .filesSelectMenu .delete').click();
+				var promise = fileList._onClickDeleteSelected({
+					preventDefault: function () {
+					}
+				});
 				expect(fakeServer.requests.length).toEqual(1);
 				request = fakeServer.requests[0];
-				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/delete.php');
-				expect(OC.parseQueryString(request.requestBody))
-					.toEqual({'dir': '/', allfiles: 'true'});
-				fakeServer.requests[0].respond(
-					200,
-					{ 'Content-Type': 'application/json' },
-					JSON.stringify({status: 'success'})
-				);
-				expect(fileList.isEmpty).toEqual(true);
+				expect(request.url).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/trash');
+				request.respond(200);
+				return promise.then(function () {
+					expect(fileList.isEmpty).toEqual(true);
+				});
 			});
 		});
-		describe('Restore', function() {
-			it('Restores selected files when "Restore" clicked', function() {
+		describe('Restore', function () {
+			it('Restores selected files when "Restore" clicked', function () {
 				var request;
-				var $restoreLink = $('.selectedActions .filesSelectMenu .restore');
-				$restoreLink.click();
-				expect($restoreLink.find('.icon-loading-small').length).toEqual(1);
-				expect(fakeServer.requests.length).toEqual(1);
-				request = fakeServer.requests[0];
-				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/undelete.php');
-				expect(OC.parseQueryString(request.requestBody))
-					.toEqual({'dir': '/', files: '["One.txt.d11111","Three.pdf.d33333","somedir.d99999"]'});
-				fakeServer.requests[0].respond(
-					200,
-					{ 'Content-Type': 'application/json' },
-					JSON.stringify({
-						status: 'success',
-						data: {
-							success: [
-								{filename: 'One.txt.d11111'},
-								{filename: 'Three.pdf.d33333'},
-								{filename: 'somedir.d99999'}
-							]
-						}
-					})
-				);
-				expect($restoreLink.find('.icon-loading-small').length).toEqual(0);
-				expect(fileList.findFileEl('One.txt.d11111').length).toEqual(0);
-				expect(fileList.findFileEl('Three.pdf.d33333').length).toEqual(0);
-				expect(fileList.findFileEl('somedir.d99999').length).toEqual(0);
-				expect(fileList.findFileEl('Two.jpg.d22222').length).toEqual(1);
+				var promise = fileList._onClickRestoreSelected({
+					preventDefault: function () {
+					}
+				});
+				var files = ["One.txt.d11111", "Three.pdf.d33333", "somedir.d99999"];
+				expect(fakeServer.requests.length).toEqual(files.length);
+				for (var i = 0; i < files.length; i++) {
+					request = fakeServer.requests[i];
+					expect(request.url).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/trash/' + files[i]);
+					expect(request.requestHeaders.Destination).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/restore/' + files[i]);
+					request.respond(200);
+				}
+				return promise.then(function() {
+					expect(fileList.findFileEl('One.txt.d11111').length).toEqual(0);
+					expect(fileList.findFileEl('Three.pdf.d33333').length).toEqual(0);
+					expect(fileList.findFileEl('somedir.d99999').length).toEqual(0);
+					expect(fileList.findFileEl('Two.jpg.d22222').length).toEqual(1);
+				});
 			});
-			it('Restores all files when all selected when "Restore" clicked', function() {
+			it('Restores all files when all selected when "Restore" clicked', function () {
 				var request;
 				$('.select-all').click();
-				$('.selectedActions .filesSelectMenu .restore').click();
-				expect(fakeServer.requests.length).toEqual(1);
-				request = fakeServer.requests[0];
-				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_trashbin/ajax/undelete.php');
-				expect(OC.parseQueryString(request.requestBody))
-					.toEqual({'dir': '/', allfiles: 'true'});
-				fakeServer.requests[0].respond(
-					200,
-					{ 'Content-Type': 'application/json' },
-					JSON.stringify({status: 'success'})
-				);
-				expect(fileList.isEmpty).toEqual(true);
+				var promise = fileList._onClickRestoreSelected({
+					preventDefault: function () {
+					}
+				});
+				var files = ["One.txt.d11111", "Two.jpg.d22222", "Three.pdf.d33333", "somedir.d99999"];
+				expect(fakeServer.requests.length).toEqual(files.length);
+				for (var i = 0; i < files.length; i++) {
+					request = fakeServer.requests[i];
+					expect(request.url).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/trash/' + files[i]);
+					expect(request.requestHeaders.Destination).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/restore/' + files[i]);
+					request.respond(200);
+				}
+				return promise.then(function() {
+					expect(fileList.isEmpty).toEqual(true);
+				});
 			});
 		});
 	});
