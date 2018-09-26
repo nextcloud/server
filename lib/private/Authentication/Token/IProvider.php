@@ -156,4 +156,12 @@ interface IProvider {
 	 * @return IToken
 	 */
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken;
+
+	/**
+	 * Marks a token as having an invalid password.
+	 *
+	 * @param IToken $token
+	 * @param string $tokenId
+	 */
+	public function markPasswordInvalid(IToken $token, string $tokenId);
 }

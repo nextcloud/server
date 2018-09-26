@@ -1017,10 +1017,8 @@ class SessionTest extends \Test\TestCase {
 			->method('getPassword')
 			->with($token, 'APP-PASSWORD')
 			->will($this->returnValue('123456'));
-		$userManager->expects($this->once())
-			->method('checkPassword')
-			->with('susan', '123456')
-			->will($this->returnValue(true));
+		$userManager->expects($this->never())
+			->method('checkPassword');
 		$user->expects($this->once())
 			->method('isEnabled')
 			->will($this->returnValue(false));

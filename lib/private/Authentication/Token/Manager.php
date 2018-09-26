@@ -227,4 +227,9 @@ class Manager implements IProvider {
 		}
 		throw new InvalidTokenException();
 	}
+
+
+	public function markPasswordInvalid(IToken $token, string $tokenId) {
+		$this->getProvider($token)->markPasswordInvalid($token, $tokenId);
+	}
 }

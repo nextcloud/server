@@ -317,4 +317,15 @@ class PublicKeyTokenProvider implements IProvider {
 
 		return $dbToken;
 	}
+
+	public function markPasswordInvalid(IToken $token, string $tokenId) {
+		if (!($token instanceof PublicKeyToken)) {
+			throw new InvalidTokenException();
+		}
+
+		$token->setPasswordInvalid(true);
+		$this->mapper->update($token);
+	}
+
+
 }
