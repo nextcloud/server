@@ -82,6 +82,7 @@ OC.L10N.register(
     "Saving" : "Poteka shranjevanje ...",
     "Back" : "Nazaj",
     "Continue" : "Nadaljuj",
+    "Cancel" : "Prekliči",
     "Server" : "Strežnik",
     "Users" : "Uporabniki",
     "Login Attributes" : "Atributi prijave",
