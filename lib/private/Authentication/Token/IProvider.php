@@ -164,4 +164,12 @@ interface IProvider {
 	 * @param string $tokenId
 	 */
 	public function markPasswordInvalid(IToken $token, string $tokenId);
+
+	/**
+	 * Update all the passwords of $uid if required
+	 *
+	 * @param string $uid
+	 * @param string $password
+	 */
+	public function updatePasswords(string $uid, string $password);
 }

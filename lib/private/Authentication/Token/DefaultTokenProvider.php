@@ -347,5 +347,7 @@ class DefaultTokenProvider implements IProvider {
 		$this->invalidateToken($tokenId);
 	}
 
-
+	public function updatePasswords(string $uid, string $password) {
+		// Nothing to do here
+	}
 }

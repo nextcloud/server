@@ -232,4 +232,11 @@ class Manager implements IProvider {
 	public function markPasswordInvalid(IToken $token, string $tokenId) {
 		$this->getProvider($token)->markPasswordInvalid($token, $tokenId);
 	}
+
+	public function updatePasswords(string $uid, string $password) {
+		$this->defaultTokenProvider->updatePasswords($uid, $password);
+		$this->publicKeyTokenProvider->updatePasswords($uid, $password);
+	}
+
+
 }

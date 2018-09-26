@@ -327,5 +327,20 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->mapper->update($token);
 	}
 
+	public function updatePasswords(string $uid, string $password) {
+		if (!$this->mapper->hasExpiredTokens($uid)) {
+			// Nothing to do here
+			return;
+		}
+
+		// Update the password for all tokens
+		$tokens = $this->mapper->getTokenByUser($uid);
+		foreach ($tokens as $t) {
+			$publicKey = $t->getPublicKey();
+			$t->setPassword($this->encryptPassword($password, $publicKey));
+			$this->updateToken($t);
+		}
+	}
+
 
 }

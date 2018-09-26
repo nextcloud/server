@@ -950,5 +950,9 @@ class Session implements IUserSession, Emitter {
 		}
 	}
 
+	public function updateTokens(string $uid, string $password) {
+		$this->tokenProvider->updatePasswords($uid, $password);
+	}
+
 
 }
