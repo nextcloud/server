@@ -32,6 +32,7 @@ use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\StorageNotAvailableException;
 
 /**
  * Metadata cache for shared files
@@ -142,7 +143,14 @@ class Cache extends CacheJail {
 		} else {
 			$entry['path'] = $path;
 		}
-		$sharePermissions = $this->storage->getPermissions($entry['path']);
+
+		try {
+			$sharePermissions = $this->storage->getPermissions($entry['path']);
+		} catch (StorageNotAvailableException $e) {
+			// thrown by FailedStorage e.g. when the sharer does not exist anymore
+			// (IDE may say the exception is never thrown – false negative)
+			$sharePermissions = 0;
+		}
 		if (isset($entry['permissions'])) {
 			$entry['permissions'] &= $sharePermissions;
 		} else {
