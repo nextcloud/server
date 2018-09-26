@@ -142,7 +142,7 @@ class Cache extends CacheJail {
 		} else {
 			$entry['path'] = $path;
 		}
-		$sharePermissions = $this->storage->getPermissions($path);
+		$sharePermissions = $this->storage->getPermissions($entry['path']);
 		if (isset($entry['permissions'])) {
 			$entry['permissions'] &= $sharePermissions;
 		} else {

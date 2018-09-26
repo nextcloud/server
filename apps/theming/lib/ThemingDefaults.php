@@ -174,9 +174,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$legalLinks = ''; $divider = '';
 		foreach($links as $link) {
 			if($link['url'] !== ''
-				&& filter_var($link['url'], FILTER_VALIDATE_URL, [
-					'flags' => FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED
-				])
+				&& filter_var($link['url'], FILTER_VALIDATE_URL)
 			) {
 				$legalLinks .= $divider . '<a href="' . $link['url'] . '" class="legal" target="_blank"' .
 					' rel="noreferrer noopener">' . $link['text'] . '</a>';
@@ -339,7 +337,7 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Increases the cache buster key
 	 */

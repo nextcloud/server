@@ -22,6 +22,9 @@
 	padding: 10px;
 	min-height: 44px;
 	margin: 0;
+
+	/* Prevent the text from overlapping with the submit button. */
+	padding-right: 30px;
 }
 
 #commentsTabView .newCommentForm {
@@ -250,4 +253,9 @@
 
 .app-files .action-comment {
 	padding: 16px 14px;
+}
+
+#commentsTabView .comment .message .contactsmenu-popover {
+	left: -6px;
+	top: 24px;
 }

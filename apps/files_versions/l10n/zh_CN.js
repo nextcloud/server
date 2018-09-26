@@ -7,6 +7,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n 比特"],
     "Restore" : "恢复",
     "No earlier versions available" : "无可用的更早的版本",
-    "More versions …" : "更多版本…"
+    "More versions …" : "更多版本…",
+    "This application automatically maintains older versions of files that are changed." : "此应用程序自动维护更改的旧版本文件。"
 },
 "nplurals=1; plural=0;");

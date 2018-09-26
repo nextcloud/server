@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -57,7 +57,7 @@ class State extends Base {
 		$user = $this->userManager->get($uid);
 		if (is_null($user)) {
 			$output->writeln("<error>Invalid UID</error>");
-			return;
+			return 1;
 		}
 
 		$providerStates = $this->registry->getProviderStates($user);
@@ -73,6 +73,8 @@ class State extends Base {
 		$output->writeln("");
 		$this->printProviders("Enabled providers", $enabled, $output);
 		$this->printProviders("Disabled providers", $disabled, $output);
+
+		return 0;
 	}
 
 	private function filterEnabledDisabledUnknownProviders(array $providerStates): array {
@@ -91,7 +93,7 @@ class State extends Base {
 	}
 
 	private function printProviders(string $title, array $providers,
-		OutputInterface $output) {
+									OutputInterface $output) {
 		if (empty($providers)) {
 			// Ignore and don't print anything
 			return;

@@ -1,6 +1,8 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Group list is empty" : "그룹 목록이 비었습니다.",
+    "Unable to retrieve the group list" : "그룹 리스트를 받아올 수 없습니다.",
     "Saved" : "저장됨",
     "Saving failed:" : "저장 실패:",
     "File MIME type" : "파일 MIME 형식",

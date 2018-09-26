@@ -55,6 +55,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
+use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -86,6 +87,8 @@ class CheckSetupController extends Controller {
 	private $dateTimeFormatter;
 	/** @var MemoryInfo */
 	private $memoryInfo;
+	/** @var ISecureRandom */
+	private $secureRandom;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -100,7 +103,8 @@ class CheckSetupController extends Controller {
 								IDBConnection $db,
 								ILockingProvider $lockingProvider,
 								IDateTimeFormatter $dateTimeFormatter,
-								MemoryInfo $memoryInfo) {
+								MemoryInfo $memoryInfo,
+								ISecureRandom $secureRandom) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -114,6 +118,7 @@ class CheckSetupController extends Controller {
 		$this->lockingProvider = $lockingProvider;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->memoryInfo = $memoryInfo;
+		$this->secureRandom = $secureRandom;
 	}
 
 	/**
@@ -167,20 +172,17 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * Whether /dev/urandom is available to the PHP controller
+	 * Whether PHP can generate "secure" pseudorandom integers
 	 *
 	 * @return bool
 	 */
-	private function isUrandomAvailable() {
-		if(@file_exists('/dev/urandom')) {
-			$file = fopen('/dev/urandom', 'rb');
-			if($file) {
-				fclose($file);
-				return true;
-			}
+	private function isRandomnessSecure() {
+		try {
+			$this->secureRandom->generate(1);
+		} catch (\Exception $ex) {
+			return false;
 		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -543,7 +545,7 @@ Raw output
 	 * @return array
 	 */
 	protected function getAppDirsWithDifferentOwner(): array {
-		$currentUser = posix_getpwuid(posix_getuid());
+		$currentUser = posix_getuid();
 		$appDirsWithDifferentOwner = [[]];
 
 		foreach (OC::$APPSROOTS as $appRoot) {
@@ -561,11 +563,11 @@ Raw output
 	/**
 	 * Tests if the directories for one apps directory are writable by the current user.
 	 *
-	 * @param array $currentUser The current user
+	 * @param int $currentUser The current user
 	 * @param array $appRoot The app root config
 	 * @return string[] The none writable directory paths inside the app root
 	 */
-	private function getAppDirsWithDifferentOwnerForAppRoot(array $currentUser, array $appRoot): array {
+	private function getAppDirsWithDifferentOwnerForAppRoot(int $currentUser, array $appRoot): array {
 		$appDirsWithDifferentOwner = [];
 		$appsPath = $appRoot['path'];
 		$appsDir = new DirectoryIterator($appRoot['path']);
@@ -573,7 +575,7 @@ Raw output
 		foreach ($appsDir as $fileInfo) {
 			if ($fileInfo->isDir() && !$fileInfo->isDot()) {
 				$absAppPath = $appsPath . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
-				$appDirUser = posix_getpwuid(fileowner($absAppPath));
+				$appDirUser = fileowner($absAppPath);
 				if ($appDirUser !== $currentUser) {
 					$appDirsWithDifferentOwner[] = $absAppPath;
 				}
@@ -601,7 +603,7 @@ Raw output
 				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
-				'isUrandomAvailable' => $this->isUrandomAvailable(),
+				'isRandomnessSecure' => $this->isRandomnessSecure(),
 				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'phpSupported' => $this->isPhpSupported(),

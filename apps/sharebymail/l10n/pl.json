@@ -27,6 +27,7 @@
     "Password to access »%s« shared to you by %s" : "Hasło dostępu do »%s« jest udostępnione Tobie przez %s",
     "Password to access »%s«" : "Hasło do dostępu »%s«",
     "It is protected with the following password: %s" : "To jest chronione następującym hasłem: %s",
+    "%1$s via %2$s" : "%1$s przez %2$s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Właśnie udostępniono »%s« użytkownikowi %s. Udostępniony udział został już wysłany do odbiorcy, jednak zgodnie z polityką bezpieczeństwa ustanowioną przez administratora %s każdy udział musi zostać zabezpieczony hasłem. Wysyłanie hasła bezpośrednio do odbiorcy jest zabronione, dlatego też musisz mu je przekazać w klasyczny sposób.",
     "Password to access »%s« shared with %s" : "Hasło dostępu do »%s« zostało udostępnione %s",
     "This is the password: %s" : "To jest hasło: %s",

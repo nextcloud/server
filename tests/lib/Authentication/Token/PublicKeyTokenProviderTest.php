@@ -67,6 +67,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 				['session_lifetime', 60 * 60 * 24, 150],
 				['remember_login_cookie_lifetime', 60 * 60 * 24 * 15, 300],
 				['secret', '', '1f4h9s'],
+				['openssl', [], []],
 			]));
 		$this->logger = $this->createMock(ILogger::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

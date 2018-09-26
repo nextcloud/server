@@ -166,7 +166,7 @@ class OC_User {
 
 		$uid = $backend->getCurrentUserId();
 		$run = true;
-		OC_Hook::emit("OC_User", "pre_login", array("run" => &$run, "uid" => $uid));
+		OC_Hook::emit("OC_User", "pre_login", array("run" => &$run, "uid" => $uid, 'backend' => $backend));
 
 		if ($uid) {
 			if (self::getUser() !== $uid) {

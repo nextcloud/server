@@ -100,12 +100,6 @@ class Manager {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
-		$twoFactorEnabled = ((int) $this->config->getUserValue($user->getUID(), 'core', 'two_factor_auth_disabled', 0)) === 0;
-
-		if (!$twoFactorEnabled) {
-			return false;
-		}
-
 		$providerStates = $this->providerRegistry->getProviderStates($user);
 		$providers = $this->providerLoader->getProviders($user);
 		$fixedStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
@@ -113,25 +107,7 @@ class Manager {
 		$providerIds = array_keys($enabled);
 		$providerIdsWithoutBackupCodes = array_diff($providerIds, [self::BACKUP_CODES_PROVIDER_ID]);
 
-		return $twoFactorEnabled && !empty($providerIdsWithoutBackupCodes);
-	}
-
-	/**
-	 * Disable 2FA checks for the given user
-	 *
-	 * @param IUser $user
-	 */
-	public function disableTwoFactorAuthentication(IUser $user) {
-		$this->config->setUserValue($user->getUID(), 'core', 'two_factor_auth_disabled', 1);
-	}
-
-	/**
-	 * Enable all 2FA checks for the given user
-	 *
-	 * @param IUser $user
-	 */
-	public function enableTwoFactorAuthentication(IUser $user) {
-		$this->config->deleteUserValue($user->getUID(), 'core', 'two_factor_auth_disabled');
+		return !empty($providerIdsWithoutBackupCodes);
 	}
 
 	/**

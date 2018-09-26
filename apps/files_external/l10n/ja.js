@@ -130,7 +130,7 @@ OC.L10N.register(
     "No external storage configured" : "外部ストレージは設定されていません",
     "You can add external storages in the personal settings" : "個人設定で外部ストレージを設定することができます。",
     "Delete" : "削除",
-    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
+    "Allow users to mount the following external storage" : "ユーザーに次の外部ストレージのマウントを許可する",
     "Are you sure you want to delete this external storage" : "この外部ストレージを本当に削除しますか?"
 },
 "nplurals=1; plural=0;");

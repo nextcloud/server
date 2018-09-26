@@ -80,7 +80,7 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException();
 		}
 
-		if ($token->getExpires() !== null && $token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
+		if ((int)$token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
 			throw new ExpiredTokenException($token);
 		}
 
@@ -94,7 +94,7 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException();
 		}
 
-		if ($token->getExpires() !== null && $token->getExpires() < $this->time->getTime()) {
+		if ((int)$token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
 			throw new ExpiredTokenException($token);
 		}
 
@@ -287,10 +287,10 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
 
-		$config = [
+		$config = array_merge([
 			'digest_alg' => 'sha512',
 			'private_key_bits' => 2048,
-		];
+		], $this->config->getSystemValue('openssl', []));
 
 		// Generate new key
 		$res = openssl_pkey_new($config);

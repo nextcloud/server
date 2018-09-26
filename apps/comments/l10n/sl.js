@@ -8,7 +8,7 @@ OC.L10N.register(
     "Cancel" : "Prekliči",
     "[Deleted user]" : "[Izbrisan uporabnik]",
     "Comments" : "Opombe",
-    "No comments yet, start the conversation!" : "Še ni komentarjev, začni debato!",
+    "No comments yet, start the conversation!" : "Ni še odzivov, bodite prvi!",
     "More comments …" : "Več komentarjev ....",
     "Save" : "Shrani",
     "Allowed characters {count} of {max}" : "Dovoljeni znaki: {count} od {max}",

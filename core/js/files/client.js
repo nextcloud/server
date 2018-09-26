@@ -271,7 +271,7 @@
 		 * @return {Array.<FileInfo>} array of file info
 		 */
 		_parseFileInfo: function(response) {
-			var path = response.href;
+			var path = decodeURIComponent(response.href);
 			if (path.substr(0, this._root.length) === this._root) {
 				path = path.substr(this._root.length);
 			}

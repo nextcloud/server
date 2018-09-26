@@ -195,7 +195,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$this->isValid()) {
 			return 0;
 		}
-		$permissions = $this->superShare->getPermissions();
+		$permissions = parent::getPermissions($target) & $this->superShare->getPermissions();
+
 		// part files and the mount point always have delete permissions
 		if ($target === '' || pathinfo($target, PATHINFO_EXTENSION) === 'part') {
 			$permissions |= \OCP\Constants::PERMISSION_DELETE;
@@ -257,11 +258,17 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				case 'xb':
 				case 'a':
 				case 'ab':
-					$creatable = $this->isCreatable($path);
+					$creatable = $this->isCreatable(dirname($path));
 					$updatable = $this->isUpdatable($path);
 					// if neither permissions given, no need to continue
 					if (!$creatable && !$updatable) {
-						return false;
+						if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
+							$updatable = $this->isUpdatable(dirname($path));
+						}
+
+						if (!$updatable) {
+							return false;
+						}
 					}
 
 					$exists = $this->file_exists($path);

@@ -20,6 +20,7 @@ OC.L10N.register(
     "No file uploaded" : "Δεν έχει μεταφορτωθεί αρχείο",
     "Unsupported image type" : "Μη υποστηριζόμενος τύπος εικόνας",
     "Theming" : "Προσαρμογή θέματος",
+    "Legal notice" : "Νομική ειδοποίηση",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Η προσαρμογή θέματος καθιστά δυνατή την εύκολη προσαρμογή της εμφάνισης της εμφάνισης της εγκατάστασής σας καθώς και των υποστηριζόμενων πελατών. Αυτή θα είναι ορατή για όλους τους χρήστες.",
     "Name" : "Όνομα",
     "Reset to default" : "Επαναφορά στα προεπιλεγμένα",

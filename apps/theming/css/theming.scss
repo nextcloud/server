@@ -56,7 +56,7 @@
 		label,
 		p,
 		#alternative-logins legend {
-			color: $color-primary-text !important;
+			color: var(--color-primary-text);
 		}
 		input[type='checkbox'].checkbox--white + label:before {
 			border-color: nc-darken($color-primary-element, 40%) !important;
@@ -171,7 +171,7 @@ input.primary,
 	#body-login {
 
 		a, label, p {
-			color: $color-primary-text !important;
+			color: var(--color-primary-text);
 		}
 
 	}

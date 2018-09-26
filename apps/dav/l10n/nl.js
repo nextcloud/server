@@ -60,6 +60,7 @@ OC.L10N.register(
     "More options at %s" : "Meer opties op %s",
     "Contacts" : "Contactpersonen",
     "WebDAV" : "WebDAV",
+    "WebDAV endpoint" : "WebDAV eindpunt",
     "Technical details" : "Technische details",
     "Remote Address: %s" : "Extern adres: %s",
     "Request ID: %s" : "Aanvraag-ID: %s",

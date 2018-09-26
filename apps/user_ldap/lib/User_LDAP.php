@@ -119,24 +119,26 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	}
 
 	/**
-	 * returns the username for the given login name, if available
+	 * Return the username for the given login name, if available
 	 *
 	 * @param string $loginName
 	 * @return string|false
+	 * @throws \Exception
 	 */
 	public function loginName2UserName($loginName) {
-		$cacheKey = 'loginName2UserName-'.$loginName;
+		$cacheKey = 'loginName2UserName-' . $loginName;
 		$username = $this->access->connection->getFromCache($cacheKey);
-		if(!is_null($username)) {
+
+		if ($username !== null) {
 			return $username;
 		}
 
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($loginName);
 			$user = $this->access->userManager->get($ldapRecord['dn'][0]);
-			if($user instanceof OfflineUser) {
+			if ($user === null || $user instanceof OfflineUser) {
 				// this path is not really possible, however get() is documented
-				// to return User or OfflineUser so we are very defensive here.
+				// to return User, OfflineUser or null so we are very defensive here.
 				$this->access->connection->writeToCache($cacheKey, false);
 				return false;
 			}

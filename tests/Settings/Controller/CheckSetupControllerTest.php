@@ -24,6 +24,7 @@ namespace Tests\Settings\Controller;
 use OC;
 use OC\DB\Connection;
 use OC\MemoryInfo;
+use OC\Security\SecureRandom;
 use OC\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -79,6 +80,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $dateTimeFormatter;
 	/** @var MemoryInfo|MockObject */
 	private $memoryInfo;
+	/** @var SecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	private $secureRandom;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -119,6 +122,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
 			->setMethods(['isMemoryLimitSufficient',])
 			->getMock();
+		$this->secureRandom = $this->getMockBuilder(SecureRandom::class)->getMock();
 		$this->checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',
@@ -135,6 +139,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
+				$this->secureRandom,
 				])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -482,7 +487,7 @@ class CheckSetupControllerTest extends TestCase {
 				'serverHasInternetConnection' => false,
 				'isMemcacheConfigured' => true,
 				'memcacheDocs' => 'http://docs.example.org/server/go.php?to=admin-performance',
-				'isUrandomAvailable' => self::invokePrivate($this->checkSetupController, 'isUrandomAvailable'),
+				'isRandomnessSecure' => self::invokePrivate($this->checkSetupController, 'isRandomnessSecure'),
 				'securityDocs' => 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html',
 				'isUsedTlsLibOutdated' => '',
 				'phpSupported' => [
@@ -528,6 +533,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
+				$this->secureRandom,
 			])
 			->setMethods(null)->getMock();
 

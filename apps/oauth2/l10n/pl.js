@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Adres przekierowania musi być pełnym adresem URL, np.: https://twojadomena.com/sciezka",
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "Klienci OAuth 2.0",
     "Name" : "Nazwa",

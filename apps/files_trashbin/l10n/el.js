@@ -16,6 +16,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Select all" : "Επιλογή όλων",
     "Name" : "Όνομα",
+    "Actions" : "Ενέργειες",
     "Deleted" : "Διαγραμμένα"
 },
 "nplurals=2; plural=(n != 1);");

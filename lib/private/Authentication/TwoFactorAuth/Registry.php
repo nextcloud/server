@@ -52,4 +52,7 @@ class Registry implements IRegistry {
 		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 0);
 	}
 
+	public function cleanUp(string $providerId) {
+		$this->assignmentDao->deleteAll($providerId);
+	}
 }

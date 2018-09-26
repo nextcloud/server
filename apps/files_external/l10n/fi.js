@@ -105,6 +105,7 @@ OC.L10N.register(
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP tuki PHPsta ei ole aktivoitu tai asennettu. Kohteen %s liittäminen ei ole mahdollista. Ota yhteyttä järjestelmänvalvojaan asentaaksesi puuttuvan osan.",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde.",
     "External storage support" : "Erillisen tallennustilan tuki",
+    "Adds basic external storage support" : "Lisää perusmuotoisen tuen erillisille tallennustiloille",
     "No external storage configured or you don't have the permission to configure them" : "Erillistä tallennustilaa ei ole määritelty tai sinulla ei ole oikeuksia määrittää erillisiä tallennustiloja",
     "Name" : "Nimi",
     "Storage type" : "Tallennustilan tyyppi",

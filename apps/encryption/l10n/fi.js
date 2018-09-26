@@ -31,6 +31,7 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tämän tiedoston salauksen purkaminen ei onnistu. Kyseessä on luultavasti jaettu tiedosto. Pyydä tiedoston omistajaa jakamaan tiedosto kanssasi uudelleen.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tiedostoa ei voi lukea, se on luultavasti jaettu tiedosto. Pyydä tiedoston omistajaa jakamaan tiedosto uudelleen kanssasi.",
     "Default encryption module" : "Oletus salausmoduuli",
+    "Default encryption module for server-side encryption" : "Oletusarvoinen salausmoduuli palvelimella tehtävään salaukseen",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hei,\n\nYlläpiäjä on ottanut käyttöön palvelimen salauksen. Tiedostosi salattiin salasanalla '%s'.\n\nOle hyvä ja kirjaudu palveluun verkkokäyttöliittymän kautta, siirry henkilökohtaisten asetustesi kohtaan \"perussalausmoduuli\" ja päivitä salaukseen käytettävä salasanasi syöttämällä yllä mainittu salasana \"vanha kirjautumissalasana\"-kenttään ja nykyinen kirjautumissalasanasi.\n\n",
     "The share will expire on %s." : "Jakaminen päättyy %s.",
     "Cheers!" : "Kiitos!",

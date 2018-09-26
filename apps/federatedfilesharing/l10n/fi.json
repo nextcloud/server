@@ -32,6 +32,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Sharing" : "Jakaminen",
     "Federated file sharing" : "Federoitu tiedostojako",
+    "Provide federated file sharing across servers" : "Mahdollistaa federoidun tiedostojaon palvelinten välillä",
     "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
     "Open documentation" : "Avaa ohje",
     "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä.",
