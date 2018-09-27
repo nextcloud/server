@@ -217,7 +217,7 @@ export default {
 		/* QUOTA MANAGEMENT */
 		usedSpace() {
 			if (this.user.quota.used) {
-				return OC.Util.humanFileSize(this.user.quota.used) + ' ' + t('settings', 'used');
+				return t('settings', '{size} used', {size: OC.Util.humanFileSize(this.user.quota.used)});
 			}
 			return t('settings', 'unknown space used');
 		},
