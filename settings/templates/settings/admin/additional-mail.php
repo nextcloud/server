@@ -96,7 +96,7 @@ if ($_['mail_smtpmode'] === 'qmail') {
 
 		<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] !== 'smtp') print_unescaped(' class="hidden"'); ?>>
 			<label for="mail_smtpauthtype"><?php p($l->t('Authentication method')); ?></label>
-			<select name="mail_smtpauthtype" id="mail_smtpauthtype'>
+			<select name="mail_smtpauthtype" id="mail_smtpauthtype">
 				<?php foreach ($mail_smtpauthtype as $authtype => $name):
 					$selected = '';
 					if ($authtype == $_['mail_smtpauthtype']):
