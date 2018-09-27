@@ -9,7 +9,7 @@ OC.L10N.register(
     "No image or file provided" : "Nebyl poskytnut žádný obrázek nebo soubor",
     "Unknown filetype" : "Neznámý typ souboru",
     "Invalid image" : "Neplatný obrázek",
-    "An error occurred. Please contact your admin." : "Došlo k chybě. Kontaktujte svého správce.",
+    "An error occurred. Please contact your admin." : "Došlo k chybě. Obraťte se na svého správce.",
     "No temporary profile picture available, try again" : "Dočasný profilový obrázek není k dispozici, zkuste to znovu",
     "No crop data provided" : "Nebyla poskytnuta data pro oříznutí obrázku",
     "No valid crop data provided" : "Nebyla poskytnuta platná data pro oříznutí obrázku",
