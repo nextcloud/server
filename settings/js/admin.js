@@ -248,8 +248,8 @@ $(document).ready(function(){
 	// run setup checks then gather error messages
 	$.when(
 		OC.SetupChecks.checkWebDAV(),
-		OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === 'true'),
-		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === 'true'),
+		OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 		OC.SetupChecks.checkSetup(),
 		OC.SetupChecks.checkGeneric(),
 		OC.SetupChecks.checkDataProtected()
