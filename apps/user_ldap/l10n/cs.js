@@ -8,7 +8,7 @@ OC.L10N.register(
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Nastavení je v pořádku, ale spojení se nezdařilo. Zkontrolujte nastavení serveru a přihlašovací údaje.",
     "Invalid configuration. Please have a look at the logs for further details." : "Neplatné nastavení. Podrobnosti naleznete v záznamu událostí.",
     "No action specified" : "Neurčena žádná akce",
-    "No configuration specified" : "Neurčené žádné nastavení",
+    "No configuration specified" : "Neurčeno žádné nastavení",
     "No data specified" : "Neurčena žádná data",
     " Could not set configuration %s" : "Nelze nastavit konfiguraci %s",
     "Action does not exist" : "Tato akce neexistuje",

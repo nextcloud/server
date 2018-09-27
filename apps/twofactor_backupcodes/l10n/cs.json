@@ -8,7 +8,7 @@
     "If you regenerate backup codes, you automatically invalidate old codes." : "Pokud necháte vytvořit nové záložní kódy, staré budou automaticky zneplatněny.",
     "An error occurred while generating your backup codes" : "Při pokusu o vytvoření záložních kódů nastala chyba.",
     "Nextcloud backup codes" : "Nextcloud záložní kódy",
-    "You created two-factor backup codes for your account" : "Vytvořil(a) jste záložní kódy dvoufázové autentizace pro váš účet",
+    "You created two-factor backup codes for your account" : "Vytvořili jste záložní kódy dvoufázového ověření pro váš účet",
     "Backup code" : "Záložní kód",
     "Use backup code" : "Použít záložní kód",
     "Two factor backup codes" : "Záložní kódy pro dvoufázové ověřování",
