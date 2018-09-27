@@ -25,67 +25,6 @@
 (function(OC, $, _, Handlebars) {
 	'use strict';
 
-	var MENU_TEMPLATE = ''
-			+ '<label class="hidden-visually" for="contactsmenu-search">' + t('core', 'Search contacts …') + '</label>'
-			+ '<input id="contactsmenu-search" type="search" placeholder="' + t('core', 'Search contacts …') + '" value="{{searchTerm}}">'
-			+ '<div class="content">'
-			+ '</div>';
-	var CONTACTS_LIST_TEMPLATE = ''
-			+ '{{#unless contacts.length}}'
-			+ '<div class="emptycontent">'
-			+ '    <div class="icon-search"></div>'
-			+ '    <h2>' + t('core', 'No contacts found') + '</h2>'
-			+ '</div>'
-			+ '{{/unless}}'
-			+ '<div id="contactsmenu-contacts"></div>'
-			+ '{{#if contactsAppEnabled}}<div class="footer"><a href="{{contactsAppURL}}">' + t('core', 'Show all contacts …') + '</a></div>{{/if}}';
-	var LOADING_TEMPLATE = ''
-			+ '<div class="emptycontent">'
-			+ '    <div class="icon-loading"></div>'
-			+ '    <h2>{{loadingText}}</h2>'
-			+ '</div>';
-	var ERROR_TEMPLATE = ''
-			+ '<div class="emptycontent">'
-			+ '    <div class="icon-search"></div>'
-			+ '    <h2>' + t('core', 'Could not load your contacts') + '</h2>'
-			+ '</div>';
-	var CONTACT_TEMPLATE = ''
-			+ '{{#if contact.avatar}}'
-			+ '<img src="{{contact.avatar}}&size=32" class="avatar"'
-			+ 'srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="">'
-			+ '{{else}}'
-			+ '<div class="avatar"></div>'
-			+ '{{/if}}'
-			+ '<div class="body">'
-			+ '    <div class="full-name">{{contact.fullName}}</div>'
-			+ '    <div class="last-message">{{contact.lastMessage}}</div>'
-			+ '</div>'
-			+ '{{#if contact.topAction}}'
-			+ '<a class="top-action" href="{{contact.topAction.hyperlink}}" title="{{contact.topAction.title}}">'
-			+ '    <img src="{{contact.topAction.icon}}" alt="{{contact.topAction.title}}">'
-			+ '</a>'
-			+ '{{/if}}'
-			+ '{{#if contact.hasTwoActions}}'
-			+ '<a class="second-action" href="{{contact.secondAction.hyperlink}}" title="{{contact.secondAction.title}}">'
-			+ '    <img src="{{contact.secondAction.icon}}" alt="{{contact.secondAction.title}}">'
-			+ '</a>'
-			+ '{{/if}}'
-			+ '{{#if contact.hasManyActions}}'
-			+ '    <span class="other-actions icon-more"></span>'
-			+ '    <div class="menu popovermenu">'
-			+ '        <ul>'
-			+ '            {{#each contact.actions}}'
-			+ '            <li>'
-			+ '                <a href="{{hyperlink}}">'
-			+ '                    <img src="{{icon}}" alt="">'
-			+ '                    <span>{{title}}</span>'
-			+ '                </a>'
-			+ '            </li>'
-			+ '            {{/each}}'
-			+ '        </ul>'
-			+ '    </div>'
-			+ '{{/if}}';
-
 	/**
 	 * @class Contact
 	 */
@@ -201,10 +140,7 @@
 		 * @returns {undefined}
 		 */
 		template: function(data) {
-			if (!this._template) {
-				this._template = Handlebars.compile(CONTACT_TEMPLATE);
-			}
-			return this._template(data);
+			return OC.ContactsMenu.Templates['contact'](data);
 		},
 
 		/**
@@ -314,10 +250,7 @@
 		 * @returns {string}
 		 */
 		loadingTemplate: function(data) {
-			if (!this._loadingTemplate) {
-				this._loadingTemplate = Handlebars.compile(LOADING_TEMPLATE);
-			}
-			return this._loadingTemplate(data);
+			return OC.ContactsMenu.Templates['loading'](data);
 		},
 
 		/**
@@ -325,10 +258,11 @@
 		 * @returns {string}
 		 */
 		errorTemplate: function(data) {
-			if (!this._errorTemplate) {
-				this._errorTemplate = Handlebars.compile(ERROR_TEMPLATE);
-			}
-			return this._errorTemplate(data);
+			return OC.ContactsMenu.Templates['error'](
+				_.extend({
+					couldNotLoadText: t('core', 'Could not load your contacts')
+				}, data)
+			);
 		},
 
 		/**
@@ -336,10 +270,11 @@
 		 * @returns {string}
 		 */
 		contentTemplate: function(data) {
-			if (!this._contentTemplate) {
-				this._contentTemplate = Handlebars.compile(MENU_TEMPLATE);
-			}
-			return this._contentTemplate(data);
+			return OC.ContactsMenu.Templates['menu'](
+				_.extend({
+					searchContactsText: t('core', 'Search contacts …')
+				}, data)
+			);
 		},
 
 		/**
@@ -347,10 +282,12 @@
 		 * @returns {string}
 		 */
 		contactsTemplate: function(data) {
-			if (!this._contactsTemplate) {
-				this._contactsTemplate = Handlebars.compile(CONTACTS_LIST_TEMPLATE);
-			}
-			return this._contactsTemplate(data);
+			return OC.ContactsMenu.Templates['list'](
+				_.extend({
+					noContactsFoundText: t('core', 'No contacts found'),
+					showAllContactsText: t('core', 'Show all contacts …')
+				}, data)
+			);
 		},
 
 		/**
