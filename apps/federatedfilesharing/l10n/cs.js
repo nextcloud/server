@@ -10,7 +10,7 @@ OC.L10N.register(
     "Copy" : "Kopie",
     "Copied!" : "Zkopírováno!",
     "Not supported!" : "Nepodporováno!",
-    "Press ⌘-C to copy." : "Zmáčknout ⌘-C pro kopírování.",
+    "Press ⌘-C to copy." : "Zkopírujete stisknutím ⌘-C.",
     "Press Ctrl-C to copy." : "Zmáčknout Ctrl-C pro kopírování.",
     "Invalid Federated Cloud ID" : "Neplatné sdružené cloud ID",
     "Server to server sharing is not enabled on this server" : "Sdílení ze serveru na server není na tomto serveru povoleno",
