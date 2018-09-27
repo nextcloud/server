@@ -60,6 +60,7 @@ use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IManager as ShareManager;
@@ -396,6 +397,7 @@ class ShareController extends AuthPublicShareController {
 			// JS required for folders
 			\OCP\Util::addStyle('files', 'merged');
 			\OCP\Util::addScript('files', 'filesummary');
+			\OCP\Util::addScript('files', 'filesummary_template');
 			\OCP\Util::addScript('files', 'breadcrumb');
 			\OCP\Util::addScript('files', 'fileinfomodel');
 			\OCP\Util::addScript('files', 'newfilemenu');
