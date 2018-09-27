@@ -274,7 +274,7 @@ class Mailer implements IMailer {
 				$binaryPath = '/var/qmail/bin/sendmail';
 				break;
 			default:
-				$binaryPath = '/usr/sbin/sendmail';
+				$binaryPath = \OC_Helper::findBinaryPath('sendmail');
 				break;
 		}
 
