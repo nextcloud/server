@@ -248,6 +248,11 @@ input {
 
 		/* only show confirm borders if input is not focused */
 		&:not(:active):not(:hover):not(:focus){
+            &:invalid {
+                + .icon-confirm {
+                    border-color: var(--color-error);
+                }
+            }
 			+ .icon-confirm {
 				&:active,
 				&:hover,
@@ -263,11 +268,6 @@ input {
 		&:active,
 		&:hover,
 		&:focus {
-            &:invalid {
-                + .icon-confirm {
-                    border-color: var(--color-error);
-                }
-            }
 			+ .icon-confirm {
 				border-color: var(--color-primary-element) !important;
 				border-left-color: transparent !important;
