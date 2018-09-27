@@ -25,21 +25,28 @@
 
 namespace OC\Files\Mount;
 
+use OC\Cache\CappedMemoryCache;
 use \OC\Files\Filesystem;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 
 class Manager implements IMountManager {
-	/**
-	 * @var MountPoint[]
-	 */
-	private $mounts = array();
+	/** @var MountPoint[] */
+	private $mounts = [];
+
+	/** @var CappedMemoryCache */
+	private $inPathCache;
+
+	public function __construct() {
+		$this->inPathCache = new CappedMemoryCache();
+	}
 
 	/**
 	 * @param IMountPoint $mount
 	 */
 	public function addMount(IMountPoint $mount) {
 		$this->mounts[$mount->getMountPoint()] = $mount;
+		$this->inPathCache->clear();
 	}
 
 	/**
@@ -51,15 +58,17 @@ class Manager implements IMountManager {
 			$mountPoint .= '/';
 		}
 		unset($this->mounts[$mountPoint]);
+		$this->inPathCache->clear();
 	}
 
 	/**
 	 * @param string $mountPoint
 	 * @param string $target
 	 */
-	public function moveMount($mountPoint, $target){
+	public function moveMount($mountPoint, $target) {
 		$this->mounts[$target] = $this->mounts[$mountPoint];
 		unset($this->mounts[$mountPoint]);
+		$this->inPathCache->clear();
 	}
 
 	/**
@@ -70,23 +79,24 @@ class Manager implements IMountManager {
 	 */
 	public function find($path) {
 		\OC_Util::setupFS();
-		$path = $this->formatPath($path);
-		if (isset($this->mounts[$path])) {
-			return $this->mounts[$path];
-		}
+		$path = Filesystem::normalizePath($path);
 
-		\OC_Hook::emit('OC_Filesystem', 'get_mountpoint', array('path' => $path));
-		$foundMountPoint = '';
-		$mountPoints = array_keys($this->mounts);
-		foreach ($mountPoints as $mountpoint) {
-			if (strpos($path, $mountpoint) === 0 and strlen($mountpoint) > strlen($foundMountPoint)) {
-				$foundMountPoint = $mountpoint;
+		$current = $path;
+		while (true) {
+			$mountPoint = $current . '/';
+			if (isset($this->mounts[$mountPoint])) {
+				$this->pathCache[$path] = $this->mounts[$mountPoint];
+				return $this->mounts[$mountPoint];
 			}
-		}
-		if (isset($this->mounts[$foundMountPoint])) {
-			return $this->mounts[$foundMountPoint];
-		} else {
-			return null;
+
+			if ($current === '') {
+				return null;
+			}
+
+			$current = dirname($current);
+			if ($current === '.' || $current === '/') {
+				$current = '';
+			}
 		}
 	}
 
@@ -107,11 +117,14 @@ class Manager implements IMountManager {
 				$result[] = $this->mounts[$mountPoint];
 			}
 		}
+
+		$this->inPathCache[$path] = $result;
 		return $result;
 	}
 
 	public function clear() {
-		$this->mounts = array();
+		$this->mounts = [];
+		$this->inPathCache->clear();
 	}
 
 	/**
