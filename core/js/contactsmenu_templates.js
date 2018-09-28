@@ -42,76 +42,76 @@ templates['contact'] = template({"1":function(container,depth0,helpers,partials,
     var stack1;
 
   return "	<span class=\"other-actions icon-more\"></span>\n	<div class=\"menu popovermenu\">\n		<ul>\n"
-    + ((stack1 = helpers.each.call(depth0,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.actions : stack1),{"name":"each","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.actions : stack1),{"name":"each","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "		</ul>\n	</div>\n";
 },"10":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=helpers.helperMissing, alias2="function", alias3=container.escapeExpression;
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "			<li>\n				<a href=\""
-    + alias3(((helper = (helper = helpers.hyperlink || (depth0 != null ? depth0.hyperlink : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"hyperlink","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.hyperlink || (depth0 != null ? depth0.hyperlink : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"hyperlink","hash":{},"data":data}) : helper)))
     + "\">\n					<img src=\""
-    + alias3(((helper = (helper = helpers.icon || (depth0 != null ? depth0.icon : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"icon","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.icon || (depth0 != null ? depth0.icon : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"icon","hash":{},"data":data}) : helper)))
     + "\" alt=\"\">\n					<span>"
-    + alias3(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"title","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
     + "</span>\n				</a>\n			</li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.lambda, alias3=container.escapeExpression;
 
-  return ((stack1 = helpers["if"].call(depth0,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.avatar : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
+  return ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.avatar : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "<div class=\"body\">\n	<div class=\"full-name\">"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.fullName : stack1), depth0))
+    + alias3(alias2(((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.fullName : stack1), depth0))
     + "</div>\n	<div class=\"last-message\">"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.lastMessage : stack1), depth0))
+    + alias3(alias2(((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.lastMessage : stack1), depth0))
     + "</div>\n</div>\n"
-    + ((stack1 = helpers["if"].call(depth0,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.topAction : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(depth0,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.hasTwoActions : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(depth0,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.hasManyActions : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.topAction : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.hasTwoActions : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.contact : depth0)) != null ? stack1.hasManyActions : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 templates['error'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<div class=\"emptycontent\">\n	<div class=\"icon-search\"></div>\n	<h2>"
-    + container.escapeExpression(((helper = (helper = helpers.couldNotLoadText || (depth0 != null ? depth0.couldNotLoadText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"couldNotLoadText","hash":{},"data":data}) : helper)))
+    + container.escapeExpression(((helper = (helper = helpers.couldNotLoadText || (depth0 != null ? depth0.couldNotLoadText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"couldNotLoadText","hash":{},"data":data}) : helper)))
     + "</h2>\n</div>\n";
 },"useData":true});
 templates['list'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<div class=\"emptycontent\">\n	<div class=\"icon-search\"></div>\n	<h2>"
-    + container.escapeExpression(((helper = (helper = helpers.noContactsFoundText || (depth0 != null ? depth0.noContactsFoundText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"noContactsFoundText","hash":{},"data":data}) : helper)))
+    + container.escapeExpression(((helper = (helper = helpers.noContactsFoundText || (depth0 != null ? depth0.noContactsFoundText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"noContactsFoundText","hash":{},"data":data}) : helper)))
     + "</h2>\n</div>\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=helpers.helperMissing, alias2="function", alias3=container.escapeExpression;
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<div class=\"footer\"><a href=\""
-    + alias3(((helper = (helper = helpers.contactsAppURL || (depth0 != null ? depth0.contactsAppURL : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"contactsAppURL","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.contactsAppURL || (depth0 != null ? depth0.contactsAppURL : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"contactsAppURL","hash":{},"data":data}) : helper)))
     + "\">"
-    + alias3(((helper = (helper = helpers.showAllContactsText || (depth0 != null ? depth0.showAllContactsText : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"showAllContactsText","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.showAllContactsText || (depth0 != null ? depth0.showAllContactsText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"showAllContactsText","hash":{},"data":data}) : helper)))
     + "</a></div>";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return ((stack1 = helpers.unless.call(depth0,((stack1 = (depth0 != null ? depth0.contacts : depth0)) != null ? stack1.length : stack1),{"name":"unless","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return ((stack1 = helpers.unless.call(alias1,((stack1 = (depth0 != null ? depth0.contacts : depth0)) != null ? stack1.length : stack1),{"name":"unless","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "<div id=\"contactsmenu-contacts\"></div>\n"
-    + ((stack1 = helpers["if"].call(depth0,(depth0 != null ? depth0.contactsAppEnabled : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.contactsAppEnabled : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
 },"useData":true});
 templates['loading'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<div class=\"emptycontent\">\n	<div class=\"icon-loading\"></div>\n	<h2>"
-    + container.escapeExpression(((helper = (helper = helpers.loadingText || (depth0 != null ? depth0.loadingText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"loadingText","hash":{},"data":data}) : helper)))
+    + container.escapeExpression(((helper = (helper = helpers.loadingText || (depth0 != null ? depth0.loadingText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"loadingText","hash":{},"data":data}) : helper)))
     + "</h2>\n</div>\n";
 },"useData":true});
 templates['menu'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=helpers.helperMissing, alias2="function", alias3=container.escapeExpression;
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<label class=\"hidden-visually\" for=\"contactsmenu-search\">"
-    + alias3(((helper = (helper = helpers.searchContactsText || (depth0 != null ? depth0.searchContactsText : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"searchContactsText","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.searchContactsText || (depth0 != null ? depth0.searchContactsText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"searchContactsText","hash":{},"data":data}) : helper)))
     + "</label>\n<input id=\"contactsmenu-search\" type=\"search\" placeholder=\""
-    + alias3(((helper = (helper = helpers.searchContactsText || (depth0 != null ? depth0.searchContactsText : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"searchContactsText","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.searchContactsText || (depth0 != null ? depth0.searchContactsText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"searchContactsText","hash":{},"data":data}) : helper)))
     + "\" value=\""
-    + alias3(((helper = (helper = helpers.searchTerm || (depth0 != null ? depth0.searchTerm : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"searchTerm","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.searchTerm || (depth0 != null ? depth0.searchTerm : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"searchTerm","hash":{},"data":data}) : helper)))
     + "\">\n<div class=\"content\">\n</div>\n";
 },"useData":true});
 })();
