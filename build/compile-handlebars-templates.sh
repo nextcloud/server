@@ -15,7 +15,11 @@ handlebars -n OCA.Files.FileSummary.Templates apps/files/js/filesummary.handleba
 
 if [[ $(git diff --name-only) ]]; then
     echo "Please submit your compiled handlebars templates"
+    echo
+    git diff
     exit 1
 fi
 
+
+echo "All up to date! Carry on :D"
 exit 0
