@@ -1,7 +1,7 @@
 Feature: sharing
   Background:
     Given using api version "1"
-    Given using old dav path
+    Given using new dav path
 
 # See sharing-v1-part2.feature
 
@@ -295,7 +295,7 @@ Feature: sharing
     And user "user0" exists
     And User "user0" deletes file "/textfile0.txt"
     When User "user0" empties trashbin
-    Then the HTTP status code should be "200"
+    Then the HTTP status code should be "204"
 
   Scenario: orphaned shares
     Given As an "admin"

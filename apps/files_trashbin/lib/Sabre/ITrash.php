@@ -23,6 +23,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCP\Files\FileInfo;
+
 interface ITrash {
 	public function restore(): bool;
 
@@ -35,4 +37,6 @@ interface ITrash {
 	public function getSize();
 
 	public function getFileId(): int;
+
+	public function getFileInfo(): FileInfo;
 }

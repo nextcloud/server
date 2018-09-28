@@ -28,16 +28,13 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
-class TrashFolder implements ICollection, ITrash {
+class TrashFolder extends AbstractTrash implements ICollection, ITrash {
 	/** @var string */
 	private $userId;
 
-	/** @var FileInfo */
-	private $data;
-
 	public function __construct(string $root, string $userId, FileInfo $data) {
 		$this->userId = $userId;
-		$this->data = $data;
+		parent::__construct($data);
 	}
 
 	public function createFile($name, $data = null) {
@@ -100,31 +97,11 @@ class TrashFolder implements ICollection, ITrash {
 		throw new Forbidden();
 	}
 
-	public function getLastModified(): int {
-		return $this->data->getMtime();
-	}
-
 	public function restore(): bool {
 		return \OCA\Files_Trashbin\Trashbin::restore($this->getName(), $this->data->getName(), $this->getLastModified());
 	}
 
-	public function getFilename(): string {
-		return $this->data->getName();
-	}
-
 	public function getOriginalLocation(): string {
 		return $this->data['extraData'];
-	}
-
-	public function getDeletionTime(): int {
-		return $this->getLastModified();
-	}
-
-	public function getSize(): int {
-		return $this->data->getSize();
-	}
-
-	public function getFileId(): int {
-		return $this->data->getId();
 	}
 }

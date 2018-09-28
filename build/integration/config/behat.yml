@@ -1,10 +1,10 @@
 default:
   autoload:
-    '': %paths.base%/../features/bootstrap
+    '': "%paths.base%/../features/bootstrap"
   suites:
     default:
       paths:
-        - %paths.base%/../features
+        - "%paths.base%/../features"
       contexts:
         - FeatureContext:
             baseUrl:  http://localhost:8080/ocs/
@@ -27,7 +27,7 @@ default:
             ocPath: ../../
     federation:
       paths:
-        - %paths.base%/../federation_features
+        - "%paths.base%/../federation_features"
       contexts:
         - FederationContext:
             baseUrl:  http://localhost:8080/ocs/
@@ -37,7 +37,7 @@ default:
             regular_user_password: 123456
     capabilities:
       paths:
-        - %paths.base%/../capabilities_features
+        - "%paths.base%/../capabilities_features"
       contexts:
         - CapabilitiesContext:
             baseUrl:  http://localhost:8080/ocs/
@@ -47,7 +47,7 @@ default:
             regular_user_password: 123456
     sharees:
       paths:
-        - %paths.base%/../sharees_features
+        - "%paths.base%/../sharees_features"
       contexts:
         - ShareesContext:
             baseUrl:  http://localhost:8080/ocs/
@@ -57,7 +57,7 @@ default:
             regular_user_password: 123456
     setup:
       paths:
-        - %paths.base%/../setup_features
+        - "%paths.base%/../setup_features"
       contexts:
         - SetupContext:
             baseUrl:  http://localhost:8080/ocs/
@@ -67,7 +67,7 @@ default:
             regular_user_password: 123456
     filesdrop:
       paths:
-        - %paths.base%/../filesdrop_features
+        - "%paths.base%/../filesdrop_features"
       contexts:
         - FilesDropContext:
             baseUrl: http://localhost:8080
@@ -77,7 +77,7 @@ default:
             regular_user_password: 123456
     ldap:
       paths:
-        - %paths.base%/../ldap_features
+        - "%paths.base%/../ldap_features"
       contexts:
         - LDAPContext:
             baseUrl: http://localhost:8080
@@ -87,7 +87,7 @@ default:
             regular_user_password: what_for
     remoteapi:
       paths:
-        - %paths.base%/../remoteapi_features
+        - "%paths.base%/../remoteapi_features"
       contexts:
         - FeatureContext:
             baseUrl:  http://localhost:8080/ocs/
@@ -100,4 +100,4 @@ default:
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
           filename: report.xml
-          outputDir: %paths.base%/../output/
+          outputDir: "%paths.base%/../output/"
