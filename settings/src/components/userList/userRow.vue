@@ -84,7 +84,7 @@
 				<span slot="noResult">{{t('settings', 'No results')}}</span>
 			</multiselect>
 		</div>
-		<div class="quota" :class="{'icon-loading-small': loading.quota}">
+		<div class="quota" :class="{'icon-loading-small': loading.quota}" v-tooltip.auto="usedSpace">
 			<multiselect :value="userQuota" :options="quotaOptions" :disabled="loading.quota||loading.all"
 						 tag-placeholder="create" :placeholder="t('settings', 'Select user quota')"
 						 label="label" track-by="id" class="multiselect-vue"
@@ -215,6 +215,12 @@ export default {
 		},
 
 		/* QUOTA MANAGEMENT */
+		usedSpace() {
+			if (this.user.quota.used) {
+				return t('settings', '{size} used', {size: OC.Util.humanFileSize(this.user.quota.used)});
+			}
+			return t('settings', '{size} used', {size: OC.Util.humanFileSize(0)});
+		},
 		usedQuota() {
 			let quota = this.user.quota.quota;
 			if (quota > 0) {

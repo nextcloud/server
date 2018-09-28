@@ -90,7 +90,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function classCellForUser($class, $user) {
-		return Locator::forThe()->xpath("//*[@class='$class']")->
+		return Locator::forThe()->xpath("//*[contains(concat(' ', normalize-space(@class), ' '), ' $class ')]")->
 				descendantOf(self::rowForUser($user))->
 				describedAs("$class cell for user $user in Users Settings");
 	}
