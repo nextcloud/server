@@ -210,7 +210,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
 
-@include icon-black-white('history', 'actions', 1, true);
+@include icon-black-white('history', 'actions', 2, true);
 @include icon-black-white('info', 'actions', 1, true);
 @include icon-black-white('logout', 'actions', 1, true);
 @include icon-black-white('mail', 'actions', 1, true);
