@@ -296,7 +296,10 @@ const actions = {
 	addGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
 			return api.post(OC.linkToOCS(`cloud/groups`, 2), {groupid: gid})
-				.then((response) => context.commit('addGroup', {gid: gid, displayName: gid}))
+				.then((response) => {
+					context.commit('addGroup', {gid: gid, displayName: gid})
+					return {gid: gid, displayName: gid}
+				})
 				.catch((error) => {throw error;});
 		}).catch((error) => {
 			context.commit('API_FAILURE', { gid, error });

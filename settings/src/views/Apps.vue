@@ -34,7 +34,7 @@
 
 
 <script>
-import appNavigation from '../components/appNavigation';
+import { AppNavigation } from 'nextcloud-vue';
 import appList from '../components/appList';
 import Vue from 'vue';
 import VueLocalStorage from 'vue-localstorage'
@@ -42,7 +42,6 @@ import Multiselect from 'vue-multiselect';
 import api from '../store/api';
 import AppDetails from '../components/appDetails';
 
-Vue.use(VueLocalStorage)
 Vue.use(VueLocalStorage)
 
 export default {
@@ -59,7 +58,7 @@ export default {
 	},
 	components: {
 		AppDetails,
-		appNavigation,
+		AppNavigation,
 		appList,
 	},
 	methods: {

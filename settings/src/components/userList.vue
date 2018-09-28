@@ -44,9 +44,9 @@
 		</div>
 
 		<form class="row" id="new-user" v-show="showConfig.showNewUserForm"
-			  v-on:submit.prevent="createUser" :disabled="loading"
+			  v-on:submit.prevent="createUser" :disabled="loading.all"
 			  :class="{'sticky': scrolled && showConfig.showNewUserForm}">
-			<div :class="loading?'icon-loading-small':'icon-add'"></div>
+			<div :class="loading.all?'icon-loading-small':'icon-add'"></div>
 			<div class="name">
 				<input id="newusername" type="text" required v-model="newUser.id"
 					   :placeholder="t('settings', 'Username')" name="username"
@@ -74,12 +74,13 @@
 			<div class="groups">
 				<!-- hidden input trick for vanilla html5 form validation -->
 				<input type="text" :value="newUser.groups" v-if="!settings.isAdmin"
-					   tabindex="-1" id="newgroups" :required="!settings.isAdmin" />
-				<multiselect :options="canAddGroups" v-model="newUser.groups"
-							 :placeholder="t('settings', 'Add user in group')"
-							 label="name" track-by="id" class="multiselect-vue"
-							 :multiple="true" :close-on-select="false"
-							 :allowEmpty="settings.isAdmin">
+					   tabindex="-1" id="newgroups" :required="!settings.isAdmin"
+					   :class="{'icon-loading-small': loading.groups}"/>
+				<multiselect v-model="newUser.groups" :options="canAddGroups" :disabled="loading.groups||loading.all"
+						 tag-placeholder="create" :placeholder="t('settings', 'Add user in group')"
+						 label="name" track-by="id" class="multiselect-vue"
+						 :multiple="true" :taggable="true" :close-on-select="false"
+						 @tag="createGroup">
 							 <!-- If user is not admin, he is a subadmin.
 							 	  Subadmins can't create users outside their groups
 								  Therefore, empty select is forbidden -->
@@ -154,7 +155,10 @@ export default {
 		return {
 			unlimitedQuota: unlimitedQuota,
 			defaultQuota: defaultQuota,
-			loading: false,
+			loading: {
+				all: false,
+				groups: false
+			},
 			scrolled: false,
 			searchQuery: '',
 			newUser: {
@@ -318,10 +322,10 @@ export default {
 		resetForm() {
 			// revert form to original state
 			Object.assign(this.newUser, this.$options.data.call(this).newUser);
-			this.loading = false;
+			this.loading.all = false;
 		},
 		createUser() {
-			this.loading = true;
+			this.loading.all = true;
 			this.$store.dispatch('addUser', {
 				userid: this.newUser.id,
 				password: this.newUser.password,
@@ -332,7 +336,7 @@ export default {
 				quota: this.newUser.quota.id,
 				language: this.newUser.language.code,
 			}).then(() => this.resetForm())
-			.catch(() => this.loading = false);
+			.catch(() => this.loading.all = false);
 		},
 		setNewUserDefaultGroup(value) {
 			if (value && value.length > 0) {
@@ -345,6 +349,25 @@ export default {
 			}
 			// fallback, empty selected group
 			this.newUser.groups = [];
+		},
+
+		/**
+		 * Create a new group
+		 * 
+		 * @param {string} groups Group id
+		 * @returns {Promise}
+		 */
+		createGroup(gid) {
+			this.loading.groups = true;
+			this.$store.dispatch('addGroup', gid)
+				.then((group) => {
+					this.newUser.groups.push(this.groups.find(group => group.id === gid))
+					this.loading.groups = false;
+				})
+				.catch(() => {
+					this.loading.groups = false;
+				});
+			return this.$store.getters.getGroups[this.groups.length];
 		}
 	}
 }
