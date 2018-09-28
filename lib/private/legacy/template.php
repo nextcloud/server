@@ -124,6 +124,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addScript('files/fileinfo');
 			OC_Util::addScript('files/client');
 			OC_Util::addScript('contactsmenu');
+			OC_Util::addScript('contactsmenu_templates');
 
 			if (\OC::$server->getConfig()->getSystemValue('debug')) {
 				// Add the stuff we need always
