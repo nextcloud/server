@@ -86,7 +86,19 @@ class CryptoWrapper {
 				if($webRoot === '') {
 					$webRoot = '/';
 				}
-				setcookie(self::COOKIE_NAME, $this->passphrase, 0, $webRoot, '', $secureCookie, true);
+				$header = sprintf(
+					'Set-Cookie: %s=%s; path=%s',
+					self::COOKIE_NAME,
+					$this->passphrase,
+					$webRoot
+				);
+				if ($secureCookie) {
+					$header .= '; Secure';
+				}
+				$header .= '; HttpOnly';
+				$header .= '; SameSite=Lax';
+				header($header);
+				//setcookie(self::COOKIE_NAME, $this->passphrase, 0, $webRoot, '', $secureCookie, true);
 			}
 		}
 	}

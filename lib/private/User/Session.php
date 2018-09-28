@@ -870,13 +870,41 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$expires = $this->timeFactory->getTime() + $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		setcookie('nc_username', $username, $expires, $webRoot, '', $secureCookie, true);
-		setcookie('nc_token', $token, $expires, $webRoot, '', $secureCookie, true);
+
+		$lifeTime = $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+
+		$this->setLaxCookie('nc_username', $username, $lifeTime, $webRoot, $secureCookie);
+		$this->setLaxCookie('nc_token', $token, $lifeTime, $webRoot, $secureCookie);
+		//setcookie('nc_username', $username, $expires, $webRoot, '', $secureCookie, true);
+		//setcookie('nc_token', $token, $expires, $webRoot, '', $secureCookie, true);
 		try {
-			setcookie('nc_session_id', $this->session->getId(), $expires, $webRoot, '', $secureCookie, true);
+			$this->setLaxCookie('nc_session_id', $this->session->getId(), $lifeTime, $webRoot, $secureCookie);
+			//setcookie('nc_session_id', $this->session->getId(), $expires, $webRoot, '', $secureCookie, true);
 		} catch (SessionNotAvailableException $ex) {
 			// ignore
 		}
+	}
+
+	private function setLaxCookie(string $name, string $value, int $expire, string $path, bool $secure) {
+		$header = sprintf(
+			'Set-Cookie: %s=%s; path=%s',
+			$name,
+			$value,
+			$path
+		);
+
+		if ($expire > 0) {
+			$header .= sprintf('; Max-Age=%d', $expire);
+		}
+
+		if ($secure) {
+			$header .= '; Secure';
+		}
+
+		$header .= '; HttpOnly';
+
+		$header .= '; SameSite=Lax';
+		header($header);
 	}
 
 	/**
