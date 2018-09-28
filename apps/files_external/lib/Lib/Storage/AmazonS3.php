@@ -60,6 +60,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	/** @var CappedMemoryCache|Result[] */
 	private $objectCache;
+	/** @var CappedMemoryCache|bool[] */
+	private $directoryCache;
 
 	/** @var CappedMemoryCache|array */
 	private $filesCache;
@@ -68,6 +70,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
 		$this->objectCache = new CappedMemoryCache();
+		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
 	}
 
@@ -98,6 +101,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	private function clearCache() {
 		$this->objectCache = new CappedMemoryCache();
+		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
 	}
 
@@ -133,6 +137,41 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		return $this->objectCache[$key];
+	}
+
+	/**
+	 * Return true if directory exists
+	 *
+	 * There are no folders in s3. A folder like structure could be archived
+	 * by prefixing files with the folder name.
+	 *
+	 * Implementation from flysystem-aws-s3-v3:
+	 * https://github.com/thephpleague/flysystem-aws-s3-v3/blob/8241e9cc5b28f981e0d24cdaf9867f14c7498ae4/src/AwsS3Adapter.php#L670-L694
+	 *
+	 * @param $location
+	 * @return bool
+	 * @throws \Exception
+	 */
+	protected function doesDirectoryExist($location) {
+		if (!isset($this->directoryCache[$location])) {
+			// Maybe this isn't an actual key, but a prefix.
+			// Do a prefix listing of objects to determine.
+			try {
+				$result = $this->getConnection()->listObjects([
+					'Bucket' => $this->bucket,
+					'Prefix' => rtrim($location, '/') . '/',
+					'MaxKeys' => 1,
+				]);
+				$this->directoryCache[$location] = $result['Contents'] || $result['CommonPrefixes'];
+			} catch (S3Exception $e) {
+				if ($e->getStatusCode() === 403) {
+					$this->directoryCache[$location] = false;
+				}
+				throw $e;
+			}
+		}
+
+		return $this->directoryCache[$location];
 	}
 
 	/**
@@ -393,7 +432,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function is_dir($path) {
 		$path = $this->normalizePath($path);
 		try {
-			return $this->isRoot($path) || $this->headObject($path . '/');
+			return $this->isRoot($path) || $this->doesDirectoryExist($path);
 		} catch (S3Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
@@ -411,7 +450,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
 				return 'file';
 			}
-			if ($this->headObject($path . '/')) {
+			if ($this->doesDirectoryExist($path)) {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
