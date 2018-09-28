@@ -219,7 +219,7 @@ export default {
 			if (this.user.quota.used) {
 				return t('settings', '{size} used', {size: OC.Util.humanFileSize(this.user.quota.used)});
 			}
-			return t('settings', 'unknown space used');
+			return t('settings', '{size} used', {size: OC.Util.humanFileSize(0)});
 		},
 		usedQuota() {
 			let quota = this.user.quota.quota;
