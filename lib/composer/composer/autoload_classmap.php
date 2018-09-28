@@ -796,6 +796,7 @@ return array(
     'OC\\Http\\Client\\Client' => $baseDir . '/lib/private/Http/Client/Client.php',
     'OC\\Http\\Client\\ClientService' => $baseDir . '/lib/private/Http/Client/ClientService.php',
     'OC\\Http\\Client\\Response' => $baseDir . '/lib/private/Http/Client/Response.php',
+    'OC\\Http\\CookieHelper' => $baseDir . '/lib/private/Http/CookieHelper.php',
     'OC\\Installer' => $baseDir . '/lib/private/Installer.php',
     'OC\\IntegrityCheck\\Checker' => $baseDir . '/lib/private/IntegrityCheck/Checker.php',
     'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException' => $baseDir . '/lib/private/IntegrityCheck/Exceptions/InvalidSignatureException.php',
