@@ -182,7 +182,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @return bool
 	 */
 	public function stream_eof() {
-		return $this->pos >= $this->size;
+		return $this->pos >= $this->size || $this->currentStream === null;
 	}
 
 	/**
