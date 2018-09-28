@@ -31,7 +31,6 @@ OC.L10N.register(
     "Not saved" : "Nu a fost salvat",
     "Sending…" : "Se trimite...",
     "Email sent" : "Mesajul a fost expediat",
-    "Disconnect" : "Deconectare",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
     "Google Chrome" : "Google Chrome",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "Enable" : "Activare",
     "The app will be downloaded from the app store" : "Aplicația va fi descărcată din magazin",
     "Settings" : "Setări",
+    "{size} used" : "{size} folosită",
     "Email" : "Email",
     "Language" : "Limba",
     "Unlimited" : "Nelimitată",
@@ -176,6 +176,7 @@ OC.L10N.register(
     "Updated" : "Actualizat",
     "Approved" : "Aprobat",
     "Experimental" : "Experimental",
+    "Disconnect" : "Deconectare",
     "Unable to delete {objName}" : "Nu s-a putut șterge {objName}",
     "Error creating group: {message}" : "Eroare la crearea grupului: {message}",
     "A valid group name must be provided" : "Trebuie furnizat un nume de grup valid",
@@ -215,7 +216,6 @@ OC.L10N.register(
     "change full name" : "schimbă numele complet",
     "set new password" : "setează parolă nouă",
     "change email address" : "schimbă adresa email",
-    "Default" : "Implicită",
-    "{size} used" : "{size} folosită"
+    "Default" : "Implicită"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

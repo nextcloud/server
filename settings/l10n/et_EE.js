@@ -56,9 +56,6 @@ OC.L10N.register(
     "Not saved" : "Ei ole salvestatud",
     "Sending…" : "Saadan...",
     "Email sent" : "E-kiri on saadetud",
-    "Allow filesystem access" : "Luba juurdepääs failisüsteemile",
-    "Disconnect" : "Ühenda lahti",
-    "Revoke" : "Tühista",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
@@ -113,6 +110,7 @@ OC.L10N.register(
     "Disable user" : "Keela kasutaja",
     "Enable user" : "Luba kasutaja",
     "Resend welcome email" : "Saada tervitusmeil uuesti",
+    "{size} used" : "{size} kasutatud",
     "Welcome mail sent!" : "Tervitusmeil saadetud!",
     "Display name" : "Kuvatav nimi",
     "Email" : "E-post",
@@ -276,6 +274,9 @@ OC.L10N.register(
     "Remove" : "Eemalda",
     "Approved" : "Heaks kiidetud",
     "Experimental" : "Katsetusjärgus",
+    "Allow filesystem access" : "Luba juurdepääs failisüsteemile",
+    "Disconnect" : "Ühenda lahti",
+    "Revoke" : "Tühista",
     "Unable to delete {objName}" : "Ei suuda kustutada {objName}",
     "Error creating group: {message}" : "Tõrge grupi loomisel: {message}",
     "A valid group name must be provided" : "Sisesta nõuetele vastav grupi nimi",
@@ -342,7 +343,6 @@ OC.L10N.register(
     "set new password" : "määra uus parool",
     "change email address" : "muuda e-posti aadressi",
     "Default" : "Vaikeväärtus",
-    "Updating …" : "Uuendamine …",
-    "{size} used" : "{size} kasutatud"
+    "Updating …" : "Uuendamine …"
 },
 "nplurals=2; plural=(n != 1);");

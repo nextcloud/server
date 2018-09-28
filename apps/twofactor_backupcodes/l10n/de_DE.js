@@ -1,13 +1,24 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "Generate backup codes" : "Backup-Codes erzeugen",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup-Codes wurden erzeugt. {{used}} von {{total}} Codes wurden benutzt.",
+    "activated" : "Aktiviert",
+    "updated" : "Aktualisiert",
+    "mounted" : "Eingebunden",
+    "deactivated" : "Deaktiviert",
+    "beforeCreate" : "beforeCreate",
+    "created" : "Erstellt",
+    "beforeUpdate" : "beforeUpdate",
+    "beforeDestroy" : "beforeDestroy",
+    "destroyed" : "Vernichtet",
+    "beforeMount" : "beforeMount",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dies sind Ihre Backup-Codes. Bitte speichern und/oder drucken Sie diese, da diese Codes später nicht mehr gelesen werden können",
     "Save backup codes" : "Backup-Codes speichern",
     "Print backup codes" : "Backup-Codes drucken",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Backup-Codes wurden erzeugt. {used} von {total} Codes wurden benutzt.",
     "Regenerate backup codes" : "Backup-Codes erneuern",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Wenn Sie die Backup-Codes erneuern, werden die alten Codes automatisch ungültig.",
+    "Generate backup codes" : "Backup-Codes erzeugen",
     "An error occurred while generating your backup codes" : "Beim Erstellen Ihrer Backup-Codes ist ein Fehler aufgetreten",
     "Nextcloud backup codes" : "Nextcloud Backup-Codes",
     "You created two-factor backup codes for your account" : "Sie haben Zwei-Faktor Sicherungs-Codes für Ihr Konto erstellt",
@@ -15,6 +26,7 @@ OC.L10N.register(
     "Use backup code" : "Verwende Backup-Code",
     "Two factor backup codes" : "Zweifaktor-Backup-Codes",
     "A two-factor auth backup codes provider" : "Ein Anbieter für Zweifaktor-Backup-Codes",
-    "Second-factor backup codes" : "Zweitfaktor Backup-Codes"
+    "Second-factor backup codes" : "Zweitfaktor Backup-Codes",
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup-Codes wurden erzeugt. {{used}} von {{total}} Codes wurden benutzt."
 },
 "nplurals=2; plural=(n != 1);");

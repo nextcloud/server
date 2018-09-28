@@ -61,9 +61,6 @@ OC.L10N.register(
     "Not saved" : "Ikke gemt",
     "Sending…" : "Sender...",
     "Email sent" : "E-mail afsendt",
-    "Allow filesystem access" : "Tillad filsystem adgang",
-    "Disconnect" : "Frakobl",
-    "Revoke" : "Tilbagekald",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
@@ -108,6 +105,7 @@ OC.L10N.register(
     "Enable" : "Aktiver",
     "The app will be downloaded from the app store" : "Appen vil blive downloaded fra app storen.",
     "Settings" : "Indstillinger",
+    "{size} used" : "{size} brugt",
     "Email" : "E-mail",
     "Group admin for" : "Gruppeadministrator for",
     "Language" : "Sprog",
@@ -257,6 +255,9 @@ OC.L10N.register(
     "Approved" : "Godkendt",
     "Experimental" : "Eksperimentel",
     "No apps found for {query}" : "Ingen apps fundet for {query}",
+    "Allow filesystem access" : "Tillad filsystem adgang",
+    "Disconnect" : "Frakobl",
+    "Revoke" : "Tilbagekald",
     "Unable to delete {objName}" : "Kunne ikke slette {objName}",
     "A valid group name must be provided" : "Et gyldigt gruppenavn skal angives ",
     "deleted {groupName}" : "slettede {groupName}",
@@ -307,7 +308,6 @@ OC.L10N.register(
     "change full name" : "ændre fulde navn",
     "set new password" : "skift kodeord",
     "change email address" : "skift e-mailadresse",
-    "Default" : "Standard",
-    "{size} used" : "{size} brugt"
+    "Default" : "Standard"
 },
 "nplurals=2; plural=(n != 1);");

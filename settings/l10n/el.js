@@ -59,8 +59,6 @@ OC.L10N.register(
     "Not saved" : "Δεν αποθηκεύτηκε",
     "Sending…" : "Γινεται αποστολή...",
     "Email sent" : "Το Email απεστάλη ",
-    "Disconnect" : "Αποσύνδεση",
-    "Revoke" : "Ανάκληση",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
@@ -113,6 +111,7 @@ OC.L10N.register(
     "Settings" : "Ρυθμίσεις",
     "Delete user" : "Διαγραφή χρήστη",
     "Enable user" : "Ενεργοποίηση χρήστη",
+    "{size} used" : "{μέγεθος} που χρησιμοποιείται",
     "Welcome mail sent!" : "Απεστάλη το μήνυμα καλωσορίσματος!",
     "Email" : "Ηλεκτρονικό ταχυδρομείο",
     "Group admin for" : "Ομαδα διαχειριστή για",
@@ -286,6 +285,8 @@ OC.L10N.register(
     "Approved" : "Εγκεκριμένο",
     "Experimental" : "Πειραματικό",
     "No apps found for {query}" : "Δεν βρέθηκαν εφαρμογές για {query}",
+    "Disconnect" : "Αποσύνδεση",
+    "Revoke" : "Ανάκληση",
     "Unable to delete {objName}" : "Αδυναμία διαγραφής του {objName}",
     "Error creating group: {message}" : "Σφάλμα δημιουργίας ομάδας: {message}",
     "A valid group name must be provided" : "Πρέπει να δοθεί ένα έγκυρο όνομα ομάδας",
@@ -368,7 +369,6 @@ OC.L10N.register(
     "App up to date" : "Ενημερωμένη εφαρμογή",
     "Updating …" : "Γίνεται ενημέρωση ....",
     "Could not update app" : "Αδυναμία ενημέρωσης εφαρμογής",
-    "Could not remove app" : "Αδυναμία αφαίρεσης εφαρμογής",
-    "{size} used" : "{μέγεθος} που χρησιμοποιείται"
+    "Could not remove app" : "Αδυναμία αφαίρεσης εφαρμογής"
 },
 "nplurals=2; plural=(n != 1);");
