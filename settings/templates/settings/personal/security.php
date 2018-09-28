@@ -24,6 +24,7 @@
 script('settings', [
 	'authtoken',
 	'authtoken_collection',
+	'templates',
 	'authtoken_view',
 	'settings/authtoken-init'
 ]);
