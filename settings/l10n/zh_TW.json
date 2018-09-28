@@ -59,9 +59,6 @@
     "Not saved" : "未儲存",
     "Sending…" : "傳送中…",
     "Email sent" : "Email 已寄出",
-    "Allow filesystem access" : "允許檔案系統的存取",
-    "Disconnect" : "中斷連線",
-    "Revoke" : "撤銷",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
@@ -113,6 +110,7 @@
     "Enable" : "啟用",
     "The app will be downloaded from the app store" : "將會從應用程式商店下載這個應用程式",
     "Settings" : "設定",
+    "{size} used" : "{size} 已使用",
     "Email" : "信箱",
     "Group admin for" : "群組管理員",
     "Language" : "語言",
@@ -288,6 +286,9 @@
     "Approved" : "審查通過",
     "Experimental" : "實驗性質",
     "No apps found for {query}" : "沒有符合 {query} 的應用程式",
+    "Allow filesystem access" : "允許檔案系統的存取",
+    "Disconnect" : "中斷連線",
+    "Revoke" : "撤銷",
     "Unable to delete {objName}" : "無法刪除 {objName}",
     "Error creating group: {message}" : "建立群組錯誤：{message}",
     "A valid group name must be provided" : "必須提供一個有效的群組名稱",
@@ -360,7 +361,6 @@
     "Default" : "預設",
     "App up to date" : "此應用程式為最新版",
     "Could not remove app" : "無法移除應用程式",
-    "{size} used" : "{size} 已使用",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "若要遷移至另一個資料庫，請使用命令列工具： 'occ db:convert-type' ，或是查閱<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">說明文件</a>。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

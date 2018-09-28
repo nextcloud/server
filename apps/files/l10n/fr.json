@@ -14,6 +14,7 @@
     "Could not create folder \"{dir}\"" : "Impossible de créer le dossier \"{dir}\"",
     "Upload cancelled." : "Téléversement annulé.",
     "…" : "…",
+    "Processing files …" : "Fichiers en cours d'exécution …",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Impossible d'envoyer {filename} car il s'agit d'un répertoire ou d'un fichier de taille nulle",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Espace libre insuffisant : vous tentez d'envoyer {size1} mais seulement {size2} sont disponibles",
     "Target folder \"{dir}\" does not exist any more" : "Le dossier cible « {dir} » n'existe plus",
