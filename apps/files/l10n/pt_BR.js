@@ -16,6 +16,7 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Não foi possível criar a pasta \"{dir}\"",
     "Upload cancelled." : "Envio cancelado.",
     "…" : "…",
+    "Processing files …" : "Processando arquivos...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Não foi possível fazer o envio de {filename}, pois é um diretório ou tem 0 bytes",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Não há espaço suficiente, você está enviando {size1} mas resta apenas {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Pasta de destino \"{dir}\" não existe mais",

@@ -58,9 +58,6 @@ OC.L10N.register(
     "Not saved" : "No desat",
     "Sending…" : "Enviant…",
     "Email sent" : "El correu electrónic s'ha enviat",
-    "Allow filesystem access" : "Peret accés al sistema de fitxers",
-    "Disconnect" : "Desconnecta",
-    "Revoke" : "Revocar",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
@@ -112,6 +109,7 @@ OC.L10N.register(
     "Enable" : "Habilita",
     "The app will be downloaded from the app store" : "L'app es descarregarà des de la botiga d'apps",
     "Settings" : "Preferències",
+    "{size} used" : "{size} utilitzat",
     "Email" : "Correu electrònic",
     "Group admin for" : "Administrador de grup per",
     "Language" : "Idioma",
@@ -270,6 +268,9 @@ OC.L10N.register(
     "Approved" : "Aprovat",
     "Experimental" : "Experimental",
     "No apps found for {query}" : "No s'han trobat aplicacions per a {query}",
+    "Allow filesystem access" : "Peret accés al sistema de fitxers",
+    "Disconnect" : "Desconnecta",
+    "Revoke" : "Revocar",
     "Unable to delete {objName}" : "No es pot eliminar {objName}",
     "Error creating group: {message}" : "Error creant grup: {message}",
     "A valid group name must be provided" : "Heu de facilitar un nom de grup vàlid",
@@ -339,7 +340,6 @@ OC.L10N.register(
     "change full name" : "canvia el nom complet",
     "set new password" : "estableix nova contrasenya",
     "change email address" : "canvi d'adreça de correu electrònic",
-    "Default" : "Per defecte",
-    "{size} used" : "{size} utilitzat"
+    "Default" : "Per defecte"
 },
 "nplurals=2; plural=(n != 1);");
