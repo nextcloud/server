@@ -589,6 +589,16 @@ pipeline:
         when:
           matrix:
             TESTS: integration-ldap-openldap-uid-features
+  integration-ldap-openldap-numerical-id-features:
+    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    commands:
+    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+    - ./occ app:enable user_ldap
+    - cd build/integration
+    - ./run.sh ldap_features/openldap-numerical-id.feature
+    when:
+      matrix:
+        TESTS: integration-ldap-openldap-numerical-id-features
   integration-trashbin:
     image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
@@ -860,6 +870,8 @@ matrix:
       ENABLE_OPENLDAP: true
     - TESTS: integration-ldap-openldap-uid-features
       ENABLE_OPENLDAP: true
+    - TESTS: integration-ldap-openldap-numerical-id-features
+      ENABLE_OPENLDAP: true
     - TESTS: integration-trashbin
     - TESTS: integration-remote-api
     - TESTS: integration-download
@@ -1042,7 +1054,7 @@ services:
       matrix:
         TESTS: acceptance
   openldap:
-    image: nextcloudci/openldap:openldap-4
+    image: nextcloudci/openldap:openldap-5
     environment:
       - SLAPD_DOMAIN=nextcloud.ci
       - SLAPD_ORGANIZATION=Nextcloud
