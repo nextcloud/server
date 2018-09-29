@@ -148,30 +148,30 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * Implementation from flysystem-aws-s3-v3:
 	 * https://github.com/thephpleague/flysystem-aws-s3-v3/blob/8241e9cc5b28f981e0d24cdaf9867f14c7498ae4/src/AwsS3Adapter.php#L670-L694
 	 *
-	 * @param $location
+	 * @param $path
 	 * @return bool
 	 * @throws \Exception
 	 */
-	protected function doesDirectoryExist($location) {
-		if (!isset($this->directoryCache[$location])) {
+	protected function doesDirectoryExist($path) {
+		if (!isset($this->directoryCache[$path])) {
 			// Maybe this isn't an actual key, but a prefix.
 			// Do a prefix listing of objects to determine.
 			try {
 				$result = $this->getConnection()->listObjects([
 					'Bucket' => $this->bucket,
-					'Prefix' => rtrim($location, '/') . '/',
+					'Prefix' => rtrim($path, '/') . '/',
 					'MaxKeys' => 1,
 				]);
-				$this->directoryCache[$location] = $result['Contents'] || $result['CommonPrefixes'];
+				$this->directoryCache[$path] = $result['Contents'] || $result['CommonPrefixes'];
 			} catch (S3Exception $e) {
 				if ($e->getStatusCode() === 403) {
-					$this->directoryCache[$location] = false;
+					$this->directoryCache[$path] = false;
 				}
 				throw $e;
 			}
 		}
 
-		return $this->directoryCache[$location];
+		return $this->directoryCache[$path];
 	}
 
 	/**
