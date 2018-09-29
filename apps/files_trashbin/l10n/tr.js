@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "%s kalıcı olarak silinemedi",
-    "Couldn't restore %s" : "%s geri yüklenemedi",
     "Deleted files" : "Silinmiş dosyalar",
     "Restore" : "Geri yükle",
     "Delete" : "Sil",
     "Delete permanently" : "Kalıcı olarak sil",
-    "Error" : "Hata",
     "This operation is forbidden" : "Bu işlem yapılamaz",
     "This directory is unavailable, please check the logs or contact the administrator" : "Bu dizine yazılamıyor, lütfen günlüğü denetleyin ya da yönetici ile görüşün",
     "restored" : "geri yüklendi",
@@ -19,6 +16,9 @@ OC.L10N.register(
     "Select all" : "Tümünü seç",
     "Name" : "Ad",
     "Actions" : "İşlemler",
-    "Deleted" : "Silinme"
+    "Deleted" : "Silinme",
+    "Couldn't delete %s permanently" : "%s kalıcı olarak silinemedi",
+    "Couldn't restore %s" : "%s geri yüklenemedi",
+    "Error" : "Hata"
 },
 "nplurals=2; plural=(n > 1);");

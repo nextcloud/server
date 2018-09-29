@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "Не могу заувек да обришем %s",
-    "Couldn't restore %s" : "Не могу да вратим %s",
     "Deleted files" : "Обрисани фајлови",
     "Restore" : "Врати",
     "Delete" : "Обриши",
     "Delete permanently" : "Обриши заувек",
-    "Error" : "Грешка",
     "This operation is forbidden" : "Ова радња је забрањена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Овај директоријум није доступан. Проверите записнике или контактирајте администратора",
     "restored" : "враћено",
@@ -19,6 +16,9 @@ OC.L10N.register(
     "Select all" : "Означи све",
     "Name" : "Назив",
     "Actions" : "Радње",
-    "Deleted" : "Обрисано"
+    "Deleted" : "Обрисано",
+    "Couldn't delete %s permanently" : "Не могу заувек да обришем %s",
+    "Couldn't restore %s" : "Не могу да вратим %s",
+    "Error" : "Грешка"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
