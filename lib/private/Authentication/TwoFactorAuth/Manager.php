@@ -57,6 +57,9 @@ class Manager {
 	/** @var IRegistry */
 	private $providerRegistry;
 
+	/** @var MandatoryTwoFactor */
+	private $mandatoryTwoFactor;
+
 	/** @var ISession */
 	private $session;
 
@@ -79,10 +82,14 @@ class Manager {
 	private $dispatcher;
 
 	public function __construct(ProviderLoader $providerLoader,
-								IRegistry $providerRegistry, ISession $session, IConfig $config,
+								IRegistry $providerRegistry,
+								MandatoryTwoFactor $mandatoryTwoFactor,
+								ISession $session, IConfig $config,
 								IManager $activityManager, ILogger $logger, TokenProvider $tokenProvider,
 								ITimeFactory $timeFactory, EventDispatcherInterface $eventDispatcher) {
 		$this->providerLoader = $providerLoader;
+		$this->providerRegistry = $providerRegistry;
+		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->session = $session;
 		$this->config = $config;
 		$this->activityManager = $activityManager;
@@ -90,7 +97,6 @@ class Manager {
 		$this->tokenProvider = $tokenProvider;
 		$this->timeFactory = $timeFactory;
 		$this->dispatcher = $eventDispatcher;
-		$this->providerRegistry = $providerRegistry;
 	}
 
 	/**
@@ -100,6 +106,10 @@ class Manager {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
+		if ($this->mandatoryTwoFactor->isEnforced()) {
+			return true;
+		}
+
 		$providerStates = $this->providerRegistry->getProviderStates($user);
 		$providers = $this->providerLoader->getProviders($user);
 		$fixedStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
