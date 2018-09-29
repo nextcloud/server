@@ -281,7 +281,7 @@ class Node implements \OCP\Files\Node {
 	 * @return string
 	 */
 	protected function normalizePath($path) {
-		if ($path === '' or $path === '/') {
+		if (!$path || $path === '' or $path === '/') {
 			return '/';
 		}
 		//no windows style slashes
