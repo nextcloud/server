@@ -1,11 +1,8 @@
 { "translations": {
-    "Couldn't delete %s permanently" : "לא ניתן למחוק את %s לצמיתות",
-    "Couldn't restore %s" : "לא ניתן לשחזר את %s",
     "Deleted files" : "קבצים שנמחקו",
     "Restore" : "שחזור",
     "Delete" : "מחיקה",
     "Delete permanently" : "מחיקה לצמיתות",
-    "Error" : "שגיאה",
     "This operation is forbidden" : "פעולה זו אסורה",
     "This directory is unavailable, please check the logs or contact the administrator" : "תיקייה זו לא קיימת, יש לבדוק את הלוגים או ליצור קשר עם המנהל",
     "restored" : "שוחזר",
@@ -15,6 +12,9 @@
     "Select all" : "לבחור הכול",
     "Name" : "שם",
     "Actions" : "פעולולת",
-    "Deleted" : "נמחק"
+    "Deleted" : "נמחק",
+    "Couldn't delete %s permanently" : "לא ניתן למחוק את %s לצמיתות",
+    "Couldn't restore %s" : "לא ניתן לשחזר את %s",
+    "Error" : "שגיאה"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

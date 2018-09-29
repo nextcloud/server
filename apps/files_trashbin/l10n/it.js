@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "Impossibile eliminare %s definitivamente",
-    "Couldn't restore %s" : "Impossibile ripristinare %s",
     "Deleted files" : "File eliminati",
     "Restore" : "Ripristina",
     "Delete" : "Elimina",
     "Delete permanently" : "Elimina definitivamente",
-    "Error" : "Errore",
     "This operation is forbidden" : "Questa operazione è vietata",
     "This directory is unavailable, please check the logs or contact the administrator" : "Questa cartella non è disponibile, controlla i log o contatta l'amministratore",
     "restored" : "ripristinati",
@@ -19,6 +16,9 @@ OC.L10N.register(
     "Select all" : "Seleziona tutto",
     "Name" : "Nome",
     "Actions" : "Azioni",
-    "Deleted" : "Eliminati"
+    "Deleted" : "Eliminati",
+    "Couldn't delete %s permanently" : "Impossibile eliminare %s definitivamente",
+    "Couldn't restore %s" : "Impossibile ripristinare %s",
+    "Error" : "Errore"
 },
 "nplurals=2; plural=(n != 1);");

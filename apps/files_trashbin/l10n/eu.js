@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "Ezin izan da %s betirako ezabatu",
-    "Couldn't restore %s" : "Ezin izan da %s berreskuratu",
     "Deleted files" : "Ezabatutako fitxategiak",
     "Restore" : "Berrezarri",
     "Delete" : "Ezabatu",
     "Delete permanently" : "Ezabatu betirako",
-    "Error" : "Errorea",
     "This operation is forbidden" : "Eragiketa hau debekatuta dago",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktorio hau ez dago erabilgarri, administratzailearekin harremanetan jarri",
     "restored" : "Berrezarrita",
@@ -16,6 +13,9 @@ OC.L10N.register(
     "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
     "Select all" : "Hautatu dena",
     "Name" : "Izena",
-    "Deleted" : "Ezabatuta"
+    "Deleted" : "Ezabatuta",
+    "Couldn't delete %s permanently" : "Ezin izan da %s betirako ezabatu",
+    "Couldn't restore %s" : "Ezin izan da %s berreskuratu",
+    "Error" : "Errorea"
 },
 "nplurals=2; plural=(n != 1);");

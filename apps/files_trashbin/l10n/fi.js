@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "Kohdetta %s ei voitu poistaa pysyvästi",
-    "Couldn't restore %s" : "Kohteen %s palautus epäonnistui",
     "Deleted files" : "Poistetut tiedostot",
     "Restore" : "Palauta",
     "Delete" : "Poista",
     "Delete permanently" : "Poista pysyvästi",
-    "Error" : "Virhe",
     "This operation is forbidden" : "Tämä toiminto on kielletty",
     "This directory is unavailable, please check the logs or contact the administrator" : "Hakemisto ei ole käytettävissä. Tarkista lokit tai ole yhteydessä ylläpitoon.",
     "restored" : "palautettu",
@@ -18,6 +15,9 @@ OC.L10N.register(
     "Select all" : "Valitse kaikki",
     "Name" : "Nimi",
     "Actions" : "Toiminnot",
-    "Deleted" : "Poistettu"
+    "Deleted" : "Poistettu",
+    "Couldn't delete %s permanently" : "Kohdetta %s ei voitu poistaa pysyvästi",
+    "Couldn't restore %s" : "Kohteen %s palautus epäonnistui",
+    "Error" : "Virhe"
 },
 "nplurals=2; plural=(n != 1);");
