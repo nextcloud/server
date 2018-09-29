@@ -152,7 +152,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * @return bool
 	 * @throws \Exception
 	 */
-	protected function doesDirectoryExist($path) {
+	private function doesDirectoryExist($path) {
 		if (!isset($this->directoryCache[$path])) {
 			// Maybe this isn't an actual key, but a prefix.
 			// Do a prefix listing of objects to determine.
