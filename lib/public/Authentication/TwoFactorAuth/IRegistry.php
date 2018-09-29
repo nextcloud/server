@@ -39,6 +39,10 @@ use OCP\IUser;
  */
 interface IRegistry {
 
+
+	const EVENT_PROVIDER_ENABLED = self::class . '::enable';
+	const EVENT_PROVIDER_DISABLED = self::class . '::disable';
+
 	/**
 	 * Get a key-value map of providers and their enabled/disabled state for
 	 * the given user.

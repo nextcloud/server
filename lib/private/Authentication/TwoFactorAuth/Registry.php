@@ -29,15 +29,23 @@ namespace OC\Authentication\TwoFactorAuth;
 use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\IUser;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Registry implements IRegistry {
 
 	/** @var ProviderUserAssignmentDao */
 	private $assignmentDao;
 
-	public function __construct(ProviderUserAssignmentDao $assignmentDao) {
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+
+	public function __construct(ProviderUserAssignmentDao $assignmentDao,
+								EventDispatcherInterface $dispatcher) {
 		$this->assignmentDao = $assignmentDao;
+		$this->dispatcher = $dispatcher;
 	}
 
 	public function getProviderStates(IUser $user): array {
@@ -46,10 +54,16 @@ class Registry implements IRegistry {
 
 	public function enableProviderFor(IProvider $provider, IUser $user) {
 		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 1);
+
+		$event = new RegistryEvent($provider, $user);
+		$this->dispatcher->dispatch(self::EVENT_PROVIDER_ENABLED, $event);
 	}
 
 	public function disableProviderFor(IProvider $provider, IUser $user) {
 		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 0);
+
+		$event = new RegistryEvent($provider, $user);
+		$this->dispatcher->dispatch(self::EVENT_PROVIDER_DISABLED, $event);
 	}
 
 	public function cleanUp(string $providerId) {
