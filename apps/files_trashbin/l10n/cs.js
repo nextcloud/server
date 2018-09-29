@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "%s se nedaří natrvalo smazat",
-    "Couldn't restore %s" : "%s se nedaří obnovit",
     "Deleted files" : "Odstraněné soubory",
     "Restore" : "Obnovit",
     "Delete" : "Smazat",
     "Delete permanently" : "Trvale odstranit",
-    "Error" : "Chyba",
     "This operation is forbidden" : "Tato operace je zakázána",
     "This directory is unavailable, please check the logs or contact the administrator" : "Tento adresář není dostupný, zkontrolujte záznamy událostí nebo se obraťte na správce",
     "restored" : "obnoveno",
@@ -19,6 +16,9 @@ OC.L10N.register(
     "Select all" : "Vybrat vše",
     "Name" : "Název",
     "Actions" : "Akce",
-    "Deleted" : "Smazáno"
+    "Deleted" : "Smazáno",
+    "Couldn't delete %s permanently" : "%s se nedaří natrvalo smazat",
+    "Couldn't restore %s" : "%s se nedaří obnovit",
+    "Error" : "Chyba"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

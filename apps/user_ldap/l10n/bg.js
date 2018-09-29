@@ -60,6 +60,9 @@ OC.L10N.register(
     "Back" : "Назад",
     "Continue" : "Продължи",
     "An internal error occurred." : "Възникна вътрешно сървърна грешка.",
+    "Current password" : "Текуща парола",
+    "New password" : "Нова парола",
+    "Wrong password." : "Грешна парола.",
     "Server" : "Сървър",
     "Users" : "Потребители",
     "Groups" : "Групи",
@@ -102,6 +105,7 @@ OC.L10N.register(
     "UUID Attribute for Users:" : "UUID атрибут за потребителите:",
     "UUID Attribute for Groups:" : "UUID атрибут за групите:",
     "1. Server" : "1. Сървър",
+    "Wrong password. Reset it?" : "Грешна парола. Възстановяване?",
     "LDAP" : "LDAP",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Предупреждение:</b> Приложенията user_ldap и user_webdavauth са несъвместими. Моля, помолете системния администратор да изключи едно от приложенията."
 },

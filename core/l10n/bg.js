@@ -18,7 +18,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Възстановяването на паролата е невъзможно, защото връзката за удостоверение е невалидна",
     "Couldn't reset password because the token is expired" : "Възстановяването на паролата е невъзможно, защото връзката за удостоверение е с изтекла валидност",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Имейлът за възстановяване на паролата  не може да бъде изпратен защо потребителят няма имейл адрес. Свържете се с администратора.",
-    "%s password reset" : "Паролата на %s е променена",
     "Password reset" : "Възстановяване на парола",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Кликнете върху следния бутон, за да възстановите паролата си. Ако не сте поискали възстановяване на паролата, игнорирайте този имейл.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Кликнете върху следната връзка, за да възстановите паролата си. Ако не сте поискали възстановяване на паролата, игнорирайте този имейл.",

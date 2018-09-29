@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "Kunde inte radera %s permanent",
-    "Couldn't restore %s" : "Kunde inte återställa %s",
     "Deleted files" : "Raderade filer",
     "Restore" : "Återskapa",
     "Delete" : "Radera",
     "Delete permanently" : "Radera permanent",
-    "Error" : "Fel",
     "This operation is forbidden" : "Denna åtgärd är förbjuden",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
     "restored" : "återställd",
@@ -17,6 +14,9 @@ OC.L10N.register(
     "Select all" : "Välj allt",
     "Name" : "Namn",
     "Actions" : "Åtgärder",
-    "Deleted" : "Raderad"
+    "Deleted" : "Raderad",
+    "Couldn't delete %s permanently" : "Kunde inte radera %s permanent",
+    "Couldn't restore %s" : "Kunde inte återställa %s",
+    "Error" : "Fel"
 },
 "nplurals=2; plural=(n != 1);");

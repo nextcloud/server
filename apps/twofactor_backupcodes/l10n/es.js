@@ -1,9 +1,16 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "activated" : "activado",
+    "updated" : "actualizado",
+    "mounted" : "montado",
+    "deactivated" : "desactivado",
+    "created" : "creado",
+    "destroyed" : "destruido",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estos son sus códigos de respaldo. Por favor guardelos y/o imprimalos ya que no podrá optenerlos nuevamente después.",
     "Save backup codes" : "Guardar códigos de respaldo",
     "Print backup codes" : "Imprimir códigos de respaldo",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Se han generado códigos de respaldo. Se han usado {used} de {total} códigos.",
     "Regenerate backup codes" : "Regenerar códigos de respaldo",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si regenera los códigos de respaldo, automáticamente invalidará los antiguos.",
     "Generate backup codes" : "Generar códigos de respaldo",
