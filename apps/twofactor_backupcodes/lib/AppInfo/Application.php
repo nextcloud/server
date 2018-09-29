@@ -28,6 +28,7 @@ namespace OCA\TwoFactorBackupCodes\AppInfo;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ActivityPublisher;
+use OCA\TwoFactorBackupCodes\Listener\ClearNotifications;
 use OCA\TwoFactorBackupCodes\Listener\IListener;
 use OCA\TwoFactorBackupCodes\Listener\ProviderEnabled;
 use OCA\TwoFactorBackupCodes\Listener\RegistryUpdater;
@@ -67,6 +68,7 @@ class Application extends App {
 			$listeners = [
 				$container->query(ActivityPublisher::class),
 				$container->query(RegistryUpdater::class),
+				$container->query(ClearNotifications::class),
 			];
 
 			foreach ($listeners as $listener) {
