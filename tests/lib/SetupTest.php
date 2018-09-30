@@ -158,12 +158,15 @@ class SetupTest extends \Test\TestCase {
 
 	public function findWebRootProvider(): array {
 		return [
+			'https://www.example.com/nextcloud/' => ['https://www.example.com/nextcloud/', '/nextcloud'],
 			'https://www.example.com/nextcloud' => ['https://www.example.com/nextcloud', '/nextcloud'],
 			'https://www.example.com/' => ['https://www.example.com/', ''],
 			'https://www.example.com' => ['https://www.example.com', ''],
-			'https://nctest13pgsql.lan/nextcloud' => ['https://nctest13pgsql.lan/', ''],
+			'https://nctest13pgsql.lan/test123/' => ['https://nctest13pgsql.lan/test123/', '/test123'],
+			'https://nctest13pgsql.lan/test123' => ['https://nctest13pgsql.lan/test123', '/test123'],
 			'https://nctest13pgsql.lan/' => ['https://nctest13pgsql.lan/', ''],
 			'https://nctest13pgsql.lan' => ['https://nctest13pgsql.lan', ''],
+			'https://192.168.10.10/nc/' => ['https://192.168.10.10/nc/', '/nc'],
 			'https://192.168.10.10/nc' => ['https://192.168.10.10/nc', '/nc'],
 			'https://192.168.10.10/' => ['https://192.168.10.10/', ''],
 			'https://192.168.10.10' => ['https://192.168.10.10', ''],
