@@ -301,6 +301,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 							isset($object['Key']) ? $object['Key'] : $object['Prefix']
 						);
 						$files[] = $file;
+
+						$this->objectCache->set($file, [
+							'ContentLength' => $object['Size'],
+							'LastModified' => (string)$object['LastModified'],
+						]);
 					}
 				}
 			}
