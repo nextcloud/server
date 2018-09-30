@@ -114,6 +114,7 @@
     "Show hidden files" : "Показвай и скрити файлове",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Адресът осигурява<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">достъп до файловете ви чрез WebDAV</a>",
+    "Cancel upload" : "Откажи качването",
     "No files in here" : "Няма файлове",
     "Upload some content or sync with your devices!" : "Качете съдържание или синхронизирайте с вашите устройства!",
     "No entries found in this folder" : "Няма намерени записи в тази папка",
