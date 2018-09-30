@@ -67,6 +67,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Cleanup::class));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enforce::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enable::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Disable::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\State::class));
