@@ -108,6 +108,7 @@ OC.L10N.register(
     "Check for changes" : "Έλεγχος για αλλαγές",
     "Never" : "Ποτέ",
     "Once every direct access" : "Σε κάθε απευθείας πρόσβαση",
+    "Read only" : "Μόνο για ανάγνωση",
     "Folder name" : "Όνομα φακέλου",
     "External storage" : "Εξωτερική αποθήκευση",
     "Authentication" : "Πιστοποίηση",

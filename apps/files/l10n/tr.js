@@ -16,6 +16,7 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "\"{dir}\" klasörü oluşturulamadı",
     "Upload cancelled." : "Yükleme iptal edildi.",
     "…" : "…",
+    "Processing files …" : "Dosyalar işleniyor…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "{filename} bir klasör ya da 0 bayt boyutunda olduğundan yüklenemedi",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Yeterli boş alan yok. Yüklemek istediğiniz boyut {size1} ancak yalnız {size2} boş alan var",
     "Target folder \"{dir}\" does not exist any more" : "\"{dir}\" hedef klasörü artık yok",
