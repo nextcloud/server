@@ -13,6 +13,10 @@ handlebars -n OC.ContactsMenu.Templates core/js/contactsmenu -f core/js/contacts
 # Files app
 handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templates.js
 
+# Comments app
+handlebars -n OCA.Comments.Templates apps/comments/js/templates -f apps/comments/js/templates.js
+
+
 if [[ $(git diff --name-only) ]]; then
     echo "Please submit your compiled handlebars templates"
     echo
