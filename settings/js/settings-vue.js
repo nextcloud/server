@@ -88,5 +88,5 @@ o.default.use(me);var Se={API_FAILURE:function(e,n){try{var r=n.error.response.d
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-Object(i.sync)(Oe,Wt),r.nc=btoa(OC.requestToken),r.p=OC.generateUrl(OC.linkTo("settings","js/")),o.default.prototype.t=t,o.default.prototype.OC=OC,o.default.prototype.OCA=OCA,o.default.prototype.oc_userconfig=oc_userconfig,o.default.prototype.oc_current_user=oc_current_user;var Ce=new o.default({router:Wt,store:Oe,render:function(t){return t(f)}}).$mount("#content")}]);
+Object(i.sync)(Oe,Wt),r.nc=btoa(OC.requestToken),r.p=OC.linkTo("settings","js/"),o.default.prototype.t=t,o.default.prototype.OC=OC,o.default.prototype.OCA=OCA,o.default.prototype.oc_userconfig=oc_userconfig,o.default.prototype.oc_current_user=oc_current_user;var Ce=new o.default({router:Wt,store:Oe,render:function(t){return t(f)}}).$mount("#content")}]);
 //# sourceMappingURL=settings-vue.js.map
