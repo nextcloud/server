@@ -352,11 +352,17 @@ nav[role='navigation'] {
 		&:active {
 			color: var(--color-primary-text);
 
-			.avatardiv,
-			#expandDisplayName {
-				background-color: var(--color-primary-text);
+			#expandDisplayName, 
+			.avatardiv{
+				border-radius: 50%;
 				border: 2px solid var(--color-primary-text);
 				margin: -2px;
+			} 
+			.avatardiv{
+				background-color: var(--color-primary-text);
+			}
+			#expandDisplayName {
+				opacity: 1;
 			}
 		}
 
@@ -379,6 +385,7 @@ nav[role='navigation'] {
 		#expandDisplayName {
 			padding: 8px;
 			opacity: .6;
+			cursor: pointer;
 
 			/* full opacity for gear icon if active */
 			#body-settings & {
