@@ -23,8 +23,10 @@
 
 import Vue from 'vue';
 import Router from 'vue-router';
-import Users from './views/Users';
-import Apps from './views/Apps';
+
+// Dynamic loading
+const Users = () => import('./views/Users');
+const Apps = () => import('./views/Apps');
 
 Vue.use(Router);
 

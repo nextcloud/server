@@ -19,16 +19,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import "@babel/polyfill";
 
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-require("babel-polyfill");
-
 
 sync(store, router);
+
+// CSP config for webpack dynamic chunk loading
+// eslint-disable-next-line
+__webpack_nonce__ = btoa(OC.requestToken)
+
+// Correct the root of the app for chunk loading
+// OC.linkTo matches the apps folders
+// OC.generateUrl ensure the index.php (or not)
+// eslint-disable-next-line
+__webpack_public_path__ = OC.generateUrl(OC.linkTo('settings', 'js/'))
 
 // bind to window
 Vue.prototype.t = t;
