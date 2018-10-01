@@ -12,24 +12,6 @@
 
 (function() {
 
-	var TEMPLATE_MENU =
-		'<ul>' +
-		'<li>' +
-		'<label for="file_upload_start" class="menuitem" data-action="upload" title="{{uploadMaxHumanFilesize}}" tabindex="0"><span class="svg icon icon-upload"></span><span class="displayname">{{uploadLabel}}</span></label>' +
-		'</li>' +
-		'{{#each items}}' +
-		'<li>' +
-		'<a href="#" class="menuitem" data-templatename="{{templateName}}" data-filetype="{{fileType}}" data-action="{{id}}"><span class="icon {{iconClass}} svg"></span><span class="displayname">{{displayName}}</span></a>' +
-		'</li>' +
-		'{{/each}}' +
-		'</ul>';
-
-	var TEMPLATE_FILENAME_FORM =
-		'<form class="filenameform">' +
-		'<input id="{{cid}}-input-{{fileType}}" type="text" value="{{fileName}}" autocomplete="off" autocapitalize="off">' +
-		'<input type="submit" value=" " class="icon-confirm" />'
-		'</form>';
-
 	/**
 	 * Construct a new NewFileMenu instance
 	 * @constructs NewFileMenu
@@ -78,10 +60,7 @@
 		},
 
 		template: function(data) {
-			if (!OCA.Files.NewFileMenu._TEMPLATE) {
-				OCA.Files.NewFileMenu._TEMPLATE = Handlebars.compile(TEMPLATE_MENU);
-			}
-			return OCA.Files.NewFileMenu._TEMPLATE(data);
+			return OCA.Files.Templates['newfilemenu'](data);
 		},
 
 		/**
@@ -111,9 +90,6 @@
 
 		_promptFileName: function($target) {
 			var self = this;
-			if (!OCA.Files.NewFileMenu._TEMPLATE_FORM) {
-				OCA.Files.NewFileMenu._TEMPLATE_FORM = Handlebars.compile(TEMPLATE_FILENAME_FORM);
-			}
 
 			if ($target.find('form').length) {
 				$target.find('input[type=\'text\']').focus();
@@ -128,7 +104,7 @@
 
 			var newName = $target.attr('data-templatename');
 			var fileType = $target.attr('data-filetype');
-			var $form = $(OCA.Files.NewFileMenu._TEMPLATE_FORM({
+			var $form = $(OCA.Files.Templates['newfilemenu_filename_form']({
 				fileName: newName,
 				cid: this.cid,
 				fileType: fileType
