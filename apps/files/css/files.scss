@@ -52,10 +52,6 @@
 	min-width: 500px;
 }
 
-#filestable tbody tr {
-	height: 51px;
-}
-
 /* fit app list view heights */
 .app-files #app-content>.viewcontainer {
 	min-height: 0%;
@@ -132,7 +128,7 @@
 
 #filestable tbody tr {
 	transition: background-color 0.3s ease;
-	height: 40px;
+	height: 51px;
 }
 #filestable tbody tr:hover,
 #filestable tbody tr:focus,

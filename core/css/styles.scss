@@ -727,8 +727,9 @@ code {
 		display: inline-block;
 		overflow-y: auto;
 		height: 100%;
-		/** overflow under the button row */
+		/* overflow under the button row */
 		width: 100%;
+		overflow-x: hidden;
 	}
 	.emptycontent {
 		color: var(--color-text-details);
