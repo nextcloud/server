@@ -165,6 +165,8 @@ thead {
 	font-weight: 300;
 	font-size: 11px;
 	opacity: .57;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #note-content {
