@@ -103,6 +103,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Authentication\\TwoFactorAuth\\IDeactivatableByAdmin' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IDeactivatableByAdmin.php',
         'OCP\\Authentication\\TwoFactorAuth\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IProvider.php',
         'OCP\\Authentication\\TwoFactorAuth\\IProvidesCustomCSP' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IProvidesCustomCSP.php',
+        'OCP\\Authentication\\TwoFactorAuth\\IProvidesIcons' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IProvidesIcons.php',
         'OCP\\Authentication\\TwoFactorAuth\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IRegistry.php',
         'OCP\\Authentication\\TwoFactorAuth\\RegistryEvent' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/RegistryEvent.php',
         'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',

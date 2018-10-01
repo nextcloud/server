@@ -73,6 +73,7 @@ return array(
     'OCP\\Authentication\\TwoFactorAuth\\IDeactivatableByAdmin' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IDeactivatableByAdmin.php',
     'OCP\\Authentication\\TwoFactorAuth\\IProvider' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IProvider.php',
     'OCP\\Authentication\\TwoFactorAuth\\IProvidesCustomCSP' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IProvidesCustomCSP.php',
+    'OCP\\Authentication\\TwoFactorAuth\\IProvidesIcons' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IProvidesIcons.php',
     'OCP\\Authentication\\TwoFactorAuth\\IRegistry' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IRegistry.php',
     'OCP\\Authentication\\TwoFactorAuth\\RegistryEvent' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/RegistryEvent.php',
     'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
