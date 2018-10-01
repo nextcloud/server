@@ -1,5 +1,6 @@
 [
   "versionmodel.js",
+  "templates.js",
   "versioncollection.js",
   "versionstabview.js",
   "filesplugin.js"

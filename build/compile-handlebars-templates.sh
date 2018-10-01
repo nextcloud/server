@@ -22,6 +22,9 @@ handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templ
 # Comments app
 handlebars -n OCA.Comments.Templates apps/comments/js/templates -f apps/comments/js/templates.js
 
+# Versions app
+handlebars -n OCA.Versions.Templates apps/files_versions/js/templates -f apps/files_versions/js/templates.js
+
 
 if [[ $(git diff --name-only) ]]; then
     echo "Please submit your compiled handlebars templates"

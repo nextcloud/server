@@ -11,42 +11,6 @@
 /* @global Handlebars */
 
 (function() {
-	var TEMPLATE_ITEM =
-		'<li data-revision="{{timestamp}}">' +
-		'<div>' +
-		'<div class="preview-container">' +
-		'<img class="preview" src="{{previewUrl}}" width="44" height="44"/>' +
-		'</div>' +
-		'<div class="version-container">' +
-		'<div>' +
-		'<a href="{{downloadUrl}}" class="downloadVersion"><img src="{{downloadIconUrl}}" />' +
-		'<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="{{millisecondsTimestamp}}" title="{{formattedTimestamp}}">{{relativeTimestamp}}</span>' +
-		'</a>' +
-		'</div>' +
-		'{{#hasDetails}}' +
-		'<div class="version-details">' +
-		'<span class="size has-tooltip" title="{{altSize}}">{{humanReadableSize}}</span>' +
-		'</div>' +
-		'{{/hasDetails}}' +
-		'</div>' +
-		'{{#canRevert}}' +
-		'<a href="#" class="revertVersion" title="{{revertLabel}}"><img src="{{revertIconUrl}}" /></a>' +
-		'{{/canRevert}}' +
-		'</div>' +
-		'</li>';
-
-	var TEMPLATE =
-		'<ul class="versions"></ul>' +
-		'<div class="clear-float"></div>' +
-		'<div class="empty hidden">' +
-		'<div class="emptycontent">' +
-		'<div class="icon-history"></div>' +
-		'<p>{{emptyResultLabel}}</p>' +
-		'</div></div>' +
-		'<input type="button" class="showMoreVersions hidden" value="{{moreVersionsLabel}}"' +
-		' name="show-more-versions" id="show-more-versions" />' +
-		'<div class="loading hidden" style="height: 50px"></div>';
-
 	/**
 	 * @memberof OCA.Versions
 	 */
@@ -182,19 +146,11 @@
 		},
 
 		template: function(data) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-
-			return this._template(data);
+			return OCA.Versions.Templates['template'](data);
 		},
 
 		itemTemplate: function(data) {
-			if (!this._itemTemplate) {
-				this._itemTemplate = Handlebars.compile(TEMPLATE_ITEM);
-			}
-
-			return this._itemTemplate(data);
+			return OCA.Versions.Templates['item'](data);
 		},
 
 		setFileInfo: function(fileInfo) {
