@@ -57,6 +57,14 @@ pipeline:
     when:
       matrix:
         TESTS: checkers
+  handlebars:
+    image: node
+    commands:
+      - npm install handlebars -g
+      - ./build/compile-handlebars-templates.sh
+    when:
+      matrix:
+        TESTS: handlebars
   syntax-php7.0:
     image: nextcloudci/php7.0:php7.0-19
     commands:
@@ -774,6 +782,7 @@ matrix:
     - TESTS: vue-build-oauth2
     - TESTS: vue-build-accessibility
     - TESTS: vue-build-backupcodes
+    - TESTS: handlebars
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
     - TESTS: db-codecov
