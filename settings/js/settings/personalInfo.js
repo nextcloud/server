@@ -67,6 +67,7 @@ function updateAvatar (hidedefault) {
 			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 		}
 	}, user.displayName);
+	$('#uploadavatar').prop('disabled', false);
 }
 
 function showAvatarCropper () {
@@ -308,7 +309,7 @@ $(document).ready(function () {
 			function (path) {
 				$('#displayavatar img').hide();
 				$('#displayavatar .avatardiv').addClass('icon-loading');
-				$('#uploadavatar').prop('disabled', true)
+				$('#uploadavatar').prop('disabled', true);
 				$.ajax({
 					type: "POST",
 					url: OC.generateUrl('/avatar/'),
@@ -348,7 +349,7 @@ $(document).ready(function () {
 	$('#abortcropperbutton').click(function () {
 		$('#displayavatar .avatardiv').removeClass('icon-loading');
 		$('#displayavatar img').show();
-		$('#uploadavatar').prop('disabled', false)
+		$('#uploadavatar').prop('disabled', false);
 		cleanCropper();
 	});
 
