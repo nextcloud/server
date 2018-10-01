@@ -170,6 +170,8 @@
 }
 
 .oc-dialog .oc-dialog-buttonrow {
+	display: flex;
+	justify-content: flex-end;
 	width:100%;
 	text-align:right;
 
