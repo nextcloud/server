@@ -1448,6 +1448,17 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
 				z-index: 60; /* above new-user */
+
+				#headerDisplayName,
+				#headerPassword,
+				#headerAddress,
+				#headerGroups,
+				#headerSubAdmins,
+				#headerQuota,
+				#headerLanguages {
+					/* Line up header text with column content for when there’s inputs */
+					padding-left: 7px;
+				}
 			}
 			&:hover {
 				input:not([type='submit']):not(:focus):not(:active) {
