@@ -19,13 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+ import '@babel/polyfill'
 
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-require("babel-polyfill");
 
 
 sync(store, router);
