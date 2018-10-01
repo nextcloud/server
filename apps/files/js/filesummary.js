@@ -196,7 +196,7 @@
 			 *
 			 * handlebars -n OCA.Files.FileSummary.Templates filesummary.handlebars -f filesummary_template.js
 			 */
-			return OCA.Files.FileSummary.Templates['filesummary'](_.extend({
+			return OCA.Files.Templates['filesummary'](_.extend({
 				connectorLabel: t('files', '{dirs} and {files}', {dirs: '', files: ''})
 			}, data));
 		},

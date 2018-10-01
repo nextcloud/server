@@ -397,7 +397,7 @@ class ShareController extends AuthPublicShareController {
 			// JS required for folders
 			\OCP\Util::addStyle('files', 'merged');
 			\OCP\Util::addScript('files', 'filesummary');
-			\OCP\Util::addScript('files', 'filesummary_template');
+			\OCP\Util::addScript('files', 'templates');
 			\OCP\Util::addScript('files', 'breadcrumb');
 			\OCP\Util::addScript('files', 'fileinfomodel');
 			\OCP\Util::addScript('files', 'newfilemenu');

@@ -9,21 +9,6 @@
  */
 
 (function() {
-	var TEMPLATE_MENU =
-		'<ul>' +
-		'{{#each items}}' +
-		'<li class="item-{{name}}">' +
-		'<a href="#" class="menuitem action {{name}} permanent" data-action="{{name}}">' +
-			'{{#if iconClass}}' +
-				'<span class="icon {{iconClass}}"></span>' +
-			'{{else}}' +
-				'<span class="no-icon"></span>' +
-			'{{/if}}' +
-			'<span class="label">{{displayName}}</span>' +
-		'</a></li>' +
-		'{{/each}}' +
-		'</ul>';
-
 	var FileMultiSelectMenu = OC.Backbone.View.extend({
 		tagName: 'div',
 		className: 'filesSelectMenu popovermenu bubble menu-center',
@@ -34,12 +19,12 @@
 		events: {
 			'click a.action': '_onClickAction'
 		},
-		template: Handlebars.compile(TEMPLATE_MENU),
+
 		/**
 		 * Renders the menu with the currently set items
 		 */
 		render: function() {
-			this.$el.html(this.template({
+			this.$el.html(OCA.Files.Templates['filemultiselectmenu']({
 				items: this._scopes
 			}));
 		},
