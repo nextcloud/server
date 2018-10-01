@@ -16,6 +16,7 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Kon map \"{dir}\" niet aanmaken",
     "Upload cancelled." : "Uploaden geannuleerd.",
     "…" : "...",
+    "Processing files …" : "Verwerken bestanden ...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan {filename} niet uploaden omdat het een map is of 0 bytes groot is",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Niet genoeg vrije ruimte. Je uploadt {size1}, maar er is slechts {size2} beschikbaar",
     "Target folder \"{dir}\" does not exist any more" : "Doelmap \"{dir}\" bestaat niet meer",

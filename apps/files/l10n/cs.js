@@ -16,6 +16,7 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Nelze vytvořit složku „{dir}“",
     "Upload cancelled." : "Odesílání zrušeno.",
     "…" : "…",
+    "Processing files …" : "Zpracovávání souborů…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nelze nahrát soubor {filename}, protože je to buď adresář nebo má velikost 0 bytů",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Není dostatek místa pro uložení, velikost souboru je {size1}, zbývá pouze {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Cílová složka „{dir}“ už neexistuje",
