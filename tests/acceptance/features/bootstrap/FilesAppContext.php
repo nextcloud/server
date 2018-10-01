@@ -227,9 +227,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function copyUrlMenuItem() {
-		return Locator::forThe()->xpath("//a[normalize-space() = 'Copy URL']")->
+		return Locator::forThe()->xpath("//a[normalize-space() = 'Copy link']")->
 				descendantOf(self::shareLinkMenu())->
-				describedAs("Copy URL menu item in the share link menu in the details view in Files app");
+				describedAs("Copy link menu item in the share link menu in the details view in Files app");
 	}
 
 	/**
