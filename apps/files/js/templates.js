@@ -1,5 +1,5 @@
 (function() {
-  var template = Handlebars.template, templates = OCA.Files.FileSummary.Templates = OCA.Files.FileSummary.Templates || {};
+  var template = Handlebars.template, templates = OCA.Files.Templates = OCA.Files.Templates || {};
 templates['filesummary'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper;
 
