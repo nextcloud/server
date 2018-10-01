@@ -662,7 +662,7 @@
 					if (permissions & OC.PERMISSION_UPDATE) {
 						actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
 					}
-					OC.dialogs.filepicker(t('files', 'Target folder'), function(targetPath, type) {
+					OC.dialogs.filepicker(t('files', 'Choose target folder'), function(targetPath, type) {
 						if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 							context.fileList.copy(filename, targetPath, false, context.dir);
 						}

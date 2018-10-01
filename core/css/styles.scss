@@ -700,8 +700,10 @@ code {
 
 #oc-dialog-filepicker-content {
 	.dirtree {
-		width: 92%;
+		width: 96%;
 		flex-wrap: wrap;
+		padding-left: 12px;
+
 		div:first-child a {
 			background-image: url('../img/places/home.svg?v=1');
 			background-repeat: no-repeat;
@@ -725,8 +727,9 @@ code {
 		display: inline-block;
 		overflow-y: auto;
 		height: 100%;
-		/** overflow under the button row */
+		/* overflow under the button row */
 		width: 100%;
+		overflow-x: hidden;
 	}
 	.emptycontent {
 		color: var(--color-text-details);
@@ -1007,6 +1010,9 @@ div.crumb {
 		white-space: nowrap;
 		overflow: hidden;
 		flex: 0 0 auto;
+		// Some sane max-width for each folder name
+		max-width: 200px;
+
 		&.icon-home {
 			// Hide home text
 			text-indent: -9999px;
