@@ -42,6 +42,7 @@
 				<directory suffix=".php">../tests</directory>
 				<directory suffix=".php">../build</directory>
 				<directory suffix=".php">../lib/composer</directory>
+				<directory suffix=".php">../apps/*/composer</directory>
 			</exclude>
 		</whitelist>
 	</filter>
