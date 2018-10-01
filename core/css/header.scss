@@ -353,7 +353,9 @@ nav[role='navigation'] {
 			color: var(--color-primary-text);
 
 			img, #expandDisplayName {
-				opacity: .57 !important;
+				border: 2px solid $color-primary-text;
+				margin-top: -2px;
+				margin-left: -2px;
 			}
 		}
 
