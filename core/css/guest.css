@@ -16,7 +16,7 @@ ul { list-style:none; }
 
 body {
 	background-color: #ffffff;
-	font-weight: 400;
+	font-weight: normal;
 	font-size: .8em;
 	line-height: 1.6em;
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
@@ -56,7 +56,7 @@ em {
 h2,
 h3,
 h4 {
-	font-weight: 600;
+	font-weight: bold;
 }
 
 h2 {
@@ -198,7 +198,7 @@ select {
 	min-width: 25px;
 	padding: 12px;
 	background-color: white;
-	font-weight: 600;
+	font-weight: bold;
 	color: #555;
 	border: none;
 	cursor: pointer;
@@ -216,7 +216,7 @@ input[type='email'] {
 	-moz-appearance: textfield;
 	box-sizing: content-box;
 	border: none;
-	font-weight: 300;
+	font-weight: normal;
 }
 input.login {
 	width: 269px;
@@ -607,7 +607,7 @@ form #selectDbType label.ui-state-active {
 .warning a,
 .error a {
 	color: #fff !important;
-	font-weight: 600 !important;
+	font-weight: bold !important;
 	opacity: 1;
 }
 .error a.button {
@@ -803,7 +803,7 @@ footer {
 }
 
 footer .info .entity-name {
-	font-weight: 600;
+	font-weight: bold;
 }
 
 .hidden {
@@ -823,26 +823,20 @@ a.legal {
 	font-size: smaller;
 }
 
-/* for low-res screens, use Regular font-weight instead of Light */
-@media (-webkit-max-device-pixel-ratio: 1.3), (max-resolution: 124.8dpi) {
-	@font-face {
-		font-family: 'Open Sans';
-		font-style: normal;
-		font-weight: normal;
-		src: local('Open Sans'), local('OpenSans'), url('../fonts/OpenSans-Regular.woff') format('woff');
-	}
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Open Sans'), local('OpenSans'),
+		url('../fonts/OpenSans.woff') format('woff'),
+		url('../fonts/OpenSans.ttf') format('ttf');
 }
 
 @font-face {
 	font-family: 'Open Sans';
 	font-style: normal;
-	font-weight: 300;
-	src: local('Open Sans Light'), local('OpenSans-Light'), url('../fonts/OpenSans-Light.woff') format('woff');
-}
-
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 600;
-	src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url('../fonts/OpenSans-Semibold.woff') format('woff');
+	font-weight: bold;
+	src: local('Open Sans Bold'), local('OpenSans-Bold'),
+		url('../fonts/OpenSans-Bold.woff') format('woff'),
+		url('../fonts/OpenSans-Bold.ttf') format('ttf');
 }
