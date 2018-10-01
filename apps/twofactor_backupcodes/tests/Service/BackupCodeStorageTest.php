@@ -23,6 +23,8 @@
 namespace OCA\TwoFactorBackupCodes\Tests\Service;
 
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\Notification\IManager;
+use OCP\Notification\INotification;
 use Test\TestCase;
 
 /**
@@ -36,10 +38,18 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var string */
 	private $testUID = 'test123456789';
 
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $notificationManager;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->storage = \OC::$server->query(BackupCodeStorage::class);
+
+		$this->notificationManager = $this->createMock(IManager::class);
+		$this->notificationManager->method('createNotification')
+			->willReturn(\OC::$server->query(IManager::class)->createNotification());
+		$this->overwriteService(IManager::class, $this->notificationManager);
 	}
 
 	public function testSimpleWorkFlow() {
@@ -47,6 +57,15 @@ class BackupCodeStorageTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue($this->testUID));
+
+		$this->notificationManager->expects($this->once())
+			->method('markProcessed')
+			->with($this->callback(function (INotification $notification) {
+				return $notification->getUser() === $this->testUID &&
+					$notification->getObjectType() === 'create' &&
+					$notification->getObjectId() === 'codes' &&
+					$notification->getApp() === 'twofactor_backupcodes';
+			}));
 
 		// Create codes
 		$codes = $this->storage->createCodes($user, 5);

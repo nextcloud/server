@@ -27,8 +27,11 @@ namespace Test\Authentication\TwoFactorAuth;
 use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\IUser;
 use PHPUnit_Framework_MockObject_MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
@@ -39,12 +42,16 @@ class RegistryTest extends TestCase {
 	/** @var Registry */
 	private $registry;
 
+	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	private $dispatcher;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->dao = $this->createMock(ProviderUserAssignmentDao::class);
+		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
 
-		$this->registry = new Registry($this->dao);
+		$this->registry = new Registry($this->dao, $this->dispatcher);
 	}
 
 	public function testGetProviderStates() {
@@ -68,6 +75,15 @@ class RegistryTest extends TestCase {
 		$this->dao->expects($this->once())->method('persist')->with('p1', 'user123',
 			true);
 
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo(IRegistry::EVENT_PROVIDER_ENABLED),
+				$this->callback(function(RegistryEvent $e) use ($user, $provider) {
+					return $e->getUser() === $user && $e->getProvider() === $provider;
+				})
+			);
+
 		$this->registry->enableProviderFor($provider, $user);
 	}
 
@@ -78,6 +94,16 @@ class RegistryTest extends TestCase {
 		$provider->expects($this->once())->method('getId')->willReturn('p1');
 		$this->dao->expects($this->once())->method('persist')->with('p1', 'user123',
 			false);
+
+
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->with(
+				$this->equalTo(IRegistry::EVENT_PROVIDER_DISABLED),
+				$this->callback(function(RegistryEvent $e) use ($user, $provider) {
+					return $e->getUser() === $user && $e->getProvider() === $provider;
+				})
+			);
 
 		$this->registry->disableProviderFor($provider, $user);
 	}
