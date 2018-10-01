@@ -73,8 +73,11 @@ $footer-height: 65px;
 			a {
 				color: var(--color-text-lighter);
 				font-weight: 600;
+				white-space: nowrap;
+				/* increasing clickability to more than the text height */
 				padding: 13px;
 				margin: -13px;
+				line-height: 200%;
 			}
 		}
 	}
