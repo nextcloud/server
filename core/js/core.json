@@ -58,6 +58,7 @@
 		"files/fileinfo.js",
 		"files/client.js",
 		"systemtags/systemtags.js",
+		"systemtags/templates.js",
 		"systemtags/systemtagmodel.js",
 		"systemtags/systemtagscollection.js",
 		"systemtags/systemtagsmappingcollection.js",

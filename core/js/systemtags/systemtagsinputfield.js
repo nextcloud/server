@@ -11,39 +11,6 @@
 /* global Handlebars */
 
 (function(OC) {
-	var TEMPLATE =
-		'<input class="systemTagsInputField" type="hidden" name="tags" value=""/>';
-
-	var RESULT_TEMPLATE =
-		'<span class="systemtags-item{{#if isNew}} new-item{{/if}}" data-id="{{id}}">' +
-		'    <span class="checkmark icon icon-checkmark"></span>' +
-		'{{#if isAdmin}}' +
-		'    <span class="label">{{{tagMarkup}}}</span>' +
-		'{{else}}' +
-		'    <span class="label">{{name}}</span>' +
-		'{{/if}}' +
-		'{{#allowActions}}' +
-		'    <span class="systemtags-actions">' +
-		'        <a href="#" class="rename icon icon-rename" title="{{renameTooltip}}"></a>' +
-		'    </span>' +
-		'{{/allowActions}}' +
-		'</span>';
-
-	var SELECTION_TEMPLATE =
-		'{{#if isAdmin}}' +
-		'    <span class="label">{{{tagMarkup}}}</span>' +
-		'{{else}}' +
-		'    <span class="label">{{name}}</span>' +
-		'{{/if}}';
-
-	var RENAME_FORM_TEMPLATE =
-		'<form class="systemtags-rename-form">' +
-		'    <label class="hidden-visually" for="{{cid}}-rename-input">{{renameLabel}}</label>' +
-		'    <input id="{{cid}}-rename-input" type="text" value="{{name}}">' +
-		'    {{#if isAdmin}}' +
-		'      <a href="#" class="delete icon icon-delete" title="{{deleteTooltip}}"></a>' +
-		'    {{/if}}' +
-		'</form>';
 
 	/**
 	 * @class OC.SystemTags.SystemTagsInputField
@@ -64,10 +31,7 @@
 		className: 'systemTagsInputFieldContainer',
 
 		template: function(data) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template(data);
+			return '<input class="systemTagsInputField" type="hidden" name="tags" value=""/>';
 		},
 
 		/**
@@ -141,12 +105,9 @@
 			var $item = $(ev.target).closest('.systemtags-item');
 			var tagId = $item.attr('data-id');
 			var tagModel = this.collection.get(tagId);
-			if (!this._renameFormTemplate) {
-				this._renameFormTemplate = Handlebars.compile(RENAME_FORM_TEMPLATE);
-			}
 
 			var oldName = tagModel.get('name');
-			var $renameForm = $(this._renameFormTemplate({
+			var $renameForm = $(OC.SystemTags.Templates['result_form']({
 				cid: this.cid,
 				name: oldName,
 				deleteTooltip: t('core', 'Delete'),
@@ -310,10 +271,7 @@
 		 * @return {string} HTML markup
 		 */
 		_formatDropDownResult: function(data) {
-			if (!this._resultTemplate) {
-				this._resultTemplate = Handlebars.compile(RESULT_TEMPLATE);
-			}
-			return this._resultTemplate(_.extend({
+			return OC.SystemTags.Templates['result'](_.extend({
 				renameTooltip: t('core', 'Rename'),
 				allowActions: this._allowActions,
 				tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
@@ -328,10 +286,7 @@
 		 * @return {string} HTML markup
 		 */
 		_formatSelection: function(data) {
-			if (!this._selectionTemplate) {
-				this._selectionTemplate = Handlebars.compile(SELECTION_TEMPLATE);
-			}
-			return this._selectionTemplate(_.extend({
+			return OC.SystemTags.Templates['selection'](_.extend({
 				tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
 				isAdmin: this._isAdmin
 			}, data));
