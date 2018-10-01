@@ -65,6 +65,8 @@
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
+	overflow: hidden;
+
 	&:focus {
 		opacity: .75;
 	}
@@ -151,6 +153,7 @@
 		flex: 0 0;
 		flex-grow: 1;
 		white-space: nowrap;
+		overflow: hidden;
 	}
 
 	#header-right, .header-right {
@@ -206,7 +209,7 @@
 	}
 }
 
-/* show appname next to logo */
+/* only used for public share pages now as we have the app icons when logged in */
 .header-appname {
 	color: var(--color-primary-text);
 	font-size: 16px;
@@ -214,6 +217,8 @@
 	margin: 0;
 	padding: 0;
 	padding-right: 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* do not show menu toggle on public share links as there is no menu */
