@@ -352,10 +352,11 @@ nav[role='navigation'] {
 		&:active {
 			color: var(--color-primary-text);
 
-			img, #expandDisplayName {
-				border: 2px solid $color-primary-text;
-				margin-top: -2px;
-				margin-left: -2px;
+			.avatardiv,
+			#expandDisplayName {
+				background-color: var(--color-primary-text);
+				border: 2px solid var(--color-primary-text);
+				margin: -2px;
 			}
 		}
 
