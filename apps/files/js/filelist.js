@@ -10,11 +10,6 @@
 
 (function() {
 
-	var TEMPLATE_ADDBUTTON = '<a href="#" class="button new">' +
-		'<span class="icon {{iconClass}}"></span>' +
-		'<span class="hidden-visually">{{addText}}</span>' +
-		'</a>';
-
 	/**
 	 * @class OCA.Files.FileList
 	 * @classdesc
@@ -3295,10 +3290,7 @@
 			if (!$actionsContainer.length || this.$el.find('.button.upload').length) {
 				return;
 			}
-			if (!this._addButtonTemplate) {
-				this._addButtonTemplate = Handlebars.compile(TEMPLATE_ADDBUTTON);
-			}
-			var $newButton = $(this._addButtonTemplate({
+			var $newButton = $(OCA.Files.Templates['template_addbutton']({
 				addText: t('files', 'New'),
 				iconClass: 'icon-add'
 			}));
