@@ -23,6 +23,20 @@ templates['detailsview'] = template({"1":function(container,depth0,helpers,parti
     + container.escapeExpression(((helper = (helper = helpers.closeLabel || (depth0 != null ? depth0.closeLabel : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"closeLabel","hash":{},"data":data}) : helper)))
     + "</span></a>\n";
 },"useData":true});
+templates['favorite_mark'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "permanent";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, buffer = 
+  "<div class=\"favorite-mark ";
+  stack1 = ((helper = (helper = helpers.isFavorite || (depth0 != null ? depth0.isFavorite : depth0)) != null ? helper : alias2),(options={"name":"isFavorite","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
+  if (!helpers.isFavorite) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\">\n	<span class=\"icon "
+    + alias4(((helper = (helper = helpers.iconClass || (depth0 != null ? depth0.iconClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"iconClass","hash":{},"data":data}) : helper)))
+    + "\" />\n	<span class=\"hidden-visually\">"
+    + alias4(((helper = (helper = helpers.altText || (depth0 != null ? depth0.altText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"altText","hash":{},"data":data}) : helper)))
+    + "</span>\n</div>\n";
+},"useData":true});
 templates['filemultiselectmenu'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
