@@ -16,6 +16,7 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Не могу да направим фасциклу \"{dir}\"",
     "Upload cancelled." : "Отпремање је отказано.",
     "…" : "…",
+    "Processing files …" : "Обрађујем фајлове…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Не могу да отпремим {filename} јер је то или директоријум или има 0 бајтова",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Нема простора. Отпремате {size1} али само {size2} је преостало",
     "Target folder \"{dir}\" does not exist any more" : "Одредишна фасцикла \"{dir}\" више не постоји",

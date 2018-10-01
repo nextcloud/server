@@ -33,7 +33,7 @@ OC.L10N.register(
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> is de recentste stabiele versie.  Het is geschikt voor regulier gebruik en zal altijd bijwerken naar de laatste grote versie.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>bèta</strong> is een versie om nieuwe functies uit te testen, niet om te gebruiken in een productieomgeving.",
     "View changelog" : "Bekijk wijzigingenoverzicht",
-    "Could not start updater, please try the manual update" : "Kon de updater niet starten, probeer alsjeblieft de handmatige update",
+    "Could not start updater, please try the manual update" : "Kon de updater niet starten, probeer de handmatige update",
     "A new version is available: %s" : "Er is een nieuwe versie beschikbaar: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "De versie die je gebruikt, wordt niet langer ondersteund. Zorg ervoor om zo snel mogelijk bij te werken naar een ondersteunde versie.",
     "Download now" : "Download nu",

@@ -347,7 +347,7 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Om time-outs tijdens grotere installaties te voorkomen, kun je in plaats hiervan de volgende opdracht geven vanaf je installatiedirectory:",
     "Detailed logs" : "Gedetailleerde logs",
     "Update needed" : "Update vereist",
-    "Please use the command line updater because you have a big instance with more than 50 users." : "Gebruik alsjeblieft de command line updater omdat je een installatie hebt met meer dan 50 gebruikers.",
+    "Please use the command line updater because you have a big instance with more than 50 users." : "Gebruik alsjeblieft de commandoregel updater omdat je een installatie hebt met meer dan 50 gebruikers.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Bekijk de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentatie</a> voor hulp.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "De update via de web UI heeft risico's. Het verzoek leidt mogelijk tot een time-out en kan tot verlies van gegevens leiden. Ik heb een back-up gemaakt en weet hoe deze te herstellen in het geval van een update mislukking.",
     "Upgrade via web on my own risk" : "Web opwaarding is op eigen risico",
