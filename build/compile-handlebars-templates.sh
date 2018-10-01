@@ -13,6 +13,9 @@ handlebars -n OC.ContactsMenu.Templates core/js/contactsmenu -f core/js/contacts
 # Systemtags
 handlebars -n OC.SystemTags.Templates core/js/systemtags/templates -f core/js/systemtags/templates.js
 
+# Share
+handlebars -n OC.Share.Templates core/js/share -f core/js/sharetemplates.js
+
 # Files app
 handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templates.js
 

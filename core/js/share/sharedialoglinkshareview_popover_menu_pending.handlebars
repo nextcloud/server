@@ -1,0 +1,14 @@
+<div class="popovermenu pendingpopover menu">
+	<ul>
+		{{#if isPasswordEnforced}}
+			<li><span class="shareOption menuitem">
+				<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" checked="checked" disabled class="checkbox showPasswordCheckbox" value="1" />
+				<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>
+			</span></li>
+			<li class="linkPassMenu"><span class="shareOption menuitem icon-share-pass">
+				<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />
+				<span class="icon icon-loading-small hidden"></span>
+			</span></li>
+		{{/if}}
+	</ul>
+</div>

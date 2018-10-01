@@ -33,6 +33,7 @@
 		"l10n.js",
 		"apps.js",
 		"share.js",
+		"sharetemplates.js",
 		"sharesocialmanager.js",
 		"shareconfigmodel.js",
 		"shareitemmodel.js",
