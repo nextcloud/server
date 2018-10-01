@@ -213,7 +213,7 @@
 .header-appname {
 	color: var(--color-primary-text);
 	font-size: 16px;
-	font-weight: 300;
+	font-weight: 600;
 	margin: 0;
 	padding: 0;
 	padding-right: 5px;
@@ -357,12 +357,12 @@ nav[role='navigation'] {
 		&:active {
 			color: var(--color-primary-text);
 
-			#expandDisplayName, 
+			#expandDisplayName,
 			.avatardiv{
 				border-radius: 50%;
 				border: 2px solid var(--color-primary-text);
 				margin: -2px;
-			} 
+			}
 			.avatardiv{
 				background-color: var(--color-primary-text);
 			}

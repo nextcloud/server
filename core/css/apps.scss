@@ -18,16 +18,20 @@
 
 /* BASE STYLING ------------------------------------------------------------ */
 
+h2,
+h3,
+h4 {
+	font-weight: 600;
+}
+
 h2 {
 	font-size: 20px;
-	font-weight: 300;
 	margin-bottom: 12px;
 	line-height: 140%;
 }
 
 h3 {
 	font-size: 15px;
-	font-weight: 300;
 	margin: 12px 0;
 }
 
@@ -842,7 +846,7 @@ $popovericon-size: 16px;
 		// Required right-distance is half menu icon size + right padding
 		// = 16px/2 + 14px = 22px
 		// popover right margin is 5px, arrow width is 9px to center and border is 1px
-		// 22px - 9px - 5px - 1px = 7px 
+		// 22px - 9px - 5px - 1px = 7px
 		right: 7px;
 		/* change this to adjust the arrow position */
 		border: solid transparent;
