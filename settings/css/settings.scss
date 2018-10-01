@@ -1540,6 +1540,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					}
 				}
 				&.userActions {
+					#newsubmit {
+						width: 100%;
+					}
 					.toggleUserActions {
 						position: relative;
 						.icon-more {
