@@ -159,6 +159,12 @@ thead {
 	text-align: left;
 }
 
+/* Needed to ellipsize long header text on share page */
+#body-login #header-left,
+#body-login .header-left {
+	overflow: hidden;
+}
+
 #header .header-shared-by  {
 	color: var(--color-primary-text);
 	position: relative;
