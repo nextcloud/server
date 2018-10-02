@@ -11,9 +11,9 @@
     "build": "webpack --progress --hide-modules --config webpack.prod.js"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
-    "babel-polyfill": "^6.26.0",
-    "nextcloud-vue": "^0.1.2",
+    "nextcloud-vue": "^0.1.5",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.5.17",
     "vue-click-outside": "^1.0.7",
@@ -30,6 +30,7 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.1.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "babel-loader": "^8.0.4",
     "css-loader": "^1.0.0",
