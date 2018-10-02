@@ -23,6 +23,7 @@ class ComposerStaticInitTwoFactorBackupCodes
     public static $classMap = array (
         'OCA\\TwoFactorBackupCodes\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',
         'OCA\\TwoFactorBackupCodes\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\TwoFactorBackupCodes\\BackgroundJob\\CheckBackupCodes' => __DIR__ . '/..' . '/../lib/BackgroundJob/CheckBackupCodes.php',
         'OCA\\TwoFactorBackupCodes\\BackgroundJob\\RememberBackupCodesJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/RememberBackupCodesJob.php',
         'OCA\\TwoFactorBackupCodes\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\TwoFactorBackupCodes\\Db\\BackupCode' => __DIR__ . '/..' . '/../lib/Db/BackupCode.php',
@@ -33,6 +34,7 @@ class ComposerStaticInitTwoFactorBackupCodes
         'OCA\\TwoFactorBackupCodes\\Listener\\IListener' => __DIR__ . '/..' . '/../lib/Listener/IListener.php',
         'OCA\\TwoFactorBackupCodes\\Listener\\ProviderEnabled' => __DIR__ . '/..' . '/../lib/Listener/ProviderEnabled.php',
         'OCA\\TwoFactorBackupCodes\\Listener\\RegistryUpdater' => __DIR__ . '/..' . '/../lib/Listener/RegistryUpdater.php',
+        'OCA\\TwoFactorBackupCodes\\Migration\\CheckBackupCodes' => __DIR__ . '/..' . '/../lib/Migration/CheckBackupCodes.php',
         'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170607104347' => __DIR__ . '/..' . '/../lib/Migration/Version1002Date20170607104347.php',
         'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170607113030' => __DIR__ . '/..' . '/../lib/Migration/Version1002Date20170607113030.php',
         'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170919123342' => __DIR__ . '/..' . '/../lib/Migration/Version1002Date20170919123342.php',
