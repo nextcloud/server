@@ -52,6 +52,7 @@ use OC\Preview\BackgroundCleanupJob;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\Security\ISecureRandom;
 
 class Setup {
@@ -412,6 +413,11 @@ class Setup {
 			$userSession->setTokenProvider($defaultTokenProvider);
 			$userSession->login($username, $password);
 			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
+
+			// Set email for admin
+			if (!empty($options['adminemail'])) {
+				$config->setUserValue($user->getUID(), 'settings', 'email', $options['adminemail']);
+			}
 		}
 
 		return $error;
