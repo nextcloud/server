@@ -869,11 +869,38 @@ class Session implements IUserSession, Emitter {
 			$webRoot = '/';
 		}
 
-		$expires = $this->timeFactory->getTime() + $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		setcookie('nc_username', $username, $expires, $webRoot, '', $secureCookie, true);
-		setcookie('nc_token', $token, $expires, $webRoot, '', $secureCookie, true);
+		$maxAge = $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		\OC\Http\CookieHelper::setCookie(
+			'nc_username',
+			$username,
+			$maxAge,
+			$webRoot,
+			'',
+			$secureCookie,
+			true,
+			\OC\Http\CookieHelper::SAMESITE_LAX
+		);
+		\OC\Http\CookieHelper::setCookie(
+			'nc_token',
+			$token,
+			$maxAge,
+			$webRoot,
+			'',
+			$secureCookie,
+			true,
+			\OC\Http\CookieHelper::SAMESITE_LAX
+		);
 		try {
-			setcookie('nc_session_id', $this->session->getId(), $expires, $webRoot, '', $secureCookie, true);
+			\OC\Http\CookieHelper::setCookie(
+				'nc_session_id',
+				$this->session->getId(),
+				$maxAge,
+				$webRoot,
+				'',
+				$secureCookie,
+				true,
+				\OC\Http\CookieHelper::SAMESITE_LAX
+			);
 		} catch (SessionNotAvailableException $ex) {
 			// ignore
 		}
