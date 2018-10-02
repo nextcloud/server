@@ -575,14 +575,23 @@ form #selectDbType label.ui-state-active {
 	-ms-user-select: text;
 	user-select: text;
 }
+
 .warning {
 	margin-top: 15px;
 }
+
 .warning h2,
 .update h2,
 .error h2 {
 	text-align: center;
 }
+
+/* TODO: Change all .warning/.update/.error to .body-login-container */
+.body-login-container .icon-big {
+	background-size: 70px;
+	height: 70px;
+}
+
 .warning.updateAnyways {
 	text-align: center;
 }
