@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -37,7 +39,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 	private $name;
 	private $request;
 
-	public function __construct(string $name = 'output', IRequest $request) {
+	public function __construct(IRequest $request, string $name = 'output') {
 		$this->name = $name;
 		$this->request = $request;
 	}
@@ -60,7 +62,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 		$files = count($this->resources);
 
 		foreach ($this->resources as $resource) {
-			$size = $size + $resource['size'];
+			$size += $resource['size'];
 		}
 
 		$zip = new Streamer($this->request, $size, $files);
