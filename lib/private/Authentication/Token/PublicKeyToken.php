@@ -43,6 +43,7 @@ use OCP\AppFramework\Db\Entity;
  * @method string getPublicKey()
  * @method void setPublicKey(string $key)
  * @method void setVersion(int $version)
+ * @method bool getPasswordInvalid()
  */
 class PublicKeyToken extends Entity implements IToken {
 
@@ -90,6 +91,9 @@ class PublicKeyToken extends Entity implements IToken {
 	/** @var int */
 	protected $version;
 
+	/** @var bool */
+	protected $passwordInvalid;
+
 	public function __construct() {
 		$this->addType('uid', 'string');
 		$this->addType('loginName', 'string');
@@ -105,6 +109,7 @@ class PublicKeyToken extends Entity implements IToken {
 		$this->addType('publicKey', 'string');
 		$this->addType('privateKey', 'string');
 		$this->addType('version', 'int');
+		$this->addType('passwordInvalid', 'bool');
 	}
 
 	public function getId(): int {
@@ -213,5 +218,9 @@ class PublicKeyToken extends Entity implements IToken {
 	 */
 	public function getExpires() {
 		return parent::getExpires();
+	}
+
+	public function setPasswordInvalid(bool $invalid) {
+		parent::setPasswordInvalid($invalid);
 	}
 }

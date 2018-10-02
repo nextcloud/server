@@ -99,6 +99,20 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
 		])->execute();
+		$qb->insert('authtoken')->values([
+			'uid' => $qb->createNamedParameter('user3'),
+			'login_name' => $qb->createNamedParameter('User3'),
+			'password' => $qb->createNamedParameter('063de945d6f6b26862d9b6f40652f2d5|DZ/z520tfdXPtd0T|395f6b89be8d9d605e409e20b9d9abe477fde1be38a3223f9e508f979bf906e50d9eaa4dca983ca4fb22a241eb696c3f98654e7775f78c4caf13108f98642b53'),
+			'name' => $qb->createNamedParameter('Iceweasel on Linux'),
+			'token' => $qb->createNamedParameter('6d9a290d239d09f2cc33a03cc54cccd46f7dc71630dcc27d39214824bd3e093f1feb4e2b55eb159d204caa15dee9556c202a5aa0b9d67806c3f4ec2cde11af67'),
+			'type' => $qb->createNamedParameter(IToken::TEMPORARY_TOKEN),
+			'last_activity' => $qb->createNamedParameter($this->time - 120, IQueryBuilder::PARAM_INT), // Two minutes ago
+			'last_check' => $this->time - 60 * 10, // 10mins ago
+			'public_key' => $qb->createNamedParameter('public key'),
+			'private_key' => $qb->createNamedParameter('private key'),
+			'version' => $qb->createNamedParameter(2),
+			'password_invalid' => $qb->createNamedParameter(1),
+		])->execute();
 	}
 
 	private function getNumberOfTokens() {
@@ -115,7 +129,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 		$this->mapper->invalidate($token);
 
-		$this->assertSame(2, $this->getNumberOfTokens());
+		$this->assertSame(3, $this->getNumberOfTokens());
 	}
 
 	public function testInvalidateInvalid() {
@@ -123,7 +137,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 		$this->mapper->invalidate($token);
 
-		$this->assertSame(3, $this->getNumberOfTokens());
+		$this->assertSame(4, $this->getNumberOfTokens());
 	}
 
 	public function testInvalidateOld() {
@@ -131,7 +145,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 		$this->mapper->invalidateOld($olderThan);
 
-		$this->assertSame(2, $this->getNumberOfTokens());
+		$this->assertSame(3, $this->getNumberOfTokens());
 	}
 
 	public function testGetToken() {
@@ -224,7 +238,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$id = $result->fetch()['id'];
 
 		$this->mapper->deleteById('user1', (int)$id);
-		$this->assertEquals(2, $this->getNumberOfTokens());
+		$this->assertEquals(3, $this->getNumberOfTokens());
 	}
 
 	public function testDeleteByIdWrongUser() {
@@ -233,7 +247,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$id = 33;
 
 		$this->mapper->deleteById('user1000', $id);
-		$this->assertEquals(3, $this->getNumberOfTokens());
+		$this->assertEquals(4, $this->getNumberOfTokens());
 	}
 
 	public function testDeleteByName() {
@@ -244,7 +258,12 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$result = $qb->execute();
 		$name = $result->fetch()['name'];
 		$this->mapper->deleteByName($name);
-		$this->assertEquals(2, $this->getNumberOfTokens());
+		$this->assertEquals(3, $this->getNumberOfTokens());
+	}
+
+	public function testHasExpiredTokens() {
+		$this->assertFalse($this->mapper->hasExpiredTokens('user1'));
+		$this->assertTrue($this->mapper->hasExpiredTokens('user3'));
 	}
 
 }

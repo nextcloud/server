@@ -1017,10 +1017,8 @@ class SessionTest extends \Test\TestCase {
 			->method('getPassword')
 			->with($token, 'APP-PASSWORD')
 			->will($this->returnValue('123456'));
-		$userManager->expects($this->once())
-			->method('checkPassword')
-			->with('susan', '123456')
-			->will($this->returnValue(true));
+		$userManager->expects($this->never())
+			->method('checkPassword');
 		$user->expects($this->once())
 			->method('isEnabled')
 			->will($this->returnValue(false));
@@ -1067,6 +1065,55 @@ class SessionTest extends \Test\TestCase {
 		$this->invokePrivate($userSession, 'validateSession', [$user]);
 
 		$this->assertEquals(1000, $token->getLastCheck());
+	}
+
+	public function testValidateSessionInvalidPassword() {
+		$userManager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$tokenProvider = $this->createMock(IProvider::class);
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$userManager, $session, $timeFactory, $tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger])
+			->setMethods(['logout'])
+			->getMock();
+
+		$user = $this->createMock(IUser::class);
+		$token = new \OC\Authentication\Token\DefaultToken();
+		$token->setLoginName('susan');
+		$token->setLastCheck(20);
+
+		$session->expects($this->once())
+			->method('get')
+			->with('app_password')
+			->will($this->returnValue('APP-PASSWORD'));
+		$tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('APP-PASSWORD')
+			->will($this->returnValue($token));
+		$timeFactory->expects($this->once())
+			->method('getTime')
+			->will($this->returnValue(1000)); // more than 5min since last check
+		$tokenProvider->expects($this->once())
+			->method('getPassword')
+			->with($token, 'APP-PASSWORD')
+			->will($this->returnValue('123456'));
+		$userManager->expects($this->once())
+			->method('checkPassword')
+			->with('susan', '123456')
+			->willReturn(false);
+		$user->expects($this->once())
+			->method('isEnabled')
+			->will($this->returnValue(true));
+		$tokenProvider->expects($this->never())
+			->method('invalidateToken');
+		$tokenProvider->expects($this->once())
+			->method('markPasswordInvalid')
+			->with($token, 'APP-PASSWORD');
+		$userSession->expects($this->once())
+			->method('logout');
+
+		$userSession->setUser($user);
+		$this->invokePrivate($userSession, 'validateSession');
 	}
 
 	public function testUpdateSessionTokenPassword() {
@@ -1363,5 +1410,13 @@ class SessionTest extends \Test\TestCase {
 			->method('logClientIn');
 
 		$this->assertFalse($userSession->tryBasicAuthLogin($request, $this->throttler));
+	}
+
+	public function testUpdateTokens() {
+		$this->tokenProvider->expects($this->once())
+			->method('updatePasswords')
+			->with('uid', 'pass');
+
+		$this->userSession->updateTokens('uid', 'pass');
 	}
 }

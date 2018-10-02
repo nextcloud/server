@@ -169,4 +169,19 @@ class PublicKeyTokenMapper extends QBMapper {
 
 		$qb->execute();
 	}
+
+	public function hasExpiredTokens(string $uid): bool {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('authtoken')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->eq('password_invalid', $qb->createNamedParameter(true), IQueryBuilder::PARAM_BOOL))
+			->setMaxResults(1);
+
+		$cursor = $qb->execute();
+		$data = $cursor->fetchAll();
+		$cursor->closeCursor();
+
+		return count($data) === 1;
+	}
 }

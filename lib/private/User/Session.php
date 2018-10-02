@@ -694,12 +694,19 @@ class Session implements IUserSession, Emitter {
 			return true;
 		}
 
-		if ($this->manager->checkPassword($dbToken->getLoginName(), $pwd) === false
-			|| (!is_null($this->activeUser) && !$this->activeUser->isEnabled())) {
+		// Invalidate token if the user is no longer active
+		if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
 			$this->tokenProvider->invalidateToken($token);
-			// Password has changed or user was disabled -> log user out
 			return false;
 		}
+
+		// If the token password is no longer valid mark it as such
+		if ($this->manager->checkPassword($dbToken->getLoginName(), $pwd) === false) {
+			$this->tokenProvider->markPasswordInvalid($dbToken, $token);
+			// User is logged out
+			return false;
+		}
+
 		$dbToken->setLastCheck($now);
 		return true;
 	}
@@ -941,6 +948,10 @@ class Session implements IUserSession, Emitter {
 		} catch (InvalidTokenException $ex) {
 			// Nothing to do
 		}
+	}
+
+	public function updateTokens(string $uid, string $password) {
+		$this->tokenProvider->updatePasswords($uid, $password);
 	}
 
 

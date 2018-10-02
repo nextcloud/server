@@ -338,4 +338,16 @@ class DefaultTokenProvider implements IProvider {
 		}
 	}
 
+	public function markPasswordInvalid(IToken $token, string $tokenId) {
+		if (!($token instanceof DefaultToken)) {
+			throw new InvalidTokenException();
+		}
+
+		//No need to mark as invalid. We just invalide default tokens
+		$this->invalidateToken($tokenId);
+	}
+
+	public function updatePasswords(string $uid, string $password) {
+		// Nothing to do here
+	}
 }
