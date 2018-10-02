@@ -29,7 +29,6 @@ OC.L10N.register(
     "Actions" : "Toiminnot",
     "Rename" : "Nimeä uudelleen",
     "Copy" : "Kopioi",
-    "Target folder" : "Kohdekansio",
     "Disconnect storage" : "Katkaise yhteys tallennustilaan",
     "Unshare" : "Peru jakaminen",
     "Could not load info for file \"{file}\"" : "Ei voida ladata tiedoston \"{file}\" tietoja",
@@ -152,6 +151,7 @@ OC.L10N.register(
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Move" : "Siirrä",
+    "Target folder" : "Kohdekansio",
     "A new file or folder has been <strong>deleted</strong>" : "Uusi tiedosto tai kansio on <strong>poistettu</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Uusi tiedosto tai kansio on <strong>palautettu</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Käytä tätä osoitetetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">käyttääksesi tiedostojasi WebDAV:in välityksellä</a>"

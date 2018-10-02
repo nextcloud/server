@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Erro ao agregar partições, código de estado: {estado}",
     "Actions" : "Ações",
     "Rename" : "Renomear",
-    "Target folder" : "Pasta de destino",
     "Disconnect storage" : "Desligue o armazenamento",
     "Unshare" : "Cancelar partilha",
     "Could not load info for file \"{file}\"" : "Não foi possível carregar informações do ficheiro \"{file}\"",
@@ -148,6 +147,7 @@ OC.L10N.register(
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
     "Move" : "Mover",
+    "Target folder" : "Pasta de destino",
     "A new file or folder has been <strong>deleted</strong>" : "Um novo ficheiro ou pasta foi <strong>eliminado</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Um novo ficheiro ou pasta foi <strong>restaurado</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilize este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">aceder aos seus ficheiros por WebDAV</a>"

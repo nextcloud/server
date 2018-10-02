@@ -27,7 +27,6 @@ OC.L10N.register(
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
     "Copy" : "Copiar",
-    "Target folder" : "Carpeta destino",
     "Disconnect storage" : "Desconectar almacenamiento",
     "Unshare" : "Dejar de compartir",
     "Could not load info for file \"{file}\"" : "No fue posible cargar información para el archivo \"{file}\"",
@@ -155,6 +154,7 @@ OC.L10N.register(
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Move" : "Mover",
+    "Target folder" : "Carpeta destino",
     "A new file or folder has been <strong>deleted</strong>" : "Un nuevo archivo o carpeta ha sido <strong>borrado</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Un nuevo archivo o carpeta ha sido <strong>restaurado</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Usa esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">acceder tus Archivos vía WebDAV</a>"

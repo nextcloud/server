@@ -24,7 +24,6 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} of {totalSize} ({bitrate})",
     "Actions" : "Ekintzak",
     "Rename" : "Berrizendatu",
-    "Target folder" : "Xede karpeta",
     "Disconnect storage" : "Deskonektatu biltegia",
     "Unshare" : "Ez elkarbanatu",
     "Could not load info for file \"{file}\"" : "Ezin izan da \"{file}\" fitxategiaren informazioa kargatu",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "Shared with you" : "Zurekin partekatuta",
     "Shared by link" : "Partekatua link bidez",
     "Text file" : "Testu fitxategia",
-    "New text file.txt" : "TXT berria.txt"
+    "New text file.txt" : "TXT berria.txt",
+    "Target folder" : "Xede karpeta"
 },
 "nplurals=2; plural=(n != 1);");

@@ -29,7 +29,6 @@ OC.L10N.register(
     "Actions" : "Acties",
     "Rename" : "Naam wijzigen",
     "Copy" : "Kopiëren",
-    "Target folder" : "Doelmap",
     "Disconnect storage" : "Verbinding met opslag verbreken",
     "Unshare" : "Stop met delen",
     "Could not load info for file \"{file}\"" : "Kon geen informatie laden voor bestand \"{file}\"",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Move" : "Verplaatsen",
+    "Target folder" : "Doelmap",
     "A new file or folder has been <strong>deleted</strong>" : "Een nieuw bestand of nieuwe map is <strong>verwijderd</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Een nieuw bestand of een nieuwe map is <strong>hersteld</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Gebruik deze link om je <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bestanden via WebDAV te benaderen</a>"

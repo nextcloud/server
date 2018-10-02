@@ -159,7 +159,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "A másoláshoz nyomj Ctrl-C-t.",
     "Resharing is not allowed" : "Ezt a fájlt csak a tulajdonosa oszthatja meg másokkal",
     "Share to {name}" : "Megosztás vele: {name}",
-    "Copy URL" : "URL másolása",
     "Link" : "Hivatkozás",
     "Password protect" : "Jelszóval védett",
     "Allow editing" : "Szerkesztés engedélyezése",

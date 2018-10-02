@@ -10,10 +10,10 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Hiba történt a biztonsági kódok generálása közben",
     "Nextcloud backup codes" : "Nextcloud biztonsági kódok",
     "You created two-factor backup codes for your account" : "Kétfaktoros helyreállítási kódot hoztál létre a fiókodhoz",
+    "Second-factor backup codes" : "Második lépcsős biztonsági kódok",
     "Backup code" : "Biztonsági kód",
     "Use backup code" : "Biztonsági kód használata",
     "Two factor backup codes" : "Kétfaktoros biztonsági mentési kódok",
-    "Second-factor backup codes" : "Második lépcsős biztonsági kódok",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "A biztonsági kódok elkészültek. Felhasználva: {{used}}, ennyiből: {{total}}."
 },
 "nplurals=2; plural=(n != 1);");

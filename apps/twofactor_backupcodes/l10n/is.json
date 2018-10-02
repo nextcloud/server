@@ -8,11 +8,11 @@
     "An error occurred while generating your backup codes" : "Villa kom upp við að búa til öryggisafritunarkóðana þína",
     "Nextcloud backup codes" : "Nextcloud öryggisafritunarkóðar",
     "You created two-factor backup codes for your account" : "Þú útbjóst tveggja-þrepa öryggisafritunarkóða fyrir aðganginn þinn",
+    "Second-factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
     "Backup code" : "Öryggisafritunarkóði",
     "Use backup code" : "Nota öryggisafritunarkóða",
     "Two factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
     "A two-factor auth backup codes provider" : "Útgefandi tveggja-þrepa öryggisafritunarkóða",
-    "Second-factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Öryggisafritunarkóðar hafa verið útbúnir. {{used}} af {{total}} kóðum hafa verið notaðir."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

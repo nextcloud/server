@@ -28,7 +28,6 @@ OC.L10N.register(
     "Actions" : "Aðgerðir",
     "Rename" : "Endurnefna",
     "Copy" : "Afrita",
-    "Target folder" : "Markmappa",
     "Disconnect storage" : "Aftengja geymslu",
     "Unshare" : "Hætta deilingu",
     "Could not load info for file \"{file}\"" : "Gat ekki lesið upplýsingar um skrána \"{file}\"",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
     "Move" : "Færa",
+    "Target folder" : "Markmappa",
     "A new file or folder has been <strong>deleted</strong>" : "Nýrri skrá eða möppu hefur verið  <strong>eytt</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Ný skrá eða mappa hefur verið <strong>endurheimt</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>"

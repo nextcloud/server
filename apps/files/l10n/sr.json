@@ -27,7 +27,6 @@
     "Actions" : "Радње",
     "Rename" : "Преименуј",
     "Copy" : "Копирај",
-    "Target folder" : "Одредишна фасцикла",
     "Disconnect storage" : "Искључи складиште",
     "Unshare" : "Укини дељење",
     "Could not load info for file \"{file}\"" : "Не могу да учитам информације фајла \"{file}\"",
@@ -158,6 +157,7 @@
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Move" : "Премести",
+    "Target folder" : "Одредишна фасцикла",
     "A new file or folder has been <strong>deleted</strong>" : "Нови фајл или фасцикла су <strong>обрисани</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Нови фајл или фасцикла су <strong>враћени</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">приступате Вашим фајловима преко ВебДАВа</a>"

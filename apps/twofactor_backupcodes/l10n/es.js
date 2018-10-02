@@ -17,11 +17,11 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Ha ocurrido un error mientras se generaban los códigos de respaldo.",
     "Nextcloud backup codes" : "Códigos de respaldo de Nextcloud",
     "You created two-factor backup codes for your account" : "Has creado códigos de respaldo de dos pasos para tu cuenta",
+    "Second-factor backup codes" : "Códigos de respaldo de dos factores",
     "Backup code" : "Código de respaldo",
     "Use backup code" : "Usar código de respaldo",
     "Two factor backup codes" : "Códigos de copia de seguridad de dos factores",
     "A two-factor auth backup codes provider" : "Un proveedor de códigos de copia de seguridad para autenticación",
-    "Second-factor backup codes" : "Códigos de respaldo de dos factores",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Se han generado los códigos de respaldo. Estás usando {{used}} de {{total}}."
 },
 "nplurals=2; plural=(n != 1);");

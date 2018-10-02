@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Tükkide kokkupanemise viga, staatus kood {status}",
     "Actions" : "Tegevused",
     "Rename" : "Nimeta ümber",
-    "Target folder" : "Sihtkaust",
     "Disconnect storage" : "Ühenda andmehoidla lahti.",
     "Unshare" : "Lõpeta jagamine",
     "Could not load info for file \"{file}\"" : "Faili \"{file}\" info laadimine ebaõnnestus",
@@ -148,6 +147,7 @@ OC.L10N.register(
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
     "Move" : "Liiguta",
+    "Target folder" : "Sihtkaust",
     "A new file or folder has been <strong>deleted</strong>" : "Uus fail või kaust on <strong>kustutatud</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Uus fail või kaust on <strong>taastatud</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">oma failidele WebDAVi kaudu ligi pääseda</a>"

@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "S'ha produït un error mentre es recopilaven els fragments, el codi d'estat és {status}",
     "Actions" : "Accions",
     "Rename" : "Reanomena",
-    "Target folder" : "Carpeta de destí",
     "Disconnect storage" : "Desonnecta l'emmagatzematge",
     "Unshare" : "Deixa de compartir",
     "Could not load info for file \"{file}\"" : "No s'ha pogut carregar la informació del fitxer \"{file}\"",
@@ -148,6 +147,7 @@ OC.L10N.register(
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Nou fitxer de text.txt",
     "Move" : "Moure",
+    "Target folder" : "Carpeta de destí",
     "A new file or folder has been <strong>deleted</strong>" : "S'ha <strong>eliminat</strong> un nou fitxer o carpeta",
     "A new file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un nou fitxer o carpeta",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedir als vostres fitxers a través de WebDAV</a>"

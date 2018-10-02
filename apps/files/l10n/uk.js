@@ -24,7 +24,6 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} з {totalSize} ({bitrate})",
     "Actions" : "Дії",
     "Rename" : "Перейменувати",
-    "Target folder" : "Тека призначення",
     "Disconnect storage" : "Від’єднати сховище",
     "Unshare" : "Закрити спільний доступ",
     "Could not load info for file \"{file}\"" : "Неможливо завантажити інформацію за файлом \"{file}\"",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Shared with you" : "Поділились з вами",
     "Shared by link" : "Доступне за посиланням",
     "Text file" : "Текстовий файл",
-    "New text file.txt" : "Новий текстовий файл file.txt"
+    "New text file.txt" : "Новий текстовий файл file.txt",
+    "Target folder" : "Тека призначення"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

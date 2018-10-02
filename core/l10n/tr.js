@@ -164,7 +164,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Kopyalamak için Ctrl-C tuşlarına basın.",
     "Resharing is not allowed" : "Yeniden paylaşıma izin verilmiyor",
     "Share to {name}" : "{name} ile paylaş",
-    "Copy URL" : "Adresi Kopyala",
     "Link" : "Bağlantı",
     "Password protect" : "Parola koruması",
     "Allow editing" : "Düzenlenebilsin",
