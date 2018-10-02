@@ -59,6 +59,9 @@
 
 .app-files #app-content {
 	transition: background-color 0.3s ease;
+	// force  the width to be the full width to not go bigger than the screen
+	// flex will grow for the mobile view if necessary
+	width: calc(100% - 300px);
 }
 
 .file-drag, .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover {
