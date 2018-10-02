@@ -448,4 +448,45 @@ class ManagerTest extends TestCase {
 
 		$this->assertSame($newToken, $this->manager->rotate($oldToken, 'oldId', 'newId'));
 	}
+
+	public function testMarkPasswordInvalidDefault() {
+		$token = $this->createMock(DefaultToken::class);
+
+		$this->defaultTokenProvider->expects($this->once())
+			->method('markPasswordInvalid')
+			->with($token, 'tokenId');
+		$this->publicKeyTokenProvider->expects($this->never())
+			->method($this->anything());
+
+		$this->manager->markPasswordInvalid($token, 'tokenId');
+	}
+
+	public function testMarkPasswordInvalidPublicKey() {
+		$token = $this->createMock(PublicKeyToken::class);
+
+		$this->publicKeyTokenProvider->expects($this->once())
+			->method('markPasswordInvalid')
+			->with($token, 'tokenId');
+		$this->defaultTokenProvider->expects($this->never())
+			->method($this->anything());
+
+		$this->manager->markPasswordInvalid($token, 'tokenId');
+	}
+
+	public function testMarkPasswordInvalidInvalidToken() {
+		$this->expectException(InvalidTokenException::class);
+
+		$this->manager->markPasswordInvalid($this->createMock(IToken::class), 'tokenId');
+	}
+
+	public function testUpdatePasswords() {
+		$this->defaultTokenProvider->expects($this->once())
+			->method('updatePasswords')
+			->with('uid', 'pass');
+		$this->publicKeyTokenProvider->expects($this->once())
+			->method('updatePasswords')
+			->with('uid', 'pass');
+
+		$this->manager->updatePasswords('uid', 'pass');
+	}
 }

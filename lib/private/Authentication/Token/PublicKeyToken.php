@@ -44,7 +44,6 @@ use OCP\AppFramework\Db\Entity;
  * @method void setPublicKey(string $key)
  * @method void setVersion(int $version)
  * @method bool getPasswordInvalid()
- * @method void setPasswordInvalid(bool $invalid);
  */
 class PublicKeyToken extends Entity implements IToken {
 
@@ -219,5 +218,9 @@ class PublicKeyToken extends Entity implements IToken {
 	 */
 	public function getExpires() {
 		return parent::getExpires();
+	}
+
+	public function setPasswordInvalid(bool $invalid) {
+		parent::setPasswordInvalid($invalid);
 	}
 }
