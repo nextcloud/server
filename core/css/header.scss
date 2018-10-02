@@ -153,7 +153,6 @@
 		flex: 0 0;
 		flex-grow: 1;
 		white-space: nowrap;
-		overflow: hidden;
 	}
 
 	#header-right, .header-right {
@@ -358,12 +357,12 @@ nav[role='navigation'] {
 		&:active {
 			color: var(--color-primary-text);
 
-			#expandDisplayName, 
+			#expandDisplayName,
 			.avatardiv{
 				border-radius: 50%;
 				border: 2px solid var(--color-primary-text);
 				margin: -2px;
-			} 
+			}
 			.avatardiv{
 				background-color: var(--color-primary-text);
 			}
