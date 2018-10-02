@@ -23,15 +23,16 @@ declare(strict_types=1);
  *
  */
 
-/**
- * Public library to send several files in one zip archive.
- */
-
 namespace OCP\AppFramework\Http;
 
 use OCP\IRequest;
 use OC\Streamer;
 
+/**
+ * Public library to send several files in one zip archive.
+ *
+ * @since 15.0.0
+ */
 class ZipResponse extends Response implements ICallbackResponse {
 	/** @var resource[] Files to be added to the zip response */
 	private $resources;
@@ -39,11 +40,17 @@ class ZipResponse extends Response implements ICallbackResponse {
 	private $name;
 	private $request;
 
+	/**
+	 * @since 15.0.0
+	 */
 	public function __construct(IRequest $request, string $name = 'output') {
 		$this->name = $name;
 		$this->request = $request;
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	public function addResource($r, string $internalName, int $size, int $time = -1) {
 		if (!\is_resource($r)) {
 			throw new \InvalidArgumentException('No resource provided');
@@ -57,6 +64,9 @@ class ZipResponse extends Response implements ICallbackResponse {
 		];
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	public function callback(IOutput $output) {
 		$size = 0;
 		$files = count($this->resources);
