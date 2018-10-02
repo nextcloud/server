@@ -21,15 +21,27 @@ $template = $_['template'];
 			<?php endif; ?>
 	<?php endif; ?>
 	<?php print_unescaped($template); ?>
-	<p class="two-factor-link">
-		<a class="button" href="<?php print_unescaped($_['logout_url']); ?>"><?php p($l->t('Cancel log in')) ?></a>
+	<ul>
 		<?php if (!is_null($_['backupProvider'])): ?>
-		<a class="button" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
-												[
-													'challengeProviderId' => $_['backupProvider']->getId(),
-													'redirect_url' => $_['redirect_url'],
-												]
-											)) ?>"><?php p($l->t('Use backup code')) ?></a>
+			<li>
+				<a class="two-factor-provider two-factor-secondary" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+					[
+						'challengeProviderId' => $_['backupProvider']->getId(),
+						'redirect_url' => $_['redirect_url'],
+					]
+				)) ?>">
+					<div>
+						<p><?php p($l->t('Use backup code')) ?></p>
+					</div>
+				</a>
+			</li>
 		<?php endif; ?>
-	</p>
+		<li>
+			<a class="two-factor-provider two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
+				<div>
+					<p><?php p($l->t('Cancel log in')) ?></p>
+				</div>
+			</a>
+		</li>
+	</ul>
 </div>
