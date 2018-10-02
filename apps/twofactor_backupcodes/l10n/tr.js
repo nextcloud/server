@@ -22,11 +22,11 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Yedek kodlar oluşturulurken bir sorun çıktı",
     "Nextcloud backup codes" : "Nextcloud yedek kodları",
     "You created two-factor backup codes for your account" : "İki aşamalı kimlik doğrulama için yedek kodlarınızı oluşturdunuz",
+    "Second-factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
     "Backup code" : "Yedek kod",
     "Use backup code" : "Yedek kodu kullan",
     "Two factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
     "A two-factor auth backup codes provider" : "İki aşamalı kimlik doğrulaması için yedek kodlar sağlayıcısı",
-    "Second-factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Yedek kodları oluşturuldu. {{used}} / {{total}} kod kullanılıyor."
 },
 "nplurals=2; plural=(n > 1);");

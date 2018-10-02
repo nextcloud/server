@@ -164,7 +164,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Pressione Ctrl-C para copiar.",
     "Resharing is not allowed" : "Não é permitido recompartilhar",
     "Share to {name}" : "Compartilhar com {name}",
-    "Copy URL" : "Copiar URL",
     "Link" : "Link",
     "Password protect" : "Proteger com senha",
     "Allow editing" : "Permitir edição",

@@ -21,7 +21,6 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Actions" : "Actiones",
     "Rename" : "Renominar",
-    "Target folder" : "Dossier de destination",
     "Disconnect storage" : "Immagazinage disconnectite ",
     "Unshare" : "Leva sin compartir",
     "Could not load info for file \"{file}\"" : "Impossibile cargar informationes pro file \"{file}\"",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Shared with you" : "Compartite con te",
     "Shared by link" : "Compartite per ligamine",
     "Text file" : "File de texto",
-    "New text file.txt" : "Nove texto file.txt"
+    "New text file.txt" : "Nove texto file.txt",
+    "Target folder" : "Dossier de destination"
 },
 "nplurals=2; plural=(n != 1);");

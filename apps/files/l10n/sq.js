@@ -21,7 +21,6 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} nga {totalSize} ({bitrate})",
     "Actions" : "Veprime",
     "Rename" : "Riemërtojeni",
-    "Target folder" : "Dosja e synuar",
     "Disconnect storage" : "Shkëpute depozitën",
     "Unshare" : "Hiqe ndarjen",
     "Could not load info for file \"{file}\"" : "Nuk mund të ngarkohet informacioni për skedarin \"{file}\"",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Shared by link" : "E ndarë me lidhje",
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt"
+    "New text file.txt" : "Kartelë e re file.txt",
+    "Target folder" : "Dosja e synuar"
 },
 "nplurals=2; plural=(n != 1);");

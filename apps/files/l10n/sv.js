@@ -28,7 +28,6 @@ OC.L10N.register(
     "Actions" : "Åtgärder",
     "Rename" : "Byt namn",
     "Copy" : "Kopiera",
-    "Target folder" : "Målmapp",
     "Disconnect storage" : "Koppla bort lagring",
     "Unshare" : "Sluta dela",
     "Could not load info for file \"{file}\"" : "Kunde inte ladda information för fil \"{file}\"",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Text file" : "Textfil",
     "New text file.txt" : "nytextfil.txt",
     "Move" : "Flytta",
+    "Target folder" : "Målmapp",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mapp har blivit <strong>raderad</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mapp har blivit <strong>återställd</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">komma åt dina filer med WebDAV</a>"

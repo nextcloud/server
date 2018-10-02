@@ -161,7 +161,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "יש להקיש Ctrl-C כדי להעתיק.",
     "Resharing is not allowed" : "אסור לעשות שיתוף מחדש",
     "Share to {name}" : "שיתוף עם {name}",
-    "Copy URL" : "העתקת כתובת",
     "Link" : "קישור",
     "Password protect" : "הגנה בססמה",
     "Allow editing" : "אישור עריכה",

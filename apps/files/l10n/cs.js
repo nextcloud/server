@@ -29,7 +29,6 @@ OC.L10N.register(
     "Actions" : "Činnosti",
     "Rename" : "Přejmenovat",
     "Copy" : "Kopírovat",
-    "Target folder" : "Cílový adresář",
     "Disconnect storage" : "Odpojit úložiště",
     "Unshare" : "Zrušit sdílení",
     "Could not load info for file \"{file}\"" : "Nepodařilo se načíst informace pro soubor {file}",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
     "Move" : "Přesunout",
+    "Target folder" : "Cílový adresář",
     "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo složka byla <strong>smazána</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo složka byla <strong>obnovena</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použít tuto adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> pro přístup k souborům přes WebDAV</a>"

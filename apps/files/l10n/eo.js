@@ -24,7 +24,6 @@ OC.L10N.register(
     "Actions" : "Agoj",
     "Rename" : "Alinomigi",
     "Copy" : "Kopii",
-    "Target folder" : "Cela dosiero",
     "Disconnect storage" : "Malkonekti memoron",
     "Unshare" : "Malkunhavigi",
     "Could not load info for file \"{file}\"" : "Ne ŝarĝiblas informo por dosiero \"{file}\"",
@@ -99,6 +98,7 @@ OC.L10N.register(
     "Shared by link" : "Kunhavata per ligilo",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "Move" : "Movi"
+    "Move" : "Movi",
+    "Target folder" : "Cela dosiero"
 },
 "nplurals=2; plural=(n != 1);");

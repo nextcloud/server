@@ -144,7 +144,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Stlač Ctrl-C pre skopírovanie.",
     "Resharing is not allowed" : "Sprístupnenie už sprístupnenej položky nie je povolené",
     "Share to {name}" : "Zdieľať s {name}",
-    "Copy URL" : "Kopírovať URL",
     "Link" : "Odkaz",
     "Password protect" : "Chrániť heslom",
     "Allow editing" : "Povoliť úpravy",

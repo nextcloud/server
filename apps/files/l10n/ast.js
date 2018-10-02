@@ -21,7 +21,6 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Actions" : "Aiciones",
     "Rename" : "Renomar",
-    "Target folder" : "Carpeta oxetivu",
     "Disconnect storage" : "Desconeutar almacenamientu",
     "Unshare" : "Dexar de compartir",
     "Could not load info for file \"{file}\"" : "Nun pudo cargase la información del ficheru «{file}»",
@@ -101,6 +100,7 @@ OC.L10N.register(
     "Tags" : "Etiquetes",
     "Deleted files" : "Ficheros desaniciaos",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "Nuevu testu ficheru.txt"
+    "New text file.txt" : "Nuevu testu ficheru.txt",
+    "Target folder" : "Carpeta oxetivu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -8,10 +8,10 @@
     "An error occurred while generating your backup codes" : "S'ha produït un error en generar els codis de seguretat",
     "Nextcloud backup codes" : "Codis de la copia de seguretat de Nextcloud",
     "You created two-factor backup codes for your account" : "Heu creat codis de còpia de seguretat de dos factors per al vostre compte",
+    "Second-factor backup codes" : "Codis secundaris de còpia de seguretat",
     "Backup code" : "Codi de copia de seguretat",
     "Use backup code" : "Utilitza un codi de copia de seguretat",
     "Two factor backup codes" : "Codis de seguretat de l'autenticació en dos factors",
-    "Second-factor backup codes" : "Codis secundaris de còpia de seguretat",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "S'han generat codis de còpia de seguretat. S'han usat {{used}} de {{total}} codis."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

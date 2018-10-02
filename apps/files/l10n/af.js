@@ -26,7 +26,6 @@ OC.L10N.register(
     "Actions" : "Aksies",
     "Rename" : "Hernoem",
     "Copy" : "Kopieer",
-    "Target folder" : "Teikengids",
     "Disconnect storage" : "Ontkoppel berging",
     "Unshare" : "Ontdeel",
     "Could not load info for file \"{file}\"" : "Kon nie inligting vir lêer: \"{file}\" laai nie ",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
     "Move" : "Skuif",
+    "Target folder" : "Teikengids",
     "A new file or folder has been <strong>deleted</strong>" : "'n Nuwe lêer of gids is <strong>geskrap</strong>",
     "A new file or folder has been <strong>restored</strong>" : "'n Nuwe lêer of gids is <strong>herstel</strong>"
 },

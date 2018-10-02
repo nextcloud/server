@@ -29,7 +29,6 @@ OC.L10N.register(
     "Actions" : "İşlemler",
     "Rename" : "Yeniden Adlandır",
     "Copy" : "Kopyala",
-    "Target folder" : "Hedef klasör",
     "Disconnect storage" : "Depolama bağlantısını kes",
     "Unshare" : "Paylaşımı Kaldır",
     "Could not load info for file \"{file}\"" : "\"{file}\" dosyasının bilgileri alınamadı",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "Move" : "Taşı",
+    "Target folder" : "Hedef klasör",
     "A new file or folder has been <strong>deleted</strong>" : "Yeni bir dosya ya da klasör <strong>silindi</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Yeni bir dosya ya da klasör <strong>geri yüklendi</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bu adresi kullanın</a>"

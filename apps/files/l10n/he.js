@@ -28,7 +28,6 @@ OC.L10N.register(
     "Actions" : "פעולות",
     "Rename" : "שינוי שם",
     "Copy" : "העתקה",
-    "Target folder" : "תיקיית יעד",
     "Disconnect storage" : "ניתוק אחסון",
     "Unshare" : "הסר שיתוף",
     "Could not load info for file \"{file}\"" : "לא ניתן לטעון מידע על הקובץ „{file}”",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Move" : "העברה",
+    "Target folder" : "תיקיית יעד",
     "A new file or folder has been <strong>deleted</strong>" : "קובץ או תיקייה חדשים <strong>נמחקו</strong>",
     "A new file or folder has been <strong>restored</strong>" : "קובץ או תיקייה חדשים <strong>שוחזרו</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">לגשת לקבצים שלך דרך WebDAV</a>"

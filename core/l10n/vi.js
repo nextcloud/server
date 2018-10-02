@@ -122,7 +122,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Nhấn Ctrl-C để sao chép.",
     "Resharing is not allowed" : "Chia sẻ lại không được cho phép",
     "Share to {name}" : "Chia sẻ với {name}",
-    "Copy URL" : "Sao chép liên kết",
     "Link" : "Liên kết",
     "Password protect" : "Mật khẩu bảo vệ",
     "Allow editing" : "Cho phép điều chỉnh",

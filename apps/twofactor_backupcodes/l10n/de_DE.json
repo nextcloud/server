@@ -20,11 +20,11 @@
     "An error occurred while generating your backup codes" : "Beim Erstellen Ihrer Backup-Codes ist ein Fehler aufgetreten",
     "Nextcloud backup codes" : "Nextcloud Backup-Codes",
     "You created two-factor backup codes for your account" : "Sie haben Zwei-Faktor Sicherungs-Codes für Ihr Konto erstellt",
+    "Second-factor backup codes" : "Zweitfaktor Backup-Codes",
     "Backup code" : "Backup-Code",
     "Use backup code" : "Verwende Backup-Code",
     "Two factor backup codes" : "Zweifaktor-Backup-Codes",
     "A two-factor auth backup codes provider" : "Ein Anbieter für Zweifaktor-Backup-Codes",
-    "Second-factor backup codes" : "Zweitfaktor Backup-Codes",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup-Codes wurden erzeugt. {{used}} von {{total}} Codes wurden benutzt."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

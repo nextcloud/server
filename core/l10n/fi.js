@@ -141,7 +141,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Paina Ctrl-C kopioidaksesi.",
     "Resharing is not allowed" : "Jakaminen uudelleen ei ole sallittu",
     "Share to {name}" : "Jaa henkilölle {name}",
-    "Copy URL" : "Kopioi osoite",
     "Link" : "Linkki",
     "Password protect" : "Suojaa salasanalla",
     "Allow editing" : "Salli muokkaus",

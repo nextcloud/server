@@ -26,7 +26,6 @@ OC.L10N.register(
     "Actions" : "Действия",
     "Rename" : "Преименувай",
     "Copy" : "Копирай",
-    "Target folder" : "Дестинация",
     "Disconnect storage" : "Извади хранилището",
     "Unshare" : "Прекратяване на споделяне",
     "Could not load info for file \"{file}\"" : "Информацията за файла \"{file}\" не може да бъде заредена",
@@ -135,6 +134,7 @@ OC.L10N.register(
     "Text file" : "Текстов файл",
     "New text file.txt" : "Текстов файл.txt",
     "Move" : "Премести",
+    "Target folder" : "Дестинация",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Адресът осигурява <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">достъп до файловете ви чрез WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");
