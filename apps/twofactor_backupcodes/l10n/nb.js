@@ -10,11 +10,11 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "En feil oppstod under generering av sikkerhetskopi-kodene",
     "Nextcloud backup codes" : "Nextcloud sikkerhetskopi-koder",
     "You created two-factor backup codes for your account" : "Du opprettet to-trinns bekreftelse sikkerhetskopi-koder",
+    "Second-factor backup codes" : "To-trinns bekreftelse sikkerhetskopi-koder",
     "Backup code" : "Sikkerhetskopi-kode",
     "Use backup code" : "Bruker sikkerhetskopi-kode",
     "Two factor backup codes" : "Sikkerhetskopikoder for tofaktor",
     "A two-factor auth backup codes provider" : "En leverandør av sikkerhetskopi av to-faktor koder",
-    "Second-factor backup codes" : "To-trinns bekreftelse sikkerhetskopi-koder",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Sikkerhetskopi-koder har blitt opprettet. {{used}} av {{total}} koder i bruk."
 },
 "nplurals=2; plural=(n != 1);");

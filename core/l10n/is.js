@@ -155,7 +155,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Ýttu á Ctrl-C til að afrita.",
     "Resharing is not allowed" : "Endurdeiling er ekki leyfð",
     "Share to {name}" : "Deila til {name}",
-    "Copy URL" : "Afrita slóð",
     "Link" : "Tengill",
     "Password protect" : "Verja með lykilorði",
     "Allow editing" : "Leyfa breytingar",

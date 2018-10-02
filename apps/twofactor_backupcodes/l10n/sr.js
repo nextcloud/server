@@ -10,11 +10,11 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Десила се грешка приликом генерисања резервних кодова",
     "Nextcloud backup codes" : "Некстклауд резервни кодови",
     "You created two-factor backup codes for your account" : "Направили сте двофакторске резервне кодове за Ваш налог",
+    "Second-factor backup codes" : "Двофакторски резервни кодови",
     "Backup code" : "Резервни код",
     "Use backup code" : "Искористи резервни код",
     "Two factor backup codes" : "Двофакторски резервни кодови",
     "A two-factor auth backup codes provider" : "Провајдер резервних кодова за двофакторску ауторизацију",
-    "Second-factor backup codes" : "Двофакторски резервни кодови",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Резервни кодови су изгенерисани. {{used}} од {{total}} кодова је искоришћено."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

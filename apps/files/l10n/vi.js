@@ -22,7 +22,6 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} trong tổng số {totalSize} ({bitrate})",
     "Actions" : "Actions",
     "Rename" : "Sửa tên",
-    "Target folder" : "Thư mục đích",
     "Disconnect storage" : "Bộ lưu trữ đã ngắt kết nối",
     "Unshare" : "Bỏ chia sẻ",
     "Could not load info for file \"{file}\"" : "Không thể tải thông tin cho tệp \"{file}\"",
@@ -125,6 +124,7 @@ OC.L10N.register(
     "Shared with you" : "Đã chia sẻ với bạn",
     "Shared by link" : "Được chia sẻ bởi liên kết",
     "Text file" : "Tập tin văn bản",
+    "Target folder" : "Thư mục đích",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Sử dụng địa chỉ  <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> để truy cập các Tập tin của bạn qua WebDAV</a>"
 },
 "nplurals=1; plural=0;");

@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Se presentó un error al ensamblar los bloques, código de estatus {status}",
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
-    "Target folder" : "Carpeta destino",
     "Disconnect storage" : "Desconectar almacenamiento",
     "Unshare" : "Dejar de compartir",
     "Could not load info for file \"{file}\"" : "No fue posible cargar información para el archivo \"{file}\"",
@@ -143,6 +142,7 @@ OC.L10N.register(
     "Shared with you" : "Compartido con usted",
     "Shared by link" : "Compartido por liga",
     "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
+    "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
+    "Target folder" : "Carpeta destino"
 },
 "nplurals=2; plural=(n != 1);");

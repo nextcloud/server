@@ -25,7 +25,6 @@ OC.L10N.register(
     "Target folder does not exist any more" : "Directorul destinație nu mai există",
     "Actions" : "Acțiuni",
     "Rename" : "Redenumește",
-    "Target folder" : "Directorul destinație",
     "Disconnect storage" : "Deconectează stocarea",
     "Unshare" : "Nu mai partaja",
     "Files" : "Fișiere",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Shared with you" : "Partajat cu tine",
     "Shared by link" : "Partajat prin link",
     "Text file" : "Fișier text",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "Target folder" : "Directorul destinație"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

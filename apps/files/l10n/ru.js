@@ -28,7 +28,6 @@ OC.L10N.register(
     "Actions" : "Действия",
     "Rename" : "Переименовать",
     "Copy" : "Копировать",
-    "Target folder" : "Целевой каталог",
     "Disconnect storage" : "Отсоединить хранилище",
     "Unshare" : "Закрыть доступ",
     "Could not load info for file \"{file}\"" : "Не удаётся загрузить информацию для файла \"{file}\"",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
     "Move" : "Переместить",
+    "Target folder" : "Целевой каталог",
     "A new file or folder has been <strong>deleted</strong>" : "Новый файл или каталог был <strong>удален</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Новый файл или каталог был <strong>восстановлен</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Используйте этот адрес <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">для доступа по WebDAV</a>"

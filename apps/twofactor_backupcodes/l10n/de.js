@@ -22,11 +22,11 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Ein Fehler ist bei der Erstellung Deiner Backup-Codes aufgetreten",
     "Nextcloud backup codes" : "Nextcloud-Backup-Codes",
     "You created two-factor backup codes for your account" : "Du hast Zwei-Faktor Sicherungs-Codes für Dein Konto erstellt",
+    "Second-factor backup codes" : "Zweitfaktor-Backup-Codes",
     "Backup code" : "Backup-Code",
     "Use backup code" : "Backup-Code verwenden",
     "Two factor backup codes" : "Zweifaktor-Backup-Codes",
     "A two-factor auth backup codes provider" : "Ein Anbieter für Zweifaktor-Backup-Codes",
-    "Second-factor backup codes" : "Zweitfaktor-Backup-Codes",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup-Codes wurden erstellt. {{used}} von {{total}} Codes wurden benutzt."
 },
 "nplurals=2; plural=(n != 1);");

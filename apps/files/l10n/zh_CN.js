@@ -28,7 +28,6 @@ OC.L10N.register(
     "Actions" : "操作",
     "Rename" : "重命名",
     "Copy" : "复制",
-    "Target folder" : "目标目录",
     "Disconnect storage" : "断开存储链接",
     "Unshare" : "取消共享",
     "Could not load info for file \"{file}\"" : "无法加载文件 \"{file}\" 的信息",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文件.txt",
     "Move" : "移动",
+    "Target folder" : "目标目录",
     "A new file or folder has been <strong>deleted</strong>" : "文件/文件夹已<strong>删除</strong>",
     "A new file or folder has been <strong>restored</strong>" : "文件/文件夹已<strong>恢复</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">通过 WebDAV 访问您的文件</a>"

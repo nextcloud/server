@@ -27,7 +27,6 @@ OC.L10N.register(
     "Actions" : "Műveletek",
     "Rename" : "Átnevezés",
     "Copy" : "Másol",
-    "Target folder" : "Cél mappa",
     "Disconnect storage" : "Tároló leválasztása",
     "Unshare" : "A megosztás visszavonása",
     "Could not load info for file \"{file}\"" : "Nem sikerült betölteni az információs fájl ehhez: \"{file}\"",
@@ -155,6 +154,7 @@ OC.L10N.register(
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
     "Move" : "Áthelyezés",
+    "Target folder" : "Cél mappa",
     "A new file or folder has been <strong>deleted</strong>" : "Egy új fájl vagy mappa <strong>törölve</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Egy új fájl vagy mappa <strong>visszaállítva</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Használja ezt a címet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">a Fájlok eléréséhez WebDAV-on keresztül</a>."
