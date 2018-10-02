@@ -8,6 +8,7 @@ $baseDir = $vendorDir;
 return array(
     'OCA\\TwoFactorBackupCodes\\Activity\\Provider' => $baseDir . '/../lib/Activity/Provider.php',
     'OCA\\TwoFactorBackupCodes\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\TwoFactorBackupCodes\\BackgroundJob\\CheckBackupCodes' => $baseDir . '/../lib/BackgroundJob/CheckBackupCodes.php',
     'OCA\\TwoFactorBackupCodes\\BackgroundJob\\RememberBackupCodesJob' => $baseDir . '/../lib/BackgroundJob/RememberBackupCodesJob.php',
     'OCA\\TwoFactorBackupCodes\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\TwoFactorBackupCodes\\Db\\BackupCode' => $baseDir . '/../lib/Db/BackupCode.php',
@@ -18,6 +19,7 @@ return array(
     'OCA\\TwoFactorBackupCodes\\Listener\\IListener' => $baseDir . '/../lib/Listener/IListener.php',
     'OCA\\TwoFactorBackupCodes\\Listener\\ProviderEnabled' => $baseDir . '/../lib/Listener/ProviderEnabled.php',
     'OCA\\TwoFactorBackupCodes\\Listener\\RegistryUpdater' => $baseDir . '/../lib/Listener/RegistryUpdater.php',
+    'OCA\\TwoFactorBackupCodes\\Migration\\CheckBackupCodes' => $baseDir . '/../lib/Migration/CheckBackupCodes.php',
     'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170607104347' => $baseDir . '/../lib/Migration/Version1002Date20170607104347.php',
     'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170607113030' => $baseDir . '/../lib/Migration/Version1002Date20170607113030.php',
     'OCA\\TwoFactorBackupCodes\\Migration\\Version1002Date20170919123342' => $baseDir . '/../lib/Migration/Version1002Date20170919123342.php',
