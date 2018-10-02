@@ -138,6 +138,18 @@ class Share extends AbstractShare {
 	 * @return \Icewind\SMB\IFileInfo
 	 */
 	public function stat($path) {
+		// some windows server setups don't seem to like the allinfo command
+		// use the dir command instead to get the file info where possible
+		if ($path !== "" && $path !== "/") {
+			$parent = dirname($path);
+			$dir = $this->dir($parent);
+			$file = array_values(array_filter($dir, function(IFileInfo $info) use ($path) {
+				return $info->getPath() === $path;
+			}));
+			if ($file) {
+				return $file[0];
+			}
+		}
 		$escapedPath = $this->escapePath($path);
 		$output = $this->execute('allinfo ' . $escapedPath);
 		// Windows and non Windows Fileserver may respond different
