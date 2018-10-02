@@ -46,7 +46,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 
 	public function addResource($r, string $internalName, int $size, int $time = -1) {
 		if (!\is_resource($r)) {
-			return;
+			throw new \InvalidArgumentException('No resource provided');
 		}
 
 		$this->resources[] = [
