@@ -83,10 +83,10 @@ class LogFactoryTest extends TestCase {
 		$datadir = \OC::$SERVERROOT.'/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
-		$this->systemConfig->expects($this->exactly(2))
+		$this->systemConfig->expects($this->exactly(3))
 			->method('getValue')
-			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog])
-			->willReturnOnConsecutiveCalls($datadir, $defaultLog);
+			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog], ['logfilemode', 0640])
+			->willReturnOnConsecutiveCalls($datadir, $defaultLog, 0640);
 
 		$log = $this->factory->get($type);
 		$this->assertInstanceOf(File::class, $log);
@@ -113,10 +113,10 @@ class LogFactoryTest extends TestCase {
 		$datadir = \OC::$SERVERROOT.'/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
-		$this->systemConfig->expects($this->exactly(2))
+		$this->systemConfig->expects($this->exactly(3))
 			->method('getValue')
-			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog])
-			->willReturnOnConsecutiveCalls($datadir, $path);
+			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog], ['logfilemode', 0640])
+			->willReturnOnConsecutiveCalls($datadir, $path, 0640);
 
 		$log = $this->factory->get('file');
 		$this->assertInstanceOf(File::class, $log);

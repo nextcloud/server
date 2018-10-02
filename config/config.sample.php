@@ -729,6 +729,13 @@ $CONFIG = array(
 'logfile' => '/var/log/nextcloud.log',
 
 /**
+ * Log file mode for the Nextcloud loggin type in octal notation.
+ *
+ * Defaults to 0640 (writeable by user, readable by group).
+ */
+'logfilemode' => 0640,
+
+/**
  * Loglevel to start logging at. Valid values are: 0 = Debug, 1 = Info, 2 =
  * Warning, 3 = Error, and 4 = Fatal. The default value is Warning.
  *
