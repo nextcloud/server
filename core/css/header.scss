@@ -331,6 +331,7 @@ nav[role='navigation'] {
 #apps {
 	max-height: inherit;
 	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 	.in-header {
 		display: none;
 	}
