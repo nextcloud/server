@@ -98,6 +98,22 @@ class AddMissingIndices extends Command {
 				$updated = true;
 				$output->writeln('<info>Share table updated successfully.</info>');
 			}
+
+			if (!$table->hasIndex('uid_owner')) {
+				$output->writeln('<info>Adding additional owner index to the share table, this can take some time...</info>');
+				$table->addIndex(['uid_owner'], 'owner_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Share table updated successfully.</info>');
+			}
+
+			if (!$table->hasIndex('uid_initiator')) {
+				$output->writeln('<info>Adding additional initiator index to the share table, this can take some time...</info>');
+				$table->addIndex(['uid_initiator'], 'initiator_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Share table updated successfully.</info>');
+			}
 		}
 
 		if ($schema->hasTable('filecache')) {
