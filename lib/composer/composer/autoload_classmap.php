@@ -50,6 +50,7 @@ return array(
     'OCP\\AppFramework\\Http\\Template\\LinkMenuAction' => $baseDir . '/lib/public/AppFramework/Http/Template/LinkMenuAction.php',
     'OCP\\AppFramework\\Http\\Template\\PublicTemplateResponse' => $baseDir . '/lib/public/AppFramework/Http/Template/PublicTemplateResponse.php',
     'OCP\\AppFramework\\Http\\Template\\SimpleMenuAction' => $baseDir . '/lib/public/AppFramework/Http/Template/SimpleMenuAction.php',
+    'OCP\\AppFramework\\Http\\ZipResponse' => $baseDir . '/lib/public/AppFramework/Http/ZipResponse.php',
     'OCP\\AppFramework\\IAppContainer' => $baseDir . '/lib/public/AppFramework/IAppContainer.php',
     'OCP\\AppFramework\\Middleware' => $baseDir . '/lib/public/AppFramework/Middleware.php',
     'OCP\\AppFramework\\OCSController' => $baseDir . '/lib/public/AppFramework/OCSController.php',
