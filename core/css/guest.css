@@ -561,7 +561,6 @@ form #selectDbType label.ui-state-active {
 	display: block;
 	padding: 15px;
 	background-color: rgba(0,0,0,.3);
-	box-shadow: 0 0 30px rgba(0,0,0,.3);
 	color: #fff;
 	text-align: left;
 	word-wrap: break-word;
