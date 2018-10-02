@@ -24,6 +24,7 @@
 	<?php endif;?>
 	<input type="hidden" class="max_human_file_size"
 		   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
+	<button id="view-button" class="button view-switcher icon-toggle-pictures"><span class="hidden-visually"><?php p($l->t('Toggle grid view'))?></button>
 </div>
 
 <div id="emptycontent" class="hidden">
@@ -38,16 +39,16 @@
 	<p></p>
 </div>
 
-<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
-	<thead>
-		<tr>
-			<th id="headerSelection" class="hidden column-selection">
+<div id="filestable" class="view-grid list-container" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
+	<div class="list-header">
+		<div>
+			<div id="headerSelection" class="hidden list-column column-selection">
 				<input type="checkbox" id="select_all_files" class="select-all checkbox"/>
 				<label for="select_all_files">
 					<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
 				</label>
-			</th>
-			<th id='headerName' class="hidden column-name">
+			</div>
+			<div id='headerName' class="hidden list-column column-name">
 				<div id="headerName-container">
 					<a class="name sort columntitle" data-sort="name">
                         <span><?php p($l->t( 'Name' )); ?></span>
@@ -61,20 +62,20 @@
                         </a>
 					</span>
 				</div>
-			</th>
-			<th id="headerSize" class="hidden column-size">
+			</div>
+			<div id="headerSize" class="hidden list-column column-size">
 				<a class="size sort columntitle" data-sort="size"><span><?php p($l->t('Size')); ?></span><span class="sort-indicator"></span></a>
-			</th>
-			<th id="headerDate" class="hidden column-mtime">
+			</div>
+			<div id="headerDate" class="hidden list-column column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
-			</th>
-		</tr>
-	</thead>
-	<tbody id="fileList">
-	</tbody>
-	<tfoot>
-	</tfoot>
-</table>
+			</div>
+		</div>
+	</div>
+	<div id="fileList" class="list-body">
+	</div>
+	<div class="list-footer">
+	</div>
+</div>
 <input type="hidden" name="dir" id="dir" value="" />
 <div class="hiddenuploadfield">
 	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" />
