@@ -27,7 +27,6 @@ OC.L10N.register(
     "Actions" : "Dejanja",
     "Rename" : "Preimenuj",
     "Copy" : "Kopiraj",
-    "Target folder" : "Ciljna mapa",
     "Disconnect storage" : "Odklopi shrambo",
     "Unshare" : "Prekini souporabo",
     "Could not load info for file \"{file}\"" : "Ni bilo mogoče naložiti podatke za datoteko \"{file}\"",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt",
     "Move" : "Premakni",
+    "Target folder" : "Ciljna mapa",
     "A new file or folder has been <strong>deleted</strong>" : "Nova datoteka ali mapa je bila <strong>izbrisana</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nova datoteka ali mapa je bila <strong>obnovljena</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Naslov omogoča dostop do datotek prek<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV</a>."

@@ -163,7 +163,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Trykk Ctrl-C for å kopiere",
     "Resharing is not allowed" : "Videre deling er ikke tillatt",
     "Share to {name}" : "Dele med {name}",
-    "Copy URL" : "Kopier URL",
     "Link" : "Lenke",
     "Password protect" : "Passordbeskyttet",
     "Allow editing" : "Tillat redigering",

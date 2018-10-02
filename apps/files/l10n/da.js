@@ -27,7 +27,6 @@ OC.L10N.register(
     "Actions" : "Handlinger",
     "Rename" : "Omdøb",
     "Copy" : "Kopier",
-    "Target folder" : "Destinations mappe",
     "Disconnect storage" : "Frakobl lager",
     "Unshare" : "Ophæv deling",
     "Could not load info for file \"{file}\"" : "Kunne ikke indlæse information for filen \"{file}\"",
@@ -155,6 +154,7 @@ OC.L10N.register(
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
     "Move" : "Flyt",
+    "Target folder" : "Destinations mappe",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe er blevet <strong>slettet</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe er blevet <strong>gendannet</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">tilgå dine filer gennem WebDAV</a>"

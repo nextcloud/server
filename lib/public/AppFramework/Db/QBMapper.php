@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Db;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -123,7 +124,24 @@ abstract class QBMapper {
 		return $entity;
 	}
 
-
+	/**
+	 * Tries to creates a new entry in the db from an entity and
+	 * updates an existing entry if duplicate keys are detected
+	 * by the database
+	 *
+	 * @param Entity $entity the entity that should be created/updated
+	 * @return Entity the saved entity with the (new) id
+	 * @throws \InvalidArgumentException if entity has no id
+	 * @since 15.0.0
+	 * @suppress SqlInjectionChecker
+	 */
+	public function insertOrUpdate(Entity $entity): Entity {
+		try {
+			return $this->insert($entity);
+		} catch (UniqueConstraintViolationException $ex) {
+			return $this->update($entity);
+		}
+	}
 
 	/**
 	 * Updates an entry in the db from an entity

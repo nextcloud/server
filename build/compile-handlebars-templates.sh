@@ -11,7 +11,7 @@ handlebars -n OC.Settings.Templates  settings/js/authtoken.handlebars -f setting
 handlebars -n OC.ContactsMenu.Templates core/js/contactsmenu -f core/js/contactsmenu_templates.js
 
 # Files app
-handlebars -n OCA.Files.FileSummary.Templates apps/files/js/filesummary.handlebars -f apps/files/js/filesummary_template.js
+handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templates.js
 
 if [[ $(git diff --name-only) ]]; then
     echo "Please submit your compiled handlebars templates"

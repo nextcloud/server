@@ -57,6 +57,9 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/** @var int */
 	private $currentNode = 0;
 
+	/** @var int */
+	private $currentNodeRead = 0;
+
 	/**
 	 * @param string $path
 	 * @param string $mode
@@ -110,10 +113,16 @@ class AssemblyStream implements \Icewind\Streams\File {
 		do {
 			$data = fread($this->currentStream, $count);
 			$read = strlen($data);
+			$this->currentNodeRead += $read;
 
 			if (feof($this->currentStream)) {
 				fclose($this->currentStream);
+				$currentNodeSize = $this->nodes[$this->currentNode]->getSize();
+				if ($this->currentNodeRead < $currentNodeSize) {
+					throw new \Exception('Stream from assembly node shorter than expected, got ' . $this->currentNodeRead . ' bytes, expected ' . $currentNodeSize);
+				}
 				$this->currentNode++;
+				$this->currentNodeRead = 0;
 				if ($this->currentNode < count($this->nodes)) {
 					$this->currentStream = $this->getStream($this->nodes[$this->currentNode]);
 				} else {

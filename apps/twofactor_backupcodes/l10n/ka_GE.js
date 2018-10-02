@@ -10,10 +10,10 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "ბექაფის კოდების გენერაციისას წარმოიშვა შეცდომა",
     "Nextcloud backup codes" : "Nextcloud-ის ბექაფის კოდები",
     "You created two-factor backup codes for your account" : "შექმენით ორ-ფაქტორიანი ბექაფის კოდები თქვენი ანგარიშისთვის",
+    "Second-factor backup codes" : "მეორე-ფაქტორის ბექაფის კოდები",
     "Backup code" : "ბექაფის კოდები",
     "Use backup code" : "ბექაფის კოდების გამოყენება",
     "Two factor backup codes" : "მეორე-ფაქტორის ბექაფის კოდები",
-    "Second-factor backup codes" : "მეორე-ფაქტორის ბექაფის კოდები",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "ბექაფის კოდები დაგენერირდა. გამოყენებულია {{used}} სულ {{total}}-დან კოდი."
 },
 "nplurals=2; plural=(n!=1);");

@@ -406,7 +406,7 @@
 				permissions: permissions
 			});
 		},
-		
+
 		showNoteForm: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -431,9 +431,9 @@
 			var shareId = $li.data('share-id');
 			var $menu = $element.closest('li');
 			var $form = $menu.next('li.share-note-form');
-	
+
 			$form.find('.share-note').val('');
-			
+
 			$form.addClass('hidden');
 			$menu.find('.share-note-delete').hide();
 
@@ -600,7 +600,7 @@
 
 			var popover = this.popoverMenuTemplate({
 				cid: this.model.get('linkShare').id,
-				copyLabel: t('core', 'Copy URL'),
+				copyLabel: t('core', 'Copy link'),
 				social: social,
 
 				shareLinkURL: this.model.get('linkShare').link,
@@ -745,7 +745,7 @@
 			var datePicker = $(expirationDatePicker);
 			var state = $element.prop('checked');
 			datePicker.toggleClass('hidden', !state);
-			
+
 			if (!state) {
 				// disabled, let's hide the input and
 				// set the expireDate to nothing

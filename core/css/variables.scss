@@ -66,13 +66,14 @@ $image-login-background: url('../img/background.png?v=2') !default;
 $color-loading-light: #ccc !default;
 $color-loading-dark: #777 !default;
 
-$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.75) !default;
+$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.5) !default;
 
 // light border like file table or app-content list
 $color-border: nc-darken($color-main-background, 7%) !default;
 // darker border like inputs or very visible elements
 $color-border-dark: nc-darken($color-main-background, 14%) !default;
 $border-radius: 3px !default;
+$border-radius-large: 20px;
 
 $font-face: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !default;
 

@@ -27,7 +27,6 @@
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
     "Copy" : "Copiar",
-    "Target folder" : "Directorio de destino",
     "Disconnect storage" : "Desconectar almacenamiento",
     "Unshare" : "Dejar de compartir",
     "Could not load info for file \"{file}\"" : "No se ha podido cargar información para el archivo \"{file}\"",
@@ -158,6 +157,7 @@
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
     "Move" : "Mover",
+    "Target folder" : "Directorio de destino",
     "A new file or folder has been <strong>deleted</strong>" : "Se ha <strong>borrado</strong> un nuevo archivo o carpeta",
     "A new file or folder has been <strong>restored</strong>" : "Se ha <strong>restaurado</strong> un nuevo archivo o carpeta",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utiliza esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">acceder a tus archivos vía WebDAV</a>"

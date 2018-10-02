@@ -10,10 +10,10 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "’n fout het voorgekom tydens generering van u rugsteunkodes",
     "Nextcloud backup codes" : "Nextcloud-rugsteunkodes",
     "You created two-factor backup codes for your account" : "U het tweefaktorrugsteunkodes vir u rekening geskep",
+    "Second-factor backup codes" : "Tweedefaktorrugsteunkodes",
     "Backup code" : "Rugsteunkode",
     "Use backup code" : "Gebruik rugsteunkode",
     "Two factor backup codes" : "Tweefaktorrugsteunkodes",
-    "Second-factor backup codes" : "Tweedefaktorrugsteunkodes",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Rugsteunkodes is gegenereer. {{used}} van {{total}} kodes is gebruik."
 },
 "nplurals=2; plural=(n != 1);");

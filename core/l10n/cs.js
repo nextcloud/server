@@ -164,7 +164,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Zmáčknout Ctrl-C pro kopírování.",
     "Resharing is not allowed" : "Sdílení už sdílené položky není povoleno",
     "Share to {name}" : "Sdílet {name}",
-    "Copy URL" : "Kopírovat URL",
     "Link" : "Odkaz",
     "Password protect" : "Chránit heslem",
     "Allow editing" : "Povolit úpravy",

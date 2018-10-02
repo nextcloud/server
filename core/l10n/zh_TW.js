@@ -140,7 +140,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "按下 Ctrl-C 來複製",
     "Resharing is not allowed" : "不允許重新分享",
     "Share to {name}" : "分享給 {name}",
-    "Copy URL" : "複製網址",
     "Link" : "連結",
     "Password protect" : "密碼保護",
     "Allow editing" : "允許編輯",

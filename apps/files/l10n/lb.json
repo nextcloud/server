@@ -19,7 +19,6 @@
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} vun {totalSize} ({bitrate})",
     "Actions" : "Aktiounen",
     "Rename" : "Ëmbenennen",
-    "Target folder" : "Ziel Dossier",
     "Disconnect storage" : "Net connectéierten Späicher",
     "Unshare" : "Net méi deelen",
     "Could not load info for file \"{file}\"" : "Et konnten keng Informatiounen zu {file} gelueden ginn",
@@ -117,6 +116,7 @@
     "Shared with you" : "Mat dir gedeelt",
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
-    "New text file.txt" : "Neien Text file.txt"
+    "New text file.txt" : "Neien Text file.txt",
+    "Target folder" : "Ziel Dossier"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

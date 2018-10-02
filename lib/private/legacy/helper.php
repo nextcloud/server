@@ -505,20 +505,7 @@ class OC_Helper {
 		if (self::is_function_enabled('exec')) {
 			$exeSniffer = new ExecutableFinder();
 			// Returns null if nothing is found
-			$result = $exeSniffer->find($program);
-			if (empty($result)) {
-				$paths = getenv('PATH');
-				if (empty($paths)) {
-					$paths = '/usr/local/bin /usr/bin /opt/bin /bin';
-				} else {
-					$paths = str_replace(':',' ',getenv('PATH'));
-				}
-				$command = 'find ' . $paths . ' -name ' . escapeshellarg($program) . ' 2> /dev/null';
-				exec($command, $output, $returnCode);
-				if (count($output) > 0) {
-					$result = escapeshellcmd($output[0]);
-				}
-			}
+			$result = $exeSniffer->find($program, null, ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/opt/bin']);
 		}
 		// store the value for 5 minutes
 		$memcache->set($program, $result, 300);

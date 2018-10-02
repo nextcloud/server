@@ -26,7 +26,6 @@ OC.L10N.register(
     "Actions" : "Үйл ажиллагаа",
     "Rename" : "Нэр өөрчлөх",
     "Copy" : "Хуулах",
-    "Target folder" : "Заагч хавтас",
     "Disconnect storage" : "Хадгалах төхөөрөмж салгах",
     "Unshare" : "Түгээлтийг зогсоох",
     "Files" : "Файлууд",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "Shared with others" : "Бусдад түгээсэн",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt"
+    "New text file.txt" : "шинэ текст file.txt",
+    "Target folder" : "Заагч хавтас"
 },
 "nplurals=2; plural=(n != 1);");

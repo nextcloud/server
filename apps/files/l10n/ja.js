@@ -25,7 +25,6 @@ OC.L10N.register(
     "Target folder does not exist any more" : "対象フォルダーがもう存在しません",
     "Actions" : "アクション",
     "Rename" : "名前の変更",
-    "Target folder" : "対象フォルダー",
     "Disconnect storage" : "ストレージを切断する",
     "Unshare" : "共有解除",
     "Could not load info for file \"{file}\"" : "\"{file}\" ファイルの情報を読み込めませんでした",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Shared by link" : "URLリンクで共有中",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
-    "Move" : "移動"
+    "Move" : "移動",
+    "Target folder" : "対象フォルダー"
 },
 "nplurals=1; plural=0;");

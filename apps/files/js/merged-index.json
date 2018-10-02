@@ -1,12 +1,12 @@
 [
   "app.js",
+  "templates.js",
   "file-upload.js",
   "newfilemenu.js",
   "jquery.fileupload.js",
   "jquery-visibility.js",
   "fileinfomodel.js",
   "filesummary.js",
-  "filesummary_template.js",
   "filemultiselectmenu.js",
   "breadcrumb.js",
   "filelist.js",

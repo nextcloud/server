@@ -27,7 +27,6 @@ OC.L10N.register(
     "Actions" : "Handlinger",
     "Rename" : "Gi nytt navn",
     "Copy" : "Kopier",
-    "Target folder" : "Målmappe",
     "Disconnect storage" : "Koble fra lagring",
     "Unshare" : "Avslutt deling",
     "Could not load info for file \"{file}\"" : "Klarte ikke å hente informasjon som filen \"{file}\"",
@@ -155,6 +154,7 @@ OC.L10N.register(
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
     "Move" : "Flytt",
+    "Target folder" : "Målmappe",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe har blitt <strong>slettet</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe har blitt <strong>gjenopprettet</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk denne adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til dine filer via WebDAV</a>"

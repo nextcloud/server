@@ -118,7 +118,6 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Shtypni Ctrl-C për të kopjuar.",
     "Resharing is not allowed" : "Nuk lejohen rindarjet",
     "Share to {name}" : "Ndaj tek {name}",
-    "Copy URL" : "Kopjo URL",
     "Link" : "Lidhje",
     "Password protect" : "Mbroje me fjalëkalim",
     "Allow editing" : "Lejo përpunim",

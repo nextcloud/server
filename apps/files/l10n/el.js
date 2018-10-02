@@ -26,7 +26,6 @@ OC.L10N.register(
     "Actions" : "Ενέργειες",
     "Rename" : "Μετονομασία",
     "Copy" : "Αντιγραφή",
-    "Target folder" : "Φάκελος προορισμού",
     "Disconnect storage" : "Αποσυνδεδεμένος αποθηκευτικός χώρος",
     "Unshare" : "Διακοπή διαμοιρασμού",
     "Could not load info for file \"{file}\"" : "Δεν μπορέσαμε να φορτώσουμε πληροφορίες για το αρχείο \"{file}\"",
@@ -144,6 +143,7 @@ OC.L10N.register(
     "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "Move" : "Μετακίνηση"
+    "Move" : "Μετακίνηση",
+    "Target folder" : "Φάκελος προορισμού"
 },
 "nplurals=2; plural=(n != 1);");

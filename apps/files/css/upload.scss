@@ -172,12 +172,14 @@
 .oc-dialog .fileexists #allfiles + span{
 	vertical-align: bottom;
 }
+
 .oc-dialog .oc-dialog-buttonrow {
 	width:100%;
 	text-align:right;
-}
-.oc-dialog .oc-dialog-buttonrow .cancel {
-	float:left;
+
+	.cancel {
+		float:left;
+	}
 }
 
 .highlightUploaded {
