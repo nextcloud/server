@@ -106,6 +106,10 @@ function hideUndoButton(setting, value) {
 $(document).ready(function () {
 	$('#theming [data-toggle="tooltip"]').tooltip();
 
+	// manually instantiate jscolor to work around new Function call which violates strict CSP
+	var colorElement = $('#theming-color')[0];
+	var jscolor = new window.jscolor(colorElement, {hash: true});
+
 	$('#theming .theme-undo').each(function() {
 		var setting = $(this).data('setting');
 		var value = $('#theming-'+setting).val();
