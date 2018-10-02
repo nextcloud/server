@@ -33,15 +33,20 @@ body {
 }
 
 /* Various fonts settings */
-p.info a,
+#body-login a {
+	color: #fff;
+	font-weight: 600;
+}
+#body-login a:not(.button):hover,
+#body-login a:not(.button):focus {
+	text-decoration: underline;
+	text-decoration-skip-ink: auto;
+}
+
 #showAdvanced {
 	color: #fff;
 }
-#remember_login:hover+label,
-#forgot-password:hover,
-p.info a:hover {
-	opacity: .6;
-}
+
 em {
 	font-style: normal;
 	opacity: .5;
@@ -182,9 +187,10 @@ input[type='submit'].icon-confirm,
 input[type='button'],
 button, .button,
 select {
+	display: inline-block;
 	width: auto;
 	min-width: 25px;
-	padding: 5px;
+	padding: 12px;
 	background-color: white;
 	font-weight: 600;
 	color: #555;
@@ -227,11 +233,19 @@ input.update-continue {
 .updateAnyways a.updateAnywaysButton:hover {
 	color: #222 !important;
 }
+
 input.primary,
 button.primary {
 	border: 1px solid #fff;
 	background-color: #0082c9;
 	color: #fff;
+}
+
+input.primary:not(:disabled):hover,
+input.primary:not(:disabled):focus,
+button.primary:not(:disabled):hover,
+button.primary:not(:disabled):focus {
+	background-color: #17adff;
 }
 
 /* Checkboxes - white only for login */
@@ -300,7 +314,7 @@ label.infield {
 	left: 5px;
 	top: -20px;
 	width: 269px;
-	border-radius: 0 0 2px 2px;
+	border-radius: 0 0 3px 3px;
 	overflow: hidden;
 	height: 3px;
 }
@@ -438,9 +452,11 @@ form .warning input[type='checkbox']+label {
 .lost-password-container #lost-password,
 .lost-password-container #lost-password-back {
 	display: inline-block;
+	font-weight: 300;
 	padding: 12px;
 	margin-top: -6px;
 	color: #fff;
+	cursor: pointer;
 }
 #forgot-password {
 	padding: 11px;
@@ -543,12 +559,13 @@ form #selectDbType label.ui-state-active {
 .update,
 .error {
 	display: block;
-	padding: 10px;
+	padding: 15px;
 	background-color: rgba(0,0,0,.3);
+	box-shadow: 0 0 30px rgba(0,0,0,.3);
 	color: #fff;
 	text-align: left;
 	word-wrap: break-word;
-	border-radius: 3px;
+	border-radius: 10px;
 	cursor: default;
 	-moz-user-select: text;
 	-webkit-user-select: text;
@@ -608,7 +625,10 @@ fieldset.update legend + p {
 
 /* Various paragraph styles */
 .infogroup {
-	margin-bottom: 15px;
+	margin: 8px 0;
+}
+.infogroup:last-child {
+	margin-bottom: 0;
 }
 p.info {
 	margin: 20px auto;
@@ -632,13 +652,6 @@ p.info {
 }
 .update img.float-spinner {
 	float: left;
-}
-.update h2 {
-	margin: 0 0 20px;
-}
-.update a {
-	color: #fff;
-	border-bottom: 1px solid #aaa;
 }
 .update a.update-show-detailed {
 	border-bottom: inherit;
