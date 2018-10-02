@@ -61,7 +61,6 @@ use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IManager as ShareManager;
