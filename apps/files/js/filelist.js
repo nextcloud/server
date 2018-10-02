@@ -2292,28 +2292,28 @@
 						let fileNumber = leftPartOfName.match(/\d+/);
 						if (isNaN(fileNumber) ) {
 							fileNumber++;
-							targetPathAndName = targetPathAndName.replace(/(?=\.[^.]+$)/g, "_" + fileNumber);	
+							targetPathAndName = targetPathAndName.replace(/(?=\.[^.]+$)/g, " (copy " + fileNumber + ")");	
 						}
 						else {
 							// check if we have other files with _x and the same name
 							let maxNum = 1;
 							if (self.files !== null) {
 								leftPartOfName = leftPartOfName.replace("/", "");
-								leftPartOfName = leftPartOfName.replace(/_\d+/,"");
+								leftPartOfName = leftPartOfName.replace(/\(copy \d+\)/,"");
 								// find the last file with the number extention and add one to the new name
 								for (let j = 0; j < self.files.length; j++) {
 									const cName = self.files[j].name;
 									if (cName.indexOf(leftPartOfName) > -1) {
-										let cFileNumber = cName.match(/_(\d+)/);
+										let cFileNumber = cName.match(/\(copy (\d+)\)/);
 										if (cFileNumber && parseInt(cFileNumber[1]) >= maxNum) {
 											maxNum = parseInt(cFileNumber[1]) + 1;
 										}
 									}
 								}
-								targetPathAndName = targetPathAndName.replace(/_\d+/,"");
+								targetPathAndName = targetPathAndName.replace(/ \(copy \d+\)/,"");
 							}
 							// Create the new file name with _x at the end
-							targetPathAndName = targetPathAndName.replace(/(?=\.[^.]+$)/g, "_" + maxNum);	
+							targetPathAndName = targetPathAndName.replace(/(?=\.[^.]+$)/g, " (copy " + maxNum +")");	
 						}
 					}
 				}
