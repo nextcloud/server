@@ -54,8 +54,10 @@ class Application extends App {
 		$loggedUser = $this->userSession->getUser();
 		if (!is_null($loggedUser)) {
 			$userValues = $this->config->getUserKeys($loggedUser->getUID(), $this->appName);
+			// we want to check if any theme or font is enabled.
 			if (count($userValues) > 0) {
-				$linkToCSS = $this->urlGenerator->linkToRoute($this->appName . '.accessibility.getCss', ['md5' => md5(implode('-', $userValues))]);
+				$hash = $this->config->getUserValue($loggedUser->getUID(), $this->appName, 'icons-css', md5(implode('-', $userValues)));
+				$linkToCSS = $this->urlGenerator->linkToRoute($this->appName . '.accessibility.getCss', ['md5' => $hash]);
 				\OCP\Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS]);
 			}
 		}
