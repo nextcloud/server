@@ -1443,7 +1443,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				align-self: normal;
 				background-color: var(--color-main-background);
 				z-index: 55; /* above multiselect */
-				top: 0;
+				top: $header-height;
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
 				}
@@ -1456,9 +1456,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					z-index: 0;
 				}
 			}
-			// separate prop to set initial value to top:0
+			// separate prop to set initial value to top: 50px
 			&#new-user {
-				top: $grid-row-height;
+				top: $header-height + $grid-row-height;
 			}
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
