@@ -746,6 +746,7 @@ table.dragshadow td.size {
 			display: block;
 			position: relative;
 			height: 180px;
+			border-radius: var(--border-radius);
 		}
 
 		td {
@@ -826,5 +827,17 @@ table.dragshadow td.size {
 	/* Do not show "Shared" text next to icon as there is no space */
 	#fileList .action.action-share.permanent.shared-style span:not(.icon) {
 		display: none;
+	}
+
+	/* Position actions menu below file */
+	.popovermenu {
+		left: 0;
+		width: 169px;
+
+		/* Ellipsize long entries, normally menu width is adjusted but for grid we use fixed width. */
+		.menuitem span:not(.icon) {
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 }
