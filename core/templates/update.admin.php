@@ -34,7 +34,7 @@
 		<div class="infogroup bold">
 			<?php p($l->t('Please make sure that the database, the config folder and the data folder have been backed up before proceeding.')) ?>
 		</div>
-		<input class="updateButton" type="button" value="<?php p($l->t('Start update')) ?>">
+		<input class="updateButton primary" type="button" value="<?php p($l->t('Start update')) ?>">
 		<div class="infogroup">
 			<em>
 			<?php p($l->t('To avoid timeouts with larger installations, you can instead run the following command from your installation directory:')) ?>
