@@ -1377,21 +1377,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 /* USERS LIST -------------------------------------------------------------- */
 #body-settings {
-	#app-navigation {
-		/* Hack to override the javascript orderBy */
-		#usergrouplist > li {
-			order: 4;
-			&#everyone {
-				order:1;
-			}
-			&#admin {
-				order:2;
-			}
-			&#disabled {
-				order:3;
-			}
-		}
-	}
 	$grid-row-height: 46px;
 	#app-content.user-list-grid {
 		display: grid;

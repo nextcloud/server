@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import appNavigation from '../components/appNavigation';
+import { AppNavigation } from 'nextcloud-vue';
 import userList from '../components/userList';
 import Vue from 'vue';
 import VueLocalStorage from 'vue-localstorage'
@@ -65,13 +65,12 @@ import Multiselect from 'vue-multiselect';
 import api from '../store/api';
 
 Vue.use(VueLocalStorage)
-Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Users',
 	props: ['selectedGroup'],
 	components: {
-		appNavigation,
+		AppNavigation,
 		userList,
 		Multiselect
 	},
@@ -101,6 +100,8 @@ export default {
 			// temporary value used for multiselect change
 			selectedQuota: false,
 			externalActions: [],
+			showAddGroupEntry: false,
+			loadingAddGroup: false,
 			showConfig: {
 				showStoragePath: false,
 				showUserBackend: false,
@@ -198,6 +199,24 @@ export default {
 				action: action
 			});
 			return this.externalActions;
+		},
+
+		/**
+		 * Create a new group
+		 * 
+		 * @param {Object} event The form submit event
+		 */
+		createGroup(event) {
+			let gid = event.target[0].value;
+			this.loadingAddGroup = true;
+			this.$store.dispatch('addGroup', gid)
+				.then(() => {
+					this.showAddGroupEntry = false;
+					this.loadingAddGroup = false;
+				})
+				.catch(() => {
+					this.loadingAddGroup = false;
+				});
 		}
 	},
 	computed: {
@@ -276,6 +295,7 @@ export default {
 		// BUILD APP NAVIGATION MENU OBJECT
 		menu() {
 			// Data provided php side
+			let self = this;
 			let groups = this.$store.getters.getGroups;
 			groups = Array.isArray(groups) ? groups : [];
 
@@ -302,31 +322,19 @@ export default {
 
 				if (item.id !== 'admin' && item.id !== 'disabled' && this.settings.isAdmin) {
 					// add delete button on real groups
-					let self = this;
 					item.utils.actions = [{
 						icon: 'icon-delete',
 						text: t('settings', 'Remove group'),
-						action: function() {self.removeGroup(group.id)}
+						action: function() {
+							self.removeGroup(group.id)
+						}
 					}];
 				};
 				return item;
 			});
 
-			// Adjust data
-			let adminGroup = groups.find(group => group.id == 'admin');
-			let disabledGroupIndex = groups.findIndex(group => group.id == 'disabled');
-			let disabledGroup = groups[disabledGroupIndex];
-			if (adminGroup && adminGroup.text) {
-				adminGroup.text = t('settings', 'Admins'); // rename admin group
-				adminGroup.icon = 'icon-user-admin'; // set icon
-			}
-			if (disabledGroup && disabledGroup.text) {
-				disabledGroup.text = t('settings', 'Disabled users'); // rename disabled group
-				disabledGroup.icon = 'icon-disabled-users'; // set icon
-				if (!disabledGroup.utils.counter) {
-					groups.splice(disabledGroupIndex, 1); // remove disabled if empty
-				}
-			}
+			// Every item is added on top of the array, so we're going backward
+			// Groups, separator, disabled, admin, everyone
 
 			// Add separator
 			let realGroups = groups.find((group) => {return group.id !== 'disabled' && group.id !== 'admin'});
@@ -340,6 +348,26 @@ export default {
 				groups.unshift(separator);
 			}
 
+			// Adjust admin and disabled groups
+			let adminGroup = groups.find(group => group.id == 'admin');
+			let disabledGroup = groups.find(group => group.id == 'disabled');
+
+			// filter out admin and disabled
+			groups = groups.filter(group => ['admin', 'disabled'].indexOf(group.id) === -1);
+
+			if (adminGroup && adminGroup.text) {
+				adminGroup.text = t('settings', 'Admins');	// rename admin group
+				adminGroup.icon = 'icon-user-admin';		// set icon
+				groups.unshift(adminGroup);					// add admin group if present
+			}
+			if (disabledGroup && disabledGroup.text) {
+				disabledGroup.text = t('settings', 'Disabled users');	// rename disabled group
+				disabledGroup.icon = 'icon-disabled-users';				// set icon
+				if (disabledGroup.utils && disabledGroup.utils.counter > 0) {
+					groups.unshift(disabledGroup);						// add disabled if not empty
+				}
+			}
+
 
 			// Add everyone group
 			let everyoneGroup = {
@@ -351,9 +379,34 @@ export default {
 			};
 			// users count
 			if (this.userCount > 0) {
-				everyoneGroup.utils = {counter: this.userCount};
+				Vue.set(everyoneGroup, 'utils', {
+					counter: this.userCount
+				});
 			}
 			groups.unshift(everyoneGroup);
+
+			let addGroup = {
+				id: 'addgroup',
+				key: 'addgroup',
+				icon: 'icon-add',
+				text: t('settings', 'Add group'),
+				classes: this.loadingAddGroup ? 'icon-loading-small' : ''
+			};
+			if (this.showAddGroupEntry) {
+				Vue.set(addGroup, 'edit', {
+					text: t('settings', 'Add group'),
+					action: this.createGroup,
+					reset: function() {
+						self.showAddGroupEntry = false
+					}
+				});
+				addGroup.classes = 'editing';
+			} else {
+				Vue.set(addGroup, 'action', function() {
+					self.showAddGroupEntry = true
+				})
+			}
+			groups.unshift(addGroup);
 
 			// Return
 			return {

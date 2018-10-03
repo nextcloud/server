@@ -1,7 +1,7 @@
 {
   "name": "settings",
   "description": "Nextcloud settings",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "author": "John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>",
   "license": "AGPL3",
   "private": true,
@@ -13,12 +13,13 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
+    "nextcloud-vue": "^0.1.5",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.5.17",
     "vue-click-outside": "^1.0.7",
     "vue-infinite-loading": "^2.3.3",
     "vue-localstorage": "^0.6.2",
-    "vue-multiselect": "^2.1.0",
+    "vue-multiselect": "^2.1.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"

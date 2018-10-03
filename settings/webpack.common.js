@@ -13,14 +13,13 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'css-loader'
+          'vue-style-loader', 'css-loader'
         ],
       },
       {
         test: /\.scss$/,
         use: [
-					'css-loader',
-					'sass-loader'
+					'vue-style-loader', 'css-loader', 'sass-loader'
         ],
       },
       {
