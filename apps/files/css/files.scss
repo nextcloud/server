@@ -731,26 +731,89 @@ table.dragshadow td.size {
 #filestable.view-grid {
 	display: flex;
 	flex-direction: column;
+
 	thead {
 		display: none;
 	}
+
 	tbody {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, 180px);
 		justify-content: space-around;
 		row-gap: 15px;
+
 		tr {
 			display: block;
+			position: relative;
 			height: 180px;
 		}
+
 		td {
-			display: block;
+			display: inline;
+			border-bottom: none;
+
+			&.filename {
+				.thumbnail-wrapper {
+					min-width: 0;
+
+					.thumbnail {
+						width: 130px;
+						height: 130px;
+						background-size: 130px;
+						margin-left: 26px;
+
+						/* Position favorite star related to checkbox to left and 3-dot menu below */
+						.favorite-mark {
+							padding: 14px;
+							right: -24px;
+						}
+					}
+				}
+
+				.name {
+					height: 100%;
+
+					.nametext {
+						display: inline-block;
+						width: initial;
+						height: initial;
+						overflow: initial;
+						margin-top: 135px;
+						padding-right: 0;
+						text-align: right;
+
+						.innernametext {
+							display: inline-block;
+							max-width: 80px;
+						}
+
+						/* No space for extension in grid view */
+						.extension {
+							display: none;
+						}
+					}
+
+					.fileactions {
+						height: initial;
+						margin-top: 135px;
+					}
+				}
+			}
+
+			/* No space for filesize and date in grid view */
+			&.filesize,
+			&.date {
+				display: none;
+			}
+
 			&.selection {
 				position: absolute;
 				top: 0;
 				left: 0;
 				display: flex;
 				width: 44px;
+				z-index: 10;
+
 				label {
 					width: 44px;
 					height: 44px;
@@ -758,5 +821,10 @@ table.dragshadow td.size {
 				}
 			}
 		}
+	}
+
+	/* Do not show "Shared" text next to icon as there is no space */
+	#fileList .action.action-share.permanent.shared-style span:not(.icon) {
+		display: none;
 	}
 }
