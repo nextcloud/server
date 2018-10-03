@@ -81,5 +81,6 @@ $(document).ready(function () {
 		],
 		drawTitles: true,
 		$addAfter: $('input[name="newpassword-clone"]'),
+		nonce: btoa(OC.requestToken),
 	});
 });
