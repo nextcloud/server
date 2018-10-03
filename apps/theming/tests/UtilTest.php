@@ -92,7 +92,7 @@ class UtilTest extends TestCase {
 		$invert = $this->util->invertTextColor('aaabbbcccddd123');
 		$this->assertEquals(false, $invert);
 	}
-	
+
 	public function testInvertTextColorEmpty() {
 		$invert = $this->util->invertTextColor('');
 		$this->assertEquals(false, $invert);
@@ -174,7 +174,7 @@ class UtilTest extends TestCase {
 
 	public function dataGetAppImage() {
 		return [
-			['core', 'logo.svg', \OC::$SERVERROOT . '/core/img/logo.svg'],
+			['core', 'logo/logo.svg', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
 			['files', 'external', \OC::$SERVERROOT . '/apps/files/img/external.svg'],
 			['files', 'external.svg', \OC::$SERVERROOT . '/apps/files/img/external.svg'],
 			['noapplikethis', 'foobar.svg', false],
