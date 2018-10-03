@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Daniel Kesselberg <mail@danielkesselberg.de>
  *
@@ -59,7 +60,7 @@ class FileName extends AbstractStringCheck {
 	/**
 	 * @return string
 	 */
-	protected function getActualValue() {
+	protected function getActualValue(): string {
 		return mb_strtolower(basename($this->path));
 	}
 
@@ -68,7 +69,7 @@ class FileName extends AbstractStringCheck {
 	 * @param string $value
 	 * @return bool
 	 */
-	public function executeCheck($operator, $value) {
+	public function executeCheck($operator, $value): bool {
 		return parent::executeCheck($operator, mb_strtolower($value));
 	}
 }
