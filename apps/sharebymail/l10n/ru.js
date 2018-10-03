@@ -28,14 +28,12 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s предоставил(а) Вам доступ к «%s». Вы, скорее всего, уже получили отдельное письмо, содержащее ссылку для получения доступа.",
     "Password to access »%s« shared to you by %s" : "Пароль для  «%s»,  общий доступ к которому предоставлен Вам пользователем %s",
     "Password to access »%s«" : "Пароль для доступа к «%s»",
-    "It is protected with the following password: %s" : "Доступ защищён следующим паролем: %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить",
     "»%s« added a note to a file shared with you" : "%s добавил(а) примечание к файлу, к которому вам открыт доступ",
     "%1$s via %2$s" : "%1$s через %2$s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Вы только что предоставили общий доступ к «%s» пользователю %s. Уведомление о предоставлении доступа было отправлено получателю. В соответствии с политиками безопасности, заданными администратором %s, каждый общий ресурс должен быть защищён паролем, а так же не допускается непосредственное отправление пароля получателю, поэтому Вам потребуется самостоятельно перенаправить получателю пароль для доступа.",
     "Password to access »%s« shared with %s" : "Паролем для доступа к «%s» поделились с %s",
-    "This is the password: %s" : "Пароль: %s",
     "You can choose a different password at any time in the share dialog." : "В любой момент можно выбрать другой пароль в диалоге «Общий доступ».",
     "Could not find share" : "Не удалось найти общий ресурс",
     "Share by mail" : "Поделиться по почте",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
     "Enforce password protection" : "Требовать защиту паролем",
-    "Failed to send share by E-mail" : "Не удалось поделиться по e-mail"
+    "Failed to send share by E-mail" : "Не удалось поделиться по e-mail",
+    "It is protected with the following password: %s" : "Доступ защищён следующим паролем: %s",
+    "This is the password: %s" : "Пароль: %s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

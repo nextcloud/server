@@ -28,14 +28,12 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s compartilhou »%s« com você. Você já deve ter recebido um e-mail com um link para acessá-lo.",
     "Password to access »%s« shared to you by %s" : "Senha para acessar  %s compartilhado com você por  %s",
     "Password to access »%s«" : "Senha para acessar »%s«",
-    "It is protected with the following password: %s" : "Está protegido com a seguinte senha: %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s compartilhou »%2$s« com você e quer adicionar:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s compartilhou »%2$s« com você e quer adicionar",
     "»%s« added a note to a file shared with you" : "»%s« adicionou uma anotação num arquivo compartilhado com você",
     "%1$s via %2$s" : "%1$s via %2$s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Você compartilhou »%s« com %s. O compartilhamento já foi enviado ao destinatário. Devido às políticas de segurança definidas pelo administrador de %s, cada compartilhamento necessita ser protegido por senha e não é permitido enviar a senha diretamente ao destinatário. Portanto você necessita enviar a senha manualmente ao destinatário.",
     "Password to access »%s« shared with %s" : "Senha para acessar »%s« compartilhado com %s",
-    "This is the password: %s" : "Essa é a senha: %s",
     "You can choose a different password at any time in the share dialog." : "Você pode escolher uma senha diferente a qualquer momento no diálogo compartilhamento.",
     "Could not find share" : "Não foi possível encontrar o compartilhamento",
     "Share by mail" : "Compartilhamento por e-mail",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail.",
     "Send password by mail" : "Enviar senha por e-mail",
     "Enforce password protection" : "Reforce a proteção por senha",
-    "Failed to send share by E-mail" : "Falha ao enviar compartilhamento por e-mail"
+    "Failed to send share by E-mail" : "Falha ao enviar compartilhamento por e-mail",
+    "It is protected with the following password: %s" : "Está protegido com a seguinte senha: %s",
+    "This is the password: %s" : "Essa é a senha: %s"
 },
 "nplurals=2; plural=(n > 1);");

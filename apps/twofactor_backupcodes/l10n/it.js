@@ -23,6 +23,7 @@ OC.L10N.register(
     "Nextcloud backup codes" : "Codici di backup di Nextcloud",
     "You created two-factor backup codes for your account" : "Hai creato codici di backup a due fattori per il tuo account",
     "Second-factor backup codes" : "Codici di backup con secondo fattore",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Hai abilitato l'autenticazione a due fattori, ma non hai ancora generato i codici di backup. Assicurati di farlo, nel caso in cui tu perda l'accesso al secondo fattore.",
     "Backup code" : "Codice di backup",
     "Use backup code" : "Usa il codice di backup",
     "Two factor backup codes" : "Codici di backup a due fattori",

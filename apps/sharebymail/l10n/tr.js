@@ -28,14 +28,12 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s sizinle »%s« ögesini paylaştı. Erişim bağlantısını içeren başka bir e-posta daha almış olmalısınız.",
     "Password to access »%s« shared to you by %s" : "»%s« için sizin tarafınızdan %s üzerinden paylaşılan erişim parolası",
     "Password to access »%s«" : "»%s« erişim parolası",
-    "It is protected with the following password: %s" : "Öge şu parola ile korunuyor: %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s sizinle »%2$s« ögesini paylaştı ve eklemenizi istiyor:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s sizinle »%2$s« ögesini paylaştı ve eklemenizi istiyor",
     "»%s« added a note to a file shared with you" : "»%s« sizinle paylaştığı bir dosyaya bir not ekledi",
     "%1$s via %2$s" : "%1$s, %2$s aracılığıyla",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "»%s« ögesini %s ile paylaştınız. Paylaşım alıcıya gönderildi. %s yöneticisi tarafından belirlenmiş güvenlik ilkelerine göre her bir paylaşım için bir parola belirtilmesi ve bu parolanın alıcıya doğrudan gönderilmemesi gerekiyor. Bu nedenle parolayı alıcıya el ile siz iletmelisiniz.",
     "Password to access »%s« shared with %s" : "»%s« için %s üzerinden paylaşılan erişim parolası",
-    "This is the password: %s" : "İleteceğiniz parola: %s",
     "You can choose a different password at any time in the share dialog." : "İstediğiniz zaman paylaşım bölümünden farklı bir parola belirtebilirsiniz.",
     "Could not find share" : "Paylaşım bulunamadı",
     "Share by mail" : "E-posta ile paylaş",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parolayı e-posta ile gönder",
     "Enforce password protection" : "Parola koruması dayatılsın",
-    "Failed to send share by E-mail" : "Paylaşım e-postası gönderilemedi"
+    "Failed to send share by E-mail" : "Paylaşım e-postası gönderilemedi",
+    "It is protected with the following password: %s" : "Öge şu parola ile korunuyor: %s",
+    "This is the password: %s" : "İleteceğiniz parola: %s"
 },
 "nplurals=2; plural=(n > 1);");

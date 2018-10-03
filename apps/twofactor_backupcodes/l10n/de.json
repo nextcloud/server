@@ -21,6 +21,7 @@
     "Nextcloud backup codes" : "Nextcloud-Backup-Codes",
     "You created two-factor backup codes for your account" : "Du hast Zwei-Faktor Sicherungs-Codes für Dein Konto erstellt",
     "Second-factor backup codes" : "Zweitfaktor-Backup-Codes",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du hast die Zwei-Faktor-Authentifizierung aktiviert, aber noch keine Backup-Codes generiert. Bitte hole dies für den Fall, dass Du den Zugriff auf Deinen zweiten Faktor verlierst, nach.",
     "Backup code" : "Backup-Code",
     "Use backup code" : "Backup-Code verwenden",
     "Two factor backup codes" : "Zweifaktor-Backup-Codes",

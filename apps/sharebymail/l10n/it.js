@@ -28,14 +28,12 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s ha condiviso «%s» con te. Dovresti aver ricevuto un messaggio separato con un collegamento per accedervi.",
     "Password to access »%s« shared to you by %s" : "Password per accedere a «%s» condivisa con te da %s",
     "Password to access »%s«" : "Password per accedere a «%s»",
-    "It is protected with the following password: %s" : "È protetta con la password seguente: %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s ha condiviso «%2$s» con te e vuole aggiungere:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s ha condiviso «%2$s» con te e vuole aggiungere",
     "»%s« added a note to a file shared with you" : "«%s» ha aggiunto una nota a un file condiviso con te",
     "%1$s via %2$s" : "%1$s tramite %2$s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Hai appena condiviso «%s» con %s. La condivisione è stata già inviata al destinatario. A causa dei criteri di sicurezza definiti dall'amministratore di %s, ogni condivisione deve essere protetta da password e non è consentito l'invio diretto della password al destinatario. Perciò, devi inoltrare manualmente la password al destinatario.",
     "Password to access »%s« shared with %s" : "Password per accedere a «%s» condivisa con %s",
-    "This is the password: %s" : "Questa è la password: %s",
     "You can choose a different password at any time in the share dialog." : "Puoi scegliere una password diversa in qualsiasi momento nella finestra di condivisione.",
     "Could not find share" : "Non è stato possibile trovare la condivisione",
     "Share by mail" : "Condividi tramite email",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Consente agli utenti di condividere un collegamento personalizzato a un file o a una cartella inserendo un indirizzo di posta elettronica.",
     "Send password by mail" : "Invia password tramite posta",
     "Enforce password protection" : "Imponi la protezione con password",
-    "Failed to send share by E-mail" : "Invio non riuscito della condivisione tramite email"
+    "Failed to send share by E-mail" : "Invio non riuscito della condivisione tramite email",
+    "It is protected with the following password: %s" : "È protetta con la password seguente: %s",
+    "This is the password: %s" : "Questa è la password: %s"
 },
 "nplurals=2; plural=(n != 1);");
