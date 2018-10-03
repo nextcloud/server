@@ -38,7 +38,7 @@
 	<p></p>
 </div>
 
-<table id="filestable" class="view-grid" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
+<table id="filestable" class="view-grid" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="250" data-preview-y="250">
 	<thead>
 		<tr>
 			<th id="headerSelection" class="hidden column-selection">
