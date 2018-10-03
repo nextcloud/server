@@ -43,6 +43,8 @@ use Symfony\Component\Console\Question\Question;
 
 class Install extends Command {
 
+	const OPTION_OVERWRITE_CLI_URL = 'overwrite-cli-url';
+
 	/**
 	 * @var SystemConfig
 	 */
@@ -68,7 +70,8 @@ class Install extends Command {
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'User name of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
-			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT."/data");
+			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data')
+			->addOption(self::OPTION_OVERWRITE_CLI_URL, null, InputOption::VALUE_OPTIONAL, 'Base URL for nextcloud using any kind of command line tools');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
@@ -140,10 +143,13 @@ class Install extends Command {
 		if ($input->hasParameterOption('--database-pass')) {
 			$dbPass = (string) $input->getOption('database-pass');
 		}
+
 		$adminLogin = $input->getOption('admin-user');
 		$adminPassword = $input->getOption('admin-pass');
 		$adminEmail = $input->getOption('admin-email');
+
 		$dataDir = $input->getOption('data-dir');
+		$overwriteCliUrl = $input->getOption(self::OPTION_OVERWRITE_CLI_URL);
 
 		if ($db !== 'sqlite') {
 			if (is_null($dbUser)) {
@@ -188,9 +194,20 @@ class Install extends Command {
 			'adminemail' => $adminEmail,
 			'directory' => $dataDir
 		];
+
 		if ($db === 'oci') {
 			$options['dbtablespace'] = $input->getParameterOption('--database-table-space', '');
 		}
+
+		if ($overwriteCliUrl !== null) {
+			if (!filter_var($overwriteCliUrl, FILTER_VALIDATE_URL)) {
+				throw new InvalidArgumentException('Invalid value for overwrite-cli-url');
+			}
+
+			$options['overwrite.cli.url'] = $overwriteCliUrl;
+			$options['trusted_domains'] = [parse_url($overwriteCliUrl, PHP_URL_HOST)];
+		}
+
 		return $options;
 	}
 
