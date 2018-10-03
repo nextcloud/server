@@ -22,13 +22,13 @@
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s Vám sprístupnil »%s«. Správa s odkazom by Vám už mala byť doručená.",
     "Password to access »%s«" : "Heslo pre prístup k »%s«",
     "Password to access »%s« shared with %s" : "Heslo pre prístup k »%s« sprístupnené používateľovi %s",
-    "This is the password: %s" : "Toto je heslo: %s",
     "You can choose a different password at any time in the share dialog." : "Kedykoľvek môžete vybrať iné heslo v okne zdieľania.",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
     "Share by mail" : "Sprístupniť e-mailom",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Povoľuje používateľom zdieľať personalizovaný odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
     "Enforce password protection" : "Vynútiť ochranu heslom",
-    "Failed to send share by E-mail" : "Nebolo možné poslať sprístupnenie emailom"
+    "Failed to send share by E-mail" : "Nebolo možné poslať sprístupnenie emailom",
+    "This is the password: %s" : "Toto je heslo: %s"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

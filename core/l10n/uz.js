@@ -149,8 +149,6 @@ OC.L10N.register(
     "Help" : "Yordam",
     "Access forbidden" : "Kirish taqiqlangan",
     "File not found" : "Fayl topilmadi",
-    "The specified document has not been found on the server." : "Belgilangan hujjat serverda topilmadi.",
-    "You can click here to return to %s." : "%s ga qaytish uchun bu yerga bosing.",
     "Internal Server Error" : "Serverdagi ichki xatolik",
     "The server was unable to complete your request." : "Server so'rovingizni bajarib bo'lmadi.",
     "If this happens again, please send the technical details below to the server administrator." : "Agar shunday bo'lsa, iltimos, quyidagi texnik ma'lumotlarni quyidagi server administratoriga yuboring.",
@@ -202,6 +200,8 @@ OC.L10N.register(
     "Error setting expiration date" : "Muddati tugash sanasini belgilashda xato",
     "The public link will expire no later than {days} days after it is created" : "Jamoat havolasi tugaganidan keyin {days} kundan keyin tugaydi",
     "Share with other people by entering a user or group or an email address." : "Biror foydalanuvchi yoki guruh yoki elektron pochta manzilini kiritish orqali boshqa odamlar bilan bo'lishing.",
+    "The specified document has not been found on the server." : "Belgilangan hujjat serverda topilmadi.",
+    "You can click here to return to %s." : "%s ga qaytish uchun bu yerga bosing.",
     "Stay logged in" : "Kirishni unutmang",
     "Alternative Logins" : "Shu bilan bir qatorda kirishlar",
     "Back to log in" : "Kirish uchun qaytib boring"
