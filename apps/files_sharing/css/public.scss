@@ -92,8 +92,15 @@ thead {
 	margin: 0 auto;
 }
 
-#emptycontent.has-disclaimer {
-	margin-top: 10vh;
+#emptycontent {
+	&.has-disclaimer,
+	&.has-note {
+		margin-top: 10vh;
+	}
+
+	&.has-disclaimer.has-note {
+		margin-top: 5vh;
+	}
 }
 
 #public-upload #emptycontent h2 {
@@ -152,8 +159,9 @@ thead {
 	margin-right: 7px;
 }
 
-.disclaimer {
-	margin: -20px auto 30px;
+.disclaimer,
+.note {
+	margin: 0 auto 30px;
 	max-width: 400px;
 	text-align: left;
 }

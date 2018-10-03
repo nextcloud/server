@@ -82,13 +82,20 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php } else { ?>
 	<input type="hidden" id="upload-only-interface" value="1"/>
 	<div id="public-upload">
-		<div id="emptycontent" class="<?php if (!empty($_['disclaimer'])) { ?>has-disclaimer<?php } ?>">
+		<div
+				id="emptycontent"
+				class="<?php if (!empty($_['disclaimer'])) { ?>has-disclaimer<?php } ?> <?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
 			<div id="displayavatar"><div class="avatardiv"></div></div>
 			<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
 			<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
+
 			<?php if (!empty($_['disclaimer'])) { ?>
 				<p class="disclaimer"><?php p($_['disclaimer']); ?></p>
 			<?php } ?>
+			<?php if (empty($_['note']) === false) { ?>
+				<p class="note"><?php p($_['note']); ?></p>
+			<?php } ?>
+
 			<input type="file" name="files[]" class="hidden" multiple>
 
 			<a href="#" class="button icon-upload"><?php p($l->t('Select or drop files')) ?></a>
