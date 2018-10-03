@@ -11,7 +11,7 @@ $provider = $_['provider'];
 $template = $_['template'];
 ?>
 
-<div class="warning">
+<div class="body-login-container update">
 	<h2 class="two-factor-header"><?php p($provider->getDisplayName()); ?></h2>
 	<?php if ($error): ?>
 			<?php if($error_message): ?>
@@ -21,27 +21,19 @@ $template = $_['template'];
 			<?php endif; ?>
 	<?php endif; ?>
 	<?php print_unescaped($template); ?>
-	<ul>
-		<?php if (!is_null($_['backupProvider'])): ?>
-			<li>
-				<a class="two-factor-provider two-factor-secondary" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
-					[
-						'challengeProviderId' => $_['backupProvider']->getId(),
-						'redirect_url' => $_['redirect_url'],
-					]
-				)) ?>">
-					<div>
-						<p><?php p($l->t('Use backup code')) ?></p>
-					</div>
-				</a>
-			</li>
-		<?php endif; ?>
-		<li>
-			<a class="two-factor-provider two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
-				<div>
-					<p><?php p($l->t('Cancel log in')) ?></p>
-				</div>
-			</a>
-		</li>
-	</ul>
+	<?php if (!is_null($_['backupProvider'])): ?>
+	<p>
+		<a class="two-factor-secondary" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+			[
+				'challengeProviderId' => $_['backupProvider']->getId(),
+				'redirect_url' => $_['redirect_url'],
+			]
+		)) ?>">
+			<?php p($l->t('Use backup code')) ?>
+		</a>
+	</p>
+	<?php endif; ?>
+	<p><a class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
+		<?php p($l->t('Cancel log in')) ?>
+	</a></p>
 </div>
