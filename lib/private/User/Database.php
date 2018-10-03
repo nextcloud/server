@@ -176,6 +176,16 @@ class Database extends ABackend
 		return $result ? true : false;
 	}
 
+	private function updatePassword(string $uid, string $passwordHash): bool {
+		$query = $this->dbConn->getQueryBuilder();
+		$query->update($this->table)
+			->set('password', $query->createNamedParameter($passwordHash))
+			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
+		$result = $query->execute();
+
+		return $result ? true : false;
+	}
+
 	/**
 	 * Set password
 	 *
@@ -195,13 +205,7 @@ class Database extends ABackend
 			$hasher = \OC::$server->getHasher();
 			$hashedPassword = $hasher->hash($password);
 
-			$query = $this->dbConn->getQueryBuilder();
-			$query->update($this->table)
-				->set('password', $query->createNamedParameter($hashedPassword))
-				->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
-			$result = $query->execute();
-
-			return $result ? true : false;
+			return $this->updatePassword($uid, $hashedPassword);
 		}
 
 		return false;
@@ -314,7 +318,7 @@ class Database extends ABackend
 			$newHash = '';
 			if (\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
 				if (!empty($newHash)) {
-					$this->setPassword($uid, $password);
+					$this->updatePassword($uid, $newHash);
 				}
 				return (string)$row['uid'];
 			}
