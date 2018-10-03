@@ -1,13 +1,15 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "Não foi possível excluir %s permanentemente",
-    "Couldn't restore %s" : "Não foi possível restaurar %s",
     "Deleted files" : "Arquivos excluídos",
     "Restore" : "Restaurar",
     "Delete" : "Excluir",
+    "Error while restoring file from trashbin" : "Erro ao restaurar arquivo da lixeira",
     "Delete permanently" : "Excluir permanentemente",
-    "Error" : "Erro",
+    "Error while removing file from trashbin" : "Erro ao remover arquivo da lixeira",
+    "Error while restoring files from trashbin" : "Erro ao restaurar arquivos da lixeira",
+    "Error while emptying trashbin" : "Erro ao esvaziar a lixeira",
+    "Error while removing files from trashbin" : "Erro ao remover arquivos da lixeira",
     "This operation is forbidden" : "Esta operação é proibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este diretório não está disponível. Por favor verifique os logs ou contacte o administrador",
     "restored" : "restaurado",
@@ -19,6 +21,9 @@ OC.L10N.register(
     "Select all" : "Selecionar tudo",
     "Name" : "Nome",
     "Actions" : "Ações",
-    "Deleted" : "Excluído"
+    "Deleted" : "Excluído",
+    "Couldn't delete %s permanently" : "Não foi possível excluir %s permanentemente",
+    "Couldn't restore %s" : "Não foi possível restaurar %s",
+    "Error" : "Erro"
 },
 "nplurals=2; plural=(n > 1);");

@@ -1,13 +1,15 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "%s kalıcı olarak silinemedi",
-    "Couldn't restore %s" : "%s geri yüklenemedi",
     "Deleted files" : "Silinmiş dosyalar",
     "Restore" : "Geri yükle",
     "Delete" : "Sil",
+    "Error while restoring file from trashbin" : "Dosya çöp kutusundan geri yüklenirken sorun çıktı",
     "Delete permanently" : "Kalıcı olarak sil",
-    "Error" : "Hata",
+    "Error while removing file from trashbin" : "Dosya çöp kutusundan silinirken sorun çıktı",
+    "Error while restoring files from trashbin" : "Dosyalar çöp kutusundan geri yüklenirken sorun çıktı",
+    "Error while emptying trashbin" : "Çöp kutusu boşaltılırken sorun çıktı",
+    "Error while removing files from trashbin" : "Dosyalar çöp kutusundan silinirken sorun çıktı",
     "This operation is forbidden" : "Bu işlem yapılamaz",
     "This directory is unavailable, please check the logs or contact the administrator" : "Bu dizine yazılamıyor, lütfen günlüğü denetleyin ya da yönetici ile görüşün",
     "restored" : "geri yüklendi",
@@ -19,6 +21,9 @@ OC.L10N.register(
     "Select all" : "Tümünü seç",
     "Name" : "Ad",
     "Actions" : "İşlemler",
-    "Deleted" : "Silinme"
+    "Deleted" : "Silinme",
+    "Couldn't delete %s permanently" : "%s kalıcı olarak silinemedi",
+    "Couldn't restore %s" : "%s geri yüklenemedi",
+    "Error" : "Hata"
 },
 "nplurals=2; plural=(n > 1);");

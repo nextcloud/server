@@ -28,16 +28,16 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s により »%s« が共有されました。アクセスするためのリンクは別途メールで受信してください。",
     "Password to access »%s« shared to you by %s" : "%sへの共有アクセスのパスワードが %s から共有されました",
     "Password to access »%s«" : "»%s« にアクセスするパスワード",
-    "It is protected with the following password: %s" : "次のパスワードで保護されています: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%sを%sと共有しました。共有は受信者に送信されています。セキュリティポリシーにより%sの管理者が共有はパスワードで保護されるべきで、直接受信者に送信するべきではないと定めている場合、手動で受信者にメールを転送する必要があります。",
     "Password to access »%s« shared with %s" : "»%s« にアクセスするパスワードが %s から共有されました",
-    "This is the password: %s" : "パスワード: %s",
     "You can choose a different password at any time in the share dialog." : "共有ダイアログからいつでも違うパスワードに変更できます。",
     "Could not find share" : "共有が見つかりませんでした",
     "Share by mail" : "メールで共有",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
     "Enforce password protection" : "常にパスワード保護を有効にする",
-    "Failed to send share by E-mail" : "メールで共有の送信に失敗しました"
+    "Failed to send share by E-mail" : "メールで共有の送信に失敗しました",
+    "It is protected with the following password: %s" : "次のパスワードで保護されています: %s",
+    "This is the password: %s" : "パスワード: %s"
 },
 "nplurals=1; plural=0;");

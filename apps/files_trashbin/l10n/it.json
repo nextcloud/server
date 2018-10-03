@@ -1,11 +1,13 @@
 { "translations": {
-    "Couldn't delete %s permanently" : "Impossibile eliminare %s definitivamente",
-    "Couldn't restore %s" : "Impossibile ripristinare %s",
     "Deleted files" : "File eliminati",
     "Restore" : "Ripristina",
     "Delete" : "Elimina",
+    "Error while restoring file from trashbin" : "Errore durante il ripristino del file dal cestino",
     "Delete permanently" : "Elimina definitivamente",
-    "Error" : "Errore",
+    "Error while removing file from trashbin" : "Errore durante la rimozione del file dal cestino",
+    "Error while restoring files from trashbin" : "Errore durante il ripristino dei files dal cestino",
+    "Error while emptying trashbin" : "Errore durante lo svuotamento del cestino",
+    "Error while removing files from trashbin" : "Errore durante la rimozione dei files dal cestino",
     "This operation is forbidden" : "Questa operazione è vietata",
     "This directory is unavailable, please check the logs or contact the administrator" : "Questa cartella non è disponibile, controlla i log o contatta l'amministratore",
     "restored" : "ripristinati",
@@ -17,6 +19,9 @@
     "Select all" : "Seleziona tutto",
     "Name" : "Nome",
     "Actions" : "Azioni",
-    "Deleted" : "Eliminati"
+    "Deleted" : "Eliminati",
+    "Couldn't delete %s permanently" : "Impossibile eliminare %s definitivamente",
+    "Couldn't restore %s" : "Impossibile ripristinare %s",
+    "Error" : "Errore"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

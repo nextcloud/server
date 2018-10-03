@@ -39,6 +39,7 @@ OC.L10N.register(
     "Android client" : "Android kliens",
     "iOS client" : "iOS klens",
     "Desktop client" : "Asztali kliens",
+    "Thunderbird & Outlook addons" : "Thunderbird és Outlook bővítmények",
     "User group membership" : "Felhasználói csoport tagság",
     "is member of" : "tagja ennek",
     "is not member of" : "nem tagja ennek",

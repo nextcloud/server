@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Je doorverwijzings-URL moet een volledige URL zijn, bijvoorbeeld: https://jouwdomein.com/pad",
     "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "Staat OAuth2 compatible authenticatie vanaf andere web applicaties toe.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "De OAuth2 app laat beheerders de ingebouwde inlog-workflow configureren om ook OAuth2 compatible authenticatie vanaf andere web applicaties mogelijk te maken.",
     "OAuth 2.0 clients" : "OAuth 2.0 Clients",
     "Name" : "Naam",
     "Client Identifier" : "Client identificatie",

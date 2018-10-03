@@ -15,17 +15,16 @@ OC.L10N.register(
     "Close" : "Închide",
     "Could not create folder \"{dir}\"" : "Nu s-a putut crea directorul \"{dir}\"",
     "Upload cancelled." : "Încărcare anulată.",
+    "…" : "...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nu se poate încărca {filename} deoarece este un director sau are mărimea de 0 octeți",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Spațiu liber insuficient, încărcați {size1} însă doar {size2} disponibil rămas",
     "Target folder \"{dir}\" does not exist any more" : "Directorul \"{dir}\" nu mai există",
     "Not enough free space" : "Spațiu insuficient",
     "Uploading …" : "Încărcare...",
-    "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} din {totalSize} ({bitrate})",
     "Target folder does not exist any more" : "Directorul destinație nu mai există",
     "Actions" : "Acțiuni",
     "Rename" : "Redenumește",
-    "Target folder" : "Directorul destinație",
     "Disconnect storage" : "Deconectează stocarea",
     "Unshare" : "Nu mai partaja",
     "Files" : "Fișiere",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Shared with you" : "Partajat cu tine",
     "Shared by link" : "Partajat prin link",
     "Text file" : "Fișier text",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "Target folder" : "Directorul destinație"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

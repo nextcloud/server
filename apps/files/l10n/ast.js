@@ -14,14 +14,13 @@ OC.L10N.register(
     "Close" : "Zarrar",
     "Could not create folder \"{dir}\"" : "Nun pudo crease la carpeta \"{dir}\"",
     "Upload cancelled." : "Xuba encaboxada.",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nun pudo xubise {filename}, paez que ye un directoriu o tien 0 bytes",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nun hai abondu espaciu llibre, tas xubiendo {size1} pero namái falta {size2}",
     "Not enough free space" : "Nun hai espaciu llibre abondo",
-    "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Actions" : "Aiciones",
     "Rename" : "Renomar",
-    "Target folder" : "Carpeta oxetivu",
     "Disconnect storage" : "Desconeutar almacenamientu",
     "Unshare" : "Dexar de compartir",
     "Could not load info for file \"{file}\"" : "Nun pudo cargase la información del ficheru «{file}»",
@@ -101,6 +100,7 @@ OC.L10N.register(
     "Tags" : "Etiquetes",
     "Deleted files" : "Ficheros desaniciaos",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "Nuevu testu ficheru.txt"
+    "New text file.txt" : "Nuevu testu ficheru.txt",
+    "Target folder" : "Carpeta oxetivu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -21,7 +21,6 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} no {totalSize} ({bitrate})",
     "Actions" : "Darbības",
     "Rename" : "Pārsaukt",
-    "Target folder" : "Mērķa mape",
     "Disconnect storage" : "Atvienot glabātuvi",
     "Unshare" : "Pārtraukt koplietošanu",
     "Could not load info for file \"{file}\"" : "Nevar ielādēt informāciju par datni \"{file}\"",
@@ -117,6 +116,7 @@ OC.L10N.register(
     "Shared with you" : "Koplietots ar tevi",
     "Shared by link" : "Koplietots ar saiti",
     "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt"
+    "New text file.txt" : "Jauna teksta datne.txt",
+    "Target folder" : "Mērķa mape"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -24,7 +24,6 @@
     "Actions" : "Үйл ажиллагаа",
     "Rename" : "Нэр өөрчлөх",
     "Copy" : "Хуулах",
-    "Target folder" : "Заагч хавтас",
     "Disconnect storage" : "Хадгалах төхөөрөмж салгах",
     "Unshare" : "Түгээлтийг зогсоох",
     "Files" : "Файлууд",
@@ -110,6 +109,7 @@
     "Shared with others" : "Бусдад түгээсэн",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt"
+    "New text file.txt" : "шинэ текст file.txt",
+    "Target folder" : "Заагч хавтас"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

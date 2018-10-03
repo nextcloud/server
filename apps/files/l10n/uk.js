@@ -15,16 +15,15 @@ OC.L10N.register(
     "Close" : "Закрити",
     "Could not create folder \"{dir}\"" : "Неможливо створити каталог \"{dir}\"",
     "Upload cancelled." : "Вивантаження скасовано.",
+    "…" : "...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Неможливо вивантажити {filename}, оскільки це каталог або файл має розмір 0 байт.",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Недостатньо вільного місця, ви вивантажуєте {size1}, а залишилося лише {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Теки призначення \"{dir}\" більше не існує.",
     "Not enough free space" : "Недостатньо вільного місця",
     "Uploading …" : "Вивантаження …",
-    "…" : "...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} з {totalSize} ({bitrate})",
     "Actions" : "Дії",
     "Rename" : "Перейменувати",
-    "Target folder" : "Тека призначення",
     "Disconnect storage" : "Від’єднати сховище",
     "Unshare" : "Закрити спільний доступ",
     "Could not load info for file \"{file}\"" : "Неможливо завантажити інформацію за файлом \"{file}\"",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Shared with you" : "Поділились з вами",
     "Shared by link" : "Доступне за посиланням",
     "Text file" : "Текстовий файл",
-    "New text file.txt" : "Новий текстовий файл file.txt"
+    "New text file.txt" : "Новий текстовий файл file.txt",
+    "Target folder" : "Тека призначення"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

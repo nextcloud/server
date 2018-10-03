@@ -13,18 +13,17 @@
     "Close" : "Κλείσιμο",
     "Could not create folder \"{dir}\"" : "Αδυναμία δημιουργίας του φακέλου \"{dir}\"",
     "Upload cancelled." : "Η αποστολή ακυρώθηκε.",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Αδυναμία φόρτωσης {filename} καθώς είναι κατάλογος αρχείων ή έχει 0 bytes",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Δεν υπάρχει αρκετός ελεύθερος χώρος, μεταφορτώνετε μέγεθος {size1} αλλά υπάρχει χώρος μόνο {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Φάκελος προορισμού \"{dir}\" δεν υπάρχει πια",
     "Not enough free space" : "Δεν υπάρχει αρκετός ελεύθερος χώρος.",
     "Uploading …" : "Γίνεται μεταφόρτωση ...",
-    "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} από {totalSize} ({bitrate})",
     "Target folder does not exist any more" : "Ο επιλεγμένος φάκελος δεν υπάρχει πλέον",
     "Actions" : "Ενέργειες",
     "Rename" : "Μετονομασία",
     "Copy" : "Αντιγραφή",
-    "Target folder" : "Φάκελος προορισμού",
     "Disconnect storage" : "Αποσυνδεδεμένος αποθηκευτικός χώρος",
     "Unshare" : "Διακοπή διαμοιρασμού",
     "Could not load info for file \"{file}\"" : "Δεν μπορέσαμε να φορτώσουμε πληροφορίες για το αρχείο \"{file}\"",
@@ -142,6 +141,7 @@
     "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "Move" : "Μετακίνηση"
+    "Move" : "Μετακίνηση",
+    "Target folder" : "Φάκελος προορισμού"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

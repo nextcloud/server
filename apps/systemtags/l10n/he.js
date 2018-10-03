@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (נסתר)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>תגיות מערכת</strong> שהשתנו עבור קובץ",
     "Collaborative tags" : "תגיות שיתופיות",
+    "Collaborative tagging functionality which shares tags among users." : "תכונת תיוג שיתופים שמשתפת תגיות בין המשתמשים.",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "תגיות שיתופיות זמינות לכל המשתמשים. תגיות מוגבלות חשופות למשתמשים אך אין להם אפשרות להקצות אותן. תגיות בלתי נראות הן לשימוש פנימי כיוון שמשתמשים לא יכולים לראות אות להקצות אותן.",
     "Select tag …" : "מחיקת תגית…",
     "Create a new tag" : "יצירת תגית חדשה",

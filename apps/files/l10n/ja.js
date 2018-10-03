@@ -15,17 +15,16 @@ OC.L10N.register(
     "Close" : "閉じる",
     "Could not create folder \"{dir}\"" : "フォルダー \"{dir}\" を作成できませんでした",
     "Upload cancelled." : "アップロードはキャンセルされました。",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "ディレクトリであるか、または0バイトのため {filename} をアップロードできません",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "空き容量が十分でなく、 {size1} をアップロードしていますが、 {size2} しか残っていません。",
     "Target folder \"{dir}\" does not exist any more" : "対象フォルダー \"{dir}\" がもう存在しません",
     "Not enough free space" : "十分な空き容量がありません",
     "Uploading …" : "アップロード中...",
-    "…" : "…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{totalSize} 中 {loadedSize} ({bitrate})",
     "Target folder does not exist any more" : "対象フォルダーがもう存在しません",
     "Actions" : "アクション",
     "Rename" : "名前の変更",
-    "Target folder" : "対象フォルダー",
     "Disconnect storage" : "ストレージを切断する",
     "Unshare" : "共有解除",
     "Could not load info for file \"{file}\"" : "\"{file}\" ファイルの情報を読み込めませんでした",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Shared by link" : "URLリンクで共有中",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
-    "Move" : "移動"
+    "Move" : "移動",
+    "Target folder" : "対象フォルダー"
 },
 "nplurals=1; plural=0;");

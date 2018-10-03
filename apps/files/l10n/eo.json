@@ -13,16 +13,15 @@
     "Close" : "Fermi",
     "Could not create folder \"{dir}\"" : "Ne eblas krei dosierujon “{dir}”",
     "Upload cancelled." : "La alŝuto nuliĝis.",
+    "…" : "… ",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Ne povis alŝutiĝi {filename} ĉar ĝi estas dosierujo aŭ ĝi havas 0 duumokojn",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ne sufiĉas libera spaco: vi alŝutas {size1} sed nur {size2} restas",
     "Not enough free space" : "Ne sufiĉas libera spaco",
     "Uploading …" : "Alŝutante ...",
-    "…" : "… ",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} el {totalSize} ({bitrate})",
     "Actions" : "Agoj",
     "Rename" : "Alinomigi",
     "Copy" : "Kopii",
-    "Target folder" : "Cela dosiero",
     "Disconnect storage" : "Malkonekti memoron",
     "Unshare" : "Malkunhavigi",
     "Could not load info for file \"{file}\"" : "Ne ŝarĝiblas informo por dosiero \"{file}\"",
@@ -97,6 +96,7 @@
     "Shared by link" : "Kunhavata per ligilo",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "Move" : "Movi"
+    "Move" : "Movi",
+    "Target folder" : "Cela dosiero"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
