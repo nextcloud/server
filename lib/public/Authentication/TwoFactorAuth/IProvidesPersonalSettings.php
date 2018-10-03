@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@owncloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,16 +22,26 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Settings;
+namespace OCP\Authentication\TwoFactorAuth;
 
+use OCP\IUser;
 
-use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
-use OCP\Template;
+/**
+ * Interface for admins that have personal settings. These settings will be shown in the
+ * security sections. Some information like the display name of the provider is read
+ * from the provider directly.
+ *
+ * @since 15.0.0
+ */
+interface IProvidesPersonalSettings extends IProvider {
 
-class Personal implements IPersonalProviderSettings {
-
-	public function getBody(): Template {
-		return new Template('twofactor_backupcodes', 'personal');
-	}
+	/**
+	 * @param IUser $user
+	 *
+	 * @return IPersonalProviderSettings
+	 *
+	 * @since 15.0.0
+	 */
+	public function getPersonalSettings(IUser $user): IPersonalProviderSettings;
 
 }

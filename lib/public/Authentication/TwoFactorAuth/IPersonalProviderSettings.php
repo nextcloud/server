@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@owncloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,16 +22,22 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TwoFactorBackupCodes\Settings;
+namespace OCP\Authentication\TwoFactorAuth;
 
-
-use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Template;
 
-class Personal implements IPersonalProviderSettings {
+/**
+ * Interface IPersonalProviderSettings
+ *
+ * @since 15.0.0
+ */
+interface IPersonalProviderSettings {
 
-	public function getBody(): Template {
-		return new Template('twofactor_backupcodes', 'personal');
-	}
+	/**
+	 * @return Template
+	 *
+	 * @since 15.0.0
+	 */
+	public function getBody(): Template;
 
 }

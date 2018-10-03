@@ -24,18 +24,41 @@
 namespace OC\Settings\Personal;
 
 
+use function array_filter;
+use function array_map;
+use function is_null;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorManager;
+use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
 
+	/** @var IUserManager */
 	private $userManager;
 
-	public function __construct(
-		IUserManager $userManager
-	) {
+	/** @var TwoFactorManager */
+	private $twoFactorManager;
+
+	/** @var ProviderLoader */
+	private $providerLoader;
+
+	/** @var IUserSession */
+	private $userSession;
+
+
+	public function __construct(IUserManager $userManager,
+								TwoFactorManager $providerManager,
+								ProviderLoader $providerLoader,
+								IUserSession $userSession) {
 		$this->userManager = $userManager;
+		$this->twoFactorManager = $providerManager;
+		$this->providerLoader = $providerLoader;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -50,7 +73,8 @@ class Security implements ISettings {
 		}
 
 		return new TemplateResponse('settings', 'settings/personal/security', [
-			'passwordChangeSupported' => $passwordChangeSupported
+			'passwordChangeSupported' => $passwordChangeSupported,
+			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
 		]);
 	}
 
@@ -72,5 +96,25 @@ class Security implements ISettings {
 	 */
 	public function getPriority() {
 		return 10;
+	}
+
+	private function getTwoFactorProviderData(): array {
+		$user = $this->userSession->getUser();
+		if (is_null($user)) {
+			// Actually impossible, but still …
+			return [];
+		}
+
+		return [
+			'isEnabled' => $this->twoFactorManager->isTwoFactorAuthenticated($user),
+			'providers' => array_map(function (IProvidesPersonalSettings $provider) use ($user) {
+				return [
+					'provider' => $provider,
+					'settings' => $provider->getPersonalSettings($user)
+				];
+			}, array_filter($this->providerLoader->getProviders($user), function (IProvider $provider) {
+				return $provider instanceof IProvidesPersonalSettings;
+			}))
+		];
 	}
 }
