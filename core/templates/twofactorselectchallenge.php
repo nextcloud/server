@@ -6,17 +6,17 @@
 		<strong><?php p($l->t('Could not load at least one of your enabled two-factor auth methods. Please contact your admin.')) ?></strong>
 	</p>
 	<?php endif; ?>
-	<?php if (empty($_['providers'])): ?>
-	<p>
-		<?php if (is_null($_['backupProvider'])): ?>
-		<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance.')) ?></strong>
-		<?php else: ?>
-		<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance.')) ?></strong>
-		<?php endif; ?>
-	</p>
-	<?php else: ?>
 	<p>
 		<ul>
+			<?php if (empty($_['providers'])): ?>
+			<p>
+				<?php if (is_null($_['backupProvider'])): ?>
+				<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance.')) ?></strong>
+				<?php else: ?>
+				<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance.')) ?></strong>
+				<?php endif; ?>
+			</p>
+			<?php else: ?>
 			<?php foreach ($_['providers'] as $provider): ?>
 				<li>
 					<a class="two-factor-provider"
