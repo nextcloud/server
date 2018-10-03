@@ -205,7 +205,6 @@ export default {
 		 * Create a new group
 		 * 
 		 * @param {Object} event The form submit event
-		 * @returns {Promise}
 		 */
 		createGroup(event) {
 			let gid = event.target[0].value;
@@ -218,7 +217,6 @@ export default {
 				.catch(() => {
 					this.loadingAddGroup = false;
 				});
-			return this.$store.getters.getGroups[this.groups.length];
 		}
 	},
 	computed: {
