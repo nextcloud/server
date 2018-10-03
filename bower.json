@@ -31,7 +31,7 @@
     "moment": "^2.15.0",
     "select2": "~3.4.8",
     "snapjs": "~2.0.0-rc1",
-    "strengthify": "^0.5.3",
+    "strengthify": "^0.5.5",
     "underscore": "~1.8.0",
     "zxcvbn": "*"
   }

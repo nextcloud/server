@@ -123,6 +123,7 @@ $(document).ready(function() {
 			t('core', 'Strong password')
 		],
 		drawTitles: true,
+		nonce: btoa(OC.requestToken),
 	});
 
 	// centers the database chooser if it is too wide
