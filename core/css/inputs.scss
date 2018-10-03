@@ -761,7 +761,7 @@ input {
 		border: 1px solid var(--color-border-dark);
 		background: var(--color-main-background);
 		z-index: 50;
-		max-height: 250px;
+		max-height: 175px !important; // 5 items and a half
 		overflow-y: auto;
 		.multiselect__content {
 			width: 100%;
