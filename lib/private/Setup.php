@@ -309,14 +309,6 @@ class Setup {
 
 		$request = \OC::$server->getRequest();
 
-		//no errors, good
-		if(isset($options['trusted_domains'])
-		    && is_array($options['trusted_domains'])) {
-			$trustedDomains = $options['trusted_domains'];
-		} else {
-			$trustedDomains = [$request->getInsecureServerHost()];
-		}
-
 		//use sqlite3 when available, otherwise sqlite2 will be used.
 		if ($dbType === 'sqlite' && class_exists('SQLite3')) {
 			$dbType = 'sqlite3';
@@ -331,13 +323,20 @@ class Setup {
 		$newConfigValues = [
 			'passwordsalt'		=> $salt,
 			'secret'			=> $secret,
-			'trusted_domains'	=> $trustedDomains,
 			'datadirectory'		=> $dataDir,
 			'dbtype'			=> $dbType,
 			'version'			=> implode('.', \OCP\Util::getVersion()),
 		];
 
-		if ($this->config->getValue('overwrite.cli.url', null) === null) {
+		if (isset($options['trusted_domains']) && is_array($options['trusted_domains'])) {
+			$newConfigValues['trusted_domains'] = $options['trusted_domains'];
+		} else {
+			$newConfigValues['trusted_domains'] = [$request->getInsecureServerHost()];
+		}
+
+		if (isset($options['overwrite.cli.url'])) {
+			$newConfigValues['overwrite.cli.url'] = $options['overwrite.cli.url'];
+		} elseif ($this->config->getValue('overwrite.cli.url', null) === null) {
 			$newConfigValues['overwrite.cli.url'] = $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT;
 		}
 
