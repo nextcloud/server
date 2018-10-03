@@ -290,7 +290,7 @@ class CheckSetupController extends Controller {
 		$remoteAddress = $this->request->getRemoteAddress();
 
 		if (is_array($trustedProxies) && in_array($remoteAddress, $trustedProxies)) {
-			return false;
+			return true;
 		}
 
 		// either not enabled or working correctly

@@ -304,7 +304,7 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
 
-		$this->assertFalse(
+		$this->assertTrue(
 			self::invokePrivate(
 				$this->checkSetupController,
 				'forwardedForHeadersWorking'
@@ -321,7 +321,7 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getRemoteAddress')
 			->willReturn('4.3.2.1');
 
-		$this->assertTrue(
+		$this->assertFalse(
 			self::invokePrivate(
 				$this->checkSetupController,
 				'forwardedForHeadersWorking'
