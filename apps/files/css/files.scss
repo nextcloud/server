@@ -842,4 +842,27 @@ table.dragshadow td.size {
 			text-overflow: ellipsis;
 		}
 	}
+
+	/* Center align the footer file number & size summary */
+	tfoot {
+		display: grid;
+
+		.summary {
+			display: inline-block;
+			margin: 0 auto;
+
+			td {
+				padding-top: 50px;
+
+				&:first-child,
+				&.date {
+					display: none;
+				}
+
+				.info {
+				    margin-left: 0;
+				}
+			}
+		}
+	}
 }
