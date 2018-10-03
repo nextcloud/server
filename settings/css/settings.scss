@@ -104,6 +104,11 @@ input {
 	display: inline-grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
+
+	/* Same font-weight exception as for .personal-settings-container */
+	> div h3 {
+		font-weight: 300;
+	}
 }
 
 .personal-show-container {
@@ -213,12 +218,14 @@ select {
 		clear: both;
 	}
 	> div {
-		h2 {
+		h3 {
 			position: relative;
 			display: inline-flex;
 			flex-wrap: nowrap;
 			justify-content: flex-start;
 			width: 100%;
+			font-weight: 300;
+
 			> label {
 				white-space: nowrap;
 				text-overflow: ellipsis;

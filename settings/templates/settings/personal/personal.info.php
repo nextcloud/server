@@ -40,14 +40,14 @@ vendor_style('jcrop/css/jquery.Jcrop');
 	<div id="personal-settings-avatar-container" class="personal-settings-container">
 		<div>
 			<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
-				<h2>
+				<h3>
 					<label><?php p($l->t('Profile picture')); ?></label>
 					<div class="federation-menu">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
 					</div>
-				</h2>
+				</h3>
 				<div id="displayavatar">
 					<div class="avatardiv"></div>
 					<div class="warning hidden"></div>
@@ -75,7 +75,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 			</form>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-group-box section">
-			<h2><?php p($l->t('Details')); ?></h2>
+			<h3><?php p($l->t('Details')); ?></h3>
 			<div id="groups" class="personal-info icon-user">
 				<p><?php p($l->t('You are a member of the following groups:')); ?></p>
 				<p id="groups-groups">
@@ -102,14 +102,14 @@ vendor_style('jcrop/css/jquery.Jcrop');
 	<div class="personal-settings-container">
 		<div class="personal-settings-setting-box">
 			<form id="displaynameform" class="section">
-				<h2>
+				<h3>
 					<label for="displayname"><?php p($l->t('Full name')); ?></label>
 					<div class="federation-menu">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
 					</div>
-				</h2>
+				</h3>
 				<input type="text" id="displayname" name="displayname"
 					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
 					   value="<?php p($_['displayName']) ?>"
@@ -126,14 +126,14 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		</div>
 		<div class="personal-settings-setting-box">
 			<form id="emailform" class="section">
-				<h2>
+				<h3>
 					<label for="email"><?php p($l->t('Email')); ?></label>
 					<div class="federation-menu">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
 					</div>
-				</h2>
+				</h3>
 				<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') p('hidden'); ?>">
 					<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
 				<?php
@@ -169,14 +169,14 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<?php if (!empty($_['phone']) || $_['lookupServerUploadEnabled']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="phoneform" class="section">
-				<h2>
+				<h3>
 					<label for="phone"><?php p($l->t('Phone number')); ?></label>
 					<div class="federation-menu">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
 					</div>
-				</h2>
+				</h3>
 				<input type="tel" id="phone" name="phone" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"'); ?>
 					   value="<?php p($_['phone']) ?>"
 					   placeholder="<?php p($l->t('Your phone number')); ?>"
@@ -191,14 +191,14 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<?php if (!empty($_['address']) || $_['lookupServerUploadEnabled']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="addressform" class="section">
-				<h2>
+				<h3>
 					<label for="address"><?php p($l->t('Address')); ?></label>
 					<div class="federation-menu">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
 					</div>
-				</h2>
+				</h3>
 				<input type="text" id="address" name="address" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
 					   placeholder="<?php p($l->t('Your postal address')); ?>"
 					   value="<?php p($_['address']) ?>"
@@ -213,14 +213,14 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<?php if (!empty($_['website']) || $_['lookupServerUploadEnabled']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="websiteform" class="section">
-				<h2>
+				<h3>
 					<label for="website"><?php p($l->t('Website')); ?></label>
 					<div class="federation-menu">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
 					</div>
-				</h2>
+				</h3>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 				<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') p('hidden'); ?>">
 					<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
@@ -262,14 +262,14 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<?php if (!empty($_['twitter']) || $_['lookupServerUploadEnabled']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="twitterform" class="section">
-				<h2>
+				<h3>
 					<label for="twitter"><?php p($l->t('Twitter')); ?></label>
 					<div class="federation-menu">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
 					</div>
-				</h2>
+				</h3>
 				<?php if($_['lookupServerUploadEnabled']) { ?>
 				<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') p('hidden'); ?>">
 					<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
@@ -314,9 +314,9 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<div class="personal-settings-setting-box personal-settings-language-box">
 			<?php if (isset($_['activelanguage'])) { ?>
 				<form id="language" class="section">
-					<h2>
+					<h3>
 						<label for="languageinput"><?php p($l->t('Language'));?></label>
-					</h2>
+					</h3>
 					<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
 						<option value="<?php p($_['activelanguage']['code']);?>">
 							<?php p($_['activelanguage']['name']);?>
@@ -343,9 +343,9 @@ vendor_style('jcrop/css/jquery.Jcrop');
 		<div class="personal-settings-setting-box personal-settings-locale-box">
 			<?php if (isset($_['activelocale'])) { ?>
 				<form id="locale" class="section">
-					<h2>
+					<h3>
 						<label for="localeinput"><?php p($l->t('Locale'));?></label>
-					</h2>
+					</h3>
 					<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale'));?>">
 						<option value="<?php p($_['activelocale']['code']);?>">
 							<?php p($_['activelocale']['name']);?>
