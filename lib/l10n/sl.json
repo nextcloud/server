@@ -101,7 +101,7 @@
     "A valid password must be provided" : "Navedeno mora biti veljavno geslo",
     "The username is already being used" : "Vpisano uporabniško ime je že v uporabi",
     "User disabled" : "Uporabnik je onemogočen",
-    "Login canceled by app" : "Aplikacija je prijavo prekinila.",
+    "Login canceled by app" : "Program onemogoča prijavo",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" ni mogoče namestiti zaradi nerešenih odvisnosti: %s",
     "a safe home for all your data" : "Varno okolje za vse vaše podatke!",
     "File is currently busy, please try again later" : "Datoteka je trenutno v uporabi. Poskusite znova kasneje.",
@@ -137,6 +137,9 @@
     "Storage is temporarily not available" : "Shramba trenutno ni na voljo",
     "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s",
     "Personal" : "Osebno",
+    "APCu" : "APCu",
+    "Redis" : "Redis",
+    "Encryption" : "Šifriranje",
     "Tips & tricks" : "Triki in nasveti"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

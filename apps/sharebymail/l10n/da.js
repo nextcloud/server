@@ -28,16 +28,16 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s delte »%s« med dig.\nDu burde allerede have modtaget en email med et link til at tilgå det.",
     "Password to access »%s« shared to you by %s" : "Kodeord for adgang til »%s« delt med dig af %s",
     "Password to access »%s«" : "Kodeord for adgang til »%s«",
-    "It is protected with the following password: %s" : "Det er beskyttet af følgende kodeord: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du har delt »%s« med %s. Delingen er allerede sendt til modtageren. Pga. sikkerhedsretninger der er lavet af administratoren af  %s hver deling skal beskyttes af et password og det er ikke tilladt at sende passwordet direkte til modtageren. Derfor skal du give passwordet til modtageren manuelt.",
     "Password to access »%s« shared with %s" : "Password for adgang til »%s« delt med dig af %s",
-    "This is the password: %s" : "Dette password er: %s",
     "You can choose a different password at any time in the share dialog." : "Du kan til enhver tid vælge et andet password i delings dialogen.",
     "Could not find share" : "Kan ikke finde deling",
     "Share by mail" : "Delt med mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillad brugere at dele et personligt link til en fil eller folder ved at skrive en email ind.",
     "Send password by mail" : "Send kodeord på mail",
     "Enforce password protection" : "Tving kodeords beskyttelse",
-    "Failed to send share by E-mail" : "Kunne ikke dele via e-mail"
+    "Failed to send share by E-mail" : "Kunne ikke dele via e-mail",
+    "It is protected with the following password: %s" : "Det er beskyttet af følgende kodeord: %s",
+    "This is the password: %s" : "Dette password er: %s"
 },
 "nplurals=2; plural=(n != 1);");
