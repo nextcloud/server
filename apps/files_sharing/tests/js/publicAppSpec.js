@@ -60,7 +60,7 @@ describe('OCA.Sharing.PublicApp tests', function() {
 				'<input type="file" id="file_upload_start" name="files[]" multiple="multiple">' +
 				// dummy table
 				// TODO: at some point this will be rendered by the fileList class itself!
-				'<table id="filestable">' +
+				'<table id="filestable" class="list-container view-grid">' +
 				'<thead><tr>' +
 				'<th id="headerName" class="hidden column-name">' +
 				'<input type="checkbox" id="select_all_files" class="select-all">' +

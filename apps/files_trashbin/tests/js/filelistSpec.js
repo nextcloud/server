@@ -48,7 +48,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 			'</div>' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
-			'<table id="filestable">' +
+			'<table id="filestable" class="list-container view-grid">' +
 			'<thead><tr><th id="headerName" class="hidden">' +
 			'<input type="checkbox" id="select_all_trash" class="select-all">' +
 			'<span class="name">Name</span>' +
