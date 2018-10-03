@@ -866,3 +866,22 @@ table.dragshadow td.size {
 		}
 	}
 }
+
+/* Grid view toggle */
+.view-toggle {
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 22px;
+	opacity: .5;
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+	}
+}
+
+/* Hide legacy Gallery toggle */
+#gallery-button {
+	display: none;
+}
