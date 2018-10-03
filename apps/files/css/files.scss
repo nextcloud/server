@@ -762,6 +762,7 @@ table.dragshadow td.size {
 						height: 130px;
 						background-size: 130px;
 						margin-left: 26px;
+						border-radius: var(--border-radius);
 
 						/* Position favorite star related to checkbox to left and 3-dot menu below */
 						.favorite-mark {
