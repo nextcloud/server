@@ -24,10 +24,13 @@
 namespace OCA\Comments\Tests\Unit\Controller;
 
 use OCA\Comments\Controller\Notifications;
+use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -38,75 +41,117 @@ use OCP\Notification\INotification;
 use Test\TestCase;
 
 class NotificationsTest extends TestCase {
-	/** @var  \OCA\Comments\Controller\Notifications */
+	/** @var Notifications */
 	protected $notificationsController;
 
-	/** @var  \OCP\Comments\ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $commentsManager;
 
-	/** @var  \OCP\Files\Folder|\PHPUnit_Framework_MockObject_MockObject */
-	protected $folder;
+	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	protected $rootFolder;
 
-	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $session;
 
-	/** @var \OCP\Notification\IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $notificationManager;
+
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	protected $urlGenerator;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)->getMock();
-		$this->folder = $this->getMockBuilder(Folder::class)->getMock();
-		$this->session = $this->getMockBuilder(IUserSession::class)->getMock();
-		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
+		$this->commentsManager = $this->createMock(ICommentsManager::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->session = $this->createMock(IUserSession::class);
+		$this->notificationManager = $this->createMock(IManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->notificationsController = new Notifications(
 			'comments',
-			$this->getMockBuilder(IRequest::class)->getMock(),
+			$this->createMock(IRequest::class),
 			$this->commentsManager,
-			$this->folder,
-			$this->getMockBuilder(IURLGenerator::class)->getMock(),
+			$this->rootFolder,
+			$this->urlGenerator,
 			$this->notificationManager,
 			$this->session
 		);
 	}
-	
+
+	public function testViewGuestRedirect() {
+		$this->commentsManager->expects($this->never())
+			->method('get');
+
+		$this->rootFolder->expects($this->never())
+			->method('getUserFolder');
+
+		$this->session->expects($this->once())
+			->method('getUser')
+			->willReturn(null);
+
+		$this->notificationManager->expects($this->never())
+			->method('createNotification');
+		$this->notificationManager->expects($this->never())
+			->method('markProcessed');
+
+		$this->urlGenerator->expects($this->exactly(2))
+			->method('linkToRoute')
+			->withConsecutive(
+				['comments.Notifications.view', ['id' => '42']],
+				['core.login.showLoginForm', ['redirect_url' => 'link-to-comment']]
+			)
+			->willReturnMap([
+				['comments.Notifications.view', ['id' => '42'], 'link-to-comment'],
+				['core.login.showLoginForm', ['redirect_url' => 'link-to-comment'], 'link-to-login'],
+			]);
+
+		/** @var RedirectResponse $response */
+		$response = $this->notificationsController->view('42');
+		$this->assertInstanceOf(RedirectResponse::class, $response);
+		$this->assertSame('link-to-login', $response->getRedirectURL());
+	}
+
 	public function testViewSuccess() {
-		$comment = $this->getMockBuilder(IComment::class)->getMock();
+		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')
-			->will($this->returnValue('files'));
+			->willReturn('files');
 
 		$this->commentsManager->expects($this->any())
 			->method('get')
 			->with('42')
-			->will($this->returnValue($comment));
+			->willReturn($comment);
 
-		$file = $this->getMockBuilder(Node::class)->getMock();
+		$file = $this->createMock(Node::class);
+		$folder = $this->createMock(Folder::class);
 
-		$this->folder->expects($this->once())
+		$this->rootFolder->expects($this->once())
+			->method('getUserFolder')
+			->willReturn($folder);
+
+		$folder->expects($this->once())
 			->method('getById')
-			->will($this->returnValue([$file]));
+			->willReturn([$file]);
 
 		$this->session->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($this->getMockBuilder(IUser::class)->getMock()));
+			->willReturn($this->createMock(IUser::class));
 
-		$notification = $this->getMockBuilder(INotification::class)->getMock();
+		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->any())
 			->method($this->anything())
-			->will($this->returnValue($notification));
+			->willReturn($notification);
 
 		$this->notificationManager->expects($this->once())
 			->method('createNotification')
-			->will($this->returnValue($notification));
+			->willReturn($notification);
 		$this->notificationManager->expects($this->once())
 			->method('markProcessed')
 			->with($notification);
 
 		$response = $this->notificationsController->view('42');
-		$this->assertInstanceOf('\OCP\AppFramework\Http\RedirectResponse', $response);
+		$this->assertInstanceOf(RedirectResponse::class, $response);
 	}
 
 	public function testViewInvalidComment() {
@@ -115,11 +160,12 @@ class NotificationsTest extends TestCase {
 			->with('42')
 			->will($this->throwException(new NotFoundException()));
 
-		$this->folder->expects($this->never())
-			->method('getById');
+		$this->rootFolder->expects($this->never())
+			->method('getUserFolder');
 
-		$this->session->expects($this->never())
-			->method('getUser');
+		$this->session->expects($this->once())
+			->method('getUser')
+			->willReturn($this->createMock(IUser::class));
 
 		$this->notificationManager->expects($this->never())
 			->method('createNotification');
@@ -127,41 +173,47 @@ class NotificationsTest extends TestCase {
 			->method('markProcessed');
 
 		$response = $this->notificationsController->view('42');
-		$this->assertInstanceOf('\OCP\AppFramework\Http\NotFoundResponse', $response);
+		$this->assertInstanceOf(NotFoundResponse::class, $response);
 	}
 
 	public function testViewNoFile() {
-		$comment = $this->getMockBuilder(IComment::class)->getMock();
+		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')
-			->will($this->returnValue('files'));
+			->willReturn('files');
 
 		$this->commentsManager->expects($this->any())
 			->method('get')
 			->with('42')
-			->will($this->returnValue($comment));
+			->willReturn($comment);
 
-		$this->folder->expects($this->once())
+		$folder = $this->createMock(Folder::class);
+
+		$this->rootFolder->expects($this->once())
+			->method('getUserFolder')
+			->willReturn($folder);
+
+		$folder->expects($this->once())
 			->method('getById')
-			->will($this->returnValue([]));
+			->willReturn([]);
 
 		$this->session->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($this->getMockBuilder(IUser::class)->getMock()));
+			->willReturn($this->createMock(IUser::class));
 
-		$notification = $this->getMockBuilder(INotification::class)->getMock();
+		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->any())
 			->method($this->anything())
-			->will($this->returnValue($notification));
+			->willReturn($notification);
 
 		$this->notificationManager->expects($this->once())
 			->method('createNotification')
-			->will($this->returnValue($notification));
+			->willReturn($notification);
 		$this->notificationManager->expects($this->once())
 			->method('markProcessed')
 			->with($notification);
 
 		$response = $this->notificationsController->view('42');
-		$this->assertInstanceOf('\OCP\AppFramework\Http\NotFoundResponse', $response);
+		$this->assertInstanceOf(NotFoundResponse::class, $response);
 	}
 }
