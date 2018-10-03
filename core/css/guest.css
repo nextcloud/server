@@ -103,7 +103,7 @@ body {
 /* Default FORM */
 form {
 	position: relative;
-	width: 280px;
+	width: 100%;
 	margin: auto;
 	padding: 0;
 }
@@ -433,7 +433,7 @@ form .warning input[type='checkbox']+label {
 	margin: 0 auto;
 }
 .two-factor-submit {
-	width: 280px;
+	width: 100%;
 	padding: 10px;
 	margin: 0 0 5px 0;
 	border-radius: 3px;
