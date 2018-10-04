@@ -727,8 +727,8 @@ table.dragshadow td.size {
 }
 
 /* GRID */
-#filestable.view-grid {
-	$grid-size: 180px;
+#filestable.view-grid:not(.hidden) {
+	$grid-size: 160px;
 	display: flex;
 	flex-direction: column;
 
