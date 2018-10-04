@@ -172,7 +172,7 @@ table th, table th a {
 	color: var(--color-text-maxcontrast);
 }
 table.multiselect th a {
-	color: #000;
+	color: var(--color-main-text);
 }
 table th .columntitle {
 	display: block;
@@ -262,8 +262,7 @@ table.multiselect thead {
 }
 
 table.multiselect thead th {
-	background-color: rgba(255, 255, 255, 0.95); /* like controls bar */
-	color: #000;
+	background-color: var(--color-main-background);
 	font-weight: bold;
 	border-bottom: 0;
 }
@@ -732,10 +731,20 @@ table.dragshadow td.size {
 	display: flex;
 	flex-direction: column;
 
+	/* HEADER and MULTISELECT */
 	thead {
-		display: none;
+		tr {
+			display: block;
+			border-bottom: 1px solid var(--color-border);
+			background-color: var(--color-main-background);
+			th {
+				width: auto;
+				border: none;
+			}
+		}
 	}
 
+	/* MAIN FILE LIST */
 	tbody {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, 180px);
@@ -823,24 +832,24 @@ table.dragshadow td.size {
 					display: inline-block;
 				}
 			}
+
+			/* Position actions menu below file */
+			.popovermenu {
+				left: 0;
+				width: 169px;
+
+				/* Ellipsize long entries, normally menu width is adjusted but for grid we use fixed width. */
+				.menuitem span:not(.icon) {
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
 		}
 	}
 
 	/* Do not show "Shared" text next to icon as there is no space */
 	#fileList .action.action-share.permanent.shared-style span:not(.icon) {
 		display: none;
-	}
-
-	/* Position actions menu below file */
-	.popovermenu {
-		left: 0;
-		width: 169px;
-
-		/* Ellipsize long entries, normally menu width is adjusted but for grid we use fixed width. */
-		.menuitem span:not(.icon) {
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
 	}
 
 	/* Center align the footer file number & size summary */
