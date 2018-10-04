@@ -812,6 +812,11 @@ table.dragshadow td.size {
 
 				.name {
 					height: 100%;
+					border-radius: var(--border-radius);
+					// since we're using thumbnail, name and actions bg
+					// we need to hide the overflow for the radius to show
+					// luckily the popovermenu is outside .name
+					overflow: hidden;
 					// we but the thumbnail in background to ensure
 					// the name is the default click handler
 					// force back the cursor which have been overrided
