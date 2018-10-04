@@ -757,7 +757,7 @@ table.dragshadow td.size {
 		tr {
 			display: block;
 			position: relative;
-			height: $grid-size + 44px;
+			height: $grid-size + 44px - $grid-pad;
 			border-radius: var(--border-radius);
 			&:hover, &:focus, &:active,
 			&.selected,
@@ -824,7 +824,7 @@ table.dragshadow td.size {
 						overflow: hidden;
 						text-overflow: ellipsis;
 						white-space: nowrap;
-						margin-top: $grid-size;
+						margin-top: $grid-size - $grid-pad;
 						padding-right: 0;
 						text-align: right;
 						line-height: 44px;
@@ -843,7 +843,7 @@ table.dragshadow td.size {
 
 					.fileactions {
 						height: initial;
-						margin-top: $grid-size;
+						margin-top: $grid-size - $grid-pad;
 						display: flex;
 						align-items: center;
 						.action {
