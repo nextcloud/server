@@ -330,6 +330,7 @@
 			// Toggle for grid view
 			this.$showGridView = $('input#showgridview');
 			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
+			$('#view-toggle').tooltip({placement: 'bottom'});
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
