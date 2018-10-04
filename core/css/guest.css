@@ -103,7 +103,7 @@ body {
 /* Default FORM */
 form {
 	position: relative;
-	width: 100%;
+	width: 280px;
 	margin: auto;
 	padding: 0;
 }
@@ -178,7 +178,8 @@ input, textarea, select, button, div[contenteditable=true] {
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
 input,
-input:not([type='range']) {
+input:not([type='range']),
+a.button {
 	font-size: 20px;
 	margin: 5px;
 	padding: 11px 10px 9px;
@@ -189,7 +190,8 @@ input:not([type='range']) {
 input[type='submit'],
 input[type='submit'].icon-confirm,
 input[type='button'],
-button, .button,
+button,
+.button,
 select {
 	display: inline-block;
 	width: auto;
@@ -239,7 +241,8 @@ input.update-continue {
 }
 
 input.primary,
-button.primary {
+button.primary,
+a.primary {
 	border: 1px solid #fff;
 	background-color: #0082c9;
 	color: #fff;
@@ -248,7 +251,9 @@ button.primary {
 input.primary:not(:disabled):hover,
 input.primary:not(:disabled):focus,
 button.primary:not(:disabled):hover,
-button.primary:not(:disabled):focus {
+button.primary:not(:disabled):focus,
+a.primary:not(:disabled):hover,
+a.primary:not(:disabled):focus{
 	background-color: #17adff;
 }
 
@@ -395,6 +400,9 @@ form .warning input[type='checkbox']+label {
 	border-radius: 3px;
 	margin: 12px 0;
 	border: 1px solid transparent;
+	text-align: left;
+	align-items: center;
+	text-decoration: none !important;
 }
 .two-factor-provider:hover,
 .two-factor-provider:focus,
@@ -415,18 +423,6 @@ form .warning input[type='checkbox']+label {
 .two-factor-provider p {
 	font-weight: 300;
 }
-.two-factor-provider.two-factor-secondary {
-	margin: 0;
-}
-.two-factor-provider.two-factor-secondary img {
-	width: 16px;
-	height: 16px;
-	padding: 14px 12px 14px 60px;
-}
-.two-factor-provider.two-factor-secondary div {
-	margin: 12px auto;
-}
-
 .two-factor-icon {
 	width: 100px;
 	display: block;
@@ -438,6 +434,15 @@ form .warning input[type='checkbox']+label {
 	margin: 0 0 5px 0;
 	border-radius: 3px;
 	font-size: 20px;
+}
+.two-factor-primary {
+	/* Fix for 'Use backup codes' button not taking correct styles */
+	padding: 14px !important;
+	width: 226px;
+}
+.two-factor-secondary {
+	display: inline-block;
+	padding: 12px;
 }
 
 
@@ -559,10 +564,12 @@ form #selectDbType label.ui-state-active {
 
 /* Errors */
 /* Warnings and errors are the same */
+.body-login-container,
 .warning,
 .update,
 .error {
 	display: block;
+	margin-top: 15px;
 	padding: 15px;
 	background-color: rgba(0,0,0,.3);
 	color: #fff;
@@ -576,10 +583,7 @@ form #selectDbType label.ui-state-active {
 	user-select: text;
 }
 
-.warning {
-	margin-top: 15px;
-}
-
+.body-login-container h2,
 .warning h2,
 .update h2,
 .error h2 {
@@ -590,6 +594,10 @@ form #selectDbType label.ui-state-active {
 .body-login-container .icon-big {
 	background-size: 70px;
 	height: 70px;
+}
+
+.body-login-container form {
+	width: initial;
 }
 
 .warning.updateAnyways {
