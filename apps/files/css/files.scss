@@ -759,12 +759,15 @@ table.dragshadow td.size {
 			position: relative;
 			height: $grid-size + 44px;
 			border-radius: var(--border-radius);
-			&:hover,
-			&.selected {
+			&:hover, &:focus, &:active,
+			&.selected,
+			&.searchresult,
+			.name:focus {
 				background-color: transparent;
 				.thumbnail-wrapper,
 				.nametext,
 				.fileactions {
+					transition: background-color 0.3s ease;
 					background-color: var(--color-background-dark);
 				}
 			}
