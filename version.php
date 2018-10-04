@@ -46,6 +46,15 @@ $OC_VersionCanBeUpgradedFrom = [
 		'10.0.6.1' => true,
 		'10.0.7.2' => true,
 		'10.0.8.5' => true,
+		'10.0.9.5' => true,
+		'10.0.10.4' => true,
+		'10.0.11' => true, // TODO adjust to 4 digits once it is final
+		'10.0.12' => true, // TODO adjust to 4 digits once it is final
+		'10.0.13' => true, // TODO adjust to 4 digits once it is final
+		'10.0.14' => true, // TODO adjust to 4 digits once it is final
+		'10.0.15' => true, // TODO adjust to 4 digits once it is final
+		'10.0.16' => true, // TODO adjust to 4 digits once it is final
+		'10.0.17' => true, // TODO adjust to 4 digits once it is final
 	],
 ];
 
