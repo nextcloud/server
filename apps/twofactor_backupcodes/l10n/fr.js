@@ -22,6 +22,7 @@ OC.L10N.register(
     "Use backup code" : "Utiliser un code de récupération",
     "Two factor backup codes" : "Code de secours pour l'authentification double facteur.",
     "A two-factor auth backup codes provider" : "Un fournisseur de codes de récupération d'authentification à deux facteurs",
+    "Submit" : "Envoyer",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Les codes de récupération ont été générés. {{used}} codes sur {{total}} ont été utilisés."
 },
 "nplurals=2; plural=(n > 1);");
