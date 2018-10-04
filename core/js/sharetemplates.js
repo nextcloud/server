@@ -56,8 +56,7 @@ templates['sharedialoglinkshareview'] = template({"1":function(container,depth0,
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.shareAllowed : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(9, data, 0),"data":data})) != null ? stack1 : "")
-    + "'\n";
+  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.shareAllowed : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(9, data, 0),"data":data})) != null ? stack1 : "");
 },"useData":true});
 templates['sharedialoglinkshareview_popover_menu'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -236,7 +235,7 @@ templates['sharedialogresharerinfoview'] = template({"1":function(container,dept
     + alias4(((helper = (helper = helpers.reshareOwner || (depth0 != null ? depth0.reshareOwner : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"reshareOwner","hash":{},"data":data}) : helper)))
     + "\"></div>\n	"
     + alias4(((helper = (helper = helpers.sharedByText || (depth0 != null ? depth0.sharedByText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"sharedByText","hash":{},"data":data}) : helper)))
-    + "\n</span>' +\n"
+    + "\n</span>\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.hasShareNote : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
 },"useData":true});
@@ -618,12 +617,12 @@ templates['sharedialogview'] = template({"1":function(container,depth0,helpers,p
     + alias4(((helper = (helper = helpers.cid || (depth0 != null ? depth0.cid : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"cid","hash":{},"data":data}) : helper)))
     + "\" class=\"shareWithField\" type=\"text\" placeholder=\""
     + alias4(((helper = (helper = helpers.sharePlaceholder || (depth0 != null ? depth0.sharePlaceholder : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"sharePlaceholder","hash":{},"data":data}) : helper)))
-    + "\" />\n		<span class=\"shareWithLoading icon-loading-small hidden\"></span>'+\n		<span class=\"shareWithConfirm icon icon-confirm\"></span>\n	</div>\n";
+    + "\" />\n		<span class=\"shareWithLoading icon-loading-small hidden\"></span>\n		<span class=\"shareWithConfirm icon icon-confirm\"></span>\n	</div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<div class=\"resharerInfoView subView\"></div>\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.isSharingAllowed : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "<div class=\"linkShareView subView\"></div>\n<div class=\"shareeListView subView\"></div>\n<div class=\"loading hidden\" style=\"height: 50px\"></div>';\n";
+    + "<div class=\"linkShareView subView\"></div>\n<div class=\"shareeListView subView\"></div>\n<div class=\"loading hidden\" style=\"height: 50px\"></div>\n";
 },"useData":true});
 })();
