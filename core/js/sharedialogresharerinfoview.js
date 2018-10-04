@@ -15,14 +15,6 @@
 		OC.Share = {};
 	}
 
-	var TEMPLATE =
-		'<span class="reshare">' +
-		'    <div class="avatar" data-userName="{{reshareOwner}}"></div>' +
-		'    {{sharedByText}}' +
-		'</span>' +
-		'{{#if hasShareNote}}<div class="share-note">{{shareNote}}</div>{{/if}}'
-		;
-
 	/**
 	 * @class OCA.Share.ShareDialogView
 	 * @member {OC.Share.ShareItemModel} model
@@ -159,10 +151,7 @@
 		 * @private
 		 */
 		template: function () {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template;
+			return OC.Share.Templates['sharedialogresharerinfoview'];
 		}
 
 	});

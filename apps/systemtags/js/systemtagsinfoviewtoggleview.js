@@ -21,9 +21,6 @@
 
 (function(OCA) {
 
-	var TEMPLATE =
-		'<span class="icon icon-tag"/>' + t('systemtags', 'Tags');
-
 	/**
 	 * @class OCA.SystemTags.SystemTagsInfoViewToggleView
 	 * @classdesc
@@ -49,10 +46,7 @@
 		_systemTagsInfoView: null,
 
 		template: function(data) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template(data);
+			return '<span class="icon icon-tag"/>' + t('systemtags', 'Tags');
 		},
 
 		/**

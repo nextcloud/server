@@ -10,8 +10,21 @@ handlebars -n OC.Settings.Templates  settings/js/authtoken.handlebars -f setting
 # Contactsmenu
 handlebars -n OC.ContactsMenu.Templates core/js/contactsmenu -f core/js/contactsmenu_templates.js
 
+# Systemtags
+handlebars -n OC.SystemTags.Templates core/js/systemtags/templates -f core/js/systemtags/templates.js
+
+# Share
+handlebars -n OC.Share.Templates core/js/share -f core/js/sharetemplates.js
+
 # Files app
 handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templates.js
+
+# Comments app
+handlebars -n OCA.Comments.Templates apps/comments/js/templates -f apps/comments/js/templates.js
+
+# Versions app
+handlebars -n OCA.Versions.Templates apps/files_versions/js/templates -f apps/files_versions/js/templates.js
+
 
 if [[ $(git diff --name-only) ]]; then
     echo "Please submit your compiled handlebars templates"
