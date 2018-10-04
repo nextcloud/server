@@ -22,8 +22,6 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Check;
 
-
-use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
