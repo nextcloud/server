@@ -256,6 +256,8 @@ OC.L10N.register(
     "Help" : "Aiuto",
     "Access forbidden" : "Accesso negato",
     "File not found" : "File non trovato",
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Il documento non può essere trovato sul server. Forse la condivisione è stata eliminata o è scaduta?",
+    "Back to %s" : "Torna a %s",
     "Internal Server Error" : "Errore interno del server",
     "The server was unable to complete your request." : "Il server non è stato in grado di completare la tua richiesta.",
     "If this happens again, please send the technical details below to the server administrator." : "Se ciò si verifca nuovamente, invia i seguenti dettagli tecnici all'amministratore del server.",
@@ -402,6 +404,7 @@ OC.L10N.register(
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "L'intestazione HTTP \"Strict-Transport-Security\" non è configurata con un valore di almeno \"{seconds}\" secondi. Per migliorare la sicurezza, consigliamo di abilitare HSTS come descritto nei <a href=\"{docUrl}\" rel=\"noreferrer noopener\">consigli sulla sicurezza</a>.",
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "Sei connesso a questo sito tramite HTTP. Ti suggeriamo vivamente di configurare il tuo server per richiedere invece HTTPS, come descritto nei <a href=\"{docUrl}\">consigli sulla sicurezza</a>.",
     "Back to log in" : "Torna alla schermata di accesso",
-    "Depending on your configuration, this button could also work to trust the domain:" : "In base alla tua configurazione, questo pulsante può funzionare anche per rendere attendibile il dominio:"
+    "Depending on your configuration, this button could also work to trust the domain:" : "In base alla tua configurazione, questo pulsante può funzionare anche per rendere attendibile il dominio:",
+    "Copy URL" : "Copia URL"
 },
 "nplurals=2; plural=(n != 1);");

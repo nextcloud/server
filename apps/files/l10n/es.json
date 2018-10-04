@@ -27,6 +27,7 @@
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
     "Copy" : "Copiar",
+    "Choose target folder" : "Elegir carpeta de destino",
     "Disconnect storage" : "Desconectar almacenamiento",
     "Unshare" : "Dejar de compartir",
     "Could not load info for file \"{file}\"" : "No se ha podido cargar información para el archivo \"{file}\"",

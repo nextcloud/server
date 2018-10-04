@@ -294,6 +294,9 @@ OC.L10N.register(
     "For security reasons this password will only be shown once." : "Pour des raisons de sécurité, ce mot de passe ne sera affiché qu'une seule fois.",
     "Username" : "Nom d'utilisateur",
     "Done" : "Terminé",
+    "Two-Factor Authentication" : "Authentification en deux étapes",
+    "Two-factor authentication is enabled on your account." : "L'authentification en deux étapes est activée sur votre compte.",
+    "Two-factor authentication is disabled on your account." : "L'authentification en deux étapes est désactivée sur votre compte.",
     "Enabled apps" : "Applications activées",
     "A problem occurred, please check your log files (Error: %s)" : "Une erreur est survenue, veuillez vérifier vos fichiers de log (Erreur: %s)",
     "Migration Completed" : "Migration terminée",
@@ -463,6 +466,7 @@ OC.L10N.register(
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "Il est fortement recommandé d'installer sur votre système les paquets nécessaires à la prise en charge de l'un des paramètres régionaux suivants : %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Si votre installation n'a pas été effectuée à la racine du domaine et qu'elle utilise le Cron du système, il peut y avoir des problèmes avec la génération d'URL. Pour les éviter, veuillez configurer l'option \"overwrite.cli.url\" de votre fichier config.php avec le chemin de la racine de votre installation (suggéré : \"%s\")",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "La tâche cron n'a pu s'exécuter via CLI. Ces erreurs techniques sont apparues :",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Pour migrer vers un autre type de base de données, utilisez la ligne de commande : 'occ db:convert-type' ou consultez la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Pour migrer vers un autre type de base de données, utilisez la ligne de commande : 'occ db:convert-type' ou consultez la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>.",
+    "Default quota :" : "Quota par défaut :"
 },
 "nplurals=2; plural=(n > 1);");

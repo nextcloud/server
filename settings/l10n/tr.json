@@ -292,6 +292,9 @@
     "For security reasons this password will only be shown once." : "Güvenlik nedenleriyle bu parola yalnız bir kez görüntülenir.",
     "Username" : "Kullanıcı Adı",
     "Done" : "Tamam",
+    "Two-Factor Authentication" : "İki Aşamalı Kimlik Doğrulama",
+    "Two-factor authentication is enabled on your account." : "Hesabınız için iki aşamalı kimlik doğrulamasını etkinleştirildi.",
+    "Two-factor authentication is disabled on your account." : "Hesabınız için iki aşamalı kimlik doğrulamasını devre dışı bırakıldı.",
     "Enabled apps" : "Etkinleştirilmiş Uygulamalar",
     "A problem occurred, please check your log files (Error: %s)" : "Bir sorun çıktı. Lütfen günlük dosyalarınıza bakın (Hata: %s)",
     "Migration Completed" : "Aktarım Tamamlandı",
@@ -461,6 +464,7 @@
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "Şu dillerden birini desteklemesi için sisteminize gerekli paketleri kurmanız önemle önerilir: %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Kurulumunuz etki alanının kök klasörüne yapılmamış ve sistem Zamanlanmış Görevini kullanıyorsa, İnternet adresi oluşturma sorunları oluşabilir. Bu sorunların önüne geçmek için, kurulumunuzun config.php dosyasındaki \"overwrite.cli.url\" seçeneğini web kök klasörü olarak ayarlayın (Önerilen: \"%s\")",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Zamanlanmış görev CLI üzerinden çalıştırılamadı. Şu teknik sorunlar çıktı:",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Başka bir veritabanına geçmek için komut satırı aracını kullanın: 'occ db:convert-type' ya da <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">belgelere ↗</a> bakın."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Başka bir veritabanına geçmek için komut satırı aracını kullanın: 'occ db:convert-type' ya da <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">belgelere ↗</a> bakın.",
+    "Default quota :" : "Varsayılan kota :"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
