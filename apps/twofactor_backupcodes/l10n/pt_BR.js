@@ -28,6 +28,8 @@ OC.L10N.register(
     "Use backup code" : "Usar o código de backup",
     "Two factor backup codes" : "Códigos de backup de dois fatores",
     "A two-factor auth backup codes provider" : "Um provedor de códigos de backup de autenticação de dois fatores",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Use um dos códigos de backup que você salvou ao configurar a autenticação de dois fatores.",
+    "Submit" : "Enviar",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Códigos de backup foram gerados. {{used}} de {{total}} códigos foram usados."
 },
 "nplurals=2; plural=(n > 1);");
