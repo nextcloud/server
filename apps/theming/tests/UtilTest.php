@@ -139,7 +139,7 @@ class UtilTest extends TestCase {
 	public function dataGetAppIcon() {
 		return [
 			['user_ldap', \OC_App::getAppPath('user_ldap') . '/img/app.svg'],
-			['noapplikethis', \OC::$SERVERROOT . '/core/img/logo.svg'],
+			['noapplikethis', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
 			['comments', \OC_App::getAppPath('comments') . '/img/comments.svg'],
 		];
 	}
