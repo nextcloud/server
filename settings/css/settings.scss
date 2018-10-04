@@ -1394,7 +1394,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			/* let's define the column until storage path,
 			   what follows will be manually defined  */
 			grid-template-columns: 44px minmax(150px, 1fr) repeat(auto-fit, minmax(120px, 1fr));
-			border-top: var(--color-border) 1px solid;
+			border-bottom: var(--color-border) 1px solid;
 			&.disabled {
 				opacity: .5;
 			}
