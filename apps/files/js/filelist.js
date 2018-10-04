@@ -328,7 +328,8 @@
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
 			// Toggle for grid view
-			$('#view-toggle').on('click', this._onGridToggle);
+			this.$showGridView = $('input#showgridview');
+			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
@@ -591,10 +592,20 @@
 		},
 
 		/**
-		 * Event handler for grid view toggle
+		 * Toggle showing gridview by default or not
+		 *
+		 * @returns {undefined}
 		 */
-		_onGridToggle: function() {
-			$('.list-container').toggleClass('view-grid');
+		_onGridviewChange: function() {
+			var show = this.$showGridView.is(':checked');
+			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
+				show: show
+			});
+			this.$showGridView.next('#view-toggle')
+				.removeClass('icon-toggle-filelist icon-toggle-pictures')
+				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+				
+			$('.list-container').toggleClass('view-grid', show);
 		},
 
 		/**

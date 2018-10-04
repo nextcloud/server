@@ -62,6 +62,11 @@ $application->registerRoutes(
 				'verb' => 'POST'
 			],
 			[
+				'name' => 'API#showGridView',
+				'url' => '/api/v1/showgridview',
+				'verb' => 'POST'
+			],
+			[
 				'name' => 'view#index',
 				'url' => '/',
 				'verb' => 'GET',

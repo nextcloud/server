@@ -268,6 +268,18 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * Toggle default for files grid view
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $show
+	 */
+	public function showGridView($show) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', (int)$show);
+		return new Response();
+	}
+
+	/**
 	 * Toggle default for showing/hiding xxx folder
 	 *
 	 * @NoAdminRequired
