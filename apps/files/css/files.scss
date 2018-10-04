@@ -882,7 +882,7 @@ table.dragshadow td.size {
 	tfoot {
 		display: grid;
 
-		.summary {
+		.summary:not(.hidden) {
 			display: inline-block;
 			margin: 0 auto;
 
