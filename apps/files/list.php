@@ -25,7 +25,7 @@ $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 // TODO: move this to the generated config.js
 $publicUploadEnabled = $config->getAppValue('core', 'shareapi_allow_public_upload', 'yes');
-$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', true);
 
 // renders the controls and table headers template
 $tmpl = new OCP\Template('files', 'list', '');
