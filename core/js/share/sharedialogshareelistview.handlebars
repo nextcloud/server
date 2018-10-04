@@ -19,7 +19,7 @@
 	{{#each linkReshares}}
 		<li data-share-id="{{shareId}}" data-share-type="{{shareType}}">
 			<div class="avatar" data-username="{{shareInitiator}}"></div>
-			<span class="has-tooltip username" title="{{shareInitiator}}"> t('core', '{{shareInitiatorDisplayName}} shared via link') + '</span>
+			<span class="has-tooltip username" title="{{shareInitiator}}">{{shareInitiatorText}}</span>
 			<span class="sharingOptionsGroup">
 				<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>
 			</span>

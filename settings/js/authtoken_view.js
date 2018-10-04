@@ -31,6 +31,9 @@
 		_template: undefined,
 
 		template: function (data) {
+			data.disconnectText = t('settings', 'Disconnect');
+			data.revokeText = t('settings', 'Revoke');
+			data.allowFSAccess = t('settings', 'Allow filesystem access');
 			return OC.Settings.Templates['authtoken'](data);
 		},
 

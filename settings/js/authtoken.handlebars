@@ -13,12 +13,12 @@
 		{{#if canScope}}
 			<li><span class="menuitem">
 				<input class="filesystem checkbox" type="checkbox" id="{{id}}_filesystem" {{#if scope.filesystem}}checked{{/if}}/>
-				<label for="{{id}}_filesystem">' + t('settings', 'Allow filesystem access') </label><br/>
+				<label for="{{id}}_filesystem">{{allowFSAccess}}</label><br/>
 			</span></li>
 		{{/if}}
 		{{#if canDelete}}
 			<li>
-				<a class="icon icon-delete has-tooltip" title="' + t('settings', 'Disconnect') ">' + t('settings', 'Revoke') +'</a>
+				<a class="icon icon-delete has-tooltip" title="{{disconnectText}}">{{revokeText}}</a>
 			</li>
 		{{/if}}
 		</div>
