@@ -729,6 +729,7 @@ table.dragshadow td.size {
 /* GRID */
 #filestable.view-grid:not(.hidden) {
 	$grid-size: 160px;
+	$grid-pad: 14px;
 	display: flex;
 	flex-direction: column;
 
@@ -751,12 +752,22 @@ table.dragshadow td.size {
 		grid-template-columns: repeat(auto-fill, $grid-size);
 		justify-content: space-around;
 		row-gap: 15px;
+		margin: 15px 0;
 
 		tr {
 			display: block;
 			position: relative;
-			height: $grid-size;
+			height: $grid-size + 44px;
 			border-radius: var(--border-radius);
+			&:hover,
+			&.selected {
+				background-color: transparent;
+				.thumbnail-wrapper,
+				.nametext,
+				.fileactions {
+					background-color: var(--color-background-dark);
+				}
+			}
 		}
 
 		td {
@@ -766,12 +777,19 @@ table.dragshadow td.size {
 			&.filename {
 				.thumbnail-wrapper {
 					min-width: 0;
+					max-width: none;
+					position: absolute;
+					width: $grid-size;
+					height: $grid-size;
+					padding: $grid-pad; // same as action icon bottom and right padding
+					top: 0;
+					left: 0;
+					z-index: -1; // make sure the default click is the link
 
 					.thumbnail {
-						width: $grid-size;
-						height: $grid-size - 20px;
-						// 75% of the total size
-						background-size: $grid-size * 0.75;
+						width: calc(100% - 2 * #{$grid-pad});
+						height: calc(100% - 2 * #{$grid-pad}); //action icon padding
+						background-size: contain;
 						margin: 0;
 						border-radius: var(--border-radius);
 						background-repeat: no-repeat;
@@ -781,15 +799,21 @@ table.dragshadow td.size {
 						 * Position is inherited from the selection while in grid view
 						 */
 						.favorite-mark {
-							padding: 14px;
-							right: 0;
+							padding: $grid-pad;
 							left: auto;
+							top: -22px; // center in corner of thumbnail
+							right: -22px; // center in corner of thumbnail
 						}
 					}
 				}
 
 				.name {
 					height: 100%;
+					// we but the thumbnail in background to ensure
+					// the name is the default click handler
+					// force back the cursor which have been overrided
+					// and disabled for some reason...
+					cursor: pointer !important;
 
 					.nametext {
 						display: flex;
@@ -797,11 +821,11 @@ table.dragshadow td.size {
 						overflow: hidden;
 						text-overflow: ellipsis;
 						white-space: nowrap;
-						margin-top: $grid-size - 44px;
+						margin-top: $grid-size;
 						padding-right: 0;
 						text-align: right;
 						line-height: 44px;
-						padding-left: 14px; // same as action icon right padding
+						padding-left: $grid-pad; // same as action icon right padding
 
 						.innernametext {
 							display: inline-block;
@@ -816,11 +840,11 @@ table.dragshadow td.size {
 
 					.fileactions {
 						height: initial;
-						margin-top: $grid-size - 44px;
+						margin-top: $grid-size;
 						display: flex;
 						align-items: center;
 						.action {
-							padding: 14px 14px;
+							padding: $grid-pad;
 							width: 44px;
 							height: 44px;
 							display: flex;
@@ -840,8 +864,8 @@ table.dragshadow td.size {
 			&.selection,
 			&.filename .favorite-mark {
 				position: absolute;
-				top: 0;
-				left: 0;
+				top: -8px; // half the checkbox width, center on corner of thumbnail
+				left: -8px; // half the checkbox width, center on corner of thumbnail
 				display: flex;
 				width: 44px;
 				height: 44px;
@@ -852,8 +876,11 @@ table.dragshadow td.size {
 					width: 44px;
 					height: 44px;
 					display: inline-flex;
+					padding: $grid-pad; // like any action icon
 					&::before {
 						margin: 0;
+						width: $grid-pad; // 16px - border
+						height: $grid-pad; // 16px - border
 					}
 				}
 			}
