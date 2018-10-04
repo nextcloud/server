@@ -392,7 +392,8 @@ class OC_Util {
 	 *
 	 * @param String $userId
 	 * @param \OCP\Files\Folder $userDirectory
-	 * @throws \RuntimeException
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
