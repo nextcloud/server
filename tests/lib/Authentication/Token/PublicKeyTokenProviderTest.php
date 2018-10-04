@@ -100,6 +100,23 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
 	}
 
+	public function testGenerateTokenLongPassword() {
+		$token = 'token';
+		$uid = 'user';
+		$user = 'User';
+		$password = str_repeat('passme', 1000);
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$type = IToken::PERMANENT_TOKEN;
+
+		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+
+		$this->assertInstanceOf(PublicKeyToken::class, $actual);
+		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
+	}
+
 	public function testUpdateToken() {
 		$tk = new PublicKeyToken();
 		$tk->setLastActivity($this->time - 200);
