@@ -31,7 +31,7 @@ templates['result'] = template({"1":function(container,depth0,helpers,partials,d
   stack1 = ((helper = (helper = helpers.allowActions || (depth0 != null ? depth0.allowActions : depth0)) != null ? helper : alias2),(options={"name":"allowActions","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
   if (!helpers.allowActions) { stack1 = helpers.blockHelperMissing.call(depth0,stack1,options)}
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</span>';\n";
+  return buffer + "</span>\n";
 },"useData":true});
 templates['result_form'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
