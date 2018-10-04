@@ -47,7 +47,7 @@
 				return;
 			}
 
-			var placeholder = 'text/plain';
+			var placeholder = 'dummy.jpg';
 			if (check['operator'] === 'matches' || check['operator'] === '!matches') {
 				placeholder = '/^dummy-.+$/i';
 
