@@ -292,6 +292,9 @@
     "For security reasons this password will only be shown once." : "Vanwege beveiligingsredenen wordt dit wachtwoord maar één keer getoond.",
     "Username" : "Gebruikersnaam",
     "Done" : "Gedaan",
+    "Two-Factor Authentication" : "Tweefactor authenticatie",
+    "Two-factor authentication is enabled on your account." : "Tweefactor authenticatie is ingeschakeld voor je account.",
+    "Two-factor authentication is disabled on your account." : "Tweefactor authenticatie is uitgeschakeld voor je account.",
     "Enabled apps" : "Ingeschakelde apps",
     "A problem occurred, please check your log files (Error: %s)" : "Er trad een een probleem op, controleer je logbestanden (Fout: %s).",
     "Migration Completed" : "Migratie gereed",
@@ -461,6 +464,7 @@
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "We adviseren met klem om de noodzakelijke pakketten op je systeem te installeren om een van de volgende talen te ondersteunen: %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Als je installatie niet in de hoofddirectory van het domein staat, maar wel systeem cron gebruikt, dan kunnen er problemen ontstaan bij het genereren van URL's. Om deze problemen te voorkomen zou je de \"overwrite.cli.url\" optie in config.php moeten instellen op het webroot pad van je installatie (aanbevolen: \"%s\")",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Het was niet mogelijk om de systeem cron via CLI uit te voeren. De volgende technische problemen traden op:",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Om te migreren naar een andere database moet je de commandoregel tool gebruiken: 'occ db:convert-type'; <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">zie de documentatie ↗</a>."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Om te migreren naar een andere database moet je de commandoregel tool gebruiken: 'occ db:convert-type'; <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">zie de documentatie ↗</a>.",
+    "Default quota :" : "Standaardquota:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
