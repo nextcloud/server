@@ -27,6 +27,7 @@ use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareI
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -40,6 +41,12 @@ class Remove extends Command implements CompletionAwareInterface {
 				'app-id',
 				InputArgument::REQUIRED,
 				'remove the specified app'
+			)
+			->addOption(
+				'keep-data',
+				null,
+				InputOption::VALUE_NONE,
+				'keep app data and do not remove them'
 			);
 	}
 
@@ -49,6 +56,18 @@ class Remove extends Command implements CompletionAwareInterface {
 		if (!\OC_App::getAppPath($appId)) {
 			$output->writeln($appId . ' is not installed');
 			return 1;
+		}
+
+		if (!$input->getOption('keep-data')) {
+			try {
+				/** @var IAppManager $appManager*/
+				$appManager = \OC::$server->getAppManager();
+				$appManager->disableApp($appId);
+				$output->writeln($appId . ' disabled');
+			} catch(\Exception $e) {
+				$output->writeln('Error: ' . $e->getMessage());
+				return 1;
+			}
 		}
 
 		try {
