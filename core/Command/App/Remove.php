@@ -24,6 +24,7 @@ namespace OC\Core\Command\App;
 
 use OC\Installer;
 use OCP\App\IAppManager;
+use OCP\ILogger;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -38,15 +39,19 @@ class Remove extends Command implements CompletionAwareInterface {
 	protected $manager;
 	/** @var Installer */
 	private $installer;
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * @param IAppManager $manager
 	 * @param Installer $installer
+	 * @param ILogger $logger
 	 */
-	public function __construct(IAppManager $manager, Installer $installer) {
+	public function __construct(IAppManager $manager, Installer $installer, ILogger $logger) {
 		parent::__construct();
 		$this->manager = $manager;
 		$this->installer = $installer;
+		$this->logger = $logger;
 	}
 
 	protected function configure() {
@@ -90,6 +95,10 @@ class Remove extends Command implements CompletionAwareInterface {
 				$output->writeln($appId . ' disabled');
 			} catch(\Exception $e) {
 				$output->writeln('Error: ' . $e->getMessage());
+				$this->logger->logException($e, [
+					'app' => 'CLI',
+					'level' => ILogger::ERROR
+				]);
 				return 1;
 			}
 		}
@@ -99,6 +108,10 @@ class Remove extends Command implements CompletionAwareInterface {
 			$result = $this->installer->removeApp($appId);
 		} catch(\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());
+			$this->logger->logException($e, [
+				'app' => 'CLI',
+				'level' => ILogger::ERROR
+			]);
 			return 1;
 		}
 
