@@ -164,6 +164,7 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Druk op Ctrl-C om te kopiëren.",
     "Resharing is not allowed" : "Verder delen is niet toegestaan",
     "Share to {name}" : "Delen naar {name}",
+    "Copy link" : "Kopiëren link ",
     "Link" : "Link",
     "Password protect" : "Wachtwoord beveiligd",
     "Allow editing" : "Bewerken toestaan",
@@ -184,7 +185,6 @@ OC.L10N.register(
     "Shared with you in a conversation by {owner}" : "Met jou in een gesprek gedeeld door {owner}",
     "Shared with you by {owner}" : "Met je gedeeld door {owner}",
     "Choose a password for the mail share" : "Kies een wachtwoord om gedeelde te mailen",
-    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} delen via link",
     "group" : "groep",
     "remote" : "extern",
     "remote group" : "externe groep",
@@ -255,6 +255,7 @@ OC.L10N.register(
     "Help" : "Help",
     "Access forbidden" : "Toegang verboden",
     "File not found" : "Bestand niet gevonden",
+    "Back to %s" : "Terug naar %s",
     "Internal Server Error" : "Interne serverfout",
     "The server was unable to complete your request." : "De server was niet in staat je aanvraag te verwerken.",
     "If this happens again, please send the technical details below to the server administrator." : "Stuur de hieronder afgebeelde technische details naar de server beheerder wanneer dit opnieuw gebeurt.",
@@ -373,6 +374,7 @@ OC.L10N.register(
     "Shared with {recipients}" : "Delen met {recipients}",
     "Error setting expiration date" : "Fout tijdens het instellen van de vervaldatum",
     "The public link will expire no later than {days} days after it is created" : "De openbare link vervalt niet eerder dan {days} dagen na het aanmaken",
+    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} delen via link",
     "Share with other people by entering a user or group, a federated cloud ID or an email address." : "Deel met anderen door het invullen van een gebruiker, groep, gefedereerd cloud ID of een emailadres.",
     "Share with other people by entering a user or group or a federated cloud ID." : "Deel met anderen door middel van gebruikers, groep of een gefedereerd cloud ID.",
     "Share with other people by entering a user or group or an email address." : "Deel met anderen door het invullen van een gebruiker, groep of een emailadres.",
@@ -398,6 +400,7 @@ OC.L10N.register(
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "De \"Strict-Transport-Security\" HTTP header is niet ingesteld als minimaal \"{seconds}\" seconden. Voor verbeterde beveiliging adviseren we HSTS in te schakelen zoals beschreven in onze <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>.",
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "De site is onveilig verbonden over HTTP. We adviseren je dringend om je server zo te configureren dat HTTPS wordt vereist, zoals beschreven in onze <a href=\"{docUrl}\">security tips</a>.",
     "Back to log in" : "Terug naar inloggen",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Afhankelijk van je configuratie kan deze knop ook werken om het volgende domein te vertrouwen:"
+    "Depending on your configuration, this button could also work to trust the domain:" : "Afhankelijk van je configuratie kan deze knop ook werken om het volgende domein te vertrouwen:",
+    "Copy URL" : "Kopiëren URL"
 },
 "nplurals=2; plural=(n != 1);");

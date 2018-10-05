@@ -29,6 +29,7 @@ OC.L10N.register(
     "Actions" : "Acties",
     "Rename" : "Naam wijzigen",
     "Copy" : "Kopiëren",
+    "Choose target folder" : "Kies doelmap…",
     "Disconnect storage" : "Verbinding met opslag verbreken",
     "Unshare" : "Stop met delen",
     "Could not load info for file \"{file}\"" : "Kon geen informatie laden voor bestand \"{file}\"",
