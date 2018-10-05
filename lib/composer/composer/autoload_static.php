@@ -549,6 +549,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\App\\GetPath' => __DIR__ . '/../../..' . '/core/Command/App/GetPath.php',
         'OC\\Core\\Command\\App\\Install' => __DIR__ . '/../../..' . '/core/Command/App/Install.php',
         'OC\\Core\\Command\\App\\ListApps' => __DIR__ . '/../../..' . '/core/Command/App/ListApps.php',
+		'OC\\Core\\Command\\App\\Remove' => __DIR__ . '/../../..' . '/core/Command/App/Remove.php',
         'OC\\Core\\Command\\Background\\Ajax' => __DIR__ . '/../../..' . '/core/Command/Background/Ajax.php',
         'OC\\Core\\Command\\Background\\Base' => __DIR__ . '/../../..' . '/core/Command/Background/Base.php',
         'OC\\Core\\Command\\Background\\Cron' => __DIR__ . '/../../..' . '/core/Command/Background/Cron.php',

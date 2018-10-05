@@ -519,6 +519,7 @@ return array(
     'OC\\Core\\Command\\App\\GetPath' => $baseDir . '/core/Command/App/GetPath.php',
     'OC\\Core\\Command\\App\\Install' => $baseDir . '/core/Command/App/Install.php',
     'OC\\Core\\Command\\App\\ListApps' => $baseDir . '/core/Command/App/ListApps.php',
+	'OC\\Core\\Command\\App\\Remove' => $baseDir . '/core/Command/App/Remove.php',
     'OC\\Core\\Command\\Background\\Ajax' => $baseDir . '/core/Command/Background/Ajax.php',
     'OC\\Core\\Command\\Background\\Base' => $baseDir . '/core/Command/Background/Base.php',
     'OC\\Core\\Command\\Background\\Cron' => $baseDir . '/core/Command/Background/Cron.php',
