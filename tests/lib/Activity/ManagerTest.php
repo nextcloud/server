@@ -390,58 +390,6 @@ class ManagerTest extends TestCase {
 
 		$this->activityManager->publish($event);
 	}
-
-	public function testDeprecatedPublishActivity() {
-		$event = $this->activityManager->generateEvent();
-		$event->setApp('test_app')
-			->setType('test_type')
-			->setAffectedUser('test_affected')
-			->setAuthor('test_author')
-			->setTimestamp(1337)
-			->setSubject('test_subject', ['test_subject_param'])
-			->setMessage('test_message', ['test_message_param'])
-			->setObject('test_object_type', 42, 'test_object_name')
-			->setLink('test_link')
-		;
-
-		$consumer = $this->getMockBuilder('OCP\Activity\IConsumer')
-			->disableOriginalConstructor()
-			->getMock();
-		$consumer->expects($this->once())
-			->method('receive')
-			->willReturnCallback(function(\OCP\Activity\IEvent $event) {
-				$this->assertSame('test_app', $event->getApp(), 'App not set correctly');
-				$this->assertSame('test_type', $event->getType(), 'Type not set correctly');
-				$this->assertSame('test_affected', $event->getAffectedUser(), 'Affected user not set correctly');
-				$this->assertSame('test_subject', $event->getSubject(), 'Subject not set correctly');
-				$this->assertSame(['test_subject_param'], $event->getSubjectParameters(), 'Subject parameter not set correctly');
-				$this->assertSame('test_message', $event->getMessage(), 'Message not set correctly');
-				$this->assertSame(['test_message_param'], $event->getMessageParameters(), 'Message parameter not set correctly');
-				$this->assertSame('test_object_name', $event->getObjectName(), 'Object name not set correctly');
-				$this->assertSame('test_link', $event->getLink(), 'Link not set correctly');
-
-				// The following values can not be used via publishActivity()
-				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
-				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
-				$this->assertSame('', $event->getAuthor(), 'Author not set correctly');
-				$this->assertSame('', $event->getObjectType(), 'Object type should not be set');
-				$this->assertSame(0, $event->getObjectId(), 'Object ID should not be set');
-			});
-		$this->activityManager->registerConsumer(function () use ($consumer) {
-			return $consumer;
-		});
-
-		$this->activityManager->publishActivity(
-			$event->getApp(),
-			$event->getSubject(), $event->getSubjectParameters(),
-			$event->getMessage(), $event->getMessageParameters(),
-			$event->getObjectName(),
-			$event->getLink(),
-			$event->getAffectedUser(),
-			$event->getType(),
-			\OCP\Activity\IExtension::PRIORITY_MEDIUM
-		);
-	}
 }
 
 class SimpleExtension implements \OCP\Activity\IExtension {
