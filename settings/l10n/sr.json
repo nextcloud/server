@@ -292,6 +292,9 @@
     "For security reasons this password will only be shown once." : "Из безбедносних разлога, ова лозинка ће бити приказана само једном.",
     "Username" : "Корисничко име",
     "Done" : "Завршено",
+    "Two-Factor Authentication" : "Двофакторска провера идентитета",
+    "Two-factor authentication is enabled on your account." : "Двофакторска провера идентитета је укључена на Вашем налогу.",
+    "Two-factor authentication is disabled on your account." : "Двофакторска провера идентитета је искључена на Вашем налогу.",
     "Enabled apps" : "Укључене апликације",
     "A problem occurred, please check your log files (Error: %s)" : "Појавио се проблем. Проверите записнике (грешка: %s)",
     "Migration Completed" : "Пресељење завршено",
@@ -461,6 +464,7 @@
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "Препоручујемо да инсталирате потребне пакете да бисте подржали следеће локалитете: %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Ако инсталација није инсталирана у основи домена и користи системски крон, може бити проблема са генерисањем веб адреса. Да бисте избегли ове проблеме, молимо вас да подесите \"overwrite.cli.url\" опцију у вашем  config.php фајлу у путању веб-основе ваше инсталације (Предложено: \"%s\")",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Није било могуће да се изврши крон задатак путем интерфејса командне линије. Појавила су се следеће техничке грешке:",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "За пресељење на другу базу података, користите алат командне линије:  'occ db:convert-type', или погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документацију ↗</a>."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "За пресељење на другу базу података, користите алат командне линије:  'occ db:convert-type', или погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документацију ↗</a>.",
+    "Default quota :" : "Подразумевана квота:"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
