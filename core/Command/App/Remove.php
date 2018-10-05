@@ -23,6 +23,7 @@
 namespace OC\Core\Command\App;
 
 use OC\Installer;
+use OCP\App\IAppManager;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -32,6 +33,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Remove extends Command implements CompletionAwareInterface {
+
+	/** @var IAppManager */
+	protected $manager;
+	/** @var Installer */
+	private $installer;
+
+	/**
+	 * @param IAppManager $manager
+	 * @param Installer $installer
+	 */
+	public function __construct(IAppManager $manager, Installer $installer) {
+		parent::__construct();
+		$this->manager = $manager;
+		$this->installer = $installer;
+	}
 
 	protected function configure() {
 		$this
@@ -53,16 +69,24 @@ class Remove extends Command implements CompletionAwareInterface {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$appId = $input->getArgument('app-id');
 
+		// Check if the app is installed
 		if (!\OC_App::getAppPath($appId)) {
 			$output->writeln($appId . ' is not installed');
 			return 1;
 		}
 
+		// Removing shipped apps is not possible, therefore we pre-check that
+		// before trying to remove it
+		if ($this->manager->isShipped($appId)) {
+			$output->writeln($appId . ' could not be removed as it is a shipped app');
+			return 1;
+		}
+
+		// If we want to keep the data of the app, we simply don't disable it here.
+		// App uninstall tasks are being executed when disabled. More info: PR #11627.
 		if (!$input->getOption('keep-data')) {
 			try {
-				/** @var IAppManager $appManager*/
-				$appManager = \OC::$server->getAppManager();
-				$appManager->disableApp($appId);
+				$this->manager->disableApp($appId);
 				$output->writeln($appId . ' disabled');
 			} catch(\Exception $e) {
 				$output->writeln('Error: ' . $e->getMessage());
@@ -70,10 +94,9 @@ class Remove extends Command implements CompletionAwareInterface {
 			}
 		}
 
+		// Let's try to remove the app...
 		try {
-			/** @var Installer $installer */
-			$installer = \OC::$server->query(Installer::class);
-			$result = $installer->removeApp($appId);
+			$result = $this->installer->removeApp($appId);
 		} catch(\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());
 			return 1;
