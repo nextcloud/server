@@ -59,15 +59,20 @@ class FileName extends AbstractStringCheck {
 	 * @return string
 	 */
 	protected function getActualValue(): string {
-		return mb_strtolower(basename($this->path));
+		return basename($this->path);
 	}
 
 	/**
 	 * @param string $operator
-	 * @param string $value
+	 * @param string $checkValue
+	 * @param string $actualValue
 	 * @return bool
 	 */
-	public function executeCheck($operator, $value): bool {
-		return parent::executeCheck($operator, mb_strtolower($value));
+	protected function executeStringCheck($operator, $checkValue, $actualValue): bool {
+		if ($operator === 'is' || $operator === '!is') {
+			$checkValue = mb_strtolower($checkValue);
+			$actualValue = mb_strtolower($actualValue);
+		}
+		return parent::executeStringCheck($operator, $checkValue, $actualValue);
 	}
 }
