@@ -329,7 +329,8 @@ nav[role='navigation'] {
 /* Apps management */
 #apps {
 	max-height: inherit;
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 	.in-header {
 		display: none;
