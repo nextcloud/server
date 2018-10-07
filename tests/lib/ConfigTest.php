@@ -160,4 +160,24 @@ class ConfigTest extends TestCase {
 		unlink($additionalConfigPath);
 	}
 
+	public function testExceptionOnConfigDirNotWritable() {
+		$notWritableDir = $this->randomTmpDir.'/not_writable/';
+		mkdir($notWritableDir, 0500);
+		$config = new \OC\Config($notWritableDir, 'testconfig.php');
+
+		$this->expectException(\OC\HintException::class);
+
+		$config->setValue('foobar', 'baz');
+	}
+
+	public function testExceptionOnConfigFileNotWritable() {
+		$configFile = $this->randomTmpDir.'not_writable_config.php';
+		touch($configFile);
+		chmod($configFile, 0400);
+		$config = new \OC\Config($this->randomTmpDir, 'not_writable_config.php');
+
+		$this->expectException(\OC\HintException::class);
+
+		$config->setValue('foobar', 'baz');
+	}
 }

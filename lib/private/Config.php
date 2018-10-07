@@ -237,7 +237,20 @@ class Config {
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";
 
-		touch ($this->configFilePath);
+		// Check if config directory is writable and create the config file
+		if (
+			!is_writable(dirname($this->configFilePath))
+			|| !touch($this->configFilePath)
+			|| !is_writable($this->configFilePath)
+		) {
+			// TODO fix this via DI once it is very clear that this doesn't cause side effects due to initialization order
+			// currently this breaks app routes but also could have other side effects especially during setup and exception handling
+			$url = \OC::$server->getURLGenerator()->linkToDocs('admin-dir_permissions');
+			throw new HintException(
+				"Can't write into config directory!",
+				'This can usually be fixed by giving the webserver write access to the config directory. See ' . $url);
+		}
+
 		$filePointer = fopen($this->configFilePath, 'r+');
 
 		// Prevent others not to read the config
