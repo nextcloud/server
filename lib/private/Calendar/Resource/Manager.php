@@ -24,14 +24,27 @@
 namespace OC\Calendar\Resource;
 
 use OCP\Calendar\Resource\IBackend;
+use OCP\IServerContainer;
 
 class Manager implements \OCP\Calendar\Resource\IManager {
+
+	/** @var IServerContainer */
+	private $server;
 
 	/** @var string[] holds all registered resource backends */
 	private $backends = [];
 
 	/** @var IBackend[] holds all backends that have been initialized already */
 	private $initializedBackends = [];
+
+	/**
+	 * Manager constructor.
+	 *
+	 * @param IServerContainer $server
+	 */
+	public function __construct(IServerContainer $server) {
+		$this->server = $server;
+	}
 
 	/**
 	 * Registers a resource backend
@@ -66,7 +79,7 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 				continue;
 			}
 
-			$this->initializedBackends[$backend] = \OC::$server->query($backend);
+			$this->initializedBackends[$backend] = $this->server->query($backend);
 		}
 
 		return array_values($this->initializedBackends);
