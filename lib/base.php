@@ -412,7 +412,20 @@ class OC {
 		ini_set('session.cookie_path', $cookie_path);
 
 		// Let the session name be changed in the initSession Hook
-		$sessionName = OC_Util::getInstanceId();
+		try {
+			$sessionName = OC_Util::getInstanceId();
+		} catch (\OC\HintException $e) {
+			$error = [
+				'error' => $e->getMessage(),
+				'hint' => $e->getHint(),
+			];
+
+			http_response_code(503);
+			OC_Util::addStyle('guest');
+			OC_Template::printGuestPage('', 'error', ['errors' => [$error]]);
+
+			exit;
+		}
 
 		try {
 			// Allow session apps to create a custom session object
