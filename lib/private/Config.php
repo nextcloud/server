@@ -237,9 +237,9 @@ class Config {
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";
 
-		// Check if config directory is writable and create the config file
+		// Check if config directory/file is writable and/or create the config file
 		if (
-			!is_writable(dirname($this->configFilePath))
+			(!is_file($this->configFilePath) && !is_writable(dirname($this->configFilePath)))
 			|| !touch($this->configFilePath)
 			|| !is_writable($this->configFilePath)
 		) {

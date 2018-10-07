@@ -161,7 +161,7 @@ class ConfigTest extends TestCase {
 	}
 
 	public function testExceptionOnConfigDirNotWritable() {
-		$notWritableDir = $this->randomTmpDir.'/not_writable/';
+		$notWritableDir = $this->randomTmpDir.'not_writable/';
 		mkdir($notWritableDir, 0500);
 		$config = new \OC\Config($notWritableDir, 'testconfig.php');
 
@@ -179,5 +179,23 @@ class ConfigTest extends TestCase {
 		$this->expectException(\OC\HintException::class);
 
 		$config->setValue('foobar', 'baz');
+	}
+
+	public function testNoExceptionOnConfigDirNotWritableButConfigFileWritable() {
+		$notWritableDir = $this->randomTmpDir.'not_writable/';
+		mkdir($notWritableDir, 0700);
+
+		$configFile = $notWritableDir.'writable_config.php';
+		touch($configFile);
+		chmod($configFile, 0600);
+
+		chmod($notWritableDir, 0500);
+
+		$config = new \OC\Config($notWritableDir, 'writable_config.php');
+		$config->setValue('foobar', 'baz');
+
+		$this->assertTrue(true, 'No exception when writing to config file');
+
+		chmod($notWritableDir, 0700);
 	}
 }
