@@ -292,6 +292,9 @@
     "For security reasons this password will only be shown once." : "Ze względów bezpieczeństwa hasło zostanie pokazane tylko raz.",
     "Username" : "Nazwa użytkownika",
     "Done" : "Ukończono",
+    "Two-Factor Authentication" : "Weryfikacja dwuetapowa",
+    "Two-factor authentication is enabled on your account." : "Weryfikacja dwuetapowa jest włączona na twoim koncie",
+    "Two-factor authentication is disabled on your account." : "Weryfikacja dwuetapowa jest wyłączona na twoim koncie",
     "Enabled apps" : "Włączone aplikacje",
     "A problem occurred, please check your log files (Error: %s)" : "Wystąpił problem, sprawdź logi (Error: %s) ",
     "Migration Completed" : "Migracja zakończona",
@@ -461,6 +464,7 @@
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "Mocno sugerujemy, aby doinstalować do systemu wymagane pakiety, wspierające następujące języki: %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Twoja instancja nie jest zainstalowana w katalogu głównym dla domeny, a używasz systemowego Cron'a, zatem mogą wystąpić kłopoty w poprawnym generowaniu URL'a. Aby zapobiec problemów ustaw proszę opcję \"overwrite.cli.url\" w Twoim pliku config.php do katalogu głównego Twojej instalacji (sugerowany: \"%s\")",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Nie było możliwe uruchomienie zadania cron przy pomocy CLI. Pojawił się następujący błąd techniczny: ",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Aby zmigrować do innej bazy danych użyj narzędzia z terminala: \"occ db:convert-type\" albo sprawdź <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentację ↗</a>."
+    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Aby zmigrować do innej bazy danych użyj narzędzia z terminala: \"occ db:convert-type\" albo sprawdź <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentację ↗</a>.",
+    "Default quota :" : "Domyślny limit:"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }
