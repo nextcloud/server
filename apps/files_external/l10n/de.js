@@ -55,7 +55,7 @@ OC.L10N.register(
     "App secret" : "Geheime Zeichenkette der App",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client-ID",
-    "Client secret" : "Geheime Zeichenkette des Client",
+    "Client secret" : "Geheime Zeichenkette des Clients",
     "OpenStack v2" : "OpenStack v2",
     "Tenant name" : "Name des Mieters",
     "Identity endpoint URL" : "Identität Endpunkt-URL",
