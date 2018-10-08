@@ -102,12 +102,12 @@ class ScanAppData extends Base {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 				$output->writeln("\tFile   <info>$path</info>");
 				$this->filesCounter += 1;
-				$this->hasBeenInterrupted();
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 				$output->writeln("\tFolder <info>$path</info>");
 				$this->foldersCounter += 1;
-				$this->hasBeenInterrupted();
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
 				$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')');
@@ -116,11 +116,11 @@ class ScanAppData extends Base {
 		} else {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function () use ($output) {
 				$this->filesCounter += 1;
-				$this->hasBeenInterrupted();
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function () use ($output) {
 				$this->foldersCounter += 1;
-				$this->hasBeenInterrupted();
+				$this->abortIfInterrupted();
 			});
 		}
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function($path) use ($output) {

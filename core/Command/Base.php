@@ -133,7 +133,7 @@ class Base extends Command implements CompletionAwareInterface {
 	 *
 	 * @throws InterruptedException
 	 */
-	protected function hasBeenInterrupted() {
+	protected function abortIfInterrupted() {
 		if ($this->php_pcntl_signal === false) {
 			return;
 		}
