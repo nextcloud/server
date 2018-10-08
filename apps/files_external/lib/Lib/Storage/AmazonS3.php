@@ -98,6 +98,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	private function clearCache() {
 		$this->objectCache = new CappedMemoryCache();
+		$this->filesCache = new CappedMemoryCache();
 	}
 
 	private function invalidateCache($key) {
@@ -109,6 +110,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				unset($this->objectCache[$existingKey]);
 			}
 		}
+		unset($this->filesCache[$key]);
 	}
 
 	/**
