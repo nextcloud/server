@@ -24,13 +24,13 @@
 namespace Test\Settings\Admin;
 
 use OC\Encryption\Manager;
-use OC\Settings\Admin\Encryption;
+use OC\Settings\Admin\Security;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IUserManager;
 use Test\TestCase;
 
-class EncryptionTest extends TestCase {
-	/** @var Encryption */
+class SecurityTest extends TestCase {
+	/** @var Security */
 	private $admin;
 	/** @var Manager */
 	private $manager;
@@ -42,7 +42,7 @@ class EncryptionTest extends TestCase {
 		$this->manager = $this->getMockBuilder('\OC\Encryption\Manager')->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 
-		$this->admin = new Encryption(
+		$this->admin = new Security(
 			$this->manager,
 			$this->userManager
 		);
@@ -81,7 +81,7 @@ class EncryptionTest extends TestCase {
 			->willReturn(['entry']);
 		$expected = new TemplateResponse(
 			'settings',
-			'settings/admin/encryption',
+			'settings/admin/security',
 			[
 				'encryptionEnabled' => $enabled,
 				'encryptionReady' => $enabled,
@@ -116,7 +116,7 @@ class EncryptionTest extends TestCase {
 			->willReturn(['entry', 'entry']);
 		$expected = new TemplateResponse(
 			'settings',
-			'settings/admin/encryption',
+			'settings/admin/security',
 			[
 				'encryptionEnabled' => $enabled,
 				'encryptionReady' => $enabled,

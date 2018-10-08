@@ -234,7 +234,7 @@ class Manager implements IManager {
 		}
 		if ($section === 'security') {
 			/** @var ISettings $form */
-			$form = $this->container->query(Admin\Encryption::class);
+			$form = $this->container->query(Admin\Security::class);
 			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'sharing') {

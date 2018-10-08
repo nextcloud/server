@@ -30,7 +30,7 @@ use OCP\Encryption\IManager;
 use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
-class Encryption implements ISettings {
+class Security implements ISettings {
 	/** @var IManager */
 	private $manager;
 
@@ -70,7 +70,7 @@ class Encryption implements ISettings {
 			'encryptionModules'       => $encryptionModuleList,
 		];
 
-		return new TemplateResponse('settings', 'settings/admin/encryption', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/security', $parameters, '');
 	}
 
 	/**
