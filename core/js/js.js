@@ -2424,13 +2424,6 @@ jQuery.fn.exists = function(){
 };
 
 /**
- * @deprecated use OC.Util.getScrollBarWidth() instead
- */
-function getScrollBarWidth() {
-	return OC.Util.getScrollBarWidth();
-}
-
-/**
  * jQuery tipsy shim for the bootstrap tooltip
  */
 jQuery.fn.tipsy = function(argument) {
