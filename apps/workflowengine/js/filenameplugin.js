@@ -27,7 +27,7 @@
 		getCheck: function () {
 			return {
 				'class': 'OCA\\WorkflowEngine\\Check\\FileName',
-				'name': t('workflowengine', 'File Name'),
+				'name': t('workflowengine', 'File name'),
 				'operators': [
 					{'operator': 'is', 'name': t('workflowengine', 'is')},
 					{'operator': '!is', 'name': t('workflowengine', 'is not')},
