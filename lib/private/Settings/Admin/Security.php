@@ -30,7 +30,7 @@ use OCP\Encryption\IManager;
 use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
-class Encryption implements ISettings {
+class Security implements ISettings {
 	/** @var IManager */
 	private $manager;
 
