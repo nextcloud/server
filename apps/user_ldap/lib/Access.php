@@ -744,8 +744,13 @@ class Access extends LDAPUtility implements IUserTools {
 		$user = $this->userManager->get($ocName);
 		if($user === null) {
 			return;
+		} else if ($user instanceof User) {
+		    $displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+		} else if($user instanceof OfflineUser) {
+		    $displayName = $user->getDisplayName();
+		} else{
+		    throw new \Exception("The object provided is not a valid user object.");
 		}
-		$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
 		$cacheKeyTrunk = 'getDisplayName';
 		$this->connection->writeToCache($cacheKeyTrunk.$ocName, $displayName);
 	}
