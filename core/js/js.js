@@ -46,17 +46,6 @@ function escapeHTML(s) {
 	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
 }
 
-/**
-* Get the path to download a file
-* @param {string} file The filename
-* @param {string} dir The directory the file is in - e.g. $('#dir').val()
-* @return {string} Path to download the file
-* @deprecated use Files.getDownloadURL() instead
-*/
-function fileDownloadPath(dir, file) {
-	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
-}
-
 /** @namespace */
 var OCP = {},
 	OC = {
