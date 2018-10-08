@@ -168,7 +168,7 @@ OCA.Sharing.PublicApp = {
 			img.attr('src', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
 			imgcontainer.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
-			img.attr('src', OC.Util.replaceSVGIcon(mimetypeIcon));
+			img.attr('src', mimetypeIcon);
 			img.attr('width', 128);
 			imgcontainer.appendTo('#imgframe');
 		}

@@ -178,11 +178,6 @@
 				$crumb.append(view.$el);
 			}, this);
 
-			// in case svg is not supported by the browser we need to execute the fallback mechanism
-			if (!OC.Util.hasSVGSupport()) {
-				OC.Util.replaceSVG(this.$el);
-			}
-
 			// setup drag and drop
 			if (this.onDrop) {
 				this.$el.find('.crumb:not(:last-child):not(.crumbmenu), .crumblist:not(:last-child)').droppable({

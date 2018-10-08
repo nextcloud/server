@@ -1981,33 +1981,6 @@ OC.Util = {
 		}
 		return moment(timestamp).fromNow();
 	},
-	/**
-	 * Returns whether the browser supports SVG
-	 * @deprecated SVG is always supported (since 9.0)
-	 * @return {boolean} true if the browser supports SVG, false otherwise
-	 */
-	hasSVGSupport: function(){
-		return true;
-	},
-	/**
-	 * If SVG is not supported, replaces the given icon's extension
-	 * from ".svg" to ".png".
-	 * If SVG is supported, return the image path as is.
-	 * @param {string} file image path with svg extension
-	 * @deprecated SVG is always supported (since 9.0)
-	 * @return {string} fixed image path with png extension if SVG is not supported
-	 */
-	replaceSVGIcon: function(file) {
-		return file;
-	},
-	/**
-	 * Replace SVG images in all elements that have the "svg" class set
-	 * with PNG images.
-	 *
-	 * @param $el root element from which to search, defaults to $('body')
-	 * @deprecated SVG is always supported (since 9.0)
-	 */
-	replaceSVG: function($el) {},
 
 	/**
 	 * Fix image scaling for IE8, since background-size is not supported.
