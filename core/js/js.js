@@ -1,11 +1,3 @@
-/**
- * Disable console output unless DEBUG mode is enabled.
- * Add
- *      'debug' => true,
- * To the definition of $CONFIG in config/config.php to enable debug mode.
- * The undefined checks fix the broken ie8 console
- */
-
 /* global oc_isadmin */
 
 var oc_debug;
