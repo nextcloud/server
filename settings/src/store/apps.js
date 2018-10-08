@@ -21,7 +21,6 @@
  */
 
 import api from './api';
-import axios from 'axios/index';
 import Vue from 'vue';
 
 const state = {
