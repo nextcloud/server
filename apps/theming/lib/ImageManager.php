@@ -83,7 +83,7 @@ class ImageManager {
 			case 'logo':
 			case 'logoheader':
 			case 'favicon':
-				return $this->urlGenerator->imagePath('core', 'logo.png') . '?v=' . $cacheBusterCounter;
+				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
 			case 'background':
 				return $this->urlGenerator->imagePath('core', 'background.png') . '?v=' . $cacheBusterCounter;
 		}
