@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
-    "axios": "^0.18.0",
+    "nextcloud-axios": "^0.1.2",
     "nextcloud-vue": "^0.1.5",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.5.17",

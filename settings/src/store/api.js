@@ -20,10 +20,7 @@
  *
  */
 
-import axios from 'axios';
-
-const requestToken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
-const tokenHeaders = { headers: { requesttoken: requestToken } };
+import axios from 'nextcloud-axios'
 
 const sanitize = function(url) {
 	return url.replace(/\/$/, ''); // Remove last url slash
@@ -94,27 +91,27 @@ export default {
 		});
 	},
 	get(url) {
-		return axios.get(sanitize(url), tokenHeaders)
+		return axios.get(sanitize(url))
 			.then((response) => Promise.resolve(response))
 			.catch((error) => Promise.reject(error));
 	},
 	post(url, data) {
-		return axios.post(sanitize(url), data, tokenHeaders)
+		return axios.post(sanitize(url), data)
 			.then((response) => Promise.resolve(response))
 			.catch((error) => Promise.reject(error));
 	},
 	patch(url, data) {
-		return axios.patch(sanitize(url), data, tokenHeaders)
+		return axios.patch(sanitize(url), data)
 			.then((response) => Promise.resolve(response))
 			.catch((error) => Promise.reject(error));
 	},
 	put(url, data) {
-		return axios.put(sanitize(url), data, tokenHeaders)
+		return axios.put(sanitize(url), data)
 			.then((response) => Promise.resolve(response))
 			.catch((error) => Promise.reject(error));
 	},
 	delete(url, data) {
-		return axios.delete(sanitize(url), { data: data, headers: tokenHeaders.headers })
+		return axios.delete(sanitize(url), { data: data })
 			.then((response) => Promise.resolve(response))
 			.catch((error) => Promise.reject(error));
 	}
