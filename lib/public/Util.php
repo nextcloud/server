@@ -421,6 +421,7 @@ class Util {
 	 * @param mixed $index optional, only search this key name
 	 * @return mixed the key of the matching field, otherwise false
 	 * @since 4.5.0
+	 * @deprecated 15.0.0
 	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
 		return \OC_Helper::recursiveArraySearch($haystack, $needle, $index);
