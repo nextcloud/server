@@ -70,7 +70,7 @@ class Security implements ISettings {
 			'encryptionModules'       => $encryptionModuleList,
 		];
 
-		return new TemplateResponse('settings', 'settings/admin/encryption', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/security', $parameters, '');
 	}
 
 	/**
