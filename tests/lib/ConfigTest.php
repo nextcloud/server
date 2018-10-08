@@ -163,6 +163,10 @@ class ConfigTest extends TestCase {
 	public function testExceptionOnConfigDirNotWritable() {
 		$notWritableDir = $this->randomTmpDir.'not_writable/';
 		mkdir($notWritableDir, 0500);
+		if (is_writable($notWritableDir)) {
+			$this->markTestSkipped("Couldn't ensure that the test directory is not writable");
+		}
+
 		$config = new \OC\Config($notWritableDir, 'testconfig.php');
 
 		$this->expectException(\OC\HintException::class);
@@ -174,6 +178,10 @@ class ConfigTest extends TestCase {
 		$configFile = $this->randomTmpDir.'not_writable_config.php';
 		touch($configFile);
 		chmod($configFile, 0400);
+		if (is_writable($configFile)) {
+			$this->markTestSkipped("Couldn't ensure that the test file is not writable");
+		}
+
 		$config = new \OC\Config($this->randomTmpDir, 'not_writable_config.php');
 
 		$this->expectException(\OC\HintException::class);
@@ -188,8 +196,14 @@ class ConfigTest extends TestCase {
 		$configFile = $notWritableDir.'writable_config.php';
 		touch($configFile);
 		chmod($configFile, 0600);
+		if (!is_writable($configFile)) {
+			$this->markTestSkipped("Couldn't ensure that the test file is writable");
+		}
 
 		chmod($notWritableDir, 0500);
+		if (is_writable($notWritableDir)) {
+			$this->markTestSkipped("Couldn't ensure that the test directory is not writable");
+		}
 
 		$config = new \OC\Config($notWritableDir, 'writable_config.php');
 		$config->setValue('foobar', 'baz');
