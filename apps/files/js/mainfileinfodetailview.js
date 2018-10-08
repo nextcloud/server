@@ -187,7 +187,6 @@
 				} else {
 					var iconUrl = this.model.get('icon') || OC.MimeType.getIconUrl('dir');
 					$iconDiv.css('background-image', 'url("' + iconUrl + '")');
-					OC.Util.scaleFixForIE8($iconDiv);
 				}
 				this.$el.find('[title]').tooltip({placement: 'bottom'});
 			} else {

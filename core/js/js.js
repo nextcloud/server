@@ -2010,17 +2010,6 @@ OC.Util = {
 	replaceSVG: function($el) {},
 
 	/**
-	 * Fix image scaling for IE8, since background-size is not supported.
-	 *
-	 * This scales the image to the element's actual size, the URL is
-	 * taken from the "background-image" CSS attribute.
-	 *
-	 * @deprecated IE8 isn't supported since 9.0
-	 * @param {Object} $el image element
-	 */
-	scaleFixForIE8: function($el) {},
-
-	/**
 	 * Returns whether this is IE
 	 *
 	 * @return {bool} true if this is IE, false otherwise
