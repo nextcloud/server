@@ -506,10 +506,5 @@ var folderDropOptions = {
 	tolerance: 'pointer'
 };
 
-// override core's fileDownloadPath (legacy)
-function fileDownloadPath(dir, file) {
-	return OCA.Files.Files.getDownloadUrl(file, dir);
-}
-
 // for backward compatibility
 window.Files = OCA.Files.Files;
