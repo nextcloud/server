@@ -198,4 +198,11 @@ class ConfigTest extends TestCase {
 
 		chmod($notWritableDir, 0700);
 	}
+
+	public function testNoExceptionOnCreatingConfigFileInWritableConfigDir() {
+		$config = new \OC\Config($this->randomTmpDir, 'this_file_does_not_exist.config.php');
+		$config->setValue('foobar', 'baz');
+
+		$this->assertTrue(true, 'No exception when creating config file');
+	}
 }
