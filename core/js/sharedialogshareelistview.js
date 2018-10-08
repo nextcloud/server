@@ -255,7 +255,7 @@
 				// with references
 				list.push(_.extend({}, universal, share, {
 					shareInitiator: shares[index].uid_owner,
-					shareInitiatorDisplayName: shares[index].displayname_owner
+					shareInitiatorText: t('core', '{shareInitiatorDisplayName} shared via link', {shareInitiatorDisplayName: shares[index].displayname_owner})
 				}));
 			}
 

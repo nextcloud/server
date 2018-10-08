@@ -302,9 +302,9 @@ templates['sharedialogshareelistview'] = template({"1":function(container,depth0
     + alias4(((helper = (helper = helpers.shareInitiator || (depth0 != null ? depth0.shareInitiator : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"shareInitiator","hash":{},"data":data}) : helper)))
     + "\"></div>\n			<span class=\"has-tooltip username\" title=\""
     + alias4(((helper = (helper = helpers.shareInitiator || (depth0 != null ? depth0.shareInitiator : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"shareInitiator","hash":{},"data":data}) : helper)))
-    + "\"> t('core', '"
-    + alias4(((helper = (helper = helpers.shareInitiatorDisplayName || (depth0 != null ? depth0.shareInitiatorDisplayName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"shareInitiatorDisplayName","hash":{},"data":data}) : helper)))
-    + " shared via link') + '</span>\n			<span class=\"sharingOptionsGroup\">\n				<a href=\"#\" class=\"unshare\"><span class=\"icon-loading-small hidden\"></span><span class=\"icon icon-delete\"></span><span class=\"hidden-visually\">"
+    + "\">"
+    + alias4(((helper = (helper = helpers.shareInitiatorText || (depth0 != null ? depth0.shareInitiatorText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"shareInitiatorText","hash":{},"data":data}) : helper)))
+    + "</span>\n			<span class=\"sharingOptionsGroup\">\n				<a href=\"#\" class=\"unshare\"><span class=\"icon-loading-small hidden\"></span><span class=\"icon icon-delete\"></span><span class=\"hidden-visually\">"
     + alias4(((helper = (helper = helpers.unshareLabel || (depth0 != null ? depth0.unshareLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"unshareLabel","hash":{},"data":data}) : helper)))
     + "</span></a>\n			</span>\n		</li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
