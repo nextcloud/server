@@ -2019,16 +2019,6 @@ OC.Util = {
 	},
 
 	/**
-	 * Returns whether this is IE8
-	 *
-	 * @deprecated IE8 isn't supported since 9.0
-	 * @return {bool} false (IE8 isn't supported anymore)
-	 */
-	isIE8: function() {
-		return false;
-	},
-
-	/**
 	 * Returns the width of a generic browser scrollbar
 	 *
 	 * @return {int} width of scrollbar
