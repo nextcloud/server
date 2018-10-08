@@ -210,7 +210,6 @@
 				uploadLabel: t('files', 'Upload file'),
 				items: this._menuItems
 			}));
-			OC.Util.scaleFixForIE8(this.$('.svg'));
 
 			// Trigger upload action also with keyboard navigation on enter
 			this.$el.find('[for="file_upload_start"]').on('keyup', function(event) {

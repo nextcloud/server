@@ -1,11 +1,3 @@
-/**
- * Disable console output unless DEBUG mode is enabled.
- * Add
- *      'debug' => true,
- * To the definition of $CONFIG in config/config.php to enable debug mode.
- * The undefined checks fix the broken ie8 console
- */
-
 /* global oc_isadmin */
 
 var oc_debug;
@@ -1972,33 +1964,12 @@ OC.Util = {
 	},
 
 	/**
-	 * Fix image scaling for IE8, since background-size is not supported.
-	 *
-	 * This scales the image to the element's actual size, the URL is
-	 * taken from the "background-image" CSS attribute.
-	 *
-	 * @deprecated IE8 isn't supported since 9.0
-	 * @param {Object} $el image element
-	 */
-	scaleFixForIE8: function($el) {},
-
-	/**
 	 * Returns whether this is IE
 	 *
 	 * @return {bool} true if this is IE, false otherwise
 	 */
 	isIE: function() {
 		return $('html').hasClass('ie');
-	},
-
-	/**
-	 * Returns whether this is IE8
-	 *
-	 * @deprecated IE8 isn't supported since 9.0
-	 * @return {bool} false (IE8 isn't supported anymore)
-	 */
-	isIE8: function() {
-		return false;
 	},
 
 	/**
