@@ -30,15 +30,12 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\File;
-use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IUser;
 use OCP\IUserSession;
 
 class PreviewController extends Controller {
@@ -98,8 +95,11 @@ class PreviewController extends Controller {
 
 		try {
 			$file = $this->trashManager->getTrashNodeById($this->userSession->getUser(), $fileId);
-			if ($file === null || $file instanceof Folder) {
+			if ($file === null) {
 				return new DataResponse([], Http::STATUS_NOT_FOUND);
+			}
+			if ($file instanceof Folder) {
+				return new DataResponse([], Http::STATUS_BAD_REQUEST);
 			}
 
 			$pathParts = pathinfo($file->getName());
