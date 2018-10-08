@@ -2,11 +2,14 @@ const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
-  entry: './src/main.js',
+  entry: {
+	  'settings-vue': './src/main.js',
+	  'settings-admin-security': './src/main-admin-security'
+  },
   output: {
     path: path.resolve(__dirname, './js'),
     publicPath: '/',
-    filename: 'settings-vue.js'
+    filename: '[name].js'
   },
   module: {
     rules: [
