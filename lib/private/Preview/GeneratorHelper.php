@@ -26,6 +26,7 @@ use OC\Files\View;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image as OCPImage;
 use OCP\Preview\IProvider;
@@ -38,8 +39,12 @@ class GeneratorHelper {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(IRootFolder $rootFolder) {
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(IRootFolder $rootFolder, IConfig $config) {
 		$this->rootFolder = $rootFolder;
+		$this->config = $config;
 	}
 
 	/**
@@ -60,16 +65,8 @@ class GeneratorHelper {
 	 * This is required to create the old view and path
 	 */
 	private function getViewAndPath(File $file) {
-		$absPath = ltrim($file->getPath(), '/');
-		$owner = explode('/', $absPath)[0];
-
-		$userFolder = $this->rootFolder->getUserFolder($owner)->getParent();
-
-		$nodes = $userFolder->getById($file->getId());
-		$file = $nodes[0];
-
-		$view = new View($userFolder->getPath());
-		$path = $userFolder->getRelativePath($file->getPath());
+		$view = new View($file->getParent()->getPath());
+		$path = $file->getName();
 
 		return [$view, $path];
 	}

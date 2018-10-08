@@ -195,7 +195,8 @@ class PreviewManager implements IPreview {
 				$this,
 				$this->appData,
 				new GeneratorHelper(
-					$this->rootFolder
+					$this->rootFolder,
+					$this->config
 				),
 				$this->eventDispatcher
 			);
