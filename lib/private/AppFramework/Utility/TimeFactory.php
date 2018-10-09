@@ -37,9 +37,18 @@ class TimeFactory implements ITimeFactory {
 	/**
 	 * @return int the result of a call to time()
 	 */
-	public function getTime() : int {
+	public function getTime(): int {
 		return time();
 	}
 
+	/**
+	 * @param string $time
+	 * @param \DateTimeZone $timezone
+	 * @return \DateTime
+	 * @since 15.0.0
+	 */
+	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime {
+		return new \DateTime($time, $timezone);
+	}
 
 }

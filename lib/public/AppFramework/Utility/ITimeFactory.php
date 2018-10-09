@@ -35,6 +35,14 @@ interface ITimeFactory {
 	 * @return int the result of a call to time()
 	 * @since 8.0.0
 	 */
-	public function getTime() : int;
+	public function getTime(): int;
+
+	/**
+	 * @param string $time
+	 * @param \DateTimeZone $timezone
+	 * @return \DateTime
+	 * @since 15.0.0
+	 */
+	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime;
 
 }
