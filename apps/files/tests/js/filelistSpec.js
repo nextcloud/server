@@ -62,8 +62,8 @@ describe('OCA.Files.FileList tests', function() {
 		filesClient = new OC.Files.Client({
 			host: 'localhost',
 			port: 80,
-			// FIXME: uncomment after fixing the test OC.webroot
-			//root: OC.webroot + '/remote.php/webdav',
+			// FIXME: uncomment after fixing the test OC.getRootPath()
+			//root: OC.getRootPath() + '/remote.php/webdav',
 			root: '/remote.php/webdav',
 			useHTTPS: false
 		});
@@ -232,7 +232,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-mtime')).toEqual('123456');
 			expect($tr.attr('data-e2eencrypted')).toEqual('false');
 			expect($tr.find('a.name').attr('href'))
-				.toEqual(OC.webroot + '/remote.php/webdav/subdir/testName.txt');
+				.toEqual(OC.getRootPath() + '/remote.php/webdav/subdir/testName.txt');
 			expect($tr.find('.nametext').text().trim()).toEqual('testName.txt');
 
 			expect($tr.find('.filesize').text()).toEqual('1 KB');
@@ -725,7 +725,7 @@ describe('OCA.Files.FileList tests', function() {
 
 			$tr = fileList.findFileEl('Tu_after_three.txt');
 			expect($tr.find('a.name').attr('href'))
-				.toEqual(OC.webroot + '/remote.php/webdav/some/subdir/Tu_after_three.txt');
+				.toEqual(OC.getRootPath() + '/remote.php/webdav/some/subdir/Tu_after_three.txt');
 		});
 		it('Triggers "fileActionsReady" event after rename', function() {
 			var handler = sinon.stub();
@@ -1412,7 +1412,7 @@ describe('OCA.Files.FileList tests', function() {
 			};
 			var $tr = fileList.add(fileData);
 			var $imgDiv = $tr.find('td.filename .thumbnail');
-			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/file.svg');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.getRootPath() + '/core/img/filetypes/file.svg');
 			// tries to load preview
 			expect(previewLoadStub.calledOnce).toEqual(true);
 		});
@@ -1424,7 +1424,7 @@ describe('OCA.Files.FileList tests', function() {
 
 			var $tr = fileList.add(fileData);
 			var $imgDiv = $tr.find('td.filename .thumbnail');
-			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/folder.svg');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.getRootPath() + '/core/img/filetypes/folder.svg');
 			// no preview since it's a directory
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
@@ -1432,24 +1432,24 @@ describe('OCA.Files.FileList tests', function() {
 			var fileData = new FileInfo({
 				type: 'file',
 				name: 'test file',
-				icon: OC.webroot + '/core/img/filetypes/application-pdf.svg',
+				icon: OC.getRootPath() + '/core/img/filetypes/application-pdf.svg',
 				mimetype: 'application/pdf'
 			});
 			var $tr = fileList.add(fileData);
 			var $imgDiv = $tr.find('td.filename .thumbnail');
-			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/application-pdf.svg');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.getRootPath() + '/core/img/filetypes/application-pdf.svg');
 			// try loading preview
 			expect(previewLoadStub.calledOnce).toEqual(true);
 		});
 		it('renders provided icon for file when provided', function() {
 			var fileData = new FileInfo({
 				name: 'somefile.pdf',
-				icon: OC.webroot + '/core/img/filetypes/application-pdf.svg'
+				icon: OC.getRootPath() + '/core/img/filetypes/application-pdf.svg'
 			});
 
 			var $tr = fileList.add(fileData);
 			var $imgDiv = $tr.find('td.filename .thumbnail');
-			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/application-pdf.svg');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.getRootPath() + '/core/img/filetypes/application-pdf.svg');
 			// try loading preview
 			expect(previewLoadStub.calledOnce).toEqual(true);
 		});
@@ -1457,12 +1457,12 @@ describe('OCA.Files.FileList tests', function() {
 			var fileData = new FileInfo({
 				name: 'some folder',
 				mimetype: 'httpd/unix-directory',
-				icon: OC.webroot + '/core/img/filetypes/folder-alt.svg'
+				icon: OC.getRootPath() + '/core/img/filetypes/folder-alt.svg'
 			});
 
 			var $tr = fileList.add(fileData);
 			var $imgDiv = $tr.find('td.filename .thumbnail');
-			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/folder-alt.svg');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.getRootPath() + '/core/img/filetypes/folder-alt.svg');
 			// do not load preview for folders
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
@@ -1474,11 +1474,11 @@ describe('OCA.Files.FileList tests', function() {
 			var $tr = fileList.add(fileData);
 			var $td = $tr.find('td.filename');
 			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail')))
-				.toEqual(OC.webroot + '/core/img/filetypes/file.svg');
+				.toEqual(OC.getRootPath() + '/core/img/filetypes/file.svg');
 			expect(previewLoadStub.calledOnce).toEqual(true);
 			// third argument is callback
-			previewLoadStub.getCall(0).args[0].callback(OC.webroot + '/somepath.png');
-			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/somepath.png');
+			previewLoadStub.getCall(0).args[0].callback(OC.getRootPath() + '/somepath.png');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.getRootPath() + '/somepath.png');
 		});
 		it('does not render preview for directories', function() {
 			var fileData = {
@@ -1488,7 +1488,7 @@ describe('OCA.Files.FileList tests', function() {
 			};
 			var $tr = fileList.add(fileData);
 			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder.svg');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.getRootPath() + '/core/img/filetypes/folder.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
 		it('render encrypted folder icon for encrypted root', function() {
@@ -1500,7 +1500,7 @@ describe('OCA.Files.FileList tests', function() {
 			};
 			var $tr = fileList.add(fileData);
 			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.getRootPath() + '/core/img/filetypes/folder-encrypted.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
 		it('render encrypted folder icon for encrypted subdir', function() {
@@ -1512,10 +1512,10 @@ describe('OCA.Files.FileList tests', function() {
 			};
 			var $tr = fileList.add(fileData);
 			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.getRootPath() + '/core/img/filetypes/folder-encrypted.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 			// default icon override
-			expect($tr.attr('data-icon')).toEqual(OC.webroot + '/core/img/filetypes/folder-encrypted.svg');
+			expect($tr.attr('data-icon')).toEqual(OC.getRootPath() + '/core/img/filetypes/folder-encrypted.svg');
 		});
 		it('render external storage icon for external storage root', function() {
 			var fileData = {
@@ -1526,7 +1526,7 @@ describe('OCA.Files.FileList tests', function() {
 			};
 			var $tr = fileList.add(fileData);
 			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-external.svg');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.getRootPath() + '/core/img/filetypes/folder-external.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
 		it('render external storage icon for external storage subdir', function() {
@@ -1538,10 +1538,10 @@ describe('OCA.Files.FileList tests', function() {
 			};
 			var $tr = fileList.add(fileData);
 			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/folder-external.svg');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.getRootPath() + '/core/img/filetypes/folder-external.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 			// default icon override
-			expect($tr.attr('data-icon')).toEqual(OC.webroot + '/core/img/filetypes/folder-external.svg');
+			expect($tr.attr('data-icon')).toEqual(OC.getRootPath() + '/core/img/filetypes/folder-external.svg');
 		});
 
 	});
@@ -1811,20 +1811,20 @@ describe('OCA.Files.FileList tests', function() {
 	describe('Download Url', function() {
 		it('returns correct download URL for single files', function() {
 			expect(fileList.getDownloadUrl('some file.txt'))
-				.toEqual(OC.webroot + '/remote.php/webdav/subdir/some%20file.txt');
+				.toEqual(OC.getRootPath() + '/remote.php/webdav/subdir/some%20file.txt');
 			expect(fileList.getDownloadUrl('some file.txt', '/anotherpath/abc'))
-				.toEqual(OC.webroot + '/remote.php/webdav/anotherpath/abc/some%20file.txt');
+				.toEqual(OC.getRootPath() + '/remote.php/webdav/anotherpath/abc/some%20file.txt');
 			$('#dir').val('/');
 			expect(fileList.getDownloadUrl('some file.txt'))
-				.toEqual(OC.webroot + '/remote.php/webdav/some%20file.txt');
+				.toEqual(OC.getRootPath() + '/remote.php/webdav/some%20file.txt');
 		});
 		it('returns correct download URL for multiple files', function() {
 			expect(fileList.getDownloadUrl(['a b c.txt', 'd e f.txt']))
-				.toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22a%20b%20c.txt%22%2C%22d%20e%20f.txt%22%5D');
+				.toEqual(OC.getRootPath() + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22a%20b%20c.txt%22%2C%22d%20e%20f.txt%22%5D');
 		});
 		it('returns the correct ajax URL', function() {
 			expect(fileList.getAjaxUrl('test', {a:1, b:'x y'}))
-				.toEqual(OC.webroot + '/index.php/apps/files/ajax/test.php?a=1&b=x%20y');
+				.toEqual(OC.getRootPath() + '/index.php/apps/files/ajax/test.php?a=1&b=x%20y');
 		});
 	});
 	describe('File selection', function() {
@@ -2239,7 +2239,7 @@ describe('OCA.Files.FileList tests', function() {
 				it('Opens download URL when clicking "Download"', function() {
 					$('.selectedActions .filesSelectMenu .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
-					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22One.txt%22%2C%22Three.pdf%22%2C%22somedir%22%5D');
+					expect(redirectStub.getCall(0).args[0]).toContain(OC.getRootPath() + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22One.txt%22%2C%22Three.pdf%22%2C%22somedir%22%5D');
 					redirectStub.restore();
 				});
 				it('Downloads root folder when all selected in root folder', function() {
@@ -2247,13 +2247,13 @@ describe('OCA.Files.FileList tests', function() {
 					$('.select-all').click();
 					$('.selectedActions .filesSelectMenu .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
-					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=');
+					expect(redirectStub.getCall(0).args[0]).toContain(OC.getRootPath() + '/index.php/apps/files/ajax/download.php?dir=%2F&files=');
 				});
 				it('Downloads parent folder when all selected in subfolder', function() {
 					$('.select-all').click();
 					$('.selectedActions .filesSelectMenu .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
-					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=subdir');
+					expect(redirectStub.getCall(0).args[0]).toContain(OC.getRootPath() + '/index.php/apps/files/ajax/download.php?dir=%2F&files=subdir');
 				});
 
 				afterEach(function() {

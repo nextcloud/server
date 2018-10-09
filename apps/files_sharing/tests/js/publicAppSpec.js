@@ -110,24 +110,24 @@ describe('OCA.Sharing.PublicApp tests', function() {
 
 			it('returns correct download URL for single files', function() {
 				expect(fileList.getDownloadUrl('some file.txt'))
-					.toEqual(OC.webroot + '/index.php/s/sh4tok/download?path=%2Fsubdir&files=some%20file.txt');
+					.toEqual(OC.getRootPath() + '/index.php/s/sh4tok/download?path=%2Fsubdir&files=some%20file.txt');
 				expect(fileList.getDownloadUrl('some file.txt', '/anotherpath/abc'))
-					.toEqual(OC.webroot + '/index.php/s/sh4tok/download?path=%2Fanotherpath%2Fabc&files=some%20file.txt');
+					.toEqual(OC.getRootPath() + '/index.php/s/sh4tok/download?path=%2Fanotherpath%2Fabc&files=some%20file.txt');
 				fileList.changeDirectory('/');
 				expect(fileList.getDownloadUrl('some file.txt'))
-					.toEqual(OC.webroot + '/index.php/s/sh4tok/download?path=%2F&files=some%20file.txt');
+					.toEqual(OC.getRootPath() + '/index.php/s/sh4tok/download?path=%2F&files=some%20file.txt');
 			});
 			it('returns correct download URL for multiple files', function() {
 				expect(fileList.getDownloadUrl(['a b c.txt', 'd e f.txt']))
-					.toEqual(OC.webroot + '/index.php/s/sh4tok/download?path=%2Fsubdir&files=%5B%22a%20b%20c.txt%22%2C%22d%20e%20f.txt%22%5D');
+					.toEqual(OC.getRootPath() + '/index.php/s/sh4tok/download?path=%2Fsubdir&files=%5B%22a%20b%20c.txt%22%2C%22d%20e%20f.txt%22%5D');
 			});
 			it('returns the correct ajax URL', function() {
 				expect(fileList.getAjaxUrl('test', {a:1, b:'x y'}))
-					.toEqual(OC.webroot + '/index.php/apps/files_sharing/ajax/test.php?a=1&b=x%20y&t=sh4tok');
+					.toEqual(OC.getRootPath() + '/index.php/apps/files_sharing/ajax/test.php?a=1&b=x%20y&t=sh4tok');
 			});
 			it('returns correct download URL for downloading everything', function() {
 				expect(fileList.getDownloadUrl())
-					.toEqual(OC.webroot + '/index.php/s/sh4tok/download?path=%2Fsubdir');
+					.toEqual(OC.getRootPath() + '/index.php/s/sh4tok/download?path=%2Fsubdir');
 			});
 		});
 		describe('Upload Url', function() {

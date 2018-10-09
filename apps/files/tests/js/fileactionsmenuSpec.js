@@ -281,7 +281,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(redirectStub.calledOnce).toEqual(true);
 			expect(redirectStub.getCall(0).args[0]).toContain(
-				OC.webroot +
+				OC.getRootPath() +
 				'/remote.php/webdav/subdir/testName.txt'
 			);
 			redirectStub.restore();
@@ -315,7 +315,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(redirectStub.calledOnce).toEqual(true);
 			expect(redirectStub.getCall(0).args[0]).toContain(
-				OC.webroot + '/remote.php/webdav/anotherpath/there/testName.txt'
+				OC.getRootPath() + '/remote.php/webdav/anotherpath/there/testName.txt'
 			);
 			redirectStub.restore();
 		});

@@ -90,7 +90,7 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/remote.php/webdav/somedir/test.txt'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('test.txt');

@@ -158,10 +158,10 @@ describe('OCA.Trashbin.FileList tests', function () {
 			expect($crumbs.length).toEqual(3);
 			expect($crumbs.eq(1).find('a').text()).toEqual('Home');
 			expect($crumbs.eq(1).find('a').attr('href'))
-				.toEqual(OC.webroot + '/index.php/apps/files?view=trashbin&dir=/');
+				.toEqual(OC.getRootPath() + '/index.php/apps/files?view=trashbin&dir=/');
 			expect($crumbs.eq(2).find('a').text()).toEqual('subdir');
 			expect($crumbs.eq(2).find('a').attr('href'))
-				.toEqual(OC.webroot + '/index.php/apps/files?view=trashbin&dir=/subdir');
+				.toEqual(OC.getRootPath() + '/index.php/apps/files?view=trashbin&dir=/subdir');
 		});
 	});
 	describe('Rendering rows', function () {
@@ -326,7 +326,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 				expect(fakeServer.requests.length).toEqual(files.length);
 				for (var i = 0; i < files.length; i++) {
 					request = fakeServer.requests[i];
-					expect(request.url).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/trash/' + files[i]);
+					expect(request.url).toEqual(OC.getRootPath() + '/remote.php/dav/trashbin/user/trash/' + files[i]);
 					request.respond(200);
 				}
 				return promise.then(function () {
@@ -345,7 +345,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 				});
 				expect(fakeServer.requests.length).toEqual(1);
 				request = fakeServer.requests[0];
-				expect(request.url).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/trash');
+				expect(request.url).toEqual(OC.getRootPath() + '/remote.php/dav/trashbin/user/trash');
 				request.respond(200);
 				return promise.then(function () {
 					expect(fileList.isEmpty).toEqual(true);
@@ -363,8 +363,8 @@ describe('OCA.Trashbin.FileList tests', function () {
 				expect(fakeServer.requests.length).toEqual(files.length);
 				for (var i = 0; i < files.length; i++) {
 					request = fakeServer.requests[i];
-					expect(request.url).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/trash/' + files[i]);
-					expect(request.requestHeaders.Destination).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/restore/' + files[i]);
+					expect(request.url).toEqual(OC.getRootPath() + '/remote.php/dav/trashbin/user/trash/' + files[i]);
+					expect(request.requestHeaders.Destination).toEqual(OC.getRootPath() + '/remote.php/dav/trashbin/user/restore/' + files[i]);
 					request.respond(200);
 				}
 				return promise.then(function() {
@@ -385,8 +385,8 @@ describe('OCA.Trashbin.FileList tests', function () {
 				expect(fakeServer.requests.length).toEqual(files.length);
 				for (var i = 0; i < files.length; i++) {
 					request = fakeServer.requests[i];
-					expect(request.url).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/trash/' + files[i]);
-					expect(request.requestHeaders.Destination).toEqual(OC.webroot + '/remote.php/dav/trashbin/user/restore/' + files[i]);
+					expect(request.url).toEqual(OC.getRootPath() + '/remote.php/dav/trashbin/user/trash/' + files[i]);
+					expect(request.requestHeaders.Destination).toEqual(OC.getRootPath() + '/remote.php/dav/trashbin/user/restore/' + files[i]);
 					request.respond(200);
 				}
 				return promise.then(function() {
