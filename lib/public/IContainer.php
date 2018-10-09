@@ -56,7 +56,7 @@ interface IContainer {
 	 * @since 8.2.0
 	 * @throws QueryException if the class could not be found or instantiated
 	 */
-	public function resolve(string $name): \stdClass;
+	public function resolve(string $name);
 
 	/**
 	 * Look up a service for a given name in the container.

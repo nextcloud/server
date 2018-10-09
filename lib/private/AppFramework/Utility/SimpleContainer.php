@@ -91,7 +91,7 @@ class SimpleContainer extends Container implements IContainer {
 	 * @return \stdClass
 	 * @throws QueryException if the class could not be found or instantiated
 	 */
-	public function resolve(string $name): \stdClass {
+	public function resolve(string $name) {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
 			$class = new ReflectionClass($name);
