@@ -368,15 +368,9 @@ var OCP = {},
 	addScript:function(app,script,ready){
 		var deferred, path=OC.filePath(app,'js',script+'.js');
 		if(!OC.addScript.loaded[path]) {
-			deferred = jQuery.ajax({
-				url: path,
-				cache: true,
-				success: function (content) {
-					window.eval(content);
-					if(ready) {
-						ready();
-					}
-				}
+			deferred = $.Deferred();
+			$.getScript(path, function() {
+				deferred.resolve();
 			});
 			OC.addScript.loaded[path] = deferred;
 		} else {
