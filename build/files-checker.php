@@ -42,7 +42,6 @@ $expectedFiles = [
 	'AUTHORS',
 	'autotest-checkers.sh',
 	'autotest-external.sh',
-	'autotest-hhvm.sh',
 	'autotest-js.sh',
 	'autotest.sh',
 	'bower.json',
