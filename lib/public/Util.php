@@ -230,9 +230,14 @@ class Util {
 	 * @param string $service id
 	 * @return string the url
 	 * @since 4.5.0
+	 * @deprecated 15.0.0 - use OCP\IURLGenerator
 	 */
 	public static function linkToPublic($service) {
-		return \OC_Helper::linkToPublic($service);
+		$urlGenerator = \OC::$server->getURLGenerator();
+		if ($service === 'files') {
+			return $urlGenerator->getAbsoluteURL('/s');
+		}
+		return $urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'public.php').'?service='.$service);
 	}
 
 	/**
