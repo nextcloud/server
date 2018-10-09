@@ -82,7 +82,7 @@ class LookupPlugin implements ISearchPlugin {
 			foreach ($body as $lookup) {
 				$remote = $this->cloudIdManager->resolveCloudId($lookup['federationId'])->getRemote();
 				if ($this->currentUserRemote === $remote) continue;
-				$name = $lookup['name']['value'];
+				$name = isset($lookup['name']['value']) ? $lookup['name']['value'] : '';
 				$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
 				$result[] = [
 					'label' => $label,
