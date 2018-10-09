@@ -8,6 +8,6 @@
 	</p>
 	<br />
 	<p>
-		<?php print_unescaped($l->t('Further information how to configure this can be found in the %sdocumentation%s.', ['<a href="' . $_['docUrl'] . '" target="blank">', '</a>'])); ?>
+		<?php print_unescaped($l->t('Further information how to configure this can be found in the %1$sdocumentation%2$s.', ['<a href="' . $_['docUrl'] . '" target="blank">', '</a>'])); ?>
 	</p>
 </div>

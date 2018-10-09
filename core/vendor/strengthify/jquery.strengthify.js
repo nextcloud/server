@@ -2,7 +2,7 @@
  * Strengthify - show the weakness of a password (uses zxcvbn for this)
  * https://github.com/MorrisJobke/strengthify
  *
- * Version: 0.5.4
+ * Version: 0.5.5
  * Author: Morris Jobke (github.com/MorrisJobke) - original
  *         Eve Ragins @ Eve Corp (github.com/eve-corp)
  *
@@ -52,7 +52,8 @@
             drawTitles: false,
             drawMessage: false,
             drawBars: true,
-            $addAfter: null
+            $addAfter: null,
+            nonce: null
         };
 
         return this.each(function() {
@@ -209,6 +210,9 @@
 
                 var script = document.createElement("script");
                 script.src = options.zxcvbn;
+                if (options.nonce !== null) {
+                    script.nonce = options.nonce;
+                }
                 document.head.appendChild(script);
 
                 $elem.bind('keyup input change', drawSelf);

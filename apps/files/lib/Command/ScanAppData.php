@@ -102,33 +102,25 @@ class ScanAppData extends Base {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 				$output->writeln("\tFile   <info>$path</info>");
 				$this->filesCounter += 1;
-				if ($this->hasBeenInterrupted()) {
-					throw new InterruptedException();
-				}
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 				$output->writeln("\tFolder <info>$path</info>");
 				$this->foldersCounter += 1;
-				if ($this->hasBeenInterrupted()) {
-					throw new InterruptedException();
-				}
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
-				$output->writeln("Error while scanning, storage not available (" . $e->getMessage() . ")");
+				$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')');
 			});
 			# count only
 		} else {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function () use ($output) {
 				$this->filesCounter += 1;
-				if ($this->hasBeenInterrupted()) {
-					throw new InterruptedException();
-				}
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function () use ($output) {
 				$this->foldersCounter += 1;
-				if ($this->hasBeenInterrupted()) {
-					throw new InterruptedException();
-				}
+				$this->abortIfInterrupted();
 			});
 		}
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function($path) use ($output) {
@@ -142,7 +134,7 @@ class ScanAppData extends Base {
 			$scanner->scan($appData->getPath());
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Storage not writable</error>");
-			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
+			$output->writeln('Make sure you\'re running the scan command only as the user the web server runs as');
 		} catch (InterruptedException $e) {
 			# exit the function if ctrl-c has been pressed
 			$output->writeln('Interrupted by user');

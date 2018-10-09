@@ -593,11 +593,11 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetLogoDefaultWithSvg() {
-		$this->getLogoHelper('logo.svg', true);
+		$this->getLogoHelper('logo/logo.svg', true);
 	}
 
 	public function testGetLogoDefaultWithoutSvg() {
-		$this->getLogoHelper('logo.png', false);
+		$this->getLogoHelper('logo/logo.png', false);
 	}
 
 	public function testGetLogoCustom() {

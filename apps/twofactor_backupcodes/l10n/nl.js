@@ -27,6 +27,7 @@ OC.L10N.register(
     "Use backup code" : "Gebruik backup code",
     "Two factor backup codes" : "Twee-factor backupcode",
     "A two-factor auth backup codes provider" : "Een two-factor auth backup codes provider",
+    "Submit" : "Verwerken",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup codes zijn gegenereerd. {{used}} van {{total}} codes zijn gebruikt."
 },
 "nplurals=2; plural=(n != 1);");

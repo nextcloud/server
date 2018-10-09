@@ -1,11 +1,3 @@
-/**
- * Disable console output unless DEBUG mode is enabled.
- * Add
- *      'debug' => true,
- * To the definition of $CONFIG in config/config.php to enable debug mode.
- * The undefined checks fix the broken ie8 console
- */
-
 /* global oc_isadmin */
 
 var oc_debug;
@@ -44,17 +36,6 @@ if (typeof console === "undefined" || typeof console.log === "undefined") {
 */
 function escapeHTML(s) {
 	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
-}
-
-/**
-* Get the path to download a file
-* @param {string} file The filename
-* @param {string} dir The directory the file is in - e.g. $('#dir').val()
-* @return {string} Path to download the file
-* @deprecated use Files.getDownloadURL() instead
-*/
-function fileDownloadPath(dir, file) {
-	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
 }
 
 /** @namespace */
@@ -118,7 +99,7 @@ var OCP = {},
 	 * @return {string} the url
 	 */
 	linkToRemoteBase:function(service) {
-		return OC.webroot + '/remote.php/' + service;
+		return OC.getRootPath() + '/remote.php/' + service;
 	},
 
 	/**
@@ -138,7 +119,7 @@ var OCP = {},
 	 */
 	linkToOCS: function(service, version) {
 		version = (version !== 2) ? 1 : 2;
-		return window.location.protocol + '//' + window.location.host + OC.webroot + '/ocs/v' + version + '.php/' + service + '/';
+		return window.location.protocol + '//' + window.location.host + OC.getRootPath() + '/ocs/v' + version + '.php/' + service + '/';
 	},
 
 	/**
@@ -176,10 +157,10 @@ var OCP = {},
 		}
 
 		if(oc_config.modRewriteWorking == true) {
-			return OC.webroot + _build(url, params);
+			return OC.getRootPath() + _build(url, params);
 		}
 
-		return OC.webroot + '/index.php' + _build(url, params);
+		return OC.getRootPath() + '/index.php' + _build(url, params);
 	},
 
 	/**
@@ -191,7 +172,7 @@ var OCP = {},
 	 */
 	filePath:function(app,type,file){
 		var isCore=OC.coreApps.indexOf(app)!==-1,
-			link=OC.webroot;
+			link=OC.getRootPath();
 		if(file.substring(file.length-3) === 'php' && !isCore){
 			link+='/index.php/apps/' + app;
 			if (file != 'index.php') {
@@ -1981,44 +1962,6 @@ OC.Util = {
 		}
 		return moment(timestamp).fromNow();
 	},
-	/**
-	 * Returns whether the browser supports SVG
-	 * @deprecated SVG is always supported (since 9.0)
-	 * @return {boolean} true if the browser supports SVG, false otherwise
-	 */
-	hasSVGSupport: function(){
-		return true;
-	},
-	/**
-	 * If SVG is not supported, replaces the given icon's extension
-	 * from ".svg" to ".png".
-	 * If SVG is supported, return the image path as is.
-	 * @param {string} file image path with svg extension
-	 * @deprecated SVG is always supported (since 9.0)
-	 * @return {string} fixed image path with png extension if SVG is not supported
-	 */
-	replaceSVGIcon: function(file) {
-		return file;
-	},
-	/**
-	 * Replace SVG images in all elements that have the "svg" class set
-	 * with PNG images.
-	 *
-	 * @param $el root element from which to search, defaults to $('body')
-	 * @deprecated SVG is always supported (since 9.0)
-	 */
-	replaceSVG: function($el) {},
-
-	/**
-	 * Fix image scaling for IE8, since background-size is not supported.
-	 *
-	 * This scales the image to the element's actual size, the URL is
-	 * taken from the "background-image" CSS attribute.
-	 *
-	 * @deprecated IE8 isn't supported since 9.0
-	 * @param {Object} $el image element
-	 */
-	scaleFixForIE8: function($el) {},
 
 	/**
 	 * Returns whether this is IE
@@ -2027,16 +1970,6 @@ OC.Util = {
 	 */
 	isIE: function() {
 		return $('html').hasClass('ie');
-	},
-
-	/**
-	 * Returns whether this is IE8
-	 *
-	 * @deprecated IE8 isn't supported since 9.0
-	 * @return {bool} false (IE8 isn't supported anymore)
-	 */
-	isIE8: function() {
-		return false;
 	},
 
 	/**
@@ -2422,13 +2355,6 @@ jQuery.fn.selectRange = function(start, end) {
 jQuery.fn.exists = function(){
 	return this.length > 0;
 };
-
-/**
- * @deprecated use OC.Util.getScrollBarWidth() instead
- */
-function getScrollBarWidth() {
-	return OC.Util.getScrollBarWidth();
-}
 
 /**
  * jQuery tipsy shim for the bootstrap tooltip

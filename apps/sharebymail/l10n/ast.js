@@ -25,12 +25,12 @@ OC.L10N.register(
     "Open »%s«" : "Abrir «%s»",
     "%s via %s" : "%s per %s",
     "Password to access »%s«" : "Contraseña p'acceder a »%s«",
-    "It is protected with the following password: %s" : "Protexóse cola contraseña de darréu: %s",
-    "This is the password: %s" : "Esta ye la contraseña: %s",
     "You can choose a different password at any time in the share dialog." : "Pues escoyer una contraseña diferente en cualesquier momentu nel diálogu de compartir.",
     "Could not find share" : "Nun pudo alcontrase la compartición",
     "Share by mail" : "Unviar per corréu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enllaz personalizáu a un ficheru o carpeta poniendo una direición de corréu.",
-    "Failed to send share by E-mail" : "Fallu al unviar la compartición per corréu"
+    "Failed to send share by E-mail" : "Fallu al unviar la compartición per corréu",
+    "It is protected with the following password: %s" : "Protexóse cola contraseña de darréu: %s",
+    "This is the password: %s" : "Esta ye la contraseña: %s"
 },
 "nplurals=2; plural=(n != 1);");

@@ -15,20 +15,6 @@
 		OC.Share = {};
 	}
 
-	var TEMPLATE_BASE =
-		'<div class="resharerInfoView subView"></div>' +
-		'{{#if isSharingAllowed}}' +
-		'<label for="shareWith-{{cid}}" class="hidden-visually">{{shareLabel}}</label>' +
-		'<div class="oneline">' +
-		'    <input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{sharePlaceholder}}" />' +
-		'    <span class="shareWithLoading icon-loading-small hidden"></span>'+
-		'    <span class="shareWithConfirm icon icon-confirm"></span>' +
-		'</div>' +
-		'{{/if}}' +
-		'<div class="linkShareView subView"></div>' +
-		'<div class="shareeListView subView"></div>' +
-		'<div class="loading hidden" style="height: 50px"></div>';
-
 	/**
 	 * @class OCA.Share.ShareDialogView
 	 * @member {OC.Share.ShareItemModel} model
@@ -663,7 +649,7 @@
 
 		render: function() {
 			var self = this;
-			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
+			var baseTemplate = OC.Share.Templates['sharedialogview'];
 
 			this.$el.html(baseTemplate({
 				cid: this.cid,
@@ -737,20 +723,6 @@
 			}
 
 			return 	t('core', 'Name...');
-		},
-
-		/**
-		 *
-		 * @param {string} key - an identifier for the template
-		 * @param {string} template - the HTML to be compiled by Handlebars
-		 * @returns {Function} from Handlebars
-		 * @private
-		 */
-		_getTemplate: function (key, template) {
-			if (!this._templates[key]) {
-				this._templates[key] = Handlebars.compile(template);
-			}
-			return this._templates[key];
 		},
 
 	});

@@ -67,6 +67,7 @@ class Application extends \OCP\AppFramework\App {
 
 					// Check plugins
 					'filemimetypeplugin',
+					'filenameplugin',
 					'filesizeplugin',
 					'filesystemtagsplugin',
 					'requestremoteaddressplugin',

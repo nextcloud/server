@@ -417,7 +417,7 @@ $(document).ready(function() {
 	if ($searchResults.length > 0 && $searchBox.length > 0) {
 		$searchResults.addClass('hidden');
 		$searchResults.load(
-			OC.webroot + '/core/search/templates/part.results.html',
+			OC.getRootPath() + '/core/search/templates/part.results.html',
 			function() {
 				OC.Search = new OCA.Search.Core(
 					$searchBox,

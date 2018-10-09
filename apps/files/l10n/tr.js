@@ -29,6 +29,7 @@ OC.L10N.register(
     "Actions" : "İşlemler",
     "Rename" : "Yeniden Adlandır",
     "Copy" : "Kopyala",
+    "Choose target folder" : "Hedef klasörü seçin",
     "Disconnect storage" : "Depolama bağlantısını kes",
     "Unshare" : "Paylaşımı Kaldır",
     "Could not load info for file \"{file}\"" : "\"{file}\" dosyasının bilgileri alınamadı",

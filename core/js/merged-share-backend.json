@@ -1,5 +1,6 @@
 [
 	"shareconfigmodel.js",
+	"sharetemplates.js",
 	"shareitemmodel.js",
 	"sharesocialmanager.js",
 	"sharedialogresharerinfoview.js",

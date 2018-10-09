@@ -15,11 +15,12 @@ if(!isset($_)) {//standalone  page is not supported anymore - redirect to /
 <?php if (isset($_['content'])): ?>
 	<?php print_unescaped($_['content']) ?>
 <?php else: ?>
-	<ul>
-		<li class="error">
-			<?php p($l->t('File not found')); ?><br>
-			<p class="hint"><?php p($l->t('The specified document has not been found on the server.')); ?></p>
-			<p class="hint"><a href="<?php p(\OC::$server->getURLGenerator()->linkTo('', 'index.php')) ?>"><?php p($l->t('You can click here to return to %s.', array($theme->getName()))); ?></a></p>
-		</li>
-	</ul>
+	<div class="body-login-container update">
+		<div class="icon-big icon-search icon-white"></div>
+		<h2><?php p($l->t('File not found')); ?></h2>
+		<p class="infogroup"><?php p($l->t('The document could not be found on the server. Maybe the share was deleted or has expired?')); ?></p>
+		<p><a class="button primary" href="<?php p(\OC::$server->getURLGenerator()->linkTo('', 'index.php')) ?>">
+			<?php p($l->t('Back to %s', array($theme->getName()))); ?>
+		</a></p>
+	</div>
 <?php endif; ?>

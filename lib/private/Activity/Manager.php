@@ -198,31 +198,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $app           The app where this event is associated with
-	 * @param string $subject       A short description of the event
-	 * @param array  $subjectParams Array with parameters that are filled in the subject
-	 * @param string $message       A longer description of the event
-	 * @param array  $messageParams Array with parameters that are filled in the message
-	 * @param string $file          The file including path where this event is associated with
-	 * @param string $link          A link where this event is associated with
-	 * @param string $affectedUser  Recipient of the activity
-	 * @param string $type          Type of the notification
-	 * @param int    $priority      Priority of the notification
-	 */
-	public function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
-		$event = $this->generateEvent();
-		$event->setApp($app)
-			->setType($type)
-			->setAffectedUser($affectedUser)
-			->setSubject($subject, $subjectParams)
-			->setMessage($message, $messageParams)
-			->setObject('', 0, $file)
-			->setLink($link);
-
-		$this->publish($event);
-	}
-
-	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * activity consumers are actually requested
 	 *

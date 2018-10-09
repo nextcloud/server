@@ -28,14 +28,12 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s s vámi sdílel(a) „%s“. Už jste měli dostat e-mail s přístupovými údaji.",
     "Password to access »%s« shared to you by %s" : "Heslo pro přístup k „%s“ (vám nasdílel(a) %s)",
     "Password to access »%s«" : "Heslo pro přístup k „%s “",
-    "It is protected with the following password: %s" : "Je chráněn následujícím heslem: %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s s vámi sdílí „%2$s“ a chce přidat:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s s vámi sdílí „%2$s“ a chce přidat",
     "»%s« added a note to a file shared with you" : "„%s“ přidal(a) poznámku k souboru, který je s vámi sdílený",
     "%1$s via %2$s" : "%1$s prostřednictvím %2$s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Právě jste s »%s» nasdílel(a) %s. Sdílení bylo již příjemci zasláno. Kvůli bezpečnostní politice nastavené administrátorem %s musí být každé sdílení chráněno heslem a toto heslo nemůže být příjemci zasláno přímo. Kvůli tomu ho budete muset manuálně přeposlat.",
     "Password to access »%s« shared with %s" : "Heslo pro přístup k „%s“ sdíleno s %s",
-    "This is the password: %s" : "Toto je heslo: %s",
     "You can choose a different password at any time in the share dialog." : "V dialogu sdílení můžete kdykoliv vybrat jiné heslo.",
     "Could not find share" : "Sdílení se nedaří nalézt",
     "Share by mail" : "Sdílet e-mailem",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoluje uživatelům odeslat personalizovaný odkaz na soubor nebo složku po zadání e-mailové adresy.",
     "Send password by mail" : "Odeslat heslo e-mailem",
     "Enforce password protection" : "Vynutit ochranu heslem",
-    "Failed to send share by E-mail" : "Odeslání sdílení e-mailem se nezdařilo"
+    "Failed to send share by E-mail" : "Odeslání sdílení e-mailem se nezdařilo",
+    "It is protected with the following password: %s" : "Je chráněn následujícím heslem: %s",
+    "This is the password: %s" : "Toto je heslo: %s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

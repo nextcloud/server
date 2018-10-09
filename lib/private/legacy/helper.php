@@ -52,23 +52,6 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * Creates an absolute url for public use
-	 * @param string $service id
-	 * @param bool $add_slash
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given service.
-	 */
-	public static function linkToPublic($service, $add_slash = false) {
-		if ($service === 'files') {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL('/s');
-		} else {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getURLGenerator()->linkTo('', 'public.php').'?service='.$service);
-		}
-		return $url . (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
-	}
-
-	/**
 	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size

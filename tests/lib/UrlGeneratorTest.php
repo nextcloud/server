@@ -162,4 +162,22 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	/**
+	 * @dataProvider provideOCSRoutes
+	 */
+	public function testLinkToOCSRouteAbsolute(string $route, string $expected) {
+		$this->mockBaseUrl();
+		\OC::$WEBROOT = '/nextcloud';
+		$result = $this->urlGenerator->linkToOCSRouteAbsolute($route);
+		$this->assertEquals($expected, $result);
+	}
+
+	public function provideOCSRoutes() {
+		return [
+			['core.OCS.getCapabilities', 'http://localhost/nextcloud/ocs/v2.php/cloud/capabilities'],
+			['core.WhatsNew.dismiss', 'http://localhost/nextcloud/ocs/v2.php/core/whatsnew'],
+		];
+	}
+
+
 }

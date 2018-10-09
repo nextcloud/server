@@ -1,5 +1,6 @@
 [
   "app.js",
+  "templates.js",
   "commentmodel.js",
   "commentcollection.js",
   "commentsummarymodel.js",

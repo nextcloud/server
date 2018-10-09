@@ -179,7 +179,7 @@ class WatcherTest extends \Test\TestCase {
 	private function getTestStorage($scan = true) {
 		$storage = new \OC\Files\Storage\Temporary(array());
 		$textData = "dummy file data\n";
-		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$storage->mkdir('folder');
 		$storage->file_put_contents('foo.txt', $textData);
 		$storage->file_put_contents('foo.png', $imgData);

@@ -21,11 +21,11 @@
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s jagas sinuga »%s«. Sa oleks pidanud juba saama eraldi e-kirja lingiga, mille kaudu sellele ligi pääsed.",
     "Password to access »%s« shared to you by %s" : "Parool »%s« ligipääsuks jagati sinuga %s poolt",
     "Password to access »%s«" : "Parool ligipääsuks: %s",
-    "It is protected with the following password: %s" : "See on kaitstud järgneva parooliga: %s",
-    "This is the password: %s" : "Parooliks on: %s",
     "Could not find share" : "Jagamist ei leitud.",
     "Share by mail" : "Jaga e-postiga",
     "Send password by mail" : "Saada parool e-postiga",
-    "Enforce password protection" : "Sunni parooliga kaitsmist"
+    "Enforce password protection" : "Sunni parooliga kaitsmist",
+    "It is protected with the following password: %s" : "See on kaitstud järgneva parooliga: %s",
+    "This is the password: %s" : "Parooliks on: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

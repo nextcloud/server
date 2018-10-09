@@ -23,10 +23,13 @@ OC.L10N.register(
     "Nextcloud backup codes" : "Codici di backup di Nextcloud",
     "You created two-factor backup codes for your account" : "Hai creato codici di backup a due fattori per il tuo account",
     "Second-factor backup codes" : "Codici di backup con secondo fattore",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Hai abilitato l'autenticazione a due fattori, ma non hai ancora generato i codici di backup. Assicurati di farlo, nel caso in cui tu perda l'accesso al secondo fattore.",
     "Backup code" : "Codice di backup",
     "Use backup code" : "Usa il codice di backup",
     "Two factor backup codes" : "Codici di backup a due fattori",
     "A two-factor auth backup codes provider" : "Un fornitore di codici di backup per l'autenticazione a due fattori",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Usa uno dei codici di backup che hai salvato quando configuri l'autenticazione a due fattori.",
+    "Submit" : "Invia",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "I codici di backup sono stati generali. {{used}} di {{total}} codici sono stati utilizzati."
 },
 "nplurals=2; plural=(n != 1);");

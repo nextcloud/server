@@ -716,7 +716,7 @@ describe('OCA.Files.FileActions tests', function() {
 				expect(busyStub.calledWith('testName.txt', true)).toEqual(true);
 				expect(handleDownloadStub.calledOnce).toEqual(true);
 				expect(handleDownloadStub.getCall(0).args[0]).toEqual(
-					OC.webroot + '/remote.php/webdav/subdir/testName.txt'
+					OC.getRootPath() + '/remote.php/webdav/subdir/testName.txt'
 				);
 				busyStub.reset();
 				handleDownloadStub.yield();

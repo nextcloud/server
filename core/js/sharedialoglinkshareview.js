@@ -19,138 +19,6 @@
 	var PASSWORD_PLACEHOLDER_MESSAGE = t('core', 'Choose a password for the public link');
 	var PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL = t('core', 'Choose a password for the public link or press the "Enter" key');
 
-	var TEMPLATE =
-			'{{#if shareAllowed}}' +
-			'<ul id="shareLink" class="shareWithList">' +
-			'	<li data-share-id="{{cid}}">' +
-			'		<div class="avatar icon-public-white"></div><span class="username" title="{{linkShareLabel}}">{{linkShareLabel}}</span>' +
-			'		<span class="sharingOptionsGroup">' +
-			'			<span class="shareOption"> ' +
-			'				<span class="icon-loading-small hidden"></span>' +
-			'				<input id="linkCheckbox-{{cid}}" {{#if isLinkShare}}checked="checked"{{/if}} type="checkbox" name="linkCheckbox" class="linkCheckbox permissions checkbox">' +
-			'				<label for="linkCheckbox-{{cid}}">{{linkShareEnableLabel}}</label>' +
-			'			</span>' +
-			'			{{#if showMenu}}' +
-			'			<div class="share-menu" tabindex="0"><span class="icon icon-more"></span>' +
-			'				{{#if showPending}}' +
-			'					{{{pendingPopoverMenu}}}' +
-			'				{{else}}' +
-			'					{{{popoverMenu}}}' +
-			'				{{/if}}' +
-			'			</div>' +
-			'			{{/if}}' +
-			'		</span>' +
-			'	</li>' +
-			'</ul>' +
-			'{{else}}' +
-			// FIXME: this doesn't belong in this view
-			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
-			'{{/if}}'
-		;
-	var TEMPLATE_POPOVER_MENU =
-		'<div class="popovermenu menu">' +
-			'<ul>' +
-				'<li>' +
-					'<a href="#" class="menuitem clipboardButton" data-clipboard-text="{{shareLinkURL}}">' +
-						'<span class="icon icon-clippy" ></span>' +
-						'<span>{{copyLabel}}</span>' +
-					'</a>' +
-				'</li>' +
-				'<li class="hidden linkTextMenu">' +
-					'<span class="menuitem icon-link-text">' +
-						'<input id="linkText-{{cid}}" class="linkText" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
-					'</span>' +
-				'</li>' +
-				'{{#if publicUpload}}' +
-					'<li><span class="shareOption menuitem">' +
-						'<span class="icon-loading-small hidden"></span>' +
-						'<input type="radio" name="publicUpload" value="{{publicUploadRValue}}" id="sharingDialogAllowPublicUpload-r-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRChecked}}} />' +
-						'<label for="sharingDialogAllowPublicUpload-r-{{cid}}">{{publicUploadRLabel}}</label>' +
-					'</span></li>' +
-					'<li><span class="shareOption menuitem">' +
-						'<span class="icon-loading-small hidden"></span>' +
-						'<input type="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRWChecked}}} />' +
-						'<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRWLabel}}</label>' +
-					'</span></li>' +
-					'<li><span class="shareOption menuitem">' +
-						'<span class="icon-loading-small hidden"></span>' +
-						'<input type="radio" name="publicUpload" value="{{publicUploadWValue}}" id="sharingDialogAllowPublicUpload-w-{{cid}}" class="radio publicUploadRadio" {{{publicUploadWChecked}}} />' +
-						'<label for="sharingDialogAllowPublicUpload-w-{{cid}}">{{publicUploadWLabel}}</label>' +
-					'</span></li>' +
-				'{{/if}}' +
-				'{{#if publicEditing}}' +
-				'	<li id="allowPublicEditingWrapper"><span class="shareOption menuitem">' +
-				'		<span class="icon-loading-small hidden"></span>' +
-				'		<input type="checkbox" name="allowPublicEditing" id="sharingDialogAllowPublicEditing-{{cid}}" class="checkbox publicEditingCheckbox" {{{publicEditingChecked}}} />' +
-				'		<label for="sharingDialogAllowPublicEditing-{{cid}}">{{publicEditingLabel}}</label>' +
-				'	</span></li>' +
-				'{{/if}}' +
-				'{{#if showPasswordCheckBox}}' +
-				'	<li><span class="shareOption menuitem">' +
-				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox"' +
-				'			{{#if isPasswordSet}}checked="checked"{{/if}} {{#if isPasswordEnforced}}disabled="disabled"{{/if}} value="1" />' +
-				'		<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-				'	</span></li>' +
-				'	<li class="{{#unless isPasswordSet}}hidden{{/unless}} linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
-				'    	<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
-				'    <span class="icon icon-loading-small hidden"></span>' +
-				'	</span></li>' +
-				'{{/if}}' +
-				'<li>' +
-				'	<span class="shareOption menuitem">' +
-				'		<input id="expireDate-{{cid}}" type="checkbox" name="expirationDate" class="expireDate checkbox"' +
-				'			{{#if hasExpireDate}}checked="checked"{{/if}} {{#if isExpirationEnforced}}disabled="disabled"{{/if}}" />' +
-				'		<label for="expireDate-{{cid}}">{{expireDateLabel}}</label>' +
-				'	</span>' +
-				'</li>' +
-				'<li class="{{#unless hasExpireDate}}hidden{{/unless}}">' +
-				'	<span class="menuitem icon-expiredate expirationDateContainer-{{cid}}">' +
-				'    	<label for="expirationDatePicker-{{cid}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-				'    	<input id="expirationDatePicker-{{cid}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
-				'	</span>' +
-				'</li>' +
-				'<li>' +
-					'<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>' +
-					'	<span class="icon icon-edit"></span>' +
-					'	<span>{{addNoteLabel}}</span>' +
-					'	<input type="button" class="share-note-delete icon-delete">' +
-					'</a>' +
-				'</li>' +
-				'<li class="share-note-form share-note-link hidden">' +
-					'<span class="menuitem icon-note">' +
-					'	<textarea class="share-note">{{shareNote}}</textarea>' +
-					'	<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />' +
-					'</span>' +
-				'</li>' +
-				'{{#each social}}' +
-					'<li>' +
-						'<a href="#" class="shareOption menuitem pop-up" data-url="{{url}}" data-window="{{newWindow}}">' +
-							'<span class="icon {{iconClass}}"' +
-								'></span><span>{{label}}' +
-							'</span>' +
-						'</a>' +
-					'</li>' +
-				'{{/each}}' +
-			'</ul>' +
-		'</div>';
-
-	// popovermenu waiting for password or expiration date before saving the share
-	var TEMPLATE_POPOVER_MENU_PENDING =
-		'<div class="popovermenu pendingpopover menu">' +
-			'<ul>' +
-				'{{#if isPasswordEnforced}}' +
-				'	<li><span class="shareOption menuitem">' +
-				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" checked="checked" disabled class="checkbox showPasswordCheckbox" value="1" />' +
-				'		<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-				'	</span></li>' +
-				'	<li class="linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
-				'    	<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
-				'    <span class="icon icon-loading-small hidden"></span>' +
-				'	</span></li>' +
-				'{{/if}}' +
-			'</ul>' +
-		'</div>';
-
 	/**
 	 * @class OCA.Share.ShareDialogLinkShareView
 	 * @member {OC.Share.ShareItemModel} model
@@ -167,15 +35,6 @@
 
 		/** @type {OC.Share.ShareConfigModel} **/
 		configModel: undefined,
-
-		/** @type {Function} **/
-		_template: undefined,
-
-		/** @type {Function} **/
-		_popoverMenuTemplate: undefined,
-
-		/** @type {Function} **/
-		_pendingPopoverMenuTemplate: undefined,
 
 		/** @type {boolean} **/
 		showLink: true,
@@ -684,10 +543,7 @@
 		 * @private
 		 */
 		template: function () {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template;
+			return OC.Share.Templates['sharedialoglinkshareview'];
 		},
 
 		/**
@@ -697,10 +553,7 @@
 		 * @returns {string}
 		 */
 		popoverMenuTemplate: function(data) {
-			if(!this._popoverMenuTemplate) {
-				this._popoverMenuTemplate = Handlebars.compile(TEMPLATE_POPOVER_MENU);
-			}
-			return this._popoverMenuTemplate(data);
+			return OC.Share.Templates['sharedialoglinkshareview_popover_menu'](data);
 		},
 
 		/**
@@ -710,10 +563,7 @@
 		 * @returns {string}
 		 */
 		pendingPopoverMenuTemplate: function(data) {
-			if(!this._pendingPopoverMenuTemplate) {
-				this._pendingPopoverMenuTemplate = Handlebars.compile(TEMPLATE_POPOVER_MENU_PENDING);
-			}
-			return this._pendingPopoverMenuTemplate(data);
+			return OC.Share.Templates['sharedialoglinkshareview_popover_menu_pending'](data);
 		},
 
 		onPopUpClick: function(event) {

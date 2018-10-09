@@ -21,10 +21,13 @@
     "Nextcloud backup codes" : "Nextcloud yedek kodları",
     "You created two-factor backup codes for your account" : "İki aşamalı kimlik doğrulama için yedek kodlarınızı oluşturdunuz",
     "Second-factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "İki aşamalı kimlik doğrulamasını etkinleştirmişsiniz ancak yedek kodlarını üretmemişsiniz. İkinci aşamaya erişemediğiniz zaman kullanabilmek için yedek kodlarını üretmeyi unutmayın.",
     "Backup code" : "Yedek kod",
     "Use backup code" : "Yedek kodu kullan",
     "Two factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
     "A two-factor auth backup codes provider" : "İki aşamalı kimlik doğrulaması için yedek kodlar sağlayıcısı",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "İki aşamalı kimlik doğrulamasını ayarlarken yedek kodlarından birini kullanın.",
+    "Submit" : "Gönder",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Yedek kodları oluşturuldu. {{used}} / {{total}} kod kullanılıyor."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

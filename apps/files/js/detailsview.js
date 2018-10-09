@@ -9,22 +9,6 @@
  */
 
 (function() {
-	var TEMPLATE =
-		'	<div class="detailFileInfoContainer">' +
-		'	</div>' +
-		'	{{#if tabHeaders}}' +
-		'	<ul class="tabHeaders">' +
-		'		{{#each tabHeaders}}' +
-		'		<li class="tabHeader" data-tabid="{{tabId}}" tabindex="0">' +
-		'			<a href="#" tabindex="-1">{{label}}</a>' +
-		'		</li>' +
-		'		{{/each}}' +
-		'	</ul>' +
-		'	{{/if}}' +
-		'	<div class="tabsContainer">' +
-		'	</div>' +
-		'	<a class="close icon-close" href="#"><span class="hidden-visually">{{closeLabel}}</span></a>';
-
 	/**
 	 * @class OCA.Files.DetailsView
 	 * @classdesc
@@ -36,8 +20,6 @@
 		id: 'app-sidebar',
 		tabName: 'div',
 		className: 'detailsView scroll-container',
-
-		_template: null,
 
 		/**
 		 * List of detail tab views
@@ -107,10 +89,7 @@
 		},
 
 		template: function(vars) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template(vars);
+			return OCA.Files.Templates['detailsview'](vars);
 		},
 
 		/**

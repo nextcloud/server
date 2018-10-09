@@ -22,7 +22,7 @@ BASEDIR=$PWD
 PRIMARY_STORAGE_CONFIGS="local swift"
 DBCONFIGS="sqlite mysql mariadb pgsql oci mysqlmb4"
 
-# $PHP_EXE is run through 'which' and as such e.g. 'php' or 'hhvm' is usually
+# $PHP_EXE is run through 'which' and as such e.g. 'php' is usually
 # sufficient. Due to the behaviour of 'which', $PHP_EXE may also be a path
 # (absolute or not) to an executable, e.g. ./code/projects/php-src/sapi/cli/php.
 if [ -z "$PHP_EXE" ]; then

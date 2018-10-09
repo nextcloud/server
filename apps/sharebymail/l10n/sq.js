@@ -28,16 +28,16 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s ndau »%s« me ju. Ju duhet të keni marrë tashmë një mail të veçantë me një lidhje për të aksesuar atë.",
     "Password to access »%s« shared to you by %s" : "Fjalëkalimi për të hyrë »%s« ndarë me ju nda %s",
     "Password to access »%s«" : "Fjalëkalimi për akses »%s«",
-    "It is protected with the following password: %s" : "Është i mbrojtur me fjalëkalimin e mëposhtëm: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Ju sapo ndatë »« me %s%s. Pjesa ishte dërguar tashmë tek marrësi. Për shkak të politikave të sigurisë të përcaktuara nga administratori %s secila ndarje duhet të mbrohet me fjalëkalim dhe nuk lejohet të dërgojë fjalëkalimin drejtpërdrejt te marrësi. Prandaj ju duhet ta kaloni fjalëkalimin manualisht tek marrësi.",
     "Password to access »%s« shared with %s" : "Fjalëkalimi për të hyrë »%s« ndarë me %s",
-    "This is the password: %s" : "Ky është fjalëkalimi: %s",
     "You can choose a different password at any time in the share dialog." : "Ju mund të zgjidhni një fjalëkalim tjetër në çdo kohë në dialogun e ndarjes.",
     "Could not find share" : "Nuk mund të gjej shpërndarje",
     "Share by mail" : "Shpërnda me mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Lejo përdoruesit të ndajnë një lidhje të personalizuar me një skedar ose dosje duke e vendosur në një adresë e-mail.",
     "Send password by mail" : "Dërgo fjalëkalimin me mail",
     "Enforce password protection" : "Forco mbrojtjen e fjalëkalimit",
-    "Failed to send share by E-mail" : "Dështoi në dërgimin e shpërndarjeve me anë të E-mail"
+    "Failed to send share by E-mail" : "Dështoi në dërgimin e shpërndarjeve me anë të E-mail",
+    "It is protected with the following password: %s" : "Është i mbrojtur me fjalëkalimin e mëposhtëm: %s",
+    "This is the password: %s" : "Ky është fjalëkalimi: %s"
 },
 "nplurals=2; plural=(n != 1);");

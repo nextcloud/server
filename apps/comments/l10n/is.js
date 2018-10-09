@@ -29,6 +29,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Minnst var á þig í “{file}”, í athugasemd frá notanda sem síðan þá hefur verið eytt",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s minntist á þig í athugasemd við “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”",
+    "Files app plugin to add comments to files" : "Viðbót við skráaforrit til að bæta athugasemdum við skrár",
     "Unknown user" : "Óþekktur notandi",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Notandi (sem nú er búið að eyða) minntist á þig í athugasemd við “{file}”"

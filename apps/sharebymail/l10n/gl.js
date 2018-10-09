@@ -28,16 +28,16 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s compartiu »%s« contigo. Debes ter recibido xa un correo por separado cun enlace para acceder a él.",
     "Password to access »%s« shared to you by %s" : "Contrasinal para acceder »%s« compartido contigo por %s",
     "Password to access »%s«" : "Contrasinal para acceder »%s«",
-    "It is protected with the following password: %s" : "Está protexido co seguinte contrasinal: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Compartiu »%s« con %s. O recurso a compartir foi xa enviado ó destinatario. Debido ás políticas de seguridade definidas polo administrador de %s cada recurso a compartir precisa ser protexido por contrasinal e non está permitido enviar o contrasinal directamente ó destinatario. Polo tanto precisa reenviar o contrasinal ó destinatario manualmente.",
     "Password to access »%s« shared with %s" : "Contrasinal para acceder a  »%s« compartido con %s",
-    "This is the password: %s" : "Este é o contrasinal: %s",
     "You can choose a different password at any time in the share dialog." : "Pode elexir un contrasinal diferente en calquer momento no diálogo compartir.",
     "Could not find share" : "Non puiden atopar o recurso a compartir",
     "Share by mail" : "Compartir por correo",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a usuarios compartir un enlace personalizado a un ficheiro ou carpeta indicando unha dirección de correo ",
     "Send password by mail" : "Enviar contrasinal por correo",
     "Enforce password protection" : "Aplicar protección por contrasinal",
-    "Failed to send share by E-mail" : "Fallou ó compartir por correo"
+    "Failed to send share by E-mail" : "Fallou ó compartir por correo",
+    "It is protected with the following password: %s" : "Está protexido co seguinte contrasinal: %s",
+    "This is the password: %s" : "Este é o contrasinal: %s"
 },
 "nplurals=2; plural=(n != 1);");

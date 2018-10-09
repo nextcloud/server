@@ -100,7 +100,7 @@ describe('MimeType tests', function() {
 
 			it('return the url for the mimetype file', function() {
 				var res = OC.MimeType.getIconUrl('file');
-				expect(res).toEqual(OC.webroot + '/core/img/filetypes/file.svg');
+				expect(res).toEqual(OC.getRootPath() + '/core/img/filetypes/file.svg');
 			});
 
 			it('test if the cache works correctly', function() {
@@ -118,7 +118,7 @@ describe('MimeType tests', function() {
 
 			it('test if alaiases are converted correctly', function() {
 				var res = OC.MimeType.getIconUrl('app/foobar');
-				expect(res).toEqual(OC.webroot + '/core/img/filetypes/foo-bar.svg');
+				expect(res).toEqual(OC.getRootPath() + '/core/img/filetypes/foo-bar.svg');
 				expect(OC.MimeType._mimeTypeIcons['foo/bar']).toEqual(res);
 			});
 		});
@@ -139,12 +139,12 @@ describe('MimeType tests', function() {
 
 			it('test if theme path is used if a theme icon is availble', function() {
 				var res = OC.MimeType.getIconUrl('dir');
-				expect(res).toEqual(OC.webroot + '/themes/abc/core/img/filetypes/folder.svg');
+				expect(res).toEqual(OC.getRootPath() + '/themes/abc/core/img/filetypes/folder.svg');
 			});
 
 			it('test if we fallback to the default theme if no icon is available in the theme', function() {
 				var res = OC.MimeType.getIconUrl('dir-shared');
-				expect(res).toEqual(OC.webroot + '/core/img/filetypes/folder-shared.svg');
+				expect(res).toEqual(OC.getRootPath() + '/core/img/filetypes/folder-shared.svg');
 			});
 		});
 	});

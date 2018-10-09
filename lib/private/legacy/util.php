@@ -392,7 +392,8 @@ class OC_Util {
 	 *
 	 * @param String $userId
 	 * @param \OCP\Files\Folder $userDirectory
-	 * @throws \RuntimeException
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
@@ -848,44 +849,36 @@ class OC_Util {
 		$invalidIniSettings = [];
 		$moduleHint = $l->t('Please ask your server administrator to install the module.');
 
-		/**
-		 * FIXME: The dependency check does not work properly on HHVM on the moment
-		 *        and prevents installation. Once HHVM is more compatible with our
-		 *        approach to check for these values we should re-enable those
-		 *        checks.
-		 */
 		$iniWrapper = \OC::$server->getIniWrapper();
-		if (!self::runningOnHhvm()) {
-			foreach ($dependencies['classes'] as $class => $module) {
-				if (!class_exists($class)) {
-					$missingDependencies[] = $module;
+		foreach ($dependencies['classes'] as $class => $module) {
+			if (!class_exists($class)) {
+				$missingDependencies[] = $module;
+			}
+		}
+		foreach ($dependencies['functions'] as $function => $module) {
+			if (!function_exists($function)) {
+				$missingDependencies[] = $module;
+			}
+		}
+		foreach ($dependencies['defined'] as $defined => $module) {
+			if (!defined($defined)) {
+				$missingDependencies[] = $module;
+			}
+		}
+		foreach ($dependencies['ini'] as $setting => $expected) {
+			if (is_bool($expected)) {
+				if ($iniWrapper->getBool($setting) !== $expected) {
+					$invalidIniSettings[] = [$setting, $expected];
 				}
 			}
-			foreach ($dependencies['functions'] as $function => $module) {
-				if (!function_exists($function)) {
-					$missingDependencies[] = $module;
+			if (is_int($expected)) {
+				if ($iniWrapper->getNumeric($setting) !== $expected) {
+					$invalidIniSettings[] = [$setting, $expected];
 				}
 			}
-			foreach ($dependencies['defined'] as $defined => $module) {
-				if (!defined($defined)) {
-					$missingDependencies[] = $module;
-				}
-			}
-			foreach ($dependencies['ini'] as $setting => $expected) {
-				if (is_bool($expected)) {
-					if ($iniWrapper->getBool($setting) !== $expected) {
-						$invalidIniSettings[] = [$setting, $expected];
-					}
-				}
-				if (is_int($expected)) {
-					if ($iniWrapper->getNumeric($setting) !== $expected) {
-						$invalidIniSettings[] = [$setting, $expected];
-					}
-				}
-				if (is_string($expected)) {
-					if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
-						$invalidIniSettings[] = [$setting, $expected];
-					}
+			if (is_string($expected)) {
+				if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
+					$invalidIniSettings[] = [$setting, $expected];
 				}
 			}
 		}
@@ -1083,26 +1076,6 @@ class OC_Util {
 			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
-	}
-
-	/**
-	 * Check if the user is a subadmin, redirects to home if not
-	 *
-	 * @return null|boolean $groups where the current user is subadmin
-	 */
-	public static function checkSubAdminUser() {
-		OC_Util::checkLoggedIn();
-		$userObject = \OC::$server->getUserSession()->getUser();
-		$isSubAdmin = false;
-		if($userObject !== null) {
-			$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
-		}
-
-		if (!$isSubAdmin) {
-			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
-			exit();
-		}
-		return true;
 	}
 
 	/**
@@ -1330,15 +1303,6 @@ class OC_Util {
 	 */
 	public static function runningOnMac() {
 		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
-	}
-
-	/**
-	 * Checks whether server is running on HHVM
-	 *
-	 * @return bool True if running on HHVM, false otherwise
-	 */
-	public static function runningOnHhvm() {
-		return defined('HHVM_VERSION');
 	}
 
 	/**

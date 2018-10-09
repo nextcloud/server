@@ -100,25 +100,6 @@ class OC_JSON{
 	}
 
 	/**
-	 * Check if the user is a subadmin, send json error msg if not
-	 * @deprecated Use annotation based ACLs from the AppFramework instead
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function checkSubAdminUser() {
-		$userObject = \OC::$server->getUserSession()->getUser();
-		$isSubAdmin = false;
-		if($userObject !== null) {
-			$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
-		}
-
-		if(!$isSubAdmin) {
-			$l = \OC::$server->getL10N('lib');
-			self::error(array( 'data' => array( 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' )));
-			exit();
-		}
-	}
-
-	/**
 	 * Send json error msg
 	 * @deprecated Use a AppFramework JSONResponse instead
 	 * @suppress PhanDeprecatedFunction

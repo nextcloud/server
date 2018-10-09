@@ -21,146 +21,6 @@
 		OC.Share = {};
 	}
 
-	var TEMPLATE =
-			'<ul id="shareWithList" class="shareWithList">' +
-			'{{#each sharees}}' +
-				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}" data-share-with="{{shareWith}}">' +
-					'<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" data-avatar="{{shareWithAvatar}}" data-displayname="{{shareWithDisplayName}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
-					'<span class="username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>' +
-					'<span class="sharingOptionsGroup">' +
-						'{{#if editPermissionPossible}}' +
-						'<span class="shareOption">' +
-							'<input id="canEdit-{{cid}}-{{shareId}}" type="checkbox" name="edit" class="permissions checkbox" />' +
-							'<label for="canEdit-{{cid}}-{{shareId}}">{{canEditLabel}}</label>' +
-						'</span>' +
-						'{{/if}}' +
-						'<div tabindex="0" class="share-menu"><span class="icon icon-more"></span>' +
-							'{{{popoverMenu}}}' +
-						'</div>' +
-					'</span>' +
-				'</li>' +
-			'{{/each}}' +
-			'{{#each linkReshares}}' +
-				'<li data-share-id="{{shareId}}" data-share-type="{{shareType}}">' +
-					'<div class="avatar" data-username="{{shareInitiator}}"></div>' +
-					'<span class="has-tooltip username" title="{{shareInitiator}}">' + t('core', '{{shareInitiatorDisplayName}} shared via link') + '</span>' +
-
-					'<span class="sharingOptionsGroup">' +
-						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
-					'</span>' +
-				'</li>' +
-			'{{/each}}' +
-			'</ul>'
-		;
-
-	var TEMPLATE_POPOVER_MENU =
-		'<div class="popovermenu bubble hidden menu">' +
-			'<ul>' +
-				'{{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isMailShare}}' +
-				'<li>' +
-					'<span class="shareOption menuitem">' +
-						'<input id="canShare-{{cid}}-{{shareId}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
-						'<label for="canShare-{{cid}}-{{shareId}}">{{canShareLabel}}</label>' +
-					'</span>' +
-				'</li>' +
-				'{{/unless}} {{/if}} {{/if}}' +
-				'{{#if isFolder}}' +
-					'{{#if createPermissionPossible}}{{#unless isMailShare}}' +
-					'<li>' +
-						'<span class="shareOption menuitem">' +
-							'<input id="canCreate-{{cid}}-{{shareId}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
-							'<label for="canCreate-{{cid}}-{{shareId}}">{{createPermissionLabel}}</label>' +
-						'</span>' +
-					'</li>' +
-					'{{/unless}}{{/if}}' +
-					'{{#if updatePermissionPossible}}{{#unless isMailShare}}' +
-					'<li>' +
-						'<span class="shareOption menuitem">' +
-							'<input id="canUpdate-{{cid}}-{{shareId}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
-							'<label for="canUpdate-{{cid}}-{{shareId}}">{{updatePermissionLabel}}</label>' +
-						'</span>' +
-					'</li>' +
-					'{{/unless}}{{/if}}' +
-					'{{#if deletePermissionPossible}}{{#unless isMailShare}}' +
-					'<li>' +
-						'<span class="shareOption menuitem">' +
-							'<input id="canDelete-{{cid}}-{{shareId}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
-							'<label for="canDelete-{{cid}}-{{shareId}}">{{deletePermissionLabel}}</label>' +
-						'</span>' +
-					'</li>' +
-					'{{/unless}}{{/if}}' +
-				'{{/if}}' +
-				'{{#if isMailShare}}' +
-					'{{#if hasCreatePermission}}' +
-						'<li>' +
-							'<span class="shareOption menuitem">' +
-								'<input id="secureDrop-{{cid}}-{{shareId}}" type="checkbox" name="secureDrop" class="checkbox secureDrop" {{#if secureDropMode}}checked="checked"{{/if}} data-permissions="{{readPermission}}"/>' +
-								'<label for="secureDrop-{{cid}}-{{shareId}}">{{secureDropLabel}}</label>' +
-							'</span>' +
-						'</li>' +
-					'{{/if}}' +
-					'<li>' +
-						'<span class="shareOption menuitem">' +
-							'<input id="password-{{cid}}-{{shareId}}" type="checkbox" name="password" class="password checkbox" {{#if isPasswordSet}}checked="checked"{{/if}}{{#if isPasswordSet}}{{#if isPasswordForMailSharesRequired}}disabled=""{{/if}}{{/if}}" />' +
-							'<label for="password-{{cid}}-{{shareId}}">{{passwordLabel}}</label>' +
-						'</span>' +
-					'</li>' +
-					'<li class="passwordMenu-{{cid}}-{{shareId}} {{#unless isPasswordSet}}hidden{{/unless}}">' +
-						'<span class="passwordContainer-{{cid}}-{{shareId}} icon-passwordmail menuitem">' +
-						'    <label for="passwordField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordLabel}}</label>' +
-						'    <input id="passwordField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordPlaceholder}}" value="{{passwordValue}}" autocomplete="new-password" />' +
-						'    <span class="icon-loading-small hidden"></span>' +
-						'</span>' +
-					'</li>' +
-					'{{#if isTalkEnabled}}' +
-					'<li>' +
-						'<span class="shareOption menuitem">' +
-							'<input id="passwordByTalk-{{cid}}-{{shareId}}" type="checkbox" name="passwordByTalk" class="passwordByTalk checkbox" {{#if isPasswordByTalkSet}}checked="checked"{{/if}} />' +
-							'<label for="passwordByTalk-{{cid}}-{{shareId}}">{{passwordByTalkLabel}}</label>' +
-						'</span>' +
-					'</li>' +
-					'<li class="passwordByTalkMenu-{{cid}}-{{shareId}} {{#unless isPasswordByTalkSet}}hidden{{/unless}}">' +
-						'<span class="passwordByTalkContainer-{{cid}}-{{shareId}} icon-passwordtalk menuitem">' +
-						'    <label for="passwordByTalkField-{{cid}}-{{shareId}}" class="hidden-visually" value="{{password}}">{{passwordByTalkLabel}}</label>' +
-						'    <input id="passwordByTalkField-{{cid}}-{{shareId}}" class="passwordField" type="password" placeholder="{{passwordByTalkPlaceholder}}" value="{{passwordValue}}" autocomplete="new-password" />' +
-						'    <span class="icon-loading-small hidden"></span>' +
-						'</span>' +
-					'</li>' +
-					'{{/if}}' +
-				'{{/if}}' +
-				'<li>' +
-					'<span class="shareOption menuitem">' +
-						'<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />' +
-						'<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>' +
-					'</span>' +
-				'</li>' +
-				'<li class="expirationDateMenu-{{cid}}-{{shareId}} {{#unless hasExpireDate}}hidden{{/unless}}">' +
-					'<span class="expirationDateContainer-{{cid}}-{{shareId}} icon-expiredate menuitem">' +
-					'    <label for="expirationDatePicker-{{cid}}-{{shareId}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-					'    <input id="expirationDatePicker-{{cid}}-{{shareId}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />' +
-					'</span>' +
-				'</li>' +
-				'{{#if isNoteAvailable}}' +
-				'<li>' +
-					'<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>' +
-					'	<span class="icon icon-edit"></span>' +
-					'	<span>{{addNoteLabel}}</span>' +
-					'	<input type="button" class="share-note-delete icon-delete">' +
-					'</a>' +
-				'</li>' +
-				'<li class="share-note-form hidden">' +
-					'<span class="menuitem icon-note">' +
-					'	<textarea class="share-note">{{shareNote}}</textarea>' +
-					'	<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />' +
-					'</span>' +
-				'</li>' +
-				'{{/if}}' +
-				'<li>' +
-					'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>' +
-				'</li>' +
-			'</ul>' +
-		'</div>';
-
 	/**
 	 * @class OCA.Share.ShareDialogShareeListView
 	 * @member {OC.Share.ShareItemModel} model
@@ -177,12 +37,6 @@
 
 		/** @type {OC.Share.ShareConfigModel} **/
 		configModel: undefined,
-
-		/** @type {Function} **/
-		_template: undefined,
-
-		/** @type {Function} **/
-		_popoverMenuTemplate: undefined,
 
 		_menuOpen: false,
 
@@ -401,7 +255,7 @@
 				// with references
 				list.push(_.extend({}, universal, share, {
 					shareInitiator: shares[index].uid_owner,
-					shareInitiatorDisplayName: shares[index].displayname_owner
+					shareInitiatorText: t('core', '{shareInitiatorDisplayName} shared via link', {shareInitiatorDisplayName: shares[index].displayname_owner})
 				}));
 			}
 
@@ -503,16 +357,13 @@
 		 * @private
 		 */
 		template: function (data) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
 			var sharees = data.sharees;
 			if(_.isArray(sharees)) {
 				for (var i = 0; i < sharees.length; i++) {
 					data.sharees[i].popoverMenu = this.popoverMenuTemplate(sharees[i]);
 				}
 			}
-			return this._template(data);
+			return OC.Share.Templates['sharedialogshareelistview'](data);
 		},
 
 		/**
@@ -522,10 +373,7 @@
 		 * @returns {string}
 		 */
 		popoverMenuTemplate: function(data) {
-			if(!this._popoverMenuTemplate) {
-				this._popoverMenuTemplate = Handlebars.compile(TEMPLATE_POPOVER_MENU);
-			}
-			return this._popoverMenuTemplate(data);
+			return OC.Share.Templates['sharedialogshareelistview_popover_menu'](data);
 		},
 
 		showNoteForm: function(event) {

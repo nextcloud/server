@@ -35,14 +35,6 @@
 
 		/**
 		 * @returns {boolean}
-		 * @deprecated here for legacy reasons - will always return true
-		 */
-		areAvatarsEnabled: function() {
-			return true;
-		},
-
-		/**
-		 * @returns {boolean}
 		 */
 		isPublicUploadEnabled: function() {
 			var publicUploadEnabled = $('#filestable').data('allow-public-upload');
