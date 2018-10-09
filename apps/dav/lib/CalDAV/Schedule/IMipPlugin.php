@@ -225,7 +225,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		);
 
 		$fromEMail = \OCP\Util::getDefaultEmailAddress('invitations-noreply');
-		$fromName = $l10n->t('%s via %s', [$senderName, $this->defaults->getName()]);
+		$fromName = $l10n->t('%1$s via %2$s', [$senderName, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage()
 			->setFrom([$fromEMail => $fromName])
@@ -438,14 +438,14 @@ class IMipPlugin extends SabreIMipPlugin {
 		if ($method === self::METHOD_CANCEL) {
 			$template->setSubject('Cancelled: ' . $summary);
 			$template->addHeading($l10n->t('Invitation canceled'), $l10n->t('Hello %s,', [$attendeeName]));
-			$template->addBodyText($l10n->t('The meeting »%s« with %s was canceled.', [$summary, $inviteeName]));
+			$template->addBodyText($l10n->t('The meeting »%1$s« with %2$s was canceled.', [$summary, $inviteeName]));
 		} else if ($method === self::METHOD_REPLY) {
 			$template->setSubject('Re: ' . $summary);
 			$template->addHeading($l10n->t('Invitation updated'), $l10n->t('Hello %s,', [$attendeeName]));
-			$template->addBodyText($l10n->t('The meeting »%s« with %s was updated.', [$summary, $inviteeName]));
+			$template->addBodyText($l10n->t('The meeting »%1$s« with %2$s was updated.', [$summary, $inviteeName]));
 		} else {
 			$template->setSubject('Invitation: ' . $summary);
-			$template->addHeading($l10n->t('%s invited you to »%s«', [$inviteeName, $summary]), $l10n->t('Hello %s,', [$attendeeName]));
+			$template->addHeading($l10n->t('%1$s invited you to »%2$s«', [$inviteeName, $summary]), $l10n->t('Hello %s,', [$attendeeName]));
 		}
 
 	}
