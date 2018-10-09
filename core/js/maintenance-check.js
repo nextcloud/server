@@ -3,7 +3,7 @@ window.setInterval(checkStatus, 20000);
 
 function checkStatus() {
 	var request = new XMLHttpRequest();
-	request.open("GET", OC.webroot+'/status.php', true);
+	request.open("GET", OC.getRootPath()+'/status.php', true);
 	request.onreadystatechange = function() {
 		if (request.readyState === 4) {
 			var response = request.responseText;

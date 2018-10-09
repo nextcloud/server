@@ -215,7 +215,7 @@ describe('OCA.External.Settings tests', function() {
 
 				expect(fakeServer.requests.length).toEqual(1);
 				var request = fakeServer.requests[0];
-				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_external/globalstorages');
+				expect(request.url).toEqual(OC.getRootPath() + '/index.php/apps/files_external/globalstorages');
 				expect(JSON.parse(request.requestBody)).toEqual({
 					backend: '\\OC\\TestBackend',
 					authMechanism: 'mechanism1',

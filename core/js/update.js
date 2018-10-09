@@ -41,7 +41,7 @@
 				})
 			);
 
-			var updateEventSource = new OC.EventSource(OC.webroot+'/core/ajax/update.php');
+			var updateEventSource = new OC.EventSource(OC.getRootPath()+'/core/ajax/update.php');
 			updateEventSource.listen('success', function(message) {
 				self.setMessage(message);
 			});

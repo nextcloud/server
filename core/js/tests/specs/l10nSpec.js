@@ -12,7 +12,7 @@ describe('OC.L10N tests', function() {
 	var TEST_APP = 'jsunittestapp';
 
 	beforeEach(function() {
-		OC.appswebroots[TEST_APP] = OC.webroot + '/apps3/jsunittestapp';
+		OC.appswebroots[TEST_APP] = OC.getRootPath() + '/apps3/jsunittestapp';
 	});
 	afterEach(function() {
 		delete OC.L10N._bundles[TEST_APP];
@@ -141,7 +141,7 @@ describe('OC.L10N tests', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			var req = fakeServer.requests[0];
 			expect(req.url).toEqual(
-				OC.webroot + '/apps3/' + TEST_APP + '/l10n/zh_CN.json'
+				OC.getRootPath() + '/apps3/' + TEST_APP + '/l10n/zh_CN.json'
 			);
 			req.respond(
 				200,

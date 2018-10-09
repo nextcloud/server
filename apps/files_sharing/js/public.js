@@ -343,7 +343,7 @@ OCA.Sharing.PublicApp = {
 	_legacyCreateFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
 
 		var self = this;
-		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
+		var location = window.location.protocol + '//' + window.location.host + OC.getRootPath();
 
 		if(remote.substr(-1) !== '/') {
 			remote += '/'

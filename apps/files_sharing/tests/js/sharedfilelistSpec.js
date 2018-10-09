@@ -173,7 +173,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags')).toEqual(OC.TAG_FAVORITE);
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/remote.php/webdav/local%20path/local%20name.txt'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
@@ -193,7 +193,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).not.toBeDefined();
 			expect($tr.attr('data-tags')).toEqual('');
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/remote.php/webdav/b.txt'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('b.txt');
@@ -251,7 +251,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags')).toEqual(OC.TAG_FAVORITE);
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/index.php/apps/files' +
 				'?dir=/local%20path/local%20name'
 			);
@@ -272,7 +272,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).not.toBeDefined();
 			expect($tr.attr('data-tags')).toEqual('');
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/index.php/apps/files' +
 				'?dir=/b'
 			);
@@ -352,7 +352,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags')).toEqual(OC.TAG_FAVORITE);
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/remote.php/webdav/local%20path/local%20name.txt'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
@@ -394,7 +394,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags')).toEqual(OC.TAG_FAVORITE);
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/index.php/apps/files' +
 				'?dir=/local%20path/local%20name'
 			);
@@ -448,7 +448,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags')).toEqual(OC.TAG_FAVORITE);
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot + '/remote.php/webdav/local%20path/local%20name.txt'
+				OC.getRootPath() + '/remote.php/webdav/local%20path/local%20name.txt'
 			);
 
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
@@ -519,7 +519,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags')).toEqual(OC.TAG_FAVORITE);
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot + '/remote.php/webdav/local%20path/local%20name.txt'
+				OC.getRootPath() + '/remote.php/webdav/local%20path/local%20name.txt'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
 		});
@@ -634,7 +634,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags')).toEqual(OC.TAG_FAVORITE);
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot + '/remote.php/webdav/local%20path/local%20name.txt'
+				OC.getRootPath() + '/remote.php/webdav/local%20path/local%20name.txt'
 			);
 			expect($tr.attr('data-expiration')).toEqual('0');
 			expect($tr.find('td:last-child span').text()).toEqual('');
@@ -687,7 +687,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags')).toEqual(OC.TAG_FAVORITE);
 			expect($tr.find('a.name').attr('href')).toEqual(
-					OC.webroot +
+					OC.getRootPath() +
 					'/remote.php/webdav/local%20path/local%20name.txt');
 
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
