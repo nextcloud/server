@@ -61,7 +61,7 @@ changed it substantially:
 
 Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere, and to explain how together we can strengthen and support each other.
 
-Please review the [guidelines for contributing](https://github.com/nextcloud/server/blob/master/CONTRIBUTING.md) to this repository.
+Please review the [guidelines for contributing](.github/CONTRIBUTING.md) to this repository.
 
 More information how to contribute: [https://nextcloud.com/contribute/](https://nextcloud.com/contribute/)
 
