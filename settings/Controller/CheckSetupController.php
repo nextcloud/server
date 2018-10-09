@@ -235,7 +235,7 @@ class CheckSetupController extends Controller {
 
 			if(($majorVersion === '1.0.1' && ord($patchRelease) < ord('d')) ||
 				($majorVersion === '1.0.2' && ord($patchRelease) < ord('b'))) {
-				return (string) $this->l10n->t('cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably.', ['OpenSSL', $versionString, $features]);
+				return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['OpenSSL', $versionString, $features]);
 			}
 		}
 
@@ -249,7 +249,7 @@ class CheckSetupController extends Controller {
 				$secondClient->get('https://nextcloud.com/');
 			} catch (ClientException $e) {
 				if($e->getResponse()->getStatusCode() === 400) {
-					return (string) $this->l10n->t('cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably.', ['NSS', $versionString, $features]);
+					return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['NSS', $versionString, $features]);
 				}
 			}
 		}

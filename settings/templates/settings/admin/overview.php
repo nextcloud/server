@@ -50,7 +50,7 @@
 		<ul class="info hidden"></ul>
 	</div>
 	<p id="postsetupchecks-hint" class="hidden">
-		<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer noopener" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
+		<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer noopener" href="%1$s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%2$s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
 	</p>
 
 	<p class="extra-top-margin">

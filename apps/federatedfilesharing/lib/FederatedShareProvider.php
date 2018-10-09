@@ -184,8 +184,8 @@ class FederatedShareProvider implements IShareProvider {
 		$alreadyShared = $this->getSharedWith($shareWith, \OCP\Share::SHARE_TYPE_REMOTE, $share->getNode(), 1, 0);
 		$alreadySharedGroup = $this->getSharedWith($shareWith, \OCP\Share::SHARE_TYPE_REMOTE_GROUP, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared) || !empty($alreadySharedGroup)) {
-			$message = 'Sharing %s failed, because this item is already shared with %s';
-			$message_t = $this->l->t('Sharing %s failed, because this item is already shared with %s', array($share->getNode()->getName(), $shareWith));
+			$message = 'Sharing %1$s failed, because this item is already shared with %2$s';
+			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with %2$s', array($share->getNode()->getName(), $shareWith));
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
@@ -298,7 +298,7 @@ class FederatedShareProvider implements IShareProvider {
 
 		if($failure) {
 			$this->removeShareFromTableById($shareId);
-			$message_t = $this->l->t('Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate.',
+			$message_t = $this->l->t('Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate.',
 				[$share->getNode()->getName(), $share->getSharedWith()]);
 			throw new \Exception($message_t);
 		}

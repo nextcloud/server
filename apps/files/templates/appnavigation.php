@@ -17,7 +17,7 @@
 			<a href="#" class="icon-quota svg">
 				<p id="quotatext"><?php
 					if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-						p($l->t('%s of %s used', [$_['usage'], $_['total_space']]));
+						p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']]));
 					} else {
 						p($l->t('%s used', [$_['usage']]));
 					} ?></p>

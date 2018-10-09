@@ -89,7 +89,7 @@ vendor_style('jcrop/css/jquery.Jcrop');
 							<?php print_unescaped($l->t('You are using <strong>%s</strong>',
 								[$_['usage']]));?>
 						<?php else: ?>
-							<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)',
+							<?php print_unescaped($l->t('You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)',
 								[$_['usage'], $_['total_space'],  $_['usage_relative']]));?>
 						<?php endif ?>
 					</p>

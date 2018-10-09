@@ -1096,7 +1096,7 @@ class OC_App {
 		if (!empty($missing)) {
 			$missingMsg = implode(PHP_EOL, $missing);
 			throw new \Exception(
-				$l->t('App "%s" cannot be installed because the following dependencies are not fulfilled: %s',
+				$l->t('App "%1$s" cannot be installed because the following dependencies are not fulfilled: %2$s',
 					[$info['name'], $missingMsg]
 				)
 			);
