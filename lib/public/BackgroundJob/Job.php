@@ -136,6 +136,8 @@ abstract class Job implements IJob {
 	 *
 	 * @param $argument
 	 * @return mixed
+	 *
+	 * @since 15.0.0
 	 */
 	abstract protected function run($argument);
 }
