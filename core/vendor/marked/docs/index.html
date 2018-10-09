@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Marked.js Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            font-size: 16px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        #container {
+            position: relative;
+            max-width: 800px;
+            margin: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        header { display: flex; }
+
+        header h1 { margin: 0; }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+
+        td, th {
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        pre {
+            font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 3px;
+        }
+
+        code:not([class]) {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(27,31,35,0.05);
+            border-radius: 3px;
+        }
+
+        .github-ribbon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <a href="README.md">
+                <img src="img/logo-black.svg" height="64px" width="64px" />
+            </a>
+            <h1>Marked.js Documentation</h1>
+        </header>
+
+        <a href="https://github.com/markedjs/marked">
+            <img class="github-ribbon" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+        </a>
+
+        <div id="content"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise/dist/es6-promise.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/unfetch/dist/unfetch.umd.js"></script>
+    <script>
+        var content = document.querySelector('#content');
+        var body = document.querySelector('html');
+
+        body.addEventListener('click', function (e) {
+            var a = e.target.closest('a');
+            if (a && a.href.indexOf(location.origin) === 0) {
+                var page = a.href.slice(location.origin.length + location.pathname.length);
+                if (page.slice(-3) === '.md') {
+                    e.preventDefault();
+                    fetchPage(page);
+                }
+                history.replaceState("", document.title, "/");
+            }
+        }, false);
+
+        function fetchPage(page) {
+            fetch(page)
+                .then(res => res.text())
+                .then(text => {
+                    content.innerHTML = marked(text);
+                    body.scrollTop = 0;
+                }).catch(e => {
+                    content.innerHTML = '<p>Oops! There was a problem rendering the page.</p>'
+                        + '<p>' + e.message + '</p>';
+                });
+        }
+
+        fetchPage('README.md');
+    </script>
+</body>
+</html>
