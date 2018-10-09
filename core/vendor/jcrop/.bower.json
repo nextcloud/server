@@ -8,7 +8,7 @@
     "tag": "v0.9.12",
     "commit": "1902fbc6afa14481dc019a17e0dcb7d62b808a98"
   },
-  "_source": "git://github.com/tapmodo/Jcrop.git",
-  "_target": "~0.9.12",
+  "_source": "https://github.com/tapmodo/Jcrop.git",
+  "_target": "0.9.12",
   "_originalSource": "jcrop"
 }

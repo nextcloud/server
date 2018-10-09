@@ -744,13 +744,9 @@
 
         /**
          * Disables Snap.js events
-         * @param {Boolean} endCurrentDrag Whether to end the current drag (if any) or not.
          */
-        disable: function(endCurrentDrag) {
+        disable: function() {
             utils.dispatchEvent('disable');
-            if (endCurrentDrag) {
-                this.action.drag.endDrag();
-            }
             this.action.drag.stopListening();
         },
 
