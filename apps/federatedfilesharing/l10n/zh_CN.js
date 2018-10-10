@@ -17,10 +17,8 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "无法建立一个远程分享",
     "Couldn't establish a federated share, maybe the password was wrong." : "无法建立分享，可能密码是错误的。",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "共享协作请求发送成功！通过你将收到通知。注意留意你的通知提醒",
-    "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败，因为它已经共享给 %s",
     "Not allowed to create a federated share with the same user" : "不能给你自己分享文件",
     "File is already shared with %s" : "文件已经共享与 %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败, 无法找到 %s, 可能该服务器当前无法访问或者使用自签名证书.",
     "Could not find share" : "没有发现共享",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "你得到“%3$s\"做为远程分享从”%1$s（代替\"%2$s）",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "你得到[共享]是从[用户]做为远程共享（代替原来的）",
@@ -52,6 +50,8 @@ OC.L10N.register(
     "Storage not valid" : "存储不可用",
     "Federated share added" : "共享协作已添加",
     "Couldn't add remote share" : "无法添加远程共享",
+    "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败，因为它已经共享给 %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败, 无法找到 %s, 可能该服务器当前无法访问或者使用自签名证书.",
     "Search global and public address book for users and let local users publish their data" : "搜索用户的全球和公共通讯录，并让本地用户发布其数据"
 },
 "nplurals=1; plural=0;");

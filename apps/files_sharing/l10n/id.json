@@ -35,7 +35,6 @@
     "Public upload disabled by the administrator" : "Pengunggahan publik dinonaktifkan oleh administrator",
     "Public upload is only possible for publicly shared folders" : "Pengunggahan publik hanya bisa untuk folder yang dibagikan kepada publik",
     "Invalid date, date format must be YYYY-MM-DD" : "Tanggal salah, format tanggal harus TTTT-BB-HH",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Gagal berbagi %s karena backend tidak mengizinkan berbagi dengan tipe %s",
     "Unknown share type" : "Tipe berbagi tidak diketahui",
     "Not a directory" : "Bukan direktori",
     "Could not lock path" : "Tidak dapat mengunci path",
@@ -60,6 +59,7 @@
     "Select or drop files" : "Pilih atau drop berkas",
     "Uploading files…" : "Mengunggah berkas...",
     "Uploaded files:" : "Berkas terunggah:",
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Gagal berbagi %s karena backend tidak mengizinkan berbagi dengan tipe %s",
     "This share is password-protected" : "Berbagi ini dilindungi kata sandi",
     "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
     "Password" : "Kata sandi"

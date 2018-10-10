@@ -79,7 +79,6 @@
     "Public upload disabled by the administrator" : "Δημόσιο ανέβασμα είναι απενεργοποιημένο από τον διαχειριστή",
     "Public upload is only possible for publicly shared folders" : "Δημόσιο ανέβασμα είναι δυνατό μόνο για δημόσια διαμοιρασμένους φακέλους",
     "Invalid date, date format must be YYYY-MM-DD" : "Μη έγκυρη ημερομηνία, η μορφή της ημερομηνίας πρέπει να είναι YYYY-MM-DD",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Διαμοιρασμός %s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς από τύπο %s",
     "You cannot share to a Circle if the app is not enabled" : "Δεν μπορείτε να διαμοιράσετε σε έναν Κύκλο εάν η εφαρμογή δεν είναι ενεργοποιημένη",
     "Please specify a valid circle" : "Παρακαλούμε προσδιορίστε έναν έγκυρο κύκλο",
     "Unknown share type" : "Άγνωστος τύπος διαμοιρασμού",
@@ -108,6 +107,7 @@
     "Uploading files…" : "Αποστολή αρχείων ...",
     "Uploaded files:" : "Αποστολή αρχείων:",
     "{actor} removed you from {file}" : "{actor} αφαίρεσε εσάς από {file}",
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Διαμοιρασμός %s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς από τύπο %s",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
     "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
     "Password" : "Κωδικός πρόσβασης"

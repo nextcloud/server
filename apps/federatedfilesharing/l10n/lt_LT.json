@@ -14,10 +14,8 @@
     "Couldn't establish a federated share." : "Neįmanoma pradėti dalintis kitame serveryje.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Neįmanoma pradėti dalintis kitame serveryje. Gal jūsų slaptažodis blogas?",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Dalinimosi kitame serveryje užklausa išsiųsta. Jūs būsite informuoti, jei pasidalinimas bus sėkmingas. ",
-    "Sharing %s failed, because this item is already shared with %s" : "%s bendrinimas nepavyko, kadangi šis elementas jau yra bendrinamas su %s",
     "Not allowed to create a federated share with the same user" : "Negalima dalintis su identišku naudotoju kitame serveryje",
     "File is already shared with %s" : "Failas jau yra bendrinamas su %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "\"%s\" pasidalinimas nepavyko, neįmanoma rasti %s, tikėtina, kad serveris šiuo metu nepasiekiamas arba naudoja nepatikimą sertifikatą.",
     "Could not find share" : "Nepavyko rasti bendrinamų duomenų",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s (%2$s vardu) esantis kitame serveryje",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Gavote galimybę peržiūrėti duomenis \"{share}\", kuriuos pasidalino {user} ({behalf} vardu) esantis kitame serveryje",
@@ -49,6 +47,8 @@
     "Storage not valid" : "Saugykla netinkama naudotis",
     "Federated share added" : "Pasidalinta per kitą serverį",
     "Couldn't add remote share" : "Nepavyko peržiūrėti kitame serveryje pasidalintų duomenų",
+    "Sharing %s failed, because this item is already shared with %s" : "%s bendrinimas nepavyko, kadangi šis elementas jau yra bendrinamas su %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "\"%s\" pasidalinimas nepavyko, neįmanoma rasti %s, tikėtina, kad serveris šiuo metu nepasiekiamas arba naudoja nepatikimą sertifikatą.",
     "Search global and public address book for users and let local users publish their data" : "Rasti globalias ar viešas adresų knygas ir leisti naudotojams viešinti savo duomenis"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

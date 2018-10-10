@@ -133,7 +133,6 @@ OC.L10N.register(
     "Save" : "Spara",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Med PHP-FPM kan det ta cirka 5 minuter för ändringarna att träda i kraft.",
     "Missing permissions to edit from here." : "Saknar rättigheter att ändra härifrån.",
-    "%s of %s used" : "%s av %s använt",
     "%s used" : "%s använt",
     "Settings" : "Inställningar",
     "Show hidden files" : "Visa dolda filer",
@@ -161,6 +160,7 @@ OC.L10N.register(
     "Target folder" : "Målmapp",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mapp har blivit <strong>raderad</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mapp har blivit <strong>återställd</strong>",
+    "%s of %s used" : "%s av %s använt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">komma åt dina filer med WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

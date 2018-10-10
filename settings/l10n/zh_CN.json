@@ -21,7 +21,6 @@
     "Backend doesn't support password change, but the user's encryption key was updated." : "后端不支持密码更改，但用户的加密密钥已更新。",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "通过应用程序商店或联合云共享安装和更新应用程序",
     "Federated Cloud Sharing" : "联合云共享",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL 当前使用的过时 %s 的版本 (%s). 请更新你的操作系统或组件, 例如 %s 将无法可靠地工作.",
     "Invalid SMTP password." : "无效的SMTP密码",
     "Email setting test" : "电子邮件设置测试",
     "Well done, %s!" : "已完成, %s!",
@@ -186,7 +185,6 @@
     "There are some errors regarding your setup." : "关于您的设置有一些错误.",
     "There are some warnings regarding your setup." : "关于您的设置有一些警告.",
     "Checking for system and security issues." : "正在检查系统和安全问题.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "请仔细检查<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">安装指南</a>，并检查<a href=\"%s\">日志</a>中是否有错误或警告。",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "通过<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我们的安全检查 ↗</a>检查您 Nextcloud 的安全",
     "Version" : "版本",
     "Server-side encryption" : "服务器端加密",
@@ -253,7 +251,6 @@
     "Details" : "详情",
     "You are a member of the following groups:" : "您是以下群组的成员:",
     "You are using <strong>%s</strong>" : "你正在使用<strong>%s</strong>",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "你使用了<strong>%s</strong>的<strong>%s</strong>(<strong>%s %%</strong>)",
     "Full name" : "全名",
     "No display name set" : "不显示名称设置",
     "Your email address" : "您的电子邮件",
@@ -285,6 +282,7 @@
     "Username" : "用户名",
     "Done" : "完成",
     "Enabled apps" : "启用应用",
+    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL 当前使用的过时 %s 的版本 (%s). 请更新你的操作系统或组件, 例如 %s 将无法可靠地工作.",
     "A problem occurred, please check your log files (Error: %s)" : "出现了问题, 请检查您的日志文件 (错误: %s)",
     "Migration Completed" : "迁移完成",
     "Group already exists." : "分组已经存在.",
@@ -384,6 +382,7 @@
     "Getting help" : "获取帮助",
     "Commercial support" : "商业支持",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "您正在使用 <strong>%s</strong> 的 <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "你使用了<strong>%s</strong>的<strong>%s</strong>(<strong>%s %%</strong>)",
     "You are member of the following groups:" : "您是以下组的成员:",
     "Get the apps to sync your files" : "安装应用进行文件同步",
     "Desktop client" : "桌面客户端",
@@ -433,6 +432,7 @@
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "我们强烈建议在您的系统中安装需要的包以支持下列区域: %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "如果您不是安装在域名的根目录, 并且使用系统 cron 服务时, 可能导致 URL 生成问题. 为了避免这些问题, 请在您的 config.php 文件中设置 \"overwrite.cli.url\" 选项为您的安装根目录路径 (建议: \"%s\")",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "由于下列的技术错误, 无法通过 CLI 执行计划任务:",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "请仔细检查<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">安装指南</a>，并检查<a href=\"%s\">日志</a>中是否有错误或警告。",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "使用以下命令行工具来迁移至其他数据库: 'occ db:convert-type', 或者参考 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">文档 ↗</a>。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

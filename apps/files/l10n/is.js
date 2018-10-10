@@ -135,7 +135,6 @@ OC.L10N.register(
     "Save" : "Vista",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Með PHP-FPM getur það tekið 5 mínútur fyrir breytingar að verða virkar.",
     "Missing permissions to edit from here." : "Vantar heimildir til að breyta einhverju héðan.",
-    "%s of %s used" : "%s af %s notað",
     "%s used" : "%s notað",
     "Settings" : "Stillingar",
     "Show hidden files" : "Sýna faldar skrár",
@@ -163,6 +162,7 @@ OC.L10N.register(
     "Target folder" : "Markmappa",
     "A new file or folder has been <strong>deleted</strong>" : "Nýrri skrá eða möppu hefur verið  <strong>eytt</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Ný skrá eða mappa hefur verið <strong>endurheimt</strong>",
+    "%s of %s used" : "%s af %s notað",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

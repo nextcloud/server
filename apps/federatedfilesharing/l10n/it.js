@@ -19,10 +19,8 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Richiesta della condivisione federata inviata, riceverai un invito. Controlla le tue notifiche.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Impossibile stabilire una condivisione federata, sembra che il server da federare sia troppo datato (Nextcloud  <= 9).",
     "It is not allowed to send federated group shares from this server." : "Non è consentito inviare condivisioni di gruppo federate da questo server.",
-    "Sharing %s failed, because this item is already shared with %s" : "Condivisione di %s non riuscita, poiché l'oggetto è già condiviso con %s",
     "Not allowed to create a federated share with the same user" : "Non è consentito creare una condivisione federata con lo stesso utente",
     "File is already shared with %s" : "Il file è già condiviso con %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "La condivisione di %s non è riuscita, impossibile trovare %s, è probabile che il server non sia al momento raggiungibile o che utilizzi un certificato auto-firmato.",
     "Could not find share" : "Impossibile trovare la condivisione",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Hai ricevuto \"%3$s\" come condivisione remota da %1$s (per conto di %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Hai ricevuto {share} come condivisione remota da {user} (per conto di {behalf})",
@@ -58,6 +56,8 @@ OC.L10N.register(
     "Storage not valid" : "Archiviazione non valida",
     "Federated share added" : "Condivisione federata aggiunta",
     "Couldn't add remote share" : "Impossibile aggiungere la condivisione remota",
+    "Sharing %s failed, because this item is already shared with %s" : "Condivisione di %s non riuscita, poiché l'oggetto è già condiviso con %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "La condivisione di %s non è riuscita, impossibile trovare %s, è probabile che il server non sia al momento raggiungibile o che utilizzi un certificato auto-firmato.",
     "Search global and public address book for users and let local users publish their data" : "Cerca utenti nella rubrica globale e pubblica e consenti agli utenti di pubblicare i loro dati"
 },
 "nplurals=2; plural=(n != 1);");

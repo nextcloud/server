@@ -43,7 +43,6 @@
     "Checked for update of app \"%s\" in appstore" : "Begiratuta \"%s\" aplikazioak aplikazioen biltegian ba ote duen",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "%s datu-basearen eskema eguneratu daitekeen egiaztatzen (honek luzerako hartu dezake datu-basearen arabera)",
     "Checked database schema update for apps" : "Egiaztatuta aplikazioen datu-basearen zerbitzariaren eguneraketa",
-    "Updated \"%s\" to %s" : "\"%s\" %s-ra eguneratua",
     "Set log level to debug" : "Log maila debug-era ezarri",
     "Reset log level" : "Log maila berrezarri",
     "Starting code integrity check" : "Kodearen integritate egiaztapena hasten",
@@ -245,7 +244,6 @@
     "Wrong password." : "Pasahitz okerra.",
     "App token" : "Aplikazio-tokena",
     "Account access" : "Kontuaren sarbidea",
-    "You are about to grant %s access to your %s account." : "%s kontuari %sra sarbidea emango diozu",
     "Redirecting …" : "Birbideratzen...",
     "New password" : "Pasahitz berria",
     "New Password" : "Pasahitz Berria",
@@ -256,7 +254,6 @@
     "Access through untrusted domain" : "Ziurtasunik gabeko domeinutik sartzen",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Zure administratzailearekin kontaktuan jarri. Administratzailea bazara,  config/config.php fitxategian\"konfidantzazko_domeinuak\" ezarpena editatusample.php konfigurazio fitxategian bezala",
     "App update required" : "Aplikazio eguneraketa beharrezkoa da",
-    "%s will be updated to version %s" : "%s %s bertsiora eguneratuko da",
     "These apps will be updated:" : "Aplikazio hauek eguneratuko dira:",
     "These incompatible apps will be disabled:" : "Aplikazio bateraezin hauek desgaituko dira:",
     "The theme %s has been disabled." : "%s gaia desgaitu da.",
@@ -272,6 +269,7 @@
     "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",
     "Thank you for your patience." : "Milesker zure patzientziagatik.",
+    "Updated \"%s\" to %s" : "\"%s\" %s-ra eguneratua",
     "Error setting expiration date" : "Errore bat egon da muga data ezartzean",
     "The public link will expire no later than {days} days after it is created" : "Esteka publikoak iraungi egingo du, askoz jota, sortu eta  {days} egunetara.",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} esteka bidez partekatuta",
@@ -285,6 +283,8 @@
     "Alternative login using app token" : "Ordezko saio-hasiera aplikazio-tokena erabilta",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Hobetutako segurtasuna dago gaituta zure kontuan. Mesedez, autentifikatu bigarren faktore bat erabiliz.",
     "Add \"%s\" as trusted domain" : "Gehitu \"%s\" domeinu fidagarri gisa",
+    "%s will be updated to version %s" : "%s %s bertsiora eguneratuko da",
+    "You are about to grant %s access to your %s account." : "%s kontuari %sra sarbidea emango diozu",
     "Depending on your configuration, this button could also work to trust the domain:" : "Zure konfigurazioaren arabera, botoi hau domeinua konfidantzazkoa bezala markatzeko balio du"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -36,7 +36,6 @@ OC.L10N.register(
     "Checking updates of apps" : "Memeriksa pembaruan aplikasi",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Memeriksa apakah skema untuk %s dapat diperbarui (dapat memerlukan waktu yang lama tergantung pada ukuran basis data)",
     "Checked database schema update for apps" : "Pembaruan skema basis data terperiksa untuk aplikasi",
-    "Updated \"%s\" to %s" : "Terbaru \"%s\" sampai %s",
     "Set log level to debug" : "Atur log level ke debug",
     "Reset log level" : "Atur ulang log level",
     "Starting code integrity check" : "Memulai pengecekan integritas kode",
@@ -209,7 +208,6 @@ OC.L10N.register(
     "Cancel log in" : "Batalkan masuk log",
     "Error while validating your second factor" : "Galat ketika memvalidasi faktor kedua anda",
     "App update required" : "Diperlukan perbarui aplikasi",
-    "%s will be updated to version %s" : "%s akan diperbaarui ke versi %s",
     "These apps will be updated:" : "Aplikasi berikut akan diperbarui:",
     "These incompatible apps will be disabled:" : "Aplikasi yang tidak kompatibel berikut akan dinonaktifkan:",
     "The theme %s has been disabled." : "Tema %s telah dinonaktfkan.",
@@ -222,6 +220,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
     "Thank you for your patience." : "Terima kasih atas kesabaran anda.",
+    "Updated \"%s\" to %s" : "Terbaru \"%s\" sampai %s",
     "Error setting expiration date" : "Kesalahan saat mengatur tanggal kedaluwarsa",
     "The public link will expire no later than {days} days after it is created" : "Tautan publik akan kadaluarsa tidak lebih dari {days} hari setelah ini dibuat",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} dibagikan lewat tautan",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "Stay logged in" : "Tetap masuk",
     "Alternative Logins" : "Cara Alternatif untuk Masuk",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Keamanan tambahan diaktifkan untuk akun anda. Harap otentikasi menggunakan faktor kedua.",
-    "Add \"%s\" as trusted domain" : "tambahkan \"%s\" sebagai domain terpercaya"
+    "Add \"%s\" as trusted domain" : "tambahkan \"%s\" sebagai domain terpercaya",
+    "%s will be updated to version %s" : "%s akan diperbaarui ke versi %s"
 },
 "nplurals=1; plural=0;");

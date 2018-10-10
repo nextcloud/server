@@ -133,7 +133,6 @@
     "Save" : "Speichern",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Mit PHP-FPM kann es bis zu 5 Minuten dauern, bis die Einstellungen übernommen werden.",
     "Missing permissions to edit from here." : "Fehlende Berechtigungen, um dies von hier aus zu bearbeiten.",
-    "%s of %s used" : "%s von %s verwendet",
     "%s used" : "%s verwendet",
     "Settings" : "Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
@@ -161,6 +160,7 @@
     "Target folder" : "Zielordner",
     "A new file or folder has been <strong>deleted</strong>" : "Eine neue Datei oder Ordner wurde  <strong>gelöscht</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Eine neue Datei oder ein Ordner wurde <strong>wiederhergestellt</strong>",
+    "%s of %s used" : "%s von %s verwendet",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">über WebDAV auf Deine Dateien zuzugreifen</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -45,7 +45,6 @@ OC.L10N.register(
     "Checked for update of app \"%s\" in appstore" : "Duke kontrolluar për përditësim të aplikacionit \"%s\" në appstore.",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Po kontrollohet nëse mund të përditësohet skema e bazës së të dhënave për %s (kjo mund të hajë shumë kohë, varet nga madhësia e bazës së të dhënave)",
     "Checked database schema update for apps" : "U kontrollua përditësimi i skemës së bazës së të dhënave për aplikacionet",
-    "Updated \"%s\" to %s" : "U përditësua \"%s\" në %s",
     "Set log level to debug" : "Caktoni shkallë regjistrimi për diagnostikimin",
     "Reset log level" : "Rikthe te parazgjedhja shkallën e regjistrimit",
     "Starting code integrity check" : "Po fillohet kontroll integriteti për kodin",
@@ -261,7 +260,6 @@ OC.L10N.register(
     "Cancel log in" : "Anuloni identifikimin",
     "Error while validating your second factor" : "Gabim gjatë verifikimit të elementit të dytë",
     "App update required" : "Lypset përditësim aplikacioni",
-    "%s will be updated to version %s" : "%s do të përditësohet me versionin %s",
     "These apps will be updated:" : "Do të përditësohen këto aplikacione:",
     "These incompatible apps will be disabled:" : "Do të çaktivizohen këto aplikacione të papërputhshme:",
     "The theme %s has been disabled." : "Tema %s u çaktivizua.",
@@ -277,6 +275,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
     "Thank you for your patience." : "Ju faleminderit për durimin.",
+    "Updated \"%s\" to %s" : "U përditësua \"%s\" në %s",
     "Error setting expiration date" : "Gabim në caktimin e datës së skadimit",
     "The public link will expire no later than {days} days after it is created" : "Lidhja publike do të skadojë jo më vonë se {days} ditë pas krijimit të saj",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shpërndaEmrinEShfaqurTëNismëtarit}} shpërnda nëpërmjet linkut",
@@ -291,6 +290,7 @@ OC.L10N.register(
     "Alternative login using app token" : "Hyrje alternative duke perdorur çelësin identifikues  të API-t",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Rrit sigurinë për llogarin tuaj. Ju lutem bëni verifikimin duke përdorur një element të dytë.",
     "Add \"%s\" as trusted domain" : "Shtojeni \"%s\" si përkatësi të besuar",
+    "%s will be updated to version %s" : "%s do të përditësohet me versionin %s",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Për ndihmë, shihni  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentimin</a>."
 },
 "nplurals=2; plural=(n != 1);");

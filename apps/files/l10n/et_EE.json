@@ -122,7 +122,6 @@
     "Save" : "Salvesta",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-ga võib selle väärtuse mõju rakendamine võtta aega kuni 5 minutit pärast salvestamist.",
     "Missing permissions to edit from here." : "Puuduvad õigused siit muuta.",
-    "%s of %s used" : "Kasutatud %s/%s",
     "%s used" : "Kasutatud %s",
     "Settings" : "Seaded",
     "Show hidden files" : "Näita peidetud faile",
@@ -148,6 +147,7 @@
     "Target folder" : "Sihtkaust",
     "A new file or folder has been <strong>deleted</strong>" : "Uus fail või kaust on <strong>kustutatud</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Uus fail või kaust on <strong>taastatud</strong>",
+    "%s of %s used" : "Kasutatud %s/%s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">oma failidele WebDAVi kaudu ligi pääseda</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

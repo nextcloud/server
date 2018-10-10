@@ -40,7 +40,6 @@
     "Checked for update of app \"%s\" in appstore" : "Preverjena posodobitev za \"%s\" v trgovini",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Poteka preverjanje, ali je shemo podatkovne zbirke za %s mogoče posodobiti (trajanje posodobitve je odvisno od velikosti zbirke).",
     "Checked database schema update for apps" : "Izbrana posodobitev sheme podatkovne zbirke za programe",
-    "Updated \"%s\" to %s" : "Datoteka \"%s\" je posodobljena na %s",
     "Set log level to debug" : "Nastavi raven beleženja za razhroščevanje",
     "Reset log level" : "Počisti raven beleženja",
     "Starting code integrity check" : "Začenjanje preverjanja stanja kode",
@@ -238,7 +237,6 @@
     "Cancel log in" : "Prekini prijavo",
     "Error while validating your second factor" : "Napaka med preverjanjem drugega koraka",
     "App update required" : "Zahtevana je posodobitev programa",
-    "%s will be updated to version %s" : "%s bo posodobljen na različico %s.",
     "These apps will be updated:" : "Posodobljeni bodo naslednji vstavki:",
     "These incompatible apps will be disabled:" : "Ti neskladni vstavki bodo onemogočeni:",
     "The theme %s has been disabled." : "Tema %s je onemogočena za uporabo.",
@@ -252,6 +250,7 @@
     "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
     "Thank you for your patience." : "Hvala za potrpežljivost!",
+    "Updated \"%s\" to %s" : "Datoteka \"%s\" je posodobljena na %s",
     "Error setting expiration date" : "Napaka nastavljanja datuma preteka",
     "The public link will expire no later than {days} days after it is created" : "Javna povezava bo potekla {days} dni po ustvarjanju.",
     "The specified document has not been found on the server." : "Določenega dokumenta na strežniku ni mogoče najti.",
@@ -261,6 +260,7 @@
     "Alternative Logins" : "Druge prijavne možnosti",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Na tvojem računu je vključena napredna varnost. Prosim, prijavi se z drugim korakom.",
     "Add \"%s\" as trusted domain" : "Dodaj \"%s\" kot varno domeno",
+    "%s will be updated to version %s" : "%s bo posodobljen na različico %s.",
     "Back to log in" : "Nazaj na prijavo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

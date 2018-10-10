@@ -78,7 +78,6 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Cargas públicas deshabilitadas por el administrador",
     "Public upload is only possible for publicly shared folders" : "Las cargas públicas son posibles sólo para carpetas compartidas públicamente",
     "Invalid date, date format must be YYYY-MM-DD" : "La fecha es inválida, favor de seguir el formato AAAA-MM-DD",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Se presentó  una falla al compartir %s, porque el backend no permite elementos compartidos de tipo %s",
     "You cannot share to a Circle if the app is not enabled" : "Usted no puede compartir al Círculo si la aplicación no esta habilitada",
     "Please specify a valid circle" : "Favor de especificar un círculo válido",
     "Unknown share type" : "Tipo de elemento compartido desconocido",
@@ -106,6 +105,7 @@ OC.L10N.register(
     "Uploading files…" : "Cargando archivos...",
     "Uploaded files:" : "Archivos cargados:",
     "{actor} removed you from {file}" : "{actor} lo eliminó de {file}",
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Se presentó  una falla al compartir %s, porque el backend no permite elementos compartidos de tipo %s",
     "This share is password-protected" : "Este elemento compartido esta protegido con contraseña",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Favor de intentarlo de nuevo.",
     "Password" : "Contraseña"

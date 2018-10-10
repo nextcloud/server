@@ -18,10 +18,8 @@ OC.L10N.register(
     "Couldn't establish a federated share, maybe the password was wrong." : "Nepodarilo sa nadviazať združené zdieľanie, možno je nesprávne heslo.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Požiadavka na združené zdieľanie bola odoslaná, obdržíte pozvánku. Skontrolujte oznámenia.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nepodarilo sa nadviazať združené zdieľanie, pravdepodobne je verzia servera s ktorým chcete zdieľať príliš zastaraná (Nextcloud <= 9).",
-    "Sharing %s failed, because this item is already shared with %s" : "Sprístupnenie %s zlyhalo, pretože táto položka už je prístupná pre %s",
     "Not allowed to create a federated share with the same user" : "Nie je možné vytvoriť združené sprístupnenie so sebou samým",
     "File is already shared with %s" : "Súbor je už sprístupnený používateľovi %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %s zlyhalo, %s sa nepodarilo nájsť, server nie je pravdepodobne dostupný alebo používa vlastnoručne podpísaný certifikát.",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdržali ste \"%3$s\" ako vzdialené zdieľanie od %1$s (v mene %2$s) ",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Obdržali ste {share} ako vzdialené zdieľanie od {user} (v mene {behalf})",
@@ -54,6 +52,8 @@ OC.L10N.register(
     "Storage not valid" : "Neplatné úložisko",
     "Federated share added" : "Združené sprístupnenie pridané",
     "Couldn't add remote share" : "Nedá sa pridať vzdialené sprístupnenie",
+    "Sharing %s failed, because this item is already shared with %s" : "Sprístupnenie %s zlyhalo, pretože táto položka už je prístupná pre %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %s zlyhalo, %s sa nepodarilo nájsť, server nie je pravdepodobne dostupný alebo používa vlastnoručne podpísaný certifikát.",
     "Search global and public address book for users and let local users publish their data" : "Vyhľadávať používateľog v globálnom a verejnom adresári a umožniť miestnym používateľom publikovať ich dáta"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

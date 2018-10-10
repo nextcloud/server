@@ -124,7 +124,6 @@ OC.L10N.register(
     "Save" : "Guardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Com o PHP-FPM poderá demorar 5 minutos até que as alterações sejam aplicadas.",
     "Missing permissions to edit from here." : "Faltam permissões para editar a partir daqui.",
-    "%s of %s used" : "%s de %s utilizado",
     "%s used" : "%s utilizado",
     "Settings" : "Configurações",
     "Show hidden files" : "Mostrar ficheiros ocultos",
@@ -150,6 +149,7 @@ OC.L10N.register(
     "Target folder" : "Pasta de destino",
     "A new file or folder has been <strong>deleted</strong>" : "Um novo ficheiro ou pasta foi <strong>eliminado</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Um novo ficheiro ou pasta foi <strong>restaurado</strong>",
+    "%s of %s used" : "%s de %s utilizado",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilize este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">aceder aos seus ficheiros por WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

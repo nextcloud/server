@@ -133,7 +133,6 @@ OC.L10N.register(
     "Save" : "Сохранить",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "В режиме PHP-FPM применение изменений может занять до 5 минут.",
     "Missing permissions to edit from here." : "Отсутствуют права на внесение здесь изменений.",
-    "%s of %s used" : "использовано %s из %s",
     "%s used" : "%s использовано",
     "Settings" : "Настройки",
     "Show hidden files" : "Показывать скрытые файлы",
@@ -161,6 +160,7 @@ OC.L10N.register(
     "Target folder" : "Целевой каталог",
     "A new file or folder has been <strong>deleted</strong>" : "Новый файл или каталог был <strong>удален</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Новый файл или каталог был <strong>восстановлен</strong>",
+    "%s of %s used" : "использовано %s из %s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Используйте этот адрес <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">для доступа по WebDAV</a>"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

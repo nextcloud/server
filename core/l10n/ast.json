@@ -35,7 +35,6 @@
     "Checked database schema update" : "Anovamientu del esquema de base de datos revisáu",
     "Checking updates of apps" : "Comprobando anovamientu d'aplicaciones",
     "Checked database schema update for apps" : "Anovamientu del esquema de base de datos p'aplicaciones revisáu",
-    "Updated \"%s\" to %s" : "Anováu \"%s\" a %s",
     "Starting code integrity check" : "Aniciando comprobación integridá del códigu",
     "Finished code integrity check" : "Finó la comprobación d'integridá del códigu",
     "%s (incompatible)" : "%s (incompatible)",
@@ -210,14 +209,12 @@
     "Log in" : "Aniciar sesión",
     "Wrong password." : "Contraseña incorreuta",
     "App token" : "Pase d'aplicación",
-    "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s.",
     "Redirecting …" : "Redirixendo...",
     "New password" : "Contraseña nueva",
     "New Password" : "Contraseña nueva",
     "Two-factor authentication" : "Autenticación en dos pasos",
     "Use backup code" : "Usar códigu de respaldu",
     "Error while validating your second factor" : "Fallu al validar el to pasu segundu",
-    "%s will be updated to version %s" : "%s anovaráse a la versión %s",
     "These apps will be updated:" : "Anovaránse estes aplicaciones:",
     "These incompatible apps will be disabled:" : "Deshabilitaránse estes aplicaciones incompletes:",
     "The theme %s has been disabled." : "Deshabilitóse'l tema %s.",
@@ -229,6 +226,7 @@
     "This page will refresh itself when the %s instance is available again." : "Esta páxina refrescaráse sola cuando la instancia %s vuelva tar disponible.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
     "Thank you for your patience." : "Gracies pola to paciencia.",
+    "Updated \"%s\" to %s" : "Anováu \"%s\" a %s",
     "Error setting expiration date" : "Fallu afitando la fecha de caducidá",
     "The public link will expire no later than {days} days after it is created" : "L'enllaz públicu va caducar enantes de {days} díes dende la so creación",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} compartió per enllaz",
@@ -240,6 +238,8 @@
     "Stay logged in" : "Caltener sesión",
     "Alternative Logins" : "Anicios de sesión alternativos",
     "Alternative login using app token" : "Aniciu de sesión alternativu usando pase d'aplicación",
-    "Add \"%s\" as trusted domain" : "Amestáu \"%s\" como dominiu de confianza"
+    "Add \"%s\" as trusted domain" : "Amestáu \"%s\" como dominiu de confianza",
+    "%s will be updated to version %s" : "%s anovaráse a la versión %s",
+    "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

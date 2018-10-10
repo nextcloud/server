@@ -19,10 +19,8 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Sendi beiðni um skýjasambandssameign, þú munt fá boðskort. Athugaðu skilaboð til þín.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Gat ekki bætt við skýjasambandssameign, það lítur út fyrir að þjónninn sem á að koma sambandi við sé of gamall (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Ekki er heimilt að senda skýjasambandssameign fyrir hópa af þessum þjóni.",
-    "Sharing %s failed, because this item is already shared with %s" : "Deiling %s mistókst, því þessu atriði er þegar deilt með %s",
     "Not allowed to create a federated share with the same user" : "Ekki er heimilt að búa til skýjasambandssameign með sama notanda",
     "File is already shared with %s" : "Skránni er þegar deilt með %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deiling %s mistókst, gat ekki fundið %s, hugsanlega er þjónninn ekki tiltækur í augnablikinu eða að hann notar sjálfundirritað skilríki.",
     "Could not find share" : "Gat ekki fundið sameign",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Þú tókst við \"%3$s\" sem fjartengdri sameign frá %1$s (fyrir hönd %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Þú tókst við {share} sem fjartengdri sameign frá {user} (fyrir hönd {behalf})",
@@ -58,6 +56,8 @@ OC.L10N.register(
     "Storage not valid" : "Geymslan er ekki gild",
     "Federated share added" : "Bætti við skýjasambandssameign",
     "Couldn't add remote share" : "Gat ekki bætt við fjartengdri sameign",
+    "Sharing %s failed, because this item is already shared with %s" : "Deiling %s mistókst, því þessu atriði er þegar deilt með %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deiling %s mistókst, gat ekki fundið %s, hugsanlega er þjónninn ekki tiltækur í augnablikinu eða að hann notar sjálfundirritað skilríki.",
     "Search global and public address book for users and let local users publish their data" : "Leita að notendum í víðværri og opinberri vistfangaskrá og leyfa staðværum notendum að birta gögnin sín"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
