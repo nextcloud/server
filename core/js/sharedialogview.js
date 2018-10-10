@@ -442,19 +442,26 @@
 
 		autocompleteRenderItem: function(ul, item) {
 
+			var icon = 'icon-user';
 			var text = item.label;
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
 				text = t('core', '{sharee} (group)', { sharee: text }, undefined, { escape: false });
+				icon = 'icon-contacts-dark';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
 				text = t('core', '{sharee} (remote)', {sharee: text}, undefined, {escape: false});
+				icon = 'icon-shared';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
 				text = t('core', '{sharee} (remote group)', { sharee: text }, undefined, { escape: false });
+				icon = 'icon-shared';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				text = t('core', '{sharee} (email)', { sharee: text }, undefined, { escape: false });
+				icon = 'icon-mail';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 				text = t('core', '{sharee} ({type}, {owner})', {sharee: text, type: item.value.circleInfo, owner: item.value.circleOwner}, undefined, {escape: false});
+				icon = 'icon-circle';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_ROOM) {
 				text = t('core', '{sharee} (conversation)', { sharee: text }, undefined, { escape: false });
+				icon = 'icon-talk';
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
 			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
@@ -468,6 +475,7 @@
 				.text(text)
 				.appendTo(insert);
 			insert.attr('title', item.value.shareWith);
+			insert.append('<span class="icon '+icon+'"></span>');
 			insert = $("<a>")
 				.append(insert);
 			return $("<li>")
