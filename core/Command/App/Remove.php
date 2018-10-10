@@ -95,7 +95,7 @@ class Remove extends Command implements CompletionAwareInterface {
 				$this->manager->disableApp($appId);
 				$output->writeln($appId . ' disabled');
 			} catch(Throwable $e) {
-				$output->writeln('Error: ' . $e->getMessage());
+				$output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
 				$this->logger->logException($e, [
 					'app' => 'CLI',
 					'level' => ILogger::ERROR
@@ -108,7 +108,7 @@ class Remove extends Command implements CompletionAwareInterface {
 		try {
 			$result = $this->installer->removeApp($appId);
 		} catch(Throwable $e) {
-			$output->writeln('Error: ' . $e->getMessage());
+			$output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
 			$this->logger->logException($e, [
 				'app' => 'CLI',
 				'level' => ILogger::ERROR
