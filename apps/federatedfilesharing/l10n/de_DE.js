@@ -19,10 +19,8 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Anfrage zum Federated-Share war erfolgreich. Sie erhalten eine Einladung. Bitte prüfen Sie Ihre Benachrichtigungen. ",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Federated-Share konnte nicht aufgebaut werden, da der Zielserver eine zu alte Version verwendet (Nextcloud <=9).",
     "It is not allowed to send federated group shares from this server." : "Das Erstellen einer Federated Cloud Freigabe ist von diesem Server aus nicht zugelassen.",
-    "Sharing %s failed, because this item is already shared with %s" : "Die Freigabe von %s ist fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "File is already shared with %s" : "Datei wird bereits geteilt mit %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie empfingen \"%3$s\" als eine externe Freigabe von \"%1$s\" (im Auftrag von %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sie empfingen {share} als eine externe Freigabe von {user} (im Auftrag von {behalf})",
@@ -58,6 +56,8 @@ OC.L10N.register(
     "Storage not valid" : "Speicher ungültig",
     "Federated share added" : "Federated-Share hinzugefügt ",
     "Couldn't add remote share" : "Externe Freigabe konnte nicht hinzu gefügt werden",
+    "Sharing %s failed, because this item is already shared with %s" : "Die Freigabe von %s ist fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
     "Search global and public address book for users and let local users publish their data" : "Globales und öffentliches Adressbuch nach Benutzern durchsuchen und lokale Benutzer ihre Daten veröffentlichen lassen"
 },
 "nplurals=2; plural=(n != 1);");

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "伺服器對伺服器共享在這台伺服器上面並未啟用",
     "Couldn't establish a federated share." : "無法建立聯盟式分享",
     "Couldn't establish a federated share, maybe the password was wrong." : "無法建立聯盟式分享，可能是密碼錯誤",
-    "Sharing %s failed, because this item is already shared with %s" : "分享 %s 失敗，因為此項目目前已經與 %s 分享",
     "Not allowed to create a federated share with the same user" : "不允許與同一個使用者建立聯盟式分享",
     "File is already shared with %s" : "檔案已和 %s 分享",
     "Could not find share" : "找不到分享",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "Could not authenticate to remote share, password might be wrong" : "無法驗證遠端分享，可能是密碼錯誤",
     "Storage not valid" : "儲存空間無效",
     "Federated share added" : "聯盟分享已新增",
-    "Couldn't add remote share" : "無法加入遠端分享"
+    "Couldn't add remote share" : "無法加入遠端分享",
+    "Sharing %s failed, because this item is already shared with %s" : "分享 %s 失敗，因為此項目目前已經與 %s 分享"
 },
 "nplurals=1; plural=0;");

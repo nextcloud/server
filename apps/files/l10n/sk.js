@@ -132,7 +132,6 @@ OC.L10N.register(
     "Save" : "Uložiť",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Použitím PHP-FPM môžu byť zmeny vykonané do 5 minút.",
     "Missing permissions to edit from here." : "Chýbajú orávnenia pre možnosť tu upravovať.",
-    "%s of %s used" : "Využité: %s z %s",
     "%s used" : "%s použitých",
     "Settings" : "Nastavenia",
     "Show hidden files" : "Zobraziť skryté súbory",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "Target folder" : "Cieľový priečinok",
     "A new file or folder has been <strong>deleted</strong>" : "Nový súbor alebo priečinok bol <strong>zmazaný</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nový súbor alebo priečinok bol<strong>obnovený</strong>",
+    "%s of %s used" : "Využité: %s z %s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použi túto adresu pre <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">prístup ku svojím súborom cez WebDAV</a>"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

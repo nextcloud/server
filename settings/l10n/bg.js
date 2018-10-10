@@ -111,7 +111,6 @@ OC.L10N.register(
     "Send email" : "Изпрати имейл",
     "Security & setup warnings" : "Предупреждения за сигурност и настройки",
     "There are some warnings regarding your setup." : "Предупреждения относно текущата инсталация.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Прегледайте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ръководството за инсталиране ↗</a>, и проверете за предупреждения и грешки <a href=\"%s\">журналите</a>.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверете сигурността на Nextcloud <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">като заявите сканиране ↗</a>.",
     "Version" : "Версия",
     "Enable encryption" : "Включване на криптиране",
@@ -145,7 +144,6 @@ OC.L10N.register(
     "Details" : "Подробности",
     "You are a member of the following groups:" : "Членувате в следните групи:",
     "You are using <strong>%s</strong>" : "Ползвате <strong>%s</strong>",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Ползвате <strong>%s</strong> от <strong>%s</strong> (<strong>%s %%</strong>)",
     "Full name" : "Име",
     "No display name set" : "Няма настроено екранно име",
     "Your email address" : "Вашият имейл адрес",
@@ -228,6 +226,7 @@ OC.L10N.register(
     "Online documentation" : "Онлайн документация",
     "Commercial support" : "Платена поддръжка",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Ползвате <strong>%s</strong> от <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Ползвате <strong>%s</strong> от <strong>%s</strong> (<strong>%s %%</strong>)",
     "You are member of the following groups:" : "Членувате в следните групи:",
     "Get the apps to sync your files" : "Приложения за синхронизиране на файлове",
     "Desktop client" : "Клиент за настолни компютри",
@@ -253,6 +252,7 @@ OC.L10N.register(
     "change full name" : "промени име",
     "set new password" : "сложи нова парола",
     "change email address" : "Смени адреса на елетронната поща",
-    "Default" : "Стандарт"
+    "Default" : "Стандарт",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Прегледайте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ръководството за инсталиране ↗</a>, и проверете за предупреждения и грешки <a href=\"%s\">журналите</a>."
 },
 "nplurals=2; plural=(n != 1);");

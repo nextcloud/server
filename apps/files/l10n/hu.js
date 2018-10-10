@@ -131,7 +131,6 @@ OC.L10N.register(
     "Save" : "Mentés",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-mel akár 5 percbe is telhet, míg ez a beállítás érvénybe lép.",
     "Missing permissions to edit from here." : "Innen nem lehet szerkeszteni hiányzó jogosultság miatt.",
-    "%s of %s used" : "%s / %s használt",
     "%s used" : "%s használt",
     "Settings" : "Beállítások",
     "Show hidden files" : "Rejtett fájlok megjelenítése",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Target folder" : "Cél mappa",
     "A new file or folder has been <strong>deleted</strong>" : "Egy új fájl vagy mappa <strong>törölve</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Egy új fájl vagy mappa <strong>visszaállítva</strong>",
+    "%s of %s used" : "%s / %s használt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Használja ezt a címet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">a Fájlok eléréséhez WebDAV-on keresztül</a>."
 },
 "nplurals=2; plural=(n != 1);");

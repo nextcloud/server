@@ -17,10 +17,8 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Não foi possível estabelecer uma partilha federada.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Não foi possível estabelecer a partilha federada, a palavra-passe talvez esteja incorrecta.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Pedido de Partilha Federada enviado, irá receber o convite. Confira as suas notificações.",
-    "Sharing %s failed, because this item is already shared with %s" : "A partilha %s falhou, porque este item já está a ser partilhado com %s",
     "Not allowed to create a federated share with the same user" : "Não é possível criar uma partilha federada com o mesmo utilizador",
     "File is already shared with %s" : "O ficheiro já foi partilhado com %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Partilha %s falhou, não foi possível encontrar %s, o servidor pode estar actualmente inatingível ou usa um certificado auto-assinado. ",
     "Could not find share" : "Não foi possível encontrar partilha",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Recebeu \"%3$s\" como uma partilha remota de %1$s (em nome de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Recebeu {partilha} como uma partilha remota de {utilizador} (em nome de {behalf})",
@@ -53,6 +51,8 @@ OC.L10N.register(
     "Storage not valid" : "Armazenamento inválido",
     "Federated share added" : "Partilha federada adicionada",
     "Couldn't add remote share" : "Não foi possível adicionar partilha remota",
+    "Sharing %s failed, because this item is already shared with %s" : "A partilha %s falhou, porque este item já está a ser partilhado com %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Partilha %s falhou, não foi possível encontrar %s, o servidor pode estar actualmente inatingível ou usa um certificado auto-assinado. ",
     "Search global and public address book for users and let local users publish their data" : "Pesquisar por utilizadores na lista de endereços global e pública e permita que utilizadores locais publiquem os seus dados"
 },
 "nplurals=2; plural=(n != 1);");

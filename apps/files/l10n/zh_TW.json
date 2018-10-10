@@ -129,7 +129,6 @@
     "Save" : "儲存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "如果使用 PHP-FPM ，此設定值需要5分鐘左右才會生效。",
     "Missing permissions to edit from here." : "您沒有在此編輯的權限",
-    "%s of %s used" : "在 %s 中使用了%s ",
     "%s used" : "%s已使用",
     "Settings" : "設定",
     "Show hidden files" : "顯示隱藏檔",
@@ -155,6 +154,7 @@
     "Target folder" : "目標資料夾",
     "A new file or folder has been <strong>deleted</strong>" : "一個新的檔案或資料夾已經被<strong>刪除</strong>",
     "A new file or folder has been <strong>restored</strong>" : "一個新的檔案或資料夾已經被<strong>還原</strong>",
+    "%s of %s used" : "在 %s 中使用了%s ",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用這個地址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">透過 WebDAV 存取您的檔案</a>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

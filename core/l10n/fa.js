@@ -45,7 +45,6 @@ OC.L10N.register(
     "Checked for update of app \"%s\" in appstore" : "بررسی به روزرسانی های برنامه %s",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "بررسی اینکه آیا طرح پایگاه داده %s می تواند به روز شود (این ممکن است بسته به اندازه پایگاه داده طولانی باشد)",
     "Checked database schema update for apps" : "Checked database schema update for apps",
-    "Updated \"%s\" to %s" : "\"%s\" به %s بروزرسانی شد",
     "Set log level to debug" : "Set log level to debug",
     "Reset log level" : "Reset log level",
     "Starting code integrity check" : "Starting code integrity check",
@@ -249,13 +248,13 @@ OC.L10N.register(
     "Use backup code" : "از کد پشتیبان استفاده شود",
     "Cancel log in" : "لغو ورود",
     "App update required" : "نیاز به بروزرسانی برنامه وجود دارد",
-    "%s will be updated to version %s" : "%s به نسخه‌ی %s بروزرسانی خواهد شد",
     "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:",
     "The theme %s has been disabled." : "قالب %s غیر فعال شد.",
     "Start update" : "اغاز به روز رسانی",
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
     "Thank you for your patience." : "از صبر شما متشکریم",
+    "Updated \"%s\" to %s" : "\"%s\" به %s بروزرسانی شد",
     "Error setting expiration date" : "خطا در تنظیم تاریخ انقضا",
     "The public link will expire no later than {days} days after it is created" : "لینک عمومی پس از {days} روز پس از ایجاد منقضی خواهد شد",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} به اشتراک گذاشته شده از طریق لینک",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "You can click here to return to %s." : "شما می‎توانید برای بازگشت به  %s اینجا کلیک کنید.",
     "Stay logged in" : "در سیستم بمانید",
     "Alternative Logins" : "ورود متناوب",
-    "Add \"%s\" as trusted domain" : "افزودن \"%s\" به عنوان دامنه مورد اعتماد"
+    "Add \"%s\" as trusted domain" : "افزودن \"%s\" به عنوان دامنه مورد اعتماد",
+    "%s will be updated to version %s" : "%s به نسخه‌ی %s بروزرسانی خواهد شد"
 },
 "nplurals=2; plural=(n > 1);");

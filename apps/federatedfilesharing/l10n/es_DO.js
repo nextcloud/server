@@ -18,10 +18,8 @@ OC.L10N.register(
     "Couldn't establish a federated share, maybe the password was wrong." : "No fue posible establecer el elemento compartido federado, tal vez la contraseña sea incorrecta. ",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Solicitud de elemento compartido Federado enviada, recibiras una invitación. Verifica tus notificaciones.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "No fue posible establecer el elemento compartido, parece que el servidor es obsoleto (Nextcloud <=9).",
-    "Sharing %s failed, because this item is already shared with %s" : "Se presentó una falla al compartir %s, porque este elemento ya se encuentra compartido con  %s",
     "Not allowed to create a federated share with the same user" : "No está permitido crear un elelmento compartido federado con el mismo usuario",
     "File is already shared with %s" : "El archivo ya ha sido compartido con %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Se presentó una falla al compartir  %s, no fue posible encontrar %s, tal vez el servidor no está alcanzable o usa un certificado auto-firmado.",
     "Could not find share" : "No fue posible encontrar el elemento compartido",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Has recibido \"%3$s\" como un elemento compartido remoto de %1$s (de parte de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Has recibido {share} como un elemento compartido remoto de {user} (de parte de {behalf})",
@@ -54,6 +52,8 @@ OC.L10N.register(
     "Storage not valid" : "Almacenamiento inválido",
     "Federated share added" : "Elemento compartido Federado agregado",
     "Couldn't add remote share" : "No fue posible agregar el elemento compartido remoto",
+    "Sharing %s failed, because this item is already shared with %s" : "Se presentó una falla al compartir %s, porque este elemento ya se encuentra compartido con  %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Se presentó una falla al compartir  %s, no fue posible encontrar %s, tal vez el servidor no está alcanzable o usa un certificado auto-firmado.",
     "Search global and public address book for users and let local users publish their data" : "Buscar una libreta de direcciones global y pública para los usuarios y permitir  a los usuarios locales publicar sus datos"
 },
 "nplurals=2; plural=(n != 1);");

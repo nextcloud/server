@@ -17,10 +17,8 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Demande de partage fédéré envoyée, vous allez recevoir une invitation. Vérifiez vos notifications.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Impossible d'établir un partage fédére, il semble que le serveur avec lequel fédérer est trop vieux (Nextcloud <=9)",
     "It is not allowed to send federated group shares from this server." : "Il n'est pas autorisé d'envoyer des partages à des groupes fédérés depuis ce serveur.",
-    "Sharing %s failed, because this item is already shared with %s" : "Le partage de %s a échoué car cet élément est déjà partagé avec %s",
     "Not allowed to create a federated share with the same user" : "Non autorisé à créer un partage fédéré avec le même utilisateur",
     "File is already shared with %s" : "Le fichier est déjà partagé avec %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %s a échoué, impossible de trouver %s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
     "Could not find share" : "Impossible de trouver le partage",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %1$s (de la part de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Vous avez reçu {share} comme partage distant de la part de {user} (de la part de {behalf})",
@@ -56,6 +54,8 @@
     "Storage not valid" : "Support de stockage non valide",
     "Federated share added" : "Partage fédéré ajouté",
     "Couldn't add remote share" : "Impossible d'ajouter le partage distant",
+    "Sharing %s failed, because this item is already shared with %s" : "Le partage de %s a échoué car cet élément est déjà partagé avec %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %s a échoué, impossible de trouver %s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
     "Search global and public address book for users and let local users publish their data" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs et laisser les utilisateurs publier leurs données"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

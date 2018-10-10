@@ -68,11 +68,7 @@
     "Sharing %s failed, because the file does not exist" : "فشلت مشاركة %s فالملف غير موجود",
     "You are not allowed to share %s" : "أنت غير مسموح لك أن تشارك %s",
     "Sharing %s failed, because you can not share with yourself" : "فشلت مشاركة %s لأنك لايمكنك المشاركة مع نفسك",
-    "Sharing %s failed, because the user %s does not exist" : "فشلت مشاركة %s لأن المستخدم %s غير موجود",
-    "Share type %s is not valid for %s" : "مشاركة النوع %s غير صالحة لـ %s",
-    "%s shared »%s« with you" : "%s شارك »%s« معك",
     "Click the button below to open it." : "أنقر على الزر أدناه لفتحه.",
-    "%s via %s" : "%s عبر %s",
     "Could not find category \"%s\"" : "تعذر العثور على المجلد \"%s\"",
     "Sunday" : "الأحد",
     "Monday" : "الإثنين",
@@ -135,6 +131,10 @@
     "Admin" : "المدير",
     "Encryption" : "التعمية",
     "Tips & tricks" : "نصائح و تلميحات",
+    "Sharing %s failed, because the user %s does not exist" : "فشلت مشاركة %s لأن المستخدم %s غير موجود",
+    "Share type %s is not valid for %s" : "مشاركة النوع %s غير صالحة لـ %s",
+    "%s shared »%s« with you" : "%s شارك »%s« معك",
+    "%s via %s" : "%s عبر %s",
     "Sync clients" : "مزامنة العملاء"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

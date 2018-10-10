@@ -19,10 +19,8 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Petición de recurso compartido federado enviada, recibirás una invitación. Comprueba tus notificaciones.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "No se ha podido establecer un compartido federado, parece ser que el servidor a federar es demasiado antiguo (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "No está permitido enviar compartidos de grupos federados desde este servidor.",
-    "Sharing %s failed, because this item is already shared with %s" : "Fallo al compartir %s, ya que este elemento ya está compartido con %s",
     "Not allowed to create a federated share with the same user" : "No se permite crear un recurso compartido federado con el mismo usuario",
     "File is already shared with %s" : "El archivo ya está siendo compartido con %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Error al compartir %s No se pudo hallar %s, quizás haya un problema de conexión con el servidor.",
     "Could not find share" : "No se ha podido encontrar el compartido",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Has recibido \"/%3$s\" como un recurso compartido remoto de %1$s (en nombre de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Has recibido {share} como un recurso compartido remoto de {user} (en nombre de {behalf})",
@@ -58,6 +56,8 @@ OC.L10N.register(
     "Storage not valid" : "Almacenamiento inválido",
     "Federated share added" : "Recurso compartido federado añadido",
     "Couldn't add remote share" : "No se puede añadir un compartido remoto",
+    "Sharing %s failed, because this item is already shared with %s" : "Fallo al compartir %s, ya que este elemento ya está compartido con %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Error al compartir %s No se pudo hallar %s, quizás haya un problema de conexión con el servidor.",
     "Search global and public address book for users and let local users publish their data" : "Buscar libreta de direcciones global y pública para usuarios y permitir a los usuarios locales publicar su información"
 },
 "nplurals=2; plural=(n != 1);");

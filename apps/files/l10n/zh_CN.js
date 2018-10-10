@@ -133,7 +133,6 @@ OC.L10N.register(
     "Save" : "保存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "对于 PHP-FPM 这个值改变后可能需要 5 分钟才会生效.",
     "Missing permissions to edit from here." : "没有权限编辑",
-    "%s of %s used" : "%s 已使用 (共 %s)",
     "%s used" : "%s 已使用",
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
@@ -161,6 +160,7 @@ OC.L10N.register(
     "Target folder" : "目标目录",
     "A new file or folder has been <strong>deleted</strong>" : "文件/文件夹已<strong>删除</strong>",
     "A new file or folder has been <strong>restored</strong>" : "文件/文件夹已<strong>恢复</strong>",
+    "%s of %s used" : "%s 已使用 (共 %s)",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">通过 WebDAV 访问您的文件</a>"
 },
 "nplurals=1; plural=0;");

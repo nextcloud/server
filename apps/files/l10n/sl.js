@@ -127,7 +127,6 @@ OC.L10N.register(
     "Save" : "Shrani",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Uveljavljanje sprememb prek PHP-FPM lahko traja tudi 5  minut.",
     "Missing permissions to edit from here." : "Ni ustreznih dovoljenj za urejanje na tej ravni.",
-    "%s of %s used" : "%s od %s uporabljeno",
     "%s used" : "%s uporabljeno",
     "Settings" : "Nastavitve",
     "Show hidden files" : "Pokaži skrite datoteke",
@@ -155,6 +154,7 @@ OC.L10N.register(
     "Target folder" : "Ciljna mapa",
     "A new file or folder has been <strong>deleted</strong>" : "Nova datoteka ali mapa je bila <strong>izbrisana</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nova datoteka ali mapa je bila <strong>obnovljena</strong>",
+    "%s of %s used" : "%s od %s uporabljeno",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Naslov omogoča dostop do datotek prek<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV</a>."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

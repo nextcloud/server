@@ -135,7 +135,6 @@ OC.L10N.register(
     "Save" : "Bewaren",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Met PHP-FPM kan het 5 minuten duren voordat wijzigingen zijn doorgevoerd.",
     "Missing permissions to edit from here." : "Ontbrekende rechten om vanaf hier te bewerken.",
-    "%s of %s used" : "%s van %s gebruikt",
     "%s used" : "%s gebruikt",
     "Settings" : "Instellingen",
     "Show hidden files" : "Verborgen bestanden tonen",
@@ -163,6 +162,7 @@ OC.L10N.register(
     "Target folder" : "Doelmap",
     "A new file or folder has been <strong>deleted</strong>" : "Een nieuw bestand of nieuwe map is <strong>verwijderd</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Een nieuw bestand of een nieuwe map is <strong>hersteld</strong>",
+    "%s of %s used" : "%s van %s gebruikt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Gebruik deze link om je <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bestanden via WebDAV te benaderen</a>"
 },
 "nplurals=2; plural=(n != 1);");

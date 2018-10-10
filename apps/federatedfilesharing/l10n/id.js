@@ -16,10 +16,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Berbagi server ke server tidak diaktifkan pada server ini",
     "Couldn't establish a federated share." : "Tidak dapat mendirikan pembagian terfederasi",
     "Couldn't establish a federated share, maybe the password was wrong." : "Tidak dapat mendirikan pembagian terfederasi, mungkin kata sandi salah.",
-    "Sharing %s failed, because this item is already shared with %s" : "Gagal membagkan %s, karena item ini sudah dibagikan dengan %s",
     "Not allowed to create a federated share with the same user" : "Tidak diizinkan membuat pembagian terfederasi dengan pengguna yang sama",
     "File is already shared with %s" : "Berkas sudah dibagikan dengan %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Berbagi %s gagal, tidak menemukan %s, mungkin peladen saat ini tidak dapat dicapai atau menggunakan sertifikat self-signed.",
     "Could not find share" : "Tidak dapat mencari pembagian",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Anda menerima \"%3$s\" sebagai berbagi jauh dari %1$s (atas nama %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Anda menerima {share} sebagai berbagi jauh dari {user} (atas nama {behalf})",
@@ -44,6 +42,8 @@ OC.L10N.register(
     "Invalid or untrusted SSL certificate" : "Sertifikat SSL tidak sah atau tidak terpercaya",
     "Could not authenticate to remote share, password might be wrong" : "Tidak dapat mengautentikasi berbagi remote, kata sandi mungkin salah",
     "Storage not valid" : "Penyimpanan tidak sah",
-    "Couldn't add remote share" : "Tidak dapat menambahkan berbagi remote"
+    "Couldn't add remote share" : "Tidak dapat menambahkan berbagi remote",
+    "Sharing %s failed, because this item is already shared with %s" : "Gagal membagkan %s, karena item ini sudah dibagikan dengan %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Berbagi %s gagal, tidak menemukan %s, mungkin peladen saat ini tidak dapat dicapai atau menggunakan sertifikat self-signed."
 },
 "nplurals=1; plural=0;");

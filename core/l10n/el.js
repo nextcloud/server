@@ -45,7 +45,6 @@ OC.L10N.register(
     "Checked for update of app \"%s\" in appstore" : "Έλεγχος ενημέρωσης εφαρμογής \" 1 %s \" στο App Store",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Έλεγχος αν η διάταξη της βάσης δεδομένων για %s μπορεί να ενημερωθεί (αυτό μπορεί να πάρει αρκετή ώρα ανάλογα με το μέγεθος της βάσης δεδομένων)",
     "Checked database schema update for apps" : "Έλεγχος ενημέρωσης διάταξης βάσης δεδομένων για εφαρμογές",
-    "Updated \"%s\" to %s" : "Ενημερώθηκε \"%s\" σε %s",
     "Set log level to debug" : "Ορισμός επιπέδου ιστορικού σε αποσφαλμάτωση",
     "Reset log level" : "Επαναφορά επιπέδου ιστορικού",
     "Starting code integrity check" : "Εκκίνηση ελέγχου ακεραιότητας του κώδικα",
@@ -256,7 +255,6 @@ OC.L10N.register(
     "App token" : "Διακριτικό εφαρμογής",
     "Grant access" : "Παροχή άδειας πρόσβασης",
     "Account access" : "Πρόσβαση λογαριασμού",
-    "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\".",
     "Redirecting …" : "Γίνεται ανακατεύθυνση ...",
     "New password" : "Νέο συνθηματικό",
     "New Password" : "Νέο Συνθηματικό",
@@ -266,7 +264,6 @@ OC.L10N.register(
     "Cancel log in" : "Ακύρωση εισόδου",
     "Error while validating your second factor" : "Σφάλμα κατά την επικύρωση του δεύτερου παράγοντα",
     "App update required" : "Απαιτείται ενημέρωση εφαρμογής",
-    "%s will be updated to version %s" : "%s θα ενημερωθεί σε έκδοση %s",
     "These apps will be updated:" : "Αυτές οι εφαρμογές θα ενημερωθούν:",
     "These incompatible apps will be disabled:" : "Αυτές οι μη συμβατές εφαρμογές θα απενεργοποιηθούν:",
     "The theme %s has been disabled." : "Το θέμα %s έχει απενεργοποιηθεί.",
@@ -282,6 +279,7 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
     "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας.",
+    "Updated \"%s\" to %s" : "Ενημερώθηκε \"%s\" σε %s",
     "Error setting expiration date" : "Σφάλμα κατά τον ορισμό ημερομηνίας λήξης",
     "The public link will expire no later than {days} days after it is created" : "Ο δημόσιος σύνδεσμος θα απενεργοποιηθεί το πολύ σε {days} ημέρες μετά την δημιουργία του",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} διαμοιράστηκε με σύνδεσμο",
@@ -297,6 +295,8 @@ OC.L10N.register(
     "Alternative login using app token" : "Εναλλακτική είσοδος με την χρήση του διακριτικού της εφαρμογής",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Έχει ενεργοποιηθεί βελτιωμένη ασφάλεια για τον λογαριασμό σας. Παρακαλώ πιστοποιήστε με την χρήση δεύτερου παράγοντα",
     "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα.",
-    "Add \"%s\" as trusted domain" : "Προσθήκη \"%s\" ως αξιόπιστου τομέα"
+    "Add \"%s\" as trusted domain" : "Προσθήκη \"%s\" ως αξιόπιστου τομέα",
+    "%s will be updated to version %s" : "%s θα ενημερωθεί σε έκδοση %s",
+    "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\"."
 },
 "nplurals=2; plural=(n != 1);");

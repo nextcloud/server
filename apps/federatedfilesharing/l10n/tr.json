@@ -17,10 +17,8 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Birleşmiş paylaşım isteği gönderildi. Bir çağrı alacaksınız. Bildirimlerinizi denetleyin.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Birleşmiş bir paylaşım oluşturulamadı. Birleşilecek sunucunun sürümü çok eski gibi görünüyor (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Bu sunucudan birleşmiş grup paylaşımları gönderilemez",
-    "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılmadı. %s ile zaten paylaşılmış",
     "Not allowed to create a federated share with the same user" : "Aynı kullanıcı ile bir birleşmiş paylaşım oluşturulamaz",
     "File is already shared with %s" : "Dosya %s ile zaten paylaşılmış",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir.",
     "Could not find share" : "Paylaşım bulunamadı",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s kullanıcısından \"%3$s\" uzak paylaşımını aldınız (%2$s adına)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user} kullanıcısından {share} uzak paylaşımını aldınız ( {behalf} adına)",
@@ -56,6 +54,8 @@
     "Storage not valid" : "Depolama geçersiz",
     "Federated share added" : "Birleşmiş paylaşım eklendi",
     "Couldn't add remote share" : "Uzak paylaşım eklenemedi",
+    "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılmadı. %s ile zaten paylaşılmış",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir.",
     "Search global and public address book for users and let local users publish their data" : "Genel ve herkese açık adres defterinde kullanıcı ara ve yerel kullanıcıların bilgilerini paylaşmasını sağla"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

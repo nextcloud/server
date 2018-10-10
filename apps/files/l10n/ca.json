@@ -122,7 +122,6 @@
     "Save" : "Desa",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Amb PHP-FPM pot trigar 5 minuts a aplicar els canvis.",
     "Missing permissions to edit from here." : "Falta els permisos per editar des d'aquí.",
-    "%s of %s used" : "Usats %s de %s",
     "%s used" : "%s utilitzat",
     "Settings" : "Configuració",
     "Show hidden files" : "Mostra els fitxers ocults",
@@ -148,6 +147,7 @@
     "Target folder" : "Carpeta de destí",
     "A new file or folder has been <strong>deleted</strong>" : "S'ha <strong>eliminat</strong> un nou fitxer o carpeta",
     "A new file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un nou fitxer o carpeta",
+    "%s of %s used" : "Usats %s de %s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedir als vostres fitxers a través de WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
