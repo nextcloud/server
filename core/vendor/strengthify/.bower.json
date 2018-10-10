@@ -13,9 +13,9 @@
   "_resolution": {
     "type": "version",
     "tag": "0.5.5",
-    "commit": "5fa214146e2c7760046fb6c2e01aa9b02759e7d6"
+    "commit": "54553d678d7894beff368ce4b4393bcc1f387037"
   },
   "_source": "https://github.com/MorrisJobke/strengthify.git",
-  "_target": "^0.5.5",
+  "_target": "0.5.5",
   "_originalSource": "strengthify"
 }

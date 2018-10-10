@@ -17,7 +17,7 @@
     "tag": "v1.0.6",
     "commit": "bd595ed253292934991a414979007f3d51a1547d"
   },
-  "_source": "git://github.com/HenningM/jstimezonedetect.git",
-  "_target": "~1.0.5",
+  "_source": "https://github.com/HenningM/jstimezonedetect.git",
+  "_target": "1.0.6",
   "_originalSource": "jsTimezoneDetect"
 }

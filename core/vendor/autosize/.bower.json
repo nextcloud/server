@@ -9,6 +9,6 @@
     "commit": "e394a257cc1e059eadc4198f56c301702289dd88"
   },
   "_source": "https://github.com/jackmoore/autosize.git",
-  "_target": "^4.0.0",
+  "_target": "4.0.2",
   "_originalSource": "autosize"
 }

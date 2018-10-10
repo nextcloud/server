@@ -10,6 +10,6 @@
     "commit": "d70e5a532864fdc2263f0d15030ef84671fc5807"
   },
   "_source": "https://github.com/appleboy/jquery-migrate.git",
-  "_target": "~1.4.0",
+  "_target": "1.4.0",
   "_originalSource": "jquery-migrate"
 }

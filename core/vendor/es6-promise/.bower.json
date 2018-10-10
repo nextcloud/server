@@ -34,6 +34,6 @@
     "commit": "fcbab11a1a981eb2290bfff89017cb764335a2a5"
   },
   "_source": "https://github.com/jakearchibald/es6-promise.git",
-  "_target": "~2.3.0",
+  "_target": "2.3.0",
   "_originalSource": "https://github.com/jakearchibald/es6-promise.git"
 }
