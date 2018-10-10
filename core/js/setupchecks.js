@@ -52,9 +52,14 @@
 		 * @param url the URL to test
 		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
 		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
+		 * @param {int} expectedStatus the expected HTTP status to be returned by the URL, 207 by default
 		 * @return $.Deferred object resolved with an array of error messages
 		 */
-		checkWellKnownUrl: function(url, placeholderUrl, runCheck) {
+		checkWellKnownUrl: function(url, placeholderUrl, runCheck, expectedStatus) {
+			if (expectedStatus === undefined) {
+				expectedStatus = 207;
+			}
+
 			var deferred = $.Deferred();
 
 			if(runCheck === false) {
@@ -63,7 +68,7 @@
 			}
 			var afterCall = function(xhr) {
 				var messages = [];
-				if (xhr.status !== 207) {
+				if (xhr.status !== expectedStatus) {
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
 					messages.push({
 						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
