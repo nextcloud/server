@@ -133,7 +133,6 @@ OC.L10N.register(
     "Save" : "שמירה",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "בשימוש ב- PHP-FPM זה יכול להמשך 5 דקות לשינויים לחול.",
     "Missing permissions to edit from here." : "חסרות הרשאות לעריכה מכאן.",
-    "%s of %s used" : "%s מתוך %s בשימוש",
     "%s used" : "%s בשימוש",
     "Settings" : "הגדרות",
     "Show hidden files" : "הצגת קבצים נסתרים",
@@ -161,6 +160,7 @@ OC.L10N.register(
     "Target folder" : "תיקיית יעד",
     "A new file or folder has been <strong>deleted</strong>" : "קובץ או תיקייה חדשים <strong>נמחקו</strong>",
     "A new file or folder has been <strong>restored</strong>" : "קובץ או תיקייה חדשים <strong>שוחזרו</strong>",
+    "%s of %s used" : "%s מתוך %s בשימוש",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">לגשת לקבצים שלך דרך WebDAV</a>"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -21,7 +21,6 @@
     "Backend doesn't support password change, but the user's encryption key was updated." : "המנגנון אינו תומך בשינוי ססמה אך מפתח ההצפנה של המשתמש עודכן.",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "התקנה ועדכון היישום דרך חנות היישומים או ענן שיתוף מאוגד",
     "Federated Cloud Sharing" : "ענן שיתוף מאוגד",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL משתמש בגרסה %s ישנה (%s). יש לעדכן את מערכת ההפעלה או  שתכונות כדוגמת %s לא יעבדו באופן מהימן.",
     "Invalid SMTP password." : "ססמת ה־SMTP שגויה.",
     "Email setting test" : "בדיקת הגדרת דוא״ל",
     "Well done, %s!" : "עבודה יפה, %s!",
@@ -168,7 +167,6 @@
     "There are some errors regarding your setup." : "ישנן מגוון שגיאות על ההגדרות שלך.",
     "There are some warnings regarding your setup." : "ישנן מגוון אזהרות על ההגדרות שלך.",
     "Checking for system and security issues." : "נבדקות תקלות מערכת ואבטחה.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "נא לעיין היטב ב<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">מדריכי ההתקנה ↖️</a> ולחפש אם מופיעות שגיאות או אזהרות ב<a href=\"%s\">רישום</a>.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "בדיקת האבטחה של ה־Nextcloud שלך באמצעות <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">סריקת האבטחה שלנו ↖️</a>.",
     "Version" : "גרסה",
     "Server-side encryption" : "הצפנת צד שרת",
@@ -235,7 +233,6 @@
     "Details" : "פרטים",
     "You are a member of the following groups:" : "הקבוצות הבאות כוללות אותך:",
     "You are using <strong>%s</strong>" : "הניצולת שלך היא <strong>%s</strong>",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "הניצולת שלך היא <strong>%s</strong> מתוך <strong>%s</strong> (<strong>%s %%</strong>)",
     "Full name" : "שם מלא",
     "No display name set" : "לא נקבע שם תצוגה",
     "Your email address" : "כתובת הדואר האלקטרוני שלך",
@@ -267,6 +264,7 @@
     "Username" : "שם משתמש",
     "Done" : "הסתיים",
     "Enabled apps" : "יישומונים פעילים",
+    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL משתמש בגרסה %s ישנה (%s). יש לעדכן את מערכת ההפעלה או  שתכונות כדוגמת %s לא יעבדו באופן מהימן.",
     "A problem occurred, please check your log files (Error: %s)" : "אירעה בעיה, יש לבדוק את לוג הקבצים (שגיאה: %s)",
     "Migration Completed" : "המרה הושלמה",
     "Group already exists." : "קבוצה כבר קיימת.",
@@ -380,6 +378,7 @@
     "Getting help" : "קבלת עזרה",
     "Commercial support" : "תמיכה מסחרית",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "הנך משתמש ב- <strong>%s</strong> מתוך <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "הניצולת שלך היא <strong>%s</strong> מתוך <strong>%s</strong> (<strong>%s %%</strong>)",
     "You are member of the following groups:" : "הקבוצות הבאות כוללות אותך:",
     "Get the apps to sync your files" : "קבלת היישומונים לסנכרון הקבצים שלך",
     "Desktop client" : "לקוח לשולחן העבודה",
@@ -432,6 +431,7 @@
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : " מומלץ בחום להתקין את החבילות הנדרשות במערכת שלך כדי לתמוך באחת מהגדרות השפה הבאות: %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "אם המערכת שלך אינה מותקנת בשורש שם המתחם ומשתמשת ב־Cron של המערכת, עשויות לצוץ תקלות עם יצירת כתובות. כדי להימנע מהתקלות האלו, נא להגדיר את האפשרות „overwrite.cli.url” בקובץ ה־config.php של נתיב שורש ההתקנה שלך (הצעה: „%s”)",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "אירעה תקלה בהפעלת משימת ה־cron דרך שורת פקודה. השגיאות הטכניות הבאות התרחשו:",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "נא לעיין היטב ב<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">מדריכי ההתקנה ↖️</a> ולחפש אם מופיעות שגיאות או אזהרות ב<a href=\"%s\">רישום</a>.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "כדי להגר למסד נתונים אחר יש להשתמש בכלי שורת הפקודה: ‚occ db:convert-type’, או לעיין ב<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">תיעוד ↖️</a>."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

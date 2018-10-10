@@ -17,10 +17,8 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Kunne ikke skabe forbindelse til føderal deling ",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kunne ikke skabe forbindelse til føderal deling, måske var passwordet forkert.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Føderal deling anmodning sendt, du vil modtage en invitation. Tjek dine notifikationer.",
-    "Sharing %s failed, because this item is already shared with %s" : "Der skete en fejl ved deling af %s, objektet er allerede delt med %s",
     "Not allowed to create a federated share with the same user" : "Det er ikke tilladt at danne et datafællesskab med samme bruger",
     "File is already shared with %s" : "Filen deles allerede med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling af %s mislykkedes - kunne ikke finde %s. Måske er serveren ikke tilgængelig i øjeblikket eller bruger et selv underskrevet certifikat.",
     "Could not find share" : "Kan ikke finde deling",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du modtog \"/%3$s\" som en ekstern deling fra %1$s (på vegne af %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du modtog {share} som en ekstern deling fra {user} (på vegne af {behalf})",
@@ -52,6 +50,8 @@ OC.L10N.register(
     "Storage not valid" : "Lagerplads er ikke gyldig",
     "Federated share added" : "Datafællesskabsdeling tilføjet",
     "Couldn't add remote share" : "Kunne ikke tliføje den ekstern deling",
+    "Sharing %s failed, because this item is already shared with %s" : "Der skete en fejl ved deling af %s, objektet er allerede delt med %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling af %s mislykkedes - kunne ikke finde %s. Måske er serveren ikke tilgængelig i øjeblikket eller bruger et selv underskrevet certifikat.",
     "Search global and public address book for users and let local users publish their data" : "Søg global og offentlig adresse bog for brugere og lad lokale brugere offentliggøre deres data"
 },
 "nplurals=2; plural=(n != 1);");

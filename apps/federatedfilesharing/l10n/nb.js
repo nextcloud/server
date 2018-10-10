@@ -17,10 +17,8 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Kunne ikke etablere en sammenknyttet ressurs",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kunne ikke etablere en sammenknyttet ressurs, kanskje passordet var feil.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Sammenknyttet ressurs forespurt, du vil motta en invitasjon. Sjekk varslene dine.",
-    "Sharing %s failed, because this item is already shared with %s" : "Deling av %s mislyktes, fordi dette elementet allerede er delt med %s",
     "Not allowed to create a federated share with the same user" : "Ikke tillatt å opprette en sammenknyttet skydeling med den samme brukeren",
     "File is already shared with %s" : "Filen er allerede delt med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling av %s mislyktes, kunne ikke finne %s, kanskje tjeneren for øyeblikket er utilgjengelig eller bruker selv-signert sertifikat.",
     "Could not find share" : "Kunne ikke finne ressurs",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du har mottatt \"%3$s\" som en ekstern deling fra %1$s (på vegne av %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du har mottatt {share} som en ekstern deling fra {user} (på vegne av {behalf})",
@@ -53,6 +51,8 @@ OC.L10N.register(
     "Storage not valid" : "Lagringsplass ikke gyldig",
     "Federated share added" : "Sammenknyttet ressurs lagt til",
     "Couldn't add remote share" : "Kunne ikke legge til ekstern ressurs",
+    "Sharing %s failed, because this item is already shared with %s" : "Deling av %s mislyktes, fordi dette elementet allerede er delt med %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling av %s mislyktes, kunne ikke finne %s, kanskje tjeneren for øyeblikket er utilgjengelig eller bruker selv-signert sertifikat.",
     "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data"
 },
 "nplurals=2; plural=(n != 1);");

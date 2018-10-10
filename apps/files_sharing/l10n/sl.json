@@ -38,7 +38,6 @@
     "Public upload disabled by the administrator" : "Javno pošiljanje v oblak je skrbniško onemogočeno",
     "Public upload is only possible for publicly shared folders" : "Javno pošiljanje v oblak je mogoče le za javne mape v skupni rabi.",
     "Invalid date, date format must be YYYY-MM-DD" : "Neveljaven zapis časa; biti mora v zapisu YYYY-MM-DD",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Deljenje %s ni uspelo ker sistem ne dovoli souporabe za tip %s",
     "Unknown share type" : "Neznana vrsta mesta souporabe",
     "Not a directory" : "Predmet ni mapa",
     "Could not lock path" : "Poti ni mogoče zakleniti",
@@ -61,6 +60,7 @@
     "Select or drop files" : "Izberi ali povleci datoteke",
     "Uploading files…" : "Nalaganje datotek...",
     "Uploaded files:" : "Poslane datoteke:",
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Deljenje %s ni uspelo ker sistem ne dovoli souporabe za tip %s",
     "This share is password-protected" : "To mesto je zaščiteno z geslom.",
     "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
     "Password" : "Geslo"

@@ -15,10 +15,8 @@
     "Couldn't establish a federated share." : "Ezin izan da urruneko partekatze federatua gehitu.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Ezin izan da urruneko partekatze federatua gehitu, agian pasahitza gaizki dago.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federatutako partekatze eskaera bidali da, gonbidapena jasoko duzu. Notifikazioak begiratu.",
-    "Sharing %s failed, because this item is already shared with %s" : "%s elkarbanatzeak huts egin du, dagoeneko %s erabiltzailearekin elkarbanatuta dagoelako",
     "Not allowed to create a federated share with the same user" : "Ezin da erabiltzaile berdinarekin federatutako partekatzea sortu.",
     "File is already shared with %s" : "Fitxategia 1%s-rekin partekatua dago iada",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du.",
     "Could not find share" : "Ezin da partekatzea topatu",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "2%1$s-ren \"1%3$s\" urruneko partekatze bezala jaso duzu ( 3%2$s-en ordez)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user}-en {share} urruneko partekatze bezala jaso duzu ({behalf} ordez)",
@@ -50,6 +48,8 @@
     "Storage not valid" : "Biltegi baliogabea",
     "Federated share added" : "Federatutako partekatzea gehituta",
     "Couldn't add remote share" : "Ezin izan da urruneko partekatzea gehitu",
+    "Sharing %s failed, because this item is already shared with %s" : "%s elkarbanatzeak huts egin du, dagoeneko %s erabiltzailearekin elkarbanatuta dagoelako",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du.",
     "Search global and public address book for users and let local users publish their data" : "Helbide liburu global eta publikoetan erabiltzaileak bilatu eta baimendu erabiltzaileei bere datuak publkatzea"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -18,13 +18,13 @@
     "PostgreSQL username and/or password not valid" : "PostgreSQL корисничкото име и/или лозинка не се валидни",
     "Set an admin username." : "Постави администраторско корисничко име",
     "Set an admin password." : "Постави администраторска лозинка.",
-    "%s shared »%s« with you" : "%s споделено »%s« со вас",
     "Could not find category \"%s\"" : "Не можам да најдам категорија „%s“",
     "A valid username must be provided" : "Мора да се обезбеди валидно корисничко име ",
     "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
     "The username is already being used" : "Корисничкото име е веќе во употреба",
     "Application is not enabled" : "Апликацијата не е овозможена",
     "Authentication error" : "Грешка во автентикација",
-    "Token expired. Please reload page." : "Жетонот е истечен. Ве молам превчитајте ја страницата."
+    "Token expired. Please reload page." : "Жетонот е истечен. Ве молам превчитајте ја страницата.",
+    "%s shared »%s« with you" : "%s споделено »%s« со вас"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

@@ -132,7 +132,6 @@
     "Save" : "Uložit",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Při použití PHP-FPM může změna nastavení trvat až 5 minut od uložení.",
     "Missing permissions to edit from here." : "Pro úpravy v aktuálním náhledu chybí oprávnění.",
-    "%s of %s used" : "%s z %s použito",
     "%s used" : "%s použito",
     "Settings" : "Nastavení",
     "Show hidden files" : "Zobrazit skryté soubory",
@@ -160,6 +159,7 @@
     "Target folder" : "Cílový adresář",
     "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo složka byla <strong>smazána</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo složka byla <strong>obnovena</strong>",
+    "%s of %s used" : "%s z %s použito",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použít tuto adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> pro přístup k souborům přes WebDAV</a>"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

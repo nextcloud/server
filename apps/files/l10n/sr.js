@@ -135,7 +135,6 @@ OC.L10N.register(
     "Save" : "Сачувај",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ако користите PHP-FPM, промене се могу применити и тек после 5 минута.",
     "Missing permissions to edit from here." : "Недостају дозволе да се мења одавде.",
-    "%s of %s used" : "%s од %s искоришћено",
     "%s used" : "%s искоришћено",
     "Settings" : "Поставке",
     "Show hidden files" : "Прикажи скривене фајлове",
@@ -163,6 +162,7 @@ OC.L10N.register(
     "Target folder" : "Одредишна фасцикла",
     "A new file or folder has been <strong>deleted</strong>" : "Нови фајл или фасцикла су <strong>обрисани</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Нови фајл или фасцикла су <strong>враћени</strong>",
+    "%s of %s used" : "%s од %s искоришћено",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">приступате Вашим фајловима преко ВебДАВа</a>"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

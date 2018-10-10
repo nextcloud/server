@@ -16,7 +16,6 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Nun s'habilitó la compartición sirvidor a sirvidor nesti sirvidor",
     "Couldn't establish a federated share." : "Nun pud afitase una compartición federada.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nun pudo afitase una compartición federada, quiciabes la contraseña tubiere mal.",
-    "Sharing %s failed, because this item is already shared with %s" : "Falló la compartición de %s porque esti elementu yá ta compartíu con %s",
     "Not allowed to create a federated share with the same user" : "Nun s'almite crear un recursu compartíu federáu col mesmu usuariu",
     "File is already shared with %s" : "El ficheru yá ta compartíu con %s",
     "Could not find share" : "Nun pudo alcontrase la compartición",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "The mountpoint name contains invalid characters." : "El nome del puntu de montaxe contién caráuteres non válidos.",
     "Not allowed to create a federated share with the owner." : "Nun se permite'l crear una compartición federada col dueñu.",
     "Storage not valid" : "Almacenamientu non válidu",
-    "Couldn't add remote share" : "Nun pudo amestase la compartición remota"
+    "Couldn't add remote share" : "Nun pudo amestase la compartición remota",
+    "Sharing %s failed, because this item is already shared with %s" : "Falló la compartición de %s porque esti elementu yá ta compartíu con %s"
 },
 "nplurals=2; plural=(n != 1);");

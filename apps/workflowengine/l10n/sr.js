@@ -11,6 +11,7 @@ OC.L10N.register(
     "matches" : "се поклапа са",
     "does not match" : "се не поклапа са",
     "Example: {placeholder}" : "Пример: {placeholder}",
+    "File name" : "Име фајла",
     "File size (upload)" : "Величина фајла (отпремање)",
     "less" : "је мања од",
     "less or equals" : "мања или једнака од",

@@ -104,7 +104,6 @@ OC.L10N.register(
     "Maximum upload size" : "Maksimum oplaai grootte",
     "max. possible: " : "maks. moontlik:",
     "Save" : "Stoor",
-    "%s of %s used" : "%s van %s gebruik",
     "%s used" : "%s gebruik",
     "Settings" : "Instellings",
     "Show hidden files" : "Vertoon verborge lêers ",
@@ -127,6 +126,7 @@ OC.L10N.register(
     "Move" : "Skuif",
     "Target folder" : "Teikengids",
     "A new file or folder has been <strong>deleted</strong>" : "'n Nuwe lêer of gids is <strong>geskrap</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "'n Nuwe lêer of gids is <strong>herstel</strong>"
+    "A new file or folder has been <strong>restored</strong>" : "'n Nuwe lêer of gids is <strong>herstel</strong>",
+    "%s of %s used" : "%s van %s gebruik"
 },
 "nplurals=2; plural=(n != 1);");

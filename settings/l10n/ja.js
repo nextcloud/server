@@ -23,7 +23,6 @@ OC.L10N.register(
     "Backend doesn't support password change, but the user's encryption key was updated." : "バックエンドはパスワードの変更をサポートしていませんが、ユーザーの暗号化キーは正常に更新されました。",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "アプリストアまたはクラウド連携共有から、アプリをインストールならびにアップデート",
     "Federated Cloud Sharing" : "統合されたクラウド共有",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "%s バージョン (%s) の古い cURL を使っています。OSを更新するか、この機能 %s が正しく動くアプリに更新してください。",
     "Invalid SMTP password." : "SMTPパスワードが無効",
     "Email setting test" : "メール設定のテスト",
     "Well done, %s!" : "%s、素晴らしい！",
@@ -160,7 +159,6 @@ OC.L10N.register(
     "Security & setup warnings" : "セキュリティ＆セットアップ警告",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "サーバーのセキュリティとパフォーマンスのためには、すべてが正確に設定されていることが重要です。あなたの力になるよう、Nextcloudでは一部の自動チェックを行っています。詳細な情報は、リンクされたドキュメントを参照してください。",
     "All checks passed." : "すべてのチェックに合格しました。",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">インストールガイド ↗</a>を再確認して、 <a href=\"%s\">ログ</a>にあるすべてのエラーや警告を確認してください。",
     "Version" : "バージョン",
     "Server-side encryption" : "サーバーサイド暗号化",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "サーバーサイド暗号化では、このサーバーにアップロードされるファイルを暗号化することができます。この設定を行うとパフォーマンス劣化のような制限を伴いますので、必要な場合のみ有効にしてください。",
@@ -223,7 +221,6 @@ OC.L10N.register(
     "Cancel" : "キャンセル",
     "Choose as profile picture" : "プロファイル画像として選択",
     "You are a member of the following groups:" : "次のグループに所属:",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "<strong>%s</strong> / <strong>%s</strong> (<strong>%s %%</strong>) 使用中",
     "Full name" : "氏名",
     "No display name set" : "表示名が未設定",
     "Your email address" : "あなたのメールアドレス",
@@ -252,6 +249,7 @@ OC.L10N.register(
     "Username" : "ユーザーID",
     "Done" : "完了",
     "Enabled apps" : "有効なアプリ",
+    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "%s バージョン (%s) の古い cURL を使っています。OSを更新するか、この機能 %s が正しく動くアプリに更新してください。",
     "A problem occurred, please check your log files (Error: %s)" : "問題が発生しました。ログファイルを確認してください。(Error: %s)",
     "Migration Completed" : "移行が完了しました",
     "Group already exists." : "グループはすでに存在しています",
@@ -346,6 +344,7 @@ OC.L10N.register(
     "Getting help" : "ヘルプの入手",
     "Commercial support" : "商用サポート",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "<strong>%s</strong> / <strong>%s</strong> を現在使用中です",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "<strong>%s</strong> / <strong>%s</strong> (<strong>%s %%</strong>) 使用中",
     "You are member of the following groups:" : "次のグループのメンバー:",
     "Settings" : "設定",
     "Show storage location" : "データの保存場所を表示",
@@ -376,6 +375,7 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in filenames." : "これは、ファイル名の特定の文字に問題があることを意味しています。",
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "次のロケールをサポートするには、システムに必要なパッケージをインストールすることを強くおすすめします: %s。",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "URLがドメインのルート(/)で終わっていない場合で、システムのcronを利用している場合は、URLの生成に問題が発生します。その場合は、config.php ファイルの中の \"overwrite.cli.url\" オプションをインストールしたwebrootのパスに設定してください。( 推奨: \"%s\" ) ",
-    "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "CLI から cronジョブを実行することができませんでした。次の技術的なエラーが発生しています："
+    "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "CLI から cronジョブを実行することができませんでした。次の技術的なエラーが発生しています：",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">インストールガイド ↗</a>を再確認して、 <a href=\"%s\">ログ</a>にあるすべてのエラーや警告を確認してください。"
 },
 "nplurals=1; plural=0;");

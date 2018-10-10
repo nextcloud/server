@@ -44,7 +44,6 @@
     "Checked for update of app \"%s\" in appstore" : "Meklēti atjauninājumi lietotnei \"%s\"",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Nosaka, vai uz %s attiecināmā shēma var tikt atjaunināta (tas var prasīt daudz laiku atkarībā no datu bāzes izmēriem)",
     "Checked database schema update for apps" : "Pārbaudīts datu bāzes shēmas atjauninājums lietotnēm.",
-    "Updated \"%s\" to %s" : "Atjaunināts \"%s\" uz %s",
     "Set log level to debug" : "Iestatīt žurnāla rakstīšanu uz atkļūdošanas režīmā",
     "Reset log level" : "Atiestatīt žurnāla rakstīšanas režīmu",
     "Starting code integrity check" : "Uzsākta koda integritātes pārbaude",
@@ -277,7 +276,6 @@
     "Error while validating your second factor" : "Kļūda validējot jūsu otru faktoru.",
     "Access through untrusted domain" : "Piekļūt caur neuzticamu domēnu",
     "App update required" : "Programmai nepieciešama atjaunināšana",
-    "%s will be updated to version %s" : "%s tiks atjaunināts uz versiju %s",
     "These apps will be updated:" : "Šīs programmas tiks atjauninātas:",
     "These incompatible apps will be disabled:" : "Šīs nesaderīgās programmas tiks atspējotas:",
     "The theme %s has been disabled." : "Tēma %s ir atspējota.",
@@ -293,6 +291,7 @@
     "This page will refresh itself when the %s instance is available again." : "Lapa tiks atsvaidzināta kad %s instance atkal ir pieejama.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
     "Thank you for your patience." : "Paldies par jūsu pacietību.",
+    "Updated \"%s\" to %s" : "Atjaunināts \"%s\" uz %s",
     "There was an error loading your contacts" : "Notikusi kļūda ielādējot kontaktpersonu sarakstu",
     "Shared with {recipients}" : "Koplietots ar {recipients}",
     "Error setting expiration date" : "Kļūda, iestatot termiņa datumu",
@@ -313,6 +312,7 @@
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Uzlabota drošība ir iespējota jūsu kontam. Lūdzu autentificējies izmantojot otru faktoru.",
     "You are accessing the server from an untrusted domain." : "Jūs piekļūstat serverim no neuzticama domēna.",
     "Add \"%s\" as trusted domain" : "Pievienot \"%s\" kā uzticamu domēnu",
+    "%s will be updated to version %s" : "%s tiks atjaunināts uz versiju %s",
     "Back to log in" : "Atpakaļ uz pierakstīšanos"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
