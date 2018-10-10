@@ -24,7 +24,14 @@
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 
+script('settings', 'settings-admin-security');
+
 ?>
+
+<div id="two-factor-auth" class="section">
+	<h2><?php p($l->t('Two-Factor Authentication'));?></h2>
+	<div id="two-factor-auth-settings"></div>
+</div>
 
 <div class="section" id='encryptionAPI'>
 	<h2><?php p($l->t('Server-side encryption')); ?></h2>

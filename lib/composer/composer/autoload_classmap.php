@@ -993,6 +993,7 @@ return array(
     'OC\\Settings\\Controller\\LogSettingsController' => $baseDir . '/settings/Controller/LogSettingsController.php',
     'OC\\Settings\\Controller\\MailSettingsController' => $baseDir . '/settings/Controller/MailSettingsController.php',
     'OC\\Settings\\Controller\\PersonalSettingsController' => $baseDir . '/settings/Controller/PersonalSettingsController.php',
+    'OC\\Settings\\Controller\\TwoFactorSettingsController' => $baseDir . '/settings/Controller/TwoFactorSettingsController.php',
     'OC\\Settings\\Controller\\UsersController' => $baseDir . '/settings/Controller/UsersController.php',
     'OC\\Settings\\Hooks' => $baseDir . '/settings/Hooks.php',
     'OC\\Settings\\Mailer\\NewUserMailHelper' => $baseDir . '/settings/Mailer/NewUserMailHelper.php',
