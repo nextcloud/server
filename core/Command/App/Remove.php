@@ -22,6 +22,7 @@
 
 namespace OC\Core\Command\App;
 
+use Throwable;
 use OC\Installer;
 use OCP\App\IAppManager;
 use OCP\ILogger;
@@ -93,7 +94,7 @@ class Remove extends Command implements CompletionAwareInterface {
 			try {
 				$this->manager->disableApp($appId);
 				$output->writeln($appId . ' disabled');
-			} catch(\Exception $e) {
+			} catch(Throwable $e) {
 				$output->writeln('Error: ' . $e->getMessage());
 				$this->logger->logException($e, [
 					'app' => 'CLI',
@@ -106,7 +107,7 @@ class Remove extends Command implements CompletionAwareInterface {
 		// Let's try to remove the app...
 		try {
 			$result = $this->installer->removeApp($appId);
-		} catch(\Exception $e) {
+		} catch(Throwable $e) {
 			$output->writeln('Error: ' . $e->getMessage());
 			$this->logger->logException($e, [
 				'app' => 'CLI',
