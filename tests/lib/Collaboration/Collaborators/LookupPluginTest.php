@@ -34,6 +34,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share;
@@ -51,6 +52,8 @@ class LookupPluginTest extends TestCase {
 	protected $cloudIdManager;
 	/** @var  LookupPlugin */
 	protected $plugin;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
 
 	public function setUp() {
 		parent::setUp();
@@ -58,6 +61,7 @@ class LookupPluginTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(ILogger::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$cloudId = $this->createMock(ICloudId::class);
 		$cloudId->expects($this->any())->method('getRemote')->willReturn('myNextcloud.net');
@@ -74,7 +78,13 @@ class LookupPluginTest extends TestCase {
 			});
 
 
-		$this->plugin = new LookupPlugin($this->config, $this->clientService, $this->userSession, $this->cloudIdManager);
+		$this->plugin = new LookupPlugin(
+			$this->config,
+			$this->clientService,
+			$this->userSession,
+			$this->cloudIdManager,
+			$this->logger
+		);
 	}
 
 	/**
