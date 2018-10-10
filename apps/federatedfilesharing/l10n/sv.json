@@ -15,10 +15,8 @@
     "Couldn't establish a federated share." : "Kunde inte lägga till en federerad utdelning",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kunde inte lägga till en federerad utdelning, lösenordet kanske var felaktigt.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federerad delningsförfrågan sändes, du kommer få en inbjudan. Kolla dina notifieringar.",
-    "Sharing %s failed, because this item is already shared with %s" : "Delning %s misslyckades därför att objektet redan är delat med %s",
     "Not allowed to create a federated share with the same user" : "Ej tillåtet att skapa en federerad delning med samma användare",
     "File is already shared with %s" : "Filen är redan delad med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat",
     "Could not find share" : "Kunde inte hitta delning",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du tog emot \"%3$s\" som en extern delning från %1$s (på uppdrag av %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du tog emot {share} som en extern delning {user} (på uppdrag av {behalf})",
@@ -51,6 +49,8 @@
     "Storage not valid" : "Lagring ogiltig",
     "Federated share added" : "Federerad delning tillagd",
     "Couldn't add remote share" : "Kunde inte lägga till extern delning",
+    "Sharing %s failed, because this item is already shared with %s" : "Delning %s misslyckades därför att objektet redan är delat med %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat",
     "Search global and public address book for users and let local users publish their data" : "Sök global och publik adressbok för användare och låt lokala användare publicera sina data"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

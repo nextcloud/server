@@ -78,7 +78,6 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Ngarkimi publik është çaktivizuar nga përgjegjësi",
     "Public upload is only possible for publicly shared folders" : "Ngarkimi publik është i mundshëm vetëm për dosje të ndara publikisht",
     "Invalid date, date format must be YYYY-MM-DD" : "Datë e pavlefshme, formati i datës duhet të jetë VVVV-MM-DD",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Ndarja e %s dështoi, ngaqë pjesa përgjegjëse e shërbyesit nuk lejon ndarje prej llojit %s",
     "You cannot share to a Circle if the app is not enabled" : "Nuk mund të shpërndani në një rreth nëse aplikacioni nuk është i aktivizuar",
     "Please specify a valid circle" : "Ju lutem specifikoni një rreth i vlefshëm",
     "Unknown share type" : "Lloj i panjohur ndarjesh",
@@ -107,6 +106,7 @@ OC.L10N.register(
     "Uploading files…" : "Skedarët po ngarkohen...",
     "Uploaded files:" : "Skedarët e ngarkuar:",
     "{actor} removed you from {file}" : "{actor} iu hoqi nga {file}",
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Ndarja e %s dështoi, ngaqë pjesa përgjegjëse e shërbyesit nuk lejon ndarje prej llojit %s",
     "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
     "The password is wrong. Try again." : "Fjalëkalimi është i gabuar. Riprovoni.",
     "Password" : "Fjalëkalim"

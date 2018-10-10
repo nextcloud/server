@@ -131,7 +131,6 @@ OC.L10N.register(
     "Save" : "Lagre",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Med PHP-FPM kan det ta 5 minutter før endringene trer i kraft.",
     "Missing permissions to edit from here." : "Manglende rettigheter til å redigere herfra.",
-    "%s of %s used" : "%s av %s brukt",
     "%s used" : "%s brukt",
     "Settings" : "Innstillinger",
     "Show hidden files" : "Vis skjulte filer",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Target folder" : "Målmappe",
     "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe har blitt <strong>slettet</strong>",
     "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe har blitt <strong>gjenopprettet</strong>",
+    "%s of %s used" : "%s av %s brukt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk denne adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til dine filer via WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

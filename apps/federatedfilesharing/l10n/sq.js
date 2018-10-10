@@ -17,10 +17,8 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Nuk mund të vendosej një shpërndarje e federuar.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nuk mund të vendoset një shpërndarje e federuar, ndoshta fjalëkalimi ishte gabim.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Kërkesa Ndarja Federative u dërgua, ju do të merrni një ftesë. Kontrolloni njoftimet tuaja.",
-    "Sharing %s failed, because this item is already shared with %s" : "Ndarja për %s dështoi, ngaqë ky objekt është ndarë një herë me %s",
     "Not allowed to create a federated share with the same user" : "S’i lejohet të krijojë një ndarje të federuar me të njëjtin përdorues",
     "File is already shared with %s" : "Skedari është ndarë tashmë me %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar",
     "Could not find share" : "Nuk mund të gjenim ndarjen",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Ju pranuat \"%3$s\" si një shpërndarje në distancë nga %1$s (në emër të %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Ju ",
@@ -52,6 +50,8 @@ OC.L10N.register(
     "Storage not valid" : "memorja nuk është e vlefshme",
     "Federated share added" : "Ndarje e federuar u shtua",
     "Couldn't add remote share" : "Nuk mund të shtohet ndarja në largësi",
+    "Sharing %s failed, because this item is already shared with %s" : "Ndarja për %s dështoi, ngaqë ky objekt është ndarë një herë me %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar",
     "Search global and public address book for users and let local users publish their data" : "Kërko librin e adresave globale dhe publike për përdoruesit dhe lejo që përdoruesit lokal të publikojnë të dhënat e tyre"
 },
 "nplurals=2; plural=(n != 1);");

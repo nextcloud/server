@@ -19,10 +19,8 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Запрос межсерверного общего доступа оправлен, вы получите приглашение. Проверьте свои уведомления.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Не удалось установить межсерверный общий доступ, на другом сервере установлена устаревшая версия Nextcloud (версия 9.x или более ранняя).",
     "It is not allowed to send federated group shares from this server." : "Не допускается предоставление межсерверного общего доступа группам пользователей.",
-    "Sharing %s failed, because this item is already shared with %s" : "Не удалось предоставить доступ к «%s» , пользователю%s доступ уже предоставлен",
     "Not allowed to create a federated share with the same user" : "Не допускается создание межсерверного общего ресурса с тем же пользователем",
     "File is already shared with %s" : "Доступ к файлу уже предоставлен %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось поделиться «%s», не удалось найти %s, возможно, сервер недоступен или использует самоподписанный сертификат.",
     "Could not find share" : "Не удалось найти общий ресурс",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Вам предоставили общий доступ к ресурсу «%3$s»  расположенному на сервере %1$s (от имени %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Вы получили «{share}» в качестве удалённого ресурса от {user} (от имени {behalf})",
@@ -58,6 +56,8 @@ OC.L10N.register(
     "Storage not valid" : "Хранилище недоступно",
     "Federated share added" : "Добавлен общий федеративный ресурс",
     "Couldn't add remote share" : "Невозможно добавить удалённый общий ресурс",
+    "Sharing %s failed, because this item is already shared with %s" : "Не удалось предоставить доступ к «%s» , пользователю%s доступ уже предоставлен",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось поделиться «%s», не удалось найти %s, возможно, сервер недоступен или использует самоподписанный сертификат.",
     "Search global and public address book for users and let local users publish their data" : "Поиск пользователей в глобальной и общедоступной адресной книге и разрешение публикации своих данных локальным пользователям "
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -21,7 +21,6 @@
     "Backend doesn't support password change, but the user's encryption key was updated." : "A háttérszolgáltatás nem támogatja a jelszómódosítást, de a titkosítási kulcs frissítve lett.",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "alkalmazások telepítése és frissítése az alkalmazás tárból vagy Szövetséges Felhő Megosztásból",
     "Federated Cloud Sharing" : "Megosztás Egyesített Felhőben",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL elavult %s verziót (%s) használ. Kérlek, frissítsd az operációs rendszert, vagy egyes funkciók (mint például a %s) megbízhatatlanul fognak működni.",
     "Invalid SMTP password." : "Érvénytelen SMTP jelszó",
     "Email setting test" : "E-mail beállítás tesztelése",
     "Well done, %s!" : "Szép munka,  %s!",
@@ -195,7 +194,6 @@
     "There are some errors regarding your setup." : "Probléma lépett fel a beállításaival kapcsolatban.",
     "There are some warnings regarding your setup." : "Figyelmeztetés jött fel a beállításaival kapcsolatban.",
     "Checking for system and security issues." : "Rendszer és biztonsági dolgok ellenőrzése.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Kérlek ismét ellenőrizd a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">telepítési dokumentációt ↗</a>, és keress hibákat és figyelmeztetéseket a <a href=\"%s\">naplóban</a>.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ellenőrizze a Nextcloud biztonságát <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\"> a biztonsági ellenőrzőnkkel ↗</a>.",
     "Version" : "Verzió",
     "Server-side encryption" : "Szerver-oldali titkosítás",
@@ -262,7 +260,6 @@
     "Details" : "Részletek",
     "You are a member of the following groups:" : "Tagja vagy a következő csoport(ok)nak:",
     "You are using <strong>%s</strong>" : "Jelenleg használt <strong>%s</strong>",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Jelenleg használt: <strong>%s</strong>, ebből: <strong>%s</strong> (<strong>%s %%</strong>)",
     "Full name" : "Teljes név",
     "No display name set" : "Nincs megjelenítési név beállítva",
     "Your email address" : "Az Ön e-mail címe",
@@ -294,6 +291,7 @@
     "Username" : "Felhasználónév",
     "Done" : "Kész",
     "Enabled apps" : "Engedélyezett alkalmazások",
+    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL elavult %s verziót (%s) használ. Kérlek, frissítsd az operációs rendszert, vagy egyes funkciók (mint például a %s) megbízhatatlanul fognak működni.",
     "A problem occurred, please check your log files (Error: %s)" : "Probléma történt, kérlek nézd meg a naplófájlokat (Hiba: %s).",
     "Migration Completed" : "Migráció befejezve",
     "Group already exists." : "A csoport már létezik.",
@@ -407,6 +405,7 @@
     "Getting help" : "Segítség kérés",
     "Commercial support" : "Kereskedelmi támogatás",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Jelenleg használt: <strong>%s</strong>, maximálisan elérhető: <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Jelenleg használt: <strong>%s</strong>, ebből: <strong>%s</strong> (<strong>%s %%</strong>)",
     "You are member of the following groups:" : "Tagja vagy a következő csoport(ok)nak:",
     "Get the apps to sync your files" : "Alkalmazások a fájljaid szinkronizálásához",
     "Desktop client" : "Asztali kliens",
@@ -459,6 +458,7 @@
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "Erősen javasolt a szükséges csomagok telepítése a rendszeredre a következőhöz: %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Ha a telepítése nem a webkiszolgáló gyökerében van, és a rendszer cron szolgáltatását használja, akkor problémák lehetnek az URL-ek képzésével. Ezek elkerülése érdekében állítsa be a config.php-ban az \"overwrite.cli.url\" paramétert a telepítés által használt webútvonalra. (Javasolt beállítás: \"%s\")",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Nem lehetett CLI módban futtatni a cron feladatot. A következő technikai hibák léptek fel:",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Kérlek ismét ellenőrizd a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">telepítési dokumentációt ↗</a>, és keress hibákat és figyelmeztetéseket a <a href=\"%s\">naplóban</a>.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Más adatbázisra való migráláshoz használd a parancssori eszközt: 'occ db:convert-type', vagy nézd meg a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentációt ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

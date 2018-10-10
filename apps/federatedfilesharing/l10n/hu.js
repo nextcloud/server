@@ -17,10 +17,8 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Egy egyesített megosztás nem hozható létre.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Egy egyesített megosztás nem hozható létre, lehet hogy nem megfelelő a jelszó.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Egyesített megosztási kérés elküldve, kapni fogsz egy meghívót. Ellenőrizd az értesítéseidet.",
-    "Sharing %s failed, because this item is already shared with %s" : "%s megosztása nem sikerült, mert ez már meg van osztva vele: %s",
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet létrehozni egyesített megosztást",
     "File is already shared with %s" : "Fájl már megosztva vele: %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s megosztása nem sikerült, mert %s nem található, lehetséges, hogy a szerver jelenleg nem érhető el vagy ön-aláírt tanúsítványt használ.",
     "Could not find share" : "A megosztás nem található",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Kaptál egy távoli megosztást: \"%3$s\", innen: %1$s (%2$s nevében)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Kaptál egy távoli megosztást: {share}, innen: {user} ({behalf} nevében)",
@@ -53,6 +51,8 @@ OC.L10N.register(
     "Storage not valid" : "A tároló nem érvényes",
     "Federated share added" : "Egyesített megosztás hozzáadva",
     "Couldn't add remote share" : "Távoli megosztás nem adható hozzá",
+    "Sharing %s failed, because this item is already shared with %s" : "%s megosztása nem sikerült, mert ez már meg van osztva vele: %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s megosztása nem sikerült, mert %s nem található, lehetséges, hogy a szerver jelenleg nem érhető el vagy ön-aláírt tanúsítványt használ.",
     "Search global and public address book for users and let local users publish their data" : "A központi és nyilvános névjegyzék keresése a felhasználóknak és a helyi felhasználók is hozzáadhatnak"
 },
 "nplurals=2; plural=(n != 1);");

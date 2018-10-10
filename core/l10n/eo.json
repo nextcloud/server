@@ -19,7 +19,6 @@
     "[%d / %d]: Checking table %s" : "[%d / %d]\\: kontrole tabelo %s ",
     "Updated database" : "Ĝisdatiĝis datumbazo",
     "Checking updates of apps" : "Kontrolas ĝisdatigojn de aplikaĵoj",
-    "Updated \"%s\" to %s" : "Ĝisdatiĝis “%s” al %s",
     "Reset log level" : "Rekomenci nivelon de la protokolo",
     "%s (incompatible)" : "%s (nekongrua)",
     "Following apps have been disabled: %s" : "Jenaj aplikaĵoj malkapablas: %s",
@@ -204,7 +203,6 @@
     "Use backup code" : "Uzi rezervan kodon",
     "Cancel log in" : "Nuligi ensaluto",
     "App update required" : "Aplikaĵon ĝisdatigi nepras",
-    "%s will be updated to version %s" : "%s ĝisdatiĝos al eldono %s",
     "These apps will be updated:" : "Ĉi tiuj aplikaĵoj ĝisdatiĝos:",
     "These incompatible apps will be disabled:" : "Ĉi tiuj malkongruaj aplikaĵoj malkapabliĝos:",
     "Start update" : "Ekĝisdatigi",
@@ -212,6 +210,7 @@
     "Update needed" : "Bezonas ĝisdatigi",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Vidu la  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumenton</a> por helpo.",
     "Thank you for your patience." : "Dankon pro via pacienco.",
+    "Updated \"%s\" to %s" : "Ĝisdatiĝis “%s” al %s",
     "Shared with {recipients}" : "Kunhavigis kun {recipients}",
     "Error setting expiration date" : "Eraro dum agordado de limdato",
     "The public link will expire no later than {days} days after it is created" : "La publika ligilo senvalidiĝos ne pli malfrue ol {days} tagojn post ĝi kreiĝos",
@@ -221,6 +220,7 @@
     "Alternative Logins" : "Alternativaj ensalutoj",
     "Alternative login using app token" : "Alia ensaluti per apa ĵetono",
     "Add \"%s\" as trusted domain" : "Aldoni \"%s\" tiel fida retregiono",
+    "%s will be updated to version %s" : "%s ĝisdatiĝos al eldono %s",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Vidu la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumenton</a> por helpo.",
     "Back to log in" : "Revenu al ensaluto"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

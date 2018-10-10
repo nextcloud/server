@@ -131,7 +131,6 @@ OC.L10N.register(
     "Save" : "Save",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "With PHP-FPM it might take 5 minutes for changes to be applied.",
     "Missing permissions to edit from here." : "Missing permissions to edit from here.",
-    "%s of %s used" : "%s of %s used",
     "%s used" : "%s used",
     "Settings" : "Settings",
     "Show hidden files" : "Show hidden files",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Target folder" : "Target folder",
     "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
     "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
+    "%s of %s used" : "%s of %s used",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

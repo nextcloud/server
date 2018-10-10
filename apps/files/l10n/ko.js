@@ -124,7 +124,6 @@ OC.L10N.register(
     "Save" : "저장",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM을 사용 중이면 변경 사항이 적용되는 데 최대 5분 정도 걸릴 수 있습니다.",
     "Missing permissions to edit from here." : "여기에서 편집할 권한이 없습니다.",
-    "%s of %s used" : "%s/%s 사용함",
     "%s used" : "%s 사용함",
     "Settings" : "설정",
     "Show hidden files" : "숨김 파일 보이기",
@@ -150,6 +149,7 @@ OC.L10N.register(
     "Target folder" : "대상 폴더",
     "A new file or folder has been <strong>deleted</strong>" : "새 파일이나 폴더가 <strong>삭제됨</strong>",
     "A new file or folder has been <strong>restored</strong>" : "새 파일이나 폴더가 <strong>복원됨</strong>",
+    "%s of %s used" : "%s/%s 사용함",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "이 주소를 사용하여 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV를 통해 파일에 접근할 수 있습니다</a>"
 },
 "nplurals=1; plural=0;");

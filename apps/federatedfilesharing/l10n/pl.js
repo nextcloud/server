@@ -17,10 +17,8 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Nie udało się ustalić Stowarzyszonego udostępnienia.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nie udało się ustalić Stowarzyszonego udostępnienia, może być błędne hasło.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Wysłano żądanie Udostępniania Stowarzyszonego, otrzymasz zaproszenie. Sprawdzaj swoje powiadomienia.",
-    "Sharing %s failed, because this item is already shared with %s" : "Współdzielenie %s nie powiodło się, ponieważ element jest już współdzielony z %s",
     "Not allowed to create a federated share with the same user" : "Nie można tworzyć stowarzyszonego udziału z tym samym użytkownikiem",
     "File is already shared with %s" : "Plik jest już współdzielony z %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Dzielenie %s nie powiodło się. Nie można było znaleźć %s, być może serwer jest obecnie nieosiągalny lub używa certyfikatu z podpisem własnym.",
     "Could not find share" : "Nie można znaleźć powiązania",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Otrzymałeś \"%3$s\" w zdalnym udziale z %1$s (w imieniu %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Otrzymałeś {share} w zdalnym udziale z {user} (w imieniu {behalf})",
@@ -52,6 +50,8 @@ OC.L10N.register(
     "Storage not valid" : "Magazyn nie jest prawidłowy",
     "Federated share added" : "Udostępnianie Stowarzyszone zostało dodane",
     "Couldn't add remote share" : "Nie można dodać zdalnego zasobu",
+    "Sharing %s failed, because this item is already shared with %s" : "Współdzielenie %s nie powiodło się, ponieważ element jest już współdzielony z %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Dzielenie %s nie powiodło się. Nie można było znaleźć %s, być może serwer jest obecnie nieosiągalny lub używa certyfikatu z podpisem własnym.",
     "Search global and public address book for users and let local users publish their data" : "Szukaj użytkowników w globalnej i publicznej książce adresowej i pozwól lokalnym użytkownikom na publikowanie swoich danych"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

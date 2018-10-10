@@ -21,7 +21,6 @@
     "Backend doesn't support password change, but the user's encryption key was updated." : "Podpůrná vrstva nepodporuje změnu hesla, ale uživatelův šifrovací klíč byl aktualizován.",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Instalovat a aktualizovat aplikace pomocí obchodu nebo Sdíleného Cloudového Úložiště",
     "Federated Cloud Sharing" : "Propojené cloudové sdílení",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL používá zastaralou %s verzi (%s). Aktualizujte  svůj operační systém, jinak funkce jako %s nemusí spolehlivě pracovat.",
     "Invalid SMTP password." : "Neplatné heslo SMTP.",
     "Email setting test" : "Zkouška nastavení e-mailu",
     "Well done, %s!" : "Úspěšně nastaveno, %s!",
@@ -196,7 +195,6 @@
     "There are some errors regarding your setup." : "Jsou zde nějaké chyby ohledně vašeho nastavení.",
     "There are some warnings regarding your setup." : "Jsou zde nějaká varování ohledně vašeho nastavení.",
     "Checking for system and security issues." : "Kontrola systému a problémů se zabezpečením.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Důkladně si přečtěte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">průvodce instalací ↗</a>a zkontrolujte, že v <a href=\"%s\">záznamu událostí</a> nejsou žádné chyby ani varování.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Zkontrolujte zabezpečení svého Nextcloud přes <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">náš skener zabezpečení ↗</a>.",
     "Version" : "Verze",
     "Server-side encryption" : "Šifrování na straně serveru",
@@ -264,7 +262,6 @@
     "Details" : "Podrobnosti",
     "You are a member of the following groups:" : "Jste členem následujících skupin:",
     "You are using <strong>%s</strong>" : "Používáte <strong>%s</strong>",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Používáte <strong>%s</strong> z <strong>%s</strong> (<strong>%s %%</strong>)",
     "Full name" : "Celé jméno",
     "No display name set" : "Jméno pro zobrazení nenastaveno",
     "Your email address" : "Vaše e-mailová adresa",
@@ -296,6 +293,7 @@
     "Username" : "Uživatelské jméno",
     "Done" : "Dokončeno",
     "Enabled apps" : "Povolené aplikace",
+    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL používá zastaralou %s verzi (%s). Aktualizujte  svůj operační systém, jinak funkce jako %s nemusí spolehlivě pracovat.",
     "A problem occurred, please check your log files (Error: %s)" : "Došlo k chybě, zkontrolujte záznam událostí (Chyba: %s)",
     "Migration Completed" : "Migrace dokončena",
     "Group already exists." : "Skupina už existuje.",
@@ -409,6 +407,7 @@
     "Getting help" : "Sehnat pomoc",
     "Commercial support" : "Placená podpora",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Používáte <strong>%s</strong> z <strong>%s</strong>",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Používáte <strong>%s</strong> z <strong>%s</strong> (<strong>%s %%</strong>)",
     "You are member of the following groups:" : "Patříte do následujících skupin:",
     "Get the apps to sync your files" : "Získat aplikace pro synchronizaci souborů",
     "Desktop client" : "Desktopový klient",
@@ -461,6 +460,7 @@
     "It is strongly proposed to install the required packages on your system to support one of the following locales: %s." : "Velmi doporučujeme nainstalovat požadované balíčky do systému, pro podporu jednoho z následujících národních prostředí: %s.",
     "If your installation is not installed at the root of the domain and uses system Cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Instalace mimo kořenový adresář domény a používání systémového příkazu cron může způsobit problémy s vytvářením správné URL. Pro zabránění těmto chybám nastavte správný popis umístění ve svém souboru config.php v hodnotě „overwrite.cli.url“ (Je doporučena tato: „%s“)",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Nebylo možné spustit službu plánovače cron v CLI. Došlo k následujícím technickým chybám:",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Důkladně si přečtěte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">průvodce instalací ↗</a>a zkontrolujte, že v <a href=\"%s\">záznamu událostí</a> nejsou žádné chyby ani varování.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation ↗</a>." : "Pokud chcete-li převést do jiné databáze, použijte nástroj pro příkazový řádek:  „occ db:convert-type“, nebo si projděte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentaci ↗</a>."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

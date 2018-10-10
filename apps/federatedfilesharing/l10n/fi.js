@@ -19,10 +19,8 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federoidun jakamisen pyyntö lähetetty, saat kutsun. Tarkista ilmoitukset.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Federoitua jakoa ei voitu muodostaa. Vaikuttaa siltä, että palvelin jonka kanssa federointia yritetään, on versioltaan liian vanha (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Federoitujen ryhmäjakojen lähettäminen tältä palvelimelta ei ole sallittu.",
-    "Sharing %s failed, because this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjälle %s",
     "Not allowed to create a federated share with the same user" : "Saman käyttäjän kanssa ei ole sallittua luoda federoitua jakoa",
     "File is already shared with %s" : "Tiedosto on jo jaettu kohteen %s kanssa",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Palvelin ei ehkä ole juuri nyt tavoitettavissa tai käyttää itse allekirjoitettua sertifikaattia.",
     "Could not find share" : "Ei löytynyt jakoa",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vastaanotit \"%3$s\":n etäjakona käyttäjältä %1$s (%2$s:n puolesta)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Vastaanotit jaon {share} etäjakona käyttäjältä {user} ({behalf}:n puolesta)",
@@ -58,6 +56,8 @@ OC.L10N.register(
     "Storage not valid" : "Tallennustila ei ole kelvollinen",
     "Federated share added" : "Federoitu jako lisätty",
     "Couldn't add remote share" : "Etäjaon liittäminen epäonnistui",
+    "Sharing %s failed, because this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjälle %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Palvelin ei ehkä ole juuri nyt tavoitettavissa tai käyttää itse allekirjoitettua sertifikaattia.",
     "Search global and public address book for users and let local users publish their data" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta sekä salli paikallisten käyttäjien julkaista omia tietojaan"
 },
 "nplurals=2; plural=(n != 1);");

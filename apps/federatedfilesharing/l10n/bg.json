@@ -14,7 +14,6 @@
     "Server to server sharing is not enabled on this server" : "Споделяне между сървъри не е разрешено на този сървър.",
     "Couldn't establish a federated share." : "Неуспешно осъществяване на федерално споделяне",
     "Couldn't establish a federated share, maybe the password was wrong." : "Неуспешно осъществяване на федерално споделяне, можеби паролата е грепна.",
-    "Sharing %s failed, because this item is already shared with %s" : "Неуспешно споделяне на %s, защото съдържанието е вече споделено с %s.",
     "Not allowed to create a federated share with the same user" : "Не е позволено създаване на федерално споделяне със същият потребител",
     "File is already shared with %s" : "Файлът е вече споделен с %s",
     "Accept" : "Приемам",
@@ -28,6 +27,7 @@
     "Invalid or untrusted SSL certificate" : "Невалиден или недоверен SSL сертификат",
     "Could not authenticate to remote share, password might be wrong" : "Неуспешно удостоверяване на отдалеченото споделяне, възможно е паролата да е грешна",
     "Storage not valid" : "Невалидно хранилище",
-    "Couldn't add remote share" : "Неуспешно добавяне на отдалечена споделена директория."
+    "Couldn't add remote share" : "Неуспешно добавяне на отдалечена споделена директория.",
+    "Sharing %s failed, because this item is already shared with %s" : "Неуспешно споделяне на %s, защото съдържанието е вече споделено с %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

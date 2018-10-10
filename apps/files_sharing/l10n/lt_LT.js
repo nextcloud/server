@@ -78,7 +78,6 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Įkėlimas viešam naudojimui yra išjungtas",
     "Public upload is only possible for publicly shared folders" : "Duomenų įkėlimas viešam naudojimui galimas tik į viešai dalinamus aplankus",
     "Invalid date, date format must be YYYY-MM-DD" : "Netinkamas datos formavimas. Privaloma: YYYY-MM-DD",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "%s dalinimasis nepavyko, nes sistema nepalaiko šio duomenų tipo: %s",
     "You cannot share to a Circle if the app is not enabled" : "Negalite dalintis su naudotojų ratu, kai įskiepis \"Circle\" neveikia",
     "Please specify a valid circle" : "Pasirinkite naudotojų ratą",
     "Unknown share type" : "Nežinomas bendrinamų duomenų tipas",
@@ -107,6 +106,7 @@ OC.L10N.register(
     "Uploading files…" : "Įkeliami failai…",
     "Uploaded files:" : "Įkelta:",
     "{actor} removed you from {file}" : "{actor} nebesidalina su jumis {file}",
+    "Sharing %s failed because the back end does not allow shares from type %s" : "%s dalinimasis nepavyko, nes sistema nepalaiko šio duomenų tipo: %s",
     "This share is password-protected" : "Turinys apsaugotas slaptažodžiu",
     "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
     "Password" : "Slaptažodis"

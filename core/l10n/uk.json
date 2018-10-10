@@ -42,7 +42,6 @@
     "Update app \"%s\" from appstore" : "Оновлення додатку \"1%s\" з магазину додатків",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Перевіряю, чи схема бази даних для %s може бути оновлена (це може зайняти багато часу, залежно від розмірів бази даних)",
     "Checked database schema update for apps" : "Перевірено оновлення схеми бази даних для додатків",
-    "Updated \"%s\" to %s" : "Оновлено \"%s\" до %s",
     "Set log level to debug" : "Встановити рівень детальності журналу як налагодження",
     "Reset log level" : "Скинути налаштування детальності журналу",
     "Starting code integrity check" : "Початок перевірки цілісності коду",
@@ -244,7 +243,6 @@
     "Use backup code" : "Використати резервний код",
     "Access through untrusted domain" : "Доступ з не довіреного домену",
     "App update required" : "Додаток потребує оновлення",
-    "%s will be updated to version %s" : "%s буде оновлено до версії %s",
     "These apps will be updated:" : "Ці додатки будуть оновлені:",
     "These incompatible apps will be disabled:" : "Ці несумісні додатки будуть вимкнені:",
     "The theme %s has been disabled." : "Тему %s було вимкнено.",
@@ -258,6 +256,7 @@
     "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Зверніться до вашого системного адміністратора якщо це повідомлення не зникає або з'являється несподівано.",
     "Thank you for your patience." : "Дякуємо за ваше терпіння.",
+    "Updated \"%s\" to %s" : "Оновлено \"%s\" до %s",
     "Error setting expiration date" : "Помилка при встановленні терміну дії",
     "The public link will expire no later than {days} days after it is created" : "Доступ до опублікованого посилання буде припинено не пізніше ніж через {days} днів з моменту створення",
     "The specified document has not been found on the server." : "Не вдалось знайти вказаний документ на сервері.",
@@ -266,6 +265,7 @@
     "Stay logged in" : "Залишатись в системі",
     "Alternative Logins" : "Альтернативні імена користувача",
     "Add \"%s\" as trusted domain" : "Додати \"%s\" як довірений домен",
+    "%s will be updated to version %s" : "%s буде оновлено до версії %s",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для допомоги, дивіться  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
     "Back to log in" : "Повернутися до сторінки авторизації"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"

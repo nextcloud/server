@@ -42,7 +42,6 @@
     "Checked for update of app \"%s\" in appstore" : "Kontrolliti uuendusi rakenduse \"%s\" jaoks rakenduste poes",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Kontrollitakse, kas %s andmebaasi skeemi saab uuendada (see võib võtta kaua aega sõltuvalt andmebaasi suuruses)",
     "Checked database schema update for apps" : "Andmebaasi skeemi uuendus rakendustele on kontrollitud",
-    "Updated \"%s\" to %s" : "Uuendatud \"%s\" -> %s",
     "Reset log level" : "Lähtesta logi tase",
     "Starting code integrity check" : "Koodi terviklikkuse kontrolli alustamine",
     "Finished code integrity check" : "Koodi terviklikkuse kontrolli lõpp",
@@ -247,7 +246,6 @@
     "Forgot password?" : "Unustasid parooli?",
     "Grant access" : "Anna ligipääs",
     "Account access" : "Konto ligipääs",
-    "You are about to grant %s access to your %s account." : "Sa oled andmas %s ligipääsu oma %s kontole.",
     "Redirecting …" : "Ümbersuunamine ...",
     "New password" : "Uus parool",
     "New Password" : "Uus parool",
@@ -258,7 +256,6 @@
     "Access through untrusted domain" : "Ligipääs läbi ebausaldusväärse domeeni",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Palun võtke ühendust oma administraatoriga. Kui olete administraator, muutke konfiguratsioonis config/config.php sätet \"trusted_domains\", nagu näidis config.sample.php failis.",
     "App update required" : "Rakenduse uuendus on nõutud",
-    "%s will be updated to version %s" : "%s uuendatakse versioonile %s",
     "These apps will be updated:" : "Neid rakendusi uuendatakse:",
     "These incompatible apps will be disabled:" : "Need mitteühilduvad rakendused lülitatakse välja:",
     "The theme %s has been disabled." : "Teema %s on keelatud.",
@@ -274,6 +271,7 @@
     "This page will refresh itself when the %s instance is available again." : "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
     "Thank you for your patience." : "Täname kannatlikkuse eest.",
+    "Updated \"%s\" to %s" : "Uuendatud \"%s\" -> %s",
     "Error setting expiration date" : "Viga aegumise kuupäeva määramisel",
     "The public link will expire no later than {days} days after it is created" : "Avalik link aegub mitte hiljem kui pärast {days} päeva selle loomist",
     "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} lingiga jagatud",
@@ -286,6 +284,8 @@
     "Alternative Logins" : "Alternatiivsed sisselogimisviisid",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Täiustatud turvalisus on teie konto jaoks lubatud. Palun autentida teise teguri abil.",
     "Add \"%s\" as trusted domain" : "Lisa \"%s\" usaldusväärse domeenina",
-    "Back to log in" : "Tagasi sisselogimise lehele"
+    "%s will be updated to version %s" : "%s uuendatakse versioonile %s",
+    "Back to log in" : "Tagasi sisselogimise lehele",
+    "You are about to grant %s access to your %s account." : "Sa oled andmas %s ligipääsu oma %s kontole."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

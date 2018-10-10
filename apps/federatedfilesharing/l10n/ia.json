@@ -14,10 +14,8 @@
     "Server to server sharing is not enabled on this server" : "Le Compartir de Servitor a Servitor non es activate in iste servitor",
     "Couldn't establish a federated share." : "Impossibile establir le Compartir Federate.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Impossibile establir le Compartir Federate, possibilemente le contrasigno esseva incorrecte.",
-    "Sharing %s failed, because this item is already shared with %s" : "Compartir %s falleva, proque iste elemento ja es compartite con %s",
     "Not allowed to create a federated share with the same user" : "Il non es permittite crear le Compartir Federate con le mesme usator.",
     "File is already shared with %s" : "File ja es compartite con %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Compartir %s falleva, il es impossibile trovar %s: possibilemente le servitor es actualmente non accessibile o usa un certificato auto-signate.",
     "Could not find share" : "Impossibile trovar le compartite",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Tu recipeva \"%3$s\" como un compartimento remote de %1$s (in nomine de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Tu recipeva {share} como un compartimento remote de {user} (in nomine de {behalf})",
@@ -42,6 +40,8 @@
     "Invalid or untrusted SSL certificate" : "Certificato SSL non valide o non fiduciari",
     "Could not authenticate to remote share, password might be wrong" : "Impossibile authenticar al Compartir Remote, le contrasigno debe esser incorrecte",
     "Storage not valid" : "Immagazinage non valide",
-    "Couldn't add remote share" : "Impossibile adder le Compartir Remote"
+    "Couldn't add remote share" : "Impossibile adder le Compartir Remote",
+    "Sharing %s failed, because this item is already shared with %s" : "Compartir %s falleva, proque iste elemento ja es compartite con %s",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Compartir %s falleva, il es impossibile trovar %s: possibilemente le servitor es actualmente non accessibile o usa un certificato auto-signate."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

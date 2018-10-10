@@ -126,7 +126,6 @@ OC.L10N.register(
     "Save" : "Tallenna",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM:tä käyttäen muutoksien voimaantulossa saattaa kestää 5 minuuttia.",
     "Missing permissions to edit from here." : "Käyttöoikeudet eivät riitä tätä kautta muokkaamiseen.",
-    "%s of %s used" : "%s / %s käytetty",
     "%s used" : "%s käytetty",
     "Settings" : "Asetukset",
     "Show hidden files" : "Näytä piilotetut tiedostot",
@@ -154,6 +153,7 @@ OC.L10N.register(
     "Target folder" : "Kohdekansio",
     "A new file or folder has been <strong>deleted</strong>" : "Uusi tiedosto tai kansio on <strong>poistettu</strong>",
     "A new file or folder has been <strong>restored</strong>" : "Uusi tiedosto tai kansio on <strong>palautettu</strong>",
+    "%s of %s used" : "%s / %s käytetty",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Käytä tätä osoitetetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">käyttääksesi tiedostojasi WebDAV:in välityksellä</a>"
 },
 "nplurals=2; plural=(n != 1);");

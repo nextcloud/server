@@ -11,6 +11,7 @@ OC.L10N.register(
     "matches" : "corrisponde",
     "does not match" : "non corrisponde",
     "Example: {placeholder}" : "Esempio: {placeholder}",
+    "File name" : "Nome file",
     "File size (upload)" : "Dimensione file (caricamento)",
     "less" : "minore",
     "less or equals" : "minore o uguale",
