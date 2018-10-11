@@ -43,3 +43,11 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "" ]; then
 	# Default first trusted domain is "localhost"; replace it with given domain.
 	php occ config:system:set trusted_domains 0 --value="$NEXTCLOUD_SERVER_DOMAIN"
 fi
+
+if [ "$ENABLE_REDIS" == "true" ]; then
+	php occ config:system:set redis host --value=cache
+	php occ config:system:set redis port --value=6379 --type=integer
+	php occ config:system:set redis timeout --value=0 --type=integer
+	php occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
+	php occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
+fi
