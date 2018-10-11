@@ -8,86 +8,72 @@
  *
  */
 
-(function() {
+(function () {
 	/**
 	 * @memberof OCA.Versions
 	 */
 	var VersionCollection = OC.Backbone.Collection.extend({
 		model: OCA.Versions.VersionModel,
+		sync: OC.Backbone.davSync,
 
 		/**
 		 * @var OCA.Files.FileInfoModel
 		 */
 		_fileInfo: null,
 
-		_endReached: false,
-		_currentIndex: 0,
+		_currentUser: null,
 
-		url: function() {
-			var url = OC.generateUrl('/apps/files_versions/ajax/getVersions.php');
-			var query = {
-				source: this._fileInfo.getFullPath(),
-				start: this._currentIndex
-			};
-			return url + '?' + OC.buildQueryString(query);
-		},
+		_client: null,
 
-		setFileInfo: function(fileInfo) {
+		setFileInfo: function (fileInfo) {
 			this._fileInfo = fileInfo;
-			// reset
-			this._endReached = false;
-			this._currentIndex = 0;
 		},
 
-		getFileInfo: function() {
+		getFileInfo: function () {
 			return this._fileInfo;
 		},
 
-		hasMoreResults: function() {
-			return !this._endReached;
+		setCurrentUser: function(user) {
+			this._currentUser = user;
 		},
 
-		fetch: function(options) {
-			if (!options || options.remove) {
-				this._currentIndex = 0;
-			}
-			return OC.Backbone.Collection.prototype.fetch.apply(this, arguments);
+		getCurrentUser: function() {
+			return this._currentUser || OC.getCurrentUser().uid;
 		},
 
-		/**
-		 * Fetch the next set of results
-		 */
-		fetchNext: function() {
-			if (!this.hasMoreResults()) {
-				return null;
-			}
-			if (this._currentIndex === 0) {
-				return this.fetch();
-			}
-			return this.fetch({remove: false});
+		setClient: function(client) {
+			this._client = client;
 		},
 
-		reset: function() {
-			this._currentIndex = 0;
-			OC.Backbone.Collection.prototype.reset.apply(this, arguments);
+		getClient: function() {
+			return this._client || new OC.Files.Client({
+				host: OC.getHost(),
+				root: OC.linkToRemoteBase('dav') + '/versions/' + this.getCurrentUser(),
+				useHTTPS: OC.getProtocol() === 'https'
+			});
+		},
+
+		url: function () {
+			return OC.linkToRemoteBase('dav') + '/versions/' + this.getCurrentUser() + '/versions/' + this._fileInfo.get('id');
 		},
 
 		parse: function(result) {
 			var fullPath = this._fileInfo.getFullPath();
-			var results = _.map(result.data.versions, function(version) {
-				var revision = parseInt(version.version, 10);
-				return {
-					id: revision,
-					name: version.name,
-					fullPath: fullPath,
-					timestamp: revision,
-					size: version.size,
-					mimetype: version.mimetype
-				};
+			var fileId = this._fileInfo.get('id');
+			var name = this._fileInfo.get('name');
+			var user = this.getCurrentUser();
+			var client = this.getClient();
+			return _.map(result, function(version) {
+				version.fullPath = fullPath;
+				version.fileId = fileId;
+				version.name = name;
+				version.timestamp = parseInt(moment(new Date(version.timestamp)).format('X'), 10);
+				version.id = parseInt(OC.basename(version.href), 10);
+				version.size = parseInt(version.size, 10);
+				version.user = user;
+				version.client = client;
+				return version;
 			});
-			this._endReached = result.data.endReached;
-			this._currentIndex += results.length;
-			return results;
 		}
 	});
 
