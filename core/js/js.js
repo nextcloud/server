@@ -1402,10 +1402,12 @@ function initCore() {
 	 */
 	function initSessionHeartBeat() {
 		// interval in seconds
-		var interval = 900;
+		var interval = NaN;
 		if (oc_config.session_lifetime) {
 			interval = Math.floor(oc_config.session_lifetime / 2);
 		}
+		interval = isNaN(interval)? 900: interval;
+
 		// minimum one minute
 		interval = Math.max(60, interval);
 		// max interval in seconds set to 24 hours
