@@ -438,16 +438,15 @@ class Setup {
 		$config = \OC::$server->getSystemConfig();
 
 		// For CLI read the value from overwrite.cli.url
-		if(\OC::$CLI) {
+		if (\OC::$CLI) {
 			$webRoot = $config->getValue('overwrite.cli.url', '');
-			if($webRoot === '') {
+			if ($webRoot === '') {
 				return false;
 			}
-			$webRoot = parse_url($webRoot, PHP_URL_PATH);
-			if ($webRoot === null) {
+			if (!filter_var($webRoot, FILTER_VALIDATE_URL)) {
 				return false;
 			}
-			$webRoot = rtrim($webRoot, '/');
+			$webRoot = rtrim(parse_url($webRoot, PHP_URL_PATH), '/');
 		} else {
 			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
 		}
