@@ -302,6 +302,10 @@ class User implements IUser {
 		return get_class($this->backend);
 	}
 
+	public function getBackend() {
+		return $this->backend;
+	}
+
 	/**
 	 * check if the backend allows the user to change his avatar on Personal page
 	 *
