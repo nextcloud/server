@@ -830,7 +830,7 @@ describe('OC.SetupChecks tests', function() {
 					msg: 'The "X-Permitted-Cross-Domain-Policies" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
+					msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin", "strict-origin-when-cross-origin" or "same-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}
 				]);
@@ -975,7 +975,7 @@ describe('OC.SetupChecks tests', function() {
 				});
 			});
 
-			it('should return a message if Referrer-Policy is set to same-origin', function(done) {
+			it('should return no message if Referrer-Policy is set to same-origin', function(done) {
 				protocolStub.returns('https');
 				var result = OC.SetupChecks.checkGeneric();
 
@@ -991,12 +991,7 @@ describe('OC.SetupChecks tests', function() {
 				});
 
 				result.done(function( data, s, x ){
-					expect(data).toEqual([
-						{
-							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						}
-					]);
+					expect(data).toEqual([]);
 					done();
 				});
 			});
@@ -1019,7 +1014,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
+							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin", "strict-origin-when-cross-origin" or "same-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						}
 					]);
@@ -1045,7 +1040,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
+							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin", "strict-origin-when-cross-origin" or "same-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						}
 					]);
@@ -1071,7 +1066,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin" or "strict-origin-when-cross-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
+							msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin", "strict-origin-when-cross-origin" or "same-origin". This can leak referer information. See the <a href="https://www.w3.org/TR/referrer-policy/" rel="noreferrer noopener">W3C Recommendation ↗</a>.',
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						}
 					]);
