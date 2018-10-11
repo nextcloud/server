@@ -31,19 +31,22 @@ function runDangerForSuite(suite) {
 		const change = getImagePath(suite, test, '.change');
 		warn(`[${test.fullTitle}](${url}) has visual differences
 		
-	<details>
-	  <summary>Test details</summary>
+<details>
+  <summary>Test details</summary>
 
-	<table><tr>
-	<td><img src="${base}" /></td>
-	<td><img src="${diff}" /></td>
-	<td><img src="${change}" /></td>
-	</tr></table>
+<table><tr>
+<td><img src="${base}" /></td>
+<td><img src="${diff}" /></td>
+<td><img src="${change}" /></td>
+</tr></table>
 
-	\`\`\`
-	${jsonData}
-	\`\`\`
-	</details>`);
+\`\`\`
+${jsonData}
+\`\`\`
+
+</details>
+
+`);
 
 	})
 }
