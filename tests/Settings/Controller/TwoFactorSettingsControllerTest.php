@@ -22,6 +22,7 @@
 
 namespace Tests\Settings\Controller;
 
+use OC\Authentication\TwoFactorAuth\EnforcementState;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Settings\Controller\TwoFactorSettingsController;
 use OCP\AppFramework\Http\JSONResponse;
@@ -54,12 +55,11 @@ class TwoFactorSettingsControllerTest extends TestCase {
 	}
 
 	public function testIndex() {
+		$state = new EnforcementState(true);
 		$this->mandatoryTwoFactor->expects($this->once())
-			->method('isEnforced')
-			->willReturn(true);
-		$expected = new JSONResponse([
-			'enabled' => true,
-		]);
+			->method('getState')
+			->willReturn($state);
+		$expected = new JSONResponse($state);
 
 		$resp = $this->controller->index();
 
@@ -67,12 +67,14 @@ class TwoFactorSettingsControllerTest extends TestCase {
 	}
 
 	public function testUpdate() {
+		$state = new EnforcementState(true);
 		$this->mandatoryTwoFactor->expects($this->once())
-			->method('setEnforced')
-			->with(true);
-		$expected = new JSONResponse([
-			'enabled' => true,
-		]);
+			->method('setState')
+			->with($this->equalTo(new EnforcementState(true)));
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('getState')
+			->willReturn($state);
+		$expected = new JSONResponse($state);
 
 		$resp = $this->controller->update(true);
 

@@ -26,12 +26,11 @@ declare(strict_types=1);
 
 namespace OC\Settings\Controller;
 
+use OC\Authentication\TwoFactorAuth\EnforcementState;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
-use OCP\JSON;
 
 class TwoFactorSettingsController extends Controller {
 
@@ -46,18 +45,16 @@ class TwoFactorSettingsController extends Controller {
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 	}
 
-	public function index(): Response {
-		return new JSONResponse([
-			'enabled' => $this->mandatoryTwoFactor->isEnforced(),
-		]);
+	public function index(): JSONResponse {
+		return new JSONResponse($this->mandatoryTwoFactor->getState());
 	}
 
-	public function update(bool $enabled): Response {
-		$this->mandatoryTwoFactor->setEnforced($enabled);
+	public function update(bool $enforced, array $enforcedGroups = [], array $excludedGroups = []): JSONResponse {
+		$this->mandatoryTwoFactor->setState(
+			new EnforcementState($enforced, $enforcedGroups, $excludedGroups)
+		);
 
-		return new JSONResponse([
-			'enabled' => $enabled
-		]);
+		return new JSONResponse($this->mandatoryTwoFactor->getState());
 	}
 
 }
