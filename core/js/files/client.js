@@ -281,8 +281,6 @@
 				path = path.substr(0, path.length - 1);
 			}
 
-			path = decodeURIComponent(path);
-
 			if (response.propStat.length === 0 || response.propStat[0].status !== 'HTTP/1.1 200 OK') {
 				return null;
 			}
