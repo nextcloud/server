@@ -16,6 +16,3 @@ if (failingTests.length > 0) {
 failingTests.forEach(test => {
 	warn(test.fullTitle)
 })
-
-
-
