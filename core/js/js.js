@@ -1347,10 +1347,12 @@ function initCore() {
 		// max interval in seconds set to 24 hours
 		var maxInterval = 24 * 3600;
 		// interval in seconds
-		var interval = 900;
+		var interval = NaN;
 		if (oc_config.session_lifetime) {
 			interval = Math.floor(oc_config.session_lifetime / 2);
 		}
+		interval = isNaN(interval)? 900: interval;
+
 		// minimum one minute
 		if (interval < 60) {
 			interval = 60;
