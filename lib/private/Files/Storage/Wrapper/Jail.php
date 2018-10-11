@@ -27,6 +27,7 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
+use OC\Files\Filesystem;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 
@@ -56,7 +57,7 @@ class Jail extends Wrapper {
 		if ($path === '') {
 			return $this->rootPath;
 		} else {
-			return $this->rootPath . '/' . $path;
+			return Filesystem::normalizePath($this->rootPath . '/' . $path);
 		}
 	}
 
