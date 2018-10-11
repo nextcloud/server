@@ -16,6 +16,7 @@
     Header set X-Robots-Tag "none"
     Header set X-Download-Options "noopen"
     Header set X-Permitted-Cross-Domain-Policies "none"
+    Header set Referrer-Policy "no-referrer"
     SetEnv modHeadersAvailable true
   </IfModule>
 
