@@ -851,7 +851,7 @@ services:
       - . /etc/apache2/envvars
       - rm -fr /var/www/html/config/config.php /var/www/html/data/*
       - export COMMIT_PRIOR_MERGE=`git log master --oneline --date-order --merges -2 | tail -n 1 | cut -d " " -f 1`
-      - su www-data -c "cd /var/www/html/ && git checkout $DRONE_REPO_BRANCH && git pull && git submodule update"
+      - su www-data -c "cd /var/www/html/ && git checkout stable13 && git pull && git submodule update"
       - apache2 -DFOREGROUND 
     when:
       matrix:
