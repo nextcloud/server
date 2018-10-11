@@ -62,13 +62,13 @@ describe('OC.SetupChecks tests', function() {
 
 	describe('checkWellKnownUrl', function() {
 		it('should fail with another response status code than 207', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', 'http://example.org/PLACEHOLDER', true);
+			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', 'http://example.org/PLACEHOLDER', true);
 
 			suite.server.requests[0].respond(200);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your web server is not properly set up to resolve "/.well-known/caldav/". Further information can be found in the <a href="http://example.org/admin-setup-well-known-URL" rel="noreferrer noopener">documentation</a>.',
+					msg: 'Your web server is not properly set up to resolve "/.well-known/caldav". Further information can be found in the <a href="http://example.org/admin-setup-well-known-URL" rel="noreferrer noopener">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
@@ -76,7 +76,7 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 		it('should return no error with a response status code of 207', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', 'http://example.org/PLACEHOLDER', true);
+			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', 'http://example.org/PLACEHOLDER', true);
 
 			suite.server.requests[0].respond(207);
 
@@ -87,7 +87,7 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 		it('should return no error when no check should be run', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', 'http://example.org/PLACEHOLDER', false);
+			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', 'http://example.org/PLACEHOLDER', false);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([]);
