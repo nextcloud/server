@@ -966,6 +966,20 @@ table.dragshadow td.size {
 	}
 }
 
+/* Adjustments for public share page */
+#body-public {
+	/* Position actions menu correctly below 3-dot-menu */
+	#filestable.view-grid:not(.hidden) tbody td .popovermenu {
+		left: -80px;
+	}
+
+	/* Right-align view toggle on public share page */
+	#view-toggle {
+		position: absolute;
+		right: 0;
+	}
+}
+
 /* Hide legacy Gallery toggle */
 #gallery-button {
 	display: none;
