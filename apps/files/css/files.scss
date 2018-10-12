@@ -594,7 +594,13 @@ a.action > img {
 .summary {
 	opacity: .3;
 	/* add whitespace to bottom of files list to correctly show dropdowns */
-	height: 300px;
+	height: 250px;
+}
+/* Less whitespace needed on link share page
+ * as there is a footer and action menus have fewer entries.
+ */
+#body-public .summary {
+	height: 180px;
 }
 .summary:hover,
 .summary:focus,
@@ -973,7 +979,7 @@ table.dragshadow td.size {
 	}
 }
 
-/* Adjustments for public share page */
+/* Adjustments for link share page */
 #body-public {
 	#filestable.view-grid:not(.hidden) tbody td {
 		/* More space for filename since there is no share icon */
@@ -987,7 +993,7 @@ table.dragshadow td.size {
 		}
 	}
 
-	/* Right-align view toggle on public share page */
+	/* Right-align view toggle on link share page */
 	#view-toggle {
 		position: absolute;
 		right: 0;
