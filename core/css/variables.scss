@@ -33,6 +33,7 @@
 // DEPRECATED, please use CSS4 vars
 $color-main-text: #000 !default;
 $color-main-background: #fff !default;
+$color-main-background-translucent: hsla(0, 100%, 100%, .97) !default;
 
 // used for different active/disabled states
 $color-background-dark: nc-darken($color-main-background, 7%) !default;
