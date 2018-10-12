@@ -143,6 +143,70 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($moreResults);
 	}
 
+
+	/**
+	 * @dataProvider dataSearchEnableDisableLookupServer
+	 * @param array $searchParams
+	 * @param bool $GSEnabled
+	 * @param bool $LookupEnabled
+	 */
+	public function testSearchEnableDisableLookupServer(array $searchParams, $GSEnabled, $LookupEnabled) {
+		$type = new SearchResultType('lookup');
+
+		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		$searchResult = $this->createMock(ISearchResult::class);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->willReturn($LookupEnabled ? 'yes' : 'no');
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('gs.enabled', false)
+			->willReturn($GSEnabled);
+		if ($GSEnabled || $LookupEnabled) {
+			$searchResult->expects($this->once())
+				->method('addResultSet')
+				->with($type, $searchParams['expectedResult'], []);
+
+			$this->config->expects($this->at(2))
+				->method('getSystemValue')
+				->with('lookup_server', 'https://lookup.nextcloud.com')
+				->willReturn($searchParams['server']);
+
+			$response = $this->createMock(IResponse::class);
+			$response->expects($this->once())
+				->method('getBody')
+				->willReturn(json_encode($searchParams['resultBody']));
+
+			$client = $this->createMock(IClient::class);
+			$client->expects($this->once())
+				->method('get')
+				->willReturnCallback(function ($url) use ($searchParams, $response) {
+					$this->assertSame(strpos($url, $searchParams['server'] . '/users?search='), 0);
+					$this->assertNotFalse(strpos($url, urlencode($searchParams['search'])));
+					return $response;
+				});
+
+			$this->clientService->expects($this->once())
+				->method('newClient')
+				->willReturn($client);
+		} else {
+			$searchResult->expects($this->never())->method('addResultSet');
+		}
+		$moreResults = $this->plugin->search(
+			$searchParams['search'],
+			$searchParams['limit'],
+			$searchParams['offset'],
+			$searchResult
+		);
+
+
+
+		$this->assertFalse($moreResults);
+	}
+
+
 	public function testSearchLookupServerDisabled() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -157,6 +221,173 @@ class LookupPluginTest extends TestCase {
 			->method('markExactIdMatch');
 
 		$this->assertFalse($this->plugin->search('irr', 10, 0, $searchResult));
+	}
+
+	public function dataSearchEnableDisableLookupServer() {
+		$fedIDs = [
+			'foo@enceladus.moon',
+			'foobar@enceladus.moon',
+			'foongus@enceladus.moon',
+		];
+
+		return [
+			[[
+				'search' => 'foo',
+				'limit' => 10,
+				'offset' => 0,
+				'server' => 'https://lookup.example.io',
+				'resultBody' => [
+					[ 'federationId' => $fedIDs[0] ],
+					[ 'federationId' => $fedIDs[1] ],
+					[ 'federationId' => $fedIDs[2] ],
+				],
+				'expectedResult' => [
+					[
+						'label' => $fedIDs[0],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[0]
+						],
+						'extra' => ['federationId' => $fedIDs[0]],
+					],
+					[
+						'label' => $fedIDs[1],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[1]
+						],
+						'extra' => ['federationId' => $fedIDs[1]],
+					],
+					[
+						'label' => $fedIDs[2],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[2]
+						],
+						'extra' => ['federationId' => $fedIDs[2]],
+					],
+				]
+			],// GS , Lookup
+				true, true
+			],
+			[[
+				'search' => 'foo',
+				'limit' => 10,
+				'offset' => 0,
+				'server' => 'https://lookup.example.io',
+				'resultBody' => [
+					[ 'federationId' => $fedIDs[0] ],
+					[ 'federationId' => $fedIDs[1] ],
+					[ 'federationId' => $fedIDs[2] ],
+				],
+				'expectedResult' => [
+					[
+						'label' => $fedIDs[0],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[0]
+						],
+						'extra' => ['federationId' => $fedIDs[0]],
+					],
+					[
+						'label' => $fedIDs[1],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[1]
+						],
+						'extra' => ['federationId' => $fedIDs[1]],
+					],
+					[
+						'label' => $fedIDs[2],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[2]
+						],
+						'extra' => ['federationId' => $fedIDs[2]],
+					],
+				]
+			],// GS , Lookup
+				true, false
+			],
+			[[
+				'search' => 'foo',
+				'limit' => 10,
+				'offset' => 0,
+				'server' => 'https://lookup.example.io',
+				'resultBody' => [
+					[ 'federationId' => $fedIDs[0] ],
+					[ 'federationId' => $fedIDs[1] ],
+					[ 'federationId' => $fedIDs[2] ],
+				],
+				'expectedResult' => [
+					[
+						'label' => $fedIDs[0],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[0]
+						],
+						'extra' => ['federationId' => $fedIDs[0]],
+					],
+					[
+						'label' => $fedIDs[1],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[1]
+						],
+						'extra' => ['federationId' => $fedIDs[1]],
+					],
+					[
+						'label' => $fedIDs[2],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[2]
+						],
+						'extra' => ['federationId' => $fedIDs[2]],
+					],
+				]
+			],// GS , Lookup
+				false, true
+			],
+			[[
+				'search' => 'foo',
+				'limit' => 10,
+				'offset' => 0,
+				'server' => 'https://lookup.example.io',
+				'resultBody' => [
+					[ 'federationId' => $fedIDs[0] ],
+					[ 'federationId' => $fedIDs[1] ],
+					[ 'federationId' => $fedIDs[2] ],
+				],
+				'expectedResult' => [
+					[
+						'label' => $fedIDs[0],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[0]
+						],
+						'extra' => ['federationId' => $fedIDs[0]],
+					],
+					[
+						'label' => $fedIDs[1],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[1]
+						],
+						'extra' => ['federationId' => $fedIDs[1]],
+					],
+					[
+						'label' => $fedIDs[2],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[2]
+						],
+						'extra' => ['federationId' => $fedIDs[2]],
+					],
+				]
+			],// GS , Lookup
+				false, false
+			],
+		];
 	}
 
 	public function searchDataProvider() {
