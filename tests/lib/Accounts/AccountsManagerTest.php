@@ -23,6 +23,7 @@
 namespace Test\Accounts;
 
 
+use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IUser;
@@ -252,6 +253,42 @@ class AccountsManagerTest extends TestCase {
 		if (!empty($result)) {
 			return json_decode($result[0]['data'], true);
 		}
+	}
+
+	public function testGetAccount() {
+		$accountManager = $this->getInstance(['getUser']);
+		/** @var IUser $user */
+		$user = $this->createMock(IUser::class);
+
+		$data = [
+			AccountManager::PROPERTY_TWITTER =>
+				[
+					'value' => '@twitterhandle',
+					'scope' => AccountManager::VISIBILITY_PRIVATE,
+					'verified' => AccountManager::NOT_VERIFIED,
+				],
+			AccountManager::PROPERTY_EMAIL =>
+				[
+					'value' => 'test@example.com',
+					'scope' => AccountManager::VISIBILITY_PUBLIC,
+					'verified' => AccountManager::VERIFICATION_IN_PROGRESS,
+				],
+			AccountManager::PROPERTY_WEBSITE =>
+				[
+					'value' => 'https://example.com',
+					'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+					'verified' => AccountManager::VERIFIED,
+				],
+		];
+		$expected = new Account($user);
+		$expected->setProperty(AccountManager::PROPERTY_TWITTER, '@twitterhandle', AccountManager::VISIBILITY_PRIVATE, AccountManager::NOT_VERIFIED);
+		$expected->setProperty(AccountManager::PROPERTY_EMAIL, 'test@example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::VERIFICATION_IN_PROGRESS);
+		$expected->setProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_CONTACTS_ONLY, AccountManager::VERIFIED);
+
+		$accountManager->expects($this->once())
+			->method('getUser')
+			->willReturn($data);
+		$this->assertEquals($expected, $accountManager->getAccount($user));
 	}
 
 }
