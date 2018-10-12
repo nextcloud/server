@@ -789,7 +789,6 @@ table.dragshadow td.size {
 					padding: $grid-pad; // same as action icon bottom and right padding
 					top: 0;
 					left: 0;
-					z-index: -1; // make sure the default click is the link
 
 					.thumbnail {
 						width: calc(100% - 2 * #{$grid-pad});
