@@ -978,7 +978,7 @@ class ShareByMailProvider implements IShareProvider {
 		$share->setShareTime($shareTime);
 		$share->setSharedWith($data['share_with']);
 		$share->setPassword($data['password']);
-		$share->setSendPasswordByTalk($data['password_by_talk']);
+		$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 
 		if ($data['uid_initiator'] !== null) {
 			$share->setShareOwner($data['uid_owner']);
