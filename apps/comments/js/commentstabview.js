@@ -416,15 +416,22 @@
 					return;
 				}
 				var mention = '@' + mentions[i].mentionId;
+				if (mentions[i].mentionId.indexOf(' ') !== -1) {
+					mention = _.escape('@"' + mentions[i].mentionId + '"');
+				}
 
 				// escape possible regex characters in the name
 				mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				var regex = new RegExp("(^|\\s)(" + mention + ")\\b", 'g');
+				if (mentions[i].mentionId.indexOf(' ') !== -1) {
+					regex = new RegExp("(^|\\s)(" + mention + ")", 'g');
+				}
 
 				var displayName = this._composeHTMLMention(mentions[i].mentionId, mentions[i].mentionDisplayName);
 
 				// replace every mention either at the start of the input or after a whitespace
 				// followed by a non-word character.
-				message = message.replace(new RegExp("(^|\\s)(" + mention + ")\\b", 'g'),
+				message = message.replace(regex,
 					function(match, p1) {
 						// to  get number of whitespaces (0 vs 1) right
 						return p1+displayName;
@@ -602,9 +609,14 @@
 			var $comment = $el.clone();
 
 			$comment.find('.avatar-name-wrapper').each(function () {
-				var $this = $(this);
-				var $inserted = $this.parent();
-				$inserted.html('@' + $this.find('.avatar').data('username'));
+				var $this = $(this),
+					$inserted = $this.parent(),
+					userId = $this.find('.avatar').data('username');
+				if (userId.indexOf(' ') !== -1) {
+					$inserted.html('@"' + userId + '"');
+				} else {
+					$inserted.html('@' + userId);
+				}
 			});
 
 			$comment.html(OCP.Comments.richToPlain($comment.html()));
