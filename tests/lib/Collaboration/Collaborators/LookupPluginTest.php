@@ -25,12 +25,18 @@ namespace Test\Collaboration\Collaborators;
 
 
 use OC\Collaboration\Collaborators\LookupPlugin;
+use OC\Federation\CloudId;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
+use OCP\ILogger;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Share;
 use Test\TestCase;
 
@@ -40,16 +46,45 @@ class LookupPluginTest extends TestCase {
 	protected $config;
 	/** @var  IClientService|\PHPUnit_Framework_MockObject_MockObject */
 	protected $clientService;
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+	/** @var ICloudIdManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $cloudIdManager;
 	/** @var  LookupPlugin */
 	protected $plugin;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
 
 	public function setUp() {
 		parent::setUp();
 
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(ILogger::class);
 		$this->clientService = $this->createMock(IClientService::class);
+		$cloudId = $this->createMock(ICloudId::class);
+		$cloudId->expects($this->any())->method('getRemote')->willReturn('myNextcloud.net');
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getCloudId')->willReturn('user@myNextcloud.net');
+		$this->userSession->expects($this->any())->method('getUser')
+			->willReturn($user);
+		$this->cloudIdManager->expects($this->any())->method('resolveCloudId')
+			->willReturnCallback(function($cloudId) {
+				if ($cloudId === 'user@myNextcloud.net') {
+					return new CloudId('user@myNextcloud.net', 'user', 'myNextcloud.net');
+				}
+				return new CloudId('user@someNextcloud.net', 'user', 'someNextcloud.net');
+			});
 
-		$this->plugin = new LookupPlugin($this->config, $this->clientService);
+
+		$this->plugin = new LookupPlugin(
+			$this->config,
+			$this->clientService,
+			$this->userSession,
+			$this->cloudIdManager,
+			$this->logger
+		);
 	}
 
 	/**
@@ -69,7 +104,11 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->once())
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('gs.enabled', false)
+			->willReturn(false);
+		$this->config->expects($this->at(2))
 			->method('getSystemValue')
 			->with('lookup_server', 'https://lookup.nextcloud.com')
 			->willReturn($searchParams['server']);
