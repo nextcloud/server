@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
@@ -45,7 +46,7 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 8.2.0
 	 */
-	public function setApp($app);
+	public function setApp(string $app): self;
 
 	/**
 	 * Set the type of the activity
@@ -55,7 +56,7 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the type is invalid
 	 * @since 8.2.0
 	 */
-	public function setType($type);
+	public function setType(string $type): self;
 
 	/**
 	 * Set the affected user of the activity
@@ -65,7 +66,7 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the affected user is invalid
 	 * @since 8.2.0
 	 */
-	public function setAffectedUser($user);
+	public function setAffectedUser(string $user): self;
 
 	/**
 	 * Set the author of the activity
@@ -75,7 +76,7 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the author is invalid
 	 * @since 8.2.0
 	 */
-	public function setAuthor($author);
+	public function setAuthor(string $author): self;
 
 	/**
 	 * Set the author of the activity
@@ -85,7 +86,7 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the timestamp is invalid
 	 * @since 8.2.0
 	 */
-	public function setTimestamp($timestamp);
+	public function setTimestamp(int $timestamp): self;
 
 	/**
 	 * Set the subject of the activity
@@ -96,7 +97,7 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 8.2.0
 	 */
-	public function setSubject($subject, array $parameters = []);
+	public function setSubject(string $subject, array $parameters = []): self;
 
 	/**
 	 * @param string $subject
@@ -104,13 +105,13 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the subject is invalid
 	 * @since 11.0.0
 	 */
-	public function setParsedSubject($subject);
+	public function setParsedSubject(string $subject): self;
 
 	/**
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getParsedSubject();
+	public function getParsedSubject(): string;
 
 	/**
 	 * @param string $subject
@@ -119,19 +120,19 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 11.0.0
 	 */
-	public function setRichSubject($subject, array $parameters = []);
+	public function setRichSubject(string $subject, array $parameters = []): self;
 
 	/**
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRichSubject();
+	public function getRichSubject(): string;
 
 	/**
 	 * @return array[]
 	 * @since 11.0.0
 	 */
-	public function getRichSubjectParameters();
+	public function getRichSubjectParameters(): array;
 
 	/**
 	 * Set the message of the activity
@@ -142,7 +143,7 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 8.2.0
 	 */
-	public function setMessage($message, array $parameters = []);
+	public function setMessage(string $message, array $parameters = []): self;
 
 	/**
 	 * @param string $message
@@ -150,13 +151,13 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the message is invalid
 	 * @since 11.0.0
 	 */
-	public function setParsedMessage($message);
+	public function setParsedMessage(string $message): self;
 
 	/**
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getParsedMessage();
+	public function getParsedMessage(): string;
 
 	/**
 	 * @param string $message
@@ -165,19 +166,19 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 11.0.0
 	 */
-	public function setRichMessage($message, array $parameters = []);
+	public function setRichMessage(string $message, array $parameters = []): self;
 
 	/**
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRichMessage();
+	public function getRichMessage(): string;
 
 	/**
 	 * @return array[]
 	 * @since 11.0.0
 	 */
-	public function getRichMessageParameters();
+	public function getRichMessageParameters(): array;
 
 	/**
 	 * Set the object of the activity
@@ -189,7 +190,7 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the object is invalid
 	 * @since 8.2.0
 	 */
-	public function setObject($objectType, $objectId, $objectName = '');
+	public function setObject(string $objectType, int $objectId, string $objectName = ''): self;
 
 	/**
 	 * Set the link of the activity
@@ -199,85 +200,85 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
-	public function setLink($link);
+	public function setLink(string $link): self;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getApp();
+	public function getApp(): string;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getType();
+	public function getType(): string;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getAffectedUser();
+	public function getAffectedUser(): string;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getAuthor();
+	public function getAuthor(): string;
 
 	/**
 	 * @return int
 	 * @since 8.2.0
 	 */
-	public function getTimestamp();
+	public function getTimestamp(): int;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getSubject();
+	public function getSubject(): string;
 
 	/**
 	 * @return array
 	 * @since 8.2.0
 	 */
-	public function getSubjectParameters();
+	public function getSubjectParameters(): array;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getMessage();
+	public function getMessage(): string;
 
 	/**
 	 * @return array
 	 * @since 8.2.0
 	 */
-	public function getMessageParameters();
+	public function getMessageParameters(): array;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getObjectType();
+	public function getObjectType(): string;
+
+	/**
+	 * @return int
+	 * @since 8.2.0
+	 */
+	public function getObjectId(): int;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getObjectId();
+	public function getObjectName(): string;
 
 	/**
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getObjectName();
-
-	/**
-	 * @return string
-	 * @since 8.2.0
-	 */
-	public function getLink();
+	public function getLink(): string;
 
 	/**
 	 * @param string $icon
@@ -285,19 +286,20 @@ interface IEvent {
 	 * @throws \InvalidArgumentException if the icon is invalid
 	 * @since 11.0.0
 	 */
-	public function setIcon($icon);
+	public function setIcon(string $icon): self;
 
 	/**
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getIcon();
+	public function getIcon(): string;
 
 	/**
 	 * @param IEvent $child
-	 * @since 11.0.0
+	 * @return $this
+	 * @since 11.0.0 - Since 15.0.0 returns $this
 	 */
-	public function setChildEvent(IEvent $child);
+	public function setChildEvent(IEvent $child): self;
 
 	/**
 	 * @return IEvent|null
@@ -309,11 +311,11 @@ interface IEvent {
 	 * @return bool
 	 * @since 11.0.0
 	 */
-	public function isValid();
+	public function isValid(): bool;
 
 	/**
 	 * @return bool
 	 * @since 11.0.0
 	 */
-	public function isValidParsed();
+	public function isValidParsed(): bool;
 }

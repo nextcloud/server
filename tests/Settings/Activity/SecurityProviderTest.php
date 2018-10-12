@@ -103,6 +103,10 @@ class SecurityProviderTest extends TestCase {
 		$event->expects($this->once())
 			->method('getSubject')
 			->willReturn($subject);
+		$event->method('getSubjectParameters')
+			->willReturn([
+				'provider' => 'myProvider',
+			]);
 		$event->expects($this->once())
 			->method('setParsedSubject');
 
