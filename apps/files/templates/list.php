@@ -26,7 +26,7 @@
 		   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
 	<input type="checkbox" class="hidden" id="showgridview"
 		<?php if($_['showgridview']) { ?>checked="checked" <?php } ?>/>
-	<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>" title="<?php p($l->t('Toggle grid view'))?>"></label>
+	<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>" title="<?php p($l->t('Toggle grid view'))?>" tabindex="0"></label>
 </div>
 
 <div id="emptycontent" class="hidden">
