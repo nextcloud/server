@@ -759,11 +759,13 @@ table.dragshadow td.size {
 			position: relative;
 			height: $grid-size + 44px - $grid-pad;
 			border-radius: var(--border-radius);
+
 			&:hover, &:focus, &:active,
 			&.selected,
 			&.searchresult,
 			.name:focus {
 				background-color: transparent;
+
 				.thumbnail-wrapper,
 				.nametext,
 				.fileactions {
@@ -851,6 +853,7 @@ table.dragshadow td.size {
 						margin-top: $grid-size - $grid-pad;
 						display: flex;
 						align-items: center;
+
 						.action {
 							padding: $grid-pad;
 							width: 44px;
@@ -858,6 +861,19 @@ table.dragshadow td.size {
 							display: flex;
 							align-items: center;
 							justify-content: center;
+
+							&.action-share.permanent.shared-style span {
+								/* Do not show "Shared" text next to icon as there is no space */
+								&:not(.icon) {
+									display: none;
+								}
+
+								/* If an avatar is present, show that instead of the icon */
+								&.avatar {
+									display: inline-block;
+									position: absolute;
+								}
+							}
 						}
 					}
 				}
@@ -906,11 +922,6 @@ table.dragshadow td.size {
 				}
 			}
 		}
-	}
-
-	/* Do not show "Shared" text next to icon as there is no space */
-	#fileList .action.action-share.permanent.shared-style span:not(.icon) {
-		display: none;
 	}
 
 	/* Center align the footer file number & size summary */
