@@ -308,7 +308,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return bool|string false if image should not replaced, otherwise the location of the image
 	 */
 	public function replaceImagePath($app, $image) {
-		if($app==='') {
+		if ($app === '' || $app === 'files_sharing') {
 			$app = 'core';
 		}
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
