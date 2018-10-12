@@ -975,9 +975,16 @@ table.dragshadow td.size {
 
 /* Adjustments for public share page */
 #body-public {
-	/* Position actions menu correctly below 3-dot-menu */
-	#filestable.view-grid:not(.hidden) tbody td .popovermenu {
-		left: -80px;
+	#filestable.view-grid:not(.hidden) tbody td {
+		/* More space for filename since there is no share icon */
+		&.filename .name .nametext .innernametext {
+			max-width: 124px;
+		}
+
+		/* Position actions menu correctly below 3-dot-menu */
+		.popovermenu {
+			left: -80px;
+		}
 	}
 
 	/* Right-align view toggle on public share page */
