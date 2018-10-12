@@ -874,6 +874,11 @@ table.dragshadow td.size {
 									position: absolute;
 								}
 							}
+
+							/* If there is a comment, show it instead of the share icon */
+							&.action-comment ~ .action-share {
+								display: none;
+							}
 						}
 					}
 				}
