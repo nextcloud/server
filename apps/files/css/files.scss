@@ -874,6 +874,13 @@ table.dragshadow td.size {
 								}
 							}
 
+							/* In "Deleted files", do not show "Restore" text next to icon as there is no space */
+							&.action-restore.permanent span {
+								&:not(.icon) {
+									display: none;
+								}
+							}
+
 							/* If there is a comment, show it instead of the share icon */
 							&.action-comment ~ .action-share {
 								display: none;
