@@ -363,6 +363,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->values([
 				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
 				'password' => $qb->expr()->literal('password'),
+				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type'   => $qb->expr()->literal('file'),
@@ -392,6 +393,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
 		$this->assertNull($share->getSharedWith());
 		$this->assertEquals('password', $share->getPassword());
+		$this->assertEquals(true, $share->getSendPasswordByTalk());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals($ownerPath, $share->getNode());
@@ -775,6 +777,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->setNode($path);
 		$share->setPermissions(1);
 		$share->setPassword('password');
+		$share->setSendPasswordByTalk(true);
 		$share->setToken('token');
 		$expireDate = new \DateTime();
 		$share->setExpirationDate($expireDate);
@@ -792,6 +795,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getNode());
 		$this->assertSame('password', $share2->getPassword());
+		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('token', $share2->getToken());
 		$this->assertEquals($expireDate->getTimestamp(), $share2->getExpirationDate()->getTimestamp());
 	}
@@ -803,6 +807,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->values([
 				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
 				'password'    => $qb->expr()->literal('password'),
+				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner'     => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type'     => $qb->expr()->literal('file'),
@@ -825,6 +830,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('sharedBy', $share->getSharedBy());
 		$this->assertSame('secrettoken', $share->getToken());
 		$this->assertSame('password', $share->getPassword());
+		$this->assertSame(true, $share->getSendPasswordByTalk());
 		$this->assertSame(null, $share->getSharedWith());
 	}
 
@@ -1833,6 +1839,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id);
 
 		$share->setPassword('password');
+		$share->setSendPasswordByTalk(true);
 		$share->setSharedBy('user4');
 		$share->setShareOwner('user5');
 		$share->setNode($file2);
@@ -1842,6 +1849,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id, $share2->getId());
 		$this->assertEquals('password', $share2->getPassword());
+		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
@@ -1850,6 +1858,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id, $share2->getId());
 		$this->assertEquals('password', $share2->getPassword());
+		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
