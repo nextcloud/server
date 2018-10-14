@@ -29,7 +29,6 @@ use Sabre\CalDAV\Backend\NotificationSupport;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
 use Sabre\CalDAV\Schedule\Inbox;
-use Sabre\CalDAV\Schedule\Outbox;
 use Sabre\CalDAV\Subscriptions\Subscription;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -81,7 +80,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 		if ($this->caldavBackend instanceof SchedulingSupport) {
 			$objects[] = new Inbox($this->caldavBackend, $this->principalInfo['uri']);
-			$objects[] = new Outbox($this->principalInfo['uri']);
+			$objects[] = new Outbox($this->config, $this->principalInfo['uri']);
 		}
 
 		// We're adding a notifications node, if it's supported by the backend.
@@ -108,7 +107,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			return new Inbox($this->caldavBackend, $this->principalInfo['uri']);
 		}
 		if ($name === 'outbox' && $this->caldavBackend instanceof SchedulingSupport) {
-			return new Outbox($this->principalInfo['uri']);
+			return new Outbox($this->config, $this->principalInfo['uri']);
 		}
 		if ($name === 'notifications' && $this->caldavBackend instanceof NotificationSupport) {
 			return new \Sabre\CalDAv\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
