@@ -87,7 +87,6 @@ describe('OC.L10N tests', function() {
 			spyOn(console, 'warn');
 			OC.L10N.register(TEST_APP, {
 			});
-			expect(console.warn).toHaveBeenCalled();
 			expect(
 				n(TEST_APP, 'download %n file', 'download %n files', 0)
 			).toEqual('download 0 files');
@@ -106,26 +105,6 @@ describe('OC.L10N tests', function() {
 			OC.L10N.register(TEST_APP, {
 				'_download %n file_::_download %n files_':
 					['%n Datei herunterladen', '%n Dateien herunterladen']
-			});
-			expect(console.warn).toHaveBeenCalled();
-			checkPlurals();
-		});
-		it('generates plural with generated function when forms is specified', function() {
-			OC.L10N.register(TEST_APP, {
-				'_download %n file_::_download %n files_':
-					['%n Datei herunterladen', '%n Dateien herunterladen']
-			}, 'nplurals=2; plural=(n != 1);');
-			checkPlurals();
-		});
-		it('generates plural with function when forms is specified as function', function() {
-			OC.L10N.register(TEST_APP, {
-				'_download %n file_::_download %n files_':
-					['%n Datei herunterladen', '%n Dateien herunterladen']
-			}, function(n) {
-				return {
-					nplurals: 2,
-					plural: (n !== 1) ? 1 : 0
-				};
 			});
 			checkPlurals();
 		});
@@ -164,7 +143,6 @@ describe('OC.L10N tests', function() {
 			OC.L10N.register(TEST_APP, {
 				'Hello world!': 'Hallo Welt!'
 			});
-			expect(console.warn).toHaveBeenCalled();
 			OC.L10N.load(TEST_APP, callbackStub).then(promiseStub);
 			expect(callbackStub.calledOnce).toEqual(true);
 			expect(promiseStub.calledOnce).toEqual(true);

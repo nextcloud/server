@@ -47,6 +47,7 @@ class ContentSecurityPolicyManagerTest extends \Test\TestCase {
 		$policy->addAllowedFontDomain('example.com');
 		$policy->addAllowedImageDomain('example.org');
 		$policy->allowInlineScript(true);
+		$policy->allowEvalScript(true);
 		$this->contentSecurityPolicyManager->addDefaultPolicy($policy);
 		$policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
 		$policy->addAllowedChildSrcDomain('childdomain');
@@ -55,6 +56,7 @@ class ContentSecurityPolicyManagerTest extends \Test\TestCase {
 
 		$expected = new \OC\Security\CSP\ContentSecurityPolicy();
 		$expected->allowInlineScript(true);
+		$expected->allowEvalScript(true);
 		$expected->addAllowedFontDomain('mydomain.com');
 		$expected->addAllowedFontDomain('example.com');
 		$expected->addAllowedFontDomain('anotherFontDomain');
