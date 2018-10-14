@@ -77,18 +77,6 @@ class Scan extends Base {
 				'limit rescan to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter and --all are ignored'
 			)
 			->addOption(
-				'quiet',
-				'q',
-				InputOption::VALUE_NONE,
-				'suppress any output'
-			)
-			->addOption(
-				'verbose',
-				'-v|vv|vvv',
-				InputOption::VALUE_NONE,
-				'verbose the output'
-			)
-			->addOption(
 				'all',
 				null,
 				InputOption::VALUE_NONE,
@@ -123,8 +111,8 @@ class Scan extends Base {
 	protected function scanFiles($user, $path, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new \OC\Files\Utils\Scanner($user, $connection, \OC::$server->getLogger());
+
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
-		# printout and count
 
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 			$output->writeln("\tFile\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
