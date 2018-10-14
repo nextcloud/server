@@ -164,6 +164,14 @@ class ActorContext extends RawMinkContext {
 		}
 
 		$this->currentActor = $this->actors[$actorName];
+
+		// Ensure that the browser window of the actor is the one in the
+		// foreground; this works around a bug in the Firefox driver of Selenium
+		// and/or maybe in Firefox itself when interacting with a window in the
+		// background, but also reflects better how the user would interact with
+		// the browser in real life.
+		$session = $this->actors[$actorName]->getSession();
+		$session->switchToWindow($session->getWindowName());
 	}
 
 	/**
