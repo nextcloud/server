@@ -260,6 +260,7 @@ class JSConfigHelper {
 				'shortFooter' => $this->defaults->getShortFooter(),
 				'longFooter' => $this->defaults->getLongFooter(),
 				'folder' => \OC_Util::getTheme(),
+				'themeName' => $this->config->getUserValue($uid, 'accessibility', 'theme', false),
 			]),
 			"oc_capabilities" => json_encode($capabilities),
 		];
