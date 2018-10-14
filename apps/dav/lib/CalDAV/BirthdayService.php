@@ -191,10 +191,26 @@ class BirthdayService {
 		}
 
 		$unknownYear = false;
+		$originalYear = null;
 		if (!$dateParts['year']) {
-			$birthday = '1900-' . $dateParts['month'] . '-' . $dateParts['date'];
+			$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
 
 			$unknownYear = true;
+		} else {
+			$parameters = $birthday->parameters();
+			if (isset($parameters['X-APPLE-OMIT-YEAR'])) {
+				$omitYear = $parameters['X-APPLE-OMIT-YEAR'];
+				if ($dateParts['year'] === $omitYear) {
+					$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
+					$unknownYear = true;
+				}
+			} else {
+				$originalYear = (int)$dateParts['year'];
+
+				if ($originalYear < 1970) {
+					$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
+				}
+			}
 		}
 
 		try {
@@ -205,8 +221,7 @@ class BirthdayService {
 		if ($unknownYear) {
 			$summary = $doc->FN->getValue() . ' ' . $summarySymbol;
 		} else {
-			$year = (int)$date->format('Y');
-			$summary = $doc->FN->getValue() . " ($summarySymbol$year)";
+			$summary = $doc->FN->getValue() . " ($summarySymbol$originalYear)";
 		}
 		$vCal = new VCalendar();
 		$vCal->VERSION = '2.0';
@@ -226,6 +241,11 @@ class BirthdayService {
 		$vEvent->{'RRULE'} = 'FREQ=YEARLY';
 		$vEvent->{'SUMMARY'} = $summary;
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
+		$vEvent->{'X-NEXTCLOUD-BC-FIELD-TYPE'} = $dateField;
+		$vEvent->{'X-NEXTCLOUD-BC-UNKNOWN-YEAR'} = $unknownYear ? '1' : '0';
+		if ($originalYear !== null) {
+			$vEvent->{'X-NEXTCLOUD-BC-YEAR'} = (string) $originalYear;
+		}
 		$alarm = $vCal->createComponent('VALARM');
 		$alarm->add($vCal->createProperty('TRIGGER', '-PT0M', ['VALUE' => 'DURATION']));
 		$alarm->add($vCal->createProperty('ACTION', 'DISPLAY'));
