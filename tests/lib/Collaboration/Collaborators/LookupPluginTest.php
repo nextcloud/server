@@ -25,12 +25,18 @@ namespace Test\Collaboration\Collaborators;
 
 
 use OC\Collaboration\Collaborators\LookupPlugin;
+use OC\Federation\CloudId;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
+use OCP\ILogger;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Share;
 use Test\TestCase;
 
@@ -40,16 +46,45 @@ class LookupPluginTest extends TestCase {
 	protected $config;
 	/** @var  IClientService|\PHPUnit_Framework_MockObject_MockObject */
 	protected $clientService;
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+	/** @var ICloudIdManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $cloudIdManager;
 	/** @var  LookupPlugin */
 	protected $plugin;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
 
 	public function setUp() {
 		parent::setUp();
 
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(ILogger::class);
 		$this->clientService = $this->createMock(IClientService::class);
+		$cloudId = $this->createMock(ICloudId::class);
+		$cloudId->expects($this->any())->method('getRemote')->willReturn('myNextcloud.net');
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getCloudId')->willReturn('user@myNextcloud.net');
+		$this->userSession->expects($this->any())->method('getUser')
+			->willReturn($user);
+		$this->cloudIdManager->expects($this->any())->method('resolveCloudId')
+			->willReturnCallback(function($cloudId) {
+				if ($cloudId === 'user@myNextcloud.net') {
+					return new CloudId('user@myNextcloud.net', 'user', 'myNextcloud.net');
+				}
+				return new CloudId('user@someNextcloud.net', 'user', 'someNextcloud.net');
+			});
 
-		$this->plugin = new LookupPlugin($this->config, $this->clientService);
+
+		$this->plugin = new LookupPlugin(
+			$this->config,
+			$this->clientService,
+			$this->userSession,
+			$this->cloudIdManager,
+			$this->logger
+		);
 	}
 
 	/**
@@ -69,7 +104,11 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->once())
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('gs.enabled', false)
+			->willReturn(false);
+		$this->config->expects($this->at(2))
 			->method('getSystemValue')
 			->with('lookup_server', 'https://lookup.nextcloud.com')
 			->willReturn($searchParams['server']);
@@ -104,6 +143,70 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($moreResults);
 	}
 
+
+	/**
+	 * @dataProvider dataSearchEnableDisableLookupServer
+	 * @param array $searchParams
+	 * @param bool $GSEnabled
+	 * @param bool $LookupEnabled
+	 */
+	public function testSearchEnableDisableLookupServer(array $searchParams, $GSEnabled, $LookupEnabled) {
+		$type = new SearchResultType('lookup');
+
+		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		$searchResult = $this->createMock(ISearchResult::class);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->willReturn($LookupEnabled ? 'yes' : 'no');
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('gs.enabled', false)
+			->willReturn($GSEnabled);
+		if ($GSEnabled || $LookupEnabled) {
+			$searchResult->expects($this->once())
+				->method('addResultSet')
+				->with($type, $searchParams['expectedResult'], []);
+
+			$this->config->expects($this->at(2))
+				->method('getSystemValue')
+				->with('lookup_server', 'https://lookup.nextcloud.com')
+				->willReturn($searchParams['server']);
+
+			$response = $this->createMock(IResponse::class);
+			$response->expects($this->once())
+				->method('getBody')
+				->willReturn(json_encode($searchParams['resultBody']));
+
+			$client = $this->createMock(IClient::class);
+			$client->expects($this->once())
+				->method('get')
+				->willReturnCallback(function ($url) use ($searchParams, $response) {
+					$this->assertSame(strpos($url, $searchParams['server'] . '/users?search='), 0);
+					$this->assertNotFalse(strpos($url, urlencode($searchParams['search'])));
+					return $response;
+				});
+
+			$this->clientService->expects($this->once())
+				->method('newClient')
+				->willReturn($client);
+		} else {
+			$searchResult->expects($this->never())->method('addResultSet');
+		}
+		$moreResults = $this->plugin->search(
+			$searchParams['search'],
+			$searchParams['limit'],
+			$searchParams['offset'],
+			$searchResult
+		);
+
+
+
+		$this->assertFalse($moreResults);
+	}
+
+
 	public function testSearchLookupServerDisabled() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -118,6 +221,173 @@ class LookupPluginTest extends TestCase {
 			->method('markExactIdMatch');
 
 		$this->assertFalse($this->plugin->search('irr', 10, 0, $searchResult));
+	}
+
+	public function dataSearchEnableDisableLookupServer() {
+		$fedIDs = [
+			'foo@enceladus.moon',
+			'foobar@enceladus.moon',
+			'foongus@enceladus.moon',
+		];
+
+		return [
+			[[
+				'search' => 'foo',
+				'limit' => 10,
+				'offset' => 0,
+				'server' => 'https://lookup.example.io',
+				'resultBody' => [
+					[ 'federationId' => $fedIDs[0] ],
+					[ 'federationId' => $fedIDs[1] ],
+					[ 'federationId' => $fedIDs[2] ],
+				],
+				'expectedResult' => [
+					[
+						'label' => $fedIDs[0],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[0]
+						],
+						'extra' => ['federationId' => $fedIDs[0]],
+					],
+					[
+						'label' => $fedIDs[1],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[1]
+						],
+						'extra' => ['federationId' => $fedIDs[1]],
+					],
+					[
+						'label' => $fedIDs[2],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[2]
+						],
+						'extra' => ['federationId' => $fedIDs[2]],
+					],
+				]
+			],// GS , Lookup
+				true, true
+			],
+			[[
+				'search' => 'foo',
+				'limit' => 10,
+				'offset' => 0,
+				'server' => 'https://lookup.example.io',
+				'resultBody' => [
+					[ 'federationId' => $fedIDs[0] ],
+					[ 'federationId' => $fedIDs[1] ],
+					[ 'federationId' => $fedIDs[2] ],
+				],
+				'expectedResult' => [
+					[
+						'label' => $fedIDs[0],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[0]
+						],
+						'extra' => ['federationId' => $fedIDs[0]],
+					],
+					[
+						'label' => $fedIDs[1],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[1]
+						],
+						'extra' => ['federationId' => $fedIDs[1]],
+					],
+					[
+						'label' => $fedIDs[2],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[2]
+						],
+						'extra' => ['federationId' => $fedIDs[2]],
+					],
+				]
+			],// GS , Lookup
+				true, false
+			],
+			[[
+				'search' => 'foo',
+				'limit' => 10,
+				'offset' => 0,
+				'server' => 'https://lookup.example.io',
+				'resultBody' => [
+					[ 'federationId' => $fedIDs[0] ],
+					[ 'federationId' => $fedIDs[1] ],
+					[ 'federationId' => $fedIDs[2] ],
+				],
+				'expectedResult' => [
+					[
+						'label' => $fedIDs[0],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[0]
+						],
+						'extra' => ['federationId' => $fedIDs[0]],
+					],
+					[
+						'label' => $fedIDs[1],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[1]
+						],
+						'extra' => ['federationId' => $fedIDs[1]],
+					],
+					[
+						'label' => $fedIDs[2],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[2]
+						],
+						'extra' => ['federationId' => $fedIDs[2]],
+					],
+				]
+			],// GS , Lookup
+				false, true
+			],
+			[[
+				'search' => 'foo',
+				'limit' => 10,
+				'offset' => 0,
+				'server' => 'https://lookup.example.io',
+				'resultBody' => [
+					[ 'federationId' => $fedIDs[0] ],
+					[ 'federationId' => $fedIDs[1] ],
+					[ 'federationId' => $fedIDs[2] ],
+				],
+				'expectedResult' => [
+					[
+						'label' => $fedIDs[0],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[0]
+						],
+						'extra' => ['federationId' => $fedIDs[0]],
+					],
+					[
+						'label' => $fedIDs[1],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[1]
+						],
+						'extra' => ['federationId' => $fedIDs[1]],
+					],
+					[
+						'label' => $fedIDs[2],
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $fedIDs[2]
+						],
+						'extra' => ['federationId' => $fedIDs[2]],
+					],
+				]
+			],// GS , Lookup
+				false, false
+			],
+		];
 	}
 
 	public function searchDataProvider() {
