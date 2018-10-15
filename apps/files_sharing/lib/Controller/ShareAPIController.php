@@ -212,6 +212,8 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getPassword();
 			$result['share_with_displayname'] = $share->getPassword();
 
+			$result['send_password_by_talk'] = $share->getSendPasswordByTalk();
+
 			$result['token'] = $share->getToken();
 			$result['url'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share->getToken()]);
 
@@ -477,8 +479,17 @@ class ShareAPIController extends OCSController {
 				$share->setPassword($password);
 			}
 
+
 			if (!empty($label)) {
 				$share->setLabel($label);
+			}
+
+			if ($sendPasswordByTalk === 'true') {
+				if (!$this->appManager->isEnabledForUser('spreed')) {
+					throw new OCSForbiddenException($this->l->t('Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled', [$path->getPath()]));
+				}
+
+				$share->setSendPasswordByTalk(true);
 			}
 
 			//Expire date
@@ -873,6 +884,15 @@ class ShareAPIController extends OCSController {
 				$share->setLabel($label);
 			}
 
+			if ($sendPasswordByTalk === 'true') {
+				if (!$this->appManager->isEnabledForUser('spreed')) {
+					throw new OCSForbiddenException($this->l->t('Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled'));
+				}
+
+				$share->setSendPasswordByTalk(true);
+			} else if ($sendPasswordByTalk !== null) {
+				$share->setSendPasswordByTalk(false);
+			}
 		} else {
 			if ($permissions !== null) {
 				$permissions = (int)$permissions;
