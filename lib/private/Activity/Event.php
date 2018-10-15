@@ -45,21 +45,21 @@ class Event implements IEvent {
 	/** @var array */
 	protected $subjectParameters = [];
 	/** @var string */
-	protected $subjectParsed;
+	protected $subjectParsed = '';
 	/** @var string */
-	protected $subjectRich;
+	protected $subjectRich = '';
 	/** @var array */
-	protected $subjectRichParameters;
+	protected $subjectRichParameters = [];
 	/** @var string */
 	protected $message = '';
 	/** @var array */
 	protected $messageParameters = [];
 	/** @var string */
-	protected $messageParsed;
+	protected $messageParsed = '';
 	/** @var string */
-	protected $messageRich;
+	protected $messageRich = '';
 	/** @var array */
-	protected $messageRichParameters;
+	protected $messageRichParameters = [];
 	/** @var string */
 	protected $objectType = '';
 	/** @var int */
