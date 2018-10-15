@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace Tests\Core\Command\TwoFactorAuth;
 
+use OC\Authentication\TwoFactorAuth\EnforcementState;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Core\Command\TwoFactorAuth\Enforce;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -51,11 +52,11 @@ class EnforceTest extends TestCase {
 
 	public function testEnforce() {
 		$this->mandatoryTwoFactor->expects($this->once())
-			->method('setEnforced')
-			->with(true);
+			->method('setState')
+			->with($this->equalTo(new EnforcementState(true)));
 		$this->mandatoryTwoFactor->expects($this->once())
-			->method('isEnforced')
-			->willReturn(true);
+			->method('getState')
+			->willReturn(new EnforcementState(true));
 
 		$rc = $this->command->execute([
 			'--on' => true,
@@ -66,13 +67,49 @@ class EnforceTest extends TestCase {
 		$this->assertContains("Two-factor authentication is enforced for all users", $display);
 	}
 
+	public function testEnforceForOneGroup() {
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('setState')
+			->with($this->equalTo(new EnforcementState(true, ['twofactorers'])));
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('getState')
+			->willReturn(new EnforcementState(true, ['twofactorers']));
+
+		$rc = $this->command->execute([
+			'--on' => true,
+			'--group' => ['twofactorers'],
+		]);
+
+		$this->assertEquals(0, $rc);
+		$display = $this->command->getDisplay();
+		$this->assertContains("Two-factor authentication is enforced for members of the group(s) twofactorers", $display);
+	}
+
+	public function testEnforceForAllExceptOneGroup() {
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('setState')
+			->with($this->equalTo(new EnforcementState(true, [], ['yoloers'])));
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('getState')
+			->willReturn(new EnforcementState(true, [], ['yoloers']));
+
+		$rc = $this->command->execute([
+			'--on' => true,
+			'--exclude' => ['yoloers'],
+		]);
+
+		$this->assertEquals(0, $rc);
+		$display = $this->command->getDisplay();
+		$this->assertContains("Two-factor authentication is enforced for all users, except members of yoloers", $display);
+	}
+
 	public function testDisableEnforced() {
 		$this->mandatoryTwoFactor->expects($this->once())
-			->method('setEnforced')
-			->with(false);
+			->method('setState')
+			->with(new EnforcementState(false));
 		$this->mandatoryTwoFactor->expects($this->once())
-			->method('isEnforced')
-			->willReturn(false);
+			->method('getState')
+			->willReturn(new EnforcementState(false));
 
 		$rc = $this->command->execute([
 			'--off' => true,
@@ -85,8 +122,8 @@ class EnforceTest extends TestCase {
 
 	public function testCurrentStateEnabled() {
 		$this->mandatoryTwoFactor->expects($this->once())
-			->method('isEnforced')
-			->willReturn(true);
+			->method('getState')
+			->willReturn(new EnforcementState(true));
 
 		$rc = $this->command->execute([]);
 
@@ -97,8 +134,8 @@ class EnforceTest extends TestCase {
 
 	public function testCurrentStateDisabled() {
 		$this->mandatoryTwoFactor->expects($this->once())
-			->method('isEnforced')
-			->willReturn(false);
+			->method('getState')
+			->willReturn(new EnforcementState(false));
 
 		$rc = $this->command->execute([]);
 

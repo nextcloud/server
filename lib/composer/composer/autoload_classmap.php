@@ -460,6 +460,7 @@ return array(
     'OC\\Authentication\\Token\\PublicKeyTokenMapper' => $baseDir . '/lib/private/Authentication/Token/PublicKeyTokenMapper.php',
     'OC\\Authentication\\Token\\PublicKeyTokenProvider' => $baseDir . '/lib/private/Authentication/Token/PublicKeyTokenProvider.php',
     'OC\\Authentication\\TwoFactorAuth\\Db\\ProviderUserAssignmentDao' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php',
+    'OC\\Authentication\\TwoFactorAuth\\EnforcementState' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/EnforcementState.php',
     'OC\\Authentication\\TwoFactorAuth\\Manager' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/Manager.php',
     'OC\\Authentication\\TwoFactorAuth\\MandatoryTwoFactor' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/MandatoryTwoFactor.php',
     'OC\\Authentication\\TwoFactorAuth\\ProviderLoader' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/ProviderLoader.php',

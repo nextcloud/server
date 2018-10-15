@@ -106,7 +106,7 @@ class Manager {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
-		if ($this->mandatoryTwoFactor->isEnforced()) {
+		if ($this->mandatoryTwoFactor->isEnforcedFor($user)) {
 			return true;
 		}
 

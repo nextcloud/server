@@ -490,6 +490,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Authentication\\Token\\PublicKeyTokenMapper' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/PublicKeyTokenMapper.php',
         'OC\\Authentication\\Token\\PublicKeyTokenProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/PublicKeyTokenProvider.php',
         'OC\\Authentication\\TwoFactorAuth\\Db\\ProviderUserAssignmentDao' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php',
+        'OC\\Authentication\\TwoFactorAuth\\EnforcementState' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/EnforcementState.php',
         'OC\\Authentication\\TwoFactorAuth\\Manager' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/Manager.php',
         'OC\\Authentication\\TwoFactorAuth\\MandatoryTwoFactor' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/MandatoryTwoFactor.php',
         'OC\\Authentication\\TwoFactorAuth\\ProviderLoader' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/ProviderLoader.php',
