@@ -16,11 +16,6 @@
 		PROPERTY_COMMENTS_UNREAD:	'{' + OC.Files.Client.NS_OWNCLOUD + '}comments-unread'
 	});
 
-	var TEMPLATE_COMMENTS_UNREAD =
-		'<a class="action action-comment permanent" title="{{countMessage}}" href="#">' +
-		'<img class="svg" src="{{iconUrl}}"/>' +
-		'</a>';
-
 	OCA.Comments = _.extend({}, OCA.Comments);
 	if (!OCA.Comments) {
 		/**
@@ -39,10 +34,7 @@
 		],
 
 		_formatCommentCount: function(count) {
-			if (!this._commentsUnreadTemplate) {
-				this._commentsUnreadTemplate = Handlebars.compile(TEMPLATE_COMMENTS_UNREAD);
-			}
-			return this._commentsUnreadTemplate({
+			return OCA.Comments.Templates['filesplugin']({
 				count: count,
 				countMessage: n('comments', '%n unread comment', '%n unread comments', count),
 				iconUrl: OC.imagePath('core', 'actions/comment')

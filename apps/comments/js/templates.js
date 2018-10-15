@@ -46,6 +46,33 @@ templates['comment'] = template({"1":function(container,depth0,helpers,partials,
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.isLong : depth0),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</li>\n";
 },"useData":true});
+templates['commentsmodifymenu'] = template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "		<li>\n			<a href=\"#\" class=\"menuitem action "
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + " permanent\" data-action=\""
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "\">\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.iconClass : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.program(4, data, 0),"data":data})) != null ? stack1 : "")
+    + "				<span>"
+    + alias4(((helper = (helper = helpers.displayName || (depth0 != null ? depth0.displayName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"displayName","hash":{},"data":data}) : helper)))
+    + "</span>\n			</a>\n		</li>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "					<span class=\"icon "
+    + container.escapeExpression(((helper = (helper = helpers.iconClass || (depth0 != null ? depth0.iconClass : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"iconClass","hash":{},"data":data}) : helper)))
+    + "\"></span>\n";
+},"4":function(container,depth0,helpers,partials,data) {
+    return "					<span class=\"no-icon\"></span>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<ul>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.items : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</ul>\n";
+},"useData":true});
 templates['edit_comment'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
 
@@ -74,6 +101,15 @@ templates['edit_comment'] = template({"1":function(container,depth0,helpers,part
     + "\"/>\n		<div class=\"submitLoading icon-loading-small hidden\"></div>\n	</form>\n</"
     + alias4(((helper = (helper = helpers.tag || (depth0 != null ? depth0.tag : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"tag","hash":{},"data":data}) : helper)))
     + ">\n";
+},"useData":true});
+templates['filesplugin'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<a class=\"action action-comment permanent\" title=\""
+    + alias4(((helper = (helper = helpers.countMessage || (depth0 != null ? depth0.countMessage : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"countMessage","hash":{},"data":data}) : helper)))
+    + "\" href=\"#\">\n	<img class=\"svg\" src=\""
+    + alias4(((helper = (helper = helpers.iconUrl || (depth0 != null ? depth0.iconUrl : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"iconUrl","hash":{},"data":data}) : helper)))
+    + "\"/>\n</a>\n";
 },"useData":true});
 templates['view'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
