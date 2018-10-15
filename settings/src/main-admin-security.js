@@ -1,13 +1,10 @@
 import Vue from 'vue'
 
-import AdminTwoFactor from './components/AdminTwoFactor'
+import AdminTwoFactor from './components/AdminTwoFactor.vue'
+
+__webpack_nonce__ = btoa(OC.requestToken)
 
 Vue.prototype.t = t;
 
-new Vue({
-	el: '#two-factor-auth-settings',
-	template: '<AdminTwoFactor/>',
-	components: {
-		AdminTwoFactor
-	}
-})
+const View = Vue.extend(AdminTwoFactor)
+new View().$mount('#two-factor-auth-settings')
