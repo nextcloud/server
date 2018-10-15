@@ -10,24 +10,6 @@
 
 (function() {
 
-	var TEMPLATE_MENU =
-		'<ul>' +
-		'{{#each items}}' +
-		'<li>' +
-		'<a href="#" class="menuitem action action-{{nameLowerCase}} permanent" data-action="{{name}}">' +
-			'{{#if icon}}<img class="icon" src="{{icon}}"/>' +
-			'{{else}}'+
-				'{{#if iconClass}}' +
-				'<span class="icon {{iconClass}}"></span>' +
-				'{{else}}' +
-				'<span class="no-icon"></span>' +
-				'{{/if}}' +
-			'{{/if}}' +
-			'<span>{{displayName}}</span></a>' +
-		'</li>' +
-		'{{/each}}' +
-		'</ul>';
-
 	/**
 	 * Construct a new FileActionsMenu instance
 	 * @constructs FileActionsMenu
@@ -49,10 +31,7 @@
 		},
 
 		template: function(data) {
-			if (!OCA.Files.FileActionsMenu._TEMPLATE) {
-				OCA.Files.FileActionsMenu._TEMPLATE = Handlebars.compile(TEMPLATE_MENU);
-			}
-			return OCA.Files.FileActionsMenu._TEMPLATE(data);
+			return OCA.Files.Templates['fileactionsmenu'](data);
 		},
 
 		/**

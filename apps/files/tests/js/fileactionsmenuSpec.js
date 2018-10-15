@@ -203,7 +203,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(displayNameStub.calledOnce).toEqual(true);
 			expect(displayNameStub.calledWith(menuContext)).toEqual(true);
-			expect(menu.$el.find('a[data-action=Something]').text()).toEqual('Test');
+			expect(menu.$el.find('a[data-action=Something] span:not(.icon)').text()).toEqual('Test');
 		});
 		it('uses plain iconClass', function() {
 			fileActions.registerAction({
