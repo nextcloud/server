@@ -5,7 +5,7 @@ REPODIR=`git rev-parse --show-toplevel`
 cd $REPODIR
 
 # Settings
-handlebars -n OC.Settings.Templates  settings/js/authtoken.handlebars -f settings/js/templates.js
+handlebars -n OC.Settings.Templates  settings/js/templates -f settings/js/templates.js
 
 # Contactsmenu
 handlebars -n OC.ContactsMenu.Templates core/js/contactsmenu -f core/js/contactsmenu_templates.js

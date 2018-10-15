@@ -27,6 +27,7 @@
 
 script('settings', [
 	'usersettings',
+	'templates',
 	'federationsettingsview',
 	'federationscopemenu',
 	'settings/personalInfo',
