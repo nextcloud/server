@@ -10,9 +10,9 @@
 
 (function(OCA) {
 	/**
-	 * @namespace OCA.Files.FavoritesPlugin
-	 *
 	 * Registers the favorites file list from the files app sidebar.
+	 *
+	 * @namespace OCA.Files.FavoritesPlugin
 	 */
 	OCA.Files.FavoritesPlugin = {
 		name: 'Favorites',
