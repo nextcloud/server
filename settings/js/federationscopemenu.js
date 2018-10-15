@@ -11,22 +11,6 @@
 /* global OC, Handlebars */
 (function() {
 
-	var TEMPLATE_MENU =
-		'<ul>' +
-		'{{#each items}}' +
-		'<li>' +
-		'<a href="#" class="menuitem action action-{{name}} permanent {{#if active}}active{{/if}}" data-action="{{name}}">' +
-			'{{#if iconClass}}' +
-			'<span class="icon {{iconClass}}"></span>' +
-			'{{else}}' +
-			'<span class="no-icon"></span>' +
-			'{{/if}}' +
-			'<p><strong class="menuitem-text">{{displayName}}</strong><br>' +
-			'<span class="menuitem-text-detail">{{tooltip}}</span></p></a>' +
-		'</li>' +
-		'{{/each}}' +
-		'</ul>';
-
 	/**
 	 * Construct a new FederationScopeMenu instance
 	 * @constructs FederationScopeMenu
@@ -76,8 +60,6 @@
 			'click a.action': '_onClickAction'
 		},
 
-		template: Handlebars.compile(TEMPLATE_MENU),
-
 		/**
 		 * Event handler whenever an action has been clicked within the menu
 		 *
@@ -98,7 +80,7 @@
 		 * Renders the menu with the currently set items
 		 */
 		render: function() {
-			this.$el.html(this.template({
+			this.$el.html(OC.Settings.Templates['federationscopemenu']({
 				items: this._scopes
 			}));
 		},
