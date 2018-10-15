@@ -54,6 +54,7 @@
 			'focusout input.linkPassText': 'onPasswordEntered',
 			'keyup input.linkPassText': 'onPasswordKeyUp',
 			'change .showPasswordCheckbox': 'onShowPasswordClick',
+			'change .passwordByTalkCheckbox': 'onPasswordByTalkChange',
 			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
 			// copy link url
 			'click .linkText': 'onLinkTextClick',
@@ -94,6 +95,37 @@
 
 			this.model.on('change:hideFileListStatus', function() {
 				view.render();
+			});
+
+			this.model.on('change:linkShares', function(model, linkShares) {
+				// The "Password protect by Talk" item is shown only when there
+				// is a password. Unfortunately there is no fine grained
+				// rendering of items in the link shares, so the whole view
+				// needs to be rendered again when the password of a share
+				// changes.
+				// Note that this event handler is concerned only about password
+				// changes; other changes in the link shares does not trigger
+				// a rendering, so the view must be rendered again as needed in
+				// those cases (for example, when a link share is removed).
+				
+				var previousLinkShares = model.previous('linkShares');
+				if (previousLinkShares.length !== linkShares.length) {
+					return;
+				}
+
+				var i;
+				for (i = 0; i < linkShares.length; i++) {
+					if (linkShares[i].id !== previousLinkShares[i].id) {
+						// A resorting should never happen, but just in case.
+						return;
+					}
+
+					if (linkShares[i].password !== previousLinkShares[i].password) {
+						view.render();
+
+						return;
+					}
+				}
 			});
 
 			if(!_.isUndefined(options.configModel)) {
@@ -339,6 +371,32 @@
 					$input.attr('title', msg);
 					$input.tooltip({placement: 'bottom', trigger: 'manual'});
 					$input.tooltip('show');
+				}
+			});
+		},
+
+		onPasswordByTalkChange: function(event) {
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			var $checkbox = $li.find('.passwordByTalkCheckbox');
+			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
+
+			var sendPasswordByTalk = false;
+			if($checkbox.is(':checked')) {
+				sendPasswordByTalk = true;
+			}
+
+			this.model.saveLinkShare({
+				sendPasswordByTalk: sendPasswordByTalk,
+				cid: shareId
+			}, {
+				success: function() {
+					$checkbox.siblings('.icon-loading-small').addClass('hidden').removeClass('inlineblock');
+				},
+				error: function(obj, msg) {
+					OC.Notification.showTemporary(t('core', 'Unable to toggle this option'));
+					$checkbox.siblings('.icon-loading-small').addClass('hidden').removeClass('inlineblock');
 				}
 			});
 		},
@@ -790,6 +848,9 @@
 				expireDate = moment(share.expiration, 'YYYY-MM-DD').format('DD-MM-YYYY');
 			}
 
+			var isTalkEnabled = oc_appswebroots['spreed'] !== undefined;
+			var sendPasswordByTalk = share.sendPasswordByTalk;
+
 			var showHideDownloadCheckbox = !this.model.isFolder();
 			var hideDownload = share.hideDownload;
 
@@ -816,6 +877,9 @@
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				isPasswordSet: isPasswordSet || isPasswordEnabledByDefault || isPasswordEnforced,
 				showPasswordCheckBox: showPasswordCheckBox,
+				showPasswordByTalkCheckBox: isTalkEnabled && isPasswordSet,
+				passwordByTalkLabel: t('core', 'Password protect by Talk'),
+				isPasswordByTalkSet: sendPasswordByTalk,
 				publicUploadRWChecked: publicUploadRWChecked,
 				publicUploadRChecked: publicUploadRChecked,
 				publicUploadWChecked: publicUploadWChecked,

@@ -62,6 +62,16 @@
 				</span>
 			</li>
 		{{/if}}
+		{{#if showPasswordByTalkCheckBox}}
+			<li>
+				<span class="shareOption menuitem">
+					<span class="icon-loading-small hidden"></span>
+					<input type="checkbox" name="passwordByTalk" id="passwordByTalk-{{cid}}" class="checkbox passwordByTalkCheckbox"
+					{{#if isPasswordByTalkSet}}checked="checked"{{/if}} />
+					<label for="passwordByTalk-{{cid}}">{{passwordByTalkLabel}}</label>
+				</span>
+			</li>
+		{{/if}}
 		<li>
 			<span class="menuitem">
 				<input id="expireDate-{{cid}}" type="checkbox" name="expirationDate" class="expireDate checkbox"

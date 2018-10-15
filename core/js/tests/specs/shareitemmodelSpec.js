@@ -169,7 +169,8 @@ describe('OC.Share.ShareItemModel', function() {
 					storage: 1,
 					token: 'tehtoken',
 					uid_owner: 'root',
-					hide_download: 1
+					hide_download: 1,
+					send_password_by_talk: true
 				}
 			]));
 
@@ -189,6 +190,7 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(linkShares.length).toEqual(1);
 			var linkShare = linkShares[0];
 			expect(linkShare.hideDownload).toEqual(true);
+			expect(linkShare.sendPasswordByTalk).toEqual(true);
 
 			// TODO: check more attributes
 		});
@@ -293,7 +295,8 @@ describe('OC.Share.ShareItemModel', function() {
 					storage: 1,
 					token: 'tehtoken',
 					uid_owner: 'root',
-					hide_download: 0
+					hide_download: 0,
+					send_password_by_talk: false
 				}, {
 					displayname_owner: 'root',
 					expiration: '2015-10-15 00:00:00',
@@ -312,7 +315,8 @@ describe('OC.Share.ShareItemModel', function() {
 					storage: 1,
 					token: 'anothertoken',
 					uid_owner: 'root',
-					hide_download: 1
+					hide_download: 1,
+					send_password_by_talk: true
 				}]
 			));
 			OC.currentUser = 'root';
@@ -327,6 +331,7 @@ describe('OC.Share.ShareItemModel', function() {
 			var linkShare = linkShares[0];
 			expect(linkShare.token).toEqual('tehtoken');
 			expect(linkShare.hideDownload).toEqual(false);
+			expect(linkShare.sendPasswordByTalk).toEqual(false);
 
 			// TODO: check child too
 		});
@@ -588,6 +593,7 @@ describe('OC.Share.ShareItemModel', function() {
 				hideDownload: false,
 				password: '',
 				passwordChanged: false,
+				sendPasswordByTalk: false,
 				permissions: OC.PERMISSION_READ,
 				expireDate: '',
 				shareType: OC.Share.SHARE_TYPE_LINK
@@ -612,6 +618,7 @@ describe('OC.Share.ShareItemModel', function() {
 				hideDownload: false,
 				password: '',
 				passwordChanged: false,
+				sendPasswordByTalk: false,
 				permissions: OC.PERMISSION_READ,
 			expireDate: '2015-07-24 00:00:00',
 			shareType: OC.Share.SHARE_TYPE_LINK
