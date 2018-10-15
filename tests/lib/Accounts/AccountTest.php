@@ -24,8 +24,8 @@
 namespace Test\Accounts;
 
 use OC\Accounts\Account;
-use OC\Accounts\AccountManager;
 use OC\Accounts\AccountProperty;
+use OCP\Accounts\IAccountManager;
 use OCP\IUser;
 use Test\TestCase;
 
@@ -44,21 +44,21 @@ class AccountTest extends TestCase {
 
 	public function testSetProperty() {
 		$user = $this->createMock(IUser::class);
-		$property = new AccountProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::NOT_VERIFIED);
+		$property = new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::NOT_VERIFIED);
 		$account = new Account($user);
-		$account->setProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::NOT_VERIFIED);
-		$this->assertEquals($property, $account->getProperty(AccountManager::PROPERTY_WEBSITE));
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::NOT_VERIFIED);
+		$this->assertEquals($property, $account->getProperty(IAccountManager::PROPERTY_WEBSITE));
 	}
 
 	public function testGetProperties() {
 		$user = $this->createMock(IUser::class);
 		$properties = [
-			AccountManager::PROPERTY_WEBSITE => new AccountProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::NOT_VERIFIED),
-			AccountManager::PROPERTY_EMAIL => new AccountProperty(AccountManager::PROPERTY_EMAIL, 'user@example.com', AccountManager::VISIBILITY_PRIVATE, AccountManager::VERIFIED)
+			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::NOT_VERIFIED),
+			IAccountManager::PROPERTY_EMAIL => new AccountProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::VERIFIED)
 		];
 		$account = new Account($user);
-		$account->setProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::NOT_VERIFIED);
-		$account->setProperty(AccountManager::PROPERTY_EMAIL, 'user@example.com', AccountManager::VISIBILITY_PRIVATE, AccountManager::VERIFIED);
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::NOT_VERIFIED);
+		$account->setProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::VERIFIED);
 
 		$this->assertEquals($properties, $account->getProperties());
 	}
@@ -66,45 +66,45 @@ class AccountTest extends TestCase {
 	public function testGetFilteredProperties() {
 		$user = $this->createMock(IUser::class);
 		$properties = [
-			AccountManager::PROPERTY_WEBSITE => new AccountProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::NOT_VERIFIED),
-			AccountManager::PROPERTY_EMAIL => new AccountProperty(AccountManager::PROPERTY_EMAIL, 'user@example.com', AccountManager::VISIBILITY_PRIVATE, AccountManager::VERIFIED),
-			AccountManager::PROPERTY_PHONE => new AccountProperty(AccountManager::PROPERTY_PHONE, '123456', AccountManager::VISIBILITY_PUBLIC, AccountManager::VERIFIED),
+			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::NOT_VERIFIED),
+			IAccountManager::PROPERTY_EMAIL => new AccountProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::VERIFIED),
+			IAccountManager::PROPERTY_PHONE => new AccountProperty(IAccountManager::PROPERTY_PHONE, '123456', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::VERIFIED),
 		];
 		$account = new Account($user);
-		$account->setProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::NOT_VERIFIED);
-		$account->setProperty(AccountManager::PROPERTY_EMAIL, 'user@example.com', AccountManager::VISIBILITY_PRIVATE, AccountManager::VERIFIED);
-		$account->setProperty(AccountManager::PROPERTY_PHONE, '123456', AccountManager::VISIBILITY_PUBLIC, AccountManager::VERIFIED);
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::NOT_VERIFIED);
+		$account->setProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::VERIFIED);
+		$account->setProperty(IAccountManager::PROPERTY_PHONE, '123456', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::VERIFIED);
 
 
 		$this->assertEquals(
 			[
-				AccountManager::PROPERTY_WEBSITE => $properties[AccountManager::PROPERTY_WEBSITE],
-				AccountManager::PROPERTY_PHONE => $properties[AccountManager::PROPERTY_PHONE],
+				IAccountManager::PROPERTY_WEBSITE => $properties[IAccountManager::PROPERTY_WEBSITE],
+				IAccountManager::PROPERTY_PHONE => $properties[IAccountManager::PROPERTY_PHONE],
 			],
-			$account->getFilteredProperties(AccountManager::VISIBILITY_PUBLIC)
+			$account->getFilteredProperties(IAccountManager::VISIBILITY_PUBLIC)
 		);
 		$this->assertEquals(
 			[
-				AccountManager::PROPERTY_EMAIL => $properties[AccountManager::PROPERTY_EMAIL],
-				AccountManager::PROPERTY_PHONE => $properties[AccountManager::PROPERTY_PHONE],
+				IAccountManager::PROPERTY_EMAIL => $properties[IAccountManager::PROPERTY_EMAIL],
+				IAccountManager::PROPERTY_PHONE => $properties[IAccountManager::PROPERTY_PHONE],
 			],
-			$account->getFilteredProperties(null, AccountManager::VERIFIED)
+			$account->getFilteredProperties(null, IAccountManager::VERIFIED)
 		);
 		$this->assertEquals(
-			[AccountManager::PROPERTY_PHONE => $properties[AccountManager::PROPERTY_PHONE]],
-			$account->getFilteredProperties(AccountManager::VISIBILITY_PUBLIC, AccountManager::VERIFIED)
+			[IAccountManager::PROPERTY_PHONE => $properties[IAccountManager::PROPERTY_PHONE]],
+			$account->getFilteredProperties(IAccountManager::VISIBILITY_PUBLIC, IAccountManager::VERIFIED)
 		);
 	}
 
 	public function testJsonSerialize() {
 		$user = $this->createMock(IUser::class);
 		$properties = [
-			AccountManager::PROPERTY_WEBSITE => new AccountProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::NOT_VERIFIED),
-			AccountManager::PROPERTY_EMAIL => new AccountProperty(AccountManager::PROPERTY_EMAIL, 'user@example.com', AccountManager::VISIBILITY_PRIVATE, AccountManager::VERIFIED)
+			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::NOT_VERIFIED),
+			IAccountManager::PROPERTY_EMAIL => new AccountProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::VERIFIED)
 		];
 		$account = new Account($user);
-		$account->setProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::NOT_VERIFIED);
-		$account->setProperty(AccountManager::PROPERTY_EMAIL, 'user@example.com', AccountManager::VISIBILITY_PRIVATE, AccountManager::VERIFIED);
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::NOT_VERIFIED);
+		$account->setProperty(IAccountManager::PROPERTY_EMAIL, 'user@example.com', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::VERIFIED);
 
 		$this->assertEquals($properties, $account->jsonSerialize());
 	}

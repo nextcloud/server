@@ -25,6 +25,7 @@ namespace Test\Accounts;
 
 use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
+use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -261,29 +262,29 @@ class AccountsManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 
 		$data = [
-			AccountManager::PROPERTY_TWITTER =>
+			IAccountManager::PROPERTY_TWITTER =>
 				[
 					'value' => '@twitterhandle',
-					'scope' => AccountManager::VISIBILITY_PRIVATE,
-					'verified' => AccountManager::NOT_VERIFIED,
+					'scope' => IAccountManager::VISIBILITY_PRIVATE,
+					'verified' => IAccountManager::NOT_VERIFIED,
 				],
-			AccountManager::PROPERTY_EMAIL =>
+			IAccountManager::PROPERTY_EMAIL =>
 				[
 					'value' => 'test@example.com',
-					'scope' => AccountManager::VISIBILITY_PUBLIC,
-					'verified' => AccountManager::VERIFICATION_IN_PROGRESS,
+					'scope' => IAccountManager::VISIBILITY_PUBLIC,
+					'verified' => IAccountManager::VERIFICATION_IN_PROGRESS,
 				],
-			AccountManager::PROPERTY_WEBSITE =>
+			IAccountManager::PROPERTY_WEBSITE =>
 				[
 					'value' => 'https://example.com',
-					'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					'verified' => AccountManager::VERIFIED,
+					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
+					'verified' => IAccountManager::VERIFIED,
 				],
 		];
 		$expected = new Account($user);
-		$expected->setProperty(AccountManager::PROPERTY_TWITTER, '@twitterhandle', AccountManager::VISIBILITY_PRIVATE, AccountManager::NOT_VERIFIED);
-		$expected->setProperty(AccountManager::PROPERTY_EMAIL, 'test@example.com', AccountManager::VISIBILITY_PUBLIC, AccountManager::VERIFICATION_IN_PROGRESS);
-		$expected->setProperty(AccountManager::PROPERTY_WEBSITE, 'https://example.com', AccountManager::VISIBILITY_CONTACTS_ONLY, AccountManager::VERIFIED);
+		$expected->setProperty(IAccountManager::PROPERTY_TWITTER, '@twitterhandle', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::NOT_VERIFIED);
+		$expected->setProperty(IAccountManager::PROPERTY_EMAIL, 'test@example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::VERIFICATION_IN_PROGRESS);
+		$expected->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_CONTACTS_ONLY, IAccountManager::VERIFIED);
 
 		$accountManager->expects($this->once())
 			->method('getUser')

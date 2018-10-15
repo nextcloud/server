@@ -23,10 +23,8 @@
 
 namespace Test\Accounts;
 
-use OC\Accounts\Account;
-use OC\Accounts\AccountManager;
 use OC\Accounts\AccountProperty;
-
+use OCP\Accounts\IAccountManager;
 use Test\TestCase;
 
 /**
@@ -38,23 +36,23 @@ class AccountPropertyTest extends TestCase {
 
 	public function testConstructor() {
 		$accountProperty = new AccountProperty(
-			AccountManager::PROPERTY_WEBSITE,
+			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			AccountManager::VISIBILITY_PUBLIC,
-			AccountManager::VERIFIED
+			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::VERIFIED
 		);
-		$this->assertEquals(AccountManager::PROPERTY_WEBSITE, $accountProperty->getName());
+		$this->assertEquals(IAccountManager::PROPERTY_WEBSITE, $accountProperty->getName());
 		$this->assertEquals('https://example.com', $accountProperty->getValue());
-		$this->assertEquals(AccountManager::VISIBILITY_PUBLIC, $accountProperty->getScope());
-		$this->assertEquals(AccountManager::VERIFIED, $accountProperty->getVerified());
+		$this->assertEquals(IAccountManager::VISIBILITY_PUBLIC, $accountProperty->getScope());
+		$this->assertEquals(IAccountManager::VERIFIED, $accountProperty->getVerified());
 	}
 
 	public function testSetValue() {
 		$accountProperty = new AccountProperty(
-			AccountManager::PROPERTY_WEBSITE,
+			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			AccountManager::VISIBILITY_PUBLIC,
-			AccountManager::VERIFIED
+			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::VERIFIED
 		);
 		$actualReturn = $accountProperty->setValue('https://example.org');
 		$this->assertEquals('https://example.org', $accountProperty->getValue());
@@ -63,40 +61,40 @@ class AccountPropertyTest extends TestCase {
 
 	public function testSetScope() {
 		$accountProperty = new AccountProperty(
-			AccountManager::PROPERTY_WEBSITE,
+			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			AccountManager::VISIBILITY_PUBLIC,
-			AccountManager::VERIFIED
+			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::VERIFIED
 		);
-		$actualReturn = $accountProperty->setScope(AccountManager::VISIBILITY_PRIVATE);
-		$this->assertEquals(AccountManager::VISIBILITY_PRIVATE, $accountProperty->getScope());
-		$this->assertEquals(AccountManager::VISIBILITY_PRIVATE, $actualReturn->getScope());
+		$actualReturn = $accountProperty->setScope(IAccountManager::VISIBILITY_PRIVATE);
+		$this->assertEquals(IAccountManager::VISIBILITY_PRIVATE, $accountProperty->getScope());
+		$this->assertEquals(IAccountManager::VISIBILITY_PRIVATE, $actualReturn->getScope());
 	}
 
 	public function testSetVerified() {
 		$accountProperty = new AccountProperty(
-			AccountManager::PROPERTY_WEBSITE,
+			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			AccountManager::VISIBILITY_PUBLIC,
-			AccountManager::VERIFIED
+			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::VERIFIED
 		);
-		$actualReturn = $accountProperty->setVerified(AccountManager::NOT_VERIFIED);
-		$this->assertEquals(AccountManager::NOT_VERIFIED, $accountProperty->getVerified());
-		$this->assertEquals(AccountManager::NOT_VERIFIED, $actualReturn->getVerified());
+		$actualReturn = $accountProperty->setVerified(IAccountManager::NOT_VERIFIED);
+		$this->assertEquals(IAccountManager::NOT_VERIFIED, $accountProperty->getVerified());
+		$this->assertEquals(IAccountManager::NOT_VERIFIED, $actualReturn->getVerified());
 	}
 
 	public function testJsonSerialize() {
 		$accountProperty = new AccountProperty(
-			AccountManager::PROPERTY_WEBSITE,
+			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			AccountManager::VISIBILITY_PUBLIC,
-			AccountManager::VERIFIED
+			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::VERIFIED
 		);
 		$this->assertEquals([
-			'name' => AccountManager::PROPERTY_WEBSITE,
+			'name' => IAccountManager::PROPERTY_WEBSITE,
 			'value' => 'https://example.com',
-			'scope' => AccountManager::VISIBILITY_PUBLIC,
-			'verified' => AccountManager::VERIFIED
+			'scope' => IAccountManager::VISIBILITY_PUBLIC,
+			'verified' => IAccountManager::VERIFIED
 		], $accountProperty->jsonSerialize());
 	}
 
