@@ -39,58 +39,5 @@
 		<p><?php p($_['description']); ?></p>
 	<?php endif; ?>
 
-	<script type="text/template" id="operations-template">
-		<div class="operations"></div>
-		<button class="button-add-operation"><?php p($l->t('Add rule group')); ?></button>
-	</script>
-
-	<script type="text/template" id="operation-template">
-		<div class="operation{{#if hasChanged}} modified{{/if}}">
-			<div class="operation-header">
-				<input type="text" class="operation-name" placeholder="<?php p($l->t('Short rule description')); ?>" value="{{operation.name}}" />
-				<input type="text" class="operation-operation" value="{{operation.operation}}" />
-				{{! delete only makes sense if the operation is already saved }}
-				{{#if operation.id}}
-				<span class="button-delete icon-delete"></span>
-				{{/if}}
-			</div>
-
-			<div class="checks">
-				{{#each operation.checks}}
-				<div class="check" data-id="{{@index}}">
-					<select class="check-class">
-						{{#each ../classes}}
-						<option value="{{class}}" {{{selectItem class ../class}}}>{{name}}</option>
-						{{/each}}
-					</select>
-					<select class="check-operator">
-						{{#each (getOperators class)}}
-						<option value="{{operator}}" {{{selectItem operator ../operator}}}>{{name}}</option>
-						{{/each}}
-					</select>
-					<input type="text" class="check-value" value="{{value}}">
-					<span class="button-delete-check icon-delete"></span>
-				</div>
-				{{/each}}
-			</div>
-			<button class="button-add"><?php p($l->t('Add rule')); ?></button>
-			{{#if hasChanged}}
-				{{! reset only makes sense if the operation is already saved }}
-				{{#if operation.id}}
-					<button class="button-reset pull-right"><?php p($l->t('Reset')); ?></button>
-				{{/if}}
-				<button class="button-save pull-right"><?php p($l->t('Save')); ?></button>
-			{{/if}}
-			{{#if saving}}
-				<span class="icon-loading-small pull-right"></span>
-				<span class="pull-right"><?php p($l->t('Saving…')); ?></span>
-			{{else}}{{#if message}}
-				<span class="msg pull-right {{#if errorMessage}}error{{else}}success{{/if}}">
-					{{message}}{{#if errorMessage}} {{errorMessage}}{{/if}}
-				</span>
-			{{/if}}{{/if}}
-		</div>
-	</script>
-
 	<div class="rules"><span class="icon-loading-small"></span> <?php p($l->t('Loading…')); ?></div>
 </div>

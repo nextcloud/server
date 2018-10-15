@@ -108,29 +108,12 @@
 	 */
 
 	/**
-	 * @class OCA.WorkflowEngine.TemplateView
-	 *
-	 * a generic template that handles the Handlebars template compile step
-	 * in a method called "template()"
-	 */
-	OCA.WorkflowEngine.TemplateView =
-		OC.Backbone.View.extend({
-			_template: null,
-			template: function(vars) {
-				if (!this._template) {
-					this._template = Handlebars.compile($(this.templateId).html());
-				}
-				return this._template(vars);
-			}
-		});
-
-	/**
 	 * @class OCA.WorkflowEngine.OperationView
 	 *
 	 * this creates the view for a single operation
 	 */
 	OCA.WorkflowEngine.OperationView =
-		OCA.WorkflowEngine.TemplateView.extend({
+		OC.Backbone.View.extend({
 			templateId: '#operation-template',
 			events: {
 				'change .check-class': 'checkChanged',
@@ -150,6 +133,18 @@
 			errorMessage: '',
 			saving: false,
 			groups: [],
+			template: function(vars) {
+				return OCA.WorkflowEngine.Templates['operation'](_.extend(
+					{
+						shortRuleDescTXT: t('workflowengine', 'Short rule description'),
+						addRuleTXT: t('workflowengine', 'Add rule'),
+						resetTXT: t('workflowengine', 'Reset'),
+						saveTXT: t('workflowengine', 'Save'),
+						savingTXT: t('workflowengine', 'Saving…')
+					},
+					vars
+				));
+			},
 			initialize: function() {
 				// this creates a new copy of the object to definitely have a new reference and being able to reset the model
 				this.originalModel = JSON.parse(JSON.stringify(this.model));
@@ -354,12 +349,20 @@
 	 * this creates the view for configured operations
 	 */
 	OCA.WorkflowEngine.OperationsView =
-		OCA.WorkflowEngine.TemplateView.extend({
+		OC.Backbone.View.extend({
 			templateId: '#operations-template',
 			collection: null,
 			$el: null,
 			events: {
 				'click .button-add-operation': 'add'
+			},
+			template: function(vars) {
+				return OCA.WorkflowEngine.Templates['operations'](_.extend(
+					{
+						addRuleGroupTXT: t('workflowengine', 'Add rule group')
+					},
+					vars
+				));
 			},
 			initialize: function(classname) {
 				if (!OCA.WorkflowEngine.availablePlugins.length) {
