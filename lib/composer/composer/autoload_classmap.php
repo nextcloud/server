@@ -7,6 +7,10 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'OCP\\API' => $baseDir . '/lib/public/API.php',
+    'OCP\\Accounts\\IAccount' => $baseDir . '/lib/public/Accounts/IAccount.php',
+    'OCP\\Accounts\\IAccountManager' => $baseDir . '/lib/public/Accounts/IAccountManager.php',
+    'OCP\\Accounts\\IAccountProperty' => $baseDir . '/lib/public/Accounts/IAccountProperty.php',
+    'OCP\\Accounts\\PropertyDoesNotExistException' => $baseDir . '/lib/public/Accounts/PropertyDoesNotExistException.php',
     'OCP\\Activity\\IConsumer' => $baseDir . '/lib/public/Activity/IConsumer.php',
     'OCP\\Activity\\IEvent' => $baseDir . '/lib/public/Activity/IEvent.php',
     'OCP\\Activity\\IEventMerger' => $baseDir . '/lib/public/Activity/IEventMerger.php',
@@ -373,7 +377,9 @@ return array(
     'OCP\\WorkflowEngine\\ICheck' => $baseDir . '/lib/public/WorkflowEngine/ICheck.php',
     'OCP\\WorkflowEngine\\IManager' => $baseDir . '/lib/public/WorkflowEngine/IManager.php',
     'OCP\\WorkflowEngine\\IOperation' => $baseDir . '/lib/public/WorkflowEngine/IOperation.php',
+    'OC\\Accounts\\Account' => $baseDir . '/lib/private/Accounts/Account.php',
     'OC\\Accounts\\AccountManager' => $baseDir . '/lib/private/Accounts/AccountManager.php',
+    'OC\\Accounts\\AccountProperty' => $baseDir . '/lib/private/Accounts/AccountProperty.php',
     'OC\\Accounts\\Hooks' => $baseDir . '/lib/private/Accounts/Hooks.php',
     'OC\\Activity\\Event' => $baseDir . '/lib/private/Activity/Event.php',
     'OC\\Activity\\EventMerger' => $baseDir . '/lib/private/Activity/EventMerger.php',

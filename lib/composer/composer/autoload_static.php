@@ -37,6 +37,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 
     public static $classMap = array (
         'OCP\\API' => __DIR__ . '/../../..' . '/lib/public/API.php',
+        'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
+        'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
+        'OCP\\Accounts\\IAccountProperty' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountProperty.php',
+        'OCP\\Accounts\\PropertyDoesNotExistException' => __DIR__ . '/../../..' . '/lib/public/Accounts/PropertyDoesNotExistException.php',
         'OCP\\Activity\\IConsumer' => __DIR__ . '/../../..' . '/lib/public/Activity/IConsumer.php',
         'OCP\\Activity\\IEvent' => __DIR__ . '/../../..' . '/lib/public/Activity/IEvent.php',
         'OCP\\Activity\\IEventMerger' => __DIR__ . '/../../..' . '/lib/public/Activity/IEventMerger.php',
@@ -403,7 +407,9 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\WorkflowEngine\\ICheck' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/ICheck.php',
         'OCP\\WorkflowEngine\\IManager' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IManager.php',
         'OCP\\WorkflowEngine\\IOperation' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IOperation.php',
+        'OC\\Accounts\\Account' => __DIR__ . '/../../..' . '/lib/private/Accounts/Account.php',
         'OC\\Accounts\\AccountManager' => __DIR__ . '/../../..' . '/lib/private/Accounts/AccountManager.php',
+        'OC\\Accounts\\AccountProperty' => __DIR__ . '/../../..' . '/lib/private/Accounts/AccountProperty.php',
         'OC\\Accounts\\Hooks' => __DIR__ . '/../../..' . '/lib/private/Accounts/Hooks.php',
         'OC\\Activity\\Event' => __DIR__ . '/../../..' . '/lib/private/Activity/Event.php',
         'OC\\Activity\\EventMerger' => __DIR__ . '/../../..' . '/lib/private/Activity/EventMerger.php',
