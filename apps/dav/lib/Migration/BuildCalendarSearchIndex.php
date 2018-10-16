@@ -70,7 +70,7 @@ class BuildCalendarSearchIndex implements IRepairStep {
 		}
 
 		$query = $this->db->getQueryBuilder();
-		$query->select($query->createFunction('MAX(id)'))
+		$query->select($query->createFunction('MAX(' . $query->getColumnName('id') . ')'))
 			->from('calendarobjects');
 		$maxId = (int)$query->execute()->fetchColumn();
 
