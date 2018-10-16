@@ -146,6 +146,8 @@ class DefaultShareProvider implements IShareProvider {
 			//Set the GID of the group we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+			//set label for public link
+			$qb->setValue('label', $qb->createNamedParameter($share->getLabel()));
 			//Set the token of the share
 			$qb->setValue('token', $qb->createNamedParameter($share->getToken()));
 
@@ -225,6 +227,9 @@ class DefaultShareProvider implements IShareProvider {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @return \OCP\Share\IShare The share object
+	 * @throws ShareNotFound
+	 * @throws \OCP\Files\InvalidPathException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function update(\OCP\Share\IShare $share) {
 
@@ -919,7 +924,8 @@ class DefaultShareProvider implements IShareProvider {
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
 			->setNote($data['note'])
-			->setMailSend((bool)$data['mail_send']);
+			->setMailSend((bool)$data['mail_send'])
+			->setLabel($data['label']);
 
 		$shareTime = new \DateTime();
 		$shareTime->setTimestamp((int)$data['stime']);

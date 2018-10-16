@@ -160,6 +160,7 @@ class ShareAPIController extends OCSController {
 			'token' => null,
 			'uid_file_owner' => $share->getShareOwner(),
 			'note' => $share->getNote(),
+			'label' => $share->getLabel(),
 			'displayname_file_owner' => $shareOwner !== null ? $shareOwner->getDisplayName() : $share->getShareOwner(),
 		];
 
@@ -354,15 +355,17 @@ class ShareAPIController extends OCSController {
 	 * @param string $shareWith
 	 * @param string $publicUpload
 	 * @param string $password
-	 * @param bool $sendPasswordByTalk
+	 * @param string $sendPasswordByTalk
 	 * @param string $expireDate
+	 * @param string $label
 	 *
 	 * @return DataResponse
-	 * @throws OCSNotFoundException
-	 * @throws OCSForbiddenException
+	 * @throws NotFoundException
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
-	 *
+	 * @throws OCSForbiddenException
+	 * @throws OCSNotFoundException
+	 * @throws \OCP\Files\InvalidPathException
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function createShare(
@@ -373,7 +376,8 @@ class ShareAPIController extends OCSController {
 		string $publicUpload = 'false',
 		string $password = '',
 		string $sendPasswordByTalk = null,
-		string $expireDate = ''
+		string $expireDate = '',
+		string $label = ''
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
@@ -471,6 +475,10 @@ class ShareAPIController extends OCSController {
 			// Set password
 			if ($password !== '') {
 				$share->setPassword($password);
+			}
+
+			if (!empty($label)) {
+				$share->setLabel($label);
 			}
 
 			//Expire date
