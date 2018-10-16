@@ -74,6 +74,23 @@ templates['error'] = template({"compiler":[7,">= 4.0.0"],"main":function(contain
     + container.escapeExpression(((helper = (helper = helpers.couldNotLoadText || (depth0 != null ? depth0.couldNotLoadText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"couldNotLoadText","hash":{},"data":data}) : helper)))
     + "</h2>\n</div>\n";
 },"useData":true});
+templates['jquery_entry'] = template({"1":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<img src=\""
+    + container.escapeExpression(((helper = (helper = helpers.icon || (depth0 != null ? depth0.icon : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"icon","hash":{},"data":data}) : helper)))
+    + "\">";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<li>\n	<a href=\""
+    + alias4(((helper = (helper = helpers.hyperlink || (depth0 != null ? depth0.hyperlink : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"hyperlink","hash":{},"data":data}) : helper)))
+    + "\">\n		"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.icon : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n		<span>"
+    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
+    + "</span>\n	</a>\n</li>\n";
+},"useData":true});
 templates['list'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
 
