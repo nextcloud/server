@@ -279,6 +279,15 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function passwordProtectCheckboxInput() {
+		return Locator::forThe()->checkbox("Password protect")->
+				descendantOf(self::shareLinkMenu())->
+				describedAs("Password protect checkbox input in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function passwordProtectField() {
 		return Locator::forThe()->css(".linkPassText")->descendantOf(self::shareLinkMenu())->
 				describedAs("Password protect field in the details view in Files app");
@@ -290,6 +299,18 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public static function passwordProtectWorkingIcon() {
 		return Locator::forThe()->css(".linkPassMenu .icon-loading-small")->descendantOf(self::shareLinkMenu())->
 				describedAs("Password protect working icon in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function passwordProtectByTalkCheckbox() {
+		// forThe()->checkbox("Password protect by Talk") can not be used here;
+		// that would return the checkbox itself, but the element that the user
+		// interacts with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Password protect by Talk']")->
+				descendantOf(self::shareLinkMenu())->
+				describedAs("Password protect by Talk checkbox in the details view in Files app");
 	}
 
 	/**
@@ -534,6 +555,29 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				self::passwordProtectWorkingIcon(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The working icon for password protect is still shown after $timeout seconds");
+		}
+	}
+
+	/**
+	 * @Then I see that the link share is password protected
+	 */
+	public function iSeeThatTheLinkShareIsPasswordProtected() {
+		$this->showShareLinkMenuIfNeeded();
+
+		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::passwordProtectCheckboxInput(), 10)->isChecked(), "Password protect checkbox is checked");
+		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::passwordProtectField(), 10)->isVisible(), "Password protect field is visible");
+	}
+
+	/**
+	 * @Then I see that the checkbox to protect the password of the link share by Talk is not shown
+	 */
+	public function iSeeThatTheCheckboxToProtectThePasswordOfTheLinkShareByTalkIsNotShown() {
+		$this->showShareLinkMenuIfNeeded();
+
+		try {
+			PHPUnit_Framework_Assert::assertFalse(
+					$this->actor->find(self::passwordProtectByTalkCheckbox())->isVisible());
+		} catch (NoSuchElementException $exception) {
 		}
 	}
 
