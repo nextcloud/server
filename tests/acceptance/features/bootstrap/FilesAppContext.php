@@ -314,6 +314,15 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @return Locator
+	 */
+	public static function passwordProtectByTalkCheckboxInput() {
+		return Locator::forThe()->checkbox("Password protect by Talk")->
+				descendantOf(self::shareLinkMenu())->
+				describedAs("Password protect by Talk checkbox input in the details view in Files app");
+	}
+
+	/**
 	 * @Given I close the details view
 	 */
 	public function iCloseTheDetailsView() {
@@ -413,6 +422,28 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->actor->find(self::passwordProtectCheckbox(), 2)->click();
 
 		$this->actor->find(self::passwordProtectField(), 2)->setValue($password . "\r");
+	}
+
+	/**
+	 * @When I set the password of the shared link as protected by Talk
+	 */
+	public function iSetThePasswordOfTheSharedLinkAsProtectedByTalk() {
+		$this->showShareLinkMenuIfNeeded();
+
+		$this->iSeeThatThePasswordOfTheLinkShareIsNotProtectedByTalk();
+
+		$this->actor->find(self::passwordProtectByTalkCheckbox(), 2)->click();
+	}
+
+	/**
+	 * @When I set the password of the shared link as not protected by Talk
+	 */
+	public function iSetThePasswordOfTheSharedLinkAsNotProtectedByTalk() {
+		$this->showShareLinkMenuIfNeeded();
+
+		$this->iSeeThatThePasswordOfTheLinkShareIsProtectedByTalk();
+
+		$this->actor->find(self::passwordProtectByTalkCheckbox(), 2)->click();
 	}
 
 	/**
@@ -566,6 +597,24 @@ class FilesAppContext implements Context, ActorAwareInterface {
 
 		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::passwordProtectCheckboxInput(), 10)->isChecked(), "Password protect checkbox is checked");
 		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::passwordProtectField(), 10)->isVisible(), "Password protect field is visible");
+	}
+
+	/**
+	 * @Then I see that the password of the link share is protected by Talk
+	 */
+	public function iSeeThatThePasswordOfTheLinkShareIsProtectedByTalk() {
+		$this->showShareLinkMenuIfNeeded();
+
+		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::passwordProtectByTalkCheckboxInput(), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that the password of the link share is not protected by Talk
+	 */
+	public function iSeeThatThePasswordOfTheLinkShareIsNotProtectedByTalk() {
+		$this->showShareLinkMenuIfNeeded();
+
+		PHPUnit_Framework_Assert::assertFalse($this->actor->find(self::passwordProtectByTalkCheckboxInput(), 10)->isChecked());
 	}
 
 	/**
