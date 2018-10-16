@@ -1385,7 +1385,7 @@
 				// min. color contrast for normal text on white background according to WCAG AA
 				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)),2));
 
-				if (oc_defaults.themeName === 'themedark') {
+				if (OCA.Accessibility && OCA.Accessibility.theme === 'themedark') {
 					sizeColor = Math.abs(sizeColor);
 				}
 			} else {
@@ -1407,7 +1407,7 @@
 			if (modifiedColor >= '118') {
 				modifiedColor = 118;
 			}
-			if (oc_defaults.themeName === 'themedark') {
+			if (OCA.Accessibility && OCA.Accessibility.theme === 'themedark') {
 				modifiedColor = Math.abs(modifiedColor);
 
 				// ensure that the dimmest color is still readable
