@@ -66,19 +66,18 @@ class Resource implements IResource {
 	}
 
 	/**
-	 * @param IResource $resource
 	 * @return ICollection[]
 	 * @since 15.0.0
 	 */
-	public function getCollections(IResource $resource): array {
+	public function getCollections(): array {
 		$collections = [];
 
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('collection_id')
 			->from('collres_resources')
-			->where($query->expr()->eq('resource_type', $query->createNamedParameter($resource->getType())))
-			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())));
+			->where($query->expr()->eq('resource_type', $query->createNamedParameter($this->getType())))
+			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($this->getId())));
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {

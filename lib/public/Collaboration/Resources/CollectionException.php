@@ -22,26 +22,7 @@ declare(strict_types=1);
 
 namespace OCP\Collaboration\Resources;
 
-/**
- * @since 15.0.0
- */
-interface IResource {
 
-	/**
-	 * @return string
-	 * @since 15.0.0
-	 */
-	public function getType(): string;
+class CollectionException extends \RuntimeException {
 
-	/**
-	 * @return string
-	 * @since 15.0.0
-	 */
-	public function getId(): string;
-
-	/**
-	 * @return ICollection[]
-	 * @since 15.0.0
-	 */
-	public function getCollections(): array;
 }
