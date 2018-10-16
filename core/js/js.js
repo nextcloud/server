@@ -2411,3 +2411,12 @@ jQuery.fn.tipsy = function(argument) {
 	}
 	return this;
 };
+
+/**
+ * Set the Webpack CSP nonce so that it will be added to script tags of dynamically
+ * loaded scripts automatically
+ *
+ * @type {string}
+ * @private
+ */
+__webpack_nonce__ = btoa(OC.requestToken);
