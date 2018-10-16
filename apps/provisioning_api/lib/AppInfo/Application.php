@@ -43,7 +43,7 @@ class Application extends App {
 			return new NewUserMailHelper(
 				$server->query(Defaults::class),
 				$server->getURLGenerator(),
-				$server->getL10N('settings'),
+				$server->getL10NFactory(),
 				$server->getMailer(),
 				$server->getSecureRandom(),
 				new TimeFactory(),

@@ -22,6 +22,7 @@
 namespace Tests\Settings\Mailer;
 
 use OC\Mail\EMailTemplate;
+use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OC\Mail\Message;
 use OC\Settings\Mailer\NewUserMailHelper;
@@ -64,6 +65,7 @@ class NewUserMailHelperTest extends TestCase {
 			->willReturn('myLogo');
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$template = new EMailTemplate(
 			$this->defaults,
@@ -82,11 +84,15 @@ class NewUserMailHelperTest extends TestCase {
 			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
+		$this->l10nFactory->method('get')
+			->will($this->returnCallback(function ($text, $lang) {
+				return $this->l10n;
+			}));
 
 		$this->newUserMailHelper = new NewUserMailHelper(
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n,
+			$this->l10nFactory,
 			$this->mailer,
 			$this->secureRandom,
 			$this->timeFactory,
@@ -113,15 +119,11 @@ class NewUserMailHelperTest extends TestCase {
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
-			->expects($this->at(0))
-			->method('getEmailAddress')
-			->willReturn('recipient@example.com');
-		$user
-			->expects($this->at(1))
+			->expects($this->any())
 			->method('getEmailAddress')
 			->willReturn('recipient@example.com');
 		$this->config
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('getSystemValue')
 			->with('secret')
 			->willReturn('MyInstanceWideSecret');
@@ -131,24 +133,20 @@ class NewUserMailHelperTest extends TestCase {
 			->with('12345:MySuperLongSecureRandomToken', 'recipient@example.comMyInstanceWideSecret')
 			->willReturn('TokenCiphertext');
 		$user
-			->expects($this->at(2))
+			->expects($this->any())
 			->method('getUID')
 			->willReturn('john');
 		$this->config
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('setUserValue')
 			->with('john', 'core', 'lostpassword', 'TokenCiphertext');
-		$user
-			->expects($this->at(3))
-			->method('getUID')
-			->willReturn('john');
 		$this->urlGenerator
 			->expects($this->at(0))
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', ['userId' => 'john', 'token' => 'MySuperLongSecureRandomToken'])
 			->willReturn('https://example.com/resetPassword/MySuperLongSecureRandomToken');
 		$user
-			->expects($this->at(4))
+			->expects($this->any())
 			->method('getDisplayName')
 			->willReturn('john');
 		$user
@@ -385,11 +383,11 @@ EOF;
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('getDisplayName')
 			->willReturn('John Doe');
 		$user
-			->expects($this->at(1))
+			->expects($this->any())
 			->method('getUID')
 			->willReturn('john');
 		$this->defaults
