@@ -387,9 +387,9 @@ class Database extends ABackend
 		$this->fixDI();
 		
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select($query->createFunction('COUNT(Distinct uid)'))
+		$query->select($query->createFunction('COUNT(DISTINCT ' . $query->getColumnName('uid') . ')'))
 			->from('preferences', 'p')
-			->innerJoin('p', 'group_user', 'g', 'p.userid = g.uid')
+			->innerJoin('p', 'group_user', 'g', $query->expr()->eq('p.userid', 'g.uid'))
 			->where($query->expr()->eq('appid', $query->createNamedParameter('core')))
 			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('enabled')))
 			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
