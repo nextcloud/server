@@ -371,10 +371,12 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$storage) {
 			$storage = $this;
 		}
+		$sourceRoot  = $this->getSourceRootInfo();
 		if ($this->storage instanceof FailedStorage) {
 			return new FailedCache();
 		}
-		$this->cache = new \OCA\Files_Sharing\Cache($storage, $this->getSourceRootInfo(), $this->superShare);
+
+		$this->cache = new \OCA\Files_Sharing\Cache($storage, $sourceRoot, $this->superShare);
 		return $this->cache;
 	}
 
