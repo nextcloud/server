@@ -163,7 +163,7 @@ class Manager implements ICommentsManager {
 	 */
 	protected function updateChildrenInformation($id, \DateTime $cDateTime) {
 		$qb = $this->dbConn->getQueryBuilder();
-		$query = $qb->select($qb->createFunction('COUNT(`id`)'))
+		$query = $qb->select($qb->createFunction('COUNT(' . $qb->getColumnName('id') . ')'))
 			->from('comments')
 			->where($qb->expr()->eq('parent_id', $qb->createParameter('id')))
 			->setParameter('id', $id);
