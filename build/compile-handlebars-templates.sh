@@ -28,6 +28,9 @@ handlebars -n OCA.Versions.Templates apps/files_versions/js/templates -f apps/fi
 # Workflowengine
 handlebars -n OCA.WorkflowEngine.Templates apps/workflowengine/js/templates -f apps/workflowengine/js/templates.js
 
+# Sharing
+handlebars -n OCA.Sharing.Templates apps/files_sharing/js/templates -f apps/files_sharing/js/templates.js
+
 if [[ $(git diff --name-only) ]]; then
     echo "Please submit your compiled handlebars templates"
     echo

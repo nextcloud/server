@@ -387,6 +387,7 @@ class ShareController extends AuthPublicShareController {
 		\OCP\Util::addScript('files', 'file-upload');
 		\OCP\Util::addStyle('files_sharing', 'publicView');
 		\OCP\Util::addScript('files_sharing', 'public');
+		\OCP\Util::addScript('files_sharing', 'templates');
 		\OCP\Util::addScript('files_sharing', 'public_note');
 		\OCP\Util::addScript('files', 'fileactions');
 		\OCP\Util::addScript('files', 'fileactionsmenu');

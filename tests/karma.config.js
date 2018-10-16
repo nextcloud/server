@@ -56,7 +56,8 @@ module.exports = function(config) {
 					'apps/files_sharing/js/sharebreadcrumbview.js',
 					'apps/files_sharing/js/public.js',
 					'apps/files_sharing/js/sharetabview.js',
-					'apps/files_sharing/js/files_drop.js'
+					'apps/files_sharing/js/files_drop.js',
+					'apps/files_sharing/js/templates.js',
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
 			},
