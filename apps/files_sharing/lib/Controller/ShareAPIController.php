@@ -745,6 +745,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $publicUpload
 	 * @param string $expireDate
 	 * @param string $note
+	 * @param string $label
 	 * @param string $hideDownload
 	 * @return DataResponse
 	 * @throws LockedException
@@ -761,6 +762,7 @@ class ShareAPIController extends OCSController {
 		string $publicUpload = null,
 		string $expireDate = null,
 		string $note = null,
+		string $label = null,
 		string $hideDownload = null
 	): DataResponse {
 		try {
@@ -775,7 +777,15 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
-		if ($permissions === null && $password === null && $sendPasswordByTalk === null && $publicUpload === null && $expireDate === null && $note === null && $hideDownload === null) {
+		if ($permissions === null &&
+			$password === null &&
+			$sendPasswordByTalk === null &&
+			$publicUpload === null &&
+			$expireDate === null &&
+			$note === null &&
+			$label === null &&
+			$hideDownload === null
+		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
 
@@ -857,6 +867,10 @@ class ShareAPIController extends OCSController {
 				$share->setPassword(null);
 			} else if ($password !== null) {
 				$share->setPassword($password);
+			}
+
+			if ($label !== null) {
+				$share->setLabel($label);
 			}
 
 		} else {
