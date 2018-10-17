@@ -312,6 +312,12 @@
 
 						var suggestions = exactMatches.concat(users).concat(groups).concat(remotes).concat(remoteGroups).concat(emails).concat(circles).concat(rooms).concat(lookup);
 
+						function dynamicSort(property) {
+							return function (a,b) {
+								return (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+							}
+						}
+						var grouped = suggestions.sort(dynamicSort('uuid'));
 						var moreResultsAvailable =
 							(
 								oc_config['sharing.maxAutocompleteResults'] > 0
@@ -328,7 +334,7 @@
 									)
 							);
 
-						deferred.resolve(suggestions, exactMatches, moreResultsAvailable);
+						deferred.resolve(grouped, exactMatches, moreResultsAvailable);
 					} else {
 						deferred.reject(result.ocs.meta.message);
 					}
