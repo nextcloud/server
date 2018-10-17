@@ -43,7 +43,7 @@ function preview(setting, value, serverCssUrl) {
 	var reloadStylesheets = function(cssFile) {
 		var queryString = '?reload=' + new Date().getTime();
 		var url = cssFile + queryString;
-		var old = $('link[href*="' + cssFile.replace("/","\/") + '"]');
+		var old = $('link[href*="' + cssFile + '"]');
 		var stylesheet = $("<link/>", {
 			rel: "stylesheet",
 			type: "text/css",
