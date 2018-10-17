@@ -1,17 +1,15 @@
 @font-face {
-	font-family: 'Open Sans';
+	font-family: 'Nunito';
 	font-style: normal;
 	font-weight: normal;
-	src: local('Open Sans'), local('OpenSans'),
-		url('../fonts/OpenSans.woff') format('woff'),
-		url('../fonts/OpenSans.ttf') format('ttf');
+	src: local('Nunito Regular'), local('Nunito-Regular'),
+		url('../fonts/Nunito-Regular.ttf') format('ttf');
 }
 
 @font-face {
-	font-family: 'Open Sans';
+	font-family: 'Nunito';
 	font-style: normal;
 	font-weight: bold;
-	src: local('Open Sans Bold'), local('OpenSans-Bold'),
-		url('../fonts/OpenSans-Bold.woff') format('woff'),
-		url('../fonts/OpenSans-Bold.ttf') format('ttf');
+	src: local('Nunito Bold'), local('Nunito-Bold'),
+		url('../fonts/Nunito-Bold.ttf') format('ttf');
 }

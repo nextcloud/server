@@ -19,7 +19,7 @@ body {
 	font-weight: normal;
 	font-size: .8em;
 	line-height: 1.6em;
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 	color: #000;
 	text-align: center;
 	background-color: #0082c9;
@@ -175,7 +175,7 @@ form #datadirField legend {
 }
 
 input, textarea, select, button, div[contenteditable=true] {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 }
 input,
 input:not([type='range']),
@@ -421,7 +421,7 @@ form .warning input[type='checkbox']+label {
 	margin: 0;
 }
 .two-factor-provider p {
-	font-weight: 300;
+	font-weight: normal;
 }
 .two-factor-icon {
 	width: 100px;
@@ -461,7 +461,7 @@ form .warning input[type='checkbox']+label {
 .lost-password-container #lost-password,
 .lost-password-container #lost-password-back {
 	display: inline-block;
-	font-weight: 300;
+	font-weight: normal;
 	padding: 12px;
 	margin-top: -6px;
 	color: #fff;
@@ -824,19 +824,17 @@ a.legal {
 }
 
 @font-face {
-	font-family: 'Open Sans';
+	font-family: 'Nunito';
 	font-style: normal;
 	font-weight: normal;
-	src: local('Open Sans'), local('OpenSans'),
-		url('../fonts/OpenSans.woff') format('woff'),
-		url('../fonts/OpenSans.ttf') format('ttf');
+	src: local('Nunito Regular'), local('Nunito-Regular'),
+		url('../fonts/Nunito-Regular.ttf') format('ttf');
 }
 
 @font-face {
-	font-family: 'Open Sans';
+	font-family: 'Nunito';
 	font-style: normal;
 	font-weight: bold;
-	src: local('Open Sans Bold'), local('OpenSans-Bold'),
-		url('../fonts/OpenSans-Bold.woff') format('woff'),
-		url('../fonts/OpenSans-Bold.ttf') format('ttf');
+	src: local('Nunito Bold'), local('Nunito-Bold'),
+		url('../fonts/Nunito-Bold.ttf') format('ttf');
 }
