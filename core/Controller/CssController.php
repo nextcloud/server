@@ -62,6 +62,7 @@ class CssController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $fileName css filename with extension
 	 * @param string $appName css folder name
