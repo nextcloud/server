@@ -57,7 +57,7 @@ class TrashItem implements ITrashItem {
 		return $this->backend;
 	}
 
-	public function getOriginalLocation(IUser $user): string {
+	public function getOriginalLocation(): string {
 		return $this->orignalLocation;
 	}
 

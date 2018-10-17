@@ -37,13 +37,12 @@ interface ITrashItem extends FileInfo {
 	public function getTrashBackend(): ITrashBackend;
 
 	/**
-	 * Get the original location for the trash item for the user
+	 * Get the original location for the trash item
 	 *
-	 * @param IUser $user
 	 * @return string
 	 * @since 15.0.0
 	 */
-	public function getOriginalLocation(IUser $user): string;
+	public function getOriginalLocation(): string;
 
 	/**
 	 * Get the timestamp that the file was moved to trash
