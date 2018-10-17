@@ -31,10 +31,15 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IUserManager;
 use OCP\Share;
 use Test\TestCase;
 
 class RemotePluginTest extends TestCase {
+
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userManager;
+
 	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
@@ -53,6 +58,7 @@ class RemotePluginTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->contactsManager = $this->createMock(IManager::class);
 		$this->cloudIdManager = new CloudIdManager();
@@ -60,7 +66,7 @@ class RemotePluginTest extends TestCase {
 	}
 
 	public function instantiatePlugin() {
-		$this->plugin = new RemotePlugin($this->contactsManager, $this->cloudIdManager, $this->config);
+		$this->plugin = new RemotePlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->userManager);
 	}
 
 	/**

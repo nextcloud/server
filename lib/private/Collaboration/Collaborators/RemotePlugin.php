@@ -30,6 +30,7 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IUserManager;
 use OCP\Share;
 
 class RemotePlugin implements ISearchPlugin {
@@ -41,11 +42,14 @@ class RemotePlugin implements ISearchPlugin {
 	private $cloudIdManager;
 	/** @var IConfig */
 	private $config;
+	/** @var IUserManager */
+	private $userManager;
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config) {
+	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IUserManager $userManager) {
 		$this->contactsManager = $contactsManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->config = $config;
+		$this->userManager = $userManager;
 
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
@@ -69,8 +73,13 @@ class RemotePlugin implements ISearchPlugin {
 				$lowerSearch = strtolower($search);
 				foreach ($cloudIds as $cloudId) {
 					try {
-						list(, $serverUrl) = $this->splitUserRemote($cloudId);
+						list($remoteUser, $serverUrl) = $this->splitUserRemote($cloudId);
 					} catch (\InvalidArgumentException $e) {
+						continue;
+					}
+
+					$localUser = $this->userManager->get($remoteUser);
+					if ($localUser !== null && $cloudId === $localUser->getCloudId()) {
 						continue;
 					}
 
