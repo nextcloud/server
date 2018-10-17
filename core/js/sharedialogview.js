@@ -472,7 +472,11 @@
 			}
 
 			$("<div class='autocomplete-item-text'></div>")
-				.text(text)
+				.html(
+					text.replace(
+					new RegExp(this.term, "gi"),
+					"<span class='ui-state-highlight'>$&</span>")
+				)
 				.appendTo(insert);
 			insert.attr('title', item.value.shareWith);
 			insert.append('<span class="icon '+icon+'"></span>');
