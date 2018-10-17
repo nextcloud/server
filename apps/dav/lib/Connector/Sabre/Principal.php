@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2018, Georg Ehrke
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Jakob Sack <mail@jakobsack.de>
@@ -11,6 +12,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -249,6 +251,23 @@ class Principal implements BackendInterface {
 					}, []);
 					break;
 
+				case '{DAV:}displayname':
+					$users = $this->userManager->searchDisplayName($value);
+
+					$results[] = array_reduce($users, function(array $carry, IUser $user) use ($restrictGroups) {
+						// is sharing restricted to groups only?
+						if ($restrictGroups !== false) {
+							$userGroups = $this->groupManager->getUserGroupIds($user);
+							if (count(array_intersect($userGroups, $restrictGroups)) === 0) {
+								return $carry;
+							}
+						}
+
+						$carry[] = $this->principalPrefix . '/' . $user->getUID();
+						return $carry;
+					}, []);
+					break;
+
 				default:
 					$results[] = [];
 					break;
@@ -263,11 +282,11 @@ class Principal implements BackendInterface {
 
 		switch ($test) {
 			case 'anyof':
-				return array_unique(array_merge(...$results));
+				return array_values(array_unique(array_merge(...$results)));
 
 			case 'allof':
 			default:
-				return array_intersect(...$results);
+				return array_values(array_intersect(...$results));
 		}
 	}
 
@@ -354,6 +373,7 @@ class Principal implements BackendInterface {
 		$principal = [
 				'uri' => $this->principalPrefix . '/' . $userId,
 				'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
 
 		$email = $user->getEMailAddress();
