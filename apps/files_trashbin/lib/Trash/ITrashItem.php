@@ -67,4 +67,12 @@ interface ITrashItem extends FileInfo {
 	 * @since 15.0.0
 	 */
 	public function isRootItem(): bool;
+
+	/**
+	 * Get the user for which this trash item applies
+	 *
+	 * @return IUser
+	 * @since 15.0.0
+	 */
+	public function getUser(): IUser;
 }

@@ -69,9 +69,9 @@ class TrashRoot implements ICollection {
 
 		$children = array_map(function (ITrashItem $entry) {
 			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-				return new TrashFolder($this->trashManager, $this->user, $entry);
+				return new TrashFolder($this->trashManager, $entry);
 			}
-			return new TrashFile($this->trashManager, $this->user, $entry);
+			return new TrashFile($this->trashManager, $entry);
 		}, $entries);
 
 		return $children;

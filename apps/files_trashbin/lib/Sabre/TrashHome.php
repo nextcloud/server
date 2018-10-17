@@ -73,7 +73,7 @@ class TrashHome implements ICollection {
 
 	public function getChild($name) {
 		if ($name === 'restore') {
-			return new RestoreFolder($this->user->getUID());
+			return new RestoreFolder();
 		}
 		if ($name === 'trash') {
 			return new TrashRoot($this->user, $this->trashManager);
@@ -84,7 +84,7 @@ class TrashHome implements ICollection {
 
 	public function getChildren(): array {
 		return [
-			new RestoreFolder($this->user->getUID()),
+			new RestoreFolder(),
 			new TrashRoot($this->user, $this->trashManager)
 		];
 	}

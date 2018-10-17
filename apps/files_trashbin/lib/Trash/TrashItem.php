@@ -35,22 +35,23 @@ class TrashItem implements ITrashItem {
 	private $trashPath;
 	/** @var FileInfo */
 	private $fileInfo;
+	/** @var IUser */
+	private $user;
 
-	/**
-	 * TrashItem constructor.
-	 *
-	 * @param ITrashBackend $backend
-	 * @param string $originalLocation
-	 * @param int $deletedTime
-	 * @param string $trashPath
-	 * @param FileInfo $fileInfo
-	 */
-	public function __construct(ITrashBackend $backend, string $originalLocation, int $deletedTime, string $trashPath, FileInfo $fileInfo) {
+	public function __construct(
+		ITrashBackend $backend,
+		string $originalLocation,
+		int $deletedTime,
+		string $trashPath,
+		FileInfo $fileInfo,
+		IUser $user
+	) {
 		$this->backend = $backend;
 		$this->orignalLocation = $originalLocation;
 		$this->deletedTime = $deletedTime;
 		$this->trashPath = $trashPath;
 		$this->fileInfo = $fileInfo;
+		$this->user = $user;
 	}
 
 	public function getTrashBackend(): ITrashBackend {
@@ -73,6 +74,10 @@ class TrashItem implements ITrashItem {
 		return substr_count($this->getTrashPath(), '/') === 1;
 	}
 
+	public function getUser(): IUser {
+		return $this->user;
+	}
+
 	public function getEtag() {
 		return $this->fileInfo->getEtag();
 	}
@@ -93,95 +98,75 @@ class TrashItem implements ITrashItem {
 		return $this->fileInfo->getInternalPath();
 	}
 
-	
 	public function getPath() {
 		return $this->fileInfo->getPath();
 	}
 
-	
 	public function getMimetype() {
 		return $this->fileInfo->getMimetype();
 	}
 
-	
 	public function getMimePart() {
 		return $this->fileInfo->getMimePart();
 	}
 
-	
 	public function getStorage() {
 		return $this->fileInfo->getStorage();
 	}
 
-	
 	public function getId() {
 		return $this->fileInfo->getId();
 	}
 
-	
 	public function isEncrypted() {
 		return $this->fileInfo->isEncrypted();
 	}
 
-	
 	public function getPermissions() {
 		return $this->fileInfo->getPermissions();
 	}
 
-	
 	public function getType() {
 		return $this->fileInfo->getType();
 	}
 
-	
 	public function isReadable() {
 		return $this->fileInfo->isReadable();
 	}
-
 	
 	public function isUpdateable() {
 		return $this->fileInfo->isUpdateable();
 	}
 
-	
 	public function isCreatable() {
 		return $this->fileInfo->isCreatable();
 	}
 
-	
 	public function isDeletable() {
 		return $this->fileInfo->isDeletable();
 	}
 
-	
 	public function isShareable() {
 		return $this->fileInfo->isShareable();
 	}
 
-	
 	public function isShared() {
 		return $this->fileInfo->isShared();
 	}
 
-	
 	public function isMounted() {
 		return $this->fileInfo->isMounted();
 	}
 
-	
 	public function getMountPoint() {
 		return $this->fileInfo->getMountPoint();
 	}
 
-	
 	public function getOwner() {
 		return $this->fileInfo->getOwner();
 	}
 
-	
 	public function getChecksum() {
 		return $this->fileInfo->getChecksum();
 	}
-
-
 }

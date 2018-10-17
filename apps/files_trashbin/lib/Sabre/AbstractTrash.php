@@ -34,12 +34,8 @@ abstract class AbstractTrash implements ITrash {
 	/** @var ITrashManager */
 	protected $trashManager;
 
-	/** @var IUser */
-	protected $user;
-
-	public function __construct(ITrashManager $trashManager, IUser $user, ITrashItem $data) {
+	public function __construct(ITrashManager $trashManager, ITrashItem $data) {
 		$this->trashManager = $trashManager;
-		$this->user = $user;
 		$this->data = $data;
 	}
 
@@ -80,11 +76,11 @@ abstract class AbstractTrash implements ITrash {
 	}
 
 	public function getOriginalLocation(): string {
-		return $this->data->getOriginalLocation($this->user);
+		return $this->data->getOriginalLocation();
 	}
 
 	public function delete() {
-		$this->trashManager->removeItem($this->user, $this->data);
+		$this->trashManager->removeItem($this->data);
 	}
 
 	public function restore(): bool {

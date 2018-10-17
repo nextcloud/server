@@ -49,35 +49,38 @@ class LegacyTrashBackend implements ITrashBackend {
 	 * @param ITrashItem $parent
 	 * @return ITrashItem[]
 	 */
-	private function mapTrashItems(array $items, ITrashItem $parent = null): array {
+	private function mapTrashItems(array $items, IUser $user, ITrashItem $parent = null): array {
 		$parentTrashPath = ($parent instanceof ITrashItem) ? $parent->getTrashPath() : '';
 		$isRoot = $parent === null;
-		return array_map(function (FileInfo $file) use ($parent, $parentTrashPath, $isRoot) {
+		return array_map(function (FileInfo $file) use ($parent, $parentTrashPath, $isRoot, $user) {
 			return new TrashItem(
 				$this,
 				$isRoot ? $file['extraData'] : $parent->getOriginalLocation() . '/' . $file->getName(),
 				$file->getMTime(),
 				$parentTrashPath . '/' . $file->getName() . ($isRoot ? '.d' . $file->getMtime() : ''),
-				$file
+				$file,
+				$user
 			);
 		}, $items);
 	}
 
 	public function listTrashRoot(IUser $user): array {
 		$entries = Helper::getTrashFiles('/', $user->getUID());
-		return $this->mapTrashItems($entries);
+		return $this->mapTrashItems($entries, $user);
 	}
 
-	public function listTrashFolder(IUser $user, ITrashItem $folder): array {
+	public function listTrashFolder(ITrashItem $folder): array {
+		$user = $folder->getUser();
 		$entries = Helper::getTrashFiles($folder->getTrashPath(), $user->getUID());
-		return $this->mapTrashItems($entries, $folder);
+		return $this->mapTrashItems($entries, $user ,$folder);
 	}
 
 	public function restoreItem(ITrashItem $item) {
 		Trashbin::restore($item->getTrashPath(), $item->getName(), $item->isRootItem() ? $item->getDeletedTime() : null);
 	}
 
-	public function removeItem(IUser $user, ITrashItem $item) {
+	public function removeItem(ITrashItem $item) {
+		$user = $item->getUser();
 		if ($item->isRootItem()) {
 			$path = substr($item->getTrashPath(), 0, -strlen('.d' . $item->getDeletedTime()));
 			Trashbin::delete($path, $user->getUID(), $item->getDeletedTime());

@@ -57,16 +57,16 @@ class TrashManager implements ITrashManager {
 		return $item->getTrashBackend();
 	}
 
-	public function listTrashFolder(IUser $user, ITrashItem $folder): array {
-		return $this->getBackendForItem($folder)->listTrashFolder($user, $folder);
+	public function listTrashFolder(ITrashItem $folder): array {
+		return $this->getBackendForItem($folder)->listTrashFolder($folder);
 	}
 
 	public function restoreItem(ITrashItem $item) {
 		return $this->getBackendForItem($item)->restoreItem($item);
 	}
 
-	public function removeItem(IUser $user, ITrashItem $item) {
-		$this->getBackendForItem($item)->removeItem($user, $item);
+	public function removeItem(ITrashItem $item) {
+		$this->getBackendForItem($item)->removeItem($item);
 	}
 
 	/**

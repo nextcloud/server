@@ -43,12 +43,11 @@ interface ITrashBackend {
 	/**
 	 * List all trash items in a subfolder in the trashbin
 	 *
-	 * @param IUser $user
 	 * @param ITrashItem $folder
 	 * @return ITrashItem[]
 	 * @since 15.0.0
 	 */
-	public function listTrashFolder(IUser $user, ITrashItem $folder): array;
+	public function listTrashFolder(ITrashItem $folder): array;
 
 	/**
 	 * Restore a trashbin item
@@ -61,11 +60,10 @@ interface ITrashBackend {
 	/**
 	 * Permanently remove an item from trash
 	 *
-	 * @param IUser $user
 	 * @param ITrashItem $item
 	 * @since 15.0.0
 	 */
-	public function removeItem(IUser $user, ITrashItem $item);
+	public function removeItem(ITrashItem $item);
 
 	/**
 	 * Move a file or folder to trash

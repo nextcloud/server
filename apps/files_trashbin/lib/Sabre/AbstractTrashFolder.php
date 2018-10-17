@@ -30,13 +30,13 @@ use Sabre\DAV\ICollection;
 
 abstract class AbstractTrashFolder extends AbstractTrash implements ICollection, ITrash {
 	public function getChildren(): array {
-		$entries = $this->trashManager->listTrashFolder($this->user, $this->data);
+		$entries = $this->trashManager->listTrashFolder($this->data);
 
 		$children = array_map(function (ITrashItem $entry) {
 			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-				return new TrashFolderFolder($this->trashManager, $this->user, $entry);
+				return new TrashFolderFolder($this->trashManager, $entry);
 			}
-			return new TrashFolderFile($this->trashManager, $this->user, $entry);
+			return new TrashFolderFile($this->trashManager, $entry);
 		}, $entries);
 
 		return $children;
