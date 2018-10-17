@@ -115,14 +115,24 @@ class RemotePlugin implements ISearchPlugin {
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 		}
 
+		/**
+		 * Add generic share with remote item for valid cloud ids that are not users of the local instance
+		 */
 		if (!$searchResult->hasExactIdMatch($resultType) && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
-			$result['exact'][] = [
-				'label' => $search,
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_REMOTE,
-					'shareWith' => $search,
-				],
-			];
+			try {
+				list($remoteUser, $serverUrl) = $this->splitUserRemote($search);
+				$localUser = $this->userManager->get($remoteUser);
+				if ($localUser === null || $search !== $localUser->getCloudId()) {
+					$result['exact'][] = [
+						'label' => $search,
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $search,
+						],
+					];
+				}
+			} catch (\InvalidArgumentException $e) {
+			}
 		}
 
 		$searchResult->addResultSet($resultType, $result['wide'], $result['exact']);
