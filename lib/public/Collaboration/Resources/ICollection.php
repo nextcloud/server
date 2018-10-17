@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace OCP\Collaboration\Resources;
 
+use OCP\IUser;
+
 /**
  * @since 15.0.0
  */
@@ -49,4 +51,13 @@ interface ICollection {
 	 * @since 15.0.0
 	 */
 	public function removeResource(IResource $resource);
+
+	/**
+	 * Can a user/guest access the collection
+	 *
+	 * @param IUser $user
+	 * @return bool
+	 * @since 15.0.0
+	 */
+	public function canAccess(IUser $user = null): bool;
 }

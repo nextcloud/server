@@ -22,7 +22,27 @@ declare(strict_types=1);
 
 namespace OCP\Collaboration\Resources;
 
+use OCP\IUser;
 
 interface IProvider {
+
+	/**
+	 * Get the display name of a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getName(IResource $resource): string;
+
+	/**
+	 * Can a user/guest access the collection
+	 *
+	 * @param IResource $resource
+	 * @param IUser $user
+	 * @return bool
+	 * @since 15.0.0
+	 */
+	public function canAccess(IResource $resource, IUser $user = null): bool;
 
 }

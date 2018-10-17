@@ -25,8 +25,11 @@ namespace OC\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
+use OCP\Collaboration\Resources\IProvider;
 use OCP\Collaboration\Resources\IResource;
+use OCP\Collaboration\Resources\ResourceException;
 use OCP\IDBConnection;
+use OCP\IUser;
 
 class Manager implements IManager {
 
@@ -54,5 +57,52 @@ class Manager implements IManager {
 	 */
 	public function getResource(string $type, string $id): IResource {
 		return new Resource($this, $this->connection, $type, $id);
+	}
+
+	/**
+	 * @return IProvider[]
+	 * @since 15.0.0
+	 */
+	public function getProviders(): array {
+		return [];
+	}
+
+	/**
+	 * Get the display name of a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getName(IResource $resource): string {
+		foreach ($this->getProviders() as $provider) {
+			try {
+				return $provider->getName($resource);
+			} catch (ResourceException $e) {
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Can a user/guest access the collection
+	 *
+	 * @param IResource $resource
+	 * @param IUser $user
+	 * @return bool
+	 * @since 15.0.0
+	 */
+	public function canAccess(IResource $resource, IUser $user = null): bool {
+		foreach ($this->getProviders() as $provider) {
+			try {
+				if ($provider->canAccess($resource, $user)) {
+					return true;
+				}
+			} catch (ResourceException $e) {
+			}
+		}
+
+		return false;
 	}
 }

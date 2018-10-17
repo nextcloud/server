@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace OCP\Collaboration\Resources;
 
+use OCP\IUser;
+
 /**
  * @since 15.0.0
  */
@@ -38,6 +40,21 @@ interface IResource {
 	 * @since 15.0.0
 	 */
 	public function getId(): string;
+
+	/**
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getName(): string;
+
+	/**
+	 * Can a user/guest access the resource
+	 *
+	 * @param IUser $user
+	 * @return bool
+	 * @since 15.0.0
+	 */
+	public function canAccess(IUser $user = null): bool;
 
 	/**
 	 * @return ICollection[]

@@ -31,19 +31,26 @@ use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 class CollaborationResourcesController extends OCSController {
+
 	/** @var IManager */
 	private $manager;
 
+	/** @var IUserSession */
+	private $userSession;
+
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
-		IManager $manager
+		IManager $manager,
+		IUserSession $userSession
 	) {
 		parent::__construct($appName, $request);
 
 		$this->manager = $manager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -54,7 +61,7 @@ class CollaborationResourcesController extends OCSController {
 	protected function getCollection(int $collectionId): ICollection {
 		$collection = $this->manager->getCollection($collectionId);
 
-		if (false) { // TODO auth checking
+		if (!$collection->canAccess($this->userSession->getUser())) {
 			throw new CollectionException('Not found');
 		}
 
@@ -141,9 +148,12 @@ class CollaborationResourcesController extends OCSController {
 	 */
 	public function getCollectionsByResource(string $resourceType, string $resourceId): DataResponse {
 		try {
-			// TODO auth checking
 			$resource = $this->manager->getResource($resourceType, $resourceId);
 		} catch (CollectionException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		if (!$resource->canAccess($this->userSession->getUser())) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -157,7 +167,8 @@ class CollaborationResourcesController extends OCSController {
 	protected function prepareResources(IResource $resource): array {
 		return [
 			'type' => $resource->getType(),
-			'id' => $resource->getId()
+			'id' => $resource->getId(),
+			'name' => $resource->getName(),
 		];
 	}
 }

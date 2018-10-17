@@ -30,6 +30,7 @@ use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IResource;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IUser;
 
 class Collection implements ICollection {
 
@@ -129,6 +130,23 @@ class Collection implements ICollection {
 		if (empty($this->resources)) {
 			$this->makeCollectionUnsteady();
 		}
+	}
+
+	/**
+	 * Can a user/guest access the collection
+	 *
+	 * @param IUser $user
+	 * @return bool
+	 * @since 15.0.0
+	 */
+	public function canAccess(IUser $user = null): bool {
+		foreach ($this->getResources() as $resource) {
+			if ($resource->canAccess($user)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	protected function isSameResource(IResource $resource1, IResource $resource2): bool {
