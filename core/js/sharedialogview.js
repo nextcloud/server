@@ -468,7 +468,10 @@
 			if (item.value.shareType === OC.Share.SHARE_TYPE_USER || item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 				avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
 			} else {
-				avatar.imageplaceholder(text, undefined, 32);
+				if (typeof item.uuid === 'undefined') {
+					item.uuid = text;
+				}
+				avatar.imageplaceholder(item.uuid, text, 32);
 			}
 
 			$("<div class='autocomplete-item-text'></div>")

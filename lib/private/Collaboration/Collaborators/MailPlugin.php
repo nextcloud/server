@@ -121,6 +121,7 @@ class MailPlugin implements ISearchPlugin {
 							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
 									'label' => $displayName,
+									'uuid' => $contact['UID'],
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -142,6 +143,7 @@ class MailPlugin implements ISearchPlugin {
 							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$userResults['wide'][] = [
 									'label' => $displayName,
+									'uuid' => $contact['UID'],
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -160,6 +162,7 @@ class MailPlugin implements ISearchPlugin {
 						}
 						$result['exact'][] = [
 							'label' => $displayName,
+							'uuid' => $contact['UID'],
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
@@ -168,6 +171,7 @@ class MailPlugin implements ISearchPlugin {
 					} else {
 						$result['wide'][] = [
 							'label' => $displayName,
+							'uuid' => $contact['UID'],
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
@@ -194,6 +198,7 @@ class MailPlugin implements ISearchPlugin {
 		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
 			$result['exact'][] = [
 				'label' => $search,
+				'uuid' => $search,
 				'value' => [
 					'shareType' => Share::SHARE_TYPE_EMAIL,
 					'shareWith' => $search,
