@@ -262,8 +262,12 @@ class AddressBookImpl implements IAddressBook {
 			}
 		}
 
-		if ($this->addressBookInfo['principaluri'] === 'principals/system/system' &&
-			$this->addressBookInfo['uri'] === 'system') {
+		if (
+			$this->addressBookInfo['principaluri'] === 'principals/system/system' && (
+				$this->addressBookInfo['uri'] === 'system' ||
+				$this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
+			)
+		) {
 			$result['isLocalSystemBook'] = true;
 		}
 		return $result;
