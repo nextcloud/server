@@ -70,7 +70,7 @@ class LookupPluginTest extends TestCase {
 		$this->userSession->expects($this->any())->method('getUser')
 			->willReturn($user);
 		$this->cloudIdManager->expects($this->any())->method('resolveCloudId')
-			->willReturnCallback(function($cloudId) {
+			->willReturnCallback(function ($cloudId) {
 				if ($cloudId === 'user@myNextcloud.net') {
 					return new CloudId('user@myNextcloud.net', 'user', 'myNextcloud.net');
 				}
@@ -85,6 +85,58 @@ class LookupPluginTest extends TestCase {
 			$this->cloudIdManager,
 			$this->logger
 		);
+	}
+
+	public function testSearchNoLookupServerURI() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->willReturn('yes');
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('gs.enabled', false)
+			->willReturn(false);
+
+		$this->config->expects($this->at(2))
+			->method('getSystemValue')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config->expects($this->at(3))
+			->method('getSystemValue')
+			->with('lookup_server', 'https://lookup.nextcloud.com')
+			->willReturn('');
+
+		$this->clientService->expects($this->never())
+			->method('newClient');
+
+		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		$searchResult = $this->createMock(ISearchResult::class);
+
+		$this->plugin->search('foobar', 10, 0, $searchResult);
+	}
+
+	public function testSearchNoInternet() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->willReturn('yes');
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('gs.enabled', false)
+			->willReturn(false);
+
+		$this->config->expects($this->at(2))
+			->method('getSystemValue')
+			->with('has_internet_connection', true)
+			->willReturn(false);
+
+		$this->clientService->expects($this->never())
+			->method('newClient');
+
+		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		$searchResult = $this->createMock(ISearchResult::class);
+
+		$this->plugin->search('foobar', 10, 0, $searchResult);
 	}
 
 	/**
@@ -108,7 +160,12 @@ class LookupPluginTest extends TestCase {
 			->method('getSystemValue')
 			->with('gs.enabled', false)
 			->willReturn(false);
+
 		$this->config->expects($this->at(2))
+			->method('getSystemValue')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config->expects($this->at(3))
 			->method('getSystemValue')
 			->with('lookup_server', 'https://lookup.nextcloud.com')
 			->willReturn($searchParams['server']);
@@ -121,7 +178,7 @@ class LookupPluginTest extends TestCase {
 		$client = $this->createMock(IClient::class);
 		$client->expects($this->once())
 			->method('get')
-			->willReturnCallback(function($url) use ($searchParams, $response) {
+			->willReturnCallback(function ($url) use ($searchParams, $response) {
 				$this->assertSame(strpos($url, $searchParams['server'] . '/users?search='), 0);
 				$this->assertNotFalse(strpos($url, urlencode($searchParams['search'])));
 				return $response;
@@ -137,8 +194,6 @@ class LookupPluginTest extends TestCase {
 			$searchParams['offset'],
 			$searchResult
 		);
-
-
 
 		$this->assertFalse($moreResults);
 	}
@@ -171,6 +226,10 @@ class LookupPluginTest extends TestCase {
 
 			$this->config->expects($this->at(2))
 				->method('getSystemValue')
+				->with('has_internet_connection', true)
+				->willReturn(true);
+			$this->config->expects($this->at(3))
+				->method('getSystemValue')
 				->with('lookup_server', 'https://lookup.nextcloud.com')
 				->willReturn($searchParams['server']);
 
@@ -200,8 +259,6 @@ class LookupPluginTest extends TestCase {
 			$searchParams['offset'],
 			$searchResult
 		);
-
-
 
 		$this->assertFalse($moreResults);
 	}
@@ -237,9 +294,9 @@ class LookupPluginTest extends TestCase {
 				'offset' => 0,
 				'server' => 'https://lookup.example.io',
 				'resultBody' => [
-					[ 'federationId' => $fedIDs[0] ],
-					[ 'federationId' => $fedIDs[1] ],
-					[ 'federationId' => $fedIDs[2] ],
+					['federationId' => $fedIDs[0]],
+					['federationId' => $fedIDs[1]],
+					['federationId' => $fedIDs[2]],
 				],
 				'expectedResult' => [
 					[
@@ -276,9 +333,9 @@ class LookupPluginTest extends TestCase {
 				'offset' => 0,
 				'server' => 'https://lookup.example.io',
 				'resultBody' => [
-					[ 'federationId' => $fedIDs[0] ],
-					[ 'federationId' => $fedIDs[1] ],
-					[ 'federationId' => $fedIDs[2] ],
+					['federationId' => $fedIDs[0]],
+					['federationId' => $fedIDs[1]],
+					['federationId' => $fedIDs[2]],
 				],
 				'expectedResult' => [
 					[
@@ -315,9 +372,9 @@ class LookupPluginTest extends TestCase {
 				'offset' => 0,
 				'server' => 'https://lookup.example.io',
 				'resultBody' => [
-					[ 'federationId' => $fedIDs[0] ],
-					[ 'federationId' => $fedIDs[1] ],
-					[ 'federationId' => $fedIDs[2] ],
+					['federationId' => $fedIDs[0]],
+					['federationId' => $fedIDs[1]],
+					['federationId' => $fedIDs[2]],
 				],
 				'expectedResult' => [
 					[
@@ -354,9 +411,9 @@ class LookupPluginTest extends TestCase {
 				'offset' => 0,
 				'server' => 'https://lookup.example.io',
 				'resultBody' => [
-					[ 'federationId' => $fedIDs[0] ],
-					[ 'federationId' => $fedIDs[1] ],
-					[ 'federationId' => $fedIDs[2] ],
+					['federationId' => $fedIDs[0]],
+					['federationId' => $fedIDs[1]],
+					['federationId' => $fedIDs[2]],
 				],
 				'expectedResult' => [
 					[
@@ -405,9 +462,9 @@ class LookupPluginTest extends TestCase {
 				'offset' => 0,
 				'server' => 'https://lookup.example.io',
 				'resultBody' => [
-					[ 'federationId' => $fedIDs[0] ],
-					[ 'federationId' => $fedIDs[1] ],
-					[ 'federationId' => $fedIDs[2] ],
+					['federationId' => $fedIDs[0]],
+					['federationId' => $fedIDs[1]],
+					['federationId' => $fedIDs[2]],
 				],
 				'expectedResult' => [
 					[
