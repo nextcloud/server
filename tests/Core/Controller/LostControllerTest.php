@@ -584,7 +584,7 @@ class LostControllerTest extends \Test\TestCase {
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
 		$this->timeFactory->method('getTime')
-			->willReturn(55546);
+			->willReturn(617146);
 
 		$this->crypto->method('decrypt')
 			->with(
