@@ -771,6 +771,16 @@ var OCP = {},
 	},
 
 	/**
+	 * Returns the user's locale as a BCP 47 compliant language tag
+	 *
+	 * @return {String} locale string
+	 */
+	getCanonicalLocale: function() {
+		var locale = this.getLocale();
+		return typeof locale === 'string' ? locale.replace(/_/g, '-') : locale;
+	},
+
+	/**
 	 * Returns the user's locale
 	 *
 	 * @return {String} locale string
@@ -1842,6 +1852,9 @@ function humanFileSize(size, skipSmallSizes) {
 	}
 	else if(relativeSize.substr(relativeSize.length-2,2)==='.0'){
 		relativeSize=relativeSize.substr(0,relativeSize.length-2);
+	}
+	else{
+		relativeSize = parseFloat(relativeSize).toLocaleString(OC.getCanonicalLocale());
 	}
 	return relativeSize + ' ' + readableFormat;
 }
