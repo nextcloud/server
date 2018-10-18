@@ -314,10 +314,29 @@
 
 						function dynamicSort(property) {
 							return function (a,b) {
-								return (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+								var aProperty = '';
+								var bProperty = '';
+								if (typeof a[property] !== 'undefined') {
+									aProperty = a[property];
+								}
+								if (typeof b[property] !== 'undefined') {
+									bProperty = b[property];
+								}
+								return (aProperty < bProperty) ? -1 : (aProperty > bProperty) ? 1 : 0;
 							}
 						}
 						var grouped = suggestions.sort(dynamicSort('uuid'));
+						console.log(grouped);
+						var previousUuid = null;
+						groupedLength = grouped.length;
+						for (i = 0; i < groupedLength; i++) {
+							if (typeof grouped[i].uuid !== 'undefined' && grouped[i].uuid === previousUuid) {
+								grouped[i].merged = true;
+							} else {
+								grouped[i].merged = false;
+							}
+							previousUuid = grouped[i].uuid;
+						}
 						var moreResultsAvailable =
 							(
 								oc_config['sharing.maxAutocompleteResults'] > 0
@@ -469,15 +488,39 @@
 				text = t('core', '{sharee} (conversation)', { sharee: text }, undefined, { escape: false });
 				icon = 'icon-talk';
 			}
-			var insert = $("<div class='share-autocomplete-item'/>");
-			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
-			if (item.value.shareType === OC.Share.SHARE_TYPE_USER || item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
-				avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
-			} else {
-				if (typeof item.uuid === 'undefined') {
-					item.uuid = text;
+			var description = '';
+			var getTranslatedType = function(type) {
+				switch (type) {
+					case 'HOME':
+						return t('core', 'Home');
+					case 'WORK':
+						return t('core', 'Home');
+					case 'OTHER':
+						return t('core', 'Other');
+					default:
+						return type;
 				}
-				avatar.imageplaceholder(item.uuid, text, 32);
+			};
+			if (typeof item.type !== 'undefined') {
+				description = getTranslatedType(item.type);
+			}
+			var insert = $("<div class='share-autocomplete-item'/>");
+			if (description !== '') {
+				insert.addClass('with-description');
+			}
+			if (item.merged) {
+				insert.addClass('merged');
+				text = item.value.shareWith;
+			} else {
+				var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
+				if (item.value.shareType === OC.Share.SHARE_TYPE_USER || item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
+					avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
+				} else {
+					if (typeof item.uuid === 'undefined') {
+						item.uuid = text;
+					}
+					avatar.imageplaceholder(item.uuid, text, 32);
+				}
 			}
 
 			$("<div class='autocomplete-item-text'></div>")
@@ -485,10 +528,11 @@
 					text.replace(
 					new RegExp(this.term, "gi"),
 					"<span class='ui-state-highlight'>$&</span>")
+					+ '<span class="autocomplete-item-details">' + description + '</span>'
 				)
 				.appendTo(insert);
 			insert.attr('title', item.value.shareWith);
-			insert.append('<span class="icon '+icon+'"></span>');
+			insert.append('<span class="icon '+icon+'" title="' + text + '"></span>');
 			insert = $("<a>")
 				.append(insert);
 			return $("<li>")

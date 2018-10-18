@@ -4,6 +4,10 @@
 
 .share-autocomplete-item {
 	display: flex;
+
+	&.merged {
+		margin-left: 32px;
+	}
 	.autocomplete-item-text {
 		margin-left: 10px;
 		margin-right: 10px;
@@ -13,6 +17,21 @@
 		line-height: 32px;
 		vertical-align: middle;
 		flex-grow: 1;
+		.ui-state-highlight {
+			border: none;
+			margin: 0;
+		}
+	}
+	&.with-description {
+		.autocomplete-item-text {
+			line-height: 100%;
+		}
+	}
+	.autocomplete-item-details {
+		display: block;
+		line-height: 130%;
+		font-size: 90%;
+		opacity: 0.7;
 	}
 }
 
