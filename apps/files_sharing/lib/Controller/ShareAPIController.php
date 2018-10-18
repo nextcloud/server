@@ -252,6 +252,7 @@ class ShareAPIController extends OCSController {
 
 
 		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
+		$result['hide_download'] = $share->getHideDownload() ? 1 : 0;
 
 		return $result;
 	}
@@ -745,6 +746,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $publicUpload
 	 * @param string $expireDate
 	 * @param string $note
+	 * @param string $hideDownload
 	 * @return DataResponse
 	 * @throws LockedException
 	 * @throws NotFoundException
@@ -759,7 +761,8 @@ class ShareAPIController extends OCSController {
 		string $sendPasswordByTalk = null,
 		string $publicUpload = null,
 		string $expireDate = null,
-		string $note = null
+		string $note = null,
+		string $hideDownload = null
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -773,7 +776,7 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
-		if ($permissions === null && $password === null && $sendPasswordByTalk === null && $publicUpload === null && $expireDate === null && $note === null) {
+		if ($permissions === null && $password === null && $sendPasswordByTalk === null && $publicUpload === null && $expireDate === null && $note === null && $hideDownload === null) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
 
@@ -785,6 +788,13 @@ class ShareAPIController extends OCSController {
 		 * expirationdate, password and publicUpload only make sense for link shares
 		 */
 		if ($share->getShareType() === Share::SHARE_TYPE_LINK) {
+
+			// Update hide download state
+			if ($hideDownload === 'true') {
+				$share->setHideDownload(true);
+			} else if ($hideDownload === 'false') {
+				$share->setHideDownload(false);
+			}
 
 			$newPermissions = null;
 			if ($publicUpload === 'true') {

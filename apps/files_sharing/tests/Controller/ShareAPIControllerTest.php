@@ -353,6 +353,7 @@ class ShareAPIControllerTest extends TestCase {
 			'note' => 'personal note',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myMimeType',
+			'hide_download' => 0,
 		];
 		$data[] = [$share, $expected];
 
@@ -397,6 +398,7 @@ class ShareAPIControllerTest extends TestCase {
 			'note' => 'personal note',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myFolderMimeType',
+			'hide_download' => 0,
 		];
 		$data[] = [$share, $expected];
 
@@ -445,6 +447,7 @@ class ShareAPIControllerTest extends TestCase {
 			'note' => 'personal note',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myFolderMimeType',
+			'hide_download' => 0,
 		];
 		$data[] = [$share, $expected];
 
@@ -2175,6 +2178,7 @@ class ShareAPIControllerTest extends TestCase {
 				'note' => 'personal note',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 		// User backend up
@@ -2204,6 +2208,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_displayname' => 'recipientDN',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
 			], $share, [
 				['owner', $owner],
 				['initiator', $initiator],
@@ -2249,6 +2254,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_displayname' => 'recipient',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2292,6 +2298,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_displayname' => 'recipientGroupDisplayName',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2333,6 +2340,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_displayname' => 'recipientGroup2',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2377,6 +2385,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'url' => 'myLink',
 				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2418,6 +2427,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_displayname' => 'foobar',
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2462,6 +2472,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_avatar' => 'path/to/the/avatar',
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2504,6 +2515,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_avatar' => '',
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2546,6 +2558,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_avatar' => '',
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2603,7 +2616,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
 				'password' => 'password',
-				'send_password_by_talk' => false
+				'send_password_by_talk' => false,
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2647,7 +2661,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
 				'password' => 'password',
-				'send_password_by_talk' => true
+				'send_password_by_talk' => true,
+				'hide_download' => 0,
 			], $share, [], false
 		];
 
@@ -2787,6 +2802,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_displayname' => '',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
 			], $share, false, []
 		];
 
@@ -2828,6 +2844,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with_displayname' => 'recipientRoomName',
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
 			], $share, true, [
 				'share_with_displayname' => 'recipientRoomName'
 			]
