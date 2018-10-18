@@ -82,10 +82,10 @@ class SqlInjectionCheckerVisitor extends PluginAwareAnalysisVisitor  {
 				if(isset($child->kind) && $child->kind === 128) {
 					if(isset($child->children)) {
 						/** @var \ast\Node $subChild */
-						foreach ($child->children as $subChild) {
+						foreach ($child->children as $subChildIndex => $subChild) {
 							// For set actions
 							if(isset($node->children['method']) && in_array($node->children['method'], $functionsToSearch, true) && !is_string($subChild)) {
-								if(!isset($subChild->children['method']) || !in_array($subChild->children['method'], $safeFunctions, true)) {
+								if($subChildIndex > 0 && !isset($subChild->children['method']) || !in_array($subChild->children['method'], $safeFunctions, true)) {
 									$this->throwError('method: ' . ($subChild->children['method'] ?? 'no child method'));
 								}
 							}
