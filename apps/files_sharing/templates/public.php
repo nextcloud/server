@@ -18,6 +18,7 @@
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <input type="hidden" name="previewSupported" value="<?php p($_['previewSupported'] ? 'true' : 'false'); ?>" id="previewSupported">
 <input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
+<input type="hidden" name="hideDownload" value="<?php p($_['hideDownload'] ? 'true' : 'false'); ?>" id="hideDownload">
 <?php
 $upload_max_filesize = OC::$server->getIniWrapper()->getBytes('upload_max_filesize');
 $post_max_size = OC::$server->getIniWrapper()->getBytes('post_max_size');

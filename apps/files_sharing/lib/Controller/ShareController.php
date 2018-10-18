@@ -321,6 +321,7 @@ class ShareController extends AuthPublicShareController {
 		$shareTmpl['dir'] = '';
 		$shareTmpl['nonHumanFileSize'] = $share->getNode()->getSize();
 		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($share->getNode()->getSize());
+		$shareTmpl['hideDownload'] = $share->getHideDownload();
 
 		// Show file list
 		$hideFileList = false;
