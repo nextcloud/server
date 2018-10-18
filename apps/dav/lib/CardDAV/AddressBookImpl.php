@@ -255,7 +255,13 @@ class AddressBookImpl implements IAddressBook {
 					$result[$property->name] = [];
 				}
 
-				$result[$property->name][] = $property->getValue();
+				$type = $this->getTypeFromProperty($property);
+				if ($type !== null) {
+					$result[$property->name][$type] = $property->getValue();
+				} else {
+					$result[$property->name][] = $property->getValue();
+				}
+
 
 			} else {
 				$result[$property->name] = $property->getValue();
