@@ -182,6 +182,9 @@ class VerifyUserData extends Job {
 	 * @return bool true if we could check the verification code, otherwise false
 	 */
 	protected function verifyViaLookupServer(array $argument, $dataType) {
+		if(empty($this->lookupServerUrl) || $this->config->getSystemValue('has_internet_connection', true) === false) {
+			return false;
+		}
 
 		$user = $this->userManager->get($argument['uid']);
 
