@@ -104,15 +104,6 @@ if($_['passwordChangeSupported']) {
 
 <div id="two-factor-auth" class="section">
 	<h2><?php p($l->t('Two-Factor Authentication'));?></h2>
-	<p class="settings-hint">
-		<?php
-		if ($_['twoFactorProviderData']['enabled']) {
-			p($l->t('Two-factor authentication is enabled on your account.'));
-		} else {
-			p($l->t('Two-factor authentication is disabled on your account.'));
-		}
-		?>
-	</p>
 	<ul>
 	<?php foreach ($_['twoFactorProviderData']['providers'] as $data) { ?>
 		<li>

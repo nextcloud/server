@@ -106,7 +106,6 @@ class Security implements ISettings {
 		}
 
 		return [
-			'isEnabled' => $this->twoFactorManager->isTwoFactorAuthenticated($user),
 			'providers' => array_map(function (IProvidesPersonalSettings $provider) use ($user) {
 				return [
 					'provider' => $provider,
