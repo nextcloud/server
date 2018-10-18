@@ -56,6 +56,7 @@ class JsController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $fileName js filename with extension
 	 * @param string $appName js folder name

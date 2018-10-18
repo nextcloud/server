@@ -397,6 +397,7 @@ class ThemingController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @return FileDisplayResponse|NotFoundResponse
 	 * @throws NotPermittedException
@@ -428,6 +429,7 @@ class ThemingController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @return DataDownloadResponse
 	 */
