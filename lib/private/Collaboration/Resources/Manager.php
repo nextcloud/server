@@ -50,6 +50,14 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @return ICollection
+	 * @since 15.0.0
+	 */
+	public function newCollection(): ICollection {
+		return new Collection($this, $this->connection, 0);
+	}
+
+	/**
 	 * @param string $type
 	 * @param string $id
 	 * @return IResource

@@ -160,8 +160,40 @@ class CollaborationResourcesController extends OCSController {
 		return new DataResponse(array_map([$this, 'prepareCollection'], $resource->getCollections()));
 	}
 
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $baseResourceType
+	 * @param string $baseResourceId
+	 * @param string $resourceType
+	 * @param string $resourceId
+	 * @return DataResponse
+	 */
+	public function createCollectionOnResource(string $baseResourceType, string $baseResourceId, string $resourceType, string $resourceId): DataResponse {
+		try {
+			$baseResource = $this->manager->getResource($baseResourceType, $baseResourceId);
+			$resource = $this->manager->getResource($resourceType, $resourceId);
+		} catch (CollectionException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		if (!$baseResource->canAccess($this->userSession->getUser()) ||
+			!$resource->canAccess($this->userSession->getUser())) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		$collection = $this->manager->newCollection();
+		$collection->addResource($baseResource);
+		$collection->addResource($resource);
+
+		return new DataResponse($this->prepareCollection($collection));
+	}
+
 	protected function prepareCollection(ICollection $collection): array {
-		return array_map([$this, 'prepareResources'], $collection->getResources());
+		return [
+			'id' => $collection->getId(),
+			'resources' => array_map([$this, 'prepareResources'], $collection->getResources()),
+		];
 	}
 
 	protected function prepareResources(IResource $resource): array {

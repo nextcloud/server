@@ -30,6 +30,12 @@ use OCP\IUser;
 interface ICollection {
 
 	/**
+	 * @return int
+	 * @since 15.0.0
+	 */
+	public function getId(): int;
+
+	/**
 	 * @return IResource[]
 	 * @since 15.0.0
 	 */
