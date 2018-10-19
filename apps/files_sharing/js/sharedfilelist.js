@@ -232,7 +232,7 @@
 					promises.push($.ajax(remoteShares));
 				}
 				if (this._isOverview) {
-					shares.data.shared_with_me = !shares.data.shared_with_me
+					shares.data.shared_with_me = !shares.data.shared_with_me;
 					promises.push($.ajax(shares));
 				}
 			}
