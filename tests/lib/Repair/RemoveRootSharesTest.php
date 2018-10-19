@@ -180,7 +180,7 @@ class RemoveRootSharesTest extends \Test\TestCase {
 
 		//Verify
 		$qb = $this->connection->getQueryBuilder();
-		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count')
+		$qb->select($qb->func()->count('*', 'count'))
 			->from('share');
 
 		$cursor = $qb->execute();

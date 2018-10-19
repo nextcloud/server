@@ -354,7 +354,7 @@ class Database extends ABackend
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_users')
+		$query->select($query->func()->count('*', 'num_users'))
 			->from('group_user')
 			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
 

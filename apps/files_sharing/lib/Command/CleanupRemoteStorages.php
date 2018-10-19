@@ -98,7 +98,7 @@ class CleanupRemoteStorages extends Command {
 
 	public function countFiles($numericId, OutputInterface $output) {
 		$queryBuilder = $this->connection->getQueryBuilder();
-		$queryBuilder->select($queryBuilder->createFunction('COUNT(' . $queryBuilder->getColumnName('fileid') . ')'))
+		$queryBuilder->select($queryBuilder->func()->count('fileid'))
 			->from('filecache')
 			->where($queryBuilder->expr()->eq(
 				'storage',
