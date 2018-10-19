@@ -113,7 +113,7 @@ class ShareAPIController extends OCSController {
 		IUserManager $userManager,
 		IRootFolder $rootFolder,
 		IURLGenerator $urlGenerator,
-		string $userId,
+		string $userId = null,
 		IL10N $l10n,
 		IConfig $config,
 		IAppManager $appManager,
