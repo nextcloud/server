@@ -90,7 +90,7 @@
 				var permission = fileData.permissions;
 				$tr.attr('data-share-permissions', permission);
 			}
-			
+
 			// add row with expiration date for link only shares - influenced by _createRow of filelist
 			if (this._linksOnly) {
 				var expirationTimestamp = 0;
@@ -242,7 +242,7 @@
 			return this._reloadCall.then(callBack, callBack);
 		},
 
-		reloadCallback: function(shares, remoteShares, additionnalShares) {
+		reloadCallback: function(shares, remoteShares, additionalShares) {
 			delete this._reloadCall;
 			this.hideMask();
 
@@ -259,8 +259,8 @@
 			if (remoteShares && remoteShares[0] && remoteShares[0].ocs) {
 				remoteShares = remoteShares[0];
 			}
-			if (additionnalShares && additionnalShares[0] && additionnalShares[0].ocs) {
-				additionnalShares = additionnalShares[0];
+			if (additionalShares && additionalShares[0] && additionalShares[0].ocs) {
+				additionalShares = additionalShares[0];
 			}
 
 			if (shares.ocs && shares.ocs.data) {
@@ -271,8 +271,8 @@
 				files = files.concat(this._makeFilesFromRemoteShares(remoteShares.ocs.data));
 			}
 
-			if (additionnalShares && additionnalShares && additionnalShares.ocs && additionnalShares.ocs.data) {
-				files = files.concat(this._makeFilesFromShares(additionnalShares.ocs.data, !this._sharedWithUser));
+			if (additionalShares && additionalShares.ocs && additionalShares.ocs.data) {
+				files = files.concat(this._makeFilesFromShares(additionalShares.ocs.data, !this._sharedWithUser));
 			}
 
 
