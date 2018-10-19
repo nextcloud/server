@@ -90,7 +90,7 @@
 				var permission = fileData.permissions;
 				$tr.attr('data-share-permissions', permission);
 			}
-			
+
 			// add row with expiration date for link only shares - influenced by _createRow of filelist
 			if (this._linksOnly) {
 				var expirationTimestamp = 0;
@@ -107,6 +107,8 @@
 					modifiedColor = 160;
 				}
 
+				var formatted;
+				var text;
 				if (expirationTimestamp > 0) {
 					formatted = OC.Util.formatDate(expirationTimestamp);
 					text = OC.Util.relativeModifiedDate(expirationTimestamp);

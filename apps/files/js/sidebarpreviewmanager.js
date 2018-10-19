@@ -9,7 +9,7 @@
  */
 
 (function () {
-	SidebarPreviewManager = function (fileList) {
+	var SidebarPreviewManager = function (fileList) {
 		this._fileList = fileList;
 		this._previewHandlers = {};
 		OC.Plugins.attach('OCA.Files.SidebarPreviewManager', this);

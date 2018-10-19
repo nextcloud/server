@@ -25,7 +25,7 @@
 				
 				var $element = $(element);
 					
-				$clone = $("<input />");
+				var $clone = $("<input />");
 					
 				// Name added for JQuery Validation compatibility
 				// Element name is required to avoid script warning.
