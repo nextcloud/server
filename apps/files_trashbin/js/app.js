@@ -31,17 +31,17 @@ OCA.Trashbin.App = {
 				scrollTo: urlParams.scrollto,
 				config: OCA.Files.App.getFilesConfig(),
 				multiSelectMenu: [
-				{
-					name: 'restore',
-					displayName:  t('files', 'Restore'),
-					iconClass: 'icon-history',
-				},
-				{
-					name: 'delete',
-					displayName: t('files', 'Delete'),
-					iconClass: 'icon-delete',
-				}
-			]
+					{
+						name: 'restore',
+						displayName: t('files', 'Restore'),
+						iconClass: 'icon-history',
+					},
+					{
+						name: 'delete',
+						displayName: t('files', 'Delete'),
+						iconClass: 'icon-delete',
+					}
+				]
 			}
 		);
 	},
