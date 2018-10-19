@@ -34,7 +34,11 @@ OCA.Sharing.App = {
 				scrollContainer: $('#app-content'),
 				sharedWithUser: true,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -57,7 +61,11 @@ OCA.Sharing.App = {
 				scrollContainer: $('#app-content'),
 				sharedWithUser: false,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -80,7 +88,11 @@ OCA.Sharing.App = {
 				scrollContainer: $('#app-content'),
 				linksOnly: true,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
