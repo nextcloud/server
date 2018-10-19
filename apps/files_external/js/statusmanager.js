@@ -392,8 +392,7 @@ OCA.External.StatusManager = {
 	 * @param mountData
 	 */
 	showCredentialsDialog: function (mountPoint, mountData) {
-		var template = Handlebars.compile(OCA.External.StatusManager.credentialsDialogTemplate);
-		var dialog = $(template({
+		var dialog = $(OCA.External.Templates.credentialsDialog({
 			credentials_text: t('files_external', 'Please enter the credentials for the {mount} mount', {
 				'mount': mountPoint
 			}),
