@@ -221,6 +221,10 @@
 				return;
 			}
 
+			if (options.shown) {
+				this.shown = options.shown;
+			}
+
 			if (options.config) {
 				this._filesConfig = options.config;
 			} else if (!_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
