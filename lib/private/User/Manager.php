@@ -475,9 +475,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function countDisabledUsersOfGroups(array $groups): int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$queryBuilder->select($queryBuilder->createFunction('COUNT(Distinct uid)'))
+		$queryBuilder->select($queryBuilder->createFunction('COUNT(DISTINCT ' . $queryBuilder->getColumnName('uid') . ')'))
 			->from('preferences', 'p')
-			->innerJoin('p', 'group_user', 'g', 'p.userid = g.uid')
+			->innerJoin('p', 'group_user', 'g', $queryBuilder->expr()->eq('p.userid', 'g.uid'))
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
