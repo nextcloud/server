@@ -155,6 +155,7 @@ return array(
     'OCA\\DAV\\Migration\\Version1005Date20180413093149' => $baseDir . '/../lib/Migration/Version1005Date20180413093149.php',
     'OCA\\DAV\\Migration\\Version1005Date20180530124431' => $baseDir . '/../lib/Migration/Version1005Date20180530124431.php',
     'OCA\\DAV\\Migration\\Version1006Date20180619154313' => $baseDir . '/../lib/Migration/Version1006Date20180619154313.php',
+    'OCA\\DAV\\Migration\\Version1007Date20181007225117' => $baseDir . '/../lib/Migration/Version1007Date20181007225117.php',
     'OCA\\DAV\\RootCollection' => $baseDir . '/../lib/RootCollection.php',
     'OCA\\DAV\\Server' => $baseDir . '/../lib/Server.php',
     'OCA\\DAV\\Settings\\CalDAVSettings' => $baseDir . '/../lib/Settings/CalDAVSettings.php',
