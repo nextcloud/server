@@ -102,7 +102,7 @@
 				this.$el.insertAfter($('#app-content'));
 			} else {
 				if ($appSidebar[0] !== this.el) {
-					$appSidebar.replaceWith(this.$el)
+					$appSidebar.replaceWith(this.$el);
 				}
 			}
 			

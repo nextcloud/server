@@ -114,7 +114,7 @@
 			});
 			clipboard.on('error', function (e) {
 				var $menu = $(e.trigger);
-				var $linkTextMenu = $menu.parent().next('li.linkTextMenu')
+				var $linkTextMenu = $menu.parent().next('li.linkTextMenu');
 				var $input = $linkTextMenu.find('.linkText');
 
 				var actionMsg = '';
@@ -393,8 +393,8 @@
 
 			var isLinkShare = this.model.get('linkShare').isLinkShare;
 			var isPasswordSet = !!this.model.get('linkShare').password;
-			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink')
-			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true
+			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink');
+			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true;
 			var showPasswordCheckBox = isLinkShare
 				&& (   !this.configModel.get('enforcePasswordForPublicLink')
 					|| !this.model.get('linkShare').password);
