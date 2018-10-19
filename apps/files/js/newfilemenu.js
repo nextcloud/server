@@ -171,7 +171,7 @@
 
 					/* Find the right actionHandler that should be called.
 					 * Actions is retrieved by using `actionSpec.id` */
-					action = _.filter(self._menuItems, function(item) {
+					var action = _.filter(self._menuItems, function(item) {
 						return item.id == $target.attr('data-action');
 					}).pop();
 					action.actionHandler(newname);

@@ -91,7 +91,7 @@
 			var palette = new Array();
 			palette.push(color1);
 			var step = stepCalc(steps, [color1, color2])
-			for (i = 1; i < steps; i++) {
+			for (var i = 1; i < steps; i++) {
 				var r = parseInt(color1.r + (step[0] * i));
 				var g = parseInt(color1.g + (step[1] * i));
 				var b = parseInt(color1.b + (step[2] * i));
