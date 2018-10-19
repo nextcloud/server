@@ -8,7 +8,7 @@
  *
  */
 
-describe('OCA.External.FileList tests', function() {
+describe('OCA.Files_External.FileList tests', function() {
 	var testFiles, alertStub, notificationStub, fileList;
 
 	beforeEach(function() {
@@ -62,7 +62,7 @@ describe('OCA.External.FileList tests', function() {
 		var ocsResponse;
 
 		beforeEach(function() {
-			fileList = new OCA.External.FileList(
+			fileList = new OCA.Files_External.FileList(
 				$('#app-content-container')
 			);
 

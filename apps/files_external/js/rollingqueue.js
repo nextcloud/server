@@ -124,14 +124,14 @@ var RollingQueue = function (functionList, queueWindow, callback) {
 	};
 };
 
-if (!OCA.External) {
-	OCA.External = {};
+if (!OCA.Files_External) {
+	OCA.Files_External = {};
 }
 
-if (!OCA.External.StatusManager) {
-	OCA.External.StatusManager = {};
+if (!OCA.Files_External.StatusManager) {
+	OCA.Files_External.StatusManager = {};
 }
 
-OCA.External.StatusManager.RollingQueue = RollingQueue;
+OCA.Files_External.StatusManager.RollingQueue = RollingQueue;
 
 })();
