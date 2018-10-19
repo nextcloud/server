@@ -89,6 +89,10 @@
 			return t('comments', 'Comments');
 		},
 
+		getIcon: function() {
+			return 'icon-comment';
+		},
+
 		setFileInfo: function(fileInfo) {
 			if (fileInfo) {
 				this.model = fileInfo;

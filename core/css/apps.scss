@@ -789,6 +789,16 @@ kbd {
 		cursor: pointer;
 		color: var(--color-text-lighter);
 		margin-bottom: 1px;
+		.icon {
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			background-size: 16px;
+			vertical-align: middle;
+			margin-top: -2px;
+			margin-right: 3px;
+			opacity: .7;
+		}
 		a {
 			color: var(--color-text-lighter);
 			margin-bottom: 1px;

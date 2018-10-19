@@ -122,7 +122,8 @@
 			templateVars.tabHeaders = _.map(this._tabViews, function(tabView, i) {
 				return {
 					tabId: tabView.id,
-					label: tabView.getLabel()
+					label: tabView.getLabel(),
+					tabIcon: tabView.getIcon()
 				};
 			});
 
