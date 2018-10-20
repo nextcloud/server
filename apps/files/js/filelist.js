@@ -805,13 +805,9 @@
 			var self = this;
 			var dir = this.getCurrentDirectory();
 
-			if (this.isAllSelected() && this.getSelectedFiles().length > 1) {
-				files = OC.basename(dir);
-				dir = OC.dirname(dir) || '/';
-			}
-			else {
-				files = _.pluck(this.getSelectedFiles(), 'name');
-			}
+			// TODO: condition if a whole directory should be downloaded or a search result
+			// could maybe be set by _onClickSelectAll
+			files = _.pluck(this.getSelectedFiles(), 'name');
 
 			// don't allow a second click on the download action
 			if(this.fileMultiSelectMenu.isDisabled('download')) {
