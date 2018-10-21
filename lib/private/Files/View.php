@@ -47,6 +47,7 @@ namespace OC\Files;
 
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Storage;
 use OC\User\User;
 use OCP\Constants;
@@ -1455,6 +1456,9 @@ class View {
 			foreach ($mounts as $mount) {
 				$mountPoint = $mount->getMountPoint();
 				$subStorage = $mount->getStorage();
+				if ($subStorage->instanceOfStorage(FailedStorage::class)) {
+					continue;
+				}
 				if ($subStorage) {
 					$subCache = $subStorage->getCache('');
 
