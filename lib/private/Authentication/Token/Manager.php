@@ -112,7 +112,9 @@ class Manager implements IProvider {
 	public function getToken(string $tokenId): IToken {
 		try {
 			return $this->publicKeyTokenProvider->getToken($tokenId);
-		} catch (InvalidTokenException $e) {
+		} catch (ExpiredTokenException $e) {
+			throw $e;
+		} catch(InvalidTokenException $e) {
 			// No worries we try to convert it to a PublicKey Token
 		}
 
@@ -153,6 +155,8 @@ class Manager implements IProvider {
 	public function renewSessionToken(string $oldSessionId, string $sessionId) {
 		try {
 			$this->publicKeyTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+		} catch (ExpiredTokenException $e) {
+			throw $e;
 		} catch (InvalidTokenException $e) {
 			$this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		}
