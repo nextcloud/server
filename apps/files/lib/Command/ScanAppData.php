@@ -86,13 +86,13 @@ class ScanAppData extends Base {
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
-			$output->writeln("\tFile\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln("\tFile   <info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
 		});
 
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
-			$output->writeln("\tFolder\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln("\tFolder <info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->foldersCounter;
 			$this->abortIfInterrupted();
 		});
@@ -132,12 +132,11 @@ class ScanAppData extends Base {
 			$output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
 		}
 
-		$output->writeln('Scanning AppData for files');
+		$output->writeln("\nScanning AppData for files");
 
 		$this->initTools();
 
 		$this->scanFiles($output);
-		$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
 
 		$this->presentStats($output);
 	}
@@ -178,6 +177,7 @@ class ScanAppData extends Base {
 	protected function presentStats(OutputInterface $output) {
 		// Stop the timer
 		$this->execTime += microtime(true);
+		$output->writeln("");
 
 		$headers = [
 			'Folders', 'Files', 'Elapsed time'
