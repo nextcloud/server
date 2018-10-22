@@ -192,9 +192,17 @@ class AccessibilityController extends Controller {
 	 * @return DataDownloadResponse
 	 */
 	public function getJavascript(): DataDownloadResponse {
+		$user = $this->userSession->getUser();
+
+		if ($user === null) {
+			$theme = false;
+		} else {
+			$theme = $this->config->getUserValue($user->getUID(), $this->appName, 'theme', false);
+		}
+
 		$responseJS = '(function() {
 	OCA.Accessibility = {
-		theme: ' . json_encode($this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false)) . ',
+		theme: ' . json_encode($theme) . ',
 		
 	};
 })();';
