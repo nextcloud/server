@@ -235,6 +235,27 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function hideDownloadCheckbox() {
+		// forThe()->checkbox("Hide download") can not be used here; that would
+		// return the checkbox itself, but the element that the user interacts
+		// with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Hide download']")->
+				descendantOf(self::shareLinkMenu())->
+				describedAs("Hide download checkbox in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function hideDownloadCheckboxInput() {
+		return Locator::forThe()->checkbox("Hide download")->
+				descendantOf(self::shareLinkMenu())->
+				describedAs("Hide download checkbox input in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function allowUploadAndEditingRadioButton() {
 		// forThe()->radio("Allow upload and editing") can not be used here;
 		// that would return the radio button itself, but the element that the
@@ -332,6 +353,28 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag);
 
 		$this->actor->find(self::itemInDropdownForTag($tag), 10)->click();
+	}
+
+	/**
+	 * @When I set the download of the shared link as hidden
+	 */
+	public function iSetTheDownloadOfTheSharedLinkAsHidden() {
+		$this->showShareLinkMenuIfNeeded();
+
+		$this->iSeeThatTheDownloadOfTheLinkShareIsShown();
+
+		$this->actor->find(self::hideDownloadCheckbox(), 2)->click();
+	}
+
+	/**
+	 * @When I set the download of the shared link as shown
+	 */
+	public function iSetTheDownloadOfTheSharedLinkAsShown() {
+		$this->showShareLinkMenuIfNeeded();
+
+		$this->iSeeThatTheDownloadOfTheLinkShareIsHidden();
+
+		$this->actor->find(self::hideDownloadCheckbox(), 2)->click();
 	}
 
 	/**
@@ -458,6 +501,24 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
+	}
+
+	/**
+	 * @Then I see that the download of the link share is hidden
+	 */
+	public function iSeeThatTheDownloadOfTheLinkShareIsHidden() {
+		$this->showShareLinkMenuIfNeeded();
+
+		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::hideDownloadCheckboxInput(), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that the download of the link share is shown
+	 */
+	public function iSeeThatTheDownloadOfTheLinkShareIsShown() {
+		$this->showShareLinkMenuIfNeeded();
+
+		PHPUnit_Framework_Assert::assertFalse($this->actor->find(self::hideDownloadCheckboxInput(), 10)->isChecked());
 	}
 
 	/**
