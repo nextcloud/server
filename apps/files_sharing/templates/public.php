@@ -11,7 +11,9 @@
 <input type="hidden" id="filesApp" name="filesApp" value="1">
 <input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
-<input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
+<?php if (!$_['hideDownload']): ?>
+	<input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
+<?php endif; ?>
 <input type="hidden" name="previewURL" value="<?php p($_['previewURL']) ?>" id="previewURL">
 <input type="hidden" name="sharingToken" value="<?php p($_['sharingToken']) ?>" id="sharingToken">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
@@ -59,7 +61,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					<!-- Preview frame is filled via JS to support SVG images for modern browsers -->
 					<div id="imgframe"></div>
 				<?php endif; ?>
-				<?php if ($_['previewURL'] === $_['downloadURL']): ?>
+				<?php if ($_['previewURL'] === $_['downloadURL'] && !$_['hideDownload']): ?>
 					<div class="directDownload">
 						<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
 							<span class="icon icon-download"></span>

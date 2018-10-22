@@ -307,6 +307,120 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testShowShareHideDownload() {
+		$note = 'personal note';
+
+		$this->shareController->setToken('token');
+
+		$owner = $this->getMockBuilder(IUser::class)->getMock();
+		$owner->method('getDisplayName')->willReturn('ownerDisplay');
+		$owner->method('getUID')->willReturn('ownerUID');
+
+		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$file->method('getName')->willReturn('file1.txt');
+		$file->method('getMimetype')->willReturn('text/plain');
+		$file->method('getSize')->willReturn(33);
+		$file->method('isReadable')->willReturn(true);
+		$file->method('isShareable')->willReturn(true);
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
+		$share->setPassword('password')
+			->setShareOwner('ownerUID')
+			->setNode($file)
+			->setNote($note)
+			->setTarget('/file1.txt')
+			->setHideDownload(true);
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
+		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+
+		// Even if downloads are disabled the "downloadURL" parameter is
+		// provided to the template, as it is needed to preview audio and GIF
+		// files.
+		$this->urlGenerator->expects($this->at(0))
+			->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.downloadShare', ['token' => 'token'])
+			->willReturn('downloadURL');
+
+		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
+
+		$this->config->method('getSystemValue')
+			->willReturnMap(
+				[
+					['max_filesize_animated_gifs_public_sharing', 10, 10],
+					['enable_previews', true, true],
+					['preview_max_x', 1024, 1024],
+					['preview_max_y', 1024, 1024],
+				]
+			);
+		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
+		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_public_link_disclaimertext', null)
+			->willReturn('My disclaimer text');
+
+		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with('OCA\Files_Sharing::loadAdditionalScripts');
+
+		$this->l10n->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function($text, $parameters) {
+				return vsprintf($text, $parameters);
+			}));
+
+		$response = $this->shareController->showShare();
+		$sharedTmplParams = array(
+			'displayName' => 'ownerDisplay',
+			'owner' => 'ownerUID',
+			'filename' => 'file1.txt',
+			'directory_path' => '/file1.txt',
+			'mimetype' => 'text/plain',
+			'dirToken' => 'token',
+			'sharingToken' => 'token',
+			'server2serversharing' => true,
+			'protected' => 'true',
+			'dir' => '',
+			'downloadURL' => 'downloadURL',
+			'fileSize' => '33 B',
+			'nonHumanFileSize' => 33,
+			'maxSizeAnimateGif' => 10,
+			'previewSupported' => true,
+			'previewEnabled' => true,
+			'previewMaxX' => 1024,
+			'previewMaxY' => 1024,
+			'hideFileList' => false,
+			'shareOwner' => 'ownerDisplay',
+			'disclaimer' => 'My disclaimer text',
+			'shareUrl' => null,
+			'previewImage' => null,
+			'previewURL' => 'downloadURL',
+			'note' => $note,
+			'hideDownload' => true
+		);
+
+		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp->addAllowedFrameDomain('\'self\'');
+		$expectedResponse = new PublicTemplateResponse($this->appName, 'public', $sharedTmplParams);
+		$expectedResponse->setContentSecurityPolicy($csp);
+		$expectedResponse->setHeaderTitle($sharedTmplParams['filename']);
+		$expectedResponse->setHeaderDetails('shared by ' . $sharedTmplParams['displayName']);
+		$expectedResponse->setHeaderActions([]);
+
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 	/**
 	 * @expectedException \OCP\Files\NotFoundException
 	 */

@@ -445,12 +445,14 @@ class ShareController extends AuthPublicShareController {
 		$response = new PublicTemplateResponse($this->appName, 'public', $shareTmpl);
 		$response->setHeaderTitle($shareTmpl['filename']);
 		$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['displayName']]));
-		$response->setHeaderActions([
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
-			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
-			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']),
-		]);
+		if (!$share->getHideDownload()) {
+			$response->setHeaderActions([
+				new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
+				new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
+				new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
+				new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']),
+			]);
+		}
 
 		$response->setContentSecurityPolicy($csp);
 
