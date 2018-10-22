@@ -26,6 +26,7 @@
 		"systemtags/systemtagmodel.js",
 		"systemtags/systemtagscollection.js",
 		"systemtags/systemtagsmappingcollection.js",
-		"systemtags/systemtagsinputfield.js"
+		"systemtags/systemtagsinputfield.js",
+		"collaboration.js"
 	]
 }
