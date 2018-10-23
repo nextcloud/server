@@ -31,6 +31,78 @@ Feature: app-files
     When I open the details view for "welcome.txt"
     Then I see that the details view is open
 
+  Scenario: show recent files
+    Given I am logged in
+    And I create a new folder named "Folder just created"
+    When I open the "Recent" section
+    Then I see that the current section is "Recent"
+    Then I see that the file list contains a file named "Folder just created"
+
+  Scenario: show recent files for a second time
+    Given I am logged in
+    And I open the "Recent" section
+    And I see that the current section is "Recent"
+    And I open the "All files" section
+    And I see that the current section is "All files"
+    And I create a new folder named "Folder just created"
+    When I open the "Recent" section
+    Then I see that the current section is "Recent"
+    Then I see that the file list contains a file named "Folder just created"
+
+  Scenario: show favorites
+    Given I am logged in
+    And I mark "welcome.txt" as favorite
+    When I open the "Favorites" section
+    Then I see that the current section is "Favorites"
+    Then I see that the file list contains a file named "welcome.txt"
+
+  Scenario: show favorites for a second time
+    Given I am logged in
+    And I open the "Favorites" section
+    And I see that the current section is "Favorites"
+    And I open the "All files" section
+    And I see that the current section is "All files"
+    And I mark "welcome.txt" as favorite
+    When I open the "Favorites" section
+    Then I see that the current section is "Favorites"
+    Then I see that the file list contains a file named "welcome.txt"
+
+  Scenario: show shares
+    Given I am logged in
+    And I share the link for "welcome.txt"
+    When I open the "Shares" section
+    Then I see that the current section is "Shares"
+    Then I see that the file list contains a file named "welcome.txt"
+
+  Scenario: show shares for a second time
+    Given I am logged in
+    And I open the "Shares" section
+    And I see that the current section is "Shares"
+    And I open the "All files" section
+    And I see that the current section is "All files"
+    And I share the link for "welcome.txt"
+    When I open the "Shares" section
+    Then I see that the current section is "Shares"
+    Then I see that the file list contains a file named "welcome.txt"
+
+  Scenario: show deleted files
+    Given I am logged in
+    And I delete "welcome.txt"
+    When I open the "Deleted files" section
+    Then I see that the current section is "Deleted files"
+    Then I see that the file list contains a file named "welcome.txt"
+
+  Scenario: show deleted files for a second time
+    Given I am logged in
+    And I open the "Deleted files" section
+    And I see that the current section is "Deleted files"
+    And I open the "All files" section
+    And I see that the current section is "All files"
+    And I delete "welcome.txt"
+    When I open the "Deleted files" section
+    Then I see that the current section is "Deleted files"
+    Then I see that the file list contains a file named "welcome.txt"
+
   Scenario: rename a file with the details view open
     Given I am logged in
     And I open the details view for "welcome.txt"
