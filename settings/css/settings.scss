@@ -104,11 +104,6 @@ input {
 	display: inline-grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
-
-	/* Same font-weight exception as for .personal-settings-container */
-	> div h3 {
-		font-weight: 300;
-	}
 }
 
 .personal-show-container {
@@ -318,7 +313,7 @@ select {
 		top: 44px;
 		&.popovermenu {
 			.menuitem {
-				// override h2 heading font size
+				// override h3 heading font size
 				font-size: 12.8px;
 				line-height: 1.6em;
 				.menuitem-text-detail {
