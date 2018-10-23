@@ -769,7 +769,8 @@ table.dragshadow td.size {
 			&:hover, &:focus, &:active,
 			&.selected,
 			&.searchresult,
-			.name:focus {
+			.name:focus,
+			&.highlighted {
 				background-color: transparent;
 
 				.thumbnail-wrapper,
