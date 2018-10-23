@@ -599,9 +599,12 @@
 		 */
 		_onGridviewChange: function() {
 			var show = this.$showGridView.is(':checked');
-			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
-				show: show
-			});
+			// only save state if user is logged in
+			if (OC.currentUser) {
+				$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
+					show: show
+				});
+			}
 			this.$showGridView.next('#view-toggle')
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
