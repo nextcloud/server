@@ -973,7 +973,8 @@ table.dragshadow td.size {
 	opacity: .5;
 
 	&:hover,
-	&:focus {
+	&:focus,
+	#showgridview:focus + & {
 		opacity: 1;
 	}
 }

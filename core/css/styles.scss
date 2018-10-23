@@ -742,6 +742,10 @@ code {
 			opacity: 1;
 		}
 	}
+	// keyboard focus
+	#picker-showgridview:focus + #picker-view-toggle {
+		opacity: 1;
+	}
 
 	.filelist-container {
 		box-sizing: border-box;
