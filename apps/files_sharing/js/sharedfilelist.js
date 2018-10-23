@@ -393,12 +393,6 @@
 			// Sort by expected sort comparator
 			return files.sort(this._sortComparator);
 		},
-
-		_onUrlChanged: function(e) {
-			if (e && _.isString(e.dir)) {
-				this.changeDirectory(e.dir, false, true);
-			}
-		}
 	});
 
 	/**
