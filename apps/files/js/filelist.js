@@ -2804,6 +2804,7 @@
 			this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
 			this.$el.find('#emptycontent .uploadmessage').toggleClass('hidden', !isCreatable || !this.isEmpty);
 			this.$el.find('#filestable').toggleClass('hidden', this.isEmpty);
+			this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
 		},
 		/**
 		 * Shows the loading mask.
