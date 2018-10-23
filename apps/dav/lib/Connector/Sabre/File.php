@@ -140,6 +140,8 @@ class File extends Node implements IFile {
 		list($partStorage) = $this->fileView->resolvePath($this->path);
 		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
+		$view = \OC\Files\Filesystem::getView();
+
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
 			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
@@ -147,10 +149,10 @@ class File extends Node implements IFile {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
 
-			$this->emitPreHooks($exists);
+			if ($view && !$this->emitPreHooks($exists)) {
+				throw new Exception('Could not write to final file, canceled by hook');
+			}
 		}
-
-		$view = \OC\Files\Filesystem::getView();
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
@@ -159,9 +161,6 @@ class File extends Node implements IFile {
 		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
 		try {
 			if (!$needsPartFile) {
-				if ($view && !$this->emitPreHooks($exists)) {
-					throw new Exception('Could not write to final file, canceled by hook');
-				}
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			}
 
