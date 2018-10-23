@@ -213,10 +213,9 @@ class Principal implements BackendInterface {
 	protected function searchUserPrincipals(array $searchProperties, $test = 'allof') {
 		$results = [];
 
-		// If sharing is disabled (or FreeBusy was disabled on purpose), return the empty array
+		// If sharing is disabled, return the empty array
 		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
-		$disableFreeBusy = $this->config->getAppValue('dav', 'disableFreeBusy', $shareAPIEnabled ? 'no' : 'yes');
-		if ($disableFreeBusy === 'yes') {
+		if (!$shareAPIEnabled) {
 			return [];
 		}
 
@@ -299,10 +298,9 @@ class Principal implements BackendInterface {
 	 * @return string
 	 */
 	function findByUri($uri, $principalPrefix) {
-		// If sharing is disabled (or FreeBusy was disabled on purpose), return the empty array
+		// If sharing is disabled, return the empty array
 		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
-		$disableFreeBusy = $this->config->getAppValue('dav', 'disableFreeBusy', $shareAPIEnabled ? 'no' : 'yes');
-		if ($disableFreeBusy === 'yes') {
+		if (!$shareAPIEnabled) {
 			return null;
 		}
 
