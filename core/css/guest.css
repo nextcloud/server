@@ -184,7 +184,7 @@ a.button {
 	margin: 5px;
 	padding: 11px 10px 9px;
 	outline: none;
-	border-radius: 3px;
+	border-radius: 3px; /* --border-radius */
 	-webkit-appearance: none;
 }
 input[type='submit'],
@@ -201,6 +201,7 @@ select {
 	font-weight: bold;
 	color: #555;
 	border: none;
+	border-radius: 100px; /* --border-radius-pill */
 	cursor: pointer;
 }
 input[type='text'],
@@ -233,11 +234,17 @@ input.update-continue {
 	padding: 10px 20px;
 	color: #666 !important;
 	display: inline-block;
-	border-radius: 3px;
+	border-radius: 100px; /* --border-radius-pill */
 	margin: 15px 5px;
 }
 .updateAnyways a.updateAnywaysButton:hover {
 	color: #222 !important;
+}
+
+/* Get rid of the inside dotted line in Firefox */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
 }
 
 input.primary,
@@ -397,7 +404,7 @@ form .warning input[type='checkbox']+label {
 
 .two-factor-provider {
 	display: flex;
-	border-radius: 3px;
+	border-radius: 3px; /* --border-radius */
 	margin: 12px 0;
 	border: 1px solid transparent;
 	text-align: left;
@@ -432,7 +439,7 @@ form .warning input[type='checkbox']+label {
 	width: 100%;
 	padding: 10px;
 	margin: 0 0 5px 0;
-	border-radius: 3px;
+	border-radius: 100px; /* --border-radius-pill */
 	font-size: 20px;
 }
 .two-factor-primary {
@@ -489,7 +496,7 @@ form .warning input[type='checkbox']+label {
 	box-sizing: border-box;
 	background-color: #0082c9;
 	color: white;
-	border-radius: 3px;
+	border-radius: 100px; /* --border-radius-pill */
 }
 
 /* fixes for update page TODO should be fixed some time in a proper way */
@@ -575,7 +582,7 @@ form #selectDbType label.ui-state-active {
 	color: #fff;
 	text-align: left;
 	word-wrap: break-word;
-	border-radius: 10px;
+	border-radius: 10px; /* --border-radius-large */
 	cursor: default;
 	-moz-user-select: text;
 	-webkit-user-select: text;

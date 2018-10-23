@@ -14,7 +14,7 @@
 
  /* Specifically override browser styles */
 input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
-	font-family: var(--font-face)
+	font-family: var(--font-face);
 }
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
 	font-family: var(--font-face) !important;
@@ -174,7 +174,9 @@ input[type='button'],
 input[type='submit'],
 input[type='reset'] {
 	font-weight: bold;
-	/* Get rid of the ugly firefox dotted line */
+	border-radius: var(--border-radius-pill);
+
+	/* Get rid of the inside dotted line in Firefox */
 	&::-moz-focus-inner {
 		border: 0;
 	}
@@ -662,7 +664,7 @@ input {
 		border: 1px solid var(--color-border-dark);
 		cursor: pointer;
 		position: relative;
-		border-radius: 3px;
+		border-radius: var(--border-radius);
 		height: 34px;
 		/* tag wrapper */
 		.multiselect__tags-wrap {
@@ -692,7 +694,7 @@ input {
 				border: 1px solid var(--color-border-dark);
 				display: inline-flex;
 				align-items: center;
-				border-radius: 3px;
+				border-radius: var(--border-radius);
 				/* require to override the default width
 				   and force the tag to shring properly */
 				min-width: 0;

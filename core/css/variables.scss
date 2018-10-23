@@ -73,7 +73,9 @@ $color-border: nc-darken($color-main-background, 7%) !default;
 // darker border like inputs or very visible elements
 $color-border-dark: nc-darken($color-main-background, 14%) !default;
 $border-radius: 3px !default;
-$border-radius-large: 10px;
+$border-radius-large: 10px !default;
+// Pill-style button, value is large so big buttons also have correct roundness
+$border-radius-pill: 100px !default;
 
 $font-face: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !default;
 
