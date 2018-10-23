@@ -224,8 +224,8 @@
 }
 
 .ui-autocomplete {
-	/* limit dropdown height to 7 entries */
-	max-height: calc(36px * 7);
+	/* limit dropdown height to 6 1/2 entries */
+	max-height: calc(36px * 6.5);
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1550 !important;
