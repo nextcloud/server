@@ -1,10 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "ルールの簡潔な説明",
+    "Add rule" : "ルールを追加",
+    "Reset" : "リセット",
+    "Save" : "保存",
+    "Saving…" : "保存中...",
     "Group list is empty" : "グループリストが空です",
     "Unable to retrieve the group list" : "グループリストを取得できません",
     "Saved" : "保存しました",
     "Saving failed:" : "保存に失敗しました：",
+    "Add rule group" : "ルールグループを追加する",
     "File MIME type" : "ファイルMIMEタイプ",
     "is" : "は",
     "is not" : "は異なる",
@@ -63,12 +69,6 @@ OC.L10N.register(
     "Workflow" : "ワークフロー",
     "Files workflow engine" : "ファイルワークフローエンジン",
     "Open documentation" : "ドキュメントを開く",
-    "Add rule group" : "ルールグループを追加する",
-    "Short rule description" : "ルールの簡潔な説明",
-    "Add rule" : "ルールを追加",
-    "Reset" : "リセット",
-    "Save" : "保存",
-    "Saving…" : "保存中...",
     "Loading…" : "読み込み中..."
 },
 "nplurals=1; plural=0;");

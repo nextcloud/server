@@ -1,9 +1,15 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Kort regelbeskrivelse",
+    "Add rule" : "Tilføj regel",
+    "Reset" : "Reset",
+    "Save" : "Gem",
+    "Saving…" : "Gemmer...",
     "Unable to retrieve the group list" : "Kan ikke hente gruppelisten",
     "Saved" : "Gemt",
     "Saving failed:" : "Kunne ikke gemme:",
+    "Add rule group" : "Tilføj regelgruppe",
     "File MIME type" : "Fil MIME type",
     "is" : "er",
     "is not" : "er ikke",
@@ -62,12 +68,6 @@ OC.L10N.register(
     "Workflow" : "Workflow",
     "Files workflow engine" : "Filer workflow motoren",
     "Open documentation" : "Åben dokumentationen",
-    "Add rule group" : "Tilføj regelgruppe",
-    "Short rule description" : "Kort regelbeskrivelse",
-    "Add rule" : "Tilføj regel",
-    "Reset" : "Reset",
-    "Save" : "Gem",
-    "Saving…" : "Gemmer...",
     "Loading…" : "Indlæser..."
 },
 "nplurals=2; plural=(n != 1);");

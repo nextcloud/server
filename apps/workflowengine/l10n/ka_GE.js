@@ -1,8 +1,14 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "წესის მოკლე აღწერა",
+    "Add rule" : "წესის დამატება",
+    "Reset" : "საწყის მდოგმარეობაში დაბრუნება",
+    "Save" : "შენახვა",
+    "Saving…" : "მიმდინარეობს დამახსოვრება...",
     "Saved" : "შენახულია",
     "Saving failed:" : "შენახვა ვერ მოხერხდა:",
+    "Add rule group" : "ჯგუფის წესის დამატება",
     "File MIME type" : "ფაილის MIME სახეობა",
     "is" : "არის",
     "is not" : "არ არის",
@@ -61,12 +67,6 @@ OC.L10N.register(
     "Workflow" : "შრომითი პროცესები",
     "Files workflow engine" : "ფაილების სამუშაოს შესრულების ძრავა",
     "Open documentation" : "ღია დოკუმენტაცია",
-    "Add rule group" : "ჯგუფის წესის დამატება",
-    "Short rule description" : "წესის მოკლე აღწერა",
-    "Add rule" : "წესის დამატება",
-    "Reset" : "საწყის მდოგმარეობაში დაბრუნება",
-    "Save" : "შენახვა",
-    "Saving…" : "მიმდინარეობს დამახსოვრება...",
     "Loading…" : "იტვირთება..."
 },
 "nplurals=2; plural=(n!=1);");

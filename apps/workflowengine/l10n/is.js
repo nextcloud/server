@@ -1,10 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Stutt lýsing á reglu",
+    "Add rule" : "Bæta við reglu",
+    "Reset" : "Endurstilla",
+    "Save" : "Vista",
+    "Saving…" : "Vista…",
     "Group list is empty" : "Listi yfir hópa er tómur",
     "Unable to retrieve the group list" : "Tókst ekki að ná í lista yfir hópinn",
     "Saved" : "Vistað",
     "Saving failed:" : "Vistun mistókst:",
+    "Add rule group" : "Bæta við regluhópi",
     "File MIME type" : "MIME-skráartegund",
     "is" : "er",
     "is not" : "er ekki",
@@ -64,12 +70,6 @@ OC.L10N.register(
     "Workflow" : "Vinnuferli",
     "Files workflow engine" : "Verkferlavél skráa",
     "Open documentation" : "Opna hjálparskjöl",
-    "Add rule group" : "Bæta við regluhópi",
-    "Short rule description" : "Stutt lýsing á reglu",
-    "Add rule" : "Bæta við reglu",
-    "Reset" : "Endurstilla",
-    "Save" : "Vista",
-    "Saving…" : "Vista…",
     "Loading…" : "Hleð inn..."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

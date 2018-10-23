@@ -1,8 +1,14 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Descripción corta de regla",
+    "Add rule" : "Agregar regla",
+    "Reset" : "Restablecer",
+    "Save" : "Guardar",
+    "Saving…" : "Guardando...",
     "Saved" : "Guardado",
     "Saving failed:" : "Falla al guardar:",
+    "Add rule group" : "Agregar regla de grupo",
     "File MIME type" : "Tipo MIME del archivo",
     "is" : "es",
     "is not" : "no es",
@@ -60,12 +66,6 @@ OC.L10N.register(
     "Check #%s does not exist" : "La validación #%s no existe",
     "Workflow" : "Flujo de trabajo",
     "Open documentation" : "Abrir documentación",
-    "Add rule group" : "Agregar regla de grupo",
-    "Short rule description" : "Descripción corta de regla",
-    "Add rule" : "Agregar regla",
-    "Reset" : "Restablecer",
-    "Save" : "Guardar",
-    "Saving…" : "Guardando...",
     "Loading…" : "Cargando..."
 },
 "nplurals=2; plural=(n != 1);");

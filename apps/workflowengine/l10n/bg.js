@@ -1,8 +1,14 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Кратко описание на правило",
+    "Add rule" : "Добави правило",
+    "Reset" : "Възстанови",
+    "Save" : "Запази",
+    "Saving…" : "Запазване...",
     "Saved" : "Запазено",
     "Saving failed:" : "Запазването се провали:",
+    "Add rule group" : "Добави група правила",
     "File MIME type" : "Тип MIME файл",
     "is" : "е",
     "is not" : "не е",
@@ -60,12 +66,6 @@ OC.L10N.register(
     "Check #%s does not exist" : "Проверка #%s не съществува",
     "Workflow" : "Работен процес",
     "Open documentation" : "Отвори документация",
-    "Add rule group" : "Добави група правила",
-    "Short rule description" : "Кратко описание на правило",
-    "Add rule" : "Добави правило",
-    "Reset" : "Възстанови",
-    "Save" : "Запази",
-    "Saving…" : "Запазване...",
     "Loading…" : "Зареждане..."
 },
 "nplurals=2; plural=(n != 1);");
