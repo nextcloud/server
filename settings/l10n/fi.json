@@ -102,6 +102,7 @@
     "Groups" : "Ryhmät",
     "Group list is empty" : "Ryhmälista on tyhjä",
     "Unable to retrieve the group list" : "Ryhmälistaa ei voitu noutaa",
+    "Limit to groups" : "Rajoita ryhmiin",
     "Official" : "Virallinen",
     "No results" : "Ei tuloksia",
     "Visit website" : "Käy verkkosivustolla",
@@ -189,6 +190,7 @@
     "There are some warnings regarding your setup." : "Asetuksiin liittyen on muutamia varoituksia.",
     "Checking for system and security issues." : "Tarkistetaan mahdollisia järjestelmä- ja tietoturvaongelmia.",
     "Version" : "Versio",
+    "Two-Factor Authentication" : "Kaksivaiheinen tunnistautuminen",
     "Server-side encryption" : "Palvelinpään salaus",
     "Enable server-side encryption" : "Käytä palvelinpään salausta",
     "Please read carefully before activating server-side encryption: " : "Lue tarkasti, ennen kuin otat palvelinpään salauksen käyttöön:",
@@ -236,6 +238,7 @@
     "Follow us on Google+" : "Seuraa Google+:ssa",
     "Like our Facebook page" : "Tykkää Facebook-sivustamme",
     "Follow us on Twitter" : "Seuraa Twitteriä",
+    "Follow us on Mastodon" : "Seuraa meitä Mastodonissa",
     "Check out our blog" : "Lue blogia",
     "Subscribe to our newsletter" : "Tilaa uutiskirje",
     "Profile picture" : "Profiilikuva",
@@ -249,6 +252,7 @@
     "Details" : "Yksityiskohdat",
     "You are a member of the following groups:" : "Olet seuraavien ryhmien jäsen:",
     "You are using <strong>%s</strong>" : "Käytössäsi on <strong>%s</strong>",
+    "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Käytössäsi on <strong>%1$s</strong> / <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
     "Full name" : "Koko nimi",
     "No display name set" : "Näyttönimeä ei ole asetettu",
     "Your email address" : "Sähköpostiosoitteesi",
@@ -362,7 +366,6 @@
     "Check the security of your Nextcloud over our security scan" : "Tarkista Nextcloudisi tietoturva käyttäen tietoturvatarkistustamme",
     "Hardening and security guidance" : "Turvaamis- ja tietoturvaopas",
     "View in store" : "Näytä kaupassa",
-    "Limit to groups" : "Rajoita ryhmiin",
     "This app has an update available." : "Tähän sovellukseen on päivitys saatavilla.",
     "by %s" : "tekijä %s",
     "%s-licensed" : "%s-lisensoitu",
@@ -422,6 +425,7 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Tricks section and the documentation for more information." : "Tietoturvan ja suorituskyvyn vuoksi on tärkeää, että asennuksesi on määritetty oikein. Sen vuoksi teemme joitain automaattisia tarkistuksia. Lisätietoja on saatavilla dokumentaation \"Tips & Tricks\"-osiosta.",
     "The PHP module 'fileinfo' is missing. It is strongly recommended to enable this module to get the best results with MIME type detection." : "PHP-moduuli 'fileinfo' puuttuu. Suosittelemme kyseisen moduulin ottamista käyttöön, jotta MIME-tyyppien havaitseminen toimii parhaalla mahdollisella tavalla.",
     "This means that there might be problems with certain characters in filenames." : "Tämä tarkoittaa, että jotkin merkit saattavat aiheuttaa ongelmia tiedostojen nimissä.",
-    "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Cron-työtä ei voitu suorittaa komentorivin kautta. Havaittiin seuraavat tekniset virheet:"
+    "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Cron-työtä ei voitu suorittaa komentorivin kautta. Havaittiin seuraavat tekniset virheet:",
+    "Default quota :" : "Oletuskiintiö:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

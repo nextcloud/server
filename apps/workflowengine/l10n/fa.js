@@ -1,8 +1,14 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "توضیحات مختصر درباره قوانین ",
+    "Add rule" : "اضافه کردن قوانین ",
+    "Reset" : "ریست",
+    "Save" : "ذخیره",
+    "Saving…" : "در حال ذخیره",
     "Saved" : "ذخیره شده ",
     "Saving failed:" : "ذخیره فایل با خطا مواجه شد.",
+    "Add rule group" : "اضافه کردن قوانین گروه",
     "File MIME type" : "فایل از نوع MIME",
     "is" : "هست ",
     "is not" : "نیست",
@@ -60,12 +66,6 @@ OC.L10N.register(
     "Check #%s does not exist" : "%s را چک کنید وجود ندارد ",
     "Workflow" : "جریان کاری",
     "Open documentation" : "مستندات باز",
-    "Add rule group" : "اضافه کردن قوانین گروه",
-    "Short rule description" : "توضیحات مختصر درباره قوانین ",
-    "Add rule" : "اضافه کردن قوانین ",
-    "Reset" : "ریست",
-    "Save" : "ذخیره",
-    "Saving…" : "در حال ذخیره",
     "Loading…" : "در حال بار گزاری"
 },
 "nplurals=2; plural=(n > 1);");

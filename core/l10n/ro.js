@@ -242,6 +242,7 @@ OC.L10N.register(
     "Username or email" : "Nume de utilizator sau adresă email",
     "Log in" : "Autentificare",
     "Wrong password." : "Parolă greșită.",
+    "Forgot password?" : "Ai uitat parola?",
     "App token" : "Token aplicație",
     "Account access" : "Acces cont",
     "Redirecting …" : "Redirectare...",

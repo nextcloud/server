@@ -55,6 +55,7 @@ OC.L10N.register(
     "Technical details" : "Technikai adatok",
     "Remote Address: %s" : "Távoli cím: %s",
     "Request ID: %s" : "Kérelem azonosító: %s",
+    "Save" : "Mentés",
     "Send invitations to attendees" : "Meghívó küldése a résztvevőknek",
     "Please make sure to properly set up the email settings above." : "Győződj meg róla, hogy a fenti e-mail beállítások helyesek.",
     "Automatically generate a birthday calendar" : "Születésnapokat tartalmazó naptár automatikus létrehozása",
