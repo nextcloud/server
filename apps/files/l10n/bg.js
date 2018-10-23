@@ -16,6 +16,7 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Папката \"{dir}\" не може да бъде създадена",
     "Upload cancelled." : "Качването е прекъснато.",
     "…" : "…",
+    "Processing files …" : "Обработване на файлове ...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Неуспешно качване на {filename}, защото е директория или с размер 0 байта.",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Няма достатъчно свободно място. Опитвате да качите {size1} при свободни само {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Дестинацията \"{dir}\" не съществува",
@@ -30,7 +31,7 @@ OC.L10N.register(
     "Unshare" : "Прекратяване на споделяне",
     "Could not load info for file \"{file}\"" : "Информацията за файла \"{file}\" не може да бъде заредена",
     "Files" : "Файлове",
-    "Details" : "Детайли",
+    "Details" : "Подробности",
     "Select" : "Избери",
     "Pending" : "Чакащо",
     "Unable to determine date" : "Неуспешно установяване на дата",
@@ -111,6 +112,8 @@ OC.L10N.register(
     "Save" : "Запиши",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ако ползвате PHP-FPM прилагането на промени може да отнеме 5 минути.",
     "Missing permissions to edit from here." : "Липсва разрешение за редакция от тук.",
+    "%1$s of %2$s used" : "%1$s от %2$s използвани",
+    "%s used" : "%s използвани",
     "Settings" : "Настройки",
     "Show hidden files" : "Показвай и скрити файлове",
     "WebDAV" : "WebDAV",
@@ -135,6 +138,7 @@ OC.L10N.register(
     "New text file.txt" : "Текстов файл.txt",
     "Move" : "Премести",
     "Target folder" : "Дестинация",
+    "%s of %s used" : "%s от %s използвани",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Адресът осигурява <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">достъп до файловете ви чрез WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,10 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Kratek opis pravila",
+    "Add rule" : "Dodaj pravilo",
+    "Reset" : "Razveljavi",
+    "Save" : "Shrani",
+    "Saving…" : "Poteka shranjevanje ...",
     "Group list is empty" : "Skupinski seznam je prazen",
     "Unable to retrieve the group list" : "Skupinskega seznama ni mogoče pridobiti.",
     "Saved" : "Shranjeno",
     "Saving failed:" : "Shranjevanje je spodletelo:",
+    "Add rule group" : "Dodaj skupino pravil",
     "File MIME type" : "Vrsta MIME datoteke",
     "is" : "je",
     "is not" : "ni",
@@ -64,12 +70,6 @@ OC.L10N.register(
     "Workflow" : "Delovni tok",
     "Files workflow engine" : "Delovni tok datotek",
     "Open documentation" : "Odpri dokumentacijo",
-    "Add rule group" : "Dodaj skupino pravil",
-    "Short rule description" : "Kratek opis pravila",
-    "Add rule" : "Dodaj pravilo",
-    "Reset" : "Razveljavi",
-    "Save" : "Shrani",
-    "Saving…" : "Poteka shranjevanje ...",
     "Loading…" : "Poteka nalaganje ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

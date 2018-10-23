@@ -89,6 +89,7 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Offentlig uppladdning är avstängt",
     "Public upload is only possible for publicly shared folders" : "Offentlig uppladdning fungerar endast i offentligt delade mappar",
     "Invalid date, date format must be YYYY-MM-DD" : "Ogiltigt datum, måste anges: ÅÅÅÅ-MM-DD",
+    "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Delning %1$s misslyckades. Ej tillåtet med delningar från typ %2$s",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Dela %s och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
     "You cannot share to a Circle if the app is not enabled" : "Du kan inte dela till en cirkel om appen inte är aktiverad",
     "Please specify a valid circle" : "Vänligen ange en giltig cirkel",

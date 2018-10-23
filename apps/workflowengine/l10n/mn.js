@@ -1,8 +1,14 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Дүрмийн тайлбар товч",
+    "Add rule" : "Дүрэм нэмэх",
+    "Reset" : "тохируулах",
+    "Save" : "хадгалах",
+    "Saving…" : "хадгалж байна",
     "Saved" : "Хадгалсан",
     "Saving failed:" : "Хадгалалт бүтэлгүйтэв:",
+    "Add rule group" : "Бүлэгт дүрэм нэмэх",
     "File MIME type" : "Файлын MIME төрөл",
     "is" : "бол",
     "is not" : "биш",
@@ -53,12 +59,6 @@ OC.L10N.register(
     "Operation #%s does not exist" : "%s үйл ажиллагаа байхгүй",
     "Workflow" : "ажлын үйл явц",
     "Open documentation" : "Нээлттэй баримт бичиг",
-    "Add rule group" : "Бүлэгт дүрэм нэмэх",
-    "Short rule description" : "Дүрмийн тайлбар товч",
-    "Add rule" : "Дүрэм нэмэх",
-    "Reset" : "тохируулах",
-    "Save" : "хадгалах",
-    "Saving…" : "хадгалж байна",
     "Loading…" : "уншиж байна"
 },
 "nplurals=2; plural=(n != 1);");

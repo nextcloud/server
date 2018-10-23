@@ -135,6 +135,7 @@ OC.L10N.register(
     "Save" : "Сачувај",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ако користите PHP-FPM, промене се могу применити и тек после 5 минута.",
     "Missing permissions to edit from here." : "Недостају дозволе да се мења одавде.",
+    "%1$s of %2$s used" : "Заузето %1$s од %2$s",
     "%s used" : "%s искоришћено",
     "Settings" : "Поставке",
     "Show hidden files" : "Прикажи скривене фајлове",

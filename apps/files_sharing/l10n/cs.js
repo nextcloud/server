@@ -89,6 +89,7 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Nahrávání veřejností zakázáno správcem",
     "Public upload is only possible for publicly shared folders" : "Veřejné nahrávání je možné pouze do veřejně sdílených šložek",
     "Invalid date, date format must be YYYY-MM-DD" : "Neplatné datum – je třeba, aby jeho formát byl RRRR-MM-DD",
+    "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sdílení %1$s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %2$s",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení %s posláním hesla přes Nextcloud Talk se nezdařilo, protože Nextcloud Talk není zapnutý",
     "You cannot share to a Circle if the app is not enabled" : "Do okruhu nemůžete sdílet, pokud není aplikace zapnuta",
     "Please specify a valid circle" : "Zadejte platný okruh",

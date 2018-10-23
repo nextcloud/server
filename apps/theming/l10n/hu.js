@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Loading preview…" : "Előnézet betöltése...",
     "Saved" : "Mentve!",
-    "Admin" : "Adminisztrátor",
+    "Admin" : "Rendszergazda",
     "a safe home for all your data" : "biztonságos hely az adataid számára",
     "Name cannot be empty" : "A név nem lehet üres",
     "The given name is too long" : "A bevitt név túl hosszú",
