@@ -697,7 +697,6 @@ code {
 }
 
 /* ---- DIALOGS ---- */
-
 #oc-dialog-filepicker-content {
 	.dirtree {
 		width: 96%;
@@ -771,9 +770,54 @@ code {
 		.filesize {
 			text-align: right;
 		}
+		&.view-grid {
+			$grid-size: 120px;
+			$grid-pad: 10px;
+			$name-height: 20px;
+			display: flex;
+			flex-direction: column;
+
+			tbody {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, $grid-size);
+				justify-content: space-around;
+				row-gap: 15px;
+				margin: 15px 0;
+
+				tr {
+					display: block;
+					position: relative;
+					border-radius: var(--border-radius);
+					padding: $grid-pad;
+					display: flex;
+					flex-direction: column;
+					width: $grid-size - 2 * $grid-pad;
+
+					td {
+						border: none;
+						padding: 0;
+
+						&.filename {
+							padding: #{$grid-size - 2 * $grid-pad} 0 0 0;
+							background-position: center top;
+							background-size: contain;
+							line-height: $name-height;
+							height: $name-height;
+						}
+						&.filesize {
+							line-height: $name-height;
+							text-align: left;
+						}
+						&.date {
+							display: none;
+						}
+					}
+				}
+			}
+		}
 	}
 	.filepicker_element_selected {
-		background-color: lightblue;
+		background-color: var(--color-background-darker);
 	}
 }
 

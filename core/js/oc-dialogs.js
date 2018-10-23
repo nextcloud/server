@@ -899,6 +899,8 @@ var OCdialogs = {
 				if (entry.type === 'file') {
 					var urlSpec = {
 						file: dir + '/' + entry.name,
+						x: 100,
+						y: 100
 					};
 					var img = new Image();
 					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
