@@ -53,6 +53,9 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	/** @var string */
 	protected $principalPrefix;
 
+	/** @var string */
+	protected $expectedCUType;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -127,16 +130,19 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 				'uri' => $this->principalPrefix . '/db-123',
 				'{DAV:}displayname' => 'Resource 123',
 				'{http://sabredav.org/ns}email-address' => 'foo@bar.com',
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => $this->expectedCUType,
 			],
 			[
 				'uri' => $this->principalPrefix . '/ldap-123',
 				'{DAV:}displayname' => 'Resource 123 ldap',
 				'{http://sabredav.org/ns}email-address' => 'ldap@bar.com',
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => $this->expectedCUType,
 			],
 			[
 				'uri' => $this->principalPrefix . '/db-456',
 				'{DAV:}displayname' => 'Resource 456',
 				'{http://sabredav.org/ns}email-address' => 'bli@bar.com',
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => $this->expectedCUType,
 			],
 		], $actual);
 
@@ -209,6 +215,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 			'uri' => $this->principalPrefix . '/db-123',
 			'{DAV:}displayname' => 'Resource 123',
 			'{http://sabredav.org/ns}email-address' => 'foo@bar.com',
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => $this->expectedCUType,
 		], $actual);
 	}
 

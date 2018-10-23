@@ -50,6 +50,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	/** @var string */
 	private $dbTableName;
 
+	/** @var string */
+	private $cuType;
+
 	/**
 	 * @param IDBConnection $dbConnection
 	 * @param IUserSession $userSession
@@ -57,18 +60,22 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param ILogger $logger
 	 * @param string $principalPrefix
 	 * @param string $dbPrefix
+	 * @param string $cuType
 	 */
 	public function __construct(IDBConnection $dbConnection,
 								IUserSession $userSession,
 								IGroupManager $groupManager,
 								ILogger $logger,
-								$principalPrefix, $dbPrefix) {
+								string $principalPrefix,
+								string $dbPrefix,
+								string $cuType) {
 		$this->db = $dbConnection;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->logger = $logger;
 		$this->principalPrefix = $principalPrefix;
 		$this->dbTableName = 'calendar_' . $dbPrefix;
+		$this->cuType = $cuType;
 	}
 
 	/**
@@ -328,7 +335,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		return [
 			'uri' => $this->principalPrefix . '/' . $row['backend_id'] . '-' . $row['resource_id'],
 			'{DAV:}displayname' => $row['displayname'],
-			'{http://sabredav.org/ns}email-address' => $row['email']
+			'{http://sabredav.org/ns}email-address' => $row['email'],
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => $this->cuType,
 		];
 	}
 

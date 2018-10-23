@@ -1,12 +1,14 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2018, Georg Ehrke
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -38,16 +40,22 @@ use OCP\IUserManager;
 use Test\TestCase;
 
 class PrincipalTest extends TestCase {
+
 	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
+
 	/** @var \OCA\DAV\Connector\Sabre\Principal */
 	private $connector;
+
 	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $groupManager;
+
 	/** @var IManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $shareManager;
+
 	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
 	private $userSession;
+
 	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject  */
 	private $config;
 
@@ -94,7 +102,7 @@ class PrincipalTest extends TestCase {
 		$barUser
 				->expects($this->exactly(1))
 				->method('getEMailAddress')
-				->will($this->returnValue('bar@owncloud.org'));
+				->will($this->returnValue('bar@nextcloud.com'));
 		$this->userManager
 			->expects($this->once())
 			->method('search')
@@ -104,12 +112,14 @@ class PrincipalTest extends TestCase {
 		$expectedResponse = [
 			0 => [
 				'uri' => 'principals/users/foo',
-				'{DAV:}displayname' => 'Dr. Foo-Bar'
+				'{DAV:}displayname' => 'Dr. Foo-Bar',
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 			],
 			1 => [
 				'uri' => 'principals/users/bar',
 				'{DAV:}displayname' => 'bar',
-				'{http://sabredav.org/ns}email-address' => 'bar@owncloud.org'
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+				'{http://sabredav.org/ns}email-address' => 'bar@nextcloud.com',
 			]
 		];
 		$response = $this->connector->getPrincipalsByPrefix('principals/users');
@@ -141,7 +151,8 @@ class PrincipalTest extends TestCase {
 
 		$expectedResponse = [
 			'uri' => 'principals/users/foo',
-			'{DAV:}displayname' => 'foo'
+			'{DAV:}displayname' => 'foo',
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
 		$response = $this->connector->getPrincipalByPath('principals/users/foo');
 		$this->assertSame($expectedResponse, $response);
@@ -152,7 +163,7 @@ class PrincipalTest extends TestCase {
 		$fooUser
 				->expects($this->exactly(1))
 				->method('getEMailAddress')
-				->will($this->returnValue('foo@owncloud.org'));
+				->will($this->returnValue('foo@nextcloud.com'));
 		$fooUser
 				->expects($this->exactly(1))
 				->method('getUID')
@@ -166,7 +177,8 @@ class PrincipalTest extends TestCase {
 		$expectedResponse = [
 			'uri' => 'principals/users/foo',
 			'{DAV:}displayname' => 'foo',
-			'{http://sabredav.org/ns}email-address' => 'foo@owncloud.org'
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+			'{http://sabredav.org/ns}email-address' => 'foo@nextcloud.com',
 		];
 		$response = $this->connector->getPrincipalByPath('principals/users/foo');
 		$this->assertSame($expectedResponse, $response);
@@ -283,7 +295,7 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider searchPrincipalsDataProvider
 	 */
-	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $result) {
+	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $test, $result) {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->will($this->returnValue($sharingEnabled));
@@ -302,7 +314,7 @@ class PrincipalTest extends TestCase {
 				$this->groupManager->expects($this->at(0))
 					->method('getUserGroupIds')
 					->with($user)
-					->will($this->returnValue(['group1', 'group2']));
+					->will($this->returnValue(['group1', 'group2', 'group5']));
 			}
 		} else {
 			$this->shareManager->expects($this->never())
@@ -315,15 +327,25 @@ class PrincipalTest extends TestCase {
 		$user2->method('getUID')->will($this->returnValue('user2'));
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->will($this->returnValue('user3'));
+		$user4 = $this->createMock(IUser::class);
+		$user4->method('getUID')->will($this->returnValue('user4'));
 
 		if ($sharingEnabled) {
 			$this->userManager->expects($this->at(0))
 				->method('getByEmail')
-				->with('user')
+				->with('user@example.com')
 				->will($this->returnValue([$user2, $user3]));
+
+			$this->userManager->expects($this->at(1))
+				->method('searchDisplayName')
+				->with('User 12')
+				->will($this->returnValue([$user3, $user4]));
 		} else {
 			$this->userManager->expects($this->never())
 				->method('getByEmail');
+
+			$this->userManager->expects($this->never())
+				->method('searchDisplayName');
 		}
 
 		if ($sharingEnabled && $groupsOnly) {
@@ -335,18 +357,30 @@ class PrincipalTest extends TestCase {
 				->method('getUserGroupIds')
 				->with($user3)
 				->will($this->returnValue(['group3', 'group4']));
+			$this->groupManager->expects($this->at(3))
+				->method('getUserGroupIds')
+				->with($user3)
+				->will($this->returnValue(['group3', 'group4']));
+			$this->groupManager->expects($this->at(4))
+				->method('getUserGroupIds')
+				->with($user4)
+				->will($this->returnValue(['group4', 'group5']));
 		}
 
 
 		$this->assertEquals($result, $this->connector->searchPrincipals('principals/users',
-			['{http://sabredav.org/ns}email-address' => 'user']));
+			['{http://sabredav.org/ns}email-address' => 'user@example.com',
+				'{DAV:}displayname' => 'User 12'], $test));
 	}
 
 	public function searchPrincipalsDataProvider() {
 		return [
-			[true, false, ['principals/users/user2', 'principals/users/user3']],
-			[true, true, ['principals/users/user2']],
-			[false, false, []],
+			[true, false, 'allof', ['principals/users/user3']],
+			[true, false, 'anyof', ['principals/users/user2', 'principals/users/user3', 'principals/users/user4']],
+			[true, true, 'allof', []],
+			[true, true, 'anyof', ['principals/users/user2', 'principals/users/user4']],
+			[false, false, 'allof', []],
+			[false, false, 'anyof', []],
 		];
 	}
 
