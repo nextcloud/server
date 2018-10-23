@@ -229,10 +229,10 @@ OCA.Sharing.PublicApp = {
 			this.fileList.generatePreviewUrl = function (urlSpec) {
 				urlSpec = urlSpec || {};
 				if (!urlSpec.x) {
-					urlSpec.x = 32;
+					urlSpec.x = this.$table.data('preview-x') || 32;
 				}
 				if (!urlSpec.y) {
-					urlSpec.y = 32;
+					urlSpec.y = this.$table.data('preview-y') || 32;
 				}
 				urlSpec.x *= window.devicePixelRatio;
 				urlSpec.y *= window.devicePixelRatio;
