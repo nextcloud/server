@@ -208,6 +208,7 @@ var OCdialogs = {
 
 		this.filepicker.loading = true;
 		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
+
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
 			self.filepicker.loading = false;
 			var dialogName = 'oc-dialog-filepicker-content';
@@ -236,6 +237,11 @@ var OCdialogs = {
 			}
 
 			$('body').append(self.$filePicker);
+
+			self.$showGridView = $('input#picker-showgridview');
+			self.$showGridView.on('change', _.bind(self._onGridviewChange, self));
+
+			self._getGridSettings();
 
 			self.$filePicker.ready(function() {
 				self.$filelist = self.$filePicker.find('.filelist tbody');
@@ -778,6 +784,31 @@ var OCdialogs = {
 		}
 		//}
 		return dialogDeferred.promise();
+	},
+	// get the gridview setting and set the input accordingly
+	_getGridSettings: function() {
+		var self = this;
+		$.get(OC.generateUrl('/apps/files/api/v1/showgridview'), function(response) {
+			self.$showGridView.checked = response.gridview;
+			self.$showGridView.next('#picker-view-toggle')
+				.removeClass('icon-toggle-filelist icon-toggle-pictures')
+				.addClass(response.gridview ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+			$('.list-container').toggleClass('view-grid', response.gridview);
+		});
+	},
+	_onGridviewChange: function() {
+		var show = this.$showGridView.is(':checked');
+		// only save state if user is logged in
+		if (OC.currentUser) {
+			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
+				show: show
+			});
+		}
+		this.$showGridView.next('#picker-view-toggle')
+			.removeClass('icon-toggle-filelist icon-toggle-pictures')
+			.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+			
+		$('.list-container').toggleClass('view-grid', show);
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred();
