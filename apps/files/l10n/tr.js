@@ -135,6 +135,7 @@ OC.L10N.register(
     "Save" : "Kaydet",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM üzerinde değişikliklerin uygulanması 5 dakika sürebilir.",
     "Missing permissions to edit from here." : "Buradan düzenleme için izinler eksik.",
+    "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
     "%s used" : "%s kullanılıyor",
     "Settings" : "Ayarlar",
     "Show hidden files" : "Gizli dosyaları görüntüle",

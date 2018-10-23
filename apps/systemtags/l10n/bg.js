@@ -2,7 +2,7 @@ OC.L10N.register(
     "systemtags",
     {
     "Tags" : "Етикети",
-    "Update" : "Обнови",
+    "Update" : "Актуализирай",
     "Create" : "Създай",
     "Select tag…" : "Изберете етикет...",
     "Tagged files" : "Отбелязани файлове",

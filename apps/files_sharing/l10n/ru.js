@@ -89,6 +89,7 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Загрузка в общедоступную папку запрещена администратором",
     "Public upload is only possible for publicly shared folders" : "Общедоступная загрузка возможна только в общедоступные папки",
     "Invalid date, date format must be YYYY-MM-DD" : "Неверная дата, формат даты должен быть ГГГГ-ММ-ДД",
+    "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Не удалось предоставить общий доступ к  «%1$s», поскольку механизм удалённого обмена не разрешает публикации типа %2$s",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа к «%s»: приложение Nextcloud Talk отключено.",
     "You cannot share to a Circle if the app is not enabled" : "Вы не можете поделиться с кругом, если приложение «Круг» не включено",
     "Please specify a valid circle" : "Укажите верный круг",

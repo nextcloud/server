@@ -1,6 +1,12 @@
 { "translations": {
+    "Short rule description" : "Descripción corta de la regla",
+    "Add rule" : "Agregar regla",
+    "Reset" : "Restablecer",
+    "Save" : "Guardar",
+    "Saving…" : "Guardando...",
     "Saved" : "Guardado",
     "Saving failed:" : "Falla al guardar:",
+    "Add rule group" : "Agregar regla de grupo",
     "File MIME type" : "Tipo MIME del archivo",
     "is" : "es",
     "is not" : "no es",
@@ -58,12 +64,6 @@
     "Check #%s does not exist" : "La validación #%s no existe",
     "Workflow" : "Flujo de trabajo",
     "Open documentation" : "Abrir la documentación",
-    "Add rule group" : "Agregar regla de grupo",
-    "Short rule description" : "Descripción corta de la regla",
-    "Add rule" : "Agregar regla",
-    "Reset" : "Restablecer",
-    "Save" : "Guardar",
-    "Saving…" : "Guardando...",
     "Loading…" : "Cargando..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

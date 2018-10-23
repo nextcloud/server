@@ -10,7 +10,7 @@
     "More comments …" : "Több hozzászólás...",
     "Save" : "Mentés",
     "Allowed characters {count} of {max}" : "Engedélyezett karakterek: {count} / {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Hiba a {id} számú komment betöltésekor",
+    "Error occurred while retrieving comment with ID {id}" : "Hiba a {id} számú hozzászólás betöltésekor",
     "Error occurred while updating comment with id {id}" : "Hiba a következő azonosítójú hozzászólás frissítése közben: {id}",
     "Error occurred while posting comment" : "Hiba történt a hozzászólás küldése közben",
     "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"],

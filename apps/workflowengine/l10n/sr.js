@@ -1,10 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Кратки опис правила",
+    "Add rule" : "Додај правило",
+    "Reset" : "Ресетуј",
+    "Save" : "Сачувај",
+    "Saving…" : "Чувам…",
     "Group list is empty" : "Списак група је празан",
     "Unable to retrieve the group list" : "Није могуће дохватити списак група",
     "Saved" : "Снимљено",
     "Saving failed:" : "Снимање није успело:",
+    "Add rule group" : "Додај групу правила",
     "File MIME type" : "MIME тип фајла",
     "is" : "је",
     "is not" : "није",
@@ -65,12 +71,6 @@ OC.L10N.register(
     "Workflow" : "Процес рада",
     "Files workflow engine" : "Датотеке за мотор процеса рада",
     "Open documentation" : "Отвори документацију",
-    "Add rule group" : "Додај групу правила",
-    "Short rule description" : "Кратки опис правила",
-    "Add rule" : "Додај правило",
-    "Reset" : "Ресетуј",
-    "Save" : "Сачувај",
-    "Saving…" : "Чувам…",
     "Loading…" : "Учитавање…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
