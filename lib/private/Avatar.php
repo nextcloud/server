@@ -62,15 +62,18 @@ class Avatar implements IAvatar {
 
 	/**
 	 * https://github.com/sebdesign/cap-height -- for 500px height
-	 * Open Sans cap-height is 0.72 and we want a 200px caps height size (0.4 letter-to-total-height ratio, 500*0.4=200). 200/0.72 = 278px.
-	 * Since we start from the baseline (text-anchor) we need to shift the y axis by 100px (half the caps height): 500/2+100=350
-	 * 
-	 * @var string 
+	 * Automated check: https://codepen.io/skjnldsv/pen/PydLBK/
+	 * Nunito cap-height is 0.716 and we want a 200px caps height size
+	 * (0.4 letter-to-total-height ratio, 500*0.4=200), so: 200/0.716 = 279px.
+	 * Since we start from the baseline (text-anchor) we need to
+	 * shift the y axis by 100px (half the caps height): 500/2+100=350
+	 *
+	 * @var string
 	 */
 	private $svgTemplate = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
 			<rect width="100%" height="100%" fill="#{fill}"></rect>
-			<text x="50%" y="350" style="font-weight:600;font-size:278px;font-family:\'Open Sans\';text-anchor:middle;fill:#fff">{letter}</text>
+			<text x="50%" y="350" style="font-weight:normal;font-size:279px;font-family:\'Nunito\';text-anchor:middle;fill:#fff">{letter}</text>
 		</svg>';
 
 	/**
@@ -189,7 +192,7 @@ class Avatar implements IAvatar {
 			//
 		}
 		$this->user->triggerChange('avatar', $file);
-	}	
+	}
 
 	/**
 	 * remove the users avatar
@@ -285,15 +288,15 @@ class Avatar implements IAvatar {
 		}
 		throw new NotFoundException;
 	}
-	
+
 	/**
 	 * {size} = 500
 	 * {fill} = hex color to fill
 	 * {letter} = Letter to display
-	 * 
+	 *
 	 * Generate SVG avatar
 	 * @return string
-	 * 
+	 *
 	 */
 	private function getAvatarVector(int $size): string {
 		$userDisplayName = $this->user->getDisplayName();
@@ -301,14 +304,14 @@ class Avatar implements IAvatar {
 		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b);
 		$letter = mb_strtoupper(mb_substr($userDisplayName, 0, 1), 'UTF-8');
-		
+
 		$toReplace = ['{size}', '{fill}', '{letter}'];
 		return str_replace($toReplace, [$size, $bgHEX, $letter], $this->svgTemplate);
 	}
 
 	/**
 	 * Generate png avatar from svg with Imagick
-	 * 
+	 *
 	 * @param int $size
 	 * @return string|boolean
 	 */
@@ -317,7 +320,7 @@ class Avatar implements IAvatar {
 			return false;
 		}
 		try {
-			$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
+			$font = __DIR__ . '/../../core/fonts/Nunito-Regular.ttf';
 			$svg = $this->getAvatarVector($size);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
@@ -333,7 +336,7 @@ class Avatar implements IAvatar {
 
 	/**
 	 * Generate png avatar with GD
-	 * 
+	 *
 	 * @param string $userDisplayName
 	 * @param int $size
 	 * @return string
@@ -347,7 +350,7 @@ class Avatar implements IAvatar {
 		$white = imagecolorallocate($im, 255, 255, 255);
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../core/fonts/OpenSans-Semibold.ttf';
+		$font = __DIR__ . '/../../core/fonts/Nunito-Regular.ttf';
 
 		$fontSize = $size * 0.4;
 
@@ -455,7 +458,7 @@ class Avatar implements IAvatar {
 	public function avatarBackgroundColor(string $hash) {
 		// Normalize hash
 		$hash = strtolower($hash);
-		
+
 		// Already a md5 hash?
 		if( preg_match('/^([0-9a-f]{4}-?){8}$/', $hash, $matches) !== 1 ) {
 			$hash = md5($hash);
