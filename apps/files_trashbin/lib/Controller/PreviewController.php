@@ -22,27 +22,31 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Trashbin\Controller;
 
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 class PreviewController extends Controller {
-
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	/** @var string */
-	private $userId;
+	/** @var ITrashManager */
+	private $trashManager;
+
+	/** @var IUserSession */
+	private $userSession;
 
 	/** @var IMimeTypeDetector */
 	private $mimeTypeDetector;
@@ -53,17 +57,21 @@ class PreviewController extends Controller {
 	/** @var ITimeFactory */
 	private $time;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								string $userId,
-								IMimeTypeDetector $mimeTypeDetector,
-								IPreview $previewManager,
-								ITimeFactory $time) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IRootFolder $rootFolder,
+		ITrashManager $trashManager,
+		IUserSession $userSession,
+		IMimeTypeDetector $mimeTypeDetector,
+		IPreview $previewManager,
+		ITimeFactory $time
+	) {
 		parent::__construct($appName, $request);
 
+		$this->trashManager = $trashManager;
 		$this->rootFolder = $rootFolder;
-		$this->userId = $userId;
+		$this->userSession = $userSession;
 		$this->mimeTypeDetector = $mimeTypeDetector;
 		$this->previewManager = $previewManager;
 		$this->time = $time;
@@ -86,39 +94,28 @@ class PreviewController extends Controller {
 		}
 
 		try {
-			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			/** @var Folder $trash */
-			$trash = $userFolder->getParent()->get('files_trashbin/files');
-			$trashFiles = $trash->getById($fileId);
-
-			if (empty($trashFiles)) {
-				throw new NotFoundException();
+			$file = $this->trashManager->getTrashNodeById($this->userSession->getUser(), $fileId);
+			if ($file === null) {
+				return new DataResponse([], Http::STATUS_NOT_FOUND);
 			}
-
-			$trashFile = array_pop($trashFiles);
-
-			if ($trashFile instanceof Folder) {
+			if ($file instanceof Folder) {
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);
 			}
 
+			$pathParts = pathinfo($file->getName());
+			$extension = $pathParts['extension'];
+			$fileName = $pathParts['filename'];
 			/*
 			 * Files in the root of the trashbin are timetamped.
 			 * So we have to strip that in order to properly detect the mimetype of the file.
 			 */
-			if ($trashFile->getParent()->getPath() === $trash->getPath()) {
-				/** @var File $trashFile */
-				$fileName = $trashFile->getName();
-				$i = strrpos($fileName, '.');
-				if ($i !== false) {
-					$fileName = substr($fileName, 0, $i);
-				}
-
+			if (preg_match('/d\d+/', $extension)) {
 				$mimeType = $this->mimeTypeDetector->detectPath($fileName);
 			} else {
-				$mimeType = $this->mimeTypeDetector->detectPath($trashFile->getName());
+				$mimeType = $this->mimeTypeDetector->detectPath($file->getName());
 			}
 
-			$f = $this->previewManager->getPreview($trashFile, $x, $y, true, IPreview::MODE_FILL, $mimeType);
+			$f = $this->previewManager->getPreview($file, $x, $y, true, IPreview::MODE_FILL, $mimeType);
 			$response = new Http\FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 
 			// Cache previews for 24H

@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,11 +19,18 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\IFile;
 
-class TrashFolder extends AbstractTrashFolder {
-	public function getName(): string {
-		return $this->data->getName() . '.d' . $this->getLastModified();
+abstract class AbstractTrashFile extends AbstractTrash implements IFile , ITrash{
+	public function put($data) {
+		throw new Forbidden();
+	}
+
+	public function setName($name) {
+		throw new Forbidden();
 	}
 }

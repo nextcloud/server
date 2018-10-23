@@ -584,4 +584,10 @@ interface IServerContainer extends IContainer {
 	 * @since 13.0.0
 	 */
 	public function getRemoteInstanceFactory();
+
+	/**
+	 * @return \OCP\Files\Storage\IStorageFactory
+	 * @since 15.0.0
+	 */
+	public function getStorageFactory();
 }

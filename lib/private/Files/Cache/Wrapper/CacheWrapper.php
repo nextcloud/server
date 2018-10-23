@@ -187,6 +187,12 @@ class CacheWrapper extends Cache {
 		$this->getCache()->move($source, $target);
 	}
 
+	protected function getMoveInfo($path) {
+		/** @var Cache $cache */
+		$cache = $this->getCache();
+		return $cache->getMoveInfo($path);
+	}
+
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		$this->getCache()->moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}

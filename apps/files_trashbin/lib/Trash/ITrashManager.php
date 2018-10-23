@@ -1,9 +1,6 @@
 <?php
-declare(strict_types=1);
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,14 +19,38 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Files_Trashbin\Sabre;
+namespace OCA\Files_Trashbin\Trash;
 
-class TrashFile extends AbstractTrashFile {
-	public function get() {
-		return $this->data->getStorage()->fopen($this->data->getInternalPath() . '.d' . $this->getLastModified(), 'rb');
-	}
+use OCP\IUser;
 
-	public function getName(): string {
-		return $this->data->getName() . '.d' . $this->getLastModified();
-	}
+interface ITrashManager extends ITrashBackend {
+	/**
+	 * Add a backend for the trashbin
+	 *
+	 * @param string $storageType
+	 * @param ITrashBackend $backend
+	 * @since 15.0.0
+	 */
+	public function registerBackend(string $storageType, ITrashBackend $backend);
+
+	/**
+	 * List all trash items in the root of the trashbin
+	 *
+	 * @param IUser $user
+	 * @return ITrashItem[]
+	 * @since 15.0.0
+	 */
+	public function listTrashRoot(IUser $user): array;
+
+	/**
+	 * Temporally prevent files from being moved to the trash
+	 *
+	 * @since 15.0.0
+	 */
+	public function pauseTrash();
+
+	/**
+	 * @since 15.0.0
+	 */
+	public function resumeTrash();
 }

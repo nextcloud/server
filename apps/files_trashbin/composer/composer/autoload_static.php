@@ -34,6 +34,8 @@ class ComposerStaticInitFiles_Trashbin
         'OCA\\Files_Trashbin\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files_Trashbin\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Files_Trashbin\\Sabre\\AbstractTrash' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrash.php',
+        'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFile' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrashFile.php',
+        'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFolder' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrashFolder.php',
         'OCA\\Files_Trashbin\\Sabre\\ITrash' => __DIR__ . '/..' . '/../lib/Sabre/ITrash.php',
         'OCA\\Files_Trashbin\\Sabre\\PropfindPlugin' => __DIR__ . '/..' . '/../lib/Sabre/PropfindPlugin.php',
         'OCA\\Files_Trashbin\\Sabre\\RestoreFolder' => __DIR__ . '/..' . '/../lib/Sabre/RestoreFolder.php',
@@ -45,6 +47,13 @@ class ComposerStaticInitFiles_Trashbin
         'OCA\\Files_Trashbin\\Sabre\\TrashHome' => __DIR__ . '/..' . '/../lib/Sabre/TrashHome.php',
         'OCA\\Files_Trashbin\\Sabre\\TrashRoot' => __DIR__ . '/..' . '/../lib/Sabre/TrashRoot.php',
         'OCA\\Files_Trashbin\\Storage' => __DIR__ . '/..' . '/../lib/Storage.php',
+        'OCA\\Files_Trashbin\\Trash\\BackendNotFoundException' => __DIR__ . '/..' . '/../lib/Trash/BackendNotFoundException.php',
+        'OCA\\Files_Trashbin\\Trash\\ITrashBackend' => __DIR__ . '/..' . '/../lib/Trash/ITrashBackend.php',
+        'OCA\\Files_Trashbin\\Trash\\ITrashItem' => __DIR__ . '/..' . '/../lib/Trash/ITrashItem.php',
+        'OCA\\Files_Trashbin\\Trash\\ITrashManager' => __DIR__ . '/..' . '/../lib/Trash/ITrashManager.php',
+        'OCA\\Files_Trashbin\\Trash\\LegacyTrashBackend' => __DIR__ . '/..' . '/../lib/Trash/LegacyTrashBackend.php',
+        'OCA\\Files_Trashbin\\Trash\\TrashItem' => __DIR__ . '/..' . '/../lib/Trash/TrashItem.php',
+        'OCA\\Files_Trashbin\\Trash\\TrashManager' => __DIR__ . '/..' . '/../lib/Trash/TrashManager.php',
         'OCA\\Files_Trashbin\\Trashbin' => __DIR__ . '/..' . '/../lib/Trashbin.php',
     );
 
