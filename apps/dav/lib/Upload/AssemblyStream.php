@@ -76,9 +76,6 @@ class AssemblyStream implements \Icewind\Streams\File {
 			return strnatcmp($a->getName(), $b->getName());
 		});
 		$this->nodes = array_values($nodes);
-		if (count($this->nodes) > 0) {
-			$this->currentStream = $this->getStream($this->nodes[0]);
-		}
 		$this->size = array_reduce($this->nodes, function ($size, IFile $file) {
 			return $size + $file->getSize();
 		}, 0);
@@ -107,7 +104,11 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 */
 	public function stream_read($count) {
 		if (is_null($this->currentStream)) {
-			return '';
+			if ($this->currentNode < count($this->nodes)) {
+				$this->currentStream = $this->getStream($this->nodes[$this->currentNode]);
+			} else {
+				return '';
+			}
 		}
 
 		do {
@@ -191,7 +192,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @return bool
 	 */
 	public function stream_eof() {
-		return $this->pos >= $this->size || $this->currentStream === null;
+		return $this->pos >= $this->size || ($this->currentNode >= count($this->nodes) && $this->currentNode === null);
 	}
 
 	/**
