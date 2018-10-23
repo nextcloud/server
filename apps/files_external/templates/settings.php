@@ -14,7 +14,10 @@
 	$l->t("Once every direct access");
 	$l->t('Read only');
 
-	script('files_external', 'settings');
+	script('files_external', [
+		'settings',
+		'templates'
+	]);
 	style('files_external', 'settings');
 
 	// load custom JS

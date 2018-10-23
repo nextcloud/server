@@ -7,13 +7,21 @@ templates['detailsview'] = template({"1":function(container,depth0,helpers,parti
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.tabHeaders : depth0),{"name":"each","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</ul>\n";
 },"2":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<li class=\"tabHeader\" data-tabid=\""
     + alias4(((helper = (helper = helpers.tabId || (depth0 != null ? depth0.tabId : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"tabId","hash":{},"data":data}) : helper)))
-    + "\" tabindex=\"0\">\n		<a href=\"#\" tabindex=\"-1\">"
+    + "\" tabindex=\"0\">\n	    "
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.tabIcon : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n		<a href=\"#\" tabindex=\"-1\">"
     + alias4(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data}) : helper)))
     + "</a>\n	</li>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<span class=\"icon "
+    + container.escapeExpression(((helper = (helper = helpers.tabIcon || (depth0 != null ? depth0.tabIcon : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"tabIcon","hash":{},"data":data}) : helper)))
+    + "\"></span>";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {});
 

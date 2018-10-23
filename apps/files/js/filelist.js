@@ -221,6 +221,10 @@
 				return;
 			}
 
+			if (options.shown) {
+				this.shown = options.shown;
+			}
+
 			if (options.config) {
 				this._filesConfig = options.config;
 			} else if (!_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
@@ -310,10 +314,10 @@
 				breadcrumbOptions.onDrop = _.bind(this._onDropOnBreadCrumb, this);
 				breadcrumbOptions.onOver = function() {
 					self.$el.find('td.filename.ui-droppable').droppable('disable');
-				}
+				};
 				breadcrumbOptions.onOut = function() {
 					self.$el.find('td.filename.ui-droppable').droppable('enable');
-				}
+				};
 			}
 			this.breadcrumb = new OCA.Files.BreadCrumb(breadcrumbOptions);
 
@@ -1409,6 +1413,10 @@
 				// rgb(118, 118, 118) / #767676
 				// min. color contrast for normal text on white background according to WCAG AA
 				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)),2));
+
+				if (OCA.Accessibility && OCA.Accessibility.theme === 'themedark') {
+					sizeColor = Math.abs(sizeColor);
+				}
 			} else {
 				simpleSize = t('files', 'Pending');
 			}
@@ -1427,6 +1435,16 @@
 			// min. color contrast for normal text on white background according to WCAG AA
 			if (modifiedColor >= '118') {
 				modifiedColor = 118;
+			}
+			if (OCA.Accessibility && OCA.Accessibility.theme === 'themedark') {
+				modifiedColor = Math.abs(modifiedColor);
+
+				// ensure that the dimmest color is still readable
+				// rgb(130, 130, 130) / #828282
+				// min. color contrast for normal text on black background according to WCAG AA
+				if (modifiedColor < 130) {
+					modifiedColor = 130;
+				}
 			}
 			var formatted;
 			var text;

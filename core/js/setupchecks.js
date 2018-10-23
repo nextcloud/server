@@ -422,7 +422,6 @@
 
 			if (xhr.status === 200) {
 				var securityHeaders = {
-					'X-XSS-Protection': ['1; mode=block'],
 					'X-Content-Type-Options': ['nosniff'],
 					'X-Robots-Tag': ['none'],
 					'X-Frame-Options': ['SAMEORIGIN', 'DENY'],
@@ -441,6 +440,18 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
+				}
+
+				var xssfields = xhr.getResponseHeader('X-XSS-Protection') ? xhr.getResponseHeader('X-XSS-Protection').split(';').map(function(item) { return item.trim(); }) : [];
+				if (xssfields.length === 0 || xssfields.indexOf('1') === -1 || xssfields.indexOf('mode=block') === -1) {
+					messages.push({
+						msg: t('core', 'The "{header}" HTTP header doesn\'t contain "{expected}". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+							{
+								header: 'X-XSS-Protection',
+								expected: '1; mode=block'
+							}),
+						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+					});
 				}
 
 				if (!xhr.getResponseHeader('Referrer-Policy') ||

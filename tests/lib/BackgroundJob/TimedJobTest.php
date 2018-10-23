@@ -8,65 +8,110 @@
 
 namespace Test\BackgroundJob;
 
-class TestTimedJob extends \OC\BackgroundJob\TimedJob {
-	private $testCase;
+use OCP\AppFramework\Utility\ITimeFactory;
 
-	/**
-	 * @param TimedJobTest $testCase
-	 */
-	public function __construct($testCase) {
+class TestTimedJob extends \OC\BackgroundJob\TimedJob {
+	/** @var bool */
+	public $ran = false;
+
+	public function __construct() {
 		$this->setInterval(10);
-		$this->testCase = $testCase;
 	}
 
 	public function run($argument) {
-		$this->testCase->markRun();
+		$this->ran = true;
+	}
+}
+
+class TestTimedJobNew extends \OCP\BackgroundJob\TimedJob {
+	/** @var bool */
+	public $ran = false;
+
+	public function __construct(ITimeFactory $timeFactory) {
+		parent::__construct($timeFactory);
+		$this->setInterval(10);
+	}
+
+	public function run($argument) {
+		$this->ran = true;
 	}
 }
 
 class TimedJobTest extends \Test\TestCase {
-	/**
-	 * @var DummyJobList $jobList
-	 */
+	/** @var DummyJobList $jobList */
 	private $jobList;
-	/**
-	 * @var \OC\BackgroundJob\TimedJob $job
-	 */
-	private $job;
 
-	private $jobRun = false;
-
-	public function markRun() {
-		$this->jobRun = true;
-	}
+	/** @var ITimeFactory */
+	private $time;
 
 	protected function setup() {
 		parent::setUp();
 
 		$this->jobList = new DummyJobList();
-		$this->job = new TestTimedJob($this);
-		$this->jobList->add($this->job);
-		$this->jobRun = false;
+		$this->time = \OC::$server->query(ITimeFactory::class);
 	}
 
 	public function testShouldRunAfterInterval() {
-		$this->job->setLastRun(time() - 12);
-		$this->job->execute($this->jobList);
-		$this->assertTrue($this->jobRun);
+		$job = new TestTimedJob();
+		$this->jobList->add($job);
+
+		$job->setLastRun(time() - 12);
+		$job->execute($this->jobList);
+		$this->assertTrue($job->ran);
 	}
 
 	public function testShouldNotRunWithinInterval() {
-		$this->job->setLastRun(time() - 5);
-		$this->job->execute($this->jobList);
-		$this->assertFalse($this->jobRun);
+		$job = new TestTimedJob();
+		$this->jobList->add($job);
+
+		$job->setLastRun(time() - 5);
+		$job->execute($this->jobList);
+		$this->assertFalse($job->ran);
 	}
 
 	public function testShouldNotTwice() {
-		$this->job->setLastRun(time() - 15);
-		$this->job->execute($this->jobList);
-		$this->assertTrue($this->jobRun);
-		$this->jobRun = false;
-		$this->job->execute($this->jobList);
-		$this->assertFalse($this->jobRun);
+		$job = new TestTimedJob();
+		$this->jobList->add($job);
+
+		$job->setLastRun(time() - 15);
+		$job->execute($this->jobList);
+		$this->assertTrue($job->ran);
+		$job->ran = false;
+		$job->execute($this->jobList);
+		$this->assertFalse($job->ran);
+	}
+
+
+	public function testShouldRunAfterIntervalNew() {
+		$job = new TestTimedJobNew($this->time);
+		$job->setId(42);
+		$this->jobList->add($job);
+
+		$job->setLastRun(time() - 12);
+		$job->execute($this->jobList);
+		$this->assertTrue($job->ran);
+	}
+
+	public function testShouldNotRunWithinIntervalNew() {
+		$job = new TestTimedJobNew($this->time);
+		$job->setId(42);
+		$this->jobList->add($job);
+
+		$job->setLastRun(time() - 5);
+		$job->execute($this->jobList);
+		$this->assertFalse($job->ran);
+	}
+
+	public function testShouldNotTwiceNew() {
+		$job = new TestTimedJobNew($this->time);
+		$job->setId(42);
+		$this->jobList->add($job);
+
+		$job->setLastRun(time() - 15);
+		$job->execute($this->jobList);
+		$this->assertTrue($job->ran);
+		$job->ran = false;
+		$job->execute($this->jobList);
+		$this->assertFalse($job->ran);
 	}
 }

@@ -28,6 +28,7 @@ use Leafo\ScssPhp\Formatter\Crunched;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\App\IAppManager;
 use OCP\IConfig;
@@ -181,6 +182,32 @@ class AccessibilityController extends Controller {
 		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$response->addHeader('Pragma', 'cache');
 
+		return $response;
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 *
+	 * @return DataDownloadResponse
+	 */
+	public function getJavascript(): DataDownloadResponse {
+		$user = $this->userSession->getUser();
+
+		if ($user === null) {
+			$theme = false;
+		} else {
+			$theme = $this->config->getUserValue($user->getUID(), $this->appName, 'theme', false);
+		}
+
+		$responseJS = '(function() {
+	OCA.Accessibility = {
+		theme: ' . json_encode($theme) . ',
+		
+	};
+})();';
+		$response = new DataDownloadResponse($responseJS, 'javascript', 'text/javascript');
+		$response->cacheFor(3600);
 		return $response;
 	}
 

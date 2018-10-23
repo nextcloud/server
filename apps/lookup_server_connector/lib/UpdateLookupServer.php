@@ -64,15 +64,25 @@ class UpdateLookupServer {
 		$this->signer = $signer;
 		$this->jobList = $jobList;
 
+		if($config->getSystemValue('has_internet_connection', true) === false) {
+			return;
+		}
+
 		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
-		$this->lookupServer = rtrim($this->lookupServer, '/');
-		$this->lookupServer .= '/users';
+		if(!empty($this->lookupServer)) {
+			$this->lookupServer = rtrim($this->lookupServer, '/');
+			$this->lookupServer .= '/users';
+		}
 	}
 
 	/**
 	 * @param IUser $user
 	 */
 	public function userUpdated(IUser $user) {
+		if(empty($this->lookupServer)) {
+			return;
+		}
+
 		$userData = $this->accountManager->getUser($user);
 		$publicData = [];
 

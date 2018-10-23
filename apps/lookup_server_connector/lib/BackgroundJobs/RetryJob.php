@@ -50,9 +50,15 @@ class RetryJob extends Job {
 		$this->clientService = $clientService;
 		$this->jobList = $jobList;
 
+		if ($config->getSystemValue('has_internet_connection', true) === false) {
+			return;
+		}
+
 		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
-		$this->lookupServer = rtrim($this->lookupServer, '/');
-		$this->lookupServer .= '/users';
+		if (!empty($this->lookupServer)) {
+			$this->lookupServer = rtrim($this->lookupServer, '/');
+			$this->lookupServer .= '/users';
+		}
 	}
 
 	/**
@@ -69,7 +75,7 @@ class RetryJob extends Job {
 	}
 
 	protected function run($argument) {
-		if($argument['retryNo'] === 5) {
+		if ($argument['retryNo'] === 5 || empty($this->lookupServer)) {
 			return;
 		}
 

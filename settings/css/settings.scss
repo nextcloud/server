@@ -328,7 +328,7 @@ select {
 				&.active {
 					box-shadow: inset 2px 0 var(--color-primary);
 					.menuitem-text {
-						font-weight: 600;
+						font-weight: bold;
 					}
 				}
 			}
@@ -566,7 +566,7 @@ li.active {
 		width: 150px;
 	}
 	label {
-		font-weight: 700;
+		font-weight: bold;
 	}
 }
 

@@ -60,4 +60,22 @@ class Application extends App {
 			}
 		}
 	}
+
+	public function injectJavascript() {
+		$linkToJs = $this->urlGenerator->linkToRoute(
+			$this->appName . '.accessibility.getJavascript',
+			[
+				'v' => \OC::$server->getConfig()->getAppValue('accessibility', 'cachebuster', '0'),
+			]
+		);
+
+		\OCP\Util::addHeader(
+			'script',
+			[
+				'src' => $linkToJs,
+				'nonce' => \OC::$server->getContentSecurityPolicyNonceManager()->getNonce()
+			],
+			''
+		);
+	}
 }

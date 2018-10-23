@@ -84,7 +84,7 @@ ul {
 
 body {
 	background-color: var(--color-main-background);
-	font-weight: 300;
+	font-weight: normal;
 	font-size: .8em;
 	line-height: 1.6em;
 	font-family: var(--font-face);
@@ -327,14 +327,14 @@ label.infield {
 .warning {
 	legend, a {
 		color: var(--color-primary-text) !important;
-		font-weight: 600 !important;
+		font-weight: bold !important;
 	}
 }
 
 .error {
 	a {
 		color: var(--color-primary-text) !important;
-		font-weight: 600 !important;
+		font-weight: bold !important;
 		&.button {
 			color: var(--color-text-lighter) !important;
 			display: inline-block;
@@ -541,7 +541,7 @@ code {
 
 		.ui-datepicker-title {
 			line-height: 1;
-			font-weight: 300;
+			font-weight: normal;
 		}
 		.ui-icon {
 			opacity: .5;
@@ -622,7 +622,7 @@ code {
 
 		.ui-timepicker-title {
 			line-height: 1;
-			font-weight: 300;
+			font-weight: normal;
 		}
 	}
 	/* AM/PM fix */
@@ -1091,7 +1091,7 @@ div.crumb {
 	&:not(:first-child) a {
 	}
 	&:last-child {
-		font-weight: 600;
+		font-weight: bold;
 		margin-right: 10px;
 		// Allow multiple span next to the main 'a'
 		a ~ span {

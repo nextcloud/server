@@ -10,58 +10,6 @@
 
 (function(){
 
-// TODO: move to a separate file
-var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
-	'<div class="popovermenu open">'+
-	// FIXME: options are hard-coded for now
-	'	<ul>'+
-	'		<li class="optionRow">'+
-	'			<span class="menuitem">'+
-	'				<input id="mountOptionsEncrypt" class="checkbox" name="encrypt" type="checkbox" value="true" checked="checked"/>'+
-	'				<label for="mountOptionsEncrypt">{{t "files_external" "Enable encryption"}}</label>'+
-	'			</span>'+
-	'		</li>'+
-	'		<li class="optionRow">'+
-	'			<span class="menuitem">'+
-	'				<input id="mountOptionsPreviews" class="checkbox" name="previews" type="checkbox" value="true" checked="checked"/>'+
-	'				<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>'+
-	'			</span>'+
-	'		</li>'+
-	'		<li class="optionRow">'+
-	'			<span class="menuitem">'+
-	'				<input id="mountOptionsSharing" class="checkbox" name="enable_sharing" type="checkbox" value="true"/>'+
-	'				<label for="mountOptionsSharing">{{t "files_external" "Enable sharing"}}</label>'+
-	'			</span>'+
-	'		</li>'+
-	'		<li class="optionRow">'+
-	'			<span class="menuitem icon-search">'+
-	'				<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>'+
-	'				<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">'+
-	'					<option value="0">{{t "files_external" "Never"}}</option>'+
-	'					<option value="1" selected="selected">{{t "files_external" "Once every direct access"}}</option>'+
-	'				</select>'+
-	'			</span>'+
-	'		</li>'+
-	'		<li class="optionRow">'+
-	'			<span class="menuitem">'+
-	'				<input id="mountOptionsEncoding" class="checkbox" name="encoding_compatibility" type="checkbox" value="true"/>'+
-	'				<label for="mountOptionsEncoding">{{mountOptionsEncodingLabel}}</label>'+
-	'			</span>'+
-	'		</li>'+
-	'		<li class="optionRow">' +
-	'			<span class="menuitem">' +
-	'				<input id="mountOptionsReadOnly" class="checkbox" name="readonly" type="checkbox" value="true"/>' +
-	'				<label for="mountOptionsReadOnly">{{t "files_external" "Read only"}}</label>' +
-	'			</span>' +
-	'		</li>' +
-	'		<li class="optionRow persistent">' +
-	'			<a href="#" class="menuitem remove icon-delete">' +
-	'				<span>{{t "files_external" "Delete"}}</span>' +
-	'			</a>' +
-	'		</li>' +
-	'	</ul>'+
-	'</div>';
-
 /**
  * Returns the selection of applicable users in the given configuration row
  *
@@ -514,14 +462,16 @@ MountOptionsDropdown.prototype = {
 			MountOptionsDropdown._last.hide();
 		}
 
-		var template = MountOptionsDropdown._template;
-		if (!template) {
-			template = Handlebars.compile(MOUNT_OPTIONS_DROPDOWN_TEMPLATE);
-			MountOptionsDropdown._template = template;
-		}
-
-		var $el = $(template({
-			mountOptionsEncodingLabel: t('files_external', 'Compatibility with Mac NFD encoding (slow)')
+		var $el = $(OCA.External.Templates.mountOptionsDropDown({
+			mountOptionsEncodingLabel: t('files_external', 'Compatibility with Mac NFD encoding (slow)'),
+			mountOptionsEncryptLabel: t('files_external', 'Enable encryption'),
+			mountOptionsPreviewsLabel: t('files_external', 'Enable previews'),
+			mountOptionsSharingLabel: t('files_external', 'Enable sharing'),
+			mountOptionsFilesystemCheckLabel: t('files_external', 'Check for changes'),
+			mountOptionsFilesystemCheckOnce: t('files_external', 'Never'),
+			mountOptionsFilesystemCheckDA: t('files_external', 'Once every direct access'),
+			mountOptionsReadOnlyLabel: t('files_external', 'Read only'),
+			deleteLabel: t('files_external', 'Delete')
 		}));
 		this.$el = $el;
 

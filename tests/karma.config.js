@@ -67,6 +67,7 @@ module.exports = function(config) {
 					// only test these files, others are not ready and mess
 					// up with the global namespace/classes/state
 					'apps/files_external/js/app.js',
+					'apps/files_external/js/templates.js',
 					'apps/files_external/js/mountsfilelist.js',
 					'apps/files_external/js/settings.js',
 					'apps/files_external/js/statusmanager.js'

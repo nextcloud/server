@@ -32,6 +32,10 @@
 			return t('files_sharing', 'Sharing');
 		},
 
+		getIcon: function() {
+			return 'icon-shared';
+		},
+
 		/**
 		 * Renders this details view
 		 */

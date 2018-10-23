@@ -22,8 +22,9 @@
  */
 
 return [
-    'routes' => [
-        ['name' => 'accessibility#getCss', 'url' => '/css/user-{md5}.css', 'verb' => 'GET'],
+	'routes' => [
+		['name' => 'accessibility#getCss', 'url' => '/css/user-{md5}.css', 'verb' => 'GET'],
+		['name' => 'accessibility#getJavascript', 'url' => '/js/accessibility', 'verb' => 'GET'],
     ],
     'ocs' => [
 		[

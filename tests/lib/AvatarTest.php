@@ -48,7 +48,7 @@ class AvatarTest extends \Test\TestCase {
 			$this->createMock(ILogger::class),
 			$this->config
 		);
-		
+
 		// abcdefghi is a convenient name that our algorithm convert to our nextcloud blue 0082c9
 		$this->user->method('getDisplayName')->willReturn('abcdefghi');
 	}
@@ -231,11 +231,11 @@ class AvatarTest extends \Test\TestCase {
 
 	public function testGenerateSvgAvatar() {
 		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [64]);
-		
+
 		$svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
 			<rect width="100%" height="100%" fill="#0082c9"></rect>
-			<text x="50%" y="350" style="font-weight:600;font-size:278px;font-family:\'Open Sans\';text-anchor:middle;fill:#fff">A</text>
+			<text x="50%" y="350" style="font-weight:normal;font-size:279px;font-family:\'Nunito\';text-anchor:middle;fill:#fff">A</text>
 		</svg>';
 		$this->assertEquals($avatar, $svg);
 	}
