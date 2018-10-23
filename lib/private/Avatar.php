@@ -63,8 +63,8 @@ class Avatar implements IAvatar {
 	/**
 	 * https://github.com/sebdesign/cap-height -- for 500px height
 	 * Automated check: https://codepen.io/skjnldsv/pen/PydLBK/
-	 * Nunito cap-height is 0.713 and we want a 200px caps height size
-	 * (0.4 letter-to-total-height ratio, 500*0.4=200), so: 200/0.713 = 280px.
+	 * Nunito cap-height is 0.716 and we want a 200px caps height size
+	 * (0.4 letter-to-total-height ratio, 500*0.4=200), so: 200/0.716 = 279px.
 	 * Since we start from the baseline (text-anchor) we need to
 	 * shift the y axis by 100px (half the caps height): 500/2+100=350
 	 *
@@ -73,7 +73,7 @@ class Avatar implements IAvatar {
 	private $svgTemplate = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
 			<rect width="100%" height="100%" fill="#{fill}"></rect>
-			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Nunito\';text-anchor:middle;fill:#fff">{letter}</text>
+			<text x="50%" y="350" style="font-weight:normal;font-size:279px;font-family:\'Nunito\';text-anchor:middle;fill:#fff">{letter}</text>
 		</svg>';
 
 	/**
