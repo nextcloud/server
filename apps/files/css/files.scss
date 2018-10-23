@@ -733,8 +733,6 @@ table.dragshadow td.size {
 #filestable.view-grid:not(.hidden) {
 	$grid-size: 160px;
 	$grid-pad: 14px;
-	display: flex;
-	flex-direction: column;
 
 	/* HEADER and MULTISELECT */
 	thead {
