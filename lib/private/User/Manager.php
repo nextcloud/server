@@ -533,8 +533,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function getByEmail($email) {
 		$userIds = $this->config->getUsersForUserValue('settings', 'email', $email);
 
-		return array_map(function($uid) {
+		$users = array_map(function($uid) {
 			return $this->get($uid);
 		}, $userIds);
+
+		return array_values(array_filter($users, function($u) {
+			return ($u instanceof IUser);
+		}));
 	}
 }
