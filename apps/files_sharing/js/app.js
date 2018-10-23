@@ -34,7 +34,11 @@ OCA.Sharing.App = {
 				id: 'shares.self',
 				sharedWithUser: true,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -56,7 +60,11 @@ OCA.Sharing.App = {
 				id: 'shares.others',
 				sharedWithUser: false,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -78,7 +86,11 @@ OCA.Sharing.App = {
 				id: 'shares.link',
 				linksOnly: true,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -101,7 +113,11 @@ OCA.Sharing.App = {
 				showDeleted: true,
 				sharedWithUser: true,
 				fileActions: this._restoreShareAction(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -122,7 +138,11 @@ OCA.Sharing.App = {
 			{
 				id: 'shares.overview',
 				config: OCA.Files.App.getFilesConfig(),
-				isOverview: true
+				isOverview: true,
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
