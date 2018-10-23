@@ -88,8 +88,18 @@ class RemotePlugin implements ISearchPlugin {
 					}
 
 					$localUser = $this->userManager->get($remoteUser);
-					if ($localUser !== null && $cloudId === $localUser->getCloudId()) {
-						continue;
+					/**
+					 * Add local share if remote cloud id matches a local user ones
+					 */
+					if ($localUser !== null && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId() ) {
+						$result['wide'][] = [
+							'label' => $contact['FN'],
+							'uuid' => $contact['UID'],
+							'value' => [
+								'shareType' => Share::SHARE_TYPE_USER,
+								'shareWith' => $remoteUser
+							]
+						];
 					}
 
 					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
