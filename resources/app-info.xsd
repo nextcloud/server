@@ -4,7 +4,7 @@
 
     <xs:element name="info">
         <xs:complexType>
-            <xs:sequence>
+            <xs:all>
                 <xs:element name="id" type="id" minOccurs="1" maxOccurs="1"/>
                 <xs:element name="name" type="l10n-string" minOccurs="1"
                             maxOccurs="unbounded"/>
@@ -61,7 +61,7 @@
                             maxOccurs="1" />
                 <xs:element name="sabre" type="sabre" minOccurs="0"
                             maxOccurs="1" />
-            </xs:sequence>
+            </xs:all>
         </xs:complexType>
         <xs:unique name="uniqueNameL10n">
             <xs:selector xpath="name"/>
@@ -322,7 +322,7 @@
     </xs:simpleType>
 
     <xs:complexType name="types">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="prelogin" minOccurs="0" maxOccurs="1"/>
             <xs:element name="filesystem" minOccurs="0" maxOccurs="1"/>
             <xs:element name="authentication" minOccurs="0" maxOccurs="1"/>
@@ -330,7 +330,7 @@
             <xs:element name="dav" minOccurs="0" maxOccurs="1"/>
             <xs:element name="prevent_group_restriction" minOccurs="0"
                         maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:simpleType name="category">
@@ -367,16 +367,16 @@
     </xs:simpleType>
 
     <xs:complexType name="documentation">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="user" type="doc-user-url" minOccurs="0" maxOccurs="1"/>
             <xs:element name="admin" type="doc-admin-url" minOccurs="0" maxOccurs="1"/>
             <xs:element name="developer" type="doc-developer-url" minOccurs="0"
                         maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="settings">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="admin" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
             <xs:element name="admin-section" type="php-class" minOccurs="0"
@@ -385,56 +385,56 @@
                         maxOccurs="unbounded"/>
             <xs:element name="personal-section" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="activity">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="settings" type="activity-settings" minOccurs="0"
                         maxOccurs="1"/>
             <xs:element name="filters" type="activity-filters" minOccurs="0" maxOccurs="1"/>
             <xs:element name="providers" type="activity-providers" minOccurs="0"
                         maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="activity-settings">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="setting" type="php-class" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="activity-filters">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="filter" type="php-class" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="activity-providers">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="provider" type="php-class" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="navigations">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="navigation" type="navigation" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="navigation">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="id" type="id" minOccurs="0" maxOccurs="1"/>
             <xs:element name="name" type="non-empty-string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="route" type="route" minOccurs="1" maxOccurs="1"/>
             <xs:element name="icon" type="xs:anyURI" minOccurs="0" maxOccurs="1"/>
             <xs:element name="order" type="xs:int" minOccurs="0" maxOccurs="1"/>
             <xs:element name="type" type="navigation-type" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
         <xs:attribute name="role" type="navigation-role" default="all" use="optional"/>
     </xs:complexType>
 
@@ -459,24 +459,24 @@
     </xs:simpleType>
 
     <xs:complexType name="contactsmenu">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="provider" type="php-class" minOccurs="1"
                         maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="collaboration">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="plugins" type="collaboration-plugins" minOccurs="0" maxOccurs="1">
             </xs:element>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="collaboration-plugins">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="plugin" type="collaboration-plugins-plugin" minOccurs="1" maxOccurs="unbounded">
             </xs:element>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="collaboration-plugins-plugin">
@@ -496,22 +496,22 @@
     </xs:simpleType>
 
     <xs:complexType name="sabre">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="collections" type="sabre-collections" minOccurs="0" maxOccurs="1"/>
             <xs:element name="plugins" type="sabre-plugins" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="sabre-collections">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="collection" type="php-class" minOccurs="1" maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="sabre-plugins">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="plugin" type="php-class" minOccurs="1" maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:simpleType name="share-type">
@@ -530,7 +530,7 @@
 
     <!-- dependencies -->
     <xs:complexType name="dependencies">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="php" type="php" minOccurs="0" maxOccurs="1"/>
             <xs:element name="database" type="database" minOccurs="0"
                         maxOccurs="unbounded"/>
@@ -542,7 +542,7 @@
                         maxOccurs="1"/>
             <xs:element name="nextcloud" type="nextcloud" minOccurs="1"
                         maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="owncloud">
@@ -604,7 +604,7 @@
     </xs:simpleType>
 
     <xs:complexType name="repair-steps">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="pre-migration" type="steps" minOccurs="0"
                         maxOccurs="1"/>
             <xs:element name="post-migration" type="steps" minOccurs="0"
@@ -615,42 +615,42 @@
                         maxOccurs="1"/>
             <xs:element name="uninstall" type="steps" minOccurs="0"
                         maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="jobs">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="job" type="php-class" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="steps">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="step" type="php-class" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="two-factor-providers">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="provider" type="php-class" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="commands">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="command" type="php-class" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="dashboard">
-        <xs:sequence>
+        <xs:all>
             <xs:element name="widget" type="php-class" minOccurs="1"
                         maxOccurs="unbounded"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:simpleType name="php-class">
