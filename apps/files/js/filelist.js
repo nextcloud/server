@@ -3176,9 +3176,9 @@
 			 * update counter when uploading to sub folder
 			 */
 			uploader.on('done', function(e, upload) {
+				var data = upload.data;
 				self._uploader.log('filelist handle fileuploaddone', e, data);
 
-				var data = upload.data;
 				var status = data.jqXHR.status;
 				if (status < 200 || status >= 300) {
 					// error was handled in OC.Uploads already
