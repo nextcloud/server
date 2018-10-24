@@ -284,12 +284,16 @@ describe('Core base tests', function() {
 		});
 
 		it("Returns primary locales as is", function() {
-			expect(OC.getCanonicalLocale('de')).toEqual('de');
-			expect(OC.getCanonicalLocale('zu')).toEqual('zu');
+			localeStub.returns('de');
+			expect(OC.getCanonicalLocale()).toEqual('de');
+			localeStub.returns('zu');
+			expect(OC.getCanonicalLocale()).toEqual('zu');
 		});
 		it("Returns extended locales with hyphens", function() {
-			expect(OC.getCanonicalLocale('az_Cyrl_AZ')).toEqual('az-Cyrl-AZ');
-			expect(OC.getCanonicalLocale('de_DE')).toEqual('de-DE');
+			localeStub.returns('az_Cyrl_AZ');
+			expect(OC.getCanonicalLocale()).toEqual('az-Cyrl-AZ');
+			localeStub.returns('de_DE');
+			expect(OC.getCanonicalLocale()).toEqual('de-DE');
 		});
 	});
 	describe('Link functions', function() {
