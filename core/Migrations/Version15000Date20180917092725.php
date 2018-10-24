@@ -48,6 +48,10 @@ class Version15000Date20180917092725 extends SimpleMigrationStep {
 				'autoincrement' => true,
 				'notnull' => true,
 			]);
+			$table->addColumn('name', Type::STRING, [
+				'notnull' => true,
+				'length' => 64,
+			]);
 
 			$table->setPrimaryKey(['id']);
 		}

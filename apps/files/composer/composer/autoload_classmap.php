@@ -23,6 +23,7 @@ return array(
     'OCA\\Files\\BackgroundJob\\DeleteOrphanedItems' => $baseDir . '/../lib/BackgroundJob/DeleteOrphanedItems.php',
     'OCA\\Files\\BackgroundJob\\ScanFiles' => $baseDir . '/../lib/BackgroundJob/ScanFiles.php',
     'OCA\\Files\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
+    'OCA\\Files\\Collaboration\\Resources\\ResourceProvider' => $baseDir . '/../lib/Collaboration/Resources/ResourceProvider.php',
     'OCA\\Files\\Command\\DeleteOrphanedFiles' => $baseDir . '/../lib/Command/DeleteOrphanedFiles.php',
     'OCA\\Files\\Command\\Scan' => $baseDir . '/../lib/Command/Scan.php',
     'OCA\\Files\\Command\\ScanAppData' => $baseDir . '/../lib/Command/ScanAppData.php',

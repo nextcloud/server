@@ -47,7 +47,12 @@ class Resource implements IResource {
 	/** @var string|null */
 	protected $name;
 
-	public function __construct(IManager $manager, IDBConnection $connection, string $type, string $id) {
+	public function __construct(
+		IManager $manager,
+		IDBConnection $connection,
+		string $type,
+		string $id
+	) {
 		$this->manager = $manager;
 		$this->connection = $connection;
 		$this->type = $type;

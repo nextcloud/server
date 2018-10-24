@@ -43,14 +43,39 @@ class Collection implements ICollection {
 	/** @var int */
 	protected $id;
 
+	/** @var string */
+	protected $name;
+
 	/** @var IResource[] */
 	protected $resources;
 
-	public function __construct(IManager $manager, IDBConnection $connection, int $id) {
+	public function __construct(
+		IManager $manager,
+		IDBConnection $connection,
+		int $id,
+		string $name
+	) {
 		$this->manager = $manager;
 		$this->connection = $connection;
 		$this->id = $id;
+		$this->name = $name;
 		$this->resources = [];
+	}
+
+	/**
+	 * @return int
+	 * @since 15.0.0
+	 */
+	public function getId(): int {
+		return $this->id;
+	}
+
+	/**
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getName(): string {
+		return $this->name;
 	}
 
 	/**
@@ -90,10 +115,6 @@ class Collection implements ICollection {
 
 		$this->resources[] = $resource;
 
-		if ($this->id === 0) {
-			$this->makeCollectionPersistent();
-		}
-
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('collres_resources')
 			->values([
@@ -128,7 +149,7 @@ class Collection implements ICollection {
 		$query->execute();
 
 		if (empty($this->resources)) {
-			$this->makeCollectionUnsteady();
+			$this->removeCollection();
 		}
 	}
 
@@ -154,15 +175,7 @@ class Collection implements ICollection {
 			$resource1->getId() === $resource2->getId();
 	}
 
-	protected function makeCollectionPersistent() {
-		$query = $this->connection->getQueryBuilder();
-		$query->insert('collres_collections');
-		$query->execute();
-
-		$this->id = $query->getLastInsertId();
-	}
-
-	protected function makeCollectionUnsteady() {
+	protected function removeCollection() {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('collres_collections')
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->id, IQueryBuilder::PARAM_INT)));

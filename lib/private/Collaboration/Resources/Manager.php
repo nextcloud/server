@@ -23,11 +23,14 @@ declare(strict_types=1);
 namespace OC\Collaboration\Resources;
 
 
+use OCA\Files\Collaboration\Resources\ResourceProvider;
+use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IProvider;
 use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 
@@ -43,18 +46,36 @@ class Manager implements IManager {
 	/**
 	 * @param int $id
 	 * @return ICollection
+	 * @throws CollectionException when the collection could not be found
 	 * @since 15.0.0
 	 */
 	public function getCollection(int $id): ICollection {
-		return new Collection($this, $this->connection, $id);
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('collres_collections')
+			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		if (!$row) {
+			throw new CollectionException('Collection not found');
+		}
+
+		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name']);
 	}
 
 	/**
+	 * @param string $name
 	 * @return ICollection
 	 * @since 15.0.0
 	 */
-	public function newCollection(): ICollection {
-		return new Collection($this, $this->connection, 0);
+	public function newCollection(string $name): ICollection {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('collres_collections');
+		$query->execute();
+
+		return new Collection($this, $this->connection, $query->getLastInsertId(), $name);
 	}
 
 	/**
@@ -72,7 +93,9 @@ class Manager implements IManager {
 	 * @since 15.0.0
 	 */
 	public function getProviders(): array {
-		return [];
+		return [
+			\OC::$server->query(ResourceProvider::class) // FIXME
+		];
 	}
 
 	/**

@@ -36,6 +36,12 @@ interface ICollection {
 	public function getId(): int;
 
 	/**
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getName(): string;
+
+	/**
 	 * @return IResource[]
 	 * @since 15.0.0
 	 */

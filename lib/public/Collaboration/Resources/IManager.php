@@ -30,15 +30,17 @@ interface IManager extends IProvider {
 	/**
 	 * @param int $id
 	 * @return ICollection
+	 * @throws CollectionException when the collection could not be found
 	 * @since 15.0.0
 	 */
 	public function getCollection(int $id): ICollection;
 
 	/**
+	 * @param string $name
 	 * @return ICollection
 	 * @since 15.0.0
 	 */
-	public function newCollection(): ICollection;
+	public function newCollection(string $name): ICollection;
 
 	/**
 	 * @param string $type
