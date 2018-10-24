@@ -33,6 +33,7 @@
 // DEPRECATED, please use CSS4 vars
 $color-main-text: #222 !default; // Not #000 for better readability
 $color-main-background: #fff !default;
+$color-main-background-translucent: rgba($color-main-background, .97) !default;
 
 // used for different active/disabled states
 $color-background-dark: nc-darken($color-main-background, 7%) !default;

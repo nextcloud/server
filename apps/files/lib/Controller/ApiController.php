@@ -38,6 +38,7 @@ use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCA\Files\Service\TagService;
@@ -265,6 +266,28 @@ class ApiController extends Controller {
 	public function showHiddenFiles($show) {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int)$show);
 		return new Response();
+	}
+
+	/**
+	 * Toggle default for files grid view
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $show
+	 */
+	public function showGridView($show) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', (int)$show);
+		return new Response();
+	}
+
+	/**
+	 * Get default settings for the grid view
+	 *
+	 * @NoAdminRequired
+	 */
+	public function getGridView() {
+		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '1') === '1';
+		return new JSONResponse(['gridview' => $status]);
 	}
 
 	/**

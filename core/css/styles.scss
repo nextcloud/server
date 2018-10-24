@@ -167,7 +167,7 @@ body {
 	height: 44px;
 	padding: 0;
 	margin: 0;
-	background-color: var(--color-main-background);
+	background-color: var(--color-main-background-translucent);
 	z-index: 60;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -697,12 +697,15 @@ code {
 }
 
 /* ---- DIALOGS ---- */
-
 #oc-dialog-filepicker-content {
+	position: relative;
+
 	.dirtree {
-		width: 96%;
+		width: 100%;
 		flex-wrap: wrap;
 		padding-left: 12px;
+		padding-right: 44px;
+		box-sizing: border-box;
 
 		div:first-child a {
 			background-image: url('../img/places/home.svg?v=1');
@@ -722,6 +725,28 @@ code {
 			}
 		}
 	}
+
+	/* Grid view toggle */
+	#picker-view-toggle {
+		position: absolute;
+		background-color: transparent;
+		border: none;
+		margin: 0;
+		padding: 22px;
+		opacity: .5;
+		right: 0;
+		top: 0;
+
+		&:hover,
+		&:focus {
+			opacity: 1;
+		}
+	}
+	// keyboard focus
+	#picker-showgridview:focus + #picker-view-toggle {
+		opacity: 1;
+	}
+
 	.filelist-container {
 		box-sizing: border-box;
 		display: inline-block;
@@ -771,9 +796,54 @@ code {
 		.filesize {
 			text-align: right;
 		}
+		&.view-grid {
+			$grid-size: 120px;
+			$grid-pad: 10px;
+			$name-height: 20px;
+			display: flex;
+			flex-direction: column;
+
+			tbody {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, $grid-size);
+				justify-content: space-around;
+				row-gap: 15px;
+				margin: 15px 0;
+
+				tr {
+					display: block;
+					position: relative;
+					border-radius: var(--border-radius);
+					padding: $grid-pad;
+					display: flex;
+					flex-direction: column;
+					width: $grid-size - 2 * $grid-pad;
+
+					td {
+						border: none;
+						padding: 0;
+
+						&.filename {
+							padding: #{$grid-size - 2 * $grid-pad} 0 0 0;
+							background-position: center top;
+							background-size: contain;
+							line-height: $name-height;
+							height: $name-height;
+						}
+						&.filesize {
+							line-height: $name-height;
+							text-align: left;
+						}
+						&.date {
+							display: none;
+						}
+					}
+				}
+			}
+		}
 	}
 	.filepicker_element_selected {
-		background-color: lightblue;
+		background-color: var(--color-background-darker);
 	}
 }
 

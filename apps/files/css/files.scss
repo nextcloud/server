@@ -172,7 +172,7 @@ table th, table th a {
 	color: var(--color-text-maxcontrast);
 }
 table.multiselect th a {
-	color: #000;
+	color: var(--color-main-text);
 }
 table th .columntitle {
 	display: block;
@@ -262,8 +262,7 @@ table.multiselect thead {
 }
 
 table.multiselect thead th {
-	background-color: rgba(255, 255, 255, 0.95); /* like controls bar */
-	color: #000;
+	background-color: var(--color-main-background);
 	font-weight: bold;
 	border-bottom: 0;
 }
@@ -595,7 +594,13 @@ a.action > img {
 .summary {
 	opacity: .3;
 	/* add whitespace to bottom of files list to correctly show dropdowns */
-	height: 300px;
+	height: 250px;
+}
+/* Less whitespace needed on link share page
+ * as there is a footer and action menus have fewer entries.
+ */
+#body-public .summary {
+	height: 180px;
 }
 .summary:hover,
 .summary:focus,
@@ -722,4 +727,278 @@ table.dragshadow td.size {
 	padding: 0;
 	height: 30px;
 	line-height: 30px;
+}
+
+/* GRID */
+#filestable.view-grid:not(.hidden) {
+	$grid-size: 160px;
+	$grid-pad: 14px;
+
+	/* HEADER and MULTISELECT */
+	thead {
+		tr {
+			display: block;
+			border-bottom: 1px solid var(--color-border);
+			background-color: var(--color-main-background);
+			th {
+				width: auto;
+				border: none;
+			}
+		}
+	}
+
+	/* MAIN FILE LIST */
+	tbody {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, $grid-size);
+		justify-content: space-around;
+		row-gap: 15px;
+		margin: 15px 0;
+
+		tr {
+			display: block;
+			position: relative;
+			height: $grid-size + 44px - $grid-pad;
+			border-radius: var(--border-radius);
+
+			&:hover, &:focus, &:active,
+			&.selected,
+			&.searchresult,
+			.name:focus,
+			&.highlighted {
+				background-color: transparent;
+
+				.thumbnail-wrapper,
+				.nametext,
+				.fileactions {
+					transition: background-color 0.3s ease;
+					background-color: var(--color-background-dark);
+				}
+			}
+		}
+
+		td {
+			display: inline;
+			border-bottom: none;
+
+			&.filename {
+				.thumbnail-wrapper {
+					min-width: 0;
+					max-width: none;
+					position: absolute;
+					width: $grid-size;
+					height: $grid-size;
+					padding: $grid-pad; // same as action icon bottom and right padding
+					top: 0;
+					left: 0;
+					z-index: -1; // make sure the default click is the link
+
+					.thumbnail {
+						width: calc(100% - 2 * #{$grid-pad});
+						height: calc(100% - 2 * #{$grid-pad}); //action icon padding
+						background-size: contain;
+						margin: 0;
+						border-radius: var(--border-radius);
+						background-repeat: no-repeat;
+						background-position: center;
+
+						/* Position favorite star related to checkbox to left and 3-dot menu below
+						 * Position is inherited from the selection while in grid view
+						 */
+						.favorite-mark {
+							padding: $grid-pad;
+							left: auto;
+							top: -22px; // center in corner of thumbnail
+							right: -22px; // center in corner of thumbnail
+						}
+					}
+				}
+
+				.name {
+					height: 100%;
+					border-radius: var(--border-radius);
+					// since we're using thumbnail, name and actions bg
+					// we need to hide the overflow for the radius to show
+					// luckily the popovermenu is outside .name
+					overflow: hidden;
+					// we but the thumbnail in background to ensure
+					// the name is the default click handler
+					// force back the cursor which have been overrided
+					// and disabled for some reason...
+					cursor: pointer !important;
+
+					.nametext {
+						display: flex;
+						height: 44px;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						margin-top: $grid-size - $grid-pad;
+						padding-right: 0;
+						text-align: right;
+						line-height: 44px;
+						padding-left: $grid-pad; // same as action icon right padding
+
+						.innernametext {
+							display: inline-block;
+							max-width: 80px;
+						}
+
+						/* No space for extension in grid view */
+						.extension {
+							display: none;
+						}
+					}
+
+					.fileactions {
+						height: initial;
+						margin-top: $grid-size - $grid-pad;
+						display: flex;
+						align-items: center;
+
+						.action {
+							padding: $grid-pad;
+							width: 44px;
+							height: 44px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							&.action-share.permanent.shared-style span {
+								/* Do not show "Shared" text next to icon as there is no space */
+								&:not(.icon) {
+									display: none;
+								}
+
+								/* If an avatar is present, show that instead of the icon */
+								&.avatar {
+									display: inline-block;
+									position: absolute;
+								}
+							}
+
+							/* In "Deleted files", do not show "Restore" text next to icon as there is no space */
+							&.action-restore.permanent span {
+								&:not(.icon) {
+									display: none;
+								}
+							}
+
+							/* If there is a comment, show it instead of the share icon */
+							&.action-comment ~ .action-share {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+
+			/* No space for filesize and date in grid view */
+			&.filesize,
+			&.date {
+				display: none;
+			}
+
+			&.selection,
+			&.filename .favorite-mark {
+				position: absolute;
+				top: -8px; // half the checkbox width, center on corner of thumbnail
+				left: -8px; // half the checkbox width, center on corner of thumbnail
+				display: flex;
+				width: 44px;
+				height: 44px;
+				z-index: 10;
+				background: transparent;
+
+				label {
+					width: 44px;
+					height: 44px;
+					display: inline-flex;
+					padding: $grid-pad; // like any action icon
+					&::before {
+						margin: 0;
+						width: $grid-pad; // 16px - border
+						height: $grid-pad; // 16px - border
+					}
+				}
+			}
+
+			/* Position actions menu below file */
+			.popovermenu {
+				left: 0;
+				width: $grid-size - 10px; // 2 * margin
+				margin: 0 5px;
+
+				/* Ellipsize long entries, normally menu width is adjusted but for grid we use fixed width. */
+				.menuitem span:not(.icon) {
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
+		}
+	}
+
+	/* Center align the footer file number & size summary */
+	tfoot {
+		display: grid;
+
+		.summary:not(.hidden) {
+			display: inline-block;
+			margin: 0 auto;
+
+			td {
+				padding-top: 50px;
+
+				&:first-child,
+				&.date {
+					display: none;
+				}
+
+				.info {
+				    margin-left: 0;
+				}
+			}
+		}
+	}
+}
+
+/* Grid view toggle */
+#view-toggle {
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 22px;
+	opacity: .5;
+
+	&:hover,
+	&:focus,
+	#showgridview:focus + & {
+		opacity: 1;
+	}
+}
+
+/* Adjustments for link share page */
+#body-public {
+	#filestable.view-grid:not(.hidden) tbody td {
+		/* More space for filename since there is no share icon */
+		&.filename .name .nametext .innernametext {
+			max-width: 124px;
+		}
+
+		/* Position actions menu correctly below 3-dot-menu */
+		.popovermenu {
+			left: -80px;
+		}
+	}
+
+	/* Right-align view toggle on link share page */
+	#view-toggle {
+		position: absolute;
+		right: 0;
+	}
+}
+
+/* Hide legacy Gallery toggle */
+#gallery-button {
+	display: none;
 }
