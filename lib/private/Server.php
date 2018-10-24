@@ -124,6 +124,7 @@ use OC\Dashboard\DashboardManager;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\AutoComplete\IManager;
@@ -1175,6 +1176,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias(IContactsStore::class, ContactsStore::class);
+		$this->registerAlias(IAccountManager::class, AccountManager::class);
 
 		$this->registerService(IStorageFactory::class, function() {
 			return new StorageFactory();
