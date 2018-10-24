@@ -1,11 +1,11 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Could not revert: %s" : "Ni mogoče povrniti: %s",
     "Versions" : "Različice",
     "Failed to revert {file} to revision {timestamp}." : "Povrnitev datoteke {file} na različico {timestamp} je spodletelo.",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajta","%n bajti","%n bajtov"],
     "Restore" : "Obnovi",
+    "Could not revert: %s" : "Ni mogoče povrniti: %s",
     "No earlier versions available" : "Ni starejših različic tega dokumenta.",
     "More versions …" : "Več različic ..."
 },
