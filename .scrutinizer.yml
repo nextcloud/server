@@ -1,6 +1,13 @@
 before_commands:
   - 'git submodule update --init --recursive'
 
+build:
+    nodes:
+        analysis:
+            tests:
+                override:
+                    - php-scrutinizer-run
+
 checks:
     php:
         excluded_dependencies:
