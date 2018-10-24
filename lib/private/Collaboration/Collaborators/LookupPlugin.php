@@ -27,8 +27,11 @@ namespace OC\Collaboration\Collaborators;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\ILogger;
+use OCP\IUserSession;
 use OCP\Share;
 
 class LookupPlugin implements ISearchPlugin {
@@ -37,14 +40,31 @@ class LookupPlugin implements ISearchPlugin {
 	private $config;
 	/** @var IClientService */
 	private $clientService;
+	/** @var string remote part of the current user's cloud id */
+	private $currentUserRemote;
+	/** @var ICloudIdManager */
+	private $cloudIdManager;
+	/** @var ILogger */
+	private $logger;
 
-	public function __construct(IConfig $config, IClientService $clientService) {
+	public function __construct(IConfig $config,
+								IClientService $clientService,
+								IUserSession $userSession,
+								ICloudIdManager $cloudIdManager,
+								ILogger $logger) {
 		$this->config = $config;
 		$this->clientService = $clientService;
+		$this->cloudIdManager = $cloudIdManager;
+		$currentUserCloudId = $userSession->getUser()->getCloudId();
+		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
+		$this->logger = $logger;
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
-		if ($this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') !== 'yes') {
+		$isGlobalScaleEnabled = $this->config->getSystemValue('gs.enabled', false);
+		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
+		// if case of Global Scale we always search the lookup server
+		if (!$isLookupServerEnabled && !$isGlobalScaleEnabled) {
 			return false;
 		}
 
@@ -65,8 +85,20 @@ class LookupPlugin implements ISearchPlugin {
 			$body = json_decode($response->getBody(), true);
 
 			foreach ($body as $lookup) {
+				try {
+					$remote = $this->cloudIdManager->resolveCloudId($lookup['federationId'])->getRemote();
+				} catch (\Exception $e) {
+					$this->logger->error('Can not parse federated cloud ID "' .  $lookup['federationId'] . '"');
+					$this->logger->error($e->getMessage());
+					continue;
+				}
+				if ($this->currentUserRemote === $remote) {
+					continue;
+				}
+				$name = isset($lookup['name']['value']) ? $lookup['name']['value'] : '';
+				$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
 				$result[] = [
-					'label' => $lookup['federationId'],
+					'label' => $label,
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_REMOTE,
 						'shareWith' => $lookup['federationId'],
