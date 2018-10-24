@@ -22,6 +22,10 @@
  *
  */
 
+/**
+ * @module OC.ContactsMenu
+ * @private
+ */
 (function(OC, $, _, Handlebars) {
 	'use strict';
 
@@ -56,6 +60,7 @@
 
 	/**
 	 * @class ContactCollection
+	 * @private
 	 */
 	var ContactCollection = OC.Backbone.Collection.extend({
 		model: Contact
@@ -63,10 +68,11 @@
 
 	/**
 	 * @class ContactsListView
+	 * @private
 	 */
 	var ContactsListView = OC.Backbone.View.extend({
 
-		/** @type {ContactsCollection} */
+		/** @type {ContactCollection} */
 		_collection: undefined,
 
 		/** @type {array} */
@@ -115,7 +121,8 @@
 	});
 
 	/**
-	 * @class CotnactsListItemView
+	 * @class ContactsListItemView
+	 * @private
 	 */
 	var ContactsListItemView = OC.Backbone.View.extend({
 
@@ -205,6 +212,7 @@
 
 	/**
 	 * @class ContactsMenuView
+	 * @private
 	 */
 	var ContactsMenuView = OC.Backbone.View.extend({
 
@@ -364,6 +372,7 @@
 	 * @param {jQuery} options.el
 	 * @param {jQuery} options.trigger
 	 * @class ContactsMenu
+	 * @memberOf OC
 	 */
 	var ContactsMenu = function(options) {
 		this.initialize(options);
