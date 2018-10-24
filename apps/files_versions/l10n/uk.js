@@ -1,11 +1,11 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Could not revert: %s" : "Не вдалося відновити: %s",
     "Versions" : "Версії",
     "Failed to revert {file} to revision {timestamp}." : "Не вдалося повернути {file} до ревізії {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n байт","%n байтів","%n байта","%n байта"],
     "Restore" : "Відновити",
+    "Could not revert: %s" : "Не вдалося відновити: %s",
     "No earlier versions available" : "Попередні версії недоступні",
     "More versions …" : "Більше версій …"
 },

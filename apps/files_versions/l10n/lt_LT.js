@@ -1,11 +1,11 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Could not revert: %s" : "Nepavyko atkurti: \"%s\"",
     "Versions" : "Pakeitimai",
     "Failed to revert {file} to revision {timestamp}." : "Nepavyko atkurti \"{file}\" pakeisto {timestamp} ",
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų","%n baitų"],
     "Restore" : "Atkurti",
+    "Could not revert: %s" : "Nepavyko atkurti: \"%s\"",
     "No earlier versions available" : "Nėra pakeitimų",
     "More versions …" : "Daugiau"
 },
