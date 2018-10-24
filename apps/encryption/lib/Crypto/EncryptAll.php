@@ -295,6 +295,12 @@ class EncryptAll {
 	 */
 	protected function encryptFile($path) {
 
+		// skip already encrypted files
+		$fileInfo = $this->rootView->getFileInfo($path);
+		if ($fileInfo !== false && $fileInfo->isEncrypted()) {
+			return true;
+		}
+
 		$source = $path;
 		$target = $path . '.encrypted.' . time();
 

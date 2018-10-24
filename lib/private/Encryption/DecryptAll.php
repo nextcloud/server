@@ -252,6 +252,12 @@ class DecryptAll {
 	 */
 	protected function decryptFile($path) {
 
+		// skip already decrypted files
+		$fileInfo = $this->rootView->getFileInfo($path);
+		if ($fileInfo !== false && !$fileInfo->isEncrypted()) {
+			return true;
+		}
+
 		$source = $path;
 		$target = $path . '.decrypted.' . $this->getTimestamp();
 
