@@ -101,7 +101,45 @@ class IconsCacher {
 
 		$data = '';
 		foreach ($icons as $icon => $url) {
-			$data .= "--$icon: url('$url');";
+			$base = $this->getRoutePrefix() . '/svg/';
+			$svg = false;
+			if (strpos($url, $base . 'core') === 0) {
+				$cleanUrl = substr($url, strlen($base.'core'));
+				$cleanUrl = substr($cleanUrl, 0, strpos($cleanUrl, '?'));
+				$parts = explode('/', $cleanUrl);
+				$color = array_pop($parts);
+				$cleanUrl = implode('/', $parts);
+				$location = \OC::$SERVERROOT . '/core/img/' . $cleanUrl . '.svg';
+				$svg = file_get_contents($location);
+			} elseif (strpos($url, $base) === 0) {
+				$cleanUrl = substr($url, strlen($base));
+				$cleanUrl = substr($cleanUrl, 0, strpos($cleanUrl, '?'));
+				$parts = explode('/', $cleanUrl);
+				$app = array_shift($parts);
+				$color = array_pop($parts);
+				$cleanUrl = implode('/', $parts);
+				$location = \OC_App::getAppPath($app) . '/img/' . $cleanUrl . '.svg';
+				if ($app === 'settings') {
+					$location = \OC::$SERVERROOT . '/settings/img/' . $cleanUrl . '.svg';
+				}
+				$svg = file_get_contents($location);
+			}
+			if ($svg === false) {
+				$this->logger->debug('Failed to get icon file ' . $location);
+				$data .= "--$icon: url('$url');";
+				continue;
+			}
+			// TODO: Copied from SvgController (we should put this into a separate method so the controller can use it as well)
+			// add fill (fill is not present on black elements)
+			$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;])+)\/>/mi';
+			$svg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
+
+			// replace any fill or stroke colors
+			$svg = preg_replace('/stroke="#([a-z0-9]{3,6})"/mi', 'stroke="#' . $color . '"', $svg);
+			$svg = preg_replace('/fill="#([a-z0-9]{3,6})"/mi', 'fill="#' . $color . '"', $svg);
+
+			$encode = base64_encode($svg);
+			$data .= "--$icon: url(data:image/svg+xml;base64,$encode) !default;";
 		}
 
 		if (strlen($data) > 0) {
@@ -116,6 +154,15 @@ class IconsCacher {
 		}
 
 		return preg_replace($this->iconVarRE, '', $css);
+	}
+
+	private function getRoutePrefix() {
+		$frontControllerActive = (\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
+		$prefix = \OC::$WEBROOT . '/index.php';
+		if ($frontControllerActive) {
+			$prefix = \OC::$WEBROOT;
+		}
+		return $prefix;
 	}
 
 	/**
