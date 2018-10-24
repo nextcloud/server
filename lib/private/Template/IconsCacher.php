@@ -139,7 +139,7 @@ class IconsCacher {
 			$svg = preg_replace('/fill="#([a-z0-9]{3,6})"/mi', 'fill="#' . $color . '"', $svg);
 
 			$encode = base64_encode($svg);
-			$data .= "--$icon: url(data:image/svg+xml;base64,$encode) !default;";
+			$data .= "--$icon: url(data:image/svg+xml;base64,$encode);";
 		}
 
 		if (strlen($data) > 0) {
