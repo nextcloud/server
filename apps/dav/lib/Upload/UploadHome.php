@@ -86,7 +86,10 @@ class UploadHome implements ICollection {
 		$user = \OC::$server->getUserSession()->getUser();
 		Filesystem::initMountPoints($user->getUID());
 		if (!$rootView->file_exists('/' . $user->getUID() . '/uploads')) {
-			$rootView->mkdir('/' . $user->getUID() . '/uploads');
+			$result = $rootView->mkdir('/' . $user->getUID() . '/uploads');
+			if (!$result) {
+				throw new \Exception('Could not create folder "uploads" for user "' . $user->getUID() . '"');
+			}
 		}
 		$view = new View('/' . $user->getUID() . '/uploads');
 		$rootInfo = $view->getFileInfo('');
