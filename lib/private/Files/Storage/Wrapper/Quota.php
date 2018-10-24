@@ -83,7 +83,7 @@ class Quota extends Wrapper {
 	 * @return int
 	 */
 	public function free_space($path) {
-		if ($this->quota < 0 || strpos($path, 'cache') === 0) {
+		if ($this->quota < 0 || strpos($path, 'cache') === 0 || strpos($path, 'uploads') === 0) {
 			return $this->storage->free_space($path);
 		} else {
 			$used = $this->getSize($this->sizeRoot);
