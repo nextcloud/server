@@ -1,0 +1,48 @@
+@mixin genIEGrid($width, $height) {
+	$nth: 1;
+	@for $y from 1 through $height{ 
+		@for $w from 1 through $width {
+			tr:nth-child(#{$nth}) {
+				-ms-grid-column: $w;
+				-ms-grid-row: $y;
+			}
+			$nth: $nth + 1;
+		}
+	}
+}
+
+// maximum files to compute on those algorithms
+// any folder containing files above won't be displayed properly
+$files: 1000;
+$grid: 160px;
+
+#filestable.view-grid:not(.hidden) tbody {
+	display: -ms-grid;
+}
+
+#filestable.view-grid:not(.hidden) tbody {
+	// MOBILE VIEW < 768px
+	// 4 steps, 160, 320, 480 and 640 (mobile stops at 768)
+	@for $step from 0 to 4 {
+		@media only screen and (min-width: #{$grid + $step*$grid}) {
+			-ms-grid-columns: unquote('(#{$grid})[#{$step + 1}]');
+			@include genIEGrid($step + 1, $files/($step + 1));
+		}
+	}
+
+	// CLASSIC VIEW
+	// 2 columns at 768px
+	@media only screen and (min-width: 768px) {
+		-ms-grid-columns: unquote('(#{$grid})[2]');
+		@include genIEGrid(2, $files/2);
+	}
+	// starts at 780px with 3 columns
+	// 300px + 480px: app-navigation + 3 columns
+	@for $step from 0 to 10 {
+		@media only screen and (min-width: #{780px + $step*$grid}) {
+			-ms-grid-columns: unquote('(#{$grid})[#{$step + 3}]');
+			@include genIEGrid($step + 3, $files/($step + 1));
+		}
+	}
+}
+

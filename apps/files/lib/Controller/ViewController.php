@@ -150,6 +150,9 @@ class ViewController extends Controller {
 
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'merged');
+		if(\OCP\Util::isIE()) {
+			\OC_Util::addStyle('files', 'ie');
+		}
 		\OCP\Util::addScript('files', 'merged-index');
 
 		// mostly for the home storage's free space
