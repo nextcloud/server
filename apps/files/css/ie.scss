@@ -1,3 +1,6 @@
+/* MIXIN AND GRID GENERATION FOR IE11 */
+// generate a position for the tr element
+// based on a max columns and max rows
 @mixin genIEGrid($width, $height) {
 	$nth: 1;
 	@for $y from 1 through $height{ 
