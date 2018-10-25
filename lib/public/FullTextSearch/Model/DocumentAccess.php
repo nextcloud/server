@@ -335,6 +335,8 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Get the list of links that have read access to the document.
 	 *
+	 * @since 15.0.0
+	 *
 	 * @return array
 	 */
 	public function getLinks(): array {
@@ -343,6 +345,8 @@ final class DocumentAccess implements JsonSerializable {
 
 
 	/**
+	 * @since 15.0.0
+	 *
 	 * @return array
 	 */
 	public function jsonSerialize(): array {

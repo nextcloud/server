@@ -841,6 +841,8 @@ class IndexDocument implements JsonSerializable {
 
 
 	/**
+	 * @since 15.0.0
+	 *
 	 * On some version of PHP, it is better to force destruct the object.
 	 * And during the index, the number of generated IndexDocument can be
 	 * _huge_.
@@ -866,6 +868,8 @@ class IndexDocument implements JsonSerializable {
 	}
 
 	/**
+	 * @since 15.0.0
+	 *
 	 * @return array
 	 */
 	public function jsonSerialize() {

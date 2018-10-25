@@ -85,6 +85,8 @@ interface ISearchRequest {
 	/**
 	 * Get the searched string.
 	 *
+	 * @since 15.0.0
+	 *
 	 * @return string
 	 */
 	public function getSearch(): string;
@@ -270,6 +272,8 @@ interface ISearchRequest {
 
 	/**
 	 * Get the regex filters the search is limit to.
+	 *
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

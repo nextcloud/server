@@ -241,6 +241,8 @@ final class SearchTemplate implements JsonSerializable {
 
 
 	/**
+	 * @since 15.0.0
+	 *
 	 * @return array
 	 */
 	public function jsonSerialize(): array {
