@@ -33,6 +33,7 @@ use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
+use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -352,6 +353,38 @@ class EncryptAllTest extends TestCase {
 		$userPasswords = $this->invokePrivate($this->encryptAll, 'userPasswords');
 		$this->assertSame(1, count($userPasswords));
 		$this->assertSame($password, $userPasswords['user1']);
+	}
+
+	/**
+	 * @dataProvider dataTestEncryptFile
+	 * @param $isEncrypted
+	 */
+	public function testEncryptFile($isEncrypted) {
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->expects($this->any())->method('isEncrypted')
+			->willReturn($isEncrypted);
+		$this->view->expects($this->any())->method('getFileInfo')
+			->willReturn($fileInfo);
+
+
+		if($isEncrypted) {
+			$this->view->expects($this->never())->method('copy');
+			$this->view->expects($this->never())->method('rename');
+		} else {
+			$this->view->expects($this->once())->method('copy');
+			$this->view->expects($this->once())->method('rename');
+		}
+
+		$this->assertTrue(
+			$this->invokePrivate($this->encryptAll, 'encryptFile', ['foo.txt'])
+		);
+	}
+
+	public function dataTestEncryptFile() {
+		return [
+			[true],
+			[false],
+		];
 	}
 
 }
