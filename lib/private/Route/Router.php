@@ -365,16 +365,9 @@ class Router implements IRouter {
 	 */
 	private function setupRoutes($routes, $appName) {
 		if (is_array($routes)) {
-			$appNameSpace = App::buildAppNamespace($appName);
+			$appNameSpace = App::buildAppNamespace($appName, '');
 
-			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
-
-			if (class_exists($applicationClassName)) {
-				$application = new $applicationClassName();
-			} else {
-				$application = new App($appName);
-			}
-
+			$application = \OC::$server->getAppContainer($appName, $appNameSpace);
 			$application->registerRoutes($this, $routes);
 		}
 	}

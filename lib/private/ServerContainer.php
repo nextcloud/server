@@ -77,7 +77,7 @@ class ServerContainer extends SimpleContainer {
 	 * @return DIContainer
 	 * @throws QueryException
 	 */
-	protected function getAppContainer($namespace, $sensitiveNamespace) {
+	public function getAppContainer($namespace, $sensitiveNamespace) {
 		if (isset($this->appContainers[$namespace])) {
 			return $this->appContainers[$namespace];
 		}
