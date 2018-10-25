@@ -1,10 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Descripción corta de la regla",
+    "Add rule" : "Agregar regla",
+    "Reset" : "Restablecer",
+    "Save" : "Guardar",
+    "Saving…" : "Guardando...",
     "Group list is empty" : "La lista de grupos esta vacía",
     "Unable to retrieve the group list" : "No fue posible recuperar la lista del gurpo",
     "Saved" : "Guardado",
     "Saving failed:" : "Falla al guardar:",
+    "Add rule group" : "Agregar regla de grupo",
     "File MIME type" : "Tipo MIME del archivo",
     "is" : "es",
     "is not" : "no es",
@@ -63,12 +69,6 @@ OC.L10N.register(
     "Workflow" : "Flujo de trabajo",
     "Files workflow engine" : "Motor de flujo de trabajo de archivos",
     "Open documentation" : "Abrir la documentación",
-    "Add rule group" : "Agregar regla de grupo",
-    "Short rule description" : "Descripción corta de la regla",
-    "Add rule" : "Agregar regla",
-    "Reset" : "Restablecer",
-    "Save" : "Guardar",
-    "Saving…" : "Guardando...",
     "Loading…" : "Cargando..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -31,8 +31,9 @@
 
 // SCSS variables
 // DEPRECATED, please use CSS4 vars
-$color-main-text: #000 !default;
+$color-main-text: #222 !default; // Not #000 for better readability
 $color-main-background: #fff !default;
+$color-main-background-translucent: rgba($color-main-background, .97) !default;
 
 // used for different active/disabled states
 $color-background-dark: nc-darken($color-main-background, 7%) !default;
@@ -73,9 +74,11 @@ $color-border: nc-darken($color-main-background, 7%) !default;
 // darker border like inputs or very visible elements
 $color-border-dark: nc-darken($color-main-background, 14%) !default;
 $border-radius: 3px !default;
-$border-radius-large: 10px;
+$border-radius-large: 10px !default;
+// Pill-style button, value is large so big buttons also have correct roundness
+$border-radius-pill: 100px !default;
 
-$font-face: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !default;
+$font-face: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !default;
 
 
 // various structure data

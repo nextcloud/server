@@ -132,11 +132,11 @@
 	OCA.Files = OCA.Files || {};
 
 	/**
-	 * @namespace OCA.Files.TagsPlugin
-	 *
 	 * Extends the file actions and file list to include a favorite mark icon
 	 * and a favorite action in the file actions menu; it also adds "data-tags"
 	 * and "data-favorite" attributes to file elements.
+	 *
+	 * @namespace OCA.Files.TagsPlugin
 	 */
 	OCA.Files.TagsPlugin = {
 		name: 'Tags',

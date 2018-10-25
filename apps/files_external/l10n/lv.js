@@ -13,6 +13,12 @@ OC.L10N.register(
     "All users. Type to select user or group." : "Visiem lietotājiem. Klikšķini, lai atlasītu lietotāju vai grupu.",
     "(group)" : "(grupa)",
     "Compatibility with Mac NFD encoding (slow)" : "Saderība ar Mac NFD kodēšanu (lēni)",
+    "Enable encryption" : "Ieslēgt šifrēšanu",
+    "Enable previews" : "Iespējot priekšskatījumu",
+    "Enable sharing" : "Koplietošanas iespējošana",
+    "Check for changes" : "Pārbaudīt, vai nav izmaiņu",
+    "Never" : "Nekad",
+    "Delete" : "Dzēst",
     "Admin defined" : "Administrators definētās",
     "Saved" : "Saglabāts",
     "Saving..." : "Saglabā...",
@@ -64,11 +70,6 @@ OC.L10N.register(
     "Name" : "Nosaukums",
     "Storage type" : "Krātuves tips",
     "Scope" : "Darbības joma",
-    "Enable encryption" : "Ieslēgt šifrēšanu",
-    "Enable previews" : "Iespējot priekšskatījumu",
-    "Enable sharing" : "Koplietošanas iespējošana",
-    "Check for changes" : "Pārbaudīt, vai nav izmaiņu",
-    "Never" : "Nekad",
     "Folder name" : "Mapes nosaukums",
     "External storage" : "Ārējā krātuve",
     "Authentication" : "Autentifikācija",
@@ -78,7 +79,6 @@ OC.L10N.register(
     "Advanced settings" : "Paplašināti iestatījumi",
     "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
     "OpenStack" : "OpenStack",
-    "No external storage configured" : "Nav konfigurēta ārējā krātuve",
-    "Delete" : "Dzēst"
+    "No external storage configured" : "Nav konfigurēta ārējā krātuve"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

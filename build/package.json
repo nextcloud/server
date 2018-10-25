@@ -15,7 +15,7 @@
     "handlebars": "^4.0.5",
     "jasmine-core": "~2.5.2",
     "jasmine-sinon": "^0.4.0",
-    "jsdoc": "~3.5.5",
+    "jsdoc": "^3.5.5",
     "karma": "^2.0.2",
     "karma-coverage": "*",
     "karma-jasmine": "^1.1.2",
@@ -23,7 +23,7 @@
     "karma-junit-reporter": "^1.2.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-viewport": "^1.0.2",
-    "node-sass": "~4.9.3",
+    "node-sass": "~4.9.4",
     "phantomjs-prebuilt": "*",
     "sinon": "<= 5.0.7"
   },

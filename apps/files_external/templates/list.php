@@ -11,7 +11,7 @@
 
 <input type="hidden" name="dir" value="" id="dir">
 
-<table id="filestable">
+<table id="filestable" class="list-container view-grid">
 	<thead>
 		<tr>
 			<th id='headerName' class="hidden column-name">

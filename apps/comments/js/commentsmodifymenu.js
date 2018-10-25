@@ -15,6 +15,7 @@
 	 * Construct a new CommentsModifyMenuinstance
 	 * @constructs CommentsModifyMenu
 	 * @memberof OC.Comments
+	 * @private
 	 */
 	var CommentsModifyMenu = OC.Backbone.View.extend({
 		tagName: 'div',

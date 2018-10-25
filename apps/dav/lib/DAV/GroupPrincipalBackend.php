@@ -1,9 +1,11 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2018, Georg Ehrke
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -24,6 +26,9 @@ namespace OCA\DAV\DAV;
 
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUserSession;
+use OCP\Share\IManager as IShareManager;
+use OCP\IL10N;
 use OCP\IUser;
 use Sabre\DAV\Exception;
 use \Sabre\DAV\PropPatch;
@@ -36,11 +41,29 @@ class GroupPrincipalBackend implements BackendInterface {
 	/** @var IGroupManager */
 	private $groupManager;
 
+	/** @var IUserSession */
+	private $userSession;
+
+	/** @var IShareManager */
+	private $shareManager;
+
+	/** @var IL10N */
+	private $l10n;
+
 	/**
 	 * @param IGroupManager $IGroupManager
+	 * @param IUserSession $userSession
+	 * @param IShareManager $shareManager
+	 * @param IL10N $l10n
 	 */
-	public function __construct(IGroupManager $IGroupManager) {
+	public function __construct(IGroupManager $IGroupManager,
+								IUserSession $userSession,
+								IShareManager $shareManager,
+								IL10N $l10n) {
 		$this->groupManager = $IGroupManager;
+		$this->userSession = $userSession;
+		$this->shareManager = $shareManager;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -161,7 +184,71 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @return array
 	 */
 	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
-		return [];
+		$results = [];
+
+		if (\count($searchProperties) === 0) {
+			return [];
+		}
+		if ($prefixPath !== self::PRINCIPAL_PREFIX) {
+			return [];
+		}
+		// If sharing is disabled, return the empty array
+		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
+		if (!$shareAPIEnabled) {
+			return [];
+		}
+
+		// If sharing is restricted to group members only,
+		// return only members that have groups in common
+		$restrictGroups = false;
+		if ($this->shareManager->shareWithGroupMembersOnly()) {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				return [];
+			}
+
+			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+		}
+
+		foreach ($searchProperties as $prop => $value) {
+			switch ($prop) {
+				case '{DAV:}displayname':
+					$groups = $this->groupManager->search($value);
+
+					$results[] = array_reduce($groups, function(array $carry, IGroup $group) use ($restrictGroups) {
+						$gid = $group->getGID();
+						// is sharing restricted to groups only?
+						if ($restrictGroups !== false) {
+							if (!\in_array($gid, $restrictGroups, true)) {
+								return $carry;
+							}
+						}
+
+						$carry[] = self::PRINCIPAL_PREFIX . '/' . $gid;
+						return $carry;
+					}, []);
+					break;
+
+				default:
+					$results[] = [];
+					break;
+			}
+		}
+
+		// results is an array of arrays, so this is not the first search result
+		// but the results of the first searchProperty
+		if (count($results) === 1) {
+			return $results[0];
+		}
+
+		switch ($test) {
+			case 'anyof':
+				return array_values(array_unique(array_merge(...$results)));
+
+			case 'allof':
+			default:
+				return array_values(array_intersect(...$results));
+		}
 	}
 
 	/**
@@ -170,7 +257,34 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @return string
 	 */
 	function findByUri($uri, $principalPrefix) {
-		return '';
+		// If sharing is disabled, return the empty array
+		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
+		if (!$shareAPIEnabled) {
+			return null;
+		}
+
+		// If sharing is restricted to group members only,
+		// return only members that have groups in common
+		$restrictGroups = false;
+		if ($this->shareManager->shareWithGroupMembersOnly()) {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				return null;
+			}
+
+			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+		}
+
+		if (strpos($uri, 'principal:principals/groups/') === 0) {
+			$name = urlencode(substr($uri, 28));
+			if ($restrictGroups !== false && !\in_array($name, $restrictGroups, true)) {
+				return null;
+			}
+
+			return substr($uri, 10);
+		}
+
+		return null;
 	}
 
 	/**
@@ -179,12 +293,12 @@ class GroupPrincipalBackend implements BackendInterface {
 	 */
 	protected function groupToPrincipal($group) {
 		$groupId = $group->getGID();
-		$principal = [
-			'uri' => 'principals/groups/' . urlencode($groupId),
-			'{DAV:}displayname' => $groupId,
-		];
 
-		return $principal;
+		return [
+			'uri' => 'principals/groups/' . urlencode($groupId),
+			'{DAV:}displayname' => $this->l10n->t('%s (group)', [$groupId]),
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
+		];
 	}
 
 	/**
@@ -192,10 +306,19 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @return array
 	 */
 	protected function userToPrincipal($user) {
+		$userId = $user->getUID();
+		$displayName = $user->getDisplayName();
+
 		$principal = [
-			'uri' => 'principals/users/' . $user->getUID(),
-			'{DAV:}displayname' => $user->getDisplayName(),
+			'uri' => 'principals/users/' . $userId,
+			'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
+
+		$email = $user->getEMailAddress();
+		if (!empty($email)) {
+			$principal['{http://sabredav.org/ns}email-address'] = $email;
+		}
 
 		return $principal;
 	}

@@ -31,5 +31,6 @@ Class RoomPrincipalBackendTest extends AbstractPrincipalBackendTest {
 			$this->userSession, $this->groupManager, $this->logger);
 		$this->expectedDbTable = 'calendar_rooms';
 		$this->principalPrefix = 'principals/calendar-rooms';
+		$this->expectedCUType = 'ROOM';
 	}
 }

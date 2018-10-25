@@ -34,6 +34,7 @@ use OC\Files\Storage\Temporary;
 use OC\Files\Filesystem;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Storage;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\Cache\ICache;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -546,6 +547,7 @@ class StorageTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$node = $this->getMockBuilder(Node::class)->disableOriginalConstructor()->getMock();
+		$trashManager = $this->createMock(ITrashManager::class);
 		$event = $this->getMockBuilder(MoveToTrashEvent::class)->disableOriginalConstructor()->getMock();
 		$event->expects($this->any())->method('shouldMoveToTrashBin')->willReturn(!$appDisablesTrash);
 
@@ -555,6 +557,7 @@ class StorageTest extends \Test\TestCase {
 			->setConstructorArgs(
 				[
 					['mountPoint' => $mountPoint, 'storage' => $tmpStorage],
+					$trashManager,
 					$userManager,
 					$logger,
 					$eventDispatcher,

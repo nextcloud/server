@@ -50,6 +50,31 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	}
 
 	/**
+	 * This method handler is invoked during fetching of properties.
+	 *
+	 * We use this event to add calendar-auto-schedule-specific properties.
+	 *
+	 * @param PropFind $propFind
+	 * @param INode $node
+	 * @return void
+	 */
+	function propFind(PropFind $propFind, INode $node) {
+		// overwrite Sabre/Dav's implementation
+		$propFind->handle('{' . self::NS_CALDAV . '}calendar-user-type', function() use ($node) {
+			$calendarUserType = '{' . self::NS_CALDAV . '}calendar-user-type';
+			$props = $node->getProperties([$calendarUserType]);
+
+			if (isset($props[$calendarUserType])) {
+				return $props[$calendarUserType];
+			}
+
+			return 'INDIVIDUAL';
+		});
+
+		parent::propFind($propFind, $node);
+	}
+
+	/**
 	 * Returns a list of addresses that are associated with a principal.
 	 *
 	 * @param string $principal

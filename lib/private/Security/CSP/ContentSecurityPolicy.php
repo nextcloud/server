@@ -223,4 +223,12 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 		$this->allowedWorkerSrcDomains = $allowedWorkerSrcDomains;
 	}
 
+	public function getReportTo(): array {
+		return $this->reportTo;
+	}
+
+	public function setReportTo(array $reportTo) {
+		$this->reportTo = $reportTo;
+	}
+
 }

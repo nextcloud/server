@@ -24,7 +24,9 @@ templates['item'] = template({"1":function(container,depth0,helpers,partials,dat
     + alias4(((helper = (helper = helpers.previewUrl || (depth0 != null ? depth0.previewUrl : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"previewUrl","hash":{},"data":data}) : helper)))
     + "\" width=\"44\" height=\"44\"/>\n		</div>\n		<div class=\"version-container\">\n			<div>\n				<a href=\""
     + alias4(((helper = (helper = helpers.downloadUrl || (depth0 != null ? depth0.downloadUrl : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"downloadUrl","hash":{},"data":data}) : helper)))
-    + "\" class=\"downloadVersion\"><img src=\""
+    + "\" class=\"downloadVersion\" download=\""
+    + alias4(((helper = (helper = helpers.downloadName || (depth0 != null ? depth0.downloadName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"downloadName","hash":{},"data":data}) : helper)))
+    + "\"><img src=\""
     + alias4(((helper = (helper = helpers.downloadIconUrl || (depth0 != null ? depth0.downloadIconUrl : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"downloadIconUrl","hash":{},"data":data}) : helper)))
     + "\" />\n					<span class=\"versiondate has-tooltip live-relative-timestamp\" data-timestamp=\""
     + alias4(((helper = (helper = helpers.millisecondsTimestamp || (depth0 != null ? depth0.millisecondsTimestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"millisecondsTimestamp","hash":{},"data":data}) : helper)))

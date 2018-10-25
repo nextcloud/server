@@ -65,6 +65,7 @@ use OC\Files\Storage\StorageFactory;
 use OC\Lockdown\Filesystem\NullStorage;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\ILogger;
 use OCP\IUserManager;
 
@@ -246,11 +247,11 @@ class Filesystem {
 	/**
 	 * Returns the storage factory
 	 *
-	 * @return \OCP\Files\Storage\IStorageFactory
+	 * @return IStorageFactory
 	 */
 	public static function getLoader() {
 		if (!self::$loader) {
-			self::$loader = new StorageFactory();
+			self::$loader = \OC::$server->query(IStorageFactory::class);
 		}
 		return self::$loader;
 	}

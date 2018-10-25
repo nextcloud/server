@@ -2,7 +2,7 @@
     "Please select a file." : "ファイルを選択してください。",
     "File is too big" : "ファイルが大きすぎます",
     "The selected file is not an image." : "選択されたファイルは画像ではありません",
-    "The selected file cannot be read." : "選択されたファイルを読込みできませんでした",
+    "The selected file cannot be read." : "選択されたファイルを読み込めませんでした",
     "Invalid file provided" : "無効なファイルが提供されました",
     "No image or file provided" : "画像またはファイルが提供されていません",
     "Unknown filetype" : "不明なファイルタイプ",

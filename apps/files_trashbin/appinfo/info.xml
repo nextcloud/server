@@ -44,4 +44,8 @@ To prevent a user from running out of disk space, the Deleted files app will not
 			<plugin>OCA\Files_Trashbin\Sabre\PropfindPlugin</plugin>
 		</plugins>
 	</sabre>
+
+	<trash>
+		<backend for="OCP\Files\Storage\IStorage">OCA\Files_Trashbin\Trash\LegacyTrashBackend</backend>
+	</trash>
 </info>

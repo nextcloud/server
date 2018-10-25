@@ -255,6 +255,13 @@ class FileListContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @return Locator
+	 */
+	public static function deleteMenuItem() {
+		return self::fileActionsMenuItemFor("Delete");
+	}
+
+	/**
 	 * @Given I create a new folder named :folderName
 	 */
 	public function iCreateANewFolderNamed($folderName) {
@@ -320,6 +327,15 @@ class FileListContext implements Context, ActorAwareInterface {
 		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName), 10)->click();
 
 		$this->actor->find(self::viewFileInFolderMenuItem(), 2)->click();
+	}
+
+	/**
+	 * @When I delete :fileName
+	 */
+	public function iDelete($fileName) {
+		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName), 10)->click();
+
+		$this->actor->find(self::deleteMenuItem(), 2)->click();
 	}
 
 	/**

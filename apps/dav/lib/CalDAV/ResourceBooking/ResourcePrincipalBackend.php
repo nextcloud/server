@@ -40,6 +40,6 @@ class ResourcePrincipalBackend extends AbstractPrincipalBackend {
 								IGroupManager $groupManager,
 								ILogger $logger) {
 		parent::__construct($dbConnection, $userSession, $groupManager, $logger,
-			'principals/calendar-resources', 'resources');
+			'principals/calendar-resources', 'resources', 'RESOURCE');
 	}
 }

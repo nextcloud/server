@@ -37,6 +37,9 @@ class ConfigController extends OCSController {
 	protected $appName;
 
 	/** @var string */
+	protected $userId;
+
+	/** @var string */
 	protected $serverRoot;
 
 	/** @var IConfig */
@@ -67,6 +70,7 @@ class ConfigController extends OCSController {
 		$this->config                = $config;
 		$this->userSession           = $userSession;
 		$this->accessibilityProvider = $accessibilityProvider;
+		$this->userId				 = $userSession->getUser()->getUID();
 	}
 
 	/**
@@ -79,8 +83,8 @@ class ConfigController extends OCSController {
 	 */
 	public function getConfig(): DataResponse {
 		return new DataResponse([
-			'theme' => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false),
-			'font' => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false)
+			'theme' => $this->config->getUserValue($this->userId, $this->appName, 'theme', false),
+			'font' => $this->config->getUserValue($this->userId, $this->appName, 'font', false)
 		]);
 	}
 
@@ -95,20 +99,28 @@ class ConfigController extends OCSController {
 	 */
 	public function setConfig(string $key, $value): DataResponse {
 		if ($key === 'theme' || $key === 'font') {
-			$themes = $this->accessibilityProvider->getThemes();
-			$fonts  = $this->accessibilityProvider->getFonts();
 
 			if ($value === false) {
-				$this->config->deleteUserValue($this->userSession->getUser()->getUID(), $this->appName, $key);
+				$this->config->deleteUserValue($this->userId, $this->appName, $key);
+				$userValues = $this->config->getUserKeys($this->userId, $this->appName);
+
+				// remove hash if no settings selected
+				if (count($userValues) === 1 && $userValues[0] === 'icons-css') {
+					$this->config->deleteUserValue($this->userId, $this->appName, 'icons-css');
+				}
+
 				return new DataResponse();
 			}
+
+			$themes = $this->accessibilityProvider->getThemes();
+			$fonts  = $this->accessibilityProvider->getFonts();
 
 			$availableOptions = array_map(function($option) {
 				return $option['id'];
 			}, array_merge($themes, $fonts));
 
 			if (in_array($value, $availableOptions)) {
-				$this->config->setUserValue($this->userSession->getUser()->getUID(), $this->appName, $key, $value);
+				$this->config->setUserValue($this->userId, $this->appName, $key, $value);
 				return new DataResponse();
 			}
 

@@ -23,18 +23,25 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\Files_Trashbin\Trash\ITrashItem;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\FileInfo;
+use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class TrashRoot implements ICollection {
 
-	/** @var string */
-	private $userId;
+	/** @var IUser */
+	private $user;
 
-	public function __construct(string $userId) {
-		$this->userId = $userId;
+	/** @var ITrashManager  */
+	private $trashManager;
+
+	public function __construct(IUser $user, ITrashManager $trashManager) {
+		$this->user = $user;
+		$this->trashManager = $trashManager;
 	}
 
 	public function delete() {
@@ -57,44 +64,38 @@ class TrashRoot implements ICollection {
 		throw new Forbidden('Not allowed to create folders in the trashbin');
 	}
 
+	public function getChildren(): array {
+		$entries = $this->trashManager->listTrashRoot($this->user);
+
+		$children = array_map(function (ITrashItem $entry) {
+			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
+				return new TrashFolder($this->trashManager, $entry);
+			}
+			return new TrashFile($this->trashManager, $entry);
+		}, $entries);
+
+		return $children;
+	}
+
 	public function getChild($name): ITrash {
-		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $this->userId);
+		$entries = $this->getChildren();
 
 		foreach ($entries as $entry) {
-			if ($entry->getName() . '.d'.$entry->getMtime() === $name) {
-				if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-					return new TrashFolder('/', $this->userId, $entry);
-				}
-				return new TrashFile($this->userId, $entry);
+			if ($entry->getName() === $name) {
+				return $entry;
 			}
 		}
 
 		throw new NotFound();
 	}
 
-	public function getChildren(): array {
-			$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $this->userId);
-
-		$children = array_map(function (FileInfo $entry) {
-			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-				return new TrashFolder('/', $this->userId, $entry);
-			}
-			return new TrashFile($this->userId, $entry);
-		}, $entries);
-
-		return $children;
-	}
-
 	public function childExists($name): bool {
-		$entries = \OCA\Files_Trashbin\Helper::getTrashFiles('/', $this->userId);
-
-		foreach ($entries as $entry) {
-			if ($entry->getName() . '.d'.$entry->getMtime() === $name) {
-				return true;
-			}
+		try {
+			$this->getChild($name);
+			return true;
+		} catch (NotFound $e) {
+			return false;
 		}
-
-		return false;
 	}
 
 	public function getLastModified(): int {

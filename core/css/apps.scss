@@ -21,7 +21,7 @@
 h2,
 h3,
 h4 {
-	font-weight: 600;
+	font-weight: bold;
 }
 
 h2 {
@@ -727,7 +727,7 @@ kbd {
 	border-radius: 0;
 	text-align: left;
 	padding-left: 42px;
-	font-weight: 400;
+	font-weight: normal;
 
 	/* like app-navigation a */
 	color: var(--color-main-text);
@@ -746,7 +746,6 @@ kbd {
 .section {
 	display: block;
 	padding: 30px;
-	color: var(--color-text-lighter);
 	margin-bottom: 24px;
 	&.hidden {
 		display: none !important;
@@ -804,7 +803,7 @@ kbd {
 			margin-bottom: 1px;
 		}
 		&.selected {
-			font-weight: 600;
+			font-weight: bold;
 		}
 		&.selected,
 		&:hover,
@@ -921,7 +920,7 @@ $popovericon-size: 16px;
 			align-items: flex-start;
 			height: auto;
 			margin: 0;
-			font-weight: 300;
+			font-weight: normal;
 			box-shadow: none;
 			width: 100%;
 			color: var(--color-main-text);

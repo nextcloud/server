@@ -31,5 +31,6 @@ Class ResourcePrincipalBackendTest extends AbstractPrincipalBackendTest {
 			$this->userSession, $this->groupManager, $this->logger);
 		$this->expectedDbTable = 'calendar_resources';
 		$this->principalPrefix = 'principals/calendar-resources';
+		$this->expectedCUType = 'RESOURCE';
 	}
 }

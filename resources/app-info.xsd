@@ -61,6 +61,8 @@
                             maxOccurs="1" />
                 <xs:element name="sabre" type="sabre" minOccurs="0"
                             maxOccurs="1" />
+                <xs:element name="trash" type="trash" minOccurs="0"
+                            maxOccurs="1" />
             </xs:sequence>
         </xs:complexType>
         <xs:unique name="uniqueNameL10n">
@@ -653,11 +655,25 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="trash">
+        <xs:sequence>
+            <xs:element name="backend" type="trash-backend" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="trash-backend">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="for" type="php-class" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
     <xs:simpleType name="php-class">
         <xs:restriction base="xs:string">
             <xs:pattern
                     value="[a-zA-Z_][0-9a-zA-Z_]*(\\[a-zA-Z_][0-9a-zA-Z_]*)*"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

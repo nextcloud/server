@@ -1,8 +1,14 @@
 { "translations": {
+    "Short rule description" : "Krótki opis reguły",
+    "Add rule" : "Dodaj regułę",
+    "Reset" : "Zresetuj",
+    "Save" : "Zapisz",
+    "Saving…" : "Zapisywanie…",
     "Group list is empty" : "Lista grup jest pusta",
     "Unable to retrieve the group list" : "Nie można pobrać listy grup",
     "Saved" : "Zapisano",
     "Saving failed:" : "Zapis się nie udał:",
+    "Add rule group" : "Dodaj grupę reguł",
     "File MIME type" : "Typy plików MIME",
     "is" : "jest",
     "is not" : "nie jest",
@@ -62,12 +68,6 @@
     "Workflow" : "Wpływ na pracę",
     "Files workflow engine" : "Piliki silnika workflow",
     "Open documentation" : "Otwórz dokumentację",
-    "Add rule group" : "Dodaj grupę reguł",
-    "Short rule description" : "Krótki opis reguły",
-    "Add rule" : "Dodaj regułę",
-    "Reset" : "Zresetuj",
-    "Save" : "Zapisz",
-    "Saving…" : "Zapisywanie…",
     "Loading…" : "Wczytywanie…"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

@@ -24,6 +24,10 @@
 	<?php endif;?>
 	<input type="hidden" class="max_human_file_size"
 		   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
+	<input type="checkbox" class="hidden-visually" id="showgridview"
+		<?php if($_['showgridview']) { ?>checked="checked" <?php } ?>/>
+	<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
+		   title="<?php p($l->t('Toggle grid view'))?>"></label>
 </div>
 
 <div id="emptycontent" class="hidden">
@@ -38,7 +42,7 @@
 	<p></p>
 </div>
 
-<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
+<table id="filestable" class="list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="250" data-preview-y="250">
 	<thead>
 		<tr>
 			<th id="headerSelection" class="hidden column-selection">

@@ -1,8 +1,14 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Përshkrim i shkurtër i rregullit",
+    "Add rule" : "Shto rregull",
+    "Reset" : "Rivendos",
+    "Save" : "Ruaj",
+    "Saving…" : "Duke u ruajtur...",
     "Saved" : "E ruajtur",
     "Saving failed:" : "Ruajtja dështoi:",
+    "Add rule group" : "Shto rregull grupi",
     "File MIME type" : "Skedari i tipit MIME",
     "is" : "është",
     "is not" : "nuk është",
@@ -60,12 +66,6 @@ OC.L10N.register(
     "Check #%s does not exist" : "Kontrolli #%s nuk ekziston",
     "Workflow" : "Rrjedha e punëve",
     "Open documentation" : "Dokumentacion i hapur",
-    "Add rule group" : "Shto rregull grupi",
-    "Short rule description" : "Përshkrim i shkurtër i rregullit",
-    "Add rule" : "Shto rregull",
-    "Reset" : "Rivendos",
-    "Save" : "Ruaj",
-    "Saving…" : "Duke u ruajtur...",
     "Loading…" : "Po ngarkohet..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,10 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Μικρή περιγραφή κανόνα",
+    "Add rule" : "Προσθέστε κανόνα",
+    "Reset" : "Επαναφορά",
+    "Save" : "Αποθήκευση",
+    "Saving…" : "Αποθηκεύεται...",
     "Group list is empty" : "Η λίστα της ομάδας είναι κενή",
     "Unable to retrieve the group list" : "Αδύνατη η ανάκτηση λίστας της ομάδας",
     "Saved" : "Αποθηκεύτηκε",
     "Saving failed:" : "Απέτυχε η αποθήκευση:",
+    "Add rule group" : "Προσθέστε κανόνα ομάδας",
     "File MIME type" : "Τύπος αρχείου MIME",
     "is" : "είναι",
     "is not" : "δεν είναι",
@@ -62,12 +68,6 @@ OC.L10N.register(
     "Check #%s does not exist" : "Έλεγχος #%s δεν υπάρχει",
     "Workflow" : "Ροή εργασίας",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
-    "Add rule group" : "Προσθέστε κανόνα ομάδας",
-    "Short rule description" : "Μικρή περιγραφή κανόνα",
-    "Add rule" : "Προσθέστε κανόνα",
-    "Reset" : "Επαναφορά",
-    "Save" : "Αποθήκευση",
-    "Saving…" : "Αποθηκεύεται...",
     "Loading…" : "Φορτώνει..."
 },
 "nplurals=2; plural=(n != 1);");

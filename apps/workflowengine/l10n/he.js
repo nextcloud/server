@@ -1,10 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "תיאור מקוצר לכלל",
+    "Add rule" : "הוספת כלל",
+    "Reset" : "איפוס",
+    "Save" : "שמירה",
+    "Saving…" : "בהליכי שמירה…",
     "Group list is empty" : "רשימת הקבוצות ריקה",
     "Unable to retrieve the group list" : "לא ניתן לקבל את רשימת הקבוצות",
     "Saved" : "נשמרה",
     "Saving failed:" : "השמירה נכשלה:",
+    "Add rule group" : "הוספת קבוצת כללים",
     "File MIME type" : "סוג ה־MIME של הקובץ",
     "is" : "הוא",
     "is not" : "אינו",
@@ -58,12 +64,6 @@ OC.L10N.register(
     "Operation %s does not exist" : "הפעולה %s לא קיימת",
     "Operation %s is invalid" : "הפעולה %s שגויה",
     "Open documentation" : "פתיחת תיעוד",
-    "Add rule group" : "הוספת קבוצת כללים",
-    "Short rule description" : "תיאור מקוצר לכלל",
-    "Add rule" : "הוספת כלל",
-    "Reset" : "איפוס",
-    "Save" : "שמירה",
-    "Saving…" : "בהליכי שמירה…",
     "Loading…" : "בטעינה…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -1,10 +1,10 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Could not revert: %s" : "غير قادر على الاستعادة : %s",
     "Versions" : "الإصدارات",
     "Failed to revert {file} to revision {timestamp}." : "فشل في استعادة {ملف} لنتقيح {الطابع الزمني}",
     "Restore" : "استعادة ",
+    "Could not revert: %s" : "غير قادر على الاستعادة : %s",
     "No earlier versions available" : "ليس هناك أية نُسخة سابقة",
     "More versions …" : "المزيد مِن النُسَخ …"
 },
