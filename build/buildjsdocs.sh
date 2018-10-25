@@ -8,10 +8,9 @@
 # @copyright 2014 Vincent Petry <pvince81@owncloud.com>
 #
 NPM="$(which npm 2>/dev/null)"
-PREFIX="build"
-OUTPUT_DIR="build/jsdocs"
+OUTPUT_DIR="jsdocs"
 
-JS_FILES="core/js/*.js core/js/**/*.js apps/*/js/*.js"
+JS_FILES="../core/js/*.js ../core/js/**/*.js ../apps/*/js/*.js"
 
 if test -z "$NPM"
 then
@@ -20,14 +19,14 @@ then
 fi
 
 # update/install test packages
-mkdir -p "$PREFIX" && $NPM install --link --prefix "$PREFIX" jsdoc || exit 3
+$NPM install --prefix . --link jsdoc || exit 3
 
 JSDOC_BIN="$(which jsdoc 2>/dev/null)"
 
 # If not installed globally, try local version
 if test -z "$JSDOC_BIN"
 then
-	JSDOC_BIN="$PREFIX/node_modules/jsdoc/jsdoc.js"
+	JSDOC_BIN="./node_modules/jsdoc/jsdoc.js"
 fi
 
 if test -z "$JSDOC_BIN"
@@ -38,5 +37,5 @@ fi
 
 mkdir -p "$OUTPUT_DIR"
 
-NODE_PATH="$PREFIX/node_modules" $JSDOC_BIN -d "$OUTPUT_DIR" $JS_FILES
+NODE_PATH="./node_modules" $JSDOC_BIN -d "$OUTPUT_DIR" $JS_FILES
 

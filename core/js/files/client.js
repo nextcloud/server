@@ -837,7 +837,7 @@
 		/**
 		 * Add a file info parser function
 		 *
-		 * @param {OC.Files.Client~parseFileInfo>}
+		 * @param {OC.Files.Client~parseFileInfo} parserFunction
 		 */
 		addFileInfoParser: function(parserFunction) {
 			this._fileInfoParsers.push(parserFunction);

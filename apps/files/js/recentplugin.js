@@ -10,9 +10,9 @@
 
 (function (OCA) {
 	/**
-	 * @namespace OCA.Files.RecentPlugin
-	 *
 	 * Registers the recent file list from the files app sidebar.
+	 *
+	 * @namespace OCA.Files.RecentPlugin
 	 */
 	OCA.Files.RecentPlugin = {
 		name: 'Recent',
