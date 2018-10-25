@@ -295,38 +295,41 @@ class CheckSetupControllerTest extends TestCase {
 		);
 	}
 
-	public function testForwardedForHeadersWorkingFalse() {
+	/**
+	 * @dataProvider dataForwardedForHeadersWorking
+	 *
+	 * @param array $trustedProxies
+	 * @param string $remoteAddrNoForwarded
+	 * @param string $remoteAddr
+	 * @param bool $result
+	 */
+	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNoForwarded, string $remoteAddr, bool $result) {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_proxies', [])
-			->willReturn(['1.2.3.4']);
+			->willReturn($trustedProxies);
 		$this->request->expects($this->once())
+			->method('getHeader')
+			->with('REMOTE_ADDR')
+			->willReturn($remoteAddrNoForwarded);
+		$this->request->expects($this->any())
 			->method('getRemoteAddress')
-			->willReturn('1.2.3.4');
+			->willReturn($remoteAddr);
 
-		$this->assertFalse(
-			self::invokePrivate(
-				$this->checkSetupController,
-				'forwardedForHeadersWorking'
-			)
+		$this->assertEquals(
+			$result,
+			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
 		);
 	}
 
-	public function testForwardedForHeadersWorkingTrue() {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn(['1.2.3.4']);
-		$this->request->expects($this->once())
-			->method('getRemoteAddress')
-			->willReturn('4.3.2.1');
-
-		$this->assertTrue(
-			self::invokePrivate(
-				$this->checkSetupController,
-				'forwardedForHeadersWorking'
-			)
-		);
+	public function dataForwardedForHeadersWorking() {
+		return [
+			// description => trusted proxies, getHeader('REMOTE_ADDR'), getRemoteAddr, expected result
+			'no trusted proxies' => [[], '2.2.2.2', '2.2.2.2', true],
+			'trusted proxy, remote addr not trusted proxy' => [['1.1.1.1'], '2.2.2.2', '2.2.2.2', true],
+			'trusted proxy, remote addr is trusted proxy, x-forwarded-for working' => [['1.1.1.1'], '1.1.1.1', '2.2.2.2', true],
+			'trusted proxy, remote addr is trusted proxy, x-forwarded-for not set' => [['1.1.1.1'], '1.1.1.1', '1.1.1.1', false],
+		];
 	}
 
 	public function testCheck() {
@@ -348,7 +351,8 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnValue(false));
 
 		$this->request->expects($this->once())
-			->method('getRemoteAddress')
+			->method('getHeader')
+			->with('REMOTE_ADDR')
 			->willReturn('4.3.2.1');
 
 		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
