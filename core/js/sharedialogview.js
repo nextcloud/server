@@ -539,6 +539,16 @@
 		_onSelectRecipient: function(e, s) {
 			var self = this;
 
+			if (e.keyCode == 9) {
+				e.preventDefault();
+				e.target.value = s.item.label;
+				setTimeout(function() {
+					$(e.target).attr('disabled', false)
+						.autocomplete('search', $(e.target).val());
+				}, 0);
+				return false;
+			}
+
 			e.preventDefault();
 			// Ensure that the keydown handler for the input field is not
 			// called; otherwise it would try to add the recipient again, which
