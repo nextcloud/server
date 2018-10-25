@@ -607,6 +607,10 @@ form #selectDbType label.ui-state-active {
 	width: initial;
 }
 
+.body-login-container p:not(:last-child) {
+    margin-bottom: 12px;
+}
+
 .warning.updateAnyways {
 	text-align: center;
 }
