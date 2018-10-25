@@ -1010,9 +1010,34 @@ class UserTest extends \Test\TestCase {
 	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
 		$this->config->expects($this->once())
 			->method('setUserValue');
+		$this->config->expects($this->once())
+			->method('getUserValue');
+
+		$ncUserObj = $this->createMock(\OC\User\User::class);
+		$ncUserObj->expects($this->once())
+			->method('triggerChange')
+			->with('displayName', $expected);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->willReturn($ncUserObj);
 
 		$displayName = $this->user->composeAndStoreDisplayName($part1, $part2);
 		$this->assertSame($expected, $displayName);
+	}
+
+	public function testComposeAndStoreDisplayNameNoOverwrite() {
+		$displayName = 'Randall Flagg';
+		$this->config->expects($this->never())
+			->method('setUserValue');
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->willReturn($displayName);
+
+		$this->userManager->expects($this->never())
+			->method('get'); // Implicit: no triggerChange can be called
+
+		$composedDisplayName = $this->user->composeAndStoreDisplayName($displayName);
+		$this->assertSame($composedDisplayName, $displayName);
 	}
 
 	public function testHandlePasswordExpiryWarningDefaultPolicy() {
