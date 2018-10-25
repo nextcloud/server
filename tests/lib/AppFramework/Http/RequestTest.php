@@ -486,6 +486,35 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
 	}
 
+	public function testGetRemoteAddressIPv6WithSingleTrustedRemote() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['2001:db8:85a3:8d3:1319:8a2e:370:7348']));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->will($this->returnValue(['HTTP_X_FORWARDED']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
+	}
+
 	public function testGetRemoteAddressVerifyPriorityHeader() {
 		$this->config
 			->expects($this->at(0))
@@ -517,6 +546,92 @@ class RequestTest extends \Test\TestCase {
 		);
 
 		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressIPv6VerifyPriorityHeader() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['2001:db8:85a3:8d3:1319:8a2e:370:7348']));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->will($this->returnValue([
+				'HTTP_CLIENT_IP',
+				'HTTP_X_FORWARDED_FOR',
+				'HTTP_X_FORWARDED'
+			]));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressWithMatchingCidrTrustedRemote() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['192.168.2.0/24']));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->will($this->returnValue(['HTTP_X_FORWARDED_FOR']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '192.168.2.99',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressWithNotMatchingCidrTrustedRemote() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['192.168.2.0/24']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '192.168.3.99',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.3.99', $request->getRemoteAddress());
 	}
 
 	/**
