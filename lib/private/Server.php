@@ -80,6 +80,7 @@ use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
+use OC\Files\Storage\StorageFactory;
 use OC\Files\View;
 use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
@@ -124,6 +125,7 @@ use OC\Dashboard\DashboardManager;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\AutoComplete\IManager;
@@ -137,6 +139,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\IFullTextSearchManager;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\GlobalScale\IConfig;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
@@ -1175,6 +1178,11 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias(IContactsStore::class, ContactsStore::class);
+		$this->registerAlias(IAccountManager::class, AccountManager::class);
+
+		$this->registerService(IStorageFactory::class, function() {
+			return new StorageFactory();
+		});
 
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
 		$this->registerAlias(IDashboardManager::class, Dashboard\DashboardManager::class);
@@ -2026,5 +2034,12 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getRemoteInstanceFactory() {
 		return $this->query(IInstanceFactory::class);
+	}
+
+	/**
+	 * @return IStorageFactory
+	 */
+	public function getStorageFactory() {
+		return $this->query(IStorageFactory::class);
 	}
 }

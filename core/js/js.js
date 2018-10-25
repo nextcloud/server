@@ -38,8 +38,11 @@ function escapeHTML(s) {
 	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
 }
 
-/** @namespace */
+/** @namespace OCP */
 var OCP = {},
+	/**
+	 * @namespace OC
+	 */
 	OC = {
 	PERMISSION_NONE:0,
 	PERMISSION_CREATE:4,
@@ -659,7 +662,7 @@ var OCP = {},
 	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
-		
+
 		// On link, the enter key trigger a click event
 		// Only use the click to avoid two fired events
 		$toggle.on($toggle.prop('tagName') === 'A'
@@ -768,6 +771,16 @@ var OCP = {},
 			return window.matchMedia(media);
 		}
 		return false;
+	},
+
+	/**
+	 * Returns the user's locale as a BCP 47 compliant language tag
+	 *
+	 * @return {String} locale string
+	 */
+	getCanonicalLocale: function() {
+		var locale = this.getLocale();
+		return typeof locale === 'string' ? locale.replace(/_/g, '-') : locale;
 	},
 
 	/**
@@ -1091,7 +1104,8 @@ OC.Notification={
 	getDefaultNotificationFunction: null,
 
 	/**
-	 * @type Array.<int> array of notification timers
+	 * @type Array<int>
+	 * @description array of notification timers
 	 */
 	notificationTimers: [],
 
@@ -1842,6 +1856,9 @@ function humanFileSize(size, skipSmallSizes) {
 	}
 	else if(relativeSize.substr(relativeSize.length-2,2)==='.0'){
 		relativeSize=relativeSize.substr(0,relativeSize.length-2);
+	}
+	else{
+		relativeSize = parseFloat(relativeSize).toLocaleString(OC.getCanonicalLocale());
 	}
 	return relativeSize + ' ' + readableFormat;
 }

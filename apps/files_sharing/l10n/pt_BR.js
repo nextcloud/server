@@ -89,6 +89,7 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "O envio público foi desativado pelo administrador",
     "Public upload is only possible for publicly shared folders" : "O envio público só é possível para pastas compartilhadas publicamente",
     "Invalid date, date format must be YYYY-MM-DD" : "Data inválida, o formato da data deve ser YYYY-MM-DD",
+    "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "O compartilhamento %1$s falhou porque a infraestrutura não permite compartilhamentos do tipo %2$s",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento %s falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
     "You cannot share to a Circle if the app is not enabled" : "Você não pode compartilhar para um círculo se o aplicativo não está habilitado",
     "Please specify a valid circle" : "Por favor especifique um círculo válido",

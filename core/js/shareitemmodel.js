@@ -80,7 +80,7 @@
 	 */
 	var ShareItemModel = OC.Backbone.Model.extend({
 		/**
-		 * @type share id of the link share, if applicable
+		 * share id of the link share, if applicable
 		 */
 		_linkShareId: null,
 

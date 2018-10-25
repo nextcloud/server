@@ -23,6 +23,7 @@
 namespace OCA\Files_Trashbin\Tests\Controller;
 
 use OCA\Files_Trashbin\Controller\PreviewController;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -31,14 +32,14 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use Test\TestCase;
 
 class PreviewControllerTest extends TestCase {
-
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
 
@@ -57,6 +58,12 @@ class PreviewControllerTest extends TestCase {
 	/** @var PreviewController */
 	private $controller;
 
+	/** @var ITrashManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $trashManager;
+
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -65,12 +72,23 @@ class PreviewControllerTest extends TestCase {
 		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->time = $this->createMock(ITimeFactory::class);
+		$this->trashManager = $this->createMock(ITrashManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn($this->userId);
+
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
 
 		$this->controller = new PreviewController(
 			'files_versions',
 			$this->createMock(IRequest::class),
 			$this->rootFolder,
-			$this->userId,
+			$this->trashManager,
+			$this->userSession,
 			$this->mimeTypeDetector,
 			$this->previewManager,
 			$this->time
@@ -114,10 +132,14 @@ class PreviewControllerTest extends TestCase {
 			->with($this->equalTo(42))
 			->willReturn([$file]);
 		$file->method('getName')
-			->willReturn('file.1234');
+			->willReturn('file.d1234');
 
 		$file->method('getParent')
 			->willReturn($trash);
+
+		$this->trashManager->expects($this->any())
+			->method('getTrashNodeById')
+			->willReturn($file);
 
 		$preview = $this->createMock(ISimpleFile::class);
 		$this->previewManager->method('getPreview')
@@ -177,6 +199,9 @@ class PreviewControllerTest extends TestCase {
 			->willReturn($trash);
 
 		$folder = $this->createMock(Folder::class);
+		$this->trashManager->expects($this->any())
+			->method('getTrashNodeById')
+			->willReturn($folder);
 		$trash->method('getById')
 			->with($this->equalTo(43))
 			->willReturn([$folder]);

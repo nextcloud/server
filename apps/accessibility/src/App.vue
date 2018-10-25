@@ -24,7 +24,7 @@ import preview from './components/itemPreview';
 import axios from 'axios';
 
 export default {
-	name: 'app',
+	name: 'Accessibility',
 	components: { preview },
 	beforeMount() {
 		// importing server data into the app
@@ -54,7 +54,7 @@ export default {
 			};
 		},
 		tokenHeaders() {
-			return { headers: { requesttoken: OC.requestToken } }
+			return { headers: { requesttoken: OC.requestToken } };
 		}
 	},
 	methods: {
@@ -73,8 +73,11 @@ export default {
 		 * @param {string} id the data of the change
 		 */
 		selectItem(type, id) {
-			axios
-				.post(OC.linkToOCS('apps/accessibility/api/v1/config', 2) + type, {value: id}, this.tokenHeaders)
+			axios.post(
+					OC.linkToOCS('apps/accessibility/api/v1/config', 2) + type,
+					{ value: id },
+					this.tokenHeaders
+				)
 				.then(response => {
 					this.serverData[type] = id;
 
@@ -84,11 +87,23 @@ export default {
 						// insert new css
 						let link = document.createElement('link');
 						link.rel = 'stylesheet';
-						link.href = OC.generateUrl('/apps/accessibility/css/user-style.css');
-						document.head.appendChild(link)
+						link.href = OC.generateUrl('/apps/accessibility/css/user-style.css') + '?v=' + new Date().getTime();
+						document.head.appendChild(link);
 					} else {
-						// force update
-						link.href = link.href.split('?')[0] + '?v=' + new Date().getTime();
+						// compare arrays
+						if (
+							JSON.stringify(Object.values(this.selected)) ===
+							JSON.stringify([false, false])
+						) {
+							// if nothing is selected, blindly remove the css
+							link.remove();
+						} else {
+							// force update
+							link.href =
+								link.href.split('?')[0] +
+								'?v=' +
+								new Date().getTime();
+						}
 					}
 				})
 				.catch(err => {

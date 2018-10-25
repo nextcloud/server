@@ -51,7 +51,11 @@ OCA.Trashbin.App = {
 						iconClass: 'icon-delete',
 					}
 				],
-				client: this.client
+				client: this.client,
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 	},

@@ -11,6 +11,9 @@ OC.L10N.register(
     "Error generating key pair" : "Fallu xenerando'l par de claves",
     "All users. Type to select user or group." : "Tolos usuarios. Escribe pa seleccionar usuariu o grupu.",
     "(group)" : "(grupu)",
+    "Enable encryption" : "Habilitar cifráu",
+    "Never" : "Enxamás",
+    "Delete" : "Desaniciar",
     "Delete storage?" : "¿Desaniciar almacenamientu?",
     "Saved" : "Guardáu",
     "Saving..." : "Guardando...",
@@ -62,8 +65,6 @@ OC.L10N.register(
     "Name" : "Nome",
     "Storage type" : "Triba d'almacenamientu",
     "Scope" : "Ámbitu",
-    "Enable encryption" : "Habilitar cifráu",
-    "Never" : "Enxamás",
     "Folder name" : "Nome de la carpeta",
     "External storage" : "Almacenamientu esternu",
     "Authentication" : "Autenticación",
@@ -74,7 +75,6 @@ OC.L10N.register(
     "OpenStack" : "OpenStack",
     "No external storage configured" : "Nun se configuraron almacenamientos esternos",
     "You can add external storages in the personal settings" : "Pues amestar almacenamientos enternos nos axustes personales",
-    "Delete" : "Desaniciar",
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamientu esternu"
 },
 "nplurals=2; plural=(n != 1);");

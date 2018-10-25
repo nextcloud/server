@@ -1,11 +1,13 @@
 <div id="{dialog_name}" title="{title}">
 	<span class="dirtree breadcrumb"></span>
+	<input type="checkbox" class="hidden-visually" id="picker-showgridview" checked="checked" />
+	<label id="picker-view-toggle" for="picker-showgridview" class="button icon-toggle-filelist"></label>
 	<div class="filelist-container">
 		<div class="emptycontent">
 			<div class="icon-folder"></div>
 			<h2>{emptytext}</h2>
 		</div>
-		<table id="filestable" class="filelist">
+		<table id="filestable" class="filelist list-container view-grid">
 			<tbody>
 			<tr data-entryname="{filename}" data-type="{type}">
 				<td class="filename"

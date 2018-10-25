@@ -9,6 +9,7 @@
 /**
  * @namespace
  * @memberOf OC
+ * @private
  */
 OC.Login = _.extend(OC.Login || {}, {
 	onLogin: function () {

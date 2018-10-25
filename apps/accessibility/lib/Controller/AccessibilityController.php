@@ -166,8 +166,8 @@ class AccessibilityController extends Controller {
 		$appWebRoot = substr($this->appRoot, strlen($this->serverRoot) - strlen(\OC::$WEBROOT));
 		$css        = $this->rebaseUrls($css, $appWebRoot . '/css');
 
-		if (in_array('themedark', $userValues) && $this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
-			$iconsCss = $this->invertSvgIconsColor($this->iconsCacher->getCachedCSS()->getContent());
+		if (in_array('themedark', $userValues) && $this->iconsCacher->getCachedList() && $this->iconsCacher->getCachedList()->getSize() > 0) {
+			$iconsCss = $this->invertSvgIconsColor($this->iconsCacher->getCachedList()->getContent());
 			$css = $css . $iconsCss;
 		}
 
@@ -182,6 +182,9 @@ class AccessibilityController extends Controller {
 		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$response->addHeader('Pragma', 'cache');
 
+		// store current cache hash
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), $this->appName, 'icons-css', md5($css));
+
 		return $response;
 	}
 
@@ -192,9 +195,17 @@ class AccessibilityController extends Controller {
 	 * @return DataDownloadResponse
 	 */
 	public function getJavascript(): DataDownloadResponse {
+		$user = $this->userSession->getUser();
+
+		if ($user === null) {
+			$theme = false;
+		} else {
+			$theme = $this->config->getUserValue($user->getUID(), $this->appName, 'theme', false);
+		}
+
 		$responseJS = '(function() {
 	OCA.Accessibility = {
-		theme: ' . json_encode($this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false)) . ',
+		theme: ' . json_encode($theme) . ',
 		
 	};
 })();';

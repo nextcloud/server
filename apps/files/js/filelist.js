@@ -221,6 +221,10 @@
 				return;
 			}
 
+			if (options.shown) {
+				this.shown = options.shown;
+			}
+
 			if (options.config) {
 				this._filesConfig = options.config;
 			} else if (!_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
@@ -326,6 +330,11 @@
 			this._renderNewButton();
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
+
+			// Toggle for grid view
+			this.$showGridView = $('input#showgridview');
+			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
+			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
@@ -585,6 +594,26 @@
 			this.breadcrumb._resize();
 
 			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
+		},
+
+		/**
+		 * Toggle showing gridview by default or not
+		 *
+		 * @returns {undefined}
+		 */
+		_onGridviewChange: function() {
+			var show = this.$showGridView.is(':checked');
+			// only save state if user is logged in
+			if (OC.currentUser) {
+				$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
+					show: show
+				});
+			}
+			this.$showGridView.next('#view-toggle')
+				.removeClass('icon-toggle-filelist icon-toggle-pictures')
+				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+				
+			$('.list-container').toggleClass('view-grid', show);
 		},
 
 		/**
@@ -2772,7 +2801,9 @@
 			var permissions = this.getDirectoryPermissions();
 			var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
 			this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
+			this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
 			this.$el.find('#emptycontent .uploadmessage').toggleClass('hidden', !isCreatable || !this.isEmpty);
+			this.$el.find('#filestable').toggleClass('hidden', this.isEmpty);
 			this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
 		},
 		/**
@@ -3172,9 +3203,9 @@
 			 * update counter when uploading to sub folder
 			 */
 			uploader.on('done', function(e, upload) {
+				var data = upload.data;
 				self._uploader.log('filelist handle fileuploaddone', e, data);
 
-				var data = upload.data;
 				var status = data.jqXHR.status;
 				if (status < 200 || status >= 300) {
 					// error was handled in OC.Uploads already

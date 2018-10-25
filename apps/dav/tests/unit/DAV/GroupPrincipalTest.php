@@ -1,10 +1,12 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2018, Georg Ehrke
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -26,22 +28,42 @@ namespace OCA\DAV\Tests\unit\DAV;
 
 use OC\Group\Group;
 use OCA\DAV\DAV\GroupPrincipalBackend;
+use OCP\IGroup;
 use OCP\IGroupManager;
-use PHPUnit_Framework_MockObject_MockObject;
+use OCP\IL10N;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Share\IManager;
 use \Sabre\DAV\PropPatch;
 
 class GroupPrincipalTest extends \Test\TestCase {
 
-	/** @var IGroupManager | PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $groupManager;
+
+	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
+
+	/** @var IManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $shareManager;
+
+	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
 
 	/** @var GroupPrincipalBackend */
 	private $connector;
 
 	public function setUp() {
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
-		$this->connector = new GroupPrincipalBackend($this->groupManager);
+		$this->connector = new GroupPrincipalBackend(
+			$this->groupManager,
+			$this->userSession,
+			$this->shareManager,
+			$this->l10n);
 		parent::setUp();
 	}
 
@@ -59,14 +81,26 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->with('')
 			->will($this->returnValue([$group1, $group2]));
 
+		$this->l10n->expects($this->at(0))
+			->method('t')
+			->with('%s (group)', ['foo'])
+			->will($this->returnValue('foo (Gruppe)'));
+
+		$this->l10n->expects($this->at(1))
+			->method('t')
+			->with('%s (group)', ['bar'])
+			->will($this->returnValue('bar (Gruppe)'));
+
 		$expectedResponse = [
 			0 => [
 				'uri' => 'principals/groups/foo',
-				'{DAV:}displayname' => 'foo'
+				'{DAV:}displayname' => 'foo (Gruppe)',
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
 			],
 			1 => [
 				'uri' => 'principals/groups/bar',
-				'{DAV:}displayname' => 'bar',
+				'{DAV:}displayname' => 'bar (Gruppe)',
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
 			]
 		];
 		$response = $this->connector->getPrincipalsByPrefix('principals/groups');
@@ -92,9 +126,15 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->with('foo')
 			->will($this->returnValue($group1));
 
+		$this->l10n->expects($this->at(0))
+			->method('t')
+			->with('%s (group)', ['foo'])
+			->will($this->returnValue('foo (Gruppe)'));
+
 		$expectedResponse = [
 			'uri' => 'principals/groups/foo',
-			'{DAV:}displayname' => 'foo'
+			'{DAV:}displayname' => 'foo (Gruppe)',
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
 		];
 		$response = $this->connector->getPrincipalByPath('principals/groups/foo');
 		$this->assertSame($expectedResponse, $response);
@@ -108,9 +148,15 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->with('foo')
 			->will($this->returnValue($fooUser));
 
+		$this->l10n->expects($this->at(0))
+			->method('t')
+			->with('%s (group)', ['foo'])
+			->will($this->returnValue('foo (Gruppe)'));
+
 		$expectedResponse = [
 			'uri' => 'principals/groups/foo',
-			'{DAV:}displayname' => 'foo',
+			'{DAV:}displayname' => 'foo (Gruppe)',
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
 		];
 		$response = $this->connector->getPrincipalByPath('principals/groups/foo');
 		$this->assertSame($expectedResponse, $response);
@@ -135,9 +181,15 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->with('foo/bar')
 			->will($this->returnValue($group1));
 
+		$this->l10n->expects($this->at(0))
+			->method('t')
+			->with('%s (group)', ['foo/bar'])
+			->will($this->returnValue('foo/bar (Gruppe)'));
+
 		$expectedResponse = [
 			'uri' => 'principals/groups/foo%2Fbar',
-			'{DAV:}displayname' => 'foo/bar'
+			'{DAV:}displayname' => 'foo/bar (Gruppe)',
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
 		];
 		$response = $this->connector->getPrincipalByPath('principals/groups/foo/bar');
 		$this->assertSame($expectedResponse, $response);
@@ -165,8 +217,127 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch(array())));
 	}
 
-	public function testSearchPrincipals() {
+	public function testSearchPrincipalsWithEmptySearchProperties() {
 		$this->assertSame([], $this->connector->searchPrincipals('principals/groups', []));
+	}
+
+	public function testSearchPrincipalsWithWrongPrefixPath() {
+		$this->assertSame([], $this->connector->searchPrincipals('principals/users',
+			['{DAV:}displayname' => 'Foo']));
+	}
+
+	/**
+	 * @dataProvider searchPrincipalsDataProvider
+	 */
+	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $test, $result) {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->will($this->returnValue($sharingEnabled));
+
+		if ($sharingEnabled) {
+			$this->shareManager->expects($this->once())
+				->method('shareWithGroupMembersOnly')
+				->will($this->returnValue($groupsOnly));
+
+			if ($groupsOnly) {
+				$user = $this->createMock(IUser::class);
+				$this->userSession->expects($this->once())
+					->method('getUser')
+					->will($this->returnValue($user));
+
+				$this->groupManager->expects($this->once())
+					->method('getUserGroupIds')
+					->with($user)
+					->will($this->returnValue(['group1', 'group2', 'group5']));
+			}
+		} else {
+			$this->shareManager->expects($this->never())
+				->method('shareWithGroupMembersOnly');
+			$this->groupManager->expects($this->never())
+				->method($this->anything());
+		}
+
+		$group1 = $this->createMock(IGroup::class);
+		$group1->method('getGID')->will($this->returnValue('group1'));
+		$group2 = $this->createMock(IGroup::class);
+		$group2->method('getGID')->will($this->returnValue('group2'));
+		$group3 = $this->createMock(IGroup::class);
+		$group3->method('getGID')->will($this->returnValue('group3'));
+		$group4 = $this->createMock(IGroup::class);
+		$group4->method('getGID')->will($this->returnValue('group4'));
+		$group5 = $this->createMock(IGroup::class);
+		$group5->method('getGID')->will($this->returnValue('group5'));
+
+		if ($sharingEnabled) {
+			$this->groupManager->expects($this->once())
+				->method('search')
+				->with('Foo')
+				->will($this->returnValue([$group1, $group2, $group3, $group4, $group5]));
+		} else {
+			$this->groupManager->expects($this->never())
+				->method('search');
+		}
+
+		$this->assertSame($result, $this->connector->searchPrincipals('principals/groups',
+			['{DAV:}displayname' => 'Foo'], $test));
+	}
+
+	public function searchPrincipalsDataProvider() {
+		return [
+			[true, false, 'allof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
+			[true, false, 'anyof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
+			[true, true, 'allof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group5']],
+			[true, true, 'anyof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group5']],
+			[false, false, 'allof', []],
+			[false, false, 'anyof', []],
+		];
+	}
+
+	/**
+	 * @dataProvider findByUriDataProvider
+	 */
+	public function testFindByUri($sharingEnabled, $groupsOnly, $findUri, $result) {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->will($this->returnValue($sharingEnabled));
+
+		if ($sharingEnabled) {
+			$this->shareManager->expects($this->once())
+				->method('shareWithGroupMembersOnly')
+				->will($this->returnValue($groupsOnly));
+
+			if ($groupsOnly) {
+				$user = $this->createMock(IUser::class);
+				$this->userSession->expects($this->once())
+					->method('getUser')
+					->will($this->returnValue($user));
+
+				$this->groupManager->expects($this->at(0))
+					->method('getUserGroupIds')
+					->with($user)
+					->will($this->returnValue(['group1', 'group2', 'group5']));
+			}
+		} else {
+			$this->shareManager->expects($this->never())
+				->method('shareWithGroupMembersOnly');
+			$this->groupManager->expects($this->never())
+				->method($this->anything());
+		}
+
+		$this->assertEquals($result, $this->connector->findByUri($findUri, 'principals/groups'));
+	}
+
+	public function findByUriDataProvider() {
+		return [
+			[false, false, 'principal:principals/groups/group1', null],
+			[false, false, 'principal:principals/groups/group3', null],
+			[false, true, 'principal:principals/groups/group1', null],
+			[false, true, 'principal:principals/groups/group3', null],
+			[true, true, 'principal:principals/groups/group1', 'principals/groups/group1'],
+			[true, true, 'principal:principals/groups/group3', null],
+			[true, false, 'principal:principals/groups/group1', 'principals/groups/group1'],
+			[true, false, 'principal:principals/groups/group3', 'principals/groups/group3'],
+		];
 	}
 
 	/**

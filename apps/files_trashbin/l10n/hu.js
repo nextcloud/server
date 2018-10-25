@@ -6,7 +6,7 @@ OC.L10N.register(
     "Delete" : "Törlés",
     "Delete permanently" : "Végleges törlés",
     "This operation is forbidden" : "Tiltott művelet",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Ez a könyvtár nem elérhető, kérem nézze meg a naplófájlokat vagy keresse az adminisztrátort",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ez a könyvtár nem elérhető, kérem nézze meg a naplófájlokat vagy keresse a rendszergazdát",
     "restored" : "visszaállítva",
     "No deleted files" : "Nincs törölt fájl",
     "You will be able to recover deleted files from here" : "Innen vissza tudja állítani a törölt fáljait.",

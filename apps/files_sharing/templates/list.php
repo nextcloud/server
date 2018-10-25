@@ -10,7 +10,7 @@
 	<h2><?php p($l->t('No entries found in this folder')); ?></h2>
 </div>
 
-<table id="filestable">
+<table id="filestable" class="list-container view-grid">
 	<thead>
 		<tr>
 			<th id='headerName' class="hidden column-name">

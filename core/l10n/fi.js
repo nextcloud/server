@@ -45,6 +45,7 @@ OC.L10N.register(
     "Checked for update of app \"%s\" in appstore" : "Päivitys sovellukseen \"%s\" tarkistettu sovelluskaupasta",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Tarkistetaan, onko kohteen %s tietokannan skeemaa mahdollista päivittää (tämä saattaa kestää kauan riippuen tietokannan koosta)",
     "Checked database schema update for apps" : "Tarkistettu tietokannan skeemapäivitys sovelluksille",
+    "Updated \"%1$s\" to %2$s" : "Päivitetty \"%1$s\" versioon %2$s",
     "Set log level to debug" : "Asetettu lokitasoksi vianetsintä",
     "Reset log level" : "Nollattu lokitaso",
     "Starting code integrity check" : "Aloitetaan koodin eheystarkistus",
@@ -359,6 +360,7 @@ OC.L10N.register(
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "Käytät sivustoa HTTP-yhteydellä. On suositeltavaa, että palvelin vaatiii HTTPS-yhteyden, kuten <a href=\"{docUrl}\">tietoturvavinkeissä</a> neuvotaan.",
     "Back to log in" : "Palaa kirjautumiseen",
     "You are about to grant %s access to your %s account." : "Olet antamassa lupaa laitteelle %s päästä sinun %s tilille.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Asetuksista riippuen, ylläpitäjänä saatat pystyä alla olevalla painikkeella lisäämään tämän verkkotunnuksen luotetuksi."
+    "Depending on your configuration, this button could also work to trust the domain:" : "Asetuksista riippuen, ylläpitäjänä saatat pystyä alla olevalla painikkeella lisäämään tämän verkkotunnuksen luotetuksi.",
+    "Copy URL" : "Kopioi osoite"
 },
 "nplurals=2; plural=(n != 1);");

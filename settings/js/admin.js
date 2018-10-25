@@ -248,13 +248,14 @@ $(document).ready(function(){
 	// run setup checks then gather error messages
 	$.when(
 		OC.SetupChecks.checkWebDAV(),
+		OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!oc_appconfig.core.public_webfinger, 200),
 		OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 		OC.SetupChecks.checkSetup(),
 		OC.SetupChecks.checkGeneric(),
 		OC.SetupChecks.checkDataProtected()
-	).then(function(check1, check2, check3, check4, check5, check6) {
-		var messages = [].concat(check1, check2, check3, check4, check5, check6);
+	).then(function(check1, check2, check3, check4, check5, check6, check7) {
+		var messages = [].concat(check1, check2, check3, check4, check5, check6, check7);
 		var $el = $('#postsetupchecks');
 		$('#security-warning-state-loading').addClass('hidden');
 

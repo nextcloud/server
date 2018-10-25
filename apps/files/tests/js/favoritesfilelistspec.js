@@ -25,7 +25,7 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 			'</div>' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
-			'<table id="filestable">' +
+			'<table id="filestable" class="list-container view-grid">' +
 			'<thead><tr>' +
 			'<th id="headerName" class="hidden column-name">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +

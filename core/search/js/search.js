@@ -23,7 +23,8 @@
 	'use strict';
 
 	/**
-	 * @class OCA.Search
+	 * @class Search
+	 * @memberOf OCA
 	 *
 	 * The Search class manages a search
 	 *

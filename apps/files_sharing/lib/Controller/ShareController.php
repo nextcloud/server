@@ -35,6 +35,7 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -158,7 +159,16 @@ class ShareController extends AuthPublicShareController {
 		$event = new GenericEvent(null, $templateParameters);
 		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts::publicShareAuth', $event);
 
-		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+		if ($this->share->getSendPasswordByTalk()) {
+			$csp = new ContentSecurityPolicy();
+			$csp->addAllowedConnectDomain('*');
+			$csp->addAllowedMediaDomain('blob:');
+			$csp->allowEvalScript(true);
+			$response->setContentSecurityPolicy($csp);
+		}
+
+		return $response;
 	}
 
 	/**
@@ -170,7 +180,16 @@ class ShareController extends AuthPublicShareController {
 		$event = new GenericEvent(null, $templateParameters);
 		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts::publicShareAuth', $event);
 
-		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+		if ($this->share->getSendPasswordByTalk()) {
+			$csp = new ContentSecurityPolicy();
+			$csp->addAllowedConnectDomain('*');
+			$csp->addAllowedMediaDomain('blob:');
+			$csp->allowEvalScript(true);
+			$response->setContentSecurityPolicy($csp);
+		}
+
+		return $response;
 	}
 
 	protected function verifyPassword(string $password): bool {
@@ -338,6 +357,7 @@ class ShareController extends AuthPublicShareController {
 			$folder->assign('isPublic', true);
 			$folder->assign('hideFileList', $hideFileList);
 			$folder->assign('publicUploadEnabled', 'no');
+			$folder->assign('showgridview', true);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('freeSpace', $freeSpace);

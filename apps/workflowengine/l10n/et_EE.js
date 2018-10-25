@@ -1,8 +1,14 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Reegli lühikirjeldus",
+    "Add rule" : "Lisa reegel",
+    "Reset" : "Lähtesta",
+    "Save" : "Salvesta",
+    "Saving…" : "Salvestamine...",
     "Saved" : "Salvestatud",
     "Saving failed:" : "Salvestamine ebaõnnestus:",
+    "Add rule group" : "Lisa reegligrupp",
     "File MIME type" : "Faili MIME tüüp",
     "is" : "on",
     "is not" : "ei ole",
@@ -55,12 +61,6 @@ OC.L10N.register(
     "Operation %s is invalid" : "Tegevus %s on vigane",
     "Workflow" : "Töövoog",
     "Open documentation" : "Ava dokumentatsioon",
-    "Add rule group" : "Lisa reegligrupp",
-    "Short rule description" : "Reegli lühikirjeldus",
-    "Add rule" : "Lisa reegel",
-    "Reset" : "Lähtesta",
-    "Save" : "Salvesta",
-    "Saving…" : "Salvestamine...",
     "Loading…" : "Laadimine..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,9 +1,15 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Zobraziť popis pravidla",
+    "Add rule" : "Pridať pravidlo",
+    "Reset" : "Vynulovať",
+    "Save" : "Uložiť",
+    "Saving…" : "Ukladá sa...",
     "Unable to retrieve the group list" : "Nie je možné načítať zoznam skupín",
     "Saved" : "Uložené",
     "Saving failed:" : "Ukladanie neúspešné:",
+    "Add rule group" : "Pridať skupinu pravidiel",
     "File MIME type" : "MIME typ súboru",
     "is" : "je",
     "is not" : "nie je",
@@ -62,12 +68,6 @@ OC.L10N.register(
     "Workflow" : "Systém práce",
     "Files workflow engine" : "Typ spôsobu práce súborov",
     "Open documentation" : "Otvoriť dokumentáciu",
-    "Add rule group" : "Pridať skupinu pravidiel",
-    "Short rule description" : "Zobraziť popis pravidla",
-    "Add rule" : "Pridať pravidlo",
-    "Reset" : "Vynulovať",
-    "Save" : "Uložiť",
-    "Saving…" : "Ukladá sa...",
     "Loading…" : "Načítava sa..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

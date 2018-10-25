@@ -28,7 +28,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			'</div>' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
-			'<table id="filestable">' +
+			'<table id="filestable" class="list-container view-grid">' +
 			'<thead><tr>' +
 			'<th id="headerName" class="hidden column-name">' +
 			'<input type="checkbox" id="select_all_files" class="select-all">' +
@@ -701,7 +701,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			// dummy file list
 			var $div = $(
 				'<div>' +
-				'<table id="filestable">' +
+				'<table id="filestable" class="list-container view-grid">' +
 				'<thead></thead>' +
 				'<tbody id="fileList"></tbody>' +
 				'</table>' +
