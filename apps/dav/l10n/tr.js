@@ -59,6 +59,7 @@ OC.L10N.register(
     "More options …" : "Diğer seçenekler…",
     "More options at %s" : "%s üzerindeki diğer seçenekler",
     "Contacts" : "Kişiler",
+    "%s (group)" : "%s (grup)",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV Bağlantı Noktası",
     "Technical details" : "Teknik ayrıntılar",
