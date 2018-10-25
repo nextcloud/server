@@ -58,7 +58,7 @@ describe('OCA.Versions.VersionModel', function() {
 			model.on('revert', revertEventStub);
 			model.on('error', errorStub);
 		});
-		it('tells the server to revert when calling the revert method', function() {
+		it('tells the server to revert when calling the revert method', function(done) {
 			var promise = model.revert({
 				success: successStub
 			});
@@ -76,11 +76,11 @@ describe('OCA.Versions.VersionModel', function() {
 				expect(revertEventStub.calledOnce).toEqual(true);
 				expect(successStub.calledOnce).toEqual(true);
 				expect(errorStub.notCalled).toEqual(true);
-			});
 
-			return promise;
+				done();
+			});
 		});
-		it('triggers error event when server returns a failure', function() {
+		it('triggers error event when server returns a failure', function(done) {
 			var promise = model.revert({
 				success: successStub
 			});
@@ -92,6 +92,8 @@ describe('OCA.Versions.VersionModel', function() {
 				expect(revertEventStub.notCalled).toEqual(true);
 				expect(successStub.notCalled).toEqual(true);
 				expect(errorStub.calledOnce).toEqual(true);
+
+				done();
 			});
 		});
 	});
