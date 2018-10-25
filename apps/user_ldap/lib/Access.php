@@ -1855,15 +1855,15 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * resets a running Paged Search operation
+	 *
+	 * @throws ServerNotAvailableException
 	 */
 	private function abandonPagedSearch() {
-		if($this->connection->hasPagedResultSupport) {
-			$cr = $this->connection->getConnectionResource();
-			$this->invokeLDAPMethod('controlPagedResult', $cr, 0, false, $this->lastCookie);
-			$this->getPagedSearchResultState();
-			$this->lastCookie = '';
-			$this->cookies = array();
-		}
+		$cr = $this->connection->getConnectionResource();
+		$this->invokeLDAPMethod('controlPagedResult', $cr, 0, false, $this->lastCookie);
+		$this->getPagedSearchResultState();
+		$this->lastCookie = '';
+		$this->cookies = [];
 	}
 
 	/**
@@ -1902,10 +1902,6 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @return bool
 	 */
 	public function hasMoreResults() {
-		if(!$this->connection->hasPagedResultSupport) {
-			return false;
-		}
-
 		if(empty($this->lastCookie) && $this->lastCookie !== '0') {
 			// as in RFC 2696, when all results are returned, the cookie will
 			// be empty.
@@ -1954,7 +1950,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
 		$pagedSearchOK = false;
-		if($this->connection->hasPagedResultSupport && ($limit !== 0)) {
+		if ($limit !== 0) {
 			$offset = (int)$offset; //can be null
 			\OCP\Util::writeLog('user_ldap',
 				'initializing paged search for  Filter '.$filter.' base '.print_r($bases, true)
@@ -2000,7 +1996,7 @@ class Access extends LDAPUtility implements IUserTools {
 		 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
 		 * if we don't have a previous paged search.
 		 */
-		} else if($this->connection->hasPagedResultSupport && $limit === 0 && !empty($this->lastCookie)) {
+		} else if ($limit === 0 && !empty($this->lastCookie)) {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to
 			// initialize it with the configured page size.

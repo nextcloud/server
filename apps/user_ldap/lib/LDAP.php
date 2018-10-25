@@ -239,16 +239,6 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * Checks whether PHP supports LDAP Paged Results
-	 * @return boolean if it the case, false otherwise
-	 * */
-	public function hasPagedResultSupport() {
-		$hasSupport = function_exists('ldap_control_paged_result')
-			&& function_exists('ldap_control_paged_result_response');
-		return $hasSupport;
-	}
-
-	/**
 	 * Checks whether the submitted parameter is a resource
 	 * @param Resource $resource the resource variable to check
 	 * @return bool true if it is a resource, false otherwise

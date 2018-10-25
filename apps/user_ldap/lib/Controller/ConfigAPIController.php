@@ -260,7 +260,6 @@ class ConfigAPIController extends OCSController {
 	 *     <ldapAttributesForGroupSearch></ldapAttributesForGroupSearch>
 	 *     <ldapExperiencedAdmin>0</ldapExperiencedAdmin>
 	 *     <homeFolderNamingRule></homeFolderNamingRule>
-	 *     <hasPagedResultSupport></hasPagedResultSupport>
 	 *     <hasMemberOfFilterSupport></hasMemberOfFilterSupport>
 	 *     <useMemberOfToDetectMembership>1</useMemberOfToDetectMembership>
 	 *     <ldapExpertUsernameAttr>uid</ldapExpertUsernameAttr>
