@@ -45,6 +45,7 @@ OC.L10N.register(
     "Storage with ID \"%d\" not found" : "Storage with ID \"%d\" not found",
     "Invalid backend or authentication mechanism class" : "Invalid backend or authentication mechanism class",
     "Invalid mount point" : "Invalid mount point",
+    "Invalid path of mountpoint" : "Invalid path of mountpoint",
     "Objectstore forbidden" : "Objectstore forbidden",
     "Invalid storage backend \"%s\"" : "Invalid storage backend \"%s\"",
     "Not permitted to use backend \"%s\"" : "Not permitted to use backend \"%s\"",

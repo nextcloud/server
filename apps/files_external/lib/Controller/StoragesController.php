@@ -152,6 +152,16 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
+		$mountPointParentDir = dirname($mountPoint, 1);
+		if ($mountPointParentDir && !\OC\Files\Filesystem::is_dir($mountPointParentDir)) {
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Invalid path of mountpoint')
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
 		if ($storage->getBackendOption('objectstore')) {
 			// objectstore must not be sent from client side
 			return new DataResponse(
