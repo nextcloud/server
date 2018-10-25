@@ -86,9 +86,17 @@ describe('OCA.Versions.VersionModel', function() {
 			});
 
 			expect(fakeServer.requests.length).toEqual(1);
-			fakeServer.requests[0].respond(404);
+			var responseErrorHeaders = {
+				"Content-Type": "application/xml"
+			};
+			var responseErrorBody =
+				'<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">' +
+				'    <s:exception>Sabre\\DAV\\Exception\\SomeException</s:exception>' +
+				'    <s:message>Some error message</s:message>' +
+				'</d:error>';
+			fakeServer.requests[0].respond(404, responseErrorHeaders, responseErrorBody);
 
-			promise.then(function() {
+			promise.fail(function() {
 				expect(revertEventStub.notCalled).toEqual(true);
 				expect(successStub.notCalled).toEqual(true);
 				expect(errorStub.calledOnce).toEqual(true);
