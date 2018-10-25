@@ -26,6 +26,7 @@ namespace Tests\Core\Controller;
 
 use OC\AppFramework\Http;
 use OC\Core\Controller\SvgController;
+use OC\Template\IconsCacher;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
@@ -89,7 +90,8 @@ class SvgControllerTest extends TestCase {
 		$request = $this->getMockBuilder(IRequest::class)->getMock();
 		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->getMock();
 		$appManager = $this->getMockBuilder(IAppManager::class)->getMock();
-		$this->svgController = new SvgController('core', $request, $timeFactory, $appManager);
+		$iconsCacher = $this->getMockBuilder(IconsCacher::class)->disableOriginalConstructor()->setMethods(['__construct'])->getMock();
+		$this->svgController = new SvgController('core', $request, $timeFactory, $appManager, $iconsCacher);
 	}
 
 	/**
