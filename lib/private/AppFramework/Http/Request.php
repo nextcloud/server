@@ -320,14 +320,18 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// There's a few headers that seem to end up in the top-level
 		// server array.
-		switch($name) {
+		switch ($name) {
 			case 'CONTENT_TYPE' :
 			case 'CONTENT_LENGTH' :
 				if (isset($this->server[$name])) {
 					return $this->server[$name];
 				}
 				break;
-
+			case 'REMOTE_ADDR' :
+				if (isset($this->server[$name])) {
+					return $this->server[$name];
+				}
+				break;
 		}
 
 		return '';
