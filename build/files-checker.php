@@ -46,7 +46,6 @@ $expectedFiles = [
 	'autotest.sh',
 	'bower.json',
 	'build',
-	'buildjsdocs.sh',
 	'CHANGELOG.md',
 	'CODE_OF_CONDUCT.md',
 	'composer.json',
