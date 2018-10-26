@@ -71,7 +71,7 @@ class SetVcardDatabaseUID implements IRepairStep {
 	}
 
 	private function getUid($carddata) {
-		preg_match('/^UID:(.*)$/m', $carddata, $matches);
+		preg_match('/UID:(.*)$/m', $carddata, $matches);
 		if (count($matches) > 1) {
 			return $matches[1];
 		}
