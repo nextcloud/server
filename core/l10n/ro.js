@@ -267,9 +267,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Înțeleg că dacă continui să folosesc actualizarea din interfața web, există riscul ca cererea să expire și să cauzeze pierderi de date, dar am un backup și știu cum sa restaurez sesiunea în caz de eșec.",
     "Upgrade via web on my own risk" : "Actualizare prin interfața web pe riscul meu",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
-    "This page will refresh itself when the %s instance is available again." : "Această pagină se va reîmprospăta atunci când %s instance e disponibil din nou.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
-    "Thank you for your patience." : "Îți mulțumim pentru răbdare.",
     "Updated \"%s\" to %s" : "\"%s\" a fost actualizat până la %s",
     "Error setting expiration date" : "Eroare la specificarea datei de expirare",
     "The public link will expire no later than {days} days after it is created" : "Legătura publică va expira nu mai târziu de {days} zile de la ziua creării",
@@ -285,6 +283,8 @@ OC.L10N.register(
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Securitatea îmbunătățită este activată pentru contul tău. Autentifică-te utilizând un al doilea factor.",
     "Add \"%s\" as trusted domain" : "Adaugă \"%s\" ca domeniu de încredere",
     "%s will be updated to version %s" : "%s va fi actualizat la versiunea %s",
+    "This page will refresh itself when the %s instance is available again." : "Această pagină se va reîmprospăta atunci când %s instance e disponibil din nou.",
+    "Thank you for your patience." : "Îți mulțumim pentru răbdare.",
     "You are about to grant %s access to your %s account." : "Ești pe cale să permiți %s accesul la %s contul tău.",
     "Depending on your configuration, this button could also work to trust the domain:" : "În funcție de configurație, acest buton poate fi folosit pentru a te încrede în domeniul:"
 },

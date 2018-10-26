@@ -271,9 +271,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Web 画面から続行すると危険性があることを理解しています。この操作がタイムアウトすると、データが失われる危険性があることを理解しています。もし失敗した場合には取得済みのバックアップから修復する方法を理解しています。",
     "Upgrade via web on my own risk" : "危険性を理解した上でWeb画面からアップグレード",
     "This %s instance is currently in maintenance mode, which may take a while." : "このサーバー %s は現在メンテナンスモードです。しばらくお待ちください。",
-    "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "このメッセージが引き続き、または予期せず現れる場合は、システム管理者に問い合わせてください。",
-    "Thank you for your patience." : "しばらくお待ちください。",
     "Updated \"%s\" to %s" : "\"%s\" を %s にアップデートしました。",
     "There was an error loading your contacts" : "連絡先の読み込みに失敗しました。",
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">documentation</a>." : "メモリキャッシュが設定されていません。可能であれば、パフォーマンスを向上するため、memcacheを設定してください。より詳しい情報は<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">ドキュメント</a>で参照できます。",
@@ -295,6 +293,8 @@ OC.L10N.register(
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "このアカウントは強化セキュリティが適用されています。第二経路から認証してください。",
     "Add \"%s\" as trusted domain" : "\"%s\" を信頼するドメイン名に追加",
     "%s will be updated to version %s" : "%s は バーション %s にアップデートされます",
+    "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。",
+    "Thank you for your patience." : "しばらくお待ちください。",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "\"Strict-Transport-Security\" HTTPヘッダが、最低でも \"{seconds}\" 秒に設定されていません。セキュリティを強化するには、<a href=\"{docUrl}\" rel=\"noreferrer noopener\">セキュリティTips</a>で解説しているHSTSを有効にすることを推奨します。",
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips</a>で述べているように、代わりにHTTPSを必要とするようサーバーを設定することを強くおすすめします。",
     "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可"

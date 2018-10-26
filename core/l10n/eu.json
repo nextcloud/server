@@ -266,9 +266,7 @@
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Badakit web bidezko UI-a erabiliz eguneraketa egitean arriskuak daudela, eskaera denboraz-kanpo geratzen bada datuen galera gerta daitekeela, bainabackup kopia egin dut eta badakit instantzia birsortzen, arazoak egonez gero",
     "Upgrade via web on my own risk" : "Web bidezko bertsio-berritzea nire ardurapean",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instantzia hau %s mantenu-moduan dago, honek denbora tarte bat iraun dezake.",
-    "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",
-    "Thank you for your patience." : "Milesker zure patzientziagatik.",
     "Updated \"%s\" to %s" : "\"%s\" %s-ra eguneratua",
     "Error setting expiration date" : "Errore bat egon da muga data ezartzean",
     "The public link will expire no later than {days} days after it is created" : "Esteka publikoak iraungi egingo du, askoz jota, sortu eta  {days} egunetara.",
@@ -284,6 +282,8 @@
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Hobetutako segurtasuna dago gaituta zure kontuan. Mesedez, autentifikatu bigarren faktore bat erabiliz.",
     "Add \"%s\" as trusted domain" : "Gehitu \"%s\" domeinu fidagarri gisa",
     "%s will be updated to version %s" : "%s %s bertsiora eguneratuko da",
+    "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
+    "Thank you for your patience." : "Milesker zure patzientziagatik.",
     "You are about to grant %s access to your %s account." : "%s kontuari %sra sarbidea emango diozu",
     "Depending on your configuration, this button could also work to trust the domain:" : "Zure konfigurazioaren arabera, botoi hau domeinua konfidantzazkoa bezala markatzeko balio du"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

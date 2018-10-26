@@ -276,9 +276,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Γνωρίζω ότι συνεχίζοντας την ενημέρωση μέσω web UI αποτελεί ρίσκο, το χρονικό όριο του αιτήματος μπορεί να εξαντληθεί με συνέπεια το χάσιμο δεδομένων, αλλά έχω πραγματοποιήσει αντίγραφο ασφαλείας και γνωρίζω πως να κάνω αποκατάσταση σε περίπτωση αποτυχίας.",
     "Upgrade via web on my own risk" : "Αναβάθμιση μέσω ιστού με δική μου ευθύνη",
     "This %s instance is currently in maintenance mode, which may take a while." : "Αυτή %s η εγκατάσταση είναι σε λειτουργία συντήρησης, η οποία μπορεί να διαρκέσει κάποιο χρόνο.",
-    "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
-    "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας.",
     "Updated \"%s\" to %s" : "Ενημερώθηκε \"%s\" σε %s",
     "Error setting expiration date" : "Σφάλμα κατά τον ορισμό ημερομηνίας λήξης",
     "The public link will expire no later than {days} days after it is created" : "Ο δημόσιος σύνδεσμος θα απενεργοποιηθεί το πολύ σε {days} ημέρες μετά την δημιουργία του",
@@ -297,6 +295,8 @@ OC.L10N.register(
     "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα.",
     "Add \"%s\" as trusted domain" : "Προσθήκη \"%s\" ως αξιόπιστου τομέα",
     "%s will be updated to version %s" : "%s θα ενημερωθεί σε έκδοση %s",
+    "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
+    "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας.",
     "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\"."
 },
 "nplurals=2; plural=(n != 1);");

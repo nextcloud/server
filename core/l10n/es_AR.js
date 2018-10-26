@@ -260,9 +260,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Estoy conciente de que si continuo haciendo la actualización vía web, la interfaz de usuario corre el riesgo de que el tiempo de la solicitud expire y cause pérdida de datos, pero cuento con un respaldo y sé como restaurar mi instancia en caso de una falla. ",
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
-    "This page will refresh itself when the %s instance is available again." : "Esta página se actualizará sola cuando la instancia %s esté disponible de nuevo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "Thank you for your patience." : "Gracias por su paciencia.",
     "Updated \"%s\" to %s" : "Actualizando \"%s\" a %s",
     "Error setting expiration date" : "Se presentó un error al establecer la fecha de expiración",
     "The public link will expire no later than {days} days after it is created" : "El link público expirará a los {days} días de haber sido creado",
@@ -278,6 +276,8 @@ OC.L10N.register(
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "La seguridad mejorada está habilitada para su cuenta. Favor de autenticarse usando un segundo factor. ",
     "Add \"%s\" as trusted domain" : "Agregar \"%s\" como un dominio de confianza",
     "%s will be updated to version %s" : "%s será actualizado a la versión %s",
+    "This page will refresh itself when the %s instance is available again." : "Esta página se actualizará sola cuando la instancia %s esté disponible de nuevo. ",
+    "Thank you for your patience." : "Gracias por su paciencia.",
     "You are about to grant %s access to your %s account." : "Está a punto de concederle a \"%s\" acceso a su cuenta %s."
 },
 "nplurals=2; plural=(n != 1);");

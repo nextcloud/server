@@ -236,7 +236,6 @@ OC.L10N.register(
     "Start update" : "Begin bywerking",
     "Detailed logs" : "Gedetailleerde joernale",
     "Update needed" : "Bywerking benodig",
-    "Thank you for your patience." : "Dankie vir u geduld.",
     "Updated \"%s\" to %s" : "\"%s\" na %s bygewerk",
     "%s (3rdparty)" : "%s (3departy)",
     "There was an error loading your contacts" : "Fout terwyl u kontakte gelaai word",
@@ -260,6 +259,7 @@ OC.L10N.register(
     "Add \"%s\" as trusted domain" : "Voeg \"%s\" as 'n vertroude domein by",
     "%s will be updated to version %s" : "%s sal na %s bygewerk word",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Vir hulp, sien die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentasie</a>.",
+    "Thank you for your patience." : "Dankie vir u geduld.",
     "Back to log in" : "Terug na aanmelding",
     "Depending on your configuration, this button could also work to trust the domain:" : "Afhangende van u konfigurasie, kan die knoppie ook gebruik word om die domein te vertrou:"
 },
