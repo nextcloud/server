@@ -164,14 +164,19 @@ class File extends Node implements IFile {
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			}
 
-			$target = $partStorage->fopen($internalPartPath, 'wb');
-			if ($target === false) {
-				\OC::$server->getLogger()->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
-				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
-				throw new Exception('Could not write file contents');
+			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
+				$count = $partStorage->writeStream($internalPartPath, $data);
+				$result = $count > 0;
+			} else {
+				$target = $partStorage->fopen($internalPartPath, 'wb');
+				if ($target === false) {
+					\OC::$server->getLogger()->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
+					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
+					throw new Exception('Could not write file contents');
+				}
+				list($count, $result) = \OC_Helper::streamCopy($data, $target);
+				fclose($target);
 			}
-			list($count, $result) = \OC_Helper::streamCopy($data, $target);
-			fclose($target);
 
 			if ($result === false) {
 				$expected = -1;
@@ -185,7 +190,7 @@ class File extends Node implements IFile {
 			// double check if the file was fully received
 			// compare expected and actual size
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-				$expected = (int) $_SERVER['CONTENT_LENGTH'];
+				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($count !== $expected) {
 					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
 				}
@@ -219,7 +224,7 @@ class File extends Node implements IFile {
 					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
 					$fileExists = $storage->file_exists($internalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						\OC::$server->getLogger()->error('renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', ['app' => 'webdav']);
+						\OC::$server->getLogger()->error('renaming part file to final file failed ($run: ' . ($run ? 'true' : 'false') . ', $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (ForbiddenException $ex) {
@@ -246,7 +251,7 @@ class File extends Node implements IFile {
 					$this->header('X-OC-MTime: accepted');
 				}
 			}
-					
+
 			if ($view) {
 				$this->emitPostHooks($exists);
 			}
@@ -443,7 +448,7 @@ class File extends Node implements IFile {
 		//detect aborted upload
 		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = (int) $_SERVER['CONTENT_LENGTH'];
+				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($bytesWritten !== $expected) {
 					$chunk_handler->remove($info['index']);
 					throw new BadRequest(
