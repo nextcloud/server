@@ -272,9 +272,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Në qofte se unë vazhdoj të kryej përditësimin nëpëmjet web UI ka rrezik, që kërkesa mund të ndaloj dhe shkakton humbje të të dhënave, por unë di si ti rikthej të dhënat ne rast dështimi.",
     "Upgrade via web on my own risk" : "Përditëso me anë të internetit në rrezikun tim",
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
-    "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
-    "Thank you for your patience." : "Ju faleminderit për durimin.",
     "Updated \"%s\" to %s" : "U përditësua \"%s\" në %s",
     "Error setting expiration date" : "Gabim në caktimin e datës së skadimit",
     "The public link will expire no later than {days} days after it is created" : "Lidhja publike do të skadojë jo më vonë se {days} ditë pas krijimit të saj",
@@ -291,6 +289,8 @@ OC.L10N.register(
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Rrit sigurinë për llogarin tuaj. Ju lutem bëni verifikimin duke përdorur një element të dytë.",
     "Add \"%s\" as trusted domain" : "Shtojeni \"%s\" si përkatësi të besuar",
     "%s will be updated to version %s" : "%s do të përditësohet me versionin %s",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Për ndihmë, shihni  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentimin</a>."
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Për ndihmë, shihni  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentimin</a>.",
+    "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati.",
+    "Thank you for your patience." : "Ju faleminderit për durimin."
 },
 "nplurals=2; plural=(n != 1);");

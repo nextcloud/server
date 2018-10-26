@@ -72,7 +72,7 @@
     "_matches '{filter}'_::_match '{filter}'_" : ["se sklada s filtrom '{filter}'","se skladata s filtrom '{filter}'","se skladajo s filtrom '{filter}'","se skladajo s filtrom '{filter}'"],
     "View in folder" : "Prikaži v mapi",
     "Copied!" : "Kopirano!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj direktno povezavo (deluje sa mo za uporabnike, ki imajo dostop do datoteke ali mape)",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj neposredno povezavo (za uporabnike, ki imajo dostop do datoteke ali mape)",
     "Path" : "Pot",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajta","%n bajti","%n bajtov"],
     "Favorited" : "Označeno kot priljubljeno",

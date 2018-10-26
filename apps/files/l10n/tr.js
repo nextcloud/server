@@ -142,6 +142,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">bu adresi kullanın</a>",
     "Cancel upload" : "Yüklemeyi iptal et",
+    "Toggle grid view" : "Tablo görünümünü değiştir",
     "No files in here" : "Burada herhangi bir dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin ya da aygıtlarınızla eşitleyin!",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",

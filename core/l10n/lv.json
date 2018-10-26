@@ -288,9 +288,7 @@
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Es zinu ka ja es turpināšu atjauninājumu caur tīmekļa atjauninātāju ir risks ka pieprasījumam būs noliedze , kas var radīt  datu zudumu, bet man ir dublējumkopija un es zinu kā atjaunot instanci neveiksmes gadijumā.",
     "Upgrade via web on my own risk" : "Atjaunināt caur tīmekļa atjauninātāju uz mana paša risku.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
-    "This page will refresh itself when the %s instance is available again." : "Lapa tiks atsvaidzināta kad %s instance atkal ir pieejama.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
-    "Thank you for your patience." : "Paldies par jūsu pacietību.",
     "Updated \"%s\" to %s" : "Atjaunināts \"%s\" uz %s",
     "There was an error loading your contacts" : "Notikusi kļūda ielādējot kontaktpersonu sarakstu",
     "Shared with {recipients}" : "Koplietots ar {recipients}",
@@ -313,6 +311,8 @@
     "You are accessing the server from an untrusted domain." : "Jūs piekļūstat serverim no neuzticama domēna.",
     "Add \"%s\" as trusted domain" : "Pievienot \"%s\" kā uzticamu domēnu",
     "%s will be updated to version %s" : "%s tiks atjaunināts uz versiju %s",
+    "This page will refresh itself when the %s instance is available again." : "Lapa tiks atsvaidzināta kad %s instance atkal ir pieejama.",
+    "Thank you for your patience." : "Paldies par jūsu pacietību.",
     "Back to log in" : "Atpakaļ uz pierakstīšanos"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
