@@ -127,6 +127,7 @@ class MailPlugin implements ISearchPlugin {
 								$singleResult = [[
 									'label' => $displayName,
 									'uuid' => $contact['UID'],
+									'name' => $contact['FN'],
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -149,6 +150,7 @@ class MailPlugin implements ISearchPlugin {
 								$userResults['wide'][] = [
 									'label' => $displayName,
 									'uuid' => $contact['UID'],
+									'name' => $contact['FN'],
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -168,6 +170,7 @@ class MailPlugin implements ISearchPlugin {
 						$result['exact'][] = [
 							'label' => $displayName,
 							'uuid' => $contact['UID'],
+							'name' => $contact['FN'],
 							'type' => $emailAddressType,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
@@ -178,6 +181,7 @@ class MailPlugin implements ISearchPlugin {
 						$result['wide'][] = [
 							'label' => $displayName,
 							'uuid' => $contact['UID'],
+							'name' => $contact['FN'],
 							'type' => $emailAddressType,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,

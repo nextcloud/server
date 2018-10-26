@@ -109,6 +109,7 @@ class RemotePlugin implements ISearchPlugin {
 						$result['exact'][] = [
 							'label' => $contact['FN'] . " ($cloudId)",
 							'uuid' => $contact['UID'],
+							'name' => $contact['FN'],
 							'type' => $cloudIdType,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
@@ -120,6 +121,7 @@ class RemotePlugin implements ISearchPlugin {
 						$result['wide'][] = [
 							'label' => $contact['FN'] . " ($cloudId)",
 							'uuid' => $contact['UID'],
+							'name' => $contact['FN'],
 							'type' => $cloudIdType,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
