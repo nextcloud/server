@@ -38,9 +38,9 @@ class Version15000Date20180927120000 extends SimpleMigrationStep {
 
 		$table = $schema->getTable('cards');
 		$table->addColumn('uid', Type::STRING, [
-			'notnull' => true,
-			'length' => 255]
-		);
+			'notnull' => false,
+			'length' => 255
+		]);
 
 		return $schema;
 	}
