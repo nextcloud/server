@@ -268,9 +268,7 @@
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Abi saamiseks vaata <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentatsiooni</a>.",
     "Upgrade via web on my own risk" : "Uuenda veebi kaudu omal vastutusel",
     "This %s instance is currently in maintenance mode, which may take a while." : "See %s instants on hetkel haldusrežiimis, mis võib kesta mõnda aega.",
-    "This page will refresh itself when the %s instance is available again." : "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
-    "Thank you for your patience." : "Täname kannatlikkuse eest.",
     "Updated \"%s\" to %s" : "Uuendatud \"%s\" -> %s",
     "Error setting expiration date" : "Viga aegumise kuupäeva määramisel",
     "The public link will expire no later than {days} days after it is created" : "Avalik link aegub mitte hiljem kui pärast {days} päeva selle loomist",
@@ -285,6 +283,8 @@
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Täiustatud turvalisus on teie konto jaoks lubatud. Palun autentida teise teguri abil.",
     "Add \"%s\" as trusted domain" : "Lisa \"%s\" usaldusväärse domeenina",
     "%s will be updated to version %s" : "%s uuendatakse versioonile %s",
+    "This page will refresh itself when the %s instance is available again." : "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval.",
+    "Thank you for your patience." : "Täname kannatlikkuse eest.",
     "Back to log in" : "Tagasi sisselogimise lehele",
     "You are about to grant %s access to your %s account." : "Sa oled andmas %s ligipääsu oma %s kontole."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
