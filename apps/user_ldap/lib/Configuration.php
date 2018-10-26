@@ -95,7 +95,6 @@ class Configuration {
 		'ldapAttributesForGroupSearch' => null,
 		'ldapExperiencedAdmin' => false,
 		'homeFolderNamingRule' => null,
-		'hasPagedResultSupport' => false,
 		'hasMemberOfFilterSupport' => false,
 		'useMemberOfToDetectMembership' => true,
 		'ldapExpertUsernameAttr' => null,
@@ -278,7 +277,6 @@ class Configuration {
 					break;
 				//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
-				case 'hasPagedResultSupport':
 				case 'ldapUuidUserAttribute':
 				case 'ldapUuidGroupAttribute':
 					continue 2;

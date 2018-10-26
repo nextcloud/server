@@ -1007,7 +1007,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		}
 		$search = $this->access->escapeFilterPart($search, true);
 		$pagingSize = (int)$this->access->connection->ldapPagingSize;
-		if (!$this->access->connection->hasPagedResultSupport || $pagingSize <= 0) {
+		if ($pagingSize <= 0) {
 			return $this->getGroupsChunk($search, $limit, $offset);
 		}
 		$maxGroups = 100000; // limit max results (just for safety reasons)
