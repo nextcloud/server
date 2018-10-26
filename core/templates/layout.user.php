@@ -112,7 +112,7 @@
 				<div id="contactsmenu">
 					<div class="icon-contacts menutoggle" tabindex="0" role="button"
 					aria-haspopup="true" aria-controls="contactsmenu-menu" aria-expanded="false">
-						<span class="hidden-visually"><?php p($l->t('Contacts'));?>
+						<span class="hidden-visually"><?php p($l->t('Contacts'));?></span>
 					</div>
 					<div id="contactsmenu-menu" class="menu"
 						aria-label="<?php p($l->t('Contacts menu'));?>"></div>
