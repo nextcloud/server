@@ -325,15 +325,29 @@
 								return (aProperty < bProperty) ? -1 : (aProperty > bProperty) ? 1 : 0;
 							}
 						}
+
+						/**
+						 * Sort share entries by uuid to properly group them
+						 */
 						var grouped = suggestions.sort(dynamicSort('uuid'));
-						console.log(grouped);
+
 						var previousUuid = null;
-						groupedLength = grouped.length;
+						var groupedLength = grouped.length;
+						var result = [];
+						/**
+						 * build the result array that only contains all contact entries from
+						 * merged contacts, if the search term matches its contact name
+						 */
 						for (i = 0; i < groupedLength; i++) {
+							console.log(grouped[i]);
 							if (typeof grouped[i].uuid !== 'undefined' && grouped[i].uuid === previousUuid) {
 								grouped[i].merged = true;
 							} else {
 								grouped[i].merged = false;
+							}
+							if (searchTerm === grouped[i].name || grouped[i].merged === false) {
+								result.push(grouped[i]);
+							} else {
 							}
 							previousUuid = grouped[i].uuid;
 						}
@@ -353,7 +367,7 @@
 									)
 							);
 
-						deferred.resolve(grouped, exactMatches, moreResultsAvailable);
+						deferred.resolve(result, exactMatches, moreResultsAvailable);
 					} else {
 						deferred.reject(result.ocs.meta.message);
 					}
@@ -468,6 +482,9 @@
 		autocompleteRenderItem: function(ul, item) {
 			var icon = 'icon-user';
 			var text = item.label;
+			if (typeof item.name !== 'undefined') {
+				text = item.name;
+			}
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
 				icon = 'icon-contacts-dark';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
@@ -496,13 +513,10 @@
 						return type;
 				}
 			};
-			if (typeof item.type !== 'undefined') {
+			if (typeof item.type !== 'undefined' && item.type !== null) {
 				description = getTranslatedType(item.type);
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
-			if (description !== '') {
-				insert.addClass('with-description');
-			}
 			if (item.merged) {
 				insert.addClass('merged');
 				text = item.value.shareWith;
@@ -516,6 +530,10 @@
 					}
 					avatar.imageplaceholder(item.uuid, text, 32);
 				}
+				description = item.value.shareWith;
+			}
+			if (description !== '') {
+				insert.addClass('with-description');
 			}
 
 			$("<div class='autocomplete-item-text'></div>")
@@ -541,7 +559,11 @@
 
 			if (e.keyCode == 9) {
 				e.preventDefault();
-				e.target.value = s.item.label;
+				if (typeof s.item.name !== 'undefined') {
+					e.target.value = s.item.name;
+				} else {
+					e.target.value = s.item.label;
+				}
 				setTimeout(function() {
 					$(e.target).attr('disabled', false)
 						.autocomplete('search', $(e.target).val());
