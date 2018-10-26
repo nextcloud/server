@@ -421,11 +421,13 @@ class User {
 		if($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
-		$oldName = $this->config->getUserValue($this->uid, 'user_ldap', 'displayName', '');
-		if ($oldName !== $displayName) {
+		$oldName = $this->config->getUserValue($this->uid, 'user_ldap', 'displayName', null);
+		if ($oldName !== $displayName)  {
 			$this->store('displayName', $displayName);
 			$user = $this->userManager->get($this->getUsername());
-			if ($user instanceof \OC\User\User) {
+			if (!empty($oldName) && $user instanceof \OC\User\User) {
+				// if it was empty, it would be a new record, not a change emitting the trigger could
+				// potentially cause a UniqueConstraintViolationException, depending on some factors.
 				$user->triggerChange('displayName', $displayName);
 			}
 		}

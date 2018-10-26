@@ -998,25 +998,35 @@ class UserTest extends \Test\TestCase {
 
 	public function displayNameProvider() {
 		return [
-			['Roland Deschain', '', 'Roland Deschain'],
-			['Roland Deschain', null, 'Roland Deschain'],
-			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)'],
+			['Roland Deschain', '', 'Roland Deschain', false],
+			['Roland Deschain', '', 'Roland Deschain', true],
+			['Roland Deschain', null, 'Roland Deschain', false],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', false],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', true],
 		];
 	}
 
 	/**
 	 * @dataProvider displayNameProvider
 	 */
-	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
+	public function testComposeAndStoreDisplayName($part1, $part2, $expected, $expectTriggerChange) {
 		$this->config->expects($this->once())
 			->method('setUserValue');
+		$oldName = $expectTriggerChange ? 'xxGunslingerxx' : null;
 		$this->config->expects($this->once())
-			->method('getUserValue');
+			->method('getUserValue')
+			->with($this->user->getUsername(), 'user_ldap', 'displayName', null)
+			->willReturn($oldName);
 
 		$ncUserObj = $this->createMock(\OC\User\User::class);
-		$ncUserObj->expects($this->once())
-			->method('triggerChange')
-			->with('displayName', $expected);
+		if ($expectTriggerChange) {
+			$ncUserObj->expects($this->once())
+				->method('triggerChange')
+				->with('displayName', $expected);
+		} else {
+			$ncUserObj->expects($this->never())
+				->method('triggerChange');
+		}
 		$this->userManager->expects($this->once())
 			->method('get')
 			->willReturn($ncUserObj);
