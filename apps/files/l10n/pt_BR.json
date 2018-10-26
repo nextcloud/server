@@ -140,6 +140,7 @@
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acessar seus arquivos via WebDAV</a>",
     "Cancel upload" : "Cancelar envio",
+    "Toggle grid view" : "Alternar vista de grade",
     "No files in here" : "Nenhum arquivo aqui",
     "Upload some content or sync with your devices!" : "Envie um arquivo ou sincronize com seus dispositivos!",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",

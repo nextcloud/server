@@ -271,9 +271,7 @@ OC.L10N.register(
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "За помощ, прегледайте <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">документацията</a>.",
     "Upgrade via web on my own risk" : "Актуализиране чрез интернет на собствен риск",
     "This %s instance is currently in maintenance mode, which may take a while." : "В момента този %s се обновява, а това може да отнеме време.",
-    "This page will refresh itself when the %s instance is available again." : "Страницата ще се зареди автоматично, когато %s е отново на линия.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Свържете се със системния администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано.",
-    "Thank you for your patience." : "Благодарим ви за търпението.",
     "Updated \"%s\" to %s" : "Актуализирана \"%s\" до %s",
     "There was an error loading your contacts" : "Възникна грешка при зареждането на контактите.",
     "Shared with {recipients}" : "Споделено с {recipients}",
@@ -296,6 +294,8 @@ OC.L10N.register(
     "Add \"%s\" as trusted domain" : "Добави \"%s\" към списъка със сигурни домейни",
     "%s will be updated to version %s" : "%s ще бъде актуализирана до версия %s",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "За помощ, прегледайте <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">документацията</a>.",
+    "This page will refresh itself when the %s instance is available again." : "Страницата ще се зареди автоматично, когато %s е отново на линия.",
+    "Thank you for your patience." : "Благодарим ви за търпението.",
     "You are about to grant %s access to your %s account." : "Ще разрешите на %s да ползва профила %s.",
     "Please log in before granting %s access to your %s account." : "Необходимо е да се впишете, преди да дадете достъп на %s до вашия %s профил."
 },

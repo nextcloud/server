@@ -253,9 +253,7 @@
     "Update needed" : "Оновлення необхідно",
     "Upgrade via web on my own risk" : "Оновлення через web на мій власний ризик",
     "This %s instance is currently in maintenance mode, which may take a while." : "Цей %s знаходиться в режимі технічного обслуговування, яке може зайняти деякий час.",
-    "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Зверніться до вашого системного адміністратора якщо це повідомлення не зникає або з'являється несподівано.",
-    "Thank you for your patience." : "Дякуємо за ваше терпіння.",
     "Updated \"%s\" to %s" : "Оновлено \"%s\" до %s",
     "Error setting expiration date" : "Помилка при встановленні терміну дії",
     "The public link will expire no later than {days} days after it is created" : "Доступ до опублікованого посилання буде припинено не пізніше ніж через {days} днів з моменту створення",
@@ -267,6 +265,8 @@
     "Add \"%s\" as trusted domain" : "Додати \"%s\" як довірений домен",
     "%s will be updated to version %s" : "%s буде оновлено до версії %s",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для допомоги, дивіться  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
+    "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний.",
+    "Thank you for your patience." : "Дякуємо за ваше терпіння.",
     "Back to log in" : "Повернутися до сторінки авторизації"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -253,7 +253,6 @@ OC.L10N.register(
     "Start update" : "اغاز به روز رسانی",
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
-    "Thank you for your patience." : "از صبر شما متشکریم",
     "Updated \"%s\" to %s" : "\"%s\" به %s بروزرسانی شد",
     "Error setting expiration date" : "خطا در تنظیم تاریخ انقضا",
     "The public link will expire no later than {days} days after it is created" : "لینک عمومی پس از {days} روز پس از ایجاد منقضی خواهد شد",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Stay logged in" : "در سیستم بمانید",
     "Alternative Logins" : "ورود متناوب",
     "Add \"%s\" as trusted domain" : "افزودن \"%s\" به عنوان دامنه مورد اعتماد",
-    "%s will be updated to version %s" : "%s به نسخه‌ی %s بروزرسانی خواهد شد"
+    "%s will be updated to version %s" : "%s به نسخه‌ی %s بروزرسانی خواهد شد",
+    "Thank you for your patience." : "از صبر شما متشکریم"
 },
 "nplurals=2; plural=(n > 1);");

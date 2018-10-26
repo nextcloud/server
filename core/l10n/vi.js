@@ -287,9 +287,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Tôi biết rằng nếu tôi tiếp tục thực hiện cập nhập qua giao diện Web có rủi ro, mà yêu cầu đó chạy trong một khoảng thời gian bị quá hạn và có thể gây mất dữ liệu, nếu tôi có một bản sao và tôi biết cách khôi phục bản cài đặt đã sao lưu trong trường hợp bị lỗi khi cập nhật.",
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
-    "This page will refresh itself when the %s instance is available again." : "Trang này sẽ tự động được làm tươi khi bản cài đặt %s được sẵn sàng.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
-    "Thank you for your patience." : "Cảm ơn sự kiên nhẫn của bạn.",
     "Updated \"%s\" to %s" : "Được cập nhật từ  \"%s\" sang %s",
     "Error setting expiration date" : "Lỗi cấu hình ngày kết thúc",
     "The public link will expire no later than {days} days after it is created" : "Liên kết công khai sẽ hết hạn sau {days} ngày sau khi được tạo",
@@ -306,6 +304,8 @@ OC.L10N.register(
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Tính năng bảo mật nâng cao được kích hoạt cho tài khoản của bạn. Vui lòng xác thực sử dụng yếu tố thứ hai.",
     "Add \"%s\" as trusted domain" : "Thêm \"%s\" là tên miền tin cậy",
     "%s will be updated to version %s" : "%s sẽ được cập nhật lên phiên bản %s",
+    "This page will refresh itself when the %s instance is available again." : "Trang này sẽ tự động được làm tươi khi bản cài đặt %s được sẵn sàng.",
+    "Thank you for your patience." : "Cảm ơn sự kiên nhẫn của bạn.",
     "Back to log in" : "Trở lại trang đăng nhập",
     "You are about to grant %s access to your %s account." : "Bạn sắp được phép %s  truy nhập  tới tài khoản %s của bạn.",
     "Depending on your configuration, this button could also work to trust the domain:" : "Phụ thuộc vào cấu hình của bạn, nút lệnh này có thể hoạt động để bảo đảm tin tưởng tên miền:"

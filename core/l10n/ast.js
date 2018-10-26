@@ -225,9 +225,7 @@ OC.L10N.register(
     "Detailed logs" : "Rexistros detallaos",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Usa l'anovador en llinia de comandos porque tienes una instancia grande con más de 50 usuarios.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sé que si sigo faciendo l'anovamientu pela IU web pue escosar el tiempu de la solicitú y causar una perda de datos, pero teo un respaldu y sé cómo restaurar la mio instancia en casu de fallu.",
-    "This page will refresh itself when the %s instance is available again." : "Esta páxina refrescaráse sola cuando la instancia %s vuelva tar disponible.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
-    "Thank you for your patience." : "Gracies pola to paciencia.",
     "Updated \"%s\" to %s" : "Anováu \"%s\" a %s",
     "Error setting expiration date" : "Fallu afitando la fecha de caducidá",
     "The public link will expire no later than {days} days after it is created" : "L'enllaz públicu va caducar enantes de {days} díes dende la so creación",
@@ -242,6 +240,8 @@ OC.L10N.register(
     "Alternative login using app token" : "Aniciu de sesión alternativu usando pase d'aplicación",
     "Add \"%s\" as trusted domain" : "Amestáu \"%s\" como dominiu de confianza",
     "%s will be updated to version %s" : "%s anovaráse a la versión %s",
+    "This page will refresh itself when the %s instance is available again." : "Esta páxina refrescaráse sola cuando la instancia %s vuelva tar disponible.",
+    "Thank you for your patience." : "Gracies pola to paciencia.",
     "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s."
 },
 "nplurals=2; plural=(n != 1);");

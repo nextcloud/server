@@ -211,7 +211,6 @@ OC.L10N.register(
     "Detailed logs" : "Detalaj protokoloj",
     "Update needed" : "Bezonas ĝisdatigi",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Vidu la  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumenton</a> por helpo.",
-    "Thank you for your patience." : "Dankon pro via pacienco.",
     "Updated \"%s\" to %s" : "Ĝisdatiĝis “%s” al %s",
     "Shared with {recipients}" : "Kunhavigis kun {recipients}",
     "Error setting expiration date" : "Eraro dum agordado de limdato",
@@ -224,6 +223,7 @@ OC.L10N.register(
     "Add \"%s\" as trusted domain" : "Aldoni \"%s\" tiel fida retregiono",
     "%s will be updated to version %s" : "%s ĝisdatiĝos al eldono %s",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Vidu la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumenton</a> por helpo.",
+    "Thank you for your patience." : "Dankon pro via pacienco.",
     "Back to log in" : "Revenu al ensaluto"
 },
 "nplurals=2; plural=(n != 1);");

@@ -108,7 +108,7 @@
     "Shared by" : "V souporabi od",
     "Choose a password for the public link" : "Izberite geslo za javno povezavo",
     "Choose a password for the public link or press the \"Enter\" key" : "Izberite geslo za javno povezavo ali pritisnite \"Enter\"",
-    "Copied!" : "Skopirano!",
+    "Copied!" : "Naslov je kopiran!",
     "Not supported!" : "Ni podprto!",
     "Press ⌘-C to copy." : "Pritisni ⌘-C za kopiranje.",
     "Press Ctrl-C to copy." : "Pritisni Ctrl-C za kopiranje.",
@@ -122,11 +122,11 @@
     "Send" : "Pošlji",
     "Allow upload and editing" : "Dovoli nalaganje in urejanje",
     "Read only" : "Samo branje",
-    "File drop (upload only)" : "File drop (samo nalaganje)",
+    "File drop (upload only)" : "Povleci datoteke (samo nalaganje)",
     "Set expiration date" : "Nastavi datum preteka",
     "Expiration" : "Datum preteka",
     "Expiration date" : "Datum preteka",
-    "Note to recipient" : "Opomba prejemniku",
+    "Note to recipient" : "Pošlji opombo prejemniku",
     "Share link" : "Povezava za prejem",
     "Enable" : "Omogoči",
     "Shared with you and the group {group} by {owner}" : "V souporabi z vami in skupino {group}. Lastnik je {owner}.",
@@ -259,9 +259,7 @@
     "Update needed" : "Zahtevana je posodobitev",
     "Upgrade via web on my own risk" : "Posodobi preko spleta na moje tveganje",
     "This %s instance is currently in maintenance mode, which may take a while." : "Strežnik %s je trenutno v načinu vzdrževanja, kar lahko traja.",
-    "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
-    "Thank you for your patience." : "Hvala za potrpežljivost!",
     "Updated \"%s\" to %s" : "Datoteka \"%s\" je posodobljena na %s",
     "Error setting expiration date" : "Napaka nastavljanja datuma preteka",
     "The public link will expire no later than {days} days after it is created" : "Javna povezava bo potekla {days} dni po ustvarjanju.",
@@ -273,6 +271,9 @@
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Na tvojem računu je vključena napredna varnost. Prosim, prijavi se z drugim korakom.",
     "Add \"%s\" as trusted domain" : "Dodaj \"%s\" kot varno domeno",
     "%s will be updated to version %s" : "%s bo posodobljen na različico %s.",
-    "Back to log in" : "Nazaj na prijavo"
+    "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo.",
+    "Thank you for your patience." : "Hvala za potrpežljivost!",
+    "Back to log in" : "Nazaj na prijavo",
+    "Copy URL" : "Kopiraj naslov URL"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

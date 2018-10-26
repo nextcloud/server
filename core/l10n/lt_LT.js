@@ -278,9 +278,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Suprantu, kad atnaujinimui naudodamas vartotojo aplinką, rizikuoju, kad sistemos darbas sutriks ir prisijungę vartotojai gali netekti duomenų, turiu atsarginę duomenų kopiją ir žinau, kaip atstatyti duomenis nesėkmės atveju.",
     "Upgrade via web on my own risk" : "Atnaujinti per interneto naršyklę prisiimant riziką",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s egzempliorius šiuo metu yra techninės priežiūros veiksenoje, kas savo ruožtu gali šiek tiek užtrukti.",
-    "This page will refresh itself when the %s instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai %s egzempliorius bus ir vėl prieinamas.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi jei šis pranešimas nedingsta arba jei jis pasirodė netikėtai.",
-    "Thank you for your patience." : "Dėkojame už jūsų kantrumą.",
     "Updated \"%s\" to %s" : "Atnaujinta \"%s\" į %s",
     "Error setting expiration date" : "Klaida nustatant dalinimosi pabaigos laiką",
     "The public link will expire no later than {days} days after it is created" : "Nuoroda veiks ne mažiau kaip {days} dienas nuo sukūrimo",
@@ -301,6 +299,8 @@ OC.L10N.register(
     "Add \"%s\" as trusted domain" : "Pridėti \"%s\" į patikimų domenų sąrašą",
     "%s will be updated to version %s" : "%s bus atnaujintas iki %s versijos",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Detalesnės informacijos ieškokite <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentacijoje</a>",
+    "This page will refresh itself when the %s instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai %s egzempliorius bus ir vėl prieinamas.",
+    "Thank you for your patience." : "Dėkojame už jūsų kantrumą.",
     "Back to log in" : "Grįžti prie prisijungimo",
     "You are about to grant %s access to your %s account." : "Jūs ketinate suteikti %s prieigą prie savo %s paskyros.",
     "Depending on your configuration, this button could also work to trust the domain:" : "Priklausomai nuo konfigūracijos, šiuo mygtuku taip pat galima patvirtinti domeną kaip patikimą."

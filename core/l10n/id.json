@@ -215,9 +215,7 @@
     "Detailed logs" : "Log detail",
     "Update needed" : "Pembaruan dibutuhkan",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instansi %s ini sedang dalam modus pemeliharaan, mungkin memerlukan beberapa saat.",
-    "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
-    "Thank you for your patience." : "Terima kasih atas kesabaran anda.",
     "Updated \"%s\" to %s" : "Terbaru \"%s\" sampai %s",
     "Error setting expiration date" : "Kesalahan saat mengatur tanggal kedaluwarsa",
     "The public link will expire no later than {days} days after it is created" : "Tautan publik akan kadaluarsa tidak lebih dari {days} hari setelah ini dibuat",
@@ -228,6 +226,8 @@
     "Alternative Logins" : "Cara Alternatif untuk Masuk",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Keamanan tambahan diaktifkan untuk akun anda. Harap otentikasi menggunakan faktor kedua.",
     "Add \"%s\" as trusted domain" : "tambahkan \"%s\" sebagai domain terpercaya",
-    "%s will be updated to version %s" : "%s akan diperbaarui ke versi %s"
+    "%s will be updated to version %s" : "%s akan diperbaarui ke versi %s",
+    "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali.",
+    "Thank you for your patience." : "Terima kasih atas kesabaran anda."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
