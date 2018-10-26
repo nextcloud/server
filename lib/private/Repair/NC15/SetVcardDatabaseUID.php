@@ -21,10 +21,8 @@
  *
  */
 
-namespace OC\Repair\NC13;
+namespace OC\Repair\NC15;
 
-
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -35,12 +33,16 @@ class SetVcardDatabaseUID implements IRepairStep {
 
 	/** @var IDBConnection */
 	private $connection;
+
+	/** @var IConfig */
+	private $config;
+
 	private $updateQuery;
 
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, IConfig $config) {
 		$this->connection = $connection;
+		$this->config     = $config;
 	}
-
 
 	public function getName() {
 		return 'Extract the vcard uid and store it in the db';
@@ -54,13 +56,13 @@ class SetVcardDatabaseUID implements IRepairStep {
 		$builder = $this->connection->getQueryBuilder();
 
 		$builder->select('id', 'carddata')
-			->from('cards')
-			->where($builder->expr()->isNull('uid'))
-			->setMaxResults(self::MAX_ROWS);
+		        ->from('cards')
+		        ->where($builder->expr()->isNull('uid'))
+		        ->setMaxResults(self::MAX_ROWS);
 
 		do {
 			$result = $builder->execute();
-			$rows = $result->fetchAll();
+			$rows   = $result->fetchAll();
 			foreach ($rows as $row) {
 				yield $row;
 			}
@@ -70,9 +72,10 @@ class SetVcardDatabaseUID implements IRepairStep {
 
 	private function getUid($carddata) {
 		preg_match('/^UID:(.*)$/m', $carddata, $matches);
-		if (count($matches > 1)) {
-			return $matches[1][0];
+		if (count($matches) > 1) {
+			return $matches[1];
 		}
+
 		return false;
 	}
 
@@ -85,8 +88,8 @@ class SetVcardDatabaseUID implements IRepairStep {
 			$builder = $this->connection->getQueryBuilder();
 
 			$this->updateQuery = $builder->update('cards')
-				->set('uid', $builder->createParameter('uid'))
-				->where($builder->expr()->eq('id', $builder->createParameter('id')));
+			                             ->set('uid', $builder->createParameter('uid'))
+			                             ->where($builder->expr()->eq('id', $builder->createParameter('id')));
 		}
 
 		$this->updateQuery->setParameter('id', $id);
@@ -98,23 +101,24 @@ class SetVcardDatabaseUID implements IRepairStep {
 	private function repair() {
 		$this->connection->beginTransaction();
 		$entries = $this->getInvalidEntries();
-		$count = 0;
+		$count   = 0;
 		foreach ($entries as $entry) {
 			$count++;
-			$uid = $this->getUid($entry['id']);
+			$uid = $this->getUid($entry['carddata']);
 			if ($uid !== false) {
 				$this->update($entry['id'], $uid);
 			}
 		}
 		$this->connection->commit();
+
 		return $count;
 	}
 
 	private function shouldRun() {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
 
-		// was added to 15.0.0.0
-		return version_compare($versionFromBeforeUpdate, '15.0.0.0', '<=');
+		// was added to 15.0.0.2
+		return version_compare($versionFromBeforeUpdate, '15.0.0.2', '<=');
 	}
 
 	public function run(IOutput $output) {
