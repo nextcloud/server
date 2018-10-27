@@ -494,7 +494,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	function getCards($addressBookId) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata'])
+		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from('cards')
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
 
@@ -525,7 +525,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	function getCard($addressBookId, $cardUri) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata'])
+		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from('cards')
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
@@ -563,7 +563,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$cards = [];
 
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata'])
+		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from('cards')
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->in('uri', $query->createParameter('uri')));
@@ -609,6 +609,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	function createCard($addressBookId, $cardUri, $cardData) {
 		$etag = md5($cardData);
+		$uid = $this->getUID($cardData);
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('cards')
@@ -619,6 +620,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'addressbookid' => $query->createNamedParameter($addressBookId),
 				'size' => $query->createNamedParameter(strlen($cardData)),
 				'etag' => $query->createNamedParameter($etag),
+				'uid' => $query->createNamedParameter($uid),
 			])
 			->execute();
 
@@ -661,6 +663,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	function updateCard($addressBookId, $cardUri, $cardData) {
 
+		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
 		$query = $this->db->getQueryBuilder();
 		$query->update('cards')
@@ -668,6 +671,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->set('lastmodified', $query->createNamedParameter(time()))
 			->set('size', $query->createNamedParameter(strlen($cardData)))
 			->set('etag', $query->createNamedParameter($etag))
+			->set('uid', $query->createNamedParameter($uid))
 			->where($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
 			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->execute();
@@ -1124,5 +1128,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		if (isset($principalInformation['{DAV:}displayname'])) {
 			$addressbookInfo[$displaynameKey] = $principalInformation['{DAV:}displayname'];
 		}
+	}
+
+	private function getUID($cardData) {
+		$vCard = Reader::read($cardData);
+		$uid = $vCard->UID->getValue();
+		return $uid;
 	}
 }
