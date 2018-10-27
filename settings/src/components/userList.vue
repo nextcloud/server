@@ -150,11 +150,9 @@ export default {
 		InfiniteLoading
 	},
 	data() {
-		let unlimitedQuota = {id:'none', label:t('settings', 'Unlimited')},
-			defaultQuota = {id:'default', label:t('settings', 'Default quota')};
+		let unlimitedQuota = {id:'none', label:t('settings', 'Unlimited')};
 		return {
 			unlimitedQuota: unlimitedQuota,
-			defaultQuota: defaultQuota,
 			loading: {
 				all: false,
 				groups: false
@@ -168,7 +166,7 @@ export default {
 				mailAddress:'',
 				groups: [],
 				subAdminsGroups: [],
-				quota: defaultQuota,
+				quota: this.defaultQuota,
 				language: {code: 'en', name: t('settings', 'Default language')}
 			}
 		};
@@ -197,6 +195,12 @@ export default {
 		this.userSearch = new OCA.Search(this.search, this.resetSearch);
 	},
 	computed: {
+		defaultQuota() {
+			return {
+				id: 'default',
+				label: `${this.settings.defaultQuota} (${t('settings', 'Default quota')})`
+			};
+		},
 		settings() {
 			return this.$store.getters.getServerData;
 		},

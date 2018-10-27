@@ -159,6 +159,8 @@ abstract class AUserData extends OCSController {
 	 */
 	protected function fillStorageInfo(string $userId): array {
 		try {
+			$quotaConfig = \OC::$server->getConfig()->getUserValue($userId, 'files', 'quota', 'default');
+			$isQuotaDefault = $quotaConfig === 'default';
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($userId);
 			$storage = OC_Helper::getStorageInfo('/');
@@ -168,6 +170,7 @@ abstract class AUserData extends OCSController {
 				'total' => $storage['total'],
 				'relative' => $storage['relative'],
 				'quota' => $storage['quota'],
+				'isQuotaDefault' => $isQuotaDefault,
 			];
 		} catch (NotFoundException $ex) {
 			// User fs is not setup yet
@@ -181,7 +184,8 @@ abstract class AUserData extends OCSController {
 			}
 			$data = [
 				'quota' => $quota !== false ? $quota : 'none',
-				'used' => 0
+				'used' => 0,
+				'isQuotaDefault' => $isQuotaDefault,
 			];
 		}
 		return $data;

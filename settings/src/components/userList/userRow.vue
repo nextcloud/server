@@ -234,12 +234,12 @@ export default {
 		},
 		// Mapping saved values to objects
 		userQuota() {
-			if (this.user.quota.quota >= 0) {
+			if (this.user.quota.quota >= 0 && !this.user.quota.isQuotaDefault) {
 				// if value is valid, let's map the quotaOptions or return custom quota
 				let humanQuota = OC.Util.humanFileSize(this.user.quota.quota);
 				let userQuota = this.quotaOptions.find(quota => quota.id === humanQuota);
 				return userQuota ? userQuota : {id:humanQuota, label:humanQuota};
-			} else if (this.user.quota.quota === 'default') {
+			} else if (this.user.quota.quota === 'default' || this.user.quota.isQuotaDefault) {
 				// default quota is replaced by the proper value on load
 				return this.quotaOptions[0];
 			}
