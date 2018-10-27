@@ -80,7 +80,6 @@ class Version15000Date20180927120000 extends SimpleMigrationStep {
 				'length' => 255
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['addressbookid']);
 		}
 
 		return $schema;
