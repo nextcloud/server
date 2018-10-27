@@ -143,7 +143,7 @@ import Vue from 'vue';
 
 export default {
 	name: 'userList',
-	props: ['users', 'showConfig', 'selectedGroup', 'externalActions'],
+	props: ['users', 'showConfig', 'selectedGroup', 'externalActions', 'defaultQuotaValue'],
 	components: {
 		userRow,
 		Multiselect,
@@ -241,7 +241,10 @@ export default {
 			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({id: cur, label: cur}), []);
 			// add default presets
 			quotaPreset.unshift(this.unlimitedQuota);
-			quotaPreset.unshift(this.defaultQuota);
+
+			let defaultQuota = quotaPreset.find(quota => quota.id === this.defaultQuotaValue.id);
+			defaultQuota.label += " (default)";
+
 			return quotaPreset;
 		},
 		minPasswordLength() {

@@ -100,8 +100,7 @@ OC.MimeTypeList={
     "text/x-ldif": "text/code",
     "text/x-python": "text/code",
     "text/x-shellscript": "text/code",
-    "web": "text/code",
-    "application/internet-shortcut": "link"
+    "web": "text/code"
 },
 	files: [
     "application",
