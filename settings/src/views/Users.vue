@@ -52,7 +52,7 @@
 				</div>
 			</template>
 		</app-navigation>
-		<user-list :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" :externalActions="externalActions" />
+		<user-list :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" :externalActions="externalActions" :defaultQuotaValue="defaultQuota"/>
 	</div>
 </template>
 
