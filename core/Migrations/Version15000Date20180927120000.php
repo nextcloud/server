@@ -36,11 +36,52 @@ class Version15000Date20180927120000 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('cards');
-		$table->addColumn('uid', Type::STRING, [
-			'notnull' => false,
-			'length' => 255
-		]);
+		if ($schema->hasTable('cards')) {
+			$table = $schema->getTable('cards');
+			$table->addColumn('uid', Type::STRING, [
+				'notnull' => false,
+				'length' => 255
+			]);
+		} else {
+			$table = $schema->createTable('cards');
+			$table->addColumn('id', 'bigint', [
+				'autoincrement' => true,
+				'notnull' => true,
+				'length' => 11,
+				'unsigned' => true,
+			]);
+			$table->addColumn('addressbookid', 'integer', [
+				'notnull' => true,
+				'default' => 0,
+			]);
+			$table->addColumn('carddata', 'blob', [
+				'notnull' => false,
+			]);
+			$table->addColumn('uri', 'string', [
+				'notnull' => false,
+				'length' => 255,
+			]);
+			$table->addColumn('lastmodified', 'bigint', [
+				'notnull' => false,
+				'length' => 11,
+				'unsigned' => true,
+			]);
+			$table->addColumn('etag', 'string', [
+				'notnull' => false,
+				'length' => 32,
+			]);
+			$table->addColumn('size', 'bigint', [
+				'notnull' => true,
+				'length' => 11,
+				'unsigned' => true,
+			]);
+			$table->addColumn('uid', Type::STRING, [
+				'notnull' => false,
+				'length' => 255
+			]);
+			$table->setPrimaryKey(['id']);
+			$table->addIndex(['addressbookid']);
+		}
 
 		return $schema;
 	}
