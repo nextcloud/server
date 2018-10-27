@@ -39,6 +39,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 	private $userSession;
 	/** @var ITimeFactory */
 	private $timeFactory;
+	/** @var array */
+	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	/**
 	 * PasswordConfirmationMiddleware constructor.
@@ -73,7 +75,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 
 			$lastConfirm = (int) $this->session->get('last-password-confirm');
 			// we can't check the password against a SAML backend, so skip password confirmation in this case
-			if ($backendClassName !== 'user_saml' && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
+			if (!isset($this->excludedUserBackEnds[$backendClassName]) && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
 				throw new NotConfirmedException();
 			}
 		}
