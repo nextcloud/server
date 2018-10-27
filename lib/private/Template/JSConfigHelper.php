@@ -70,6 +70,9 @@ class JSConfigHelper {
 	/** @var CapabilitiesManager */
 	private $capabilitiesManager;
 
+	/** @var array user back-ends excluded from password verification */
+	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
+
 	/**
 	 * @param IL10N $l
 	 * @param Defaults $defaults
@@ -158,7 +161,7 @@ class JSConfigHelper {
 		$array = [
 			"oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			"oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			"backendAllowsPasswordConfirmation" => $userBackend === 'user_saml'? 'false' : 'true',
+			"backendAllowsPasswordConfirmation" => !isset($this->excludedUserBackEnds[$userBackend]) ? 'true' : 'false',
 			"oc_dataURL" => is_string($dataLocation) ? "\"".$dataLocation."\"" : 'false',
 			"oc_webroot" => "\"".\OC::$WEBROOT."\"",
 			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
