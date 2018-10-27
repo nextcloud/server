@@ -2428,3 +2428,9 @@ jQuery.fn.tipsy = function(argument) {
 	}
 	return this;
 };
+
+/**
+ * Add to favorites not working in IE11 - polyfill needed #12007
+ * @link https://github.com/nextcloud/server/issues/12007
+ */
+if (!String.prototype.startsWith) { String.prototype.startsWith = function(searchString, position) { position = position || 0; return this.indexOf(searchString, position) === position; }; }
