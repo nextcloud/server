@@ -140,6 +140,7 @@
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">komma åt dina filer med WebDAV</a>",
     "Cancel upload" : "Avbryt uppladdning",
+    "Toggle grid view" : "Växla rutnätsvy",
     "No files in here" : "Inga filer kunde hittas",
     "Upload some content or sync with your devices!" : "Ladda upp innehåll eller synkronisera med dina enheter!",
     "No entries found in this folder" : "Inget innehåll hittades i denna mapp",
