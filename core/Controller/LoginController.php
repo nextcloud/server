@@ -171,6 +171,14 @@ class LoginController extends Controller {
 			$parameters['loginName'] = '';
 			$parameters['user_autofocus'] = true;
 		}
+
+		$autocomplete = $this->config->getSystemValue('login_form_autocomplete', true);
+		if ($autocomplete){
+			$parameters['login_form_autocomplete'] = 'on';
+		} else {
+			$parameters['login_form_autocomplete'] = 'off';
+		}
+
 		if (!empty($redirect_url)) {
 			$parameters['redirect_url'] = $redirect_url;
 		}

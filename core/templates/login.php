@@ -42,7 +42,7 @@ use OC\Core\Controller\LoginController;
 				aria-label="<?php p($l->t('Username or email')); ?>"
 				value="<?php p($_['loginName']); ?>"
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
-				autocomplete="on" autocapitalize="none" autocorrect="off" required>
+				autocomplete="<?php p($_['login_form_autocomplete']); ?>" autocapitalize="none" autocorrect="off" required>
 			<label for="user" class="infield"><?php p($l->t('Username or email')); ?></label>
 		</p>
 
@@ -51,7 +51,7 @@ use OC\Core\Controller\LoginController;
 				placeholder="<?php p($l->t('Password')); ?>"
 				aria-label="<?php p($l->t('Password')); ?>"
 				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
-				autocomplete="on" autocapitalize="off" autocorrect="none" required>
+				autocomplete="<?php p($_['login_form_autocomplete']); ?>" autocapitalize="none" autocorrect="off" required>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 		</p>
 
