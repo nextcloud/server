@@ -93,12 +93,7 @@ thead {
 }
 
 #emptycontent {
-	&.has-disclaimer,
 	&.has-note {
-		margin-top: 10vh;
-	}
-
-	&.has-disclaimer.has-note {
 		margin-top: 5vh;
 	}
 }
@@ -190,6 +185,10 @@ thead {
 		overflow: auto;
 		max-height: 200px;
 	}
+}
+
+#show-terms-dialog {
+	cursor: pointer;
 }
 
 // hide the primary on public share on mobile

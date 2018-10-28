@@ -21,6 +21,7 @@
 <input type="hidden" name="previewSupported" value="<?php p($_['previewSupported'] ? 'true' : 'false'); ?>" id="previewSupported">
 <input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
 <input type="hidden" name="hideDownload" value="<?php p($_['hideDownload'] ? 'true' : 'false'); ?>" id="hideDownload">
+<input type="hidden" id="disclaimerText" value="<?php p($_['disclaimer']) ?>">
 <?php
 $upload_max_filesize = OC::$server->getIniWrapper()->getBytes('upload_max_filesize');
 $post_max_size = OC::$server->getIniWrapper()->getBytes('post_max_size');
@@ -84,15 +85,13 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 	<div id="public-upload">
 		<div
 				id="emptycontent"
-				class="<?php if (!empty($_['disclaimer'])) { ?>has-disclaimer<?php } ?> <?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
+				class="<?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
 			<div id="displayavatar"><div class="avatardiv"></div></div>
 			<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
 			<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
 
-			<?php if (!empty($_['disclaimer'])) { ?>
-				<p class="disclaimer"><?php p($_['disclaimer']); ?></p>
-			<?php } ?>
 			<?php if (empty($_['note']) === false) { ?>
+				<h3><?php p($l->t('Note')); ?></h3>
 				<p class="note"><?php p($_['note']); ?></p>
 			<?php } ?>
 
@@ -101,8 +100,16 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<a href="#" class="button icon-upload"><?php p($l->t('Select or drop files')) ?></a>
 			<div id="drop-upload-progress-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploading files…')) ?></div>
 			<div id="drop-upload-done-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploaded files:')) ?></div>
-			<ul>
-			</ul>
+
+			<?php if (!empty($_['disclaimer'])) { ?>
+				<div>
+					<?php
+						echo $l->t('By uploading files, you agree to the %s.', [
+								'<b id="show-terms-dialog">' . $l->t('terms of service') . '</b>'
+						]);
+					?>
+				</div>
+			<?php } ?>
 		</div>
 	</div>
 <?php } ?>
