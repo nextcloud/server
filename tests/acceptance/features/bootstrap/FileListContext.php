@@ -295,6 +295,15 @@ class FileListContext implements Context, ActorAwareInterface {
 
 		$this->actor->find(self::renameMenuItem(), 2)->click();
 
+		// For reference, due to a bug in the Firefox driver of Selenium and/or
+		// maybe in Firefox itself, as a range is selected in the rename input
+		// (the name of the file, without its extension) when the value is set
+		// the window must be in the foreground. Otherwise, if the window is in
+		// the background, instead of setting the value in the whole field it
+		// would be set only in the selected range.
+		// This should not be a problem, though, as the default behaviour is to
+		// bring the browser window to the foreground when switching to a
+		// different actor.
 		$this->actor->find(self::renameInputForFile($this->fileListAncestor, $fileName1), 10)->setValue($fileName2 . "\r");
 	}
 
