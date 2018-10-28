@@ -1,3 +1,4 @@
+@apache
 Feature: app-files-tags
 
   Scenario: show the input field for tags in the details view
