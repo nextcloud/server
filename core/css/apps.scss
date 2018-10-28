@@ -17,19 +17,9 @@
  */
 
 /* BASE STYLING ------------------------------------------------------------ */
-h1,
+// no h1 allowed since h1 = logo
 h2 {
 	font-weight: bold;
-}
-
-h1 {
-	font-size: 26px;
-	margin-bottom: 12px;
-	line-height: 40px;
-	color: var(--color-text-lighter);
-}
-
-h2 {
 	font-size: 20px;
 	margin-bottom: 12px;
 	line-height: 30px;
