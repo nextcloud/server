@@ -161,7 +161,9 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @return array
 	 */
 	public function stream_stat() {
-		return [];
+		return [
+			'size' => $this->size,
+		];
 	}
 
 	/**
