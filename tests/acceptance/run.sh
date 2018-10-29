@@ -153,10 +153,6 @@ function prepareDocker() {
 	docker exec $NEXTCLOUD_LOCAL_CONTAINER mkdir /nextcloud
 	docker cp - $NEXTCLOUD_LOCAL_CONTAINER:/nextcloud/ < "$NEXTCLOUD_LOCAL_TAR"
 
-	# Link the default Apache directory to the root directory of the Nextcloud
-	# server to make possible to run the Nextcloud server on Apache if needed.
-	docker exec $NEXTCLOUD_LOCAL_CONTAINER ln --symbolic /nextcloud /var/www/html
-
 	# run-local.sh expects a Git repository to be available in the root of the
 	# Nextcloud server, but it was excluded when the Git working directory was
 	# copied to the container to avoid copying the large and unneeded history of
