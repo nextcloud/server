@@ -720,12 +720,21 @@ class ShareAPIController extends OCSController {
 		}
 
 		$formatted = [];
+		$resharingRight = false;
 		foreach ($shares as $share) {
 			try {
 				$formatted[] = $this->formatShare($share, $path);
+				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share)) {
+					$resharingRight = true;
+				}
+
 			} catch (NotFoundException $e) {
 				//Ignore share
 			}
+		}
+
+		if (!$resharingRight) {
+			$formatted = [];
 		}
 
 		if ($include_tags) {
@@ -1102,4 +1111,33 @@ class ShareAPIController extends OCSController {
 
 		return $this->serverContainer->query('\OCA\Spreed\Share\Helper\ShareAPIController');
 	}
+
+
+	/**
+	 * Returns if we can find resharing rights in an IShare object for a specific user.
+	 *
+	 * @param string $userId
+	 * @param IShare $share
+	 * @return bool
+	 */
+	private function shareProviderResharingRights(string $userId, IShare $share): bool {
+		if ($share->getShareOwner() === $userId) {
+			return true;
+		}
+
+		if ((\OCP\Constants::PERMISSION_SHARE & $share->getPermissions()) === 0) {
+			return false;
+		}
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER && $share->getSharedWith() === $userId) {
+			return true;
+		}
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP && $this->groupManager->isInGroup($userId, $share->getSharedWith())) {
+			return true;
+		}
+
+		return false;
+	}
+
 }
