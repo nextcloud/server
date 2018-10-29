@@ -72,7 +72,10 @@ class Manager implements IManager {
 	 */
 	public function newCollection(string $name): ICollection {
 		$query = $this->connection->getQueryBuilder();
-		$query->insert('collres_collections');
+		$query->insert('collres_collections')
+			->values([
+				'name' => $query->createNamedParameter($name),
+			]);
 		$query->execute();
 
 		return new Collection($this, $this->connection, $query->getLastInsertId(), $name);
