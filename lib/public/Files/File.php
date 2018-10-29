@@ -96,4 +96,12 @@ interface File extends Node {
 	 * @throws NotFoundException
 	 */
 	public function getChecksum();
+
+	/**
+	 * Get the extension of this file
+	 *
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getExtension(): string;
 }

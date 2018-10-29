@@ -354,6 +354,10 @@ class Node implements \OCP\Files\Node {
 	public function getChecksum() {
 	}
 
+	public function getExtension(): string {
+		return $this->getFileInfo()->getExtension();
+	}
+
 	/**
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @throws \OCP\Lock\LockedException

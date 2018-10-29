@@ -259,4 +259,12 @@ interface FileInfo {
 	 * @since 9.0.0
 	 */
 	public function getChecksum();
+
+	/**
+	 * Get the extension of the file
+	 *
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getExtension(): string;
 }

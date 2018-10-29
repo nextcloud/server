@@ -142,4 +142,8 @@ class File extends Node implements \OCP\Files\File {
 	public function getChecksum() {
 		return $this->getFileInfo()->getChecksum();
 	}
+
+	public function getExtension(): string {
+		return $this->getFileInfo()->getExtension();
+	}
 }
