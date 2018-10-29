@@ -169,4 +169,8 @@ class TrashItem implements ITrashItem {
 	public function getChecksum() {
 		return $this->fileInfo->getChecksum();
 	}
+
+	public function getExtension(): string {
+		return $this->fileInfo->getExtension();
+	}
 }

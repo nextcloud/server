@@ -390,4 +390,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	public function getChecksum() {
 		return $this->data['checksum'];
 	}
+
+	public function getExtension(): string {
+		return pathinfo($this->getName(), PATHINFO_EXTENSION);
+	}
 }
