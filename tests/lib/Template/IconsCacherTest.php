@@ -104,7 +104,7 @@ class IconsCacherTest extends \Test\TestCase {
 	public function testSetIconsFromValidCss() {
 		$css = "
 			icon.test {
-				--icon-test: url('/index.php/svg/core/actions/add/000?v=1');
+				--icon-test: url('/index.php/svg/core/actions/add?color=000&v=1');
 				background-image: var(--icon-test);
 			}
 		";
@@ -127,7 +127,7 @@ class IconsCacherTest extends \Test\TestCase {
 	public function testSetIconsFromValidCssMultipleTimes() {
 		$css = "
 			icon.test {
-				--icon-test: url('/index.php/svg/core/actions/add/000?v=1');
+				--icon-test: url('/index.php/svg/core/actions/add?color=000&v=1');
 				background-image: var(--icon-test);
 			}
 		";
