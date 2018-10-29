@@ -17,22 +17,23 @@
  */
 
 /* BASE STYLING ------------------------------------------------------------ */
-
-h2,
-h3,
-h4 {
-	font-weight: bold;
-}
-
+// no h1 allowed since h1 = logo
 h2 {
+	font-weight: bold;
 	font-size: 20px;
 	margin-bottom: 12px;
-	line-height: 140%;
+	line-height: 30px;
+	color: var(--color-text-light);
 }
 
 h3 {
-	font-size: 15px;
+	font-size: 16px;
 	margin: 12px 0;
+	color: var(--color-text-light);
+}
+
+h4 {
+	font-size: 14px;
 }
 
 /* do not use italic typeface style, instead lighter color */
