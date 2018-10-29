@@ -140,6 +140,7 @@
     "WebDAV" : "ВебДАВ",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">приступате Вашим фајловима преко ВебДАВа</a>",
     "Cancel upload" : "Откажи отпремање",
+    "Toggle grid view" : "Укључи/искључи приказ мреже",
     "No files in here" : "Овде нема фајлова",
     "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
