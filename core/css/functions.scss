@@ -47,9 +47,9 @@
 @function icon-color-path($icon, $dir, $color, $version: 1, $core: false) {
 	$color: remove-hash-from-color($color);
 	@if $core {
-		@return '#{$webroot}/svg/core/#{$dir}/#{$icon}/#{$color}?v=#{$version}';
+		@return '#{$webroot}/svg/core/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
 	} @else {
-		@return '#{$webroot}/svg/#{$dir}/#{$icon}/#{$color}?v=#{$version}';
+		@return '#{$webroot}/svg/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
 	}
 }
 
