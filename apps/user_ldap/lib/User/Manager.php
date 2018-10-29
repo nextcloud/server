@@ -197,6 +197,13 @@ class Manager {
 			);
 		}
 
+		// remove possible empty attributes
+		$attributes = array_values(
+			array_filter($attributes, function ($attributeName) {
+				return !empty($attributeName);
+			})
+		);
+
 		return $attributes;
 	}
 
