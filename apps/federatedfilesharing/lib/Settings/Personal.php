@@ -28,7 +28,6 @@ namespace OCA\FederatedFileSharing\Settings;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
@@ -40,8 +39,6 @@ class Personal implements ISettings {
 	private $userSession;
 	/** @var IL10N */
 	private $l;
-	/** @var IURLGenerator */
-	private $urlGenerator;
 	/** @var \OC_Defaults */
 	private $defaults;
 
@@ -49,13 +46,11 @@ class Personal implements ISettings {
 		FederatedShareProvider $federatedShareProvider, #
 		IUserSession $userSession,
 		IL10N $l,
-		IURLGenerator $urlGenerator,
 		\OC_Defaults $defaults
 	) {
 		$this->federatedShareProvider = $federatedShareProvider;
 		$this->userSession = $userSession;
 		$this->l = $l;
-		$this->urlGenerator = $urlGenerator;
 		$this->defaults = $defaults;
 	}
 
@@ -71,7 +66,7 @@ class Personal implements ISettings {
 			'outgoingServer2serverShareEnabled' => $this->federatedShareProvider->isOutgoingServer2serverShareEnabled(),
 			'message_with_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID, see %s', [$url]),
 			'message_without_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID', [$cloudID]),
-			'logoPath' => $this->urlGenerator->imagePath('core', 'logo.svg'),
+			'logoPath' => $this->defaults->getLogo(),
 			'reference' => $url,
 			'cloudId' => $cloudID,
 			'color' => $this->defaults->getColorPrimary(),
