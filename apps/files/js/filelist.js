@@ -2162,7 +2162,31 @@
 			if (!_.isArray(fileNames)) {
 				fileNames = [fileNames];
 			}
-			_.each(fileNames, function(fileName) {
+
+			function Semaphore(max) {
+				var counter = 0;
+				var waiting = [];
+
+				this.acquire = function() {
+					if(counter < max) {
+						counter++;
+						return new Promise(function(resolve) { resolve(); });
+					} else {
+						return new Promise(function(resolve) { waiting.push(resolve); });
+					}
+				};
+
+				this.release = function() {
+					counter--;
+					if (waiting.length > 0 && counter < max) {
+						counter++;
+						var promise = waiting.shift();
+						promise();
+					}
+				};
+			}
+
+			var moveFileFunction = function(fileName) {
 				var $tr = self.findFileEl(fileName);
 				self.showFileBusyState($tr, true);
 				if (targetPath.charAt(targetPath.length - 1) !== '/') {
@@ -2170,7 +2194,7 @@
 					// not overwrite it
 					targetPath = targetPath + '/';
 				}
-				self.filesClient.move(dir + fileName, targetPath + fileName)
+				return self.filesClient.move(dir + fileName, targetPath + fileName)
 					.done(function() {
 						// if still viewing the same directory
 						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
@@ -2201,11 +2225,22 @@
 					.always(function() {
 						self.showFileBusyState($tr, false);
 					});
-				if (callback) {
-					callback();
-				}
+			};
+
+			var mcSemaphore = new Semaphore(10);
+			var counter = 0;
+			_.each(fileNames, function(arg) {
+				mcSemaphore.acquire().then(function(){
+					moveFileFunction(arg).then(function(){
+						mcSemaphore.release();
+						counter++;
+					});
+				});
 			});
 
+			if (callback) {
+				callback();
+			}
 		},
 
 		/**
