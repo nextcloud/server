@@ -76,6 +76,11 @@ class FileMimeType extends AbstractStringCheck {
 			return $this->mimeType[$this->storage->getId()][$this->path];
 		}
 
+		if ($this->storage->is_dir($this->path)) {
+			$this->mimeType[$this->storage->getId()][$this->path] = 'httpd/unix-directory';
+			return $this->mimeType[$this->storage->getId()][$this->path];
+		}
+
 		if ($this->isWebDAVRequest()) {
 			// Creating a folder
 			if ($this->request->getMethod() === 'MKCOL') {
