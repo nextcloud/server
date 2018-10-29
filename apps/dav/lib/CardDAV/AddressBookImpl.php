@@ -95,9 +95,11 @@ class AddressBookImpl implements IAddressBook {
 	public function search($pattern, $searchProperties, $options) {
 		$results = $this->backend->search($this->getKey(), $pattern, $searchProperties);
 
+		$withTypes = \array_key_exists('types', $options) && $options['types'] === true;
+
 		$vCards = [];
 		foreach ($results as $result) {
-			$vCards[] = $this->vCard2Array($result['uri'], $this->readCard($result['carddata']));
+			$vCards[] = $this->vCard2Array($result['uri'], $this->readCard($result['carddata']), $withTypes);
 		}
 
 		return $vCards;
@@ -220,7 +222,7 @@ class AddressBookImpl implements IAddressBook {
 	 * @param VCard $vCard
 	 * @return array
 	 */
-	protected function vCard2Array($uri, VCard $vCard) {
+	protected function vCard2Array($uri, VCard $vCard, $withTypes = false) {
 		$result = [
 			'URI' => $uri,
 		];
@@ -256,8 +258,11 @@ class AddressBookImpl implements IAddressBook {
 				}
 
 				$type = $this->getTypeFromProperty($property);
-				if ($type !== null) {
-					$result[$property->name][$type] = $property->getValue();
+				if ($withTypes) {
+					$result[$property->name][] = [
+						'type' => $type,
+						'value' => $property->getValue()
+						];
 				} else {
 					$result[$property->name][] = $property->getValue();
 				}

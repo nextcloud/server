@@ -66,7 +66,7 @@ class RemotePluginTest extends TestCase {
 	}
 
 	public function instantiatePlugin() {
-		$this->plugin = new RemotePlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->userManager);
+		$this->plugin = new RemotePlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->userManager, 'admin');
 	}
 
 	/**
@@ -158,14 +158,17 @@ class RemotePluginTest extends TestCase {
 				'test',
 				[
 					[
+						'UID' => 'uid',
 						'FN' => 'User3 @ Localhost',
 					],
 					[
+						'UID' => 'uid',
 						'FN' => 'User2 @ Localhost',
 						'CLOUD' => [
 						],
 					],
 					[
+						'UID' => 'uid1',
 						'FN' => 'User @ Localhost',
 						'CLOUD' => [
 							'username@localhost',
@@ -173,7 +176,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				true,
-				['remotes' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]], 'exact' => ['remotes' => []]],
+				['remotes' => [['label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]], 'exact' => ['remotes' => []]],
 				false,
 				true,
 			],
@@ -181,14 +184,17 @@ class RemotePluginTest extends TestCase {
 				'test',
 				[
 					[
+						'UID' => 'uid',
 						'FN' => 'User3 @ Localhost',
 					],
 					[
+						'UID' => 'uid',
 						'FN' => 'User2 @ Localhost',
 						'CLOUD' => [
 						],
 					],
 					[
+						'UID' => 'uid',
 						'FN' => 'User @ Localhost',
 						'CLOUD' => [
 							'username@localhost',
@@ -204,14 +210,17 @@ class RemotePluginTest extends TestCase {
 				'test@remote',
 				[
 					[
+						'UID' => 'uid',
 						'FN' => 'User3 @ Localhost',
 					],
 					[
+						'UID' => 'uid',
 						'FN' => 'User2 @ Localhost',
 						'CLOUD' => [
 						],
 					],
 					[
+						'UID' => 'uid',
 						'FN' => 'User @ Localhost',
 						'CLOUD' => [
 							'username@localhost',
@@ -219,7 +228,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				true,
-				['remotes' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]], 'exact' => ['remotes' => [['label' => 'test@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote']]]]],
+				['remotes' => [['label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]], 'exact' => ['remotes' => [['label' => 'test@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote']]]]],
 				false,
 				true,
 			],
@@ -227,14 +236,17 @@ class RemotePluginTest extends TestCase {
 				'test@remote',
 				[
 					[
+						'UID' => 'uid',
 						'FN' => 'User3 @ Localhost',
 					],
 					[
+						'UID' => 'uid',
 						'FN' => 'User2 @ Localhost',
 						'CLOUD' => [
 						],
 					],
 					[
+						'UID' => 'uid',
 						'FN' => 'User @ Localhost',
 						'CLOUD' => [
 							'username@localhost',
@@ -250,14 +262,17 @@ class RemotePluginTest extends TestCase {
 				'username@localhost',
 				[
 					[
+						'UID' => 'uid3',
 						'FN' => 'User3 @ Localhost',
 					],
 					[
+						'UID' => '2',
 						'FN' => 'User2 @ Localhost',
 						'CLOUD' => [
 						],
 					],
 					[
+						'UID' => 'uid1',
 						'FN' => 'User @ Localhost',
 						'CLOUD' => [
 							'username@localhost',
@@ -265,7 +280,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				true,
-				['remotes' => [], 'exact' => ['remotes' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]]]],
+				['remotes' => [], 'exact' => ['remotes' => [['label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]]]],
 				true,
 				true,
 			],
@@ -273,14 +288,17 @@ class RemotePluginTest extends TestCase {
 				'username@localhost',
 				[
 					[
+						'UID' => 'uid3',
 						'FN' => 'User3 @ Localhost',
 					],
 					[
+						'UID' => 'uid2',
 						'FN' => 'User2 @ Localhost',
 						'CLOUD' => [
 						],
 					],
 					[
+						'UID' => 'uid1',
 						'FN' => 'User @ Localhost',
 						'CLOUD' => [
 							'username@localhost',
@@ -288,7 +306,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				false,
-				['remotes' => [], 'exact' => ['remotes' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]]]],
+				['remotes' => [], 'exact' => ['remotes' => [['label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]]]],
 				true,
 				true,
 			],
@@ -297,14 +315,17 @@ class RemotePluginTest extends TestCase {
 				'user name@localhost',
 				[
 					[
+						'UID' => 'uid1',
 						'FN' => 'User3 @ Localhost',
 					],
 					[
+						'UID' => 'uid2',
 						'FN' => 'User2 @ Localhost',
 						'CLOUD' => [
 						],
 					],
 					[
+						'UID' => 'uid3',
 						'FN' => 'User Name @ Localhost',
 						'CLOUD' => [
 							'user name@localhost',
@@ -312,7 +333,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				false,
-				['remotes' => [], 'exact' => ['remotes' => [['label' => 'User Name @ Localhost (user name@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'user name@localhost', 'server' => 'localhost']]]]],
+				['remotes' => [], 'exact' => ['remotes' => [['label' => 'User Name @ Localhost (user name@localhost)', 'uuid' => 'uid3', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'user name@localhost', 'server' => 'localhost']]]]],
 				true,
 				true,
 			],
@@ -321,14 +342,17 @@ class RemotePluginTest extends TestCase {
 				'user space@remote',
 				[
 					[
+						'UID' => 'uid3',
 						'FN' => 'User3 @ Localhost',
 					],
 					[
+						'UID' => 'uid2',
 						'FN' => 'User2 @ Localhost',
 						'CLOUD' => [
 						],
 					],
 					[
+						'UID' => 'uid1',
 						'FN' => 'User @ Localhost',
 						'CLOUD' => [
 							'username@localhost',
