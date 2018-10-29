@@ -753,7 +753,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
 		});
-		$this->registerService('Throttler', function (Server $c) {
+		$this->registerService(Throttler::class, function (Server $c) {
 			return new Throttler(
 				$c->getDatabaseConnection(),
 				new TimeFactory(),
@@ -761,6 +761,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
+		$this->registerAlias('Throttler', Throttler::class);
 		$this->registerService('IntegrityCodeChecker', function (Server $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
