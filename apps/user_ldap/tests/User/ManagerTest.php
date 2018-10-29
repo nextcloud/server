@@ -256,12 +256,17 @@ class ManagerTest extends \Test\TestCase {
 		$manager->setLdapAccess($access);
 
 		$connection = $access->getConnection();
-		$connection->setConfiguration(['ldapEmailAttribute' => 'mail', 'ldapUserAvatarRule' => 'default']);
+		$connection->setConfiguration([
+			'ldapEmailAttribute' => 'mail',
+			'ldapUserAvatarRule' => 'default',
+			'ldapQuotaAttribute' => '',
+		]);
 
 		$attributes = $manager->getAttributes($minimal);
 
 		$this->assertTrue(in_array('dn', $attributes));
 		$this->assertTrue(in_array($access->getConnection()->ldapEmailAttribute, $attributes));
+		$this->assertFalse(in_array('', $attributes));
 		$this->assertSame(!$minimal, in_array('jpegphoto', $attributes));
 		$this->assertSame(!$minimal, in_array('thumbnailphoto', $attributes));
 	}
