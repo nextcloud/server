@@ -25,10 +25,13 @@ namespace Tests\Settings\Controller;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
+use OC\Installer;
 use OC\Settings\Controller\AppSettingsController;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use Test\TestCase;
 use OCP\IRequest;
@@ -63,6 +66,12 @@ class AppSettingsControllerTest extends TestCase {
 	private $l10nFactory;
 	/** @var BundleFetcher|\PHPUnit_Framework_MockObject_MockObject */
 	private $bundleFetcher;
+	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	private $installer;
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
 
 	public function setUp() {
 		parent::setUp();
@@ -79,6 +88,9 @@ class AppSettingsControllerTest extends TestCase {
 		$this->appFetcher = $this->createMock(AppFetcher::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
+		$this->installer = $this->createMock(Installer::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->logger = $this->createMock(ILogger::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
@@ -90,38 +102,18 @@ class AppSettingsControllerTest extends TestCase {
 			$this->categoryFetcher,
 			$this->appFetcher,
 			$this->l10nFactory,
-			$this->bundleFetcher
+			$this->bundleFetcher,
+			$this->installer,
+			$this->urlGenerator,
+			$this->logger
 		);
 	}
 
 	public function testListCategories() {
+		$this->installer->expects($this->any())
+			->method('isUpdateAvailable')
+			->willReturn(false);
 		$expected = new JSONResponse([
-			[
-				'id' => 2,
-				'ident' => 'installed',
-				'displayName' => 'Your apps',
-			],
-			[
-				'id' => 4,
-				'ident' => 'updates',
-				'displayName' => 'Updates',
-				'counter' => 0,
-			],
-			[
-				'id' => 0,
-				'ident' => 'enabled',
-				'displayName' => 'Enabled apps',
-			],
-			[
-				'id' => 1,
-				'ident' => 'disabled',
-				'displayName' => 'Disabled apps',
-			],
-			[
-				'id' => 3,
-				'ident' => 'app-bundles',
-				'displayName' => 'App bundles',
-			],
 			[
 				'id' => 'auth',
 				'ident' => 'auth',
@@ -183,6 +175,10 @@ class AppSettingsControllerTest extends TestCase {
 	}
 
 	public function testViewApps() {
+		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
+		$this->installer->expects($this->any())
+			->method('isUpdateAvailable')
+			->willReturn(false);
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -196,13 +192,27 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['category' => 'installed', 'appstoreEnabled' => true], 'user');
+		$expected = new TemplateResponse('settings',
+			'settings-vue',
+			[
+				'serverData' => [
+					'updateCount' => 0,
+					'appstoreEnabled' => true,
+					'bundles' => [],
+					'developerDocumentation' => ''
+				]
+			],
+			'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
 	}
 
 	public function testViewAppsAppstoreNotEnabled() {
+		$this->installer->expects($this->any())
+			->method('isUpdateAvailable')
+			->willReturn(false);
+		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -216,7 +226,17 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['category' => 'installed', 'appstoreEnabled' => false], 'user');
+		$expected = new TemplateResponse('settings',
+			'settings-vue',
+			[
+				'serverData' => [
+					'updateCount' => 0,
+					'appstoreEnabled' => false,
+					'bundles' => [],
+					'developerDocumentation' => ''
+				]
+			],
+			'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());

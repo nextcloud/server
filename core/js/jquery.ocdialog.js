@@ -64,7 +64,7 @@
 						self.$buttonrow.find($(event.target)).length === 0
 					) {
 						var $button = self.$buttonrow.find('button.primary');
-						if($button) {
+						if($button && !$button.prop('disabled')) {
 							$button.trigger('click');
 						}
 					} else if(self.$buttonrow) {

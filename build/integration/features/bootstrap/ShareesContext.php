@@ -23,7 +23,8 @@
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use GuzzleHttp\Message\ResponseInterface;
+use PHPUnit\Framework\Assert;
+use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -64,15 +65,15 @@ class ShareesContext implements Context, SnippetAcceptingContext {
 		if ($isEmpty !== 'is empty') {
 			$sharees = $shareesList->getRows();
 			$respondedArray = $this->getArrayOfShareesResponded($this->response, $shareeType);
-			PHPUnit_Framework_Assert::assertEquals($sharees, $respondedArray);
+			Assert::assertEquals($sharees, $respondedArray);
 		} else {
 			$respondedArray = $this->getArrayOfShareesResponded($this->response, $shareeType);
-			PHPUnit_Framework_Assert::assertEmpty($respondedArray);
+			Assert::assertEmpty($respondedArray);
 		}
 	}
 
 	public function getArrayOfShareesResponded(ResponseInterface $response, $shareeType) {
-		$elements = $response->xml()->data;
+		$elements = simplexml_load_string($response->getBody())->data;
 		$elements = json_decode(json_encode($elements), 1);
 		if (strpos($shareeType, 'exact ') === 0) {
 			$elements = $elements['exact'];

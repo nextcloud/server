@@ -43,11 +43,15 @@ OCA = OCA || {};
 				},
 				ldap_dn: {
 					$element: $('#ldap_dn'),
-					setMethod: 'setAgentDN'
+					setMethod: 'setAgentDN',
+					preventAutoSave: true,
+					$saveButton: $('.ldapSaveAgentCredentials')
 				},
 				ldap_agent_password: {
 					$element: $('#ldap_agent_password'),
-					setMethod: 'setAgentPwd'
+					setMethod: 'setAgentPwd',
+					preventAutoSave: true,
+					$saveButton: $('.ldapSaveAgentCredentials')
 				},
 				ldap_base: {
 					$element: $('#ldap_base'),
@@ -65,7 +69,11 @@ OCA = OCA || {};
 				}
 			};
 			this.setManagedItems(items);
-			_.bindAll(this, 'onPortButtonClick', 'onBaseDNButtonClick', 'onBaseDNTestButtonClick');
+			_.bindAll(this,
+				'onPortButtonClick',
+				'onBaseDNButtonClick',
+				'onBaseDNTestButtonClick'
+			);
 			this.managedItems.ldap_port.$relatedElements.click(this.onPortButtonClick);
 			this.managedItems.ldap_base.$detectButton.click(this.onBaseDNButtonClick);
 			this.managedItems.ldap_base.$testButton.click(this.onBaseDNTestButtonClick);
@@ -206,6 +214,7 @@ OCA = OCA || {};
 		onConfigSwitch: function(view, configuration) {
 			this.baseDNTestTriggered = false;
 			view.disableElement(view.managedItems.ldap_port.$relatedElements);
+			view.managedItems.ldap_dn.$saveButton.removeClass('primary');
 			view.onConfigLoaded(view, configuration);
 		},
 
@@ -277,7 +286,14 @@ OCA = OCA || {};
 					} else if(objectsFound > 1000) {
 						message = t('user_ldap', 'More than 1,000 directory entries available.');
 					} else {
-						message = t('user_ldap', objectsFound + ' entries available within the provided Base DN');
+						message = n(
+							'user_ldap',
+							'{objectsFound} entry available within the provided Base DN',
+							'{objectsFound} entries available within the provided Base DN',
+							objectsFound,
+							{
+							objectsFound: objectsFound
+							});
 					}
 				} else {
 					message = view.overrideErrorMessage(payload.data.message);

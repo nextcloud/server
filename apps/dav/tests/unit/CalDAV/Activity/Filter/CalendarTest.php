@@ -55,7 +55,7 @@ class CalendarTest extends TestCase {
 	public function testGetIcon() {
 		$this->url->expects($this->once())
 			->method('imagePath')
-			->with('core', 'places/calendar-dark.svg')
+			->with('core', 'places/calendar.svg')
 			->willReturn('path-to-icon');
 
 		$this->url->expects($this->once())

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -88,7 +89,7 @@ class NotifierTest extends TestCase {
 		}
 	}
 
-	public function dataUpdateAlreadyInstalledCheck() {
+	public function dataUpdateAlreadyInstalledCheck(): array {
 		return [
 			['1.1.0', '1.0.0', false],
 			['1.1.0', '1.1.0', true],
@@ -103,7 +104,7 @@ class NotifierTest extends TestCase {
 	 * @param string $versionInstalled
 	 * @param bool $exception
 	 */
-	public function testUpdateAlreadyInstalledCheck($versionNotification, $versionInstalled, $exception) {
+	public function testUpdateAlreadyInstalledCheck(string $versionNotification, string $versionInstalled, bool $exception) {
 		$notifier = $this->getNotifier();
 
 		$notification = $this->createMock(INotification::class);
@@ -121,7 +122,7 @@ class NotifierTest extends TestCase {
 		}
 
 		try {
-			$this->invokePrivate($notifier, 'updateAlreadyInstalledCheck', [$notification, $versionInstalled]);
+			self::invokePrivate($notifier, 'updateAlreadyInstalledCheck', [$notification, $versionInstalled]);
 			$this->assertFalse($exception);
 		} catch (\Exception $e) {
 			$this->assertTrue($exception);

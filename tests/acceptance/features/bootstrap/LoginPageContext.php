@@ -66,8 +66,16 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function wrongPasswordMessage() {
-		return Locator::forThe()->xpath("//*[@class = 'warning' and normalize-space() = 'Wrong password. Reset it?']")->
+		return Locator::forThe()->xpath("//*[@class = 'warning wrongPasswordMsg' and normalize-space() = 'Wrong password.']")->
 				describedAs("Wrong password message in Login page");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function userDisabledMessage() {
+		return Locator::forThe()->xpath("//*[@class = 'warning userDisabledMsg' and normalize-space() = 'User disabled']")->
+				describedAs('User disabled message on login page');
 	}
 
 	/**
@@ -94,6 +102,14 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	public function iSeeThatAWrongPasswordMessageIsShown() {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::wrongPasswordMessage(), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the disabled user message is shown
+	 */
+	public function iSeeThatTheDisabledUserMessageIsShown() {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::userDisabledMessage(), 10)->isVisible());
 	}
 
 	/**

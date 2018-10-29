@@ -14,7 +14,7 @@ class Exception extends \Exception {
 			$message .= ' for ' . $path;
 		}
 
-		return new Exception($message, $error);
+		return new Exception($message, is_string($error) ? 0 : $error);
 	}
 
 	/**

@@ -29,10 +29,10 @@
 namespace OC\Share20;
 
 use OC\CapabilitiesManager;
-use OC\GlobalScale\Config;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
+use OCA\FederatedFileSharing\OCM\CloudFederationProvider;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
@@ -60,6 +60,8 @@ class ProviderFactory implements IProviderFactory {
 	private $shareByCircleProvider = null;
 	/** @var bool */
 	private $circlesAreNotAvailable = false;
+	/** @var \OCA\Spreed\Share\RoomShareProvider */
+	private $roomShareProvider = null;
 
 	/**
 	 * IProviderFactory constructor.
@@ -81,7 +83,11 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
-				$this->serverContainer->getLazyRootFolder()
+				$this->serverContainer->getLazyRootFolder(),
+				$this->serverContainer->getMailer(),
+				$this->serverContainer->query(Defaults::class),
+				$this->serverContainer->getL10N('sharing'),
+				$this->serverContainer->getURLGenerator()
 			);
 		}
 
@@ -116,7 +122,9 @@ class ProviderFactory implements IProviderFactory {
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
-				$this->serverContainer->getJobList()
+				$this->serverContainer->getJobList(),
+				\OC::$server->getCloudFederationProviderManager(),
+				\OC::$server->getCloudFederationFactory()
 			);
 			$tokenHandler = new TokenHandler(
 				$this->serverContainer->getSecureRandom()
@@ -133,7 +141,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getConfig(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getCloudIdManager(),
-				$this->serverContainer->query(Config::class)
+				$this->serverContainer->getGlobalScaleConfig(),
+				$this->serverContainer->getCloudFederationProviderManager()
 			);
 		}
 
@@ -214,6 +223,30 @@ class ProviderFactory implements IProviderFactory {
 		return $this->shareByCircleProvider;
 	}
 
+	/**
+	 * Create the room share provider
+	 *
+	 * @return RoomShareProvider
+	 */
+	protected function getRoomShareProvider() {
+		if ($this->roomShareProvider === null) {
+			/*
+			 * Check if the app is enabled
+			 */
+			$appManager = $this->serverContainer->getAppManager();
+			if (!$appManager->isEnabledForUser('spreed')) {
+				return null;
+			}
+
+			try {
+				$this->roomShareProvider = $this->serverContainer->query('\OCA\Spreed\Share\RoomShareProvider');
+			} catch (\OCP\AppFramework\QueryException $e) {
+				return null;
+			}
+		}
+
+		return $this->roomShareProvider;
+	}
 
 	/**
 	 * @inheritdoc
@@ -228,6 +261,8 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getShareByMailProvider();
 		} else if ($id === 'ocCircleShare') {
 			$provider = $this->getShareByCircleProvider();
+		} else if ($id === 'ocRoomShare') {
+			$provider = $this->getRoomShareProvider();
 		}
 
 		if ($provider === null) {
@@ -248,12 +283,14 @@ class ProviderFactory implements IProviderFactory {
 			$shareType === \OCP\Share::SHARE_TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE || $shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
 			$provider = $this->federatedShareProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
 			$provider = $this->getShareByCircleProvider();
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_ROOM) {
+			$provider = $this->getRoomShareProvider();
 		}
 
 
@@ -273,6 +310,10 @@ class ProviderFactory implements IProviderFactory {
 		$shareByCircle = $this->getShareByCircleProvider();
 		if ($shareByCircle !== null) {
 			$shares[] = $shareByCircle;
+		}
+		$roomShare = $this->getRoomShareProvider();
+		if ($roomShare !== null) {
+			$shares[] = $roomShare;
 		}
 
 		return $shares;

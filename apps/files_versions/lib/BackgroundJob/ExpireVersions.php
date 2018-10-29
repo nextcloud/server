@@ -44,22 +44,12 @@ class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 	 */
 	private $userManager;
 
-	public function __construct(IUserManager $userManager = null, Expiration $expiration = null) {
+	public function __construct(IUserManager $userManager, Expiration $expiration) {
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
-		if (is_null($expiration) || is_null($userManager)) {
-			$this->fixDIForJobs();
-		} else {
-			$this->expiration = $expiration;
-			$this->userManager = $userManager;
-		}
-	}
-
-	protected function fixDIForJobs() {
-		$application = new Application();
-		$this->expiration = $application->getContainer()->query('Expiration');
-		$this->userManager = \OC::$server->getUserManager();
+		$this->expiration = $expiration;
+		$this->userManager = $userManager;
 	}
 
 	protected function run($argument) {

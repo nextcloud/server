@@ -9,6 +9,8 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Installer;
+use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
 use OCP\IL10N;
@@ -31,6 +33,8 @@ class SetupTest extends \Test\TestCase {
 	protected $logger;
 	/** @var \OCP\Security\ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	protected $random;
+	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	protected $installer;
 
 	protected function setUp() {
 		parent::setUp();
@@ -41,9 +45,10 @@ class SetupTest extends \Test\TestCase {
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->random = $this->createMock(ISecureRandom::class);
-		$this->setupClass = $this->getMockBuilder('\OC\Setup')
+		$this->installer = $this->createMock(Installer::class);
+		$this->setupClass = $this->getMockBuilder(Setup::class)
 			->setMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
-			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10n, $this->defaults, $this->logger, $this->random])
+			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10n, $this->defaults, $this->logger, $this->random, $this->installer])
 			->getMock();
 	}
 
@@ -52,7 +57,7 @@ class SetupTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getValue')
 			->will($this->returnValue(
-				array('sqlite', 'mysql', 'oci')
+				['sqlite', 'mysql', 'oci']
 			));
 		$this->setupClass
 			->expects($this->once())
@@ -63,9 +68,9 @@ class SetupTest extends \Test\TestCase {
 			->method('getAvailableDbDriversForPdo')
 			->will($this->returnValue(['sqlite']));
 		$result = $this->setupClass->getSupportedDatabases();
-		$expectedResult = array(
+		$expectedResult = [
 			'sqlite' => 'SQLite'
-		);
+		];
 
 		$this->assertSame($expectedResult, $result);
 	}
@@ -75,7 +80,7 @@ class SetupTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getValue')
 			->will($this->returnValue(
-				array('sqlite', 'mysql', 'oci', 'pgsql')
+				['sqlite', 'mysql', 'oci', 'pgsql']
 			));
 		$this->setupClass
 			->expects($this->any())
@@ -87,7 +92,7 @@ class SetupTest extends \Test\TestCase {
 			->will($this->returnValue([]));
 		$result = $this->setupClass->getSupportedDatabases();
 
-		$this->assertSame(array(), $result);
+		$this->assertSame([], $result);
 	}
 
 	public function testGetSupportedDatabasesWithAllWorking() {
@@ -95,7 +100,7 @@ class SetupTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getValue')
 			->will($this->returnValue(
-				array('sqlite', 'mysql', 'pgsql', 'oci')
+				['sqlite', 'mysql', 'pgsql', 'oci']
 			));
 		$this->setupClass
 			->expects($this->any())
@@ -106,12 +111,12 @@ class SetupTest extends \Test\TestCase {
 			->method('getAvailableDbDriversForPdo')
 			->will($this->returnValue(['sqlite', 'mysql', 'pgsql']));
 		$result = $this->setupClass->getSupportedDatabases();
-		$expectedResult = array(
+		$expectedResult = [
 			'sqlite' => 'SQLite',
 			'mysql' => 'MySQL/MariaDB',
 			'pgsql' => 'PostgreSQL',
 			'oci' => 'Oracle'
-		);
+		];
 		$this->assertSame($expectedResult, $result);
 	}
 
@@ -125,5 +130,48 @@ class SetupTest extends \Test\TestCase {
 			->method('getValue')
 			->will($this->returnValue('NotAnArray'));
 		$this->setupClass->getSupportedDatabases();
+	}
+
+	/**
+	 * @dataProvider findWebRootProvider
+	 * @param $url
+	 * @param $expected
+	 */
+	public function testFindWebRootCli($url, $expected) {
+		$cliState = \OC::$CLI;
+
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->will($this->returnValue($url));
+		\OC::$CLI = true;
+
+		try {
+			$webRoot = self::invokePrivate($this->setupClass, 'findWebRoot', [$this->config]);
+		} catch (\InvalidArgumentException $e) {
+			$webRoot = false;
+		}
+
+		\OC::$CLI = $cliState;
+		$this->assertSame($webRoot, $expected);
+	}
+
+	public function findWebRootProvider(): array {
+		return [
+			'https://www.example.com/nextcloud/' => ['https://www.example.com/nextcloud/', '/nextcloud'],
+			'https://www.example.com/nextcloud' => ['https://www.example.com/nextcloud', '/nextcloud'],
+			'https://www.example.com/' => ['https://www.example.com/', ''],
+			'https://www.example.com' => ['https://www.example.com', ''],
+			'https://nctest13pgsql.lan/test123/' => ['https://nctest13pgsql.lan/test123/', '/test123'],
+			'https://nctest13pgsql.lan/test123' => ['https://nctest13pgsql.lan/test123', '/test123'],
+			'https://nctest13pgsql.lan/' => ['https://nctest13pgsql.lan/', ''],
+			'https://nctest13pgsql.lan' => ['https://nctest13pgsql.lan', ''],
+			'https://192.168.10.10/nc/' => ['https://192.168.10.10/nc/', '/nc'],
+			'https://192.168.10.10/nc' => ['https://192.168.10.10/nc', '/nc'],
+			'https://192.168.10.10/' => ['https://192.168.10.10/', ''],
+			'https://192.168.10.10' => ['https://192.168.10.10', ''],
+			'invalid' => ['invalid', false],
+			'empty' => ['', false],
+		];
 	}
 }

@@ -59,29 +59,11 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that paging works properly against a simple example (reading all
-	 * of few users in small steps)
-	 *
-	 * @return bool
-	 */
-	protected function case1() {
-		$filter = 'objectclass=inetorgperson';
-		$attributes = ['cn', 'dn'];
-
-		$result = $this->access->searchUsers($filter, $attributes);
-		if(count($result) === 7) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * fetch first three, afterwards all users
 	 *
 	 * @return bool
 	 */
-	protected function case2() {
+	protected function case1() {
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
 
@@ -101,23 +83,6 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		}
 
 		return true;
-	}
-
-	/**
-	 * reads all remaining users starting first page
-	 *
-	 * @return bool
-	 */
-	protected function case3() {
-		$filter = 'objectclass=inetorgperson';
-		$attributes = ['cn', 'dn'];
-
-		$result = $this->access->searchUsers($filter, $attributes, null, $this->pagingSize);
-		if(count($result) === (7 - $this->pagingSize)) {
-			return true;
-		}
-
-		return false;
 	}
 }
 

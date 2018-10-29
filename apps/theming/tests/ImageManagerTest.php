@@ -23,14 +23,19 @@
  */
 namespace OCA\Theming\Tests;
 
+use OCA\Theming\ImageManager;
+use OCA\Theming\ThemingDefaults;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ILogger;
+use OCP\IURLGenerator;
 use Test\TestCase;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 
-class ImageManager extends TestCase {
+class ImageManagerTest extends TestCase {
 
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
@@ -38,15 +43,154 @@ class ImageManager extends TestCase {
 	protected $appData;
 	/** @var ImageManager */
 	protected $imageManager;
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
+	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $cacheFactory;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
 
 	protected function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->appData = $this->getMockBuilder('OCP\Files\IAppData')->getMock();
-		$this->imageManager = new \OCA\Theming\ImageManager(
+		$this->config = $this->createMock(IConfig::class);
+		$this->appData = $this->createMock(IAppData::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->imageManager = new ImageManager(
 			$this->config,
-			$this->appData
+			$this->appData,
+			$this->urlGenerator,
+			$this->cacheFactory,
+			$this->logger
 		);
+	}
+
+	private function checkImagick() {
+		if(!extension_loaded('imagick')) {
+			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
+		}
+		$checkImagick = new \Imagick();
+		if (empty($checkImagick->queryFormats('SVG'))) {
+			$this->markTestSkipped('No SVG provider present.');
+		}
+		if (empty($checkImagick->queryFormats('PNG'))) {
+			$this->markTestSkipped('No PNG provider present.');
+		}
+	}
+
+	public function mockGetImage($key, $file) {
+		/** @var \PHPUnit_Framework_MockObject_MockObject $folder */
+		$folder = $this->createMock(ISimpleFolder::class);
+		if ($file === null) {
+			$folder->expects($this->once())
+				->method('getFile')
+				->with('logo')
+				->willThrowException(new NotFoundException());
+		} else {
+			$file->expects($this->once())
+				->method('getContent')
+				->willReturn(file_get_contents(__DIR__ . '/../../../tests/data/testimage.png'));
+			$folder->expects($this->at(0))
+				->method('fileExists')
+				->with('logo')
+				->willReturn(true);
+			$folder->expects($this->at(1))
+				->method('fileExists')
+				->with('logo.png')
+				->willReturn(false);
+			$folder->expects($this->at(2))
+				->method('getFile')
+				->with('logo')
+				->willReturn($file);
+			$newFile = $this->createMock(ISimpleFile::class);
+			$folder->expects($this->at(3))
+				->method('newFile')
+				->with('logo.png')
+				->willReturn($newFile);
+			$newFile->expects($this->once())
+				->method('putContent');
+			$this->appData->expects($this->once())
+				->method('getFolder')
+				->with('images')
+				->willReturn($folder);
+		}
+	}
+
+	public function testGetImageUrl() {
+		$this->checkImagick();
+		$file = $this->createMock(ISimpleFile::class);
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->withConsecutive(
+				['theming', 'cachebuster', '0'],
+				['theming', 'logoMime', '']
+				)
+			->willReturn(0);
+		$this->mockGetImage('logo', $file);
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->willReturn('url-to-image');
+		$this->assertEquals('url-to-image?v=0', $this->imageManager->getImageUrl('logo', false));
+	}
+
+	public function testGetImageUrlDefault() {
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->withConsecutive(
+				['theming', 'cachebuster', '0'],
+				['theming', 'logoMime', false]
+			)
+			->willReturnOnConsecutiveCalls(0, false);
+		$this->urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with('core', 'logo/logo.png')
+			->willReturn('logo/logo.png');
+		$this->assertEquals('logo/logo.png?v=0', $this->imageManager->getImageUrl('logo'));
+	}
+
+	public function testGetImageUrlAbsolute() {
+		$this->checkImagick();
+		$file = $this->createMock(ISimpleFile::class);
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->withConsecutive(
+				['theming', 'cachebuster', '0'],
+				['theming', 'logoMime', '']
+			)
+			->willReturn(0);
+		$this->mockGetImage('logo', $file);
+		$this->urlGenerator->expects($this->at(0))
+			->method('getBaseUrl')
+			->willReturn('baseurl');
+		$this->urlGenerator->expects($this->at(1))
+			->method('getAbsoluteUrl')
+			->willReturn('url-to-image-absolute?v=0');
+		$this->urlGenerator->expects($this->at(2))
+			->method('getAbsoluteUrl')
+			->willReturn('url-to-image-absolute?v=0');
+		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo', false));
+
+	}
+
+	public function testGetImage() {
+		$this->checkImagick();
+		$this->config->expects($this->once())
+			->method('getAppValue')->with('theming', 'logoMime', false)
+			->willReturn('png');
+		$file = $this->createMock(ISimpleFile::class);
+		$this->mockGetImage('logo', $file);
+		$this->assertEquals($file, $this->imageManager->getImage('logo', false));
+	}
+
+	/**
+	 * @expectedException OCP\Files\NotFoundException
+	 */
+	public function testGetImageUnset() {
+		$this->config->expects($this->once())
+			->method('getAppValue')->with('theming', 'logoMime', false)
+			->willReturn(false);
+		$this->imageManager->getImage('logo');
 	}
 
 	public function testGetCacheFolder() {
@@ -85,12 +229,12 @@ class ImageManager extends TestCase {
 	}
 
 	public function testGetCachedImage() {
+		$expected = $this->createMock(ISimpleFile::class);
 		$folder = $this->setupCacheFolder();
 		$folder->expects($this->once())
 			->method('getFile')
 			->with('filename')
-			->willReturn('filecontent');
-		$expected = 'filecontent';
+			->willReturn($expected);
 		$this->assertEquals($expected, $this->imageManager->getCachedImage('filename'));
 	}
 

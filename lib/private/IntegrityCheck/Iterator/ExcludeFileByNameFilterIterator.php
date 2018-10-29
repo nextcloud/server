@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -52,7 +53,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 			return true;
 		}
 
-		return !in_array(
+		return !\in_array(
 			$this->current()->getFilename(),
 			$this->excludedFilenames,
 			true

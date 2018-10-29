@@ -53,8 +53,6 @@ class ServerTest extends \Test\TestCase {
 			['AppConfig', '\OC\AppConfig'],
 			['AppConfig', '\OCP\IAppConfig'],
 			['AppFetcher', AppFetcher::class],
-			['AppHelper', '\OC\AppHelper'],
-			['AppHelper', '\OCP\IHelper'],
 			['AppManager', '\OC\App\AppManager'],
 			['AppManager', '\OCP\App\IAppManager'],
 			['AsyncCommandBus', '\OC\Command\AsyncBus'],
@@ -93,7 +91,6 @@ class ServerTest extends \Test\TestCase {
 
 			['Hasher', '\OC\Security\Hasher'],
 			['Hasher', '\OCP\Security\IHasher'],
-			['HTTPHelper', '\OC\HTTPHelper'],
 			['HttpClientService', '\OC\Http\Client\ClientService'],
 			['HttpClientService', '\OCP\Http\Client\IClientService'],
 

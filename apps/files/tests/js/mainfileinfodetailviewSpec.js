@@ -68,6 +68,12 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 				.toEqual(OC.getProtocol() + '://' + OC.getHost() + OC.generateUrl('/f/5'));
 		});
 		it('displays favorite icon', function() {
+			fileActions.registerAction({
+				name: 'Favorite',
+				mime: 'all',
+				permissions: OC.PERMISSION_NONE
+			});
+
 			testFileInfo.set('tags', [OC.TAG_FAVORITE]);
 			view.setFileInfo(testFileInfo);
 			expect(view.$el.find('.action-favorite > span').hasClass('icon-starred')).toEqual(true);
@@ -77,6 +83,15 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			view.setFileInfo(testFileInfo);
 			expect(view.$el.find('.action-favorite > span').hasClass('icon-starred')).toEqual(false);
 			expect(view.$el.find('.action-favorite > span').hasClass('icon-star')).toEqual(true);
+		});
+		it('does not display favorite icon if favorite action is not available', function() {
+			testFileInfo.set('tags', [OC.TAG_FAVORITE]);
+			view.setFileInfo(testFileInfo);
+			expect(view.$el.find('.action-favorite').length).toEqual(0);
+
+			testFileInfo.set('tags', []);
+			view.setFileInfo(testFileInfo);
+			expect(view.$el.find('.action-favorite').length).toEqual(0);
 		});
 		it('displays mime icon', function() {
 			// File
@@ -183,6 +198,13 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			expect(view.$el.find('.fileName h3').attr('title')).toEqual('hello.txt');
 		});
 		it('rerenders when changes are made on the model', function() {
+			// Show the "Favorite" icon
+			fileActions.registerAction({
+				name: 'Favorite',
+				mime: 'all',
+				permissions: OC.PERMISSION_NONE
+			});
+
 			view.setFileInfo(testFileInfo);
 
 			testFileInfo.set('tags', [OC.TAG_FAVORITE]);
@@ -196,6 +218,13 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			expect(view.$el.find('.action-favorite > span').hasClass('icon-star')).toEqual(true);
 		});
 		it('unbinds change listener from model', function() {
+			// Show the "Favorite" icon
+			fileActions.registerAction({
+				name: 'Favorite',
+				mime: 'all',
+				permissions: OC.PERMISSION_NONE
+			});
+
 			view.setFileInfo(testFileInfo);
 			view.setFileInfo(new OCA.Files.FileInfoModel({
 				id: 999,

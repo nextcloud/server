@@ -100,29 +100,64 @@ class NavigationManager implements INavigationManager {
 		if(!isset($entry['type'])) {
 			$entry['type'] = 'link';
 		}
-		$this->entries[] = $entry;
+		$this->entries[$entry['id']] = $entry;
 	}
 
 	/**
-	 * returns all the added Menu entries
-	 * @param string $type
-	 * @return array an array of the added entries
+	 * Get a list of navigation entries
+	 *
+	 * @param string $type type of the navigation entries
+	 * @return array
 	 */
-	public function getAll($type = 'link') {
+	public function getAll(string $type = 'link'): array {
 		$this->init();
 		foreach ($this->closureEntries as $c) {
 			$this->add($c());
 		}
 		$this->closureEntries = array();
 
-		if ($type === 'all') {
-			return $this->entries;
+		$result = $this->entries;
+		if ($type !== 'all') {
+			$result = array_filter($this->entries, function($entry) use ($type) {
+				return $entry['type'] === $type;
+			});
 		}
 
-		return array_filter($this->entries, function($entry) use ($type) {
-			return $entry['type'] === $type;
-		});
+		return $this->proceedNavigation($result);
 	}
+
+	/**
+	 * Sort navigation entries by order, name and set active flag
+	 *
+	 * @param array $list
+	 * @return array
+	 */
+	private function proceedNavigation(array $list): array {
+		uasort($list, function($a, $b) {
+			if (isset($a['order']) && isset($b['order'])) {
+				return ($a['order'] < $b['order']) ? -1 : 1;
+			} else if (isset($a['order']) || isset($b['order'])) {
+				return isset($a['order']) ? -1 : 1;
+			} else {
+				return ($a['name'] < $b['name']) ? -1 : 1;
+			}
+		});
+
+		$activeApp = $this->getActiveEntry();
+		if ($activeApp !== null) {
+			foreach ($list as $index => &$navEntry) {
+				if ($navEntry['id'] == $activeApp) {
+					$navEntry['active'] = true;
+				} else {
+					$navEntry['active'] = false;
+				}
+			}
+			unset($navEntry);
+		}
+
+		return $list;
+	}
+
 
 	/**
 	 * removes all the entries
@@ -212,7 +247,7 @@ class NavigationManager implements INavigationManager {
 					'type' => 'settings',
 					'id' => 'core_users',
 					'order' => 4,
-					'href' => $this->urlGenerator->linkToRoute('settings_users'),
+					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
 					'name' => $l->t('Users'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
 				]);
@@ -254,7 +289,7 @@ class NavigationManager implements INavigationManager {
 				$id = isset($nav['id']) ? $nav['id'] : $app;
 				$order = isset($nav['order']) ? $nav['order'] : 100;
 				$type = isset($nav['type']) ? $nav['type'] : 'link';
-				$route = $this->urlGenerator->linkToRoute($nav['route']);
+				$route = $nav['route'] !== '' ? $this->urlGenerator->linkToRoute($nav['route']) : '';
 				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
 				foreach ([$icon, "$app.svg"] as $i) {
 					try {

@@ -7,12 +7,10 @@
 	background-color: rgba(255, 255, 255, 1)!important;
 }
 
-/* don’t require a minimum width for files table */
 #body-user #filestable {
-	min-width: initial !important;
+	min-width: 250px;
 }
 
-/* hide size and date columns */
 table th#headerSize,
 table td.filesize,
 table th#headerDate,
@@ -30,11 +28,6 @@ table.multiselect thead {
 	padding-left: 0;
 }
 
-/* restrict length of displayed filename to prevent overflow */
-table td.filename .nametext {
-	width: 100%;
-}
-
 #fileList a.action.action-menu img {
 	padding-left: 0;
 }
@@ -47,10 +40,6 @@ table td.filename .nametext {
 	display: none !important;
 }
 
-/* ellipsis on file names */
-table td.filename .nametext .innernametext {
-	max-width: calc(100% - 175px) !important;
-}
 
 /* proper notification area for multi line messages */
 #notification-container {
@@ -69,4 +58,28 @@ table td.filename .nametext .innernametext {
 	display: block !important;
 }
 
+/* ensure that it is visible over #app-content */
+table.dragshadow {
+	z-index: 1000;
+}
+
+}
+@media only screen and (max-width: 480px)  {
+	/* Only show icons */
+	table th .selectedActions {
+		float: right;
+	}
+	table th .selectedActions > a span:not(.icon) {
+		display: none;
+	}
+
+	/* Increase touch area for the icons */
+	table th .selectedActions a {
+		padding: 17px 14px;
+	}
+
+	/* Remove the margin to reduce the overlap between the name and the icons */
+	table.multiselect th .columntitle.name {
+		margin-left: 0;
+	}
 }

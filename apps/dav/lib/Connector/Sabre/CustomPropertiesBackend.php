@@ -47,11 +47,11 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{DAV:}getetag',
 		'{DAV:}quota-used-bytes',
 		'{DAV:}quota-available-bytes',
-		'{DAV:}quota-available-bytes',
 		'{http://owncloud.org/ns}permissions',
 		'{http://owncloud.org/ns}downloadURL',
 		'{http://owncloud.org/ns}dDC',
 		'{http://owncloud.org/ns}size',
+		'{http://nextcloud.org/ns}is-encrypted',
 	);
 
 	/**

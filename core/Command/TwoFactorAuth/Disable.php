@@ -24,6 +24,7 @@
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Authentication\TwoFactorAuth\ProviderManager;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,13 +32,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Disable extends Base {
 
-	/** @var Manager */
+	/** @var ProviderManager */
 	private $manager;
 
 	/** @var IUserManager */
 	protected $userManager;
 
-	public function __construct(Manager $manager, IUserManager $userManager) {
+	public function __construct(ProviderManager $manager, IUserManager $userManager) {
 		parent::__construct('twofactorauth:disable');
 		$this->manager = $manager;
 		$this->userManager = $userManager;
@@ -49,17 +50,24 @@ class Disable extends Base {
 		$this->setName('twofactorauth:disable');
 		$this->setDescription('Disable two-factor authentication for a user');
 		$this->addArgument('uid', InputArgument::REQUIRED);
+		$this->addArgument('provider_id', InputArgument::REQUIRED);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$uid = $input->getArgument('uid');
+		$providerId = $input->getArgument('provider_id');
 		$user = $this->userManager->get($uid);
 		if (is_null($user)) {
 			$output->writeln("<error>Invalid UID</error>");
-			return;
+			return 1;
 		}
-		$this->manager->disableTwoFactorAuthentication($user);
-		$output->writeln("Two-factor authentication disabled for user $uid");
+		if ($this->manager->tryDisableProviderFor($providerId, $user)) {
+			$output->writeln("Two-factor provider <options=bold>$providerId</> disabled for user <options=bold>$uid</>.");
+			return 0;
+		} else {
+			$output->writeln("<error>The provider does not support this operation.</error>");
+			return 2;
+		}
 	}
 
 }

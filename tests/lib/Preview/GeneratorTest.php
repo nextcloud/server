@@ -76,6 +76,8 @@ class GeneratorTest extends \Test\TestCase {
 
 	public function testGetCachedPreview() {
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 		$file->method('getMimeType')
 			->willReturn('myMimeType');
 		$file->method('getId')
@@ -93,6 +95,8 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview = $this->createMock(ISimpleFile::class);
 		$maxPreview->method('getName')
 			->willReturn('1000-1000-max.png');
+		$maxPreview->method('getMimeType')
+			->willReturn('image/png');
 
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([$maxPreview]);
@@ -120,6 +124,8 @@ class GeneratorTest extends \Test\TestCase {
 
 	public function testGetNewPreview() {
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 		$file->method('getMimeType')
 			->willReturn('myMimeType');
 		$file->method('getId')
@@ -144,16 +150,24 @@ class GeneratorTest extends \Test\TestCase {
 			}));
 
 		$invalidProvider = $this->createMock(IProvider::class);
+		$invalidProvider->method('isAvailable')
+			->willReturn(true);
+		$unavailableProvider = $this->createMock(IProvider::class);
+		$unavailableProvider->method('isAvailable')
+			->willReturn(false);
 		$validProvider = $this->createMock(IProvider::class);
+		$validProvider->method('isAvailable')
+			->with($file)
+			->willReturn(true);
 
 		$this->previewManager->method('getProviders')
 			->willReturn([
 				'/image\/png/' => ['wrongProvider'],
-				'/myMimeType/' => ['brokenProvider', 'invalidProvider', 'validProvider'],
+				'/myMimeType/' => ['brokenProvider', 'invalidProvider', 'unavailableProvider', 'validProvider'],
 			]);
 
 		$this->helper->method('getProvider')
-			->will($this->returnCallback(function($provider) use ($invalidProvider, $validProvider) {
+			->will($this->returnCallback(function($provider) use ($invalidProvider, $validProvider, $unavailableProvider) {
 				if ($provider === 'wrongProvider') {
 					$this->fail('Wrongprovider should not be constructed!');
 				} else if ($provider === 'brokenProvider') {
@@ -162,6 +176,8 @@ class GeneratorTest extends \Test\TestCase {
 					return $invalidProvider;
 				} else if ($provider === 'validProvider') {
 					return $validProvider;
+				} else if ($provider === 'unavailableProvider') {
+					return $unavailableProvider;
 				}
 				$this->fail('Unexpected provider requested');
 			}));
@@ -170,6 +186,7 @@ class GeneratorTest extends \Test\TestCase {
 		$image->method('width')->willReturn(2048);
 		$image->method('height')->willReturn(2048);
 		$image->method('valid')->willReturn(true);
+		$image->method('dataMimeType')->willReturn('image/png');
 
 		$this->helper->method('getThumbnail')
 			->will($this->returnCallback(function ($provider, $file, $x, $y) use ($invalidProvider, $validProvider, $image) {
@@ -185,6 +202,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$maxPreview = $this->createMock(ISimpleFile::class);
 		$maxPreview->method('getName')->willReturn('2048-2048-max.png');
+		$maxPreview->method('getMimeType')->willReturn('image/png');
 
 		$previewFile = $this->createMock(ISimpleFile::class);
 
@@ -219,6 +237,7 @@ class GeneratorTest extends \Test\TestCase {
 		$image->method('data')
 			->willReturn('my resized data');
 		$image->method('valid')->willReturn(true);
+		$image->method('dataMimeType')->willReturn('image/png');
 
 		$previewFile->expects($this->once())
 			->method('putContent')
@@ -243,6 +262,8 @@ class GeneratorTest extends \Test\TestCase {
 		$this->expectException(NotFoundException::class);
 
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 
 		$this->previewManager->method('isMimeSupported')
 			->with('invalidType')
@@ -266,6 +287,8 @@ class GeneratorTest extends \Test\TestCase {
 
 	public function testNoProvider() {
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 		$file->method('getMimeType')
 			->willReturn('myMimeType');
 		$file->method('getId')
@@ -345,6 +368,8 @@ class GeneratorTest extends \Test\TestCase {
 	 */
 	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY) {
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
 		$file->method('getMimeType')
 			->willReturn('myMimeType');
 		$file->method('getId')
@@ -362,6 +387,8 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview = $this->createMock(ISimpleFile::class);
 		$maxPreview->method('getName')
 			->willReturn($maxX . '-' . $maxY . '-max.png');
+		$maxPreview->method('getMimeType')
+			->willReturn('image/png');
 
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([$maxPreview]);
@@ -382,6 +409,7 @@ class GeneratorTest extends \Test\TestCase {
 		$image->method('height')->willReturn($maxY);
 		$image->method('width')->willReturn($maxX);
 		$image->method('valid')->willReturn(true);
+		$image->method('dataMimeType')->willReturn('image/png');
 
 		$preview = $this->createMock(ISimpleFile::class);
 		$previewFolder->method('newFile')
@@ -407,5 +435,15 @@ class GeneratorTest extends \Test\TestCase {
 		} else {
 			$this->assertSame($preview, $result);
 		}
+	}
+
+	public function testUnreadbleFile() {
+		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(false);
+
+		$this->expectException(NotFoundException::class);
+
+		$this->generator->getPreview($file, 100, 100, false);
 	}
 }

@@ -34,6 +34,7 @@ use OCP\UserInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
@@ -300,14 +301,20 @@ class DecryptAllTest extends TestCase {
 			->method('decryptFile')
 			->with('/user1/files/foo/subfile');
 
-		$progressBar = $this->getMockBuilder(ProgressBar::class)
-			->disableOriginalConstructor()->getMock();
+		$output = $this->createMock(OutputInterface::class);
+		$output->expects($this->any())
+			->method('getFormatter')
+			->willReturn($this->createMock(OutputFormatterInterface::class));
+		$progressBar = new ProgressBar($output);
 
 		$this->invokePrivate($instance, 'decryptUsersFiles', ['user1', $progressBar, '']);
 
 	}
 
-	public function testDecryptFile() {
+	/**
+	 * @dataProvider dataTrueFalse
+	 */
+	public function testDecryptFile($isEncrypted) {
 
 		$path = 'test.txt';
 
@@ -323,15 +330,26 @@ class DecryptAllTest extends TestCase {
 			->setMethods(['getTimestamp'])
 			->getMock();
 
-		$instance->expects($this->any())->method('getTimestamp')->willReturn(42);
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->expects($this->any())->method('isEncrypted')
+			->willReturn($isEncrypted);
+		$this->view->expects($this->any())->method('getFileInfo')
+			->willReturn($fileInfo);
 
-		$this->view->expects($this->once())
-			->method('copy')
-			->with($path, $path . '.decrypted.42');
-		$this->view->expects($this->once())
-			->method('rename')
-			->with($path . '.decrypted.42', $path);
+		if ($isEncrypted) {
+			$instance->expects($this->any())->method('getTimestamp')->willReturn(42);
 
+			$this->view->expects($this->once())
+				->method('copy')
+				->with($path, $path . '.decrypted.42');
+			$this->view->expects($this->once())
+				->method('rename')
+				->with($path . '.decrypted.42', $path);
+		} else {
+			$instance->expects($this->never())->method('getTimestamp');
+			$this->view->expects($this->never())->method('copy');
+			$this->view->expects($this->never())->method('rename');
+		}
 		$this->assertTrue(
 			$this->invokePrivate($instance, 'decryptFile', [$path])
 		);
@@ -351,6 +369,13 @@ class DecryptAllTest extends TestCase {
 			)
 			->setMethods(['getTimestamp'])
 			->getMock();
+
+
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->expects($this->any())->method('isEncrypted')
+			->willReturn(true);
+		$this->view->expects($this->any())->method('getFileInfo')
+			->willReturn($fileInfo);
 
 		$instance->expects($this->any())->method('getTimestamp')->willReturn(42);
 

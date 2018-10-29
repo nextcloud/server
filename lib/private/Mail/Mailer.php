@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -25,6 +26,8 @@
 
 namespace OC\Mail;
 
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -54,7 +57,7 @@ use OCP\Mail\IMessage;
  * @package OC\Mail
  */
 class Mailer implements IMailer {
-	/** @var \Swift_SmtpTransport|\Swift_SendmailTransport|\Swift_MailTransport Cached transport */
+	/** @var \Swift_Mailer Cached mailer */
 	private $instance = null;
 	/** @var IConfig */
 	private $config;
@@ -91,8 +94,9 @@ class Mailer implements IMailer {
 	 *
 	 * @return IMessage
 	 */
-	public function createMessage() {
-		return new Message(new \Swift_Message());
+	public function createMessage(): IMessage {
+		$plainTextOnly = $this->config->getSystemValue('mail_send_plaintext_only', false);
+		return new Message(new \Swift_Message(), $plainTextOnly);
 	}
 
 	/**
@@ -102,8 +106,8 @@ class Mailer implements IMailer {
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function createAttachment($data = null, $filename = null, $contentType = null) {
-		return new Attachment(\Swift_Attachment::newInstance($data, $filename, $contentType));
+	public function createAttachment($data = null, $filename = null, $contentType = null): IAttachment {
+		return new Attachment(new \Swift_Attachment($data, $filename, $contentType));
 	}
 
 	/**
@@ -112,7 +116,7 @@ class Mailer implements IMailer {
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function createAttachmentFromPath($path, $contentType = null) {
+	public function createAttachmentFromPath(string $path, $contentType = null): IAttachment {
 		return new Attachment(\Swift_Attachment::fromPath($path, $contentType));
 	}
 
@@ -124,7 +128,7 @@ class Mailer implements IMailer {
 	 * @return IEMailTemplate
 	 * @since 12.0.0
 	 */
-	public function createEMailTemplate($emailId, array $data = []) {
+	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
 		$class = $this->config->getSystemValue('mail_template_class', '');
 
 		if ($class !== '' && class_exists($class) && is_a($class, EMailTemplate::class, true)) {
@@ -156,7 +160,7 @@ class Mailer implements IMailer {
 	 * @throws \Exception In case it was not possible to send the message. (for example if an invalid mail address
 	 * has been supplied.)
 	 */
-	public function send(IMessage $message) {
+	public function send(IMessage $message): array {
 		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
 
 		if (empty($message->getFrom())) {
@@ -191,8 +195,11 @@ class Mailer implements IMailer {
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
 	 */
-	public function validateMailAddress($email) {
-		return \Swift_Validate::email($this->convertEmail($email));
+	public function validateMailAddress(string $email): bool {
+		$validator = new EmailValidator();
+		$validation = new RFCValidation();
+
+		return $validator->isValid($this->convertEmail($email), $validation);
 	}
 
 	/**
@@ -203,8 +210,8 @@ class Mailer implements IMailer {
 	 * @param string $email
 	 * @return string Converted mail address if `idn_to_ascii` exists
 	 */
-	protected function convertEmail($email) {
-		if (!function_exists('idn_to_ascii') || strpos($email, '@') === false) {
+	protected function convertEmail(string $email): string {
+		if (!function_exists('idn_to_ascii') || !defined('INTL_IDNA_VARIANT_UTS46') || strpos($email, '@') === false) {
 			return $email;
 		}
 
@@ -213,32 +220,24 @@ class Mailer implements IMailer {
 		return $name.'@'.$domain;
 	}
 
-	/**
-	 * Returns whatever transport is configured within the config
-	 *
-	 * @return \Swift_SmtpTransport|\Swift_SendmailTransport|\Swift_MailTransport
-	 */
-	protected function getInstance() {
+	protected function getInstance(): \Swift_Mailer {
 		if (!is_null($this->instance)) {
 			return $this->instance;
 		}
 
-		switch ($this->config->getSystemValue('mail_smtpmode', 'php')) {
-			case 'smtp':
-				$this->instance = $this->getSmtpInstance();
-				break;
+		$transport = null;
+
+		switch ($this->config->getSystemValue('mail_smtpmode', 'smtp')) {
 			case 'sendmail':
-				// FIXME: Move into the return statement but requires proper testing
-				//       for SMTP and mail as well. Thus not really doable for a
-				//       minor release.
-				$this->instance = \Swift_Mailer::newInstance($this->getSendMailInstance());
+				$transport = $this->getSendMailInstance();
 				break;
+			case 'smtp':
 			default:
-				$this->instance = $this->getMailInstance();
+				$transport = $this->getSmtpInstance();
 				break;
 		}
 
-		return $this->instance;
+		return new \Swift_Mailer($transport);
 	}
 
 	/**
@@ -246,8 +245,8 @@ class Mailer implements IMailer {
 	 *
 	 * @return \Swift_SmtpTransport
 	 */
-	protected function getSmtpInstance() {
-		$transport = \Swift_SmtpTransport::newInstance();
+	protected function getSmtpInstance(): \Swift_SmtpTransport {
+		$transport = new \Swift_SmtpTransport();
 		$transport->setTimeout($this->config->getSystemValue('mail_smtptimeout', 10));
 		$transport->setHost($this->config->getSystemValue('mail_smtphost', '127.0.0.1'));
 		$transport->setPort($this->config->getSystemValue('mail_smtpport', 25));
@@ -260,7 +259,7 @@ class Mailer implements IMailer {
 		if (!empty($smtpSecurity)) {
 			$transport->setEncryption($smtpSecurity);
 		}
-		$transport->start();
+
 		return $transport;
 	}
 
@@ -269,8 +268,8 @@ class Mailer implements IMailer {
 	 *
 	 * @return \Swift_SendmailTransport
 	 */
-	protected function getSendMailInstance() {
-		switch ($this->config->getSystemValue('mail_smtpmode', 'php')) {
+	protected function getSendMailInstance(): \Swift_SendmailTransport {
+		switch ($this->config->getSystemValue('mail_smtpmode', 'smtp')) {
 			case 'qmail':
 				$binaryPath = '/var/qmail/bin/sendmail';
 				break;
@@ -279,16 +278,6 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		return \Swift_SendmailTransport::newInstance($binaryPath . ' -bs');
+		return new \Swift_SendmailTransport($binaryPath . ' -bs');
 	}
-
-	/**
-	 * Returns the mail transport
-	 *
-	 * @return \Swift_MailTransport
-	 */
-	protected function getMailInstance() {
-		return \Swift_MailTransport::newInstance();
-	}
-
 }

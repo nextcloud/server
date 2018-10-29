@@ -1,8 +1,8 @@
 .oc-dialog {
-	background: $color-main-background;
-	color: nc-darken($color-main-text, 20%);
-	border-radius: $border-radius;
-	box-shadow: 0 0 7px $color-box-shadow;
+	background: var(--color-main-background);
+	color: var(--color-text-light);
+	border-radius: var(--border-radius-large);
+	box-shadow: 0 0 30px var(--color-box-shadow);
 	padding: 15px;
 	z-index: 10000;
 	font-size: 100%;
@@ -16,44 +16,37 @@
 	overflow: auto;
 }
 .oc-dialog-title {
-	background: $color-main-background;
+	background: var(--color-main-background);
 	margin-left: 12px;
 }
 .oc-dialog-buttonrow {
 	position: relative;
-	display: block;
+	display: flex;
 	background: transparent;
 	right: 0;
 	bottom: 0;
-	padding: 10px;
-	padding-bottom: 0;
+	padding: 0;
+	padding-top: 10px;
 	box-sizing: border-box;
 	width: 100%;
-	background-image: linear-gradient(transparent, $color-main-background);
+	background-image: linear-gradient(rgba(255, 255, 255, 0.0), var(--color-main-background));
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
-}
-/* align primary button to right, other buttons to left */
-.oc-dialog-buttonrow.twobuttons button:nth-child(1) {
-	float: left;
-}
-.oc-dialog-buttonrow.twobuttons.aside button:nth-child(1) {
-	float: none;
-}
-.oc-dialog-buttonrow.twobuttons button:nth-child(2) {
-	float: right;
-}
 
-.oc-dialog-buttonrow.onebutton button {
-	float: right;
-}
-.oc-dialog-buttonrow:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
+	&.twobuttons {
+		justify-content: space-between;
+	}
+
+	&.onebutton,
+	&.twobuttons.aside {
+		justify-content: flex-end;
+	}
+
+	button {
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
 }
 
 .oc-dialog-close {
@@ -62,12 +55,19 @@
 	right: 0;
 	padding: 25px;
 	background: url('../img/actions/close.svg') no-repeat center;
+	opacity: .5;
+
+	&:hover,
+	&:focus,
+	&:active {
+		opacity: 1;
+	}
 }
 
 .oc-dialog-dim {
 	background-color: #000;
 	opacity: .20;
-	z-index: 999;
+	z-index: 9999;
 	position: fixed;
 	top: 0; left: 0;
 	width: 100%; height: 100%;
@@ -75,4 +75,18 @@
 
 .oc-dialog-content {
 	width: 100%;
+}
+
+.oc-dialog.password-confirmation {
+	.oc-dialog-content {
+		width: auto;
+		margin: 12px;
+
+		input[type=password] {
+			width: 100%;
+		}
+		label {
+			display: none;
+		}
+	}
 }

@@ -154,7 +154,7 @@ class PostgreSQL extends AbstractDatabase {
 			while ($this->userExists($connection)) {
 				$i++;
 				$this->dbUser = $dbUser . $i;
-			};
+			}
 
 			// create the user
 			$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");

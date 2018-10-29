@@ -32,7 +32,7 @@ script('core', 'lostpassword');
 			<label for="password" class="infield"><?php p($l->t('New password')); ?></label>
 			<input type="password" name="password" id="password" value="" placeholder="<?php p($l->t('New Password')); ?>" required />
 		</p>
-		<input type="submit" id="submit" value="<?php p($l->t('Reset password')); ?>" />
+		<input class="primary" type="submit" id="submit" value="<?php p($l->t('Reset password')); ?>" />
 		<p class="text-center">
 			<img class="hidden" id="float-spinner" src="<?php p(image_path('core', 'loading-dark.gif'));?>"/>
 		</p>

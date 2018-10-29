@@ -49,37 +49,37 @@ class DatabaseSchemaChecker {
 
 		foreach ($xml->table as $table) {
 			// Table names
-			if (strpos($table->name, '*dbprefix*') !== 0) {
-				$errors[] = 'Database schema error: name of table ' . $table->name . ' does not start with *dbprefix*';
+			if (strpos((string)$table->name, '*dbprefix*') !== 0) {
+				$errors[] = 'Database schema error: name of table ' . (string)$table->name . ' does not start with *dbprefix*';
 			}
-			$tableName = substr($table->name, strlen('*dbprefix*'));
+			$tableName = substr((string)$table->name, strlen('*dbprefix*'));
 			if (strpos($tableName, '*dbprefix*') !== false) {
-				$warnings[] = 'Database schema warning: *dbprefix* should only appear once in name of table ' . $table->name;
+				$warnings[] = 'Database schema warning: *dbprefix* should only appear once in name of table ' . (string)$table->name;
 			}
 
 			if (strlen($tableName) > 27) {
-				$errors[] = 'Database schema error: Name of table ' . $table->name . ' is too long (' . strlen($tableName) . '), max. 27 characters (21 characters for tables with autoincrement) + *dbprefix* allowed';
+				$errors[] = 'Database schema error: Name of table ' . (string)$table->name . ' is too long (' . strlen($tableName) . '), max. 27 characters (21 characters for tables with autoincrement) + *dbprefix* allowed';
 			}
 
 			$hasAutoIncrement = false;
 
 			// Column names
 			foreach ($table->declaration->field as $column) {
-				if (strpos($column->name, '*dbprefix*') !== false) {
-					$warnings[] = 'Database schema warning: *dbprefix* should not appear in name of column ' . $column->name . ' on table ' . $table->name;
+				if (strpos((string)$column->name, '*dbprefix*') !== false) {
+					$warnings[] = 'Database schema warning: *dbprefix* should not appear in name of column ' . (string)$column->name . ' on table ' . (string)$table->name;
 				}
 
-				if (strlen($column->name) > 30) {
-					$errors[] = 'Database schema error: Name of column ' . $column->name . ' on table ' . $table->name . ' is too long (' . strlen($tableName) . '), max. 30 characters allowed';
+				if (strlen((string)$column->name) > 30) {
+					$errors[] = 'Database schema error: Name of column ' . (string)$column->name . ' on table ' . (string)$table->name . ' is too long (' . strlen($tableName) . '), max. 30 characters allowed';
 				}
 
 				if ($column->autoincrement) {
 					if ($hasAutoIncrement) {
-						$errors[] = 'Database schema error: Table ' . $table->name . ' has multiple autoincrement columns';
+						$errors[] = 'Database schema error: Table ' . (string)$table->name . ' has multiple autoincrement columns';
 					}
 
 					if (strlen($tableName) > 21) {
-						$errors[] = 'Database schema error: Name of table ' . $table->name . ' is too long (' . strlen($tableName) . '), max. 27 characters (21 characters for tables with autoincrement) + *dbprefix* allowed';
+						$errors[] = 'Database schema error: Name of table ' . (string)$table->name . ' is too long (' . strlen($tableName) . '), max. 27 characters (21 characters for tables with autoincrement) + *dbprefix* allowed';
 					}
 
 					$hasAutoIncrement = true;
@@ -88,14 +88,14 @@ class DatabaseSchemaChecker {
 
 			// Index names
 			foreach ($table->declaration->index as $index) {
-				$hasPrefix = strpos($index->name, '*dbprefix*');
+				$hasPrefix = strpos((string)$index->name, '*dbprefix*');
 				if ($hasPrefix !== false && $hasPrefix !== 0) {
-					$warnings[] = 'Database schema warning: *dbprefix* should only appear at the beginning in name of index ' . $index->name . ' on table ' . $table->name;
+					$warnings[] = 'Database schema warning: *dbprefix* should only appear at the beginning in name of index ' . (string)$index->name . ' on table ' . (string)$table->name;
 				}
 
-				$indexName = $hasPrefix === 0 ? substr($index->name, strlen('*dbprefix*')) : $index->name;
+				$indexName = $hasPrefix === 0 ? substr((string)$index->name, strlen('*dbprefix*')) : (string)$index->name;
 				if (strlen($indexName) > 27) {
-					$errors[] = 'Database schema error: Name of index ' . $index->name . ' on table ' . $table->name . ' is too long (' . strlen($tableName) . '), max. 27 characters + *dbprefix* allowed';
+					$errors[] = 'Database schema error: Name of index ' . (string)$index->name . ' on table ' . (string)$table->name . ' is too long (' . strlen($tableName) . '), max. 27 characters + *dbprefix* allowed';
 				}
 			}
 		}

@@ -24,17 +24,58 @@
 namespace OC\Settings\Personal;
 
 
+use function array_filter;
+use function array_map;
+use function is_null;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorManager;
+use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
+
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var TwoFactorManager */
+	private $twoFactorManager;
+
+	/** @var ProviderLoader */
+	private $providerLoader;
+
+	/** @var IUserSession */
+	private $userSession;
+
+
+	public function __construct(IUserManager $userManager,
+								TwoFactorManager $providerManager,
+								ProviderLoader $providerLoader,
+								IUserSession $userSession) {
+		$this->userManager = $userManager;
+		$this->twoFactorManager = $providerManager;
+		$this->providerLoader = $providerLoader;
+		$this->userSession = $userSession;
+	}
 
 	/**
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1
 	 */
 	public function getForm() {
-		return new TemplateResponse('settings', 'settings/personal/security');
+		$user = $this->userManager->get(\OC_User::getUser());
+		$passwordChangeSupported = false;
+		if ($user !== null) {
+			$passwordChangeSupported = $user->canChangePassword();
+		}
+
+		return new TemplateResponse('settings', 'settings/personal/security', [
+			'passwordChangeSupported' => $passwordChangeSupported,
+			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
+		]);
 	}
 
 	/**
@@ -55,5 +96,24 @@ class Security implements ISettings {
 	 */
 	public function getPriority() {
 		return 10;
+	}
+
+	private function getTwoFactorProviderData(): array {
+		$user = $this->userSession->getUser();
+		if (is_null($user)) {
+			// Actually impossible, but still …
+			return [];
+		}
+
+		return [
+			'providers' => array_map(function (IProvidesPersonalSettings $provider) use ($user) {
+				return [
+					'provider' => $provider,
+					'settings' => $provider->getPersonalSettings($user)
+				];
+			}, array_filter($this->providerLoader->getProviders($user), function (IProvider $provider) {
+				return $provider instanceof IProvidesPersonalSettings;
+			}))
+		];
 	}
 }

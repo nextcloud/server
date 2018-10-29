@@ -44,9 +44,9 @@ class RequestUserAgent extends AbstractStringCheck {
 	 * @param string $value
 	 * @return bool
 	 */
-	public function executeCheck($operator, $value)  {
+	public function executeCheck($operator, $value) {
 		$actualValue = $this->getActualValue();
-		if (in_array($operator, ['is', '!is'])) {
+		if (in_array($operator, ['is', '!is'], true)) {
 			switch ($value) {
 				case 'android':
 					$operator = $operator === 'is' ? 'matches' : '!matches';
@@ -60,6 +60,14 @@ class RequestUserAgent extends AbstractStringCheck {
 					$operator = $operator === 'is' ? 'matches' : '!matches';
 					$value = IRequest::USER_AGENT_CLIENT_DESKTOP;
 					break;
+				case 'mail':
+					if ($operator === 'is') {
+						return $this->executeStringCheck('matches', IRequest::USER_AGENT_OUTLOOK_ADDON, $actualValue)
+							|| $this->executeStringCheck('matches', IRequest::USER_AGENT_THUNDERBIRD_ADDON, $actualValue);
+					}
+
+					return $this->executeStringCheck('!matches', IRequest::USER_AGENT_OUTLOOK_ADDON, $actualValue)
+						&& $this->executeStringCheck('!matches', IRequest::USER_AGENT_THUNDERBIRD_ADDON, $actualValue);
 			}
 		}
 		return $this->executeStringCheck($operator, $value, $actualValue);

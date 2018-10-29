@@ -62,4 +62,16 @@ interface IManager extends IApp, INotifier {
 	 * @since 9.0.0
 	 */
 	public function hasNotifiers();
+
+	/**
+	 * @param bool $preparingPushNotification
+	 * @since 14.0.0
+	 */
+	public function setPreparingPushNotification($preparingPushNotification);
+
+	/**
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function isPreparingPushNotification();
 }

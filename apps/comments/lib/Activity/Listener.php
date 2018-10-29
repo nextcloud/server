@@ -31,7 +31,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share;
 use OCP\Share\IShareHelper;
 
 class Listener {
@@ -77,7 +76,7 @@ class Listener {
 	 */
 	public function commentEvent(CommentsEvent $event) {
 		if ($event->getComment()->getObjectType() !== 'files'
-			|| !in_array($event->getEvent(), [CommentsEvent::EVENT_ADD])
+			|| $event->getEvent() !== CommentsEvent::EVENT_ADD
 			|| !$this->appManager->isInstalled('activity')) {
 			// Comment not for file, not adding a comment or no activity-app enabled (save the energy)
 			return;
@@ -99,7 +98,7 @@ class Listener {
 				/** @var Node $node */
 				$node = array_shift($nodes);
 				$al = $this->shareHelper->getPathsForAccessList($node);
-				$users = array_merge($users, $al['users']);
+				$users += $al['users'];
 			}
 		}
 
@@ -120,7 +119,9 @@ class Listener {
 			]);
 
 		foreach ($users as $user => $path) {
-			$activity->setAffectedUser($user);
+			// numerical user ids end up as integers from array keys, but string
+			// is required
+			$activity->setAffectedUser((string)$user);
 
 			$activity->setSubject('add_comment_subject', [
 				'actor' => $actor,

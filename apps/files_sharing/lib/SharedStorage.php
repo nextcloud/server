@@ -79,6 +79,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	private $options;
 
+	/** @var boolean */
+	private $sharingDisabledForUser;
+
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
 		$this->logger = \OC::$server->getLogger();
@@ -87,6 +90,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$this->groupedShares = $arguments['groupedShares'];
 
 		$this->user = $arguments['user'];
+		if (isset($arguments['sharingDisabledForUser'])) {
+			$this->sharingDisabledForUser = $arguments['sharingDisabledForUser'];
+		} else {
+			$this->sharingDisabledForUser = false;
+		}
 
 		parent::__construct([
 			'storage' => null,
@@ -187,13 +195,14 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$this->isValid()) {
 			return 0;
 		}
-		$permissions = $this->superShare->getPermissions();
+		$permissions = parent::getPermissions($target) & $this->superShare->getPermissions();
+
 		// part files and the mount point always have delete permissions
 		if ($target === '' || pathinfo($target, PATHINFO_EXTENSION) === 'part') {
 			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
-		if (\OCP\Util::isSharingDisabledForUser()) {
+		if ($this->sharingDisabledForUser) {
 			$permissions &= ~\OCP\Constants::PERMISSION_SHARE;
 		}
 
@@ -249,11 +258,17 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				case 'xb':
 				case 'a':
 				case 'ab':
-					$creatable = $this->isCreatable($path);
+					$creatable = $this->isCreatable(dirname($path));
 					$updatable = $this->isUpdatable($path);
 					// if neither permissions given, no need to continue
 					if (!$creatable && !$updatable) {
-						return false;
+						if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
+							$updatable = $this->isUpdatable(dirname($path));
+						}
+
+						if (!$updatable) {
+							return false;
+						}
 					}
 
 					$exists = $this->file_exists($path);
@@ -363,10 +378,12 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$storage) {
 			$storage = $this;
 		}
+		$sourceRoot  = $this->getSourceRootInfo();
 		if ($this->storage instanceof FailedStorage) {
 			return new FailedCache();
 		}
-		$this->cache = new \OCA\Files_Sharing\Cache($storage, $this->getSourceRootInfo(), $this->superShare);
+
+		$this->cache = new \OCA\Files_Sharing\Cache($storage, $sourceRoot, $this->superShare);
 		return $this->cache;
 	}
 

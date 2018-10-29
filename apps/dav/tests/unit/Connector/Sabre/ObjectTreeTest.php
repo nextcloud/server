@@ -174,6 +174,8 @@ class ObjectTreeTest extends \Test\TestCase {
 		$fileInfo->expects($this->once())
 			->method('getName')
 			->will($this->returnValue($outputFileName));
+		$fileInfo->method('getStorage')
+			->willReturn($this->createMock(\OC\Files\Storage\Common::class));
 
 		$view->expects($this->once())
 			->method('getFileInfo')

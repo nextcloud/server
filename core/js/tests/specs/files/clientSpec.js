@@ -87,14 +87,28 @@ describe('OC.Files.Client tests', function() {
 		promise.done(successHandler);
 		promise.fail(failHandler);
 
+		var errorXml =
+			'<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">' +
+			'    <s:exception>Sabre\\DAV\\Exception\\SomeException</s:exception>' +
+			'    <s:message>Some error message</s:message>' +
+			'</d:error>';
+
+		var parser = new DOMParser();
+
 		requestDeferred.resolve({
 			status: status,
-			body: ''
+			body: errorXml,
+			xhr: {
+				responseXML: parser.parseFromString(errorXml, 'application/xml')
+			}
 		});
 
 		promise.then(function() {
 			expect(failHandler.calledOnce).toEqual(true);
-			expect(failHandler.calledWith(status)).toEqual(true);
+			expect(failHandler.getCall(0).args[0]).toEqual(status);
+			expect(failHandler.getCall(0).args[1].status).toEqual(status);
+			expect(failHandler.getCall(0).args[1].message).toEqual('Some error message');
+			expect(failHandler.getCall(0).args[1].exception).toEqual('Sabre\\DAV\\Exception\\SomeException');
 
 			expect(successHandler.notCalled).toEqual(true);
 		});
@@ -164,7 +178,7 @@ describe('OC.Files.Client tests', function() {
 				'd:resourcetype': '<d:collection/>',
 				'oc:id': '00000011oc2d13a6a068',
 				'oc:fileid': '11',
-				'oc:permissions': 'RDNVCK',
+				'oc:permissions': 'GRDNVCK',
 				'oc:size': '120'
 			},
 			[
@@ -196,7 +210,7 @@ describe('OC.Files.Client tests', function() {
 				'd:resourcetype': '<d:collection/>',
 				'oc:id': '00000015oc2d13a6a068',
 				'oc:fileid': '15',
-				'oc:permissions': 'RDNVCK',
+				'oc:permissions': 'GRDNVCK',
 				'oc:size': '100'
 			},
 			[
@@ -224,6 +238,7 @@ describe('OC.Files.Client tests', function() {
 			expect(props).toContain('{http://owncloud.org/ns}fileid');
 			expect(props).toContain('{http://owncloud.org/ns}size');
 			expect(props).toContain('{http://owncloud.org/ns}permissions');
+			expect(props).toContain('{http://nextcloud.org/ns}is-encrypted');
 		});
 		it('sends PROPFIND to base url when empty path given', function() {
 			client.getFolderContents('');
@@ -257,11 +272,12 @@ describe('OC.Files.Client tests', function() {
 				expect(info.id).toEqual(51);
 				expect(info.path).toEqual('/path/to space/文件夹');
 				expect(info.name).toEqual('One.txt');
-				expect(info.permissions).toEqual(27);
+				expect(info.permissions).toEqual(26);
 				expect(info.size).toEqual(250);
 				expect(info.mtime).toEqual(1436535485000);
 				expect(info.mimetype).toEqual('text/plain');
 				expect(info.etag).toEqual('559fcabd79a38');
+				expect(info.isEncrypted).toEqual(false);
 
 				// sub entry
 				info = response[1];
@@ -274,6 +290,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.mtime).toEqual(1436536800000);
 				expect(info.mimetype).toEqual('httpd/unix-directory');
 				expect(info.etag).toEqual('66cfcabd79abb');
+				expect(info.isEncrypted).toEqual(false);
 			});
 		});
 		it('returns parent node in result if specified', function() {
@@ -303,6 +320,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.mtime).toEqual(1436522405000);
 				expect(info.mimetype).toEqual('httpd/unix-directory');
 				expect(info.etag).toEqual('56cfcabd79abb');
+				expect(info.isEncrypted).toEqual(false);
 
 				// the two other entries follow
 				expect(response[1].id).toEqual(51);
@@ -422,6 +440,7 @@ describe('OC.Files.Client tests', function() {
 			expect(props).toContain('{http://owncloud.org/ns}fileid');
 			expect(props).toContain('{http://owncloud.org/ns}size');
 			expect(props).toContain('{http://owncloud.org/ns}permissions');
+			expect(props).toContain('{http://nextcloud.org/ns}is-encrypted');
 		});
 		it('parses the result list into a FileInfo array', function() {
 			var promise = client.getFilteredFiles({
@@ -473,7 +492,7 @@ describe('OC.Files.Client tests', function() {
 	describe('file info', function() {
 		var responseXml = dav.Client.prototype.parseMultiStatus(
 			'<?xml version="1.0" encoding="utf-8"?>' +
-			'<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns">' +
+			'<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">' +
 			makeResponseBlock(
 			'/owncloud/remote.php/webdav/path/to%20space/%E6%96%87%E4%BB%B6%E5%A4%B9/',
 			{
@@ -482,8 +501,9 @@ describe('OC.Files.Client tests', function() {
 				'd:resourcetype': '<d:collection/>',
 				'oc:id': '00000011oc2d13a6a068',
 				'oc:fileid': '11',
-				'oc:permissions': 'RDNVCK',
-				'oc:size': '120'
+				'oc:permissions': 'GRDNVCK',
+				'oc:size': '120',
+				'nc:is-encrypted': '1'
 			},
 			[
 				'd:getcontenttype',
@@ -510,6 +530,7 @@ describe('OC.Files.Client tests', function() {
 			expect(props).toContain('{http://owncloud.org/ns}fileid');
 			expect(props).toContain('{http://owncloud.org/ns}size');
 			expect(props).toContain('{http://owncloud.org/ns}permissions');
+			expect(props).toContain('{http://nextcloud.org/ns}is-encrypted');
 		});
 		it('parses the result into a FileInfo', function() {
 			var promise = client.getFileInfo('path/to space/文件夹');
@@ -535,6 +556,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.mtime).toEqual(1436522405000);
 				expect(info.mimetype).toEqual('httpd/unix-directory');
 				expect(info.etag).toEqual('56cfcabd79abb');
+				expect(info.isEncrypted).toEqual(true);
 			});
 		});
 		it('properly parses entry inside root', function() {
@@ -549,7 +571,7 @@ describe('OC.Files.Client tests', function() {
 					'd:resourcetype': '<d:collection/>',
 					'oc:id': '00000011oc2d13a6a068',
 					'oc:fileid': '11',
-					'oc:permissions': 'RDNVCK',
+					'oc:permissions': 'GRDNVCK',
 					'oc:size': '120'
 				},
 				[
@@ -583,6 +605,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.mtime).toEqual(1436522405000);
 				expect(info.mimetype).toEqual('httpd/unix-directory');
 				expect(info.etag).toEqual('56cfcabd79abb');
+				expect(info.isEncrypted).toEqual(false);
 			});
 		});
 		it('rejects promise when an error occurred', function() {
@@ -640,14 +663,14 @@ describe('OC.Files.Client tests', function() {
 
 		function testPermission(permission, isFile, expectedPermissions) {
 			var promise = getFileInfoWithPermission(permission, isFile);
-			promise.then(function(result) {
+			promise.then(function(status, result) {
 				expect(result.permissions).toEqual(expectedPermissions);
 			});
 		}
 
 		function testMountType(permission, isFile, expectedMountType) {
 			var promise = getFileInfoWithPermission(permission, isFile);
-			promise.then(function(result) {
+			promise.then(function(status, result) {
 				expect(result.mountType).toEqual(expectedMountType);
 			});
 		}
@@ -655,43 +678,29 @@ describe('OC.Files.Client tests', function() {
 		it('properly parses file permissions', function() {
 			// permission, isFile, expectedPermissions
 			var testCases = [
-				['', true, OC.PERMISSION_READ],
-				['C', true, OC.PERMISSION_READ | OC.PERMISSION_CREATE],
-				['K', true, OC.PERMISSION_READ | OC.PERMISSION_CREATE],
-				['W', true, OC.PERMISSION_READ | OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE],
-				['D', true, OC.PERMISSION_READ | OC.PERMISSION_DELETE],
-				['R', true, OC.PERMISSION_READ | OC.PERMISSION_SHARE],
-				['CKWDR', true, OC.PERMISSION_ALL]
+				['', true, OC.PERMISSION_NONE],
+				['C', true, OC.PERMISSION_CREATE],
+				['K', true, OC.PERMISSION_CREATE],
+				['G', true, OC.PERMISSION_READ],
+				['W', true, OC.PERMISSION_UPDATE],
+				['D', true, OC.PERMISSION_DELETE],
+				['R', true, OC.PERMISSION_SHARE],
+				['CKGWDR', true, OC.PERMISSION_ALL]
 			];
 			_.each(testCases, function(testCase) {
-				return testPermission.apply(testCase);
-			});
-		});
-		it('properly parses folder permissions', function() {
-			var testCases = [
-				['', false, OC.PERMISSION_READ],
-				['C', false, OC.PERMISSION_READ | OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE],
-				['K', false, OC.PERMISSION_READ | OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE],
-				['W', false, OC.PERMISSION_READ | OC.PERMISSION_UPDATE],
-				['D', false, OC.PERMISSION_READ | OC.PERMISSION_DELETE],
-				['R', false, OC.PERMISSION_READ | OC.PERMISSION_SHARE],
-				['CKWDR', false, OC.PERMISSION_ALL]
-			];
-
-			_.each(testCases, function(testCase) {
-				return testPermission.apply(testCase);
+				return testPermission.apply(this, testCase);
 			});
 		});
 		it('properly parses mount types', function() {
 			var testCases = [
-				['CKWDR', false, null],
+				['CKGWDR', false, null],
 				['M', false, 'external'],
 				['S', false, 'shared'],
 				['SM', false, 'shared']
 			];
 
 			_.each(testCases, function(testCase) {
-				return testMountType.apply(testCase);
+				return testMountType.apply(this, testCase);
 			});
 		});
 	});

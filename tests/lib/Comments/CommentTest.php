@@ -8,6 +8,9 @@ use Test\TestCase;
 
 class CommentTest extends TestCase {
 
+	/**
+	 * @throws \OCP\Comments\IllegalIDChangeException
+	 */
 	public function testSettersValidInput() {
 		$comment = new Comment();
 
@@ -58,6 +61,9 @@ class CommentTest extends TestCase {
 		$comment->setId('c17');
 	}
 
+	/**
+	 * @throws \OCP\Comments\IllegalIDChangeException
+	 */
 	public function testResetId() {
 		$comment = new Comment();
 		$comment->setId('c23');
@@ -133,15 +139,19 @@ class CommentTest extends TestCase {
 				'@alice @bob look look, a duplication @alice test @bob!', ['alice', 'bob']
 			],
 			[
-				'@alice is the author, but notify @bob!', ['bob'], 'alice'
+				'@alice is the author, notify @bob, nevertheless mention her!', ['alice', 'bob'], 'alice'
 			],
 			[
 				'@foobar and @barfoo you should know, @foo@bar.com is valid' .
 					' and so is @bar@foo.org@foobar.io I hope that clarifies everything.' .
-					' cc @23452-4333-54353-2342 @yolo!',
+					' cc @23452-4333-54353-2342 @yolo!' .
+					' however the most important thing to know is that www.croissant.com/@oil is not valid' .
+					' and won\'t match anything at all',
 				['foobar', 'barfoo', 'foo@bar.com', 'bar@foo.org@foobar.io', '23452-4333-54353-2342', 'yolo']
+			],
+			[
+			'@@chef is also a valid mention, no matter how strange it looks', ['@chef']
 			]
-
 		];
 	}
 
@@ -159,7 +169,6 @@ class CommentTest extends TestCase {
 			$uid = array_shift($expectedUids);
 			$this->assertSame('user', $mention['type']);
 			$this->assertSame($uid, $mention['id']);
-			$this->assertNotSame($author, $mention['id']);
 		}
 		$this->assertEmpty($mentions);
 		$this->assertEmpty($expectedUids);

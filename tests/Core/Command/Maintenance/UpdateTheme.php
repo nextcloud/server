@@ -74,7 +74,7 @@ class UpdateThemeTest extends TestCase {
 			->method('clear')
 			->with('');
 		$this->cacheFactory->expects($this->once())
-			->method('create')
+			->method('createDistributed')
 			->with('imagePath')
 			->willReturn($cache);
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);

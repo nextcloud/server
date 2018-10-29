@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -87,7 +88,7 @@ class Checker {
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
 		$this->config = $config;
-		$this->cache = $cacheFactory->create(self::CACHE_KEY);
+		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
 		$this->appManager = $appManager;
 		$this->tempManager = $tempManager;
 	}
@@ -97,9 +98,9 @@ class Checker {
 	 *
 	 * @return bool
 	 */
-	public function isCodeCheckEnforced() {
+	public function isCodeCheckEnforced(): bool {
 		$notSignedChannels = [ '', 'git'];
-		if (in_array($this->environmentHelper->getChannel(), $notSignedChannels, true)) {
+		if (\in_array($this->environmentHelper->getChannel(), $notSignedChannels, true)) {
 			return false;
 		}
 
@@ -108,10 +109,9 @@ class Checker {
 		 * applicable for very specific scenarios and we should not advertise it
 		 * too prominent. So please do not add it to config.sample.php.
 		 */
+		$isIntegrityCheckDisabled = false;
 		if ($this->config !== null) {
 			$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
-		} else {
-			$isIntegrityCheckDisabled = false;
 		}
 		if ($isIntegrityCheckDisabled === true) {
 			return false;
@@ -128,7 +128,7 @@ class Checker {
 	 * @return \RecursiveIteratorIterator
 	 * @throws \Exception
 	 */
-	private function getFolderIterator($folderToIterate, $root = '') {
+	private function getFolderIterator(string $folderToIterate, string $root = ''): \RecursiveIteratorIterator {
 		$dirItr = new \RecursiveDirectoryIterator(
 			$folderToIterate,
 			\RecursiveDirectoryIterator::SKIP_DOTS
@@ -156,12 +156,12 @@ class Checker {
 	 * @return array Array of hashes.
 	 */
 	private function generateHashes(\RecursiveIteratorIterator $iterator,
-									$path) {
+									string $path): array {
 		$hashes = [];
 		$copiedWebserverSettingFiles = false;
 		$tmpFolder = '';
 
-		$baseDirectoryLength = strlen($path);
+		$baseDirectoryLength = \strlen($path);
 		foreach($iterator as $filename => $data) {
 			/** @var \DirectoryIterator $data */
 			if($data->isDir()) {
@@ -220,7 +220,7 @@ class Checker {
 			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess') {
 				$fileContent = file_get_contents($tmpFolder . '/.htaccess');
 				$explodedArray = explode('#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####', $fileContent);
-				if(count($explodedArray) === 2) {
+				if(\count($explodedArray) === 2) {
 					$hashes[$relativeFileName] = hash('sha512', $explodedArray[0]);
 					continue;
 				}
@@ -238,11 +238,11 @@ class Checker {
 	 * @param array $hashes
 	 * @param X509 $certificate
 	 * @param RSA $privateKey
-	 * @return string
+	 * @return array
 	 */
 	private function createSignatureData(array $hashes,
 										 X509 $certificate,
-										 RSA $privateKey) {
+										 RSA $privateKey): array {
 		ksort($hashes);
 
 		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
@@ -328,13 +328,18 @@ class Checker {
 	 * @throws InvalidSignatureException
 	 * @throws \Exception
 	 */
-	private function verify($signaturePath, $basePath, $certificateCN) {
+	private function verify(string $signaturePath, string $basePath, string $certificateCN): array {
 		if(!$this->isCodeCheckEnforced()) {
 			return [];
 		}
 
-		$signatureData = json_decode($this->fileAccessHelper->file_get_contents($signaturePath), true);
-		if(!is_array($signatureData)) {
+		$content = $this->fileAccessHelper->file_get_contents($signaturePath);
+		$signatureData = null;
+
+		if (\is_string($content)) {
+			$signatureData = json_decode($content, true);
+		}
+		if(!\is_array($signatureData)) {
 			throw new InvalidSignatureException('Signature data not found.');
 		}
 
@@ -422,7 +427,7 @@ class Checker {
 	 *
 	 * @return bool
 	 */
-	public function hasPassedCheck() {
+	public function hasPassedCheck(): bool {
 		$results = $this->getResults();
 		if(empty($results)) {
 			return true;
@@ -434,9 +439,9 @@ class Checker {
 	/**
 	 * @return array
 	 */
-	public function getResults() {
+	public function getResults(): array {
 		$cachedResults = $this->cache->get(self::CACHE_KEY);
-		if(!is_null($cachedResults)) {
+		if(!\is_null($cachedResults)) {
 			return json_decode($cachedResults, true);
 		}
 
@@ -452,7 +457,7 @@ class Checker {
 	 * @param string $scope
 	 * @param array $result
 	 */
-	private function storeResults($scope, array $result) {
+	private function storeResults(string $scope, array $result) {
 		$resultArray = $this->getResults();
 		unset($resultArray[$scope]);
 		if(!empty($result)) {
@@ -505,7 +510,7 @@ class Checker {
 	 * @param string $path Optional path. If none is given it will be guessed.
 	 * @return array
 	 */
-	public function verifyAppSignature($appId, $path = '') {
+	public function verifyAppSignature(string $appId, string $path = ''): array {
 		try {
 			if($path === '') {
 				$path = $this->appLocator->getAppPath($appId);
@@ -518,7 +523,7 @@ class Checker {
 		} catch (\Exception $e) {
 			$result = [
 					'EXCEPTION' => [
-							'class' => get_class($e),
+							'class' => \get_class($e),
 							'message' => $e->getMessage(),
 					],
 			];
@@ -558,7 +563,7 @@ class Checker {
 	 *
 	 * @return array
 	 */
-	public function verifyCoreSignature() {
+	public function verifyCoreSignature(): array {
 		try {
 			$result = $this->verify(
 					$this->environmentHelper->getServerRoot() . '/core/signature.json',
@@ -568,7 +573,7 @@ class Checker {
 		} catch (\Exception $e) {
 			$result = [
 					'EXCEPTION' => [
-							'class' => get_class($e),
+							'class' => \get_class($e),
 							'message' => $e->getMessage(),
 					],
 			];

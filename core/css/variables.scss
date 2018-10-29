@@ -1,25 +1,88 @@
-$color-main-text: #000000;
-$color-main-background: #ffffff;
-$color-primary: #0082c9;
-$color-primary-text: #ffffff;
-$color-error: #e9322d;
-$color-warning: #ffcc44;
-$color-success: #46ba61;
-$color-primary-element: $color-primary;
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
+ // SCSS darken/lighten function override
 @function nc-darken($color, $value) {
-  @return darken($color, $value);
+	@return darken($color, $value);
 }
 
 @function nc-lighten($color, $value) {
-  @return lighten($color, $value);
+	@return lighten($color, $value);
 }
 
-$image-logo: '../img/logo-icon.svg?v=1';
-$image-login-background: '../img/background.png?v=2';
+// SCSS variables
+// DEPRECATED, please use CSS4 vars
+$color-main-text: #222 !default; // Not #000 for better readability
+$color-main-background: #fff !default;
+$color-main-background-translucent: rgba($color-main-background, .97) !default;
 
-$color-loading: #969696;
-$color-loading-dark: #bbbbbb;
-$color-box-shadow: rgba(nc-darken($color-main-background, 30%), 0.75);
-$color-border: nc-darken($color-main-background, 8%);
-$border-radius: 3px;
+// used for different active/disabled states
+$color-background-dark: nc-darken($color-main-background, 7%) !default;
+$color-background-darker: nc-darken($color-main-background, 14%) !default;
+
+$color-primary: #0082c9 !default;
+$color-primary-text: #ffffff !default;
+// do not use nc-darken/lighten in case of overriding because
+// primary-text is independent of color-main-text
+$color-primary-text-dark: darken($color-primary-text, 7%) !default;
+$color-primary-element: $color-primary !default;
+$color-primary-element-light: lighten($color-primary-element, 15%) !default;
+
+$color-error: #e9322d;
+$color-warning: #eca700;
+$color-success: #46ba61;
+// used for svg
+$color-white: #fff;
+$color-black: #000;
+
+// rgb(118, 118, 118) / #767676
+// min. color contrast for normal text on white background according to WCAG AA
+// (Works as well: color: #000; opacity: 0.57;)
+$color-text-maxcontrast: nc-lighten($color-main-text, 46.2%) !default;
+$color-text-light: nc-lighten($color-main-text, 15%) !default;
+$color-text-lighter: nc-lighten($color-main-text, 30%) !default;
+
+$image-logo: url('../img/logo.svg?v=1') !default;
+$image-login-background: url('../img/background.png?v=2') !default;
+
+$color-loading-light: #ccc !default;
+$color-loading-dark: #777 !default;
+
+$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.5) !default;
+
+// light border like file table or app-content list
+$color-border: nc-darken($color-main-background, 7%) !default;
+// darker border like inputs or very visible elements
+$color-border-dark: nc-darken($color-main-background, 14%) !default;
+$border-radius: 3px !default;
+$border-radius-large: 10px !default;
+// Pill-style button, value is large so big buttons also have correct roundness
+$border-radius-pill: 100px !default;
+
+$font-face: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !default;
+
+
+// various structure data
+$header-height: 50px;
+$navigation-width: 300px;
+$sidebar-min-width: 300px;
+$sidebar-max-width: 500px;

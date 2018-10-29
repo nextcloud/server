@@ -11,7 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <pvince81@owncloud.com>
- *
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCA\Files\Service\TagService;
@@ -45,6 +46,7 @@ use OCP\IPreview;
 use OCP\Share\IManager;
 use OC\Files\Node\Node;
 use OCP\IUserSession;
+use Sabre\VObject\Property\Boolean;
 
 /**
  * Class ApiController
@@ -54,7 +56,7 @@ use OCP\IUserSession;
 class ApiController extends Controller {
 	/** @var TagService */
 	private $tagService;
-	/** @var IManager **/
+	/** @var IManager * */
 	private $shareManager;
 	/** @var IPreview */
 	private $previewManager;
@@ -107,7 +109,7 @@ class ApiController extends Controller {
 	 * @return DataResponse|FileDisplayResponse
 	 */
 	public function getThumbnail($x, $y, $file) {
-		if($x < 1 || $y < 1) {
+		if ($x < 1 || $y < 1) {
 			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -213,7 +215,8 @@ class ApiController extends Controller {
 			\OCP\Share::SHARE_TYPE_GROUP,
 			\OCP\Share::SHARE_TYPE_LINK,
 			\OCP\Share::SHARE_TYPE_REMOTE,
-			\OCP\Share::SHARE_TYPE_EMAIL
+			\OCP\Share::SHARE_TYPE_EMAIL,
+			\OCP\Share::SHARE_TYPE_ROOM
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			// one of each type is enough to find out about the types
@@ -261,8 +264,68 @@ class ApiController extends Controller {
 	 * @param bool $show
 	 */
 	public function showHiddenFiles($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int) $show);
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int)$show);
 		return new Response();
+	}
+
+	/**
+	 * Toggle default for files grid view
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $show
+	 */
+	public function showGridView($show) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', (int)$show);
+		return new Response();
+	}
+
+	/**
+	 * Get default settings for the grid view
+	 *
+	 * @NoAdminRequired
+	 */
+	public function getGridView() {
+		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '1') === '1';
+		return new JSONResponse(['gridview' => $status]);
+	}
+
+	/**
+	 * Toggle default for showing/hiding xxx folder
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $show 
+	 * @param bool $key the key of the folder
+	 *
+	 * @return Response
+	 */
+	public function toggleShowFolder(int $show, string $key) {
+		// ensure the edited key exists
+		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
+		foreach ($navItems as $item) {
+			// check if data is valid
+			if (($show === 0 || $show === 1) && isset($item['expandedState']) && $key === $item['expandedState']) {
+				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, (int)$show);
+				return new Response();
+			}
+		}
+		$response = new Response();
+		$response->setStatus(Http::STATUS_FORBIDDEN);
+		return $response;
+	}
+
+	/**
+	 * Get sorting-order for custom sorting
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param String
+	 * @return String
+	 */
+	public function getNodeType($folderpath) {
+		$node = $this->userFolder->get($folderpath);
+		return $node->getType();
 	}
 
 }

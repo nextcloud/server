@@ -71,4 +71,37 @@ interface IFunctionBuilder {
 	 * @since 12.0.0
 	 */
 	public function sum($field);
+
+	/**
+	 * Transforms a string field or value to lower case
+	 *
+	 * @param mixed $field
+	 * @return IQueryFunction
+	 * @since 14.0.0
+	 */
+	public function lower($field);
+
+	/**
+	 * @param mixed $x The first input field or number
+	 * @param mixed $y The second input field or number
+	 * @return IQueryFunction
+	 * @since 14.0.0
+	 */
+	public function add($x, $y);
+
+	/**
+	 * @param mixed $x The first input field or number
+	 * @param mixed $y The second input field or number
+	 * @return IQueryFunction
+	 * @since 14.0.0
+	 */
+	public function subtract($x, $y);
+
+	/**
+	 * @param mixed $input The input to be counted
+	 *
+	 * @return IQueryFunction
+	 * @since 14.0.0
+	 */
+	public function count($input);
 }

@@ -55,7 +55,7 @@ class SQLiteSessionInit implements EventSubscriber {
 	 * @return void
 	 */
 	public function postConnect(ConnectionEventArgs $args) {
-		$sensitive = ($this->caseSensitiveLike) ? 'true' : 'false';
+		$sensitive = $this->caseSensitiveLike ? 'true' : 'false';
 		$args->getConnection()->executeUpdate('PRAGMA case_sensitive_like = ' . $sensitive);
 		$args->getConnection()->executeUpdate('PRAGMA journal_mode = ' . $this->journalMode);
 		/** @var \PDO $pdo */

@@ -32,7 +32,8 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\Files\View;
+use OC\AppFramework\Http\Request;
+use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\IPreview;
 use Sabre\DAV\Exception\Forbidden;
@@ -47,7 +48,6 @@ use \Sabre\HTTP\ResponseInterface;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IRequest;
-use OCA\DAV\Upload\FutureFile;
 
 class FilesPlugin extends ServerPlugin {
 
@@ -58,6 +58,7 @@ class FilesPlugin extends ServerPlugin {
 	const INTERNAL_FILEID_PROPERTYNAME = '{http://owncloud.org/ns}fileid';
 	const PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}permissions';
 	const SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-collaboration-services.org/ns}share-permissions';
+	const OCM_SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-cloud-mesh.org/ns}share-permissions';
 	const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
 	const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
@@ -89,11 +90,6 @@ class FilesPlugin extends ServerPlugin {
 	 * @var bool
 	 */
 	private $isPublic;
-
-	/**
-	 * @var View
-	 */
-	private $fileView;
 
 	/**
 	 * @var bool
@@ -155,6 +151,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::INTERNAL_FILEID_PROPERTYNAME;
 		$server->protectedProperties[] = self::PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_PERMISSIONS_PROPERTYNAME;
+		$server->protectedProperties[] = self::OCM_SHARE_PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::SIZE_PROPERTYNAME;
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
@@ -183,7 +180,6 @@ class FilesPlugin extends ServerPlugin {
 			}
 		});
 		$this->server->on('beforeMove', [$this, 'checkMove']);
-		$this->server->on('beforeMove', [$this, 'beforeMoveFutureFile']);
 	}
 
 	/**
@@ -258,9 +254,9 @@ class FilesPlugin extends ServerPlugin {
 			$filename = $node->getName();
 			if ($this->request->isUserAgent(
 				[
-					\OC\AppFramework\Http\Request::USER_AGENT_IE,
-					\OC\AppFramework\Http\Request::USER_AGENT_ANDROID_MOBILE_CHROME,
-					\OC\AppFramework\Http\Request::USER_AGENT_FREEBOX,
+					Request::USER_AGENT_IE,
+					Request::USER_AGENT_ANDROID_MOBILE_CHROME,
+					Request::USER_AGENT_FREEBOX,
 				])) {
 				$response->addHeader('Content-Disposition', 'attachment; filename="' . rawurlencode($filename) . '"');
 			} else {
@@ -325,6 +321,14 @@ class FilesPlugin extends ServerPlugin {
 				);
 			});
 
+			$propFind->handle(self::OCM_SHARE_PERMISSIONS_PROPERTYNAME, function() use ($node, $httpRequest) {
+				$ncPermissions = $node->getSharePermissions(
+					$httpRequest->getRawServerValue('PHP_AUTH_USER')
+				);
+				$ocmPermissions = $this->ncPermissions2ocmPermissions($ncPermissions);
+				return json_encode($ocmPermissions);
+			});
+
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function() use ($node) {
 				return $node->getETag();
 			});
@@ -344,11 +348,6 @@ class FilesPlugin extends ServerPlugin {
 				} else {
 					return $owner->getDisplayName();
 				}
-			});
-
-			$propFind->handle(self::IS_ENCRYPTED_PROPERTYNAME, function() use ($node) {
-				$result = $node->getFileInfo()->isEncrypted() ? '1' : '0';
-				return $result;
 			});
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
@@ -399,7 +398,38 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::SIZE_PROPERTYNAME, function() use ($node) {
 				return $node->getSize();
 			});
+
+			$propFind->handle(self::IS_ENCRYPTED_PROPERTYNAME, function() use ($node) {
+				return $node->getFileInfo()->isEncrypted() ? '1' : '0';
+			});
 		}
+	}
+
+	/**
+	 * translate Nextcloud permissions to OCM Permissions
+	 *
+	 * @param $ncPermissions
+	 * @return array
+	 */
+	protected function ncPermissions2ocmPermissions($ncPermissions) {
+
+		$ocmPermissions = [];
+
+		if ($ncPermissions & Constants::PERMISSION_SHARE) {
+			$ocmPermissions[] = 'share';
+		}
+
+		if ($ncPermissions & Constants::PERMISSION_READ) {
+			$ocmPermissions[] = 'read';
+		}
+
+		if (($ncPermissions & Constants::PERMISSION_CREATE) ||
+			($ncPermissions & Constants::PERMISSION_UPDATE)) {
+			$ocmPermissions[] = 'write';
+		}
+
+		return $ocmPermissions;
+
 	}
 
 	/**
@@ -461,43 +491,4 @@ class FilesPlugin extends ServerPlugin {
 			}
 		}
 	}
-
-	/**
-	 * Move handler for future file.
-	 *
-	 * This overrides the default move behavior to prevent Sabre
-	 * to delete the target file before moving. Because deleting would
-	 * lose the file id and metadata.
-	 *
-	 * @param string $path source path
-	 * @param string $destination destination path
-	 * @return bool|void false to stop handling, void to skip this handler
-	 */
-	public function beforeMoveFutureFile($path, $destination) {
-		$sourceNode = $this->tree->getNodeForPath($path);
-		if (!$sourceNode instanceof FutureFile) {
-			// skip handling as the source is not a chunked FutureFile
-			return;
-		}
-
-		if (!$this->tree->nodeExists($destination)) {
-			// skip and let the default handler do its work
-			return;
-		}
-
-		// do a move manually, skipping Sabre's default "delete" for existing nodes
-		$this->tree->move($path, $destination);
-
-		// trigger all default events (copied from CorePlugin::move)
-		$this->server->emit('afterMove', [$path, $destination]);
-		$this->server->emit('afterUnbind', [$path]);
-		$this->server->emit('afterBind', [$destination]);
-
-		$response = $this->server->httpResponse;
-		$response->setHeader('Content-Length', '0');
-		$response->setStatus(204);
-
-		return false;
-	}
-
 }

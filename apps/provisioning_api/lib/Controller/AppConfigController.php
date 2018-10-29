@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
@@ -45,7 +46,7 @@ class AppConfigController extends OCSController {
 	 * @param IConfig $config
 	 * @param IAppConfig $appConfig
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
 								IAppConfig $appConfig) {
@@ -57,7 +58,7 @@ class AppConfigController extends OCSController {
 	/**
 	 * @return DataResponse
 	 */
-	public function getApps() {
+	public function getApps(): DataResponse {
 		return new DataResponse([
 			'data' => $this->appConfig->getApps(),
 		]);
@@ -67,7 +68,7 @@ class AppConfigController extends OCSController {
 	 * @param string $app
 	 * @return DataResponse
 	 */
-	public function getKeys($app) {
+	public function getKeys(string $app): DataResponse {
 		try {
 			$this->verifyAppId($app);
 		} catch (\InvalidArgumentException $e) {
@@ -84,7 +85,7 @@ class AppConfigController extends OCSController {
 	 * @param string $defaultValue
 	 * @return DataResponse
 	 */
-	public function getValue($app, $key, $defaultValue = '') {
+	public function getValue(string $app, string $key, string $defaultValue = ''): DataResponse {
 		try {
 			$this->verifyAppId($app);
 		} catch (\InvalidArgumentException $e) {
@@ -102,7 +103,7 @@ class AppConfigController extends OCSController {
 	 * @param string $value
 	 * @return DataResponse
 	 */
-	public function setValue($app, $key, $value) {
+	public function setValue(string $app, string $key, string $value): DataResponse {
 		try {
 			$this->verifyAppId($app);
 			$this->verifyConfigKey($app, $key);
@@ -120,7 +121,7 @@ class AppConfigController extends OCSController {
 	 * @param string $key
 	 * @return DataResponse
 	 */
-	public function deleteKey($app, $key) {
+	public function deleteKey(string $app, string $key): DataResponse {
 		try {
 			$this->verifyAppId($app);
 			$this->verifyConfigKey($app, $key);
@@ -136,7 +137,7 @@ class AppConfigController extends OCSController {
 	 * @param string $app
 	 * @throws \InvalidArgumentException
 	 */
-	protected function verifyAppId($app) {
+	protected function verifyAppId(string $app) {
 		if (\OC_App::cleanAppId($app) !== $app) {
 			throw new \InvalidArgumentException('Invalid app id given');
 		}
@@ -147,7 +148,7 @@ class AppConfigController extends OCSController {
 	 * @param string $key
 	 * @throws \InvalidArgumentException
 	 */
-	protected function verifyConfigKey($app, $key) {
+	protected function verifyConfigKey(string $app, string $key) {
 		if (in_array($key, ['installed_version', 'enabled', 'types'])) {
 			throw new \InvalidArgumentException('The given key can not be set');
 		}

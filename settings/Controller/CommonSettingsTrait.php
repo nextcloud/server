@@ -25,6 +25,7 @@
 namespace OC\Settings\Controller;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\INavigationManager;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Settings\IIconSection;
 use OCP\Settings\ISettings;
@@ -32,6 +33,9 @@ use OCP\Settings\ISettings;
 trait CommonSettingsTrait  {
 	/** @var ISettingsManager */
 	private $settingsManager;
+
+	/** @var INavigationManager */
+	private $navigationManager;
 
 	/**
 	 * @param string $currentSection
@@ -62,7 +66,7 @@ trait CommonSettingsTrait  {
 				} else if($type === 'personal') {
 					$settings = $this->settingsManager->getPersonalSettings($section->getID());
 				}
-				if (empty($settings)) {
+				if (empty($settings) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {
 					continue;
 				}
 
@@ -116,6 +120,7 @@ trait CommonSettingsTrait  {
 	}
 
 	private function getIndexResponse($type, $section) {
+		$this->navigationManager->setActiveEntry('settings');
 		$templateParams = [];
 		$templateParams = array_merge($templateParams, $this->getNavigationParameters($type, $section));
 		$templateParams = array_merge($templateParams, $this->getSettings($section));

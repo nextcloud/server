@@ -8,7 +8,7 @@
   },
   "autoload": {
     "psr-4": {
-      "": "features/core"
+      "": ["features/bootstrap", "features/core"]
     }
   }
 }

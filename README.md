@@ -15,7 +15,7 @@
 * :package: **Sync your Data** You keep your files, contacts, calendars and more synchronized amongst your devices.
 * :arrows_counterclockwise: **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
 * :rocket: **Expandable with dozens of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail) and all those you can discover in our [App Store](https://apps.nextcloud.com)
-* :lock: **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentification.
+* :lock: **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
 *You want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and at your Enterprise?* [**Learn about all our Features**](https://nextcloud.com/features).
 
@@ -36,7 +36,16 @@
 
 […learn more about how to get support for Nextcloud here!](https://nextcloud.com/support)
 
-## Contribution Guidelines
+## Join the team :family:
+
+### How to contribute
+
+1. [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html) :rocket:
+2. [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue) :notebook:
+3. Create a branch, a [Pull Request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue :computer:
+4. Wait for it to get merged and :tada:
+
+### Contribution Guidelines
 
 All contributions to this repository from June, 16 2016 on are considered to be
 licensed under the AGPLv3 or any later version.
@@ -52,16 +61,20 @@ changed it substantially:
 
 Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere, and to explain how together we can strengthen and support each other.
 
-Please review the [guidelines for contributing](https://github.com/nextcloud/server/blob/master/CONTRIBUTING.md) to this repository.
+Please review the [guidelines for contributing](.github/CONTRIBUTING.md) to this repository.
 
 More information how to contribute: [https://nextcloud.com/contribute/](https://nextcloud.com/contribute/)
 
-## Running master checkouts
+### Running master checkouts
 
 Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
 
-Several apps by default included in regular releases like [firstrunwizard](https://github.com/nextcloud/firstrunwizard) or [gallery](https://github.com/nextcloud/gallery) are missing in `master` and have to be installed manually as required.
+Several apps that are included by default in regular releases such as [firstrunwizard](https://github.com/nextcloud/firstrunwizard) or [gallery](https://github.com/nextcloud/gallery) are missing in `master` and have to be installed manually.
 
 That aside Git checkouts can be handled the same as release archives.
 
 Note they should never be used on production systems.
+
+## Tools we use
+
+[![BrowserStack](https://user-images.githubusercontent.com/45821/41675934-61fa3442-74c4-11e8-8c8e-90768c56ba08.png)](https://www.browserstack.com/)

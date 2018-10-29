@@ -40,8 +40,7 @@
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
-$infoParser = new \OC\App\InfoParser();
-$application->add(new OC\Core\Command\App\CheckCode($infoParser));
+$application->add(new OC\Core\Command\App\CheckCode());
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
 		\OC::$server->getIntegrityCodeChecker(),
@@ -67,12 +66,11 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
 
-	$application->add(new OC\Core\Command\TwoFactorAuth\Enable(
-		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
-	));
-	$application->add(new OC\Core\Command\TwoFactorAuth\Disable(
-		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
-	));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Cleanup::class));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enforce::class));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enable::class));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Disable::class));
+	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\State::class));
 
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
@@ -90,11 +88,12 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
 	$application->add(new OC\Core\Command\Db\ConvertMysqlToMB4(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection(), \OC::$server->getURLGenerator(), \OC::$server->getLogger()));
 	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->getDatabaseConnection()));
+	$application->add(new OC\Core\Command\Db\AddMissingIndices(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()));
 	$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->getDatabaseConnection()));
-	$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->getDatabaseConnection()));
+	$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->getDatabaseConnection(), \OC::$server->getAppManager()));
 	$application->add(new OC\Core\Command\Db\Migrations\GenerateFromSchemaFileCommand(\OC::$server->getConfig(), \OC::$server->getAppManager(), \OC::$server->getDatabaseConnection()));
-	$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->getDatabaseConnection(), \OC::$server->getAppManager(), \OC::$server->getConfig()));
 
 	$application->add(new OC\Core\Command\Encryption\Disable(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Encryption\Enable(\OC::$server->getConfig(), \OC::$server->getEncryptionManager()));
@@ -137,7 +136,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
 	$application->add(new OC\Core\Command\Maintenance\UpdateTheme(\OC::$server->getMimeTypeDetector(), \OC::$server->getMemCacheFactory()));
 
-	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger()));
+	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
 		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()), \OC::$server->getConfig(),
 		\OC::$server->getEventDispatcher(), \OC::$server->getAppManager()));
@@ -153,6 +152,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 
+	$application->add(new OC\Core\Command\Group\Add(\OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\Group\Delete(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\ListCommand(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\AddUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\RemoveUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));

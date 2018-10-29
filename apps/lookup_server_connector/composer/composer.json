@@ -2,7 +2,7 @@
     "config" : {
         "vendor-dir": ".",
         "optimize-autoloader": true,
-        "authorative-autoloader": true,
+        "classmap-authoritative": true,
         "autoloader-suffix": "LookupServerConnector"
     },
     "autoload" : {

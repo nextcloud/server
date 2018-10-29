@@ -84,14 +84,30 @@ class SyncServiceTest extends TestCase {
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
-	public function testUpdateAndDeleteUser() {
+	public function dataActivatedUsers() {
+		return [
+			[true, 1, 1, 1],
+			[false, 0, 0, 3],
+		];
+	}
+
+	/**
+	 * @dataProvider dataActivatedUsers
+	 *
+	 * @param boolean $activated
+	 * @param integer $createCalls
+	 * @param integer $updateCalls
+	 * @param integer $deleteCalls
+	 * @return void
+	 */
+	public function testUpdateAndDeleteUser($activated, $createCalls, $updateCalls, $deleteCalls) {
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 
-		$backend->expects($this->once())->method('createCard');
-		$backend->expects($this->once())->method('updateCard');
-		$backend->expects($this->once())->method('deleteCard');
+		$backend->expects($this->exactly($createCalls))->method('createCard');
+		$backend->expects($this->exactly($updateCalls))->method('updateCard');
+		$backend->expects($this->exactly($deleteCalls))->method('deleteCard');
 
 		$backend->method('getCard')->willReturnOnConsecutiveCalls(false, [
 			'carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:test-user\r\nFN:test-user\r\nN:test-user;;;;\r\nEND:VCARD\r\n\r\n"
@@ -106,6 +122,7 @@ class SyncServiceTest extends TestCase {
 		$user->method('getUID')->willReturn('test-user');
 		$user->method('getCloudId')->willReturn('cloudId');
 		$user->method('getDisplayName')->willReturn('test-user');
+		$user->method('isEnabled')->willReturn($activated);
 		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
 		$accountManager->expects($this->any())->method('getUser')
 			->willReturn([

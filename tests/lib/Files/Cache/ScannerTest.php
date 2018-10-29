@@ -60,7 +60,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertEquals($cachedData['mimetype'], 'text/plain');
 		$this->assertNotEquals($cachedData['parent'], -1); //parent folders should be scanned automatically
 
-		$data = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$data = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$this->storage->file_put_contents('foo.png', $data);
 		$this->scanner->scanFile('foo.png');
 
@@ -98,7 +98,7 @@ class ScannerTest extends \Test\TestCase {
 
 	private function fillTestFolders() {
 		$textData = "dummy file data\n";
-		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$this->storage->mkdir('folder');
 		$this->storage->file_put_contents('foo.txt', $textData);
 		$this->storage->file_put_contents('foo.png', $imgData);

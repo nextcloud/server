@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -50,6 +51,19 @@ class UserManagement extends Action {
 	}
 
 	/**
+	 * Log assignments of users (typically user backends)
+	 *
+	 * @param string $uid
+	 */
+	public function assign(string $uid) {
+		$this->log(
+		'UserID assigned: "%s"',
+			[ 'uid' => $uid ],
+			[ 'uid' ]
+		);
+	}
+
+	/**
 	 * Log deletion of users
 	 *
 	 * @param array $params
@@ -65,19 +79,43 @@ class UserManagement extends Action {
 	}
 
 	/**
+	 * Log unassignments of users (typically user backends, no data removed)
+	 *
+	 * @param string $uid
+	 */
+	public function unassign(string $uid) {
+		$this->log(
+			'UserID unassigned: "%s"',
+			[ 'uid' => $uid ],
+			[ 'uid' ]
+		);
+	}
+
+	/**
 	 * Log enabling of users
 	 *
 	 * @param array $params
 	 */
 	public function change(array $params) {
-		if ($params['feature'] === 'enabled') {
-			$this->log(
-				$params['value'] === 'true' ? 'User enabled: "%s"' : 'User disabled: "%s"',
-				['user' => $params['user']->getUID()],
-				[
-					'user',
-				]
-			);
+		switch($params['feature']) {
+			case 'enabled':
+				$this->log(
+					$params['value'] === 'true' ? 'User enabled: "%s"' : 'User disabled: "%s"',
+					['user' => $params['user']->getUID()],
+					[
+						'user',
+					]
+				);
+				break;
+			case 'eMailAddress':
+				$this->log(
+					'Email address changed for user %s',
+					['user' => $params['user']->getUID()],
+					[
+						'user',
+					]
+				);
+				break;
 		}
 	}
 

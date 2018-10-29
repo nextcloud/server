@@ -22,10 +22,9 @@
  */
 namespace Tests\Settings\Controller;
 
-use OC\Settings\Admin\TipsTricks;
+use OC\Settings\Personal\ServerDevNotice;
 use OC\Settings\Controller\AdminSettingsController;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\Settings\IManager;
@@ -88,7 +87,7 @@ class AdminSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getAdminSettings')
 			->with('test')
-			->willReturn([5 => new TipsTricks($this->getMockBuilder(IConfig::class)->getMock())]);
+			->willReturn([5 => new ServerDevNotice()]);
 
 		$expected = new TemplateResponse('settings', 'settings/frame', ['forms' => ['personal' => [], 'admin' => []], 'content' => '']);
 		$this->assertEquals($expected, $this->adminSettingsController->index('test'));

@@ -28,7 +28,7 @@ namespace OCA\Encryption\AppInfo;
 
 $encryptionSystemReady = \OC::$server->getEncryptionManager()->isReady();
 
-$app = new Application([], $encryptionSystemReady);
+$app = new Application();
 if ($encryptionSystemReady) {
 	$app->registerEncryptionModule();
 	$app->registerHooks();

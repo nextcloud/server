@@ -111,7 +111,7 @@ class FlowOperations extends Controller {
 	 * @return array
 	 */
 	protected function prepareOperation(array $operation) {
-		$checkIds = json_decode($operation['checks']);
+		$checkIds = json_decode($operation['checks'], true);
 		$checks = $this->manager->getChecks($checkIds);
 
 		$operation['checks'] = [];

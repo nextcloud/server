@@ -49,6 +49,14 @@ class Admin implements ISettings {
 	public function getForm() {
 		$helper = new Helper(\OC::$server->getConfig());
 		$prefixes = $helper->getServerConfigurationPrefixes();
+		if(count($prefixes) === 0) {
+			$newPrefix = $helper->getNextServerConfigurationPrefix();
+			$config = new Configuration($newPrefix, false);
+			$config->setConfiguration($config->getDefaults());
+			$config->saveConfiguration();
+			$prefixes[] = $newPrefix;
+		}
+
 		$hosts = $helper->getServerConfigurationHosts();
 
 		$wControls = new Template('user_ldap', 'part.wizardcontrols');
@@ -62,7 +70,9 @@ class Admin implements ISettings {
 		$parameters['wizardControls'] = $wControls;
 
 		// assign default values
-		$config = new Configuration('', false);
+		if(!isset($config)) {
+			$config = new Configuration('', false);
+		}
 		$defaults = $config->getDefaults();
 		foreach($defaults as $key => $default) {
 			$parameters[$key.'_default'] = $default;

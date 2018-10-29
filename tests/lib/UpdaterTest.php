@@ -22,7 +22,9 @@
 
 namespace Test;
 
+use OC\Installer;
 use OC\Updater;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\ILogger;
 use OC\IntegrityCheck\Checker;
@@ -36,6 +38,10 @@ class UpdaterTest extends TestCase {
 	private $updater;
 	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
+	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	private $installer;
+	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
+	private $jobList;
 
 	public function setUp() {
 		parent::setUp();
@@ -46,13 +52,21 @@ class UpdaterTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->checker = $this->getMockBuilder(Checker::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
+		$this->installer = $this->getMockBuilder(Installer::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->jobList = $this->getMockBuilder(IJobList::class)
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->updater = new Updater(
 			$this->config,
 			$this->checker,
-			$this->logger
+			$this->logger,
+			$this->installer,
+			$this->jobList
 		);
 	}
 
@@ -106,13 +120,6 @@ class UpdaterTest extends TestCase {
 			->willReturn($vendor);
 
 		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersions));
-	}
-
-	public function testSetSkip3rdPartyAppsDisable() {
-		$this->updater->setSkip3rdPartyAppsDisable(true);
-		$this->assertSame(true, $this->invokePrivate($this->updater, 'skip3rdPartyAppsDisable'));
-		$this->updater->setSkip3rdPartyAppsDisable(false);
-		$this->assertSame(false, $this->invokePrivate($this->updater, 'skip3rdPartyAppsDisable'));
 	}
 
 }

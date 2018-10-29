@@ -31,11 +31,13 @@
 
 namespace OC\Core\Controller;
 
+use OC\HintException;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
+use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
@@ -185,7 +187,7 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
-		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*12) ||
+		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*24*7) ||
 			$user->getLastLogin() > $splittedToken[0]) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
 		}
@@ -205,10 +207,11 @@ class LostController extends Controller {
 	}
 
 	/**
+	 * @param array $data
 	 * @return array
 	 */
-	private function success() {
-		return array('status'=>'success');
+	private function success($data = []) {
+		return array_merge($data, ['status'=>'success']);
 	}
 
 	/**
@@ -223,6 +226,12 @@ class LostController extends Controller {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}
+
+		\OCP\Util::emitHook(
+			'\OCA\Files_Sharing\API\Server2Server',
+			'preLoginNameUsedAsUserName',
+			['uid' => &$user]
+		);
 
 		// FIXME: use HTTP error codes
 		try {
@@ -252,7 +261,15 @@ class LostController extends Controller {
 		}
 
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
-			return $this->error('', array('encryption' => true));
+			$encryptionModules = $this->encryptionManager->getEncryptionModules();
+			foreach ($encryptionModules as $module) {
+				/** @var IEncryptionModule $instance */
+				$instance = call_user_func($module['callback']);
+				// this way we can find out whether per-user keys are used or a system wide encryption key
+				if ($instance->needDetailedAccessList()) {
+					return $this->error('', array('encryption' => true));
+				}
+			}
 		}
 
 		try {
@@ -269,11 +286,13 @@ class LostController extends Controller {
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
+		} catch (HintException $e){
+			return $this->error($e->getHint());
 		} catch (\Exception $e){
 			return $this->error($e->getMessage());
 		}
 
-		return $this->success();
+		return $this->success(['user' => $userId]);
 	}
 
 	/**
@@ -315,12 +334,12 @@ class LostController extends Controller {
 		$emailTemplate->addHeading($this->l10n->t('Password reset'));
 
 		$emailTemplate->addBodyText(
-			$this->l10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.'),
+			htmlspecialchars($this->l10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.')),
 			$this->l10n->t('Click the following link to reset your password. If you have not requested the password reset, then ignore this email.')
 		);
 
 		$emailTemplate->addBodyButton(
-			$this->l10n->t('Reset your password'),
+			htmlspecialchars($this->l10n->t('Reset your password')),
 			$link,
 			false
 		);
@@ -345,24 +364,27 @@ class LostController extends Controller {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function findUserByIdOrMail($input) {
+		$userNotFound = new \InvalidArgumentException(
+			$this->l10n->t('Couldn\'t send reset email. Please make sure your username is correct.')
+		);
+
 		$user = $this->userManager->get($input);
 		if ($user instanceof IUser) {
 			if (!$user->isEnabled()) {
-				throw new \InvalidArgumentException($this->l10n->t('Couldn\'t send reset email. Please make sure your username is correct.'));
-			}
-
-			return $user;
-		}
-		$users = $this->userManager->getByEmail($input);
-		if (count($users) === 1) {
-			$user = $users[0];
-			if (!$user->isEnabled()) {
-				throw new \InvalidArgumentException($this->l10n->t('Couldn\'t send reset email. Please make sure your username is correct.'));
+				throw $userNotFound;
 			}
 
 			return $user;
 		}
 
-		throw new \InvalidArgumentException($this->l10n->t('Couldn\'t send reset email. Please make sure your username is correct.'));
+		$users = \array_filter($this->userManager->getByEmail($input), function (IUser $user) {
+			return $user->isEnabled();
+		});
+
+		if (\count($users) === 1) {
+			return $users[0];
+		}
+
+		throw $userNotFound;
 	}
 }

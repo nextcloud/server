@@ -26,38 +26,32 @@
  */
 
 $app = new \OCP\AppFramework\App('theming');
-/** @var \OCA\Theming\Util $util */
-$util = $app->getContainer()->query(\OCA\Theming\Util::class);
-if(!$util->isAlreadyThemed()) {
+$app->getContainer()->registerCapability(\OCA\Theming\Capabilities::class);
 
-	$app->getContainer()->registerCapability(\OCA\Theming\Capabilities::class);
+$linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
+	'theming.Theming.getStylesheet',
+	[
+		'v' => \OC::$server->getConfig()->getAppValue('theming', 'cachebuster', '0'),
+	]
+);
+\OCP\Util::addHeader(
+	'link',
+	[
+		'rel' => 'stylesheet',
+		'href' => $linkToCSS,
+	]
+);
 
-	$linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
-		'theming.Theming.getStylesheet',
-		[
-			'v' => \OC::$server->getConfig()->getAppValue('theming', 'cachebuster', '0'),
-		]
-	);
-	\OCP\Util::addHeader(
-		'link',
-		[
-			'rel' => 'stylesheet',
-			'href' => $linkToCSS,
-		]
-	);
-
-	$linkToJs = \OC::$server->getURLGenerator()->linkToRoute(
-		'theming.Theming.getJavascript',
-		[
-			'v' => \OC::$server->getConfig()->getAppValue('theming', 'cachebuster', '0'),
-		]
-	);
-	\OCP\Util::addHeader(
-		'script',
-		[
-			'src' => $linkToJs,
-			'nonce' => \OC::$server->getContentSecurityPolicyNonceManager()->getNonce()
-		], ''
-	);
-
-}
+$linkToJs = \OC::$server->getURLGenerator()->linkToRoute(
+	'theming.Theming.getJavascript',
+	[
+		'v' => \OC::$server->getConfig()->getAppValue('theming', 'cachebuster', '0'),
+	]
+);
+\OCP\Util::addHeader(
+	'script',
+	[
+		'src' => $linkToJs,
+		'nonce' => \OC::$server->getContentSecurityPolicyNonceManager()->getNonce()
+	], ''
+);

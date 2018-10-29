@@ -719,9 +719,7 @@ class EncryptionTest extends Storage {
 	}
 
 	public function testCopyBetweenStorageMinimumEncryptedVersion() {
-		$storage2 = $this->getMockBuilder(Storage::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$storage2 = $this->createMock(\OC\Files\Storage\Storage::class);
 
 		$sourceInternalPath = $targetInternalPath = 'file.txt';
 		$preserveMtime = $isRename = false;
@@ -732,6 +730,8 @@ class EncryptionTest extends Storage {
 				$temp = \OC::$server->getTempManager();
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
+		$storage2->method('getId')
+			->willReturn('stroage2');
 		$cache = $this->createMock(ICache::class);
 		$cache->expects($this->once())
 			->method('get')
@@ -768,9 +768,7 @@ class EncryptionTest extends Storage {
 	 * @param bool $expectedEncrypted
 	 */
 	public function testCopyBetweenStorage($encryptionEnabled, $mountPointEncryptionEnabled, $expectedEncrypted) {
-		$storage2 = $this->getMockBuilder(Storage::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$storage2 = $this->createMock(\OC\Files\Storage\Storage::class);
 
 		$sourceInternalPath = $targetInternalPath = 'file.txt';
 		$preserveMtime = $isRename = false;
@@ -781,6 +779,8 @@ class EncryptionTest extends Storage {
 				$temp = \OC::$server->getTempManager();
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
+		$storage2->method('getId')
+			->willReturn('stroage2');
 		if($expectedEncrypted) {
 			$cache = $this->createMock(ICache::class);
 			$cache->expects($this->once())
@@ -806,7 +806,7 @@ class EncryptionTest extends Storage {
 			'encrypted' => $expectedEncrypted,
 		];
 		if($expectedEncrypted === true) {
-			$expectedCachePut['encryptedVersion'] = 12345;
+			$expectedCachePut['encryptedVersion'] = 1;
 		}
 
 		$this->arrayCache->expects($this->never())->method('set');
@@ -830,13 +830,9 @@ class EncryptionTest extends Storage {
 	 */
 	public function  testCopyBetweenStorageVersions($sourceInternalPath, $targetInternalPath, $copyResult, $encrypted) {
 
-		$sourceStorage = $this->getMockBuilder(Storage::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
 
-		$targetStorage = $this->getMockBuilder(Storage::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$targetStorage = $this->createMock(\OC\Files\Storage\Storage::class);
 
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
 			->disableOriginalConstructor()->getMock();

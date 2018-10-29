@@ -63,11 +63,10 @@ class VersionParser {
 				if(!$this->isValidVersionString($firstVersionNumber)) {
 					break;
 				}
-				if(substr($firstVersion, 0, 1) === '>') {
+				if(strpos($firstVersion, '>') === 0) {
 					return new Version($firstVersionNumber, '');
-				} else {
-					return new Version('', $firstVersionNumber);
 				}
+				return new Version('', $firstVersionNumber);
 			case 2:
 				if(!$this->isValidVersionString($firstVersionNumber) || !$this->isValidVersionString($secondVersionNumber)) {
 					break;

@@ -24,6 +24,12 @@
 namespace OCA\Files_Sharing\Activity\Providers;
 
 use OCP\Activity\IEvent;
+use OCP\Activity\IManager;
+use OCP\IGroup;
+use OCP\IGroupManager;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
+use OCP\L10N\IFactory;
 
 class Groups extends Base {
 
@@ -31,6 +37,24 @@ class Groups extends Base {
 	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
 	const SUBJECT_UNSHARED_GROUP_SELF = 'unshared_group_self';
 	const SUBJECT_UNSHARED_GROUP_BY = 'unshared_group_by';
+
+	/** @var IGroupManager */
+	protected $groupManager;
+
+	/** @var string[] */
+	protected $groupDisplayNames = [];
+
+	/**
+	 * @param IFactory $languageFactory
+	 * @param IURLGenerator $url
+	 * @param IManager $activityManager
+	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
+	 */
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IGroupManager $groupManager) {
+		parent::__construct($languageFactory, $url, $activityManager, $userManager);
+		$this->groupManager = $groupManager;
+	}
 
 	/**
 	 * @param IEvent $event
@@ -103,24 +127,44 @@ class Groups extends Base {
 			case self::SUBJECT_UNSHARED_GROUP_BY:
 				return [
 					'file' => $this->getFile($parameters[0], $event),
-					'group' => [
-						'type' => 'group',
-						'id' => $parameters[2],
-						'name' => $parameters[2],
-					],
+					'group' => $this->generateGroupParameter($parameters[2]),
 					'actor' => $this->getUser($parameters[1]),
 				];
 			case self::SUBJECT_SHARED_GROUP_SELF:
 			case self::SUBJECT_UNSHARED_GROUP_SELF:
 				return [
 					'file' => $this->getFile($parameters[0], $event),
-					'group' => [
-						'type' => 'group',
-						'id' => $parameters[1],
-						'name' => $parameters[1],
-					],
+					'group' => $this->generateGroupParameter($parameters[1]),
 				];
 		}
 		return [];
+	}
+
+	/**
+	 * @param string $gid
+	 * @return array
+	 */
+	protected function generateGroupParameter($gid) {
+		if (!isset($this->groupDisplayNames[$gid])) {
+			$this->groupDisplayNames[$gid] = $this->getGroupDisplayName($gid);
+		}
+
+		return [
+			'type' => 'group',
+			'id' => $gid,
+			'name' => $this->groupDisplayNames[$gid],
+		];
+	}
+
+	/**
+	 * @param string $gid
+	 * @return string
+	 */
+	protected function getGroupDisplayName($gid) {
+		$group = $this->groupManager->get($gid);
+		if ($group instanceof IGroup) {
+			return $group->getDisplayName();
+		}
+		return $gid;
 	}
 }

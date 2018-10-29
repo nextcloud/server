@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -54,7 +55,7 @@ class SessionStorage {
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function getToken() {
+	public function getToken(): string {
 		$token = $this->session->get('requesttoken');
 		if(empty($token)) {
 			throw new \Exception('Session does not contain a requesttoken');
@@ -68,7 +69,7 @@ class SessionStorage {
 	 *
 	 * @param string $value
 	 */
-	public function setToken($value) {
+	public function setToken(string $value) {
 		$this->session->set('requesttoken', $value);
 	}
 
@@ -83,7 +84,7 @@ class SessionStorage {
 	 *
 	 * @return bool
 	 */
-	public function hasToken() {
+	public function hasToken(): bool {
 		return $this->session->exists('requesttoken');
 	}
 }

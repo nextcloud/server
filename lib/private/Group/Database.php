@@ -5,6 +5,7 @@
  * @author Aaron Wood <aaronjwood@gmail.com>
  * @author Loki3000 <github@labcms.ru>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -40,23 +41,39 @@
 
 namespace OC\Group;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Group\Backend\ABackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\ICountDisabledInGroup;
+use OCP\Group\Backend\ICountUsersBackend;
+use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
+use OCP\IDBConnection;
+
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends \OC\Group\Backend {
+class Database extends ABackend
+	implements IAddToGroupBackend,
+	           ICountDisabledInGroup,
+	           ICountUsersBackend,
+	           ICreateGroupBackend,
+	           IDeleteGroupBackend,
+	           IRemoveFromGroupBackend {
 
 	/** @var string[] */
 	private $groupCache = [];
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $dbConn;
 
 	/**
 	 * \OC\Group\Database constructor.
 	 *
-	 * @param \OCP\IDBConnection|null $dbConn
+	 * @param IDBConnection|null $dbConn
 	 */
-	public function __construct(\OCP\IDBConnection $dbConn = null) {
+	public function __construct(IDBConnection $dbConn = null) {
 		$this->dbConn = $dbConn;
 	}
 
@@ -77,7 +94,7 @@ class Database extends \OC\Group\Backend {
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public function createGroup( $gid ) {
+	public function createGroup(string $gid): bool {
 		$this->fixDI();
 
 		// Add group
@@ -98,7 +115,7 @@ class Database extends \OC\Group\Backend {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public function deleteGroup( $gid ) {
+	public function deleteGroup(string $gid): bool {
 		$this->fixDI();
 
 		// Delete the group
@@ -158,7 +175,7 @@ class Database extends \OC\Group\Backend {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup( $uid, $gid ) {
+	public function addToGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
 		// No duplicate entries!
@@ -182,7 +199,7 @@ class Database extends \OC\Group\Backend {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup( $uid, $gid ) {
+	public function removeFromGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -219,7 +236,7 @@ class Database extends \OC\Group\Backend {
 
 		$groups = [];
 		while( $row = $cursor->fetch()) {
-			$groups[] = $row["gid"];
+			$groups[] = $row['gid'];
 			$this->groupCache[$row['gid']] = $row['gid'];
 		}
 		$cursor->closeCursor();
@@ -237,19 +254,29 @@ class Database extends \OC\Group\Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups($search = '', $limit = null, $offset = null) {
-		$parameters = [];
-		$searchLike = '';
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('gid')
+			->from('groups')
+			->orderBy('gid', 'ASC');
+
 		if ($search !== '') {
-			$parameters[] = '%' . $search . '%';
-			$searchLike = ' WHERE LOWER(`gid`) LIKE LOWER(?)';
+			$query->where($query->expr()->iLike('gid', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+			)));
 		}
 
-		$stmt = \OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups`' . $searchLike . ' ORDER BY `gid` ASC', $limit, $offset);
-		$result = $stmt->execute($parameters);
-		$groups = array();
-		while ($row = $result->fetchRow()) {
+		$query->setMaxResults($limit)
+			->setFirstResult($offset);
+		$result = $query->execute();
+
+		$groups = [];
+		while ($row = $result->fetch()) {
 			$groups[] = $row['gid'];
 		}
+		$result->closeCursor();
+
 		return $groups;
 	}
 
@@ -290,21 +317,30 @@ class Database extends \OC\Group\Backend {
 	 * @return array an array of user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
-		$parameters = [$gid];
-		$searchLike = '';
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('uid')
+			->from('group_user')
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
+			->orderBy('uid', 'ASC');
+
 		if ($search !== '') {
-			$parameters[] = '%' . $this->dbConn->escapeLikeParameter($search) . '%';
-			$searchLike = ' AND `uid` LIKE ?';
+			$query->andWhere($query->expr()->like('uid', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+			)));
 		}
 
-		$stmt = \OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike . ' ORDER BY `uid` ASC',
-			$limit,
-			$offset);
-		$result = $stmt->execute($parameters);
-		$users = array();
-		while ($row = $result->fetchRow()) {
+		$query->setMaxResults($limit)
+			->setFirstResult($offset);
+		$result = $query->execute();
+
+		$users = [];
+		while ($row = $result->fetch()) {
 			$users[] = $row['uid'];
 		}
+		$result->closeCursor();
+
 		return $users;
 	}
 
@@ -312,23 +348,63 @@ class Database extends \OC\Group\Backend {
 	 * get the number of all users matching the search string in a group
 	 * @param string $gid
 	 * @param string $search
-	 * @return int|false
-	 * @throws \OC\DatabaseException
+	 * @return int
 	 */
-	public function countUsersInGroup($gid, $search = '') {
-		$parameters = [$gid];
-		$searchLike = '';
+	public function countUsersInGroup(string $gid, string $search = ''): int {
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_users')
+			->from('group_user')
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
+
 		if ($search !== '') {
-			$parameters[] = '%' . $this->dbConn->escapeLikeParameter($search) . '%';
-			$searchLike = ' AND `uid` LIKE ?';
+			$query->andWhere($query->expr()->like('uid', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+			)));
 		}
 
-		$stmt = \OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike);
-		$result = $stmt->execute($parameters);
-		$count = $result->fetchOne();
-		if($count !== false) {
-			$count = intval($count);
+		$result = $query->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+
+		if ($count !== false) {
+			$count = (int)$count;
+		} else {
+			$count = 0;
 		}
+
+		return $count;
+	}
+
+	/**
+	 * get the number of disabled users in a group
+	 *
+	 * @param string $search
+	 * @return int|bool
+	 */
+	public function countDisabledInGroup(string $gid): int {
+		$this->fixDI();
+		
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select($query->createFunction('COUNT(DISTINCT ' . $query->getColumnName('uid') . ')'))
+			->from('preferences', 'p')
+			->innerJoin('p', 'group_user', 'g', $query->expr()->eq('p.userid', 'g.uid'))
+			->where($query->expr()->eq('appid', $query->createNamedParameter('core')))
+			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('enabled')))
+			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
+			->andWhere($query->expr()->eq('gid', $query->createNamedParameter($gid), IQueryBuilder::PARAM_STR));
+		
+		$result = $query->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+		
+		if ($count !== false) {
+			$count = (int)$count;
+		} else {
+			$count = 0;
+		}
+
 		return $count;
 	}
 

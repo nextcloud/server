@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -35,7 +36,7 @@ use OCP\AppFramework\Http;
  * @package OC\AppFramework\Middleware\Security\Exceptions
  */
 class NotAdminException extends SecurityException {
-	public function __construct($message = 'Logged in user must be an admin') {
+	public function __construct(string $message) {
 		parent::__construct($message, Http::STATUS_FORBIDDEN);
 	}
 }

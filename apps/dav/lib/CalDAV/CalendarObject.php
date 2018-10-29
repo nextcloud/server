@@ -33,6 +33,22 @@ use Sabre\VObject\Reader;
 class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 
 	/**
+	 * CalendarObject constructor.
+	 *
+	 * @param CalDavBackend $caldavBackend
+	 * @param array $calendarInfo
+	 * @param array $objectData
+	 */
+	public function __construct(CalDavBackend $caldavBackend, array $calendarInfo,
+								array $objectData) {
+		parent::__construct($caldavBackend, $calendarInfo, $objectData);
+
+		if ($this->isShared()) {
+			unset($this->objectData['size']);
+		}
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	function get() {

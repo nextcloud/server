@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -22,7 +23,6 @@
  *
  */
 
-
 namespace OC\AppFramework\Utility;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -37,9 +37,18 @@ class TimeFactory implements ITimeFactory {
 	/**
 	 * @return int the result of a call to time()
 	 */
-	public function getTime() {
+	public function getTime(): int {
 		return time();
 	}
 
+	/**
+	 * @param string $time
+	 * @param \DateTimeZone $timezone
+	 * @return \DateTime
+	 * @since 15.0.0
+	 */
+	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime {
+		return new \DateTime($time, $timezone);
+	}
 
 }

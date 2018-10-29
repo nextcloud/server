@@ -74,11 +74,27 @@ class AdminTest extends TestCase {
 			->willReturn($state);
 		$this->federatedShareProvider
 			->expects($this->once())
+			->method('isIncomingServer2serverShareEnabled')
+			->willReturn($state);
+		$this->federatedShareProvider
+			->expects($this->once())
 			->method('isLookupServerQueriesEnabled')
 			->willReturn($state);
 		$this->federatedShareProvider
 			->expects($this->once())
 			->method('isLookupServerUploadEnabled')
+			->willReturn($state);
+		$this->federatedShareProvider
+			->expects($this->once())
+			->method('isFederatedGroupSharingSupported')
+			->willReturn($state);
+		$this->federatedShareProvider
+			->expects($this->once())
+			->method('isOutgoingServer2serverGroupShareEnabled')
+			->willReturn($state);
+		$this->federatedShareProvider
+			->expects($this->once())
+			->method('isIncomingServer2serverGroupShareEnabled')
 			->willReturn($state);
 		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
 			->willReturn($state);
@@ -88,7 +104,10 @@ class AdminTest extends TestCase {
 			'outgoingServer2serverShareEnabled' => $state,
 			'incomingServer2serverShareEnabled' => $state,
 			'lookupServerEnabled' => $state,
-			'lookupServerUploadEnabled' => $state
+			'lookupServerUploadEnabled' => $state,
+			'federatedGroupSharingSupported' => $state,
+			'outgoingServer2serverGroupShareEnabled' => $state,
+			'incomingServer2serverGroupShareEnabled' => $state,
 		];
 		$expected = new TemplateResponse('federatedfilesharing', 'settings-admin', $params, '');
 		$this->assertEquals($expected, $this->admin->getForm());

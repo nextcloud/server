@@ -45,9 +45,13 @@ describe('OCA.External.Settings tests', function() {
 			'<td class="applicable">' +
 			'<input type="hidden" class="applicableUsers">' +
 			'</td>' +
-			'<td class="mountOptionsToggle"><input type="hidden" class="mountOptions"/><img class="svg action"/></td>' +
-			'<td class="remove"><img alt="Delete" title="Delete" class="svg action"/></td>' +
-			'<td class="save"><img alt="Save" title="Save" class="svg action"/></td>' +
+			'<td class="mountOptionsToggle">'+
+			'<div class="icon-more" title="Advanced settings" deluminate_imagetype="unknown"></div>'+
+			'<input type="hidden" class="mountOptions"/>'+
+			'</td>'+
+			'<td class="save">'+
+			'<div class="icon-checkmark" title="Save" deluminate_imagetype="unknown"></div>'+
+			'</td>'+
 			'</tr>' +
 			'</tbody>' +
 			'</table>'
@@ -206,12 +210,12 @@ describe('OCA.External.Settings tests', function() {
 				expect($mountOptionsField.length).toEqual(1);
 				$mountOptionsField.val(JSON.stringify({previews:true}));
 
-				var $saveButton = $tr.find('td.save img');
+				var $saveButton = $tr.find('td.save .icon-checkmark');
 				$saveButton.click();
 
 				expect(fakeServer.requests.length).toEqual(1);
 				var request = fakeServer.requests[0];
-				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_external/globalstorages');
+				expect(request.url).toEqual(OC.getRootPath() + '/index.php/apps/files_external/globalstorages');
 				expect(JSON.parse(request.requestBody)).toEqual({
 					backend: '\\OC\\TestBackend',
 					authMechanism: 'mechanism1',
@@ -231,17 +235,17 @@ describe('OCA.External.Settings tests', function() {
 
 				// TODO: respond and check data-id
 			});
-			it('saves storage after closing mount options dropdown', function() {
-				$tr.find('.mountOptionsToggle img').click();
+			it('saves storage after closing mount options popovermenu', function() {
+				$tr.find('.mountOptionsToggle .icon-more').click();
 				$tr.find('[name=previews]').trigger(new $.Event('keyup', {keyCode: 97}));
 				$tr.find('input[data-parameter=field1]').val('test');
 
-				// does not save inside the dropdown
+				// does not save inside the popovermenu
 				expect(fakeServer.requests.length).toEqual(0);
 
 				$('body').mouseup();
 
-				// but after closing the dropdown
+				// but after closing the popovermenu
 				expect(fakeServer.requests.length).toEqual(1);
 			});
 			// TODO: status indicator
@@ -313,7 +317,7 @@ describe('OCA.External.Settings tests', function() {
 		describe('recheck storages', function() {
 			// TODO
 		});
-		describe('mount options dropdown', function() {
+		describe('mount options popovermenu', function() {
 			var $tr;
 			var $td;
 
@@ -323,45 +327,45 @@ describe('OCA.External.Settings tests', function() {
 				selectBackend('\\OC\\TestBackend');
 			});
 
-			it('shows dropdown when clicking on toggle button, hides when clicking outside', function() {
-				$td.find('img').click();
+			it('shows popovermenu when clicking on toggle button, hides when clicking outside', function() {
+				$td.find('.icon-more').click();
 
-				expect($td.find('.dropdown').length).toEqual(1);
+				expect($td.find('.popovermenu.open').length).toEqual(1);
 
 				$('body').mouseup();
 
-				expect($td.find('.dropdown').length).toEqual(0);
+				expect($td.find('.popovermenu.open').length).toEqual(0);
 			});
 
 			it('doesnt show the encryption option when encryption is disabled', function () {
 				view._encryptionEnabled = false;
-				$td.find('img').click();
+				$td.find('.icon-more').click();
 
-				expect($td.find('.dropdown [name=encrypt]:visible').length).toEqual(0);
+				expect($td.find('.popovermenu [name=encrypt]:visible').length).toEqual(0);
 
 				$('body').mouseup();
 
-				expect($td.find('.dropdown').length).toEqual(0);
+				expect($td.find('.popovermenu.open').length).toEqual(0);
 			});
 
 			it('reads config from mountOptions field', function() {
 				$tr.find('input.mountOptions').val(JSON.stringify({previews:false}));
 
-				$td.find('img').click();
-				expect($td.find('.dropdown [name=previews]').prop('checked')).toEqual(false);
+				$td.find('.icon-more').click();
+				expect($td.find('.popovermenu [name=previews]').prop('checked')).toEqual(false);
 				$('body').mouseup();
 
 				$tr.find('input.mountOptions').val(JSON.stringify({previews:true}));
-				$td.find('img').click();
-				expect($td.find('.dropdown [name=previews]').prop('checked')).toEqual(true);
+				$td.find('.icon-more').click();
+				expect($td.find('.popovermenu [name=previews]').prop('checked')).toEqual(true);
 			});
 
 			it('writes config into mountOptions field', function() {
-				$td.find('img').click();
+				$td.find('.icon-more').click();
 				// defaults to true
-				var $field = $td.find('.dropdown [name=previews]');
+				var $field = $td.find('.popovermenu [name=previews]');
 				expect($field.prop('checked')).toEqual(true);
-				$td.find('.dropdown [name=filesystem_check_changes]').val(0);
+				$td.find('.popovermenu [name=filesystem_check_changes]').val(0);
 				$('body').mouseup();
 
 				expect(JSON.parse($tr.find('input.mountOptions').val())).toEqual({
@@ -369,7 +373,8 @@ describe('OCA.External.Settings tests', function() {
 					previews: true,
 					enable_sharing: false,
 					filesystem_check_changes: 0,
-					encoding_compatibility: false
+					encoding_compatibility: false,
+					readonly: false
 				});
 			});
 		});

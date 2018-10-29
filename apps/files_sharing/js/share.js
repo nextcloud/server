@@ -12,6 +12,7 @@
 
 	_.extend(OC.Files.Client, {
 		PROPERTY_SHARE_TYPES:	'{' + OC.Files.Client.NS_OWNCLOUD + '}share-types',
+		PROPERTY_OWNER_ID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}owner-id',
 		PROPERTY_OWNER_DISPLAY_NAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}owner-display-name'
 	});
 
@@ -41,18 +42,27 @@
 			var fileActions = fileList.fileActions;
 			var oldCreateRow = fileList._createRow;
 			fileList._createRow = function(fileData) {
+
 				var tr = oldCreateRow.apply(this, arguments);
 				var sharePermissions = OCA.Sharing.Util.getSharePermissions(fileData);
+				
+				if (fileData.permissions === 0) {
+					// no permission, disabling sidebar
+					delete fileActions.actions.all.Comment;
+					delete fileActions.actions.all.Details;
+					delete fileActions.actions.all.Goto;
+				}
 				tr.attr('data-share-permissions', sharePermissions);
 				if (fileData.shareOwner) {
 					tr.attr('data-share-owner', fileData.shareOwner);
+					tr.attr('data-share-owner-id', fileData.shareOwnerId);
 					// user should always be able to rename a mount point
 					if (fileData.mountType === 'shared-root') {
 						tr.attr('data-permissions', fileData.permissions | OC.PERMISSION_UPDATE);
 					}
 				}
-				if (fileData.recipientsDisplayName) {
-					tr.attr('data-share-recipients', fileData.recipientsDisplayName);
+				if (fileData.recipientData && !_.isEmpty(fileData.recipientData)) {
+					tr.attr('data-share-recipient-data', JSON.stringify(fileData.recipientData));
 				}
 				if (fileData.shareTypes) {
 					tr.attr('data-share-types', fileData.shareTypes.join(','));
@@ -65,10 +75,10 @@
 				var fileInfo = oldElementToFile.apply(this, arguments);
 				fileInfo.sharePermissions = $el.attr('data-share-permissions') || undefined;
 				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined;
+				fileInfo.shareOwnerId = $el.attr('data-share-owner-id') || undefined;
 
 				if( $el.attr('data-share-types')){
-					var shareTypes = $el.attr('data-share-types').split(',');
-					fileInfo.shareTypes = shareTypes;
+					fileInfo.shareTypes = $el.attr('data-share-types').split(',');
 				}
 
 				if( $el.attr('data-expiration')){
@@ -77,14 +87,13 @@
 					fileInfo.shares.push({expiration: expirationTimestamp});
 				}
 
-				fileInfo.recipientsDisplayName = $el.attr('data-share-recipients') || undefined;
-
 				return fileInfo;
 			};
 
 			var oldGetWebdavProperties = fileList._getWebdavProperties;
 			fileList._getWebdavProperties = function() {
 				var props = oldGetWebdavProperties.apply(this, arguments);
+				props.push(OC.Files.Client.PROPERTY_OWNER_ID);
 				props.push(OC.Files.Client.PROPERTY_OWNER_DISPLAY_NAME);
 				props.push(OC.Files.Client.PROPERTY_SHARE_TYPES);
 				return props;
@@ -97,6 +106,7 @@
 
 				if (permissionsProp && permissionsProp.indexOf('S') >= 0) {
 					data.shareOwner = props[OC.Files.Client.PROPERTY_OWNER_DISPLAY_NAME];
+					data.shareOwnerId = props[OC.Files.Client.PROPERTY_OWNER_ID];
 				}
 
 				var shareTypesProp = props[OC.Files.Client.PROPERTY_SHARE_TYPES];
@@ -136,6 +146,8 @@
 								hasShares = true;
 							} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 								hasShares = true;
+							} else if (shareType === OC.Share.SHARE_TYPE_ROOM) {
+								hasShares = true;
 							}
 						});
 						OCA.Sharing.Util._updateFileActionIcon($tr, hasShares, hasLink);
@@ -156,11 +168,15 @@
 				permissions: OC.PERMISSION_ALL,
 				iconClass: 'icon-shared',
 				type: OCA.Files.FileActions.TYPE_INLINE,
-				actionHandler: function(fileName) {
-					fileList.showDetailsView(fileName, 'shareTabView');
+				actionHandler: function(fileName, context) {
+					// do not open sidebar if permission is set and equal to 0
+					var permissions = parseInt(context.$file.data('share-permissions'), 10);
+					if (isNaN(permissions) || permissions > 0) {
+						fileList.showDetailsView(fileName, 'shareTabView');
+					}
 				},
 				render: function(actionSpec, isDefault, context) {
-					var permissions = parseInt(context.$file.attr('data-permissions'), 10);
+					var permissions = parseInt(context.$file.data('permissions'), 10);
 					// if no share permissions but share owner exists, still show the link
 					if ((permissions & OC.PERMISSION_SHARE) !== 0 || context.$file.attr('data-share-owner')) {
 						return fileActions._defaultRenderAction.call(fileActions, actionSpec, isDefault, context);
@@ -218,10 +234,13 @@
 			var recipients = _.pluck(shareModel.get('shares'), 'share_with_displayname');
 			// note: we only update the data attribute because updateIcon()
 			if (recipients.length) {
-				$tr.attr('data-share-recipients', OCA.Sharing.Util.formatRecipients(recipients));
+				var recipientData = _.mapObject(shareModel.get('shares'), function (share) {
+					return {shareWith: share.share_with, shareWithDisplayName: share.share_with_displayname};
+				});
+				$tr.attr('data-share-recipient-data', JSON.stringify(recipientData));
 			}
 			else {
-				$tr.removeAttr('data-share-recipients');
+				$tr.removeAttr('data-share-recipient-data');
 			}
 		},
 
@@ -229,15 +248,15 @@
 		 * Update the file action share icon for the given file
 		 *
 		 * @param $tr file element of the file to update
-		 * @param {bool} hasUserShares true if a user share exists
-		 * @param {bool} hasLinkShare true if a link share exists
+		 * @param {boolean} hasUserShares true if a user share exists
+		 * @param {boolean} hasLinkShare true if a link share exists
 		 *
-		 * @return {bool} true if the icon was set, false otherwise
+		 * @return {boolean} true if the icon was set, false otherwise
 		 */
 		_updateFileActionIcon: function($tr, hasUserShares, hasLinkShare) {
 			// if the statuses are loaded already, use them for the icon
 			// (needed when scrolling to the next page)
-			if (hasUserShares || hasLinkShare || $tr.attr('data-share-recipients') || $tr.attr('data-share-owner')) {
+			if (hasUserShares || hasLinkShare || $tr.attr('data-share-recipient-data') || $tr.attr('data-share-owner')) {
 				OC.Share.markFileAsShared($tr, true, hasLinkShare);
 				return true;
 			}
@@ -245,49 +264,11 @@
 		},
 
 		/**
-		 * Formats a recipients array to be displayed.
-		 * The first four recipients will be shown and the
-		 * other ones will be shown as "+x" where "x" is the number of
-		 * remaining recipients.
-		 *
-		 * @param {Array.<String>} recipients recipients array
-		 * @param {int} count optional total recipients count (in case the array was shortened)
-		 * @return {String} formatted recipients display text
-		 */
-		formatRecipients: function(recipients, count) {
-			var maxRecipients = 4;
-			var text;
-			if (!_.isNumber(count)) {
-				count = recipients.length;
-			}
-			// TODO: use natural sort
-			recipients = _.first(recipients, maxRecipients).sort();
-			text = recipients.join(', ');
-			if (count > maxRecipients) {
-				text += ', +' + (count - maxRecipients);
-			}
-			return text;
-		},
-
-		/**
 		 * @param {Array} fileData
 		 * @returns {String}
 		 */
 		getSharePermissions: function(fileData) {
-			var sharePermissions = fileData.permissions;
-			if (fileData.mountType && fileData.mountType === "external-root"){
-				// for external storages we can't use the permissions of the mountpoint
-				// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
-				sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
-			}
-			if (fileData.type === 'file') {
-				// files can't be shared with delete permissions
-				sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
-
-				// create permissions don't mean anything for files
-				sharePermissions = sharePermissions & ~OC.PERMISSION_CREATE;
-			}
-			return sharePermissions;
+			return fileData.sharePermissions;
 		}
 	};
 })();

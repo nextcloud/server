@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -45,7 +46,7 @@ class Attachment implements IAttachment {
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function setFilename($filename) {
+	public function setFilename(string $filename): IAttachment {
 		$this->swiftAttachment->setFilename($filename);
 		return $this;
 	}
@@ -55,7 +56,7 @@ class Attachment implements IAttachment {
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function setContentType($contentType) {
+	public function setContentType(string $contentType): IAttachment {
 		$this->swiftAttachment->setContentType($contentType);
 		return $this;
 	}
@@ -65,7 +66,7 @@ class Attachment implements IAttachment {
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function setBody($body) {
+	public function setBody(string $body): IAttachment {
 		$this->swiftAttachment->setBody($body);
 		return $this;
 	}
@@ -73,7 +74,7 @@ class Attachment implements IAttachment {
 	/**
 	 * @return \Swift_Mime_Attachment
 	 */
-	public function getSwiftAttachment() {
+	public function getSwiftAttachment(): \Swift_Mime_Attachment {
 		return $this->swiftAttachment;
 	}
 

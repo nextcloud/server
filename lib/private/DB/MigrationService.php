@@ -23,6 +23,13 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\DBAL\Schema\Sequence;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
@@ -30,8 +37,6 @@ use OCP\AppFramework\QueryException;
 use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 
 class MigrationService {
@@ -96,23 +101,53 @@ class MigrationService {
 			return false;
 		}
 
-		if ($this->connection->tableExists('migrations')) {
-			$this->migrationTableCreated = true;
-			return false;
+		$schema = new SchemaWrapper($this->connection);
+
+		/**
+		 * We drop the table when it has different columns or the definition does not
+		 * match. E.g. ownCloud uses a length of 177 for app and 14 for version.
+		 */
+		try {
+			$table = $schema->getTable('migrations');
+			$columns = $table->getColumns();
+
+			if (count($columns) === 2) {
+				try {
+					$column = $table->getColumn('app');
+					$schemaMismatch = $column->getLength() !== 255;
+
+					if (!$schemaMismatch) {
+						$column = $table->getColumn('version');
+						$schemaMismatch = $column->getLength() !== 255;
+					}
+				} catch (SchemaException $e) {
+					// One of the columns is missing
+					$schemaMismatch = true;
+				}
+
+				if (!$schemaMismatch) {
+					// Table exists and schema matches: return back!
+					$this->migrationTableCreated = true;
+					return false;
+				}
+			}
+
+			// Drop the table, when it didn't match our expectations.
+			$this->connection->dropTable('migrations');
+
+			// Recreate the schema after the table was dropped.
+			$schema = new SchemaWrapper($this->connection);
+
+		} catch (SchemaException $e) {
+			// Table not found, no need to panic, we will create it.
 		}
 
-		$tableName = $this->connection->getPrefix() . 'migrations';
-		$tableName = $this->connection->getDatabasePlatform()->quoteIdentifier($tableName);
+		$table = $schema->createTable('migrations');
+		$table->addColumn('app', Type::STRING, ['length' => 255]);
+		$table->addColumn('version', Type::STRING, ['length' => 255]);
+		$table->setPrimaryKey(['app', 'version']);
 
-		$columns = [
-			'app' => new Column($this->connection->getDatabasePlatform()->quoteIdentifier('app'), Type::getType('string'), ['length' => 255]),
-			'version' => new Column($this->connection->getDatabasePlatform()->quoteIdentifier('version'), Type::getType('string'), ['length' => 255]),
-		];
-		$table = new Table($tableName, $columns);
-		$table->setPrimaryKey([
-			$this->connection->getDatabasePlatform()->quoteIdentifier('app'),
-			$this->connection->getDatabasePlatform()->quoteIdentifier('version')]);
-		$this->connection->getSchemaManager()->createTable($table);
+		$this->connection->migrateToSchema($schema->getWrappedSchema());
 
 		$this->migrationTableCreated = true;
 
@@ -153,7 +188,7 @@ class MigrationService {
 
 	protected function findMigrations() {
 		$directory = realpath($this->migrationsPath);
-		if (!file_exists($directory) || !is_dir($directory)) {
+		if ($directory === false || !file_exists($directory) || !is_dir($directory)) {
 			return [];
 		}
 
@@ -347,25 +382,48 @@ class MigrationService {
 	 * Applies all not yet applied versions up to $to
 	 *
 	 * @param string $to
+	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function migrate($to = 'latest') {
+	public function migrate($to = 'latest', $schemaOnly = false) {
 		// read known migrations
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 		foreach ($toBeExecuted as $version) {
-			$this->executeStep($version);
+			$this->executeStep($version, $schemaOnly);
 		}
 	}
 
 	/**
+	 * Get the human readable descriptions for the migration steps to run
+	 *
+	 * @param string $to
+	 * @return string[] [$name => $description]
+	 */
+	public function describeMigrationStep($to = 'latest') {
+		$toBeExecuted = $this->getMigrationsToExecute($to);
+		$description = [];
+		foreach ($toBeExecuted as $version) {
+			$migration = $this->createInstance($version);
+			if ($migration->name()) {
+				$description[$migration->name()] = $migration->description();
+			}
+		}
+		return $description;
+	}
+
+	/**
 	 * @param string $version
-	 * @return mixed
+	 * @return IMigrationStep
 	 * @throws \InvalidArgumentException
 	 */
 	protected function createInstance($version) {
 		$class = $this->getClass($version);
 		try {
 			$s = \OC::$server->query($class);
+
+			if (!$s instanceof IMigrationStep) {
+				throw new \InvalidArgumentException('Not a valid migration');
+			}
 		} catch (QueryException $e) {
 			if (class_exists($class)) {
 				$s = new $class();
@@ -381,32 +439,99 @@ class MigrationService {
 	 * Executes one explicit version
 	 *
 	 * @param string $version
+	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function executeStep($version) {
+	public function executeStep($version, $schemaOnly = false) {
 		$instance = $this->createInstance($version);
-		if (!$instance instanceof IMigrationStep) {
-			throw new \InvalidArgumentException('Not a valid migration');
-		}
 
-		$instance->preSchemaChange($this->output, function() {
-			return $this->connection->createSchema();
-		}, ['tablePrefix' => $this->connection->getPrefix()]);
+		if (!$schemaOnly) {
+			$instance->preSchemaChange($this->output, function() {
+				return new SchemaWrapper($this->connection);
+			}, ['tablePrefix' => $this->connection->getPrefix()]);
+		}
 
 		$toSchema = $instance->changeSchema($this->output, function() {
 			return new SchemaWrapper($this->connection);
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		if ($toSchema instanceof SchemaWrapper) {
-			$this->connection->migrateToSchema($toSchema->getWrappedSchema());
+			$targetSchema = $toSchema->getWrappedSchema();
+			// TODO re-enable once stable14 is branched of: https://github.com/nextcloud/server/issues/10518
+			// $this->ensureOracleIdentifierLengthLimit($targetSchema, strlen($this->connection->getPrefix()));
+			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
 
-		$instance->postSchemaChange($this->output, function() {
-			return $this->connection->createSchema();
-		}, ['tablePrefix' => $this->connection->getPrefix()]);
+		if (!$schemaOnly) {
+			$instance->postSchemaChange($this->output, function() {
+				return new SchemaWrapper($this->connection);
+			}, ['tablePrefix' => $this->connection->getPrefix()]);
+		}
 
 		$this->markAsExecuted($version);
+	}
+
+	public function ensureOracleIdentifierLengthLimit(Schema $schema, int $prefixLength) {
+		$sequences = $schema->getSequences();
+
+		foreach ($schema->getTables() as $table) {
+			if (\strlen($table->getName()) - $prefixLength > 27) {
+				throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
+			}
+
+			foreach ($table->getColumns() as $thing) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			foreach ($table->getIndexes() as $thing) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Index name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			foreach ($table->getForeignKeys() as $thing) {
+				if (\strlen($thing->getName()) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Foreign key name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				}
+			}
+
+			$primaryKey = $table->getPrimaryKey();
+			if ($primaryKey instanceof Index) {
+				$indexName = strtolower($primaryKey->getName());
+				$isUsingDefaultName = $indexName === 'primary';
+
+				if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+					$defaultName = $table->getName() . '_pkey';
+					$isUsingDefaultName = strtolower($defaultName) === $indexName;
+
+					if ($isUsingDefaultName) {
+						$sequenceName = $table->getName() . '_' . implode('_', $primaryKey->getColumns()) . '_seq';
+						$sequences = array_filter($sequences, function(Sequence $sequence) use ($sequenceName) {
+							return $sequence->getName() !== $sequenceName;
+						});
+					}
+				} else if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+					$defaultName = $table->getName() . '_seq';
+					$isUsingDefaultName = strtolower($defaultName) === $indexName;
+				}
+
+				if (!$isUsingDefaultName && \strlen($indexName) - $prefixLength > 27) {
+					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+				}
+				if ($isUsingDefaultName && \strlen($table->getName()) - $prefixLength > 23) {
+					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+				}
+			}
+		}
+
+		foreach ($sequences as $sequence) {
+			if (\strlen($sequence->getName()) - $prefixLength > 27) {
+				throw new \InvalidArgumentException('Sequence name "'  . $sequence->getName() . '" is too long.');
+			}
+		}
 	}
 
 	private function ensureMigrationsAreLoaded() {

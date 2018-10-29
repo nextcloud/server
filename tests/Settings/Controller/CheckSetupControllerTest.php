@@ -21,6 +21,10 @@
 
 namespace Tests\Settings\Controller;
 
+use OC;
+use OC\DB\Connection;
+use OC\MemoryInfo;
+use OC\Security\SecureRandom;
 use OC\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -28,17 +32,23 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OC_Util;
+use OCP\Lock\ILockingProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
 use OC\IntegrityCheck\Checker;
 
 /**
  * Class CheckSetupControllerTest
  *
+ * @backupStaticAttributes
  * @package Tests\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
@@ -58,8 +68,27 @@ class CheckSetupControllerTest extends TestCase {
 	private $l10n;
 	/** @var ILogger */
 	private $logger;
-	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Checker|\PHPUnit_Framework_MockObject_MockObject */
 	private $checker;
+	/** @var EventDispatcher|\PHPUnit_Framework_MockObject_MockObject */
+	private $dispatcher;
+	/** @var Connection|\PHPUnit_Framework_MockObject_MockObject */
+	private $db;
+	/** @var ILockingProvider|\PHPUnit_Framework_MockObject_MockObject */
+	private $lockingProvider;
+	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
+	private $dateTimeFormatter;
+	/** @var MemoryInfo|MockObject */
+	private $memoryInfo;
+	/** @var SecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	private $secureRandom;
+
+	/**
+	 * Holds a list of directories created during tests.
+	 *
+	 * @var array
+	 */
+	private $dirsToRemove = [];
 
 	public function setUp() {
 		parent::setUp();
@@ -81,9 +110,19 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnCallback(function($message, array $replace) {
 				return vsprintf($message, $replace);
 			}));
+		$this->dispatcher = $this->getMockBuilder(EventDispatcher::class)
+			->disableOriginalConstructor()->getMock();
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->db = $this->getMockBuilder(Connection::class)
+			->disableOriginalConstructor()->getMock();
+		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();
+		$this->dateTimeFormatter = $this->getMockBuilder(IDateTimeFormatter::class)->getMock();
+		$this->memoryInfo = $this->getMockBuilder(MemoryInfo::class)
+			->setMethods(['isMemoryLimitSufficient',])
+			->getMock();
+		$this->secureRandom = $this->getMockBuilder(SecureRandom::class)->getMock();
 		$this->checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',
@@ -94,9 +133,45 @@ class CheckSetupControllerTest extends TestCase {
 				$this->util,
 				$this->l10n,
 				$this->checker,
-				$this->logger
+				$this->logger,
+				$this->dispatcher,
+				$this->db,
+				$this->lockingProvider,
+				$this->dateTimeFormatter,
+				$this->memoryInfo,
+				$this->secureRandom,
 				])
-			->setMethods(['getCurlVersion', 'isPhpOutdated', 'isOpcacheProperlySetup'])->getMock();
+			->setMethods([
+				'isReadOnlyConfig',
+				'hasValidTransactionIsolationLevel',
+				'hasFileinfoInstalled',
+				'hasWorkingFileLocking',
+				'getLastCronInfo',
+				'getSuggestedOverwriteCliURL',
+				'getOutdatedCaches',
+				'getCurlVersion',
+				'isPhpOutdated',
+				'isOpcacheProperlySetup',
+				'hasFreeTypeSupport',
+				'hasMissingIndexes',
+				'isSqliteUsed',
+				'isPhpMailerUsed',
+				'hasOpcacheLoaded',
+				'getAppDirsWithDifferentOwner',
+			])->getMock();
+	}
+
+	/**
+	 * Removes directories created during tests.
+	 *
+	 * @after
+	 * @return void
+	 */
+	public function removeTestDirectories() {
+		foreach ($this->dirsToRemove as $dirToRemove) {
+			rmdir($dirToRemove);
+		}
+		$this->dirsToRemove = [];
 	}
 
 	public function testIsInternetConnectionWorkingDisabledViaConfig() {
@@ -149,7 +224,7 @@ class CheckSetupControllerTest extends TestCase {
 			->method('get')
 			->will($this->throwException(new \Exception()));
 
-		$this->clientService->expects($this->exactly(3))
+		$this->clientService->expects($this->exactly(4))
 			->method('newClient')
 			->will($this->returnValue($client));
 
@@ -256,21 +331,21 @@ class CheckSetupControllerTest extends TestCase {
 
 	public function testCheck() {
 		$this->config->expects($this->at(0))
-			->method('getSystemValue')
-			->with('has_internet_connection', true)
-			->will($this->returnValue(true));
-		$this->config->expects($this->at(1))
+			->method('getAppValue')
+			->with('core', 'cronErrors')
+			->willReturn('');
+		$this->config->expects($this->at(2))
 			->method('getSystemValue')
 			->with('memcache.local', null)
 			->will($this->returnValue('SomeProvider'));
-		$this->config->expects($this->at(2))
-			->method('getSystemValue')
-			->with('has_internet_connection', true)
-			->will($this->returnValue(false));
 		$this->config->expects($this->at(3))
 			->method('getSystemValue')
-			->with('trusted_proxies', [])
-			->willReturn(['1.2.3.4']);
+			->with('has_internet_connection', true)
+			->will($this->returnValue(true));
+		$this->config->expects($this->at(4))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(false));
 
 		$this->request->expects($this->once())
 			->method('getRemoteAddress')
@@ -284,13 +359,17 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->throwException(new \Exception()));
 		$client->expects($this->at(1))
 			->method('get')
-			->with('http://www.google.com/', [])
+			->with('http://www.startpage.com/', [])
 			->will($this->throwException(new \Exception()));
 		$client->expects($this->at(2))
 			->method('get')
-			->with('http://www.github.com/', [])
+			->with('http://www.eff.org/', [])
 			->will($this->throwException(new \Exception()));
-		$this->clientService->expects($this->exactly(3))
+		$client->expects($this->at(3))
+			->method('get')
+			->with('http://www.edri.org/', [])
+			->will($this->throwException(new \Exception()));
+		$this->clientService->expects($this->exactly(4))
 			->method('newClient')
 			->will($this->returnValue($client));
 		$this->urlGenerator->expects($this->at(0))
@@ -321,13 +400,94 @@ class CheckSetupControllerTest extends TestCase {
 			->method('linkToDocs')
 			->with('admin-php-opcache')
 			->willReturn('http://docs.example.org/server/go.php?to=admin-php-opcache');
+		$this->urlGenerator->expects($this->at(5))
+			->method('linkToDocs')
+			->with('admin-db-conversion')
+			->willReturn('http://docs.example.org/server/go.php?to=admin-db-conversion');
+		$this->urlGenerator->expects($this->at(6))
+			->method('getAbsoluteURL')
+			->with('index.php/settings/admin')
+			->willReturn('https://server/index.php/settings/admin');
+		$this->checkSetupController
+			->method('hasFreeTypeSupport')
+			->willReturn(false);
+		$this->checkSetupController
+			->method('hasMissingIndexes')
+			->willReturn([]);
+		$this->checkSetupController
+			->method('getOutdatedCaches')
+			->willReturn([]);
+		$this->checkSetupController
+			->method('isSqliteUsed')
+			->willReturn(false);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isReadOnlyConfig')
+			->willReturn(false);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasValidTransactionIsolationLevel')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasFileinfoInstalled')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasOpcacheLoaded')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasWorkingFileLocking')
+			->willReturn(true);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('getSuggestedOverwriteCliURL')
+			->willReturn('');
+		$this->checkSetupController
+			->expects($this->once())
+			->method('getLastCronInfo')
+			->willReturn([
+				'diffInSeconds' => 123,
+				'relativeTime' => '2 hours ago',
+				'backgroundJobsUrl' => 'https://example.org',
+			]);
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isPhpMailerUsed')
+			->willReturn(false);
+		$this->checker
+			->expects($this->once())
+			->method('hasPassedCheck')
+			->willReturn(true);
+		$this->memoryInfo
+			->method('isMemoryLimitSufficient')
+			->willReturn(true);
+
+		$this->checkSetupController
+			->expects($this->once())
+			->method('getAppDirsWithDifferentOwner')
+			->willReturn([]);
 
 		$expected = new DataResponse(
 			[
+				'isGetenvServerWorking' => true,
+				'isReadOnlyConfig' => false,
+				'hasValidTransactionIsolationLevel' => true,
+				'outdatedCaches' => [],
+				'hasFileinfoInstalled' => true,
+				'hasWorkingFileLocking' => true,
+				'suggestedOverwriteCliURL' => '',
+				'cronInfo' => [
+					'diffInSeconds' => 123,
+					'relativeTime' => '2 hours ago',
+					'backgroundJobsUrl' => 'https://example.org',
+				],
+				'cronErrors' => [],
 				'serverHasInternetConnection' => false,
 				'isMemcacheConfigured' => true,
 				'memcacheDocs' => 'http://docs.example.org/server/go.php?to=admin-performance',
-				'isUrandomAvailable' => self::invokePrivate($this->checkSetupController, 'isUrandomAvailable'),
+				'isRandomnessSecure' => self::invokePrivate($this->checkSetupController, 'isRandomnessSecure'),
 				'securityDocs' => 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html',
 				'isUsedTlsLibOutdated' => '',
 				'phpSupported' => [
@@ -337,11 +497,20 @@ class CheckSetupControllerTest extends TestCase {
 				'forwardedForHeadersWorking' => true,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
-				'hasPassedCodeIntegrityCheck' => null,
+				'hasPassedCodeIntegrityCheck' => true,
 				'codeIntegrityCheckerDocumentation' => 'http://docs.example.org/server/go.php?to=admin-code-integrity',
 				'isOpcacheProperlySetup' => false,
+				'hasOpcacheLoaded' => true,
 				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
 				'isSettimelimitAvailable' => true,
+				'hasFreeTypeSupport' => false,
+				'isSqliteUsed' => false,
+				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
+				'missingIndexes' => [],
+				'isPhpMailerUsed' => false,
+				'mailSettingsDocumentation' => 'https://server/index.php/settings/admin',
+				'isMemoryLimitSufficient' => true,
+				'appDirsWithDifferentOwner' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -358,7 +527,13 @@ class CheckSetupControllerTest extends TestCase {
 				$this->util,
 				$this->l10n,
 				$this->checker,
-				$this->logger
+				$this->logger,
+				$this->dispatcher,
+				$this->db,
+				$this->lockingProvider,
+				$this->dateTimeFormatter,
+				$this->memoryInfo,
+				$this->secureRandom,
 			])
 			->setMethods(null)->getMock();
 
@@ -444,6 +619,56 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
 	}
 
+	/**
+	 * Setups a temp directory and some subdirectories.
+	 * Then calls the 'getAppDirsWithDifferentOwner' method.
+	 * The result is expected to be empty since
+	 * there are no directories with different owners than the current user.
+	 *
+	 * @return void
+	 */
+	public function testAppDirectoryOwnersOk() {
+		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
+		mkdir($tempDir);
+		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app1');
+		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app2');
+		$this->dirsToRemove[] = $tempDir . DIRECTORY_SEPARATOR . 'app1';
+		$this->dirsToRemove[] = $tempDir . DIRECTORY_SEPARATOR . 'app2';
+		$this->dirsToRemove[] = $tempDir;
+		OC::$APPSROOTS = [
+			[
+				'path' => $tempDir,
+				'url' => '/apps',
+				'writable' => true,
+			],
+		];
+		$this->assertSame(
+			[],
+			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
+		);
+	}
+
+	/**
+	 * Calls the check for a none existing app root that is marked as not writable.
+	 * It's expected that no error happens since the check shouldn't apply.
+	 *
+	 * @return void
+	 */
+	public function testAppDirectoryOwnersNotWritable() {
+		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
+		OC::$APPSROOTS = [
+			[
+				'path' => $tempDir,
+				'url' => '/apps',
+				'writable' => false,
+			],
+		];
+		$this->assertSame(
+			[],
+			$this->invokePrivate($this->checkSetupController, 'getAppDirsWithDifferentOwner')
+		);
+	}
+
 	public function testIsBuggyNss400() {
 		$this->config->expects($this->any())
 			->method('getSystemValue')
@@ -456,7 +681,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder('\GuzzleHttp\Message\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$response->expects($this->once())
 			->method('getStatusCode')
@@ -490,7 +715,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$exception = $this->getMockBuilder('\GuzzleHttp\Exception\ClientException')
 			->disableOriginalConstructor()->getMock();
-		$response = $this->getMockBuilder('\GuzzleHttp\Message\ResponseInterface')
+		$response = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$response->expects($this->once())
 			->method('getStatusCode')

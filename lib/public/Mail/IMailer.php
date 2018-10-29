@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -51,7 +52,7 @@ interface IMailer {
 	 * @return IMessage
 	 * @since 8.1.0
 	 */
-	public function createMessage();
+	public function createMessage(): IMessage;
 
 	/**
 	 * @param string|null $data
@@ -60,7 +61,7 @@ interface IMailer {
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function createAttachment($data = null, $filename = null, $contentType = null);
+	public function createAttachment($data = null, $filename = null, $contentType = null): IAttachment;
 
 	/**
 	 * @param string $path
@@ -68,7 +69,7 @@ interface IMailer {
 	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function createAttachmentFromPath($path, $contentType = null);
+	public function createAttachmentFromPath(string $path, $contentType = null): IAttachment;
 
 	/**
 	 * Creates a new email template object
@@ -78,7 +79,7 @@ interface IMailer {
 	 * @return IEMailTemplate
 	 * @since 12.0.0 Parameters added in 12.0.3
 	 */
-	public function createEMailTemplate($emailId, array $data = []);
+	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate;
 
 	/**
 	 * Send the specified message. Also sets the from address to the value defined in config.php
@@ -91,7 +92,7 @@ interface IMailer {
 	 * has been supplied.)
 	 * @since 8.1.0
 	 */
-	public function send(IMessage $message);
+	public function send(IMessage $message): array;
 
 	/**
 	 * Checks if an e-mail address is valid
@@ -100,5 +101,5 @@ interface IMailer {
 	 * @return bool True if the mail address is valid, false otherwise
 	 * @since 8.1.0
 	 */
-	public function validateMailAddress($email);
+	public function validateMailAddress(string $email): bool;
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,6 +34,7 @@
 
 namespace OCP\AppFramework;
 use OC\AppFramework\Routing\RouteConfig;
+use OCP\Route\IRouter;
 
 
 /**
@@ -45,6 +47,8 @@ use OC\AppFramework\Routing\RouteConfig;
  */
 class App {
 
+	/** @var IAppContainer */
+	private $container;
 
 	/**
 	 * Turns an app id into a namespace by convetion. The id is split at the
@@ -56,7 +60,7 @@ class App {
 	 * @return string the starting namespace for the app
 	 * @since 8.0.0
 	 */
-	public static function buildAppNamespace($appId, $topNamespace='OCA\\') {
+	public static function buildAppNamespace(string $appId, string $topNamespace='OCA\\'): string {
 		return \OC\AppFramework\App::buildAppNamespace($appId, $topNamespace);
 	}
 
@@ -65,17 +69,15 @@ class App {
 	 * @param array $urlParams an array with variables extracted from the routes
 	 * @since 6.0.0
 	 */
-	public function __construct($appName, $urlParams = array()) {
+	public function __construct(string $appName, array $urlParams = []) {
 		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
 	}
-
-	private $container;
 
 	/**
 	 * @return IAppContainer
 	 * @since 6.0.0
 	 */
-	public function getContainer() {
+	public function getContainer(): IAppContainer {
 		return $this->container;
 	}
 
@@ -98,7 +100,7 @@ class App {
 	 * @since 6.0.0
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public function registerRoutes($router, $routes) {
+	public function registerRoutes(IRouter $router, array $routes) {
 		$routeConfig = new RouteConfig($this->container, $router, $routes);
 		$routeConfig->register();
 	}
@@ -134,7 +136,7 @@ class App {
 	 * @param string $methodName the method that you want to call
 	 * @since 6.0.0
 	 */
-	public function dispatch($controllerName, $methodName) {
+	public function dispatch(string $controllerName, string $methodName) {
 		\OC\AppFramework\App::main($controllerName, $methodName, $this->container);
 	}
 }

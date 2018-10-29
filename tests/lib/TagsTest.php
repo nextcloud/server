@@ -306,6 +306,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertFalse($otherTagger->hasTag($testTag));
 
 		\OC_User::setUserId($this->user->getUID());
+		// TODO new sharing
 		\OC\Share\Share::shareItem('test', 1, \OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
 
 		\OC_User::setUserId($otherUserId);

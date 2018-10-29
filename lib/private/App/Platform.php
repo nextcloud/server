@@ -61,7 +61,7 @@ class Platform {
 	 */
 	public function getOcVersion() {
 		$v = \OCP\Util::getVersion();
-		return join('.', $v);
+		return implode('.', $v);
 	}
 
 	/**
@@ -94,7 +94,6 @@ class Platform {
 
 	public function getLibraryVersion($name) {
 		$repo = new PlatformRepository();
-		$lib = $repo->findLibrary($name);
-		return $lib;
+		return $repo->findLibrary($name);
 	}
 }

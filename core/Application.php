@@ -28,8 +28,12 @@
 
 namespace OC\Core;
 
+use OC\DB\MissingIndexInformation;
+use OC\DB\SchemaWrapper;
 use OCP\AppFramework\App;
+use OCP\IDBConnection;
 use OCP\Util;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class Application
@@ -46,5 +50,42 @@ class Application extends App {
 		$container->registerService('defaultMailAddress', function () {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
 		});
+
+		$server = $container->getServer();
+		$eventDispatcher = $server->getEventDispatcher();
+
+		$eventDispatcher->addListener(IDBConnection::CHECK_MISSING_INDEXES_EVENT,
+			function(GenericEvent $event) use ($container) {
+				/** @var MissingIndexInformation $subject */
+				$subject = $event->getSubject();
+
+				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+
+				if ($schema->hasTable('share')) {
+					$table = $schema->getTable('share');
+
+					if (!$table->hasIndex('share_with_index')) {
+						$subject->addHintForMissingSubject($table->getName(), 'share_with_index');
+					}
+					if (!$table->hasIndex('parent_index')) {
+						$subject->addHintForMissingSubject($table->getName(), 'parent_index');
+					}
+					if (!$table->hasIndex('uid_owner')) {
+						$subject->addHintForMissingSubject($table->getName(), 'uid_owner');
+					}
+					if (!$table->hasIndex('uid_initiator')) {
+						$subject->addHintForMissingSubject($table->getName(), 'uid_initiator');
+					}
+				}
+
+				if ($schema->hasTable('filecache')) {
+					$table = $schema->getTable('filecache');
+
+					if (!$table->hasIndex('fs_mtime')) {
+						$subject->addHintForMissingSubject($table->getName(), 'fs_mtime');
+					}
+				}
+			}
+		);
 	}
 }

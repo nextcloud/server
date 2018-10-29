@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -45,10 +46,10 @@ class Action {
 	 * @param array $elements
 	 * @param bool $obfuscateParameters
 	 */
-	public function log($text,
+	public function log(string $text,
 						array $params,
 						array $elements,
-						$obfuscateParameters = false) {
+						bool $obfuscateParameters = false) {
 		foreach($elements as $element) {
 			if(!isset($params[$element])) {
 				if ($obfuscateParameters) {

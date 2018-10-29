@@ -58,7 +58,7 @@ class ScannerTest extends TestCase {
 		// Declaration of OCA\Files_Sharing\External\Scanner::*() should be
 		// compatible with OC\Files\Cache\Scanner::*()
 		$this->scanner->scanAll();
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testScan() {
@@ -70,7 +70,7 @@ class ScannerTest extends TestCase {
 		// Declaration of OCA\Files_Sharing\External\Scanner::*() should be
 		// compatible with OC\Files\Cache\Scanner::*()
 		$this->scanner->scan('test', Scanner::SCAN_RECURSIVE);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testScanFile() {
@@ -78,6 +78,6 @@ class ScannerTest extends TestCase {
 		// Declaration of OCA\Files_Sharing\External\Scanner::*() should be
 		// compatible with OC\Files\Cache\Scanner::*()
 		$this->scanner->scanFile('test', Scanner::SCAN_RECURSIVE);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 }

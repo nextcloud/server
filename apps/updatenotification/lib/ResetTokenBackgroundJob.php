@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -22,7 +23,6 @@
 
 namespace OCA\UpdateNotification;
 
-use OC\AppFramework\Utility\TimeFactory;
 use OC\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -40,28 +40,15 @@ class ResetTokenBackgroundJob extends TimedJob {
 	private $timeFactory;
 
 	/**
-	 * @param IConfig|null $config
-	 * @param ITimeFactory|null $timeFactory
+	 * @param IConfig $config
+	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(IConfig $config = null,
-								ITimeFactory $timeFactory = null) {
+	public function __construct(IConfig $config,
+								ITimeFactory $timeFactory) {
 		// Run all 10 minutes
 		$this->setInterval(60 * 10);
-
-		if ($config instanceof IConfig && $timeFactory instanceof ITimeFactory) {
-			$this->config = $config;
-			$this->timeFactory = $timeFactory;
-		} else {
-			$this->fixDIForJobs();
-		}
-	}
-
-	/**
-	 * DI for jobs
-	 */
-	private function fixDIForJobs() {
-		$this->config = \OC::$server->getConfig();
-		$this->timeFactory = new TimeFactory();
+		$this->config = $config;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**

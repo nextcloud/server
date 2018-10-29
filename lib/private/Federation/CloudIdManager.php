@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017, Robin Appelman <robin@icewind.nl>
  *
@@ -33,7 +34,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @return ICloudId
 	 * @throws \InvalidArgumentException
 	 */
-	public function resolveCloudId($cloudId) {
+	public function resolveCloudId(string $cloudId): ICloudId {
 		// TODO magic here to get the url and user instead of just splitting on @
 
 		if (!$this->isValidCloudId($cloudId)) {
@@ -46,7 +47,7 @@ class CloudIdManager implements ICloudIdManager {
 		$posColon = strpos($id, ':');
 
 		if ($posSlash === false && $posColon === false) {
-			$invalidPos = strlen($id);
+			$invalidPos = \strlen($id);
 		} else if ($posSlash === false) {
 			$invalidPos = $posColon;
 		} else if ($posColon === false) {
@@ -77,7 +78,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $remote
 	 * @return CloudId
 	 */
-	public function getCloudId($user, $remote) {
+	public function getCloudId(string $user, string $remote): ICloudId {
 		// TODO check what the correct url is for remote (asking the remote)
 		return new CloudId($user. '@' . $remote, $user, $remote);
 	}
@@ -94,7 +95,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $remote
 	 * @return string
 	 */
-	protected function fixRemoteURL($remote) {
+	protected function fixRemoteURL(string $remote): string {
 		$remote = str_replace('\\', '/', $remote);
 		if ($fileNamePosition = strpos($remote, '/index.php')) {
 			$remote = substr($remote, 0, $fileNamePosition);
@@ -108,7 +109,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $cloudId
 	 * @return bool
 	 */
-	public function isValidCloudId($cloudId) {
+	public function isValidCloudId(string $cloudId): bool {
 		return strpos($cloudId, '@') !== false;
 	}
 }

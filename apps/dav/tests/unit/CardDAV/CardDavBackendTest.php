@@ -36,10 +36,13 @@ use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Share\IManager as ShareManager;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
@@ -90,7 +93,13 @@ class CardDavBackendTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->principal = $this->getMockBuilder(Principal::class)
-			->disableOriginalConstructor()
+			->setConstructorArgs([
+				$this->userManager,
+				$this->groupManager,
+				$this->createMock(ShareManager::class),
+				$this->createMock(IUserSession::class),
+				$this->createMock(IConfig::class),
+				])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
 		$this->principal->method('getPrincipalByPath')

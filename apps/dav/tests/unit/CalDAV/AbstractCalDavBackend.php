@@ -27,9 +27,13 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use OCP\Share\IManager as ShareManager;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
@@ -57,6 +61,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 	/** @var ISecureRandom */
 	private $random;
+	/** @var ILogger */
+	private $logger;
 
 	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
@@ -70,7 +76,13 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->principal = $this->getMockBuilder(Principal::class)
-			->disableOriginalConstructor()
+			->setConstructorArgs([
+				$this->userManager,
+				$this->groupManager,
+				$this->createMock(ShareManager::class),
+				$this->createMock(IUserSession::class),
+				$this->createMock(IConfig::class),
+			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalByPath')
@@ -84,7 +96,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->dispatcher);
+		$this->logger = $this->createMock(ILogger::class);
+		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->logger, $this->dispatcher);
 
 		$this->cleanUpBackend();
 	}
@@ -172,7 +185,7 @@ EOD;
 	protected function assertAcl($principal, $privilege, $acl) {
 		foreach($acl as $a) {
 			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
-				$this->assertTrue(true);
+				$this->addToAssertionCount(1);
 				return;
 			}
 		}
@@ -186,7 +199,7 @@ EOD;
 				return;
 			}
 		}
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	protected function assertAccess($shouldHaveAcl, $principal, $privilege, $acl) {

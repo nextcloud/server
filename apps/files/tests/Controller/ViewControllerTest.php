@@ -29,6 +29,7 @@
 
 namespace OCA\Files\Tests\Controller;
 
+use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCP\AppFramework\Http;
 use OCP\Files\File;
@@ -71,6 +72,8 @@ class ViewControllerTest extends TestCase {
 	private $appManager;
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
+	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
+	private $activityHelper;
 
 	public function setUp() {
 		parent::setUp();
@@ -89,6 +92,7 @@ class ViewControllerTest extends TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
+		$this->activityHelper = $this->createMock(Helper::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 			'files',
@@ -99,7 +103,8 @@ class ViewControllerTest extends TestCase {
 			$this->eventDispatcher,
 			$this->userSession,
 			$this->appManager,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->activityHelper,
 		])
 		->setMethods([
 			'getStorageInfo',
@@ -120,7 +125,7 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 			]));
-		$this->config->expects($this->exactly(3))
+		$this->config
 			->method('getUserValue')
 			->will($this->returnValueMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
@@ -138,8 +143,9 @@ class ViewControllerTest extends TestCase {
 		$nav->assign('usage', '123 B');
 		$nav->assign('quota', 100);
 		$nav->assign('total_space', '100 B');
+		//$nav->assign('webdavurl', '');
 		$nav->assign('navigationItems', [
-			[
+			'files' => [
 				'id' => 'files',
 				'appname' => 'files',
 				'script' => 'list.php',
@@ -150,7 +156,7 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => '',
 			],
-			[
+			'recent' => [
 				'id' => 'recent',
 				'appname' => 'files',
 				'script' => 'recentlist.php',
@@ -161,51 +167,66 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => '',
 			],
-			[
+			'favorites' => [
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
 				'order' => 5,
-				'name' => null,
+				'name' => \OC::$server->getL10N('files')->t('Favorites'),
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
-				'classes' => '',
+				'classes' => 'collapsible',
+				'sublist' => [
+					[
+						'id' => '-test1',
+						'view' => 'files',
+						'href' => '',
+						'dir' => '/test1',
+						'order' => 6,
+						'folderPosition' => 1,
+						'name' => 'test1',
+						'icon' => 'files',
+						'quickaccesselement' => 'true',
+					],
+					[
+						'name' => 'test2',
+						'id' => '-test2-',
+						'view' => 'files',
+						'href' => '',
+						'dir' => '/test2/',
+						'order' => 7,
+						'folderPosition' => 2,
+						'icon' => 'files',
+						'quickaccesselement' => 'true',
+					],
+					[
+						'name' => 'sub4',
+						'id' => '-test3-sub4',
+						'view' => 'files',
+						'href' => '',
+						'dir' => '/test3/sub4',
+						'order' => 8,
+						'folderPosition' => 3,
+						'icon' => 'files',
+						'quickaccesselement' => 'true',
+					],
+					[
+						'name' => 'sub6',
+						'id' => '-test5-sub6-',
+						'view' => 'files',
+						'href' => '',
+						'dir' => '/test5/sub6/',
+						'order' => 9,
+						'folderPosition' => 4,
+						'icon' => 'files',
+						'quickaccesselement' => 'true',
+					],
+				],
+				'defaultExpandedState' => false,
+				'expandedState' => 'show_Quick_Access'
 			],
-			[
-			'id' => 'sharingin',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 15,
-				'name' => \OC::$server->getL10N('files_sharing')->t('Shared with you'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-			],
-			[
-			'id' => 'sharingout',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 16,
-				'name' => \OC::$server->getL10N('files_sharing')->t('Shared with others'),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-			],
-			[
-				'id' => 'sharinglinks',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 17,
-				'name' => \OC::$server->getL10N('files_sharing')->t('Shared by link', []),
-				'active' => false,
-				'icon' => '',
-				'type' => 'link',
-				'classes' => '',
-			],
-			[
+			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
 				'appname' => 'systemtags',
 				'script' => 'list.php',
@@ -216,7 +237,7 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => '',
 			],
-			[
+			'trashbin' => [
 				'id' => 'trashbin',
 				'appname' => 'files_trashbin',
 				'script' => 'list.php',
@@ -227,6 +248,49 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'classes' => 'pinned',
 			],
+			'shareoverview' => [
+				'id' => 'shareoverview',
+				'appname' => 'files_sharing',
+				'script' => 'list.php',
+				'order' => 18,
+				'name' => \OC::$server->getL10N('files_sharing')->t('Shares'),
+				'classes' => 'collapsible',
+				'sublist' => [
+					[
+					'id' => 'sharingout',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 16,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Shared with others'),
+					],
+					[
+					'id' => 'sharingin',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 15,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Shared with you'),
+					],
+					[
+						'id' => 'sharinglinks',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 17,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Shared by link', []),
+					],
+					[
+						'id' => 'deletedshares',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 19,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Deleted shares'),
+					],
+				],
+				'active' => false,
+				'icon' => '',
+				'type' => 'link',
+				'expandedState' => 'show_sharing_menu',
+				'defaultExpandedState' => false,
+			]
 		]);
 
 		$expected = new Http\TemplateResponse(
@@ -244,37 +308,61 @@ class ViewControllerTest extends TestCase {
 				'allowShareWithLink' => 'yes',
 				'appNavigation' => $nav,
 				'appContents' => [
-					[
+					'files' => [
 						'id' => 'files',
 						'content' => null,
 					],
-					[
+					'recent' => [
 						'id' => 'recent',
 						'content' => null,
 					],
-					[
+					'favorites' => [
 						'id' => 'favorites',
 						'content' => null,
 					],
-					[
-						'id' => 'sharingin',
-						'content' => null,
-					],
-					[
-						'id' => 'sharingout',
-						'content' => null,
-					],
-					[
-						'id' => 'sharinglinks',
-						'content' => null,
-					],
-					[
+					'systemtagsfilter' => [
 						'id' => 'systemtagsfilter',
 						'content' => null,
 					],
-					[
+					'trashbin' => [
 						'id' => 'trashbin',
 						'content' => null,
+					],
+					'sharingout' => [
+						'id' => 'sharingout',
+						'content' => null,
+					],
+					'sharingin' => [
+						'id' => 'sharingin',
+						'content' => null,
+					],
+					'sharinglinks' => [
+						'id' => 'sharinglinks',
+						'content' => null,
+					],
+					'deletedshares' => [
+						'id' => 'deletedshares',
+						'content' => null,
+					],
+					'shareoverview' => [
+						'id' => 'shareoverview',
+						'content' => null,
+					],
+					'-test1' => [
+						'id' => '-test1',
+						'content' => '',
+					],
+					'-test2-' => [
+						'id' => '-test2-',
+						'content' => '',
+					],
+					'-test3-sub4' => [
+						'id' => '-test3-sub4',
+						'content' => '',
+					],
+					'-test5-sub6-' => [
+						'id' => '-test5-sub6-',
+						'content' => '',
 					],
 				],
 				'hiddenFields' => [],
@@ -283,6 +371,19 @@ class ViewControllerTest extends TestCase {
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');
 		$expected->setContentSecurityPolicy($policy);
+
+		$this->activityHelper->method('getFavoriteFilePaths')
+			->with($this->user->getUID())
+			->willReturn([
+				'item' => [],
+				'folders' => [
+					'/test1',
+					'/test2/',
+					'/test3/sub4',
+					'/test5/sub6/',
+				],
+			]);
+
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 

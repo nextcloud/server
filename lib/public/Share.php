@@ -85,16 +85,6 @@ class Share extends \OC\Share\Constants {
 		return \OC\Share\Share::getShareByToken($token, $checkPasswordProtection);
 	}
 
-	/**
-	 * resolves reshares down to the last real share
-	 * @param array $linkItem
-	 * @return array file owner
-	 * @since 6.0.0
-	 */
-	public static function resolveReShare($linkItem) {
-		return \OC\Share\Share::resolveReShare($linkItem);
-	}
-
 
 	/**
 	 * Get the shared items of item type owned by the current user

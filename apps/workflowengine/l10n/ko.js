@@ -1,8 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "짧은 규칙 설명",
+    "Add rule" : "규칙 추가",
+    "Reset" : "초기화",
+    "Save" : "저장",
+    "Saving…" : "저장 중…",
+    "Group list is empty" : "그룹 목록이 비었습니다.",
+    "Unable to retrieve the group list" : "그룹 리스트를 받아올 수 없습니다.",
     "Saved" : "저장됨",
     "Saving failed:" : "저장 실패:",
+    "Add rule group" : "규칙 그룹 추가",
     "File MIME type" : "파일 MIME 형식",
     "is" : "맞음",
     "is not" : "아님",
@@ -60,14 +68,6 @@ OC.L10N.register(
     "Check #%s does not exist" : "검사 #%s이(가) 존재하지 않음",
     "Workflow" : "작업 흐름",
     "Open documentation" : "문서 열기",
-    "Add rule group" : "규칙 그룹 추가",
-    "Short rule description" : "짧은 규칙 설명",
-    "Add rule" : "규칙 추가",
-    "Reset" : "초기화",
-    "Save" : "저장",
-    "Saving…" : "저장 중…",
-    "Loading…" : "불러오는 중…",
-    "Successfully saved" : "성공적으로 저장됨",
-    "File mime type" : "파일 MIME 형식"
+    "Loading…" : "불러오는 중…"
 },
 "nplurals=1; plural=0;");

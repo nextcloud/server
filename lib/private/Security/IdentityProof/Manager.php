@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -59,7 +60,7 @@ class Manager {
 	 *
 	 * @return array [$publicKey, $privateKey]
 	 */
-	protected function generateKeyPair() {
+	protected function generateKeyPair(): array {
 		$config = [
 			'digest_alg' => 'sha512',
 			'private_key_bits' => 2048,
@@ -83,7 +84,7 @@ class Manager {
 	 * @param string $id key id
 	 * @return Key
 	 */
-	protected function generateKey($id) {
+	protected function generateKey(string $id): Key {
 		list($publicKey, $privateKey) = $this->generateKeyPair();
 
 		// Write the private and public key to the disk
@@ -105,7 +106,7 @@ class Manager {
 	 * @param string $id
 	 * @return Key
 	 */
-	protected function retrieveKey($id) {
+	protected function retrieveKey(string $id): Key {
 		try {
 			$folder = $this->appData->getFolder($id);
 			$privateKey = $this->crypto->decrypt(
@@ -124,7 +125,7 @@ class Manager {
 	 * @param IUser $user
 	 * @return Key
 	 */
-	public function getKey(IUser $user) {
+	public function getKey(IUser $user): Key {
 		$uid = $user->getUID();
 		return $this->retrieveKey('user-' . $uid);
 	}
@@ -135,7 +136,7 @@ class Manager {
 	 * @return Key
 	 * @throws \RuntimeException
 	 */
-	public function getSystemKey() {
+	public function getSystemKey(): Key {
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 		if ($instanceId === null) {
 			throw new \RuntimeException('no instance id!');

@@ -10,35 +10,6 @@
 
 (function(){
 
-// TODO: move to a separate file
-var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
-	'<div class="drop dropdown mountOptionsDropdown">' +
-	// FIXME: options are hard-coded for now
-	'	<div class="optionRow">' +
-	'		<input id="mountOptionsEncrypt" name="encrypt" type="checkbox" value="true" checked="checked"/>' +
-	'		<label for="mountOptionsEncrypt">{{t "files_external" "Enable encryption"}}</label>' +
-	'	</div>' +
-	'	<div class="optionRow">' +
-	'		<input id="mountOptionsPreviews" name="previews" type="checkbox" value="true" checked="checked"/>' +
-	'		<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>' +
-	'	</div>' +
-	'	<div class="optionRow">' +
-	'		<input id="mountOptionsSharing" name="enable_sharing" type="checkbox" value="true"/>' +
-	'		<label for="mountOptionsSharing">{{t "files_external" "Enable sharing"}}</label>' +
-	'	</div>' +
-	'	<div class="optionRow">' +
-	'		<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>' +
-	'		<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">' +
-	'			<option value="0">{{t "files_external" "Never"}}</option>' +
-	'			<option value="1" selected="selected">{{t "files_external" "Once every direct access"}}</option>' +
-	'		</select>' +
-	'	</div>' +
-	'	<div class="optionRow">' +
-	'		<input id="mountOptionsEncoding" name="encoding_compatibility" type="checkbox" value="true"/>' +
-	'		<label for="mountOptionsEncoding">{{mountOptionsEncodingLabel}}</label>' +
-	'	</div>' +
-	'</div>';
-
 /**
  * Returns the selection of applicable users in the given configuration row
  *
@@ -168,7 +139,7 @@ function addSelect2 ($elements, userListLimit) {
 				.attr('data-name', element.name)
 				.attr('data-displayname', element.displayname);
 			if (element.type === 'group') {
-				var url = OC.imagePath('core','places/contacts-dark'); // TODO better group icon
+				var url = OC.imagePath('core','actions/group');
 				$div.html('<img width="32" height="32" src="'+url+'">');
 			}
 			return $result.get(0).outerHTML;
@@ -491,14 +462,16 @@ MountOptionsDropdown.prototype = {
 			MountOptionsDropdown._last.hide();
 		}
 
-		var template = MountOptionsDropdown._template;
-		if (!template) {
-			template = Handlebars.compile(MOUNT_OPTIONS_DROPDOWN_TEMPLATE);
-			MountOptionsDropdown._template = template;
-		}
-
-		var $el = $(template({
-			mountOptionsEncodingLabel: t('files_external', 'Compatibility with Mac NFD encoding (slow)')
+		var $el = $(OCA.External.Templates.mountOptionsDropDown({
+			mountOptionsEncodingLabel: t('files_external', 'Compatibility with Mac NFD encoding (slow)'),
+			mountOptionsEncryptLabel: t('files_external', 'Enable encryption'),
+			mountOptionsPreviewsLabel: t('files_external', 'Enable previews'),
+			mountOptionsSharingLabel: t('files_external', 'Enable sharing'),
+			mountOptionsFilesystemCheckLabel: t('files_external', 'Check for changes'),
+			mountOptionsFilesystemCheckOnce: t('files_external', 'Never'),
+			mountOptionsFilesystemCheckDA: t('files_external', 'Once every direct access'),
+			mountOptionsReadOnlyLabel: t('files_external', 'Read only'),
+			deleteLabel: t('files_external', 'Delete')
 		}));
 		this.$el = $el;
 
@@ -566,7 +539,7 @@ MountOptionsDropdown.prototype = {
 		$el.find('.optionRow').each(function(i, row){
 			var $row = $(row);
 			var optionId = $row.find('input, select').attr('name');
-			if (visibleOptions.indexOf(optionId) === -1) {
+			if (visibleOptions.indexOf(optionId) === -1 && !$row.hasClass('persistent')) {
 				$row.hide();
 			} else {
 				$row.show();
@@ -716,15 +689,15 @@ MountConfigListView.prototype = _.extend({
 			self.recheckStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.remove>img', function() {
+		this.$el.on('click', 'td.mountOptionsToggle .icon-delete', function() {
 			self.deleteStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.save>img', function () {
+		this.$el.on('click', 'td.save>.icon-checkmark', function () {
 			self.saveStorageConfig($(this).closest('tr'));
 		});
 
-		this.$el.on('click', 'td.mountOptionsToggle>img', function() {
+		this.$el.on('click', 'td.mountOptionsToggle>.icon-more', function() {
 			self._showMountOptionsDropdown($(this).closest('tr'));
 		});
 
@@ -904,7 +877,8 @@ MountConfigListView.prototype = _.extend({
 				'previews': true,
 				'enable_sharing': false,
 				'filesystem_check_changes': 1,
-				'encoding_compatibility': false
+				'encoding_compatibility': false,
+				'readonly': false,
 			}));
 		}
 
@@ -960,6 +934,7 @@ MountConfigListView.prototype = _.extend({
 					if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
 						mainForm.hide();
 						$('a[href="#external-storage"]').parent().hide();
+						$('#emptycontent').show();
 					}
 					onCompletion.resolve();
 				}
@@ -1130,7 +1105,7 @@ MountConfigListView.prototype = _.extend({
 		}
 		var storage = new this._storageConfigClass(configId);
 
-		OC.dialogs.confirm(t('files_external', 'Are you sure you want to delete this external storage', {
+		OC.dialogs.confirm(t('files_external', 'Are you sure you want to delete this external storage?', {
 				storage: this.mountPoint
 			}), t('files_external', 'Delete storage?'), function(confirm) {
 			if (confirm) {
@@ -1219,24 +1194,28 @@ MountConfigListView.prototype = _.extend({
 	 */
 	updateStatus: function($tr, status, message) {
 		var $statusSpan = $tr.find('.status span');
-		$statusSpan.removeClass('loading-small success indeterminate error');
 		switch (status) {
 			case null:
 				// remove status
 				break;
 			case StorageConfig.Status.IN_PROGRESS:
-				$statusSpan.addClass('loading-small');
+				$statusSpan.attr('class', 'icon-loading-small');
 				break;
 			case StorageConfig.Status.SUCCESS:
-				$statusSpan.addClass('success');
+				$statusSpan.attr('class', 'success icon-checkmark-white');
 				break;
 			case StorageConfig.Status.INDETERMINATE:
-				$statusSpan.addClass('indeterminate');
+				$statusSpan.attr('class', 'indeterminate icon-info-white');
 				break;
 			default:
-				$statusSpan.addClass('error');
+				$statusSpan.attr('class', 'error icon-error-white');
 		}
-		$statusSpan.attr('data-original-title', (typeof message === 'string') ? message : '');
+		if (typeof message === 'string') {
+			$statusSpan.attr('title', message);
+			$statusSpan.tooltip();
+		} else {
+			$statusSpan.tooltip('destroy');
+		}
 	},
 
 	/**
@@ -1278,11 +1257,6 @@ MountConfigListView.prototype = _.extend({
 	 * @param {Object} $tr configuration row
 	 */
 	_showMountOptionsDropdown: function($tr) {
-		if (this._preventNextDropdown) {
-			// prevented because the click was on the toggle
-			this._preventNextDropdown = false;
-			return;
-		}
 		var self = this;
 		var storage = this.getStorageConfig($tr);
 		var $toggle = $tr.find('.mountOptionsToggle');
@@ -1291,7 +1265,9 @@ MountConfigListView.prototype = _.extend({
 			'previews',
 			'filesystem_check_changes',
 			'enable_sharing',
-			'encoding_compatibility'
+			'encoding_compatibility',
+			'readonly',
+			'delete'
 		];
 		if (this._encryptionEnabled) {
 			visibleOptions.push('encrypt');
@@ -1299,15 +1275,7 @@ MountConfigListView.prototype = _.extend({
 		dropDown.show($toggle, storage.mountOptions || [], visibleOptions);
 		$('body').on('mouseup.mountOptionsDropdown', function(event) {
 			var $target = $(event.target);
-			if ($toggle.has($target).length) {
-				// why is it always so hard to make dropdowns behave ?
-				// this prevents the click on the toggle to cause
-				// the dropdown to reopen itself
-				// (preventDefault doesn't work here because the click
-				// event is already in the queue and cannot be cancelled)
-				self._preventNextDropdown = true;
-			}
-			if ($target.closest('.dropdown').length) {
+			if ($target.closest('.popovermenu').length) {
 				return;
 			}
 			dropDown.hide();

@@ -20,17 +20,17 @@
  */
 
 $expected = <<<EOT
-build/.phan/tests/SqlInjectionCheckerTest.php:23 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:35 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:37 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:39 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:41 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:43 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:54 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:61 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:62 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:69 SqlInjectionChecker Potential SQL injection detected
-build/.phan/tests/SqlInjectionCheckerTest.php:70 SqlInjectionChecker Potential SQL injection detected
+build/.phan/tests/SqlInjectionCheckerTest.php:23 SqlInjectionChecker Potential SQL injection detected - neither a parameter nor a string
+build/.phan/tests/SqlInjectionCheckerTest.php:35 SqlInjectionChecker Potential SQL injection detected - neither a parameter nor a string
+build/.phan/tests/SqlInjectionCheckerTest.php:37 SqlInjectionChecker Potential SQL injection detected - neither a parameter nor a string
+build/.phan/tests/SqlInjectionCheckerTest.php:39 SqlInjectionChecker Potential SQL injection detected - neither a parameter nor a string
+build/.phan/tests/SqlInjectionCheckerTest.php:41 SqlInjectionChecker Potential SQL injection detected - neither a parameter nor a string
+build/.phan/tests/SqlInjectionCheckerTest.php:43 SqlInjectionChecker Potential SQL injection detected - neither a parameter nor a string
+build/.phan/tests/SqlInjectionCheckerTest.php:54 SqlInjectionChecker Potential SQL injection detected - neither a parameter nor a string
+build/.phan/tests/SqlInjectionCheckerTest.php:61 SqlInjectionChecker Potential SQL injection detected - method: no child method
+build/.phan/tests/SqlInjectionCheckerTest.php:62 SqlInjectionChecker Potential SQL injection detected - method: no child method
+build/.phan/tests/SqlInjectionCheckerTest.php:69 SqlInjectionChecker Potential SQL injection detected - method: no child method
+build/.phan/tests/SqlInjectionCheckerTest.php:70 SqlInjectionChecker Potential SQL injection detected - method: no child method
 
 EOT;
 

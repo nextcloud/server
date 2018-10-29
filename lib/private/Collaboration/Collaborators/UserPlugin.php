@@ -79,11 +79,15 @@ class UserPlugin implements ISearchPlugin {
 			$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
 
 			foreach ($usersTmp as $user) {
-				$users[$user->getUID()] = $user->getDisplayName();
+				if ($user->isEnabled()) { // Don't keep deactivated users
+					$users[$user->getUID()] = $user->getDisplayName();
+				}
 			}
 		}
 
-		if (!$this->shareeEnumeration || sizeof($users) < $limit) {
+		$this->takeOutCurrentUser($users);
+
+		if (!$this->shareeEnumeration || count($users) < $limit) {
 			$hasMoreResults = true;
 		}
 
@@ -126,13 +130,13 @@ class UserPlugin implements ISearchPlugin {
 				}
 
 				if ($addUser) {
-					array_push($result['exact'], [
+					$result['exact'][] = [
 						'label' => $user->getDisplayName(),
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
-					]);
+					];
 				}
 			}
 		}
@@ -145,5 +149,14 @@ class UserPlugin implements ISearchPlugin {
 		$searchResult->addResultSet($type, $result['wide'], $result['exact']);
 
 		return $hasMoreResults;
+	}
+
+	public function takeOutCurrentUser(array &$users) {
+		$currentUser = $this->userSession->getUser();
+		if(!is_null($currentUser)) {
+			if (isset($users[$currentUser->getUID()])) {
+				unset($users[$currentUser->getUID()]);
+			}
+		}
 	}
 }

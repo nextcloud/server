@@ -23,16 +23,31 @@
 
 namespace OCP\Migration;
 
-use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\ISchemaWrapper;
 
 /**
  * @since 13.0.0
  */
 interface IMigrationStep {
+	/**
+	 * Human readable name of the migration step
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function name(): string;
+
+	/**
+	 * Human readable description of the migration steps
+	 *
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function description(): string;
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @since 13.0.0
 	 */
@@ -40,16 +55,16 @@ interface IMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @return null|Schema
+	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options);
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @since 13.0.0
 	 */

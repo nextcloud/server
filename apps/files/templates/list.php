@@ -24,6 +24,10 @@
 	<?php endif;?>
 	<input type="hidden" class="max_human_file_size"
 		   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
+	<input type="checkbox" class="hidden-visually" id="showgridview"
+		<?php if($_['showgridview']) { ?>checked="checked" <?php } ?>/>
+	<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
+		   title="<?php p($l->t('Toggle grid view'))?>"></label>
 </div>
 
 <div id="emptycontent" class="hidden">
@@ -38,7 +42,7 @@
 	<p></p>
 </div>
 
-<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
+<table id="filestable" class="list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="250" data-preview-y="250">
 	<thead>
 		<tr>
 			<th id="headerSelection" class="hidden column-selection">
@@ -49,16 +53,16 @@
 			</th>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
-					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
-					<span id="selectedActionsList" class="selectedActions">
-						<a href="" class="copy-move">
-							<span class="icon icon-external"></span>
-							<span><?php p($l->t('Move or copy'))?></span>
-						</a>
-						<a href="" class="download">
-							<span class="icon icon-download"></span>
-							<span><?php p($l->t('Download'))?></span>
-						</a>
+					<a class="name sort columntitle" data-sort="name">
+                        <span><?php p($l->t( 'Name' )); ?></span>
+                        <span class="sort-indicator"></span>
+
+                    </a>
+                    <span id="selectedActionsList" class="selectedActions">
+                        <a href="" class="actions-selected">
+                            <span class="icon icon-more"></span>
+                            <span><?php p($l->t('Actions'))?></span>
+                        </a>
 					</span>
 				</div>
 			</th>
@@ -67,10 +71,6 @@
 			</th>
 			<th id="headerDate" class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
-					<span class="selectedActions"><a href="" class="delete-selected">
-						<span><?php p($l->t('Delete'))?></span>
-						<span class="icon icon-delete"></span>
-					</a></span>
 			</th>
 		</tr>
 	</thead>

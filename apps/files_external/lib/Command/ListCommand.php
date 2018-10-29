@@ -192,7 +192,8 @@ class ListCommand extends Base {
 				'previews' => true,
 				'filesystem_check_changes' => 1,
 				'enable_sharing' => false,
-				'encoding_compatibility' => false
+				'encoding_compatibility' => false,
+				'readonly' => false,
 			];
 			$rows = array_map(function (StorageConfig $config) use ($userId, $defaultMountOptions, $full) {
 				$storageConfig = $config->getBackendOptions();

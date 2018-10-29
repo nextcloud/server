@@ -25,6 +25,7 @@
  */
 
 namespace OC\Files\Storage;
+
 use OC\Files\Cache\HomePropagator;
 
 /**
@@ -43,6 +44,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 
 	/**
 	 * Construct a Home storage instance
+	 *
 	 * @param array $arguments array with "user" containing the
 	 * storage owner
 	 */
@@ -51,7 +53,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		$datadir = $this->user->getHome();
 		$this->id = 'home::' . $this->user->getUID();
 
-		parent::__construct(array('datadir' => $datadir));
+		parent::__construct(['datadir' => $datadir]);
 	}
 
 	public function getId() {
@@ -90,6 +92,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 
 	/**
 	 * Returns the owner of this home storage
+	 *
 	 * @return \OC\User\User owner of this home storage
 	 */
 	public function getUser() {

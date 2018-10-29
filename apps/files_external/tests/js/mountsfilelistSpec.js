@@ -123,7 +123,7 @@ describe('OCA.External.FileList tests', function() {
 			expect($tr.attr('data-size')).not.toBeDefined();
 			expect($tr.attr('data-permissions')).toEqual('1'); // read only 
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/index.php/apps/files' +
 				'?dir=/another%20mount%20points/sftp%20mount'
 			);
@@ -139,7 +139,7 @@ describe('OCA.External.FileList tests', function() {
 			expect($tr.attr('data-size')).not.toBeDefined();
 			expect($tr.attr('data-permissions')).toEqual('9'); // read and delete
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/index.php/apps/files' +
 				'?dir=/mount%20points/smb%20mount'
 			);

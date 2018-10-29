@@ -16,6 +16,17 @@
 				<length>4</length>
 			</field>
 			<field>
+				<name>parent</name>
+				<type>integer</type>
+				<default>-1</default>
+				<length>4</length>
+			</field>
+			<field>
+				<name>share_type</name>
+				<type>integer</type>
+				<length>4</length>
+			</field>
+			<field>
 				<name>remote</name>
 				<type>text</type>
 				<notnull>true</notnull>

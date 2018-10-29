@@ -76,6 +76,11 @@ class CSSResourceLocator extends ResourceLocator {
 			return;
 		}
 
+		// Account for the possibility of having symlinks in app path. Doing
+		// this here instead of above as an empty argument to realpath gets
+		// turned into cwd.
+		$app_path = realpath($app_path);
+
 		if(!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
 			$this->append($app_path, $style.'.css', $app_url);
 		}
@@ -103,7 +108,7 @@ class CSSResourceLocator extends ResourceLocator {
 			if($this->scssCacher !== null) {
 				if($this->scssCacher->process($root, $file, $app)) {
 
-					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), false, true, true);
+					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), \OC::$WEBROOT, true, true);
 					return true;
 				} else {
 					$this->logger->warning('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
@@ -140,7 +145,7 @@ class CSSResourceLocator extends ResourceLocator {
 				}
 			}
 
-			$this->resources[] = array($webRoot? : '/', $webRoot, $file);
+			$this->resources[] = array($webRoot? : \OC::$WEBROOT, $webRoot, $file);
 		}
 	}
 }

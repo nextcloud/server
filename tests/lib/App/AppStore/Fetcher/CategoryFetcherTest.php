@@ -40,15 +40,33 @@ class CategoryFetcherTest extends FetcherBase {
 
 	public function testAppstoreDisabled() {
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('appstoreenabled', true)
-			->willReturn(false);
+			->will($this->returnCallback(function($var, $default) {
+				if ($var === 'appstoreenabled') {
+					return false;
+				}
+				return $default;
+			}));
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');
 
 		$this->assertEquals([], $this->fetcher->get());
+	}
 
+	public function testNoInternet() {
+		$this->config
+			->method('getSystemValue')
+			->will($this->returnCallback(function($var, $default) {
+				if ($var === 'has_internet_connection') {
+					return false;
+				}
+				return $default;
+			}));
+		$this->appData
+			->expects($this->never())
+			->method('getFolder');
+
+		$this->assertEquals([], $this->fetcher->get());
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -33,23 +34,23 @@ interface IAttachment {
 
 	/**
 	 * @param string $filename
-	 * @return $this
+	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function setFilename($filename);
+	public function setFilename(string $filename): IAttachment;
 
 	/**
 	 * @param string $contentType
-	 * @return $this
+	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function setContentType($contentType);
+	public function setContentType(string $contentType): IAttachment;
 
 	/**
 	 * @param string $body
-	 * @return $this
+	 * @return IAttachment
 	 * @since 13.0.0
 	 */
-	public function setBody($body);
+	public function setBody(string $body): IAttachment;
 
 }

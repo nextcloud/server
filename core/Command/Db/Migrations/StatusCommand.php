@@ -25,12 +25,14 @@ namespace OC\Core\Command\Db\Migrations;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
 use OCP\IDBConnection;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class StatusCommand extends Command {
+class StatusCommand extends Command implements CompletionAwareInterface {
 
 	/** @var IDBConnection */
 	private $connection;
@@ -56,8 +58,37 @@ class StatusCommand extends Command {
 
 		$infos = $this->getMigrationsInfos($ms);
 		foreach ($infos as $key => $value) {
-			$output->writeln("    <comment>>></comment> $key: " . str_repeat(' ', 50 - strlen($key)) . $value);
+			if (is_array($value)) {
+				$output->writeln("    <comment>>></comment> $key:");
+				foreach ($value as $subKey => $subValue) {
+					$output->writeln("        <comment>>></comment> $subKey: " . str_repeat(' ', 46 - strlen($subKey)) . $subValue);
+				}
+			} else {
+				$output->writeln("    <comment>>></comment> $key: " . str_repeat(' ', 50 - strlen($key)) . $value);
+			}
 		}
+	}
+
+	/**
+	 * @param string $optionName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		return [];
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'app') {
+			$allApps = \OC_App::getAllApps();
+			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
+		}
+		return [];
 	}
 
 	/**
@@ -72,6 +103,7 @@ class StatusCommand extends Command {
 
 		$numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
 		$numNewMigrations = count(array_diff(array_keys($availableMigrations), $executedMigrations));
+		$pending = $ms->describeMigrationStep('lastest');
 
 		$infos = [
 			'App'								=> $ms->getApp(),
@@ -86,6 +118,7 @@ class StatusCommand extends Command {
 			'Executed Unavailable Migrations'	=> $numExecutedUnavailableMigrations,
 			'Available Migrations'				=> count($availableMigrations),
 			'New Migrations'					=> $numNewMigrations,
+			'Pending Migrations'				=> count($pending) ? $pending : 'None'
 		];
 
 		return $infos;

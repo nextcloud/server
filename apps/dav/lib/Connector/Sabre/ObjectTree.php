@@ -29,11 +29,11 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\Storage\FailedStorage;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OC\Files\FileInfo;
-use OC\Files\Mount\MoveableMount;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
@@ -154,8 +154,12 @@ class ObjectTree extends CachingTree {
 			// read from cache
 			try {
 				$info = $this->fileView->getFileInfo($path);
+
+				if ($info instanceof \OCP\Files\FileInfo && $info->getStorage()->instanceOfStorage(FailedStorage::class)) {
+					throw new StorageNotAvailableException();
+				}
 			} catch (StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage is temporarily not available');
+				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage is temporarily not available', 0, $e);
 			} catch (StorageInvalidException $e) {
 				throw new \Sabre\DAV\Exception\NotFound('Storage ' . $path . ' is invalid');
 			} catch (LockedException $e) {

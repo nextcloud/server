@@ -38,9 +38,6 @@ use OCP\Template;
 class AdminSettingsController extends Controller {
 	use CommonSettingsTrait;
 
-	/** @var INavigationManager */
-	private $navigationManager;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -65,7 +62,6 @@ class AdminSettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index($section) {
-		$this->navigationManager->setActiveEntry('admin');
 		return $this->getIndexResponse('admin', $section);
 	}
 

@@ -26,11 +26,14 @@
 
 namespace OC\Accounts;
 
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OC\Settings\BackgroundJobs\VerifyUserData;
 
 /**
  * Class AccountManager
@@ -40,26 +43,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @group DB
  * @package OC\Accounts
  */
-class AccountManager {
-
-	/** nobody can see my account details */
-	const VISIBILITY_PRIVATE = 'private';
-	/** only contacts, especially trusted servers can see my contact details */
-	const VISIBILITY_CONTACTS_ONLY = 'contacts';
-	/** every body ca see my contact detail, will be published to the lookup server */
-	const VISIBILITY_PUBLIC = 'public';
-
-	const PROPERTY_AVATAR = 'avatar';
-	const PROPERTY_DISPLAYNAME = 'displayname';
-	const PROPERTY_PHONE = 'phone';
-	const PROPERTY_EMAIL = 'email';
-	const PROPERTY_WEBSITE = 'website';
-	const PROPERTY_ADDRESS = 'address';
-	const PROPERTY_TWITTER = 'twitter';
-
-	const NOT_VERIFIED = '0';
-	const VERIFICATION_IN_PROGRESS = '1';
-	const VERIFIED = '2';
+class AccountManager implements IAccountManager {
 
 	/** @var  IDBConnection database connection */
 	private $connection;
@@ -167,7 +151,7 @@ class AccountManager {
 	 */
 	protected function checkEmailVerification($oldData, $newData, IUser $user) {
 		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
-			$this->jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => '',
 					'data' => $newData[self::PROPERTY_EMAIL]['value'],
@@ -341,6 +325,18 @@ class AccountManager {
 					'verified' => self::NOT_VERIFIED,
 				],
 		];
+	}
+
+	private function parseAccountData(IUser $user, $data): Account {
+		$account = new Account($user);
+		foreach($data as $property => $accountData) {
+			$account->setProperty($property, $accountData['value'] ?? '', $accountData['scope'], $accountData['verified']);
+		}
+		return $account;
+	}
+
+	public function getAccount(IUser $user): IAccount {
+		return $this->parseAccountData($user, $this->getUser($user));
 	}
 
 }

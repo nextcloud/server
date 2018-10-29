@@ -41,6 +41,8 @@ use OCP\Defaults;
 use OCP\Federation\ICloudIdManager;
 use \OCP\IContainer;
 use OCP\IServerContainer;
+use OCA\Files_Sharing\Capabilities;
+use OCA\Files_Sharing\External\Manager;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
@@ -101,10 +103,14 @@ class Application extends App {
 				$server->getHTTPClientService(),
 				$server->getNotificationManager(),
 				$server->query(\OCP\OCS\IDiscoveryService::class),
+				$server->getCloudFederationProviderManager(),
+				$server->getCloudFederationFactory(),
+				$server->getGroupManager(),
+				$server->getUserManager(),
 				$uid
 			);
 		});
-		$container->registerAlias('OCA\Files_Sharing\External\Manager', 'ExternalManager');
+		$container->registerAlias(Manager::class, 'ExternalManager');
 
 		/**
 		 * Middleware
@@ -163,7 +169,7 @@ class Application extends App {
 		/*
 		 * Register capabilities
 		 */
-		$container->registerCapability('OCA\Files_Sharing\Capabilities');
+		$container->registerCapability(Capabilities::class);
 	}
 
 	public function registerMountProviders() {

@@ -1,6 +1,14 @@
 { "translations": {
+    "Short rule description" : "短规则说明",
+    "Add rule" : "添加规则",
+    "Reset" : "重置",
+    "Save" : "保存",
+    "Saving…" : "保存中...",
+    "Group list is empty" : "用户群组列表空",
+    "Unable to retrieve the group list" : "无法获取用户群组列表",
     "Saved" : "已保存",
     "Saving failed:" : "保存失败:",
+    "Add rule group" : "添加规则组",
     "File MIME type" : "文件MIME类型",
     "is" : "是",
     "is not" : "不是",
@@ -35,6 +43,7 @@
     "Android client" : "Android 客户端",
     "iOS client" : "iOS 客户端",
     "Desktop client" : "桌面客户端",
+    "Thunderbird & Outlook addons" : "Thunderbird & Outlook 插件",
     "User group membership" : "用户组成员资格",
     "is member of" : "是成员",
     "is not member of" : "不是成员",
@@ -57,15 +66,8 @@
     "Check %s is invalid" : "检查%s是不可用",
     "Check #%s does not exist" : "检查#%s是不存在",
     "Workflow" : "工作流",
+    "Files workflow engine" : "文件工作流引擎",
     "Open documentation" : "打开文档",
-    "Add rule group" : "添加规则组",
-    "Short rule description" : "短规则说明",
-    "Add rule" : "添加规则",
-    "Reset" : "重置",
-    "Save" : "保存",
-    "Saving…" : "保存中...",
-    "Loading…" : "加载中",
-    "Successfully saved" : "保存成功",
-    "File mime type" : "文件MIME类型"
+    "Loading…" : "加载中"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

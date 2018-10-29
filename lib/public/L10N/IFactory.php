@@ -21,6 +21,8 @@
  */
 namespace OCP\L10N;
 
+use OCP\IUser;
+
 /**
  * @since 8.2.0
  */
@@ -45,6 +47,23 @@ interface IFactory {
 	public function findLanguage($app = null);
 
 	/**
+	 * @param string|null $lang user language as default locale
+	 * @return string locale If nothing works it returns 'en_US'
+	 * @since 14.0.0
+	 */
+	public function findLocale($lang = null);
+
+	/**
+	 * find the matching lang from the locale
+	 *
+	 * @param string $app
+	 * @param string $locale
+	 * @return null|string
+	 * @since 14.0.1
+	 */
+	public function findLanguageFromLocale(string $app = 'core', string $locale = null);
+
+	/**
 	 * Find all available languages for an app
 	 *
 	 * @param string|null $app App id or null for core
@@ -54,10 +73,48 @@ interface IFactory {
 	public function findAvailableLanguages($app = null);
 
 	/**
+	 * @return array an array of available
+	 * @since 14.0.0
+	 */
+	public function findAvailableLocales();
+
+	/**
 	 * @param string|null $app App id or null for core
 	 * @param string $lang
 	 * @return bool
 	 * @since 9.0.0
 	 */
 	public function languageExists($app, $lang);
+
+	/**
+	 * @param string $locale
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function localeExists($locale);
+
+	/**
+	 * Creates a function from the plural string
+	 *
+	 * @param string $string
+	 * @return string Unique function name
+	 * @since 14.0.0
+	 */
+	public function createPluralFunction($string);
+
+	/**
+	 * iterate through language settings (if provided) in this order:
+	 * 1. returns the forced language or:
+	 * 2. if applicable, the trunk of 1 (e.g. "fu" instead of "fu_BAR"
+	 * 3. returns the user language or:
+	 * 4. if applicable, the trunk of 3
+	 * 5. returns the system default language or:
+	 * 6. if applicable, the trunk of 5
+	 * 7+∞. returns 'en'
+	 *
+	 * Hint: in most cases findLanguage() suits you fine
+	 *
+	 * @since 14.0.0
+	 */
+	public function getLanguageIterator(IUser $user = null): ILanguageIterator;
 }

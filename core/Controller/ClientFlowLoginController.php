@@ -115,7 +115,7 @@ class ClientFlowLoginController extends Controller {
 	 */
 	private function getClientName() {
 		$userAgent = $this->request->getHeader('USER_AGENT');
-		return $userAgent !== null ? $userAgent : 'unknown';
+		return $userAgent !== '' ? $userAgent : 'unknown';
 	}
 
 	/**
@@ -213,6 +213,44 @@ class ClientFlowLoginController extends Controller {
 	 * @param string $clientIdentifier
 	 * @return TemplateResponse
 	 */
+	public function grantPage($stateToken = '',
+								 $clientIdentifier = '') {
+		if(!$this->isValidToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		$clientName = $this->getClientName();
+		$client = null;
+		if($clientIdentifier !== '') {
+			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
+			$clientName = $client->getName();
+		}
+
+		return new TemplateResponse(
+			$this->appName,
+			'loginflow/grant',
+			[
+				'client' => $clientName,
+				'clientIdentifier' => $clientIdentifier,
+				'instanceName' => $this->defaults->getName(),
+				'urlGenerator' => $this->urlGenerator,
+				'stateToken' => $stateToken,
+				'serverHost' => $this->request->getServerHost(),
+				'oauthState' => $this->session->get('oauth.state'),
+			],
+			'guest'
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @UseSession
+	 *
+	 * @param string $stateToken
+	 * @param string $clientIdentifier
+	 * @return TemplateResponse
+	 */
 	public function redirectPage($stateToken = '',
 								 $clientIdentifier = '') {
 		if(!$this->isValidToken($stateToken)) {
@@ -228,7 +266,7 @@ class ClientFlowLoginController extends Controller {
 				'clientIdentifier' => $clientIdentifier,
 				'oauthState' => $this->session->get('oauth.state'),
 			],
-			'empty'
+			'guest'
 		);
 	}
 
@@ -291,7 +329,7 @@ class ClientFlowLoginController extends Controller {
 		);
 
 		if($client) {
-			$code = $this->random->generate(128);
+			$code = $this->random->generate(128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 			$accessToken = new AccessToken();
 			$accessToken->setClientId($client->getId());
 			$accessToken->setEncryptedToken($this->crypto->encrypt($token, $code));
@@ -307,7 +345,30 @@ class ClientFlowLoginController extends Controller {
 			);
 			$this->session->remove('oauth.state');
 		} else {
-			$redirectUri = 'nc://login/server:' . $this->request->getServerHost() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
+			$serverPostfix = '';
+
+			if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
+			} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
+				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
+			}
+
+			$protocol = $this->request->getServerProtocol();
+
+			if ($protocol !== "https") {
+				$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
+				$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
+				if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
+					$protocol = 'https';
+				}
+			}
+
+
+			$serverPath = $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
+			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
+
+			// Clear the token from the login here
+			$this->tokenProvider->invalidateToken($sessionId);
 		}
 
 		return new Http\RedirectResponse($redirectUri);

@@ -245,7 +245,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				$currentMigration = $fromMS->getMigration('current');
 				if ($currentMigration !== '0') {
 					$toMS = new MigrationService($app, $toDB);
-					$toMS->migrate($currentMigration);
+					$toMS->migrate($currentMigration, true);
 				}
 			}
 		}

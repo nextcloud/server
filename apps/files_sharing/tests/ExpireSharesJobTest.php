@@ -133,15 +133,18 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	public function testExpireLinkShare($addExpiration, $interval, $addInterval, $shouldExpire) {
 		$this->loginAsUser($this->user1);
 
-		$view = new \OC\Files\View('/' . $this->user1 . '/');
-		$view->mkdir('files/test');
+		$user1Folder = \OC::$server->getUserFolder($this->user1);
+		$testFolder = $user1Folder->newFolder('test');
 
-		$fileInfo = $view->getFileInfo('files/test');
+		$shareManager = \OC::$server->getShareManager();
+		$share = $shareManager->newShare();
 
-		$this->assertNotNull(
-			\OC\Share\Share::shareItem('folder', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ),
-			'Failed asserting that user 1 successfully shared "test" by link.'
-		);
+		$share->setNode($testFolder)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setSharedBy($this->user1);
+
+		$shareManager->createShare($share);
 
 		$shares = $this->getShares();
 		$this->assertCount(1, $shares);
@@ -187,20 +190,22 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	public function testDoNotExpireOtherShares() {
 		$this->loginAsUser($this->user1);
 
-		$view = new \OC\Files\View('/' . $this->user1 . '/');
-		$view->mkdir('files/test');
+		$user1Folder = \OC::$server->getUserFolder($this->user1);
+		$testFolder = $user1Folder->newFolder('test');
 
-		$fileInfo = $view->getFileInfo('files/test');
+		$shareManager = \OC::$server->getShareManager();
+		$share = $shareManager->newShare();
 
-		$this->assertNotNull(
-			\OC\Share\Share::shareItem('folder', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
-			'Failed asserting that user 1 successfully shared "test" by link with user2.'
-		);
+		$share->setNode($testFolder)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setSharedBy($this->user1)
+			->setSharedWith($this->user2);
+
+		$shareManager->createShare($share);
 
 		$shares = $this->getShares();
 		$this->assertCount(1, $shares);
-		reset($shares);
-		$share = current($shares);
 
 		$this->logout();
 

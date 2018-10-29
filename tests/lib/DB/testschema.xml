@@ -19,6 +19,7 @@
 				<notnull>true</notnull>
 				<primary>true</primary>
 				<length>4</length>
+				<autoincrement>1</autoincrement>
 			</field>
 			<field>
 				<name>integerfield_default</name>

@@ -27,6 +27,8 @@
 
 namespace OCA\Files_Sharing;
 
+use OC\Cache\CappedMemoryCache;
+use OC\Files\View;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
@@ -74,6 +76,7 @@ class MountProvider implements IMountProvider {
 		$shares = $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_USER, null, -1);
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_GROUP, null, -1));
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_CIRCLE, null, -1));
+		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_ROOM, null, -1));
 
 		// filter out excluded shares and group shares that includes self
 		$shares = array_filter($shares, function (\OCP\Share\IShare $share) use ($user) {
@@ -83,20 +86,35 @@ class MountProvider implements IMountProvider {
 		$superShares = $this->buildSuperShares($shares, $user);
 
 		$mounts = [];
+		$view = new View('/' . $user->getUID() . '/files');
+		$ownerViews = [];
+		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
+		$foldersExistCache = new CappedMemoryCache();
 		foreach ($superShares as $share) {
 			try {
-				$mounts[] = new SharedMount(
+				/** @var \OCP\Share\IShare $parentShare */
+				$parentShare = $share[0];
+				$owner = $parentShare->getShareOwner();
+				if (!isset($ownerViews[$owner])) {
+					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
+				}
+				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
 					$mounts,
 					[
 						'user' => $user->getUID(),
 						// parent share
-						'superShare' => $share[0],
+						'superShare' => $parentShare,
 						// children/component of the superShare
 						'groupedShares' => $share[1],
+						'ownerView' => $ownerViews[$owner],
+						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
-					$storageFactory
+					$storageFactory,
+					$view,
+					$foldersExistCache
 				);
+				$mounts[$mount->getMountPoint()] = $mount;
 			} catch (\Exception $e) {
 				$this->logger->logException($e);
 				$this->logger->error('Error while trying to create shared mount');
@@ -104,7 +122,7 @@ class MountProvider implements IMountProvider {
 		}
 
 		// array_filter removes the null values from the array
-		return array_filter($mounts);
+		return array_values(array_filter($mounts));
 	}
 
 	/**

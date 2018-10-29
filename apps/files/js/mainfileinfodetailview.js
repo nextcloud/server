@@ -9,27 +9,6 @@
  */
 
 (function() {
-	var TEMPLATE =
-		'<div class="thumbnailContainer"><a href="#" class="thumbnail action-default"><div class="stretcher"/></a></div>' +
-		'<div class="file-details-container">' +
-		'<div class="fileName">' +
-			'<h3 title="{{name}}" class="ellipsis">{{name}}</h3>' +
-			'<a class="permalink" href="{{permalink}}" title="{{permalinkTitle}}" data-clipboard-text="{{permalink}}">' +
-				'<span class="icon icon-clippy"></span>' +
-				'<span class="hidden-visually">{{permalinkTitle}}</span>' +
-			'</a>' +
-		'</div>' +
-		'	<div class="file-details ellipsis">' +
-		'		<a href="#" class="action action-favorite favorite permanent">' +
-		'			<span class="icon {{starClass}}" title="{{starAltText}}"></span>' +
-		'		</a>' +
-		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date live-relative-timestamp" data-timestamp="{{timestamp}}" title="{{altDate}}">{{date}}</span>' +
-		'	</div>' +
-		'</div>' +
-		'<div class="hidden permalink-field">' +
-			'<input type="text" value="{{permalink}}" placeholder="{{permalinkTitle}}" readonly="readonly"/>' +
-		'</div>';
-
 	/**
 	 * @class OCA.Files.MainFileInfoDetailView
 	 * @classdesc
@@ -69,10 +48,7 @@
 		},
 
 		template: function(data) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template(data);
+			return OCA.Files.Templates['mainfileinfodetailsview'](data);
 		},
 
 		initialize: function(options) {
@@ -175,6 +151,12 @@
 
 			if (this.model) {
 				var isFavorite = (this.model.get('tags') || []).indexOf(OC.TAG_FAVORITE) >= 0;
+				var availableActions = this._fileActions.get(
+					this.model.get('mimetype'),
+					this.model.get('type'),
+					this.model.get('permissions')
+				);
+				var hasFavoriteAction = 'Favorite' in availableActions;
 				this.$el.html(this.template({
 					type: this.model.isImage()? 'image': '',
 					nameLabel: t('files', 'Name'),
@@ -189,6 +171,7 @@
 					altDate: OC.Util.formatDate(this.model.get('mtime')),
 					timestamp: this.model.get('mtime'),
 					date: OC.Util.relativeModifiedDate(this.model.get('mtime')),
+					hasFavoriteAction: hasFavoriteAction,
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
 					starClass: isFavorite ? 'icon-starred' : 'icon-star',
 					permalink: this._makePermalink(this.model.get('id')),
@@ -204,7 +187,6 @@
 				} else {
 					var iconUrl = this.model.get('icon') || OC.MimeType.getIconUrl('dir');
 					$iconDiv.css('background-image', 'url("' + iconUrl + '")');
-					OC.Util.scaleFixForIE8($iconDiv);
 				}
 				this.$el.find('[title]').tooltip({placement: 'bottom'});
 			} else {

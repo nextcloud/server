@@ -142,7 +142,7 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::mount($storage2, array(), $root . '/substorage');
 		Filesystem::mount($storage3, array(), $root . '/folder/anotherstorage');
 		$textSize = strlen("dummy file data\n");
-		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$storageSize = $textSize * 2 + $imageSize;
 
 		$storageInfo = $storage3->getCache()->get('');
@@ -284,11 +284,11 @@ class ViewTest extends \Test\TestCase {
 		// Reset sharing disabled for users cache
 		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 
-		$appConfig = \OC::$server->getAppConfig();
-		$oldExcludeGroupsFlag = $appConfig->getValue('core', 'shareapi_exclude_groups', 'no');
-		$oldExcludeGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
-		$appConfig->setValue('core', 'shareapi_exclude_groups', $excludeGroups);
-		$appConfig->setValue('core', 'shareapi_exclude_groups_list', $excludeGroupsList);
+		$config = \OC::$server->getConfig();
+		$oldExcludeGroupsFlag = $config->getAppValue('core', 'shareapi_exclude_groups', 'no');
+		$oldExcludeGroupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+		$config->setAppValue('core', 'shareapi_exclude_groups', $excludeGroups);
+		$config->setAppValue('core', 'shareapi_exclude_groups_list', $excludeGroupsList);
 
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
@@ -303,8 +303,8 @@ class ViewTest extends \Test\TestCase {
 		$folderContent = $view->getDirectoryContent('mount');
 		$this->assertEquals($expectedShareable, $folderContent[0]->isShareable());
 
-		$appConfig->setValue('core', 'shareapi_exclude_groups', $oldExcludeGroupsFlag);
-		$appConfig->setValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
+		$config->setAppValue('core', 'shareapi_exclude_groups', $oldExcludeGroupsFlag);
+		$config->setAppValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 
 		// Reset sharing disabled for users cache
 		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
@@ -658,7 +658,7 @@ class ViewTest extends \Test\TestCase {
 		 */
 		$storage = new $class(array());
 		$textData = "dummy file data\n";
-		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$storage->mkdir('folder');
 		$storage->file_put_contents('foo.txt', $textData);
 		$storage->file_put_contents('foo.png', $imgData);
@@ -1666,7 +1666,17 @@ class ViewTest extends \Test\TestCase {
 
 		$fileId = $view->getFileInfo('shareddir')->getId();
 		$userObject = \OC::$server->getUserManager()->createUser('test2', 'IHateNonMockableStaticClasses');
-		$this->assertTrue(\OC\Share\Share::shareItem('folder', $fileId, Share::SHARE_TYPE_USER, 'test2', Constants::PERMISSION_READ));
+
+		$userFolder = \OC::$server->getUserFolder($this->user);
+		$shareDir = $userFolder->get('shareddir');
+		$shareManager = \OC::$server->getShareManager();
+		$share = $shareManager->newShare();
+		$share->setSharedWith('test2')
+			->setSharedBy($this->user)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($shareDir);
+		$shareManager->createShare($share);
 
 		$this->assertFalse($view->rename('mount1', 'shareddir'), 'Cannot overwrite shared folder');
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub'), 'Cannot move mount point into shared folder');

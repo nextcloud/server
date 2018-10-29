@@ -138,7 +138,7 @@ function prepareDocker() {
 	# Selenium server.
 	# The container exits immediately if no command is given, so a Bash session
 	# is created to prevent that.
-	docker run --detach --name=$NEXTCLOUD_LOCAL_CONTAINER --network=container:$SELENIUM_CONTAINER --interactive --tty nextcloudci/php7.1:php7.1-15 bash
+	docker run --detach --name=$NEXTCLOUD_LOCAL_CONTAINER --network=container:$SELENIUM_CONTAINER --interactive --tty nextcloudci/acceptance-php7.1:acceptance-php7.1-2 bash
 
 	# Use the $TMPDIR or, if not set, fall back to /tmp.
 	NEXTCLOUD_LOCAL_TAR="$($MKTEMP --tmpdir="${TMPDIR:-/tmp}" --suffix=.tar nextcloud-local-XXXXXXXXXX)"
@@ -147,7 +147,7 @@ function prepareDocker() {
 	# "docker cp" does not take them into account (the extracted files are set
 	# to root).
 	echo "Copying local Git working directory of Nextcloud to the container"
-	tar --create --file="$NEXTCLOUD_LOCAL_TAR" --exclude=".git" --exclude="./build" --exclude="./config/config.php" --exclude="./data" --exclude="./data-autotest" --exclude="./tests" --directory=../../ .
+	tar --create --file="$NEXTCLOUD_LOCAL_TAR" --exclude=".git" --exclude="./build" --exclude="./config/config.php" --exclude="./data" --exclude="./data-autotest" --exclude="./tests" --exclude="./apps-extra" --exclude="apps-writable" --directory=../../ .
 	tar --append --file="$NEXTCLOUD_LOCAL_TAR" --directory=../../ tests/acceptance/
 
 	docker exec $NEXTCLOUD_LOCAL_CONTAINER mkdir /nextcloud
@@ -197,6 +197,18 @@ trap cleanUp EXIT
 # the Git working directory to the container) expect that.
 cd "$(dirname $0)"
 
+# "--acceptance-tests-dir XXX" option can be provided to set the directory
+# (relative to the root directory of the Nextcloud server) used to look for the
+# Behat configuration and the Nextcloud installation script.
+# By default it is "tests/acceptance", that is, the acceptance tests for the
+# Nextcloud server itself.
+ACCEPTANCE_TESTS_DIR_OPTION=""
+if [ "$1" = "--acceptance-tests-dir" ]; then
+	ACCEPTANCE_TESTS_DIR_OPTION="--acceptance-tests-dir $2"
+
+	shift 2
+fi
+
 # "--timeout-multiplier N" option can be provided before the specific scenario
 # to run, if any, to set the timeout multiplier to be used in the acceptance
 # tests.
@@ -222,4 +234,4 @@ prepareSelenium
 prepareDocker
 
 echo "Running tests"
-docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && tests/acceptance/run-local.sh $TIMEOUT_MULTIPLIER_OPTION allow-git-repository-modifications $SCENARIO_TO_RUN"
+docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && tests/acceptance/run-local.sh $ACCEPTANCE_TESTS_DIR_OPTION $TIMEOUT_MULTIPLIER_OPTION allow-git-repository-modifications $SCENARIO_TO_RUN"

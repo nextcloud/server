@@ -114,20 +114,9 @@ class Loader implements IMimeTypeLoader {
 	 * @param int inserted ID
 	 */
 	protected function store($mimetype) {
-		try {
-			$qb = $this->dbConnection->getQueryBuilder();
-			$qb->insert('mimetypes')
-				->values([
-					'mimetype' => $qb->createNamedParameter($mimetype)
-				]);
-			$qb->execute();
-		} catch (UniqueConstraintViolationException $e) {
-			if ($this->dbConnection->inTransaction()) {
-				// if we're inside a transaction we can't recover safely
-				throw $e;
-			}
-			// something inserted it before us
-		}
+		$this->dbConnection->insertIfNotExist('*PREFIX*mimetypes', [
+			'mimetype' => $mimetype
+		]);
 
 		$fetch = $this->dbConnection->getQueryBuilder();
 		$fetch->select('id')
@@ -136,6 +125,10 @@ class Loader implements IMimeTypeLoader {
 				$fetch->expr()->eq('mimetype', $fetch->createNamedParameter($mimetype)
 			));
 		$row = $fetch->execute()->fetch();
+
+		if (!$row) {
+			throw new \Exception("Failed to get mimetype id for $mimetype after trying to store it");
+		}
 
 		$this->mimetypes[$row['id']] = $mimetype;
 		$this->mimetypeIds[$mimetype] = $row['id'];

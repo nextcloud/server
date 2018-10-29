@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -42,7 +43,7 @@ interface ICrypto {
 	 * @return string Calculated HMAC
 	 * @since 8.0.0
 	 */
-	public function calculateHMAC($message, $password = '');
+	public function calculateHMAC(string $message, string $password = ''): string;
 
 	/**
 	 * Encrypts a value and adds an HMAC (Encrypt-Then-MAC)
@@ -51,7 +52,7 @@ interface ICrypto {
 	 * @return string Authenticated ciphertext
 	 * @since 8.0.0
 	 */
-	public function encrypt($plaintext, $password = '');
+	public function encrypt(string $plaintext, string $password = ''): string;
 
 	/**
 	 * Decrypts a value and verifies the HMAC (Encrypt-Then-Mac)
@@ -61,5 +62,5 @@ interface ICrypto {
 	 * @throws \Exception If the HMAC does not match
 	 * @since 8.0.0
 	 */
-	public function decrypt($authenticatedCiphertext, $password = '');
+	public function decrypt(string $authenticatedCiphertext, string $password = ''): string;
 }

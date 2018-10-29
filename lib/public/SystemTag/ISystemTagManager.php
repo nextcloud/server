@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -37,15 +38,15 @@ interface ISystemTagManager {
 	 *
 	 * @param array|string $tagIds id or array of unique ids of the tag to retrieve
 	 *
-	 * @return \OCP\SystemTag\ISystemTag[] array of system tags with tag id as key
+	 * @return ISystemTag[] array of system tags with tag id as key
 	 *
 	 * @throws \InvalidArgumentException if at least one given tag ids is invalid (string instead of integer, etc.)
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one given tag ids did no exist
+	 * @throws TagNotFoundException if at least one given tag ids did no exist
 	 * 			The message contains a json_encoded array of the ids that could not be found
 	 *
 	 * @since 9.0.0
 	 */
-	public function getTagsByIds($tagIds);
+	public function getTagsByIds($tagIds): array;
 
 	/**
 	 * Returns the tag object matching the given attributes.
@@ -54,13 +55,13 @@ interface ISystemTagManager {
 	 * @param bool $userVisible whether the tag is visible by users
 	 * @param bool $userAssignable whether the tag is assignable by users
 	 *
-	 * @return \OCP\SystemTag\ISystemTag system tag
+	 * @return ISystemTag system tag
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if tag does not exist
+	 * @throws TagNotFoundException if tag does not exist
 	 *
 	 * @since 9.0.0
 	 */
-	public function getTag($tagName, $userVisible, $userAssignable);
+	public function getTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag;
 
 	/**
 	 * Creates the tag object using the given attributes.
@@ -69,13 +70,13 @@ interface ISystemTagManager {
 	 * @param bool $userVisible whether the tag is visible by users
 	 * @param bool $userAssignable whether the tag is assignable by users
 	 *
-	 * @return \OCP\SystemTag\ISystemTag system tag
+	 * @return ISystemTag system tag
 	 *
-	 * @throws \OCP\SystemTag\TagAlreadyExistsException if tag already exists
+	 * @throws TagAlreadyExistsException if tag already exists
 	 *
 	 * @since 9.0.0
 	 */
-	public function createTag($tagName, $userVisible, $userAssignable);
+	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag;
 
 	/**
 	 * Returns all known tags, optionally filtered by visibility.
@@ -83,11 +84,11 @@ interface ISystemTagManager {
 	 * @param bool|null $visibilityFilter filter by visibility if non-null
 	 * @param string $nameSearchPattern optional search pattern for the tag name
 	 *
-	 * @return \OCP\SystemTag\ISystemTag[] array of system tags or empty array if none found
+	 * @return ISystemTag[] array of system tags or empty array if none found
 	 *
 	 * @since 9.0.0
 	 */
-	public function getAllTags($visibilityFilter = null, $nameSearchPattern = null);
+	public function getAllTags($visibilityFilter = null, $nameSearchPattern = null): array;
 
 	/**
 	 * Updates the given tag
@@ -97,20 +98,20 @@ interface ISystemTagManager {
 	 * @param bool $userVisible whether the tag is visible by users
 	 * @param bool $userAssignable whether the tag is assignable by users
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if tag with the given id does not exist
-	 * @throws \OCP\SystemTag\TagAlreadyExistsException if there is already another tag
+	 * @throws TagNotFoundException if tag with the given id does not exist
+	 * @throws TagAlreadyExistsException if there is already another tag
 	 * with the same attributes
 	 *
 	 * @since 9.0.0
 	 */
-	public function updateTag($tagId, $newName, $userVisible, $userAssignable);
+	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable);
 
 	/**
 	 * Delete the given tags from the database and all their relationships.
 	 *
 	 * @param string|array $tagIds array of tag ids
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
+	 * @throws TagNotFoundException if at least one tag did not exist
 	 *
 	 * @since 9.0.0
 	 */
@@ -127,7 +128,7 @@ interface ISystemTagManager {
 	 *
 	 * @since 9.1.0
 	 */
-	public function canUserAssignTag(ISystemTag $tag, IUser $user);
+	public function canUserAssignTag(ISystemTag $tag, IUser $user): bool;
 
 	/**
 	 * Checks whether the given user is allowed to see the tag with the given id.
@@ -139,7 +140,7 @@ interface ISystemTagManager {
 	 *
 	 * @since 9.1.0
 	 */
-	public function canUserSeeTag(ISystemTag $tag, IUser $userId);
+	public function canUserSeeTag(ISystemTag $tag, IUser $user): bool;
 
 	/**
 	 * Set groups that can assign a given tag.
@@ -149,7 +150,7 @@ interface ISystemTagManager {
 	 *
 	 * @since 9.1.0
 	 */
-	public function setTagGroups(ISystemTag $tag, $groupIds);
+	public function setTagGroups(ISystemTag $tag, array $groupIds);
 
 	/**
 	 * Get groups that can assign a given tag.
@@ -160,5 +161,5 @@ interface ISystemTagManager {
 	 *
 	 * @since 9.1.0
 	 */
-	public function getTagGroups(ISystemTag $tag);
+	public function getTagGroups(ISystemTag $tag): array;
 }

@@ -64,5 +64,6 @@ class FileAccessHelperTest extends TestCase {
 
 	public function testAssertDirectoryExists() {
 		$this->fileAccessHelper->assertDirectoryExists(\OC::$server->getTempManager()->getTemporaryFolder('/testfolder/'));
+		$this->addToAssertionCount(1);
 	}
 }

@@ -30,6 +30,8 @@
 		/** @lends OCA.External.FileList.prototype */ {
 		appName: 'External storages',
 
+		_allowSelection: false,
+
 		/**
 		 * @private
 		 */
@@ -56,7 +58,6 @@
 			$scopeColumn.find('span').text(scopeText);
 			$backendColumn.text(fileData.backend);
 			$tr.find('td.filename').after($scopeColumn).after($backendColumn);
-			$tr.find('td.filename input:checkbox').remove();
 			return $tr;
 		},
 

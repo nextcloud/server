@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (e padukshme)",
     "<strong>System tags</strong> for a file have been modified" : "U ndryshyan <strong>etiketa sistemi</strong>për një kartelë",
     "Collaborative tags" : "Etiketa bashkëpunuese",
-    "Create and edit collaborative tags. These tags affect all users." : "Krijo dhe ndrysho etiketa bashkëpunuese. Këto etiketa ndikojnë tek të gjithë përdoruesit.",
     "Select tag …" : "Zgjidh etiketimin",
     "Name" : "Emër",
-    "Delete" : "Fshije",
     "Public" : "Publik",
     "Restricted" : "I/E kufizuar",
     "Invisible" : "I padukshëm",
+    "Delete" : "Fshije",
     "Reset" : "Rivendos",
     "No files in here" : "S’ka kartela këtu",
     "No entries found in this folder" : "S’u gjetën zëra në këtë dosje",
     "Size" : "Madhësi",
-    "Modified" : "Ndryshuar më"
+    "Modified" : "Ndryshuar më",
+    "Create and edit collaborative tags. These tags affect all users." : "Krijo dhe ndrysho etiketa bashkëpunuese. Këto etiketa ndikojnë tek të gjithë përdoruesit."
 },
 "nplurals=2; plural=(n != 1);");

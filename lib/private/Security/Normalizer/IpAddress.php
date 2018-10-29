@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -36,7 +37,7 @@ class IpAddress {
 	/**
 	 * @param string $ip IP to normalized
 	 */
-	public function __construct($ip) {
+	public function __construct(string $ip) {
 		$this->ip = $ip;
 	}
 
@@ -47,13 +48,12 @@ class IpAddress {
 	 * @param int $maskBits
 	 * @return string
 	 */
-	private function getIPv4Subnet($ip,
-								   $maskBits = 32) {
+	private function getIPv4Subnet(string $ip, int $maskBits = 32): string {
 		$binary = \inet_pton($ip);
 		for ($i = 32; $i > $maskBits; $i -= 8) {
 			$j = \intdiv($i, 8) - 1;
 			$k = (int) \min(8, $i - $maskBits);
-			$mask = (0xff - ((pow(2, $k)) - 1));
+			$mask = (0xff - ((2 ** $k) - 1));
 			$int = \unpack('C', $binary[$j]);
 			$binary[$j] = \pack('C', $int[1] & $mask);
 		}
@@ -67,12 +67,12 @@ class IpAddress {
 	 * @param int $maskBits
 	 * @return string
 	 */
-	private function getIPv6Subnet($ip, $maskBits = 48) {
+	private function getIPv6Subnet(string $ip, int $maskBits = 48): string {
 		$binary = \inet_pton($ip);
 		for ($i = 128; $i > $maskBits; $i -= 8) {
 			$j = \intdiv($i, 8) - 1;
 			$k = (int) \min(8, $i - $maskBits);
-			$mask = (0xff - ((pow(2, $k)) - 1));
+			$mask = (0xff - ((2 ** $k) - 1));
 			$int = \unpack('C', $binary[$j]);
 			$binary[$j] = \pack('C', $int[1] & $mask);
 		}
@@ -84,7 +84,7 @@ class IpAddress {
 	 *
 	 * @return string
 	 */
-	public function getSubnet() {
+	public function getSubnet(): string {
 		if (\preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $this->ip)) {
 			return $this->getIPv4Subnet(
 				$this->ip,
@@ -102,7 +102,7 @@ class IpAddress {
 	 *
 	 * @return string
 	 */
-	public function __toString() {
+	public function __toString(): string {
 		return $this->ip;
 	}
 }

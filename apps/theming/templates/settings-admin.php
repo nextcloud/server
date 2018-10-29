@@ -37,7 +37,7 @@ style('theming', 'settings-admin');
 	<p>
 		<?php p($_['errorMessage']) ?>
 	</p>
-	<?php } else { ?>
+	<?php } ?>
 	<div>
 		<label>
 			<span><?php p($l->t('Name')) ?></span>
@@ -47,8 +47,8 @@ style('theming', 'settings-admin');
 	</div>
 	<div>
 		<label>
-			<span><?php p($l->t('Web address')) ?></span>
-			<input id="theming-url" type="text" placeholder="<?php p($l->t('Web address https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
+			<span><?php p($l->t('Web link')) ?></span>
+			<input id="theming-url" type="url" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['url']) ?>" maxlength="500" />
 			<div data-setting="url" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
@@ -62,31 +62,85 @@ style('theming', 'settings-admin');
 	<div>
 		<label>
 			<span><?php p($l->t('Color')) ?></span>
-			<input id="theming-color" type="text" class="jscolor" maxlength="6" value="<?php p($_['color']) ?>" />
+			<input id="theming-color" type="text" maxlength="7" value="<?php p($_['color']) ?>" />
 			<div data-setting="color" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</label>
 	</div>
 	<div>
-		<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>">
-			<input type="hidden" id="current-logoMime" name="current-logoMime" value="<?php p($_['logoMime']); ?>" />
+		<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>" data-image-key="logo">
+			<input type="hidden" id="theming-logoMime" value="<?php p($_['images']['logo']['mime']); ?>" />
+			<input type="hidden" name="key" value="logo" />
 			<label for="uploadlogo"><span><?php p($l->t('Logo')) ?></span></label>
-			<input id="uploadlogo" class="upload-logo-field" name="uploadlogo" type="file" />
+			<input id="uploadlogo" class="fileupload" name="image" type="file" />
 			<label for="uploadlogo" class="button icon-upload svg" id="uploadlogo" title="<?php p($l->t('Upload new logo')) ?>"></label>
 			<div data-setting="logoMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 		</form>
 	</div>
 	<div>
-		<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>">
-			<input type="hidden" id="current-backgroundMime" name="current-backgroundMime" value="<?php p($_['backgroundMime']); ?>" />
+		<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>" data-image-key="background">
+			<input type="hidden" id="theming-backgroundMime" value="<?php p($_['images']['background']['mime']); ?>" />
+			<input type="hidden" name="key" value="background" />
 			<label for="upload-login-background"><span><?php p($l->t('Login image')) ?></span></label>
-			<input id="upload-login-background" class="upload-logo-field" name="upload-login-background" type="file">
+			<input id="upload-login-background" class="fileupload" name="image" type="file">
 			<label for="upload-login-background" class="button icon-upload svg" id="upload-login-background" title="<?php p($l->t("Upload new login background")) ?>"></label>
 			<div data-setting="backgroundMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 			<div class="theme-remove-bg icon icon-delete" data-toggle="tooltip" data-original-title="<?php p($l->t('Remove background image')); ?>"></div>
 		</form>
 	</div>
 	<div id="theming-preview">
-		<img src="<?php p($_['logo']); ?>" id="theming-preview-logo" />
+		<div id="theming-preview-logo"></div>
 	</div>
-	<?php } ?>
+
+	<h2 class="inlineblock"><?php p($l->t('Advanced options')); ?></h2>
+
+	<div class="advanced-options">
+		<div>
+			<label>
+			<span><?php p($l->t('Legal notice link')) ?></span>
+				<input id="theming-imprintUrl" type="url" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['imprintUrl']) ?>" maxlength="500" />
+				<div data-setting="imprintUrl" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
+		</label>
+	</div>
+	<div>
+		<label>
+			<span><?php p($l->t('Privacy policy link')) ?></span>
+			<input id="theming-privacyUrl" type="url" placeholder="<?php p($l->t('https://…')); ?>" value="<?php p($_['privacyUrl']) ?>" maxlength="500" />
+			<div data-setting="privacyUrl" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			</label>
+		</div>
+		<div class="advanced-option-logoheader">
+			<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>" data-image-key="logoheader">
+				<input type="hidden" id="theming-logoheaderMime" value="<?php p($_['images']['logoheader']['mime']); ?>" />
+				<input type="hidden" name="key" value="logoheader" />
+				<label for="upload-login-logoheader"><span><?php p($l->t('Header logo')) ?></span></label>
+				<input id="upload-login-logoheader" class="fileupload" name="image" type="file">
+				<label for="upload-login-logoheader" class="button icon-upload svg" id="upload-login-logoheader" title="<?php p($l->t("Upload new header logo")) ?>"></label>
+				<div class="image-preview"></div>
+				<div data-setting="logoheaderMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			</form>
+		</div>
+		<div class="advanced-option-favicon">
+			<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>" data-image-key="favicon">
+				<input type="hidden" id="theming-faviconMime" value="<?php p($_['images']['favicon']['mime']); ?>" />
+				<input type="hidden" name="key" value="favicon" />
+				<label for="upload-login-favicon"><span><?php p($l->t('Favicon')) ?></span></label>
+				<input id="upload-login-favicon" class="fileupload" name="image" type="file">
+				<label for="upload-login-favicon" class="button icon-upload svg" id="upload-login-favicon" title="<?php p($l->t("Upload new favicon")) ?>"></label>
+				<div class="image-preview"></div>
+				<div data-setting="faviconMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
+			</form>
+		</div>
+	</div>
+
+	<div class="theming-hints">
+		<?php if (!$_['canThemeIcons']) { ?>
+			<p class="info">
+				<a href="<?php p($_['iconDocs']); ?>">
+					<em>
+						<?php p($l->t('Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.')); ?> ↗
+					</em>
+				</a>
+			</p>
+		<?php } ?>
+	</div>
 </div>

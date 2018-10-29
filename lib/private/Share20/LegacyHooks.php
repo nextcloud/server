@@ -27,6 +27,7 @@ use OCP\Files\File;
 use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\Share;
 
 class LegacyHooks {
 	/** @var EventDispatcher */
@@ -55,7 +56,7 @@ class LegacyHooks {
 		$share = $e->getSubject();
 
 		$formatted = $this->formatHookParams($share);
-		\OC_Hook::emit('OCP\Share', 'pre_unshare', $formatted);
+		\OC_Hook::emit(Share::class, 'pre_unshare', $formatted);
 	}
 
 	/**
@@ -76,7 +77,7 @@ class LegacyHooks {
 
 		$formatted['deletedShares'] = $formattedDeletedShares;
 
-		\OC_Hook::emit('OCP\Share', 'post_unshare', $formatted);
+		\OC_Hook::emit(Share::class, 'post_unshare', $formatted);
 	}
 
 	/**
@@ -90,7 +91,7 @@ class LegacyHooks {
 		$formatted['itemTarget'] = $formatted['fileTarget'];
 		$formatted['unsharedItems'] = [$formatted];
 
-		\OC_Hook::emit('OCP\Share', 'post_unshareFromSelf', $formatted);
+		\OC_Hook::emit(Share::class, 'post_unshareFromSelf', $formatted);
 	}
 
 	private function formatHookParams(IShare $share) {
@@ -138,7 +139,7 @@ class LegacyHooks {
 			'run' => &$run,
 			'error' => &$error,
 		];
-		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
+		\OC_Hook::emit(Share::class, 'pre_shared', $preHookData);
 
 		if ($run === false) {
 			$e->setArgument('error', $error);
@@ -167,7 +168,7 @@ class LegacyHooks {
 			'fileTarget' => $share->getTarget(),
 		];
 
-		\OC_Hook::emit('OCP\Share', 'post_shared', $postHookData);
+		\OC_Hook::emit(Share::class, 'post_shared', $postHookData);
 
 	}
 }

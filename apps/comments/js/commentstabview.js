@@ -11,49 +11,6 @@
 /* global Handlebars, escapeHTML */
 
 (function(OC, OCA) {
-	var TEMPLATE =
-		'<ul class="comments">' +
-		'</ul>' +
-		'<div class="emptycontent hidden"><div class="icon-comment"></div>' +
-		'<p>{{emptyResultLabel}}</p></div>' +
-		'<input type="button" class="showMore hidden" value="{{moreLabel}}"' +
-		' name="show-more" id="show-more" />' +
-		'<div class="loading hidden" style="height: 50px"></div>';
-
-	var EDIT_COMMENT_TEMPLATE =
-		'<div class="newCommentRow comment" data-id="{{id}}">' +
-		'    <div class="authorRow">' +
-		'        <div class="avatar" data-username="{{actorId}}"></div>' +
-		'        <div class="author">{{actorDisplayName}}</div>' +
-		'{{#if isEditMode}}' +
-		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
-		'{{/if}}' +
-		'    </div>' +
-		'    <form class="newCommentForm">' +
-		'        <div contentEditable="true" class="message" data-placeholder="{{newMessagePlaceholder}}">{{message}}</div>' +
-		'        <input class="submit icon-confirm" type="submit" value="" />' +
-		'{{#if isEditMode}}' +
-		'        <input class="cancel pull-right" type="button" value="{{cancelText}}" />' +
-		'{{/if}}' +
-		'        <div class="submitLoading icon-loading-small hidden"></div>'+
-		'    </form>' +
-		'</div>';
-
-	var COMMENT_TEMPLATE =
-		'<li class="comment{{#if isUnread}} unread{{/if}}{{#if isLong}} collapsed{{/if}}" data-id="{{id}}">' +
-		'    <div class="authorRow">' +
-		'        <div class="avatar" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
-		'        <div class="author">{{actorDisplayName}}</div>' +
-		'{{#if isUserAuthor}}' +
-		'        <a href="#" class="action edit icon icon-rename has-tooltip" title="{{editTooltip}}"></a>' +
-		'{{/if}}' +
-		'        <div class="date has-tooltip live-relative-timestamp" data-timestamp="{{timestamp}}" title="{{altDate}}">{{date}}</div>' +
-		'    </div>' +
-		'    <div class="message">{{{formattedMessage}}}</div>' +
-		'{{#if isLong}}' +
-		'    <div class="message-overlay"></div>' +
-		'{{/if}}' +
-		'</li>';
 
 	/**
 	 * @memberof OCA.Comments
@@ -63,12 +20,11 @@
 		id: 'commentsTabView',
 		className: 'tab commentsTabView',
 		_autoCompleteData: undefined,
+		_commentsModifyMenu: undefined,
 
 		events: {
 			'submit .newCommentForm': '_onSubmitComment',
 			'click .showMore': '_onClickShowMore',
-			'click .action.edit': '_onClickEditComment',
-			'click .action.delete': '_onClickDeleteComment',
 			'click .cancel': '_onClickCloseComment',
 			'click .comment': '_onClickComment',
 			'keyup div.message': '_onTextChange',
@@ -94,36 +50,26 @@
 		},
 
 		template: function(params) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
 			var currentUser = OC.getCurrentUser();
-			return this._template(_.extend({
+			return OCA.Comments.Templates['view'](_.extend({
 				actorId: currentUser.uid,
 				actorDisplayName: currentUser.displayName
 			}, params));
 		},
 
 		editCommentTemplate: function(params) {
-			if (!this._editCommentTemplate) {
-				this._editCommentTemplate = Handlebars.compile(EDIT_COMMENT_TEMPLATE);
-			}
 			var currentUser = OC.getCurrentUser();
-			return this._editCommentTemplate(_.extend({
+			return OCA.Comments.Templates['edit_comment'](_.extend({
 				actorId: currentUser.uid,
 				actorDisplayName: currentUser.displayName,
 				newMessagePlaceholder: t('comments', 'New comment …'),
-				deleteTooltip: t('comments', 'Delete comment'),
 				submitText: t('comments', 'Post'),
-				cancelText: t('comments', 'Cancel')
+				cancelText: t('comments', 'Cancel'),
+				tag: 'li'
 			}, params));
 		},
 
 		commentTemplate: function(params) {
-			if (!this._commentTemplate) {
-				this._commentTemplate = Handlebars.compile(COMMENT_TEMPLATE);
-			}
-
 			params = _.extend({
 				editTooltip: t('comments', 'Edit comment'),
 				isUserAuthor: OC.getCurrentUser().uid === params.actorId,
@@ -136,11 +82,15 @@
 				params.actorDisplayName = t('comments', '[Deleted user]');
 			}
 
-			return this._commentTemplate(params);
+			return OCA.Comments.Templates['comment'](params);
 		},
 
 		getLabel: function() {
 			return t('comments', 'Comments');
+		},
+
+		getIcon: function() {
+			return 'icon-comment';
 		},
 
 		setFileInfo: function(fileInfo) {
@@ -165,7 +115,7 @@
 				emptyResultLabel: t('comments', 'No comments yet, start the conversation!'),
 				moreLabel: t('comments', 'More comments …')
 			}));
-			this.$el.find('.comments').before(this.editCommentTemplate({}));
+			this.$el.find('.comments').before(this.editCommentTemplate({ tag: 'div'}));
 			this.$el.find('.has-tooltip').tooltip();
 			this.$container = this.$el.find('ul.comments');
 			this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 32);
@@ -173,6 +123,7 @@
 			this.$el.find('.message').on('keydown input change', this._onTypeComment);
 
 			autosize(this.$el.find('.newCommentRow .message'))
+			this.$el.find('.newCommentForm .message').focus();	
 		},
 
 		_initAutoComplete: function($target) {
@@ -195,32 +146,40 @@
 					},
 					sorter: function (q, items) { return items; }
 				},
-				displayTpl: '<li>'
-				+ '<span class="avatar-name-wrapper">'
-				+ '<div class="avatar" '
-				+ 'data-username="${id}"'	// for avatars
-				+ ' data-user="${id}"'		// for contactsmenu
-				+ ' data-user-display-name="${label}"></div>'
-				+ ' <strong>${label}</strong>'
-				+ '</span></li>',
-				insertTpl: ''
-				+ '<span class="avatar-name-wrapper">'
-				+ '<div class="avatar" '
-				+ 'data-username="${id}"'	// for avatars
-				+ ' data-user="${id}"'		// for contactsmenu
-				+ ' data-user-display-name="${label}"></div>'
-				+ ' <strong>${label}</strong>'
-				+ '</span>',
+				displayTpl: function (item) {
+					return '<li>' +
+						'<span class="avatar-name-wrapper">' +
+							'<span class="avatar" ' +
+									'data-username="' + escapeHTML(item.id) + '" ' + // for avatars
+									'data-user="' + escapeHTML(item.id) + '" ' + // for contactsmenu
+									'data-user-display-name="' + escapeHTML(item.label) + '">' +
+							'</span>' +
+							'<strong>' + escapeHTML(item.label) + '</strong>' +
+						'</span></li>';
+				},
+				insertTpl: function (item) {
+					return '' +
+						'<span class="avatar-name-wrapper">' +
+							'<span class="avatar" ' +
+									'data-username="' + escapeHTML(item.id) + '" ' + // for avatars
+									'data-user="' + escapeHTML(item.id) + '" ' + // for contactsmenu
+									'data-user-display-name="' + escapeHTML(item.label) + '">' +
+							'</span>' +
+							'<strong>' + escapeHTML(item.label) + '</strong>' +
+						'</span>';
+				},
 				searchKey: "label"
 			});
 			$target.on('inserted.atwho', function (je, $el) {
+				var editionMode = true;
 				s._postRenderItem(
 					// we need to pass the parent of the inserted element
 					// passing the whole comments form would re-apply and request
 					// avatars from the server
 					$(je.target).find(
-						'div[data-username="' + $el.find('[data-username]').data('username') + '"]'
-					).parent()
+						'span[data-username="' + $el.find('[data-username]').data('username') + '"]'
+					).parent(),
+					editionMode
 				);
 			});
 		},
@@ -237,19 +196,22 @@
 				if(!_.isUndefined(this._autoCompleteRequestCall)) {
 					this._autoCompleteRequestCall.abort();
 				}
-				this._autoCompleteRequestCall = $.get(
-					OC.generateUrl('/autocomplete/get'),
-					{
+				this._autoCompleteRequestCall = $.ajax({
+					url: OC.linkToOCS('core', 2) + 'autocomplete/get',
+					data: {
 						search: query,
 						itemType: 'files',
 						itemId: s.model.get('id'),
 						sorter: 'commenters|share-recipients',
 						limit: OC.appConfig.comments.maxAutoCompleteResults
 					},
-					function (data) {
-						callback(data);
+					beforeSend: function (request) {
+						request.setRequestHeader('Accept', 'application/json');
+					},
+					success: function (result) {
+						callback(result.ocs.data);
 					}
-				);
+				});
 			}, 400);
 		},
 
@@ -299,6 +261,8 @@
 					}
 				);
 			}
+			this.$el.find('.newCommentForm .message').focus();	
+			
 		},
 
 		/**
@@ -320,7 +284,7 @@
 				this.$container.append($comment);
 			}
 			this._postRenderItem($comment);
-			$('#commentsTabView').find('.newCommentForm div.message').text('').prop('disabled', false);
+			$('#commentsTabView').find('.newCommentForm div.message').text('').prop('contenteditable', true);
 
 			// we need to update the model, because it consists of client data
 			// only, but the server might add meta data, e.g. about mentions
@@ -377,9 +341,17 @@
 			});
 		},
 
-		_postRenderItem: function($el) {
+		_postRenderItem: function($el, editionMode) {
 			$el.find('.has-tooltip').tooltip();
-			$el.find('.avatar').each(function() {
+			var inlineAvatars = $el.find('.message .avatar');
+			if ($($el.context).hasClass('message')) {
+				inlineAvatars = $el.find('.avatar');
+			}
+			inlineAvatars.each(function () {
+				var $this = $(this);
+				$this.avatar($this.attr('data-username'), 16);
+			});
+			$el.find('.authorRow .avatar').each(function () {
 				var $this = $(this);
 				$this.avatar($this.attr('data-username'), 32);
 			});
@@ -395,16 +367,40 @@
 				// it is the case when writing a comment and mentioning a person
 				$message = $el;
 			}
-			this._postRenderMessage($message);
+
+
+			if (!editionMode) {
+				var self = this;
+				// add the dropdown menu to display the edit and delete option
+				var modifyCommentMenu = new OCA.Comments.CommentsModifyMenu();
+				$el.find('.authorRow').append(modifyCommentMenu.$el);
+				$el.find('.more').on('click', _.bind(modifyCommentMenu.show, modifyCommentMenu));
+
+				self.listenTo(modifyCommentMenu, 'select:menu-item-clicked', function(ev, action) {
+					if (action === 'edit') {
+						self._onClickEditComment(ev);
+					} else if (action === 'delete') {
+						self._onClickDeleteComment(ev);
+					}
+				});
+			}
+
+			this._postRenderMessage($message, editionMode);
 		},
 
-		_postRenderMessage: function($el) {
-			$el.find('.avatar').each(function() {
-				var avatar = $(this);
-				var strong = $(this).next();
-				var appendTo = $(this).parent();
+		_postRenderMessage: function($el, editionMode) {
+			if (editionMode) {
+				return;
+			}
 
-				$.merge(avatar, strong).contactsMenu(avatar.data('user'), 0, appendTo);
+			$el.find('.avatar-name-wrapper').each(function() {
+				var $this = $(this);
+				var $avatar = $this.find('.avatar');
+
+				var user = $avatar.data('user');
+				if (user !== OC.getCurrentUser().uid) {
+					$this.contactsMenu(user, 0, $this);
+				}
 			});
 		},
 
@@ -412,7 +408,7 @@
 		 * Convert a message to be displayed in HTML,
 		 * converts newlines to <br> tags.
 		 */
-		_formatMessage: function(message, mentions) {
+		_formatMessage: function(message, mentions, editMode) {
 			message = escapeHTML(message).replace(/\n/g, '<br/>');
 
 			for(var i in mentions) {
@@ -435,22 +431,29 @@
 					}
 				);
 			}
+			if(editMode !== true) {
+				message = OCP.Comments.plainToRich(message);
+			}
 			return message;
 		},
 
 		_composeHTMLMention: function(uid, displayName) {
-			var avatar = '<div class="avatar" '
-				+ 'data-username="' + _.escape(uid) + '"'
-				+ ' data-user="' + _.escape(uid) + '"'
-				+ ' data-user-display-name="'
-				+ _.escape(displayName) + '"></div>';
+			var avatar = '' +
+				'<span class="avatar" ' +
+						'data-username="' + _.escape(uid) + '" ' +
+						'data-user="' + _.escape(uid) + '" ' +
+						'data-user-display-name="' + _.escape(displayName) + '">' +
+				'</span>';
 
-			return ''
-				+ '<span class="atwho-inserted" contenteditable="false">'
-				+ '<span class="avatar-name-wrapper">'
-				+ avatar + ' <strong>'+ _.escape(displayName)+'</strong>'
-				+ '</span>'
-				+ '</span>';
+			var isCurrentUser = (uid === OC.getCurrentUser().uid);
+
+			return '' +
+				'<span class="atwho-inserted" contenteditable="false">' +
+					'<span class="avatar-name-wrapper' + (isCurrentUser ? ' currentUser' : '') + '">' +
+						avatar +
+						'<strong>' + _.escape(displayName) + '</strong>' +
+					'</span>' +
+				'</span>';
 		},
 
 		nextPage: function() {
@@ -483,10 +486,11 @@
 
 			var $message = $formRow.find('.message');
 			$message
-				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions')))
+				.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions'), true))
 				.find('.avatar')
 				.each(function () { $(this).avatar(); });
-			this._postRenderItem($message);
+			var editionMode = true;
+			this._postRenderItem($message, editionMode);
 
 			// Enable autosize
 			autosize($formRow.find('.message'));
@@ -499,7 +503,7 @@
 
 		_onTypeComment: function(ev) {
 			var $field = $(ev.target);
-			var len = $field.val().length;
+			var len = $field.text().length;
 			var $submitButton = $field.data('submitButtonEl');
 			if (!$submitButton) {
 				$submitButton = $field.closest('form').find('.submit');
@@ -517,9 +521,13 @@
 			$field.toggleClass('error', limitExceeded);
 			$submitButton.prop('disabled', limitExceeded);
 
-			//submits form on ctrl+Enter or cmd+Enter
-			if (ev.keyCode === 13 && (ev.ctrlKey || ev.metaKey)) {
+			// Submits form with Enter, but Shift+Enter is a new line. If the
+			// autocomplete popover is being shown Enter does not submit the
+			// form either; it will be handled by At.js which will add the
+			// currently selected item to the message.
+			if (ev.keyCode === 13 && !ev.shiftKey && !$field.atwho('isSelecting')) {
 				$submitButton.click();
+				ev.preventDefault();
 			}
 		},
 
@@ -543,10 +551,15 @@
 			ev.preventDefault();
 			var $comment = $(ev.target).closest('.comment');
 			var commentId = $comment.data('id');
-			var $loading = $comment.find('.submitLoading');
+			var $loading = $comment.find('.deleteLoading');
+			var $moreIcon = $comment.find('.more');
 
 			$comment.addClass('disabled');
 			$loading.removeClass('hidden');
+			$moreIcon.addClass('hidden');
+
+			$comment.data('commentEl', $comment);
+
 			this.collection.get(commentId).destroy({
 				success: function() {
 					$comment.data('commentEl').remove();
@@ -554,8 +567,10 @@
 				},
 				error: function() {
 					$loading.addClass('hidden');
+					$moreIcon.removeClass('hidden');
 					$comment.removeClass('disabled');
-					OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with id {id}', {id: commentId}));
+
+					OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with ID {id}', {id: commentId}));
 				}
 			});
 
@@ -592,13 +607,14 @@
 				$inserted.html('@' + $this.find('.avatar').data('username'));
 			});
 
+			$comment.html(OCP.Comments.richToPlain($comment.html()));
+
 			var oldHtml;
 			var html = $comment.html();
 			do {
 				// replace works one by one
 				oldHtml = html;
 				html = oldHtml.replace("<br>", "\n");	// preserve line breaks
-				console.warn(html)
 			} while(oldHtml !== html);
 			$comment.html(html);
 
@@ -620,7 +636,7 @@
 				return;
 			}
 
-			$commentField.prop('disabled', true);
+			$commentField.prop('contenteditable', false);
 			$submit.addClass('hidden');
 			$loading.removeClass('hidden');
 
@@ -633,6 +649,12 @@
 				}, {
 					success: function(model) {
 						self._onSubmitSuccess(model, $form);
+						if(model.get('message').trim() === model.previous('message').trim()) {
+							// model change event doesn't trigger, manually remove the row.
+							var $row = $form.closest('.comment');
+							$row.data('commentEl').removeClass('hidden');
+							$row.remove();
+						}
 					},
 					error: function() {
 						self._onSubmitError($form, commentId);
@@ -673,7 +695,7 @@
 		_onSubmitError: function($form, commentId) {
 			$form.find('.submit').removeClass('hidden');
 			$form.find('.submitLoading').addClass('hidden');
-			$form.find('.message').prop('disabled', false);
+			$form.find('.message').prop('contenteditable', true);
 
 			if(!_.isUndefined(commentId)) {
 				OC.Notification.show(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}), {type: 'error'});

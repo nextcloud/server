@@ -298,6 +298,7 @@ class SharesPluginTest extends \Test\TestCase {
 			[[\OCP\Share::SHARE_TYPE_GROUP]],
 			[[\OCP\Share::SHARE_TYPE_LINK]],
 			[[\OCP\Share::SHARE_TYPE_REMOTE]],
+			[[\OCP\Share::SHARE_TYPE_ROOM]],
 			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP]],
 			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK]],
 			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK]],

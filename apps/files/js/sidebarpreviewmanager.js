@@ -9,7 +9,7 @@
  */
 
 (function () {
-	SidebarPreviewManager = function (fileList) {
+	var SidebarPreviewManager = function (fileList) {
 		this._fileList = fileList;
 		this._previewHandlers = {};
 		OC.Plugins.attach('OCA.Files.SidebarPreviewManager', this);
@@ -92,6 +92,7 @@
 			};
 
 			this._fileList.lazyLoadPreview({
+				fileId: model.get('id'),
 				path: model.getFullPath(),
 				mime: model.get('mimetype'),
 				etag: model.get('etag'),

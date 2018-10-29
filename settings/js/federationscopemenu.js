@@ -11,25 +11,6 @@
 /* global OC, Handlebars */
 (function() {
 
-	var TEMPLATE_MENU =
-		'<ul>' +
-		'{{#each items}}' +
-		'<li>' +
-		'<a href="#" class="menuitem action action-{{name}} permanent {{#if active}}active{{/if}}" data-action="{{name}}">' +
-			'{{#if icon}}<img class="icon" src="{{icon}}"/>' +
-			'{{else}}'+
-				'{{#if iconClass}}' +
-				'<span class="icon {{iconClass}}"></span>' +
-				'{{else}}' +
-				'<span class="no-icon"></span>' +
-				'{{/if}}' +
-			'{{/if}}' +
-			'<p><strong class="menuitem-text">{{displayName}}</strong><br>' +
-			'<span class="menuitem-text-detail">{{tooltip}}</span></p></a>' +
-		'</li>' +
-		'{{/each}}' +
-		'</ul>';
-
 	/**
 	 * Construct a new FederationScopeMenu instance
 	 * @constructs FederationScopeMenu
@@ -37,7 +18,7 @@
 	 */
 	var FederationScopeMenu = OC.Backbone.View.extend({
 		tagName: 'div',
-		className: 'federationScopeMenu popovermenu bubble hidden menu',
+		className: 'federationScopeMenu popovermenu bubble menu menu-center',
 		field: undefined,
 		_scopes: undefined,
 
@@ -46,23 +27,23 @@
 			this._scopes = [
 				{
 					name: 'private',
-					displayName: (this.field === 'avatar' || this.field === 'displayname') ? t('core', 'Local') : t('core', 'Private'),
-					tooltip: (this.field === 'avatar' || this.field === 'displayname') ? t('core', 'Only visible to local users') : t('core', 'Only visible to you'),
-					icon: OC.imagePath('core', 'actions/password'),
+					displayName: (this.field === 'avatar' || this.field === 'displayname') ? t('settings', 'Local') : t('settings', 'Private'),
+					tooltip: (this.field === 'avatar' || this.field === 'displayname') ? t('settings', 'Only visible to local users') : t('settings', 'Only visible to you'),
+					iconClass: 'icon-password',
 					active: false
 				},
 				{
 					name: 'contacts',
-					displayName: t('core', 'Contacts'),
-					tooltip: t('core', 'Visible to local users and to trusted servers'),
-					icon: OC.imagePath('core', 'places/contacts-dark'),
+					displayName: t('settings', 'Contacts'),
+					tooltip: t('settings', 'Visible to local users and to trusted servers'),
+					iconClass: 'icon-contacts-dark',
 					active: false
 				},
 				{
 					name: 'public',
-					displayName: t('core', 'Public'),
-					tooltip: t('core', 'Will be synced to a global and public address book'),
-					icon: OC.imagePath('core', 'places/link'),
+					displayName: t('settings', 'Public'),
+					tooltip: t('settings', 'Will be synced to a global and public address book'),
+					iconClass: 'icon-link',
 					active: false
 				}
 			];
@@ -78,8 +59,6 @@
 		events: {
 			'click a.action': '_onClickAction'
 		},
-
-		template: Handlebars.compile(TEMPLATE_MENU),
 
 		/**
 		 * Event handler whenever an action has been clicked within the menu
@@ -101,7 +80,7 @@
 		 * Renders the menu with the currently set items
 		 */
 		render: function() {
-			this.$el.html(this.template({
+			this.$el.html(OC.Settings.Templates['federationscopemenu']({
 				items: this._scopes
 			}));
 		},
@@ -128,10 +107,6 @@
 					this._scopes[2].active = true;
 					break;
 			}
-
-			var $el = $(context.target);
-			var offsetIcon = $el.offset();
-			var offsetHeading = $el.closest('h2').offset();
 
 			this.render();
 			this.$el.removeClass('hidden');

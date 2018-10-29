@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -55,7 +56,7 @@ class SystemTag implements ISystemTag {
 	 * @param bool $userVisible whether the tag is user visible
 	 * @param bool $userAssignable whether the tag is user assignable
 	 */
-	public function __construct($id, $name, $userVisible, $userAssignable) {
+	public function __construct(string $id, string $name, bool $userVisible, bool $userAssignable) {
 		$this->id = $id;
 		$this->name = $name;
 		$this->userVisible = $userVisible;
@@ -65,28 +66,28 @@ class SystemTag implements ISystemTag {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getId() {
+	public function getId(): string {
 		return $this->id;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isUserVisible() {
+	public function isUserVisible(): bool {
 		return $this->userVisible;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isUserAssignable() {
+	public function isUserAssignable(): bool {
 		return $this->userAssignable;
 	}
 }

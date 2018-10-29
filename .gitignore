@@ -1,6 +1,5 @@
 # the default generated dir + db file
 /data
-/owncloud
 /config/config.php
 /config/*.config.php
 /config/mimetype*.json
@@ -8,9 +7,13 @@
 /apps/inc.php
 /assets
 /.htaccess
+/translationfiles
+/translationtool.phar
 
 # ignore all apps except core ones
 /apps*/*
+!/apps/accessibility
+!/apps/cloud_federation_api
 !/apps/comments
 !/apps/dav
 !/apps/files
@@ -39,6 +42,9 @@
 /apps/files_external/3rdparty/irodsphp/prods/tutorials
 /apps/files_external/3rdparty/irodsphp/prods/test*
 /apps/files_external/tests/config.*.php
+
+# apps modules
+/apps/*/node_modules
 
 
 # ignore themes except the example and the README
@@ -116,6 +122,7 @@ nbproject
 /build/jsdocs/
 /npm-debug.log
 /PhantomJS_*
+/build/package-lock.json
 
 # puphpet
 puphpet
@@ -133,6 +140,9 @@ Vagrantfile
 /tests/autotest*
 /tests/data/lorem-copy.txt
 /tests/data/testimage-copy.png
+/tests/ui-regression/out/
+/tests/ui-regression/node_modules/
+/tests/ui-regression/package-lock.json
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml

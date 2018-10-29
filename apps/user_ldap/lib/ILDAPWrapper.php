@@ -207,12 +207,6 @@ interface ILDAPWrapper {
 	public function areLDAPFunctionsAvailable();
 
 	/**
-	 * Checks whether PHP supports LDAP Paged Results
-	 * @return bool true if it the case, false otherwise
-	 * */
-	public function hasPagedResultSupport();
-
-	/**
 	 * Checks whether the submitted parameter is a resource
 	 * @param resource $resource the resource variable to check
 	 * @return bool true if it is a resource, false otherwise

@@ -79,6 +79,7 @@ class StoreTest extends TestCase {
 		$session = $this->createMock(ISession::class);
 
 		$this->store->setSession($session);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testGetLoginCredentialsNoTokenProvider() {

@@ -1,6 +1,6 @@
 { "translations": {
-    "Shared with you" : "Compartío contigo",
     "Shared with others" : "Compartío con otros",
+    "Shared with you" : "Compartío contigo",
     "Shared by link" : "Compartíos per enllaz",
     "Nothing shared with you yet" : "Entá nun se compartió nada contigo",
     "Files and folders others share with you will show up here" : "Equí amosaránse los ficheros y carpetes qu'otros compartieron contigo",
@@ -8,6 +8,7 @@
     "Files and folders you share will show up here" : "Equí amosaránse los ficheros y carpetes que compartas",
     "No shared links" : "Nun hai enllaces compartíos",
     "Files and folders you share by link will show up here" : "Equí amosaránse los ficheros y carpetes que compartas per enllaz",
+    "Download" : "Baxar",
     "You can upload into this folder" : "Pues xubir a esta carpeta",
     "No compatible server found at {remote}" : "Nun s'alcontró dengún sirvidor compatible en {remote}",
     "Invalid server URL" : "URL non válida del sirvidor",
@@ -46,7 +47,6 @@
     "{actor} shared {file} with {user}" : "{actor} compartió {file} con {user}",
     "{actor} removed {user} from {file}" : "{actor} desanició {user} de {file}",
     "{actor} shared {file} with you" : "{actor} compartió {file} contigo",
-    "{actor} removed you from {file}" : "{actor} desanicióte de {file}",
     "A file or folder was shared from <strong>another server</strong>" : "Compartióse un ficheru o carpeta dende <strong>otru sirvidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartióse</strong> un ficheru o direutoriu",
     "could not delete share" : "nun pudo desaniciase la compartición",
@@ -62,10 +62,8 @@
     "Could not lock path" : "Nun pudo bloquiase'l camín",
     "Can't change permissions for public share links" : "Nun puen camudase los permisos pa los enllaces de comparticiones públiques",
     "Cannot increase permissions" : "Nun puen aumentase los permisos",
+    "Direct link" : "Enllaz direutu",
     "Share API is disabled" : "L'API de compartición ta desactivada",
-    "This share is password-protected" : "Esta compartición tien contraseña protexida",
-    "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
-    "Password" : "Contraseña",
     "No entries found in this folder" : "Nenguna entrada en esta carpeta",
     "Name" : "Nome",
     "Share time" : "Compartir hora",
@@ -76,12 +74,13 @@
     "the link expired" : "l'enllaz caducó",
     "sharing is disabled" : "la compartición ta deshabilitada",
     "For more info, please ask the person who sent this link." : "Pa más información, entrúga-y a la persona qu'unvió esti enllaz",
-    "Download" : "Baxar",
-    "Direct link" : "Enllaz direutu",
     "Download %s" : "Descargar %s",
     "Select or drop files" : "Esbilla o suelta ficheros",
     "Uploading files…" : "Xubiendo ficheros...",
     "Uploaded files:" : "Ficheros xubíos:",
-    "%s is publicly shared" : "%s compartióse públicamente"
+    "{actor} removed you from {file}" : "{actor} desanicióte de {file}",
+    "This share is password-protected" : "Esta compartición tien contraseña protexida",
+    "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
+    "Password" : "Contraseña"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

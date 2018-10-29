@@ -28,7 +28,7 @@
 
 <div class="section" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
-	<a target="_blank" rel="noreferrer" class="icon-info"
+	<a target="_blank" rel="noreferrer noopener" class="icon-info"
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-sharing')); ?>"></a>
         <p class="settings-hint"><?php p($l->t('As admin you can fine-tune the sharing behavior. Please see the documentation for more information.'));?></p>
@@ -105,5 +105,16 @@
 		<span id="publicShareDisclaimerStatus" class="msg" style="display:none"></span>
 		<br/>
 		<textarea placeholder="<?php p($l->t('This text will be shown on the public link upload page when the file list is hidden.')) ?>" id="publicShareDisclaimerText" <?php if ($_['publicShareDisclaimerText'] === null) { print_unescaped('class="hidden"'); } ?>><?php p($_['publicShareDisclaimerText']) ?></textarea>
+	</p>
+
+	<h3><?php p($l->t('Default share permissions'));?></h3>
+	<input type="hidden" name="shareapi_default_permissions" id="shareApiDefaultPermissions" class="checkbox"
+		   value="<?php p($_['shareApiDefaultPermissions']) ?>" />
+	<p id="shareApiDefaultPermissionsSection" class="indent <?php if ($_['shareAPIEnabled'] === 'no') p('hidden'); ?>">
+		<?php foreach ($_['shareApiDefaultPermissionsCheckboxes'] as $perm): ?>
+			<input type="checkbox" name="shareapi_default_permission_<?php p($perm['id']) ?>" id="shareapi_default_permission_<?php p($perm['id']) ?>"
+				   class="noautosave checkbox" value="<?php p($perm['value']) ?>" <?php if (($_['shareApiDefaultPermissions'] & $perm['value']) !== 0) print_unescaped('checked="checked"'); ?> />
+			<label for="shareapi_default_permission_<?php p($perm['id']) ?>"><?php p($perm['label']);?></label>
+		<?php endforeach ?>
 	</p>
 </div>

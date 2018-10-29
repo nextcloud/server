@@ -5,7 +5,7 @@ OC.L10N.register(
     "Todos" : "Tots",
     "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} ha creat el calendari {calendar}",
-    "You created calendar {calendar}" : "Vosté ha creat el calentari {calendar}",
+    "You created calendar {calendar}" : "Vostè ha creat el calendari {calendar}",
     "{actor} deleted calendar {calendar}" : "{actor} ha esborrat el calendari {calendar}",
     "You deleted calendar {calendar}" : "Voste ha esborrat el calendari {calendar}",
     "{actor} updated calendar {calendar}" : "{actor} ha actualitzat el calendari {calendar}",

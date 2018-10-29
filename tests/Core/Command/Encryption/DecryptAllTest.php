@@ -73,6 +73,9 @@ class DecryptAllTest extends TestCase {
 		$this->decryptAll = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
 			->disableOriginalConstructor()->getMock();
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->consoleInput->expects($this->any())
+			->method('isInteractive')
+			->willReturn(true);
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		$this->config->expects($this->any())

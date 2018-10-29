@@ -157,7 +157,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->removeListener('Test', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testRemoveWildcardListener() {
@@ -172,7 +172,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->removeListener('Test', 'test');
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testRemoveWildcardMethod() {
@@ -185,7 +185,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testRemoveWildcardScope() {
@@ -198,7 +198,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Bar', 'test');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testRemoveWildcardScopeAndMethod() {
@@ -213,7 +213,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->emitEvent('Test', 'foo');
 		$this->emitter->emitEvent('Bar', 'foo');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -231,7 +231,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->removeListener('Test', 'test', $listener1);
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -246,7 +246,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->removeListener('Test', 'foo', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -261,7 +261,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -275,6 +275,6 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 }

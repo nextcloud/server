@@ -22,8 +22,7 @@
     "tag": "0.3.0",
     "commit": "772df096a5ffe983f40202684ad45eed1e0e2d59"
   },
-  "_source": "git://github.com/davidchambers/Base64.js.git",
-  "_target": "~0.3.0",
-  "_originalSource": "base64",
-  "_direct": true
+  "_source": "https://github.com/davidchambers/Base64.js.git",
+  "_target": "0.3.0",
+  "_originalSource": "base64"
 }

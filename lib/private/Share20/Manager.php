@@ -61,9 +61,11 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
+use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IShareProvider;
+use OCP\Share;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -224,6 +226,10 @@ class Manager implements IManager {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
+		}  else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+			if ($share->getSharedWith() === null) {
+				throw new \InvalidArgumentException('SharedWith should not be empty');
+			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
@@ -233,6 +239,7 @@ class Manager implements IManager {
 			if ($circle === null) {
 				throw new \InvalidArgumentException('SharedWith is not a valid circle');
 			}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_ROOM) {
 		} else {
 			// We can't handle other types yet
 			throw new \InvalidArgumentException('unknown share type');
@@ -536,7 +543,7 @@ class Manager implements IManager {
 				/** @var \OCA\Files_Sharing\SharedStorage $storage */
 				$share->setParent($storage->getShareId());
 			}
-		};
+		}
 	}
 
 	/**
@@ -669,26 +676,31 @@ class Manager implements IManager {
 		$this->eventDispatcher->dispatch('OCP\Share::postShare', $event);
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
-			$user = $this->userManager->get($share->getSharedWith());
-			if ($user !== null) {
-				$emailAddress = $user->getEMailAddress();
-				if ($emailAddress !== null && $emailAddress !== '') {
-					$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
-					$l = $this->l10nFactory->get('lib', $userLang);
-					$this->sendMailNotification(
-						$l,
-						$share->getNode()->getName(),
-						$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', [ 'fileid' => $share->getNode()->getId() ]),
-						$share->getSharedBy(),
-						$emailAddress,
-						$share->getExpirationDate()
-					);
-					$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
+			$mailSend = $share->getMailSend();
+			if($mailSend === true) {
+				$user = $this->userManager->get($share->getSharedWith());
+				if ($user !== null) {
+					$emailAddress = $user->getEMailAddress();
+					if ($emailAddress !== null && $emailAddress !== '') {
+						$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
+						$l = $this->l10nFactory->get('lib', $userLang);
+						$this->sendMailNotification(
+							$l,
+							$share->getNode()->getName(),
+							$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]),
+							$share->getSharedBy(),
+							$emailAddress,
+							$share->getExpirationDate()
+						);
+						$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
+					} else {
+						$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					}
 				} else {
-					$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
 				}
 			} else {
-				$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
+				$this->logger->debug('Share notification not send because mailsend is false.', ['app' => 'share']);
 			}
 		}
 
@@ -723,13 +735,13 @@ class Manager implements IManager {
 			'shareWith' => $shareWith,
 		]);
 
-		$emailTemplate->setSubject($l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename)));
+		$emailTemplate->setSubject($l->t('%1$s shared »%2$s« with you', array($initiatorDisplayName, $filename)));
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
-		$text = $l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
+		$emailTemplate->addHeading($l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]), false);
+		$text = $l->t('%1$s shared »%2$s« with you.', [$initiatorDisplayName, $filename]);
 
 		$emailTemplate->addBodyText(
-			$text . ' ' . $l->t('Click the button below to open it.'),
+			htmlspecialchars($text . ' ' . $l->t('Click the button below to open it.')),
 			$text
 		);
 		$emailTemplate->addBodyButton(
@@ -742,7 +754,7 @@ class Manager implements IManager {
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
 		$senderName = $l->t(
-			'%s via %s',
+			'%1$s via %2$s',
 			[
 				$initiatorDisplayName,
 				$instanceName
@@ -816,9 +828,19 @@ class Manager implements IManager {
 				$expirationDateUpdated = true;
 			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+			// The new password is not set again if it is the same as the old
+			// one, unless when switching from sending by Talk to sending by
+			// mail.
 			$plainTextPassword = $share->getPassword();
-			if (!$this->updateSharePasswordIfNeeded($share, $originalShare)) {
+			if (!empty($plainTextPassword) && !$this->updateSharePasswordIfNeeded($share, $originalShare) &&
+					!($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk())) {
 				$plainTextPassword = null;
+			}
+			if (empty($plainTextPassword) && !$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
+				// If the same password was already sent by mail the recipient
+				// would already have access to the share without having to call
+				// the sharer to verify her identity
+				throw new \InvalidArgumentException('Can’t enable sending the password by Talk without setting a new password');
 			}
 		}
 
@@ -833,7 +855,7 @@ class Manager implements IManager {
 		}
 
 		if ($expirationDateUpdated === true) {
-			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
+			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'date' => $share->getExpirationDate(),
@@ -842,7 +864,7 @@ class Manager implements IManager {
 		}
 
 		if ($share->getPassword() !== $originalShare->getPassword()) {
-			\OC_Hook::emit('OCP\Share', 'post_update_password', [
+			\OC_Hook::emit(Share::class, 'post_update_password', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'uidOwner' => $share->getSharedBy(),
@@ -857,7 +879,7 @@ class Manager implements IManager {
 			} else {
 				$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 			}
-			\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
+			\OC_Hook::emit(Share::class, 'post_update_permissions', array(
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'shareType' => $share->getShareType(),
@@ -970,6 +992,13 @@ class Manager implements IManager {
 		$provider->deleteFromSelf($share, $recipientId);
 		$event = new GenericEvent($share);
 		$this->eventDispatcher->dispatch('OCP\Share::postUnshareFromSelf', $event);
+	}
+
+	public function restoreShare(IShare $share, string $recipientId): IShare {
+		list($providerId, ) = $this->splitFullId($share->getFullId());
+		$provider = $this->factory->getProvider($providerId);
+
+		return $provider->restore($share, $recipientId);
 	}
 
 	/**
@@ -1118,6 +1147,25 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0) {
+		$shares = $this->getSharedWith($userId, $shareType, $node, $limit, $offset);
+
+		// Only get deleted shares
+		$shares = array_filter($shares, function(IShare $share) {
+			return $share->getPermissions() === 0;
+		});
+
+		// Only get shares where the owner still exists
+		$shares = array_filter($shares, function (IShare $share) {
+			return $this->userManager->userExists($share->getShareOwner());
+		});
+
+		return $shares;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function getShareById($id, $recipient = null) {
 		if ($id === null) {
 			throw new ShareNotFound();
@@ -1160,6 +1208,10 @@ class Manager implements IManager {
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token) {
+		// tokens can't be valid local user names
+		if ($this->userManager->userExists($token)) {
+			throw new ShareNotFound();
+		}
 		$share = null;
 		try {
 			if($this->shareApiAllowLinks()) {
@@ -1194,6 +1246,15 @@ class Manager implements IManager {
 		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_CIRCLE)) {
 			try {
 				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_CIRCLE);
+				$share = $provider->getShareByToken($token);
+			} catch (ProviderException $e) {
+			} catch (ShareNotFound $e) {
+			}
+		}
+
+		if ($share === null && $this->shareProviderExists(\OCP\Share::SHARE_TYPE_ROOM)) {
+			try {
+				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_ROOM);
 				$share = $provider->getShareByToken($token);
 			} catch (ProviderException $e) {
 			} catch (ShareNotFound $e) {
@@ -1390,7 +1451,13 @@ class Manager implements IManager {
 			foreach ($tmp as $k => $v) {
 				if (isset($al[$k])) {
 					if (is_array($al[$k])) {
-						$al[$k] = array_merge($al[$k], $v);
+						if ($currentAccess) {
+							$al[$k] += $v;
+						} else {
+							$al[$k] = array_merge($al[$k], $v);
+							$al[$k] = array_unique($al[$k]);
+							$al[$k] = array_values($al[$k]);
+						}
 					} else {
 						$al[$k] = $al[$k] || $v;
 					}
@@ -1538,6 +1605,13 @@ class Manager implements IManager {
 	 */
 	public function outgoingServer2ServerSharesAllowed() {
 		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function outgoingServer2ServerGroupSharesAllowed() {
+		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no') === 'yes';
 	}
 
 	/**

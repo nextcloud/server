@@ -24,14 +24,14 @@
 
 namespace OCA\Files_External\Lib;
 
-use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_External\Service\UserStoragesService;
 
 /**
  * Person mount points can be moved by the user
  */
-class PersonalMount extends MountPoint implements MoveableMount {
+class PersonalMount extends ExternalMountPoint implements MoveableMount {
 	/** @var UserStoragesService */
 	protected $storagesService;
 

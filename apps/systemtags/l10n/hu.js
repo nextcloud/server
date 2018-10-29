@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (láthatatlan)",
     "<strong>System tags</strong> for a file have been modified" : "A fájl <strong>rendszer címkéje</strong> módosítva lett",
     "Collaborative tags" : "Együttműködési címkék",
-    "Create and edit collaborative tags. These tags affect all users." : "Kollaboratív címke létrehozása és szerkesztése. Ezek minden felhasználóra érvényesülnek.",
     "Select tag …" : "Címke választás...",
     "Name" : "Név",
-    "Delete" : "Törlés",
     "Public" : "Nyilvános",
     "Restricted" : "Korlátozott",
     "Invisible" : "Láthatatlan",
+    "Delete" : "Törlés",
     "Reset" : "Visszaállítás",
     "No files in here" : "Itt nincsenek fájlok",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Size" : "Méret",
-    "Modified" : "Módosítva"
+    "Modified" : "Módosítva",
+    "Create and edit collaborative tags. These tags affect all users." : "Kollaboratív címke létrehozása és szerkesztése. Ezek minden felhasználóra érvényesülnek."
 },
 "nplurals=2; plural=(n != 1);");

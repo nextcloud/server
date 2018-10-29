@@ -44,6 +44,8 @@ OC.MimeType = {
 		// Generate path
 		if (mimeType === 'dir' && $.inArray('folder', files) !== -1) {
 			return 'folder';
+		} else if (mimeType === 'dir-encrypted' && $.inArray('folder-encrypted', files) !== -1) {
+			return 'folder-encrypted';
 		} else if (mimeType === 'dir-shared' && $.inArray('folder-shared', files) !== -1) {
 			return 'folder-shared';
 		} else if (mimeType === 'dir-public' && $.inArray('folder-public', files) !== -1) {
@@ -83,7 +85,7 @@ OC.MimeType = {
 		var gotIcon = null;
 		var path = '';
 		if (OC.theme.folder !== '' && $.isArray(OC.MimeTypeList.themes[OC.theme.folder])) {
-			path = OC.webroot + '/themes/' + OC.theme.folder + '/core/img/filetypes/';
+			path = OC.getRootPath() + '/themes/' + OC.theme.folder + '/core/img/filetypes/';
 			var icon = OC.MimeType._getFile(mimeType, OC.MimeTypeList.themes[OC.theme.folder]);
 
 			if (icon !== null) {
@@ -99,7 +101,7 @@ OC.MimeType = {
 
 		// If we do not yet have an icon fall back to the default
 		if (gotIcon === null) {
-			path = OC.webroot + '/core/img/filetypes/';
+			path = OC.getRootPath() + '/core/img/filetypes/';
 			path += OC.MimeType._getFile(mimeType, OC.MimeTypeList.files);
 		}
 

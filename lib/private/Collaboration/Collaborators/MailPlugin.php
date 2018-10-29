@@ -28,12 +28,17 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
+use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Share;
 
 class MailPlugin implements ISearchPlugin {
 	protected $shareeEnumeration;
+	protected $shareWithGroupOnly;
 
 	/** @var IManager */
 	private $contactsManager;
@@ -42,12 +47,21 @@ class MailPlugin implements ISearchPlugin {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config) {
+	/** @var IGroupManager */
+	private $groupManager;
+
+	/** @var IUserSession */
+	private $userSession;
+
+	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IGroupManager $groupManager, IUserSession $userSession) {
 		$this->contactsManager = $contactsManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->config = $config;
+		$this->groupManager = $groupManager;
+		$this->userSession = $userSession;
 
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 	}
 
 	/**
@@ -59,7 +73,7 @@ class MailPlugin implements ISearchPlugin {
 	 * @since 13.0.0
 	 */
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
-		$result = ['wide' => [], 'exact' => []];
+		$result = $userResults = ['wide' => [], 'exact' => []];
 		$userType = new SearchResultType('users');
 		$emailType = new SearchResultType('emails');
 
@@ -74,9 +88,29 @@ class MailPlugin implements ISearchPlugin {
 					$emailAddresses = [$emailAddresses];
 				}
 				foreach ($emailAddresses as $emailAddress) {
+					$displayName = $emailAddress;
+					if (isset($contact['FN'])) 	{
+						$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
+					}
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
 
 					if (isset($contact['isLocalSystemBook'])) {
+						if ($this->shareWithGroupOnly) {
+							/*
+							 * Check if the user may share with the user associated with the e-mail of the just found contact
+							 */
+							$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+							$found = false;
+							foreach ($userGroups as $userGroup) {
+								if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
+									$found = true;
+									break;
+								}
+							}
+							if (!$found) {
+								continue;
+							}
+						}
 						if ($exactEmailMatch) {
 							try {
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
@@ -84,9 +118,9 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$searchResult->hasResult($userType, $cloud->getUser())) {
+							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
-									'label' => $contact['FN'] . " ($emailAddress)",
+									'label' => $displayName,
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -105,26 +139,27 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$searchResult->hasResult($userType, $cloud->getUser())) {
-								$singleResult = [[
-									'label' => $contact['FN'] . " ($emailAddress)",
+							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
+								$userResults['wide'][] = [
+									'label' => $displayName,
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
-									]],
+									],
 								];
-								$searchResult->addResultSet($userType, $singleResult, []);
 							}
 						}
 						continue;
 					}
 
-					if ($exactEmailMatch || strtolower($contact['FN']) === $lowerSearch) {
+					if ($exactEmailMatch
+						|| isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch)
+					{
 						if ($exactEmailMatch) {
 							$searchResult->markExactIdMatch($emailType);
 						}
 						$result['exact'][] = [
-							'label' => $contact['FN'] . " ($emailAddress)",
+							'label' => $displayName,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
@@ -132,7 +167,7 @@ class MailPlugin implements ISearchPlugin {
 						];
 					} else {
 						$result['wide'][] = [
-							'label' => $contact['FN'] . " ($emailAddress)",
+							'label' => $displayName,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
@@ -143,9 +178,18 @@ class MailPlugin implements ISearchPlugin {
 			}
 		}
 
+		$reachedEnd = true;
 		if (!$this->shareeEnumeration) {
 			$result['wide'] = [];
+			$userResults['wide'] = [];
+		} else {
+			$reachedEnd = (count($result['wide']) < $offset + $limit) &&
+				(count($userResults['wide']) < $offset + $limit);
+
+			$result['wide'] = array_slice($result['wide'], $offset, $limit);
+			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
+
 
 		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
 			$result['exact'][] = [
@@ -157,8 +201,16 @@ class MailPlugin implements ISearchPlugin {
 			];
 		}
 
+		if (!empty($userResults['wide'])) {
+			$searchResult->addResultSet($userType, $userResults['wide'], []);
+		}
 		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
 
-		return true;
+		return !$reachedEnd;
+	}
+
+	public function isCurrentUser(ICloudId $cloud): bool {
+		$currentUser = $this->userSession->getUser();
+		return $currentUser instanceof IUser ? $currentUser->getUID() === $cloud->getUser() : false;
 	}
 }

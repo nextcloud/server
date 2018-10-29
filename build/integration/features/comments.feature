@@ -16,21 +16,21 @@ Feature: comments
 
   Scenario: Creating a comment on a shared file belonging to another user
     Given user "user0" exists
-    Given user "user1" exists
+    Given user "12345" exists
     Given User "user0" uploads file "data/textfile.txt" to "/myFileToComment.txt"
     Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
       | path | myFileToComment.txt |
-      | shareWith | user1 |
+      | shareWith | 12345 |
       | shareType | 0 |
-    When "user1" posts a comment with content "A comment from another user" on the file named "/myFileToComment.txt" it should return "201"
-    Then As "user1" load all the comments of the file named "/myFileToComment.txt" it should return "207"
+    When "12345" posts a comment with content "A comment from another user" on the file named "/myFileToComment.txt" it should return "201"
+    Then As "12345" load all the comments of the file named "/myFileToComment.txt" it should return "207"
     And the response should contain a property "oc:parentId" with value "0"
     And the response should contain a property "oc:childrenCount" with value "0"
     And the response should contain a property "oc:verb" with value "comment"
     And the response should contain a property "oc:actorType" with value "users"
     And the response should contain a property "oc:objectType" with value "files"
     And the response should contain a property "oc:message" with value "A comment from another user"
-    And the response should contain a property "oc:actorDisplayName" with value "user1"
+    And the response should contain a property "oc:actorDisplayName" with value "12345"
     And the response should contain only "1" comments
 
   Scenario: Creating a comment on a non-shared file belonging to another user

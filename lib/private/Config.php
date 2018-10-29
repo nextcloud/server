@@ -37,7 +37,7 @@ namespace OC;
 
 /**
  * This class is responsible for reading and writing config.php, the very basic
- * configuration file of ownCloud.
+ * configuration file of Nextcloud.
  */
 class Config {
 

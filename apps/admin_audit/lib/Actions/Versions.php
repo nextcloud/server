@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -27,7 +28,7 @@ namespace OCA\AdminAudit\Actions;
 
 class Versions extends Action {
 
-	public function rollback($params) {
+	public function rollback(array $params) {
 		$this->log('Version "%s" of "%s" was restored.',
 			[
 				'version' => $params['revision'],
@@ -37,7 +38,7 @@ class Versions extends Action {
 		);
 	}
 
-	public function delete($params) {
+	public function delete(array $params) {
 		$this->log('Version "%s" was deleted.',
 			['path' => $params['path']],
 			['path']

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -33,10 +34,10 @@ interface IMessage {
 
 	/**
 	 * @param IAttachment $attachment
-	 * @return $this
+	 * @return IMessage
 	 * @since 13.0.0
 	 */
-	public function attach(IAttachment $attachment);
+	public function attach(IAttachment $attachment): IMessage;
 
 	/**
 	 * Set the from address of this message.
@@ -44,51 +45,51 @@ interface IMessage {
 	 * If no "From" address is used \OC\Mail\Mailer will use mail_from_address and mail_domain from config.php
 	 *
 	 * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
+	 * @return IMessage
 	 * @since 13.0.0
 	 */
-	public function setFrom(array $addresses);
+	public function setFrom(array $addresses): IMessage;
 
 	/**
 	 * Set the Reply-To address of this message
 	 *
 	 * @param array $addresses
-	 * @return $this
+	 * @return IMessage
 	 * @since 13.0.0
 	 */
-	public function setReplyTo(array $addresses);
+	public function setReplyTo(array $addresses): IMessage;
 
 	/**
 	 * Set the to addresses of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
+	 * @return IMessage
 	 * @since 13.0.0
 	 */
-	public function setTo(array $recipients);
+	public function setTo(array $recipients): IMessage;
 
 	/**
 	 * Set the CC recipients of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
+	 * @return IMessage
 	 * @since 13.0.0
 	 */
-	public function setCc(array $recipients);
+	public function setCc(array $recipients): IMessage;
 
 	/**
 	 * Set the BCC recipients of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
+	 * @return IMessage
 	 * @since 13.0.0
 	 */
-	public function setBcc(array $recipients);
+	public function setBcc(array $recipients): IMessage;
 
 	/**
 	 * @param IEMailTemplate $emailTemplate
-	 * @return $this
+	 * @return IMessage
 	 * @since 13.0.0
 	 */
-	public function useTemplate(IEMailTemplate $emailTemplate);
+	public function useTemplate(IEMailTemplate $emailTemplate): IMessage;
 }

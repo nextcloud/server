@@ -61,10 +61,7 @@ class OwnCloud extends \OC\Files\Storage\DAV{
 		}
 
 		if (isset($params['root'])){
-			$root = $params['root'];
-			if (substr($root, 0, 1) !== '/'){
-				$root = '/' . $root;
-			}
+			$root = '/' . ltrim($params['root'], '/');
 		}
 		else{
 			$root = '/';
@@ -75,5 +72,9 @@ class OwnCloud extends \OC\Files\Storage\DAV{
 		$params['authType'] = Client::AUTH_BASIC;
 
 		parent::__construct($params);
+	}
+
+	public function needsPartFile() {
+		return false;
 	}
 }

@@ -154,7 +154,7 @@ class TemplateResponse extends Response {
 			$template->assign($key, $value);
 		}
 
-		return $template->fetchPage();
+		return $template->fetchPage($this->params);
 	}
 
 }

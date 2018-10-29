@@ -66,7 +66,8 @@ class UploadHome implements ICollection {
 	}
 
 	function getName() {
-		return 'uploads';
+		list(,$name) = \Sabre\Uri\split($this->principalInfo['uri']);
+		return $name;
 	}
 
 	function setName($name) {
@@ -89,7 +90,6 @@ class UploadHome implements ICollection {
 		}
 		$view = new View('/' . $user->getUID() . '/uploads');
 		$rootInfo = $view->getFileInfo('');
-		$impl = new Directory($view, $rootInfo);
-		return $impl;
+		return new Directory($view, $rootInfo);
 	}
 }

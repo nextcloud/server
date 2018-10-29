@@ -53,14 +53,20 @@ class UtilTest extends TestCase {
 		$this->util = new Util($this->config, $this->appManager, $this->appData);
 	}
 
-	public function testInvertTextColorLight() {
-		$invert = $this->util->invertTextColor('#ffffff');
-		$this->assertEquals(true, $invert);
+	public function dataInvertTextColor() {
+		return [
+			['#ffffff', true],
+			['#000000', false],
+			['#0082C9', false],
+			['#ffff00', true],
+		];
 	}
-
-	public function testInvertTextColorDark() {
-		$invert = $this->util->invertTextColor('#000000');
-		$this->assertEquals(false, $invert);
+	/**
+	 * @dataProvider dataInvertTextColor
+	 */
+	public function testInvertTextColor($color, $expected) {
+		$invert = $this->util->invertTextColor($color);
+		$this->assertEquals($expected, $invert);
 	}
 
 	public function testCalculateLuminanceLight() {
@@ -86,7 +92,7 @@ class UtilTest extends TestCase {
 		$invert = $this->util->invertTextColor('aaabbbcccddd123');
 		$this->assertEquals(false, $invert);
 	}
-	
+
 	public function testInvertTextColorEmpty() {
 		$invert = $this->util->invertTextColor('');
 		$this->assertEquals(false, $invert);
@@ -99,7 +105,7 @@ class UtilTest extends TestCase {
 
 	public function testElementColorOnBrightBackground() {
 		$elementColor = $this->util->elementColor('#ffffff');
-		$this->assertEquals('#555555', $elementColor);
+		$this->assertEquals('#dddddd', $elementColor);
 	}
 
 	public function testGenerateRadioButtonWhite() {
@@ -133,7 +139,7 @@ class UtilTest extends TestCase {
 	public function dataGetAppIcon() {
 		return [
 			['user_ldap', \OC_App::getAppPath('user_ldap') . '/img/app.svg'],
-			['noapplikethis', \OC::$SERVERROOT . '/core/img/logo.svg'],
+			['noapplikethis', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
 			['comments', \OC_App::getAppPath('comments') . '/img/comments.svg'],
 		];
 	}
@@ -168,7 +174,7 @@ class UtilTest extends TestCase {
 
 	public function dataGetAppImage() {
 		return [
-			['core', 'logo.svg', \OC::$SERVERROOT . '/core/img/logo.svg'],
+			['core', 'logo/logo.svg', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
 			['files', 'external', \OC::$SERVERROOT . '/apps/files/img/external.svg'],
 			['files', 'external.svg', \OC::$SERVERROOT . '/apps/files/img/external.svg'],
 			['noapplikethis', 'foobar.svg', false],
@@ -183,7 +189,6 @@ class UtilTest extends TestCase {
 	}
 
 	public function testIsAlreadyThemedFalse() {
-		$theme = $this->config->getSystemValue('theme', '');
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('theme', '')
@@ -193,13 +198,43 @@ class UtilTest extends TestCase {
 	}
 
 	public function testIsAlreadyThemedTrue() {
-		$theme = $this->config->getSystemValue('theme', '');
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('theme', '')
 			->willReturn('example');
 		$actual = $this->util->isAlreadyThemed();
 		$this->assertTrue($actual);
+	}
+
+	public function dataIsBackgroundThemed() {
+		return [
+			[false, false, false],
+			['png', true, true],
+			['backgroundColor', false, false],
+		];
+	}
+	/**
+	 * @dataProvider dataIsBackgroundThemed
+	 */
+	public function testIsBackgroundThemed($backgroundMime, $fileFound, $expected) {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'backgroundMime', false)
+			->willReturn($backgroundMime);
+		$folder = $this->createMock(ISimpleFolder::class);
+		if ($fileFound) {
+			$folder->expects($this->once())
+				->method('getFile')
+				->willReturn($this->createMock(ISimpleFile::class));
+		} else {
+			$folder->expects($this->once())
+				->method('getFile')
+				->willThrowException(new NotFoundException());
+		}
+		$this->appData->expects($this->once())
+			->method('getFolder')
+			->willReturn($folder);
+		$this->assertEquals($expected, $this->util->isBackgroundThemed());
 	}
 
 }

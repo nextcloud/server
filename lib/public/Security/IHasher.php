@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -53,7 +54,7 @@ interface IHasher {
 	 * @return string Hash of the message with appended version parameter
 	 * @since 8.0.0
 	 */
-	public function hash($message);
+	public function hash(string $message): string;
 
 	/**
 	 * @param string $message Message to verify
@@ -62,5 +63,5 @@ interface IHasher {
 	 * @return bool Whether $hash is a valid hash of $message
 	 * @since 8.0.0
 	 */
-	public function verify($message, $hash, &$newHash = null);
+	public function verify(string $message, string $hash, &$newHash = null): bool ;
 }

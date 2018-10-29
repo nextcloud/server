@@ -1,11 +1,3 @@
-/**
- * Disable console output unless DEBUG mode is enabled.
- * Add
- *      'debug' => true,
- * To the definition of $CONFIG in config/config.php to enable debug mode.
- * The undefined checks fix the broken ie8 console
- */
-
 /* global oc_isadmin */
 
 var oc_debug;
@@ -46,20 +38,13 @@ function escapeHTML(s) {
 	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
 }
 
-/**
-* Get the path to download a file
-* @param {string} file The filename
-* @param {string} dir The directory the file is in - e.g. $('#dir').val()
-* @return {string} Path to download the file
-* @deprecated use Files.getDownloadURL() instead
-*/
-function fileDownloadPath(dir, file) {
-	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
-}
-
-/** @namespace */
+/** @namespace OCP */
 var OCP = {},
+	/**
+	 * @namespace OC
+	 */
 	OC = {
+	PERMISSION_NONE:0,
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
 	PERMISSION_UPDATE:2,
@@ -78,6 +63,13 @@ var OCP = {},
 	 * @see OC#getRootPath
 	 */
 	webroot:oc_webroot,
+
+	/**
+	 * Capabilities
+	 *
+	 * @type array
+	 */
+	_capabilities: window.oc_capabilities || null,
 
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	/**
@@ -110,7 +102,7 @@ var OCP = {},
 	 * @return {string} the url
 	 */
 	linkToRemoteBase:function(service) {
-		return OC.webroot + '/remote.php/' + service;
+		return OC.getRootPath() + '/remote.php/' + service;
 	},
 
 	/**
@@ -130,7 +122,7 @@ var OCP = {},
 	 */
 	linkToOCS: function(service, version) {
 		version = (version !== 2) ? 1 : 2;
-		return window.location.protocol + '//' + window.location.host + OC.webroot + '/ocs/v' + version + '.php/' + service + '/';
+		return window.location.protocol + '//' + window.location.host + OC.getRootPath() + '/ocs/v' + version + '.php/' + service + '/';
 	},
 
 	/**
@@ -168,10 +160,10 @@ var OCP = {},
 		}
 
 		if(oc_config.modRewriteWorking == true) {
-			return OC.webroot + _build(url, params);
+			return OC.getRootPath() + _build(url, params);
 		}
 
-		return OC.webroot + '/index.php' + _build(url, params);
+		return OC.getRootPath() + '/index.php' + _build(url, params);
 	},
 
 	/**
@@ -183,7 +175,7 @@ var OCP = {},
 	 */
 	filePath:function(app,type,file){
 		var isCore=OC.coreApps.indexOf(app)!==-1,
-			link=OC.webroot;
+			link=OC.getRootPath();
 		if(file.substring(file.length-3) === 'php' && !isCore){
 			link+='/index.php/apps/' + app;
 			if (file != 'index.php') {
@@ -307,6 +299,18 @@ var OCP = {},
 		return OC.webroot;
 	},
 
+
+	/**
+	 * Returns the capabilities
+	 *
+	 * @return {array} capabilities
+	 *
+	 * @since 14.0
+	 */
+	getCapabilities: function() {
+		return OC._capabilities;
+	},
+
 	/**
 	 * Returns the currently logged in user or null if there is no logged in
 	 * user (public page mode)
@@ -367,15 +371,9 @@ var OCP = {},
 	addScript:function(app,script,ready){
 		var deferred, path=OC.filePath(app,'js',script+'.js');
 		if(!OC.addScript.loaded[path]) {
-			deferred = jQuery.ajax({
-				url: path,
-				cache: true,
-				success: function (content) {
-					window.eval(content);
-					if(ready) {
-						ready();
-					}
-				}
+			deferred = $.Deferred();
+			$.getScript(path, function() {
+				deferred.resolve();
 			});
 			OC.addScript.loaded[path] = deferred;
 		} else {
@@ -658,14 +656,25 @@ var OCP = {},
 	 * @param {jQuery} $toggle
 	 * @param {jQuery} $menuEl
 	 * @param {function|undefined} toggle callback invoked everytime the menu is opened
+	 * @param {boolean} headerMenu is this a top right header menu?
 	 * @returns {undefined}
 	 */
-	registerMenu: function($toggle, $menuEl, toggle) {
+	registerMenu: function($toggle, $menuEl, toggle, headerMenu) {
 		var self = this;
 		$menuEl.addClass('menu');
-		$toggle.on('click.menu', function(event) {
+
+		// On link, the enter key trigger a click event
+		// Only use the click to avoid two fired events
+		$toggle.on($toggle.prop('tagName') === 'A'
+			? 'click.menu'
+			: 'click.menu keyup.menu', function(event) {
 			// prevent the link event (append anchor to URL)
 			event.preventDefault();
+
+			// allow enter key as a trigger
+			if (event.key && event.key !== "Enter") {
+				return;
+			}
 
 			if ($menuEl.is(OC._currentMenu)) {
 				self.hideMenus();
@@ -676,6 +685,14 @@ var OCP = {},
 				// close it
 				self.hideMenus();
 			}
+
+			if (headerMenu === true) {
+				$menuEl.parent().addClass('openedMenu');
+			}
+
+			// Set menu to expanded
+			$toggle.attr('aria-expanded', true);
+
 			$menuEl.slideToggle(OC.menuSpeed, toggle);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
@@ -710,6 +727,11 @@ var OCP = {},
 				}
 			});
 		}
+
+		// Set menu to closed
+		$('.menutoggle').attr('aria-expanded', false);
+
+		$('.openedMenu').removeClass('openedMenu');
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;
 	},
@@ -752,11 +774,30 @@ var OCP = {},
 	},
 
 	/**
+	 * Returns the user's locale as a BCP 47 compliant language tag
+	 *
+	 * @return {String} locale string
+	 */
+	getCanonicalLocale: function() {
+		var locale = this.getLocale();
+		return typeof locale === 'string' ? locale.replace(/_/g, '-') : locale;
+	},
+
+	/**
 	 * Returns the user's locale
 	 *
 	 * @return {String} locale string
 	 */
 	getLocale: function() {
+		return $('html').data('locale');
+	},
+
+	/**
+	 * Returns the user's language
+	 *
+	 * @returns {String} language string
+	 */
+	getLanguage: function () {
 		return $('html').prop('lang');
 	},
 
@@ -1063,7 +1104,8 @@ OC.Notification={
 	getDefaultNotificationFunction: null,
 
 	/**
-	 * @type Array.<int> array of notification timers
+	 * @type Array<int>
+	 * @description array of notification timers
 	 */
 	notificationTimers: [],
 
@@ -1144,7 +1186,7 @@ OC.Notification={
 	 *
 	 * @param {string} html Message to display
 	 * @param {Object} [options] options
-	 * @param {string] [options.type] notification type
+	 * @param {string} [options.type] notification type
 	 * @param {int} [options.timeout=0] timeout value, defaults to 0 (permanent)
 	 * @return {jQuery} jQuery element for notification row
 	 */
@@ -1236,7 +1278,6 @@ OC.Notification={
 	 * @param {string} [options.type] notification type
 	 */
 	showTemporary: function(text, options) {
-		var self = this;
 		var defaults = {
 			isHTML: false,
 			timeout: 7
@@ -1309,6 +1350,11 @@ function initCore() {
 		$('html').addClass('edge');
 	}
 
+	// css variables fallback for IE
+	if (msie > 0 || trident > 0) {
+		cssVars();
+	}
+
 	$(window).on('unload.main', function() {
 		OC._unloadCalled = true;
 	});
@@ -1340,34 +1386,31 @@ function initCore() {
 	});
 
 	/**
-	 * Calls the server periodically to ensure that session doesn't
-	 * time out
+	 * Calls the server periodically to ensure that session and CSRF
+	 * token doesn't expire
 	 */
-	function initSessionHeartBeat(){
-		// max interval in seconds set to 24 hours
-		var maxInterval = 24 * 3600;
+	function initSessionHeartBeat() {
 		// interval in seconds
-		var interval = 900;
+		var interval = NaN;
 		if (oc_config.session_lifetime) {
 			interval = Math.floor(oc_config.session_lifetime / 2);
 		}
+		interval = isNaN(interval)? 900: interval;
+
 		// minimum one minute
-		if (interval < 60) {
-			interval = 60;
-		}
-		if (interval > maxInterval) {
-			interval = maxInterval;
-		}
-		var url = OC.generateUrl('/heartbeat');
-		var heartBeatTimeout = null;
-		var heartBeat = function() {
-			clearInterval(heartBeatTimeout);
-			heartBeatTimeout = setInterval(function() {
-				$.post(url);
-			}, interval * 1000);
-		};
-		$(document).ajaxComplete(heartBeat);
-		heartBeat();
+		interval = Math.max(60, interval);
+		// max interval in seconds set to 24 hours
+		interval = Math.min(24 * 3600, interval);
+
+		var url = OC.generateUrl('/csrftoken');
+		setInterval(function() {
+			$.ajax(url).then(function(resp) {
+				oc_requesttoken = resp.token;
+				OC.requestToken = resp.token;
+			}).fail(function(e) {
+				console.error('session heartbeat failed', e);
+			});
+		}, interval * 1000);
 	}
 
 	// session heartbeat (defaults to enabled)
@@ -1377,10 +1420,17 @@ function initCore() {
 		initSessionHeartBeat();
 	}
 
-	OC.registerMenu($('#expand'), $('#expanddiv'));
+	OC.registerMenu($('#expand'), $('#expanddiv'), false, true);
 
 	// toggle for menus
+	//$(document).on('mouseup.closemenus keyup', function(event) {
 	$(document).on('mouseup.closemenus', function(event) {
+
+		// allow enter as a trigger
+		// if (event.key && event.key !== "Enter") {
+		// 	return;
+		// }
+
 		var $el = $(event.target);
 		if ($el.closest('.menu').length || $el.closest('.menutoggle').length) {
 			// don't close when clicking on the menu directly or a menu toggle
@@ -1398,7 +1448,7 @@ function initCore() {
 	function setupMainMenu() {
 
 		// init the more-apps menu
-		OC.registerMenu($('#more-apps'), $('#navigation'));
+		OC.registerMenu($('#more-apps > a'), $('#navigation'));
 
 		// toggle the navigation
 		var $toggle = $('#header .header-appname-container');
@@ -1461,7 +1511,7 @@ function initCore() {
 			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
 				$page.find('img').remove();
 				$page.find('div').remove(); // prevent odd double-clicks
-				$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
+				$page.prepend($('<div/>').addClass('icon-loading-small'));
 			} else {
 				// Close navigation when opening menu entry in
 				// a new tab
@@ -1512,7 +1562,7 @@ function initCore() {
 
 	var resizeMenu = function() {
 		var appList = $('#appmenu li');
-		var headerWidth = $('.header-left').width() - $('#nextcloud').width();
+		var headerWidth = $('.header-left').outerWidth() - $('#nextcloud').outerWidth();
 		var usePercentualAppMenuLimit = 0.33;
 		var minAppsDesktop = 8;
 		var availableWidth = headerWidth - $(appList).width();
@@ -1531,10 +1581,6 @@ function initCore() {
 		// show at least 2 apps in the popover
 		if(appList.length-1-appCount >= 1) {
 			appCount--;
-		}
-		// show at least one icon
-		if(appCount < 1) {
-			appCount = 1;
 		}
 
 		$('#more-apps a').removeClass('active');
@@ -1576,17 +1622,30 @@ function initCore() {
 		var snapper = new Snap({
 			element: document.getElementById('app-content'),
 			disable: 'right',
-			maxPosition: 250,
+			maxPosition: 300, // $navigation-width
 			minDragDistance: 100
 		});
-		$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;"></div>');
-		$('#app-navigation-toggle').click(function(){
+
+		$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;" tabindex="0"></div>');
+
+		var toggleSnapperOnButton = function(){
 			if(snapper.state().state == 'left'){
 				snapper.close();
 			} else {
 				snapper.open('left');
 			}
+		};
+
+		$('#app-navigation-toggle').click(function(){
+			toggleSnapperOnButton();
 		});
+
+		$('#app-navigation-toggle').keypress(function(e) {
+			if(e.which == 13) {
+				toggleSnapperOnButton();
+			}
+		});
+
 		// close sidebar when switching navigation entry
 		var $appNavigation = $('#app-navigation');
 		$appNavigation.delegate('a, :button', 'click', function(event) {
@@ -1611,12 +1670,47 @@ function initCore() {
 			snapper.close();
 		});
 
+		var navigationBarSlideGestureEnabled = false;
+		var navigationBarSlideGestureAllowed = true;
+		var navigationBarSlideGestureEnablePending = false;
+
+		OC.allowNavigationBarSlideGesture = function() {
+			navigationBarSlideGestureAllowed = true;
+
+			if (navigationBarSlideGestureEnablePending) {
+				snapper.enable();
+
+				navigationBarSlideGestureEnabled = true;
+				navigationBarSlideGestureEnablePending = false;
+			}
+		};
+
+		OC.disallowNavigationBarSlideGesture = function() {
+			navigationBarSlideGestureAllowed = false;
+
+			if (navigationBarSlideGestureEnabled) {
+				var endCurrentDrag = true;
+				snapper.disable(endCurrentDrag);
+
+				navigationBarSlideGestureEnabled = false;
+				navigationBarSlideGestureEnablePending = true;
+			}
+		};
+
 		var toggleSnapperOnSize = function() {
 			if($(window).width() > 768) {
 				snapper.close();
 				snapper.disable();
-			} else {
+
+				navigationBarSlideGestureEnabled = false;
+				navigationBarSlideGestureEnablePending = false;
+			} else if (navigationBarSlideGestureAllowed) {
 				snapper.enable();
+
+				navigationBarSlideGestureEnabled = true;
+				navigationBarSlideGestureEnablePending = false;
+			} else {
+				navigationBarSlideGestureEnablePending = true;
 			}
 		};
 
@@ -1624,39 +1718,6 @@ function initCore() {
 
 		// initial call
 		toggleSnapperOnSize();
-
-		// adjust controls bar width
-		var adjustControlsWidth = function() {
-			if($('#controls').length) {
-				var controlsWidth;
-				// if there is a scrollbar …
-				if($('#app-content').get(0).scrollHeight > $('#app-content').height()) {
-					if($(window).width() > 768) {
-						controlsWidth = $('#content').width() - $('#app-navigation').width() - getScrollBarWidth();
-						if (!$('#app-sidebar').hasClass('hidden') && !$('#app-sidebar').hasClass('disappear')) {
-							controlsWidth -= $('#app-sidebar').width();
-						}
-					} else {
-						controlsWidth = $('#content').width() - getScrollBarWidth();
-					}
-				} else { // if there is none
-					if($(window).width() > 768) {
-						controlsWidth = $('#content').width() - $('#app-navigation').width();
-						if (!$('#app-sidebar').hasClass('hidden') && !$('#app-sidebar').hasClass('disappear')) {
-							controlsWidth -= $('#app-sidebar').width();
-						}
-					} else {
-						controlsWidth = $('#content').width();
-					}
-				}
-				$('#controls').css('width', controlsWidth);
-				$('#controls').css('min-width', controlsWidth);
-			}
-		};
-
-		$(window).resize(_.debounce(adjustControlsWidth, 250));
-
-		$('body').delegate('#app-content', 'apprendered appresized', _.debounce(adjustControlsWidth, 150));
 
 	}
 
@@ -1672,51 +1733,71 @@ function initCore() {
 
 OC.PasswordConfirmation = {
 	callback: null,
-
+	pageLoadTime: null,
 	init: function() {
 		$('.password-confirm-required').on('click', _.bind(this.requirePasswordConfirmation, this));
+		this.pageLoadTime = moment.now();
 	},
 
 	requiresPasswordConfirmation: function() {
-		var timeSinceLogin = moment.now() - (nc_lastLogin * 1000);
-		return timeSinceLogin > 30 * 60 * 1000; // 30 minutes
+		var serverTimeDiff = this.pageLoadTime - (nc_pageLoad * 1000);
+		var timeSinceLogin = moment.now() - (serverTimeDiff + (nc_lastLogin * 1000));
+
+		// if timeSinceLogin > 30 minutes and user backend allows password confirmation
+		return (backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000);
 	},
 
 	/**
 	 * @param {function} callback
 	 */
-	requirePasswordConfirmation: function(callback) {
+	requirePasswordConfirmation: function(callback, options) {
+		options = typeof options !== 'undefined' ? options : {};
+		var defaults = {
+			title: t('core','Authentication required'),
+			text: t(
+				'core',
+				'This action requires you to confirm your password'
+			),
+			confirm: t('core', 'Confirm'),
+			label: t('core','Password'),
+			error: '',
+		};
+
+		var config = _.extend(defaults, options);
+
 		var self = this;
 
 		if (this.requiresPasswordConfirmation()) {
 			OC.dialogs.prompt(
-				t(
-					'core',
-					'This action requires you to confirm your password'
-				),
-				t('core','Authentication required'),
+				config.text,
+				config.title,
 				function (result, password) {
 					if (result && password !== '') {
-						self._confirmPassword(password);
+						self._confirmPassword(password, config);
 					}
 				},
 				true,
-				t('core','Password'),
+				config.label,
 				true
 			).then(function() {
 				var $dialog = $('.oc-dialog:visible');
 				$dialog.find('.ui-icon').remove();
+				$dialog.addClass('password-confirmation');
+				if (config.error !== '') {
+					var $error = $('<p></p>').addClass('msg warning').text(config.error);
+				}
+				$dialog.find('.oc-dialog-content').append($error);
 
 				var $buttons = $dialog.find('button');
-				$buttons.eq(0).text(t('core', 'Cancel'));
-				$buttons.eq(1).text(t('core', 'Confirm'));
+				$buttons.eq(0).hide();
+				$buttons.eq(1).text(config.confirm);
 			});
 		}
 
 		this.callback = callback;
 	},
 
-	_confirmPassword: function(password) {
+	_confirmPassword: function(password, config) {
 		var self = this;
 
 		$.ajax({
@@ -1733,8 +1814,8 @@ OC.PasswordConfirmation = {
 				}
 			},
 			error: function() {
-				OC.PasswordConfirmation.requirePasswordConfirmation(self.callback);
-				OC.Notification.showTemporary(t('core', 'Failed to authenticate, try again'));
+				config.error = t('core', 'Failed to authenticate, try again');
+				OC.PasswordConfirmation.requirePasswordConfirmation(self.callback, config);
 			}
 		});
 	}
@@ -1775,6 +1856,9 @@ function humanFileSize(size, skipSmallSizes) {
 	}
 	else if(relativeSize.substr(relativeSize.length-2,2)==='.0'){
 		relativeSize=relativeSize.substr(0,relativeSize.length-2);
+	}
+	else{
+		relativeSize = parseFloat(relativeSize).toLocaleString(OC.getCanonicalLocale());
 	}
 	return relativeSize + ' ' + readableFormat;
 }
@@ -1891,44 +1975,6 @@ OC.Util = {
 		}
 		return moment(timestamp).fromNow();
 	},
-	/**
-	 * Returns whether the browser supports SVG
-	 * @deprecated SVG is always supported (since 9.0)
-	 * @return {boolean} true if the browser supports SVG, false otherwise
-	 */
-	hasSVGSupport: function(){
-		return true;
-	},
-	/**
-	 * If SVG is not supported, replaces the given icon's extension
-	 * from ".svg" to ".png".
-	 * If SVG is supported, return the image path as is.
-	 * @param {string} file image path with svg extension
-	 * @deprecated SVG is always supported (since 9.0)
-	 * @return {string} fixed image path with png extension if SVG is not supported
-	 */
-	replaceSVGIcon: function(file) {
-		return file;
-	},
-	/**
-	 * Replace SVG images in all elements that have the "svg" class set
-	 * with PNG images.
-	 *
-	 * @param $el root element from which to search, defaults to $('body')
-	 * @deprecated SVG is always supported (since 9.0)
-	 */
-	replaceSVG: function($el) {},
-
-	/**
-	 * Fix image scaling for IE8, since background-size is not supported.
-	 *
-	 * This scales the image to the element's actual size, the URL is
-	 * taken from the "background-image" CSS attribute.
-	 *
-	 * @deprecated IE8 isn't supported since 9.0
-	 * @param {Object} $el image element
-	 */
-	scaleFixForIE8: function($el) {},
 
 	/**
 	 * Returns whether this is IE
@@ -1937,16 +1983,6 @@ OC.Util = {
 	 */
 	isIE: function() {
 		return $('html').hasClass('ie');
-	},
-
-	/**
-	 * Returns whether this is IE8
-	 *
-	 * @deprecated IE8 isn't supported since 9.0
-	 * @return {bool} false (IE8 isn't supported anymore)
-	 */
-	isIE8: function() {
-		return false;
 	},
 
 	/**
@@ -2332,13 +2368,6 @@ jQuery.fn.selectRange = function(start, end) {
 jQuery.fn.exists = function(){
 	return this.length > 0;
 };
-
-/**
- * @deprecated use OC.Util.getScrollBarWidth() instead
- */
-function getScrollBarWidth() {
-	return OC.Util.getScrollBarWidth();
-}
 
 /**
  * jQuery tipsy shim for the bootstrap tooltip

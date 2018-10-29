@@ -96,6 +96,8 @@ class AbstractStringCheckTest extends \Test\TestCase {
 
 		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
 		$check->validateCheck($operator, $value);
+
+		$this->addToAssertionCount(1);
 	}
 
 	public function dataValidateCheckInvalid() {

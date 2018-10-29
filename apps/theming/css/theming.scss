@@ -1,3 +1,23 @@
+/** Calculate luma as it is also used in OCA\Theming\Util::calculateLuma */
+@function luma($c) {
+	$-local-red: red(rgba($c, 1.0));
+	$-local-green: green(rgba($c, 1.0));
+	$-local-blue: blue(rgba($c, 1.0));
+
+	@return (0.2126 * $-local-red  + 0.7152 * $-local-green + 0.0722 * $-local-blue) / 255;
+}
+
+$has-custom-logo: variable_exists('theming-logo-mime') and $theming-logo-mime != '';
+$invert: luma($color-primary) > 0.6;
+
+@if ($has-custom-logo == false) {
+	@if ($invert) {
+		$image-logo: url(icon-color-path('logo', 'logo', #000000, 1, true));
+	} @else {
+		$image-logo: url(icon-color-path('logo', 'logo', #ffffff, 1, true));
+	}
+}
+
 .nc-theming-main-background {
 	background-color: $color-primary;
 }
@@ -10,23 +30,27 @@
 	color: $color-primary-text;
 }
 
-@if (lightness($color-primary) > 55) {
-	.searchbox input[type="search"] {
-		background: transparent url('../../../core/img/actions/search.svg') no-repeat 6px center;
-	}
-	#appmenu li a img {
-		-webkit-filter: invert(1);
+@if ($invert) {
+	#appmenu:not(.inverted) svg {
 		filter: invert(1);
-		filter: progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+	}
+	#appmenu.inverted svg {
+		filter: none;
+	}
+	.searchbox input[type="search"] {
+		background-repeat: no-repeat;
+		background-position: 6px center;
+		background-color: transparent;
+		@include icon-color('search', 'actions', $color-black, 1, true);
 	}
 	#contactsmenu .icon-contacts {
-		background-image: url('../../../core/img/places/contacts-dark.svg');
+		@include icon-color('contacts', 'places', $color-black, 1, true);
 	}
 	#settings .icon-settings-white {
-		background-image: url('../../../core/img/actions/settings-dark.svg');
+		@include icon-color('settings', 'actions', $color-black, 1, true);
 	}
 	#appmenu .icon-more-white {
-		background-image: url('../../../core/img/actions/more.svg');
+		@include icon-color('more', 'actions', $color-black, 1, true);
 	}
 
 	#body-login {
@@ -43,7 +67,7 @@
 		label,
 		p,
 		#alternative-logins legend {
-			color: $color-primary-text !important;
+			color: var(--color-primary-text);
 		}
 		input[type='checkbox'].checkbox--white + label:before {
 			border-color: nc-darken($color-primary-element, 40%) !important;
@@ -54,9 +78,21 @@
 		}
 		input[type='checkbox'].checkbox--white:checked + label:before {
 			border-color: nc-darken($color-primary-element, 30%) !important;
-			background-image: url('../../../core/img/actions/checkbox-mark.svg');
 			background-color: nc-darken($color-primary-element, 30%) !important;
+			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
 		}
+	}
+	#body-user {
+		.primary {
+			border: 1px solid transparent;
+		}
+	}
+} @else {
+	#appmenu:not(.inverted) svg {
+		filter: none;
+	}
+	#appmenu.inverted svg {
+		filter: invert(1);
 	}
 }
 
@@ -73,19 +109,65 @@
 	background-image: url(./img/core/filetypes/folder-drag-accept.svg?v=#{$theming-cachebuster}) !important;
 }
 
-/* override styles for login screen in guest.css */
+#theming-preview-logo,
 #header .logo {
-	background-image: url(#{$image-logo});
-	@if $theming-logo-mime != '' {
+	background-image: $image-logo;
+}
+
+/* override styles for login screen in guest.css */
+@if ($has-custom-logo) {
+	// custom logo
+	#theming-preview-logo,
+	#header .logo {
 		background-size: contain;
+	}
+
+	#body-login #header .logo {
+		margin-bottom: 22px;
+	}
+} @else {
+	// default logo
+	@if ($invert) {
+		#theming-preview-logo,
+		#header .logo {
+			opacity: .6;
+		}
 	}
 }
 
-#body-login,
-#firstrunwizard .firstrunwizard-header,
-#theming-preview {
-	background-image: url(#{$image-login-background});
-	background-color: $color-primary;
+@if variable_exists('theming-background-mime') and $theming-background-mime != ''  {
+	#body-login,
+	#firstrunwizard .firstrunwizard-header,
+	#theming-preview {
+		background-image: $image-login-background;
+		background-color: $color-primary;
+	}
+} @else {
+	  #theming-preview {
+		  background-image: $image-login-background;
+		  background-color: $color-primary;
+	  }
+}
+
+@if variable_exists('theming-logoheader-mime') and $theming-logoheader-mime != '' {
+	#theming .advanced-option-logoheader .image-preview,
+	body:not(#body-login) #header .logo {
+		background-image: url(#{$image-logoheader});
+	}
+} @else {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: none;
+	}
+}
+
+@if variable_exists('theming-favicon-mime') and $theming-favicon-mime != '' {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: url(#{$image-favicon});
+	}
+} @else {
+	#theming .advanced-option-favicon .image-preview {
+		background-image: none;
+	}
 }
 
 input.primary,
@@ -95,8 +177,8 @@ input.primary,
 	color: $color-primary-text;
 }
 
-@if (lightness($color-primary) > 50) {
-	#body-login #submit-icon.icon-confirm-white {
+@if ($invert) {
+	#body-login #submit-wrapper .icon-confirm-white {
 		background-image: url('../../../core/img/actions/confirm.svg');
 	}
 }
@@ -110,9 +192,13 @@ input.primary,
 	#body-login {
 
 		a, label, p {
-			color: $color-primary-text !important;
+			color: var(--color-primary-text);
 		}
 
+	}
+} @else {
+	#body-login {
+		background-color: $color-primary;
 	}
 }
 
@@ -133,5 +219,11 @@ input.primary,
 	/* show border around quota bar in files app */
 	.app-files #quota .quota-container {
 		border: 1px solid #ebebeb;
+	}
+}
+
+@if ($has-legal-links == 'true') {
+	footer {
+		height: 92px;
 	}
 }

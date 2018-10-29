@@ -1,7 +1,9 @@
 {
   "shippedApps": [
+    "accessibility",
     "activity",
     "admin_audit",
+    "cloud_federation_api",
     "comments",
     "dav",
     "encryption",
@@ -26,6 +28,7 @@
     "provisioning_api",
     "serverinfo",
     "sharebymail",
+    "support",
     "survey_client",
     "systemtags",
     "theming",
@@ -37,6 +40,7 @@
   ],
   "alwaysEnabled": [
     "files",
+    "cloud_federation_api",
     "dav",
     "federatedfilesharing",
     "lookup_server_connector",

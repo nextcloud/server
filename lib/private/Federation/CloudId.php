@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017, Robin Appelman <robin@icewind.nl>
  *
@@ -40,7 +41,7 @@ class CloudId implements ICloudId {
 	 * @param string $user
 	 * @param string $remote
 	 */
-	public function __construct($id, $user, $remote) {
+	public function __construct(string $id, string $user, string $remote) {
 		$this->id = $id;
 		$this->user = $user;
 		$this->remote = $remote;
@@ -51,11 +52,11 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
-	public function getId() {
+	public function getId(): string {
 		return $this->id;
 	}
 
-	public function getDisplayId() {
+	public function getDisplayId(): string {
 		return str_replace('https://', '', str_replace('http://', '', $this->getId()));
 	}
 
@@ -64,7 +65,7 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
-	public function getUser() {
+	public function getUser(): string {
 		return $this->user;
 	}
 
@@ -73,7 +74,7 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
-	public function getRemote() {
+	public function getRemote(): string {
 		return $this->remote;
 	}
 }

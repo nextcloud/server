@@ -27,6 +27,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
+use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -571,7 +572,7 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
-		$expectedResponse = array('status' => 'success');
+		$expectedResponse = array('user' => 'ValidTokenUser', 'status' => 'success');
 		$this->assertSame($expectedResponse, $response);
 	}
 
@@ -583,7 +584,7 @@ class LostControllerTest extends \Test\TestCase {
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
 		$this->timeFactory->method('getTime')
-			->willReturn(55546);
+			->willReturn(617146);
 
 		$this->crypto->method('decrypt')
 			->with(
@@ -653,14 +654,14 @@ class LostControllerTest extends \Test\TestCase {
 	public function testIsSetPasswordWithoutTokenFailing() {
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
-			->will($this->returnValue(null));
+			->willReturn('aValidtoken');
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
 
 		$this->crypto->method('decrypt')
 			->with(
-				$this->equalTo(''),
+				$this->equalTo('aValidtoken'),
 				$this->equalTo('test@example.comSECRET')
 			)->willThrowException(new \Exception());
 
@@ -713,10 +714,133 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testSetPasswordEncryptionDontProceed() {
+	public function testSetPasswordEncryptionDontProceedPerUserKey() {
+		/** @var IEncryptionModule|PHPUnit_Framework_MockObject_MockObject $encryptionModule */
+		$encryptionModule = $this->createMock(IEncryptionModule::class);
+		$encryptionModule->expects($this->once())->method('needDetailedAccessList')->willReturn(true);
+		$this->encryptionManager->expects($this->once())->method('getEncryptionModules')
+			->willReturn([0 => ['callback' => function() use ($encryptionModule) { return $encryptionModule; }]]);
 		$response = $this->lostController->setPassword('myToken', 'user', 'newpass', false);
 		$expectedResponse = ['status' => 'error', 'msg' => '', 'encryption' => true];
 		$this->assertSame($expectedResponse, $response);
 	}
 
+	public function testSetPasswordDontProceedMasterKey() {
+		$encryptionModule = $this->createMock(IEncryptionModule::class);
+		$encryptionModule->expects($this->once())->method('needDetailedAccessList')->willReturn(false);
+		$this->encryptionManager->expects($this->once())->method('getEncryptionModules')
+			->willReturn([0 => ['callback' => function() use ($encryptionModule) { return $encryptionModule; }]]);
+		$this->config->method('getUserValue')
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
+			->willReturn('encryptedData');
+		$this->existingUser->method('getLastLogin')
+			->will($this->returnValue(12344));
+		$this->existingUser->expects($this->once())
+			->method('setPassword')
+			->with('NewPassword')
+			->willReturn(true);
+		$this->userManager->method('get')
+			->with('ValidTokenUser')
+			->willReturn($this->existingUser);
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('ValidTokenUser', 'core', 'lostpassword');
+		$this->timeFactory->method('getTime')
+			->will($this->returnValue(12348));
+
+		$this->crypto->method('decrypt')
+			->with(
+				$this->equalTo('encryptedData'),
+				$this->equalTo('test@example.comSECRET')
+			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
+
+		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', false);
+		$expectedResponse = array('user' => 'ValidTokenUser', 'status' => 'success');
+		$this->assertSame($expectedResponse, $response);
+	}
+
+	public function testTwoUsersWithSameEmail() {
+		$user1 = $this->createMock(IUser::class);
+		$user1->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+		$user1->expects($this->any())
+			->method('getUID')
+			->willReturn('User1');
+		$user1->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+		$user2->expects($this->any())
+			->method('getUID')
+			->willReturn('User2');
+		$user2->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$this->userManager
+			->method('get')
+			->willReturn(null);
+
+		$this->userManager
+			->method('getByEmail')
+			->willReturn([$user1, $user2]);
+
+		// request password reset for test@example.com
+		$response = $this->lostController->email('test@example.com');
+
+		$expectedResponse = new JSONResponse([
+			'status' => 'error',
+			'msg' => 'Couldn\'t send reset email. Please make sure your username is correct.'
+		]);
+		$expectedResponse->throttle();
+
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testTwoUsersWithSameEmailOneDisabled() {
+		$user1 = $this->createMock(IUser::class);
+		$user1->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+		$user1->expects($this->any())
+			->method('getUID')
+			->willReturn('User1');
+		$user1->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+		$user2->expects($this->any())
+			->method('getUID')
+			->willReturn('User2');
+		$user2->expects($this->any())
+			->method('isEnabled')
+			->willReturn(false);
+
+		$this->userManager
+			->method('get')
+			->willReturn(null);
+
+		$this->userManager
+			->method('getByEmail')
+			->willReturn([$user1, $user2]);
+
+		// request password reset for test@example.com
+		$response = $this->lostController->email('test@example.com');
+
+		$expectedResponse = new JSONResponse([
+			'status' => 'success'
+		]);
+		$expectedResponse->throttle();
+
+		$this->assertEquals($expectedResponse, $response);
+	}
 }

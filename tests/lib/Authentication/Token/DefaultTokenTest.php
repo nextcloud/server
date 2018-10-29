@@ -33,14 +33,6 @@ class DefaultTokenTest extends TestCase {
 		$this->assertEquals($scope, $token->getScopeAsArray());
 	}
 
-	public function testSetScopeAsString() {
-		$scope = ['filesystem' => false];
-		$token = new DefaultToken();
-		$token->setScope(json_encode($scope));
-		$this->assertEquals(json_encode($scope), $token->getScope());
-		$this->assertEquals($scope, $token->getScopeAsArray());
-	}
-
 	public function testDefaultScope() {
 		$scope = ['filesystem' => true];
 		$token = new DefaultToken();

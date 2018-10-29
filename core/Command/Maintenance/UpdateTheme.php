@@ -57,7 +57,7 @@ class UpdateTheme extends UpdateJS {
 		parent::execute($input, $output);
 
 		// cleanup image cache
-		$c = $this->cacheFactory->create('imagePath');
+		$c = $this->cacheFactory->createDistributed('imagePath');
 		$c->clear('');
 		$output->writeln('<info>Image cache cleared');
 	}

@@ -72,6 +72,19 @@ Feature: transfer-ownership
 		And As an "user2"
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
 
+	Scenario: transfering ownership of file shares to user with the same id as the group
+		Given user "user0" exists
+		And user "test" exists
+		And user "user2" exists
+		And group "test" exists
+		And user "user2" belongs to group "test"
+		And User "user0" uploads file "data/textfile.txt" to "/somefile.txt"
+		And file "/somefile.txt" of user "user0" is shared with group "test"
+		When transfering ownership from "user0" to "test"
+		And the command was successful
+		And As an "user2"
+		Then Downloaded content when downloading file "/somefile.txt" with range "bytes=0-6" should be "This is"
+
 	Scenario: transfering ownership does not transfer received shares
 		Given user "user0" exists
 		And user "user1" exists

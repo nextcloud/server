@@ -43,13 +43,16 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
+use InvalidArgumentException;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Authentication\Token\DefaultTokenCleanupJob;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Log\Rotate;
+use OC\Preview\BackgroundCleanupJob;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\Security\ISecureRandom;
 
 class Setup {
@@ -65,6 +68,8 @@ class Setup {
 	protected $logger;
 	/** @var ISecureRandom */
 	protected $random;
+	/** @var Installer */
+	protected $installer;
 
 	/**
 	 * @param SystemConfig $config
@@ -73,13 +78,15 @@ class Setup {
 	 * @param Defaults $defaults
 	 * @param ILogger $logger
 	 * @param ISecureRandom $random
+	 * @param Installer $installer
 	 */
 	public function __construct(SystemConfig $config,
 						 IniGetWrapper $iniWrapper,
 						 IL10N $l10n,
 						 Defaults $defaults,
 						 ILogger $logger,
-						 ISecureRandom $random
+						 ISecureRandom $random,
+						 Installer $installer
 		) {
 		$this->config = $config;
 		$this->iniWrapper = $iniWrapper;
@@ -87,6 +94,7 @@ class Setup {
 		$this->defaults = $defaults;
 		$this->logger = $logger;
 		$this->random = $random;
+		$this->installer = $installer;
 	}
 
 	static protected $dbSetupClasses = [
@@ -295,10 +303,6 @@ class Setup {
 			$error[] = $l->t("Can't create or write into the data directory %s", array($dataDir));
 		}
 
-		if (!$this->validateDatabaseHost($options['dbhost'])) {
-			$error[] = $l->t('Given database host is invalid and must not contain the port: %s', [$options['dbhost']]);
-		}
-
 		if (!empty($error)) {
 			return $error;
 		}
@@ -324,15 +328,20 @@ class Setup {
 		$secret = $this->random->generate(48);
 
 		//write the config file
-		$this->config->setValues([
+		$newConfigValues = [
 			'passwordsalt'		=> $salt,
 			'secret'			=> $secret,
 			'trusted_domains'	=> $trustedDomains,
 			'datadirectory'		=> $dataDir,
-			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT,
 			'dbtype'			=> $dbType,
 			'version'			=> implode('.', \OCP\Util::getVersion()),
-		]);
+		];
+
+		if ($this->config->getValue('overwrite.cli.url', null) === null) {
+			$newConfigValues['overwrite.cli.url'] = $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT;
+		}
+
+		$this->config->setValues($newConfigValues);
 
 		try {
 			$dbSetup->initialize($options);
@@ -375,18 +384,11 @@ class Setup {
 
 			// Install shipped apps and specified app bundles
 			Installer::installShippedApps();
-			$installer = new Installer(
-				\OC::$server->getAppFetcher(),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getTempManager(),
-				\OC::$server->getLogger(),
-				\OC::$server->getConfig()
-			);
 			$bundleFetcher = new BundleFetcher(\OC::$server->getL10N('lib'));
 			$defaultInstallationBundles = $bundleFetcher->getDefaultInstallationBundle();
 			foreach($defaultInstallationBundles as $bundle) {
 				try {
-					$installer->installAppBundle($bundle);
+					$this->installer->installAppBundle($bundle);
 				} catch (Exception $e) {}
 			}
 
@@ -411,27 +413,21 @@ class Setup {
 			$userSession->setTokenProvider($defaultTokenProvider);
 			$userSession->login($username, $password);
 			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
+
+			// Set email for admin
+			if (!empty($options['adminemail'])) {
+				$config->setUserValue($user->getUID(), 'settings', 'email', $options['adminemail']);
+			}
 		}
 
 		return $error;
-	}
-
-	/**
-	 * @param string $host
-	 * @return bool
-	 */
-	protected function validateDatabaseHost($host) {
-		if (strpos($host, ':') === false) {
-			return true;
-		}
-
-		return filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false;
 	}
 
 	public static function installBackgroundJobs() {
 		$jobList = \OC::$server->getJobList();
 		$jobList->add(DefaultTokenCleanupJob::class);
 		$jobList->add(Rotate::class);
+		$jobList->add(BackgroundCleanupJob::class);
 	}
 
 	/**
@@ -442,37 +438,64 @@ class Setup {
 	}
 
 	/**
-	 * Append the correct ErrorDocument path for Apache hosts
-	 * @return bool True when success, False otherwise
+	 * Find webroot from config
+	 *
+	 * @param SystemConfig $config
+	 * @return string
+	 * @throws InvalidArgumentException when invalid value for overwrite.cli.url
 	 */
-	public static function updateHtaccess() {
-		$config = \OC::$server->getSystemConfig();
-
+	private static function findWebRoot(SystemConfig $config): string {
 		// For CLI read the value from overwrite.cli.url
-		if(\OC::$CLI) {
+		if (\OC::$CLI) {
 			$webRoot = $config->getValue('overwrite.cli.url', '');
-			if($webRoot === '') {
-				return false;
+			if ($webRoot === '') {
+				throw new InvalidArgumentException('overwrite.cli.url is empty');
 			}
-			$webRoot = parse_url($webRoot, PHP_URL_PATH);
-			$webRoot = rtrim($webRoot, '/');
+			if (!filter_var($webRoot, FILTER_VALIDATE_URL)) {
+				throw new InvalidArgumentException('invalid value for overwrite.cli.url');
+			}
+			$webRoot = rtrim(parse_url($webRoot, PHP_URL_PATH), '/');
 		} else {
 			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
 		}
 
-		$setupHelper = new \OC\Setup($config, \OC::$server->getIniWrapper(),
-			\OC::$server->getL10N('lib'), \OC::$server->query(Defaults::class), \OC::$server->getLogger(),
-			\OC::$server->getSecureRandom());
+		return $webRoot;
+	}
+
+	/**
+	 * Append the correct ErrorDocument path for Apache hosts
+	 *
+	 * @return bool True when success, False otherwise
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public static function updateHtaccess() {
+		$config = \OC::$server->getSystemConfig();
+
+		try {
+			$webRoot = self::findWebRoot($config);
+		} catch (InvalidArgumentException $e) {
+			return false;
+		}
+
+		$setupHelper = new \OC\Setup(
+			$config,
+			\OC::$server->getIniWrapper(),
+			\OC::$server->getL10N('lib'),
+			\OC::$server->query(Defaults::class),
+			\OC::$server->getLogger(),
+			\OC::$server->getSecureRandom(),
+			\OC::$server->query(Installer::class)
+		);
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
 		$htaccessContent = explode($content, $htaccessContent, 2)[0];
 
 		//custom 403 error page
-		$content.= "\nErrorDocument 403 ".$webRoot."/";
+		$content .= "\nErrorDocument 403 " . $webRoot . '/';
 
 		//custom 404 error page
-		$content.= "\nErrorDocument 404 ".$webRoot."/";
+		$content .= "\nErrorDocument 404 " . $webRoot . '/';
 
 		// Add rewrite rules if the RewriteBase is configured
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');
@@ -494,7 +517,7 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots.txt";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/updater/";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/";
-			$content .= "\n  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*";
+			$content .= "\n  RewriteCond %{REQUEST_URI} !^/\\.well-known/(acme-challenge|pki-validation)/.*";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteBase " . $rewriteBase;
 			$content .= "\n  <IfModule mod_env.c>";

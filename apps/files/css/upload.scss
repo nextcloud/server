@@ -44,6 +44,10 @@
 	height: 36px;
 	display:inline-block;
 	text-align: center;
+
+	.ui-progressbar-value {
+		margin: 0;
+	}
 }
 #uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
 	height: 100%;
@@ -51,7 +55,7 @@
 	left: 0px;
 	position: absolute;
 	overflow: hidden;
-	background-color: $color-primary;
+	background-color: var(--color-primary);
 }
 #uploadprogressbar .label {
 	top: 6px;
@@ -61,14 +65,14 @@
 	font-weight: normal;
 }
 #uploadprogressbar .label.inner {
-	color: $color-primary-text;
+	color: var(--color-primary-text);
 	position: absolute;
 	display: block;
 	width: 200px;
 }
 #uploadprogressbar .label.outer {
 	position: relative;
-	color: $color-main-text;
+	color: var(--color-main-text);
 }
 #uploadprogressbar .desktop {
 	display: block;
@@ -168,12 +172,14 @@
 .oc-dialog .fileexists #allfiles + span{
 	vertical-align: bottom;
 }
+
 .oc-dialog .oc-dialog-buttonrow {
 	width:100%;
 	text-align:right;
-}
-.oc-dialog .oc-dialog-buttonrow .cancel {
-	float:left;
+
+	.cancel {
+		float:left;
+	}
 }
 
 .highlightUploaded {

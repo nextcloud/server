@@ -31,6 +31,9 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Share;
 use Test\TestCase;
 
@@ -50,17 +53,25 @@ class MailPluginTest extends TestCase {
 	/** @var  SearchResult */
 	protected $searchResult;
 
+	/** @var  IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
+
+	/** @var  IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+
 	public function setUp() {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->contactsManager = $this->createMock(IManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cloudIdManager = new CloudIdManager();
 		$this->searchResult = new SearchResult();
 	}
 
 	public function instantiatePlugin() {
-		$this->plugin = new MailPlugin($this->contactsManager, $this->cloudIdManager, $this->config);
+		$this->plugin = new MailPlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->groupManager, $this->userSession);
 	}
 
 	/**
@@ -88,12 +99,18 @@ class MailPluginTest extends TestCase {
 
 		$this->instantiatePlugin();
 
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')
+			->willReturn('current');
+		$this->userSession->method('getUser')
+			->willReturn($currentUser);
+
 		$this->contactsManager->expects($this->any())
 			->method('search')
 			->with($searchTerm, ['EMAIL', 'FN'])
 			->willReturn($contacts);
 
-		$moreResults = $this->plugin->search($searchTerm, 0, 0, $this->searchResult);
+		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
 		$this->assertSame($exactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
@@ -103,15 +120,15 @@ class MailPluginTest extends TestCase {
 
 	public function dataGetEmail() {
 		return [
-			['test', [], true, ['emails' => [], 'exact' => ['emails' => []]], false, true],
-			['test', [], false, ['emails' => [], 'exact' => ['emails' => []]], false, true],
+			['test', [], true, ['emails' => [], 'exact' => ['emails' => []]], false, false],
+			['test', [], false, ['emails' => [], 'exact' => ['emails' => []]], false, false],
 			[
 				'test@remote.com',
 				[],
 				true,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
-				true,
+				false,
 			],
 			[ // no valid email address
 				'test@remote',
@@ -119,7 +136,7 @@ class MailPluginTest extends TestCase {
 				true,
 				['emails' => [], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test@remote.com',
@@ -127,7 +144,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test',
@@ -150,7 +167,7 @@ class MailPluginTest extends TestCase {
 				true,
 				['emails' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost']]], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test',
@@ -173,7 +190,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test@remote.com',
@@ -196,7 +213,7 @@ class MailPluginTest extends TestCase {
 				true,
 				['emails' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost']]], 'exact' => ['emails' => [['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
-				true,
+				false,
 			],
 			[
 				'test@remote.com',
@@ -219,7 +236,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'test@remote.com', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
-				true,
+				false,
 			],
 			[
 				'username@localhost',
@@ -242,7 +259,7 @@ class MailPluginTest extends TestCase {
 				true,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost']]]]],
 				true,
-				true,
+				false,
 			],
 			[
 				'username@localhost',
@@ -265,7 +282,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'username@localhost']]]]],
 				true,
-				true,
+				false,
 			],
 			// contact with space
 			[
@@ -289,7 +306,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => [['label' => 'User Name @ Localhost (user name@localhost)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'user name@localhost']]]]],
 				true,
-				true,
+				false,
 			],
 			// remote with space, no contact
 			[
@@ -313,7 +330,7 @@ class MailPluginTest extends TestCase {
 				false,
 				['emails' => [], 'exact' => ['emails' => []]],
 				false,
-				true,
+				false,
 			],
 			// Local user found by email
 			[
@@ -327,9 +344,222 @@ class MailPluginTest extends TestCase {
 					]
 				],
 				false,
-				['users' => [], 'exact' => ['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test'],]]]],
+				['users' => [], 'exact' => ['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test'],]]]],
 				true,
 				false,
+			],
+			// Current local user found by email => no result
+			[
+				'test@example.com',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['current@localhost'],
+						'isLocalSystemBook' => true,
+					]
+				],
+				true,
+				['exact' => []],
+				false,
+				false,
+			],
+			// Pagination and "more results" for user matches byyyyyyy emails
+			[
+				'test@example',
+				[
+					[
+						'FN' => 'User1',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test1@localhost'],
+						'isLocalSystemBook' => true,
+					],
+					[
+						'FN' => 'User2',
+						'EMAIL' => ['test@example.de'],
+						'CLOUD' => ['test2@localhost'],
+						'isLocalSystemBook' => true,
+					],
+					[
+						'FN' => 'User3',
+						'EMAIL' => ['test@example.org'],
+						'CLOUD' => ['test3@localhost'],
+						'isLocalSystemBook' => true,
+					],
+					[
+						'FN' => 'User4',
+						'EMAIL' => ['test@example.net'],
+						'CLOUD' => ['test4@localhost'],
+						'isLocalSystemBook' => true,
+					],
+				],
+				true,
+				['users' => [
+					['label' => 'User1 (test@example.com)', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'User2 (test@example.de)', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				], 'emails' => [], 'exact' => ['users' => [], 'emails' => []]],
+				false,
+				true,
+			],
+			// Pagination and "more results" for normal emails
+			[
+				'test@example',
+				[
+					[
+						'FN' => 'User1',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test1@localhost'],
+					],
+					[
+						'FN' => 'User2',
+						'EMAIL' => ['test@example.de'],
+						'CLOUD' => ['test2@localhost'],
+					],
+					[
+						'FN' => 'User3',
+						'EMAIL' => ['test@example.org'],
+						'CLOUD' => ['test3@localhost'],
+					],
+					[
+						'FN' => 'User4',
+						'EMAIL' => ['test@example.net'],
+						'CLOUD' => ['test4@localhost'],
+					],
+				],
+				true,
+				['emails' => [
+					['label' => 'User1 (test@example.com)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@example.com']],
+					['label' => 'User2 (test@example.de)', 'value' => ['shareType' => Share::SHARE_TYPE_EMAIL, 'shareWith' => 'test@example.de']],
+				], 'exact' => ['emails' => []]],
+				false,
+				true,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetEmailGroupsOnly
+	 *
+	 * @param string $searchTerm
+	 * @param array $contacts
+	 * @param array $expected
+	 * @param bool $exactIdMatch
+	 * @param bool $reachedEnd
+	 * @param array groups
+	 */
+	public function testSearchGroupsOnly($searchTerm, $contacts, $expected, $exactIdMatch, $reachedEnd, $userToGroupMapping) {
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(
+				function($appName, $key, $default) {
+					if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
+						return 'yes';
+					} else if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
+						return 'yes';
+					}
+					return $default;
+				}
+			);
+
+		$this->instantiatePlugin();
+
+		/** @var \OCP\IUser | \PHPUnit_Framework_MockObject_MockObject */
+		$currentUser = $this->createMock('\OCP\IUser');
+
+		$currentUser->expects($this->any())
+			->method('getUID')
+			->willReturn('currentUser');
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->with($searchTerm, ['EMAIL', 'FN'])
+			->willReturn($contacts);
+
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($currentUser);
+
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->willReturnCallback(function(\OCP\IUser $user) use ($userToGroupMapping) {
+				return $userToGroupMapping[$user->getUID()];
+			});
+
+		$this->groupManager->expects($this->any())
+			->method('isInGroup')
+			->willReturnCallback(function($userId, $group) use ($userToGroupMapping) {
+				return in_array($group, $userToGroupMapping[$userId]);
+			});
+
+		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		$this->assertSame($exactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
+		$this->assertEquals($expected, $result);
+		$this->assertSame($reachedEnd, $moreResults);
+	}
+
+	public function dataGetEmailGroupsOnly() {
+		return [
+			// The user `User` can share with the current user
+			[
+				'test',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+						'UID' => 'User'
+					]
+				],
+				['users' => [['label' => 'User (test@example.com)','value' => ['shareType' => 0, 'shareWith' => 'test'],]], 'emails' => [], 'exact' => ['emails' => [], 'users' => []]],
+				false,
+				false,
+				[
+					"currentUser" => ["group1"],
+					"User" => ["group1"]
+				]
+			],
+			// The user `User` cannot share with the current user
+			[
+			'test',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+						'UID' => 'User'
+					]
+				],
+				['emails'=> [], 'exact' => ['emails' => []]],
+				false,
+				false,
+				[
+					"currentUser" => ["group1"],
+					"User" => ["group2"]
+				]
+			],
+			// The user `User` cannot share with the current user, but there is an exact match on the e-mail address -> share by e-mail
+			[
+			'test@example.com',
+				[
+					[
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+						'UID' => 'User'
+					]
+				],
+				['emails' => [], 'exact' => ['emails' => [['label' => 'test@example.com', 'value' => ['shareType' => 4,'shareWith' => 'test@example.com']]]]],
+				false,
+				false,
+				[
+					"currentUser" => ["group1"],
+					"User" => ["group2"]
+				]
 			]
 		];
 	}

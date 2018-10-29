@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "%s s'u fshi dot përgjithmonë",
-    "Couldn't restore %s" : "S’u rikthye dot %s",
     "Deleted files" : "Kartela të fshira",
     "Restore" : "Riktheje",
     "Delete" : "Fshije",
     "Delete permanently" : "Fshije përgjithmonë",
-    "Error" : "Gabim",
     "This operation is forbidden" : "Ky veprim është i ndaluar",
     "This directory is unavailable, please check the logs or contact the administrator" : "Kjo drejtori nuk kapet, ju lutemi, kontrolloni regjistrat ose lidhuni me përgjegjësin",
     "restored" : "u rikthye",
@@ -16,6 +13,9 @@ OC.L10N.register(
     "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",
     "Select all" : "Përzgjidhi krejt",
     "Name" : "Emër",
-    "Deleted" : "U fshi"
+    "Deleted" : "U fshi",
+    "Couldn't delete %s permanently" : "%s s'u fshi dot përgjithmonë",
+    "Couldn't restore %s" : "S’u rikthye dot %s",
+    "Error" : "Gabim"
 },
 "nplurals=2; plural=(n != 1);");

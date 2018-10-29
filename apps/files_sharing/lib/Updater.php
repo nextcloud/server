@@ -59,6 +59,7 @@ class Updater {
 
 		$shares = $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_USER, $src, false, -1);
 		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $src, false, -1));
+		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_ROOM, $src, false, -1));
 
 		// If the path we move is not a share we don't care
 		if (empty($shares)) {
@@ -96,7 +97,7 @@ class Updater {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$mountedShares = $mountManager->findIn('/' . \OCP\User::getUser() . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
-			if ($mount->getStorage()->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
+			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {
 				$mountPoint = $mount->getMountPoint();
 				$target = str_replace($absOldPath, $absNewPath, $mountPoint);
 				$mount->moveMount($target);

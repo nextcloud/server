@@ -122,7 +122,7 @@ var OCdialogs = {
 				type       : 'notice'
 			});
 			var input = $('<input/>');
-			input.attr('type', password ? 'password' : 'text').attr('id', dialogName + '-input');
+			input.attr('type', password ? 'password' : 'text').attr('id', dialogName + '-input').attr('placeholder', name);
 			var label = $('<label/>').attr('for', dialogName + '-input').text(name + ': ');
 			$dlg.append(label);
 			$dlg.append(input);
@@ -175,6 +175,14 @@ var OCdialogs = {
 	},
 	/**
 	 * show a file picker to pick a file from
+	 *
+	 * In order to pick several types of mime types they need to be passed as an
+	 * array of strings.
+	 *
+	 * When no mime type filter is given only files can be selected. In order to
+	 * be able to select both files and folders "['*', 'httpd/unix-directory']"
+	 * should be used instead.
+	 *
 	 * @param title dialog title
 	 * @param callback which will be triggered when user presses Choose
 	 * @param multiselect whether it should be possible to select multiple files
@@ -193,18 +201,32 @@ var OCdialogs = {
 			type = this.FILEPICKER_TYPE_CHOOSE;
 		}
 
+		var emptyText = t('core', 'No files in here');
+		if (type === this.FILEPICKER_TYPE_COPY || type === this.FILEPICKER_TYPE_MOVE || type === this.FILEPICKER_TYPE_COPY_MOVE) {
+			emptyText = t('core', 'No more subfolders in here');
+		}
+
 		this.filepicker.loading = true;
 		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
+
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
 			self.filepicker.loading = false;
 			var dialogName = 'oc-dialog-filepicker-content';
 			if(self.$filePicker) {
 				self.$filePicker.ocdialog('close');
 			}
+
+			if (mimetypeFilter === undefined || mimetypeFilter === null) {
+				mimetypeFilter = [];
+			}
+			if (typeof(mimetypeFilter) === "string") {
+				mimetypeFilter = [mimetypeFilter];
+			}
+
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialogName,
 				title: title,
-				emptytext: t('core', 'No files in here')
+				emptytext: emptyText
 			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetypeFilter);
 
 			if (modal === undefined) {
@@ -213,11 +235,13 @@ var OCdialogs = {
 			if (multiselect === undefined) {
 				multiselect = false;
 			}
-			if (mimetypeFilter === undefined) {
-				mimetypeFilter = '';
-			}
 
 			$('body').append(self.$filePicker);
+
+			self.$showGridView = $('input#picker-showgridview');
+			self.$showGridView.on('change', _.bind(self._onGridviewChange, self));
+
+			self._getGridSettings();
 
 			self.$filePicker.ready(function() {
 				self.$filelist = self.$filePicker.find('.filelist tbody');
@@ -310,7 +334,7 @@ var OCdialogs = {
 			// Hence this is one of the approach to get the choose button.
 			var getOcDialog = self.$filePicker.closest('.oc-dialog');
 			var buttonEnableDisable = getOcDialog.find('.primary');
-			if (self.$filePicker.data('mimetype') === "httpd/unix-directory") {
+			if (self.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);
@@ -761,6 +785,31 @@ var OCdialogs = {
 		//}
 		return dialogDeferred.promise();
 	},
+	// get the gridview setting and set the input accordingly
+	_getGridSettings: function() {
+		var self = this;
+		$.get(OC.generateUrl('/apps/files/api/v1/showgridview'), function(response) {
+			self.$showGridView.checked = response.gridview;
+			self.$showGridView.next('#picker-view-toggle')
+				.removeClass('icon-toggle-filelist icon-toggle-pictures')
+				.addClass(response.gridview ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+			$('.list-container').toggleClass('view-grid', response.gridview);
+		});
+	},
+	_onGridviewChange: function() {
+		var show = this.$showGridView.is(':checked');
+		// only save state if user is logged in
+		if (OC.currentUser) {
+			$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
+				show: show
+			});
+		}
+		this.$showGridView.next('#picker-view-toggle')
+			.removeClass('icon-toggle-filelist icon-toggle-pictures')
+			.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+			
+		$('.list-container').toggleClass('view-grid', show);
+	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred();
 		if(!this.$filePickerTemplate) {
@@ -836,9 +885,9 @@ var OCdialogs = {
 			filter = [filter];
 		}
 		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
-			if (filter) {
+			if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
 				files = files.filter(function (file) {
-					return filter == [] || file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
+					return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
 				});
 			}
 			files = files.sort(function(a, b) {
@@ -847,7 +896,7 @@ var OCdialogs = {
 				} else if(a.type !== 'dir' && b.type === 'dir') {
 					return 1;
 				} else {
-					return 0;
+					return a.name.localeCompare(b.name, undefined, {numeric: true});
 				}
 			});
 
@@ -881,6 +930,8 @@ var OCdialogs = {
 				if (entry.type === 'file') {
 					var urlSpec = {
 						file: dir + '/' + entry.name,
+						x: 100,
+						y: 100
 					};
 					var img = new Image();
 					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
@@ -929,12 +980,12 @@ var OCdialogs = {
 	*/
 	_handleTreeListSelect:function(event, type) {
 		var self = event.data;
-		var dir = $(event.target).parent().data('dir');
+		var dir = $(event.target).closest('.crumb').data('dir');
 		self._fillFilePicker(dir);
 		var getOcDialog = (event.target).closest('.oc-dialog');
 		var buttonEnableDisable = $('.primary', getOcDialog);
 		this._changeButtonsText(type, dir.split(/[/]+/).pop());
-		if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
+		if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 			buttonEnableDisable.prop("disabled", false);
 		} else {
 			buttonEnableDisable.prop("disabled", true);
@@ -955,7 +1006,7 @@ var OCdialogs = {
 		} else if ( $element.data('type') === 'dir' ) {
 			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
 			this._changeButtonsText(type, $element.data('entryname'));
-			if (this.$filePicker.data('mimetype') === "httpd/unix-directory") {
+			if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);

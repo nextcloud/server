@@ -18,7 +18,7 @@
 	<p></p>
 </div>
 
-<table id="filestable">
+<table id="filestable" class="list-container view-grid">
 	<thead>
 		<tr>
 			<th id="headerSelection" class="hidden column-selection">
@@ -31,21 +31,15 @@
 				<div id="headerName-container">
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class='selectedActions'>
-						<a href="" class="undelete">
-							<span class="icon icon-history"></span>
-							<span><?php p($l->t('Restore'))?></span>
+						<a href="" class="actions-selected">
+							<span class="icon icon-more"></span>
+							<span><?php p($l->t('Actions'))?></span>
 						</a>
 					</span>
 				</div>
 			</th>
 			<th id="headerDate" class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Deleted' )); ?></span><span class="sort-indicator"></span></a>
-				<span class="selectedActions">
-					<a href="" class="delete-selected">
-						<span><?php p($l->t('Delete'))?></span>
-						<span class="icon icon-delete"></span>
-					</a>
-				</span>
 			</th>
 		</tr>
 	</thead>

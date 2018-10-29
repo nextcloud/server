@@ -50,6 +50,15 @@
 		},
 
 		/**
+		 * Returns the tab label
+		 *
+		 * @return {String}|{null} icon class
+		 */
+		getIcon: function() {
+			return null
+		},
+
+		/**
 		 * returns the jQuery object for HTML output
 		 *
 		 * @returns {jQuery}

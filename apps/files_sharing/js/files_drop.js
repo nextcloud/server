@@ -9,14 +9,7 @@
  */
 
 (function ($) {
-	var TEMPLATE =
-		'<li data-toggle="tooltip" title="{{name}}" data-name="{{name}}">' +
-		'{{#if isUploading}}' +
-		'<span class="icon-loading-small"></span> {{name}}' +
-		'{{else}}' +
-		'<img src="{{iconSrc}}"/> {{name}}' +
-		'{{/if}}' +
-		'</li>';
+
 	var Drop = {
 		/** @type {Function} **/
 		_template: undefined,
@@ -130,10 +123,7 @@
 		 * @private
 		 */
 		template: function () {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template;
+			return OCA.Sharing.Templates['files_drop'];
 		}
 	};
 

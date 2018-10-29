@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -28,7 +29,7 @@ class Console extends Action {
 	/**
 	 * @param $arguments
 	 */
-	public function runCommand($arguments) {
+	public function runCommand(array $arguments) {
 		if ($arguments[1] === '_completion') {
 			// Don't log autocompletion
 			return;

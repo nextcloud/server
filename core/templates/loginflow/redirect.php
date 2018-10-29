@@ -27,7 +27,7 @@ $urlGenerator = $_['urlGenerator'];
 ?>
 
 <div class="picker-window">
-	<p class="info"><?php p($l->t('Redirecting …')) ?></p>
+	<p><?php p($l->t('Redirecting …')) ?></p>
 </div>
 
 <form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">

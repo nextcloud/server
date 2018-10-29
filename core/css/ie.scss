@@ -1,0 +1,10 @@
+
+#app-sidebar {
+	position: fixed !important;
+}
+#app-content {
+	width: $navigation-width !important;
+}
+#app-sidebar.disappear {
+	right: -$sidebar-max-width !important;
+}

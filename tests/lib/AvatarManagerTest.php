@@ -27,6 +27,7 @@ namespace Test;
 use OC\Avatar;
 use OC\AvatarManager;
 use OC\Files\AppData\AppData;
+use OC\User\Manager;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
@@ -39,7 +40,7 @@ use OCP\IUserManager;
  * Class AvatarManagerTest
  */
 class AvatarManagerTest extends \Test\TestCase {
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
 	private $appData;
@@ -55,7 +56,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager = $this->createMock(Manager::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->logger = $this->createMock(ILogger::class);

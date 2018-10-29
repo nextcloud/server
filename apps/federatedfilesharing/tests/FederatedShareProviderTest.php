@@ -33,6 +33,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -80,6 +81,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	/** @var  ICloudIdManager */
 	private $cloudIdManager;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject|ICloudFederationProviderManager */
+	private $cloudFederationProviderManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -107,6 +110,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 
+		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
+
 		$this->provider = new FederatedShareProvider(
 			$this->connection,
 			$this->addressHandler,
@@ -118,7 +123,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->config,
 			$this->userManager,
 			$this->cloudIdManager,
-			$this->gsConfig
+			$this->gsConfig,
+			$this->cloudFederationProviderManager
 		);
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -141,6 +147,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
@@ -212,6 +219,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
@@ -268,6 +276,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
@@ -367,6 +376,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
@@ -417,7 +427,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 					$this->config,
 					$this->userManager,
 					$this->cloudIdManager,
-					$this->gsConfig
+					$this->gsConfig,
+					$this->cloudFederationProviderManager
 				]
 			)->setMethods(['sendPermissionUpdate'])->getMock();
 
@@ -435,6 +446,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy($sharedBy)
 			->setShareOwner($owner)
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
@@ -490,6 +502,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->addressHandler->expects($this->at(1))->method('splitUserRemote')
 			->willReturn(['user2', 'server.com']);
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 		$this->notifications
 			->method('sendRemoteShare')
@@ -502,6 +517,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 		$this->provider->create($share);
 
@@ -510,6 +526,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy2')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 		$this->provider->create($share2);
 
@@ -532,11 +549,15 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 		$this->provider->create($share);
 
@@ -549,6 +570,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node2);
 		$this->provider->create($share2);
 
@@ -570,11 +592,15 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
 			->setSharedBy('shareOwner')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 		$this->provider->create($share);
 
@@ -583,6 +609,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 		$this->provider->create($share2);
 
@@ -611,11 +638,15 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 		$this->provider->create($share);
 
@@ -624,6 +655,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($node);
 		$this->provider->create($share2);
 
@@ -806,11 +838,15 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->method('sendRemoteShare')
 			->willReturn(true);
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$share1 = $this->shareManager->newShare();
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
 			->setShareOwner($u1->getUID())
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($file1);
 		$this->provider->create($share1);
 
@@ -819,6 +855,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u2->getUID())
 			->setShareOwner($u1->getUID())
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($file2);
 		$this->provider->create($share2);
 
@@ -857,11 +894,15 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$result = $this->provider->getAccessList([$file1], false);
 		$this->assertEquals(['remote' => false], $result);
 
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('remoteurl.com');
+
 		$share1 = $this->shareManager->newShare();
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
 			->setShareOwner($u1->getUID())
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($file1);
 		$this->provider->create($share1);
 
@@ -870,6 +911,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u1->getUID())
 			->setShareOwner($u1->getUID())
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
 			->setNode($file1);
 		$this->provider->create($share2);
 

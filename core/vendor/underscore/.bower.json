@@ -29,7 +29,7 @@
     "tag": "1.8.3",
     "commit": "e4743ab712b8ab42ad4ccb48b155034d02394e4d"
   },
-  "_source": "git://github.com/jashkenas/underscore.git",
-  "_target": "~1.8.0",
+  "_source": "https://github.com/jashkenas/underscore.git",
+  "_target": "1.8.3",
   "_originalSource": "underscore"
 }

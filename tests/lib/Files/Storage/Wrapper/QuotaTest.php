@@ -179,7 +179,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(9);
 		$stream = $instance->fopen('files/foo', 'w+');
 		$meta = stream_get_meta_data($stream);
-		$expected_type = defined('HHVM_VERSION') ? 'File' : 'user-space';
+		$expected_type = 'user-space';
 		$this->assertEquals($expected_type, $meta['wrapper_type']);
 		fclose($stream);
 	}
@@ -207,5 +207,10 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Wrapper'));
 		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota'));
+	}
+
+	public function testNoMkdirQuotaZero() {
+		$instance = $this->getLimitedStorage(0.0);
+		$this->assertFalse($instance->mkdir('foobar'));
 	}
 }

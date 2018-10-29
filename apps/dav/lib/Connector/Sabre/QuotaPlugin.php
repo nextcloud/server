@@ -26,15 +26,12 @@
  *
  */
 namespace OCA\DAV\Connector\Sabre;
-use OCA\DAV\Files\FilesHome;
 use OCA\DAV\Upload\FutureFile;
-use OCA\DAV\Upload\UploadFolder;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\INode;
-use Sabre\HTTP\URLUtil;
 
 /**
  * This plugin check user quota and deny creating files when they exceeds the quota.
@@ -169,11 +166,11 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				$path = rtrim($parentPath, '/') . '/' . $info['name'];
 			}
 			$freeSpace = $this->getFreeSpace($path);
-			if ($freeSpace !== FileInfo::SPACE_UNKNOWN && $freeSpace !== FileInfo::SPACE_UNLIMITED && $length > $freeSpace) {
+			if ($freeSpace >= 0 && $length > $freeSpace) {
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
 				}
-				throw new InsufficientStorage();
+				throw new InsufficientStorage("Insufficient space in $path, $length required, $freeSpace available");
 			}
 		}
 		return true;

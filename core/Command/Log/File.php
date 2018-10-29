@@ -105,7 +105,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		$defaultLogFile = rtrim($dataDir, '/').'/nextcloud.log';
 		$output->writeln('Log file: '.$this->config->getSystemValue('logfile', $defaultLogFile));
 
-		$rotateSize = $this->config->getSystemValue('log_rotate_size', 0);
+		$rotateSize = $this->config->getSystemValue('log_rotate_size', 100*1024*1024);
 		if ($rotateSize) {
 			$rotateString = \OCP\Util::humanFileSize($rotateSize);
 		} else {

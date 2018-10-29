@@ -70,63 +70,12 @@ OC.L10N = {
 		if (_.isUndefined(this._bundles[appName])) {
 			this._bundles[appName] = bundle || {};
 
-			if (_.isFunction(pluralForm)) {
-				this._pluralFunctions[appName] = pluralForm;
-			} else {
-				// generate plural function based on form
-				this._pluralFunctions[appName] = this._generatePluralFunction(pluralForm);
-			}
+			// generate plural function based on form
+			this._pluralFunctions[appName] = this._getPlural;
 		} else {
 			// Theme overwriting the default language
 			_.extend(self._bundles[appName], bundle);
 		}
-	},
-
-	/**
-	 * Generates a plural function based on the given plural form.
-	 * If an invalid form has been given, returns a default function.
-	 *
-	 * @param {String} pluralForm plural form
-	 */
-	_generatePluralFunction: function(pluralForm) {
-		// default func
-		var func = function (n) {
-			var p = (n !== 1) ? 1 : 0;
-			return { 'nplural' : 2, 'plural' : p };
-		};
-
-		if (!pluralForm) {
-			console.warn('Missing plural form in language file');
-			return func;
-		}
-
-		/**
-		 * code below has been taken from jsgettext - which is LGPL licensed
-		 * https://developer.berlios.de/projects/jsgettext/
-		 * http://cvs.berlios.de/cgi-bin/viewcvs.cgi/jsgettext/jsgettext/lib/Gettext.js
-		 */
-		var pf_re = new RegExp('^(\\s*nplurals\\s*=\\s*[0-9]+\\s*;\\s*plural\\s*=\\s*(?:\\s|[-\\?\\|&=!<>+*/%:;a-zA-Z0-9_\\(\\)])+)', 'm');
-		if (pf_re.test(pluralForm)) {
-			//ex english: "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-			//pf = "nplurals=2; plural=(n != 1);";
-			//ex russian: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10< =4 && (n%100<10 or n%100>=20) ? 1 : 2)
-			//pf = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)";
-			var pf = pluralForm;
-			if (! /;\s*$/.test(pf)) {
-				pf = pf.concat(';');
-			}
-			/* We used to use eval, but it seems IE has issues with it.
-			 * We now use "new Function", though it carries a slightly
-			 * bigger performance hit.
-			var code = 'function (n) { var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) }; };';
-			Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
-			 */
-			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
-			func = new Function("n", code);
-		} else {
-			console.warn('Invalid plural form in language file: "' + pluralForm + '"');
-		}
-		return func;
 	},
 
 	/**
@@ -198,7 +147,7 @@ OC.L10N = {
 			var translation = value;
 			if ($.isArray(translation)) {
 				var plural = this._pluralFunctions[app](count);
-				return this.translate(app, translation[plural.plural], vars, count, options);
+				return this.translate(app, translation[plural], vars, count, options);
 			}
 		}
 
@@ -207,6 +156,167 @@ OC.L10N = {
 		}
 		else{
 			return this.translate(app, textPlural, vars, count, options);
+		}
+	},
+
+	/**
+	 * The plural function taken from symfony
+	 *
+	 * @param {number} number
+	 * @returns {number}
+	 * @private
+	 */
+	_getPlural: function(number) {
+		var locale = OC.getLocale();
+		if ('pt_BR' === locale) {
+			// temporary set a locale for brazilian
+			locale = 'xbr';
+		}
+
+		if (typeof locale === 'undefined') {
+			return (1 == number) ? 0 : 1;
+		}
+
+		if (locale.length > 3) {
+			locale = locale.substring(0, locale.lastIndexOf('_'));
+		}
+
+		/*
+		 * The plural rules are derived from code of the Zend Framework (2010-09-25),
+		 * which is subject to the new BSD license (http://framework.zend.com/license/new-bsd).
+		 * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+		 */
+		switch (locale) {
+			case 'az':
+			case 'bo':
+			case 'dz':
+			case 'id':
+			case 'ja':
+			case 'jv':
+			case 'ka':
+			case 'km':
+			case 'kn':
+			case 'ko':
+			case 'ms':
+			case 'th':
+			case 'tr':
+			case 'vi':
+			case 'zh':
+				return 0;
+
+			case 'af':
+			case 'bn':
+			case 'bg':
+			case 'ca':
+			case 'da':
+			case 'de':
+			case 'el':
+			case 'en':
+			case 'eo':
+			case 'es':
+			case 'et':
+			case 'eu':
+			case 'fa':
+			case 'fi':
+			case 'fo':
+			case 'fur':
+			case 'fy':
+			case 'gl':
+			case 'gu':
+			case 'ha':
+			case 'he':
+			case 'hu':
+			case 'is':
+			case 'it':
+			case 'ku':
+			case 'lb':
+			case 'ml':
+			case 'mn':
+			case 'mr':
+			case 'nah':
+			case 'nb':
+			case 'ne':
+			case 'nl':
+			case 'nn':
+			case 'no':
+			case 'oc':
+			case 'om':
+			case 'or':
+			case 'pa':
+			case 'pap':
+			case 'ps':
+			case 'pt':
+			case 'so':
+			case 'sq':
+			case 'sv':
+			case 'sw':
+			case 'ta':
+			case 'te':
+			case 'tk':
+			case 'ur':
+			case 'zu':
+				return (1 == number) ? 0 : 1;
+
+			case 'am':
+			case 'bh':
+			case 'fil':
+			case 'fr':
+			case 'gun':
+			case 'hi':
+			case 'hy':
+			case 'ln':
+			case 'mg':
+			case 'nso':
+			case 'xbr':
+			case 'ti':
+			case 'wa':
+				return ((0 == number) || (1 == number)) ? 0 : 1;
+
+			case 'be':
+			case 'bs':
+			case 'hr':
+			case 'ru':
+			case 'sh':
+			case 'sr':
+			case 'uk':
+				return ((1 == number % 10) && (11 != number % 100)) ? 0 : (((number % 10 >= 2) && (number % 10 <= 4) && ((number % 100 < 10) || (number % 100 >= 20))) ? 1 : 2);
+
+			case 'cs':
+			case 'sk':
+				return (1 == number) ? 0 : (((number >= 2) && (number <= 4)) ? 1 : 2);
+
+			case 'ga':
+				return (1 == number) ? 0 : ((2 == number) ? 1 : 2);
+
+			case 'lt':
+				return ((1 == number % 10) && (11 != number % 100)) ? 0 : (((number % 10 >= 2) && ((number % 100 < 10) || (number % 100 >= 20))) ? 1 : 2);
+
+			case 'sl':
+				return (1 == number % 100) ? 0 : ((2 == number % 100) ? 1 : (((3 == number % 100) || (4 == number % 100)) ? 2 : 3));
+
+			case 'mk':
+				return (1 == number % 10) ? 0 : 1;
+
+			case 'mt':
+				return (1 == number) ? 0 : (((0 == number) || ((number % 100 > 1) && (number % 100 < 11))) ? 1 : (((number % 100 > 10) && (number % 100 < 20)) ? 2 : 3));
+
+			case 'lv':
+				return (0 == number) ? 0 : (((1 == number % 10) && (11 != number % 100)) ? 1 : 2);
+
+			case 'pl':
+				return (1 == number) ? 0 : (((number % 10 >= 2) && (number % 10 <= 4) && ((number % 100 < 12) || (number % 100 > 14))) ? 1 : 2);
+
+			case 'cy':
+				return (1 == number) ? 0 : ((2 == number) ? 1 : (((8 == number) || (11 == number)) ? 2 : 3));
+
+			case 'ro':
+				return (1 == number) ? 0 : (((0 == number) || ((number % 100 > 0) && (number % 100 < 20))) ? 1 : 2);
+
+			case 'ar':
+				return (0 == number) ? 0 : ((1 == number) ? 1 : ((2 == number) ? 2 : (((number % 100 >= 3) && (number % 100 <= 10)) ? 3 : (((number % 100 >= 11) && (number % 100 <= 99)) ? 4 : 5))));
+
+			default:
+				return 0;
 		}
 	}
 };

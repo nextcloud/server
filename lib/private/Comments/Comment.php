@@ -225,17 +225,13 @@ class Comment implements IComment {
 	 *
 	 */
 	public function getMentions() {
-		$ok = preg_match_all('/\B@[a-z0-9_\-@\.\']+/i', $this->getMessage(), $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@[a-z0-9_\-@\.\']+/i", $this->getMessage(), $mentions);
 		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
 			return [];
 		}
 		$uids = array_unique($mentions[0]);
 		$result = [];
 		foreach ($uids as $uid) {
-			// exclude author, no self-mentioning
-			if($uid === '@' . $this->getActorId()) {
-				continue;
-			}
 			$result[] = ['type' => 'user', 'id' => substr($uid, 1)];
 		}
 		return $result;

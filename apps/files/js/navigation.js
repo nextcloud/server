@@ -1,8 +1,9 @@
 /*
- * Copyright (c) 2014
+ * @Copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Vincent Petry
- * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
+ *
  *
  * This file is licensed under the Affero General Public License version 3
  * or later.
@@ -11,7 +12,7 @@
  *
  */
 
-(function() {
+(function () {
 
 	/**
 	 * @class OCA.Files.Navigation
@@ -19,7 +20,7 @@
 	 *
 	 * @param $el element containing the navigation
 	 */
-	var Navigation = function($el) {
+	var Navigation = function ($el) {
 		this.initialize($el);
 	};
 
@@ -39,23 +40,65 @@
 		$currentContent: null,
 
 		/**
+		 * Key for the quick-acces-list
+		 */
+		$quickAccessListKey: 'sublist-favorites',
+		/**
 		 * Initializes the navigation from the given container
 		 *
 		 * @private
 		 * @param $el element containing the navigation
 		 */
-		initialize: function($el) {
+		initialize: function ($el) {
 			this.$el = $el;
 			this._activeItem = null;
 			this.$currentContent = null;
 			this._setupEvents();
+
+			this.setInitialQuickaccessSettings();
 		},
 
 		/**
 		 * Setup UI events
 		 */
-		_setupEvents: function() {
-			this.$el.on('click', 'li a', _.bind(this._onClickItem, this));
+		_setupEvents: function () {
+			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
+			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
+
+			var trashElement=$(".nav-trashbin");
+
+			//this div is required to prefetch the icon, otherwise it takes a second to show up
+			trashElement.append("<div class='nav-icon-trashbin-starred'></div>")
+			trashElement.droppable({
+				over: function( event, ui ) {
+					trashElement.addClass('dropzone-background')
+				},
+				out: function( event, ui ) {
+					trashElement.removeClass('dropzone-background');
+				},
+				activate: function( event, ui ) {
+					var elem=trashElement.find("a").first();
+					elem.addClass('nav-icon-trashbin-starred').removeClass('nav-icon-trashbin');
+				},
+				deactivate: function( event, ui ) {
+					var elem=trashElement.find("a").first();
+					elem.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
+				},
+				drop: function( event, ui ) {
+
+					var $selectedFiles = $(ui.draggable);
+
+					if (ui.helper.find("tr").size()===1) {
+						var $tr = $selectedFiles.closest('tr');
+						$selectedFiles.trigger("droppedOnTrash", $tr.attr("data-file"), $tr.attr('data-dir'));
+					}else{
+						var item = ui.helper.find("tr");
+						for(var i=0; i<item.length;i++){
+							$selectedFiles.trigger("droppedOnTrash", item[i].getAttribute("data-file"), item[i].getAttribute("data-dir"));
+						}
+					}
+				}
+			});
 		},
 
 		/**
@@ -63,16 +106,16 @@
 		 *
 		 * @return app container
 		 */
-		getActiveContainer: function() {
+		getActiveContainer: function () {
 			return this.$currentContent;
 		},
 
 		/**
 		 * Returns the currently active item
-		 * 
+		 *
 		 * @return item ID
 		 */
-		getActiveItem: function() {
+		getActiveItem: function () {
 			return this._activeItem;
 		},
 
@@ -83,29 +126,42 @@
 		 * @param string itemId id of the navigation item to select
 		 * @param array options "silent" to not trigger event
 		 */
-		setActiveItem: function(itemId, options) {
+		setActiveItem: function (itemId, options) {
+			var currentItem = this.$el.find('li[data-id="' + itemId + '"]');
+			var itemDir = currentItem.data('dir');
+			var itemView = currentItem.data('view');
 			var oldItemId = this._activeItem;
 			if (itemId === this._activeItem) {
 				if (!options || !options.silent) {
 					this.$el.trigger(
-						new $.Event('itemChanged', {itemId: itemId, previousItemId: oldItemId})
+						new $.Event('itemChanged', {
+							itemId: itemId,
+							previousItemId: oldItemId,
+							dir: itemDir,
+							view: itemView
+						})
 					);
 				}
 				return;
 			}
-			this.$el.find('li').removeClass('active');
+			this.$el.find('li a').removeClass('active');
 			if (this.$currentContent) {
 				this.$currentContent.addClass('hidden');
 				this.$currentContent.trigger(jQuery.Event('hide'));
 			}
 			this._activeItem = itemId;
-			this.$el.find('li[data-id=' + itemId + ']').addClass('active');
-			this.$currentContent = $('#app-content-' + itemId);
+			currentItem.children('a').addClass('active');
+			this.$currentContent = $('#app-content-' + (typeof itemView === 'string' && itemView !== '' ? itemView : itemId));
 			this.$currentContent.removeClass('hidden');
 			if (!options || !options.silent) {
 				this.$currentContent.trigger(jQuery.Event('show'));
 				this.$el.trigger(
-					new $.Event('itemChanged', {itemId: itemId, previousItemId: oldItemId})
+					new $.Event('itemChanged', {
+						itemId: itemId,
+						previousItemId: oldItemId,
+						dir: itemDir,
+						view: itemView
+					})
 				);
 			}
 		},
@@ -113,23 +169,126 @@
 		/**
 		 * Returns whether a given item exists
 		 */
-		itemExists: function(itemId) {
-			return this.$el.find('li[data-id=' + itemId + ']').length;
+		itemExists: function (itemId) {
+			return this.$el.find('li[data-id="' + itemId + '"]').length;
 		},
 
 		/**
 		 * Event handler for when clicking on an item.
 		 */
-		_onClickItem: function(ev) {
+		_onClickItem: function (ev) {
 			var $target = $(ev.target);
 			var itemId = $target.closest('li').attr('data-id');
 			if (!_.isUndefined(itemId)) {
 				this.setActiveItem(itemId);
 			}
 			ev.preventDefault();
+		},
+
+		/**
+		 * Event handler for clicking a button
+		 */
+		_onClickMenuButton: function (ev) {
+			var $target = $(ev.target);
+			var $menu = $target.parent('li');
+			var itemId = $target.closest('button').attr('id');
+
+			var collapsibleToggles = [];
+			var dotmenuToggles = [];
+
+			if ($menu.hasClass('collapsible') && $menu.data('expandedstate')) {
+				$menu.toggleClass('open');
+				var show = $menu.hasClass('open') ? 1 : 0;
+				var key = $menu.data('expandedstate');
+				$.post(OC.generateUrl("/apps/files/api/v1/toggleShowFolder/" + key), {show: show});
+			}
+
+			dotmenuToggles.forEach(function foundToggle (item) {
+				if (item[0] === ("#" + itemId)) {
+					document.getElementById(item[1]).classList.toggle('open');
+				}
+			});
+
+			ev.preventDefault();
+		},
+
+		/**
+		 * Sort initially as setup of sidebar for QuickAccess
+		 */
+		setInitialQuickaccessSettings: function () {
+			var quickAccessKey = this.$quickAccessListKey;
+			var quickAccessMenu = document.getElementById(quickAccessKey)
+			if (quickAccessMenu) {
+				var list = quickAccessMenu.getElementsByTagName('li');
+				this.QuickSort(list, 0, list.length - 1);
+			}
+		},
+
+		/**
+		 * Sorting-Algorithm for QuickAccess
+		 */
+		QuickSort: function (list, start, end) {
+			var lastMatch;
+			if (list.length > 1) {
+				lastMatch = this.quicksort_helper(list, start, end);
+				if (start < lastMatch - 1) {
+					this.QuickSort(list, start, lastMatch - 1);
+				}
+				if (lastMatch < end) {
+					this.QuickSort(list, lastMatch, end);
+				}
+			}
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 */
+		quicksort_helper: function (list, start, end) {
+			var pivot = Math.floor((end + start) / 2);
+			var pivotElement = this.getCompareValue(list, pivot);
+			var i = start;
+			var j = end;
+
+			while (i <= j) {
+				while (this.getCompareValue(list, i) < pivotElement) {
+					i++;
+				}
+				while (this.getCompareValue(list, j) > pivotElement) {
+					j--;
+				}
+				if (i <= j) {
+					this.swap(list, i, j);
+					i++;
+					j--;
+				}
+			}
+			return i;
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 * This method allows easy access to the element which is sorted by.
+		 */
+		getCompareValue: function (nodes, int, strategy) {
+				return nodes[int].getElementsByTagName('a')[0].innerHTML.toLowerCase();
+		},
+
+		/**
+		 * Sorting-Algorithm-Helper for QuickAccess
+		 * This method allows easy swapping of elements.
+		 */
+		swap: function (list, j, i) {
+			list[i].before(list[j]);
+			list[j].before(list[i]);
 		}
+
 	};
 
 	OCA.Files.Navigation = Navigation;
 
 })();
+
+
+
+
+

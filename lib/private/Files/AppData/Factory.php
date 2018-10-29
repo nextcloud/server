@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -44,7 +45,7 @@ class Factory {
 	 * @param string $appId
 	 * @return AppData
 	 */
-	public function get($appId) {
+	public function get(string $appId): AppData {
 		return new AppData($this->rootFolder, $this->config, $appId);
 	}
 }

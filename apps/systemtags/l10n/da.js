@@ -42,17 +42,17 @@ OC.L10N.register(
     "%s (invisible)" : "%s (usynlig)",
     "<strong>System tags</strong> for a file have been modified" : "En fils <strong>systemmærkning</strong> er blevet ændret",
     "Collaborative tags" : "Kollaborativ tags",
-    "Create and edit collaborative tags. These tags affect all users." : "Tilføj og rediger kollaborative tags. Disse tags berøre alle brugere.",
     "Select tag …" : "Vælg tag...",
     "Name" : "Navn",
-    "Delete" : "Slet",
     "Public" : "Offentlig",
     "Restricted" : "Begrænset",
     "Invisible" : "Usynlig",
+    "Delete" : "Slet",
     "Reset" : "Reset",
     "No files in here" : "Her er ingen filer",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Size" : "Størrelse",
-    "Modified" : "Ændret"
+    "Modified" : "Ændret",
+    "Create and edit collaborative tags. These tags affect all users." : "Tilføj og rediger kollaborative tags. Disse tags berøre alle brugere."
 },
 "nplurals=2; plural=(n != 1);");

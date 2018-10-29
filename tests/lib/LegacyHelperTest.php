@@ -12,6 +12,17 @@ use OC\Files\View;
 use OC_Helper;
 
 class LegacyHelperTest extends \Test\TestCase {
+	/** @var string */
+	private $originalWebRoot;
+
+	public function setUp() {
+		$this->originalWebRoot = \OC::$WEBROOT;
+	}
+
+	public function tearDown() {
+		// Reset webRoot
+		\OC::$WEBROOT = $this->originalWebRoot;
+	}
 
 	/**
 	 * @dataProvider humanFileSizeProvider
@@ -209,44 +220,6 @@ class LegacyHelperTest extends \Test\TestCase {
 			array(filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
 			array(3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'),
 		);
-	}
-
-	// Url generator methods
-
-	/**
-	 * @small
-	 * test linkToPublic URL construction
-	 */
-	public function testLinkToPublic() {
-		\OC::$WEBROOT = '';
-		$result = \OC_Helper::linkToPublic('files');
-		$this->assertEquals('http://localhost/s', $result);
-		$result = \OC_Helper::linkToPublic('files', false);
-		$this->assertEquals('http://localhost/s', $result);
-		$result = \OC_Helper::linkToPublic('files', true);
-		$this->assertEquals('http://localhost/s/', $result);
-
-		$result = \OC_Helper::linkToPublic('other');
-		$this->assertEquals('http://localhost/public.php?service=other', $result);
-		$result = \OC_Helper::linkToPublic('other', false);
-		$this->assertEquals('http://localhost/public.php?service=other', $result);
-		$result = \OC_Helper::linkToPublic('other', true);
-		$this->assertEquals('http://localhost/public.php?service=other/', $result);
-
-		\OC::$WEBROOT = '/owncloud';
-		$result = \OC_Helper::linkToPublic('files');
-		$this->assertEquals('http://localhost/owncloud/s', $result);
-		$result = \OC_Helper::linkToPublic('files', false);
-		$this->assertEquals('http://localhost/owncloud/s', $result);
-		$result = \OC_Helper::linkToPublic('files', true);
-		$this->assertEquals('http://localhost/owncloud/s/', $result);
-
-		$result = \OC_Helper::linkToPublic('other');
-		$this->assertEquals('http://localhost/owncloud/public.php?service=other', $result);
-		$result = \OC_Helper::linkToPublic('other', false);
-		$this->assertEquals('http://localhost/owncloud/public.php?service=other', $result);
-		$result = \OC_Helper::linkToPublic('other', true);
-		$this->assertEquals('http://localhost/owncloud/public.php?service=other/', $result);
 	}
 
 	/**

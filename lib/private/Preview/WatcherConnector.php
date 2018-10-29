@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -49,7 +50,7 @@ class WatcherConnector {
 	/**
 	 * @return Watcher
 	 */
-	private function getWatcher() {
+	private function getWatcher(): Watcher {
 		return \OC::$server->query(Watcher::class);
 	}
 
@@ -60,13 +61,7 @@ class WatcherConnector {
 				$this->getWatcher()->postWrite($node);
 			});
 
-			$this->root->listen('\OC\Files', 'preDelete', function (Node $node) {
-				$this->getWatcher()->preDelete($node);
-			});
-
-			$this->root->listen('\OC\Files', 'postDelete', function (Node $node) {
-				$this->getWatcher()->postDelete($node);
-			});
+			\OC_Hook::connect('\OCP\Versions', 'rollback', $this->getWatcher(), 'versionRollback');
 		}
 	}
 }

@@ -33,10 +33,9 @@
 
 namespace OCA\Theming;
 
-
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
-use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -48,10 +47,10 @@ class ThemingDefaults extends \OC_Defaults {
 	private $config;
 	/** @var IL10N */
 	private $l;
+	/** @var ImageManager */
+	private $imageManager;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var IAppData */
-	private $appData;
 	/** @var ICacheFactory */
 	private $cacheFactory;
 	/** @var Util */
@@ -83,9 +82,8 @@ class ThemingDefaults extends \OC_Defaults {
 	 *
 	 * @param IConfig $config
 	 * @param IL10N $l
+	 * @param ImageManager $imageManager
 	 * @param IURLGenerator $urlGenerator
-	 * @param \OC_Defaults $defaults
-	 * @param IAppData $appData
 	 * @param ICacheFactory $cacheFactory
 	 * @param Util $util
 	 * @param IAppManager $appManager
@@ -93,16 +91,16 @@ class ThemingDefaults extends \OC_Defaults {
 	public function __construct(IConfig $config,
 								IL10N $l,
 								IURLGenerator $urlGenerator,
-								IAppData $appData,
 								ICacheFactory $cacheFactory,
 								Util $util,
+								ImageManager $imageManager,
 								IAppManager $appManager
 	) {
 		parent::__construct();
 		$this->config = $config;
 		$this->l = $l;
+		$this->imageManager = $imageManager;
 		$this->urlGenerator = $urlGenerator;
-		$this->appData = $appData;
 		$this->cacheFactory = $cacheFactory;
 		$this->util = $util;
 		$this->appManager = $appManager;
@@ -142,11 +140,49 @@ class ThemingDefaults extends \OC_Defaults {
 		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', $this->slogan));
 	}
 
+	public function getImprintUrl() {
+		return (string)$this->config->getAppValue('theming', 'imprintUrl', '');
+	}
+
+	public function getPrivacyUrl() {
+		return (string)$this->config->getAppValue('theming', 'privacyUrl', '');
+	}
+
 	public function getShortFooter() {
 		$slogan = $this->getSlogan();
-		$footer = '<a href="'. $this->getBaseUrl() . '" target="_blank"' .
-			' rel="noreferrer">' .$this->getEntity() . '</a>'.
-			($slogan !== '' ? ' – ' . $slogan : '');
+		$baseUrl = $this->getBaseUrl();
+		if ($baseUrl !== '') {
+			$footer = '<a href="' . $baseUrl . '" target="_blank"' .
+				' rel="noreferrer noopener" class="entity-name">' . $this->getEntity() . '</a>';
+		} else {
+			$footer = '<span class="entity-name">' .$this->getEntity() . '</span>';
+		}
+		$footer .= ($slogan !== '' ? ' – ' . $slogan : '');
+
+		$links = [
+			[
+				'text' => $this->l->t('Legal notice'),
+				'url' => (string)$this->getImprintUrl()
+			],
+			[
+				'text' => $this->l->t('Privacy policy'),
+				'url' => (string)$this->getPrivacyUrl()
+			],
+		];
+
+		$legalLinks = ''; $divider = '';
+		foreach($links as $link) {
+			if($link['url'] !== ''
+				&& filter_var($link['url'], FILTER_VALIDATE_URL)
+			) {
+				$legalLinks .= $divider . '<a href="' . $link['url'] . '" class="legal" target="_blank"' .
+					' rel="noreferrer noopener">' . $link['text'] . '</a>';
+				$divider = ' · ';
+			}
+		}
+		if($legalLinks !== '' ) {
+			$footer .= '<br/>' . $legalLinks;
+		}
 
 		return $footer;
 	}
@@ -166,12 +202,12 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param bool $useSvg Whether to point to the SVG image or a fallback
 	 * @return string
 	 */
-	public function getLogo($useSvg = true) {
+	public function getLogo($useSvg = true): string {
 		$logo = $this->config->getAppValue('theming', 'logoMime', false);
 
 		$logoExists = true;
 		try {
-			$this->appData->getFolder('images')->getFile('logo');
+			$this->imageManager->getImage('logo', $useSvg);
 		} catch (\Exception $e) {
 			$logoExists = false;
 		}
@@ -180,14 +216,14 @@ class ThemingDefaults extends \OC_Defaults {
 
 		if(!$logo || !$logoExists) {
 			if($useSvg) {
-				$logo = $this->urlGenerator->imagePath('core', 'logo.svg');
+				$logo = $this->urlGenerator->imagePath('core', 'logo/logo.svg');
 			} else {
-				$logo = $this->urlGenerator->imagePath('core', 'logo.png');
+				$logo = $this->urlGenerator->imagePath('core', 'logo/logo.png');
 			}
 			return $logo . '?v=' . $cacheBusterCounter;
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getLogo') . '?v=' . $cacheBusterCounter;
+		return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => 'logo', 'useSvg' => $useSvg, 'v' => $cacheBusterCounter ]);
 	}
 
 	/**
@@ -195,23 +231,8 @@ class ThemingDefaults extends \OC_Defaults {
 	 *
 	 * @return string
 	 */
-	public function getBackground() {
-		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime',false);
-
-		$backgroundExists = true;
-		try {
-			$this->appData->getFolder('images')->getFile('background');
-		} catch (\Exception $e) {
-			$backgroundExists = false;
-		}
-
-		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
-
-		if(!$backgroundLogo || !$backgroundExists) {
-			return $this->urlGenerator->imagePath('core','background.png') . '?v=' . $cacheBusterCounter;
-		}
-
-		return $this->urlGenerator->linkToRoute('theming.Theming.getLoginBackground') . '?v=' . $cacheBusterCounter;
+	public function getBackground(): string {
+		return $this->imageManager->getImageUrl('background');
 	}
 
 	/**
@@ -240,35 +261,40 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return array scss variables to overwrite
 	 */
 	public function getScssVariables() {
-		$cache = $this->cacheFactory->create('theming');
+		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
 		if ($value = $cache->get('getScssVariables')) {
 			return $value;
 		}
 
 		$variables = [
 			'theming-cachebuster' => "'" . $this->config->getAppValue('theming', 'cachebuster', '0') . "'",
-			'theming-logo-mime' => "'" . $this->config->getAppValue('theming', 'logoMime', '') . "'",
-			'theming-background-mime' => "'" . $this->config->getAppValue('theming', 'backgroundMime', '') . "'"
+			'theming-logo-mime' => "'" . $this->config->getAppValue('theming', 'logoMime') . "'",
+			'theming-background-mime' => "'" . $this->config->getAppValue('theming', 'backgroundMime') . "'",
+			'theming-logoheader-mime' => "'" . $this->config->getAppValue('theming', 'logoheaderMime') . "'",
+			'theming-favicon-mime' => "'" . $this->config->getAppValue('theming', 'faviconMime') . "'"
 		];
 
-		$variables['image-logo'] = "'".$this->urlGenerator->getAbsoluteURL($this->getLogo())."'";
-		$variables['image-login-background'] = "'".$this->urlGenerator->getAbsoluteURL($this->getBackground())."'";
+		$variables['image-logo'] = "url('".$this->imageManager->getImageUrl('logo')."')";
+		$variables['image-logoheader'] = "'".$this->imageManager->getImageUrl('logoheader')."'";
+		$variables['image-favicon'] = "'".$this->imageManager->getImageUrl('favicon')."'";
+		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
 		$variables['image-login-plain'] = 'false';
 
 		if ($this->config->getAppValue('theming', 'color', null) !== null) {
-			if ($this->util->invertTextColor($this->getColorPrimary())) {
-				$colorPrimaryText = '#000000';
-			} else {
-				$colorPrimaryText = '#ffffff';
-			}
 			$variables['color-primary'] = $this->getColorPrimary();
-			$variables['color-primary-text'] = $colorPrimaryText;
+			$variables['color-primary-text'] = $this->getTextColorPrimary();
 			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
 		}
 
 		if ($this->config->getAppValue('theming', 'backgroundMime', null) === 'backgroundColor') {
 			$variables['image-login-plain'] = 'true';
 		}
+
+		$variables['has-legal-links'] = 'false';
+		if($this->getImprintUrl() !== '' || $this->getPrivacyUrl() !== '') {
+			$variables['has-legal-links'] = 'true';
+		}
+
 		$cache->set('getScssVariables', $variables);
 		return $variables;
 	}
@@ -282,15 +308,21 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return bool|string false if image should not replaced, otherwise the location of the image
 	 */
 	public function replaceImagePath($app, $image) {
-		if($app==='') {
+		if ($app === '' || $app === 'files_sharing') {
 			$app = 'core';
 		}
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 
-		if ($image === 'favicon.ico' && $this->shouldReplaceIcons()) {
+		try {
+			$customFavicon = $this->imageManager->getImage('favicon');
+		} catch (NotFoundException $e) {
+			$customFavicon = null;
+		}
+
+		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue;
 		}
-		if ($image === 'favicon-touch.png' && $this->shouldReplaceIcons()) {
+		if ($image === 'favicon-touch.png' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue;
 		}
 		if ($image === 'manifest.json') {
@@ -306,35 +338,14 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Check if Imagemagick is enabled and if SVG is supported
-	 * otherwise we can't render custom icons
-	 *
-	 * @return bool
-	 */
-	public function shouldReplaceIcons() {
-		$cache = $this->cacheFactory->create('theming');
-		if($value = $cache->get('shouldReplaceIcons')) {
-			return (bool)$value;
-		}
-		$value = false;
-		if(extension_loaded('imagick')) {
-			$checkImagick = new \Imagick();
-			if (count($checkImagick->queryFormats('SVG')) >= 1) {
-				$value = true;
-			}
-			$checkImagick->clear();
-		}
-		$cache->set('shouldReplaceIcons', $value);
-		return $value;
-	}
-
-	/**
 	 * Increases the cache buster key
 	 */
 	private function increaseCacheBuster() {
 		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->setAppValue('theming', 'cachebuster', (int)$cacheBusterKey+1);
-		$this->cacheFactory->create('theming')->clear('getScssVariables');
+		$this->cacheFactory->createDistributed('theming-')->clear();
+		$this->cacheFactory->createDistributed('imagePath')->clear();
+
 	}
 
 	/**
@@ -377,5 +388,14 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		return $returnValue;
+	}
+
+	/**
+	 * Color of text in the header and primary buttons
+	 *
+	 * @return string
+	 */
+	public function getTextColorPrimary() {
+		return $this->util->invertTextColor($this->getColorPrimary()) ? '#000000' : '#ffffff';
 	}
 }

@@ -25,14 +25,15 @@
 		className: 'tab shareTabView',
 
 		template: function(params) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-			return this._template(params);
+			return 	TEMPLATE;
 		},
 
 		getLabel: function() {
 			return t('files_sharing', 'Sharing');
+		},
+
+		getIcon: function() {
+			return 'icon-shared';
 		},
 
 		/**

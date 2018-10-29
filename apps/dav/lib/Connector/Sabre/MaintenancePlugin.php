@@ -27,6 +27,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IConfig;
+use OCP\Util;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\ServerPlugin;
 
@@ -80,7 +81,7 @@ class MaintenancePlugin extends ServerPlugin {
 		if ($this->config->getSystemValue('maintenance', false)) {
 			throw new ServiceUnavailable('System in maintenance mode.');
 		}
-		if (\OC::checkUpgrade(false)) {
+		if (Util::needUpgrade()) {
 			throw new ServiceUnavailable('Upgrade needed');
 		}
 

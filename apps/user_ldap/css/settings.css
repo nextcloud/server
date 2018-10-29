@@ -209,11 +209,6 @@ select[multiple=multiple] + button {
 	color: #777;
 }
 
-.outoftheway {
-	position: absolute;
-	left: -2000px;
-}
-
 #ldapSettings {
 	background-color: white;
 	padding: 0;

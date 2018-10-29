@@ -23,8 +23,8 @@
 
 namespace OC\Core\Migrations;
 
-use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
@@ -32,13 +32,13 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @return null|Schema
+	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
-		/** @var Schema $schema */
+		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 		if (!$schema->hasTable('appconfig')) {
@@ -215,6 +215,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['storage', 'mimetype'], 'fs_storage_mimetype');
 			$table->addIndex(['storage', 'mimepart'], 'fs_storage_mimepart');
 			$table->addIndex(['storage', 'size', 'fileid'], 'fs_storage_size');
+			$table->addIndex(['mtime'], 'fs_mtime');
 		}
 
 		if (!$schema->hasTable('group_user')) {
@@ -400,6 +401,10 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['item_type', 'share_type'], 'item_share_type_index');
 			$table->addIndex(['file_source'], 'file_source_index');
 			$table->addIndex(['token'], 'token_index');
+			$table->addIndex(['share_with'], 'share_with_index');
+			$table->addIndex(['parent'], 'parent_index');
+			$table->addIndex(['uid_owner'], 'owner_index');
+			$table->addIndex(['uid_initiator'], 'initiator_index');
 		}
 
 		if (!$schema->hasTable('jobs')) {

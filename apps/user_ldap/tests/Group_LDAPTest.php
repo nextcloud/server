@@ -32,9 +32,14 @@
 
 namespace OCA\User_LDAP\Tests;
 
+use OCA\User_LDAP\GroupPluginManager;
 use OCP\GroupInterface;
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Group_LDAP as GroupLDAP;
 use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\User\Manager;
+use Test\TestCase;
 
 /**
  * Class GroupLDAPTest
@@ -43,7 +48,10 @@ use OCA\User_LDAP\ILDAPWrapper;
  *
  * @package OCA\User_LDAP\Tests
  */
-class Group_LDAPTest extends \Test\TestCase {
+class Group_LDAPTest extends TestCase {
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject|Access
+	 */
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;
@@ -57,14 +65,8 @@ class Group_LDAPTest extends \Test\TestCase {
 			->setMethods($conMethods)
 			->setConstructorArgs([$lw, null, null])
 			->getMock();
-		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
-			->disableOriginalConstructor()
-			->getMock();
-		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
-		$access = $this->getMockBuilder('\OCA\User_LDAP\Access')
-			->setMethods($accMethods)
-			->setConstructorArgs([$connector, $lw, $um, $helper])
-			->getMock();
+
+		$access = $this->createMock(Access::class);
 
 		$access->expects($this->any())
 			->method('getConnection')
@@ -76,8 +78,13 @@ class Group_LDAPTest extends \Test\TestCase {
 	private function getPluginManagerMock() {
 		return $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')->getMock();
 	}
-
+	
+	/**
+	 * @param Access|\PHPUnit_Framework_MockObject_MockObject $access
+	 */
 	private function enableGroups($access) {
+		$access->connection = $this->createMock(Connection::class);
+
 		$access->connection->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function($name) {
@@ -144,7 +151,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$access->expects($this->any())
 			->method('dn2username')
 			->will($this->returnCallback(function() {
-				return 'foobar' . \OCP\Util::generateRandomBytes(7);
+				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
 			}));
 
 		$groupBackend = new GroupLDAP($access,$pluginManager);
@@ -154,6 +161,7 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testCountUsersWithPlugin() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions','countUsersInGroup'])
 			->getMock();
@@ -168,10 +176,10 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with('gid', 'search')
 			->willReturn(42);
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->countUsersInGroup('gid', 'search'),42);
 	}	
@@ -498,7 +506,6 @@ class Group_LDAPTest extends \Test\TestCase {
 		$access->connection->expects($this->any())
 			->method('getFromCache')
 			->will($this->returnValue(null));
-
 		$access->expects($this->any())
 			->method('readAttribute')
 			->will($this->returnCallback(function($dn, $attr) {
@@ -509,14 +516,13 @@ class Group_LDAPTest extends \Test\TestCase {
 				}
 				return array();
 			}));
-
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
-
 		$access->expects($this->exactly(2))
 			->method('nextcloudUserNames')
 			->willReturnOnConsecutiveCalls(['lisa', 'bart', 'kira', 'brad'], ['walle', 'dino', 'xenia']);
+		$access->userManager = $this->createMock(Manager::class);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -537,7 +543,6 @@ class Group_LDAPTest extends \Test\TestCase {
 		$access->connection->expects($this->any())
 			->method('getFromCache')
 			->will($this->returnValue(null));
-
 		$access->expects($this->any())
 			->method('readAttribute')
 			->will($this->returnCallback(function($dn, $attr) {
@@ -546,14 +551,13 @@ class Group_LDAPTest extends \Test\TestCase {
 				}
 				return array();
 			}));
-
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
-
 		$access->expects($this->once())
 			->method('nextcloudUserNames')
 			->will($this->returnValue(array('lisa', 'bart', 'kira', 'brad')));
+		$access->userManager = $this->createMock(Manager::class);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -635,6 +639,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$access = $this->getAccessMock();
 		$pluginManager = $this->getPluginManagerMock();
 
+		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function($name) {
@@ -671,6 +676,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$access = $this->getAccessMock();
 		$pluginManager = $this->getPluginManagerMock();
 
+		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function($name) {
@@ -724,6 +730,7 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testCreateGroupWithPlugin() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions','createGroup'])
 			->getMock();
@@ -738,10 +745,10 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with('gid')
 			->willReturn('result');
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->createGroup('gid'),true);
 	}
@@ -750,6 +757,7 @@ class Group_LDAPTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testCreateGroupFailing() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'createGroup'])
 			->getMock();
@@ -759,15 +767,16 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with(GroupInterface::CREATE_GROUP)
 			->willReturn(false);
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$ldap->createGroup('gid');
 	}
 
 	public function testDeleteGroupWithPlugin() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions','deleteGroup'])
 			->getMock();
@@ -782,21 +791,19 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with('gid')
 			->willReturn('result');
 
-		$access = $this->getAccessMock();
-
 		$mapper = $this->getMockBuilder('\OCA\User_LDAP\Mapping\GroupMapping')
 			->setMethods(['unmap'])
 			->disableOriginalConstructor()
 			->getMock();
 
+		$access = $this->getAccessMock();
 		$access->expects($this->any())
 			->method('getGroupMapper')
 			->will($this->returnValue($mapper));
 
-		$ldap = new GroupLDAP(
-			$access,
-			$pluginManager
-		);
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->deleteGroup('gid'),'result');
 	}
@@ -805,6 +812,7 @@ class Group_LDAPTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testDeleteGroupFailing() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'deleteGroup'])
 			->getMock();
@@ -814,15 +822,16 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with(GroupInterface::DELETE_GROUP)
 			->willReturn(false);
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$ldap->deleteGroup('gid');
 	}
 
 	public function testAddToGroupWithPlugin() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions','addToGroup'])
 			->getMock();
@@ -837,10 +846,10 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with('uid', 'gid')
 			->willReturn('result');
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->addToGroup('uid', 'gid'),'result');
 	}
@@ -849,6 +858,7 @@ class Group_LDAPTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testAddToGroupFailing() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'addToGroup'])
 			->getMock();
@@ -858,15 +868,16 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with(GroupInterface::ADD_TO_GROUP)
 			->willReturn(false);
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$ldap->addToGroup('uid', 'gid');
 	}
 
 	public function testRemoveFromGroupWithPlugin() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions','removeFromGroup'])
 			->getMock();
@@ -881,10 +892,10 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with('uid', 'gid')
 			->willReturn('result');
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->removeFromGroup('uid', 'gid'),'result');
 	}
@@ -893,6 +904,7 @@ class Group_LDAPTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testRemoveFromGroupFailing() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'removeFromGroup'])
 			->getMock();
@@ -902,15 +914,16 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with(GroupInterface::REMOVE_FROM_GROUP)
 			->willReturn(false);
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$ldap->removeFromGroup('uid', 'gid');
 	}
 
 	public function testGetGroupDetailsWithPlugin() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions','getGroupDetails'])
 			->getMock();
@@ -925,10 +938,10 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with('gid')
 			->willReturn('result');
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->getGroupDetails('gid'),'result');
 	}
@@ -937,6 +950,7 @@ class Group_LDAPTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testGetGroupDetailsFailing() {
+		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'getGroupDetails'])
 			->getMock();
@@ -946,12 +960,94 @@ class Group_LDAPTest extends \Test\TestCase {
 			->with(GroupInterface::GROUP_DETAILS)
 			->willReturn(false);
 
-		$ldap = new GroupLDAP(
-			$this->getAccessMock(),
-			$pluginManager
-		);
+		$access = $this->getAccessMock();
+		$access->connection = $this->createMock(Connection::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$ldap->getGroupDetails('gid');
-	}	
+	}
+
+	public function groupMemberProvider() {
+		$base = 'dc=species,dc=earth';
+
+		$groups0 = [
+			'uid=3723,' . $base,
+			'uid=8372,' . $base,
+			'uid=8427,' . $base,
+			'uid=2333,' . $base,
+			'uid=4754,' . $base,
+		];
+		$groups1 = [
+			'3723',
+			'8372',
+			'8427',
+			'2333',
+			'4754',
+		];
+		$groups2Nested = ['6642', '1424'];
+		$expGroups2 = array_merge($groups1, $groups2Nested);
+
+		return [
+			[ #0 – test DNs
+				'cn=Birds,' . $base,
+				$groups0,
+				['cn=Birds,' . $base => $groups0]
+			],
+			[ #1 – test uids
+				'cn=Birds,' . $base,
+				$groups1,
+				['cn=Birds,' . $base => $groups1]
+			],
+			[ #2 – test uids with nested groups
+				'cn=Birds,' . $base,
+				$expGroups2,
+				[
+					'cn=Birds,' . $base => $groups1,
+					'8427' => $groups2Nested, // simplified - nested groups would work with DNs
+				],
+			],
+		];
+	}
+
+	/**
+	 * @param string $groupDN
+	 * @param string[] $expectedMembers
+	 * @param array $groupsInfo
+	 * @dataProvider groupMemberProvider
+	 */
+	public function testGroupMembers($groupDN, $expectedMembers, $groupsInfo = null) {
+		$access = $this->getAccessMock();
+		$access->expects($this->any())
+			->method('readAttribute')
+			->willReturnCallback(function($group) use ($groupDN, $expectedMembers, $groupsInfo) {
+				if(isset($groupsInfo[$group])) {
+					return $groupsInfo[$group];
+				}
+				return [];
+			});
+
+		$access->connection = $this->createMock(Connection::class);
+		if(count($groupsInfo) > 1) {
+			$access->connection->expects($this->any())
+				->method('__get')
+				->willReturnCallback(function($name) {
+					if($name === 'ldapNestedGroups') {
+						return 1;
+					}
+					return null;
+				});
+		}
+
+		/** @var GroupPluginManager $pluginManager */
+		$pluginManager = $this->createMock(GroupPluginManager::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
+		$resultingMembers = $this->invokePrivate($ldap, '_groupMembers', [$groupDN]);
+
+		$expected = array_keys(array_flip($expectedMembers));
+
+		$this->assertEquals($expected, array_keys($resultingMembers), '', 0.0, 10, true);
+	}
 
 }

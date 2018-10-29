@@ -50,13 +50,10 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];
-
-		$request = $client->createRequest('PUT', $fullUrl, $options);
-		$file = \GuzzleHttp\Stream\Stream::factory($content);
-		$request->setBody($file);
+		$options['body'] = \GuzzleHttp\Psr7\stream_for($content);
 
 		try {
-			$this->response = $client->send($request);
+			$this->response = $client->request('PUT', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -82,10 +79,8 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];
 
-		$request = $client->createRequest('MKCOL', $fullUrl, $options);
-
 		try {
-			$this->response = $client->send($request);
+			$this->response = $client->request('MKCOL', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}

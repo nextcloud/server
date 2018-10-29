@@ -67,8 +67,10 @@ class InfoXmlTest extends TestCase {
 		$applicationClassName = \OCP\AppFramework\App::buildAppNamespace($app) . '\\AppInfo\\Application';
 		if (class_exists($applicationClassName)) {
 			$application = new $applicationClassName();
+			$this->addToAssertionCount(1);
 		} else {
 			$application = new \OCP\AppFramework\App($app);
+			$this->addToAssertionCount(1);
 		}
 
 		if (isset($appInfo['background-jobs'])) {

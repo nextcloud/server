@@ -71,15 +71,12 @@ class FailedCache implements ICache {
 	}
 
 	public function put($file, array $data) {
-		return;
 	}
 
 	public function insert($file, array $data) {
-		return;
 	}
 
 	public function update($id, array $data) {
-		return;
 	}
 
 	public function getId($file) {
@@ -95,19 +92,15 @@ class FailedCache implements ICache {
 	}
 
 	public function remove($file) {
-		return;
 	}
 
 	public function move($source, $target) {
-		return;
 	}
 
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
-		return;
 	}
 
 	public function clear() {
-		return;
 	}
 
 	public function getStatus($file) {

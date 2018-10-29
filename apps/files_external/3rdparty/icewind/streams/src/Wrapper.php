@@ -26,12 +26,15 @@ abstract class Wrapper implements File, Directory {
 	protected $source;
 
 	protected static function wrapSource($source, $context, $protocol, $class) {
+		if (!is_resource($source)) {
+			throw new \BadMethodCallException();
+		}
 		try {
 			stream_wrapper_register($protocol, $class);
-			if (@rewinddir($source) === false) {
-				$wrapped = fopen($protocol . '://', 'r+', false, $context);
-			} else {
+			if (self::isDirectoryHandle($source)) {
 				$wrapped = opendir($protocol . '://', $context);
+			} else {
+				$wrapped = fopen($protocol . '://', 'r+', false, $context);
 			}
 		} catch (\BadMethodCallException $e) {
 			stream_wrapper_unregister($protocol);
@@ -39,6 +42,11 @@ abstract class Wrapper implements File, Directory {
 		}
 		stream_wrapper_unregister($protocol);
 		return $wrapped;
+	}
+
+	protected static function isDirectoryHandle($resource) {
+		$meta = stream_get_meta_data($resource);
+		return $meta['stream_type'] == 'dir';
 	}
 
 	/**

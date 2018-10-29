@@ -25,7 +25,7 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 			'</div>' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
-			'<table id="filestable">' +
+			'<table id="filestable" class="list-container view-grid">' +
 			'<thead><tr>' +
 			'<th id="headerName" class="hidden column-name">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
@@ -90,7 +90,7 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
 			expect($tr.find('a.name').attr('href')).toEqual(
-				OC.webroot +
+				OC.getRootPath() +
 				'/remote.php/webdav/somedir/test.txt'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('test.txt');

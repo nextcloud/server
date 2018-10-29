@@ -145,7 +145,7 @@ class Redis extends Cache implements IMemcacheTTL {
 			$result = self::$cache->multi()
 				->set($this->getNameSpace() . $key, $new)
 				->exec();
-			return ($result === false) ? false : true;
+			return $result !== false;
 		}
 		self::$cache->unwatch();
 		return false;
@@ -164,7 +164,7 @@ class Redis extends Cache implements IMemcacheTTL {
 			$result = self::$cache->multi()
 				->del($this->getNameSpace() . $key)
 				->exec();
-			return ($result === false) ? false : true;
+			return $result !== false;
 		}
 		self::$cache->unwatch();
 		return false;

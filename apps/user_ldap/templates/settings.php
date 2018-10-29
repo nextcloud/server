@@ -55,7 +55,7 @@ style('user_ldap', 'settings');
 ?>
 
 <form id="ldap" class="section" action="#" method="post">
-	<h2><?php p($l->t('LDAP')); ?></h2>
+	<h2><?php p($l->t('LDAP / AD integration')); ?></h2>
 
 	<div id="ldapSettings">
 	<ul>
@@ -71,10 +71,10 @@ style('user_ldap', 'settings');
 		print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
 	}
 	?>
-	<?php require_once(__DIR__ . '/part.wizard-server.php'); ?>
-	<?php require_once(__DIR__ . '/part.wizard-userfilter.php'); ?>
-	<?php require_once(__DIR__ . '/part.wizard-loginfilter.php'); ?>
-	<?php require_once(__DIR__ . '/part.wizard-groupfilter.php'); ?>
+	<?php require_once __DIR__ . '/part.wizard-server.php'; ?>
+	<?php require_once __DIR__ . '/part.wizard-userfilter.php'; ?>
+	<?php require_once __DIR__ . '/part.wizard-loginfilter.php'; ?>
+	<?php require_once __DIR__ . '/part.wizard-groupfilter.php'; ?>
 	<fieldset id="ldapSettings-1">
 		<div id="ldapAdvancedAccordion">
 			<h3><?php p($l->t('Connection Settings'));?></h3>
@@ -83,7 +83,7 @@ style('user_ldap', 'settings');
 				<p><label for="ldap_backup_host"><?php p($l->t('Backup (Replica) Host'));?></label><input type="text" id="ldap_backup_host" name="ldap_backup_host" data-default="<?php p($_['ldap_backup_host_default']); ?>" title="<?php p($l->t('Give an optional backup host. It must be a replica of the main LDAP/AD server.'));?>"></p>
 				<p><label for="ldap_backup_port"><?php p($l->t('Backup (Replica) Port'));?></label><input type="number" id="ldap_backup_port" name="ldap_backup_port" data-default="<?php p($_['ldap_backup_port_default']); ?>"  /></p>
 				<p><label for="ldap_override_main_server"><?php p($l->t('Disable Main Server'));?></label><input type="checkbox" id="ldap_override_main_server" name="ldap_override_main_server" value="1" data-default="<?php p($_['ldap_override_main_server_default']); ?>"  title="<?php p($l->t('Only connect to the replica server.'));?>" /></p>
-				<p><label for="ldap_turn_off_cert_check"><?php p($l->t('Turn off SSL certificate validation.'));?></label><input type="checkbox" id="ldap_turn_off_cert_check" name="ldap_turn_off_cert_check" title="<?php p($l->t('Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your %s server.', $theme->getName() ));?>" data-default="<?php p($_['ldap_turn_off_cert_check_default']); ?>" value="1"><br/></p>
+				<p><label for="ldap_turn_off_cert_check"><?php p($l->t('Turn off SSL certificate validation.'));?></label><input type="checkbox" id="ldap_turn_off_cert_check" name="ldap_turn_off_cert_check" title="<?php p($l->t('Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your %s server.', [$theme->getName()] ));?>" data-default="<?php p($_['ldap_turn_off_cert_check_default']); ?>" value="1"><br/></p>
 				<p><label for="ldap_cache_ttl"><?php p($l->t('Cache Time-To-Live'));?></label><input type="number" id="ldap_cache_ttl" name="ldap_cache_ttl" title="<?php p($l->t('in seconds. A change empties the cache.'));?>" data-default="<?php p($_['ldap_cache_ttl_default']); ?>" /></p>
 			</div>
 			<h3><?php p($l->t('Directory Settings'));?></h3>
@@ -121,7 +121,7 @@ style('user_ldap', 'settings');
 		<p class="ldapIndent"><label for="ldap_expert_uuid_user_attr"><?php p($l->t('UUID Attribute for Users:'));?></label><input type="text" id="ldap_expert_uuid_user_attr" name="ldap_expert_uuid_user_attr" data-default="<?php p($_['ldap_expert_uuid_user_attr_default']); ?>" /></p>
 		<p class="ldapIndent"><label for="ldap_expert_uuid_group_attr"><?php p($l->t('UUID Attribute for Groups:'));?></label><input type="text" id="ldap_expert_uuid_group_attr" name="ldap_expert_uuid_group_attr" data-default="<?php p($_['ldap_expert_uuid_group_attr_default']); ?>" /></p>
 		<p><strong><?php p($l->t('Username-LDAP User Mapping'));?></strong></p>
-		<p class="ldapIndent"><?php p($l->t('Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.'));?></p>
+		<p class="ldapIndent"><?php p($l->t('Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.'));?></p>
 		<p class="ldapIndent"><button type="button" id="ldap_action_clear_user_mappings" name="ldap_action_clear_user_mappings"><?php p($l->t('Clear Username-LDAP User Mapping'));?></button><br/><button type="button" id="ldap_action_clear_group_mappings" name="ldap_action_clear_group_mappings"><?php p($l->t('Clear Groupname-LDAP Group Mapping'));?></button></p>
 		<?php print_unescaped($_['settingControls']); ?>
 	</fieldset>

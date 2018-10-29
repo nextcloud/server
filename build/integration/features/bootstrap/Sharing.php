@@ -27,6 +27,7 @@
  */
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -43,6 +44,9 @@ trait Sharing {
 
 	/** @var int */
 	private $savedShareId = null;
+
+	/** @var \Psr\Http\Message\ResponseInterface */
+	private $response;
 
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
@@ -69,16 +73,16 @@ trait Sharing {
 				$dateModification = $fd['expireDate'];
 				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
 			}
-			$options['body'] = $fd;
+			$options['form_params'] = $fd;
 		}
 
 		try {
-			$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
+			$this->response = $client->request("POST", $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
 
-		$this->lastShareData = $this->response->xml();
+		$this->lastShareData = simplexml_load_string($this->response->getBody());
 	}
 
 	/**
@@ -129,7 +133,7 @@ trait Sharing {
 
 		$client = new Client();
 		$this->response = $client->get($url, $options);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertEquals(200, $this->response->getStatusCode());
 
 		$buf = '';
 		$body = $this->response->getBody();
@@ -141,7 +145,7 @@ trait Sharing {
 
 		if ($mimeType !== null) {
 			$finfo = new finfo;
-			PHPUnit_Framework_Assert::assertEquals($mimeType, $finfo->buffer($buf, FILEINFO_MIME_TYPE));
+			Assert::assertEquals($mimeType, $finfo->buffer($buf, FILEINFO_MIME_TYPE));
 		}
 	}
 
@@ -159,9 +163,9 @@ trait Sharing {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		$date = date('Y-m-d', strtotime("+3 days"));
-		$options['body'] = ['expireDate' => $date];
-		$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		$options['form_params'] = ['expireDate' => $date];
+		$this->response = $this->response = $client->request("PUT", $fullUrl, $options);
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -189,16 +193,16 @@ trait Sharing {
 				$dateModification = $fd['expireDate'];
 				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
 			}
-			$options['body'] = $fd;
+			$options['form_params'] = $fd;
 		}
 
 		try {
-			$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
+			$this->response = $client->request("PUT", $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
 
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	public function createShare($user,
@@ -221,38 +225,39 @@ trait Sharing {
 		} else {
 			$options['auth'] = [$user, $this->regularUser];
 		}
-		$fd = [];
+		$body = [];
 		if (!is_null($path)){
-			$fd['path'] = $path;
+			$body['path'] = $path;
 		}
 		if (!is_null($shareType)){
-			$fd['shareType'] = $shareType;
+			$body['shareType'] = $shareType;
 		}
 		if (!is_null($shareWith)){
-			$fd['shareWith'] = $shareWith;
+			$body['shareWith'] = $shareWith;
 		}
 		if (!is_null($publicUpload)){
-			$fd['publicUpload'] = $publicUpload;
+			$body['publicUpload'] = $publicUpload;
 		}
 		if (!is_null($password)){
-			$fd['password'] = $password;
+			$body['password'] = $password;
 		}
 		if (!is_null($permissions)){
-			$fd['permissions'] = $permissions;
+			$body['permissions'] = $permissions;
 		}
 
-		$options['body'] = $fd;
+		$options['form_params'] = $body;
 
 		try {
-			$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
-			$this->lastShareData = $this->response->xml();
+			$this->response = $client->request("POST", $fullUrl, $options);
+			$this->lastShareData = simplexml_load_string($this->response->getBody());
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
+			throw new \Exception($this->response->getBody());
 		}
 	}
 
 	public function isFieldInResponse($field, $contentExpected){
-		$data = $this->response->xml()->data[0];
+		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration'){
 			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
 		}
@@ -299,7 +304,7 @@ trait Sharing {
 	 * @param string $filename
 	 */
 	public function checkSharedFileInResponse($filename){
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
+		Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
 	/**
@@ -308,7 +313,7 @@ trait Sharing {
 	 * @param string $filename
 	 */
 	public function checkSharedFileNotInResponse($filename){
-		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
+		Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
 	/**
@@ -317,7 +322,7 @@ trait Sharing {
 	 * @param string $user
 	 */
 	public function checkSharedUserInResponse($user){
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('share_with', "$user"));
+		Assert::assertEquals(True, $this->isFieldInResponse('share_with', "$user"));
 	}
 
 	/**
@@ -326,11 +331,11 @@ trait Sharing {
 	 * @param string $user
 	 */
 	public function checkSharedUserNotInResponse($user){
-		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
+		Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
 	}
 
 	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null){
-		$data = $this->response->xml()->data[0];
+		$data = simplexml_load_string($this->response->getBody())->data[0];
 		foreach($data as $element) {
 			if ($element->share_with == $userOrGroup && ($permissions === null || $permissions == $element->permissions)){
 				return True;
@@ -365,7 +370,7 @@ trait Sharing {
 			$this->createShare($user1, $filepath, 0, $user2, null, null, $permissions);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($user2, $permissions));
+		Assert::assertEquals(True, $this->isUserOrGroupInSharedData($user2, $permissions));
 	}
 
 	/**
@@ -394,7 +399,7 @@ trait Sharing {
 			$this->createShare($user, $filepath, 1, $group, null, null, $permissions);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($group, $permissions));
+		Assert::assertEquals(True, $this->isUserOrGroupInSharedData($group, $permissions));
 	}
 
 	/**
@@ -421,7 +426,7 @@ trait Sharing {
 	public function checkingLastShareIDIsIncluded(){
 		$share_id = $this->lastShareData->data[0]->id;
 		if (!$this->isFieldInResponse('id', $share_id)){
-			PHPUnit_Framework_Assert::fail("Share id $share_id not found in response");
+			Assert::fail("Share id $share_id not found in response");
 		}
 	}
 
@@ -431,7 +436,7 @@ trait Sharing {
 	public function checkingLastShareIDIsNotIncluded(){
 		$share_id = $this->lastShareData->data[0]->id;
 		if ($this->isFieldInResponse('id', $share_id)){
-			PHPUnit_Framework_Assert::fail("Share id $share_id has been found in response");
+			Assert::fail("Share id $share_id has been found in response");
 		}
 	}
 
@@ -453,7 +458,7 @@ trait Sharing {
 					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -4), $value);
 				}
 				if (!$this->isFieldInResponse($field, $value)){
-					PHPUnit_Framework_Assert::fail("$field" . " doesn't have value " . "$value");
+					Assert::fail("$field" . " doesn't have value " . "$value");
 				}
 			}
 		}
@@ -532,7 +537,7 @@ trait Sharing {
 		foreach($table->getTable() as $header) {
 			$headerName = $header[0];
 			$expectedHeaderValue = $header[1];
-			$returnedHeader = $this->response->getHeader($headerName);
+			$returnedHeader = $this->response->getHeader($headerName)[0];
 			if($returnedHeader !== $expectedHeaderValue) {
 				throw new \Exception(
 					sprintf(

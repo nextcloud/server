@@ -175,7 +175,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 
 		$this->view->expects($this->once())->method('file_put_contents')
 			->with('newRoot/' . \OC\Encryption\Keys\Storage::KEY_STORAGE_MARKER,
-				'ownCloud will detect this folder as key storage root only if this file exists');
+				'Nextcloud will detect this folder as key storage root only if this file exists')->willReturn(true);
 
 		$this->invokePrivate($this->changeKeyStorageRoot, 'prepareNewRoot', ['newRoot']);
 	}
@@ -198,6 +198,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	public function dataTestPrepareNewRootException() {
 		return [
 			[true, false],
+			[true, null],
 			[false, true]
 		];
 	}

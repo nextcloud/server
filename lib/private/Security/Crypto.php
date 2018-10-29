@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -67,7 +68,7 @@ class Crypto implements ICrypto {
 	 * @param string $password Password to use (defaults to `secret` in config.php)
 	 * @return string Calculated HMAC
 	 */
-	public function calculateHMAC($message, $password = '') {
+	public function calculateHMAC(string $message, string $password = ''): string {
 		if($password === '') {
 			$password = $this->config->getSystemValue('secret');
 		}
@@ -86,7 +87,7 @@ class Crypto implements ICrypto {
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string Authenticated ciphertext
 	 */
-	public function encrypt($plaintext, $password = '') {
+	public function encrypt(string $plaintext, string $password = ''): string {
 		if($password === '') {
 			$password = $this->config->getSystemValue('secret');
 		}
@@ -108,14 +109,14 @@ class Crypto implements ICrypto {
 	 * @return string plaintext
 	 * @throws \Exception If the HMAC does not match
 	 */
-	public function decrypt($authenticatedCiphertext, $password = '') {
+	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
 		if($password === '') {
 			$password = $this->config->getSystemValue('secret');
 		}
 		$this->cipher->setPassword($password);
 
 		$parts = explode('|', $authenticatedCiphertext);
-		if(count($parts) !== 3) {
+		if(\count($parts) !== 3) {
 			throw new \Exception('Authenticated ciphertext could not be decoded.');
 		}
 

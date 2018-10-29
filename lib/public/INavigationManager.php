@@ -57,4 +57,13 @@ interface INavigationManager {
 	 * @since 6.0.0
 	 */
 	public function setActiveEntry($appId);
+
+	/**
+	 * Get a list of navigation entries
+	 *
+	 * @param string $type type of the navigation entries
+	 * @return array
+	 * @since 14.0.0
+	 */
+	public function getAll(string $type = 'link'): array;
 }

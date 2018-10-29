@@ -31,6 +31,18 @@
 # to control a web browser, so this script waits for the Selenium server
 # (which should have been started before executing this script) to be ready
 # before running the tests.
+#
+# By default the acceptance tests run are those for the Nextcloud server;
+# acceptance tests for apps can be run by providing the
+# "--acceptance-tests-dir XXX" option. When this option is used the Behat
+# configuration and the Nextcloud installation script used by the acceptance
+# tests for the Nextcloud server are ignored; they must be provided in the given
+# acceptance tests directory. Note, however, that the context classes for the
+# Nextcloud server and the core acceptance test framework classes are
+# automatically loaded; there is no need to explicitly set them in the Behat
+# configuration. Also, even when that option is used, the packages installed by
+# this script end in the "vendor" subdirectory of the acceptance tests for the
+# Nextcloud server, not in the one given in the option.
 
 # Exit immediately on errors.
 set -o errexit
@@ -39,8 +51,22 @@ set -o errexit
 # Behat through Composer or running Behat) expect that.
 cd "$(dirname $0)"
 
-# "--timeout-multiplier N" option can be provided before any other parameter to
-# set the timeout multiplier to be used in ActorContext.
+# "--acceptance-tests-dir XXX" option can be provided to set the directory
+# (relative to the root directory of the Nextcloud server) used to look for the
+# Behat configuration and the Nextcloud installation script.
+# By default it is "tests/acceptance", that is, the acceptance tests for the
+# Nextcloud server itself.
+ACCEPTANCE_TESTS_DIR="tests/acceptance"
+if [ "$1" = "--acceptance-tests-dir" ]; then
+	ACCEPTANCE_TESTS_DIR=$2
+
+	shift 2
+fi
+
+ACCEPTANCE_TESTS_CONFIG_DIR="../../$ACCEPTANCE_TESTS_DIR/config"
+
+# "--timeout-multiplier N" option can be provided to set the timeout multiplier
+# to be used in ActorContext.
 TIMEOUT_MULTIPLIER=""
 if [ "$1" = "--timeout-multiplier" ]; then
 	if [[ ! "$2" =~ ^[0-9]+$ ]]; then
@@ -83,6 +109,18 @@ if [ "$1" != "allow-git-repository-modifications" ]; then
 fi
 
 SCENARIO_TO_RUN=$2
+if [ "$ACCEPTANCE_TESTS_DIR" != "tests/acceptance" ]; then
+	if [ "$SCENARIO_TO_RUN" == "" ]; then
+		echo "When an acceptance tests directory is given the scenario to run" \
+			 "should be provided too (paths are relative to the acceptance" \
+			 "tests directory; use the features directory to run all tests)"
+		echo "No scenario was given, so \"features/\" was automatically used"
+
+		SCENARIO_TO_RUN="features/"
+	fi
+
+	SCENARIO_TO_RUN=../../$ACCEPTANCE_TESTS_DIR/$SCENARIO_TO_RUN
+fi
 
 if [ "$TIMEOUT_MULTIPLIER" != "" ]; then
 	# Although Behat documentation states that using the BEHAT_PARAMS
@@ -97,7 +135,7 @@ if [ "$TIMEOUT_MULTIPLIER" != "" ]; then
 	REPLACEMENT="\
         - ActorContext:\n\
             actorTimeoutMultiplier: $TIMEOUT_MULTIPLIER"
-	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 fi
 
 if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
@@ -108,58 +146,72 @@ if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 	# https://github.com/Behat/Behat/issues/983). Thus, the default "behat.yml"
 	# configuration file has to be adjusted to provide the appropriate
 	# parameters for NextcloudTestServerContext.
+	#
+	# Note that the substitution below is only valid if no parameters for
+	# the helper are set in behat.yml, although it is valid if a specific
+	# helper is.
 	ORIGINAL="\
-        - NextcloudTestServerContext"
+        - NextcloudTestServerContext:\?"
 	REPLACEMENT="\
         - NextcloudTestServerContext:\n\
             nextcloudTestServerHelperParameters:\n\
               - $NEXTCLOUD_SERVER_DOMAIN"
-	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" config/behat.yml
+	sed --in-place "s/$ORIGINAL/$REPLACEMENT/" $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 fi
 
-if [ "$SELENIUM_SERVER" != "$DEFAULT_SELENIUM_SERVER" ]; then
-	# Set the Selenium server to be used by Mink; this extends the default
-	# configuration from "config/behat.yml".
-	export BEHAT_PARAMS='
-{
-    "extensions": {
-        "Behat\\MinkExtension": {
-            "sessions": {
-                "default": {
-                    "selenium2": {
-                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
-                    }
-                },
-                "John": {
-                    "selenium2": {
-                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
-                    }
-                },
-                "Jane": {
-                    "selenium2": {
-                        "wd_host": "http://'"$SELENIUM_SERVER"'/wd/hub"
-                    }
-                }
-            }
-        }
-    }
-}'
-fi
+# Due to a bug in the Mink Extension for Behat it is not possible to use the
+# "paths.base" variable in the path to the custom Firefox profile. Thus, the
+# default "behat.yml" configuration file has to be adjusted to replace the
+# variable by its value before the configuration file is parsed by Behat.
+ORIGINAL="profile: %paths.base%"
+REPLACEMENT="profile: $ACCEPTANCE_TESTS_CONFIG_DIR"
+# As the substitution does not involve regular expressions or multilines it can
+# be done just with Bash. Moreover, this does not require escaping the regular
+# expression characters that may appear in the path, like "/".
+FILE_CONTENTS=$(<$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml)
+echo "${FILE_CONTENTS//$ORIGINAL/$REPLACEMENT}" > $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
+
+# Set the Selenium server to be used by Mink. Although Mink sessions can be
+# extended through BEHAT_PARAMS this would require adding here too each new
+# session added to "behat.yml", including those added in the acceptance
+# tests of apps. Instead, the default "behat.yml" configuration file is
+# adjusted to replace the simulated "selenium.server" variable by its value
+# before the configuration file is parsed by Behat.
+ORIGINAL="wd_host: %selenium.server%"
+REPLACEMENT="wd_host: http://$SELENIUM_SERVER/wd/hub"
+# As the substitution does not involve regular expressions or multilines it
+# can be done just with Bash. Moreover, this does not require escaping the
+# regular expression characters that may appear in the URL, like "/".
+FILE_CONTENTS=$(<$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml)
+echo "${FILE_CONTENTS//$ORIGINAL/$REPLACEMENT}" > $ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml
 
 composer install
 
 cd ../../
 
+# Link the default Apache directory to the root directory of the Nextcloud
+# server to make possible to run the Nextcloud server on Apache if needed.
+ln --symbolic $(pwd) /var/www/html
+
 INSTALL_AND_CONFIGURE_SERVER_PARAMETERS=""
-if [ "$NEXTCLOUD_SERVER_domain" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
+if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 	INSTALL_AND_CONFIGURE_SERVER_PARAMETERS+="--nextcloud-server-domain $NEXTCLOUD_SERVER_DOMAIN"
 fi
 
 echo "Installing and configuring Nextcloud server"
-tests/acceptance/installAndConfigureServer.sh $INSTALL_AND_CONFIGURE_SERVER_PARAMETERS
+# The server is installed and configured using the www-data user as it is the
+# user that Apache sub-processes will be run as; the PHP built-in web server is
+# run as the root user, and in that case the permissions of apps, config and
+# data dirs makes no difference, so this is valid for both cases.
+mkdir data
+chown -R www-data:www-data apps config data
+NEXTCLOUD_DIR=`pwd`
+su --shell /bin/bash --login www-data --command "cd $NEXTCLOUD_DIR && $ACCEPTANCE_TESTS_DIR/installAndConfigureServer.sh $INSTALL_AND_CONFIGURE_SERVER_PARAMETERS"
 
 echo "Saving the default state so acceptance tests can reset to it"
 find . -name ".gitignore" -exec rm --force {} \;
+# Create dummy files in empty directories to force Git to save the directories.
+find . -not -path "*.git*" -type d -empty -exec touch {}/.keep \;
 git add --all && echo 'Default state' | git -c user.name='John Doe' -c user.email='john@doe.org' commit --quiet --file=-
 
 cd tests/acceptance
@@ -168,4 +220,4 @@ cd tests/acceptance
 echo "Waiting for Selenium"
 timeout 60s bash -c "while ! curl $SELENIUM_SERVER >/dev/null 2>&1; do sleep 1; done"
 
-vendor/bin/behat $SCENARIO_TO_RUN
+vendor/bin/behat --config=$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml $SCENARIO_TO_RUN

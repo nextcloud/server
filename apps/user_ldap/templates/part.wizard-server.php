@@ -1,25 +1,13 @@
-<div class="outoftheway">
-	<!-- Hack for Safari and Chromium/Chrome which ignore autocomplete="off" -->
-	<input type="text" id="fake_user" name="fake_user" autocomplete="off" />
-	<input type="password" id="fake_password" name="fake_password"
-				autocomplete="off" />
-</div>
-
 <fieldset id="ldapWizard1">
 		<p>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
-		<?php if(count($_['serverConfigurationPrefixes']) === 0 ) {
+		<?php
+		$i = 1;
+		$sel = ' selected';
+		foreach($_['serverConfigurationPrefixes'] as $prefix) {
 			?>
-				<option value="" selected><?php p($l->t('1. Server'));?></option>');
+			<option value="<?php p($prefix); ?>"<?php p($sel); $sel = ''; ?>><?php p($l->t('%s. Server:', array($i++)));?> <?php p(' '.$_['serverConfigurationHosts'][$prefix]); ?></option>
 			<?php
-		} else {
-			$i = 1;
-			$sel = ' selected';
-			foreach($_['serverConfigurationPrefixes'] as $prefix) {
-				?>
-				<option value="<?php p($prefix); ?>"<?php p($sel); $sel = ''; ?>><?php p($l->t('%s. Server:', array($i++)));?> <?php p(' '.$_['serverConfigurationHosts'][$prefix]); ?></option>
-				<?php
-			}
 		}
 		?>
 		</select>
@@ -54,6 +42,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="tablerow">&nbsp;</div>
 			<div class="tablerow">
 				<input type="text" id="ldap_dn" name="ldap_dn"
 				class="tablecell"
@@ -68,7 +57,11 @@
 				placeholder="<?php p($l->t('Password'));?>" autocomplete="off"
 				title="<?php p($l->t('For anonymous access, leave DN and Password empty.'));?>"
 				/>
+				<button class="ldapSaveAgentCredentials" name="ldapSaveAgentCredentials" type="button">
+					<?php p($l->t('Save Credentials'));?>
+				</button>
 			</div>
+			<div class="tablerow">&nbsp;</div>
 
 			<div class="tablerow">
 				<textarea id="ldap_base" name="ldap_base"

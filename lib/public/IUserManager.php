@@ -40,6 +40,9 @@ namespace OCP;
  * - postDelete(\OC\User\User $user)
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user, string $password)
+ * - assignedUserId(string $uid)
+ * - preUnassignedUserId(string $uid)
+ * - postUnassignedUserId(string $uid)
  *
  * @package OC\User
  * @since 8.0.0
@@ -128,7 +131,7 @@ interface IUserManager {
 	 * @param string $uid
 	 * @param string $password
 	 * @throws \InvalidArgumentException
-	 * @return bool|\OCP\IUser the created user of false
+	 * @return bool|\OCP\IUser the created user or false
 	 * @since 8.0.0
 	 */
 	public function createUser($uid, $password);

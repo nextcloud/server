@@ -40,6 +40,12 @@
 				}
 			});
 
+			var self = this;
+			$('#systemtag_name').on('keyup', function(e) {
+				if (e.which === 13) {
+					_.bind(self._onClickSubmit, self)();
+				}
+			});
 			$('#systemtag_submit').on('click', _.bind(this._onClickSubmit, this));
 			$('#systemtag_delete').on('click', _.bind(this._onClickDelete, this));
 			$('#systemtag_reset').on('click', _.bind(this._onClickReset, this));
@@ -116,12 +122,14 @@
 			if (tagId > 0) {
 				$('#systemtags').attr('data-systemtag-id', tagId);
 				$('#systemtag_delete').removeClass('hidden');
-				$('#systemtag_submit').val(t('systemtags_manager', 'Update'));
+				$('#systemtag_submit span').text(t('systemtags_manager', 'Update'));
+				$('#systemtag_create').addClass('hidden');
 			} else {
 				$('#systemtag').select2('val', '');
 				$('#systemtags').attr('data-systemtag-id', '');
 				$('#systemtag_delete').addClass('hidden');
-				$('#systemtag_submit').val(t('systemtags_manager', 'Create'));
+				$('#systemtag_submit span').text(t('systemtags_manager', 'Create'));
+				$('#systemtag_create').removeClass('hidden');
 			}
 		},
 

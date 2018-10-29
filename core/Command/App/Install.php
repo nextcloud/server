@@ -25,6 +25,7 @@ namespace OC\Core\Command\App;
 use OC\Installer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -39,6 +40,12 @@ class Install extends Command {
 				InputArgument::REQUIRED,
 				'install the specified app'
 			)
+			->addOption(
+				'keep-disabled',
+				null,
+				InputOption::VALUE_NONE,
+				'don\'t enable the app afterwards'
+			)
 		;
 	}
 
@@ -51,13 +58,8 @@ class Install extends Command {
 		}
 
 		try {
-			$installer = new Installer(
-				\OC::$server->getAppFetcher(),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getTempManager(),
-				\OC::$server->getLogger(),
-				\OC::$server->getConfig()
-			);
+			/** @var Installer $installer */
+			$installer = \OC::$server->query(Installer::class);
 			$installer->downloadApp($appId);
 			$result = $installer->installApp($appId);
 		} catch(\Exception $e) {
@@ -71,6 +73,12 @@ class Install extends Command {
 		}
 
 		$output->writeln($appId . ' installed');
+
+		if (!$input->getOption('keep-disabled')) {
+			$appClass = new \OC_App();
+			$appClass->enable($appId);
+			$output->writeln($appId . ' enabled');
+		}
 
 		return 0;
 	}

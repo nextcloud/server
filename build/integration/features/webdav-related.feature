@@ -578,3 +578,23 @@ Feature: webdav-related
 		And user "user0" created a folder "/testshare"
 		When User "user0" moves folder "/testshare" to "/hola%5Chola"
 		Then the HTTP status code should be "400"
+
+	Scenario: Upload file via new chunking endpoint with wrong size header
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		When user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt" with size 5
+		Then the HTTP status code should be "400"
+
+	Scenario: Upload file via new chunking endpoint with correct size header
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		When user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt" with size 15
+		Then the HTTP status code should be "201"

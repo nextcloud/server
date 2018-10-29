@@ -165,6 +165,7 @@ class Hooks {
 
 		$actor = $this->userSession->getUser();
 		if ($actor instanceof IUser) {
+			$subject = Provider::EMAIL_CHANGED_SELF;
 			if ($actor->getUID() !== $user->getUID()) {
 				$this->l = $this->languageFactory->get(
 					'settings',
@@ -173,15 +174,11 @@ class Hooks {
 						$this->config->getSystemValue('default_language', 'en')
 					)
 				);
-
-				$text = $this->l->t('%1$s changed your email address on %2$s.', [$actor->getDisplayName(), $instanceUrl]);
-				$event->setAuthor($actor->getUID())
-					->setSubject(Provider::EMAIL_CHANGED_BY, [$actor->getUID()]);
-			} else {
-				$text = $this->l->t('Your email address on %s was changed.', [$instanceUrl]);
-				$event->setAuthor($actor->getUID())
-					->setSubject(Provider::EMAIL_CHANGED_SELF);
+				$subject = Provider::EMAIL_CHANGED;
 			}
+			$text = $this->l->t('Your email address on %s was changed.', [$instanceUrl]);
+			$event->setAuthor($actor->getUID())
+				->setSubject($subject);
 		} else {
 			$text = $this->l->t('Your email address on %s was changed by an administrator.', [$instanceUrl]);
 			$event->setSubject(Provider::EMAIL_CHANGED);

@@ -56,6 +56,8 @@ class Helper {
 			'uploadMaxFilesize' => $maxUploadFileSize,
 			'maxHumanFilesize'  => $maxHumanFileSize,
 			'freeSpace' => $storageInfo['free'],
+			'quota' => $storageInfo['quota'],
+			'used' => $storageInfo['used'],
 			'usedSpacePercent'  => (int)$storageInfo['relative'],
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
@@ -259,7 +261,7 @@ class Helper {
 		} else if ($sortAttribute === 'size') {
 			$sortFunc = 'compareSize';
 		}
-		usort($files, array('\OCA\Files\Helper', $sortFunc));
+		usort($files, array(Helper::class, $sortFunc));
 		if ($sortDescending) {
 			$files = array_reverse($files);
 		}

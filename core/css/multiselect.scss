@@ -17,21 +17,21 @@
  */
 
 ul.multiselectoptions {
-	background-color: $color-main-background;
-	border: 1px solid $color-primary;
+	background-color: var(--color-main-background);
+	border: 1px solid var(--color-primary);
 	border-top: none;
-	box-shadow: 0 1px 10px $color-box-shadow;
+	box-shadow: 0 1px 10px var(--color-box-shadow);
 	padding-top: 8px;
 	position: absolute;
 	max-height: 20em;
 	overflow-y: auto;
-	z-index: 49;
+	z-index: 149;
 	&.down {
 		border-bottom-left-radius: 3px;
 		border-bottom-right-radius: 3px;
 		width: 100%;
 		/* do not cut off group names */
-		box-shadow: 0 1px 10px $color-box-shadow;
+		box-shadow: 0 1px 10px var(--color-box-shadow);
 	}
 	&.up {
 		border-top-left-radius: 3px;
@@ -75,8 +75,9 @@ ul.multiselectoptions {
 	}
 }
 
-div.multiselect,
-select.multiselect {
+/* TODO drop old legacy multiselect! */
+div.multiselect:not(.multiselect-vue),
+select.multiselect:not(.multiselect-vue) {
 	display: inline-block;
 	max-width: 200px;
 	min-width: 150px !important;
@@ -94,9 +95,9 @@ select.multiselect {
 /* To make a select look like a multiselect until it's initialized */
 div.multiselect {
 	&.active {
-		background-color: $color-main-background;
+		background-color: var(--color-main-background);
 		position: relative;
-		z-index: 50;
+		z-index: 150;
 	}
 	&.up {
 		border-top: 0 none;
@@ -116,11 +117,16 @@ div.multiselect {
 			text-overflow: ellipsis;
 			width: 90%;
 			white-space: nowrap;
+			line-height: 20px;
 		}
 		&:last-child {
 			position: absolute;
 			right: 8px;
 			top: 8px;
+			padding: 0 !important;
+			min-width: 16px;
+			min-height: 16px;
+			background-position: center;
 		}
 	}
 }

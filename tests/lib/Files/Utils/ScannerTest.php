@@ -209,4 +209,35 @@ class ScannerTest extends \Test\TestCase {
 
 		$scanner->backgroundScan('');
 	}
+
+	public function testShallow() {
+		$storage = new Temporary(array());
+		$mount = new MountPoint($storage, '');
+		Filesystem::getMountManager()->addMount($mount);
+		$cache = $storage->getCache();
+
+		$storage->mkdir('folder');
+		$storage->mkdir('folder/subfolder');
+		$storage->file_put_contents('foo.txt', 'qwerty');
+		$storage->file_put_contents('folder/bar.txt', 'qwerty');
+		$storage->file_put_contents('folder/subfolder/foobar.txt', 'qwerty');
+
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
+		$scanner->addMount($mount);
+
+		$scanner->scan('', $recusive = false);
+		$this->assertTrue($cache->inCache('folder'));
+		$this->assertFalse($cache->inCache('folder/subfolder'));
+		$this->assertTrue($cache->inCache('foo.txt'));
+		$this->assertFalse($cache->inCache('folder/bar.txt'));
+		$this->assertFalse($cache->inCache('folder/subfolder/foobar.txt'));
+
+		$scanner->scan('folder', $recusive = false);
+		$this->assertTrue($cache->inCache('folder'));
+		$this->assertTrue($cache->inCache('folder/subfolder'));
+		$this->assertTrue($cache->inCache('foo.txt'));
+		$this->assertTrue($cache->inCache('folder/bar.txt'));
+		$this->assertFalse($cache->inCache('folder/subfolder/foobar.txt'));
+	}
+
 }

@@ -130,7 +130,7 @@ OC.FileUpload.prototype = {
 	},
 
 	/**
-	 * Get full path for the target file, 
+	 * Get full path for the target file,
 	 * including relative path and file name.
 	 *
 	 * @return {String} full path
@@ -220,8 +220,8 @@ OC.FileUpload.prototype = {
 			this.data.headers['If-None-Match'] = '*';
 		}
 
-		var userName = this.uploader.filesClient.getUserName();
-		var password = this.uploader.filesClient.getPassword();
+		var userName = this.uploader.davClient.getUserName();
+		var password = this.uploader.davClient.getPassword();
 		if (userName) {
 			// copy username/password from DAV client
 			this.data.headers['Authorization'] =
@@ -234,8 +234,8 @@ OC.FileUpload.prototype = {
 			&& this.getFile().size > this.uploader.fileUploadParam.maxChunkSize
 		) {
 			data.isChunked = true;
-			chunkFolderPromise = this.uploader.filesClient.createDirectory(
-				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+			chunkFolderPromise = this.uploader.davClient.createDirectory(
+				'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
 			);
 			// TODO: if fails, it means same id already existed, need to retry
 		} else {
@@ -260,9 +260,29 @@ OC.FileUpload.prototype = {
 		}
 
 		var uid = OC.getCurrentUser().uid;
-		return this.uploader.filesClient.move(
-			'uploads/' + encodeURIComponent(uid) + '/' + encodeURIComponent(this.getId()) + '/.file',
-			'files/' + encodeURIComponent(uid) + '/' + OC.joinPaths(this.getFullPath(), this.getFileName())
+		var mtime = this.getFile().lastModified;
+		var size = this.getFile().size;
+		var headers = {};
+		if (mtime) {
+			headers['X-OC-Mtime'] = mtime / 1000;
+		}
+		if (size) {
+			headers['OC-Total-Length'] = size;
+
+		}
+
+		return this.uploader.davClient.move(
+			'uploads/' + uid + '/' + this.getId() + '/.file',
+			'files/' + uid + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
+			true,
+			headers
+		);
+	},
+
+	_deleteChunkFolder: function() {
+		// delete transfer directory for this upload
+		this.uploader.davClient.remove(
+			'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
 		);
 	},
 
@@ -271,12 +291,20 @@ OC.FileUpload.prototype = {
 	 */
 	abort: function() {
 		if (this.data.isChunked) {
-			// delete transfer directory for this upload
-			this.uploader.filesClient.remove(
-				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
-			);
+			this._deleteChunkFolder();
 		}
 		this.data.abort();
+		this.deleteUpload();
+	},
+
+	/**
+	 * Fail the upload
+	 */
+	fail: function() {
+		this.deleteUpload();
+		if (this.data.isChunked) {
+			this._deleteChunkFolder();
+		}
 	},
 
 	/**
@@ -286,7 +314,23 @@ OC.FileUpload.prototype = {
 	 */
 	getResponse: function() {
 		var response = this.data.response();
-		if (typeof response.result !== 'string') {
+		if (response.errorThrown) {
+			// attempt parsing Sabre exception is available
+			var xml = response.jqXHR.responseXML;
+			if (xml.documentElement.localName === 'error' && xml.documentElement.namespaceURI === 'DAV:') {
+				var messages = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'message');
+				var exceptions = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'exception');
+				if (messages.length) {
+					response.message = messages[0].textContent;
+				}
+				if (exceptions.length) {
+					response.exception = exceptions[0].textContent;
+				}
+				return response;
+			}
+		}
+
+		if (typeof response.result !== 'string' && response.result) {
 			//fetch response from iframe
 			response = $.parseJSON(response.result[0].body.innerText);
 			if (!response) {
@@ -358,6 +402,13 @@ OC.Uploader.prototype = _.extend({
 	_uploads: {},
 
 	/**
+	 * Count of upload done promises that have not finished yet.
+	 *
+	 * @type int
+	 */
+	_pendingUploadDoneCount: 0,
+
+	/**
 	 * List of directories known to exist.
 	 *
 	 * Key is the fullpath and value is boolean, true meaning that the directory
@@ -374,6 +425,13 @@ OC.Uploader.prototype = _.extend({
 	 * @type OC.Files.Client
 	 */
 	filesClient: null,
+
+	/**
+	 * Webdav client pointing at the root "dav" endpoint
+	 *
+	 * @type OC.Files.Client
+	 */
+	davClient: null,
 
 	/**
 	 * Function that will allow us to know if Ajax uploads are supported
@@ -525,7 +583,6 @@ OC.Uploader.prototype = _.extend({
 	 * Clear uploads
 	 */
 	clear: function() {
-		this._uploads = {};
 		this._knownDirs = {};
 	},
 	/**
@@ -542,6 +599,19 @@ OC.Uploader.prototype = _.extend({
 			return this._uploads[data.uploadId];
 		}
 		return null;
+	},
+
+	/**
+	 * Removes an upload from the list of known uploads.
+	 *
+	 * @param {OC.FileUpload} upload the upload to remove.
+	 */
+	removeUpload: function(upload) {
+		if (!upload || !upload.data || !upload.data.uploadId) {
+			return;
+		}
+
+		delete this._uploads[upload.data.uploadId];
 	},
 
 	showUploadCancelMessage: _.debounce(function() {
@@ -682,6 +752,27 @@ OC.Uploader.prototype = _.extend({
 		});
 	},
 
+	_updateProgressBarOnUploadStop: function() {
+		if (this._pendingUploadDoneCount === 0) {
+			// All the uploads ended and there is no pending operation, so hide
+			// the progress bar.
+			// Note that this happens here only with non-chunked uploads; if the
+			// upload was chunked then this will have been executed after all
+			// the uploads ended but before the upload done handler that reduces
+			// the pending operation count was executed.
+			this._hideProgressBar();
+
+			return;
+		}
+
+		$('#uploadprogressbar .label .mobile').text(t('core', '…'));
+		$('#uploadprogressbar .label .desktop').text(t('core', 'Processing files …'));
+
+		// Nothing is being uploaded at this point, and the pending operations
+		// can not be cancelled, so the cancel button should be hidden.
+		$('#uploadprogresswrapper .stop').fadeOut();
+	},
+
 	_showProgressBar: function() {
 		$('#uploadprogressbar').fadeIn();
 		this.$uploadEl.trigger(new $.Event('resized'));
@@ -721,6 +812,13 @@ OC.Uploader.prototype = _.extend({
 
 		this.fileList = options.fileList;
 		this.filesClient = options.filesClient || OC.Files.getClient();
+		this.davClient = new OC.Files.Client({
+			host: this.filesClient.getHost(),
+			root: OC.linkToRemoteBase('dav'),
+			useHTTPS: OC.getProtocol() === 'https',
+			userName: this.filesClient.getUserName(),
+			password: this.filesClient.getPassword()
+		});
 
 		$uploadEl = $($uploadEl);
 		this.$uploadEl = $uploadEl;
@@ -901,6 +999,8 @@ OC.Uploader.prototype = _.extend({
 					}
 					self.log('fail', e, upload);
 
+					self.removeUpload(upload);
+
 					if (data.textStatus === 'abort') {
 						self.showUploadCancelMessage();
 					} else if (status === 412) {
@@ -916,11 +1016,16 @@ OC.Uploader.prototype = _.extend({
 						self.cancelUploads();
 					} else {
 						// HTTP connection problem or other error
-						OC.Notification.show(data.errorThrown, {type: 'error'});
+						var message = '';
+						if (upload) {
+							var response = upload.getResponse();
+							message = response.message;
+						}
+						OC.Notification.show(message || data.errorThrown, {type: 'error'});
 					}
 
 					if (upload) {
-						upload.deleteUpload();
+						upload.fail();
 					}
 				},
 				/**
@@ -932,6 +1037,8 @@ OC.Uploader.prototype = _.extend({
 					var upload = self.getUpload(data);
 					var that = $(this);
 					self.log('done', e, upload);
+
+					self.removeUpload(upload);
 
 					var status = upload.getResponseStatus();
 					if (status < 200 || status >= 300) {
@@ -951,12 +1058,18 @@ OC.Uploader.prototype = _.extend({
 				}
 			};
 
+			if (options.maxChunkSize) {
+				this.fileUploadParam.maxChunkSize = options.maxChunkSize;
+			}
+
 			// initialize jquery fileupload (blueimp)
 			var fileupload = this.$uploadEl.fileupload(this.fileUploadParam);
 
 			if (this._supportAjaxUploadWithProgress()) {
 				//remaining time
 				var lastUpdate, lastSize, bufferSize, buffer, bufferIndex, bufferIndex2, bufferTotal;
+
+				var dragging = false;
 
 				// add progress handlers
 				fileupload.on('fileuploadadd', function(e, data) {
@@ -1041,34 +1154,15 @@ OC.Uploader.prototype = _.extend({
 					self.log('progress handle fileuploadstop', e, data);
 
 					self.clear();
-					self._hideProgressBar();
+					self._updateProgressBarOnUploadStop();
 					self.trigger('stop', e, data);
 				});
 				fileupload.on('fileuploadfail', function(e, data) {
 					self.log('progress handle fileuploadfail', e, data);
-					//if user pressed cancel hide upload progress bar and cancel button
-					if (data.errorThrown === 'abort') {
-						self._hideProgressBar();
-					}
 					self.trigger('fail', e, data);
 				});
-				var disableDropState = function() {
-					$('#app-content').removeClass('file-drag');
-					$('.dropping-to-dir').removeClass('dropping-to-dir');
-					$('.dir-drop').removeClass('dir-drop');
-					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
-				};
-				var disableClassOnFirefox = _.debounce(function() {
-					disableDropState();
-				}, 100);
 				fileupload.on('fileuploaddragover', function(e){
 					$('#app-content').addClass('file-drag');
-					// dropping a folder in firefox doesn't cause a drop event
-					// this is simulated by simply invoke disabling all classes
-					// once no dragover event isn't noticed anymore
-					if (/Firefox/i.test(navigator.userAgent)) {
-						disableClassOnFirefox();
-					}
 					$('#emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
 
 					var filerow = $(e.delegatedEvent.target).closest('tr');
@@ -1084,31 +1178,83 @@ OC.Uploader.prototype = _.extend({
 						filerow.addClass('dropping-to-dir');
 						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
 					}
+
+					dragging = true;
 				});
-				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
+
+				var disableDropState = function() {
 					$('#app-content').removeClass('file-drag');
 					$('.dropping-to-dir').removeClass('dropping-to-dir');
 					$('.dir-drop').removeClass('dir-drop');
 					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
+
+					dragging = false;
+				};
+
+				fileupload.on('fileuploaddragleave fileuploaddrop', disableDropState);
+
+				// In some browsers the "drop" event can be triggered with no
+				// files even if the "dragover" event seemed to suggest that a
+				// file was being dragged (and thus caused "fileuploaddragover"
+				// to be triggered).
+				fileupload.on('fileuploaddropnofiles', function() {
+					if (!dragging) {
+						return;
+					}
+
+					disableDropState();
+
+					OC.Notification.show(t('files', 'Uploading that item is not supported'), {type: 'error'});
 				});
 
 				fileupload.on('fileuploadchunksend', function(e, data) {
 					// modify the request to adjust it to our own chunking
 					var upload = self.getUpload(data);
 					var range = data.contentRange.split(' ')[1];
-					var chunkId = range.split('/')[0];
+					var chunkId = range.split('/')[0].split('-')[0];
 					data.url = OC.getRootPath() +
 						'/remote.php/dav/uploads' +
-						'/' + encodeURIComponent(OC.getCurrentUser().uid) +
-						'/' + encodeURIComponent(upload.getId()) +
-						'/' + encodeURIComponent(chunkId);
+						'/' + OC.getCurrentUser().uid +
+						'/' + upload.getId() +
+						'/' + chunkId;
 					delete data.contentRange;
 					delete data.headers['Content-Range'];
 				});
 				fileupload.on('fileuploaddone', function(e, data) {
 					var upload = self.getUpload(data);
+
+					self._pendingUploadDoneCount++;
+
 					upload.done().then(function() {
+						self._pendingUploadDoneCount--;
+						if (Object.keys(self._uploads).length === 0 && self._pendingUploadDoneCount === 0) {
+							// All the uploads ended and there is no pending
+							// operation, so hide the progress bar.
+							// Note that this happens here only with chunked
+							// uploads; if the upload was non-chunked then this
+							// handler is immediately executed, before the
+							// jQuery upload done handler that removes the
+							// upload from the list, and thus at this point
+							// there is still at least one upload that has not
+							// ended (although the upload stop handler is always
+							// executed after all the uploads have ended, which
+							// hides the progress bar in that case).
+							self._hideProgressBar();
+						}
+
 						self.trigger('done', e, upload);
+					}).fail(function(status, response) {
+						var message = response.message;
+						if (status === 507) {
+							// not enough space
+							OC.Notification.show(message || t('files', 'Not enough free space'), {type: 'error'});
+							self.cancelUploads();
+						} else if (status === 409) {
+							OC.Notification.show(message || t('files', 'Target folder does not exist any more'), {type: 'error'});
+						} else {
+							OC.Notification.show(message || t('files', 'Error when assembling chunks, status code {status}', {status: status}), {type: 'error'});
+						}
+						self.trigger('fail', e, data);
 					});
 				});
 				fileupload.on('fileuploaddrop', function(e, data) {

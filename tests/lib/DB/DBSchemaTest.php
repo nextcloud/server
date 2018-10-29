@@ -107,7 +107,7 @@ class DBSchemaTest extends TestCase {
 		$platform = \OC::$server->getDatabaseConnection()->getDatabasePlatform();
 		if ($platform instanceof SqlitePlatform) {
 			// sqlite removes the tables after closing the DB
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		} else {
 			$this->assertFalse(OC_DB::tableExists($table), 'Table ' . $table . ' exists.');
 		}

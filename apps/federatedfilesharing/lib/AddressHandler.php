@@ -84,8 +84,7 @@ class AddressHandler {
 	 * @return string url of the current server
 	 */
 	public function generateRemoteURL() {
-		$url = $this->urlGenerator->getAbsoluteURL('/');
-		return $url;
+		return $this->urlGenerator->getAbsoluteURL('/');
 	}
 
 	/**

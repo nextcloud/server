@@ -31,7 +31,6 @@ use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;

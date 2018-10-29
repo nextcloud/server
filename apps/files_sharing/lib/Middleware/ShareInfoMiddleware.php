@@ -23,7 +23,6 @@
  */
 namespace OCA\Files_Sharing\Middleware;
 
-use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareInfoController;
 use OCA\Files_Sharing\Exceptions\S2SException;
 use OCP\AppFramework\Controller;

@@ -22,7 +22,6 @@
 
 namespace OC\Core\Command\User;
 
-use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

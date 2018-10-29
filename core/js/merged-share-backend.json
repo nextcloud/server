@@ -1,11 +1,11 @@
 [
-  "shareconfigmodel.js",
-  "shareitemmodel.js",
-  "sharesocialmanager.js",
-  "sharedialogresharerinfoview.js",
-  "sharedialoglinkshareview.js",
-  "sharedialogexpirationview.js",
-  "sharedialogshareelistview.js",
-  "sharedialogview.js",
-  "share.js"
+	"shareconfigmodel.js",
+	"sharetemplates.js",
+	"shareitemmodel.js",
+	"sharesocialmanager.js",
+	"sharedialogresharerinfoview.js",
+	"sharedialoglinkshareview.js",
+	"sharedialogshareelistview.js",
+	"sharedialogview.js",
+	"share.js"
 ]

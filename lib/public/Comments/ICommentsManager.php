@@ -121,14 +121,47 @@ interface ICommentsManager {
 	);
 
 	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
+	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
+	 * @param int $limit optional, number of maximum comments to be returned. if
+	 * set to 0, all comments are returned.
+	 * @return IComment[]
+	 * @since 14.0.0
+	 */
+	public function getForObjectSince(
+		string $objectType,
+		string $objectId,
+		int $lastKnownCommentId,
+		string $sortDirection = 'asc',
+		int $limit = 30
+	): array;
+
+	/**
+	 * Search for comments with a given content
+	 *
+	 * @param string $search content to search for
+	 * @param string $objectType Limit the search by object type
+	 * @param string $objectId Limit the search by object id
+	 * @param string $verb Limit the verb of the comment
+	 * @param int $offset
+	 * @param int $limit
+	 * @return IComment[]
+	 * @since 14.0.0
+	 */
+	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array;
+
+	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
+	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
 	 * @return Int
 	 * @since 9.0.0
 	 */
-	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null);
+	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null, $verb = '');
 
 	/**
 	 * Get the number of unread comments for all files in a folder

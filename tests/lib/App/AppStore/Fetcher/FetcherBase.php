@@ -22,6 +22,7 @@
 namespace Test\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Fetcher\Fetcher;
+use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
@@ -58,7 +59,7 @@ abstract class FetcherBase extends TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->appDataFactory = $this->createMock(Factory::class);
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 		$this->appDataFactory->expects($this->once())
 			->method('get')
 			->with('appstore')
@@ -77,6 +78,11 @@ abstract class FetcherBase extends TestCase {
 			->willReturn(true);
 		$this->config
 			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(2))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
@@ -121,10 +127,15 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('appstoreenabled', true)
+			->with('has_internet_connection', true)
 			->willReturn(true);
 		$this->config
 			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(3))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
@@ -277,10 +288,15 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('appstoreenabled', true)
+			->with('has_internet_connection', true)
 			->willReturn(true);
 		$this->config
 			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(3))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
@@ -356,10 +372,15 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('appstoreenabled', true)
+			->with('has_internet_connection', true)
 			->willReturn(true);
 		$this->config
 			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(3))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),

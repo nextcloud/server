@@ -25,9 +25,9 @@
  */
 
 // Check user and app status
-OCP\JSON::checkAdminUser();
-OCP\JSON::checkAppEnabled('user_ldap');
-OCP\JSON::callCheck();
+\OC_JSON::checkAdminUser();
+\OC_JSON::checkAppEnabled('user_ldap');
+\OC_JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 $ldapWrapper = new OCA\User_LDAP\LDAP();
@@ -37,4 +37,4 @@ if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_p
 	// hide password
 	$configuration['ldap_agent_password'] = '**PASSWORD SET**';
 }
-OCP\JSON::success(array('configuration' => $configuration));
+\OC_JSON::success(array('configuration' => $configuration));

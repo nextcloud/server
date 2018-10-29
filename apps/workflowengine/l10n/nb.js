@@ -1,8 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Kort beskrivelse av regel",
+    "Add rule" : "Legg til regel",
+    "Reset" : "Tilbakestill",
+    "Save" : "Lagre",
+    "Saving…" : "Lagrer…",
+    "Group list is empty" : "Gruppeliste er tom",
+    "Unable to retrieve the group list" : "Kunne ikke hente gruppelisten",
     "Saved" : "Lagret",
     "Saving failed:" : "Lagring mislyktes:",
+    "Add rule group" : "Legg til regelgruppe",
     "File MIME type" : "Filens MIME-type",
     "is" : "er",
     "is not" : "er ikke",
@@ -28,7 +36,7 @@ OC.L10N.register(
     "not between" : "ikke mellom",
     "Start" : "Start",
     "End" : "Slutt",
-    "Select timezone…" : "Velg tidssone ...",
+    "Select timezone…" : "Velg tidssone…",
     "Request URL" : "Ønsk en URL",
     "Predefined URLs" : "Forhåndsdefinerte URLer",
     "Files WebDAV" : "Filer WebDAV",
@@ -59,15 +67,8 @@ OC.L10N.register(
     "Check %s is invalid" : "Sjekk %s er ugyldig",
     "Check #%s does not exist" : "Sjekk #%s finnes ikke",
     "Workflow" : "Arbeidsflyt",
+    "Files workflow engine" : "Arbeidsflytmotor for filer",
     "Open documentation" : "Åpne dokumentasjonen",
-    "Add rule group" : "Legg til regelgruppe",
-    "Short rule description" : "Kort beskrivelse av regel",
-    "Add rule" : "Legg til regel",
-    "Reset" : "Tilbakestill",
-    "Save" : "Lagre",
-    "Saving…" : "Lagrer ...",
-    "Loading…" : "Laster ...",
-    "Successfully saved" : "Lagret",
-    "File mime type" : "Filens MIME-type"
+    "Loading…" : "Laster…"
 },
 "nplurals=2; plural=(n != 1);");

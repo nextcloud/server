@@ -16,19 +16,24 @@
  *
  */
 
-/* BASE STYLING ---------------------------------------------------------- */
-
+/* BASE STYLING ------------------------------------------------------------ */
+// no h1 allowed since h1 = logo
 h2 {
+	font-weight: bold;
 	font-size: 20px;
-	font-weight: 300;
 	margin-bottom: 12px;
-	line-height: 140%;
+	line-height: 30px;
+	color: var(--color-text-light);
 }
 
 h3 {
-	font-size: 15px;
-	font-weight: 300;
+	font-size: 16px;
 	margin: 12px 0;
+	color: var(--color-text-light);
+}
+
+h4 {
+	font-size: 14px;
 }
 
 /* do not use italic typeface style, instead lighter color */
@@ -58,40 +63,58 @@ kbd {
 	padding: 4px 10px;
 	border: 1px solid #ccc;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, .2);
-	border-radius: $border-radius;
+	border-radius: var(--border-radius);
 	display: inline-block;
 	white-space: nowrap;
 }
 
 
-/* APP STYLING -------------------------------------------------------------- */
+/* APP STYLING ------------------------------------------------------------ */
 
-#app {
-	height: 100%;
-	width: 100%;
-	* {
-		box-sizing: border-box;
-	}
+#content[class*='app-'] * {
+	box-sizing: border-box;
 }
 
-/* APP-NAVIGATION ------------------------------------------------------------*/
-
+/* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
-
 #app-navigation {
-	width: 250px;
-	height: 100%;
-	float: left;
+	width: $navigation-width;
+	position: fixed;
+	top: $header-height;
+	left: 0;
+	z-index: 500;
+	overflow-y: auto;
+	overflow-x: hidden;
+	// Do not use vh because of mobile headers
+	// are included in the calculation
+	height: calc(100% - #{$header-height});
 	box-sizing: border-box;
-	background-color: $color-main-background;
-	padding-bottom: 44px;
+	background-color: var(--color-main-background);
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid $color-border;
+	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
+	flex-grow: 0;
+	flex-shrink: 0;
+
+	/* 'New' button */
+	.app-navigation-new {
+		display: block;
+		padding: 10px;
+		button {
+			display: inline-block;
+			width: 100%;
+			padding: 10px;
+			padding-left: 34px;
+			background-position: 10px center;
+			text-align: left;
+			margin: 0;
+		}
+	}
+
 	li {
 		position: relative;
 	}
@@ -118,7 +141,6 @@ kbd {
 				}
 			}
 
-			> a,
 			> .app-navigation-entry-deleted {
 				/* Ugly hack for overriding the main entry link */
 				padding-left: 44px !important;
@@ -130,14 +152,16 @@ kbd {
 				padding-left: 38px !important;
 			}
 
-			&:focus,
-			&:hover,
 			&.active,
-			a.selected {
+			a:hover,
+			a:focus,
+			a:active,
+			a.selected ,
+			a.active {
 				&,
 				> a {
 					opacity: 1;
-					box-shadow: inset 2px 0 $color-primary;
+					box-shadow: inset 4px 0 var(--color-primary);
 				}
 			}
 
@@ -153,26 +177,45 @@ kbd {
 				> ul {
 					opacity: 0;
 					max-height: 0;
+					overflow-y: hidden;
 					/* bezier override the hide/slow effect due to the 2000 max-height */
 					transition: max-height 1000ms cubic-bezier(0, 1, 0, 1),
 								opacity 250ms ease-in-out;
 				}
 			}
 
+			&.app-navigation-caption {
+				font-weight: bold;
+				line-height: 44px;
+				padding: 0 44px;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				// !important to overwrite specific hover and focus
+				opacity: .7;
+				box-shadow: none !important;
+				user-select: none;
+				pointer-events:none;
+
+				&:not(:first-child) {
+					margin-top: 22px;
+				}
+			}
+
 			/* Second level nesting for lists */
 			> ul {
-				flex: 1 0 100%;
-				padding-left: 62px;
-				width: inherit;
+				flex: 0 1 auto;
+				width: 100%;
 				transition: max-height 2000ms ease-in-out,
 							opacity 250ms ease-in-out;
 				max-height: 9999px;
 				opacity: 1;
+				position: relative;
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
-					&:focus,
+					padding-left: 44px;
 					&:hover,
+					&:focus,
 					&.active,
 					a.selected {
 						&,
@@ -181,21 +224,27 @@ kbd {
 						}
 					}
 
+					&.active {
+						box-shadow: inset 4px 0 var(--color-primary);
+					}
+
 					/* align loader */
 					&.icon-loading-small:after {
-						left: -10px;
+						left: 22px; /* 44px / 2 */
 					}
 
-					/* Submenu fix for icon */
-					> a[class*='icon-'],
-					> a[style*='background-image'],
-					.app-navigation-entry-bullet {
-						margin-left: -32px; /* 44px padding - 12px padding */
+					> .app-navigation-entry-deleted {
+						/* margin to keep active indicator visible */
+						margin-left: 4px;
+						padding-left: 84px;
 					}
 
-					/* Submenu fix for bullet */
-					> .app-navigation-entry-bullet {
-						left: -32px;/* 44px padding - 12px padding */
+					> .app-navigation-entry-edit {
+						/* margin to keep active indicator visible */
+						margin-left: 4px;
+						/* align the input correctly with the link text
+						44px+44px-4px-6px padding for the input */
+						padding-left: 78px !important;
 					}
 				}
 			}
@@ -210,7 +259,8 @@ kbd {
 			&.icon-loading-small {
 				> a,
 				> .app-navigation-entry-bullet {
-					background: none !important;
+					/* hide icon or bullet if loading state*/
+					background: transparent !important;
 				}
 			}
 			/* Main entry link */
@@ -222,19 +272,20 @@ kbd {
 				justify-content: space-between;
 				line-height: 44px;
 				min-height: 44px;
-				padding: 0 12px;
+				padding: 0 12px 0 44px;
 				overflow: hidden;
 				box-sizing: border-box;
 				white-space: nowrap;
 				text-overflow: ellipsis;
-				color: $color-main-text;
+				color: var(--color-main-text);
 				opacity: .57;
-				flex: 1 1 0;
-				z-index: 100; /* above the bullet */
+				flex: 1 1 0px;
+				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
 				&:first-child img {
 				    margin-right: 11px;
 				    width: 16px;
+				    height: 16px;
 				    margin-left: -30px;
 				}
 
@@ -257,12 +308,12 @@ kbd {
 				border: none;
 				border-radius: 50%;
 				cursor: pointer;
-			}
+				transition: background 100ms ease-in-out;
 
-			/* padding in case of icon or bullet */
-			> a[class*='icon-'],
-			> a[style*='background-image'] {
-				padding-left: 44px;
+				+ a {
+					/* hide icon if bullet, can't have both */
+					background: transparent !important;
+				}
 			}
 
 			/* popover fix the flex positionning of the li parent */
@@ -283,9 +334,6 @@ kbd {
 	}
 	&.hidden {
 		display: none;
-	}
-	&.without-app-settings {
-		padding-bottom: 0;
 	}
 
 	/**
@@ -319,14 +367,14 @@ kbd {
 			margin: 0;
 			z-index: 110;
 		}
-		&:after {
+		&:before {
 			position: absolute;
 			height: 44px;
 			width: 44px;
 			margin: 0;
 			padding: 0;
 			background: none;
-			background-image: url('../img/actions/triangle-s.svg?v=1');
+			@include icon-color('triangle-s', 'actions', $color-black, 1, true);
 			background-size: 16px;
 			background-repeat: no-repeat;
 			background-position: center;
@@ -339,15 +387,16 @@ kbd {
 			-webkit-transform: rotate(-90deg);
 			-ms-transform: rotate(-90deg);
 			transform: rotate(-90deg);
+			z-index: 50;
 		}
 
 		/* force padding on link no matter if 'a' has an icon class */
 		> a:first-child {
 			padding-left: 44px;
 		}
-		&:after,
+		&:before,
 		> a {
-			transition: background 100ms ease-in-out,
+			transition: background-position 100ms ease-in-out,
 						transform 250ms ease-in-out,
 						opacity 100ms ease-in-out;
 		}
@@ -357,12 +406,15 @@ kbd {
 		}
 		&:hover,
 		&:focus {
-			&:after {
+			&:before {
 				opacity: 1;
+			}
+			.app-navigation-entry-bullet {
+				background: transparent !important;
 			}
 		}
 		&.open {
-			&:after {
+			&:before {
 				-webkit-transform: rotate(0);
 				-ms-transform: rotate(0);
 				transform: rotate(0);
@@ -407,6 +459,17 @@ kbd {
 			font-size: 9pt;
 			line-height: 44px;
 			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
+
+			&.highlighted {
+				padding: 0;
+				text-align: center;
+				span {
+					padding: 2px 5px;
+					border-radius: 10px;
+					background-color: var(--color-primary);
+					color: var(--color-primary-text);
+				}
+			}
 		}
 	}
 
@@ -421,7 +484,7 @@ kbd {
 		transition: opacity 250ms ease-in-out;
 		opacity: 0;
 		position: absolute;
-		background-color: $color-main-background;
+		background-color: var(--color-main-background);
 		z-index: -1;
 		form,
 		div {
@@ -432,7 +495,8 @@ kbd {
 			padding: 5px;
 			margin-right: 0;
 			height: 38px;
-			&:hover {
+			&:hover,
+			&:focus {
 				/* overlapp borders */
 				z-index: 1;
 			}
@@ -449,7 +513,7 @@ kbd {
 			height: 38px;
 			flex: 0 0 36px;
 			&:not(:last-child) {
-				border-radius: 0;
+				border-radius: 0 !important;
 			}
 			&:not(:first-child) {
 				margin-left: -1px;
@@ -466,14 +530,14 @@ kbd {
 	 */
 	.app-navigation-entry-deleted {
 		display: inline-flex;
-		padding-left: 12px;
-		transform: translateX(250px);
+		padding-left: 44px;
+		transform: translateX(#{$navigation-width});
 		.app-navigation-entry-deleted-description {
 			position: relative;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
-			flex: 1 1 0;
+			flex: 1 1 0px;
 			line-height: 44px;
 		}
 		.app-navigation-entry-deleted-button {
@@ -481,7 +545,8 @@ kbd {
 			height: 44px;
 			width: 44px;
 			line-height: 44px;
-			&:hover, &:focus {
+			&:hover,
+			&:focus {
 				opacity: 1;
 			}
 		}
@@ -497,7 +562,8 @@ kbd {
 					opacity 250ms ease-in-out,
 					z-index 250ms ease-in-out;
 		position: absolute;
-		background-color: $color-main-background;
+		left: 0;
+		background-color: var(--color-main-background);
 		box-sizing: border-box;
 	}
 
@@ -511,10 +577,7 @@ kbd {
 	}
 
 	.error {
-		color: $color-error;
-	}
-	.app-navigation-separator {
-		border-bottom: 1px solid nc-lighten($color-main-text, 86%);
+		color: var(--color-error);
 	}
 
 	.app-navigation-entry-utils ul,
@@ -523,64 +586,86 @@ kbd {
 	}
 }
 
-/* APP-CONTENT ---------------------------------------------------------------*/
+
+/* CONTENT  --------------------------------------------------------- */
+#content {
+	box-sizing: border-box;
+	position: relative;
+	display: flex;
+	// padding is included in height
+	padding-top: $header-height;
+	min-height: 100%;
+}
+
+/* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 #app-content {
+	z-index: 1000;
+	background-color: var(--color-main-background);
 	position: relative;
-	height: 100%;
-	overflow-y: auto;
+	flex-basis: 100vw;
+	min-height: 100%;
+	/* margin if navigation element is here */
+	#app-navigation:not(.hidden) + & {
+		margin-left: $navigation-width;
+	}
 	/* no top border for first settings item */
 	> .section:first-child {
 		border-top: none;
 	}
-	&.with-app-sidebar {
-		margin-right: 27%;
+
+	/* if app-content-list is present */
+	#app-content-wrapper {
+		display: flex;
+		position: relative;
+		align-items: stretch;
+		/* make sure we have at least full height for loaders or such
+		   no need for list/details since we have a flex stretch */
+		min-height: 100%;
+
+		/* CONTENT DETAILS AFTER LIST*/
+		.app-content-details {
+			/* grow full width */
+			flex-grow: 1;
+			#app-navigation-toggle-back {
+				display: none;
+			}
+		}
 	}
 }
 
-#app-content-wrapper {
-	min-width: 100%;
-	min-height: 100%;
-}
-
-/* APP-SIDEBAR ----------------------------------------------------------------*/
-
+/* APP-SIDEBAR ------------------------------------------------------------ */
 /*
-	Sidebar: a sidebar to be used within #app-content
-	 have it as first element within app-content in order to shrink other
-	 sibling containers properly. Compare Files app for example.
+	Sidebar: a sidebar to be used within #content
+	#app-content will be shrinked properly
 */
 #app-sidebar {
-	position: fixed;
-	top: 45px;
-	right: 0;
-	left: auto;
-	bottom: 0;
-	width: 27%;
-	min-width: 300px;
+	width: 27vw;
+	min-width: $sidebar-min-width;
+	max-width: $sidebar-max-width;
 	display: block;
-	background: $color-main-background;
-	border-left: 1px solid $color-border;
-	-webkit-transition: margin-right 300ms;
-	transition: margin-right 300ms;
-	overflow-x: hidden;
+	@include position('sticky');
+	top: $header-height;
+	right:0;
 	overflow-y: auto;
-	visibility: visible;
-	z-index: 500;
+	overflow-x: hidden;
+	z-index: 1500;
+	height: calc(100vh - #{$header-height});
+	background: var(--color-main-background);
+	border-left: 1px solid var(--color-border);
+	flex-shrink: 0;
+	// no animations possible, use OC.Apps.showAppSidebar
 	&.disappear {
-		visibility: hidden;
+		display: none;
 	}
 }
 
-/* APP-SETTINGS ---------------------------------------------------------------*/
 
+/* APP-SETTINGS ------------------------------------------------------------ */
 /* settings area */
 #app-settings {
-	position: fixed;
-	width: 250px;
-	/* change to 100% when layout positions are absolute */
-	bottom: 0;
-	z-index: 140;
+	// To the bottom w/ flex
+	margin-top: auto;
 	&.open,
 	&.opened {
 		#app-settings-content {
@@ -592,12 +677,10 @@ kbd {
 #app-settings-content {
 	display: none;
 	padding: 10px;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-	border-right: 1px solid $color-border;
-	width: 250px;
 	box-sizing: border-box;
 
 	/* display input fields at full width */
@@ -607,7 +690,7 @@ kbd {
 
 	.info-text {
 		padding: 5px 0 7px 22px;
-		color: rgba($color-main-text, .4);
+		color: var(--color-text-lighter);
 	}
 	input {
 		&[type='checkbox'],
@@ -625,11 +708,10 @@ kbd {
 }
 
 #app-settings-header {
-	border-right: 1px solid $color-border;
-	width: 250px;
 	box-sizing: border-box;
-	background-color: $color-main-background;
+	background-color: var(--color-main-background);
 }
+
 
 .settings-button {
 	display: block;
@@ -637,8 +719,8 @@ kbd {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: $color-main-background;
-	background-image: url('../img/actions/settings-dark.svg?v=1');
+	background-color: var(--color-main-background);
+	@include icon-color('settings-dark', 'actions', $color-black, 1, true);
 	background-position: 14px center;
 	background-repeat: no-repeat;
 	box-shadow: none;
@@ -646,25 +728,25 @@ kbd {
 	border-radius: 0;
 	text-align: left;
 	padding-left: 42px;
-	font-weight: 400;
+	font-weight: normal;
 
 	/* like app-navigation a */
-	color: $color-main-text;
+	color: var(--color-main-text);
 	opacity: .57;
 
 	&.opened,
-	&:hover {
-		background-color: $color-main-background;
+	&:hover,
+	&:focus {
+		background-color: var(--color-main-background);
 		opacity: 1;
-		box-shadow: inset 2px 0 $color-primary;
+		box-shadow: inset 4px 0 var(--color-primary);
 	}
 }
 
-/* GENERAL SECTION ---------------------------------------------------------- */
+/* GENERAL SECTION ------------------------------------------------------------ */
 .section {
 	display: block;
 	padding: 30px;
-	color: nc-lighten($color-main-text, 33%);
 	margin-bottom: 24px;
 	&.hidden {
 		display: none !important;
@@ -697,49 +779,39 @@ kbd {
 	}
 }
 
-/* DROPDOWN ----------------------------------------------------------------- */
-.dropdown {
-	background: nc-darken($color-main-background, 8%);
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	box-shadow: 0 1px 1px $color-box-shadow;
-	display: block;
-	margin-right: 0;
-	position: absolute;
-	right: 0;
-	width: 420px;
-	z-index: 500;
-	padding: 16px;
-}
-
-/* TABS --------------------------------------------------------------------- */
+/* TABS ------------------------------------------------------------ */
 .tabHeaders {
 	display: inline-block;
 	margin: 15px;
 	.tabHeader {
 		float: left;
-		padding: 5px;
+		padding: 12px;
 		cursor: pointer;
-		color: nc-lighten($color-main-text, 33%);
+		color: var(--color-text-lighter);
 		margin-bottom: 1px;
+		.icon {
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			background-size: 16px;
+			vertical-align: middle;
+			margin-top: -2px;
+			margin-right: 3px;
+			opacity: .7;
+		}
 		a {
-			color: nc-lighten($color-main-text, 33%);
+			color: var(--color-text-lighter);
 			margin-bottom: 1px;
 		}
 		&.selected {
-			font-weight: 600;
-			border-bottom: 1px solid nc-lighten($color-main-text, 20%);
+			font-weight: bold;
 		}
-		&:hover {
-			border-bottom: 1px solid nc-lighten($color-main-text, 20%);
-		}
-		&.selected, &:hover {
+		&.selected,
+		&:hover,
+		&:focus {
 			margin-bottom: 0px;
-			color: $color-main-text;
-			a {
-				margin-bottom: 0px;
-				color: $color-main-text;
-			}
+			color: var(--color-main-text);
+			border-bottom: 1px solid var(--color-text-lighter);
 		}
 	}
 }
@@ -750,14 +822,17 @@ kbd {
 	}
 }
 
-/* POPOVER MENU ------------------------------------------------------------- */
+/* POPOVER MENU ------------------------------------------------------------ */
+$popoveritem-height: 38px;
+$popovericon-size: 16px;
+
 .ie,
 .edge {
 	.bubble, .bubble:after,
 	.popovermenu, .popovermenu:after,
 	#app-navigation .app-navigation-entry-menu,
 	#app-navigation .app-navigation-entry-menu:after {
-		border: 1px solid $color-border;
+		border: 1px solid var(--color-border);
 	}
 }
 
@@ -765,21 +840,24 @@ kbd {
 .app-navigation-entry-menu,
 .popovermenu {
 	position: absolute;
-	background-color: $color-main-background;
-	color: $color-main-text;
-	border-radius: $border-radius;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border-radius: var(--border-radius);
+	border: 1px solid transparent;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
 	right: 0;
-	filter: drop-shadow(0 1px 3px $color-box-shadow);
+	filter: drop-shadow(0 1px 3px var(--color-box-shadow));
 	display: none;
 
 	&:after {
 		bottom: 100%;
-	 /* Min-width of popover is 36px and arrow width is 20px
-		wich leaves us 8px right and 8px left */
-		right: 8px;
+		// Required right-distance is half menu icon size + right padding
+		// = 16px/2 + 14px = 22px
+		// popover right margin is 5px, arrow width is 9px to center and border is 1px
+		// 22px - 9px - 5px - 1px = 7px
+		right: 7px;
 		/* change this to adjust the arrow position */
 		border: solid transparent;
 		content: ' ';
@@ -787,8 +865,8 @@ kbd {
 		width: 0;
 		position: absolute;
 		pointer-events: none;
-		border-bottom-color: $color-main-background;
-		border-width: 10px;
+		border-bottom-color: var(--color-main-background);
+		border-width: 9px;
 	}
 	/* Center the popover */
 	&.menu-center {
@@ -815,6 +893,10 @@ kbd {
 		display: block;
 	}
 
+	&.contactsmenu-popover {
+		margin: 0;
+	}
+
 	ul {
 		/* Overwrite #app-navigation > ul ul */
 		display: flex !important;
@@ -822,24 +904,62 @@ kbd {
 	}
 	li {
 		display: flex;
+		flex: 0 0 auto;
+
+		&.hidden {
+			display: none;
+		}
+
 		> button,
 		> a,
 		> .menuitem {
 			cursor: pointer;
-			line-height: 36px;
+			line-height: $popoveritem-height;
 			border: 0;
 			background-color: transparent;
 			display: flex;
-			align-items: center;
-			width: auto;
+			align-items: flex-start;
 			height: auto;
 			margin: 0;
-			font-weight: 300;
+			font-weight: normal;
 			box-shadow: none;
 			width: 100%;
+			color: var(--color-main-text);
+			white-space: nowrap;
 			/* Override the app-navigation li opacity */
 			opacity: .7 !important;
-			&:hover, &:focus, &.active {
+			span[class^='icon-'],
+			span[class*=' icon-'],
+			&[class^='icon-'],
+			&[class*=' icon-'] {
+				min-width: 0; /* Overwrite icons*/
+				min-height: 0;
+				background-position: #{($popoveritem-height - $popovericon-size) / 2} center;
+				background-size: $popovericon-size;
+			}
+			span[class^='icon-'],
+			span[class*=' icon-'] {
+				/* Keep padding to define the width to
+				 assure correct position of a possible text */
+				padding: #{$popoveritem-height / 2} 0 #{$popoveritem-height / 2} $popoveritem-height;
+			}
+			// If no icons set, force left margin to align
+			&:not([class^='icon-']):not([class*='icon-']) {
+				> span,
+				> input,
+				> form {
+					&:not([class^='icon-']):not([class*='icon-']):first-child {
+						margin-left: $popoveritem-height;
+					}
+				}
+			}
+			&[class^='icon-'],
+			&[class*=' icon-'] {
+				padding: 0 #{($popoveritem-height - $popovericon-size) / 2} 0 $popoveritem-height !important;
+			}
+			&:hover,
+			&:focus,
+			&.active {
 				opacity: 1 !important;
 			}
 			/* prevent .action class to break the design */
@@ -854,31 +974,287 @@ kbd {
 				width: 150px;
 				line-height: 1.6em;
 				padding: 8px 0;
+				white-space: normal;
+			}
+			> select {
+				margin: 0;
+				margin-left: 6px;
 			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
-				padding: 0 !important;
 				padding-right: 10px !important;
 			}
+			/* DEPRECATED! old img in popover fallback
+			 * TODO: to remove */
 			> img {
-				width: 16px;
-				padding: 0 10px;
+				width: $popovericon-size;
+				padding: #{($popoveritem-height - $popovericon-size) / 2};
 			}
+			/* checkbox/radio fixes */
+			> input.radio + label,
 			> input.checkbox + label {
 				padding: 0 !important;
-				&::before {
-					margin: -2px 12px 0;
+				width: 100%;
+			}
+			> input.checkbox + label::before {
+				margin: -2px 13px 0;
+			}
+			> input.radio + label::before {
+				margin: -2px 12px 0;
+			}
+			> input:not([type=radio]):not([type=checkbox]):not([type=image]) {
+				width: 150px;
+			}
+			form {
+				display: flex;
+				flex: 1 1 auto;
+				/* put a small space between text and form
+				   if there is an element before */
+				&:not(:first-child)  {
+					margin-left: 5px;
+				}
+			}
+			/* no margin if hidden span before */
+			> span.hidden + form,
+			> span[style*='display:none'] + form {
+				margin-left: 0;
+			}
+			/* Inputs inside popover supports text, submit & reset */
+			input {
+				min-width: #{$popoveritem-height - 4px}; /* twice the margin */
+				max-height: #{$popoveritem-height - 4px}; /* twice the margin */
+				margin: 2px 0;
+				flex: 1 1 auto;
+				&:not(:first-child) {
+					margin-left: 5px;
 				}
 			}
 		}
-		[class^='icon-'],
-		[class*=' icon-']{
-			/* Keep padding to define the width to
-			 assure correct position of a possible text */
-			padding: 18px 0 18px 36px;
-			min-width: 0; /* Overwrite icons*/
-			min-height: 0;
-			background-position: 10px center;
+		/* css hack, only first not hidden*/
+		&:not(.hidden):not([style*='display:none']) {
+			&:first-of-type {
+				> button, > a, > .menuitem {
+					> form, > input {
+						margin-top: 10px;
+					}
+				}
+			}
+			&:last-of-type {
+				> button, > a, > .menuitem {
+					> form, > input {
+						margin-bottom: 10px;
+					}
+				}
+			}
 		}
+		> button {
+			padding: 0;
+			span {
+				opacity: 1;
+			}
+		}
+
+	}
+}
+
+/* "app-*" descendants use border-box sizing, so the height of the icon must be
+ * set to the height of the item (as well as its width to make it squared). */
+#content[class*='app-'] {
+	.bubble,
+	.app-navigation-entry-menu,
+	.popovermenu {
+		li {
+			> button,
+			> a,
+			> .menuitem {
+				/* DEPRECATED! old img in popover fallback
+				* TODO: to remove */
+				> img {
+					width: $popoveritem-height;
+					height: $popoveritem-height;
+				}
+			}
+		}
+	}
+}
+
+/* CONTENT LIST ------------------------------------------------------------ */
+.app-content-list {
+	max-width: 300px;
+	@include position('sticky');
+	top: $header-height;
+	border-right: 1px solid var(--color-border);
+	display: flex;
+	flex-direction: column;
+	transition: transform 250ms ease-in-out;
+	min-height: calc(100vh - #{$header-height});
+	max-height: calc(100vh - #{$header-height});
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex: 0 1 300px;
+
+	/* Default item */
+	.app-content-list-item {
+		position: relative;
+		height: 68px;
+		border-top: 1px solid var(--color-border);
+		cursor: pointer;
+		padding: 10px 7px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		flex: 0 0 auto;
+
+		/* Icon fixes */
+		&,
+		> .app-content-list-item-menu {
+			> [class^='icon-'],
+			> [class*=' icon-'] {
+				order: 4;
+				width: 24px;
+				height: 24px;
+				margin: -7px; // right padding of item
+				padding: 22px;
+				opacity: .3;
+				cursor: pointer;
+				&:hover,
+				&:focus {
+					opacity: .7;
+				}
+				&[class^='icon-star'],
+				&[class*=' icon-star'] {
+					opacity: .7;
+					&:hover,
+					&:focus {
+						opacity: 1 ;
+					}
+
+				}
+				&.icon-starred {
+					opacity: 1 ;
+				}
+			}
+		}
+
+		&:hover,
+		&:focus,
+		&.active {
+			background-color: var(--color-background-dark);
+			// display checkbox on hover/focus/active
+			.app-content-list-item-checkbox.checkbox + label {
+				display: flex;
+			}
+		}
+
+		.app-content-list-item-checkbox.checkbox + label,
+		.app-content-list-item-star {
+			position: absolute;
+			height: 40px;
+			width: 40px;
+			z-index: 50;
+		}
+
+		.app-content-list-item-checkbox.checkbox {
+			&:checked,
+			&:hover,
+			&:focus,
+			&.active {
+				+ label {
+					// display checkbox if checked
+					display: flex;
+					// if checked, lower the opacity of the avatar
+					+ .app-content-list-item-icon {
+						opacity: .7;
+					}
+				}
+			}
+			+ label {
+				top: 14px;
+				left: 7px;
+				// hidden by default, only chown on hover-focus or if checked
+				display: none;
+				&::before {
+					margin: 0;
+				}
+				/* Hide the star, priority to the checkbox */
+				~ .app-content-list-item-star {
+					display: none;
+				}
+			}
+		}
+
+		.app-content-list-item-star {
+			display: flex;
+			top: 10px;
+			left: 32px;
+			background-size: 16px;
+			height: 20px;
+			width: 20px;
+			margin: 0;
+			padding: 0;
+		}
+
+		.app-content-list-item-icon {
+			position: absolute;
+			display: inline-block;
+			height: 40px;
+			width: 40px;
+			line-height: 40px;
+			border-radius: 50%;
+			vertical-align: middle;
+			margin-right: 10px;
+			color: #fff;
+			text-align: center;
+			font-size: 1.5em;
+			text-transform: capitalize;
+			object-fit: cover;
+			user-select: none;
+			cursor: pointer;
+			top: 50%;
+			margin-top: -20px;
+		}
+
+		.app-content-list-item-line-one,
+		.app-content-list-item-line-two {
+			display: block;
+			padding-left: 50px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			order: 1;
+			flex: 1 1 0px;
+			padding-right: 10px;
+			cursor: pointer;
+		}
+
+		.app-content-list-item-line-two {
+			opacity: .5;
+			order: 3;
+			flex: 1 0;
+			flex-basis: calc(100% - 44px);
+		}
+
+		.app-content-list-item-details {
+			order: 2;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 100px;
+			opacity: .5;
+			font-size: 80%;
+			user-select: none;
+		}
+
+		.app-content-list-item-menu {
+			order: 4;
+			position: relative;
+			.popovermenu {
+				margin: 0;
+				right: -5px;
+			}
+		}
+	}
+	&.selection .app-content-list-item-checkbox.checkbox + label {
+		display: flex;
 	}
 }

@@ -43,7 +43,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
 
-class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
+class Connection extends ReconnectWrapper implements IDBConnection {
 	/**
 	 * @var string $tablePrefix
 	 */
@@ -401,7 +401,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	}
 
 	/**
-	 * Espace a parameter to be used in a LIKE query
+	 * Escape a parameter to be used in a LIKE query
 	 *
 	 * @param string $param
 	 * @return string

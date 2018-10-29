@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,80 +23,90 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Core\Command\TwoFactorAuth;
 
-use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Authentication\TwoFactorAuth\ProviderManager;
 use OC\Core\Command\TwoFactorAuth\Disable;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class DisableTest extends TestCase {
 
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
-	private $manager;
+	/** @var ProviderManager|MockObject */
+	private $providerManager;
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var Disable */
+	/** @var CommandTester */
 	private $command;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->manager = $this->createMock(Manager::class);
+		$this->providerManager = $this->createMock(ProviderManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 
-		$this->command = new Disable($this->manager, $this->userManager);
+		$cmd = new Disable($this->providerManager, $this->userManager);
+		$this->command = new CommandTester($cmd);
 	}
 
-	public function testDisableSuccess() {
-		$user = $this->createMock(IUser::class);
-
-		$input = $this->createMock(InputInterface::class);
-		$output = $this->createMock(OutputInterface::class);
-
-		$input->method('getArgument')
-			->with($this->equalTo('uid'))
-			->willReturn('user');
-
-		$this->userManager->method('get')
-			->with('user')
-			->willReturn($user);
-
-		$this->manager->expects($this->once())
-			->method('disableTwoFactorAuthentication')
-			->with($this->equalTo($user));
-
-		$output->expects($this->once())
-			->method('writeln')
-			->with('Two-factor authentication disabled for user user');
-
-		$this->invokePrivate($this->command, 'execute', [$input, $output]);
-	}
-
-	public function testEnableFail() {
-		$input = $this->createMock(InputInterface::class);
-		$output = $this->createMock(OutputInterface::class);
-
-		$input->method('getArgument')
-			->with($this->equalTo('uid'))
-			->willReturn('user');
-
-		$this->userManager->method('get')
-			->with('user')
+	public function testInvalidUID() {
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('nope')
 			->willReturn(null);
 
-		$this->manager->expects($this->never())
-			->method($this->anything());
+		$rc = $this->command->execute([
+			'uid' => 'nope',
+			'provider_id' => 'nope',
+		]);
 
-		$output->expects($this->once())
-			->method('writeln')
-			->with('<error>Invalid UID</error>');
+		$this->assertEquals(1, $rc);
+		$this->assertContains("Invalid UID", $this->command->getDisplay());
+	}
 
-		$this->invokePrivate($this->command, 'execute', [$input, $output]);
+	public function testEnableNotSupported() {
+		$user = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('ricky')
+			->willReturn($user);
+		$this->providerManager->expects($this->once())
+			->method('tryDisableProviderFor')
+			->with('totp', $user)
+			->willReturn(false);
+
+		$rc = $this->command->execute([
+			'uid' => 'ricky',
+			'provider_id' => 'totp',
+		]);
+
+		$this->assertEquals(2, $rc);
+		$this->assertContains("The provider does not support this operation", $this->command->getDisplay());
+	}
+
+	public function testEnabled() {
+		$user = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('ricky')
+			->willReturn($user);
+		$this->providerManager->expects($this->once())
+			->method('tryDisableProviderFor')
+			->with('totp', $user)
+			->willReturn(true);
+
+		$rc = $this->command->execute([
+			'uid' => 'ricky',
+			'provider_id' => 'totp',
+		]);
+
+		$this->assertEquals(0, $rc);
+		$this->assertContains("Two-factor provider totp disabled for user ricky", $this->command->getDisplay());
 	}
 }

@@ -22,10 +22,12 @@ class ComposerStaticInitProvisioning_API
 
     public static $classMap = array (
         'OCA\\Provisioning_API\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\Provisioning_API\\Controller\\AUserData' => __DIR__ . '/..' . '/../lib/Controller/AUserData.php',
         'OCA\\Provisioning_API\\Controller\\AppConfigController' => __DIR__ . '/..' . '/../lib/Controller/AppConfigController.php',
         'OCA\\Provisioning_API\\Controller\\AppsController' => __DIR__ . '/..' . '/../lib/Controller/AppsController.php',
         'OCA\\Provisioning_API\\Controller\\GroupsController' => __DIR__ . '/..' . '/../lib/Controller/GroupsController.php',
         'OCA\\Provisioning_API\\Controller\\UsersController' => __DIR__ . '/..' . '/../lib/Controller/UsersController.php',
+        'OCA\\Provisioning_API\\FederatedFileSharingFactory' => __DIR__ . '/..' . '/../lib/FederatedFileSharingFactory.php',
         'OCA\\Provisioning_API\\Middleware\\Exceptions\\NotSubAdminException' => __DIR__ . '/..' . '/../lib/Middleware/Exceptions/NotSubAdminException.php',
         'OCA\\Provisioning_API\\Middleware\\ProvisioningApiMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ProvisioningApiMiddleware.php',
     );

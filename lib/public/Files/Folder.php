@@ -145,6 +145,9 @@ interface Folder extends Node {
 	/**
 	 * get a file or folder inside the folder by it's internal id
 	 *
+	 * This method could return multiple entries. For example once the file/folder
+	 * is shared or mounted (files_external) to the user multiple times.
+	 *
 	 * @param int $id
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0

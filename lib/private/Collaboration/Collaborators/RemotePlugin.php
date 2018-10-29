@@ -102,6 +102,8 @@ class RemotePlugin implements ISearchPlugin {
 
 		if (!$this->shareeEnumeration) {
 			$result['wide'] = [];
+		} else {
+			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 		}
 
 		if (!$searchResult->hasExactIdMatch($resultType) && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {

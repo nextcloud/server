@@ -12,24 +12,6 @@
 
 (function() {
 
-	var TEMPLATE_MENU =
-		'<ul>' +
-		'<li>' +
-		'<label for="file_upload_start" class="menuitem" data-action="upload" title="{{uploadMaxHumanFilesize}}"><span class="svg icon icon-upload"></span><span class="displayname">{{uploadLabel}}</span></label>' +
-		'</li>' +
-		'{{#each items}}' +
-		'<li>' +
-		'<a href="#" class="menuitem" data-templatename="{{templateName}}" data-filetype="{{fileType}}" data-action="{{id}}"><span class="icon {{iconClass}} svg"></span><span class="displayname">{{displayName}}</span></a>' +
-		'</li>' +
-		'{{/each}}' +
-		'</ul>';
-
-	var TEMPLATE_FILENAME_FORM =
-		'<form class="filenameform">' +
-		'<label class="hidden-visually" for="{{cid}}-input-{{fileType}}">{{fileName}}</label>' +
-		'<input id="{{cid}}-input-{{fileType}}" type="text" value="{{fileName}}" autocomplete="off" autocapitalize="off">' +
-		'</form>';
-
 	/**
 	 * Construct a new NewFileMenu instance
 	 * @constructs NewFileMenu
@@ -78,10 +60,7 @@
 		},
 
 		template: function(data) {
-			if (!OCA.Files.NewFileMenu._TEMPLATE) {
-				OCA.Files.NewFileMenu._TEMPLATE = Handlebars.compile(TEMPLATE_MENU);
-			}
-			return OCA.Files.NewFileMenu._TEMPLATE(data);
+			return OCA.Files.Templates['newfilemenu'](data);
 		},
 
 		/**
@@ -111,12 +90,9 @@
 
 		_promptFileName: function($target) {
 			var self = this;
-			if (!OCA.Files.NewFileMenu._TEMPLATE_FORM) {
-				OCA.Files.NewFileMenu._TEMPLATE_FORM = Handlebars.compile(TEMPLATE_FILENAME_FORM);
-			}
 
 			if ($target.find('form').length) {
-				$target.find('input').focus();
+				$target.find('input[type=\'text\']').focus();
 				return;
 			}
 
@@ -128,7 +104,7 @@
 
 			var newName = $target.attr('data-templatename');
 			var fileType = $target.attr('data-filetype');
-			var $form = $(OCA.Files.NewFileMenu._TEMPLATE_FORM({
+			var $form = $(OCA.Files.Templates['newfilemenu_filename_form']({
 				fileName: newName,
 				cid: this.cid,
 				fileType: fileType
@@ -138,7 +114,8 @@
 			$target.append($form);
 
 			// here comes the OLD code
-			var $input = $form.find('input');
+			var $input = $form.find('input[type=\'text\']');
+			var $submit = $form.find('input[type=\'submit\']');
 
 			var lastPos;
 			var checkInput = function () {
@@ -155,7 +132,7 @@
 					}
 				} catch (error) {
 					$input.attr('title', error);
-					$input.tooltip({placement: 'right', trigger: 'manual'});
+					$input.tooltip({placement: 'right', trigger: 'manual', 'container': '.newFileMenu'});
 					$input.tooltip('fixTitle');
 					$input.tooltip('show');
 					$input.addClass('error');
@@ -169,6 +146,12 @@
 					$input.tooltip('hide');
 					$input.removeClass('error');
 				}
+			});
+
+			$submit.click(function(event) {
+				event.stopPropagation();
+				event.preventDefault();
+				$form.submit();
 			});
 
 			$input.focus();
@@ -188,7 +171,7 @@
 
 					/* Find the right actionHandler that should be called.
 					 * Actions is retrieved by using `actionSpec.id` */
-					action = _.filter(self._menuItems, function(item) {
+					var action = _.filter(self._menuItems, function(item) {
 						return item.id == $target.attr('data-action');
 					}).pop();
 					action.actionHandler(newname);
@@ -227,7 +210,13 @@
 				uploadLabel: t('files', 'Upload file'),
 				items: this._menuItems
 			}));
-			OC.Util.scaleFixForIE8(this.$('.svg'));
+
+			// Trigger upload action also with keyboard navigation on enter
+			this.$el.find('[for="file_upload_start"]').on('keyup', function(event) {
+				if (event.key === " " || event.key === "Enter") {
+					$('#file_upload_start').trigger('click');
+				}
+			});
 		},
 
 		/**

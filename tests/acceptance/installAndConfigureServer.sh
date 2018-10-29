@@ -35,6 +35,8 @@ fi
 php occ maintenance:install --admin-pass=admin
 
 OC_PASS=123456acb php occ user:add --password-from-env user0
+OC_PASS=123456acb php occ user:add --password-from-env disabledUser
+php occ user:disable disabledUser
 
 if [ "$NEXTCLOUD_SERVER_DOMAIN" != "" ]; then
 	# Default first trusted domain is "localhost"; replace it with given domain.

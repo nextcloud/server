@@ -1,8 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,59 +25,13 @@
 namespace OCA\TwoFactorBackupCodes\Settings;
 
 
-use OCA\TwoFactorBackupCodes\AppInfo\Application;
-use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IUserSession;
-use OCP\Settings\ISettings;
+use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
+use OCP\Template;
 
-class Personal implements ISettings {
+class Personal implements IPersonalProviderSettings {
 
-	/** @var Application */
-	private $app;
-	/** @var BackupCodesProvider */
-	private $provider;
-	/** @var IUserSession */
-	private $userSession;
-
-	public function __construct(Application $app, BackupCodesProvider $provider, IUserSession $userSession) {
-		$this->app = $app;
-		$this->provider = $provider;
-		$this->userSession = $userSession;
+	public function getBody(): Template {
+		return new Template('twofactor_backupcodes', 'personal');
 	}
 
-	/**
-	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
-	 * @since 9.1
-	 */
-	public function getForm() {
-		$templateOwner = 'settings';
-		$templateName = 'settings/empty';
-		if ($this->provider->isActive($this->userSession->getUser())) {
-			$templateOwner = $this->app->getContainer()->getAppName();
-			$templateName = 'personal';
-		}
-
-		return new TemplateResponse($templateOwner, $templateName, [], '');
-	}
-
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 * @since 9.1
-	 */
-	public function getSection() {
-		return 'security';
-	}
-
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
-	 * @since 9.1
-	 */
-	public function getPriority() {
-		return 40;
-	}
 }

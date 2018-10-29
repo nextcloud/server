@@ -27,8 +27,9 @@
 namespace OCA\Federation\Tests\BackgroundJob;
 
 
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Ring\Exception\RingException;
 use OCA\Federation\BackgroundJob\RequestSharedSecret;
-use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -54,9 +55,6 @@ class RequestSharedSecretTest extends TestCase {
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject|IURLGenerator */
 	private $urlGenerator;
-
-	/** @var \PHPUnit_Framework_MockObject_MockObject|DbHandler */
-	private $dbHandler;
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject|TrustedServers */
 	private $trustedServers;
@@ -85,8 +83,6 @@ class RequestSharedSecretTest extends TestCase {
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
 			->disableOriginalConstructor()->getMock();
-		$this->dbHandler = $this->getMockBuilder(DbHandler::class)
-			->disableOriginalConstructor()->getMock();
 		$this->response = $this->getMockBuilder(IResponse::class)->getMock();
 		$this->discoveryService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
 		$this->logger = $this->createMock(ILogger::class);
@@ -100,7 +96,6 @@ class RequestSharedSecretTest extends TestCase {
 			$this->urlGenerator,
 			$this->jobList,
 			$this->trustedServers,
-			$this->dbHandler,
 			$this->discoveryService,
 			$this->logger,
 			$this->timeFactory
@@ -122,7 +117,6 @@ class RequestSharedSecretTest extends TestCase {
 					$this->urlGenerator,
 					$this->jobList,
 					$this->trustedServers,
-					$this->dbHandler,
 					$this->discoveryService,
 					$this->logger,
 					$this->timeFactory
@@ -188,12 +182,13 @@ class RequestSharedSecretTest extends TestCase {
 			->willReturn($source);
 		$this->httpClient->expects($this->once())->method('post')
 			->with(
-				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret?format=json',
+				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
 				[
 					'body' =>
 						[
 							'url' => $source,
-							'token' => $token
+							'token' => $token,
+							'format' => 'json',
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
@@ -202,17 +197,6 @@ class RequestSharedSecretTest extends TestCase {
 
 		$this->response->expects($this->once())->method('getStatusCode')
 			->willReturn($statusCode);
-
-		if (
-			$statusCode !== Http::STATUS_OK
-			&& $statusCode !== Http::STATUS_FORBIDDEN
-		) {
-			$this->dbHandler->expects($this->never())->method('addToken');
-		}
-
-		if ($statusCode === Http::STATUS_FORBIDDEN) {
-			$this->dbHandler->expects($this->once())->method('addToken')->with($target, '');
-		}
 
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 		if (
@@ -261,5 +245,77 @@ class RequestSharedSecretTest extends TestCase {
 			);
 
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
+	}
+
+	public function testRunConnectionError() {
+		$target = 'targetURL';
+		$source = 'sourceURL';
+		$token = 'token';
+
+		$argument = ['url' => $target, 'token' => $token];
+
+		$this->timeFactory->method('getTime')->willReturn(42);
+
+		$this->urlGenerator
+			->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('/')
+			->willReturn($source);
+
+		$this->httpClient
+			->expects($this->once())
+			->method('post')
+			->with(
+				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
+				[
+					'body' =>
+						[
+							'url' => $source,
+							'token' => $token,
+							'format' => 'json',
+						],
+					'timeout' => 3,
+					'connect_timeout' => 3,
+				]
+			)->willThrowException($this->createMock(ConnectException::class));
+
+		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
+		$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
+	}
+
+	public function testRunRingException() {
+		$target = 'targetURL';
+		$source = 'sourceURL';
+		$token = 'token';
+
+		$argument = ['url' => $target, 'token' => $token];
+
+		$this->timeFactory->method('getTime')->willReturn(42);
+
+		$this->urlGenerator
+			->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('/')
+			->willReturn($source);
+
+		$this->httpClient
+			->expects($this->once())
+			->method('post')
+			->with(
+				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
+				[
+					'body' =>
+						[
+							'url' => $source,
+							'token' => $token,
+							'format' => 'json',
+						],
+					'timeout' => 3,
+					'connect_timeout' => 3,
+				]
+			)->willThrowException($this->createMock(RingException::class));
+
+		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
+		$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
 	}
 }

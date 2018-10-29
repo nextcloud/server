@@ -32,6 +32,7 @@ use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesCustomCSP;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
 use OCP\IRequest;
@@ -76,6 +77,23 @@ class TwoFactorChallengeController extends Controller {
 	protected function getLogoutUrl() {
 		return OC_User::getLogoutUrl($this->urlGenerator);
 	}
+	
+	/**
+	 * @param IProvider[] $providers
+	 */
+	private function splitProvidersAndBackupCodes(array $providers): array {
+		$regular = [];
+		$backup = null;
+		foreach ($providers as $provider) {
+			if ($provider->getId() === 'backup_codes') {
+				$backup = $provider;
+			} else {
+				$regular[] = $provider;
+			}
+		}
+
+		return [$regular, $backup];
+	}
 
 	/**
 	 * @NoAdminRequired
@@ -86,12 +104,14 @@ class TwoFactorChallengeController extends Controller {
 	 */
 	public function selectChallenge($redirect_url) {
 		$user = $this->userSession->getUser();
-		$providers = $this->twoFactorManager->getProviders($user);
-		$backupProvider = $this->twoFactorManager->getBackupProvider($user);
+		$providerSet = $this->twoFactorManager->getProviderSet($user);
+		$allProviders = $providerSet->getProviders();
+		list($providers, $backupProvider) = $this->splitProvidersAndBackupCodes($allProviders);
 
 		$data = [
 			'providers' => $providers,
 			'backupProvider' => $backupProvider,
+			'providerMissing' => $providerSet->isProviderMissing(),
 			'redirect_url' => $redirect_url,
 			'logout_url' => $this->getLogoutUrl(),
 		];
@@ -109,12 +129,13 @@ class TwoFactorChallengeController extends Controller {
 	 */
 	public function showChallenge($challengeProviderId, $redirect_url) {
 		$user = $this->userSession->getUser();
-		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
+		$providerSet = $this->twoFactorManager->getProviderSet($user);
+		$provider = $providerSet->getProvider($challengeProviderId);
 		if (is_null($provider)) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 		}
 
-		$backupProvider = $this->twoFactorManager->getBackupProvider($user);
+		$backupProvider = $providerSet->getProvider('backup_codes');
 		if (!is_null($backupProvider) && $backupProvider->getId() === $provider->getId()) {
 			// Don't show the backup provider link if we're already showing that provider's challenge
 			$backupProvider = null;

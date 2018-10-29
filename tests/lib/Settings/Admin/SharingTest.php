@@ -25,7 +25,9 @@ namespace Test\Settings\Admin;
 
 use OC\Settings\Admin\Sharing;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Constants;
 use OCP\IConfig;
+use OCP\IL10N;
 use Test\TestCase;
 
 class SharingTest extends TestCase {
@@ -33,13 +35,17 @@ class SharingTest extends TestCase {
 	private $admin;
 	/** @var IConfig */
 	private $config;
+	/** @var  IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
 
 	public function setUp() {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		$this->admin = new Sharing(
-			$this->config
+			$this->config,
+			$this->l10n
 		);
 	}
 
@@ -109,6 +115,11 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_enable_link_password_by_default', 'no')
 			->willReturn('yes');
+		$this->config
+			->expects($this->at(13))
+			->method('getAppValue')
+			->with('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL)
+			->willReturn(Constants::PERMISSION_ALL);
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -128,7 +139,9 @@ class SharingTest extends TestCase {
 				'shareExcludeGroups'              => false,
 				'shareExcludedGroupsList'         => '',
 				'publicShareDisclaimerText'       => 'Lorem ipsum',
-				'enableLinkPasswordByDefault'     => 'yes'
+				'enableLinkPasswordByDefault'     => 'yes',
+				'shareApiDefaultPermissions'      => Constants::PERMISSION_ALL,
+				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', [])
 			],
 			''
 		);
@@ -202,6 +215,12 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_enable_link_password_by_default', 'no')
 			->willReturn('yes');
+		$this->config
+			->expects($this->at(13))
+			->method('getAppValue')
+			->with('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL)
+			->willReturn(Constants::PERMISSION_ALL);
+
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -221,7 +240,9 @@ class SharingTest extends TestCase {
 				'shareExcludeGroups'              => true,
 				'shareExcludedGroupsList'         => 'NoSharers|OtherNoSharers',
 				'publicShareDisclaimerText'       => 'Lorem ipsum',
-				'enableLinkPasswordByDefault'     => 'yes'
+				'enableLinkPasswordByDefault'     => 'yes',
+				'shareApiDefaultPermissions'      => Constants::PERMISSION_ALL,
+				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', [])
 			],
 			''
 		);

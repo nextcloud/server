@@ -24,6 +24,7 @@ namespace Test\User;
 use OC\HintException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OC\User\User;
 
 /**
  * Class DatabaseTest
@@ -112,5 +113,40 @@ class DatabaseTest extends Backend {
 		$this->assertFalse($this->backend->userExists($user1));
 		$this->backend->createUser($user1, 'pw2');
 		$this->assertTrue($this->backend->userExists($user1));
+	}
+
+	public function testSearch() {
+		parent::testSearch();
+
+		$user1 = $this->getUser();
+		$this->backend->createUser($user1, 'pass1');
+
+		$user2 = $this->getUser();
+		$this->backend->createUser($user2, 'pass1');
+
+		$user1Obj = new User($user1, $this->backend);
+		$user2Obj = new User($user2, $this->backend);
+		$emailAddr1 = "$user1@nextcloud.com";
+		$emailAddr2 = "$user2@nextcloud.com";
+
+		$user1Obj->setDisplayName('User 1 Display');
+
+		$result = $this->backend->getDisplayNames('display');
+		$this->assertCount(1, $result);
+
+		$result = $this->backend->getDisplayNames(strtoupper($user1));
+		$this->assertCount(1, $result);
+
+		$user1Obj->setEMailAddress($emailAddr1);
+		$user2Obj->setEMailAddress($emailAddr2);
+
+		$result = $this->backend->getUsers('@nextcloud.com');
+		$this->assertCount(2, $result);
+
+		$result = $this->backend->getDisplayNames('@nextcloud.com');
+		$this->assertCount(2, $result);
+
+		$result = $this->backend->getDisplayNames('@nextcloud.COM');
+		$this->assertCount(2, $result);
 	}
 }

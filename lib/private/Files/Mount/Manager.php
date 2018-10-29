@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -25,68 +26,89 @@
 
 namespace OC\Files\Mount;
 
-use \OC\Files\Filesystem;
+use OC\Cache\CappedMemoryCache;
+use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 
 class Manager implements IMountManager {
-	/**
-	 * @var MountPoint[]
-	 */
-	private $mounts = array();
+	/** @var MountPoint[] */
+	private $mounts = [];
+
+	/** @var CappedMemoryCache */
+	private $pathCache;
+
+	/** @var CappedMemoryCache */
+	private $inPathCache;
+
+	public function __construct() {
+		$this->pathCache = new CappedMemoryCache();
+		$this->inPathCache = new CappedMemoryCache();
+	}
 
 	/**
 	 * @param IMountPoint $mount
 	 */
 	public function addMount(IMountPoint $mount) {
 		$this->mounts[$mount->getMountPoint()] = $mount;
+		$this->pathCache->clear();
+		$this->inPathCache->clear();
 	}
 
 	/**
 	 * @param string $mountPoint
 	 */
-	public function removeMount($mountPoint) {
+	public function removeMount(string $mountPoint) {
 		$mountPoint = Filesystem::normalizePath($mountPoint);
-		if (strlen($mountPoint) > 1) {
+		if (\strlen($mountPoint) > 1) {
 			$mountPoint .= '/';
 		}
 		unset($this->mounts[$mountPoint]);
+		$this->pathCache->clear();
+		$this->inPathCache->clear();
 	}
 
 	/**
 	 * @param string $mountPoint
 	 * @param string $target
 	 */
-	public function moveMount($mountPoint, $target){
+	public function moveMount(string $mountPoint, string $target) {
 		$this->mounts[$target] = $this->mounts[$mountPoint];
 		unset($this->mounts[$mountPoint]);
+		$this->pathCache->clear();
+		$this->inPathCache->clear();
 	}
 
 	/**
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return MountPoint
+	 * @return MountPoint|null
 	 */
-	public function find($path) {
+	public function find(string $path) {
 		\OC_Util::setupFS();
-		$path = $this->formatPath($path);
-		if (isset($this->mounts[$path])) {
-			return $this->mounts[$path];
+		$path = Filesystem::normalizePath($path);
+
+		if (isset($this->pathCache[$path])) {
+			return $this->pathCache[$path];
 		}
 
-		\OC_Hook::emit('OC_Filesystem', 'get_mountpoint', array('path' => $path));
-		$foundMountPoint = '';
-		$mountPoints = array_keys($this->mounts);
-		foreach ($mountPoints as $mountpoint) {
-			if (strpos($path, $mountpoint) === 0 and strlen($mountpoint) > strlen($foundMountPoint)) {
-				$foundMountPoint = $mountpoint;
+		$current = $path;
+		while (true) {
+			$mountPoint = $current . '/';
+			if (isset($this->mounts[$mountPoint])) {
+				$this->pathCache[$path] = $this->mounts[$mountPoint];
+				return $this->mounts[$mountPoint];
 			}
-		}
-		if (isset($this->mounts[$foundMountPoint])) {
-			return $this->mounts[$foundMountPoint];
-		} else {
-			return null;
+
+			if ($current === '') {
+				return null;
+			}
+
+			$current = dirname($current);
+			if ($current === '.' || $current === '/') {
+				$current = '';
+			}
 		}
 	}
 
@@ -96,22 +118,31 @@ class Manager implements IMountManager {
 	 * @param string $path
 	 * @return MountPoint[]
 	 */
-	public function findIn($path) {
+	public function findIn(string $path): array {
 		\OC_Util::setupFS();
 		$path = $this->formatPath($path);
-		$result = array();
-		$pathLength = strlen($path);
+
+		if (isset($this->inPathCache[$path])) {
+			return $this->inPathCache[$path];
+		}
+
+		$result = [];
+		$pathLength = \strlen($path);
 		$mountPoints = array_keys($this->mounts);
 		foreach ($mountPoints as $mountPoint) {
-			if (substr($mountPoint, 0, $pathLength) === $path and strlen($mountPoint) > $pathLength) {
+			if (substr($mountPoint, 0, $pathLength) === $path && \strlen($mountPoint) > $pathLength) {
 				$result[] = $this->mounts[$mountPoint];
 			}
 		}
+
+		$this->inPathCache[$path] = $result;
 		return $result;
 	}
 
 	public function clear() {
-		$this->mounts = array();
+		$this->mounts = [];
+		$this->pathCache->clear();
+		$this->inPathCache->clear();
 	}
 
 	/**
@@ -120,12 +151,12 @@ class Manager implements IMountManager {
 	 * @param string $id
 	 * @return MountPoint[]
 	 */
-	public function findByStorageId($id) {
+	public function findByStorageId(string $id): array {
 		\OC_Util::setupFS();
-		if (strlen($id) > 64) {
+		if (\strlen($id) > 64) {
 			$id = md5($id);
 		}
-		$result = array();
+		$result = [];
 		foreach ($this->mounts as $mount) {
 			if ($mount->getStorageId() === $id) {
 				$result[] = $mount;
@@ -137,7 +168,7 @@ class Manager implements IMountManager {
 	/**
 	 * @return MountPoint[]
 	 */
-	public function getAll() {
+	public function getAll(): array {
 		return $this->mounts;
 	}
 
@@ -147,7 +178,7 @@ class Manager implements IMountManager {
 	 * @param int $id
 	 * @return MountPoint[]
 	 */
-	public function findByNumericId($id) {
+	public function findByNumericId(int $id): array {
 		$storageId = \OC\Files\Cache\Storage::getStorageId($id);
 		return $this->findByStorageId($storageId);
 	}
@@ -156,9 +187,9 @@ class Manager implements IMountManager {
 	 * @param string $path
 	 * @return string
 	 */
-	private function formatPath($path) {
+	private function formatPath(string $path): string {
 		$path = Filesystem::normalizePath($path);
-		if (strlen($path) > 1) {
+		if (\strlen($path) > 1) {
 			$path .= '/';
 		}
 		return $path;

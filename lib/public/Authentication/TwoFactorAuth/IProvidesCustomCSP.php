@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  *
  *
@@ -35,5 +36,5 @@ interface IProvidesCustomCSP {
 	 *
 	 * @since 13.0.0
 	 */
-	public function getCSP();
+	public function getCSP(): ContentSecurityPolicy;
 }

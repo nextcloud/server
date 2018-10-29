@@ -262,7 +262,7 @@ function preview_icon( $path ) {
  * @return string
  */
 function publicPreview_icon ( $path, $token ) {
-	return \OC::$server->getURLGenerator()->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
+	return \OC::$server->getURLGenerator()->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 'token' => $token]);
 }
 
 /**
@@ -284,7 +284,7 @@ function human_file_size( $bytes ) {
 function strip_time($timestamp){
 	$date = new \DateTime("@{$timestamp}");
 	$date->setTime(0, 0, 0);
-	return intval($date->format('U'));
+	return (int)$date->format('U');
 }
 
 /**

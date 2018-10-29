@@ -57,6 +57,9 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/** @var int */
 	private $currentNode = 0;
 
+	/** @var int */
+	private $currentNodeRead = 0;
+
 	/**
 	 * @param string $path
 	 * @param string $mode
@@ -73,9 +76,6 @@ class AssemblyStream implements \Icewind\Streams\File {
 			return strnatcmp($a->getName(), $b->getName());
 		});
 		$this->nodes = array_values($nodes);
-		if (count($this->nodes) > 0) {
-			$this->currentStream = $this->getStream($this->nodes[0]);
-		}
 		$this->size = array_reduce($this->nodes, function ($size, IFile $file) {
 			return $size + $file->getSize();
 		}, 0);
@@ -104,16 +104,26 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 */
 	public function stream_read($count) {
 		if (is_null($this->currentStream)) {
-			return '';
+			if ($this->currentNode < count($this->nodes)) {
+				$this->currentStream = $this->getStream($this->nodes[$this->currentNode]);
+			} else {
+				return '';
+			}
 		}
 
 		do {
 			$data = fread($this->currentStream, $count);
 			$read = strlen($data);
+			$this->currentNodeRead += $read;
 
 			if (feof($this->currentStream)) {
 				fclose($this->currentStream);
+				$currentNodeSize = $this->nodes[$this->currentNode]->getSize();
+				if ($this->currentNodeRead < $currentNodeSize) {
+					throw new \Exception('Stream from assembly node shorter than expected, got ' . $this->currentNodeRead . ' bytes, expected ' . $currentNodeSize);
+				}
 				$this->currentNode++;
+				$this->currentNodeRead = 0;
 				if ($this->currentNode < count($this->nodes)) {
 					$this->currentStream = $this->getStream($this->nodes[$this->currentNode]);
 				} else {
@@ -160,7 +170,9 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @return array
 	 */
 	public function stream_stat() {
-		return [];
+		return [
+			'size' => $this->size,
+		];
 	}
 
 	/**
@@ -182,7 +194,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @return bool
 	 */
 	public function stream_eof() {
-		return $this->pos >= $this->size;
+		return $this->pos >= $this->size || ($this->currentNode >= count($this->nodes) && $this->currentNode === null);
 	}
 
 	/**

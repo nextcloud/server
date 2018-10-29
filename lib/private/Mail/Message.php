@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -38,12 +39,12 @@ use Swift_Message;
 class Message implements IMessage {
 	/** @var Swift_Message */
 	private $swiftMessage;
+	/** @var bool */
+	private $plainTextOnly;
 
-	/**
-	 * @param Swift_Message $swiftMessage
-	 */
-	public function __construct(Swift_Message $swiftMessage) {
+	public function __construct(Swift_Message $swiftMessage, bool $plainTextOnly) {
 		$this->swiftMessage = $swiftMessage;
+		$this->plainTextOnly = $plainTextOnly;
 	}
 
 	/**
@@ -51,7 +52,7 @@ class Message implements IMessage {
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function attach(IAttachment $attachment) {
+	public function attach(IAttachment $attachment): IMessage {
 		/** @var Attachment $attachment */
 		$this->swiftMessage->attach($attachment->getSwiftAttachment());
 		return $this;
@@ -64,12 +65,12 @@ class Message implements IMessage {
 	 * @param array $addresses Array of mail addresses, key will get converted
 	 * @return array Converted addresses if `idn_to_ascii` exists
 	 */
-	protected function convertAddresses($addresses) {
-		if (!function_exists('idn_to_ascii')) {
+	protected function convertAddresses(array $addresses): array {
+		if (!function_exists('idn_to_ascii') || !defined('INTL_IDNA_VARIANT_UTS46')) {
 			return $addresses;
 		}
 
-		$convertedAddresses = array();
+		$convertedAddresses = [];
 
 		foreach($addresses as $email => $readableName) {
 			if(!is_numeric($email)) {
@@ -94,7 +95,7 @@ class Message implements IMessage {
 	 * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
 	 * @return $this
 	 */
-	public function setFrom(array $addresses) {
+	public function setFrom(array $addresses): IMessage {
 		$addresses = $this->convertAddresses($addresses);
 
 		$this->swiftMessage->setFrom($addresses);
@@ -106,7 +107,7 @@ class Message implements IMessage {
 	 *
 	 * @return array
 	 */
-	public function getFrom() {
+	public function getFrom(): array {
 		return $this->swiftMessage->getFrom();
 	}
 
@@ -116,7 +117,7 @@ class Message implements IMessage {
 	 * @param array $addresses
 	 * @return $this
 	 */
-	public function setReplyTo(array $addresses) {
+	public function setReplyTo(array $addresses): IMessage {
 		$addresses = $this->convertAddresses($addresses);
 
 		$this->swiftMessage->setReplyTo($addresses);
@@ -126,9 +127,9 @@ class Message implements IMessage {
 	/**
 	 * Returns the Reply-To address of this message
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getReplyTo() {
+	public function getReplyTo(): string {
 		return $this->swiftMessage->getReplyTo();
 	}
 
@@ -138,7 +139,7 @@ class Message implements IMessage {
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
 	 * @return $this
 	 */
-	public function setTo(array $recipients) {
+	public function setTo(array $recipients): IMessage {
 		$recipients = $this->convertAddresses($recipients);
 
 		$this->swiftMessage->setTo($recipients);
@@ -150,7 +151,7 @@ class Message implements IMessage {
 	 *
 	 * @return array
 	 */
-	public function getTo() {
+	public function getTo(): array {
 		return $this->swiftMessage->getTo();
 	}
 
@@ -160,7 +161,7 @@ class Message implements IMessage {
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
 	 * @return $this
 	 */
-	public function setCc(array $recipients) {
+	public function setCc(array $recipients): IMessage {
 		$recipients = $this->convertAddresses($recipients);
 
 		$this->swiftMessage->setCc($recipients);
@@ -172,7 +173,7 @@ class Message implements IMessage {
 	 *
 	 * @return array
 	 */
-	public function getCc() {
+	public function getCc(): array {
 		return $this->swiftMessage->getCc();
 	}
 
@@ -182,7 +183,7 @@ class Message implements IMessage {
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
 	 * @return $this
 	 */
-	public function setBcc(array $recipients) {
+	public function setBcc(array $recipients): IMessage {
 		$recipients = $this->convertAddresses($recipients);
 
 		$this->swiftMessage->setBcc($recipients);
@@ -194,17 +195,17 @@ class Message implements IMessage {
 	 *
 	 * @return array
 	 */
-	public function getBcc() {
+	public function getBcc(): array {
 		return $this->swiftMessage->getBcc();
 	}
 
 	/**
 	 * Set the subject of this message.
 	 *
-	 * @param $subject
-	 * @return $this
+	 * @param string $subject
+	 * @return IMessage
 	 */
-	public function setSubject($subject) {
+	public function setSubject(string $subject): IMessage {
 		$this->swiftMessage->setSubject($subject);
 		return $this;
 	}
@@ -214,7 +215,7 @@ class Message implements IMessage {
 	 *
 	 * @return string
 	 */
-	public function getSubject() {
+	public function getSubject(): string {
 		return $this->swiftMessage->getSubject();
 	}
 
@@ -224,7 +225,7 @@ class Message implements IMessage {
 	 * @param string $body
 	 * @return $this
 	 */
-	public function setPlainBody($body) {
+	public function setPlainBody(string $body): IMessage {
 		$this->swiftMessage->setBody($body);
 		return $this;
 	}
@@ -234,7 +235,7 @@ class Message implements IMessage {
 	 *
 	 * @return string
 	 */
-	public function getPlainBody() {
+	public function getPlainBody(): string {
 		return $this->swiftMessage->getBody();
 	}
 
@@ -245,7 +246,9 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setHtmlBody($body) {
-		$this->swiftMessage->addPart($body, 'text/html');
+		if (!$this->plainTextOnly) {
+			$this->swiftMessage->addPart($body, 'text/html');
+		}
 		return $this;
 	}
 
@@ -253,7 +256,7 @@ class Message implements IMessage {
 	 * Get's the underlying SwiftMessage
 	 * @return Swift_Message
 	 */
-	public function getSwiftMessage() {
+	public function getSwiftMessage(): Swift_Message {
 		return $this->swiftMessage;
 	}
 
@@ -263,7 +266,9 @@ class Message implements IMessage {
 	 * @return $this
 	 */
 	public function setBody($body, $contentType) {
-		$this->swiftMessage->setBody($body, $contentType);
+		if (!$this->plainTextOnly || $contentType !== 'text/html') {
+			$this->swiftMessage->setBody($body, $contentType);
+		}
 		return $this;
 	}
 
@@ -271,10 +276,12 @@ class Message implements IMessage {
 	 * @param IEMailTemplate $emailTemplate
 	 * @return $this
 	 */
-	public function useTemplate(IEMailTemplate $emailTemplate) {
+	public function useTemplate(IEMailTemplate $emailTemplate): IMessage {
 		$this->setSubject($emailTemplate->renderSubject());
 		$this->setPlainBody($emailTemplate->renderText());
-		$this->setHtmlBody($emailTemplate->renderHtml());
+		if (!$this->plainTextOnly) {
+			$this->setHtmlBody($emailTemplate->renderHtml());
+		}
 		return $this;
 	}
 }

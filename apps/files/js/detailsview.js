@@ -9,22 +9,6 @@
  */
 
 (function() {
-	var TEMPLATE =
-		'	<div class="detailFileInfoContainer">' +
-		'	</div>' +
-		'	{{#if tabHeaders}}' +
-		'	<ul class="tabHeaders">' +
-		'		{{#each tabHeaders}}' +
-		'		<li class="tabHeader" data-tabid="{{tabId}}" data-tabindex="{{tabIndex}}">' +
-		'			<a href="#">{{label}}</a>' +
-		'		</li>' +
-		'		{{/each}}' +
-		'	</ul>' +
-		'	{{/if}}' +
-		'	<div class="tabsContainer">' +
-		'	</div>' +
-		'	<a class="close icon-close" href="#"><span class="hidden-visually">{{closeLabel}}</span></a>';
-
 	/**
 	 * @class OCA.Files.DetailsView
 	 * @classdesc
@@ -36,8 +20,6 @@
 		id: 'app-sidebar',
 		tabName: 'div',
 		className: 'detailsView scroll-container',
-
-		_template: null,
 
 		/**
 		 * List of detail tab views
@@ -67,7 +49,8 @@
 
 		events: {
 			'click a.close': '_onClose',
-			'click .tabHeaders .tabHeader': '_onClickTab'
+			'click .tabHeaders .tabHeader': '_onClickTab',
+			'keyup .tabHeaders .tabHeader': '_onKeyboardActivateTab'
 		},
 
 		/**
@@ -99,17 +82,30 @@
 			this.selectTab(tabId);
 		},
 
-		template: function(vars) {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
+		_onKeyboardActivateTab: function (event) {
+			if (event.key === " " || event.key === "Enter") {
+				this._onClickTab(event);
 			}
-			return this._template(vars);
+		},
+
+		template: function(vars) {
+			return OCA.Files.Templates['detailsview'](vars);
 		},
 
 		/**
 		 * Renders this details view
 		 */
 		render: function() {
+			// remove old instances
+			var $appSidebar = $('#app-sidebar');
+			if ($appSidebar.length === 0) {
+				this.$el.insertAfter($('#app-content'));
+			} else {
+				if ($appSidebar[0] !== this.el) {
+					$appSidebar.replaceWith(this.$el);
+				}
+			}
+			
 			var templateVars = {
 				closeLabel: t('files', 'Close')
 			};
@@ -126,8 +122,8 @@
 			templateVars.tabHeaders = _.map(this._tabViews, function(tabView, i) {
 				return {
 					tabId: tabView.id,
-					tabIndex: i,
-					label: tabView.getLabel()
+					label: tabView.getLabel(),
+					tabIcon: tabView.getIcon()
 				};
 			});
 

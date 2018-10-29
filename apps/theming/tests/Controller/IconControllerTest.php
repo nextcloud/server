@@ -33,7 +33,6 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -41,6 +40,7 @@ use Test\TestCase;
 use OCA\Theming\Util;
 use OCA\Theming\Controller\IconController;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 
 
 class IconControllerTest extends TestCase {
@@ -48,8 +48,6 @@ class IconControllerTest extends TestCase {
 	private $request;
 	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $themingDefaults;
-	/** @var Util */
-	private $util;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
 	/** @var IconController|\PHPUnit_Framework_MockObject_MockObject */
@@ -64,30 +62,23 @@ class IconControllerTest extends TestCase {
 	private $imageManager;
 
 	public function setUp() {
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
-		$this->themingDefaults = $this->getMockBuilder('OCA\Theming\ThemingDefaults')
-			->disableOriginalConstructor()->getMock();
-		$this->util = $this->getMockBuilder('\OCA\Theming\Util')->disableOriginalConstructor()
-			->setMethods(['getAppImage', 'getAppIcon', 'elementColor'])->getMock();
-		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->iconBuilder = $this->getMockBuilder('OCA\Theming\IconBuilder')
-			->disableOriginalConstructor()->getMock();
-		$this->imageManager = $this->getMockBuilder('OCA\Theming\ImageManager')->disableOriginalConstructor()->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->iconBuilder = $this->createMock(IconBuilder::class);
+		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
+
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
+
+		$this->overwriteService(ITimeFactory::class, $this->timeFactory);
 
 		$this->iconController = new IconController(
 			'theming',
 			$this->request,
 			$this->themingDefaults,
-			$this->util,
-			$this->timeFactory,
-			$this->config,
 			$this->iconBuilder,
 			$this->imageManager,
 			$this->fileAccessHelper
@@ -113,11 +104,6 @@ class IconControllerTest extends TestCase {
 			->willReturn($file);
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 	}
 
@@ -129,34 +115,36 @@ class IconControllerTest extends TestCase {
 		if (count($checkImagick->queryFormats('SVG')) < 1) {
 			$this->markTestSkipped('No SVG provider present.');
 		}
-		$this->themingDefaults->expects($this->any())
+		$file = $this->iconFileMock('filename', 'filecontent');
+		$this->imageManager->expects($this->once())
+			->method('getImage', false)
+			->with('favicon')
+			->will($this->throwException(new NotFoundException()));
+		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(true);
-
+		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->will($this->throwException(new NotFoundException()));
 		$this->iconBuilder->expects($this->once())
 			->method('getFavicon')
 			->with('core')
 			->willReturn('filecontent');
-		$file = $this->iconFileMock('filename', 'filecontent');
-		$this->imageManager->expects($this->once())
-			->method('getCachedImage')
-			->will($this->throwException(new NotFoundException()));
 		$this->imageManager->expects($this->once())
 			->method('setCachedImage')
 			->willReturn($file);
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
 	public function testGetFaviconFail() {
-		$this->themingDefaults->expects($this->any())
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->with('favicon', false)
+			->will($this->throwException(new NotFoundException()));
+		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
@@ -166,11 +154,6 @@ class IconControllerTest extends TestCase {
 			->willReturn(file_get_contents($fallbackLogo));
 		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
@@ -182,10 +165,13 @@ class IconControllerTest extends TestCase {
 		if (count($checkImagick->queryFormats('SVG')) < 1) {
 			$this->markTestSkipped('No SVG provider present.');
 		}
-		$this->themingDefaults->expects($this->any())
+
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->will($this->throwException(new NotFoundException()));
+		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(true);
-
 		$this->iconBuilder->expects($this->once())
 			->method('getTouchIcon')
 			->with('core')
@@ -200,16 +186,15 @@ class IconControllerTest extends TestCase {
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
 
 	public function testGetTouchIconFail() {
-		$this->themingDefaults->expects($this->any())
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->with('favicon')
+			->will($this->throwException(new NotFoundException()));
+		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
@@ -219,11 +204,6 @@ class IconControllerTest extends TestCase {
 			->willReturn(file_get_contents($fallbackLogo));
 		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
-		$expires = new \DateTime();
-		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT24H'));
-		$expected->addHeader('Expires', $expires->format(\DateTime::RFC2822));
-		$expected->addHeader('Pragma', 'cache');
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
 

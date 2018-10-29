@@ -43,8 +43,12 @@ class PluginTest extends TestCase  {
 				'calendars/MyUserName',
 			],
 			[
-				'FooFoo',
-				null,
+				'principals/calendar-resources/Resource-ABC',
+				'system-calendars/calendar-resources/Resource-ABC',
+			],
+			[
+				'principals/calendar-rooms/Room-ABC',
+				'system-calendars/calendar-rooms/Room-ABC',
 			],
 		];
 	}
@@ -59,4 +63,7 @@ class PluginTest extends TestCase  {
 		$this->assertSame($expected, $this->plugin->getCalendarHomeForPrincipal($input));
 	}
 
+	public function testGetCalendarHomeForUnknownPrincipal() {
+		$this->assertNull($this->plugin->getCalendarHomeForPrincipal('FOO/BAR/BLUB'));
+	}
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -53,7 +54,7 @@ class MapperEvent extends Event {
 	 * @param int[] $tags
 	 * @since 9.0.0
 	 */
-	public function __construct($event, $objectType, $objectId, array $tags) {
+	public function __construct(string $event, string $objectType, string $objectId, array $tags) {
 		$this->event = $event;
 		$this->objectType = $objectType;
 		$this->objectId = $objectId;
@@ -64,7 +65,7 @@ class MapperEvent extends Event {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getEvent() {
+	public function getEvent(): string {
 		return $this->event;
 	}
 
@@ -72,7 +73,7 @@ class MapperEvent extends Event {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getObjectType() {
+	public function getObjectType(): string {
 		return $this->objectType;
 	}
 
@@ -80,7 +81,7 @@ class MapperEvent extends Event {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getObjectId() {
+	public function getObjectId(): string {
 		return $this->objectId;
 	}
 
@@ -88,7 +89,7 @@ class MapperEvent extends Event {
 	 * @return int[]
 	 * @since 9.0.0
 	 */
-	public function getTags() {
+	public function getTags(): array {
 		return $this->tags;
 	}
 }

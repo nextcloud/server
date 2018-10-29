@@ -9,6 +9,7 @@
 namespace Test\Mail;
 
 use OC\Mail\Message;
+use OCP\Mail\IEMailTemplate;
 use Swift_Message;
 use Test\TestCase;
 
@@ -30,13 +31,13 @@ class MessageTest extends TestCase {
 		);
 	}
 
-	function setUp() {
+	public function setUp() {
 		parent::setUp();
 
 		$this->swiftMessage = $this->getMockBuilder('\Swift_Message')
 			->disableOriginalConstructor()->getMock();
 
-		$this->message = new Message($this->swiftMessage);
+		$this->message = new Message($this->swiftMessage, false);
 	}
 
 	/**
@@ -79,9 +80,9 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getReplyTo')
-			->will($this->returnValue(['lukas@owncloud.com']));
+			->willReturn('lukas@owncloud.com');
 
-		$this->assertSame(['lukas@owncloud.com'], $this->message->getReplyTo());
+		$this->assertSame('lukas@owncloud.com', $this->message->getReplyTo());
 	}
 
 	public function testSetTo() {
@@ -178,6 +179,52 @@ class MessageTest extends TestCase {
 			->with('<blink>Fancy Body</blink>', 'text/html');
 
 		$this->message->setHtmlBody('<blink>Fancy Body</blink>');
+	}
+
+	public function testPlainTextRenderOption() {
+		/** @var \PHPUnit_Framework_MockObject_MockObject|Swift_Message $swiftMessage */
+		$swiftMessage = $this->getMockBuilder('\Swift_Message')
+			->disableOriginalConstructor()->getMock();
+		/** @var \PHPUnit_Framework_MockObject_MockObject|IEMailTemplate $template */
+		$template = $this->getMockBuilder('\OCP\Mail\IEMailTemplate')
+			->disableOriginalConstructor()->getMock();
+
+		$message = new Message($swiftMessage, true);
+
+		$template
+			->expects($this->never())
+			->method('renderHTML');
+		$template
+			->expects($this->once())
+			->method('renderText');
+		$template
+			->expects($this->once())
+			->method('renderSubject');
+
+		$message->useTemplate($template);
+	}
+
+	public function testBothRenderingOptions() {
+		/** @var \PHPUnit_Framework_MockObject_MockObject|Swift_Message $swiftMessage */
+		$swiftMessage = $this->getMockBuilder('\Swift_Message')
+			->disableOriginalConstructor()->getMock();
+		/** @var \PHPUnit_Framework_MockObject_MockObject|IEMailTemplate $template */
+		$template = $this->getMockBuilder('\OCP\Mail\IEMailTemplate')
+			->disableOriginalConstructor()->getMock();
+
+		$message = new Message($swiftMessage, false);
+
+		$template
+			->expects($this->once())
+			->method('renderHTML');
+		$template
+			->expects($this->once())
+			->method('renderText');
+		$template
+			->expects($this->once())
+			->method('renderSubject');
+
+		$message->useTemplate($template);
 	}
 
 }

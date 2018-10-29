@@ -28,6 +28,8 @@
  *
  */
 
+use OCP\ILogger;
+
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * Doctrine with some adaptions.
@@ -105,11 +107,11 @@ class OC_DB {
 	 * @param mixed $stmt OC_DB_StatementWrapper,
 	 *					  an array with 'sql' and optionally 'limit' and 'offset' keys
 	 *					.. or a simple sql query string
-	 * @param array|null $parameters
+	 * @param array $parameters
 	 * @return OC_DB_StatementWrapper
 	 * @throws \OC\DatabaseException
 	 */
-	static public function executeAudited( $stmt, array $parameters = null) {
+	static public function executeAudited( $stmt, array $parameters = []) {
 		if (is_string($stmt)) {
 			// convert to an array with 'sql'
 			if (stripos($stmt, 'LIMIT') !== false) { //OFFSET requires LIMIT, so we only need to check for LIMIT
@@ -170,8 +172,7 @@ class OC_DB {
 	 */
 	public static function createDbFromStructure( $file ) {
 		$schemaManager = self::getMDB2SchemaManager();
-		$result = $schemaManager->createDbFromStructure($file);
-		return $result;
+		return $schemaManager->createDbFromStructure($file);
 	}
 
 	/**
@@ -186,7 +187,7 @@ class OC_DB {
 		try {
 			$result = $schemaManager->updateDbFromStructure($file);
 		} catch (Exception $e) {
-			\OCP\Util::writeLog('core', 'Failed to update database structure ('.$e.')', \OCP\Util::FATAL);
+			\OCP\Util::writeLog('core', 'Failed to update database structure ('.$e.')', ILogger::FATAL);
 			throw $e;
 		}
 		return $result;

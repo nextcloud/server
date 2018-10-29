@@ -23,6 +23,7 @@
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\JsController;
+use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -51,7 +52,7 @@ class JsControllerTest extends TestCase {
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);
-		$this->appData = $this->createMock(IAppData::class);
+		$this->appData = $this->createMock(AppData::class);
 		$factory->expects($this->once())
 			->method('get')
 			->with('js')
@@ -109,10 +110,10 @@ class JsControllerTest extends TestCase {
 			->willReturn($file);
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
-		$expected->cacheFor(86400);
+		$expected->addHeader('Cache-Control', 'max-age=31536000, immutable');
 		$expires = new \DateTime();
 		$expires->setTimestamp(1337);
-		$expires->add(new \DateInterval('PT24H'));
+		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$expected->addHeader('Pragma', 'cache');
 
@@ -137,10 +138,10 @@ class JsControllerTest extends TestCase {
 
 		$expected = new FileDisplayResponse($gzipFile, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
 		$expected->addHeader('Content-Encoding', 'gzip');
-		$expected->cacheFor(86400);
+		$expected->addHeader('Cache-Control', 'max-age=31536000, immutable');
 		$expires = new \DateTime();
 		$expires->setTimestamp(1337);
-		$expires->add(new \DateInterval('PT24H'));
+		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$expected->addHeader('Pragma', 'cache');
 
@@ -170,10 +171,10 @@ class JsControllerTest extends TestCase {
 			->willReturn('gzip, deflate');
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'application/javascript']);
-		$expected->cacheFor(86400);
+		$expected->addHeader('Cache-Control', 'max-age=31536000, immutable');
 		$expires = new \DateTime();
 		$expires->setTimestamp(1337);
-		$expires->add(new \DateInterval('PT24H'));
+		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$expected->addHeader('Pragma', 'cache');
 

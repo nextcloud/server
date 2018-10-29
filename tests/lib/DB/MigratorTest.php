@@ -132,7 +132,7 @@ class MigratorTest extends \Test\TestCase {
 
 		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testUpgradeDifferentPrefix() {
@@ -151,7 +151,7 @@ class MigratorTest extends \Test\TestCase {
 
 		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 
 		$this->config->setSystemValue('dbtableprefix', $oldTablePrefix);
 	}
@@ -169,7 +169,7 @@ class MigratorTest extends \Test\TestCase {
 			$this->connection->insert($this->tableName, array('id' => 2, 'name' => 'qwerty'));
 			$this->fail('Expected duplicate key insert to fail');
 		} catch (DBALException $e) {
-			$this->assertTrue(true);
+			$this->addToAssertionCount(1);
 		}
 	}
 
@@ -191,7 +191,7 @@ class MigratorTest extends \Test\TestCase {
 		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testReservedKeywords() {
@@ -213,7 +213,7 @@ class MigratorTest extends \Test\TestCase {
 		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testAddingForeignKey() {

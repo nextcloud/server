@@ -49,6 +49,7 @@ class ValidatorTest extends TestCase {
 				'path' => 'path/to/test.txt',
 			],
 		]);
+		$this->addToAssertionCount(2);
 	}
 
 }

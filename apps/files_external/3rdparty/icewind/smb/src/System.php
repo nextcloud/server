@@ -17,10 +17,10 @@ class System {
 	private $stdbuf;
 
 	public static function getFD($num) {
-		$folders = array(
+		$folders = [
 			'/proc/self/fd',
 			'/dev/fd'
-		);
+		];
 		foreach ($folders as $folder) {
 			if (file_exists($folder)) {
 				return $folder . '/' . $num;

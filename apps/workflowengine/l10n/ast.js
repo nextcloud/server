@@ -1,6 +1,10 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Descipción curtia de la regla",
+    "Add rule" : "Amestar regla",
+    "Save" : "Guardar",
+    "Saving…" : "Guardando...",
     "Saved" : "Guardóse",
     "Saving failed:" : "Falló'l guardáu:",
     "File MIME type" : "Triba MIME de ficheru",
@@ -45,12 +49,6 @@ OC.L10N.register(
     "Operation %s is invalid" : "La operación %s nun ye válida",
     "Workflow" : "Fluxu de trabayu",
     "Open documentation" : "Abrir documentación",
-    "Short rule description" : "Descipción curtia de la regla",
-    "Add rule" : "Amestar regla",
-    "Save" : "Guardar",
-    "Saving…" : "Guardando...",
-    "Loading…" : "Cargando...",
-    "Successfully saved" : "Guardóse con ésitu",
-    "File mime type" : "Triba MIME de ficheru"
+    "Loading…" : "Cargando..."
 },
 "nplurals=2; plural=(n != 1);");

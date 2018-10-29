@@ -292,12 +292,12 @@ interface IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'p', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed $select The selection expressions.
+	 * @param mixed ...$selects The selection expressions.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function select($select = null);
+	public function select(...$selects);
 
 	/**
 	 * Specifies an item that is to be returned with a different name in the query result.
@@ -344,12 +344,12 @@ interface IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed $select The selection expression.
+	 * @param mixed ...$select The selection expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function addSelect($select = null);
+	public function addSelect(...$select);
 
 	/**
 	 * Turns the query being built into a bulk delete query that ranges over
@@ -554,7 +554,7 @@ interface IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function where($predicates);
+	public function where(...$predicates);
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
@@ -568,14 +568,14 @@ interface IQueryBuilder {
 	 *         ->andWhere('u.is_active = 1');
 	 * </code>
 	 *
-	 * @param mixed $where The query restrictions.
+	 * @param mixed ...$where The query restrictions.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 * @since 8.2.0
 	 */
-	public function andWhere($where);
+	public function andWhere(...$where);
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
@@ -589,14 +589,14 @@ interface IQueryBuilder {
 	 *         ->orWhere('u.id = 2');
 	 * </code>
 	 *
-	 * @param mixed $where The WHERE statement.
+	 * @param mixed ...$where The WHERE statement.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 * @since 8.2.0
 	 */
-	public function orWhere($where);
+	public function orWhere(...$where);
 
 	/**
 	 * Specifies a grouping over the results of the query.
@@ -609,12 +609,12 @@ interface IQueryBuilder {
 	 *         ->groupBy('u.id');
 	 * </code>
 	 *
-	 * @param mixed $groupBy The grouping expression.
+	 * @param mixed ...$groupBys The grouping expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function groupBy($groupBy);
+	public function groupBy(...$groupBys);
 
 	/**
 	 * Adds a grouping expression to the query.
@@ -627,12 +627,12 @@ interface IQueryBuilder {
 	 *         ->addGroupBy('u.createdAt')
 	 * </code>
 	 *
-	 * @param mixed $groupBy The grouping expression.
+	 * @param mixed ...$groupBy The grouping expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function addGroupBy($groupBy);
+	public function addGroupBy(...$groupBy);
 
 	/**
 	 * Sets a value for a column in an insert query.
@@ -682,34 +682,34 @@ interface IQueryBuilder {
 	 * Specifies a restriction over the groups of the query.
 	 * Replaces any previous having restrictions, if any.
 	 *
-	 * @param mixed $having The restriction over the groups.
+	 * @param mixed ...$having The restriction over the groups.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function having($having);
+	public function having(...$having);
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * conjunction with any existing having restrictions.
 	 *
-	 * @param mixed $having The restriction to append.
+	 * @param mixed ...$having The restriction to append.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function andHaving($having);
+	public function andHaving(...$having);
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * disjunction with any existing having restrictions.
 	 *
-	 * @param mixed $having The restriction to add.
+	 * @param mixed ...$having The restriction to add.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function orHaving($having);
+	public function orHaving(...$having);
 
 	/**
 	 * Specifies an ordering for the query results.

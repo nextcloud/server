@@ -62,7 +62,6 @@ class Helper {
 		$dirContent = $storage->getCache()->getFolderContents($mount->getInternalPath($view->getAbsolutePath($dir)));
 		foreach ($dirContent as $entry) {
 			$entryName = $entry->getName();
-			$id = $entry->getId();
 			$name = $entryName;
 			if ($dir === '' || $dir === '/') {
 				$pathparts = pathinfo($entryName);
@@ -91,7 +90,8 @@ class Helper {
 				'directory' => ($dir === '/') ? '' : $dir,
 				'size' => $entry->getSize(),
 				'etag' => '',
-				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE
+				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE,
+				'fileid' => $entry->getId(),
 			);
 			if ($originalPath) {
 				if ($originalPath !== '.') {
@@ -116,10 +116,9 @@ class Helper {
 	 */
 	public static function formatFileInfos($fileInfos) {
 		$files = array();
-		$id = 0;
 		foreach ($fileInfos as $i) {
 			$entry = \OCA\Files\Helper::formatFileInfo($i);
-			$entry['id'] = $id++;
+			$entry['id'] = $i->getId();
 			$entry['etag'] = $entry['mtime']; // add fake etag, it is only needed to identify the preview image
 			$entry['permissions'] = \OCP\Constants::PERMISSION_READ;
 			$files[] = $entry;

@@ -10,14 +10,23 @@
 describe('OCA.Versions.VersionModel', function() {
 	var VersionModel = OCA.Versions.VersionModel;
 	var model;
+	var uid = OC.currentUser = 'user';
 
 	beforeEach(function() {
 		model = new VersionModel({
 			id: 10000000,
+			fileId: 10,
 			timestamp: 10000000,
 			fullPath: '/subdir/some file.txt',
 			name: 'some file.txt',
-			size: 150
+			size: 150,
+			user: 'user',
+			client: new OC.Files.Client({
+				host: 'localhost',
+				port: 80,
+				root: '/remote.php/dav/versions/user',
+				useHTTPS: OC.getProtocol() === 'https'
+			})
 		});
 	});
 
@@ -32,8 +41,8 @@ describe('OCA.Versions.VersionModel', function() {
 	});
 	it('returns the download url', function() {
 		expect(model.getDownloadUrl())
-			.toEqual(OC.generateUrl('/apps/files_versions/download.php') +
-					'?file=%2Fsubdir%2Fsome%20file.txt&revision=10000000'
+			.toEqual(OC.linkToRemoteBase('dav') + '/versions/' + uid +
+					'/versions/10/10000000'
 			);
 	});
 	describe('reverting', function() {
@@ -49,47 +58,51 @@ describe('OCA.Versions.VersionModel', function() {
 			model.on('revert', revertEventStub);
 			model.on('error', errorStub);
 		});
-		it('tells the server to revert when calling the revert method', function() {
-			model.revert({
+		it('tells the server to revert when calling the revert method', function(done) {
+			var promise = model.revert({
 				success: successStub
 			});
 
 			expect(fakeServer.requests.length).toEqual(1);
-			expect(fakeServer.requests[0].url)
+			var request = fakeServer.requests[0];
+			expect(request.url)
 				.toEqual(
-					OC.generateUrl('/apps/files_versions/ajax/rollbackVersion.php') +
-					'?file=%2Fsubdir%2Fsome+file.txt&revision=10000000'
+					OC.linkToRemoteBase('dav') + '/versions/user/versions/10/10000000'
 				);
+			expect(request.requestHeaders.Destination).toEqual(OC.getRootPath() + '/remote.php/dav/versions/user/restore/target');
+			request.respond(201);
 
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({
-					status: 'success',
-				})
-			);
+			promise.then(function() {
+				expect(revertEventStub.calledOnce).toEqual(true);
+				expect(successStub.calledOnce).toEqual(true);
+				expect(errorStub.notCalled).toEqual(true);
 
-			expect(revertEventStub.calledOnce).toEqual(true);
-			expect(successStub.calledOnce).toEqual(true);
-			expect(errorStub.notCalled).toEqual(true);
+				done();
+			});
 		});
-		it('triggers error event when server returns a failure', function() {
-			model.revert({
+		it('triggers error event when server returns a failure', function(done) {
+			var promise = model.revert({
 				success: successStub
 			});
 
 			expect(fakeServer.requests.length).toEqual(1);
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({
-					status: 'error',
-				})
-			);
+			var responseErrorHeaders = {
+				"Content-Type": "application/xml"
+			};
+			var responseErrorBody =
+				'<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">' +
+				'    <s:exception>Sabre\\DAV\\Exception\\SomeException</s:exception>' +
+				'    <s:message>Some error message</s:message>' +
+				'</d:error>';
+			fakeServer.requests[0].respond(404, responseErrorHeaders, responseErrorBody);
 
-			expect(revertEventStub.notCalled).toEqual(true);
-			expect(successStub.notCalled).toEqual(true);
-			expect(errorStub.calledOnce).toEqual(true);
+			promise.fail(function() {
+				expect(revertEventStub.notCalled).toEqual(true);
+				expect(successStub.notCalled).toEqual(true);
+				expect(errorStub.calledOnce).toEqual(true);
+
+				done();
+			});
 		});
 	});
 });

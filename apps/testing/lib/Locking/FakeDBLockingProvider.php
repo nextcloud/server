@@ -51,7 +51,7 @@ class FakeDBLockingProvider extends \OC\Lock\DBLockingProvider {
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 */
-	public function releaseLock($path, $type) {
+	public function releaseLock(string $path, int $type) {
 		// we DONT keep shared locks till the end of the request
 		if ($type === self::LOCK_SHARED) {
 			$this->db->executeUpdate(

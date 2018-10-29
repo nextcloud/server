@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -28,7 +29,7 @@ class AppManagement extends Action {
 	/**
 	 * @param string $appName
 	 */
-	public function enableApp($appName) {
+	public function enableApp(string $appName) {
 		$this->log('App "%s" enabled',
 			['app' => $appName],
 			['app']
@@ -39,8 +40,8 @@ class AppManagement extends Action {
 	 * @param string $appName
 	 * @param string[] $groups
 	 */
-	public function enableAppForGroups($appName, array $groups) {
-		$this->log('App "%s" enabled for groups: %s',
+	public function enableAppForGroups(string $appName, array $groups) {
+		$this->log('App "%1$s" enabled for groups: %2$s',
 			['app' => $appName, 'groups' => implode(', ', $groups)],
 			['app', 'groups']
 		);
@@ -49,7 +50,7 @@ class AppManagement extends Action {
 	/**
 	 * @param string $appName
 	 */
-	public function disableApp($appName) {
+	public function disableApp(string $appName) {
 		$this->log('App "%s" disabled',
 			['app' => $appName],
 			['app']

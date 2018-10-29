@@ -39,6 +39,6 @@ class ExpireTest extends TestCase {
 		$command = new Expire('test');
 		$command->handle();
 
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 }

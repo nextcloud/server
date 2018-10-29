@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,12 +30,11 @@
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\IUser;
 
-class DefaultTokenMapper extends Mapper {
+class DefaultTokenMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'authtoken');
@@ -45,12 +45,12 @@ class DefaultTokenMapper extends Mapper {
 	 *
 	 * @param string $token
 	 */
-	public function invalidate($token) {
+	public function invalidate(string $token) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
-			->where($qb->expr()->eq('token', $qb->createParameter('token')))
-			->setParameter('token', $token)
+			->where($qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 	}
 
@@ -58,13 +58,14 @@ class DefaultTokenMapper extends Mapper {
 	 * @param int $olderThan
 	 * @param int $remember
 	 */
-	public function invalidateOld($olderThan, $remember = IToken::DO_NOT_REMEMBER) {
+	public function invalidateOld(int $olderThan, int $remember = IToken::DO_NOT_REMEMBER) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
 			->where($qb->expr()->lt('last_activity', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 	}
 
@@ -75,12 +76,13 @@ class DefaultTokenMapper extends Mapper {
 	 * @throws DoesNotExistException
 	 * @return DefaultToken
 	 */
-	public function getToken($token) {
+	public function getToken(string $token): DefaultToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
+		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 
 		$data = $result->fetch();
@@ -94,16 +96,17 @@ class DefaultTokenMapper extends Mapper {
 	/**
 	 * Get the token for $id
 	 *
-	 * @param string $id
+	 * @param int $id
 	 * @throws DoesNotExistException
 	 * @return DefaultToken
 	 */
-	public function getTokenById($id) {
+	public function getTokenById(int $id): DefaultToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'token', 'last_activity', 'last_check', 'scope')
+		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
 			->from('authtoken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
 
 		$data = $result->fetch();
@@ -120,15 +123,16 @@ class DefaultTokenMapper extends Mapper {
 	 * The provider may limit the number of result rows in case of an abuse
 	 * where a high number of (session) tokens is generated
 	 *
-	 * @param IUser $user
+	 * @param string $uid
 	 * @return DefaultToken[]
 	 */
-	public function getTokenByUser(IUser $user) {
+	public function getTokenByUser(string $uid): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'remember', 'token', 'last_activity', 'last_check', 'scope')
+		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'token', 'type', 'remember', 'last_activity', 'last_check', 'scope', 'expires', 'version')
 			->from('authtoken')
-			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1000);
 		$result = $qb->execute();
 		$data = $result->fetchAll();
@@ -141,16 +145,13 @@ class DefaultTokenMapper extends Mapper {
 		return $entities;
 	}
 
-	/**
-	 * @param IUser $user
-	 * @param int $id
-	 */
-	public function deleteById(IUser $user, $id) {
+	public function deleteById(string $uid, int $id) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())));
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}
 
@@ -159,10 +160,11 @@ class DefaultTokenMapper extends Mapper {
 	 *
 	 * @param string $name
 	 */
-	public function deleteByName($name) {
+	public function deleteByName(string $name) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('authtoken')
-			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR));
+			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}
 

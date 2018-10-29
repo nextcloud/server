@@ -59,8 +59,7 @@ trait CommandLine {
 
 		// Clean opcode cache
 		$client = new GuzzleHttp\Client();
-		$request = $client->createRequest('GET', 'http://localhost:8080/apps/testing/clean_opcode_cache.php');
-		$client->send($request);
+		$client->request('GET', 'http://localhost:8080/apps/testing/clean_opcode_cache.php');
 
 		return $this->lastCode;
 	}

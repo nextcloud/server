@@ -21,6 +21,7 @@ OCA.Sharing.App = {
 
 	_inFileList: null,
 	_outFileList: null,
+	_overviewFileList: null,
 
 	initSharingIn: function($el) {
 		if (this._inFileList) {
@@ -31,10 +32,13 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.self',
-				scrollContainer: $('#app-content'),
 				sharedWithUser: true,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -54,10 +58,13 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.others',
-				scrollContainer: $('#app-content'),
 				sharedWithUser: false,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -77,10 +84,13 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.link',
-				scrollContainer: $('#app-content'),
 				linksOnly: true,
 				fileActions: this._createFileActions(),
-				config: OCA.Files.App.getFilesConfig()
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
 			}
 		);
 
@@ -90,6 +100,58 @@ OCA.Sharing.App = {
 			'<h2>' + t('files_sharing', 'No shared links') + '</h2>' +
 			'<p>' + t('files_sharing', 'Files and folders you share by link will show up here') + '</p>');
 		return this._linkFileList;
+	},
+
+	initSharingDeleted: function($el) {
+		if (this._deletedFileList) {
+			return this._deletedFileList;
+		}
+		this._deletedFileList = new OCA.Sharing.FileList(
+			$el,
+			{
+				id: 'shares.deleted',
+				showDeleted: true,
+				sharedWithUser: true,
+				fileActions: this._restoreShareAction(),
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
+			}
+		);
+
+		this._extendFileList(this._deletedFileList);
+		this._deletedFileList.appName = t('files_sharing', 'Deleted shares');
+		this._deletedFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>' +
+			'<h2>' + t('files_sharing', 'No deleted shares') + '</h2>' +
+			'<p>' + t('files_sharing', 'Shares you deleted will show up here') + '</p>');
+		return this._deletedFileList;
+	},
+
+	initShareingOverview: function($el) {
+		if (this._overviewFileList) {
+			return this._overviewFileList;
+		}
+		this._overviewFileList = new OCA.Sharing.FileList(
+			$el,
+			{
+				id: 'shares.overview',
+				config: OCA.Files.App.getFilesConfig(),
+				isOverview: true,
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
+			}
+		);
+
+		this._extendFileList(this._overviewFileList);
+		this._overviewFileList.appName = t('files_sharing', 'Shares');
+		this._overviewFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>' +
+			'<h2>' + t('files_sharing', 'No shares') + '</h2>' +
+			'<p>' + t('files_sharing', 'Shares will show up here') + '</p>');
+		return this._overviewFileList;
 	},
 
 	removeSharingIn: function() {
@@ -110,6 +172,18 @@ OCA.Sharing.App = {
 		}
 	},
 
+	removeSharingDeleted: function() {
+		if (this._deletedFileList) {
+			this._deletedFileList.$fileList.empty();
+		}
+	},
+
+	removeSharingOverview: function() {
+		if (this._overviewFileList) {
+			this._overviewFileList.$fileList.empty();
+		}
+	},
+
 	/**
 	 * Destroy the app
 	 */
@@ -122,6 +196,7 @@ OCA.Sharing.App = {
 		this._inFileList = null;
 		this._outFileList = null;
 		this._linkFileList = null;
+		this._overviewFileList = null;
 		delete this._globalActionsInitialized;
 	},
 
@@ -148,6 +223,29 @@ OCA.Sharing.App = {
 			OCA.Files.App.fileList.changeDirectory(OC.joinPaths(context.$file.attr('data-path'), filename), true, true);
 		});
 		fileActions.setDefault('dir', 'Open');
+		return fileActions;
+	},
+
+	_restoreShareAction: function() {
+		var fileActions = new OCA.Files.FileActions();
+		fileActions.registerAction({
+			name: 'Restore',
+			displayName: '',
+			altText: t('files_sharing', 'Restore share'),
+			mime: 'all',
+			permissions: OC.PERMISSION_ALL,
+			iconClass: 'icon-history',
+			type: OCA.Files.FileActions.TYPE_INLINE,
+			actionHandler: function(fileName, context) {
+				var shareId = context.$file.data('shareId');
+				$.post(OC.linkToOCS('apps/files_sharing/api/v1/deletedshares', 2) + shareId)
+				.success(function(result) {
+					context.fileList.remove(context.fileInfoModel.attributes.name);
+				}).fail(function() {
+					OC.Notification.showTemporary(t('files_sharing', 'Something happened. Unable to restore the share.'));
+				});
+			}
+		});
 		return fileActions;
 	},
 
@@ -192,5 +290,17 @@ $(document).ready(function() {
 	});
 	$('#app-content-sharinglinks').on('hide', function() {
 		OCA.Sharing.App.removeSharingLinks();
+	});
+	$('#app-content-deletedshares').on('show', function(e) {
+		OCA.Sharing.App.initSharingDeleted($(e.target));
+	});
+	$('#app-content-deletedshares').on('hide', function() {
+		OCA.Sharing.App.removeSharingDeleted();
+	});
+	$('#app-content-shareoverview').on('show', function(e) {
+		OCA.Sharing.App.initShareingOverview($(e.target));
+	});
+	$('#app-content-shareoverview').on('hide', function() {
+		OCA.Sharing.App.removeSharingOverview();
 	});
 });

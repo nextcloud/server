@@ -47,6 +47,7 @@ class CalDAVSettings implements ISettings {
 	public function getForm() {
 		$parameters = [
 			'send_invitations' => $this->config->getAppValue('dav', 'sendInvitations', 'yes'),
+			'generate_birthday_calendar' => $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes'),
 		];
 
 		return new TemplateResponse('dav', 'settings-admin-caldav', $parameters);
@@ -56,13 +57,13 @@ class CalDAVSettings implements ISettings {
 	 * @return string
 	 */
 	public function getSection() {
-		return 'additional';
+		return 'groupware';
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getPriority() {
-		return 20;
+		return 10;
 	}
 }

@@ -33,12 +33,15 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Scanner;
 use OCA\Files_Sharing\Controller\ShareAPIController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IServerContainer;
 
 /**
  * Class ApiTest
@@ -62,8 +65,8 @@ class ApiTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_expire_after_n_days', '7');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder  = '/subfolder_share_api_test';
@@ -105,6 +108,9 @@ class ApiTest extends TestCase {
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
+		$config = $this->createMock(IConfig::class);
+		$appManager = $this->createMock(IAppManager::class);
+		$serverContainer = $this->createMock(IServerContainer::class);
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -115,7 +121,10 @@ class ApiTest extends TestCase {
 			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
 			$userId,
-			$l
+			$l,
+			$config,
+			$appManager,
+			$serverContainer
 		);
 	}
 
@@ -236,11 +245,11 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
-	function testEnfoceLinkPassword() {
+	function testEnforceLinkPassword() {
 
 		$password = md5(time());
-		$appConfig = \OC::$server->getAppConfig();
-		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'yes');
+		$config = \OC::$server->getConfig();
+		$config->setAppValue('core', 'shareapi_enforce_links_password', 'yes');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		try {
@@ -287,7 +296,8 @@ class ApiTest extends TestCase {
 		$ocs->deleteShare($data['id']);
 		$ocs->cleanup();
 
-		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_links_password', 'no');
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -296,7 +306,7 @@ class ApiTest extends TestCase {
 	function testSharePermissions() {
 		// sharing file to a user should work if shareapi_exclude_groups is set
 		// to no
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
@@ -311,8 +321,8 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		// exclude groups, but not the group the user belongs to. Sharing should still work
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'yes');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'yes');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
@@ -327,15 +337,17 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		// now we exclude the group the user belongs to ('group'), sharing should fail now
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', 'admin,group');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', 'admin,group');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$ocs->cleanup();
 
 		// cleanup
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', '');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', '');
+
+		$this->addToAssertionCount(1);
 	}
 
 
@@ -954,7 +966,7 @@ class ApiTest extends TestCase {
 
 		// update public upload
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
-		$ocs->updateShare($share1->getId(), null, null, 'true');
+		$ocs->updateShare($share1->getId(), null, null, null, 'true');
 		$ocs->cleanup();
 
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
@@ -997,7 +1009,7 @@ class ApiTest extends TestCase {
 
 		// update expire date to a valid value
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
-		$ocs->updateShare($share1->getId(), null, null, null, $dateWithinRange->format('Y-m-d'));
+		$ocs->updateShare($share1->getId(), null, null, null, null, $dateWithinRange->format('Y-m-d'));
 		$ocs->cleanup();
 
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
@@ -1102,6 +1114,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		$this->shareManager->deleteShare($share1);
+		$this->addToAssertionCount(1);
 	}
 
 	/**
@@ -1206,28 +1219,6 @@ class ApiTest extends TestCase {
 		\OC_Hook::clear('OC_Filesystem', 'post_initMountPoints');
 		\OC_Hook::clear('\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
 	}
-	/**
-	 * @expectedException \Exception
-	 */
-	public function XtestShareNonExisting() {
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		$id = PHP_INT_MAX - 1;
-		\OC\Share\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
-	}
-
-	/**
-	 * @expectedException \Exception
-	 */
-	public function testShareNotOwner() {
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		\OC\Files\Filesystem::file_put_contents('foo.txt', 'bar');
-		$info = \OC\Files\Filesystem::getFileInfo('foo.txt');
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		\OC\Share\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
-	}
 
 	public function datesProvider() {
 		$date = new \DateTime();
@@ -1249,7 +1240,7 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 
 		try {
-			$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', $date);
+			$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', null, $date);
 			$this->assertTrue($valid);
 		} catch (OCSNotFoundException $e) {
 			$this->assertFalse($valid);
@@ -1285,7 +1276,7 @@ class ApiTest extends TestCase {
 		$date->add(new \DateInterval('P5D'));
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
-		$result = $ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', $date->format('Y-m-d'));
+		$result = $ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', null, $date->format('Y-m-d'));
 		$ocs->cleanup();
 
 		$data = $result->getData();
@@ -1319,7 +1310,7 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 
 		try {
-			$ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', $date->format('Y-m-d'));
+			$ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', null, $date->format('Y-m-d'));
 			$this->fail();
 		} catch (OCSException $e) {
 			$this->assertEquals(404, $e->getCode());
@@ -1340,7 +1331,7 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 
 		try {
-			$ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', $date->format('Y-m-d'));
+			$ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', null, $date->format('Y-m-d'));
 			$this->fail();
 		} catch(OCSException $e) {
 			$this->assertEquals(404, $e->getCode());

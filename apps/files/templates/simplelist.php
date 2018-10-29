@@ -13,8 +13,7 @@
 	<h2><?php p($l->t('No entries found in this folder')); ?></h2>
 	<p></p>
 </div>
-
-<table id="filestable">
+<table id="filestable" class="list-container view-grid">
 	<thead>
 		<tr>
 			<th id='headerName' class="hidden column-name">
@@ -27,11 +26,13 @@
 			</th>
 			<th id="headerDate" class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
-					<span class="selectedActions"><a href="" class="delete-selected">
-						<?php p($l->t('Delete'))?>
-						<img class="svg" alt=""
-							 src="<?php print_unescaped(OCP\image_path("core", "actions/delete.svg")); ?>" />
-					</a></span>
+				<span class="selectedActions">
+				    <a href="" class="delete-selected">
+					<img class="svg" alt=""
+					     src="<?php print_unescaped(OCP\Template::image_path("core", "actions/delete.svg")); ?>" />
+					<?php p($l->t('Delete'))?>
+				    </a>
+				</span>
 			</th>
 		</tr>
 	</thead>

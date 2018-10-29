@@ -29,19 +29,13 @@
  *
  */
 
+require_once __DIR__ . '/lib/versioncheck.php';
+
 use OC\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 define('OC_CONSOLE', 1);
-
-// Show warning if a PHP version below 5.6.0 is used, this has to happen here
-// because base.php will already use 5.6 syntax.
-if (version_compare(PHP_VERSION, '5.6.0') === -1) {
-	echo 'This version of Nextcloud requires at least PHP 5.6.0'.PHP_EOL;
-	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.'.PHP_EOL;
-	return;
-}
 
 function exceptionHandler($exception) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;
@@ -91,7 +85,13 @@ try {
 		echo "The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see http://php.net/manual/en/book.pcntl.php" . PHP_EOL;
 	}
 
-	$application = new Application(\OC::$server->getConfig(), \OC::$server->getEventDispatcher(), \OC::$server->getRequest(), \OC::$server->getLogger());
+	$application = new Application(
+		\OC::$server->getConfig(),
+		\OC::$server->getEventDispatcher(),
+		\OC::$server->getRequest(),
+		\OC::$server->getLogger(),
+		\OC::$server->query(\OC\MemoryInfo::class)
+	);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();
 } catch (Exception $ex) {

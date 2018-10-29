@@ -213,7 +213,7 @@ class RecoveryTest extends TestCase {
 		$this->cryptMock->expects($this->once())
 			->method('decryptPrivateKey');
 		$this->instance->recoverUsersFiles('password', 'admin');
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testRecoverFile() {

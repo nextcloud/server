@@ -24,11 +24,8 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Service\BackendService;
-
 use \OCA\Files_External\Lib\Auth\Password\Password;
 
 class OwnCloud extends Backend {
@@ -40,7 +37,7 @@ class OwnCloud extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\OwnCloud')
 			->setText($l->t('Nextcloud'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('URL'))),
+				new DefinitionParameter('host', $l->t('URL')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure https://')))

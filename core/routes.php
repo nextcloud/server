@@ -46,6 +46,7 @@ $application->registerRoutes($this, [
 		['name' => 'avatar#postCroppedAvatar', 'url' => '/avatar/cropped', 'verb' => 'POST'],
 		['name' => 'avatar#getTmpAvatar', 'url' => '/avatar/tmp', 'verb' => 'GET'],
 		['name' => 'avatar#postAvatar', 'url' => '/avatar/', 'verb' => 'POST'],
+		['name' => 'CSRFToken#index', 'url' => '/csrftoken', 'verb' => 'GET'],
 		['name' => 'login#tryLogin', 'url' => '/login', 'verb' => 'POST'],
 		['name' => 'login#confirmPassword', 'url' => '/login/confirm', 'verb' => 'POST'],
 		['name' => 'login#showLoginForm', 'url' => '/login', 'verb' => 'GET'],
@@ -53,24 +54,34 @@ $application->registerRoutes($this, [
 		['name' => 'ClientFlowLogin#showAuthPickerPage', 'url' => '/login/flow', 'verb' => 'GET'],
 		['name' => 'ClientFlowLogin#redirectPage', 'url' => '/login/flow/redirect', 'verb' => 'GET'],
 		['name' => 'ClientFlowLogin#generateAppPassword', 'url' => '/login/flow', 'verb' => 'POST'],
+		['name' => 'ClientFlowLogin#grantPage', 'url' => '/login/flow/grant', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#selectChallenge', 'url' => '/login/selectchallenge', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#showChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#solveChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'POST'],
 		['name' => 'OCJS#getConfig', 'url' => '/core/js/oc.js', 'verb' => 'GET'],
-		['name' => 'Preview#getPreview', 'url' => '/core/preview', 'verb' => 'GET'],
+		['name' => 'Preview#getPreviewByFileId', 'url' => '/core/preview', 'verb' => 'GET'],
 		['name' => 'Preview#getPreview', 'url' => '/core/preview.png', 'verb' => 'GET'],
+		['name' => 'Svg#getSvgFromCore', 'url' => '/svg/core/{folder}/{fileName}', 'verb' => 'GET'],
+		['name' => 'Svg#getSvgFromSettings', 'url' => '/svg/settings/{folder}/{fileName}', 'verb' => 'GET'],
+		['name' => 'Svg#getSvgFromApp', 'url' => '/svg/{app}/{fileName}', 'verb' => 'GET'],
 		['name' => 'Css#getCss', 'url' => '/css/{appName}/{fileName}', 'verb' => 'GET'],
 		['name' => 'Js#getJs', 'url' => '/js/{appName}/{fileName}', 'verb' => 'GET'],
 		['name' => 'contactsMenu#index', 'url' => '/contactsmenu/contacts', 'verb' => 'POST'],
 		['name' => 'contactsMenu#findOne', 'url' => '/contactsmenu/findOne', 'verb' => 'POST'],
-		['name' => 'AutoComplete#get', 'url' => 'autocomplete/get', 'verb' => 'GET'],
 		['name' => 'WalledGarden#get', 'url' => '/204', 'verb' => 'GET'],
+		['name' => 'Search#search', 'url' => '/core/search', 'verb' => 'GET'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
 		['root' => '', 'name' => 'OCS#getConfig', 'url' => '/config', 'verb' => 'GET'],
 		['root' => '/person', 'name' => 'OCS#personCheck', 'url' => '/check', 'verb' => 'POST'],
 		['root' => '/identityproof', 'name' => 'OCS#getIdentityProof', 'url' => '/key/{cloudId}', 'verb' => 'GET'],
+		['root' => '/core', 'name' => 'Navigation#getAppsNavigation', 'url' => '/navigation/apps', 'verb' => 'GET'],
+		['root' => '/core', 'name' => 'Navigation#getSettingsNavigation', 'url' => '/navigation/settings', 'verb' => 'GET'],
+		['root' => '/core', 'name' => 'AutoComplete#get', 'url' => '/autocomplete/get', 'verb' => 'GET'],
+		['root' => '/core', 'name' => 'WhatsNew#get', 'url' => '/whatsnew', 'verb' => 'GET'],
+		['root' => '/core', 'name' => 'WhatsNew#dismiss', 'url' => '/whatsnew', 'verb' => 'POST'],
+		['root' => '/core', 'name' => 'AppPassword#getAppPassword', 'url' => '/getapppassword', 'verb' => 'GET'],
 	],
 ]);
 
@@ -78,9 +89,6 @@ $application->registerRoutes($this, [
 
 /** @var $this OCP\Route\IRouter */
 // Core ajax actions
-// Search
-$this->create('search_ajax_search', '/core/search')
-	->actionInclude('core/search/ajax/search.php');
 // Routing
 $this->create('core_ajax_update', '/core/ajax/update.php')
 	->actionInclude('core/ajax/update.php');
@@ -105,6 +113,34 @@ $this->create('spreed.pagecontroller.showCall', '/call/{token}')->action(functio
 	}
 });
 
+// OCM routes
+/**
+ * @suppress PhanUndeclaredClassConstant
+ * @suppress PhanUndeclaredClassMethod
+ */
+$this->create('cloud_federation_api.requesthandlercontroller.addShare', '/ocm/shares')->post()->action(function($urlParams) {
+	if (class_exists(\OCA\CloudFederationAPI\AppInfo\Application::class, false)) {
+		$app = new \OCA\CloudFederationAPI\AppInfo\Application($urlParams);
+		$app->dispatch('RequestHandlerController', 'addShare');
+	} else {
+		throw new \OC\HintException('Cloud Federation API not enabled');
+	}
+});
+
+/**
+ * @suppress PhanUndeclaredClassConstant
+ * @suppress PhanUndeclaredClassMethod
+ */
+$this->create('cloud_federation_api.requesthandlercontroller.receiveNotification', '/ocm/notifications')->post()->action(function($urlParams) {
+	if (class_exists(\OCA\CloudFederationAPI\AppInfo\Application::class, false)) {
+		$app = new \OCA\CloudFederationAPI\AppInfo\Application($urlParams);
+		$app->dispatch('RequestHandlerController', 'receiveNotification');
+	} else {
+		throw new \OC\HintException('Cloud Federation API not enabled');
+	}
+});
+
+
 // Sharing routes
 $this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(function($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
@@ -114,7 +150,7 @@ $this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(f
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
 });
-$this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate')->post()->action(function($urlParams) {
+$this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate/{redirect}')->post()->action(function($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
 		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 		$app->dispatch('ShareController', 'authenticate');
@@ -122,7 +158,7 @@ $this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenti
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
 });
-$this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate')->get()->action(function($urlParams) {
+$this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate/{redirect}')->get()->action(function($urlParams) {
 	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
 		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 		$app->dispatch('ShareController', 'showAuthenticate');
@@ -145,9 +181,4 @@ $this->create('files_sharing.publicpreview.directLink', '/s/{token}/preview')->g
 	} else {
 		throw new \OC\HintException('App file sharing is not enabled');
 	}
-});
-
-// used for heartbeat
-$this->create('heartbeat', '/heartbeat')->action(function(){
-	// do nothing
 });

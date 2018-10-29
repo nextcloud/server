@@ -29,6 +29,7 @@ use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IGroupManager;
 use Test\TestCase;
 
 class BaseTest extends TestCase {
@@ -36,15 +37,20 @@ class BaseTest extends TestCase {
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
 
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $groupManager;
+
 	/** @var IProvider|Base|\PHPUnit_Framework_MockObject_MockObject */
 	protected $provider;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->provider = $this->getMockBuilder(Base::class)
 			->setConstructorArgs([
-				$this->userManager
+				$this->userManager,
+				$this->groupManager
 			])
 			->setMethods(['parse'])
 			->getMock();

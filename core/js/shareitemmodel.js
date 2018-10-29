@@ -43,6 +43,7 @@
 	 * @property {string} token
 	 * @property {string} share_with
 	 * @property {string} share_with_displayname
+	 * @property {string} share_with_avatar
 	 * @property {string} mail_send
 	 * @property {Date} expiration optional?
 	 * @property {number} stime optional?
@@ -79,7 +80,7 @@
 	 */
 	var ShareItemModel = OC.Backbone.Model.extend({
 		/**
-		 * @type share id of the link share, if applicable
+		 * share id of the link share, if applicable
 		 */
 		_linkShareId: null,
 
@@ -158,23 +159,24 @@
 			var shareType = attributes.shareType;
 			attributes = _.extend({}, attributes);
 
-			// Default permissions are Edit (CRUD) and Share
-			// Check if these permissions are possible
-			var permissions = OC.PERMISSION_READ;
+			// get default permissions
+			var defaultPermissions = OC.getCapabilities()['files_sharing']['default_permissions'] || OC.PERMISSION_ALL;
+			var possiblePermissions = OC.PERMISSION_READ;
+
 			if (this.updatePermissionPossible()) {
-				permissions = permissions | OC.PERMISSION_UPDATE;
+				possiblePermissions = possiblePermissions | OC.PERMISSION_UPDATE;
 			}
 			if (this.createPermissionPossible()) {
-				permissions = permissions | OC.PERMISSION_CREATE;
+				possiblePermissions = possiblePermissions | OC.PERMISSION_CREATE;
 			}
 			if (this.deletePermissionPossible()) {
-				permissions = permissions | OC.PERMISSION_DELETE;
+				possiblePermissions = possiblePermissions | OC.PERMISSION_DELETE;
 			}
 			if (this.configModel.get('isResharingAllowed') && (this.sharePermissionPossible())) {
-				permissions = permissions | OC.PERMISSION_SHARE;
+				possiblePermissions = possiblePermissions | OC.PERMISSION_SHARE;
 			}
 
-			attributes.permissions = permissions;
+			attributes.permissions = defaultPermissions & possiblePermissions;
 			if (_.isUndefined(attributes.path)) {
 				attributes.path = this.fileInfoModel.getFullPath();
 			}
@@ -341,6 +343,13 @@
 		/**
 		 * @returns {string}
 		 */
+		getReshareNote: function() {
+			return this.get('reshare').note;
+		},
+
+		/**
+		 * @returns {string}
+		 */
 		getReshareWith: function() {
 			return this.get('reshare').share_with;
 		},
@@ -362,6 +371,10 @@
 
 		getExpireDate: function(shareIndex) {
 			return this._shareExpireDate(shareIndex);
+		},
+
+		getNote: function(shareIndex) {
+			return this._shareNote(shareIndex);
 		},
 
 		/**
@@ -402,6 +415,20 @@
 				throw "Unknown Share";
 			}
 			return share.share_with_displayname;
+		},
+
+
+		/**
+		 * @param shareIndex
+		 * @returns {string}
+		 */
+		getShareWithAvatar: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.share_with_avatar;
 		},
 
 		/**
@@ -486,6 +513,15 @@
 			return date2;
 		},
 
+
+		_shareNote: function(shareIndex) {
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.note;
+		},
+
 		/**
 		 * @return {int}
 		 */
@@ -567,12 +603,26 @@
 		},
 
 		/**
-		 * @returns {boolean}
+		 * @returns {string}
+		 *     The state that the 'can edit' permission checkbox should have.
+		 *     Possible values:
+		 *     - empty string: no permission
+		 *     - 'checked': all applicable permissions
+		 *     - 'indeterminate': some but not all permissions
 		 */
-		hasEditPermission: function(shareIndex) {
-			return    this.hasCreatePermission(shareIndex)
-				   || this.hasUpdatePermission(shareIndex)
-				   || this.hasDeletePermission(shareIndex);
+		editPermissionState: function(shareIndex) {
+			var hcp = this.hasCreatePermission(shareIndex);
+			var hup = this.hasUpdatePermission(shareIndex);
+			var hdp = this.hasDeletePermission(shareIndex);
+			if (!hcp && !hup && !hdp) {
+				return '';
+			}
+			if (   (this.createPermissionPossible() && !hcp)
+				|| (this.updatePermissionPossible() && !hup)
+				|| (this.deletePermissionPossible() && !hdp)   ) {
+				return 'indeterminate';
+			}
+			return 'checked';
 		},
 
 		/**
@@ -727,7 +777,7 @@
 				return {};
 			}
 
-			var permissions = this.get('possiblePermissions');
+			var permissions = this.fileInfoModel.get('permissions');
 			if(!_.isUndefined(data.reshare) && !_.isUndefined(data.reshare.permissions) && data.reshare.uid_owner !== OC.currentUser) {
 				permissions = permissions & data.reshare.permissions;
 			}

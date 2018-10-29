@@ -8,6 +8,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Felix Nüsse <felix.nuesse@t-online.de>
  *
  * @license AGPL-3.0
  *
@@ -27,10 +28,13 @@
 
 namespace OCA\Files\Controller;
 
+use OCA\Files\Activity\Helper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\App\IAppManager;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -39,8 +43,6 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use OCP\Files\Folder;
-use OCP\App\IAppManager;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -67,38 +69,31 @@ class ViewController extends Controller {
 	protected $appManager;
 	/** @var IRootFolder */
 	protected $rootFolder;
+	/** @var Helper */
+	protected $activityHelper;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param EventDispatcherInterface $eventDispatcherInterface
-	 * @param IUserSession $userSession
-	 * @param IAppManager $appManager
-	 * @param IRootFolder $rootFolder
-	 */
-	public function __construct($appName,
-								IRequest $request,
-								IURLGenerator $urlGenerator,
-								IL10N $l10n,
-								IConfig $config,
-								EventDispatcherInterface $eventDispatcherInterface,
-								IUserSession $userSession,
-								IAppManager $appManager,
-								IRootFolder $rootFolder
+	public function __construct(string $appName,
+		IRequest $request,
+		IURLGenerator $urlGenerator,
+		IL10N $l10n,
+		IConfig $config,
+		EventDispatcherInterface $eventDispatcherInterface,
+		IUserSession $userSession,
+		IAppManager $appManager,
+		IRootFolder $rootFolder,
+		Helper $activityHelper
 	) {
 		parent::__construct($appName, $request);
-		$this->appName = $appName;
-		$this->request = $request;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
-		$this->config = $config;
+		$this->appName         = $appName;
+		$this->request         = $request;
+		$this->urlGenerator    = $urlGenerator;
+		$this->l10n            = $l10n;
+		$this->config          = $config;
 		$this->eventDispatcher = $eventDispatcherInterface;
-		$this->userSession = $userSession;
-		$this->appManager = $appManager;
-		$this->rootFolder = $rootFolder;
+		$this->userSession     = $userSession;
+		$this->appManager      = $appManager;
+		$this->rootFolder      = $rootFolder;
+		$this->activityHelper  = $activityHelper;
 	}
 
 	/**
@@ -107,8 +102,8 @@ class ViewController extends Controller {
 	 * @return string
 	 */
 	protected function renderScript($appName, $scriptName) {
-		$content = '';
-		$appPath = \OC_App::getAppPath($appName);
+		$content    = '';
+		$appPath    = \OC_App::getAppPath($appName);
 		$scriptPath = $appPath . '/' . $scriptName;
 		if (file_exists($scriptPath)) {
 			// TODO: sanitize path / script name ?
@@ -117,6 +112,7 @@ class ViewController extends Controller {
 			$content = ob_get_contents();
 			@ob_end_clean();
 		}
+
 		return $content;
 	}
 
@@ -128,6 +124,7 @@ class ViewController extends Controller {
 	 */
 	protected function getStorageInfo() {
 		$dirInfo = \OC\Files\Filesystem::getFileInfo('/', false);
+
 		return \OC_Helper::getStorageInfo('/', $dirInfo);
 	}
 
@@ -159,22 +156,58 @@ class ViewController extends Controller {
 		// FIXME: Make non static
 		$storageInfo = $this->getStorageInfo();
 
-		\OCA\Files\App::getNavigationManager()->add(
-			[
-				'id' => 'favorites',
-				'appname' => 'files',
-				'script' => 'simplelist.php',
-				'order' => 5,
-				'name' => $this->l10n->t('Favorites')
-			]
-		);
+		$user = $this->userSession->getUser()->getUID();
+
+		// Get all the user favorites to create a submenu
+		try {
+			$favElements = $this->activityHelper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
+		} catch (\RuntimeException $e) {
+			$favElements['folders'] = [];
+		}
+
+		$collapseClasses = '';
+		if (count($favElements['folders']) > 0) {
+			$collapseClasses = 'collapsible';
+		}
+
+		$favoritesSublistArray = Array();
+
+		$navBarPositionPosition = 6;
+		$currentCount           = 0;
+		foreach ($favElements['folders'] as $dir) {
+
+			$link         = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'view' => 'files']);
+			$sortingValue = ++$currentCount;
+			$element      = [
+				'id'                 => str_replace('/', '-', $dir),
+				'view'               => 'files',
+				'href'               => $link,
+				'dir'                => $dir,
+				'order'              => $navBarPositionPosition,
+				'folderPosition'     => $sortingValue,
+				'name'               => basename($dir),
+				'icon'               => 'files',
+				'quickaccesselement' => 'true'
+			];
+
+			array_push($favoritesSublistArray, $element);
+			$navBarPositionPosition++;
+		}
 
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-		usort($navItems, function($item1, $item2) {
-			return $item1['order'] - $item2['order'];
-		});
-		$nav->assign('navigationItems', $navItems);
 
+		// add the favorites entry in menu
+		$navItems['favorites']['sublist'] = $favoritesSublistArray;
+		$navItems['favorites']['classes'] = $collapseClasses;
+
+		// parse every menu and add the expandedState user value
+		foreach ($navItems as $key => $item) {
+			if (isset($item['expandedState'])) {
+				$navItems[$key]['defaultExpandedState'] = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', $item['expandedState'], '0') === '1';
+			}
+		}
+
+		$nav->assign('navigationItems', $navItems);
 
 		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
@@ -194,30 +227,42 @@ class ViewController extends Controller {
 			if (isset($item['script'])) {
 				$content = $this->renderScript($item['appname'], $item['script']);
 			}
-			$contentItem = [];
-			$contentItem['id'] = $item['id'];
-			$contentItem['content'] = $content;
-			$contentItems[] = $contentItem;
+			// parse submenus
+			if (isset($item['sublist'])) {
+				foreach ($item['sublist'] as $subitem) {
+					$subcontent = '';
+					if (isset($subitem['script'])) {
+						$subcontent = $this->renderScript($subitem['appname'], $subitem['script']);
+					}
+					$contentItems[$subitem['id']] = [
+						'id'      => $subitem['id'],
+						'content' => $subcontent
+					];
+				}
+			}
+			$contentItems[$item['id']] = [
+				'id'      => $item['id'],
+				'content' => $content
+			];
 		}
 
 		$event = new GenericEvent(null, ['hiddenFields' => []]);
 		$this->eventDispatcher->dispatch('OCA\Files::loadAdditionalScripts', $event);
 
-		$params = [];
-		$params['usedSpacePercent'] = (int)$storageInfo['relative'];
-		$params['owner'] = $storageInfo['owner'];
-		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'];
-		$params['isPublic'] = false;
-		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
-		$user = $this->userSession->getUser()->getUID();
-		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
+		$params                                = [];
+		$params['usedSpacePercent']            = (int) $storageInfo['relative'];
+		$params['owner']                       = $storageInfo['owner'];
+		$params['ownerDisplayName']            = $storageInfo['ownerDisplayName'];
+		$params['isPublic']                    = false;
+		$params['allowShareWithLink']          = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
+		$params['defaultFileSorting']          = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
-		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
-		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
-		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
-		$params['appNavigation'] = $nav;
-		$params['appContents'] = $contentItems;
-		$params['hiddenFields'] = $event->getArgument('hiddenFields');
+		$showHidden                            = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
+		$params['showHiddenFiles']             = $showHidden ? 1 : 0;
+		$params['fileNotFound']                = $fileNotFound ? 1 : 0;
+		$params['appNavigation']               = $nav;
+		$params['appContents']                 = $contentItems;
+		$params['hiddenFields']                = $event->getArgument('hiddenFields');
 
 		$response = new TemplateResponse(
 			$this->appName,
@@ -239,14 +284,14 @@ class ViewController extends Controller {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	private function showFile($fileId) {
-		$uid = $this->userSession->getUser()->getUID();
+		$uid        = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$files = $baseFolder->getById($fileId);
-		$params = [];
+		$files      = $baseFolder->getById($fileId);
+		$params     = [];
 
 		if (empty($files) && $this->appManager->isEnabledForUser('files_trashbin')) {
-			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
-			$files = $baseFolder->getById($fileId);
+			$baseFolder     = $this->rootFolder->get($uid . '/files_trashbin/files/');
+			$files          = $baseFolder->getById($fileId);
 			$params['view'] = 'trashbin';
 		}
 
@@ -261,6 +306,7 @@ class ViewController extends Controller {
 				// and scroll to the entry
 				$params['scrollto'] = $file->getName();
 			}
+
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
 		}
 		throw new \OCP\Files\NotFoundException();

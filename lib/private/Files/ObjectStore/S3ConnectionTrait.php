@@ -24,8 +24,10 @@
 
 namespace OC\Files\ObjectStore;
 
+use Aws\ClientResolver;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use OCP\ILogger;
 
 trait S3ConnectionTrait {
 	/** @var array */
@@ -54,7 +56,7 @@ trait S3ConnectionTrait {
 
 		$this->test = isset($params['test']);
 		$this->bucket = $params['bucket'];
-		$this->timeout = (!isset($params['timeout'])) ? 15 : $params['timeout'];
+		$this->timeout = !isset($params['timeout']) ? 15 : $params['timeout'];
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
@@ -86,10 +88,14 @@ trait S3ConnectionTrait {
 			],
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],
-			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false
+			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false,
+			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())
 		];
 		if (isset($this->params['proxy'])) {
 			$options['request.options'] = ['proxy' => $this->params['proxy']];
+		}
+		if (isset($this->params['legacy_auth']) && $this->params['legacy_auth']) {
+			$options['signature_version'] = 'v2';
 		}
 		$this->connection = new S3Client($options);
 
@@ -98,15 +104,26 @@ trait S3ConnectionTrait {
 		}
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
+			$logger = \OC::$server->getLogger();
 			try {
+				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
 				$this->connection->createBucket(array(
 					'Bucket' => $this->bucket
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
-				throw new \Exception('Creation of bucket failed. ' . $e->getMessage());
+				$logger->logException($e, [
+					'message' => 'Invalid remote storage.',
+					'level' => ILogger::DEBUG,
+					'app' => 'objectstore',
+				]);
+				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
 			}
+		}
+
+		// google cloud's s3 compatibility doesn't like the EncodingType parameter
+		if (strpos($base_url, 'storage.googleapis.com')) {
+			$this->connection->getHandlerList()->remove('s3.auto_encode');
 		}
 
 		return $this->connection;
@@ -118,6 +135,16 @@ trait S3ConnectionTrait {
 	private function testTimeout() {
 		if ($this->test) {
 			sleep($this->timeout);
+		}
+	}
+
+	public static function legacySignatureProvider($version, $service, $region) {
+		switch ($version) {
+			case 'v2':
+			case 's3':
+				return new S3Signature();
+			default:
+				return null;
 		}
 	}
 }

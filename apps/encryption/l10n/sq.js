@@ -21,7 +21,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Fjalëkalimi i vjetër s’qe i saktë, ju lutemi, riprovoni.",
     "The current log-in password was not correct, please try again." : "Fjalëkalimi i tanishëm i hyrjeve s’qe i saktë, ju lutemi, riprovoni.",
     "Private key password successfully updated." : "Fjalëkalimi për kyçin privat u përditësua me sukses.",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Lypset të kaloni kyçet tuaj të fshehtëzimeve nga versioni i vjetër i fshehtëzimeve (ownCloud <= 8.0) te i riu. Ju lutemi, ekzekutoni run 'occ encryption:migrate' ose lidhuni me përgjegjësin tuaj",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Kyç privat i pavlefshëm për aplikacionin e fshehtëzimeve. Ju lutemi, përditësoni fjalëkalimin tuaj të kyçit privat te rregullimet tuaja personale që të rimerrni hyrje te kartelat tuaja të fshehtëzuara.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Aplikacioni i Enkriptimit është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe rihyni përsëri",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Ju lutem aktivizoni ekriptimin në anën e serverit në konfigurimet e administratorit në mënyrë që të përdorni modulin e enkriptimit.",
@@ -31,11 +30,11 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "fjalëkalim vetëm për një herë, për fshehtëzim-më-anë-shërbyesi",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nuk shfshehtëzohet dot kjo kartelë, ndoshta është kartelë e ndarë me të tjerët. Ju lutemi, kërkojini të zotit të kartelës ta rindajë kartelën me ju.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "S’lexohet dot kjo kartelë, ndoshta është kartelë e ndarë me të tjerët. Ju lutemi, kërkojini të zotit të kartelës ta rindajë kartelën me ju.",
+    "Default encryption module" : "Modul i parazgjedhur fshehtëzimi",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Njatjeta,\n\npërgjegjësi aktivizoi fshehtëzim më anë shërbyesi. Kartelat tuaja qenë fshehtëzuar duke përdorur fjalëkalimin '%s'.\n\nJu lutemi, bëni hyrjen te ndërfaqja web, kaloni te ndarja 'modul i thjeshtëpër fshehtëzime' e rregullimeve tuaja personale dhe përditësoni fjalëkalimin tuaj për fshehtëzime duke dhënë këtë fjalëkalim te fusha 'old log-in password' dhe fjalëkalimin tuaj të tanishëm për hyrjet.\n\n",
     "The share will expire on %s." : "Ndarja do të skadojë më %s.",
     "Cheers!" : "Gëzuar!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Njatjeta,<br><br>përgjegjësi aktivizoi fshehtëzim më anë shërbyesi. Kartelat tuaja qenë fshehtëzuar duke përdorur fjalëkalimin <strong>%s</strong>.<br><br>Ju lutemi, bëni hyrjen te ndërfaqja web, kaloni te ndarja \"modul i thjeshtëpër fshehtëzime\" e rregullimeve tuaja personale dhe përditësoni fjalëkalimin tuaj për fshehtëzime duke dhënë këtë fjalëkalim te fusha \"old log-in password\" dhe fjalëkalimin tuaj të tanishëm për hyrjet.<br><br>",
-    "Default encryption module" : "Modul i parazgjedhur fshehtëzimi",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen",
     "Encrypt the home storage" : "Fshehtëzo depozitën bazë",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aktivizimi i kësaj mundësie fshehtëzon krejt kartelat e depozituara në depon bazë, përndryshe do të fshehtëzohen vetëm kartelat në depozitën e jashtme",
@@ -60,6 +59,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivizimi i kësaj mundësie do t’ju lejojë të rifitoni hyrje te kartelat tuaja të fshehtëzuara në rast humbjeje fjalëkalimi",
     "Enabled" : "E aktivizuar",
     "Disabled" : "E çaktivizuar",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen"
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Lypset të kaloni kyçet tuaj të fshehtëzimeve nga versioni i vjetër i fshehtëzimeve (ownCloud <= 8.0) te i riu. Ju lutemi, ekzekutoni run 'occ encryption:migrate' ose lidhuni me përgjegjësin tuaj"
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,14 +27,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+require_once __DIR__ . '/lib/versioncheck.php';
+
 try {
 
 	require_once __DIR__ . '/lib/base.php';
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
-		OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-		OC_Template::printErrorPage('Service unavailable');
+		OC_Template::printErrorPage('Service unavailable', '', 503);
 		exit;
 	}
 
@@ -43,7 +45,7 @@ try {
 	$pathInfo = $request->getPathInfo();
 
 	if (!$pathInfo && $request->getParam('service', '') === '') {
-		header('HTTP/1.0 404 Not Found');
+		http_response_code(404);
 		exit;
 	} elseif ($request->getParam('service', '')) {
 		$service = $request->getParam('service', '');
@@ -52,8 +54,8 @@ try {
 		list($service) = explode('/', $pathInfo);
 	}
 	$file = \OC::$server->getConfig()->getAppValue('core', 'public_' . strip_tags($service));
-	if ($file === null) {
-		header('HTTP/1.0 404 Not Found');
+	if ($file === '') {
+		http_response_code(404);
 		exit;
 	}
 
@@ -76,17 +78,15 @@ try {
 	require_once OC_App::getAppPath($app) . '/' . $parts[1];
 
 } catch (Exception $ex) {
+	$status = 500;
 	if ($ex instanceof \OC\ServiceUnavailableException) {
-		OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-	} else {
-		OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+		$status = 503;
 	}
 	//show the user a detailed error page
 	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
-	OC_Template::printExceptionErrorPage($ex);
+	OC_Template::printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
 	//show the user a detailed error page
-	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 	\OC::$server->getLogger()->logException($ex, ['app' => 'public']);
-	OC_Template::printExceptionErrorPage($ex);
+	OC_Template::printExceptionErrorPage($ex, 500);
 }

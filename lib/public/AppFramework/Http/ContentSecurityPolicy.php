@@ -27,26 +27,25 @@ namespace OCP\AppFramework\Http;
 
 /**
  * Class ContentSecurityPolicy is a simple helper which allows applications to
- * modify the Content-Security-Policy sent by ownCloud. Per default only JavaScript,
+ * modify the Content-Security-Policy sent by Nextcloud. Per default only JavaScript,
  * stylesheets, images, fonts, media and connections from the same domain
  * ('self') are allowed.
  *
  * Even if a value gets modified above defaults will still get appended. Please
- * notice that ownCloud ships already with sensible defaults and those policies
+ * notice that Nextcloud ships already with sensible defaults and those policies
  * should require no modification at all for most use-cases.
+ *
+ * This class allows unsafe-eval of javascript and unsafe-inline of CSS.
  *
  * @package OCP\AppFramework\Http
  * @since 8.1.0
+ * @deprecated 14.0.0 Use one of our stricter CSP policies
  */
 class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var bool Whether inline JS snippets are allowed */
 	protected $inlineScriptAllowed = false;
-	/**
-	 * @var bool Whether eval in JS scripts is allowed
-	 * TODO: Disallow per default
-	 * @link https://github.com/owncloud/core/issues/11925
-	 */
-	protected $evalScriptAllowed = true;
+	/** @var bool Whether eval in JS scripts is allowed */
+	protected $evalScriptAllowed = false;
 	/** @var array Domains from which scripts can get loaded */
 	protected $allowedScriptDomains = [
 		'\'self\'',
@@ -88,4 +87,10 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 
 	/** @var array Domains which can embed this Nextcloud instance */
 	protected $allowedFrameAncestors = [];
+
+	/** @var array Domains from which web-workers can be loaded */
+	protected $allowedWorkerSrcDomains = [];
+
+	/** @var array Locations to report violations to */
+	protected $reportTo = [];
 }

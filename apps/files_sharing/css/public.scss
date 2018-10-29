@@ -1,23 +1,4 @@
-#content {
-	height: initial;
-	min-height: calc(100vh - 160px);
-}
-
-#header .menutoggle {
-	padding: 14px;
-	padding-right: 40px;
-	background-position: right 15px center;
-	color: $color-primary-text;
-	cursor: pointer;
-}
-
-/* force layout to make sure the content element's height matches its contents' height */
-.ie #content {
-	display: inline-block;
-}
-
 #preview {
-	background: #fff;
 	text-align: center;
 }
 
@@ -39,14 +20,9 @@
 }
 
 
-#imgframe img,
-#imgframe video {
+#imgframe img {
 	max-height: 100% !important;
 	max-width: 100% !important;
-}
-#imgframe video {
-	width: 854px;
-	height: 480px;
 }
 
 #imgframe .text-preview {
@@ -58,12 +34,6 @@
 	height: auto;
 	min-height: 200px;
 	max-height: 800px;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 }
 
 #imgframe .ellipsis {
@@ -101,15 +71,6 @@ thead {
 	opacity: .5;
 }
 
-#directLink-container {
-	flex-wrap: wrap;
-}
-
-#directLink {
-	margin-left: 30px;
-	flex-basis: 100%;
-}
-
 /* header buttons */
 #details {
 	display: inline-flex;
@@ -125,27 +86,6 @@ thead {
 #details .button:hover {
 	/* No  */
 	border-color: rgba(0,0,0,0.3) !important;
-}
-
-/* within #save */
-#save .save-form {
-	position: relative;
-	margin-right: -10px;
-}
-
-#remote_address {
-	width: 200px;
-	margin-right: 4px;
-	height: 31px;
-}
-
-#save-button-confirm {
-	position: absolute;
-	background-color: transparent;
-	border: none;
-	margin: 0;
-	right: 0px;
-	height: 40px;
 }
 
 #public-upload .avatardiv {
@@ -218,13 +158,38 @@ thead {
 	text-align: left;
 }
 
+/* Needed to ellipsize long header text on share page */
+#body-login #header-left,
+#body-login .header-left {
+	overflow: hidden;
+}
+
 #header .header-shared-by  {
-	display: inline-block;
-	color: $color-primary-text;
+	color: var(--color-primary-text);
 	position: relative;
-	top: -10px;
 	font-weight: 300;
 	font-size: 11px;
-	opacity: .57;
-	margin-top: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#note-content {
+	padding: 5px;
+	display:inline-block;
+	width: 350px;
+	.content {
+		overflow: auto;
+		max-height: 200px;
+	}
+}
+
+// hide the primary on public share on mobile
+@media only screen and (max-width: 768px) {
+	#body-public {
+		.header-right {
+			#header-primary-action {
+				display: none;
+			}
+		}
+	}
 }

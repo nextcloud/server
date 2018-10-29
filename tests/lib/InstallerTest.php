@@ -40,9 +40,6 @@ class InstallerTest extends TestCase {
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	/** @var Installer */
-	private $installer;
-
 	protected function setUp() {
 		parent::setUp();
 
@@ -51,13 +48,6 @@ class InstallerTest extends TestCase {
 		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->installer = new Installer(
-			$this->appFetcher,
-			$this->clientService,
-			$this->tempManager,
-			$this->logger,
-			$this->config
-		);
 
 		$config = \OC::$server->getConfig();
 		$this->appstore = $config->setSystemValue('appstoreenabled', true);
@@ -70,6 +60,16 @@ class InstallerTest extends TestCase {
 			$config
 		);
 		$installer->removeApp(self::$appid);
+	}
+
+	protected function getInstaller() {
+		return new Installer(
+			$this->appFetcher,
+			$this->clientService,
+			$this->tempManager,
+			$this->logger,
+			$this->config
+		);
 	}
 
 	protected function tearDown() {
@@ -103,9 +103,9 @@ class InstallerTest extends TestCase {
 			\OC::$server->getLogger(),
 			\OC::$server->getConfig()
 		);
-		$installer->installApp(self::$appid);
-		$isInstalled = Installer::isInstalled(self::$appid);
-		$this->assertTrue($isInstalled);
+		$this->assertNull(\OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
+		$this->assertSame('testapp', $installer->installApp(self::$appid));
+		$this->assertSame('no', \OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is listed after installation');
 		$this->assertSame('0.9', \OC::$server->getConfig()->getAppValue('testapp', 'installed_version'));
 		$installer->removeApp(self::$appid);
 	}
@@ -154,7 +154,9 @@ class InstallerTest extends TestCase {
 			->method('get')
 			->willReturn($appArray);
 
-		$this->assertSame($updateAvailable, Installer::isUpdateAvailable('files', $this->appFetcher));
+		$installer = $this->getInstaller();
+		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'));
+		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'), 'Cached result should be returned and fetcher should be only called once');
 	}
 
 	/**
@@ -197,7 +199,8 @@ gLgK8d8sKL60JMmKHN3boHrsThKBVA==
 			->willReturn($appArray);
 
 
-		$this->installer->downloadApp('news');
+		$installer = $this->getInstaller();
+		$installer->downloadApp('news');
 	}
 
 	/**
@@ -239,7 +242,8 @@ YSu356M=
 			->method('get')
 			->willReturn($appArray);
 
-		$this->installer->downloadApp('news');
+		$installer = $this->getInstaller();
+		$installer->downloadApp('news');
 	}
 
 	/**
@@ -281,7 +285,8 @@ cR92p/PYCFXkAKP3OO0RPlf6dXNKTw==
 			->method('get')
 			->willReturn($appArray);
 
-		$this->installer->downloadApp('news');
+		$installer = $this->getInstaller();
+		$installer->downloadApp('news');
 	}
 
 	/**
@@ -348,7 +353,8 @@ cR92p/PYCFXkAKP3OO0RPlf6dXNKTw==
 			->method('newClient')
 			->willReturn($client);
 
-		$this->installer->downloadApp('passman');
+		$installer = $this->getInstaller();
+		$installer->downloadApp('passman');
 	}
 
 	/**
@@ -431,7 +437,8 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 			->method('newClient')
 			->willReturn($client);
 
-		$this->installer->downloadApp('testapp');
+		$installer = $this->getInstaller();
+		$installer->downloadApp('testapp');
 	}
 
 	/**
@@ -513,7 +520,8 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 			->method('newClient')
 			->willReturn($client);
 
-		$this->installer->downloadApp('testapp');
+		$installer = $this->getInstaller();
+		$installer->downloadApp('testapp');
 	}
 
 	public function testDownloadAppSuccessful() {
@@ -591,7 +599,8 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 			->method('newClient')
 			->willReturn($client);
 
-		$this->installer->downloadApp('testapp');
+		$installer = $this->getInstaller();
+		$installer->downloadApp('testapp');
 
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
 		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
@@ -679,7 +688,8 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
 		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 
-		$this->installer->downloadApp('testapp');
+		$installer = $this->getInstaller();
+		$installer->downloadApp('testapp');
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
 		$this->assertEquals('0.8', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 	}

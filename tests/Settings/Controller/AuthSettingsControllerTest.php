@@ -75,13 +75,9 @@ class AuthSettingsControllerTest extends TestCase {
 		$sessionToken = new DefaultToken();
 		$sessionToken->setId(100);
 
-		$this->userManager->expects($this->once())
-			->method('get')
-			->with($this->uid)
-			->will($this->returnValue($this->user));
 		$this->tokenProvider->expects($this->once())
 			->method('getTokenByUser')
-			->with($this->user)
+			->with($this->uid)
 			->will($this->returnValue($tokens));
 		$this->session->expects($this->once())
 			->method('getId')
@@ -192,13 +188,9 @@ class AuthSettingsControllerTest extends TestCase {
 		$id = 123;
 		$user = $this->createMock(IUser::class);
 
-		$this->userManager->expects($this->once())
-			->method('get')
-			->with($this->uid)
-			->will($this->returnValue($user));
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateTokenById')
-			->with($user, $id);
+			->with($this->uid, $id);
 
 		$this->assertEquals([], $this->controller->destroy($id));
 	}
@@ -212,6 +204,10 @@ class AuthSettingsControllerTest extends TestCase {
 			->willReturn($token);
 
 		$token->expects($this->once())
+			->method('getUID')
+			->willReturn('jane');
+
+		$token->expects($this->once())
 			->method('setScope')
 			->with($this->equalTo([
 				'filesystem' => true
@@ -222,6 +218,42 @@ class AuthSettingsControllerTest extends TestCase {
 			->with($this->equalTo($token));
 
 		$this->assertSame([], $this->controller->update(42, ['filesystem' => true]));
+	}
+
+	public function testUpdateTokenWrongUser() {
+		$token = $this->createMock(DefaultToken::class);
+
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with($this->equalTo(42))
+			->willReturn($token);
+
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn('foobar');
+
+		$token->expects($this->never())
+			->method('setScope');
+		$this->tokenProvider->expects($this->never())
+			->method('updateToken');
+
+		$response = $this->controller->update(42, ['filesystem' => true]);
+		$this->assertSame([], $response->getData());
+		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	public function testUpdateTokenNonExisting() {
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with($this->equalTo(42))
+			->willThrowException(new InvalidTokenException('Token does not exist'));
+
+		$this->tokenProvider->expects($this->never())
+			->method('updateToken');
+
+		$response = $this->controller->update(42, ['filesystem' => true]);
+		$this->assertSame([], $response->getData());
+		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
 }

@@ -26,3 +26,7 @@
 	vertical-align: middle;
 	margin-left: 10px;
 }
+
+#ocFederationAddServer #serverUrl {
+	width: 300px;
+}

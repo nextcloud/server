@@ -28,6 +28,9 @@ namespace OCA\Files_Trashbin\Tests\Command;
 
 
 use OCA\Files_Trashbin\Command\CleanUp;
+use Symfony\Component\Console\Exception\InvalidOptionException;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 use OC\User\Manager;
 use OCP\Files\IRootFolder;
@@ -183,8 +186,7 @@ class CleanUpTest extends TestCase {
 			->setMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();
-		$backend = $this->getMockBuilder(\OCP\UserInterface::class)
-			->disableOriginalConstructor()->getMock();
+		$backend = $this->createMock(\OCP\UserInterface::class);
 		$backend->expects($this->once())->method('getUsers')
 			->with('', 500, 0)
 			->willReturn($backendUsers);
@@ -193,17 +195,50 @@ class CleanUpTest extends TestCase {
 			->willReturnCallback(function ($user) use ($backendUsers) {
 				$this->assertTrue(in_array($user, $backendUsers));
 			});
-		$inputInterface = $this->getMockBuilder('\Symfony\Component\Console\Input\InputInterface')
-			->disableOriginalConstructor()->getMock();
+		$inputInterface = $this->createMock(InputInterface::class);
 		$inputInterface->expects($this->once())->method('getArgument')
 			->with('user_id')
 			->willReturn($userIds);
-		$outputInterface = $this->getMockBuilder('\Symfony\Component\Console\Output\OutputInterface')
-			->disableOriginalConstructor()->getMock();
+		$inputInterface->method('getOption')
+			->with('all-users')
+			->willReturn(true);
+		$outputInterface = $this->createMock(OutputInterface::class);
 		$this->userManager->expects($this->once())
 			->method('getBackends')
 			->willReturn([$backend]);
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
+	}
+
+	public function testExecuteNoUsersAndNoAllUsers() {
+		$inputInterface = $this->createMock(InputInterface::class);
+		$inputInterface->expects($this->once())->method('getArgument')
+			->with('user_id')
+			->willReturn([]);
+		$inputInterface->method('getOption')
+			->with('all-users')
+			->willReturn(false);
+		$outputInterface = $this->createMock(OutputInterface::class);
+
+		$this->expectException(InvalidOptionException::class);
+		$this->expectExceptionMessage('Either specify a user_id or --all-users');
+
+		$this->invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
+	}
+
+	public function testExecuteUsersAndAllUsers() {
+		$inputInterface = $this->createMock(InputInterface::class);
+		$inputInterface->expects($this->once())->method('getArgument')
+			->with('user_id')
+			->willReturn(['user1', 'user2']);
+		$inputInterface->method('getOption')
+			->with('all-users')
+			->willReturn(true);
+		$outputInterface = $this->createMock(OutputInterface::class);
+
+		$this->expectException(InvalidOptionException::class);
+		$this->expectExceptionMessage('Either specify a user_id or --all-users');
+
+		$this->invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
 	}
 
 }

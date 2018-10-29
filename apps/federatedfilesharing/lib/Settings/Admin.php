@@ -58,6 +58,9 @@ class Admin implements ISettings {
 			'internalOnly' => $this->gsConfig->onlyInternalFederation(),
 			'outgoingServer2serverShareEnabled' => $this->fedShareProvider->isOutgoingServer2serverShareEnabled(),
 			'incomingServer2serverShareEnabled' => $this->fedShareProvider->isIncomingServer2serverShareEnabled(),
+			'federatedGroupSharingSupported' => $this->fedShareProvider->isFederatedGroupSharingSupported(),
+			'outgoingServer2serverGroupShareEnabled' => $this->fedShareProvider->isOutgoingServer2serverGroupShareEnabled(),
+			'incomingServer2serverGroupShareEnabled' => $this->fedShareProvider->isIncomingServer2serverGroupShareEnabled(),
 			'lookupServerEnabled' => $this->fedShareProvider->isLookupServerQueriesEnabled(),
 			'lookupServerUploadEnabled' => $this->fedShareProvider->isLookupServerUploadEnabled(),
 		];

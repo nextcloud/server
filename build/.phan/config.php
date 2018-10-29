@@ -16,17 +16,24 @@ return [
 	// Thus, both first-party and third-party code being used by
 	// your application should be included in this list.
 	'directory_list' => [
-		'build/.phan/stubs',
 		'3rdparty',
-		'lib/composer',
-		'themes',
-		'lib/',
 		'apps/',
+		'build/.phan/stubs',
 		'core/',
-		'ocs/',
+		'lib/',
+		'lib/composer',
 		'ocs-provider/',
+		'ocs/',
 		'settings/',
 		'tests/lib/Util/User',
+		'themes',
+	],
+	'file_list' => [
+		'index.php',
+		'public.php',
+		'remote.php',
+		'status.php',
+		'version.php',
 	],
 
 	// A directory list that defines files that will be excluded
@@ -40,9 +47,8 @@ return [
 	//       party code, directories containing that code
 	//       should be added to the `directory_list` as
 	//       to `exclude_analysis_directory_list`.
-	"exclude_analysis_directory_list" => [
+	'exclude_analysis_directory_list' => [
 		'3rdparty',
-		'lib/composer',
 		'apps/admin_audit/composer',
 		'apps/admin_audit/tests',
 		'apps/comments/composer',
@@ -88,7 +94,37 @@ return [
 		'apps/user_ldap/tests',
 		'apps/workflowengine/composer',
 		'apps/workflowengine/tests',
+		'build/.phan/',
+		'lib/composer',
 	],
+
+	// A file list that defines files that will be excluded
+	// from parsing and analysis and will not be read at all.
+	//
+	// This is useful for excluding hopelessly unanalyzable
+	// files that can't be removed for whatever reason.
+	'exclude_file_list' => [
+		'apps/encryption/appinfo/routes.php',
+		'apps/federation/appinfo/routes.php',
+		'apps/files/appinfo/routes.php',
+		'apps/files_external/appinfo/routes.php',
+		'apps/files_trashbin/appinfo/routes.php',
+		'apps/files_versions/appinfo/routes.php',
+		'apps/testing/appinfo/routes.php',
+		'apps/user_ldap/appinfo/routes.php',
+		'settings/routes.php',
+		'settings/ajax/updateapp.php',
+		'settings/ajax/uninstallapp.php',
+		'settings/ajax/togglesubadmins.php',
+		'settings/ajax/setquota.php',
+		'settings/ajax/enableapp.php',
+		'settings/ajax/disableapp.php',
+		'core/register_command.php',
+		'ocs/routes.php',
+		'ocs/v1.php',
+		'core/routes.php',
+	],
+
 
 	// The number of processes to fork off during the analysis
 	// phase.
@@ -106,32 +142,38 @@ return [
 	// an analysis. You should consider setting this
 	// to true only when you wish you had more issues
 	// to fix in your code base.
-	'quick_mode' => true,
+	'quick_mode' => false,
+
+	// If true, check to make sure the return type declared
+	// in the doc-block (if any) matches the return type
+	// declared in the method signature. This process is
+	// slow.
+	'check_docblock_signature_param_type_match' => true,
 
 	// If enabled, check all methods that override a
 	// parent method to make sure its signature is
 	// compatible with the parent's. This check
 	// can add quite a bit of time to the analysis.
-	'analyze_signature_compatibility' => false,
+	'analyze_signature_compatibility' => true,
 
 	// The minimum severity level to report on. This can be
 	// set to Issue::SEVERITY_LOW, Issue::SEVERITY_NORMAL or
 	// Issue::SEVERITY_CRITICAL. Setting it to only
 	// critical issues is a good place to start on a big
 	// sloppy mature code base.
-	'minimum_severity' => 10,
+	'minimum_severity' => \Phan\Issue::SEVERITY_CRITICAL,
 
 	// If true, missing properties will be created when
 	// they are first seen. If false, we'll report an
 	// error message if there is an attempt to write
 	// to a class property that wasn't explicitly
 	// defined.
-	'allow_missing_properties' => true,
+	'allow_missing_properties' => false,
 
 	// Allow null to be cast as any type and for any
 	// type to be cast to null. Setting this to false
 	// will cut down on false positives.
-	'null_casts_as_any_type' => true,
+	'null_casts_as_any_type' => false,
 
 	// Allow null to be cast as any array-like type (Requires 0.9.3+)
 	// This is an incremental step in migrating away from null_casts_as_any_type.

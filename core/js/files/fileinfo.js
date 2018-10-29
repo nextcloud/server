@@ -132,7 +132,12 @@
 		/**
 		 * @type boolean
 		 */
-		hasPreview: true
+		hasPreview: true,
+
+		/**
+		 * @type int
+		 */
+		sharePermissions: null
 	};
 
 	if (!OC.Files) {

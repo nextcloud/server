@@ -112,15 +112,15 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function expr() {
 		if ($this->connection instanceof OracleConnection) {
-			return new OCIExpressionBuilder($this->connection);
+			return new OCIExpressionBuilder($this->connection, $this);
 		} else if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-			return new PgSqlExpressionBuilder($this->connection);
+			return new PgSqlExpressionBuilder($this->connection, $this);
 		} else if ($this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			return new MySqlExpressionBuilder($this->connection);
+			return new MySqlExpressionBuilder($this->connection, $this);
 		} else if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteExpressionBuilder($this->connection);
+			return new SqliteExpressionBuilder($this->connection, $this);
 		} else {
-			return new ExpressionBuilder($this->connection);
+			return new ExpressionBuilder($this->connection, $this);
 		}
 	}
 
@@ -379,12 +379,14 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'p', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed $select The selection expressions.
+	 * @param mixed ...$selects The selection expressions.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function select($select = null) {
-		$selects = is_array($select) ? $select : func_get_args();
+	public function select(...$selects) {
+		if (count($selects) === 1 && is_array($selects[0])) {
+			$selects = $selects[0];
+		}
 
 		$this->queryBuilder->select(
 			$this->helper->quoteColumnNames($selects)
@@ -450,12 +452,14 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed $select The selection expression.
+	 * @param mixed ...$selects The selection expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function addSelect($select = null) {
-		$selects = is_array($select) ? $select : func_get_args();
+	public function addSelect(...$selects) {
+		if (count($selects) === 1 && is_array($selects[0])) {
+			$selects = $selects[0];
+		}
 
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnNames($selects)
@@ -725,14 +729,14 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->where($or);
 	 * </code>
 	 *
-	 * @param mixed $predicates The restriction predicates.
+	 * @param mixed ...$predicates The restriction predicates.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function where($predicates) {
+	public function where(...$predicates) {
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
-			func_get_args()
+			$predicates
 		);
 
 		return $this;
@@ -750,16 +754,16 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->andWhere('u.is_active = 1');
 	 * </code>
 	 *
-	 * @param mixed $where The query restrictions.
+	 * @param mixed ...$where The query restrictions.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 */
-	public function andWhere($where) {
+	public function andWhere(...$where) {
 		call_user_func_array(
 			[$this->queryBuilder, 'andWhere'],
-			func_get_args()
+			$where
 		);
 
 		return $this;
@@ -777,16 +781,16 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->orWhere('u.id = 2');
 	 * </code>
 	 *
-	 * @param mixed $where The WHERE statement.
+	 * @param mixed ...$where The WHERE statement.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 */
-	public function orWhere($where) {
+	public function orWhere(...$where) {
 		call_user_func_array(
 			[$this->queryBuilder, 'orWhere'],
-			func_get_args()
+			$where
 		);
 
 		return $this;
@@ -803,12 +807,14 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->groupBy('u.id');
 	 * </code>
 	 *
-	 * @param mixed $groupBy The grouping expression.
+	 * @param mixed ...$groupBys The grouping expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function groupBy($groupBy) {
-		$groupBys = is_array($groupBy) ? $groupBy : func_get_args();
+	public function groupBy(...$groupBys) {
+		if (count($groupBys) === 1 && is_array($groupBys[0])) {
+			$groupBys = $groupBys[0];
+		}
 
 		call_user_func_array(
 			[$this->queryBuilder, 'groupBy'],
@@ -829,12 +835,14 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->addGroupBy('u.createdAt')
 	 * </code>
 	 *
-	 * @param mixed $groupBy The grouping expression.
+	 * @param mixed ...$groupBy The grouping expression.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function addGroupBy($groupBy) {
-		$groupBys = is_array($groupBy) ? $groupBy : func_get_args();
+	public function addGroupBy(...$groupBys) {
+		if (count($groupBys) === 1 && is_array($groupBys[0])) {
+			$$groupBys = $groupBys[0];
+		}
 
 		call_user_func_array(
 			[$this->queryBuilder, 'addGroupBy'],
@@ -906,14 +914,14 @@ class QueryBuilder implements IQueryBuilder {
 	 * Specifies a restriction over the groups of the query.
 	 * Replaces any previous having restrictions, if any.
 	 *
-	 * @param mixed $having The restriction over the groups.
+	 * @param mixed ...$having The restriction over the groups.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function having($having) {
+	public function having(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'having'],
-			func_get_args()
+			$having
 		);
 
 		return $this;
@@ -923,14 +931,14 @@ class QueryBuilder implements IQueryBuilder {
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * conjunction with any existing having restrictions.
 	 *
-	 * @param mixed $having The restriction to append.
+	 * @param mixed ...$having The restriction to append.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function andHaving($having) {
+	public function andHaving(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'andHaving'],
-			func_get_args()
+			$having
 		);
 
 		return $this;
@@ -940,14 +948,14 @@ class QueryBuilder implements IQueryBuilder {
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * disjunction with any existing having restrictions.
 	 *
-	 * @param mixed $having The restriction to add.
+	 * @param mixed ...$having The restriction to add.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
-	public function orHaving($having) {
+	public function orHaving(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'orHaving'],
-			func_get_args()
+			$having
 		);
 
 		return $this;

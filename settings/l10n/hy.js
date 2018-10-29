@@ -11,17 +11,16 @@ OC.L10N.register(
     "Good password" : "Լավ գաղտնաբառ",
     "Strong password" : "Ուժեղ գաղտնաբառ",
     "Groups" : "Խմբեր",
-    "never" : "երբեք",
-    "days" : "օր",
-    "Cancel" : "Չեղարկել",
     "Email" : "Էլ. հասցե",
     "Language" : "Լեզու",
+    "days" : "օր",
+    "Cancel" : "Չեղարկել",
     "Help translate" : "Օգնել թարգմանել",
     "Password" : "Գաղտնաբառ",
     "New password" : "Նոր գաղտնաբառ",
     "Change password" : "Փոխել գաղտնաբառը",
     "Username" : "Օգտանուն",
-    "Other" : "Այլ",
-    "Name" : "Անուն"
+    "never" : "երբեք",
+    "Other" : "Այլ"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,29 +1,4 @@
 $(document).ready(function(){
-	var params = OC.Util.History.parseUrlQuery();
-
-	// Hack to add a trusted domain
-	if (params.trustDomain) {
-		var potentialDomain = params.trustDomain;
-		potentialDomain = encodeURI(escapeHTML(potentialDomain));
-		potentialDomain = '<span class="trusted-domain-warning">' + potentialDomain + '</span>';
-
-		OC.dialogs.confirmHtml(t('settings', 'Are you really sure you want add {domain} as trusted domain?', {
-				domain: potentialDomain
-			}, undefined, {escape: false}),
-			t('settings', 'Add trusted domain'), function(answer) {
-				if(answer) {
-					$.ajax({
-						type: 'POST',
-						url: OC.generateUrl('settings/admin/security/trustedDomains'),
-						data: { newTrustedDomain: params.trustDomain }
-					}).done(function() {
-						window.location.replace(OC.generateUrl('settings/admin'));
-					});
-				}
-			});
-	}
-
-
 	$('#excludedGroups').each(function (index, element) {
 		OC.Settings.setupGroupsSelect($(element));
 		$(element).change(function(ev) {
@@ -119,6 +94,28 @@ $(document).ready(function(){
 		if(!this.checked) {
 			savePublicShareDisclaimerText('');
 		}
+	});
+
+	$('#shareApiDefaultPermissionsSection input').change(function(ev) {
+		var $el = $('#shareApiDefaultPermissions');
+		var $target = $(ev.target);
+
+		var value = $el.val();
+		if ($target.is(':checked')) {
+			value = value | $target.val();
+		} else {
+			value = value & ~$target.val();
+		}
+
+		// always set read permission
+		value |= OC.PERMISSION_READ;
+
+		// this will trigger the field's change event and will save it
+		$el.val(value).change();
+
+		ev.preventDefault();
+
+		return false;
 	});
 
 	var savePublicShareDisclaimerText = _.debounce(function(value) {
@@ -251,15 +248,16 @@ $(document).ready(function(){
 	// run setup checks then gather error messages
 	$.when(
 		OC.SetupChecks.checkWebDAV(),
-		OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === 'true'),
-		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === 'true'),
+		OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!oc_appconfig.core.public_webfinger, 200),
+		OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 		OC.SetupChecks.checkSetup(),
 		OC.SetupChecks.checkGeneric(),
 		OC.SetupChecks.checkDataProtected()
-	).then(function(check1, check2, check3, check4, check5, check6) {
-		var messages = [].concat(check1, check2, check3, check4, check5, check6);
+	).then(function(check1, check2, check3, check4, check5, check6, check7) {
+		var messages = [].concat(check1, check2, check3, check4, check5, check6, check7);
 		var $el = $('#postsetupchecks');
-		$el.find('.loading').addClass('hidden');
+		$('#security-warning-state-loading').addClass('hidden');
 
 		var hasMessages = false;
 		var $errorsEl = $el.find('.errors');
@@ -294,11 +292,18 @@ $(document).ready(function(){
 		}
 
 		if (hasMessages) {
-			$el.find('.hint').removeClass('hidden');
+			$('#postsetupchecks-hint').removeClass('hidden');
+			if ($errorsEl.find('li').length > 0) {
+				$('#security-warning-state-failure').removeClass('hidden');
+			} else {
+				$('#security-warning-state-warning').removeClass('hidden');
+			}
 		} else {
 			var securityWarning = $('#security-warning');
 			if (securityWarning.children('ul').children().length === 0) {
-				$('#security-warning-state').find('span').removeClass('hidden');
+				$('#security-warning-state-ok').removeClass('hidden');
+			} else {
+				$('#security-warning-state-failure').removeClass('hidden');
 			}
 		}
 	});

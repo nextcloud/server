@@ -61,6 +61,11 @@
 class Actor {
 
 	/**
+	 * @var string
+	 */
+	private $name;
+
+	/**
 	 * @var \Behat\Mink\Session
 	 */
 	private $session;
@@ -83,16 +88,27 @@ class Actor {
 	/**
 	 * Creates a new Actor.
 	 *
+	 * @param string $name the name of the actor.
 	 * @param \Behat\Mink\Session $session the Mink Session used to control its
 	 *        web browser.
 	 * @param string $baseUrl the base URL used when solving relative URLs.
 	 * @param array $sharedNotebook the notebook shared between all actors.
 	 */
-	public function __construct(\Behat\Mink\Session $session, $baseUrl, &$sharedNotebook) {
+	public function __construct($name, \Behat\Mink\Session $session, $baseUrl, &$sharedNotebook) {
+		$this->name = $name;
 		$this->session = $session;
 		$this->baseUrl = $baseUrl;
 		$this->sharedNotebook = &$sharedNotebook;
 		$this->findTimeoutMultiplier = 1;
+	}
+
+	/**
+	 * Returns the name of this Actor.
+	 *
+	 * @return string the name of this Actor.
+	 */
+	public function getName() {
+		return $this->name;
 	}
 
 	/**

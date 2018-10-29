@@ -27,15 +27,18 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\PublicShareController;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
+use OCP\Share\IShare;
 
-class PublicPreviewController extends Controller {
+class PublicPreviewController extends PublicShareController {
 
 	/** @var ShareManager */
 	private $shareManager;
@@ -43,15 +46,37 @@ class PublicPreviewController extends Controller {
 	/** @var IPreview */
 	private $previewManager;
 
-	public function __construct($appName,
+	/** @var IShare */
+	private $share;
+
+	public function __construct(string $appName,
 								IRequest $request,
 								ShareManager $shareManger,
+								ISession $session,
 								IPreview $previewManager) {
-		parent::__construct($appName, $request);
+		parent::__construct($appName, $request, $session);
 
 		$this->shareManager = $shareManger;
 		$this->previewManager = $previewManager;
 	}
+
+	protected function getPasswordHash(): string {
+		return $this->share->getPassword();
+	}
+
+	public function isValidToken(): bool {
+		try {
+			$this->share = $this->shareManager->getShareByToken($this->getToken());
+			return true;
+		} catch (ShareNotFound $e) {
+			return false;
+		}
+	}
+
+	protected function isPasswordProtected(): bool {
+		return $this->share->getPassword() !== null;
+	}
+
 
 	/**
 	 * @PublicPage
@@ -60,24 +85,23 @@ class PublicPreviewController extends Controller {
 	 * @param string $file
 	 * @param int $x
 	 * @param int $y
-	 * @param string $t
 	 * @param bool $a
 	 * @return DataResponse|FileDisplayResponse
 	 */
 	public function getPreview(
-		$file = '',
-		$x = 32,
-		$y = 32,
-		$t = '',
+		string $token,
+		string $file = '',
+		int $x = 32,
+		int $y = 32,
 		$a = false
 	) {
 
-		if ($t === '' || $x === 0 || $y === 0) {
+		if ($token === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
-			$share = $this->shareManager->getShareByToken($t);
+			$share = $this->shareManager->getShareByToken($token);
 		} catch (ShareNotFound $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}

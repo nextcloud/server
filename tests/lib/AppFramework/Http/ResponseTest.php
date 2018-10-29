@@ -27,6 +27,7 @@ namespace Test\AppFramework\Http;
 
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 
 
 class ResponseTest extends \Test\TestCase {
@@ -58,14 +59,14 @@ class ResponseTest extends \Test\TestCase {
 
 		$this->childResponse->setHeaders($expected);
 		$headers = $this->childResponse->getHeaders();
-		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'";
+		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'";
 
 		$this->assertEquals($expected, $headers);
 	}
 
 	public function testOverwriteCsp() {
 		$expected = [
-			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self'",
+			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self'",
 		];
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->allowInlineScript(true);
@@ -222,15 +223,24 @@ class ResponseTest extends \Test\TestCase {
 
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('no-cache, no-store, must-revalidate', $headers['Cache-Control']);
+		$this->assertFalse(isset($headers['Pragma']));
+		$this->assertFalse(isset($headers['Expires']));
 	}
 
 
 	public function testCacheSeconds() {
+		$time = $this->createMock(ITimeFactory::class);
+		$time->method('getTime')
+			->willReturn('1234567');
+
+		$this->overwriteService(ITimeFactory::class, $time);
+
 		$this->childResponse->cacheFor(33);
 
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('max-age=33, must-revalidate',
-			$headers['Cache-Control']);
+		$this->assertEquals('max-age=33, must-revalidate', $headers['Cache-Control']);
+		$this->assertEquals('public', $headers['Pragma']);
+		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
 	}
 
 

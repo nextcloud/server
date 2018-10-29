@@ -28,7 +28,7 @@ describe('OCA.Files.FileActions tests', function() {
 		var $body = $('#testArea');
 		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
-		$body.append('<table id="filestable"><tbody id="fileList"></tbody></table>');
+		$body.append('<table id="filestable" class="list-container view-grid"><tbody id="fileList"></tbody></table>');
 		// dummy files table
 		fileActions = new OCA.Files.FileActions();
 		fileActions.registerAction({
@@ -299,6 +299,7 @@ describe('OCA.Files.FileActions tests', function() {
 			clock.restore();
 		});
 		it('passes context to action handler', function() {
+			var notifyUpdateListenersSpy = sinon.spy(fileList.fileActions, '_notifyUpdateListeners');
 			$tr.find('.action-test').click();
 			expect(actionStub.calledOnce).toEqual(true);
 			expect(actionStub.getCall(0).args[0]).toEqual('testName.txt');
@@ -309,6 +310,22 @@ describe('OCA.Files.FileActions tests', function() {
 			expect(context.dir).toEqual('/subdir');
 			expect(context.fileInfoModel.get('name')).toEqual('testName.txt');
 
+			expect(notifyUpdateListenersSpy.calledTwice).toEqual(true);
+			expect(notifyUpdateListenersSpy.calledBefore(actionStub)).toEqual(true);
+			expect(notifyUpdateListenersSpy.calledAfter(actionStub)).toEqual(true);
+			expect(notifyUpdateListenersSpy.getCall(0).args[0]).toEqual('beforeTriggerAction');
+			expect(notifyUpdateListenersSpy.getCall(0).args[1]).toEqual({
+				action: fileActions.getActions('all', OCA.Files.FileActions.TYPE_INLINE, OC.PERMISSION_READ)['Test'],
+				fileName: 'testName.txt',
+				context: context
+			});
+			expect(notifyUpdateListenersSpy.getCall(1).args[0]).toEqual('afterTriggerAction');
+			expect(notifyUpdateListenersSpy.getCall(1).args[1]).toEqual({
+				action: fileActions.getActions('all', OCA.Files.FileActions.TYPE_INLINE, OC.PERMISSION_READ)['Test'],
+				fileName: 'testName.txt',
+				context: context
+			});
+
 			// when data-path is defined
 			actionStub.reset();
 			$tr.attr('data-path', '/somepath');
@@ -317,6 +334,7 @@ describe('OCA.Files.FileActions tests', function() {
 			expect(context.dir).toEqual('/somepath');
 		});
 		it('also triggers action handler when calling triggerAction()', function() {
+			var notifyUpdateListenersSpy = sinon.spy(fileList.fileActions, '_notifyUpdateListeners');
 			var model = new OCA.Files.FileInfoModel({
 				id: 1,
 				name: 'Test.txt',
@@ -331,7 +349,62 @@ describe('OCA.Files.FileActions tests', function() {
 			expect(actionStub.getCall(0).args[1].fileList).toEqual(fileList);
 			expect(actionStub.getCall(0).args[1].fileActions).toEqual(fileActions);
 			expect(actionStub.getCall(0).args[1].fileInfoModel).toEqual(model);
+
+			expect(notifyUpdateListenersSpy.calledTwice).toEqual(true);
+			expect(notifyUpdateListenersSpy.calledBefore(actionStub)).toEqual(true);
+			expect(notifyUpdateListenersSpy.calledAfter(actionStub)).toEqual(true);
+			expect(notifyUpdateListenersSpy.getCall(0).args[0]).toEqual('beforeTriggerAction');
+			expect(notifyUpdateListenersSpy.getCall(0).args[1]).toEqual({
+				action: fileActions.getActions('all', OCA.Files.FileActions.TYPE_INLINE, OC.PERMISSION_READ)['Test'],
+				fileName: 'Test.txt',
+				context: {
+					fileActions: fileActions,
+					fileInfoModel: model,
+					dir: '/subdir',
+					fileList: fileList,
+					$file: fileList.findFileEl('Test.txt')
+				}
+			});
+			expect(notifyUpdateListenersSpy.getCall(1).args[0]).toEqual('afterTriggerAction');
+			expect(notifyUpdateListenersSpy.getCall(1).args[1]).toEqual({
+				action: fileActions.getActions('all', OCA.Files.FileActions.TYPE_INLINE, OC.PERMISSION_READ)['Test'],
+				fileName: 'Test.txt',
+				context: {
+					fileActions: fileActions,
+					fileInfoModel: model,
+					dir: '/subdir',
+					fileList: fileList,
+					$file: fileList.findFileEl('Test.txt')
+				}
+			});
 		});
+		it('triggers listener events when invoked directly', function() {
+			var context = {fileActions: new OCA.Files.FileActions()}
+			var notifyUpdateListenersSpy = sinon.spy(context.fileActions, '_notifyUpdateListeners');
+			var testAction = fileActions.get('all', OCA.Files.FileActions.TYPE_INLINE, OC.PERMISSION_READ)['Test'];
+
+			testAction('Test.txt', context);
+
+			expect(actionStub.calledOnce).toEqual(true);
+			expect(actionStub.getCall(0).args[0]).toEqual('Test.txt');
+			expect(actionStub.getCall(0).args[1]).toBe(context);
+
+			expect(notifyUpdateListenersSpy.calledTwice).toEqual(true);
+			expect(notifyUpdateListenersSpy.calledBefore(actionStub)).toEqual(true);
+			expect(notifyUpdateListenersSpy.calledAfter(actionStub)).toEqual(true);
+			expect(notifyUpdateListenersSpy.getCall(0).args[0]).toEqual('beforeTriggerAction');
+			expect(notifyUpdateListenersSpy.getCall(0).args[1]).toEqual({
+				action: fileActions.getActions('all', OCA.Files.FileActions.TYPE_INLINE, OC.PERMISSION_READ)['Test'],
+				fileName: 'Test.txt',
+				context: context
+			});
+			expect(notifyUpdateListenersSpy.getCall(1).args[0]).toEqual('afterTriggerAction');
+			expect(notifyUpdateListenersSpy.getCall(1).args[1]).toEqual({
+				action: fileActions.getActions('all', OCA.Files.FileActions.TYPE_INLINE, OC.PERMISSION_READ)['Test'],
+				fileName: 'Test.txt',
+				context: context
+			});
+		}),
 		describe('actions menu', function() {
 			it('shows actions menu inside row when clicking the menu trigger', function() {
 				expect($tr.find('td.filename .fileActionsMenu').length).toEqual(0);
@@ -643,7 +716,7 @@ describe('OCA.Files.FileActions tests', function() {
 				expect(busyStub.calledWith('testName.txt', true)).toEqual(true);
 				expect(handleDownloadStub.calledOnce).toEqual(true);
 				expect(handleDownloadStub.getCall(0).args[0]).toEqual(
-					OC.webroot + '/remote.php/webdav/subdir/testName.txt'
+					OC.getRootPath() + '/remote.php/webdav/subdir/testName.txt'
 				);
 				busyStub.reset();
 				handleDownloadStub.yield();

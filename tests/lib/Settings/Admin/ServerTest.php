@@ -65,74 +65,25 @@ class ServerTest extends TestCase {
 	}
 
 	public function testGetForm() {
-		$this->dbConnection
-			->expects($this->once())
-			->method('getDatabasePlatform')
-			->willReturn(new SqlitePlatform());
 		$this->config
 			->expects($this->at(0))
-			->method('getSystemValue')
-			->with('overwrite.cli.url', '')
-			->willReturn(true);
-		$this->config
-			->expects($this->at(2))
 			->method('getAppValue')
 			->with('core', 'backgroundjobs_mode', 'ajax')
 			->willReturn('ajax');
 		$this->config
-			->expects($this->at(3))
+			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastcron', false)
 			->willReturn(false);
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(2))
 			->method('getAppValue')
 			->with('core', 'cronErrors')
 			->willReturn('');
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('check_for_working_wellknown_setup', true)
-			->willReturn(true);
-		$this->l10n
-			->expects($this->at(0))
-			->method('t')
-			->with('APCu')
-			->willReturn('APCu');
-		$this->l10n
-			->expects($this->at(1))
-			->method('t')
-			->with('Redis')
-			->willReturn('Redis');
-		$outdatedCaches = [];
-		$caches = [
-			'apcu'	=> ['name' => 'APCu', 'version' => '4.0.6'],
-			'redis'	=> ['name' => 'Redis', 'version' => '2.2.5'],
-		];
-		foreach ($caches as $php_module => $data) {
-			$isOutdated = extension_loaded($php_module) && version_compare(phpversion($php_module), $data['version'], '<');
-			if ($isOutdated) {
-				$outdatedCaches[$php_module] = $data;
-			}
-		}
-		$envPath = getenv('PATH');
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/server',
 			[
-				// Diagnosis
-				'readOnlyConfigEnabled'            => \OC_Helper::isReadOnlyConfigEnabled(),
-				'isLocaleWorking'                  => \OC_Util::isSetLocaleWorking(),
-				'isAnnotationsWorking'             => \OC_Util::isAnnotationsWorking(),
-				'checkForWorkingWellKnownSetup'    => true,
-				'has_fileinfo'                     => \OC_Util::fileInfoLoaded(),
-				'invalidTransactionIsolationLevel' => false,
-				'getenvServerNotWorking'           => empty($envPath),
-				'OutdatedCacheWarning'             => $outdatedCaches,
-				'fileLockingType'                  => 'cache',
-				'suggestedOverwriteCliUrl'         => '',
-
-				// Background jobs
 				'backgroundjobs_mode' => 'ajax',
 				'lastcron'            => false,
 				'cronErrors'		  => '',

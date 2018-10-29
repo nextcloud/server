@@ -23,8 +23,14 @@
 
 namespace OCA\Files_Trashbin\AppInfo;
 
+use OCA\DAV\Connector\Sabre\Principal;
+use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCA\Files_Trashbin\Trash\TrashManager;
 use OCP\AppFramework\App;
 use OCA\Files_Trashbin\Expiration;
+use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCA\Files_Trashbin\Capabilities;
 
 class Application extends App {
 	public function __construct (array $urlParams = []) {
@@ -34,7 +40,7 @@ class Application extends App {
 		/*
 		 * Register capabilities
 		 */
-		$container->registerCapability('OCA\Files_Trashbin\Capabilities');
+		$container->registerCapability(Capabilities::class);
 
 		/*
 		 * Register expiration
@@ -42,8 +48,52 @@ class Application extends App {
 		$container->registerService('Expiration', function($c) {
 			return  new Expiration(
 				$c->query('ServerContainer')->getConfig(),
-				$c->query('OCP\AppFramework\Utility\ITimeFactory')
+				$c->query(ITimeFactory::class)
 			);
 		});
+
+		/*
+		 * Register $principalBackend for the DAV collection
+		 */
+		$container->registerService('principalBackend', function () {
+			return new Principal(
+				\OC::$server->getUserManager(),
+				\OC::$server->getGroupManager(),
+				\OC::$server->getShareManager(),
+				\OC::$server->getUserSession(),
+				\OC::$server->getConfig()
+			);
+		});
+
+		$container->registerService(ITrashManager::class, function(IAppContainer $c) {
+			return new TrashManager();
+		});
+
+		$this->registerTrashBackends();
+	}
+
+	public function registerTrashBackends() {
+		$server = $this->getContainer()->getServer();
+		$logger = $server->getLogger();
+		$appManager = $server->getAppManager();
+		/** @var ITrashManager $trashManager */
+		$trashManager = $this->getContainer()->getServer()->query(ITrashManager::class);
+		foreach($appManager->getInstalledApps() as $app) {
+			$appInfo = $appManager->getAppInfo($app);
+			if (isset($appInfo['trash'])) {
+				$backends = $appInfo['trash'];
+				foreach($backends as $backend) {
+					$class = $backend['@value'];
+					$for = $backend['@attributes']['for'];
+
+					try {
+						$backendObject = $server->query($class);
+						$trashManager->registerBackend($for, $backendObject);
+					} catch (\Exception $e) {
+						$logger->logException($e);
+					}
+				}
+			}
+		}
 	}
 }

@@ -22,12 +22,8 @@
  */
 namespace OC\Core\Command\Maintenance;
 
-use InvalidArgumentException;
-use OC\Setup;
-use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateHtaccess extends Command {
@@ -43,7 +39,7 @@ class UpdateHtaccess extends Command {
 			$output->writeln('.htaccess has been updated');
 			return 0;
 		} else {
-			$output->writeln('<error>Error updating .htaccess file, not enough permissions?</error>');
+			$output->writeln('<error>Error updating .htaccess file, not enough permissions or "overwrite.cli.url" set to an invalid URL?</error>');
 			return 1;
 		}
 	}

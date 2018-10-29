@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -57,7 +58,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 * @return ISystemTagManager
 	 * @since 9.0.0
 	 */
-	public function getManager() {
+	public function getManager(): ISystemTagManager {
 		return new SystemTagManager(
 			$this->serverContainer->getDatabaseConnection(),
 			$this->serverContainer->getGroupManager(),
@@ -72,7 +73,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 * @return ISystemTagObjectMapper
 	 * @since 9.0.0
 	 */
-	public function getObjectMapper() {
+	public function getObjectMapper(): ISystemTagObjectMapper {
 		return new SystemTagObjectMapper(
 			$this->serverContainer->getDatabaseConnection(),
 			$this->getManager(),

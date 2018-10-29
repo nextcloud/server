@@ -217,7 +217,7 @@ class TransferOwnership extends Command {
 		$output->writeln("Collecting all share information for files and folder of $this->sourceUser ...");
 
 		$progress = new ProgressBar($output, count($this->shares));
-		foreach([\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE] as $shareType) {
+		foreach([\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE, \OCP\Share::SHARE_TYPE_ROOM] as $shareType) {
 		$offset = 0;
 			while (true) {
 				$sharePage = $this->shareManager->getSharesBy($this->sourceUser, $shareType, null, true, 50, $offset);
@@ -263,7 +263,8 @@ class TransferOwnership extends Command {
 
 		foreach($this->shares as $share) {
 			try {
-				if ($share->getSharedWith() === $this->destinationUser) {
+				if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
+						$share->getSharedWith() === $this->destinationUser) {
 					// Unmount the shares before deleting, so we don't try to get the storage later on.
 					$shareMountPoint = $this->mountManager->find('/' . $this->destinationUser . '/files' . $share->getTarget());
 					if ($shareMountPoint) {

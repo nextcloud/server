@@ -22,7 +22,6 @@
 
 namespace OCA\Files_External\Lib;
 
-use \OCA\Files_External\Lib\MissingDependency;
 
 /**
  * Polyfill for checking dependencies using legacy Storage::checkDependencies()

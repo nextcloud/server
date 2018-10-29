@@ -34,6 +34,7 @@ namespace OC\User;
 use OC\Hooks\PublicEmitter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUser;
+use OCP\IGroup;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
@@ -50,6 +51,9 @@ use OCP\UserInterface;
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user, string $password)
  * - change(\OC\User\User $user)
+ * - assignedUserId(string $uid)
+ * - preUnassignedUserId(string $uid)
+ * - postUnassignedUserId(string $uid)
  *
  * @package OC\User
  */
@@ -152,16 +156,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		if (method_exists($backend, 'loginName2UserName')) {
-			$loginName = $backend->loginName2UserName($uid);
-			if ($loginName !== false) {
-				$uid = $loginName;
-			}
-			if (isset($this->cachedUsers[$uid])) {
-				return $this->cachedUsers[$uid];
-			}
-		}
-
 		$user = new User($uid, $backend, $this, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
@@ -245,7 +239,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
 			 */
-			return strcmp($a->getUID(), $b->getUID());
+			return strcasecmp($a->getUID(), $b->getUID());
 		});
 		return $users;
 	}
@@ -274,7 +268,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
 			 */
-			return strcmp(strtolower($a->getDisplayName()), strtolower($b->getDisplayName()));
+			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});
 		return $users;
 	}
@@ -392,6 +386,24 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
+	 * returns how many users per backend exist in the requested groups (if supported by backend)
+	 *
+	 * @param IGroup[] $groups an array of gid to search in
+	 * @return array|int an array of backend class as key and count number as value
+	 *                if $hasLoggedIn is true only an int is returned
+	 */
+	public function countUsersOfGroups(array $groups) {
+		$users = [];
+		foreach($groups as $group) {
+			$usersIds = array_map(function($user) {
+				return $user->getUID();
+			}, $group->getUsers());
+			$users = array_merge($users, $usersIds);
+		}
+		return count(array_unique($users));
+	}
+
+	/**
 	 * The callback is executed for each user on each backend.
 	 * If the callback returns false no further users will be retrieved.
 	 *
@@ -427,12 +439,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * returns how many users have logged in once
+	 * returns how many users are disabled
 	 *
 	 * @return int
 	 * @since 12.0.0
 	 */
-	public function countDisabledUsers() {
+	public function countDisabledUsers(): int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
 			->from('preferences')
@@ -440,12 +452,48 @@ class Manager extends PublicEmitter implements IUserManager {
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
 
-		$query = $queryBuilder->execute();
+		
+		$result = $queryBuilder->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+		
+		if ($count !== false) {
+			$count = (int)$count;
+		} else {
+			$count = 0;
+		}
 
-		$result = (int)$query->fetchColumn();
-		$query->closeCursor();
+		return $count;
+	}
 
-		return $result;
+	/**
+	 * returns how many users are disabled in the requested groups
+	 *
+	 * @param array $groups groupids to search
+	 * @return int
+	 * @since 14.0.0
+	 */
+	public function countDisabledUsersOfGroups(array $groups): int {
+		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder->select($queryBuilder->createFunction('COUNT(DISTINCT ' . $queryBuilder->getColumnName('uid') . ')'))
+			->from('preferences', 'p')
+			->innerJoin('p', 'group_user', 'g', $queryBuilder->expr()->eq('p.userid', 'g.uid'))
+			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
+			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
+			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
+			->andWhere($queryBuilder->expr()->in('gid', $queryBuilder->createNamedParameter($groups, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		$result = $queryBuilder->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+		
+		if ($count !== false) {
+			$count = (int)$count;
+		} else {
+			$count = 0;
+		}
+
+		return $count;
 	}
 
 	/**
@@ -488,6 +536,7 @@ class Manager extends PublicEmitter implements IUserManager {
 						if ($return === false) {
 							return;
 						}
+						break;
 					}
 				}
 			}
@@ -498,7 +547,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * Getting all userIds that have a listLogin value requires checking the
 	 * value in php because on oracle you cannot use a clob in a where clause,
 	 * preventing us from doing a not null or length(value) > 0 check.
-	 * 
+	 *
 	 * @param int $limit
 	 * @param int $offset
 	 * @return string[] with user ids
@@ -542,8 +591,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function getByEmail($email) {
 		$userIds = $this->config->getUsersForUserValue('settings', 'email', $email);
 
-		return array_map(function($uid) {
+		$users = array_map(function($uid) {
 			return $this->get($uid);
 		}, $userIds);
+
+		return array_values(array_filter($users, function($u) {
+			return ($u instanceof IUser);
+		}));
 	}
 }

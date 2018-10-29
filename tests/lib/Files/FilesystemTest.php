@@ -115,73 +115,80 @@ class FilesystemTest extends \Test\TestCase {
 	}
 
 	public function normalizePathData() {
-		return array(
-			array('/', ''),
-			array('/', '/'),
-			array('/', '//'),
-			array('/', '/', false),
-			array('/', '//', false),
+		return [
+			['/', ''],
+			['/', '/'],
+			['/', '//'],
+			['/', '/', false],
+			['/', '//', false],
 
-			array('/path', '/path/'),
-			array('/path/', '/path/', false),
-			array('/path', 'path'),
+			['/path', '/path/'],
+			['/path/', '/path/', false],
+			['/path', 'path'],
 
-			array('/foo/bar', '/foo//bar/'),
-			array('/foo/bar/', '/foo//bar/', false),
-			array('/foo/bar', '/foo////bar'),
-			array('/foo/bar', '/foo/////bar'),
-			array('/foo/bar', '/foo/bar/.'),
-			array('/foo/bar', '/foo/bar/./'),
-			array('/foo/bar/', '/foo/bar/./', false),
-			array('/foo/bar', '/foo/bar/./.'),
-			array('/foo/bar', '/foo/bar/././'),
-			array('/foo/bar/', '/foo/bar/././', false),
-			array('/foo/bar', '/foo/./bar/'),
-			array('/foo/bar/', '/foo/./bar/', false),
-			array('/foo/.bar', '/foo/.bar/'),
-			array('/foo/.bar/', '/foo/.bar/', false),
-			array('/foo/.bar/tee', '/foo/.bar/tee'),
+			['/foo/bar', '/foo//bar/'],
+			['/foo/bar/', '/foo//bar/', false],
+			['/foo/bar', '/foo////bar'],
+			['/foo/bar', '/foo/////bar'],
+			['/foo/bar', '/foo/bar/.'],
+			['/foo/bar', '/foo/bar/./'],
+			['/foo/bar/', '/foo/bar/./', false],
+			['/foo/bar', '/foo/bar/./.'],
+			['/foo/bar', '/foo/bar/././'],
+			['/foo/bar/', '/foo/bar/././', false],
+			['/foo/bar', '/foo/./bar/'],
+			['/foo/bar/', '/foo/./bar/', false],
+			['/foo/.bar', '/foo/.bar/'],
+			['/foo/.bar/', '/foo/.bar/', false],
+			['/foo/.bar/tee', '/foo/.bar/tee'],
+
+			['/foo/bar', '/.///././//./foo/.///././//./bar/./././.'],
+			['/foo/bar/', '/.///././//./foo/.///././//./bar/./././.', false],
+			['/foo/bar', '/.///././//./foo/.///././//./bar/././././'],
+			['/foo/bar/', '/.///././//./foo/.///././//./bar/././././', false],
 
 			// Windows paths
-			array('/', ''),
-			array('/', '\\'),
-			array('/', '\\', false),
-			array('/', '\\\\'),
-			array('/', '\\\\', false),
+			['/', ''],
+			['/', '\\'],
+			['/', '\\', false],
+			['/', '\\\\'],
+			['/', '\\\\', false],
 
-			array('/path', '\\path'),
-			array('/path', '\\path', false),
-			array('/path', '\\path\\'),
-			array('/path/', '\\path\\', false),
+			['/path', '\\path'],
+			['/path', '\\path', false],
+			['/path', '\\path\\'],
+			['/path/', '\\path\\', false],
 
-			array('/foo/bar', '\\foo\\\\bar\\'),
-			array('/foo/bar/', '\\foo\\\\bar\\', false),
-			array('/foo/bar', '\\foo\\\\\\\\bar'),
-			array('/foo/bar', '\\foo\\\\\\\\\\bar'),
-			array('/foo/bar', '\\foo\\bar\\.'),
-			array('/foo/bar', '\\foo\\bar\\.\\'),
-			array('/foo/bar/', '\\foo\\bar\\.\\', false),
-			array('/foo/bar', '\\foo\\bar\\.\\.'),
-			array('/foo/bar', '\\foo\\bar\\.\\.\\'),
-			array('/foo/bar/', '\\foo\\bar\\.\\.\\', false),
-			array('/foo/bar', '\\foo\\.\\bar\\'),
-			array('/foo/bar/', '\\foo\\.\\bar\\', false),
-			array('/foo/.bar', '\\foo\\.bar\\'),
-			array('/foo/.bar/', '\\foo\\.bar\\', false),
-			array('/foo/.bar/tee', '\\foo\\.bar\\tee'),
+			['/foo/bar', '\\foo\\\\bar\\'],
+			['/foo/bar/', '\\foo\\\\bar\\', false],
+			['/foo/bar', '\\foo\\\\\\\\bar'],
+			['/foo/bar', '\\foo\\\\\\\\\\bar'],
+			['/foo/bar', '\\foo\\bar\\.'],
+			['/foo/bar', '\\foo\\bar\\.\\'],
+			['/foo/bar/', '\\foo\\bar\\.\\', false],
+			['/foo/bar', '\\foo\\bar\\.\\.'],
+			['/foo/bar', '\\foo\\bar\\.\\.\\'],
+			['/foo/bar/', '\\foo\\bar\\.\\.\\', false],
+			['/foo/bar', '\\foo\\.\\bar\\'],
+			['/foo/bar/', '\\foo\\.\\bar\\', false],
+			['/foo/.bar', '\\foo\\.bar\\'],
+			['/foo/.bar/', '\\foo\\.bar\\', false],
+			['/foo/.bar/tee', '\\foo\\.bar\\tee'],
 
 			// Absolute windows paths NOT marked as absolute
-			array('/C:', 'C:\\'),
-			array('/C:/', 'C:\\', false),
-			array('/C:/tests', 'C:\\tests'),
-			array('/C:/tests', 'C:\\tests', false),
-			array('/C:/tests', 'C:\\tests\\'),
-			array('/C:/tests/', 'C:\\tests\\', false),
+			['/C:', 'C:\\'],
+			['/C:/', 'C:\\', false],
+			['/C:/tests', 'C:\\tests'],
+			['/C:/tests', 'C:\\tests', false],
+			['/C:/tests', 'C:\\tests\\'],
+			['/C:/tests/', 'C:\\tests\\', false],
+			['/C:/tests/bar', 'C:\\tests\\.\\.\\bar'],
+			['/C:/tests/bar/', 'C:\\tests\\.\\.\\bar\\.\\', false],
 
 			// normalize does not resolve '..' (by design)
-			array('/foo/..', '/foo/../'),
-			array('/foo/..', '\\foo\\..\\'),
-		);
+			['/foo/..', '/foo/../'],
+			['/foo/..', '\\foo\\..\\'],
+		];
 	}
 
 	/**
@@ -366,39 +373,6 @@ class FilesystemTest extends \Test\TestCase {
 		}
 
 		$this->assertEquals(2, $thrown);
-	}
-
-	public function testUserNameCasing() {
-		$this->logout();
-		$userId = $this->getUniqueID('user_');
-
-		\OC_User::clearBackends();
-		// needed for loginName2UserName mapping
-		$userBackend = $this->createMock(\OC\User\Database::class);
-		\OC::$server->getUserManager()->registerBackend($userBackend);
-
-		$userBackend->expects($this->once())
-			->method('userExists')
-			->with(strtoupper($userId))
-			->will($this->returnValue(true));
-		$userBackend->expects($this->once())
-			->method('loginName2UserName')
-			->with(strtoupper($userId))
-			->will($this->returnValue($userId));
-
-		$view = new \OC\Files\View();
-		$this->assertFalse($view->file_exists('/' . $userId));
-
-		\OC\Files\Filesystem::initMountPoints(strtoupper($userId));
-
-		list($storage1, $path1) = $view->resolvePath('/' . $userId);
-		list($storage2, $path2) = $view->resolvePath('/' . strtoupper($userId));
-
-		$this->assertTrue($storage1->instanceOfStorage('\OCP\Files\IHomeStorage'));
-		$this->assertEquals('', $path1);
-
-		// not mounted, still on the local root storage
-		$this->assertEquals(strtoupper($userId), $path2);
 	}
 
 	/**

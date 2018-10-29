@@ -307,7 +307,7 @@ class RequestTest extends \Test\TestCase {
 			'method' => 'PUT',
 			'server' => [
 				'CONTENT_TYPE' => 'image/png',
-				'CONTENT_LENGTH' => strlen($data)
+				'CONTENT_LENGTH' => (string)strlen($data)
 			],
 		);
 
@@ -858,6 +858,20 @@ class RequestTest extends \Test\TestCase {
 					Request::USER_AGENT_FREEBOX
 				],
 				false,
+			],
+			[
+				'Mozilla/5.0 (Android) ownCloud-android/2.0.0',
+				[
+					Request::USER_AGENT_CLIENT_ANDROID
+				],
+				true,
+			],
+			[
+				'Mozilla/5.0 (Android) Nextcloud-android/2.0.0',
+				[
+					Request::USER_AGENT_CLIENT_ANDROID
+				],
+				true,
 			],
 		];
 	}
@@ -1832,7 +1846,6 @@ class RequestTest extends \Test\TestCase {
 		return [
 			['InvalidSentToken'],
 			['InvalidSentToken:InvalidSecret'],
-			[null],
 			[''],
 		];
 	}

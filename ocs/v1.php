@@ -29,14 +29,15 @@
  *
  */
 
+require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
 if (\OCP\Util::needUpgrade()
 	|| \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
-	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-	$response = new \OC\OCS\Result(null, OC_Response::STATUS_SERVICE_UNAVAILABLE, 'Service unavailable');
+	http_response_code(503);
+	$response = new \OC\OCS\Result(null, 503, 'Service unavailable');
 	OC_API::respond($response, OC_API::requestedFormat());
 	exit;
 }
@@ -55,12 +56,16 @@ try {
 	OC_App::loadApps();
 
 	OC::$server->getRouter()->match('/ocs'.\OC::$server->getRequest()->getRawPathInfo());
+
+	sleep(1);
+	OC::$server->getLogger()->info('This uses an old OCP\API::register construct. This will be removed in a future version of Nextcloud. Please migrate to the OCSController');
+
 	return;
 } catch (ResourceNotFoundException $e) {
 	// Fall through the not found
 } catch (MethodNotAllowedException $e) {
 	OC_API::setContentType();
-	OC_Response::setStatus(405);
+	http_response_code(405);
 	exit();
 } catch (Exception $ex) {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
@@ -80,11 +85,11 @@ try {
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt='Invalid query, please check the syntax. API specifications are here:'
-		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 } catch (MethodNotAllowedException $e) {
 	OC_API::setContentType();
-	OC_Response::setStatus(405);
+	http_response_code(405);
 } catch (\OC\OCS\Exception $ex) {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
 } catch (\OC\User\LoginException $e) {
@@ -95,7 +100,7 @@ try {
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt='Invalid query, please check the syntax. API specifications are here:'
-		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 }
 

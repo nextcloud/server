@@ -816,7 +816,7 @@ class UserTest extends TestCase {
 			->method('triggerChange')
 			->with(
 				'enabled',
-				'false'
+				false
 			);
 
 		$user->setEnabled(false);

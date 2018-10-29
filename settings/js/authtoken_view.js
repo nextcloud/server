@@ -25,37 +25,16 @@
 
 	OC.Settings = OC.Settings || {};
 
-	var TEMPLATE_TOKEN =
-		'<tr data-id="{{id}}">'
-		+ '<td class="has-tooltip" title="{{title}}">'
-		+ '<span class="token-name">{{name}}</span>'
-		+ '</td>'
-		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
-		+ '<td class="more">'
-		+ '{{#if showMore}}<a class="icon icon-more"/>{{/if}}'
-		+ '<div class="popovermenu bubble open menu configure">'
-		+ '{{#if canScope}}'
-		+ '<input class="filesystem checkbox" type="checkbox" id="{{id}}_filesystem" {{#if scope.filesystem}}checked{{/if}}/>'
-		+ '<label for="{{id}}_filesystem">' + t('settings', 'Allow filesystem access') + '</label><br/>'
-		+ '{{/if}}'
-		+ '{{#if canDelete}}'
-		+ '<a class="icon icon-delete has-tooltip" title="' + t('settings', 'Disconnect') + '">' + t('settings', 'Revoke') +'</a>'
-		+ '{{/if}}'
-		+ '</div>'
-		+ '</td>'
-		+ '<tr>';
-
 	var SubView = OC.Backbone.View.extend({
 		collection: null,
 
 		_template: undefined,
 
 		template: function (data) {
-			if (_.isUndefined(this._template)) {
-				this._template = Handlebars.compile(TEMPLATE_TOKEN);
-			}
-
-			return this._template(data);
+			data.disconnectText = t('settings', 'Disconnect');
+			data.revokeText = t('settings', 'Revoke');
+			data.allowFSAccess = t('settings', 'Allow filesystem access');
+			return OC.Settings.Templates['authtoken'](data);
 		},
 
 		initialize: function (options) {
@@ -146,11 +125,28 @@
 				sailfishBrowser: 'SailfishBrowser'
 			};
 
+			var iconMap = {
+				ie: 'icon-desktop',
+				edge: 'icon-desktop',
+				firefox: 'icon-desktop',
+				chrome: 'icon-desktop',
+				safari: 'icon-desktop',
+				androidChrome: 'icon-phone',
+				iphone: 'icon-phone',
+				ipad: 'icon-tablet',
+				iosClient: 'icon-phone',
+				androidClient: 'icon-phone',
+				davDroid: 'icon-phone',
+				webPirate: 'icon-link',
+				sailfishBrowser: 'icon-link'
+			};
+
 			if (matches) {
 				viewData.name = t('settings', 'Sync client - {os}', {
 					os: matches[1],
 					version: matches[2]
 				});
+				viewData.icon = 'icon-desktop';
 			}
 			for (var client in userAgentMap) {
 				if (matches = viewData.title.match(userAgentMap[client])) {
@@ -161,6 +157,11 @@
 					} else {
 						viewData.name = nameMap[client];
 					}
+
+					// update title - for easier view
+					viewData.title = viewData.name;
+
+					viewData.icon = iconMap[client];
 				}
 			}
 			if (viewData.current) {
@@ -220,7 +221,7 @@
 				if (event.which === 13) {
 					this._addAppPassword();
 				}
-			});
+			}.bind(this));
 
 			this._result = $('#app-password-result');
 			this._newAppLoginName = $('#new-app-login-name');
@@ -351,11 +352,13 @@
 			var $target = $(event.target);
 			var $row = $target.closest('tr');
 			$row.toggleClass('active');
+			$row.find('.popovermenu').toggleClass('open');
 			var id = $row.data('id');
 		},
 
 		_hideConfigureToken: function() {
 			$('.token-list tr').removeClass('active');
+			$('.token-list tr .popovermenu').removeClass('open');
 		},
 
 		_onDeleteToken: function (event) {

@@ -75,7 +75,9 @@ class RetryJob extends Job {
 				$addressHandler,
 				\OC::$server->getHTTPClientService(),
 				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-				\OC::$server->getJobList()
+				\OC::$server->getJobList(),
+				\OC::$server->getCloudFederationProviderManager(),
+				\OC::$server->getCloudFederationFactory()
 			);
 		}
 
@@ -120,7 +122,7 @@ class RetryJob extends Job {
 	 * @param array $argument
 	 */
 	protected function reAddJob(IJobList $jobList, array $argument) {
-		$jobList->add('OCA\FederatedFileSharing\BackgroundJob\RetryJob',
+		$jobList->add(RetryJob::class,
 			[
 				'remote' => $argument['remote'],
 				'remoteId' => $argument['remoteId'],

@@ -24,6 +24,7 @@
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use GuzzleHttp\Message\ResponseInterface;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -78,9 +79,9 @@ trait AppConfiguration {
 		$this->sendingTo('get', '/cloud/apps?filter=enabled');
 		$this->theHTTPStatusCodeShouldBe('200');
 		if ($enabled) {
-			PHPUnit_Framework_Assert::assertContains('testing', $this->response->getBody()->getContents());
+			Assert::assertContains('testing', $this->response->getBody()->getContents());
 		} else {
-			PHPUnit_Framework_Assert::assertNotContains('testing', $this->response->getBody()->getContents());
+			Assert::assertNotContains('testing', $this->response->getBody()->getContents());
 		}
 	}
 

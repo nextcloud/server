@@ -39,8 +39,8 @@ return ['routes' => [
 		'verb' => 'POST'
 	],
 	[
-		'name' => 'Theming#updateLogo',
-		'url' => '/ajax/updateLogo',
+		'name' => 'Theming#uploadImage',
+		'url' => '/ajax/uploadImage',
 		'verb' => 'POST'
 	],
 	[
@@ -49,13 +49,8 @@ return ['routes' => [
 		'verb' => 'GET',
 	],
 	[
-		'name' => 'Theming#getLogo',
-		'url' => '/logo',
-		'verb' => 'GET',
-	],
-	[
-		'name' => 'Theming#getLoginBackground',
-		'url' => '/loginbackground',
+		'name' => 'Theming#getImage',
+		'url' => '/image/{key}',
 		'verb' => 'GET',
 	],
 	[

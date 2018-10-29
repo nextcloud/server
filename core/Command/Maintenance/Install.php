@@ -30,6 +30,7 @@
 namespace OC\Core\Command\Maintenance;
 
 use InvalidArgumentException;
+use OC\Installer;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
@@ -66,6 +67,7 @@ class Install extends Command {
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'User name of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
+			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
 			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT."/data");
 	}
 
@@ -73,9 +75,15 @@ class Install extends Command {
 
 		// validate the environment
 		$server = \OC::$server;
-		$setupHelper = new Setup($this->config, $server->getIniWrapper(),
-			$server->getL10N('lib'), $server->query(Defaults::class), $server->getLogger(),
-			$server->getSecureRandom());
+		$setupHelper = new Setup(
+			$this->config,
+			$server->getIniWrapper(),
+			$server->getL10N('lib'),
+			$server->query(Defaults::class),
+			$server->getLogger(),
+			$server->getSecureRandom(),
+			\OC::$server->query(Installer::class)
+		);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
@@ -83,7 +91,7 @@ class Install extends Command {
 
 			// ignore the OS X setup warning
 			if(count($errors) !== 1 ||
-				(string)($errors[0]['error']) !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk! ') {
+				(string)$errors[0]['error'] !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk! ') {
 				return 1;
 			}
 		}
@@ -134,6 +142,7 @@ class Install extends Command {
 		}
 		$adminLogin = $input->getOption('admin-user');
 		$adminPassword = $input->getOption('admin-pass');
+		$adminEmail = $input->getOption('admin-email');
 		$dataDir = $input->getOption('data-dir');
 
 		if ($db !== 'sqlite') {
@@ -162,6 +171,10 @@ class Install extends Command {
 			$adminPassword = $helper->ask($input, $output, $question);
 		}
 
+		if ($adminEmail !== null && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+			throw new InvalidArgumentException('Invalid e-mail-address <' . $adminEmail . '> for <' . $adminLogin . '>.');
+		}
+
 		$options = [
 			'dbtype' => $db,
 			'dbuser' => $dbUser,
@@ -172,6 +185,7 @@ class Install extends Command {
 			'dbtableprefix' => $dbTablePrefix,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
+			'adminemail' => $adminEmail,
 			'directory' => $dataDir
 		];
 		if ($db === 'oci') {

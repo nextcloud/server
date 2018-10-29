@@ -63,7 +63,9 @@
 				},
 				formatSelection: function (tagId) {
 					var tag = OC.SystemTags.collection.get(tagId);
-					return OC.SystemTags.getDescriptiveTag(tag);
+					if (!_.isUndefined(tag)) {
+						return OC.SystemTags.getDescriptiveTag(tag);
+					}
 				},
 				escapeMarkup: function(m) {
 					return m;

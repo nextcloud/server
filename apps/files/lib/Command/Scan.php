@@ -32,6 +32,7 @@ use Doctrine\DBAL\Connection;
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\ForbiddenException;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
@@ -97,6 +98,16 @@ class Scan extends Base {
 				null,
 				InputOption::VALUE_NONE,
 				'only scan files which are marked as not fully scanned'
+			)->addOption(
+				'shallow',
+				null,
+				InputOption::VALUE_NONE,
+				'do not scan folders recursively'
+			)->addOption(
+				'home-only',
+				null,
+				InputOption::VALUE_NONE,
+				'only scan the home storage, ignoring any mounted external storage or share'
 			);
 	}
 
@@ -109,7 +120,7 @@ class Scan extends Base {
 		}
 	}
 
-	protected function scanFiles($user, $path, $verbose, OutputInterface $output, $backgroundScan = false) {
+	protected function scanFiles($user, $path, $verbose, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new \OC\Files\Utils\Scanner($user, $connection, \OC::$server->getLogger());
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
@@ -118,33 +129,25 @@ class Scan extends Base {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 				$output->writeln("\tFile   <info>$path</info>");
 				$this->filesCounter += 1;
-				if ($this->hasBeenInterrupted()) {
-					throw new InterruptedException();
-				}
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 				$output->writeln("\tFolder <info>$path</info>");
 				$this->foldersCounter += 1;
-				if ($this->hasBeenInterrupted()) {
-					throw new InterruptedException();
-				}
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
-				$output->writeln("Error while scanning, storage not available (" . $e->getMessage() . ")");
+				$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')');
 			});
 			# count only
 		} else {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function () use ($output) {
 				$this->filesCounter += 1;
-				if ($this->hasBeenInterrupted()) {
-					throw new InterruptedException();
-				}
+				$this->abortIfInterrupted();
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function () use ($output) {
 				$this->foldersCounter += 1;
-				if ($this->hasBeenInterrupted()) {
-					throw new InterruptedException();
-				}
+				$this->abortIfInterrupted();
 			});
 		}
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
@@ -158,11 +161,11 @@ class Scan extends Base {
 			if ($backgroundScan) {
 				$scanner->backgroundScan($path);
 			} else {
-				$scanner->scan($path);
+				$scanner->scan($path, $recursive, $homeOnly ? [$this, 'filterHomeMount'] : null);
 			}
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable</error>");
-			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
+			$output->writeln('Make sure you\'re running the scan command only as the user the web server runs as');
 		} catch (InterruptedException $e) {
 			# exit the function if ctrl-c has been pressed
 			$output->writeln('Interrupted by user');
@@ -174,6 +177,10 @@ class Scan extends Base {
 		}
 	}
 
+	public function filterHomeMount(IMountPoint $mountPoint) {
+		// any mountpoint inside '/$user/files/'
+		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
+	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$inputPath = $input->getOption('path');
@@ -231,12 +238,14 @@ class Scan extends Base {
 				}
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
 				# full: printout data if $verbose was set
-				$this->scanFiles($user, $path, $verbose, $output, $input->getOption('unscanned'));
+				$this->scanFiles($user, $path, $verbose, $output, $input->getOption('unscanned'), ! $input->getOption('shallow'), $input->getOption('home-only'));
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
 			}
-			# check on each user if there was a user interrupt (ctrl-c) and exit foreach
-			if ($this->hasBeenInterrupted()) {
+
+			try {
+				$this->abortIfInterrupted();
+			} catch(InterruptedException $e) {
 				break;
 			}
 		}
@@ -322,7 +331,7 @@ class Scan extends Base {
 	 * @return string
 	 */
 	protected function formatExecTime() {
-		list($secs, ) = explode('.', sprintf("%.1f", ($this->execTime)));
+		list($secs, ) = explode('.', sprintf("%.1f", $this->execTime));
 
 		# if you want to have microseconds add this:   . '.' . $tens;
 		return date('H:i:s', $secs);

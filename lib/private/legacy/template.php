@@ -109,18 +109,22 @@ class OC_Template extends \OC\Template\Base {
 				}
 			}
 
+			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
 			OC_Util::addStyle('jquery-ui-fixes',null,true);
 			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
 			OC_Util::addVendorStyle('select2/select2', null, true);
 			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
+			OC_Util::addStyle('search', 'results');
 			OC_Util::addScript('search', 'search', true);
+			OC_Util::addScript('search', 'searchprovider');
 			OC_Util::addScript('merged-template-prepend', null, true);
 			OC_Util::addScript('jquery-ui-fixes');
 			OC_Util::addScript('files/fileinfo');
 			OC_Util::addScript('files/client');
 			OC_Util::addScript('contactsmenu');
+			OC_Util::addScript('contactsmenu_templates');
 
 			if (\OC::$server->getConfig()->getSystemValue('debug')) {
 				// Add the stuff we need always
@@ -132,7 +136,7 @@ class OC_Template extends \OC\Template\Base {
 					foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
 						//remove trailing ".js" as addVendorScript will append it
 						OC_Util::addVendorScript(
-							substr($vendorLibrary, 0, strlen($vendorLibrary) - 3),null,true);
+							substr($vendorLibrary, 0, -3),null,true);
 						}
  				} else {
 					throw new \Exception('Cannot read core/js/core.json');
@@ -206,6 +210,12 @@ class OC_Template extends \OC\Template\Base {
 		if( $this->renderAs ) {
 			$page = new TemplateLayout($this->renderAs, $this->app);
 
+			if(is_array($additionalParams)) {
+				foreach ($additionalParams as $key => $value) {
+					$page->assign($key, $value);
+				}
+			}
+
 			// Add custom headers
 			$headers = '';
 			foreach(OC_Util::$headers as $header) {
@@ -226,7 +236,7 @@ class OC_Template extends \OC\Template\Base {
 			$page->assign('headers', $headers);
 
 			$page->assign('content', $data);
-			return $page->fetchPage();
+			return $page->fetchPage($additionalParams);
 		}
 
 		return $data;
@@ -295,9 +305,10 @@ class OC_Template extends \OC\Template\Base {
 	 * Print a fatal error page and terminates the script
 	 * @param string $error_msg The error message to show
 	 * @param string $hint An optional hint message - needs to be properly escape
+	 * @param int $statusCode
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public static function printErrorPage( $error_msg, $hint = '' ) {
+	public static function printErrorPage( $error_msg, $hint = '', $statusCode = 500) {
 		if (\OC::$server->getAppManager()->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
 		}
@@ -308,6 +319,7 @@ class OC_Template extends \OC\Template\Base {
 			$hint = '';
 		}
 
+		http_response_code($statusCode);
 		try {
 			$content = new \OC_Template( '', 'error', 'error', false );
 			$errors = array(array('error' => $error_msg, 'hint' => $hint));
@@ -318,7 +330,6 @@ class OC_Template extends \OC\Template\Base {
 			$logger->error("$error_msg $hint", ['app' => 'core']);
 			$logger->logException($e, ['app' => 'core']);
 
-			header(self::getHttpProtocol() . ' 500 Internal Server Error');
 			header('Content-Type: text/plain; charset=utf-8');
 			print("$error_msg $hint");
 		}
@@ -328,11 +339,12 @@ class OC_Template extends \OC\Template\Base {
 	/**
 	 * print error page using Exception details
 	 * @param Exception|Throwable $exception
-	 * @param bool $fetchPage
+	 * @param int $statusCode
 	 * @return bool|string
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public static function printExceptionErrorPage($exception, $fetchPage = false) {
+	public static function printExceptionErrorPage($exception, $statusCode = 503) {
+		http_response_code($statusCode);
 		try {
 			$request = \OC::$server->getRequest();
 			$content = new \OC_Template('', 'exception', 'error', false);
@@ -345,16 +357,24 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
 			$content->assign('remoteAddr', $request->getRemoteAddress());
 			$content->assign('requestID', $request->getId());
-			if ($fetchPage) {
-				return $content->fetchPage();
-			}
 			$content->printPage();
 		} catch (\Exception $e) {
-			$logger = \OC::$server->getLogger();
-			$logger->logException($exception, ['app' => 'core']);
-			$logger->logException($e, ['app' => 'core']);
+			try {
+				$logger = \OC::$server->getLogger();
+				$logger->logException($exception, ['app' => 'core']);
+				$logger->logException($e, ['app' => 'core']);
+			} catch (Throwable $e) {
+				// no way to log it properly - but to avoid a white page of death we send some output
+				header('Content-Type: text/plain; charset=utf-8');
+				print("Internal Server Error\n\n");
+				print("The server encountered an internal error and was unable to complete your request.\n");
+				print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+				print("More details can be found in the server log.\n");
 
-			header(self::getHttpProtocol() . ' 500 Internal Server Error');
+				// and then throw it again to log it at least to the web server error log
+				throw $e;
+			}
+
 			header('Content-Type: text/plain; charset=utf-8');
 			print("Internal Server Error\n\n");
 			print("The server encountered an internal error and was unable to complete your request.\n");
@@ -362,27 +382,5 @@ class OC_Template extends \OC\Template\Base {
 			print("More details can be found in the server log.\n");
 		}
 		die();
-	}
-
-	/**
-	 * This is only here to reduce the dependencies in case of an exception to
-	 * still be able to print a plain error message.
-	 *
-	 * Returns the used HTTP protocol.
-	 *
-	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
-	 * @internal Don't use this - use AppFramework\Http\Request->getHttpProtocol instead
-	 */
-	protected static function getHttpProtocol() {
-		$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
-		$validProtocols = [
-			'HTTP/1.0',
-			'HTTP/1.1',
-			'HTTP/2',
-		];
-		if(in_array($claimedProtocol, $validProtocols, true)) {
-			return $claimedProtocol;
-		}
-		return 'HTTP/1.1';
 	}
 }

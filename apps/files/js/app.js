@@ -53,6 +53,8 @@
 			this.$showHiddenFiles = $('input#showhiddenfilesToggle');
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
+
+
 			if ($('#fileNotFound').val() === "1") {
 				OC.Notification.show(t('files', 'File could not be found'), {type: 'error'});
 			}
@@ -81,19 +83,36 @@
 			// TODO: ideally these should be in a separate class / app (the embedded "all files" app)
 			this.fileList = new OCA.Files.FileList(
 				$('#app-content-files'), {
-					scrollContainer: $('#app-content'),
 					dragOptions: dragOptions,
 					folderDropOptions: folderDropOptions,
 					fileActions: fileActions,
 					allowLegacyActions: true,
 					scrollTo: urlParams.scrollto,
 					filesClient: OC.Files.getClient(),
+					multiSelectMenu: [
+						{
+							name: 'copyMove',
+							displayName:  t('files', 'Move or copy'),
+							iconClass: 'icon-external',
+						},
+						{
+							name: 'download',
+							displayName:  t('files', 'Download'),
+							iconClass: 'icon-download',
+						},
+						{
+							name: 'delete',
+							displayName: t('files', 'Delete'),
+							iconClass: 'icon-delete',
+						}
+					],
 					sorting: {
 						mode: $('#defaultFileSorting').val(),
 						direction: $('#defaultFileSortingDirection').val()
 					},
 					config: this._filesConfig,
-					enableUpload: true
+					enableUpload: true,
+					maxChunkSize: OC.appConfig.files && OC.appConfig.files.max_chunk_size
 				}
 			);
 			this.files.initialize();
@@ -113,6 +132,8 @@
 			});
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
+
+			OCP.WhatsNew.query(); // for Nextcloud server
 		},
 
 		/**
@@ -129,7 +150,7 @@
 			window.FileActions.off('registerAction.app-files', this._onActionsUpdated);
 		},
 
-		_onActionsUpdated: function(ev, newAction) {
+		_onActionsUpdated: function(ev) {
 			// forward new action to the file list
 			if (ev.action) {
 				this.fileList.fileActions.registerAction(ev.action);
@@ -201,7 +222,7 @@
 		},
 
 		/**
-		 * Persist show hidden preference on ther server
+		 * Persist show hidden preference on the server
 		 *
 		 * @returns {undefined}
 		 */
@@ -219,8 +240,8 @@
 			var params;
 			if (e && e.itemId) {
 				params = {
-					view: e.itemId,
-					dir: '/'
+					view: typeof e.view === 'string' && e.view !== '' ? e.view : e.itemId,
+					dir: e.dir ? e.dir : '/'
 				};
 				this._changeUrl(params.view, params.dir);
 				OC.Apps.hideAppSidebar($('.detailsView'));

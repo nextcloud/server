@@ -26,10 +26,12 @@ namespace Test\AppFramework\Http;
 
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Controller;
 use OCP\IConfig;
 
@@ -75,7 +77,9 @@ class TestController extends Controller {
 
 
 class DispatcherTest extends \Test\TestCase {
+	/** @var MiddlewareDispatcher */
 	private $middlewareDispatcher;
+	/** @var Dispatcher */
 	private $dispatcher;
 	private $controllerMethod;
 	private $response;
@@ -120,14 +124,13 @@ class DispatcherTest extends \Test\TestCase {
 		$this->reflector = new ControllerMethodReflector();
 
 		$this->dispatcher = new Dispatcher(
-			$this->http, $this->middlewareDispatcher, $this->reflector,
+			$this->http,
+			$this->middlewareDispatcher,
+			$this->reflector,
 			$this->request
 		);
 
-		$this->response = $this->getMockBuilder(
-			'\OCP\AppFramework\Http\Response')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->response = $this->createMock(Response::class);
 
 		$this->lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
 		$this->etag = 'hi';
@@ -162,7 +165,7 @@ class DispatcherTest extends \Test\TestCase {
 					->with($this->equalTo($this->controller),
 						$this->equalTo($this->controllerMethod),
 						$this->equalTo($exception))
-					->will($this->returnValue(null));
+					->willThrowException($exception);
 				return;
 			}
 		} else {
@@ -221,10 +224,9 @@ class DispatcherTest extends \Test\TestCase {
 
 
 	public function testDispatcherReturnsArrayWith2Entries() {
-		$this->setMiddlewareExpectations();
+		$this->setMiddlewareExpectations('');
 
-		$response = $this->dispatcher->dispatch($this->controller,
-			$this->controllerMethod);
+		$response = $this->dispatcher->dispatch($this->controller, $this->controllerMethod);
 		$this->assertNull($response[0]);
 		$this->assertEquals(array(), $response[1]);
 		$this->assertNull($response[2]);
@@ -264,12 +266,14 @@ class DispatcherTest extends \Test\TestCase {
 	public function testExceptionThrowsIfCanNotBeHandledByAfterException() {
 		$out = 'yo';
 		$httpHeaders = 'Http';
-		$responseHeaders = array('hell' => 'yeah');
+		$responseHeaders = ['hell' => 'yeah'];
 		$this->setMiddlewareExpectations($out, $httpHeaders, $responseHeaders, true, false);
 
-		$this->setExpectedException('\Exception');
-		$response = $this->dispatcher->dispatch($this->controller,
-			$this->controllerMethod);
+		$this->expectException(\Exception::class);
+		$this->dispatcher->dispatch(
+			$this->controller,
+			$this->controllerMethod
+		);
 
 	}
 

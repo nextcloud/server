@@ -110,7 +110,7 @@ class UserHooksTest extends TestCase {
 		$this->sessionMock->expects($this->once())
 			->method('clear');
 		$this->instance->logout();
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testPostCreateUser() {
@@ -118,7 +118,7 @@ class UserHooksTest extends TestCase {
 			->method('setupUser');
 
 		$this->instance->postCreateUser($this->params);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testPostDeleteUser() {
@@ -127,7 +127,7 @@ class UserHooksTest extends TestCase {
 			->with('testUser');
 
 		$this->instance->postDeleteUser($this->params);
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testPrePasswordReset() {
@@ -210,9 +210,9 @@ class UserHooksTest extends TestCase {
 	}
 
 	public function testSetPassphrase() {
-		$this->sessionMock->expects($this->exactly(4))
+		$this->sessionMock->expects($this->once())
 			->method('getPrivateKey')
-			->willReturnOnConsecutiveCalls(true, false);
+			->willReturn(true);
 
 		$this->cryptMock->expects($this->exactly(4))
 			->method('encryptPrivateKey')
@@ -236,7 +236,7 @@ class UserHooksTest extends TestCase {
 
 		$this->recoveryMock->expects($this->exactly(3))
 			->method('isRecoveryEnabledForUser')
-			->with('testUser')
+			->with('testUser1')
 			->willReturnOnConsecutiveCalls(true, false);
 
 
@@ -257,13 +257,15 @@ class UserHooksTest extends TestCase {
 
 		$this->instance->expects($this->exactly(3))->method('initMountPoints');
 
+		$this->params['uid'] = 'testUser1';
+
 		// Test first if statement
 		$this->assertNull($this->instance->setPassphrase($this->params));
 
 		// Test Second if conditional
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('userHasKeys')
-			->with('testUser')
+			->with('testUser1')
 			->willReturn(true);
 
 		$this->assertNull($this->instance->setPassphrase($this->params));
@@ -271,7 +273,7 @@ class UserHooksTest extends TestCase {
 		// Test third and final if condition
 		$this->utilMock->expects($this->once())
 			->method('userHasFiles')
-			->with('testUser')
+			->with('testUser1')
 			->willReturn(false);
 
 		$this->cryptMock->expects($this->once())
@@ -282,7 +284,7 @@ class UserHooksTest extends TestCase {
 
 		$this->recoveryMock->expects($this->once())
 			->method('recoverUsersFiles')
-			->with('password', 'testUser');
+			->with('password', 'testUser1');
 
 		$this->assertNull($this->instance->setPassphrase($this->params));
 	}
@@ -297,9 +299,6 @@ class UserHooksTest extends TestCase {
 	}
 
 	public function testSetPasswordNoUser() {
-		$this->sessionMock->expects($this->once())
-			->method('getPrivateKey')
-			->willReturn(true);
 
 		$userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()

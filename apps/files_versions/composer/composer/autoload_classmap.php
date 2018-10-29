@@ -16,5 +16,11 @@ return array(
     'OCA\\Files_Versions\\Events\\CreateVersionEvent' => $baseDir . '/../lib/Events/CreateVersionEvent.php',
     'OCA\\Files_Versions\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Versions\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Files_Versions\\Sabre\\RestoreFolder' => $baseDir . '/../lib/Sabre/RestoreFolder.php',
+    'OCA\\Files_Versions\\Sabre\\RootCollection' => $baseDir . '/../lib/Sabre/RootCollection.php',
+    'OCA\\Files_Versions\\Sabre\\VersionCollection' => $baseDir . '/../lib/Sabre/VersionCollection.php',
+    'OCA\\Files_Versions\\Sabre\\VersionFile' => $baseDir . '/../lib/Sabre/VersionFile.php',
+    'OCA\\Files_Versions\\Sabre\\VersionHome' => $baseDir . '/../lib/Sabre/VersionHome.php',
+    'OCA\\Files_Versions\\Sabre\\VersionRoot' => $baseDir . '/../lib/Sabre/VersionRoot.php',
     'OCA\\Files_Versions\\Storage' => $baseDir . '/../lib/Storage.php',
 );

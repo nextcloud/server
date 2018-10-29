@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,7 +25,7 @@
 namespace OC\Http\Client;
 
 use OCP\Http\Client\IResponse;
-use GuzzleHttp\Message\Response as GuzzleResponse;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Response
@@ -32,7 +33,7 @@ use GuzzleHttp\Message\Response as GuzzleResponse;
  * @package OC\Http
  */
 class Response implements IResponse {
-	/** @var GuzzleResponse */
+	/** @var ResponseInterface */
 	private $response;
 
 	/**
@@ -41,10 +42,10 @@ class Response implements IResponse {
 	private $stream;
 
 	/**
-	 * @param GuzzleResponse $response
+	 * @param ResponseInterface $response
 	 * @param bool $stream
 	 */
-	public function __construct(GuzzleResponse $response, $stream = false) {
+	public function __construct(ResponseInterface $response, $stream = false) {
 		$this->response = $response;
 		$this->stream = $stream;
 	}
@@ -61,22 +62,22 @@ class Response implements IResponse {
 	/**
 	 * @return int
 	 */
-	public function getStatusCode() {
+	public function getStatusCode(): int {
 		return $this->response->getStatusCode();
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return string
 	 */
-	public function getHeader($key) {
-		return $this->response->getHeader($key);
+	public function getHeader(string $key): string {
+		return $this->response->getHeader($key)[0];
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getHeaders() {
+	public function getHeaders(): array {
 		return $this->response->getHeaders();
 	}
 }

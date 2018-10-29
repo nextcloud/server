@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -40,7 +41,7 @@ interface IControllerMethodReflector {
 	 * @return void
 	 * @since 8.0.0
 	 */
-	public function reflect($object, $method);
+	public function reflect($object, string $method);
 
 	/**
 	 * Inspects the PHPDoc parameters for types
@@ -51,13 +52,13 @@ interface IControllerMethodReflector {
 	 * would return int or null if not existing
 	 * @since 8.0.0
 	 */
-	public function getType($parameter);
+	public function getType(string $parameter);
 
 	/**
 	 * @return array the arguments of the method with key => default value
 	 * @since 8.0.0
 	 */
-	public function getParameters();
+	public function getParameters(): array;
 
 	/**
 	 * Check if a method contains an annotation
@@ -66,6 +67,6 @@ interface IControllerMethodReflector {
 	 * @return bool true if the annotation is found
 	 * @since 8.0.0
 	 */
-	public function hasAnnotation($name);
+	public function hasAnnotation(string $name): bool;
 
 }

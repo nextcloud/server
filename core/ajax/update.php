@@ -28,6 +28,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\ILogger;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
@@ -98,7 +100,7 @@ class FeedBackHandler {
 	}
 }
 
-if (OC::checkUpgrade(false)) {
+if (\OCP\Util::needUpgrade()) {
 
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {
@@ -116,10 +118,11 @@ if (OC::checkUpgrade(false)) {
 	$updater = new \OC\Updater(
 			$config,
 			\OC::$server->getIntegrityCodeChecker(),
-			$logger
+			$logger,
+			\OC::$server->query(\OC\Installer::class),
+			\OC::$server->getJobList()
 	);
 	$incompatibleApps = [];
-	$disabledThirdPartyApps = [];
 
 	$dispatcher = \OC::$server->getEventDispatcher();
 	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($eventSource, $l) {
@@ -149,6 +152,9 @@ if (OC::checkUpgrade(false)) {
 	});
 	$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Maintenance mode is kept active'));
+	});
+	$updater->listen('\OC\Updater', 'waitForCronToFinish', function () use ($eventSource, $l) {
+		$eventSource->send('success', (string)$l->t('Waiting for cron to finish (checks again in 5 seconds) …'));
 	});
 	$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updating database schema'));
@@ -181,13 +187,10 @@ if (OC::checkUpgrade(false)) {
 		$eventSource->send('success', (string)$l->t('Checked database schema update for apps'));
 	});
 	$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
-		$eventSource->send('success', (string)$l->t('Updated "%s" to %s', array($app, $version)));
+		$eventSource->send('success', (string)$l->t('Updated "%1$s" to %2$s', array($app, $version)));
 	});
 	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
 		$incompatibleApps[]= $app;
-	});
-	$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use (&$disabledThirdPartyApps) {
-		$disabledThirdPartyApps[]= $app;
 	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);
@@ -210,15 +213,16 @@ if (OC::checkUpgrade(false)) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
+		\OC::$server->getLogger()->logException($e, [
+			'level' => ILogger::ERROR,
+			'app' => 'update',
+		]);
 		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());
 		$eventSource->close();
 		exit();
 	}
 
 	$disabledApps = [];
-	foreach ($disabledThirdPartyApps as $app) {
-		$disabledApps[$app] = (string) $l->t('%s (3rdparty)', [$app]);
-	}
 	foreach ($incompatibleApps as $app) {
 		$disabledApps[$app] = (string) $l->t('%s (incompatible)', [$app]);
 	}

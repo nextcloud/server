@@ -24,7 +24,6 @@
 namespace OCA\Comments;
 
 use OCA\Comments\Activity\Listener as ActivityListener;
-use OCA\Comments\AppInfo\Application;
 use OCA\Comments\Notification\Listener as NotificationListener;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\ICommentsEventHandler;

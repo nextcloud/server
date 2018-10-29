@@ -32,7 +32,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
 class TagsContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
+	/** @var string */
 	private $baseUrl;
 	/** @var Client */
 	private $client;
@@ -61,9 +61,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	public function tearDownScenario() {
 		$user = 'admin';
 		$tags = $this->requestTagsForUser($user);
-		foreach($tags as $tagId => $tag) {
+		foreach ($tags as $tagId => $tag) {
 			$this->response = $this->client->delete(
-				$this->baseUrl . '/remote.php/dav/systemtags/'.$tagId,
+				$this->baseUrl . '/remote.php/dav/systemtags/' . $tagId,
 				[
 					'auth' => [
 						$user,
@@ -88,7 +88,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {}
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		}
 	}
 
 	/**
@@ -96,7 +97,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @return string
 	 */
 	private function getPasswordForUser($userName) {
-		if($userName === 'admin') {
+		if ($userName === 'admin') {
 			return 'admin';
 		}
 		return '123456';
@@ -181,8 +182,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theResponseShouldHaveAStatusCode($statusCode) {
-		if((int)$statusCode !== $this->response->getStatusCode()) {
-			throw new \Exception("Expected $statusCode, got ".$this->response->getStatusCode());
+		if ((int)$statusCode !== $this->response->getStatusCode()) {
+			throw new \Exception("Expected $statusCode, got " . $this->response->getStatusCode());
 		}
 	}
 
@@ -211,7 +212,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 			$body .= '
   </d:prop>
 </d:propfind>';
-			$request = $this->client->createRequest(
+			$this->response = $this->client->request(
 				'PROPFIND',
 				$this->baseUrl . '/remote.php/dav/systemtags/',
 				[
@@ -225,7 +226,6 @@ class TagsContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -233,9 +233,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		$tags = [];
 		$service = new Sabre\Xml\Service();
 		$parsed = $service->parse($this->response->getBody()->getContents());
-		foreach($parsed as $entry) {
+		foreach ($parsed as $entry) {
 			$singleEntry = $entry['value'][1]['value'][0]['value'];
-			if(empty($singleEntry[0]['value'])) {
+			if (empty($singleEntry[0]['value'])) {
 				continue;
 			}
 
@@ -263,7 +263,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	public function theFollowingTagsShouldExistFor($user, TableNode $table) {
 		$tags = $this->requestTagsForUser($user);
 
-		if(count($table->getRows()) !== count($tags)) {
+		if (count($table->getRows()) !== count($tags)) {
 			throw new \Exception(
 				sprintf(
 					"Expected %s tags, got %s.",
@@ -273,9 +273,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 			);
 		}
 
-		foreach($table->getRowsHash() as $rowDisplayName => $row) {
-			foreach($tags as $key => $tag) {
-				if(
+		foreach ($table->getRowsHash() as $rowDisplayName => $row) {
+			foreach ($tags as $key => $tag) {
+				if (
 					$tag['display-name'] === $rowDisplayName &&
 					$tag['user-visible'] === $row[0] &&
 					$tag['user-assignable'] === $row[1]
@@ -284,7 +284,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 				}
 			}
 		}
-		if(count($tags) !== 0) {
+		if (count($tags) !== 0) {
 			throw new \Exception('Not expected response');
 		}
 	}
@@ -331,9 +331,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @param string $user
 	 * @throws \Exception
 	 */
-	public function tagsShouldExistFor($count, $user)  {
-		if((int)$count !== count($this->requestTagsForUser($user))) {
-			throw new \Exception("Expected $count tags, got ".count($this->requestTagsForUser($user)));
+	public function tagsShouldExistFor($count, $user) {
+		if ((int)$count !== count($this->requestTagsForUser($user))) {
+			throw new \Exception("Expected $count tags, got " . count($this->requestTagsForUser($user)));
 		}
 	}
 
@@ -369,8 +369,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
 			if ($tag['display-name'] === $tagName
 				&& $tag['user-visible'] === $userVisible
 				&& $tag['user-assignable'] === $userAssignable) {
-					$foundTag = $tag;
-					break;
+				$foundTag = $tag;
+				break;
 			}
 		}
 		return $foundTag;
@@ -383,8 +383,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	private function findTagIdByName($name) {
 		$tags = $this->requestTagsForUser('admin');
 		$tagId = 0;
-		foreach($tags as $id => $tag) {
-			if($tag['display-name'] === $name) {
+		foreach ($tags as $id => $tag) {
+			if ($tag['display-name'] === $name) {
 				$tagId = $id;
 				break;
 			}
@@ -401,12 +401,12 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function editsTheTagWithNameAndSetsItsNameTo($user, $oldName, $newName) {
 		$tagId = $this->findTagIdByName($oldName);
-		if($tagId === 0) {
+		if ($tagId === 0) {
 			throw new \Exception('Could not find tag to rename');
 		}
 
 		try {
-			$request = $this->client->createRequest(
+			$this->response = $this->client->request(
 				'PROPPATCH',
 				$this->baseUrl . '/remote.php/dav/systemtags/' . $tagId,
 				[
@@ -424,7 +424,6 @@ class TagsContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -439,12 +438,12 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function editsTheTagWithNameAndSetsItsGroupsTo($user, $oldName, $groups) {
 		$tagId = $this->findTagIdByName($oldName);
-		if($tagId === 0) {
+		if ($tagId === 0) {
 			throw new \Exception('Could not find tag to rename');
 		}
 
 		try {
-			$request = $this->client->createRequest(
+			$this->response = $this->client->request(
 				'PROPPATCH',
 				$this->baseUrl . '/remote.php/dav/systemtags/' . $tagId,
 				[
@@ -462,7 +461,6 @@ class TagsContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-			$this->response = $this->client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -473,7 +471,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @param string $user
 	 * @param string $name
 	 */
-	public function deletesTheTagWithName($user, $name)  {
+	public function deletesTheTagWithName($user, $name) {
 		$tagId = $this->findTagIdByName($name);
 		try {
 			$this->response = $this->client->delete(
@@ -499,8 +497,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @return int
 	 */
 	private function getFileIdForPath($path, $user) {
-		$url = $this->baseUrl.'/remote.php/webdav/'.$path;
-		$credentials = base64_encode($user .':'.$this->getPasswordForUser($user));
+		$url = $this->baseUrl . '/remote.php/webdav/' . $path;
+		$credentials = base64_encode($user . ':' . $this->getPasswordForUser($user));
 		$context = stream_context_create(array(
 			'http' => array(
 				'method' => 'PROPFIND',
@@ -531,7 +529,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 		try {
 			$this->response = $this->client->put(
-				$this->baseUrl.'/remote.php/dav/systemtags-relations/files/'.$fileId.'/'.$tagId,
+				$this->baseUrl . '/remote.php/dav/systemtags-relations/files/' . $fileId . '/' . $tagId,
 				[
 					'auth' => [
 						$taggingUser,
@@ -551,17 +549,17 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @param TableNode $table
 	 * @throws \Exception
 	 */
-	public function sharedByHasTheFollowingTags($fileName, $sharedOrOwnedBy, $sharingUser, TableNode $table)  {
+	public function sharedByHasTheFollowingTags($fileName, $sharedOrOwnedBy, $sharingUser, TableNode $table) {
 		$loadedExpectedTags = $table->getTable();
 		$expectedTags = [];
-		foreach($loadedExpectedTags as $expected) {
+		foreach ($loadedExpectedTags as $expected) {
 			$expectedTags[] = $expected[0];
 		}
 
 		// Get the real tags
-		$request = $this->client->createRequest(
+		$response = $this->client->request(
 			'PROPFIND',
-			$this->baseUrl.'/remote.php/dav/systemtags-relations/files/'.$this->getFileIdForPath($fileName, $sharingUser),
+			$this->baseUrl . '/remote.php/dav/systemtags-relations/files/' . $this->getFileIdForPath($fileName, $sharingUser),
 			[
 				'auth' => [
 					$sharingUser,
@@ -577,19 +575,18 @@ class TagsContext implements \Behat\Behat\Context\Context {
   </d:prop>
 </d:propfind>',
 			]
-		);
-		$response = $this->client->send($request)->getBody()->getContents();
+		)->getBody()->getContents();
 		preg_match_all('/\<oc:display-name\>(.*?)\<\/oc:display-name\>/', $response, $realTags);
 
-		foreach($expectedTags as $key => $row) {
-			foreach($realTags as $tag) {
-				if($tag[0] === $row) {
+		foreach ($expectedTags as $key => $row) {
+			foreach ($realTags as $tag) {
+				if ($tag[0] === $row) {
 					unset($expectedTags[$key]);
 				}
 			}
 		}
 
-		if(count($expectedTags) !== 0) {
+		if (count($expectedTags) !== 0) {
 			throw new \Exception('Not all tags found.');
 		}
 	}
@@ -605,13 +602,13 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	public function sharedByHasTheFollowingTagsFor($fileName, $sharingUser, $user, TableNode $table) {
 		$loadedExpectedTags = $table->getTable();
 		$expectedTags = [];
-		foreach($loadedExpectedTags as $expected) {
+		foreach ($loadedExpectedTags as $expected) {
 			$expectedTags[] = $expected[0];
 		}
 
 		// Get the real tags
 		try {
-			$request = $this->client->createRequest(
+			$this->response = $this->client->request(
 				'PROPFIND',
 				$this->baseUrl . '/remote.php/dav/systemtags-relations/files/' . $this->getFileIdForPath($fileName, $sharingUser),
 				[
@@ -630,25 +627,24 @@ class TagsContext implements \Behat\Behat\Context\Context {
 </d:propfind>',
 				]
 			);
-			$this->response = $this->client->send($request)->getBody()->getContents();
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
-		preg_match_all('/\<oc:display-name\>(.*?)\<\/oc:display-name\>/', $this->response, $realTags);
+		preg_match_all('/\<oc:display-name\>(.*?)\<\/oc:display-name\>/', $this->response->getBody()->getContents(), $realTags);
 		$realTags = array_filter($realTags);
 		$expectedTags = array_filter($expectedTags);
 
-		foreach($expectedTags as $key => $row) {
-			foreach($realTags as $tag) {
-				foreach($tag as $index => $foo) {
-					if($tag[$index] === $row) {
+		foreach ($expectedTags as $key => $row) {
+			foreach ($realTags as $tag) {
+				foreach ($tag as $index => $foo) {
+					if ($tag[$index] === $row) {
 						unset($expectedTags[$key]);
 					}
 				}
 			}
 		}
 
-		if(count($expectedTags) !== 0) {
+		if (count($expectedTags) !== 0) {
 			throw new \Exception('Not all tags found.');
 		}
 	}
@@ -666,7 +662,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 		try {
 			$this->response = $this->client->delete(
-				$this->baseUrl.'/remote.php/dav/systemtags-relations/files/'.$fileId.'/'.$tagId,
+				$this->baseUrl . '/remote.php/dav/systemtags-relations/files/' . $fileId . '/' . $tagId,
 				[
 					'auth' => [
 						$user,

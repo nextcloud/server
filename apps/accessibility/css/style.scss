@@ -1,0 +1,59 @@
+.preview-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+.preview {
+	display: flex;
+	flex-direction: column;
+	min-width: 250px;
+	max-width: 400px;
+	flex: 1 1 300px;
+	border: 1px solid var(--color-border);
+	padding: 10px;
+	border-radius: var(--border-radius);
+	transition: all 200ms ease-in-out;
+	filter: drop-shadow(0 1px 2px var(--color-box-shadow));
+	background-color: var(--color-main-background);
+	opacity: 0.9;
+	margin: 10px;
+	position: relative;
+	&,
+	* {
+		cursor: pointer;
+		user-select: none;
+	}
+	&:hover,
+	&:focus,
+	&.selected {
+		filter: drop-shadow(0 1px 4px var(--color-box-shadow));
+		opacity: 1;
+	}
+	.preview-image {
+		height: 200px;
+		background-position: top left;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+	h3 {
+		display: flex;
+		justify-content: space-between;
+		line-height: 1em;
+		align-items: center;
+	}
+	p {
+		text-align: justify;
+	}
+	.icon-checkmark-color {
+		transition: all 100ms ease-in-out;
+		border-radius: 1em;
+		padding: 4px 5px 4px 20px;
+		background-position: 4px center;
+		opacity: 0;
+		visibility: hidden;
+	}
+	&.selected .icon-checkmark-color {
+		opacity: 1;
+		visibility: visible;
+		box-shadow: 0 0 0 1px var(--color-success);
+	}
+}

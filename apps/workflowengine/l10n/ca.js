@@ -1,8 +1,16 @@
 OC.L10N.register(
     "workflowengine",
     {
+    "Short rule description" : "Descripció breu de regla",
+    "Add rule" : "Afegir regla",
+    "Reset" : "Resetejar",
+    "Save" : "Desa",
+    "Saving…" : "Desant...",
+    "Group list is empty" : "La llista del grup és buida",
+    "Unable to retrieve the group list" : "No es pot obtenir la llista del grup",
     "Saved" : "Desat",
     "Saving failed:" : "Error al desar",
+    "Add rule group" : "Afegeix una regla de grup",
     "File MIME type" : "Tipus MIME d\\'arxiu",
     "is" : "és",
     "is not" : "no és",
@@ -33,7 +41,7 @@ OC.L10N.register(
     "Predefined URLs" : "URLs predefinits",
     "Files WebDAV" : "Arxius WebDAV",
     "Request user agent" : "Agent d\\'usuari de la petició",
-    "Sync clients" : "Sincronitzar clients",
+    "Sync clients" : "Aplicacions per sincronitzar",
     "Android client" : "Client android",
     "iOS client" : "Client iOS",
     "Desktop client" : "Client d'escriptori",
@@ -59,15 +67,8 @@ OC.L10N.register(
     "Check %s is invalid" : "Comprovació %s no és vàlid",
     "Check #%s does not exist" : "Comprovació #%s no existeix",
     "Workflow" : "Flux de treball",
+    "Files workflow engine" : "Fitxers del motor de flux de treball",
     "Open documentation" : "Obrir documentació",
-    "Add rule group" : "Afegeix una regla de grup",
-    "Short rule description" : "Descripció breu de regla",
-    "Add rule" : "Afegir regla",
-    "Reset" : "Resetejar",
-    "Save" : "Desa",
-    "Saving…" : "Desant...",
-    "Loading…" : "Carregant...",
-    "Successfully saved" : "S\\'ha desat correctament",
-    "File mime type" : "Tipus mime de l\\'arxiu"
+    "Loading…" : "Carregant..."
 },
 "nplurals=2; plural=(n != 1);");

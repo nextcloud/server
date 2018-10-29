@@ -2,7 +2,7 @@
  * Strengthify - show the weakness of a password (uses zxcvbn for this)
  * https://github.com/MorrisJobke/strengthify
  *
- * Version: 0.5.2
+ * Version: 0.5.5
  * Author: Morris Jobke (github.com/MorrisJobke) - original
  *         Eve Ragins @ Eve Corp (github.com/eve-corp)
  *
@@ -51,7 +51,9 @@
             },
             drawTitles: false,
             drawMessage: false,
-            drawBars: true
+            drawBars: true,
+            $addAfter: null,
+            nonce: null
         };
 
         return this.each(function() {
@@ -88,6 +90,10 @@
                     .css('-ms-filter',
                     '"progid:DXImageTransform.Microsoft.Alpha(Opacity=' + opacity * 100 + ')"'
                     );
+
+                if (options.onResult) {
+                    options.onResult(result);
+                }
 
                 // style strengthify bar
                 // possible scores: 0-4
@@ -175,8 +181,13 @@
                     elemId = $elem.attr('id');
                 var drawSelf = drawStrengthify.bind(this);
 
+                var $addAfter = options.$addAfter;
+                if (!$addAfter) {
+                    $addAfter = $elem;
+                }
+
                 // add elements
-                $elem.after('<div class="strengthify-wrapper" data-strengthifyFor="' + $elem.attr('id') + '"></div>');
+                $addAfter.after('<div class="strengthify-wrapper" data-strengthifyFor="' + $elem.attr('id') + '"></div>');
 
                 if (options.drawBars) {
                     getWrapperFor(elemId)
@@ -197,13 +208,14 @@
 
                 $elem.parent().on('scroll', drawSelf);
 
-                $.ajax({
-                    cache: true,
-                    url: options.zxcvbn
-                }).done(function(content) {
-                    eval(content);
-                    $elem.bind('keyup input change', drawSelf);
-                });
+                var script = document.createElement("script");
+                script.src = options.zxcvbn;
+                if (options.nonce !== null) {
+                    script.nonce = options.nonce;
+                }
+                document.head.appendChild(script);
+
+                $elem.bind('keyup input change', drawSelf);
             };
 
             init.call(this);

@@ -38,6 +38,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
+use OC\Files\Storage\FailedStorage;
 
 /**
  * Class Scanner
@@ -146,12 +147,7 @@ class Scanner extends PublicEmitter {
 			}
 
 			// don't bother scanning failed storages (shortcut for same result)
-			if ($storage->instanceOfStorage('OC\Files\Storage\FailedStorage')) {
-				continue;
-			}
-
-			// don't scan the root storage
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Local') && $mount->getMountPoint() === '/') {
+			if ($storage->instanceOfStorage(FailedStorage::class)) {
 				continue;
 			}
 
@@ -181,22 +177,27 @@ class Scanner extends PublicEmitter {
 
 	/**
 	 * @param string $dir
-	 * @throws \OC\ForbiddenException
-	 * @throws \OCP\Files\NotFoundException
+	 * @param $recursive
+	 * @param callable|null $mountFilter
+	 * @throws ForbiddenException
+	 * @throws NotFoundException
 	 */
-	public function scan($dir = '') {
+	public function scan($dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE, callable $mountFilter = null) {
 		if (!Filesystem::isValidPath($dir)) {
 			throw new \InvalidArgumentException('Invalid path to scan');
 		}
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
+			if ($mountFilter && !$mountFilter($mount)) {
+				continue;
+			}
 			$storage = $mount->getStorage();
 			if (is_null($storage)) {
 				continue;
 			}
 
 			// don't bother scanning failed storages (shortcut for same result)
-			if ($storage->instanceOfStorage('OC\Files\Storage\FailedStorage')) {
+			if ($storage->instanceOfStorage(FailedStorage::class)) {
 				continue;
 			}
 
@@ -241,7 +242,7 @@ class Scanner extends PublicEmitter {
 			try {
 				$propagator = $storage->getPropagator();
 				$propagator->beginBatch();
-				$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+				$scanner->scan($relativePath, $recursive, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
 				$cache = $storage->getCache();
 				if ($cache instanceof Cache) {
 					// only re-calculate for the root folder we scanned, anything below that is taken care of by the scanner

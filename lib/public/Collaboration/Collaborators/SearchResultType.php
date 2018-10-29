@@ -58,7 +58,7 @@ class SearchResultType {
 	 * @since 13.0.0
 	 */
 	protected function getValidatedType($type) {
-		$type = trim(strval($type));
+		$type = trim((string)$type);
 
 		if($type === '') {
 			throw new \InvalidArgumentException('Type must not be empty');

@@ -35,11 +35,20 @@ namespace OCA\User_LDAP;
 
 /**
  * @property int ldapPagingSize holds an integer
+ * @property string ldapUserAvatarRule
  */
 class Configuration {
+	const AVATAR_PREFIX_DEFAULT = 'default';
+	const AVATAR_PREFIX_NONE = 'none';
+	const AVATAR_PREFIX_DATA_ATTRIBUTE = 'data:';
 
 	protected $configPrefix = null;
 	protected $configRead = false;
+	/**
+	 * @var string[] pre-filled with one reference key so that at least one entry is written on save request and
+	 *               the config ID is registered
+	 */
+	protected $unsavedChanges = ['ldapConfigurationActive' => 'ldapConfigurationActive'];
 
 	//settings
 	protected $config = array(
@@ -57,6 +66,7 @@ class Configuration {
 		'ldapIgnoreNamingRules' => null,
 		'ldapUserDisplayName' => null,
 		'ldapUserDisplayName2' => null,
+		'ldapUserAvatarRule' => null,
 		'ldapGidNumber' => null,
 		'ldapUserFilterObjectclass' => null,
 		'ldapUserFilterGroups' => null,
@@ -85,7 +95,6 @@ class Configuration {
 		'ldapAttributesForGroupSearch' => null,
 		'ldapExperiencedAdmin' => false,
 		'homeFolderNamingRule' => null,
-		'hasPagedResultSupport' => false,
 		'hasMemberOfFilterSupport' => false,
 		'useMemberOfToDetectMembership' => true,
 		'ldapExpertUsernameAttr' => null,
@@ -187,7 +196,9 @@ class Configuration {
 			$this->$setMethod($key, $val);
 			if(is_array($applied)) {
 				$applied[] = $inputKey;
+				// storing key as index avoids duplication, and as value for simplicity
 			}
+			$this->unsavedChanges[$key] = $key;
 		}
 		return null;
 	}
@@ -240,11 +251,12 @@ class Configuration {
 	}
 
 	/**
-	 * saves the current Configuration in the database
+	 * saves the current config changes in the database
 	 */
 	public function saveConfiguration() {
 		$cta = array_flip($this->getConfigTranslationArray());
-		foreach($this->config as $key => $value) {
+		foreach($this->unsavedChanges as $key) {
+			$value = $this->config[$key];
 			switch ($key) {
 				case 'ldapAgentPassword':
 					$value = base64_encode($value);
@@ -265,7 +277,6 @@ class Configuration {
 					break;
 				//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
-				case 'hasPagedResultSupport':
 				case 'ldapUuidUserAttribute':
 				case 'ldapUuidGroupAttribute':
 					continue 2;
@@ -275,6 +286,8 @@ class Configuration {
 			}
 			$this->saveValue($cta[$key], $value);
 		}
+		$this->saveValue('_lastChange', time());
+		$this->unsavedChanges = [];
 	}
 
 	/**
@@ -363,7 +376,7 @@ class Configuration {
 		if(is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
-		return \OCP\Config::getAppValue('user_ldap',
+		return \OC::$server->getConfig()->getAppValue('user_ldap',
 										$this->configPrefix.$varName,
 										$defaults[$varName]);
 	}
@@ -463,6 +476,7 @@ class Configuration {
 			'ldap_experienced_admin'            => 0,
 			'ldap_dynamic_group_member_url'     => '',
 			'ldap_default_ppolicy_dn'           => '',
+			'ldap_user_avatar_rule'             => 'default',
 		);
 	}
 
@@ -486,6 +500,7 @@ class Configuration {
 			'ldap_userfilter_groups'            => 'ldapUserFilterGroups',
 			'ldap_userlist_filter'              => 'ldapUserFilter',
 			'ldap_user_filter_mode'             => 'ldapUserFilterMode',
+			'ldap_user_avatar_rule'             => 'ldapUserAvatarRule',
 			'ldap_login_filter'                 => 'ldapLoginFilter',
 			'ldap_login_filter_mode'            => 'ldapLoginFilterMode',
 			'ldap_loginfilter_email'            => 'ldapLoginFilterEmail',
@@ -522,8 +537,41 @@ class Configuration {
 			'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
 			'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
 			'ldap_default_ppolicy_dn'           => 'ldapDefaultPPolicyDN',
+			'ldapIgnoreNamingRules'             => 'ldapIgnoreNamingRules',	// sysconfig
 		);
 		return $array;
+	}
+
+	/**
+	 * @param string $rule
+	 * @return array
+	 * @throws \RuntimeException
+	 */
+	public function resolveRule($rule) {
+		if($rule === 'avatar') {
+			return $this->getAvatarAttributes();
+		}
+		throw new \RuntimeException('Invalid rule');
+	}
+
+	public function getAvatarAttributes() {
+		$value = $this->ldapUserAvatarRule ?: self::AVATAR_PREFIX_DEFAULT;
+		$defaultAttributes = ['jpegphoto', 'thumbnailphoto'];
+
+		if($value === self::AVATAR_PREFIX_NONE) {
+			return [];
+		}
+		if(strpos($value, self::AVATAR_PREFIX_DATA_ATTRIBUTE) === 0) {
+			$attribute = trim(substr($value, strlen(self::AVATAR_PREFIX_DATA_ATTRIBUTE)));
+			if($attribute === '') {
+				return $defaultAttributes;
+			}
+			return [strtolower($attribute)];
+		}
+		if($value !== self::AVATAR_PREFIX_DEFAULT) {
+			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+		}
+		return $defaultAttributes;
 	}
 
 }

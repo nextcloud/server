@@ -182,12 +182,15 @@ class VerifyUserData extends Job {
 	 * @return bool true if we could check the verification code, otherwise false
 	 */
 	protected function verifyViaLookupServer(array $argument, $dataType) {
+		if(empty($this->lookupServerUrl) || $this->config->getSystemValue('has_internet_connection', true) === false) {
+			return false;
+		}
 
 		$user = $this->userManager->get($argument['uid']);
 
 		// we don't check a valid user -> give up
 		if ($user === null) {
-			$this->logger->error($argument['uid'] . ' doesn\'t exist, can\'t verify user data.');
+			$this->logger->info($argument['uid'] . ' doesn\'t exist, can\'t verify user data.');
 			return true;
 		}
 
@@ -253,7 +256,7 @@ class VerifyUserData extends Job {
 	 * @param array $argument
 	 */
 	protected function reAddJob(IJobList $jobList, array $argument) {
-		$jobList->add('OC\Settings\BackgroundJobs\VerifyUserData',
+		$jobList->add(VerifyUserData::class,
 			[
 				'verificationCode' => $argument['verificationCode'],
 				'data' => $argument['data'],

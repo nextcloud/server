@@ -203,7 +203,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(displayNameStub.calledOnce).toEqual(true);
 			expect(displayNameStub.calledWith(menuContext)).toEqual(true);
-			expect(menu.$el.find('a[data-action=Something]').text()).toEqual('Test');
+			expect(menu.$el.find('a[data-action=Something] span:not(.icon)').text()).toEqual('Test');
 		});
 		it('uses plain iconClass', function() {
 			fileActions.registerAction({
@@ -271,6 +271,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				$file: $tr,
 				fileList: fileList,
 				fileActions: fileActions,
+				fileInfoModel: new OCA.Files.FileInfoModel(fileData),
 				dir: fileList.getCurrentDirectory()
 			};
 			menu = new OCA.Files.FileActionsMenu();
@@ -280,7 +281,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(redirectStub.calledOnce).toEqual(true);
 			expect(redirectStub.getCall(0).args[0]).toContain(
-				OC.webroot +
+				OC.getRootPath() +
 				'/remote.php/webdav/subdir/testName.txt'
 			);
 			redirectStub.restore();
@@ -304,6 +305,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				$file: $tr,
 				fileList: fileList,
 				fileActions: fileActions,
+				fileInfoModel: new OCA.Files.FileInfoModel(fileData),
 				dir: '/anotherpath/there'
 			};
 			menu = new OCA.Files.FileActionsMenu();
@@ -313,7 +315,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(redirectStub.calledOnce).toEqual(true);
 			expect(redirectStub.getCall(0).args[0]).toContain(
-				OC.webroot + '/remote.php/webdav/anotherpath/there/testName.txt'
+				OC.getRootPath() + '/remote.php/webdav/anotherpath/there/testName.txt'
 			);
 			redirectStub.restore();
 		});
@@ -336,6 +338,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				$file: $tr,
 				fileList: fileList,
 				fileActions: fileActions,
+				fileInfoModel: new OCA.Files.FileInfoModel(fileData),
 				dir: '/somepath/dir'
 			};
 			menu = new OCA.Files.FileActionsMenu();

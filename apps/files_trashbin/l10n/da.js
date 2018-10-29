@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "Kunne ikke slette %s permanent",
-    "Couldn't restore %s" : "Kunne ikke gendanne %s",
     "Deleted files" : "Slettede filer",
     "Restore" : "Gendan",
     "Delete" : "Slet",
     "Delete permanently" : "Slet permanent",
-    "Error" : "Fejl",
     "This operation is forbidden" : "Denne operation er forbudt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappe er utilgængelig, tjek venligst loggene eller kontakt administratoren",
     "restored" : "Gendannet",
@@ -16,6 +13,9 @@ OC.L10N.register(
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Select all" : "Vælg alle",
     "Name" : "Navn",
-    "Deleted" : "Slettet"
+    "Deleted" : "Slettet",
+    "Couldn't delete %s permanently" : "Kunne ikke slette %s permanent",
+    "Couldn't restore %s" : "Kunne ikke gendanne %s",
+    "Error" : "Fejl"
 },
 "nplurals=2; plural=(n != 1);");

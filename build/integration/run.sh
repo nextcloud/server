@@ -2,6 +2,12 @@
 
 OC_PATH=../../
 OCC=${OC_PATH}occ
+TAGS=""
+if [ "$1" = "--tags" ]; then
+	TAGS="--tags=$2"
+
+	shift 2
+fi
 SCENARIO_TO_RUN=$1
 HIDE_OC_LOGS=$2
 
@@ -16,6 +22,7 @@ else
         exit 1
     fi
 fi
+NC_DATADIR=$($OCC config:system:get datadirectory)
 
 composer install
 
@@ -42,6 +49,7 @@ if [ "$INSTALLED" == "true" ]; then
 
     #Enable external storage app
     $OCC app:enable files_external
+    $OCC app:enable user_ldap
 
     mkdir -p work/local_storage
     OUTPUT_CREATE_STORAGE=`$OCC files_external:create local_storage local null::null -c datadir=$PWD/work/local_storage`
@@ -52,7 +60,7 @@ if [ "$INSTALLED" == "true" ]; then
 
 fi
 
-vendor/bin/behat --strict -f junit -f pretty $SCENARIO_TO_RUN
+vendor/bin/behat --strict -f junit -f pretty $TAGS $SCENARIO_TO_RUN
 RESULT=$?
 
 kill $PHPPID
@@ -64,10 +72,11 @@ if [ "$INSTALLED" == "true" ]; then
 
     #Disable external storage app
     $OCC app:disable files_external
+    $OCC app:disable user_ldap
 fi
 
 if [ -z $HIDE_OC_LOGS ]; then
-	tail "${OC_PATH}/data/nextcloud.log"
+	tail "${NC_DATADIR}/nextcloud.log"
 fi
 
 echo "runsh: Exit code: $RESULT"

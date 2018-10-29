@@ -29,6 +29,7 @@
  */
 namespace OC\Console;
 
+use OC\MemoryInfo;
 use OC\NeedsUpdateException;
 use OC_App;
 use OCP\AppFramework\QueryException;
@@ -39,6 +40,7 @@ use OCP\IRequest;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -51,28 +53,39 @@ class Application {
 	private $request;
 	/** @var ILogger  */
 	private $logger;
+	/** @var MemoryInfo */
+	private $memoryInfo;
 
 	/**
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $dispatcher
 	 * @param IRequest $request
 	 * @param ILogger $logger
+	 * @param MemoryInfo $memoryInfo
 	 */
-	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher, IRequest $request, ILogger $logger) {
+	public function __construct(IConfig $config,
+								EventDispatcherInterface $dispatcher,
+								IRequest $request,
+								ILogger $logger,
+								MemoryInfo $memoryInfo) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
 		$this->dispatcher = $dispatcher;
 		$this->request = $request;
 		$this->logger = $logger;
+		$this->memoryInfo = $memoryInfo;
 	}
 
 	/**
 	 * @param InputInterface $input
-	 * @param OutputInterface $output
+	 * @param ConsoleOutputInterface $output
 	 * @throws \Exception
 	 */
-	public function loadCommands(InputInterface $input, OutputInterface $output) {
+	public function loadCommands(
+		InputInterface $input,
+		ConsoleOutputInterface $output
+	) {
 		// $application is required to be defined in the register_command scripts
 		$application = $this->application;
 		$inputDefinition = $application->getDefinition();
@@ -93,16 +106,21 @@ class Application {
 		if ($input->getOption('no-warnings')) {
 			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 		}
+
+		if ($this->memoryInfo->isMemoryLimitSufficient() === false) {
+			$output->getErrorOutput()->writeln(
+				'<comment>The current PHP memory limit ' .
+				'is below the recommended value of 512MB.</comment>'
+			);
+		}
+
 		try {
 			require_once __DIR__ . '/../../../core/register_command.php';
 			if ($this->config->getSystemValue('installed', false)) {
 				if (\OCP\Util::needUpgrade()) {
 					throw new NeedsUpdateException();
 				} elseif ($this->config->getSystemValue('maintenance', false)) {
-					if ($input->getArgument('command') !== '_completion') {
-						$errOutput = $output->getErrorOutput();
-						$errOutput->writeln('<comment>Nextcloud is in maintenance mode - no apps have been loaded</comment>' . PHP_EOL);
-					}
+					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
 					OC_App::loadApps();
 					foreach (\OC::$server->getAppManager()->getInstalledApps() as $app) {
@@ -127,7 +145,7 @@ class Application {
 						}
 					}
 				}
-			} else if ($input->getArgument('command') !== '_completion') {
+			} else if ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'maintenance:install') {
 				$output->writeln("Nextcloud is not installed - only a limited number of commands are available");
 			}
 		} catch(NeedsUpdateException $e) {
@@ -147,6 +165,28 @@ class Application {
 				}
 				throw new \Exception("Environment not properly prepared.");
 			}
+		}
+	}
+
+	/**
+	 * Write a maintenance mode info.
+	 * The commands "_completion" and "maintenance:mode" are excluded.
+	 *
+	 * @param InputInterface $input The input implementation for reading inputs.
+	 * @param ConsoleOutputInterface $output The output implementation
+	 * for writing outputs.
+	 * @return void
+	 */
+	private function writeMaintenanceModeInfo(
+		InputInterface $input, ConsoleOutputInterface $output
+	) {
+		if ($input->getArgument('command') !== '_completion'
+			&& $input->getArgument('command') !== 'maintenance:mode') {
+			$errOutput = $output->getErrorOutput();
+			$errOutput->writeln(
+				'<comment>Nextcloud is in maintenance mode - ' .
+				'no apps have been loaded</comment>' . PHP_EOL
+			);
 		}
 	}
 

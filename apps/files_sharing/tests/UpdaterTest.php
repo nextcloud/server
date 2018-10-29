@@ -127,7 +127,7 @@ class UpdaterTest extends TestCase {
 		$rootView->deleteAll('files_trashin');
 
 		if ($status === false) {
-			\OC_App::disable('files_trashbin');
+			\OC::$server->getAppManager()->disableApp('files_trashbin');
 		}
 
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');

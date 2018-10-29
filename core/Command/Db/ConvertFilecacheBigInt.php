@@ -54,7 +54,7 @@ class ConvertFilecacheBigInt extends Command {
 		return [
 			'activity' => ['activity_id', 'object_id'],
 			'activity_mq' => ['mail_id'],
-			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart'],
+			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
 			'mimetypes' => ['id'],
 			'storages' => ['numeric_id'],
 		];

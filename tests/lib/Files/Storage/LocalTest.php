@@ -106,6 +106,7 @@ class LocalTest extends Storage {
 		$storage = new \OC\Files\Storage\Local(['datadir' => $subDir1]);
 
 		$storage->file_put_contents('sym/foo', 'bar');
+		$this->addToAssertionCount(1);
 	}
 }
 

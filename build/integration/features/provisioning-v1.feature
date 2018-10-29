@@ -5,7 +5,7 @@ Feature: provisioning
 	Scenario: Getting an not existing user
 		Given As an "admin"
 		When sending "GET" to "/cloud/users/test"
-		Then the OCS status code should be "998"
+		Then the OCS status code should be "404"
 		And the HTTP status code should be "200"
 
 	Scenario: Listing all users
@@ -264,7 +264,7 @@ Feature: provisioning
 		And user "not-user" does not exist
 		And group "new-group" exists
 		When sending "GET" to "/cloud/users/not-user/subadmins"
-		Then the OCS status code should be "101"
+		Then the OCS status code should be "404"
 		And the HTTP status code should be "200"
 
 	Scenario: Getting subadmin users of a group
@@ -325,6 +325,8 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And apps returned are
+			| accessibility |
+			| cloud_federation_api |
 			| comments |
 			| dav |
 			| federatedfilesharing |
@@ -340,6 +342,7 @@ Feature: provisioning
 			| theming |
 			| twofactor_backupcodes |
 			| updatenotification |
+			| user_ldap |
 			| workflowengine |
 			| files_external |
 			| oauth2 |

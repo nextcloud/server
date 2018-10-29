@@ -52,23 +52,6 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * Creates an absolute url for public use
-	 * @param string $service id
-	 * @param bool $add_slash
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given service.
-	 */
-	public static function linkToPublic($service, $add_slash = false) {
-		if ($service === 'files') {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL('/s');
-		} else {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getURLGenerator()->linkTo('', 'public.php').'?service='.$service);
-		}
-		return $url . (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
-	}
-
-	/**
 	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
@@ -141,7 +124,7 @@ class OC_Helper {
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
 		if (is_numeric($str)) {
-			return floatval($str);
+			return (float)$str;
 		}
 
 		$bytes_array = array(
@@ -158,7 +141,7 @@ class OC_Helper {
 			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
 		);
 
-		$bytes = floatval($str);
+		$bytes = (float)$str;
 
 		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
 			$bytes *= $bytes_array[$matches[1]];
@@ -408,7 +391,7 @@ class OC_Helper {
 		$it = new RecursiveIteratorIterator($aIt);
 
 		while ($it->valid()) {
-			if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+			if (((isset($index) AND ($it->key() == $index)) OR !isset($index)) AND ($it->current() == $needle)) {
 				return $aIt->key();
 			}
 
@@ -477,12 +460,12 @@ class OC_Helper {
 			return false;
 		}
 		$ini = \OC::$server->getIniWrapper();
-		$disabled = explode(',', $ini->get('disable_functions'));
+		$disabled = explode(',', $ini->get('disable_functions') ?: '');
 		$disabled = array_map('trim', $disabled);
 		if (in_array($function_name, $disabled)) {
 			return false;
 		}
-		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist'));
+		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist') ?: '');
 		$disabled = array_map('trim', $disabled);
 		if (in_array($function_name, $disabled)) {
 			return false;
@@ -497,7 +480,7 @@ class OC_Helper {
 	 * @return null|string
 	 */
 	public static function findBinaryPath($program) {
-		$memcache = \OC::$server->getMemCacheFactory()->create('findBinaryPath');
+		$memcache = \OC::$server->getMemCacheFactory()->createDistributed('findBinaryPath');
 		if ($memcache->hasKey($program)) {
 			return $memcache->get($program);
 		}
@@ -505,20 +488,7 @@ class OC_Helper {
 		if (self::is_function_enabled('exec')) {
 			$exeSniffer = new ExecutableFinder();
 			// Returns null if nothing is found
-			$result = $exeSniffer->find($program);
-			if (empty($result)) {
-				$paths = getenv('PATH');
-				if (empty($paths)) {
-					$paths = '/usr/local/bin /usr/bin /opt/bin /bin';
-				} else {
-					$paths = str_replace(':',' ',getenv('PATH'));
-				}
-				$command = 'find ' . $paths . ' -name ' . escapeshellarg($program) . ' 2> /dev/null';
-				exec($command, $output, $returnCode);
-				if (count($output) > 0) {
-					$result = escapeshellcmd($output[0]);
-				}
-			}
+			$result = $exeSniffer->find($program, null, ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/opt/bin']);
 		}
 		// store the value for 5 minutes
 		$memcache->set($program, $result, 300);

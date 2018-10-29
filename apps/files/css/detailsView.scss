@@ -7,12 +7,6 @@
 	clear: both;
 }
 
-#app-sidebar .mainFileInfoView {
-	margin-right: 20px; /* accommodate for close icon */
-	float:left;
-	display:block;
-	width: 100%;
-}
 
 #app-sidebar .mainFileInfoView .icon {
 	display: inline-block;
@@ -66,7 +60,7 @@
 #app-sidebar .large.text {
 	overflow-y: scroll;
 	overflow-x: hidden;
-	padding-top: 15px;
+	padding-top: 14px;
 	font-size: 80%;
 	margin-left: 0;
 }
@@ -100,7 +94,7 @@
 }
 
 #app-sidebar .file-details {
-	color: #999;
+	color: var(--color-text-maxcontrast);
 }
 
 #app-sidebar .action-favorite {
@@ -121,7 +115,8 @@
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding: 15px;
 	opacity: .5;
 	z-index: 1;
+	width: 44px;
+	height: 44px;
 }

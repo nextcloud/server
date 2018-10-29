@@ -15,5 +15,6 @@ return array(
     'OCA\\OAuth2\\Db\\ClientMapper' => $baseDir . '/../lib/Db/ClientMapper.php',
     'OCA\\OAuth2\\Exceptions\\AccessTokenNotFoundException' => $baseDir . '/../lib/Exceptions/AccessTokenNotFoundException.php',
     'OCA\\OAuth2\\Exceptions\\ClientNotFoundException' => $baseDir . '/../lib/Exceptions/ClientNotFoundException.php',
+    'OCA\\OAuth2\\Migration\\SetTokenExpiration' => $baseDir . '/../lib/Migration/SetTokenExpiration.php',
     'OCA\\OAuth2\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
 );

@@ -49,7 +49,7 @@
 			<textarea type="text" id="ldap_userlist_filter" name="ldap_userlist_filter"
 				class="ldapFilterInputElement"
 				placeholder="<?php p($l->t('Edit LDAP Query'));?>"
-				title="<?php p($l->t('The filter specifies which LDAP users shall have access to the %s instance.', $theme->getName()));?>">
+				title="<?php p($l->t('The filter specifies which LDAP users shall have access to the %s instance.', [$theme->getName()]));?>">
 			</textarea>
 		</p>
 		<p>

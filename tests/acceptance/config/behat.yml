@@ -1,6 +1,4 @@
 default:
-  autoload:
-    '': %paths.base%/../features/bootstrap
   suites:
     default:
       paths:
@@ -10,8 +8,13 @@ default:
         - NextcloudTestServerContext
 
         - AppNavigationContext
+        - AppSettingsContext
+        - AppsManagementContext
         - CommentsAppContext
+        - ContactsMenuContext
+        - DialogContext
         - FeatureContext
+        - FileListContext
         - FilesAppContext
         - FilesSharingAppContext
         - LoginPageContext
@@ -20,12 +23,50 @@ default:
         - SettingsMenuContext
         - ThemingAppContext
         - UsersSettingsContext
+      filters:
+        tags: "~@apache"
+    apache:
+      paths:
+        - %paths.base%/../features
+      contexts:
+        - ActorContext
+        - NextcloudTestServerContext:
+            nextcloudTestServerHelper: NextcloudTestServerLocalApacheHelper
+
+        - AppNavigationContext
+        - AppSettingsContext
+        - AppsManagementContext
+        - CommentsAppContext
+        - ContactsMenuContext
+        - DialogContext
+        - FeatureContext
+        - FileListContext
+        - FilesAppContext
+        - FilesSharingAppContext
+        - LoginPageContext
+        - NotificationContext
+        - SettingsContext
+        - SettingsMenuContext
+        - ThemingAppContext
+        - UsersSettingsContext
+      filters:
+        tags: "@apache"
   extensions:
     Behat\MinkExtension:
       sessions:
         default:
-          selenium2: ~
+          selenium2:
+            wd_host: %selenium.server%
         John:
-          selenium2: ~
+          selenium2:
+            wd_host: %selenium.server%
         Jane:
-          selenium2: ~
+          selenium2:
+            wd_host: %selenium.server%
+        Rubeus:
+          # Rubeus uses a browser that has CSS grid support.
+          selenium2:
+            wd_host: %selenium.server%
+            capabilities:
+              firefox:
+                profile: %paths.base%/firefox-profiles/css-grid-enabled.zip

@@ -114,6 +114,12 @@ class MountProviderTest extends \Test\TestCase {
 			$this->makeMockShare(4, 101, 'user2', '/share4', 31), 
 			$this->makeMockShare(5, 100, 'user1', '/share4', 31), 
 		];
+		$roomShares = [
+			$this->makeMockShare(6, 102, 'user2', '/share6', 0),
+			$this->makeMockShare(7, 102, 'user1', '/share6', 31),
+			$this->makeMockShare(8, 102, 'user2', '/share6', 31),
+			$this->makeMockShare(9, 102, 'user2', '/share6', 31),
+		];
 		// tests regarding circles are made in the app itself.
 		$circleShares = [];
 		$this->user->expects($this->any())
@@ -131,15 +137,20 @@ class MountProviderTest extends \Test\TestCase {
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
 			->will($this->returnValue($circleShares));
+		$this->shareManager->expects($this->at(3))
+			->method('getSharedWith')
+			->with('user1', \OCP\Share::SHARE_TYPE_ROOM, null, -1)
+			->will($this->returnValue($roomShares));
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->will($this->returnCallback(function() use ($rootFolder, $userManager) {
 				return new \OC\Share20\Share($rootFolder, $userManager);
 			}));
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
-		$this->assertCount(2, $mounts);
+		$this->assertCount(3, $mounts);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[0]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[1]);
+		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[2]);
 		$mountedShare1 = $mounts[0]->getShare();
 		$this->assertEquals('2', $mountedShare1->getId());
 		$this->assertEquals('user2', $mountedShare1->getShareOwner());
@@ -152,6 +163,12 @@ class MountProviderTest extends \Test\TestCase {
 		$this->assertEquals(101, $mountedShare2->getNodeId());
 		$this->assertEquals('/share4', $mountedShare2->getTarget());
 		$this->assertEquals(31, $mountedShare2->getPermissions());
+		$mountedShare3 = $mounts[2]->getShare();
+		$this->assertEquals('8', $mountedShare3->getId());
+		$this->assertEquals('user2', $mountedShare3->getShareOwner());
+		$this->assertEquals(102, $mountedShare3->getNodeId());
+		$this->assertEquals('/share6', $mountedShare3->getTarget());
+		$this->assertEquals(31, $mountedShare3->getPermissions());
 	}
 
 	public function mergeSharesDataProvider() {
@@ -316,6 +333,7 @@ class MountProviderTest extends \Test\TestCase {
 
 		// tests regarding circles are made in the app itself.
 		$circleShares = [];
+		$roomShares = [];
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_USER)
@@ -328,6 +346,10 @@ class MountProviderTest extends \Test\TestCase {
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
 			->will($this->returnValue($circleShares));
+		$this->shareManager->expects($this->at(3))
+			->method('getSharedWith')
+			->with('user1', \OCP\Share::SHARE_TYPE_ROOM, null, -1)
+			->will($this->returnValue($roomShares));
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->will($this->returnCallback(function() use ($rootFolder, $userManager) {

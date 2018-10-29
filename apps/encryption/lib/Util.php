@@ -196,8 +196,7 @@ class Util {
 	 * @return \OC\Files\Storage\Storage
 	 */
 	public function getStorage($path) {
-		$storage = $this->files->getMount($path)->getStorage();
-		return $storage;
+		return $this->files->getMount($path)->getStorage();
 	}
 
 }

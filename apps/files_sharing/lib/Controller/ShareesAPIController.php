@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -66,15 +67,19 @@ class ShareesAPIController extends OCSController {
 			'users' => [],
 			'groups' => [],
 			'remotes' => [],
+			'remote_groups' => [],
 			'emails' => [],
 			'circles' => [],
+			'rooms' => [],
 		],
 		'users' => [],
 		'groups' => [],
 		'remotes' => [],
+		'remote_groups' => [],
 		'emails' => [],
 		'lookup' => [],
 		'circles' => [],
+		'rooms' => [],
 	];
 
 	protected $reachedEndFor = [];
@@ -90,7 +95,7 @@ class ShareesAPIController extends OCSController {
 	 * @param ISearch $collaboratorSearch
 	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		IConfig $config,
 		IURLGenerator $urlGenerator,
@@ -117,7 +122,7 @@ class ShareesAPIController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	public function search($search = '', $itemType = null, $page = 1, $perPage = 200, $shareType = null, $lookup = true) {
+	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = true): DataResponse {
 
 		// only search for string larger than a given threshold
 		$threshold = (int)$this->config->getSystemValue('sharing.minSearchStringLength', 0);
@@ -152,8 +157,16 @@ class ShareesAPIController extends OCSController {
 				$shareTypes[] = Share::SHARE_TYPE_REMOTE;
 			}
 
+			if ($this->isRemoteGroupSharingAllowed($itemType)) {
+				$shareTypes[] = Share::SHARE_TYPE_REMOTE_GROUP;
+			}
+
 			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
 				$shareTypes[] = Share::SHARE_TYPE_EMAIL;
+			}
+
+			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_ROOM)) {
+				$shareTypes[] = Share::SHARE_TYPE_ROOM;
 			}
 		} else {
 			$shareTypes[] = Share::SHARE_TYPE_GROUP;
@@ -205,11 +218,21 @@ class ShareesAPIController extends OCSController {
 	 * @param string $itemType
 	 * @return bool
 	 */
-	protected function isRemoteSharingAllowed($itemType) {
+	protected function isRemoteSharingAllowed(string $itemType): bool {
 		try {
 			// FIXME: static foo makes unit testing unnecessarily difficult
 			$backend = \OC\Share\Share::getBackend($itemType);
 			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE);
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
+	protected function isRemoteGroupSharingAllowed(string $itemType): bool {
+		try {
+			// FIXME: static foo makes unit testing unnecessarily difficult
+			$backend = \OC\Share\Share::getBackend($itemType);
+			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE_GROUP);
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -223,22 +246,20 @@ class ShareesAPIController extends OCSController {
 	 * @param array $params Parameters for the URL
 	 * @return string
 	 */
-	protected function getPaginationLink($page, array $params) {
+	protected function getPaginationLink(int $page, array $params): string {
 		if ($this->isV2()) {
 			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v2.php/apps/files_sharing/api/v1/sharees') . '?';
 		} else {
 			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees') . '?';
 		}
 		$params['page'] = $page + 1;
-		$link = '<' . $url . http_build_query($params) . '>; rel="next"';
-
-		return $link;
+		return '<' . $url . http_build_query($params) . '>; rel="next"';
 	}
 
 	/**
 	 * @return bool
 	 */
-	protected function isV2() {
+	protected function isV2(): bool {
 		return $this->request->getScriptName() === '/ocs/v2.php';
 	}
 }

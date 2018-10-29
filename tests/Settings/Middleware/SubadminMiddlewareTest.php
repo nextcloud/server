@@ -15,6 +15,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IL10N;
 
 /**
  * Verifies whether an user has at least subadmin rights.
@@ -31,6 +32,8 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	private $reflector;
 	/** @var Controller */
 	private $controller;
+	/** @var IL10N */
+	private $l10n;
 
 	protected function setUp() {
 		parent::setUp();
@@ -38,9 +41,10 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->controller = $this->getMockBuilder(Controller::class)
 			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 
-		$this->subadminMiddlewareAsSubAdmin = new SubadminMiddleware($this->reflector, true);
-		$this->subadminMiddleware = new SubadminMiddleware($this->reflector, false);
+		$this->subadminMiddlewareAsSubAdmin = new SubadminMiddleware($this->reflector, true, $this->l10n);
+		$this->subadminMiddleware = new SubadminMiddleware($this->reflector, false, $this->l10n);
 	}
 
 	/**
@@ -86,7 +90,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	public function testAfterNotAdminException() {
 		$expectedResponse = new TemplateResponse('core', '403', array(), 'guest');
 		$expectedResponse->setStatus(403);
-		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException()));
+		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException('')));
 	}
 
 	/**

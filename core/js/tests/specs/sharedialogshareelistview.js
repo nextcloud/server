@@ -89,6 +89,67 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 		updateShareStub.restore();
 	});
 
+	describe('Sets correct initial checkbox state', function () {
+		it('marks edit box as indeterminate when only some permissions are given', function () {
+			shareModel.set('shares', [{
+				id: 100,
+				item_source: 123,
+				permissions: 1 | OC.PERMISSION_UPDATE,
+				share_type: OC.Share.SHARE_TYPE_USER,
+				share_with: 'user1',
+				share_with_displayname: 'User One',
+				itemType: 'folder'
+			}]);
+			shareModel.set('itemType', 'folder');
+			listView.render();
+			expect(listView.$el.find("input[name='edit']").is(':indeterminate')).toEqual(true);
+		});
+
+		it('marks edit box as indeterminate when only some permissions are given for sharee with special characters', function () {
+			shareModel.set('shares', [{
+				id: 100,
+				item_source: 123,
+				permissions: 1 | OC.PERMISSION_UPDATE,
+				share_type: OC.Share.SHARE_TYPE_USER,
+				share_with: 'user _.@-\'',
+				share_with_displayname: 'User One',
+				itemType: 'folder'
+			}]);
+			shareModel.set('itemType', 'folder');
+			listView.render();
+			expect(listView.$el.find("input[name='edit']").is(':indeterminate')).toEqual(true);
+		});
+
+		it('Checks edit box when all permissions are given', function () {
+			shareModel.set('shares', [{
+				id: 100,
+				item_source: 123,
+				permissions: 1 | OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE,
+				share_type: OC.Share.SHARE_TYPE_USER,
+				share_with: 'user1',
+				share_with_displayname: 'User One',
+				itemType: 'folder'
+			}]);
+			shareModel.set('itemType', 'folder');
+			listView.render();
+			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
+		});
+
+		it('Checks edit box when all permissions are given for sharee with special characters', function () {
+			shareModel.set('shares', [{
+				id: 100,
+				item_source: 123,
+				permissions: 1 | OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE,
+				share_type: OC.Share.SHARE_TYPE_USER,
+				share_with: 'user _.@-\'',
+				share_with_displayname: 'User One',
+				itemType: 'folder'
+			}]);
+			shareModel.set('itemType', 'folder');
+			listView.render();
+			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
+		});
+	});
 	describe('Manages checkbox events correctly', function () {
 		it('Checks cruds boxes when edit box checked', function () {
 			shareModel.set('shares', [{
@@ -106,7 +167,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 			expect(updateShareStub.calledOnce).toEqual(true);
 		});
 
-		it('Checks edit box when create/update/delete are checked', function () {
+		it('marks edit box as indeterminate when some of create/update/delete are checked', function () {
 			shareModel.set('shares', [{
 				id: 100,
 				item_source: 123,
@@ -119,22 +180,25 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 			shareModel.set('itemType', 'folder');
 			listView.render();
 			listView.$el.find("input[name='update']").click();
-			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
+			expect(listView.$el.find("input[name='edit']").is(':indeterminate')).toEqual(true);
 			expect(updateShareStub.calledOnce).toEqual(true);
 		});
 
-		it('shows cruds checkboxes when toggled', function () {
+		it('Checks edit box when all of create/update/delete are checked', function () {
 			shareModel.set('shares', [{
 				id: 100,
 				item_source: 123,
-				permissions: 1,
+				permissions: 1 | OC.PERMISSION_CREATE | OC.PERMISSION_DELETE,
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
-				share_with_displayname: 'User One'
+				share_with_displayname: 'User One',
+				itemType: 'folder'
 			}]);
+			shareModel.set('itemType', 'folder');
 			listView.render();
-			listView.$el.find('a.showCruds').click();
-			expect(listView.$el.find('li.cruds').hasClass('hidden')).toEqual(false);
+			listView.$el.find("input[name='update']").click();
+			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
+			expect(updateShareStub.calledOnce).toEqual(true);
 		});
 	});
 

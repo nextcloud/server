@@ -66,7 +66,7 @@ describe('OC.Upload tests', function() {
 				originalFiles: files,
 				files: [file],
 				jqXHR: jqXHR,
-				response: sinon.stub.returns(jqXHR),
+				response: sinon.stub().returns(jqXHR),
 				submit: sinon.stub()
 			};
 			if (uploader.fileUploadParam.add.call(
@@ -117,7 +117,7 @@ describe('OC.Upload tests', function() {
 		beforeEach(function() {
 			$('#testArea').append(
 				'<div id="tableContainer">' +
-				'<table id="filestable">' +
+				'<table id="filestable" class="list-container view-grid">' +
 				'<thead><tr>' +
 				'<th id="headerName" class="hidden column-name">' +
 				'<input type="checkbox" id="select_all_files" class="select-all">' +

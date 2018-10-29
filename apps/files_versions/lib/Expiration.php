@@ -175,13 +175,13 @@ class Expiration {
 			$this->canPurgeToSaveSpace = true;
 		} elseif ($minValue !== 'auto' && $maxValue === 'auto') {
 			// Keep for X days but delete anytime if space needed
-			$this->minAge = intval($minValue);
+			$this->minAge = (int)$minValue;
 			$this->maxAge = self::NO_OBLIGATION;
 			$this->canPurgeToSaveSpace = true;
 		} elseif ($minValue === 'auto' && $maxValue !== 'auto') {
 			// Delete anytime if space needed, Delete all older than max automatically
 			$this->minAge = self::NO_OBLIGATION;
-			$this->maxAge = intval($maxValue);
+			$this->maxAge = (int)$maxValue;
 			$this->canPurgeToSaveSpace = true;
 		} elseif ($minValue !== 'auto' && $maxValue !== 'auto') {
 			// Delete all older than max OR older than min if space needed
@@ -191,8 +191,8 @@ class Expiration {
 				$maxValue = $minValue;
 			}
 
-			$this->minAge = intval($minValue);
-			$this->maxAge = intval($maxValue);
+			$this->minAge = (int)$minValue;
+			$this->maxAge = (int)$maxValue;
 			$this->canPurgeToSaveSpace = false;
 		}
 	}

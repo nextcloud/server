@@ -112,9 +112,22 @@ describe('OCA.Files.App tests', function() {
 			App.initialize();
 
 			var actions = App.fileList.fileActions.actions;
-			expect(actions.all.OverwriteThis.action).toBe(actionStub);
-			expect(actions.all.LegacyTest.action).toBe(legacyActionStub);
-			expect(actions.all.RegularTest.action).toBe(actionStub);
+			var context = { fileActions: sinon.createStubInstance(OCA.Files.FileActions) };
+			actions.all.OverwriteThis.action('testFileName', context);
+			expect(actionStub.calledOnce).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.callCount).toBe(2);
+			expect(context.fileActions._notifyUpdateListeners.getCall(0).calledWith('beforeTriggerAction')).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.getCall(1).calledWith('afterTriggerAction')).toBe(true);
+			actions.all.LegacyTest.action('testFileName', context);
+			expect(legacyActionStub.calledOnce).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.callCount).toBe(4);
+			expect(context.fileActions._notifyUpdateListeners.getCall(2).calledWith('beforeTriggerAction')).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.getCall(3).calledWith('afterTriggerAction')).toBe(true);
+			actions.all.RegularTest.action('testFileName', context);
+			expect(actionStub.calledTwice).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.callCount).toBe(6);
+			expect(context.fileActions._notifyUpdateListeners.getCall(4).calledWith('beforeTriggerAction')).toBe(true);
+			expect(context.fileActions._notifyUpdateListeners.getCall(5).calledWith('afterTriggerAction')).toBe(true);
 			// default one still there
 			expect(actions.dir.Open.action).toBeDefined();
 		});
@@ -226,38 +239,38 @@ describe('OCA.Files.App tests', function() {
 				expect(App.navigation.getActiveItem()).toEqual('other');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(true);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(false);
-				expect($('li[data-id=files]').hasClass('active')).toEqual(false);
-				expect($('li[data-id=other]').hasClass('active')).toEqual(true);
+				expect($('li[data-id=files] > a').hasClass('active')).toEqual(false);
+				expect($('li[data-id=other] > a').hasClass('active')).toEqual(true);
 
 				App._onPopState({view: 'files', dir: '/somedir'});
 
 				expect(App.navigation.getActiveItem()).toEqual('files');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(false);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(true);
-				expect($('li[data-id=files]').hasClass('active')).toEqual(true);
-				expect($('li[data-id=other]').hasClass('active')).toEqual(false);
+				expect($('li[data-id=files] > a').hasClass('active')).toEqual(true);
+				expect($('li[data-id=other] > a').hasClass('active')).toEqual(false);
 			});
 			it('clicking on navigation switches the panel visibility', function() {
-				$('li[data-id=other]>a').click();
+				$('li[data-id=other] > a').click();
 				expect(App.navigation.getActiveItem()).toEqual('other');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(true);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(false);
-				expect($('li[data-id=files]').hasClass('active')).toEqual(false);
-				expect($('li[data-id=other]').hasClass('active')).toEqual(true);
+				expect($('li[data-id=files] > a').hasClass('active')).toEqual(false);
+				expect($('li[data-id=other] > a').hasClass('active')).toEqual(true);
 
-				$('li[data-id=files]>a').click();
+				$('li[data-id=files] > a').click();
 				expect(App.navigation.getActiveItem()).toEqual('files');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(false);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(true);
-				expect($('li[data-id=files]').hasClass('active')).toEqual(true);
-				expect($('li[data-id=other]').hasClass('active')).toEqual(false);
+				expect($('li[data-id=files] > a').hasClass('active')).toEqual(true);
+				expect($('li[data-id=other] > a').hasClass('active')).toEqual(false);
 			});
 			it('clicking on navigation sends "show" and "urlChanged" event', function() {
 				var handler = sinon.stub();
 				var showHandler = sinon.stub();
 				$('#app-content-other').on('urlChanged', handler);
 				$('#app-content-other').on('show', showHandler);
-				$('li[data-id=other]>a').click();
+				$('li[data-id=other] > a').click();
 				expect(handler.calledOnce).toEqual(true);
 				expect(handler.getCall(0).args[0].view).toEqual('other');
 				expect(handler.getCall(0).args[0].dir).toEqual('/');
@@ -268,7 +281,7 @@ describe('OCA.Files.App tests', function() {
 				var showHandler = sinon.stub();
 				$('#app-content-files').on('urlChanged', handler);
 				$('#app-content-files').on('show', showHandler);
-				$('li[data-id=files]>a').click();
+				$('li[data-id=files] > a').click();
 				expect(handler.calledOnce).toEqual(true);
 				expect(handler.getCall(0).args[0].view).toEqual('files');
 				expect(handler.getCall(0).args[0].dir).toEqual('/');

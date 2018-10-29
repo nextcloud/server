@@ -11,6 +11,10 @@
 .workflowengine .operation button {
 	margin-bottom: 0;
 }
+.workflowengine .operation-name {
+	width: 100%;
+	max-width: 500px;
+}
 .workflowengine .operation span.info {
 	padding: 7px;
 	color: #eee;
@@ -34,10 +38,23 @@
 	background-color: #f8f8f8;
 }
 
+.workflowengine .operation-header .operation-name {
+	align-self: flex-start;
+	padding: 10px;
+}
+.workflowengine .operation-header {
+	display: flex;
+}
+.workflowengine .operation-header .select2-container {
+	align-self: flex-end;
+}
+.workflowengine .operation-header .icon-delete {
+	margin-left: auto;
+}
 .workflowengine .operation .button-delete,
 .workflowengine .operation .button-delete-check {
 	opacity: 0.5;
-	padding: 7px;
+	padding: 11px;
 }
 .workflowengine .operation .button-delete:hover,
 .workflowengine .operation .button-delete:focus,

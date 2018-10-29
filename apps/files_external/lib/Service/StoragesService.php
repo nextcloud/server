@@ -37,6 +37,7 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCP\Files\Config\IUserMountCache;
 use \OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 
 /**
  * Service class to manage external storages
@@ -102,18 +103,18 @@ abstract class StoragesService {
 			return $config;
 		} catch (\UnexpectedValueException $e) {
 			// don't die if a storage backend doesn't exist
-			\OCP\Util::writeLog(
-				'files_external',
-				'Could not load storage: "' . $e->getMessage() . '"',
-				\OCP\Util::ERROR
-			);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'Could not load storage.',
+				'level' => ILogger::ERROR,
+				'app' => 'files_external',
+			]);
 			return null;
 		} catch (\InvalidArgumentException $e) {
-			\OCP\Util::writeLog(
-				'files_external',
-				'Could not load storage: "' . $e->getMessage() . '"',
-				\OCP\Util::ERROR
-			);
+			\OC::$server->getLogger()->logException($e, [
+				'message' => 'Could not load storage.',
+				'level' => ILogger::ERROR,
+				'app' => 'files_external',
+			]);
 			return null;
 		}
 	}
@@ -478,11 +479,10 @@ abstract class StoragesService {
 			// can happen either for invalid configs where the storage could not
 			// be instantiated or whenever $user vars where used, in which case
 			// the storage id could not be computed
-			\OCP\Util::writeLog(
-				'files_external',
-				'Exception: "' . $e->getMessage() . '"',
-				\OCP\Util::ERROR
-			);
+			\OC::$server->getLogger()->logException($e, [
+				'level' => ILogger::ERROR,
+				'app' => 'files_external',
+			]);
 		}
 	}
 

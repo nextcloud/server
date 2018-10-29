@@ -22,7 +22,7 @@
 describe('Apps base tests', function() {
 	describe('Sidebar utility functions', function() {
 		beforeEach(function() {
-			$('#testArea').append('<div id="app-content">Content</div><div id="app-sidebar">The sidebar</div>');
+			$('#testArea').append('<div id="content"><div id="app-content">Content</div><div id="app-sidebar">The sidebar</div></div>');
 			jQuery.fx.off = true;
 		});
 		afterEach(function() {
@@ -41,7 +41,7 @@ describe('Apps base tests', function() {
 		});
 		it('triggers appresize event when visibility changed', function() {
 			var eventStub = sinon.stub();
-			$('#app-content').on('appresized', eventStub);
+			$('#content').on('appresized', eventStub);
 			OC.Apps.showAppSidebar();
 			expect(eventStub.calledOnce).toEqual(true);
 			OC.Apps.hideAppSidebar();

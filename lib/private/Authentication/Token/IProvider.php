@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -27,7 +28,6 @@ namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OCP\IUser;
 
 interface IProvider {
 
@@ -44,25 +44,33 @@ interface IProvider {
 	 * @param int $remember whether the session token should be used for remember-me
 	 * @return IToken
 	 */
-	public function generateToken($token, $uid, $loginName, $password, $name, $type = IToken::TEMPORARY_TOKEN, $remember = IToken::DO_NOT_REMEMBER);
+	public function generateToken(string $token,
+								  string $uid,
+								  string $loginName,
+								  $password,
+								  string $name,
+								  int $type = IToken::TEMPORARY_TOKEN,
+								  int $remember = IToken::DO_NOT_REMEMBER): IToken;
 
 	/**
 	 * Get a token by token id
 	 *
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
+	 * @throws ExpiredTokenException
 	 * @return IToken
 	 */
-	public function getToken($tokenId);
+	public function getToken(string $tokenId): IToken;
 
 	/**
 	 * Get a token by token id
 	 *
-	 * @param string $tokenId
+	 * @param int $tokenId
 	 * @throws InvalidTokenException
-	 * @return DefaultToken
+	 * @throws ExpiredTokenException
+	 * @return IToken
 	 */
-	public function getTokenById($tokenId);
+	public function getTokenById(int $tokenId): IToken;
 
 	/**
 	 * Duplicate an existing session token
@@ -71,22 +79,22 @@ interface IProvider {
 	 * @param string $sessionId
 	 * @throws InvalidTokenException
 	 */
-	public function renewSessionToken($oldSessionId, $sessionId);
+	public function renewSessionToken(string $oldSessionId, string $sessionId);
 
 	/**
 	 * Invalidate (delete) the given session token
 	 *
 	 * @param string $token
 	 */
-	public function invalidateToken($token);
+	public function invalidateToken(string $token);
 
 	/**
 	 * Invalidate (delete) the given token
 	 *
-	 * @param IUser $user
+	 * @param string $uid
 	 * @param int $id
 	 */
-	public function invalidateTokenById(IUser $user, $id);
+	public function invalidateTokenById(string $uid, int $id);
 
 	/**
 	 * Invalidate (delete) old session tokens
@@ -113,10 +121,10 @@ interface IProvider {
 	 * The provider may limit the number of result rows in case of an abuse
 	 * where a high number of (session) tokens is generated
 	 *
-	 * @param IUser $user
+	 * @param string $uid
 	 * @return IToken[]
 	 */
-	public function getTokenByUser(IUser $user);
+	public function getTokenByUser(string $uid): array;
 
 	/**
 	 * Get the (unencrypted) password of the given token
@@ -127,7 +135,7 @@ interface IProvider {
 	 * @throws PasswordlessTokenException
 	 * @return string
 	 */
-	public function getPassword(IToken $token, $tokenId);
+	public function getPassword(IToken $token, string $tokenId): string;
 
 	/**
 	 * Encrypt and set the password of the given token
@@ -137,5 +145,31 @@ interface IProvider {
 	 * @param string $password
 	 * @throws InvalidTokenException
 	 */
-	public function setPassword(IToken $token, $tokenId, $password);
+	public function setPassword(IToken $token, string $tokenId, string $password);
+
+	/**
+	 * Rotate the token. Usefull for for example oauth tokens
+	 *
+	 * @param IToken $token
+	 * @param string $oldTokenId
+	 * @param string $newTokenId
+	 * @return IToken
+	 */
+	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken;
+
+	/**
+	 * Marks a token as having an invalid password.
+	 *
+	 * @param IToken $token
+	 * @param string $tokenId
+	 */
+	public function markPasswordInvalid(IToken $token, string $tokenId);
+
+	/**
+	 * Update all the passwords of $uid if required
+	 *
+	 * @param string $uid
+	 * @param string $password
+	 */
+	public function updatePasswords(string $uid, string $password);
 }

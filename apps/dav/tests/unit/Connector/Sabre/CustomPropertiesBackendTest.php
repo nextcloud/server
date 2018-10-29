@@ -174,7 +174,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 		);
 
 		// no exception, soft fail
-		$this->assertTrue(true);
+		$this->addToAssertionCount(1);
 	}
 
 	/**

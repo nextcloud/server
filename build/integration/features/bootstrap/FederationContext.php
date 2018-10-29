@@ -35,6 +35,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 class FederationContext implements Context, SnippetAcceptingContext {
 
 	use WebDav;
+	use AppConfiguration;
 
 	/**
 	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/
@@ -56,6 +57,27 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$this->usingServer($previous);
 	}
 
+
+	/**
+	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with group "([^"]*)" from server "(LOCAL|REMOTE)"$/
+	 *
+	 * @param string $sharerUser
+	 * @param string $sharerServer "LOCAL" or "REMOTE"
+	 * @param string $sharerPath
+	 * @param string $shareeUser
+	 * @param string $shareeServer "LOCAL" or "REMOTE"
+	 */
+	public function federateGroupSharing($sharerUser, $sharerServer, $sharerPath, $shareeGroup, $shareeServer){
+		if ($shareeServer == "REMOTE"){
+			$shareWith = "$shareeGroup@" . substr($this->remoteBaseUrl, 0, -4);
+		} else {
+			$shareWith = "$shareeGroup@" . substr($this->localBaseUrl, 0, -4);
+		}
+		$previous = $this->usingServer($sharerServer);
+		$this->createShare($sharerUser, $sharerPath, 9, $shareWith, null, null, null);
+		$this->usingServer($previous);
+	}
+
 	/**
 	 * @When /^User "([^"]*)" from server "(LOCAL|REMOTE)" accepts last pending share$/
 	 * @param string $user
@@ -67,10 +89,15 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$this->sendingToWith('GET', "/apps/files_sharing/api/v1/remote_shares/pending", null);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
-		$share_id = $this->response->xml()->data[0]->element[0]->id;
+		$share_id = simplexml_load_string($this->response->getBody())->data[0]->element[0]->id;
 		$this->sendingToWith('POST', "/apps/files_sharing/api/v1/remote_shares/pending/{$share_id}", null);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
 		$this->usingServer($previous);
+	}
+
+	protected function resetAppConfigs() {
+		$this->modifyServerConfig('files_sharing', 'incoming_server2server_group_share_enabled', 'no');
+		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
 	}
 }

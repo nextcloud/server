@@ -33,8 +33,10 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+use OC\Tags;
+
 // FIXME: Where should I put this? Or should it be implemented as a Listener?
-\OC_Hook::connect('OC_User', 'post_deleteUser', 'OC\Tags', 'post_deleteUser');
+\OC_Hook::connect('OC_User', 'post_deleteUser', Tags::class, 'post_deleteUser');
 
 /**
  * Class for easily tagging objects by their id

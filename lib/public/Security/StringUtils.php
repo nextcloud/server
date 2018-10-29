@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -42,7 +43,7 @@ class StringUtils {
 	 * @since 8.0.0
 	 * @deprecated 9.0.0 Use hash_equals
 	 */
-	public static function equals($expected, $input) {
+	public static function equals(string $expected, string $input): bool {
 		return hash_equals($expected, $input);
 	}
 }

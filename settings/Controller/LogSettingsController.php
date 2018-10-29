@@ -26,13 +26,11 @@
 
 namespace OC\Settings\Controller;
 
+use OC\Log;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\StreamResponse;
-use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
-use OCP\IConfig;
 
 /**
  * Class LogSettingsController
@@ -40,6 +38,15 @@ use OCP\IConfig;
  * @package OC\Settings\Controller
  */
 class LogSettingsController extends Controller {
+
+	/** @var ILogger */
+	private $log;
+
+	public function __construct(string $appName, IRequest $request, ILogger $logger) {
+		parent::__construct($appName, $request);
+		$this->log = $logger;
+	}
+
 	/**
 	 * download logfile
 	 *
@@ -48,7 +55,10 @@ class LogSettingsController extends Controller {
 	 * @return StreamResponse
 	 */
 	public function download() {
-		$resp = new StreamResponse(\OC\Log\File::getLogFilePath());
+		if(!$this->log instanceof Log) {
+			throw new \UnexpectedValueException('Log file not available');
+		}
+		$resp = new StreamResponse($this->log->getLogPath());
 		$resp->addHeader('Content-Type', 'application/octet-stream');
 		$resp->addHeader('Content-Disposition', 'attachment; filename="nextcloud.log"');
 		return $resp;

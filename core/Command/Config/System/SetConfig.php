@@ -81,7 +81,7 @@ class SetConfig extends Base {
 		$configValue = $this->castValue($input->getOption('value'), $input->getOption('type'));
 		$updateOnly = $input->getOption('update-only');
 
-		if (sizeof($configNames) > 1) {
+		if (count($configNames) > 1) {
 			$existingValue = $this->systemConfig->getValue($configName);
 
 			$newValue = $this->mergeArrayValue(

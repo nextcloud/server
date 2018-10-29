@@ -23,12 +23,9 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Auth\PublicKey\RSA;
-use \OCA\Files_External\Lib\Backend\SFTP;
 
 class SFTP_Key extends Backend {
 
@@ -38,7 +35,7 @@ class SFTP_Key extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SFTP')
 			->setText($l->t('SFTP with secret key login'))
 			->addParameters([
-				(new DefinitionParameter('host', $l->t('Host'))),
+				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])

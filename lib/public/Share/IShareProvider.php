@@ -25,6 +25,7 @@
 namespace OCP\Share;
 
 use OCP\Files\Folder;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Files\Node;
 
@@ -46,7 +47,7 @@ interface IShareProvider {
 
 	/**
 	 * Create a share
-	 * 
+	 *
 	 * @param \OCP\Share\IShare $share
 	 * @return \OCP\Share\IShare The share object
 	 * @since 9.0.0
@@ -80,6 +81,18 @@ interface IShareProvider {
 	 * @since 9.0.0
 	 */
 	public function deleteFromSelf(\OCP\Share\IShare $share, $recipient);
+
+	/**
+	 * Restore a share for a given recipient. The implementation could be provider independant.
+	 *
+	 * @param IShare $share
+	 * @param string $recipient
+	 * @return IShare The restored share object
+	 *
+	 * @since 14.0.0
+	 * @throws GenericShareException In case the share could not be restored
+	 */
+	public function restore(IShare $share, string $recipient): IShare;
 
 	/**
 	 * Move a share as a recipient.

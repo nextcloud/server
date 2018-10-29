@@ -28,6 +28,7 @@
 namespace OCA\User_LDAP\User;
 
 use OC\Cache\CappedMemoryCache;
+use OCA\User_LDAP\Access;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\FilesystemHelper;
 use OCP\IAvatarManager;
@@ -162,13 +163,15 @@ class Manager {
 	/**
 	 * returns a list of attributes that will be processed further, e.g. quota,
 	 * email, displayname, or others.
+	 *
 	 * @param bool $minimal - optional, set to true to skip attributes with big
 	 * payload
 	 * @return string[]
 	 */
 	public function getAttributes($minimal = false) {
-		$attributes = array('dn', 'uid', 'samaccountname', 'memberof');
+		$attributes = array_merge(Access::UUID_ATTRIBUTES, ['dn', 'uid', 'samaccountname', 'memberof']);
 		$possible = array(
+			$this->access->getConnection()->ldapExpertUUIDUserAttr,
 			$this->access->getConnection()->ldapQuotaAttribute,
 			$this->access->getConnection()->ldapEmailAttribute,
 			$this->access->getConnection()->ldapUserDisplayName,
@@ -188,10 +191,10 @@ class Manager {
 		if(!$minimal) {
 			// attributes that are not really important but may come with big
 			// payload.
-			$attributes = array_merge($attributes, array(
-				'jpegphoto',
-				'thumbnailphoto'
-			));
+			$attributes = array_merge(
+				$attributes,
+				$this->access->getConnection()->resolveRule('avatar')
+			);
 		}
 
 		return $attributes;
@@ -205,7 +208,7 @@ class Manager {
 	public function isDeletedUser($id) {
 		$isDeleted = $this->ocConfig->getUserValue(
 			$id, 'user_ldap', 'isDeleted', 0);
-		return intval($isDeleted) === 1;
+		return (int)$isDeleted === 1;
 	}
 
 	/**

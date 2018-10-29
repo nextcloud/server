@@ -10,7 +10,7 @@
 		</thead>
 		<tbody>
 		<?php foreach ($_['certs'] as $rootCert): /**@var \OCP\ICertificate $rootCert */ ?>
-			<tr class="<?php echo ($rootCert->isExpired()) ? 'expired' : 'valid' ?>"
+			<tr class="<?php echo $rootCert->isExpired() ? 'expired' : 'valid' ?>"
 				data-name="<?php p($rootCert->getName()) ?>">
 				<td class="rootCert"
 					title="<?php p($rootCert->getOrganization()) ?>">

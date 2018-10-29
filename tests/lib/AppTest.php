@@ -9,6 +9,7 @@
 
 namespace Test;
 
+use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\IAppConfig;
 
@@ -310,19 +311,6 @@ class AppTest extends \Test\TestCase {
 	}
 
 	/**
-	 * Test that the isAppCompatible method also supports passing an array
-	 * as $ocVersion
-	 */
-	public function testIsAppCompatibleWithArray() {
-		$ocVersion = array(6);
-		$appInfo = array(
-			'requiremin' => '6',
-			'requiremax' => '6',
-		);
-		$this->assertTrue(\OC_App::isAppCompatible($ocVersion, $appInfo));
-	}
-
-	/**
 	 * Tests that the app order is correct
 	 */
 	public function testGetEnabledAppsIsSorted() {
@@ -350,6 +338,7 @@ class AppTest extends \Test\TestCase {
 					'app3',
 					'appforgroup1',
 					'appforgroup12',
+					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
 					'lookup_server_connector',
@@ -369,6 +358,7 @@ class AppTest extends \Test\TestCase {
 					'app3',
 					'appforgroup12',
 					'appforgroup2',
+					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
 					'lookup_server_connector',
@@ -389,6 +379,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup1',
 					'appforgroup12',
 					'appforgroup2',
+					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
 					'lookup_server_connector',
@@ -409,6 +400,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup1',
 					'appforgroup12',
 					'appforgroup2',
+					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
 					'lookup_server_connector',
@@ -429,6 +421,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup1',
 					'appforgroup12',
 					'appforgroup2',
+					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
 					'lookup_server_connector',
@@ -513,11 +506,11 @@ class AppTest extends \Test\TestCase {
 			);
 
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'twofactor_backupcodes', 'workflowengine'), $apps);
+		$this->assertEquals(array('files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'twofactor_backupcodes', 'workflowengine'), $apps);
 
 		// mock should not be called again here
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'twofactor_backupcodes', 'workflowengine'), $apps);
+		$this->assertEquals(array('files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'twofactor_backupcodes', 'workflowengine'), $apps);
 
 		$this->restoreAppConfig();
 		\OC_User::setUserId(null);
@@ -542,7 +535,7 @@ class AppTest extends \Test\TestCase {
 	 *
 	 * @param IAppConfig $appConfig app config mock
 	 */
-	private function registerAppConfig(IAppConfig $appConfig) {
+	private function registerAppConfig(AppConfig $appConfig) {
 		$this->overwriteService('AppConfig', $appConfig);
 		$this->overwriteService('AppManager', new \OC\App\AppManager(
 			\OC::$server->getUserSession(),
@@ -604,6 +597,19 @@ class AppTest extends \Test\TestCase {
 	 */
 	public function testParseAppInfo(array $data, array $expected) {
 		$this->assertSame($expected, \OC_App::parseAppInfo($data));
+	}
+
+	public function testParseAppInfoL10N() {
+		$parser = new InfoParser();
+		$data = $parser->parse(\OC::$SERVERROOT. "/tests/data/app/description-multi-lang.xml");
+		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
+		$this->assertEquals('German', \OC_App::parseAppInfo($data, 'de')['description']);
+	}
+
+	public function testParseAppInfoL10NSingleLanguage() {
+		$parser = new InfoParser();
+		$data = $parser->parse(\OC::$SERVERROOT. "/tests/data/app/description-single-lang.xml");
+		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 	}
 }
 

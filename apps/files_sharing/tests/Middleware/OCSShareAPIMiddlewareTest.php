@@ -136,5 +136,6 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->middleware->afterController($controller, 'foo', $response);
+		$this->addToAssertionCount(1);
 	}
 }

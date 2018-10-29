@@ -42,6 +42,7 @@ use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OC\Share20\Share;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
@@ -164,8 +165,8 @@ class ShareByMailProvider implements IShareProvider {
 		 */
 		$alreadyShared = $this->getSharedWith($shareWith, \OCP\Share::SHARE_TYPE_EMAIL, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared)) {
-			$message = 'Sharing %s failed, this item is already shared with %s';
-			$message_t = $this->l->t('Sharing %s failed, this item is already shared with %s', array($share->getNode()->getName(), $shareWith));
+			$message = 'Sharing %1$s failed, this item is already shared with %2$s';
+			$message_t = $this->l->t('Sharing %1$s failed, this item is already shared with %2$s', array($share->getNode()->getName(), $shareWith));
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
@@ -337,7 +338,8 @@ class ShareByMailProvider implements IShareProvider {
 			$share->getShareOwner(),
 			$share->getPermissions(),
 			$share->getToken(),
-			$share->getPassword()
+			$share->getPassword(),
+			$share->getSendPasswordByTalk()
 		);
 
 		try {
@@ -351,11 +353,19 @@ class ShareByMailProvider implements IShareProvider {
 				$share->getExpirationDate()
 			);
 		} catch (HintException $hintException) {
-			$this->logger->error('Failed to send share by mail: ' . $hintException->getMessage());
+			$this->logger->logException($hintException, [
+				'message' => 'Failed to send share by mail.',
+				'level' => ILogger::ERROR,
+				'app' => 'sharebymail',
+			]);
 			$this->removeShareFromTable($shareId);
 			throw $hintException;
 		} catch (\Exception $e) {
-			$this->logger->error('Failed to send share by email: ' . $e->getMessage());
+			$this->logger->logException($e, [
+				'message' => 'Failed to send share by mail.',
+				'level' => ILogger::ERROR,
+				'app' => 'sharebymail',
+			]);
 			$this->removeShareFromTable($shareId);
 			throw new HintException('Failed to send share by mail',
 				$this->l->t('Failed to send share by email'));
@@ -390,13 +400,13 @@ class ShareByMailProvider implements IShareProvider {
 			'shareWith' => $shareWith,
 		]);
 
-		$emailTemplate->setSubject($this->l->t('%s shared »%s« with you', array($initiatorDisplayName, $filename)));
+		$emailTemplate->setSubject($this->l->t('%1$s shared »%2$s« with you', array($initiatorDisplayName, $filename)));
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('%s shared »%s« with you', [$initiatorDisplayName, $filename]), false);
-		$text = $this->l->t('%s shared »%s« with you.', [$initiatorDisplayName, $filename]);
+		$emailTemplate->addHeading($this->l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]), false);
+		$text = $this->l->t('%1$s shared »%2$s« with you.', [$initiatorDisplayName, $filename]);
 
 		$emailTemplate->addBodyText(
-			$text . ' ' . $this->l->t('Click the button below to open it.'),
+			htmlspecialchars($text . ' ' . $this->l->t('Click the button below to open it.')),
 			$text
 		);
 		$emailTemplate->addBodyButton(
@@ -409,7 +419,7 @@ class ShareByMailProvider implements IShareProvider {
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
 		$senderName = $this->l->t(
-			'%s via %s',
+			'%1$s via %2$s',
 			[
 				$initiatorDisplayName,
 				$instanceName
@@ -444,7 +454,7 @@ class ShareByMailProvider implements IShareProvider {
 		$initiator = $share->getSharedBy();
 		$shareWith = $share->getSharedWith();
 
-		if ($password === '' || $this->settingsManager->sendPasswordByMail() === false) {
+		if ($password === '' || $this->settingsManager->sendPasswordByMail() === false || $share->getSendPasswordByTalk()) {
 			return false;
 		}
 
@@ -452,8 +462,8 @@ class ShareByMailProvider implements IShareProvider {
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
 
-		$plainBodyPart = $this->l->t("%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n", [$initiatorDisplayName, $filename]);
-		$htmlBodyPart = $this->l->t('%s shared »%s« with you. You should have already received a separate mail with a link to access it.', [$initiatorDisplayName, $filename]);
+		$plainBodyPart = $this->l->t("%1\$s shared »%2\$s« with you.\nYou should have already received a separate mail with a link to access it.\n", [$initiatorDisplayName, $filename]);
+		$htmlBodyPart = $this->l->t('%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it.', [$initiatorDisplayName, $filename]);
 
 		$message = $this->mailer->createMessage();
 
@@ -465,16 +475,17 @@ class ShareByMailProvider implements IShareProvider {
 			'shareWith' => $shareWith,
 		]);
 
-		$emailTemplate->setSubject($this->l->t('Password to access »%s« shared to you by %s', [$filename, $initiatorDisplayName]));
+		$emailTemplate->setSubject($this->l->t('Password to access »%1$s« shared to you by %2$s', [$filename, $initiatorDisplayName]));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
-		$emailTemplate->addBodyText($htmlBodyPart, $plainBodyPart);
-		$emailTemplate->addBodyText($this->l->t('It is protected with the following password: %s', [$password]));
+		$emailTemplate->addBodyText(htmlspecialchars($htmlBodyPart), $plainBodyPart);
+		$emailTemplate->addBodyText($this->l->t('It is protected with the following password:'));
+		$emailTemplate->addBodyText($password);
 
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
 		$senderName = $this->l->t(
-			'%s via %s',
+			'%1$s via %2$s',
 			[
 				$initiatorDisplayName,
 				$instanceName
@@ -495,6 +506,61 @@ class ShareByMailProvider implements IShareProvider {
 		$this->createPasswordSendActivity($share, $shareWith, false);
 
 		return true;
+	}
+
+	protected function sendNote(IShare $share) {
+
+		$recipient = $share->getSharedWith();
+
+
+		$filename = $share->getNode()->getName();
+		$initiator = $share->getSharedBy();
+		$note = $share->getNote();
+
+		$initiatorUser = $this->userManager->get($initiator);
+		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+		$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
+
+		$plainHeading = $this->l->t('%1$s shared »%2$s« with you and wants to add:', [$initiatorDisplayName, $filename]);
+		$htmlHeading = $this->l->t('%1$s shared »%2$s« with you and wants to add', [$initiatorDisplayName, $filename]);
+
+		$message = $this->mailer->createMessage();
+
+		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote');
+
+		$emailTemplate->setSubject($this->l->t('»%s« added a note to a file shared with you', [$initiatorDisplayName]));
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading(htmlspecialchars($htmlHeading), $plainHeading);
+		$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+
+		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
+			['token' => $share->getToken()]);
+		$emailTemplate->addBodyButton(
+			$this->l->t('Open »%s«', [$filename]),
+			$link
+		);
+
+		// The "From" contains the sharers name
+		$instanceName = $this->defaults->getName();
+		$senderName = $this->l->t(
+			'%1$s via %2$s',
+			[
+				$initiatorDisplayName,
+				$instanceName
+			]
+		);
+		$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
+		if ($initiatorEmailAddress !== null) {
+			$message->setReplyTo([$initiatorEmailAddress => $initiatorDisplayName]);
+			$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
+		} else {
+			$emailTemplate->addFooter();
+		}
+
+		$message->setTo([$recipient]);
+		$message->useTemplate($emailTemplate);
+		$this->mailer->send($message);
+
 	}
 
 	/**
@@ -520,7 +586,7 @@ class ShareByMailProvider implements IShareProvider {
 			);
 		}
 
-		$bodyPart = $this->l->t("You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.", [$filename, $shareWith, $this->defaults->getName()]);
+		$bodyPart = $this->l->t('You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.', [$filename, $shareWith, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage();
 		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.OwnerPasswordNotification', [
@@ -531,11 +597,12 @@ class ShareByMailProvider implements IShareProvider {
 			'shareWith' => $shareWith,
 		]);
 
-		$emailTemplate->setSubject($this->l->t('Password to access »%s« shared with %s', [$filename, $shareWith]));
+		$emailTemplate->setSubject($this->l->t('Password to access »%1$s« shared with %2$s', [$filename, $shareWith]));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
 		$emailTemplate->addBodyText($bodyPart);
-		$emailTemplate->addBodyText($this->l->t('This is the password: %s', [$password]));
+		$emailTemplate->addBodyText($this->l->t('This is the password:'));
+		$emailTemplate->addBodyText($password);
 		$emailTemplate->addBodyText($this->l->t('You can choose a different password at any time in the share dialog.'));
 		$emailTemplate->addFooter();
 
@@ -596,9 +663,11 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $uidOwner
 	 * @param int $permissions
 	 * @param string $token
+	 * @param string $password
+	 * @param bool $sendPasswordByTalk
 	 * @return int
 	 */
-	protected function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $password) {
+	protected function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $password, $sendPasswordByTalk) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL))
@@ -611,6 +680,7 @@ class ShareByMailProvider implements IShareProvider {
 			->setValue('permissions', $qb->createNamedParameter($permissions))
 			->setValue('token', $qb->createNamedParameter($token))
 			->setValue('password', $qb->createNamedParameter($password))
+			->setValue('password_by_talk', $qb->createNamedParameter($sendPasswordByTalk, IQueryBuilder::PARAM_BOOL))
 			->setValue('stime', $qb->createNamedParameter(time()));
 
 		/*
@@ -639,7 +709,8 @@ class ShareByMailProvider implements IShareProvider {
 		// a real password was given
 		$validPassword = $plainTextPassword !== null && $plainTextPassword !== '';
 
-		if($validPassword && $originalShare->getPassword() !== $share->getPassword()) {
+		if($validPassword && ($originalShare->getPassword() !== $share->getPassword() ||
+								($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()))) {
 			$this->sendPassword($share, $plainTextPassword);
 		}
 		/*
@@ -652,8 +723,14 @@ class ShareByMailProvider implements IShareProvider {
 			->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 			->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
 			->set('password', $qb->createNamedParameter($share->getPassword()))
+			->set('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL))
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
+			->set('note', $qb->createNamedParameter($share->getNote()))
 			->execute();
+
+		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
+			$this->sendNote($share);
+		}
 
 		return $share;
 	}
@@ -682,7 +759,10 @@ class ShareByMailProvider implements IShareProvider {
 	 */
 	public function deleteFromSelf(IShare $share, $recipient) {
 		// nothing to do here, mail shares are only outgoing shares
-		return;
+	}
+
+	public function restore(IShare $share, string $recipient): IShare {
+		throw new GenericShareException('not implemented');
 	}
 
 	/**
@@ -892,6 +972,7 @@ class ShareByMailProvider implements IShareProvider {
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
 			->setMailSend((bool)$data['mail_send'])
+			->setNote($data['note'])
 			->setToken($data['token']);
 
 		$shareTime = new \DateTime();
@@ -899,6 +980,7 @@ class ShareByMailProvider implements IShareProvider {
 		$share->setShareTime($shareTime);
 		$share->setSharedWith($data['share_with']);
 		$share->setPassword($data['password']);
+		$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 
 		if ($data['uid_initiator'] !== null) {
 			$share->setShareOwner($data['uid_owner']);
@@ -973,7 +1055,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $gid
 	 */
 	public function groupDeleted($gid) {
-		return;
 	}
 
 	/**
@@ -983,7 +1064,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $gid
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
-		return;
 	}
 
 	/**

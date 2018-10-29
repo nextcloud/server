@@ -92,13 +92,13 @@ $CONFIG = array(
  * ``supportedDatabases``
  *
  * Available:
- * 	- sqlite (SQLite3)
+ * 	- sqlite3 (SQLite3)
  * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
  *
- * Defaults to ``sqlite``
+ * Defaults to ``sqlite3``
  */
-'dbtype' => 'sqlite',
+'dbtype' => 'sqlite3',
 
 /**
  * Your host server name, for example ``localhost``, ``hostname``,
@@ -157,7 +157,11 @@ $CONFIG = array(
  * language codes such as ``en`` for English, ``de`` for German, and ``fr`` for
  * French. It overrides automatic language detection on public pages like login
  * or shared items. User's language preferences configured under "personal ->
- * language" override this setting after they have logged in.
+ * language" override this setting after they have logged in. Nextcloud has two
+ * distinguished language codes for German, 'de' and 'de_DE'. 'de' is used for
+ * informal German and 'de_DE' for formal German. By setting this value to 'de_DE'
+ * you can enforce the formal version of German unless the user has chosen
+ * something different explicitly.
  *
  * Defaults to ``en``
  */
@@ -173,6 +177,29 @@ $CONFIG = array(
  * Defaults to ``false``
  */
 'force_language' => 'en',
+
+/**
+ * This sets the default locale on your Nextcloud server, using ISO_639
+ * language codes such as ``en`` for English, ``de`` for German, and ``fr`` for
+ * French, and ISO-3166 country codes such as ``GB``, ``US``, ``CA``, as defined
+ * in RFC 5646. It overrides automatic locale detection on public pages like
+ * login or shared items. User's locale preferences configured under "personal
+ * -> locale" override this setting after they have logged in.
+ *
+ * Defaults to ``en``
+ */
+'default_locale' => 'en_US',
+
+/**
+ * With this setting a locale can be forced for all users. If a locale is
+ * forced, the users are also unable to change their locale in the personal
+ * settings. If users shall be unable to change their locale, but users have
+ * different languages, this value can be set to ``true`` instead of a locale
+ * code.
+ *
+ * Defaults to ``false``
+ */
+'force_locale' => 'en_US',
 
 /**
  * Set the default app to open on login. Use the app names as they appear in the
@@ -242,6 +269,9 @@ $CONFIG = array(
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
+ * ``{lang}`` can be used as a placeholder for the language of the user.
+ * If the directory does not exist, it falls back to non dialect (from ``de_DE``
+ * to ``de``). If that does not exist either, it falls back to ``default``
  *
  * Defaults to ``core/skeleton`` in the Nextcloud directory.
  */
@@ -298,14 +328,9 @@ $CONFIG = array(
 'mail_smtpdebug' => false,
 
 /**
- * Which mode to use for sending mail: ``sendmail``, ``smtp``, ``qmail`` or
- * ``php``.
+ * Which mode to use for sending mail: ``sendmail``, ``smtp`` or ``qmail``.
  *
  * If you are using local or remote SMTP, set this to ``smtp``.
- *
- * If you are using PHP mail you must have an installed and working email system
- * on the server. The program used to send email is defined in the ``php.ini``
- * file.
  *
  * For the ``sendmail`` option you need an installed and working email system on
  * the server, with ``/usr/sbin/sendmail`` installed on your Unix system.
@@ -313,9 +338,9 @@ $CONFIG = array(
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
  *
- * Defaults to ``php``
+ * Defaults to ``smtp``
  */
-'mail_smtpmode' => 'php',
+'mail_smtpmode' => 'smtp',
 
 /**
  * This depends on ``mail_smtpmode``. Specify the IP address of your mail
@@ -383,6 +408,18 @@ $CONFIG = array(
  */
 'mail_smtppassword' => '',
 
+/**
+ * Replaces the default mail template layout. This can be utilized if the
+ * options to modify the mail texts with the theming app is not enough.
+ * The class must extend  ``\OC\Mail\EMailTemplate``
+ */
+'mail_template_class' => '\OC\Mail\EMailTemplate',
+
+/**
+ * Email will be send by default with an HTML and a plain text body. This option
+ * allows to only send plain text emails.
+ */
+'mail_send_plaintext_only' => false,
 
 /**
  * Proxy Configurations
@@ -620,12 +657,6 @@ $CONFIG = array(
 'has_internet_connection' => true,
 
 /**
- * Allows Nextcloud to verify a working WebDAV connection. This is done by
- * attempting to make a WebDAV request from PHP.
- */
-'check_for_working_webdav' => true,
-
-/**
  * Allows Nextcloud to verify a working .well-known URL redirects. This is done
  * by attempting to make a request from JS to
  * https://your-domain.com/.well-known/caldav/
@@ -646,6 +677,18 @@ $CONFIG = array(
 'check_for_working_htaccess' => true,
 
 /**
+ * In rare setups (e.g. on Openshift or docker on windows) the permissions check
+ * might block the installation while the underlying system offers no means to
+ * "correct" the permissions. In this case, set the value to false.
+ *
+ * In regular cases, if issues with permissions are encountered they should be
+ * adjusted accordingly. Changing the flag is discouraged.
+ *
+ * Defaults to ``true``
+ */
+'check_data_directory_permissions' => true,
+
+/**
  * In certain environments it is desired to have a read-only configuration file.
  * When this switch is set to ``true`` Nextcloud will not verify whether the
  * configuration is writable. However, it will not be possible to configure
@@ -662,22 +705,35 @@ $CONFIG = array(
  */
 
 /**
- * By default the Nextcloud logs are sent to the ``nextcloud.log`` file in the
- * default Nextcloud data directory.
- * If syslogging is desired, set this parameter to ``syslog``.
- * Setting this parameter to ``errorlog`` will use the PHP error_log function
- * for logging.
+ * This parameter determines where the Nextcloud logs are sent.
+ * ``file``: the logs are written to file ``nextcloud.log`` in the default
+ * Nextcloud data directory. The log file can be changed with parameter
+ * ``logfile``.
+ * ``syslog``: the logs are sent to the system log. This requires a syslog daemon
+ * to be active.
+ * ``errorlog``: the logs are sent to the PHP ``error_log`` function.
+ * ``systemd``: the logs are sent to the Systemd journal. This requires a system
+ * that runs Systemd and the Systemd journal. The PHP extension ``systemd``
+ * must be installed and active.
  *
  * Defaults to ``file``
  */
 'log_type' => 'file',
 
 /**
- * Log file path for the Nextcloud logging type.
+ * Name of the file to which the Nextcloud logs are written if parameter
+ * ``log_type`` is set to ``file``.
  *
  * Defaults to ``[datadirectory]/nextcloud.log``
  */
 'logfile' => '/var/log/nextcloud.log',
+
+/**
+ * Log file mode for the Nextcloud loggin type in octal notation.
+ *
+ * Defaults to 0640 (writeable by user, readable by group).
+ */
+'logfilemode' => 0640,
 
 /**
  * Loglevel to start logging at. Valid values are: 0 = Debug, 1 = Info, 2 =
@@ -690,7 +746,9 @@ $CONFIG = array(
 /**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
- * with a unique id. Only available if ``log_type`` is set to ``syslog``.
+ * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
+ * ``systemd``.
+ *
  * The default value is ``Nextcloud``.
  */
 'syslog_tag' => 'Nextcloud',
@@ -745,9 +803,9 @@ $CONFIG = array(
  * old logfile reaches your limit. If a rotated log file is already present, it
  * will be overwritten.
  *
- * Defaults to ``0`` (no rotation)
+ * Defaults to 100 MB
  */
-'log_rotate_size' => false,
+'log_rotate_size' => 100 * 1024 * 1024,
 
 
 /**
@@ -760,10 +818,11 @@ $CONFIG = array(
  * This section is for configuring the download links for Nextcloud clients, as
  * seen in the first-run wizard and on Personal pages.
  *
- * Defaults to
- * * Desktop client: ``https://nextcloud.com/install/#install-clients``
- * * Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
- * * iOS client    : ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ * Defaults to:
+ *  - Desktop client: ``https://nextcloud.com/install/#install-clients``
+ *  - Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
+ *  - iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
+ *  - iOS client app id: ``1125420102``
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
@@ -771,7 +830,8 @@ $CONFIG = array(
 	'https://play.google.com/store/apps/details?id=com.nextcloud.client',
 'customclient_ios' =>
 	'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8',
-
+'customclient_ios_appid' =>
+		'1125420102',
 /**
  * Apps
  *
@@ -805,7 +865,6 @@ $CONFIG = array(
  * @see appcodechecker
  */
 
-
 /**
  * Previews
  *
@@ -831,28 +890,19 @@ $CONFIG = array(
  * The maximum width, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  *
- * Defaults to ``2048``
+ * Defaults to ``4096``
  */
-'preview_max_x' => 2048,
+'preview_max_x' => 4096,
 /**
  * The maximum height, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  *
- * Defaults to ``2048``
+ * Defaults to ``4096``
  */
-'preview_max_y' => 2048,
-/**
- * If a lot of small pictures are stored on the Nextcloud instance and the
- * preview system generates blurry previews, you might want to consider setting
- * a maximum scale factor. By default, pictures are upscaled to 10 times the
- * original size. A value of ``1`` or ``null`` disables scaling.
- *
- * Defaults to ``2``
- */
-'preview_max_scale_factor' => 10,
+'preview_max_y' => 4096,
 
 /**
- * max file size for generating image previews with imagegd (default behaviour)
+ * max file size for generating image previews with imagegd (default behavior)
  * If the image is bigger, it'll try other preview generators, but will most
  * likely show the default mimetype icon. Set to -1 for no limit.
  *
@@ -862,6 +912,7 @@ $CONFIG = array(
 
 /**
  * custom path for LibreOffice/OpenOffice binary
+ *
  *
  * Defaults to ``''`` (empty string)
  */
@@ -873,7 +924,7 @@ $CONFIG = array(
  */
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
-	'--convert-to pdf --outdir ',
+	'--convert-to png --outdir ',
 
 /**
  * Only register providers that have been explicitly enabled
@@ -908,6 +959,7 @@ $CONFIG = array(
  *
  *  - OC\Preview\BMP
  *  - OC\Preview\GIF
+ *  - OC\Preview\HEIC
  *  - OC\Preview\JPEG
  *  - OC\Preview\MarkDown
  *  - OC\Preview\MP3
@@ -919,6 +971,7 @@ $CONFIG = array(
 	'OC\Preview\PNG',
 	'OC\Preview\JPEG',
 	'OC\Preview\GIF',
+	'OC\Preview\HEIC',
 	'OC\Preview\BMP',
 	'OC\Preview\XBitmap',
 	'OC\Preview\MP3',
@@ -974,13 +1027,6 @@ $CONFIG = array(
 'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
 
 /**
- * Replaces the default mail template layout. This can be utilized if the
- * options to modify the mail texts with the theming app is not enough.
- * The class must extend  ``\OC\Mail\EMailTemplate``
- */
-'mail_template_class' => '\OC\Mail\EMailTemplate',
-
-/**
  * Maintenance
  *
  * These options are for halting user activity when you are performing server
@@ -1022,7 +1068,6 @@ $CONFIG = array(
  * * ``\OC\Memcache\ArrayCache`` In-memory array-based backend (not recommended)
  * * ``\OC\Memcache\Memcached``  Memcached backend
  * * ``\OC\Memcache\Redis``      Redis backend
- * * ``\OC\Memcache\XCache``     XCache backend
  *
  * Advice on choosing between the various backends:
  *
@@ -1073,7 +1118,7 @@ $CONFIG = array(
  * server configuration above, and perform HA on the hostname.
  *
  * Redis Cluster support requires the php module phpredis in version 3.0.0 or
- * higher for PHP 7+ or phpredis in version 2.2.8 for PHP 5.6.
+ * higher.
  *
  * Available failover modes:
  *  - \RedisCluster::FAILOVER_NONE - only send commands to master nodes (default)
@@ -1082,8 +1127,8 @@ $CONFIG = array(
  *
  * WARNING: FAILOVER_DISTRIBUTE is a not recommended setting and we strongly
  * suggest to not use it if you use Redis for file locking. Due to the way Redis
- * is synchronised it could happen, that the read for an existing lock is
- * scheduled to a slave that is not fully synchronised with the connected master
+ * is synchronized it could happen, that the read for an existing lock is
+ * scheduled to a slave that is not fully synchronized with the connected master
  * which then causes a FileLocked exception.
  *
  * See https://redis.io/topics/cluster-spec for details about the Redis cluster
@@ -1201,6 +1246,36 @@ $CONFIG = array(
 		'serviceName' => 'swift',
 		// The Interface / url Type, optional
 		'urlType' => 'internal'
+	],
+],
+
+/**
+ * To use swift V3
+ */
+'objectstore' => [
+	'class' => 'OC\\Files\\ObjectStore\\Swift',
+	'arguments' => [
+		'autocreate' => true,
+		'user' => [
+			'name' => 'swift',
+			'password' => 'swift',
+			'domain' => [
+				'name' => 'default',
+			],
+		],
+		'scope' => [
+			'project' => [
+				'name' => 'service',
+				'domain' => [
+					'name' => 'default',
+				],
+			],
+		],
+		'tenantName' => 'service',
+		'serviceName' => 'swift',
+		'region' => 'regionOne',
+		'url' => 'http://yourswifthost:5000/v3',
+		'bucket' => 'nextcloud',
 	],
 ],
 
@@ -1438,7 +1513,7 @@ $CONFIG = array(
  * If set incorrectly, a client can spoof their IP address as visible to
  * Nextcloud, bypassing access controls and making logs useless!
  *
- * Defaults to ``'HTTP_X_FORWARED_FOR'``
+ * Defaults to ``'HTTP_X_FORWARDED_FOR'``
  */
 'forwarded_for_headers' => array('HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'),
 
@@ -1554,4 +1629,23 @@ $CONFIG = array(
  */
 'gs.federation' => 'internal',
 
+/**
+ * List of incompatible user agents opted out from Same Site Cookie Protection.
+ * Some user agents are notorious and don't really properly follow HTTP
+ * specifications. For those, have an opt-out.
+ *
+ * WARNING: only use this if you know what you are doing
+ */
+'csrf.optout' => array(
+	'/^WebDAVFS/', // OS X Finder
+	'/^Microsoft-WebDAV-MiniRedir/', // Windows webdav drive
+),
+
+/**
+ * By default there is on public pages a link shown that allows users to
+ * learn about the "simple sign up" - see https://nextcloud.com/signup/
+ *
+ * If this is set to "false" it will not show the link.
+ */
+'simpleSignUpLink.shown' => true,
 );

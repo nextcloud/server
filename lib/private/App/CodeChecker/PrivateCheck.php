@@ -22,7 +22,7 @@
 
 namespace OC\App\CodeChecker;
 
-class PrivateCheck extends AbstractCheck implements ICheck {
+class PrivateCheck extends AbstractCheck {
 	/**
 	 * @return string
 	 */

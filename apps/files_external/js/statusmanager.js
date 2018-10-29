@@ -79,7 +79,7 @@ OCA.External.StatusManager = {
 		} else {
 			defObj = $.ajax({
 				type: 'GET',
-				url: OC.webroot + '/index.php/apps/files_external/' + ((mountData.type === 'personal') ? 'userstorages' : 'userglobalstorages') + '/' + mountData.id,
+				url: OC.getRootPath() + '/index.php/apps/files_external/' + ((mountData.type === 'personal') ? 'userstorages' : 'userglobalstorages') + '/' + mountData.id,
 				data: {'testOnly' : false},
 				success: function (response) {
 					if (response && response.status === 0) {
@@ -392,8 +392,7 @@ OCA.External.StatusManager = {
 	 * @param mountData
 	 */
 	showCredentialsDialog: function (mountPoint, mountData) {
-		var template = Handlebars.compile(OCA.External.StatusManager.credentialsDialogTemplate);
-		var dialog = $(template({
+		var dialog = $(OCA.External.Templates.credentialsDialog({
 			credentials_text: t('files_external', 'Please enter the credentials for the {mount} mount', {
 				'mount': mountPoint
 			}),
@@ -489,7 +488,7 @@ OCA.External.StatusManager.Utils = {
 			}
 		});
 
-		var icon = trFolder.find('td:first-child div.thumbnail');
+		var icon = trFolder.find('td.filename div.thumbnail');
 		icon.each(function () {
 			var thisElement = $(this);
 			if (thisElement.data('oldImage') === undefined) {
@@ -510,7 +509,7 @@ OCA.External.StatusManager.Utils = {
 			trFolder = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
 		}
 		trFolder.removeClass('externalErroredRow').removeClass('externalDisabledRow');
-		var tdChilds = trFolder.find("td:first-child div.thumbnail");
+		var tdChilds = trFolder.find("td.filename div.thumbnail");
 		tdChilds.each(function () {
 			var thisElement = $(this);
 			thisElement.css('background-image', thisElement.data('oldImage'));
@@ -529,10 +528,10 @@ OCA.External.StatusManager.Utils = {
 			$.each(filename, function (index) {
 				route = OCA.External.StatusManager.Utils.getIconRoute($(this));
 				$(this).attr("data-icon", route);
-				$(this).find('td:first-child div.thumbnail').css('background-image', "url(" + route + ")").css('display', 'none').css('display', 'inline');
+				$(this).find('td.filename div.thumbnail').css('background-image', "url(" + route + ")").css('display', 'none').css('display', 'inline');
 			});
 		} else {
-			file = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td:first-child div.thumbnail");
+			file = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td.filename div.thumbnail");
 			var parentTr = file.parents('tr:first');
 			route = OCA.External.StatusManager.Utils.getIconRoute(parentTr);
 			parentTr.attr("data-icon", route);
@@ -560,9 +559,6 @@ OCA.External.StatusManager.Utils = {
 			case 'windows_network_drive':
 				icon = OC.imagePath('windows_network_drive', 'folder-windows');
 				break;
-			case 'sharepoint':
-				icon = OC.imagePath('sharepoint', 'folder-sharepoint');
-				break;
 		}
 
 		return icon;
@@ -573,7 +569,7 @@ OCA.External.StatusManager.Utils = {
 		if (filename instanceof $) {
 			link = filename;
 		} else {
-			link = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td:first-child a.name");
+			link = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td.filename a.name");
 		}
 		if (active) {
 			link.off('click.connectivity');

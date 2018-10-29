@@ -50,7 +50,7 @@ trait EncryptionTrait {
 		\OC_User::setUserId($user);
 		$this->postLogin();
 		\OC_Util::setupFS($user);
-		if (\OC_User::userExists($user)) {
+		if (\OC::$server->getUserManager()->userExists($user)) {
 			\OC::$server->getUserFolder($user);
 		}
 	}

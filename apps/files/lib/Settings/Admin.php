@@ -56,7 +56,7 @@ class Admin implements ISettings {
 		$maxUploadFilesize = Util::humanFileSize(min($upload_max_filesize, $post_max_size));
 
 		$parameters = [
-			'uploadChangable'              => (($htaccessWorking and $htaccessWritable) or $userIniWritable ),
+			'uploadChangable'              => ($htaccessWorking and $htaccessWritable) or $userIniWritable,
 			'uploadMaxFilesize'            => $maxUploadFilesize,
 			// max possible makes only sense on a 32 bit system
 			'displayMaxPossibleUploadSize' => PHP_INT_SIZE === 4,
@@ -70,7 +70,7 @@ class Admin implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return 'additional';
+		return 'server';
 	}
 
 	/**

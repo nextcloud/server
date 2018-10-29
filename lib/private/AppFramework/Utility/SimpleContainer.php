@@ -46,6 +46,7 @@ class SimpleContainer extends Container implements IContainer {
 	/**
 	 * @param ReflectionClass $class the class to instantiate
 	 * @return \stdClass the created class
+	 * @suppress PhanUndeclaredClassInstanceof
 	 */
 	private function buildClass(ReflectionClass $class) {
 		$constructor = $class->getConstructor();
@@ -65,7 +66,7 @@ class SimpleContainer extends Container implements IContainer {
 
 				try {
 					$parameters[] = $this->query($resolveName);
-				} catch (\Exception $e) {
+				} catch (QueryException $e) {
 					// Service not found, use the default value when available
 					if ($parameter->isDefaultValueAvailable()) {
 						$parameters[] = $parameter->getDefaultValue();

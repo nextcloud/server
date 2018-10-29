@@ -24,19 +24,54 @@
 script('settings', [
 	'authtoken',
 	'authtoken_collection',
+	'templates',
 	'authtoken_view',
 	'settings/authtoken-init'
 ]);
 
-?>
+if($_['passwordChangeSupported']) {
+	script('settings', 'security_password');
+	script('jquery-showpassword');
+	vendor_script('strengthify/jquery.strengthify');
+	vendor_style('strengthify/strengthify');
+}
 
+?>
+<?php if($_['passwordChangeSupported']) { ?>
+<div id="security-password" class="section">
+	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
+	<span id="password-error-msg" class="msg success hidden">Saved</span>
+	<div class="personal-settings-setting-box personal-settings-password-box">
+			<form id="passwordform">
+				<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
+				<input type="password" id="pass1" name="oldpassword"
+					   placeholder="<?php p($l->t('Current password'));?>"
+					   autocomplete="off" autocapitalize="none" autocorrect="off" />
+
+				<div class="personal-show-container">
+					<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
+					<input type="password" id="pass2" name="newpassword"
+						   placeholder="<?php p($l->t('New password')); ?>"
+						   data-typetoggle="#personal-show"
+						   autocomplete="off" autocapitalize="none" autocorrect="off" />
+					<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="personal-show-label"></label>
+				</div>
+
+				<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
+
+			</form>
+	</div>
+	<span class="msg"></span>
+</div>
+<?php } ?>
 
 <div id="security" class="section">
-	<h2><?php p($l->t('Security'));?></h2>
+	<h2><?php p($l->t('Devices & sessions'));?></h2>
 	<p class="settings-hint hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></p>
 	<table class="icon-loading">
 		<thead class="token-list-header">
 			<tr>
+				<th></th>
 				<th><?php p($l->t('Device'));?></th>
 				<th><?php p($l->t('Last activity'));?></th>
 				<th></th>
@@ -65,4 +100,30 @@ script('settings', [
 			<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
 		</div>
 	</div>
+</div>
+
+<div id="two-factor-auth" class="section">
+	<h2><?php p($l->t('Two-Factor Authentication'));?></h2>
+	<ul>
+	<?php foreach ($_['twoFactorProviderData']['providers'] as $data) { ?>
+		<li>
+			<?php
+			/** @var \OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings $provider */
+			$provider = $data['provider'];
+			if ($provider instanceof \OCP\Authentication\TwoFactorAuth\IProvidesIcons) {
+				$icon = $provider->getDarkIcon();
+			} else {
+				$icon = image_path('core', 'actions/password.svg');
+			}
+			/** @var \OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings $settings */
+			$settings = $data['settings'];
+			?>
+			<h3>
+				<img class="two-factor-provider-settings-icon" src="<?php p($icon) ?>" alt="">
+				<?php p($provider->getDisplayName()) ?>
+			</h3>
+			<?php print_unescaped($settings->getBody()->fetchPage()) ?>
+		</li>
+	<?php } ?>
+	</ul>
 </div>

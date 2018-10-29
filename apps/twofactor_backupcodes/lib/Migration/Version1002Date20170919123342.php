@@ -23,8 +23,8 @@
 
 namespace OCA\TwoFactorBackupCodes\Migration;
 
-use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
@@ -32,13 +32,13 @@ class Version1002Date20170919123342 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `Schema`
+	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
-	 * @return null|Schema
+	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
-		/** @var Schema $schema */
+		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('twofactor_backupcodes');

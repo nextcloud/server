@@ -25,7 +25,7 @@
 				
 				var $element = $(element);
 					
-				$clone = $("<input />");
+				var $clone = $("<input />");
 					
 				// Name added for JQuery Validation compatibility
 				// Element name is required to avoid script warning.
@@ -74,7 +74,7 @@
             	
             	// Create clone
 				var $clone = cloneElement($input);
-					$clone.insertBefore($input);
+					$clone.insertAfter($input);
 				
 				// Set callback arguments
             	if(callback.fn){	

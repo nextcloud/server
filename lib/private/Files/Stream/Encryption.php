@@ -102,6 +102,9 @@ class Encryption extends Wrapper {
 	/** @var array */
 	protected $expectedContextProperties;
 
+	/** @var bool */
+	protected $fileUpdated;
+
 	public function __construct() {
 		$this->expectedContextProperties = array(
 			'source',
@@ -157,7 +160,7 @@ class Encryption extends Wrapper {
 								$unencryptedSize,
 								$headerSize,
 								$signed,
-								$wrapper =  'OC\Files\Stream\Encryption') {
+								$wrapper = Encryption::class) {
 
 		$context = stream_context_create(array(
 			'ocencryption' => array(
@@ -195,10 +198,10 @@ class Encryption extends Wrapper {
 	protected static function wrapSource($source, $context, $protocol, $class, $mode = 'r+') {
 		try {
 			stream_wrapper_register($protocol, $class);
-			if (@rewinddir($source) === false) {
-				$wrapped = fopen($protocol . '://', $mode, false, $context);
-			} else {
+			if (self::isDirectoryHandle($source)) {
 				$wrapped = opendir($protocol . '://', $context);
+			} else {
+				$wrapped = fopen($protocol . '://', $mode, false, $context);
 			}
 		} catch (\BadMethodCallException $e) {
 			stream_wrapper_unregister($protocol);
@@ -235,6 +238,7 @@ class Encryption extends Wrapper {
 		$this->position = 0;
 		$this->cache = '';
 		$this->writeFlag = false;
+		$this->fileUpdated = false;
 		$this->unencryptedBlockSize = $this->encryptionModule->getUnencryptedBlockSize($this->signed);
 
 		if (
@@ -313,7 +317,6 @@ class Encryption extends Wrapper {
 	}
 
 	public function stream_write($data) {
-
 		$length = 0;
 		// loop over $data to fit it in 6126 sized unencrypted blocks
 		while (isset($data[0])) {
@@ -329,10 +332,11 @@ class Encryption extends Wrapper {
 			$resultFseek = $this->parentStreamSeek($positionInFile);
 
 			// only allow writes on seekable streams, or at the end of the encrypted stream
-			if (!($this->readOnly) && ($resultFseek || $positionInFile === $this->size)) {
+			if (!$this->readOnly && ($resultFseek || $positionInFile === $this->size)) {
 
 				// switch the writeFlag so flush() will write the block
 				$this->writeFlag = true;
+				$this->fileUpdated = true;
 
 				// determine the relative position in the current block
 				$blockPosition = ($this->position % $this->unencryptedBlockSize);
@@ -414,7 +418,18 @@ class Encryption extends Wrapper {
 			}
 			$this->encryptionStorage->updateUnencryptedSize($this->fullPath, $this->unencryptedSize);
 		}
-		return parent::stream_close();
+		$result = parent::stream_close();
+
+		if ($this->fileUpdated) {
+			$cache = $this->storage->getCache();
+			$cacheEntry = $cache->get($this->internalPath);
+			if ($cacheEntry) {
+				$version = $cacheEntry['encryptedVersion'] + 1;
+				$cache->update($cacheEntry->getId(), ['encrypted' => $version, 'encryptedVersion' => $version]);
+			}
+		}
+
+		return $result;
 	}
 
 	/**

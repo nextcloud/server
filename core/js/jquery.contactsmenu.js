@@ -6,16 +6,9 @@
  */
 
 (function ($) {
-	var ENTRY = ''
-		+ '<li>'
-		+ '    <a href="{{hyperlink}}">'
-		+ '        {{#if icon}}<img src="{{icon}}">{{/if}}'
-		+ '        <span>{{title}}</span>'
-		+ '    </a>'
-		+ '</li>';
 
 	var LIST = ''
-		+ '<div class="menu popovermenu bubble hidden contactsmenu-popover">'
+		+ '<div class="menu popovermenu menu-left hidden contactsmenu-popover">'
 		+ '    <ul>'
 		+ '        <li>'
 		+ '            <a>'
@@ -71,7 +64,7 @@
 				}
 
 				actions.forEach(function(action) {
-					var template = Handlebars.compile(ENTRY);
+					var template = OC.ContactsMenu.Templates['jquery_entry'];
 					$list.find('ul').append(template(action));
 				});
 
@@ -88,7 +81,7 @@
 					title = t('core', 'Error fetching contact actions');
 				}
 
-				var template = Handlebars.compile(ENTRY);
+				var template = OC.ContactsMenu.Templates['jquery_entry'];
 				$list.find('ul').append(template({
 					hyperlink: '#',
 					title: title

@@ -1,13 +1,10 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "לא ניתן למחוק את %s לצמיתות",
-    "Couldn't restore %s" : "לא ניתן לשחזר את %s",
     "Deleted files" : "קבצים שנמחקו",
     "Restore" : "שחזור",
     "Delete" : "מחיקה",
     "Delete permanently" : "מחיקה לצמיתות",
-    "Error" : "שגיאה",
     "This operation is forbidden" : "פעולה זו אסורה",
     "This directory is unavailable, please check the logs or contact the administrator" : "תיקייה זו לא קיימת, יש לבדוק את הלוגים או ליצור קשר עם המנהל",
     "restored" : "שוחזר",
@@ -16,6 +13,10 @@ OC.L10N.register(
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Select all" : "לבחור הכול",
     "Name" : "שם",
-    "Deleted" : "נמחק"
+    "Actions" : "פעולולת",
+    "Deleted" : "נמחק",
+    "Couldn't delete %s permanently" : "לא ניתן למחוק את %s לצמיתות",
+    "Couldn't restore %s" : "לא ניתן לשחזר את %s",
+    "Error" : "שגיאה"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

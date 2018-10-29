@@ -100,7 +100,7 @@ class Application extends App {
 			return new NewUserMailHelper(
 				$defaults,
 				$server->getURLGenerator(),
-				$server->getL10N('settings'),
+				$server->getL10NFactory(),
 				$server->getMailer(),
 				$server->getSecureRandom(),
 				new TimeFactory(),
@@ -121,6 +121,8 @@ class Application extends App {
 
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
+
+		Util::connectHook('\OCP\Config', 'js', $this, 'extendJsConfig');
 	}
 
 	/**
@@ -151,5 +153,19 @@ class Application extends App {
 		/** @var Hooks $hooks */
 		$hooks = $this->getContainer()->query(Hooks::class);
 		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
+	}
+
+	/**
+	 * @param array $settings
+	 */
+	public function extendJsConfig(array $settings) {
+		$appConfig = json_decode($settings['array']['oc_appconfig'], true);
+
+		$publicWebFinger = \OC::$server->getConfig()->getAppValue('core', 'public_webfinger', '');
+		if (!empty($publicWebFinger)) {
+			$appConfig['core']['public_webfinger'] = $publicWebFinger;
+		}
+
+		$settings['array']['oc_appconfig'] = json_encode($appConfig);
 	}
 }

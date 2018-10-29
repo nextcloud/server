@@ -37,6 +37,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\ILogger;
 
 /**
  * magic properties (incomplete)
@@ -47,20 +48,24 @@ use OC\ServerNotAvailableException;
  * @property string ldapUserFilter
  * @property string ldapUserDisplayName
  * @property string ldapUserDisplayName2
+ * @property string ldapUserAvatarRule
  * @property boolean turnOnPasswordChange
- * @property boolean hasPagedResultSupport
  * @property string[] ldapBaseUsers
- * @property int|string ldapPagingSize holds an integer
+ * @property int|null ldapPagingSize holds an integer
  * @property bool|mixed|void ldapGroupMemberAssocAttr
  * @property string ldapUuidUserAttribute
  * @property string ldapUuidGroupAttribute
+ * @property string ldapExpertUUIDUserAttr
+ * @property string ldapExpertUUIDGroupAttr
+ * @property string ldapQuotaAttribute
+ * @property string ldapQuotaDefault
+ * @property string ldapEmailAttribute
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
 	private $configPrefix;
 	private $configID;
 	private $configured = false;
-	private $hasPagedResultSupport = true;
 	//whether connection should be kept on __destruct
 	private $dontDestruct = false;
 
@@ -84,6 +89,8 @@ class Connection extends LDAPUtility {
 
 	protected $ignoreValidation = false;
 
+	protected $bindResult = [];
+
 	/**
 	 * Constructor
 	 * @param ILDAPWrapper $ldap
@@ -98,20 +105,18 @@ class Connection extends LDAPUtility {
 												 !is_null($configID));
 		$memcache = \OC::$server->getMemCacheFactory();
 		if($memcache->isAvailable()) {
-			$this->cache = $memcache->create();
+			$this->cache = $memcache->createDistributed();
 		}
 		$helper = new Helper(\OC::$server->getConfig());
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
-		$this->hasPagedResultSupport =
-			intval($this->configuration->ldapPagingSize) !== 0
-			|| $this->ldap->hasPagedResultSupport();
 	}
 
 	public function __destruct() {
 		if(!$this->dontDestruct && $this->ldap->isResource($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
-		};
+			$this->bindResult = [];
+		}
 	}
 
 	/**
@@ -120,6 +125,9 @@ class Connection extends LDAPUtility {
 	public function __clone() {
 		$this->configuration = new Configuration($this->configPrefix,
 												 !is_null($this->configID));
+		if(count($this->bindResult) !== 0 && $this->bindResult['result'] === true) {
+			$this->bindResult = [];
+		}
 		$this->ldapConnectionRes = null;
 		$this->dontDestruct = true;
 	}
@@ -131,10 +139,6 @@ class Connection extends LDAPUtility {
 	public function __get($name) {
 		if(!$this->configured) {
 			$this->readConfiguration();
-		}
-
-		if($name === 'hasPagedResultSupport') {
-			return $this->hasPagedResultSupport;
 		}
 
 		return $this->configuration->$name;
@@ -150,11 +154,20 @@ class Connection extends LDAPUtility {
 		$this->configuration->$name = $value;
 		$after = $this->configuration->$name;
 		if($before !== $after) {
-			if ($this->configID !== '') {
+			if ($this->configID !== '' && $this->configID !== null) {
 				$this->configuration->saveConfiguration();
 			}
 			$this->validateConfiguration();
 		}
+	}
+
+	/**
+	 * @param string $rule
+	 * @return array
+	 * @throws \RuntimeException
+	 */
+	public function resolveRule($rule) {
+		return $this->configuration->resolveRule($rule);
 	}
 
 	/**
@@ -187,7 +200,7 @@ class Connection extends LDAPUtility {
 			$this->establishConnection();
 		}
 		if(is_null($this->ldapConnectionRes)) {
-			\OCP\Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->configuration->ldapHost, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->configuration->ldapHost, ILogger::ERROR);
 			throw new ServerNotAvailableException('Connection to LDAP server could not be established');
 		}
 		return $this->ldapConnectionRes;
@@ -200,6 +213,7 @@ class Connection extends LDAPUtility {
 		if(!is_null($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
 			$this->ldapConnectionRes = null;
+			$this->bindResult = [];
 		}
 	}
 
@@ -212,7 +226,7 @@ class Connection extends LDAPUtility {
 		if(is_null($key)) {
 			return $prefix;
 		}
-		return $prefix.md5($key);
+		return $prefix.hash('sha256', $key);
 	}
 
 	/**
@@ -350,8 +364,8 @@ class Connection extends LDAPUtility {
 			if(!empty($uuidOverride)) {
 				$this->configuration->$effectiveSetting = $uuidOverride;
 			} else {
-				$uuidAttributes = array('auto', 'entryuuid', 'nsuniqueid',
-										'objectguid', 'guid', 'ipauniqueid');
+				$uuidAttributes = Access::UUID_ATTRIBUTES;
+				array_unshift($uuidAttributes, 'auto');
 				if(!in_array($this->configuration->$effectiveSetting,
 							$uuidAttributes)
 					&& (!is_null($this->configID))) {
@@ -360,13 +374,13 @@ class Connection extends LDAPUtility {
 					\OCP\Util::writeLog('user_ldap',
 										'Illegal value for the '.
 										$effectiveSetting.', '.'reset to '.
-										'autodetect.', \OCP\Util::INFO);
+										'autodetect.', ILogger::INFO);
 				}
 
 			}
 		}
 
-		$backupPort = intval($this->configuration->ldapBackupPort);
+		$backupPort = (int)$this->configuration->ldapBackupPort;
 		if ($backupPort <= 0) {
 			$this->configuration->backupPort = $this->configuration->ldapPort;
 		}
@@ -384,10 +398,11 @@ class Connection extends LDAPUtility {
 		if((stripos($this->configuration->ldapHost, 'ldaps://') === 0)
 			&& $this->configuration->ldapTLS) {
 			$this->configuration->ldapTLS = false;
-			\OCP\Util::writeLog('user_ldap',
-								'LDAPS (already using secure connection) and '.
-								'TLS do not work together. Switched off TLS.',
-								\OCP\Util::INFO);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.',
+				ILogger::INFO
+			);
 		}
 	}
 
@@ -397,7 +412,7 @@ class Connection extends LDAPUtility {
 	private function doCriticalValidation() {
 		$configurationOK = true;
 		$errorStr = 'Configuration Error (prefix '.
-					strval($this->configPrefix).'): ';
+			(string)$this->configPrefix .'): ';
 
 		//options that shall not be empty
 		$options = array('ldapHost', 'ldapPort', 'ldapUserDisplayName',
@@ -426,9 +441,11 @@ class Connection extends LDAPUtility {
 						break;
 				}
 				$configurationOK = false;
-				\OCP\Util::writeLog('user_ldap',
-									$errorStr.'No '.$subj.' given!',
-									\OCP\Util::WARN);
+				\OCP\Util::writeLog(
+					'user_ldap',
+					$errorStr.'No '.$subj.' given!',
+					ILogger::WARN
+				);
 			}
 		}
 
@@ -439,11 +456,11 @@ class Connection extends LDAPUtility {
 			($agent === ''  && $pwd !== '')
 			|| ($agent !== '' && $pwd === '')
 		) {
-			\OCP\Util::writeLog('user_ldap',
-								$errorStr.'either no password is given for the '.
-								'user agent or a password is given, but not an '.
-								'LDAP agent.',
-				\OCP\Util::WARN);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				$errorStr.'either no password is given for the user ' .
+					'agent or a password is given, but not an LDAP agent.',
+				ILogger::WARN);
 			$configurationOK = false;
 		}
 
@@ -452,18 +469,21 @@ class Connection extends LDAPUtility {
 		$baseGroups = $this->configuration->ldapBaseGroups;
 
 		if(empty($base) && empty($baseUsers) && empty($baseGroups)) {
-			\OCP\Util::writeLog('user_ldap',
-								$errorStr.'Not a single Base DN given.',
-								\OCP\Util::WARN);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				$errorStr.'Not a single Base DN given.',
+				ILogger::WARN
+			);
 			$configurationOK = false;
 		}
 
 		if(mb_strpos($this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8')
 		   === false) {
-			\OCP\Util::writeLog('user_ldap',
-								$errorStr.'login filter does not contain %uid '.
-								'place holder.',
-								\OCP\Util::WARN);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				$errorStr.'login filter does not contain %uid place holder.',
+				ILogger::WARN
+			);
 			$configurationOK = false;
 		}
 
@@ -495,6 +515,8 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * Connects and Binds to LDAP
+	 *
+	 * @throws ServerNotAvailableException
 	 */
 	private function establishConnection() {
 		if(!$this->configuration->ldapConfigurationActive) {
@@ -505,18 +527,21 @@ class Connection extends LDAPUtility {
 			return false;
 		}
 		if(!$this->ignoreValidation && !$this->configured) {
-			\OCP\Util::writeLog('user_ldap',
-								'Configuration is invalid, cannot connect',
-								\OCP\Util::WARN);
+			\OCP\Util::writeLog(
+				'user_ldap',
+				'Configuration is invalid, cannot connect',
+				ILogger::WARN
+			);
 			return false;
 		}
 		if(!$this->ldapConnectionRes) {
 			if(!$this->ldap->areLDAPFunctionsAvailable()) {
 				$phpLDAPinstalled = false;
-				\OCP\Util::writeLog('user_ldap',
-									'function ldap_connect is not available. Make '.
-									'sure that the PHP ldap module is installed.',
-									\OCP\Util::ERROR);
+				\OCP\Util::writeLog(
+					'user_ldap',
+					'function ldap_connect is not available. Make sure that the PHP ldap module is installed.',
+					ILogger::ERROR
+				);
 
 				return false;
 			}
@@ -524,11 +549,13 @@ class Connection extends LDAPUtility {
 				if(putenv('LDAPTLS_REQCERT=never')) {
 					\OCP\Util::writeLog('user_ldap',
 						'Turned off SSL certificate validation successfully.',
-						\OCP\Util::DEBUG);
+						ILogger::DEBUG);
 				} else {
-					\OCP\Util::writeLog('user_ldap',
-										'Could not turn off SSL certificate validation.',
-										\OCP\Util::WARN);
+					\OCP\Util::writeLog(
+						'user_ldap',
+						'Could not turn off SSL certificate validation.',
+						ILogger::WARN
+					);
 				}
 			}
 
@@ -536,17 +563,11 @@ class Connection extends LDAPUtility {
 				|| $this->getFromCache('overrideMainServer'));
 			$isBackupHost = (trim($this->configuration->ldapBackupHost) !== "");
 			$bindStatus = false;
-			$error = -1;
 			try {
 				if (!$isOverrideMainServer) {
 					$this->doConnect($this->configuration->ldapHost,
 						$this->configuration->ldapPort);
-					$bindStatus = $this->bind();
-					$error = $this->ldap->isResource($this->ldapConnectionRes) ?
-						$this->ldap->errno($this->ldapConnectionRes) : -1;
-				}
-				if($bindStatus === true) {
-					return $bindStatus;
+					return $this->bind();
 				}
 			} catch (ServerNotAvailableException $e) {
 				if(!$isBackupHost) {
@@ -555,9 +576,10 @@ class Connection extends LDAPUtility {
 			}
 
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if($isBackupHost && ($error !== 0 || $isOverrideMainServer)) {
+			if($isBackupHost || $isOverrideMainServer) {
 				$this->doConnect($this->configuration->ldapBackupHost,
 								 $this->configuration->ldapBackupPort);
+				$this->bindResult = [];
 				$bindStatus = $this->bind();
 				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
 					$this->ldap->errno($this->ldapConnectionRes) : -1;
@@ -610,19 +632,41 @@ class Connection extends LDAPUtility {
 		if(!$this->configuration->ldapConfigurationActive) {
 			return false;
 		}
-		$cr = $this->getConnectionResource();
+		$cr = $this->ldapConnectionRes;
 		if(!$this->ldap->isResource($cr)) {
-			return false;
+			$cr = $this->getConnectionResource();
 		}
+
+		if(
+			count($this->bindResult) !== 0
+			&& $this->bindResult['dn'] === $this->configuration->ldapAgentName
+			&& \OC::$server->getHasher()->verify(
+				$this->configPrefix . $this->configuration->ldapAgentPassword,
+				$this->bindResult['hash']
+			)
+		) {
+			// don't attempt to bind again with the same data as before
+			// bind might have been invoked via getConnectionResource(),
+			// but we need results specifically for e.g. user login
+			return $this->bindResult['result'];
+		}
+
 		$ldapLogin = @$this->ldap->bind($cr,
 										$this->configuration->ldapAgentName,
 										$this->configuration->ldapAgentPassword);
+
+		$this->bindResult = [
+			'dn' => $this->configuration->ldapAgentName,
+			'hash' => \OC::$server->getHasher()->hash($this->configPrefix . $this->configuration->ldapAgentPassword),
+			'result' => $ldapLogin,
+		];
+
 		if(!$ldapLogin) {
 			$errno = $this->ldap->errno($cr);
 
 			\OCP\Util::writeLog('user_ldap',
 				'Bind failed: ' . $errno . ': ' . $this->ldap->error($cr),
-				\OCP\Util::WARN);
+				ILogger::WARN);
 
 			// Set to failure mode, if LDAP error code is not LDAP_SUCCESS or LDAP_INVALID_CREDENTIALS
 			if($errno !== 0x00 && $errno !== 0x31) {

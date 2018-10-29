@@ -48,15 +48,23 @@ class Share implements \OCP\Share\IShare {
 	/** @var string */
 	private $sharedWith;
 	/** @var string */
+	private $sharedWithDisplayName;
+	/** @var string */
+	private $sharedWithAvatar;
+	/** @var string */
 	private $sharedBy;
 	/** @var string */
 	private $shareOwner;
 	/** @var int */
 	private $permissions;
+	/** @var string */
+	private $note = '';
 	/** @var \DateTime */
 	private $expireDate;
 	/** @var string */
 	private $password;
+	/** @var bool */
+	private $sendPasswordByTalk = false;
 	/** @var string */
 	private $token;
 	/** @var int */
@@ -254,6 +262,42 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
+	public function setSharedWithDisplayName($displayName) {
+		if (!is_string($displayName)) {
+			throw new \InvalidArgumentException();
+		}
+		$this->sharedWithDisplayName = $displayName;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSharedWithDisplayName() {
+		return $this->sharedWithDisplayName;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setSharedWithAvatar($src) {
+		if (!is_string($src)) {
+			throw new \InvalidArgumentException();
+		}
+		$this->sharedWithAvatar = $src;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSharedWithAvatar() {
+		return $this->sharedWithAvatar;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function setPermissions($permissions) {
 		//TODO checkes
 
@@ -266,6 +310,24 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getPermissions() {
 		return $this->permissions;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setNote($note) {
+		$this->note = $note;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNote() {
+		if (is_string($this->note)) {
+			return $this->note;
+		}
+		return '';
 	}
 
 	/**
@@ -340,6 +402,21 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getPassword() {
 		return $this->password;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setSendPasswordByTalk(bool $sendPasswordByTalk) {
+		$this->sendPasswordByTalk = $sendPasswordByTalk;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getSendPasswordByTalk(): bool {
+		return $this->sendPasswordByTalk;
 	}
 
 	/**

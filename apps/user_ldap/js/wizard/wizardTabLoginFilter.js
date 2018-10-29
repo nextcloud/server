@@ -85,6 +85,7 @@ OCA = OCA || {};
 		setModel: function(configModel) {
 			this._super(configModel);
 			this.configModel.on('configLoaded', this.onConfigSwitch, this);
+			this.configModel.on('configUpdated', this.onConfigUpdated, this);
 			this.configModel.on('receivedLdapFeature', this.onFeatureReceived, this);
 		},
 
@@ -202,6 +203,22 @@ OCA = OCA || {};
 			view.managedItems.ldap_loginfilter_attributes.$element.find('option').remove();
 
 			view.onConfigLoaded(view, configuration);
+		},
+
+		/**
+		 * @param {WizardTabLoginFilter} view
+		 * @param {Object} configuration
+		 */
+		onConfigUpdated: function(view, configuration) {
+			// When the user list filter is updated in assisted mode, also
+			// update the login filter automatically.
+			if(
+				!_.isUndefined(configuration.ldap_userlist_filter)
+				&& view.parsedFilterMode === view.configModel.FILTER_MODE_ASSISTED
+				&& _.toArray(configuration).length === 1
+			) {
+				view.configModel.requestWizard('ldap_login_filter');
+			}
 		},
 
 		/**

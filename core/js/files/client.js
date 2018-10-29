@@ -37,6 +37,7 @@
 		}
 
 		url += options.host + this._root;
+		this._host = options.host;
 		this._defaultHeaders = options.defaultHeaders || {
 				'X-Requested-With': 'XMLHttpRequest',
 				'requesttoken': OC.requestToken
@@ -48,7 +49,8 @@
 			xmlNamespaces: {
 				'DAV:': 'd',
 				'http://owncloud.org/ns': 'oc',
-				'http://nextcloud.org/ns': 'nc'
+				'http://nextcloud.org/ns': 'nc',
+				'http://open-collaboration-services.org/ns': 'ocs'
 			}
 		};
 		if (options.userName) {
@@ -59,11 +61,13 @@
 		}
 		this._client = new dav.Client(clientOptions);
 		this._client.xhrProvider = _.bind(this._xhrProvider, this);
+		this._fileInfoParsers = [];
 	};
 
 	Client.NS_OWNCLOUD = 'http://owncloud.org/ns';
 	Client.NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	Client.NS_DAV = 'DAV:';
+	Client.NS_OCS = 'http://open-collaboration-services.org/ns';
 
 	Client.PROPERTY_GETLASTMODIFIED	= '{' + Client.NS_DAV + '}getlastmodified';
 	Client.PROPERTY_GETETAG	= '{' + Client.NS_DAV + '}getetag';
@@ -73,6 +77,8 @@
 	Client.PROPERTY_PERMISSIONS	= '{' + Client.NS_OWNCLOUD + '}permissions';
 	Client.PROPERTY_SIZE	= '{' + Client.NS_OWNCLOUD + '}size';
 	Client.PROPERTY_GETCONTENTLENGTH	= '{' + Client.NS_DAV + '}getcontentlength';
+	Client.PROPERTY_ISENCRYPTED	= '{' + Client.NS_DAV + '}is-encrypted';
+	Client.PROPERTY_SHARE_PERMISSIONS	= '{' + Client.NS_OCS + '}share-permissions';
 
 	Client.PROTOCOL_HTTP	= 'http';
 	Client.PROTOCOL_HTTPS	= 'https';
@@ -119,6 +125,14 @@
 		 * Mount type
 		 */
 		[Client.NS_NEXTCLOUD, 'mount-type'],
+		/**
+		 * Encryption state
+		 */
+		[Client.NS_NEXTCLOUD, 'is-encrypted'],
+		/**
+		 * Share permissions
+		 */
+		[Client.NS_OCS, 'share-permissions']
 	];
 
 	/**
@@ -258,7 +272,7 @@
 		 * @return {Array.<FileInfo>} array of file info
 		 */
 		_parseFileInfo: function(response) {
-			var path = response.href;
+			var path = decodeURIComponent(response.href);
 			if (path.substr(0, this._root.length) === this._root) {
 				path = path.substr(this._root.length);
 			}
@@ -266,8 +280,6 @@
 			if (path.charAt(path.length - 1) === '/') {
 				path = path.substr(0, path.length - 1);
 			}
-
-			path = decodeURIComponent(path);
 
 			if (response.propStat.length === 0 || response.propStat[0].status !== 'HTTP/1.1 200 OK') {
 				return null;
@@ -304,22 +316,27 @@
 				data.hasPreview = true;
 			}
 
+			var isEncryptedProp = props['{' + Client.NS_NEXTCLOUD + '}is-encrypted'];
+			if (!_.isUndefined(isEncryptedProp)) {
+				data.isEncrypted = isEncryptedProp === '1';
+			} else {
+				data.isEncrypted = false;
+			}
+
 			var contentType = props[Client.PROPERTY_GETCONTENTTYPE];
 			if (!_.isUndefined(contentType)) {
 				data.mimetype = contentType;
 			}
 
 			var resType = props[Client.PROPERTY_RESOURCETYPE];
-			var isFile = true;
 			if (!data.mimetype && resType) {
 				var xmlvalue = resType[0];
 				if (xmlvalue.namespaceURI === Client.NS_DAV && xmlvalue.nodeName.split(':')[1] === 'collection') {
 					data.mimetype = 'httpd/unix-directory';
-					isFile = false;
 				}
 			}
 
-			data.permissions = OC.PERMISSION_READ;
+			data.permissions = OC.PERMISSION_NONE;
 			var permissionProp = props[Client.PROPERTY_PERMISSIONS];
 			if (!_.isUndefined(permissionProp)) {
 				var permString = permissionProp || '';
@@ -331,6 +348,9 @@
 						case 'C':
 						case 'K':
 							data.permissions |= OC.PERMISSION_CREATE;
+							break;
+						case 'G':
+							data.permissions |= OC.PERMISSION_READ;
 							break;
 						case 'W':
 						case 'N':
@@ -357,6 +377,11 @@
 				}
 			}
 
+			var sharePermissionsProp = props[Client.PROPERTY_SHARE_PERMISSIONS];
+			if (!_.isUndefined(sharePermissionsProp)) {
+				data.sharePermissions = parseInt(sharePermissionsProp);
+			}
+
 			var mounTypeProp = props['{' + Client.NS_NEXTCLOUD + '}mount-type'];
 			if (!_.isUndefined(mounTypeProp)) {
 				data.mountType = mounTypeProp;
@@ -364,7 +389,7 @@
 
 			// extend the parsed data using the custom parsers
 			_.each(this._fileInfoParsers, function(parserFunction) {
-				_.extend(data, parserFunction(response) || {});
+				_.extend(data, parserFunction(response, data) || {});
 			});
 
 			return new FileInfo(data);
@@ -391,6 +416,26 @@
 		 */
 		_isSuccessStatus: function(status) {
 			return status >= 200 && status <= 299;
+		},
+
+		/**
+		 * Parse the Sabre exception out of the given response, if any
+		 *
+		 * @param {Object} response object
+		 * @return {Object} array of parsed message and exception (only the first one)
+		 */
+		_getSabreException: function(response) {
+			var result = {};
+			var xml = response.xhr.responseXML;
+			var messages = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'message');
+			var exceptions = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'exception');
+			if (messages.length) {
+				result.message = messages[0].textContent;
+			}
+			if (exceptions.length) {
+				result.exception = exceptions[0].textContent;
+			}
+			return result;
 		},
 
 		/**
@@ -446,7 +491,8 @@
 					}
 					deferred.resolve(result.status, results);
 				} else {
-					deferred.reject(result.status);
+					result = _.extend(result, self._getSabreException(result));
+					deferred.reject(result.status, result);
 				}
 			});
 			return promise;
@@ -524,7 +570,8 @@
 					var results = self._parseResult(result.body);
 					deferred.resolve(result.status, results);
 				} else {
-					deferred.reject(result.status);
+					result = _.extend(result, self._getSabreException(result));
+					deferred.reject(result.status, result);
 				}
 			});
 			return promise;
@@ -563,7 +610,8 @@
 					if (self._isSuccessStatus(result.status)) {
 						deferred.resolve(result.status, self._parseResult([result.body])[0]);
 					} else {
-						deferred.reject(result.status);
+						result = _.extend(result, self._getSabreException(result));
+						deferred.reject(result.status, result);
 					}
 				}
 			);
@@ -593,7 +641,8 @@
 					if (self._isSuccessStatus(result.status)) {
 						deferred.resolve(result.status, result.body);
 					} else {
-						deferred.reject(result.status);
+						result = _.extend(result, self._getSabreException(result));
+						deferred.reject(result.status, result);
 					}
 				}
 			);
@@ -642,7 +691,8 @@
 					if (self._isSuccessStatus(result.status)) {
 						deferred.resolve(result.status);
 					} else {
-						deferred.reject(result.status);
+						result = _.extend(result, self._getSabreException(result));
+						deferred.reject(result.status, result);
 					}
 				}
 			);
@@ -666,7 +716,8 @@
 					if (self._isSuccessStatus(result.status)) {
 						deferred.resolve(result.status);
 					} else {
-						deferred.reject(result.status);
+						result = _.extend(result, self._getSabreException(result));
+						deferred.reject(result.status, result);
 					}
 				}
 			);
@@ -702,10 +753,11 @@
 		 * @param {String} destinationPath destination path
 		 * @param {boolean} [allowOverwrite=false] true to allow overwriting,
 		 * false otherwise
+		 * @param {Object} [headers=null] additional headers
 		 *
 		 * @return {Promise} promise
 		 */
-		move: function(path, destinationPath, allowOverwrite) {
+		move: function(path, destinationPath, allowOverwrite, headers) {
 			if (!path) {
 				throw 'Missing argument "path"';
 			}
@@ -716,9 +768,9 @@
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
-			var headers = {
+			headers = _.extend({}, headers, {
 				'Destination' : this._buildUrl(destinationPath)
-			};
+			});
 
 			if (!allowOverwrite) {
 				headers.Overwrite = 'F';
@@ -729,11 +781,12 @@
 				this._buildUrl(path),
 				headers
 			).then(
-				function(response) {
-					if (self._isSuccessStatus(response.status)) {
-						deferred.resolve(response.status);
+				function(result) {
+					if (self._isSuccessStatus(result.status)) {
+						deferred.resolve(result.status);
 					} else {
-						deferred.reject(response.status);
+						result = _.extend(result, self._getSabreException(result));
+						deferred.reject(result.status, result);
 					}
 				}
 			);
@@ -788,7 +841,7 @@
 		/**
 		 * Add a file info parser function
 		 *
-		 * @param {OC.Files.Client~parseFileInfo>}
+		 * @param {OC.Files.Client~parseFileInfo} parserFunction
 		 */
 		addFileInfoParser: function(parserFunction) {
 			this._fileInfoParsers.push(parserFunction);
@@ -832,6 +885,16 @@
 		 */
 		getBaseUrl: function() {
 			return this._client.baseUrl;
+		},
+
+		/**
+		 * Returns the host
+		 *
+		 * @since 13.0.0
+		 * @return {String} base URL
+		 */
+		getHost: function() {
+			return this._host;
 		}
 	};
 
@@ -870,7 +933,7 @@
 		var client = new OC.Files.Client({
 			host: OC.getHost(),
 			port: OC.getPort(),
-			root: OC.linkToRemoteBase('webdav'),
+			root: OC.linkToRemoteBase('dav') + '/files/' + OC.getCurrentUser().uid,
 			useHTTPS: OC.getProtocol() === 'https'
 		});
 		OC.Files._defaultClient = client;

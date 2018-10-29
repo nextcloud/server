@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
@@ -45,21 +46,21 @@ class Event implements IEvent {
 	/** @var array */
 	protected $subjectParameters = [];
 	/** @var string */
-	protected $subjectParsed;
+	protected $subjectParsed = '';
 	/** @var string */
-	protected $subjectRich;
+	protected $subjectRich = '';
 	/** @var array */
-	protected $subjectRichParameters;
+	protected $subjectRichParameters = [];
 	/** @var string */
 	protected $message = '';
 	/** @var array */
 	protected $messageParameters = [];
 	/** @var string */
-	protected $messageParsed;
+	protected $messageParsed = '';
 	/** @var string */
-	protected $messageRich;
+	protected $messageRich = '';
 	/** @var array */
-	protected $messageRichParameters;
+	protected $messageRichParameters = [];
 	/** @var string */
 	protected $objectType = '';
 	/** @var int */
@@ -71,8 +72,8 @@ class Event implements IEvent {
 	/** @var string */
 	protected $icon = '';
 
-	/** @var IEvent */
-	protected $child = null;
+	/** @var IEvent|null */
+	protected $child;
 	/** @var IValidator */
 	protected $richValidator;
 
@@ -91,18 +92,18 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 8.2.0
 	 */
-	public function setApp($app) {
-		if (!is_string($app) || $app === '' || isset($app[32])) {
+	public function setApp(string $app): IEvent {
+		if ($app === '' || isset($app[32])) {
 			throw new \InvalidArgumentException('The given app is invalid');
 		}
-		$this->app = (string) $app;
+		$this->app = $app;
 		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getApp() {
+	public function getApp(): string {
 		return $this->app;
 	}
 
@@ -114,18 +115,18 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the type is invalid
 	 * @since 8.2.0
 	 */
-	public function setType($type) {
-		if (!is_string($type) || $type === '' || isset($type[255])) {
+	public function setType(string $type): IEvent {
+		if ($type === '' || isset($type[255])) {
 			throw new \InvalidArgumentException('The given type is invalid');
 		}
-		$this->type = (string) $type;
+		$this->type = $type;
 		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->type;
 	}
 
@@ -137,18 +138,18 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the affected user is invalid
 	 * @since 8.2.0
 	 */
-	public function setAffectedUser($affectedUser) {
-		if (!is_string($affectedUser) || $affectedUser === '' || isset($affectedUser[64])) {
+	public function setAffectedUser(string $affectedUser): IEvent {
+		if ($affectedUser === '' || isset($affectedUser[64])) {
 			throw new \InvalidArgumentException('The given affected user is invalid');
 		}
-		$this->affectedUser = (string) $affectedUser;
+		$this->affectedUser = $affectedUser;
 		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAffectedUser() {
+	public function getAffectedUser(): string {
 		return $this->affectedUser;
 	}
 
@@ -160,18 +161,18 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the author is invalid
 	 * @since 8.2.0
 	 */
-	public function setAuthor($author) {
-		if (!is_string($author) || isset($author[64])) {
-			throw new \InvalidArgumentException('The given author user is invalid'. serialize($author));
+	public function setAuthor(string $author): IEvent {
+		if (isset($author[64])) {
+			throw new \InvalidArgumentException('The given author user is invalid');
 		}
-		$this->author = (string) $author;
+		$this->author = $author;
 		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAuthor() {
+	public function getAuthor(): string {
 		return $this->author;
 	}
 
@@ -183,18 +184,15 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the timestamp is invalid
 	 * @since 8.2.0
 	 */
-	public function setTimestamp($timestamp) {
-		if (!is_int($timestamp)) {
-			throw new \InvalidArgumentException('The given timestamp is invalid');
-		}
-		$this->timestamp = (int) $timestamp;
+	public function setTimestamp(int $timestamp): IEvent {
+		$this->timestamp = $timestamp;
 		return $this;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getTimestamp() {
+	public function getTimestamp(): int {
 		return $this->timestamp;
 	}
 
@@ -207,11 +205,11 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 8.2.0
 	 */
-	public function setSubject($subject, array $parameters = []) {
-		if (!is_string($subject) || isset($subject[255])) {
+	public function setSubject(string $subject, array $parameters = []): IEvent {
+		if (isset($subject[255])) {
 			throw new \InvalidArgumentException('The given subject is invalid');
 		}
-		$this->subject = (string) $subject;
+		$this->subject = $subject;
 		$this->subjectParameters = $parameters;
 		return $this;
 	}
@@ -219,14 +217,14 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
-	public function getSubject() {
+	public function getSubject(): string {
 		return $this->subject;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getSubjectParameters() {
+	public function getSubjectParameters(): array {
 		return $this->subjectParameters;
 	}
 
@@ -236,8 +234,8 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the subject is invalid
 	 * @since 11.0.0
 	 */
-	public function setParsedSubject($subject) {
-		if (!is_string($subject) || $subject === '') {
+	public function setParsedSubject(string $subject): IEvent {
+		if ($subject === '') {
 			throw new \InvalidArgumentException('The given parsed subject is invalid');
 		}
 		$this->subjectParsed = $subject;
@@ -248,7 +246,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getParsedSubject() {
+	public function getParsedSubject(): string {
 		return $this->subjectParsed;
 	}
 
@@ -259,15 +257,11 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 11.0.0
 	 */
-	public function setRichSubject($subject, array $parameters = []) {
-		if (!is_string($subject) || $subject === '') {
+	public function setRichSubject(string $subject, array $parameters = []): IEvent {
+		if ($subject === '') {
 			throw new \InvalidArgumentException('The given parsed subject is invalid');
 		}
 		$this->subjectRich = $subject;
-
-		if (!is_array($parameters)) {
-			throw new \InvalidArgumentException('The given subject parameters are invalid');
-		}
 		$this->subjectRichParameters = $parameters;
 
 		return $this;
@@ -277,7 +271,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRichSubject() {
+	public function getRichSubject(): string {
 		return $this->subjectRich;
 	}
 
@@ -285,7 +279,7 @@ class Event implements IEvent {
 	 * @return array[]
 	 * @since 11.0.0
 	 */
-	public function getRichSubjectParameters() {
+	public function getRichSubjectParameters(): array {
 		return $this->subjectRichParameters;
 	}
 
@@ -298,11 +292,11 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 8.2.0
 	 */
-	public function setMessage($message, array $parameters = []) {
-		if (!is_string($message) || isset($message[255])) {
+	public function setMessage(string $message, array $parameters = []): IEvent {
+		if (isset($message[255])) {
 			throw new \InvalidArgumentException('The given message is invalid');
 		}
-		$this->message = (string) $message;
+		$this->message = $message;
 		$this->messageParameters = $parameters;
 		return $this;
 	}
@@ -310,14 +304,14 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
-	public function getMessage() {
+	public function getMessage(): string {
 		return $this->message;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getMessageParameters() {
+	public function getMessageParameters(): array {
 		return $this->messageParameters;
 	}
 
@@ -327,10 +321,7 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the message is invalid
 	 * @since 11.0.0
 	 */
-	public function setParsedMessage($message) {
-		if (!is_string($message)) {
-			throw new \InvalidArgumentException('The given parsed message is invalid');
-		}
+	public function setParsedMessage(string $message): IEvent {
 		$this->messageParsed = $message;
 		return $this;
 	}
@@ -339,7 +330,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getParsedMessage() {
+	public function getParsedMessage(): string {
 		return $this->messageParsed;
 	}
 
@@ -350,15 +341,8 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 11.0.0
 	 */
-	public function setRichMessage($message, array $parameters = []) {
-		if (!is_string($message)) {
-			throw new \InvalidArgumentException('The given parsed message is invalid');
-		}
+	public function setRichMessage(string $message, array $parameters = []): IEvent {
 		$this->messageRich = $message;
-
-		if (!is_array($parameters)) {
-			throw new \InvalidArgumentException('The given message parameters are invalid');
-		}
 		$this->messageRichParameters = $parameters;
 
 		return $this;
@@ -368,7 +352,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRichMessage() {
+	public function getRichMessage(): string {
 		return $this->messageRich;
 	}
 
@@ -376,7 +360,7 @@ class Event implements IEvent {
 	 * @return array[]
 	 * @since 11.0.0
 	 */
-	public function getRichMessageParameters() {
+	public function getRichMessageParameters(): array {
 		return $this->messageRichParameters;
 	}
 
@@ -390,40 +374,37 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the object is invalid
 	 * @since 8.2.0
 	 */
-	public function setObject($objectType, $objectId, $objectName = '') {
-		if (!is_string($objectType) || isset($objectType[255])) {
+	public function setObject(string $objectType, int $objectId, string $objectName = ''): IEvent {
+		if (isset($objectType[255])) {
 			throw new \InvalidArgumentException('The given object type is invalid');
 		}
-		if (!is_int($objectId)) {
-			throw new \InvalidArgumentException('The given object id is invalid');
-		}
-		if (!is_string($objectName) || isset($objectName[4000])) {
+		if (isset($objectName[4000])) {
 			throw new \InvalidArgumentException('The given object name is invalid');
 		}
-		$this->objectType = (string) $objectType;
-		$this->objectId = (int) $objectId;
-		$this->objectName = (string) $objectName;
+		$this->objectType = $objectType;
+		$this->objectId = $objectId;
+		$this->objectName = $objectName;
 		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getObjectType() {
+	public function getObjectType(): string {
 		return $this->objectType;
 	}
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getObjectId() {
+	public function getObjectId(): int {
 		return $this->objectId;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getObjectName() {
+	public function getObjectName(): string {
 		return $this->objectName;
 	}
 
@@ -435,18 +416,18 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
-	public function setLink($link) {
-		if (!is_string($link) || isset($link[4000])) {
+	public function setLink(string $link): IEvent {
+		if (isset($link[4000])) {
 			throw new \InvalidArgumentException('The given link is invalid');
 		}
-		$this->link = (string) $link;
+		$this->link = $link;
 		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLink() {
+	public function getLink(): string {
 		return $this->link;
 	}
 
@@ -456,8 +437,8 @@ class Event implements IEvent {
 	 * @throws \InvalidArgumentException if the icon is invalid
 	 * @since 11.0.0
 	 */
-	public function setIcon($icon) {
-		if (!is_string($icon) || isset($icon[4000])) {
+	public function setIcon(string $icon): IEvent {
+		if (isset($icon[4000])) {
 			throw new \InvalidArgumentException('The given icon is invalid');
 		}
 		$this->icon = $icon;
@@ -468,16 +449,18 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getIcon() {
+	public function getIcon(): string {
 		return $this->icon;
 	}
 
 	/**
 	 * @param IEvent $child
-	 * @since 11.0.0
+	 * @return $this
+	 * @since 11.0.0 - Since 15.0.0 returns $this
 	 */
-	public function setChildEvent(IEvent $child) {
+	public function setChildEvent(IEvent $child): IEvent {
 		$this->child = $child;
+		return $this;
 	}
 
 	/**
@@ -492,7 +475,7 @@ class Event implements IEvent {
 	 * @return bool
 	 * @since 8.2.0
 	 */
-	public function isValid() {
+	public function isValid(): bool {
 		return
 			$this->isValidCommon()
 			&&
@@ -504,7 +487,7 @@ class Event implements IEvent {
 	 * @return bool
 	 * @since 8.2.0
 	 */
-	public function isValidParsed() {
+	public function isValidParsed(): bool {
 		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
 			try {
 				$this->richValidator->validate($this->getRichSubject(), $this->getRichSubjectParameters());
@@ -528,10 +511,7 @@ class Event implements IEvent {
 		;
 	}
 
-	/**
-	 * @return bool
-	 */
-	protected function isValidCommon() {
+	protected function isValidCommon(): bool {
 		return
 			$this->getApp() !== ''
 			&&

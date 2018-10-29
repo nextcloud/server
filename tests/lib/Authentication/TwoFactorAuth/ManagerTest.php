@@ -24,231 +24,319 @@ namespace Test\Authentication\TwoFactorAuth;
 
 use Exception;
 use OC;
-use OC\App\AppManager;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
+use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|MockObject */
 	private $user;
 
-	/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject */
-	private $appManager;
+	/** @var ProviderLoader|MockObject */
+	private $providerLoader;
 
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRegistry|MockObject */
+	private $providerRegistry;
+
+	/** @var MandatoryTwoFactor|MockObject */
+	private $mandatoryTwoFactor;
+
+	/** @var ISession|MockObject */
 	private $session;
 
 	/** @var Manager */
 	private $manager;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|MockObject */
 	private $activityManager;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|MockObject */
 	private $logger;
 
-	/** @var IProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IProvider|MockObject */
 	private $fakeProvider;
 
-	/** @var IProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IProvider|MockObject */
 	private $backupProvider;
 
-	/** @var TokenProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var TokenProvider|MockObject */
 	private $tokenProvider;
 
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
+
+	/** @var EventDispatcherInterface|MockObject */
+	private $eventDispatcher;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
-		$this->appManager = $this->createMock(AppManager::class);
+		$this->providerLoader = $this->createMock(ProviderLoader::class);
+		$this->providerRegistry = $this->createMock(IRegistry::class);
+		$this->mandatoryTwoFactor = $this->createMock(MandatoryTwoFactor::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
-		$this->manager = $this->getMockBuilder(Manager::class)
-			->setConstructorArgs([
-				$this->appManager,
-				$this->session,
-				$this->config,
-				$this->activityManager,
-				$this->logger,
-				$this->tokenProvider,
-				$this->timeFactory
-			])
-			->setMethods(['loadTwoFactorApp']) // Do not actually load the apps
-			->getMock();
+		$this->manager = new Manager(
+			$this->providerLoader,
+			$this->providerRegistry,
+			$this->mandatoryTwoFactor,
+			$this->session,
+			$this->config,
+			$this->activityManager,
+			$this->logger,
+			$this->tokenProvider,
+			$this->timeFactory,
+			$this->eventDispatcher
+		);
 
 		$this->fakeProvider = $this->createMock(IProvider::class);
-		$this->fakeProvider->expects($this->any())
-			->method('getId')
-			->will($this->returnValue('email'));
-		$this->fakeProvider->expects($this->any())
-			->method('isTwoFactorAuthEnabledForUser')
-			->will($this->returnValue(true));
-		OC::$server->registerService('\OCA\MyCustom2faApp\FakeProvider', function() {
-			return $this->fakeProvider;
-		});
+		$this->fakeProvider->method('getId')->willReturn('email');
 
 		$this->backupProvider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
-		$this->backupProvider->expects($this->any())
-			->method('getId')
-			->will($this->returnValue('backup_codes'));
-		$this->backupProvider->expects($this->any())
-			->method('isTwoFactorAuthEnabledForUser')
-			->will($this->returnValue(true));
-		OC::$server->registerService('\OCA\TwoFactorBackupCodes\Provider\FakeBackupCodesProvider', function () {
-			return $this->backupProvider;
-		});
+		$this->backupProvider->method('getId')->willReturn('backup_codes');
+		$this->backupProvider->method('isTwoFactorAuthEnabledForUser')->willReturn(true);
 	}
 
 	private function prepareNoProviders() {
-		$this->appManager->expects($this->any())
-			->method('getEnabledAppsForUser')
+		$this->providerLoader->method('getProviders')
 			->with($this->user)
 			->will($this->returnValue([]));
-
-		$this->appManager->expects($this->never())
-			->method('getAppInfo');
-
-		$this->manager->expects($this->never())
-			->method('loadTwoFactorApp');
 	}
 
 	private function prepareProviders() {
-		$this->appManager->expects($this->any())
-			->method('getEnabledAppsForUser')
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
 			->with($this->user)
-			->will($this->returnValue(['mycustom2faapp']));
-
-		$this->appManager->expects($this->once())
-			->method('getAppInfo')
-			->with('mycustom2faapp')
-			->will($this->returnValue([
-					'two-factor-providers' => [
-						'\OCA\MyCustom2faApp\FakeProvider',
-					],
-		]));
-
-		$this->manager->expects($this->once())
-			->method('loadTwoFactorApp')
-			->with('mycustom2faapp');
+			->willReturn([
+				$this->fakeProvider->getId() => true,
+			]);
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->with($this->user)
+			->willReturn([$this->fakeProvider]);
 	}
 
 	private function prepareProvidersWitBackupProvider() {
-		$this->appManager->expects($this->any())
-			->method('getEnabledAppsForUser')
+		$this->providerLoader->method('getProviders')
 			->with($this->user)
-			->will($this->returnValue([
-					'mycustom2faapp',
-					'twofactor_backupcodes',
-		]));
-
-		$this->appManager->expects($this->exactly(2))
-			->method('getAppInfo')
-			->will($this->returnValueMap([
-					[
-						'mycustom2faapp',
-						['two-factor-providers' => [
-								'\OCA\MyCustom2faApp\FakeProvider',
-							]
-						]
-					],
-					[
-						'twofactor_backupcodes',
-						['two-factor-providers' => [
-								'\OCA\TwoFactorBackupCodes\Provider\FakeBackupCodesProvider',
-							]
-						]
-					],
-		]));
-
-		$this->manager->expects($this->exactly(2))
-			->method('loadTwoFactorApp');
+			->willReturn([
+				$this->fakeProvider,
+				$this->backupProvider,
+			]);
 	}
 
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not load two-factor auth provider \OCA\MyFaulty2faApp\DoesNotExist
-	 */
-	public function testFailHardIfProviderCanNotBeLoaded() {
-		$this->appManager->expects($this->once())
-			->method('getEnabledAppsForUser')
+	public function testIsTwoFactorAuthenticatedEnforced() {
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('isEnforcedFor')
 			->with($this->user)
-			->will($this->returnValue(['faulty2faapp']));
-		$this->manager->expects($this->once())
-			->method('loadTwoFactorApp')
-			->with('faulty2faapp');
+			->willReturn(true);
 
-		$this->appManager->expects($this->once())
-			->method('getAppInfo')
-			->with('faulty2faapp')
-			->will($this->returnValue([
-					'two-factor-providers' => [
-						'\OCA\MyFaulty2faApp\DoesNotExist',
-					],
-		]));
+		$enabled = $this->manager->isTwoFactorAuthenticated($this->user);
 
-		$this->manager->getProviders($this->user);
+		$this->assertTrue($enabled);
 	}
 
-	public function testIsTwoFactorAuthenticated() {
-		$this->prepareProviders();
+	public function testIsTwoFactorAuthenticatedNoProviders() {
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('isEnforcedFor')
+			->with($this->user)
+			->willReturn(false);
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->willReturn([]); // No providers registered
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([]); // No providers loadable
 
-		$this->user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with('user123', 'core', 'two_factor_auth_disabled', 0)
-			->will($this->returnValue(0));
+		$this->assertFalse($this->manager->isTwoFactorAuthenticated($this->user));
+	}
 
+	public function testIsTwoFactorAuthenticatedOnlyBackupCodes() {
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('isEnforcedFor')
+			->with($this->user)
+			->willReturn(false);
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->willReturn([
+				'backup_codes' => true,
+			]);
+		$backupCodesProvider = $this->createMock(IProvider::class);
+		$backupCodesProvider
+			->method('getId')
+			->willReturn('backup_codes');
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([
+				$backupCodesProvider,
+			]);
+
+		$this->assertFalse($this->manager->isTwoFactorAuthenticated($this->user));
+	}
+
+	public function testIsTwoFactorAuthenticatedFailingProviders() {
+		$this->mandatoryTwoFactor->expects($this->once())
+			->method('isEnforcedFor')
+			->with($this->user)
+			->willReturn(false);
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->willReturn([
+				'twofactor_totp' => true,
+				'twofactor_u2f' => false,
+			]); // Two providers registered, but …
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([]); // … none of them is able to load, however …
+
+		// … 2FA is still enforced
 		$this->assertTrue($this->manager->isTwoFactorAuthenticated($this->user));
 	}
 
-	public function testGetProvider() {
-		$this->prepareProviders();
-
-		$this->assertSame($this->fakeProvider, $this->manager->getProvider($this->user, 'email'));
+	public function providerStatesFixData(): array {
+		return [
+			[false, false],
+			[true, true],
+		];
 	}
 
-	public function testGetBackupProvider() {
-		$this->prepareProvidersWitBackupProvider();
+	/**
+	 * If the 2FA registry has not been populated when a user logs in,
+	 * the 2FA manager has to first fix the state before it checks for
+	 * enabled providers.
+	 *
+	 * If any of these providers is active, 2FA is enabled
+	 *
+	 * @dataProvider providerStatesFixData
+	 */
+	public function testIsTwoFactorAuthenticatedFixesProviderStates(bool $providerEnabled, bool $expected) {
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->willReturn([]); // Nothing registered yet
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->willReturn([
+				$this->fakeProvider
+			]);
+		$this->fakeProvider->expects($this->once())
+			->method('isTwoFactorAuthEnabledForUser')
+			->with($this->user)
+			->willReturn($providerEnabled);
+		if ($providerEnabled) {
+			$this->providerRegistry->expects($this->once())
+				->method('enableProviderFor')
+				->with(
+					$this->fakeProvider,
+					$this->user
+				);
+		} else {
+			$this->providerRegistry->expects($this->once())
+				->method('disableProviderFor')
+				->with(
+					$this->fakeProvider,
+					$this->user
+				);
+		}
 
-		$this->assertSame($this->backupProvider, $this->manager->getBackupProvider($this->user));
+		$this->assertEquals($expected, $this->manager->isTwoFactorAuthenticated($this->user));
+	}
+
+	public function testGetProvider() {
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->with($this->user)
+			->willReturn([
+				$this->fakeProvider->getId() => true,
+			]);
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->with($this->user)
+			->willReturn([$this->fakeProvider]);
+
+		$provider = $this->manager->getProvider($this->user, $this->fakeProvider->getId());
+
+		$this->assertSame($this->fakeProvider, $provider);
 	}
 
 	public function testGetInvalidProvider() {
-		$this->prepareProviders();
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->with($this->user)
+			->willReturn([]);
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->with($this->user)
+			->willReturn([]);
 
-		$this->assertSame(null, $this->manager->getProvider($this->user, 'nonexistent'));
+		$provider = $this->manager->getProvider($this->user, 'nonexistent');
+
+		$this->assertNull($provider);
 	}
 
 	public function testGetProviders() {
-		$this->prepareProviders();
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->with($this->user)
+			->willReturn([
+				$this->fakeProvider->getId() => true,
+			]);
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->with($this->user)
+			->willReturn([$this->fakeProvider]);
 		$expectedProviders = [
 			'email' => $this->fakeProvider,
 		];
 
-		$this->assertEquals($expectedProviders, $this->manager->getProviders($this->user));
+		$providerSet = $this->manager->getProviderSet($this->user);
+		$providers = $providerSet->getProviders();
+
+		$this->assertEquals($expectedProviders, $providers);
+		$this->assertFalse($providerSet->isProviderMissing());
+	}
+
+	public function testGetProvidersOneMissing() {
+		$this->providerRegistry->expects($this->once())
+			->method('getProviderStates')
+			->with($this->user)
+			->willReturn([
+				$this->fakeProvider->getId() => true,
+			]);
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->with($this->user)
+			->willReturn([]);
+		$expectedProviders = [
+			'email' => $this->fakeProvider,
+		];
+
+		$providerSet = $this->manager->getProviderSet($this->user);
+
+		$this->assertTrue($providerSet->isProviderMissing());
 	}
 
 	public function testVerifyChallenge() {
@@ -260,7 +348,6 @@ class ManagerTest extends TestCase {
 			->method('verifyChallenge')
 			->with($this->user, $challenge)
 			->will($this->returnValue(true));
-
 		$this->session->expects($this->once())
 			->method('get')
 			->with('two_factor_remember_login')
@@ -276,15 +363,12 @@ class ManagerTest extends TestCase {
 			->with(Manager::SESSION_UID_DONE, 'jos');
 		$this->session->method('getId')
 			->willReturn('mysessionid');
-
 		$this->activityManager->expects($this->once())
 			->method('generateEvent')
 			->willReturn($event);
-
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('jos');
-
 		$event->expects($this->once())
 			->method('setApp')
 			->with($this->equalTo('core'))
@@ -301,7 +385,7 @@ class ManagerTest extends TestCase {
 			->method('setAffectedUser')
 			->with($this->equalTo('jos'))
 			->willReturnSelf();
-		$this->fakeProvider->expects($this->once())
+		$this->fakeProvider
 			->method('getDisplayName')
 			->willReturn('Fake 2FA');
 		$event->expects($this->once())
@@ -310,19 +394,19 @@ class ManagerTest extends TestCase {
 				'provider' => 'Fake 2FA',
 			]))
 			->willReturnSelf();
-
 		$token = $this->createMock(OC\Authentication\Token\IToken::class);
 		$this->tokenProvider->method('getToken')
 			->with('mysessionid')
 			->willReturn($token);
 		$token->method('getId')
 			->willReturn(42);
-
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('jos', 'login_token_2fa', 42);
 
-		$this->assertTrue($this->manager->verifyChallenge('email', $this->user, $challenge));
+		$result = $this->manager->verifyChallenge('email', $this->user, $challenge);
+
+		$this->assertTrue($result);
 	}
 
 	public function testVerifyChallengeInvalidProviderId() {
@@ -371,7 +455,7 @@ class ManagerTest extends TestCase {
 			->method('setAffectedUser')
 			->with($this->equalTo('jos'))
 			->willReturnSelf();
-		$this->fakeProvider->expects($this->once())
+		$this->fakeProvider
 			->method('getDisplayName')
 			->willReturn('Fake 2FA');
 		$event->expects($this->once())
@@ -418,15 +502,18 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->appManager,
+				$this->providerLoader,
+				$this->providerRegistry,
+				$this->mandatoryTwoFactor,
 				$this->session,
 				$this->config,
 				$this->activityManager,
 				$this->logger,
 				$this->tokenProvider,
-				$this->timeFactory
+				$this->timeFactory,
+				$this->eventDispatcher
 			])
-			->setMethods(['loadTwoFactorApp','isTwoFactorAuthenticated']) // Do not actually load the apps
+			->setMethods(['loadTwoFactorApp', 'isTwoFactorAuthenticated'])// Do not actually load the apps
 			->getMock();
 
 		$manager->method('isTwoFactorAuthenticated')
@@ -524,7 +611,7 @@ class ManagerTest extends TestCase {
 			->willReturn('user');
 
 		$this->session->method('exists')
-			->will($this->returnCallback(function($var) {
+			->will($this->returnCallback(function ($var) {
 				if ($var === Manager::SESSION_UID_KEY) {
 					return false;
 				} else if ($var === 'app_password') {

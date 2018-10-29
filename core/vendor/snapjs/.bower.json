@@ -25,7 +25,7 @@
     "tag": "v2.0.0-rc1",
     "commit": "15c77da330d9e8ca580a922bc748d88553838a73"
   },
-  "_source": "git://github.com/jakiestfu/Snap.js.git",
-  "_target": "~2.0.0-rc1",
+  "_source": "https://github.com/jakiestfu/Snap.js.git",
+  "_target": "2.0.0-rc1",
   "_originalSource": "snapjs"
 }

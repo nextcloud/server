@@ -38,7 +38,6 @@ $mail_smtpsecure = [
 ];
 
 $mail_smtpmode = [
-	['php', 'PHP'],
 	['smtp', 'SMTP'],
 ];
 if ($_['sendmail_is_available']) {
@@ -53,7 +52,7 @@ if ($_['mail_smtpmode'] === 'qmail') {
 <div class="section" id="mail_general_settings">
 	<form id="mail_general_settings_form" class="mail_settings">
 		<h2><?php p($l->t('Email server'));?></h2>
-		<a target="_blank" rel="noreferrer" class="icon-info"
+		<a target="_blank" rel="noreferrer noopener" class="icon-info"
 		   title="<?php p($l->t('Open documentation'));?>"
 		   href="<?php p(link_to_docs('admin-email')); ?>"></a>
 		<p class="settings-hint"><?php p($l->t('It is important to set up this server to be able to send emails, like for password reset and notifications.')); ?></p>
@@ -97,7 +96,7 @@ if ($_['mail_smtpmode'] === 'qmail') {
 
 		<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] !== 'smtp') print_unescaped(' class="hidden"'); ?>>
 			<label for="mail_smtpauthtype"><?php p($l->t('Authentication method')); ?></label>
-			<select name="mail_smtpauthtype" id="mail_smtpauthtype'>
+			<select name="mail_smtpauthtype" id="mail_smtpauthtype">
 				<?php foreach ($mail_smtpauthtype as $authtype => $name):
 					$selected = '';
 					if ($authtype == $_['mail_smtpauthtype']):

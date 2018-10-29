@@ -146,7 +146,7 @@ interface IUser {
 	 * @param bool $enabled
 	 * @since 8.0.0
 	 */
-	public function setEnabled($enabled);
+	public function setEnabled(bool $enabled = true);
 
 	/**
 	 * get the users email address

@@ -22,6 +22,7 @@
 /* global oc_appconfig, sinon */
 describe('OC.Share.ShareDialogView', function() {
 	var $container;
+	var oldConfig;
 	var oldAppConfig;
 	var autocompleteStub;
 	var avatarStub;
@@ -30,7 +31,6 @@ describe('OC.Share.ShareDialogView', function() {
 	var saveLinkShareStub;
 
 	var fetchStub;
-	var notificationStub;
 
 	var configModel;
 	var shareModel;
@@ -41,6 +41,9 @@ describe('OC.Share.ShareDialogView', function() {
 		// horrible parameters
 		$('#testArea').append('<input id="allowShareWithLink" type="hidden" value="yes">');
 		$container = $('#shareContainer');
+		oldConfig = window.oc_config;
+		window.oc_config = window.oc_config || {};
+		window.oc_config['sharing.maxAutocompleteResults'] = 0;
 		/* jshint camelcase:false */
 		oldAppConfig = _.extend({}, oc_appconfig.core);
 		oc_appconfig.core.enforcePasswordForPublicLink = false;
@@ -109,6 +112,7 @@ describe('OC.Share.ShareDialogView', function() {
 	});
 	afterEach(function() {
 		OC.currentUser = oldCurrentUser;
+		window.oc_config = oldConfig;
 		/* jshint camelcase:false */
 		oc_appconfig.core = oldAppConfig;
 
@@ -215,188 +219,6 @@ describe('OC.Share.ShareDialogView', function() {
 			focusStub.restore();
 			selectStub.restore();
 		});
-		describe('password', function() {
-			var slideToggleStub;
-
-			beforeEach(function() {
-				$('#allowShareWithLink').val('yes');
-				configModel.set({
-					enforcePasswordForPublicLink: false
-				});
-
-				slideToggleStub = sinon.stub($.fn, 'slideToggle');
-			});
-			afterEach(function() {
-				slideToggleStub.restore();
-			});
-
-			it('enforced but toggled does not fire request', function() {
-				configModel.set('enforcePasswordForPublicLink', true);
-				dialog.render();
-
-				dialog.$el.find('.linkCheckbox').click();
-
-				// The password linkPass field is shown (slideToggle is called).
-				// No request is made yet
-				expect(slideToggleStub.callCount).toEqual(1);
-				expect(slideToggleStub.getCall(0).thisValue.eq(0).attr('id')).toEqual('linkPass');
-				expect(fakeServer.requests.length).toEqual(0);
-
-				// Now untoggle share by link
-				dialog.$el.find('.linkCheckbox').click();
-				dialog.render();
-
-				// Password field disappears and no ajax requests have been made
-				expect(fakeServer.requests.length).toEqual(0);
-				expect(slideToggleStub.callCount).toEqual(2);
-				expect(slideToggleStub.getCall(1).thisValue.eq(0).attr('id')).toEqual('linkPass');
-			});
-		});
-		describe('expiration date', function() {
-			var shareData;
-			var shareItem;
-			var clock;
-			var expectedMinDate;
-
-			beforeEach(function() {
-				// pick a fake date
-				clock = sinon.useFakeTimers(new Date(2014, 0, 20, 14, 0, 0).getTime());
-				expectedMinDate = new Date(2014, 0, 21, 14, 0, 0);
-
-				configModel.set({
-					enforcePasswordForPublicLink: false,
-					isDefaultExpireDateEnabled: false,
-					isDefaultExpireDateEnforced: false,
-					defaultExpireDate: 7
-				});
-
-				shareModel.set('linkShare', {
-					isLinkShare: true,
-					token: 'tehtoken',
-					permissions: OC.PERMISSION_READ,
-					expiration: null
-				});
-			});
-			afterEach(function() {
-				clock.restore();
-			});
-
-			it('does not check expiration date checkbox when no date was set', function() {
-				shareModel.get('linkShare').expiration = null;
-				dialog.render();
-
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(false);
-				expect(dialog.$el.find('.datepicker').val()).toEqual('');
-			});
-			it('does not check expiration date checkbox for new share', function() {
-				dialog.render();
-
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(false);
-				expect(dialog.$el.find('.datepicker').val()).toEqual('');
-			});
-			it('checks expiration date checkbox and populates field when expiration date was set', function() {
-				shareModel.get('linkShare').expiration = '2014-02-01 00:00:00';
-				dialog.render();
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-				expect(dialog.$el.find('.datepicker').val()).toEqual('01-02-2014');
-			});
-			it('sets default date when default date setting is enabled', function() {
-				configModel.set('isDefaultExpireDateEnabled', true);
-				dialog.render();
-				dialog.$el.find('.linkCheckbox').click();
-				// here fetch would be called and the server returns the expiration date
-				shareModel.get('linkShare').expiration = '2014-1-27 00:00:00';
-				dialog.render();
-
-				// enabled by default
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-				expect(dialog.$el.find('.datepicker').val()).toEqual('27-01-2014');
-
-				// disabling is allowed
-				dialog.$el.find('[name=expirationCheckbox]').click();
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(false);
-			});
-			it('enforces default date when enforced date setting is enabled', function() {
-				configModel.set({
-					isDefaultExpireDateEnabled: true,
-					isDefaultExpireDateEnforced: true
-				});
-				dialog.render();
-				dialog.$el.find('.linkCheckbox').click();
-				// here fetch would be called and the server returns the expiration date
-				shareModel.get('linkShare').expiration = '2014-1-27 00:00:00';
-				dialog.render();
-
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-				expect(dialog.$el.find('.datepicker').val()).toEqual('27-01-2014');
-
-				// disabling is not allowed
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('disabled')).toEqual(true);
-				dialog.$el.find('[name=expirationCheckbox]').click();
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-			});
-			it('enforces default date when enforced date setting is enabled and password is enforced', function() {
-				configModel.set({
-					enforcePasswordForPublicLink: true,
-					isDefaultExpireDateEnabled: true,
-					isDefaultExpireDateEnforced: true
-				});
-				dialog.render();
-				dialog.$el.find('.linkCheckbox').click();
-				// here fetch would be called and the server returns the expiration date
-				shareModel.get('linkShare').expiration = '2014-1-27 00:00:00';
-				dialog.render();
-
-				//Enter password
-				dialog.$el.find('.linkPassText').val('foo');
-				dialog.$el.find('.linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
-				fakeServer.requests[0].respond(
-					200,
-					{ 'Content-Type': 'application/json' },
-					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-				);
-
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-				expect(dialog.$el.find('.datepicker').val()).toEqual('27-01-2014');
-
-				// disabling is not allowed
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('disabled')).toEqual(true);
-				dialog.$el.find('[name=expirationCheckbox]').click();
-				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-			});
-			it('sets picker minDate to today and no maxDate by default', function() {
-				dialog.render();
-				dialog.$el.find('.linkCheckbox').click();
-				dialog.$el.find('[name=expirationCheckbox]').click();
-				expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
-				expect($.datepicker._defaults.maxDate).toEqual(null);
-			});
-			it('limits the date range to X days after share time when enforced', function() {
-				configModel.set({
-					isDefaultExpireDateEnabled: true,
-					isDefaultExpireDateEnforced: true
-				});
-				dialog.render();
-				dialog.$el.find('.linkCheckbox').click();
-				expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
-				expect($.datepicker._defaults.maxDate).toEqual(new Date(2014, 0, 27, 0, 0, 0, 0));
-			});
-			it('limits the date range to X days after share time when enforced, even when redisplayed the next days', function() {
-				// item exists, was created two days ago
-				var shareItem = shareModel.get('linkShare');
-				shareItem.expiration = '2014-1-27';
-				// share time has time component but must be stripped later
-				shareItem.stime = new Date(2014, 0, 20, 11, 0, 25).getTime() / 1000;
-				configModel.set({
-					isDefaultExpireDateEnabled: true,
-					isDefaultExpireDateEnforced: true
-				});
-				dialog.render();
-				expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
-				expect($.datepicker._defaults.maxDate).toEqual(new Date(2014, 0, 27, 0, 0, 0, 0));
-			});
-		});
-
 	});
 	describe('check for avatar', function() {
 		beforeEach(function() {
@@ -428,7 +250,21 @@ describe('OC.Share.ShareDialogView', function() {
 					share_type: OC.Share.SHARE_TYPE_REMOTE,
 					share_with: 'foo@bar.com/baz',
 					share_with_displayname: 'foo@bar.com/baz'
-
+				},{
+					id: 103,
+					item_source: 123,
+					permissions: 31,
+					share_type: OC.Share.SHARE_TYPE_CIRCLE,
+					share_with: 'circle-0',
+					share_with_displayname: 'Circle (Personal circle, user0)',
+					share_with_avatar: 'path/to/the/avatar'
+				},{
+					id: 104,
+					item_source: 123,
+					permissions: 31,
+					share_type: OC.Share.SHARE_TYPE_CIRCLE,
+					share_with: 'circle-1',
+					share_with_displayname: 'Circle (Public circle, user0)',
 				}]
 			});
 		});
@@ -440,10 +276,10 @@ describe('OC.Share.ShareDialogView', function() {
 			});
 
 			it('test correct function calls', function() {
-				expect(avatarStub.calledTwice).toEqual(true);
+				expect(avatarStub.calledThrice).toEqual(true);
 				expect(placeholderStub.callCount).toEqual(4);
-				expect(dialog.$('.shareWithList').children().length).toEqual(3);
-				expect(dialog.$('.avatar').length).toEqual(4);
+				expect(dialog.$('.shareWithList').children().length).toEqual(6);
+				expect(dialog.$('.avatar').length).toEqual(7);
 			});
 
 			it('test avatar owner', function() {
@@ -470,56 +306,901 @@ describe('OC.Share.ShareDialogView', function() {
 				expect(args.length).toEqual(1);
 				expect(args[0]).toEqual('foo@bar.com/baz ' + OC.Share.SHARE_TYPE_REMOTE);
 			});
+
+			it('test avatar for circle', function() {
+				var avatarElement = dialog.$('.avatar').eq(5);
+				expect(avatarElement.css('background')).toContain('path/to/the/avatar');
+			});
+
+			it('test avatar for circle without avatar', function() {
+				var args = avatarStub.getCall(2).args;
+				expect(args.length).toEqual(6);
+				// Note that "data-username" is set to "circle-{shareIndex}",
+				// not to the "shareWith" field.
+				expect(args[0]).toEqual('circle-4');
+				expect(args[5]).toEqual('Circle (Public circle, user0)');
+			});
 		});
 	});
-	describe('remote sharing', function() {
-		it('shows remote share info when allowed', function() {
-			configModel.set({
-				isRemoteShareAllowed: true
-			});
-			dialog.render();
-			expect(dialog.$el.find('.shareWithRemoteInfo').length).toEqual(1);
-		});
-		it('does not show remote share info when not allowed', function() {
-			configModel.set({
-				isRemoteShareAllowed: false
-			});
-			dialog.render();
-			expect(dialog.$el.find('.shareWithRemoteInfo').length).toEqual(0);
-		});
-	});
-	describe('autocompletion of users', function() {
-		it('triggers autocomplete display and focus with data when ajax search succeeds', function () {
-			dialog.render();
-			var response = sinon.stub();
-			dialog.autocompleteHandler({term: 'bob'}, response);
+	describe('get suggestions', function() {
+		it('no matches', function() {
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
 			var jsonData = JSON.stringify({
-				'ocs' : {
-					'meta' : {
-						'status' : 'success',
-						'statuscode' : 100,
-						'message' : null
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
 					},
-					'data' : {
-						'exact' : {
-							'users'  : [],
-							'groups' : [],
-							'remotes': []
+					'data': {
+						'exact': {
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
 						},
-						'users'  : [{'label': 'bob', 'value': {'shareType': 0, 'shareWith': 'test'}}],
-						'groups' : [],
+						'users': [],
+						'groups': [],
 						'remotes': [],
+						'remote_groups': [],
 						'lookup': []
 					}
 				}
 			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
 			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly([], [], false)).toEqual(true);
+			expect(failStub.called).toEqual(false);
+		});
+
+		it('single partial match', function() {
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [
+							{
+								'label': 'bobby',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'imbob'
+								}
+							}
+						],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bobby',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				}],
+				[],
+				false
+			)).toEqual(true);
+			expect(failStub.called).toEqual(false);
+		});
+		it('single exact match', function() {
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
+			expect(failStub.called).toEqual(false);
+		});
+		it('mixed matches', function() {
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_GROUP,
+										'shareWith': 'group1'
+									}
+								}
+							],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [
+							{
+								'label': 'bobby',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'imbob'
+								}
+							},
+							{
+								'label': 'bob the second',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'user2'
+								}
+							}
+						],
+						'groups': [
+							{
+								'label': 'bobfans',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_GROUP,
+									'shareWith': 'fans'
+								}
+							}
+						],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
+				}, {
+					'label': 'bobby',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				}, {
+					'label': 'bob the second',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user2'}
+				}, {
+					'label': 'bobfans',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
+				}],
+				false
+			)).toEqual(true);
+			expect(failStub.called).toEqual(false);
+		});
+
+		it('capped mixed matches', function() {
+			window.oc_config['sharing.maxAutocompleteResults'] = 3;
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_GROUP,
+										'shareWith': 'group1'
+									}
+								}
+							],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [
+							{
+								'label': 'bobby',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'imbob'
+								}
+							},
+							{
+								'label': 'bob the second',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'user2'
+								}
+							}
+						],
+						'groups': [
+							{
+								'label': 'bobfans',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_GROUP,
+									'shareWith': 'fans'
+								}
+							}
+						],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
+				}, {
+					'label': 'bobby',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				}, {
+					'label': 'bob the second',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user2'}
+				}, {
+					'label': 'bobfans',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
+				}],
+				true
+			)).toEqual(true);
+			expect(failStub.called).toEqual(false);
+		});
+
+		it('does not send a request to the server again for the same parameters', function() {
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}], [{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
+			expect(failStub.called).toEqual(false);
+
+			var done2Stub = sinon.stub();
+			var fail2Stub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(done2Stub).fail(fail2Stub);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(failStub.called).toEqual(false);
+
+			expect(done2Stub.calledOnce).toEqual(true);
+			expect(done2Stub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
+			expect(fail2Stub.called).toEqual(false);
+		});
+
+		it('sends a request to the server again for the same parameters if the calls are not consecutive', function() {
+			var doneStub = sinon.stub();
+			var failStub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(doneStub).fail(failStub);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+
+			expect(doneStub.called).toEqual(false);
+			expect(failStub.called).toEqual(false);
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(doneStub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
+			expect(failStub.called).toEqual(false);
+
+			var done2Stub = sinon.stub();
+			var fail2Stub = sinon.stub();
+
+			dialog._getSuggestions('bob', 108, shareModel).done(done2Stub).fail(fail2Stub);
+
+			expect(done2Stub.called).toEqual(false);
+			expect(fail2Stub.called).toEqual(false);
+
+			fakeServer.requests[1].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(done2Stub.calledOnce).toEqual(true);
+			expect(fail2Stub.called).toEqual(false);
+
+			var done3Stub = sinon.stub();
+			var fail3Stub = sinon.stub();
+
+			dialog._getSuggestions('bob', 42, shareModel).done(done3Stub).fail(fail3Stub);
+
+			expect(done3Stub.called).toEqual(false);
+			expect(fail3Stub.called).toEqual(false);
+
+			fakeServer.requests[2].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(doneStub.calledOnce).toEqual(true);
+			expect(failStub.called).toEqual(false);
+			expect(done2Stub.calledOnce).toEqual(true);
+			expect(fail2Stub.called).toEqual(false);
+
+			expect(done3Stub.calledOnce).toEqual(true);
+			expect(done3Stub.calledWithExactly(
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				[{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}],
+				false
+			)).toEqual(true);
+			expect(fail3Stub.called).toEqual(false);
+		});
+	});
+	describe('autocompletion of users', function() {
+		var showTemporaryNotificationStub;
+
+		beforeEach(function() {
+			showTemporaryNotificationStub = sinon.stub(OC.Notification, 'show');
+		});
+
+		afterEach(function() {
+			showTemporaryNotificationStub.restore();
+		});
+
+		describe('triggers autocomplete display and focus with data when ajax search succeeds', function () {
+			it('users', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'bob'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [
+									{
+										'label': 'bob',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_USER,
+											'shareWith': 'user1'
+										}
+									}
+								],
+								'groups': [],
+								'remotes': [],
+								'remote_groups': [],
+							},
+							'users': [
+								{
+									'label': 'bobby',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'imbob'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+							'lookup': []
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
 					200,
 					{'Content-Type': 'application/json'},
 					jsonData
-			);
-			expect(response.calledWithExactly(JSON.parse(jsonData).ocs.data.users)).toEqual(true);
-			expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				);
+				expect(response.calledWithExactly([{
+					'label': 'bob',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				}, {
+					'label': 'bobby',
+					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('groups', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'group'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [
+									{
+										'label': 'group',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_GROUP,
+											'shareWith': 'group'
+										}
+									}
+								],
+								'remotes': [],
+								'remote_groups': [],
+							},
+							'users': [],
+							'groups': [
+								{
+									'label': 'group2',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_GROUP,
+										'shareWith': 'group2'
+									}
+								}
+							],
+							'remotes': [],
+							'remote_groups': [],
+							'lookup': []
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'group',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group'}
+				}, {
+					'label': 'group2',
+					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group2'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('remotes', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'foo@bar.com/baz'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [],
+								'remotes': [
+									{
+										'label': 'foo@bar.com/baz',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_REMOTE,
+											'shareWith': 'foo@bar.com/baz'
+										}
+									}
+								],
+								'remote_groups': [],
+							},
+							'users': [],
+							'groups': [],
+							'remotes': [
+								{
+									'label': 'foo@bar.com/baz2',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_REMOTE,
+										'shareWith': 'foo@bar.com/baz2'
+									}
+								}
+							],
+							'remote_groups': [],
+							'lookup': []
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'foo@bar.com/baz',
+					'value': {'shareType': OC.Share.SHARE_TYPE_REMOTE, 'shareWith': 'foo@bar.com/baz'}
+				}, {
+					'label': 'foo@bar.com/baz2',
+					'value': {'shareType': OC.Share.SHARE_TYPE_REMOTE, 'shareWith': 'foo@bar.com/baz2'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('emails', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'foo@bar.com'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [],
+								'remotes': [],
+								'remote_groups': [],
+								'emails': [
+									{
+										'label': 'foo@bar.com',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_EMAIL,
+											'shareWith': 'foo@bar.com'
+										}
+									}
+								]
+							},
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+							'lookup': [],
+							'emails': [
+								{
+									'label': 'foo@bar.com2',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_EMAIL,
+										'shareWith': 'foo@bar.com2'
+									}
+								}
+							]
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'foo@bar.com',
+					'value': {'shareType': OC.Share.SHARE_TYPE_EMAIL, 'shareWith': 'foo@bar.com'}
+				}, {
+					'label': 'foo@bar.com2',
+					'value': {'shareType': OC.Share.SHARE_TYPE_EMAIL, 'shareWith': 'foo@bar.com2'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('circles', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'CircleName'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [],
+								'remotes': [],
+								'remote_groups': [],
+								'circles': [
+									{
+										'label': 'CircleName (type, owner)',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+											'shareWith': 'shortId'
+										}
+									},
+									{
+										'label': 'CircleName (type2, owner)',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+											'shareWith': 'shortId2'
+										}
+									}
+								]
+							},
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+							'lookup': [],
+							'circles': [
+								{
+									'label': 'CircleName2 (type, owner)',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+										'shareWith': 'shortId3'
+									}
+								}
+							]
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'CircleName (type, owner)',
+					'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId'}
+				}, {
+					'label': 'CircleName (type2, owner)',
+					'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId2'}
+				}, {
+					'label': 'CircleName2 (type, owner)',
+					'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId3'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
 		});
 
 		describe('filter out', function() {
@@ -538,7 +1219,8 @@ describe('OC.Share.ShareDialogView', function() {
 							'exact': {
 								'users': [],
 								'groups': [],
-								'remotes': []
+								'remotes': [],
+								'remote_groups': [],
 							},
 							'users': [
 								{
@@ -558,6 +1240,7 @@ describe('OC.Share.ShareDialogView', function() {
 							],
 							'groups': [],
 							'remotes': [],
+							'remote_groups': [],
 							'lookup': []
 						}
 					}
@@ -597,7 +1280,8 @@ describe('OC.Share.ShareDialogView', function() {
 							'exact': {
 								'users': [],
 								'groups': [],
-								'remotes': []
+								'remotes': [],
+								'remote_groups': [],
 							},
 							'users': [
 								{
@@ -617,6 +1301,7 @@ describe('OC.Share.ShareDialogView', function() {
 							],
 							'groups': [],
 							'remotes': [],
+							'remote_groups': [],
 							'lookup': []
 						}
 					}
@@ -658,7 +1343,20 @@ describe('OC.Share.ShareDialogView', function() {
 							share_type: OC.Share.SHARE_TYPE_REMOTE,
 							share_with: 'foo@bar.com/baz',
 							share_with_displayname: 'foo@bar.com/baz'
-
+						},{
+							id: 103,
+							item_source: 123,
+							permissions: 31,
+							share_type: OC.Share.SHARE_TYPE_EMAIL,
+							share_with: 'foo@bar.com',
+							share_with_displayname: 'foo@bar.com'
+						},{
+							id: 104,
+							item_source: 123,
+							permissions: 31,
+							share_type: OC.Share.SHARE_TYPE_CIRCLE,
+							share_with: 'shortId',
+							share_with_displayname: 'CircleName (type, owner)'
 						}]
 					});
 				});
@@ -666,7 +1364,7 @@ describe('OC.Share.ShareDialogView', function() {
 				it('users', function () {
 					dialog.render();
 					var response = sinon.stub();
-					dialog.autocompleteHandler({term: 'bob'}, response);
+					dialog.autocompleteHandler({term: 'bo'}, response);
 					var jsonData = JSON.stringify({
 						'ocs': {
 							'meta': {
@@ -678,7 +1376,8 @@ describe('OC.Share.ShareDialogView', function() {
 								'exact': {
 									'users': [],
 									'groups': [],
-									'remotes': []
+									'remotes': [],
+									'remote_groups': [],
 								},
 								'users': [
 									{
@@ -698,6 +1397,61 @@ describe('OC.Share.ShareDialogView', function() {
 								],
 								'groups': [],
 								'remotes': [],
+								'remote_groups': [],
+								'lookup': []
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'bobby',
+						'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
+				it('users (exact)', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'bob'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [
+										{
+											'label': 'bob',
+											'value': {
+												'shareType': OC.Share.SHARE_TYPE_USER,
+												'shareWith': 'user1'
+											}
+										}
+									],
+									'groups': [],
+									'remotes': [],
+									'remote_groups': [],
+								},
+								'users': [
+									{
+										'label': 'bobby',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_USER,
+											'shareWith': 'imbob'
+										}
+									}
+								],
+								'groups': [],
+								'remotes': [],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -717,7 +1471,7 @@ describe('OC.Share.ShareDialogView', function() {
 				it('groups', function () {
 					dialog.render();
 					var response = sinon.stub();
-					dialog.autocompleteHandler({term: 'group'}, response);
+					dialog.autocompleteHandler({term: 'grou'}, response);
 					var jsonData = JSON.stringify({
 						'ocs': {
 							'meta': {
@@ -729,7 +1483,8 @@ describe('OC.Share.ShareDialogView', function() {
 								'exact': {
 									'users': [],
 									'groups': [],
-									'remotes': []
+									'remotes': [],
+									'remote_groups': [],
 								},
 								'users': [],
 								'groups': [
@@ -749,6 +1504,61 @@ describe('OC.Share.ShareDialogView', function() {
 									}
 								],
 								'remotes': [],
+								'remote_groups': [],
+								'lookup': []
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'group2',
+						'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group2'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
+				it('groups (exact)', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'group'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [
+										{
+											'label': 'group',
+											'value': {
+												'shareType': OC.Share.SHARE_TYPE_GROUP,
+												'shareWith': 'group'
+											}
+										}
+									],
+									'remotes': [],
+									'remote_groups': [],
+								},
+								'users': [],
+								'groups': [
+									{
+										'label': 'group2',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_GROUP,
+											'shareWith': 'group2'
+										}
+									}
+								],
+								'remotes': [],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -768,7 +1578,7 @@ describe('OC.Share.ShareDialogView', function() {
 				it('remotes', function () {
 					dialog.render();
 					var response = sinon.stub();
-					dialog.autocompleteHandler({term: 'bob'}, response);
+					dialog.autocompleteHandler({term: 'foo'}, response);
 					var jsonData = JSON.stringify({
 						'ocs': {
 							'meta': {
@@ -780,7 +1590,8 @@ describe('OC.Share.ShareDialogView', function() {
 								'exact': {
 									'users': [],
 									'groups': [],
-									'remotes': []
+									'remotes': [],
+									'remote_groups': [],
 								},
 								'users': [],
 								'groups': [],
@@ -800,6 +1611,7 @@ describe('OC.Share.ShareDialogView', function() {
 										}
 									}
 								],
+								'remote_groups': [],
 								'lookup': []
 							}
 						}
@@ -815,10 +1627,296 @@ describe('OC.Share.ShareDialogView', function() {
 					}])).toEqual(true);
 					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
 				});
+
+				it('remotes (exact)', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'foo@bar.com/baz'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': [
+										{
+											'label': 'foo@bar.com/baz',
+											'value': {
+												'shareType': OC.Share.SHARE_TYPE_REMOTE,
+												'shareWith': 'foo@bar.com/baz'
+											}
+										}
+									],
+									'remote_groups': [],
+								},
+								'users': [],
+								'groups': [],
+								'remotes': [
+									{
+										'label': 'foo@bar.com/baz2',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_REMOTE,
+											'shareWith': 'foo@bar.com/baz2'
+										}
+									}
+								],
+								'remote_groups': [],
+								'lookup': []
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'foo@bar.com/baz2',
+						'value': {'shareType': OC.Share.SHARE_TYPE_REMOTE, 'shareWith': 'foo@bar.com/baz2'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
+				it('emails', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'foo'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': [],
+									'remote_groups': [],
+									'emails': []
+								},
+								'users': [],
+								'groups': [],
+								'remotes': [],
+								'lookup': [],
+								'remote_groups': [],
+								'emails': [
+									{
+										'label': 'foo@bar.com',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_EMAIL,
+											'shareWith': 'foo@bar.com'
+										}
+									},
+									{
+										'label': 'foo2@bar.com',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_EMAIL,
+											'shareWith': 'foo2@bar.com'
+										}
+									}
+								]
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'foo2@bar.com',
+						'value': {'shareType': OC.Share.SHARE_TYPE_EMAIL, 'shareWith': 'foo2@bar.com'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
+				it('emails (exact)', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'foo@bar.com'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': [],
+									'remote_groups': [],
+									'emails': [
+										{
+											'label': 'foo@bar.com',
+											'value': {
+												'shareType': OC.Share.SHARE_TYPE_EMAIL,
+												'shareWith': 'foo@bar.com'
+											}
+										}
+									]
+								},
+								'users': [],
+								'groups': [],
+								'remotes': [],
+								'remote_groups': [],
+								'lookup': [],
+								'emails': [
+									{
+										'label': 'foo@bar.com2',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_EMAIL,
+											'shareWith': 'foo@bar.com2'
+										}
+									}
+								]
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'foo@bar.com2',
+						'value': {'shareType': OC.Share.SHARE_TYPE_EMAIL, 'shareWith': 'foo@bar.com2'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
+				it('circles', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'CircleNam'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': [],
+									'remote_groups': [],
+									'circles': []
+								},
+								'users': [],
+								'groups': [],
+								'remotes': [],
+								'remote_groups': [],
+								'lookup': [],
+								'circles': [
+									{
+										'label': 'CircleName (type, owner)',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+											'shareWith': 'shortId'
+										}
+									},
+									{
+										'label': 'CircleName (type2, owner)',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+											'shareWith': 'shortId2'
+										}
+									}
+								]
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'CircleName (type2, owner)',
+						'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId2'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
+				it('circles (exact)', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'CircleName'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': [],
+									'remote_groups': [],
+									'circles': [
+										{
+											'label': 'CircleName (type, owner)',
+											'value': {
+												'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+												'shareWith': 'shortId'
+											}
+										},
+										{
+											'label': 'CircleName (type2, owner)',
+											'value': {
+												'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+												'shareWith': 'shortId2'
+											}
+										}
+									]
+								},
+								'users': [],
+								'groups': [],
+								'remotes': [],
+								'remote_groups': [],
+								'lookup': [],
+								'circles': [
+									{
+										'label': 'CircleName2 (type, owner)',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_CIRCLE,
+											'shareWith': 'shortId3'
+										}
+									}
+								]
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'CircleName (type2, owner)',
+						'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId2'}
+					}, {
+						'label': 'CircleName2 (type, owner)',
+						'value': {'shareType': OC.Share.SHARE_TYPE_CIRCLE, 'shareWith': 'shortId3'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
 			});
 		});
 
-		it('gracefully handles successful ajax call with failure content', function () {
+		it('throws a notification for a successful ajax call with failure content', function () {
 			dialog.render();
 			var response = sinon.stub();
 			dialog.autocompleteHandler({term: 'bob'}, response);
@@ -826,7 +1924,8 @@ describe('OC.Share.ShareDialogView', function() {
 				'ocs' : {
 					'meta' : {
 						'status': 'failure',
-						'statuscode': 400
+						'statuscode': 400,
+						'message': 'error message'
 					}
 				}
 			});
@@ -835,16 +1934,16 @@ describe('OC.Share.ShareDialogView', function() {
 					{'Content-Type': 'application/json'},
 					jsonData
 			);
-			expect(response.calledWithExactly()).toEqual(true);
+			expect(response.called).toEqual(false);
+			expect(showTemporaryNotificationStub.calledOnce).toEqual(true);
+			expect(showTemporaryNotificationStub.firstCall.args[0]).toContain('error message');
 		});
 
 		it('throws a notification when the ajax search lookup fails', function () {
-			notificationStub = sinon.stub(OC.Notification, 'show');
 			dialog.render();
 			dialog.autocompleteHandler({term: 'bob'}, sinon.stub());
 			fakeServer.requests[0].respond(500);
-			expect(notificationStub.calledOnce).toEqual(true);
-			notificationStub.restore();
+			expect(showTemporaryNotificationStub.calledOnce).toEqual(true);
 		});
 
 		describe('renders the autocomplete elements', function() {
@@ -941,6 +2040,437 @@ describe('OC.Share.ShareDialogView', function() {
 			expect($shareWith.attr('disabled')).toEqual(undefined);
 
 			addShareStub.restore();
+		});
+
+		it('hides the loading icon when all the pending operations finish', function() {
+			dialog.render();
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+
+			var response = sinon.stub();
+			dialog.autocompleteHandler({term: 'bob'}, response);
+			dialog.autocompleteHandler({term: 'bobby'}, response);
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(true);
+
+			fakeServer.requests[1].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+		});
+	});
+	describe('confirm share', function() {
+		var addShareStub;
+		var tooltipStub;
+		var showTemporaryNotificationStub;
+
+		beforeEach(function() {
+			addShareStub = sinon.stub(shareModel, 'addShare');
+
+			tooltipStub = sinon.stub($.fn, 'tooltip').callsFake(function() {
+				return $('<div></div>');
+			});
+
+			showTemporaryNotificationStub = sinon.stub(OC.Notification, 'showTemporary');
+
+			dialog.render();
+		});
+
+		afterEach(function() {
+			addShareStub.restore();
+			tooltipStub.restore();
+			showTemporaryNotificationStub.restore();
+		});
+
+		it('sets the appropriate UI state while waiting to get the suggestions', function() {
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.callCount).toEqual(1);
+			expect(typeof autocompleteStub.firstCall.args[0]).toEqual('object');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(true);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('disable');
+			expect(autocompleteStub.calledWith('close')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+		});
+
+		it('calls addShare with the only suggestion', function() {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			// Ensure that the UI is not restored before adding the share
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(true);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('disable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(addShareStub.calledOnce).toEqual(true);
+			expect(addShareStub.firstCall.args[0]).toEqual({
+				shareType: OC.Share.SHARE_TYPE_USER,
+				shareWith: 'user1'
+			});
+
+			// "yield" and "callArg" from SinonJS can not be used, as the
+			// callback is a property not in the first argument.
+			addShareStub.firstCall.args[1]['success'].apply(shareModel);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('enable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('');
+		});
+
+		it('handles a failure to share', function() {
+			expect(showTemporaryNotificationStub.called).toEqual(false);
+
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			// Ensure that the UI is not restored before adding the share
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(false);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(true);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('disable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(addShareStub.calledOnce).toEqual(true);
+			expect(addShareStub.firstCall.args[0]).toEqual({
+				shareType: OC.Share.SHARE_TYPE_USER,
+				shareWith: 'user1'
+			});
+
+			// "yield" and "callArg" from SinonJS can not be used, as the
+			// callback is a property not in the first argument.
+			addShareStub.firstCall.args[1]['error'].apply(shareModel);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('enable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(showTemporaryNotificationStub.calledOnce).toEqual(true);
+		});
+
+		it('restores UI if there are no matches at all', function() {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'lookup': [],
+						'remote_groups': [],
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('enable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			// No explicit tooltip is shown; it is automatically shown when the
+			// autocomplete is activated again and it finds no matches.
+			expect(tooltipStub.lastCall.args[0]).not.toEqual('show');
+		});
+
+		it('shows tooltip if there are matches but no exact matches', function() {
+			dialog.$el.find('.shareWithField').val('bo');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [],
+							'groups': [],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [
+							{
+								'label': 'bob',
+								'value': {
+									'shareType': OC.Share.SHARE_TYPE_USER,
+									'shareWith': 'user1'
+								}
+							}
+						],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('enable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bo');
+		});
+
+		it('shows tooltip if there is more than one exact match', function() {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs': {
+					'meta': {
+						'status': 'success',
+						'statuscode': 100,
+						'message': null
+					},
+					'data': {
+						'exact': {
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_USER,
+										'shareWith': 'user1'
+									}
+								}
+							],
+							'groups': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': OC.Share.SHARE_TYPE_GROUP,
+										'shareWith': 'group1'
+									}
+								}
+							],
+							'remotes': [],
+							'remote_groups': [],
+						},
+						'users': [],
+						'groups': [],
+						'remotes': [],
+						'remote_groups': [],
+						'lookup': []
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				jsonData
+			);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('enable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+		});
+
+		it('throws a notification for a successful ajax call with failure content', function () {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			var jsonData = JSON.stringify({
+				'ocs' : {
+					'meta' : {
+						'status': 'failure',
+						'statuscode': 400,
+						'message': 'error message'
+					}
+				}
+			});
+			fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+			);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('enable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(showTemporaryNotificationStub.called).toEqual(false);
+		});
+
+		it('throws a notification when the ajax search lookup fails', function () {
+			dialog.$el.find('.shareWithField').val('bob');
+
+			dialog._confirmShare();
+
+			fakeServer.requests[0].respond(500);
+
+			expect(addShareStub.called).toEqual(false);
+
+			expect(dialog.$el.find('.shareWithLoading').hasClass('hidden')).toEqual(true);
+			expect(dialog.$el.find('.shareWithConfirm').hasClass('hidden')).toEqual(false);
+			expect(autocompleteStub.lastCall.args[0]).toEqual('enable');
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(false);
+			expect(dialog.$el.find('.shareWithField').val()).toEqual('bob');
+
+			expect(showTemporaryNotificationStub.called).toEqual(false);
 		});
 	});
 	describe('reshare permissions', function() {

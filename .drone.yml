@@ -14,42 +14,94 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
+  vue-build-settings:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./settings/js/settings-vue.js
+    when:
+      matrix:
+        TESTS: vue-build-settings
+  vue-build-updatenotification:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/updatenotification/js/updatenotification.js
+    when:
+      matrix:
+        TESTS: vue-build-updatenotification
+  vue-build-oauth2:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/oauth2/js/oauth2.js
+    when:
+      matrix:
+        TESTS: vue-build-oauth2
+  vue-build-accessibility:
+    image: node
+    commands:
+     - ./build/vue-builds.sh ./apps/accessibility/js/accessibility.js
+    when:
+      matrix:
+        TESTS: vue-build-accessibility
+  vue-build-backupcodes:
+    image: node
+    commands:
+      - ./build/vue-builds.sh ./apps/twofactor_backupcodes/js/settings.js
+    when:
+      matrix:
+        TESTS: vue-build-backupscodes
   checkers:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - ./autotest-checkers.sh
+    secrets: [ github_token ]
     when:
       matrix:
         TESTS: checkers
-  syntax-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
+  handlebars:
+    image: node
     commands:
-      - composer install
-      - ./lib/composer/bin/parallel-lint --exclude build/.phan/ --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+      - npm install handlebars -g
+      - ./build/compile-handlebars-templates.sh
     when:
       matrix:
-        TESTS: syntax-php5.6
+        TESTS: handlebars
   syntax-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - composer install
-      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
     when:
       matrix:
         TESTS: syntax-php7.0
   syntax-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - composer install
-      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
     when:
       matrix:
         TESTS: syntax-php7.1
-  phan:
-    image: nextcloudci/php7.1:php7.1-15
+  syntax-php7.2:
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - composer install
-      - composer require --dev "phan/phan:dev-master"
+      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
+    when:
+      matrix:
+        TESTS: syntax-php7.2
+  syntax-php7.3:
+    image: nextcloudci/php7.3:php7.3-1
+    commands:
+      - composer install
+      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
+    when:
+      matrix:
+        TESTS: syntax-php7.3
+  phan:
+    image: nextcloudci/php7.2:php7.2-12
+    commands:
+      - composer install
+      - composer require --dev "phan/phan:0.11.1"
       - ./lib/composer/phan/phan/phan -k build/.phan/config.php
       - php ./build/.phan/plugin-checker.php
     when:
@@ -146,16 +198,8 @@ pipeline:
     when:
       matrix:
         TESTS: sqlite-php7.0-webdav-apache
-  nodb-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
-    when:
-      matrix:
-        DB: NODB
-        PHP: 5.6
   nodb-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -163,7 +207,7 @@ pipeline:
         DB: NODB
         PHP: "7.0"
   nodb-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
@@ -171,23 +215,23 @@ pipeline:
         DB: NODB
         PHP: 7.1
   nodb-php7.2:
-    image: nextcloudci/php7.2:php7.2-9
+    image: nextcloudci/php7.2:php7.2-11
     commands:
       - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
       matrix:
         DB: NODB
         PHP: 7.2
-  sqlite-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
+  nodb-php7.3:
+    image: nextcloudci/php7.3:php7.3-1
     commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+      - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
     when:
       matrix:
-        DB: sqlite
-        PHP: 5.6
+        DB: NODB
+        PHP: 7.3
   sqlite-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -195,7 +239,7 @@ pipeline:
         DB: sqlite
         PHP: "7.0"
   sqlite-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
@@ -203,23 +247,23 @@ pipeline:
         DB: sqlite
         PHP: 7.1
   sqlite-php7.2:
-    image: nextcloudci/php7.2:php7.2-9
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
       matrix:
         DB: sqlite
         PHP: 7.2
-  mysql-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
+  sqlite-php7.3:
+    image: nextcloudci/php7.3:php7.3-1
     commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
     when:
       matrix:
-        DB: mysql
-        PHP: 5.6
+        DB: sqlite
+        PHP: 7.3
   mysql-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -227,7 +271,7 @@ pipeline:
         DB: mysql
         PHP: "7.0"
   mysql-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -235,23 +279,23 @@ pipeline:
         DB: mysql
         PHP: 7.1
   mysql-php7.2:
-    image: nextcloudci/php7.2:php7.2-9
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
         DB: mysql
         PHP: 7.2
-  mysql5.6-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
+  mysql-php7.3:
+    image: nextcloudci/php7.3:php7.3-1
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
-        DB: mysql5.6
-        PHP: 5.6
+        DB: mysql
+        PHP: 7.3
   mysql5.6-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -259,23 +303,15 @@ pipeline:
         DB: mysql5.6
         PHP: "7.0"
   mysql5.6-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
         DB: mysql5.6
         PHP: 7.1
-  mysql5.5-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-    when:
-      matrix:
-        DB: mysql5.5
-        PHP: 5.6
   mysql5.5-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
@@ -283,24 +319,15 @@ pipeline:
         DB: mysql5.5
         PHP: "7.0"
   mysql5.5-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
     when:
       matrix:
         DB: mysql5.5
         PHP: 7.1
-  postgres-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
-    commands:
-      - sleep 10 # gives the database enough time to initialize
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
-    when:
-      matrix:
-        DB: postgres
-        PHP: 5.6
   postgres-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - sleep 10 # gives the database enough time to initialize
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
@@ -309,24 +336,16 @@ pipeline:
         DB: postgres
         PHP: "7.0"
   postgres-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - sleep 10 # gives the database enough time to initialize
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+      - POSTGRES=${POSTGRES} NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
     when:
       matrix:
         DB: postgres
         PHP: 7.1
-  mysqlmb4-php5.6:
-    image: nextcloudci/php5.6:php5.6-8
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
-    when:
-      matrix:
-        DB: mysqlmb4
-        PHP: 5.6
   mysqlmb4-php7.0:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
@@ -334,7 +353,7 @@ pipeline:
         DB: mysqlmb4
         PHP: "7.0"
   mysqlmb4-php7.1:
-    image: nextcloudci/php7.1:php7.1-15
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
@@ -342,15 +361,23 @@ pipeline:
         DB: mysqlmb4
         PHP: 7.1
   mysqlmb4-php7.2:
-    image: nextcloudci/php7.2:php7.2-9
+    image: nextcloudci/php7.2:php7.2-12
     commands:
       - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
     when:
       matrix:
         DB: mysqlmb4
         PHP: 7.2
+  mysqlmb4-php7.3:
+    image: nextcloudci/php7.3:php7.3-1
+    commands:
+      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+    when:
+      matrix:
+        DB: mysqlmb4
+        PHP: 7.3
   integration-capabilities_features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -359,7 +386,7 @@ pipeline:
       matrix:
         TESTS: integration-capabilities_features
   integration-federation_features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -368,7 +395,7 @@ pipeline:
       matrix:
         TESTS: integration-federation_features
   integration-auth:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -377,7 +404,7 @@ pipeline:
       matrix:
         TESTS: integration-auth
   integration-maintenance-mode:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -386,7 +413,7 @@ pipeline:
       matrix:
         TESTS: integration-maintenance-mode
   integration-ratelimiting:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - ./occ config:system:set redis host --value=cache
@@ -401,7 +428,7 @@ pipeline:
       matrix:
         TESTS: integration-ratelimiting
   integration-carddav:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -410,7 +437,7 @@ pipeline:
       matrix:
         TESTS: integration-carddav
   integration-dav-v2:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -419,7 +446,7 @@ pipeline:
       matrix:
         TESTS: integration-dav-v2
   integration-ocs-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -428,7 +455,7 @@ pipeline:
       matrix:
         TESTS: integration-ocs-v1
   integration-sharing-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -437,7 +464,7 @@ pipeline:
       matrix:
         TESTS: integration-sharing-v1
   integration-sharing-v1-part2:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -446,7 +473,7 @@ pipeline:
       matrix:
         TESTS: integration-sharing-v1-part2
   integration-sharing-v1-part3:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -455,7 +482,7 @@ pipeline:
       matrix:
         TESTS: integration-sharing-v1-part3
   integration-checksums-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -464,7 +491,7 @@ pipeline:
       matrix:
         TESTS: integration-checksums
   integration-external-storage:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -473,7 +500,7 @@ pipeline:
       matrix:
         TESTS: integration-external-storage
   integration-provisioning-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -482,7 +509,7 @@ pipeline:
       matrix:
         TESTS: integration-provisioning-v1
   integration-tags:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -491,7 +518,7 @@ pipeline:
       matrix:
         TESTS: integration-tags
   integration-caldav:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -500,7 +527,7 @@ pipeline:
       matrix:
         TESTS: integration-caldav
   integration-comments:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -508,8 +535,17 @@ pipeline:
     when:
       matrix:
         TESTS: integration-comments
+  integration-comments-search:
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    commands:
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+      - cd build/integration
+      - ./run.sh features/comments-search.feature
+    when:
+      matrix:
+        TESTS: integration-comments-search
   integration-favorites:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -518,7 +554,7 @@ pipeline:
       matrix:
         TESTS: integration-favorites
   integration-provisioning-v2:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -527,7 +563,7 @@ pipeline:
       matrix:
         TESTS: integration-provisioning-v2
   integration-webdav-related:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -536,7 +572,7 @@ pipeline:
       matrix:
         TESTS: integration-webdav-related
   integration-sharees-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -545,7 +581,7 @@ pipeline:
       matrix:
         TESTS: integration-sharees-features
   integration-sharees-v2-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -554,7 +590,7 @@ pipeline:
       matrix:
         TESTS: integration-sharees-v2-features
   integration-setup-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - cd build/integration
       - ./run.sh setup_features/setup.feature
@@ -562,7 +598,7 @@ pipeline:
       matrix:
         TESTS: integration-setup-features
   integration-filesdrop-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -571,7 +607,7 @@ pipeline:
       matrix:
         TESTS: integration-filesdrop-features
   integration-transfer-ownership-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -580,7 +616,7 @@ pipeline:
       matrix:
         TESTS: integration-transfer-ownership-features
   integration-ldap-features:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/integration-php7.0:integration-php7.0-8
       commands:
         - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
         - ./occ app:enable user_ldap
@@ -589,8 +625,38 @@ pipeline:
       when:
         matrix:
           TESTS: integration-ldap-features
-  integration-trashbin:
+  integration-ldap-openldap-features:
+      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      commands:
+        - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+        - ./occ app:enable user_ldap
+        - cd build/integration
+        - ./run.sh ldap_features/ldap-openldap.feature
+      when:
+        matrix:
+          TESTS: integration-ldap-openldap-features
+  integration-ldap-openldap-uid-features:
+        image: nextcloudci/integration-php7.0:integration-php7.0-6
+        commands:
+          - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+          - ./occ app:enable user_ldap
+          - cd build/integration
+          - ./run.sh ldap_features/openldap-uid-username.feature
+        when:
+          matrix:
+            TESTS: integration-ldap-openldap-uid-features
+  integration-ldap-openldap-numerical-id-features:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
+    commands:
+    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+    - ./occ app:enable user_ldap
+    - cd build/integration
+    - ./run.sh ldap_features/openldap-numerical-id.feature
+    when:
+      matrix:
+        TESTS: integration-ldap-openldap-numerical-id-features
+  integration-trashbin:
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -598,36 +664,89 @@ pipeline:
     when:
       matrix:
         TESTS: integration-trashbin
+  integration-remote-api:
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    commands:
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+      - cd build/integration
+      - ./run.sh remoteapi_features/remote.feature
+    when:
+      matrix:
+        TESTS: integration-remote-api
+  integration-download:
+    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    commands:
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+      - cd build/integration
+      - ./run.sh --tags ~@large features/download.feature
+    when:
+      matrix:
+        TESTS: integration-download
   acceptance-access-levels:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-access-levels --selenium-server selenium:4444 allow-git-repository-modifications features/access-levels.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: access-levels
+  acceptance-app-comments:
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
+      commands:
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-comments --selenium-server selenium:4444 allow-git-repository-modifications features/app-comments.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: app-comments
   acceptance-app-files:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files --selenium-server selenium:4444 allow-git-repository-modifications features/app-files.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: app-files
+  acceptance-app-files-tags:
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
+      commands:
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-tags --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-tags.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: app-files-tags
   acceptance-app-theming:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: app-theming
+  acceptance-header:
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
+      commands:
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-header --selenium-server selenium:4444 allow-git-repository-modifications features/header.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: header
   acceptance-login:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
       commands:
         - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
       when:
         matrix:
           TESTS-ACCEPTANCE: login
+  acceptance-users:
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
+      commands:
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-users --selenium-server selenium:4444 allow-git-repository-modifications features/users.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: users
+  acceptance-apps:
+      image: nextcloudci/acceptance-php7.1:acceptance-php7.1-2
+      commands:
+        - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-apps --selenium-server selenium:4444 allow-git-repository-modifications features/apps.feature
+      when:
+        matrix:
+          TESTS-ACCEPTANCE: apps
   nodb-codecov:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - phpenmod xdebug
       - TEST_SELECTION=NODB ./autotest.sh sqlite
@@ -638,7 +757,7 @@ pipeline:
       matrix:
         TESTS: nodb-codecov
   db-codecov:
-    image: nextcloudci/php7.0:php7.0-16
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - phpenmod xdebug
       - TEST_SELECTION=QUICKDB ./autotest.sh sqlite
@@ -649,9 +768,10 @@ pipeline:
       matrix:
         TESTS: db-codecov
   object-store:
-      image: nextcloudci/php7.0:php7.0-16
+      image: nextcloudci/php7.0:php7.0-19
       commands:
         - phpenmod xdebug
+        - ./tests/drone-wait-objectstore.sh
         - TEST_SELECTION=PRIMARY-${OBJECT_STORE} ./autotest.sh sqlite
         - wget https://codecov.io/bash -O codecov.sh
         - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
@@ -660,7 +780,7 @@ pipeline:
         matrix:
           TESTS: object-store
   memcache-memcached:
-    image: nextcloudci/php7.0-memcached:php7.0-memcached-8
+    image: nextcloudci/php7.0-memcached:php7.0-memcached-9
     commands:
       - phpenmod xdebug
       - service memcached restart
@@ -672,7 +792,7 @@ pipeline:
       matrix:
         TEST: memcache-memcached
   memcache-redis-cluster:
-    image: nextcloudci/php7.0:php7.0-17
+    image: nextcloudci/php7.0:php7.0-19
     commands:
       - phpenmod xdebug
       - sleep 20
@@ -683,17 +803,46 @@ pipeline:
     when:
       matrix:
         TEST: memcache-redis-cluster
+  ui-regression:
+    image: nextcloudci/ui-regression:ui-regression-1
+    commands:
+      - cd tests/ui-regression
+      - npm install
+      - chown -R pptruser out node_modules
+      - bash -c "until curl -s http://ui-regression-php-master > /dev/null && curl -s http://ui-regression-php > /dev/null; do sleep 2; done"
+      - sudo -u pptruser node runTests.js || true
+      - echo "The result can be found at https://s3.bitgrid.net/nextcloud-ui-regression/nextcloud/server/${DRONE_PULL_REQUEST}/index.html"
+    shm_size: '1gb'
+    when:
+      matrix:
+        TESTS: ui-regression
+  publish-s3:
+    image: plugins/s3
+    endpoint: https://ci-assets.nextcloud.com
+    bucket: nextcloud-ui-regression
+    path_style: true
+    source: tests/ui-regression/out/**/*
+    strip_prefix: tests/ui-regression/out/
+    acl: public-read
+    target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}/${DRONE_PULL_REQUEST}
+    secrets: [ aws_access_key_id, aws_secret_access_key ]
+    when:
+      matrix:
+        TESTS: ui-regression
 matrix:
   include:
     - TESTS: checkers
+    - TESTS: vue-build-settings
+    - TESTS: vue-build-updatenotification
+    - TESTS: vue-build-oauth2
+    - TESTS: vue-build-accessibility
+    - TESTS: vue-build-backupcodes
+    - TESTS: handlebars
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
     - TESTS: db-codecov
       ENABLE_REDIS: true
     - DB: NODB
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: NODB
       PHP: 7.0
       ENABLE_REDIS: true
     - DB: NODB
@@ -702,9 +851,9 @@ matrix:
     - DB: NODB
       PHP: 7.2
       ENABLE_REDIS: false
-    - DB: sqlite
-      PHP: 5.6
-      ENABLE_REDIS: true
+    - DB: NODB
+      PHP: 7.3
+      ENABLE_REDIS: false
     - DB: sqlite
       PHP: 7.0
       ENABLE_REDIS: true
@@ -714,9 +863,9 @@ matrix:
     - DB: sqlite
       PHP: 7.2
       ENABLE_REDIS: false
-    - DB: mysql
-      PHP: 5.6
-      ENABLE_REDIS: true
+    - DB: sqlite
+      PHP: 7.3
+      ENABLE_REDIS: false
     - DB: mysql
       PHP: 7.0
       ENABLE_REDIS: true
@@ -726,17 +875,14 @@ matrix:
     - DB: mysql
       PHP: 7.2
       ENABLE_REDIS: false
-    - DB: mysql5.6
-      PHP: 5.6
-      ENABLE_REDIS: true
+    - DB: mysql
+      PHP: 7.3
+      ENABLE_REDIS: false
     - DB: mysql5.6
       PHP: 7.0
       ENABLE_REDIS: true
     - DB: mysql5.6
       PHP: 7.1
-      ENABLE_REDIS: true
-    - DB: mysql5.5
-      PHP: 5.6
       ENABLE_REDIS: true
     - DB: mysql5.5
       PHP: 7.0
@@ -745,16 +891,16 @@ matrix:
       PHP: 7.1
       ENABLE_REDIS: true
     - DB: postgres
-      PHP: 5.6
-      ENABLE_REDIS: true
-    - DB: postgres
       PHP: 7.0
+      POSTGRES: 9
       ENABLE_REDIS: true
     - DB: postgres
       PHP: 7.1
+      POSTGRES: 9
       ENABLE_REDIS: true
-    - DB: mysqlmb4
-      PHP: 5.6
+    - DB: postgres
+      PHP: 7.1
+      POSTGRES: 10
       ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 7.0
@@ -764,6 +910,9 @@ matrix:
       ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 7.2
+      ENABLE_REDIS: false
+    - DB: mysqlmb4
+      PHP: 7.3
       ENABLE_REDIS: false
     - TESTS: integration-capabilities_features
     - TESTS: integration-federation_features
@@ -783,6 +932,7 @@ matrix:
     - TESTS: integration-tags
     - TESTS: integration-caldav
     - TESTS: integration-comments
+    - TESTS: integration-comments-search
     - TESTS: integration-favorites
     - TESTS: integration-provisioning-v2
     - TESTS: integration-webdav-related
@@ -792,19 +942,38 @@ matrix:
     - TESTS: integration-filesdrop-features
     - TESTS: integration-transfer-ownership-features
     - TESTS: integration-ldap-features
+    - TESTS: integration-ldap-openldap-features
+      ENABLE_OPENLDAP: true
+    - TESTS: integration-ldap-openldap-uid-features
+      ENABLE_OPENLDAP: true
+    - TESTS: integration-ldap-openldap-numerical-id-features
+      ENABLE_OPENLDAP: true
     - TESTS: integration-trashbin
+    - TESTS: integration-remote-api
+    - TESTS: integration-download
     - TESTS: acceptance
       TESTS-ACCEPTANCE: access-levels
     - TESTS: acceptance
+      TESTS-ACCEPTANCE: app-comments
+    - TESTS: acceptance
       TESTS-ACCEPTANCE: app-files
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: app-files-tags
     - TESTS: acceptance
       TESTS-ACCEPTANCE: app-theming
     - TESTS: acceptance
+      TESTS-ACCEPTANCE: header
+    - TESTS: acceptance
       TESTS-ACCEPTANCE: login
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: users
+    - TESTS: acceptance
+      TESTS-ACCEPTANCE: apps
     - TESTS: jsunit
-    - TESTS: syntax-php5.6
     - TESTS: syntax-php7.0
     - TESTS: syntax-php7.1
+    - TESTS: syntax-php7.2
+    - TESTS: syntax-php7.3
     - TESTS: phan
     - TESTS: litmus-v1
     - TESTS: litmus-v2
@@ -814,6 +983,14 @@ matrix:
     - TESTS: carddavtester-old-endpoint
     - TESTS: object-store
       OBJECT_STORE: s3
+    - TESTS: object-store
+      OBJECT_STORE: azure
+#    - TESTS: object-store
+#      OBJECT_STORE: swift
+#      SWIFT-AUTH: v2.0
+#    - TESTS: object-store
+#      OBJECT_STORE: swift
+#      SWIFT-AUTH: v3
     - TESTS: sqlite-php7.0-samba-native
     - TESTS: sqlite-php7.0-samba-non-native
     - TEST: memcache-memcached
@@ -821,6 +998,7 @@ matrix:
       ENABLE_REDIS_CLUSTER: true
     - TESTS: sqlite-php7.0-webdav-apache
       ENABLE_REDIS: true
+    - TESTS: ui-regression
 
 services:
   cache:
@@ -828,21 +1006,56 @@ services:
     when:
       matrix:
        ENABLE_REDIS: true
+  ui-regression-php:
+    image: nextcloudci/server:server-1
+    commands:
+      - . /etc/apache2/envvars
+      - rm -fr /var/www/html
+      - mkdir /var/www/html && cp -rT . /var/www/html && chown -R www-data:www-data /var/www/html
+      - rm -fr /var/www/html/config/config.php /var/www/html/data/*
+      - apache2 -DFOREGROUND
+    when:
+      matrix:
+        TESTS: ui-regression
+  ui-regression-php-master:
+    image: nextcloudci/server:server-1
+    commands:
+      - . /etc/apache2/envvars
+      - rm -fr /var/www/html/config/config.php /var/www/html/data/*
+      - su www-data -c "cd /var/www/html/ && git checkout $DRONE_REPO_BRANCH && git pull && git submodule update"
+      - apache2 -DFOREGROUND 
+    when:
+      matrix:
+        TESTS: ui-regression
   cache-cluster:
     image: morrisjobke/redis-cluster
     when:
       matrix:
        ENABLE_REDIS_CLUSTER: true
-  postgres:
+  postgres-9:
     image: postgres:9
     environment:
       - POSTGRES_USER=oc_autotest
+      - POSTGRES_DB=oc_autotest_dummy
       - POSTGRES_PASSWORD=owncloud
     tmpfs:
       - /var/lib/postgresql/data
     when:
       matrix:
         DB: postgres
+        POSTGRES: 9
+  postgres-10:
+      image: postgres:10
+      environment:
+        - POSTGRES_USER=oc_autotest
+        - POSTGRES_DB=oc_autotest_dummy
+        - POSTGRES_PASSWORD=owncloud
+      tmpfs:
+        - /var/lib/postgresql/data
+      when:
+        matrix:
+          DB: postgres
+          POSTGRES: 10
   mysql:
     image: mysql:5.7
     environment:
@@ -880,7 +1093,7 @@ services:
       matrix:
         DB: mysql5.5
   mysqlmb4:
-    image: mysql
+    image: mysql:5.7.22
     environment:
       - MYSQL_ROOT_PASSWORD=owncloud
       - MYSQL_USER=oc_autotest
@@ -897,6 +1110,20 @@ services:
       when:
         matrix:
           OBJECT_STORE: s3
+  azurite:
+      image: arafato/azurite
+      environment:
+      - executable=blob
+      when:
+        matrix:
+          OBJECT_STORE: azure
+  dockswift:
+      image: icewind1991/dockswift:nextcloud-ci
+      environment:
+      - IPADDRESS=dockswift
+      when:
+        matrix:
+          OBJECT_STORE: swift
   selenium:
     image: selenium/standalone-firefox:2.53.1-beryllium
     environment:
@@ -906,5 +1133,15 @@ services:
     when:
       matrix:
         TESTS: acceptance
+  openldap:
+    image: nextcloudci/openldap:openldap-5
+    environment:
+      - SLAPD_DOMAIN=nextcloud.ci
+      - SLAPD_ORGANIZATION=Nextcloud
+      - SLAPD_PASSWORD=admin
+      - SLAPD_ADDITIONAL_MODULES=memberof
+    when:
+      matrix:
+        ENABLE_OPENLDAP: true
 
 branches: [ master, stable* ]

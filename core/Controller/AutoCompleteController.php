@@ -23,11 +23,10 @@
 
 namespace OC\Core\Controller;
 
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\OCSController as Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
-use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Share;
 
@@ -36,21 +35,17 @@ class AutoCompleteController extends Controller {
 	private $collaboratorSearch;
 	/** @var IManager */
 	private $autoCompleteManager;
-	/** @var IConfig */
-	private $config;
 
 	public function __construct(
 		$appName,
 		IRequest $request,
 		ISearch $collaboratorSearch,
-		IManager $autoCompleteManager,
-		IConfig $config
+		IManager $autoCompleteManager
 	) {
 		parent::__construct($appName, $request);
 
 		$this->collaboratorSearch = $collaboratorSearch;
 		$this->autoCompleteManager = $autoCompleteManager;
-		$this->config = $config;
 	}
 
 	/**
@@ -73,11 +68,13 @@ class AutoCompleteController extends Controller {
 		unset($results['exact']);
 		$results = array_merge_recursive($exactMatches, $results);
 
-		$sorters = array_reverse(explode('|', $sorter));
-		$this->autoCompleteManager->runSorters($sorters, $results, [
-			'itemType' => $itemType,
-			'itemId' => $itemId,
-		]);
+		if($sorter !== null) {
+			$sorters = array_reverse(explode('|', $sorter));
+			$this->autoCompleteManager->runSorters($sorters, $results, [
+				'itemType' => $itemType,
+				'itemId' => $itemId,
+			]);
+		}
 
 		// transform to expected format
 		$results = $this->prepareResultArray($results);

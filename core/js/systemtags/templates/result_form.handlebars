@@ -1,0 +1,7 @@
+<form class="systemtags-rename-form">
+	 <label class="hidden-visually" for="{{cid}}-rename-input">{{renameLabel}}</label>
+	<input id="{{cid}}-rename-input" type="text" value="{{name}}">
+	{{#if isAdmin}}
+		<a href="#" class="delete icon icon-delete" title="{{deleteTooltip}}"></a>
+	{{/if}}
+</form>

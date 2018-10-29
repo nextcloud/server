@@ -260,7 +260,6 @@ class ConfigAPIController extends OCSController {
 	 *     <ldapAttributesForGroupSearch></ldapAttributesForGroupSearch>
 	 *     <ldapExperiencedAdmin>0</ldapExperiencedAdmin>
 	 *     <homeFolderNamingRule></homeFolderNamingRule>
-	 *     <hasPagedResultSupport></hasPagedResultSupport>
 	 *     <hasMemberOfFilterSupport></hasMemberOfFilterSupport>
 	 *     <useMemberOfToDetectMembership>1</useMemberOfToDetectMembership>
 	 *     <ldapExpertUsernameAttr>uid</ldapExpertUsernameAttr>
@@ -285,7 +284,7 @@ class ConfigAPIController extends OCSController {
 
 			$config = new Configuration($configID);
 			$data = $config->getConfiguration();
-			if(!boolval(intval($showPassword))) {
+			if(!(int)$showPassword) {
 				$data['ldapAgentPassword'] = '***';
 			}
 			foreach ($data as $key => $value) {

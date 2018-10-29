@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -47,7 +48,7 @@ class CsrfTokenGenerator {
 	 * @param int $length Length of the token in characters.
 	 * @return string
 	 */
-	public function generateToken($length = 32) {
+	public function generateToken(int $length = 32): string {
 		return $this->random->generate($length);
 	}
 }

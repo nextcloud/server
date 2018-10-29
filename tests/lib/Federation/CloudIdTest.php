@@ -25,7 +25,7 @@ use OC\Federation\CloudId;
 use Test\TestCase;
 
 class CloudIdTest extends TestCase {
-	public function testGetDisplayCloudIdProvider() {
+	public function dataGetDisplayCloudId() {
 		return [
 			['test@example.com', 'test@example.com'],
 			['test@http://example.com', 'test@example.com'],
@@ -34,7 +34,7 @@ class CloudIdTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider testGetDisplayCloudIdProvider
+	 * @dataProvider dataGetDisplayCloudId
 	 *
 	 * @param string $id
 	 * @param string $display
