@@ -193,15 +193,15 @@
 				var $tr = fileList.findFileEl(fileInfoModel.get('name'));
 
 				// We count email shares as link share
-				var hasLinkShare = shareModel.hasLinkShare();
+				var hasLinkShares = shareModel.hasLinkShares();
 				shareModel.get('shares').forEach(function (share) {
 					if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
-						hasLinkShare = true;
+						hasLinkShares = true;
 					}
 				});
 
 				OCA.Sharing.Util._updateFileListDataAttributes(fileList, $tr, shareModel);
-				if (!OCA.Sharing.Util._updateFileActionIcon($tr, shareModel.hasUserShares(), hasLinkShare)) {
+				if (!OCA.Sharing.Util._updateFileActionIcon($tr, shareModel.hasUserShares(), hasLinkShares)) {
 					// remove icon, if applicable
 					OC.Share.markFileAsShared($tr, false, false);
 				}
@@ -249,15 +249,15 @@
 		 *
 		 * @param $tr file element of the file to update
 		 * @param {boolean} hasUserShares true if a user share exists
-		 * @param {boolean} hasLinkShare true if a link share exists
+		 * @param {boolean} hasLinkShares true if a link share exists
 		 *
 		 * @return {boolean} true if the icon was set, false otherwise
 		 */
-		_updateFileActionIcon: function($tr, hasUserShares, hasLinkShare) {
+		_updateFileActionIcon: function($tr, hasUserShares, hasLinkShares) {
 			// if the statuses are loaded already, use them for the icon
 			// (needed when scrolling to the next page)
-			if (hasUserShares || hasLinkShare || $tr.attr('data-share-recipient-data') || $tr.attr('data-share-owner')) {
-				OC.Share.markFileAsShared($tr, true, hasLinkShare);
+			if (hasUserShares || hasLinkShares || $tr.attr('data-share-recipient-data') || $tr.attr('data-share-owner')) {
+				OC.Share.markFileAsShared($tr, true, hasLinkShares);
 				return true;
 			}
 			return false;

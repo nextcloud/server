@@ -194,30 +194,28 @@
 		display: flex;
 		align-items: center;
 		white-space: nowrap;
-		// can edit label
-		> .shareOption > label {
-			padding: 13px;
-			padding-right: 0;
+
+		// icons
+		> .icon:not(.hidden),
+		.share-menu > .icon:not(.hidden) {
+			padding: 14px;
+			height: 44px;
+			width: 44px;
+			opacity: .5;
+			display: block;
+			cursor: pointer;
+
+			&:hover,
+			&:focus,
+			&:active {
+				opacity: .7;;
+			}
 		}
+
 		// more menu
 		> .share-menu  {
 			position: relative;
 			display: block;
-			.icon-more {
-				padding: 14px;
-				height: 44px;
-				width: 44px;
-				opacity: .5;
-				display: block;
-				cursor: pointer;
-			}
-			&:hover,
-			&:focus,
-			&:active {
-				.icon-more {
-					opacity: .7;;
-				}
-			}
 		}
 	}
 	.username {

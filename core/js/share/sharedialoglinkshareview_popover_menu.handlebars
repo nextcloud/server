@@ -6,6 +6,13 @@
 				<span>{{copyLabel}}</span>
 			</a>
 		</li>
+		<li>
+			<a href="#" class="new-share">
+				<span class="icon-loading-small hidden"></span>
+				<span class="icon icon-add"></span>
+				<span>{{newShareTitle}}</span>
+			</a>
+		</li>
 		<li class="hidden linkTextMenu">
 			<span class="menuitem icon-link-text">
 				<input id="linkText-{{cid}}" class="linkText" type="text" readonly="readonly" value="{{shareLinkURL}}" />
@@ -70,14 +77,15 @@
 		<li>
 			<span class="shareOption menuitem">
 				<input id="expireDate-{{cid}}" type="checkbox" name="expirationDate" class="expireDate checkbox"
-				{{#if hasExpireDate}}checked="checked"{{/if}} {{#if isExpirationEnforced}}disabled="disabled"{{/if}}" />
+				{{#if hasExpireDate}}checked="checked"{{/if}} {{#if isExpirationEnforced}}disabled="disabled"{{/if}} />
 				<label for="expireDate-{{cid}}">{{expireDateLabel}}</label>
 			</span>
 		</li>
 		<li class="{{#unless hasExpireDate}}hidden{{/unless}}">
 			<span class="menuitem icon-expiredate expirationDateContainer-{{cid}}">
 				<label for="expirationDatePicker-{{cid}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>
-				<input id="expirationDatePicker-{{cid}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" />
+				<input id="expirationDatePicker-{{cid}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}"
+					value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" data-max-date="{{maxDate}}" />
 			</span>
 			</li>
 		<li>
@@ -88,7 +96,7 @@
 				<input type="button" class="share-note-delete icon-delete">
 			</a>
 		</li>
-		<li class="share-note-form share-note-link hidden">
+		<li class="share-note-form share-note-link {{#unless hasNote}}hidden{{/unless}}">
 			<span class="menuitem icon-note">
 				<textarea class="share-note">{{shareNote}}</textarea>
 				<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />
@@ -102,5 +110,8 @@
 				</a>
 			</li>
 		{{/each}}
+		<li>
+			<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>
+		</li>
 	</ul>
 </div>

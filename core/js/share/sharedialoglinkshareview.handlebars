@@ -1,14 +1,19 @@
 {{#if shareAllowed}}
 <ul id="shareLink" class="shareWithList">
-	<li data-share-id="{{cid}}">
-		<div class="avatar icon-public-white"></div><span class="username" title="{{linkShareLabel}}">{{linkShareLabel}}</span>
-		<span class="sharingOptionsGroup">
-			<span class="shareOption">
-				<span class="icon-loading-small hidden"></span>
-				<input id="linkCheckbox-{{cid}}" {{#if isLinkShare}}checked="checked"{{/if}} type="checkbox" name="linkCheckbox" class="linkCheckbox permissions checkbox">
-				<label for="linkCheckbox-{{cid}}">{{linkShareEnableLabel}}</label>
+	{{#if nolinkShares}}
+		<li>
+			<div class="avatar icon-public-white"></div>
+			<span class="username">{{newShareLabel}}</span>
+			<span class="sharingOptionsGroup">
+				<span class="icon icon-add new-share" title="{{newShareTitle}}"></span>
+				<span class="icon icon-loading-small hidden"></span>
 			</span>
-			{{#if showMenu}}
+		</li>
+	{{/if}}
+	{{#each linkShares}}
+		<li data-share-id="{{cid}}">
+			<div class="avatar icon-public-white"></div><span class="username" title="{{linkShareLabel}}">{{linkShareLabel}}</span>
+			<span class="sharingOptionsGroup">
 				<div class="share-menu" tabindex="0"><span class="icon icon-more"></span>
 					{{#if showPending}}
 						{{{pendingPopoverMenu}}}
@@ -16,9 +21,9 @@
 						{{{popoverMenu}}}
 					{{/if}}
 				</div>
-			{{/if}}
-		</span>
-	</li>
+			</span>
+		</li>
+	{{/each}}
 </ul>
 {{else}}
 {{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}
