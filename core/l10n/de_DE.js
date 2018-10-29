@@ -358,7 +358,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Aktualisierung über die Web-Oberfläche auf eigenes Risiko",
     "Maintenance mode" : "Wartungsmodus",
     "This %s instance is currently in maintenance mode, which may take a while." : "Diese %s-Instanz befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
-    "This page will refresh itself when the instance is available again." : "Diese Seite aktualisiert sich automatisch, sobald Nextcloud wieder erreichbar ist.",
+    "This page will refresh itself when the instance is available again." : "Diese Seite aktualisiert sich automatisch, sobald Nextcloud wieder verfügbar ist.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktieren Sie Ihren Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
     "Updated \"%s\" to %s" : "„%s“ zu %s aktualisiert",
     "%s (3rdparty)" : "%s (Drittanbieter)",

@@ -111,6 +111,7 @@ OC.L10N.register(
     "Request timeout (seconds)" : "Tímamörk á beiðni (sekúndur)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Stuðningur við cURL í PHP er ekki virkjaður eða ekki uppsettur. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Stuðningur við FTP í PHP er ekki virkjaður eða ekki uppsettur. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
+    "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" er ekki uppsett. Tenging %2$s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp.",
     "External storage support" : "Stuðningur við utanaðkomandi gagnageymslur",
     "Adds basic external storage support" : "Bætir við grunnstuðningi fyrir utanaðkomandi gagnageymslur",
     "No external storage configured or you don't have the permission to configure them" : "Engin utanaðkomandi gagnageymsla er uppsett eða að þú hefur ekki heimild til að stilla slíkt",

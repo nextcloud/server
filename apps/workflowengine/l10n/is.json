@@ -15,6 +15,7 @@
     "matches" : "samsvarar",
     "does not match" : "samsvarar ekki",
     "Example: {placeholder}" : "Dæmi: {placeholder}",
+    "File name" : "Skráarheiti",
     "File size (upload)" : "Skráarstærð (innsending)",
     "less" : "minna en",
     "less or equals" : "minna eða jafnt",

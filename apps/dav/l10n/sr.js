@@ -59,6 +59,7 @@ OC.L10N.register(
     "More options …" : "Још опција…",
     "More options at %s" : "Још опција на %s",
     "Contacts" : "Контакти",
+    "%s (group)" : "%s (група)",
     "WebDAV" : "ВебДАВ",
     "WebDAV endpoint" : "WebDAV крајња тачка",
     "Technical details" : "Технички детаљи",
