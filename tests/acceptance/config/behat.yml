@@ -23,6 +23,34 @@ default:
         - SettingsMenuContext
         - ThemingAppContext
         - UsersSettingsContext
+      filters:
+        tags: "~@apache"
+    apache:
+      paths:
+        - %paths.base%/../features
+      contexts:
+        - ActorContext
+        - NextcloudTestServerContext:
+            nextcloudTestServerHelper: NextcloudTestServerLocalApacheHelper
+
+        - AppNavigationContext
+        - AppSettingsContext
+        - AppsManagementContext
+        - CommentsAppContext
+        - ContactsMenuContext
+        - DialogContext
+        - FeatureContext
+        - FileListContext
+        - FilesAppContext
+        - FilesSharingAppContext
+        - LoginPageContext
+        - NotificationContext
+        - SettingsContext
+        - SettingsMenuContext
+        - ThemingAppContext
+        - UsersSettingsContext
+      filters:
+        tags: "@apache"
   extensions:
     Behat\MinkExtension:
       sessions:
