@@ -371,6 +371,9 @@
 			if(_.isArray(sharees)) {
 				for (var i = 0; i < sharees.length; i++) {
 					data.sharees[i].popoverMenu = this.popoverMenuTemplate(sharees[i]);
+					if (data.sharees[i].shareType === OC.Share.SHARE_TYPE_USER && data.sharees[i].shareWith === OC.getCurrentUser().uid) {
+						data.sharees.splice(i, 1);
+					}
 				}
 			}
 			return OC.Share.Templates['sharedialogshareelistview'](data);
