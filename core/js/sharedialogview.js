@@ -312,6 +312,41 @@
 
 						var suggestions = exactMatches.concat(users).concat(groups).concat(remotes).concat(remoteGroups).concat(emails).concat(circles).concat(rooms).concat(lookup);
 
+						function dynamicSort(property) {
+							return function (a,b) {
+								var aProperty = '';
+								var bProperty = '';
+								if (typeof a[property] !== 'undefined') {
+									aProperty = a[property];
+								}
+								if (typeof b[property] !== 'undefined') {
+									bProperty = b[property];
+								}
+								return (aProperty < bProperty) ? -1 : (aProperty > bProperty) ? 1 : 0;
+							}
+						}
+
+						/**
+						 * Sort share entries by uuid to properly group them
+						 */
+						var grouped = suggestions.sort(dynamicSort('uuid'));
+
+						var previousUuid = null;
+						var groupedLength = grouped.length;
+						var result = [];
+						/**
+						 * build the result array that only contains all contact entries from
+						 * merged contacts, if the search term matches its contact name
+						 */
+						for (i = 0; i < groupedLength; i++) {
+							if (typeof grouped[i].uuid !== 'undefined' && grouped[i].uuid === previousUuid) {
+								grouped[i].merged = true;
+							}
+							if (searchTerm === grouped[i].name || typeof grouped[i].merged === 'undefined') {
+								result.push(grouped[i]);
+							}
+							previousUuid = grouped[i].uuid;
+						}
 						var moreResultsAvailable =
 							(
 								oc_config['sharing.maxAutocompleteResults'] > 0
@@ -328,7 +363,7 @@
 									)
 							);
 
-						deferred.resolve(suggestions, exactMatches, moreResultsAvailable);
+						deferred.resolve(result, exactMatches, moreResultsAvailable);
 					} else {
 						deferred.reject(result.ocs.meta.message);
 					}
@@ -441,33 +476,72 @@
 		},
 
 		autocompleteRenderItem: function(ul, item) {
-
+			var icon = 'icon-user';
 			var text = item.label;
+			if (typeof item.name !== 'undefined') {
+				text = item.name;
+			}
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
-				text = t('core', '{sharee} (group)', { sharee: text }, undefined, { escape: false });
+				icon = 'icon-contacts-dark';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
-				text = t('core', '{sharee} (remote)', {sharee: text}, undefined, {escape: false});
+				icon = 'icon-shared';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
 				text = t('core', '{sharee} (remote group)', { sharee: text }, undefined, { escape: false });
+				icon = 'icon-shared';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
-				text = t('core', '{sharee} (email)', { sharee: text }, undefined, { escape: false });
+				icon = 'icon-mail';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 				text = t('core', '{sharee} ({type}, {owner})', {sharee: text, type: item.value.circleInfo, owner: item.value.circleOwner}, undefined, {escape: false});
+				icon = 'icon-circle';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_ROOM) {
-				text = t('core', '{sharee} (conversation)', { sharee: text }, undefined, { escape: false });
+				icon = 'icon-talk';
+			}
+			var description = '';
+			var getTranslatedType = function(type) {
+				switch (type) {
+					case 'HOME':
+						return t('core', 'Home');
+					case 'WORK':
+						return t('core', 'Home');
+					case 'OTHER':
+						return t('core', 'Other');
+					default:
+						return type;
+				}
+			};
+			if (typeof item.type !== 'undefined' && item.type !== null) {
+				description = getTranslatedType(item.type);
 			}
 			var insert = $("<div class='share-autocomplete-item'/>");
-			var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
-			if (item.value.shareType === OC.Share.SHARE_TYPE_USER || item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
-				avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
+			if (item.merged) {
+				insert.addClass('merged');
+				text = item.value.shareWith;
 			} else {
-				avatar.imageplaceholder(text, undefined, 32);
+				var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
+				if (item.value.shareType === OC.Share.SHARE_TYPE_USER || item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
+					avatar.avatar(item.value.shareWith, 32, undefined, undefined, undefined, item.label);
+				} else {
+					if (typeof item.uuid === 'undefined') {
+						item.uuid = text;
+					}
+					avatar.imageplaceholder(item.uuid, text, 32);
+				}
+				description = item.value.shareWith;
+			}
+			if (description !== '') {
+				insert.addClass('with-description');
 			}
 
 			$("<div class='autocomplete-item-text'></div>")
-				.text(text)
+				.html(
+					text.replace(
+					new RegExp(this.term, "gi"),
+					"<span class='ui-state-highlight'>$&</span>")
+					+ '<span class="autocomplete-item-details">' + description + '</span>'
+				)
 				.appendTo(insert);
 			insert.attr('title', item.value.shareWith);
+			insert.append('<span class="icon '+icon+'" title="' + text + '"></span>');
 			insert = $("<a>")
 				.append(insert);
 			return $("<li>")
@@ -478,6 +552,20 @@
 
 		_onSelectRecipient: function(e, s) {
 			var self = this;
+
+			if (e.keyCode == 9) {
+				e.preventDefault();
+				if (typeof s.item.name !== 'undefined') {
+					e.target.value = s.item.name;
+				} else {
+					e.target.value = s.item.label;
+				}
+				setTimeout(function() {
+					$(e.target).attr('disabled', false)
+						.autocomplete('search', $(e.target).val());
+				}, 0);
+				return false;
+			}
 
 			e.preventDefault();
 			// Ensure that the keydown handler for the input field is not
