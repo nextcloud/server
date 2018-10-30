@@ -316,6 +316,7 @@ table td.filename .thumbnail {
 	background-size: 32px;
 	margin-left: 9px;
 	margin-top: 9px;
+	border-radius: var(--border-radius);
 	cursor: pointer;
 	position: absolute;
 	z-index: 4;
