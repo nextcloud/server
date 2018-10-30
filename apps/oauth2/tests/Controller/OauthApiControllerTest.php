@@ -22,11 +22,9 @@
 namespace OCA\OAuth2\Tests\Controller;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Token\DefaultToken;
-use OC\Authentication\Token\DefaultTokenMapper;
-use OC\Authentication\Token\ExpiredTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
-use OC\Authentication\Token\IToken;
 use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Controller\OauthApiController;
 use OCA\OAuth2\Db\AccessToken;
