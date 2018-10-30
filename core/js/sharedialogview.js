@@ -339,15 +339,11 @@
 						 * merged contacts, if the search term matches its contact name
 						 */
 						for (i = 0; i < groupedLength; i++) {
-							console.log(grouped[i]);
 							if (typeof grouped[i].uuid !== 'undefined' && grouped[i].uuid === previousUuid) {
 								grouped[i].merged = true;
-							} else {
-								grouped[i].merged = false;
 							}
-							if (searchTerm === grouped[i].name || grouped[i].merged === false) {
+							if (searchTerm === grouped[i].name || typeof grouped[i].merged === 'undefined') {
 								result.push(grouped[i]);
-							} else {
 							}
 							previousUuid = grouped[i].uuid;
 						}
