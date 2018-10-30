@@ -22,17 +22,16 @@
 
 namespace Test\Authentication\Token;
 
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenProvider;
-use OC\Authentication\Token\ExpiredTokenException;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\IUser;
 use OCP\Security\ICrypto;
 use Test\TestCase;
 
