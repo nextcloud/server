@@ -1247,12 +1247,15 @@ class UserTest extends \Test\TestCase {
 		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
 
+		$user = new User(
+			'user', 'cn=user', $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
+
 		$config->expects($this->once())
 			->method('setUserValue');
 		$oldName = $expectTriggerChange ? 'xxGunslingerxx' : null;
-		$this->config->expects($this->once())
+		$config->expects($this->once())
 			->method('getUserValue')
-			->with($this->user->getUsername(), 'user_ldap', 'displayName', null)
+			->with($user->getUsername(), 'user_ldap', 'displayName', null)
 			->willReturn($oldName);
 
 		$ncUserObj = $this->createMock(\OC\User\User::class);
@@ -1264,29 +1267,32 @@ class UserTest extends \Test\TestCase {
 			$ncUserObj->expects($this->never())
 				->method('triggerChange');
 		}
-		$this->userManager->expects($this->once())
+		$userMgr->expects($this->once())
 			->method('get')
 			->willReturn($ncUserObj);
-
-		$user = new User(
-			'user', 'cn=user', $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
 		$displayName = $user->composeAndStoreDisplayName($part1, $part2);
 		$this->assertSame($expected, $displayName);
 	}
 
 	public function testComposeAndStoreDisplayNameNoOverwrite() {
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
+			$this->getTestInstances();
+
+		$user = new User(
+			'user', 'cn=user', $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
+
 		$displayName = 'Randall Flagg';
-		$this->config->expects($this->never())
+		$config->expects($this->never())
 			->method('setUserValue');
-		$this->config->expects($this->once())
+		$config->expects($this->once())
 			->method('getUserValue')
 			->willReturn($displayName);
 
-		$this->userManager->expects($this->never())
+		$userMgr->expects($this->never())
 			->method('get'); // Implicit: no triggerChange can be called
 
-		$composedDisplayName = $this->user->composeAndStoreDisplayName($displayName);
+		$composedDisplayName = $user->composeAndStoreDisplayName($displayName);
 		$this->assertSame($composedDisplayName, $displayName);
 	}
 
