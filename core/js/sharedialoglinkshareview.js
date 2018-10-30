@@ -47,6 +47,8 @@
 			'change .linkCheckbox': 'onLinkCheckBoxChange',
 			// open menu
 			'click .share-menu .icon-more': 'onToggleMenu',
+			// hide download
+			'change .hideDownloadCheckbox': 'onHideDownloadChange',
 			// password
 			'focusout input.linkPassText': 'onPasswordEntered',
 			'keyup input.linkPassText': 'onPasswordKeyUp',
@@ -177,6 +179,20 @@
 			var $el = this.$el.find('.linkText');
 			$el.focus();
 			$el.select();
+		},
+
+		onHideDownloadChange: function() {
+			var $checkbox = this.$('.hideDownloadCheckbox');
+			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
+
+			var hideDownload = false;
+			if($checkbox.is(':checked')) {
+				hideDownload = true;
+			}
+
+			this.model.saveLinkShare({
+				hideDownload: hideDownload
+			});
 		},
 
 		onShowPasswordClick: function() {
@@ -401,6 +417,9 @@
 			var passwordPlaceholderInitial = this.configModel.get('enforcePasswordForPublicLink')
 				? PASSWORD_PLACEHOLDER_MESSAGE : PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL;
 
+			var showHideDownloadCheckbox = !this.model.isFolder();
+			var hideDownload = this.model.get('linkShare').hideDownload;
+
 			var publicEditable =
 				!this.model.isFolder()
 				&& isLinkShare
@@ -464,6 +483,9 @@
 
 				shareLinkURL: this.model.get('linkShare').link,
 				urlLabel: t('core', 'Link'),
+				showHideDownloadCheckbox: showHideDownloadCheckbox,
+				hideDownload: hideDownload,
+				hideDownloadLabel: t('core', 'Hide download'),
 				enablePasswordLabel: t('core', 'Password protect'),
 				passwordLabel: t('core', 'Password'),
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
