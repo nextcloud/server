@@ -89,6 +89,7 @@ class MailPlugin implements ISearchPlugin {
 				}
 				foreach ($emailAddresses as $type => $emailAddress) {
 					$displayName = $emailAddress;
+					$emailAddressType = null;
 					if (\is_array($emailAddress)) {
 						$emailAddressData = $emailAddress;
 						$emailAddress = $emailAddressData['value'];
@@ -171,7 +172,7 @@ class MailPlugin implements ISearchPlugin {
 							'label' => $displayName,
 							'uuid' => $contact['UID'],
 							'name' => $contact['FN'],
-							'type' => $emailAddressType,
+							'type' => $emailAddressType ?? '',
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
@@ -182,7 +183,7 @@ class MailPlugin implements ISearchPlugin {
 							'label' => $displayName,
 							'uuid' => $contact['UID'],
 							'name' => $contact['FN'],
-							'type' => $emailAddressType,
+							'type' => $emailAddressType ?? '',
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
