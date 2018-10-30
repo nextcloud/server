@@ -71,7 +71,6 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
         'OCA\\User_LDAP\\UserPluginManager' => __DIR__ . '/..' . '/../lib/UserPluginManager.php',
         'OCA\\User_LDAP\\User\\DeletedUsersIndex' => __DIR__ . '/..' . '/../lib/User/DeletedUsersIndex.php',
-        'OCA\\User_LDAP\\User\\IUserTools' => __DIR__ . '/..' . '/../lib/User/IUserTools.php',
         'OCA\\User_LDAP\\User\\Manager' => __DIR__ . '/..' . '/../lib/User/Manager.php',
         'OCA\\User_LDAP\\User\\OfflineUser' => __DIR__ . '/..' . '/../lib/User/OfflineUser.php',
         'OCA\\User_LDAP\\User\\User' => __DIR__ . '/..' . '/../lib/User/User.php',

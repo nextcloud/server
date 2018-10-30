@@ -45,7 +45,7 @@ use OCP\Notification\IManager as INotificationManager;
  * cache
  */
 class Manager {
-	/** @var IUserTools */
+	/** @var Access */
 	protected $access;
 
 	/** @var IConfig */
@@ -110,11 +110,11 @@ class Manager {
 	}
 
 	/**
-	 * @brief binds manager to an instance of IUserTools (implemented by
-	 * Access). It needs to be assigned first before the manager can be used.
-	 * @param IUserTools
+	 * Binds manager to an instance of Access.
+	 * It needs to be assigned first before the manager can be used.
+	 * @param Access
 	 */
-	public function setLdapAccess(IUserTools $access) {
+	public function setLdapAccess(Access $access) {
 		$this->access = $access;
 	}
 
