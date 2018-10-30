@@ -652,7 +652,6 @@ return array(
     'OC\\Core\\Migrations\\Version14000Date20180710092004' => $baseDir . '/core/Migrations/Version14000Date20180710092004.php',
     'OC\\Core\\Migrations\\Version14000Date20180712153140' => $baseDir . '/core/Migrations/Version14000Date20180712153140.php',
     'OC\\Core\\Migrations\\Version15000Date20180926101451' => $baseDir . '/core/Migrations/Version15000Date20180926101451.php',
-    'OC\\Core\\Migrations\\Version15000Date20180927120000' => $baseDir . '/core/Migrations/Version15000Date20180927120000.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
     'OC\\DB\\AdapterMySQL' => $baseDir . '/lib/private/DB/AdapterMySQL.php',
     'OC\\DB\\AdapterOCI8' => $baseDir . '/lib/private/DB/AdapterOCI8.php',
