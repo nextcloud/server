@@ -798,7 +798,7 @@ code {
 		&.view-grid {
 			$grid-size: 120px;
 			$grid-pad: 10px;
-			$name-height: 20px;
+			$name-height: 30px;
 			display: flex;
 			flex-direction: column;
 
@@ -821,17 +821,17 @@ code {
 					td {
 						border: none;
 						padding: 0;
+						text-align: center;
 
 						&.filename {
 							padding: #{$grid-size - 2 * $grid-pad} 0 0 0;
 							background-position: center top;
 							background-size: contain;
 							line-height: $name-height;
-							height: $name-height;
 						}
 						&.filesize {
-							line-height: $name-height;
-							text-align: left;
+							line-height: $name-height / 3;
+							width: 100%;
 						}
 						&.date {
 							display: none;
