@@ -1232,27 +1232,68 @@ class UserTest extends \Test\TestCase {
 
 	public function displayNameProvider() {
 		return [
-			['Roland Deschain', '', 'Roland Deschain'],
-			['Roland Deschain', null, 'Roland Deschain'],
-			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)'],
+			['Roland Deschain', '', 'Roland Deschain', false],
+			['Roland Deschain', '', 'Roland Deschain', true],
+			['Roland Deschain', null, 'Roland Deschain', false],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', false],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', true],
 		];
 	}
 
 	/**
 	 * @dataProvider displayNameProvider
 	 */
-	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
+	public function testComposeAndStoreDisplayName($part1, $part2, $expected, $expectTriggerChange) {
 		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
 			$this->getTestInstances();
-
-		$config->expects($this->once())
-			->method('setUserValue');
 
 		$user = new User(
 			'user', 'cn=user', $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
 
+		$config->expects($this->once())
+			->method('setUserValue');
+		$oldName = $expectTriggerChange ? 'xxGunslingerxx' : null;
+		$config->expects($this->once())
+			->method('getUserValue')
+			->with($user->getUsername(), 'user_ldap', 'displayName', null)
+			->willReturn($oldName);
+
+		$ncUserObj = $this->createMock(\OC\User\User::class);
+		if ($expectTriggerChange) {
+			$ncUserObj->expects($this->once())
+				->method('triggerChange')
+				->with('displayName', $expected);
+		} else {
+			$ncUserObj->expects($this->never())
+				->method('triggerChange');
+		}
+		$userMgr->expects($this->once())
+			->method('get')
+			->willReturn($ncUserObj);
+
 		$displayName = $user->composeAndStoreDisplayName($part1, $part2);
 		$this->assertSame($expected, $displayName);
+	}
+
+	public function testComposeAndStoreDisplayNameNoOverwrite() {
+		list(, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr) =
+			$this->getTestInstances();
+
+		$user = new User(
+			'user', 'cn=user', $this->access, $config, $filesys, $image, $log, $avaMgr, $userMgr, $notiMgr);
+
+		$displayName = 'Randall Flagg';
+		$config->expects($this->never())
+			->method('setUserValue');
+		$config->expects($this->once())
+			->method('getUserValue')
+			->willReturn($displayName);
+
+		$userMgr->expects($this->never())
+			->method('get'); // Implicit: no triggerChange can be called
+
+		$composedDisplayName = $user->composeAndStoreDisplayName($displayName);
+		$this->assertSame($composedDisplayName, $displayName);
 	}
 
 	public function testHandlePasswordExpiryWarningDefaultPolicy() {

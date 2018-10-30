@@ -414,14 +414,23 @@ class User {
 	 *
 	 * @param string $displayName
 	 * @param string $displayName2
-	 * @returns string the effective display name
+	 * @return string the effective display name
 	 */
 	public function composeAndStoreDisplayName($displayName, $displayName2 = '') {
 		$displayName2 = strval($displayName2);
 		if($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
-		$this->store('displayName', $displayName);
+		$oldName = $this->config->getUserValue($this->uid, 'user_ldap', 'displayName', null);
+		if ($oldName !== $displayName)  {
+			$this->store('displayName', $displayName);
+			$user = $this->userManager->get($this->getUsername());
+			if (!empty($oldName) && $user instanceof \OC\User\User) {
+				// if it was empty, it would be a new record, not a change emitting the trigger could
+				// potentially cause a UniqueConstraintViolationException, depending on some factors.
+				$user->triggerChange('displayName', $displayName);
+			}
+		}
 		return $displayName;
 	}
 
