@@ -31,7 +31,9 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Share;
 use Test\TestCase;
 
@@ -66,7 +68,15 @@ class RemotePluginTest extends TestCase {
 	}
 
 	public function instantiatePlugin() {
-		$this->plugin = new RemotePlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->userManager, 'admin');
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('admin');
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$this->plugin = new RemotePlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->userManager, $userSession);
 	}
 
 	/**

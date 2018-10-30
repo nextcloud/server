@@ -31,6 +31,7 @@ use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Share;
 
 class RemotePlugin implements ISearchPlugin {
@@ -45,15 +46,17 @@ class RemotePlugin implements ISearchPlugin {
 	/** @var IUserManager */
 	private $userManager;
 	/** @var string */
-	private $userId;
+	private $userId = '';
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IUserManager $userManager, $userId) {
+	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IUserManager $userManager, IUserSession $userSession) {
 		$this->contactsManager = $contactsManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->config = $config;
 		$this->userManager = $userManager;
-		$this->userId = $userId;
-
+		$user = $userSession->getUser();
+		if ($user !== null) {
+			$this->userId = $user->getUID();
+		}
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
 
