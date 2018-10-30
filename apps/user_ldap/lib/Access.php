@@ -624,9 +624,9 @@ class Access extends LDAPUtility implements IUserTools {
 		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
-		if(is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
-			if($this->ncUserManager instanceof PublicEmitter && $isUser) {
-				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$intName]);
+		if (is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
+			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
+				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$altName]);
 			}
 			$newlyMapped = true;
 			return $altName;
