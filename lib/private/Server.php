@@ -82,6 +82,7 @@ use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\View;
+use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
@@ -138,6 +139,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
@@ -1184,6 +1186,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(IDashboardManager::class, Dashboard\DashboardManager::class);
+		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
 
 		$this->connectDispatcher();
 	}
