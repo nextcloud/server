@@ -71,8 +71,13 @@
 			 */
 			this.search = function(event) {
 				event.preventDefault();
+				var searchby = document.getElementById('searchby').value;
 				var query = document.getElementById('searchbox').value;
-				self.searchCallback(query);
+				if (query.length >= searchby) {
+					self.searchCallback(query);
+				} else {
+					self.resetCallback();
+				}
 			};
 
 			/**

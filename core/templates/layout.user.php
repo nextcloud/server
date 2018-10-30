@@ -104,6 +104,7 @@
 					<label for="searchbox" class="hidden-visually">
 						<?php p($l->t('Search'));?>
 					</label>
+					<input id="searchby" type="hidden" value="<?php p(\OC::$server->getConfig()->getSystemValue('searchby')) ?>">  //you still have to add 'searchby' index into your $CONFIG arraz in config.php
 					<input id="searchbox" type="search" name="query"
 						value="" required class="hidden icon-search-white"
 						autocomplete="off">
