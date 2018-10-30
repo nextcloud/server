@@ -3,6 +3,7 @@
 		<li data-share-id="{{shareId}}" data-share-type="{{shareType}}" data-share-with="{{shareWith}}">
 			<div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" data-avatar="{{shareWithAvatar}}" data-displayname="{{shareWithDisplayName}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>
 			<span class="username" title="{{shareWithTitle}}">{{shareWithDisplayName}}</span>
+			{{#if canUpdateShareSettings }}
 			<span class="sharingOptionsGroup">
 				{{#if editPermissionPossible}}
 					<span>
@@ -14,6 +15,7 @@
 					{{{popoverMenu}}}
 				</div>
 			</span>
+			{{/if}}
 		</li>
 	{{/each}}
 	{{#each linkReshares}}
