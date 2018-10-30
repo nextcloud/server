@@ -124,7 +124,7 @@ class SetVcardDatabaseUID implements IRepairStep {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
 
 		// was added to 15.0.0.2
-		return version_compare($versionFromBeforeUpdate, '15.0.0.3', '<=');
+		return version_compare($versionFromBeforeUpdate, '15.0.0.2', '<=');
 	}
 
 	public function run(IOutput $output) {
