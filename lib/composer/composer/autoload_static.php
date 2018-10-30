@@ -262,6 +262,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files\\Storage\\IStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IStorage.php',
         'OCP\\Files\\Storage\\IStorageFactory' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IStorageFactory.php',
         'OCP\\Files\\UnseekableException' => __DIR__ . '/../../..' . '/lib/public/Files/UnseekableException.php',
+        'OCP\\Files_FullTextSearch\\Model\\AFilesDocument' => __DIR__ . '/../../..' . '/lib/public/Files_FullTextSearch/Model/AFilesDocument.php',
         'OCP\\FullTextSearch\\Exceptions\\FullTextSearchAppNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/Exceptions/FullTextSearchAppNotAvailableException.php',
         'OCP\\FullTextSearch\\IFullTextSearchManager' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/IFullTextSearchManager.php',
         'OCP\\FullTextSearch\\IFullTextSearchPlatform' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/IFullTextSearchPlatform.php',
