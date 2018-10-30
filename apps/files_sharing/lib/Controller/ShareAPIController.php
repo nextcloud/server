@@ -240,6 +240,9 @@ class ShareAPIController extends OCSController {
 
 			$shareWithStart = ($hasCircleId? strrpos($share->getSharedWith(), '[') + 1: 0);
 			$shareWithLength = ($hasCircleId? -1: strpos($share->getSharedWith(), ' '));
+			if (is_bool($shareWithLength)) {
+				$shareWithLength = -1;
+			}
 			$result['share_with'] = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
 		} else if ($share->getShareType() === Share::SHARE_TYPE_ROOM) {
 			$result['share_with'] = $share->getSharedWith();
@@ -1135,6 +1138,25 @@ class ShareAPIController extends OCSController {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP && $this->groupManager->isInGroup($userId, $share->getSharedWith())) {
 			return true;
+		}
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles') &&
+		class_exists('\OCA\Circles\Api\v1\Circles')) {
+			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
+			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
+			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
+			if (is_bool($shareWithLength)) {
+				$shareWithLength = -1;
+			}
+			$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
+			try {
+				$member = \OCA\Circles\Api\v1\Circles::getMember($sharedWith, $userId, 1);
+				if ($member->getLevel() > 0) {
+					return true;
+				}
+			} catch (QueryException $e) {
+				return false;
+			}
 		}
 
 		return false;
