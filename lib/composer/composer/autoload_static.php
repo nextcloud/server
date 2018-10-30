@@ -700,7 +700,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Migrations\\Version14000Date20180710092004' => __DIR__ . '/../../..' . '/core/Migrations/Version14000Date20180710092004.php',
         'OC\\Core\\Migrations\\Version14000Date20180712153140' => __DIR__ . '/../../..' . '/core/Migrations/Version14000Date20180712153140.php',
         'OC\\Core\\Migrations\\Version15000Date20180926101451' => __DIR__ . '/../../..' . '/core/Migrations/Version15000Date20180926101451.php',
-        'OC\\Core\\Migrations\\Version15000Date20180927120000' => __DIR__ . '/../../..' . '/core/Migrations/Version15000Date20180927120000.php',
         'OC\\Core\\Migrations\\Version15000Date20181015062942' => __DIR__ . '/../../..' . '/core/Migrations/Version15000Date20181015062942.php',
         'OC\\DB\\Adapter' => __DIR__ . '/../../..' . '/lib/private/DB/Adapter.php',
         'OC\\DB\\AdapterMySQL' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterMySQL.php',

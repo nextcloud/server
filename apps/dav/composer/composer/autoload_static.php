@@ -171,6 +171,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\Version1005Date20180530124431' => __DIR__ . '/..' . '/../lib/Migration/Version1005Date20180530124431.php',
         'OCA\\DAV\\Migration\\Version1006Date20180619154313' => __DIR__ . '/..' . '/../lib/Migration/Version1006Date20180619154313.php',
         'OCA\\DAV\\Migration\\Version1007Date20181007225117' => __DIR__ . '/..' . '/../lib/Migration/Version1007Date20181007225117.php',
+        'OCA\\DAV\\Migration\\Version1008Date20181030113700' => __DIR__ . '/..' . '/../lib/Migration/Version1008Date20181030113700.php',
         'OCA\\DAV\\RootCollection' => __DIR__ . '/..' . '/../lib/RootCollection.php',
         'OCA\\DAV\\Server' => __DIR__ . '/..' . '/../lib/Server.php',
         'OCA\\DAV\\Settings\\CalDAVSettings' => __DIR__ . '/..' . '/../lib/Settings/CalDAVSettings.php',
