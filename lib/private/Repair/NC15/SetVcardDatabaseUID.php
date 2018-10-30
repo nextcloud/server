@@ -27,6 +27,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Sabre\VObject\Reader;
 
 class SetVcardDatabaseUID implements IRepairStep {
 	const MAX_ROWS = 1000;
@@ -70,20 +71,27 @@ class SetVcardDatabaseUID implements IRepairStep {
 		} while (count($rows) > 0);
 	}
 
-	private function getUid($carddata) {
-		preg_match('/UID:(.*)$/m', $carddata, $matches);
-		if (count($matches) > 1) {
-			return $matches[1];
+	/**
+	 * Extract UID from vcard
+	 *
+	 * @param string $cardData the vcard raw data
+	 * @return string the uid or empty if none
+	 */
+	private function getUID(string $cardData): string {
+		$vCard = Reader::read($cardData);
+		if ($vCard->UID) {
+			$uid = $vCard->UID->getValue();
+			return $uid;
 		}
 
-		return false;
+		return '';
 	}
 
 	/**
 	 * @param int $id
 	 * @param string $uid
 	 */
-	private function update($id, $uid) {
+	private function update(int $id, string $uid) {
 		if (!$this->updateQuery) {
 			$builder = $this->connection->getQueryBuilder();
 
@@ -98,16 +106,14 @@ class SetVcardDatabaseUID implements IRepairStep {
 		$this->updateQuery->execute();
 	}
 
-	private function repair() {
+	private function repair(): int {
 		$this->connection->beginTransaction();
 		$entries = $this->getInvalidEntries();
 		$count   = 0;
 		foreach ($entries as $entry) {
 			$count++;
-			$uid = $this->getUid($entry['carddata']);
-			if ($uid !== false) {
-				$this->update($entry['id'], $uid);
-			}
+			$uid = $this->getUID($entry['carddata']);
+			$this->update($entry['id'], $uid);
 		}
 		$this->connection->commit();
 
@@ -118,7 +124,7 @@ class SetVcardDatabaseUID implements IRepairStep {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
 
 		// was added to 15.0.0.2
-		return version_compare($versionFromBeforeUpdate, '15.0.0.2', '<=');
+		return version_compare($versionFromBeforeUpdate, '15.0.0.3', '<=');
 	}
 
 	public function run(IOutput $output) {

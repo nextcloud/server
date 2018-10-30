@@ -1130,9 +1130,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 	}
 
+	/**
+	 * Extract UID from vcard
+	 *
+	 * @param string $cardData the vcard raw data
+	 * @return string the uid or empty if none
+	 * @throws BadRequest
+	 */
 	private function getUID($cardData) {
 		$vCard = Reader::read($cardData);
-		$uid = $vCard->UID->getValue();
-		return $uid;
+		if ($vCard->UID) {
+			$uid = $vCard->UID->getValue();
+			return $uid;
+		}
+		// should already be handled, but just in case
+		throw new BadRequest('vCards on CardDAV servers MUST have a UID property');
 	}
 }
