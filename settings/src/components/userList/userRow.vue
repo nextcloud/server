@@ -239,8 +239,13 @@ export default {
 				let humanQuota = OC.Util.humanFileSize(this.user.quota.quota);
 				let userQuota = this.quotaOptions.find(quota => quota.id === humanQuota);
 				return userQuota ? userQuota : {id:humanQuota, label:humanQuota};
-			} else if (this.settings.defaultQuota === 'none' || this.user.quota.quota === 'none') {
-				return this.quotaOptions[1]; // unlimited
+			} else if (this.settings.defaultQuota === 'none') { // unlimited
+				if(this.user.quota.quota === 'default') {
+					this.quotaOptions[0]['label'] = '∞ (default)';
+					return this.quotaOptions[0];
+				} else if (this.user.quota.quota === 'none') {
+					return this.quotaOptions[1];
+				}
 			}
 
 			this.quotaOptions[0]['label'] = this.settings.defaultQuota + ' (default)'; // otherwise
