@@ -239,11 +239,12 @@ export default {
 				let humanQuota = OC.Util.humanFileSize(this.user.quota.quota);
 				let userQuota = this.quotaOptions.find(quota => quota.id === humanQuota);
 				return userQuota ? userQuota : {id:humanQuota, label:humanQuota};
-			} else if (this.user.quota.quota === 0 || this.user.quota.quota === 'default') {
-				this.quotaOptions[0]['label'] = this.settings.defaultQuota + ' (default)';
-				return this.quotaOptions[0];
+			} else if (this.settings.defaultQuota === 'none' || this.user.quota.quota === 'none') {
+				return this.quotaOptions[1]; // unlimited
 			}
-			return this.quotaOptions[1]; // unlimited
+
+			this.quotaOptions[0]['label'] = this.settings.defaultQuota + ' (default)'; // otherwise
+			return this.quotaOptions[0];
 		},
 
 		/* PASSWORD POLICY? */
