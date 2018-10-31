@@ -1,12 +1,17 @@
 {{#if shareAllowed}}
-<ul id="shareLink" class="shareWithList">
+<ul class="shareWithList">
 	{{#if nolinkShares}}
-		<li>
+		<li data-share-id="new-share">
 			<div class="avatar icon-public-white"></div>
 			<span class="username">{{newShareLabel}}</span>
 			<span class="sharingOptionsGroup">
-				<span class="icon icon-add new-share has-tooltip" title="{{newShareTitle}}"></span>
-				<span class="icon icon-loading-small hidden"></span>
+				<div class="share-menu">
+					<a href="#" class="icon icon-add new-share has-tooltip {{#if showPending}}hidden{{/if}}" title="{{newShareTitle}}"></a>
+					<span class="icon icon-loading-small {{#unless showPending}}hidden{{/unless}}"></span>
+					{{#if showPending}}
+						{{{pendingPopoverMenu}}}
+					{{/if}}
+				</div>
 			</span>
 		</li>
 	{{/if}}
@@ -16,7 +21,9 @@
 			
 			<span class="sharingOptionsGroup">
 				<a href="#" class="clipboard-button icon icon-clippy has-tooltip" data-clipboard-text="{{shareLinkURL}}" title="{{copyLabel}}"></a>
-				<div class="share-menu" tabindex="0"><span class="icon icon-more"></span>
+				<div class="share-menu">
+					<a href="#" class="icon icon-more {{#if showPending}}hidden{{/if}}"></a>
+					<span class="icon icon-loading-small {{#unless showPending}}hidden{{/unless}}"></span>
 					{{#if showPending}}
 						{{{pendingPopoverMenu}}}
 					{{else}}

@@ -42,6 +42,9 @@
 		/** @type {boolean} **/
 		showPending: false,
 
+		/** @type {string} **/
+		password: '',
+
 		events: {
 			// open menu
 			'click .share-menu .icon-more': 'onToggleMenu',
@@ -70,6 +73,8 @@
 			'click .unshare': 'onUnshare',
 			// new share
 			'click .new-share': 'newShare',
+			// enforced pass set
+			'submit .enforcedPassForm': 'enforcedPasswordSet',
 		},
 
 		initialize: function(options) {
@@ -123,7 +128,6 @@
 
 				// show menu
 				OC.showMenu(null, $menu);
-				this._menuOpen = shareId;
 
 				var actionMsg = '';
 				if (/iPhone|iPad/i.test(navigator.userAgent)) {
@@ -149,38 +153,71 @@
 			});
 		},
 
-		newShare: function() {
+		newShare: function(event) {
 			var self = this;
-			var $loading = this.$el.find('.icon-loading-small').eq(0);
-			if(!$loading.hasClass('hidden')) {
+			var $target = $(event.target);
+			var $li = $target.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			var $loading = $li.find('.share-menu > .icon-loading-small');
+
+			if(!$loading.hasClass('hidden') && this.password === '') {
 				// in process
 				return false;
 			}
+
 			// hide all icons and show loading
-			this.$el.find('.icon').addClass('hidden');
+			$li.find('.icon').addClass('hidden');
 			$loading.removeClass('hidden');
+
+			// hide menu
+			OC.hideMenus();
 
 			var shareData = {}
 
+			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink');
 			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
+
+			// set default expire date
 			if (isExpirationEnforced) {
 				var defaultExpireDays = this.configModel.get('defaultExpireDate');
 				var expireDate = moment().add(defaultExpireDays, 'day').format('DD-MM-YYYY')
 				shareData.expireDate = expireDate;
 			}
 
-			this.model.saveLinkShare(shareData, {
-				success: function() {
-					$loading.addClass('hidden');
-					self.$el.find('.icon').removeClass('hidden');
-					self.render();
-				},
-				error: function(obj, msg) {
-					OC.Notification.showTemporary(t('core', 'Unable to create a link share'));
-					$loading.addClass('hidden');
-					self.$el.find('.icon').removeClass('hidden');
-				}
-			})
+			// if password is set, add to data
+			if (isPasswordEnforced && this.password !== '') {
+				shareData.password = this.password
+			}
+
+			// We need a password before the share creation
+			if (isPasswordEnforced && !this.showPending && this.password === '') {
+				this.showPending = shareId;
+				this.render();
+				$li.find('#enforcedPassText').focus();
+			} else {
+				// else, we have a password or it is not enforced
+				this.model.saveLinkShare(shareData, {
+					success: function() {
+						$loading.addClass('hidden');
+						$li.find('.icon').removeClass('hidden');
+						self.render();
+					},
+					error: function() {
+						OC.Notification.showTemporary(t('core', 'Unable to create a link share'));
+						$loading.addClass('hidden');
+						$li.find('.icon').removeClass('hidden');
+					}
+				})
+			}
+		},
+
+		enforcedPasswordSet: function(event) {
+			event.preventDefault();
+			var $form = $(event.target);
+			var $input = $form.find('input.enforcedPassText');
+			this.password = $input.val();
+			this.showPending = false;
+			this.newShare(event);
 		},
 
 		onLinkTextClick: function(event) {
@@ -412,6 +449,9 @@
 
 		render: function() {
 			this.$el.find('.has-tooltip').tooltip();
+
+			// reset previously set passwords
+			this.password = '';
 			
 			var linkShareTemplate = this.template();
 			var resharingAllowed = this.model.sharePermissionPossible();
@@ -479,7 +519,7 @@
 				social: social,
 				urlLabel: t('core', 'Link'),
 				hideDownloadLabel: t('core', 'Hide download'),
-				enablePasswordLabel: t('core', 'Password protect'),
+				enablePasswordLabel: isPasswordEnforced ? t('core', 'Password protection enforced') : t('core', 'Password protect'),
 				passwordLabel: t('core', 'Password'),
 				passwordPlaceholderInitial: passwordPlaceholderInitial,
 				publicUpload: publicUpload,
@@ -505,20 +545,19 @@
 				newShareLabel: t('core', 'New share link'),
 			};
 
-			var pendingPopoverBase = {
-				enablePasswordLabel: t('core', 'Password protect'),
-				passwordLabel: t('core', 'Password'),
-				passwordPlaceholderInitial: passwordPlaceholderInitial,
+			var pendingPopover = {
 				isPasswordEnforced: isPasswordEnforced,
+				enforcedPasswordLabel: t('core', 'Password protection for links is mandatory'),
+				passwordPlaceholder: passwordPlaceholderInitial,
 			};
+			var pendingPopoverMenu = this.pendingPopoverMenuTemplate(_.extend({}, pendingPopover))
 
 			var linkShares = this.getShareeList();
 			if(_.isArray(linkShares)) {
 				for (var i = 0; i < linkShares.length; i++) {
 					var popover = this.getPopoverObject(linkShares[i])
-					var pendingPopover = this.getPendingPopoverObject(linkShares[i])
 					linkShares[i].popoverMenu = this.popoverMenuTemplate(_.extend({}, popoverBase, popover));
-					linkShares[i].pendingPopoverMenu = this.pendingPopoverMenuTemplate(_.extend({}, pendingPopoverBase, pendingPopover));
+					linkShares[i].pendingPopoverMenu = pendingPopoverMenu
 				}
 			}
 
@@ -527,7 +566,9 @@
 				shareAllowed: true,
 				nolinkShares: linkShares.length === 0,
 				newShareLabel: t('core', 'Share link'),
-				newShareTitle: t('core', 'New share link')
+				newShareTitle: t('core', 'New share link'),
+				pendingPopoverMenu: pendingPopoverMenu,
+				showPending: this.showPending === 'new',
 			}));
 
 			this.delegateEvents();
@@ -547,7 +588,14 @@
 			var shareId = $li.data('share-id');
 
 			OC.showMenu(null, $menu);
-			this._menuOpen = shareId;
+
+			// focus the password if not set and enforced
+			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true;
+			var haspassword = $menu.find('.linkPassText').val() !== '';
+
+			if (!haspassword && isPasswordEnabledByDefault) {
+				$menu.find('.linkPassText').focus();
+			}
 		},
 
 		/**
@@ -681,11 +729,10 @@
 				shareAllowed: true,
 				linkShareLabel: share.label !== '' ? share.label : t('core', 'Share link'),
 				popoverMenu: {},
-				pendingPopoverMenu: {},
-				showPending: this.showPending,
 				shareLinkURL: share.url,
 				newShareTitle: t('core', 'New share link'),
 				copyLabel: t('core', 'Copy link'),
+				showPending: this.showPending === share.id,
 			})
 		},
 
@@ -709,7 +756,7 @@
 			var isPasswordSet = !!share.password;
 			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true;
 			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink');
-			var showPasswordCheckBox = !this.configModel.get('enforcePasswordForPublicLink') || !share.password;
+			var showPasswordCheckBox = !isPasswordEnforced || !share.password;
 			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
 			var defaultExpireDays = this.configModel.get('defaultExpireDate');
 			var hasExpireDate = !!share.expiration || isExpirationEnforced;
@@ -757,22 +804,6 @@
 				hideDownload: hideDownload,
 				isExpirationEnforced: isExpirationEnforced,
 			}
-		},
-
-		getPendingPopoverObject: function(share) {
-			var isPasswordSet = !!share.password;
-			var showPasswordCheckBox = !this.configModel.get('enforcePasswordForPublicLink') || !share.password;
-			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink');
-
-			return {
-				cid: share.id,
-				enablePasswordLabel: t('core', 'Password protect'),
-				passwordLabel: t('core', 'Password'),
-				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
-				showPasswordCheckBox: showPasswordCheckBox,
-				isPasswordEnforced: isPasswordEnforced,
-			}
-
 		},
 
 		onUnshare: function(event) {
