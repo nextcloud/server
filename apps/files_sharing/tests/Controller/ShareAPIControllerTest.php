@@ -253,7 +253,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function createShare($id, $shareType, $sharedWith, $sharedBy, $shareOwner, $path, $permissions,
 								$shareTime, $expiration, $parent, $target, $mail_send, $note = '', $token=null,
-								$password=null) {
+								$password=null, $label = '') {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getId')->willReturn($id);
 		$share->method('getShareType')->willReturn($shareType);
@@ -263,6 +263,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getNode')->willReturn($path);
 		$share->method('getPermissions')->willReturn($permissions);
 		$share->method('getNote')->willReturn($note);
+		$share->method('getLabel')->willReturn($label);
 		$time = new \DateTime();
 		$time->setTimestamp($shareTime);
 		$share->method('getShareTime')->willReturn($time);
@@ -351,6 +352,7 @@ class ShareAPIControllerTest extends TestCase {
 			'mail_send' => 0,
 			'uid_file_owner' => 'ownerId',
 			'note' => 'personal note',
+			'label' => '',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myMimeType',
 			'hide_download' => 0,
@@ -396,6 +398,7 @@ class ShareAPIControllerTest extends TestCase {
 			'mail_send' => 0,
 			'uid_file_owner' => 'ownerId',
 			'note' => 'personal note',
+			'label' => '',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myFolderMimeType',
 			'hide_download' => 0,
@@ -419,7 +422,8 @@ class ShareAPIControllerTest extends TestCase {
 			0,
 			'personal note',
 			'token',
-			'password'
+			'password',
+			'first link share'
 		);
 		$expected = [
 			'id' => 101,
@@ -445,6 +449,7 @@ class ShareAPIControllerTest extends TestCase {
 			'url' => 'url',
 			'uid_file_owner' => 'ownerId',
 			'note' => 'personal note',
+			'label' => 'first link share',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myFolderMimeType',
 			'hide_download' => 0,
@@ -2176,6 +2181,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with' => 'recipient',
 				'share_with_displayname' => 'recipient',
 				'note' => 'personal note',
+				'label' => null,
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
 				'hide_download' => 0,
@@ -2196,6 +2202,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'ownerDN',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2242,6 +2249,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2286,6 +2294,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2328,6 +2337,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2356,6 +2366,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setExpirationDate(new \DateTime('2001-01-02T00:00:00'))
 			->setToken('myToken')
 			->setNote('personal note')
+			->setLabel('new link share')
 			->setId(42);
 
 		$result[] = [
@@ -2372,6 +2383,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => 'new link share',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2415,6 +2427,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2459,6 +2472,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2502,6 +2516,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2545,6 +2560,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2603,6 +2619,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2648,6 +2665,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2803,6 +2821,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
 				'hide_download' => 0,
+				'label' => '',
 			], $share, false, []
 		];
 
@@ -2845,6 +2864,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
 				'hide_download' => 0,
+				'label' => '',
 			], $share, true, [
 				'share_with_displayname' => 'recipientRoomName'
 			]
