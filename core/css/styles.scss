@@ -818,10 +818,12 @@ code {
 					flex-direction: column;
 					width: $grid-size - 2 * $grid-pad;
 
+
 					td {
 						border: none;
 						padding: 0;
 						text-align: center;
+						border-radius: var(--border-radius);
 
 						&.filename {
 							padding: #{$grid-size - 2 * $grid-pad} 0 0 0;
