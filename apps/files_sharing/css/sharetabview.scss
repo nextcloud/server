@@ -75,13 +75,15 @@
 		}
 		.share-add {
 			input.share-note-delete {
-				display: none;
 				border: none;
 				background-color: transparent;
 				width: 44px !important;
 				padding: 0;
 				flex: 0 0 44px;
 				margin-left: auto;
+				&.hidden {
+					display: none;
+				}
 			}
 		}
 		// note

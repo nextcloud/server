@@ -134,6 +134,8 @@
 			var hasPassword = password !== null && password !== '';
 			var sendPasswordByTalk = share.send_password_by_talk;
 
+			var shareNote = this.model.getNote(shareIndex);
+
 			return _.extend(hasPermissionOverride, {
 				cid: this.cid,
 				hasSharePermission: this.model.hasSharePermission(shareIndex),
@@ -159,7 +161,8 @@
 				isTalkEnabled: oc_appswebroots['spreed'] !== undefined,
 				secureDropMode: !this.model.hasReadPermission(shareIndex),
 				hasExpireDate: this.model.getExpireDate(shareIndex) !== null,
-				shareNote: this.model.getNote(shareIndex),
+				shareNote: shareNote,
+				hasNote: shareNote !== '',
 				expireDate: moment(this.model.getExpireDate(shareIndex), 'YYYY-MM-DD').format('DD-MM-YYYY'),
 				// The password placeholder does not take into account if
 				// sending the password by Talk is enabled or not; when
@@ -384,7 +387,7 @@
 			var $form = $menu.next('li.share-note-form');
 
 			// show elements
-			$menu.find('.share-note-delete').toggle();
+			$menu.find('.share-note-delete').toggleClass('hidden');
 			$form.toggleClass('hidden');
 			$form.find('textarea').focus();
 		},
@@ -403,7 +406,7 @@
 			$form.find('.share-note').val('');
 			
 			$form.addClass('hidden');
-			$menu.find('.share-note-delete').hide();
+			$menu.find('.share-note-delete').addClass('hidden');
 
 			self.sendNote('', shareId, $menu);
 		},

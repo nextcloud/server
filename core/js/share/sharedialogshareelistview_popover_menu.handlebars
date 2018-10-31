@@ -86,13 +86,14 @@
 		</li>
 		{{#if isNoteAvailable}}
 			<li>
-				<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>
+				<a href="#" class="share-add">
+					<span class="icon-loading-small hidden"></span>
 					<span class="icon icon-edit"></span>
 					<span>{{addNoteLabel}}</span>
-					<input type="button" class="share-note-delete icon-delete">
+					<input type="button" class="share-note-delete icon-delete {{#unless hasNote}}hidden{{/unless}}">
 				</a>
 			</li>
-			<li class="share-note-form hidden">
+			<li class="share-note-form {{#unless hasNote}}hidden{{/unless}}">
 				<span class="menuitem icon-note">
 					<textarea class="share-note">{{shareNote}}</textarea>
 					<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />
