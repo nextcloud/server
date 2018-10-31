@@ -1,22 +1,16 @@
 <div class="popovermenu menu">
 	<ul>
-		<li>
-			<a href="#" class="menuitem clipboardButton" data-clipboard-text="{{shareLinkURL}}">
-				<span class="icon icon-clippy" ></span>
-				<span>{{copyLabel}}</span>
-			</a>
+		<li class="hidden linkTextMenu">
+			<span class="menuitem icon-link-text">
+				<input id="linkText-{{cid}}" class="linkText" type="text" readonly="readonly" value="{{shareLinkURL}}" />
+			</span>
 		</li>
 		<li>
 			<a href="#" class="new-share">
 				<span class="icon-loading-small hidden"></span>
 				<span class="icon icon-add"></span>
-				<span>{{newShareTitle}}</span>
+				<span>{{newShareLabel}}</span>
 			</a>
-		</li>
-		<li class="hidden linkTextMenu">
-			<span class="menuitem icon-link-text">
-				<input id="linkText-{{cid}}" class="linkText" type="text" readonly="readonly" value="{{shareLinkURL}}" />
-			</span>
 		</li>
 		{{#if showHideDownloadCheckbox}}
 			<li>

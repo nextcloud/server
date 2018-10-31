@@ -97,24 +97,33 @@
 				throw 'missing OC.Share.ShareConfigModel';
 			}
 
-			var clipboard = new Clipboard('.clipboardButton');
+			var clipboard = new Clipboard('.clipboard-button');
 			clipboard.on('success', function(e) {
-				var $menu = $(e.trigger);
+				var $trigger = $(e.trigger);
 
-				$menu.tooltip('hide')
+				$trigger.tooltip('hide')
 					.attr('data-original-title', t('core', 'Copied!'))
 					.tooltip('fixTitle')
 					.tooltip({placement: 'bottom', trigger: 'manual'})
 					.tooltip('show');
 				_.delay(function() {
-					$menu.tooltip('hide');
-					$menu.tooltip('destroy');
+					$trigger.tooltip('hide')
+						.attr('data-original-title', t('core', 'Copy link'))
+						.tooltip('fixTitle')
 				}, 3000);
 			});
 			clipboard.on('error', function (e) {
-				var $menu = $(e.trigger);
-				var $linkTextMenu = $menu.parent().next('li.linkTextMenu');
+				var $trigger = $(e.trigger);
+				var $menu = $trigger.next('.share-menu').find('.popovermenu');
+				var $linkTextMenu = $menu.find('li.linkTextMenu');
 				var $input = $linkTextMenu.find('.linkText');
+
+				var $li = $trigger.closest('li[data-share-id]');
+				var shareId = $li.data('share-id');
+
+				// show menu
+				OC.showMenu(null, $menu);
+				this._menuOpen = shareId;
 
 				var actionMsg = '';
 				if (/iPhone|iPad/i.test(navigator.userAgent)) {
@@ -393,6 +402,8 @@
 		},
 
 		render: function() {
+			this.$el.find('.has-tooltip').tooltip();
+			
 			var linkShareTemplate = this.template();
 			var resharingAllowed = this.model.sharePermissionPossible();
 
@@ -456,7 +467,6 @@
 			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
 
 			var popoverBase = {
-				copyLabel: t('core', 'Copy link'),
 				social: social,
 				urlLabel: t('core', 'Link'),
 				hideDownloadLabel: t('core', 'Hide download'),
@@ -508,7 +518,7 @@
 				shareAllowed: true,
 				nolinkShares: linkShares.length === 0,
 				newShareLabel: t('core', 'Share link'),
-				newShareTitle: t('core', 'New share link'),
+				newShareTitle: t('core', 'New share link')
 			}));
 
 			this.delegateEvents();
@@ -663,7 +673,10 @@
 				linkShareLabel: share.label !== '' ? share.label : t('core', 'Share link'),
 				popoverMenu: {},
 				pendingPopoverMenu: {},
-				showPending: this.showPending
+				showPending: this.showPending,
+				shareLinkURL: share.url,
+				newShareTitle: t('core', 'New share link'),
+				copyLabel: t('core', 'Copy link'),
 			})
 		},
 
@@ -734,7 +747,6 @@
 				maxDate: maxDate,
 				showHideDownloadCheckbox: showHideDownloadCheckbox,
 				hideDownload: hideDownload,
-				newShareTitle: t('core', 'New share link'),
 			}
 		},
 

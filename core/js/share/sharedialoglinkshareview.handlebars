@@ -5,7 +5,7 @@
 			<div class="avatar icon-public-white"></div>
 			<span class="username">{{newShareLabel}}</span>
 			<span class="sharingOptionsGroup">
-				<span class="icon icon-add new-share" title="{{newShareTitle}}"></span>
+				<span class="icon icon-add new-share has-tooltip" title="{{newShareTitle}}"></span>
 				<span class="icon icon-loading-small hidden"></span>
 			</span>
 		</li>
@@ -13,7 +13,9 @@
 	{{#each linkShares}}
 		<li data-share-id="{{cid}}">
 			<div class="avatar icon-public-white"></div><span class="username" title="{{linkShareLabel}}">{{linkShareLabel}}</span>
+			
 			<span class="sharingOptionsGroup">
+				<a href="#" class="clipboard-button icon icon-clippy has-tooltip" data-clipboard-text="{{shareLinkURL}}" title="{{copyLabel}}"></a>
 				<div class="share-menu" tabindex="0"><span class="icon icon-more"></span>
 					{{#if showPending}}
 						{{{pendingPopoverMenu}}}
@@ -26,5 +28,5 @@
 	{{/each}}
 </ul>
 {{else}}
-{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}
+{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled" />{{/if}}
 {{/if}}

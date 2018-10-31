@@ -51,7 +51,6 @@
 		top: 0px;
 	}
 	.shareWithConfirm,
-	.clipboardButton,
 	.linkPass .icon-loading-small {
 		position: absolute;
 		right: 2px;
@@ -73,12 +72,6 @@
 	.popovermenu {
 		.datepicker {
 			margin-left: 35px;
-		}
-		.clipboardButton {
-			position: relative;
-			top: initial;
-			right: initial;
-			padding: 0;
 		}
 		.share-add {
 			input.share-note-delete {
