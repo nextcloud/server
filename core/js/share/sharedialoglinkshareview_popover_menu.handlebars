@@ -78,8 +78,10 @@
 		<li class="{{#unless hasExpireDate}}hidden{{/unless}}">
 			<span class="menuitem icon-expiredate expirationDateContainer-{{cid}}">
 				<label for="expirationDatePicker-{{cid}}" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>
-				<input id="expirationDatePicker-{{cid}}" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}"
-					value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}" data-max-date="{{maxDate}}" />
+				<!-- do not use the datepicker if enforced -->
+				<input id="expirationDatePicker-{{cid}}" class="{{#unless isExpirationEnforced}}datepicker{{/unless}}" type="text"
+					placeholder="{{expirationDatePlaceholder}}" value="{{#if hasExpireDate}}{{expireDate}}{{else}}{{defaultExpireDate}}{{/if}}"
+					data-max-date="{{maxDate}}" {{#if isExpirationEnforced}}readonly{{/if}} />
 			</span>
 			</li>
 		<li>
