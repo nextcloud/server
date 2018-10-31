@@ -65,11 +65,11 @@ interface IIndexService {
 	 * @since 15.0.0
 	 *
 	 * @param string $providerId
-	 * @param $documentId
+	 * @param string $documentId
 	 * @param int $status
 	 * @param bool $reset
 	 */
-	public function updateIndexStatus(string $providerId, $documentId, int $status, bool $reset = false);
+	public function updateIndexStatus(string $providerId, string $documentId, int $status, bool $reset = false);
 
 
 	/**
