@@ -23,6 +23,7 @@
 namespace Test\Files\Storage;
 
 use OC\Files\Cache\Watcher;
+use OCP\Files\Storage\IWriteStreamStorage;
 
 abstract class Storage extends \Test\TestCase {
 	/**
@@ -627,5 +628,21 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('bar.txt.part', 'bar');
 		$this->instance->rename('bar.txt.part', 'bar.txt');
 		$this->assertEquals('bar', $this->instance->file_get_contents('bar.txt'));
+	}
+
+	public function testWriteStream() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+
+		if (!$this->instance->instanceOfStorage(IWriteStreamStorage::class)) {
+			$this->markTestSkipped('Not a WriteSteamStorage');
+		}
+		/** @var IWriteStreamStorage $storage */
+		$storage = $this->instance;
+
+		$source = fopen($textFile, 'r');
+
+		$storage->writeStream('test.txt', $source);
+		$this->assertTrue($storage->file_exists('test.txt'));
+		$this->assertEquals(file_get_contents($textFile), $storage->file_get_contents('test.txt'));
 	}
 }
