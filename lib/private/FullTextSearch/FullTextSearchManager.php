@@ -195,7 +195,7 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	 * @throws FullTextSearchAppNotAvailableException
 	 */
 	public function updateIndexesStatus(string $providerId, array $documentIds, int $status, bool $reset = false) {
-		$this->getIndexService()->updateIndexStatus($providerId, $documentIds, $status, $reset);
+		$this->getIndexService()->updateIndexesStatus($providerId, $documentIds, $status, $reset);
 	}
 
 
