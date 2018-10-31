@@ -610,6 +610,35 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
 	}
 
+	public function testGetRemoteAddressIPv6WithMatchingCidrTrustedRemote() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['2001:db8:85a3:8d3:1319:8a20::/95']));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->will($this->returnValue(['HTTP_X_FORWARDED_FOR']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a21:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
 	public function testGetRemoteAddressWithNotMatchingCidrTrustedRemote() {
 		$this->config
 			->expects($this->once())
@@ -632,6 +661,30 @@ class RequestTest extends \Test\TestCase {
 		);
 
 		$this->assertSame('192.168.3.99', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressIPv6WithNotMatchingCidrTrustedRemote() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['2001:db8:85a3:8d3:1319:8a20::/95']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a22:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('2001:db8:85a3:8d3:1319:8a22:370:7348', $request->getRemoteAddress());
 	}
 
 	/**
