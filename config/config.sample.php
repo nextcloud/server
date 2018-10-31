@@ -1663,4 +1663,14 @@ $CONFIG = array(
  * If this is set to "false" it will not show the link.
  */
 'simpleSignUpLink.shown' => true,
+
+/**
+ * By default autocompletion is enabled for the login form on Nextcloud's login page.
+ * While this is enabled, browsers are allowed to "remember" login names and such.
+ * Some companies require it to be disabled to comply with their security policy.
+ *
+ * Simply set this property to "false", if you want to turn this feature off.
+ */
+
+'login_form_autocomplete' => true,
 );
