@@ -154,6 +154,7 @@
 				shareId: this.model.get('shares')[shareIndex].id,
 				modSeed: shareWithAvatar || (shareType !== OC.Share.SHARE_TYPE_USER && shareType !== OC.Share.SHARE_TYPE_CIRCLE && shareType !== OC.Share.SHARE_TYPE_ROOM),
 				owner: fileOwnerUid,
+				isShareWithCurrentUser: (shareType === OC.Share.SHARE_TYPE_USER && shareWith === oc_current_user),
 				canUpdateShareSettings: (sharedBy === oc_current_user || fileOwnerUid === oc_current_user),
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isRemoteGroupShare: shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP,
@@ -371,9 +372,6 @@
 			if(_.isArray(sharees)) {
 				for (var i = 0; i < sharees.length; i++) {
 					data.sharees[i].popoverMenu = this.popoverMenuTemplate(sharees[i]);
-					if (data.sharees[i].shareType === OC.Share.SHARE_TYPE_USER && data.sharees[i].shareWith === OC.getCurrentUser().uid) {
-						data.sharees.splice(i, 1);
-					}
 				}
 			}
 			return OC.Share.Templates['sharedialogshareelistview'](data);
