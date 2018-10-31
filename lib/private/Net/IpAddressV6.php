@@ -11,19 +11,19 @@ class IpAddressV6 extends AbstractIpAddress {
 	private $address = '';
 	private $cidrBits = 0;
 
-	public static function getMaxBitlength(): int {
-		return 128;
-	}
-
-	protected static function getCidrRegex(): string {
-		return '/^([0-9a-fA-F:]+[0-9a-fA-F:]+)\/([0-9]{1,3})$/';
-	}
-
 	public function __construct(string $address) {
 		parent::__construct($address);
 	}
 
-	protected function setOriginal(string $address) {
+	public function getMaxBitlength(): int {
+		return 128;
+	}
+
+	protected function getCidrRegex(): string {
+		return '/^([0-9a-fA-F:]+[0-9a-fA-F:]+)\/([0-9]{1,3})$/';
+	}
+
+	protected function setOriginal(string $original) {
 		$this->original = $original;
 	}
 
@@ -47,9 +47,9 @@ class IpAddressV6 extends AbstractIpAddress {
 		return $this->cidrBits;
 	}
 
-	protected function matchCidr(IIpAddress: $other): bool {
-		$thisaddrn = @inet_pton($this->getAddress());
-		$otheraddrn = @inet_pton($other->getAddress());
+	protected function matchCidr(IIpAddress $other): bool {
+		$thisaddrn = inet_pton($this->getAddress());
+		$otheraddrn = inet_pton($other->getAddress());
 		if ($thisaddrn === false || $otheraddrn === false) {
 			// if we can't handle ipV6 addresses, simply compare strings:
 			return $this->matchLiteral($other);

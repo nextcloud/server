@@ -6,8 +6,8 @@ namespace OC\Net;
 use OC\Net\IIpAddress;
 
 abstract class AbstractIpAddress implements IIpAddress {
-	abstract public static function getMaxBitlength(): int;
-	abstract protected static function getCidrRegex(): string;
+	abstract public function getMaxBitlength(): int;
+	abstract protected function getCidrRegex(): string;
 
 	abstract protected function setOriginal(string $original);
 	abstract public function getOriginal(): string;
@@ -20,10 +20,12 @@ abstract class AbstractIpAddress implements IIpAddress {
 	public function __construct(string $address) {
 		$this->setOriginal($address);
 
-		if (preg_match(self::getCidrRegex(), $address, $match)) {
-			return array($match[1], max(0, min(self::getMaxBitlength(), intval($match[2]))));
+		if (preg_match($this->getCidrRegex(), $address, $match)) {
+			$this->setAddress($match[1]);
+			$this->setNetmaskBits(max(0, min($this->getMaxBitlength(), intval($match[2]))));
 		} else {
-			return array($address, self::getMaxBitlength());
+			$this->setAddress($address);
+			$this->setNetmaskbits($this->getMaxBitlength());
 		}
 	}
 
@@ -31,14 +33,14 @@ abstract class AbstractIpAddress implements IIpAddress {
 		return $other->getOriginal() === $this->getOriginal();
 	}
 
-	public function isRange(): string {
-		return $this->getNetmaskBits() < self::getMaxBitlength();
+	public function isRange(): bool {
+		return $this->getNetmaskBits() < $this->getMaxBitlength();
 	}
 
 	public function containsAddress(IIpAddress $other): bool {
 		return $this->isRange()
 			? $this->matchCidr($other)
-			: $this->matchLiteral($ohter);
+			: $this->matchLiteral($other);
 	}
 }
 
