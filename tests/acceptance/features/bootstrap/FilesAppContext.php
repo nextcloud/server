@@ -188,7 +188,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareLinkRow() {
-		return Locator::forThe()->id("shareLink")->
+		return Locator::forThe()->css(".linkShareView .shareWithList:first-child")->
 				descendantOf(self::detailsView())->
 				describedAs("Share link row in the details view in Files app");
 	}
@@ -196,13 +196,21 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function shareLinkCheckbox() {
-		// forThe()->checkbox("Enable") can not be used here; that would return
-		// the checkbox itself, but the element that the user interacts with is
-		// the label.
-		return Locator::forThe()->xpath("//label[normalize-space() = 'Enable']")->
+	public static function shareLinkAddNewButton() {
+		// When there is no link share the "Add new share" item is shown instead
+		// of the menu button as a direct child of ".share-menu".
+		return Locator::forThe()->css(".share-menu > .new-share")->
 				descendantOf(self::shareLinkRow())->
-				describedAs("Share link checkbox in the details view in Files app");
+				describedAs("Add new share link button in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function copyLinkButton() {
+		return Locator::forThe()->css("a.clipboard-button")->
+				descendantOf(self::shareLinkRow())->
+				describedAs("Copy link button in the details view in Files app");
 	}
 
 	/**
@@ -221,15 +229,6 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->css(".share-menu > .menu")->
 				descendantOf(self::shareLinkRow())->
 				describedAs("Share link menu in the details view in Files app");
-	}
-
-	/**
-	 * @return Locator
-	 */
-	public static function copyUrlMenuItem() {
-		return Locator::forThe()->xpath("//a[normalize-space() = 'Copy link']")->
-				descendantOf(self::shareLinkMenu())->
-				describedAs("Copy link menu item in the share link menu in the details view in Files app");
 	}
 
 	/**
@@ -320,21 +319,19 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iShareTheLinkFor($fileName) {
 		$this->actor->find(FileListContext::shareActionForFile(self::currentSectionMainView(), $fileName), 10)->click();
 
-		$this->actor->find(self::shareLinkCheckbox(), 5)->click();
+		$this->actor->find(self::shareLinkAddNewButton(), 5)->click();
 	}
 
 	/**
 	 * @Given I write down the shared link
 	 */
 	public function iWriteDownTheSharedLink() {
-		$this->showShareLinkMenuIfNeeded();
-
-		$this->actor->find(self::copyUrlMenuItem(), 2)->click();
+		$this->actor->find(self::copyLinkButton(), 10)->click();
 
 		// Clicking on the menu item copies the link to the clipboard, but it is
 		// not possible to access that value from the acceptance tests. Due to
 		// this the value of the attribute that holds the URL is used instead.
-		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::copyUrlMenuItem(), 2)->getWrappedElement()->getAttribute("data-clipboard-text");
+		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::copyLinkButton(), 2)->getWrappedElement()->getAttribute("data-clipboard-text");
 	}
 
 	/**
