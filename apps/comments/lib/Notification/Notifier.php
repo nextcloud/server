@@ -24,12 +24,10 @@
 
 namespace OCA\Comments\Notification;
 
-use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
@@ -85,9 +83,9 @@ class Notifier implements INotifier {
 		$l = $this->l10nFactory->get('comments', $languageCode);
 		$displayName = $comment->getActorId();
 		$isDeletedActor = $comment->getActorType() === ICommentsManager::DELETED_USER;
-		if ($comment->getActorType() === 'users') {
+		if($comment->getActorType() === 'users') {
 			$commenter = $this->userManager->get($comment->getActorId());
-			if ($commenter instanceof IUser) {
+			if(!is_null($commenter)) {
 				$displayName = $commenter->getDisplayName();
 			}
 		}
@@ -95,7 +93,7 @@ class Notifier implements INotifier {
 		switch($notification->getSubject()) {
 			case 'mention':
 				$parameters = $notification->getSubjectParameters();
-				if ($parameters[0] !== 'files') {
+				if($parameters[0] !== 'files') {
 					throw new \InvalidArgumentException('Unsupported comment object');
 				}
 				$userFolder = $this->rootFolder->getUserFolder($notification->getUser());
@@ -105,41 +103,47 @@ class Notifier implements INotifier {
 				}
 				$node = $nodes[0];
 
-				$path = rtrim($node->getPath(), '/');
-				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
-					// Remove /user/files/...
-					$fullPath = $path;
-					list(,,, $path) = explode('/', $fullPath, 4);
-				}
-
-				$subjectParameters = [
-					'file' => [
-						'type' => 'file',
-						'id' => $comment->getObjectId(),
-						'name' => $node->getName(),
-						'path' => $path,
-						'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $comment->getObjectId()]),
-					],
-				];
-
 				if ($isDeletedActor) {
-					$subject = $l->t('You were mentioned on “{file}”, in a comment by a user that has since been deleted');
+					$notification->setParsedSubject($l->t(
+							'You were mentioned on “%s”, in a comment by a user that has since been deleted',
+							[$node->getName()]
+						))
+						->setRichSubject(
+							$l->t('You were mentioned on “{file}”, in a comment by a user that has since been deleted'),
+							[
+								'file' => [
+									'type' => 'file',
+									'id' => $comment->getObjectId(),
+									'name' => $node->getName(),
+									'path' => $node->getPath(),
+									'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $comment->getObjectId()]),
+								],
+							]
+						);
 				} else {
-					$subject = $l->t('{user} mentioned you in a comment on “{file}”');
-					$subjectParameters['user'] = [
-						'type' => 'user',
-						'id' => $comment->getActorId(),
-						'name' => $displayName,
-					];
+					$notification->setParsedSubject($l->t(
+							'%1$s mentioned you in a comment on “%2$s”',
+							[$displayName, $node->getName()]
+						))
+						->setRichSubject(
+							$l->t('{user} mentioned you in a comment on “{file}”'),
+							[
+								'user' => [
+									'type' => 'user',
+									'id' => $comment->getActorId(),
+									'name' => $displayName,
+								],
+								'file' => [
+									'type' => 'file',
+									'id' => $comment->getObjectId(),
+									'name' => $node->getName(),
+									'path' => $node->getPath(),
+									'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $comment->getObjectId()]),
+								],
+							]
+						);
 				}
-
-				list($message, $messageParameters) = $this->commentToRichMessage($comment);
-
-				$notification->setRichSubject($subject, $subjectParameters)
-					->setParsedSubject($this->richToParsed($subject, $subjectParameters))
-					->setRichMessage($message, $messageParameters)
-					->setParsedMessage($this->richToParsed($message, $messageParameters))
-					->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')))
+				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')))
 					->setLink($this->url->linkToRouteAbsolute(
 						'comments.Notifications.view',
 						['id' => $comment->getId()])
@@ -152,67 +156,5 @@ class Notifier implements INotifier {
 				throw new \InvalidArgumentException('Invalid subject');
 		}
 
-	}
-
-	public function commentToRichMessage(IComment $comment): array {
-		$message = $comment->getMessage();
-		$messageParameters = [];
-
-		$mentionTypeCount = [];
-
-		$mentions = $comment->getMentions();
-		foreach ($mentions as $mention) {
-			if ($mention['type'] === 'user') {
-				$user = $this->userManager->get($mention['id']);
-				if (!$user instanceof IUser) {
-					continue;
-				}
-			}
-
-			if (!array_key_exists($mention['type'], $mentionTypeCount)) {
-				$mentionTypeCount[$mention['type']] = 0;
-			}
-			$mentionTypeCount[$mention['type']]++;
-
-			// To keep a limited character set in parameter IDs ([a-zA-Z0-9-])
-			// the mention parameter ID does not include the mention ID (which
-			// could contain characters like '@' for user IDs) but a one-based
-			// index of the mentions of that type.
-			$mentionParameterId = 'mention-' . $mention['type'] . $mentionTypeCount[$mention['type']];
-
-			$message = str_replace('@' . $mention['id'], '{' . $mentionParameterId . '}', $message);
-
-			try {
-				$displayName = $this->commentsManager->resolveDisplayName($mention['type'], $mention['id']);
-			} catch (\OutOfBoundsException $e) {
-				// There is no registered display name resolver for the mention
-				// type, so the client decides what to display.
-				$displayName = '';
-			}
-
-			$messageParameters[$mentionParameterId] = [
-				'type' => $mention['type'],
-				'id' => $mention['id'],
-				'name' => $displayName
-			];
-		}
-
-		return [$message, $messageParameters];
-	}
-
-	public function richToParsed(string $message, array $parameters): string {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			if ($parameter['type'] === 'user') {
-				$replacements[] = '@' . $parameter['name'];
-			} else if ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-
-		return str_replace($placeholders, $replacements, $message);
 	}
 }
