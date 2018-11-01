@@ -4,6 +4,10 @@
 
 .share-autocomplete-item {
 	display: flex;
+
+	&.merged {
+		margin-left: 32px;
+	}
 	.autocomplete-item-text {
 		margin-left: 10px;
 		margin-right: 10px;
@@ -12,6 +16,27 @@
 		overflow: hidden;
 		line-height: 32px;
 		vertical-align: middle;
+		flex-grow: 1;
+		.ui-state-highlight {
+			border: none;
+			margin: 0;
+		}
+	}
+	&.with-description {
+		.autocomplete-item-text {
+			line-height: 100%;
+		}
+	}
+	.autocomplete-item-details {
+		display: block;
+		line-height: 130%;
+		font-size: 90%;
+		opacity: 0.7;
+	}
+
+	.icon {
+		opacity: .7;
+		margin-right: 7px;
 	}
 }
 
@@ -204,8 +229,8 @@
 }
 
 .ui-autocomplete {
-	/* limit dropdown height to 4 1/2 entries */
-	max-height: calc(36px * 4.5);;
+	/* limit dropdown height to 6 1/2 entries */
+	max-height: calc(36px * 6.5);
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1550 !important;

@@ -8,7 +8,7 @@
  *
  */
 
-describe('OCA.External.Settings tests', function() {
+describe('OCA.Files_External.Settings tests', function() {
 	var clock;
 	var select2Stub;
 	var select2ApplicableUsers;
@@ -156,7 +156,7 @@ describe('OCA.External.Settings tests', function() {
 
 		beforeEach(function() {
 			var $el = $('#externalStorage');
-			view = new OCA.External.Settings.MountConfigListView($el, {encryptionEnabled: false});
+			view = new OCA.Files_External.Settings.MountConfigListView($el, {encryptionEnabled: false});
 		});
 		afterEach(function() {
 			view = null;

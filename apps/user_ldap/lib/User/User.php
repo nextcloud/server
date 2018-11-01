@@ -30,6 +30,7 @@
 
 namespace OCA\User_LDAP\User;
 
+use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\LogWrapper;
@@ -48,7 +49,7 @@ use OCP\Notification\IManager as INotificationManager;
  */
 class User {
 	/**
-	 * @var IUserTools
+	 * @var Access
 	 */
 	protected $access;
 	/**
@@ -110,8 +111,7 @@ class User {
 	 * @brief constructor, make sure the subclasses call this one!
 	 * @param string $username the internal username
 	 * @param string $dn the LDAP DN
-	 * @param IUserTools $access an instance that implements IUserTools for
-	 * LDAP interaction
+	 * @param Access $access
 	 * @param IConfig $config
 	 * @param FilesystemHelper $fs
 	 * @param Image $image any empty instance
@@ -120,7 +120,7 @@ class User {
 	 * @param IUserManager $userManager
 	 * @param INotificationManager $notificationManager
 	 */
-	public function __construct($username, $dn, IUserTools $access,
+	public function __construct($username, $dn, Access $access,
 		IConfig $config, FilesystemHelper $fs, Image $image,
 		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager,
 		INotificationManager $notificationManager) {
@@ -414,14 +414,23 @@ class User {
 	 *
 	 * @param string $displayName
 	 * @param string $displayName2
-	 * @returns string the effective display name
+	 * @return string the effective display name
 	 */
 	public function composeAndStoreDisplayName($displayName, $displayName2 = '') {
 		$displayName2 = (string)$displayName2;
 		if($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
-		$this->store('displayName', $displayName);
+		$oldName = $this->config->getUserValue($this->uid, 'user_ldap', 'displayName', null);
+		if ($oldName !== $displayName)  {
+			$this->store('displayName', $displayName);
+			$user = $this->userManager->get($this->getUsername());
+			if (!empty($oldName) && $user instanceof \OC\User\User) {
+				// if it was empty, it would be a new record, not a change emitting the trigger could
+				// potentially cause a UniqueConstraintViolationException, depending on some factors.
+				$user->triggerChange('displayName', $displayName);
+			}
+		}
 		return $displayName;
 	}
 

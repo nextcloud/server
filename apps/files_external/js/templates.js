@@ -1,5 +1,5 @@
 (function() {
-  var template = Handlebars.template, templates = OCA.External.Templates = OCA.External.Templates || {};
+  var template = Handlebars.template, templates = OCA.Files_External.Templates = OCA.Files_External.Templates || {};
 templates['credentialsDialog'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 

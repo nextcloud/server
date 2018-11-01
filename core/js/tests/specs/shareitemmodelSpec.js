@@ -168,7 +168,8 @@ describe('OC.Share.ShareItemModel', function() {
 					stime: 1403884258,
 					storage: 1,
 					token: 'tehtoken',
-					uid_owner: 'root'
+					uid_owner: 'root',
+					hide_download: 1
 				}
 			]));
 
@@ -186,6 +187,7 @@ describe('OC.Share.ShareItemModel', function() {
 
 			var linkShare = model.get('linkShare');
 			expect(linkShare.isLinkShare).toEqual(true);
+			expect(linkShare.hideDownload).toEqual(true);
 
 			// TODO: check more attributes
 		});
@@ -289,7 +291,8 @@ describe('OC.Share.ShareItemModel', function() {
 					stime: 1403884258,
 					storage: 1,
 					token: 'tehtoken',
-					uid_owner: 'root'
+					uid_owner: 'root',
+					hide_download: 0
 				}, {
 					displayname_owner: 'root',
 					expiration: '2015-10-15 00:00:00',
@@ -307,7 +310,8 @@ describe('OC.Share.ShareItemModel', function() {
 					stime: 1403884509,
 					storage: 1,
 					token: 'anothertoken',
-					uid_owner: 'root'
+					uid_owner: 'root',
+					hide_download: 1
 				}]
 			));
 			OC.currentUser = 'root';
@@ -320,6 +324,7 @@ describe('OC.Share.ShareItemModel', function() {
 			var linkShare = model.get('linkShare');
 			expect(linkShare.isLinkShare).toEqual(true);
 			expect(linkShare.token).toEqual('tehtoken');
+			expect(linkShare.hideDownload).toEqual(false);
 
 			// TODO: check child too
 		});
@@ -579,6 +584,7 @@ describe('OC.Share.ShareItemModel', function() {
 
 			expect(addShareStub.calledOnce).toEqual(true);
 			expect(addShareStub.firstCall.args[0]).toEqual({
+				hideDownload: false,
 				password: '',
 				passwordChanged: false,
 				permissions: OC.PERMISSION_READ,
@@ -603,6 +609,7 @@ describe('OC.Share.ShareItemModel', function() {
 
 			expect(addShareStub.calledOnce).toEqual(true);
 			expect(addShareStub.firstCall.args[0]).toEqual({
+				hideDownload: false,
 				password: '',
 				passwordChanged: false,
 				permissions: OC.PERMISSION_READ,

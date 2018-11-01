@@ -25,12 +25,12 @@
 }
 
 .hidden {
-	display: none;
+	display: none !important; /* Hiding should take precedence */
 }
 
 .hidden-visually {
 	position: absolute;
-	left:-10000px;
+	left: -10000px;
 	top: auto;
 	width: 1px;
 	height: 1px;

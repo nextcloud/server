@@ -38,6 +38,7 @@
 namespace OC\User;
 
 use OC;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
@@ -401,7 +402,13 @@ class Session implements IUserSession, Emitter {
 			$this->manager->emit('\OC\User', 'preLogin', array($user, $password));
 		}
 
-		$isTokenPassword = $this->isTokenPassword($password);
+		try {
+			$isTokenPassword = $this->isTokenPassword($password);
+		} catch (ExpiredTokenException $e) {
+			// Just return on an expired token no need to check further or record a failed login
+			return false;
+		}
+
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
 			throw new PasswordLoginForbiddenException();
 		}
@@ -474,11 +481,14 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param string $password
 	 * @return boolean
+	 * @throws ExpiredTokenException
 	 */
 	public function isTokenPassword($password) {
 		try {
 			$this->tokenProvider->getToken($password);
 			return true;
+		} catch (ExpiredTokenException $e) {
+			throw $e;
 		} catch (InvalidTokenException $ex) {
 			return false;
 		}

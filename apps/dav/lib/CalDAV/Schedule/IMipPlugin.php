@@ -170,7 +170,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$vevent = $iTipMessage->message->VEVENT;
 
 		$attendee = $this->getCurrentAttendee($iTipMessage);
-		$defaultLang = $this->config->getUserValue($this->userId, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$defaultLang = $this->l10nFactory->findLanguage();
 		$lang = $this->getAttendeeLangOrDefault($defaultLang, $attendee);
 		$l10n = $this->l10nFactory->get('dav', $lang);
 

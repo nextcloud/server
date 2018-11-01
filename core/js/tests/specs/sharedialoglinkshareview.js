@@ -72,6 +72,100 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		configModel.isShareWithLinkAllowed.restore();
 	});
 
+	describe('hide download', function () {
+
+		var $hideDownloadCheckbox;
+		var $workingIcon;
+
+		beforeEach(function () {
+			// Needed to render the view
+			configModel.isShareWithLinkAllowed.returns(true);
+
+			// Setting the share also triggers the rendering
+			shareModel.set({
+				linkShare: {
+					isLinkShare: true,
+				}
+			});
+
+			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
+			$workingIcon = $hideDownloadCheckbox.prev('.icon-loading-small');
+
+			sinon.stub(shareModel, 'saveLinkShare');
+
+			expect($workingIcon.hasClass('hidden')).toBeTruthy();
+		});
+
+		afterEach(function () {
+			shareModel.saveLinkShare.restore();
+		});
+
+		it('is shown if the share is a file', function() {
+			expect($hideDownloadCheckbox.length).toBeTruthy();
+		});
+
+		it('is not shown if the share is a folder', function() {
+			shareModel.fileInfoModel.set('mimetype', 'httpd/unix-directory');
+
+			// Setting the item type also triggers the rendering
+			shareModel.set({
+				itemType: 'folder'
+			});
+
+			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
+
+			expect($hideDownloadCheckbox.length).toBeFalsy();
+		});
+
+		it('checkbox is checked when the setting is enabled', function () {
+			shareModel.set({
+				linkShare: {
+					isLinkShare: true,
+					hideDownload: true
+				}
+			});
+
+			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
+
+			expect($hideDownloadCheckbox.is(':checked')).toEqual(true);
+		});
+
+		it('checkbox is not checked when the setting is disabled', function () {
+			expect($hideDownloadCheckbox.is(':checked')).toEqual(false);
+		});
+
+		it('enables the setting if clicked when unchecked', function () {
+			// Simulate the click by checking the checkbox and then triggering
+			// the "change" event.
+			$hideDownloadCheckbox.prop('checked', true);
+			$hideDownloadCheckbox.change();
+
+			expect($workingIcon.hasClass('hidden')).toBeFalsy();
+			expect(shareModel.saveLinkShare.withArgs({ hideDownload: true }).calledOnce).toBeTruthy();
+		});
+
+		it('disables the setting if clicked when checked', function () {
+			shareModel.set({
+				linkShare: {
+					isLinkShare: true,
+					hideDownload: true
+				}
+			});
+
+			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
+			$workingIcon = $hideDownloadCheckbox.prev('.icon-loading-small');
+
+			// Simulate the click by unchecking the checkbox and then triggering
+			// the "change" event.
+			$hideDownloadCheckbox.prop('checked', false);
+			$hideDownloadCheckbox.change();
+
+			expect($workingIcon.hasClass('hidden')).toBeFalsy();
+			expect(shareModel.saveLinkShare.withArgs({ hideDownload: false }).calledOnce).toBeTruthy();
+		});
+
+	});
+
 	describe('onPasswordEntered', function () {
 
 		var $passwordText;

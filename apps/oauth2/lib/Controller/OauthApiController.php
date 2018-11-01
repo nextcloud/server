@@ -22,8 +22,9 @@
 namespace OCA\OAuth2\Controller;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Token\ExpiredTokenException;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
+use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
@@ -49,6 +50,8 @@ class OauthApiController extends Controller {
 	private $secureRandom;
 	/** @var ITimeFactory */
 	private $time;
+	/** @var Throttler */
+	private $throttler;
 
 	/**
 	 * @param string $appName
@@ -59,6 +62,7 @@ class OauthApiController extends Controller {
 	 * @param TokenProvider $tokenProvider
 	 * @param ISecureRandom $secureRandom
 	 * @param ITimeFactory $time
+	 * @param Throttler $throttler
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -67,7 +71,8 @@ class OauthApiController extends Controller {
 								ClientMapper $clientMapper,
 								TokenProvider $tokenProvider,
 								ISecureRandom $secureRandom,
-								ITimeFactory $time) {
+								ITimeFactory $time,
+								Throttler $throttler) {
 		parent::__construct($appName, $request);
 		$this->crypto = $crypto;
 		$this->accessTokenMapper = $accessTokenMapper;
@@ -75,6 +80,7 @@ class OauthApiController extends Controller {
 		$this->tokenProvider = $tokenProvider;
 		$this->secureRandom = $secureRandom;
 		$this->time = $time;
+		$this->throttler = $throttler;
 	}
 
 	/**
@@ -163,6 +169,8 @@ class OauthApiController extends Controller {
 		$accessToken->setHashedCode(hash('sha512', $newCode));
 		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
 		$this->accessTokenMapper->update($accessToken);
+
+		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
 
 		return new JSONResponse(
 			[

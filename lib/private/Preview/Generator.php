@@ -298,19 +298,23 @@ class Generator {
 
 		if ($height !== $maxHeight && $width !== $maxWidth) {
 			/*
-			 * Scale to the nearest power of two
+			 * Scale to the nearest power of four
 			 */
-			$pow2height = 2 ** ceil(log($height) / log(2));
-			$pow2width = 2 ** ceil(log($width) / log(2));
+			$pow4height = 4 ** ceil(log($height) / log(4));
+			$pow4width = 4 ** ceil(log($width) / log(4));
 
-			$ratioH = $height / $pow2height;
-			$ratioW = $width / $pow2width;
+			// Minimum size is 64
+			$pow4height = max($pow4height, 64);
+			$pow4width = max($pow4width, 64);
+
+			$ratioH = $height / $pow4height;
+			$ratioW = $width / $pow4width;
 
 			if ($ratioH < $ratioW) {
-				$width = $pow2width;
+				$width = $pow4width;
 				$height /= $ratioW;
 			} else {
-				$height = $pow2height;
+				$height = $pow4height;
 				$width /= $ratioH;
 			}
 		}

@@ -174,6 +174,9 @@
 			// hide other tabs
 			$tabsContainer.find('.tab').addClass('hidden');
 
+			$tabsContainer.attr('class', 'tabsContainer');
+			$tabsContainer.addClass(tabView.getTabsContainerExtraClasses());
+
 			// tab already rendered ?
 			if (!$tabEl.length) {
 				// render tab

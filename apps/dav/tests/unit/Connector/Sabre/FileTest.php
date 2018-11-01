@@ -164,7 +164,7 @@ class FileTest extends \Test\TestCase {
 	public function testSimplePutFails($thrownException, $expectedException, $checkPreviousClass = true) {
 		// setup
 		$storage = $this->getMockBuilder(Local::class)
-			->setMethods(['fopen'])
+			->setMethods(['writeStream'])
 			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
 			->getMock();
 		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
@@ -182,11 +182,11 @@ class FileTest extends \Test\TestCase {
 
 		if ($thrownException !== null) {
 			$storage->expects($this->once())
-				->method('fopen')
+				->method('writeStream')
 				->will($this->throwException($thrownException));
 		} else {
 			$storage->expects($this->once())
-				->method('fopen')
+				->method('writeStream')
 				->will($this->returnValue(false));
 		}
 

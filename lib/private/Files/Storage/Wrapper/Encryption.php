@@ -1029,4 +1029,13 @@ class Encryption extends Wrapper {
 
 	}
 
+	public function writeStream(string $path, $stream, int $size = null): int {
+		// always fall back to fopen
+		$target = $this->fopen($path, 'w');
+		list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+		fclose($stream);
+		fclose($target);
+		return $count;
+	}
+
 }

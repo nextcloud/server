@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	OCA.External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme, onCompletion) {
+	OCA.Files_External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme, onCompletion) {
 		if (scheme === 'publickey' && authMechanism === 'publickey::rsa') {
 			var config = $tr.find('.configuration');
 			if ($(config).find('[name="public_key_generate"]').length === 0) {
@@ -53,7 +53,7 @@ $(document).ready(function() {
 			if (result && result.status === 'success') {
 				$(config).find('[data-parameter="public_key"]').val(result.data.public_key).keyup();
 				$(config).find('[data-parameter="private_key"]').val(result.data.private_key);
-				OCA.External.Settings.mountConfig.saveStorageConfig(tr, function() {
+				OCA.Files_External.Settings.mountConfig.saveStorageConfig(tr, function() {
 					// Nothing to do
 				});
 			} else {

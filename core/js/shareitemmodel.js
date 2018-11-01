@@ -18,6 +18,7 @@
 	 * @typedef {object} OC.Share.Types.LinkShareInfo
 	 * @property {bool} isLinkShare
 	 * @property {string} token
+	 * @property {bool} hideDownload
 	 * @property {string|null} password
 	 * @property {string} link
 	 * @property {number} permissions
@@ -136,6 +137,7 @@
 				call = this.updateShare(shareId, attributes, options);
 			} else {
 				attributes = _.defaults(attributes, {
+					hideDownload: false,
 					password: '',
 					passwordChanged: false,
 					permissions: OC.PERMISSION_READ,
@@ -614,6 +616,12 @@
 			var hcp = this.hasCreatePermission(shareIndex);
 			var hup = this.hasUpdatePermission(shareIndex);
 			var hdp = this.hasDeletePermission(shareIndex);
+			if (this.isFile()) {
+				if (hcp || hup || hdp) {
+					return 'checked';
+				}
+				return '';
+			}
 			if (!hcp && !hup && !hdp) {
 				return '';
 			}
@@ -866,6 +874,9 @@
 							isLinkShare: true,
 							id: share.id,
 							token: share.token,
+							// hide_download is returned as an int, so force it
+							// to a boolean
+							hideDownload: !!share.hide_download,
 							password: share.share_with,
 							link: link,
 							permissions: share.permissions,

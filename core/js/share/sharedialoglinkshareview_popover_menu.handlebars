@@ -11,6 +11,16 @@
 				<input id="linkText-{{cid}}" class="linkText" type="text" readonly="readonly" value="{{shareLinkURL}}" />
 			</span>
 		</li>
+		{{#if showHideDownloadCheckbox}}
+			<li>
+				<span class="shareOption menuitem">
+					<span class="icon-loading-small hidden"></span>
+					<input type="checkbox" name="hideDownload" id="sharingDialogHideDownload-{{cid}}" class="checkbox hideDownloadCheckbox"
+					{{#if hideDownload}}checked="checked"{{/if}} />
+					<label for="sharingDialogHideDownload-{{cid}}">{{hideDownloadLabel}}</label>
+				</span>
+			</li>
+		{{/if}}
 		{{#if publicUpload}}
 			<li>
 				<span class="shareOption menuitem">
