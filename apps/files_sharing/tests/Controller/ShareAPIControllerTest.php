@@ -1512,6 +1512,9 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate(new \DateTime())
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($node);
 
@@ -1525,7 +1528,12 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
 				$share->getPassword() === null &&
-				$share->getExpirationDate() === null;
+				$share->getExpirationDate() === null &&
+				// Once set a note or a label are never back to null, only to an
+				// empty string.
+				$share->getNote() === '' &&
+				$share->getLabel() === '' &&
+				$share->getHideDownload() === false;
 			})
 		)->will($this->returnArgument(0));
 
@@ -1533,7 +1541,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, '', null, 'false', '');
+		$result = $ocs->updateShare(42, null, '', null, 'false', '', '', '', 'false');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1560,7 +1568,10 @@ class ShareAPIControllerTest extends TestCase {
 
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() == $date;
+				$share->getExpirationDate() == $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
@@ -1568,7 +1579,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, 'password', null, 'true', '2000-01-01');
+		$result = $ocs->updateShare(42, null, 'password', null, 'true', '2000-01-01', 'note', 'label', 'true');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1701,6 +1712,9 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($node);
 
@@ -1714,12 +1728,15 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getPassword() === 'newpassword' &&
-				$share->getExpirationDate() === $date;
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, 'newpassword', null, null, null);
+		$result = $ocs->updateShare(42, null, 'newpassword', null, null, null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1735,6 +1752,9 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate(new \DateTime())
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($node);
 
@@ -1751,12 +1771,15 @@ class ShareAPIControllerTest extends TestCase {
 
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() == $date;
+				$share->getExpirationDate() == $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, null, null, null, '2010-12-23');
+		$result = $ocs->updateShare(42, null, null, null, null, '2010-12-23', null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1775,6 +1798,9 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($folder);
 
@@ -1785,7 +1811,10 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() === $date;
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
@@ -1793,7 +1822,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, null, null, 'true', null);
+		$result = $ocs->updateShare(42, null, null, null, 'true', null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1812,6 +1841,9 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($folder);
 
@@ -1822,14 +1854,17 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() === $date;
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, 7, null, null, null, null);
+		$result = $ocs->updateShare(42, 7, null, null, null, null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1848,6 +1883,9 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($folder);
 
@@ -1858,14 +1896,17 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 					$share->getPassword() === 'password' &&
-					$share->getExpirationDate() === $date;
+					$share->getExpirationDate() === $date &&
+					$share->getNote() === 'note' &&
+					$share->getLabel() === 'label' &&
+					$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, 31, null, null, null, null);
+		$result = $ocs->updateShare(42, 31, null, null, null, null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
