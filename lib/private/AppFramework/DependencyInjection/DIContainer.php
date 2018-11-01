@@ -47,22 +47,21 @@ use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
-use OC\RichObjectStrings\Validator;
 use OC\ServerContainer;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\GlobalScale\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\IUserSession;
-use OCP\RichObjectStrings\IValidator;
-use OCP\Encryption\IManager;
 use OCA\WorkflowEngine\Manager;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
@@ -85,6 +84,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		parent::__construct();
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
+
+		$this->registerAlias('Request', IRequest::class);
 
 		/** @var \OC\ServerContainer $server */
 		if ($server === null) {
@@ -185,7 +186,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 			return new SecurityMiddleware(
 				$c['Request'],
-				$c['ControllerMethodReflector'],
+				$server->query(IControllerMethodReflector::class),
 				$server->getNavigationManager(),
 				$server->getURLGenerator(),
 				$server->getLogger(),
@@ -205,7 +206,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$server = $app->getServer();
 
 			return new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
-				$c['ControllerMethodReflector'],
+				$c->query(IControllerMethodReflector::class),
 				$server->getSession(),
 				$server->getUserSession(),
 				$server->query(ITimeFactory::class)
@@ -217,7 +218,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$server = $app->getServer();
 
 			return new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
-				$c['ControllerMethodReflector'],
+				$c->query(IControllerMethodReflector::class),
 				$server->getBruteForceThrottler(),
 				$server->getRequest()
 			);
@@ -230,7 +231,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new RateLimitingMiddleware(
 				$server->getRequest(),
 				$server->getUserSession(),
-				$c['ControllerMethodReflector'],
+				$c->query(IControllerMethodReflector::class),
 				$c->query(OC\Security\RateLimiting\Limiter::class)
 			);
 		});
@@ -238,7 +239,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService('CORSMiddleware', function($c) {
 			return new CORSMiddleware(
 				$c['Request'],
-				$c['ControllerMethodReflector'],
+				$c->query(IControllerMethodReflector::class),
 				$c->query(IUserSession::class),
 				$c->getServer()->getBruteForceThrottler()
 			);
@@ -247,7 +248,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService('SessionMiddleware', function($c) use ($app) {
 			return new SessionMiddleware(
 				$c['Request'],
-				$c['ControllerMethodReflector'],
+				$c->query(IControllerMethodReflector::class),
 				$app->getServer()->getSession()
 			);
 		});
@@ -257,7 +258,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$userSession = $app->getServer()->getUserSession();
 			$session = $app->getServer()->getSession();
 			$urlGenerator = $app->getServer()->getURLGenerator();
-			$reflector = $c['ControllerMethodReflector'];
+			$reflector = $c->query(IControllerMethodReflector::class);
 			$request = $app->getServer()->getRequest();
 			return new TwoFactorMiddleware($twoFactorManager, $userSession, $session, $urlGenerator, $reflector, $request);
 		});
@@ -271,7 +272,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService(OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware::class, function (SimpleContainer $c) {
 			return new OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware(
 				$c['Request'],
-				$c['ControllerMethodReflector']
+				$c->query(IControllerMethodReflector::class)
 			);
 		});
 
