@@ -1,4 +1,4 @@
-# Nextcloud Server
+# Nextcloud Server ☁
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=master)
 [![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
@@ -7,45 +7,102 @@
 
 **A safe home for all your data.**
 
-![](https://github.com/nextcloud/screenshots/blob/master/files/filelist.png)
+![](https://raw.githubusercontent.com/nextcloud/screenshots/master/files/Files%20Sharing.png)
 
-## Why is this so awesome?
+## Why is this so awesome? 🤩
 
-* :file_folder: **Access your Data** You can store your files, contacts, calendars and more on a server of your choosing.
-* :package: **Sync your Data** You keep your files, contacts, calendars and more synchronized amongst your devices.
-* :arrows_counterclockwise: **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
-* :rocket: **Expandable with dozens of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail) and all those you can discover in our [App Store](https://apps.nextcloud.com)
-* :lock: **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
+* 📁 **Access your Data** You can store your files, contacts, calendars and more on a server of your choosing.
+* 🔄 **Sync your Data** You keep your files, contacts, calendars and more synchronized amongst your devices.
+* 🙌 **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
+* 🚀 **Expandable with dozens of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail) and all those you can discover in our [App Store](https://apps.nextcloud.com)
+* 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
-*You want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and at your Enterprise?* [**Learn about all our Features**](https://nextcloud.com/features).
+You want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and at your Enterprise? [**Learn about all our Features**](https://nextcloud.com/features).
 
-## Get your Nextcloud
+## Get your Nextcloud 🚚
 
-- [**Install** a server by yourself on your own hardware or by using one of our ready to use **Appliances**](https://nextcloud.com/install/#instructions-server)
-- [Buy one of the awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
-- [Find a service **provider** who is hosting Nextcloud for you or your company](https://nextcloud.com/providers/)
+- ☑️ [**Simply sign up**](https://nextcloud.com/signup/) either through our website or through the apps directly.
+- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your own hardware or by using one of our ready to use **appliances**
+- 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
+- 🏢 Find a [service **provider**](https://nextcloud.com/providers/) who hosts Nextcloud for you or your company
 
-*Enterprise? Public Sector or Education user? You may want to have a look into the [**Enterprise Support Subscription**](https://nextcloud.com/enterprise/) provided by the Nextcloud GmbH*
+Enterprise? Public Sector or Education user? You may want to have a look into the [**Enterprise Support Subscription**](https://nextcloud.com/enterprise/) provided by the Nextcloud GmbH.
 
-## Get in touch
+## Get in touch 💬
 
-* :clipboard: [Forum](https://help.nextcloud.com)
-* :busts_in_silhouette: [Facebook](https://facebook.com/nextclouders)
-* :hatching_chick: [Twitter](https://twitter.com/Nextclouders)
-* :elephant: [Mastodon](https://mastodon.xyz/@nextcloud)
+* [📋 Forum](https://help.nextcloud.com)
+* [👥 Facebook](https://facebook.com/nextclouders)
+* [🐣 Twitter](https://twitter.com/Nextclouders)
+* [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
 
-[…learn more about how to get support for Nextcloud here!](https://nextcloud.com/support)
+You can also [get support for Nextcloud](https://nextcloud.com/support)!
 
-## Join the team :family:
 
-### How to contribute
+## Join the team 👪
 
-1. [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html) :rocket:
-2. [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue) :notebook:
-3. Create a branch, a [Pull Request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue :computer:
-4. Wait for it to get merged and :tada:
+There are many ways to contribute, of which development is only one! Find out [how to get involved](https://nextcloud.com/contribute/), including as translator, designer, tester, helping others and much more! 😍
 
-### Contribution Guidelines
+
+### Development setup 👩‍💻
+
+1. 🚀 [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html)
+2. 🐛 [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue)
+3. 👩‍🔧 Create a branch and make your changes. Remember to sign off your commits using `git commit -sm "Your commit message"`
+4. ⬆ Create a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review
+5. 👍 Fix things that come up during review
+6. 🎉 Wait for it to get merged!
+
+Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
+
+Several apps that are included by default in regular releases such as [First run wizard](https://github.com/nextcloud/firstrunwizard) or [Activity](https://github.com/nextcloud/activity) are missing in `master` and have to be installed manually by cloning them into the `apps` subfolder.
+
+Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
+
+
+### Building front-end code 🏗
+
+We move more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the `settings` subfolder:
+
+``` bash
+# install dependencies
+make dev-setup
+
+# build for development
+make build-js
+
+# build for development and watch edits
+make watch-js
+
+# build for production with minification
+make build-js-production
+
+# clean output files
+make clean
+```
+
+**When making changes, also commit the compiled files!**
+
+We still use Handlebars templates some places in Files and Settings. We will replace these step-by-step with Vue.js, but in the meantime you need to compile them separately.
+
+If you don’t have Handlebars installed yet, you can do it with this terminal command:
+```
+sudo npm install -g handlebars
+```
+
+Then inside the root folder of your local Nextcloud development installation, run this command in the terminal every time you changed a `.handlebars` file to compile it:
+```
+./build/compile-handlebars-templates.sh
+```
+
+
+### Tools we use 🛠
+
+- [👀 BrowserStack](https://browserstack.com) for cross-browser testing
+- [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
+- [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing of performance, accessibility and more
+
+
+## Contribution guidelines 📜
 
 All contributions to this repository from June, 16 2016 on are considered to be
 licensed under the AGPLv3 or any later version.
@@ -64,17 +121,3 @@ Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduc
 Please review the [guidelines for contributing](.github/CONTRIBUTING.md) to this repository.
 
 More information how to contribute: [https://nextcloud.com/contribute/](https://nextcloud.com/contribute/)
-
-### Running master checkouts
-
-Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
-
-Several apps that are included by default in regular releases such as [firstrunwizard](https://github.com/nextcloud/firstrunwizard) or [gallery](https://github.com/nextcloud/gallery) are missing in `master` and have to be installed manually.
-
-That aside Git checkouts can be handled the same as release archives.
-
-Note they should never be used on production systems.
-
-## Tools we use
-
-[![BrowserStack](https://user-images.githubusercontent.com/45821/41675934-61fa3442-74c4-11e8-8c8e-90768c56ba08.png)](https://www.browserstack.com/)
