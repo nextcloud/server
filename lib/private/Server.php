@@ -1084,6 +1084,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return $instance;
 		});
 		$this->registerAlias('CollaboratorSearch', \OCP\Collaboration\Collaborators\ISearch::class);
+		$this->registerAlias(\OCP\Collaboration\Collaborators\ISearchResult::class, \OC\Collaboration\Collaborators\SearchResult::class);
 
 		$this->registerAlias(\OCP\Collaboration\AutoComplete\IManager::class, \OC\Collaboration\AutoComplete\Manager::class);
 
