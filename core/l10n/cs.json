@@ -350,6 +350,7 @@
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Pro pomoc, nahlédněte do <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentace</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Beru na vědomí, že při aktualizaci skrze webové rozhraní hrozí nebezpečí vypršení požadavku, který může vyústit ve ztrátu dat. Mám pro takový případ zálohu a vím, jak ji v případě selhání obnovit.",
     "Upgrade via web on my own risk" : "Na vlastní nebezpečí aktualizovat skrze web",
+    "Maintenance mode" : "Režim údržby",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tato instalace %s je právě ve stavu údržby a ta může chvíli trvat.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Pokud se tato zpráva objevuje opakovaně nebo nečekaně, obraťte se správce systému.",
     "Updated \"%s\" to %s" : "Aktualizováno z „%s“ na %s",
