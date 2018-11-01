@@ -39,7 +39,6 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
-use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -727,11 +726,10 @@ class ShareAPIController extends OCSController {
 		foreach ($shares as $share) {
 			try {
 				$formatted[] = $this->formatShare($share, $path);
-				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share)) {
+				if ($path !== null && !$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $path)) {
 					$resharingRight = true;
 				}
-
-			} catch (NotFoundException $e) {
+			} catch (\Exception $e) {
 				//Ignore share
 			}
 		}
@@ -1119,12 +1117,22 @@ class ShareAPIController extends OCSController {
 	/**
 	 * Returns if we can find resharing rights in an IShare object for a specific user.
 	 *
+	 * @suppress PhanUndeclaredClassMethod
+	 *
 	 * @param string $userId
 	 * @param IShare $share
+	 * @param Node $node
 	 * @return bool
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\InvalidPathException
 	 */
-	private function shareProviderResharingRights(string $userId, IShare $share): bool {
+	private function shareProviderResharingRights(string $userId, IShare $share, Node $node): bool {
 		if ($share->getShareOwner() === $userId) {
+			return true;
+		}
+
+		// we check that current user have parent resharing rights on the current file
+		if (($node->getPermissions() & \OCP\Constants::PERMISSION_SHARE) !== 0) {
 			return true;
 		}
 
@@ -1141,7 +1149,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles') &&
-		class_exists('\OCA\Circles\Api\v1\Circles')) {
+			class_exists('\OCA\Circles\Api\v1\Circles')) {
 			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
 			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
