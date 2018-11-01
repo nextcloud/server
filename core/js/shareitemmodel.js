@@ -614,6 +614,12 @@
 			var hcp = this.hasCreatePermission(shareIndex);
 			var hup = this.hasUpdatePermission(shareIndex);
 			var hdp = this.hasDeletePermission(shareIndex);
+			if (this.isFile()) {
+				if (hcp || hup || hdp) {
+					return 'checked';
+				}
+				return '';
+			}
 			if (!hcp && !hup && !hdp) {
 				return '';
 			}
