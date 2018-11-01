@@ -125,9 +125,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->query('AppName'));
 		});
 
-		$this->registerAlias(\OCP\AppFramework\Utility\IControllerMethodReflector::class, \OC\AppFramework\Utility\ControllerMethodReflector::class);
-		$this->registerAlias('ControllerMethodReflector', \OCP\AppFramework\Utility\IControllerMethodReflector::class);
-
 		$this->registerService(IRequest::class, function() {
 			return $this->getServer()->query(IRequest::class);
 		});
