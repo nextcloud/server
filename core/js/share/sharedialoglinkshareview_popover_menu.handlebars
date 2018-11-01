@@ -5,23 +5,6 @@
 				<input id="linkText-{{cid}}" class="linkText" type="text" readonly="readonly" value="{{shareLinkURL}}" />
 			</span>
 		</li>
-		<li>
-			<a href="#" class="new-share">
-				<span class="icon-loading-small hidden"></span>
-				<span class="icon icon-add"></span>
-				<span>{{newShareLabel}}</span>
-			</a>
-		</li>
-		{{#if showHideDownloadCheckbox}}
-			<li>
-				<span class="menuitem">
-					<span class="icon-loading-small hidden"></span>
-					<input type="checkbox" name="hideDownload" id="sharingDialogHideDownload-{{cid}}" class="checkbox hideDownloadCheckbox"
-					{{#if hideDownload}}checked="checked"{{/if}} />
-					<label for="sharingDialogHideDownload-{{cid}}">{{hideDownloadLabel}}</label>
-				</span>
-			</li>
-		{{/if}}
 		{{#if publicUpload}}
 			<li>
 				<span class="menuitem">
@@ -35,7 +18,8 @@
 					<span class="icon-loading-small hidden"></span>
 					<input type="radio" name="publicUpload" value="{{publicUploadRWValue}}" id="sharingDialogAllowPublicUpload-rw-{{cid}}" class="radio publicUploadRadio" {{{publicUploadRWChecked}}} />
 					<label for="sharingDialogAllowPublicUpload-rw-{{cid}}">{{publicUploadRWLabel}}</label>
-				</span></li>
+				</span>
+			</li>
 			<li>
 				<span class="menuitem">
 					<span class="icon-loading-small hidden"></span>
@@ -50,6 +34,16 @@
 					<span class="icon-loading-small hidden"></span>
 					<input type="checkbox" name="allowPublicEditing" id="sharingDialogAllowPublicEditing-{{cid}}" class="checkbox publicEditingCheckbox" {{{publicEditingChecked}}} />
 					<label for="sharingDialogAllowPublicEditing-{{cid}}">{{publicEditingLabel}}</label>
+				</span>
+			</li>
+		{{/if}}
+		{{#if showHideDownloadCheckbox}}
+			<li>
+				<span class="menuitem">
+					<span class="icon-loading-small hidden"></span>
+					<input type="checkbox" name="hideDownload" id="sharingDialogHideDownload-{{cid}}" class="checkbox hideDownloadCheckbox"
+					{{#if hideDownload}}checked="checked"{{/if}} />
+					<label for="sharingDialogHideDownload-{{cid}}">{{hideDownloadLabel}}</label>
 				</span>
 			</li>
 		{{/if}}
@@ -107,7 +101,14 @@
 			</li>
 		{{/each}}
 		<li>
-			<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLabel}}</span></a>
+			<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span>{{unshareLinkLabel}}</span></a>
+		</li>
+		<li>
+			<a href="#" class="new-share">
+				<span class="icon-loading-small hidden"></span>
+				<span class="icon icon-add"></span>
+				<span>{{newShareLabel}}</span>
+			</a>
 		</li>
 	</ul>
 </div>

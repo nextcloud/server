@@ -118,6 +118,11 @@
 				margin-bottom: 10px;
 			}
 		}
+
+		/* Border above last entry '+ Add another share' to separate it from current link settings */
+		.new-share {
+			border-top: 1px solid var(--color-border);
+		}
 	}
 	.linkPass .icon-loading-small {
 		margin-right: 0px;

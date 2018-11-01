@@ -452,7 +452,7 @@
 
 			// reset previously set passwords
 			this.password = '';
-			
+
 			var linkShareTemplate = this.template();
 			var resharingAllowed = this.model.sharePermissionPossible();
 
@@ -503,7 +503,7 @@
 				});
 			});
 			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
-			
+
 			// what if there is another date picker on that page?
 			var minDate = new Date();
 			// min date should always be the next day
@@ -542,7 +542,8 @@
 				defaultExpireDate: moment().add(1, 'day').format('DD-MM-YYYY'), // Can't expire today
 				addNoteLabel: t('core', 'Note to recipient'),
 				unshareLabel: t('core', 'Unshare'),
-				newShareLabel: t('core', 'New share link'),
+				unshareLinkLabel: t('core', 'Delete share link'),
+				newShareLabel: t('core', 'Add another link'),
 			};
 
 			var pendingPopover = {
@@ -752,7 +753,7 @@
 					publicUploadRWChecked = 'checked';
 					break;
 			}
-	
+
 			var isPasswordSet = !!share.password;
 			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true;
 			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink');
