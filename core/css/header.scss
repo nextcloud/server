@@ -561,6 +561,7 @@ nav[role='navigation'] {
 			span {
 				opacity: .6;
 				bottom: 2px;
+				z-index: -1; /* fix clickability issue - otherwise we need to move the span into the link */
 			}
 
 			/* Prominent app title for current and hovered/focused app */
