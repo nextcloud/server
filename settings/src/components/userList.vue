@@ -143,7 +143,7 @@ import Vue from 'vue';
 
 export default {
 	name: 'userList',
-	props: ['users', 'showConfig', 'selectedGroup', 'externalActions'],
+	props: ['users', 'showConfig', 'selectedGroup', 'externalActions', 'defaultQuotaValue'],
 	components: {
 		userRow,
 		Multiselect,
@@ -195,6 +195,10 @@ export default {
 		 * Register search
 		 */
 		this.userSearch = new OCA.Search(this.search, this.resetSearch);
+
+		this.$nextTick(function () {
+			this.updateDefaultLabel();
+		});
 	},
 	computed: {
 		settings() {
@@ -274,6 +278,9 @@ export default {
 			this.$store.commit('resetUsers');
 			this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
 			this.setNewUserDefaultGroup(val);
+		},
+		defaultQuotaValue: function () {
+			this.updateDefaultLabel();
 		}
 	},
 	methods: {
@@ -368,6 +375,17 @@ export default {
 					this.loading.groups = false;
 				});
 			return this.$store.getters.getGroups[this.groups.length];
+		},
+		updateDefaultLabel() {
+			let defaultLabel = undefined;
+
+			if (this.defaultQuotaValue.label === 'Unlimited') {
+				defaultLabel = '∞';
+			} else {
+				defaultLabel = this.defaultQuotaValue.label;
+			}
+
+			this.defaultQuota = {id: 'default', label: defaultLabel + ' (default)'};
 		}
 	}
 }
