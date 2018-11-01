@@ -314,7 +314,9 @@
 				var $edit = _this.$('#canEdit-' + _this.cid + '-' + sharee.shareId);
 				if($edit.length === 1) {
 					$edit.prop('checked', sharee.editPermissionState === 'checked');
-					$edit.prop('indeterminate', sharee.editPermissionState === 'indeterminate');
+					if (sharee.isFolder) {
+						$edit.prop('indeterminate', sharee.editPermissionState === 'indeterminate');
+					}
 				}
 			});
 			this.$('.popovermenu').on('afterHide', function() {
