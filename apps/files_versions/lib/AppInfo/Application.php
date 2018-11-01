@@ -24,9 +24,10 @@
 namespace OCA\Files_Versions\AppInfo;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\Files_Versions\Versions\IVersionManager;
+use OCA\Files_Versions\Versions\VersionManager;
 use OCP\AppFramework\App;
-use OCA\Files_Versions\Expiration;
-use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\AppFramework\IAppContainer;
 use OCA\Files_Versions\Capabilities;
 
 class Application extends App {
@@ -43,14 +44,45 @@ class Application extends App {
 		/*
 		 * Register $principalBackend for the DAV collection
 		 */
-		$container->registerService('principalBackend', function () {
+		$container->registerService('principalBackend', function (IAppContainer $c) {
+			$server = $c->getServer();
 			return new Principal(
-				\OC::$server->getUserManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getShareManager(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig()
+				$server->getUserManager(),
+				$server->getGroupManager(),
+				$server->getShareManager(),
+				$server->getUserSession(),
+				$server->getConfig()
 			);
 		});
+
+		$container->registerService(IVersionManager::class, function(IAppContainer $c) {
+			return new VersionManager();
+		});
+
+		$this->registerVersionBackends();
+	}
+
+	public function registerVersionBackends() {
+		$server = $this->getContainer()->getServer();
+		$logger = $server->getLogger();
+		$appManager = $server->getAppManager();
+		/** @var IVersionManager $versionManager */
+		$versionManager = $this->getContainer()->getServer()->query(IVersionManager::class);
+		foreach($appManager->getInstalledApps() as $app) {
+			$appInfo = $appManager->getAppInfo($app);
+			if (isset($appInfo['versions'])) {
+				$backends = $appInfo['versions'];
+				foreach($backends as $backend) {
+					$class = $backend['@value'];
+					$for = $backend['@attributes']['for'];
+					try {
+						$backendObject = $server->query($class);
+						$versionManager->registerBackend($for, $backendObject);
+					} catch (\Exception $e) {
+						$logger->logException($e);
+					}
+				}
+			}
+		}
 	}
 }

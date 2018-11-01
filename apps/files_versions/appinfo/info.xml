@@ -41,4 +41,8 @@
 			<collection>OCA\Files_Versions\Sabre\RootCollection</collection>
 		</collections>
 	</sabre>
+
+	<versions>
+		<backend for="OCP\Files\Storage\IStorage">OCA\Files_Versions\Versions\LegacyVersionsBackend</backend>
+	</versions>
 </info>
