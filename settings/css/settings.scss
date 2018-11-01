@@ -458,7 +458,7 @@ table.nostyle {
 	}
 	.token-list {
 		td > a.icon-more {
-			transition: opacity 0.5s;
+			transition: opacity var(--animation-quick);
 		}
 		a.icon-more {
 			padding: 14px;
@@ -469,8 +469,9 @@ table.nostyle {
 		}
 		tr {
 			&:hover td > a.icon,
+			td > a.icon:focus,
 			&.active td > a.icon {
-				opacity: 0.7;
+				opacity: 1;
 			}
 		}
 	}
