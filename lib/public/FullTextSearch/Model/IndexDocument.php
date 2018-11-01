@@ -57,10 +57,10 @@ class IndexDocument implements JsonSerializable {
 
 
 	/** @var string */
-	protected $id;
+	protected $id = '';
 
 	/** @var string */
-	protected $providerId;
+	protected $providerId = '';
 
 	/** @var DocumentAccess */
 	protected $access;
@@ -111,7 +111,7 @@ class IndexDocument implements JsonSerializable {
 	protected $info = [];
 
 	/** @var int */
-	protected $contentEncoded;
+	protected $contentEncoded = 0;
 
 
 	/**
