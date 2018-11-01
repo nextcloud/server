@@ -38,12 +38,49 @@
 
 ## Join the team :family:
 
-### How to contribute
+### How to contribute 👩💻
 
 1. [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html) :rocket:
 2. [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue) :notebook:
 3. Create a branch, a [Pull Request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue :computer:
 4. Wait for it to get merged and :tada:
+
+
+### Building front-end code 🏗
+
+We move more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the `settings` subfolder:
+
+``` bash
+# install dependencies
+make dev-setup
+
+# build for development
+make build-js
+
+# build for development and watch edits
+make watch-js
+
+# build for production with minification
+make build-js-production
+
+# clean output files
+make clean
+```
+
+**When making changes, also commit the compiled files!**
+
+We still use Handlebars templates some places in Files and Settings. We will replace these step-by-step with Vue.js, but in the meantime you need to compile them separately.
+
+If you don’t have Handlebars installed yet, you can do it with this terminal command:
+```
+sudo npm install -g handlebars
+```
+
+Then inside the root folder of your local Nextcloud development installation, run this command in the terminal every time you changed a `.handlebars` file to compile it:
+```
+./build/compile-handlebars-templates.sh
+```
+
 
 ### Contribution Guidelines
 
