@@ -47,7 +47,7 @@ There are many ways to contribute, of which development is only one! Find out [h
 
 1. 🚀 [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html)
 2. 🐛 [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue)
-3. 👩‍🔧 Create a branch and make your changes. Remember to sign off your commits using `git commit -**s**m "Your commit message"`
+3. 👩‍🔧 Create a branch and make your changes. Remember to sign off your commits using `git commit -sm "Your commit message"`
 4. ⬆ Create a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review
 5. 👍 Fix things that come up during review
 6. 🎉 Wait for it to get merged!
@@ -97,19 +97,9 @@ Then inside the root folder of your local Nextcloud development installation, ru
 
 ### Tools we use 🛠
 
-<a href="https://www.browserstack.com/" target="_blank">
-    <img src="https://user-images.githubusercontent.com/45821/41675934-61fa3442-74c4-11e8-8c8e-90768c56ba08.png" alt="BrowserStack" style="width:50px;">
-</a>
-<a href="https://wave.webaim.org/extension/" target="_blank">
-    <img src="https://camo.githubusercontent.com/ac0b092c4e809d13326d528eafef21d9bf6cbeca/68747470733a2f2f776176652e77656261696d2e6f72672f696d672f776176656c6f676f2e706e67" alt="WAVE" data-canonical-src="https://wave.webaim.org/img/wavelogo.png"  style="width:50px;">
-</a>
-<a href="https://developers.google.com/web/tools/lighthouse/"  target="_blank">
-    <img src="https://camo.githubusercontent.com/650ec1d1e5ab5227a5cc435a1818308410f9d264/68747470733a2f2f646576656c6f706572732e676f6f676c652e636f6d2f7765622f746f6f6c732f6c69676874686f7573652f696d616765732f6c69676874686f7573652d69636f6e2d3132382e706e67" alt="" data-canonical-src="https://developers.google.com/web/tools/lighthouse/images/lighthouse-icon-128.png" style="width:50px;"> Lighthouse
-</a>
-<a href="https://www.deque.com/axe/"  target="_blank">
-    <img src="https://camo.githubusercontent.com/68db295d74eef65b35e4c99d17b57f18f470c67a/68747470733a2f2f616130713163367139682d666c79776865656c2e6e6574646e612d73736c2e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031362f31322f6158652d333030783238302e706e67" alt="axe" data-canonical-src="https://aa0q1c6q9h-flywheel.netdna-ssl.com/wp-content/uploads/2016/12/aXe-300x280.png" style="height: 70px; margin-bottom: -10px;">
-</a>
-
+- [👀 BrowserStack](https://browserstack.com) for cross-browser testing
+- [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
+- [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing of performance, accessibility and more
 
 
 ## Contribution guidelines 📜
