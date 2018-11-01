@@ -250,7 +250,9 @@ templates['sharedialoglinkshareview_popover_menu_pending'] = template({"1":funct
     + alias4(((helper = (helper = helpers.enforcedPasswordLabel || (depth0 != null ? depth0.enforcedPasswordLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"enforcedPasswordLabel","hash":{},"data":data}) : helper)))
     + "</p>\n				</span>\n			</li>\n			<li class=\"linkPassMenu\">\n				<span class=\"menuitem\">\n					<form autocomplete=\"off\" class=\"enforcedPassForm\">\n						<input id=\"enforcedPassText\" required class=\"enforcedPassText\" type=\"password\"\n							placeholder=\""
     + alias4(((helper = (helper = helpers.passwordPlaceholder || (depth0 != null ? depth0.passwordPlaceholder : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"passwordPlaceholder","hash":{},"data":data}) : helper)))
-    + "\" autocomplete=\"new-password\" minlength=\"4\" />\n						<input type=\"submit\" value=\" \" class=\"primary icon-checkmark-white\">\n					</form>\n				</span>\n			</li>\n";
+    + "\" autocomplete=\"enforcedPassText\" minlength=\""
+    + alias4(((helper = (helper = helpers.minPasswordLength || (depth0 != null ? depth0.minPasswordLength : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"minPasswordLength","hash":{},"data":data}) : helper)))
+    + "\" />\n						<input type=\"submit\" value=\" \" class=\"primary icon-checkmark-white\">\n					</form>\n				</span>\n			</li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 

@@ -189,6 +189,8 @@
 				shareData.password = this.password
 			}
 
+			var newShareId = false;
+
 			// We need a password before the share creation
 			if (isPasswordEnforced && !this.showPending && this.password === '') {
 				this.showPending = shareId;
@@ -196,18 +198,32 @@
 				$li.find('#enforcedPassText').focus();
 			} else {
 				// else, we have a password or it is not enforced
-				this.model.saveLinkShare(shareData, {
+				$.when(this.model.saveLinkShare(shareData, {
 					success: function() {
 						$loading.addClass('hidden');
 						$li.find('.icon').removeClass('hidden');
 						self.render();
+						// open the menu by default
+						// we can only do that after the render
+						if (newShareId) {
+							var shares = self.$el.find('li[data-share-id]');
+							var $newShare = self.$el.find('li[data-share-id="'+newShareId+'"]');
+							// only open the menu by default if this is the first share
+							if ($newShare && shares.length === 1) {
+								$menu = $newShare.find('.popovermenu');
+								OC.showMenu(null, $menu);
+							}
+						}
 					},
 					error: function() {
 						OC.Notification.showTemporary(t('core', 'Unable to create a link share'));
 						$loading.addClass('hidden');
 						$li.find('.icon').removeClass('hidden');
 					}
-				})
+				})).then(function(response) {
+					// resolve before success
+					newShareId = response.ocs.data.id
+				});
 			}
 		},
 
@@ -515,6 +531,12 @@
 
 			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
 
+			var minPasswordLength = 4
+			// password policy?
+			if(oc_capabilities.password_policy && oc_capabilities.password_policy.minLength) {
+				minPasswordLength = oc_capabilities.password_policy.minLength;
+			}
+
 			var popoverBase = {
 				social: social,
 				urlLabel: t('core', 'Link'),
@@ -550,6 +572,7 @@
 				isPasswordEnforced: isPasswordEnforced,
 				enforcedPasswordLabel: t('core', 'Password protection for links is mandatory'),
 				passwordPlaceholder: passwordPlaceholderInitial,
+				minPasswordLength: minPasswordLength,
 			};
 			var pendingPopoverMenu = this.pendingPopoverMenuTemplate(_.extend({}, pendingPopover))
 
