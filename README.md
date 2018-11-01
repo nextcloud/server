@@ -46,9 +46,10 @@ There are many ways to contribute, of which development is only one! Find out [h
 
 1. [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html) :rocket:
 2. [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue) :notebook:
-3. Create a branch, a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review :computer:
-4. Fix things that come up during review 👍
-5. Wait for it to get merged! :tada:
+3. Create a branch and make your changes. Remember to sign off your commits using `git commit -**s**m "Your commit message"`
+4. Create a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review :computer:
+5. Fix things that come up during review 👍
+6. Wait for it to get merged! :tada:
 
 Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
 
