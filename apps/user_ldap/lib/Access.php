@@ -46,7 +46,6 @@ namespace OCA\User_LDAP;
 use OC\HintException;
 use OC\Hooks\PublicEmitter;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
-use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -59,7 +58,7 @@ use OCP\IUserManager;
  * Class Access
  * @package OCA\User_LDAP
  */
-class Access extends LDAPUtility implements IUserTools {
+class Access extends LDAPUtility {
 	const UUID_ATTRIBUTES = ['entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'];
 
 	/** @var \OCA\User_LDAP\Connection */
