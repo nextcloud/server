@@ -1134,8 +1134,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * Extract UID from vcard
 	 *
 	 * @param string $cardData the vcard raw data
-	 * @return string the uid or empty if none
-	 * @throws BadRequest
+	 * @return string the uid
+	 * @throws BadRequest if no UID is available
 	 */
 	private function getUID($cardData) {
 		$vCard = Reader::read($cardData);
