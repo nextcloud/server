@@ -781,27 +781,47 @@ kbd {
 
 /* TABS ------------------------------------------------------------ */
 .tabHeaders {
-	display: inline-block;
-	margin: 15px;
+	display: flex;
+	margin-bottom: 16px;
+
 	.tabHeader {
-		float: left;
-		padding: 12px;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		cursor: pointer;
 		color: var(--color-text-lighter);
 		margin-bottom: 1px;
+		padding: 5px;
+
+		/* Use same amount as sidebar padding */
+		&:first-child {
+			padding-left: 15px;
+		}
+		&:last-child {
+			padding-right: 15px;
+		}
+
 		.icon {
 			display: inline-block;
-			width: 16px;
+			width: 100%;
 			height: 16px;
 			background-size: 16px;
 			vertical-align: middle;
 			margin-top: -2px;
 			margin-right: 3px;
 			opacity: .7;
+			cursor: pointer;
 		}
+
 		a {
 			color: var(--color-text-lighter);
 			margin-bottom: 1px;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		&.selected {
 			font-weight: bold;
