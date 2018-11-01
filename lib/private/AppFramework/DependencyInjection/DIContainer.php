@@ -152,10 +152,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->query(OC\GlobalScale\Config::class);
 		});
 
-		$this->registerService(IValidator::class, function($c) {
-			return $c->query(Validator::class);
-		});
-
 		$this->registerService(\OC\Security\IdentityProof\Manager::class, function ($c) {
 			return new \OC\Security\IdentityProof\Manager(
 				$this->getServer()->query(\OC\Files\AppData\Factory::class),
