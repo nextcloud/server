@@ -103,6 +103,8 @@ window.oc_appconfig = {
 window.oc_defaults = {
 	docPlaceholderUrl: 'https://docs.example.org/PLACEHOLDER'
 };
+window.oc_capabilities = {
+}
 
 /* jshint camelcase: true */
 

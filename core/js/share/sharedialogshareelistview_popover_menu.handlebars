@@ -2,7 +2,7 @@
 	<ul>
 		{{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isMailShare}}
 			<li>
-				<span class="shareOption menuitem">
+				<span class="menuitem">
 					<input id="canShare-{{cid}}-{{shareId}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />
 					<label for="canShare-{{cid}}-{{shareId}}">{{canShareLabel}}</label>
 				</span>
@@ -11,7 +11,7 @@
 		{{#if isFolder}}
 			{{#if createPermissionPossible}}{{#unless isMailShare}}
 				<li>
-					<span class="shareOption menuitem">
+					<span class="menuitem">
 						<input id="canCreate-{{cid}}-{{shareId}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>
 						<label for="canCreate-{{cid}}-{{shareId}}">{{createPermissionLabel}}</label>
 					</span>
@@ -19,7 +19,7 @@
 			{{/unless}}{{/if}}
 			{{#if updatePermissionPossible}}{{#unless isMailShare}}
 				<li>
-					<span class="shareOption menuitem">
+					<span class="menuitem">
 						<input id="canUpdate-{{cid}}-{{shareId}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>
 						<label for="canUpdate-{{cid}}-{{shareId}}">{{updatePermissionLabel}}</label>
 					</span>
@@ -27,7 +27,7 @@
 				{{/unless}}{{/if}}
 			{{#if deletePermissionPossible}}{{#unless isMailShare}}
 				<li>
-					<span class="shareOption menuitem">
+					<span class="menuitem">
 						<input id="canDelete-{{cid}}-{{shareId}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>
 						<label for="canDelete-{{cid}}-{{shareId}}">{{deletePermissionLabel}}</label>
 					</span>
@@ -37,14 +37,14 @@
 		{{#if isMailShare}}
 			{{#if hasCreatePermission}}
 				<li>
-					<span class="shareOption menuitem">
+					<span class="menuitem">
 						<input id="secureDrop-{{cid}}-{{shareId}}" type="checkbox" name="secureDrop" class="checkbox secureDrop" {{#if secureDropMode}}checked="checked"{{/if}} data-permissions="{{readPermission}}"/>
 						<label for="secureDrop-{{cid}}-{{shareId}}">{{secureDropLabel}}</label>
 					</span>
 				</li>
 			{{/if}}
 			<li>
-				<span class="shareOption menuitem">
+				<span class="menuitem">
 					<input id="password-{{cid}}-{{shareId}}" type="checkbox" name="password" class="password checkbox" {{#if isPasswordSet}}checked="checked"{{/if}}{{#if isPasswordSet}}{{#if isPasswordForMailSharesRequired}}disabled=""{{/if}}{{/if}}" />
 					<label for="password-{{cid}}-{{shareId}}">{{passwordLabel}}</label>
 				</span>
@@ -58,7 +58,7 @@
 			</li>
 			{{#if isTalkEnabled}}
 				<li>
-					<span class="shareOption menuitem">
+					<span class="menuitem">
 						<input id="passwordByTalk-{{cid}}-{{shareId}}" type="checkbox" name="passwordByTalk" class="passwordByTalk checkbox" {{#if isPasswordByTalkSet}}checked="checked"{{/if}} />
 						<label for="passwordByTalk-{{cid}}-{{shareId}}">{{passwordByTalkLabel}}</label>
 					</span>
@@ -73,7 +73,7 @@
 				{{/if}}
 			{{/if}}
 		<li>
-			<span class="shareOption menuitem">
+			<span class="menuitem">
 				<input id="expireDate-{{cid}}-{{shareId}}" type="checkbox" name="expirationDate" class="expireDate checkbox" {{#if hasExpireDate}}checked="checked"{{/if}}" />
 				<label for="expireDate-{{cid}}-{{shareId}}">{{expireDateLabel}}</label>
 			</span>
@@ -86,13 +86,14 @@
 		</li>
 		{{#if isNoteAvailable}}
 			<li>
-				<a href="#" class="share-add"><span class="icon-loading-small hidden"></span>
+				<a href="#" class="share-add">
+					<span class="icon-loading-small hidden"></span>
 					<span class="icon icon-edit"></span>
 					<span>{{addNoteLabel}}</span>
-					<input type="button" class="share-note-delete icon-delete">
+					<input type="button" class="share-note-delete icon-delete {{#unless hasNote}}hidden{{/unless}}">
 				</a>
 			</li>
-			<li class="share-note-form hidden">
+			<li class="share-note-form {{#unless hasNote}}hidden{{/unless}}">
 				<span class="menuitem icon-note">
 					<textarea class="share-note">{{shareNote}}</textarea>
 					<input type="submit" class="icon-confirm share-note-submit" value="" id="add-note-{{shareId}}" />
