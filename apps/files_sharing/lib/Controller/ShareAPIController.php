@@ -721,12 +721,18 @@ class ShareAPIController extends OCSController {
 			$shares = array_merge($shares, $federatedShares);
 		}
 
-		$formatted = [];
+		$formatted = $miniFormatted = [];
 		$resharingRight = false;
 		foreach ($shares as $share) {
+			/** @var IShare $share */
 			try {
-				$formatted[] = $this->formatShare($share, $path);
-				if ($path !== null && !$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $path)) {
+				$format = $this->formatShare($share, $path);
+				$formatted[] = $format;
+				if ($share->getSharedBy() === $this->currentUser) {
+					$miniFormatted[] = $format;
+				}
+
+				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $path)) {
 					$resharingRight = true;
 				}
 			} catch (\Exception $e) {
@@ -735,7 +741,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if (!$resharingRight) {
-			$formatted = [];
+			$formatted = $miniFormatted;
 		}
 
 		if ($include_tags) {
@@ -1126,13 +1132,14 @@ class ShareAPIController extends OCSController {
 	 * @throws NotFoundException
 	 * @throws \OCP\Files\InvalidPathException
 	 */
-	private function shareProviderResharingRights(string $userId, IShare $share, Node $node): bool {
+	private function shareProviderResharingRights(string $userId, IShare $share, $node): bool {
+
 		if ($share->getShareOwner() === $userId) {
 			return true;
 		}
 
 		// we check that current user have parent resharing rights on the current file
-		if (($node->getPermissions() & \OCP\Constants::PERMISSION_SHARE) !== 0) {
+		if ($node !== null && ($node->getPermissions() & \OCP\Constants::PERMISSION_SHARE) !== 0) {
 			return true;
 		}
 

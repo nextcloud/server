@@ -811,9 +811,10 @@ class ApiTest extends TestCase {
 		$result1 = $ocs->getShares('false','false','false', $this->subfolder);
 		$ocs->cleanup();
 
-		// test should return one share within $this->folder
+//		// test should return 2 shares within $this->folder, as the viewer have resharing rights:
+//		// one from the owner, the second from the reshare
 		$data1 = $result1->getData();
-		$this->assertCount(1, $data1);
+		$this->assertCount(2, $data1);
 		$s1 = reset($data1);
 
 		//$request = $this->createRequest(['path' => $this->folder.$this->subfolder]);
@@ -821,9 +822,10 @@ class ApiTest extends TestCase {
 		$result2 = $ocs->getShares('false', 'false', 'false', $this->folder . $this->subfolder);
 		$ocs->cleanup();
 
-		// test should return one share within $this->folder
+//		// test should return 2 shares within $this->folder, as the viewer have resharing rights:
+//		// one from the owner, the second from the reshare
 		$data2 = $result2->getData();
-		$this->assertCount(1, $data2);
+		$this->assertCount(2, $data2);
 		$s2 = reset($data2);
 
 		$this->assertEquals($this->subfolder, $s1['path']);
