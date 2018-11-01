@@ -142,6 +142,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">přístup k vašim souborům přes WebDAV</a>",
     "Cancel upload" : "Zrušit nahrávání",
+    "Toggle grid view" : "Přepnout zobrazení mřížky",
     "No files in here" : "Žádné soubory",
     "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo synchronizujte se svými přístroji!",
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
