@@ -424,11 +424,22 @@ table.nostyle {
 		}
 	}
 	.token-list td {
+		border-top: 1px solid var(--color-border);
+		max-width: 200px;
+		white-space: normal;
+		vertical-align: middle;
+		position: relative;
+
 		&%icon {
 			overflow: visible;
 			position: relative;
 			width: 16px;
 		}
+
+		&.token-name {
+			padding: 10px 0;
+		}
+
 		&.more {
 			@extend %icon;
 		}
@@ -441,13 +452,6 @@ table.nostyle {
 				height: 44px;
 			}
 		}
-		border-top: 1px solid var(--color-border);
-		text-overflow: ellipsis;
-		max-width: 200px;
-		white-space: nowrap;
-		overflow: hidden;
-		vertical-align: middle;
-		position: relative;
 	}
 	tr > *:nth-child(3) {
 		text-align: right;
