@@ -152,14 +152,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->query(OC\GlobalScale\Config::class);
 		});
 
-		$this->registerService(\OC\Security\IdentityProof\Manager::class, function ($c) {
-			return new \OC\Security\IdentityProof\Manager(
-				$this->getServer()->query(\OC\Files\AppData\Factory::class),
-				$this->getServer()->getCrypto(),
-				$this->getServer()->getConfig()
-			);
-		});
-
 		$this->registerService('Protocol', function($c){
 			/** @var \OC\Server $server */
 			$server = $c->query('ServerContainer');

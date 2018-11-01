@@ -1191,6 +1191,14 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
 
+		$this->registerService(\OC\Security\IdentityProof\Manager::class, function (Server $c) {
+			return new \OC\Security\IdentityProof\Manager(
+				$c->query(\OC\Files\AppData\Factory::class),
+				$c->getCrypto(),
+				$c->getConfig()
+			);
+		});
+
 		$this->connectDispatcher();
 	}
 
