@@ -48,9 +48,6 @@ class JobList implements IJobList {
 	/**@var ITimeFactory */
 	protected $timeFactory;
 
-	/** @var int - 12 hours * 3600 seconds*/
-	private $jobTimeOut = 43200;
-
 	/**
 	 * @param IDBConnection $connection
 	 * @param IConfig $config
@@ -186,7 +183,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->lte('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - $this->jobTimeOut, IQueryBuilder::PARAM_INT)))
+			->where($query->expr()->lte('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - 12 * 3600, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->lte('last_checked', $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT)))
 			->orderBy('last_checked', 'ASC')
 			->setMaxResults(1);
@@ -345,40 +342,5 @@ class JobList implements IJobList {
 			->set('execution_duration', $query->createNamedParameter($timeTaken, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
 		$query->execute();
-	}
-
-	/**
-	 * checks if a job is still running (reserved_at time is smaller than 12 hours ago)
-	 *
-	 * Background information:
-	 *
-	 * The 12 hours is the same timeout that is also used to re-schedule an non-terminated
-	 * job (see getNext()). The idea here is to give a job enough time to run very
-	 * long but still be able to recognize that it maybe crashed and re-schedule it
-	 * after the timeout. It's more likely to be crashed at that time than it ran
-	 * that long.
-	 *
-	 * In theory it could lead to an nearly endless loop (as in - at most 12 hours).
-	 * The cron command will not start new jobs when maintenance mode is active and
-	 * this method is only executed in maintenance mode (see where it is called in
-	 * the upgrader class. So this means in the worst case we wait 12 hours when a
-	 * job has crashed. On the other hand: then the instance should be fixed anyways.
-	 *
-	 * @return bool
-	 */
-	public function isAnyJobRunning(): bool {
-		$query = $this->connection->getQueryBuilder();
-		$query->select('*')
-			->from('jobs')
-			->where($query->expr()->gt('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - $this->jobTimeOut, IQueryBuilder::PARAM_INT)))
-			->setMaxResults(1);
-		$result = $query->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-
-		if ($row) {
-			return true;
-		}
-		return false;
 	}
 }
