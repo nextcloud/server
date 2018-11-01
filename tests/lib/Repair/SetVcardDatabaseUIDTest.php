@@ -52,30 +52,30 @@ class SetVcardDatabaseUIDTest extends TestCase {
 	public function dataTestVcards() {
 		return [
 			// classic vcard
-			['BEGIN:VCARD
-			VERSION:3.0
-			PRODID:-//Sabre//Sabre VObject 4.1.2//EN
-			UID:Test
-			FN:Test
-			N:Test;;;;
-			END:VCARD', 'Test'],
+			['BEGIN:VCARD'.PHP_EOL.
+			'VERSION:3.0'.PHP_EOL.
+			'PRODID:-//Sabre//Sabre VObject 4.1.2//EN'.PHP_EOL.
+			'UID:Test'.PHP_EOL.
+			'FN:Test'.PHP_EOL.
+			'N:Test;;;;'.PHP_EOL.
+			'END:VCARD', 'Test'],
 
 			// UID as url
-			['BEGIN:VCARD
-			VERSION:3.0
-			PRODID:-//Sabre//Sabre VObject 4.1.2//EN
-			UID:https://User@old.domain.com/remote.php/carddav/addressbooks/User/contacts/2EAF6525-17ADC861-38D6BB1D.vcf
-			FN:Test
-			N:Test;;;;
-			END:VCARD', 'https://User@old.domain.com/remote.php/carddav/addressbooks/User/contacts/2EAF6525-17ADC861-38D6BB1D.vcf'],
+			['BEGIN:VCARD'.PHP_EOL.
+			'VERSION:3.0'.PHP_EOL.
+			'PRODID:-//Sabre//Sabre VObject 4.1.2//EN'.PHP_EOL.
+			'UID:https://User@old.domain.com/remote.php/carddav/addressbooks/User/contacts/2EAF6525-17ADC861-38D6BB1D.vcf'.PHP_EOL.
+			'FN:Test'.PHP_EOL.
+			'N:Test;;;;'.PHP_EOL.
+			'END:VCARD', 'https://User@old.domain.com/remote.php/carddav/addressbooks/User/contacts/2EAF6525-17ADC861-38D6BB1D.vcf'],
 
 			// No uid
-			['BEGIN:VCARD
-			VERSION:3.0
-			PRODID:-//Sabre//Sabre VObject 4.1.2//EN
-			FN:Test
-			N:Test;;;;
-			END:VCARD', false]
+			['BEGIN:VCARD'.PHP_EOL.
+			'VERSION:3.0'.PHP_EOL.
+			'PRODID:-//Sabre//Sabre VObject 4.1.2//EN'.PHP_EOL.
+			'FN:Test'.PHP_EOL.
+			'N:Test;;;;'.PHP_EOL.
+			'END:VCARD', false]
 		];
 	}
 
