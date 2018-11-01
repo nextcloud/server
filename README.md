@@ -39,16 +39,16 @@ You can also [get support for Nextcloud](https://nextcloud.com/support)!
 
 ## Join the team :family:
 
-### How to contribute 👩‍💻
+There are many ways to contribute, of which development is only one! Find out [how to get involved](https://nextcloud.com/contribute/), including as translator, designer, tester, helping others and much more! 😍
+
+
+### Development setup 👩‍💻
 
 1. [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html) :rocket:
 2. [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue) :notebook:
 3. Create a branch, a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review :computer:
 4. Fix things that come up during review 👍
 5. Wait for it to get merged! :tada:
-
-
-### Development setup 💻
 
 Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
 
