@@ -98,8 +98,12 @@ Then inside the root folder of your local Nextcloud development installation, ru
 ### Tools we use 🛠
 
 [![BrowserStack](https://user-images.githubusercontent.com/45821/41675934-61fa3442-74c4-11e8-8c8e-90768c56ba08.png)](https://www.browserstack.com/)
+
 [![WAVE](https://wave.webaim.org/img/wavelogo.png)](https://wave.webaim.org/extension/)
-[![](https://developers.google.com/web/tools/lighthouse/images/lighthouse-icon-128.png) Lighthouse](https://developers.google.com/web/tools/lighthouse/)
+
+[![](https://developers.google.com/web/tools/lighthouse/images/lighthouse-icon-128.png)
+Lighthouse](https://developers.google.com/web/tools/lighthouse/)
+
 [![axe](https://aa0q1c6q9h-flywheel.netdna-ssl.com/wp-content/uploads/2016/12/aXe-300x280.png)](https://www.deque.com/axe/)
 
 
