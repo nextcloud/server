@@ -22,11 +22,10 @@
 namespace OCA\OAuth2\Tests\Controller;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Token\DefaultToken;
-use OC\Authentication\Token\DefaultTokenMapper;
-use OC\Authentication\Token\ExpiredTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
-use OC\Authentication\Token\IToken;
+use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Controller\OauthApiController;
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
@@ -57,6 +56,8 @@ class OauthApiControllerTest extends TestCase {
 	private $secureRandom;
 	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $time;
+	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
+	private $throttler;
 	/** @var OauthApiController */
 	private $oauthApiController;
 
@@ -70,6 +71,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->time = $this->createMock(ITimeFactory::class);
+		$this->throttler = $this->createMock(Throttler::class);
 
 		$this->oauthApiController = new OauthApiController(
 			'oauth2',
@@ -79,7 +81,8 @@ class OauthApiControllerTest extends TestCase {
 			$this->clientMapper,
 			$this->tokenProvider,
 			$this->secureRandom,
-			$this->time
+			$this->time,
+			$this->throttler
 		);
 	}
 
@@ -286,6 +289,17 @@ class OauthApiControllerTest extends TestCase {
 			'user_id' => 'userId',
 		]);
 
+		$this->request->method('getRemoteAddress')
+			->willReturn('1.2.3.4');
+
+		$this->throttler->expects($this->once())
+			->method('resetDelay')
+			->with(
+				'1.2.3.4',
+				'login',
+				['user' => 'userId']
+			);
+
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
 	}
 
@@ -370,6 +384,17 @@ class OauthApiControllerTest extends TestCase {
 		$this->request->server['PHP_AUTH_USER'] = 'clientId';
 		$this->request->server['PHP_AUTH_PW'] = 'clientSecret';
 
+		$this->request->method('getRemoteAddress')
+			->willReturn('1.2.3.4');
+
+		$this->throttler->expects($this->once())
+			->method('resetDelay')
+			->with(
+				'1.2.3.4',
+				'login',
+				['user' => 'userId']
+			);
+
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
 	}
 
@@ -450,6 +475,17 @@ class OauthApiControllerTest extends TestCase {
 			'refresh_token' => 'random128',
 			'user_id' => 'userId',
 		]);
+
+		$this->request->method('getRemoteAddress')
+			->willReturn('1.2.3.4');
+
+		$this->throttler->expects($this->once())
+			->method('resetDelay')
+			->with(
+				'1.2.3.4',
+				'login',
+				['user' => 'userId']
+			);
 
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
 	}

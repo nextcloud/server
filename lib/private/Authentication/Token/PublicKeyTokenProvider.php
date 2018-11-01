@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Token;
 
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
