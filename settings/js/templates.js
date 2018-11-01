@@ -13,7 +13,7 @@ templates['authtoken'] = template({"1":function(container,depth0,helpers,partial
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "_filesystem\" "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.scope : depth0)) != null ? stack1.filesystem : stack1),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "/>\n				<label for=\""
+    + " tabindex=\"0\" />\n				<label for=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "_filesystem\">"
     + alias4(((helper = (helper = helpers.allowFSAccess || (depth0 != null ? depth0.allowFSAccess : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"allowFSAccess","hash":{},"data":data}) : helper)))
@@ -23,7 +23,7 @@ templates['authtoken'] = template({"1":function(container,depth0,helpers,partial
 },"6":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "			<li>\n				<a class=\"icon icon-delete\">"
+  return "			<li>\n				<a class=\"icon icon-delete\" tabindex=\"0\">"
     + container.escapeExpression(((helper = (helper = helpers.revokeText || (depth0 != null ? depth0.revokeText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"revokeText","hash":{},"data":data}) : helper)))
     + "</a>\n			</li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
