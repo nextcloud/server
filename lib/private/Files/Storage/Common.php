@@ -54,6 +54,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -69,7 +70,7 @@ use OCP\Lock\LockedException;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-abstract class Common implements Storage, ILockingStorage {
+abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	use LocalTempFileTrait;
 
@@ -808,5 +809,24 @@ abstract class Common implements Storage, ILockingStorage {
 	 */
 	public function needsPartFile() {
 		return true;
+	}
+
+	/**
+	 * fallback implementation
+	 *
+	 * @param string $path
+	 * @param resource $stream
+	 * @param int $size
+	 * @return int
+	 */
+	public function writeStream(string $path, $stream, int $size = null): int {
+		$target = $this->fopen($path, 'w');
+		if (!$target) {
+			return 0;
+		}
+		list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+		fclose($stream);
+		fclose($target);
+		return $count;
 	}
 }

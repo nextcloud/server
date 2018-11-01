@@ -462,4 +462,8 @@ class Local extends \OC\Files\Storage\Common {
 			return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 	}
+
+	public function writeStream(string $path, $stream, int $size = null): int {
+		return (int)file_put_contents($this->getSourcePath($path), $stream);
+	}
 }
