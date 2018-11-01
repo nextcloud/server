@@ -148,10 +148,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->getServer()->getThemingDefaults();
 		});
 
-		$this->registerService(IManager::class, function ($c) {
-			return $this->getServer()->getEncryptionManager();
-		});
-
 		$this->registerService(IConfig::class, function ($c) {
 			return $c->query(OC\GlobalScale\Config::class);
 		});

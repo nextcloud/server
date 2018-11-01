@@ -217,7 +217,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService('EncryptionManager', function (Server $c) {
+		$this->registerService(\OCP\Encryption\IManager::class, function (Server $c) {
 			$view = new View();
 			$util = new Encryption\Util(
 				$view,
@@ -234,6 +234,7 @@ class Server extends ServerContainer implements IServerContainer {
 				new ArrayCache()
 			);
 		});
+		$this->registerAlias('EncryptionManager', \OCP\Encryption\IManager::class);
 
 		$this->registerService('EncryptionFileHelper', function (Server $c) {
 			$util = new Encryption\Util(
