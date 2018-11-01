@@ -341,7 +341,7 @@ class Share extends Constants {
 		}
 
 		$uidOwner = \OC_User::getUser();
-		$shareWithinGroupOnly = self::shareWithGroupMembersOnly();
+		$shareWithinGroupOnly = \OC::$server->getConfig()->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 
 		if (is_null($itemSourceName)) {
 			$itemSourceName = $itemSource;
@@ -2055,15 +2055,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * check if user can only share with group members
-	 * @return bool
-	 */
-	public static function shareWithGroupMembersOnly() {
-		$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_only_share_with_group_members', 'no');
-		return $value === 'yes';
-	}
-
-	/**
 	 * @return bool
 	 */
 	public static function isDefaultExpireDateEnabled() {
@@ -2101,15 +2092,6 @@ class Share extends Constants {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @param IConfig $config
-	 * @return bool
-	 */
-	public static function enforcePassword(IConfig $config) {
-		$enforcePassword = $config->getAppValue('core', 'shareapi_enforce_links_password', 'no');
-		return $enforcePassword === 'yes';
 	}
 
 	/**

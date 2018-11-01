@@ -32,6 +32,7 @@ use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
+use OCP\Share\IManager;
 use OCP\Util;
 
 class Sharing implements ISettings {
@@ -41,12 +42,16 @@ class Sharing implements ISettings {
 	/** @var IL10N */
 	private $l;
 
+	/** @var IManager */
+	private $shareManager;
+
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, IL10N $l) {
+	public function __construct(IConfig $config, IL10N $l, IManager $shareManager) {
 		$this->config = $config;
 		$this->l = $l;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -65,7 +70,7 @@ class Sharing implements ISettings {
 			'allowResharing'                       => $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes'),
 			'allowShareDialogUserEnumeration'      => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes'),
 			'enforceLinkPassword'                  => Util::isPublicLinkPasswordRequired(),
-			'onlyShareWithGroupMembers'            => Share::shareWithGroupMembersOnly(),
+			'onlyShareWithGroupMembers'            => $this->shareManager->shareWithGroupMembersOnly(),
 			'shareAPIEnabled'                      => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
 			'shareDefaultExpireDateSet'            => $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no'),
 			'shareExpireAfterNDays'                => $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7'),
