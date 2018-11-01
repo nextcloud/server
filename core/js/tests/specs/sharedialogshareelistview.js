@@ -73,7 +73,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 		$('#testArea').append(listView.$el);
 
 		shareModel.set({
-			linkShare: {isLinkShare: false}
+			linkShares: []
 		});
 
 		oldCurrentUser = OC.currentUser;

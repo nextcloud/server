@@ -185,8 +185,9 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(shares[0].share_with).toEqual('user1');
 			expect(shares[0].share_with_displayname).toEqual('User One');
 
-			var linkShare = model.get('linkShare');
-			expect(linkShare.isLinkShare).toEqual(true);
+			var linkShares = model.get('linkShares');
+			expect(linkShares.length).toEqual(1);
+			var linkShare = linkShares[0];
 			expect(linkShare.hideDownload).toEqual(true);
 
 			// TODO: check more attributes
@@ -268,8 +269,8 @@ describe('OC.Share.ShareItemModel', function() {
 			// remaining share appears in this list
 			expect(shares.length).toEqual(1);
 
-			var linkShare = model.get('linkShare');
-			expect(linkShare.isLinkShare).toEqual(false);
+			var linkShares = model.get('linkShares');
+			expect(linkShares.length).toEqual(0);
 		});
 		it('parses correct link share when a nested link share exists along with parent one', function() {
 			/* jshint camelcase: false */
@@ -321,8 +322,9 @@ describe('OC.Share.ShareItemModel', function() {
 			// the parent share remains in the list
 			expect(shares.length).toEqual(1);
 
-			var linkShare = model.get('linkShare');
-			expect(linkShare.isLinkShare).toEqual(true);
+			var linkShares = model.get('linkShares');
+			expect(linkShares.length).toEqual(1);
+			var linkShare = linkShares[0];
 			expect(linkShare.token).toEqual('tehtoken');
 			expect(linkShare.hideDownload).toEqual(false);
 
@@ -575,9 +577,8 @@ describe('OC.Share.ShareItemModel', function() {
 
 		it('creates a new share if no link share exists', function() {
 			model.set({
-				linkShare: {
-					isLinkShare: false
-				}
+				linkShares: [
+				]
 			});
 
 			model.saveLinkShare();
@@ -600,9 +601,8 @@ describe('OC.Share.ShareItemModel', function() {
 				defaultExpireDate: 7
 			});
 			model.set({
-				linkShare: {
-					isLinkShare: false
-				}
+				linkShares: [
+				]
 			});
 
 			model.saveLinkShare();
@@ -621,13 +621,13 @@ describe('OC.Share.ShareItemModel', function() {
 		});
 		it('updates link share if it exists', function() {
 			model.set({
-				linkShare: {
-					isLinkShare: true,
+				linkShares: [{
 					id: 123
-				}
+				}]
 			});
 
 			model.saveLinkShare({
+				cid: 123,
 				password: 'test'
 			});
 
@@ -635,20 +635,19 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(updateShareStub.calledOnce).toEqual(true);
 			expect(updateShareStub.firstCall.args[0]).toEqual(123);
 			expect(updateShareStub.firstCall.args[1]).toEqual({
+				cid: 123,
 				password: 'test'
 			});
 		});
 		it('forwards error message on add', function() {
 			var errorStub = sinon.stub();
 			model.set({
-				linkShare: {
-					isLinkShare: false
-				}
+				linkShares: [
+				]
 			}, {
 			});
 
 			model.saveLinkShare({
-				password: 'test'
 			}, {
 				error: errorStub
 			});
@@ -661,14 +660,14 @@ describe('OC.Share.ShareItemModel', function() {
 		it('forwards error message on update', function() {
 			var errorStub = sinon.stub();
 			model.set({
-				linkShare: {
-					isLinkShare: true,
-					id: '123'
-				}
+				linkShares: [{
+					id: 123
+				}]
 			}, {
 			});
 
 			model.saveLinkShare({
+				cid: 123,
 				password: 'test'
 			}, {
 				error: errorStub

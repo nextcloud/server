@@ -81,12 +81,12 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			// Needed to render the view
 			configModel.isShareWithLinkAllowed.returns(true);
 
-			// Setting the share also triggers the rendering
 			shareModel.set({
-				linkShare: {
-					isLinkShare: true,
-				}
+				linkShares: [{
+					id: 123
+				}]
 			});
+			view.render();
 
 			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
 			$workingIcon = $hideDownloadCheckbox.prev('.icon-loading-small');
@@ -119,11 +119,12 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 
 		it('checkbox is checked when the setting is enabled', function () {
 			shareModel.set({
-				linkShare: {
-					isLinkShare: true,
+				linkShares: [{
+					id: 123,
 					hideDownload: true
-				}
+				}]
 			});
+			view.render();
 
 			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
 
@@ -141,16 +142,17 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			$hideDownloadCheckbox.change();
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
-			expect(shareModel.saveLinkShare.withArgs({ hideDownload: true }).calledOnce).toBeTruthy();
+			expect(shareModel.saveLinkShare.withArgs({ hideDownload: true, cid: 123 }).calledOnce).toBeTruthy();
 		});
 
 		it('disables the setting if clicked when checked', function () {
 			shareModel.set({
-				linkShare: {
-					isLinkShare: true,
+				linkShares: [{
+					id: 123,
 					hideDownload: true
-				}
+				}]
 			});
+			view.render();
 
 			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
 			$workingIcon = $hideDownloadCheckbox.prev('.icon-loading-small');
@@ -161,7 +163,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			$hideDownloadCheckbox.change();
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
-			expect(shareModel.saveLinkShare.withArgs({ hideDownload: false }).calledOnce).toBeTruthy();
+			expect(shareModel.saveLinkShare.withArgs({ hideDownload: false, cid: 123 }).calledOnce).toBeTruthy();
 		});
 
 	});
@@ -176,13 +178,13 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			// Needed to render the view
 			configModel.isShareWithLinkAllowed.returns(true);
 
-			// Setting the share also triggers the rendering
 			shareModel.set({
-				linkShare: {
-					isLinkShare: true,
+				linkShares: [{
+					id: 123,
 					password: 'password'
-				}
+				}]
 			});
+			view.render();
 
 			var $passwordDiv = view.$el.find('#linkPass');
 			$passwordText = view.$el.find('.linkPassText');
@@ -202,17 +204,17 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		});
 
 		it('shows the working icon when called', function () {
-			view.onPasswordEntered();
+			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
-			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword' }).calledOnce).toBeTruthy();
+			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
 		});
 
 		it('hides the working icon when saving the password succeeds', function () {
-			view.onPasswordEntered();
+			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
-			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword' }).calledOnce).toBeTruthy();
+			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
 
 			shareModel.saveLinkShare.yieldTo("complete", [shareModel]);
 
@@ -220,10 +222,10 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		});
 
 		it('hides the working icon when saving the password fails', function () {
-			view.onPasswordEntered();
+			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
-			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword' }).calledOnce).toBeTruthy();
+			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
 
 			shareModel.saveLinkShare.yieldTo("complete", [shareModel]);
 			shareModel.saveLinkShare.yieldTo("error", [shareModel, "The error message"]);
