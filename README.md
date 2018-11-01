@@ -11,45 +11,46 @@
 
 ## Why is this so awesome? 🤩
 
-* :file_folder: **Access your Data** You can store your files, contacts, calendars and more on a server of your choosing.
-* :package: **Sync your Data** You keep your files, contacts, calendars and more synchronized amongst your devices.
-* :arrows_counterclockwise: **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
-* :rocket: **Expandable with dozens of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail) and all those you can discover in our [App Store](https://apps.nextcloud.com)
-* :lock: **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
+* 📁 **Access your Data** You can store your files, contacts, calendars and more on a server of your choosing.
+* 🔄 **Sync your Data** You keep your files, contacts, calendars and more synchronized amongst your devices.
+* 🙌 **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
+* 🚀 **Expandable with dozens of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail) and all those you can discover in our [App Store](https://apps.nextcloud.com)
+* 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
 You want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and at your Enterprise? [**Learn about all our Features**](https://nextcloud.com/features).
 
 ## Get your Nextcloud 🚚
 
-- [**Install** a server by yourself on your own hardware or by using one of our ready to use **Appliances**](https://nextcloud.com/install/#instructions-server)
-- [Buy one of the awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
-- [Find a service **provider** who is hosting Nextcloud for you or your company](https://nextcloud.com/providers/)
+- ☑️ [**Simply sign up**](https://nextcloud.com/signup/) either through our website or through the apps directly.
+- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your own hardware or by using one of our ready to use **appliances**
+- 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
+- 🏢 Find a [service **provider**](https://nextcloud.com/providers/) who hosts Nextcloud for you or your company
 
 Enterprise? Public Sector or Education user? You may want to have a look into the [**Enterprise Support Subscription**](https://nextcloud.com/enterprise/) provided by the Nextcloud GmbH.
 
 ## Get in touch 💬
 
-* :clipboard: [Forum](https://help.nextcloud.com)
-* :busts_in_silhouette: [Facebook](https://facebook.com/nextclouders)
-* :hatching_chick: [Twitter](https://twitter.com/Nextclouders)
-* :elephant: [Mastodon](https://mastodon.xyz/@nextcloud)
+* [📋 Forum](https://help.nextcloud.com)
+* [👥 Facebook](https://facebook.com/nextclouders)
+* [🐣 Twitter](https://twitter.com/Nextclouders)
+* [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
 
 You can also [get support for Nextcloud](https://nextcloud.com/support)!
 
 
-## Join the team :family:
+## Join the team 👪
 
 There are many ways to contribute, of which development is only one! Find out [how to get involved](https://nextcloud.com/contribute/), including as translator, designer, tester, helping others and much more! 😍
 
 
 ### Development setup 👩‍💻
 
-1. [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html) :rocket:
-2. [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue) :notebook:
-3. Create a branch and make your changes. Remember to sign off your commits using `git commit -**s**m "Your commit message"`
-4. Create a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review :computer:
-5. Fix things that come up during review 👍
-6. Wait for it to get merged! :tada:
+1. 🚀 [Set up your local development environment](https://docs.nextcloud.com/server/14/developer_manual/general/devenv.html)
+2. 🐛 [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue)
+3. 👩‍🔧 Create a branch and make your changes. Remember to sign off your commits using `git commit -**s**m "Your commit message"`
+4. ⬆ Create a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review
+5. 👍 Fix things that come up during review
+6. 🎉 Wait for it to get merged!
 
 Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
 
