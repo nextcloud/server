@@ -23,6 +23,7 @@ namespace OC\Core\Command\App;
 
 use OCP\App\IAppManager;
 use OC\Installer;
+use OCP\ILogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,14 +36,18 @@ class Update extends Command {
 	protected $manager;
 	/** @var Installer */
 	private $installer;
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * @param IAppManager $manager
 	 * @param Installer $installer
 	 */
-	public function __construct(IAppManager $manager, Installer $installer) {
+	public function __construct(IAppManager $manager, Installer $installer, ILogger $logger) {
 		parent::__construct();
 		$this->manager = $manager;
 		$this->installer = $installer;
+		$this->logger = $logger;
 	}
 
 	protected function configure() {
@@ -99,6 +104,7 @@ class Update extends Command {
 					try {
 						$result = $this->installer->updateAppstoreApp($appId);
 					} catch(\Exception $e) {
+						$this->logger->logException($e, ['message' => 'Failure during update of app "' . $appId . '"','app' => 'app:update']);
 						$output->writeln('Error: ' . $e->getMessage());
 						$return = 1;
 					}
