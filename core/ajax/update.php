@@ -119,8 +119,7 @@ if (\OCP\Util::needUpgrade()) {
 			$config,
 			\OC::$server->getIntegrityCodeChecker(),
 			$logger,
-			\OC::$server->query(\OC\Installer::class),
-			\OC::$server->getJobList()
+			\OC::$server->query(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
 
@@ -152,9 +151,6 @@ if (\OCP\Util::needUpgrade()) {
 	});
 	$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Maintenance mode is kept active'));
-	});
-	$updater->listen('\OC\Updater', 'waitForCronToFinish', function () use ($eventSource, $l) {
-		$eventSource->send('success', (string)$l->t('Waiting for cron to finish (checks again in 5 seconds) …'));
 	});
 	$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updating database schema'));
