@@ -1270,7 +1270,9 @@ $popovericon-size: 16px;
 			position: relative;
 			.popovermenu {
 				margin: 0;
-				right: -5px;
+				// action icon have -7px margin
+				// default popover is normally 5px
+				right: -2px;
 			}
 		}
 	}
