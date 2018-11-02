@@ -966,6 +966,7 @@ return array(
     'OC\\Repair\\NC13\\RepairInvalidPaths' => $baseDir . '/lib/private/Repair/NC13/RepairInvalidPaths.php',
     'OC\\Repair\\NC14\\AddPreviewBackgroundCleanupJob' => $baseDir . '/lib/private/Repair/NC14/AddPreviewBackgroundCleanupJob.php',
     'OC\\Repair\\NC14\\RepairPendingCronJobs' => $baseDir . '/lib/private/Repair/NC14/RepairPendingCronJobs.php',
+    'OC\\Repair\\NC15\\SetVcardDatabaseUID' => $baseDir . '/lib/private/Repair/NC15/SetVcardDatabaseUID.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
