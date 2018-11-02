@@ -37,6 +37,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;
 use OCP\Federation\ICloudIdManager;
 use \OCP\IContainer;
@@ -120,7 +121,7 @@ class Application extends App {
 				$c->query('AppName'),
 				$server->getConfig(),
 				$server->getAppManager(),
-				$c['ControllerMethodReflector'],
+				$server->query(IControllerMethodReflector::class),
 				$server->getShareManager(),
 				$server->getRequest()
 			);
