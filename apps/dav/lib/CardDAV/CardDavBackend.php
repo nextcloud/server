@@ -1138,12 +1138,16 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @throws BadRequest if no UID is available
 	 */
 	private function getUID($cardData) {
-		$vCard = Reader::read($cardData);
-		if ($vCard->UID) {
-			$uid = $vCard->UID->getValue();
-			return $uid;
+		if ($cardData != '') {
+			$vCard = Reader::read($cardData);
+			if ($vCard->UID) {
+				$uid = $vCard->UID->getValue();
+				return $uid;
+			}
+			// should already be handled, but just in case
+			throw new BadRequest('vCards on CardDAV servers MUST have a UID property');
 		}
 		// should already be handled, but just in case
-		throw new BadRequest('vCards on CardDAV servers MUST have a UID property');
+		throw new BadRequest('vCard can not be empty');
 	}
 }
