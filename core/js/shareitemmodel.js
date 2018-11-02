@@ -19,6 +19,7 @@
 	 * @property {string} token
 	 * @property {bool} hideDownload
 	 * @property {string|null} password
+	 * @property {bool} sendPasswordByTalk
 	 * @property {number} permissions
 	 * @property {Date} expiration
 	 * @property {number} stime share time
@@ -141,6 +142,7 @@
 					hideDownload: false,
 					password: '',
 					passwordChanged: false,
+					sendPasswordByTalk: false,
 					permissions: OC.PERMISSION_READ,
 					expireDate: this.configModel.getDefaultExpirationDateString(),
 					shareType: OC.Share.SHARE_TYPE_LINK
@@ -873,7 +875,8 @@
 							// hide_download is returned as an int, so force it
 							// to a boolean
 							hideDownload: !!share.hide_download,
-							password: share.share_with
+							password: share.share_with,
+							sendPasswordByTalk: share.send_password_by_talk
 						}));
 
 						return share;

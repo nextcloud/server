@@ -156,6 +156,8 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->setValue('password', $qb->createNamedParameter($share->getPassword()));
 			}
 
+			$qb->setValue('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL));
+
 			//If an expiration date is set store it
 			if ($share->getExpirationDate() !== null) {
 				$qb->setValue('expiration', $qb->createNamedParameter($share->getExpirationDate(), 'datetime'));
@@ -293,6 +295,7 @@ class DefaultShareProvider implements IShareProvider {
 			$qb->update('share')
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 				->set('password', $qb->createNamedParameter($share->getPassword()))
+				->set('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL))
 				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
@@ -938,6 +941,7 @@ class DefaultShareProvider implements IShareProvider {
 			$share->setSharedWith($data['share_with']);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$share->setPassword($data['password']);
+			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 			$share->setToken($data['token']);
 		}
 
