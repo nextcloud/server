@@ -33,7 +33,6 @@
     "Turned on maintenance mode" : "유지 보수 모드 켜짐",
     "Turned off maintenance mode" : "유지 보수 모드 꺼짐",
     "Maintenance mode is kept active" : "유지 보수 모드가 켜져 있음",
-    "Waiting for cron to finish (checks again in 5 seconds) …" : "Cron이 끝날때까지 기다리는중(5초후에 다시 확인)...",
     "Updating database schema" : "데이터베이스 스키마 업데이트 중",
     "Updated database" : "데이터베이스 업데이트 됨",
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "데이터베이스 스키마 업데이트 가능 여부 확인 중(데이터베이스 크기에 따라서 오래 걸릴 수도 있습니다)",
@@ -160,7 +159,9 @@
     "Set expiration date" : "만료 날짜 설정",
     "Expiration" : "만료",
     "Expiration date" : "만료 날짜",
+    "Unshare" : "공유 해제",
     "Share link" : "링크 공유",
+    "Could not unshare" : "공유 해제할 수 없음",
     "Shared with you and the group {group} by {owner}" : "{owner} 님이 여러분 및 그룹 {group}와(과) 공유 중",
     "Shared with you by {owner}" : "{owner} 님이 공유 중",
     "Choose a password for the mail share" : "이메일 공유 암호 입력",
@@ -168,14 +169,12 @@
     "remote" : "원격",
     "email" : "이메일",
     "shared by {sharer}" : "{sharer} 님이 공유함",
-    "Unshare" : "공유 해제",
     "Can reshare" : "재공유 가능",
     "Can edit" : "편집 가능",
     "Can create" : "생성 가능",
     "Can change" : "변경 가능",
     "Can delete" : "삭제 가능",
     "Access control" : "접근 제어",
-    "Could not unshare" : "공유 해제할 수 없음",
     "Error while sharing" : "공유하는 중 오류 발생",
     "Share details could not be loaded for this item." : "이 항목의 공유 정보를 불러올 수 없습니다.",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["자동 완성을 시작하려면 최소 {count}글자를 입력해야 합니다"],
@@ -358,6 +357,7 @@
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "사이트에 HTTP를 통해서 보안 없이 접근하고 있습니다. <a href=\"{docUrl}\">보안 팁</a>에서 제안하는 것처럼 HTTPS를 설정하는 것을 추천합니다.",
     "Back to log in" : "로그인으로 돌아가기",
     "You are about to grant %s access to your %s account." : "\"%s\"에 접근하기 위해서 %s 계정을 사용하려고 합니다.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "설정에 따라 아래 단추는 도메인 신뢰를 추가하는 데 사용할 수 있습니다:"
+    "Depending on your configuration, this button could also work to trust the domain:" : "설정에 따라 아래 단추는 도메인 신뢰를 추가하는 데 사용할 수 있습니다:",
+    "Waiting for cron to finish (checks again in 5 seconds) …" : "Cron이 끝날때까지 기다리는중(5초후에 다시 확인)..."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
