@@ -553,7 +553,8 @@ nav[role='navigation'] {
 		li {
 			/* Move up app icon */
 			svg,
-			.icon-more-white {
+			.icon-more, icon-more-white,
+			.icon-loading-small, .icon-loading-small-dark {
 				transform: translateY(-7px);
 			}
 
@@ -582,7 +583,8 @@ nav[role='navigation'] {
 	li a:focus {
 		/* Move up app icon */
 		svg,
-		.icon-more-white, {
+		.icon-more, icon-more-white,
+		.icon-loading-small, .icon-loading-small-dark {
 			transform: translateY(-7px);
 		}
 
