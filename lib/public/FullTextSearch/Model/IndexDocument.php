@@ -57,10 +57,10 @@ class IndexDocument implements JsonSerializable {
 
 
 	/** @var string */
-	protected $id;
+	protected $id = '';
 
 	/** @var string */
-	protected $providerId;
+	protected $providerId = '';
 
 	/** @var DocumentAccess */
 	protected $access;
@@ -111,7 +111,7 @@ class IndexDocument implements JsonSerializable {
 	protected $info = [];
 
 	/** @var int */
-	protected $contentEncoded;
+	protected $contentEncoded = 0;
 
 
 	/**
@@ -811,6 +811,82 @@ class IndexDocument implements JsonSerializable {
 	 * @return array
 	 */
 	final public function getInfoArray(string $info, array $default = []): array {
+		if (!key_exists($info, $this->info)) {
+			return $default;
+		}
+
+		return $this->info[$info];
+	}
+
+	/**
+	 * Set some information about the original document that will be available
+	 * to the front-end when displaying search result. (as int)
+	 * Because this information will not be indexed, this method can also be
+	 * used to manage some data while filling the IndexDocument before its
+	 * indexing.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $info
+	 * @param int $value
+	 *
+	 * @return IndexDocument
+	 */
+	final public function setInfoInt(string $info, int $value): IndexDocument {
+		$this->info[$info] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Get an information about a document. (int)
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $info
+	 * @param int $default
+	 *
+	 * @return int
+	 */
+	final public function getInfoInt(string $info, int $default = 0): int {
+		if (!key_exists($info, $this->info)) {
+			return $default;
+		}
+
+		return $this->info[$info];
+	}
+
+	/**
+	 * Set some information about the original document that will be available
+	 * to the front-end when displaying search result. (as bool)
+	 * Because this information will not be indexed, this method can also be
+	 * used to manage some data while filling the IndexDocument before its
+	 * indexing.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $info
+	 * @param bool $value
+	 *
+	 * @return IndexDocument
+	 */
+	final public function setInfoBool(string $info, bool $value): IndexDocument {
+		$this->info[$info] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Get an information about a document. (bool)
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $info
+	 * @param bool $default
+	 *
+	 * @return bool
+	 */
+	final public function getInfoBool(string $info, bool $default = false): bool {
 		if (!key_exists($info, $this->info)) {
 			return $default;
 		}
