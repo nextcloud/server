@@ -359,7 +359,6 @@ OC.L10N.register(
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "사이트에 HTTP를 통해서 보안 없이 접근하고 있습니다. <a href=\"{docUrl}\">보안 팁</a>에서 제안하는 것처럼 HTTPS를 설정하는 것을 추천합니다.",
     "Back to log in" : "로그인으로 돌아가기",
     "You are about to grant %s access to your %s account." : "\"%s\"에 접근하기 위해서 %s 계정을 사용하려고 합니다.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "설정에 따라 아래 단추는 도메인 신뢰를 추가하는 데 사용할 수 있습니다:",
-    "Waiting for cron to finish (checks again in 5 seconds) …" : "Cron이 끝날때까지 기다리는중(5초후에 다시 확인)..."
+    "Depending on your configuration, this button could also work to trust the domain:" : "설정에 따라 아래 단추는 도메인 신뢰를 추가하는 데 사용할 수 있습니다:"
 },
 "nplurals=1; plural=0;");
