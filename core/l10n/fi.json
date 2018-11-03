@@ -357,7 +357,6 @@
     "Back to log in" : "Palaa kirjautumiseen",
     "You are about to grant %s access to your %s account." : "Olet antamassa lupaa laitteelle %s päästä sinun %s tilille.",
     "Depending on your configuration, this button could also work to trust the domain:" : "Asetuksista riippuen, ylläpitäjänä saatat pystyä alla olevalla painikkeella lisäämään tämän verkkotunnuksen luotetuksi.",
-    "Waiting for cron to finish (checks again in 5 seconds) …" : "Odotetaan cronin valmistuvan (tarkista uudelleen 5 sekunnin päästä) …",
     "Copy URL" : "Kopioi osoite",
     "Enable" : "Ota käyttöön"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

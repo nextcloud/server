@@ -379,7 +379,6 @@ OC.L10N.register(
     "Back to log in" : "Vissza a bejelentkezéshez",
     "You are about to grant %s access to your %s account." : "Hozzáférést készülsz biztosítani neki: %s ehhez a fiókodhoz: %s.",
     "Depending on your configuration, this button could also work to trust the domain:" : "Beállításoktól függően ez a gomb is működhet a domain megbízhatóvá tételében:",
-    "Waiting for cron to finish (checks again in 5 seconds) …" : "Várakozás az ütemezőre, hogy befejezze a műveletet (újra próbálkozás 5 másodperc múlva)...",
     "Please log in before granting %s access to your %s account." : "Kérlek lépj be mielőtt %s hozzáférést biztosítasz a %s fiókodhoz.",
     "Further information how to configure this can be found in the %sdocumentation%s." : "Ennek a beállításához további infomációkat talál a %sleírásban %s."
 },

@@ -147,6 +147,7 @@ OC.L10N.register(
     "Expiration date" : "Termiņa datums",
     "Unshare" : "Pārtraukt koplietošanu",
     "Share link" : "Koplietot saiti",
+    "Password protect by Talk" : "Aizsargāts ar paroli no Talk",
     "Could not unshare" : "Nevarēja pārtraukt koplietošanu",
     "Shared with you and the group {group} by {owner}" : "{owner} koplietoja ar jums un grupu {group}",
     "Shared with you and {circle} by {owner}" : " {owner} koplietoja ar tevi un {circle}",
@@ -162,7 +163,6 @@ OC.L10N.register(
     "Can create" : "Var izveidot",
     "Can change" : "Var mainīt",
     "Can delete" : "Var dzēst",
-    "Password protect by Talk" : "Aizsargāts ar paroli no Talk",
     "Access control" : "Piekļuves vadība",
     "Error while sharing" : "Kļūda, daloties",
     "Share details could not be loaded for this item." : "Šim nevarēja ielādēt koplietošanas detaļas.",
@@ -314,7 +314,6 @@ OC.L10N.register(
     "This page will refresh itself when the %s instance is available again." : "Lapa tiks atsvaidzināta kad %s instance atkal ir pieejama.",
     "Thank you for your patience." : "Paldies par jūsu pacietību.",
     "Back to log in" : "Atpakaļ uz pierakstīšanos",
-    "Waiting for cron to finish (checks again in 5 seconds) …" : "Gaidām līdz cron pabeigs darbu (atkārtoti pārbaudām ik pēc 5 sekundēm) ...",
     "Enable" : "Iespējot"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

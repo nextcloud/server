@@ -131,6 +131,7 @@
     "Expiration date" : "Ngày kết thúc",
     "Unshare" : "Bỏ chia sẻ",
     "Share link" : "Chia sẻ liên kết",
+    "Password protect by Talk" : "Mật khẩu bảo vệ bằng đàm thoại",
     "Could not unshare" : "Không thể chia sẻ",
     "Shared with you and the group {group} by {owner}" : "Đã được chia sẽ với bạn và nhóm {group} bởi {owner}",
     "Shared with you by {owner}" : "Đã được chia sẽ bởi {owner}",
@@ -145,7 +146,6 @@
     "Can create" : "Có thể tạo",
     "Can change" : "Có thể thay đổi",
     "Can delete" : "Có thể xóa",
-    "Password protect by Talk" : "Mật khẩu bảo vệ bằng đàm thoại",
     "Access control" : "Kiểm soát truy cập",
     "Error while sharing" : "Lỗi trong quá trình chia sẻ",
     "Share details could not be loaded for this item." : "Các chi tiết chia sẻ không thể được nạp đối với mục này",
@@ -305,7 +305,6 @@
     "Back to log in" : "Trở lại trang đăng nhập",
     "You are about to grant %s access to your %s account." : "Bạn sắp được phép %s  truy nhập  tới tài khoản %s của bạn.",
     "Depending on your configuration, this button could also work to trust the domain:" : "Phụ thuộc vào cấu hình của bạn, nút lệnh này có thể hoạt động để bảo đảm tin tưởng tên miền:",
-    "Waiting for cron to finish (checks again in 5 seconds) …" : "Chờ hoàn tất cron (kiểm tra lại trong 5s nữa)...",
     "Enable" : "Bật"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
