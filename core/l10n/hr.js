@@ -272,7 +272,6 @@ OC.L10N.register(
     "Thank you for your patience." : "Hvala vam na strpljenju",
     "Back to log in" : "Natrag na prijavu",
     "You are about to grant %s access to your %s account." : "Ovim će te dopustiti %s pristup vašem %s računu.",
-    "Waiting for cron to finish (checks again in 5 seconds) …" : "Čekanje cron funkcije da završi (ponovna provjera za 5 sekundi) ...",
     "Please log in before granting %s access to your %s account." : "Prijavite se prije nego dopustite %s pristup vašem %s računu.",
     "Further information how to configure this can be found in the %sdocumentation%s." : "Daljnje informacije o konfiguraciji se mogu naći u %spriloženoj dokumentaciji%s."
 },
