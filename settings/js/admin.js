@@ -66,11 +66,8 @@ $(document).ready(function(){
 		});
 	});
 
-	$('#shareapiExpireAfterNDays').change(function() {
-		var value = $(this).val();
-		if (value <= 0) {
-			$(this).val("1");
-		}
+	$('#shareapiExpireAfterNDays').on('input', function() {
+		this.value = this.value.replace(/\D/g, '');
 	});
 
 	$('#shareAPI input:not(.noJSAutoUpdate)').change(function() {

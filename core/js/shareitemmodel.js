@@ -16,10 +16,10 @@
 
 	/**
 	 * @typedef {object} OC.Share.Types.LinkShareInfo
-	 * @property {bool} isLinkShare
 	 * @property {string} token
+	 * @property {bool} hideDownload
 	 * @property {string|null} password
-	 * @property {string} link
+	 * @property {bool} sendPasswordByTalk
 	 * @property {number} permissions
 	 * @property {Date} expiration
 	 * @property {number} stime share time
@@ -99,7 +99,7 @@
 		defaults: {
 			allowPublicUploadStatus: false,
 			permissions: 0,
-			linkShare: {}
+			linkShares: []
 		},
 
 		/**
@@ -129,15 +129,20 @@
 				delete attributes.expiration;
 			}
 
-			if (this.get('linkShare') && this.get('linkShare').isLinkShare) {
-				shareId = this.get('linkShare').id;
+			var linkShares = this.get('linkShares');
+			var shareIndex = _.findIndex(linkShares, function(share) {return share.id === attributes.cid})
+
+			if (linkShares.length > 0 && shareIndex !== -1) {
+				shareId = linkShares[shareIndex].id;
 
 				// note: update can only update a single value at a time
 				call = this.updateShare(shareId, attributes, options);
 			} else {
 				attributes = _.defaults(attributes, {
+					hideDownload: false,
 					password: '',
 					passwordChanged: false,
+					sendPasswordByTalk: false,
 					permissions: OC.PERMISSION_READ,
 					expireDate: this.configModel.getDefaultExpirationDateString(),
 					shareType: OC.Share.SHARE_TYPE_LINK
@@ -147,12 +152,6 @@
 			}
 
 			return call;
-		},
-
-		removeLinkShare: function() {
-			if (this.get('linkShare')) {
-				return this.removeShare(this.get('linkShare').id);
-			}
 		},
 
 		addShare: function(attributes, options) {
@@ -314,13 +313,13 @@
 		},
 
 		/**
-		 * Returns whether this item has a link share
+		 * Returns whether this item has link shares
 		 *
 		 * @return {bool} true if a link share exists, false otherwise
 		 */
-		hasLinkShare: function() {
-			var linkShare = this.get('linkShare');
-			if (linkShare && linkShare.isLinkShare) {
+		hasLinkShares: function() {
+			var linkShares = this.get('linkShares');
+			if (linkShares && linkShares.length > 0) {
 				return true;
 			}
 			return false;
@@ -614,6 +613,12 @@
 			var hcp = this.hasCreatePermission(shareIndex);
 			var hup = this.hasUpdatePermission(shareIndex);
 			var hdp = this.hasDeletePermission(shareIndex);
+			if (this.isFile()) {
+				if (hcp || hup || hdp) {
+					return 'checked';
+				}
+				return '';
+			}
 			if (!hcp && !hup && !hdp) {
 				return '';
 			}
@@ -628,12 +633,16 @@
 		/**
 		 * @returns {int}
 		 */
-		linkSharePermissions: function() {
-			if (!this.hasLinkShare()) {
+		linkSharePermissions: function(shareId) {
+			var linkShares = this.get('linkShares');
+			var shareIndex = _.findIndex(linkShares, function(share) {return share.id === shareId})
+
+			if (!this.hasLinkShares()) {
 				return -1;
-			} else {
-				return this.get('linkShare').permissions;
+			} else if (linkShares.length > 0 && shareIndex !== -1) {
+				return linkShares[shareIndex].permissions;
 			}
+			return -1;
 		},
 
 		_getUrl: function(base, params) {
@@ -829,7 +838,7 @@
 
 			this._legacyFillCurrentShares(shares);
 
-			var linkShare = { isLinkShare: false };
+			var linkShares =  [];
 			// filter out the share by link
 			shares = _.reject(shares,
 				/**
@@ -842,7 +851,7 @@
 						|| share.item_source === this.get('itemSource'));
 
 					if (isShareLink) {
-						/*
+						/**
 						 * Ignore reshared link shares for now
 						 * FIXME: Find a way to display properly
 						 */
@@ -862,17 +871,13 @@
 						} else {
 							link += OC.generateUrl('/s/') + share.token;
 						}
-						linkShare = {
-							isLinkShare: true,
-							id: share.id,
-							token: share.token,
+						linkShares.push(_.extend({}, share, {
+							// hide_download is returned as an int, so force it
+							// to a boolean
+							hideDownload: !!share.hide_download,
 							password: share.share_with,
-							link: link,
-							permissions: share.permissions,
-							// currently expiration is only effective for link shares.
-							expiration: share.expiration,
-							stime: share.stime
-						};
+							sendPasswordByTalk: share.send_password_by_talk
+						}));
 
 						return share;
 					}
@@ -883,7 +888,7 @@
 			return {
 				reshare: data.reshare,
 				shares: shares,
-				linkShare: linkShare,
+				linkShares: linkShares,
 				permissions: permissions,
 				allowPublicUploadStatus: allowPublicUploadStatus,
 				allowPublicEditingStatus: allowPublicEditingStatus,
@@ -919,7 +924,7 @@
 		getShareTypes: function() {
 			var result;
 			result = _.pluck(this.getSharesWithCurrentItem(), 'share_type');
-			if (this.hasLinkShare()) {
+			if (this.hasLinkShares()) {
 				result.push(OC.Share.SHARE_TYPE_LINK);
 			}
 			return _.uniq(result);

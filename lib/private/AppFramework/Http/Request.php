@@ -320,14 +320,18 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// There's a few headers that seem to end up in the top-level
 		// server array.
-		switch($name) {
+		switch ($name) {
 			case 'CONTENT_TYPE' :
 			case 'CONTENT_LENGTH' :
 				if (isset($this->server[$name])) {
 					return $this->server[$name];
 				}
 				break;
-
+			case 'REMOTE_ADDR' :
+				if (isset($this->server[$name])) {
+					return $this->server[$name];
+				}
+				break;
 		}
 
 		return '';
@@ -595,6 +599,44 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
+	 * Checks if given $remoteAddress matches given $trustedProxy.
+	 * If $trustedProxy is an IPv4 IP range given in CIDR notation, true will be returned if
+	 * $remoteAddress is an IPv4 address within that IP range.
+	 * Otherwise $remoteAddress will be compared to $trustedProxy literally and the result
+	 * will be returned.
+	 * @return boolean true if $remoteAddress matches $trustedProxy, false otherwise
+	 */
+	protected function matchesTrustedProxy($trustedProxy, $remoteAddress) {
+		$cidrre = '/^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\/([0-9]{1,2})$/';
+
+		if (preg_match($cidrre, $trustedProxy, $match)) {
+			$net = $match[1];
+			$shiftbits = min(32, max(0, 32 - intval($match[2])));
+			$netnum = ip2long($net) >> $shiftbits;
+			$ipnum = ip2long($remoteAddress) >> $shiftbits;
+
+			return $ipnum === $netnum;
+		}
+
+		return $trustedProxy === $remoteAddress;
+	}
+
+	/**
+	 * Checks if given $remoteAddress matches any entry in the given array $trustedProxies.
+	 * For details regarding what "match" means, refer to `matchesTrustedProxy`.
+	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
+	 */
+	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
+		foreach ($trustedProxies as $tp) {
+			if ($this->matchesTrustedProxy($tp, $remoteAddress)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Returns the remote address, if the connection came from a trusted proxy
 	 * and `forwarded_for_headers` has been configured then the IP address
 	 * specified in this header will be returned instead.
@@ -605,7 +647,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$remoteAddress = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
 
-		if(\is_array($trustedProxies) && \in_array($remoteAddress, $trustedProxies)) {
+		if(\is_array($trustedProxies) && $this->isTrustedProxy($trustedProxies, $remoteAddress)) {
 			$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', [
 				'HTTP_X_FORWARDED_FOR'
 				// only have one default, so we cannot ship an insecure product out of the box

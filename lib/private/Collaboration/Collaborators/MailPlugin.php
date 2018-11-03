@@ -84,11 +84,17 @@ class MailPlugin implements ISearchPlugin {
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['EMAIL'])) {
 				$emailAddresses = $contact['EMAIL'];
-				if (!is_array($emailAddresses)) {
+				if (\is_string($emailAddresses)) {
 					$emailAddresses = [$emailAddresses];
 				}
-				foreach ($emailAddresses as $emailAddress) {
+				foreach ($emailAddresses as $type => $emailAddress) {
 					$displayName = $emailAddress;
+					$emailAddressType = null;
+					if (\is_array($emailAddress)) {
+						$emailAddressData = $emailAddress;
+						$emailAddress = $emailAddressData['value'];
+						$emailAddressType = $emailAddressData['type'];
+					}
 					if (isset($contact['FN'])) 	{
 						$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
 					}
@@ -121,6 +127,8 @@ class MailPlugin implements ISearchPlugin {
 							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
 									'label' => $displayName,
+									'uuid' => $contact['UID'],
+									'name' => $contact['FN'],
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -142,6 +150,8 @@ class MailPlugin implements ISearchPlugin {
 							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$userResults['wide'][] = [
 									'label' => $displayName,
+									'uuid' => $contact['UID'],
+									'name' => $contact['FN'],
 									'value' => [
 										'shareType' => Share::SHARE_TYPE_USER,
 										'shareWith' => $cloud->getUser(),
@@ -160,6 +170,9 @@ class MailPlugin implements ISearchPlugin {
 						}
 						$result['exact'][] = [
 							'label' => $displayName,
+							'uuid' => $contact['UID'],
+							'name' => $contact['FN'],
+							'type' => $emailAddressType ?? '',
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
@@ -168,6 +181,9 @@ class MailPlugin implements ISearchPlugin {
 					} else {
 						$result['wide'][] = [
 							'label' => $displayName,
+							'uuid' => $contact['UID'],
+							'name' => $contact['FN'],
+							'type' => $emailAddressType ?? '',
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_EMAIL,
 								'shareWith' => $emailAddress,
@@ -194,6 +210,7 @@ class MailPlugin implements ISearchPlugin {
 		if (!$searchResult->hasExactIdMatch($emailType) && filter_var($search, FILTER_VALIDATE_EMAIL)) {
 			$result['exact'][] = [
 				'label' => $search,
+				'uuid' => $search,
 				'value' => [
 					'shareType' => Share::SHARE_TYPE_EMAIL,
 					'shareWith' => $search,

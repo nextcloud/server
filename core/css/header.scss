@@ -513,25 +513,92 @@ nav[role='navigation'] {
 		height: 20px;
 	}
 
-	/* app title popup */
+	/* App title */
 	li span {
-		display: none;
+		opacity: 0;
 		position: absolute;
-		overflow: visible;
-		background-color: var(--color-main-background);
-		white-space: nowrap;
-		border: none;
-		border-radius: var(--border-radius);
-		border-top-left-radius: 0;
-		border-top-right-radius: 0;
-		color: var(--color-text-lighter);
-		width: auto;
-		left: 50%;
-		top: 100%;
-		transform: translateX(-50%);
-		padding: 4px 10px;
-		filter: drop-shadow(0 1px 10px var(--color-box-shadow));
-		z-index: 100;
+		color: var(--color-primary-text);
+		bottom: -5px;
+		width: 100%;
+		text-align: center;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+
+	/* Set up transitions for showing app titles on hover */
+	li {
+		/* Prevent flicker effect because of low-hanging span element */
+		overflow-y: hidden;
+
+		/* App icon */
+		svg,
+		.icon-more-white {
+			transition: transform var(--animation-quick) ease;
+		}
+
+		/* App title */
+		span {
+			transition: all var(--animation-quick) ease;
+		}
+
+		/* Triangle */
+		a::before {
+			transition: border var(--animation-quick) ease;
+		}
+	}
+
+	/* Show all app titles on hovering app menu area */
+	&:hover {
+		li {
+			/* Move up app icon */
+			svg,
+			.icon-more, icon-more-white,
+			.icon-loading-small, .icon-loading-small-dark {
+				transform: translateY(-7px);
+			}
+
+			/* Show app title */
+			span {
+				opacity: .6;
+				bottom: 2px;
+				z-index: -1; /* fix clickability issue - otherwise we need to move the span into the link */
+			}
+
+			/* Prominent app title for current and hovered/focused app */
+			&:hover span,
+			&:focus span,
+			.active + span {
+				opacity: 1;
+			}
+
+			/* Smaller triangle because of limited space */
+			a::before {
+				border-width: 5px;
+			}
+		}
+	}
+
+	/* Also show app title on focusing single entry (showing all on focus is only possible with CSS4 and parent selectors) */
+	li a:focus {
+		/* Move up app icon */
+		svg,
+		.icon-more, icon-more-white,
+		.icon-loading-small, .icon-loading-small-dark {
+			transform: translateY(-7px);
+		}
+
+		/* Show app title */
+		& + span,
+		span {
+			opacity: 1;
+			bottom: 2px;
+		}
+
+		/* Smaller triangle because of limited space */
+		&::before {
+			border-width: 5px;
+		}
 	}
 
 	/* show triangle below active app */
@@ -549,6 +616,7 @@ nav[role='navigation'] {
 		bottom: 0;
 		display: none;
 	}
+
 	/* triangle focus feedback */
 	li a.active::before,
 	li:hover a::before,
@@ -559,7 +627,6 @@ nav[role='navigation'] {
 	li a.active::before {
 		z-index: 99;
 	}
-	li:hover a::before,
 	li:hover a::before,
 	li a.active:hover::before,
 	li a:focus::before {

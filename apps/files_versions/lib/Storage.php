@@ -48,6 +48,7 @@ use OC\Files\View;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
 use OCA\Files_Versions\Events\CreateVersionEvent;
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\NotFoundException;
 use OCP\Lock\ILockingProvider;
 use OCP\User;
@@ -178,10 +179,10 @@ class Storage {
 		list($uid, $filename) = self::getUidAndFilename($filename);
 
 		$files_view = new View('/'.$uid .'/files');
-		$users_view = new View('/'.$uid);
 
 		$eventDispatcher = \OC::$server->getEventDispatcher();
-		$id = $files_view->getFileInfo($filename)->getId();
+		$fileInfo = $files_view->getFileInfo($filename);
+		$id = $fileInfo->getId();
 		$nodes = \OC::$server->getRootFolder()->getById($id);
 		foreach ($nodes as $node) {
 			$event = new CreateVersionEvent($node);
@@ -192,20 +193,16 @@ class Storage {
 		}
 
 		// no use making versions for empty files
-		if ($files_view->filesize($filename) === 0) {
+		if ($fileInfo->getSize() === 0) {
 			return false;
 		}
 
-		// create all parent folders
-		self::createMissingDirectories($filename, $users_view);
+		/** @var IVersionManager $versionManager */
+		$versionManager = \OC::$server->query(IVersionManager::class);
+		$userManager = \OC::$server->getUserManager();
+		$user = $userManager->get($uid);
 
-		self::scheduleExpire($uid, $filename);
-
-		// store a new version of a file
-		$mtime = $users_view->filemtime('files/' . $filename);
-		$users_view->copy('files/' . $filename, 'files_versions/' . $filename . '.v' . $mtime);
-		// call getFileInfo to enforce a file cache entry for the new version
-		$users_view->getFileInfo('files_versions/' . $filename . '.v' . $mtime);
+		$versionManager->createVersion($user, $fileInfo);
 	}
 
 
@@ -695,7 +692,7 @@ class Storage {
 	 * @param string $uid owner of the file
 	 * @param string $fileName file/folder for which to schedule expiration
 	 */
-	private static function scheduleExpire($uid, $fileName) {
+	public static function scheduleExpire($uid, $fileName) {
 		// let the admin disable auto expire
 		$expiration = self::getExpiration();
 		if ($expiration->isEnabled()) {
@@ -833,7 +830,7 @@ class Storage {
 	 * "files" folder
 	 * @param View $view view on data/user/
 	 */
-	private static function createMissingDirectories($filename, $view) {
+	public static function createMissingDirectories($filename, $view) {
 		$dirname = Filesystem::normalizePath(dirname($filename));
 		$dirParts = explode('/', $dirname);
 		$dir = "/files_versions";

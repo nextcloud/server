@@ -70,7 +70,8 @@
 .ui-widget-header .ui-state-highlight {
 	border: 1px solid var(--color-main-background);
 	background: var(--color-main-background) none;
-	color: var(--color-text-lighter);
+	color: var(--color-text-light);
+	font-weight: 600;
 }
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
@@ -171,9 +172,12 @@
 	&.ui-menu {
 		padding: 0;
 		.ui-menu-item a {
+			color: var(--color-text-lighter);
+			padding: 4px 4px 4px 14px;
+
 			&.ui-state-focus, &.ui-state-active {
-				font-weight: inherit;
 				box-shadow: inset 4px 0 var(--color-primary);
+				color: var(--color-text);
 			}
 		}
 	}

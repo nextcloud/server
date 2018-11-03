@@ -47,7 +47,7 @@
 
 				<ul id="appmenu" <?php if ($_['themingInvertMenu']) { ?>class="inverted"<?php } ?>>
 					<?php foreach ($_['navigation'] as $entry): ?>
-						<li data-id="<?php p($entry['id']); ?>" class="hidden">
+						<li data-id="<?php p($entry['id']); ?>" class="hidden" tabindex="-1">
 							<a href="<?php print_unescaped($entry['href']); ?>"
 								<?php if ($entry['active']): ?> class="active"<?php endif; ?>
 								aria-label="<?php p($entry['name']); ?>">
@@ -69,7 +69,7 @@
 						aria-haspopup="true" aria-controls="navigation" aria-expanded="false">
 						<a href="#" aria-label="<?php p($l->t('More apps')); ?>">
 							<div class="icon-more-white"></div>
-							<span><?php p($l->t('More apps')); ?></span>
+							<span><?php p($l->t('More')); ?></span>
 						</a>
 					</li>
 				</ul>

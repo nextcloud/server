@@ -199,6 +199,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'resetPasswordLink' => null,
 				'throttle_delay' => 1000,
+				'login_form_autocomplete' => 'off',
 			],
 			'guest'
 		);
@@ -223,6 +224,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'resetPasswordLink' => null,
 				'throttle_delay' => 1000,
+				'login_form_autocomplete' => 'off',
 			],
 			'guest'
 		);
@@ -255,10 +257,12 @@ class LoginControllerTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(false);
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('lost_password_link')
-			->willReturn(false);
+			->will($this->returnValueMap([
+			['login_form_autocomplete', true, true],
+			['lost_password_link', '', false],
+		]));
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -281,6 +285,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'resetPasswordLink' => false,
 				'throttle_delay' => 1000,
+				'login_form_autocomplete' => 'on',
 			],
 			'guest'
 		);
@@ -338,10 +343,12 @@ class LoginControllerTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(false);
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('lost_password_link')
-			->willReturn(false);
+			->will($this->returnValueMap([
+			['login_form_autocomplete', true, true],
+			['lost_password_link', '', false],
+		]));
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('canChangePassword')
@@ -363,6 +370,7 @@ class LoginControllerTest extends TestCase {
 				'alt_login' => [],
 				'resetPasswordLink' => false,
 				'throttle_delay' => 1000,
+				'login_form_autocomplete' => 'on',
 			],
 			'guest'
 		);

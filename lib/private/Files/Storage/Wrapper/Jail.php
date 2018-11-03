@@ -29,6 +29,7 @@ use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
 use OC\Files\Filesystem;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -514,5 +515,19 @@ class Jail extends Wrapper {
 		}
 		$this->propagator = new JailPropagator($storage, \OC::$server->getDatabaseConnection());
 		return $this->propagator;
+	}
+
+	public function writeStream(string $path, $stream, int $size = null): int {
+		$storage = $this->getWrapperStorage();
+		if ($storage->instanceOfStorage(IWriteStreamStorage::class)) {
+			/** @var IWriteStreamStorage $storage */
+			return $storage->writeStream($this->getUnjailedPath($path), $stream, $size);
+		} else {
+			$target = $this->fopen($path, 'w');
+			list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+			fclose($stream);
+			fclose($target);
+			return $count;
+		}
 	}
 }

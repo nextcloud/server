@@ -21,45 +21,53 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Versions\Controller;
 
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 class PreviewController extends Controller {
 
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	/** @var string */
-	private $userId;
+	/** @var IUserSession */
+	private $userSession;
 
 	/** @var IMimeTypeDetector */
 	private $mimeTypeDetector;
 
+	/** @var IVersionManager */
+	private $versionManager;
+
 	/** @var IPreview */
 	private $previewManager;
 
-	public function __construct($appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								$userId,
-								IMimeTypeDetector $mimeTypeDetector,
-								IPreview $previewManager) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IRootFolder $rootFolder,
+		IUserSession $userSession,
+		IMimeTypeDetector $mimeTypeDetector,
+		IVersionManager $versionManager,
+		IPreview $previewManager
+	) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
-		$this->userId = $userId;
+		$this->userSession = $userSession;
 		$this->mimeTypeDetector = $mimeTypeDetector;
+		$this->versionManager = $versionManager;
 		$this->previewManager = $previewManager;
 	}
 
@@ -79,20 +87,17 @@ class PreviewController extends Controller {
 		$y = 44,
 		$version = ''
 	) {
-		if($file === '' || $version === '' || $x === 0 || $y === 0) {
+		if ($file === '' || $version === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
-			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			/** @var Folder $versionFolder */
-			$versionFolder = $userFolder->getParent()->get('files_versions');
-			$mimeType = $this->mimeTypeDetector->detectPath($file);
-			$file = $versionFolder->get($file.'.v'.$version);
-
-			/** @var File $file */
-			$f = $this->previewManager->getPreview($file, $x, $y, true, IPreview::MODE_FILL, $mimeType);
-			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$user = $this->userSession->getUser();
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+			$file = $userFolder->get($file);
+			$versionFile = $this->versionManager->getVersionFile($user, $file, (int)$version);
+			$preview = $this->previewManager->getPreview($versionFile, $x, $y, true, IPreview::MODE_FILL, $versionFile->getMimetype());
+			return new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {

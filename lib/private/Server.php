@@ -82,6 +82,7 @@ use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\View;
+use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
@@ -138,6 +139,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
@@ -758,7 +760,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
 		});
-		$this->registerService('Throttler', function (Server $c) {
+		$this->registerService(Throttler::class, function (Server $c) {
 			return new Throttler(
 				$c->getDatabaseConnection(),
 				new TimeFactory(),
@@ -766,6 +768,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
+		$this->registerAlias('Throttler', Throttler::class);
 		$this->registerService('IntegrityCodeChecker', function (Server $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
@@ -1182,7 +1185,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new StorageFactory();
 		});
 
-		$this->registerAlias(IDashboardManager::class, Dashboard\DashboardManager::class);
+		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
+		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
 
 		$this->connectDispatcher();
 	}

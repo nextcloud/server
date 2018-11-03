@@ -32,7 +32,7 @@ handlebars -n OCA.WorkflowEngine.Templates apps/workflowengine/js/templates -f a
 handlebars -n OCA.Sharing.Templates apps/files_sharing/js/templates -f apps/files_sharing/js/templates.js
 
 # Files external
-handlebars -n OCA.External.Templates apps/files_external/js/templates -f apps/files_external/js/templates.js
+handlebars -n OCA.Files_External.Templates apps/files_external/js/templates -f apps/files_external/js/templates.js
 
 if [[ $(git diff --name-only) ]]; then
     echo "Please submit your compiled handlebars templates"

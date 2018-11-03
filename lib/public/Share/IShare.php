@@ -258,6 +258,23 @@ interface IShare {
 	public function getExpirationDate();
 
 	/**
+	 * set a label for a share, some shares, e.g. public links can have a label
+	 *
+	 * @param string $label
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 15.0.0
+	 */
+	public function setLabel($label);
+
+	/**
+	 * get label for the share, some shares, e.g. public links can have a label
+	 *
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getLabel();
+
+	/**
 	 * Set the sharer of the path.
 	 *
 	 * @param string $sharedBy
@@ -418,4 +435,25 @@ interface IShare {
 	 * @since 11.0.0
 	 */
 	public function getNodeCacheEntry();
+
+	/**
+	 * Sets a shares hide download state
+	 * This is mainly for public shares. It will signal that the share page should
+	 * hide download buttons etc.
+	 *
+	 * @param bool $ro
+	 * @return IShare
+	 * @since 15.0.0
+	 */
+	public function setHideDownload(bool $hide): IShare;
+
+	/**
+	 * Gets a shares hide download state
+	 * This is mainly for public shares. It will signal that the share page should
+	 * hide download buttons etc.
+	 *
+	 * @return bool
+	 * @since 15.0.0
+	 */
+	public function getHideDownload(): bool;
 }

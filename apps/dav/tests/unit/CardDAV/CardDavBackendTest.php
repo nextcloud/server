@@ -87,6 +87,14 @@ class CardDavBackendTest extends TestCase {
 	const UNIT_TEST_USER1 = 'principals/users/carddav-unit-test1';
 	const UNIT_TEST_GROUP = 'principals/groups/carddav-unit-test-group';
 
+	private $vcardTest = 'BEGIN:VCARD'.PHP_EOL.
+						 'VERSION:3.0'.PHP_EOL.
+						 'PRODID:-//Sabre//Sabre VObject 4.1.2//EN'.PHP_EOL.
+						 'UID:Test'.PHP_EOL.
+						 'FN:Test'.PHP_EOL.
+						 'N:Test;;;;'.PHP_EOL.
+						 'END:VCARD';
+
 	public function setUp() {
 		parent::setUp();
 
@@ -120,7 +128,6 @@ class CardDavBackendTest extends TestCase {
 		$query->delete('cards_properties')->execute();
 		$query = $this->db->getQueryBuilder();
 		$query->delete('cards')->execute();
-
 
 		$this->tearDown();
 	}
@@ -217,8 +224,8 @@ class CardDavBackendTest extends TestCase {
 
 		$uri = $this->getUniqueID('card');
 		// updateProperties is expected twice, once for createCard and once for updateCard
-		$backend->expects($this->at(0))->method('updateProperties')->with($bookId, $uri, '');
-		$backend->expects($this->at(1))->method('updateProperties')->with($bookId, $uri, '***');
+		$backend->expects($this->at(0))->method('updateProperties')->with($bookId, $uri, $this->vcardTest);
+		$backend->expects($this->at(1))->method('updateProperties')->with($bookId, $uri, $this->vcardTest);
 
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
@@ -226,16 +233,16 @@ class CardDavBackendTest extends TestCase {
 			->with('\OCA\DAV\CardDAV\CardDavBackend::createCard', $this->callback(function(GenericEvent $e) use ($bookId, $uri) {
 				return $e->getArgument('addressBookId') === $bookId &&
 					$e->getArgument('cardUri') === $uri &&
-					$e->getArgument('cardData') === '';
+					$e->getArgument('cardData') === $this->vcardTest;
 			}));
 
 		// create a card
-		$backend->createCard($bookId, $uri, '');
+		$backend->createCard($bookId, $uri, $this->vcardTest);
 
 		// get all the cards
 		$cards = $backend->getCards($bookId);
 		$this->assertEquals(1, count($cards));
-		$this->assertEquals('', $cards[0]['carddata']);
+		$this->assertEquals($this->vcardTest, $cards[0]['carddata']);
 
 		// get the cards
 		$card = $backend->getCard($bookId, $uri);
@@ -245,7 +252,7 @@ class CardDavBackendTest extends TestCase {
 		$this->assertArrayHasKey('lastmodified', $card);
 		$this->assertArrayHasKey('etag', $card);
 		$this->assertArrayHasKey('size', $card);
-		$this->assertEquals('', $card['carddata']);
+		$this->assertEquals($this->vcardTest, $card['carddata']);
 
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
@@ -253,13 +260,13 @@ class CardDavBackendTest extends TestCase {
 			->with('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $this->callback(function(GenericEvent $e) use ($bookId, $uri) {
 				return $e->getArgument('addressBookId') === $bookId &&
 					$e->getArgument('cardUri') === $uri &&
-					$e->getArgument('cardData') === '***';
+					$e->getArgument('cardData') === $this->vcardTest;
 			}));
 
 		// update the card
-		$backend->updateCard($bookId, $uri, '***');
+		$backend->updateCard($bookId, $uri, $this->vcardTest);
 		$card = $backend->getCard($bookId, $uri);
-		$this->assertEquals('***', $card['carddata']);
+		$this->assertEquals($this->vcardTest, $card['carddata']);
 
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
@@ -290,18 +297,18 @@ class CardDavBackendTest extends TestCase {
 
 		// create a card
 		$uri0 = $this->getUniqueID('card');
-		$this->backend->createCard($bookId, $uri0, '');
+		$this->backend->createCard($bookId, $uri0, $this->vcardTest);
 		$uri1 = $this->getUniqueID('card');
-		$this->backend->createCard($bookId, $uri1, '');
+		$this->backend->createCard($bookId, $uri1, $this->vcardTest);
 		$uri2 = $this->getUniqueID('card');
-		$this->backend->createCard($bookId, $uri2, '');
+		$this->backend->createCard($bookId, $uri2, $this->vcardTest);
 
 		// get all the cards
 		$cards = $this->backend->getCards($bookId);
 		$this->assertEquals(3, count($cards));
-		$this->assertEquals('', $cards[0]['carddata']);
-		$this->assertEquals('', $cards[1]['carddata']);
-		$this->assertEquals('', $cards[2]['carddata']);
+		$this->assertEquals($this->vcardTest, $cards[0]['carddata']);
+		$this->assertEquals($this->vcardTest, $cards[1]['carddata']);
+		$this->assertEquals($this->vcardTest, $cards[2]['carddata']);
 
 		// get the cards
 		$cards = $this->backend->getMultipleCards($bookId, [$uri1, $uri2]);
@@ -312,7 +319,7 @@ class CardDavBackendTest extends TestCase {
 			$this->assertArrayHasKey('lastmodified', $card);
 			$this->assertArrayHasKey('etag', $card);
 			$this->assertArrayHasKey('size', $card);
-			$this->assertEquals('', $card['carddata']);
+			$this->assertEquals($this->vcardTest, $card['carddata']);
 		}
 
 		// delete the card
@@ -357,7 +364,7 @@ class CardDavBackendTest extends TestCase {
 			->method('purgeProperties');
 
 		// create a card
-		$this->backend->createCard($bookId, $uri, '');
+		$this->backend->createCard($bookId, $uri, $this->vcardTest);
 
 		// delete the card
 		$this->assertTrue($this->backend->deleteCard($bookId, $uri));
@@ -380,7 +387,7 @@ class CardDavBackendTest extends TestCase {
 
 		// add a change
 		$uri0 = $this->getUniqueID('card');
-		$this->backend->createCard($bookId, $uri0, '');
+		$this->backend->createCard($bookId, $uri0, $this->vcardTest);
 
 		// look for changes
 		$changes = $this->backend->getChangesForAddressBook($bookId, $syncToken, 1);
@@ -683,7 +690,7 @@ class CardDavBackendTest extends TestCase {
 		}
 
 		$result = $this->backend->getContact(0, 'uri0');
-		$this->assertSame(7, count($result));
+		$this->assertSame(8, count($result));
 		$this->assertSame(0, (int)$result['addressbookid']);
 		$this->assertSame('uri0', $result['uri']);
 		$this->assertSame(5489543, (int)$result['lastmodified']);

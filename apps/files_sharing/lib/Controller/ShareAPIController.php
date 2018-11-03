@@ -160,6 +160,7 @@ class ShareAPIController extends OCSController {
 			'token' => null,
 			'uid_file_owner' => $share->getShareOwner(),
 			'note' => $share->getNote(),
+			'label' => $share->getLabel(),
 			'displayname_file_owner' => $shareOwner !== null ? $shareOwner->getDisplayName() : $share->getShareOwner(),
 		];
 
@@ -211,6 +212,8 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getPassword();
 			$result['share_with_displayname'] = $share->getPassword();
 
+			$result['send_password_by_talk'] = $share->getSendPasswordByTalk();
+
 			$result['token'] = $share->getToken();
 			$result['url'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share->getToken()]);
 
@@ -252,6 +255,7 @@ class ShareAPIController extends OCSController {
 
 
 		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
+		$result['hide_download'] = $share->getHideDownload() ? 1 : 0;
 
 		return $result;
 	}
@@ -353,15 +357,17 @@ class ShareAPIController extends OCSController {
 	 * @param string $shareWith
 	 * @param string $publicUpload
 	 * @param string $password
-	 * @param bool $sendPasswordByTalk
+	 * @param string $sendPasswordByTalk
 	 * @param string $expireDate
+	 * @param string $label
 	 *
 	 * @return DataResponse
-	 * @throws OCSNotFoundException
-	 * @throws OCSForbiddenException
+	 * @throws NotFoundException
 	 * @throws OCSBadRequestException
 	 * @throws OCSException
-	 *
+	 * @throws OCSForbiddenException
+	 * @throws OCSNotFoundException
+	 * @throws \OCP\Files\InvalidPathException
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function createShare(
@@ -372,7 +378,8 @@ class ShareAPIController extends OCSController {
 		string $publicUpload = 'false',
 		string $password = '',
 		string $sendPasswordByTalk = null,
-		string $expireDate = ''
+		string $expireDate = '',
+		string $label = ''
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
@@ -446,15 +453,6 @@ class ShareAPIController extends OCSController {
 				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
 			}
 
-			/*
-			 * For now we only allow 1 link share.
-			 * Return the existing link share if this is a duplicate
-			 */
-			$existingShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $path, false, 1, 0);
-			if (!empty($existingShares)) {
-				return new DataResponse($this->formatShare($existingShares[0]));
-			}
-
 			if ($publicUpload === 'true') {
 				// Check if public upload is allowed
 				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
@@ -479,6 +477,19 @@ class ShareAPIController extends OCSController {
 			// Set password
 			if ($password !== '') {
 				$share->setPassword($password);
+			}
+
+
+			if (!empty($label)) {
+				$share->setLabel($label);
+			}
+
+			if ($sendPasswordByTalk === 'true') {
+				if (!$this->appManager->isEnabledForUser('spreed')) {
+					throw new OCSForbiddenException($this->l->t('Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled', [$path->getPath()]));
+				}
+
+				$share->setSendPasswordByTalk(true);
 			}
 
 			//Expire date
@@ -745,6 +756,8 @@ class ShareAPIController extends OCSController {
 	 * @param string $publicUpload
 	 * @param string $expireDate
 	 * @param string $note
+	 * @param string $label
+	 * @param string $hideDownload
 	 * @return DataResponse
 	 * @throws LockedException
 	 * @throws NotFoundException
@@ -759,7 +772,9 @@ class ShareAPIController extends OCSController {
 		string $sendPasswordByTalk = null,
 		string $publicUpload = null,
 		string $expireDate = null,
-		string $note = null
+		string $note = null,
+		string $label = null,
+		string $hideDownload = null
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -773,7 +788,15 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
-		if ($permissions === null && $password === null && $sendPasswordByTalk === null && $publicUpload === null && $expireDate === null && $note === null) {
+		if ($permissions === null &&
+			$password === null &&
+			$sendPasswordByTalk === null &&
+			$publicUpload === null &&
+			$expireDate === null &&
+			$note === null &&
+			$label === null &&
+			$hideDownload === null
+		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
 
@@ -785,6 +808,13 @@ class ShareAPIController extends OCSController {
 		 * expirationdate, password and publicUpload only make sense for link shares
 		 */
 		if ($share->getShareType() === Share::SHARE_TYPE_LINK) {
+
+			// Update hide download state
+			if ($hideDownload === 'true') {
+				$share->setHideDownload(true);
+			} else if ($hideDownload === 'false') {
+				$share->setHideDownload(false);
+			}
 
 			$newPermissions = null;
 			if ($publicUpload === 'true') {
@@ -850,6 +880,19 @@ class ShareAPIController extends OCSController {
 				$share->setPassword($password);
 			}
 
+			if ($label !== null) {
+				$share->setLabel($label);
+			}
+
+			if ($sendPasswordByTalk === 'true') {
+				if (!$this->appManager->isEnabledForUser('spreed')) {
+					throw new OCSForbiddenException($this->l->t('Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled'));
+				}
+
+				$share->setSendPasswordByTalk(true);
+			} else if ($sendPasswordByTalk !== null) {
+				$share->setSendPasswordByTalk(false);
+			}
 		} else {
 			if ($permissions !== null) {
 				$permissions = (int)$permissions;

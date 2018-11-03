@@ -4,6 +4,10 @@
 
 .share-autocomplete-item {
 	display: flex;
+
+	&.merged {
+		margin-left: 32px;
+	}
 	.autocomplete-item-text {
 		margin-left: 10px;
 		margin-right: 10px;
@@ -12,6 +16,27 @@
 		overflow: hidden;
 		line-height: 32px;
 		vertical-align: middle;
+		flex-grow: 1;
+		.ui-state-highlight {
+			border: none;
+			margin: 0;
+		}
+	}
+	&.with-description {
+		.autocomplete-item-text {
+			line-height: 100%;
+		}
+	}
+	.autocomplete-item-details {
+		display: block;
+		line-height: 130%;
+		font-size: 90%;
+		opacity: 0.7;
+	}
+
+	.icon {
+		opacity: .7;
+		margin-right: 7px;
 	}
 }
 
@@ -26,7 +51,6 @@
 		top: 0px;
 	}
 	.shareWithConfirm,
-	.clipboardButton,
 	.linkPass .icon-loading-small {
 		position: absolute;
 		right: 2px;
@@ -49,21 +73,17 @@
 		.datepicker {
 			margin-left: 35px;
 		}
-		.clipboardButton {
-			position: relative;
-			top: initial;
-			right: initial;
-			padding: 0;
-		}
 		.share-add {
 			input.share-note-delete {
-				display: none;
 				border: none;
 				background-color: transparent;
 				width: 44px !important;
 				padding: 0;
 				flex: 0 0 44px;
 				margin-left: auto;
+				&.hidden {
+					display: none;
+				}
 			}
 		}
 		// note
@@ -97,6 +117,11 @@
 			&.share-note-link {
 				margin-bottom: 10px;
 			}
+		}
+
+		/* Border above last entry '+ Add another share' to separate it from current link settings */
+		.new-share {
+			border-top: 1px solid var(--color-border);
 		}
 	}
 	.linkPass .icon-loading-small {
@@ -157,7 +182,7 @@
 		.avatar {
 			width: 32px;
 			height: 32px;
-			background-color: var(--color-background-darker);
+			background-color: var(--color-primary);
 		}
 	}
 	.unshare img {
@@ -169,30 +194,28 @@
 		display: flex;
 		align-items: center;
 		white-space: nowrap;
-		// can edit label
-		> .shareOption > label {
-			padding: 13px;
-			padding-right: 0;
+
+		// icons
+		> .icon:not(.hidden),
+		.share-menu > .icon:not(.hidden) {
+			padding: 14px;
+			height: 44px;
+			width: 44px;
+			opacity: .5;
+			display: block;
+			cursor: pointer;
+
+			&:hover,
+			&:focus,
+			&:active {
+				opacity: .7;;
+			}
 		}
+
 		// more menu
 		> .share-menu  {
 			position: relative;
 			display: block;
-			.icon-more {
-				padding: 14px;
-				height: 44px;
-				width: 44px;
-				opacity: .5;
-				display: block;
-				cursor: pointer;
-			}
-			&:hover,
-			&:focus,
-			&:active {
-				.icon-more {
-					opacity: .7;;
-				}
-			}
 		}
 	}
 	.username {
@@ -204,8 +227,8 @@
 }
 
 .ui-autocomplete {
-	/* limit dropdown height to 4 1/2 entries */
-	max-height: calc(36px * 4.5);;
+	/* limit dropdown height to 6 1/2 entries */
+	max-height: calc(36px * 6.5);
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1550 !important;

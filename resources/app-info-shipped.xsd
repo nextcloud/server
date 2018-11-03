@@ -55,6 +55,8 @@
                             maxOccurs="1"/>
                 <xs:element name="dashboard" type="dashboard"
                             minOccurs="0" maxOccurs="1"/>
+                <xs:element name="fulltextsearch" type="fulltextsearch"
+                            minOccurs="0" maxOccurs="1"/>
                 <xs:element name="navigations" type="navigations" minOccurs="0"
                             maxOccurs="1"/>
                 <xs:element name="contactsmenu" type="contactsmenu" minOccurs="0"
@@ -660,6 +662,15 @@
     <xs:complexType name="dashboard">
         <xs:sequence>
             <xs:element name="widget" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="fulltextsearch">
+        <xs:sequence>
+            <xs:element name="platform" type="php-class" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="provider" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>

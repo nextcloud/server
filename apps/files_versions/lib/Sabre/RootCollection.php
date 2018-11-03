@@ -20,10 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Versions\Sabre;
 
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IUserManager;
 use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
@@ -33,12 +36,24 @@ class RootCollection extends AbstractPrincipalCollection {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(PrincipalBackend\BackendInterface $principalBackend,
-								IRootFolder $rootFolder,
-								IConfig $config) {
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IVersionManager */
+	private $versionManager;
+
+	public function __construct(
+		PrincipalBackend\BackendInterface $principalBackend,
+		IRootFolder $rootFolder,
+		IConfig $config,
+		IUserManager $userManager,
+		IVersionManager $versionManager
+	) {
 		parent::__construct($principalBackend, 'principals/users');
 
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
+		$this->versionManager = $versionManager;
 
 		$this->disableListing = !$config->getSystemValue('debug', false);
 	}
@@ -54,12 +69,12 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @return INode
 	 */
 	public function getChildForPrincipal(array $principalInfo) {
-		list(,$name) = \Sabre\Uri\split($principalInfo['uri']);
+		list(, $name) = \Sabre\Uri\split($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
-		return new VersionHome($principalInfo, $this->rootFolder);
+		return new VersionHome($principalInfo, $this->rootFolder, $this->userManager, $this->versionManager);
 	}
 
 	public function getName() {

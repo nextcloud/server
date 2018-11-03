@@ -78,7 +78,7 @@ try {
 		print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
 		print("More details can be found in the webserver log.\n");
 
-		throw $e;
+		throw $ex;
 	}
 	OC_Template::printExceptionErrorPage($ex, 500);
 }

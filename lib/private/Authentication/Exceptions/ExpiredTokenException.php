@@ -21,9 +21,9 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Authentication\Token;
+namespace OC\Authentication\Exceptions;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\IToken;
 
 class ExpiredTokenException extends InvalidTokenException {
 	/** @var IToken */

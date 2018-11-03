@@ -121,6 +121,32 @@ Feature: app-files
     And I open the Share menu
     Then I see that the Share menu is shown
 
+  Scenario: hide download in a public shared link
+    Given I act as John
+    And I am logged in
+    And I share the link for "welcome.txt"
+    And I set the download of the shared link as hidden
+    And I write down the shared link
+    When I act as Jane
+    And I visit the shared link I wrote down
+    And I see that the current page is the shared link I wrote down
+    Then I see that the download button is not shown
+    And I see that the Share menu button is not shown
+
+  Scenario: show download again in a public shared link
+    Given I act as John
+    And I am logged in
+    And I share the link for "welcome.txt"
+    And I set the download of the shared link as hidden
+    And I set the download of the shared link as shown
+    And I write down the shared link
+    When I act as Jane
+    And I visit the shared link I wrote down
+    And I see that the current page is the shared link I wrote down
+    Then I see that the download button is shown
+    And I open the Share menu
+    And I see that the Share menu is shown
+
   Scenario: creation is not possible by default in a public shared folder
     Given I act as John
     And I am logged in
@@ -192,6 +218,10 @@ Feature: app-files
     When I protect the shared link with the password "abcdef"
     Then I see that the working icon for password protect is shown
     And I see that the working icon for password protect is eventually not shown
+    And I see that the link share is password protected
+    # As Talk is not enabled in the acceptance tests of the server the checkbox
+    # is never shown.
+    And I see that the checkbox to protect the password of the link share by Talk is not shown
 
   Scenario: access a shared link protected by password with a valid password
     Given I act as John

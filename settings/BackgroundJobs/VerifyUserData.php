@@ -63,6 +63,9 @@ class VerifyUserData extends Job {
 	/** @var string */
 	private $lookupServerUrl;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * VerifyUserData constructor.
 	 *
@@ -85,6 +88,7 @@ class VerifyUserData extends Job {
 
 		$lookupServerUrl = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		$this->lookupServerUrl = rtrim($lookupServerUrl, '/');
+		$this->config = $config;
 	}
 
 	/**

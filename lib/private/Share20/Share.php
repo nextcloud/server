@@ -30,6 +30,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
+use OCP\Share\IShare;
 
 class Share implements \OCP\Share\IShare {
 
@@ -75,6 +76,8 @@ class Share implements \OCP\Share\IShare {
 	private $shareTime;
 	/** @var bool */
 	private $mailSend;
+	/** @var string */
+	private $label = '';
 
 	/** @var IRootFolder */
 	private $rootFolder;
@@ -84,6 +87,9 @@ class Share implements \OCP\Share\IShare {
 
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
+
+	/** @var bool */
+	private $hideDownload = false;
 
 	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
@@ -333,6 +339,21 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
+	public function setLabel($label) {
+		$this->label = $label;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getLabel() {
+		return $this->label;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function setExpirationDate($expireDate) {
 		//TODO checks
 
@@ -513,5 +534,14 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getNodeCacheEntry() {
 		return $this->nodeCacheEntry;
+	}
+
+	public function setHideDownload(bool $hide): IShare {
+		$this->hideDownload = $hide;
+		return $this;
+	}
+
+	public function getHideDownload(): bool {
+		return $this->hideDownload;
 	}
 }

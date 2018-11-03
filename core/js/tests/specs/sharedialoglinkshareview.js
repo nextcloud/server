@@ -72,6 +72,102 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		configModel.isShareWithLinkAllowed.restore();
 	});
 
+	describe('hide download', function () {
+
+		var $hideDownloadCheckbox;
+		var $workingIcon;
+
+		beforeEach(function () {
+			// Needed to render the view
+			configModel.isShareWithLinkAllowed.returns(true);
+
+			shareModel.set({
+				linkShares: [{
+					id: 123
+				}]
+			});
+			view.render();
+
+			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
+			$workingIcon = $hideDownloadCheckbox.prev('.icon-loading-small');
+
+			sinon.stub(shareModel, 'saveLinkShare');
+
+			expect($workingIcon.hasClass('hidden')).toBeTruthy();
+		});
+
+		afterEach(function () {
+			shareModel.saveLinkShare.restore();
+		});
+
+		it('is shown if the share is a file', function() {
+			expect($hideDownloadCheckbox.length).toBeTruthy();
+		});
+
+		it('is not shown if the share is a folder', function() {
+			shareModel.fileInfoModel.set('mimetype', 'httpd/unix-directory');
+
+			// Setting the item type also triggers the rendering
+			shareModel.set({
+				itemType: 'folder'
+			});
+
+			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
+
+			expect($hideDownloadCheckbox.length).toBeFalsy();
+		});
+
+		it('checkbox is checked when the setting is enabled', function () {
+			shareModel.set({
+				linkShares: [{
+					id: 123,
+					hideDownload: true
+				}]
+			});
+			view.render();
+
+			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
+
+			expect($hideDownloadCheckbox.is(':checked')).toEqual(true);
+		});
+
+		it('checkbox is not checked when the setting is disabled', function () {
+			expect($hideDownloadCheckbox.is(':checked')).toEqual(false);
+		});
+
+		it('enables the setting if clicked when unchecked', function () {
+			// Simulate the click by checking the checkbox and then triggering
+			// the "change" event.
+			$hideDownloadCheckbox.prop('checked', true);
+			$hideDownloadCheckbox.change();
+
+			expect($workingIcon.hasClass('hidden')).toBeFalsy();
+			expect(shareModel.saveLinkShare.withArgs({ hideDownload: true, cid: 123 }).calledOnce).toBeTruthy();
+		});
+
+		it('disables the setting if clicked when checked', function () {
+			shareModel.set({
+				linkShares: [{
+					id: 123,
+					hideDownload: true
+				}]
+			});
+			view.render();
+
+			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
+			$workingIcon = $hideDownloadCheckbox.prev('.icon-loading-small');
+
+			// Simulate the click by unchecking the checkbox and then triggering
+			// the "change" event.
+			$hideDownloadCheckbox.prop('checked', false);
+			$hideDownloadCheckbox.change();
+
+			expect($workingIcon.hasClass('hidden')).toBeFalsy();
+			expect(shareModel.saveLinkShare.withArgs({ hideDownload: false, cid: 123 }).calledOnce).toBeTruthy();
+		});
+
+	});
+
 	describe('onPasswordEntered', function () {
 
 		var $passwordText;
@@ -82,13 +178,13 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			// Needed to render the view
 			configModel.isShareWithLinkAllowed.returns(true);
 
-			// Setting the share also triggers the rendering
 			shareModel.set({
-				linkShare: {
-					isLinkShare: true,
+				linkShares: [{
+					id: 123,
 					password: 'password'
-				}
+				}]
 			});
+			view.render();
 
 			var $passwordDiv = view.$el.find('#linkPass');
 			$passwordText = view.$el.find('.linkPassText');
@@ -108,17 +204,17 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		});
 
 		it('shows the working icon when called', function () {
-			view.onPasswordEntered();
+			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
-			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword' }).calledOnce).toBeTruthy();
+			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
 		});
 
 		it('hides the working icon when saving the password succeeds', function () {
-			view.onPasswordEntered();
+			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
-			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword' }).calledOnce).toBeTruthy();
+			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
 
 			shareModel.saveLinkShare.yieldTo("complete", [shareModel]);
 
@@ -126,15 +222,128 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		});
 
 		it('hides the working icon when saving the password fails', function () {
-			view.onPasswordEntered();
+			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
-			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword' }).calledOnce).toBeTruthy();
+			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
 
 			shareModel.saveLinkShare.yieldTo("complete", [shareModel]);
 			shareModel.saveLinkShare.yieldTo("error", [shareModel, "The error message"]);
 
 			expect($workingIcon.hasClass('hidden')).toBeTruthy();
+		});
+
+	});
+
+	describe('protect password by Talk', function () {
+
+		var $passwordByTalkCheckbox;
+		var $workingIcon;
+
+		beforeEach(function () {
+			// Needed to render the view
+			configModel.isShareWithLinkAllowed.returns(true);
+
+			// "Enable" Talk
+			window.oc_appswebroots['spreed'] = window.oc_webroot + '/apps/files/';
+
+			shareModel.set({
+				linkShares: [{
+					id: 123,
+					password: 'password'
+				}]
+			});
+			view.render();
+
+			$passwordByTalkCheckbox = view.$el.find('.passwordByTalkCheckbox');
+			$workingIcon = $passwordByTalkCheckbox.prev('.icon-loading-small');
+
+			sinon.stub(shareModel, 'saveLinkShare');
+
+			expect($workingIcon.hasClass('hidden')).toBeTruthy();
+		});
+
+		afterEach(function () {
+			shareModel.saveLinkShare.restore();
+		});
+
+		it('is shown if Talk is enabled and there is a password set', function() {
+			expect($passwordByTalkCheckbox.length).toBeTruthy();
+		});
+
+		it('is not shown if Talk is enabled but there is no password set', function() {
+			// Changing the password value also triggers the rendering
+			shareModel.set({
+				linkShares: [{
+					id: 123
+				}]
+			});
+
+			$passwordByTalkCheckbox = view.$el.find('.passwordByTalkCheckbox');
+
+			expect($passwordByTalkCheckbox.length).toBeFalsy();
+		});
+
+		it('is not shown if there is a password set but Talk is not enabled', function() {
+			// "Disable" Talk
+			delete window.oc_appswebroots['spreed'];
+
+			view.render();
+
+			$passwordByTalkCheckbox = view.$el.find('.passwordByTalkCheckbox');
+
+			expect($passwordByTalkCheckbox.length).toBeFalsy();
+		});
+
+		it('checkbox is checked when the setting is enabled', function () {
+			shareModel.set({
+				linkShares: [{
+					id: 123,
+					password: 'password',
+					sendPasswordByTalk: true
+				}]
+			});
+			view.render();
+
+			$passwordByTalkCheckbox = view.$el.find('.passwordByTalkCheckbox');
+
+			expect($passwordByTalkCheckbox.is(':checked')).toEqual(true);
+		});
+
+		it('checkbox is not checked when the setting is disabled', function () {
+			expect($passwordByTalkCheckbox.is(':checked')).toEqual(false);
+		});
+
+		it('enables the setting if clicked when unchecked', function () {
+			// Simulate the click by checking the checkbox and then triggering
+			// the "change" event.
+			$passwordByTalkCheckbox.prop('checked', true);
+			$passwordByTalkCheckbox.change();
+
+			expect($workingIcon.hasClass('hidden')).toBeFalsy();
+			expect(shareModel.saveLinkShare.withArgs({ sendPasswordByTalk: true, cid: 123 }).calledOnce).toBeTruthy();
+		});
+
+		it('disables the setting if clicked when checked', function () {
+			shareModel.set({
+				linkShares: [{
+					id: 123,
+					password: 'password',
+					sendPasswordByTalk: true
+				}]
+			});
+			view.render();
+
+			$passwordByTalkCheckbox = view.$el.find('.passwordByTalkCheckbox');
+			$workingIcon = $passwordByTalkCheckbox.prev('.icon-loading-small');
+
+			// Simulate the click by unchecking the checkbox and then triggering
+			// the "change" event.
+			$passwordByTalkCheckbox.prop('checked', false);
+			$passwordByTalkCheckbox.change();
+
+			expect($workingIcon.hasClass('hidden')).toBeFalsy();
+			expect(shareModel.saveLinkShare.withArgs({ sendPasswordByTalk: false, cid: 123 }).calledOnce).toBeTruthy();
 		});
 
 	});

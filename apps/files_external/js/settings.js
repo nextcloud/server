@@ -163,7 +163,7 @@ function addSelect2 ($elements, userListLimit) {
 }
 
 /**
- * @class OCA.External.Settings.StorageConfig
+ * @class OCA.Files_External.Settings.StorageConfig
  *
  * @classdesc External storage config
  */
@@ -185,7 +185,7 @@ StorageConfig.Visibility = {
 	DEFAULT: 3
 };
 /**
- * @memberof OCA.External.Settings
+ * @memberof OCA.Files_External.Settings
  */
 StorageConfig.prototype = {
 	_url: null,
@@ -348,8 +348,8 @@ StorageConfig.prototype = {
 };
 
 /**
- * @class OCA.External.Settings.GlobalStorageConfig
- * @augments OCA.External.Settings.StorageConfig
+ * @class OCA.Files_External.Settings.GlobalStorageConfig
+ * @augments OCA.Files_External.Settings.StorageConfig
  *
  * @classdesc Global external storage config
  */
@@ -359,10 +359,10 @@ var GlobalStorageConfig = function(id) {
 	this.applicableGroups = [];
 };
 /**
- * @memberOf OCA.External.Settings
+ * @memberOf OCA.Files_External.Settings
  */
 GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
-	/** @lends OCA.External.Settings.GlobalStorageConfig.prototype */ {
+	/** @lends OCA.Files_External.Settings.GlobalStorageConfig.prototype */ {
 	_url: 'apps/files_external/globalstorages',
 
 	/**
@@ -402,8 +402,8 @@ GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
 });
 
 /**
- * @class OCA.External.Settings.UserStorageConfig
- * @augments OCA.External.Settings.StorageConfig
+ * @class OCA.Files_External.Settings.UserStorageConfig
+ * @augments OCA.Files_External.Settings.StorageConfig
  *
  * @classdesc User external storage config
  */
@@ -411,13 +411,13 @@ var UserStorageConfig = function(id) {
 	this.id = id;
 };
 UserStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
-	/** @lends OCA.External.Settings.UserStorageConfig.prototype */ {
+	/** @lends OCA.Files_External.Settings.UserStorageConfig.prototype */ {
 	_url: 'apps/files_external/userstorages'
 });
 
 /**
- * @class OCA.External.Settings.UserGlobalStorageConfig
- * @augments OCA.External.Settings.StorageConfig
+ * @class OCA.Files_External.Settings.UserGlobalStorageConfig
+ * @augments OCA.Files_External.Settings.StorageConfig
  *
  * @classdesc User external storage config
  */
@@ -425,13 +425,13 @@ var UserGlobalStorageConfig = function (id) {
 	this.id = id;
 };
 UserGlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
-	/** @lends OCA.External.Settings.UserStorageConfig.prototype */ {
+	/** @lends OCA.Files_External.Settings.UserStorageConfig.prototype */ {
 
 	_url: 'apps/files_external/userglobalstorages'
 });
 
 /**
- * @class OCA.External.Settings.MountOptionsDropdown
+ * @class OCA.Files_External.Settings.MountOptionsDropdown
  *
  * @classdesc Dropdown for mount options
  *
@@ -440,7 +440,7 @@ UserGlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
 var MountOptionsDropdown = function() {
 };
 /**
- * @memberof OCA.External.Settings
+ * @memberof OCA.Files_External.Settings
  */
 MountOptionsDropdown.prototype = {
 	/**
@@ -462,7 +462,7 @@ MountOptionsDropdown.prototype = {
 			MountOptionsDropdown._last.hide();
 		}
 
-		var $el = $(OCA.External.Templates.mountOptionsDropDown({
+		var $el = $(OCA.Files_External.Templates.mountOptionsDropDown({
 			mountOptionsEncodingLabel: t('files_external', 'Compatibility with Mac NFD encoding (slow)'),
 			mountOptionsEncryptLabel: t('files_external', 'Enable encryption'),
 			mountOptionsPreviewsLabel: t('files_external', 'Enable previews'),
@@ -549,7 +549,7 @@ MountOptionsDropdown.prototype = {
 };
 
 /**
- * @class OCA.External.Settings.MountConfigListView
+ * @class OCA.Files_External.Settings.MountConfigListView
  *
  * @classdesc Mount configuration list view
  *
@@ -574,7 +574,7 @@ MountConfigListView.ParameterTypes = {
 };
 
 /**
- * @memberOf OCA.External.Settings
+ * @memberOf OCA.Files_External.Settings
  */
 MountConfigListView.prototype = _.extend({
 
@@ -633,9 +633,9 @@ MountConfigListView.prototype = _.extend({
 		this.$el = $el;
 		this._isPersonal = ($el.data('admin') !== true);
 		if (this._isPersonal) {
-			this._storageConfigClass = OCA.External.Settings.UserStorageConfig;
+			this._storageConfigClass = OCA.Files_External.Settings.UserStorageConfig;
 		} else {
-			this._storageConfigClass = OCA.External.Settings.GlobalStorageConfig;
+			this._storageConfigClass = OCA.Files_External.Settings.GlobalStorageConfig;
 		}
 
 		if (options && !_.isUndefined(options.userListLimit)) {
@@ -1008,7 +1008,7 @@ MountConfigListView.prototype = _.extend({
 	 * Gets the storage model from the given row
 	 *
 	 * @param $tr row element
-	 * @return {OCA.External.StorageConfig} storage model instance
+	 * @return {OCA.Files_External.StorageConfig} storage model instance
 	 */
 	getStorageConfig: function($tr) {
 		var storageId = $tr.data('id');
@@ -1367,13 +1367,13 @@ $(document).ready(function() {
 	});
 
 	// global instance
-	OCA.External.Settings.mountConfig = mountConfigListView;
+	OCA.Files_External.Settings.mountConfig = mountConfigListView;
 
 	/**
 	 * Legacy
 	 *
 	 * @namespace
-	 * @deprecated use OCA.External.Settings.mountConfig instead
+	 * @deprecated use OCA.Files_External.Settings.mountConfig instead
 	 */
 	OC.MountConfig = {
 		saveStorage: _.bind(mountConfigListView.saveStorageConfig, mountConfigListView)
@@ -1382,14 +1382,14 @@ $(document).ready(function() {
 
 // export
 
-OCA.External = OCA.External || {};
+OCA.Files_External = OCA.Files_External || {};
 /**
  * @namespace
  */
-OCA.External.Settings = OCA.External.Settings || {};
+OCA.Files_External.Settings = OCA.Files_External.Settings || {};
 
-OCA.External.Settings.GlobalStorageConfig = GlobalStorageConfig;
-OCA.External.Settings.UserStorageConfig = UserStorageConfig;
-OCA.External.Settings.MountConfigListView = MountConfigListView;
+OCA.Files_External.Settings.GlobalStorageConfig = GlobalStorageConfig;
+OCA.Files_External.Settings.UserStorageConfig = UserStorageConfig;
+OCA.Files_External.Settings.MountConfigListView = MountConfigListView;
 
 })();
