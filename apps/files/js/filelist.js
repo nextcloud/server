@@ -989,7 +989,7 @@
 				});
 			}
 
-			this.move(_.pluck(files, 'name'), targetPath);
+			var movePromise = this.move(_.pluck(files, 'name'), targetPath);
 
 			// re-enable td elements to be droppable
 			// sometimes the filename drop handler is still called after re-enable,
@@ -997,6 +997,8 @@
 			setTimeout(function() {
 				self.$el.find('td.filename.ui-droppable').droppable('enable');
 			}, 10);
+
+			return movePromise;
 		},
 
 		/**
@@ -2229,8 +2231,8 @@
 
 			var mcSemaphore = new Semaphore(10);
 			var counter = 0;
-			_.each(fileNames, function(arg) {
-				mcSemaphore.acquire().then(function(){
+			var promises = _.map(fileNames, function(arg) {
+				return mcSemaphore.acquire().then(function(){
 					moveFileFunction(arg).then(function(){
 						mcSemaphore.release();
 						counter++;
@@ -2238,9 +2240,11 @@
 				});
 			});
 
-			if (callback) {
-				callback();
-			}
+			return Promise.all(promises).then(function(){
+				if (callback) {
+					callback();
+				}
+			});
 		},
 
 		/**
