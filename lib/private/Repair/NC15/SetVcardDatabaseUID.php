@@ -58,7 +58,7 @@ class SetVcardDatabaseUID implements IRepairStep {
 
 		$builder->select('id', 'carddata')
 		        ->from('cards')
-		        ->where($builder->expr()->isNull('uid'))
+		        ->where($builder->expr()->isNull('id'))
 		        ->setMaxResults(self::MAX_ROWS);
 
 		do {
