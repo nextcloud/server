@@ -43,6 +43,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "A fájl <strong>rendszer címkéje</strong> módosítva lett",
     "Collaborative tags" : "Együttműködési címkék",
     "Select tag …" : "Címke választás...",
+    "Create a new tag" : "Új címke létrehozása",
     "Name" : "Név",
     "Public" : "Nyilvános",
     "Restricted" : "Korlátozott",

@@ -29,6 +29,7 @@
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "A fájlt nem sikerült visszafejteni, valószínűleg ez egy megosztott fájl. Kérje meg a fájl tulajdonosát, hogy újra ossza meg veled ezt az állományt!",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ez a fájl nem olvasható, valószínűleg ez egy megosztott fájl. Kérd meg a tulajdonosát, hogy ossza meg veled újra ezt a fájlt.",
     "Default encryption module" : "Alapértelmezett titkosítási modul",
+    "Default encryption module for server-side encryption" : "Alapértelmezett titkossítási modul a szerver oldali titkosításhoz",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Szia!\n\nA rendszergazda bekapcsolta a szerver-oldali titkosítást. A fájljaid ezzel a jelszóval lettek titkosítva: '%s'.\n\nKérlek jelentkezz be a webes felületre és a személyes beállítások 'alap titkosítási modul' szekcióban frissítsd a titkosítási jelszavad, úgy hogy megadod a 'régi bejelentkezési jelszó' mezőben ezt a jelszót, majd az aktuális bejelentkezési jelszavad.\n\n",
     "The share will expire on %s." : "A megosztás lejár ekkor %s",
     "Cheers!" : "Üdv.",

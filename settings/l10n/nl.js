@@ -95,7 +95,7 @@ OC.L10N.register(
     "Contacts" : "Contactpersonen",
     "Visible to local users and to trusted servers" : "Alleen zichtbaar voor lokale gebruikers en vertrouwde servers",
     "Public" : "Openbaar",
-    "Will be synced to a global and public address book" : "Wordt gesyncht met een globaal en openbaar adresboek",
+    "Will be synced to a global and public address book" : "Wordt gesynct met een globaal en openbaar adresboek",
     "Verify" : "Verifiëren",
     "Verifying …" : "Verifiëren...",
     "Very weak password" : "Zeer zwak wachtwoord",
