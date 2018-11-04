@@ -39,7 +39,7 @@
     "Share provider which allows you to share files by mail" : "Share provider waarmee je bestanden via de mail kunt delen",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven.",
     "Send password by mail" : "Wachtwoord per email verzenden",
-    "Enforce password protection" : "Wachtwoord-beveiliging afdwingen",
+    "Enforce password protection" : "Wachtwoordbeveiliging afdwingen",
     "Sharing %s failed, this item is already shared with %s" : "Delen van %s is mislukt, omdat dit al gedeeld wordt met %s",
     "Failed to send share by E-mail" : "delen per email is mislukt",
     "%s shared »%s« with you" : "%s heeft \"%s\" met je gedeeld",
