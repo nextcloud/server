@@ -68,9 +68,6 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(3, $info->getSize());
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
-	 */
 	public function testUploadOverWriteReadLocked() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
@@ -79,12 +76,10 @@ class UploadTest extends RequestTestCase {
 
 		$view->lockFile('/foo.txt', ILockingProvider::LOCK_SHARED);
 
-		$this->request($view, $user, 'pass', 'PUT', '/foo.txt', 'asd');
+		$result = $this->request($view, $user, 'pass', 'PUT', '/foo.txt', 'asd');
+		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
-	 */
 	public function testUploadOverWriteWriteLocked() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
@@ -94,7 +89,8 @@ class UploadTest extends RequestTestCase {
 
 		$view->lockFile('/foo.txt', ILockingProvider::LOCK_EXCLUSIVE);
 
-		$this->request($view, $user, 'pass', 'PUT', '/foo.txt', 'asd');
+		$result = $this->request($view, $user, 'pass', 'PUT', '/foo.txt', 'asd');
+		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
 	public function testChunkedUpload() {
@@ -162,9 +158,6 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(6, $info->getSize());
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
-	 */
 	public function testChunkedUploadOutOfOrderReadLocked() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
@@ -184,12 +177,10 @@ class UploadTest extends RequestTestCase {
 		$this->assertFalse($view->file_exists('foo.txt'));
 
 		// last chunk should trigger the locked error since it tries to assemble
-		$this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-0', 'asd', ['OC-Chunked' => '1']);
+		$result = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-0', 'asd', ['OC-Chunked' => '1']);
+		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
-	 */
 	public function testChunkedUploadOutOfOrderWriteLocked() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
@@ -209,6 +200,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertFalse($view->file_exists('foo.txt'));
 
 		// last chunk should trigger the locked error since it tries to assemble
-		$this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-0', 'asd', ['OC-Chunked' => '1']);
+		$result = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-0', 'asd', ['OC-Chunked' => '1']);
+		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 }
