@@ -91,33 +91,39 @@ class Adapter {
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {
         if (empty($compare)) {
-			$compare = array_keys($input);
-		};
+            $compare = array_keys($input);
+        };
 
         //Search for given compare-fields
-		$query_select = 'SELECT * FROM `' . $table . '` WHERE 1=1';
-		foreach($compare as $key) {
-		    $query_select .= ' AND `' . $key . '`';
-		    if (is_null($input[$key])) {
-		        $query_select .= ' IS NULL';
-		    } else {
-		        $query_select .= ' = "' . $input[$key] .'"';
-		    };
-		};
-//		$query_select .= ' HAVING COUNT(*) = 0'; //whats better - use or dont use?
-		$rows = $this->conn->ExecuteQuery($query_select);
-		if ( is_null($rows) ) {
-		    return 0; //Data already there
-		};
+        $query_select = 'SELECT * FROM `' . $table . '` WHERE 1=1';
+        foreach($compare as $key) {
+            $query_select .= ' AND `' . $key . '`';
+            if (is_null($input[$key])) {
+                $query_select .= ' IS NULL';
+            } else {
+                $query_select .= ' = "' . $input[$key] .'"';
+            };
+        };
+        $result = $this->conn->executeQuery($query_select);
+        $data = $result->fetch();
+        //took this from cache.php:
+        //FIXME hide this HACK in the next database layer, or just use doctrine and get rid of MDB2 and PDO
+        //PDO returns false, MDB2 returns null, oracle always uses MDB2, so convert null to false
+        if ($data === null) {
+            $data = false;
+        }
+        if (!$data) {
+            return 1; //Data already there, shouldn't this be 0? But 0 causese files:scan to complain about locks
+        };
 
-		//Do update
-		$query_insert = 'INSERT INTO `' .$table . '` (`'
-		  . implode('`,`', array_keys($input))
-		  . '`) VALUES ("'
-		  . implode('","', array_values($input))
-		  . '")';
-		return $this->conn->executeUpdate($query_insert);
-		
+        //Do update
+        $query_insert = 'INSERT INTO `' .$table . '` (`'
+            . implode('`,`', array_keys($input))
+            . '`) VALUES ("'
+            . implode('","', array_values($input))
+            . '")';
+        return $this->conn->executeUpdate($query_insert);
+
 /*		$query = 'INSERT INTO `' .$table . '` (`'
 			. implode('`,`', array_keys($input)) . '`) SELECT '
 			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
@@ -137,5 +143,5 @@ class Adapter {
 		$query .= ' HAVING COUNT(*) = 0';
 		return $this->conn->executeUpdate($query, $inserts);	
 */
-	}
+    }
 }
