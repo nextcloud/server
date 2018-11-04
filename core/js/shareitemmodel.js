@@ -457,6 +457,19 @@
 		},
 
 		/**
+		 * @param shareIndex
+		 * @returns {string}
+		 */
+		getFileOwnerUid: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.uid_file_owner;
+		},
+
+		/**
 		 * returns the array index of a sharee for a provided shareId
 		 *
 		 * @param shareId
