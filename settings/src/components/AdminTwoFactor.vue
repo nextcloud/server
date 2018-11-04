@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<p>
+		<p class="settings-hint">
 			{{ t('settings', 'Two-factor authentication can be enforced for all	users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.') }}
 		</p>
 		<p v-if="loading">
