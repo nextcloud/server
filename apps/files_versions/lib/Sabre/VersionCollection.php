@@ -21,11 +21,15 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Versions\Sabre;
 
 use OCA\Files_Versions\Storage;
+use OCA\Files_Versions\Versions\IVersion;
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
@@ -37,13 +41,17 @@ class VersionCollection implements ICollection {
 	/** @var File */
 	private $file;
 
-	/** @var string */
-	private $userId;
+	/** @var IUser */
+	private $user;
 
-	public function __construct(Folder $userFolder, File $file, string $userId) {
+	/** @var IVersionManager */
+	private $versionManager;
+
+	public function __construct(Folder $userFolder, File $file, IUser $user, IVersionManager $versionManager) {
 		$this->userFolder = $userFolder;
 		$this->file = $file;
-		$this->userId = $userId;
+		$this->user = $user;
+		$this->versionManager = $versionManager;
 	}
 
 	public function createFile($name, $data = null) {
@@ -68,10 +76,10 @@ class VersionCollection implements ICollection {
 	}
 
 	public function getChildren(): array {
-		$versions = Storage::getVersions($this->userId, $this->userFolder->getRelativePath($this->file->getPath()));
+		$versions = $this->versionManager->getVersionsForFile($this->user, $this->file);
 
-		return array_map(function (array $data) {
-			return new VersionFile($data, $this->userFolder->getParent());
+		return array_map(function (IVersion $version) {
+			return new VersionFile($version, $this->versionManager);
 		}, $versions);
 	}
 

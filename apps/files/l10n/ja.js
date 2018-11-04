@@ -25,6 +25,7 @@ OC.L10N.register(
     "Target folder does not exist any more" : "対象フォルダーがもう存在しません",
     "Actions" : "アクション",
     "Rename" : "名前の変更",
+    "Copy" : "コピー",
     "Disconnect storage" : "ストレージを切断する",
     "Unshare" : "共有解除",
     "Could not load info for file \"{file}\"" : "\"{file}\" ファイルの情報を読み込めませんでした",

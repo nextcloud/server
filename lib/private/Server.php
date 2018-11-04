@@ -1185,7 +1185,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new StorageFactory();
 		});
 
-		$this->registerAlias(IDashboardManager::class, Dashboard\DashboardManager::class);
+		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
 
 		$this->connectDispatcher();

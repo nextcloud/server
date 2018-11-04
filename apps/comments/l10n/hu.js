@@ -29,6 +29,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Megemlítettek ezen: “{file}”, egy már törölt felhasználó hozzászólásában",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s megemlített egy hozzászólásban itt: “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} megemlített egy hozzászólásban itt: “{file}”",
+    "Files app plugin to add comments to files" : "Beépülő Fájl applikáció amivel megjegyzések adhatók fájlokhoz ",
     "Unknown user" : "Ismeretlen felhasználó",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Egy (most) törölt felhasználó megemlített egy hozzászólásban itt: “%s”",
     "A (now) deleted user mentioned you in a comment on “{file}”" : "Egy (most) törölt felhasználó megemlített egy hozzászólásban itt: “{file}”"

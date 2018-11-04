@@ -55,7 +55,13 @@ class MailerTest extends TestCase {
 			->with('mail_smtpmode', 'smtp')
 			->will($this->returnValue('sendmail'));
 
-		$this->assertEquals(new \Swift_SendmailTransport('/usr/sbin/sendmail -bs'), self::invokePrivate($this->mailer, 'getSendMailInstance'));
+		$path = \OC_Helper::findBinaryPath('sendmail');
+		if ($path === null) {
+			$path = '/usr/sbin/sendmail';
+		}
+
+		$expected = new \Swift_SendmailTransport($path . ' -bs');
+		$this->assertEquals($expected, self::invokePrivate($this->mailer, 'getSendMailInstance'));
 	}
 
 	public function testGetSendMailInstanceSendMailQmail() {

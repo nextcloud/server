@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Versions\Sabre;
 
+use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 use Sabre\DAV\IMoveTarget;
@@ -31,14 +32,6 @@ use Sabre\DAV\INode;
 
 
 class RestoreFolder implements ICollection, IMoveTarget {
-
-	/** @var string */
-	protected $userId;
-
-	public function __construct(string $userId) {
-		$this->userId = $userId;
-	}
-
 	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
@@ -80,7 +73,8 @@ class RestoreFolder implements ICollection, IMoveTarget {
 			return false;
 		}
 
-		return $sourceNode->rollBack();
+		$sourceNode->rollBack();
+		return true;
 	}
 
 }

@@ -15,7 +15,13 @@
 
 #app-sidebar .mainFileInfoView .permalink {
 	padding: 6px 10px;
-	vertical-align: text-top;
+	vertical-align: top;
+	opacity: .6;
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+	}
 }
 #app-sidebar .mainFileInfoView .permalink-field>input {
 	clear: both;
@@ -87,7 +93,7 @@
 }
 
 #app-sidebar .fileName h3 {
-	width: calc(100% - 36px); /* 36px is the with of the copy link icon */
+	width: calc(100% - 42px); /* 36px is the with of the copy link icon, but this breaks so we add some more to be sure */
 	display: inline-block;
 	padding: 5px 0;
 	margin: -5px 0;

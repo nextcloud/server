@@ -162,6 +162,9 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getServerHost')
 			->willReturn('example.com');
+		$this->request
+			->method('getServerProtocol')
+			->willReturn('https');
 
 		$expected = new TemplateResponse(
 			'core',
@@ -172,7 +175,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'instanceName' => 'ExampleCloud',
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => 'StateToken',
-				'serverHost' => 'example.com',
+				'serverHost' => 'https://example.com',
 				'oauthState' => 'OauthStateToken',
 			],
 			'guest'
@@ -218,6 +221,9 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getServerHost')
 			->willReturn('example.com');
+		$this->request
+			->method('getServerProtocol')
+			->willReturn('https');
 
 		$expected = new TemplateResponse(
 			'core',
@@ -228,7 +234,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'instanceName' => 'ExampleCloud',
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => 'StateToken',
-				'serverHost' => 'example.com',
+				'serverHost' => 'https://example.com',
 				'oauthState' => 'OauthStateToken',
 			],
 			'guest'

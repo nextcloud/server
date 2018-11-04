@@ -56,7 +56,6 @@ return array(
     'OCA\\User_LDAP\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
     'OCA\\User_LDAP\\UserPluginManager' => $baseDir . '/../lib/UserPluginManager.php',
     'OCA\\User_LDAP\\User\\DeletedUsersIndex' => $baseDir . '/../lib/User/DeletedUsersIndex.php',
-    'OCA\\User_LDAP\\User\\IUserTools' => $baseDir . '/../lib/User/IUserTools.php',
     'OCA\\User_LDAP\\User\\Manager' => $baseDir . '/../lib/User/Manager.php',
     'OCA\\User_LDAP\\User\\OfflineUser' => $baseDir . '/../lib/User/OfflineUser.php',
     'OCA\\User_LDAP\\User\\User' => $baseDir . '/../lib/User/User.php',

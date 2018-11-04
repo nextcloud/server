@@ -28,11 +28,13 @@
 
 namespace OCA\User_LDAP\Tests\User;
 
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LogWrapper;
-use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\User\User;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -48,200 +50,181 @@ use OCP\Notification\IManager as INotificationManager;
  * @package OCA\User_LDAP\Tests\User
  */
 class ManagerTest extends \Test\TestCase {
+	/** @var Access|\PHPUnit_Framework_MockObject_MockObject */
+	protected $access;
 
-	private function getTestInstances() {
-		$access = $this->createMock(IUserTools::class);
-		$config = $this->createMock(IConfig::class);
-		$filesys = $this->createMock(FilesystemHelper::class);
-		$log = $this->createMock(LogWrapper::class);
-		$avaMgr = $this->createMock(IAvatarManager::class);
-		$image = $this->createMock(Image::class);
-		$dbc = $this->createMock(IDBConnection::class);
-		$userMgr = $this->createMock(IUserManager::class);
-		$notiMgr  = $this->createMock(INotificationManager::class);
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
 
-		$connection = new \OCA\User_LDAP\Connection(
-			$lw  = $this->createMock(ILDAPWrapper::class),
-			'',
-			null
+	/** @var FilesystemHelper|\PHPUnit_Framework_MockObject_MockObject */
+	protected $fileSystemHelper;
+
+	/** @var LogWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	protected $log;
+
+	/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $avatarManager;
+
+	/** @var Image|\PHPUnit_Framework_MockObject_MockObject */
+	protected $image;
+
+	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	protected $dbc;
+
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $ncUserManager;
+
+	/** @var INotificationManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $notificationManager;
+
+	/** @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	protected $ldapWrapper;
+
+	/** @var Connection */
+	protected $connection;
+
+	/** @var Manager */
+	protected $manager;
+
+	public function setUp() {
+		parent::setUp();
+
+		$this->access = $this->createMock(Access::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->fileSystemHelper = $this->createMock(FilesystemHelper::class);
+		$this->log = $this->createMock(LogWrapper::class);
+		$this->avatarManager = $this->createMock(IAvatarManager::class);
+		$this->image = $this->createMock(Image::class);
+		$this->dbc = $this->createMock(IDBConnection::class);
+		$this->ncUserManager = $this->createMock(IUserManager::class);
+		$this->notificationManager = $this->createMock(INotificationManager::class);
+
+		$this->ldapWrapper = $this->createMock(ILDAPWrapper::class);
+		$this->connection = new Connection($this->ldapWrapper, '', null);
+
+		$this->access->expects($this->any())
+			->method('getConnection')
+			->will($this->returnValue($this->connection));
+
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$this->manager = new Manager(
+			$this->config,
+			$this->fileSystemHelper,
+			$this->log,
+			$this->avatarManager,
+			$this->image,
+			$this->dbc,
+			$this->ncUserManager,
+			$this->notificationManager
 		);
 
-		$access->expects($this->any())
-			->method('getConnection')
-			->will($this->returnValue($connection));
-
-		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr);
+		$this->manager->setLdapAccess($this->access);
 	}
 
-	public function testGetByDNExisting() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
-			$this->getTestInstances();
+	public function dnProvider() {
+		return [
+			['cn=foo,dc=foobar,dc=bar'],
+			['uid=foo,o=foobar,c=bar'],
+			['ab=cde,f=ghei,mno=pq'],
+		];
+	}
 
-		$inputDN = 'cn=foo,dc=foobar,dc=bar';
+	/**
+	 * @dataProvider dnProvider
+	 */
+	public function testGetByDNExisting(string $inputDN) {
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
-		$access->expects($this->once())
+		$this->access->expects($this->once())
 			->method('stringResemblesDN')
 			->with($this->equalTo($inputDN))
 			->will($this->returnValue(true));
-
-		$access->expects($this->once())
+		$this->access->expects($this->once())
 			->method('dn2username')
 			->with($this->equalTo($inputDN))
 			->will($this->returnValue($uid));
-
-		$access->expects($this->never())
+		$this->access->expects($this->never())
 			->method('username2dn');
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr, $notiMgr);
-		$manager->setLdapAccess($access);
-		$user = $manager->get($inputDN);
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$this->manager->get($inputDN);
 
 		// Now we fetch the user again. If this leads to a failing test,
 		// runtime caching the manager is broken.
-		$user = $manager->get($inputDN);
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$user = $this->manager->get($inputDN);
 
-		$this->assertInstanceOf('\OCA\User_LDAP\User\User', $user);
-	}
-
-	public function testGetByEDirectoryDN() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
-			$this->getTestInstances();
-
-		$inputDN = 'uid=foo,o=foobar,c=bar';
-		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
-
-		$access->expects($this->once())
-			->method('stringResemblesDN')
-			->with($this->equalTo($inputDN))
-			->will($this->returnValue(true));
-
-		$access->expects($this->once())
-			->method('dn2username')
-			->with($this->equalTo($inputDN))
-			->will($this->returnValue($uid));
-
-		$access->expects($this->never())
-			->method('username2dn');
-
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr, $notiMgr);
-		$manager->setLdapAccess($access);
-		$user = $manager->get($inputDN);
-
-		$this->assertInstanceOf('\OCA\User_LDAP\User\User', $user);
-	}
-
-	public function testGetByExoticDN() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
-			$this->getTestInstances();
-
-		$inputDN = 'ab=cde,f=ghei,mno=pq';
-		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
-
-		$access->expects($this->once())
-			->method('stringResemblesDN')
-			->with($this->equalTo($inputDN))
-			->will($this->returnValue(true));
-
-		$access->expects($this->once())
-			->method('dn2username')
-			->with($this->equalTo($inputDN))
-			->will($this->returnValue($uid));
-
-		$access->expects($this->never())
-			->method('username2dn');
-
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr, $notiMgr);
-		$manager->setLdapAccess($access);
-		$user = $manager->get($inputDN);
-
-		$this->assertInstanceOf('\OCA\User_LDAP\User\User', $user);
+		$this->assertInstanceOf(User::class, $user);
 	}
 
 	public function testGetByDNNotExisting() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
-			$this->getTestInstances();
-
 		$inputDN = 'cn=gone,dc=foobar,dc=bar';
 
-		$access->expects($this->once())
+		$this->access->expects($this->once())
 			->method('stringResemblesDN')
 			->with($this->equalTo($inputDN))
 			->will($this->returnValue(true));
-
-		$access->expects($this->once())
+		$this->access->expects($this->once())
 			->method('dn2username')
 			->with($this->equalTo($inputDN))
 			->will($this->returnValue(false));
-
-		$access->expects($this->once())
+		$this->access->expects($this->once())
 			->method('username2dn')
 			->with($this->equalTo($inputDN))
 			->will($this->returnValue(false));
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr, $notiMgr);
-		$manager->setLdapAccess($access);
-		$user = $manager->get($inputDN);
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$user = $this->manager->get($inputDN);
 
 		$this->assertNull($user);
 	}
 
 	public function testGetByUidExisting() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
-			$this->getTestInstances();
-
 		$dn = 'cn=foo,dc=foobar,dc=bar';
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
-		$access->expects($this->never())
+		$this->access->expects($this->never())
 			->method('dn2username');
-
-		$access->expects($this->once())
+		$this->access->expects($this->once())
 			->method('username2dn')
 			->with($this->equalTo($uid))
 			->will($this->returnValue($dn));
-
-		$access->expects($this->once())
+		$this->access->expects($this->once())
 			->method('stringResemblesDN')
 			->with($this->equalTo($uid))
 			->will($this->returnValue(false));
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr, $notiMgr);
-		$manager->setLdapAccess($access);
-		$user = $manager->get($uid);
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$this->manager->get($uid);
 
 		// Now we fetch the user again. If this leads to a failing test,
 		// runtime caching the manager is broken.
-		$user = $manager->get($uid);
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$user = $this->manager->get($uid);
 
-		$this->assertInstanceOf('\OCA\User_LDAP\User\User', $user);
+		$this->assertInstanceOf(User::class, $user);
 	}
 
 	public function testGetByUidNotExisting() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
-			$this->getTestInstances();
-
 		$uid = 'gone';
 
-		$access->expects($this->never())
+		$this->access->expects($this->never())
 			->method('dn2username');
-
-		$access->expects($this->exactly(1))
+		$this->access->expects($this->exactly(1))
 			->method('username2dn')
 			->with($this->equalTo($uid))
 			->will($this->returnValue(false));
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr, $notiMgr);
-		$manager->setLdapAccess($access);
-		$user = $manager->get($uid);
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$user = $this->manager->get($uid);
 
 		$this->assertNull($user);
 	}
 
 	public function attributeRequestProvider() {
 		return [
-			[ false ],
-			[ true ],
+			[false],
+			[true],
 		];
 	}
 
@@ -249,23 +232,16 @@ class ManagerTest extends \Test\TestCase {
 	 * @dataProvider attributeRequestProvider
 	 */
 	public function testGetAttributes($minimal) {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr, $notiMgr) =
-			$this->getTestInstances();
-
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr, $notiMgr);
-		$manager->setLdapAccess($access);
-
-		$connection = $access->getConnection();
-		$connection->setConfiguration([
+		$this->connection->setConfiguration([
 			'ldapEmailAttribute' => 'mail',
 			'ldapUserAvatarRule' => 'default',
 			'ldapQuotaAttribute' => '',
 		]);
 
-		$attributes = $manager->getAttributes($minimal);
+		$attributes = $this->manager->getAttributes($minimal);
 
 		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array($access->getConnection()->ldapEmailAttribute, $attributes));
+		$this->assertTrue(in_array($this->access->getConnection()->ldapEmailAttribute, $attributes));
 		$this->assertFalse(in_array('', $attributes));
 		$this->assertSame(!$minimal, in_array('jpegphoto', $attributes));
 		$this->assertSame(!$minimal, in_array('thumbnailphoto', $attributes));

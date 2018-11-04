@@ -23,4 +23,11 @@ return array(
     'OCA\\Files_Versions\\Sabre\\VersionHome' => $baseDir . '/../lib/Sabre/VersionHome.php',
     'OCA\\Files_Versions\\Sabre\\VersionRoot' => $baseDir . '/../lib/Sabre/VersionRoot.php',
     'OCA\\Files_Versions\\Storage' => $baseDir . '/../lib/Storage.php',
+    'OCA\\Files_Versions\\Versions\\BackendNotFoundException' => $baseDir . '/../lib/Versions/BackendNotFoundException.php',
+    'OCA\\Files_Versions\\Versions\\IVersion' => $baseDir . '/../lib/Versions/IVersion.php',
+    'OCA\\Files_Versions\\Versions\\IVersionBackend' => $baseDir . '/../lib/Versions/IVersionBackend.php',
+    'OCA\\Files_Versions\\Versions\\IVersionManager' => $baseDir . '/../lib/Versions/IVersionManager.php',
+    'OCA\\Files_Versions\\Versions\\LegacyVersionsBackend' => $baseDir . '/../lib/Versions/LegacyVersionsBackend.php',
+    'OCA\\Files_Versions\\Versions\\Version' => $baseDir . '/../lib/Versions/Version.php',
+    'OCA\\Files_Versions\\Versions\\VersionManager' => $baseDir . '/../lib/Versions/VersionManager.php',
 );

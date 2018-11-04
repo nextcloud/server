@@ -38,6 +38,10 @@
 			return t('files_versions', 'Versions');
 		},
 
+		getIcon: function() {
+			return 'icon-history';
+		},
+
 		nextPage: function() {
 			if (this._loading) {
 				return;

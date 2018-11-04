@@ -185,12 +185,13 @@ EOF;
 </table>
 EOF;
 
+  // note: listBegin (like bodyBegin) is not processed through sprintf, so "%" is not escaped as "%%". (bug #12151)
 	protected $listBegin = <<<EOF
-<table class="row description" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
+<table class="row description" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 	<tbody>
 	<tr style="padding:0;text-align:left;vertical-align:top">
 		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:Lucida Grande,Geneva,Verdana,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
-			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 EOF;
 
 	protected $listItem = <<<EOF

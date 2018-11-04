@@ -218,6 +218,10 @@ Feature: app-files
     When I protect the shared link with the password "abcdef"
     Then I see that the working icon for password protect is shown
     And I see that the working icon for password protect is eventually not shown
+    And I see that the link share is password protected
+    # As Talk is not enabled in the acceptance tests of the server the checkbox
+    # is never shown.
+    And I see that the checkbox to protect the password of the link share by Talk is not shown
 
   Scenario: access a shared link protected by password with a valid password
     Given I act as John

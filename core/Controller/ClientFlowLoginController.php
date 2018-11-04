@@ -197,7 +197,7 @@ class ClientFlowLoginController extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
-				'serverHost' => $this->request->getServerHost(),
+				'serverHost' => $this->getServerPath(),
 				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'guest'
@@ -235,7 +235,7 @@ class ClientFlowLoginController extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
-				'serverHost' => $this->request->getServerHost(),
+				'serverHost' => $this->getServerPath(),
 				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'guest'
@@ -345,32 +345,34 @@ class ClientFlowLoginController extends Controller {
 			);
 			$this->session->remove('oauth.state');
 		} else {
-			$serverPostfix = '';
-
-			if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
-				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-			} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
-				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
-			}
-
-			$protocol = $this->request->getServerProtocol();
-
-			if ($protocol !== "https") {
-				$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
-				$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
-				if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
-					$protocol = 'https';
-				}
-			}
-
-
-			$serverPath = $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
-			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
+			$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
 
 			// Clear the token from the login here
 			$this->tokenProvider->invalidateToken($sessionId);
 		}
 
 		return new Http\RedirectResponse($redirectUri);
+	}
+
+	private function getServerPath(): string {
+		$serverPostfix = '';
+
+		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
+		} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
+			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
+		}
+
+		$protocol = $this->request->getServerProtocol();
+
+		if ($protocol !== "https") {
+			$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
+			$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
+			if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
+				$protocol = 'https';
+			}
+		}
+
+		return $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
 	}
 }

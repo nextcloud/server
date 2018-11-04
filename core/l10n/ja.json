@@ -101,6 +101,7 @@
     "Pending" : "保留中",
     "Copy to {folder}" : "{folder}へコピー",
     "Move to {folder}" : "{folder}へ移動",
+    "View changelog" : "変更履歴を確認する",
     "Very weak password" : "非常に弱いパスワード",
     "Weak password" : "弱いパスワード",
     "So-so password" : "まずまずのパスワード",
@@ -130,7 +131,9 @@
     "Set expiration date" : "有効期限を設定",
     "Expiration" : "期限切れ",
     "Expiration date" : "有効期限",
+    "Unshare" : "共有解除",
     "Share link" : "URLで共有",
+    "Could not unshare" : "共有の解除ができませんでした",
     "Shared with you and the group {group} by {owner}" : "あなたと {owner} のグループ {group} で共有中",
     "Shared with you by {owner}" : "{owner} より共有中",
     "Choose a password for the mail share" : "メール共有のパスワードを選択",
@@ -138,14 +141,12 @@
     "remote" : "リモート",
     "email" : "メール",
     "shared by {sharer}" : "共有した人 {sharer}",
-    "Unshare" : "共有解除",
     "Can reshare" : "再共有可能",
     "Can edit" : "編集可能",
     "Can create" : "作成可能",
     "Can change" : "変更可能",
     "Can delete" : "削除可能",
     "Access control" : "アクセス制御",
-    "Could not unshare" : "共有の解除ができませんでした",
     "Error while sharing" : "共有でエラーが発生しました",
     "Share details could not be loaded for this item." : "共有の詳細はこのアイテムによりロードできませんでした。",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["オートコンプリートには{count}文字以上必要です"],
@@ -295,6 +296,7 @@
     "Thank you for your patience." : "しばらくお待ちください。",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "\"Strict-Transport-Security\" HTTPヘッダが、最低でも \"{seconds}\" 秒に設定されていません。セキュリティを強化するには、<a href=\"{docUrl}\" rel=\"noreferrer noopener\">セキュリティTips</a>で解説しているHSTSを有効にすることを推奨します。",
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips</a>で述べているように、代わりにHTTPSを必要とするようサーバーを設定することを強くおすすめします。",
-    "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可"
+    "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可",
+    "Copy URL" : "URL をコピー"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

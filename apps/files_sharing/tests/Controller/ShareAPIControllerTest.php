@@ -253,7 +253,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function createShare($id, $shareType, $sharedWith, $sharedBy, $shareOwner, $path, $permissions,
 								$shareTime, $expiration, $parent, $target, $mail_send, $note = '', $token=null,
-								$password=null) {
+								$password=null, $label = '') {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getId')->willReturn($id);
 		$share->method('getShareType')->willReturn($shareType);
@@ -263,6 +263,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getNode')->willReturn($path);
 		$share->method('getPermissions')->willReturn($permissions);
 		$share->method('getNote')->willReturn($note);
+		$share->method('getLabel')->willReturn($label);
 		$time = new \DateTime();
 		$time->setTimestamp($shareTime);
 		$share->method('getShareTime')->willReturn($time);
@@ -351,6 +352,7 @@ class ShareAPIControllerTest extends TestCase {
 			'mail_send' => 0,
 			'uid_file_owner' => 'ownerId',
 			'note' => 'personal note',
+			'label' => '',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myMimeType',
 			'hide_download' => 0,
@@ -396,6 +398,7 @@ class ShareAPIControllerTest extends TestCase {
 			'mail_send' => 0,
 			'uid_file_owner' => 'ownerId',
 			'note' => 'personal note',
+			'label' => '',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myFolderMimeType',
 			'hide_download' => 0,
@@ -419,13 +422,15 @@ class ShareAPIControllerTest extends TestCase {
 			0,
 			'personal note',
 			'token',
-			'password'
+			'password',
+			'first link share'
 		);
 		$expected = [
 			'id' => 101,
 			'share_type' => \OCP\Share::SHARE_TYPE_LINK,
 			'share_with' => 'password',
 			'share_with_displayname' => 'password',
+			'send_password_by_talk' => false,
 			'uid_owner' => 'initiatorId',
 			'displayname_owner' => 'initiatorDisplay',
 			'item_type' => 'folder',
@@ -445,6 +450,7 @@ class ShareAPIControllerTest extends TestCase {
 			'url' => 'url',
 			'uid_file_owner' => 'ownerId',
 			'note' => 'personal note',
+			'label' => 'first link share',
 			'displayname_file_owner' => 'ownerDisplay',
 			'mimetype' => 'myFolderMimeType',
 			'hide_download' => 0,
@@ -1130,6 +1136,71 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
+	public function testCreateShareLinkSendPasswordByTalk() {
+		$ocs = $this->mockFormatShare();
+
+		$path = $this->getMockBuilder(Folder::class)->getMock();
+		$storage = $this->getMockBuilder(Storage::class)->getMock();
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
+		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->will($this->returnSelf());
+		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+
+		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
+		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$this->appManager->method('isEnabledForUser')->with('spreed')->willReturn(true);
+
+		$this->shareManager->expects($this->once())->method('createShare')->with(
+			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
+				return $share->getNode() === $path &&
+				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
+				$share->getSharedBy() === 'currentUser' &&
+				$share->getPassword() === 'password' &&
+				$share->getSendPasswordByTalk() === true &&
+				$share->getExpirationDate() === null;
+			})
+		)->will($this->returnArgument(0));
+
+		$expected = new DataResponse([]);
+		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', 'password', 'true', '');
+
+		$this->assertInstanceOf(get_class($expected), $result);
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSForbiddenException
+	 * @expectedExceptionMessage Sharing valid-path sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled
+     */
+	public function testCreateShareLinkSendPasswordByTalkWithTalkDisabled() {
+		$ocs = $this->mockFormatShare();
+
+		$path = $this->getMockBuilder(Folder::class)->getMock();
+		$storage = $this->getMockBuilder(Storage::class)->getMock();
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
+		$path->method('getPath')->willReturn('valid-path');
+		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->will($this->returnSelf());
+		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+
+		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
+		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$this->appManager->method('isEnabledForUser')->with('spreed')->willReturn(false);
+
+		$this->shareManager->expects($this->never())->method('createShare');
+
+		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', 'password', 'true', '');
+	}
+
 	public function testCreateShareValidExpireDate() {
 		$ocs = $this->mockFormatShare();
 
@@ -1507,6 +1578,9 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate(new \DateTime())
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($node);
 
@@ -1520,7 +1594,12 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
 				$share->getPassword() === null &&
-				$share->getExpirationDate() === null;
+				$share->getExpirationDate() === null &&
+				// Once set a note or a label are never back to null, only to an
+				// empty string.
+				$share->getNote() === '' &&
+				$share->getLabel() === '' &&
+				$share->getHideDownload() === false;
 			})
 		)->will($this->returnArgument(0));
 
@@ -1528,7 +1607,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, '', null, 'false', '');
+		$result = $ocs->updateShare(42, null, '', null, 'false', '', '', '', 'false');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1555,7 +1634,10 @@ class ShareAPIControllerTest extends TestCase {
 
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() == $date;
+				$share->getExpirationDate() == $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
@@ -1563,7 +1645,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, 'password', null, 'true', '2000-01-01');
+		$result = $ocs->updateShare(42, null, 'password', null, 'true', '2000-01-01', 'note', 'label', 'true');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1695,7 +1777,11 @@ class ShareAPIControllerTest extends TestCase {
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
+			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($node);
 
@@ -1709,12 +1795,194 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getPassword() === 'newpassword' &&
-				$share->getExpirationDate() === $date;
+				$share->getSendPasswordByTalk() === true &&
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, 'newpassword', null, null, null);
+		$result = $ocs->updateShare(42, null, 'newpassword', null, null, null, null, null, null);
+
+		$this->assertInstanceOf(get_class($expected), $result);
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateLinkShareSendPasswordByTalkDoesNotChangeOther() {
+		$ocs = $this->mockFormatShare();
+
+		$date = new \DateTime('2000-01-01');
+		$date->setTime(0,0,0);
+
+		$node = $this->getMockBuilder(File::class)->getMock();
+		$share = $this->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPassword('password')
+			->setSendPasswordByTalk(false)
+			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setNode($node);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->appManager->method('isEnabledForUser')->with('spreed')->willReturn(true);
+
+		$this->shareManager->expects($this->once())->method('updateShare')->with(
+			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
+				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
+				$share->getPassword() === 'password' &&
+				$share->getSendPasswordByTalk() === true &&
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
+			})
+		)->will($this->returnArgument(0));
+
+		$expected = new DataResponse([]);
+		$result = $ocs->updateShare(42, null, null, 'true', null, null, null, null, null);
+
+		$this->assertInstanceOf(get_class($expected), $result);
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSForbiddenException
+	 * @expectedExceptionMessage Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled
+     */
+	public function testUpdateLinkShareSendPasswordByTalkWithTalkDisabledDoesNotChangeOther() {
+		$ocs = $this->mockFormatShare();
+
+		$date = new \DateTime('2000-01-01');
+		$date->setTime(0,0,0);
+
+		$node = $this->getMockBuilder(File::class)->getMock();
+		$share = $this->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPassword('password')
+			->setSendPasswordByTalk(false)
+			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setNode($node);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->appManager->method('isEnabledForUser')->with('spreed')->willReturn(false);
+
+		$this->shareManager->expects($this->never())->method('updateShare');
+
+		$ocs->updateShare(42, null, null, 'true', null, null, null, null, null);
+	}
+
+	public function testUpdateLinkShareDoNotSendPasswordByTalkDoesNotChangeOther() {
+		$ocs = $this->mockFormatShare();
+
+		$date = new \DateTime('2000-01-01');
+		$date->setTime(0,0,0);
+
+		$node = $this->getMockBuilder(File::class)->getMock();
+		$share = $this->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPassword('password')
+			->setSendPasswordByTalk(true)
+			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setNode($node);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->appManager->method('isEnabledForUser')->with('spreed')->willReturn(true);
+
+		$this->shareManager->expects($this->once())->method('updateShare')->with(
+			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
+				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
+				$share->getPassword() === 'password' &&
+				$share->getSendPasswordByTalk() === false &&
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
+			})
+		)->will($this->returnArgument(0));
+
+		$expected = new DataResponse([]);
+		$result = $ocs->updateShare(42, null, null, 'false', null, null, null, null, null);
+
+		$this->assertInstanceOf(get_class($expected), $result);
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateLinkShareDoNotSendPasswordByTalkWithTalkDisabledDoesNotChangeOther() {
+		$ocs = $this->mockFormatShare();
+
+		$date = new \DateTime('2000-01-01');
+		$date->setTime(0,0,0);
+
+		$node = $this->getMockBuilder(File::class)->getMock();
+		$share = $this->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPassword('password')
+			->setSendPasswordByTalk(true)
+			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setNode($node);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->appManager->method('isEnabledForUser')->with('spreed')->willReturn(false);
+
+		$this->shareManager->expects($this->once())->method('updateShare')->with(
+			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
+				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
+				$share->getPassword() === 'password' &&
+				$share->getSendPasswordByTalk() === false &&
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
+			})
+		)->will($this->returnArgument(0));
+
+		$expected = new DataResponse([]);
+		$result = $ocs->updateShare(42, null, null, 'false', null, null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1729,7 +1997,11 @@ class ShareAPIControllerTest extends TestCase {
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
+			->setSendPasswordByTalk(true)
 			->setExpirationDate(new \DateTime())
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($node);
 
@@ -1746,12 +2018,16 @@ class ShareAPIControllerTest extends TestCase {
 
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() == $date;
+				$share->getSendPasswordByTalk() === true &&
+				$share->getExpirationDate() == $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, null, null, null, '2010-12-23');
+		$result = $ocs->updateShare(42, null, null, null, null, '2010-12-23', null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1769,7 +2045,11 @@ class ShareAPIControllerTest extends TestCase {
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
+			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($folder);
 
@@ -1780,7 +2060,11 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() === $date;
+				$share->getSendPasswordByTalk() === true &&
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
@@ -1788,7 +2072,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, null, null, null, 'true', null);
+		$result = $ocs->updateShare(42, null, null, null, 'true', null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1806,7 +2090,11 @@ class ShareAPIControllerTest extends TestCase {
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
+			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setNode($folder);
 
@@ -1817,14 +2105,18 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() === $date;
+				$share->getSendPasswordByTalk() === true &&
+				$share->getExpirationDate() === $date &&
+				$share->getNote() === 'note' &&
+				$share->getLabel() === 'label' &&
+				$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, 7, null, null, null, null);
+		$result = $ocs->updateShare(42, 7, null, null, null, null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1842,7 +2134,11 @@ class ShareAPIControllerTest extends TestCase {
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
+			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
+			->setNote('note')
+			->setLabel('label')
+			->setHideDownload(true)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($folder);
 
@@ -1853,14 +2149,18 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 					$share->getPassword() === 'password' &&
-					$share->getExpirationDate() === $date;
+					$share->getSendPasswordByTalk() === true &&
+					$share->getExpirationDate() === $date &&
+					$share->getNote() === 'note' &&
+					$share->getLabel() === 'label' &&
+					$share->getHideDownload() === true;
 			})
 		)->will($this->returnArgument(0));
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, 31, null, null, null, null);
+		$result = $ocs->updateShare(42, 31, null, null, null, null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2176,6 +2476,7 @@ class ShareAPIControllerTest extends TestCase {
 				'share_with' => 'recipient',
 				'share_with_displayname' => 'recipient',
 				'note' => 'personal note',
+				'label' => null,
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
 				'hide_download' => 0,
@@ -2196,6 +2497,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'ownerDN',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2242,6 +2544,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2286,6 +2589,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2328,6 +2632,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2356,6 +2661,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setExpirationDate(new \DateTime('2001-01-02T00:00:00'))
 			->setToken('myToken')
 			->setNote('personal note')
+			->setLabel('new link share')
 			->setId(42);
 
 		$result[] = [
@@ -2372,6 +2678,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => 'new link share',
 				'path' => 'file',
 				'item_type' => 'file',
 				'storage_id' => 'storageId',
@@ -2382,6 +2689,56 @@ class ShareAPIControllerTest extends TestCase {
 				'file_target' => 'myTarget',
 				'share_with' => 'mypassword',
 				'share_with_displayname' => 'mypassword',
+				'send_password_by_talk' => false,
+				'mail_send' => 0,
+				'url' => 'myLink',
+				'mimetype' => 'myMimeType',
+				'hide_download' => 0,
+			], $share, [], false
+		];
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setPassword('mypassword')
+			->setSendPasswordByTalk(true)
+			->setExpirationDate(new \DateTime('2001-01-02T00:00:00'))
+			->setToken('myToken')
+			->setNote('personal note')
+			->setLabel('new link share')
+			->setId(42);
+
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_LINK,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => '2001-01-02 00:00:00',
+				'token' => 'myToken',
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'note' => 'personal note',
+				'label' => 'new link share',
+				'path' => 'file',
+				'item_type' => 'file',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 3,
+				'file_source' => 3,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'mypassword',
+				'share_with_displayname' => 'mypassword',
+				'send_password_by_talk' => true,
 				'mail_send' => 0,
 				'url' => 'myLink',
 				'mimetype' => 'myMimeType',
@@ -2415,6 +2772,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => 'personal note',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2459,6 +2817,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2502,6 +2861,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2545,6 +2905,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2603,6 +2964,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2648,6 +3010,7 @@ class ShareAPIControllerTest extends TestCase {
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
 				'note' => '',
+				'label' => null,
 				'path' => 'folder',
 				'item_type' => 'folder',
 				'storage_id' => 'storageId',
@@ -2803,6 +3166,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
 				'hide_download' => 0,
+				'label' => '',
 			], $share, false, []
 		];
 
@@ -2845,6 +3209,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myMimeType',
 				'hide_download' => 0,
+				'label' => '',
 			], $share, true, [
 				'share_with_displayname' => 'recipientRoomName'
 			]
