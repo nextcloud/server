@@ -90,10 +90,35 @@ class Adapter {
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {
-		if (empty($compare)) {
+        if (empty($compare)) {
 			$compare = array_keys($input);
-		}
-		$query = 'INSERT INTO `' .$table . '` (`'
+		};
+
+        //Search for given compare-fields
+		$query_select = 'SELECT * FROM `' . $table . '` WHERE 1=1';
+		foreach($compare as $key) {
+		    $query_select .= ' AND `' . $key . '`';
+		    if (is_null($input[$key])) {
+		        $query_select .= ' IS NULL';
+		    } else {
+		        $query_select .= ' = "' . $input[$key] .'"';
+		    };
+		};
+//		$query_select .= ' HAVING COUNT(*) = 0'; //whats better - use or dont use?
+		$rows = $this->conn->ExecuteQuery($query_select);
+		if ( is_null($rows) ) {
+		    return 0; //Data already there
+		};
+
+		//Do update
+		$query_insert = 'INSERT INTO `' .$table . '` (`'
+		  . implode('`,`', array_keys($input))
+		  . '`) VALUES ("'
+		  . implode('","', array_values($input))
+		  . '")';
+		return $this->conn->executeUpdate($query_insert);
+		
+/*		$query = 'INSERT INTO `' .$table . '` (`'
 			. implode('`,`', array_keys($input)) . '`) SELECT '
 			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
 			. 'FROM `' . $table . '` WHERE ';
@@ -110,7 +135,7 @@ class Adapter {
 		}
 		$query = substr($query, 0, -5);
 		$query .= ' HAVING COUNT(*) = 0';
-
-		return $this->conn->executeUpdate($query, $inserts);
+		return $this->conn->executeUpdate($query, $inserts);	
+*/
 	}
 }
