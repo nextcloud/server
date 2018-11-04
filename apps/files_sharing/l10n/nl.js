@@ -110,7 +110,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Name" : "Naam",
     "Share time" : "Deel tijd",
-    "Expiration date" : "Vervaldatm",
+    "Expiration date" : "Vervaldatum",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
     "Reasons might be:" : "Redenen kunnen zijn:",
     "the item was removed" : "bestand was verwijderd",

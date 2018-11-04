@@ -103,6 +103,7 @@ OC.L10N.register(
     "Pending" : "保留中",
     "Copy to {folder}" : "{folder}へコピー",
     "Move to {folder}" : "{folder}へ移動",
+    "View changelog" : "変更履歴を確認する",
     "Very weak password" : "非常に弱いパスワード",
     "Weak password" : "弱いパスワード",
     "So-so password" : "まずまずのパスワード",
@@ -297,6 +298,7 @@ OC.L10N.register(
     "Thank you for your patience." : "しばらくお待ちください。",
     "The \"Strict-Transport-Security\" HTTP header is not set to at least \"{seconds}\" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href=\"{docUrl}\" rel=\"noreferrer noopener\">security tips</a>." : "\"Strict-Transport-Security\" HTTPヘッダが、最低でも \"{seconds}\" 秒に設定されていません。セキュリティを強化するには、<a href=\"{docUrl}\" rel=\"noreferrer noopener\">セキュリティTips</a>で解説しているHSTSを有効にすることを推奨します。",
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips</a>で述べているように、代わりにHTTPSを必要とするようサーバーを設定することを強くおすすめします。",
-    "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可"
+    "You are about to grant %s access to your %s account." : "%s アカウントに あなたのアカウント %s へのアクセスを許可",
+    "Copy URL" : "URL をコピー"
 },
 "nplurals=1; plural=0;");
