@@ -91,7 +91,7 @@ style('theming', 'settings-admin');
 		<div id="theming-preview-logo"></div>
 	</div>
 
-	<h2 class="inlineblock"><?php p($l->t('Advanced options')); ?></h2>
+	<h3 class="inlineblock"><?php p($l->t('Advanced options')); ?></h3>
 
 	<div class="advanced-options">
 		<div>
