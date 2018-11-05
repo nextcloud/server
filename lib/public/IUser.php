@@ -109,6 +109,13 @@ interface IUser {
 	public function getBackendClassName();
 
 	/**
+	 * Get the backend for the current user object
+	 *
+	 * @since 15.0.0
+	 */
+	public function getBackend();
+
+	/**
 	 * check if the backend allows the user to change his avatar on Personal page
 	 *
 	 * @return bool

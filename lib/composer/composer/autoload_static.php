@@ -421,6 +421,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\User\\Backend\\ICreateUserBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ICreateUserBackend.php',
         'OCP\\User\\Backend\\IGetDisplayNameBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IGetDisplayNameBackend.php',
         'OCP\\User\\Backend\\IGetHomeBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IGetHomeBackend.php',
+        'OCP\\User\\Backend\\IPasswordConfirmationBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IPasswordConfirmationBackend.php',
         'OCP\\User\\Backend\\IProvideAvatarBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IProvideAvatarBackend.php',
         'OCP\\User\\Backend\\ISetDisplayNameBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ISetDisplayNameBackend.php',
         'OCP\\User\\Backend\\ISetPasswordBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ISetPasswordBackend.php',
