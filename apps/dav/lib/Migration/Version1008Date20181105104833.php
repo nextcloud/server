@@ -20,18 +20,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 declare(strict_types=1);
 
 namespace OCA\DAV\Migration;
 
 use Closure;
-
-use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
-class Version1007Date20181007225117 extends SimpleMigrationStep {
+class Version1008Date20181105104833 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -42,12 +41,8 @@ class Version1007Date20181007225117 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-
 		$table = $schema->getTable('calendarsubscriptions');
-		$column = $table->getColumn('source');
-
-		$column->setType(Type::getType(Type::TEXT));
-		$column->setLength(null);
+		$table->dropColumn('source');
 
 		return $schema;
 	}
