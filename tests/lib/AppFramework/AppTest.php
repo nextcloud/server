@@ -25,6 +25,8 @@
 namespace Test\AppFramework;
 
 use OC\AppFramework\App;
+use OC\AppFramework\Http\Dispatcher;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 
@@ -60,16 +62,9 @@ class AppTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test', array());
-		$this->controller = $this->getMockBuilder(
-			'OCP\AppFramework\Controller')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->dispatcher = $this->getMockBuilder(
-			'OC\AppFramework\Http\Dispatcher')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->io = $this->getMockBuilder('OCP\\AppFramework\\Http\\IOutput')->getMock();
+		$this->controller = $this->createMock(Controller::class);
+		$this->dispatcher = $this->createMock(Dispatcher::class);
+		$this->io = $this->createMock(Http\IOutput::class);
 
 		$this->headers = array('key' => 'value');
 		$this->output = 'hi';

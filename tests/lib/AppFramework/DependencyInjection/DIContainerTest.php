@@ -40,7 +40,6 @@ class DIContainerTest extends \Test\TestCase {
 
 	/** @var DIContainer|\PHPUnit_Framework_MockObject_MockObject */
 	private $container;
-	private $api;
 
 	protected function setUp(){
 		parent::setUp();
@@ -78,12 +77,8 @@ class DIContainerTest extends \Test\TestCase {
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(){
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
-			$this->getMockBuilder(ISecureRandom::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
 		$security = $this->container['SecurityMiddleware'];
 		$dispatcher = $this->container['MiddlewareDispatcher'];

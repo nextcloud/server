@@ -176,5 +176,4 @@ class SimpleContainer extends Container implements IContainer {
 		}
 		return $name;
 	}
-
 }
