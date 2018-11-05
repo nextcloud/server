@@ -6,6 +6,7 @@ OC.L10N.register(
     "No server to federate with found" : "Nem található egyesíthető szerver",
     "Could not add server" : "Nem lehet hozzáadni a szervert",
     "Federation" : "Egyesítés",
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Az egyesítés lehetővé teszi a kapcsolódást más megbízható szerverekhez a felhasználói könyvtárak kicseréléséhez.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Az egyesítés lehetővé teszi a kapcsolódást más megbízható szerverekhez a felhasználói könyvtárak kicseréléséhez. Például ennek segítségével lesznek automatikusan kiegészítve a külső felhasználók az egyesített megosztáshoz.",
     "Trusted servers" : "Megbízható szerverek",
     "Add server automatically once a federated share was created successfully" : "Szerver automatikus hozzáadása, ha az egyesített megosztás létrehozása sikeres",

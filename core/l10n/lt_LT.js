@@ -133,7 +133,7 @@ OC.L10N.register(
     "Set expiration date" : "Nustatykite veikimo pabaigos datą",
     "Expiration" : "Veikimo pabaiga",
     "Expiration date" : "Veikimo pabaigos data",
-    "Unshare" : "Nebesidalinti",
+    "Unshare" : "Nustoti bendrinti",
     "Could not unshare" : "Nepavyko nustoti bendrinti",
     "Shared with you and the group {group} by {owner}" : "{owner} pasidalino su Jumis ir {group} grupe",
     "Shared with you by {owner}" : "{owner} pasidalino su Jumis ",
