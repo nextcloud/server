@@ -112,24 +112,24 @@ class Adapter {
         if ($data === null) {
             $data = false;
         }
-        if (!$data) {
-            return 1; //Data already there, shouldn't this be 0? But 0 causese files:scan to complain about locks
+        if ($data) {
+            return 0; //Data already there, only empty result returned
         };
 
         //Do update
+        $inserts = array_values($input);
         $query_insert = 'INSERT INTO `' .$table . '` (`'
-            . implode('`,`', array_keys($input))
-            . '`) VALUES ("'
-            . implode('","', array_values($input))
-            . '")';
-        return $this->conn->executeUpdate($query_insert);
+        . implode('`,`', array_keys($input))
+        . '`) VALUES ('
+        . str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
+        . ')';
+        return $this->conn->executeUpdate($query_insert, $inserts);
 
 /*		$query = 'INSERT INTO `' .$table . '` (`'
 			. implode('`,`', array_keys($input)) . '`) SELECT '
 			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
 			. 'FROM `' . $table . '` WHERE ';
 
-		$inserts = array_values($input);
 		foreach($compare as $key) {
 			$query .= '`' . $key . '`';
 			if (is_null($input[$key])) {
