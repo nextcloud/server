@@ -24,7 +24,7 @@
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 
-script('settings', 'settings-admin-security');
+script('settings', 'vue-settings-admin-security');
 
 ?>
 

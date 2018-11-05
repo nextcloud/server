@@ -17,7 +17,7 @@ pipeline:
   vue-build-settings:
     image: node
     commands:
-     - ./build/vue-builds.sh ./settings/js/settings-vue.js
+     - ./build/vue-builds.sh ./settings/js
     when:
       matrix:
         TESTS: vue-build-settings
