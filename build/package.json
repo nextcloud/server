@@ -23,7 +23,7 @@
     "karma-junit-reporter": "^1.2.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-viewport": "^1.0.2",
-    "node-sass": "~4.9.4",
+    "node-sass": "~4.10.0",
     "phantomjs-prebuilt": "*",
     "sinon": "<= 5.0.7"
   },
