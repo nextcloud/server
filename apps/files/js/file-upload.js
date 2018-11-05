@@ -409,6 +409,13 @@ OC.Uploader.prototype = _.extend({
 	_pendingUploadDoneCount: 0,
 
 	/**
+	 * Is it currently uploading?
+	 *
+	 * @type boolean
+	 */
+	_uploading: false,
+
+	/**
 	 * List of directories known to exist.
 	 *
 	 * Key is the fullpath and value is boolean, true meaning that the directory
@@ -542,6 +549,12 @@ OC.Uploader.prototype = _.extend({
 			self._uploads[upload.data.uploadId] = upload;
 			upload.submit();
 		});
+	},
+
+	confirmBeforeUnload: function() {
+		if (this._uploading) {
+			return t('files', 'This will stop your current uploads.')
+		}
 	},
 
 	/**
@@ -681,8 +694,8 @@ OC.Uploader.prototype = _.extend({
 		// resubmit upload
 		this.submitUploads([upload]);
 	},
-	_trace:false, //TODO implement log handler for JS per class?
-	log:function(caption, e, data) {
+	_trace: false, //TODO implement log handler for JS per class?
+	log: function(caption, e, data) {
 		if (this._trace) {
 			console.log(caption);
 			console.log(data);
@@ -990,6 +1003,7 @@ OC.Uploader.prototype = _.extend({
 					self.log('start', e, null);
 					//hide the tooltip otherwise it covers the progress bar
 					$('#upload').tooltip('hide');
+					self._uploading = true;
 				},
 				fail: function(e, data) {
 					var upload = self.getUpload(data);
@@ -1016,10 +1030,12 @@ OC.Uploader.prototype = _.extend({
 						self.cancelUploads();
 					} else {
 						// HTTP connection problem or other error
-						var message = '';
+						var message = t('files', 'An unknown error has occurred');
 						if (upload) {
 							var response = upload.getResponse();
-							message = response.message;
+							if (response) {
+								message = response.message;
+							}
 						}
 						OC.Notification.show(message || data.errorThrown, {type: 'error'});
 					}
@@ -1055,6 +1071,7 @@ OC.Uploader.prototype = _.extend({
 				 */
 				stop: function(e, data) {
 					self.log('stop', e, data);
+					self._uploading = false;
 				}
 			};
 
@@ -1263,7 +1280,9 @@ OC.Uploader.prototype = _.extend({
 						return false;
 					}
 				});
-
+			}
+			window.onbeforeunload = function() {
+				return self.confirmBeforeUnload();
 			}
 		}
 
