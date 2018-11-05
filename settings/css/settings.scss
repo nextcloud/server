@@ -424,11 +424,22 @@ table.nostyle {
 		}
 	}
 	.token-list td {
+		border-top: 1px solid var(--color-border);
+		max-width: 200px;
+		white-space: normal;
+		vertical-align: middle;
+		position: relative;
+
 		&%icon {
 			overflow: visible;
 			position: relative;
 			width: 16px;
 		}
+
+		&.token-name {
+			padding: 10px 0;
+		}
+
 		&.more {
 			@extend %icon;
 		}
@@ -441,20 +452,13 @@ table.nostyle {
 				height: 44px;
 			}
 		}
-		border-top: 1px solid var(--color-border);
-		text-overflow: ellipsis;
-		max-width: 200px;
-		white-space: nowrap;
-		overflow: hidden;
-		vertical-align: middle;
-		position: relative;
 	}
 	tr > *:nth-child(3) {
 		text-align: right;
 	}
 	.token-list {
 		td > a.icon-more {
-			transition: opacity 0.5s;
+			transition: opacity var(--animation-quick);
 		}
 		a.icon-more {
 			padding: 14px;
@@ -465,8 +469,9 @@ table.nostyle {
 		}
 		tr {
 			&:hover td > a.icon,
+			td > a.icon:focus,
 			&.active td > a.icon {
-				opacity: 0.7;
+				opacity: 1;
 			}
 		}
 	}

@@ -2,25 +2,25 @@
 	<td class="client">
 	    <div class="{{icon}}" />
 	</td>
-	<td class="has-tooltip" title="{{title}}">
-		<span class="token-name">{{name}}</span>
+	<td class="token-name">
+		{{name}}
 	</td>
 	<td>
 		<span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>
 	<td class="more">
-		{{#if showMore}}<a class="icon icon-more"/>{{/if}}
+		{{#if showMore}}<a class="icon icon-more has-tooltip" tabindex="0" title="{{settingsTitle}}"/>{{/if}}
 		<div class="popovermenu menu">
 		{{#if canScope}}
 			<li><span class="menuitem">
-				<input class="filesystem checkbox" type="checkbox" id="{{id}}_filesystem" {{#if scope.filesystem}}checked{{/if}}/>
+				<input class="filesystem checkbox" type="checkbox" id="{{id}}_filesystem" {{#if scope.filesystem}}checked{{/if}} tabindex="0" />
 				<label for="{{id}}_filesystem">{{allowFSAccess}}</label><br/>
 			</span></li>
 		{{/if}}
 		{{#if canDelete}}
 			<li>
-				<a class="icon icon-delete has-tooltip" title="{{disconnectText}}">{{revokeText}}</a>
+				<a class="icon icon-delete" tabindex="0">{{revokeText}}</a>
 			</li>
 		{{/if}}
 		</div>
 	</td>
-<tr>
+</tr>
