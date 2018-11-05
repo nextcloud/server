@@ -294,9 +294,12 @@ class ShareController extends AuthPublicShareController {
 		if (!$this->validateShare($share)) {
 			throw new NotFoundException();
 		}
+
+		$shareNode = $share->getNode();
+
 		// We can't get the path of a file share
 		try {
-			if ($share->getNode() instanceof \OCP\Files\File && $path !== '') {
+			if ($shareNode instanceof \OCP\Files\File && $path !== '') {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
 				throw new NotFoundException();
 			}
@@ -308,34 +311,34 @@ class ShareController extends AuthPublicShareController {
 		$shareTmpl = [];
 		$shareTmpl['displayName'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
 		$shareTmpl['owner'] = $share->getShareOwner();
-		$shareTmpl['filename'] = $share->getNode()->getName();
+		$shareTmpl['filename'] = $shareNode->getName();
 		$shareTmpl['directory_path'] = $share->getTarget();
 		$shareTmpl['note'] = $share->getNote();
-		$shareTmpl['mimetype'] = $share->getNode()->getMimetype();
-		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($share->getNode()->getMimetype());
+		$shareTmpl['mimetype'] = $shareNode->getMimetype();
+		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($shareNode->getMimetype());
 		$shareTmpl['dirToken'] = $this->getToken();
 		$shareTmpl['sharingToken'] = $this->getToken();
 		$shareTmpl['server2serversharing'] = $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 		$shareTmpl['protected'] = $share->getPassword() !== null ? 'true' : 'false';
 		$shareTmpl['dir'] = '';
-		$shareTmpl['nonHumanFileSize'] = $share->getNode()->getSize();
-		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($share->getNode()->getSize());
+		$shareTmpl['nonHumanFileSize'] = $shareNode->getSize();
+		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($shareNode->getSize());
 		$shareTmpl['hideDownload'] = $share->getHideDownload();
 
-		// Show file list
 		$hideFileList = false;
+
 		if ($share->getNode() instanceof \OCP\Files\Folder) {
-			/** @var \OCP\Files\Folder $rootFolder */
-			$rootFolder = $share->getNode();
+
+			$shareIsFolder = true;
 
 			try {
-				$folderNode = $rootFolder->get($path);
+				$folderNode = $shareNode->get($path);
 			} catch (\OCP\Files\NotFoundException $e) {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
 				throw new NotFoundException();
 			}
 
-			$shareTmpl['dir'] = $rootFolder->getRelativePath($folderNode->getPath());
+			$shareTmpl['dir'] = $shareNode->getRelativePath($folderNode->getPath());
 
 			/*
 			 * The OC_Util methods require a view. This just uses the node API
@@ -351,7 +354,7 @@ class ShareController extends AuthPublicShareController {
 			$maxUploadFilesize = $freeSpace;
 
 			$folder = new Template('files', 'list', '');
-			$folder->assign('dir', $rootFolder->getRelativePath($folderNode->getPath()));
+			$folder->assign('dir', $shareNode->getRelativePath($folderNode->getPath()));
 			$folder->assign('dirToken', $this->getToken());
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
 			$folder->assign('isPublic', true);
@@ -364,6 +367,8 @@ class ShareController extends AuthPublicShareController {
 			$folder->assign('usedSpacePercent', 0);
 			$folder->assign('trash', false);
 			$shareTmpl['folder'] = $folder->fetchPage();
+		} else {
+			$shareIsFolder = false;
 		}
 
 		$shareTmpl['showgridview'] = true;
@@ -378,14 +383,14 @@ class ShareController extends AuthPublicShareController {
 		$shareTmpl['previewMaxY'] = $this->config->getSystemValue('preview_max_y', 1024);
 		$shareTmpl['disclaimer'] = $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext', null);
 		$shareTmpl['previewURL'] = $shareTmpl['downloadURL'];
-		$ogPreview = '';
+
 		if ($shareTmpl['previewSupported']) {
 			$shareTmpl['previewImage'] = $this->urlGenerator->linkToRouteAbsolute( 'files_sharing.PublicPreview.getPreview',
 				['x' => 200, 'y' => 200, 'file' => $shareTmpl['directory_path'], 'token' => $shareTmpl['dirToken']]);
 			$ogPreview = $shareTmpl['previewImage'];
 
 			// We just have direct previews for image files
-			if ($share->getNode()->getMimePart() === 'image') {
+			if ($shareNode->getMimePart() === 'image') {
 				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $this->getToken()]);
 
 				$ogPreview = $shareTmpl['previewURL'];
@@ -445,7 +450,10 @@ class ShareController extends AuthPublicShareController {
 		$response = new PublicTemplateResponse($this->appName, 'public', $shareTmpl);
 		$response->setHeaderTitle($shareTmpl['filename']);
 		$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['displayName']]));
-		if (!$share->getHideDownload()) {
+
+		$isNoneFileDropFolder = $shareIsFolder === false || $share->getPermissions() !== \OCP\Constants::PERMISSION_CREATE;
+
+		if ($isNoneFileDropFolder && !$share->getHideDownload()) {
 			\OCP\Util::addScript('files_sharing', 'public_note');
 			$response->setHeaderActions([
 				new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
