@@ -236,12 +236,20 @@ var OCdialogs = {
 				multiselect = false;
 			}
 
+			// No grid for IE! 
+			if (OC.Util.isIE()) {
+				self.$filePicker.find('#picker-view-toggle').remove();
+				self.$filePicker.find('#filestable').removeClass('view-grid');
+			}
+
 			$('body').append(self.$filePicker);
 
 			self.$showGridView = $('input#picker-showgridview');
 			self.$showGridView.on('change', _.bind(self._onGridviewChange, self));
 
-			self._getGridSettings();
+			if (!OC.Util.isIE()) {
+				self._getGridSettings();
+			}
 
 			self.$filePicker.ready(function() {
 				self.$filelist = self.$filePicker.find('.filelist tbody');

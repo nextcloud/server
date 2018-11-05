@@ -24,10 +24,13 @@
 	<?php endif;?>
 	<input type="hidden" class="max_human_file_size"
 		   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
+	<!-- IF NOT IE, SHOW GRIDVIEW -->
+	<?php if (!$_['isIE']) { ?>
 	<input type="checkbox" class="hidden-visually" id="showgridview"
 		<?php if($_['showgridview']) { ?>checked="checked" <?php } ?>/>
 	<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
 		   title="<?php p($l->t('Toggle grid view'))?>"></label>
+	<?php } ?>
 </div>
 
 <div id="emptycontent" class="hidden">
