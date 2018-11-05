@@ -45,6 +45,9 @@
 		/** @type {string} **/
 		password: '',
 
+		/** @type {string} **/
+		newShareId: 'new-share',
+
 		events: {
 			// open menu
 			'click .share-menu .icon-more': 'onToggleMenu',
@@ -650,7 +653,8 @@
 				newShareLabel: t('core', 'Share link'),
 				newShareTitle: t('core', 'New share link'),
 				pendingPopoverMenu: pendingPopoverMenu,
-				showPending: this.showPending === 'new',
+				showPending: this.showPending === this.newShareId,
+				newShareId: this.newShareId,
 			}));
 
 			this.delegateEvents();

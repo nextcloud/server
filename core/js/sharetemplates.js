@@ -10,7 +10,9 @@ templates['sharedialoglinkshareview'] = template({"1":function(container,depth0,
 },"2":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "		<li data-share-id=\"new-share\">\n			<div class=\"avatar icon-public-white\"></div>\n			<span class=\"username\">"
+  return "		<li data-share-id=\""
+    + alias4(((helper = (helper = helpers.newShareId || (depth0 != null ? depth0.newShareId : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"newShareId","hash":{},"data":data}) : helper)))
+    + "\">\n			<div class=\"avatar icon-public-white\"></div>\n			<span class=\"username\">"
     + alias4(((helper = (helper = helpers.newShareLabel || (depth0 != null ? depth0.newShareLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"newShareLabel","hash":{},"data":data}) : helper)))
     + "</span>\n			<span class=\"sharingOptionsGroup\">\n				<div class=\"share-menu\">\n					<a href=\"#\" class=\"icon icon-add new-share has-tooltip "
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.showPending : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
