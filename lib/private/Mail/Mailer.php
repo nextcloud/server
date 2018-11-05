@@ -282,6 +282,6 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		return new \Swift_SendmailTransport($binaryPath . ' -bs');
+		return new \Swift_SendmailTransport($binaryPath . ' -t');
 	}
 }
