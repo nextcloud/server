@@ -34,6 +34,7 @@ namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CardDAV\ImageExportPlugin;
+use OCA\DAV\CardDAV\MultiGetExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\Comments\CommentsPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
@@ -162,6 +163,7 @@ class Server {
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
 			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 			$this->server->addPlugin(new VCFExportPlugin());
+			$this->server->addPlugin(new MultiGetExportPlugin());
 			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
 		}
 

@@ -65,6 +65,7 @@ return array(
     'OCA\\DAV\\CardDAV\\ContactsManager' => $baseDir . '/../lib/CardDAV/ContactsManager.php',
     'OCA\\DAV\\CardDAV\\Converter' => $baseDir . '/../lib/CardDAV/Converter.php',
     'OCA\\DAV\\CardDAV\\ImageExportPlugin' => $baseDir . '/../lib/CardDAV/ImageExportPlugin.php',
+    'OCA\\DAV\\CardDAV\\MultiGetExportPlugin' => $baseDir . '/../lib/CardDAV/MultiGetExportPlugin.php',
     'OCA\\DAV\\CardDAV\\PhotoCache' => $baseDir . '/../lib/CardDAV/PhotoCache.php',
     'OCA\\DAV\\CardDAV\\Plugin' => $baseDir . '/../lib/CardDAV/Plugin.php',
     'OCA\\DAV\\CardDAV\\SyncService' => $baseDir . '/../lib/CardDAV/SyncService.php',
