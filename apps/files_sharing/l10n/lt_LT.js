@@ -62,7 +62,7 @@ OC.L10N.register(
     "{actor} removed {user} from {file}" : "{actor} nebesidalina {file} su {user}",
     "{actor} shared {file} with you" : "{actor} pasidalino {file} su jumis",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Duomenys, bendrinti per elektroninį paštą, buvo <strong>parsiųsti</strong>",
-    "A file or folder was shared from <strong>another server</strong>" : "Failas ar aplankas buvo pasidalintas iš <strong>kito serverio</strong>",
+    "A file or folder was shared from <strong>another server</strong>" : "Failas ar aplankas buvo pradėtas bendrinti iš <strong>kito serverio</strong>",
     "A file or folder has been <strong>shared</strong>" : "Failas ar aplankas buvo <strong>pasidalintas</strong>",
     "Wrong share ID, share doesn't exist" : "Neteisingas dalinamų duomenų ID",
     "could not delete share" : "nepavyko nustoti dalintis duomenimis",
