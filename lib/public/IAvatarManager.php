@@ -44,4 +44,5 @@ interface IAvatarManager {
 	 * @since 6.0.0
 	 */
 	public function getAvatar(string $user) : IAvatar;
+
 }
