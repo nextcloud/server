@@ -331,9 +331,10 @@
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
-			// Toggle for grid view
-			this.$showGridView = $('input#showgridview');
+			// Toggle for grid view, only register once
+			this.$showGridView = $('input#showgridview:not(.registered)');
 			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
+			this.$showGridView.addClass('registered');
 			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
