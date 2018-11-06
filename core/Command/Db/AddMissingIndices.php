@@ -99,7 +99,7 @@ class AddMissingIndices extends Command {
 				$output->writeln('<info>Share table updated successfully.</info>');
 			}
 
-			if (!$table->hasIndex('uid_owner')) {
+			if (!$table->hasIndex('owner_index')) {
 				$output->writeln('<info>Adding additional owner index to the share table, this can take some time...</info>');
 				$table->addIndex(['uid_owner'], 'owner_index');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
@@ -107,7 +107,7 @@ class AddMissingIndices extends Command {
 				$output->writeln('<info>Share table updated successfully.</info>');
 			}
 
-			if (!$table->hasIndex('uid_initiator')) {
+			if (!$table->hasIndex('initiator_index')) {
 				$output->writeln('<info>Adding additional initiator index to the share table, this can take some time...</info>');
 				$table->addIndex(['uid_initiator'], 'initiator_index');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
