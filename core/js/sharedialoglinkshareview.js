@@ -251,11 +251,23 @@
 						}
 					},
 					error: function() {
+						// empty function to override the default Dialog warning
+					}
+				})).fail(function(response) {
+					// password failure? Show error
+					self.password = ''
+					if (isPasswordEnforced && response && response.responseJSON && response.responseJSON.ocs.meta && response.responseJSON.ocs.meta.message) {
+						$input = self.$el.find('.pending #enforcedPassText')
+						$input.tooltip('destroy');
+						$input.attr('title', response.responseJSON.ocs.meta.message);
+						$input.tooltip({placement: 'bottom', trigger: 'manual'});
+						$input.tooltip('show');
+					} else {
 						OC.Notification.showTemporary(t('core', 'Unable to create a link share'));
 						$loading.addClass('hidden');
 						$li.find('.icon').removeClass('hidden');
 					}
-				})).then(function(response) {
+				}).then(function(response) {
 					// resolve before success
 					newShareId = response.ocs.data.id
 				});
