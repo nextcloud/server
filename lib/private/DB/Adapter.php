@@ -90,46 +90,46 @@ class Adapter {
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {
-        if (empty($compare)) {
-            $compare = array_keys($input);
-        };
+		if (empty($compare)) {
+			$compare = array_keys($input);
+		}
 
-        //Search for given compare-fields
-        $query_select = 'SELECT * FROM `' . $table . '` WHERE 1=1';
-        foreach($compare as $key) {
-            $query_select .= ' AND `' . $key . '`';
-            if (is_null($input[$key])) {
-                $query_select .= ' IS NULL';
-            } else {
-                $query_select .= ' = "' . $input[$key] .'"';
-            };
-        };
-        $result = $this->conn->executeQuery($query_select);
-        $data = $result->fetch();
-        //took this from cache.php:
-        //FIXME hide this HACK in the next database layer, or just use doctrine and get rid of MDB2 and PDO
-        //PDO returns false, MDB2 returns null, oracle always uses MDB2, so convert null to false
-        if ($data === null) {
-            $data = false;
-        }
-        if ($data) {
-            return 0; //Data already there, only empty result returned
-        };
+		//Search for given compare-fields
+		$query_select = 'SELECT * FROM `' . $table . '` WHERE 1=1';
+		foreach($compare as $key) {
+			$query_select .= ' AND `' . $key . '`';
+			if (is_null($input[$key])) {
+				$query_select .= ' IS NULL';
+			} else {
+				$query_select .= ' = "' . $input[$key] .'"';
+			};
+		};
+		$result = $this->conn->executeQuery($query_select);
+		$data = $result->fetch();
+		//took this from cache.php:
+		//FIXME hide this HACK in the next database layer, or just use doctrine and get rid of MDB2 and PDO
+		//PDO returns false, MDB2 returns null, oracle always uses MDB2, so convert null to false
+		if ($data === null) {
+			$data = false;
+		}
+		if ($data) {
+			return 0; //Data already there, only empty result returned
+		};
 
-        //Do update
-        $inserts = array_values($input);
-        $query_insert = 'INSERT INTO `' .$table . '` (`'
-        . implode('`,`', array_keys($input))
-        . '`) VALUES ('
-        . str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
-        . ')';
-        return $this->conn->executeUpdate($query_insert, $inserts);
-
-/*		$query = 'INSERT INTO `' .$table . '` (`'
+		//Do update
+		$inserts = array_values($input);
+		$query = 'INSERT INTO `' .$table . '` (`'
+			. implode('`,`', array_keys($input))
+			. '`) VALUES ('
+			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
+			. ')';
+/* This coding caused Deadlocks with some DB-Setups an was replaced
+		$query = 'INSERT INTO `' .$table . '` (`'
 			. implode('`,`', array_keys($input)) . '`) SELECT '
 			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
 			. 'FROM `' . $table . '` WHERE ';
 
+		$inserts = array_values($input);
 		foreach($compare as $key) {
 			$query .= '`' . $key . '`';
 			if (is_null($input[$key])) {
@@ -141,7 +141,7 @@ class Adapter {
 		}
 		$query = substr($query, 0, -5);
 		$query .= ' HAVING COUNT(*) = 0';
-		return $this->conn->executeUpdate($query, $inserts);	
 */
-    }
+		return $this->conn->executeUpdate($query, $inserts);
+	}
 }
