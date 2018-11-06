@@ -45,6 +45,9 @@
 		/** @type {string} **/
 		password: '',
 
+		/** @type {string} **/
+		newShareId: 'new-share',
+
 		events: {
 			// open menu
 			'click .share-menu .icon-more': 'onToggleMenu',
@@ -226,8 +229,8 @@
 			// We need a password before the share creation
 			if (isPasswordEnforced && !this.showPending && this.password === '') {
 				this.showPending = shareId;
-				this.render();
-				$li.find('#enforcedPassText').focus();
+				var self = this.render();
+				self.$el.find('.pending #enforcedPassText').focus();
 			} else {
 				// else, we have a password or it is not enforced
 				$.when(this.model.saveLinkShare(shareData, {
@@ -248,11 +251,23 @@
 						}
 					},
 					error: function() {
+						// empty function to override the default Dialog warning
+					}
+				})).fail(function(response) {
+					// password failure? Show error
+					self.password = ''
+					if (isPasswordEnforced && response && response.responseJSON && response.responseJSON.ocs.meta && response.responseJSON.ocs.meta.message) {
+						$input = self.$el.find('.pending #enforcedPassText')
+						$input.tooltip('destroy');
+						$input.attr('title', response.responseJSON.ocs.meta.message);
+						$input.tooltip({placement: 'bottom', trigger: 'manual'});
+						$input.tooltip('show');
+					} else {
 						OC.Notification.showTemporary(t('core', 'Unable to create a link share'));
 						$loading.addClass('hidden');
 						$li.find('.icon').removeClass('hidden');
 					}
-				})).then(function(response) {
+				}).then(function(response) {
 					// resolve before success
 					newShareId = response.ocs.data.id
 				});
@@ -650,7 +665,8 @@
 				newShareLabel: t('core', 'Share link'),
 				newShareTitle: t('core', 'New share link'),
 				pendingPopoverMenu: pendingPopoverMenu,
-				showPending: this.showPending === 'new',
+				showPending: this.showPending === this.newShareId,
+				newShareId: this.newShareId,
 			}));
 
 			this.delegateEvents();
