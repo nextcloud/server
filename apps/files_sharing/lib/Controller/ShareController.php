@@ -367,6 +367,8 @@ class ShareController extends AuthPublicShareController {
 			$shareTmpl['folder'] = $folder->fetchPage();
 		}
 
+		$shareTmpl['showgridview'] = true;
+
 		$shareTmpl['hideFileList'] = $hideFileList;
 		$shareTmpl['shareOwner'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
 		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', ['token' => $this->getToken()]);

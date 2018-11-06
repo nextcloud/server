@@ -18,7 +18,7 @@
 	<p></p>
 </div>
 
-<table id="filestable" class="list-container view-grid">
+<table id="filestable" class="list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>">
 	<thead>
 		<tr>
 			<th id="headerSelection" class="hidden column-selection">

@@ -331,9 +331,10 @@
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
-			// Toggle for grid view
-			this.$showGridView = $('input#showgridview');
+			// Toggle for grid view, only register once
+			this.$showGridView = $('input#showgridview:not(.registered)');
 			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
+			this.$showGridView.addClass('registered');
 			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
@@ -1952,10 +1953,10 @@
 		generatePreviewUrl: function(urlSpec) {
 			urlSpec = urlSpec || {};
 			if (!urlSpec.x) {
-				urlSpec.x = this.$table.data('preview-x') || 32;
+				urlSpec.x = this.$table.data('preview-x') || 250;
 			}
 			if (!urlSpec.y) {
-				urlSpec.y = this.$table.data('preview-y') || 32;
+				urlSpec.y = this.$table.data('preview-y') || 250;
 			}
 			urlSpec.x *= window.devicePixelRatio;
 			urlSpec.y *= window.devicePixelRatio;
