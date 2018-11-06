@@ -16,7 +16,7 @@ README*
 # underscore
 underscore/**
 !underscore/.bower.json
-!underscore/underscore.js
+!underscore/underscore-min.js
 !underscore/LICENSE
 
 # blueimp-md5
@@ -135,13 +135,11 @@ davclient.js/**
 !davclient.js/lib/client.js
 !davclient.js/LICENSE
 
-# es6-promise
-es6-promise/**
-!es6-promise/.bower.json
-!es6-promise/LICENSE
-!es6-promise/dist
-es6-promise/dist/*
-!es6-promise/dist/es6-promise.js
+# es6-shim
+es6-shim/**
+!es6-shim/.bower.json
+!es6-shim/LICENSE
+!es6-shim/es6-shim.min.js
 
 # base64
 base64/*min.js
