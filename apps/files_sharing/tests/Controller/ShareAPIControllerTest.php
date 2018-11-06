@@ -428,6 +428,7 @@ class ShareAPIControllerTest extends TestCase {
 		$expected = [
 			'id' => 101,
 			'share_type' => \OCP\Share::SHARE_TYPE_LINK,
+			'password' => 'password',
 			'share_with' => 'password',
 			'share_with_displayname' => 'password',
 			'send_password_by_talk' => false,
@@ -2687,6 +2688,7 @@ class ShareAPIControllerTest extends TestCase {
 				'file_source' => 3,
 				'file_parent' => 1,
 				'file_target' => 'myTarget',
+				'password' => 'mypassword',
 				'share_with' => 'mypassword',
 				'share_with_displayname' => 'mypassword',
 				'send_password_by_talk' => false,
@@ -2736,6 +2738,7 @@ class ShareAPIControllerTest extends TestCase {
 				'file_source' => 3,
 				'file_parent' => 1,
 				'file_target' => 'myTarget',
+				'password' => 'mypassword',
 				'share_with' => 'mypassword',
 				'share_with_displayname' => 'mypassword',
 				'send_password_by_talk' => true,
