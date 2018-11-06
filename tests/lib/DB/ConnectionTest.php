@@ -336,4 +336,17 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertEquals(0, $result);
 	}
 
+	/**
+	 * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+	 */
+	public function testUniqueConstraintViolating() {
+		$this->makeTestTable();
+
+		$testQuery = 'INSERT INTO `*PREFIX*table` (`integerfield`, `textfield`) VALUES(?, ?)';
+		$testParams = [1, 'hello'];
+
+		$this->connection->executeUpdate($testQuery, $testParams);
+		$this->connection->executeUpdate($testQuery, $testParams);
+	}
+
 }
