@@ -327,7 +327,7 @@ class ShareController extends AuthPublicShareController {
 
 		$hideFileList = false;
 
-		if ($share->getNode() instanceof \OCP\Files\Folder) {
+		if ($shareNode instanceof \OCP\Files\Folder) {
 
 			$shareIsFolder = true;
 
