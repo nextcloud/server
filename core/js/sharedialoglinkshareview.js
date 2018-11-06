@@ -229,8 +229,8 @@
 			// We need a password before the share creation
 			if (isPasswordEnforced && !this.showPending && this.password === '') {
 				this.showPending = shareId;
-				this.render();
-				$li.find('#enforcedPassText').focus();
+				var self = this.render();
+				self.$el.find('.pending #enforcedPassText').focus();
 			} else {
 				// else, we have a password or it is not enforced
 				$.when(this.model.saveLinkShare(shareData, {

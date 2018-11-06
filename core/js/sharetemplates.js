@@ -271,7 +271,7 @@ templates['sharedialoglinkshareview_popover_menu_pending'] = template({"1":funct
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "<div class=\"popovermenu open menu\">\n	<ul>\n"
+  return "<div class=\"popovermenu open menu pending\">\n	<ul>\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.isPasswordEnforced : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "	</ul>\n</div>\n";
 },"useData":true});
