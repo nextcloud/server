@@ -568,8 +568,8 @@
 			}
 
 			this._currentFileModel = model;
-			this._detailsView.render();
 			this._detailsView.setFileInfo(model);
+			this._detailsView.render();
 			this._detailsView.$el.scrollTop(0);
 		},
 
