@@ -315,8 +315,8 @@ export default {
 				// group name
 				item.text = group.name;
 
-				// users count
-				if (group.usercount - group.disabled > 0) {
+				// users count for all groups
+				if (group.usercount - group.disabled > 0 || group.usercount === -1) {
 					item.utils.counter = group.usercount - group.disabled;
 				}
 
@@ -363,8 +363,11 @@ export default {
 			if (disabledGroup && disabledGroup.text) {
 				disabledGroup.text = t('settings', 'Disabled users');	// rename disabled group
 				disabledGroup.icon = 'icon-disabled-users';				// set icon
-				if (disabledGroup.utils && disabledGroup.utils.counter > 0) {
-					groups.unshift(disabledGroup);						// add disabled if not empty
+				if (disabledGroup.utils && (
+					   disabledGroup.utils.counter > 0					// add disabled if not empty 
+					|| disabledGroup.utils.counter === -1)				// add disabled if ldap enabled 
+				) {
+					groups.unshift(disabledGroup);						
 				}
 			}
 
