@@ -104,8 +104,8 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<?php if (!empty($_['disclaimer'])) { ?>
 				<div>
 					<?php
-						echo $l->t('By uploading files, you agree to the %s.', [
-								'<b id="show-terms-dialog">' . $l->t('terms of service') . '</b>'
+						echo $l->t('By uploading files, you agree to the %1$sterms of service%2$s.', [
+								'<span id="show-terms-dialog">', '</span>'
 						]);
 					?>
 				</div>
