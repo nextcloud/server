@@ -26,6 +26,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
@@ -69,6 +70,8 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// happens when a certain method is not allowed to be called
 		// for example creating a folder that already exists
 		MethodNotAllowed::class => true,
+		// A locked file is perfectly valid and can happen in various cases
+		FileLocked::class => true,
 	];
 
 	/** @var string */
