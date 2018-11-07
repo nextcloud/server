@@ -478,6 +478,24 @@
 		autocompleteRenderItem: function(ul, item) {
 			var icon = 'icon-user';
 			var text = item.label;
+			var description = '';
+			var type = '';
+			var getTranslatedType = function(type) {
+				switch (type) {
+					case 'HOME':
+						return t('core', 'Home');
+					case 'WORK':
+						return t('core', 'Work');
+					case 'OTHER':
+						return t('core', 'Other');
+					default:
+						return '' + type;
+				}
+			};
+			if (typeof item.type !== 'undefined' && item.type !== null) {
+				type = getTranslatedType(item.type) + ' ';
+			}
+
 			if (typeof item.name !== 'undefined') {
 				text = item.name;
 			}
@@ -485,37 +503,26 @@
 				icon = 'icon-contacts-dark';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
 				icon = 'icon-shared';
+				description += item.value.shareWith;
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
 				text = t('core', '{sharee} (remote group)', { sharee: text }, undefined, { escape: false });
 				icon = 'icon-shared';
+				description += item.value.shareWith;
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_EMAIL) {
 				icon = 'icon-mail';
+				description += item.value.shareWith;
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 				text = t('core', '{sharee} ({type}, {owner})', {sharee: text, type: item.value.circleInfo, owner: item.value.circleOwner}, undefined, {escape: false});
 				icon = 'icon-circle';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_ROOM) {
 				icon = 'icon-talk';
 			}
-			var description = '';
-			var getTranslatedType = function(type) {
-				switch (type) {
-					case 'HOME':
-						return t('core', 'Home');
-					case 'WORK':
-						return t('core', 'Home');
-					case 'OTHER':
-						return t('core', 'Other');
-					default:
-						return type;
-				}
-			};
-			if (typeof item.type !== 'undefined' && item.type !== null) {
-				description = getTranslatedType(item.type);
-			}
+
 			var insert = $("<div class='share-autocomplete-item'/>");
 			if (item.merged) {
 				insert.addClass('merged');
 				text = item.value.shareWith;
+				description = type;
 			} else {
 				var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
 				if (item.value.shareType === OC.Share.SHARE_TYPE_USER || item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
@@ -526,7 +533,7 @@
 					}
 					avatar.imageplaceholder(item.uuid, text, 32);
 				}
-				description = item.value.shareWith;
+				description = type + description;
 			}
 			if (description !== '') {
 				insert.addClass('with-description');
