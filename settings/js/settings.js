@@ -55,7 +55,9 @@ OC.Settings = _.extend(OC.Settings, {
                                     selection = _.map((groups || []).split('|').sort(), function(groupId) {
                                         return {
                                             id: groupId,
-                                            displayname: results.find(group => group.id === groupId).displayname
+                                            displayname: results.find(function (group) {
+                                                return group.id === groupId;
+                                            }).displayname
                                         };
                                     });
                                 } else if (groups) {
