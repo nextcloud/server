@@ -905,7 +905,7 @@ describe('OCA.Files.FileList tests', function() {
 				done();
 			});
 		});
-		it('Restores thumbnail if a file could not be moved', function() {
+		it('Restores thumbnail if a file could not be moved', function(done) {
 			return fileList.move('One.txt', '/somedir').then(function(){
 
 				expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
@@ -922,6 +922,7 @@ describe('OCA.Files.FileList tests', function() {
 
 				expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
 					.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
+				done();
 			});
 		});
 	});
@@ -1766,7 +1767,12 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('dropping files on breadcrumb calls move operation', function(done) {
 			var testDir = '/subdir/two/three with space/four/five';
-			var moveStub = sinon.stub(filesClient, 'move').returns($.Deferred().promise());
+			var moveStub = sinon.stub(filesClient, 'move');
+			var resolve1, resolve2;
+			var deferredMove1 = $.Deferred();
+			var deferredMove2 = $.Deferred();
+			moveStub.onCall(0).returns(deferredMove1.promise());
+			moveStub.onCall(1).returns(deferredMove2.promise());
 			fileList.changeDirectory(testDir);
 			deferredList.resolve(200, [testRoot].concat(testFiles));
 			var $crumb = fileList.breadcrumb.$el.find('.crumb:eq(4)');
@@ -1782,8 +1788,7 @@ describe('OCA.Files.FileList tests', function() {
 				$('<tr data-file="Two.jpg" data-dir="' + testDir + '"></tr>')
 			]);
 			// simulate drop event
-			return fileList._onDropOnBreadCrumb(new $.Event('drop', {target: $crumb}), ui).then(function(){
-
+			var result = fileList._onDropOnBreadCrumb(new $.Event('drop', {target: $crumb}), ui).then(function(){
 				expect(moveStub.callCount).toEqual(2);
 				expect(moveStub.getCall(0).args[0]).toEqual(testDir + '/One.txt');
 				expect(moveStub.getCall(0).args[1]).toEqual('/subdir/two/three with space/One.txt');
@@ -1792,6 +1797,9 @@ describe('OCA.Files.FileList tests', function() {
 				moveStub.restore();
 				done();
 			});
+			deferredMove1.resolve(201);
+			deferredMove2.resolve(201);
+			return result;
 		});
 		it('dropping files on same dir breadcrumb does nothing', function() {
 			var testDir = '/subdir/two/three with space/four/five';
