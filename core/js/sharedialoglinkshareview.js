@@ -825,7 +825,7 @@
 			return _.extend({}, share, {
 				cid: share.id,
 				shareAllowed: true,
-				linkShareLabel: share.label !== '' ? share.label : t('core', 'Share link'),
+				linkShareLabel: share.label ? share.label : t('core', 'Share link'),
 				popoverMenu: {},
 				shareLinkURL: share.url,
 				newShareTitle: t('core', 'New share link'),
