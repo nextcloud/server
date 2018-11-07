@@ -62,6 +62,7 @@ OC.L10N.register(
     "Email sent" : "E-post skickad",
     "Disconnect" : "Koppla från",
     "Revoke" : "Återkalla",
+    "Device settings" : "Enhetsinställningar",
     "Allow filesystem access" : "Tillåt åtkomst till filsystemet",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
