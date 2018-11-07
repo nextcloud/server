@@ -213,8 +213,13 @@ class Provider implements IProvider {
 					continue;
 				}
 
+				$pattern = '/(^|\s)(' . '@' . $mention['id'] . ')(\b)/';
+				if (strpos($mention['id'], ' ') !== false) {
+					$pattern = '/(^|\s)(' . '@"' . $mention['id'] . '"' . ')(\b)?/';
+				}
+
 				$message = preg_replace(
-					'/(^|\s)(' . '@' . $mention['id'] . ')(\b)/',
+					$pattern,
 					//'${1}' . $this->regexSafeUser($mention['id'], $displayName) . '${3}',
 					'${1}' . '{mention' . $mentionCount . '}' . '${3}',
 					$message
