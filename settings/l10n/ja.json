@@ -43,7 +43,7 @@
     "Email address for %1$s changed on %2$s" : "%1$s のメールアドレスが %2$sで変更しました。",
     "Email address changed for %s" : "%s のメールアドレスを変更しました",
     "The new email address is %s" : "新しいメールアドレスは、%s です",
-    "Your %s account was created" : "アカウント %s を作成しました",
+    "Your %s account was created" : "%s アカウントを作成しました",
     "Welcome aboard" : "ようこそ",
     "Welcome aboard %s" : "%s さん、ようこそ",
     "Welcome to your %s account, you can add, protect, and share your data." : "%s アカウントにようこそ。あなたのデータを追加、保護、共有することができます。",
