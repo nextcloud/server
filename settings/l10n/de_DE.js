@@ -64,6 +64,7 @@ OC.L10N.register(
     "Email sent" : "E-Mail gesendet",
     "Disconnect" : "Trennen",
     "Revoke" : "Widerrufen",
+    "Device settings" : "Geräteeinstellungen",
     "Allow filesystem access" : "Erlaube Dateisystem-Zugriff",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",

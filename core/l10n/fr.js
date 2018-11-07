@@ -214,6 +214,7 @@ OC.L10N.register(
     "An error occurred. Please try again" : "Une erreur est survenue. Merci de réessayer",
     "{sharee} (remote group)" : "{sharee} (groupe distant)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
+    "Home" : "Accueil",
     "Other" : "Divers",
     "Share" : "Partager",
     "Name or email address..." : "Nom ou adresse mail...",

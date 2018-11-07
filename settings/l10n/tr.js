@@ -64,6 +64,7 @@ OC.L10N.register(
     "Email sent" : "E-posta gönderildi",
     "Disconnect" : "Bağlantıyı Kes",
     "Revoke" : "Geri Al",
+    "Device settings" : "Aygıt ayarları",
     "Allow filesystem access" : "Dosya sistemine erişilebilsin",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",

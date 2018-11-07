@@ -289,7 +289,7 @@
     "Alternative Logins" : "代替ログイン",
     "You are about to grant \"%s\" access to your %s account." : "%s アカウントで \"%s\" での接続を許可",
     "Alternative login using app token" : "アプリトークンを使って代替ログイン",
-    "Enhanced security is enabled for your account. Please authenticate using a second factor." : "このアカウントは強化セキュリティが適用されています。第二経路から認証してください。",
+    "Enhanced security is enabled for your account. Please authenticate using a second factor." : "このアカウントは強化セキュリティが適用されています。二要素認証を行ってください。",
     "Add \"%s\" as trusted domain" : "\"%s\" を信頼するドメイン名に追加",
     "%s will be updated to version %s" : "%s は バーション %s にアップデートされます",
     "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。",
