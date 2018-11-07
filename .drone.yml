@@ -745,9 +745,9 @@ pipeline:
       - npm install
       - chown -R pptruser out node_modules
       - bash -c "until curl -s http://ui-regression-php-master > /dev/null && curl -s http://ui-regression-php > /dev/null; do sleep 2; done"
-      - sudo -u pptruser node runTests.js || true
-      - echo "The result can be found at https://s3.bitgrid.net/nextcloud-ui-regression/nextcloud/server/${DRONE_PULL_REQUEST}/index.html"
+      - sudo -E -u pptruser node runTests.js || true
     shm_size: '1gb'
+    secrets: [ github_token ]
     when:
       matrix:
         TESTS: ui-regression
@@ -1059,4 +1059,4 @@ services:
       matrix:
         ENABLE_OPENLDAP: true
 
-branches: [ master, stable* ]
+branches: [ master, stable*, enhancement* ]

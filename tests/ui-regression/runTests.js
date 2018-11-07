@@ -89,6 +89,41 @@ function errorJSON (err) {
 	return res;
 }
 
+function updateGithubStatus(postData) {
+	if (!process.env.GITHUB_TOKEN) {
+		console.error('No GITHUB_TOKEN provided')
+		return
+	}
+	const http = require('https');
+	var options = {
+		host: 'api.github.com',
+		port: 443,
+		path: '/repos/nextcloud/server/statuses/' + process.env.DRONE_COMMIT_SHA,
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'User-Agent': 'ui regression reporter',
+			'Authorization': 'token ' + process.env.GITHUB_TOKEN
+		}
+	};
+
+	const req = http.request(options, function(res) {
+		res.setEncoding('utf8');
+		res.on('data', function (chunk) {
+			console.log('BODY: ' + chunk);
+		});
+	});
+	req.end(JSON.stringify(postData));
+}
+
+const postData = {
+	"state": "pending",
+	"target_url": process.env.DRONE_BUILD_LINK,
+	"description": "UI regression tests pending",
+	"context": "continuous-integration/ui-regression"
+};
+updateGithubStatus(postData)
+
 mocha.run()
 	.on('test', function (test) {
 	})
@@ -110,7 +145,8 @@ mocha.run()
 		result[test.parent.title].pending.push(test);
 	})
 	.on('end', function () {
-		tests.forEach(function (test) {
+		let failures = 0;
+		for (let test of tests) {
 			var json = JSON.stringify({
 				stats: result[test].stats,
 				tests: result[test].tests.map(clean),
@@ -121,9 +157,21 @@ mocha.run()
 			fs.writeFile(`out/${test}.json`, json, 'utf8', function () {
 				console.log(`Written test result to out/${test}.json`)
 			});
-		});
+			failures += result[test].failures.length;
+		}
 
-		var errorMessage = 'This PR introduces some UI differences, please check at {LINK}, if there are regressions based on the changes.'
-		fs.writeFile('out/GITHUB_COMMENT', errorMessage, 'utf8', () => {});
+		if (process.env.GITHUB_TOKEN) {
+			console.log('Publish test status to github')
+			let url = `https://ci-assets.nextcloud.com/nextcloud-ui-regression/nextcloud/server/${process.env.DRONE_PULL_REQUEST}/index.html`;
+			let status = failures > 0 ? 'failure' : 'success';
+			let description = failures > 0 ? failures + ' possible UI regressions found' : 'UI regression tests passed';
+			const postData = {
+				"state": status,
+				"target_url": url,
+				"description": description,
+				"context": "continuous-integration/ui-regression"
+			};
+			updateGithubStatus(postData)
+		}
 	});
 
