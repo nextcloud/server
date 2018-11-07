@@ -192,7 +192,7 @@ class UsersController extends Controller {
 		}
 		
 		if ($this->isAdmin) {
-			$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsers();
+			$disabledUsers = $isLDAPUsed ? -1 : $this->userManager->countDisabledUsers();
 			$userCount = $isLDAPUsed ? 0 : array_reduce($this->userManager->countUsers(), function($v, $w) {
 				return $v + (int)$w;
 			}, 0);
@@ -214,7 +214,7 @@ class UsersController extends Controller {
 				}
 			};
 			$userCount += $isLDAPUsed ? 0 : $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
-			$disabledUsers = $isLDAPUsed ? 0 : $this->userManager->countDisabledUsersOfGroups($groupsNames);
+			$disabledUsers = $isLDAPUsed ? -1 : $this->userManager->countDisabledUsersOfGroups($groupsNames);
 		}
 		$disabledUsersGroup = [
 			'id' => 'disabled',
