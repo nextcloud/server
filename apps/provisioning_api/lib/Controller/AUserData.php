@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\User\Backend;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
@@ -32,6 +33,8 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\User\Backend\ISetDisplayNameBackend;
+use OCP\User\Backend\ISetPasswordBackend;
 
 abstract class AUserData extends OCSController {
 
@@ -124,6 +127,12 @@ abstract class AUserData extends OCSController {
 		$data['groups'] = $gids;
 		$data['language'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang');
 		$data['locale'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
+
+		$backend = $targetUserObject->getBackend();
+		$data['backendCapabilities'] = [
+			'setDisplayName' => $backend instanceof ISetDisplayNameBackend || $backend->implementsActions(Backend::SET_DISPLAYNAME),
+			'setPassword' => $backend instanceof ISetPasswordBackend || $backend->implementsActions(Backend::SET_PASSWORD),
+		];
 
 		return $data;
     }
