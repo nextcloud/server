@@ -53,7 +53,7 @@ $urlGenerator = $_['urlGenerator'];
 			<input type="password" name="password" id="password" placeholder="<?php p($l->t('App token')) ?>">
 			<label for="password" class="infield"><?php p($l->t('Password')) ?></label>
 		</p>
-		<input type="hidden" id="serverHost" value="<?php p($_['serverHost']) ?>" />
+		<input type="hidden" id="serverHost" value="<?php p($urlGenerator->getBaseUrl()); ?>" />
 		<input id="submit-app-token-login" type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
 	</fieldset>
 </div>
