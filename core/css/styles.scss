@@ -773,6 +773,47 @@ code {
 		margin-bottom: 50px;
 	}
 	.filelist {
+		thead {
+			tr {
+				border-bottom: 1px solid var(--color-border);
+				background-color: var(--color-main-background);
+				th {
+					width: auto;
+					border: none;
+				}
+			}
+		}
+		th .columntitle {
+			display: block;
+			padding: 15px;
+			height: 50px;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			vertical-align: middle;
+		}
+		th .columntitle.name {
+			padding-left: 5px;
+			margin-left: 50px;
+		}
+
+		th .sort-indicator {
+			width: 10px;
+			height: 8px;
+			margin-left: 5px;
+			display: inline-block;
+			vertical-align: text-bottom;
+			opacity: .3;
+		}
+		.sort-indicator.hidden,
+		th:hover .sort-indicator.hidden,
+		th:focus .sort-indicator.hidden {
+			visibility: hidden;
+		}
+		th:hover .sort-indicator.hidden,
+		th:focus .sort-indicator.hidden {
+			visibility: visible;
+		}
+
 		td {
 			padding: 14px;
 			border-bottom: 1px solid var(--color-border);

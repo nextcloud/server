@@ -8,17 +8,39 @@
 			<h2>{emptytext}</h2>
 		</div>
 		<table id="filestable" class="filelist list-container view-grid">
+			<thead>
+				<tr>
+					<th id="headerName" class="column-name">
+						<div id="headerName-container">
+							<a class="name sort columntitle" data-sort="name">
+								<span>Name</span>
+								<span class="sort-indicator hidden icon-triangle-n"></span>
+							</a>
+						</div>
+					</th>
+					<th id="headerSize" class="column-size">
+						<a class="size sort columntitle" data-sort="size">
+							<span>Size</span>
+							<span class="sort-indicator hidden icon-triangle-n"></span></a>
+					</th>
+					<th id="headerDate" class="column-mtime">
+						<a id="modified" class="columntitle" data-sort="mtime">
+							<span>Modified</span>
+							<span class="sort-indicator hidden icon-triangle-n"></span></a>
+					</th>
+				</tr>
+			</thead>
 			<tbody>
-			<tr data-entryname="{filename}" data-type="{type}">
-				<td class="filename"
-					style="background-image:url({icon})">{filename}
-				</td>
-				<td class="filesize"
-					style="color:rgb({sizeColor}, {sizeColor}, {sizeColor})">
-					{size}
-				</td>
-				<td class="date">{date}</td>
-			</tr>
+				<tr data-entryname="{filename}" data-type="{type}">
+					<td class="filename"
+						style="background-image:url({icon})">{filename}
+					</td>
+					<td class="filesize"
+						style="color:rgb({sizeColor}, {sizeColor}, {sizeColor})">
+						{size}
+					</td>
+					<td class="date">{date}</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
