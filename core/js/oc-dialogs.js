@@ -905,9 +905,9 @@ var OCdialogs = {
 		self.$fileListHeader.find('.sort-indicator').addClass('hidden').removeClass('icon-triangle-n').removeClass('icon-triangle-s');
 		self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').removeClass('hidden');
 		if (self.filepicker.sortOrder === 'asc') {
-			self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-s');
-		} else {
 			self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-n');
+		} else {
+			self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-s');
 		}
 		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
 			if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
