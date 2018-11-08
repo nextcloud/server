@@ -539,7 +539,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IValidator::class, Validator::class);
 
-		$this->registerService(\OCP\IAvatarManager::class, function (Server $c) {
+		$this->registerService(AvatarManager::class, function(Server $c) {
 			return new AvatarManager(
 				$c->query(\OC\User\Manager::class),
 				$c->getAppDataDir('avatar'),
@@ -548,7 +548,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
-		$this->registerAlias('AvatarManager', \OCP\IAvatarManager::class);
+		$this->registerAlias(\OCP\IAvatarManager::class, AvatarManager::class);
+		$this->registerAlias('AvatarManager', AvatarManager::class);
 
 		$this->registerAlias(\OCP\Support\CrashReport\IRegistry::class, \OC\Support\CrashReport\Registry::class);
 

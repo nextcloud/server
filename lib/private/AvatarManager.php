@@ -104,4 +104,20 @@ class AvatarManager implements IAvatarManager {
 
 		return new Avatar($folder, $this->l, $user, $this->logger, $this->config);
 	}
+
+	/**
+	 * Clear generated avatars
+	 */
+	public function clearCachedAvatars() {
+		$users = $this->config->getUsersForUserValue('avatar', 'generated', 'true');
+		foreach($users as $userId) {
+			try {
+				$folder = $this->appData->getFolder($userId);
+				$folder->delete();
+			} catch (NotFoundException $e) {
+				$this->logger->debug("No cache for the user $userId. Ignoring...");
+			}
+			$this->config->setUserValue($userId, 'avatar', 'generated', 'false');
+		}
+	}
 }

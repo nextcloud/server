@@ -960,6 +960,7 @@ return array(
     'OC\\Repair\\AddCleanupUpdaterBackupsJob' => $baseDir . '/lib/private/Repair/AddCleanupUpdaterBackupsJob.php',
     'OC\\Repair\\CleanTags' => $baseDir . '/lib/private/Repair/CleanTags.php',
     'OC\\Repair\\ClearFrontendCaches' => $baseDir . '/lib/private/Repair/ClearFrontendCaches.php',
+    'OC\\Repair\\ClearGeneratedAvatarCache' => $baseDir . '/lib/private/Repair/ClearGeneratedAvatarCache.php',
     'OC\\Repair\\Collation' => $baseDir . '/lib/private/Repair/Collation.php',
     'OC\\Repair\\MoveUpdaterStepFile' => $baseDir . '/lib/private/Repair/MoveUpdaterStepFile.php',
     'OC\\Repair\\NC11\\FixMountStorages' => $baseDir . '/lib/private/Repair/NC11/FixMountStorages.php',
