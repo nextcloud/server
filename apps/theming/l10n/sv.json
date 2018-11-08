@@ -31,6 +31,7 @@
     "Advanced options" : "Avancerade inställningar",
     "Legal notice link" : "Länk rättsligt meddelande",
     "Privacy policy link" : "Länk integritetspolicy",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera faviconer baserat på den uppladdade logotypen och färgen.",
     "You are already using a custom theme" : "Du använder redan ett annat tema",
     "reset to default" : "Återställ till standard",
     "Web address" : "Webbadress",
