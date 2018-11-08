@@ -93,13 +93,15 @@ class NotifierTest extends TestCase {
 	public function testPrepareSuccess() {
 		$fileName = 'Gre\'thor.odp';
 		$displayName = 'Huraga';
-		$message = 'Huraga mentioned you in a comment on “Gre\'thor.odp”';
+		$message = '@Huraga mentioned you in a comment on “Gre\'thor.odp”';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getDisplayName')
 			->willReturn($displayName);
+		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $you */
+		$you = $this->createMock(IUser::class);
 
 		/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->createMock(Node::class);
@@ -107,6 +109,10 @@ class NotifierTest extends TestCase {
 			->expects($this->atLeastOnce())
 			->method('getName')
 			->willReturn($fileName);
+		$node
+			->expects($this->atLeastOnce())
+			->method('getPath')
+			->willReturn('/you/files/' . $fileName);
 
 		$userFolder = $this->createMock(Folder::class);
 		$this->folder->expects($this->once())
@@ -118,7 +124,7 @@ class NotifierTest extends TestCase {
 			->with('678')
 			->willReturn([$node]);
 
-		$this->notification->expects($this->once())
+		$this->notification->expects($this->exactly(2))
 			->method('getUser')
 			->willReturn('you');
 		$this->notification
@@ -142,6 +148,16 @@ class NotifierTest extends TestCase {
 			->expects($this->once())
 			->method('setRichSubject')
 			->with('{user} mentioned you in a comment on “{file}”', $this->anything())
+			->willReturnSelf();
+		$this->notification
+			->expects($this->once())
+			->method('setRichMessage')
+			->with('Hi {mention-user1}!', ['mention-user1' => ['type' => 'user', 'id' => 'you', 'name' => 'Your name']])
+			->willReturnSelf();
+		$this->notification
+			->expects($this->once())
+			->method('setParsedMessage')
+			->with('Hi @Your name!')
 			->willReturnSelf();
 		$this->notification
 			->expects($this->once())
@@ -171,17 +187,32 @@ class NotifierTest extends TestCase {
 			->expects($this->any())
 			->method('getActorType')
 			->willReturn('users');
+		$this->comment
+			->expects($this->any())
+			->method('getMessage')
+			->willReturn('Hi @you!');
+		$this->comment
+			->expects($this->any())
+			->method('getMentions')
+			->willReturn([['type' => 'user', 'id' => 'you']]);
 
 		$this->commentsManager
 			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
+		$this->commentsManager
+			->expects($this->once())
+			->method('resolveDisplayName')
+			->with('user', 'you')
+			->willReturn('Your name');
 
 		$this->userManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('get')
-			->with('huraga')
-			->willReturn($user);
+			->willReturnMap([
+				['huraga', $user],
+				['you', $you],
+			]);
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
@@ -190,12 +221,19 @@ class NotifierTest extends TestCase {
 		$fileName = 'Gre\'thor.odp';
 		$message = 'You were mentioned on “Gre\'thor.odp”, in a comment by a user that has since been deleted';
 
+		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $you */
+		$you = $this->createMock(IUser::class);
+
 		/** @var Node|\PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->createMock(Node::class);
 		$node
 			->expects($this->atLeastOnce())
 			->method('getName')
 			->willReturn($fileName);
+		$node
+			->expects($this->atLeastOnce())
+			->method('getPath')
+			->willReturn('/you/files/' . $fileName);
 
 		$userFolder = $this->createMock(Folder::class);
 		$this->folder->expects($this->once())
@@ -207,7 +245,7 @@ class NotifierTest extends TestCase {
 			->with('678')
 			->willReturn([$node]);
 
-		$this->notification->expects($this->once())
+		$this->notification->expects($this->exactly(2))
 			->method('getUser')
 			->willReturn('you');
 		$this->notification
@@ -231,6 +269,16 @@ class NotifierTest extends TestCase {
 			->expects($this->once())
 			->method('setRichSubject')
 			->with('You were mentioned on “{file}”, in a comment by a user that has since been deleted', $this->anything())
+			->willReturnSelf();
+		$this->notification
+			->expects($this->once())
+			->method('setRichMessage')
+			->with('Hi {mention-user1}!', ['mention-user1' => ['type' => 'user', 'id' => 'you', 'name' => 'Your name']])
+			->willReturnSelf();
+		$this->notification
+			->expects($this->once())
+			->method('setParsedMessage')
+			->with('Hi @Your name!')
 			->willReturnSelf();
 		$this->notification
 			->expects($this->once())
@@ -260,15 +308,30 @@ class NotifierTest extends TestCase {
 			->expects($this->any())
 			->method('getActorType')
 			->willReturn(ICommentsManager::DELETED_USER);
+		$this->comment
+			->expects($this->any())
+			->method('getMessage')
+			->willReturn('Hi @you!');
+		$this->comment
+			->expects($this->any())
+			->method('getMentions')
+			->willReturn([['type' => 'user', 'id' => 'you']]);
 
 		$this->commentsManager
 			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
+		$this->commentsManager
+			->expects($this->once())
+			->method('resolveDisplayName')
+			->with('user', 'you')
+			->willReturn('Your name');
 
 		$this->userManager
-			->expects($this->never())
-			->method('get');
+			->expects($this->once())
+			->method('get')
+			->with('you')
+			->willReturn($you);
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
