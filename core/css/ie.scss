@@ -3,7 +3,7 @@
 	position: fixed !important;
 }
 #app-content {
-	width: $navigation-width !important;
+	min-width: $navigation-width !important;
 	/**
 	 * set min height so the container will grow in IE11
 	 * https://stackoverflow.com/questions/28627879/flexbox-not-filling-height-in-ie11
