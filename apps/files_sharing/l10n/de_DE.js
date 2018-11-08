@@ -118,6 +118,7 @@ OC.L10N.register(
     "sharing is disabled" : "Teilen ist deaktiviert",
     "For more info, please ask the person who sent this link." : "Um nähere Informationen zu erhalten, wenden Sie sich bitte an die Person, die Ihnen diesen Link geschickt hat.",
     "Share note" : "Notiz teilen",
+    "Toggle grid view" : "Rasteransicht umschalten",
     "Download %s" : "Download %s",
     "Upload files to %s" : "Dateien für %s hochladen",
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
