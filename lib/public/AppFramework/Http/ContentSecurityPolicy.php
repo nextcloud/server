@@ -39,7 +39,6 @@ namespace OCP\AppFramework\Http;
  *
  * @package OCP\AppFramework\Http
  * @since 8.1.0
- * @deprecated 14.0.0 Use one of our stricter CSP policies
  */
 class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var bool Whether inline JS snippets are allowed */
