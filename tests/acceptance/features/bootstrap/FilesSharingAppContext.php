@@ -198,7 +198,10 @@ class FilesSharingAppContext implements Context, ActorAwareInterface {
 			PHPUnit_Framework_Assert::fail("The Share menu is not visible yet after $timeout seconds");
 		}
 
-		PHPUnit_Framework_Assert::assertTrue(
+		// The acceptance tests are run in a window wider than 768px, so the
+		// download item should not be shown in the menu (although it will be in
+		// the DOM).
+		PHPUnit_Framework_Assert::assertFalse(
 				$this->actor->find(self::downloadItemInShareMenu())->isVisible());
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::directLinkItemInShareMenu())->isVisible());
