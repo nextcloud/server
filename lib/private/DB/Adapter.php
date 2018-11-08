@@ -123,25 +123,6 @@ class Adapter {
 			. '`) VALUES ('
 			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
 			. ')';
-/* This coding caused Deadlocks with some DB-Setups an was replaced
-		$query = 'INSERT INTO `' .$table . '` (`'
-			. implode('`,`', array_keys($input)) . '`) SELECT '
-			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
-			. 'FROM `' . $table . '` WHERE ';
-
-		$inserts = array_values($input);
-		foreach($compare as $key) {
-			$query .= '`' . $key . '`';
-			if (is_null($input[$key])) {
-				$query .= ' IS NULL AND ';
-			} else {
-				$inserts[] = $input[$key];
-				$query .= ' = ? AND ';
-			}
-		}
-		$query = substr($query, 0, -5);
-		$query .= ' HAVING COUNT(*) = 0';
-*/
 		return $this->conn->executeUpdate($query, $inserts);
 	}
 }
