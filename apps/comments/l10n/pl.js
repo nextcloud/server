@@ -25,13 +25,13 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s skomentował/-a %2$s",
     "{author} commented on {file}" : "{author} skomentował/-a w {file}‭",
     "<strong>Comments</strong> for files" : "<strong>Komentarze</strong> dla plików",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Wspomniano Cię w \"%s\" przez użytkownika, który został usunięty",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Zostałeś/aś wspomniany/a w \"{file}\" w komentarzach przez użytkownika, który został usunięty",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s wspomniał/-a o Tobie w komentarzu “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} wspomniał/-a o Tobie w komentarzu “{file}”",
     "Files app plugin to add comments to files" : "Plugin umożliwiający dodawanie komentarzy w aplikacji Pliki",
     "Unknown user" : "Nieznany użytkownik",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Pewien (obecnie) usunięty użytkownik wspomniał o Tobie w komentarzu “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Pewien (obecnie) usunięty użytkownik wspomniał o Tobie w komentarzu “{file}”"
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Pewien (obecnie) usunięty użytkownik wspomniał o Tobie w komentarzu “{file}”",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s wspomniał/-a o Tobie w komentarzu “%2$s”",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Wspomniano Cię w \"%s\" przez użytkownika, który został usunięty"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
