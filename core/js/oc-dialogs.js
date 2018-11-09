@@ -189,8 +189,9 @@ var OCdialogs = {
 	 * @param mimetypeFilter mimetype to filter by - directories will always be included
 	 * @param modal make the dialog modal
 	 * @param type Type of file picker : Choose, copy, move, copy and move
+	 * @param path path to the folder that the the file can be picket from
 	*/
-	filepicker:function(title, callback, multiselect, mimetypeFilter, modal, type) {
+	filepicker:function(title, callback, multiselect, mimetypeFilter, modal, type, path) {
 		var self = this;
 
 		this.filepicker.sortField = 'name';
@@ -214,6 +215,9 @@ var OCdialogs = {
 		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
 
 		this.filelist = null;
+		if (path == undefined) {
+			path = '';
+		}
 
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
 			self.filepicker.loading = false;
@@ -232,9 +236,14 @@ var OCdialogs = {
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialogName,
 				title: title,
+<<<<<<< HEAD
 				emptytext: emptyText,
 				newtext: newText
 			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetypeFilter);
+=======
+				emptytext: emptyText
+			}).data('path', path).data('multiselect', multiselect).data('mimetype', mimetypeFilter);
+>>>>>>> copy Dialog starts in current directory
 
 			if (modal === undefined) {
 				modal = false;
@@ -355,7 +364,7 @@ var OCdialogs = {
 					self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc';
 					self._fillFilePicker(dir);
 				});
-				self._fillFilePicker('');
+				self._fillFilePicker(path);
 			});
 
 			// build buttons

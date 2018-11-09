@@ -655,7 +655,7 @@
 						if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 							context.fileList.move(filename, targetPath, false, context.dir);
 						}
-					}, false, "httpd/unix-directory", true, actions);
+					}, false, "httpd/unix-directory", true, actions, context.dir);
 				}
 			});
 
