@@ -23,13 +23,13 @@
     "%1$s commented on %2$s" : "%1$s comentaram em %2$s",
     "{author} commented on {file}" : "{author} comentou em {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentários</strong> para arquivos",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Você foi mencionado em \"\", “%s”, em um comentário por um usuário que já foi excluído",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Você foi mencionado em \"{file}\", em um comentário por um usuário que já foi excluído",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s mencionou você em um comentário sobre “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} mencionou você em um comentário sobre “{file}”",
     "Files app plugin to add comments to files" : "Complemento do aplicativo Files para adicionar comentários",
     "Unknown user" : "Usuário desconhecido",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Um usuário excluído (agora) mencionou você em um comentário sobre “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Um usuário (now)  recém excluído mencionou você em um comentário sobre “{file}”"
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Um usuário (now)  recém excluído mencionou você em um comentário sobre “{file}”",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s mencionou você em um comentário sobre “%2$s”",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Você foi mencionado em \"\", “%s”, em um comentário por um usuário que já foi excluído"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
