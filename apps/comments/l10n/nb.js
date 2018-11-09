@@ -25,12 +25,12 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommenterte %2$s",
     "{author} commented on {file}" : "{author} kommenterte på {file}",
     "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> for filer",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Du ble nevnte på \"%s\", i en kommentar av en bruker som siden har blitt slettet",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du ble nevnte på \"{file}\", i en kommentar av en bruker som siden har blitt slettet",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s nevnte deg i en kommentar på “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} nevnte deg i en kommentar på “{file}”",
     "Unknown user" : "Ukjent bruker",
     "A (now) deleted user mentioned you in a comment on “%s”" : "En (now) slettet bruker nevnte deg i en kommentar til “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "A (now) slettet bruker nevnte deg i en kommentar til “{file}”"
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "A (now) slettet bruker nevnte deg i en kommentar til “{file}”",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s nevnte deg i en kommentar på “%2$s”",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Du ble nevnte på \"%s\", i en kommentar av en bruker som siden har blitt slettet"
 },
 "nplurals=2; plural=(n != 1);");

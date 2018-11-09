@@ -24,12 +24,12 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%2$s에 %1$s 님이 댓글 남김",
     "{author} commented on {file}" : "{author} 님이 {file}에 댓글 남김",
     "<strong>Comments</strong> for files" : "파일의 <strong>댓글</strong>",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "삭제된 사용자가 남긴 “%s”의 댓글에서 여러분을 언급함",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "삭제된 사용자가 남긴 “{file}”의 댓글에서 여러분을 언급함",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s 님이 “%2$s”에 남긴 댓글에서 여러분을 언급함",
     "{user} mentioned you in a comment on “{file}”" : "{user} 님이 “{file}”에 남긴 댓글에서 여러분을 언급함",
     "Unknown user" : "알 수 없는 사용자",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(현재) 삭제된 사용자가 “%s”에 남긴 댓글에서 여러분을 언급함",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "(현재) 삭제된 사용자가 “{file}”에 남긴 댓글에서 여러분을 언급함"
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "(현재) 삭제된 사용자가 “{file}”에 남긴 댓글에서 여러분을 언급함",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s 님이 “%2$s”에 남긴 댓글에서 여러분을 언급함",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "삭제된 사용자가 남긴 “%s”의 댓글에서 여러분을 언급함"
 },
 "nplurals=1; plural=0;");

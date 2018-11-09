@@ -218,6 +218,7 @@ OC.L10N.register(
     "An error occurred (\"{message}\"). Please try again" : "Ocorreu um erro (\"{message}\"). Tente novamente",
     "An error occurred. Please try again" : "Ocorreu um erro. Tente novamente",
     "Home" : "Home",
+    "Work" : "Trabalho",
     "Other" : "Outro",
     "{sharee} (remote group)" : "{sharee} (grupo remoto)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
