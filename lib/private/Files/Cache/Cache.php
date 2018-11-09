@@ -37,6 +37,7 @@
 
 namespace OC\Files\Cache;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use Doctrine\DBAL\Driver\Statement;
 use OCP\Files\Cache\ICache;
@@ -268,12 +269,19 @@ class Cache implements ICache {
 			return trim($item, "`");
 		}, $queryParts);
 		$values = array_combine($queryParts, $params);
-		if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values, [
-			'storage',
-			'path_hash',
-		])
-		) {
-			return (int)$this->connection->lastInsertId('*PREFIX*filecache');
+		try {
+			if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values, [
+				'storage',
+				'path_hash',
+			])
+			) {
+				return (int)$this->connection->lastInsertId('*PREFIX*filecache');
+			}
+		} catch (UniqueConstraintViolationException $e) {
+			// if this is thrown then a concurrent insert happened between the insert and the sub-select in the insert, that should have avoided it
+			// it's fine to ignore this then
+			//
+			// more discussions about this can be found at https://github.com/nextcloud/server/pull/12315
 		}
 
 		// The file was created in the mean time
