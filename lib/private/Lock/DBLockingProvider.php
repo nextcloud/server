@@ -26,6 +26,7 @@
 
 namespace OC\Lock;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\QueryBuilder\Literal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -133,7 +134,15 @@ class DBLockingProvider extends AbstractLockingProvider {
 
 	protected function initLockField(string $path, int $lock = 0): int {
 		$expire = $this->getExpireTime();
-		return $this->connection->insertIfNotExist('*PREFIX*file_locks', ['key' => $path, 'lock' => $lock, 'ttl' => $expire], ['key']);
+		try {
+			return $this->connection->insertIfNotExist('*PREFIX*file_locks', ['key' => $path, 'lock' => $lock, 'ttl' => $expire], ['key']);
+		} catch (UniqueConstraintViolationException $e) {
+			// if this is thrown then a concurrent insert happened between the insert and the sub-select in the insert, that should have avoided it
+			// it's fine to ignore this then
+			//
+			// more discussions about this can be found at https://github.com/nextcloud/server/pull/12315
+			return 0;
+		}
 	}
 
 	/**
