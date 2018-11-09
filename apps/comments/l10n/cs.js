@@ -25,13 +25,13 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s okomentoval %2$s",
     "{author} commented on {file}" : "{author} okomentoval(a) {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Byli jste zmíněni v „%s“, v komentáři od uživatele, který byl později smazán",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Byli jste zmíněni v souboru “{file}”, v komentáři od uživatele, který byl později smazán",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás zmínil(a) v komentáři u %2$s",
     "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil(a) v komentáři u „{file}“",
     "Files app plugin to add comments to files" : "Zásuvný modul do aplikace Soubory pro přidávání komentářů k souborům",
     "Unknown user" : "Neznámý uživatel",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(Nyní) už smazaný uživatel vás zmínil v komentáři na „%s“.",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Nyní už smazaný uživatel vás zmínil v komentáři u „{file}“"
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Nyní už smazaný uživatel vás zmínil v komentáři u „{file}“",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás zmínil(a) v komentáři u %2$s",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Byli jste zmíněni v „%s“, v komentáři od uživatele, který byl později smazán"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

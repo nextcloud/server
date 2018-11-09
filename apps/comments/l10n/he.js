@@ -25,13 +25,13 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "התקבלו תגובות %1$s ב- %2$s ",
     "{author} commented on {file}" : "נוספה תגובה על {file} מאת {author}",
     "<strong>Comments</strong> for files" : "<strong>תגובות</strong> על קבצים",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "אוזכרת ב־„%s”, בתגובה על ידי משתמש שנמחק בינתיים.",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "אוזכרת ב־„{file}”, בתגובה של משתמש שנמחק בינתיים.",
-    "%1$s mentioned you in a comment on “%2$s”" : "אוזכרת על ידי %1$s בתגובה על „%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "אוזכרת על ידי „{user}” בתגובה על „{file}”",
     "Files app plugin to add comments to files" : "תוסף ליישומון הקבצים כדי להוסיף הערות על קבצים",
     "Unknown user" : "משתמש לא ידוע",
     "A (now) deleted user mentioned you in a comment on “%s”" : "אוזכרת על ידי משתמש שנמחק (נכון לעכשיו) בתגובה על „%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "אוזכרת על ידי משתמש שנמחק (נכון לעכשיו) בתגובה על „{file}”"
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "אוזכרת על ידי משתמש שנמחק (נכון לעכשיו) בתגובה על „{file}”",
+    "%1$s mentioned you in a comment on “%2$s”" : "אוזכרת על ידי %1$s בתגובה על „%2$s”",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "אוזכרת ב־„%s”, בתגובה על ידי משתמש שנמחק בינתיים."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
