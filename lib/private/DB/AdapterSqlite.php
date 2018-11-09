@@ -27,6 +27,8 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+
 class AdapterSqlite extends Adapter {
 
 	/**
@@ -50,7 +52,9 @@ class AdapterSqlite extends Adapter {
 	}
 
 	/**
-	 * Insert a row if the matching row does not exists.
+	 * Insert a row if the matching row does not exists. To accomplish proper race condition avoidance
+	 * it is needed that there is also a unique constraint on the values. Then this method will
+	 * catch the exception and return 0.
 	 *
 	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
 	 * @param array $input data that should be inserted into the table  (column name => value)
@@ -82,6 +86,14 @@ class AdapterSqlite extends Adapter {
 		$query = substr($query, 0, -5);
 		$query .= ')';
 
-		return $this->conn->executeUpdate($query, $inserts);
+		try {
+			return $this->conn->executeUpdate($query, $inserts);
+		} catch (UniqueConstraintViolationException $e) {
+			// if this is thrown then a concurrent insert happened between the insert and the sub-select in the insert, that should have avoided it
+			// it's fine to ignore this then
+			//
+			// more discussions about this can be found at https://github.com/nextcloud/server/pull/12315
+			return 0;
+		}
 	}
 }

@@ -104,7 +104,9 @@ interface IDBConnection {
 	public function lastInsertId($table = null);
 
 	/**
-	 * Insert a row if the matching row does not exists.
+	 * Insert a row if the matching row does not exists. To accomplish proper race condition avoidance
+	 * it is needed that there is also a unique constraint on the values. Then this method will
+	 * catch the exception and return 0.
 	 *
 	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
 	 * @param array $input data that should be inserted into the table  (column name => value)
