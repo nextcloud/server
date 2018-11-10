@@ -13,10 +13,8 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí oznámení o aktualizacích pro Nextcloud a poskytuje sjednocené přihlašování pro aktualizace.",
     "Apps with available updates" : "Aplikace s dostupnými aktualizacemi",
     "Open updater" : "Otevřít aktualizátor",
-    "What's new?" : "Co je nového?",
-    "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
+    "Your version is up to date." : "Používáte nejnovější verzi.",
     "A non-default update server is in use to be checked for updates:" : "Pro kontrolu aktualizací se používá jiný než výchozí server:",
-    "Update channel:" : "Aktualizovat kanál:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vždy můžete aktualizovat na novější verzi / experimentální kanál. Poté ale nelze nikdy provést downgrade zpět na nižší stabilní kanál.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Všimněte si, že po vydání nové verze může chvíli trvat, než se zde objeví. Distribuujeme nové verze průběžně rozložené v čase mezi naše uživatele a pokud  jsou nalezeny problémy někdy danou verzi přeskočíme.",
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupné aktualizace:",
@@ -37,8 +35,10 @@ OC.L10N.register(
     "A new version is available: %s" : "Je dostupná nová verze: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Verze, kterou provozujete, už není udržovaná. Aktualizujte co nejdříve na podporovanou verzi.",
     "Download now" : "Stáhnout nyní",
-    "Your version is up to date." : "Používáte nejnovější verzi.",
     "Checked on %s" : "Zkontrolováno %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "Zvolený kanál aktualizací označuje dedikovaná upozornění pro server za zastaralá."
+    "Update channel:" : "Aktualizovat kanál:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Zvolený kanál aktualizací označuje dedikovaná upozornění pro server za zastaralá.",
+    "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
+    "What's new?" : "Co je nového?"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

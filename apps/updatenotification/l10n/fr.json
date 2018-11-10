@@ -11,10 +11,8 @@
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Affiche les notifications de mise à jour pour Nextcloud et fournit l'authentification unique SSO pour le programme de mise à jour.",
     "Apps with available updates" : "Applications avec des mises à jour disponibles",
     "Open updater" : "Ouvrir le système de mise à jour",
-    "What's new?" : "Quoi de neuf ?",
-    "The update check is not yet finished. Please refresh the page." : "La vérification de la mise-à-jour n'est pas encore terminée. Veuillez rafraîchir la page.",
+    "Your version is up to date." : "Votre version est à jour.",
     "A non-default update server is in use to be checked for updates:" : "Un serveur spécifique est actuellement configuré pour la vérification des mises-à-jour :",
-    "Update channel:" : "Canal de mise à jour :",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vous pouvez à tout moment mettre à jour votre instance Nextcloud vers une version plus récente ou un canal expérimental. Vous ne pourrez cependant jamais revenir à une version antérieure en sélectionnant un canal plus stable.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Veuillez noter qu'il peut s'écouler un certain temps entre la sortie d'une nouvelle version et sa disponibilité pour téléchargement et mise-à-jour ici, sur votre instance. Nous répartissons le déploiement des nouvelles versions Nextcloud dans le temps à l'ensemble de nos utilisateurs. Certaines versions mineures, présentant des bugs problématiques, peuvent être sautées.",
     "Notify members of the following groups about available updates:" : "Notifier les membres des groupes suivants des mises à jours disponibles :",
@@ -35,8 +33,10 @@
     "A new version is available: %s" : "Une nouvelle version est disponible : %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La version que vous utilisez n'est plus maintenue. Assurez vous d'effectuer une mise à jour vers une version prise en charge dès que possible.",
     "Download now" : "Télécharger maintenant",
-    "Your version is up to date." : "Votre version est à jour.",
     "Checked on %s" : "Vérifié le %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "Le canal de mise à jour sélectionné rend obsolètes les notifications dédiées au serveur."
+    "Update channel:" : "Canal de mise à jour :",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Le canal de mise à jour sélectionné rend obsolètes les notifications dédiées au serveur.",
+    "The update check is not yet finished. Please refresh the page." : "La vérification de la mise-à-jour n'est pas encore terminée. Veuillez rafraîchir la page.",
+    "What's new?" : "Quoi de neuf ?"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
