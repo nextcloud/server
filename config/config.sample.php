@@ -1697,6 +1697,33 @@ $CONFIG = array(
 ),
 
 /**
+* The caldav server sends invitation emails to invitees, attaching the ICS
+* file for the invitation.  It also may include, in the body of the e-mail,
+* invitation accept/reject web links referencing URL's that point to the nextcloud server.
+*
+* Although any recipient can read and reply to the ICS file via the iMip protocol,
+* we must only present the web links to recipients who can access the nextcloud
+* web server via their internet/intranet.
+*
+* When your nextcloud server is restricted behind a firewall, accessible
+* only via an internal network or via vpn, you can set "dav.invitation_link_recipients"
+* to the email address or email domain, or array of addresses or domains,
+* of recipients who can access the server. Only those recipients will get web links. External
+* users can accept/reject invitations by emailing back ICS files containing appropriate
+* messages, using the iMip protocol. Many mail clients support this functionality.
+*
+* To suppress iMip web links entirely, set dav.invitation_link_recipients to false.
+* To deliver iMip web links always, set dav.invitation_link_recipients to true.
+*
+* Examples:
+*   'dav.invitation_link_recipients' => 'internal.example.com',
+*   'dav.invitation_link_recipients' => array( 'internal.example.com', 'pat@roadwarrior.example.com' ),
+*   'dav.invitation_link_recipients' => false,
+*
+*/
+'dav.invitation_link_recipients' => '*', // always include accept/reject server links in iMip emails
+
+/**
  * By default there is on public pages a link shown that allows users to
  * learn about the "simple sign up" - see https://nextcloud.com/signup/
  *

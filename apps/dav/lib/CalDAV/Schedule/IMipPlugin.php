@@ -144,11 +144,11 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$summary = $iTipMessage->message->VEVENT->SUMMARY;
 
-		if (parse_url($iTipMessage->sender, PHP_URL_SCHEME) !== 'mailto') {
+		if (strcasecmp(parse_url($iTipMessage->sender, PHP_URL_SCHEME), 'mailto') !== 0) {
 			return;
 		}
 
-		if (parse_url($iTipMessage->recipient, PHP_URL_SCHEME) !== 'mailto') {
+		if (strcasecmp(parse_url($iTipMessage->recipient, PHP_URL_SCHEME), 'mailto') !== 0) {
 			return;
 		}
 
@@ -239,9 +239,44 @@ class IMipPlugin extends SabreIMipPlugin {
 			$meetingAttendeeName, $meetingInviteeName);
 		$this->addBulletList($template, $l10n, $meetingWhen, $meetingLocation,
 			$meetingDescription, $meetingUrl);
-		$this->addResponseButtons($template, $l10n, $iTipMessage, $lastOccurrence);
+
+
+		// Only add response buttons to invitation requests: Fix Issue #11230
+		if ($method == self::METHOD_REQUEST) {
+
+			/*
+			** Only offer invitation accept/reject buttons, which link back to the
+			** nextcloud server, to recipients who can access the nextcloud server via
+			** their internet/intranet.  Issue #12156
+			**
+			** For nextcloud servers accessible to the public internet, the default
+			** "dav.invitation_link_recipients" value "true" (all recipients) is appropriate.
+			**
+			** When the nextcloud server is restricted behind a firewall, accessible
+			** only via an internal network or via vpn, you can set "dav.invitation_link_recipients"
+			** to the email address or email domain, or array of addresses or domains,
+			** of recipients who can access the server.
+			**
+			** To deliver URL's always, set invitation_link_recipients to boolean "true".
+			** To suppress URL's entirely, set invitation_link_recipients to boolean "false".
+			*/
+
+			$recipientDomain = substr(strrchr($recipient, "@"), 1);
+			$invitationLinkRecipients = $this->config->getSystemValue('dav.invitation_link_recipients', true);
+			if (is_array($invitationLinkRecipients)) {
+				$invitationLinkRecipients = array_map('strtolower', $invitationLinkRecipients); // for case insensitive in_array
+			}
+			if ($invitationLinkRecipients === true
+				 || (is_string($invitationLinkRecipients) && strcasecmp($recipient, $invitationLinkRecipients) === 0)
+				 || (is_string($invitationLinkRecipients) && strcasecmp($recipientDomain, $invitationLinkRecipients) === 0)
+				 || (is_array($invitationLinkRecipients) && in_array(strtolower($recipient), $invitationLinkRecipients))
+				 || (is_array($invitationLinkRecipients) && in_array(strtolower($recipientDomain), $invitationLinkRecipients))) {
+				$this->addResponseButtons($template, $l10n, $iTipMessage, $lastOccurrence);
+			}
+		}
 
 		$template->addFooter();
+
 		$message->useTemplate($template);
 
 		$attachment = $this->mailer->createAttachment(
@@ -447,7 +482,6 @@ class IMipPlugin extends SabreIMipPlugin {
 			$template->setSubject('Invitation: ' . $summary);
 			$template->addHeading($l10n->t('%1$s invited you to »%2$s«', [$inviteeName, $summary]), $l10n->t('Hello %s,', [$attendeeName]));
 		}
-
 	}
 
 	/**
