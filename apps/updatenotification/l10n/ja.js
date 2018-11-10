@@ -12,9 +12,8 @@ OC.L10N.register(
     "Update notification" : "アップデート通知",
     "Apps with available updates" : "アップデート可能なアプリ",
     "Open updater" : "アップデーターを開く",
-    "The update check is not yet finished. Please refresh the page." : "アップデートチェックが完了していません。ページを更新してください。",
+    "Your version is up to date." : "最新版です。",
     "A non-default update server is in use to be checked for updates:" : "更新のチェックにデフォルト以外の更新サーバーが利用されています:",
-    "Update channel:" : "アップデートチャンネル:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "開発版の新しいバージョンにアップデートできます。ただし、アップデート後は安定版にダウングレードできません。",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "新しいリリースの後、公開されるまでには時間がかかります。\n新しいバージョンを公開して配布しますが、問題が発見されたときにバージョンをスキップすることがあります。",
     "Notify members of the following groups about available updates:" : "次のグループのメンバーに利用可能なアップデートを通知する:",
@@ -23,8 +22,9 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "アップデータを起動できませんでした。手動アップデートをお試しください",
     "A new version is available: %s" : "新しいバージョンが利用可能: %s",
     "Download now" : "今すぐダウンロード",
-    "Your version is up to date." : "最新版です。",
     "Checked on %s" : "%s に確認",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "選択した更新チャネルでは、廃止サーバーについて専用の通知を行います。"
+    "Update channel:" : "アップデートチャンネル:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "選択した更新チャネルでは、廃止サーバーについて専用の通知を行います。",
+    "The update check is not yet finished. Please refresh the page." : "アップデートチェックが完了していません。ページを更新してください。"
 },
 "nplurals=1; plural=0;");

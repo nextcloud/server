@@ -13,10 +13,8 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Приказује обавештавања о ажурирањима за Некстклауд и омогућава јединствену пријаву за програм ажурирања.",
     "Apps with available updates" : "Апликације са доступним ажурирањима",
     "Open updater" : "Отвори програм за ажурирање",
-    "What's new?" : "Шта је ново?",
-    "The update check is not yet finished. Please refresh the page." : "Провера за новим верзијама још није готова. Освежите страну.",
+    "Your version is up to date." : "Ваша верзија је ажурна.",
     "A non-default update server is in use to be checked for updates:" : "Неподразумевани сервер за ажурирање је коришћен да провери нове верзије:",
-    "Update channel:" : "Канал за ажурирање:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Увек можете да надоградите на новију верзију/експериментални канал. Али не можете се вратити на стабилни канал.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "После издавања нове верзије, може да прође неко време пре него што се верзија појави овде. Ми избацујемо нове верзије постепено и можемо некад да прескочимо верзију ако наиђемо на проблеме.",
     "Notify members of the following groups about available updates:" : "Обавести чланове следећих група о доступности нових верзија:",
@@ -37,8 +35,10 @@ OC.L10N.register(
     "A new version is available: %s" : "Доступна је нова верзија: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Верзија коју тренутно користите се више не одржава. Постарајте се да ажурирате инсталацију на неку подржану верзију што је пре могуће.",
     "Download now" : "Скини сада",
-    "Your version is up to date." : "Ваша верзија је ажурна.",
     "Checked on %s" : "Проверено %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "Уз означени канал за ажурирање нема смисла да имате обавештења о новим верзијама."
+    "Update channel:" : "Канал за ажурирање:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Уз означени канал за ажурирање нема смисла да имате обавештења о новим верзијама.",
+    "The update check is not yet finished. Please refresh the page." : "Провера за новим верзијама још није готова. Освежите страну.",
+    "What's new?" : "Шта је ново?"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -10,9 +10,8 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "Ta disponible l'anovamientu pa %1$s a la versión %2$s.",
     "Update for {app} to version %s is available." : "Ta disponible l'anovamientu pa {app} a la versión %s.",
     "Open updater" : "Abrir anovador",
-    "The update check is not yet finished. Please refresh the page." : "Entá nun finó la comprobación d'anovamientu. Refresca la páxina, por favor.",
+    "Your version is up to date." : "La to versión ta anovada",
     "A non-default update server is in use to be checked for updates:" : "Úsase un sirvidor non predetermináu pa comprobar anovamientos:",
-    "Update channel:" : "Canal d'anovamientu:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Siempres pues anovar a una canal esperimental pero enxamás nun afites una canal más estable.",
     "Notify members of the following groups about available updates:" : "Avisar a los miembros de los grupos de darréu tocante a anovamientos disponibles:",
     "Only notification for app updates are available." : "Namái tán disponibles los avisos pa los anovamientos d'aplicaciones.",
@@ -20,8 +19,9 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "Nun pudo aniciase l'anovador, por favor prueba l'anovamientu manual",
     "A new version is available: %s" : "Ta disponible una versión más nueva: %s",
     "Download now" : "Baxar agora",
-    "Your version is up to date." : "La to versión ta anovada",
     "Checked on %s" : "Comprobóse'l %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "La canal esbillada d'anovamientu fai avisos dedicaos pa lo obsoleto del sirvidor."
+    "Update channel:" : "Canal d'anovamientu:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "La canal esbillada d'anovamientu fai avisos dedicaos pa lo obsoleto del sirvidor.",
+    "The update check is not yet finished. Please refresh the page." : "Entá nun finó la comprobación d'anovamientu. Refresca la páxina, por favor."
 },
 "nplurals=2; plural=(n != 1);");

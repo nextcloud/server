@@ -6,8 +6,7 @@
     "Update for %1$s to version %2$s is available." : "Налична е актуализация от %1$s до версия %2$s.",
     "Update for {app} to version %s is available." : "Обновление за {app} до версия %s е налично.",
     "Open updater" : "Отвори актуализиращата програма",
-    "The update check is not yet finished. Please refresh the page." : "Проверката за актуализации не е приключила. Опреснете страницата.",
-    "Update channel:" : "Канал за актуализиране:",
+    "Your version is up to date." : "Ползвате последната версия.",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Винаги може да актуализирате до по-нова версия / експериментален канал. Но не можете да се върнете до по-стабилен канал.",
     "Notify members of the following groups about available updates:" : "Известявай следните групи при наличие на актуализация:",
     "Only notification for app updates are available." : "Налични са само известия за актуализации на приложенията.",
@@ -16,8 +15,9 @@
     "Could not start updater, please try the manual update" : "Актуализиращата програма не беше стартирана. Моля, опитайте ръчно обновление",
     "A new version is available: %s" : "Налична е нова версия: %s",
     "Download now" : "Изтегляне сега",
-    "Your version is up to date." : "Ползвате последната версия.",
     "Checked on %s" : "Проверено на %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "Избрания канал за актуализации прави известията за този сървър остарели."
+    "Update channel:" : "Канал за актуализиране:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Избрания канал за актуализации прави известията за този сървър остарели.",
+    "The update check is not yet finished. Please refresh the page." : "Проверката за актуализации не е приключила. Опреснете страницата."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
