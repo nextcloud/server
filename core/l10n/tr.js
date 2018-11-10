@@ -218,6 +218,7 @@ OC.L10N.register(
     "An error occurred (\"{message}\"). Please try again" : "Bir sorun çıktı (\"{message}\"). Lütfen yeniden deneyin.",
     "An error occurred. Please try again" : "Bir sorun çıktı. Lütfen yeniden deneyin",
     "Home" : "Giriş",
+    "Work" : "İş",
     "Other" : "Diğer",
     "{sharee} (remote group)" : "{sharee} (uzak grup)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",

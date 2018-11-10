@@ -13,10 +13,8 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Displays update notifications for Nextcloud and provides the SSO for the updater.",
     "Apps with available updates" : "Apps with available updates",
     "Open updater" : "Open updater",
-    "What's new?" : "What's new?",
-    "The update check is not yet finished. Please refresh the page." : "The update check is not yet finished. Please refresh the page.",
+    "Your version is up to date." : "Your version is up to date.",
     "A non-default update server is in use to be checked for updates:" : "A non-default update server is in use to be checked for updates:",
-    "Update channel:" : "Update channel:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.",
     "Notify members of the following groups about available updates:" : "Notify members of the following groups about available updates:",
@@ -37,8 +35,10 @@ OC.L10N.register(
     "A new version is available: %s" : "A new version is available: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.",
     "Download now" : "Download now",
-    "Your version is up to date." : "Your version is up to date.",
     "Checked on %s" : "Checked on %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "The selected update channel makes dedicated notifications for the server obsolete."
+    "Update channel:" : "Update channel:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "The selected update channel makes dedicated notifications for the server obsolete.",
+    "The update check is not yet finished. Please refresh the page." : "The update check is not yet finished. Please refresh the page.",
+    "What's new?" : "What's new?"
 },
 "nplurals=2; plural=(n != 1);");
