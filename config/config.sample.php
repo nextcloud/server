@@ -1721,7 +1721,7 @@ $CONFIG = array(
 *   'dav.invitation_link_recipients' => false,
 *
 */
-'dav.invitation_link_recipients' => '*', // always include accept/reject server links in iMip emails
+'dav.invitation_link_recipients' => true, // always include accept/reject server links in iMip emails
 
 /**
  * By default there is on public pages a link shown that allows users to
