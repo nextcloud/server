@@ -110,7 +110,7 @@ OC.L10N.register(
     "No entries found in this folder" : "В этой папке ничего нет",
     "Name" : "Имя",
     "Share time" : "Дата публикации",
-    "Expiration date" : "Дата истечения",
+    "Expiration date" : "Срок действия",
     "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
     "Reasons might be:" : "Вероятные причины этого:",
     "the item was removed" : "объект удалён",

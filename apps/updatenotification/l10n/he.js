@@ -12,9 +12,7 @@ OC.L10N.register(
     "Update notification" : "התראה על עדכון",
     "Apps with available updates" : "יישומים עם עדכונים זמינים",
     "Open updater" : "פתיחת המעדכן",
-    "What's new?" : "מה חדש?",
-    "The update check is not yet finished. Please refresh the page." : "בדיקת העדכונים לא הסתיימה עדיין. נא לעדכן את העמוד.",
-    "Update channel:" : "עדכון ערוץ:",
+    "Your version is up to date." : "הגרסה שבידך מעודכנת.",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "תמיד ניתן לעדכן לגרסה חדשה / ערוץ ניסיון. אבל לא ניתן להוריד גרסה לערוץ יציב יותר.",
     "Notify members of the following groups about available updates:" : "דיווח למשתמשים של קבוצות אלו על עדכונים זמינים:",
     "A new version is available: <strong>{newVersionString}</strong>" : "גרסה חדשה זמינה: <strong>{newVersionString}</strong>",
@@ -24,7 +22,9 @@ OC.L10N.register(
     "A new version is available: %s" : "קיימת גרסה מעודכנת: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "הגרסה שפועלת אצלך אינה מתוחזקת יותר. נא לוודא לעדכן לגרסה נתמכת במהירות האפשרית.",
     "Download now" : "להוריד כעת",
-    "Your version is up to date." : "הגרסה שבידך מעודכנת.",
-    "Checked on %s" : "נבדק לאחרונה ב- %s"
+    "Checked on %s" : "נבדק לאחרונה ב- %s",
+    "Update channel:" : "עדכון ערוץ:",
+    "The update check is not yet finished. Please refresh the page." : "בדיקת העדכונים לא הסתיימה עדיין. נא לעדכן את העמוד.",
+    "What's new?" : "מה חדש?"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

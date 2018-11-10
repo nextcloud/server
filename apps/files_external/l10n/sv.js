@@ -81,6 +81,7 @@ OC.L10N.register(
     "Region" : "Län",
     "Enable SSL" : "Aktivera SSL",
     "Enable Path Style" : "Aktivera Path Style",
+    "Legacy (v2) authentication" : "Legacy (v2) autentisering",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Extern undermapp",
