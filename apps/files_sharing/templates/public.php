@@ -46,7 +46,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 	</div>
 <?php endif; ?>
 
-<?php if (!$_['isIE']) { ?>
+<?php if ($_['showgridview'] && empty($_['dir']) === false) { ?>
 	<input type="checkbox" class="hidden-visually" id="showgridview"
 		<?php if($_['showgridview']) { ?>checked="checked" <?php } ?>/>
 	<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
