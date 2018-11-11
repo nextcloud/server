@@ -242,6 +242,7 @@ input {
 			width: 34px;
 			padding: 7px 6px;
 			cursor: pointer;
+			margin-right: 0;
 			&:disabled {
 				cursor: default;
 				@include icon-color('confirm-fade', 'actions', $color-black, 2, true);
