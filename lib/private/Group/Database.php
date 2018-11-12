@@ -41,6 +41,7 @@
 
 namespace OC\Group;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
@@ -97,10 +98,15 @@ class Database extends ABackend
 	public function createGroup(string $gid): bool {
 		$this->fixDI();
 
-		// Add group
-		$result = $this->dbConn->insertIfNotExist('*PREFIX*groups', [
-			'gid' => $gid,
-		]);
+		try {
+			// Add group
+			$builder = $this->dbConn->getQueryBuilder();
+			$result = $builder->insert('groups')
+				->setValue('gid', $builder->createNamedParameter($gid))
+				->execute();
+		} catch(UniqueConstraintViolationException $e) {
+			$result = 0;
+		}
 
 		// Add to cache
 		$this->groupCache[$gid] = $gid;
