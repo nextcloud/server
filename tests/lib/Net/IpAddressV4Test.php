@@ -20,19 +20,19 @@ class IpAddressV4Test extends \Test\TestCase {
 		$this->assertFalse($ipaddress->isRange());
 	}
 
-	public function testIsRangeRange24() {
+	public function testIsRangeRangeSome() {
 		$ipaddress = new IpAddressV4('192.168.11.0/24');
 
 		$this->assertTrue($ipaddress->isRange());
 	}
 
-	public function testIsRangeRange32() {
+	public function testIsRangeRangeAll() {
 		$ipaddress = new IpAddressV4('192.168.11.22/32');
 
 		$this->assertFalse($ipaddress->isRange());
 	}
 
-	public function testIsRangeRange0() {
+	public function testIsRangeRangeNone() {
 		$ipaddress = new IpAddressV4('0.0.0.0/0');
 
 		$this->assertTrue($ipaddress->isRange());
