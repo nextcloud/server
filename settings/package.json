@@ -1,7 +1,7 @@
 {
   "name": "settings",
   "description": "Nextcloud settings",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "author": "John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>",
   "license": "AGPL3",
   "private": true,
@@ -13,6 +13,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
+    "nextcloud-password-confirmation": "^0.4.0",
     "nextcloud-vue": "^0.1.5",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.5.17",

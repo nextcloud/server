@@ -20,7 +20,8 @@
  *
  */
 
-import axios from 'axios';
+import axios from 'axios'
+import confirmPassword from 'nextcloud-password-confirmation' 
 
 const requestToken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
 const tokenHeaders = { headers: { requesttoken: requestToken } };
@@ -63,35 +64,7 @@ export default {
 	 * @returns {Promise}
 	 */
 	requireAdmin() {
-		return new Promise(function(resolve, reject) {
-			// TODO: migrate the OC.dialog to Vue and avoid this mess
-			// wait for password confirmation
-			let passwordTimeout;
-			let waitForpassword = function() {
-				if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-					passwordTimeout = setTimeout(waitForpassword, 500);
-					return;
-				}
-				clearTimeout(passwordTimeout);
-				clearTimeout(promiseTimeout);
-				resolve();
-			};
-
-			// automatically reject after 5s if not resolved
-			let promiseTimeout = setTimeout(() => {
-				clearTimeout(passwordTimeout);
-				// close dialog
-				if (document.getElementsByClassName('oc-dialog-close').length>0) {
-					document.getElementsByClassName('oc-dialog-close')[0].click();
-				}
-				OC.Notification.showTemporary(t('settings', 'You did not enter the password in time'));
-				reject('Password request cancelled');
-			}, 7000); 
-
-			// request password
-			OC.PasswordConfirmation.requirePasswordConfirmation();
-			waitForpassword();
-		});
+		return confirmPassword();
 	},
 	get(url) {
 		return axios.get(sanitize(url), tokenHeaders)
@@ -118,4 +91,4 @@ export default {
 			.then((response) => Promise.resolve(response))
 			.catch((error) => Promise.reject(error));
 	}
-};
+}
