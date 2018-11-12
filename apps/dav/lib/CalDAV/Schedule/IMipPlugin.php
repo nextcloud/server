@@ -242,7 +242,7 @@ class IMipPlugin extends SabreIMipPlugin {
 
 
 		// Only add response buttons to invitation requests: Fix Issue #11230
-		if ($method == self::METHOD_REQUEST) {
+		if (($method == self::METHOD_REQUEST) && $this->getAttendeeRSVP($attendee)) {
 
 			/*
 			** Only offer invitation accept/reject buttons, which link back to the
@@ -378,6 +378,21 @@ class IMipPlugin extends SabreIMipPlugin {
 			}
 		}
 		return $default;
+	}
+
+	/**
+	 * @param Property|null $attendee
+	 * @return bool
+	 */
+	private function getAttendeeRSVP(Property $attendee = null) {
+		if ($attendee !== null) {
+			$rsvp = $attendee->offsetGet('RSVP');
+			if (($rsvp instanceof Parameter) && (strcasecmp($rsvp->getValue(), 'TRUE') === 0)) {
+				return true;
+			}
+		}
+		// RFC 5545 3.2.17: default RSVP is false
+		return false;
 	}
 
 	/**
@@ -538,7 +553,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$moreOptionsURL, $l10n->t('More options …')
 		]);
 		$text = $l10n->t('More options at %s', [$moreOptionsURL]);
-		
+
 		$template->addBodyText($html, $text);
 	}
 
