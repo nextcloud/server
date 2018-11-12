@@ -11,9 +11,8 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "განახლება აპლიკაციისთვის {app} ვერსიაზე %s ხელმისაწვდომია.",
     "Update notification" : "შეტყობინების განახლება",
     "Open updater" : "განმანახლებლის ჩართვა",
-    "The update check is not yet finished. Please refresh the page." : "განახლება ჯერ არ დასრულებულა. გთხოვთ განაახლოთ გვერდი.",
+    "Your version is up to date." : "თქვენ იყენბთ ბოლო ვერსიას.",
     "A non-default update server is in use to be checked for updates:" : "განახლებების შესამოწმებლად მოქმედია არა-საწყისი სერვერი:",
-    "Update channel:" : "განახლების არხი:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "ყოველთვის შეგიძლიათ განაახლოთ უფრო ახალ ვერსიაზე / ექსპერიმენტალურ არხზე. თუმცა სტაბილურ ვერსიაზე ჩამოსვლა ვერ მოხერხდება.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "გაითვალისწინეთ, ახალი რელიზი აქ გამოჩენამდე, საჭიროებს გარკვეულ დროს. ჩვენ მომხმარებლებისთვის ვუშვებთ ახალ ვერსიებს და ხანდახან პრობლემების პოვნისას ზოგიერთ ვერსიას ვტოვებთ.",
     "Notify members of the following groups about available updates:" : "შემდეგი ჯგუფის წევრებს გაუგზავნეთ შეტყობინება ხელმისაწვდომ განახლებებზე:",
@@ -23,8 +22,9 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "განმანახმებლის გაშვება ვერ მოხერხდა, გთხოვთ სცადოთ განახლება მექანიკურ რეჯიმში",
     "A new version is available: %s" : "ხელმისაწვდომია ახალი ვერსია: %s",
     "Download now" : "ჩამოტვირთვა",
-    "Your version is up to date." : "თქვენ იყენბთ ბოლო ვერსიას.",
     "Checked on %s" : "შემოწმდა %s-ზე",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "არჩეული განახლების არხი მოძველებული სერვერის შესახებ საჭიროებს გამოყოფილ შეტყობინებებს."
+    "Update channel:" : "განახლების არხი:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "არჩეული განახლების არხი მოძველებული სერვერის შესახებ საჭიროებს გამოყოფილ შეტყობინებებს.",
+    "The update check is not yet finished. Please refresh the page." : "განახლება ჯერ არ დასრულებულა. გთხოვთ განაახლოთ გვერდი."
 },
 "nplurals=2; plural=(n!=1);");

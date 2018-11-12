@@ -42,13 +42,17 @@
 		<!-- dirty hack to ellipsis on two lines -->
 		<div class="name">{{user.id}}</div>
 		<form class="displayName" :class="{'icon-loading-small': loading.displayName}" v-on:submit.prevent="updateDisplayName">
-			<input :id="'displayName'+user.id+rand" type="text"
-					:disabled="loading.displayName||loading.all"
-					:value="user.displayname" ref="displayName"
-					autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" />
-			<input type="submit" class="icon-confirm" value="" />
+			<template v-if="user.backendCapabilities.setDisplayName">
+				<input v-if="user.backendCapabilities.setDisplayName"
+						:id="'displayName'+user.id+rand" type="text"
+						:disabled="loading.displayName||loading.all"
+						:value="user.displayname" ref="displayName"
+						autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" />
+				<input v-if="user.backendCapabilities.setDisplayName" type="submit" class="icon-confirm" value="" />
+			</template>
+			<div v-else class="name" v-tooltip.auto="t('settings', 'The backend does not support changing the display name')">{{user.displayname}}</div>
 		</form>
-		<form class="password" v-if="settings.canChangePassword" :class="{'icon-loading-small': loading.password}"
+		<form class="password" v-if="settings.canChangePassword && user.backendCapabilities.setPassword" :class="{'icon-loading-small': loading.password}"
 			  v-on:submit.prevent="updatePassword">
 			<input :id="'password'+user.id+rand" type="password" required
 					:disabled="loading.password||loading.all" :minlength="minPasswordLength"

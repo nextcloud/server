@@ -838,84 +838,92 @@ describe('OCA.Files.FileList tests', function() {
 			moveStub.restore();
 		});
 
-		it('Moves single file to target folder', function() {
-			fileList.move('One.txt', '/somedir');
+		it('Moves single file to target folder', function(done) {
+			return fileList.move('One.txt', '/somedir').then(function(){
 
-			expect(moveStub.calledOnce).toEqual(true);
-			expect(moveStub.getCall(0).args[0]).toEqual('/subdir/One.txt');
-			expect(moveStub.getCall(0).args[1]).toEqual('/somedir/One.txt');
+				expect(moveStub.calledOnce).toEqual(true);
+				expect(moveStub.getCall(0).args[0]).toEqual('/subdir/One.txt');
+				expect(moveStub.getCall(0).args[1]).toEqual('/somedir/One.txt');
 
-			deferredMove.resolve(201);
+				deferredMove.resolve(201);
 
-			expect(fileList.findFileEl('One.txt').length).toEqual(0);
+				expect(fileList.findFileEl('One.txt').length).toEqual(0);
 
-			// folder size has increased
-			expect(fileList.findFileEl('somedir').data('size')).toEqual(262);
-			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
+				// folder size has increased
+				expect(fileList.findFileEl('somedir').data('size')).toEqual(262);
+				expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
 
-			expect(notificationStub.notCalled).toEqual(true);
+				expect(notificationStub.notCalled).toEqual(true);
+				done();
+			});
 		});
-		it('Moves list of files to target folder', function() {
+		it('Moves list of files to target folder', function(done) {
 			var deferredMove1 = $.Deferred();
 			var deferredMove2 = $.Deferred();
 			moveStub.onCall(0).returns(deferredMove1.promise());
 			moveStub.onCall(1).returns(deferredMove2.promise());
 
-			fileList.move(['One.txt', 'Two.jpg'], '/somedir');
+			return fileList.move(['One.txt', 'Two.jpg'], '/somedir').then(function(){
 
-			expect(moveStub.calledTwice).toEqual(true);
-			expect(moveStub.getCall(0).args[0]).toEqual('/subdir/One.txt');
-			expect(moveStub.getCall(0).args[1]).toEqual('/somedir/One.txt');
-			expect(moveStub.getCall(1).args[0]).toEqual('/subdir/Two.jpg');
-			expect(moveStub.getCall(1).args[1]).toEqual('/somedir/Two.jpg');
+				expect(moveStub.calledTwice).toEqual(true);
+				expect(moveStub.getCall(0).args[0]).toEqual('/subdir/One.txt');
+				expect(moveStub.getCall(0).args[1]).toEqual('/somedir/One.txt');
+				expect(moveStub.getCall(1).args[0]).toEqual('/subdir/Two.jpg');
+				expect(moveStub.getCall(1).args[1]).toEqual('/somedir/Two.jpg');
 
-			deferredMove1.resolve(201);
+				deferredMove1.resolve(201);
 
-			expect(fileList.findFileEl('One.txt').length).toEqual(0);
+				expect(fileList.findFileEl('One.txt').length).toEqual(0);
 
-			// folder size has increased during move
-			expect(fileList.findFileEl('somedir').data('size')).toEqual(262);
-			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
+				// folder size has increased during move
+				expect(fileList.findFileEl('somedir').data('size')).toEqual(262);
+				expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
 
-			deferredMove2.resolve(201);
+				deferredMove2.resolve(201);
 
-			expect(fileList.findFileEl('Two.jpg').length).toEqual(0);
+				expect(fileList.findFileEl('Two.jpg').length).toEqual(0);
 
-			// folder size has increased
-			expect(fileList.findFileEl('somedir').data('size')).toEqual(12311);
-			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 KB');
+				// folder size has increased
+				expect(fileList.findFileEl('somedir').data('size')).toEqual(12311);
+				expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 KB');
 
-			expect(notificationStub.notCalled).toEqual(true);
+				expect(notificationStub.notCalled).toEqual(true);
+				done();
+			});
 		});
-		it('Shows notification if a file could not be moved', function() {
-			fileList.move('One.txt', '/somedir');
+		it('Shows notification if a file could not be moved', function(done) {
+			return fileList.move('One.txt', '/somedir').then(function(){
 
-			expect(moveStub.calledOnce).toEqual(true);
+				expect(moveStub.calledOnce).toEqual(true);
 
-			deferredMove.reject(409);
+				deferredMove.reject(409);
 
-			expect(fileList.findFileEl('One.txt').length).toEqual(1);
+				expect(fileList.findFileEl('One.txt').length).toEqual(1);
 
-			expect(notificationStub.calledOnce).toEqual(true);
-			expect(notificationStub.getCall(0).args[0]).toEqual('Could not move "One.txt"');
+				expect(notificationStub.calledOnce).toEqual(true);
+				expect(notificationStub.getCall(0).args[0]).toEqual('Could not move "One.txt"');
+				done();
+			});
 		});
-		it('Restores thumbnail if a file could not be moved', function() {
-			fileList.move('One.txt', '/somedir');
+		it('Restores thumbnail if a file could not be moved', function(done) {
+			return fileList.move('One.txt', '/somedir').then(function(){
 
-			expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
-				.toContain('icon-loading-small');
+				expect(fileList.findFileEl('One.txt').find('.thumbnail').parent().attr('class'))
+					.toContain('icon-loading-small');
 
-			expect(moveStub.calledOnce).toEqual(true);
+				expect(moveStub.calledOnce).toEqual(true);
 
-			deferredMove.reject(409);
+				deferredMove.reject(409);
 
-			expect(fileList.findFileEl('One.txt').length).toEqual(1);
+				expect(fileList.findFileEl('One.txt').length).toEqual(1);
 
-			expect(notificationStub.calledOnce).toEqual(true);
-			expect(notificationStub.getCall(0).args[0]).toEqual('Could not move "One.txt"');
+				expect(notificationStub.calledOnce).toEqual(true);
+				expect(notificationStub.getCall(0).args[0]).toEqual('Could not move "One.txt"');
 
-			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
-				.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
+				expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
+					.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
+				done();
+			});
 		});
 	});
 
@@ -1757,9 +1765,14 @@ describe('OCA.Files.FileList tests', function() {
 			expect(changeDirStub.getCall(0).args[0]).toEqual('/subdir/two/three with space');
 			changeDirStub.restore();
 		});
-		it('dropping files on breadcrumb calls move operation', function() {
+		it('dropping files on breadcrumb calls move operation', function(done) {
 			var testDir = '/subdir/two/three with space/four/five';
-			var moveStub = sinon.stub(filesClient, 'move').returns($.Deferred().promise());
+			var moveStub = sinon.stub(filesClient, 'move');
+			var resolve1, resolve2;
+			var deferredMove1 = $.Deferred();
+			var deferredMove2 = $.Deferred();
+			moveStub.onCall(0).returns(deferredMove1.promise());
+			moveStub.onCall(1).returns(deferredMove2.promise());
 			fileList.changeDirectory(testDir);
 			deferredList.resolve(200, [testRoot].concat(testFiles));
 			var $crumb = fileList.breadcrumb.$el.find('.crumb:eq(4)');
@@ -1775,14 +1788,18 @@ describe('OCA.Files.FileList tests', function() {
 				$('<tr data-file="Two.jpg" data-dir="' + testDir + '"></tr>')
 			]);
 			// simulate drop event
-			fileList._onDropOnBreadCrumb(new $.Event('drop', {target: $crumb}), ui);
-
-			expect(moveStub.callCount).toEqual(2);
-			expect(moveStub.getCall(0).args[0]).toEqual(testDir + '/One.txt');
-			expect(moveStub.getCall(0).args[1]).toEqual('/subdir/two/three with space/One.txt');
-			expect(moveStub.getCall(1).args[0]).toEqual(testDir + '/Two.jpg');
-			expect(moveStub.getCall(1).args[1]).toEqual('/subdir/two/three with space/Two.jpg');
-			moveStub.restore();
+			var result = fileList._onDropOnBreadCrumb(new $.Event('drop', {target: $crumb}), ui).then(function(){
+				expect(moveStub.callCount).toEqual(2);
+				expect(moveStub.getCall(0).args[0]).toEqual(testDir + '/One.txt');
+				expect(moveStub.getCall(0).args[1]).toEqual('/subdir/two/three with space/One.txt');
+				expect(moveStub.getCall(1).args[0]).toEqual(testDir + '/Two.jpg');
+				expect(moveStub.getCall(1).args[1]).toEqual('/subdir/two/three with space/Two.jpg');
+				moveStub.restore();
+				done();
+			});
+			deferredMove1.resolve(201);
+			deferredMove2.resolve(201);
+			return result;
 		});
 		it('dropping files on same dir breadcrumb does nothing', function() {
 			var testDir = '/subdir/two/three with space/four/five';

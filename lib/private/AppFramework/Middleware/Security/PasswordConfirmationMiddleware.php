@@ -29,6 +29,7 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\User\Backend\IPasswordConfirmationBackend;
 
 class PasswordConfirmationMiddleware extends Middleware {
 	/** @var ControllerMethodReflector */
@@ -70,6 +71,13 @@ class PasswordConfirmationMiddleware extends Middleware {
 			$user = $this->userSession->getUser();
 			$backendClassName = '';
 			if ($user !== null) {
+				$backend = $user->getBackend();
+				if ($backend instanceof IPasswordConfirmationBackend) {
+					if (!$backend->canConfirmPassword($user->getUID())) {
+						return;
+					}
+				}
+
 				$backendClassName = $user->getBackendClassName();
 			}
 

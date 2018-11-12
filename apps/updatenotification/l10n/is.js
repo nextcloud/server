@@ -13,10 +13,8 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Birtir tilkynningar um uppfærslur fyrir Nextcloud og sér um SSO-innskráningu fyrir uppfærslustýringuna.",
     "Apps with available updates" : "Forrit með tiltækar uppfærslur",
     "Open updater" : "Opna uppfærslustýringu",
-    "What's new?" : "Nýtt á döfinni?",
-    "The update check is not yet finished. Please refresh the page." : "Athugun á uppfærslum er ekki ennþá lokið. Endurlestu síðuna.",
+    "Your version is up to date." : "Útgáfan þín er af nýjustu gerð.",
     "A non-default update server is in use to be checked for updates:" : "Uppfærsluþjónn sem ekki er sjálfgefinn er núna í notkun til að athuga með uppfærslur:",
-    "Update channel:" : "Uppfærslurás:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Þú getur alltaf uppfært í nýrri útgáfu eða tilraunaútgáfurás. En þú getur aldrei niðurfært í stöðugri rás.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Athugaðu að það getur tekið nokkurn tíma áður en nýjar útgáfur birtast hér. Við dreifum útgáfum yfir tíma auk þess sem stundum er útgáfum sleppt ef í þeim finnast hnökrar.",
     "Notify members of the following groups about available updates:" : "Tilkynna meðlimum eftirfarandi hópa um tiltækar uppfærslur:",
@@ -37,8 +35,10 @@ OC.L10N.register(
     "A new version is available: %s" : "Ný útgáfa er tiltæk: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Útgáfunni sem þú ert að keyra er ekki legur viðhaldið. Uppfærðu í studda útgáfu við fyrsta tækifæri.",
     "Download now" : "Sækja núna",
-    "Your version is up to date." : "Útgáfan þín er af nýjustu gerð.",
     "Checked on %s" : "Athugað þann %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "Valda uppfærslurásin gerir úreltar sértækar tilkynningar fyrir vefþjóninn."
+    "Update channel:" : "Uppfærslurás:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Valda uppfærslurásin gerir úreltar sértækar tilkynningar fyrir vefþjóninn.",
+    "The update check is not yet finished. Please refresh the page." : "Athugun á uppfærslum er ekki ennþá lokið. Endurlestu síðuna.",
+    "What's new?" : "Nýtt á döfinni?"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

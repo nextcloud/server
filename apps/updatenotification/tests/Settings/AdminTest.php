@@ -104,6 +104,7 @@ class AdminTest extends TestCase {
 			->willReturn([
 				'updateAvailable' => true,
 				'updateVersion' => '8.1.2',
+				'updateVersionString' => 'Nextcloud 8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
 				'updaterEnabled' => true,
@@ -129,7 +130,8 @@ class AdminTest extends TestCase {
 				'lastChecked' => 'LastCheckedReturnValue',
 				'currentChannel' => Util::getChannel(),
 				'channels' => $channels,
-				'newVersionString' => '8.1.2',
+				'newVersion' => '8.1.2',
+				'newVersionString' => 'Nextcloud 8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
 				'updaterEnabled' => true,

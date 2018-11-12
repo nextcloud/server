@@ -167,6 +167,10 @@ class File extends Node implements IFile {
 			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
 				$count = $partStorage->writeStream($internalPartPath, $data);
 				$result = $count > 0;
+				if ($result === false) {
+					$result = feof($data);
+				}
+
 			} else {
 				$target = $partStorage->fopen($internalPartPath, 'wb');
 				if ($target === false) {

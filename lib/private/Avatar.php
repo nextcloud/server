@@ -86,10 +86,10 @@ class Avatar implements IAvatar {
 	 * @param IConfig $config
 	 */
 	public function __construct(ISimpleFolder $folder,
-		IL10N $l,
-		$user,
-		ILogger $logger,
-		IConfig $config) {
+								IL10N $l,
+								$user,
+								ILogger $logger,
+								IConfig $config) {
 		$this->folder = $folder;
 		$this->l = $l;
 		$this->user = $user;

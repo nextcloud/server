@@ -39,7 +39,6 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
-use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -209,8 +208,12 @@ class ShareAPIController extends OCSController {
 			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
 		} else if ($share->getShareType() === Share::SHARE_TYPE_LINK) {
 
+			// "share_with" and "share_with_displayname" for passwords of link
+			// shares was deprecated in Nextcloud 15, use "password" instead.
 			$result['share_with'] = $share->getPassword();
 			$result['share_with_displayname'] = $share->getPassword();
+
+			$result['password'] = $share->getPassword();
 
 			$result['send_password_by_talk'] = $share->getSendPasswordByTalk();
 
@@ -242,6 +245,9 @@ class ShareAPIController extends OCSController {
 
 			$shareWithStart = ($hasCircleId? strrpos($share->getSharedWith(), '[') + 1: 0);
 			$shareWithLength = ($hasCircleId? -1: strpos($share->getSharedWith(), ' '));
+			if (is_bool($shareWithLength)) {
+				$shareWithLength = -1;
+			}
 			$result['share_with'] = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
 		} else if ($share->getShareType() === Share::SHARE_TYPE_ROOM) {
 			$result['share_with'] = $share->getSharedWith();
@@ -730,13 +736,27 @@ class ShareAPIController extends OCSController {
 			$shares = array_merge($shares, $federatedShares);
 		}
 
-		$formatted = [];
+		$formatted = $miniFormatted = [];
+		$resharingRight = false;
 		foreach ($shares as $share) {
+			/** @var IShare $share */
 			try {
-				$formatted[] = $this->formatShare($share, $path);
-			} catch (NotFoundException $e) {
+				$format = $this->formatShare($share, $path);
+				$formatted[] = $format;
+				if ($share->getSharedBy() === $this->currentUser) {
+					$miniFormatted[] = $format;
+				}
+
+				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $path)) {
+					$resharingRight = true;
+				}
+			} catch (\Exception $e) {
 				//Ignore share
 			}
+		}
+
+		if (!$resharingRight) {
+			$formatted = $miniFormatted;
 		}
 
 		if ($include_tags) {
@@ -1122,4 +1142,64 @@ class ShareAPIController extends OCSController {
 
 		return $this->serverContainer->query('\OCA\Spreed\Share\Helper\ShareAPIController');
 	}
+
+
+	/**
+	 * Returns if we can find resharing rights in an IShare object for a specific user.
+	 *
+	 * @suppress PhanUndeclaredClassMethod
+	 *
+	 * @param string $userId
+	 * @param IShare $share
+	 * @param Node $node
+	 * @return bool
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\InvalidPathException
+	 */
+	private function shareProviderResharingRights(string $userId, IShare $share, $node): bool {
+
+		if ($share->getShareOwner() === $userId) {
+			return true;
+		}
+
+		// we check that current user have parent resharing rights on the current file
+		if ($node !== null && ($node->getPermissions() & \OCP\Constants::PERMISSION_SHARE) !== 0) {
+			return true;
+		}
+
+		if ((\OCP\Constants::PERMISSION_SHARE & $share->getPermissions()) === 0) {
+			return false;
+		}
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER && $share->getSharedWith() === $userId) {
+			return true;
+		}
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP && $this->groupManager->isInGroup($userId, $share->getSharedWith())) {
+			return true;
+		}
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles') &&
+			class_exists('\OCA\Circles\Api\v1\Circles')) {
+			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
+			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
+			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
+			if (is_bool($shareWithLength)) {
+				$shareWithLength = -1;
+			}
+			$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
+			try {
+				$member = \OCA\Circles\Api\v1\Circles::getMember($sharedWith, $userId, 1);
+				if ($member->getLevel() >= 4) {
+					return true;
+				}
+				return false;
+			} catch (QueryException $e) {
+				return false;
+			}
+		}
+
+		return false;
+	}
+
 }

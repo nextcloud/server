@@ -13,9 +13,8 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Despliega las notifiaciones de actualización para Nextcloud y provee el SSO para el actualizador.",
     "Apps with available updates" : "Aplicaciones con actualizaciones disponibles",
     "Open updater" : "Abrir actualizador",
-    "The update check is not yet finished. Please refresh the page." : "La verificación de actualización aún no termina. Por favor actualiza la página.",
+    "Your version is up to date." : "Tu verisón está actualizada.",
     "A non-default update server is in use to be checked for updates:" : "Un servidor de actualizaciones no-predeterminado está en uso para ser verficiado por actualizaciones:",
-    "Update channel:" : "Actualizar el canal:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Siempre puedes actualizar a una versión más reciente / canal experimental. Sin embargo nunca podrás desactualizar la versión a un canal más estable. ",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nota que después una nueva publicación puede tomar algo de tiempo antes de que se muestre aquí. Distribuimos nuevas versiones para que sean distribuidas a través del tiempo para nuestros usuarios y algunas veces omitimos una versión cuando encontramos detalles.",
     "Notify members of the following groups about available updates:" : "Notificar a los miembros de los siguientes grupos de las actualizaciones disponibles:",
@@ -34,8 +33,9 @@ OC.L10N.register(
     "A new version is available: %s" : "Una nueva versión está disponible: %s",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La versión que estas corriendo ya no cuenta con mantenimiento. Por favor asegurate de actualizar a una versión soportada lo antes posible. ",
     "Download now" : "Descargar ahora",
-    "Your version is up to date." : "Tu verisón está actualizada.",
     "Checked on %s" : "Verificado el %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "El canal de actualización seleccionado hace que las notificaciones dedicadas al servidor sean obsoletas. "
+    "Update channel:" : "Actualizar el canal:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "El canal de actualización seleccionado hace que las notificaciones dedicadas al servidor sean obsoletas. ",
+    "The update check is not yet finished. Please refresh the page." : "La verificación de actualización aún no termina. Por favor actualiza la página."
 },
 "nplurals=2; plural=(n != 1);");

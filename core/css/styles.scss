@@ -196,6 +196,7 @@ body {
 			display: flex;
 			height: 36px;
 			width: 36px;
+			padding: 9px; // width - border - icon width = 18px
 			align-items: center;
 			justify-content: center;
 		}

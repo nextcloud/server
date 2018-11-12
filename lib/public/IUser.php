@@ -26,6 +26,8 @@
 
 namespace OCP;
 
+use OCP\UserInterface;
+
 /**
  * Interface IUser
  *
@@ -107,6 +109,14 @@ interface IUser {
 	 * @since 8.0.0
 	 */
 	public function getBackendClassName();
+
+	/**
+	 * Get the backend for the current user object
+	 *
+	 * @return UserInterface
+	 * @since 15.0.0
+	 */
+	public function getBackend();
 
 	/**
 	 * check if the backend allows the user to change his avatar on Personal page

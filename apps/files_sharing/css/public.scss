@@ -92,8 +92,10 @@ thead {
 	margin: 0 auto;
 }
 
-#emptycontent.has-disclaimer {
-	margin-top: 10vh;
+#emptycontent {
+	&.has-note {
+		margin-top: 5vh;
+	}
 }
 
 #public-upload #emptycontent h2 {
@@ -152,8 +154,9 @@ thead {
 	margin-right: 7px;
 }
 
-.disclaimer {
-	margin: -20px auto 30px;
+.disclaimer,
+.note {
+	margin: 0 auto 30px;
 	max-width: 400px;
 	text-align: left;
 }
@@ -169,6 +172,7 @@ thead {
 	position: relative;
 	font-weight: 300;
 	font-size: 11px;
+	line-height: 11px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -180,6 +184,25 @@ thead {
 	.content {
 		overflow: auto;
 		max-height: 200px;
+	}
+}
+
+#show-terms-dialog {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+// hide the download entry on the menu
+// on public share when NOT on mobile
+@media only screen and (min-width: 769px) {
+	#body-public {
+		.header-right {
+			#header-actions-menu {
+				> ul > li#download {
+					display: none;
+				}
+			}
+		}
 	}
 }
 

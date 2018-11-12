@@ -24,12 +24,12 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s коментиран за %2$s",
     "{author} commented on {file}" : "{author} коментира за {file}",
     "<strong>Comments</strong> for files" : "<strong>Коментари</strong> за файлове",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Бяхте споменат/а на “%s”, в коментар от потребител, който вече е изтрит",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Бяхте споменат/а към “{file}”, в коментар от потребител, който вече е изтрит",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s те спомена в коментар за “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} те спомена в коментар за “{file}”",
     "Unknown user" : "Непознат потребител",
     "A (now) deleted user mentioned you in a comment on “%s”" : "(Токущо) изтрит потребител те коментира в “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "(Токущо) изтрит потребител те спомена в коментар за “{file}”"
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "(Токущо) изтрит потребител те спомена в коментар за “{file}”",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s те спомена в коментар за “%2$s”",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Бяхте споменат/а на “%s”, в коментар от потребител, който вече е изтрит"
 },
 "nplurals=2; plural=(n != 1);");

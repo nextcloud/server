@@ -37,6 +37,7 @@ use OCP\IL10N;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\User\Backend\IPasswordConfirmationBackend;
 
 class JSConfigHelper {
 
@@ -109,12 +110,18 @@ class JSConfigHelper {
 
 	public function getConfig() {
 
+		$userBackendAllowsPasswordConfirmation = true;
 		if ($this->currentUser !== null) {
 			$uid = $this->currentUser->getUID();
-			$userBackend = $this->currentUser->getBackendClassName();
+
+			$backend = $this->currentUser->getBackend();
+			if ($backend instanceof IPasswordConfirmationBackend) {
+				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid);
+			} else if (isset($this->excludedUserBackEnds[$this->currentUser->getBackendClassName()])) {
+				$userBackendAllowsPasswordConfirmation = false;
+			}
 		} else {
 			$uid = null;
-			$userBackend = '';
 		}
 
 		// Get the config
@@ -161,7 +168,7 @@ class JSConfigHelper {
 		$array = [
 			"oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			"oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			"backendAllowsPasswordConfirmation" => !isset($this->excludedUserBackEnds[$userBackend]) ? 'true' : 'false',
+			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
 			"oc_dataURL" => is_string($dataLocation) ? "\"".$dataLocation."\"" : 'false',
 			"oc_webroot" => "\"".\OC::$WEBROOT."\"",
 			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution

@@ -89,7 +89,7 @@ OCA.Sharing.PublicApp = {
 								displayName: t('files', 'Delete'),
 								iconClass: 'icon-delete',
 						}
-					] 
+					]
 				}
 			);
 			this.files = OCA.Files.Files;
@@ -229,10 +229,10 @@ OCA.Sharing.PublicApp = {
 			this.fileList.generatePreviewUrl = function (urlSpec) {
 				urlSpec = urlSpec || {};
 				if (!urlSpec.x) {
-					urlSpec.x = this.$table.data('preview-x') || 32;
+					urlSpec.x = this.$table.data('preview-x') || 250;
 				}
 				if (!urlSpec.y) {
-					urlSpec.y = this.$table.data('preview-y') || 32;
+					urlSpec.y = this.$table.data('preview-y') || 250;
 				}
 				urlSpec.x *= window.devicePixelRatio;
 				urlSpec.y *= window.devicePixelRatio;
@@ -297,8 +297,22 @@ OCA.Sharing.PublicApp = {
 			}
 		});
 
+		self._bindShowTermsAction();
+
 		// legacy
 		window.FileList = this.fileList;
+	},
+
+	/**
+	 * Binds the click action for the "terms of service" action.
+	 * Shows an OC info dialog on click.
+	 *
+	 * @private
+	 */
+	_bindShowTermsAction: function() {
+		$('#show-terms-dialog').on('click', function() {
+			OC.dialogs.info($('#disclaimerText').val(), t('files_sharing', 'Terms of service'));
+		});
 	},
 
 	_showTextPreview: function (data, previewHeight) {

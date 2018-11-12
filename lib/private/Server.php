@@ -217,7 +217,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService('EncryptionManager', function (Server $c) {
+		$this->registerService(\OCP\Encryption\IManager::class, function (Server $c) {
 			$view = new View();
 			$util = new Encryption\Util(
 				$view,
@@ -234,6 +234,7 @@ class Server extends ServerContainer implements IServerContainer {
 				new ArrayCache()
 			);
 		});
+		$this->registerAlias('EncryptionManager', \OCP\Encryption\IManager::class);
 
 		$this->registerService('EncryptionFileHelper', function (Server $c) {
 			$util = new Encryption\Util(
@@ -361,7 +362,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IProvider::class, Authentication\Token\Manager::class);
 
-		$this->registerService(\OCP\IUserSession::class, function (Server $c) {
+		$this->registerService(\OC\User\Session::class, function (Server $c) {
 			$manager = $c->getUserManager();
 			$session = new \OC\Session\Memory('');
 			$timeFactory = new TimeFactory();
@@ -430,7 +431,8 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $userSession;
 		});
-		$this->registerAlias('UserSession', \OCP\IUserSession::class);
+		$this->registerAlias(\OCP\IUserSession::class, \OC\User\Session::class);
+		$this->registerAlias('UserSession', \OC\User\Session::class);
 
 		$this->registerAlias(\OCP\Authentication\TwoFactorAuth\IRegistry::class, \OC\Authentication\TwoFactorAuth\Registry::class);
 
@@ -537,7 +539,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IValidator::class, Validator::class);
 
-		$this->registerService(\OCP\IAvatarManager::class, function (Server $c) {
+		$this->registerService(AvatarManager::class, function(Server $c) {
 			return new AvatarManager(
 				$c->query(\OC\User\Manager::class),
 				$c->getAppDataDir('avatar'),
@@ -546,7 +548,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
-		$this->registerAlias('AvatarManager', \OCP\IAvatarManager::class);
+		$this->registerAlias(\OCP\IAvatarManager::class, AvatarManager::class);
+		$this->registerAlias('AvatarManager', AvatarManager::class);
 
 		$this->registerAlias(\OCP\Support\CrashReport\IRegistry::class, \OC\Support\CrashReport\Registry::class);
 
@@ -1083,6 +1086,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return $instance;
 		});
 		$this->registerAlias('CollaboratorSearch', \OCP\Collaboration\Collaborators\ISearch::class);
+		$this->registerAlias(\OCP\Collaboration\Collaborators\ISearchResult::class, \OC\Collaboration\Collaborators\SearchResult::class);
 
 		$this->registerAlias(\OCP\Collaboration\AutoComplete\IManager::class, \OC\Collaboration\AutoComplete\Manager::class);
 
@@ -1187,6 +1191,14 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
+
+		$this->registerService(\OC\Security\IdentityProof\Manager::class, function (Server $c) {
+			return new \OC\Security\IdentityProof\Manager(
+				$c->query(\OC\Files\AppData\Factory::class),
+				$c->getCrypto(),
+				$c->getConfig()
+			);
+		});
 
 		$this->connectDispatcher();
 	}

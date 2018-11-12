@@ -24,8 +24,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s komentēja %2$s",
     "{author} commented on {file}" : "{author} komentārs {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentāri</strong> datnēm",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s minēja jūs komentārā “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} minēja jūs komentārā “{file}”",
-    "Unknown user" : "Nezināms lietotājs"
+    "Unknown user" : "Nezināms lietotājs",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s minēja jūs komentārā “%2$s”"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

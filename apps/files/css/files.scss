@@ -55,6 +55,10 @@
 	position: relative;
 	width: 100%;
 	min-width: 250px;
+	// hide table if emptycontent is not hidden
+	#emptycontent:not(.hidden) ~ & {
+		display: none;
+	}
 }
 
 /* fit app list view heights */
@@ -982,6 +986,9 @@ table.dragshadow td.size {
 	margin: 0;
 	padding: 22px;
 	opacity: .5;
+	position: fixed;
+	right: 0;
+	z-index: 100;
 
 	&:hover,
 	&:focus,

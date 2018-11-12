@@ -150,8 +150,11 @@ class CommentTest extends TestCase {
 				['foobar', 'barfoo', 'foo@bar.com', 'bar@foo.org@foobar.io', '23452-4333-54353-2342', 'yolo']
 			],
 			[
-			'@@chef is also a valid mention, no matter how strange it looks', ['@chef']
-			]
+				'@@chef is also a valid mention, no matter how strange it looks', ['@chef']
+			],
+			[
+				'Also @"user with spaces" are now supported', ['user with spaces']
+			],
 		];
 	}
 

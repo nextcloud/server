@@ -64,6 +64,7 @@ OC.L10N.register(
     "Email sent" : "Порука је послата",
     "Disconnect" : "Раскачи се",
     "Revoke" : "Повуци",
+    "Device settings" : "Подешавања уређаја",
     "Allow filesystem access" : "Дозволи приступ фајловима",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",

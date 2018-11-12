@@ -24,10 +24,10 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s commentava in %2$s",
     "{author} commented on {file}" : "{author} commentava in {file}",
     "<strong>Comments</strong> for files" : "<strong>Commentarios</strong> pro files",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentionava tu in un commentario in “%2$s”",
     "{user} mentioned you in a comment on “{file}”" : "{user} mentionava tu in un commentario in “{file}”",
     "Unknown user" : "Usator incognite",
     "A (now) deleted user mentioned you in a comment on “%s”" : "Un (ora) delite usator mentionava tu in un commentario in “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un (ora) delite usator mentionava tu in un commentario in “{file}”"
+    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un (ora) delite usator mentionava tu in un commentario in “{file}”",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentionava tu in un commentario in “%2$s”"
 },
 "nplurals=2; plural=(n != 1);");

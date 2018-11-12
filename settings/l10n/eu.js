@@ -293,7 +293,7 @@ OC.L10N.register(
     "A valid group name must be provided" : "Baliozko talde izena eman behar da",
     "deleted {groupName}" : "{groupName} ezbatuta",
     "undo" : "desegin",
-    "never" : "inoiz",
+    "never" : "inoiz ez",
     "deleted {userName}" : "{userName} ezabatuta",
     "No user found for <strong>{pattern}</strong>" : "Ez da aurkitu <strong>{pattern}</strong>erabiltzailea",
     "Unable to add user to group {group}" : "Ezin erabiltzailea {group} taldera gehitu",

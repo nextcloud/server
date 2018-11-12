@@ -331,9 +331,10 @@
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
-			// Toggle for grid view
-			this.$showGridView = $('input#showgridview');
+			// Toggle for grid view, only register once
+			this.$showGridView = $('input#showgridview:not(.registered)');
 			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
+			this.$showGridView.addClass('registered');
 			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
@@ -576,8 +577,8 @@
 			}
 
 			this._currentFileModel = model;
-			this._detailsView.render();
 			this._detailsView.setFileInfo(model);
+			this._detailsView.render();
 			this._detailsView.$el.scrollTop(0);
 		},
 
@@ -989,7 +990,7 @@
 				});
 			}
 
-			this.move(_.pluck(files, 'name'), targetPath);
+			var movePromise = this.move(_.pluck(files, 'name'), targetPath);
 
 			// re-enable td elements to be droppable
 			// sometimes the filename drop handler is still called after re-enable,
@@ -997,6 +998,8 @@
 			setTimeout(function() {
 				self.$el.find('td.filename.ui-droppable').droppable('enable');
 			}, 10);
+
+			return movePromise;
 		},
 
 		/**
@@ -1950,10 +1953,10 @@
 		generatePreviewUrl: function(urlSpec) {
 			urlSpec = urlSpec || {};
 			if (!urlSpec.x) {
-				urlSpec.x = this.$table.data('preview-x') || 32;
+				urlSpec.x = this.$table.data('preview-x') || 250;
 			}
 			if (!urlSpec.y) {
-				urlSpec.y = this.$table.data('preview-y') || 32;
+				urlSpec.y = this.$table.data('preview-y') || 250;
 			}
 			urlSpec.x *= window.devicePixelRatio;
 			urlSpec.y *= window.devicePixelRatio;
@@ -2162,7 +2165,31 @@
 			if (!_.isArray(fileNames)) {
 				fileNames = [fileNames];
 			}
-			_.each(fileNames, function(fileName) {
+
+			function Semaphore(max) {
+				var counter = 0;
+				var waiting = [];
+
+				this.acquire = function() {
+					if(counter < max) {
+						counter++;
+						return new Promise(function(resolve) { resolve(); });
+					} else {
+						return new Promise(function(resolve) { waiting.push(resolve); });
+					}
+				};
+
+				this.release = function() {
+					counter--;
+					if (waiting.length > 0 && counter < max) {
+						counter++;
+						var promise = waiting.shift();
+						promise();
+					}
+				};
+			}
+
+			var moveFileFunction = function(fileName) {
 				var $tr = self.findFileEl(fileName);
 				self.showFileBusyState($tr, true);
 				if (targetPath.charAt(targetPath.length - 1) !== '/') {
@@ -2170,7 +2197,7 @@
 					// not overwrite it
 					targetPath = targetPath + '/';
 				}
-				self.filesClient.move(dir + fileName, targetPath + fileName)
+				return self.filesClient.move(dir + fileName, targetPath + fileName)
 					.done(function() {
 						// if still viewing the same directory
 						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
@@ -2201,11 +2228,24 @@
 					.always(function() {
 						self.showFileBusyState($tr, false);
 					});
+			};
+
+			var mcSemaphore = new Semaphore(10);
+			var counter = 0;
+			var promises = _.map(fileNames, function(arg) {
+				return mcSemaphore.acquire().then(function(){
+					moveFileFunction(arg).then(function(){
+						mcSemaphore.release();
+						counter++;
+					});
+				});
+			});
+
+			return Promise.all(promises).then(function(){
 				if (callback) {
 					callback();
 				}
 			});
-
 		},
 
 		/**

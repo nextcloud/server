@@ -12,8 +12,7 @@ OC.L10N.register(
     "Update notification" : "Ειδοποίηση ενημέρωσης",
     "Apps with available updates" : "Εφαρμογές με διαθέσιμες ενημερώσεις",
     "Open updater" : "Άνοιγμα εφαρμογής ενημέρωσης",
-    "What's new?" : "Τι νέο υπάρχει;",
-    "Update channel:" : "Ενημέρωση καναλιού:",
+    "Your version is up to date." : "Έχετε την τελευταία έκδοση.",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Μπορείτε πάντα να περάσετε σε νεότερη / πειραματική έκδοση. Αλλά ποτέ δεν μπορείτε να γυρίσετε πίσω σε πιο σταθερό κανάλι.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Σημειώστε ότι μετά από μια νέα διανομή μπορεί να περάσει λίγος καιρός πριν εμφανιστεί εδώ. Κυκλοφορούμε κατά διαστήματα νέες εκδόσεις στους χρήστες μας και κάποιες φορές παραλείπουμε κάποια έκδοση αν βρεθούν προβλήματα.",
     "Notify members of the following groups about available updates:" : "Να ενημερωθούν τα μέλη των παρακάτω ομάδων σχετικά με τις διαθέσιμες ενημερώσεις:",
@@ -23,8 +22,9 @@ OC.L10N.register(
     "Could not start updater, please try the manual update" : "Δεν μπορεί να εκκινήσει η εφαρμογή ενημέρωσης, παρακαλώ δοκιμάστε την χειροκίνητη ενημέρωση",
     "A new version is available: %s" : "Μία νέα έκδοση είναι διαθέσιμη: %s",
     "Download now" : "Λήψη τώρα",
-    "Your version is up to date." : "Έχετε την τελευταία έκδοση.",
     "Checked on %s" : "Ελέγχθηκε στις %s",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "Το συγκεκριμένο κανάλι ενημέρωσης καθιστά παρωχημένες τις ειδοποιήσεις που προορίζονται για τον διακομιστή."
+    "Update channel:" : "Ενημέρωση καναλιού:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Το συγκεκριμένο κανάλι ενημέρωσης καθιστά παρωχημένες τις ειδοποιήσεις που προορίζονται για τον διακομιστή.",
+    "What's new?" : "Τι νέο υπάρχει;"
 },
 "nplurals=2; plural=(n != 1);");

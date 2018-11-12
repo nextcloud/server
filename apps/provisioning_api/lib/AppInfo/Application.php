@@ -29,6 +29,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;
 use OCP\Util;
 
@@ -57,7 +58,7 @@ class Application extends App {
 			$isAdmin = $user !== null ? $server->getGroupManager()->isAdmin($user->getUID()) : false;
 			$isSubAdmin = $user !== null ? $server->getGroupManager()->getSubAdmin()->isSubAdmin($user) : false;
 			return new ProvisioningApiMiddleware(
-				$c['ControllerMethodReflector'],
+				$c->query(IControllerMethodReflector::class),
 				$isAdmin,
 				$isSubAdmin
 			);

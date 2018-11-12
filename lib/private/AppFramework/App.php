@@ -84,9 +84,9 @@ class App {
 	 */
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
-			$container[IRequest::class]->setUrlParameters($urlParams);
+			$container->query(IRequest::class)->setUrlParameters($urlParams);
 		} else if (isset($container['urlParams']) && !is_null($container['urlParams'])) {
-			$container[IRequest::class]->setUrlParameters($container['urlParams']);
+			$container->query(IRequest::class)->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 

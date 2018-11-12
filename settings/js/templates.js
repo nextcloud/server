@@ -1,7 +1,11 @@
 (function() {
   var template = Handlebars.template, templates = OC.Settings.Templates = OC.Settings.Templates || {};
 templates['authtoken'] = template({"1":function(container,depth0,helpers,partials,data) {
-    return "<a class=\"icon icon-more\"/>";
+    var helper;
+
+  return "<a class=\"icon icon-more has-tooltip\" tabindex=\"0\" title=\""
+    + container.escapeExpression(((helper = (helper = helpers.settingsTitle || (depth0 != null ? depth0.settingsTitle : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"settingsTitle","hash":{},"data":data}) : helper)))
+    + "\"/>";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -9,7 +13,7 @@ templates['authtoken'] = template({"1":function(container,depth0,helpers,partial
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "_filesystem\" "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.scope : depth0)) != null ? stack1.filesystem : stack1),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "/>\n				<label for=\""
+    + " tabindex=\"0\" />\n				<label for=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "_filesystem\">"
     + alias4(((helper = (helper = helpers.allowFSAccess || (depth0 != null ? depth0.allowFSAccess : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"allowFSAccess","hash":{},"data":data}) : helper)))
@@ -17,12 +21,10 @@ templates['authtoken'] = template({"1":function(container,depth0,helpers,partial
 },"4":function(container,depth0,helpers,partials,data) {
     return "checked";
 },"6":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var helper;
 
-  return "			<li>\n				<a class=\"icon icon-delete has-tooltip\" title=\""
-    + alias4(((helper = (helper = helpers.disconnectText || (depth0 != null ? depth0.disconnectText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"disconnectText","hash":{},"data":data}) : helper)))
-    + "\">"
-    + alias4(((helper = (helper = helpers.revokeText || (depth0 != null ? depth0.revokeText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"revokeText","hash":{},"data":data}) : helper)))
+  return "			<li>\n				<a class=\"icon icon-delete\" tabindex=\"0\">"
+    + container.escapeExpression(((helper = (helper = helpers.revokeText || (depth0 != null ? depth0.revokeText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"revokeText","hash":{},"data":data}) : helper)))
     + "</a>\n			</li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -31,11 +33,9 @@ templates['authtoken'] = template({"1":function(container,depth0,helpers,partial
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\">\n	<td class=\"client\">\n	    <div class=\""
     + alias4(((helper = (helper = helpers.icon || (depth0 != null ? depth0.icon : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"icon","hash":{},"data":data}) : helper)))
-    + "\" />\n	</td>\n	<td class=\"has-tooltip\" title=\""
-    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "\">\n		<span class=\"token-name\">"
+    + "\" />\n	</td>\n	<td class=\"token-name\">\n		"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</span>\n	</td>\n	<td>\n		<span class=\"last-activity has-tooltip\" title=\""
+    + "\n	</td>\n	<td>\n		<span class=\"last-activity has-tooltip\" title=\""
     + alias4(((helper = (helper = helpers.lastActivityTime || (depth0 != null ? depth0.lastActivityTime : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"lastActivityTime","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.lastActivity || (depth0 != null ? depth0.lastActivity : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"lastActivity","hash":{},"data":data}) : helper)))
@@ -44,7 +44,7 @@ templates['authtoken'] = template({"1":function(container,depth0,helpers,partial
     + "\n		<div class=\"popovermenu menu\">\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.canScope : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.canDelete : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "		</div>\n	</td>\n<tr>\n";
+    + "		</div>\n	</td>\n</tr>\n";
 },"useData":true});
 templates['federationscopemenu'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
