@@ -66,7 +66,11 @@
  */
 @mixin icon-color($icon, $dir, $color, $version: 1, $core: false) {
 	$color: remove-hash-from-color($color);
-	$varName: "--icon-#{$icon}-#{$color}";
+	/* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+	$varName: "--icon-#{$dir}-#{$icon}-#{$color}";
+	@if $core {
+		$varName: "--icon-#{$icon}-#{$color}";
+	}
 	#{$varName}: url(icon-color-path($icon, $dir, $color, $version, $core));
 	background-image: var(#{$varName});
 }
