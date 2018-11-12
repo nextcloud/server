@@ -301,7 +301,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);
-		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_entries')
+		$query->select($query->func()->count('*', 'num_entries'))
 			->from($table->getName());
 		$result = $query->execute();
 		$count = $result->fetchColumn();

@@ -217,7 +217,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$query->select('*')
 				->setMaxResults(1);
 		} else {
-			$query->select($query->createFunction('COUNT(1)'));
+			$query->select($query->func()->count($query->expr()->literal(1)));
 		}
 
 		$query->from(self::RELATION_TABLE)

@@ -314,7 +314,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 			$builder = $this->connection->getQueryBuilder();
 
 			$query = $builder->update('file_locks')
-				->set('lock', $builder->createFunction('`lock` -1'))
+				->set('lock', $builder->func()->subtract('lock', $builder->expr()->literal(1)))
 				->where($builder->expr()->in('key', $builder->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
 				->andWhere($builder->expr()->gt('lock', new Literal(0)));
 
