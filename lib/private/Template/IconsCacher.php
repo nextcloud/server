@@ -120,8 +120,8 @@ class IconsCacher {
 			$list .= "--$icon: url('$url');";
 			list($location,$color) = $this->parseUrl($url);
 			$svg = false;
-			if ($location !== '') {
-				$svg = file_get_contents($location);
+			if ($location !== '' && \file_exists($location)) {
+				$svg = \file_get_contents($location);
 			}
 			if ($svg === false) {
 				$this->logger->debug('Failed to get icon file ' . $location);
