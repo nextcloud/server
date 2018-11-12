@@ -14,6 +14,7 @@
     "@babel/polyfill": "^7.0.0",
     "lodash": "^4.17.11",
     "nextcloud-axios": "^0.1.2",
+    "nextcloud-password-confirmation": "^0.3.1",
     "nextcloud-vue": "^0.3.1",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.5.17",

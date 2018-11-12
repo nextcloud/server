@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -21,6 +21,7 @@
  */
 
 import axios from 'nextcloud-axios'
+import confirmPassword from 'nextcloud-password-confirmation' 
 
 const sanitize = function(url) {
 	return url.replace(/\/$/, ''); // Remove last url slash
@@ -60,35 +61,7 @@ export default {
 	 * @returns {Promise}
 	 */
 	requireAdmin() {
-		return new Promise(function(resolve, reject) {
-			// TODO: migrate the OC.dialog to Vue and avoid this mess
-			// wait for password confirmation
-			let passwordTimeout;
-			let waitForpassword = function() {
-				if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
-					passwordTimeout = setTimeout(waitForpassword, 500);
-					return;
-				}
-				clearTimeout(passwordTimeout);
-				clearTimeout(promiseTimeout);
-				resolve();
-			};
-
-			// automatically reject after 5s if not resolved
-			let promiseTimeout = setTimeout(() => {
-				clearTimeout(passwordTimeout);
-				// close dialog
-				if (document.getElementsByClassName('oc-dialog-close').length>0) {
-					document.getElementsByClassName('oc-dialog-close')[0].click();
-				}
-				OC.Notification.showTemporary(t('settings', 'You did not enter the password in time'));
-				reject('Password request cancelled');
-			}, 7000); 
-
-			// request password
-			OC.PasswordConfirmation.requirePasswordConfirmation();
-			waitForpassword();
-		});
+		return confirmPassword();
 	},
 	get(url) {
 		return axios.get(sanitize(url));
