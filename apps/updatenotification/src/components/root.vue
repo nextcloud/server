@@ -37,8 +37,10 @@
 					</ul>
 				</template>
 
-				<a v-if="updaterEnabled" href="#" class="button" @click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
-				<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+				<p>
+					<a v-if="updaterEnabled" href="#" class="button" @click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
+					<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+				</p>
 				<div class="whatsNew" v-if="whatsNew">
 					<div class="toggleWhatsNew">
 						<span v-click-outside="hideMenu" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</span>
@@ -55,8 +57,9 @@
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
-				<br />
-				<em>{{ t('updatenotification', 'A non-default update server is in use to be checked for updates:') }} <code>{{updateServerURL}}</code></em>
+				<p>
+					<em>{{ t('updatenotification', 'A non-default update server is in use to be checked for updates:') }} <code>{{updateServerURL}}</code></em>
+				</p>
 			</template>
 		</div>
 
@@ -153,7 +156,7 @@
 				}
 
 				$.ajax({
-					url: OC.linkToOCS('apps/updatenotification/api/v1/applist', 2) + this.newVersionString,
+					url: OC.linkToOCS('apps/updatenotification/api/v1/applist', 2) + this.newVersion,
 					type: 'GET',
 					beforeSend: function (request) {
 						request.setRequestHeader('Accept', 'application/json');
@@ -193,20 +196,18 @@
 					return t('updatenotification', 'Checking apps for compatible updates');
 				}
 
-				if (this.appstoreDisabled) {
+				if (this.appStoreDisabled) {
 					return t('updatenotification', 'Please make sure your config.php does not set <samp>appstoreenabled</samp> to false.');
 				}
 
-				if (this.appstoreFailed) {
+				if (this.appStoreFailed) {
 					return t('updatenotification', 'Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore.');
 				}
 
 				return this.missingAppUpdates.length === 0 ? t('updatenotification', '<strong>All</strong> apps have an update for this version available', this) : n('updatenotification',
 					'<strong>%n</strong> app has no update for this version available',
 					'<strong>%n</strong> apps have no update for this version available',
-					this.missingAppUpdates.length, {
-						version: this.newVersionString
-					});
+					this.missingAppUpdates.length);
 			},
 
 			productionInfoString: function() {
@@ -310,6 +311,7 @@
 			// Parse server data
 			var data = JSON.parse($('#updatenotification').attr('data-json'));
 
+			this.newVersion = data.newVersion;
 			this.newVersionString = data.newVersionString;
 			this.lastCheckedDate = data.lastChecked;
 			this.isUpdateChecked = data.isUpdateChecked;
