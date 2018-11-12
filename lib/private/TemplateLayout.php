@@ -75,12 +75,6 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('bodyid', 'body-user');
 			}
 
-			// Code integrity notification
-			$integrityChecker = \OC::$server->getIntegrityCodeChecker();
-			if(\OC_User::isAdminUser(\OC_User::getUser()) && $integrityChecker->isCodeCheckEnforced() && !$integrityChecker->hasPassedCheck()) {
-				\OCP\Util::addScript('core', 'integritycheck-failed-notification');
-			}
-
 			// Add navigation entry
 			$this->assign( 'application', '');
 			$this->assign( 'appid', $appId );
