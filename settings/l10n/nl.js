@@ -301,7 +301,7 @@ OC.L10N.register(
     "Use the credentials below to configure your app or device." : "Gebruik onderstaande inloggegevens om je app of apparaat te configureren.",
     "For security reasons this password will only be shown once." : "Vanwege beveiligingsredenen wordt dit wachtwoord maar één keer getoond.",
     "Username" : "Gebruikersnaam",
-    "Done" : "Gedaan",
+    "Done" : "Klaar",
     "Enabled apps" : "Ingeschakelde apps",
     "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cUrl gebruikt een verouderde %s versie (%s). Werk het besturingssysteem bij, want anders zullen functies als %s niet betrouwbaar werken.",
     "A problem occurred, please check your log files (Error: %s)" : "Er trad een een probleem op, controleer je logbestanden (Fout: %s).",
