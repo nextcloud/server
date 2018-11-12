@@ -64,6 +64,7 @@ OC.L10N.register(
     "Email sent" : "Tölvupóstur sendur",
     "Disconnect" : "Aftengjast",
     "Revoke" : "Afturkalla",
+    "Device settings" : "Stillingar tækis",
     "Allow filesystem access" : "Leyfa aðgang að skráakerfi",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
