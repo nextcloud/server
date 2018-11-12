@@ -6,14 +6,6 @@ use OC\Net\IpAddressV6;
 use OC\Net\IIpAddress;
 
 class IpAddressV6Test extends \Test\TestCase {
-	protected function setUp() {
-		parent::setUp();
-	}
-
-	protected function tearDown() {
-		parent::tearDown();
-	}
-
 	public function testIsRangeAddress() {
 		$ipaddress = new IpAddressV6('2001:db8:85a3:8d3:1319:8a2e:370:7348');
 

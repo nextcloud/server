@@ -6,14 +6,6 @@ use OC\Net\IpAddressV4;
 use OC\Net\IIpAddress;
 
 class IpAddressV4Test extends \Test\TestCase {
-	protected function setUp() {
-		parent::setUp();
-	}
-
-	protected function tearDown() {
-		parent::tearDown();
-	}
-
 	public function testIsRangeAddress() {
 		$ipaddress = new IpAddressV4('192.168.11.22');
 

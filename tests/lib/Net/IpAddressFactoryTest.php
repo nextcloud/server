@@ -8,14 +8,6 @@ use OC\Net\IpAddressV4;
 use OC\Net\IpAddressV6;
 
 class IpAddressFactoryTest extends \Test\TestCase {
-	protected function setUp() {
-		parent::setUp();
-	}
-
-	protected function tearDown() {
-		parent::tearDown();
-	}
-
 	public function testNewForIpv4Address() {
 		$ipaddress = IpAddressFactory::new('192.168.11.22');
 
