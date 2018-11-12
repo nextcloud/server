@@ -37,6 +37,7 @@
 
 namespace OC\Files\Cache;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use Doctrine\DBAL\Driver\Statement;
 use OCP\Files\Cache\ICache;
@@ -238,6 +239,8 @@ class Cache implements ICache {
 	 *
 	 * @return int file id
 	 * @throws \RuntimeException
+	 *
+	 * @suppress SqlInjectionChecker
 	 */
 	public function insert($file, array $data) {
 		// normalize file
@@ -268,12 +271,20 @@ class Cache implements ICache {
 			return trim($item, "`");
 		}, $queryParts);
 		$values = array_combine($queryParts, $params);
-		if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values, [
-			'storage',
-			'path_hash',
-		])
-		) {
-			return (int)$this->connection->lastInsertId('*PREFIX*filecache');
+
+		try {
+			$builder = $this->connection->getQueryBuilder();
+			$builder->insert('filecache');
+
+			foreach ($values as $column => $value) {
+				$builder->setValue($column, $builder->createNamedParameter($value));
+			}
+
+			if ($builder->execute()) {
+				return (int)$this->connection->lastInsertId('*PREFIX*filecache');
+			}
+		} catch(UniqueConstraintViolationException $e) {
+			// entry exists already
 		}
 
 		// The file was created in the mean time
@@ -281,7 +292,7 @@ class Cache implements ICache {
 			$this->update($id, $data);
 			return $id;
 		} else {
-			throw new \RuntimeException('File entry could not be inserted with insertIfNotExist() but could also not be selected with getId() in order to perform an update. Please try again.');
+			throw new \RuntimeException('File entry could not be inserted but could also not be selected with getId() in order to perform an update. Please try again.');
 		}
 	}
 
