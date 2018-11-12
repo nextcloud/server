@@ -1775,10 +1775,8 @@ OC.PasswordConfirmation = {
 				function (result, password) {
 					if (result && password !== '') {
 						self._confirmPassword(password, config);
-					} else {
-						if (rejectCallback && typeof rejectCallback === 'function') {
-							rejectCallback()
-						}
+					} else if (_.isFunction(rejectCallback)) {
+						rejectCallback()
 					}
 				},
 				true,
