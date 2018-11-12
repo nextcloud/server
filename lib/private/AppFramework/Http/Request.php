@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Mitar <mitar.git@tnode.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Oliver Wegner <void1976@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
