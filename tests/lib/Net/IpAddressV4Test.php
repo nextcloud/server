@@ -14,10 +14,56 @@ class IpAddressV4Test extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testGetMaxBitlength() {
+	public function testIsRangeSingle() {
 		$ipaddress = new IpAddressV4('192.168.11.22');
 
-		$this->assertSame(32, $ipaddress->getMaxBitlength());
+		$this->assertFalse($ipaddress->isRange());
+	}
+
+	public function testIsRangeRange24() {
+		$ipaddress = new IpAddressV4('192.168.11.0/24');
+
+		$this->assertTrue($ipaddress->isRange());
+	}
+
+	public function testIsRangeRange32() {
+		$ipaddress = new IpAddressV4('192.168.11.22/32');
+
+		$this->assertFalse($ipaddress->isRange());
+	}
+
+	public function testIsRangeRange0() {
+		$ipaddress = new IpAddressV4('0.0.0.0/0');
+
+		$this->assertTrue($ipaddress->isRange());
+	}
+
+	public function testContainsAddressSingleMatch() {
+		$ip1 = new IpAddressV4('192.168.11.22');
+		$ip2 = new IpAddressV4('192.168.11.22');
+
+		$this->assertTrue($ip1->containsAddress($ip2));
+	}
+
+	public function testContainsAddressSingleNoMatch() {
+		$ip1 = new IpAddressV4('192.168.11.22');
+		$ip2 = new IpAddressV4('192.168.11.23');
+
+		$this->assertFalse($ip1->containsAddress($ip2));
+	}
+
+	public function testContainsAddressRangeMatch() {
+		$ip1 = new IpAddressV4('192.168.11.0/24');
+		$ip2 = new IpAddressV4('192.168.11.23');
+
+		$this->assertTrue($ip1->containsAddress($ip2));
+	}
+
+	public function testContainsAddressRangeNoMatch() {
+		$ip1 = new IpAddressV4('192.168.11.0/24');
+		$ip2 = new IpAddressV4('192.168.12.23');
+
+		$this->assertFalse($ip1->containsAddress($ip2));
 	}
 }
 
