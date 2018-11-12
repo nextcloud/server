@@ -28,6 +28,7 @@ use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\IconsCacher;
 use OCA\Theming\ThemingDefaults;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -46,10 +47,13 @@ class IconsCacherTest extends \Test\TestCase {
 	protected $appData;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $urlGenerator;
+	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $timeFactory;
 
 	protected function setUp() {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->appData = $this->createMock(AppData::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
 		$factory = $this->createMock(Factory::class);
@@ -63,7 +67,8 @@ class IconsCacherTest extends \Test\TestCase {
 		$this->iconsCacher = new IconsCacher(
 			$this->logger,
 			$factory,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->timeFactory
 		);
 	}
 

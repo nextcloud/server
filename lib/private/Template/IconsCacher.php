@@ -24,6 +24,7 @@ declare (strict_types = 1);
 
 namespace OC\Template;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
@@ -46,6 +47,9 @@ class IconsCacher {
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 
+	/** @var ITimeFactory */
+	protected $timeFactory;
+
 	/** @var string */
 	private $iconVarRE = '/--(icon-[a-zA-Z0-9-]+):\s?url\(["\']?([a-zA-Z0-9-_\~\/\.\?\&\=\:\;\+\,]+)[^;]+;/m';
 
@@ -58,14 +62,17 @@ class IconsCacher {
 	 * @param ILogger $logger
 	 * @param Factory $appDataFactory
 	 * @param IURLGenerator $urlGenerator
+	 * @param ITimeFactory $timeFactory
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function __construct(ILogger $logger,
 								Factory $appDataFactory,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								ITimeFactory $timeFactory) {
 		$this->logger       = $logger;
 		$this->appData      = $appDataFactory->get('css');
 		$this->urlGenerator = $urlGenerator;
+		$this->timeFactory  = $timeFactory;
 
 		try {
 			$this->folder = $this->appData->getFolder('icons');
@@ -216,6 +223,11 @@ class IconsCacher {
 	}
 
 	public function injectCss() {
+		$mtime = $this->timeFactory->getTime();
+		$file = $this->getCachedList();
+		if ($file) {
+			$mtime = $file->getMTime();
+		}
 		// Only inject once
 		foreach (\OC_Util::$headers as $header) {
 			if (
@@ -225,7 +237,7 @@ class IconsCacher {
 				return;
 			}
 		}
-		$linkToCSS = $this->urlGenerator->linkToRoute('core.Css.getCss', ['appName' => 'icons', 'fileName' => $this->fileName]);
+		$linkToCSS = $this->urlGenerator->linkToRoute('core.Css.getCss', ['appName' => 'icons', 'fileName' => $this->fileName, 'v' => $mtime]);
 		\OC_Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS], null, true);
 	}
 
