@@ -28,7 +28,6 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
-use OCP\IL10N;
 use OCP\IUser;
 use Sabre\DAV\Exception;
 use \Sabre\DAV\PropPatch;
@@ -47,23 +46,17 @@ class GroupPrincipalBackend implements BackendInterface {
 	/** @var IShareManager */
 	private $shareManager;
 
-	/** @var IL10N */
-	private $l10n;
-
 	/**
 	 * @param IGroupManager $IGroupManager
 	 * @param IUserSession $userSession
 	 * @param IShareManager $shareManager
-	 * @param IL10N $l10n
 	 */
 	public function __construct(IGroupManager $IGroupManager,
 								IUserSession $userSession,
-								IShareManager $shareManager,
-								IL10N $l10n) {
+								IShareManager $shareManager) {
 		$this->groupManager = $IGroupManager;
 		$this->userSession = $userSession;
 		$this->shareManager = $shareManager;
-		$this->l10n = $l10n;
 	}
 
 	/**
@@ -293,10 +286,12 @@ class GroupPrincipalBackend implements BackendInterface {
 	 */
 	protected function groupToPrincipal($group) {
 		$groupId = $group->getGID();
+		// getDisplayName returns UID if none
+		$displayName = $group->getDisplayName();
 
 		return [
 			'uri' => 'principals/groups/' . urlencode($groupId),
-			'{DAV:}displayname' => $this->l10n->t('%s (group)', [$groupId]),
+			'{DAV:}displayname' => $displayName,
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
 		];
 	}
@@ -307,11 +302,12 @@ class GroupPrincipalBackend implements BackendInterface {
 	 */
 	protected function userToPrincipal($user) {
 		$userId = $user->getUID();
+		// getDisplayName returns UID if none
 		$displayName = $user->getDisplayName();
 
 		$principal = [
 			'uri' => 'principals/users/' . $userId,
-			'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
+			'{DAV:}displayname' => $displayName,
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
 
