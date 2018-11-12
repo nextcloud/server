@@ -144,11 +144,11 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$summary = $iTipMessage->message->VEVENT->SUMMARY;
 
-		if (strcasecmp(parse_url($iTipMessage->sender, PHP_URL_SCHEME), 'mailto') !== 0) {
+		if (parse_url($iTipMessage->sender, PHP_URL_SCHEME) !== 'mailto') {
 			return;
 		}
 
-		if (strcasecmp(parse_url($iTipMessage->recipient, PHP_URL_SCHEME), 'mailto') !== 0) {
+		if (parse_url($iTipMessage->recipient, PHP_URL_SCHEME) !== 'mailto') {
 			return;
 		}
 
