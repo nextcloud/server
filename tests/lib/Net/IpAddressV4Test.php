@@ -14,8 +14,14 @@ class IpAddressV4Test extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testIsRangeSingle() {
+	public function testIsRangeAddress() {
 		$ipaddress = new IpAddressV4('192.168.11.22');
+
+		$this->assertFalse($ipaddress->isRange());
+	}
+
+	public function testIsRangeLocalhost() {
+		$ipaddress = new IpAddressV4('127.0.0.1');
 
 		$this->assertFalse($ipaddress->isRange());
 	}

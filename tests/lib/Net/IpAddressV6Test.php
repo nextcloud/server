@@ -14,8 +14,14 @@ class IpAddressV6Test extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testIsRangeSingle() {
+	public function testIsRangeAddress() {
 		$ipaddress = new IpAddressV6('2001:db8:85a3:8d3:1319:8a2e:370:7348');
+
+		$this->assertFalse($ipaddress->isRange());
+	}
+
+	public function testIsRangeLocalhost() {
+		$ipaddress = new IpAddressV6('::1');
 
 		$this->assertFalse($ipaddress->isRange());
 	}
