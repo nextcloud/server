@@ -47,6 +47,11 @@ if ($_['mail_smtpmode'] === 'qmail') {
 	$mail_smtpmode[] = ['qmail', 'qmail'];
 }
 
+$mail_sendmailmode = [
+	'smtp' => 'smtp (-bs)',
+	'pipe' => 'pipe (-t)'
+];
+
 ?>
 
 <div class="section" id="mail_general_settings">
@@ -82,6 +87,15 @@ if ($_['mail_smtpmode'] === 'qmail') {
 						$selected = 'selected="selected"';
 					endif; ?>
 					<option value="<?php p($secure)?>" <?php p($selected) ?>><?php p($name) ?></option>
+				<?php endforeach;?>
+			</select>
+
+			<label id="mail_sendmailmode_label" for="mail_sendmailmode" class="<?= $_['mail_smtpmode'] !== 'sendmail' ? 'hidden' : '' ?>">
+				<?php p($l->t('Sendmail mode')); ?>
+			</label>
+			<select name="mail_sendmailmode" id="mail_sendmailmode" class="<?= $_['mail_smtpmode'] !== 'sendmail' ? 'hidden' : '' ?>">
+				<?php foreach ($mail_sendmailmode as $sendmailmodeValue => $sendmailmodeLabel): ?>
+					<option value="<?php p($sendmailmodeValue)?>" <?= $sendmailmodeValue === $_['mail_sendmailmode'] ? 'selected="selected"' : '' ?>><?php p($sendmailmodeLabel) ?></option>
 				<?php endforeach;?>
 			</select>
 		</p>
