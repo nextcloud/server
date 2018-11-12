@@ -757,14 +757,6 @@ OC.Uploader.prototype = _.extend({
 		callbacks.onNoConflicts(selection);
 	},
 
-	_hideProgressBar: function() {
-		var self = this;
-		$('#uploadprogresswrapper .stop').fadeOut();
-		$('#uploadprogressbar').fadeOut(function() {
-			self.$uploadEl.trigger(new $.Event('resized'));
-		});
-	},
-
 	_updateProgressBarOnUploadStop: function() {
 		if (this._pendingUploadDoneCount === 0) {
 			// All the uploads ended and there is no pending operation, so hide
@@ -778,17 +770,47 @@ OC.Uploader.prototype = _.extend({
 			return;
 		}
 
-		$('#uploadprogressbar .label .mobile').text(t('core', '…'));
-		$('#uploadprogressbar .label .desktop').text(t('core', 'Processing files …'));
+		this._setProgressBarText(t('core', 'Processing files …'), t('core', '…'));
 
 		// Nothing is being uploaded at this point, and the pending operations
 		// can not be cancelled, so the cancel button should be hidden.
+		this._hideCancelButton();
+	},
+
+	_hideProgressBar: function() {
+		var self = this;
+		$('#uploadprogresswrapper .stop').fadeOut();
+		$('#uploadprogressbar').fadeOut(function() {
+			self.$uploadEl.trigger(new $.Event('resized'));
+		});
+	},
+
+	_hideCancelButton: function() {
 		$('#uploadprogresswrapper .stop').fadeOut();
 	},
 
 	_showProgressBar: function() {
+		$('#uploadprogresswrapper .stop').show();
+		$('#uploadprogresswrapper .label').show();
 		$('#uploadprogressbar').fadeIn();
 		this.$uploadEl.trigger(new $.Event('resized'));
+	},
+
+	_setProgressBarValue: function(value) {
+		$('#uploadprogressbar').progressbar({value: value});
+	},
+
+	_setProgressBarText: function(textDesktop, textMobile, title) {
+		$('#uploadprogressbar .ui-progressbar-value').
+			html('<em class="label inner"><span class="desktop">'
+				+ textDesktop
+				+ '</span><span class="mobile">'
+				+ textMobile
+				+ '</span></em>');
+		$('#uploadprogressbar').tooltip({placement: 'bottom'});
+		if(title) {
+			$('#uploadprogressbar').attr('original-title', title);
+		}
 	},
 
 	/**
@@ -1096,16 +1118,8 @@ OC.Uploader.prototype = _.extend({
 				// add progress handlers
 				fileupload.on('fileuploadstart', function(e, data) {
 					self.log('progress handle fileuploadstart', e, data);
-					$('#uploadprogresswrapper .stop').show();
-					$('#uploadprogresswrapper .label').show();
-					$('#uploadprogressbar').progressbar({value: 0});
-					$('#uploadprogressbar .ui-progressbar-value').
-						html('<em class="label inner"><span class="desktop">'
-							+ t('files', 'Uploading …')
-							+ '</span><span class="mobile">'
-							+ t('files', '…')
-							+ '</span></em>');
-					$('#uploadprogressbar').tooltip({placement: 'bottom'});
+					self._setProgressBarText(t('files', 'Uploading …'), t('files', '…'));
+					self._setProgressBarValue(0);
 					self._showProgressBar();
 					// initial remaining time variables
 					lastUpdate   = new Date().getTime();
@@ -1155,16 +1169,12 @@ OC.Uploader.prototype = _.extend({
 						// show "Uploading ..." for durations longer than 4 hours
 						h = t('files', 'Uploading …');
 					}
-					$('#uploadprogressbar .label .mobile').text(h);
-					$('#uploadprogressbar .label .desktop').text(h);
-					$('#uploadprogressbar').attr('original-title',
-						t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
+					self._setProgressBarText(h, h, t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
 							loadedSize: humanFileSize(data.loaded),
 							totalSize: humanFileSize(data.total),
 							bitrate: humanFileSize(data.bitrate / 8) + '/s'
-						})
-					);
-					$('#uploadprogressbar').progressbar('value', progress);
+						}));
+					self._setProgressBarValue(progress);
 					self.trigger('progressall', e, data);
 				});
 				fileupload.on('fileuploadstop', function(e, data) {
