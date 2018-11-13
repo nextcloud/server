@@ -18,10 +18,9 @@
 
 		render: function() {
 			this.$el.html(OCA.Files.Templates['operationprogressbar']({
-				textDesktop: t('Uploading …'),
-				textMobile: t('…'),
 				textCancelButton: t('Cancel operation')
 			}));
+			this.setProgressBarText(t('Uploading …'), t('…'));
 		},
 
 		hideProgressBar: function() {
@@ -50,12 +49,11 @@
 		},
 
 		setProgressBarText: function(textDesktop, textMobile, title) {
-			$('#uploadprogressbar .ui-progressbar-value').
-				html('<em class="label inner"><span class="desktop">'
-					+ textDesktop
-					+ '</span><span class="mobile">'
-					+ textMobile
-					+ '</span></em>');
+			var labelHtml = OCA.Files.Templates['operationprogressbarlabel']({textDesktop: textDesktop, textMobile: textMobile});
+			$('#uploadprogressbar .ui-progressbar-value').html(labelHtml);
+			$('#uploadprogressbar .ui-progressbar-value>em').addClass('inner');
+			$('#uploadprogressbar>em').replaceWith(labelHtml);
+			$('#uploadprogressbar>em').addClass('outer');
 			$('#uploadprogressbar').tooltip({placement: 'bottom'});
 			if(title) {
 				$('#uploadprogressbar').attr('original-title', title);
