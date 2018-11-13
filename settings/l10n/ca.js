@@ -145,7 +145,6 @@ OC.L10N.register(
     "Password change is disabled because the master key is disabled" : "El canvi de contrasenya està inhabilitada perquè la clau mestra està desactivada",
     "Common languages" : "Idiomes comuns",
     "All languages" : "Totes les llengües",
-    "You did not enter the password in time" : "No vas escriure la contrasenya a temps",
     "An error occured during the request. Unable to proceed." : "S'ha produït un error durant la petició. Incapaç de continuar.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "L'app s'ha habilitat, però s’ha de actualitzar. Serà redirigit a la pàgina d'actualització en 5 segons.",
     "App update" : "Actualització app",

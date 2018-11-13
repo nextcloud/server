@@ -38,7 +38,6 @@ OC.L10N.register(
     "Checked on %s" : "检查于 %s",
     "Update channel:" : "更新通道：",
     "The selected update channel makes dedicated notifications for the server obsolete." : "被选中的升级通道将会通知未更新的服务器",
-    "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。",
-    "What's new?" : "有哪些更新？"
+    "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。"
 },
 "nplurals=1; plural=0;");

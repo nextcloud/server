@@ -134,7 +134,6 @@ OC.L10N.register(
     "Default quota" : "默认配额",
     "Default language" : "默认语言",
     "All languages" : "所有语言",
-    "You did not enter the password in time" : "您没有及时输入密码",
     "An error occured during the request. Unable to proceed." : "请求期间发生错误。 无法继续。",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "该应用已启用, 但是需要更新. 5秒后将跳转到更新页面.",
     "App update" : "更新应用",

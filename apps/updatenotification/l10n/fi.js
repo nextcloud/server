@@ -26,7 +26,6 @@ OC.L10N.register(
     "Download now" : "Lataa heti",
     "Checked on %s" : "Tarkistettu %s",
     "Update channel:" : "Päivityskanava:",
-    "The update check is not yet finished. Please refresh the page." : "Päivitystarkistus ei ole vielä valmis. Päivitä sivu.",
-    "What's new?" : "Mitä uutta?"
+    "The update check is not yet finished. Please refresh the page." : "Päivitystarkistus ei ole vielä valmis. Päivitä sivu."
 },
 "nplurals=2; plural=(n != 1);");

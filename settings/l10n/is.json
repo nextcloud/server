@@ -144,7 +144,6 @@
     "Password change is disabled because the master key is disabled" : "Lykilorðabreyting er óvirk vegna þess að aðallykill er óvirkur",
     "Common languages" : "Algeng tungumál",
     "All languages" : "Öll tungumál",
-    "You did not enter the password in time" : "Þú settir ekki lykilorðið inn tímanlega",
     "An error occured during the request. Unable to proceed." : "Villa kom upp við beiðnina. Get ekki haldið áfram.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Forritið hefur verið virkjað, en það þarf að uppfæra það. Þú verður áframsendur á uppfærslusíðuna eftir 5 sekúndur.",
     "App update" : "Endurnýjun forrits",

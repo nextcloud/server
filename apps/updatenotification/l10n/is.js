@@ -38,7 +38,6 @@ OC.L10N.register(
     "Checked on %s" : "Athugað þann %s",
     "Update channel:" : "Uppfærslurás:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Valda uppfærslurásin gerir úreltar sértækar tilkynningar fyrir vefþjóninn.",
-    "The update check is not yet finished. Please refresh the page." : "Athugun á uppfærslum er ekki ennþá lokið. Endurlestu síðuna.",
-    "What's new?" : "Nýtt á döfinni?"
+    "The update check is not yet finished. Please refresh the page." : "Athugun á uppfærslum er ekki ennþá lokið. Endurlestu síðuna."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

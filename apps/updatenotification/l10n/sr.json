@@ -36,7 +36,6 @@
     "Checked on %s" : "Проверено %s",
     "Update channel:" : "Канал за ажурирање:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Уз означени канал за ажурирање нема смисла да имате обавештења о новим верзијама.",
-    "The update check is not yet finished. Please refresh the page." : "Провера за новим верзијама још није готова. Освежите страну.",
-    "What's new?" : "Шта је ново?"
+    "The update check is not yet finished. Please refresh the page." : "Провера за новим верзијама још није готова. Освежите страну."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

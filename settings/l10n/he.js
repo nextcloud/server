@@ -121,7 +121,6 @@ OC.L10N.register(
     "User backend" : "מנגנון משתמש",
     "Unlimited" : "ללא הגבלה",
     "Default quota" : "מכסת בררת מחדל",
-    "You did not enter the password in time" : "לא הכנסת את הססמה בזמן המתאים",
     "An error occured during the request. Unable to proceed." : "אירעה שגיאה במהלך הבקשה. לא ניתן להמשיך.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "היישומון הופעל אך יש לעדכן אותו. ההפניה לעמוד העדכון תחל בעוד 5 שניות.",
     "App update" : "עדכון יישומן",
