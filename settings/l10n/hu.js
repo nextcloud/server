@@ -141,7 +141,6 @@ OC.L10N.register(
     "Password change is disabled because the master key is disabled" : "A jelszó változtatása tiltva van mert a mester kulcs tiltva van",
     "Common languages" : "Alapvető nyelvek",
     "All languages" : "Minden nyelv",
-    "You did not enter the password in time" : "Nem adta meg időben a jelszót",
     "An error occured during the request. Unable to proceed." : "Hiba lépett fel a kérés közben. Nem lehet végrehajtani.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Ez az alkalmazás engedélyezve van, de frissíteni kell. A frissítő oldalra irányítjuk 5 másodpercen belül.",
     "App update" : "Alkalmazás frissítése",

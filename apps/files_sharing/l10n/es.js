@@ -121,6 +121,7 @@ OC.L10N.register(
     "Share note" : "Compartir nota",
     "Download %s" : "Descargar %s",
     "Upload files to %s" : "Subir archivos a %s",
+    "Note" : "Nota",
     "Select or drop files" : "Seleccione o arrastre y suelte archivos",
     "Uploading files…" : "Subiendo archivos...",
     "Uploaded files:" : "Archivos subidos:",

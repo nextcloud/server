@@ -105,6 +105,7 @@
     "Sharing %1$s failed, because the user %2$s does not exist" : "Не удалось предоставить общий доступ к «%1$s», пользователь %2$s не существует.",
     "Sharing %1$s failed, because the user %2$s is not a member of any groups that %3$s is a member of" : "Не удалось предоставить доступ к «%1$s» , так как пользователь %2$s не состоит в какой-либо группе, в которой состоит %3$s",
     "Sharing %1$s failed, because this item is already shared with %2$s" : "Не удалось предоставить общий доступ к «%1$s» , пользователю %2$s такой доступ уже предоставлен.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Не удалось предоставить доступ к «%1$s», так как этот ресурс уже доступен пользователю %2$s",
     "You need to provide a password to create a public link, only protected links are allowed" : "Вам нужно задать пароль для создания публичной ссылки. Разрешены только защищённые ссылки",
     "Sharing %s failed, because sharing with links is not allowed" : "Не удалось поделиться %s, открытие доступа по ссылке запрещено",
     "Not allowed to create a federated share with the same user" : "Не допускается создание федеративного общего ресурса с тем же пользователем",

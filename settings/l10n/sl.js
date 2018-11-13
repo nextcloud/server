@@ -88,7 +88,6 @@ OC.L10N.register(
     "Language" : "Jezik",
     "Unlimited" : "Neomejeno",
     "Default quota" : "Privzeta količinska omejitev",
-    "You did not enter the password in time" : "Čas za vpis gesla je potekel.",
     "Your apps" : "Vsi programi",
     "Admins" : "Skrbniki",
     "Everyone" : "Vsi",

@@ -34,7 +34,6 @@ OC.L10N.register(
     "Checked on %s" : "Sprawdzono: %s",
     "Update channel:" : "Kanał aktualizacji:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Wybrany kanał aktualizacji dla dedykowanych powiadomień dla serwera jest nieaktualny.",
-    "The update check is not yet finished. Please refresh the page." : "Sprawdzanie aktualizacji nie zostało jeszcze zakończone. Odśwież stronę.",
-    "What's new?" : "Co nowego?"
+    "The update check is not yet finished. Please refresh the page." : "Sprawdzanie aktualizacji nie zostało jeszcze zakończone. Odśwież stronę."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

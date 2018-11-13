@@ -145,7 +145,6 @@ OC.L10N.register(
     "Password change is disabled because the master key is disabled" : "Wachtwoordwijziging is uitgeschakeld omdat de hoofdsleutel is uitgeschakeld",
     "Common languages" : "Gebruikelijke talen",
     "All languages" : "Alle talen",
-    "You did not enter the password in time" : "Je voerde het wachtwoord niet op tijd in",
     "An error occured during the request. Unable to proceed." : "Er trad een fout op bij de aanvraag. Kan niet doorgaan.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "De app is ingeschakeld maar moet worden geüpdate. Je wordt over 5 seconden doorgeleid naar de updatepagina.",
     "App update" : "App update",

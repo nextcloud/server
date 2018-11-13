@@ -38,7 +38,6 @@ OC.L10N.register(
     "Checked on %s" : "Zkontrolováno %s",
     "Update channel:" : "Aktualizovat kanál:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Zvolený kanál aktualizací označuje dedikovaná upozornění pro server za zastaralá.",
-    "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
-    "What's new?" : "Co je nového?"
+    "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

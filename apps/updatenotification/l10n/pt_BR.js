@@ -38,7 +38,6 @@ OC.L10N.register(
     "Checked on %s" : "Verificada em %s",
     "Update channel:" : "Atualizar para:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "A atualização selecionada fornece notificações dedicadas para o servidor desatualizado.",
-    "The update check is not yet finished. Please refresh the page." : "A verificação de atualização ainda não acabou. Atualize a página.",
-    "What's new?" : "O que há de novo?"
+    "The update check is not yet finished. Please refresh the page." : "A verificação de atualização ainda não acabou. Atualize a página."
 },
 "nplurals=2; plural=(n > 1);");

@@ -38,7 +38,6 @@ OC.L10N.register(
     "Checked on %s" : "Controllato il %s",
     "Update channel:" : "Canale di aggiornamento:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Il canale di aggiornamento selezionato rende obsolete le notifiche dedicate al server.",
-    "The update check is not yet finished. Please refresh the page." : "Il controllo degli aggiornamenti non è ancora terminato. Aggiorna la pagina.",
-    "What's new?" : "Cosa c'è di nuovo?"
+    "The update check is not yet finished. Please refresh the page." : "Il controllo degli aggiornamenti non è ancora terminato. Aggiorna la pagina."
 },
 "nplurals=2; plural=(n != 1);");

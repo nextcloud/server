@@ -58,7 +58,6 @@ OC.L10N.register(
     "More options …" : "Fler alternativ ...",
     "More options at %s" : "Fler alternativ på %s",
     "Contacts" : "Kontakter",
-    "%s (group)" : "%s (grupp)",
     "WebDAV" : "WebDAV",
     "Technical details" : "Tekniska detaljer",
     "Remote Address: %s" : "Extern adress: %s",

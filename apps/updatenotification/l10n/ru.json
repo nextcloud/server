@@ -36,7 +36,6 @@
     "Checked on %s" : "Проверено %s",
     "Update channel:" : "Канал обновлений:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Выбранный канал обновлений высылает специальные уведомления, если сервер устарел.",
-    "The update check is not yet finished. Please refresh the page." : "Проверка обновлений ещё не закончена. Пожалуйста обновите страницу.",
-    "What's new?" : "Что нового?"
+    "The update check is not yet finished. Please refresh the page." : "Проверка обновлений ещё не закончена. Пожалуйста обновите страницу."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

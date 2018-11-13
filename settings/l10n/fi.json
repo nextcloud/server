@@ -133,7 +133,6 @@
     "Default language" : "Oletuskieli",
     "Common languages" : "Yleiset kielet",
     "All languages" : "Kaikki kielet",
-    "You did not enter the password in time" : "Et kirjoittanut salasanaa aikarajan puitteissa",
     "An error occured during the request. Unable to proceed." : "Pyynnön aikana tapahtui virhe. Jatkaminen ei onnistu.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Sovellus on käytössä, mutta se tulee päivittää. Sinut ohjataan sovelluksen päivityssivulle viiden sekunnin kuluttua.",
     "App update" : "Sovelluspäivitys",
