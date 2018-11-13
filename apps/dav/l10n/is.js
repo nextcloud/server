@@ -59,7 +59,6 @@ OC.L10N.register(
     "More options …" : "Fleiri valkostir ...",
     "More options at %s" : "Fleiri valkostir á %s",
     "Contacts" : "Tengiliðir",
-    "%s (group)" : "%s (hópur)",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-endapunktur",
     "Technical details" : "Tæknilegar upplýsingar",

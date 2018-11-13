@@ -36,7 +36,6 @@
     "Checked on %s" : "Geprüft am %s",
     "Update channel:" : "Update-Kanal:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Der gewählte Aktualisierungskanal macht dedizierte Benachrichtigungen für Server Aktualisierungen obsolet.",
-    "The update check is not yet finished. Please refresh the page." : "Die Aktualisierungsprüfung ist noch nicht abgeschlossen. Bitte die Seite neu laden.",
-    "What's new?" : "Was ist neu?"
+    "The update check is not yet finished. Please refresh the page." : "Die Aktualisierungsprüfung ist noch nicht abgeschlossen. Bitte die Seite neu laden."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

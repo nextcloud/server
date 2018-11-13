@@ -144,7 +144,6 @@ OC.L10N.register(
     "Password change is disabled because the master key is disabled" : "Zmena hesla je zablokovaná pretože hlavný kľúč je vypnutý",
     "Common languages" : "Spoločné jazyky",
     "All languages" : "Všetky jazyky",
-    "You did not enter the password in time" : "Nestihli ste vložiť heslo načas",
     "An error occured during the request. Unable to proceed." : "Počas vykonania požiadavky nastala chyba.  Nie je možné pokračovať.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikácia bola povolená, ale vyžaduje sa aktualizácia. Presmerovanie na stránku aktualizácie o 5 sekúnd.",
     "App update" : "Aktualizácia aplikácie",

@@ -125,7 +125,6 @@ OC.L10N.register(
     "Default quota" : "デフォルトのクォータ",
     "Default language" : "既定の言語",
     "All languages" : "すべての言語",
-    "You did not enter the password in time" : "あなたは時間内にパスワードを入力しませんでした",
     "App update" : "アプリのアップデート",
     "Error: This app can not be enabled because it makes the server unstable" : "エラー：このアプリは、サーバーを不安定にするため、有効にすることができません。",
     "Your apps" : "あなたのアプリ",

@@ -146,7 +146,6 @@ OC.L10N.register(
     "Password change is disabled because the master key is disabled" : "La modifica della password è disabilitata poiché la chiave principale è disabilitata",
     "Common languages" : "Lingue comuni",
     "All languages" : "Tutte le lingue",
-    "You did not enter the password in time" : "Non hai digitato la password in tempo",
     "An error occured during the request. Unable to proceed." : "Si è verificato un errore durante la richiesta. Impossibile continuare..",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "L'applicazione è stata abilitata, ma deve essere aggiornata. Sarai rediretto alla pagina di aggiornamento in 5 secondi.",
     "App update" : "Aggiornamento applicazione",

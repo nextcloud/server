@@ -119,7 +119,6 @@
     "User backend" : "Backend del usuario",
     "Unlimited" : "Ilimitado",
     "Default quota" : "Cuota predeterminada",
-    "You did not enter the password in time" : "No ingresaste la contraseña a tiempo",
     "An error occured during the request. Unable to proceed." : "Se presentó un error durante la solicitud. No es posible proceder.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La aplicación ha sido habilitada pero necesita ser actualizada. Serás redireccionado a la página de actualización en 5 segundos. ",
     "App update" : "Actualización de la aplicación",

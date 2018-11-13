@@ -139,7 +139,6 @@
     "Password change is disabled because the master key is disabled" : "Lösenordsbyte är inaktiverat eftersom huvudnyckeln är inaktiverad",
     "Common languages" : "Vanliga språk",
     "All languages" : "Alla språk",
-    "You did not enter the password in time" : "Du angav inte lösenordet i tid",
     "An error occured during the request. Unable to proceed." : "Ett fel uppstod under förfrågan. Kan inte fortsätta.",
     "App update" : "Appuppdatering",
     "Error: This app can not be enabled because it makes the server unstable" : "Fel: Denna app kan inte aktiveras eftersom det gör servern instabil",
