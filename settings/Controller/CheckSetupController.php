@@ -131,7 +131,7 @@ class CheckSetupController extends Controller {
 		}
 
 		$siteArray = ['www.nextcloud.com',
-						'www.startpage.com',
+						'www.mozilla.org',
 						'www.eff.org',
 						'www.edri.org',
 			];
