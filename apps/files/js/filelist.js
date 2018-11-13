@@ -379,11 +379,16 @@
 				});
 			}
 
+			this._operationProgressBar = new OCA.Files.OperationProgressBar();
+			this._operationProgressBar.render();
+			this.$el.find('#uploadprogresswrapper').replaceWith(this._operationProgressBar.$el);
+
 			if (options.enableUpload) {
 				// TODO: auto-create this element
 				var $uploadEl = this.$el.find('#file_upload_start');
 				if ($uploadEl.exists()) {
 					this._uploader = new OC.Uploader($uploadEl, {
+						progressBar: this._operationProgressBar,
 						fileList: this,
 						filesClient: this.filesClient,
 						dropZone: $('#content'),

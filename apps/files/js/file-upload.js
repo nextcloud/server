@@ -429,6 +429,11 @@ OC.Uploader.prototype = _.extend({
 	fileList: null,
 
 	/**
+	 * @type OCA.Files.OperationProgressBar
+	 */
+	progressBar: null,
+
+	/**
 	 * @type OC.Files.Client
 	 */
 	filesClient: null,
@@ -778,39 +783,23 @@ OC.Uploader.prototype = _.extend({
 	},
 
 	_hideProgressBar: function() {
-		var self = this;
-		$('#uploadprogresswrapper .stop').fadeOut();
-		$('#uploadprogressbar').fadeOut(function() {
-			self.$uploadEl.trigger(new $.Event('resized'));
-		});
+		this.progressBar.hideProgressBar();
 	},
 
 	_hideCancelButton: function() {
-		$('#uploadprogresswrapper .stop').fadeOut();
+		this.progressBar.hideCancelButton();
 	},
 
 	_showProgressBar: function() {
-		$('#uploadprogresswrapper .stop').show();
-		$('#uploadprogresswrapper .label').show();
-		$('#uploadprogressbar').fadeIn();
-		this.$uploadEl.trigger(new $.Event('resized'));
+		this.progressBar.showProgressBar();
 	},
 
 	_setProgressBarValue: function(value) {
-		$('#uploadprogressbar').progressbar({value: value});
+		this.progressBar.setProgressBarValue(value);
 	},
 
 	_setProgressBarText: function(textDesktop, textMobile, title) {
-		$('#uploadprogressbar .ui-progressbar-value').
-			html('<em class="label inner"><span class="desktop">'
-				+ textDesktop
-				+ '</span><span class="mobile">'
-				+ textMobile
-				+ '</span></em>');
-		$('#uploadprogressbar').tooltip({placement: 'bottom'});
-		if(title) {
-			$('#uploadprogressbar').attr('original-title', title);
-		}
+		this.progressBar.setProgressBarText(textDesktop, textMobile, title);
 	},
 
 	/**
@@ -846,6 +835,7 @@ OC.Uploader.prototype = _.extend({
 		options = options || {};
 
 		this.fileList = options.fileList;
+		this.progressBar = options.progressBar;
 		this.filesClient = options.filesClient || OC.Files.getClient();
 		this.davClient = new OC.Files.Client({
 			host: this.filesClient.getHost(),
@@ -859,7 +849,7 @@ OC.Uploader.prototype = _.extend({
 		this.$uploadEl = $uploadEl;
 
 		if ($uploadEl.exists()) {
-			$('#uploadprogresswrapper .stop').on('click', function() {
+			this.progressBar.on('cancel', function() {
 				self.cancelUploads();
 			});
 

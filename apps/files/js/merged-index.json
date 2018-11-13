@@ -22,6 +22,7 @@
   "sidebarpreviewtext.js",
   "detailtabview.js",
   "mainfileinfodetailview.js",
+  "operationprogressbar.js",
   "detailsview.js",
   "fileactions.js",
   "fileactionsmenu.js",
