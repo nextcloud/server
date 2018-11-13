@@ -38,7 +38,6 @@ OC.L10N.register(
     "Checked on %s" : "Gecontroleerd op %s",
     "Update channel:" : "Bijwerkkanaal:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Het geselecteerde updatekanaal maakt overbodig om serverspecifieke meldingen apart te genereren.",
-    "The update check is not yet finished. Please refresh the page." : "De update controle is niet afgerond. Ververs de pagina.",
-    "What's new?" : "Wat is nieuw?"
+    "The update check is not yet finished. Please refresh the page." : "De update controle is niet afgerond. Ververs de pagina."
 },
 "nplurals=2; plural=(n != 1);");

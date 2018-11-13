@@ -121,7 +121,6 @@ OC.L10N.register(
     "User backend" : "User backend",
     "Unlimited" : "Unlimited",
     "Default quota" : "Default quota",
-    "You did not enter the password in time" : "You did not enter the password in time",
     "An error occured during the request. Unable to proceed." : "An error occured during the request. Unable to proceed.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.",
     "App update" : "App update",

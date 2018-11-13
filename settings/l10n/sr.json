@@ -144,7 +144,6 @@
     "Password change is disabled because the master key is disabled" : "Промена лозинке је искључена пошто је главни кључ искључен",
     "Common languages" : "Најкоришћенији језици",
     "All languages" : "Сви језици",
-    "You did not enter the password in time" : "Нисте унели лозинку на време",
     "An error occured during the request. Unable to proceed." : "Догодила се грешка за време захтева. Не може се наставити.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Апликација је укључена, али треба да се ажурира. Бићете преусмерени на страну са ажурирањем за 5 секунди.",
     "App update" : "Ажурирање апликације",

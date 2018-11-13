@@ -19,6 +19,7 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "次のグループのメンバーに利用可能なアップデートを通知する:",
     "Only notification for app updates are available." : "アプリ更新情報があるときのみ通知する。",
     "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。",
+    "View changelog" : "変更履歴を確認する",
     "Could not start updater, please try the manual update" : "アップデータを起動できませんでした。手動アップデートをお試しください",
     "A new version is available: %s" : "新しいバージョンが利用可能: %s",
     "Download now" : "今すぐダウンロード",

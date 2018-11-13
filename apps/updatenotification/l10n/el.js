@@ -24,7 +24,6 @@ OC.L10N.register(
     "Download now" : "Λήψη τώρα",
     "Checked on %s" : "Ελέγχθηκε στις %s",
     "Update channel:" : "Ενημέρωση καναλιού:",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "Το συγκεκριμένο κανάλι ενημέρωσης καθιστά παρωχημένες τις ειδοποιήσεις που προορίζονται για τον διακομιστή.",
-    "What's new?" : "Τι νέο υπάρχει;"
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Το συγκεκριμένο κανάλι ενημέρωσης καθιστά παρωχημένες τις ειδοποιήσεις που προορίζονται για τον διακομιστή."
 },
 "nplurals=2; plural=(n != 1);");

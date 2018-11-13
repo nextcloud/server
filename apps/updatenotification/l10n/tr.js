@@ -38,7 +38,6 @@ OC.L10N.register(
     "Checked on %s" : "Son denetim: %s",
     "Update channel:" : "Güncelleme kanalı:",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Seçilmiş güncelleme kanalı kullanımdan kalkmış sunucu bildirimleri için kullanılıyor.",
-    "The update check is not yet finished. Please refresh the page." : "Güncelleme denetimi henüz tamamlanmadı. Lütfen sayfayı yenileyin.",
-    "What's new?" : "Yenilikler neler?"
+    "The update check is not yet finished. Please refresh the page." : "Güncelleme denetimi henüz tamamlanmadı. Lütfen sayfayı yenileyin."
 },
 "nplurals=2; plural=(n > 1);");

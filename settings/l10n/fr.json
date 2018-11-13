@@ -144,7 +144,6 @@
     "Password change is disabled because the master key is disabled" : "Le changement de mot de passe est désactivé car la clé principale est désactivée",
     "Common languages" : "Langues communes",
     "All languages" : "Toutes les langues",
-    "You did not enter the password in time" : "Vous n'avez pas entré votre mot de passe dans le temps imparti",
     "An error occured during the request. Unable to proceed." : "Une erreur est survenue durant la requête. Impossible de traiter la demande.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "L'application a été activée mais doit être mise à jour. Vous allez être redirigé vers la page des mises à jour dans 5 secondes.",
     "App update" : "Mise à jour de l'application",

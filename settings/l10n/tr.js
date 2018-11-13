@@ -146,7 +146,6 @@ OC.L10N.register(
     "Password change is disabled because the master key is disabled" : "Ana anahtar devre dışı bırakıldığından parola değişikliği devre dışı bırakıldı.",
     "Common languages" : "Sık kullanılan diller",
     "All languages" : "Tüm diller",
-    "You did not enter the password in time" : "Parolayı zamanında yazmadınız.",
     "An error occured during the request. Unable to proceed." : "İstek sırasında bir sorun çıktı. İşlem sürdürülemiyor.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Uygulama etkinleştirilmiş fakat güncellenmesi gerekiyor. 5 saniye içinde güncelleme sayfasına yönlendirileceksiniz.",
     "App update" : "Uygulama güncellemesi",

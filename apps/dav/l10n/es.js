@@ -59,7 +59,6 @@ OC.L10N.register(
     "More options …" : "Más opciones...",
     "More options at %s" : "Más opciones en %s",
     "Contacts" : "Contactos",
-    "%s (group)" : "%s (grupo)",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Extremo de WebDAV",
     "Technical details" : "Detalles técnicos",
