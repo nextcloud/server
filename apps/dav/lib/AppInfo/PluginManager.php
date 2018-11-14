@@ -103,9 +103,6 @@ class PluginManager {
 			if (!isset($info['types']) || !in_array('dav', $info['types'], true)) {
 				continue;
 			}
-			// FIXME: switch to public API once available
-			// load app to make sure its classes are available
-			\OC_App::loadApp($app);
 			$this->loadSabrePluginsFromInfoXml($this->extractPluginList($info));
 			$this->loadSabreCollectionsFromInfoXml($this->extractCollectionList($info));
 		}
