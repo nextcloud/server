@@ -1,7 +1,7 @@
 {
 	"name": "accessibility",
 	"description": "Provides multiple accessibilities options to ease your use of nextcloud",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"author": "John Molakvoæ <skjnldsv@protonmail.com>",
 	"license": "agpl",
 	"private": true,

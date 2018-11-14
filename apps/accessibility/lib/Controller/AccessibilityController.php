@@ -181,6 +181,9 @@ class AccessibilityController extends Controller {
 		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		$response->addHeader('Pragma', 'cache');
 
+		// store current cache hash
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), $this->appName, 'icons-css', md5($css));
+
 		return $response;
 	}
 
