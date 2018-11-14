@@ -599,6 +599,15 @@ kbd {
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
+
+/**
+ * !Important. We are defining the minimum requirement we want for flex
+ * Just before the mobile breakpoint we have $breakpoint-mobile (768px) - $navigation-width
+ * -> 468px. In that case we want 200px for the list and 268px for the content
+ */
+$min-list-width: 200px;
+$min-content-width: $breakpoint-mobile - $navigation-width - $min-list-width;
+
 #app-content {
 	z-index: 1000;
 	background-color: var(--color-main-background);
@@ -626,7 +635,7 @@ kbd {
 		/* CONTENT DETAILS AFTER LIST*/
 		.app-content-details {
 			/* grow full width */
-			flex-grow: 1;
+			flex: 1 1 $min-content-width;
 			#app-navigation-toggle-back {
 				display: none;
 			}
@@ -1100,7 +1109,6 @@ $popovericon-size: 16px;
 
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
-	max-width: 300px;
 	@include position('sticky');
 	top: $header-height;
 	border-right: 1px solid var(--color-border);
@@ -1111,7 +1119,9 @@ $popovericon-size: 16px;
 	max-height: calc(100vh - #{$header-height});
 	overflow-y: auto;
 	overflow-x: hidden;
-	flex: 0 1 300px;
+	flex: 1 1 $min-list-width;
+	min-width: $min-list-width;
+	max-width: $min-list-width + 100px;
 
 	/* Default item */
 	.app-content-list-item {
