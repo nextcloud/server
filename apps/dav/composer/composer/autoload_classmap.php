@@ -167,6 +167,7 @@ return array(
     'OCA\\DAV\\Migration\\Version1008Date20181105104833' => $baseDir . '/../lib/Migration/Version1008Date20181105104833.php',
     'OCA\\DAV\\Migration\\Version1008Date20181105110300' => $baseDir . '/../lib/Migration/Version1008Date20181105110300.php',
     'OCA\\DAV\\Migration\\Version1008Date20181105112049' => $baseDir . '/../lib/Migration/Version1008Date20181105112049.php',
+    'OCA\\DAV\\Migration\\Version1008Date20181114084440' => $baseDir . '/../lib/Migration/Version1008Date20181114084440.php',
     'OCA\\DAV\\RootCollection' => $baseDir . '/../lib/RootCollection.php',
     'OCA\\DAV\\Server' => $baseDir . '/../lib/Server.php',
     'OCA\\DAV\\Settings\\CalDAVSettings' => $baseDir . '/../lib/Settings/CalDAVSettings.php',
