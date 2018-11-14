@@ -605,8 +605,7 @@ kbd {
  * Just before the mobile breakpoint we have $breakpoint-mobile (768px) - $navigation-width
  * -> 468px. In that case we want 200px for the list and 268px for the content
  */
-$min-list-width: 200px;
-$min-content-width: $breakpoint-mobile - $navigation-width - $min-list-width;
+$min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 
 #app-content {
 	z-index: 1000;
@@ -1119,9 +1118,9 @@ $popovericon-size: 16px;
 	max-height: calc(100vh - #{$header-height});
 	overflow-y: auto;
 	overflow-x: hidden;
-	flex: 1 1 $min-list-width;
-	min-width: $min-list-width;
-	max-width: $min-list-width + 100px;
+	flex: 1 1 $list-min-width;
+	min-width: $list-min-width;
+	max-width: $list-max-width;
 
 	/* Default item */
 	.app-content-list-item {
