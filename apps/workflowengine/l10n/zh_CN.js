@@ -17,6 +17,7 @@ OC.L10N.register(
     "matches" : "匹配",
     "does not match" : "不匹配",
     "Example: {placeholder}" : "例子: {placeholder}",
+    "File name" : "文件名",
     "File size (upload)" : "文件大小 (上传)",
     "less" : "小于",
     "less or equals" : "小于等于",

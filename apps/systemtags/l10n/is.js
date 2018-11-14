@@ -42,6 +42,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (ósýnilegt)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Kerfismerkjum</strong> á skrá hefur verið breytt",
     "Collaborative tags" : "Samstarfsmerkingar",
+    "Collaborative tagging functionality which shares tags among users." : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda.",
     "Select tag …" : "Veldu merki ...",
     "Create a new tag" : "Búa til nýtt merki",
     "Name" : "Heiti",
