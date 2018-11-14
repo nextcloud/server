@@ -292,5 +292,18 @@ class ApiController extends Controller {
 		return $response;
 	}
 
+	/**
+	 * Get sorting-order for custom sorting
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string
+	 * @return string
+	 * @throws \OCP\Files\NotFoundException
+	 */
+	public function getNodeType($folderpath) {
+		$node = $this->userFolder->get($folderpath);
+		return $node->getType();
+	}
 
 }
