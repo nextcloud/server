@@ -167,7 +167,7 @@ class Manager implements IManager {
 			}
 
 			if (!$setting instanceof ISettings) {
-				$this->log->logException(new \InvalidArgumentException('Invalid settings setting registered'), ['level' => ILogger::INFO]);
+				$this->log->logException(new \InvalidArgumentException('Invalid settings setting registered (' . $class . ')'), ['level' => ILogger::INFO]);
 				continue;
 			}
 
