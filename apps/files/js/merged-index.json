@@ -21,6 +21,7 @@
   "sidebarpreviewmanager.js",
   "sidebarpreviewtext.js",
   "detailtabview.js",
+  "semaphore.js",
   "mainfileinfodetailview.js",
   "operationprogressbar.js",
   "detailsview.js",

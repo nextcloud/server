@@ -37,8 +37,16 @@
 			});
 		},
 
-		showProgressBar: function() {
-			$('#uploadprogresswrapper .stop').show();
+		showProgressBar: function(showCancelButton) {
+			if (showCancelButton) {
+				showCancelButton = true;
+			}
+			$('#uploadprogressbar').progressbar({value: 0});
+			if(showCancelButton) {
+				$('#uploadprogresswrapper .stop').show();
+			} else {
+				$('#uploadprogresswrapper .stop').hide();
+			}
 			$('#uploadprogresswrapper .label').show();
 			$('#uploadprogressbar').fadeIn();
 			this.$el.trigger(new $.Event('resized'));
