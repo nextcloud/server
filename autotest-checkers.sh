@@ -40,7 +40,4 @@ done;
 php ./build/files-checker.php
 RESULT=$(($RESULT+$?))
 
-php ./build/signed-off-checker.php
-RESULT=$(($RESULT+$?))
-
 exit $RESULT
