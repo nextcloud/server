@@ -139,6 +139,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			];
 		}
 
+		if (!$this->isShared()) {
+			return $acl;
+		}
+
 		if ($this->getOwner() !== parent::getOwner()) {
 			$acl[] =  [
 					'privilege' => '{DAV:}read',
@@ -168,14 +172,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
-
-		if (!$this->isShared()) {
-			return $acl;
-		}
-
 		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/public'];
 		return array_filter($acl, function($rule) use ($allowedPrincipals) {
-			return in_array($rule['principal'], $allowedPrincipals);
+			return \in_array($rule['principal'], $allowedPrincipals, true);
 		});
 	}
 
