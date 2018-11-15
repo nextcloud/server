@@ -165,6 +165,7 @@
     "Could not unshare" : "共有の解除ができませんでした",
     "Shared with you and the group {group} by {owner}" : "あなたと {owner} のグループ {group} で共有中",
     "Shared with you and {circle} by {owner}" : "{owner} が{circle}で共有中",
+    "Shared with you in a conversation by {owner}" : "{owner}のスレッドであなたと共有しました",
     "Shared with you by {owner}" : "{owner} より共有中",
     "Choose a password for the mail share" : "メール共有のパスワードを選択",
     "group" : "グループ",

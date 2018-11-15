@@ -103,6 +103,7 @@ OC.L10N.register(
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan Nextcloud Talk ile parola gönderilerek paylaşılamadı",
     "Cannot increase permissions" : "Erişim izinleri yükseltilemez",
     "shared by %s" : "%s tarafından paylaşıldı",
+    "Download all files" : "Tüm dosyaları indir",
     "Direct link" : "Doğrudan bağlantı",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
     "Share API is disabled" : "Paylaşım API arayüzü devre dışı",
