@@ -21,6 +21,7 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Niet genoeg vrije ruimte. Je uploadt {size1}, maar er is slechts {size2} beschikbaar",
     "Target folder \"{dir}\" does not exist any more" : "Doelmap \"{dir}\" bestaat niet meer",
     "Not enough free space" : "Onvoldoende vrije ruimte",
+    "An unknown error has occurred" : "Er trad een onbekende fout op.",
     "Uploading …" : "Uploaden …",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} van {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Uploaden van dat object is niet ondersteund",
