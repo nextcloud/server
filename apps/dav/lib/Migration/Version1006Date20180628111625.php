@@ -51,7 +51,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 			if ($calendarChangesTable->hasIndex('calendarid_synctoken')) {
 				$calendarChangesTable->dropIndex('calendarid_synctoken');
 			}
-			$calendarChangesTable->addIndex(['calendarid', 'calendartype', 'synctoken'], 'calendarid_calendartype_synctoken');
+			$calendarChangesTable->addIndex(['calendarid', 'calendartype', 'synctoken'], 'calid_type_synctoken');
 		}
 
 		if ($schema->hasTable('calendarobjects')) {
