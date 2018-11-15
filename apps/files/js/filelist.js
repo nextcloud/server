@@ -2250,6 +2250,10 @@
 			return this.reportOperationProgress(fileNames, moveFileFunction, callback);
 		},
 
+		_reflect: function (promise){
+			return promise.then(function(v){ return {}}, function(e){ return {}});
+		},
+
 		reportOperationProgress: function (fileNames, operationFunction, callback){
 			var self = this;
 			self._operationProgressBar.showProgressBar(false);
@@ -2257,7 +2261,7 @@
 			var counter = 0;
 			var promises = _.map(fileNames, function(arg) {
 				return mcSemaphore.acquire().then(function(){
-					return operationFunction(arg).then(function(){
+					return operationFunction(arg).always(function(){
 						mcSemaphore.release();
 						counter++;
 						self._operationProgressBar.setProgressBarValue(100.0*counter/fileNames.length);
@@ -2265,7 +2269,7 @@
 				});
 			});
 
-			return Promise.all(promises).then(function(){
+			return Promise.all(_.map(promises, self._reflect)).then(function(){
 				if (callback) {
 					callback();
 				}
