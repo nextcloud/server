@@ -217,6 +217,7 @@ OC.L10N.register(
     "An error occurred (\"{message}\"). Please try again" : "Er heeft zich een fout voorgedaan (\"{message}\"). Probeer het opnieuw",
     "An error occurred. Please try again" : "Er trad een fout op. Probeer het opnieuw",
     "Home" : "Startpagina",
+    "Work" : "Werk",
     "Other" : "Ander",
     "{sharee} (remote group)" : "{sharee} (remote group)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
