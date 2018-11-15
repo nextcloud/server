@@ -390,7 +390,7 @@ class OC_Util {
 	/**
 	 * copies the skeleton to the users /files
 	 *
-	 * @param String $userId
+	 * @param string $userId
 	 * @param \OCP\Files\Folder $userDirectory
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
