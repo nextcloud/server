@@ -348,7 +348,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * Returns a view to user's files folder
 	 *
-	 * @param String $userId user ID
+	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
 	 * @throws \OC\User\NoUserException
 	 */

@@ -627,7 +627,7 @@ class Filesystem {
 	 * check if the directory should be ignored when scanning
 	 * NOTE: the special directories . and .. would cause never ending recursion
 	 *
-	 * @param String $dir
+	 * @param string $dir
 	 * @return boolean
 	 */
 	static public function isIgnoredDir($dir) {
