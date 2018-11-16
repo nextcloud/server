@@ -131,7 +131,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
 				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
 				[$this->user->getUID(), 'files', 'show_hidden', false, false],
-				[$this->user->getUID(), 'files', 'show_grid', true, true],
+				[$this->user->getUID(), 'files', 'show_grid', true],
 			]));
 
 			$this->config
@@ -367,7 +367,7 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 				'hiddenFields' => [],
-				'showgridview' => true,
+				'showgridview' => false,
 				'isIE' => false,
 			]
 		);
