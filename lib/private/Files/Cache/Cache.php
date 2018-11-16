@@ -150,6 +150,8 @@ class Cache implements ICache {
 				$data = $this->partial[$file];
 			}
 			return $data;
+		} else if (!$data) {
+			return $data;
 		} else {
 			return self::cacheEntryFromData($data, $this->mimetypeLoader);
 		}
