@@ -80,6 +80,7 @@ OC.L10N.register(
     "Public key" : "Public key",
     "RSA private key" : "RSA private key",
     "Private key" : "Private key",
+    "Kerberos ticket" : "Kerberos ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Hostname",

@@ -159,7 +159,7 @@ OC.L10N.register(
     "Shared with others" : "他ユーザーと共有中",
     "Shared with you" : "他ユーザーがあなたと共有中",
     "Shared by link" : "URLリンクで共有中",
-    "Deleted shares" : "共有を解除しました",
+    "Deleted shares" : "削除された共有",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
     "Move" : "移動",
