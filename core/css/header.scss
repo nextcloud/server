@@ -691,8 +691,7 @@ nav[role='navigation'] {
 		height: 34px;
 		width: 0;
 		cursor: pointer;
-		-webkit-transition: all 100ms;
-		transition: all 100ms;
+		transition: width 100ms, opacity 100ms;
 		opacity: .6;
 		&:focus, &:active, &:valid {
 			background-position-x: 6px;
