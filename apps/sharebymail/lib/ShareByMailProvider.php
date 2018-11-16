@@ -599,7 +599,7 @@ class ShareByMailProvider implements IShareProvider {
 			'shareWith' => $shareWith,
 		]);
 
-		$emailTemplate->setSubject($this->l->t('Password to access »%1$s« shared with %2$s', [$filename, $shareWith]));
+		$emailTemplate->setSubject($this->l->t('Password to access »%1$s« shared by you with %2$s', [$filename, $shareWith]));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('Password to access »%s«', [$filename]), false);
 		$emailTemplate->addBodyText($bodyPart);
