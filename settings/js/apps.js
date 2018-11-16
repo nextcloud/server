@@ -31,17 +31,22 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					if (container.children('li[data-id="' + entry.id + '"]').length === 0) {
 						var li = $('<li></li>');
 						li.attr('data-id', entry.id);
-						var img = '<svg width="16" height="16" viewBox="0 0 16 16">';
-						img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
-						img += '<image x="0" y="0" width="16" height="16" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + entry.icon + '"  class="app-icon" /></svg>';
+						var img = '<svg width="20" height="20" viewBox="0 0 20 20" alt="">';
+						if (OCA.Theming && OCA.Theming.inverted) {
+							img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
+							img += '<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + entry.icon + '"  class="app-icon" />';
+						} else {
+							img += '<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" xlink:href="' + entry.icon + '"  class="app-icon" />';
+						}
+						img += '</svg>';
 						var a = $('<a></a>').attr('href', entry.href);
 						var filename = $('<span></span>');
 						var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
-						filename.text(entry.name);
-						a.prepend(filename);
+						filename.text(entry.name);							filename.text(entry.name);
 						a.prepend(loading);
 						a.prepend(img);
 						li.append(a);
+						li.append(filename);
 
 						// add app icon to the navigation
 						var previousElement = $('#navigation li[data-id=' + previousEntry.id + ']');
@@ -65,20 +70,23 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					if ($('#appmenu').children('li[data-id="' + entry.id + '"]').length === 0) {
 						var li = $('<li></li>');
 						li.attr('data-id', entry.id);
-						var img = '<img src="' + entry.icon + '" class="app-icon">';
+						// Generating svg embedded image (see layout.user.php)
+						var img = '<svg width="20" height="20" viewBox="0 0 20 20" alt="">';
 						if (OCA.Theming && OCA.Theming.inverted) {
-							img = '<svg width="20" height="20" viewBox="0 0 20 20">';
 							img += '<defs><filter id="invert"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>';
-							img += '<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + entry.icon + '"  class="app-icon" /></svg>';
+							img += '<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" filter="url(#invert)" xlink:href="' + entry.icon + '"  class="app-icon" />';
+						} else {
+							img += '<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" xlink:href="' + entry.icon + '"  class="app-icon" />';
 						}
+						img += '</svg>';
 						var a = $('<a></a>').attr('href', entry.href);
 						var filename = $('<span></span>');
 						var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
 						filename.text(entry.name);
-						a.prepend(filename);
 						a.prepend(loading);
 						a.prepend(img);
 						li.append(a);
+						li.append(filename);
 
 						// add app icon to the navigation
 						var previousElement = $('#appmenu li[data-id=' + previousEntry.id + ']');
