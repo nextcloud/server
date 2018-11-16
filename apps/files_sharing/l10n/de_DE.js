@@ -103,6 +103,7 @@ OC.L10N.register(
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist",
     "Cannot increase permissions" : "Berechtigungen können nicht erhöht werden",
     "shared by %s" : "von %s geteilt",
+    "Download all files" : "Alle Dateien herunterladen",
     "Direct link" : "Direkter Link",
     "Add to your Nextcloud" : "Zu Ihrer Nextcloud hinzufügen",
     "Share API is disabled" : "Teilen-API ist deaktivert",

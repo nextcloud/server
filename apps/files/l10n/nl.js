@@ -14,6 +14,7 @@ OC.L10N.register(
     "Home" : "Thuis",
     "Close" : "Sluiten",
     "Could not create folder \"{dir}\"" : "Kon map \"{dir}\" niet aanmaken",
+    "This will stop your current uploads." : "Dit beëindigt onderhanden uploads",
     "Upload cancelled." : "Uploaden geannuleerd.",
     "…" : "...",
     "Processing files …" : "Verwerken bestanden ...",
