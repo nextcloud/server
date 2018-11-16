@@ -27,8 +27,8 @@
 			this._scopes = [
 				{
 					name: 'private',
-					displayName: (this.field === 'avatar' || this.field === 'displayname') ? t('settings', 'Local') : t('settings', 'Private'),
-					tooltip: (this.field === 'avatar' || this.field === 'displayname') ? t('settings', 'Only visible to local users') : t('settings', 'Only visible to you'),
+					displayName: t('settings', 'Private'),
+					tooltip: t('settings', 'Only visible to you'),
 					iconClass: 'icon-password',
 					active: false
 				},
