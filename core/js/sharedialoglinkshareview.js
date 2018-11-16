@@ -294,14 +294,12 @@
 					$loading.removeClass('hidden');
 					// this will create it
 					this.model.saveLinkShare();
-					$('.share-menu .icon-more').click();
-					$('.share-menu .icon-more + .popovermenu .clipboardButton').click();
 				} else {
 					// force the rendering of the menu
 					this.showPending = true;
-					this.render()
-					$('.share-menu .icon-more').click();
-					$('.share-menu .icon-more + .popovermenu input:eq(1)').focus()
+					this.render();
+					$('#shareLink .share-menu .icon-more').click();
+					$('#shareLink .share-menu .icon-more + .popovermenu input:eq(1)').focus();
 				}
 			} else {
 				if (this.model.get('linkShare').isLinkShare) {
