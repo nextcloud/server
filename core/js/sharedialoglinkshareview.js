@@ -54,8 +54,8 @@
 			// hide download
 			'change .hideDownloadCheckbox': 'onHideDownloadChange',
 			// password
-			'focusout input.linkPassText': 'onPasswordEntered',
-			'keyup input.linkPassText': 'onPasswordKeyUp',
+			'click input.share-pass-submit': 'onPasswordEntered', 
+			'keyup input.linkPassText': 'onPasswordKeyUp', // check for the enter key
 			'change .showPasswordCheckbox': 'onShowPasswordClick',
 			'change .passwordByTalkCheckbox': 'onPasswordByTalkChange',
 			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
@@ -381,11 +381,12 @@
 				},
 				error: function(model, msg) {
 					// destroy old tooltips
-					$input.tooltip('destroy');
+					var $container = $input.parent();
+					$container.tooltip('destroy');
 					$input.addClass('error');
-					$input.attr('title', msg);
-					$input.tooltip({placement: 'bottom', trigger: 'manual'});
-					$input.tooltip('show');
+					$container.attr('title', msg);
+					$container.tooltip({placement: 'bottom', trigger: 'manual'});
+					$container.tooltip('show');
 				}
 			});
 		},
