@@ -257,6 +257,7 @@ var OCdialogs = {
 			self.$filePicker.ready(function() {
 				self.$fileListHeader = self.$filePicker.find('.filelist thead tr');
 				self.$filelist = self.$filePicker.find('.filelist tbody');
+				self.$filelistContainer = self.$filePicker.find('.filelist-container');
 				self.$dirTree = self.$filePicker.find('.dirtree');
 				self.$dirTree.on('click', 'div:not(:last-child)', self, function (event) {
 					self._handleTreeListSelect(event, type);
@@ -896,7 +897,9 @@ var OCdialogs = {
 	*/
 	_fillFilePicker:function(dir) {
 		var self = this;
-		this.$filelist.empty().addClass('icon-loading');
+		this.$filelist.empty();
+		this.$filePicker.find('.emptycontent').hide();
+		this.$filelistContainer.addClass('icon-loading');
 		this.$filePicker.data('path', dir);
 		var filter = this.$filePicker.data('mimetype');
 		if (typeof(filter) === "string") {
@@ -952,8 +955,10 @@ var OCdialogs = {
 
 			if (files.length === 0) {
 				self.$filePicker.find('.emptycontent').show();
+				self.$fileListHeader.hide();
 			} else {
 				self.$filePicker.find('.emptycontent').hide();
+				self.$fileListHeader.show();
 			}
 
 			$.each(files, function(idx, entry) {
@@ -993,7 +998,7 @@ var OCdialogs = {
 				self.$filelist.append($row);
 			});
 
-			self.$filelist.removeClass('icon-loading');
+			self.$filelistContainer.removeClass('icon-loading');
 		});
 	},
 	/**
