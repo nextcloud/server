@@ -150,12 +150,17 @@ form #datadirField legend {
 
 #submit-wrapper .submit-icon {
 	position: absolute;
-	top: 23px;
-	right: 23px;
+	height: 22px;
+	right: 24px;
+	top: 18px;
 	pointer-events: none; /* The submit icon is positioned on the submit button.
 							 From the user point of view the icon is part of the
 							 button, so the clicks on the icon have to be
 							 applied to the button instead. */
+}
+/* Properly position any loader */
+#submit-wrapper .submit-icon::after {
+	margin: -10px;
 }
 
 #reset-password-submit {
@@ -168,11 +173,6 @@ form #datadirField legend {
 	display: none;
 }
 
-#submit-wrapper .icon-loading-small {
-	position: absolute;
-	top: 22px;
-	right: 24px;
-}
 
 input, textarea, select, button, div[contenteditable=true] {
 	font-family: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;

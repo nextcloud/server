@@ -17,7 +17,9 @@ OC.Login = _.extend(OC.Login || {}, {
 		if($('form[name=login][action]').length === 0) {
 			$('#submit-wrapper .submit-icon')
 				.removeClass('icon-confirm-white')
-				.addClass('icon-loading-small-dark');
+				.addClass(OCA.Theming && OCA.Theming.inverted
+					? 'icon-loading-small'
+					: 'icon-loading-small-dark');
 			$('#submit')
 				.attr('value', t('core', 'Logging in …'));
 			$('.login-additional').fadeOut();
