@@ -217,6 +217,7 @@ OC.L10N.register(
     "An error occurred (\"{message}\"). Please try again" : "Десила се грешка (\"{message}\"). Покушајте поново.",
     "An error occurred. Please try again" : "Дошло је до грешке. Покушајте поново",
     "Home" : "Почетна",
+    "Work" : "Посао",
     "Other" : "Остало",
     "{sharee} (remote group)" : "{sharee} (удаљена група)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
