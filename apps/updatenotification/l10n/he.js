@@ -10,9 +10,13 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "עדכון של %1$s לגרסה %2$s זמין.",
     "Update for {app} to version %s is available." : "קיים עדכון עבור {app} לגרסה %s.",
     "Update notification" : "התראה על עדכון",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "הגרסה שפועלת אצלך אינה מתוחזקת יותר. נא לוודא לעדכן לגרסה נתמכת במהירות האפשרית.",
     "Apps with available updates" : "יישומים עם עדכונים זמינים",
     "Open updater" : "פתיחת המעדכן",
+    "Download now" : "להוריד כעת",
+    "The update check is not yet finished. Please refresh the page." : "בדיקת העדכונים לא הסתיימה עדיין. נא לעדכן את העמוד.",
     "Your version is up to date." : "הגרסה שבידך מעודכנת.",
+    "Update channel:" : "עדכון ערוץ:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "תמיד ניתן לעדכן לגרסה חדשה / ערוץ ניסיון. אבל לא ניתן להוריד גרסה לערוץ יציב יותר.",
     "Notify members of the following groups about available updates:" : "דיווח למשתמשים של קבוצות אלו על עדכונים זמינים:",
     "A new version is available: <strong>{newVersionString}</strong>" : "גרסה חדשה זמינה: <strong>{newVersionString}</strong>",
@@ -20,10 +24,6 @@ OC.L10N.register(
     "Checking apps for compatible updates" : "היישומונים נבדקים לאיתור עדכונים תואמים",
     "Could not start updater, please try the manual update" : "לא ניתן להתחיל את המעדכן, נא לנסות לעדכן ידנית",
     "A new version is available: %s" : "קיימת גרסה מעודכנת: %s",
-    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "הגרסה שפועלת אצלך אינה מתוחזקת יותר. נא לוודא לעדכן לגרסה נתמכת במהירות האפשרית.",
-    "Download now" : "להוריד כעת",
-    "Checked on %s" : "נבדק לאחרונה ב- %s",
-    "Update channel:" : "עדכון ערוץ:",
-    "The update check is not yet finished. Please refresh the page." : "בדיקת העדכונים לא הסתיימה עדיין. נא לעדכן את העמוד."
+    "Checked on %s" : "נבדק לאחרונה ב- %s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

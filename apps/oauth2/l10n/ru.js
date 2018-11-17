@@ -6,12 +6,12 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "Разрешает аутентификацию, совместимую с OAuth2, из других веб-приложений.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Приложение OAuth2 позволяет администраторам настроить встроенный процесс проверки подлинности, чтобы также обеспечить совместимость OAuth2 с другими веб-приложениями.",
     "OAuth 2.0 clients" : "Клиенты OAuth 2.0",
-    "Name" : "Имя",
-    "Client Identifier" : "Идентификатор клиента",
-    "Add client" : "Добавить клиента",
     "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 позволяет внешним службам запрашивать доступ к %s.",
+    "Name" : "Имя",
     "Redirection URI" : "URI перенаправления",
+    "Client Identifier" : "Идентификатор клиента",
     "Secret" : "Секрет",
+    "Add client" : "Добавить клиента",
     "Add" : "Добавить"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
