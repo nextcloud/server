@@ -47,7 +47,7 @@ OC.L10N.register(
     "iOS client" : "iOS-sovellus",
     "Desktop client" : "Työpöytäsovellus",
     "Thunderbird & Outlook addons" : "Thunderbird- & Outlook-lisäosat",
-    "User group membership" : "Käyttäjäryhmä jäsenyys",
+    "User group membership" : "Käyttäjäryhmäjäsenyys",
     "is member of" : "on jäsen",
     "is not member of" : "ei ole jäsen",
     "The given operator is invalid" : "Annettu operaattori on virheellinen",
@@ -69,6 +69,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Tarkistus %s on virheellinen",
     "Check #%s does not exist" : "Tarkistusta #%s ei ole olemassa",
     "Workflow" : "Työnkulku",
+    "Files workflow engine" : "Tiedostojen työnkulkumoottori",
     "Open documentation" : "Avaa dokumentaatio",
     "Loading…" : "Ladataan…"
 },
