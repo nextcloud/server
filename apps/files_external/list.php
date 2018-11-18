@@ -36,7 +36,7 @@ $tmpl->assign('showgridview', $showgridview && !$isIE);
 /* Load Status Manager */
 \OCP\Util::addStyle('files_external', 'external');
 \OCP\Util::addScript('files_external', 'statusmanager');
-\OCP\Util::addScript('files_external', 'templates.js');
+\OCP\Util::addScript('files_external', 'templates');
 \OCP\Util::addScript('files_external', 'rollingqueue');
 
 OCP\Util::addScript('files_external', 'app');
