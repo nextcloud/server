@@ -55,6 +55,7 @@ OC.L10N.register(
     "More options …" : "Lisää valintoja…",
     "Contacts" : "Yhteystiedot",
     "WebDAV" : "WebDAV",
+    "WebDAV endpoint" : "WebDAV-päätepiste",
     "Technical details" : "Tekniset yksityiskohdat",
     "Remote Address: %s" : "Etäosoite: %s",
     "Request ID: %s" : "Pyynnön tunniste: %s",
