@@ -27,8 +27,10 @@ namespace OC\Files\ObjectStore;
 
 use function GuzzleHttp\Psr7\stream_for;
 use Icewind\Streams\RetryWrapper;
+use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
+use OpenStack\Common\Error\BadResponseError;
 
 class Swift implements IObjectStore {
 	/**
@@ -86,11 +88,19 @@ class Swift implements IObjectStore {
 	 * @throws \Exception from openstack lib when something goes wrong
 	 */
 	public function readObject($urn) {
-		$object = $this->getContainer()->getObject($urn);
+		try {
+			$object = $this->getContainer()->getObject($urn);
 
-		// we need to keep a reference to objectContent or
-		// the stream will be closed before we can do anything with it
-		$objectContent = $object->download();
+			// we need to keep a reference to objectContent or
+			// the stream will be closed before we can do anything with it
+			$objectContent = $object->download();
+		} catch (BadResponseError $e) {
+			if ($e->getResponse()->getStatusCode() === 404) {
+				throw new NotFoundException("object $urn not found in object store");
+			} else {
+				throw $e;
+			}
+		}
 		$objectContent->rewind();
 
 		$stream = $objectContent->detach();
