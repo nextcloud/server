@@ -202,6 +202,7 @@ input[type='submit'],
 input[type='submit'].icon-confirm,
 input[type='button'],
 button,
+a.button,
 .button,
 select {
 	display: inline-block;
