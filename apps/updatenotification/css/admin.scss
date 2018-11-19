@@ -1,0 +1,53 @@
+#updatenotification {
+	margin-top: -25px;
+	div.update,
+	p:not(.inlineblock) {
+		margin-bottom: 25px;
+	}
+	h2.inlineblock {
+		margin-top: 25px;
+	}
+	h3 {
+		cursor: pointer;
+		.icon {
+			cursor: pointer;
+		}
+		&:first-of-type {
+			margin-top: 0;
+		}
+	}
+	.icon {
+		display: inline-block;
+		margin-bottom: -3px;
+	}
+	.icon-triangle-s, .icon-triangle-n {
+		opacity: 0.5;
+	}
+	.channel-description span {
+		color: var(--color-text-lighter);
+		strong {
+			color: var(--color-main-text);
+			font-weight: normal;
+		}
+	}
+	.warning {
+		color: var(--color-error);
+	}
+	.whatsNew {
+		display: inline-block;
+	}
+	.toggleWhatsNew {
+		position: relative;
+	}
+	.popovermenu {
+		p {
+			margin-bottom: 0;
+			width: 100%;
+		}
+		margin-top: 5px;
+		width: 300px;
+	}
+	.applist {
+		margin-bottom: 25px;
+	}
+}
