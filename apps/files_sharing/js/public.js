@@ -205,10 +205,10 @@ OCA.Sharing.PublicApp = {
 					var type = this.fileActions.getCurrentType();
 					var permissions = this.fileActions.getCurrentPermissions();
 					var action = this.fileActions.getDefault(mime, type, permissions);
-					if (action) {
-						// remove link href if there is a default action configured (disables downloading when trying to open in a new tab)
-						$tr.find('a.name').attr('href', '#');
-					}
+
+					// Remove the link. This means that files without a default action fail hard
+					$tr.find('a.name').attr('href', '#');
+
 					delete this.fileActions.actions.all.Download;
 				}
 				return $tr;
