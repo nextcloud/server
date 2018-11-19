@@ -543,11 +543,11 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
-			->with('mail_smtpmode', null)
+			->with('mail_smtpmode', 'smtp')
 			->will($this->returnValue('php'));
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')
-			->with('mail_smtpmode', null)
+			->with('mail_smtpmode', 'smtp')
 			->will($this->returnValue('not-php'));
 
 		$this->assertTrue($this->invokePrivate($checkSetupController, 'isPhpMailerUsed'));
