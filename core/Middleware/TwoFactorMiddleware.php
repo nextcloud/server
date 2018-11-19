@@ -91,6 +91,11 @@ class TwoFactorMiddleware extends Middleware {
 			// Don't block the logout page, to allow canceling the 2FA
 			return;
 		}
+		
+		if (strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0) {
+			// Don't require 2FA for requests with Bearer tokens
+			return;                                                                            
+		}
 
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
@@ -103,7 +108,6 @@ class TwoFactorMiddleware extends Middleware {
 				throw new UserAlreadyLoggedInException();
 			}
 		}
-		// TODO: dont check/enforce 2FA if a auth token is used
 	}
 
 	private function checkTwoFactor(Controller $controller, $methodName, IUser $user) {
