@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2018, ownCloud, Inc.
  *
  * @author Oliver Wegner <void1976@gmail.com>
  *
