@@ -53,7 +53,7 @@
 			<template v-else-if="!isUpdateChecked">{{ t('updatenotification', 'The update check is not yet finished. Please refresh the page.') }}</template>
 			<template v-else>
 				{{ t('updatenotification', 'Your version is up to date.') }}
-				<span class="icon-info svg" :title="lastCheckedOnString"></span>
+				<span class="icon-info svg" v-tooltip.auto="lastCheckedOnString"></span>
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
@@ -81,7 +81,7 @@
 
 		<p id="oca_updatenotification_groups">
 			{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}
-			<v-select multiple :value="notifyGroups" :options="availableGroups"></v-select><br />
+			<multiselect v-model="notifyGroups" :options="availableGroups" :multiple="true" label="label" track-by="value" :tag-width="75" /><br />
 			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notification for app updates are available.') }}</em>
 			<em v-if="currentChannel === 'daily'">{{ t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.') }}</em>
 			<em v-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
@@ -90,18 +90,19 @@
 </template>
 
 <script>
-	import vSelect from 'vue-select';
-	import popoverMenu from './popoverMenu';
+	import { PopoverMenu, Multiselect } from 'nextcloud-vue';
+	import { VTooltip } from 'v-tooltip';
 	import ClickOutside from 'vue-click-outside';
 
 	export default {
 		name: 'root',
 		components: {
-			vSelect,
-			popoverMenu,
+			Multiselect,
+			PopoverMenu,
 		},
 		directives: {
-			ClickOutside
+			ClickOutside,
+			tooltip: VTooltip
 		},
 		data: function () {
 			return {
@@ -355,10 +356,6 @@
 					this.enableChangeWatcher = true;
 				}.bind(this)
 			});
-		},
-
-		updated: function () {
-			this._$el.find('.icon-info').tooltip({placement: 'right'});
 		}
 	}
 </script>

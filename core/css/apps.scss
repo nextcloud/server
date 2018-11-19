@@ -39,7 +39,7 @@ h4 {
 /* do not use italic typeface style, instead lighter color */
 em {
 	font-style: normal;
-	opacity: .5;
+	color: var(--color-text-lighter);
 }
 
 dl {
