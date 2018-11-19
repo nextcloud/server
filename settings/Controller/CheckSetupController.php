@@ -529,7 +529,7 @@ Raw output
 	}
 
 	protected function isPhpMailerUsed(): bool {
-		return $this->config->getSystemValue('mail_smtpmode') === 'php';
+		return $this->config->getSystemValue('mail_smtpmode', 'smtp') === 'php';
 	}
 
 	protected function hasOpcacheLoaded(): bool {
