@@ -511,6 +511,39 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->checkSetupController->check());
 	}
 
+	public function testIsPhpMailerUsed() {
+		$checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
+			->setConstructorArgs([
+				'settings',
+				$this->request,
+				$this->config,
+				$this->clientService,
+				$this->urlGenerator,
+				$this->util,
+				$this->l10n,
+				$this->checker,
+				$this->logger,
+				$this->dispatcher,
+				$this->db,
+				$this->lockingProvider,
+				$this->dateTimeFormatter,
+				$this->memoryInfo,
+			])
+			->setMethods(null)->getMock();
+
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('mail_smtpmode', 'smtp')
+			->will($this->returnValue('php'));
+		$this->config->expects($this->at(1))
+			->method('getSystemValue')
+			->with('mail_smtpmode', 'smtp')
+			->will($this->returnValue('not-php'));
+
+		$this->assertTrue($this->invokePrivate($checkSetupController, 'isPhpMailerUsed'));
+		$this->assertFalse($this->invokePrivate($checkSetupController, 'isPhpMailerUsed'));
+	}
+
 	public function testGetCurlVersion() {
 		$checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
