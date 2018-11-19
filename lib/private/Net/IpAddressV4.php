@@ -31,14 +31,32 @@ class IpAddressV4 extends AbstractIpAddress {
 	private $address = '';
 	private $cidrBits = 0;
 
+	/**
+	 * Returns the length of the represented IP address format in bits.
+	 *
+	 * @return int
+	 */
 	public function getMaxBitlength(): int {
 		return 32;
 	}
 
+	/**
+	 * Returns the regular expression for recognizing CIDR notation.
+	 *
+	 * @return string
+	 */
 	protected function getCidrRegex(): string {
 		return '/^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\/([0-9]{1,2})$/';
 	}
 
+	/**
+	 * Returns whether given $other address is either
+	 * - equal to this instance regarding its IP address   or
+	 * - is contained in the IP address range represented by this instance
+	 *
+	 * @param IIpAddress $other
+	 * @return bool
+	 */
 	protected function matchCidr(IIpAddress $other): bool {
 		$shiftbits = $this->getMaxBitlength() - $this->getNetmaskBits();
 		$thisnum = ip2long($this->getNetPart()) >> $shiftbits;
