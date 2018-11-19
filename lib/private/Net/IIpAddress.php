@@ -29,7 +29,7 @@ declare(strict_types=1);
  * This interface provides functionalities of an IP address or range,
  * e.g. checking if an IP address is within an IP range.
  *
- * @since 15.0.0
+ * @since 16.0.0
  */
 
 namespace OC\Net;
