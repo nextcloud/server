@@ -99,7 +99,14 @@
 		 * @return {int} page size
 		 */
 		pageSize: function() {
-			return Math.max(Math.ceil(this.$container.height() / 50), 1);
+			var isGridView = this.$showGridView.is(':checked');
+			var columns = 1;
+			var rows = Math.ceil(this.$container.height() / 50);
+			if (isGridView) {
+				columns = Math.ceil(this.$container.width() / 160);
+				rows = Math.ceil(this.$container.height() / 160);
+			}
+			return Math.max(columns*rows, columns);
 		},
 
 		/**
