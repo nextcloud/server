@@ -607,6 +607,7 @@ form #selectDbType label.ui-state-active {
 .warning h2,
 .update h2,
 .error h2 {
+	color: #fff;
 	text-align: center;
 }
 
