@@ -26,12 +26,14 @@ namespace OC\Files\ObjectStore;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Icewind\Streams\RetryWrapper;
+use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use OpenCloud\Common\Service\Catalog;
 use OpenCloud\Common\Service\CatalogItem;
 use OpenCloud\Identity\Resource\Token;
+use OpenCloud\ObjectStore\Exception\ObjectNotFoundException;
 use OpenCloud\ObjectStore\Service;
 use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
@@ -251,13 +253,17 @@ class Swift implements IObjectStore {
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
 	public function readObject($urn) {
-		$this->init();
-		$object = $this->container->getObject($urn);
+		try {
+			$this->init();
+			$object = $this->container->getObject($urn);
 
-		// we need to keep a reference to objectContent or
-		// the stream will be closed before we can do anything with it
-		/** @var $objectContent \Guzzle\Http\EntityBody * */
-		$objectContent = $object->getContent();
+			// we need to keep a reference to objectContent or
+			// the stream will be closed before we can do anything with it
+			/** @var $objectContent \Guzzle\Http\EntityBody * */
+			$objectContent = $object->getContent();
+		} catch (ObjectNotFoundException $e) {
+			throw new NotFoundException("object $urn not found in object store");
+		}
 		$objectContent->rewind();
 
 		$stream = $objectContent->getStream();
