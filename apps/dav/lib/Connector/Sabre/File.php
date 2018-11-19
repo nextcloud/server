@@ -50,6 +50,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
@@ -353,6 +354,8 @@ class File extends Node implements IFile {
 			throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		} catch (NotFoundException $e) {
+			throw new NotFound('File not found: ' . $e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
