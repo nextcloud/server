@@ -86,6 +86,7 @@ class Swift implements IObjectStore {
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
 	 * @throws \Exception from openstack lib when something goes wrong
+	 * @throws NotFoundException if file does not exist
 	 */
 	public function readObject($urn) {
 		try {
