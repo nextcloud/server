@@ -2131,21 +2131,36 @@
 		remove: function(name, options){
 			options = options || {};
 			var fileEl = this.findFileEl(name);
-			var fileId = fileEl.data('id');
-			var index = fileEl.index();
-			if (!fileEl.length) {
-				return null;
-			}
+			var fileData = _.findWhere(this.files, {name: name});
+			var fileId = fileData.id;
 			if (this._selectedFiles[fileId]) {
 				// remove from selection first
 				this._selectFileEl(fileEl, false);
 				this.updateSelectionSummary();
 			}
+			if (this._selectedFiles[fileId]) {
+				delete this._selectedFiles[fileId];
+				this._selectionSummary.remove(fileData);
+				this.updateSelectionSummary();
+			}
+			var index = this.files.findIndex(function(el){return el.name==name;});
+			this.files.splice(index, 1);
+
+			// TODO: improve performance on batch update
+			this.isEmpty = !this.files.length;
+			if (typeof(options.updateSummary) === 'undefined' || !!options.updateSummary) {
+				this.updateEmptyContent();
+				this.fileSummary.remove({type: fileData.type, size: fileData.size}, true);
+			}
+
+			if (!fileEl.length) {
+				return null;
+			}
+
 			if (this._dragOptions && (fileEl.data('permissions') & OC.PERMISSION_DELETE)) {
 				// file is only draggable when delete permissions are set
 				fileEl.find('td.filename').draggable('destroy');
 			}
-			this.files.splice(index, 1);
 			if (this._currentFileModel && this._currentFileModel.get('id') === fileId) {
 				// Note: in the future we should call destroy() directly on the model
 				// and the model will take care of the deletion.
@@ -2155,12 +2170,6 @@
 				this._updateDetailsView(null);
 			}
 			fileEl.remove();
-			// TODO: improve performance on batch update
-			this.isEmpty = !this.files.length;
-			if (typeof(options.updateSummary) === 'undefined' || !!options.updateSummary) {
-				this.updateEmptyContent();
-				this.fileSummary.remove({type: fileEl.attr('data-type'), size: fileEl.attr('data-size')}, true);
-			}
 
 			var lastIndex = this.$fileList.children().length;
 			// if there are less elements visible than one page
@@ -2227,7 +2236,6 @@
 							oldFile.data('size', newSize);
 							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
 
-							// TODO: also update entry in FileList.files
 							self.remove(fileName);
 						}
 					})
@@ -2251,7 +2259,7 @@
 		},
 
 		_reflect: function (promise){
-			return promise.then(function(v){ return {}}, function(e){ return {}});
+			return promise.then(function(v){ return {};}, function(e){ return {};});
 		},
 
 		reportOperationProgress: function (fileNames, operationFunction, callback){
@@ -2354,7 +2362,7 @@
 						}
 					}
 				}
-				self.filesClient.copy(dir + fileName, targetPathAndName)
+				return self.filesClient.copy(dir + fileName, targetPathAndName)
 					.done(function () {
 						filesToNotify.push(fileName);
 
@@ -2849,9 +2857,6 @@
 				// delete all files in directory
 				files = _.pluck(this.files, 'name');
 			}
-			if (files) {
-				this.showFileBusyState(files, true);
-			}
 			// Finish any existing actions
 			if (this.lastAction) {
 				this.lastAction();
@@ -2859,43 +2864,38 @@
 
 			dir = dir || this.getCurrentDirectory();
 
-			function removeFromList(file) {
-				var fileEl = self.remove(file, {updateSummary: false});
-				// FIXME: not sure why we need this after the
-				// element isn't even in the DOM any more
-				fileEl.find('.selectCheckBox').prop('checked', false);
-				fileEl.removeClass('selected');
-				self.fileSummary.remove({type: fileEl.attr('data-type'), size: fileEl.attr('data-size')});
-				// TODO: this info should be returned by the ajax call!
-				self.updateEmptyContent();
-				self.fileSummary.update();
-				self.updateSelectionSummary();
-				// FIXME: don't repeat this, do it once all files are done
-				self.updateStorageStatistics();
-				self.updateStorageQuotas();
-			}
-
-			_.each(files, function(file) {
-				self.filesClient.remove(dir + '/' + file)
+			var removeFunction = function(fileName) {
+				var $tr = self.findFileEl(fileName);
+				self.showFileBusyState($tr, true);
+				return self.filesClient.remove(dir + '/' + fileName)
 					.done(function() {
-						removeFromList(file);
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+							self.remove(fileName);
+						}
 					})
 					.fail(function(status) {
 						if (status === 404) {
 							// the file already did not exist, remove it from the list
-							removeFromList(file);
+							if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+								self.remove(fileName);
+							}
 						} else {
 							// only reset the spinner for that one file
 							OC.Notification.show(t('files', 'Error deleting file "{fileName}".',
-								{fileName: file}), {type: 'error'}
+								{fileName: fileName}), {type: 'error'}
 							);
-							var deleteAction = self.findFileEl(file).find('.action.delete');
-							deleteAction.removeClass('icon-loading-small').addClass('icon-delete');
-							self.showFileBusyState(files, false);
 						}
+					})
+					.always(function() {
+						self.showFileBusyState($tr, false);
 					});
-			});
+			};
+			return this.reportOperationProgress(files, removeFunction).then(function(){
+					self.updateStorageStatistics();
+					self.updateStorageQuotas();
+				});
 		},
+
 		/**
 		 * Creates the file summary section
 		 */
