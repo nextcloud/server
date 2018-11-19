@@ -50,6 +50,8 @@ OCA.Sharing.PublicApp = {
 		this.initialDir = $('#dir').val();
 
 		var token = $('#sharingToken').val();
+		var hideDownload = $('#hideDownload').val();
+
 
 		// file list mode ?
 		if ($el.find('#filestable').length) {
@@ -92,6 +94,9 @@ OCA.Sharing.PublicApp = {
 					]
 				}
 			);
+			if (hideDownload === 'true') {
+				this.fileList._allowSelection = false;
+			}
 			this.files = OCA.Files.Files;
 			this.files.initialize();
 			// TODO: move to PublicFileList.initialize() once
@@ -192,6 +197,27 @@ OCA.Sharing.PublicApp = {
 				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
 			};
 
+			this.fileList._createRow = function(fileData) {
+				var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
+				if (hideDownload === 'true') {
+					this.fileActions.currentFile = $tr.find('td');
+					var mime = this.fileActions.getCurrentMimeType();
+					var type = this.fileActions.getCurrentType();
+					var permissions = this.fileActions.getCurrentPermissions();
+					var action = this.fileActions.getDefault(mime, type, permissions);
+					if (action) {
+						// remove link href if there is a default action configured (disables downloading when trying to open in a new tab)
+						$tr.find('a.name').attr('href', '#');
+					}
+					delete this.fileActions.actions.all.Download;
+				}
+				return $tr;
+			};
+
+			this.fileList.isSelectedDownloadable = function () {
+				return hideDownload !== 'true';
+			};
+
 			this.fileList.getUploadUrl = function(fileName, dir) {
 				if (_.isUndefined(dir)) {
 					dir = this.getCurrentDirectory();
@@ -270,6 +296,10 @@ OCA.Sharing.PublicApp = {
 				e.preventDefault();
 				OC.redirect(FileList.getDownloadUrl());
 			});
+
+			if (hideDownload === 'true') {
+				this.fileList.$el.find('#headerSelection').remove();
+			}
 		}
 
 		$(document).on('click', '#directLink', function () {
