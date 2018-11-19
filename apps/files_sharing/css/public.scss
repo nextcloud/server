@@ -207,7 +207,7 @@ thead {
 }
 
 // hide the primary on public share on mobile
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: $breakpoint-mobile) {
 	#body-public {
 		.header-right {
 			#header-primary-action {

@@ -99,7 +99,14 @@
 		 * @return {int} page size
 		 */
 		pageSize: function() {
-			return Math.max(Math.ceil(this.$container.height() / 50), 1);
+			var isGridView = this.$showGridView.is(':checked');
+			var columns = 1;
+			var rows = Math.ceil(this.$container.height() / 50);
+			if (isGridView) {
+				columns = Math.ceil(this.$container.width() / 160);
+				rows = Math.ceil(this.$container.height() / 160);
+			}
+			return Math.max(columns*rows, columns);
 		},
 
 		/**
@@ -2390,7 +2397,7 @@
 			input = $('<input type="text" class="filename"/>').val(oldName);
 			form = $('<form></form>');
 			form.append(input);
-			td.children('a.name').hide();
+			td.children('a.name').children(':not(.thumbnail-wrapper)').hide();
 			td.append(form);
 			input.focus();
 			//preselect input
@@ -2418,7 +2425,7 @@
 				input.tooltip('hide');
 				tr.data('renaming',false);
 				form.remove();
-				td.children('a.name').show();
+				td.children('a.name').children(':not(.thumbnail-wrapper)').show();
 			}
 
 			function updateInList(fileInfo) {
@@ -2449,7 +2456,7 @@
 							basename = newName.substr(0, newName.lastIndexOf('.'));
 						}
 						td.find('a.name span.nametext').text(basename);
-						td.children('a.name').show();
+						td.children('a.name').children(':not(.thumbnail-wrapper)').show();
 
 						var path = tr.attr('data-path') || self.getCurrentDirectory();
 						self.filesClient.move(OC.joinPaths(path, oldName), OC.joinPaths(path, newName))

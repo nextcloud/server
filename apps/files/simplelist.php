@@ -25,7 +25,7 @@
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 
-$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', true);
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
 $isIE = \OCP\Util::isIE();
 
 // renders the controls and table headers template

@@ -905,7 +905,7 @@ span.version {
 	}
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: $breakpoint-mobile) {
 	.store .section {
 		width: 50%;
 	}

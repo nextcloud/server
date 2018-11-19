@@ -112,7 +112,11 @@ class SetVcardDatabaseUID implements IRepairStep {
 		$count   = 0;
 		foreach ($entries as $entry) {
 			$count++;
-			$uid = $this->getUID($entry['carddata']);
+			$cardData = $entry['carddata'];
+			if (is_resource($cardData)) {
+				$cardData = stream_get_contents($cardData);
+			}
+			$uid = $this->getUID($cardData);
 			$this->update($entry['id'], $uid);
 		}
 		$this->connection->commit();

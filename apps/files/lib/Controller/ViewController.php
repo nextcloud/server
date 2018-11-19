@@ -257,7 +257,7 @@ class ViewController extends Controller {
 		$params['allowShareWithLink']          = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
 		$params['defaultFileSorting']          = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
-		$params['showgridview']				   = $this->config->getUserValue($user, 'files', 'show_grid', true);
+		$params['showgridview']				   = $this->config->getUserValue($user, 'files', 'show_grid', false);
 		$params['isIE']						   = \OCP\Util::isIE();
 		$showHidden                            = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles']             = $showHidden ? 1 : 0;

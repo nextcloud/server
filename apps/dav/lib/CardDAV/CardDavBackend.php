@@ -117,7 +117,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public function getAddressBooksForUserCount($principalUri) {
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
-		$query->select($query->createFunction('COUNT(*)'))
+		$query->select($query->func()->count('*'))
 			->from('addressbooks')
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
 

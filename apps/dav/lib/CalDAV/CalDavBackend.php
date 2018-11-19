@@ -213,7 +213,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function getCalendarsForUserCount($principalUri, $excludeBirthday = true) {
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
-		$query->select($query->createFunction('COUNT(*)'))
+		$query->select($query->func()->count('*'))
 			->from('calendars')
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
 
@@ -1045,7 +1045,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$extraData = $this->getDenormalizedData($calendarData);
 
 		$q = $this->db->getQueryBuilder();
-		$q->select($q->createFunction('COUNT(*)'))
+		$q->select($q->func()->count('*'))
 			->from('calendarobjects')
 			->where($q->expr()->eq('calendarid', $q->createNamedParameter($calendarId)))
 			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($extraData['uid'])))

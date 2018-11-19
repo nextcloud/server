@@ -312,7 +312,7 @@ class OC {
 			if ($apps->isInstalled('user_ldap')) {
 				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
-				$result = $qb->selectAlias($qb->createFunction('COUNT(*)'), 'user_count')
+				$result = $qb->select($qb->func()->count('*', 'user_count'))
 					->from('ldap_user_mapping')
 					->execute();
 				$row = $result->fetch();
@@ -323,7 +323,7 @@ class OC {
 			if (!$tooBig && $apps->isInstalled('user_saml')) {
 				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
-				$result = $qb->selectAlias($qb->createFunction('COUNT(*)'), 'user_count')
+				$result = $qb->select($qb->func()->count('*', 'user_count'))
 					->from('user_saml_users')
 					->execute();
 				$row = $result->fetch();

@@ -777,7 +777,8 @@ describe('OCA.Files.FileList tests', function() {
 			// trigger rename prompt
 			fileList.rename('One.txt');
 
-			expect($tr.find('a.name').css('display')).toEqual('none');
+			expect($tr.find('a.name .thumbnail-wrapper').css('display')).not.toEqual('none');
+			expect($tr.find('a.name .nametext').css('display')).toEqual('none');
 
 			$input = fileList.$fileList.find('input.filename');
 			$input.val('Two.jpg');

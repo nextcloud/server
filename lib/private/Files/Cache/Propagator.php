@@ -82,7 +82,7 @@ class Propagator implements IPropagator {
 		}, $parentHashes);
 
 		$builder->update('filecache')
-			->set('mtime', $builder->createFunction('GREATEST(`mtime`, ' . $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT) . ')'))
+			->set('mtime', $builder->createFunction('GREATEST(' . $builder->getColumnName('mtime') . ', ' . $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT) . ')'))
 			->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR))
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('path_hash', $hashParams));
@@ -93,7 +93,7 @@ class Propagator implements IPropagator {
 			// we need to do size separably so we can ignore entries with uncalculated size
 			$builder = $this->connection->getQueryBuilder();
 			$builder->update('filecache')
-				->set('size', $builder->createFunction('`size` + ' . $builder->createNamedParameter($sizeDifference)))
+				->set('size', $builder->func()->add('size', $builder->createNamedParameter($sizeDifference)))
 				->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->in('path_hash', $hashParams))
 				->andWhere($builder->expr()->gt('size', $builder->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
@@ -156,14 +156,14 @@ class Propagator implements IPropagator {
 		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
 
 		$query->update('filecache')
-			->set('mtime', $query->createFunction('GREATEST(`mtime`, ' . $query->createParameter('time') . ')'))
+			->set('mtime', $query->createFunction('GREATEST(' . $query->getColumnName('mtime') . ', ' . $query->createParameter('time') . ')'))
 			->set('etag', $query->expr()->literal(uniqid()))
 			->where($query->expr()->eq('storage', $query->expr()->literal($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')));
 
 		$sizeQuery = $this->connection->getQueryBuilder();
 		$sizeQuery->update('filecache')
-			->set('size', $sizeQuery->createFunction('`size` + ' . $sizeQuery->createParameter('size')))
+			->set('size', $sizeQuery->func()->add('size', $sizeQuery->createParameter('size')))
 			->where($query->expr()->eq('storage', $query->expr()->literal($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')))
 			->andWhere($sizeQuery->expr()->gt('size', $sizeQuery->expr()->literal(-1, IQueryBuilder::PARAM_INT)));

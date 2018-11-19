@@ -320,8 +320,9 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param String
-	 * @return String
+	 * @param string
+	 * @return string
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getNodeType($folderpath) {
 		$node = $this->userFolder->get($folderpath);

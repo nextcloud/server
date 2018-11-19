@@ -311,7 +311,7 @@ abstract class AbstractMapping {
 	 */
 	public function count() {
 		$qb = $this->dbc->getQueryBuilder();
-		$query = $qb->select($qb->createFunction('COUNT(' . $qb->getColumnName('ldap_dn') . ')'))
+		$query = $qb->select($qb->func()->count('ldap_dn'))
 			->from($this->getTableName());
 		$res = $query->execute();
 		$count = $res->fetchColumn();

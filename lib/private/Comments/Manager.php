@@ -163,7 +163,7 @@ class Manager implements ICommentsManager {
 	 */
 	protected function updateChildrenInformation($id, \DateTime $cDateTime) {
 		$qb = $this->dbConn->getQueryBuilder();
-		$query = $qb->select($qb->createFunction('COUNT(' . $qb->getColumnName('id') . ')'))
+		$query = $qb->select($qb->func()->count('id'))
 			->from('comments')
 			->where($qb->expr()->eq('parent_id', $qb->createParameter('id')))
 			->setParameter('id', $id);
@@ -552,7 +552,7 @@ class Manager implements ICommentsManager {
 	 */
 	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null, $verb = '') {
 		$qb = $this->dbConn->getQueryBuilder();
-		$query = $qb->select($qb->createFunction('COUNT(' . $qb->getColumnName('id') . ')'))
+		$query = $qb->select($qb->func()->count('id'))
 			->from('comments')
 			->where($qb->expr()->eq('object_type', $qb->createParameter('type')))
 			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
@@ -585,10 +585,7 @@ class Manager implements ICommentsManager {
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select('f.fileid')
-			->selectAlias(
-				$qb->createFunction('COUNT(' . $qb->getColumnName('c.id') . ')'),
-				'num_ids'
-			)
+			->addSelect($qb->func()->count('c.id', 'num_ids'))
 			->from('comments', 'c')
 			->innerJoin('c', 'filecache', 'f', $qb->expr()->andX(
 				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),

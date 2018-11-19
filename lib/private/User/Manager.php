@@ -446,7 +446,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function countDisabledUsers(): int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
+		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
@@ -504,7 +504,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function countSeenUsers() {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
+		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('login')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('lastLogin')))

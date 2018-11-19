@@ -314,11 +314,10 @@ class ConnectionTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider insertIfNotExistsViolatingThrows
-	 * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
 	 *
 	 * @param array $compareKeys
 	 */
-	public function testInsertIfNotExistsViolatingThrows($compareKeys) {
+	public function testInsertIfNotExistsViolatingUnique($compareKeys) {
 		$this->makeTestTable();
 		$result = $this->connection->insertIfNotExist('*PREFIX*table',
 			[

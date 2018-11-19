@@ -65,7 +65,7 @@ $image-logo: url('../img/logo.svg?v=1') !default;
 $image-login-background: url('../img/background.png?v=2') !default;
 
 $color-loading-light: #ccc !default;
-$color-loading-dark: #777 !default;
+$color-loading-dark: #444 !default;
 
 $color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.5) !default;
 
@@ -87,3 +87,8 @@ $header-height: 50px;
 $navigation-width: 300px;
 $sidebar-min-width: 300px;
 $sidebar-max-width: 500px;
+$list-min-width: 200px;
+$list-max-width: 300px;
+
+// mobile
+$breakpoint-mobile: 768px;

@@ -26,6 +26,7 @@
 
 namespace OC\Lock;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\QueryBuilder\Literal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -133,7 +134,17 @@ class DBLockingProvider extends AbstractLockingProvider {
 
 	protected function initLockField(string $path, int $lock = 0): int {
 		$expire = $this->getExpireTime();
-		return $this->connection->insertIfNotExist('*PREFIX*file_locks', ['key' => $path, 'lock' => $lock, 'ttl' => $expire], ['key']);
+
+		try {
+			$builder = $this->connection->getQueryBuilder();
+			return $builder->insert('file_locks')
+				->setValue('key', $builder->createNamedParameter($path))
+				->setValue('lock', $builder->createNamedParameter($lock))
+				->setValue('ttl', $builder->createNamedParameter($expire))
+				->execute();
+		} catch(UniqueConstraintViolationException $e) {
+			return 0;
+		}
 	}
 
 	/**
@@ -303,7 +314,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 			$builder = $this->connection->getQueryBuilder();
 
 			$query = $builder->update('file_locks')
-				->set('lock', $builder->createFunction('`lock` -1'))
+				->set('lock', $builder->func()->subtract('lock', $builder->expr()->literal(1)))
 				->where($builder->expr()->in('key', $builder->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
 				->andWhere($builder->expr()->gt('lock', new Literal(0)));
 

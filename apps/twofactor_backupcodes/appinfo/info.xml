@@ -26,10 +26,6 @@
 		<provider>OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider</provider>
 	</two-factor-providers>
 
-	<settings>
-		<personal>OCA\TwoFactorBackupCodes\Settings\Personal</personal>
-	</settings>
-
 	<activity>
 		<providers>
 			<provider>OCA\TwoFactorBackupCodes\Activity\Provider</provider>

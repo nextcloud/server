@@ -9,15 +9,15 @@
     "Good password" : "Լավ գաղտնաբառ",
     "Strong password" : "Ուժեղ գաղտնաբառ",
     "Groups" : "Խմբեր",
+    "New password" : "Նոր գաղտնաբառ",
+    "Username" : "Օգտանուն",
+    "Password" : "Գաղտնաբառ",
     "Email" : "Էլ. հասցե",
     "Language" : "Լեզու",
     "days" : "օր",
     "Cancel" : "Չեղարկել",
     "Help translate" : "Օգնել թարգմանել",
-    "Password" : "Գաղտնաբառ",
-    "New password" : "Նոր գաղտնաբառ",
     "Change password" : "Փոխել գաղտնաբառը",
-    "Username" : "Օգտանուն",
     "never" : "երբեք",
     "Other" : "Այլ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

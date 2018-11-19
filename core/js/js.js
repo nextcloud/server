@@ -1751,7 +1751,7 @@ OC.PasswordConfirmation = {
 	/**
 	 * @param {function} callback
 	 */
-	requirePasswordConfirmation: function(callback, options) {
+	requirePasswordConfirmation: function(callback, options, rejectCallback) {
 		options = typeof options !== 'undefined' ? options : {};
 		var defaults = {
 			title: t('core','Authentication required'),
@@ -1775,6 +1775,8 @@ OC.PasswordConfirmation = {
 				function (result, password) {
 					if (result && password !== '') {
 						self._confirmPassword(password, config);
+					} else if (_.isFunction(rejectCallback)) {
+						rejectCallback()
 					}
 				},
 				true,

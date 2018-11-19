@@ -57,6 +57,7 @@ class VersionHome implements ICollection {
 		if (!$user) {
 			throw new NoUserException();
 		}
+		return $user;
 	}
 
 	public function delete() {
