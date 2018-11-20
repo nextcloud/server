@@ -48,16 +48,13 @@
 	.shareWithLoading {
 		padding-left: 10px;
 		right: 35px;
-		top: 0px;
+		top: 3px;
 	}
-	.shareWithConfirm,
-	.linkPass .icon-loading-small {
+	.shareWithConfirm {
 		position: absolute;
 		right: 2px;
 		top: 6px;
 		padding: 14px;
-	}
-	.shareWithConfirm {
 		opacity: 0.5;
 	}
 	.shareWithField:focus ~ .shareWithConfirm {
@@ -70,6 +67,21 @@
 		padding: 14px;
 	}
 	.popovermenu {
+		.linkPassMenu {
+			.share-pass-submit {
+				width: auto !important;
+			}
+			.icon-loading-small {
+				background-color: var(--color-main-background);
+				position: absolute;
+				right: 8px;
+				margin: 3px;
+				padding: 10px;
+				width: 32px;
+				height: 32px;
+				z-index: 10;
+			}
+		}
 		.datepicker {
 			margin-left: 35px;
 		}

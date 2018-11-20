@@ -127,28 +127,6 @@ describe('OC.Share.ShareDialogView', function() {
 	describe('Share with link', function() {
 		// TODO: test ajax calls
 		// TODO: test password field visibility (whenever enforced or not)
-		it('update password on focus out', function() {
-			$('#allowShareWithLink').val('yes');
-
-			dialog.model.set({
-				linkShares: [{
-					id: 123
-				}]
-			});
-			dialog.render();
-
-			// Enable password, enter password and focusout
-			dialog.$el.find('[name=showPassword]').click();
-			dialog.$el.find('.linkPassText').focus();
-			dialog.$el.find('.linkPassText').val('foo');
-			dialog.$el.find('.linkPassText').focusout();
-
-			expect(saveLinkShareStub.calledOnce).toEqual(true);
-			expect(saveLinkShareStub.firstCall.args[0]).toEqual({
-				cid: 123,
-				password: 'foo'
-			});
-		});
 		it('update password on enter', function() {
 			$('#allowShareWithLink').val('yes');
 
@@ -164,6 +142,28 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.$el.find('.linkPassText').focus();
 			dialog.$el.find('.linkPassText').val('foo');
 			dialog.$el.find('.linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
+
+			expect(saveLinkShareStub.calledOnce).toEqual(true);
+			expect(saveLinkShareStub.firstCall.args[0]).toEqual({
+				cid: 123,
+				password: 'foo'
+			});
+		});
+		it('update password on submit', function() {
+			$('#allowShareWithLink').val('yes');
+
+			dialog.model.set({
+				linkShares: [{
+					id: 123
+				}]
+			});
+			dialog.render();
+
+			// Enable password and enter password
+			dialog.$el.find('[name=showPassword]').click();
+			dialog.$el.find('.linkPassText').focus();
+			dialog.$el.find('.linkPassText').val('foo');
+			dialog.$el.find('.linkPassText + .icon-confirm').click();
 
 			expect(saveLinkShareStub.calledOnce).toEqual(true);
 			expect(saveLinkShareStub.firstCall.args[0]).toEqual({
