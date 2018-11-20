@@ -187,7 +187,7 @@
     "This list is maybe truncated - please refine your search term to see more results." : "このリストは切り捨てられている可能性があります - 検索語句を絞り込んで検索結果を表示してください。",
     "No users or groups found for {search}" : "{search} の検索でユーザー、グループが見つかりません",
     "No users found for {search}" : "{search} のユーザーはいませんでした",
-    "An error occurred (\"{message}\"). Please try again" : "エラーが発生しました（「{メッセージ}」）。 もう一度お試しください",
+    "An error occurred (\"{message}\"). Please try again" : "エラーが発生しました(\"{message}\")。 もう一度お試しください",
     "An error occurred. Please try again" : "エラーが発生しました。もう一度実行してください。",
     "Home" : "ホーム",
     "Work" : "職場",
@@ -375,7 +375,7 @@
     "Depending on your configuration, this button could also work to trust the domain:" : "設定に応じて、このボタンはドメインを信頼することもできます：",
     "Copy URL" : "URL をコピー",
     "Enable" : "有効にする",
-    "{sharee} (conversation)" : "{共有}（会話）",
+    "{sharee} (conversation)" : "{sharee}（会話）",
     "Please log in before granting %s access to your %s account." : "あなたの %s アカウントに %s アクセスを許可する前にログインしてください。",
     "Further information how to configure this can be found in the %sdocumentation%s." : "これを構成する方法の詳細は、%sドキュメント%sにあります。"
 },"pluralForm" :"nplurals=1; plural=0;"
