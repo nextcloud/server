@@ -3,6 +3,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018, Oliver Wegner (void1976@gmail.com)
  *
+ * @author Oliver Wegner <void1976@gmail.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
