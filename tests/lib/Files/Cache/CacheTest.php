@@ -553,6 +553,7 @@ class CacheTest extends \Test\TestCase {
 
 	function testNonExisting() {
 		$this->assertFalse($this->cache->get('foo.txt'));
+		$this->assertFalse($this->cache->get(-1));
 		$this->assertEquals(array(), $this->cache->getFolderContents('foo'));
 	}
 
