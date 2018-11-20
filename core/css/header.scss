@@ -461,6 +461,9 @@ nav[role='navigation'] {
 	li {
 		position: relative;
 		cursor: pointer;
+		margin: 0 2px;
+		display: flex;
+		justify-content: center;
 
 		a {
 			position: relative;
@@ -471,6 +474,59 @@ nav[role='navigation'] {
 			align-items: center;
 			justify-content: center;
 			opacity: .6;
+		}
+
+		/* focused app visual feedback */
+		&:hover a,
+		a:focus,
+		a.active {
+			opacity: 1;
+		}
+	
+		&:hover a + span,
+		a:focus + span,
+		&:hover span,
+		&:focus span,
+		a:focus span {
+			display: inline-block;
+			text-overflow: initial;
+			width: auto;
+			overflow: hidden;
+			background-color: var(--color-primary-element);
+			padding: 0 5px;
+		}
+
+		/* hidden apps menu */
+		img,
+		.icon-more-white {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+		}
+	
+		/* App title */
+		span {
+			opacity: 0;
+			position: absolute;
+			color: var(--color-primary-text);
+			bottom: -5px;
+			width: calc(100% - 4px);
+			text-align: center;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			transition: all var(--animation-quick) ease;
+		}
+
+		/* Set up transitions for showing app titles on hover */
+		/* App icon */
+		svg,
+		.icon-more-white {
+			transition: transform var(--animation-quick) ease;
+		}
+
+		/* Triangle */
+		a::before {
+			transition: border var(--animation-quick) ease;
 		}
 	}
 
@@ -485,68 +541,6 @@ nav[role='navigation'] {
 		}
 	}
 
-	/* focused app visual feedback */
-	li:hover a,
-	li a:focus,
-	li a.active {
-		opacity: 1;
-	}
-
-	li:hover a,
-	li a:focus {
-		+ span {
-			display: inline-block;
-		}
-	}
-
-	li:hover span,
-	li:focus span,
-	li a:focus span {
-		display: inline-block;
-	}
-
-	/* hidden apps menu */
-	li img,
-	.icon-more-white {
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-	}
-
-	/* App title */
-	li span {
-		opacity: 0;
-		position: absolute;
-		color: var(--color-primary-text);
-		bottom: -5px;
-		width: 100%;
-		text-align: center;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-
-	/* Set up transitions for showing app titles on hover */
-	li {
-		/* Prevent flicker effect because of low-hanging span element */
-		overflow-y: hidden;
-
-		/* App icon */
-		svg,
-		.icon-more-white {
-			transition: transform var(--animation-quick) ease;
-		}
-
-		/* App title */
-		span {
-			transition: all var(--animation-quick) ease;
-		}
-
-		/* Triangle */
-		a::before {
-			transition: border var(--animation-quick) ease;
-		}
-	}
 
 	/* Show all app titles on hovering app menu area */
 	&:hover {
