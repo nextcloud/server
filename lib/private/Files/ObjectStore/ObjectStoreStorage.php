@@ -29,6 +29,7 @@ use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Stream\CountReadStream;
+use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common {
@@ -275,10 +276,16 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				if (is_array($stat)) {
 					try {
 						return $this->objectStore->readObject($this->getURN($stat['fileid']));
+					} catch (NotFoundException $e) {
+						$this->logger->logException($e, [
+							'app' => 'objectstore',
+							'message' => 'Could not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
+						]);
+						throw $e;
 					} catch (\Exception $ex) {
 						$this->logger->logException($ex, [
 							'app' => 'objectstore',
-							'message' => 'Count not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
+							'message' => 'Could not get object ' . $this->getURN($stat['fileid']) . ' for file ' . $path,
 						]);
 						return false;
 					}
