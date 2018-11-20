@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace OC\Net;
 
-use OC\Net\IIpAddress;
+use OCP\Net\IIpAddress;
 use OC\Net\AbstractIpAddress;
 
 class IpAddressV6 extends AbstractIpAddress {

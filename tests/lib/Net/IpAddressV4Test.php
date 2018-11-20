@@ -21,8 +21,8 @@
 
 namespace Test\Net;
 
+use OCP\Net\IIpAddress;
 use OC\Net\IpAddressV4;
-use OC\Net\IIpAddress;
 
 class IpAddressV4Test extends \Test\TestCase {
 	public function testIsRangeAddress() {

@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace OC\Net;
 
-use OC\Net\IIpAddress;
+use OCP\Net\IIpAddress;
 
 abstract class AbstractIpAddress implements IIpAddress {
 	abstract public function getMaxBitlength(): int;

@@ -20,38 +20,45 @@ declare(strict_types=1);
  *
  */
 
-/**
- * Private interface of ownCloud for internal use.
- * IpAddress interface
- */
+namespace OCP\Net;
+
+use OCP\Net\IIpAddress;
+use OC\Net\IpAddressV4;
+use OC\Net\IpAddressV6;
 
 /**
- * This interface provides functionalities of an IP address or range,
- * e.g. checking if an IP address is within an IP range.
+ * This factory creates instances of IIpAddress, given an IP address
+ * string (e.g. "192.168.1.2" or subnet string in CIDR format (e.g.
+ * "192.168.1.0/24").
  *
  * @since 16.0.0
  */
-
-namespace OC\Net;
-
-interface IIpAddress {
+class IpAddressFactory {
+	/**
+	 * Returns whether $address represents an IPv6 address
+	 *
+	 * @param string $address
+	 * @return bool
+	 * @since 16.0.0
+	 */
+	public static function isIpv6(string $address): bool {
+		return strpos($address, ':') !== false;
+	}
 
 	/**
-	 * Returns whether this instance represents an IP range.
+	 * Creates a new instance conforming to IIpAddress and
+	 * representing the given $address.
 	 *
-	 * @return boolean true if this is an IP range, false if it's a single IP address
-	 * @since 15.0.0
+	 * @param string $address
+	 * @return IIpAddress
+	 * @since 16.0.0
 	 */
-	public function isRange(): bool;
-
-	/**
-	 * Returns if $other is equal to or contained in the IP
-	 * address(es) which this instance represents.
-	 *
-	 * @return boolean true if $other is part of (or equal to) $this in terms of 
-	 *         IP range terms, false otherwise
-	 * @since 15.0.0
-	 */
-	public function containsAddress(IIpAddress $other): bool;
+	public static function getInstance($address): IIpAddress {
+		if (self::isIpv6($address)) {
+			return new IpAddressV6($address);
+		} else {
+			return new IpAddressV4($address);
+		}
+	}
 }
 
