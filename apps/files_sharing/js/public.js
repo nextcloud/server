@@ -209,7 +209,7 @@ OCA.Sharing.PublicApp = {
 					// Remove the link. This means that files without a default action fail hard
 					$tr.find('a.name').attr('href', '#');
 
-					delete this.fileActions.actions.all.Download;
+					this.fileActions.actions.all = {};
 				}
 				return $tr;
 			};
@@ -299,6 +299,7 @@ OCA.Sharing.PublicApp = {
 
 			if (hideDownload === 'true') {
 				this.fileList.$el.find('#headerSelection').remove();
+				this.fileList.$el.find('.summary').find('td:first-child').remove();
 			}
 		}
 

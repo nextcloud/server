@@ -362,17 +362,16 @@
 			// remove previous
 			$tr.find('.action-menu').remove();
 
-			if (this.actions.length > 0) {
-				var $el = this._renderInlineAction({
-					name: 'menu',
-					displayName: '',
-					iconClass: 'icon-more',
-					altText: t('files', 'Actions'),
-					action: this._showMenuClosure
-				}, false, context);
+			var $el = this._renderInlineAction({
+				name: 'menu',
+				displayName: '',
+				iconClass: 'icon-more',
+				altText: t('files', 'Actions'),
+				action: this._showMenuClosure
+			}, false, context);
 
-				$el.addClass('permanent');
-			}
+			$el.addClass('permanent');
+
 		},
 
 		/**

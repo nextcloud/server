@@ -114,7 +114,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 
 			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
 
-			expect($hideDownloadCheckbox.length).toBeFalsy();
+			expect($hideDownloadCheckbox.length).toBeTruthy();
 		});
 
 		it('checkbox is checked when the setting is enabled', function () {
