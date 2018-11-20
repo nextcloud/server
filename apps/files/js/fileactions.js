@@ -371,6 +371,7 @@
 			}, false, context);
 
 			$el.addClass('permanent');
+
 		},
 
 		/**
