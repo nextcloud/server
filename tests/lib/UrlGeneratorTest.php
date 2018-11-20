@@ -145,6 +145,8 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	public function provideSubDirURLs() {
 		return [
+			['', 'http://localhost/nextcloud/'],
+			['/', 'http://localhost/nextcloud/'],
 			['index.php', 'http://localhost/nextcloud/index.php'],
 			['/index.php', 'http://localhost/nextcloud/index.php'],
 			['/apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
