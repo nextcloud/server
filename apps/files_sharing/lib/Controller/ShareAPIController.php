@@ -773,6 +773,10 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
+		if ($share->getShareOwner() !== $this->currentUser && $share->getSharedBy() !== $this->currentUser) {
+			throw new OCSForbiddenException('You are not allowed to edit incomming shares');
+		}
+
 		if ($permissions === null && $password === null && $sendPasswordByTalk === null && $publicUpload === null && $expireDate === null && $note === null) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
