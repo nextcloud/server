@@ -805,6 +805,10 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 		margin-bottom: 1px;
 		padding: 5px;
 
+		&.hidden {
+			display: none;
+		}
+
 		/* Use same amount as sidebar padding */
 		&:first-child {
 			padding-left: 15px;
