@@ -37,6 +37,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
@@ -58,6 +60,8 @@ class OauthApiControllerTest extends TestCase {
 	private $time;
 	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
 	private $throttler;
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
 	/** @var OauthApiController */
 	private $oauthApiController;
 
@@ -72,6 +76,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->throttler = $this->createMock(Throttler::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->oauthApiController = new OauthApiController(
 			'oauth2',
@@ -82,7 +87,8 @@ class OauthApiControllerTest extends TestCase {
 			$this->tokenProvider,
 			$this->secureRandom,
 			$this->time,
-			$this->throttler
+			$this->throttler,
+			$this->userManager
 		);
 	}
 
@@ -287,6 +293,16 @@ class OauthApiControllerTest extends TestCase {
 			'expires_in' => 3600,
 			'refresh_token' => 'random128',
 			'user_id' => 'userId',
+			'id_token' => $this->encodeJWT(json_encode([
+				'iss' => 'http://localhost',
+				'sub' => 'userId',
+				'aud' => 'clientId',
+				'exp' => 4600,
+				'iat' => 1000,
+				'auth_time' => 1000,
+				'email' => null,
+				'name' => null
+			]), 'clientSecret')
 		]);
 
 		$this->request->method('getRemoteAddress')
@@ -299,6 +315,13 @@ class OauthApiControllerTest extends TestCase {
 				'login',
 				['user' => 'userId']
 			);
+
+		$user = $this->createMock(IUser::class);;
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('userId')
+			->willReturn($user);
 
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
 	}
@@ -379,6 +402,16 @@ class OauthApiControllerTest extends TestCase {
 			'expires_in' => 3600,
 			'refresh_token' => 'random128',
 			'user_id' => 'userId',
+			'id_token' => $this->encodeJWT(json_encode([
+				'iss' => 'http://localhost',
+				'sub' => 'userId',
+				'aud' => 'clientId',
+				'exp' => 4600,
+				'iat' => 1000,
+				'auth_time' => 1000,
+				'email' => null,
+				'name' => null
+			]), 'clientSecret'),
 		]);
 
 		$this->request->server['PHP_AUTH_USER'] = 'clientId';
@@ -394,6 +427,13 @@ class OauthApiControllerTest extends TestCase {
 				'login',
 				['user' => 'userId']
 			);
+
+		$user = $this->createMock(IUser::class);;
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('userId')
+			->willReturn($user);
 
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
 	}
@@ -474,6 +514,16 @@ class OauthApiControllerTest extends TestCase {
 			'expires_in' => 3600,
 			'refresh_token' => 'random128',
 			'user_id' => 'userId',
+			'id_token' => $this->encodeJWT(json_encode([
+				'iss' => 'http://localhost',
+				'sub' => 'userId',
+				'aud' => 'clientId',
+				'exp' => 4600,
+				'iat' => 1000,
+				'auth_time' => 1000,
+				'email' => null,
+				'name' => null
+			]), 'clientSecret'),
 		]);
 
 		$this->request->method('getRemoteAddress')
@@ -487,6 +537,33 @@ class OauthApiControllerTest extends TestCase {
 				['user' => 'userId']
 			);
 
+		$user = $this->createMock(IUser::class);;
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('userId')
+			->willReturn($user);
+
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
+	}
+
+	private function encodeJWT($payload, $secret) {
+		// Create token header as a JSON string
+		$header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+
+		// Encode Header to Base64Url String
+		$base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
+
+		// Encode Payload to Base64Url String
+		$base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
+
+		// Create Signature Hash
+		$signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $secret, true);
+
+		// Encode Signature to Base64Url String
+		$base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+
+		// Create JWT
+	   return $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
 	}
 }

@@ -35,6 +35,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
@@ -53,6 +54,8 @@ class OauthApiController extends Controller {
 	private $time;
 	/** @var Throttler */
 	private $throttler;
+    /** @var IUserManager */
+	private $userManager;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -62,7 +65,8 @@ class OauthApiController extends Controller {
 								TokenProvider $tokenProvider,
 								ISecureRandom $secureRandom,
 								ITimeFactory $time,
-								Throttler $throttler) {
+								Throttler $throttler,
+								IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->crypto = $crypto;
 		$this->accessTokenMapper = $accessTokenMapper;
@@ -71,6 +75,7 @@ class OauthApiController extends Controller {
 		$this->secureRandom = $secureRandom;
 		$this->time = $time;
 		$this->throttler = $throttler;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -162,6 +167,45 @@ class OauthApiController extends Controller {
 
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
 
+		// The id token needs to be correctly build as JWT. Taken from https://dev.to/robdwaller/how-to-create-a-json-web-token-using-php-3gml
+
+		// Create token header as a JSON string
+		$header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+
+		// We need the user to fill in name and email in the id_token
+		$user = $this->userManager->get($appToken->getUID());
+
+		// Create token payload as a JSON string
+		$payload = json_encode([
+			// required for OIDC
+			'iss' => \OC::$server->getURLGenerator()->getBaseUrl(),
+			'sub' => $appToken->getUID(),
+			'aud' => $client_id,
+			'exp' => $appToken->getExpires(),
+			'iat' => $this->time->getTime(),
+			'auth_time' => $this->time->getTime(),
+
+			// optional, can be requested by claims, we don't support requesting claims as of now, so we just send them always
+			'email' => $user->getEMailAddress(),
+			'name' => $user->getDisplayName(),
+
+		]);
+
+		// Encode Header to Base64Url String
+		$base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
+
+		// Encode Payload to Base64Url String
+		$base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
+
+		// Create Signature Hash
+		$signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $client->getSecret(), true);
+
+		// Encode Signature to Base64Url String
+		$base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+
+		// Create JWT
+		$jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+
 		return new JSONResponse(
 			[
 				'access_token' => $newToken,
@@ -169,6 +213,7 @@ class OauthApiController extends Controller {
 				'expires_in' => 3600,
 				'refresh_token' => $newCode,
 				'user_id' => $appToken->getUID(),
+				'id_token' => $jwt,
 			]
 		);
 	}
