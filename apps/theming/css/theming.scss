@@ -82,10 +82,9 @@ $invert: luma($color-primary) > 0.6;
 			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
 		}
 	}
-	#body-user {
-		.primary {
-			border: 1px solid transparent;
-		}
+	/* Always give primary button a border for light primary colors */
+	.primary {
+		border-color: var(--color-border) !important;
 	}
 } @else {
 	#appmenu:not(.inverted) svg {
