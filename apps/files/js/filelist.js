@@ -2132,6 +2132,9 @@
 			options = options || {};
 			var fileEl = this.findFileEl(name);
 			var fileData = _.findWhere(this.files, {name: name});
+			if (!fileData) {
+				return;
+			}
 			var fileId = fileData.id;
 			if (this._selectedFiles[fileId]) {
 				// remove from selection first
@@ -2227,7 +2230,7 @@
 				return self.filesClient.move(dir + fileName, targetPath + fileName)
 					.done(function() {
 						// if still viewing the same directory
-						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
 							// recalculate folder size
 							var oldFile = self.findFileEl(target);
 							var newFile = self.findFileEl(fileName);
@@ -2367,7 +2370,7 @@
 						filesToNotify.push(fileName);
 
 						// if still viewing the same directory
-						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
 							// recalculate folder size
 							var oldFile = self.findFileEl(target);
 							var newFile = self.findFileEl(fileName);
@@ -2869,14 +2872,14 @@
 				self.showFileBusyState($tr, true);
 				return self.filesClient.remove(dir + '/' + fileName)
 					.done(function() {
-						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
 							self.remove(fileName);
 						}
 					})
 					.fail(function(status) {
 						if (status === 404) {
 							// the file already did not exist, remove it from the list
-							if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+							if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
 								self.remove(fileName);
 							}
 						} else {

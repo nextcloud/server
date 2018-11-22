@@ -24,6 +24,7 @@ describe('OC.Upload tests', function() {
 	var testFile;
 	var uploader;
 	var failStub;
+	var progressBarStub;
 
 	beforeEach(function() {
 		testFile = {
@@ -45,7 +46,8 @@ describe('OC.Upload tests', function() {
 			'</div>'
 		);
 		$dummyUploader = $('#file_upload_start');
-		uploader = new OC.Uploader($dummyUploader);
+		progressBarStub = {on: function(){}};
+		uploader = new OC.Uploader($dummyUploader, {progressBar: progressBarStub});
 		failStub = sinon.stub();
 		uploader.on('fail', failStub);
 	});
@@ -142,6 +144,7 @@ describe('OC.Upload tests', function() {
 			conflictDialogStub = sinon.stub(OC.dialogs, 'fileexists');
 
 			uploader = new OC.Uploader($dummyUploader, {
+				progressBar: progressBarStub,
 				fileList: fileList
 			});
 
