@@ -2,7 +2,6 @@
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
 script('encryption', 'settings-admin');
-script('core', 'multiselect');
 style('encryption', 'settings-admin');
 ?>
 <form id="ocDefaultEncryptionModule" class="sub-section">
