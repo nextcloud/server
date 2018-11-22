@@ -229,7 +229,7 @@ $(document).ready(function () {
 				location.reload();
 			},
 			fail: function() {
-				OC.Notification.showTemporary(t('settings', 'An error occured while changing your language. Please reload the page and try again.'));
+				OC.Notification.showTemporary(t('settings', 'An error occurred while changing your language. Please reload the page and try again.'));
 			}
 		});
 	};
@@ -255,7 +255,7 @@ $(document).ready(function () {
 				moment.locale(selectedLocale);
 			},
 			fail: function() {
-				OC.Notification.showTemporary(t('settings', 'An error occured while changing your locale. Please reload the page and try again.'));
+				OC.Notification.showTemporary(t('settings', 'An error occurred while changing your locale. Please reload the page and try again.'));
 			}
 		});
 	};
