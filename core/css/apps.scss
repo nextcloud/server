@@ -445,7 +445,7 @@ kbd {
 		.app-navigation-entry-utils-menu-button {
 			/* Prevent bg img override if an icon class is set */
 			button:not([class^='icon-']):not([class*=' icon-']) {
-				background-image: url('../img/actions/more.svg?v=1');
+				@include icon-color('more', 'actions', $color-black, 1, true);
 			}
 			&:hover button,
 			&:focus button {
