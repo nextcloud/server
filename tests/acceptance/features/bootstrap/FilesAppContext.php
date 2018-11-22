@@ -45,6 +45,23 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	private static function appMenu() {
+		return Locator::forThe()->id("appmenu")->
+				describedAs("App menu in header");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function filesItemInAppMenu() {
+		return Locator::forThe()->xpath("/li[@data-id = 'files']")->
+				descendantOf(self::appMenu())->
+				describedAs("Files item in app menu in header");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function mainViewForSection($section) {
 		$sectionId = self::sections()[$section];
 
@@ -214,6 +231,44 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function sharedByLabel() {
+		return Locator::forThe()->css(".reshare")->
+				descendantOf(self::detailsView())->
+				describedAs("Shared by label in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function shareWithInput() {
+		return Locator::forThe()->css(".shareWithField")->
+				descendantOf(self::detailsView())->
+				describedAs("Share with input in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function shareeList() {
+		return Locator::forThe()->css(".shareeListView")->
+				descendantOf(self::detailsView())->
+				describedAs("Sharee list in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function sharedWithRow($sharedWithName) {
+		// "username" class is used for any type of share, not only for shares
+		// with users.
+		return Locator::forThe()->xpath("//span[contains(concat(' ', normalize-space(@class), ' '), ' username ') and normalize-space() = '$sharedWithName']/ancestor::li")->
+				descendantOf(self::shareeList())->
+				describedAs("Shared with $sharedWithName row in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function shareLinkRow() {
 		return Locator::forThe()->css(".linkShareView .shareWithList:first-child")->
 				descendantOf(self::detailsView())->
@@ -350,6 +405,13 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Given I open the Files app
+	 */
+	public function iOpenTheFilesApp() {
+		$this->actor->find(self::filesItemInAppMenu(), 10)->click();
+	}
+
+	/**
 	 * @Given I close the details view
 	 */
 	public function iCloseTheDetailsView() {
@@ -385,6 +447,15 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$timeout = 5 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The share link menu is not open yet after $timeout seconds");
 		}
+	}
+
+	/**
+	 * @Given I share :fileName with :shareWithName
+	 */
+	public function iShareWith($fileName, $shareWithName) {
+		$this->actor->find(FileListContext::shareActionForFile(self::currentSectionMainView(), $fileName), 10)->click();
+
+		$this->actor->find(self::shareWithInput(), 5)->setValue($shareWithName . "\r");
 	}
 
 	/**
@@ -619,6 +690,22 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
+	}
+
+	/**
+	 * @Then I see that the file is shared with me by :sharedByName
+	 */
+	public function iSeeThatTheFileIsSharedWithMeBy($sharedByName) {
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->find(self::sharedByLabel(), 10)->getText(), "Shared with you by $sharedByName");
+	}
+
+	/**
+	 * @Then I see that the file is shared with :sharedWithName
+	 */
+	public function iSeeThatTheFileIsSharedWith($sharedWithName) {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::sharedWithRow($sharedWithName), 10)->isVisible());
 	}
 
 	/**
