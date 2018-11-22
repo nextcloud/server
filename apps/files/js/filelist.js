@@ -568,9 +568,33 @@
 			}
 
 			this._currentFileModel = model;
+
+			this._replaceDetailsViewElementIfNeeded();
+
 			this._detailsView.setFileInfo(model);
-			this._detailsView.render();
 			this._detailsView.$el.scrollTop(0);
+		},
+
+		/**
+		 * Replaces the current details view element with the details view
+		 * element of this file list.
+		 *
+		 * Each file list has its own DetailsView object, and each one has its
+		 * own root element, but there can be just one details view/sidebar
+		 * element in the document. This helper method replaces the current
+		 * details view/sidebar element in the document with the element from
+		 * the DetailsView object of this file list.
+		 */
+		_replaceDetailsViewElementIfNeeded: function() {
+			var $appSidebar = $('#app-sidebar');
+			if ($appSidebar.length === 0) {
+				this._detailsView.$el.insertAfter($('#app-content'));
+			} else if ($appSidebar[0] !== this._detailsView.el) {
+				// "replaceWith()" can not be used here, as it removes the old
+				// element instead of just detaching it.
+				this._detailsView.$el.insertBefore($appSidebar);
+				$appSidebar.detach();
+			}
 		},
 
 		/**
