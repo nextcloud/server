@@ -51,7 +51,7 @@
 				<input id="newusername" type="text" required v-model="newUser.id"
 					   :placeholder="t('settings', 'Username')" name="username"
 					   autocomplete="off" autocapitalize="none" autocorrect="off"
-					   pattern="[a-zA-Z0-9 _\.@\-']+">
+					   ref="newusername" pattern="[a-zA-Z0-9 _\.@\-']+">
 			</div>
 			<div class="displayName">
 				<input id="newdisplayname" type="text" v-model="newUser.displayName"
@@ -60,7 +60,7 @@
 			</div>
 			<div class="password">
 				<input id="newuserpassword" type="password" v-model="newUser.password"
-					   :required="newUser.mailAddress===''"
+					   :required="newUser.mailAddress===''" ref="newuserpassword"
 					   :placeholder="t('settings', 'Password')" name="password"
 					   autocomplete="new-password" autocapitalize="none" autocorrect="off"
 					   :minlength="minPasswordLength">
@@ -335,8 +335,21 @@ export default {
 				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
 				quota: this.newUser.quota.id,
 				language: this.newUser.language.code,
-			}).then(() => this.resetForm())
-			.catch(() => this.loading.all = false);
+			})
+			.then(() => this.resetForm())
+			.catch((error) => {
+				this.loading.all = false;
+				if (error.response && error.response.data && error.response.data.ocs && error.response.data.ocs.meta) {
+					const statuscode = error.response.data.ocs.meta.statuscode
+					if (statuscode === 102) {
+						// wrong username
+						this.$refs.newusername.focus();	
+					} else if (statuscode === 107) {
+						// wrong password
+						this.$refs.newuserpassword.focus();	
+					}
+				}
+			});
 		},
 		setNewUserDefaultGroup(value) {
 			if (value && value.length > 0) {
