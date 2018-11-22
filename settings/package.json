@@ -15,7 +15,7 @@
     "lodash": "^4.17.11",
     "nextcloud-axios": "^0.1.2",
     "nextcloud-password-confirmation": "^0.4.0",
-    "nextcloud-vue": "^0.3.1",
+    "nextcloud-vue": "^0.4.4",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.5.17",
     "vue-click-outside": "^1.0.7",
