@@ -262,3 +262,22 @@ Feature: app-files
     When I unmark "welcome.txt" as favorite
     Then I see that "welcome.txt" is not marked as favorite
     And I see that "A name alphabetically lower than welcome.txt" precedes "welcome.txt" in the file list
+
+  Scenario: mark a file as favorite in the details view
+    Given I am logged in
+    And I open the details view for "welcome.txt"
+    And I see that the details view is open
+    When I mark the file as favorite in the details view
+    Then I see that "welcome.txt" is marked as favorite
+    And I see that the file is marked as favorite in the details view
+
+  Scenario: unmark a file as favorite in the details view
+    Given I am logged in
+    And I open the details view for "welcome.txt"
+    And I see that the details view is open
+    And I mark the file as favorite in the details view
+    And I see that "welcome.txt" is marked as favorite
+    And I see that the file is marked as favorite in the details view
+    When I unmark the file as favorite in the details view
+    Then I see that "welcome.txt" is not marked as favorite
+    And I see that the file is not marked as favorite in the details view

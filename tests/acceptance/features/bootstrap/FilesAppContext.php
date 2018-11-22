@@ -89,6 +89,33 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function favoriteActionInFileDetailsInDetailsView() {
+		return Locator::forThe()->css(".action-favorite")->
+				descendantOf(self::fileDetailsInDetailsView())->
+				describedAs("Favorite action in file details in details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function notFavoritedStateIconInFileDetailsInDetailsView() {
+		return Locator::forThe()->css(".icon-star")->
+				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
+				describedAs("Not favorited state icon in file details in details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function favoritedStateIconInFileDetailsInDetailsView() {
+		return Locator::forThe()->css(".icon-starred")->
+				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
+				describedAs("Favorited state icon in file details in details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function fileDetailsInDetailsViewWithText($fileDetailsText) {
 		return Locator::forThe()->xpath("//span[normalize-space() = '$fileDetailsText']")->
 				descendantOf(self::fileDetailsInDetailsView())->
@@ -317,6 +344,24 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I mark the file as favorite in the details view
+	 */
+	public function iMarkTheFileAsFavoriteInTheDetailsView() {
+		$this->iSeeThatTheFileIsNotMarkedAsFavoriteInTheDetailsView();
+
+		$this->actor->find(self::favoriteActionInFileDetailsInDetailsView(), 10)->click();
+	}
+
+	/**
+	 * @When I unmark the file as favorite in the details view
+	 */
+	public function iUnmarkTheFileAsFavoriteInTheDetailsView() {
+		$this->iSeeThatTheFileIsMarkedAsFavoriteInTheDetailsView();
+
+		$this->actor->find(self::favoriteActionInFileDetailsInDetailsView(), 10)->click();
+	}
+
+	/**
 	 * @When I check the tag :tag in the dropdown for tags in the details view
 	 */
 	public function iCheckTheTagInTheDropdownForTagsInTheDetailsView($tag) {
@@ -398,6 +443,22 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheFileNameShownInTheDetailsViewIs($fileName) {
 		PHPUnit_Framework_Assert::assertEquals(
 				$this->actor->find(self::fileNameInDetailsView(), 10)->getText(), $fileName);
+	}
+
+	/**
+	 * @Then I see that the file is marked as favorite in the details view
+	 */
+	public function iSeeThatTheFileIsMarkedAsFavoriteInTheDetailsView() {
+		PHPUnit_Framework_Assert::assertNotNull(
+				$this->actor->find(self::favoritedStateIconInFileDetailsInDetailsView(), 10));
+	}
+
+	/**
+	 * @Then I see that the file is not marked as favorite in the details view
+	 */
+	public function iSeeThatTheFileIsNotMarkedAsFavoriteInTheDetailsView() {
+		PHPUnit_Framework_Assert::assertNotNull(
+				$this->actor->find(self::notFavoritedStateIconInFileDetailsInDetailsView(), 10));
 	}
 
 	/**
