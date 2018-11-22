@@ -1,5 +1,42 @@
 Feature: app-files
 
+  Scenario: open and close the details view
+    Given I am logged in
+    When I open the details view for "welcome.txt"
+    And I see that the details view is open
+    And I close the details view
+    Then I see that the details view is closed
+
+  Scenario: open and close the details view twice
+    Given I am logged in
+    And I open the details view for "welcome.txt"
+    And I see that the details view is open
+    And I close the details view
+    And I see that the details view is closed
+    When I open the details view for "welcome.txt"
+    And I see that the details view is open
+    And I close the details view
+    Then I see that the details view is closed
+
+  Scenario: open and close the details view again after coming back from a different section
+    Given I am logged in
+    And I open the details view for "welcome.txt"
+    And I see that the details view is open
+    And I close the details view
+    And I see that the details view is closed
+    And I open the "Recent" section
+    And I see that the current section is "Recent"
+    And I open the details view for "welcome.txt"
+    And I see that the details view is open
+    And I close the details view
+    And I see that the details view is closed
+    When I open the "All files" section
+    And I see that the current section is "All files"
+    And I open the details view for "welcome.txt"
+    And I see that the details view is open
+    And I close the details view
+    Then I see that the details view is closed
+
   Scenario: viewing a favorite file in its folder shows the correct sidebar view
     Given I am logged in
     And I create a new folder named "other"
