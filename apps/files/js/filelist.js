@@ -653,8 +653,13 @@
 		 */
 		_onShow: function(e) {
 			if (this.shown) {
-				this._setCurrentDir('/', false);
-				this.reload();
+				if (e.itemId === this.id) {
+					this._setCurrentDir('/', false);
+				}
+				// Only reload if we don't navigate to a different directory
+				if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
+					this.reload();
+				}
 			}
 			this.shown = true;
 		},
