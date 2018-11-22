@@ -8,6 +8,17 @@ Feature: app-files-tags
     When I open the input field for tags in the details view
     Then I see that the input field for tags in the details view is shown
 
+  Scenario: show the input field for tags in the details view after closing and opening the details view again
+    Given I am logged in
+    And I open the details view for "welcome.txt"
+    And I see that the details view is open
+    And I close the details view
+    And I see that the details view is closed
+    And I open the details view for "welcome.txt"
+    And I see that the details view is open
+    When I open the input field for tags in the details view
+    Then I see that the input field for tags in the details view is shown
+
   Scenario: show the input field for tags in the details view after the sharing tab has loaded
     Given I am logged in
     And I open the details view for "welcome.txt"
