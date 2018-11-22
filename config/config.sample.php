@@ -657,6 +657,26 @@ $CONFIG = array(
 'has_internet_connection' => true,
 
 /**
+ * Which domains to request to determine the availability of an Internet
+ * connection. If none of these hosts are reachable, the administration panel
+ * will show a warning. Set to an empty list to not do any such checks (warning
+ * will still be shown).
+ *
+ * Defaults to the following domains:
+ *
+ *  - www.nextcloud.com
+ *  - www.startpage.com
+ *  - www.eff.org
+ *  - www.edri.org
+ */
+'connectivity_check_domains' => array(
+	'www.nextcloud.com',
+	'www.startpage.com',
+	'www.eff.org',
+	'www.edri.org'
+),
+
+/**
  * Allows Nextcloud to verify a working .well-known URL redirects. This is done
  * by attempting to make a request from JS to
  * https://your-domain.com/.well-known/caldav/

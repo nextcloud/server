@@ -189,10 +189,15 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsInternetConnectionWorkingCorrectly() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
-			->will($this->returnValue(true));
+            ->will($this->returnValue(true));
+
+		$this->config->expects($this->at(1))
+			->method('getSystemValue')
+			->with('connectivity_check_domains', ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'])
+			->will($this->returnValue(['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org']));
 
 		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
 			->disableOriginalConstructor()->getMock();
@@ -213,10 +218,15 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsInternetConnectionFail() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
-			->will($this->returnValue(true));
+            ->will($this->returnValue(true));
+
+		$this->config->expects($this->at(1))
+			->method('getSystemValue')
+			->with('connectivity_check_domains', ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'])
+			->will($this->returnValue(['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org']));
 
 		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
 			->disableOriginalConstructor()->getMock();
@@ -339,13 +349,17 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn('');
 		$this->config->expects($this->at(2))
 			->method('getSystemValue')
+			->with('connectivity_check_domains', ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'])
+			->will($this->returnValue(['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org']));
+		$this->config->expects($this->at(3))
+			->method('getSystemValue')
 			->with('memcache.local', null)
 			->will($this->returnValue('SomeProvider'));
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(4))
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
 			->will($this->returnValue(true));
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
 			->will($this->returnValue(false));

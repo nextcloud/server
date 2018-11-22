@@ -130,11 +130,9 @@ class CheckSetupController extends Controller {
 			return false;
 		}
 
-		$siteArray = ['www.nextcloud.com',
-						'www.startpage.com',
-						'www.eff.org',
-						'www.edri.org',
-			];
+		$siteArray = $this->config->getSystemValue('connectivity_check_domains', [
+			'www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'
+		]);
 
 		foreach($siteArray as $site) {
 			if ($this->isSiteReachable($site)) {
