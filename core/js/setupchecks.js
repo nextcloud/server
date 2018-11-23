@@ -459,12 +459,10 @@
 					});
 				}
 
-				if (!xhr.getResponseHeader('Referrer-Policy') ||
-					(xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'no-referrer' &&
-					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'no-referrer-when-downgrade' &&
-					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'strict-origin' &&
-					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'strict-origin-when-cross-origin' &&
-					xhr.getResponseHeader('Referrer-Policy').toLowerCase() !== 'same-origin')) {
+				if (
+					!xhr.getResponseHeader('Referrer-Policy') ||
+					!xhr.getResponseHeader('Referrer-Policy').split(/,\s*/).some((rp) => null !== rp.match(/no-referrer(-when-downgrade)?|strict-origin(-when-cross-origin)?|same-origin/i))
+				) {
 					messages.push({
 						msg: t('core', 'The "{header}" HTTP header is not set to "{val1}", "{val2}", "{val3}", "{val4}" or "{val5}". This can leak referer information. See the <a target="_blank" rel="noreferrer noopener" href="{link}">W3C Recommendation ↗</a>.',
 							{
