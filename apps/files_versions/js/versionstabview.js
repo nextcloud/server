@@ -155,6 +155,7 @@
 				versionId: version.get('id'),
 				formattedTimestamp: OC.Util.formatDate(timestamp),
 				relativeTimestamp: OC.Util.relativeModifiedDate(timestamp),
+				millisecondsTimestamp: timestamp,
 				humanReadableSize: OC.Util.humanFileSize(size, true),
 				altSize: n('files', '%n byte', '%n bytes', size),
 				hasDetails: version.has('size'),
