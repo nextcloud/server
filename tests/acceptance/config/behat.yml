@@ -63,6 +63,9 @@ default:
         Jane:
           selenium2:
             wd_host: %selenium.server%
+        Jim:
+          selenium2:
+            wd_host: %selenium.server%
         Rubeus:
           # Rubeus uses a browser that has CSS grid support.
           selenium2:
