@@ -432,6 +432,58 @@ Feature: app-files
     And I enter in the folder named "Shared folder"
     Then I see that the file list contains a file named "Subfolder"
 
+  Scenario: resharee sees a folder created by the owner in a shared folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as Jim
+    And I am logged in as "user1"
+    And I act as John
+    And I create a new folder named "Shared folder"
+    And I see that the file list contains a file named "Shared folder"
+    And I share "Shared folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I share "Shared folder" with "user1"
+    And I act as John
+    And I enter in the folder named "Shared folder"
+    And I create a new folder named "Subfolder"
+    And I see that the file list contains a file named "Subfolder"
+    When I act as Jim
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I enter in the folder named "Shared folder"
+    Then I see that the file list contains a file named "Subfolder"
+
+  Scenario: owner sees a folder created by the resharee in a shared folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as Jim
+    And I am logged in as "user1"
+    And I act as John
+    And I create a new folder named "Shared folder"
+    And I see that the file list contains a file named "Shared folder"
+    And I share "Shared folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I share "Shared folder" with "user1"
+    And I act as Jim
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I enter in the folder named "Shared folder"
+    And I create a new folder named "Subfolder"
+    And I see that the file list contains a file named "Subfolder"
+    When I act as John
+    And I enter in the folder named "Shared folder"
+    Then I see that the file list contains a file named "Subfolder"
+
   Scenario: marking a file as favorite causes the file list to be sorted again
     Given I am logged in
     And I create a new folder named "A name alphabetically lower than welcome.txt"
