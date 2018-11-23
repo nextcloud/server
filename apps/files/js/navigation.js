@@ -119,7 +119,12 @@
 			this.$currentContent = $('#app-content-' + (typeof itemView === 'string' && itemView !== '' ? itemView : itemId));
 			this.$currentContent.removeClass('hidden');
 			if (!options || !options.silent) {
-				this.$currentContent.trigger(jQuery.Event('show'));
+				this.$currentContent.trigger(jQuery.Event('show', {
+					itemId: itemId,
+					previousItemId: oldItemId,
+					dir: itemDir,
+					view: itemView
+				}));
 				this.$el.trigger(
 					new $.Event('itemChanged', {
 						itemId: itemId,
