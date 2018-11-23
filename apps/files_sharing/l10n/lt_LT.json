@@ -107,9 +107,7 @@
     "Select or drop files" : "Pasirinkite arba vilkite failus",
     "Uploading files…" : "Įkeliami failai…",
     "Uploaded files:" : "Įkelta:",
-    "{actor} removed you from {file}" : "{actor} nebesidalina su jumis {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "%s dalinimasis nepavyko, nes sistema nepalaiko šio duomenų tipo: %s",
-    "%s is publicly shared" : "%s yra viešai bendrinamas",
     "This share is password-protected" : "Turinys apsaugotas slaptažodžiu",
     "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
     "Password" : "Slaptažodis"

@@ -45,13 +45,11 @@
     "Favicon" : "Ícone de favoritos",
     "Upload new favicon" : "Enviar novo ícone de favorito",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte a imagens SVG para gerar favicons automaticamente, com base no logotipo e na cor enviados.",
-    "You are already using a custom theme" : "Você já está usando um tema personalizado",
-    "reset to default" : "restaurar ao padrão",
-    "Web address" : "Endereço web",
-    "Web address https://…" : "Endereço web https://...",
     "There is no error, the file uploaded with success" : "Sem erros. Arquivo enviado com sucesso",
     "The uploaded file was only partially uploaded" : "O arquivo foi enviado parcialmente",
     "Failed to write file to disk." : "Falha ao escrever no disco.",
-    "A PHP extension stopped the file upload." : "Uma extensão PHP parou o envio do arquivo."
+    "A PHP extension stopped the file upload." : "Uma extensão PHP parou o envio do arquivo.",
+    "You are already using a custom theme" : "Você já está usando um tema personalizado",
+    "Web address https://…" : "Endereço web https://..."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

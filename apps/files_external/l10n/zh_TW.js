@@ -108,10 +108,8 @@ OC.L10N.register(
     "Add storage" : "增加儲存區",
     "Advanced settings" : "進階設定",
     "Allow users to mount external storage" : "允許使用者能自行掛載外部儲存",
+    "Are you sure you want to delete this external storage" : "您確定要刪除額外的空間？",
     "OpenStack" : "OpenStack",
-    "No external storage configured" : "目前尚未配置任何外部儲存",
-    "You can add external storages in the personal settings" : "在個人設定裡您可以自行加入外部儲存設定",
-    "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存",
-    "Are you sure you want to delete this external storage" : "您確定要刪除額外的空間？"
+    "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存"
 },
 "nplurals=1; plural=0;");

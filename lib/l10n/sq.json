@@ -197,12 +197,11 @@
     "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
     "Library %s with a version higher than %s is required - available version %s." : "Kërkohet librari %s me një version më të madh se %s - version gati %s.",
     "Library %s with a version lower than %s is required - available version %s." : "Lypset librari %s me një version më të vogël se %s - version gati %s.",
-    "Personal" : "Personale",
-    "Admin" : "Administrator",
     "APCu" : "APCu",
     "Redis" : "Redis",
     "Encryption" : "Enkriptimi",
     "Tips & tricks" : "Këshilla dhe rrengje",
+    "Sync clients" : "Klientë të sikronizuar",
     "Sharing %s failed, because the user %s does not exist" : "Ndarja e %s me të tjerët dështoi, ngaqë përdoruesi %s nuk ekziston",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Ndarja për %s dështoi, ngaqë përdoruesi %s s’është anëtar i ndonjë grupi ku %s është anëtar",
     "Sharing %s failed, because this item is already shared with %s" : "Ndarja për %s dështoi, ngaqë ky objekt është ndarë një herë me %s",
@@ -217,7 +216,6 @@
     "%s shared »%s« with you." : "1 %s ndarë »1 %s« me ju.",
     "%s via %s" : "%s përmes %s",
     "App '%s' could not be installed!" : "Aplikacioni '%s' nuk mund të instalohet!",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Përditësimi \"%s\" s’instalohet dot, ngaqë s’plotësohen varësitë vijuese: %s.",
-    "Sync clients" : "Klientë të sikronizuar"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Përditësimi \"%s\" s’instalohet dot, ngaqë s’plotësohen varësitë vijuese: %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

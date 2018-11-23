@@ -59,7 +59,6 @@ OC.L10N.register(
     "Federated share added" : "Здружено дељење додато",
     "Couldn't add remote share" : "Не могу да додам удаљено дељење",
     "Sharing %s failed, because this item is already shared with %s" : "Дељење %s није успело зато што се ова ставка већ дели са %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %s није успело, не могу да нађем %s, можда сервер тренутно није доступан или користи самопотписани сертификат.",
-    "Search global and public address book for users and let local users publish their data" : "Претражи кориснике у глобалним и јавним именицима и дозволи да локални корисници објављују њихове податке"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %s није успело, не могу да нађем %s, можда сервер тренутно није доступан или користи самопотписани сертификат."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

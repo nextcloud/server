@@ -160,11 +160,7 @@ OC.L10N.register(
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "Move" : "Movi",
     "Target folder" : "Cela dosierujo",
-    "A new file or folder has been <strong>deleted</strong>" : "Nova dosiero aŭ dosierujo <strong>foriĝis</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Nova dosiero aŭ dosierujo <strong>restaŭriĝis</strong>",
-    "%s of %s used" : "%s uzataj el %s",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Uzu tiun adreson por <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">atingi viajn dosierojn per WebDAV</a>"
+    "%s of %s used" : "%s uzataj el %s"
 },
 "nplurals=2; plural=(n != 1);");

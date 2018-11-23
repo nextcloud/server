@@ -43,16 +43,15 @@ OC.L10N.register(
     "Send password by mail" : "Odeslat heslo e-mailem",
     "Enforce password protection" : "Vynutit ochranu heslem",
     "Sharing %s failed, this item is already shared with %s" : "Sdílení %s se nezdařilo, tato položka je s %s už sdílena",
-    "Failed to send share by E-mail" : "Odeslání sdílení e-mailem se nezdařilo",
     "%s shared »%s« with you" : "%s s vámi sdílel(a) »%s»",
     "%s shared »%s« with you." : "%s s vámi nasdílel(a) „%s“.",
     "%s via %s" : "%s přes %s",
-    "Password to access »%s« shared to you by %s" : "Heslo pro přístup k „%s“ (vám nasdílel(a) %s)",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s s vámi sdílel(a) „%s“. Už jste měli dostat e-mail s přístupovými údaji.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s s vámi sdílel(a) „%s“. Už jste měli dostat e-mail s přístupovými údaji.",
+    "Password to access »%s« shared to you by %s" : "Heslo pro přístup k „%s“ (vám nasdílel(a) %s)",
     "It is protected with the following password: %s" : "Je chráněn následujícím heslem: %s",
-    "Password to access »%s« shared with %s" : "Heslo pro přístup k „%s“ sdíleno s %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Právě jste s »%s» nasdílel(a) %s. Sdílení bylo již příjemci zasláno. Kvůli bezpečnostní politice nastavené administrátorem %s musí být každé sdílení chráněno heslem a toto heslo nemůže být příjemci zasláno přímo. Kvůli tomu ho budete muset manuálně přeposlat.",
+    "Password to access »%s« shared with %s" : "Heslo pro přístup k „%s“ sdíleno s %s",
     "This is the password: %s" : "Toto je heslo: %s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

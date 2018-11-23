@@ -49,7 +49,6 @@
     "Federated share added" : "共享协作已添加",
     "Couldn't add remote share" : "无法添加远程共享",
     "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败，因为它已经共享给 %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败, 无法找到 %s, 可能该服务器当前无法访问或者使用自签名证书.",
-    "Search global and public address book for users and let local users publish their data" : "搜索用户的全球和公共通讯录，并让本地用户发布其数据"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败, 无法找到 %s, 可能该服务器当前无法访问或者使用自签名证书."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

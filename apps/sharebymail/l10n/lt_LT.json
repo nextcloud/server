@@ -27,16 +27,15 @@
     "Send password by mail" : "Siųti slaptažodį elektroniniu paštu",
     "Enforce password protection" : "Apsaugoti slaptažodžiu",
     "Sharing %s failed, this item is already shared with %s" : "%s bendrinimas nepavyko, šis elementas jau yra bendrinamas su %s",
-    "Failed to send share by E-mail" : "Nepavyko išsiųsti bendrinimo el. paštu",
     "%s shared »%s« with you" : "%s pradėjo bendrinti su jumis »%s«",
     "%s shared »%s« with you." : "%s pasidalintas »%s«  su Jumis.",
     "%s via %s" : "%s per %s",
-    "Password to access »%s« shared to you by %s" : "Slaptažodis, skirtas prieigai prie »%s« pasidalintas su jumis per %s",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s pasidalintas »%s«  su Jumis.\nJūs turėjote gauti elektroninį laišką su prieigos nuoroda.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s pasidalintas »%s«  su Jumis. Jūs turėjote gauti elektroninį laišką su prieigos nuoroda.",
+    "Password to access »%s« shared to you by %s" : "Slaptažodis, skirtas prieigai prie »%s« pasidalintas su jumis per %s",
     "It is protected with the following password: %s" : "Apsaugotas slaptažodžiu: %s",
-    "Password to access »%s« shared with %s" : "Slaptažodis prieigai prie »%s« pasidalintas su %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Jūs ką tik pasidalinote »%s« su %s.  Dalinimosi nuoroda buvo išsiųsta adresatui.  Pagal saugumo taisykles, kurias nustatė %s administratorius, kiekvienas dalinimasis turi būti apsaugotas slaptažodžiu. Kadangi slaptažodžio negalima tiesiogiai siųsti adresatui, jūs turite jį perduoti gyvai.",
+    "Password to access »%s« shared with %s" : "Slaptažodis prieigai prie »%s« pasidalintas su %s",
     "This is the password: %s" : "Štai yra slaptažodis: %s"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

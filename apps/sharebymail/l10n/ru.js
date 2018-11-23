@@ -43,16 +43,15 @@ OC.L10N.register(
     "Send password by mail" : "Отправлять пароль по электронной почте",
     "Enforce password protection" : "Требовать защиту паролем",
     "Sharing %s failed, this item is already shared with %s" : "Не удалось открыть общий доступ к «%s», общий доступ для %s уже предоставлен",
-    "Failed to send share by E-mail" : "Не удалось поделиться по e-mail",
     "%s shared »%s« with you" : "%s предоставил(а) Вам доступ к «%s»",
     "%s shared »%s« with you." : "%s предоставил(а) Вам доступ к «%s».",
     "%s via %s" : "%s через %s",
-    "Password to access »%s« shared to you by %s" : "Пароль для  «%s»,  общий доступ к которому предоставлен Вам пользователем %s",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s предоставил(а) Вам общий доступ к «%s».\nВы, скорее всего, уже получили отдельное письмо, содержащую ссылку для получения доступа.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s предоставил(а) Вам доступ к «%s». Вы, скорее всего, уже получили отдельное письмо, содержащее ссылку для получения доступа.",
+    "Password to access »%s« shared to you by %s" : "Пароль для  «%s»,  общий доступ к которому предоставлен Вам пользователем %s",
     "It is protected with the following password: %s" : "Доступ защищён следующим паролем: %s",
-    "Password to access »%s« shared with %s" : "Паролем для доступа к «%s» поделились с %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Вы только что предоставили общий доступ к «%s» пользователю %s. Уведомление о предоставлении доступа было отправлено получателю. В соответствии с политиками безопасности, заданными администратором %s, каждый общий ресурс должен быть защищён паролем, а так же не допускается непосредственное отправление пароля получателю, поэтому Вам потребуется самостоятельно перенаправить получателю пароль для доступа.",
+    "Password to access »%s« shared with %s" : "Паролем для доступа к «%s» поделились с %s",
     "This is the password: %s" : "Пароль: %s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

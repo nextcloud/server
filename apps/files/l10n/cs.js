@@ -162,11 +162,7 @@ OC.L10N.register(
     "Deleted shares" : "Smazaná sdílení",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
-    "Move" : "Přesunout",
     "Target folder" : "Cílový adresář",
-    "A new file or folder has been <strong>deleted</strong>" : "Nový soubor nebo složka byla <strong>smazána</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Nový soubor nebo složka byla <strong>obnovena</strong>",
-    "%s of %s used" : "%s z %s použito",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použít tuto adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> pro přístup k souborům přes WebDAV</a>"
+    "%s of %s used" : "%s z %s použito"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

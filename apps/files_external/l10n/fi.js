@@ -126,17 +126,9 @@ OC.L10N.register(
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Step 1 failed. Exception: %s" : "Vaihe 1 epäonnistui. Poikkeus: %s",
-    "Step 2 failed. Exception: %s" : "Vaihe 2 epäonnistui. Poikkeus: %s",
-    "Dropbox App Configuration" : "Dropbox-sovelluksen määritykset",
-    "Google Drive App Configuration" : "Google Drive -sovelluksen määritykset",
+    "Are you sure you want to delete this external storage" : "Haluatko varmasti poistaa tämän erillisen tallennustilan",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde.",
-    "No external storage configured" : "Erillistä tallennustilaa ei ole määritetty",
-    "You can add external storages in the personal settings" : "Voit lisätä erillisiä tallennustiloja henkilökohtaisista asetuksistasi",
-    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
-    "Are you sure you want to delete this external storage" : "Haluatko varmasti poistaa tämän erillisen tallennustilan"
+    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
 },
 "nplurals=2; plural=(n != 1);");

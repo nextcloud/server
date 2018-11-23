@@ -148,11 +148,7 @@
     "Deleted shares" : "Izbrisane povezave za souporabo",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt",
-    "Move" : "Premakni",
     "Target folder" : "Ciljna mapa",
-    "A new file or folder has been <strong>deleted</strong>" : "Nova datoteka ali mapa je bila <strong>izbrisana</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Nova datoteka ali mapa je bila <strong>obnovljena</strong>",
-    "%s of %s used" : "%s od %s uporabljeno",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Naslov omogoča dostop do datotek prek<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV</a>."
+    "%s of %s used" : "%s od %s uporabljeno"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

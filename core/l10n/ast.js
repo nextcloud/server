@@ -237,11 +237,11 @@ OC.L10N.register(
     "You can click here to return to %s." : "Pues primir equí pa volver a %s.",
     "Stay logged in" : "Caltener sesión",
     "Alternative Logins" : "Anicios de sesión alternativos",
+    "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s.",
     "Alternative login using app token" : "Aniciu de sesión alternativu usando pase d'aplicación",
     "Add \"%s\" as trusted domain" : "Amestáu \"%s\" como dominiu de confianza",
     "%s will be updated to version %s" : "%s anovaráse a la versión %s",
     "This page will refresh itself when the %s instance is available again." : "Esta páxina refrescaráse sola cuando la instancia %s vuelva tar disponible.",
-    "Thank you for your patience." : "Gracies pola to paciencia.",
-    "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s."
+    "Thank you for your patience." : "Gracies pola to paciencia."
 },
 "nplurals=2; plural=(n != 1);");

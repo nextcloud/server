@@ -70,7 +70,6 @@ OC.L10N.register(
     "Download %s" : "Lejupielādēt %s",
     "Uploading files…" : "Augšupielādē datnes",
     "Uploaded files:" : "Augšupielādēti faili:",
-    "{actor} removed you from {file}" : "{actor} noņēma jūs no {file}",
     "This share is password-protected" : "Šī koplietotne ir aizsargāta ar paroli",
     "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz.",
     "Password" : "Parole"

@@ -47,13 +47,11 @@ OC.L10N.register(
     "Favicon" : "Favicon",
     "Upload new favicon" : "Nahrát novou ikonu webu",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy.",
-    "You are already using a custom theme" : "Již používáte vlastní motiv",
-    "reset to default" : "obnovit výchozí",
-    "Web address" : "Webová adresa",
-    "Web address https://…" : "Webová adresa https://",
     "There is no error, the file uploaded with success" : "Nenastala žádná chyba, soubor byl úspěšně nahrán",
     "The uploaded file was only partially uploaded" : "Soubor byl nahrán pouze částečně",
     "Failed to write file to disk." : "Zápis na disk se nezdařil.",
-    "A PHP extension stopped the file upload." : "Rozšíření PHP zastavilo nahrávání souboru."
+    "A PHP extension stopped the file upload." : "Rozšíření PHP zastavilo nahrávání souboru.",
+    "You are already using a custom theme" : "Již používáte vlastní motiv",
+    "Web address https://…" : "Webová adresa https://"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

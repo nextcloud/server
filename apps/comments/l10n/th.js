@@ -19,7 +19,6 @@ OC.L10N.register(
     "You commented" : "คุณได้แสดงความคิดเห็นแล้ว",
     "%1$s commented" : "%1$s ได้ถูกแสดงความคิดเห็น",
     "You commented on %1$s" : "คุณได้แสดงความคิดเห็นบน %1$s",
-    "%1$s commented on %2$s" : "%1$s ได้ถูกแสดงความคิดเห็นบน %2$s",
-    "Unknown user" : "ไม่รู้จักผู้ใช้"
+    "%1$s commented on %2$s" : "%1$s ได้ถูกแสดงความคิดเห็นบน %2$s"
 },
 "nplurals=1; plural=0;");

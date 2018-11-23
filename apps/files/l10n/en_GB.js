@@ -152,11 +152,7 @@ OC.L10N.register(
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
-    "Move" : "Move",
     "Target folder" : "Target folder",
-    "A new file or folder has been <strong>deleted</strong>" : "A new file or folder has been <strong>deleted</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "A new file or folder has been <strong>restored</strong>",
-    "%s of %s used" : "%s of %s used",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>"
+    "%s of %s used" : "%s of %s used"
 },
 "nplurals=2; plural=(n != 1);");

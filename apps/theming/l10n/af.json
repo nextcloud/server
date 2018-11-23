@@ -22,11 +22,9 @@
     "Login image" : "Aantekenbeeld",
     "Upload new login background" : "Laai nuwe aantekenagtergrond op",
     "Remove background image" : "Verwyder agtergrondbeeld",
-    "You are already using a custom theme" : "U gebruik reeds ’n pasgemaakte tema",
-    "reset to default" : "herstel na verstek",
-    "Web address" : "Webadres",
-    "Web address https://…" : "Webadres https://…",
     "There is no error, the file uploaded with success" : "Geen fout is teëgekom nie, die lêer is met suksesvol opgelaai",
-    "The uploaded file was only partially uploaded" : "Die opgelaaide lêer is slegs gedeeltelik opgelaai"
+    "The uploaded file was only partially uploaded" : "Die opgelaaide lêer is slegs gedeeltelik opgelaai",
+    "You are already using a custom theme" : "U gebruik reeds ’n pasgemaakte tema",
+    "Web address https://…" : "Webadres https://…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

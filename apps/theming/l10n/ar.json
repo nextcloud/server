@@ -22,10 +22,8 @@
     "Login image" : "صورة الدخول",
     "Upload new login background" : "تحميل خلفية جديدة للدخول",
     "Remove background image" : "إزالة صورة الخلفية",
+    "Failed to write file to disk." : "خطأ في الكتابة على القرص الصلب.",
     "You are already using a custom theme" : "انت تستعمل قالب مخصص",
-    "reset to default" : "إلغاء كل التغييرات",
-    "Web address" : "عنوان صفحة أنترنت",
-    "Web address https://…" : "عنوان صفحة أنترنت https://",
-    "Failed to write file to disk." : "خطأ في الكتابة على القرص الصلب."
+    "Web address https://…" : "عنوان صفحة أنترنت https://"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

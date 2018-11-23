@@ -34,13 +34,11 @@
     "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
     "Advanced options" : "Επιλογές για προχωρημένους",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα.",
-    "You are already using a custom theme" : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα",
-    "reset to default" : "επαναφορά στα προεπιλεγμένα",
-    "Web address" : "Διεύθυση ιστοσελίδας",
-    "Web address https://…" : "Διεύθυνση ιστοσελίδας https://...",
     "There is no error, the file uploaded with success" : "Δεν υπάρχει σφάλμα, το αρχείο μεταφορτώθηκε με επιτυχία",
     "The uploaded file was only partially uploaded" : "Το μεταφορτωμένο αρχείο μεταφορτώθηκε εν μέρει",
     "Failed to write file to disk." : "Αποτυχία εγγραφής αρχείου στο δίσκο.",
-    "A PHP extension stopped the file upload." : "Μία επέκταση PHP διέκοψε τη μεταφόρτωση του αρχείου."
+    "A PHP extension stopped the file upload." : "Μία επέκταση PHP διέκοψε τη μεταφόρτωση του αρχείου.",
+    "You are already using a custom theme" : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα",
+    "Web address https://…" : "Διεύθυνση ιστοσελίδας https://..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
