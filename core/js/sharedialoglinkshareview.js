@@ -93,6 +93,7 @@
 				'	</span></li>' +
 				'	<li class="{{#unless isPasswordSet}}hidden{{/unless}} linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
 				'    	<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
+				'    <input type="submit" class="icon-confirm share-pass-submit" value="" />' +
 				'    <span class="icon icon-loading-small hidden"></span>' +
 				'	</span></li>' +
 				'{{/if}}' +
@@ -189,8 +190,8 @@
 			// open menu
 			'click .share-menu .icon-more': 'onToggleMenu',
 			// password
-			'focusout input.linkPassText': 'onPasswordEntered',
-			'keyup input.linkPassText': 'onPasswordKeyUp',
+			'click input.share-pass-submit': 'onPasswordEntered', 
+			'keyup input.linkPassText': 'onPasswordKeyUp', // check for the enter key
 			'change .showPasswordCheckbox': 'onShowPasswordClick',
 			'change .publicEditingCheckbox': 'onAllowPublicEditingChange',
 			// copy link url
@@ -374,11 +375,12 @@
 				},
 				error: function(model, msg) {
 					// destroy old tooltips
-					$input.tooltip('destroy');
+					var $container = $input.parent();
+					$container.tooltip('destroy');
 					$input.addClass('error');
-					$input.attr('title', msg);
-					$input.tooltip({placement: 'bottom', trigger: 'manual'});
-					$input.tooltip('show');
+					$container.attr('title', msg);
+					$container.tooltip({placement: 'bottom', trigger: 'manual'});
+					$container.tooltip('show');
 				}
 			});
 		},
