@@ -348,6 +348,31 @@ Feature: app-files
     And I see that the "Sharing" tab in the details view is eventually loaded
     And I see that the file is shared with me by "user0"
 
+  Scenario: owner sees reshares with other users
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I rename "welcome.txt" to "farewell.txt"
+    And I see that the file list contains a file named "farewell.txt"
+    And I share "farewell.txt" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I share "farewell.txt" with "user1"
+    And I see that the file is shared with "user1"
+    When I act as John
+    # The Files app is open again to reload the file list and the shares
+    And I open the Files app
+    And I open the details view for "farewell.txt"
+    And I see that the details view is open
+    And I open the "Sharing" tab in the details view
+    And I see that the "Sharing" tab in the details view is eventually loaded
+    Then I see that the file is shared with "user0"
+    And I see that the file is shared with "user1"
+
   Scenario: share an empty folder with another user
     Given I act as John
     And I am logged in as the admin
