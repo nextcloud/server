@@ -351,6 +351,65 @@ Feature: app-files
     And I see that the "Sharing" tab in the details view is eventually loaded
     And I see that the file is shared with me by "admin"
 
+  Scenario: share an empty folder with another user
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Shared folder"
+    And I see that the file list contains a file named "Shared folder"
+    When I share "Shared folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    Then I see that the file list contains a file named "Shared folder"
+    And I open the details view for "Shared folder"
+    And I see that the details view is open
+    And I open the "Sharing" tab in the details view
+    And I see that the "Sharing" tab in the details view is eventually loaded
+    And I see that the file is shared with me by "admin"
+
+  Scenario: sharee sees a folder created by the owner in a shared folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Shared folder"
+    And I see that the file list contains a file named "Shared folder"
+    And I share "Shared folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I enter in the folder named "Shared folder"
+    And I create a new folder named "Subfolder"
+    And I see that the file list contains a file named "Subfolder"
+    When I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I enter in the folder named "Shared folder"
+    Then I see that the file list contains a file named "Subfolder"
+
+  Scenario: owner sees a folder created by the sharee in a shared folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Shared folder"
+    And I see that the file list contains a file named "Shared folder"
+    And I share "Shared folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I enter in the folder named "Shared folder"
+    And I create a new folder named "Subfolder"
+    And I see that the file list contains a file named "Subfolder"
+    When I act as John
+    And I enter in the folder named "Shared folder"
+    Then I see that the file list contains a file named "Subfolder"
+
   Scenario: marking a file as favorite causes the file list to be sorted again
     Given I am logged in
     And I create a new folder named "A name alphabetically lower than welcome.txt"
