@@ -221,13 +221,11 @@
     "Storage connection timeout. %s" : "存储连接超时. %s",
     "Library %s with a version higher than %s is required - available version %s." : "%s 需要 %s 或更高的版本 - 可用版本 %s.",
     "Library %s with a version lower than %s is required - available version %s." : "%s 需要 %s 或更低的版本 - 可用版本 %s.",
-    "Personal" : "个人",
-    "Admin" : "管理员",
     "APCu" : "APCu",
     "Redis" : "Redis",
     "Encryption" : "加密",
     "Tips & tricks" : "小提示",
-    "DB Error: \"%s\"" : "数据库错误：\"%s\"",
+    "Sync clients" : "同步客户",
     "Sharing %s failed, because the user %s does not exist" : "共享 %s 失败, 因为用户 %s 不存在",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "共享 %s 失败, 因为用户 %s 不是 %s 所属的任何组的用户",
     "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败, 因为该项已经共享给用户 %s",
@@ -238,13 +236,11 @@
     "Share type %s is not valid for %s" : "%s 不是 %s 的合法共享类型",
     "Sharing %s failed, because the permissions exceed permissions granted to %s" : "共享 %s 失败, 因为权限超过了 %s 的已有权限",
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "共享 %s 失败, 因为无法找到 %s 共享后端的来源",
-    "Cannot increase permissions of %s" : "无法增加 %s 的权限",
     "%s shared »%s« with you" : "%s 向您共享了 »%s«",
     "%s shared »%s« with you." : "%s 已与您共享了 %s .",
     "%s via %s" : "%s 通过 %s",
     "No app name specified" : "没有指定的 App 名称",
     "App '%s' could not be installed!" : "应用 '%s' 无法被安装!",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "应用程序 \"%s\" 无法被安装，因为为满足下列依赖关系: %s",
-    "Sync clients" : "同步客户"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "应用程序 \"%s\" 无法被安装，因为为满足下列依赖关系: %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -162,11 +162,7 @@ OC.L10N.register(
     "Deleted shares" : "Raderade delningar",
     "Text file" : "Textfil",
     "New text file.txt" : "nytextfil.txt",
-    "Move" : "Flytta",
     "Target folder" : "Målmapp",
-    "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mapp har blivit <strong>raderad</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mapp har blivit <strong>återställd</strong>",
-    "%s of %s used" : "%s av %s använt",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">komma åt dina filer med WebDAV</a>"
+    "%s of %s used" : "%s av %s använt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -154,11 +154,7 @@
     "Deleted shares" : "שיתופים שנמחקו",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
-    "Move" : "העברה",
     "Target folder" : "תיקיית יעד",
-    "A new file or folder has been <strong>deleted</strong>" : "קובץ או תיקייה חדשים <strong>נמחקו</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "קובץ או תיקייה חדשים <strong>שוחזרו</strong>",
-    "%s of %s used" : "%s מתוך %s בשימוש",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">לגשת לקבצים שלך דרך WebDAV</a>"
+    "%s of %s used" : "%s מתוך %s בשימוש"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

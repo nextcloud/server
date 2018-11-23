@@ -105,7 +105,6 @@ OC.L10N.register(
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploading files…" : "Cargando archivos...",
     "Uploaded files:" : "Archivos cargados:",
-    "{actor} removed you from {file}" : "{actor} lo eliminó de {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Se presentó  una falla al compartir %s, porque el backend no permite elementos compartidos de tipo %s",
     "This share is password-protected" : "Este elemento compartido está protegido con contraseña",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Por favor inténtalo de nuevo.",

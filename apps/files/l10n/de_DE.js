@@ -162,11 +162,7 @@ OC.L10N.register(
     "Deleted shares" : "Gelöschte Freigaben",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
-    "Move" : "Verschieben",
     "Target folder" : "Zielordner",
-    "A new file or folder has been <strong>deleted</strong>" : "Eine neue Datei oder Ordner wurde <strong>gelöscht</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Eine neue Datei oder Ordner wurde <strong>wiederhergestellt</strong>",
-    "%s of %s used" : "%s von %s verwendet",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Benutzen Sie diese Adresse, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">via WebDAV auf Ihre Dateien zuzugreifen</a>"
+    "%s of %s used" : "%s von %s verwendet"
 },
 "nplurals=2; plural=(n != 1);");

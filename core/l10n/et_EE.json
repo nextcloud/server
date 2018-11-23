@@ -279,13 +279,13 @@
     "The specified document has not been found on the server." : "Määratud dokumenti serverist ei leitud.",
     "You can click here to return to %s." : "%s tagasi minemiseks võid sa siia klikkida.",
     "Stay logged in" : "Püsi sisselogituna",
+    "Back to log in" : "Tagasi sisselogimise lehele",
     "Alternative Logins" : "Alternatiivsed sisselogimisviisid",
+    "You are about to grant %s access to your %s account." : "Sa oled andmas %s ligipääsu oma %s kontole.",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Täiustatud turvalisus on teie konto jaoks lubatud. Palun autentida teise teguri abil.",
     "Add \"%s\" as trusted domain" : "Lisa \"%s\" usaldusväärse domeenina",
     "%s will be updated to version %s" : "%s uuendatakse versioonile %s",
     "This page will refresh itself when the %s instance is available again." : "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval.",
-    "Thank you for your patience." : "Täname kannatlikkuse eest.",
-    "Back to log in" : "Tagasi sisselogimise lehele",
-    "You are about to grant %s access to your %s account." : "Sa oled andmas %s ligipääsu oma %s kontole."
+    "Thank you for your patience." : "Täname kannatlikkuse eest."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

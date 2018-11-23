@@ -52,7 +52,6 @@ OC.L10N.register(
     "Federated share added" : "Federerad delning tillagd",
     "Couldn't add remote share" : "Kunde inte lägga till extern delning",
     "Sharing %s failed, because this item is already shared with %s" : "Delning %s misslyckades därför att objektet redan är delat med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat",
-    "Search global and public address book for users and let local users publish their data" : "Sök global och publik adressbok för användare och låt lokala användare publicera sina data"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat"
 },
 "nplurals=2; plural=(n != 1);");

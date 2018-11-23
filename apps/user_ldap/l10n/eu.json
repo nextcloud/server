@@ -113,9 +113,6 @@
     "Username-LDAP User Mapping" : "LDAP-erabiltzaile-izena erabiltzailearen mapeatzea",
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
     "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
-    " entries available within the provided Base DN" : "sarrera eskuragarri emandako Oinarrizko DNarekin",
-    "1. Server" : "1. Zerbitzaria",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Abisua:</b> user_ldap eta user_webdavauth aplikazioak bateraezinak dira. Portaera berezia izan dezakezu. Mesedez eskatu zure sistema kudeatzaileari bietako bat desgaitzeko."
+    " entries available within the provided Base DN" : "sarrera eskuragarri emandako Oinarrizko DNarekin"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

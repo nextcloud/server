@@ -30,13 +30,11 @@
     "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
     "Remove background image" : "Odstrániť obrázok pozadia",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky.",
-    "You are already using a custom theme" : "Už používate upravený vzhľad",
-    "reset to default" : "nastaviť predvolené",
-    "Web address" : "Web adresa",
-    "Web address https://…" : "Webová adresa https://...",
     "There is no error, the file uploaded with success" : "Nenastala žiadna chyba, súbor bol úspešne nahraný",
     "The uploaded file was only partially uploaded" : "Ukladaný súbor sa nahral len čiastočne",
     "Failed to write file to disk." : "Nepodarilo sa zapísať súbor na disk.",
-    "A PHP extension stopped the file upload." : "rozšírenie PHP zastavilo nahrávanie súboru."
+    "A PHP extension stopped the file upload." : "rozšírenie PHP zastavilo nahrávanie súboru.",
+    "You are already using a custom theme" : "Už používate upravený vzhľad",
+    "Web address https://…" : "Webová adresa https://..."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

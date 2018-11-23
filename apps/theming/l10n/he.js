@@ -47,13 +47,11 @@ OC.L10N.register(
     "Favicon" : "סמל כותרת",
     "Upload new favicon" : "העלאת סמל כותרת חדש",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "יש להתקין את הרחבת ה־PHP של Imagemagick עם תמיכה בתמונות SVG כדי לייצר תמונות מועדפים אוטומטיות על בסיס הלוגו שהועלה והצבע.",
-    "You are already using a custom theme" : "כבר החלת ערכת עיצוב בהתאמה אישית",
-    "reset to default" : "איפוס לבררת מחדל",
-    "Web address" : "כתובת",
-    "Web address https://…" : "כתובת https://…‎",
     "There is no error, the file uploaded with success" : "אין אף תקלה, הקובץ הועלה בהצלחה",
     "The uploaded file was only partially uploaded" : "הקובץ הועלה באופן חלקי בלבד",
     "Failed to write file to disk." : "הכתיבה לכונן נכשלה.",
-    "A PHP extension stopped the file upload." : "הרחבת PHP עצרה את העלאת הקובץ."
+    "A PHP extension stopped the file upload." : "הרחבת PHP עצרה את העלאת הקובץ.",
+    "You are already using a custom theme" : "כבר החלת ערכת עיצוב בהתאמה אישית",
+    "Web address https://…" : "כתובת https://…‎"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

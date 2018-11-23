@@ -145,11 +145,7 @@ OC.L10N.register(
     "Shared by link" : "Jagatud lingiga",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
-    "Move" : "Liiguta",
     "Target folder" : "Sihtkaust",
-    "A new file or folder has been <strong>deleted</strong>" : "Uus fail või kaust on <strong>kustutatud</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Uus fail või kaust on <strong>taastatud</strong>",
-    "%s of %s used" : "Kasutatud %s/%s",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">oma failidele WebDAVi kaudu ligi pääseda</a>"
+    "%s of %s used" : "Kasutatud %s/%s"
 },
 "nplurals=2; plural=(n != 1);");

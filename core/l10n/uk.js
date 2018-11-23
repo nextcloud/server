@@ -261,14 +261,12 @@ OC.L10N.register(
     "{sharee} (email)" : "{sharee} (email)",
     "The specified document has not been found on the server." : "Не вдалось знайти вказаний документ на сервері.",
     "You can click here to return to %s." : "Ви можете натиснути тут для повернення до %s.",
-    "Wrong password. Reset it?" : "Невірний пароль. Скинути його?",
     "Stay logged in" : "Залишатись в системі",
+    "Back to log in" : "Повернутися до сторінки авторизації",
     "Alternative Logins" : "Альтернативні імена користувача",
     "Add \"%s\" as trusted domain" : "Додати \"%s\" як довірений домен",
     "%s will be updated to version %s" : "%s буде оновлено до версії %s",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Для допомоги, дивіться  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>.",
     "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний.",
-    "Thank you for your patience." : "Дякуємо за ваше терпіння.",
-    "Back to log in" : "Повернутися до сторінки авторизації"
+    "Thank you for your patience." : "Дякуємо за ваше терпіння."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

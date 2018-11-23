@@ -51,7 +51,6 @@ OC.L10N.register(
     "Federated share added" : "Datafællesskabsdeling tilføjet",
     "Couldn't add remote share" : "Kunne ikke tliføje den ekstern deling",
     "Sharing %s failed, because this item is already shared with %s" : "Der skete en fejl ved deling af %s, objektet er allerede delt med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling af %s mislykkedes - kunne ikke finde %s. Måske er serveren ikke tilgængelig i øjeblikket eller bruger et selv underskrevet certifikat.",
-    "Search global and public address book for users and let local users publish their data" : "Søg global og offentlig adresse bog for brugere og lad lokale brugere offentliggøre deres data"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling af %s mislykkedes - kunne ikke finde %s. Måske er serveren ikke tilgængelig i øjeblikket eller bruger et selv underskrevet certifikat."
 },
 "nplurals=2; plural=(n != 1);");

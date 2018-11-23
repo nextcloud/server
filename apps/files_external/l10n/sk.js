@@ -126,18 +126,9 @@ OC.L10N.register(
     "Add storage" : "Pridať úložisko",
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Sťahovanie prístupových tokenov zlyhalo. Overte prosím, či je aplikačný kľúč a heslo (secret) zadané správne.",
-    "Step 1 failed. Exception: %s" : "Krok 1 zlyhal. Výnimka: %s",
-    "Step 2 failed. Exception: %s" : "Krok 2 zlyhal. Výnimka: %s",
-    "Dropbox App Configuration" : "Nastavenie Dropbox aplikácie",
-    "Google Drive App Configuration" : "Nastavenie Google Drive aplikácie",
+    "Are you sure you want to delete this external storage" : "Naozaj chcete zmazať toto externé úložisko?",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Nie je nainštalované \"%s\". Pripojenie %s nie je možné. Požiadajte svojho správcu o inštaláciu.",
-    "No external storage configured" : "Žiadne externé úložisko nie je nakonfigurované",
-    "You can add external storages in the personal settings" : "Externé úložisko je možné pridať v osobných nastaveniach",
-    "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská",
-    "Are you sure you want to delete this external storage" : "Naozaj chcete zmazať toto externé úložisko?"
+    "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

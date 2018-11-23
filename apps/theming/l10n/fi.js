@@ -44,13 +44,11 @@ OC.L10N.register(
     "Upload new header logo" : "Lähetä uusi otsakelogo",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Lähetä uusi favicon",
-    "You are already using a custom theme" : "Käytät jo kustomoitua ulkoasua",
-    "reset to default" : "palauta oletukseksi",
-    "Web address" : "Verkko-osoite",
-    "Web address https://…" : "Verkko-osoite https://…",
     "There is no error, the file uploaded with success" : "Ei virhettä, tiedosto lähetettiin onnistuneesti",
     "The uploaded file was only partially uploaded" : "Lähetetty tiedosto lähetettiin vain osittain",
     "Failed to write file to disk." : "Levylle kirjoittaminen epäonnistui.",
-    "A PHP extension stopped the file upload." : "PHP-laajennus pysäytti tiedoston lähetyksen."
+    "A PHP extension stopped the file upload." : "PHP-laajennus pysäytti tiedoston lähetyksen.",
+    "You are already using a custom theme" : "Käytät jo kustomoitua ulkoasua",
+    "Web address https://…" : "Verkko-osoite https://…"
 },
 "nplurals=2; plural=(n != 1);");

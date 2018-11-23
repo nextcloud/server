@@ -118,10 +118,7 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" δεν είναι εγκατεστημένο. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε τον διαχειριστή του συστήματός σας να το εγκαταστήσει. ",
-    "No external storage configured" : "Δεν έχει ρυθμιστεί κανένα εξωτερικό μέσο αποθήκευσης",
-    "You can add external storages in the personal settings" : "Μπορείτε να προσθέσετε εξωτερικά μέσα αποθήκευσης στις προσωπικές ρυθμίσεις",
     "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"
 },
 "nplurals=2; plural=(n != 1);");

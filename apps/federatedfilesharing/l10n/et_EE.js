@@ -51,7 +51,6 @@ OC.L10N.register(
     "Federated share added" : "Liitjagamine lisatud",
     "Couldn't add remote share" : "Ei suutnud lisada kaugjagamist",
     "Sharing %s failed, because this item is already shared with %s" : "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s jagamine ebaõnnestus, ei suutnud %s leida, ehk ei ole server kättesaadav või kasutab ise allkirjastatud sertifikaati.",
-    "Search global and public address book for users and let local users publish their data" : "Otsi kasutajaid globaalsest ja avalikust aadressiraamatust ja luba kohalikel kasutajatel avaldada oma andmeid"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s jagamine ebaõnnestus, ei suutnud %s leida, ehk ei ole server kättesaadav või kasutab ise allkirjastatud sertifikaati."
 },
 "nplurals=2; plural=(n != 1);");

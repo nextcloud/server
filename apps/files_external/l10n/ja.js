@@ -128,19 +128,9 @@ OC.L10N.register(
     "Advanced settings" : "詳細設定",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "リクエストトークンの取得に失敗しました。アプリのキーとパスワードが正しいことを確認してください。",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "アクセストークンの取得に失敗しました。アプリのキーとパスワードが正しいことを確認してください。",
-    "Step 1 failed. Exception: %s" : "ステップ 1 の実行に失敗しました。例外: %s",
-    "Step 2 failed. Exception: %s" : "ステップ 2 の実行に失敗しました。例外: %s",
-    "Dropbox App Configuration" : "Dropbox アプリ設定",
-    "Google Drive App Configuration" : "Google アプリ設定",
+    "Are you sure you want to delete this external storage" : "この外部ストレージを本当に削除しますか?",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\"はインストールされていません。 %s のマウントは不可能です。システム管理者にインストールを依頼してください。",
-    "No external storage configured" : "外部ストレージは設定されていません",
-    "You can add external storages in the personal settings" : "個人設定で外部ストレージを設定することができます。",
-    "Allow users to mount the following external storage" : "ユーザーに次の外部ストレージのマウントを許可する",
-    "Are you sure you want to delete this external storage" : "この外部ストレージを本当に削除しますか?"
+    "Allow users to mount the following external storage" : "ユーザーに次の外部ストレージのマウントを許可する"
 },
 "nplurals=1; plural=0;");

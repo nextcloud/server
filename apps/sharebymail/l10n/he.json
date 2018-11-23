@@ -26,7 +26,6 @@
     "Send password by mail" : "שליחת ססמה בדוא״ל",
     "Enforce password protection" : "אילוץ הגנה בססמה",
     "Sharing %s failed, this item is already shared with %s" : "השיתוף של %s נכשל, פריט זה כבר משותף עם %s",
-    "Failed to send share by E-mail" : "שליחת השיתוף בדוא״ל נכשלה",
     "%s via %s" : "%s דרך %s",
     "Password to access »%s« shared to you by %s" : "ססמת גישה אל „%s” שותפה אתך על ידי %s",
     "It is protected with the following password: %s" : "מוגן בססמה הבאה: %s",

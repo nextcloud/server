@@ -27,16 +27,15 @@
     "Send password by mail" : "Wyślij hasło e-mailem",
     "Enforce password protection" : "Wymuś zabezpieczenie hasłem",
     "Sharing %s failed, this item is already shared with %s" : "Współdzielenie %s nie udało się, ten obiekt już jest współdzielony z %s",
-    "Failed to send share by E-mail" : "Nie udało się wysłać współdzielenia przez e-mail",
     "%s shared »%s« with you" : "%s współdzieli »%s« z Tobą",
     "%s shared »%s« with you." : "%s współdzieli »%s« z Tobą.",
     "%s via %s" : "%s przez %s",
-    "Password to access »%s« shared to you by %s" : "Hasło dostępu do »%s« jest udostępnione Tobie przez %s",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s współdzieli z Tobą »%s«.\nPowinien już przyjść do Ciebie osobny e-mail zawierający link dostępowy.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s współdzieli »%s« z Tobą. Powinien już przyjść do Ciebie osobny e-mail z odnośnikiem dostępowym.",
+    "Password to access »%s« shared to you by %s" : "Hasło dostępu do »%s« jest udostępnione Tobie przez %s",
     "It is protected with the following password: %s" : "To jest chronione następującym hasłem: %s",
-    "Password to access »%s« shared with %s" : "Hasło dostępu do »%s« zostało udostępnione %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Właśnie udostępniono »%s« użytkownikowi %s. Udostępniony udział został już wysłany do odbiorcy, jednak zgodnie z polityką bezpieczeństwa ustanowioną przez administratora %s każdy udział musi zostać zabezpieczony hasłem. Wysyłanie hasła bezpośrednio do odbiorcy jest zabronione, dlatego też musisz mu je przekazać w klasyczny sposób.",
+    "Password to access »%s« shared with %s" : "Hasło dostępu do »%s« zostało udostępnione %s",
     "This is the password: %s" : "To jest hasło: %s"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

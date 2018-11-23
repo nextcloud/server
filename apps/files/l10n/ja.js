@@ -162,11 +162,7 @@ OC.L10N.register(
     "Deleted shares" : "削除された共有",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
-    "Move" : "移動",
     "Target folder" : "対象フォルダー",
-    "A new file or folder has been <strong>deleted</strong>" : "新しいファイルまたはフォルダが<strong>削除</strong>されたとき",
-    "A new file or folder has been <strong>restored</strong>" : "新しいファイルまたはフォルダが<strong>復元されました</strong>",
-    "%s of %s used" : "%s / %s 使用中",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV 経由でファイルにアクセス</a>するにはこのアドレスを利用してください"
+    "%s of %s used" : "%s / %s 使用中"
 },
 "nplurals=1; plural=0;");

@@ -59,7 +59,6 @@ OC.L10N.register(
     "Federated share added" : "Partage fédéré ajouté",
     "Couldn't add remote share" : "Impossible d'ajouter le partage distant",
     "Sharing %s failed, because this item is already shared with %s" : "Le partage de %s a échoué car cet élément est déjà partagé avec %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %s a échoué, impossible de trouver %s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
-    "Search global and public address book for users and let local users publish their data" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs et laisser les utilisateurs publier leurs données"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %s a échoué, impossible de trouver %s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé."
 },
 "nplurals=2; plural=(n > 1);");

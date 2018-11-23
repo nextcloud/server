@@ -163,10 +163,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
     "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
-    " entries available within the provided Base DN" : " קיימות רשומות מתוך בסיס ה- DN שסופק",
-    "1. Server" : "1. שרת",
-    "Wrong password. Reset it?" : "ססמה שגויה. לאפס אותה?",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>אזהרה:</b> יישומים user_ldap ו- user_webdavauth אינם תואמים. תופעות לא מוסברות עלולות להתקיים. כדאי לפנות למנהל המערכת כדי שינטרל אחד מהם."
+    " entries available within the provided Base DN" : " קיימות רשומות מתוך בסיס ה- DN שסופק"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

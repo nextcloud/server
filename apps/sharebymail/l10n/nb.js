@@ -28,16 +28,15 @@ OC.L10N.register(
     "Send password by mail" : "Send passord via e-post",
     "Enforce password protection" : "Krev passordbeskyttelse",
     "Sharing %s failed, this item is already shared with %s" : "Deling %s mislyktes, dette elementet er allerede delt med %s",
-    "Failed to send share by E-mail" : "Mislyktes i å sende delt ressurs per e-post",
     "%s shared »%s« with you" : "%s delte \"%s\" med deg",
     "%s shared »%s« with you." : "%s delte »%s« med deg.",
     "%s via %s" : "%s via %s",
-    "Password to access »%s« shared to you by %s" : "Passord for å benytte »%s« tildelt deg av %s",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s delte «%s» med deg.\nDu skal allerede ha mottatt en annen e-post med en lenke til innholdet.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s delte «%s» med deg. Du skal allerede ha mottatt en annen e-post med en lenke til innholdet.",
+    "Password to access »%s« shared to you by %s" : "Passord for å benytte »%s« tildelt deg av %s",
     "It is protected with the following password: %s" : "Den er beskyttet med følgende passord: %s",
-    "Password to access »%s« shared with %s" : "Passord for å benytte »%s« delt med %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du delte akkurat »%s« med %s. Lageret har allerede blitt sendt til mottakeren. På grunn av sikkerhetspraksisen definert av administratoren for %s må hvert lager beskyttes med et passord, og det tillates ikke sendt direkte til mottakeren. Derfor trenger du å sende passordet manuelt til mottakeren.",
+    "Password to access »%s« shared with %s" : "Passord for å benytte »%s« delt med %s",
     "This is the password: %s" : "Dette er passordet: %s"
 },
 "nplurals=2; plural=(n != 1);");

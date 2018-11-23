@@ -182,10 +182,6 @@
     "Clear Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმების გასუფთავება",
     "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება",
     " entries available within the provided Base DN" : "მითითებულ საბაზისო DN-ში შენატანები ხელმისაწვდომია",
-    "1. Server" : "1. სერვერი",
-    "Wrong password. Reset it?" : "არასწორი პაროლი. აღვადგინოთ?",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>გაფრთხილება:</b> აპლიკაციები user_ldap და user_webdavauth არაა თავსებადი. შესაძლოა შეგვხდეთ მოულოდნელი ქმედება. გთხოვთ სთხოვოთ თქვენი სისტემის ადმინისტრატორს ერთ-ერთის გათიშვა.",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "მომხმარებლების სახელები გამოიყენება (მეტა) მონაცემების შესანახად და დასანიშნად. ზუსტი იდენტიფიკაციისა და ამოზნობისთვის, ყოველ LDAP-ის მომხმარებელს ექნება შიდა მომხმარებელი. ეს საჭიროებს ბმას მომხმარებელსა და LDAP-ის სახელს შორის. შექმნილი მომხმარებელი ებმება LDAP-ის მომხმარებელის UUID-ს. LDAP-თან ინტერაქციის შესამცირებლად, დამატებითად კეშირდება DN, მაგრამ არ ხდება მისი მოხმარება იდენტიფიკაციისთვის. ბმების გასუფთავება ბევრ ადგილას დატოვებს კვალს. ბმების გასუფთავება არაა კონფიგურაციასთან მგრძნობიარე, ის მოქმედებს ყველა LDAP-ის კონფიგურაციაზე! არასდროს გაასუფთავოთ ბმები საწარმოო გარემოში, მოიხმარეთ ეს მხოლოდ შემოწმების ან ექსპერიმენტისთვის."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

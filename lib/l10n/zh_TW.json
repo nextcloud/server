@@ -208,15 +208,11 @@
     "Storage connection timeout. %s" : "儲存空間連線逾時。%s",
     "Library %s with a version higher than %s is required - available version %s." : "需要套件庫 %s 版本高於 %s - 可使用的版本是 %s",
     "Library %s with a version lower than %s is required - available version %s." : "需要套件庫 %s 版本低於 %s - 可使用的版本是 %s",
-    "Personal" : "個人",
-    "Admin" : "管理",
     "APCu" : "APCu",
     "Redis" : "Redis",
     "Encryption" : "加密",
     "Tips & tricks" : "使用祕訣",
-    "DB Error: \"%s\"" : "資料庫錯誤： %s",
-    "Offending command was: \"%s\"" : "有問題的指令： %s",
-    "Offending command was: \"%s\", name: %s, password: %s" : "有問題的指令： %s，名字： %s，密碼： %s",
+    "Sync clients" : "同步客戶端",
     "Sharing %s failed, because the user %s does not exist" : "分享 %s 失敗，因為使用者 %s 不存在",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "分享 %s 失敗，使用者 %s 並不屬於該項目擁有者 %s 所隸屬的任何一個群組",
     "Sharing %s failed, because this item is already shared with %s" : "分享 %s 失敗，因為此項目目前已經與 %s 分享",
@@ -232,7 +228,6 @@
     "%s via %s" : "%s 經由 %s",
     "No app name specified" : "沒有指定應用程式名稱",
     "App '%s' could not be installed!" : "應用程式 \"%s\" 無法被安裝",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "應用程式 \"%s\" 無法被安裝，缺少下列所需元件： %s",
-    "Sync clients" : "同步客戶端"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "應用程式 \"%s\" 無法被安裝，缺少下列所需元件： %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

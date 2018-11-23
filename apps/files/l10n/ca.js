@@ -160,11 +160,7 @@ OC.L10N.register(
     "Deleted shares" : "Comparticions suprimides",
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Nou fitxer de text.txt",
-    "Move" : "Moure",
     "Target folder" : "Carpeta de destí",
-    "A new file or folder has been <strong>deleted</strong>" : "S'ha <strong>eliminat</strong> un nou fitxer o carpeta",
-    "A new file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un nou fitxer o carpeta",
-    "%s of %s used" : "Usats %s de %s",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedir als vostres fitxers a través de WebDAV</a>"
+    "%s of %s used" : "Usats %s de %s"
 },
 "nplurals=2; plural=(n != 1);");

@@ -126,9 +126,7 @@ OC.L10N.register(
     "Uploading files…" : "Sendi inn skrár…",
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
-    "{actor} removed you from {file}" : "{actor} fjarlægði þig af {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Deiling %s mistókst, því bakvinnslukerfið leyfir ekki sameignir af gerðinni %s",
-    "%s is publicly shared" : "%s er deilt opinberlega",
     "This share is password-protected" : "Þessi sameign er varin með lykilorði",
     "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
     "Password" : "Lykilorð"

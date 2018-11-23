@@ -57,7 +57,6 @@
     "Federated share added" : "Birleşmiş paylaşım eklendi",
     "Couldn't add remote share" : "Uzak paylaşım eklenemedi",
     "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılmadı. %s ile zaten paylaşılmış",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir.",
-    "Search global and public address book for users and let local users publish their data" : "Genel ve herkese açık adres defterinde kullanıcı ara ve yerel kullanıcıların bilgilerini paylaşmasını sağla"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

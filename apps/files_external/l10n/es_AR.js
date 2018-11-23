@@ -113,8 +113,6 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" no se encuentra instalado. El montaje de %s no es posible. Favor de solicitar a su administrador su instalación.  ",
-    "No external storage configured" : "No se ha configurado el almacenamiento externo",
-    "You can add external storages in the personal settings" : "Usted puede agregar almacenamiento externo en las configuraciones personales",
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo"
 },
 "nplurals=2; plural=(n != 1);");

@@ -162,11 +162,7 @@ OC.L10N.register(
     "Deleted shares" : "Eyddar sameignir",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
-    "Move" : "Færa",
     "Target folder" : "Markmappa",
-    "A new file or folder has been <strong>deleted</strong>" : "Nýrri skrá eða möppu hefur verið  <strong>eytt</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Ný skrá eða mappa hefur verið <strong>endurheimt</strong>",
-    "%s of %s used" : "%s af %s notað",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>"
+    "%s of %s used" : "%s af %s notað"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

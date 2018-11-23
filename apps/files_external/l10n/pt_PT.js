@@ -116,19 +116,9 @@ OC.L10N.register(
     "Add storage" : "Adicionar armazenamento",
     "Advanced settings" : "Definições avançadas",
     "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Falhou a obter tokens de pedido. Verifique se a sua chave de aplicação e segredo estão correctos.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Falhou a obter tokens de acesso. Verifique se a sua chave de aplicação e segredo estão correctos.",
-    "Step 1 failed. Exception: %s" : "Passo 1 falhou. Excepção: %s",
-    "Step 2 failed. Exception: %s" : "Passo 2 falhou. Excepção: %s",
-    "Dropbox App Configuration" : "configuração da aplicação Dropbox",
-    "Google Drive App Configuration" : "Configuração da aplicação Google Drive",
+    "Are you sure you want to delete this external storage" : "De certeza que quer apagar este armazenamento externo",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" não está instalado. Não é possível montar %s. Por favor peça ao seu administrador que o instale.",
-    "No external storage configured" : "Sem armazenamentos externos configurados",
-    "You can add external storages in the personal settings" : "Pode adicionar armazenamentos externos nas definições pessoais",
-    "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo",
-    "Are you sure you want to delete this external storage" : "De certeza que quer apagar este armazenamento externo"
+    "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo"
 },
 "nplurals=2; plural=(n != 1);");

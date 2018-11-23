@@ -211,6 +211,7 @@
     "Redis" : "Redis",
     "Encryption" : "Encripción",
     "Tips & tricks" : "Consejos & trucos",
+    "Sync clients" : "Sincronizar clientes",
     "Sharing %s failed, because the user %s does not exist" : "Se presentó una falla al compartir %s porque el usuario %s no existe",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Se presentó una falla al compartir %s porque el usuario %s no es un miembro de ninguno de los grupos de los cuales %s es miembro",
     "Sharing %s failed, because this item is already shared with %s" : "Se presentó una falla al compartir %s, porque este elemento ya había sido compartido con %s",
@@ -224,7 +225,6 @@
     "%s shared »%s« with you" : "%s ha compartido  »%s« contigo",
     "%s shared »%s« with you." : "%s compartió contigo »%s«.",
     "%s via %s" : "%s por %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "La aplicación \"%s\" no puede ser instalada porque las siguientes dependencias no están satisfechas: %s ",
-    "Sync clients" : "Sincronizar clientes"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "La aplicación \"%s\" no puede ser instalada porque las siguientes dependencias no están satisfechas: %s "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

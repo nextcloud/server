@@ -26,13 +26,11 @@
     "Upload new login background" : "Carregar imagem de segundo plano de Login",
     "Remove background image" : "Remover imagem de segundo plano",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado.",
-    "You are already using a custom theme" : "Já está a usar um tema personalizado",
-    "reset to default" : "restaurar valor padrão",
-    "Web address" : "Endereço Web",
-    "Web address https://…" : "Endereço Web https::// ...",
     "There is no error, the file uploaded with success" : "Não ocorreu nenhum erro, o ficheiro foi carregado com sucesso",
     "The uploaded file was only partially uploaded" : "O ficheiro escolhido foi apenas parcialmente carregado",
     "Failed to write file to disk." : "Falhou a escrever o ficheiro no disco.",
-    "A PHP extension stopped the file upload." : "Uma extensão PHP parou o carregamento do ficheiro."
+    "A PHP extension stopped the file upload." : "Uma extensão PHP parou o carregamento do ficheiro.",
+    "You are already using a custom theme" : "Já está a usar um tema personalizado",
+    "Web address https://…" : "Endereço Web https::// ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
