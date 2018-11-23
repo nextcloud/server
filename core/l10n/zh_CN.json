@@ -248,7 +248,7 @@
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "更新不成功. 有关此问题的更多信息请<a href=\"{url}\">查看我们的论坛帖子</a>。",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "升级成功. 请将此问题报告给 <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud 社区</a>.",
     "Continue to Nextcloud" : "继续访问 Nextcloud",
-    "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["升级已经成功，在%n秒内重定向你到Nextcfloud。"],
+    "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["升级已经成功，在%n秒内重定向你到Nextcloud。"],
     "Searching other places" : "搜索其他位置",
     "No search results in other folders for {tag}{filter}{endtag}" : "在其它的文件夹里没有关于{tag}{filter}{endtag}的搜索结果",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["在其他文件夹中找到 {count} 条搜索结果"],
