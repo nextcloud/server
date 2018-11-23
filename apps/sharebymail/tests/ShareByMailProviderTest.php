@@ -537,9 +537,10 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testDelete() {
-		$instance = $this->getInstance(['removeShareFromTable']);
+		$instance = $this->getInstance(['removeShareFromTable', 'createShareActivity']);
 		$this->share->expects($this->once())->method('getId')->willReturn(42);
 		$instance->expects($this->once())->method('removeShareFromTable')->with(42);
+		$instance->expects($this->once())->method('createShareActivity')->with($this->share, 'unshare');
 		$instance->delete($this->share);
 	}
 
