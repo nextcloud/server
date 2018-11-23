@@ -5,7 +5,7 @@
     <name>Accessibility</name>
     <summary>Accessibility options for nextcloud</summary>
     <description><![CDATA[Provides multiple accessibilities options to ease your use of nextcloud]]></description>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <licence>agpl</licence>
     <author>John Molakvoæ</author>
     <namespace>Accessibility</namespace>
@@ -16,7 +16,7 @@
     <bugs>https://github.com/nextcloud/server/issues</bugs>
 
     <dependencies>
-        <nextcloud min-version="15" max-version="15"/>
+        <nextcloud min-version="16" max-version="16"/>
     </dependencies>
 
     <settings>
