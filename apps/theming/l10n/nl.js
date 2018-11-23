@@ -47,13 +47,11 @@ OC.L10N.register(
     "Favicon" : "Favorieten icoon",
     "Upload new favicon" : "Upload een nieuwe favorieten icoon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur.",
-    "You are already using a custom theme" : "Je gebruikt al een maatwerkthema",
-    "reset to default" : "herstellen naar standaard",
-    "Web address" : "Webadres",
-    "Web address https://…" : "Webadres https://…",
     "There is no error, the file uploaded with success" : "Er trad geen fout op, het bestand is succesvol geüpload",
     "The uploaded file was only partially uploaded" : "Het bestand is slechts gedeeltelijk geüpload",
     "Failed to write file to disk." : "Schrijven van het bestand naar schijf mislukte.",
-    "A PHP extension stopped the file upload." : "Een PHP extensie heeft de upload gestopt."
+    "A PHP extension stopped the file upload." : "Een PHP extensie heeft de upload gestopt.",
+    "You are already using a custom theme" : "Je gebruikt al een maatwerkthema",
+    "Web address https://…" : "Webadres https://…"
 },
 "nplurals=2; plural=(n != 1);");

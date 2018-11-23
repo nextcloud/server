@@ -47,13 +47,11 @@ OC.L10N.register(
     "Favicon" : "Svetainės piktograma",
     "Upload new favicon" : "Įkelti naują svetainės piktogramą",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Norėdami automatiškai generuoti svetainės piktogramą remiantis įkeltu logotipu ir spalva, įdiekite Imagemagick PHP plėtinį su SVG paveikslų palaikymu.",
-    "You are already using a custom theme" : "Jūs jau naudojate tinkintą temą",
-    "reset to default" : "atstatyta į numatytąją",
-    "Web address" : "Saityno adresas",
-    "Web address https://…" : "Saityno adresas https://…",
     "There is no error, the file uploaded with success" : "Klaidų nėra, failas buvo sėkmingai įkeltas",
     "The uploaded file was only partially uploaded" : "Įkeliamas failas buvo tik dalinai įkeltas",
     "Failed to write file to disk." : "Nepavyko įrašyti failą į diską.",
-    "A PHP extension stopped the file upload." : "PHP plėtinys sustabdė failo įkėlimą."
+    "A PHP extension stopped the file upload." : "PHP plėtinys sustabdė failo įkėlimą.",
+    "You are already using a custom theme" : "Jūs jau naudojate tinkintą temą",
+    "Web address https://…" : "Saityno adresas https://…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

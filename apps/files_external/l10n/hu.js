@@ -123,19 +123,9 @@ OC.L10N.register(
     "Add storage" : "Tároló becsatolása",
     "Advanced settings" : "Haladó beállítások",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a kérési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Nem sikerült a hozzáférési tokenek letöltése. Ellenőrizd, hogy az alkalmazás kulcs és titok megfelelő-e!",
-    "Step 1 failed. Exception: %s" : "1. lépés sikertelen. Kivétel: %s",
-    "Step 2 failed. Exception: %s" : "2. lépés sikertelen. Kivétel: %s",
-    "Dropbox App Configuration" : "Dropbox alkalmazás beállítás",
-    "Google Drive App Configuration" : "Google Drive alkalmazás beállítás",
+    "Are you sure you want to delete this external storage" : "Biztosan törlöd ezt a külső tárolót",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "%s nincs telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
-    "No external storage configured" : "Nincs külső tároló beállítva.",
-    "You can add external storages in the personal settings" : "Hozzáadhatsz külső tárolókat a személyes beállítások közt.",
-    "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:",
-    "Are you sure you want to delete this external storage" : "Biztosan törlöd ezt a külső tárolót"
+    "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:"
 },
 "nplurals=2; plural=(n != 1);");

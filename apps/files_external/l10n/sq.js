@@ -115,8 +115,6 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" nuk është instaluar.Montimi i %s nuk është i mundur.Ju lutem kërkojini administratorit të sistemit tuaj ta instalojë.",
-    "No external storage configured" : "Pa depozita të jashtme të formësuara",
-    "You can add external storages in the personal settings" : "Depozita të jashtme mund të shtoni që prej rregullimeve personale",
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
 },
 "nplurals=2; plural=(n != 1);");

@@ -64,7 +64,6 @@ OC.L10N.register(
     "Select or drop files" : "Изберете файл или преместете с мишката",
     "Uploading files…" : "Качване на файлове…",
     "Uploaded files:" : "Качени файлове:",
-    "%s is publicly shared" : "%s е публично споделено",
     "This share is password-protected" : "Тази зона е защитена с парола.",
     "The password is wrong. Try again." : "Грешна парола. Опитай отново.",
     "Password" : "Парола"

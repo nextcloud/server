@@ -142,7 +142,6 @@ OC.L10N.register(
     "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "Move" : "Μετακίνηση",
     "Target folder" : "Φάκελος προορισμού",
     "%s of %s used" : "%s από %s σε χρήση"
 },

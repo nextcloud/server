@@ -18,7 +18,6 @@ OC.L10N.register(
     "You commented" : "Vaša opomba",
     "%1$s commented" : "%1$s opomb",
     "%1$s commented on %2$s" : "%1$s opomb ob %2$s",
-    "<strong>Comments</strong> for files" : "<strong>Opombe</strong> za datoteke",
-    "Unknown user" : "Nepoznan uporabnik"
+    "<strong>Comments</strong> for files" : "<strong>Opombe</strong> za datoteke"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

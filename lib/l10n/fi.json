@@ -203,18 +203,16 @@
     "Redis" : "Redis",
     "Encryption" : "Salaus",
     "Tips & tricks" : "Vinkkejä",
-    "DB Error: \"%s\"" : "Tietokantavirhe: \"%s\"",
+    "Sync clients" : "Synkronointisovellukset",
     "Sharing %s failed, because the user %s does not exist" : "Kohteen %s jakaminen epäonnistui, koska käyttäjää %s ei ole olemassa",
     "Sharing %s failed, because this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjän %s kanssa",
     "Sharing %s failed, because this item is already shared with user %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjän %s kanssa",
     "Sharing %s failed, because the group %s does not exist" : "Kohteen %s jakaminen epäonnistui, koska ryhmää %s ei ole olemassa",
     "Sharing %s failed, because %s is not a member of the group %s" : "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s ei ole ryhmän %s jäsen",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Kenties palvelin ei ole juuri nyt tavoitettavissa.",
-    "Cannot increase permissions of %s" : "Kohteen %s käyttöoikeuksien lisääminen ei onnistu",
     "%s shared »%s« with you" : "%s jakoi kohteen »%s« kanssasi",
     "%s shared »%s« with you." : "%s jakoi kohteen »%s« kanssasi.",
     "App '%s' could not be installed!" : "Sovellusta '%s' ei voitu asentaa!",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Sovelluksen \"%s\" asennus ei onnistu, koska seuraavia riippuvuuksia ei ole täytetty: %s",
-    "Sync clients" : "Synkronointisovellukset"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Sovelluksen \"%s\" asennus ei onnistu, koska seuraavia riippuvuuksia ei ole täytetty: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

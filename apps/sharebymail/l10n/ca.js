@@ -27,15 +27,14 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet als usuaris compartir un enllaç personalitzat a un fitxer o carpeta posant una adreça de correu electrònic.",
     "Send password by mail" : "Enviar contrasenya per correu",
     "Enforce password protection" : "Reforça la protecció amb contrasenya",
-    "Failed to send share by E-mail" : "No s'ha pogut enviar compartir per correu electrònic",
     "%s shared »%s« with you" : "%s ha compartit »%s« amb tu",
     "%s shared »%s« with you." : "%s compartit »%s« amb tu.",
     "%s via %s" : "%svia%s",
-    "Password to access »%s« shared to you by %s" : "Contrasenya d'accés »%s« compartida per vostè %s",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%scompartit »%s« amb tu. Heu d'haver rebut un correu independent amb un enllaç per accedir-hi.",
+    "Password to access »%s« shared to you by %s" : "Contrasenya d'accés »%s« compartida per vostè %s",
     "It is protected with the following password: %s" : "Està protegit amb la següent contrasenya: %s",
-    "Password to access »%s« shared with %s" : "Contrasenya d'accés »%s« compartit amb %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Acabeu de compartir »%s« amb %s. La part ja s'ha enviat al destinatari. A causa de les polítiques de seguretat definides per l'administrador de  %scada acció, ha de ser protegit per contrasenya i no es permet enviar la contrasenya directament al destinatari. Per tant, heu de reenviar la contrasenya manualment al destinatari.",
+    "Password to access »%s« shared with %s" : "Contrasenya d'accés »%s« compartit amb %s",
     "This is the password: %s" : "Aquesta és la contrasenya:%s"
 },
 "nplurals=2; plural=(n != 1);");

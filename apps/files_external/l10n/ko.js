@@ -115,19 +115,9 @@ OC.L10N.register(
     "Add storage" : "저장소 추가",
     "Advanced settings" : "고급 설정",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "요청 토큰을 가져올 수 없습니다. 앱 키와 비밀 값이 올바른지 확인하십시오.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "접근 토큰을 가져올 수 없습니다. 앱 키와 비밀 값이 올바른지 확인하십시오.",
-    "Step 1 failed. Exception: %s" : "1단계 실패. 예외: %s",
-    "Step 2 failed. Exception: %s" : "2단계 실패. 예외: %s",
-    "Dropbox App Configuration" : "Dropbox 앱 설정",
-    "Google Drive App Configuration" : "Google 드라이브 앱 설정",
+    "Are you sure you want to delete this external storage" : "이 외부 저장소를 삭제하시겠습니까",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google 드라이브",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\"이(가) 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
-    "No external storage configured" : "외부 저장소가 설정되지 않았음",
-    "You can add external storages in the personal settings" : "개인 설정에서 외부 저장소를 추가할 수 있습니다",
-    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용",
-    "Are you sure you want to delete this external storage" : "이 외부 저장소를 삭제하시겠습니까"
+    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용"
 },
 "nplurals=1; plural=0;");

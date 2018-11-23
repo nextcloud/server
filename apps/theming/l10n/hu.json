@@ -28,13 +28,11 @@
     "Remove background image" : "Háttérkép eltávolítása",
     "Advanced options" : "Haladó beállítások",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítsd az Imagemagick PHP kiterjesztést SVG kép támogatással a feltöltött logóból és színből való automatikus favikon generáláshoz.",
-    "You are already using a custom theme" : "Már egyedi témát használ",
-    "reset to default" : "Visszaállítás alapértelmezettre",
-    "Web address" : "Webcím",
-    "Web address https://…" : "Webcím https://...",
     "There is no error, the file uploaded with success" : "Nincs hiba, a feltöltés sikeres",
     "The uploaded file was only partially uploaded" : "Csak részben került feltöltésre a fájl",
     "Failed to write file to disk." : "Lemezre írás sikertelen.",
-    "A PHP extension stopped the file upload." : "Egy PHP kiterjesztés megakadályozta a feltöltést."
+    "A PHP extension stopped the file upload." : "Egy PHP kiterjesztés megakadályozta a feltöltést.",
+    "You are already using a custom theme" : "Már egyedi témát használ",
+    "Web address https://…" : "Webcím https://..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

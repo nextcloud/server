@@ -119,9 +119,7 @@
     "Uploading files…" : "Lähetetään tiedostoja…",
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
-    "{actor} removed you from {file}" : "{actor} poisti käyttöoikeutesi kohteeseen {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Kohteen %s jakaminen epäonnistui, koska tietovarasto ei salli %s tyyppisiä jakoja",
-    "%s is publicly shared" : "%s on jaettu julkisesti",
     "This share is password-protected" : "Tämä jako on suojattu salasanalla",
     "The password is wrong. Try again." : "Väärä salasana. Yritä uudelleen.",
     "Password" : "Salasana"

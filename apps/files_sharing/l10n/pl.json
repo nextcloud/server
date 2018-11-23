@@ -118,9 +118,7 @@
     "Select or drop files" : "Wybierz lub upuść pliki",
     "Uploading files…" : "Wysyłanie plików…",
     "Uploaded files:" : "Wysłane pliki:",
-    "{actor} removed you from {file}" : "{actor} usunął cie z {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Udostępnienie %s nie powiodło się ponieważ backend nie zezwala na udziały typu %s",
-    "%s is publicly shared" : "%s udostępnione/ych publicznie ",
     "This share is password-protected" : "Udostępniony folder chroniony jest hasłem",
     "The password is wrong. Try again." : "To hasło jest niewłaściwe. Spróbuj ponownie.",
     "Password" : "Hasło"

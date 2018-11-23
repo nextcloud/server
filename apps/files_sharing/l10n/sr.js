@@ -128,9 +128,7 @@ OC.L10N.register(
     "Uploading files…" : "Отпремам фајлове…",
     "Uploaded files:" : "Отпремљени фајлови:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
-    "{actor} removed you from {file}" : "{actor} Вас је уклонио са {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Дељење %s није успело зато што позадина не дозвољава дељење које је типа %s",
-    "%s is publicly shared" : "%s је јавно дељен",
     "This share is password-protected" : "Дељење је заштићено лозинком",
     "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
     "Password" : "Лозинка"

@@ -115,13 +115,8 @@
     "Add storage" : "Pridėti saugyklą",
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
-    "Step 1 failed. Exception: %s" : "Žingsnis 1 nepavyko. Išimtis: %s",
-    "Step 2 failed. Exception: %s" : "Žingsnis 2 nepavyko. Išimtis: %s",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Nėra įdiegta \"%s\". %s prijungimas yra neįmanomas. Paprašykite savo sistemos administratoriaus, kad įdiegtų trūkstamą paketą.",
-    "No external storage configured" : "Nėra sukonfigūruota jokia išorinė saugykla",
-    "You can add external storages in the personal settings" : "Galite pridėti papildomą išorinę saugyklą nustatymų skiltyje",
     "Allow users to mount the following external storage" : "Leisti naudotojams prijungti šias išorines saugyklas"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -51,7 +51,6 @@ OC.L10N.register(
     "Federated share added" : "연합 공유를 추가함",
     "Couldn't add remote share" : "원격 공유를 추가할 수 없음",
     "Sharing %s failed, because this item is already shared with %s" : "%s을(를) 공유할 수 없습니다. 이미 %s 님과 공유되어 있습니다",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s을(를) 공유할 수 없습니다. %s을(를) 찾을 수 없습니다. 서버에 접근할 수 없거나 자가 서명된 인증서를 사용하고 있을 수도 있습니다.",
-    "Search global and public address book for users and let local users publish their data" : "전역 및 공개 주소록에서 검색하고 로컬 사용자가 정보를 공개할 수 있도록 허용"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s을(를) 공유할 수 없습니다. %s을(를) 찾을 수 없습니다. 서버에 접근할 수 없거나 자가 서명된 인증서를 사용하고 있을 수도 있습니다."
 },
 "nplurals=1; plural=0;");

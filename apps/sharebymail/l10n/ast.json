@@ -24,7 +24,6 @@
     "Share by mail" : "Unviar per corréu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enllaz personalizáu a un ficheru o carpeta poniendo una direición de corréu.",
     "Sharing %s failed, this item is already shared with %s" : "Falló la compartición de %s, esti elementu yá se compartió con %s",
-    "Failed to send share by E-mail" : "Fallu al unviar la compartición per corréu",
     "%s shared »%s« with you" : "%s compartió «%s» contigo",
     "%s shared »%s« with you." : "%s compartió «%s» contigo.",
     "%s via %s" : "%s per %s",

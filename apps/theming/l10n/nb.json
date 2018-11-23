@@ -36,13 +36,11 @@
     "Header logo" : "Header logo",
     "Upload new header logo" : "Last opp ny header logo",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge.",
-    "You are already using a custom theme" : "Du bruker allerede en egendefinert drakt",
-    "reset to default" : "tilbakestill til standard",
-    "Web address" : "Nettadresse",
-    "Web address https://…" : "Nettadresse https://…",
     "There is no error, the file uploaded with success" : "Det er ingen feil, filen ble lastet opp",
     "The uploaded file was only partially uploaded" : "Filen ble bare delvis lastet opp",
     "Failed to write file to disk." : "Skriving til disk mislyktes",
-    "A PHP extension stopped the file upload." : "En PHP-utvidelse stoppet filopplastingen."
+    "A PHP extension stopped the file upload." : "En PHP-utvidelse stoppet filopplastingen.",
+    "You are already using a custom theme" : "Du bruker allerede en egendefinert drakt",
+    "Web address https://…" : "Nettadresse https://…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

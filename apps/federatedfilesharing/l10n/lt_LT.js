@@ -51,7 +51,6 @@ OC.L10N.register(
     "Federated share added" : "Pasidalinta per kitą serverį",
     "Couldn't add remote share" : "Nepavyko peržiūrėti kitame serveryje pasidalintų duomenų",
     "Sharing %s failed, because this item is already shared with %s" : "%s bendrinimas nepavyko, kadangi šis elementas jau yra bendrinamas su %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "\"%s\" pasidalinimas nepavyko, neįmanoma rasti %s, tikėtina, kad serveris šiuo metu nepasiekiamas arba naudoja nepatikimą sertifikatą.",
-    "Search global and public address book for users and let local users publish their data" : "Rasti globalias ar viešas adresų knygas ir leisti naudotojams viešinti savo duomenis"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "\"%s\" pasidalinimas nepavyko, neįmanoma rasti %s, tikėtina, kad serveris šiuo metu nepasiekiamas arba naudoja nepatikimą sertifikatą."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

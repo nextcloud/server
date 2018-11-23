@@ -95,9 +95,7 @@
     "Select or drop files" : "בחירה או השלכה של קבצים",
     "Uploading files…" : "קבצים מועלים…",
     "Uploaded files:" : "קבצים שהועלו:",
-    "{actor} removed you from {file}" : "הוסרת מהקובץ {file} על ידי {actor}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "שיתוף %s נכשל כיוון שהצד האחרוי ינו מאפשר שיתוף מסוג %s",
-    "%s is publicly shared" : "%s שותף באופן ציבורי",
     "This share is password-protected" : "שיתוף זה מוגן סיסמא",
     "The password is wrong. Try again." : "הסיסמא שגויה. יש לנסות שנית.",
     "Password" : "סיסמא"

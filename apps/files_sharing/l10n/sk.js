@@ -122,9 +122,7 @@ OC.L10N.register(
     "Select or drop files" : "Vyberte alebo položte súbory",
     "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
-    "{actor} removed you from {file}" : "{actor} vám zrušil sprístupnenie {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Sprístupnenie %s zlyhalo, backend nepodporuje typ sprístupnenia %s",
-    "%s is publicly shared" : "%s je verejne zdieľaný",
     "This share is password-protected" : "Táto položka je chránené heslom",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "Password" : "Heslo"

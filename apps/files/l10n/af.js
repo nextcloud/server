@@ -123,10 +123,7 @@ OC.L10N.register(
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
-    "Move" : "Skuif",
     "Target folder" : "Teikengids",
-    "A new file or folder has been <strong>deleted</strong>" : "'n Nuwe lêer of gids is <strong>geskrap</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "'n Nuwe lêer of gids is <strong>herstel</strong>",
     "%s of %s used" : "%s van %s gebruik"
 },
 "nplurals=2; plural=(n != 1);");

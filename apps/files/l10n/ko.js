@@ -145,11 +145,7 @@ OC.L10N.register(
     "Shared by link" : "링크로 공유됨",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
-    "Move" : "이동",
     "Target folder" : "대상 폴더",
-    "A new file or folder has been <strong>deleted</strong>" : "새 파일이나 폴더가 <strong>삭제됨</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "새 파일이나 폴더가 <strong>복원됨</strong>",
-    "%s of %s used" : "%s/%s 사용함",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "이 주소를 사용하여 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">WebDAV를 통해 파일에 접근할 수 있습니다</a>"
+    "%s of %s used" : "%s/%s 사용함"
 },
 "nplurals=1; plural=0;");

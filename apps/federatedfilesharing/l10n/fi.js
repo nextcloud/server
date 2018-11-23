@@ -57,7 +57,6 @@ OC.L10N.register(
     "Federated share added" : "Federoitu jako lisätty",
     "Couldn't add remote share" : "Etäjaon liittäminen epäonnistui",
     "Sharing %s failed, because this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjälle %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Palvelin ei ehkä ole juuri nyt tavoitettavissa tai käyttää itse allekirjoitettua sertifikaattia.",
-    "Search global and public address book for users and let local users publish their data" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta sekä salli paikallisten käyttäjien julkaista omia tietojaan"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Palvelin ei ehkä ole juuri nyt tavoitettavissa tai käyttää itse allekirjoitettua sertifikaattia."
 },
 "nplurals=2; plural=(n != 1);");

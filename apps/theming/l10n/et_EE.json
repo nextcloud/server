@@ -25,13 +25,11 @@
     "Upload new login background" : "Lae üles uus avalehe taustapilt",
     "Remove background image" : "Eemalda taustapilt",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Paigalda Imagemagick PHP laiendus SVG piltide toega, et üleslaetud logo ja värvi põhjal automaatselt faviconid genereerida. ",
-    "You are already using a custom theme" : "Kohandatud teema on juba kasutusel",
-    "reset to default" : "taasta vaikeseaded",
-    "Web address" : "Veebiaadress",
-    "Web address https://…" : "Veebiaadress https://...",
     "There is no error, the file uploaded with success" : "Vigu pole, fail laetu edukalt üles",
     "The uploaded file was only partially uploaded" : "Üleslatud fail laeti üles ainult osaliselt",
     "Failed to write file to disk." : "Faili kettale kirjutamine ebaõnnestus.",
-    "A PHP extension stopped the file upload." : "PHP laiendus seiskas faili üleslaadimise."
+    "A PHP extension stopped the file upload." : "PHP laiendus seiskas faili üleslaadimise.",
+    "You are already using a custom theme" : "Kohandatud teema on juba kasutusel",
+    "Web address https://…" : "Veebiaadress https://..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

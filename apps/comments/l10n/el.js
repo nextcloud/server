@@ -25,9 +25,6 @@ OC.L10N.register(
     "{author} commented on {file}" : "Ο {author} σχολίασε στο {file}",
     "<strong>Comments</strong> for files" : "<strong>Σχόλια</strong> για αρχεία",
     "{user} mentioned you in a comment on “{file}”" : "Ο {user} σας ανέφερε σε σχόλιο στο “{file}”",
-    "Unknown user" : "Άγνωστος χρήστης",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Ο (πρόσφατα) διεγραμμένος χρήστης σας ανέφερε σε σχόλιο στο “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Ο (πρόσφατα) διεγραμμένος χρήστης σας ανέφερε σε σχόλιο στο “{file}”",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s σας ανέφερε σε σχόλιο στο “%2$s”"
 },
 "nplurals=2; plural=(n != 1);");

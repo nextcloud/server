@@ -115,11 +115,9 @@ OC.L10N.register(
     "Add storage" : "Lägg till lagring",
     "Advanced settings" : "Avancerade inställningar",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
+    "Are you sure you want to delete this external storage" : "Är du säker att du vill ta bort denna externa lagringen",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" är inte installerad. Montering av %s är inte möjlig. Be din systemadministratör om installation.",
-    "No external storage configured" : "Ingen extern lagring konfigurerad",
-    "You can add external storages in the personal settings" : "Du kan lägga till externa lagringar i de personliga inställningarna",
-    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
-    "Are you sure you want to delete this external storage" : "Är du säker att du vill ta bort denna externa lagringen"
+    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring"
 },
 "nplurals=2; plural=(n != 1);");
