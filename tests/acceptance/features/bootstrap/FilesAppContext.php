@@ -269,6 +269,45 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function shareWithMenuButton($sharedWithName) {
+		return Locator::forThe()->css(".share-menu > .icon")->
+				descendantOf(self::sharedWithRow($sharedWithName))->
+				describedAs("Share with $sharedWithName menu button in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function shareWithMenu($sharedWithName) {
+		return Locator::forThe()->css(".share-menu > .menu")->
+				descendantOf(self::sharedWithRow($sharedWithName))->
+				describedAs("Share with $sharedWithName menu in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function canReshareCheckbox($sharedWithName) {
+		// forThe()->checkbox("Can reshare") can not be used here; that would
+		// return the checkbox itself, but the element that the user interacts
+		// with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Can reshare']")->
+				descendantOf(self::shareWithMenu($sharedWithName))->
+				describedAs("Can reshare checkbox in the share with $sharedWithName menu in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function canReshareCheckboxInput($sharedWithName) {
+		return Locator::forThe()->checkbox("Can reshare")->
+				descendantOf(self::shareWithMenu($sharedWithName))->
+				describedAs("Can reshare checkbox input in the share with $sharedWithName menu in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function shareLinkRow() {
 		return Locator::forThe()->css(".linkShareView .shareWithList:first-child")->
 				descendantOf(self::detailsView())->
@@ -571,6 +610,17 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I set the share with :shareWithName as not reshareable
+	 */
+	public function iSetTheShareWithAsNotReshareable($shareWithName) {
+		$this->showShareWithMenuIfNeeded($shareWithName);
+
+		$this->iSeeThatCanReshareTheShare($shareWithName);
+
+		$this->actor->find(self::canReshareCheckbox($shareWithName), 2)->click();
+	}
+
+	/**
 	 * @Then I see that the current page is the Files app
 	 */
 	public function iSeeThatTheCurrentPageIsTheFilesApp() {
@@ -709,6 +759,36 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that resharing the file is not allowed
+	 */
+	public function iSeeThatResharingTheFileIsNotAllowed() {
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->find(self::shareWithInput(), 10)->getWrappedElement()->getAttribute("disabled"), "disabled");
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->find(self::shareWithInput(), 10)->getWrappedElement()->getAttribute("placeholder"), "Resharing is not allowed");
+	}
+
+	/**
+	 * @Then I see that :sharedWithName can reshare the share
+	 */
+	public function iSeeThatCanReshareTheShare($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::canReshareCheckboxInput($sharedWithName), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that :sharedWithName can not reshare the share
+	 */
+	public function iSeeThatCanNotReshareTheShare($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		PHPUnit_Framework_Assert::assertFalse(
+				$this->actor->find(self::canReshareCheckboxInput($sharedWithName), 10)->isChecked());
+	}
+
+	/**
 	 * @Then I see that the download of the link share is hidden
 	 */
 	public function iSeeThatTheDownloadOfTheLinkShareIsHidden() {
@@ -806,6 +886,19 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				self::shareLinkMenu(),
 				$timeout = 2 * $this->actor->getFindTimeoutMultiplier())) {
 			$this->actor->find(self::shareLinkMenuButton(), 10)->click();
+		}
+	}
+
+	private function showShareWithMenuIfNeeded($shareWithName) {
+		// In some cases the share menu is hidden after clicking on an action of
+		// the menu. Therefore, if the menu is visible, wait a little just in
+		// case it is in the process of being hidden due to a previous action,
+		// in which case it is shown again.
+		if (WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::shareWithMenu($shareWithName),
+				$timeout = 2 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor->find(self::shareWithMenuButton($shareWithName), 10)->click();
 		}
 	}
 

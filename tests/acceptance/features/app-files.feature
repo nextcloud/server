@@ -514,6 +514,55 @@ Feature: app-files
     And I enter in the folder named "Shared folder"
     Then I see that the file list contains a file named "Subfolder"
 
+  Scenario: sharee can not reshare a folder if the sharer disables it
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Shared folder"
+    And I see that the file list contains a file named "Shared folder"
+    And I share "Shared folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I set the share with "user0" as not reshareable
+    And I see that "user0" can not reshare the share
+    When I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    Then I see that the file list contains a file named "Shared folder"
+    And I open the details view for "Shared folder"
+    And I see that the details view is open
+    And I open the "Sharing" tab in the details view
+    And I see that the "Sharing" tab in the details view is eventually loaded
+    And I see that the file is shared with me by "admin"
+    And I see that resharing the file is not allowed
+
+  Scenario: sharee can not reshare a subfolder if the sharer disables it for the parent folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Shared folder"
+    And I see that the file list contains a file named "Shared folder"
+    And I share "Shared folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I set the share with "user0" as not reshareable
+    And I see that "user0" can not reshare the share
+    And I enter in the folder named "Shared folder"
+    And I create a new folder named "Subfolder"
+    And I see that the file list contains a file named "Subfolder"
+    When I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I enter in the folder named "Shared folder"
+    Then I see that the file list contains a file named "Subfolder"
+    And I open the details view for "Subfolder"
+    And I see that the details view is open
+    And I open the "Sharing" tab in the details view
+    And I see that the "Sharing" tab in the details view is eventually loaded
+    And I see that resharing the file is not allowed
+
   Scenario: marking a file as favorite causes the file list to be sorted again
     Given I am logged in
     And I create a new folder named "A name alphabetically lower than welcome.txt"
