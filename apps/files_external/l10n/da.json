@@ -112,11 +112,9 @@
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
+    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lager?",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ikke installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det.",
-    "No external storage configured" : "Der er ingen konfigurerede eksterne lagre",
-    "You can add external storages in the personal settings" : "Du kan tilføje eksterne lagerenheder i de personlige indstillinger",
-    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
-    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lager?"
+    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

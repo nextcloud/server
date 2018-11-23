@@ -45,13 +45,11 @@
     "Favicon" : "Favicon",
     "Upload new favicon" : "Yeni favicon yükle",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
-    "You are already using a custom theme" : "Zaten özel bir tema kullanıyorsunuz",
-    "reset to default" : "varsayılana dön",
-    "Web address" : "Web adresi",
-    "Web address https://…" : "Web adresi https://...",
     "There is no error, the file uploaded with success" : "Herhangi bir sorun yok, dosya yüklendi",
     "The uploaded file was only partially uploaded" : "Dosyanın yalnızca bir bölümü yüklenebildi",
     "Failed to write file to disk." : "Dosya diske yazılamadı.",
-    "A PHP extension stopped the file upload." : "Bir PHP eklentisi dosyanın yüklenmesini engelledi."
+    "A PHP extension stopped the file upload." : "Bir PHP eklentisi dosyanın yüklenmesini engelledi.",
+    "You are already using a custom theme" : "Zaten özel bir tema kullanıyorsunuz",
+    "Web address https://…" : "Web adresi https://..."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

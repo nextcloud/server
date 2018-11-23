@@ -22,9 +22,9 @@
     "%s shared »%s« with you" : "%s jagas faili »%s« sinuga",
     "%s shared »%s« with you." : "%s jagas faili »%s« sinuga",
     "%s via %s" : "%s üle %s",
-    "Password to access »%s« shared to you by %s" : "Parool »%s« ligipääsuks jagati sinuga %s poolt",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s jagas sinuga »%s«.\n Sa oleks pidanud juba saama eraldi e-kirja lingiga, mille kaudu sellele ligi pääsed.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s jagas sinuga »%s«. Sa oleks pidanud juba saama eraldi e-kirja lingiga, mille kaudu sellele ligi pääsed.",
+    "Password to access »%s« shared to you by %s" : "Parool »%s« ligipääsuks jagati sinuga %s poolt",
     "It is protected with the following password: %s" : "See on kaitstud järgneva parooliga: %s",
     "This is the password: %s" : "Parooliks on: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

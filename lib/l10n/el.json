@@ -203,13 +203,11 @@
     "Storage connection timeout. %s" : "Λήξη χρονικού ορίου σύνδεσης με αποθηκευτικό χώρο.%s",
     "Library %s with a version higher than %s is required - available version %s." : "Απαιτείται βιβλιοθήκη %s  νεότερη από την έκδοση %s - διαθέσιμη έκδοση  %s ",
     "Library %s with a version lower than %s is required - available version %s." : "Απαιτείται βιβλιοθήκη %s  παλαιότερη από την έκδοση %s - διαθέσιμη έκδοση  %s ",
-    "Personal" : "Προσωπικά",
-    "Admin" : "Διαχειριστής",
     "APCu" : "APCu",
     "Redis" : "Redis",
     "Encryption" : "Κρυπτογράφηση",
     "Tips & tricks" : "Συμβουλές & κόλπα",
-    "DB Error: \"%s\"" : "Σφάλμα βάσης δεδομένων: \"%s\"",
+    "Sync clients" : "Εφαρμογές συγχρονισμού",
     "Sharing %s failed, because the user %s does not exist" : "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s δεν υπάρχει",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s δεν είναι μέλος καμίας ομάδας στην οποία ο χρήστης %s είναι μέλος",
     "Sharing %s failed, because this item is already shared with %s" : "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %s",
@@ -222,7 +220,6 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Ο διαμοιρασμός του %s απέτυχε, γιατί δεν ήταν δυνατό να εντοπίσει την πηγή το σύστημα διαμοιρασμού για το %s ",
     "%s shared »%s« with you" : "Ο %s διαμοιράστηκε μαζί σας το »%s«",
     "%s via %s" : "%s μέσω %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Αυτή η εφαρμογή  %s δεν μπορεί να εγκατασταθεί διότι δεν πληρούνται  οι ακόλουθες εξαρτήσεις:  %s",
-    "Sync clients" : "Εφαρμογές συγχρονισμού"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Αυτή η εφαρμογή  %s δεν μπορεί να εγκατασταθεί διότι δεν πληρούνται  οι ακόλουθες εξαρτήσεις:  %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

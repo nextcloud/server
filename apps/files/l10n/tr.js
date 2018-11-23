@@ -162,11 +162,7 @@ OC.L10N.register(
     "Deleted shares" : "Silinmiş paylaşımlar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
-    "Move" : "Taşı",
     "Target folder" : "Hedef klasör",
-    "A new file or folder has been <strong>deleted</strong>" : "Yeni bir dosya ya da klasör <strong>silindi</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Yeni bir dosya ya da klasör <strong>geri yüklendi</strong>",
-    "%s of %s used" : "%s / %s kullanılıyor",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bu adresi kullanın</a>"
+    "%s of %s used" : "%s / %s kullanılıyor"
 },
 "nplurals=2; plural=(n > 1);");

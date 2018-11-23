@@ -126,9 +126,7 @@
     "Uploading files…" : "Nahrávání souborů…",
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s všeobecnými podmínkami %1$s %2$s.",
-    "{actor} removed you from {file}" : "{actor} vás odstranil(a) ze souboru {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Sdílení %s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %s",
-    "%s is publicly shared" : "%s je veřejně sdíleno",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
     "Password" : "Heslo"

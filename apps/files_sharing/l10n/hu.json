@@ -116,9 +116,7 @@
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploading files…" : "Fájlok feltöltése...",
     "Uploaded files:" : "Feltöltött fájlok:",
-    "{actor} removed you from {file}" : "{actor} eltávolított innen: {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "%s megosztása sikertelen, mert a háttér rendszer nem engedélyezi a következő típusú megosztásokat: %s",
-    "%s is publicly shared" : "%s nyilvánosan megosztva",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
     "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
     "Password" : "Jelszó"

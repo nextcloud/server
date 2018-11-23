@@ -98,8 +98,6 @@
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
     "OpenStack" : "OpenStack",
-    "No external storage configured" : "ไม่มีการกำหนดค่าจัดเก็บข้อมูลภายนอก",
-    "You can add external storages in the personal settings" : "คุณสามารถเพิ่มการเก็บรักษาภายนอกในการตั้งค่าส่วนบุคคล",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

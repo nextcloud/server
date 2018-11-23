@@ -108,7 +108,6 @@ OC.L10N.register(
     "Select or drop files" : "Επιλέξτε ή ρίξτε αρχεία",
     "Uploading files…" : "Αποστολή αρχείων ...",
     "Uploaded files:" : "Αποστολή αρχείων:",
-    "{actor} removed you from {file}" : "{actor} αφαίρεσε εσάς από {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Διαμοιρασμός %s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς από τύπο %s",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
     "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",

@@ -47,13 +47,11 @@ OC.L10N.register(
     "Favicon" : "Favicon",
     "Upload new favicon" : "Отпремите нову favicon иконицу",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте Imagemagick PHP екстензију која подржава SVG слике, да аутоматски направи иконе од отпремљеног логоа и боје.",
-    "You are already using a custom theme" : "Већ користите прилагођену тему",
-    "reset to default" : "ресетуј на подразумевано",
-    "Web address" : "Веб адреса",
-    "Web address https://…" : "Веб адреса https://…",
     "There is no error, the file uploaded with success" : "Нема грешке, фајл је отпремљен успешно",
     "The uploaded file was only partially uploaded" : "Отпремани фајл је само делимично отпремљен",
     "Failed to write file to disk." : "Не могу да пишем фајл на диск",
-    "A PHP extension stopped the file upload." : "PHP екстензија је зауставила отпремање фајла."
+    "A PHP extension stopped the file upload." : "PHP екстензија је зауставила отпремање фајла.",
+    "You are already using a custom theme" : "Већ користите прилагођену тему",
+    "Web address https://…" : "Веб адреса https://…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

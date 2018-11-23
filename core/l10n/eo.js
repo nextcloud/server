@@ -209,21 +209,17 @@ OC.L10N.register(
     "Update needed" : "Bezonas ĝisdatigi",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Vidu la  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumenton</a> por helpo.",
     "Updated \"%s\" to %s" : "Ĝisdatiĝis “%s” al %s",
-    "Shared with {recipients}" : "Kunhavigis kun {recipients}",
     "Error setting expiration date" : "Eraro dum agordado de limdato",
     "The public link will expire no later than {days} days after it is created" : "La publika ligilo senvalidiĝos ne pli malfrue ol {days} tagojn post ĝi kreiĝos",
     "{sharee} (group)" : "{sharee} (grupo)",
     "{sharee} (remote)" : "{sharee} (fora)",
     "{sharee} (email)" : "{sharee} (email)",
-    "This action requires you to confirm your password:" : "Tiu ĉi ago bezonas ke vi konfirmas vian pasvorton:",
-    "Wrong password. Reset it?" : "Falsa pasvorto. Ĉu vi volas rekomenci ĝin?",
     "Stay logged in" : "Daŭri ensalutinta",
+    "Back to log in" : "Revenu al ensaluto",
     "Alternative Logins" : "Alternativaj ensalutoj",
     "Alternative login using app token" : "Alia ensaluti per apa ĵetono",
     "Add \"%s\" as trusted domain" : "Aldoni \"%s\" tiel fida retregiono",
     "%s will be updated to version %s" : "%s ĝisdatiĝos al eldono %s",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Vidu la <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumenton</a> por helpo.",
-    "Thank you for your patience." : "Dankon pro via pacienco.",
-    "Back to log in" : "Revenu al ensaluto"
+    "Thank you for your patience." : "Dankon pro via pacienco."
 },
 "nplurals=2; plural=(n != 1);");

@@ -45,7 +45,6 @@
     "Federated share added" : "O Federated διαμοιρασμός προστέθηκε",
     "Couldn't add remote share" : "Αδυναμία προσθήκης απομακρυσμένου κοινόχρηστου φακέλου",
     "Sharing %s failed, because this item is already shared with %s" : "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %s απέτυχε, δεν ήταν δυνατή η εύρεση του %s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί πιστοποιητικό που έχει υπογράψει αυτόματα.",
-    "Search global and public address book for users and let local users publish their data" : "Αναζήτηση σε γενικό και δημόσιο βιβλίο διευθύνσεων για χρήστες και επιτρέψτε τους τοπικούς χρήστες να δημοσιεύουν τα δεδομένα τους"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %s απέτυχε, δεν ήταν δυνατή η εύρεση του %s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί πιστοποιητικό που έχει υπογράψει αυτόματα."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

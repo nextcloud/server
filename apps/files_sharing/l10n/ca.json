@@ -104,9 +104,7 @@
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
     "Uploading files…" : "Pujant arxius...",
     "Uploaded files:" : "Arxius pujats:",
-    "{actor} removed you from {file}" : "{actor} t'ha eliminat de {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "S'ha produït un error en compartir %s perquè la part posterior no permet que les accions del tipus%s",
-    "%s is publicly shared" : "%s està compartit de forma pública",
     "This share is password-protected" : "Aquest compartit està protegit amb contrasenya",
     "The password is wrong. Try again." : "la contrasenya és incorrecta. Intenteu-ho de nou.",
     "Password" : "Contrasenya"

@@ -143,9 +143,7 @@ OC.L10N.register(
     "Deleted shares" : "Ištrinti viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Move" : "Perkelti",
     "Target folder" : "Paskirties aplankas",
-    "%s of %s used" : "naudojama %s iš %s",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Naudokite šį adresą, norėdami <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">gauti prieigą prie savo failų per WebDAV</a>"
+    "%s of %s used" : "naudojama %s iš %s"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -27,10 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> för filer",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du nämndes på “{file}” i en kommentar av en användare som nu har tagits bort",
     "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\"",
-    "Unknown user" : "Okänd användare",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "En (nu) raderad användare nämnde dig i en kommentar på \"%s\"",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "En (nu) raderad användare nämnde dig i en kommentar på \"{file}\"",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s nämnde dig i en kommentar på “%2$s”",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Du nämndes på “%s” i en kommentar av en användare som nu har tagits bort"
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Du nämndes på “%s” i en kommentar av en användare som nu har tagits bort",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s nämnde dig i en kommentar på “%2$s”"
 },
 "nplurals=2; plural=(n != 1);");

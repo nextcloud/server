@@ -120,19 +120,9 @@ OC.L10N.register(
     "Add storage" : "Legg til lagringsplass",
     "Advanced settings" : "Avanserte innstillinger",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Henting av henvendelsessymboler mislyktes. Sjekk at programnøkkelen og hemmeligheten din stemmer. ",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Henting av adgangssymboler mislyktes. Sjekk at programnøkkelen og hemmeligheten din stemmer.",
-    "Step 1 failed. Exception: %s" : "Steg 1 mislyktes. Unntak: %s",
-    "Step 2 failed. Exception: %s" : "Steg 2 mislyktes. Unntak: %s",
-    "Dropbox App Configuration" : "Oppsett for Dropbox-program",
-    "Google Drive App Configuration" : "Oppsett av Google Drive-program",
+    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lagringsplassen?",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ikke installert. Oppkobling av %s er ikke mulig. Spør din systemadministrator om å installere det.",
-    "No external storage configured" : "Eksternt lager er ikke konfigurert",
-    "You can add external storages in the personal settings" : "Du kan legge til eksterne lagre i personlige innstillinger",
-    "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring",
-    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lagringsplassen?"
+    "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring"
 },
 "nplurals=2; plural=(n != 1);");

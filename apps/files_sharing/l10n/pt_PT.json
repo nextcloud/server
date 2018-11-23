@@ -104,9 +104,7 @@
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploading files…" : "A enviar ficheiros...",
     "Uploaded files:" : "Ficheiros enviados:",
-    "{actor} removed you from {file}" : "{actor} removeu-o de {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "A partilha de %s falhou porque \"back end\" não permite partilhas do tipo %s",
-    "%s is publicly shared" : "%s está partilhado publicamente",
     "This share is password-protected" : "Esta partilha está protegida por palavra-passe",
     "The password is wrong. Try again." : "A palavra-passe está errada. Por favor, tente de novo.",
     "Password" : "Palavra-passe"

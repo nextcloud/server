@@ -45,13 +45,11 @@
     "Favicon" : "Favicon",
     "Upload new favicon" : "Carica nuova favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemacick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore.",
-    "You are already using a custom theme" : "Stai già usando un tema personalizzato",
-    "reset to default" : "ripristina valori predefiniti",
-    "Web address" : "Indirizzo web",
-    "Web address https://…" : "Indirizzo web https://…",
     "There is no error, the file uploaded with success" : "Non ci sono errori, il file è stato caricato correttamente",
     "The uploaded file was only partially uploaded" : "Il file è stato caricato solo parzialmente",
     "Failed to write file to disk." : "Scrittura su disco non riuscita",
-    "A PHP extension stopped the file upload." : "Un'estensione PHP ha fermato il caricamento del file."
+    "A PHP extension stopped the file upload." : "Un'estensione PHP ha fermato il caricamento del file.",
+    "You are already using a custom theme" : "Stai già usando un tema personalizzato",
+    "Web address https://…" : "Indirizzo web https://…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

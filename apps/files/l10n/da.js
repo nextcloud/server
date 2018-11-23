@@ -152,11 +152,7 @@ OC.L10N.register(
     "Shared by link" : "Delt via link",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
-    "Move" : "Flyt",
     "Target folder" : "Destinations mappe",
-    "A new file or folder has been <strong>deleted</strong>" : "En ny fil eller mappe er blevet <strong>slettet</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "En ny fil eller mappe er blevet <strong>gendannet</strong>",
-    "%s of %s used" : "%s af %s brugt",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">tilgå dine filer gennem WebDAV</a>"
+    "%s of %s used" : "%s af %s brugt"
 },
 "nplurals=2; plural=(n != 1);");

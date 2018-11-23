@@ -50,7 +50,6 @@
     "Federated share added" : "S'ha afegit una part federada",
     "Couldn't add remote share" : "No s'ha pogut afegir una compartició remota",
     "Sharing %s failed, because this item is already shared with %s" : "Ha fallat en compartir %s, perquè l'element ja està compartit amb %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "S'ha produït un error en compartir%s, no s'ha pogut trobar%s, potser el servidor no estigui disponible o s'utilitzi un certificat autofirmat.",
-    "Search global and public address book for users and let local users publish their data" : "Busqueu llibreta d'adreces global i pública per als usuaris i deixeu que els usuaris locals publiquin les seves dades"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "S'ha produït un error en compartir%s, no s'ha pogut trobar%s, potser el servidor no estigui disponible o s'utilitzi un certificat autofirmat."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

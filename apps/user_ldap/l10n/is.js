@@ -97,9 +97,6 @@ OC.L10N.register(
     "Quota Field" : "Gagnasvið fyrir kvóta",
     "Quota Default" : "Sjálfgefinn kvóti",
     "Email Field" : "Gagnasvið fyrir netfang",
-    "Internal Username" : "Innra notandanafn",
-    "1. Server" : "1. Þjónn",
-    "Wrong password. Reset it?" : "Rangt lykilorð. Endursetja?",
-    "LDAP" : "LDAP"
+    "Internal Username" : "Innra notandanafn"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

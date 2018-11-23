@@ -59,7 +59,6 @@ OC.L10N.register(
     "Federated share added" : "Gefedereerd share is toegevoegd",
     "Couldn't add remote share" : "Kon geen externe share toevoegen",
     "Sharing %s failed, because this item is already shared with %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf getekend certificaat.",
-    "Search global and public address book for users and let local users publish their data" : "Openbare adresboeken voor gebruikers doorzoeken en laat lokale gebruikers de data plubliceren"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf getekend certificaat."
 },
 "nplurals=2; plural=(n != 1);");

@@ -49,7 +49,6 @@
     "Federated share added" : "Federatutako partekatzea gehituta",
     "Couldn't add remote share" : "Ezin izan da urruneko partekatzea gehitu",
     "Sharing %s failed, because this item is already shared with %s" : "%s elkarbanatzeak huts egin du, dagoeneko %s erabiltzailearekin elkarbanatuta dagoelako",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du.",
-    "Search global and public address book for users and let local users publish their data" : "Helbide liburu global eta publikoetan erabiltzaileak bilatu eta baimendu erabiltzaileei bere datuak publkatzea"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

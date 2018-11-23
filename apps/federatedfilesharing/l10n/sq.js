@@ -51,7 +51,6 @@ OC.L10N.register(
     "Federated share added" : "Ndarje e federuar u shtua",
     "Couldn't add remote share" : "Nuk mund të shtohet ndarja në largësi",
     "Sharing %s failed, because this item is already shared with %s" : "Ndarja për %s dështoi, ngaqë ky objekt është ndarë një herë me %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar",
-    "Search global and public address book for users and let local users publish their data" : "Kërko librin e adresave globale dhe publike për përdoruesit dhe lejo që përdoruesit lokal të publikojnë të dhënat e tyre"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar"
 },
 "nplurals=2; plural=(n != 1);");

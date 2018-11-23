@@ -145,11 +145,7 @@ OC.L10N.register(
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "Move" : "Mover",
     "Target folder" : "Pasta de destino",
-    "A new file or folder has been <strong>deleted</strong>" : "Um novo ficheiro ou pasta foi <strong>eliminado</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Um novo ficheiro ou pasta foi <strong>restaurado</strong>",
-    "%s of %s used" : "%s de %s utilizado",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilize este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">aceder aos seus ficheiros por WebDAV</a>"
+    "%s of %s used" : "%s de %s utilizado"
 },
 "nplurals=2; plural=(n != 1);");

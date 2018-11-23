@@ -45,13 +45,11 @@
     "Favicon" : "Veftákn",
     "Upload new favicon" : "Senda inn nýja táknmynd",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Settu inn Imagemagick PHP forritsviðaukann með stuðningi við SVG-myndir til að útbúa sjálfvirkt veftáknmyndir byggðar á innsendu táknmerki og lit.",
-    "You are already using a custom theme" : "Þú ert nú þegar að nota sérsniðið þema",
-    "reset to default" : "endurstilla á sjálfgefið",
-    "Web address" : "Veffang",
-    "Web address https://…" : "Veffang https://…",
     "There is no error, the file uploaded with success" : "Engin villa, innsending heppnaðist",
     "The uploaded file was only partially uploaded" : "Einungis hluti af innsendri skrá skilaði sér",
     "Failed to write file to disk." : "Tókst ekki að skrifa skrá á disk.",
-    "A PHP extension stopped the file upload." : "PHP-viðbót stöðvaði innsendingu skráar."
+    "A PHP extension stopped the file upload." : "PHP-viðbót stöðvaði innsendingu skráar.",
+    "You are already using a custom theme" : "Þú ert nú þegar að nota sérsniðið þema",
+    "Web address https://…" : "Veffang https://…"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -42,16 +42,15 @@ OC.L10N.register(
     "Send password by mail" : "Skicka lösenord via e-post",
     "Enforce password protection" : "Tvinga lösenordsskydd",
     "Sharing %s failed, this item is already shared with %s" : "Delning av %s misslyckades, det är redan delat med %s",
-    "Failed to send share by E-mail" : "Misslyckades att dela via e-post",
     "%s shared »%s« with you" : "%s delade »%s« med dig",
     "%s shared »%s« with you." : "%s delade »%s« med dig.",
     "%s via %s" : "%s via %s",
-    "Password to access »%s« shared to you by %s" : "Lösenord för att få tillgång till »%s« delat med dig av %s",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s delade »%s« med dig.\nDu ska redan ha fått ett separat mail med en länk för att komma åt det.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s delade »%s« med dig. Du ska redan ha fått ett separat mail med en länk för att komma åt det.",
+    "Password to access »%s« shared to you by %s" : "Lösenord för att få tillgång till »%s« delat med dig av %s",
     "It is protected with the following password: %s" : "Den är skyddad med följande lösenord: %s",
-    "Password to access »%s« shared with %s" : "Lösenord för att få tillgång till »%s« delade med %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du delade precis »%s« med %s. Delningen var redan skickat till mottagaren. På grund av säkerhetspolicyn definierad av administratören av %s måste varje delning vara lösenordsskyddad och det är inte tillåtet att skicka lösenordet direkt till mottagaren. Därför behöver du vidarebefordra lösenordet manuellt till mottagaren.",
+    "Password to access »%s« shared with %s" : "Lösenord för att få tillgång till »%s« delade med %s",
     "This is the password: %s" : "Detta är lösenordet: %s"
 },
 "nplurals=2; plural=(n != 1);");

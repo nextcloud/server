@@ -52,7 +52,6 @@ OC.L10N.register(
     "Federated share added" : "ფედერალური გაზიარება დაემატა",
     "Couldn't add remote share" : "ფედერალური გაზიარება ვერ დაემატა",
     "Sharing %s failed, because this item is already shared with %s" : "%s-ს გაზიარება არ მოხერხდა, ეს ობიექტი %s მომხმარებელთან უკვე გაზიარებულია",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s-ის გაზიარება ვერ მოხერხდა, ვერ ვოპოვეთ %s, ალბათ სერვერი ახლა მიუწვდომელია ან იყენებს თავის ხელმოწერილ სერტიფიკატს.",
-    "Search global and public address book for users and let local users publish their data" : "მოიძიეთ გლობალური და ღია მისამართების წიგნები მომხმარებლებისთვის და მიეცით უფლება ლოკალურ მომხმარებლებს გააზიარონ საკუთარი მონაცემები"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s-ის გაზიარება ვერ მოხერხდა, ვერ ვოპოვეთ %s, ალბათ სერვერი ახლა მიუწვდომელია ან იყენებს თავის ხელმოწერილ სერტიფიკატს."
 },
 "nplurals=2; plural=(n!=1);");

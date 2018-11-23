@@ -59,7 +59,6 @@ OC.L10N.register(
     "Federated share added" : "Propojené sdílení bylo přidáno",
     "Couldn't add remote share" : "Nepodařilo se přidat propojené sdílení",
     "Sharing %s failed, because this item is already shared with %s" : "Sdílení položky %s se nezdařilo, protože položka už je s uživatelem %s sdílena",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %s selhalo, %s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát.",
-    "Search global and public address book for users and let local users publish their data" : "Hledat uživatele v globálním a veřejném adresáři a dovolit místním uživatelům publikovat jejich údaje"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %s selhalo, %s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -136,9 +136,7 @@ OC.L10N.register(
     "Deleted shares" : "Изтрити",
     "Text file" : "Текстов файл",
     "New text file.txt" : "Текстов файл.txt",
-    "Move" : "Премести",
     "Target folder" : "Дестинация",
-    "%s of %s used" : "%s от %s използвани",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Адресът осигурява <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">достъп до файловете ви чрез WebDAV</a>"
+    "%s of %s used" : "%s от %s използвани"
 },
 "nplurals=2; plural=(n != 1);");

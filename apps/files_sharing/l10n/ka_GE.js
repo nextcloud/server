@@ -106,9 +106,7 @@ OC.L10N.register(
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploading files…" : "ფაილების ატვირთვა...",
     "Uploaded files:" : "ფაილების ატვირთვა:",
-    "{actor} removed you from {file}" : "{actor} ჩამოგაშორათ ფაილს {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "გაზიარება %s არ მოხერხდა, რადგანაც ბექენდი არ იღებს გაზიარებებს ტიპით %s",
-    "%s is publicly shared" : "%s საზოგადოდ გაზიარებულია",
     "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
     "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან",
     "Password" : "პაროლი"

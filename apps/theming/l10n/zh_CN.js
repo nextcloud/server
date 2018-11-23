@@ -28,13 +28,11 @@ OC.L10N.register(
     "Upload new login background" : "上传新登录背景",
     "Remove background image" : "删除背景图片",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持SVG图像的PHP扩展Imagemagick，根据上传的logo和颜色自动生成收藏图标。",
-    "You are already using a custom theme" : "你已经在使用自定义主题",
-    "reset to default" : "重置默认",
-    "Web address" : "网址",
-    "Web address https://…" : "网址 https://...",
     "There is no error, the file uploaded with success" : "没有错误，文件已上传成功",
     "The uploaded file was only partially uploaded" : "上传的文件只有部分已上传",
     "Failed to write file to disk." : "文件写入磁盘失败。",
-    "A PHP extension stopped the file upload." : "PHP扩展停止了文件上传。"
+    "A PHP extension stopped the file upload." : "PHP扩展停止了文件上传。",
+    "You are already using a custom theme" : "你已经在使用自定义主题",
+    "Web address https://…" : "网址 https://..."
 },
 "nplurals=1; plural=0;");

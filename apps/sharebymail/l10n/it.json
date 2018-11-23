@@ -41,16 +41,15 @@
     "Send password by mail" : "Invia password tramite posta",
     "Enforce password protection" : "Imponi la protezione con password",
     "Sharing %s failed, this item is already shared with %s" : "Condivisione %s non riuscita, questo elemento è già condiviso con %s",
-    "Failed to send share by E-mail" : "Invio non riuscito della condivisione tramite email",
     "%s shared »%s« with you" : "%s ha condiviso »%s« con te",
     "%s shared »%s« with you." : "%s ha condiviso «%s» con te.",
     "%s via %s" : "%s tramite %s",
-    "Password to access »%s« shared to you by %s" : "Password per accedere a «%s» condivisa con te da %s",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s ha condiviso «%s» con te.\nDovresti aver ricevuto un messaggio separato con un collegamento per accedervi.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s ha condiviso «%s» con te. Dovresti aver ricevuto un messaggio separato con un collegamento per accedervi.",
+    "Password to access »%s« shared to you by %s" : "Password per accedere a «%s» condivisa con te da %s",
     "It is protected with the following password: %s" : "È protetta con la password seguente: %s",
-    "Password to access »%s« shared with %s" : "Password per accedere a «%s» condivisa con %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Hai appena condiviso «%s» con %s. La condivisione è stata già inviata al destinatario. A causa dei criteri di sicurezza definiti dall'amministratore di %s, ogni condivisione deve essere protetta da password e non è consentito l'invio diretto della password al destinatario. Perciò, devi inoltrare manualmente la password al destinatario.",
+    "Password to access »%s« shared with %s" : "Password per accedere a «%s» condivisa con %s",
     "This is the password: %s" : "Questa è la password: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -264,15 +264,14 @@
     "{sharee} (email)" : "{sharee} (email)",
     "The specified document has not been found on the server." : "Določenega dokumenta na strežniku ni mogoče najti.",
     "You can click here to return to %s." : "S klikom na povezavo boste vrnjeni na %s.",
-    "Wrong password. Reset it?" : "Napačno geslo. Ali ga želite ponastaviti?",
     "Stay logged in" : "Ohrani prijavo",
+    "Back to log in" : "Nazaj na prijavo",
     "Alternative Logins" : "Druge prijavne možnosti",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Na tvojem računu je vključena napredna varnost. Prosim, prijavi se z drugim korakom.",
     "Add \"%s\" as trusted domain" : "Dodaj \"%s\" kot varno domeno",
     "%s will be updated to version %s" : "%s bo posodobljen na različico %s.",
     "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo.",
     "Thank you for your patience." : "Hvala za potrpežljivost!",
-    "Back to log in" : "Nazaj na prijavo",
     "Copy URL" : "Kopiraj naslov URL",
     "Enable" : "Omogoči"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

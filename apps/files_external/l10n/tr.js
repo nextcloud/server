@@ -130,20 +130,9 @@ OC.L10N.register(
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "İstek kodları alınamadı. Uygulama anahtarınızın ve parolanızın doğruluğunu denetleyin.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Erişim kodları alınamadı. Uygulama anahtarınızın ve parolanızın doğruluğunu denetleyin.",
-    "Step 1 failed. Exception: %s" : "1. Adım tamamlanamadı. Sorun: %s",
-    "Step 2 failed. Exception: %s" : "2. Adım tamamlanamadı. Sorun: %s",
-    "Dropbox App Configuration" : "Dropbox Uygulaması Yapılandırması",
-    "Google Drive App Configuration" : "Google Drive Uygulaması Yapılandırması",
+    "Are you sure you want to delete this external storage" : "Bu dış depolamayı silmek istediğinize emin misiniz",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "%s kurulmamış. %s bağlanamaz. Lütfen kurulum için sistem yöneticinizle görüşün.",
-    "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, Google Drive, Dropbox, other Nextcloud servers, WebDAV servers, and more. Administrators can choose which types of storage to enable and can mount these storage locations for a user, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows users to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the advanced user with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "Bu uygulama yöneticilerin FTP sunucular, S3 ya da SWIFT nesne mağazaları, Google Drive, Dropbox, diğer Nextcloud sunucuları ve WebDAV sunucuları gibi çeşitli dış depolama hizmeti sağlayıcıları ile bağlantı kurmasını sağlar. Yöneticiler etkinleştirmek istedikleri depolama türünü seçebilir ve bu depolama konumlarını belirli bir kullanıcı, bir grup ya da tüm sistem için ekleyebilir. Kullanıcılar bağlanan depolamayı kök Nextcloud klasörü altında yeni bir klasör olarak görebilir ve diğer Nextcloud klasörleri gibi erişebilir. Dış depolama, bu konumlarda depolanan dosyaların kullanıcılar tarafından paylaşılmasına da izin verir. Bu durumda alıcıların dış dosyaya erişebileceğinden emin olmak için yapılan dosya erişimi isteklerinde, dosya sahibinin kimlik doğrulama bilgileri kullanılır.\n\nDış depolama yapılandırması grafik arayüzden ya da komut satırından yapılabilir. Komut satırı seçeneğinde, uzman kullanıcılar için toplu dış depolama bağlama ve bağlama noktası öncelikleri gibi esnek yapılandırma seçenekleri bulunur. ayrıntılı bilgi almak için dış depolama grafik arayüzü belgeleri ile dış depolama yapılandırma dosyası belgelerine bakabilirsiniz.",
-    "No external storage configured" : "Herhangi bir dış depolama yapılandırılmamış",
-    "You can add external storages in the personal settings" : "Kişisel ayarlar bölümünden dış depolamaları ekleyebilirsiniz",
-    "Allow users to mount the following external storage" : "Kullanıcılar şu dış depolamayı bağlayabilsin",
-    "Are you sure you want to delete this external storage" : "Bu dış depolamayı silmek istediğinize emin misiniz"
+    "Allow users to mount the following external storage" : "Kullanıcılar şu dış depolamayı bağlayabilsin"
 },
 "nplurals=2; plural=(n > 1);");

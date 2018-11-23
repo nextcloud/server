@@ -28,16 +28,15 @@ OC.L10N.register(
     "Send password by mail" : "Enviar contrasinal por correo",
     "Enforce password protection" : "Aplicar protección por contrasinal",
     "Sharing %s failed, this item is already shared with %s" : "Compartir %s fallou, este obxecto xa está compartido con %s",
-    "Failed to send share by E-mail" : "Fallou ó compartir por correo",
     "%s shared »%s« with you" : "%s compartiu »%s«  contigo",
     "%s shared »%s« with you." : "%s compartiu »%s« contigo.",
     "%s via %s" : "%s vía %s",
-    "Password to access »%s« shared to you by %s" : "Contrasinal para acceder »%s« compartido contigo por %s",
     "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s compartiu »%s« contigo.\nDebes ter recibido xa un correo por separado cun enlace para acceder a él.\n",
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s compartiu »%s« contigo. Debes ter recibido xa un correo por separado cun enlace para acceder a él.",
+    "Password to access »%s« shared to you by %s" : "Contrasinal para acceder »%s« compartido contigo por %s",
     "It is protected with the following password: %s" : "Está protexido co seguinte contrasinal: %s",
-    "Password to access »%s« shared with %s" : "Contrasinal para acceder a  »%s« compartido con %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Compartiu »%s« con %s. O recurso a compartir foi xa enviado ó destinatario. Debido ás políticas de seguridade definidas polo administrador de %s cada recurso a compartir precisa ser protexido por contrasinal e non está permitido enviar o contrasinal directamente ó destinatario. Polo tanto precisa reenviar o contrasinal ó destinatario manualmente.",
+    "Password to access »%s« shared with %s" : "Contrasinal para acceder a  »%s« compartido con %s",
     "This is the password: %s" : "Este é o contrasinal: %s"
 },
 "nplurals=2; plural=(n != 1);");

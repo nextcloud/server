@@ -47,13 +47,11 @@ OC.L10N.register(
     "Favicon" : "Favicon",
     "Upload new favicon" : "Neues Favicon hochladen",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installiere die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favoriten-Icons auf Basis des hochgeladenen Icons und der Farbe zu erstellen.",
-    "You are already using a custom theme" : "Du benutzt bereits ein eigenes Thema",
-    "reset to default" : "Auf Standard zurücksetzen",
-    "Web address" : "Internetadresse",
-    "Web address https://…" : "Internetadresse https://…",
     "There is no error, the file uploaded with success" : "Es ist kein Fehler aufgetreten. Die Datei wurde erfolgreich hochgeladen.",
     "The uploaded file was only partially uploaded" : "Die Datei konnte nur teilweise übertragen werden",
     "Failed to write file to disk." : "Fehler beim Schreiben der Datei auf die Festplatte.",
-    "A PHP extension stopped the file upload." : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt."
+    "A PHP extension stopped the file upload." : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt.",
+    "You are already using a custom theme" : "Du benutzt bereits ein eigenes Thema",
+    "Web address https://…" : "Internetadresse https://…"
 },
 "nplurals=2; plural=(n != 1);");
