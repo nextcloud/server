@@ -714,7 +714,7 @@ class Manager implements IManager {
 	 * @param string $initiator user ID of share sender
 	 * @param string $shareWith email address of share receiver
 	 * @param \DateTime|null $expiration
-	 * @throws \Exception If mail couldn't be sent
+	 * @return bool
 	 */
 	protected function sendMailNotification(IL10N $l,
 											$filename,
@@ -773,7 +773,18 @@ class Manager implements IManager {
 		}
 
 		$message->useTemplate($emailTemplate);
-		$this->mailer->send($message);
+		try {
+			$failedRecipients = $this->mailer->send($message);
+			if(!empty($failedRecipients)) {
+				$this->logger->error('Share notification mail could not be send to: ' . implode(', ', $failedRecipients));
+				return false;
+			}
+		} catch (\Exception $e) {
+			$this->logger->error('Share notification mail could not be send: ' . $e->getMessage());
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
