@@ -305,7 +305,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS კლიენტი",
     "Android Client" : "Android კლიენტი",
-    "An error occured while changing your language. Please reload the page and try again." : "თქვენი ენის ცვლილებისას წარმოიქმნა შეცდომა. გთხოვთ განაახლოთ გვერდი და სცადოთ ახლიდან.",
     "Unable to delete {objName}" : "{objName}-ის წაშლა ვერ ხერხდება",
     "Error creating group: {message}" : "ჯგუფის შექმნისას წარმოიშვა შეცდომა: {message}",
     "A valid group name must be provided" : "წარმოჩენილ უნდა იყოს სწორი ჯგუფის სახელი",

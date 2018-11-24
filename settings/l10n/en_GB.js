@@ -314,7 +314,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS Client",
     "Android Client" : "Android Client",
-    "An error occured while changing your language. Please reload the page and try again." : "An error occurred while changing your language. Please reload the page and try again.",
     "Unable to delete {objName}" : "Unable to delete {objName}",
     "Error creating group: {message}" : "Error creating group: {message}",
     "A valid group name must be provided" : "A valid group name must be provided",

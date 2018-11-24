@@ -354,7 +354,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "Cliente iOS",
     "Android Client" : "Cliente Android",
-    "An error occured while changing your language. Please reload the page and try again." : "Se ha producido un fallo al cambiar el idioma. Por favor, vuelve a cargar la página y vuelve a intentarlo.",
     "Unable to delete {objName}" : "No es posible eliminar {objName}",
     "Error creating group: {message}" : "Error creando el grupo: {message}",
     "A valid group name must be provided" : "Se debe dar un nombre válido para el grupo ",
@@ -430,7 +429,6 @@ OC.L10N.register(
     "set new password" : "establecer nueva contraseña",
     "change email address" : "cambiar dirección de correo electrónico",
     "Default" : "Predeterminado",
-    "Default quota :" : "Espacio por defecto: ",
-    "An error occured while changing your locale. Please reload the page and try again." : "Se ha producido un error al cambiar de región. Por favor, recarga la página y vuelve a intentarlo."
+    "Default quota :" : "Espacio por defecto: "
 },
 "nplurals=2; plural=(n != 1);");

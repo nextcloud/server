@@ -280,7 +280,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS klient",
     "Android Client" : "Android klient",
-    "An error occured while changing your language. Please reload the page and try again." : "Keele vahetamisel ilmnes viga. Palun taasilaadi leht ja proovi uuesti.",
     "Unable to delete {objName}" : "Ei suuda kustutada {objName}",
     "Error creating group: {message}" : "Tõrge grupi loomisel: {message}",
     "A valid group name must be provided" : "Sisesta nõuetele vastav grupi nimi",
@@ -330,7 +329,6 @@ OC.L10N.register(
     "change full name" : "Muuda täispikka nime",
     "set new password" : "määra uus parool",
     "change email address" : "muuda e-posti aadressi",
-    "Default" : "Vaikeväärtus",
-    "An error occured while changing your locale. Please reload the page and try again." : "Kasutuskoha muutmisel tekkis viga. Värskenda lehte ja proovi uuesti."
+    "Default" : "Vaikeväärtus"
 },
 "nplurals=2; plural=(n != 1);");

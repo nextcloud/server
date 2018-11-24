@@ -298,7 +298,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "Klient iOS",
     "Android Client" : "Klient Android",
-    "An error occured while changing your language. Please reload the page and try again." : "Ndodhi një gabim teksa ndryshohej gjuha. Ju lutem, rifresko faqen dhe provo përsëri.",
     "Unable to delete {objName}" : "S’arrin të fshijë {objName}",
     "Error creating group: {message}" : "Gabim gjatë krijimit të grupit: {message}",
     "A valid group name must be provided" : "Duhet dhënë një emër i vlefshëm grupi",

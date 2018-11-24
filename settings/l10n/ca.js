@@ -353,7 +353,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS Client",
     "Android Client" : "Client Android",
-    "An error occured while changing your language. Please reload the page and try again." : "S'ha produït un error en canviar el vostre idioma. Torna a carregar la pàgina i torna-ho a provar.",
     "Unable to delete {objName}" : "No es pot eliminar {objName}",
     "Error creating group: {message}" : "Error creant grup: {message}",
     "A valid group name must be provided" : "Heu de facilitar un nom de grup vàlid",
@@ -429,7 +428,6 @@ OC.L10N.register(
     "set new password" : "estableix nova contrasenya",
     "change email address" : "canvi d'adreça de correu electrònic",
     "Default" : "Per defecte",
-    "Default quota :" : "Quota per defecte:",
-    "An error occured while changing your locale. Please reload the page and try again." : "S'ha produït un error en canviar la teva configuració local. Recarrega la pàgina i torna-ho a provar."
+    "Default quota :" : "Quota per defecte:"
 },
 "nplurals=2; plural=(n != 1);");

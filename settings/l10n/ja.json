@@ -348,7 +348,6 @@
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOSクライアント",
     "Android Client" : "Androidクライアント",
-    "An error occured while changing your language. Please reload the page and try again." : "言語を変更する際にエラーが発生しました。ページをリロードして、再度試してください。",
     "Unable to delete {objName}" : "{objName} を削除できません",
     "Error creating group: {message}" : "グループの作成エラー: {message}",
     "A valid group name must be provided" : "有効なグループ名を指定する必要があります",
@@ -424,7 +423,6 @@
     "set new password" : "新しいパスワードを設定",
     "change email address" : "メールアドレスを変更",
     "Default" : "デフォルト",
-    "Default quota :" : "デフォルトのクォータ :",
-    "An error occured while changing your locale. Please reload the page and try again." : "ロケールの変更中にエラーが発生しました。 ページをリロードしてもう一度お試しください。"
+    "Default quota :" : "デフォルトのクォータ :"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

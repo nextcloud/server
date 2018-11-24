@@ -299,7 +299,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS 客戶端",
     "Android Client" : "Android 客戶端",
-    "An error occured while changing your language. Please reload the page and try again." : "變更語言時發生錯誤，請重新整理頁面後重試",
     "Unable to delete {objName}" : "無法刪除 {objName}",
     "Error creating group: {message}" : "建立群組錯誤：{message}",
     "A valid group name must be provided" : "必須提供一個有效的群組名稱",

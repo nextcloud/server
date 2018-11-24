@@ -345,7 +345,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS kliens",
     "Android Client" : "Android kliens",
-    "An error occured while changing your language. Please reload the page and try again." : "Hiba a nyelvváltás közben. Kérlek töltsd újra az oldalt és próbáld meg ismét.",
     "Unable to delete {objName}" : "Ezt nem sikerült törölni: {objName}",
     "Error creating group: {message}" : "Hiba történt a csoport létrehozásakor: {message}",
     "A valid group name must be provided" : "Érvényes csoportnevet kell megadni",
@@ -420,7 +419,6 @@ OC.L10N.register(
     "change full name" : "a teljes név megváltoztatása",
     "set new password" : "új jelszó beállítása",
     "change email address" : "e-mail cím megváltoztatása",
-    "Default" : "Alapértelmezett",
-    "An error occured while changing your locale. Please reload the page and try again." : "Hiba a hely váltása közben. Kérlek töltsd újra az oldalt és próbáld meg ismét."
+    "Default" : "Alapértelmezett"
 },
 "nplurals=2; plural=(n != 1);");

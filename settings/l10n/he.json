@@ -316,7 +316,6 @@
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "לקוח iOS",
     "Android Client" : "לקוח Android",
-    "An error occured while changing your language. Please reload the page and try again." : "אירעה שגיאה בעת שינוי השפה שלך. נא לרענן את העמוד ולנסות שוב.",
     "Unable to delete {objName}" : "לא ניתן למחיקה {objName}",
     "Error creating group: {message}" : "שגיאה ביצירת קבוצה: {message}",
     "A valid group name must be provided" : "יש לספק שם קבוצה תקני",
