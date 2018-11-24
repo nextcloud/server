@@ -880,7 +880,7 @@ class Access extends LDAPUtility implements IUserTools {
 			});
 		}
 		$this->batchApplyUserAttributes($recordsToUpdate);
-		return $this->fetchList($ldapRecords, count($attr) > 1);
+		return $this->fetchList($ldapRecords, $this->manyAttributes($attr));
 	}
 
 	/**
@@ -923,7 +923,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @return array
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
-		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), count($attr) > 1);
+		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), $this->manyAttributes($attr));
 	}
 
 	/**
@@ -2014,6 +2014,19 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		return $pagedSearchOK;
+	}
+
+	/**
+	 * Is more than one $attr used for search?
+	 *
+	 * @param string|string[]|null $attr
+	 * @return bool
+	 */
+	private function manyAttributes($attr) {
+		if (\is_array($attr)) {
+			return \count($attr) > 1;
+		}
+		return false;
 	}
 
 }
