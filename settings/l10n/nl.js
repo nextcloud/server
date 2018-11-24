@@ -375,7 +375,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS Client",
     "Android Client" : "Android Client",
-    "An error occured while changing your language. Please reload the page and try again." : "Er trad een fout op bij het aanpassen van de taal. Ververs de pagina en probeer het opnieuw.",
     "Unable to delete {objName}" : "Kan {objName} niet verwijderen",
     "Error creating group: {message}" : "Fout bij aanmaken groep: {message}",
     "A valid group name must be provided" : "Er moet een geldige groepsnaam worden opgegeven",
@@ -451,7 +450,6 @@ OC.L10N.register(
     "set new password" : "Instellen nieuw wachtwoord",
     "change email address" : "wijzig e-mailadres",
     "Default" : "Standaard",
-    "Default quota :" : "Standaardquota:",
-    "An error occured while changing your locale. Please reload the page and try again." : "Er trad een fout op bij het aanpassen van je landsinstellingen. Ververs de pagina en probeer het opnieuw."
+    "Default quota :" : "Standaardquota:"
 },
 "nplurals=2; plural=(n != 1);");

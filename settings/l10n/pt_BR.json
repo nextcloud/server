@@ -70,6 +70,12 @@
     "Google Chrome" : "Google Chrome",
     "Safari" : "Safari",
     "Google Chrome for Android" : "Google Chrome para Android",
+    "iPhone" : "iPhone",
+    "iPad" : "iPad",
+    "Nextcloud iOS app" : "Aplicativo iOS Nextcloud",
+    "Nextcloud Android app" : "Aplicativo Android Nextcloud",
+    "Nextcloud Talk for iOS" : "Nextcloud Talk para iOS",
+    "Nextcloud Talk for Android" : "Nextcloud Talk para Android",
     "Sync client - {os}" : "Sincronizar cliente - {os}",
     "This session" : "Esta sessão",
     "Copy" : "Copiar",
@@ -98,6 +104,8 @@
     "So-so password" : "Senha mais ou menos",
     "Good password" : "Boa senha",
     "Strong password" : "Senha forte",
+    "An error occurred while changing your language. Please reload the page and try again." : "Ocorreu um erro ao alterar seu idioma. Recarregue a página e tente novamente.",
+    "An error occurred while changing your locale. Please reload the page and try again." : "Ocorreu um erro ao alterar sua localidade. Rrecarregue a página e tente novamente.",
     "Select a profile picture" : "Selecione uma imagem para o perfil",
     "Week starts on {fdow}" : "A semana começa em {fdow}",
     "Groups" : "Grupos",
@@ -111,6 +119,7 @@
     "Enforced groups" : "Grupos obrigatórios",
     "Two-factor authentication is not enforced for\tmembers of the following groups." : "A autenticação de dois fatores não é aplicada para\tmembros dos seguintes grupos.",
     "Excluded groups" : "Grupos excluídos",
+    "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Quando grupos são selecionados/excluídos, eles usam a seguinte lógica para determinar se um usuário tem 2FA forçado: Se nenhum grupo for selecionado, 2FA será habilitado para todos, exceto membros dos grupos excluídos. Se grupos são selecionados, 2FA é ativado para todos os membros deles. Se um usuário estiver em um grupo selecionado e excluído, o selecionado terá precedência e o 2FA será forçado.",
     "Save changes" : "Salvar mudanças",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Os aplicativos oficiais são desenvolvidos pela comunidade e dentro dela. Eles oferecem funcionalidades centrais e estão prontos para uso em produção.",
     "Official" : "Oficial",
@@ -373,7 +382,6 @@
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "Cliente iOS",
     "Android Client" : "Cliente Android",
-    "An error occured while changing your language. Please reload the page and try again." : "Um erro ocorreu ao mudar o idioma. Atualize a página e tente novamente.",
     "Unable to delete {objName}" : "Não foi possível excluir {objName}",
     "Error creating group: {message}" : "Erro criando o grupo: {message}",
     "A valid group name must be provided" : "Um nome de grupo válido deve ser fornecido",
@@ -449,7 +457,6 @@
     "set new password" : "definir uma senha nova",
     "change email address" : "Alterar o endereço de e-mail",
     "Default" : "Padrão",
-    "Default quota :" : "Quota padrão:",
-    "An error occured while changing your locale. Please reload the page and try again." : "Ocorreu um erro ao alterar sua localidade. Recarregue a página e tente novamente."
+    "Default quota :" : "Quota padrão:"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

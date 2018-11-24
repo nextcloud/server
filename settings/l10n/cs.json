@@ -373,7 +373,6 @@
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS klient",
     "Android Client" : "Android klient",
-    "An error occured while changing your language. Please reload the page and try again." : "Při změně jazyka došlo k chybě. Znovu načtěte stránku a zkuste to ještě jednou.",
     "Unable to delete {objName}" : "Nedaří se smazat {objName}",
     "Error creating group: {message}" : "Chyba při vytváření skupiny: {message}",
     "A valid group name must be provided" : "Je třeba zadat platný název skupiny",
@@ -449,7 +448,6 @@
     "set new password" : "nastavit nové heslo",
     "change email address" : "změnit e-mailovou adresu",
     "Default" : "Výchozí",
-    "Default quota :" : "Výchozí kvóta:",
-    "An error occured while changing your locale. Please reload the page and try again." : "Došlo k chybě při změně místních a jazykových nastavení. Načtěte stránku znovu a zopakujte pokus."
+    "Default quota :" : "Výchozí kvóta:"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

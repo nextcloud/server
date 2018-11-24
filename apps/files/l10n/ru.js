@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Каталог недоступен. Проверьте журналы событий или свяжитесь с администратором",
     "Could not move \"{file}\", target exists" : "Невозможно переместить файл «{file}», он уже существует в каталоге назначения",
     "Could not move \"{file}\"" : "Невозможно переместить файл «{file}»",
+    "copy" : "копия",
     "Could not copy \"{file}\", target exists" : "Невозможно скопировать файл «{file}», он уже существует в каталоге назначения",
     "Could not copy \"{file}\"" : "Невозможно скопировать файл «{file}»",
     "Copied {origin} inside {destination}" : "{origin} скопирован в {destination}",

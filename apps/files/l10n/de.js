@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte die Logdateien überprüfen oder den Administrator kontaktieren.",
     "Could not move \"{file}\", target exists" : "\"{file}\" konnte nicht verschoben werden, Ziel existiert bereits",
     "Could not move \"{file}\"" : "\"{file}\" konnte nicht verschoben werden",
+    "copy" : "kopieren",
     "Could not copy \"{file}\", target exists" : "\"{file}\" konnte nicht kopiert werden, Ziel existiert bereits",
     "Could not copy \"{file}\"" : "\"{file}\" konnte nicht kopiert werden",
     "Copied {origin} inside {destination}" : "{origin} wurde nach {destination} kopiert",

@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Овај директоријум није доступан, проверите записе или контактирајте администратора",
     "Could not move \"{file}\", target exists" : "Не могу да померим \"{file}\", одредиште већ постоји",
     "Could not move \"{file}\"" : "Не могу да померим \"{file}\"",
+    "copy" : "копиран",
     "Could not copy \"{file}\", target exists" : "Не могу да копирам \"{file}\", одредиште већ постоји",
     "Could not copy \"{file}\"" : "Не могу да копирам \"{file}\"",
     "Copied {origin} inside {destination}" : "Копиран {origin} у {destination}",

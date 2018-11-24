@@ -351,7 +351,6 @@
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "Klient iOS",
     "Android Client" : "Klient Android",
-    "An error occured while changing your language. Please reload the page and try again." : "Wystąpił błąd podczas zmiany Twojego języka. Przeładuj stronę i spróbuj ponownie.",
     "Unable to delete {objName}" : "Nie można usunąć {objName}",
     "Error creating group: {message}" : "Błąd podczas tworzenia grupy: {message}",
     "A valid group name must be provided" : "Należy podać prawidłową nazwę grupy",
@@ -427,7 +426,6 @@
     "set new password" : "ustaw nowe hasło",
     "change email address" : "zmień adres e-mail",
     "Default" : "Domyślny",
-    "Default quota :" : "Domyślny limit:",
-    "An error occured while changing your locale. Please reload the page and try again." : "Wystąpił błąd przy zmianie regionu. Odśwież stronę i spróbuj ponownie."
+    "Default quota :" : "Domyślny limit:"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

@@ -335,7 +335,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS-app",
     "Android Client" : "Android-app",
-    "An error occured while changing your language. Please reload the page and try again." : "Ett fel inträffade när språket ändrades. Var god ladda om sidan och försök igen.",
     "Unable to delete {objName}" : "Kunde inte radera {objName}",
     "Error creating group: {message}" : "Fel uppstod vid skapande av grupp: {message}",
     "A valid group name must be provided" : "Ett giltigt gruppnamn måste anges",
@@ -410,7 +409,6 @@ OC.L10N.register(
     "change full name" : "ändra namn",
     "set new password" : "ange nytt lösenord",
     "change email address" : "ändra e-postadress",
-    "Default" : "Förvald",
-    "An error occured while changing your locale. Please reload the page and try again." : "Ett fel inträffade när din plats ändrades. Var god ladda om sidan och försök igen."
+    "Default" : "Förvald"
 },
 "nplurals=2; plural=(n != 1);");

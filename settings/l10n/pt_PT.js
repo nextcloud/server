@@ -303,7 +303,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "Cliente iOS",
     "Android Client" : "Cliente Android",
-    "An error occured while changing your language. Please reload the page and try again." : "Ocorreu um erro ao modificar a sua lingua. Por favor recarregue a página e tente novamente.",
     "Unable to delete {objName}" : "Não é possível apagar {objNome}",
     "Error creating group: {message}" : "Erro ao criar grupo: {message}",
     "A valid group name must be provided" : "Deve ser indicado um nome de grupo válido",
