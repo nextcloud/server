@@ -347,7 +347,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS Klient",
     "Android Client" : "Android Klient",
-    "An error occured while changing your language. Please reload the page and try again." : "Počas zmeny jazyka sa vyskytla chyba. Prosím obnovte stránku a skúste znova.",
     "Unable to delete {objName}" : "Nemožno vymazať {objName}",
     "Error creating group: {message}" : "Chyba pri vytváraní skupiny: {message}",
     "A valid group name must be provided" : "Musíte zadať platný názov skupiny",
@@ -423,7 +422,6 @@ OC.L10N.register(
     "set new password" : "nastaviť nové heslo",
     "change email address" : "zmeniť emailovú adresu",
     "Default" : "Predvolené",
-    "Default quota :" : "Predvolená kvóta:",
-    "An error occured while changing your locale. Please reload the page and try again." : "Počas zmeny jazyka sa vyskytla chyba. Prosím obnovte stránku a skúste znova."
+    "Default quota :" : "Predvolená kvóta:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

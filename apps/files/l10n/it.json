@@ -42,6 +42,7 @@
     "This directory is unavailable, please check the logs or contact the administrator" : "Questa cartella non è disponibile, controlla i log o contatta l'amministratore",
     "Could not move \"{file}\", target exists" : "Impossibile spostare \"{file}\", la destinazione esiste già",
     "Could not move \"{file}\"" : "Impossibile spostare \"{file}\"",
+    "copy" : "copia",
     "Could not copy \"{file}\", target exists" : "Impossibile copiare \"{file}\", la destinazione esiste già",
     "Could not copy \"{file}\"" : "Impossibile copiare \"{file}\"",
     "Copied {origin} inside {destination}" : "Copiato {origin} in {destination}",

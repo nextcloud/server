@@ -295,7 +295,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS bezeroa",
     "Android Client" : "Android bezeroa",
-    "An error occured while changing your language. Please reload the page and try again." : "Errore bat gertatu da zure hizkuntza aldatzean. Birkargatu orria eta saiatu berriro.",
     "Unable to delete {objName}" : "Ezin izan da {objName} ezabatu",
     "Error creating group: {message}" : "Akatsa taldea sortzerakoan: {mezua} ",
     "A valid group name must be provided" : "Baliozko talde izena eman behar da",
