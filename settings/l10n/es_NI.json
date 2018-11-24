@@ -298,7 +298,6 @@
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "Cliente iOS",
     "Android Client" : "Cliente Android",
-    "An error occured while changing your language. Please reload the page and try again." : "Se presentó un error al cambiar tu idioma. Por favor vuelve a cargar la página y vuelva a intentarlo. ",
     "Unable to delete {objName}" : "No fue posible borrar {objName}",
     "Error creating group: {message}" : "Se presentó un error al crear el grupo: {message}",
     "A valid group name must be provided" : "Debes proporcionar un nombre de grupo válido",

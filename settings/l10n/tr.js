@@ -375,7 +375,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS İstemcisi",
     "Android Client" : "Android İstemcisi",
-    "An error occured while changing your language. Please reload the page and try again." : "Dil değiştirilirken bir sorun çıktı. Lütfen sayfayı yeniden yükleyerek yeniden deneyin.",
     "Unable to delete {objName}" : "{objName} silinemedi",
     "Error creating group: {message}" : "Grup oluşturulurken sorun çıktı: {message}",
     "A valid group name must be provided" : "Geçerli bir grup adı yazmalısınız",
@@ -451,7 +450,6 @@ OC.L10N.register(
     "set new password" : "yeni parola belirle",
     "change email address" : "e-posta adresini değiştir",
     "Default" : "Varsayılan",
-    "Default quota :" : "Varsayılan kota :",
-    "An error occured while changing your locale. Please reload the page and try again." : "Yerel ayarlarınız değiştirilirken bir sorun çıktı. Lütfen sayfayı yeniden yükleyerek yeniden deneyin."
+    "Default quota :" : "Varsayılan kota :"
 },
 "nplurals=2; plural=(n > 1);");

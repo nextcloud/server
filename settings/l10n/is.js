@@ -354,7 +354,6 @@ OC.L10N.register(
     "iPad iOS" : "iPad iOS",
     "iOS Client" : "iOS-biðlari",
     "Android Client" : "Android-biðlari",
-    "An error occured while changing your language. Please reload the page and try again." : "Villa kom upp við að skipta um tungumálið þitt. Endurlestu síðuna og prófaðu aftur.",
     "Unable to delete {objName}" : "Get ekki eytt {objName}",
     "Error creating group: {message}" : "Villa við að búa til hóp: {message}",
     "A valid group name must be provided" : "Skráðu inn gilt heiti á hópi",
@@ -430,7 +429,6 @@ OC.L10N.register(
     "set new password" : "setja nýtt lykilorð",
     "change email address" : "breyta tölvupóstfangi",
     "Default" : "Sjálfgefið",
-    "Default quota :" : "Sjálfgefinn kvóti :",
-    "An error occured while changing your locale. Please reload the page and try again." : "Villa kom upp við að skipta um staðfærsluna þína. Endurlestu síðuna og prófaðu aftur."
+    "Default quota :" : "Sjálfgefinn kvóti :"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
