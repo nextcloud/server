@@ -23,35 +23,56 @@
 
 namespace Test\Net;
 
-use OCP\Net\IpAddressFactory;
+use OCP\Net\IIpAddressFactory;
 use OCP\Net\IIpAddress;
+use OC\Net\IpAddressFactory;
 use OC\Net\IpAddressV4;
 use OC\Net\IpAddressV6;
 
 class IpAddressFactoryTest extends \Test\TestCase {
 	public function testNewForIpv4Address() {
-		$ipaddress = IpAddressFactory::getInstance('192.168.11.22');
+		$factory = new IpAddressFactory();
+		$ipaddress = $factory->getInstance('192.168.11.22');
+
+		$this->assertTrue($ipaddress instanceof IIpAddress);
+		$this->assertTrue($ipaddress instanceof IpAddressV4);
+	}
+
+	public function testNewForIpv4Subnet() {
+		$factory = new IpAddressFactory();
+		$ipaddress = $factory->getInstance('192.168.11.0/24');
 
 		$this->assertTrue($ipaddress instanceof IIpAddress);
 		$this->assertTrue($ipaddress instanceof IpAddressV4);
 	}
 
 	public function testNewForIpv6Address() {
-		$ipaddress = IpAddressFactory::getInstance('2001:db8:85a3:8d3:1319:8a2e:370:7348');
+		$factory = new IpAddressFactory();
+		$ipaddress = $factory->getInstance('2001:db8:85a3:8d3:1319:8a2e:370:7348');
 
 		$this->assertTrue($ipaddress instanceof IIpAddress);
 		$this->assertTrue($ipaddress instanceof IpAddressV6);
 	}
 
 	public function testNewForIpv6AddressAbbreviated() {
-		$ipaddress = IpAddressFactory::getInstance('2001:db8:85a3:8d3:1319:8a2e::7348');
+		$factory = new IpAddressFactory();
+		$ipaddress = $factory->getInstance('2001:db8:85a3:8d3:1319:8a2e::7348');
 
 		$this->assertTrue($ipaddress instanceof IIpAddress);
 		$this->assertTrue($ipaddress instanceof IpAddressV6);
 	}
 
 	public function testNewForIpv6AddressLocalhost() {
-		$ipaddress = IpAddressFactory::getInstance('::1');
+		$factory = new IpAddressFactory();
+		$ipaddress = $factory->getInstance('::1');
+
+		$this->assertTrue($ipaddress instanceof IIpAddress);
+		$this->assertTrue($ipaddress instanceof IpAddressV6);
+	}
+
+	public function testNewForIpv6Subnet() {
+		$factory = new IpAddressFactory();
+		$ipaddress = $factory->getInstance('2001:db8:85a3:8d3:1319:8a2e::/96');
 
 		$this->assertTrue($ipaddress instanceof IIpAddress);
 		$this->assertTrue($ipaddress instanceof IpAddressV6);

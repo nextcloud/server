@@ -44,8 +44,6 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
-use OCP\Net\IIpAddress;
-use OCP\Net\IpAddressFactory;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
@@ -609,10 +607,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
-		$ipAddressRemote = IpAddressFactory::getInstance($remoteAddress);
+		$ipAddressFactory = \OC::$server->getIpAddressFactory();
+
+		$ipAddressRemote = $ipAddressFactory->getInstance($remoteAddress);
 
 		foreach ($trustedProxies as $tp) {
-			$ipAddressProxy = IpAddressFactory::getInstance($tp);
+			$ipAddressProxy = $ipAddressFactory->getInstance($tp);
 			if ($ipAddressProxy->containsAddress($ipAddressRemote)) {
 				return true;
 			}

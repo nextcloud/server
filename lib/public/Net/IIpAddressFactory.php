@@ -22,45 +22,34 @@ declare(strict_types=1);
  *
  */
 
+/**
+ * Public interface of ownCloud for use by core and apps.
+ * IIpAddressFactory interface
+ */
+
 namespace OCP\Net;
 
-use OCP\Net\IIpAddress;
-use OC\Net\IpAddressV4;
-use OC\Net\IpAddressV6;
-
 /**
- * This factory creates instances of IIpAddress, given an IP address
- * string (e.g. "192.168.1.2" or subnet string in CIDR format (e.g.
- * "192.168.1.0/24").
+ * This interface provides functionalities to create instances
+ * of IIpAddress
  *
  * @since 16.0.0
  */
-class IpAddressFactory {
-	/**
-	 * Returns whether $address represents an IPv6 address
-	 *
-	 * @param string $address
-	 * @return bool
-	 * @since 16.0.0
-	 */
-	public static function isIpv6(string $address): bool {
-		return strpos($address, ':') !== false;
-	}
+interface IIpAddressFactory {
 
 	/**
-	 * Creates a new instance conforming to IIpAddress and
-	 * representing the given $address.
+	 * Returns a new instance of IIpAddress. The concrete implementation
+	 * chosen depends on the kind of address (or subnet) that $address
+	 * represents, e.g.
+	 * - "192.168.0.2" for an Ipv4 address
+	 * - "::1" for an Ipv6 address
+	 * - "192.168.1.0/24" for an Ipv4 subnet
+	 * - "2001:db8:85a3:8d3:1319:8a2e::/96" for an Ipv6 subnet
 	 *
 	 * @param string $address
-	 * @return IIpAddress
+	 * @return instance of IIpAddress
 	 * @since 16.0.0
 	 */
-	public static function getInstance($address): IIpAddress {
-		if (self::isIpv6($address)) {
-			return new IpAddressV6($address);
-		} else {
-			return new IpAddressV4($address);
-		}
-	}
+	public function getInstance(string $address): IIpAddress;
 }
 

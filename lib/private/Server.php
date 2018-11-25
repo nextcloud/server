@@ -19,6 +19,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Oliver Wegner <void1976@gmail.com>
  * @author Piotr Mrówczyński <mrow4a@yahoo.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -96,6 +97,7 @@ use OC\Log\LogFactory;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
+use OC\Net\IpAddressFactory;
 use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
 use OC\Remote\Api\ApiFactory;
@@ -150,6 +152,7 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Log\ILogFactory;
+use OCP\Net\IIpAddressFactory;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
@@ -1200,6 +1203,8 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
+		$this->registerAlias(IIpAddressFactory::class, IpAddressFactory::class);
+
 		$this->connectDispatcher();
 	}
 
@@ -2054,5 +2059,12 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getStorageFactory() {
 		return $this->query(IStorageFactory::class);
+	}
+
+	/**
+	 * @return \OCP\Net\IIpAddressFactory
+	 */
+	public function getIpAddressFactory() {
+		return $this->query(IIpAddressFactory::class);
 	}
 }
