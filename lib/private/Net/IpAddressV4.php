@@ -28,10 +28,6 @@ use OCP\Net\IIpAddress;
 use OC\Net\AbstractIpAddress;
 
 class IpAddressV4 extends AbstractIpAddress {
-	private $original = '';
-	private $address = '';
-	private $cidrBits = 0;
-
 	/**
 	 * Returns the length of the represented IP address format in bits.
 	 *

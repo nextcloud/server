@@ -31,9 +31,9 @@ abstract class AbstractIpAddress implements IIpAddress {
 	abstract protected function getCidrRegex(): string;
 	abstract protected function matchCidr(IIpAddress $other): bool;
 
-	private $original = '';
-	private $netPart = '';
-	private $netmaskBits = 0;
+	protected $original = '';
+	protected $netPart = '';
+	protected $netmaskBits = 0;
 
 	/**
 	 * Constructor that takes an IP address in string form and
