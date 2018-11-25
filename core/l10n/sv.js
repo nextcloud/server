@@ -216,7 +216,7 @@ OC.L10N.register(
     "An error occurred." : "Ett fel inträffade.",
     "Please reload the page." : "Vänligen ladda om sidan.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Uppdateringen misslyckades. För mer information <a href=\"{url}\">kolla vår forum post</a> angående problemet.",
-    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Uppdateringen misslyckades. Vänligen rapportera felet till <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Uppdateringen misslyckades. Vänligen rapportera felet till <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud-gemenskapen</a>.",
     "Continue to Nextcloud" : "Fortsätt till Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Uppdateringen lyckades. Omdirigerar dig till molnet om %n sekund.","Uppdateringen lyckades. Omdirigerar dig till molnet om %n sekunder."],
     "Searching other places" : "Söker på andra platser",
