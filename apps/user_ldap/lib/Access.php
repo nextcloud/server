@@ -2017,7 +2017,7 @@ class Access extends LDAPUtility {
 	 * @param string|string[]|null $attr
 	 * @return bool
 	 */
-	private function manyAttributes($attr) {
+	private function manyAttributes($attr): bool {
 		if (\is_array($attr)) {
 			return \count($attr) > 1;
 		}
