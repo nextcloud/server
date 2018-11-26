@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Tento adresář není dostupný, zkontrolujte záznamy událostí nebo se obraťte na správce",
     "Could not move \"{file}\", target exists" : "Nelze přesunout „{file}“, cíl existuje",
     "Could not move \"{file}\"" : "Nelze přesunout „{file}“",
+    "copy" : "Kopírovat",
     "Could not copy \"{file}\", target exists" : "Nelze kopírovat „{file}“, cíl už existuje",
     "Could not copy \"{file}\"" : "Nelze kopírovat „{file}“",
     "Copied {origin} inside {destination}" : "{origin} zkopírován do {destination}",
