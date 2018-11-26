@@ -23,7 +23,7 @@
 
 use Behat\Behat\Context\Context;
 
-class FilesSharingAppContext implements Context, ActorAwareInterface {
+class PublicShareContext implements Context, ActorAwareInterface {
 
 	use ActorAware;
 	use FileListAncestorSetter;
