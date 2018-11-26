@@ -119,6 +119,7 @@
     "Enforced groups" : "Dayatılan gruplar",
     "Two-factor authentication is not enforced for\tmembers of the following groups." : "Şu grupların üyeleri için iki aşamalı kimlik doğrulaması\tdayatılmaz.",
     "Excluded groups" : "Dayatılmayan gruplar",
+    "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Gruplar katıldığında ya da katılmadığında, bir kullanıcının İki Aşamalı Kimlik Doğrulaması kullanıp kullanmayacağına karar verilmesi için şu mantık yürütülür. Herhangi bir grup seçilmemiş ise, katılmayan grupların üyeleri dışındaki tüm üyeler için İki Aşamalı Kimlik Doğrulaması kullanılır. Seçilmiş gruplar varsa, İki Aşamalı Kimlik Doğrulaması katılan bu grupların üyeleri için kullanılır. Bir kullanıcının hem katılmış hem de katılmamış gruplarda üyeliği varsa, katılmış grupların önceliği vardır ve İki Aşamalı Kimlik Doğrulaması kullanılır.",
     "Save changes" : "Değişiklikleri kaydet",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Resmi uygulamalar topluluk tarafından geliştirilmiştir. Merkezi işlevleri yerine getirdikleri gibi kullanıma da hazırdırlar.",
     "Official" : "Resmi",
