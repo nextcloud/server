@@ -29,7 +29,9 @@ script('settings', [
 	'settings/authtoken-init'
 ]);
 
-if($_['passwordChangeSupported']) {
+$passwordChangeSupported = \OC::$server->getConfig()->getAppValue('password_policy', 'passwordChange');
+
+if($passwordChangeSupported) {
 	script('settings', 'security_password');
 	script('jquery-showpassword');
 	vendor_script('strengthify/jquery.strengthify');
@@ -37,11 +39,11 @@ if($_['passwordChangeSupported']) {
 }
 
 ?>
-<?php if($_['passwordChangeSupported']) { ?>
-<div id="security-password" class="section">
-	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-	<span id="password-error-msg" class="msg success hidden">Saved</span>
-	<div class="personal-settings-setting-box personal-settings-password-box">
+<?php if($passwordChangeSupported) { ?>
+	<div id="security-password" class="section">
+		<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
+		<span id="password-error-msg" class="msg success hidden">Saved</span>
+		<div class="personal-settings-setting-box personal-settings-password-box">
 			<form id="passwordform">
 				<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
 				<input type="password" id="pass1" name="oldpassword"
@@ -60,9 +62,9 @@ if($_['passwordChangeSupported']) {
 				<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
 
 			</form>
+		</div>
+		<span class="msg"></span>
 	</div>
-	<span class="msg"></span>
-</div>
 <?php } ?>
 
 <div id="security" class="section">
