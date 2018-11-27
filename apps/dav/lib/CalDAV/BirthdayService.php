@@ -32,6 +32,7 @@ use Exception;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\DateTimeParser;
@@ -56,6 +57,9 @@ class BirthdayService {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IDBConnection */
+	private $dbConnection;
+
 	/**
 	 * BirthdayService constructor.
 	 *
@@ -64,11 +68,12 @@ class BirthdayService {
 	 * @param GroupPrincipalBackend $principalBackend
 	 * @param IConfig $config;
 	 */
-	public function __construct(CalDavBackend $calDavBackEnd, CardDavBackend $cardDavBackEnd, GroupPrincipalBackend $principalBackend, IConfig $config) {
+	public function __construct(CalDavBackend $calDavBackEnd, CardDavBackend $cardDavBackEnd, GroupPrincipalBackend $principalBackend, IConfig $config, IDBConnection $dbConnection) {
 		$this->calDavBackEnd = $calDavBackEnd;
 		$this->cardDavBackEnd = $cardDavBackEnd;
 		$this->principalBackend = $principalBackend;
 		$this->config = $config;
+		$this->dbConnection = $dbConnection;
 	}
 
 	/**
@@ -85,9 +90,9 @@ class BirthdayService {
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
 		$targetPrincipals[] = $book['principaluri'];
 		$datesToSync = [
-			['postfix' => '', 'field' => 'BDAY', 'symbol' => '*'],
-			['postfix' => '-death', 'field' => 'DEATHDATE', 'symbol' => "†"],
-			['postfix' => '-anniversary', 'field' => 'ANNIVERSARY', 'symbol' => "⚭"],
+			['postfix' => '', 'field' => 'BDAY', 'symbol' => '*', 'utfSymbol' => '🎂'],
+			['postfix' => '-death', 'field' => 'DEATHDATE', 'symbol' => "†", 'utfSymbol' => '⚰️'],
+			['postfix' => '-anniversary', 'field' => 'ANNIVERSARY', 'symbol' => "⚭", 'utfSymbol' => '💍'],
 		];
 		foreach ($targetPrincipals as $principalUri) {
 			if (!$this->isUserEnabled($principalUri)) {
@@ -150,9 +155,10 @@ class BirthdayService {
 	 * @param string $dateField
 	 * @param string $postfix
 	 * @param string $summarySymbol
+	 * @param string $utfSummarySymbol
 	 * @return null|VCalendar
 	 */
-	public function buildDateFromContact($cardData, $dateField, $postfix, $summarySymbol) {
+	public function buildDateFromContact($cardData, $dateField, $postfix, $summarySymbol, $utfSummarySymbol) {
 		if (empty($cardData)) {
 			return null;
 		}
@@ -218,11 +224,20 @@ class BirthdayService {
 		} catch (Exception $e) {
 			return null;
 		}
-		if ($unknownYear) {
-			$summary = $doc->FN->getValue() . ' ' . $summarySymbol;
+		if ($this->dbConnection->supports4ByteText()) {
+			if ($unknownYear) {
+				$summary = $utfSummarySymbol . ' ' . $doc->FN->getValue();
+			} else {
+				$summary = $utfSummarySymbol . ' ' . $doc->FN->getValue() . " ($originalYear)";
+			}
 		} else {
-			$summary = $doc->FN->getValue() . " ($summarySymbol$originalYear)";
+			if ($unknownYear) {
+				$summary = $doc->FN->getValue() . ' ' . $summarySymbol;
+			} else {
+				$summary = $doc->FN->getValue() . " ($summarySymbol$originalYear)";
+			}
 		}
+
 		$vCal = new VCalendar();
 		$vCal->VERSION = '2.0';
 		$vEvent = $vCal->createComponent('VEVENT');
@@ -318,7 +333,7 @@ class BirthdayService {
 	 */
 	private function updateCalendar($cardUri, $cardData, $book, $calendarId, $type) {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
-		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $type['symbol']);
+		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $type['symbol'], $type['utfSymbol']);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
 		if (is_null($calendarData)) {
 			if (!is_null($existing)) {
