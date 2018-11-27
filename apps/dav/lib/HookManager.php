@@ -101,7 +101,9 @@ class HookManager {
 
 	public function postCreateUser($params) {
 		$user = $this->userManager->get($params['uid']);
-		$this->syncService->updateUser($user);
+		if ($user instanceof IUser) {
+			$this->syncService->updateUser($user);
+		}
 	}
 
 	public function preDeleteUser($params) {
