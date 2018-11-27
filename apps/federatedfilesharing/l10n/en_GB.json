@@ -51,7 +51,6 @@
     "Federated share added" : "Federated share added",
     "Couldn't add remote share" : "Couldn't add remote share",
     "Sharing %s failed, because this item is already shared with %s" : "Sharing %s failed, because this item is already shared with %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate.",
-    "Search global and public address book for users and let local users publish their data" : "Search global and public address book for users and let local users publish their data"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

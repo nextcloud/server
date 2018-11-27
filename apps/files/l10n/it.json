@@ -42,6 +42,7 @@
     "This directory is unavailable, please check the logs or contact the administrator" : "Questa cartella non è disponibile, controlla i log o contatta l'amministratore",
     "Could not move \"{file}\", target exists" : "Impossibile spostare \"{file}\", la destinazione esiste già",
     "Could not move \"{file}\"" : "Impossibile spostare \"{file}\"",
+    "copy" : "copia",
     "Could not copy \"{file}\", target exists" : "Impossibile copiare \"{file}\", la destinazione esiste già",
     "Could not copy \"{file}\"" : "Impossibile copiare \"{file}\"",
     "Copied {origin} inside {destination}" : "Copiato {origin} in {destination}",
@@ -160,11 +161,7 @@
     "Deleted shares" : "Condivisioni eliminate",
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
-    "Move" : "Sposta",
     "Target folder" : "Cartella di destinazione",
-    "A new file or folder has been <strong>deleted</strong>" : "Un nuovo file o cartella è stato <strong>eliminato</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Un nuovo file o una cartella è stato <strong>ripristinato</strong>",
-    "%s of %s used" : "%s di %s utilizzati",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilizza questo indirizzo per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accedere ai tuoi file con WebDAV</a>"
+    "%s of %s used" : "%s di %s utilizzati"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

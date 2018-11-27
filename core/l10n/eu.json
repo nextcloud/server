@@ -278,13 +278,13 @@
     "You can click here to return to %s." : "Hemen klika dezakezu %sra itzultzeko.",
     "Stay logged in" : "Ez amaitu saioa",
     "Alternative Logins" : "Beste erabiltzaile izenak",
+    "You are about to grant %s access to your %s account." : "%s kontuari %sra sarbidea emango diozu",
     "Alternative login using app token" : "Ordezko saio-hasiera aplikazio-tokena erabilta",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Hobetutako segurtasuna dago gaituta zure kontuan. Mesedez, autentifikatu bigarren faktore bat erabiliz.",
+    "Depending on your configuration, this button could also work to trust the domain:" : "Zure konfigurazioaren arabera, botoi hau domeinua konfidantzazkoa bezala markatzeko balio du",
     "Add \"%s\" as trusted domain" : "Gehitu \"%s\" domeinu fidagarri gisa",
     "%s will be updated to version %s" : "%s %s bertsiora eguneratuko da",
     "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean.",
-    "Thank you for your patience." : "Milesker zure patzientziagatik.",
-    "You are about to grant %s access to your %s account." : "%s kontuari %sra sarbidea emango diozu",
-    "Depending on your configuration, this button could also work to trust the domain:" : "Zure konfigurazioaren arabera, botoi hau domeinua konfidantzazkoa bezala markatzeko balio du"
+    "Thank you for your patience." : "Milesker zure patzientziagatik."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

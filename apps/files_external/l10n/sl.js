@@ -106,8 +106,6 @@ OC.L10N.register(
     "Advanced settings" : "Napredne nastavitve",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
     "OpenStack" : "OpenStack",
-    "No external storage configured" : "Ni določene zunanje shrambe",
-    "You can add external storages in the personal settings" : "Med nastavitvami je mogoče dodati tudi zunanjo shrambo.",
     "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

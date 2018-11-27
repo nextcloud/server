@@ -54,7 +54,7 @@ class AnonymousOptionsTest extends TestCase {
 	public function testAnonymousOptionsNonRoot() {
 		$response = $this->sendRequest('OPTIONS', 'foo');
 
-		$this->assertEquals(401, $response->getStatus());
+		$this->assertEquals(200, $response->getStatus());
 	}
 }
 

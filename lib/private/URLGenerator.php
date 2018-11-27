@@ -237,13 +237,13 @@ class URLGenerator implements IURLGenerator {
 	 * @return string the absolute version of the url
 	 */
 	public function getAbsoluteURL(string $url): string {
-		$separator = $url[0] === '/' ? '' : '/';
+		$separator = strpos($url, '/') === 0 ? '' : '/';
 
 		if (\OC::$CLI && !\defined('PHPUNIT_RUN')) {
 			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
 		// The ownCloud web root can already be prepended.
-		if(substr($url, 0, \strlen(\OC::$WEBROOT)) === \OC::$WEBROOT) {
+		if(\OC::$WEBROOT !== '' && strpos($url, \OC::$WEBROOT) === 0) {
 			$url = substr($url, \strlen(\OC::$WEBROOT));
 		}
 

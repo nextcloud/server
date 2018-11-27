@@ -232,7 +232,9 @@ class LoginController extends Controller {
 		$parameters['resetPasswordLink'] = $this->config
 			->getSystemValue('lost_password_link', '');
 
-		if (!$parameters['resetPasswordLink'] && $userObj !== null) {
+		if ($parameters['resetPasswordLink'] === 'disabled') {
+			$parameters['canResetPassword'] = false;
+		} else if (!$parameters['resetPasswordLink'] && $userObj !== null) {
 			$parameters['canResetPassword'] = $userObj->canChangePassword();
 		} else if ($userObj !== null && $userObj->isEnabled() === false) {
 			$parameters['canResetPassword'] = false;

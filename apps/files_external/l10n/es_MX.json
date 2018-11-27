@@ -120,19 +120,9 @@
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
     "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Se presentó una falla al buscar las fichas de solicitud. Por favor verifica que tu llave de aplicación y tu secreto sean correctos. ",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Se presentó una falla al buscar las fichas de acceso. Por favor verifica que tu llave de aplicación y tu secreto sean correctos. ",
-    "Step 1 failed. Exception: %s" : "Paso 1 falló. Excepción: %s",
-    "Step 2 failed. Exception: %s" : "Paso 2 falló. Excepción: %s",
-    "Dropbox App Configuration" : "Configuración de la aplicación Dropbox",
-    "Google Drive App Configuration" : "Configuración de la Aplicación de Google Drive",
+    "Are you sure you want to delete this external storage" : "¿Estás seguro de que quieres borrar este almacenamiento externo?",
     "OpenStack" : "OpenStack",
-    "Dropbox" : "Dropbox",
-    "Google Drive" : "Google Drive",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" no se encuentra instalado. El montaje de %s no es posible. Por favor solicita a tu administrador su instalación.  ",
-    "No external storage configured" : "No se ha configurado el almacenamiento externo",
-    "You can add external storages in the personal settings" : "Puedes agregar almacenamiento externo en las configuraciones personales",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
-    "Are you sure you want to delete this external storage" : "¿Estás seguro de que quieres borrar este almacenamiento externo?"
+    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

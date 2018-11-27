@@ -103,6 +103,8 @@
 				ipad: /\(iPad\; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
 				iosClient: /^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/,
 				androidClient:/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/,
+				iosTalkClient: /^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk.*$/,
+				androidTalkClient:/^Mozilla\/5\.0 \(Android\) Nextcloud\-Talk.*$/,
 				// DAVdroid/1.2 (2016/07/03; dav4android; okhttp3) Android/6.0.1
 				davDroid: /DAVdroid\/([0-9.]+)/,
 				// Mozilla/5.0 (U; Linux; Maemo; Jolla; Sailfish; like Android 4.3) AppleWebKit/538.1 (KHTML, like Gecko) WebPirate/2.0 like Mobile Safari/538.1 (compatible)
@@ -117,10 +119,12 @@
 				chrome: t('setting', 'Google Chrome'),
 				safari: t('setting', 'Safari'),
 				androidChrome: t('setting', 'Google Chrome for Android'),
-				iphone: t('setting', 'iPhone iOS'),
-				ipad: t('setting', 'iPad iOS'),
-				iosClient: t('setting', 'iOS Client'),
-				androidClient: t('setting', 'Android Client'),
+				iphone: t('setting', 'iPhone'),
+				ipad: t('setting', 'iPad'),
+				iosClient: t('setting', 'Nextcloud iOS app'),
+				androidClient: t('setting', 'Nextcloud Android app'),
+				iosTalkClient: t('setting', 'Nextcloud Talk for iOS'),
+				androidTalkClient: t('setting', 'Nextcloud Talk for Android'),
 				davDroid: 'DAVdroid',
 				webPirate: 'WebPirate',
 				sailfishBrowser: 'SailfishBrowser'
@@ -137,6 +141,8 @@
 				ipad: 'icon-tablet',
 				iosClient: 'icon-phone',
 				androidClient: 'icon-phone',
+				iosTalkClient: 'icon-phone',
+				androidTalkClient: 'icon-phone',
 				davDroid: 'icon-phone',
 				webPirate: 'icon-link',
 				sailfishBrowser: 'icon-link'

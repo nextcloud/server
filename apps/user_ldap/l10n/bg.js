@@ -104,10 +104,6 @@ OC.L10N.register(
     "Override UUID detection" : "Промени UUID откриването",
     "By default, the UUID attribute is automatically detected. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users and groups." : "Обикновено UUID атрибутът ще бъде намерен автоматично. UUID атрибута се използва, за да се идентифицират еднозначно LDAP потребители и групи. Освен това ще бъде генерирано вътрешното име базирано на UUID-то, ако такова не е посочено по-горе. Можете да промените настройката и да използвате атрибут по свой избор. Наложително е атрибутът да бъде уникален както за потребителите така и за групите. Промените ще се отразят само за новодобавени (map-нати) LDAP потребители.",
     "UUID Attribute for Users:" : "UUID атрибут за потребителите:",
-    "UUID Attribute for Groups:" : "UUID атрибут за групите:",
-    "1. Server" : "1. Сървър",
-    "Wrong password. Reset it?" : "Грешна парола. Възстановяване?",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Предупреждение:</b> Приложенията user_ldap и user_webdavauth са несъвместими. Моля, помолете системния администратор да изключи едно от приложенията."
+    "UUID Attribute for Groups:" : "UUID атрибут за групите:"
 },
 "nplurals=2; plural=(n != 1);");

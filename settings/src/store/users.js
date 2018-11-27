@@ -431,7 +431,10 @@ const actions = {
 			return api.post(OC.linkToOCS(`cloud/users`, 2), { userid, password, displayName, email, groups, subadmin, quota, language })
 				.then((response) => dispatch('addUserData', userid))
 				.catch((error) => {throw error;});
-		}).catch((error) => commit('API_FAILURE', { userid, error }));
+		}).catch((error) => {
+			commit('API_FAILURE', { userid, error });
+			throw error;
+		});
 	},
 
 	/**

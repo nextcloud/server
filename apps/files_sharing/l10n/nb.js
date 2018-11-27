@@ -107,9 +107,7 @@ OC.L10N.register(
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files…" : "Laster opp filer…",
     "Uploaded files:" : "Opplastede filer:",
-    "{actor} removed you from {file}" : "{actor} fjernet deg fra {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Deling av %s mislyktes på grunn av at tjeneren ikke tillater deling av filtypen %s",
-    "%s is publicly shared" : "%s er delt offentlig",
     "This share is password-protected" : "Denne delingen er passordbeskyttet",
     "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
     "Password" : "Passord"

@@ -85,14 +85,22 @@ div[contenteditable=true],
 	/* Primary action button, use sparingly */
 	&.primary {
 		background-color: var(--color-primary-element);
-		border: 1px solid var(--color-primary-text);
+		border-color: var(--color-primary-element);
 		color: var(--color-primary-text);
 		cursor: pointer;
+
+		/* Apply border to primary button if on log in page (and not in a dark container) or if in header */
+		#body-login :not(.body-login-container) &,
+		#header & {
+			border-color: var(--color-primary-text);
+		}
+
 		&:not(:disabled) {
 			&:hover,
 			&:focus,
-			&:active  {
-				background-color: var(--color-primary-element-light)
+			&:active {
+				background-color: var(--color-primary-element-light);
+				border-color: var(--color-primary-element-light);
 			}
 			&:active {
 				color: var(--color-primary-text-dark);

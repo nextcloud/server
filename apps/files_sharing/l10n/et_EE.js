@@ -105,9 +105,7 @@ OC.L10N.register(
     "Select or drop files" : "Vali või lohista failid",
     "Uploading files…" : "Failide üleslaadimine…",
     "Uploaded files:" : "Üleslaetud failid:",
-    "{actor} removed you from {file}" : "{actor} eemaldas sind {file} jagamisest",
     "Sharing %s failed because the back end does not allow shares from type %s" : "%s jagamine ebaõnnestus sest server ei luba %s tüüpi jagamisi",
-    "%s is publicly shared" : "%s on avalikult jagatud",
     "This share is password-protected" : "See jagamine on parooliga kaitstud",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
     "Password" : "Parool"

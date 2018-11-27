@@ -123,7 +123,6 @@
     "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s",
     "Library %s with a version higher than %s is required - available version %s." : "Zahtevana je knjižnica %s z različico, višjo od %s – na voljo je različica %s.",
     "Library %s with a version lower than %s is required - available version %s." : "Zahtevana je knjižnica %s z različico, manjšo od %s – na voljo je različica %s.",
-    "Personal" : "Osebno",
     "APCu" : "APCu",
     "Redis" : "Redis",
     "Encryption" : "Šifriranje",

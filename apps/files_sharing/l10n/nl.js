@@ -128,9 +128,7 @@ OC.L10N.register(
     "Uploading files…" : "Uploaden bestanden...",
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
-    "{actor} removed you from {file}" : "{actor} heeft je van {file} verwijderd",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Delen van %s mislukte omdat de backend het delen van type %s niet ondersteunt",
-    "%s is publicly shared" : "%s is openbaar gedeeld",
     "This share is password-protected" : "Deze gedeelde folder is met een wachtwoord beveiligd",
     "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
     "Password" : "Wachtwoord"

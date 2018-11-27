@@ -50,6 +50,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
@@ -591,6 +592,9 @@ class File extends Node implements IFile {
 		}
 		if ($e instanceof StorageNotAvailableException) {
 			throw new ServiceUnavailable('Failed to write file contents: ' . $e->getMessage(), 0, $e);
+		}
+		if ($e instanceof NotFoundException) {
+			throw new NotFound('File not found: ' . $e->getMessage(), 0, $e);
 		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);

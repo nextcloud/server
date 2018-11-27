@@ -59,7 +59,6 @@ OC.L10N.register(
     "Federated share added" : "クラウド共有が追加されました",
     "Couldn't add remote share" : "リモート共有を追加できませんでした",
     "Sharing %s failed, because this item is already shared with %s" : "%s を共有できませんでした。このアイテムはすでに %s に共有されています。",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないか、自己証明書を使っています。",
-    "Search global and public address book for users and let local users publish their data" : "グローバルまたはユーザーの公開アドレス帳を検索し、ローカルユーザーのデータを公開する"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないか、自己証明書を使っています。"
 },
 "nplurals=1; plural=0;");

@@ -111,8 +111,6 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" tidak terpasang. Mengaitkan %s tidak memungkinkan. Harap tanya administrator sistem anda untuk memasangnya.",
-    "No external storage configured" : "Penyimpanan eksternal tidak dikonfigurasi",
-    "You can add external storages in the personal settings" : "Anda dapat menambahkan penyimpanan eksternal di pengaturan pribadi",
     "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
 },
 "nplurals=1; plural=0;");

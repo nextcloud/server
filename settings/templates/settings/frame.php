@@ -23,7 +23,7 @@
 
 style('settings', 'settings');
 script('settings', [ 'settings', 'admin', 'log', 'certificates'] );
-script('core', ['multiselect', 'setupchecks']);
+script('core', 'setupchecks');
 script('files', 'jquery.fileupload');
 
 ?>

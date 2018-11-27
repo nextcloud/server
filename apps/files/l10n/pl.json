@@ -156,11 +156,7 @@
     "Deleted shares" : "Usunięte udostępnione",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
-    "Move" : "Przenieś",
     "Target folder" : "Folder docelowy",
-    "A new file or folder has been <strong>deleted</strong>" : "Nowy plik lub folder został <strong>usunięty</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "Nowy plik lub folder został <strong>odtworzony</strong>",
-    "%s of %s used" : "Wykorzystano %s z %s",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Użyj swojego adresu <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">aby mieć dostęp do Plików przez WebDAV"
+    "%s of %s used" : "Wykorzystano %s z %s"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

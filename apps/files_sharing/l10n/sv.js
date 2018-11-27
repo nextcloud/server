@@ -127,9 +127,7 @@ OC.L10N.register(
     "Uploading files…" : "Laddar upp filer...",
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
-    "{actor} removed you from {file}" : "{actor} tog bort dig från {file}",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Delningen av %s misslyckades. Ej tillåtet med delning av %s",
-    "%s is publicly shared" : "%s är delad publikt",
     "This share is password-protected" : "Den här delningen är lösenordsskyddad",
     "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
     "Password" : "Lösenord"

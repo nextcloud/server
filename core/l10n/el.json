@@ -284,17 +284,14 @@
     "Share with other people by entering a user or group or an email address." : "Διαμοιραστείτε με άλλους εισάγοντας τον χρήστη ή την ομάδα ή μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
     "The specified document has not been found on the server." : "Το συγκεκριμένο έγγραφο δεν έχει βρεθεί στο διακομιστή.",
     "You can click here to return to %s." : "Μπορείτε να κάνετε κλικ εδώ για να επιστρέψετε στο %s.",
-    "This action requires you to confirm your password:" : "Αυτή η ενέργεια απαιτεί επιβεβαίωση του συνθηματικού σας:",
-    "Wrong password. Reset it?" : "Εσφαλμένο συνθηματικό. Επαναφορά;",
     "Stay logged in" : "Μείνετε συνδεδεμένος",
     "Alternative Logins" : "Εναλλακτικές είσοδοι",
+    "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\".",
     "Alternative login using app token" : "Εναλλακτική είσοδος με την χρήση του διακριτικού της εφαρμογής",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Έχει ενεργοποιηθεί βελτιωμένη ασφάλεια για τον λογαριασμό σας. Παρακαλώ πιστοποιήστε με την χρήση δεύτερου παράγοντα",
-    "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα.",
     "Add \"%s\" as trusted domain" : "Προσθήκη \"%s\" ως αξιόπιστου τομέα",
     "%s will be updated to version %s" : "%s θα ενημερωθεί σε έκδοση %s",
     "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
-    "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας.",
-    "You are about to grant %s access to your %s account." : "Πρόκειται να δώσετε άδεια πρόσβασης στο \"%s\" στον λογαριασμό σας \" %s\"."
+    "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

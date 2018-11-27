@@ -5,7 +5,7 @@
 	<name>Files workflow engine</name>
 	<summary>Files workflow engine</summary>
 	<description>Files workflow engine</description>
-	<version>1.5.0</version>
+	<version>1.6.0</version>
 	<licence>agpl</licence>
 	<author>Morris Jobke</author>
 	<namespace>WorkflowEngine</namespace>
@@ -20,7 +20,7 @@
 	<repository>https://github.com/nextcloud/server.git</repository>
 
 	<dependencies>
-		<nextcloud min-version="15" max-version="15" />
+		<nextcloud min-version="16" max-version="16"/>
 	</dependencies>
 
 	<settings>

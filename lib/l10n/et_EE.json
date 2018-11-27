@@ -166,6 +166,7 @@
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
     "Encryption" : "Krüpteerimine",
     "Tips & tricks" : "Nõuanded ja trikid",
+    "Sync clients" : "Klientide sünkroniseerimine",
     "Sharing %s failed, because the user %s does not exist" : "%s jagamine ebaõnnestus, kuna kasutajat %s pole olemas",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "%s jagamine ebaõnnestus, kuna kasutaja %s pole ühegi grupi liige, millede liige on %s",
     "Sharing %s failed, because this item is already shared with %s" : "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s",
@@ -179,7 +180,6 @@
     "%s shared »%s« with you" : "%s jagas sinuga »%s«",
     "%s shared »%s« with you." : "%s jagas »%s« sinuga.",
     "%s via %s" : "%s läbi %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Rakendust \"%s\" ei saa paigaldada sest järgmised sõltuvused ei ole täidetud: %s",
-    "Sync clients" : "Klientide sünkroniseerimine"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Rakendust \"%s\" ei saa paigaldada sest järgmised sõltuvused ei ole täidetud: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

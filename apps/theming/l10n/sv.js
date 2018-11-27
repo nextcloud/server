@@ -34,13 +34,11 @@ OC.L10N.register(
     "Legal notice link" : "Länk rättsligt meddelande",
     "Privacy policy link" : "Länk integritetspolicy",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera faviconer baserat på den uppladdade logotypen och färgen.",
-    "You are already using a custom theme" : "Du använder redan ett annat tema",
-    "reset to default" : "Återställ till standard",
-    "Web address" : "Webbadress",
-    "Web address https://…" : "Webbadress https://...",
     "There is no error, the file uploaded with success" : "Det finns inga fel, uppladdning av filen lyckades ",
     "The uploaded file was only partially uploaded" : "Den uppladdade filen laddades bara upp delvis",
     "Failed to write file to disk." : "Misslyckades att skriva till disk",
-    "A PHP extension stopped the file upload." : "Ett PHP-tillägg stoppade uppladdningen av filen."
+    "A PHP extension stopped the file upload." : "Ett PHP-tillägg stoppade uppladdningen av filen.",
+    "You are already using a custom theme" : "Du använder redan ett annat tema",
+    "Web address https://…" : "Webbadress https://..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -10,7 +10,7 @@ OC.L10N.register(
     "Could not disable recovery key. Please check your recovery key password!" : "No s'ha pogut desactivar la calu de recuperació. Comproveu la contrasenya de la clau de recuperació!",
     "Missing parameters" : "Falten paràmetres",
     "Please provide the old recovery password" : "Proporcioneu la contrasenya de recuperació antiga",
-    "Please provide a new recovery password" : "Siusplau proporcioneu una nova contrasenya de recuperació",
+    "Please provide a new recovery password" : "Si us plau proporcioneu una nova contrasenya de recuperació",
     "Please repeat the new recovery password" : "Repetiu la nova contrasenya de recuperació",
     "Password successfully changed." : "La contrasenya s'ha canviat.",
     "Could not change the password. Maybe the old password was not correct." : "No s'ha pogut canviar la contrasenya. Potser la contrasenya anterior no era correcta.",

@@ -498,8 +498,20 @@ __webpack_require__.r(__webpack_exports__);
         language: this.newUser.language.code
       }).then(function () {
         return _this.resetForm();
-      }).catch(function () {
-        return _this.loading.all = false;
+      }).catch(function (error) {
+        _this.loading.all = false;
+
+        if (error.response && error.response.data && error.response.data.ocs && error.response.data.ocs.meta) {
+          var statuscode = error.response.data.ocs.meta.statuscode;
+
+          if (statuscode === 102) {
+            // wrong username
+            _this.$refs.newusername.focus();
+          } else if (statuscode === 107) {
+            // wrong password
+            _this.$refs.newuserpassword.focus();
+          }
+        }
       });
     },
     setNewUserDefaultGroup: function setNewUserDefaultGroup(value) {
@@ -563,6 +575,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var v_tooltip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! v-tooltip */ "./node_modules/v-tooltip/dist/v-tooltip.esm.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+//
+//
+//
+//
 //
 //
 //
@@ -1916,6 +1932,7 @@ var render = function() {
                   expression: "newUser.id"
                 }
               ],
+              ref: "newusername",
               attrs: {
                 id: "newusername",
                 type: "text",
@@ -1980,6 +1997,7 @@ var render = function() {
                   expression: "newUser.password"
                 }
               ],
+              ref: "newuserpassword",
               attrs: {
                 id: "newuserpassword",
                 type: "password",
@@ -2363,28 +2381,58 @@ var render = function() {
               }
             },
             [
-              _c("input", {
-                ref: "displayName",
-                attrs: {
-                  id: "displayName" + _vm.user.id + _vm.rand,
-                  type: "text",
-                  disabled: _vm.loading.displayName || _vm.loading.all,
-                  autocomplete: "new-password",
-                  autocorrect: "off",
-                  autocapitalize: "off",
-                  spellcheck: "false"
-                },
-                domProps: { value: _vm.user.displayname }
-              }),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "icon-confirm",
-                attrs: { type: "submit", value: "" }
-              })
-            ]
+              _vm.user.backendCapabilities.setDisplayName
+                ? [
+                    _vm.user.backendCapabilities.setDisplayName
+                      ? _c("input", {
+                          ref: "displayName",
+                          attrs: {
+                            id: "displayName" + _vm.user.id + _vm.rand,
+                            type: "text",
+                            disabled:
+                              _vm.loading.displayName || _vm.loading.all,
+                            autocomplete: "new-password",
+                            autocorrect: "off",
+                            autocapitalize: "off",
+                            spellcheck: "false"
+                          },
+                          domProps: { value: _vm.user.displayname }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.user.backendCapabilities.setDisplayName
+                      ? _c("input", {
+                          staticClass: "icon-confirm",
+                          attrs: { type: "submit", value: "" }
+                        })
+                      : _vm._e()
+                  ]
+                : _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "tooltip",
+                          rawName: "v-tooltip.auto",
+                          value: _vm.t(
+                            "settings",
+                            "The backend does not support changing the display name"
+                          ),
+                          expression:
+                            "t('settings', 'The backend does not support changing the display name')",
+                          modifiers: { auto: true }
+                        }
+                      ],
+                      staticClass: "name"
+                    },
+                    [_vm._v(_vm._s(_vm.user.displayname))]
+                  )
+            ],
+            2
           ),
           _vm._v(" "),
-          _vm.settings.canChangePassword
+          _vm.settings.canChangePassword &&
+          _vm.user.backendCapabilities.setPassword
             ? _c(
                 "form",
                 {

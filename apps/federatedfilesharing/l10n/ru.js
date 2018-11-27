@@ -59,7 +59,6 @@ OC.L10N.register(
     "Federated share added" : "Добавлен общий федеративный ресурс",
     "Couldn't add remote share" : "Невозможно добавить удалённый общий ресурс",
     "Sharing %s failed, because this item is already shared with %s" : "Не удалось предоставить доступ к «%s» , пользователю%s доступ уже предоставлен",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось поделиться «%s», не удалось найти %s, возможно, сервер недоступен или использует самоподписанный сертификат.",
-    "Search global and public address book for users and let local users publish their data" : "Поиск пользователей в глобальной и общедоступной адресной книге и разрешение публикации своих данных локальным пользователям "
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось поделиться «%s», не удалось найти %s, возможно, сервер недоступен или использует самоподписанный сертификат."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

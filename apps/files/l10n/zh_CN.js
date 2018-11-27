@@ -162,11 +162,7 @@ OC.L10N.register(
     "Deleted shares" : "已删除的共享",
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文件.txt",
-    "Move" : "移动",
     "Target folder" : "目标目录",
-    "A new file or folder has been <strong>deleted</strong>" : "文件/文件夹已<strong>删除</strong>",
-    "A new file or folder has been <strong>restored</strong>" : "文件/文件夹已<strong>恢复</strong>",
-    "%s of %s used" : "%s 已使用 (共 %s)",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">通过 WebDAV 访问您的文件</a>"
+    "%s of %s used" : "%s 已使用 (共 %s)"
 },
 "nplurals=1; plural=0;");

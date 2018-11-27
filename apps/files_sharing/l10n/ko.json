@@ -103,9 +103,7 @@
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
     "Uploading files…" : "파일 업로드 중…",
     "Uploaded files:" : "업로드한 파일:",
-    "{actor} removed you from {file}" : "{actor} 님이 여러분을 {file}에서 삭제함",
     "Sharing %s failed because the back end does not allow shares from type %s" : "%s을(를) 공유할 수 없습니다. 백엔드에서 %s 형식의 공유를 지원하지 않습니다",
-    "%s is publicly shared" : "%s이(가) 공개 공유됨",
     "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 입력해 주십시오.",
     "Password" : "암호"

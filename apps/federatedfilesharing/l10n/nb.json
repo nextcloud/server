@@ -50,7 +50,6 @@
     "Federated share added" : "Sammenknyttet ressurs lagt til",
     "Couldn't add remote share" : "Kunne ikke legge til ekstern ressurs",
     "Sharing %s failed, because this item is already shared with %s" : "Deling av %s mislyktes, fordi dette elementet allerede er delt med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling av %s mislyktes, kunne ikke finne %s, kanskje tjeneren for øyeblikket er utilgjengelig eller bruker selv-signert sertifikat.",
-    "Search global and public address book for users and let local users publish their data" : "Søk i verdensomspennende og offentlig adressebok etter brukere og la lokale brukere offentliggjøre deres data"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling av %s mislyktes, kunne ikke finne %s, kanskje tjeneren for øyeblikket er utilgjengelig eller bruker selv-signert sertifikat."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

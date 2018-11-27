@@ -204,17 +204,13 @@ OC.L10N.register(
     "Update needed" : "التحديث مطلوب",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "للمساعدة يُرجى الإطلاع على <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">الدليل</a>.",
     "There was an error loading your contacts" : "حدث خطأ أثناء تحميل قائمة مراسليك",
-    "Shared with {recipients}" : "تمت مشاركته مع {recipients}",
     "Error setting expiration date" : "حصل خطأ عند عملية تعيين تاريخ إنتهاء الصلاحية",
     "{sharee} (group)" : "{sharee} (group)",
     "{sharee} (remote)" : "{sharee} (remote)",
     "{sharee} (email)" : "{sharee} (email)",
-    "This action requires you to confirm your password:" : "يتطلب منك هذا الإجراء تأكيد كلمة المرور :",
-    "Wrong password. Reset it?" : "كلمة السر خاطئة. هل تريد إعادة تعيينها ؟",
+    "Back to log in" : "العودة إلى تسجيل الدخول",
     "Alternative Logins" : "اسماء دخول بديلة",
     "Add \"%s\" as trusted domain" : "إضافة \"%s\" كنطاق موثوق فيه",
-    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "للمساعدة يُرجى الإطلاع على <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">الدليل</a>.",
-    "Thank you for your patience." : "شكرا لك على صبرك.",
-    "Back to log in" : "العودة إلى تسجيل الدخول"
+    "Thank you for your patience." : "شكرا لك على صبرك."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

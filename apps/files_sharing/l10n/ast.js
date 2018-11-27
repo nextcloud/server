@@ -80,7 +80,6 @@ OC.L10N.register(
     "Select or drop files" : "Esbilla o suelta ficheros",
     "Uploading files…" : "Xubiendo ficheros...",
     "Uploaded files:" : "Ficheros xubíos:",
-    "{actor} removed you from {file}" : "{actor} desanicióte de {file}",
     "This share is password-protected" : "Esta compartición tien contraseña protexida",
     "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
     "Password" : "Contraseña"

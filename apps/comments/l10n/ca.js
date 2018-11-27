@@ -26,10 +26,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Comentaris</strong> per arxius",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Has estat mencionat a \"{file}\" en un comentari d'un usuari que ja no existeix",
     "{user} mentioned you in a comment on “{file}”" : "{user} us ha nomenat en un comentari de “{file}”",
-    "Unknown user" : "Usuari desconegut",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Un usuari (ara) esborrat us ha nomenat en un comentari a “%s”",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Un usuari (ara) esborrat us ha nomenat en un comentari de “{file}”",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s us ha nomenat en un comentari a “%2$s”",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Has estat mencionat a \"%s\" en un comentari d'un usuari que ja no existeix"
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Has estat mencionat a \"%s\" en un comentari d'un usuari que ja no existeix",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s us ha nomenat en un comentari a “%2$s”"
 },
 "nplurals=2; plural=(n != 1);");

@@ -279,13 +279,13 @@ OC.L10N.register(
     "You can click here to return to %s." : "Poți da click aici pentru a te întoarce la %s.",
     "Stay logged in" : "Rămâi autentificat",
     "Alternative Logins" : "Conectări alternative",
+    "You are about to grant %s access to your %s account." : "Ești pe cale să permiți %s accesul la %s contul tău.",
     "Alternative login using app token" : "Conectare alternativă folosind token-ul aplicației",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Securitatea îmbunătățită este activată pentru contul tău. Autentifică-te utilizând un al doilea factor.",
+    "Depending on your configuration, this button could also work to trust the domain:" : "În funcție de configurație, acest buton poate fi folosit pentru a te încrede în domeniul:",
     "Add \"%s\" as trusted domain" : "Adaugă \"%s\" ca domeniu de încredere",
     "%s will be updated to version %s" : "%s va fi actualizat la versiunea %s",
     "This page will refresh itself when the %s instance is available again." : "Această pagină se va reîmprospăta atunci când %s instance e disponibil din nou.",
-    "Thank you for your patience." : "Îți mulțumim pentru răbdare.",
-    "You are about to grant %s access to your %s account." : "Ești pe cale să permiți %s accesul la %s contul tău.",
-    "Depending on your configuration, this button could also work to trust the domain:" : "În funcție de configurație, acest buton poate fi folosit pentru a te încrede în domeniul:"
+    "Thank you for your patience." : "Îți mulțumim pentru răbdare."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

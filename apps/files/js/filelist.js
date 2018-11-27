@@ -584,9 +584,33 @@
 			}
 
 			this._currentFileModel = model;
+
+			this._replaceDetailsViewElementIfNeeded();
+
 			this._detailsView.setFileInfo(model);
-			this._detailsView.render();
 			this._detailsView.$el.scrollTop(0);
+		},
+
+		/**
+		 * Replaces the current details view element with the details view
+		 * element of this file list.
+		 *
+		 * Each file list has its own DetailsView object, and each one has its
+		 * own root element, but there can be just one details view/sidebar
+		 * element in the document. This helper method replaces the current
+		 * details view/sidebar element in the document with the element from
+		 * the DetailsView object of this file list.
+		 */
+		_replaceDetailsViewElementIfNeeded: function() {
+			var $appSidebar = $('#app-sidebar');
+			if ($appSidebar.length === 0) {
+				this._detailsView.$el.insertAfter($('#app-content'));
+			} else if ($appSidebar[0] !== this._detailsView.el) {
+				// "replaceWith()" can not be used here, as it removes the old
+				// element instead of just detaching it.
+				this._detailsView.$el.insertBefore($appSidebar);
+				$appSidebar.detach();
+			}
 		},
 
 		/**
@@ -629,8 +653,13 @@
 		 */
 		_onShow: function(e) {
 			if (this.shown) {
-				this._setCurrentDir('/', false);
-				this.reload();
+				if (e.itemId === this.id) {
+					this._setCurrentDir('/', false);
+				}
+				// Only reload if we don't navigate to a different directory
+				if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
+					this.reload();
+				}
 			}
 			this.shown = true;
 		},
@@ -2284,7 +2313,55 @@
 					// not overwrite it
 					targetPath = targetPath + '/';
 				}
-				self.filesClient.copy(dir + fileName, targetPath + fileName)
+				var targetPathAndName = targetPath + fileName;
+				if ((dir + fileName) === targetPathAndName) {
+					var dotIndex = targetPathAndName.indexOf(".");
+					if ( dotIndex > 1) {
+						var leftPartOfName = targetPathAndName.substr(0, dotIndex);
+						var fileNumber = leftPartOfName.match(/\d+/);
+						// TRANSLATORS name that is appended to copied files with the same name, will be put in parenthesis and appened with a number if it is the second+ copy
+						var copyNameLocalized = t('files', 'copy');
+						if (isNaN(fileNumber) ) {
+							fileNumber++;
+							targetPathAndName = targetPathAndName.replace(/(?=\.[^.]+$)/g, " (" + copyNameLocalized + " " + fileNumber + ")");
+						}
+						else {
+							// Check if we have other files with 'copy X' and the same name
+							var maxNum = 1;
+							if (self.files !== null) {
+								leftPartOfName = leftPartOfName.replace("/", "");
+								leftPartOfName = leftPartOfName.replace(new RegExp("\\(" + copyNameLocalized + "( \\d+)?\\)"),"");
+								// find the last file with the number extension and add one to the new name
+								for (var j = 0; j < self.files.length; j++) {
+									var cName = self.files[j].name;
+									if (cName.indexOf(leftPartOfName) > -1) {
+										if (cName.indexOf("(" + copyNameLocalized + ")") > 0) {
+											targetPathAndName = targetPathAndName.replace(new RegExp(" \\(" + copyNameLocalized + "\\)"),"");
+											if (maxNum == 1) {
+												maxNum = 2;
+											}
+										}
+										else {
+											var cFileNumber = cName.match(new RegExp("\\(" + copyNameLocalized + " (\\d+)\\)"));
+											if (cFileNumber && parseInt(cFileNumber[1]) >= maxNum) {
+												maxNum = parseInt(cFileNumber[1]) + 1;
+											}
+										}
+									}
+								}
+								targetPathAndName = targetPathAndName.replace(new RegExp(" \\(" + copyNameLocalized + " \\d+\\)"),"");
+							}
+							// Create the new file name with _x at the end
+							// Start from 2 per a special request of the 'standard'
+							var extensionName = " (" + copyNameLocalized + " " + maxNum +")";
+							if (maxNum == 1) {
+								extensionName = " (" + copyNameLocalized + ")";
+							}
+							targetPathAndName = targetPathAndName.replace(/(?=\.[^.]+$)/g, extensionName);
+						}
+					}
+				}
+				self.filesClient.copy(dir + fileName, targetPathAndName)
 					.done(function () {
 						filesToNotify.push(fileName);
 
@@ -2298,6 +2375,7 @@
 							oldFile.data('size', newSize);
 							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
 						}
+						self.reload();
 					})
 					.fail(function(status) {
 						if (status === 412) {

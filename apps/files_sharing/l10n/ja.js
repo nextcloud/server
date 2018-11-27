@@ -127,9 +127,7 @@ OC.L10N.register(
     "Uploading files…" : "ファイルをアップロード中...",
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
-    "{actor} removed you from {file}" : "{actor} が {file} の共有を削除しました",
     "Sharing %s failed because the back end does not allow shares from type %s" : "%s の共有に失敗しました。バックエンド側で %s タイプの共有が許可されていません。",
-    "%s is publicly shared" : "%s が公開共有されました",
     "This share is password-protected" : "この共有はパスワードで保護されています",
     "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
     "Password" : "パスワード"

@@ -114,7 +114,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 
 			$hideDownloadCheckbox = view.$el.find('.hideDownloadCheckbox');
 
-			expect($hideDownloadCheckbox.length).toBeFalsy();
+			expect($hideDownloadCheckbox.length).toBeTruthy();
 		});
 
 		it('checkbox is checked when the setting is enabled', function () {
@@ -186,13 +186,11 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			});
 			view.render();
 
-			var $passwordDiv = view.$el.find('#linkPass');
 			$passwordText = view.$el.find('.linkPassText');
 			$workingIcon = view.$el.find('.linkPassMenu .icon-loading-small');
 
 			sinon.stub(shareModel, 'saveLinkShare');
 
-			expect($passwordDiv.hasClass('hidden')).toBeFalsy();
 			expect($passwordText.hasClass('hidden')).toBeFalsy();
 			expect($workingIcon.hasClass('hidden')).toBeTruthy();
 

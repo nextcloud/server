@@ -28,10 +28,7 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Boli ste spomenutý v \"{file}\", v komentári používateľom ktorý bol už vymazaný",
     "{user} mentioned you in a comment on “{file}”" : "{user} vás spomenul v komentári k “{file}”",
     "Files app plugin to add comments to files" : "Plugin súborovej aplikácie ktorý umožňuje pridávať komentáre k súborom",
-    "Unknown user" : "Neznámy používateľ",
-    "A (now) deleted user mentioned you in a comment on “%s”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"%s\"",
-    "A (now) deleted user mentioned you in a comment on “{file}”" : "Teraz už odstránený používateľ vás spomenul v komentári k \"{file}\"",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás spomenul v komentári k \"%2$s\"",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Boli ste spomenutý v \"%s\", v komentári používateľom ktorý bol už vymazaný"
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Boli ste spomenutý v \"%s\", v komentári používateľom ktorý bol už vymazaný",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás spomenul v komentári k \"%2$s\""
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

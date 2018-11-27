@@ -113,9 +113,6 @@
     "Internal Username Attribute:" : "內部使用者名稱屬性:",
     "Override UUID detection" : "偵測覆寫UUID",
     "UUID Attribute for Users:" : "使用者的UUID值:",
-    "UUID Attribute for Groups:" : "群組的UUID值:",
-    "1. Server" : "1. 伺服器",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> 應用程式user_ldap和user_webdavauth互不相容。可能會造成無法預期的結果。請要求您的系統管理員將兩者其中之一停用。"
+    "UUID Attribute for Groups:" : "群組的UUID值:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
