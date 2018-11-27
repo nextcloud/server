@@ -103,6 +103,7 @@ OC.L10N.register(
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
     "Cannot increase permissions" : "Get ekki aukið aðgangsheimildir",
     "shared by %s" : "Deilt af %s",
+    "Download all files" : "Sækja allar skrár",
     "Direct link" : "Beinn tengill",
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Share API is disabled" : "Deilingar-API er óvirkt",
