@@ -82,9 +82,7 @@ class EncryptionWrapper {
 			'mount' => $mount
 		];
 
-		if (!$storage->instanceOfStorage('OCA\Files_Sharing\SharedStorage')
-			&& !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')
-			&& !$storage->instanceOfStorage('OC\Files\Storage\OwnCloud')) {
+		if (!$storage->instanceOfStorage(Storage\IDisableEncryptionStorage::class)) {
 
 			$user = \OC::$server->getUserSession()->getUser();
 			$mountManager = Filesystem::getMountManager();
