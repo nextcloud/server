@@ -612,16 +612,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
-		$ipAddressRemote = $this->ipAddressFactory->getInstance($remoteAddress);
+		if ($this->ipAddressFactory !== null) {
+			$ipAddressRemote = $this->ipAddressFactory->getInstance($remoteAddress);
 
-		foreach ($trustedProxies as $tp) {
-			$ipAddressProxy = $this->ipAddressFactory->getInstance($tp);
-			if ($ipAddressProxy->containsAddress($ipAddressRemote)) {
-				return true;
+			foreach ($trustedProxies as $tp) {
+				$ipAddressProxy = $this->ipAddressFactory->getInstance($tp);
+				if ($ipAddressProxy->containsAddress($ipAddressRemote)) {
+					return true;
+				}
 			}
-		}
 
-		return false;
+			return false;
+		} else {
+			return \in_array($remoteAddress, $trustedProxies);
+		}
 	}
 
 	/**
