@@ -261,7 +261,7 @@ class SyncService {
 	/**
 	 * @param IUser $user
 	 */
-	public function updateUser($user) {
+	public function updateUser(IUser $user) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
 		$converter = new Converter($this->accountManager);
