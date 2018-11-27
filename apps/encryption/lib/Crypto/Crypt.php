@@ -563,11 +563,13 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function hasSignature($catFile, $cipher) {
+		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
+
 		$meta = substr($catFile, -93);
 		$signaturePosition = strpos($meta, '00sig00');
 
 		// enforce signature for the new 'CTR' ciphers
-		if ($signaturePosition === false && stripos($cipher, 'ctr') !== false) {
+		if (!$skipSignatureCheck && $signaturePosition === false && stripos($cipher, 'ctr') !== false) {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
 
