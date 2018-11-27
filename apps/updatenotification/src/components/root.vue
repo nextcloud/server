@@ -251,34 +251,21 @@
 			clickUpdaterButton: function() {
 				$.ajax({
 					url: OC.generateUrl('/apps/updatenotification/credentials')
-				}).success(function(data) {
-					$.ajax({
-						url: OC.getRootPath()+'/updater/',
-						headers: {
-							'X-Updater-Auth': data
-						},
-						method: 'POST',
-						success: function(data){
-							if(data !== 'false') {
-								var body = $('body');
-								$('head').remove();
-								body.html(data);
+				}).success(function(token) {
+					// create a form to send a proper post request to the updater
+					var form = document.createElement('form');
+					form.setAttribute('method', 'post');
+					form.setAttribute('action', OC.getRootPath() + '/updater/');
 
-								// Eval the script elements in the response
-								var dom = $(data);
-								dom.filter('script').each(function() {
-									eval(this.text || this.textContent || this.innerHTML || '');
-								});
+					var hiddenField = document.createElement('input');
+					hiddenField.setAttribute('type', 'hidden');
+					hiddenField.setAttribute('name', 'updater-secret-input');
+					hiddenField.setAttribute('value', token);
 
-								body.removeAttr('id');
-								body.attr('id', 'body-settings');
-							}
-						},
-						error: function() {
-							OC.Notification.showTemporary(t('updatenotification', 'Could not start updater, please try the manual update'));
-							this.updaterEnabled = false;
-						}.bind(this)
-					});
+					form.appendChild(hiddenField);
+
+					document.body.appendChild(form);
+					form.submit();
 				}.bind(this));
 			},
 			changeReleaseChannel: function() {
