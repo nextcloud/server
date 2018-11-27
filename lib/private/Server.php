@@ -827,7 +827,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->getSecureRandom(),
 				$this->getConfig(),
 				$this->getCsrfTokenManager(),
-				$stream
+				$stream,
+				$this->getIpAddressFactory()
 			);
 		});
 		$this->registerAlias('Request', \OCP\IRequest::class);
@@ -1015,7 +1016,10 @@ class Server extends ServerContainer implements IServerContainer {
 						: null,
 				],
 				$c->getSecureRandom(),
-				$c->getConfig()
+				$c->getConfig(),
+				null,
+				'php://input',
+				$c->getIpAddressFactory()
 			);
 
 			return new CryptoWrapper(

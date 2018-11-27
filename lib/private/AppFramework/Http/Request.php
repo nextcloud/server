@@ -44,6 +44,7 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Net\IIpAddressFactory;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
@@ -112,6 +113,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected $crypto;
 	/** @var CsrfTokenManager|null */
 	protected $csrfTokenManager;
+	/** @var IIpAddressFactory */
+	protected $ipAddressFactory;
 
 	/** @var bool */
 	protected $contentDecoded = false;
@@ -137,12 +140,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 								ISecureRandom $secureRandom = null,
 								IConfig $config,
 								CsrfTokenManager $csrfTokenManager = null,
-								string $stream = 'php://input') {
+								string $stream = 'php://input',
+								IIpAddressFactory $ipAddressFactory = null) {
 		$this->inputStream = $stream;
 		$this->items['params'] = [];
 		$this->secureRandom = $secureRandom;
 		$this->config = $config;
 		$this->csrfTokenManager = $csrfTokenManager;
+		$this->ipAddressFactory = $ipAddressFactory;
 
 		if(!array_key_exists('method', $vars)) {
 			$vars['method'] = 'GET';
@@ -607,12 +612,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
-		$ipAddressFactory = \OC::$server->getIpAddressFactory();
-
-		$ipAddressRemote = $ipAddressFactory->getInstance($remoteAddress);
+		$ipAddressRemote = $this->ipAddressFactory->getInstance($remoteAddress);
 
 		foreach ($trustedProxies as $tp) {
-			$ipAddressProxy = $ipAddressFactory->getInstance($tp);
+			$ipAddressProxy = $this->ipAddressFactory->getInstance($tp);
 			if ($ipAddressProxy->containsAddress($ipAddressRemote)) {
 				return true;
 			}

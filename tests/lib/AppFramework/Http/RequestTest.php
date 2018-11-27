@@ -13,6 +13,7 @@
 namespace Test\AppFramework\Http;
 
 use OC\AppFramework\Http\Request;
+use OC\Net\IpAddressFactory;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\Security\ISecureRandom;
@@ -45,6 +46,7 @@ class RequestTest extends \Test\TestCase {
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->csrfTokenManager = $this->getMockBuilder('\OC\Security\CSRF\CsrfTokenManager')
 			->disableOriginalConstructor()->getMock();
+		$this->ipAddressFactory = new IpAddressFactory();
 	}
 
 	protected function tearDown() {
@@ -63,7 +65,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		// Countable
@@ -96,7 +99,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame(3, count($request));
@@ -119,7 +123,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$request['nickname'] = 'Janey';
@@ -139,7 +144,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$request->{'nickname'} = 'Janey';
@@ -159,7 +165,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$request->post;
@@ -176,7 +183,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('GET', $request->method);
@@ -198,7 +206,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('POST', $request->method);
@@ -222,7 +231,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertEquals('POST', $request->method);
@@ -244,7 +254,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('PATCH', $request->method);
@@ -269,7 +280,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('PUT', $request->method);
@@ -290,7 +302,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('PATCH', $request->method);
@@ -318,7 +331,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('PUT', $request->method);
@@ -348,7 +362,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$newParams = array('id' => '3', 'test' => 'test2');
@@ -370,7 +385,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('GeneratedUniqueIdByModUnique', $request->getId());
@@ -387,7 +403,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('GeneratedByOwnCloudItself', $request->getId());
@@ -399,7 +416,8 @@ class RequestTest extends \Test\TestCase {
 			\OC::$server->getSecureRandom(),
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 		$firstId = $request->getId();
 		$secondId = $request->getId();
@@ -424,7 +442,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('10.0.0.2', $request->getRemoteAddress());
@@ -453,7 +472,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('10.0.0.2', $request->getRemoteAddress());
@@ -482,7 +502,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
@@ -511,7 +532,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
@@ -544,7 +566,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
@@ -577,7 +600,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
@@ -606,7 +630,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
@@ -635,7 +660,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
@@ -659,7 +685,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('192.168.3.99', $request->getRemoteAddress());
@@ -683,7 +710,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('2001:db8:85a3:8d3:1319:8a22:370:7348', $request->getRemoteAddress());
@@ -734,7 +762,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame($expected, $request->getHttpProtocol());
@@ -762,7 +791,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('customProtocol', $request->getServerProtocol());
@@ -784,7 +814,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 		$requestHttp = new Request(
 			[
@@ -795,7 +826,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 
@@ -819,7 +851,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 		$this->assertSame('https', $request->getServerProtocol());
 	}
@@ -840,7 +873,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 		$this->assertSame('http', $request->getServerProtocol());
 	}
@@ -861,7 +895,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 		$this->assertSame('http', $request->getServerProtocol());
 	}
@@ -878,7 +913,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 		$this->assertSame('http', $request->getServerProtocol());
 	}
@@ -899,7 +935,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('https', $request->getServerProtocol());
@@ -921,7 +958,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame($matches, $request->isUserAgent($userAgent));
@@ -939,7 +977,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertFalse($request->isUserAgent($userAgent));
@@ -1056,7 +1095,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('from.server.name:8080',  $request->getInsecureServerHost());
@@ -1073,7 +1113,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('from.host.header:8080',  $request->getInsecureServerHost());
@@ -1091,7 +1132,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('from.forwarded.host:8080',  $request->getInsecureServerHost());
@@ -1109,7 +1151,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('from.forwarded.host2:8080',  $request->getInsecureServerHost());
@@ -1137,7 +1180,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('my.overwritten.host',  $request->getServerHost());
@@ -1159,7 +1203,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('my.trusted.host',  $request->getServerHost());
@@ -1186,7 +1231,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('my.trusted.host',  $request->getServerHost());
@@ -1213,7 +1259,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('',  $request->getServerHost());
@@ -1230,7 +1277,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertNull(self::invokePrivate($request, 'getOverwriteHost'));
@@ -1258,7 +1306,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('www.owncloud.org', self::invokePrivate($request, 'getOverwriteHost'));
@@ -1279,7 +1328,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$request->getPathInfo();
@@ -1300,7 +1350,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$request->getRawPathInfo();
@@ -1323,7 +1374,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame($expected, $request->getPathInfo());
@@ -1346,7 +1398,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame($expected, $request->getRawPathInfo());
@@ -1369,7 +1422,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame($expected, $request->getRawPathInfo());
@@ -1392,7 +1446,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame($expected, $request->getPathInfo());
@@ -1447,7 +1502,8 @@ class RequestTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->config,
 			$this->csrfTokenManager,
-			$this->stream
+			$this->stream,
+			$this->ipAddressFactory
 		);
 
 		$this->assertSame('/test.php', $request->getRequestUri());
