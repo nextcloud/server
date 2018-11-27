@@ -11,6 +11,7 @@
 
 				<p>
 					<span v-html="newVersionAvailableString"></span><br>
+					<span v-if="changelogURL"><a :href="changelogURL" target="_blank" rel="noreferrer noopener">{{ t('updatenotification', 'Open changelog') }} ↗</a><br></span>
 					<span v-if="!isListFetched" class="icon icon-loading-small"></span>
 					<span v-html="statusText"></span>
 				</p>
