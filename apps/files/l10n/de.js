@@ -5,7 +5,7 @@ OC.L10N.register(
     "Storage invalid" : "Speicher ungültig",
     "Unknown error" : "Unbekannter Fehler",
     "All files" : "Alle Dateien",
-    "Recent" : "Aktuelle",
+    "Recent" : "Neueste",
     "Favorites" : "Favoriten",
     "File could not be found" : "Datei konnte nicht gefunden werden",
     "Move or copy" : "Verschieben oder kopieren",

@@ -83,8 +83,12 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	 * @Then /^I see that there are no comments$/
 	 */
 	public function iSeeThatThereAreNoComments() {
-		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::emptyContent(), 10)->isVisible());
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::emptyContent(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The no comments message is not visible yet after $timeout seconds");
+		}
 	}
 
 	/**
