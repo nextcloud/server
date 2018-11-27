@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Þessi mappa er ekki tiltæk, athugaðu atvikaskrár eða hafðu samband við kerfissjóra",
     "Could not move \"{file}\", target exists" : "Gat ekki fært \"{file}\", markskrá er til",
     "Could not move \"{file}\"" : "Gat ekki fært \"{file}\"",
+    "copy" : "afrit",
     "Could not copy \"{file}\", target exists" : "Gat ekki afritað \"{file}\", markskrá er til",
     "Could not copy \"{file}\"" : "Gat ekki afritað \"{file}\"",
     "Copied {origin} inside {destination}" : "Afritaði {origin} inn í {destination}",
