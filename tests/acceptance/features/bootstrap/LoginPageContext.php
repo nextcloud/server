@@ -132,6 +132,15 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Given I am logged in as :userName
+	 */
+	public function iAmLoggedInAs($userName) {
+		$this->featureContext->iVisitTheHomePage();
+		$this->iLogInWithUserAndPassword($userName, "123456acb");
+		$this->filesAppContext->iSeeThatTheCurrentPageIsTheFilesApp();
+	}
+
+	/**
 	 * @Given I am logged in as the admin
 	 */
 	public function iAmLoggedInAsTheAdmin() {
