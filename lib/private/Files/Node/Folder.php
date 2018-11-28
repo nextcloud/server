@@ -313,7 +313,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$internalPath = ltrim($cachedMountInfo->getRootInternalPath() . '/' . $cacheEntry->getPath(), '/');
 			$pathRelativeToMount = substr($internalPath, strlen($cachedMountInfo->getRootInternalPath()));
 			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
-			$absolutePath = $cachedMountInfo->getMountPoint() . $pathRelativeToMount;
+			$absolutePath = rtrim($cachedMountInfo->getMountPoint() . $pathRelativeToMount, '/');
 			return $this->root->createNode($absolutePath, new \OC\Files\FileInfo(
 				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
 				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
