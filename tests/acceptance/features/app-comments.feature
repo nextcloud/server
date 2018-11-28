@@ -30,3 +30,189 @@ Feature: app-comments
     When I create a new comment with "Comment in welcome.txt" as message
     Then I see a comment with "Comment in welcome.txt" as message
     And I see that there is no comment with "Comment in Folder" as message
+
+
+
+  Scenario: read a comment written by the sharer
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I rename "welcome.txt" to "shared.txt"
+    And I share "shared.txt" with "user0"
+    And I see that the file is shared with "user0"
+    # The details view should already be open
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    When I act as Jane
+    # The Files app is open again to reload the file list and the comments
+    And I open the Files app
+    And I open the details view for "shared.txt"
+    And I open the "Comments" tab in the details view
+    Then I see a comment with "Hello world" as message
+
+  Scenario: read a comment written by the sharee
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I rename "welcome.txt" to "shared.txt"
+    And I share "shared.txt" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I open the details view for "shared.txt"
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    When I act as John
+    # The Files app is open again to reload the file list and the comments
+    And I open the Files app
+    And I open the details view for "shared.txt"
+    And I open the "Comments" tab in the details view
+    Then I see a comment with "Hello world" as message
+
+
+
+  Scenario: unread comment icon shown for comment written by the sharer in a shared file
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I rename "welcome.txt" to "shared.txt"
+    And I share "shared.txt" with "user0"
+    And I see that the file is shared with "user0"
+    # The details view should already be open
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    When I act as Jane
+    # The Files app is open again to reload the file list and the comments
+    And I open the Files app
+    Then I see that "shared.txt" has unread comments
+    And I open the unread comments for "shared.txt"
+    And I see that the details view is open
+    And I see a comment with "Hello world" as message
+
+  Scenario: unread comment icon shown for comment written by the sharee in a shared file
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I rename "welcome.txt" to "shared.txt"
+    And I share "shared.txt" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I open the details view for "shared.txt"
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    When I act as John
+    # The Files app is open again to reload the file list and the comments
+    And I open the Files app
+    Then I see that "shared.txt" has unread comments
+    And I open the unread comments for "shared.txt"
+    And I see that the details view is open
+    And I see a comment with "Hello world" as message
+
+  Scenario: unread comment icon shown for comment written by the sharer in a shared folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Folder"
+    And I share "Folder" with "user0"
+    And I see that the file is shared with "user0"
+    # The details view should already be open
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    When I act as Jane
+    # The Files app is open again to reload the file list and the comments
+    And I open the Files app
+    Then I see that "Folder" has unread comments
+    And I open the unread comments for "Folder"
+    And I see that the details view is open
+    And I see a comment with "Hello world" as message
+
+  Scenario: unread comment icon shown for comment written by the sharee in a shared folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Folder"
+    And I share "Folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I open the details view for "Folder"
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    When I act as John
+    # The Files app is open again to reload the file list and the comments
+    And I open the Files app
+    Then I see that "Folder" has unread comments
+    And I open the unread comments for "Folder"
+    And I see that the details view is open
+    And I see a comment with "Hello world" as message
+
+  Scenario: unread comment icon shown for comment written by the sharer in a child folder of a shared folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Folder"
+    And I share "Folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I enter in the folder named "Folder"
+    And I create a new folder named "Child folder"
+    # The details view should already be open
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    When I act as Jane
+    # The Files app is open again to reload the file list and the comments
+    And I open the Files app
+    And I enter in the folder named "Folder"
+    Then I see that "Child folder" has unread comments
+    And I open the unread comments for "Child folder"
+    And I see that the details view is open
+    And I see a comment with "Hello world" as message
+
+  Scenario: unread comment icon shown for comment written by the sharee in a child folder of a shared folder
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I create a new folder named "Folder"
+    And I share "Folder" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I enter in the folder named "Folder"
+    And I create a new folder named "Child folder"
+    # The details view should already be open
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    When I act as John
+    And I enter in the folder named "Folder"
+    Then I see that "Child folder" has unread comments
+    And I open the unread comments for "Child folder"
+    And I see that the details view is open
+    And I see a comment with "Hello world" as message
