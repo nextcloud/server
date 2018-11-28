@@ -719,3 +719,18 @@ nav[role='navigation'] {
 		}
 	}
 }
+
+/* Empty content messages in the header e.g. notifications, contacts menu, … */
+header #emptycontent,
+header .emptycontent {
+	h2 {
+		font-weight: normal;
+		font-size: 16px;
+	}
+	[class^='icon-'],
+	[class*='icon-'] {
+		background-size: 48px;
+		height: 48px;
+		width: 48px;
+	}
+}
