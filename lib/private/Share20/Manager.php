@@ -780,7 +780,7 @@ class Manager implements IManager {
 				return false;
 			}
 		} catch (\Exception $e) {
-			$this->logger->error('Share notification mail could not be send: ' . $e->getMessage());
+			$this->logger->logException($e, ['message' => 'Share notification mail could not be send']);
 			return false;
 		}
 
