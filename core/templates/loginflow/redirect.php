@@ -29,11 +29,3 @@ $urlGenerator = $_['urlGenerator'];
 <div class="picker-window">
 	<p><?php p($l->t('Redirecting …')) ?></p>
 </div>
-
-<form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">
-	<input type="hidden" name="clientIdentifier" value="<?php p($_['clientIdentifier']) ?>" />
-	<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
-	<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
-	<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />
-	<input id="submit-redirect-form" type="submit" class="hidden "/>
-</form>
