@@ -36,8 +36,8 @@
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> est la version stable la plus récente. Elle est adapté pour une utilisation régulière et sera toujours mise à jour vers la dernière version majeure.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> est une version préliminaire utilisée seulement pour tester les nouvelles fonctionnalités, n'est pas adaptée dans un environnement de production.",
     "View changelog" : "Voir le journal des modifications",
-    "Could not start updater, please try the manual update" : "Impossible de démarrer le système de mise à jour, veuillez essayer de mettre à jour manuellement",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  application n'a pas de mise à jour disponible pour cette version","<strong>%n</strong> applications n'ont pas de mise à jour disponible pour cette version"],
+    "Could not start updater, please try the manual update" : "Impossible de démarrer le système de mise à jour, veuillez essayer de mettre à jour manuellement",
     "A new version is available: %s" : "Une nouvelle version est disponible : %s",
     "Checked on %s" : "Vérifié le %s"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
