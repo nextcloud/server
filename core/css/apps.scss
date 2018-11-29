@@ -171,16 +171,12 @@ kbd {
 				top: 22px;
 			}
 
-			/* hide and animate deletion/collapse of subitems */
+			/* hide deletion/collapse of subitems */
 			&.deleted,
 			&.collapsible:not(.open) {
 				> ul {
-					opacity: 0;
-					max-height: 0;
-					overflow-y: hidden;
-					/* bezier override the hide/slow effect due to the 2000 max-height */
-					transition: max-height 1000ms cubic-bezier(0, 1, 0, 1),
-								opacity 250ms ease-in-out;
+					// NO ANIMATE because if not really hidden, we can still tab through it
+					display: none;
 				}
 			}
 
@@ -205,10 +201,6 @@ kbd {
 			> ul {
 				flex: 0 1 auto;
 				width: 100%;
-				transition: max-height 2000ms ease-in-out,
-							opacity 250ms ease-in-out;
-				max-height: 9999px;
-				opacity: 1;
 				position: relative;
 				> li {
 					display: inline-flex;
@@ -387,22 +379,14 @@ kbd {
 			-webkit-transform: rotate(-90deg);
 			-ms-transform: rotate(-90deg);
 			transform: rotate(-90deg);
-			z-index: 50;
+			z-index: 105; // above a, under button
+			background-color: var(--color-main-background);
+			transition: opacity $animation-quick ease-in-out;
 		}
 
 		/* force padding on link no matter if 'a' has an icon class */
 		> a:first-child {
 			padding-left: 44px;
-		}
-		&:before,
-		> a {
-			transition: background-position 100ms ease-in-out,
-						transform 250ms ease-in-out,
-						opacity 100ms ease-in-out;
-		}
-		&:hover > a,
-		&:focus > a {
-			background-position-x: -50px;
 		}
 		&:hover,
 		&:focus {
