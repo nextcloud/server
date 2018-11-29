@@ -88,6 +88,37 @@
 		},
 
 		/**
+		 * Check whether the WOFF2 URLs works.
+		 *
+		 * @param url the URL to test
+		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
+		 * @return $.Deferred object resolved with an array of error messages
+		 */
+		checkWOFF2Loading: function(url, placeholderUrl) {
+			var deferred = $.Deferred();
+
+			var afterCall = function(xhr) {
+				var messages = [];
+				if (xhr.status !== 200) {
+					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-nginx');
+					messages.push({
+						msg: t('core', 'Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
+						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+					});
+				}
+				deferred.resolve(messages);
+			};
+
+			$.ajax({
+				type: 'GET',
+				url: url,
+				complete: afterCall,
+				allowAuthErrors: true
+			});
+			return deferred.promise();
+		},
+
+		/**
 		 * Runs setup checks on the server side
 		 *
 		 * @return $.Deferred object resolved with an array of error messages
