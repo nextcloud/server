@@ -63,6 +63,7 @@ class Capabilities implements ICapability {
 				$public['password']['enforced'] = ($this->config->getAppValue('core', 'shareapi_enforce_links_password', 'no') === 'yes');
 
 				$public['expire_date'] = [];
+				$public['multiple_links'] = true;
 				$public['expire_date']['enabled'] = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
 				if ($public['expire_date']['enabled']) {
 					$public['expire_date']['days'] = $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
