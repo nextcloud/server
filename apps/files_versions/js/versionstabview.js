@@ -150,11 +150,18 @@
 		_formatItem: function(version) {
 			var timestamp = version.get('timestamp') * 1000;
 			var size = version.has('size') ? version.get('size') : 0;
+			var preview = OC.MimeType.getIconUrl(version.get('mimetype'));
+			var img = new Image();
+			img.onload = function () {
+				$('li[data-revision=' + version.get('timestamp') + '] .preview').attr('src', version.getPreviewUrl());
+			};
+			img.src = version.getPreviewUrl();
 
 			return _.extend({
 				versionId: version.get('id'),
 				formattedTimestamp: OC.Util.formatDate(timestamp),
 				relativeTimestamp: OC.Util.relativeModifiedDate(timestamp),
+				millisecondsTimestamp: timestamp,
 				humanReadableSize: OC.Util.humanFileSize(size, true),
 				altSize: n('files', '%n byte', '%n bytes', size),
 				hasDetails: version.has('size'),
@@ -162,7 +169,7 @@
 				downloadIconUrl: OC.imagePath('core', 'actions/download'),
 				downloadName: version.get('name'),
 				revertIconUrl: OC.imagePath('core', 'actions/history'),
-				previewUrl: version.getPreviewUrl(),
+				previewUrl: preview,
 				revertLabel: t('files_versions', 'Restore'),
 				canRevert: (this.collection.getFileInfo().get('permissions') & OC.PERMISSION_UPDATE) !== 0
 			}, version.attributes);
