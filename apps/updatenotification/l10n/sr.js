@@ -38,8 +38,8 @@ OC.L10N.register(
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>стабилна</strong> је најновија стабилна верзија. Прикладна за свакодневну употребу и увек се ажурира на најновију главну верзију.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>бета</strong> је пред-издање и служи само за тестирање нових могућности, не за свакодневни рад.",
     "View changelog" : "Погледајте дневник измена",
-    "Could not start updater, please try the manual update" : "Не могу да покренем програм за ажурирање, покушајте ручно ажурирање",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> апликација имају доступна ажурирања за ову верзију","<strong>%n</strong> апликације имају доступна ажурирања за ову верзију","<strong>%n</strong> апликација имају доступна ажурирања за ову верзију"],
+    "Could not start updater, please try the manual update" : "Не могу да покренем програм за ажурирање, покушајте ручно ажурирање",
     "A new version is available: %s" : "Доступна је нова верзија: %s",
     "Checked on %s" : "Проверено %s"
 },

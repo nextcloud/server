@@ -35,8 +35,8 @@
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>稳定版</strong>是最近的稳定版本。适合正常使用，并总是会更新到最新的主版本。",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong>版本只是用于新功能测试的预发布版，请勿用于生产环境。",
     "View changelog" : "查看更新记录",
-    "Could not start updater, please try the manual update" : "无法启动自动更新，请尝试手动更新",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>应用没有适用这个版本的更新"],
+    "Could not start updater, please try the manual update" : "无法启动自动更新，请尝试手动更新",
     "A new version is available: %s" : "有可用的新版本： %s",
     "Checked on %s" : "检查于 %s"
 },"pluralForm" :"nplurals=1; plural=0;"

@@ -36,8 +36,8 @@
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>Kararlı</strong> son kararlı sürümü sağlar. Normal kullanımına uygundur ve her zaman son büyük sürüme günceller.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Beta</strong> yeni özelliklerin denenebileceği yayım öncesi sürümüdür. Üretim ortamlarında kullanılması önerilmez.",
     "View changelog" : "Değişiklik günlüğünü görüntüle",
-    "Could not start updater, please try the manual update" : "Güncelleyici başlatılamadı lütfen el ile güncellemeyi deneyin",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"],
+    "Could not start updater, please try the manual update" : "Güncelleyici başlatılamadı lütfen el ile güncellemeyi deneyin",
     "A new version is available: %s" : "Yeni bir sürüm yayınlanmış: %s",
     "Checked on %s" : "Son denetim: %s"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

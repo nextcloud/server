@@ -38,8 +38,8 @@ OC.L10N.register(
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stabile</strong> è la versione stabile più recente. È appropriata per l'utilizzo di tutti i giorni e sarà sempre aggiornata all'ultima versione principale.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> è una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione.",
     "View changelog" : "Visualizza le novità",
-    "Could not start updater, please try the manual update" : "Impossibile avviare lo strumento di aggiornamento, prova l'aggiornamento manuale",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> applicazione non ha un aggiornamento disponibile per questa versione","<strong>%n</strong> applicazioni non hanno un aggiornamento disponibile per questa versione"],
+    "Could not start updater, please try the manual update" : "Impossibile avviare lo strumento di aggiornamento, prova l'aggiornamento manuale",
     "A new version is available: %s" : "Una nuova versione è disponibile: %s",
     "Checked on %s" : "Controllato il %s"
 },
