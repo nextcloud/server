@@ -95,6 +95,11 @@ class MailTest extends TestCase {
 			->method('getSystemValue')
 			->with('mail_smtppassword', '')
 			->willReturn('mypassword');
+		$this->config
+			->expects($this->at(10))
+			->method('getSystemValue')
+			->with('mail_sendmailmode', 'smtp')
+			->willReturn('smtp');
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -111,6 +116,7 @@ class MailTest extends TestCase {
 				'mail_smtpauth'         => true,
 				'mail_smtpname'         => 'smtp.sender.com',
 				'mail_smtppassword'     => '********',
+				'mail_sendmailmode'		=> 'smtp',
 			],
 			''
 		);

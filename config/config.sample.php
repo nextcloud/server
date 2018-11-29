@@ -422,6 +422,19 @@ $CONFIG = array(
 'mail_send_plaintext_only' => false,
 
 /**
+ * Which mode is used for sendmail/qmail: ``smtp`` or ``pipe``.
+ *
+ * For ``smtp`` the sendmail binary is started with the parameter ``-bs``:
+ *   - Use the SMTP protocol on standard input and output.
+ *
+ * For ``pipe`` the binary is started with the parameters ``-t``:
+ *   - Read message from STDIN and extract recipients.
+ *
+ * Defaults to ``smtp``
+ */
+'mail_sendmailmode' => 'smtp',
+
+/**
  * Proxy Configurations
  */
 
