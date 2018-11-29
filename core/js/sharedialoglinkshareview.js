@@ -832,6 +832,7 @@
 				newShareTitle: t('core', 'New share link'),
 				copyLabel: t('core', 'Copy link'),
 				showPending: this.showPending === share.id,
+				linkShareCreationDate: t('core', 'Created on {time}', { time: moment(share.stime * 1000).format('LLLL') })
 			})
 		},
 
