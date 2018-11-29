@@ -36,8 +36,8 @@
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stöðug</strong> er nýjasta stöðuga útgáfan. Hún hentar fyrir alla venjulega notkun og er alltaf uppfærð í nýjustu aðalútgáfu.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> er for-útgáfa sem einungis er hugsuð til að prófa nýja eiginleika, og er alls ekki ætluð fyrir alvöru vinnslu.",
     "View changelog" : "Skoða breytingaannál",
-    "Could not start updater, please try the manual update" : "Gat ekki ræst uppfærslustýringu, prófaðu að uppfæra handvirkt",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> forrit eru með uppfærslu tiltæka fyrir þessa útgáfu","<strong>%n</strong> forrit eru með uppfærslu tiltæka fyrir þessa útgáfu"],
+    "Could not start updater, please try the manual update" : "Gat ekki ræst uppfærslustýringu, prófaðu að uppfæra handvirkt",
     "A new version is available: %s" : "Ný útgáfa er tiltæk: %s",
     "Checked on %s" : "Athugað þann %s"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"

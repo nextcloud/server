@@ -35,8 +35,8 @@ OC.L10N.register(
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments.",
     "View changelog" : "View changelog",
-    "Could not start updater, please try the manual update" : "Could not start updater, please try the manual update",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app has no update for this version available","<strong>%n</strong> apps have no update for this version available"],
+    "Could not start updater, please try the manual update" : "Could not start updater, please try the manual update",
     "A new version is available: %s" : "A new version is available: %s",
     "Checked on %s" : "Checked on %s"
 },

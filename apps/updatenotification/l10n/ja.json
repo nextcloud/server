@@ -29,8 +29,8 @@
     "Checking apps for compatible updates" : "互換性のあるアップデートの有無を確認する",
     "<strong>All</strong> apps have an update for this version available" : "<strong>すべての</strong> アプリにこのバージョンのアップデートがあります",
     "View changelog" : "変更履歴を確認する",
-    "Could not start updater, please try the manual update" : "アップデータを起動できませんでした。手動アップデートをお試しください",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> アプリにこのバージョンのアップデートがありません"],
+    "Could not start updater, please try the manual update" : "アップデータを起動できませんでした。手動アップデートをお試しください",
     "A new version is available: %s" : "新しいバージョンが利用可能: %s",
     "Checked on %s" : "%s に確認"
 },"pluralForm" :"nplurals=1; plural=0;"

@@ -35,8 +35,8 @@ OC.L10N.register(
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>стабильная</strong> - самая последняя стабильная версия. Она подходит для регулярного использования и всегда будет обновляться до последней крупной версии.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> это пред-релизная версия только для тестирования новых возможностей, не для промышленной эксплуатации.",
     "View changelog" : "Смотреть изменения",
-    "Could not start updater, please try the manual update" : "Не удалось обновить. Выполните обновление вручную.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> приложение не имеет доступного обновления для этой версии","<strong>%n</strong> приложений не имеют доступные обновления для этой версии","<strong>%n</strong> приложений не имеют доступные обновления для этой версии","<strong>%n</strong> приложений не имеют доступные обновления для этой версии"],
+    "Could not start updater, please try the manual update" : "Не удалось обновить. Выполните обновление вручную.",
     "A new version is available: %s" : "Доступна новая версия: %s",
     "Checked on %s" : "Проверено %s"
 },
