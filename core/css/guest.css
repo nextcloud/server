@@ -162,9 +162,9 @@ form #datadirField legend {
 							 applied to the button instead. */
 }
 
-#submit-wrapper:hover .submit-icon.icon-confirm-white,
-#submit-wrapper:focus .submit-icon.icon-confirm-white,
-#submit-wrapper:active .submit-icon.icon-confirm-white {
+#submit-wrapper input.login:hover ~ .submit-icon.icon-confirm-white,
+#submit-wrapper input.login:focus ~ .submit-icon.icon-confirm-white,
+#submit-wrapper input.login:active ~ .submit-icon.icon-confirm-white {
 	right: 20px;
 }
 
@@ -181,7 +181,7 @@ form #datadirField legend {
 #submit-wrapper .icon-loading-small {
 	position: absolute;
 	top: 22px;
-	right: 24px;
+	right: 26px;
 }
 
 
