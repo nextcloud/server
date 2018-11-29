@@ -227,6 +227,7 @@ return array(
     'OCP\\Files\\StorageInvalidException' => $baseDir . '/lib/public/Files/StorageInvalidException.php',
     'OCP\\Files\\StorageNotAvailableException' => $baseDir . '/lib/public/Files/StorageNotAvailableException.php',
     'OCP\\Files\\StorageTimeoutException' => $baseDir . '/lib/public/Files/StorageTimeoutException.php',
+    'OCP\\Files\\Storage\\IDisableEncryptionStorage' => $baseDir . '/lib/public/Files/Storage/IDisableEncryptionStorage.php',
     'OCP\\Files\\Storage\\ILockingStorage' => $baseDir . '/lib/public/Files/Storage/ILockingStorage.php',
     'OCP\\Files\\Storage\\INotifyStorage' => $baseDir . '/lib/public/Files/Storage/INotifyStorage.php',
     'OCP\\Files\\Storage\\IStorage' => $baseDir . '/lib/public/Files/Storage/IStorage.php',
