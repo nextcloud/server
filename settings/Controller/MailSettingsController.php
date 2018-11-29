@@ -91,7 +91,8 @@ class MailSettingsController extends Controller {
 									$mail_smtphost,
 									$mail_smtpauthtype,
 									$mail_smtpauth,
-									$mail_smtpport) {
+									$mail_smtpport,
+									$mail_sendmailmode) {
 
 		$params = get_defined_vars();
 		$configs = [];
