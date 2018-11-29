@@ -40,17 +40,17 @@
     "%s (invisible)" : "%s (invisíbel)",
     "<strong>System tags</strong> for a file have been modified" : "Modificáronse as <strong>etiquetas de sistemas</strong> dun ficheio",
     "Collaborative tags" : "Etiquetas colaborativas",
-    "Create and edit collaborative tags. These tags affect all users." : "Crea e edita etiquetas colaborativas. Estas etiquetas afectan a todos os usuarios.",
     "Select tag …" : "Seleccionar a etiqueta …",
     "Name" : "Nome",
-    "Delete" : "Eliminar",
     "Public" : "Pública",
     "Restricted" : "Restrinxida",
     "Invisible" : "Invisíbel",
+    "Delete" : "Eliminar",
     "Reset" : "Restabelecer",
     "No files in here" : "Aquí non hai ficheiros",
     "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
     "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "Modified" : "Modificado",
+    "Create and edit collaborative tags. These tags affect all users." : "Crea e edita etiquetas colaborativas. Estas etiquetas afectan a todos os usuarios."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
