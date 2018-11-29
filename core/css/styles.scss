@@ -767,12 +767,10 @@ code {
 		background-color: var(--color-main-background);
 		width: 100%;
 	}
-	#filestable.filelist {
+	#picker-filestable.filelist {
 		/* prevent the filepicker to overflow */
 		min-width: initial;
 		margin-bottom: 50px;
-	}
-	.filelist {
 		thead {
 			tr {
 				border-bottom: 1px solid var(--color-border);
@@ -872,6 +870,7 @@ code {
 							background-position: center top;
 							background-size: contain;
 							line-height: $name-height;
+							max-width: none;
 						}
 						&.filesize {
 							line-height: $name-height / 3;

@@ -286,7 +286,7 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function getGridView() {
-		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '1') === '1';
+		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '0') === '1';
 		return new JSONResponse(['gridview' => $status]);
 	}
 
