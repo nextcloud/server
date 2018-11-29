@@ -1,3 +1,8 @@
+---
+name: Bug report
+about: Help us improving by reporting a bug
+---
+
 <!--
 Thanks for reporting issues back to Nextcloud! This is the issue tracker of Nextcloud, if you have any support question please check out https://nextcloud.com/support
 
@@ -11,7 +16,8 @@ You can also use the Issue Template application to prefill most of the required 
 If you are a customer, please submit your issue directly in the Nextcloud Portal https://portal.nextcloud.com so it gets resolved more quickly by our dedicated engineers.
 
 Note that Nextcloud is an open source project backed by Nextcloud GmbH. Most of our volunteers are home users and thus primarily care about issues that affect home users. Our paid engineers prioritize issues of our customers. If you are neither a home user nor a customer, consider paying somebody to fix your issue, do it yourself or become a customer.
---> 
+-->
+
 ### Steps to reproduce
 1.
 2.
