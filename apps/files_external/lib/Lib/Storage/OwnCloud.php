@@ -25,6 +25,7 @@
  */
 
 namespace OCA\Files_External\Lib\Storage;
+use OCP\Files\Storage\IDisableEncryptionStorage;
 use Sabre\DAV\Client;
 
 /**
@@ -34,7 +35,7 @@ use Sabre\DAV\Client;
  * http://%host/%context/remote.php/webdav/%root
  *
  */
-class OwnCloud extends \OC\Files\Storage\DAV{
+class OwnCloud extends \OC\Files\Storage\DAV implements IDisableEncryptionStorage {
 	const OC_URL_SUFFIX = 'remote.php/webdav';
 
 	public function __construct($params) {
