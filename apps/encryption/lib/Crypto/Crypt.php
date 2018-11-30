@@ -482,14 +482,14 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function checkSignature($data, $passPhrase, $expectedSignature) {
-		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
+		$enforceSignature = !$this->config->getSystemValue('encryption_skip_signature_check', false);
 
 		$signature = $this->createSignature($data, $passPhrase);
-		$hash = hash_equals($expectedSignature, $signature);
+		$isCorrectHash = hash_equals($expectedSignature, $signature);
 
-		if (!$hash && $skipSignatureCheck === false) {
+		if (!$isCorrectHash && $enforceSignature) {
 			throw new GenericEncryptionException('Bad Signature', $this->l->t('Bad Signature'));
-		} else if (!$hash && $skipSignatureCheck) {
+		} else if (!$isCorrectHash && !$enforceSignature) {
 			$this->logger->info("Signature check skipped", ['app' => 'encryption']);
 		}
 	}
