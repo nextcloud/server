@@ -19,7 +19,7 @@ OC.L10N.register(
     "…" : "…",
     "Processing files …" : "Обработка файлов…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Невозможно загрузить «{filename}», так как это либо каталог, либо файл нулевого размера",
-    "Not enough free space, you are uploading {size1} but only {size2} is left" : "Недостаточно свободного места, вы загружаете {size1}, но только {size2} доступно",
+    "Not enough free space, you are uploading {size1} but only {size2} is left" : "Недостаточно свободного места, вы передаёте на сервер {size1}, но доступно только {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Целевой каталог «{dir}» более не существует",
     "Not enough free space" : "Недостаточно свободного места",
     "An unknown error has occurred" : "Произошла неизвестная ошибка",

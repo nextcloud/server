@@ -191,7 +191,6 @@ OC.L10N.register(
     "Back to login" : "العودة إلى تسجيل الدخول",
     "Grant access" : "السماح بالنفاذ",
     "Account access" : "حساب النفاذ",
-    "Redirecting …" : "عملية التحويل جارية …",
     "New password" : "كلمات سر جديدة",
     "New Password" : "كلمة السر الجديدة",
     "Two-factor authentication" : "المصادقة بخطوتين",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "{sharee} (email)" : "{sharee} (email)",
     "Back to log in" : "العودة إلى تسجيل الدخول",
     "Alternative Logins" : "اسماء دخول بديلة",
+    "Redirecting …" : "عملية التحويل جارية …",
     "Add \"%s\" as trusted domain" : "إضافة \"%s\" كنطاق موثوق فيه",
     "Thank you for your patience." : "شكرا لك على صبرك."
 },

@@ -139,7 +139,7 @@
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Für diese App wurde keine untere Versionsgrenze für Nextcloud gesetzt. Dies wird zukünftig als Fehler behandelt.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Für diese App wurde keine obere Versionsgrenze für Nextcloud gesetzt. Dies wird zukünftig als Fehler behandelt.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Diese App kann nicht installiert werden, weil die folgenden Abhängigkeiten nicht erfüllt sind:",
-    "Update to {update}" : "Aktualisiern auf {update}",
+    "Update to {update}" : "Aktualisieren auf {update}",
     "Results from other categories" : "Ergebnisse aus anderen Kategorien",
     "No apps found for your version" : "Es wurden keine Apps für Deine Version gefunden",
     "Disable all" : "Alle deaktivieren",
