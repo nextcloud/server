@@ -167,4 +167,26 @@ class MailerTest extends TestCase {
 
 		$this->assertSame(EMailTemplate::class, get_class($this->mailer->createEMailTemplate('tests.MailerTest')));
 	}
+
+	public function testStreamingOptions() {
+		$this->config->method('getSystemValue')
+			->will($this->returnValueMap([
+				['mail_smtpmode', 'smtp', 'smtp'],
+				['mail_smtpstreamoptions', array(), array('foo' => 1)]
+			]));
+		$mailer = self::invokePrivate($this->mailer, 'getInstance');
+		$this->assertEquals(1, count($mailer->getTransport()->getStreamOptions()));
+		$this->assertTrue(isset($mailer->getTransport()->getStreamOptions()['foo']));
+
+	}
+
+	public function testStreamingOptionsWrongType() {
+		$this->config->method('getSystemValue')
+			->will($this->returnValueMap([
+				['mail_smtpmode', 'smtp', 'smtp'],
+				['mail_smtpstreamoptions', array(), 'bar']
+			]));
+		$mailer = self::invokePrivate($this->mailer, 'getInstance');
+		$this->assertEquals(0, count($mailer->getTransport()->getStreamOptions()));
+	}
 }
