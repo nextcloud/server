@@ -189,7 +189,6 @@
     "Back to login" : "العودة إلى تسجيل الدخول",
     "Grant access" : "السماح بالنفاذ",
     "Account access" : "حساب النفاذ",
-    "Redirecting …" : "عملية التحويل جارية …",
     "New password" : "كلمات سر جديدة",
     "New Password" : "كلمة السر الجديدة",
     "Two-factor authentication" : "المصادقة بخطوتين",
@@ -208,6 +207,7 @@
     "{sharee} (email)" : "{sharee} (email)",
     "Back to log in" : "العودة إلى تسجيل الدخول",
     "Alternative Logins" : "اسماء دخول بديلة",
+    "Redirecting …" : "عملية التحويل جارية …",
     "Add \"%s\" as trusted domain" : "إضافة \"%s\" كنطاق موثوق فيه",
     "Thank you for your patience." : "شكرا لك على صبرك."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
