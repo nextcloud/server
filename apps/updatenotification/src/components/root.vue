@@ -43,7 +43,7 @@
 				</p>
 				<div class="whatsNew" v-if="whatsNew">
 					<div class="toggleWhatsNew">
-						<span v-click-outside="hideMenu" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</span>
+						<a class="button" v-click-outside="hideMenu" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</a>
 						<div class="popovermenu" :class="{ 'menu-center': true, open: openedWhatsNew }">
 							<popover-menu :menu="whatsNew" />
 						</div>
