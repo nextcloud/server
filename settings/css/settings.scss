@@ -78,12 +78,15 @@ input {
 		transform: translate(-50%, -50%);
 		background: #fff;
 		color: #333;
-		border-radius: var(--border-radius);
-		box-shadow: 0 0 7px #888;
+		border-radius: var(--border-radius-large);
+		box-shadow: 0 0 10px var(--color-box-shadow);
 		padding: 15px;
-		.jcrop-holder {
-			box-shadow: 0 0 7px #888;
+		.jcrop-holder,
+		.jcrop-holder img,
+		img.jcrop-preview  {
+			border-radius: var(--border-radius);
 		}
+
 		.button {
 			margin-top: 15px;
 		}
