@@ -225,6 +225,7 @@ OC.L10N.register(
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Es importante configurar este servidor para que pueda enviar correos, por ejemplo para cambios de contraseñas y notificaciones.",
     "Send mode" : "Modo de envío",
     "Encryption" : "Cifrado",
+    "Sendmail mode" : "Modo Sendmail",
     "From address" : "Desde la dirección",
     "mail" : "correo electrónico",
     "Authentication method" : "Método de autenticación",
