@@ -185,6 +185,7 @@
     "Password protection for links is mandatory" : "За везе је обавезна заштита лозинком",
     "Share link" : "Веза дељења",
     "New share link" : "Нова веза дељења",
+    "Created on {time}" : "Направљено {time}",
     "Password protect by Talk" : "Заштити лозинком преко Talk-а",
     "Could not unshare" : "Не могу да укинем дељење",
     "Shared with you and the group {group} by {owner}" : "{owner} дели са вама и са групом {group}.",
