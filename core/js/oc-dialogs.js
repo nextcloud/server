@@ -239,7 +239,7 @@ var OCdialogs = {
 				multiselect = false;
 			}
 
-			// No grid for IE! 
+			// No grid for IE!
 			if (OC.Util.isIE()) {
 				self.$filePicker.find('#picker-view-toggle').remove();
 				self.$filePicker.find('#picker-filestable').removeClass('view-grid');
@@ -826,7 +826,6 @@ var OCdialogs = {
 		this.$showGridView.next('#picker-view-toggle')
 			.removeClass('icon-toggle-filelist icon-toggle-pictures')
 			.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-			
 		$('.list-container').toggleClass('view-grid', show);
 	},
 	_getFilePickerTemplate: function() {
