@@ -629,6 +629,11 @@ pipeline:
       image: nextcloudci/integration-php7.0:integration-php7.0-6
       commands:
         - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+        - ./occ config:system:set redis host --value=cache
+        - ./occ config:system:set redis port --value=6379 --type=integer
+        - ./occ config:system:set redis timeout --value=0 --type=integer
+        - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
+        - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
         - ./occ app:enable user_ldap
         - cd build/integration
         - ./run.sh ldap_features/ldap-openldap.feature
@@ -639,6 +644,11 @@ pipeline:
         image: nextcloudci/integration-php7.0:integration-php7.0-6
         commands:
           - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+          - ./occ config:system:set redis host --value=cache
+          - ./occ config:system:set redis port --value=6379 --type=integer
+          - ./occ config:system:set redis timeout --value=0 --type=integer
+          - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
+          - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
           - ./occ app:enable user_ldap
           - cd build/integration
           - ./run.sh ldap_features/openldap-uid-username.feature
@@ -649,6 +659,11 @@ pipeline:
     image: nextcloudci/integration-php7.0:integration-php7.0-6
     commands:
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+    - ./occ config:system:set redis host --value=cache
+    - ./occ config:system:set redis port --value=6379 --type=integer
+    - ./occ config:system:set redis timeout --value=0 --type=integer
+    - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
+    - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
     - ./occ app:enable user_ldap
     - cd build/integration
     - ./run.sh ldap_features/openldap-numerical-id.feature
@@ -958,10 +973,13 @@ matrix:
     - TESTS: integration-ldap-features
     - TESTS: integration-ldap-openldap-features
       ENABLE_OPENLDAP: true
+      ENABLE_REDIS: true
     - TESTS: integration-ldap-openldap-uid-features
       ENABLE_OPENLDAP: true
+      ENABLE_REDIS: true
     - TESTS: integration-ldap-openldap-numerical-id-features
       ENABLE_OPENLDAP: true
+      ENABLE_REDIS: true
     - TESTS: integration-trashbin
     - TESTS: integration-remote-api
     - TESTS: integration-download
