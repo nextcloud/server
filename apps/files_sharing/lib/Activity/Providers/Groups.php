@@ -150,7 +150,7 @@ class Groups extends Base {
 		}
 
 		return [
-			'type' => 'group',
+			'type' => 'user-group',
 			'id' => $gid,
 			'name' => $this->groupDisplayNames[$gid],
 		];
