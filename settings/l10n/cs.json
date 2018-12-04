@@ -223,6 +223,7 @@
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Je důležité tento server nastavit, aby mohly být odesílány e-maily, jako jsou např. resety hesla a upozornění.",
     "Send mode" : "Mód odesílání",
     "Encryption" : "Šifrování",
+    "Sendmail mode" : "Režim sendmail",
     "From address" : "Adresa odesílatele",
     "mail" : "e-mail",
     "Authentication method" : "Metoda ověření",
