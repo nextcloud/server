@@ -243,13 +243,14 @@ class ShareByMailProvider implements IShareProvider {
 	 * create activity if a file/folder was shared by mail
 	 *
 	 * @param IShare $share
+	 * @param string $type
 	 */
-	protected function createShareActivity(IShare $share) {
+	protected function createShareActivity(IShare $share, string $type = 'share') {
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 
 		$this->publishActivity(
-			Activity::SUBJECT_SHARED_EMAIL_SELF,
+			$type === 'share' ? Activity::SUBJECT_SHARED_EMAIL_SELF : Activity::SUBJECT_UNSHARED_EMAIL_SELF,
 			[$userFolder->getRelativePath($share->getNode()->getPath()), $share->getSharedWith()],
 			$share->getSharedBy(),
 			$share->getNode()->getId(),
@@ -262,6 +263,7 @@ class ShareByMailProvider implements IShareProvider {
 			$nodes = $ownerFolder->getById($fileId);
 			$ownerPath = $nodes[0]->getPath();
 			$this->publishActivity(
+				$type === 'share' ? Activity::SUBJECT_SHARED_EMAIL_BY : Activity::SUBJECT_UNSHARED_EMAIL_BY,
 				Activity::SUBJECT_SHARED_EMAIL_BY,
 				[$ownerFolder->getRelativePath($ownerPath), $share->getSharedWith(), $share->getSharedBy()],
 				$share->getShareOwner(),
@@ -751,6 +753,11 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param IShare $share
 	 */
 	public function delete(IShare $share) {
+		try {
+			$this->createShareActivity($share, 'unshare');
+		} catch (\Exception $e) {
+		}
+
 		$this->removeShareFromTable($share->getId());
 	}
 
