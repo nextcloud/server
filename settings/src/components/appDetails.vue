@@ -47,7 +47,7 @@
 		<div class="app-licence" v-if="licence">{{ licence }}</div>
 		<div class="actions">
 			<div class="actions-buttons">
-				<input v-if="app.update" class="update primary" type="button" :value="t('settings', 'Update to {version}', {version: app.update})" :disabled="installing || loading(app.id)"/>
+				<input v-if="app.update" class="update primary" type="button" :value="t('settings', 'Update to {version}', {version: app.update})" v-on:click="update(app.id)" :disabled="installing || loading(app.id)"/>
 				<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" v-on:click="remove(app.id)" :disabled="installing || loading(app.id)"/>
 				<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" :disabled="installing || loading(app.id)" />
 				<input v-if="!app.active" class="enable primary" type="button" :value="enableButtonText" v-on:click="enable(app.id)" v-tooltip.auto="enableButtonTooltip" :disabled="!app.canInstall || installing || loading(app.id)" />
