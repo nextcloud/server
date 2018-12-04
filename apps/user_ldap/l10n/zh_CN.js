@@ -173,7 +173,7 @@ OC.L10N.register(
     "Email Field" : "电邮字段",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "从LDAP属性设置用户的电子邮件。留空则采用为默认行为。",
     "User Home Folder Naming Rule" : "用户主目录命名规则",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "指定一个 LDAP/AD 属性。留空，则使用用户名称（默认）。",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "指定一个 LDAP/AD 属性。留空，则使用用户名称(默认)。",
     "Internal Username" : "内部用户名",
     "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "默认情况下将从UUID属性创建内部用户名。将确保用户名是唯一的字符，并且不需要转换。 内部用户名，只允许使用这些字符：[a-zA-Z0-9 _。@ - ]。 其他字符被替换为它们的ASCII对应或简单地被忽略。如果出现重复，将添加或增加一个数字。 内部用户名用于在内部标识用户。 它是用户主文件夹的默认名称。 它也是远程URL的一部分，例如对于所有* DAV 服务。 使用此设置，可以覆盖默认行为。 默认行为为空， 则更改只会对新映射 (已添加) 的LDAP用户有效。",
     "Internal Username Attribute:" : "内部用户名属性：",
