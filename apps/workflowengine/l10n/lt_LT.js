@@ -6,6 +6,7 @@ OC.L10N.register(
     "Reset" : "Atstatyti",
     "Save" : "Įrašyti",
     "Saving…" : "Įrašoma…",
+    "Group list is empty" : "Grupės sąrašas yra tuščias",
     "Unable to retrieve the group list" : "Nepavyko nuskaityti grupių sąrašo",
     "Saved" : "Įrašyta",
     "Saving failed:" : "Įrašymas nepavyko:",

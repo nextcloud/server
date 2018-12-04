@@ -185,6 +185,7 @@
     "Password protection for links is mandatory" : "Ochrana heslem je pro odkazy povinná",
     "Share link" : "Odkaz pro sdílení",
     "New share link" : "Nový sdílecí odkaz",
+    "Created on {time}" : "Vytvořeno {time}",
     "Password protect by Talk" : "Ochrana heslem pomocí Talk",
     "Could not unshare" : "Nelze zrušit sdílení",
     "Shared with you and the group {group} by {owner}" : "S Vámi a skupinou {group} sdílí {owner}",
