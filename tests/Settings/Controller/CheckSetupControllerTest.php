@@ -155,7 +155,7 @@ class CheckSetupControllerTest extends TestCase {
 				'hasFreeTypeSupport',
 				'hasMissingIndexes',
 				'isSqliteUsed',
-				'isPhpMailerUsed',
+				'isPHPMailerUsed',
 				'hasOpcacheLoaded',
 				'getAppDirsWithDifferentOwner',
 				'hasRecommendedPHPModules',
@@ -473,7 +473,7 @@ class CheckSetupControllerTest extends TestCase {
 			]);
 		$this->checkSetupController
 			->expects($this->once())
-			->method('isPhpMailerUsed')
+			->method('isPHPMailerUsed')
 			->willReturn(false);
 		$this->checker
 			->expects($this->once())
@@ -531,7 +531,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isSqliteUsed' => false,
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'missingIndexes' => [],
-				'isPhpMailerUsed' => false,
+				'isPHPMailerUsed' => false,
 				'mailSettingsDocumentation' => 'https://server/index.php/settings/admin',
 				'isMemoryLimitSufficient' => true,
 				'appDirsWithDifferentOwner' => [],
@@ -541,7 +541,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->checkSetupController->check());
 	}
 
-	public function testIsPhpMailerUsed() {
+	public function testIsPHPMailerUsed() {
 		$checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',
@@ -571,8 +571,8 @@ class CheckSetupControllerTest extends TestCase {
 			->with('mail_smtpmode', 'smtp')
 			->will($this->returnValue('not-php'));
 
-		$this->assertTrue($this->invokePrivate($checkSetupController, 'isPhpMailerUsed'));
-		$this->assertFalse($this->invokePrivate($checkSetupController, 'isPhpMailerUsed'));
+		$this->assertTrue($this->invokePrivate($checkSetupController, 'isPHPMailerUsed'));
+		$this->assertFalse($this->invokePrivate($checkSetupController, 'isPHPMailerUsed'));
 	}
 
 	public function testGetCurlVersion() {
