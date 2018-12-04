@@ -51,7 +51,7 @@ export default new Router({
 			name: 'users',
 			children: [
 				{
-					path: ':selectedGroup',
+					path: ':selectedGroup(.*)',
 					name: 'group',
 					component: Users
 				}
