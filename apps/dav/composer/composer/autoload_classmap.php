@@ -73,6 +73,7 @@ return array(
     'OCA\\DAV\\CardDAV\\PhotoCache' => $baseDir . '/../lib/CardDAV/PhotoCache.php',
     'OCA\\DAV\\CardDAV\\Plugin' => $baseDir . '/../lib/CardDAV/Plugin.php',
     'OCA\\DAV\\CardDAV\\SyncService' => $baseDir . '/../lib/CardDAV/SyncService.php',
+    'OCA\\DAV\\CardDAV\\SystemAddressbook' => $baseDir . '/../lib/CardDAV/SystemAddressbook.php',
     'OCA\\DAV\\CardDAV\\UserAddressBooks' => $baseDir . '/../lib/CardDAV/UserAddressBooks.php',
     'OCA\\DAV\\CardDAV\\Xml\\Groups' => $baseDir . '/../lib/CardDAV/Xml/Groups.php',
     'OCA\\DAV\\Command\\CreateAddressBook' => $baseDir . '/../lib/Command/CreateAddressBook.php',
