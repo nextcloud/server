@@ -158,6 +158,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isPhpMailerUsed',
 				'hasOpcacheLoaded',
 				'getAppDirsWithDifferentOwner',
+				'hasRecommendedPHPModules',
 			])->getMock();
 	}
 
@@ -487,6 +488,11 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getAppDirsWithDifferentOwner')
 			->willReturn([]);
 
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasRecommendedPHPModules')
+			->willReturn([]);
+
 		$expected = new DataResponse(
 			[
 				'isGetenvServerWorking' => true,
@@ -529,6 +535,7 @@ class CheckSetupControllerTest extends TestCase {
 				'mailSettingsDocumentation' => 'https://server/index.php/settings/admin',
 				'isMemoryLimitSufficient' => true,
 				'appDirsWithDifferentOwner' => [],
+				'recommendedPHPModules' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());

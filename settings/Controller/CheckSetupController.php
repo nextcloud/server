@@ -583,6 +583,27 @@ Raw output
 	}
 
 	/**
+	 * Checks for potential PHP modules that would improve the instance
+	 *
+	 * @return string[] A list of PHP modules that is recommended
+	 */
+	protected function hasRecommendedPHPModules(): array {
+		$recommendedPHPModules = [];
+
+		if (!function_exists('grapheme_strlen')) {
+			$recommendedPHPModules[] = 'intl';
+		}
+
+		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
+			if (!extension_loaded('imagick')) {
+				$recommendedPHPModules[] = 'imagick';
+			}
+		}
+
+		return $recommendedPHPModules;
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -621,6 +642,7 @@ Raw output
 				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
 				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
+				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),
 			]
 		);
 	}
