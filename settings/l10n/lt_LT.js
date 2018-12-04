@@ -76,6 +76,7 @@ OC.L10N.register(
     "Select a profile picture" : "Pasirinkite profilio paveikslą",
     "Week starts on {fdow}" : "Savaitės pradžia yra {fdow}",
     "Groups" : "Grupės",
+    "Group list is empty" : "Grupės sąrašas yra tuščias",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficialios programėlės yra kuriamos bendruomenės viduje ir jas kuria bendruomenė. Šios programėlės siūlo centrinį funkcionalumą ir yra paruoštos kasdieniam naudojimui.",
     "Official" : "Oficiali",
     "Remove" : "Šalinti",

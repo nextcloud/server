@@ -5,7 +5,6 @@ OC.L10N.register(
     "Update" : "Atnaujinti",
     "Create" : "Pridėti",
     "Select tag…" : "Pasirinkti žymę...",
-    "Tagged files" : "Žymėti duomenys",
     "Select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
     "No tags found" : "Nerasta jokių žymių",
     "Please select tags to filter by" : "Prašome pasirinkti žymes, pagal kurias filtruoti",
