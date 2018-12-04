@@ -52,6 +52,7 @@ class ConvertFilecacheBigInt extends Command {
 	}
 
 	protected function getColumnsByTable() {
+		// also update in CheckSetupController::hasBigIntConversionPendingColumns()
 		return [
 			'activity' => ['activity_id', 'object_id'],
 			'activity_mq' => ['mail_id'],

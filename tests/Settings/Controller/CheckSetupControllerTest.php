@@ -159,6 +159,7 @@ class CheckSetupControllerTest extends TestCase {
 				'hasOpcacheLoaded',
 				'getAppDirsWithDifferentOwner',
 				'hasRecommendedPHPModules',
+				'hasBigIntConversionPendingColumns',
 			])->getMock();
 	}
 
@@ -493,6 +494,11 @@ class CheckSetupControllerTest extends TestCase {
 			->method('hasRecommendedPHPModules')
 			->willReturn([]);
 
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasBigIntConversionPendingColumns')
+			->willReturn([]);
+
 		$expected = new DataResponse(
 			[
 				'isGetenvServerWorking' => true,
@@ -536,6 +542,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isMemoryLimitSufficient' => true,
 				'appDirsWithDifferentOwner' => [],
 				'recommendedPHPModules' => [],
+				'pendingBigIntConversionColumns' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
