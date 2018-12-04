@@ -776,11 +776,11 @@ class Manager implements IManager {
 		try {
 			$failedRecipients = $this->mailer->send($message);
 			if(!empty($failedRecipients)) {
-				$this->logger->error('Share notification mail could not be send to: ' . implode(', ', $failedRecipients));
+				$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
 				return false;
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['message' => 'Share notification mail could not be send']);
+			$this->logger->logException($e, ['message' => 'Share notification mail could not be sent']);
 			return false;
 		}
 
