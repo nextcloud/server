@@ -34,11 +34,13 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Types\Type;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
 use OC\DB\Connection;
 use OC\DB\MissingIndexInformation;
+use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\MemoryInfo;
@@ -603,6 +605,39 @@ Raw output
 		return $recommendedPHPModules;
 	}
 
+	protected function hasBigIntConversionPendingColumns(): array {
+		// copy of ConvertFilecacheBigInt::getColumnsByTable()
+		$tables = [
+			'activity' => ['activity_id', 'object_id'],
+			'activity_mq' => ['mail_id'],
+			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
+			'mimetypes' => ['id'],
+			'storages' => ['numeric_id'],
+		];
+
+		$schema = new SchemaWrapper($this->db);
+		$isSqlite = $this->db->getDatabasePlatform() instanceof SqlitePlatform;
+		$pendingColumns = [];
+
+		foreach ($tables as $tableName => $columns) {
+			if (!$schema->hasTable($tableName)) {
+				continue;
+			}
+
+			$table = $schema->getTable($tableName);
+			foreach ($columns as $columnName) {
+				$column = $table->getColumn($columnName);
+				$isAutoIncrement = $column->getAutoincrement();
+				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
+				if ($column->getType()->getName() !== Type::BIGINT && !$isAutoIncrementOnSqlite) {
+					$pendingColumns[] = $tableName . '.' . $columnName;
+				}
+			}
+		}
+
+		return $pendingColumns;
+	}
+
 	/**
 	 * @return DataResponse
 	 */
@@ -643,6 +678,7 @@ Raw output
 				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),
+				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 			]
 		);
 	}
