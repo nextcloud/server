@@ -50,7 +50,7 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function handleAnonymousOptions(RequestInterface $request, ResponseInterface $response) {
-		if ($request->getMethod() === 'OPTIONS') {
+		if ($request->getHeader('Authorization') === null && $request->getMethod() === 'OPTIONS') {
 			/** @var CorePlugin $corePlugin */
 			$corePlugin = $this->server->getPlugin('core');
 			// setup a fake tree for anonymous access
