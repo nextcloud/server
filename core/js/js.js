@@ -1790,6 +1790,7 @@ OC.PasswordConfirmation = {
 					var $error = $('<p></p>').addClass('msg warning').text(config.error);
 				}
 				$dialog.find('.oc-dialog-content').append($error);
+				$dialog.find('.oc-dialog-buttonrow').addClass('aside');
 
 				var $buttons = $dialog.find('button');
 				$buttons.eq(0).hide();
