@@ -353,7 +353,7 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
-					if (data.isPhpMailerUsed) {
+					if (data.isPHPMailerUsed) {
 						messages.push({
 							msg: t(
 								'core',

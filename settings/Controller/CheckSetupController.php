@@ -527,7 +527,7 @@ Raw output
 		return [];
 	}
 
-	protected function isPhpMailerUsed(): bool {
+	protected function isPHPMailerUsed(): bool {
 		return $this->config->getSystemValue('mail_smtpmode', 'smtp') === 'php';
 	}
 
@@ -638,7 +638,7 @@ Raw output
 				'missingIndexes' => $this->hasMissingIndexes(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
-				'isPhpMailerUsed' => $this->isPhpMailerUsed(),
+				'isPHPMailerUsed' => $this->isPHPMailerUsed(),
 				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
 				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
