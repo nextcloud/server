@@ -193,7 +193,7 @@
     "User disabled" : "Utilisateur désactivé",
     "Login canceled by app" : "L'authentification a été annulé par l'application",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "L'application \"%1$s\" ne peut pas être installée à cause des dépendances suivantes non satisfaites : %2$s",
-    "a safe home for all your data" : "un endroit sûr pour toutes vos données",
+    "a safe home for all your data" : "un lieu sûr pour toutes vos données",
     "File is currently busy, please try again later" : "Le fichier est actuellement utilisé, veuillez réessayer plus tard",
     "Can't read file" : "Impossible de lire le fichier",
     "Application is not enabled" : "L'application n'est pas activée",

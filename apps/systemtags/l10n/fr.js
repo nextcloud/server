@@ -6,7 +6,7 @@ OC.L10N.register(
     "Create" : "Créer",
     "Select tag…" : "Sélectionner une étiquette…",
     "Tagged files" : "Fichiers étiquetés",
-    "Select tags to filter by" : "Sélectionner les étiquettes à filtrer",
+    "Select tags to filter by" : "Indiquez les étiquettes à filtrer",
     "No tags found" : "Aucune étiquette trouvée",
     "Please select tags to filter by" : "Veuillez sélectionner les étiquettes à filtrer",
     "No files found for the selected tags" : "Aucun fichier pour les étiquettes sélectionnées",
