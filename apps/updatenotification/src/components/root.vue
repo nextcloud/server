@@ -37,15 +37,15 @@
 					</ul>
 				</template>
 
-				<p>
-					<a v-if="updaterEnabled" href="#" class="button" @click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
+				<div>
+					<a v-if="updaterEnabled" href="#" class="button primary" @click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
 					<a v-if="downloadLink" :href="downloadLink" class="button" :class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
-				</p>
-				<div class="whatsNew" v-if="whatsNew">
-					<div class="toggleWhatsNew">
-						<span v-click-outside="hideMenu" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</span>
-						<div class="popovermenu" :class="{ 'menu-center': true, open: openedWhatsNew }">
-							<popover-menu :menu="whatsNew" />
+					<div class="whatsNew" v-if="whatsNew">
+						<div class="toggleWhatsNew">
+							<a class="button" v-click-outside="hideMenu" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</a>
+							<div class="popovermenu" :class="{ 'menu-center': true, open: openedWhatsNew }">
+								<popover-menu :menu="whatsNew" />
+							</div>
 						</div>
 					</div>
 				</div>
