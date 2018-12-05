@@ -211,7 +211,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -261,7 +262,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -312,7 +314,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -361,7 +364,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -408,7 +412,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -457,7 +462,8 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [
 						'/some/path'
 					],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -504,7 +510,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -551,7 +558,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -596,9 +604,10 @@ describe('OC.SetupChecks tests', function() {
 					cronInfo: {
 						diffInSeconds: 0
 					},
+					isMemoryLimitSufficient: false,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					isMemoryLimitSufficient: false
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -666,7 +675,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -714,7 +724,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -762,7 +773,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
@@ -810,7 +822,8 @@ describe('OC.SetupChecks tests', function() {
 					},
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
-					recommendedPHPModules: []
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: []
 				})
 			);
 
