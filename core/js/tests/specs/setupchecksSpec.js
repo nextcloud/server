@@ -210,7 +210,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -259,7 +260,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -309,7 +311,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -357,7 +360,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -403,7 +407,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -451,7 +456,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [
 						'/some/path'
-					]
+					],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -497,7 +503,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -543,7 +550,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -589,6 +597,7 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
 					isMemoryLimitSufficient: false
 				})
 			);
@@ -656,7 +665,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -703,7 +713,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -750,7 +761,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
@@ -797,7 +809,8 @@ describe('OC.SetupChecks tests', function() {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: []
 				})
 			);
 
