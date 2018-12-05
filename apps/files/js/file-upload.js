@@ -1024,7 +1024,7 @@ OC.Uploader.prototype = _.extend({
 						// target folder does not exist any more
 						OC.Notification.show(t('files', 'Target folder "{dir}" does not exist any more', {dir: upload.getFullPath()} ), {type: 'error'});
 						self.cancelUploads();
-					} else if (status === 507) {
+					} else if (data.textStatus === 'notenoughspace') {
 						// not enough space
 						OC.Notification.show(t('files', 'Not enough free space'), {type: 'error'});
 						self.cancelUploads();
