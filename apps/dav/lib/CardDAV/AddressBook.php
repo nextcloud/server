@@ -112,6 +112,14 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 			]
 		];
 
+		if ($this->getOwner() === 'principals/system/system') {
+			$acl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => '{DAV:}authenticated',
+				'protected' => true,
+			];
+		}
+
 		if (!$this->isShared()) {
 			return $acl;
 		}
@@ -129,13 +137,6 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 					'protected' => true,
 				];
 			}
-		}
-		if ($this->getOwner() === 'principals/system/system') {
-			$acl[] = [
-					'privilege' => '{DAV:}read',
-					'principal' => '{DAV:}authenticated',
-					'protected' => true,
-			];
 		}
 
 		$acl = $this->carddavBackend->applyShareAcl($this->getResourceId(), $acl);
