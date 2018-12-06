@@ -26,6 +26,7 @@ return array(
     'OCP\\AppFramework\\Controller' => $baseDir . '/lib/public/AppFramework/Controller.php',
     'OCP\\AppFramework\\Db\\DoesNotExistException' => $baseDir . '/lib/public/AppFramework/Db/DoesNotExistException.php',
     'OCP\\AppFramework\\Db\\Entity' => $baseDir . '/lib/public/AppFramework/Db/Entity.php',
+    'OCP\\AppFramework\\Db\\IMapperException' => $baseDir . '/lib/public/AppFramework/Db/IMapperException.php',
     'OCP\\AppFramework\\Db\\Mapper' => $baseDir . '/lib/public/AppFramework/Db/Mapper.php',
     'OCP\\AppFramework\\Db\\MultipleObjectsReturnedException' => $baseDir . '/lib/public/AppFramework/Db/MultipleObjectsReturnedException.php',
     'OCP\\AppFramework\\Db\\QBMapper' => $baseDir . '/lib/public/AppFramework/Db/QBMapper.php',

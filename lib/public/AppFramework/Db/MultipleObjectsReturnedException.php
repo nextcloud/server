@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -30,7 +31,7 @@ namespace OCP\AppFramework\Db;
  * row
  * @since 7.0.0
  */
-class MultipleObjectsReturnedException extends \Exception {
+class MultipleObjectsReturnedException extends \Exception implements IMapperException {
 
 	/**
 	 * Constructor
