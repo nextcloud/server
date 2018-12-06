@@ -130,7 +130,13 @@ class Autoloader {
 	 */
 	protected function isValidPath(string $fullPath): bool {
 		foreach ($this->validRoots as $root => $true) {
-			if (substr($fullPath, 0, strlen($root) + 1) === $root . '/') {
+			// bug on windows:
+			// var_dump([$fullPath, $root]); die();
+			// $fullPath = C:\Bitnami\nginxstack-1.14.1-0\apps\nextcloud\lib\private\legacy\
+			// $root = C:/Bitnami/nginxstack-1.14.1-0/apps/nextcloud/lib/private/legacy
+			// we need data normalization
+			$prefix = rtrim(str_replace('\\', '/', substr($fullPath, 0, strlen($root) + 1)), '/');
+			if ($prefix === rtrim(str_replace('\\', '/', $root), '/')) {
 				return true;
 			}
 		}
