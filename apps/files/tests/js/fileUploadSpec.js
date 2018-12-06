@@ -67,7 +67,8 @@ describe('OC.Upload tests', function() {
 				files: [file],
 				jqXHR: jqXHR,
 				response: sinon.stub().returns(jqXHR),
-				submit: sinon.stub()
+				submit: sinon.stub(),
+				abort: sinon.stub()
 			};
 			if (uploader.fileUploadParam.add.call(
 					$dummyUploader[0],
