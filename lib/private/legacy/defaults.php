@@ -36,7 +36,6 @@
 class OC_Defaults {
 
 	private $theme;
-	private $l;
 
 	private $defaultEntity;
 	private $defaultName;
@@ -53,7 +52,7 @@ class OC_Defaults {
 	private $defaultTextColorPrimary;
 
 	public function __construct() {
-		$this->l = \OC::$server->getL10N('lib');
+		$l10n = \OC::$server->getL10N('lib');
 		$config = \OC::$server->getConfig();
 
 		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
@@ -65,8 +64,8 @@ class OC_Defaults {
 		$this->defaultiTunesAppId = $config->getSystemValue('customclient_ios_appid', '1125420102');
 		$this->defaultAndroidClientUrl = $config->getSystemValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.nextcloud.client');
 		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
-		$this->defaultDocVersion = '14'; // used to generate doc links
-		$this->defaultSlogan = $this->l->t('a safe home for all your data');
+		$this->defaultDocVersion = substr($config->getSystemValue('version', '16.0.0.0'), 0, 2); // used to generate doc links
+		$this->defaultSlogan = $l10n->t('a safe home for all your data');
 		$this->defaultColorPrimary = '#0082c9';
 		$this->defaultTextColorPrimary = '#ffffff';
 
