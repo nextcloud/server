@@ -46,12 +46,14 @@ class Propagator implements IPropagator {
 	private $connection;
 
 	/**
-	 * @param \OC\Files\Storage\Storage $storage
-	 * @param IDBConnection $connection
+	 * @var array
 	 */
-	public function __construct(\OC\Files\Storage\Storage $storage, IDBConnection $connection) {
+	private $ignore = [];
+
+	public function __construct(\OC\Files\Storage\Storage $storage, IDBConnection $connection, array $ignore = []) {
 		$this->storage = $storage;
 		$this->connection = $connection;
+		$this->ignore = $ignore;
 	}
 
 
@@ -62,6 +64,13 @@ class Propagator implements IPropagator {
 	 * @suppress SqlInjectionChecker
 	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
+		// Do not propogate changes in ignored paths
+		foreach ($this->ignore as $ignore) {
+			if (strpos($internalPath, $ignore) === 0) {
+				return;
+			}
+		}
+
 		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
 
 		$parents = $this->getParents($internalPath);
