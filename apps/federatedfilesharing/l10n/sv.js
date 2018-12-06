@@ -31,7 +31,7 @@ OC.L10N.register(
     "Sharing" : "Dela",
     "Federated file sharing" : "Federerad fildelning",
     "Federated Cloud Sharing" : "Federerad Moln-delning",
-    "Open documentation" : "Öppna dokumentation",
+    "Open documentation" : "Öppna dokumentationen",
     "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar.",
     "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar",
     "Allow users on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot utdelningar från andra servrar",
