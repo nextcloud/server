@@ -244,24 +244,37 @@ class IMipPlugin extends SabreIMipPlugin {
 		$template->addFooter();
 		$message->useTemplate($template);
 
-		# We choose to work like google calendar, i.e. creating a base64 attachment with the event.ics,
-		# but also including a plain text text/calendar object. This last one is needed for 
+		# We choose to work like thinderbird Lightning.
+		# using a plain text text/calendar ics. 
+		# This plain text text/calendar part is needed for 
 		# Microsoft Outlook versions <=2010 to work.
-		# The attachment base64 text/calendar part
-		$attachment = $this->mailer->createAttachment(
-			$iTipMessage->message->serialize(),
-			'event.ics',// TODO(leon): Make file name unique, e.g. add event id
-			'text/calendar; method=' . $iTipMessage->method
-		);
-		$message->attach($attachment);
+
+		# The attachment base64 text/calendar part is removed from the code
+		#$attachment = $this->mailer->createAttachment(
+		#	$iTipMessage->message->serialize(),
+		#	'event.ics',// TODO(leon): Make file name unique, e.g. add event id
+		#	'text/calendar; method=' . $iTipMessage->method
+		#);
+		#$message->attach($attachment);
 		
-		# The plain text text/calendar part 
-		$message->addPart(
-                        $iTipMessage->message->serialize(),
+		# The plain text text/calendar part is added to the code, but we need 
+		# to do something more. Outlook (2010 and 2016 tested) has problems with canceled messages
+		# that contain Time Zone Identifications. 
+		# We get an 'not-supported-calendar-message.ics' and the cancellation is not recognized. 
+		# We remove the TZID from the iTipMessage and the problem is solved. 
+		# It is a workaround, and probably not a structural solution.
+		# See: https://stackoverflow.com/questions/48550054/icalendar-appointment-is-a-not-supported-calendar-message-ics
+		
+                $itip_msg = $iTipMessage->message->serialize();
+                if (strpos($itip_msg, 'METHOD:CANCEL') !== false) {
+                    $itip_msg = preg_replace('/[;]TZID=[^:]+/', '', $itip_msg);
+                }
+                $message->addPart(
+                        $itip_msg,
                         'text/calendar; method=' . $iTipMessage->method,
                         'UTF-8'
                 );
-
+		
 		try {
 			$failed = $this->mailer->send($message);
 			$iTipMessage->scheduleStatus = '1.1; Scheduling message is sent via iMip';
