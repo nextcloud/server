@@ -187,6 +187,15 @@ class FileListContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function commentActionForFile($fileListAncestor, $fileName) {
+		return Locator::forThe()->css(".action-comment")->
+				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
+				describedAs("Comment action for file $fileName in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function shareActionForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->css(".action-share")->
 				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
@@ -348,6 +357,13 @@ class FileListContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I open the unread comments for :fileName
+	 */
+	public function iOpenTheUnreadCommentsFor($fileName) {
+		$this->actor->find(self::commentActionForFile($this->fileListAncestor, $fileName), 10)->click();
+	}
+
+	/**
 	 * @Then I see that the file list is eventually loaded
 	 */
 	public function iSeeThatTheFileListIsEventuallyLoaded() {
@@ -394,6 +410,13 @@ class FileListContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatIsNotMarkedAsFavorite($fileName) {
 		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::notFavoritedStateIconForFile($this->fileListAncestor, $fileName), 10));
+	}
+
+	/**
+	 * @Then I see that :fileName has unread comments
+	 */
+	public function iSeeThatHasUnreadComments($fileName) {
+		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::commentActionForFile($this->fileListAncestor, $fileName), 10)->isVisible());
 	}
 
 }
