@@ -57,6 +57,18 @@ class Message implements IMessage {
 		$this->swiftMessage->attach($attachment->getSwiftAttachment());
 		return $this;
 	}
+	
+	/**
+	 * @param $body:  body of the mime part
+	 * @param $content-type = null: Mime Content-Type (e.g. text/plain or text/calendar)
+	 * @param $charset = null: Character Set (e.g. UTF-8)
+	 * @return $this
+	 * @since 14.0.4
+	 */
+	public function addPart($data, $content_type = null, $charset = null): IMessage {
+               $this->swiftMessage->addPart($data, $content_type, $charset);
+               return $this;
+        }
 
 	/**
 	 * SwiftMailer does currently not work with IDN domains, this function therefore converts the domains
