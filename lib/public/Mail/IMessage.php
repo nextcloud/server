@@ -38,7 +38,16 @@ interface IMessage {
 	 * @since 13.0.0
 	 */
 	public function attach(IAttachment $attachment): IMessage;
-
+	
+	/**
+	 * @param $body:  body of the mime part
+	 * @param $content-type = null: Mime Content-Type (e.g. text/plain or text/calendar)
+	 * @param $charset = null: Character Set (e.g. UTF-8)
+	 * @return IMessage
+	 * @since 14.0.4
+	 */
+	public function addPart($body, $content_type = null, $charset = null): IMessage;
+	
 	/**
 	 * Set the from address of this message.
 	 *
