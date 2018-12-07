@@ -64,7 +64,7 @@ class OC_Defaults {
 		$this->defaultiTunesAppId = $config->getSystemValue('customclient_ios_appid', '1125420102');
 		$this->defaultAndroidClientUrl = $config->getSystemValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.nextcloud.client');
 		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
-		$this->defaultDocVersion = substr($config->getSystemValue('version', '16.0.0.0'), 0, 2); // used to generate doc links
+		$this->defaultDocVersion = \OC_Util::getVersion()[0]; // used to generate doc links
 		$this->defaultSlogan = $l10n->t('a safe home for all your data');
 		$this->defaultColorPrimary = '#0082c9';
 		$this->defaultTextColorPrimary = '#ffffff';
