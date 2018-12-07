@@ -66,7 +66,15 @@ class Message implements IMessage {
 	 * @since 14.0.4
 	 */
 	public function addPart($data, $content_type = null, $charset = null): IMessage {
+	       # To be sure this works with iCalendar messages, we encode with 8bit instead of 
+	       # quoted-printable encoding. We save the current encoder, replace the current
+	       # encoder with an 8bit encoder and after we've finished, we reset the encoder
+	       # to the previous one.
+               $encoder = $this->swiftMessage->getEncoder();
+               $eightbit_encoder = new \Swift_Mime_ContentEncoder_PlainContentEncoder("8bit");
+               $this->swiftMessage->setEncoder($eightbit_encoder);
                $this->swiftMessage->addPart($data, $content_type, $charset);
+               $this->swiftMessage->setEncoder($encoder);
                return $this;
         }
 
