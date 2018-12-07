@@ -56,6 +56,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\Controller' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Controller.php',
         'OCP\\AppFramework\\Db\\DoesNotExistException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/DoesNotExistException.php',
         'OCP\\AppFramework\\Db\\Entity' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/Entity.php',
+        'OCP\\AppFramework\\Db\\IMapperException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/IMapperException.php',
         'OCP\\AppFramework\\Db\\Mapper' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/Mapper.php',
         'OCP\\AppFramework\\Db\\MultipleObjectsReturnedException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/MultipleObjectsReturnedException.php',
         'OCP\\AppFramework\\Db\\QBMapper' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/QBMapper.php',
