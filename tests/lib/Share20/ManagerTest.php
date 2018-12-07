@@ -1707,8 +1707,6 @@ class ManagerTest extends \Test\TestCase {
 			->with('password')
 			->willReturn('hashed');
 
-		$this->secureRandom->method('getMediumStrengthGenerator')
-			->will($this->returnSelf());
 		$this->secureRandom->method('generate')
 			->willReturn('token');
 
@@ -1818,8 +1816,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())
 			->method('setLinkParent');
 
-		$this->secureRandom->method('getMediumStrengthGenerator')
-			->will($this->returnSelf());
 		$this->secureRandom->method('generate')
 			->willReturn('token');
 
