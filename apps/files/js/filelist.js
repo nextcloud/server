@@ -360,6 +360,10 @@
 
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
+			this.$fileList.on("droppedOnFavorites", function (event, file) {
+				self.fileActions.triggerAction('Favorite', self.getModelForFile(file), self);
+			});
+
 			this.$fileList.on('droppedOnTrash', function (event, filename, directory) {
 				self.do_delete(filename, directory);
 			});

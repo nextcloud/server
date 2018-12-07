@@ -120,6 +120,9 @@
 .nav-icon-deletedshares {
 	@include icon-color('unshare', 'files', $color-black);
 }
+.nav-icon-favorites-starred {
+	@include icon-color('star-dark', 'actions', $color-yellow, 2, true);
+}
 
 #app-navigation .nav-files a.nav-icon-files {
 	width: auto;

@@ -224,6 +224,47 @@
 				var list = quickAccessMenu.getElementsByTagName('li');
 				this.QuickSort(list, 0, list.length - 1);
 			}
+
+			var favoritesListElement = $(quickAccessMenu).parent();
+			favoritesListElement.droppable({
+				over: function (event, ui) {
+					favoritesListElement.addClass('dropzone-background');
+				},
+				out: function (event, ui) {
+					favoritesListElement.removeClass('dropzone-background');
+				},
+				activate: function (event, ui) {
+					var element = favoritesListElement.find('a').first();
+					element.addClass('nav-icon-favorites-starred').removeClass('nav-icon-favorites');
+				},
+				deactivate: function (event, ui) {
+					var element = favoritesListElement.find('a').first();
+					element.addClass('nav-icon-favorites').removeClass('nav-icon-favorites-starred');
+				},
+				drop: function (event, ui) {
+					favoritesListElement.removeClass('dropzone-background');
+
+					var $selectedFiles = $(ui.draggable);
+
+					if (ui.helper.find('tr').size() === 1) {
+						var $tr = $selectedFiles.closest('tr');
+						if ($tr.attr("data-favorite")) {
+							return;
+						}
+						$selectedFiles.trigger('droppedOnFavorites', $tr.attr('data-file'));
+					} else {
+						// FIXME: besides the issue described for dropping on
+						// the trash bin, for favoriting it is not possible to
+						// use the data from the helper; due to some bugs the
+						// tags are not always added to the selected files, and
+						// thus that data can not be accessed through the helper
+						// to prevent triggering the favorite action on an
+						// already favorited file (which would remove it from
+						// favorites).
+						OC.Notification.showTemporary(t('files', 'You can only favorite a single file or folder at a time'));
+					}
+				}
+			});
 		},
 
 		/**
