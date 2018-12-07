@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -50,7 +51,7 @@ class LoginRedirectorController extends Controller {
 	 * @param ISession $session
 	 * @param IL10N $l
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
@@ -75,7 +76,7 @@ class LoginRedirectorController extends Controller {
 	 */
 	public function authorize($client_id,
 							  $state,
-							  $response_type) {
+							  $response_type): Response {
 		try {
 			$client = $this->clientMapper->getByIdentifier($client_id);
 		} catch (ClientNotFoundException $e) {
