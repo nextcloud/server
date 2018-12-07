@@ -82,6 +82,8 @@
 					element.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
 				},
 				drop: function (event, ui) {
+					trashBinElement.removeClass('dropzone-background');
+
 					var $selectedFiles = $(ui.draggable);
 
 					// FIXME: when there are a lot of selected files the helper
