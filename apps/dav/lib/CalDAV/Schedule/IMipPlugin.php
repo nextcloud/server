@@ -255,7 +255,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		);
 		$message->attach($attachment);
 		
-		# The plain text text/calendar part
+		# The plain text text/calendar part 
 		$message->addPart(
                         $iTipMessage->message->serialize(),
                         'text/calendar; method=' . $iTipMessage->method,
