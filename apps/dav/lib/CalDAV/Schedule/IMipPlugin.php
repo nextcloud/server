@@ -244,12 +244,23 @@ class IMipPlugin extends SabreIMipPlugin {
 		$template->addFooter();
 		$message->useTemplate($template);
 
+		# We choose to work like google calendar, i.e. creating a base64 attachment with the event.ics,
+		# but also including a plain text text/calendar object. This last one is needed for 
+		# Microsoft Outlook versions <=2010 to work.
+		# The attachment base64 text/calendar part
 		$attachment = $this->mailer->createAttachment(
 			$iTipMessage->message->serialize(),
 			'event.ics',// TODO(leon): Make file name unique, e.g. add event id
 			'text/calendar; method=' . $iTipMessage->method
 		);
 		$message->attach($attachment);
+		
+		# The plain text text/calendar part
+		$message->addPart(
+                        $iTipMessage->message->serialize(),
+                        'text/calendar; method=' . $iTipMessage->method,
+                        'UTF-8'
+                );
 
 		try {
 			$failed = $this->mailer->send($message);
