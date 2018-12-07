@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -53,18 +54,7 @@ class OauthApiController extends Controller {
 	/** @var Throttler */
 	private $throttler;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param ICrypto $crypto
-	 * @param AccessTokenMapper $accessTokenMapper
-	 * @param ClientMapper $clientMapper
-	 * @param TokenProvider $tokenProvider
-	 * @param ISecureRandom $secureRandom
-	 * @param ITimeFactory $time
-	 * @param Throttler $throttler
-	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								ICrypto $crypto,
 								AccessTokenMapper $accessTokenMapper,
@@ -94,7 +84,7 @@ class OauthApiController extends Controller {
 	 * @param string $client_secret
 	 * @return JSONResponse
 	 */
-	public function getToken($grant_type, $code, $refresh_token, $client_id, $client_secret) {
+	public function getToken($grant_type, $code, $refresh_token, $client_id, $client_secret): JSONResponse {
 
 		// We only handle two types
 		if ($grant_type !== 'authorization_code' && $grant_type !== 'refresh_token') {
