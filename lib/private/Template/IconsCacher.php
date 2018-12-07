@@ -58,6 +58,9 @@ class IconsCacher {
 
 	private $iconList = 'icons-list.template';
 
+	private $cachedCss;
+	private $cachedList;
+
 	/**
 	 * @param ILogger $logger
 	 * @param Factory $appDataFactory
@@ -137,6 +140,8 @@ class IconsCacher {
 			$cachedVarsCssFile->putContent($data);
 			$list = ":root {\n$list\n}";
 			$cachedFile->putContent($list);
+			$this->cachedList = null;
+			$this->cachedCss = null;
 		}
 
 		return preg_replace($this->iconVarRE, '', $css);
@@ -204,7 +209,10 @@ class IconsCacher {
 	 */
 	public function getCachedCSS() {
 		try {
-			return $this->folder->getFile($this->fileName);
+			if (!$this->cachedCss) {
+				$this->cachedCss = $this->folder->getFile($this->fileName);
+			}
+			return $this->cachedCss;
 		} catch (NotFoundException $e) {
 			return false;
 		}
@@ -216,7 +224,10 @@ class IconsCacher {
 	 */
 	public function getCachedList() {
 		try {
-			return $this->folder->getFile($this->iconList);
+			if (!$this->cachedList) {
+				$this->cachedList = $this->folder->getFile($this->iconList);
+			}
+			return $this->cachedList;
 		} catch (NotFoundException $e) {
 			return false;
 		}
