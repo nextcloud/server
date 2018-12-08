@@ -173,6 +173,7 @@
 		padding: 0;
 		.ui-menu-item a {
 			color: var(--color-text-lighter);
+			display: block;
 			padding: 4px 4px 4px 14px;
 
 			&.ui-state-focus, &.ui-state-active {
