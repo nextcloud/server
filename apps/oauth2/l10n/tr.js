@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "İstemcinizin bağlanma izni yok. Lütfen sistem yöneticinize istemciniz ile ilgili bilgi verin.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Yönlendirme adresi https://websitem.com/yol gibi tam bir adres olmalıdır",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Diğer web uygulamaları için OAuth2 uyumlu kimlik doğrulaması sağlar.",

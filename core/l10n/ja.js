@@ -163,6 +163,7 @@ OC.L10N.register(
     "Password protection for links is mandatory" : "リンクのパスワード保護は必須です",
     "Share link" : "URLで共有",
     "New share link" : "新しい共有リンク",
+    "Created on {time}" : "作成日：{time}",
     "Password protect by Talk" : "トークによるパスワード保護",
     "Could not unshare" : "共有の解除ができませんでした",
     "Shared with you and the group {group} by {owner}" : "あなたと {owner} のグループ {group} で共有中",
