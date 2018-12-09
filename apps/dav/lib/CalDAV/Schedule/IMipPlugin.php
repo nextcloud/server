@@ -244,12 +244,51 @@ class IMipPlugin extends SabreIMipPlugin {
 		$template->addFooter();
 		$message->useTemplate($template);
 
-		$attachment = $this->mailer->createAttachment(
-			$iTipMessage->message->serialize(),
-			'event.ics',// TODO(leon): Make file name unique, e.g. add event id
-			'text/calendar; method=' . $iTipMessage->method
+		# We choose to work like thinderbird Lightning.
+		# using a plain text text/calendar ics.
+		# This plain text text/calendar part is needed for
+		# Microsoft Outlook versions <=2010 to work.
+
+		# The attachment base64 text/calendar part is removed from the code
+		#$attachment = $this->mailer->createAttachment(
+		#	$iTipMessage->message->serialize(),
+		#	'event.ics',// TODO(leon): Make file name unique, e.g. add event id
+		#	'text/calendar; method=' . $iTipMessage->method
+		#);
+		#$message->attach($attachment);
+
+		# The plain text text/calendar part is added to the code, but we need
+		# to do something more. Outlook (2010 and 2016 tested) has problems with canceled messages
+		# that contain Time Zone Identifications (e.g. ;TZID=Europe/Amsterdam:).
+		# A 'not-supported-calendar-message.ics' is shown and the cancellation is not recognized.
+		#
+		# See e.g.: https://stackoverflow.com/questions/48550054/icalendar-appointment-is-a-not-supported-calendar-message-ics
+		#
+		# To work around this problem, DTSTART and DTEND are converted to UTC.
+		# UTC date/times work in all situations.
+
+		$utc_tz = new \DateTimeZone("UTC");
+
+		$cvt_dtstart = $start;
+		$cvt_dtstart_dt = $cvt_dtstart->getDateTime();
+		$dtstart_ts = $cvt_dtstart_dt->getTimestamp();
+		$cvt_dtstart_dt = new \DateTime("now", $utc_tz);
+		$cvt_dtstart_dt->setTimestamp($dtstart_ts);
+		$cvt_dtstart->setDateTime($cvt_dtstart_dt, false);
+
+		$cvt_dtend = $end;
+		$cvt_dtend_dt = $cvt_dtend->getDateTime();
+		$dtend_ts = $cvt_dtend_dt->getTimestamp();
+		$cvt_dtend_dt = new \DateTime("now", $utc_tz);
+		$cvt_dtend_dt->setTimestamp($dtend_ts);
+		$cvt_dtend->setDateTime($cvt_dtend_dt, false);
+
+		$itip_msg = $iTipMessage->message->serialize();
+		$message->addPart(
+				$itip_msg,
+				'text/calendar; method=' . $iTipMessage->method,
+				'UTF-8'
 		);
-		$message->attach($attachment);
 
 		try {
 			$failed = $this->mailer->send($message);
