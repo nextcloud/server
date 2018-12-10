@@ -94,7 +94,7 @@ OC.L10N.register(
     "FTP" : "FTP",
     "Host" : "Kiszolgáló",
     "Secure ftps://" : "Biztonságos ftps://",
-    "Local" : "Helyi",
+    "Local" : "Hely",
     "Location" : "Hely",
     "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
