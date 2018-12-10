@@ -128,4 +128,7 @@ class Swift implements IObjectStore {
 		$this->getContainer()->delete();
 	}
 
+	public function objectExists($urn) {
+		return $this->getContainer()->objectExists($urn);
+	}
 }
