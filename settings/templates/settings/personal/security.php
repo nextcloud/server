@@ -32,7 +32,7 @@ script('settings', [
 if($_['passwordChangeSupported']) {
 	script('settings', 'security_password');
 	script('jquery-showpassword');
-	vendor_script('strengthify/jquery.strengthify');
+	vendor_script('strengthify/jquery.strengthify.min');
 	vendor_style('strengthify/strengthify');
 }
 
