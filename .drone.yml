@@ -1162,4 +1162,4 @@ services:
       matrix:
         ENABLE_OPENLDAP: true
 
-branches: [ master, stable* ]
+branches: [ stable15 ]
