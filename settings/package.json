@@ -17,7 +17,7 @@
     "nextcloud-password-confirmation": "^0.4.1",
     "nextcloud-vue": "^0.4.6",
     "v-tooltip": "^2.0.0-rc.33",
-    "vue": "^2.5.17",
+    "vue": "^2.5.19",
     "vue-click-outside": "^1.0.7",
     "vue-infinite-loading": "^2.4.3",
     "vue-localstorage": "^0.6.2",
@@ -40,7 +40,7 @@
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "vue-loader": "^15.4.2",
-    "vue-template-compiler": "^2.5.17",
+    "vue-template-compiler": "^2.5.19",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
     "webpack-merge": "^4.1.5"
