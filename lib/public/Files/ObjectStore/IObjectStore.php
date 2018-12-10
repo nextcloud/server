@@ -63,4 +63,13 @@ interface IObjectStore {
 	 * @since 7.0.0
 	 */
 	public function deleteObject($urn);
+
+	/**
+	 * Check if an object exists in the object store
+	 *
+	 * @param string $urn
+	 * @return bool
+	 * @since 16.0.0
+	 */
+	public function objectExists($urn);
 }
