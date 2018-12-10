@@ -48,24 +48,48 @@ class MailerTest extends TestCase {
 		);
 	}
 
-	public function testGetSendMailInstanceSendMail() {
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('mail_smtpmode', 'smtp')
-			->will($this->returnValue('sendmail'));
-
-		$this->assertEquals(new \Swift_SendmailTransport('/usr/sbin/sendmail -bs'), self::invokePrivate($this->mailer, 'getSendMailInstance'));
+	/**
+	 * @return array
+	 */
+	public function sendmailModeProvider(): array {
+		return [
+			'smtp' => ['smtp', ' -bs'],
+			'pipe' => ['pipe', ' -t'],
+		];
 	}
 
-	public function testGetSendMailInstanceSendMailQmail() {
+	/**
+	 * @dataProvider sendmailModeProvider
+	 * @param $sendmailMode
+	 * @param $binaryParam
+	 */
+	public function testGetSendmailInstanceSendMail($sendmailMode, $binaryParam) {
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('mail_smtpmode', 'smtp')
-			->will($this->returnValue('qmail'));
+			->will($this->returnValueMap([
+				['mail_smtpmode', 'smtp', 'sendmail'],
+				['mail_sendmailmode', 'smtp', $sendmailMode],
+			]));
 
-		$this->assertEquals(new \Swift_SendmailTransport('/var/qmail/bin/sendmail -bs'), self::invokePrivate($this->mailer, 'getSendMailInstance'));
+		$this->assertEquals(new \Swift_SendmailTransport('/usr/sbin/sendmail' . $binaryParam), self::invokePrivate($this->mailer, 'getSendMailInstance'));
+	}
+
+	/**
+	 * @dataProvider sendmailModeProvider
+	 * @param $sendmailMode
+	 * @param $binaryParam
+	 */
+	public function testGetSendmailInstanceSendMailQmail($sendmailMode, $binaryParam) {
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValue')
+			->will($this->returnValueMap([
+				['mail_smtpmode', 'smtp', 'qmail'],
+				['mail_sendmailmode', 'smtp', $sendmailMode],
+			]));
+
+		$this->assertEquals(new \Swift_SendmailTransport('/var/qmail/bin/sendmail' . $binaryParam), self::invokePrivate($this->mailer, 'getSendMailInstance'));
 	}
 
 	public function testGetInstanceDefault() {
@@ -77,8 +101,10 @@ class MailerTest extends TestCase {
 	public function testGetInstanceSendmail() {
 		$this->config
 			->method('getSystemValue')
-			->with('mail_smtpmode', 'smtp')
-			->willReturn('sendmail');
+			->will($this->returnValueMap([
+				['mail_smtpmode', 'smtp', 'sendmail'],
+				['mail_sendmailmode', 'smtp', 'smtp'],
+			]));
 
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertInstanceOf(\Swift_Mailer::class, $mailer);

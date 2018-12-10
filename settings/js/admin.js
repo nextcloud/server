@@ -161,6 +161,7 @@ $(document).ready(function(){
 			$('#mail_smtpsecure_label').addClass('hidden');
 			$('#mail_smtpsecure').addClass('hidden');
 			$('#mail_credentials').addClass('hidden');
+			$('#mail_sendmailmode_label, #mail_sendmailmode').removeClass('hidden');
 		} else {
 			$('#setting_smtpauth').removeClass('hidden');
 			$('#setting_smtphost').removeClass('hidden');
@@ -169,6 +170,7 @@ $(document).ready(function(){
 			if ($('#mail_smtpauth').is(':checked')) {
 				$('#mail_credentials').removeClass('hidden');
 			}
+			$('#mail_sendmailmode_label, #mail_sendmailmode').addClass('hidden');
 		}
 	});
 
