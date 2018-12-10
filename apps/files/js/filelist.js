@@ -670,7 +670,7 @@
 			this.$showGridView.next('#view-toggle')
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-				
+
 			$('.list-container').toggleClass('view-grid', show);
 			if (show) {
 				// If switching into grid view from list view, too few files might be displayed
@@ -2743,7 +2743,7 @@
 		 *
 		 * @since 8.2
 		 */
-		createFile: function(name) {
+		createFile: function(name, options) {
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
@@ -2767,7 +2767,8 @@
 				)
 				.done(function() {
 					// TODO: error handling / conflicts
-					self.addAndFetchFileInfo(targetPath, '', {scrollTo: true}).then(function(status, data) {
+					options = _.extend({scrollTo: true}, options || {});
+					self.addAndFetchFileInfo(targetPath, '', options).then(function(status, data) {
 						deferred.resolve(status, data);
 					}, function() {
 						OC.Notification.show(t('files', 'Could not create file "{file}"',
