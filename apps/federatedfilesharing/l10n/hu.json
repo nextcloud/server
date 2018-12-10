@@ -33,6 +33,8 @@
     "Adjust how people can share between servers." : "A szerverek közti megosztási lehetőségek beállítása",
     "Allow users on this server to send shares to other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy fájlokat osszanak meg más szerverekkel.",
     "Allow users on this server to receive shares from other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy megosztásokat fogadjanak más szerverektől",
+    "Allow users on this server to send shares to groups on other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy megosztásokat küldjenek más szerverek csoportjainak",
+    "Allow users on this server to receive group shares from other servers" : "Engedélyezi ezen szerver felhasználóinak, hogy csoport megosztásokat fogadjanak más szerverektől",
     "Search global and public address book for users" : "Felhasználók keresése a globális és a nyilvános névjegyekben",
     "Allow users to publish their data to a global and public address book" : "Minden felhasználó a közös adattárolót és névjegyzéket használja",
     "Federated Cloud" : "Egyesített felhő",
