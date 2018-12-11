@@ -25,7 +25,7 @@
   "dependencies": {
     "nextcloud-vue": "^0.4.5",
     "v-tooltip": "^2.0.0-rc.33",
-    "vue": "^2.5.19",
+    "vue": "^2.5.20",
     "vue-click-outside": "^1.0.7"
   },
   "devDependencies": {
