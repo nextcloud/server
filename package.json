@@ -1,0 +1,59 @@
+{
+  "name": "nextcloud",
+  "version": "0.1.0",
+  "description": "Nextcloud Server",
+  "private": true,
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "webpack --progress --hide-modules --config core/webpack.prod.js",
+    "dev": "webpack --progress --watch --config core/webpack.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nextcloud/server.git"
+  },
+  "keywords": [
+    "nextcloud"
+  ],
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.2.0",
+    "Base64": "^0.3.0",
+    "autosize": "^4.0.2",
+    "babel-loader": "^8.0.4",
+    "backbone": "^1.2.3",
+    "blueimp-md5": "^2.7.0",
+    "bootstrap": "^3.3.7",
+    "clipboard": "^1.7.1",
+    "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.1.2",
+    "dompurify": "^1.0.4",
+    "es6-shim": "^0.35.4",
+    "handlebars": "^4.0.5",
+    "jcrop": "git+https://github.com/ChristophWurst/Jcrop.git#v0.9.12-npm",
+    "jquery": "^2.1.4",
+    "jquery-migrate": "^1.4.0",
+    "jquery-ui": "^1.12.1",
+    "jstimezonedetect": "^1.0.6",
+    "marked": "^0.3.6",
+    "moment": "^2.18.1",
+    "select2": "^3.4.5",
+    "snap.js": "^2.0.9",
+    "strengthify": "git+https://github.com/ChristophWurst/strengthify.git#feature/npm-package",
+    "underscore": "^1.8.3",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-merge": "^4.1.5"
+  },
+  "devDependencies": {
+    "css-loader": "^2.0.1",
+    "exports-loader": "^0.7.0",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2"
+  }
+}

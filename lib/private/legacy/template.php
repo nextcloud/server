@@ -112,7 +112,6 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
 			OC_Util::addStyle('jquery-ui-fixes',null,true);
-			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
 			OC_Util::addVendorStyle('select2/select2', null, true);
 			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
@@ -145,10 +144,9 @@ class OC_Template extends \OC\Template\Base {
 				// Import all (combined) default vendor libraries
 				OC_Util::addVendorScript('core', null, true);
 			}
+			OC_Util::addScript('core', 'dist/main', true);
 
 			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
-				// polyfill for btoa/atob for IE friends
-				OC_Util::addVendorScript('base64/base64');
 				// shim for the davclient.js library
 				\OCP\Util::addScript('files/iedavclient');
 			}

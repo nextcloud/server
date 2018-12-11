@@ -1,21 +1,5 @@
 {
 	"vendor": [
-		"jquery/dist/jquery.min.js",
-		"jquery-migrate/jquery-migrate.min.js",
-		"jquery-ui/jquery-ui.min.js",
-		"underscore/underscore-min.js",
-		"moment/min/moment-with-locales.min.js",
-		"handlebars/handlebars.runtime.min.js",
-		"blueimp-md5/js/md5.min.js",
-		"bootstrap/js/tooltip.js",
-		"backbone/backbone.js",
-		"es6-shim/es6-shim.min.js",
-		"davclient.js/lib/client.js",
-		"clipboard/dist/clipboard.min.js",
-		"autosize/dist/autosize.min.js",
-		"DOMPurify/dist/purify.min.js",
-		"snapjs/dist/latest/snap.js",
-		"select2/select2.js",
 		"css-vars-ponyfill/dist/css-vars-ponyfill.min.js"
 	],
 	"libraries": [
