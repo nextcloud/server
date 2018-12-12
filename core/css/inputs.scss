@@ -110,6 +110,7 @@ div[contenteditable=true],
 			// opacity is already defined to .5 if disabled
 			background-color: var(--color-primary-element);
 			color: var(--color-primary-text-dark);
+			cursor: default;
 		}
 	}
 }
