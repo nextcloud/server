@@ -367,6 +367,8 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Questa istanza di %s è attualmente in manutenzione, potrebbe richiedere del tempo.",
     "This page will refresh itself when the instance is available again." : "Questa pagina si aggiornerà quando l'istanza sarà nuovamente disponibile.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
+    "status" : "stato",
+    "aria-hidden" : "aria-nascosto",
     "Updated \"%s\" to %s" : "Aggiornato \"%s\" a %s",
     "%s (3rdparty)" : "%s (terze parti)",
     "There was an error loading your contacts" : "Si è verificato un errore durante il caricamento dei tuoi contatti",

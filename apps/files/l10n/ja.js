@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "このディレクトリは利用できません。ログを確認するか管理者に問い合わせてください。",
     "Could not move \"{file}\", target exists" : "ターゲットが存在するため，ファイル \"{file}\"を移動できませんでした",
     "Could not move \"{file}\"" : "\"{file}\" を移動できませんでした",
+    "copy" : "コピー",
     "Could not copy \"{file}\", target exists" : "ターゲットが存在するため，ファイル \"{file}\"をコピーできませんでした",
     "Could not copy \"{file}\"" : "\"{file}\"をコピーできませんでした",
     "Copied {origin} inside {destination}" : "コピー先{origin} {destination}内",
