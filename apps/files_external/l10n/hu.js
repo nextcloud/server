@@ -79,6 +79,7 @@ OC.L10N.register(
     "Public key" : "Nyilvános kulcs",
     "RSA private key" : "RSA-titkos kulcs",
     "Private key" : "Titkos kulcs",
+    "Kerberos ticket" : "Kerbeos jegy",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Hosztnév",
