@@ -1,7 +1,7 @@
 {
   "name": "settings",
   "description": "Nextcloud settings",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "author": "John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>",
   "license": "AGPL3",
   "private": true,
@@ -11,7 +11,6 @@
     "build": "webpack --progress --hide-modules --config webpack.prod.js"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
     "nextcloud-password-confirmation": "^0.4.1",
     "nextcloud-vue": "^0.1.5",
@@ -31,6 +30,7 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/preset-env": "^7.0.0",
     "babel-loader": "^8.0.0",
     "css-loader": "^1.0.0",
