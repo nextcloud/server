@@ -278,6 +278,15 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		return new \Swift_SendmailTransport($binaryPath . ' -bs');
+		switch ($this->config->getSystemValue('mail_sendmailmode', 'smtp')) {
+			case 'pipe':
+				$binaryParam = ' -t';
+				break;
+			default:
+				$binaryParam = ' -bs';
+				break;
+		}
+
+		return new \Swift_SendmailTransport($binaryPath . $binaryParam);
 	}
 }
