@@ -14,6 +14,7 @@ OC.L10N.register(
     "Backup code" : "Biztonsági kód",
     "Use backup code" : "Biztonsági kód használata",
     "Two factor backup codes" : "Kétfaktoros biztonsági mentési kódok",
+    "A two-factor auth backup codes provider" : "Kétfaktoros azonosítás biztonsági kódok szolgáltatója",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "A biztonsági kódok elkészültek. Felhasználva: {{used}}, ennyiből: {{total}}."
 },
 "nplurals=2; plural=(n != 1);");
