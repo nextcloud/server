@@ -336,6 +336,7 @@ OC.L10N.register(
     "Error while disabling broken app" : "Fel under inaktivering av trasig applikation.",
     "App up to date" : "Alla appar är uppdaterade",
     "Updating …" : "Uppdaterar ...",
+    "Could not update app" : "Kunde inte uppdatera appen",
     "Updated" : "Uppdaterad",
     "Removing …" : "Tar bort ...",
     "Could not remove app" : "Kunde inte ta bort app",
