@@ -772,7 +772,16 @@
 						event.preventDefault();
 					},
 					source: this.autocompleteHandler,
-					select: this._onSelectRecipient
+					select: this._onSelectRecipient,
+					open: function() {
+						var autocomplete = $(this).autocomplete('widget');
+						var numberOfItems = autocomplete.find('li').size();
+						autocomplete.removeClass('item-count-1');
+						autocomplete.removeClass('item-count-2');
+						if (numberOfItems <= 2) {
+							autocomplete.addClass('item-count-' + numberOfItems);
+						}
+					}
 				}).data('ui-autocomplete')._renderItem = this.autocompleteRenderItem;
 
 				$shareField.on('keydown', null, shareFieldKeydownHandler);

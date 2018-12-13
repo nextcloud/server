@@ -171,8 +171,17 @@
 .ui-autocomplete {
 	&.ui-menu {
 		padding: 0;
+
+		/* scrolling starts from three items,
+		 * so hide overflow and scrollbars for a clean layout */
+		&.item-count-1,
+		&.item-count-2 {
+			overflow-y: hidden;
+		}
+
 		.ui-menu-item a {
 			color: var(--color-text-lighter);
+			display: block;
 			padding: 4px 4px 4px 14px;
 
 			&.ui-state-focus, &.ui-state-active {
