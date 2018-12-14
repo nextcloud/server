@@ -701,7 +701,6 @@ code {
 	position: relative;
 
 	.dirtree {
-		width: 100%;
 		flex-wrap: wrap;
 		padding-left: 12px;
 		padding-right: 44px;
@@ -745,6 +744,32 @@ code {
 	// keyboard focus
 	#picker-showgridview:focus + #picker-view-toggle {
 		opacity: 1;
+	}
+	
+	.actions.creatable {
+		flex-wrap: wrap;
+		padding: 0px;
+		box-sizing: border-box;
+		display: inline-flex;
+		float: none;
+		max-height: 44px;
+		background-color: var(--color-background-dark);
+		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius-pill);
+		position: static;
+		
+		.icon.icon-add{
+			background-image: var(--icon-add-000);
+			background-size: 16px 16px;
+			max-height:44px;
+			
+		}
+
+		a {
+			width: 44px;
+			padding: 0px;
+			position: static;
+		}
 	}
 
 	.filelist-container {
