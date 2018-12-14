@@ -249,5 +249,5 @@ var r="undefined"!=typeof window&&"undefined"!=typeof document,i=["Edge","Triden
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- */o.a.mixin({methods:{t:function(t,e,n,r,i){return OC.L10N.translate(t,e,n,r,i)},n:function(t,e,n,r,i,o){return OC.L10N.translatePlural(t,e,n,r,i,o)}}});new o.a({render:t=>t(p)}).$mount("#updatenotification")}]);
+ */o.a.mixin({methods:{t:function(t,e,n,r,i){return OC.L10N.translate(t,e,n,r,i)},n:function(t,e,n,r,i,o){return OC.L10N.translatePlural(t,e,n,r,i,o)}}});new o.a({render:function(t){return t(p)}}).$mount("#updatenotification")}]);
 //# sourceMappingURL=updatenotification.js.map
