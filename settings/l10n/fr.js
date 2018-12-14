@@ -349,7 +349,7 @@ OC.L10N.register(
     "Unable to add group." : "Impossible d'ajouter le groupe.",
     "Unable to delete group." : "Impossible de supprimer le groupe.",
     "No valid group selected" : "Aucun groupe valide sélectionné",
-    "A user with that name already exists." : "Un utilisateur à ce nom existe déjà.",
+    "A user with that name already exists." : "Un utilisateur existe déjà pour ce nom.",
     "To send a password link to the user an email address is required." : "Pour envoyer un mot de passe par lien à l'utilisateur, une adresse mail est requise.",
     "Unable to create user." : "Impossible de créer l'utilisateur.",
     "Unable to delete user." : "Impossible de supprimer l'utilisateur.",
