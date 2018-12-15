@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
     "Could not move \"{file}\", target exists" : "Kunde inte flytta \"{file}\", filen existerar redan",
     "Could not move \"{file}\"" : "Kunde inte flytta \"{file}\"",
+    "copy" : "kopiera",
     "Could not copy \"{file}\", target exists" : "Kunde inte kopiera \"{file}\", filen existerar redan",
     "Could not copy \"{file}\"" : "Kunde inte kopiera \"{file}\"",
     "Copied {origin} inside {destination}" : "Kopierade {origin} till {destination}",
