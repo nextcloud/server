@@ -98,6 +98,7 @@ OC.L10N.register(
     "Strong password" : "Contrasinal forte",
     "Select a profile picture" : "Seleccione unha imaxe para o perfil",
     "Groups" : "Grupos",
+    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "A autenticación de dous factores pode ser aplicada para todos os usuários e grupos específicos. Se non tiveran configurado un provedor de dous factores, non podería acceder ao sistema.",
     "Limit to groups" : "Límite para grupos",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "As aplicacións oficiais están desenvolvidas por e dentro da comunidade. Ofrecen unha funcionalidade central e están preparadas para o seu uso en produción.",
     "Official" : "Oficial",
