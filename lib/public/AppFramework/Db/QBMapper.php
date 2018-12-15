@@ -119,7 +119,7 @@ abstract class QBMapper {
 
 		$qb->execute();
 
-		if($entity->getId() === null) {
+		if($entity->id === null) {
 			$entity->setId((int)$qb->getLastInsertId());
 		}
 
