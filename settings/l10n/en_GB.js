@@ -69,6 +69,8 @@ OC.L10N.register(
     "Google Chrome" : "Google Chrome",
     "Safari" : "Safari",
     "Google Chrome for Android" : "Google Chrome for Android",
+    "Nextcloud Talk for iOS" : "Nextcloud Talk for iOS",
+    "Nextcloud Talk for Android" : "Nextcloud Talk for Android",
     "Sync client - {os}" : "Sync client - {os}",
     "This session" : "This session",
     "Copy" : "Copy",
