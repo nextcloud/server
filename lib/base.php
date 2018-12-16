@@ -534,6 +534,7 @@ class OC {
 				'/^WebDAVFS/',
 				// Windows webdav drive
 				'/^Microsoft-WebDAV-MiniRedir/',
+				'/^Jakarta Commons-HttpClient/',
 			];
 		}
 
