@@ -8,7 +8,7 @@ OC.L10N.register(
     "Cancel" : "Отказ",
     "[Deleted user]" : "[Изтрит потребител]",
     "Comments" : "Коментари",
-    "No comments yet, start the conversation!" : "Все-още няма коментари, започни разговор!",
+    "No comments yet, start the conversation!" : "Все още няма коментари, започнете разговор!",
     "More comments …" : "Още коментари...",
     "Save" : "Запазване",
     "Allowed characters {count} of {max}" : "Позволени символи {count} от {max}",
