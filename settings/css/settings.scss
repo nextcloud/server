@@ -98,6 +98,7 @@ input {
 
 #personal-settings-avatar-container {
 	display: inline-grid;
+  	grid-row: span 3;
 	grid-template-columns: 1fr;
 	grid-template-rows: 2fr 1fr;
 	vertical-align: top;
@@ -178,6 +179,15 @@ select {
 		grid-template-columns: 1fr;
 		#personal-settings-avatar-container {
 			grid-template-rows: 1fr;
+
+			// swap "Where is my data" and "Detail"
+			*:nth-child(2) {
+				order: 3;
+			}
+
+			*:nth-child(3) {
+				order: 2;
+			}
 		}
 		.personal-settings-container {
 			grid-template-columns: 1fr 1fr;
@@ -1612,5 +1622,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			opacity: .5;
 			user-select: none;
 		}
+	}
+}
+
+.where-is-your-data {
+	// @todo replace by common Nextcloud link style as soon as available
+	a {
+		border-bottom: 1px dotted;
 	}
 }

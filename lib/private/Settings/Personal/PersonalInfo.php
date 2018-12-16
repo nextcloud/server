@@ -38,6 +38,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
+use OCP\Encryption\IManager as EncryptionManager;
 
 class PersonalInfo implements ISettings {
 
@@ -55,6 +56,8 @@ class PersonalInfo implements ISettings {
 	private $l10nFactory;
 	/** @var IL10N */
 	private $l;
+	/** @var EncryptionManager */
+	private $encryptionManager;
 
 	/**
 	 * @param IConfig $config
@@ -71,7 +74,8 @@ class PersonalInfo implements ISettings {
 		AccountManager $accountManager,
 		IAppManager $appManager,
 		IFactory $l10nFactory,
-		IL10N $l
+		IL10N $l,
+		EncryptionManager $encryptionManager
 	) {
 		$this->config = $config;
 		$this->userManager = $userManager;
@@ -80,6 +84,7 @@ class PersonalInfo implements ISettings {
 		$this->appManager = $appManager;
 		$this->l10nFactory = $l10nFactory;
 		$this->l = $l;
+		$this->encryptionManager = $encryptionManager;
 	}
 
 	/**
@@ -135,8 +140,14 @@ class PersonalInfo implements ISettings {
 			'twitterScope' => $userData[AccountManager::PROPERTY_TWITTER]['scope'],
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
+			'dataLocation' => 'Germany',
+			'provider' => 'Hetzner Online GmbH',
+			'providerLink' => 'https://www.hetzner.de/',
+			'providerPrivacyLink' => 'https://www.hetzner.de/rechtliches/datenschutz',
+			'encryptionEnabled' => true || $this->encryptionManager->isEnabled(),
+			'adminName' => 'Michael Weimann',
+			'adminMail' => 'mail@michael-weimann.eu'
 		] + $messageParameters + $languageParameters + $localeParameters;
-
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
 	}
