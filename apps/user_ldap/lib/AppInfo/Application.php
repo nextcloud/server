@@ -24,6 +24,8 @@
 namespace OCA\User_LDAP\AppInfo;
 
 use OCA\User_LDAP\Controller\RenewPasswordController;
+use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\IL10N;
@@ -49,6 +51,10 @@ class Application extends App {
 				$c->query('Session'),
 				$server->getURLGenerator()
 			);
+		});
+
+		$container->registerService(ILDAPWrapper::class, function () {
+			return new LDAP();
 		});
 	}
 }

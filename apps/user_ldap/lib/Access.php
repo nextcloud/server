@@ -609,30 +609,46 @@ class Access extends LDAPUtility {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if(($isUser && $intName !== '' && !$this->ncUserManager->userExists($intName))
-			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
-			if($mapper->map($fdn, $intName, $uuid)) {
-				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-				if($this->ncUserManager instanceof PublicEmitter && $isUser) {
-					$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$intName]);
-				}
-				$newlyMapped = true;
+		if( $intName !== ''
+			&& (($isUser && !$this->ncUserManager->userExists($intName))
+				|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))
+			)
+		) {
+			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
+			$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
+			if($newlyMapped) {
 				return $intName;
 			}
 		}
-		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 
+		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
-		if (is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
-			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
-				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$altName]);
+		if (is_string($altName)) {
+			if($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
+				$newlyMapped = true;
+				return $altName;
 			}
-			$newlyMapped = true;
-			return $altName;
 		}
 
 		//if everything else did not help..
 		\OCP\Util::writeLog('user_ldap', 'Could not create unique name for '.$fdn.'.', ILogger::INFO);
+		return false;
+	}
+
+	protected function mapAndAnnounceIfApplicable(
+		AbstractMapping $mapper,
+		string $fdn,
+		string $name,
+		string $uuid,
+		bool $isUser
+	) :bool {
+		if($mapper->map($fdn, $name, $uuid)) {
+			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
+				$this->cacheUserExists($name);
+				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$name]);
+			}
+			return true;
+		}
 		return false;
 	}
 
