@@ -34,6 +34,8 @@ class Factory {
 	/** @var SystemConfig */
 	private $config;
 
+	private $folders = [];
+
 	public function __construct(IRootFolder $rootFolder,
 								SystemConfig $systemConfig) {
 
@@ -46,6 +48,9 @@ class Factory {
 	 * @return AppData
 	 */
 	public function get(string $appId): AppData {
-		return new AppData($this->rootFolder, $this->config, $appId);
+		if (!isset($this->folders[$appId])) {
+			$this->folders[$appId] = new AppData($this->rootFolder, $this->config, $appId);
+		}
+		return $this->folders[$appId];
 	}
 }
