@@ -224,6 +224,7 @@ OC.L10N.register(
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Fontos, hogy a levelezés be legyen állítva a szerveren például a jelszóvisszaállítások és értesítések miatt.",
     "Send mode" : "Küldési mód",
     "Encryption" : "Titkosítás",
+    "Sendmail mode" : "Sendmail mód",
     "From address" : "A feladó címe",
     "mail" : "levél",
     "Authentication method" : "A felhasználóazonosítás módszere",

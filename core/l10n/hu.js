@@ -184,6 +184,7 @@ OC.L10N.register(
     "Password protection for links is mandatory" : "A megosztások jelszavas védelme kötelező",
     "Share link" : "Megosztás hivatkozással",
     "New share link" : "Új megosztási hivatkozás",
+    "Created on {time}" : "Létrehozva {time}-kor",
     "Password protect by Talk" : "Talk által védett jelszó",
     "Could not unshare" : "Nem sikerült visszavonni a megosztást",
     "Shared with you and the group {group} by {owner}" : "{owner} megosztotta veled és ezzel a csoporttal: {group}",

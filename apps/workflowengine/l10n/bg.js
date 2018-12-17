@@ -15,6 +15,7 @@ OC.L10N.register(
     "matches" : "съвпадения",
     "does not match" : "не съвпада",
     "Example: {placeholder}" : "Пример: {placeholder}",
+    "File name" : "Име на файл",
     "File size (upload)" : "Големина на файл (качване)",
     "less" : "по-малко",
     "less or equals" : "по-малко или равно",
