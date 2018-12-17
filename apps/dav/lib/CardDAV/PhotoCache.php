@@ -30,6 +30,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use Sabre\CardDAV\Card;
 use Sabre\VObject\Property\Binary;
+use Sabre\VObject\Property\Uri;
 use Sabre\VObject\Reader;
 
 class PhotoCache {
@@ -193,12 +194,13 @@ class PhotoCache {
 			}
 
 			$photo = $vObject->PHOTO;
-			$type = $this->getType($photo);
-
 			$val = $photo->getValue();
+
+			// handle data URI. e.g PHOTO;VALUE=URI:data:image/jpeg;base64,/9j/4AAQSkZJRgABAQE
 			if ($photo->getValueType() === 'URI') {
 				$parsed = \Sabre\URI\parse($val);
-				//only allow data://
+
+				// only allow data://
 				if ($parsed['scheme'] !== 'data') {
 					return false;
 				}
@@ -206,6 +208,9 @@ class PhotoCache {
 					list($type,) = explode(';', $parsed['path']);
 				}
 				$val = file_get_contents($val);
+			} else {
+				// get type if binary data
+				$type = $this->getBinaryType($photo);
 			}
 
 			$allowedContentTypes = [
@@ -240,7 +245,7 @@ class PhotoCache {
 	 * @param Binary $photo
 	 * @return string
 	 */
-	private function getType(Binary $photo) {
+	private function getBinaryType(Binary $photo) {
 		$params = $photo->parameters();
 		if (isset($params['TYPE']) || isset($params['MEDIATYPE'])) {
 			/** @var Parameter $typeParam */

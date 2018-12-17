@@ -108,6 +108,7 @@ class ImageExportPlugin extends ServerPlugin {
 
 			$response->setBody($file->getContent());
 		} catch (NotFoundException $e) {
+			var_dump($e);
 			$response->setStatus(404);
 		}
 
