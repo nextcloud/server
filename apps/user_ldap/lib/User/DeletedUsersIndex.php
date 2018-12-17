@@ -108,7 +108,13 @@ class DeletedUsersIndex {
 	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function markUser($ocName) {
+		$curValue = $this->config->getUserValue($ocName, 'user_ldap', 'isDeleted', '0');
+		if($curValue === '1') {
+			// the user is already marked, do not write to DB again
+			return;
+		}
 		$this->config->setUserValue($ocName, 'user_ldap', 'isDeleted', '1');
+		$this->config->setUserValue($ocName, 'user_ldap', 'foundDeleted', (string)time());
 		$this->deletedUsers = null;
 	}
 }
