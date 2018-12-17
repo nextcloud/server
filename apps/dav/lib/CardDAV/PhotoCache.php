@@ -24,27 +24,32 @@
 namespace OCA\DAV\CardDAV;
 
 use OCP\Files\IAppData;
+use OCP\ILogger;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use Sabre\CardDAV\Card;
 use Sabre\VObject\Property\Binary;
-use Sabre\VObject\Property\Uri;
 use Sabre\VObject\Reader;
 
 class PhotoCache {
 
-	/** @var IAppData $appData */
+	/** @var IAppData */
 	protected $appData;
+
+	/** @var ILogger */
+	protected $logger;
 
 	/**
 	 * PhotoCache constructor.
 	 *
 	 * @param IAppData $appData
+	 * @param ILogger $logger
 	 */
-	public function __construct(IAppData $appData) {
+	public function __construct(IAppData $appData, ILogger $logger) {
 		$this->appData = $appData;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -135,13 +140,14 @@ class PhotoCache {
 
 			$ratio = $photo->width() / $photo->height();
 			if ($ratio < 1) {
-				$ratio = 1/$ratio;
+				$ratio = 1 / $ratio;
 			}
-			$size = (int)($size * $ratio);
 
+			$size = (int) ($size * $ratio);
 			if ($size !== -1) {
 				$photo->resize($size);
 			}
+	
 			try {
 				$file = $folder->newFile($path);
 				$file->putContent($photo->data());
@@ -152,7 +158,6 @@ class PhotoCache {
 
 		return $file;
 	}
-
 
 	/**
 	 * @param int $addressBookId
@@ -205,7 +210,7 @@ class PhotoCache {
 					return false;
 				}
 				if (substr_count($parsed['path'], ';') === 1) {
-					list($type,) = explode(';', $parsed['path']);
+					list($type) = explode(';', $parsed['path']);
 				}
 				$val = file_get_contents($val);
 			} else {
@@ -219,16 +224,18 @@ class PhotoCache {
 				'image/gif',
 			];
 
-			if(!in_array($type, $allowedContentTypes, true)) {
+			if (!in_array($type, $allowedContentTypes, true)) {
 				$type = 'application/octet-stream';
 			}
 
 			return [
 				'Content-Type' => $type,
-				'body' => $val
+				'body'         => $val
 			];
-		} catch(\Exception $ex) {
-
+		} catch (\Exception $e) {
+			$this->logger->logException($ex, [
+				'message' => 'Exception during vcard photo parsing'
+			]);
 		}
 		return false;
 	}
