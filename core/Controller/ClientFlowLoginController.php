@@ -207,6 +207,7 @@ class ClientFlowLoginController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 * @UseSession
 	 *
 	 * @param string $stateToken
