@@ -422,6 +422,13 @@ $CONFIG = array(
 'mail_send_plaintext_only' => false,
 
 /**
+ * This depends on ``mail_smtpmode``. Array of additional streams options that
+ * will be passed to underlying Swift mailer implementation.
+ * Defaults to an empty array.
+ */
+'mail_smtpstreamoptions' => array(),
+
+/**
  * Which mode is used for sendmail/qmail: ``smtp`` or ``pipe``.
  *
  * For ``smtp`` the sendmail binary is started with the parameter ``-bs``:

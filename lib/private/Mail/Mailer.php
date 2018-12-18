@@ -259,6 +259,10 @@ class Mailer implements IMailer {
 		if (!empty($smtpSecurity)) {
 			$transport->setEncryption($smtpSecurity);
 		}
+		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
+		if (is_array($streamingOptions) && !empty($streamingOptions)) {
+			$transport->setStreamOptions($streamingOptions);
+		}
 
 		return $transport;
 	}
