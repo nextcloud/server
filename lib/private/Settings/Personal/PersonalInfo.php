@@ -141,7 +141,7 @@ class PersonalInfo implements ISettings {
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
 			'dataLocation' => 'Germany',
-			'provider' => 'Hetzner Online GmbH',
+			'provider' => 'Mustermann GmbH',
 			'providerLink' => 'https://www.hetzner.de/',
 			'providerPrivacyLink' => 'https://www.hetzner.de/rechtliches/datenschutz',
 			'encryptionEnabled' => true || $this->encryptionManager->isEnabled(),

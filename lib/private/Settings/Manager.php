@@ -231,6 +231,8 @@ class Manager implements IManager {
 			$forms[$form->getPriority()] = [$form];
 			$form = $this->container->query(Admin\Mail::class);
 			$forms[$form->getPriority()] = [$form];
+			$form = $this->container->query(Admin\ServerInfo::class);
+			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'security') {
 			/** @var ISettings $form */

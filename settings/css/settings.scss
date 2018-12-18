@@ -2,6 +2,9 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
+@import "server-info";
+@import "where-is-your-data";
+
 input {
 	&#openid, &#webdav {
 		width: 20em;
@@ -1622,12 +1625,5 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			opacity: .5;
 			user-select: none;
 		}
-	}
-}
-
-.where-is-your-data {
-	// @todo replace by common Nextcloud link style as soon as available
-	a {
-		border-bottom: 1px dotted;
 	}
 }
