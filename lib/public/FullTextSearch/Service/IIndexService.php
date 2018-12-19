@@ -45,6 +45,20 @@ interface IIndexService {
 
 
 	/**
+	 * Create an Index
+	 *
+	 * @since 15.0.1
+	 *
+	 * @param string $providerId
+	 * @param string $documentId
+	 * @param string $userId
+	 * @param int $status
+	 * @return IIndex
+	 */
+	public function createIndex(string $providerId, string $documentId, string $userId, int $status): IIndex;
+
+
+	/**
 	 * Retrieve an Index from the database, based on the Id of the Provider
 	 * and the Id of the Document
 	 *
