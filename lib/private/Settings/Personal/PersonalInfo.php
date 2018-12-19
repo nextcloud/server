@@ -26,6 +26,7 @@
 namespace OC\Settings\Personal;
 
 use OC\Accounts\AccountManager;
+use OC\Settings\Admin\ServerInfo;
 use OCA\FederatedFileSharing\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -115,6 +116,9 @@ class PersonalInfo implements ISettings {
 		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($userData);
 
+		$adminContactConfigId = $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_ADMIN_CONTACT);
+		$adminContact = $this->userManager->get($adminContactConfigId);
+
 		$parameters = [
 			'total_space' => $totalSpace,
 			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
@@ -141,12 +145,12 @@ class PersonalInfo implements ISettings {
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
 			'dataLocation' => 'Germany',
-			'provider' => 'Mustermann GmbH',
-			'providerLink' => 'https://www.hetzner.de/',
-			'providerPrivacyLink' => 'https://www.hetzner.de/rechtliches/datenschutz',
+			'provider' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER),
+			'providerLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_WEBSITE),
+			'providerPrivacyLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_PRIVACY_LINK),
 			'encryptionEnabled' => true || $this->encryptionManager->isEnabled(),
-			'adminName' => 'Michael Weimann',
-			'adminMail' => 'mail@michael-weimann.eu'
+			'adminName' => $adminContact !== null ? $adminContact->getDisplayName() : '',
+			'adminMail' => $adminContact !== null ? $adminContact->getEMailAddress() : '',
 		] + $messageParameters + $languageParameters + $localeParameters;
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
