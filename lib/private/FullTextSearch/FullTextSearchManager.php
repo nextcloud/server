@@ -166,7 +166,7 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	 * @throws FullTextSearchAppNotAvailableException
 	 */
 	public function createIndex(string $providerId, string $documentId, string $userId, int $status = 0): IIndex {
-		return $this->getIndexService()->getIndex($providerId, $documentId);
+		return $this->getIndexService()->createIndex($providerId, $documentId, $userId, $status);
 	}
 
 
