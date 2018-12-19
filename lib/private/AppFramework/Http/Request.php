@@ -691,7 +691,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return $this->config->getSystemValue('overwriteprotocol');
 		}
 
-		if (isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
+		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
 			if (strpos($this->server['HTTP_X_FORWARDED_PROTO'], ',') !== false) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_PROTO']);
 				$proto = strtolower(trim($parts[0]));
@@ -862,7 +862,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getInsecureServerHost(): string {
 		$host = 'localhost';
-		if (isset($this->server['HTTP_X_FORWARDED_HOST'])) {
+		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($this->server['HTTP_X_FORWARDED_HOST'], ',') !== false) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_HOST']);
 				$host = trim(current($parts));
@@ -924,4 +924,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return null;
 	}
 
+	private function fromTrustedProxy(): bool {
+		$remoteAddress = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
+		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
+
+		return \is_array($trustedProxies) && $this->isTrustedProxy($trustedProxies, $remoteAddress);
+	}
 }
