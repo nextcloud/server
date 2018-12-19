@@ -28,7 +28,11 @@
 				useHTTPS: OC.getProtocol() === 'https'
 			});
 			
+			// We only process one file at a time 🤷‍♀️
 			var name = data.files[0].name;
+			// removing unwanted characters
+			name = name.replace(/["'#%`]/gm, '');
+
 			try {
 				// FIXME: not so elegant... need to refactor that method to return a value
 				Files.isFileNameValid(name);
