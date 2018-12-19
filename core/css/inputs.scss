@@ -290,10 +290,9 @@ select,
 }
 
 /* Radio & Checkboxes */
-input, label {
-	--color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
-	--color-checkbox-radio-border: nc-darken($color-main-background, 47%);
-}
+$color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
+$color-checkbox-radio-border: nc-darken($color-main-background, 47%);
+
 input {
 	&[type='checkbox'],
 	&[type='radio'] {
@@ -321,7 +320,7 @@ input {
 				border-radius: 50%;
 				margin: 3px;
 				margin-top: 1px;
-				border: 1px solid var(--color-checkbox-radio-border);
+				border: 1px solid $color-checkbox-radio-border;
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
@@ -336,11 +335,11 @@ input {
 				border-color: var(--color-primary-element);
 			}
 			&:disabled + label:before {
-				border: 1px solid var(--color-checkbox-radio-border);
-				background-color: var(--color-checkbox-radio-disabled) !important; /* override other status */
+				border: 1px solid $color-checkbox-radio-border;
+				background-color: $color-checkbox-radio-disabled !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
-				background-color: var(--color-checkbox-radio-disabled);
+				background-color: $color-checkbox-radio-disabled;
 			}
 		}
 		&.checkbox {
