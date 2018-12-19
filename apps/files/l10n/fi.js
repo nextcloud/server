@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Hakemisto ei ole käytettävissä. Tarkista lokit tai ole yhteydessä ylläpitoon.",
     "Could not move \"{file}\", target exists" : "Tiedoston \"{file}\" siirtäminen ei onnistunut, kohde on olemassa",
     "Could not move \"{file}\"" : "Tiedoston \"{file}\" siirtäminen ei onnistunut",
+    "copy" : "kopio",
     "Could not copy \"{file}\", target exists" : "Tiedostoa \"{file}\" ei voitu kopioida, kohde on olemassa",
     "Could not copy \"{file}\"" : "Tiedostoa \"{file}\" ei voitu kopioida",
     "{newName} already exists" : "{newName} on jo olemassa",
