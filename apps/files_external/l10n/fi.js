@@ -111,6 +111,7 @@ OC.L10N.register(
     "Request timeout (seconds)" : "Pyynnön aikakatkaisu (sekunneissa)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cULR tuki PHPsta ei ole aktivoitu tai asennettu. Kohteen %s liittäminen ei ole mahdollista. Ota yhteyttä järjestelmänvalvojaan asentaaksesi puuttuvan osan.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP tuki PHPsta ei ole aktivoitu tai asennettu. Kohteen %s liittäminen ei ole mahdollista. Ota yhteyttä järjestelmänvalvojaan asentaaksesi puuttuvan osan.",
+    "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" on asentamatta. Kohdetta %2$s ei voi liittää. Pyydä järjestemän ylläpitäjää asentamaan puuttuvat osat.",
     "External storage support" : "Erillisen tallennustilan tuki",
     "Adds basic external storage support" : "Lisää perusmuotoisen tuen erillisille tallennustiloille",
     "No external storage configured or you don't have the permission to configure them" : "Erillistä tallennustilaa ei ole määritelty tai sinulla ei ole oikeuksia määrittää erillisiä tallennustiloja",
