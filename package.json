@@ -20,13 +20,8 @@
   ],
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.2.0",
     "Base64": "^0.3.0",
     "autosize": "^4.0.2",
-    "babel-loader": "^8.0.4",
     "backbone": "^1.2.3",
     "blueimp-md5": "^2.7.0",
     "bootstrap": "^3.3.7",
@@ -46,15 +41,20 @@
     "select2": "^3.4.5",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/ChristophWurst/strengthify.git#feature/npm-package",
-    "underscore": "^1.8.3",
-    "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-merge": "^4.1.5"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.2.0",
+    "babel-loader": "^8.0.4",
     "css-loader": "^2.0.1",
     "exports-loader": "^0.7.0",
     "style-loader": "^0.23.1",
-    "url-loader": "^1.1.2"
+    "url-loader": "^1.1.2",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-merge": "^4.1.5"
   }
 }
