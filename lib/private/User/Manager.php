@@ -589,7 +589,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 9.1.0
 	 */
 	public function getByEmail($email) {
-		$userIds = $this->config->getUsersForUserValue('settings', 'email', $email);
+		$userIds = $this->config->getUsersForUserValueCaseInsensitive('settings', 'email', $email);
 
 		$users = array_map(function($uid) {
 			return $this->get($uid);
