@@ -753,15 +753,18 @@ code {
 		display: inline-flex;
 		float: none;
 		max-height: 44px;
+		max-width:44px;
 		background-color: var(--color-background-dark);
 		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius-pill);
-		position: static;
+		position: relative;
 		
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
 			background-size: 16px 16px;
 			max-height:44px;
+			width:44px;
+			margin:0px;
 			
 		}
 
@@ -770,6 +773,16 @@ code {
 			padding: 0px;
 			position: static;
 		}
+
+		.menu {
+			top:100%;
+			margin:10px;
+			form {
+				display:flex;
+				margin:10px;
+			}
+		}
+
 	}
 
 	.filelist-container {
