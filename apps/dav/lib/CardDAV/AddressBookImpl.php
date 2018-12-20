@@ -269,7 +269,7 @@ class AddressBookImpl implements IAddressBook {
 				}
 
 			// The following properties can be set multiple times
-			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL'])) {
+			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}
