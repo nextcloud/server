@@ -124,26 +124,6 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addScript('files/client');
 			OC_Util::addScript('contactsmenu');
 			OC_Util::addScript('contactsmenu_templates');
-
-			if (\OC::$server->getConfig()->getSystemValue('debug')) {
-				// Add the stuff we need always
-				// following logic will import all vendor libraries that are
-				// specified in core/js/core.json
-				$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
-				if($fileContent !== false) {
-					$coreDependencies = json_decode($fileContent, true);
-					foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
-						//remove trailing ".js" as addVendorScript will append it
-						OC_Util::addVendorScript(
-							substr($vendorLibrary, 0, -3),null,true);
-						}
- 				} else {
-					throw new \Exception('Cannot read core/js/core.json');
-				}
-			} else {
-				// Import all (combined) default vendor libraries
-				OC_Util::addVendorScript('core', null, true);
-			}
 			OC_Util::addScript('core', 'dist/main', true);
 
 			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {

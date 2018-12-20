@@ -1,7 +1,4 @@
 {
-	"vendor": [
-		"css-vars-ponyfill/dist/css-vars-ponyfill.min.js"
-	],
 	"libraries": [
 		"jquery-showpassword.js",
 		"jquery.avatar.js",
