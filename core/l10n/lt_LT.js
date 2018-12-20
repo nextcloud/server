@@ -88,7 +88,6 @@ OC.L10N.register(
     "Error loading message template: {error}" : "Klaida įkeliant žinutės ruošinį: {error}",
     "read-only" : "tik skaitymui",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} failas konfliktuoja","{count} failai konfliktuoja","{count} nesuderinami rinkmenų pakeitimai","{count} nesuderinami rinkmenų pakeitimai"],
-    "One file conflict" : "Nesuderinama rinkmena",
     "New Files" : "Nauji failai",
     "Already existing files" : "Egzistuojančios rinkmenos saugykloje",
     "Which files do you want to keep?" : "Kurias rinkmenas norite pasilikti?",
