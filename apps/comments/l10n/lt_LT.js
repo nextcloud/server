@@ -1,9 +1,9 @@
 OC.L10N.register(
     "comments",
     {
-    "Edit comment" : "Keisti",
-    "Delete comment" : "Ištrinti",
-    "New comment …" : "Komentaras",
+    "Edit comment" : "Taisyti komentarą",
+    "Delete comment" : "Ištrinti komentarą",
+    "New comment …" : "Naujas komentaras …",
     "Post" : "Įrašas",
     "Cancel" : "Atsisakyti",
     "[Deleted user]" : "[Ištrintas naudotojas]",
@@ -13,7 +13,7 @@ OC.L10N.register(
     "Save" : "Įrašyti",
     "Allowed characters {count} of {max}" : "Leidžiama simbolių {count} iš {max}",
     "Error occurred while updating comment with id {id}" : "Klaida bandant pataisyti komentarą pagal identifikavimo numerį {id}",
-    "Error occurred while posting comment" : "Nepavyko įrašyti komentaro",
+    "Error occurred while posting comment" : "Skelbiant komentarą, įvyko klaida",
     "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų","%n neskaitytų komentarų"],
     "Comment" : "Komentaras",
     "You commented" : "Jūs pakomentavote",
