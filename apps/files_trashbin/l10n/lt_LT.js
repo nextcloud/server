@@ -1,14 +1,14 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Deleted files" : "Ištrinti",
+    "Deleted files" : "Ištrinti failai",
     "Restore" : "Atkurti",
     "Delete" : "Ištrinti",
     "Delete permanently" : "Ištrinti negrįžtamai",
     "This operation is forbidden" : "Ši operacija yra uždrausta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Katalogas neprieinamas, prašome peržiūrėti žurnalo įrašus arba susisiekti su administratoriumi",
     "restored" : "atkurta",
-    "No deleted files" : "Aplankas tuščias",
+    "No deleted files" : "Jokių ištrintų failų",
     "No entries found in this folder" : "Šiame aplanke įrašų nerasta",
     "Select all" : "Pažymėti viską",
     "Name" : "Pavadinimas",
