@@ -202,7 +202,7 @@ class User {
 			$displayName2 = strval($ldapEntry[$attr][0]);
 		}
 		if ($displayName !== '') {
-			$this->composeAndStoreDisplayName($displayName);
+			$this->composeAndStoreDisplayName($displayName, $displayName2);
 			$this->access->cacheUserDisplayName(
 				$this->getUsername(),
 				$displayName,
