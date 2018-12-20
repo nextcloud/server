@@ -31,6 +31,7 @@
     "blueimp-md5": "^2.7.0",
     "bootstrap": "^3.3.7",
     "clipboard": "^1.7.1",
+    "css-vars-ponyfill": "^1.7.2",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.1.2",
     "dompurify": "^1.0.4",
     "es6-shim": "^0.35.4",

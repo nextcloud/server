@@ -49,6 +49,7 @@ import autosize from 'autosize'
 import Backbone from 'backbone'
 import 'bootstrap/js/tooltip'
 import Clipboard from 'clipboard'
+import cssVars from 'css-vars-ponyfill'
 import dav from 'davclient.js'
 import DOMPurify from 'dompurify'
 import Handlebars from 'handlebars'
@@ -68,6 +69,7 @@ window['$'] = $
 window['autosize'] = autosize
 window['Backbone'] = Backbone
 window['Clipboard'] = Clipboard
+window['cssVars'] = cssVars
 window['dav'] = dav
 window['DOMPurify'] = DOMPurify
 window['Handlebars'] = Handlebars
