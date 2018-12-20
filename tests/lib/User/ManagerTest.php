@@ -8,6 +8,7 @@
  */
 
 namespace Test\User;
+use OC\AllConfig;
 use OC\User\Database;
 use OC\User\Manager;
 use OCP\IConfig;
@@ -670,12 +671,12 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetByEmail() {
-		$config = $this->getMockBuilder(IConfig::class)
+		$config = $this->getMockBuilder(AllConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$config
 			->expects($this->at(0))
-			->method('getUsersForUserValue')
+			->method('getUsersForUserValueCaseInsensitive')
 			->with('settings', 'email', 'test@example.com')
 			->will($this->returnValue(['uid1', 'uid99', 'uid2']));
 
