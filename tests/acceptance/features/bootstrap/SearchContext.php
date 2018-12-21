@@ -74,10 +74,26 @@ class SearchContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @return Locator
+	 */
+	public static function searchResultLink($number) {
+		return Locator::forThe()->css(".link")->
+				descendantOf(self::searchResult($number))->
+				describedAs("Link for search result $number");
+	}
+
+	/**
 	 * @When I search for :query
 	 */
 	public function iSearchFor($query) {
 		$this->actor->find(self::searchBoxInput(), 10)->setValue($query . "\r");
+	}
+
+	/**
+	 * @When I open the search result :number
+	 */
+	public function iOpenTheSearchResult($number) {
+		$this->actor->find(self::searchResultLink($number), 10)->click();
 	}
 
 	/**
