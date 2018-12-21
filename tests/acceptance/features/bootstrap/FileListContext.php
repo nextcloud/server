@@ -268,6 +268,13 @@ class FileListContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function moveOrCopyMenuItem() {
+		return self::fileActionsMenuItemFor("Move or copy");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function viewFileInFolderMenuItem() {
 		return self::fileActionsMenuItemFor("View in folder");
 	}
@@ -323,6 +330,15 @@ class FileListContext implements Context, ActorAwareInterface {
 		// bring the browser window to the foreground when switching to a
 		// different actor.
 		$this->actor->find(self::renameInputForFile($this->fileListAncestor, $fileName1), 10)->setValue($fileName2 . "\r");
+	}
+
+	/**
+	 * @Given I start the move or copy operation for :fileName
+	 */
+	public function iStartTheMoveOrCopyOperationFor($fileName) {
+		$this->actor->find(self::fileActionsMenuButtonForFile($this->fileListAncestor, $fileName), 10)->click();
+
+		$this->actor->find(self::moveOrCopyMenuItem(), 2)->click();
 	}
 
 	/**
@@ -408,6 +424,18 @@ class FileListContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileListContainsAFileNamed($fileName) {
 		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFile($this->fileListAncestor, $fileName), 10));
+	}
+
+	/**
+	 * @Then I see that the file list does not contain a file named :fileName
+	 */
+	public function iSeeThatTheFileListDoesNotContainAFileNamed($fileName) {
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::rowForFile($this->fileListAncestor, $fileName),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The file list still contains a file named $fileName after $timeout seconds");
+		}
 	}
 
 	/**
