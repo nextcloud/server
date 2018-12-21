@@ -89,13 +89,14 @@ class SvgController extends Controller {
 			return $this->getSvg($path, $color, $fileName);
 		}
 
+		// e.g /var/www/html/custom_apps/contacts
+		// or outside root /var/www/apps/files
 		$appRootPath = $this->appManager->getAppPath($app);
-		$appPath = substr($appRootPath, strlen($this->serverRoot));
 		
-		if (!$appPath) {
+		if (!$appRootPath) {
 			return new NotFoundResponse();
 		}
-		$path = $this->serverRoot . $appPath ."/img/$fileName.svg";
+		$path = $appRootPath ."/img/$fileName.svg";
 		return $this->getSvg($path, $color, $fileName);
 	}
 
