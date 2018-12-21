@@ -34,7 +34,7 @@
     "jcrop": "git+https://github.com/ChristophWurst/Jcrop.git#v0.9.12-npm",
     "jquery": "^2.1.4",
     "jquery-migrate": "^1.4.0",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.6",
     "marked": "^0.3.6",
     "moment": "^2.18.1",
