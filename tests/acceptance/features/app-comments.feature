@@ -267,3 +267,59 @@ Feature: app-comments
     # Search results for comments also include the user that wrote the comment.
     Then I see that the search result 1 is "user0Hello world"
     And I see that the search result 1 was found in "shared.txt"
+
+  Scenario: open a search result for a comment in a file
+    Given I am logged in
+    And I open the details view for "welcome.txt"
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    # Force the details view to change to a different file before closing it
+    And I create a new folder named "Folder"
+    And I close the details view
+    When I search for "hello"
+    And I open the search result 1
+    Then I see that the details view is open
+    And I see that the file name shown in the details view is "welcome.txt"
+    And I see a comment with "Hello world" as message
+    And I see that the file list is currently in "Home"
+    And I see that the file list contains a file named "welcome.txt"
+
+  Scenario: open a search result for a comment in a folder named like its child folder
+    Given I am logged in
+    And I create a new folder named "Folder"
+    And I open the details view for "Folder"
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    And I enter in the folder named "Folder"
+    And I create a new folder named "Folder"
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    When I search for "hello"
+    And I open the search result 1
+    Then I see that the details view is open
+    And I see that the file name shown in the details view is "Folder"
+    And I see a comment with "Hello world" as message
+    And I see that the file list is currently in "Home"
+    And I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "Folder"
+
+  Scenario: open a search result for a comment in a child folder
+    Given I am logged in
+    And I create a new folder named "Folder"
+    And I enter in the folder named "Folder"
+    And I create a new folder named "Child folder"
+    And I open the details view for "Child folder"
+    And I open the "Comments" tab in the details view
+    And I create a new comment with "Hello world" as message
+    And I see a comment with "Hello world" as message
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    When I search for "hello"
+    And I open the search result 1
+    Then I see that the details view is open
+    And I see that the file name shown in the details view is "Child folder"
+    And I see a comment with "Hello world" as message
+    And I see that the file list is currently in "Home/Folder"
+    And I see that the file list contains a file named "Child folder"

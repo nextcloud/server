@@ -90,6 +90,15 @@ class FileListContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function breadcrumbs($fileListAncestor) {
+		return Locator::forThe()->css("#controls .breadcrumb")->
+				descendantOf($fileListAncestor)->
+				describedAs("Breadcrumbs in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function createMenuButton($fileListAncestor) {
 		return Locator::forThe()->css("#controls .button.new")->
 				descendantOf($fileListAncestor)->
@@ -373,6 +382,16 @@ class FileListContext implements Context, ActorAwareInterface {
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			PHPUnit_Framework_Assert::fail("The main working icon for the file list is still shown after $timeout seconds");
 		}
+	}
+
+	/**
+	 * @Then I see that the file list is currently in :path
+	 */
+	public function iSeeThatTheFileListIsCurrentlyIn($path) {
+		// The text of the breadcrumbs is the text of all the crumbs separated
+		// by white spaces.
+		PHPUnit_Framework_Assert::assertEquals(
+			str_replace('/', ' ', $path), $this->actor->find(self::breadcrumbs($this->fileListAncestor), 10)->getText());
 	}
 
 	/**
