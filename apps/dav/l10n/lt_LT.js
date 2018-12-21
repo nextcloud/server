@@ -41,8 +41,10 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Kalendoriaus <strong>įvykis</strong> buvo pakeistas",
     "A calendar <strong>todo</strong> was modified" : "Kalendoriaus <strong>užduotis</strong> buvo pakeista",
     "Contact birthdays" : "Kontaktų gimtadieniai",
+    "%1$s via %2$s" : "%1$s per %2$s",
     "Hello %s," : "Sveiki, %s,",
     "Invitation updated" : "Pakvietimas atnaujintas",
+    "%1$s invited you to »%2$s«" : "%1$s jus pakvietė į »%2$s«",
     "When:" : "Kada:",
     "Where:" : "Kur:",
     "Description:" : "Aprašas:",
@@ -58,6 +60,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
     "Save" : "Įrašyti",
     "Calendar server" : "Kalendoriaus serveris",
+    "%s via %s" : "%s per %s",
     "%s invited you to »%s«" : "%s pakvietė jus į »%s«",
     "CalDAV server" : "CalDAV serveris"
 },
